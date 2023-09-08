@@ -1,49 +1,43 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0EAE1849
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Sep 2023 07:02:59 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-31f7638be6eso886573f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 08 Sep 2023 00:02:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694156578; x=1694761378; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8zkmVUPpERjdJbe/ABkkfNAbpRBlyI6513Q0TGvFG1A=;
-        b=MPFr8JUs97QC1IjA0a39oFUmE8jdZZGTfIpHxZ6K9cA7UymHjGsetLiOY6eK/NSPeS
-         Y8AUGrph+g3WlE0M5qJtCWKuE6KGAJD4ZyPH7GFyEDwBafVkCfL2BJup6UT+aIcAJRgw
-         F3wfF3CuyjvN/B/68F0qc0Zp0AI5FZYvd/X4R/2e3GdLfdmx6qtB9F0rU205rYYMzYJi
-         lNquwn7nYgN4UO66VYISQaARmQY0SymBaN6zzvrm+83D0r3wQx1xeUZ3rX905BTmhTne
-         eI6gkL94zWKwbxM9LhVXqRTzAgAr7yKlxEic1Sk0/pQR7ZROAU4BlL/xqHEfdTUYv4JX
-         l70Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694156578; x=1694761378;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8zkmVUPpERjdJbe/ABkkfNAbpRBlyI6513Q0TGvFG1A=;
-        b=Tu2ETLi+kNhZwjFxSovk8StT9PXHlaHiiA1Ae5qycHpwRPzClxcQFjVH+tm5Zu+IrO
-         +fDzPgvI9XRZbDzylsFV9zb7WvjNDT1+iuKTsR6PEtWUZsecGYjI/A+ZFDA3PVQAbX20
-         7v/5AnK44jYKnfAbtoBRruKER2k4TKwT24C/M0LyBVg71t9E+9IcKdZVpiXcSs7n9McL
-         SKssHUXPXgXMvHGovoNljDbMzPT/ugQjKQ3GsrPj3E3/faKsmohxaEJLlCGpVKVVKRHY
-         S4Q7mcMEnUXpfWuJWQZ6Hlvg4NqgRt3z4REvQghT/l2NrMx1LlhRfyGGDlnVRlMZ10aI
-         9Pgg==
-X-Gm-Message-State: AOJu0YxRAEZrXhSzqhVMhQIPSv+sDYC3BOghGRYUQTk7tUa6MtWr1aD0
-	JD8gSUq4r24r818rpF9TkudOVw==
-X-Google-Smtp-Source: AGHT+IHPhb2Sx85xGshs4ePTDnD3zDJl4Hy9QXOZI7ZLiGrPaLMT8+k9LQZ5c/4iQMjTii1NxFFjhg==
-X-Received: by 2002:adf:cc8a:0:b0:317:67bf:3376 with SMTP id p10-20020adfcc8a000000b0031767bf3376mr1102841wrj.57.1694156577966;
-        Fri, 08 Sep 2023 00:02:57 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id r17-20020adfce91000000b003198a9d758dsm1269386wrn.78.2023.09.08.00.02.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Sep 2023 00:02:57 -0700 (PDT)
-Date: Fri, 8 Sep 2023 10:02:53 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Liam Beguin <liambeguin@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [jic23-iio:testing 50/62] drivers/iio/adc/ltc2309.c:208
- ltc2309_probe() warn: ignoring unreachable code.
-Message-ID: <0a5495e7-9cd7-47d0-b783-a293012b2139@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55BBF1389
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Sep 2023 07:10:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694157056; x=1725693056;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CMkSlIoJ3DDBTwDOpwE4UwXxpaqOvSKyyfZWzl7k6HA=;
+  b=V6mqig8Xh3lTRaek3pthHNRx4AxxD6o0pzFTWo3FUOZux0Sw2e1x3VK6
+   I/fOAa4vCx0dyPUKKzNoSMBxf6fnG2xHkFGawau/GP23O311wINMRZc1U
+   F3b9KfOB45WgZtK9Dso48KHNv7Mbg7TQtJ4ppwJMUgd474oadBiIvhv7w
+   fVDcMiv7+KdnG4AdXp5ocCkq9ky5S1oe7v2wyYl3VJ+G/Z8LmIjoQLC6W
+   eNSyCbqr5SRMC1IQ/u+OklaUy2QQT79Hl455j1iVFHYeA/UbI9WuNbpke
+   x/VjdtGxFrOQsqMWhN8s/KHpIy1mpGSwbzB9Mt6Az/zqaR+lcqEiSCJPM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="463959914"
+X-IronPort-AV: E=Sophos;i="6.02,236,1688454000"; 
+   d="scan'208";a="463959914"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 00:10:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="866009108"
+X-IronPort-AV: E=Sophos;i="6.02,236,1688454000"; 
+   d="scan'208";a="866009108"
+Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 08 Sep 2023 00:10:53 -0700
+Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qeVdj-00020h-1R;
+	Fri, 08 Sep 2023 07:10:51 +0000
+Date: Fri, 8 Sep 2023 15:10:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/guarded_kvm_headers 20/20]
+ arch/x86/include/asm/kvm_host.h:1561:19: error: 'kvm_x86_ops' undeclared;
+ did you mean 'kvm_pmu_ops'?
+Message-ID: <202309081524.arog010h-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,88 +47,467 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
-head:   184d37294d1b4f21a2a625be10133aafb270d591
-commit: ca4c617015ff7803b72a2afc1bd45c9c5b570492 [50/62] iio: adc: add ltc2309 support
-config: x86_64-randconfig-161-20230907 (https://download.01.org/0day-ci/archive/20230908/202309080619.pVarITpN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230908/202309080619.pVarITpN-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/guarded_kvm_headers
+head:   bac0634d402f98992a041354ea641c03d00ee498
+commit: bac0634d402f98992a041354ea641c03d00ee498 [20/20] KVM: x86: Move "ops" files to arch/x86/kvm/
+config: i386-buildonly-randconfig-006-20230908 (https://download.01.org/0day-ci/archive/20230908/202309081524.arog010h-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230908/202309081524.arog010h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202309080619.pVarITpN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309081524.arog010h-lkp@intel.com/
 
-smatch warnings:
-drivers/iio/adc/ltc2309.c:208 ltc2309_probe() warn: ignoring unreachable code.
+All errors (new ones prefixed by >>):
 
-vim +208 drivers/iio/adc/ltc2309.c
+   In file included from include/linux/kvm_host.h:45:0,
+                    from arch/x86/kvm/irq.c:13:
+   arch/x86/include/asm/kvm_host.h: In function 'kvm_arch_alloc_vm':
+>> arch/x86/include/asm/kvm_host.h:1561:19: error: 'kvm_x86_ops' undeclared (first use in this function); did you mean 'kvm_pmu_ops'?
+     return __vmalloc(kvm_x86_ops.vm_size, GFP_KERNEL_ACCOUNT | __GFP_ZERO);
+                      ^~~~~~~~~~~
+                      kvm_pmu_ops
+   arch/x86/include/asm/kvm_host.h:1561:19: note: each undeclared identifier is reported only once for each function it appears in
+   arch/x86/include/asm/kvm_host.h: In function 'kvm_arch_flush_remote_tlbs':
+   arch/x86/include/asm/kvm_host.h:1570:6: error: 'kvm_x86_ops' undeclared (first use in this function); did you mean 'kvm_pmu_ops'?
+     if (kvm_x86_ops.flush_remote_tlbs &&
+         ^~~~~~~~~~~
+         kvm_pmu_ops
+   In file included from <command-line>:0:0:
+>> include/linux/static_call_types.h:15:34: error: '__SCT__kvm_x86_flush_remote_tlbs' undeclared (first use in this function); did you mean 'kvm_arch_flush_remote_tlbs'?
+    #define STATIC_CALL_TRAMP_PREFIX __SCT__
+                                     ^
+   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
+    #define ___PASTE(a,b) a##b
+                          ^
+   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                     ^~~~~~~
+   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:43:35: note: in expansion of macro 'STATIC_CALL_TRAMP'
+    #define __raw_static_call(name) (&STATIC_CALL_TRAMP(name))
+                                      ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:74:29: note: in expansion of macro '__raw_static_call'
+    #define __static_call(name) __raw_static_call(name)
+                                ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:90:27: note: in expansion of macro '__static_call'
+    #define static_call(name) __static_call(name)
+                              ^~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_host.h:1571:7: note: in expansion of macro 'static_call'
+         !static_call(kvm_x86_flush_remote_tlbs)(kvm))
+          ^~~~~~~~~~~
+   arch/x86/include/asm/kvm_host.h: In function 'kvm_arch_vcpu_blocking':
+>> include/linux/static_call_types.h:15:34: error: '__SCT__kvm_x86_vcpu_blocking' undeclared (first use in this function); did you mean 'kvm_arch_vcpu_blocking'?
+    #define STATIC_CALL_TRAMP_PREFIX __SCT__
+                                     ^
+   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
+    #define ___PASTE(a,b) a##b
+                          ^
+   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                     ^~~~~~~
+   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:43:35: note: in expansion of macro 'STATIC_CALL_TRAMP'
+    #define __raw_static_call(name) (&STATIC_CALL_TRAMP(name))
+                                      ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:74:29: note: in expansion of macro '__raw_static_call'
+    #define __static_call(name) __raw_static_call(name)
+                                ^~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:251:38: note: in expansion of macro '__static_call'
+    #define static_call_cond(name) (void)__static_call(name)
+                                         ^~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_host.h:1952:2: note: in expansion of macro 'static_call_cond'
+     static_call_cond(kvm_x86_vcpu_blocking)(vcpu);
+     ^~~~~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_host.h: In function 'kvm_arch_vcpu_unblocking':
+>> include/linux/static_call_types.h:15:34: error: '__SCT__kvm_x86_vcpu_unblocking' undeclared (first use in this function); did you mean 'kvm_arch_vcpu_unblocking'?
+    #define STATIC_CALL_TRAMP_PREFIX __SCT__
+                                     ^
+   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
+    #define ___PASTE(a,b) a##b
+                          ^
+   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                     ^~~~~~~
+   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:43:35: note: in expansion of macro 'STATIC_CALL_TRAMP'
+    #define __raw_static_call(name) (&STATIC_CALL_TRAMP(name))
+                                      ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:74:29: note: in expansion of macro '__raw_static_call'
+    #define __static_call(name) __raw_static_call(name)
+                                ^~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:251:38: note: in expansion of macro '__static_call'
+    #define static_call_cond(name) (void)__static_call(name)
+                                         ^~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_host.h:1957:2: note: in expansion of macro 'static_call_cond'
+     static_call_cond(kvm_x86_vcpu_unblocking)(vcpu);
+     ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/kvm_cache_regs.h: In function 'kvm_register_read_raw':
+>> include/linux/static_call_types.h:15:34: error: '__SCT__kvm_x86_cache_reg' undeclared (first use in this function); did you mean '__SCT__apic_call_read'?
+    #define STATIC_CALL_TRAMP_PREFIX __SCT__
+                                     ^
+   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
+    #define ___PASTE(a,b) a##b
+                          ^
+   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                     ^~~~~~~
+   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:43:35: note: in expansion of macro 'STATIC_CALL_TRAMP'
+    #define __raw_static_call(name) (&STATIC_CALL_TRAMP(name))
+                                      ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:74:29: note: in expansion of macro '__raw_static_call'
+    #define __static_call(name) __raw_static_call(name)
+                                ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:90:27: note: in expansion of macro '__static_call'
+    #define static_call(name) __static_call(name)
+                              ^~~~~~~~~~~~~
+   arch/x86/kvm/kvm_cache_regs.h:101:3: note: in expansion of macro 'static_call'
+      static_call(kvm_x86_cache_reg)(vcpu, reg);
+      ^~~~~~~~~~~
+   arch/x86/kvm/kvm_cache_regs.h: In function 'kvm_pdptr_read':
+>> include/linux/static_call_types.h:15:34: error: '__SCT__kvm_x86_cache_reg' undeclared (first use in this function); did you mean '__SCT__apic_call_read'?
+    #define STATIC_CALL_TRAMP_PREFIX __SCT__
+                                     ^
+   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
+    #define ___PASTE(a,b) a##b
+                          ^
+   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                     ^~~~~~~
+   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:43:35: note: in expansion of macro 'STATIC_CALL_TRAMP'
+    #define __raw_static_call(name) (&STATIC_CALL_TRAMP(name))
+                                      ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:74:29: note: in expansion of macro '__raw_static_call'
+    #define __static_call(name) __raw_static_call(name)
+                                ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:90:27: note: in expansion of macro '__static_call'
+    #define static_call(name) __static_call(name)
+                              ^~~~~~~~~~~~~
+   arch/x86/kvm/kvm_cache_regs.h:141:3: note: in expansion of macro 'static_call'
+      static_call(kvm_x86_cache_reg)(vcpu, VCPU_EXREG_PDPTR);
+      ^~~~~~~~~~~
+   arch/x86/kvm/kvm_cache_regs.h: In function 'kvm_read_cr0_bits':
+>> include/linux/static_call_types.h:15:34: error: '__SCT__kvm_x86_cache_reg' undeclared (first use in this function); did you mean '__SCT__apic_call_read'?
+    #define STATIC_CALL_TRAMP_PREFIX __SCT__
+                                     ^
+   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
+    #define ___PASTE(a,b) a##b
+                          ^
+   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                     ^~~~~~~
+   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:43:35: note: in expansion of macro 'STATIC_CALL_TRAMP'
+    #define __raw_static_call(name) (&STATIC_CALL_TRAMP(name))
+                                      ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:74:29: note: in expansion of macro '__raw_static_call'
+    #define __static_call(name) __raw_static_call(name)
+                                ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:90:27: note: in expansion of macro '__static_call'
+    #define static_call(name) __static_call(name)
+                              ^~~~~~~~~~~~~
+   arch/x86/kvm/kvm_cache_regs.h:156:3: note: in expansion of macro 'static_call'
+      static_call(kvm_x86_cache_reg)(vcpu, VCPU_EXREG_CR0);
+      ^~~~~~~~~~~
+   arch/x86/kvm/kvm_cache_regs.h: In function 'kvm_read_cr4_bits':
+>> include/linux/static_call_types.h:15:34: error: '__SCT__kvm_x86_cache_reg' undeclared (first use in this function); did you mean '__SCT__apic_call_read'?
+    #define STATIC_CALL_TRAMP_PREFIX __SCT__
+                                     ^
+   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
+    #define ___PASTE(a,b) a##b
+                          ^
+   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                     ^~~~~~~
+   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:43:35: note: in expansion of macro 'STATIC_CALL_TRAMP'
+    #define __raw_static_call(name) (&STATIC_CALL_TRAMP(name))
+                                      ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:74:29: note: in expansion of macro '__raw_static_call'
+    #define __static_call(name) __raw_static_call(name)
+                                ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:90:27: note: in expansion of macro '__static_call'
+    #define static_call(name) __static_call(name)
+                              ^~~~~~~~~~~~~
+   arch/x86/kvm/kvm_cache_regs.h:178:3: note: in expansion of macro 'static_call'
+      static_call(kvm_x86_cache_reg)(vcpu, VCPU_EXREG_CR4);
+      ^~~~~~~~~~~
+   arch/x86/kvm/kvm_cache_regs.h: In function 'kvm_read_cr3':
+>> include/linux/static_call_types.h:15:34: error: '__SCT__kvm_x86_cache_reg' undeclared (first use in this function); did you mean '__SCT__apic_call_read'?
+    #define STATIC_CALL_TRAMP_PREFIX __SCT__
+                                     ^
+   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
+    #define ___PASTE(a,b) a##b
+                          ^
+   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                     ^~~~~~~
+   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:43:35: note: in expansion of macro 'STATIC_CALL_TRAMP'
+    #define __raw_static_call(name) (&STATIC_CALL_TRAMP(name))
+                                      ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:74:29: note: in expansion of macro '__raw_static_call'
+    #define __static_call(name) __raw_static_call(name)
+                                ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:90:27: note: in expansion of macro '__static_call'
+    #define static_call(name) __static_call(name)
+                              ^~~~~~~~~~~~~
+   arch/x86/kvm/kvm_cache_regs.h:193:3: note: in expansion of macro 'static_call'
+      static_call(kvm_x86_cache_reg)(vcpu, VCPU_EXREG_CR3);
+      ^~~~~~~~~~~
+--
+   In file included from include/linux/kvm_host.h:45:0,
+                    from arch/x86/kvm/vmx/vmx.h:5,
+                    from arch/x86/kvm/kvm-asm-offsets.c:10:
+   arch/x86/include/asm/kvm_host.h: In function 'kvm_arch_alloc_vm':
+>> arch/x86/include/asm/kvm_host.h:1561:19: error: 'kvm_x86_ops' undeclared (first use in this function); did you mean 'kvm_pmu_ops'?
+     return __vmalloc(kvm_x86_ops.vm_size, GFP_KERNEL_ACCOUNT | __GFP_ZERO);
+                      ^~~~~~~~~~~
+                      kvm_pmu_ops
+   arch/x86/include/asm/kvm_host.h:1561:19: note: each undeclared identifier is reported only once for each function it appears in
+   arch/x86/include/asm/kvm_host.h: In function 'kvm_arch_flush_remote_tlbs':
+   arch/x86/include/asm/kvm_host.h:1570:6: error: 'kvm_x86_ops' undeclared (first use in this function); did you mean 'kvm_pmu_ops'?
+     if (kvm_x86_ops.flush_remote_tlbs &&
+         ^~~~~~~~~~~
+         kvm_pmu_ops
+   In file included from <command-line>:0:0:
+>> include/linux/static_call_types.h:15:34: error: '__SCT__kvm_x86_flush_remote_tlbs' undeclared (first use in this function); did you mean 'kvm_arch_flush_remote_tlbs'?
+    #define STATIC_CALL_TRAMP_PREFIX __SCT__
+                                     ^
+   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
+    #define ___PASTE(a,b) a##b
+                          ^
+   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                     ^~~~~~~
+   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:43:35: note: in expansion of macro 'STATIC_CALL_TRAMP'
+    #define __raw_static_call(name) (&STATIC_CALL_TRAMP(name))
+                                      ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:74:29: note: in expansion of macro '__raw_static_call'
+    #define __static_call(name) __raw_static_call(name)
+                                ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:90:27: note: in expansion of macro '__static_call'
+    #define static_call(name) __static_call(name)
+                              ^~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_host.h:1571:7: note: in expansion of macro 'static_call'
+         !static_call(kvm_x86_flush_remote_tlbs)(kvm))
+          ^~~~~~~~~~~
+   arch/x86/include/asm/kvm_host.h: In function 'kvm_arch_vcpu_blocking':
+>> include/linux/static_call_types.h:15:34: error: '__SCT__kvm_x86_vcpu_blocking' undeclared (first use in this function); did you mean 'kvm_arch_vcpu_blocking'?
+    #define STATIC_CALL_TRAMP_PREFIX __SCT__
+                                     ^
+   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
+    #define ___PASTE(a,b) a##b
+                          ^
+   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                     ^~~~~~~
+   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:43:35: note: in expansion of macro 'STATIC_CALL_TRAMP'
+    #define __raw_static_call(name) (&STATIC_CALL_TRAMP(name))
+                                      ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:74:29: note: in expansion of macro '__raw_static_call'
+    #define __static_call(name) __raw_static_call(name)
+                                ^~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:251:38: note: in expansion of macro '__static_call'
+    #define static_call_cond(name) (void)__static_call(name)
+                                         ^~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_host.h:1952:2: note: in expansion of macro 'static_call_cond'
+     static_call_cond(kvm_x86_vcpu_blocking)(vcpu);
+     ^~~~~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_host.h: In function 'kvm_arch_vcpu_unblocking':
+>> include/linux/static_call_types.h:15:34: error: '__SCT__kvm_x86_vcpu_unblocking' undeclared (first use in this function); did you mean 'kvm_arch_vcpu_unblocking'?
+    #define STATIC_CALL_TRAMP_PREFIX __SCT__
+                                     ^
+   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
+    #define ___PASTE(a,b) a##b
+                          ^
+   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                     ^~~~~~~
+   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:43:35: note: in expansion of macro 'STATIC_CALL_TRAMP'
+    #define __raw_static_call(name) (&STATIC_CALL_TRAMP(name))
+                                      ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:74:29: note: in expansion of macro '__raw_static_call'
+    #define __static_call(name) __raw_static_call(name)
+                                ^~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:251:38: note: in expansion of macro '__static_call'
+    #define static_call_cond(name) (void)__static_call(name)
+                                         ^~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_host.h:1957:2: note: in expansion of macro 'static_call_cond'
+     static_call_cond(kvm_x86_vcpu_unblocking)(vcpu);
+     ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/../kvm_cache_regs.h: In function 'kvm_register_read_raw':
+>> include/linux/static_call_types.h:15:34: error: '__SCT__kvm_x86_cache_reg' undeclared (first use in this function); did you mean '__SCT__apic_call_read'?
+    #define STATIC_CALL_TRAMP_PREFIX __SCT__
+                                     ^
+   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
+    #define ___PASTE(a,b) a##b
+                          ^
+   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                     ^~~~~~~
+   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:43:35: note: in expansion of macro 'STATIC_CALL_TRAMP'
+    #define __raw_static_call(name) (&STATIC_CALL_TRAMP(name))
+                                      ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:74:29: note: in expansion of macro '__raw_static_call'
+    #define __static_call(name) __raw_static_call(name)
+                                ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:90:27: note: in expansion of macro '__static_call'
+    #define static_call(name) __static_call(name)
+                              ^~~~~~~~~~~~~
+   arch/x86/kvm/vmx/../kvm_cache_regs.h:101:3: note: in expansion of macro 'static_call'
+      static_call(kvm_x86_cache_reg)(vcpu, reg);
+      ^~~~~~~~~~~
+   arch/x86/kvm/vmx/../kvm_cache_regs.h: In function 'kvm_pdptr_read':
+>> include/linux/static_call_types.h:15:34: error: '__SCT__kvm_x86_cache_reg' undeclared (first use in this function); did you mean '__SCT__apic_call_read'?
+    #define STATIC_CALL_TRAMP_PREFIX __SCT__
+                                     ^
+   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
+    #define ___PASTE(a,b) a##b
+                          ^
+   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                     ^~~~~~~
+   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:43:35: note: in expansion of macro 'STATIC_CALL_TRAMP'
+    #define __raw_static_call(name) (&STATIC_CALL_TRAMP(name))
+                                      ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:74:29: note: in expansion of macro '__raw_static_call'
+    #define __static_call(name) __raw_static_call(name)
+                                ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:90:27: note: in expansion of macro '__static_call'
+    #define static_call(name) __static_call(name)
+                              ^~~~~~~~~~~~~
+   arch/x86/kvm/vmx/../kvm_cache_regs.h:141:3: note: in expansion of macro 'static_call'
+      static_call(kvm_x86_cache_reg)(vcpu, VCPU_EXREG_PDPTR);
+      ^~~~~~~~~~~
+   arch/x86/kvm/vmx/../kvm_cache_regs.h: In function 'kvm_read_cr0_bits':
+>> include/linux/static_call_types.h:15:34: error: '__SCT__kvm_x86_cache_reg' undeclared (first use in this function); did you mean '__SCT__apic_call_read'?
+    #define STATIC_CALL_TRAMP_PREFIX __SCT__
+                                     ^
+   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
+    #define ___PASTE(a,b) a##b
+                          ^
+   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                     ^~~~~~~
+   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:43:35: note: in expansion of macro 'STATIC_CALL_TRAMP'
+    #define __raw_static_call(name) (&STATIC_CALL_TRAMP(name))
+                                      ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:74:29: note: in expansion of macro '__raw_static_call'
+    #define __static_call(name) __raw_static_call(name)
+                                ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:90:27: note: in expansion of macro '__static_call'
+    #define static_call(name) __static_call(name)
+                              ^~~~~~~~~~~~~
+   arch/x86/kvm/vmx/../kvm_cache_regs.h:156:3: note: in expansion of macro 'static_call'
+      static_call(kvm_x86_cache_reg)(vcpu, VCPU_EXREG_CR0);
+      ^~~~~~~~~~~
+   arch/x86/kvm/vmx/../kvm_cache_regs.h: In function 'kvm_read_cr4_bits':
+>> include/linux/static_call_types.h:15:34: error: '__SCT__kvm_x86_cache_reg' undeclared (first use in this function); did you mean '__SCT__apic_call_read'?
+    #define STATIC_CALL_TRAMP_PREFIX __SCT__
+                                     ^
+   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
+    #define ___PASTE(a,b) a##b
+                          ^
+   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                     ^~~~~~~
+   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:43:35: note: in expansion of macro 'STATIC_CALL_TRAMP'
+    #define __raw_static_call(name) (&STATIC_CALL_TRAMP(name))
+                                      ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:74:29: note: in expansion of macro '__raw_static_call'
+    #define __static_call(name) __raw_static_call(name)
+                                ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:90:27: note: in expansion of macro '__static_call'
+    #define static_call(name) __static_call(name)
+                              ^~~~~~~~~~~~~
+   arch/x86/kvm/vmx/../kvm_cache_regs.h:178:3: note: in expansion of macro 'static_call'
+      static_call(kvm_x86_cache_reg)(vcpu, VCPU_EXREG_CR4);
+      ^~~~~~~~~~~
+   arch/x86/kvm/vmx/../kvm_cache_regs.h: In function 'kvm_read_cr3':
+>> include/linux/static_call_types.h:15:34: error: '__SCT__kvm_x86_cache_reg' undeclared (first use in this function); did you mean '__SCT__apic_call_read'?
+    #define STATIC_CALL_TRAMP_PREFIX __SCT__
+                                     ^
+   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
+    #define ___PASTE(a,b) a##b
+                          ^
+   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                     ^~~~~~~
+   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:43:35: note: in expansion of macro 'STATIC_CALL_TRAMP'
+    #define __raw_static_call(name) (&STATIC_CALL_TRAMP(name))
+                                      ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:74:29: note: in expansion of macro '__raw_static_call'
+    #define __static_call(name) __raw_static_call(name)
+                                ^~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:90:27: note: in expansion of macro '__static_call'
+    #define static_call(name) __static_call(name)
+                              ^~~~~~~~~~~~~
+   arch/x86/kvm/vmx/../kvm_cache_regs.h:193:3: note: in expansion of macro 'static_call'
+      static_call(kvm_x86_cache_reg)(vcpu, VCPU_EXREG_CR3);
+      ^~~~~~~~~~~
+..
 
-ca4c617015ff78 Liam Beguin 2023-08-28  165  static int ltc2309_probe(struct i2c_client *client)
-ca4c617015ff78 Liam Beguin 2023-08-28  166  {
-ca4c617015ff78 Liam Beguin 2023-08-28  167  	struct iio_dev *indio_dev;
-ca4c617015ff78 Liam Beguin 2023-08-28  168  	struct ltc2309 *ltc2309;
-ca4c617015ff78 Liam Beguin 2023-08-28  169  	int ret;
-ca4c617015ff78 Liam Beguin 2023-08-28  170  
-ca4c617015ff78 Liam Beguin 2023-08-28  171  	indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*ltc2309));
-ca4c617015ff78 Liam Beguin 2023-08-28  172  	if (!indio_dev)
-ca4c617015ff78 Liam Beguin 2023-08-28  173  		return -ENOMEM;
-ca4c617015ff78 Liam Beguin 2023-08-28  174  
-ca4c617015ff78 Liam Beguin 2023-08-28  175  	ltc2309 = iio_priv(indio_dev);
-ca4c617015ff78 Liam Beguin 2023-08-28  176  	ltc2309->dev = &indio_dev->dev;
-ca4c617015ff78 Liam Beguin 2023-08-28  177  	ltc2309->client = client;
-ca4c617015ff78 Liam Beguin 2023-08-28  178  	ltc2309->vref_mv = 4096; /* Default to the internal ref */
-ca4c617015ff78 Liam Beguin 2023-08-28  179  
-ca4c617015ff78 Liam Beguin 2023-08-28  180  	indio_dev->name = "ltc2309";
-ca4c617015ff78 Liam Beguin 2023-08-28  181  	indio_dev->modes = INDIO_DIRECT_MODE;
-ca4c617015ff78 Liam Beguin 2023-08-28  182  	indio_dev->channels = ltc2309_channels;
-ca4c617015ff78 Liam Beguin 2023-08-28  183  	indio_dev->num_channels = ARRAY_SIZE(ltc2309_channels);
-ca4c617015ff78 Liam Beguin 2023-08-28  184  	indio_dev->info = &ltc2309_info;
-ca4c617015ff78 Liam Beguin 2023-08-28  185  
-ca4c617015ff78 Liam Beguin 2023-08-28  186  	ltc2309->vref = devm_regulator_get_optional(&client->dev, "vref");
-ca4c617015ff78 Liam Beguin 2023-08-28  187  	if (IS_ERR(ltc2309->vref)) {
-ca4c617015ff78 Liam Beguin 2023-08-28  188  		ret = PTR_ERR(ltc2309->vref);
-ca4c617015ff78 Liam Beguin 2023-08-28  189  		if (ret == -ENODEV)
-ca4c617015ff78 Liam Beguin 2023-08-28  190  			ltc2309->vref = NULL;
-ca4c617015ff78 Liam Beguin 2023-08-28  191  		else
-ca4c617015ff78 Liam Beguin 2023-08-28  192  			return ret;
-ca4c617015ff78 Liam Beguin 2023-08-28  193  	}
-ca4c617015ff78 Liam Beguin 2023-08-28  194  
-ca4c617015ff78 Liam Beguin 2023-08-28  195  	if (ltc2309->vref) {
-ca4c617015ff78 Liam Beguin 2023-08-28  196  		ret = regulator_enable(ltc2309->vref);
-ca4c617015ff78 Liam Beguin 2023-08-28  197  		if (ret)
-ca4c617015ff78 Liam Beguin 2023-08-28  198  			return dev_err_probe(ltc2309->dev, ret,
-ca4c617015ff78 Liam Beguin 2023-08-28  199  					     "failed to enable vref\n");
-ca4c617015ff78 Liam Beguin 2023-08-28  200  
-ca4c617015ff78 Liam Beguin 2023-08-28  201  		ret = devm_add_action_or_reset(ltc2309->dev,
-ca4c617015ff78 Liam Beguin 2023-08-28  202  					       ltc2309_regulator_disable,
-ca4c617015ff78 Liam Beguin 2023-08-28  203  					       ltc2309->vref);
-ca4c617015ff78 Liam Beguin 2023-08-28  204  		if (ret) {
-ca4c617015ff78 Liam Beguin 2023-08-28  205  			return dev_err_probe(ltc2309->dev, ret,
-                                                                ^^^^^^
 
-ca4c617015ff78 Liam Beguin 2023-08-28  206  					     "failed to add regulator_disable action: %d\n",
-ca4c617015ff78 Liam Beguin 2023-08-28  207  					     ret);
-ca4c617015ff78 Liam Beguin 2023-08-28 @208  			return ret;
-                                                                ^^^^^^^^^^^
-Delete this second return.
+vim +1561 arch/x86/include/asm/kvm_host.h
 
-ca4c617015ff78 Liam Beguin 2023-08-28  209  		}
-ca4c617015ff78 Liam Beguin 2023-08-28  210  
-ca4c617015ff78 Liam Beguin 2023-08-28  211  		ret = regulator_get_voltage(ltc2309->vref);
-ca4c617015ff78 Liam Beguin 2023-08-28  212  		if (ret < 0)
-ca4c617015ff78 Liam Beguin 2023-08-28  213  			return ret;
-ca4c617015ff78 Liam Beguin 2023-08-28  214  
-ca4c617015ff78 Liam Beguin 2023-08-28  215  		ltc2309->vref_mv = ret / 1000;
-ca4c617015ff78 Liam Beguin 2023-08-28  216  	}
-ca4c617015ff78 Liam Beguin 2023-08-28  217  
-ca4c617015ff78 Liam Beguin 2023-08-28  218  	mutex_init(&ltc2309->lock);
-ca4c617015ff78 Liam Beguin 2023-08-28  219  
-ca4c617015ff78 Liam Beguin 2023-08-28  220  	return devm_iio_device_register(&client->dev, indio_dev);
-ca4c617015ff78 Liam Beguin 2023-08-28  221  }
+4f8396b96a9fc6 Sean Christopherson 2022-11-30  1557  
+434a1e94469d3b Sean Christopherson 2018-03-20  1558  #define __KVM_HAVE_ARCH_VM_ALLOC
+434a1e94469d3b Sean Christopherson 2018-03-20  1559  static inline struct kvm *kvm_arch_alloc_vm(void)
+434a1e94469d3b Sean Christopherson 2018-03-20  1560  {
+88dca4ca5a93d2 Christoph Hellwig   2020-06-01 @1561  	return __vmalloc(kvm_x86_ops.vm_size, GFP_KERNEL_ACCOUNT | __GFP_ZERO);
+434a1e94469d3b Sean Christopherson 2018-03-20  1562  }
+78b497f2e62d8c Juergen Gross       2021-09-03  1563  
+
+:::::: The code at line 1561 was first introduced by commit
+:::::: 88dca4ca5a93d2c09e5bbc6a62fbfc3af83c4fca mm: remove the pgprot argument to __vmalloc
+
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
