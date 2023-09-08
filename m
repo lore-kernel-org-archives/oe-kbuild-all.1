@@ -1,43 +1,51 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B2F136F
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Sep 2023 05:35:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D50DD15C6;
+	Fri,  8 Sep 2023 05:35:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694151353; x=1725687353;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7AIXlO0lwCoOkQqytY3geNhi/PUr/b034g2Zsxcob1g=;
-  b=ZZSAu3dAnBe71sjqRKYwgArnYPDTKMW+N2qEo74kYkRZa44Vjj5BdV7M
-   HXncPC7zrbh1TADYL+1kTJLwuV1uPTNG7/ey2uuIe6bT3Zm/CGfdsUc7A
-   nz5sqWYynhJYfxfzCHZob4ptxHy5KnLQIxIGpRLuQoT5jqZK67y1MZDhY
-   RRlHpD1MBJp0q5L8Qn9X3b801vxSZ9LAHkMOVKZKH+B+JYlX7W/1xrFIo
-   3zEtqZ2kcWE6w5Dx4WZx9ekIl1d1O2jpV4UQyolQg0K/0nrOZ/Ixec9yX
-   3guCRTVkY8k32rdK1efM5nYiByjVmjEmqIVQLFn9ut6LNDF4nIK1KgI7F
+  t=1694151355; x=1725687355;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RorTQrQboReTQY01ayidMAcwqSmkqQs9BqJbd0Do9Lg=;
+  b=LS1vmg1IxRHOudXrBw9cXfDblcFc39NocJ2HYpjPxSF3Y/E2aOwtaQYa
+   7fD2EHXfvbu6AKj5lFJfeqdLFFZXZDQHVOKtdqXS+9tkvsKrM/b+xStsC
+   Dd92fG1j3VBU3vKNmH2HFIvWOUGO39oZwPqU6QYlBhagAHdCMb7iDHEZw
+   sro7ByFcejnS+44rLsbdXpx16rpYK06VGzour3SRx2wNCxU5Z1yrafT5X
+   EEHj7Fqmp5JP9ouJgRMNMxlZN7xQBZmNry4wBOqJqqECy67DpOag8rpGq
+   3TfLmt5Y5LCj5/IYqcZLoqVFvkC4apOQTtaRtpa0Msj5T+Ttapt0ZpN0N
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="367827860"
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="367827871"
 X-IronPort-AV: E=Sophos;i="6.02,236,1688454000"; 
-   d="scan'208";a="367827860"
+   d="scan'208";a="367827871"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 22:35:52 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 22:35:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="885520783"
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="885520782"
 X-IronPort-AV: E=Sophos;i="6.02,236,1688454000"; 
-   d="scan'208";a="885520783"
+   d="scan'208";a="885520782"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
   by fmsmga001.fm.intel.com with ESMTP; 07 Sep 2023 22:35:35 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qeU9k-0001xb-2j;
+	id 1qeU9k-0001xV-2W;
 	Fri, 08 Sep 2023 05:35:48 +0000
-Date: Fri, 8 Sep 2023 13:35:09 +0800
+Date: Fri, 8 Sep 2023 13:35:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/guarded_kvm_headers 3/20]
- drivers/vfio/vfio_main.c:1379:43: error: invalid use of undefined type
- 'struct vfio_group'
-Message-ID: <202309081316.tBXnqEFL-lkp@intel.com>
+To: sean.wang@mediatek.com, nbd@nbd.name, lorenzo.bianconi@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	sean.wang@mediatek.com, Soul.Huang@mediatek.com,
+	Leon.Yen@mediatek.com, Eric-SY.Chang@mediatek.com,
+	Deren.Wu@mediatek.com, km.lin@mediatek.com, robin.chiu@mediatek.com,
+	Eddie.Chen@mediatek.com, jsiuda@google.com, arowa@google.org,
+	frankgor@google.com, kuabhs@google.com, druth@google.com,
+	abhishekpandit@google.com, shawnku@google.com,
+	linux-wireless@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] wifi: mt76: mt7921: fix the wrong rate selected in fw
+ for the chanctx driver
+Message-ID: <202309081348.IepiSKwy-lkp@intel.com>
+References: <4b2ee1382896dd7ff27ecbef6e1ad496edccd3ad.1694129223.git.objelf@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,116 +54,152 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <4b2ee1382896dd7ff27ecbef6e1ad496edccd3ad.1694129223.git.objelf@gmail.com>
 
-tree:   https://github.com/sean-jc/linux x86/guarded_kvm_headers
-head:   bac0634d402f98992a041354ea641c03d00ee498
-commit: 9b51a91f465c0a59830755ee2a8f14620cb89709 [3/20] KVM: vfio: Pass in kvm_{get,put}_kvm() helpers instead of doing symbol lookups
-config: x86_64-randconfig-071-20230908 (https://download.01.org/0day-ci/archive/20230908/202309081316.tBXnqEFL-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230908/202309081316.tBXnqEFL-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.5 next-20230907]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/sean-wang-mediatek-com/wifi-mt76-mt7921-fix-the-wrong-rate-selected-in-fw-for-the-chanctx-driver/20230908-073344
+base:   linus/master
+patch link:    https://lore.kernel.org/r/4b2ee1382896dd7ff27ecbef6e1ad496edccd3ad.1694129223.git.objelf%40gmail.com
+patch subject: [PATCH] wifi: mt76: mt7921: fix the wrong rate selected in fw for the chanctx driver
+config: i386-randconfig-016-20230908 (https://download.01.org/0day-ci/archive/20230908/202309081348.IepiSKwy-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230908/202309081348.IepiSKwy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309081316.tBXnqEFL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309081348.IepiSKwy-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/vfio/vfio_main.c:1305:6: warning: no previous prototype for 'vfio_device_set_kvm' [-Wmissing-prototypes]
-    1305 | void vfio_device_set_kvm(struct vfio_kvm_reference *ref,
-         |      ^~~~~~~~~~~~~~~~~~~
-   drivers/vfio/vfio_main.c: In function 'vfio_file_set_kvm':
->> drivers/vfio/vfio_main.c:1379:43: error: invalid use of undefined type 'struct vfio_group'
-    1379 |                 vfio_device_set_kvm(&group->kvm_ref, kvm, get_kvm, put_kvm);
-         |                                           ^~
+>> drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.c:833:44: error: no member named 'ctx' in 'struct mt76_vif'
+           struct cfg80211_chan_def *chandef = mvif->ctx ?
+                                               ~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.c:834:17: error: no member named 'ctx' in 'struct mt76_vif'
+                                               &mvif->ctx->def : &mphy->chandef;
+                                                ~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.c:1375:44: error: no member named 'ctx' in 'struct mt76_vif'
+           struct cfg80211_chan_def *chandef = mvif->ctx ?
+                                               ~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.c:1376:17: error: no member named 'ctx' in 'struct mt76_vif'
+                                               &mvif->ctx->def : &phy->chandef;
+                                                ~~~~  ^
+   4 errors generated.
 
 
-vim +1379 drivers/vfio/vfio_main.c
+vim +833 drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.c
 
-  1303	
-  1304	#if IS_ENABLED(CONFIG_KVM)
-> 1305	void vfio_device_set_kvm(struct vfio_kvm_reference *ref,
-  1306				 struct kvm *kvm,
-  1307				 bool (*get_kvm)(struct kvm *kvm),
-  1308				 void (*put_kvm)(struct kvm *kvm))
-  1309	{
-  1310		if (WARN_ON_ONCE(kvm && (!get_kvm || !put_kvm)))
-  1311			return;
-  1312	
-  1313		spin_lock(&ref->lock);
-  1314		ref->kvm = kvm;
-  1315		ref->get_kvm = get_kvm;
-  1316		ref->put_kvm = put_kvm;
-  1317		spin_unlock(&ref->lock);
-  1318	}
-  1319	
-  1320	void vfio_device_get_kvm(struct vfio_device *device,
-  1321				 struct vfio_kvm_reference *ref)
-  1322	{
-  1323		lockdep_assert_held(&device->dev_set->lock);
-  1324	
-  1325		/*
-  1326		 * Note!  The "kvm" and "put_kvm" pointers *must* be transfered to the
-  1327		 * device so that the device can put its reference to KVM.  KVM can
-  1328		 * invoke vfio_device_set_kvm() to detach from VFIO, i.e. nullify all
-  1329		 * pointers in @ref, even if a device holds a reference to KVM!  That
-  1330		 * also means that detaching KVM from VFIO only prevents "new" devices
-  1331		 * from using KVM, it doesn't invalidate KVM references in existing
-  1332		 * devices.
-  1333		 */
-  1334		spin_lock(&ref->lock);
-  1335		if (ref->kvm && ref->get_kvm(ref->kvm)) {
-  1336			device->kvm = ref->kvm;
-  1337			device->put_kvm = ref->put_kvm;
-  1338		}
-  1339		spin_lock(&ref->lock);
-  1340	}
-  1341	
-  1342	void vfio_device_put_kvm(struct vfio_device *device)
-  1343	{
-  1344		lockdep_assert_held(&device->dev_set->lock);
-  1345	
-  1346		if (!device->kvm)
-  1347			return;
-  1348	
-  1349		if (WARN_ON(!device->put_kvm))
-  1350			return;
-  1351	
-  1352		device->put_kvm(device->kvm);
-  1353	}
-  1354	
-  1355	static void vfio_device_file_set_kvm(struct file *file, struct kvm *kvm,
-  1356				             bool (*get_kvm)(struct kvm *kvm),
-  1357					     void (*put_kvm)(struct kvm *kvm))
-  1358	{
-  1359		struct vfio_device_file *df = file->private_data;
-  1360	
-  1361		vfio_device_set_kvm(&df->kvm_ref, kvm, get_kvm, put_kvm);
-  1362	}
-  1363	
-  1364	/**
-  1365	 * vfio_file_set_kvm - Link a kvm with VFIO drivers
-  1366	 * @file: VFIO group file or VFIO device file
-  1367	 * @kvm: KVM to link
-  1368	 * @get_kvm: Callback to get a reference to @kvm
-  1369	 * @put_kvm: Callback to put a reference to @kvm
-  1370	 */
-  1371	void vfio_file_set_kvm(struct file *file, struct kvm *kvm,
-  1372			       bool (*get_kvm)(struct kvm *kvm),
-  1373			       void (*put_kvm)(struct kvm *kvm))
-  1374	{
-  1375		struct vfio_group *group;
-  1376	
-  1377		group = vfio_group_from_file(file);
-  1378		if (group)
-> 1379			vfio_device_set_kvm(&group->kvm_ref, kvm, get_kvm, put_kvm);
-  1380	
-  1381		if (vfio_device_from_file(file))
-  1382			vfio_device_file_set_kvm(file, kvm, get_kvm, put_kvm);
-  1383	}
-  1384	EXPORT_SYMBOL_GPL(vfio_file_set_kvm);
-  1385	#endif
-  1386	
+   826	
+   827	void mt76_connac_mcu_sta_tlv(struct mt76_phy *mphy, struct sk_buff *skb,
+   828				     struct ieee80211_sta *sta,
+   829				     struct ieee80211_vif *vif,
+   830				     u8 rcpi, u8 sta_state)
+   831	{
+   832		struct mt76_vif *mvif = (struct mt76_vif *)vif->drv_priv;
+ > 833		struct cfg80211_chan_def *chandef = mvif->ctx ?
+   834						    &mvif->ctx->def : &mphy->chandef;
+   835		enum nl80211_band band = chandef->chan->band;
+   836		struct mt76_dev *dev = mphy->dev;
+   837		struct sta_rec_ra_info *ra_info;
+   838		struct sta_rec_state *state;
+   839		struct sta_rec_phy *phy;
+   840		struct tlv *tlv;
+   841		u16 supp_rates;
+   842	
+   843		/* starec ht */
+   844		if (sta->deflink.ht_cap.ht_supported) {
+   845			struct sta_rec_ht *ht;
+   846	
+   847			tlv = mt76_connac_mcu_add_tlv(skb, STA_REC_HT, sizeof(*ht));
+   848			ht = (struct sta_rec_ht *)tlv;
+   849			ht->ht_cap = cpu_to_le16(sta->deflink.ht_cap.cap);
+   850		}
+   851	
+   852		/* starec vht */
+   853		if (sta->deflink.vht_cap.vht_supported) {
+   854			struct sta_rec_vht *vht;
+   855			int len;
+   856	
+   857			len = is_mt7921(dev) ? sizeof(*vht) : sizeof(*vht) - 4;
+   858			tlv = mt76_connac_mcu_add_tlv(skb, STA_REC_VHT, len);
+   859			vht = (struct sta_rec_vht *)tlv;
+   860			vht->vht_cap = cpu_to_le32(sta->deflink.vht_cap.cap);
+   861			vht->vht_rx_mcs_map = sta->deflink.vht_cap.vht_mcs.rx_mcs_map;
+   862			vht->vht_tx_mcs_map = sta->deflink.vht_cap.vht_mcs.tx_mcs_map;
+   863		}
+   864	
+   865		/* starec uapsd */
+   866		mt76_connac_mcu_sta_uapsd(skb, vif, sta);
+   867	
+   868		if (!is_mt7921(dev))
+   869			return;
+   870	
+   871		if (sta->deflink.ht_cap.ht_supported || sta->deflink.he_cap.has_he)
+   872			mt76_connac_mcu_sta_amsdu_tlv(skb, sta, vif);
+   873	
+   874		/* starec he */
+   875		if (sta->deflink.he_cap.has_he) {
+   876			mt76_connac_mcu_sta_he_tlv(skb, sta);
+   877			mt76_connac_mcu_sta_he_tlv_v2(skb, sta);
+   878			if (band == NL80211_BAND_6GHZ &&
+   879			    sta_state == MT76_STA_INFO_STATE_ASSOC) {
+   880				struct sta_rec_he_6g_capa *he_6g_capa;
+   881	
+   882				tlv = mt76_connac_mcu_add_tlv(skb, STA_REC_HE_6G,
+   883							      sizeof(*he_6g_capa));
+   884				he_6g_capa = (struct sta_rec_he_6g_capa *)tlv;
+   885				he_6g_capa->capa = sta->deflink.he_6ghz_capa.capa;
+   886			}
+   887		}
+   888	
+   889		tlv = mt76_connac_mcu_add_tlv(skb, STA_REC_PHY, sizeof(*phy));
+   890		phy = (struct sta_rec_phy *)tlv;
+   891		phy->phy_type = mt76_connac_get_phy_mode_v2(mphy, vif, band, sta);
+   892		phy->basic_rate = cpu_to_le16((u16)vif->bss_conf.basic_rates);
+   893		phy->rcpi = rcpi;
+   894		phy->ampdu = FIELD_PREP(IEEE80211_HT_AMPDU_PARM_FACTOR,
+   895					sta->deflink.ht_cap.ampdu_factor) |
+   896			     FIELD_PREP(IEEE80211_HT_AMPDU_PARM_DENSITY,
+   897					sta->deflink.ht_cap.ampdu_density);
+   898	
+   899		tlv = mt76_connac_mcu_add_tlv(skb, STA_REC_RA, sizeof(*ra_info));
+   900		ra_info = (struct sta_rec_ra_info *)tlv;
+   901	
+   902		supp_rates = sta->deflink.supp_rates[band];
+   903		if (band == NL80211_BAND_2GHZ)
+   904			supp_rates = FIELD_PREP(RA_LEGACY_OFDM, supp_rates >> 4) |
+   905				     FIELD_PREP(RA_LEGACY_CCK, supp_rates & 0xf);
+   906		else
+   907			supp_rates = FIELD_PREP(RA_LEGACY_OFDM, supp_rates);
+   908	
+   909		ra_info->legacy = cpu_to_le16(supp_rates);
+   910	
+   911		if (sta->deflink.ht_cap.ht_supported)
+   912			memcpy(ra_info->rx_mcs_bitmask,
+   913			       sta->deflink.ht_cap.mcs.rx_mask,
+   914			       HT_MCS_MASK_NUM);
+   915	
+   916		tlv = mt76_connac_mcu_add_tlv(skb, STA_REC_STATE, sizeof(*state));
+   917		state = (struct sta_rec_state *)tlv;
+   918		state->state = sta_state;
+   919	
+   920		if (sta->deflink.vht_cap.vht_supported) {
+   921			state->vht_opmode = sta->deflink.bandwidth;
+   922			state->vht_opmode |= (sta->deflink.rx_nss - 1) <<
+   923				IEEE80211_OPMODE_NOTIF_RX_NSS_SHIFT;
+   924		}
+   925	}
+   926	EXPORT_SYMBOL_GPL(mt76_connac_mcu_sta_tlv);
+   927	
 
 -- 
 0-DAY CI Kernel Test Service
