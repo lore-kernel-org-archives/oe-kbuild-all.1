@@ -1,47 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9AF210F
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Sep 2023 18:39:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95BBD30F81
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Sep 2023 19:10:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694198385; x=1725734385;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QPLINnlBu9wjGkIIvfYqrRJ4j0WIW2UBVJYhir95sJ8=;
-  b=h8piSruGrIXQhGEALUZV7ygiai2TFvSbhD8VDlkTuEGTYn5VQoVgsGvA
-   AsLCiG6BGC4wTIaTBBgLqPiatHZSdV/91uWOT26SlsdUyXMn3sySBPxLv
-   Yp8GkuKcJtokI1ttIvwFASj8DpVZwlf4aUFxHreGj2ayoGAGv8DsEV8Ms
-   zLjx9a8ho98QMXPrVfhuk1lTSGsMGLvS29F9DBsL4+eI5wlV7BC6kZw4c
-   xCfygrX/SIILTjsaIo0aL8s0V6x80EST3ebttvNcLY3uzYeMoFFAH9BVz
-   s1wrIb7JP0hmyK93kSa91Q7lJnyy4kofsavzA1QWYuLs3q97eqrzatWkI
+  t=1694200225; x=1725736225;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aLDe2Tl9hFW12UqE169BAwh+81LwyCW1GeG7BF7xwc4=;
+  b=WyOpmV0aVmnsE7b3dHXQ+69rqV3sLwtwcYcFqXAFrade097R6EHOARNr
+   N+B2kcDjmIRjod4RV0qs8uTcus+gJ/+PfEGQ3IjYENjEsxuLilcq+zk08
+   LWnQFEoOU/ofZccX6TxIFZG0AV2+Ngjz8kuJ70BoWtuSdlzMtCn/+AaqB
+   H04DLZFH6kwaRuMilVsMI2+bGhnddLxLpAWnNCJ3XQIYw3zkw29BocUBJ
+   NDmjZkk30iUXmm4WVBxRbI3wbWj7bpxzbfsY9+CPRygRHo1QP29b5WWM0
+   H+dQz9ExLlVYKRl0Hh7+Oujjaar2aSFT9FlIz8/ZdrTb4H7TMj1b7bTTP
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="444151347"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="377636089"
 X-IronPort-AV: E=Sophos;i="6.02,237,1688454000"; 
-   d="scan'208";a="444151347"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 11:39:20 -0700
+   d="scan'208";a="377636089"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 12:10:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="832746957"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="742609206"
 X-IronPort-AV: E=Sophos;i="6.02,237,1688454000"; 
-   d="scan'208";a="832746957"
+   d="scan'208";a="742609206"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 08 Sep 2023 11:39:18 -0700
+  by orsmga002.jf.intel.com with ESMTP; 08 Sep 2023 12:10:22 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qegNv-0002WK-2g;
-	Fri, 08 Sep 2023 18:39:15 +0000
-Date: Sat, 9 Sep 2023 02:38:56 +0800
+	id 1qegs0-0002XH-1R;
+	Fri, 08 Sep 2023 19:10:20 +0000
+Date: Sat, 9 Sep 2023 03:09:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>
+To: George Stark <GNStark@sberdevices.ru>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: max31790: support to config PWM as TACH
-Message-ID: <202309090228.2bSFmAO8-lkp@intel.com>
-References: <20230906084837.3043030-3-Delphine_CC_Chiu@wiwynn.com>
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Dmitry Rokosov <ddrokosov@sberdevices.ru>
+Subject: [amlogic:v6.7/arm64-dt 28/35] Error:
+ arch/arm64/boot/dts/amlogic/meson-a1.dtsi:228.21-22 syntax error
+Message-ID: <202309090349.edkQ35JZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,83 +47,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230906084837.3043030-3-Delphine_CC_Chiu@wiwynn.com>
 
-Hi Delphine,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.5 next-20230908]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Delphine-CC-Chiu/hwmon-max31790-support-to-config-PWM-as-TACH/20230906-165344
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20230906084837.3043030-3-Delphine_CC_Chiu%40wiwynn.com
-patch subject: [PATCH] hwmon: max31790: support to config PWM as TACH
-config: x86_64-randconfig-161-20230907 (https://download.01.org/0day-ci/archive/20230909/202309090228.2bSFmAO8-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230909/202309090228.2bSFmAO8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git v6.7/arm64-dt
+head:   1e728f46085667071fdf0f2d6f68c51c844d46c2
+commit: 2aee4cd48c56062c37ade35f1bc3c0b5b8db14c8 [28/35] arm64: dts: meson: a1: add saradc definition
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230909/202309090349.edkQ35JZ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309090349.edkQ35JZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309090228.2bSFmAO8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309090349.edkQ35JZ-lkp@intel.com/
 
-smatch warnings:
-drivers/hwmon/max31790.c:511 max31790_config_pwm_as_tach() warn: unsigned 'fan_config' is never less than zero.
+All errors (new ones prefixed by >>):
 
-vim +/fan_config +511 drivers/hwmon/max31790.c
-
-   482	
-   483	static int max31790_config_pwm_as_tach(struct device *dev,
-   484					       struct i2c_client *client)
-   485	{
-   486		struct device_node *np = dev->of_node;
-   487		int i, ret = 0, size, channel;
-   488		u8 pwm_index[NR_CHANNEL] = { 0 };
-   489		u8 fan_config;
-   490	
-   491		size = of_property_count_u8_elems(np, "pwm-as-tach");
-   492	
-   493		if ((size > 0) && (size <= NR_CHANNEL)) {
-   494			ret = of_property_read_u8_array(np, "pwm-as-tach", pwm_index,
-   495							size);
-   496			if (ret) {
-   497				dev_err(dev,
-   498					"Property 'pwm-as-tach' cannot be read.\n");
-   499				return ret;
-   500			}
-   501	
-   502			for (i = 0; i < size; i++) {
-   503				if ((pwm_index[i] == 0) ||
-   504				    (pwm_index[i] > NR_CHANNEL)) {
-   505					continue;
-   506				}
-   507	
-   508				channel = pwm_index[i] - 1;
-   509				fan_config = i2c_smbus_read_byte_data(
-   510					client, MAX31790_REG_FAN_CONFIG(channel));
- > 511				if (fan_config < 0) {
-   512					dev_err(dev,
-   513						"Read fan config for channel %d failed.\n",
-   514						channel);
-   515					return fan_config;
-   516				}
-   517	
-   518				fan_config |= (MAX31790_FAN_CFG_CTRL_MON |
-   519					       MAX31790_FAN_CFG_TACH_INPUT);
-   520				i2c_smbus_write_byte_data(
-   521					client, MAX31790_REG_FAN_CONFIG(channel),
-   522					fan_config);
-   523			}
-   524		}
-   525	
-   526		return 0;
-   527	}
-   528	
+>> Error: arch/arm64/boot/dts/amlogic/meson-a1.dtsi:228.21-22 syntax error
+>> FATAL ERROR: Unable to parse input tree
 
 -- 
 0-DAY CI Kernel Test Service
