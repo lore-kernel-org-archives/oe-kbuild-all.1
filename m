@@ -1,43 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C964730F96;
-	Fri,  8 Sep 2023 20:02:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354D430F96
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Sep 2023 20:02:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694203356; x=1725739356;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=Z2eRznisfaCGh3sB2nSbxNSb7+xlwh9YF8VD+SQe0So=;
-  b=KdORv7AK4Kk2bfZmz4hiACmJlioWWuTx2DXJC0MuHuZP8gpfDSU4GnFO
-   i4tZ48WViJ2N4eis7YJaT12ad4qgvrGGKpnnTK1hVD2XpnwcENG7UGqnn
-   FY24VLORF3Rqd8looiEYbubeMhSFl+9crORa53NanBz7vKo6zmQnlSyBe
-   OyYuH9L1DA7p6npC7BhpFxhsnZqiFgDEWSHbBf7TLc/kspKRypam4glAO
-   j5wQwtziSO9NYFHFn9UksXnYL8z5yEDoGWsTB+Gsx2WboJK8N2naTu19P
-   wtjpHiSm/ZHJ/5oj4Z6HRC0Vsum2MRa8ipHWueVVdDp2ICGcRHPbApc1F
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="358036793"
+  t=1694203359; x=1725739359;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=R88nXWWc0OUb6aIDazZdF1rypv5AxHZtVExhYQzX2hM=;
+  b=XG4DuEg7Rt6taSiKZKPn/NP0NwDAy7Qjgf+WM2OhKopD6y/OX/9MO+sV
+   qdlZqqUKfJ9HaV2ax6IC4uJ9+2MerKQLqfkjF8+XjBxOVBrSNcaWUAzRL
+   YJxlF2QyIOkuroetY8MRFCYw7KSPvl33sXZ18YRdPLftA8AMllp6keODx
+   /SvPWsLyZccz0rtG8fBxClUnt/4wkgVS/RWfafaJSFHQHwUUkmzk2356a
+   kvynUR0GFOTUnaCTZAHGL/+a0T7pCZsYOY3k1+dtcBUp61ZCCr1F6Bm6Q
+   pN2Ukn1iZ/6pl2jOhUsCUI0X9JwgpHjA/ruqVK+0SRoJ+QlwefKurnKlL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="357200346"
 X-IronPort-AV: E=Sophos;i="6.02,237,1688454000"; 
-   d="scan'208";a="358036793"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 13:02:28 -0700
+   d="scan'208";a="357200346"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 13:02:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="777703831"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="885782557"
 X-IronPort-AV: E=Sophos;i="6.02,237,1688454000"; 
-   d="scan'208";a="777703831"
+   d="scan'208";a="885782557"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 08 Sep 2023 13:02:27 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 08 Sep 2023 13:02:10 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qehgP-0002YZ-0L;
+	id 1qehgP-0002Yc-0X;
 	Fri, 08 Sep 2023 20:02:25 +0000
-Date: Sat, 9 Sep 2023 04:02:02 +0800
+Date: Sat, 9 Sep 2023 04:02:10 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function
- kallsyms_lookup_name: .text+0x7c): relocation R_RISCV_PCREL_HI20 out of
- range: -524527 is not in [-524288, 524287]; references
- kallsyms_seqs_of_names
-Message-ID: <202309090319.qinh8x9I-lkp@intel.com>
+To: Michal Clapinski <mclapinski@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mike Kravetz <mike.kravetz@oracle.com>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Hugh Dickins <hughd@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>, Yi Liu <yi.l.liu@intel.com>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Steve French <stfrench@microsoft.com>,
+	Simon Ser <contact@emersion.fr>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Luca Vizzarro <Luca.Vizzarro@arm.com>, Jeff Xu <jeffxu@google.com>,
+	Aleksa Sarai <cyphar@cyphar.com>, Kees Cook <keescook@chromium.org>,
+	Daniel Verkamp <dverkamp@chromium.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Michal Clapinski <mclapinski@google.com>
+Subject: Re: [PATCH v2 1/2] mm/memfd: add ioctl(MEMFD_CHECK_IF_ORIGINAL)
+Message-ID: <202309090301.rMwXPz1I-lkp@intel.com>
+References: <20230908175738.41895-2-mclapinski@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,29 +67,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230908175738.41895-2-mclapinski@google.com>
 
-CC: linux-kernel@vger.kernel.org
-TO: Zhen Lei <thunder.leizhen@huawei.com>
-CC: Luis Chamberlain <mcgrof@kernel.org>
+Hi Michal,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a48fa7efaf1161c1c898931fe4c7f0070964233a
-commit: 60443c88f3a89fd303a9e8c0e84895910675c316 kallsyms: Improve the performance of kallsyms_lookup_name()
-date:   10 months ago
-config: riscv-randconfig-r021-20230908 (https://download.01.org/0day-ci/archive/20230909/202309090319.qinh8x9I-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309090319.qinh8x9I-lkp@intel.com/reproduce)
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Clapinski/mm-memfd-add-ioctl-MEMFD_CHECK_IF_ORIGINAL/20230909-020048
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230908175738.41895-2-mclapinski%40google.com
+patch subject: [PATCH v2 1/2] mm/memfd: add ioctl(MEMFD_CHECK_IF_ORIGINAL)
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20230909/202309090301.rMwXPz1I-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309090301.rMwXPz1I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309090319.qinh8x9I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309090301.rMwXPz1I-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_name: .text+0x7c): relocation R_RISCV_PCREL_HI20 out of range: -524527 is not in [-524288, 524287]; references kallsyms_seqs_of_names
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
+>> mm/shmem.c:4480:13: warning: 'shmem_file_ioctl' defined but not used [-Wunused-function]
+    4480 | static long shmem_file_ioctl(struct file *file, unsigned int cmd,
+         |             ^~~~~~~~~~~~~~~~
+
+
+vim +/shmem_file_ioctl +4480 mm/shmem.c
+
+  4479	
+> 4480	static long shmem_file_ioctl(struct file *file, unsigned int cmd,
+  4481				     unsigned long arg)
+  4482	{
+  4483		return memfd_ioctl(file, cmd, arg);
+  4484	}
+  4485	
 
 -- 
 0-DAY CI Kernel Test Service
