@@ -1,168 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC211112;
-	Fri,  8 Sep 2023 03:18:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694143130; x=1725679130;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oVRh3cA4wodne8omB5dWpaFCF6ymIphW1ZyNXeyQkJk=;
-  b=II5VxR6XOlxPHy383HlNLO27NTBzZdFMHqWMBmolScV6J4EZHq0sL6DE
-   J0zOKYAs8GUrtv5XfvfIut4hRG2uX3iSrghZeMK3/+z26uXud6A53dxJE
-   /AVyYopNxjp+91JhJxOVM38u8pOepRyIjScez5pmhse60PaD74+ykHF21
-   KK+e/DRyjbeZT9HebbDDevtcsEV/wlsxJuAjgRUFKW1P+kEzPljEl9S35
-   0X56N+2r/mbN2s3Zwcl30RaoUIxs+n+iYlaKq55uBPQxC/FibXepgq0CI
-   3pEA1AFY59qE4Xfr5fM24h7s2cNdoQ1xMTYohEt7mYnfxIofNT9c8tjdM
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="376451968"
-X-IronPort-AV: E=Sophos;i="6.02,236,1688454000"; 
-   d="scan'208";a="376451968"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 20:18:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="718974117"
-X-IronPort-AV: E=Sophos;i="6.02,236,1688454000"; 
-   d="scan'208";a="718974117"
-Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 07 Sep 2023 20:18:46 -0700
-Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qeS15-0001rz-2f;
-	Fri, 08 Sep 2023 03:18:43 +0000
-Date: Fri, 8 Sep 2023 11:17:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Phil Sutter <phil@nwl.cc>, Pablo Neira Ayuso <pablo@netfilter.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netfilter-devel@vger.kernel.org, Florian Westphal <fw@strlen.de>,
-	audit@vger.kernel.org
-Subject: Re: [nf PATCH 1/2] netfilter: nf_tables: Fix entries val in rule
- reset audit log
-Message-ID: <202309081138.IpMoJwFy-lkp@intel.com>
-References: <20230908002229.1409-2-phil@nwl.cc>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91785EDB
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Sep 2023 04:44:24 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3883QYFo012349;
+	Fri, 8 Sep 2023 04:44:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=tpfvGfVGoMgya/hP2jj/Kha4fl8r3QnMVMTXIN+MxiQ=;
+ b=l4T7uOfmv7IuXxC5nipTF/OpKPT1Gn5l9TQPWQjl5EQNAEI4xTbA4lGiF9wF4LOW1qq+
+ jV/R1wJtNWHebTgGrXbz5rNdPJh4Gv0SASdkAOI5m7Z7GXdBmV8/+H2wJwQpbPTNitd5
+ Vn+QH1iQIhbzJhzADocOHw6f3ZAloyrGTgUEjZkJY2pH1r1uy4QALqvrw7hJg5DAByPW
+ YYHnnq5IpJyxbS/mEWF0BpagOReaJFgLT0l0M6J4zu6s2VCTmHaWR/NFnqAOlkVW4BGw
+ vd41WwWrBfaFoqxOtzcANGfytDVBUD1lvbM51ieH1clh45W9XHCsFFOzruTYqD2e3sr+ uA== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sy50dawgs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 08 Sep 2023 04:44:16 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3884iFJV031528
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 8 Sep 2023 04:44:15 GMT
+Received: from [10.217.219.216] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Thu, 7 Sep
+ 2023 21:44:09 -0700
+Message-ID: <b7eade65-8fa2-05e0-4ab1-fdfca7ad1a40@quicinc.com>
+Date: Fri, 8 Sep 2023 10:14:06 +0530
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230908002229.1409-2-phil@nwl.cc>
-
-Hi Phil,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on netfilter-nf/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Phil-Sutter/netfilter-nf_tables-Fix-entries-val-in-rule-reset-audit-log/20230908-082530
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
-patch link:    https://lore.kernel.org/r/20230908002229.1409-2-phil%40nwl.cc
-patch subject: [nf PATCH 1/2] netfilter: nf_tables: Fix entries val in rule reset audit log
-config: mips-randconfig-r002-20230908 (https://download.01.org/0day-ci/archive/20230908/202309081138.IpMoJwFy-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230908/202309081138.IpMoJwFy-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309081138.IpMoJwFy-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> net/netfilter/nf_tables_api.c:3536:11: warning: comparison of distinct pointer types ('typeof (idx) *' (aka 'unsigned int *') and 'typeof (cb->args[0]) *' (aka 'long *')) [-Wcompare-distinct-pointer-types]
-    3536 |                 s_idx = max(idx, cb->args[0]);
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:74:19: note: expanded from macro 'max'
-      74 | #define max(x, y)       __careful_cmp(x, y, >)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
-      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
-         |                               ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
-      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
-         |                  ^~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
-      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-         |                    ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
-   1 warning generated.
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v5 1/4] PCI: endpoint: Add D-state change notifier support
+Content-Language: en-US
+To: Manivannan Sadhasivam <mani@kernel.org>, kernel test robot <lkp@intel.com>
+CC: <manivannan.sadhasivam@linaro.org>, <oe-kbuild-all@lists.linux.dev>,
+        <helgaas@kernel.org>, <linux-pci@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <quic_vbadigan@quicinc.com>, <quic_nitegupt@quicinc.com>,
+        <quic_skananth@quicinc.com>, <quic_ramkri@quicinc.com>,
+        <quic_parass@quicinc.com>, <krzysztof.kozlowski@linaro.org>,
+        "Lorenzo
+ Pieralisi" <lpieralisi@kernel.org>,
+        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?=
+	<kw@linux.com>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Jonathan Corbet
+	<corbet@lwn.net>, <linux-doc@vger.kernel.org>
+References: <1690948281-2143-2-git-send-email-quic_krichai@quicinc.com>
+ <202308021312.obgu7FWM-lkp@intel.com> <20230823061904.GC3737@thinkpad>
+From: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
+In-Reply-To: <20230823061904.GC3737@thinkpad>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: VAGQX_O0J--bQfxDZwz_naMK78xlsc48
+X-Proofpoint-GUID: VAGQX_O0J--bQfxDZwz_naMK78xlsc48
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-08_01,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
+ spamscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999 adultscore=0
+ suspectscore=0 bulkscore=0 lowpriorityscore=0 impostorscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309080042
 
 
-vim +3536 net/netfilter/nf_tables_api.c
+On 8/23/2023 11:49 AM, Manivannan Sadhasivam wrote:
+> On Wed, Aug 02, 2023 at 01:14:44PM +0800, kernel test robot wrote:
+>> Hi Krishna,
+>>
+>> kernel test robot noticed the following build warnings:
+>>
+>> [auto build test WARNING on pci/next]
+>> [also build test WARNING on pci/for-linus linus/master v6.5-rc4 next-20230801]
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-chaitanya-chundru/PCI-endpoint-Add-D-state-change-notifier-support/20230802-115309
+>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+>> patch link:    https://lore.kernel.org/r/1690948281-2143-2-git-send-email-quic_krichai%40quicinc.com
+>> patch subject: [PATCH v5 1/4] PCI: endpoint: Add D-state change notifier support
+>> config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230802/202308021312.obgu7FWM-lkp@intel.com/config)
+>> compiler: loongarch64-linux-gcc (GCC) 12.3.0
+>> reproduce: (https://download.01.org/0day-ci/archive/20230802/202308021312.obgu7FWM-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202308021312.obgu7FWM-lkp@intel.com/
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>>> drivers/pci/endpoint/pci-epc-core.c:795:6: warning: no previous prototype for 'pci_epc_dstate_notity' [-Wmissing-prototypes]
+>>       795 | void pci_epc_dstate_notity(struct pci_epc *epc, pci_power_t state)
+> This tells that you haven't build tested the series before sending. Please
+> always do both build and functionality testing before sending each iteration.
+>
+> - Mani
 
-  3486	
-  3487	static int nf_tables_dump_rules(struct sk_buff *skb,
-  3488					struct netlink_callback *cb)
-  3489	{
-  3490		const struct nfgenmsg *nfmsg = nlmsg_data(cb->nlh);
-  3491		const struct nft_rule_dump_ctx *ctx = cb->data;
-  3492		struct nft_table *table;
-  3493		const struct nft_chain *chain;
-  3494		unsigned int idx = 0, s_idx;
-  3495		struct net *net = sock_net(skb->sk);
-  3496		int family = nfmsg->nfgen_family;
-  3497		struct nftables_pernet *nft_net;
-  3498		bool reset = false;
-  3499		int ret;
-  3500	
-  3501		if (NFNL_MSG_TYPE(cb->nlh->nlmsg_type) == NFT_MSG_GETRULE_RESET)
-  3502			reset = true;
-  3503	
-  3504		rcu_read_lock();
-  3505		nft_net = nft_pernet(net);
-  3506		cb->seq = READ_ONCE(nft_net->base_seq);
-  3507	
-  3508		list_for_each_entry_rcu(table, &nft_net->tables, list) {
-  3509			if (family != NFPROTO_UNSPEC && family != table->family)
-  3510				continue;
-  3511	
-  3512			if (ctx && ctx->table && strcmp(ctx->table, table->name) != 0)
-  3513				continue;
-  3514	
-  3515			if (ctx && ctx->table && ctx->chain) {
-  3516				struct rhlist_head *list, *tmp;
-  3517	
-  3518				list = rhltable_lookup(&table->chains_ht, ctx->chain,
-  3519						       nft_chain_ht_params);
-  3520				if (!list)
-  3521					goto done;
-  3522	
-  3523				rhl_for_each_entry_rcu(chain, tmp, list, rhlhead) {
-  3524					if (!nft_is_active(net, chain))
-  3525						continue;
-  3526					__nf_tables_dump_rules(skb, &idx,
-  3527							       cb, table, chain, reset);
-  3528					break;
-  3529				}
-  3530				if (reset && idx > cb->args[0])
-  3531					audit_log_rule_reset(table, cb->seq,
-  3532							     idx - cb->args[0]);
-  3533				goto done;
-  3534			}
-  3535	
-> 3536			s_idx = max(idx, cb->args[0]);
-  3537			list_for_each_entry_rcu(chain, &table->chains, list) {
-  3538				ret = __nf_tables_dump_rules(skb, &idx,
-  3539							     cb, table, chain, reset);
-  3540				if (ret)
-  3541					break;
-  3542			}
-  3543			if (reset && idx > s_idx)
-  3544				audit_log_rule_reset(table, cb->seq, idx - s_idx);
-  3545	
-  3546			if ((ctx && ctx->table) || ret)
-  3547				break;
-  3548		}
-  3549	done:
-  3550		rcu_read_unlock();
-  3551	
-  3552		cb->args[0] = idx;
-  3553		return skb->len;
-  3554	}
-  3555	
+sorry for late reply, till now I was using a different branch which has 
+some out of tree patches for testing and rebasing the patch on 
+linux-next to send them because of that few things are getting missed.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Now I took time to completely move to the linux next so that testing and 
+sending patches will be on same code base.
+
+I will correct this in next patch series.
+
+- KC
+
+>>           |      ^~~~~~~~~~~~~~~~~~~~~
+>>
+>>
+>> vim +/pci_epc_dstate_notity +795 drivers/pci/endpoint/pci-epc-core.c
+>>
+>>     785	
+>>     786	/**
+>>     787	 * pci_epc_dstate_notity() - Notify the EPF driver that EPC device D-state
+>>     788	 *			has changed
+>>     789	 * @epc: the EPC device which has change in D-state
+>>     790	 * @state: the changed D-state
+>>     791	 *
+>>     792	 * Invoke to Notify the EPF device that the EPC device has D-state has
+>>     793	 * changed.
+>>     794	 */
+>>   > 795	void pci_epc_dstate_notity(struct pci_epc *epc, pci_power_t state)
+>>     796	{
+>>     797		struct pci_epf *epf;
+>>     798	
+>>     799		if (!epc || IS_ERR(epc))
+>>     800			return;
+>>     801	
+>>     802		mutex_lock(&epc->list_lock);
+>>     803		list_for_each_entry(epf, &epc->pci_epf, list) {
+>>     804			mutex_lock(&epf->lock);
+>>     805			if (epf->event_ops && epf->event_ops->dstate_notify)
+>>     806				epf->event_ops->dstate_notify(epf, state);
+>>     807			mutex_unlock(&epf->lock);
+>>     808		}
+>>     809		mutex_unlock(&epc->list_lock);
+>>     810	}
+>>     811	EXPORT_SYMBOL_GPL(pci_epc_dstate_notity);
+>>     812	
+>>
+>> -- 
+>> 0-DAY CI Kernel Test Service
+>> https://github.com/intel/lkp-tests/wiki
