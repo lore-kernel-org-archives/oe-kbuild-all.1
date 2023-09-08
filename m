@@ -1,43 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2998330F96
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Sep 2023 21:06:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA4A30FB8;
+	Fri,  8 Sep 2023 21:49:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694207206; x=1725743206;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=B2ME6j4xqfoifP/DDypeWi4FcNKJSmVZsKFYGzHWRIA=;
-  b=Pv7mhgSFuABiY5AbtePfgxIMW+HQF90ZRrImLI8HFtzPUGVHcMUuNbKY
-   1d1cbLxH392rk44KCcpW6iYscwJWo8GsIFAjRkfPvVhfgZ+v7ckSYaXhL
-   +KoWnf56hscmGwVYMZLJTpoIIK8qRRd2do7bZ9tGgfInJOuGOwaqL3N4a
-   u+M3ZoM2i1tpCgeuDEtE0VSy9qqp5POncQNYQkusuDrxAfVC72TuO/nJP
-   LF1YbjWPvDPYcgJ4gkEL5T1WwkbCLe7FdWGTDmnAggppCt8+yOhuKqyv+
-   5VmVxmKx/pgsrI1YNqBNvd1HWe/HofxBClC1QdcioXAgC5ZwJ9tJz5YF7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="377656121"
-X-IronPort-AV: E=Sophos;i="6.02,237,1688454000"; 
-   d="scan'208";a="377656121"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 14:06:32 -0700
+  t=1694209774; x=1725745774;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ugbmmZHWI8UpAx4ybKJuqBElMoFDfDGro8HHktoWgQY=;
+  b=l4I4zvx/EzhNmsNj155KeeuTCGWNycGgALo+ph5CGKIV8ctCrF/FeQBH
+   q1nAUPhvz9ApBJIoOH+bJYw1BjLdlhZrdxhFNNKTlrfg/4VODfLcqigEy
+   b3SGmoYs8SDkJYlsBus43iLm4A+rz06D7DnV10kSThZTXQhogUvGimer8
+   dirNPpFW+zeXdh4xazxZ59zE9/MDDLSQ7NbPL180K7AM9ZItm2sE1Ttqa
+   HTB7Z+yYu0Wotxf49pNh7mhoEcvd0QBhXS8JCkM8ANPw9Ty0UMWtcKb4o
+   bfhf1XnMc9jnHyubn91b9asaZ6mEVmLhyi1z/FvjZrR/V/GoQWXtVp/27
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="357219724"
+X-IronPort-AV: E=Sophos;i="6.02,238,1688454000"; 
+   d="scan'208";a="357219724"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 14:49:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="745738344"
-X-IronPort-AV: E=Sophos;i="6.02,237,1688454000"; 
-   d="scan'208";a="745738344"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="885811725"
+X-IronPort-AV: E=Sophos;i="6.02,238,1688454000"; 
+   d="scan'208";a="885811725"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 08 Sep 2023 14:06:30 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 08 Sep 2023 14:49:14 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qeigO-0002cY-0d;
-	Fri, 08 Sep 2023 21:06:28 +0000
-Date: Sat, 9 Sep 2023 05:06:15 +0800
+	id 1qejM1-0002di-1F;
+	Fri, 08 Sep 2023 21:49:29 +0000
+Date: Sat, 9 Sep 2023 05:48:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: net/core/filter.c:11662:17: error: no previous declaration for
- 'bpf_dynptr_from_xdp'
-Message-ID: <202309090517.TVogaAQ3-lkp@intel.com>
+To: Stefan Binding <sbinding@opensource.cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	Vitaly Rodionov <vitalyr@opensource.cirrus.com>,
+	Stefan Binding <sbinding@opensource.cirrus.com>
+Subject: Re: [PATCH v2 1/2] ALSA: hda: cs35l41: Support mute notifications
+ for CS35L41 HDA
+Message-ID: <202309090555.tnWpQ7Gh-lkp@intel.com>
+References: <20230908133421.2483508-2-sbinding@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,64 +52,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230908133421.2483508-2-sbinding@opensource.cirrus.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ca9c7abf9502e108fae0e34181e01b1a20bc439f
-commit: 05421aecd4ed65da0dc17b0c3c13779ef334e9e5 bpf: Add xdp dynptrs
-date:   6 months ago
-config: x86_64-sof-customedconfig-avs-defconfig (https://download.01.org/0day-ci/archive/20230909/202309090517.TVogaAQ3-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309090517.TVogaAQ3-lkp@intel.com/reproduce)
+Hi Stefan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tiwai-sound/for-next]
+[also build test ERROR on tiwai-sound/for-linus linus/master next-20230908]
+[cannot apply to v6.5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Binding/ALSA-hda-cs35l41-Support-mute-notifications-for-CS35L41-HDA/20230908-213735
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230908133421.2483508-2-sbinding%40opensource.cirrus.com
+patch subject: [PATCH v2 1/2] ALSA: hda: cs35l41: Support mute notifications for CS35L41 HDA
+config: riscv-randconfig-001-20230909 (https://download.01.org/0day-ci/archive/20230909/202309090555.tnWpQ7Gh-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309090555.tnWpQ7Gh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309090517.TVogaAQ3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309090555.tnWpQ7Gh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/core/filter.c:11649:17: error: no previous declaration for 'bpf_dynptr_from_skb' [-Werror=missing-declarations]
-    __bpf_kfunc int bpf_dynptr_from_skb(struct sk_buff *skb, u64 flags,
-                    ^~~~~~~~~~~~~~~~~~~
->> net/core/filter.c:11662:17: error: no previous declaration for 'bpf_dynptr_from_xdp' [-Werror=missing-declarations]
-    __bpf_kfunc int bpf_dynptr_from_xdp(struct xdp_buff *xdp, u64 flags,
-                    ^~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+>> sound/pci/hda/patch_realtek.c:6718:31: error: call to undeclared function 'acpi_device_handle'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                           spec->comps[i].acpi_notify(acpi_device_handle(spec->comps[i].adev), event,
+                                                      ^
+   sound/pci/hda/patch_realtek.c:6718:31: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'acpi_handle' (aka 'void *') [-Wint-conversion]
+                           spec->comps[i].acpi_notify(acpi_device_handle(spec->comps[i].adev), event,
+                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/pci/hda/patch_realtek.c:6737:7: error: call to undeclared function 'acpi_device_handle'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           if (!acpi_device_handle(adev))
+                ^
+   sound/pci/hda/patch_realtek.c:6745:41: error: incomplete definition of type 'struct acpi_device'
+                   ret = acpi_install_notify_handler(adev->handle, ACPI_DEVICE_NOTIFY,
+                                                     ~~~~^
+   include/linux/acpi.h:790:8: note: forward declaration of 'struct acpi_device'
+   struct acpi_device;
+          ^
+   sound/pci/hda/patch_realtek.c:6766:7: error: call to undeclared function 'acpi_device_handle'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           if (!acpi_device_handle(adev))
+                ^
+   sound/pci/hda/patch_realtek.c:6769:39: error: incomplete definition of type 'struct acpi_device'
+           ret = acpi_remove_notify_handler(adev->handle, ACPI_DEVICE_NOTIFY,
+                                            ~~~~^
+   include/linux/acpi.h:790:8: note: forward declaration of 'struct acpi_device'
+   struct acpi_device;
+          ^
+   6 errors generated.
 
 
-vim +/bpf_dynptr_from_xdp +11662 net/core/filter.c
+vim +/acpi_device_handle +6718 sound/pci/hda/patch_realtek.c
 
- 11645	
- 11646	__diag_push();
- 11647	__diag_ignore_all("-Wmissing-prototypes",
- 11648			  "Global functions as their definitions will be in vmlinux BTF");
- 11649	__bpf_kfunc int bpf_dynptr_from_skb(struct sk_buff *skb, u64 flags,
- 11650					    struct bpf_dynptr_kern *ptr__uninit)
- 11651	{
- 11652		if (flags) {
- 11653			bpf_dynptr_set_null(ptr__uninit);
- 11654			return -EINVAL;
- 11655		}
- 11656	
- 11657		bpf_dynptr_init(ptr__uninit, skb, BPF_DYNPTR_TYPE_SKB, 0, skb->len);
- 11658	
- 11659		return 0;
- 11660	}
- 11661	
- 11662	__bpf_kfunc int bpf_dynptr_from_xdp(struct xdp_buff *xdp, u64 flags,
- 11663					    struct bpf_dynptr_kern *ptr__uninit)
- 11664	{
- 11665		if (flags) {
- 11666			bpf_dynptr_set_null(ptr__uninit);
- 11667			return -EINVAL;
- 11668		}
- 11669	
- 11670		bpf_dynptr_init(ptr__uninit, xdp, BPF_DYNPTR_TYPE_XDP, 0, xdp_get_buff_len(xdp));
- 11671	
- 11672		return 0;
- 11673	}
- 11674	__diag_pop();
- 11675	
+  6707	
+  6708	static void comp_acpi_device_notify(acpi_handle handle, u32 event, void *data)
+  6709	{
+  6710		struct hda_codec *cdc = data;
+  6711		struct alc_spec *spec = cdc->spec;
+  6712		int i;
+  6713	
+  6714		codec_info(cdc, "ACPI Notification %d\n", event);
+  6715	
+  6716		for (i = 0; i < HDA_MAX_COMPONENTS; i++) {
+  6717			if (spec->comps[i].dev && spec->comps[i].acpi_notify)
+> 6718				spec->comps[i].acpi_notify(acpi_device_handle(spec->comps[i].adev), event,
+  6719							   spec->comps[i].dev);
+  6720		}
+  6721	}
+  6722	
 
 -- 
 0-DAY CI Kernel Test Service
