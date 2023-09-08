@@ -1,44 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC405EA0
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Sep 2023 01:30:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1189AEA0;
+	Fri,  8 Sep 2023 01:40:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694136651; x=1725672651;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ym1wfieIJXs7iXWykYyZi95G17qUWzDDZO6XsBYu/Tw=;
-  b=h4wH8vtK/k7tNCJQzXHqVuhr5c7ILQklfD0KgdRtNbxGUPv/EepaZzSl
-   lrFxTRisH1R3hBSduJ3u8+gr2spPiNGMW+V6+lAmlKvQT3ZJVCMYzl35Z
-   iSdvzev/SprmpqokcllMP7ZR/Ky6q58Qtw6K3yvO7IaOTFXRWmCxNqwE+
-   UGdUa11q8U22Hy3e/6LsbLzGGkPsBCYyD8bSFuphAWx+tRola8LU0ZIaY
-   vooFlr5X64YKmSavSGsupRe5Hl2TvEmXSoLzklvky/WAtCsZ2rxmJFeDM
-   QqHhPchrORqDkpMgTnSLfLgBmkMIW85qovAdpGKtXp6sxnBQedBsKzlB9
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="443951865"
+  t=1694137248; x=1725673248;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=worUBMND55vJNbyBeHPqUxOWqBelkEKW/vFbtwAy0vY=;
+  b=R2kVjlKDCmofC1nIM/MYRxvIEStvlgyloHK9nI8Q/QDvLz7ZYuHdQipH
+   +jUWccyxqq8I1tx5f73IhD1qoM0SbpyXxI09i0N4WQc8p7iFNaii8wxoS
+   bu+iEPHJ9tDXNY23IZg4JQBg/DioOTkQulet4bWIl2GWOsqGF+ZrJn0nl
+   WVdo5s6tzpkUzinV301DM4sI1vyPs5xFjEqHu/2/H9QDoliMMogSJ/i18
+   IteAgNek8GmyDlv5Nf66lodKQnDLsK2bdsRDP/MqGoLpJ3SSonOTxtfYL
+   dhkved3Et98xnK6LXcb/U3GDEwT/jB41evQX4YiZEXzYZudEtAAmWuKfr
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="380261304"
 X-IronPort-AV: E=Sophos;i="6.02,236,1688454000"; 
-   d="scan'208";a="443951865"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 18:30:50 -0700
+   d="scan'208";a="380261304"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 18:40:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="771511787"
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="807771527"
 X-IronPort-AV: E=Sophos;i="6.02,236,1688454000"; 
-   d="scan'208";a="771511787"
+   d="scan'208";a="807771527"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 07 Sep 2023 18:30:42 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 07 Sep 2023 18:40:43 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qeQKW-0001mz-1r;
-	Fri, 08 Sep 2023 01:30:40 +0000
-Date: Fri, 8 Sep 2023 09:30:05 +0800
+	id 1qeQUD-0001nh-0N;
+	Fri, 08 Sep 2023 01:40:41 +0000
+Date: Fri, 8 Sep 2023 09:40:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eileen Yoon <eyn@gmx.com>
-Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:isp/heap-alloc 109/132]
- drivers/media/platform/apple/isp/isp-cam.c:378:35: warning: format '%lx'
- expects argument of type 'long unsigned int', but argument 3 has type
- 'size_t' {aka 'unsigned int'}
-Message-ID: <202309080946.2i5kzQfL-lkp@intel.com>
+To: Kyle Zeng <zengyhkyle@gmail.com>, Paolo Abeni <pabeni@redhat.com>,
+	dsahern@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	davem@davemloft.net, netdev@vger.kernel.org, ssuryaextr@gmail.com
+Subject: Re: [PATCH] fix null-deref in ipv4_link_failure
+Message-ID: <202309080905.JnJFQ6YN-lkp@intel.com>
+References: <ZPpUfm/HhFet3ejH@westworld>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,224 +48,129 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZPpUfm/HhFet3ejH@westworld>
 
-tree:   https://github.com/AsahiLinux/linux isp/heap-alloc
-head:   d5548fd857a3ca9087e974c8e73d6f487b11c94b
-commit: 4d8c45047d73f6f6d25ffe8c6abcf58c5d4b97a4 [109/132] media: apple: Add Apple ISP driver
-config: microblaze-allyesconfig (https://download.01.org/0day-ci/archive/20230908/202309080946.2i5kzQfL-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230908/202309080946.2i5kzQfL-lkp@intel.com/reproduce)
+Hi Kyle,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.5 next-20230907]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kyle-Zeng/fix-null-deref-in-ipv4_link_failure/20230908-065510
+base:   linus/master
+patch link:    https://lore.kernel.org/r/ZPpUfm%2FHhFet3ejH%40westworld
+patch subject: [PATCH] fix null-deref in ipv4_link_failure
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20230908/202309080905.JnJFQ6YN-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230908/202309080905.JnJFQ6YN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309080946.2i5kzQfL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309080905.JnJFQ6YN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/drm/drm_print.h:32,
-                    from include/drm/drm_mm.h:51,
-                    from drivers/media/platform/apple/isp/isp-drv.h:12,
-                    from drivers/media/platform/apple/isp/isp-cam.h:7,
-                    from drivers/media/platform/apple/isp/isp-cam.c:6:
-   drivers/media/platform/apple/isp/isp-cam.c: In function 'isp_ch_load_setfile':
->> drivers/media/platform/apple/isp/isp-cam.c:378:35: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     378 |                 dev_err(isp->dev, "setfile too small (0x%lx/0x%zx)\n", fw->size,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/media/platform/apple/isp/isp-cam.c:378:17: note: in expansion of macro 'dev_err'
-     378 |                 dev_err(isp->dev, "setfile too small (0x%lx/0x%zx)\n", fw->size,
-         |                 ^~~~~~~
-   drivers/media/platform/apple/isp/isp-cam.c:378:59: note: format string is defined here
-     378 |                 dev_err(isp->dev, "setfile too small (0x%lx/0x%zx)\n", fw->size,
-         |                                                         ~~^
-         |                                                           |
-         |                                                           long unsigned int
-         |                                                         %x
---
-   In file included from include/linux/printk.h:564,
-                    from include/asm-generic/bug.h:22,
-                    from ./arch/microblaze/include/generated/asm/bug.h:1,
-                    from include/linux/bug.h:5,
-                    from include/linux/scatterlist.h:7,
-                    from include/linux/iommu.h:10,
-                    from drivers/media/platform/apple/isp/isp-drv.c:12:
-   drivers/media/platform/apple/isp/isp-drv.c: In function 'apple_isp_resv_region':
-   drivers/media/platform/apple/isp/isp-drv.h:252:29: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 6 has type 'phys_addr_t' {aka 'unsigned int'} [-Wformat=]
-     252 |         dev_dbg((isp)->dev, "[%s] " fmt, __func__, ##__VA_ARGS__)
-         |                             ^~~~~~~
-   include/linux/dynamic_debug.h:222:29: note: in definition of macro '__dynamic_func_call_cls'
-     222 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '_dynamic_func_call_cls'
-     248 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:271:9: note: in expansion of macro '_dynamic_func_call'
-     271 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/media/platform/apple/isp/isp-drv.h:252:9: note: in expansion of macro 'dev_dbg'
-     252 |         dev_dbg((isp)->dev, "[%s] " fmt, __func__, ##__VA_ARGS__)
-         |         ^~~~~~~
-   drivers/media/platform/apple/isp/isp-drv.c:111:9: note: in expansion of macro 'isp_dbg'
-     111 |         isp_dbg(isp, "reserving: %d: phys: 0x%llx size: 0x%llx iova: 0x%llx\n",
-         |         ^~~~~~~
->> drivers/media/platform/apple/isp/isp-drv.h:252:29: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 8 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
-     252 |         dev_dbg((isp)->dev, "[%s] " fmt, __func__, ##__VA_ARGS__)
-         |                             ^~~~~~~
-   include/linux/dynamic_debug.h:222:29: note: in definition of macro '__dynamic_func_call_cls'
-     222 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '_dynamic_func_call_cls'
-     248 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:271:9: note: in expansion of macro '_dynamic_func_call'
-     271 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/media/platform/apple/isp/isp-drv.h:252:9: note: in expansion of macro 'dev_dbg'
-     252 |         dev_dbg((isp)->dev, "[%s] " fmt, __func__, ##__VA_ARGS__)
-         |         ^~~~~~~
-   drivers/media/platform/apple/isp/isp-drv.c:111:9: note: in expansion of macro 'isp_dbg'
-     111 |         isp_dbg(isp, "reserving: %d: phys: 0x%llx size: 0x%llx iova: 0x%llx\n",
-         |         ^~~~~~~
---
-   In file included from include/linux/device.h:15,
-                    from include/linux/iommu.h:11,
-                    from drivers/media/platform/apple/isp/isp-iommu.c:4:
-   drivers/media/platform/apple/isp/isp-iommu.c: In function 'isp_surf_iommu_map':
->> drivers/media/platform/apple/isp/isp-iommu.c:135:35: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
-     135 |                 dev_err(isp->dev, "failed to iommu_map sgt to iova 0x%llx\n",
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/media/platform/apple/isp/isp-iommu.c:135:17: note: in expansion of macro 'dev_err'
-     135 |                 dev_err(isp->dev, "failed to iommu_map sgt to iova 0x%llx\n",
-         |                 ^~~~~~~
-   drivers/media/platform/apple/isp/isp-iommu.c:135:73: note: format string is defined here
-     135 |                 dev_err(isp->dev, "failed to iommu_map sgt to iova 0x%llx\n",
-         |                                                                      ~~~^
-         |                                                                         |
-         |                                                                         long long unsigned int
-         |                                                                      %x
-   drivers/media/platform/apple/isp/isp-iommu.c: In function '__isp_alloc_surface':
-   drivers/media/platform/apple/isp/isp-iommu.c:181:25: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 4 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
-     181 |                         "failed to iommu_map size 0x%llx to iova 0x%llx\n",
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/media/platform/apple/isp/isp-iommu.c:180:17: note: in expansion of macro 'dev_err'
-     180 |                 dev_err(isp->dev,
-         |                 ^~~~~~~
-   drivers/media/platform/apple/isp/isp-iommu.c:181:71: note: format string is defined here
-     181 |                         "failed to iommu_map size 0x%llx to iova 0x%llx\n",
-         |                                                                    ~~~^
-         |                                                                       |
-         |                                                                       long long unsigned int
-         |                                                                    %x
-   drivers/media/platform/apple/isp/isp-iommu.c: In function 'isp_alloc_surface_vmap':
-   drivers/media/platform/apple/isp/isp-iommu.c:211:35: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
-     211 |                 dev_err(isp->dev, "failed to vmap iova 0x%llx - 0x%llx\n",
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/media/platform/apple/isp/isp-iommu.c:211:17: note: in expansion of macro 'dev_err'
-     211 |                 dev_err(isp->dev, "failed to vmap iova 0x%llx - 0x%llx\n",
-         |                 ^~~~~~~
-   drivers/media/platform/apple/isp/isp-iommu.c:211:61: note: format string is defined here
-     211 |                 dev_err(isp->dev, "failed to vmap iova 0x%llx - 0x%llx\n",
-         |                                                          ~~~^
-         |                                                             |
-         |                                                             long long unsigned int
-         |                                                          %x
-   drivers/media/platform/apple/isp/isp-iommu.c: In function 'apple_isp_iommu_map_sgt':
-   drivers/media/platform/apple/isp/isp-iommu.c:259:35: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
-     259 |                 dev_err(isp->dev, "failed to iommu_map sgt to iova 0x%llx\n",
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/media/platform/apple/isp/isp-iommu.c:259:17: note: in expansion of macro 'dev_err'
-     259 |                 dev_err(isp->dev, "failed to iommu_map sgt to iova 0x%llx\n",
-         |                 ^~~~~~~
-   drivers/media/platform/apple/isp/isp-iommu.c:259:73: note: format string is defined here
-     259 |                 dev_err(isp->dev, "failed to iommu_map sgt to iova 0x%llx\n",
-         |                                                                      ~~~^
-         |                                                                         |
-         |                                                                         long long unsigned int
-         |                                                                      %x
+   In file included from net/ipv4/route.c:67:
+   In file included from include/linux/memblock.h:13:
+   In file included from arch/um/include/asm/dma.h:5:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from net/ipv4/route.c:67:
+   In file included from include/linux/memblock.h:13:
+   In file included from arch/um/include/asm/dma.h:5:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from net/ipv4/route.c:67:
+   In file included from include/linux/memblock.h:13:
+   In file included from arch/um/include/asm/dma.h:5:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   net/ipv4/route.c:880:6: warning: variable 'log_martians' set but not used [-Wunused-but-set-variable]
+     880 |         int log_martians;
+         |             ^
+>> net/ipv4/route.c:1235:38: error: use of undeclared identifier 'net'
+    1235 |                 res = __ip_options_compile(dev_net(net), &opt, skb, NULL);
+         |                                                    ^
+   13 warnings and 1 error generated.
 
 
-vim +378 drivers/media/platform/apple/isp/isp-cam.c
+vim +/net +1235 net/ipv4/route.c
 
-   361	
-   362	static int isp_ch_load_setfile(struct apple_isp *isp, u32 ch)
-   363	{
-   364		struct isp_format *fmt = isp_get_format(isp, ch);
-   365		const struct isp_setfile *setfile = &isp_setfiles[fmt->id];
-   366		const struct firmware *fw;
-   367		u32 magic;
-   368		int err;
-   369	
-   370		err = request_firmware(&fw, setfile->path, isp->dev);
-   371		if (err) {
-   372			dev_err(isp->dev, "failed to request setfile '%s': %d\n",
-   373				setfile->path, err);
-   374			return err;
-   375		}
-   376	
-   377		if (fw->size < setfile->size) {
- > 378			dev_err(isp->dev, "setfile too small (0x%lx/0x%zx)\n", fw->size,
-   379				setfile->size);
-   380			release_firmware(fw);
-   381			return -EINVAL;
-   382		}
-   383	
-   384		magic = be32_to_cpup((__be32 *)fw->data);
-   385		if (magic != setfile->magic) {
-   386			dev_err(isp->dev, "setfile '%s' corrupted?\n", setfile->path);
-   387			release_firmware(fw);
-   388			return -EINVAL;
-   389		}
-   390	
-   391		isp_iowrite(isp, isp->data_surf->iova, (void *)fw->data, setfile->size);
-   392		release_firmware(fw);
-   393	
-   394		return isp_cmd_ch_set_file_load(isp, ch, isp->data_surf->iova,
-   395						setfile->size);
-   396	}
-   397	
+  1213	
+  1214	static void ipv4_send_dest_unreach(struct sk_buff *skb)
+  1215	{
+  1216		struct ip_options opt;
+  1217		int res;
+  1218		struct net_device *dev;
+  1219	
+  1220		/* Recompile ip options since IPCB may not be valid anymore.
+  1221		 * Also check we have a reasonable ipv4 header.
+  1222		 */
+  1223		if (!pskb_network_may_pull(skb, sizeof(struct iphdr)) ||
+  1224		    ip_hdr(skb)->version != 4 || ip_hdr(skb)->ihl < 5)
+  1225			return;
+  1226	
+  1227		memset(&opt, 0, sizeof(opt));
+  1228		if (ip_hdr(skb)->ihl > 5) {
+  1229			if (!pskb_network_may_pull(skb, ip_hdr(skb)->ihl * 4))
+  1230				return;
+  1231			opt.optlen = ip_hdr(skb)->ihl * 4 - sizeof(struct iphdr);
+  1232	
+  1233			rcu_read_lock();
+  1234			dev = skb->dev ? skb->dev : skb_rtable(skb)->dst.dev;
+> 1235			res = __ip_options_compile(dev_net(net), &opt, skb, NULL);
+  1236			rcu_read_unlock();
+  1237	
+  1238			if (res)
+  1239				return;
+  1240		}
+  1241		__icmp_send(skb, ICMP_DEST_UNREACH, ICMP_HOST_UNREACH, 0, &opt);
+  1242	}
+  1243	
 
 -- 
 0-DAY CI Kernel Test Service
