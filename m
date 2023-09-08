@@ -1,55 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54FDE5254
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Sep 2023 12:59:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9BB263AD;
+	Fri,  8 Sep 2023 14:12:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694177954; x=1725713954;
+  t=1694182337; x=1725718337;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=VrPMYgQ16pTtZlBVSNm737aoWB5stO3oQMVdp8PvDig=;
-  b=KH4Tp0xMCQT3zA8akF1TURHgIpI8WLCjvgvGioMYAmxxHCp52tgbtzzB
-   LWu7K0ZMO8EiyrqtPSENiJt/XrSR98GV8sdAg5MdRGrDktxLAhaEYRsMD
-   XgR6401xgyOQND6dqyANEcXKUkMUbizRikHZ1WfL5gTxMGOTqRyIrMVA4
-   +foRyMnUryZ2Y9nRn+zAoqlMs7Ihm1haPwlCHM7T27bu02DPrpdwBUHYT
-   PS30bh2tgndU+5G7foZm8hTiK82OPNO+P8Hu40RBy+FiAjSd4v8OjWJlY
-   pt5/1wwkWRr8iyY79FHTsPrkq1nEZ42iYGGM9D90IMqUQ1JnHMqtp+QHq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="357943098"
+  bh=qHRQJaYAD2oPzbtau/I7LzLm8A7noCwIpXT890WHdIk=;
+  b=WLHkxPc/NeljP117Mbfv13jHnNKRCepgjkzM13ROSoX8g/QPo0t9yrHr
+   GJdqAD2PFDICn3BXFoWCEwIMVHI5cAAlN1lur2RzvOk9/6aTh8EO8z9iL
+   +/2RNUYXOoTh05wlVDOVkWgmu5AIDf/5XHG65mquu0owxZJip7U3BPAtO
+   vUQcK6bUUHv3MlLvqn35h2DKixsVEc53MoydQ/GBev7C8v8MLccbQ6RGK
+   zq9SOdS/6DFSWHXPNUAO0FO5C6nSNxPGM8tV1FCOWaWkRVcDGIlNfesXa
+   ghaviwQRrTOSD6Me8ogw1+zjTj2FIxgMRkboNEvejH3q0Xk9NUWuqMEcS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="357955771"
 X-IronPort-AV: E=Sophos;i="6.02,237,1688454000"; 
-   d="scan'208";a="357943098"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 05:59:13 -0700
+   d="scan'208";a="357955771"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 07:12:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="916165808"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="735965660"
 X-IronPort-AV: E=Sophos;i="6.02,237,1688454000"; 
-   d="scan'208";a="916165808"
+   d="scan'208";a="735965660"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 08 Sep 2023 05:59:07 -0700
+  by orsmga007.jf.intel.com with ESMTP; 08 Sep 2023 07:12:09 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qeb4j-0002Gx-02;
-	Fri, 08 Sep 2023 12:59:05 +0000
-Date: Fri, 8 Sep 2023 20:58:49 +0800
+	id 1qecDP-0002KR-0L;
+	Fri, 08 Sep 2023 14:12:07 +0000
+Date: Fri, 8 Sep 2023 22:11:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tengfei Fan <quic_tengfan@quicinc.com>, agross@kernel.org,
-	andersson@kernel.org, konrad.dybcio@linaro.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	tglx@linutronix.de, maz@kernel.org, lee@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, robimarko@gmail.com,
-	quic_gurus@quicinc.com, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	quic_tsoni@quicinc.com, quic_shashim@quicinc.com,
-	quic_kaushalk@quicinc.com, quic_tdas@quicinc.com,
-	quic_tingweiz@quicinc.com, quic_aiquny@quicinc.com,
-	kernel@quicinc.com, quic_bjorande@quicinc.com,
-	Ajit Pandey <quic_ajipan@quicinc.com>,
-	Tengfei Fan <quic_tengfan@quicinc.com>
-Subject: Re: [PATCH 5/6] arm64: dts: qcom: sm4450: Add RPMH and Global clock
- controller
-Message-ID: <202309082044.62LHUCGY-lkp@intel.com>
-References: <20230908065847.28382-6-quic_tengfan@quicinc.com>
+To: Lu Hongfei <luhongfei@vivo.com>, Alim Akhtar <alim.akhtar@samsung.com>,
+	Avri Altman <avri.altman@wdc.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	"James E.J. Bottomley" <jejb@linux.ibm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Can Guo <quic_cang@quicinc.com>, Bean Huo <beanhuo@micron.com>,
+	Arthur Simchaev <arthur.simchaev@wdc.com>,
+	Stanley Chu <stanley.chu@mediatek.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Asutosh Das <quic_asutoshd@quicinc.com>,
+	"Bao D. Nguyen" <quic_nguyenb@quicinc.com>,
+	zhanghui <zhanghui31@xiaomi.com>,
+	Po-Wen Kao <powen.kao@mediatek.com>,
+	Eric Biggers <ebiggers@google.com>,
+	Keoseong Park <keosung.park@samsung.com>,
+	linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	opensource.kernel@vivo.com
+Subject: Re: [PATCH v2 2/3] scsi: ufs: core: Add ufshcd_wb_buf_resize
+ function to enable WB buffer resize
+Message-ID: <202309082109.DPcrgu3e-lkp@intel.com>
+References: <20230908102113.547-3-luhongfei@vivo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,43 +63,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230908065847.28382-6-quic_tengfan@quicinc.com>
+In-Reply-To: <20230908102113.547-3-luhongfei@vivo.com>
 
-Hi Tengfei,
+Hi Lu,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on a47fc304d2b678db1a5d760a7d644dac9b067752]
+[auto build test WARNING on mkp-scsi/for-next]
+[also build test WARNING on jejb-scsi/for-next linus/master v6.5 next-20230908]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tengfei-Fan/dt-bindings-firmware-document-Qualcomm-SM4450-SCM/20230908-150308
-base:   a47fc304d2b678db1a5d760a7d644dac9b067752
-patch link:    https://lore.kernel.org/r/20230908065847.28382-6-quic_tengfan%40quicinc.com
-patch subject: [PATCH 5/6] arm64: dts: qcom: sm4450: Add RPMH and Global clock controller
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230908/202309082044.62LHUCGY-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230908/202309082044.62LHUCGY-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lu-Hongfei/scsi-ufs-core-add-wb-buffer-resize-related-attr_idn/20230908-182656
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20230908102113.547-3-luhongfei%40vivo.com
+patch subject: [PATCH v2 2/3] scsi: ufs: core: Add ufshcd_wb_buf_resize function to enable WB buffer resize
+config: s390-randconfig-001-20230908 (https://download.01.org/0day-ci/archive/20230908/202309082109.DPcrgu3e-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230908/202309082109.DPcrgu3e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309082044.62LHUCGY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309082109.DPcrgu3e-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/boot/dts/qcom/sm4450-qrd.dts:8:
->> arch/arm64/boot/dts/qcom/sm4450.dtsi:7:10: fatal error: dt-bindings/clock/qcom,sm4450-gcc.h: No such file or directory
-       7 | #include <dt-bindings/clock/qcom,sm4450-gcc.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+   In file included from drivers/ufs/core/ufshcd.c:25:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/ufs/core/ufshcd.c:25:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/ufs/core/ufshcd.c:25:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/ufs/core/ufshcd.c:6055:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    6055 |         if (ufshcd_wait_for_doorbell_clr(hba, 1 * USEC_PER_SEC))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ufs/core/ufshcd.c:6067:9: note: uninitialized use occurs here
+    6067 |         return ret;
+         |                ^~~
+   drivers/ufs/core/ufshcd.c:6055:2: note: remove the 'if' if its condition is always false
+    6055 |         if (ufshcd_wait_for_doorbell_clr(hba, 1 * USEC_PER_SEC))
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    6056 |                 goto out;
+         | ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ufs/core/ufshcd.c:6051:9: note: initialize the variable 'ret' to silence this warning
+    6051 |         int ret;
+         |                ^
+         |                 = 0
+   13 warnings generated.
 
 
-vim +7 arch/arm64/boot/dts/qcom/sm4450.dtsi
+vim +6055 drivers/ufs/core/ufshcd.c
 
-   > 7	#include <dt-bindings/clock/qcom,sm4450-gcc.h>
-     8	#include <dt-bindings/gpio/gpio.h>
-     9	#include <dt-bindings/interrupt-controller/arm-gic.h>
-    10	#include <dt-bindings/soc/qcom,rpmh-rsc.h>
-    11	
+  6048	
+  6049	int ufshcd_wb_buf_resize(struct ufs_hba *hba, u32 resize_op)
+  6050	{
+  6051		int ret;
+  6052		u8 index;
+  6053	
+  6054		ufshcd_scsi_block_requests(hba);
+> 6055		if (ufshcd_wait_for_doorbell_clr(hba, 1 * USEC_PER_SEC))
+  6056			goto out;
+  6057	
+  6058		index = ufshcd_wb_get_query_index(hba);
+  6059		ret = ufshcd_query_attr_retry(hba, UPIU_QUERY_OPCODE_WRITE_ATTR,
+  6060			QUERY_ATTR_IDN_WB_BUF_RESIZE_EN, index, 0, &resize_op);
+  6061		if (ret)
+  6062			dev_err(hba->dev,
+  6063				"%s: Enable WB buf resize operation failed %d\n",
+  6064				__func__, ret);
+  6065	out:
+  6066		ufshcd_scsi_unblock_requests(hba);
+  6067		return ret;
+  6068	}
+  6069	
 
 -- 
 0-DAY CI Kernel Test Service
