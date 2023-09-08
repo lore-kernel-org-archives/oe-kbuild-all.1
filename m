@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB0610EE;
-	Fri,  8 Sep 2023 22:44:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1E6186D;
+	Fri,  8 Sep 2023 22:44:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1694213076; x=1725749076;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Zf+tVjsSKgFi0jhBNB9VQt0g+v5xRPMZjUr6WJSIP/M=;
-  b=h5O4Tu94K8s6+qHtUrK5kEq2uhjcX4nwHJsJud0CzDPAi2ofV37u6nyr
-   tWmj5gAGQ9haAeREES27iXAI6UKx20dXEZcEiPxavOTFF4i2Ajc1sSeJ9
-   ntqSSoPong81pl38MC+fmT50Eg+cKy6HNbVlj4AUTAMtKMF3Bm/hCAXEC
-   IsZJiQ+/etPySk5IDlmCyvmsUuRekPrgScIwXivEVkO4h9X/vLTX43bzH
-   SOJ4aKRRgP3J6R9qxLZefL3rUWq7KbfjhgRE5Wco5AIxk9YTTf9C1yc9p
-   nv6HxurypAKF0Hba1WPhlmmtbNsuV8t4wY4TvioQ0oq3kxiMzRdjwxbpB
+  bh=ig9COPkSQI7Qa5GeNMp1dKZXcUs5jkyJAYheDDXz4oA=;
+  b=CPRcNqpUmecQs+rkKaTOxefIAIH/u0MuyXQ6T5phhNQukdGH5qSo4KDl
+   lJ8QrIRvF1JEfhi54FjOS6wHyPh96iJM7g+yZ9PvCB2Z1DAmpXKjGflEW
+   7tj7dAknog+t6V+SXhQLTiPLN7Vo27jbP3RBQbQlRyc69tX5lBEbCbAJo
+   sN2F1AQeiGDHm7yElcGuef2J5W2J7t+KFTON1R1OCBbaYyATiZfyyfsss
+   XyFmsBnGGhU4UlDENX4ewdpPy6X9u6oh6ghN8XmEJ6+LeWT8fqwZ7n6ld
+   /1utVToirJt9p4dq9BxGUlWM8vSA2ZjkzYoG7NUWpmk4NiGoKaT27zTN2
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="375137686"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="357228391"
 X-IronPort-AV: E=Sophos;i="6.02,238,1688454000"; 
-   d="scan'208";a="375137686"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 15:44:35 -0700
+   d="scan'208";a="357228391"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 15:44:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="989425052"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="692417942"
 X-IronPort-AV: E=Sophos;i="6.02,238,1688454000"; 
-   d="scan'208";a="989425052"
+   d="scan'208";a="692417942"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 08 Sep 2023 15:44:33 -0700
+  by orsmga003.jf.intel.com with ESMTP; 08 Sep 2023 15:44:34 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qekDH-0002gl-2L;
+	id 1qekDH-0002gj-2H;
 	Fri, 08 Sep 2023 22:44:31 +0000
-Date: Sat, 9 Sep 2023 06:43:54 +0800
+Date: Sat, 9 Sep 2023 06:43:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 3/3] mm/migrate: Create move_phys_pages syscall
-Message-ID: <202309090612.A9EmQIQ1-lkp@intel.com>
-References: <20230907075453.350554-4-gregory.price@memverge.com>
+To: Bibo Mao <maobibo@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, loongarch@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] LoongArch: Add tlb_flush_threshold for tlb flush range
+Message-ID: <202309090624.CrkoQ4fj-lkp@intel.com>
+References: <20230908012907.2994001-1-maobibo@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,65 +47,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230907075453.350554-4-gregory.price@memverge.com>
+In-Reply-To: <20230908012907.2994001-1-maobibo@loongson.cn>
 
-Hi Gregory,
+Hi Bibo,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on tip/x86/asm linus/master next-20230908]
-[cannot apply to arnd-asm-generic/master v6.5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 744a759492b5c57ff24a6e8aabe47b17ad8ee964]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-migrate-remove-unused-mm-argument-from-do_move_pages_to_node/20230909-004600
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230907075453.350554-4-gregory.price%40memverge.com
-patch subject: [RFC PATCH 3/3] mm/migrate: Create move_phys_pages syscall
-config: x86_64-buildonly-randconfig-002-20230909 (https://download.01.org/0day-ci/archive/20230909/202309090612.A9EmQIQ1-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309090612.A9EmQIQ1-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bibo-Mao/LoongArch-Add-tlb_flush_threshold-for-tlb-flush-range/20230908-093017
+base:   744a759492b5c57ff24a6e8aabe47b17ad8ee964
+patch link:    https://lore.kernel.org/r/20230908012907.2994001-1-maobibo%40loongson.cn
+patch subject: [PATCH] LoongArch: Add tlb_flush_threshold for tlb flush range
+config: loongarch-randconfig-r021-20230909 (https://download.01.org/0day-ci/archive/20230909/202309090624.CrkoQ4fj-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309090624.CrkoQ4fj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309090612.A9EmQIQ1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309090624.CrkoQ4fj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/migrate.c:2182:42: error: no member named 'owner' in 'struct mm_struct'
-           struct task_struct *owner = vma->vm_mm->owner;
-                                       ~~~~~~~~~~  ^
-   1 error generated.
+   arch/loongarch/mm/tlb.c: In function '__update_hugetlb':
+>> arch/loongarch/mm/tlb.c:146:14: error: implicit declaration of function 'pmd_to_entrylo' [-Werror=implicit-function-declaration]
+     146 |         lo = pmd_to_entrylo(pte_val(*ptep));
+         |              ^~~~~~~~~~~~~~
+   arch/loongarch/mm/tlb.c: At top level:
+   arch/loongarch/mm/tlb.c:259:6: warning: no previous prototype for 'setup_tlb_handler' [-Wmissing-prototypes]
+     259 | void setup_tlb_handler(int cpu)
+         |      ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +2182 mm/migrate.c
+vim +/pmd_to_entrylo +146 arch/loongarch/mm/tlb.c
 
-  2170	
-  2171	/*
-  2172	 * Walks each vma mapping a given page and determines if those
-  2173	 * vma's are both migratable, and that the target node is within
-  2174	 * the allowed cpuset of the owning task.
-  2175	 */
-  2176	static bool phys_page_migratable(struct folio *folio,
-  2177					 struct vm_area_struct *vma,
-  2178					 unsigned long address,
-  2179					 void *arg)
-  2180	{
-  2181		struct rmap_page_ctxt *ctxt = (struct rmap_page_ctxt *)arg;
-> 2182		struct task_struct *owner = vma->vm_mm->owner;
-  2183		nodemask_t task_nodes = cpuset_mems_allowed(owner);
-  2184	
-  2185		ctxt->found |= true;
-  2186		ctxt->migratable &= vma_migratable(vma);
-  2187		ctxt->node_allowed &= node_isset(ctxt->node, task_nodes);
-  2188	
-  2189		return ctxt->migratable && ctxt->node_allowed;
-  2190	}
-  2191	
+09cfefb7fa70c3 Huacai Chen 2022-05-31  131  
+09cfefb7fa70c3 Huacai Chen 2022-05-31  132  static void __update_hugetlb(struct vm_area_struct *vma, unsigned long address, pte_t *ptep)
+09cfefb7fa70c3 Huacai Chen 2022-05-31  133  {
+29d05a2438754e Bibo Mao    2023-09-08  134  #if defined(CONFIG_HUGETLB_PAGE) || defined(CONFIG_TRANSPARENT_HUGEPAGE)
+09cfefb7fa70c3 Huacai Chen 2022-05-31  135  	int idx;
+09cfefb7fa70c3 Huacai Chen 2022-05-31  136  	unsigned long lo;
+09cfefb7fa70c3 Huacai Chen 2022-05-31  137  	unsigned long flags;
+09cfefb7fa70c3 Huacai Chen 2022-05-31  138  
+09cfefb7fa70c3 Huacai Chen 2022-05-31  139  	local_irq_save(flags);
+09cfefb7fa70c3 Huacai Chen 2022-05-31  140  
+09cfefb7fa70c3 Huacai Chen 2022-05-31  141  	address &= (PAGE_MASK << 1);
+09cfefb7fa70c3 Huacai Chen 2022-05-31  142  	write_csr_entryhi(address);
+09cfefb7fa70c3 Huacai Chen 2022-05-31  143  	tlb_probe();
+09cfefb7fa70c3 Huacai Chen 2022-05-31  144  	idx = read_csr_tlbidx();
+09cfefb7fa70c3 Huacai Chen 2022-05-31  145  	write_csr_pagesize(PS_HUGE_SIZE);
+09cfefb7fa70c3 Huacai Chen 2022-05-31 @146  	lo = pmd_to_entrylo(pte_val(*ptep));
+09cfefb7fa70c3 Huacai Chen 2022-05-31  147  	write_csr_entrylo0(lo);
+09cfefb7fa70c3 Huacai Chen 2022-05-31  148  	write_csr_entrylo1(lo + (HPAGE_SIZE >> 1));
+09cfefb7fa70c3 Huacai Chen 2022-05-31  149  
+09cfefb7fa70c3 Huacai Chen 2022-05-31  150  	if (idx < 0)
+09cfefb7fa70c3 Huacai Chen 2022-05-31  151  		tlb_write_random();
+09cfefb7fa70c3 Huacai Chen 2022-05-31  152  	else
+09cfefb7fa70c3 Huacai Chen 2022-05-31  153  		tlb_write_indexed();
+09cfefb7fa70c3 Huacai Chen 2022-05-31  154  	write_csr_pagesize(PS_DEFAULT_SIZE);
+09cfefb7fa70c3 Huacai Chen 2022-05-31  155  
+09cfefb7fa70c3 Huacai Chen 2022-05-31  156  	local_irq_restore(flags);
+09cfefb7fa70c3 Huacai Chen 2022-05-31  157  #endif
+09cfefb7fa70c3 Huacai Chen 2022-05-31  158  }
+09cfefb7fa70c3 Huacai Chen 2022-05-31  159  
 
 -- 
 0-DAY CI Kernel Test Service
