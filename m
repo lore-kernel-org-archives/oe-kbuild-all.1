@@ -1,44 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1E6186D;
-	Fri,  8 Sep 2023 22:44:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B203C1FB7
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Sep 2023 22:44:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694213076; x=1725749076;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ig9COPkSQI7Qa5GeNMp1dKZXcUs5jkyJAYheDDXz4oA=;
-  b=CPRcNqpUmecQs+rkKaTOxefIAIH/u0MuyXQ6T5phhNQukdGH5qSo4KDl
-   lJ8QrIRvF1JEfhi54FjOS6wHyPh96iJM7g+yZ9PvCB2Z1DAmpXKjGflEW
-   7tj7dAknog+t6V+SXhQLTiPLN7Vo27jbP3RBQbQlRyc69tX5lBEbCbAJo
-   sN2F1AQeiGDHm7yElcGuef2J5W2J7t+KFTON1R1OCBbaYyATiZfyyfsss
-   XyFmsBnGGhU4UlDENX4ewdpPy6X9u6oh6ghN8XmEJ6+LeWT8fqwZ7n6ld
-   /1utVToirJt9p4dq9BxGUlWM8vSA2ZjkzYoG7NUWpmk4NiGoKaT27zTN2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="357228391"
+  t=1694213078; x=1725749078;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RfFfouDR9DIFIbpviqe8GZ7l2dPoFwBdhBuUV1D6kUY=;
+  b=ELjolgQs7PsCBa0AKg/K2sKFIPb2DNRLF199/6JWI8nnNIyq5rtKn4P5
+   24vd7uZd9j6055Zy5szky1aFnZ7cQXtnHtcC2G4GVC3SK656Bw8nWjUo4
+   A1IdBjKYNnTBnvOecOOIfO2usPaWxl6L9XgxaWcGxxrEqKqD7YmcOjRvT
+   QXkiv/H93iTvbtY0heBfGDSqxkfcEPx92zkttOPruKFzRHsyqjbREyN/9
+   w/8eejf/odtFp4UzBYe7D/NDplVLu+1n7Z7pXn/NrW0YMUkGWKqXN45yY
+   K7NMFdip0dwZ7IG3spIaE1CHuXcjQ7k8eQ6bLo6xfGVI28A/K8I1am4S8
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="375137687"
 X-IronPort-AV: E=Sophos;i="6.02,238,1688454000"; 
-   d="scan'208";a="357228391"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 15:44:35 -0700
+   d="scan'208";a="375137687"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 15:44:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="692417942"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="989425059"
 X-IronPort-AV: E=Sophos;i="6.02,238,1688454000"; 
-   d="scan'208";a="692417942"
+   d="scan'208";a="989425059"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 08 Sep 2023 15:44:34 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 08 Sep 2023 15:44:33 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qekDH-0002gj-2H;
+	id 1qekDH-0002gh-2D;
 	Fri, 08 Sep 2023 22:44:31 +0000
-Date: Sat, 9 Sep 2023 06:43:55 +0800
+Date: Sat, 9 Sep 2023 06:43:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bibo Mao <maobibo@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, loongarch@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] LoongArch: Add tlb_flush_threshold for tlb flush range
-Message-ID: <202309090624.CrkoQ4fj-lkp@intel.com>
-References: <20230908012907.2994001-1-maobibo@loongson.cn>
+To: Tony Luck <tony.luck@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-ia64@vger.kernel.org
+Subject: [aegl:resctrl2_v65 4/4] fs/resctrl2/arch/x86/amd_mbec.c:189:32:
+ warning: 'bmec_feature' defined but not used
+Message-ID: <202309090610.Z43gD7TB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,71 +45,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230908012907.2994001-1-maobibo@loongson.cn>
 
-Hi Bibo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 744a759492b5c57ff24a6e8aabe47b17ad8ee964]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bibo-Mao/LoongArch-Add-tlb_flush_threshold-for-tlb-flush-range/20230908-093017
-base:   744a759492b5c57ff24a6e8aabe47b17ad8ee964
-patch link:    https://lore.kernel.org/r/20230908012907.2994001-1-maobibo%40loongson.cn
-patch subject: [PATCH] LoongArch: Add tlb_flush_threshold for tlb flush range
-config: loongarch-randconfig-r021-20230909 (https://download.01.org/0day-ci/archive/20230909/202309090624.CrkoQ4fj-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309090624.CrkoQ4fj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/aegl/linux.git resctrl2_v65
+head:   13c888afbee9f7da0a4a969617dea9889da9d711
+commit: 13c888afbee9f7da0a4a969617dea9889da9d711 [4/4] resctrl2: AMD Bandwidth Monitoring Event Configuration
+config: i386-randconfig-051-20230909 (https://download.01.org/0day-ci/archive/20230909/202309090610.Z43gD7TB-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309090610.Z43gD7TB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309090624.CrkoQ4fj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309090610.Z43gD7TB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/loongarch/mm/tlb.c: In function '__update_hugetlb':
->> arch/loongarch/mm/tlb.c:146:14: error: implicit declaration of function 'pmd_to_entrylo' [-Werror=implicit-function-declaration]
-     146 |         lo = pmd_to_entrylo(pte_val(*ptep));
-         |              ^~~~~~~~~~~~~~
-   arch/loongarch/mm/tlb.c: At top level:
-   arch/loongarch/mm/tlb.c:259:6: warning: no previous prototype for 'setup_tlb_handler' [-Wmissing-prototypes]
-     259 | void setup_tlb_handler(int cpu)
-         |      ^~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> fs/resctrl2/arch/x86/amd_mbec.c:189:32: warning: 'bmec_feature' defined but not used [-Wunused-const-variable=]
+     189 | static const struct x86_cpu_id bmec_feature[] = {
+         |                                ^~~~~~~~~~~~
 
 
-vim +/pmd_to_entrylo +146 arch/loongarch/mm/tlb.c
+vim +/bmec_feature +189 fs/resctrl2/arch/x86/amd_mbec.c
 
-09cfefb7fa70c3 Huacai Chen 2022-05-31  131  
-09cfefb7fa70c3 Huacai Chen 2022-05-31  132  static void __update_hugetlb(struct vm_area_struct *vma, unsigned long address, pte_t *ptep)
-09cfefb7fa70c3 Huacai Chen 2022-05-31  133  {
-29d05a2438754e Bibo Mao    2023-09-08  134  #if defined(CONFIG_HUGETLB_PAGE) || defined(CONFIG_TRANSPARENT_HUGEPAGE)
-09cfefb7fa70c3 Huacai Chen 2022-05-31  135  	int idx;
-09cfefb7fa70c3 Huacai Chen 2022-05-31  136  	unsigned long lo;
-09cfefb7fa70c3 Huacai Chen 2022-05-31  137  	unsigned long flags;
-09cfefb7fa70c3 Huacai Chen 2022-05-31  138  
-09cfefb7fa70c3 Huacai Chen 2022-05-31  139  	local_irq_save(flags);
-09cfefb7fa70c3 Huacai Chen 2022-05-31  140  
-09cfefb7fa70c3 Huacai Chen 2022-05-31  141  	address &= (PAGE_MASK << 1);
-09cfefb7fa70c3 Huacai Chen 2022-05-31  142  	write_csr_entryhi(address);
-09cfefb7fa70c3 Huacai Chen 2022-05-31  143  	tlb_probe();
-09cfefb7fa70c3 Huacai Chen 2022-05-31  144  	idx = read_csr_tlbidx();
-09cfefb7fa70c3 Huacai Chen 2022-05-31  145  	write_csr_pagesize(PS_HUGE_SIZE);
-09cfefb7fa70c3 Huacai Chen 2022-05-31 @146  	lo = pmd_to_entrylo(pte_val(*ptep));
-09cfefb7fa70c3 Huacai Chen 2022-05-31  147  	write_csr_entrylo0(lo);
-09cfefb7fa70c3 Huacai Chen 2022-05-31  148  	write_csr_entrylo1(lo + (HPAGE_SIZE >> 1));
-09cfefb7fa70c3 Huacai Chen 2022-05-31  149  
-09cfefb7fa70c3 Huacai Chen 2022-05-31  150  	if (idx < 0)
-09cfefb7fa70c3 Huacai Chen 2022-05-31  151  		tlb_write_random();
-09cfefb7fa70c3 Huacai Chen 2022-05-31  152  	else
-09cfefb7fa70c3 Huacai Chen 2022-05-31  153  		tlb_write_indexed();
-09cfefb7fa70c3 Huacai Chen 2022-05-31  154  	write_csr_pagesize(PS_DEFAULT_SIZE);
-09cfefb7fa70c3 Huacai Chen 2022-05-31  155  
-09cfefb7fa70c3 Huacai Chen 2022-05-31  156  	local_irq_restore(flags);
-09cfefb7fa70c3 Huacai Chen 2022-05-31  157  #endif
-09cfefb7fa70c3 Huacai Chen 2022-05-31  158  }
-09cfefb7fa70c3 Huacai Chen 2022-05-31  159  
+   188	
+ > 189	static const struct x86_cpu_id bmec_feature[] = {
+   190		X86_MATCH_FEATURE(X86_FEATURE_BMEC, 0),
+   191		{ }
+   192	};
+   193	MODULE_DEVICE_TABLE(x86cpu, bmec_feature);
+   194	
 
 -- 
 0-DAY CI Kernel Test Service
