@@ -1,199 +1,120 @@
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2065.outbound.protection.outlook.com [40.107.100.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284132108
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Sep 2023 10:01:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YxVuRZ6JcwYLg3uVnFCUCttAqHq5IU76p8SlhdyRZq+5GI1NEBKQvrtuYkP1aHUMT2qvUuVTfTZL4jtKNBQ/3v1t0S2c6qJSLOcFJsvjMiJAZ4Ig3Fuc/+R6Dx5Q8kY/7hpIJA6nLE1OyUnyOYrWwrVZpNBszD9Z2ZJ/krRnSMBWG5T6AXlRCas1CphTI1z9L5Mr3UjLMPrKDf6j4YKU/BJjeT436JfGS+lA2+1g7dNpZ2z4j3Xsm+NYKbbZJlbJzFsjJrQXnD8vHVFXESBq2Yg7MQrRlaSlgbedZSLPUapUWHLo0beTYWBgm6qAOaTYpg7mfQ+JaaPfRy27uA1NJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wpPAkoKWz/UrFl3XNGEwpJVGZRefTf/I6Lf6fw9LYpI=;
- b=nTjlTpThtj7JwIOpN64P8dPmTqCImnwCd8q0dP0D35UUF72lNylFi2B9PIpiZEj3Ab9H7X4pzXNE7bYyAinM9/v/2suydr24wbeGEs5NQJaU6bgpxbxXfgsSu7aWoWQoR5C7YLbpja9qre5/gWC77tIjrPIxFmh+w9/zpXmVRXB57prKvYLVz5zP3BtV2w78XB2SzGufV/PREiOJXiv+Z3yQ98/QAgM1geeERj8XDXFzopntzFrri2wdfwTZOXst8Hz1k5r4tUBYIdTUmO2jsVPsAUGhY45FaAz7d3lZ4LbLUIgen0po9QdaRK7H7vBWzwmF0aI6T+3HfDHhw4oM0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wpPAkoKWz/UrFl3XNGEwpJVGZRefTf/I6Lf6fw9LYpI=;
- b=V31mcx9SNSt8/vefTEKeegBkDQpIX79N+mNylVZoIArrORWeOabiAQrLjGwaETV149rUicNyaEIl061UtkdzNvDRRHlzg+yOVhMg8j5WR0UMG945Ma2olHJzvxYT0k7vQwwDy+px30t1zVqBuDRDa7XWcg1B54PubZw9GobnCrc=
-Received: from SA9PR13CA0128.namprd13.prod.outlook.com (2603:10b6:806:27::13)
- by MW4PR12MB6851.namprd12.prod.outlook.com (2603:10b6:303:20b::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.30; Fri, 8 Sep
- 2023 10:01:23 +0000
-Received: from SA2PEPF00001506.namprd04.prod.outlook.com
- (2603:10b6:806:27:cafe::1a) by SA9PR13CA0128.outlook.office365.com
- (2603:10b6:806:27::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.10 via Frontend
- Transport; Fri, 8 Sep 2023 10:01:23 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SA2PEPF00001506.mail.protection.outlook.com (10.167.242.38) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6768.25 via Frontend Transport; Fri, 8 Sep 2023 10:01:23 +0000
-Received: from nv14-test.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 8 Sep
- 2023 05:01:20 -0500
-From: Ken Xue <Ken.Xue@amd.com>
-To: <linux-acpi@vger.kernel.org>
-CC: <Ken.Xue@amd.com>, <andriy.shevchenko@linux.intel.com>,
-	<oe-kbuild-all@lists.linux.dev>, <rafael@kernel.org>, kernel test robot
-	<lkp@intel.com>
-Subject: [PATCH] acpi: trigger wakeup key event from power button
-Date: Fri, 8 Sep 2023 17:57:49 +0800
-Message-ID: <20230908095747.446389-1-Ken.Xue@amd.com>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DFBE7E9
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Sep 2023 10:11:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694167864; x=1725703864;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=B3lUejYowFHeanBVB4NxPimJ95mYrDZ3PrCjOeGV7WM=;
+  b=k+MHpD4Hf8j6tl1NBzBrBKw+OecUYAGp64VQ4XmgcjMoqeOOoI0yt5B3
+   By2gQQbDTzUaZ1PaUUGVWOMg+WhzFV8+bq51AuSRhVf3vG0+fjBOP6WLx
+   z5hQNPCYxOeOqsekxraxCD7P7lskfaci0yjQ5yIOZBCnuTIQ50x3DF/ei
+   bYS2i7m2l6YQwghxjdudG/eeC78LnqhOacuu0LADIOdXoqn2/cHsVanlr
+   SD9wfu61P65tskvDYelhJYxjSVXURxcnuo1weJhUn2Kt8tCmExh7Eaw7T
+   lIhlgWyTSHSAwjMvscK5m/Xrlphf3f1hqfFO3t4PEKSDF1qJU3LD4Nlgv
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="357916598"
+X-IronPort-AV: E=Sophos;i="6.02,236,1688454000"; 
+   d="scan'208";a="357916598"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 03:11:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="916122961"
+X-IronPort-AV: E=Sophos;i="6.02,236,1688454000"; 
+   d="scan'208";a="916122961"
+Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 08 Sep 2023 03:11:00 -0700
+Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qeYS2-0002AB-02;
+	Fri, 08 Sep 2023 10:10:58 +0000
+Date: Fri, 8 Sep 2023 18:10:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nick Alcock <nick.alcock@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, Kris Van Hees <kris.van.hees@oracle.com>,
+	Tomas Jedlicka <tomas.jedlicka@oracle.com>,
+	Eugene Loh <eugene.loh@oracle.com>,
+	David Mc Lean <david.mclean@oracle.com>,
+	Vincent Lim <vincent.lim@oracle.com>
+Subject: [oracle-dtrace:v2/6.5 10/13] fs/select.c:236:31: sparse: sparse:
+ restricted __poll_t degrades to integer
+Message-ID: <202309081855.tEliDi5B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00001506:EE_|MW4PR12MB6851:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5e82eab8-c547-4027-bfcc-08dbb0528ee0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	0h3ubVNRvZz66YlfHe4cvigr3uL/JSCT9ZTzGi3+xDV3B5T4CtOajXR4SpYGlZOm3B/qQMY8Wn+szVhpSNEKQHqPgspZO/aKduOykiImQf64zLF8fm7nJ92wtnPmvEVhepI+s8jDXVYc7tjcEh0DvkhhT6ife3RRjxsiy3avU5kUlVLqHdXBf68BvngXGyvrC0AEa5R2twbs2NfGWZiBieMtiMiMr5EokyAVE3pbrhqaJBZAORWbFxMsiB52uvBBPDQopIsLOtWPrvkasPFYNvyLCm0FCf5pSD9fM51C4yu1XUemUIAmAMqaKRP2tvmakbd+hlT954cZSNM6xfQtH0gAZvvsMnK9i1w2j4IwYo5Y+G0ceNLaHMcR54PPRdhZl3UetXeIsuLT8XBSg8jWu8W6JA1PyeyHIDWP6hbOvEdDy4LDpuTHTE0N+Xwcck7go4zgH/y9SIy4cN0468WysY2blHuZudWClsC4rwtvMdmSfPa+fBQYKWKXG2Gh1K2oCBiVMMJiemTMGqcQk/edVqPSBf5ehkq3yVGK7/OQJkaLgMKAmcQmZI+zf8kmQ7Mz+7Ht6xbAsVvOgVCIFF/W5qGjUCzD/gQrpfI7w1m2V19yJvoTa7VF6aXgi7II7OHrHlCGAqGMp88Q5iz+z1c/B0EMIn30gjAxOuYdde2G27xDBolXU3x4uGSn97AZtQLIglT1slQxIn5ea0Xr2yoZ4czkj6eFfHA1sw9H9OQMEi5TvSbvF494B6SQYf3YWAeyYcmSkFkJMYZ4duFBc9an1CEVwCr7xxb/4JJfUmwBw4E=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(39860400002)(346002)(136003)(376002)(1800799009)(451199024)(82310400011)(186009)(36840700001)(40470700004)(46966006)(356005)(81166007)(6666004)(7696005)(40460700003)(36756003)(86362001)(82740400003)(36860700001)(40480700001)(47076005)(1076003)(26005)(2616005)(336012)(2906002)(16526019)(426003)(966005)(83380400001)(478600001)(41300700001)(70206006)(316002)(5660300002)(70586007)(8676002)(4326008)(8936002)(54906003)(6916009)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2023 10:01:23.3332
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e82eab8-c547-4027-bfcc-08dbb0528ee0
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF00001506.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6851
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Andorid can wakeup from various wakeup sources,
-but only several wakeup sources can wake up screen
-with right events(POWER, WAKEUP) from input device.
+tree:   https://github.com/oracle/dtrace-linux-kernel v2/6.5
+head:   1120d1c598d4ae2d08278969b9001a866aa8273a
+commit: 051cfd2102807119e31bdd4947d18388b3df5fd3 [10/13] waitfd: new syscall implementing waitpid() over fds
+config: x86_64-randconfig-121-20230908 (https://download.01.org/0day-ci/archive/20230908/202309081855.tEliDi5B-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230908/202309081855.tEliDi5B-lkp@intel.com/reproduce)
 
-Regarding pressing acpi power button, it can resume system and
-ACPI_BITMASK_WAKE_STATUS and ACPI_BITMASK_POWER_BUTTON_STATUS
-are set in pm1a_sts, but kernel does not report any key
-event to user space during resume by default.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309081855.tEliDi5B-lkp@intel.com/
 
-So, trigger wakeup key event to user space during resume
-from power button.
+sparse warnings: (new ones prefixed by >>)
+>> fs/select.c:236:31: sparse: sparse: restricted __poll_t degrades to integer
+   fs/select.c: note: in included file (through arch/x86/include/asm/uaccess.h, include/linux/uaccess.h, include/linux/sched/task.h, ...):
+   arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
+   arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
+   arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
+   arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
+--
+   fs/eventpoll.c:534:9: sparse: sparse: restricted __poll_t degrades to integer
+   fs/eventpoll.c:534:9: sparse: sparse: cast to restricted __poll_t
+   fs/eventpoll.c:1255:53: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int pollflags @@     got restricted __poll_t @@
+   fs/eventpoll.c:1255:53: sparse:     expected unsigned int pollflags
+   fs/eventpoll.c:1255:53: sparse:     got restricted __poll_t
+   fs/eventpoll.c:1300:39: sparse: sparse: restricted __poll_t degrades to integer
+>> fs/eventpoll.c:1300:25: sparse: sparse: dubious: x & !y
+   fs/eventpoll.c: note: in included file (through arch/x86/include/asm/uaccess.h, include/linux/uaccess.h, include/linux/sched/task.h, ...):
+   arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
+--
+>> fs/waitfd.c:60:34: sparse: sparse: cast removes address space '__user' of expression
+>> fs/waitfd.c:60:34: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected int [noderef] __user *stat_addr @@     got int * @@
+   fs/waitfd.c:60:34: sparse:     expected int [noderef] __user *stat_addr
+   fs/waitfd.c:60:34: sparse:     got int *
+>> fs/waitfd.c:89:27: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t ( *poll )( ... ) @@     got unsigned int ( * )( ... ) @@
+   fs/waitfd.c:89:27: sparse:     expected restricted __poll_t ( *poll )( ... )
+   fs/waitfd.c:89:27: sparse:     got unsigned int ( * )( ... )
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202309080315.txQUEyHQ-lkp@intel.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202309080239.IiC7uLpW-lkp@intel.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202309080351.xHt2qhP2-lkp@intel.com/
+vim +236 fs/select.c
 
+   228	
+   229	/* Add a new entry */
+   230	static void __pollwait(struct file *filp, wait_queue_head_t *wait_address,
+   231					poll_table *p, unsigned long fixed_event)
+   232	{
+   233		struct poll_wqueues *pwq = container_of(p, struct poll_wqueues, pt);
+   234		struct poll_table_entry *entry;
+   235	
+ > 236		if (fixed_event && !(p->_key & fixed_event))
+   237			return;
+   238	
+   239		entry = poll_get_entry(pwq);
+   240		if (!entry)
+   241			return;
+   242	
+   243		entry->filp = get_file(filp);
+   244		entry->wait_address = wait_address;
+   245		entry->key = p->_key;
+   246		entry->fixed_key = fixed_event;
+   247		init_waitqueue_func_entry(&entry->wait, pollwake);
+   248		entry->wait.private = pwq;
+   249		add_wait_queue(wait_address, &entry->wait);
+   250	}
+   251	
 
-Signed-off-by: Ken Xue <Ken.Xue@amd.com>
----
- drivers/acpi/button.c | 16 ++++++++++++++++
- drivers/acpi/sleep.c  |  2 ++
- include/acpi/button.h |  6 ++++++
- 3 files changed, 24 insertions(+)
-
-diff --git a/drivers/acpi/button.c b/drivers/acpi/button.c
-index 1e76a64cce0a..0e0f30286c22 100644
---- a/drivers/acpi/button.c
-+++ b/drivers/acpi/button.c
-@@ -363,6 +363,21 @@ static int acpi_button_remove_fs(struct acpi_device *device)
- 	return 0;
- }
- 
-+void acpi_power_button_wakeup(struct acpi_device *device)
-+{
-+	struct acpi_button *button = acpi_driver_data(device);
-+	struct input_dev *input;
-+
-+	if (button->type == ACPI_BUTTON_TYPE_POWER) {
-+		input = button->input;
-+		input_report_key(input, KEY_WAKEUP, 1);
-+		input_sync(input);
-+		input_report_key(input, KEY_WAKEUP, 0);
-+		input_sync(input);
-+	}
-+}
-+EXPORT_SYMBOL(acpi_power_button_wakeup);
-+
- /* Driver Interface */
- int acpi_lid_open(void)
- {
-@@ -579,6 +594,7 @@ static int acpi_button_add(struct acpi_device *device)
- 	switch (button->type) {
- 	case ACPI_BUTTON_TYPE_POWER:
- 		input_set_capability(input, EV_KEY, KEY_POWER);
-+		input_set_capability(input, EV_KEY, KEY_WAKEUP);
- 		break;
- 
- 	case ACPI_BUTTON_TYPE_SLEEP:
-diff --git a/drivers/acpi/sleep.c b/drivers/acpi/sleep.c
-index 808484d11209..dcd5d0237eeb 100644
---- a/drivers/acpi/sleep.c
-+++ b/drivers/acpi/sleep.c
-@@ -22,6 +22,7 @@
- #include <linux/syscore_ops.h>
- #include <asm/io.h>
- #include <trace/events/power.h>
-+#include <acpi/button.h>
- 
- #include "internal.h"
- #include "sleep.h"
-@@ -507,6 +508,7 @@ static void acpi_pm_finish(void)
- 	pwr_btn_adev = acpi_dev_get_first_match_dev(ACPI_BUTTON_HID_POWERF,
- 						    NULL, -1);
- 	if (pwr_btn_adev) {
-+		acpi_power_button_wakeup(pwr_btn_adev);
- 		pm_wakeup_event(&pwr_btn_adev->dev, 0);
- 		acpi_dev_put(pwr_btn_adev);
- 	}
-diff --git a/include/acpi/button.h b/include/acpi/button.h
-index af2fce5d2ee3..fa0fb170cfb5 100644
---- a/include/acpi/button.h
-+++ b/include/acpi/button.h
-@@ -2,17 +2,23 @@
- #ifndef ACPI_BUTTON_H
- #define ACPI_BUTTON_H
- 
-+#include <linux/acpi.h>
-+
- #define ACPI_BUTTON_HID_POWER	"PNP0C0C"
- #define ACPI_BUTTON_HID_LID	"PNP0C0D"
- #define ACPI_BUTTON_HID_SLEEP	"PNP0C0E"
- 
- #if IS_ENABLED(CONFIG_ACPI_BUTTON)
- extern int acpi_lid_open(void);
-+extern void acpi_power_button_wakeup(struct acpi_device *device);
- #else
- static inline int acpi_lid_open(void)
- {
- 	return 1;
- }
-+static inline void acpi_power_button_wakeup(struct acpi_device *device)
-+{
-+}
- #endif /* IS_ENABLED(CONFIG_ACPI_BUTTON) */
- 
- #endif /* ACPI_BUTTON_H */
-
-base-commit: b483d3b8a54a544ab8854ca6dbb8d99c423b3ba4
 -- 
-2.35.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
