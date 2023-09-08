@@ -1,101 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F976AA2;
-	Fri,  8 Sep 2023 14:55:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694184916; x=1725720916;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hRPta3ptzMNjQT7WswU+lJMeajZApy8eHTToKWyCnrg=;
-  b=ni1J1s3emKWzYX2GVe7EgTWHDOlJtxlAg28MmntIn1failtywlofoLuk
-   UuAI0Q2fBsjYa/nKENa6Z8P6Z6URPZT4VDXUYL+ypagqqXKWyg6zo7Cst
-   W8E06/3ZArfxAgRNQIScRFBsWT+Oa3MJq/eGoR0+Tjar1kNjkIK2lWRg/
-   qv2iciD1jbk8WyE7nVbSMvw7ctHNL7Rt35h4OliaC+kc+TePs0LGwcaf8
-   Ax3NAfzATMIfPhAI0pJCoVp9cN5z3zR+/gDvN9deoolyYYohNj73Sv3ba
-   5bsWdalwBXk8SRngrfwRhBYtOD1pRbjK/clxtydprMrWwoCjzP2kG6dQk
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="357969727"
-X-IronPort-AV: E=Sophos;i="6.02,237,1688454000"; 
-   d="scan'208";a="357969727"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 07:55:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="1073339873"
-X-IronPort-AV: E=Sophos;i="6.02,237,1688454000"; 
-   d="scan'208";a="1073339873"
-Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 08 Sep 2023 07:55:10 -0700
-Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qect2-0002Mq-27;
-	Fri, 08 Sep 2023 14:55:08 +0000
-Date: Fri, 8 Sep 2023 22:55:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tengfei Fan <quic_tengfan@quicinc.com>, agross@kernel.org,
-	andersson@kernel.org, konrad.dybcio@linaro.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	tglx@linutronix.de, maz@kernel.org, lee@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	robimarko@gmail.com, quic_gurus@quicinc.com,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, quic_tsoni@quicinc.com,
-	quic_shashim@quicinc.com, quic_kaushalk@quicinc.com,
-	quic_tdas@quicinc.com, quic_tingweiz@quicinc.com,
-	quic_aiquny@quicinc.com, kernel@quicinc.com,
-	quic_bjorande@quicinc.com, Ajit Pandey <quic_ajipan@quicinc.com>,
-	Tengfei Fan <quic_tengfan@quicinc.com>
-Subject: Re: [PATCH 5/6] arm64: dts: qcom: sm4450: Add RPMH and Global clock
- controller
-Message-ID: <202309082243.JImHPFSN-lkp@intel.com>
-References: <20230908065847.28382-6-quic_tengfan@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C476AA2;
+	Fri,  8 Sep 2023 15:19:34 +0000 (UTC)
+Date: Fri, 8 Sep 2023 17:19:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1694186367;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=skOvLYqG5OrnXpxmdSsXQwhSdOfiX2OXfLsUUUfu68Y=;
+	b=rEfAHmMOcCEDJdVj7iBf4302n87rdfSnUdjJWDcZJ+yHnw4AItXGPdVmHbQqDsEyIG8nVN
+	oO/VGDxJ546SCPStrst7CbLqZew8wWXb/A34GlyVnkxxdw3Cf3RjS4zKGKRBVAK7GaOLgK
+	8gtNPTZmK1wjyrHmGDo9e6N3J+At4iTkWWdzFcdw1sCXutoE3C+v8sfLcts3OJiXPU5YlE
+	nCmhKztw2kbd7E+gK97BD/9QtYdAoUhdsDEr+8CHpCpb+T63I4Db93MMyfeazjD7sUmwQu
+	KKatJguZ99gwBZXbDHRXnqH8wUrUIynkF9iy357AZQBFN+Ytm98ZKd/DogfQQA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1694186367;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=skOvLYqG5OrnXpxmdSsXQwhSdOfiX2OXfLsUUUfu68Y=;
+	b=eVsEwaFD2Ol/nxffkQxu6cfXscXWSkMRFYZc3wrqKp2wLmugCvVIdwvDsuQ/vB9OTIVzTc
+	5y+2/mWpE8CSzTDA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, John Ogness <john.ogness@linutronix.de>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [rt-devel:linux-6.1.y-rt-rebase 21/51]
+ kernel/printk/printk.c:2468 __alloc_atomic_data() warn: returning -1 instead
+ of -ENOMEM is sloppy
+Message-ID: <20230908151924.S37nvge4@linutronix.de>
+References: <a6fa0763-b82f-4eff-9e50-06519db5722d@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230908065847.28382-6-quic_tengfan@quicinc.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <a6fa0763-b82f-4eff-9e50-06519db5722d@kadam.mountain>
 
-Hi Tengfei,
+On 2023-09-05 12:43:35 [+0300], Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel=
+=2Egit linux-6.1.y-rt-rebase
+> head:   90d96fee668dc306dd748393383c0fc74b798eee
+> commit: cf8dd889ea20ae7091d3b27029b07bef13298291 [21/51] serial: 8250: im=
+plement write_atomic
+> config: i386-randconfig-141-20230828 (https://download.01.org/0day-ci/arc=
+hive/20230828/202308281100.1LIdaKaP-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230828/202308281100=
+=2E1LIdaKaP-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build errors:
+Now that I looked again at it. The 6.1 is outdated and no longer
+updated. The -1 vs -ENOMEM is not present in the v6.5 series which
+current so I can't fix it there=E2=80=A6
 
-[auto build test ERROR on a47fc304d2b678db1a5d760a7d644dac9b067752]
+The 6.1 tree itself is stable maintained. If you want this fixed in the
+stable tree for 6.1
+	https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tengfei-Fan/dt-bindings-firmware-document-Qualcomm-SM4450-SCM/20230908-150308
-base:   a47fc304d2b678db1a5d760a7d644dac9b067752
-patch link:    https://lore.kernel.org/r/20230908065847.28382-6-quic_tengfan%40quicinc.com
-patch subject: [PATCH 5/6] arm64: dts: qcom: sm4450: Add RPMH and Global clock controller
-config: arm64-randconfig-r024-20230908 (https://download.01.org/0day-ci/archive/20230908/202309082243.JImHPFSN-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230908/202309082243.JImHPFSN-lkp@intel.com/reproduce)
+and I assume it is there, then I would send Clark a patch=E2=80=A6
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309082243.JImHPFSN-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/arm64/boot/dts/qcom/sm4450-qrd.dts:8:
->> arch/arm64/boot/dts/qcom/sm4450.dtsi:7:10: fatal error: 'dt-bindings/clock/qcom,sm4450-gcc.h' file not found
-   #include <dt-bindings/clock/qcom,sm4450-gcc.h>
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-
-
-vim +7 arch/arm64/boot/dts/qcom/sm4450.dtsi
-
-   > 7	#include <dt-bindings/clock/qcom,sm4450-gcc.h>
-     8	#include <dt-bindings/gpio/gpio.h>
-     9	#include <dt-bindings/interrupt-controller/arm-gic.h>
-    10	#include <dt-bindings/soc/qcom,rpmh-rsc.h>
-    11	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sebastian
