@@ -1,160 +1,196 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91785EDB
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Sep 2023 04:44:24 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3883QYFo012349;
-	Fri, 8 Sep 2023 04:44:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=tpfvGfVGoMgya/hP2jj/Kha4fl8r3QnMVMTXIN+MxiQ=;
- b=l4T7uOfmv7IuXxC5nipTF/OpKPT1Gn5l9TQPWQjl5EQNAEI4xTbA4lGiF9wF4LOW1qq+
- jV/R1wJtNWHebTgGrXbz5rNdPJh4Gv0SASdkAOI5m7Z7GXdBmV8/+H2wJwQpbPTNitd5
- Vn+QH1iQIhbzJhzADocOHw6f3ZAloyrGTgUEjZkJY2pH1r1uy4QALqvrw7hJg5DAByPW
- YYHnnq5IpJyxbS/mEWF0BpagOReaJFgLT0l0M6J4zu6s2VCTmHaWR/NFnqAOlkVW4BGw
- vd41WwWrBfaFoqxOtzcANGfytDVBUD1lvbM51ieH1clh45W9XHCsFFOzruTYqD2e3sr+ uA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sy50dawgs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 08 Sep 2023 04:44:16 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3884iFJV031528
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 8 Sep 2023 04:44:15 GMT
-Received: from [10.217.219.216] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Thu, 7 Sep
- 2023 21:44:09 -0700
-Message-ID: <b7eade65-8fa2-05e0-4ab1-fdfca7ad1a40@quicinc.com>
-Date: Fri, 8 Sep 2023 10:14:06 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23189136F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Sep 2023 05:13:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694150033; x=1725686033;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bB2Fv/lY6YYKKpTzd21epljZECaBPdMVkhEfhxLo5Dc=;
+  b=fHMaWio16MOOBfOvpFWhV8o++F2s8PhbT/G4982FvvmcLjOYK5xzWrsZ
+   j3ZHjpn9Qf+jqQ7TqgJ36/r569lZD6NKo+VybOSshRc4kdbC6PZqAyeUy
+   N+/bsWO86kzh+TG7fzBzEOdTNUfJmq8hxSyF0hWgpj/CXvRmzImO4bmyi
+   nPzpHc06V4yq2XlmZwHri5FsaXN/Ghe3T37jXGo57NnLfjjdTMBX0a5cY
+   sR8V4Wb6JAopOi9Q/gv20wSK/l+pJXCq7ZNiCgjXESG2i9u7w74gjpiCj
+   lXqTweBoNfDTdMBy4I+U51AFUqDYGfQcrrtm3BcHvAOVN2ZGOXeav9FYv
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="376469849"
+X-IronPort-AV: E=Sophos;i="6.02,236,1688454000"; 
+   d="scan'208";a="376469849"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 22:13:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="777411285"
+X-IronPort-AV: E=Sophos;i="6.02,236,1688454000"; 
+   d="scan'208";a="777411285"
+Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 07 Sep 2023 22:13:50 -0700
+Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qeToS-0001wZ-0W;
+	Fri, 08 Sep 2023 05:13:48 +0000
+Date: Fri, 8 Sep 2023 13:13:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Eileen Yoon <eyn@gmx.com>
+Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:isp/heap-alloc 109/132]
+ drivers/media/platform/apple/isp/isp-iommu.c:55:22: error: implicit
+ declaration of function 'vmap'; did you mean 'kmap'?
+Message-ID: <202309081355.55R3lERr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v5 1/4] PCI: endpoint: Add D-state change notifier support
-Content-Language: en-US
-To: Manivannan Sadhasivam <mani@kernel.org>, kernel test robot <lkp@intel.com>
-CC: <manivannan.sadhasivam@linaro.org>, <oe-kbuild-all@lists.linux.dev>,
-        <helgaas@kernel.org>, <linux-pci@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_vbadigan@quicinc.com>, <quic_nitegupt@quicinc.com>,
-        <quic_skananth@quicinc.com>, <quic_ramkri@quicinc.com>,
-        <quic_parass@quicinc.com>, <krzysztof.kozlowski@linaro.org>,
-        "Lorenzo
- Pieralisi" <lpieralisi@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?=
-	<kw@linux.com>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Jonathan Corbet
-	<corbet@lwn.net>, <linux-doc@vger.kernel.org>
-References: <1690948281-2143-2-git-send-email-quic_krichai@quicinc.com>
- <202308021312.obgu7FWM-lkp@intel.com> <20230823061904.GC3737@thinkpad>
-From: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
-In-Reply-To: <20230823061904.GC3737@thinkpad>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: VAGQX_O0J--bQfxDZwz_naMK78xlsc48
-X-Proofpoint-GUID: VAGQX_O0J--bQfxDZwz_naMK78xlsc48
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-08_01,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
- spamscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999 adultscore=0
- suspectscore=0 bulkscore=0 lowpriorityscore=0 impostorscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309080042
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://github.com/AsahiLinux/linux isp/heap-alloc
+head:   d5548fd857a3ca9087e974c8e73d6f487b11c94b
+commit: 4d8c45047d73f6f6d25ffe8c6abcf58c5d4b97a4 [109/132] media: apple: Add Apple ISP driver
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20230908/202309081355.55R3lERr-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230908/202309081355.55R3lERr-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309081355.55R3lERr-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/media/platform/apple/isp/isp-iommu.c: In function 'isp_surf_vmap':
+>> drivers/media/platform/apple/isp/isp-iommu.c:55:22: error: implicit declaration of function 'vmap'; did you mean 'kmap'? [-Werror=implicit-function-declaration]
+      55 |         surf->virt = vmap(surf->pages, surf->num_pages, VM_MAP,
+         |                      ^~~~
+         |                      kmap
+>> drivers/media/platform/apple/isp/isp-iommu.c:55:57: error: 'VM_MAP' undeclared (first use in this function); did you mean 'VM_MTE'?
+      55 |         surf->virt = vmap(surf->pages, surf->num_pages, VM_MAP,
+         |                                                         ^~~~~~
+         |                                                         VM_MTE
+   drivers/media/platform/apple/isp/isp-iommu.c:55:57: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/media/platform/apple/isp/isp-iommu.c: In function 'isp_surf_vunmap':
+>> drivers/media/platform/apple/isp/isp-iommu.c:68:17: error: implicit declaration of function 'vunmap'; did you mean 'kunmap'? [-Werror=implicit-function-declaration]
+      68 |                 vunmap(surf->virt);
+         |                 ^~~~~~
+         |                 kunmap
+   In file included from include/linux/device.h:15,
+                    from include/linux/iommu.h:11,
+                    from drivers/media/platform/apple/isp/isp-iommu.c:4:
+   drivers/media/platform/apple/isp/isp-iommu.c: In function 'isp_surf_iommu_map':
+   drivers/media/platform/apple/isp/isp-iommu.c:135:35: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+     135 |                 dev_err(isp->dev, "failed to iommu_map sgt to iova 0x%llx\n",
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/media/platform/apple/isp/isp-iommu.c:135:17: note: in expansion of macro 'dev_err'
+     135 |                 dev_err(isp->dev, "failed to iommu_map sgt to iova 0x%llx\n",
+         |                 ^~~~~~~
+   drivers/media/platform/apple/isp/isp-iommu.c:135:73: note: format string is defined here
+     135 |                 dev_err(isp->dev, "failed to iommu_map sgt to iova 0x%llx\n",
+         |                                                                      ~~~^
+         |                                                                         |
+         |                                                                         long long unsigned int
+         |                                                                      %x
+   drivers/media/platform/apple/isp/isp-iommu.c: In function '__isp_alloc_surface':
+   drivers/media/platform/apple/isp/isp-iommu.c:181:25: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 4 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+     181 |                         "failed to iommu_map size 0x%llx to iova 0x%llx\n",
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/media/platform/apple/isp/isp-iommu.c:180:17: note: in expansion of macro 'dev_err'
+     180 |                 dev_err(isp->dev,
+         |                 ^~~~~~~
+   drivers/media/platform/apple/isp/isp-iommu.c:181:71: note: format string is defined here
+     181 |                         "failed to iommu_map size 0x%llx to iova 0x%llx\n",
+         |                                                                    ~~~^
+         |                                                                       |
+         |                                                                       long long unsigned int
+         |                                                                    %x
+   drivers/media/platform/apple/isp/isp-iommu.c: In function 'isp_alloc_surface_vmap':
+   drivers/media/platform/apple/isp/isp-iommu.c:211:35: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+     211 |                 dev_err(isp->dev, "failed to vmap iova 0x%llx - 0x%llx\n",
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/media/platform/apple/isp/isp-iommu.c:211:17: note: in expansion of macro 'dev_err'
+     211 |                 dev_err(isp->dev, "failed to vmap iova 0x%llx - 0x%llx\n",
+         |                 ^~~~~~~
+   drivers/media/platform/apple/isp/isp-iommu.c:211:61: note: format string is defined here
+     211 |                 dev_err(isp->dev, "failed to vmap iova 0x%llx - 0x%llx\n",
+         |                                                          ~~~^
+         |                                                             |
+         |                                                             long long unsigned int
+         |                                                          %x
+   drivers/media/platform/apple/isp/isp-iommu.c: In function 'apple_isp_iommu_map_sgt':
+   drivers/media/platform/apple/isp/isp-iommu.c:259:35: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+     259 |                 dev_err(isp->dev, "failed to iommu_map sgt to iova 0x%llx\n",
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/media/platform/apple/isp/isp-iommu.c:259:17: note: in expansion of macro 'dev_err'
+     259 |                 dev_err(isp->dev, "failed to iommu_map sgt to iova 0x%llx\n",
+         |                 ^~~~~~~
+   drivers/media/platform/apple/isp/isp-iommu.c:259:73: note: format string is defined here
+     259 |                 dev_err(isp->dev, "failed to iommu_map sgt to iova 0x%llx\n",
+         |                                                                      ~~~^
+         |                                                                         |
+         |                                                                         long long unsigned int
+         |                                                                      %x
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for APPLE_ADMAC
+   Depends on [n]: DMADEVICES [=n] && (ARCH_APPLE || COMPILE_TEST [=y])
+   Selected by [y]:
+   - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && (ARCH_APPLE || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for COMMON_CLK_APPLE_NCO
+   Depends on [n]: COMMON_CLK [=n] && (ARCH_APPLE || COMPILE_TEST [=y])
+   Selected by [y]:
+   - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && (ARCH_APPLE || COMPILE_TEST [=y])
 
 
-On 8/23/2023 11:49 AM, Manivannan Sadhasivam wrote:
-> On Wed, Aug 02, 2023 at 01:14:44PM +0800, kernel test robot wrote:
->> Hi Krishna,
->>
->> kernel test robot noticed the following build warnings:
->>
->> [auto build test WARNING on pci/next]
->> [also build test WARNING on pci/for-linus linus/master v6.5-rc4 next-20230801]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-chaitanya-chundru/PCI-endpoint-Add-D-state-change-notifier-support/20230802-115309
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
->> patch link:    https://lore.kernel.org/r/1690948281-2143-2-git-send-email-quic_krichai%40quicinc.com
->> patch subject: [PATCH v5 1/4] PCI: endpoint: Add D-state change notifier support
->> config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230802/202308021312.obgu7FWM-lkp@intel.com/config)
->> compiler: loongarch64-linux-gcc (GCC) 12.3.0
->> reproduce: (https://download.01.org/0day-ci/archive/20230802/202308021312.obgu7FWM-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202308021312.obgu7FWM-lkp@intel.com/
->>
->> All warnings (new ones prefixed by >>):
->>
->>>> drivers/pci/endpoint/pci-epc-core.c:795:6: warning: no previous prototype for 'pci_epc_dstate_notity' [-Wmissing-prototypes]
->>       795 | void pci_epc_dstate_notity(struct pci_epc *epc, pci_power_t state)
-> This tells that you haven't build tested the series before sending. Please
-> always do both build and functionality testing before sending each iteration.
->
-> - Mani
+vim +55 drivers/media/platform/apple/isp/isp-iommu.c
 
-sorry for late reply, till now I was using a different branch which has 
-some out of tree patches for testing and rebasing the patch on 
-linux-next to send them because of that few things are getting missed.
+    52	
+    53	int isp_surf_vmap(struct apple_isp *isp, struct isp_surf *surf)
+    54	{
+  > 55		surf->virt = vmap(surf->pages, surf->num_pages, VM_MAP,
+    56				  pgprot_writecombine(PAGE_KERNEL));
+    57		if (surf->virt == NULL) {
+    58			dev_err(isp->dev, "failed to vmap size 0x%llx\n", surf->size);
+    59			return -EINVAL;
+    60		}
+    61	
+    62		return 0;
+    63	}
+    64	
+    65	static void isp_surf_vunmap(struct apple_isp *isp, struct isp_surf *surf)
+    66	{
+    67		if (surf->virt)
+  > 68			vunmap(surf->virt);
+    69		surf->virt = NULL;
+    70	}
+    71	
 
-Now I took time to completely move to the linux next so that testing and 
-sending patches will be on same code base.
-
-I will correct this in next patch series.
-
-- KC
-
->>           |      ^~~~~~~~~~~~~~~~~~~~~
->>
->>
->> vim +/pci_epc_dstate_notity +795 drivers/pci/endpoint/pci-epc-core.c
->>
->>     785	
->>     786	/**
->>     787	 * pci_epc_dstate_notity() - Notify the EPF driver that EPC device D-state
->>     788	 *			has changed
->>     789	 * @epc: the EPC device which has change in D-state
->>     790	 * @state: the changed D-state
->>     791	 *
->>     792	 * Invoke to Notify the EPF device that the EPC device has D-state has
->>     793	 * changed.
->>     794	 */
->>   > 795	void pci_epc_dstate_notity(struct pci_epc *epc, pci_power_t state)
->>     796	{
->>     797		struct pci_epf *epf;
->>     798	
->>     799		if (!epc || IS_ERR(epc))
->>     800			return;
->>     801	
->>     802		mutex_lock(&epc->list_lock);
->>     803		list_for_each_entry(epf, &epc->pci_epf, list) {
->>     804			mutex_lock(&epf->lock);
->>     805			if (epf->event_ops && epf->event_ops->dstate_notify)
->>     806				epf->event_ops->dstate_notify(epf, state);
->>     807			mutex_unlock(&epf->lock);
->>     808		}
->>     809		mutex_unlock(&epc->list_lock);
->>     810	}
->>     811	EXPORT_SYMBOL_GPL(pci_epc_dstate_notity);
->>     812	
->>
->> -- 
->> 0-DAY CI Kernel Test Service
->> https://github.com/intel/lkp-tests/wiki
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
