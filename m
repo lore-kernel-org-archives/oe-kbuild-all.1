@@ -1,70 +1,126 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C476AA2;
-	Fri,  8 Sep 2023 15:19:34 +0000 (UTC)
-Date: Fri, 8 Sep 2023 17:19:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1694186367;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=skOvLYqG5OrnXpxmdSsXQwhSdOfiX2OXfLsUUUfu68Y=;
-	b=rEfAHmMOcCEDJdVj7iBf4302n87rdfSnUdjJWDcZJ+yHnw4AItXGPdVmHbQqDsEyIG8nVN
-	oO/VGDxJ546SCPStrst7CbLqZew8wWXb/A34GlyVnkxxdw3Cf3RjS4zKGKRBVAK7GaOLgK
-	8gtNPTZmK1wjyrHmGDo9e6N3J+At4iTkWWdzFcdw1sCXutoE3C+v8sfLcts3OJiXPU5YlE
-	nCmhKztw2kbd7E+gK97BD/9QtYdAoUhdsDEr+8CHpCpb+T63I4Db93MMyfeazjD7sUmwQu
-	KKatJguZ99gwBZXbDHRXnqH8wUrUIynkF9iy357AZQBFN+Ytm98ZKd/DogfQQA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1694186367;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=skOvLYqG5OrnXpxmdSsXQwhSdOfiX2OXfLsUUUfu68Y=;
-	b=eVsEwaFD2Ol/nxffkQxu6cfXscXWSkMRFYZc3wrqKp2wLmugCvVIdwvDsuQ/vB9OTIVzTc
-	5y+2/mWpE8CSzTDA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, John Ogness <john.ogness@linutronix.de>,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [rt-devel:linux-6.1.y-rt-rebase 21/51]
- kernel/printk/printk.c:2468 __alloc_atomic_data() warn: returning -1 instead
- of -ENOMEM is sloppy
-Message-ID: <20230908151924.S37nvge4@linutronix.de>
-References: <a6fa0763-b82f-4eff-9e50-06519db5722d@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735C4F517
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Sep 2023 15:48:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694188094; x=1725724094;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kL/BstKUFDhI5Gxh7T34W0iuUvb5FN4aCY/Zd5PGLAE=;
+  b=nYmljEpuuT2ELn3C2YCu+PzcBVJOziM7HPbK/x3xavjGL5D08TIHv7ef
+   VwSOVopAmE7SxIeTr7VWWmFS/Tf6k+E20hjtorJePudfusYpyjkFNI7Yg
+   xdTJddQEP8a46kYAYT5hNaC6aRLsHOcJidIYqP+Gfnr04iW24oufM6nmB
+   lgxLzZ0kPH276uRBCUjFxH7CcHnfXdWVKT7fczbL6UyGZSv+gSToTK241
+   jWvQ55Jl94VxpM/DNQwH7j0hKVce6crmXyXCJ7oYtTOttuJqIDPViqyp3
+   YB/ww7CMBfJEimaYwlvdqlMmp0XMjKm/rugTgANu1g/Q6yhU/hV/O9A6T
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="444113413"
+X-IronPort-AV: E=Sophos;i="6.02,237,1688454000"; 
+   d="scan'208";a="444113413"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 08:48:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="719194427"
+X-IronPort-AV: E=Sophos;i="6.02,237,1688454000"; 
+   d="scan'208";a="719194427"
+Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 08 Sep 2023 08:48:12 -0700
+Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qediM-0002PP-2S;
+	Fri, 08 Sep 2023 15:48:10 +0000
+Date: Fri, 8 Sep 2023 23:47:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 240/258]
+ arch/arm64/kvm/hyp/nvhe/serial.c:41:6: warning: no previous prototype for
+ function 'hyp_puts'
+Message-ID: <202309082322.BULCgRwR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <a6fa0763-b82f-4eff-9e50-06519db5722d@kadam.mountain>
 
-On 2023-09-05 12:43:35 [+0300], Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel=
-=2Egit linux-6.1.y-rt-rebase
-> head:   90d96fee668dc306dd748393383c0fc74b798eee
-> commit: cf8dd889ea20ae7091d3b27029b07bef13298291 [21/51] serial: 8250: im=
-plement write_atomic
-> config: i386-randconfig-141-20230828 (https://download.01.org/0day-ci/arc=
-hive/20230828/202308281100.1LIdaKaP-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230828/202308281100=
-=2E1LIdaKaP-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   a68bd014933d54623838ac1c07fd725694631e53
+commit: b21ae4963d0d204a1405c4aedd76eb01cd79dfdd [240/258] ANDROID: KVM: arm64: Add serial framework for pKVM
+config: arm64-randconfig-r013-20230908 (https://download.01.org/0day-ci/archive/20230908/202309082322.BULCgRwR-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230908/202309082322.BULCgRwR-lkp@intel.com/reproduce)
 
-Now that I looked again at it. The 6.1 is outdated and no longer
-updated. The -1 vs -ENOMEM is not present in the v6.5 series which
-current so I can't fix it there=E2=80=A6
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309082322.BULCgRwR-lkp@intel.com/
 
-The 6.1 tree itself is stable maintained. If you want this fixed in the
-stable tree for 6.1
-	https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git
+All warnings (new ones prefixed by >>):
 
-and I assume it is there, then I would send Clark a patch=E2=80=A6
+>> arch/arm64/kvm/hyp/nvhe/serial.c:41:6: warning: no previous prototype for function 'hyp_puts' [-Wmissing-prototypes]
+      41 | void hyp_puts(const char *s)
+         |      ^
+   arch/arm64/kvm/hyp/nvhe/serial.c:41:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      41 | void hyp_puts(const char *s)
+         | ^
+         | static 
+>> arch/arm64/kvm/hyp/nvhe/serial.c:53:6: warning: no previous prototype for function 'hyp_putx64' [-Wmissing-prototypes]
+      53 | void hyp_putx64(u64 x)
+         |      ^
+   arch/arm64/kvm/hyp/nvhe/serial.c:53:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      53 | void hyp_putx64(u64 x)
+         | ^
+         | static 
+>> arch/arm64/kvm/hyp/nvhe/serial.c:59:6: warning: no previous prototype for function 'hyp_putc' [-Wmissing-prototypes]
+      59 | void hyp_putc(char c)
+         |      ^
+   arch/arm64/kvm/hyp/nvhe/serial.c:59:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      59 | void hyp_putc(char c)
+         | ^
+         | static 
+>> arch/arm64/kvm/hyp/nvhe/serial.c:65:5: warning: no previous prototype for function '__pkvm_register_serial_driver' [-Wmissing-prototypes]
+      65 | int __pkvm_register_serial_driver(void (*cb)(char))
+         |     ^
+   arch/arm64/kvm/hyp/nvhe/serial.c:65:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      65 | int __pkvm_register_serial_driver(void (*cb)(char))
+         | ^
+         | static 
+   4 warnings generated.
 
-Sebastian
+
+vim +/hyp_puts +41 arch/arm64/kvm/hyp/nvhe/serial.c
+
+    40	
+  > 41	void hyp_puts(const char *s)
+    42	{
+    43		if (!hyp_serial_enabled())
+    44			return;
+    45	
+    46		while (*s)
+    47			__hyp_putc(*s++);
+    48	
+    49		__hyp_putc('\n');
+    50		__hyp_putc('\r');
+    51	}
+    52	
+  > 53	void hyp_putx64(u64 x)
+    54	{
+    55		if (hyp_serial_enabled())
+    56			__hyp_putx4n(x, 64);
+    57	}
+    58	
+  > 59	void hyp_putc(char c)
+    60	{
+    61		if (hyp_serial_enabled())
+    62			__hyp_putc(c);
+    63	}
+    64	
+  > 65	int __pkvm_register_serial_driver(void (*cb)(char))
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
