@@ -1,169 +1,218 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DBD31FD7
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Sep 2023 12:50:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CDF033E2
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Sep 2023 12:50:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694263823; x=1725799823;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QqkyDdb7KFTGx786teAZtfSKdS8sprJ45mGO8pjXtCI=;
-  b=SECQJBlSKwytHbPQp2tywXMH08CsVVuFhw3ND+PxDTuxDBeb4iytbrKM
-   iFQaTduLwrJkubhWJ60WxcTROajdTWTbTGgS5ZFcD0EBp+r5Em/DelbUi
-   jlnFj761DOHqAz4US0axMKnQz2IsK2DjJobZygZelKy4bgxnuv9vyzhnu
-   QdjxmGoQZuv+D2xWOKQGBPXdcHwm6kcvvqKHvsBlEGPTNL/BRiixtwalz
-   Uyi/s6cXcc0p2uLRD215NiPvPJY24A797PXUxBErD7zbYc7qSAidf8NW0
-   T0Oy1c5pni7lInIYTHLUfT0RNdCiXbWXxUnsafRRZkOJKbIcDGKCY3JL4
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="357284240"
+  t=1694263826; x=1725799826;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=TM2sQRv1IY9BZV4WfOERzdy/VIQgHnlYb60dgA208zw=;
+  b=V2p5I9hzILMMO9LQZBbCxncHIPVz9B4QiyZU+kMVCb7p1SOLDXRbgX3W
+   EOeqJ/exiz6t0HNadge6gcB9jEIORgF0vVZdSL1inBFmT/z5kUe0IFU3X
+   wikzCApkuSymPHwtt9kMtt8784Vy5Z1i+mhPBCilDyvXN+k0FMoeif/fN
+   tcE1obtoFZVI/KIFQUBfcF7MfmglySZ47TSBXT28iV/ZtfvOjOHPLvAb+
+   WwDGlLmpkNAXqXAYr/So8lA/LjnrbG5xLF4EMaoIzbuOqQbUtEcGoTd3Z
+   TNcD8Trn1yakB2ORoSRTwQOJsBDl+Op9f64pJGKRtSyOajlwWT4ttaTJK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="441830736"
 X-IronPort-AV: E=Sophos;i="6.02,239,1688454000"; 
-   d="scan'208";a="357284240"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 05:50:22 -0700
+   d="scan'208";a="441830736"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 05:50:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="719448626"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="989559424"
 X-IronPort-AV: E=Sophos;i="6.02,239,1688454000"; 
-   d="scan'208";a="719448626"
+   d="scan'208";a="989559424"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 09 Sep 2023 05:50:20 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 09 Sep 2023 05:50:20 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qexPm-0003Vr-27;
+	id 1qexPm-0003Vo-1v;
 	Sat, 09 Sep 2023 12:50:18 +0000
-Date: Sat, 9 Sep 2023 20:49:55 +0800
+Date: Sat, 9 Sep 2023 20:50:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH net-next 1/6] net: ethernet: implement OPEN Alliance
- control transaction interface
-Message-ID: <202309092045.ALqlvkvR-lkp@intel.com>
-References: <20230908142919.14849-2-Parthiban.Veerasooran@microchip.com>
+To: Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>
+Subject: drivers/block/drbd/drbd_actlog.c:1015: warning: Function parameter
+ or member 'peer_device' not described in 'drbd_try_rs_begin_io'
+Message-ID: <202309092008.bFcwZDso-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230908142919.14849-2-Parthiban.Veerasooran@microchip.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Parthiban,
+Hi Christoph,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Parthiban-Veerasooran/net-ethernet-implement-OPEN-Alliance-control-transaction-interface/20230908-224352
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230908142919.14849-2-Parthiban.Veerasooran%40microchip.com
-patch subject: [RFC PATCH net-next 1/6] net: ethernet: implement OPEN Alliance control transaction interface
-reproduce: (https://download.01.org/0day-ci/archive/20230909/202309092045.ALqlvkvR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6099776f9f268e61fe5ecd721f994a8cfce5306f
+commit: 0d11f3cf279c5ad20a41f29242f170ba3c02f2da drbd: Pass a peer device to the resync and online verify functions
+date:   5 months ago
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230909/202309092008.bFcwZDso-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309092008.bFcwZDso-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309092045.ALqlvkvR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309092008.bFcwZDso-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/networking/oa-tc6-framework.rst:87: WARNING: Error in "code-block" directive:
->> Documentation/networking/oa-tc6-framework.rst:7: WARNING: Undefined substitution referenced: "copy".
->> Documentation/networking/oa-tc6-framework.rst: WARNING: document isn't included in any toctree
+>> drivers/block/drbd/drbd_actlog.c:1015: warning: Function parameter or member 'peer_device' not described in 'drbd_try_rs_begin_io'
+>> drivers/block/drbd/drbd_actlog.c:1015: warning: Excess function parameter 'device' description in 'drbd_try_rs_begin_io'
 
-vim +87 Documentation/networking/oa-tc6-framework.rst
 
-     6	
-   > 7	:Copyright: |copy| 2023 MICROCHIP
-     8	
-     9	Introduction
-    10	------------
-    11	
-    12	The IEEE 802.3cg project defines two 10 Mbit/s PHYs operating over a
-    13	single pair of conductors. The 10BASE-T1L (Clause 146) is a long reach
-    14	PHY supporting full duplex point-to-point operation over 1 km of single
-    15	balanced pair of conductors. The 10BASE-T1S (Clause 147) is a short reach
-    16	PHY supporting full / half duplex point-to-point operation over 15 m of
-    17	single balanced pair of conductors, or half duplex multidrop bus
-    18	operation over 25 m of single balanced pair of conductors.
-    19	
-    20	Furthermore, the IEEE 802.3cg project defines the new Physical Layer
-    21	Collision Avoidance (PLCA) Reconciliation Sublayer (Clause 148) meant to
-    22	provide improved determinism to the CSMA/CD media access method. PLCA
-    23	works in conjunction with the 10BASE-T1S PHY operating in multidrop mode.
-    24	
-    25	The aforementioned PHYs are intended to cover the low-speed / low-cost
-    26	applications in industrial and automotive environment. The large number
-    27	of pins (16) required by the MII interface, which is specified by the
-    28	IEEE 802.3 in Clause 22, is one of the major cost factors that need to be
-    29	addressed to fulfil this objective.
-    30	
-    31	The MAC-PHY solution integrates an IEEE Clause 4 MAC and a 10BASE-T1x PHY
-    32	exposing a low pin count Serial Peripheral Interface (SPI) to the host
-    33	microcontroller. This also enables the addition of Ethernet functionality
-    34	to existing low-end microcontrollers which do not integrate a MAC
-    35	controller.
-    36	
-    37	Overview
-    38	--------
-    39	
-    40	The MAC-PHY is specified to carry both data (Ethernet frames) and control
-    41	(register access) transactions over a single full-duplex serial
-    42	peripheral interface.
-    43	
-    44	Protocol Overview
-    45	-----------------
-    46	
-    47	Two types of transactions are defined in the protocol: data transactions
-    48	for Ethernet frame transfers and control transactions for register
-    49	read/write transfers. A chunk is the basic element of data transactions
-    50	and is composed of 4 bytes of overhead plus the configured payload size
-    51	for each chunk. Ethernet frames are transferred over one or more data
-    52	chunks. Control transactions consist of one or more register read/write
-    53	control commands.
-    54	
-    55	SPI transactions are initiated by the SPI host with the assertion of CSn
-    56	low to the MAC-PHY and ends with the deassertion of CSn high. In between
-    57	each SPI transaction, the SPI host may need time for additional
-    58	processing and to setup the next SPI data or control transaction.
-    59	
-    60	SPI data transactions consist of an equal number of transmit (TX) and
-    61	receive (RX) chunks. Chunks in both transmit and receive directions may
-    62	or may not contain valid frame data independent from each other, allowing
-    63	for the simultaneous transmission and reception of different length
-    64	frames.
-    65	
-    66	Each transmit data chunk begins with a 32-bit data header followed by a
-    67	data chunk payload on MOSI. The data header indicates whether transmit
-    68	frame data is present and provides the information to determine which
-    69	bytes of the payload contain valid frame data.
-    70	
-    71	In parallel, receive data chunks are received on MISO. Each receive data
-    72	chunk consists of a data chunk payload ending with a 32-bit data footer.
-    73	The data footer indicates if there is receive frame data present within
-    74	the payload or not and provides the information to determine which bytes
-    75	of the payload contain valid frame data.
-    76	
-    77	Reference
-    78	---------
-    79	
-    80	10BASE-T1x MAC-PHY Serial Interface Specification,
-    81	
-    82	Link: https://www.opensig.org/about/specifications/
-    83	
-    84	Hardware Architecture
-    85	---------------------
-    86	
-  > 87	.. code-block:: none
-    88	                    +-------------------------------------+
-    89	                    |                MAC-PHY              |
-    90	  +----------+      | +-----------+  +-------+  +-------+ |
-    91	  | SPI Host |<---->| | SPI Slave |  |  MAC  |  |  PHY  | |
-    92	  +----------+      | +-----------+  +-------+  +-------+ |
-    93	                    +-------------------------------------+
-    94	
+vim +1015 drivers/block/drbd/drbd_actlog.c
+
+b411b3637fa71f Philipp Reisner      2009-09-25  1004  
+b411b3637fa71f Philipp Reisner      2009-09-25  1005  /**
+b411b3637fa71f Philipp Reisner      2009-09-25  1006   * drbd_try_rs_begin_io() - Gets an extent in the resync LRU cache, does not sleep
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1007   * @device:	DRBD device.
+b411b3637fa71f Philipp Reisner      2009-09-25  1008   * @sector:	The sector number.
+b411b3637fa71f Philipp Reisner      2009-09-25  1009   *
+b411b3637fa71f Philipp Reisner      2009-09-25  1010   * Gets an extent in the resync LRU cache, sets it to BME_NO_WRITES, then
+b411b3637fa71f Philipp Reisner      2009-09-25  1011   * tries to set it to BME_LOCKED. Returns 0 upon success, and -EAGAIN
+b411b3637fa71f Philipp Reisner      2009-09-25  1012   * if there is still application IO going on in this area.
+b411b3637fa71f Philipp Reisner      2009-09-25  1013   */
+0d11f3cf279c5a Christoph Böhmwalder 2023-03-30  1014  int drbd_try_rs_begin_io(struct drbd_peer_device *peer_device, sector_t sector)
+b411b3637fa71f Philipp Reisner      2009-09-25 @1015  {
+0d11f3cf279c5a Christoph Böhmwalder 2023-03-30  1016  	struct drbd_device *device = peer_device->device;
+b411b3637fa71f Philipp Reisner      2009-09-25  1017  	unsigned int enr = BM_SECT_TO_EXT(sector);
+b411b3637fa71f Philipp Reisner      2009-09-25  1018  	const unsigned int al_enr = enr*AL_EXT_PER_BM_SECT;
+b411b3637fa71f Philipp Reisner      2009-09-25  1019  	struct lc_element *e;
+b411b3637fa71f Philipp Reisner      2009-09-25  1020  	struct bm_extent *bm_ext;
+b411b3637fa71f Philipp Reisner      2009-09-25  1021  	int i;
+0d11f3cf279c5a Christoph Böhmwalder 2023-03-30  1022  	bool throttle = drbd_rs_should_slow_down(peer_device, sector, true);
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1023  
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1024  	/* If we need to throttle, a half-locked (only marked BME_NO_WRITES,
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1025  	 * not yet BME_LOCKED) extent needs to be kicked out explicitly if we
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1026  	 * need to throttle. There is at most one such half-locked extent,
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1027  	 * which is remembered in resync_wenr. */
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1028  
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1029  	if (throttle && device->resync_wenr != enr)
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1030  		return -EAGAIN;
+b411b3637fa71f Philipp Reisner      2009-09-25  1031  
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1032  	spin_lock_irq(&device->al_lock);
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1033  	if (device->resync_wenr != LC_FREE && device->resync_wenr != enr) {
+b411b3637fa71f Philipp Reisner      2009-09-25  1034  		/* in case you have very heavy scattered io, it may
+b411b3637fa71f Philipp Reisner      2009-09-25  1035  		 * stall the syncer undefined if we give up the ref count
+b411b3637fa71f Philipp Reisner      2009-09-25  1036  		 * when we try again and requeue.
+b411b3637fa71f Philipp Reisner      2009-09-25  1037  		 *
+b411b3637fa71f Philipp Reisner      2009-09-25  1038  		 * if we don't give up the refcount, but the next time
+b411b3637fa71f Philipp Reisner      2009-09-25  1039  		 * we are scheduled this extent has been "synced" by new
+b411b3637fa71f Philipp Reisner      2009-09-25  1040  		 * application writes, we'd miss the lc_put on the
+b411b3637fa71f Philipp Reisner      2009-09-25  1041  		 * extent we keep the refcount on.
+b411b3637fa71f Philipp Reisner      2009-09-25  1042  		 * so we remembered which extent we had to try again, and
+b411b3637fa71f Philipp Reisner      2009-09-25  1043  		 * if the next requested one is something else, we do
+b411b3637fa71f Philipp Reisner      2009-09-25  1044  		 * the lc_put here...
+b411b3637fa71f Philipp Reisner      2009-09-25  1045  		 * we also have to wake_up
+b411b3637fa71f Philipp Reisner      2009-09-25  1046  		 */
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1047  		e = lc_find(device->resync, device->resync_wenr);
+b411b3637fa71f Philipp Reisner      2009-09-25  1048  		bm_ext = e ? lc_entry(e, struct bm_extent, lce) : NULL;
+b411b3637fa71f Philipp Reisner      2009-09-25  1049  		if (bm_ext) {
+0b0ba1efc7b887 Andreas Gruenbacher  2011-06-27  1050  			D_ASSERT(device, !test_bit(BME_LOCKED, &bm_ext->flags));
+0b0ba1efc7b887 Andreas Gruenbacher  2011-06-27  1051  			D_ASSERT(device, test_bit(BME_NO_WRITES, &bm_ext->flags));
+b411b3637fa71f Philipp Reisner      2009-09-25  1052  			clear_bit(BME_NO_WRITES, &bm_ext->flags);
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1053  			device->resync_wenr = LC_FREE;
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1054  			if (lc_put(device->resync, &bm_ext->lce) == 0) {
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1055  				bm_ext->flags = 0;
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1056  				device->resync_locked--;
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1057  			}
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1058  			wake_up(&device->al_wait);
+b411b3637fa71f Philipp Reisner      2009-09-25  1059  		} else {
+d01801710265cf Andreas Gruenbacher  2011-07-03  1060  			drbd_alert(device, "LOGIC BUG\n");
+b411b3637fa71f Philipp Reisner      2009-09-25  1061  		}
+b411b3637fa71f Philipp Reisner      2009-09-25  1062  	}
+b411b3637fa71f Philipp Reisner      2009-09-25  1063  	/* TRY. */
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1064  	e = lc_try_get(device->resync, enr);
+b411b3637fa71f Philipp Reisner      2009-09-25  1065  	bm_ext = e ? lc_entry(e, struct bm_extent, lce) : NULL;
+b411b3637fa71f Philipp Reisner      2009-09-25  1066  	if (bm_ext) {
+b411b3637fa71f Philipp Reisner      2009-09-25  1067  		if (test_bit(BME_LOCKED, &bm_ext->flags))
+b411b3637fa71f Philipp Reisner      2009-09-25  1068  			goto proceed;
+b411b3637fa71f Philipp Reisner      2009-09-25  1069  		if (!test_and_set_bit(BME_NO_WRITES, &bm_ext->flags)) {
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1070  			device->resync_locked++;
+b411b3637fa71f Philipp Reisner      2009-09-25  1071  		} else {
+b411b3637fa71f Philipp Reisner      2009-09-25  1072  			/* we did set the BME_NO_WRITES,
+b411b3637fa71f Philipp Reisner      2009-09-25  1073  			 * but then could not set BME_LOCKED,
+b411b3637fa71f Philipp Reisner      2009-09-25  1074  			 * so we tried again.
+b411b3637fa71f Philipp Reisner      2009-09-25  1075  			 * drop the extra reference. */
+b411b3637fa71f Philipp Reisner      2009-09-25  1076  			bm_ext->lce.refcnt--;
+0b0ba1efc7b887 Andreas Gruenbacher  2011-06-27  1077  			D_ASSERT(device, bm_ext->lce.refcnt > 0);
+b411b3637fa71f Philipp Reisner      2009-09-25  1078  		}
+b411b3637fa71f Philipp Reisner      2009-09-25  1079  		goto check_al;
+b411b3637fa71f Philipp Reisner      2009-09-25  1080  	} else {
+b411b3637fa71f Philipp Reisner      2009-09-25  1081  		/* do we rather want to try later? */
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1082  		if (device->resync_locked > device->resync->nr_elements-3)
+b411b3637fa71f Philipp Reisner      2009-09-25  1083  			goto try_again;
+b411b3637fa71f Philipp Reisner      2009-09-25  1084  		/* Do or do not. There is no try. -- Yoda */
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1085  		e = lc_get(device->resync, enr);
+b411b3637fa71f Philipp Reisner      2009-09-25  1086  		bm_ext = e ? lc_entry(e, struct bm_extent, lce) : NULL;
+b411b3637fa71f Philipp Reisner      2009-09-25  1087  		if (!bm_ext) {
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1088  			const unsigned long rs_flags = device->resync->flags;
+b411b3637fa71f Philipp Reisner      2009-09-25  1089  			if (rs_flags & LC_STARVING)
+d01801710265cf Andreas Gruenbacher  2011-07-03  1090  				drbd_warn(device, "Have to wait for element"
+b411b3637fa71f Philipp Reisner      2009-09-25  1091  				     " (resync LRU too small?)\n");
+46a15bc3ec425b Lars Ellenberg       2011-02-21  1092  			BUG_ON(rs_flags & LC_LOCKED);
+b411b3637fa71f Philipp Reisner      2009-09-25  1093  			goto try_again;
+b411b3637fa71f Philipp Reisner      2009-09-25  1094  		}
+b411b3637fa71f Philipp Reisner      2009-09-25  1095  		if (bm_ext->lce.lc_number != enr) {
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1096  			bm_ext->rs_left = drbd_bm_e_weight(device, enr);
+b411b3637fa71f Philipp Reisner      2009-09-25  1097  			bm_ext->rs_failed = 0;
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1098  			lc_committed(device->resync);
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1099  			wake_up(&device->al_wait);
+0b0ba1efc7b887 Andreas Gruenbacher  2011-06-27  1100  			D_ASSERT(device, test_bit(BME_LOCKED, &bm_ext->flags) == 0);
+b411b3637fa71f Philipp Reisner      2009-09-25  1101  		}
+b411b3637fa71f Philipp Reisner      2009-09-25  1102  		set_bit(BME_NO_WRITES, &bm_ext->flags);
+0b0ba1efc7b887 Andreas Gruenbacher  2011-06-27  1103  		D_ASSERT(device, bm_ext->lce.refcnt == 1);
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1104  		device->resync_locked++;
+b411b3637fa71f Philipp Reisner      2009-09-25  1105  		goto check_al;
+b411b3637fa71f Philipp Reisner      2009-09-25  1106  	}
+b411b3637fa71f Philipp Reisner      2009-09-25  1107  check_al:
+b411b3637fa71f Philipp Reisner      2009-09-25  1108  	for (i = 0; i < AL_EXT_PER_BM_SECT; i++) {
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1109  		if (lc_is_used(device->act_log, al_enr+i))
+b411b3637fa71f Philipp Reisner      2009-09-25  1110  			goto try_again;
+b411b3637fa71f Philipp Reisner      2009-09-25  1111  	}
+b411b3637fa71f Philipp Reisner      2009-09-25  1112  	set_bit(BME_LOCKED, &bm_ext->flags);
+b411b3637fa71f Philipp Reisner      2009-09-25  1113  proceed:
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1114  	device->resync_wenr = LC_FREE;
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1115  	spin_unlock_irq(&device->al_lock);
+b411b3637fa71f Philipp Reisner      2009-09-25  1116  	return 0;
+b411b3637fa71f Philipp Reisner      2009-09-25  1117  
+b411b3637fa71f Philipp Reisner      2009-09-25  1118  try_again:
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1119  	if (bm_ext) {
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1120  		if (throttle) {
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1121  			D_ASSERT(device, !test_bit(BME_LOCKED, &bm_ext->flags));
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1122  			D_ASSERT(device, test_bit(BME_NO_WRITES, &bm_ext->flags));
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1123  			clear_bit(BME_NO_WRITES, &bm_ext->flags);
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1124  			device->resync_wenr = LC_FREE;
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1125  			if (lc_put(device->resync, &bm_ext->lce) == 0) {
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1126  				bm_ext->flags = 0;
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1127  				device->resync_locked--;
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1128  			}
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1129  			wake_up(&device->al_wait);
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1130  		} else
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1131  			device->resync_wenr = enr;
+ad3fee790088d3 Lars Ellenberg       2013-12-20  1132  	}
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1133  	spin_unlock_irq(&device->al_lock);
+b411b3637fa71f Philipp Reisner      2009-09-25  1134  	return -EAGAIN;
+b411b3637fa71f Philipp Reisner      2009-09-25  1135  }
+b411b3637fa71f Philipp Reisner      2009-09-25  1136  
+
+:::::: The code at line 1015 was first introduced by commit
+:::::: b411b3637fa71fce9cf2acf0639009500f5892fe The DRBD driver
+
+:::::: TO: Philipp Reisner <philipp.reisner@linbit.com>
+:::::: CC: Jens Axboe <jens.axboe@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
