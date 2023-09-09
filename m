@@ -1,44 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1551851
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Sep 2023 18:13:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0740748C
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Sep 2023 18:23:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694283218; x=1725819218;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Sa7wB2GJMlHLBCwqRdyyalXAnSj55KZP/ugyaKK4Fxg=;
-  b=LmCsHjQPCYv/f0wmjFqeSo6zsYwmeTQztBe0if6y0MLEIRnMsHe7sXPW
-   5stABIQqO7cg7Q26CxEn+txmfpg8vFJh/h6LU31Mwqn/24NNeVCl7nPGe
-   mmRT+66aUT5tWZXAzPJs8nkmz5bWldBVY2GF5fw/S280iQFPV76gyz9D8
-   nwhqm7sLMJJr2iU6dCxa7ubnWtyWGf9LEqNFslwTnX/UjIA9IFT4Z0Elz
-   0Kx7HTf4IGxnlNca5poh56CBAbjE6Ky340MA1Z6wOPCnu5bcdQMk8vt1p
-   0FkPdEkvN+De1vL2hYrHEMjWMPjkwhDkiHH3CD40kxEu8Cq37aRi0YAGO
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="408819059"
+  t=1694283824; x=1725819824;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jsdzmHq8rbuRqWGuSSL9/Aqq4HRROVcGsibEZJxL074=;
+  b=Lb7mXwqDQmt0itUZ+VP2rnMXOoomOpE73wHB20IsCopODV3dY57B7l5B
+   yFBPVcvVSJFe/b4aEFiPabdlzBrRhpicys/J8DIKX05uNYSFPSLGLBvEn
+   8JO24nRO0sh5zt7XNKjMXd1/mWwc2QZ/lmYDbqBdNk/JcyE+Ogf5eiWuU
+   sph2HG827E7NykObxKAhFq7ruuEQAjWjSY8QZbWTQfdh8gJvsZLO2IX+w
+   XSq/zEinntZV+qusF8NyceMbJEGqdkGrvq3y0uKB6/svTrs6AnzDakVtA
+   Sd417EkRjvSvVDt8snJDjyu0cYLvhXioFhulPJyz7kz9AC/rrYxlswhA4
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="362887564"
 X-IronPort-AV: E=Sophos;i="6.02,239,1688454000"; 
-   d="scan'208";a="408819059"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 11:13:37 -0700
+   d="scan'208";a="362887564"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 11:23:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="808354209"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="719498893"
 X-IronPort-AV: E=Sophos;i="6.02,239,1688454000"; 
-   d="scan'208";a="808354209"
+   d="scan'208";a="719498893"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 09 Sep 2023 11:13:36 -0700
+  by orsmga006.jf.intel.com with ESMTP; 09 Sep 2023 11:23:40 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qf2Sc-0003kx-16;
-	Sat, 09 Sep 2023 18:13:34 +0000
-Date: Sun, 10 Sep 2023 02:13:02 +0800
+	id 1qf2cM-0003mX-0q;
+	Sat, 09 Sep 2023 18:23:38 +0000
+Date: Sun, 10 Sep 2023 02:23:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Thompson <davthompson@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Hans de Goede <hdegoede@redhat.com>,
-	Shravan Kumar Ramani <shravankr@nvidia.com>
-Subject: drivers/platform/mellanox/mlxbf-bootctl.c:516: undefined reference
- to `sysfs_format_mac'
-Message-ID: <202309100251.FBtxnkZX-lkp@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+	matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
+	sarah.walker@imgtec.com, donald.robson@imgtec.com,
+	boris.brezillon@collabora.com, christian.koenig@amd.com,
+	faith.ekstrand@collabora.com
+Cc: oe-kbuild-all@lists.linux.dev, nouveau@lists.freedesktop.org,
+	Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH drm-misc-next v3 1/7] drm/gpuvm: rename struct
+ drm_gpuva_manager to struct drm_gpuvm
+Message-ID: <202309100242.Xp5Sk9EY-lkp@intel.com>
+References: <20230909153125.30032-2-dakr@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,49 +53,182 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230909153125.30032-2-dakr@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6099776f9f268e61fe5ecd721f994a8cfce5306f
-commit: 7e38a7422f128e7d7ba24b444e957d585dbb272f mlxbf-bootctl: Support sysfs entries for MFG fields
-date:   2 weeks ago
-config: arm64-randconfig-r033-20210930 (https://download.01.org/0day-ci/archive/20230910/202309100251.FBtxnkZX-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309100251.FBtxnkZX-lkp@intel.com/reproduce)
+Hi Danilo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 6bd3d8da51ca1ec97c724016466606aec7739b9f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-gpuvm-rename-struct-drm_gpuva_manager-to-struct-drm_gpuvm/20230909-233346
+base:   6bd3d8da51ca1ec97c724016466606aec7739b9f
+patch link:    https://lore.kernel.org/r/20230909153125.30032-2-dakr%40redhat.com
+patch subject: [PATCH drm-misc-next v3 1/7] drm/gpuvm: rename struct drm_gpuva_manager to struct drm_gpuvm
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20230910/202309100242.Xp5Sk9EY-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309100242.Xp5Sk9EY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309100251.FBtxnkZX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309100242.Xp5Sk9EY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: drivers/platform/mellanox/mlxbf-bootctl.o: in function `oob_mac_show':
->> drivers/platform/mellanox/mlxbf-bootctl.c:516: undefined reference to `sysfs_format_mac'
+   drivers/gpu/drm/drm_gpuvm.c: In function '__drm_gpuvm_sm_map':
+>> drivers/gpu/drm/drm_gpuvm.c:1079:39: warning: variable 'prev' set but not used [-Wunused-but-set-variable]
+    1079 |         struct drm_gpuva *va, *next, *prev = NULL;
+         |                                       ^~~~
 
 
-vim +516 drivers/platform/mellanox/mlxbf-bootctl.c
+vim +/prev +1079 drivers/gpu/drm/drm_gpuvm.c
 
-   500	
-   501	static ssize_t oob_mac_show(struct device *dev,
-   502				    struct device_attribute *attr, char *buf)
-   503	{
-   504		struct arm_smccc_res res;
-   505		u8 *mac_byte_ptr;
-   506	
-   507		mutex_lock(&mfg_ops_lock);
-   508		arm_smccc_smc(MLXBF_BOOTCTL_GET_MFG_INFO, MLNX_MFG_TYPE_OOB_MAC, 0, 0, 0,
-   509			      0, 0, 0, &res);
-   510		mutex_unlock(&mfg_ops_lock);
-   511		if (res.a0)
-   512			return -EPERM;
-   513	
-   514		mac_byte_ptr = (u8 *)&res.a1;
-   515	
- > 516		return sysfs_format_mac(buf, mac_byte_ptr, ETH_ALEN);
-   517	}
-   518	
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1072  
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1073  static int
+5d2000a9816e19 drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-09  1074  __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+5d2000a9816e19 drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-09  1075  		   const struct drm_gpuvm_ops *ops, void *priv,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1076  		   u64 req_addr, u64 req_range,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1077  		   struct drm_gem_object *req_obj, u64 req_offset)
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1078  {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20 @1079  	struct drm_gpuva *va, *next, *prev = NULL;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1080  	u64 req_end = req_addr + req_range;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1081  	int ret;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1082  
+5d2000a9816e19 drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-09  1083  	if (unlikely(!drm_gpuva_range_valid(gpuvm, req_addr, req_range)))
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1084  		return -EINVAL;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1085  
+5d2000a9816e19 drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-09  1086  	drm_gpuvm_for_each_va_range_safe(va, next, gpuvm, req_addr, req_end) {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1087  		struct drm_gem_object *obj = va->gem.obj;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1088  		u64 offset = va->gem.offset;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1089  		u64 addr = va->va.addr;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1090  		u64 range = va->va.range;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1091  		u64 end = addr + range;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1092  		bool merge = !!va->gem.obj;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1093  
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1094  		if (addr == req_addr) {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1095  			merge &= obj == req_obj &&
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1096  				 offset == req_offset;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1097  
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1098  			if (end == req_end) {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1099  				ret = op_unmap_cb(ops, priv, va, merge);
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1100  				if (ret)
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1101  					return ret;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1102  				break;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1103  			}
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1104  
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1105  			if (end < req_end) {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1106  				ret = op_unmap_cb(ops, priv, va, merge);
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1107  				if (ret)
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1108  					return ret;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1109  				goto next;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1110  			}
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1111  
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1112  			if (end > req_end) {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1113  				struct drm_gpuva_op_map n = {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1114  					.va.addr = req_end,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1115  					.va.range = range - req_range,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1116  					.gem.obj = obj,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1117  					.gem.offset = offset + req_range,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1118  				};
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1119  				struct drm_gpuva_op_unmap u = {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1120  					.va = va,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1121  					.keep = merge,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1122  				};
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1123  
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1124  				ret = op_remap_cb(ops, priv, NULL, &n, &u);
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1125  				if (ret)
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1126  					return ret;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1127  				break;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1128  			}
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1129  		} else if (addr < req_addr) {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1130  			u64 ls_range = req_addr - addr;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1131  			struct drm_gpuva_op_map p = {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1132  				.va.addr = addr,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1133  				.va.range = ls_range,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1134  				.gem.obj = obj,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1135  				.gem.offset = offset,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1136  			};
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1137  			struct drm_gpuva_op_unmap u = { .va = va };
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1138  
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1139  			merge &= obj == req_obj &&
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1140  				 offset + ls_range == req_offset;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1141  			u.keep = merge;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1142  
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1143  			if (end == req_end) {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1144  				ret = op_remap_cb(ops, priv, &p, NULL, &u);
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1145  				if (ret)
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1146  					return ret;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1147  				break;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1148  			}
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1149  
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1150  			if (end < req_end) {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1151  				ret = op_remap_cb(ops, priv, &p, NULL, &u);
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1152  				if (ret)
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1153  					return ret;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1154  				goto next;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1155  			}
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1156  
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1157  			if (end > req_end) {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1158  				struct drm_gpuva_op_map n = {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1159  					.va.addr = req_end,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1160  					.va.range = end - req_end,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1161  					.gem.obj = obj,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1162  					.gem.offset = offset + ls_range +
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1163  						      req_range,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1164  				};
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1165  
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1166  				ret = op_remap_cb(ops, priv, &p, &n, &u);
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1167  				if (ret)
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1168  					return ret;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1169  				break;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1170  			}
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1171  		} else if (addr > req_addr) {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1172  			merge &= obj == req_obj &&
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1173  				 offset == req_offset +
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1174  					   (addr - req_addr);
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1175  
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1176  			if (end == req_end) {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1177  				ret = op_unmap_cb(ops, priv, va, merge);
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1178  				if (ret)
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1179  					return ret;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1180  				break;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1181  			}
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1182  
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1183  			if (end < req_end) {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1184  				ret = op_unmap_cb(ops, priv, va, merge);
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1185  				if (ret)
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1186  					return ret;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1187  				goto next;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1188  			}
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1189  
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1190  			if (end > req_end) {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1191  				struct drm_gpuva_op_map n = {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1192  					.va.addr = req_end,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1193  					.va.range = end - req_end,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1194  					.gem.obj = obj,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1195  					.gem.offset = offset + req_end - addr,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1196  				};
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1197  				struct drm_gpuva_op_unmap u = {
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1198  					.va = va,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1199  					.keep = merge,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1200  				};
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1201  
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1202  				ret = op_remap_cb(ops, priv, NULL, &n, &u);
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1203  				if (ret)
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1204  					return ret;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1205  				break;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1206  			}
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1207  		}
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1208  next:
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1209  		prev = va;
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1210  	}
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1211  
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1212  	return op_map_cb(ops, priv,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1213  			 req_addr, req_range,
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1214  			 req_obj, req_offset);
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1215  }
+e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  1216  
 
 -- 
 0-DAY CI Kernel Test Service
