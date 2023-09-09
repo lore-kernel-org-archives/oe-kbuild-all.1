@@ -1,48 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3825C6FBD
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Sep 2023 23:02:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB516FBD
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Sep 2023 23:57:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694300578; x=1725836578;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kdYI3gLn+OXw5eJXQsX/kgg4km5uXqWEXPrQgDX6NVs=;
-  b=IL6f6hnMQBRL/62V6Sm0DbqfpdqWsZdiTHtkz03T/jI4am+kwjK4OQSj
-   BYvr4NdLQhjWO5br/pbhX891Os1rPpKcKHUNCqNjNW9puvsQc905oPzML
-   dbjXy4TjxbLHYdC2HsqxDyPLoPeeO+Kiv8lA4Pm8Lo79BPyUjVMjxa8lP
-   hXzqunHQ0fV+r6UOGj083cfOvEjtu8XBcTzkZFibTQeL8IYr82tYu4I5F
-   b76ta3PJq7JdMlIUhzalgLabzB7H0gWLjp8d7PNCpH+mHLwgEcjRKv8kL
-   Iu/ppGKsmvBcIfjhPX60o9B11oJPnQXUP/q2HzVPlm9KKbLkUU+mYpAfN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="362897874"
+  t=1694303880; x=1725839880;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=C5T9p5h5t1QUPVT65JINBV51aMrrj56FEgVzTjGh9/E=;
+  b=PPQ7bjzdIULxtGIGwbOpFPJFniPqni7O3URkJHrAiWJMQplv2qf82J86
+   ysj9M1rt7Q1cKnpiQ8xv6A6Xja//ZL5uYj0m+yPkAYk7uQYPQc5mMnB0E
+   c4d0QkSquRUorJWCZkhnilQSbL956Ki8jvfFYvmck7b4SVnoaclRen8fy
+   9qvhCQ8Gr4fHD4iPv6tbfH/ui8Dzt63dJp8eS52Bbxk3EYlabq1/c+bVh
+   Rm5GUQJ8BjXfSkhsgieH99boox3yDcco1zBTxZBNmze7UR4adhyuIKaQ/
+   pGtfRjVx0W9f4KmJFk56StyjirBHoo+n/cAywGirAS7ZEq2rUfnIooG3S
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="376763215"
 X-IronPort-AV: E=Sophos;i="6.02,240,1688454000"; 
-   d="scan'208";a="362897874"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 16:02:57 -0700
+   d="scan'208";a="376763215"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 16:57:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="736336319"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="772133677"
 X-IronPort-AV: E=Sophos;i="6.02,240,1688454000"; 
-   d="scan'208";a="736336319"
+   d="scan'208";a="772133677"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 09 Sep 2023 16:02:55 -0700
+  by orsmga008.jf.intel.com with ESMTP; 09 Sep 2023 16:57:57 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qf6yb-000424-0Z;
-	Sat, 09 Sep 2023 23:02:53 +0000
-Date: Sun, 10 Sep 2023 07:02:45 +0800
+	id 1qf7pr-00044B-14;
+	Sat, 09 Sep 2023 23:57:55 +0000
+Date: Sun, 10 Sep 2023 07:57:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Samuel Holland <samuel@sholland.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	linux-riscv@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 7/7] riscv: mm: Combine the SMP and non-SMP TLB flushing
- code
-Message-ID: <202309100639.tTr4BtGk-lkp@intel.com>
-References: <20230909201727.10909-8-samuel@sholland.org>
+To: Igor Torrente <igormtorrente@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Melissa Wen <melissa.srw@gmail.com>
+Subject: drivers/gpu/drm/vkms/vkms_formats.c:91:35: sparse: sparse: cast to
+ restricted __le16
+Message-ID: <202309100731.aKzChvXw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,75 +46,156 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230909201727.10909-8-samuel@sholland.org>
 
-Hi Samuel,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.5 next-20230908]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Holland/riscv-Apply-SiFive-CIP-1200-workaround-to-single-ASID-sfence-vma/20230910-042028
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230909201727.10909-8-samuel%40sholland.org
-patch subject: [PATCH 7/7] riscv: mm: Combine the SMP and non-SMP TLB flushing code
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20230910/202309100639.tTr4BtGk-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309100639.tTr4BtGk-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a3c57ab79a06e333a869ae340420cb3c6f5921d3
+commit: 3675d8a1726337bd1e839a185e0a7ce0bc459b6b drm: vkms: Adds XRGB_16161616 and ARGB_1616161616 formats
+date:   1 year ago
+config: i386-randconfig-061-20230909 (https://download.01.org/0day-ci/archive/20230910/202309100731.aKzChvXw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309100731.aKzChvXw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309100639.tTr4BtGk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309100731.aKzChvXw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/vkms/vkms_formats.c:91:35: sparse: sparse: cast to restricted __le16
+   drivers/gpu/drm/vkms/vkms_formats.c:92:35: sparse: sparse: cast to restricted __le16
+   drivers/gpu/drm/vkms/vkms_formats.c:93:35: sparse: sparse: cast to restricted __le16
+   drivers/gpu/drm/vkms/vkms_formats.c:94:35: sparse: sparse: cast to restricted __le16
+   drivers/gpu/drm/vkms/vkms_formats.c:109:35: sparse: sparse: cast to restricted __le16
+   drivers/gpu/drm/vkms/vkms_formats.c:110:35: sparse: sparse: cast to restricted __le16
+   drivers/gpu/drm/vkms/vkms_formats.c:111:35: sparse: sparse: cast to restricted __le16
+>> drivers/gpu/drm/vkms/vkms_formats.c:177:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
+   drivers/gpu/drm/vkms/vkms_formats.c:177:31: sparse:     expected unsigned short [usertype]
+   drivers/gpu/drm/vkms/vkms_formats.c:177:31: sparse:     got restricted __le16 [usertype]
+   drivers/gpu/drm/vkms/vkms_formats.c:178:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
+   drivers/gpu/drm/vkms/vkms_formats.c:178:31: sparse:     expected unsigned short [usertype]
+   drivers/gpu/drm/vkms/vkms_formats.c:178:31: sparse:     got restricted __le16 [usertype]
+   drivers/gpu/drm/vkms/vkms_formats.c:179:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
+   drivers/gpu/drm/vkms/vkms_formats.c:179:31: sparse:     expected unsigned short [usertype]
+   drivers/gpu/drm/vkms/vkms_formats.c:179:31: sparse:     got restricted __le16 [usertype]
+   drivers/gpu/drm/vkms/vkms_formats.c:180:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
+   drivers/gpu/drm/vkms/vkms_formats.c:180:31: sparse:     expected unsigned short [usertype]
+   drivers/gpu/drm/vkms/vkms_formats.c:180:31: sparse:     got restricted __le16 [usertype]
+   drivers/gpu/drm/vkms/vkms_formats.c:195:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
+   drivers/gpu/drm/vkms/vkms_formats.c:195:31: sparse:     expected unsigned short [usertype]
+   drivers/gpu/drm/vkms/vkms_formats.c:195:31: sparse:     got restricted __le16 [usertype]
+   drivers/gpu/drm/vkms/vkms_formats.c:196:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
+   drivers/gpu/drm/vkms/vkms_formats.c:196:31: sparse:     expected unsigned short [usertype]
+   drivers/gpu/drm/vkms/vkms_formats.c:196:31: sparse:     got restricted __le16 [usertype]
+   drivers/gpu/drm/vkms/vkms_formats.c:197:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
+   drivers/gpu/drm/vkms/vkms_formats.c:197:31: sparse:     expected unsigned short [usertype]
+   drivers/gpu/drm/vkms/vkms_formats.c:197:31: sparse:     got restricted __le16 [usertype]
 
-   arch/riscv/mm/tlbflush.c: In function '__flush_tlb_range':
->> arch/riscv/mm/tlbflush.c:52:22: warning: variable 'cpuid' set but not used [-Wunused-but-set-variable]
-      52 |         unsigned int cpuid;
-         |                      ^~~~~
+vim +91 drivers/gpu/drm/vkms/vkms_formats.c
 
-
-vim +/cpuid +52 arch/riscv/mm/tlbflush.c
-
-18d2199d81054f Anup Patel        2023-03-28  46  
-18d2199d81054f Anup Patel        2023-03-28  47  static void __flush_tlb_range(struct mm_struct *mm, unsigned long start,
-c3b2d67046d236 Nanyong Sun       2021-04-30  48  			      unsigned long size, unsigned long stride)
-95594cb40c6e01 Christoph Hellwig 2019-08-21  49  {
-ff15058bb4eb32 Samuel Holland    2023-09-09  50  	unsigned long asid = cntx2asid(atomic_long_read(&mm->context.id));
-70c7605c08c597 Christoph Hellwig 2021-06-06  51  	struct cpumask *cmask = mm_cpumask(mm);
-31738ede9b339c Atish Patra       2019-08-22 @52  	unsigned int cpuid;
-95594cb40c6e01 Christoph Hellwig 2019-08-21  53  
-6384423f49c804 Atish Patra       2019-08-22  54  	if (cpumask_empty(cmask))
-6384423f49c804 Atish Patra       2019-08-22  55  		return;
-6384423f49c804 Atish Patra       2019-08-22  56  
-31738ede9b339c Atish Patra       2019-08-22  57  	cpuid = get_cpu();
-047bf3010ac2de Samuel Holland    2023-09-09  58  #ifdef CONFIG_SMP
-3f1e782998cdf6 Guo Ren           2021-06-06  59  	/* check if the tlbflush needs to be sent to other CPUs */
-ff15058bb4eb32 Samuel Holland    2023-09-09  60  	if (cpumask_any_but(cmask, cpuid) < nr_cpu_ids) {
-18d2199d81054f Anup Patel        2023-03-28  61  		if (riscv_use_ipi_for_rfence()) {
-047bf3010ac2de Samuel Holland    2023-09-09  62  			struct flush_tlb_range_data ftd;
-047bf3010ac2de Samuel Holland    2023-09-09  63  
-18d2199d81054f Anup Patel        2023-03-28  64  			ftd.asid = asid;
-18d2199d81054f Anup Patel        2023-03-28  65  			ftd.start = start;
-18d2199d81054f Anup Patel        2023-03-28  66  			ftd.size = size;
-18d2199d81054f Anup Patel        2023-03-28  67  			ftd.stride = stride;
-18d2199d81054f Anup Patel        2023-03-28  68  			on_each_cpu_mask(cmask,
-18d2199d81054f Anup Patel        2023-03-28  69  					 __ipi_flush_tlb_range_asid,
-18d2199d81054f Anup Patel        2023-03-28  70  					 &ftd, 1);
-18d2199d81054f Anup Patel        2023-03-28  71  		} else
-18d2199d81054f Anup Patel        2023-03-28  72  			sbi_remote_sfence_vma_asid(cmask,
-18d2199d81054f Anup Patel        2023-03-28  73  						   start, size, asid);
-18d2199d81054f Anup Patel        2023-03-28  74  	} else
-047bf3010ac2de Samuel Holland    2023-09-09  75  #endif
-ff15058bb4eb32 Samuel Holland    2023-09-09  76  		local_flush_tlb_range_asid(start, size, stride, asid);
-31738ede9b339c Atish Patra       2019-08-22  77  	put_cpu();
-95594cb40c6e01 Christoph Hellwig 2019-08-21  78  }
-95594cb40c6e01 Christoph Hellwig 2019-08-21  79  
+    80	
+    81	static void ARGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
+    82					     const struct vkms_frame_info *frame_info,
+    83					     int y)
+    84	{
+    85		struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+    86		u16 *src_pixels = get_packed_src_addr(frame_info, y);
+    87		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+    88				    stage_buffer->n_pixels);
+    89	
+    90		for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
+  > 91			out_pixels[x].a = le16_to_cpu(src_pixels[3]);
+    92			out_pixels[x].r = le16_to_cpu(src_pixels[2]);
+    93			out_pixels[x].g = le16_to_cpu(src_pixels[1]);
+    94			out_pixels[x].b = le16_to_cpu(src_pixels[0]);
+    95		}
+    96	}
+    97	
+    98	static void XRGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
+    99					     const struct vkms_frame_info *frame_info,
+   100					     int y)
+   101	{
+   102		struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+   103		u16 *src_pixels = get_packed_src_addr(frame_info, y);
+   104		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+   105				    stage_buffer->n_pixels);
+   106	
+   107		for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
+   108			out_pixels[x].a = (u16)0xffff;
+   109			out_pixels[x].r = le16_to_cpu(src_pixels[2]);
+   110			out_pixels[x].g = le16_to_cpu(src_pixels[1]);
+   111			out_pixels[x].b = le16_to_cpu(src_pixels[0]);
+   112		}
+   113	}
+   114	
+   115	/*
+   116	 * The following  functions take an line of argb_u16 pixels from the
+   117	 * src_buffer, convert them to a specific format, and store them in the
+   118	 * destination.
+   119	 *
+   120	 * They are used in the `compose_active_planes` to convert and store a line
+   121	 * from the src_buffer to the writeback buffer.
+   122	 */
+   123	static void argb_u16_to_ARGB8888(struct vkms_frame_info *frame_info,
+   124					 const struct line_buffer *src_buffer, int y)
+   125	{
+   126		int x_dst = frame_info->dst.x1;
+   127		u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
+   128		struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
+   129		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+   130				    src_buffer->n_pixels);
+   131	
+   132		for (size_t x = 0; x < x_limit; x++, dst_pixels += 4) {
+   133			/*
+   134			 * This sequence below is important because the format's byte order is
+   135			 * in little-endian. In the case of the ARGB8888 the memory is
+   136			 * organized this way:
+   137			 *
+   138			 * | Addr     | = blue channel
+   139			 * | Addr + 1 | = green channel
+   140			 * | Addr + 2 | = Red channel
+   141			 * | Addr + 3 | = Alpha channel
+   142			 */
+   143			dst_pixels[3] = DIV_ROUND_CLOSEST(in_pixels[x].a, 257);
+   144			dst_pixels[2] = DIV_ROUND_CLOSEST(in_pixels[x].r, 257);
+   145			dst_pixels[1] = DIV_ROUND_CLOSEST(in_pixels[x].g, 257);
+   146			dst_pixels[0] = DIV_ROUND_CLOSEST(in_pixels[x].b, 257);
+   147		}
+   148	}
+   149	
+   150	static void argb_u16_to_XRGB8888(struct vkms_frame_info *frame_info,
+   151					 const struct line_buffer *src_buffer, int y)
+   152	{
+   153		int x_dst = frame_info->dst.x1;
+   154		u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
+   155		struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
+   156		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+   157				    src_buffer->n_pixels);
+   158	
+   159		for (size_t x = 0; x < x_limit; x++, dst_pixels += 4) {
+   160			dst_pixels[3] = 0xff;
+   161			dst_pixels[2] = DIV_ROUND_CLOSEST(in_pixels[x].r, 257);
+   162			dst_pixels[1] = DIV_ROUND_CLOSEST(in_pixels[x].g, 257);
+   163			dst_pixels[0] = DIV_ROUND_CLOSEST(in_pixels[x].b, 257);
+   164		}
+   165	}
+   166	
+   167	static void argb_u16_to_ARGB16161616(struct vkms_frame_info *frame_info,
+   168					     const struct line_buffer *src_buffer, int y)
+   169	{
+   170		int x_dst = frame_info->dst.x1;
+   171		u16 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
+   172		struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
+   173		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+   174				    src_buffer->n_pixels);
+   175	
+   176		for (size_t x = 0; x < x_limit; x++, dst_pixels += 4) {
+ > 177			dst_pixels[3] = cpu_to_le16(in_pixels[x].a);
+   178			dst_pixels[2] = cpu_to_le16(in_pixels[x].r);
+   179			dst_pixels[1] = cpu_to_le16(in_pixels[x].g);
+   180			dst_pixels[0] = cpu_to_le16(in_pixels[x].b);
+   181		}
+   182	}
+   183	
 
 -- 
 0-DAY CI Kernel Test Service
