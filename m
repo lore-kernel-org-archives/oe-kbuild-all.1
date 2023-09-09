@@ -1,45 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA0F63BF;
-	Sat,  9 Sep 2023 13:12:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151512919
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Sep 2023 13:35:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694265145; x=1725801145;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=15t7zWA9xu82ZCsQXv78V6pCDtb/+pClxIL7uf0dfsk=;
-  b=ddyrx5hm/HWWtgtWFDaFK9OmFh9X23I6jDrvSzf9n9gz25LN8NSyeg6i
-   3XHy3+pUG2mv20pNzN4oO9gIiT6/Xase41tebCE4Lpxl28whIZjVzYcJh
-   QZAW6MDQY78Ed8oRxp/tgLSog8NtD5qAycvVOVZ+GjDzSVcjEjoUPMnjO
-   olInYuNrN2dOg81v44ZQO9ImrsZcqtYZpmX6hgoiQCoCp3qGWpHHHbbzL
-   fdG1UcQ9Z9jopVWzPgqgOnFE9KYxn5SIJV9FmEkTKuXmB4PgibTCDMEim
-   YCmxhUL4jBW9Q2tmTgA3EwV69CDPKEwjaAlkSyioatpWloovfcZ8qOobL
+  t=1694266524; x=1725802524;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dVu3tiDU0An9oMd1+32Ja4qf+AJtSRM+YdWvQXV2EF8=;
+  b=T536r2T8iz+XiuRJt4cs7weZPYua2gssBhGR20EmlqOaAkBmn6tGymj3
+   JgJVzIg0A4uUGYEAcAur4VzjmygYOy0FTywFQfmrBTlmxKvhJMVKRyvT/
+   ExzBkZS0CK8k2X4f+Rpy/EijwvQdABCaFMcwzyuiOQUtoNwJrK3Q920HF
+   gqp1HJIPQk8u1J2zRaGe3FEVjKZ2TeU9smEFs3l7UpPN3F26QheXCs6yh
+   ttZ3qF4OmNSPCWi7AQPW7cqN1BPcCuHMtr8XayGgRjPF1HPuckA1Die5t
+   FxC/yTxsaqcRTqyIurMu1RdFbPtE4PoBp9c9j46EL98Gb3PyhnZD50TuO
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="376728906"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="464190329"
 X-IronPort-AV: E=Sophos;i="6.02,239,1688454000"; 
-   d="scan'208";a="376728906"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 06:12:24 -0700
+   d="scan'208";a="464190329"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 06:35:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="866407085"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="1073618274"
 X-IronPort-AV: E=Sophos;i="6.02,239,1688454000"; 
-   d="scan'208";a="866407085"
+   d="scan'208";a="1073618274"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 09 Sep 2023 06:12:21 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 09 Sep 2023 06:35:22 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qexl5-0003Wz-1J;
-	Sat, 09 Sep 2023 13:12:19 +0000
-Date: Sat, 9 Sep 2023 21:12:08 +0800
+	id 1qey7M-0003Y2-0D;
+	Sat, 09 Sep 2023 13:35:20 +0000
+Date: Sat, 9 Sep 2023 21:35:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, linus.walleij@linaro.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: Re: [PATCH 2/2] pinctrl: pinmux: Use dev_err_probe() in pin_request()
-Message-ID: <202309092056.azXQNtDr-lkp@intel.com>
-References: <20230909063613.2867-3-jernej.skrabec@gmail.com>
+To: "Mike Rapoport (IBM)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:jitalloc/v2.4 3/13] arch/mips/include/asm/page.h:156:39:
+ error: initializer element is not constant
+Message-ID: <202309092136.QgGAmIub-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,146 +45,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230909063613.2867-3-jernej.skrabec@gmail.com>
 
-Hi Jernej,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linusw-pinctrl/devel]
-[also build test WARNING on linusw-pinctrl/for-next linus/master v6.5 next-20230908]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jernej-Skrabec/pinctrl-pinmux-Remove-duplicate-error-message-in-pin_request/20230909-143817
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20230909063613.2867-3-jernej.skrabec%40gmail.com
-patch subject: [PATCH 2/2] pinctrl: pinmux: Use dev_err_probe() in pin_request()
-config: arm-randconfig-001-20230909 (https://download.01.org/0day-ci/archive/20230909/202309092056.azXQNtDr-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309092056.azXQNtDr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git jitalloc/v2.4
+head:   508766bb924d535d2b80ffe50eb60eae25c0c02e
+commit: dd4c108ee0b2ef49e5bdb599d491fd029ddca09e [3/13] mm/execmem, arch: convert simple overrides of module_alloc to execmem
+config: mips-bigsur_defconfig (https://download.01.org/0day-ci/archive/20230909/202309092136.QgGAmIub-lkp@intel.com/config)
+compiler: mips64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309092136.QgGAmIub-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309092056.azXQNtDr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309092136.QgGAmIub-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/pinctrl/pinmux.c:191:31: warning: incompatible pointer to integer conversion passing 'char[23]' to parameter of type 'int' [-Wint-conversion]
-                   dev_err_probe(pctldev->dev, "pin-%d (%s) status %d\n",
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:1218:64: note: passing argument to parameter 'err' here
-   __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-                                                                  ^
->> drivers/pinctrl/pinmux.c:192:10: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'const char *' [-Wint-conversion]
-                                 pin, owner, status);
-                                 ^~~
-   include/linux/device.h:1218:81: note: passing argument to parameter 'fmt' here
-   __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-                                                                                   ^
-   2 warnings generated.
+   arch/mips/kernel/module.c:40:34: error: 'MODULES_VADDR' undeclared here (not in a function)
+      40 |                         .start = MODULES_VADDR,
+         |                                  ^~~~~~~~~~~~~
+   arch/mips/kernel/module.c:41:32: error: 'MODULES_END' undeclared here (not in a function); did you mean 'MODULE_END'?
+      41 |                         .end = MODULES_END,
+         |                                ^~~~~~~~~~~
+         |                                MODULE_END
+   In file included from arch/mips/include/asm/io.h:29,
+                    from include/linux/io.h:13,
+                    from arch/mips/include/asm/mips-cps.h:11,
+                    from arch/mips/include/asm/smp-ops.h:16,
+                    from arch/mips/include/asm/smp.h:21,
+                    from include/linux/smp.h:113,
+                    from arch/mips/include/asm/cpu-type.h:12,
+                    from arch/mips/include/asm/timex.h:19,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from include/linux/moduleloader.h:6,
+                    from arch/mips/kernel/module.c:12:
+>> arch/mips/include/asm/page.h:156:39: error: initializer element is not constant
+     156 | #define __pgprot(x)     ((pgprot_t) { (x) } )
+         |                                       ^
+   arch/mips/include/asm/pgtable.h:30:25: note: in expansion of macro '__pgprot'
+      30 | #define PAGE_KERNEL     __pgprot(_PAGE_PRESENT | __READABLE | __WRITEABLE | \
+         |                         ^~~~~~~~
+   arch/mips/kernel/module.c:42:35: note: in expansion of macro 'PAGE_KERNEL'
+      42 |                         .pgprot = PAGE_KERNEL,
+         |                                   ^~~~~~~~~~~
+   arch/mips/include/asm/page.h:156:39: note: (near initialization for '(anonymous).pgprot')
+     156 | #define __pgprot(x)     ((pgprot_t) { (x) } )
+         |                                       ^
+   arch/mips/include/asm/pgtable.h:30:25: note: in expansion of macro '__pgprot'
+      30 | #define PAGE_KERNEL     __pgprot(_PAGE_PRESENT | __READABLE | __WRITEABLE | \
+         |                         ^~~~~~~~
+   arch/mips/kernel/module.c:42:35: note: in expansion of macro 'PAGE_KERNEL'
+      42 |                         .pgprot = PAGE_KERNEL,
+         |                                   ^~~~~~~~~~~
 
 
-vim +191 drivers/pinctrl/pinmux.c
+vim +156 arch/mips/include/asm/page.h
 
-   101	
-   102	/**
-   103	 * pin_request() - request a single pin to be muxed in, typically for GPIO
-   104	 * @pctldev: the associated pin controller device
-   105	 * @pin: the pin number in the global pin space
-   106	 * @owner: a representation of the owner of this pin; typically the device
-   107	 *	name that controls its mux function, or the requested GPIO name
-   108	 * @gpio_range: the range matching the GPIO pin if this is a request for a
-   109	 *	single GPIO pin
-   110	 */
-   111	static int pin_request(struct pinctrl_dev *pctldev,
-   112			       int pin, const char *owner,
-   113			       struct pinctrl_gpio_range *gpio_range)
-   114	{
-   115		struct pin_desc *desc;
-   116		const struct pinmux_ops *ops = pctldev->desc->pmxops;
-   117		int status = -EINVAL;
-   118	
-   119		desc = pin_desc_get(pctldev, pin);
-   120		if (desc == NULL) {
-   121			dev_err(pctldev->dev,
-   122				"pin %d is not registered so it cannot be requested\n",
-   123				pin);
-   124			goto out;
-   125		}
-   126	
-   127		dev_dbg(pctldev->dev, "request pin %d (%s) for %s\n",
-   128			pin, desc->name, owner);
-   129	
-   130		if ((!gpio_range || ops->strict) &&
-   131		    desc->mux_usecount && strcmp(desc->mux_owner, owner)) {
-   132			dev_err(pctldev->dev,
-   133				"pin %s already requested by %s; cannot claim for %s\n",
-   134				desc->name, desc->mux_owner, owner);
-   135			goto out;
-   136		}
-   137	
-   138		if ((gpio_range || ops->strict) && desc->gpio_owner) {
-   139			dev_err(pctldev->dev,
-   140				"pin %s already requested by %s; cannot claim for %s\n",
-   141				desc->name, desc->gpio_owner, owner);
-   142			goto out;
-   143		}
-   144	
-   145		if (gpio_range) {
-   146			desc->gpio_owner = owner;
-   147		} else {
-   148			desc->mux_usecount++;
-   149			if (desc->mux_usecount > 1)
-   150				return 0;
-   151	
-   152			desc->mux_owner = owner;
-   153		}
-   154	
-   155		/* Let each pin increase references to this module */
-   156		if (!try_module_get(pctldev->owner)) {
-   157			dev_err(pctldev->dev,
-   158				"could not increase module refcount for pin %d\n",
-   159				pin);
-   160			status = -EINVAL;
-   161			goto out_free_pin;
-   162		}
-   163	
-   164		/*
-   165		 * If there is no kind of request function for the pin we just assume
-   166		 * we got it by default and proceed.
-   167		 */
-   168		if (gpio_range && ops->gpio_request_enable)
-   169			/* This requests and enables a single GPIO pin */
-   170			status = ops->gpio_request_enable(pctldev, gpio_range, pin);
-   171		else if (ops->request)
-   172			status = ops->request(pctldev, pin);
-   173		else
-   174			status = 0;
-   175	
-   176		if (status)
-   177			module_put(pctldev->owner);
-   178	
-   179	out_free_pin:
-   180		if (status) {
-   181			if (gpio_range) {
-   182				desc->gpio_owner = NULL;
-   183			} else {
-   184				desc->mux_usecount--;
-   185				if (!desc->mux_usecount)
-   186					desc->mux_owner = NULL;
-   187			}
-   188		}
-   189	out:
-   190		if (status)
- > 191			dev_err_probe(pctldev->dev, "pin-%d (%s) status %d\n",
- > 192				      pin, owner, status);
-   193	
-   194		return status;
-   195	}
-   196	
+c6e8b587718c48 include/asm-mips/page.h      Ralf Baechle   2005-02-10  150  
+c6e8b587718c48 include/asm-mips/page.h      Ralf Baechle   2005-02-10  151  /*
+c6e8b587718c48 include/asm-mips/page.h      Ralf Baechle   2005-02-10  152   * Manipulate page protection bits
+c6e8b587718c48 include/asm-mips/page.h      Ralf Baechle   2005-02-10  153   */
+c6e8b587718c48 include/asm-mips/page.h      Ralf Baechle   2005-02-10  154  typedef struct { unsigned long pgprot; } pgprot_t;
+c6e8b587718c48 include/asm-mips/page.h      Ralf Baechle   2005-02-10  155  #define pgprot_val(x)	((x).pgprot)
+^1da177e4c3f41 include/asm-mips/page.h      Linus Torvalds 2005-04-16 @156  #define __pgprot(x)	((pgprot_t) { (x) } )
+b3a428b4b18d49 arch/mips/include/asm/page.h Hassan Naveed  2018-10-29  157  #define pte_pgprot(x)	__pgprot(pte_val(x) & ~_PFN_MASK)
+^1da177e4c3f41 include/asm-mips/page.h      Linus Torvalds 2005-04-16  158  
+
+:::::: The code at line 156 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
