@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00297485
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C72E79C1
 	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Sep 2023 20:17:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694290668; x=1725826668;
+  t=1694290669; x=1725826669;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GJkWOEJVmJPuy4d0E5K+3Od1HISA9bjlKjDzzGKmq4c=;
-  b=kzm91vvGUfnzz2rWw9LtwMA16vdL9zD0dMTutPIMtuS7jn2jjW+FfPOP
-   DqgqpdH/xbQaratSP6JIoBnAIxElRt55iJWHtz5jJd/ndKCt/zDxmm9Wj
-   YwrgTgggmAFwJGBEMmQa+qFNnq+5Kn9S2xOLLsucCSsc5yCgUU/gHwMld
-   geTA/H3pNPSE6/1FKzrf1ZVzhOSUdmu3gwpTNR3KZIPWVZlUF+nSO9Gs/
-   SGFoC9fXbqtXyuAIVfzl+MFzAWKCN27olGp4wgUFSMrYvext2kTSn107A
-   Z442W7vn+vMdgUyD4uC4Tx+hdATq+CgKcNfRtKWxpPlQft6yRQZDmGEyg
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="441859309"
+  bh=McbniZy+9jhoTTvcKnvSc4orX1A7o30dvUCmobJNkvI=;
+  b=mqk9AgJM0B90qkXf0vMKnlnyR0Utb0CxvTz/0Vu8lasjXehm6aXJ8oRl
+   8agPJGRWNNHZpJNYbAn+W5T+FKUDHPn70mh06Ga5l4jiiWXYaa7qoxRHY
+   wtEDyRAqb3ddBkjIABQ71D8tdEBKQxA6/+gt+WeGe9C4WTSBuP8S/07cH
+   ru+RBravV6dfABYB7dh3aMIgpvmJ/A8/hhAf4KD9pCYFcRpqR+2VlrzwU
+   OnHE1pw6L2FKOwHcCurg83Y0eoOiUnLWNv69bXlaCckC8qu6VZd9/P5UO
+   bMsUWJEgIPgOfFIrfgBfuu9W4P8kLwXbnnSp8Wd/0V/RWMgP0DbuxDZM0
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="368108512"
 X-IronPort-AV: E=Sophos;i="6.02,240,1688454000"; 
-   d="scan'208";a="441859309"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 13:17:47 -0700
+   d="scan'208";a="368108512"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 13:17:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="736320785"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="833026074"
 X-IronPort-AV: E=Sophos;i="6.02,240,1688454000"; 
-   d="scan'208";a="736320785"
+   d="scan'208";a="833026074"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 09 Sep 2023 13:17:46 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 09 Sep 2023 13:17:46 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qf4Om-0003sY-1t;
+	id 1qf4Om-0003sd-22;
 	Sat, 09 Sep 2023 20:17:44 +0000
-Date: Sun, 10 Sep 2023 04:16:47 +0800
+Date: Sun, 10 Sep 2023 04:16:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/641 3290/25020]
- drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c:1609:17: error:
- implicit declaration of function 'mt_eint_unmask'
-Message-ID: <202309100448.IlCm01dT-lkp@intel.com>
+To: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>
+Subject: arch/x86/events/intel/pt.c:674: warning: Function parameter or
+ member 'cpu' not described in 'topa_insert_pages'
+Message-ID: <202309100419.uLqvM7jh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,143 +47,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc pr/641
-head:   ba2847ffebda28ba7be1b96bb506bfe5b67c856e
-commit: f3e023ffe1da7261a8aba45f085b43150d1f87c2 [3290/25020] MLK-17829 touchscreen: Add synaptics_dsx S3508 i2c touch driver
-config: s390-randconfig-r021-20230910 (https://download.01.org/0day-ci/archive/20230910/202309100448.IlCm01dT-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309100448.IlCm01dT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2a5a4326e58339a26cd1510259e7310b8c0980ff
+commit: 90583af61d0c0d2826f42a297a03645b35c49085 perf/x86/intel/pt: Clean up ToPA allocation path
+date:   4 years ago
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20230910/202309100419.uLqvM7jh-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309100419.uLqvM7jh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309100448.IlCm01dT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309100419.uLqvM7jh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c:792:5: warning: no previous prototype for 'tpd_i2c_read_data' [-Wmissing-prototypes]
-     792 | int tpd_i2c_read_data(struct synaptics_rmi4_data *rmi4_data, struct i2c_client *client,
-         |     ^~~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c:911:5: warning: no previous prototype for 'tpd_i2c_write_data' [-Wmissing-prototypes]
-     911 | int tpd_i2c_write_data(struct synaptics_rmi4_data *rmi4_data, struct i2c_client *client,
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c: In function 'touch_event_handler':
->> drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c:1609:17: error: implicit declaration of function 'mt_eint_unmask' [-Werror=implicit-function-declaration]
-    1609 |                 mt_eint_unmask(CUST_EINT_TOUCH_PANEL_NUM);
-         |                 ^~~~~~~~~~~~~~
->> drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c:1609:32: error: 'CUST_EINT_TOUCH_PANEL_NUM' undeclared (first use in this function)
-    1609 |                 mt_eint_unmask(CUST_EINT_TOUCH_PANEL_NUM);
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c:1609:32: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c: In function 'synaptics_rmi4_irq_enable':
-   drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c:1648:40: error: 'CUST_EINT_TOUCH_PANEL_NUM' undeclared (first use in this function)
-    1648 |                         mt_eint_unmask(CUST_EINT_TOUCH_PANEL_NUM);
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c:1659:25: error: implicit declaration of function 'mt_eint_mask' [-Werror=implicit-function-declaration]
-    1659 |                         mt_eint_mask(CUST_EINT_TOUCH_PANEL_NUM);
-         |                         ^~~~~~~~~~~~
-   drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c: In function 'synaptics_rmi4_probe':
->> drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c:3287:9: error: 'touch_irq' undeclared (first use in this function); did you mean 'touch_atime'?
-    3287 |         touch_irq = client->irq;
-         |         ^~~~~~~~~
-         |         touch_atime
-   drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c:3194:21: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-    3194 |         int retval, ret;
-         |                     ^~~
-   drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c: At top level:
-   drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c:175:27: warning: 'synaptics_rmi4_suspend' used but never defined
-     175 | static int __maybe_unused synaptics_rmi4_suspend(struct device *dev);
-         |                           ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c:177:27: warning: 'synaptics_rmi4_resume' used but never defined
-     177 | static int __maybe_unused synaptics_rmi4_resume(struct device *dev);
-         |                           ^~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> arch/x86/events/intel/pt.c:674: warning: Function parameter or member 'cpu' not described in 'topa_insert_pages'
+>> arch/x86/events/intel/pt.c:1066: warning: Function parameter or member 'cpu' not described in 'pt_buffer_init_topa'
+   arch/x86/events/intel/pt.c:1066: warning: Function parameter or member 'nr_pages' not described in 'pt_buffer_init_topa'
+   arch/x86/events/intel/pt.c:1066: warning: Excess function parameter 'size' description in 'pt_buffer_init_topa'
+   arch/x86/events/intel/pt.c:1111: warning: Function parameter or member 'event' not described in 'pt_buffer_setup_aux'
+   arch/x86/events/intel/pt.c:1111: warning: Excess function parameter 'cpu' description in 'pt_buffer_setup_aux'
 
 
-vim +/mt_eint_unmask +1609 drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c
+vim +674 arch/x86/events/intel/pt.c
 
-  1586	
-  1587	static int touch_event_handler(void *data)
-  1588	{
-  1589		struct synaptics_rmi4_data *rmi4_data = data;
-  1590	
-  1591		do {
-  1592			set_current_state(TASK_INTERRUPTIBLE);
-  1593	
-  1594			while (tpd_halt) {
-  1595				tpd_flag = 0;
-  1596				msleep(20);
-  1597			}
-  1598	
-  1599			wait_event_interruptible(waiter, tpd_flag != 0);
-  1600	
-  1601			tpd_flag = 0;
-  1602			set_current_state(TASK_RUNNING);
-  1603	
-  1604			if (!rmi4_data->touch_stopped)
-  1605				synaptics_rmi4_sensor_report(rmi4_data);
-  1606	#ifdef CONFIG_OF_TOUCH
-  1607			enable_irq(touch_irq);
-  1608	#else
-> 1609			mt_eint_unmask(CUST_EINT_TOUCH_PANEL_NUM);
-  1610	#endif
-  1611	
-  1612		} while (1);
-  1613	
-  1614		return 0;
-  1615	}
-  1616	
-  1617	 /**
-  1618	  * synaptics_rmi4_irq_enable()
-  1619	  *
-  1620	  * Called by synaptics_rmi4_probe() and the power management functions
-  1621	  * in this driver and also exported to other expansion Function modules
-  1622	  * such as rmi_dev.
-  1623	  *
-  1624	  * This function handles the enabling and disabling of the attention
-  1625	  * irq including the setting up of the ISR thread.
-  1626	  */
-  1627	static int synaptics_rmi4_irq_enable(struct synaptics_rmi4_data *rmi4_data,
-  1628			bool enable)
-  1629	{
-  1630		int retval = 0;
-  1631		unsigned char intr_status[MAX_INTR_REGISTERS];
-  1632	
-  1633		if (enable) {
-  1634	
-  1635			/* Clear interrupts first */
-  1636			retval = synaptics_rmi4_i2c_read(rmi4_data,
-  1637					rmi4_data->f01_data_base_addr + 1,
-  1638					intr_status,
-  1639					rmi4_data->num_of_intr_regs);
-  1640			if (retval < 0)
-  1641				return retval;
-  1642	
-  1643			/* set up irq */
-  1644			if (!rmi4_data->irq_enabled) {
-  1645	#ifdef CONFIG_OF_TOUCH
-  1646				enable_irq(touch_irq);
-  1647	#else
-  1648				mt_eint_unmask(CUST_EINT_TOUCH_PANEL_NUM);
-  1649	#endif
-  1650				rmi4_data->irq_enabled = true;
-  1651	
-  1652			}
-  1653	
-  1654		} else {
-  1655			if (rmi4_data->irq_enabled) {
-  1656	#ifdef CONFIG_OF_TOUCH
-  1657				disable_irq_nosync(touch_irq);
-  1658	#else
-> 1659				mt_eint_mask(CUST_EINT_TOUCH_PANEL_NUM);
-  1660	#endif
-  1661				rmi4_data->irq_enabled = false;
-  1662			}
-  1663		}
-  1664	
-  1665		return retval;
-  1666	}
-  1667	
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  662  
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  663  /**
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  664   * topa_insert_pages() - create a list of ToPA tables
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  665   * @buf:	PT buffer being initialized.
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  666   * @gfp:	Allocation flags.
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  667   *
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  668   * This initializes a list of ToPA tables with entries from
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  669   * the data_pages provided by rb_alloc_aux().
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  670   *
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  671   * Return:	0 on success or error code.
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  672   */
+90583af61d0c0d arch/x86/events/intel/pt.c                Alexander Shishkin 2019-08-21  673  static int topa_insert_pages(struct pt_buffer *buf, int cpu, gfp_t gfp)
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30 @674  {
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  675  	struct topa *topa = buf->last;
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  676  	int order = 0;
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  677  	struct page *p;
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  678  
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  679  	p = virt_to_page(buf->data_pages[buf->nr_pages]);
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  680  	if (PagePrivate(p))
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  681  		order = page_private(p);
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  682  
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  683  	if (topa_table_full(topa)) {
+90583af61d0c0d arch/x86/events/intel/pt.c                Alexander Shishkin 2019-08-21  684  		topa = topa_alloc(cpu, gfp);
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  685  		if (!topa)
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  686  			return -ENOMEM;
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  687  
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  688  		topa_insert_table(buf, topa);
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  689  	}
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  690  
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  691  	TOPA_ENTRY(topa, -1)->base = page_to_phys(p) >> TOPA_SHIFT;
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  692  	TOPA_ENTRY(topa, -1)->size = order;
+f6d079ce867d67 arch/x86/events/intel/pt.c                Chao Peng          2018-10-24  693  	if (!buf->snapshot &&
+f6d079ce867d67 arch/x86/events/intel/pt.c                Chao Peng          2018-10-24  694  	    !intel_pt_validate_hw_cap(PT_CAP_topa_multiple_entries)) {
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  695  		TOPA_ENTRY(topa, -1)->intr = 1;
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  696  		TOPA_ENTRY(topa, -1)->stop = 1;
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  697  	}
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  698  
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  699  	topa->last++;
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  700  	topa->size += sizes(order);
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  701  
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  702  	buf->nr_pages += 1ul << order;
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  703  
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  704  	return 0;
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  705  }
+52ca9ced3f7077 arch/x86/kernel/cpu/perf_event_intel_pt.c Alexander Shishkin 2015-01-30  706  
+
+:::::: The code at line 674 was first introduced by commit
+:::::: 52ca9ced3f70779589e6ecc329baffe69d8f5f7a perf/x86/intel/pt: Add Intel PT PMU driver
+
+:::::: TO: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
