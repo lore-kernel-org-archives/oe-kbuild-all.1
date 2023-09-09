@@ -1,43 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF26D1C07
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Sep 2023 09:12:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27E330F89
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Sep 2023 09:35:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694250722; x=1725786722;
+  t=1694252105; x=1725788105;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kmpoZIcu0xJS+8SEu6byym/hyoXuBoF9y19u35vivq8=;
-  b=eMyzc0SqKn5oOJavvCWg610pmE6/xRgZzyXWxuesPEIFiM5WRPIeKQMk
-   LfA81HBTDc7PtKlph8XlSYMG9L6QMq/XZI1MKOUNe6kvavadg0ure1voj
-   fBTCYFfiNYWVQRzYuITg2NQqkWqXoi7F4OkLcs2D1JiRePVbfrutDeWXW
-   Ei8QVZqZ787MpZSgKsYtCQK4DxW8PgYNZ6HK5Hr/luaphRGFT/22Bdq3S
-   vI+xD5nZuOlet2QvYla0Lai0JFMZgOC5DEH/Bvct5L21R/rgJJZ8ppiqP
-   Z8MOjOhc7RoPE8CnwiapDhAHnoA52tEtl9PqHWltHbZpQOULtZKh19qdY
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="358112884"
+  bh=CW7nvquc7kZ7DHZsm+3uxj1qmSr/wg3g9BtxspYS5sY=;
+  b=Gq9aT0bGM01gBwF6VK8RCraAA6D/CGRHuXMZfMCM7+GEkj8TsEUDF+Nd
+   UL3u8sugEyrYsRwvGUM8GOX6K1RAM0ceJ0J+SK0jLndO4lNpvRN9yiHOB
+   HfbECZgeOI7JyVgH9nMBSLdQFxevioWILD5WWe9j1RXuVdd6le54XccBR
+   QCHHEyqT/8ohrlmy9s82KJAHkV32fHYNR4X830vHI0rlxIW/PtVyUTTw7
+   J6VEdHLN3sbzF+Fr/Zx38SpeqlQ3pT2bWtAFsGij41W2BwWstaPGW6WC3
+   AAJDfeN2d6iHQcVcxppH6bqSKflc5OnHvIY0OQZ9zURavMFfx5+qpz6yL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="358114013"
 X-IronPort-AV: E=Sophos;i="6.02,239,1688454000"; 
-   d="scan'208";a="358112884"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 02:12:01 -0700
+   d="scan'208";a="358114013"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 02:35:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="989524968"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="719417143"
 X-IronPort-AV: E=Sophos;i="6.02,239,1688454000"; 
-   d="scan'208";a="989524968"
+   d="scan'208";a="719417143"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 09 Sep 2023 02:12:00 -0700
+  by orsmga006.jf.intel.com with ESMTP; 09 Sep 2023 02:35:02 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qeu0U-0003CU-2g;
-	Sat, 09 Sep 2023 09:11:58 +0000
-Date: Sat, 9 Sep 2023 17:11:33 +0800
+	id 1qeuMm-0003FW-2P;
+	Sat, 09 Sep 2023 09:35:00 +0000
+Date: Sat, 9 Sep 2023 17:34:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ben Skeggs <bskeggs@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [skeggsb-nouveau:00.02-gsp-rm 81/88]
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c:303:1: warning: no previous
- prototype for 'r535_fifo_runl_ctor'
-Message-ID: <202309091701.xzsKF8c7-lkp@intel.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Chanwoo Choi <cw00.choi@samsung.com>
+Subject: drivers/opp/core.c:2113: warning: Function parameter or member
+ 'opp_table' not described in '_opp_set_regulators'
+Message-ID: <202309091728.siozDgSB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,107 +47,114 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitlab.freedesktop.org/skeggsb/nouveau 00.02-gsp-rm
-head:   dcd62291d3f1ba328303b1617495fa4542117fc1
-commit: 7de06e53ab58182c4b24ac4e35ff28ed5ba26d13 [81/88] WIPdrm/nouveau/fifo/r535: initial support
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20230909/202309091701.xzsKF8c7-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309091701.xzsKF8c7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6099776f9f268e61fe5ecd721f994a8cfce5306f
+commit: b0ec09428621daee5101130c307634a390b0213b OPP: Migrate set-regulators API to use set-config helpers
+date:   1 year, 2 months ago
+config: csky-defconfig (https://download.01.org/0day-ci/archive/20230909/202309091728.siozDgSB-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309091728.siozDgSB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309091701.xzsKF8c7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309091728.siozDgSB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c:303:1: warning: no previous prototype for 'r535_fifo_runl_ctor' [-Wmissing-prototypes]
-     303 | r535_fifo_runl_ctor(struct nvkm_fifo *fifo)
-         | ^~~~~~~~~~~~~~~~~~~
+>> drivers/opp/core.c:2113: warning: Function parameter or member 'opp_table' not described in '_opp_set_regulators'
+>> drivers/opp/core.c:2113: warning: Excess function parameter 'count' description in '_opp_set_regulators'
+   drivers/opp/core.c:2756: warning: Function parameter or member 'token' not described in 'dev_pm_opp_clear_config'
+   drivers/opp/core.c:2756: warning: Excess function parameter 'opp_table' description in 'dev_pm_opp_clear_config'
 
 
-vim +/r535_fifo_runl_ctor +303 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c
+vim +2113 drivers/opp/core.c
 
-   300	
-   301	
-   302	int
- > 303	r535_fifo_runl_ctor(struct nvkm_fifo *fifo)
-   304	{
-   305		struct nvkm_subdev *subdev = &fifo->engine.subdev;
-   306		struct nvkm_gsp *gsp = subdev->device->gsp;
-   307		struct nvkm_runl *runl;
-   308		struct nvkm_engn *engn;
-   309		int ret;
-   310		NV2080_CTRL_FIFO_GET_DEVICE_INFO_TABLE_PARAMS *ctrl;
-   311	
-   312		//XXX: chid<->userd + per-RL chid
-   313		if ((ret = nvkm_chid_new(&nvkm_chan_event, subdev, 2048, 0, 2048, &fifo->cgid)) ||
-   314		    (ret = nvkm_chid_new(&nvkm_chan_event, subdev, 2048, 0, 2048, &fifo->chid)))
-   315			return ret;
-   316	
-   317		ctrl = nvkm_gsp_rm_ctrl_rd(&gsp->internal.device.subdevice,
-   318					   NV2080_CTRL_CMD_FIFO_GET_DEVICE_INFO_TABLE, sizeof(*ctrl));
-   319		if (WARN_ON(IS_ERR(ctrl)))
-   320			return PTR_ERR(ctrl);
-   321	
-   322		for (int i = 0; i < ctrl->numEntries; i++) {
-   323			const u32 addr = ctrl->entries[i].engineData[ENGINE_INFO_TYPE_RUNLIST_PRI_BASE];
-   324			const u32 id = ctrl->entries[i].engineData[ENGINE_INFO_TYPE_RUNLIST];
-   325	
-   326			runl = nvkm_runl_get(fifo, id, addr);
-   327			if (!runl) {
-   328				runl = nvkm_runl_new(fifo, id, addr, 0 /*XXX: chid<->userd + per-RL chid*/);
-   329				if (WARN_ON(IS_ERR(runl)))
-   330					continue;
-   331			}
-   332		}
-   333	
-   334		for (int i = 0; i < ctrl->numEntries; i++) {
-   335			const u32 addr = ctrl->entries[i].engineData[ENGINE_INFO_TYPE_RUNLIST_PRI_BASE];
-   336			const u32 rmid = ctrl->entries[i].engineData[ENGINE_INFO_TYPE_RM_ENGINE_TYPE];
-   337			const u32 id = ctrl->entries[i].engineData[ENGINE_INFO_TYPE_RUNLIST];
-   338			enum nvkm_subdev_type type;
-   339			int inst, nv2080;
-   340	
-   341			runl = nvkm_runl_get(fifo, id, addr);
-   342			if (!runl)
-   343				continue;
-   344	
-   345			inst = r535_fifo_engn_type(rmid, &type);
-   346			if (inst < 0) {
-   347				nvkm_warn(subdev, "RM_ENGINE_TYPE 0x%x\n", rmid);
-   348				nvkm_runl_del(runl);
-   349				continue;
-   350			}
-   351	
-   352			nv2080 = r535_fifo_2080_type(type, inst);
-   353			if (nv2080 < 0) {
-   354				nvkm_runl_del(runl);
-   355				continue;
-   356			}
-   357	
-   358			switch (type) {
-   359			case NVKM_ENGINE_CE:
-   360			case NVKM_ENGINE_GR:
-   361				engn = nvkm_runl_add(runl, nv2080, &r535_engn, type, inst);
-   362				break;
-   363			case NVKM_ENGINE_SW:
-   364				continue;
-   365			default:
-   366				engn = NULL;
-   367				break;
-   368			}
-   369	
-   370			if (!engn) {
-   371				nvkm_runl_del(runl);
-   372				continue;
-   373			}
-   374		}
-   375	
-   376		nvkm_gsp_rm_ctrl_done(&gsp->internal.device.subdevice, ctrl);
-   377		return 0;
-   378	}
-   379	
+01fb4d3c39d35b drivers/base/power/opp/core.c Viresh Kumar        2015-12-09  2098  
+9f8ea969d5cfdd drivers/base/power/opp/core.c Viresh Kumar        2016-02-09  2099  /**
+b0ec09428621da drivers/opp/core.c            Viresh Kumar        2022-07-04  2100   * _opp_set_regulators() - Set regulator names for the device
+9f8ea969d5cfdd drivers/base/power/opp/core.c Viresh Kumar        2016-02-09  2101   * @dev: Device for which regulator name is being set.
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2102   * @names: Array of pointers to the names of the regulator.
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2103   * @count: Number of regulators.
+9f8ea969d5cfdd drivers/base/power/opp/core.c Viresh Kumar        2016-02-09  2104   *
+9f8ea969d5cfdd drivers/base/power/opp/core.c Viresh Kumar        2016-02-09  2105   * In order to support OPP switching, OPP layer needs to know the name of the
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2106   * device's regulators, as the core would be required to switch voltages as
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2107   * well.
+9f8ea969d5cfdd drivers/base/power/opp/core.c Viresh Kumar        2016-02-09  2108   *
+9f8ea969d5cfdd drivers/base/power/opp/core.c Viresh Kumar        2016-02-09  2109   * This must be called before any OPPs are initialized for the device.
+9f8ea969d5cfdd drivers/base/power/opp/core.c Viresh Kumar        2016-02-09  2110   */
+b0ec09428621da drivers/opp/core.c            Viresh Kumar        2022-07-04  2111  static int _opp_set_regulators(struct opp_table *opp_table, struct device *dev,
+87686cc845c3be drivers/opp/core.c            Viresh Kumar        2022-07-04  2112  			       const char * const names[])
+9f8ea969d5cfdd drivers/base/power/opp/core.c Viresh Kumar        2016-02-09 @2113  {
+38bb34393804b7 drivers/opp/core.c            Viresh Kumar        2021-01-19  2114  	struct dev_pm_opp_supply *supplies;
+87686cc845c3be drivers/opp/core.c            Viresh Kumar        2022-07-04  2115  	const char * const *temp = names;
+9f8ea969d5cfdd drivers/base/power/opp/core.c Viresh Kumar        2016-02-09  2116  	struct regulator *reg;
+87686cc845c3be drivers/opp/core.c            Viresh Kumar        2022-07-04  2117  	int count = 0, ret, i;
+87686cc845c3be drivers/opp/core.c            Viresh Kumar        2022-07-04  2118  
+87686cc845c3be drivers/opp/core.c            Viresh Kumar        2022-07-04  2119  	/* Count number of regulators */
+87686cc845c3be drivers/opp/core.c            Viresh Kumar        2022-07-04  2120  	while (*temp++)
+87686cc845c3be drivers/opp/core.c            Viresh Kumar        2022-07-04  2121  		count++;
+87686cc845c3be drivers/opp/core.c            Viresh Kumar        2022-07-04  2122  
+87686cc845c3be drivers/opp/core.c            Viresh Kumar        2022-07-04  2123  	if (!count)
+b0ec09428621da drivers/opp/core.c            Viresh Kumar        2022-07-04  2124  		return -EINVAL;
+9f8ea969d5cfdd drivers/base/power/opp/core.c Viresh Kumar        2016-02-09  2125  
+779b783cfaa726 drivers/opp/core.c            Viresh Kumar        2018-05-22  2126  	/* Another CPU that shares the OPP table has set the regulators ? */
+779b783cfaa726 drivers/opp/core.c            Viresh Kumar        2018-05-22  2127  	if (opp_table->regulators)
+b0ec09428621da drivers/opp/core.c            Viresh Kumar        2022-07-04  2128  		return 0;
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2129  
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2130  	opp_table->regulators = kmalloc_array(count,
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2131  					      sizeof(*opp_table->regulators),
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2132  					      GFP_KERNEL);
+b0ec09428621da drivers/opp/core.c            Viresh Kumar        2022-07-04  2133  	if (!opp_table->regulators)
+b0ec09428621da drivers/opp/core.c            Viresh Kumar        2022-07-04  2134  		return -ENOMEM;
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2135  
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2136  	for (i = 0; i < count; i++) {
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2137  		reg = regulator_get_optional(dev, names[i]);
+9f8ea969d5cfdd drivers/base/power/opp/core.c Viresh Kumar        2016-02-09  2138  		if (IS_ERR(reg)) {
+543256d239b415 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-08  2139  			ret = dev_err_probe(dev, PTR_ERR(reg),
+543256d239b415 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-08  2140  					    "%s: no regulator (%s) found\n",
+543256d239b415 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-08  2141  					    __func__, names[i]);
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2142  			goto free_regulators;
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2143  		}
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2144  
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2145  		opp_table->regulators[i] = reg;
+9f8ea969d5cfdd drivers/base/power/opp/core.c Viresh Kumar        2016-02-09  2146  	}
+9f8ea969d5cfdd drivers/base/power/opp/core.c Viresh Kumar        2016-02-09  2147  
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2148  	opp_table->regulator_count = count;
+9f8ea969d5cfdd drivers/base/power/opp/core.c Viresh Kumar        2016-02-09  2149  
+38bb34393804b7 drivers/opp/core.c            Viresh Kumar        2021-01-19  2150  	supplies = kmalloc_array(count * 2, sizeof(*supplies), GFP_KERNEL);
+38bb34393804b7 drivers/opp/core.c            Viresh Kumar        2021-01-19  2151  	if (!supplies) {
+38bb34393804b7 drivers/opp/core.c            Viresh Kumar        2021-01-19  2152  		ret = -ENOMEM;
+947355850fcb3b drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2153  		goto free_regulators;
+38bb34393804b7 drivers/opp/core.c            Viresh Kumar        2021-01-19  2154  	}
+38bb34393804b7 drivers/opp/core.c            Viresh Kumar        2021-01-19  2155  
+38bb34393804b7 drivers/opp/core.c            Viresh Kumar        2021-01-19  2156  	mutex_lock(&opp_table->lock);
+38bb34393804b7 drivers/opp/core.c            Viresh Kumar        2021-01-19  2157  	opp_table->sod_supplies = supplies;
+38bb34393804b7 drivers/opp/core.c            Viresh Kumar        2021-01-19  2158  	if (opp_table->set_opp_data) {
+38bb34393804b7 drivers/opp/core.c            Viresh Kumar        2021-01-19  2159  		opp_table->set_opp_data->old_opp.supplies = supplies;
+38bb34393804b7 drivers/opp/core.c            Viresh Kumar        2021-01-19  2160  		opp_table->set_opp_data->new_opp.supplies = supplies + count;
+38bb34393804b7 drivers/opp/core.c            Viresh Kumar        2021-01-19  2161  	}
+38bb34393804b7 drivers/opp/core.c            Viresh Kumar        2021-01-19  2162  	mutex_unlock(&opp_table->lock);
+947355850fcb3b drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2163  
+b0ec09428621da drivers/opp/core.c            Viresh Kumar        2022-07-04  2164  	return 0;
+9f8ea969d5cfdd drivers/base/power/opp/core.c Viresh Kumar        2016-02-09  2165  
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2166  free_regulators:
+24957db1004353 drivers/opp/core.c            Marek Szyprowski    2019-10-17  2167  	while (i != 0)
+24957db1004353 drivers/opp/core.c            Marek Szyprowski    2019-10-17  2168  		regulator_put(opp_table->regulators[--i]);
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2169  
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2170  	kfree(opp_table->regulators);
+dfbe4678d709e2 drivers/base/power/opp/core.c Viresh Kumar        2016-12-01  2171  	opp_table->regulators = NULL;
+46f48aca2e5aef drivers/opp/core.c            Viresh Kumar        2018-12-11  2172  	opp_table->regulator_count = -1;
+9f8ea969d5cfdd drivers/base/power/opp/core.c Viresh Kumar        2016-02-09  2173  
+b0ec09428621da drivers/opp/core.c            Viresh Kumar        2022-07-04  2174  	return ret;
+9f8ea969d5cfdd drivers/base/power/opp/core.c Viresh Kumar        2016-02-09  2175  }
+9f8ea969d5cfdd drivers/base/power/opp/core.c Viresh Kumar        2016-02-09  2176  
+
+:::::: The code at line 2113 was first introduced by commit
+:::::: 9f8ea969d5cfdd4353d2adb004e8e2286b984369 PM / OPP: get/put regulators from OPP core
+
+:::::: TO: Viresh Kumar <viresh.kumar@linaro.org>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
