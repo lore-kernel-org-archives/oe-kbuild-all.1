@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDBE1861
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Sep 2023 10:50:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEDF41FAD
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Sep 2023 11:01:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694256613; x=1725792613;
+  t=1694257274; x=1725793274;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jBF9UUw92i6Jdvyg4+vrgTVAmTYw3v8TbaMzVFJhzLo=;
-  b=Rtk+qzplhU40vWHnQc+d4z4yRr2ggvYRsj2sbMMiRoiB5GHH8Mf5fb4v
-   leH69xEsG6/26HO8xVILbE3aYQcFLTevcYhHRAlen828SpjBiWBmoid3l
-   wZMIHg778GoIyg6FrvC38BYQkTZfH82NdgY5A94C881k1/OKAEB+hQKMm
-   vtkO4vHP5wKiCzdm2/FLwl7ueWhh3/aJ1BNgp1/kCRv+XRoR31RSQ+0Z5
-   xt05hL5mGKpMyvXTNX8lcybFDs5k1aFOB2eAOsuzpQuWg4J6eOXrVDIwL
-   xfY5I+mMHVwUeI3CQV+9AdM+uha1mMeOoSTWYO4NLwvU7iEXEsr1qdDuz
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="464182910"
+  bh=bWYFh3R0xNe5KLzrae2y3MAyY4PaR0XHBbdayXWcTJQ=;
+  b=DfGd2eugDfkH936kj5kqC5EkQMLOQhThmR8VXdDkflt8GO7vI9YzGUeg
+   sF/P6kNEU1MYWdDPBctmLuuCBG5hg3NKM8f4VzAKF5bfZrz0zQPnnZnVB
+   Quto7UVEshPT49o0+OeifSYSjz+PM7zgbud/277zwo2+o/WtttfdvNHYu
+   0kEK9SQQ7oMR+OX/hok/Gj+nifxURhfjVvWY1RgpG7tx//0I79ML+5gbv
+   +1EGYcxoAnpFeEhwnT9PbFJ2g81vMIXTRriMdmW1eGZJTenY8/5dFJsjH
+   O4K8oNaAAbS/3sKV3YYc7Tw6M8/9z96g+LmHGsby6xH9Z2UxD1kl2qGgm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="368073148"
 X-IronPort-AV: E=Sophos;i="6.02,239,1688454000"; 
-   d="scan'208";a="464182910"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 03:50:11 -0700
+   d="scan'208";a="368073148"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 04:01:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="772024262"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="916464745"
 X-IronPort-AV: E=Sophos;i="6.02,239,1688454000"; 
-   d="scan'208";a="772024262"
+   d="scan'208";a="916464745"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 09 Sep 2023 03:50:10 -0700
+  by orsmga005.jf.intel.com with ESMTP; 09 Sep 2023 04:01:12 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qevXT-0003Km-2U;
-	Sat, 09 Sep 2023 10:50:07 +0000
-Date: Sat, 9 Sep 2023 18:49:11 +0800
+	id 1qeviA-0003Ly-1o;
+	Sat, 09 Sep 2023 11:01:10 +0000
+Date: Sat, 9 Sep 2023 19:01:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/opp/core.c:1967: warning: Function parameter or member
- 'opp_table' not described in '_opp_set_supported_hw'
-Message-ID: <202309091848.KgU5T4Kb-lkp@intel.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Kees Cook <keescook@chromium.org>
+Subject: drivers/iommu/io-pgtable-dart.c:157:25: warning: variable 'new' set
+ but not used
+Message-ID: <202309091804.8DRVOiw1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,66 +47,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Mark,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   6099776f9f268e61fe5ecd721f994a8cfce5306f
-commit: 89f03984fa2abface1ffb1fe050b7c175651ffc7 OPP: Migrate set-supported-hw API to use set-config helpers
-date:   1 year, 2 months ago
-config: csky-defconfig (https://download.01.org/0day-ci/archive/20230909/202309091848.KgU5T4Kb-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309091848.KgU5T4Kb-lkp@intel.com/reproduce)
+commit: 9257959a6e5b4fca6fc8e985790bff62c2046f20 locking/atomic: scripts: restructure fallback ifdeffery
+date:   3 months ago
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20230909/202309091804.8DRVOiw1-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309091804.8DRVOiw1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309091848.KgU5T4Kb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309091804.8DRVOiw1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/opp/core.c:1967: warning: Function parameter or member 'opp_table' not described in '_opp_set_supported_hw'
->> drivers/opp/core.c:1967: warning: Excess function parameter 'dev' description in '_opp_set_supported_hw'
-   drivers/opp/core.c:2068: warning: Function parameter or member 'opp_table' not described in '_opp_set_regulators'
-   drivers/opp/core.c:2068: warning: Excess function parameter 'count' description in '_opp_set_regulators'
-   drivers/opp/core.c:2709: warning: Function parameter or member 'token' not described in 'dev_pm_opp_clear_config'
-   drivers/opp/core.c:2709: warning: Excess function parameter 'opp_table' description in 'dev_pm_opp_clear_config'
+   drivers/iommu/io-pgtable-dart.c: In function 'dart_install_table':
+   drivers/iommu/io-pgtable-dart.c:168:13: error: void value not ignored as it ought to be
+     168 |         old = cmpxchg64_relaxed(ptep, curr, new);
+         |             ^
+>> drivers/iommu/io-pgtable-dart.c:157:25: warning: variable 'new' set but not used [-Wunused-but-set-variable]
+     157 |         dart_iopte old, new;
+         |                         ^~~
 
 
-vim +1967 drivers/opp/core.c
+vim +/new +157 drivers/iommu/io-pgtable-dart.c
 
-38393409da345c drivers/base/power/opp.c      Viresh Kumar 2014-11-25  1953  
-7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1954  /**
-89f03984fa2abf drivers/opp/core.c            Viresh Kumar 2022-05-26  1955   * _opp_set_supported_hw() - Set supported platforms
-7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1956   * @dev: Device for which supported-hw has to be set.
-7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1957   * @versions: Array of hierarchy of versions to match.
-7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1958   * @count: Number of elements in the array.
-7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1959   *
-7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1960   * This is required only for the V2 bindings, and it enables a platform to
-7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1961   * specify the hierarchy of versions it supports. OPP layer will then enable
-7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1962   * OPPs, which are available for those versions, based on its 'opp-supported-hw'
-7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1963   * property.
-7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1964   */
-89f03984fa2abf drivers/opp/core.c            Viresh Kumar 2022-05-26  1965  static int _opp_set_supported_hw(struct opp_table *opp_table,
-fa30184d192ec7 drivers/base/power/opp/core.c Viresh Kumar 2017-01-23  1966  				 const u32 *versions, unsigned int count)
-7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09 @1967  {
-25419de1b8dda2 drivers/opp/core.c            Viresh Kumar 2018-05-22  1968  	/* Another CPU that shares the OPP table has set the property ? */
-25419de1b8dda2 drivers/opp/core.c            Viresh Kumar 2018-05-22  1969  	if (opp_table->supported_hw)
-89f03984fa2abf drivers/opp/core.c            Viresh Kumar 2022-05-26  1970  		return 0;
-7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1971  
-2c2709dc6921c5 drivers/base/power/opp/core.c Viresh Kumar 2016-02-16  1972  	opp_table->supported_hw = kmemdup(versions, count * sizeof(*versions),
-7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1973  					GFP_KERNEL);
-89f03984fa2abf drivers/opp/core.c            Viresh Kumar 2022-05-26  1974  	if (!opp_table->supported_hw)
-89f03984fa2abf drivers/opp/core.c            Viresh Kumar 2022-05-26  1975  		return -ENOMEM;
-7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1976  
-2c2709dc6921c5 drivers/base/power/opp/core.c Viresh Kumar 2016-02-16  1977  	opp_table->supported_hw_count = count;
-fa30184d192ec7 drivers/base/power/opp/core.c Viresh Kumar 2017-01-23  1978  
-89f03984fa2abf drivers/opp/core.c            Viresh Kumar 2022-05-26  1979  	return 0;
-7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1980  }
-7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1981  
+745ef1092bcfcf Janne Grunau 2022-09-16  151  
+745ef1092bcfcf Janne Grunau 2022-09-16  152  static dart_iopte dart_install_table(dart_iopte *table,
+745ef1092bcfcf Janne Grunau 2022-09-16  153  					     dart_iopte *ptep,
+745ef1092bcfcf Janne Grunau 2022-09-16  154  					     dart_iopte curr,
+745ef1092bcfcf Janne Grunau 2022-09-16  155  					     struct dart_io_pgtable *data)
+745ef1092bcfcf Janne Grunau 2022-09-16  156  {
+745ef1092bcfcf Janne Grunau 2022-09-16 @157  	dart_iopte old, new;
+745ef1092bcfcf Janne Grunau 2022-09-16  158  
+745ef1092bcfcf Janne Grunau 2022-09-16  159  	new = paddr_to_iopte(__pa(table), data) | APPLE_DART_PTE_VALID;
+745ef1092bcfcf Janne Grunau 2022-09-16  160  
+745ef1092bcfcf Janne Grunau 2022-09-16  161  	/*
+745ef1092bcfcf Janne Grunau 2022-09-16  162  	 * Ensure the table itself is visible before its PTE can be.
+745ef1092bcfcf Janne Grunau 2022-09-16  163  	 * Whilst we could get away with cmpxchg64_release below, this
+745ef1092bcfcf Janne Grunau 2022-09-16  164  	 * doesn't have any ordering semantics when !CONFIG_SMP.
+745ef1092bcfcf Janne Grunau 2022-09-16  165  	 */
+745ef1092bcfcf Janne Grunau 2022-09-16  166  	dma_wmb();
+745ef1092bcfcf Janne Grunau 2022-09-16  167  
+745ef1092bcfcf Janne Grunau 2022-09-16  168  	old = cmpxchg64_relaxed(ptep, curr, new);
+745ef1092bcfcf Janne Grunau 2022-09-16  169  
+745ef1092bcfcf Janne Grunau 2022-09-16  170  	return old;
+745ef1092bcfcf Janne Grunau 2022-09-16  171  }
+745ef1092bcfcf Janne Grunau 2022-09-16  172  
 
-:::::: The code at line 1967 was first introduced by commit
-:::::: 7de36b0aa51a5a59e28fb2da768fa3ab07de0674 PM / OPP: Parse 'opp-supported-hw' binding
+:::::: The code at line 157 was first introduced by commit
+:::::: 745ef1092bcfcf3bca8d82c260947ca498022dde iommu/io-pgtable: Move Apple DART support to its own file
 
-:::::: TO: Viresh Kumar <viresh.kumar@linaro.org>
-:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+:::::: TO: Janne Grunau <j@jannau.net>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
