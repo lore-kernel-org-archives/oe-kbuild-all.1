@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3FCE370
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Sep 2023 07:07:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30FD17C5
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Sep 2023 07:08:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694243275; x=1725779275;
+  t=1694243329; x=1725779329;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=foRAnYeNbtyWXLOG68TP07h5ZP4CZXQJD1hz1aym0qo=;
-  b=XwR06k7Ha2VaUS59AVxWSCqlK9vdjV8LsAd0XS8arTqtmzhuKA/SMavs
-   MXN74jvWuUdOqIFjyeSDu5fEwKtgRiuUep0B92JRuvSnUJ9SnUgggWR3W
-   jKcVxAjdroSlAnGzyOwBVstDIQOxVtgGNOsOXGQVGkoNiTWDfJmimJibm
-   trd4Zmymzx9DCA5BYdnh89slokQyVpdS5AA+0tI4QzmfCaRCfEUlt+WxN
-   yAbZp4IkfJU3Zl2wvpgkL2OnxdUeUZAGIik7BVGCvRljB0k6HJDkrz5qt
-   8yX1dYRCoJov00ws+8zkAbgHS5FDBoOgXMoY4f8QtEkfS3YJ7Awn4cTIj
+  bh=fOe1Pb+OXPia4d0Nxht3aW7/9BVeC6OAefJ4/+vn/FA=;
+  b=J10DILSuazSsz2PM3B1/zClaH8AwaN5NJMNcQyyYjVtDrVFyxCi9gXPq
+   AuPAu2kEphTuGlTVF6Q2rp9IKrnEjDUyuh+Pb2HrAqXKQDOzd9WmoYWF8
+   EeW2ggdy5niLQcjlUjsSTXXcutRSX9lKQBK++1G888ulmaBM0XpzO8Jmz
+   HO/6IqyVQ524dsbBD39njjBK+d5uJHR8TTQqZaiJjGghlEY65ZKNa1qSb
+   4nZkhqJ3i+A4CSLkSoD1Vj1O7nYOLdnZ0VehVeU6p78rOgfTB10S2kUSf
+   JbTn+LYqTbG+RJ6TEqiSaY0iQ9lvV68uFQ3SECFVf4m2hbWkC2IS2lED4
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="380526681"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="375173694"
 X-IronPort-AV: E=Sophos;i="6.02,239,1688454000"; 
-   d="scan'208";a="380526681"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 00:07:50 -0700
+   d="scan'208";a="375173694"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 00:08:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="692500239"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="1073563934"
 X-IronPort-AV: E=Sophos;i="6.02,239,1688454000"; 
-   d="scan'208";a="692500239"
+   d="scan'208";a="1073563934"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 09 Sep 2023 00:07:48 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 09 Sep 2023 00:08:48 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qes4I-00032S-0W;
-	Sat, 09 Sep 2023 07:07:46 +0000
-Date: Sat, 9 Sep 2023 15:07:43 +0800
+	id 1qes5G-00032Y-0a;
+	Sat, 09 Sep 2023 07:08:46 +0000
+Date: Sat, 9 Sep 2023 15:08:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aditi Ghag <aditi.ghag@isovalent.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Martin KaFai Lau <martin.lau@kernel.org>
-Subject: net/core/filter.c:11748:17: error: no previous declaration for
- 'bpf_sock_destroy'
-Message-ID: <202309091542.bIKqs1sH-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:sched/maybe 2/2] kernel/sched/fair.c:7200:41: sparse:
+ sparse: incorrect type in initializer (different address spaces)
+Message-ID: <202309091524.GVrvIASG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,153 +46,112 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6099776f9f268e61fe5ecd721f994a8cfce5306f
-commit: 4ddbcb886268af8d12a23e6640b39d1d9c652b1b bpf: Add bpf_sock_destroy kfunc
-date:   4 months ago
-config: x86_64-sof-customedconfig-avs-defconfig (https://download.01.org/0day-ci/archive/20230909/202309091542.bIKqs1sH-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309091542.bIKqs1sH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/maybe
+head:   3ae37dbd96d72ccfefa62f23a6f2d3733de634d4
+commit: 3ae37dbd96d72ccfefa62f23a6f2d3733de634d4 [2/2] sched/fair: Multi-LLC select_idle_sibling()
+config: i386-randconfig-063-20230909 (https://download.01.org/0day-ci/archive/20230909/202309091524.GVrvIASG-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309091524.GVrvIASG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309091542.bIKqs1sH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309091524.GVrvIASG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/sched/fair.c:702:6: sparse: sparse: symbol 'update_entity_lag' was not declared. Should it be static?
+   kernel/sched/fair.c:1140:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity const *se @@     got struct sched_entity [noderef] __rcu * @@
+   kernel/sched/fair.c:1140:34: sparse:     expected struct sched_entity const *se
+   kernel/sched/fair.c:1140:34: sparse:     got struct sched_entity [noderef] __rcu *
+   kernel/sched/fair.c:12082:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:12082:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:12082:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:6395:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:6395:38: sparse:     expected struct task_struct *curr
+   kernel/sched/fair.c:6395:38: sparse:     got struct task_struct [noderef] __rcu *curr
+>> kernel/sched/fair.c:7200:41: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *parent @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:7200:41: sparse:     expected struct sched_domain *parent
+   kernel/sched/fair.c:7200:41: sparse:     got struct sched_domain [noderef] __rcu *parent
+>> kernel/sched/fair.c:7210:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_child @@     got struct sched_domain [noderef] __rcu * @@
+   kernel/sched/fair.c:7210:49: sparse:     expected struct sched_domain *sd_child
+   kernel/sched/fair.c:7210:49: sparse:     got struct sched_domain [noderef] __rcu *
+   kernel/sched/fair.c:7733:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:7733:20: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:7733:20: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:7935:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:7935:9: sparse:     expected struct sched_domain *[assigned] tmp
+   kernel/sched/fair.c:7935:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:8034:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:8034:38: sparse:     expected struct task_struct *curr
+   kernel/sched/fair.c:8034:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair.c:8314:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:8314:38: sparse:     expected struct task_struct *curr
+   kernel/sched/fair.c:8314:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair.c:9307:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/fair.c:9307:40: sparse:     expected struct sched_domain *child
+   kernel/sched/fair.c:9307:40: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/fair.c:9934:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:9934:22: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/fair.c:9934:22: sparse:    struct task_struct *
+   kernel/sched/fair.c:11354:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:11354:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:11354:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:11013:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:11013:44: sparse:     expected struct sched_domain *sd_parent
+   kernel/sched/fair.c:11013:44: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:11450:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:11450:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:11450:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:6316:35: sparse: sparse: marked inline, but without a definition
+   kernel/sched/fair.c: note: in included file:
+   kernel/sched/sched.h:2137:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2137:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2137:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2300:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2300:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2300:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2137:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2137:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2137:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2137:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2137:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2137:25: sparse:    struct task_struct *
 
-   net/core/filter.c:11650:17: error: no previous declaration for 'bpf_dynptr_from_skb' [-Werror=missing-declarations]
-    __bpf_kfunc int bpf_dynptr_from_skb(struct sk_buff *skb, u64 flags,
-                    ^~~~~~~~~~~~~~~~~~~
-   net/core/filter.c:11663:17: error: no previous declaration for 'bpf_dynptr_from_xdp' [-Werror=missing-declarations]
-    __bpf_kfunc int bpf_dynptr_from_xdp(struct xdp_buff *xdp, u64 flags,
-                    ^~~~~~~~~~~~~~~~~~~
->> net/core/filter.c:11748:17: error: no previous declaration for 'bpf_sock_destroy' [-Werror=missing-declarations]
-    __bpf_kfunc int bpf_sock_destroy(struct sock_common *sock)
-                    ^~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+vim +7200 kernel/sched/fair.c
 
-
-vim +/bpf_sock_destroy +11748 net/core/filter.c
-
- 11646	
- 11647	__diag_push();
- 11648	__diag_ignore_all("-Wmissing-prototypes",
- 11649			  "Global functions as their definitions will be in vmlinux BTF");
- 11650	__bpf_kfunc int bpf_dynptr_from_skb(struct sk_buff *skb, u64 flags,
- 11651					    struct bpf_dynptr_kern *ptr__uninit)
- 11652	{
- 11653		if (flags) {
- 11654			bpf_dynptr_set_null(ptr__uninit);
- 11655			return -EINVAL;
- 11656		}
- 11657	
- 11658		bpf_dynptr_init(ptr__uninit, skb, BPF_DYNPTR_TYPE_SKB, 0, skb->len);
- 11659	
- 11660		return 0;
- 11661	}
- 11662	
- 11663	__bpf_kfunc int bpf_dynptr_from_xdp(struct xdp_buff *xdp, u64 flags,
- 11664					    struct bpf_dynptr_kern *ptr__uninit)
- 11665	{
- 11666		if (flags) {
- 11667			bpf_dynptr_set_null(ptr__uninit);
- 11668			return -EINVAL;
- 11669		}
- 11670	
- 11671		bpf_dynptr_init(ptr__uninit, xdp, BPF_DYNPTR_TYPE_XDP, 0, xdp_get_buff_len(xdp));
- 11672	
- 11673		return 0;
- 11674	}
- 11675	__diag_pop();
- 11676	
- 11677	int bpf_dynptr_from_skb_rdonly(struct sk_buff *skb, u64 flags,
- 11678				       struct bpf_dynptr_kern *ptr__uninit)
- 11679	{
- 11680		int err;
- 11681	
- 11682		err = bpf_dynptr_from_skb(skb, flags, ptr__uninit);
- 11683		if (err)
- 11684			return err;
- 11685	
- 11686		bpf_dynptr_set_rdonly(ptr__uninit);
- 11687	
- 11688		return 0;
- 11689	}
- 11690	
- 11691	BTF_SET8_START(bpf_kfunc_check_set_skb)
- 11692	BTF_ID_FLAGS(func, bpf_dynptr_from_skb)
- 11693	BTF_SET8_END(bpf_kfunc_check_set_skb)
- 11694	
- 11695	BTF_SET8_START(bpf_kfunc_check_set_xdp)
- 11696	BTF_ID_FLAGS(func, bpf_dynptr_from_xdp)
- 11697	BTF_SET8_END(bpf_kfunc_check_set_xdp)
- 11698	
- 11699	static const struct btf_kfunc_id_set bpf_kfunc_set_skb = {
- 11700		.owner = THIS_MODULE,
- 11701		.set = &bpf_kfunc_check_set_skb,
- 11702	};
- 11703	
- 11704	static const struct btf_kfunc_id_set bpf_kfunc_set_xdp = {
- 11705		.owner = THIS_MODULE,
- 11706		.set = &bpf_kfunc_check_set_xdp,
- 11707	};
- 11708	
- 11709	static int __init bpf_kfunc_init(void)
- 11710	{
- 11711		int ret;
- 11712	
- 11713		ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_SCHED_CLS, &bpf_kfunc_set_skb);
- 11714		ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_SCHED_ACT, &bpf_kfunc_set_skb);
- 11715		ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_SK_SKB, &bpf_kfunc_set_skb);
- 11716		ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_SOCKET_FILTER, &bpf_kfunc_set_skb);
- 11717		ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_CGROUP_SKB, &bpf_kfunc_set_skb);
- 11718		ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_LWT_OUT, &bpf_kfunc_set_skb);
- 11719		ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_LWT_IN, &bpf_kfunc_set_skb);
- 11720		ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_LWT_XMIT, &bpf_kfunc_set_skb);
- 11721		ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_LWT_SEG6LOCAL, &bpf_kfunc_set_skb);
- 11722		ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_NETFILTER, &bpf_kfunc_set_skb);
- 11723		return ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_XDP, &bpf_kfunc_set_xdp);
- 11724	}
- 11725	late_initcall(bpf_kfunc_init);
- 11726	
- 11727	/* Disables missing prototype warnings */
- 11728	__diag_push();
- 11729	__diag_ignore_all("-Wmissing-prototypes",
- 11730			  "Global functions as their definitions will be in vmlinux BTF");
- 11731	
- 11732	/* bpf_sock_destroy: Destroy the given socket with ECONNABORTED error code.
- 11733	 *
- 11734	 * The function expects a non-NULL pointer to a socket, and invokes the
- 11735	 * protocol specific socket destroy handlers.
- 11736	 *
- 11737	 * The helper can only be called from BPF contexts that have acquired the socket
- 11738	 * locks.
- 11739	 *
- 11740	 * Parameters:
- 11741	 * @sock: Pointer to socket to be destroyed
- 11742	 *
- 11743	 * Return:
- 11744	 * On error, may return EPROTONOSUPPORT, EINVAL.
- 11745	 * EPROTONOSUPPORT if protocol specific destroy handler is not supported.
- 11746	 * 0 otherwise
- 11747	 */
- 11748	__bpf_kfunc int bpf_sock_destroy(struct sock_common *sock)
- 11749	{
- 11750		struct sock *sk = (struct sock *)sock;
- 11751	
- 11752		/* The locking semantics that allow for synchronous execution of the
- 11753		 * destroy handlers are only supported for TCP and UDP.
- 11754		 * Supporting protocols will need to acquire sock lock in the BPF context
- 11755		 * prior to invoking this kfunc.
- 11756		 */
- 11757		if (!sk->sk_prot->diag_destroy || (sk->sk_protocol != IPPROTO_TCP &&
- 11758						   sk->sk_protocol != IPPROTO_UDP))
- 11759			return -EOPNOTSUPP;
- 11760	
- 11761		return sk->sk_prot->diag_destroy(sk, ECONNABORTED);
- 11762	}
- 11763	
+  7192	
+  7193	/*
+  7194	 * For the multiple-LLC per node case, make sure to try the other LLC's if the
+  7195	 * local LLC comes up empty.
+  7196	 */
+  7197	static int
+  7198	select_idle_node(struct task_struct *p, struct sched_domain *sd, int target)
+  7199	{
+> 7200		struct sched_domain *parent = sd->parent;
+  7201		struct sched_group *sg;
+  7202	
+  7203		/* Make sure to not cross nodes. */
+  7204		if (!parent || parent->flags & SD_NUMA)
+  7205			return -1;
+  7206	
+  7207		sg = parent->groups;
+  7208		do {
+  7209			int cpu = cpumask_first(sched_group_span(sg));
+> 7210			struct sched_domain *sd_child = per_cpu(sd_llc, cpu);
+  7211	
+  7212			if (!cpus_share_cache(cpu, target) && sd_child) {
+  7213				int i = select_idle_cpu(p, sd_child,
+  7214							test_idle_cores(cpu), cpu);
+  7215				if ((unsigned)i < nr_cpumask_bits)
+  7216					return i;
+  7217			}
+  7218	
+  7219			sg = sg->next;
+  7220		} while (sg != parent->groups);
+  7221	
+  7222		return -1;
+  7223	}
+  7224	
 
 -- 
 0-DAY CI Kernel Test Service
