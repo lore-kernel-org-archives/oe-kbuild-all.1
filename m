@@ -1,42 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFE32105
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Sep 2023 12:08:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DBD31FD7
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Sep 2023 12:50:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694261303; x=1725797303;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4I3lBU2DMVueFg6TaIyefQ5zLIqyw+5/iO6Pt81J8Mk=;
-  b=jKtqsWDereDPBnsM5R8MR8t8PFS8kJhY+B0PBOScjzHMEzkgC2Vcq/BD
-   ofqcBej8/e4yrG4MN29L70OOuTQWewXsRPQiRBDOeffY5OWHKyu15uZci
-   ZKRyAqbBgvAFbgHGdAU9IuRGdUgH0eQtfGWFsd/93bwybc06eqE7o1h4l
-   T/bu2AXx3HD8o02QDW9+Vu6E2d2asoMT0jFXU4QOu+U+ow0UhKKLnwNOP
-   jbF0Tt+OW9ZErmtzj5h1b1fjkxr8PtNgdE+5gYUeLqfgpMVE2rCWIhP8w
-   snfIGjz7eYK4KA3fOToyHlmw3Hw1RrNW9cEU3mia7A5QPXcJ56GrqVkup
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="358120956"
+  t=1694263823; x=1725799823;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QqkyDdb7KFTGx786teAZtfSKdS8sprJ45mGO8pjXtCI=;
+  b=SECQJBlSKwytHbPQp2tywXMH08CsVVuFhw3ND+PxDTuxDBeb4iytbrKM
+   iFQaTduLwrJkubhWJ60WxcTROajdTWTbTGgS5ZFcD0EBp+r5Em/DelbUi
+   jlnFj761DOHqAz4US0axMKnQz2IsK2DjJobZygZelKy4bgxnuv9vyzhnu
+   QdjxmGoQZuv+D2xWOKQGBPXdcHwm6kcvvqKHvsBlEGPTNL/BRiixtwalz
+   Uyi/s6cXcc0p2uLRD215NiPvPJY24A797PXUxBErD7zbYc7qSAidf8NW0
+   T0Oy1c5pni7lInIYTHLUfT0RNdCiXbWXxUnsafRRZkOJKbIcDGKCY3JL4
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="357284240"
 X-IronPort-AV: E=Sophos;i="6.02,239,1688454000"; 
-   d="scan'208";a="358120956"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 05:08:20 -0700
+   d="scan'208";a="357284240"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 05:50:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="885952515"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="719448626"
 X-IronPort-AV: E=Sophos;i="6.02,239,1688454000"; 
-   d="scan'208";a="885952515"
+   d="scan'208";a="719448626"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 09 Sep 2023 05:08:00 -0700
+  by orsmga006.jf.intel.com with ESMTP; 09 Sep 2023 05:50:20 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qewl6-0003Te-2U;
-	Sat, 09 Sep 2023 12:08:16 +0000
-Date: Sat, 9 Sep 2023 20:07:48 +0800
+	id 1qexPm-0003Vr-27;
+	Sat, 09 Sep 2023 12:50:18 +0000
+Date: Sat, 9 Sep 2023 20:49:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/opp/core.c:2181: warning: Function parameter or member
- 'opp_table' not described in '_opp_set_clknames'
-Message-ID: <202309092008.fU1U8cHe-lkp@intel.com>
+To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH net-next 1/6] net: ethernet: implement OPEN Alliance
+ control transaction interface
+Message-ID: <202309092045.ALqlvkvR-lkp@intel.com>
+References: <20230908142919.14849-2-Parthiban.Veerasooran@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,94 +47,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230908142919.14849-2-Parthiban.Veerasooran@microchip.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6099776f9f268e61fe5ecd721f994a8cfce5306f
-commit: 2368f57685768f9f9cd666eaa4194a359d89afb8 OPP: Migrate set-clk-name API to use set-config helpers
-date:   1 year, 2 months ago
-config: csky-defconfig (https://download.01.org/0day-ci/archive/20230909/202309092008.fU1U8cHe-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309092008.fU1U8cHe-lkp@intel.com/reproduce)
+Hi Parthiban,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Parthiban-Veerasooran/net-ethernet-implement-OPEN-Alliance-control-transaction-interface/20230908-224352
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230908142919.14849-2-Parthiban.Veerasooran%40microchip.com
+patch subject: [RFC PATCH net-next 1/6] net: ethernet: implement OPEN Alliance control transaction interface
+reproduce: (https://download.01.org/0day-ci/archive/20230909/202309092045.ALqlvkvR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309092008.fU1U8cHe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309092045.ALqlvkvR-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/opp/core.c:1967: warning: Function parameter or member 'opp_table' not described in '_opp_set_supported_hw'
-   drivers/opp/core.c:1967: warning: Excess function parameter 'dev' description in '_opp_set_supported_hw'
-   drivers/opp/core.c:2068: warning: Function parameter or member 'opp_table' not described in '_opp_set_regulators'
-   drivers/opp/core.c:2068: warning: Excess function parameter 'count' description in '_opp_set_regulators'
->> drivers/opp/core.c:2181: warning: Function parameter or member 'opp_table' not described in '_opp_set_clknames'
-   drivers/opp/core.c:2653: warning: Function parameter or member 'token' not described in 'dev_pm_opp_clear_config'
-   drivers/opp/core.c:2653: warning: Excess function parameter 'opp_table' description in 'dev_pm_opp_clear_config'
+>> Documentation/networking/oa-tc6-framework.rst:87: WARNING: Error in "code-block" directive:
+>> Documentation/networking/oa-tc6-framework.rst:7: WARNING: Undefined substitution referenced: "copy".
+>> Documentation/networking/oa-tc6-framework.rst: WARNING: document isn't included in any toctree
 
+vim +87 Documentation/networking/oa-tc6-framework.rst
 
-vim +2181 drivers/opp/core.c
-
-32aee78bc5184c drivers/opp/core.c            Yangtao Li          2021-03-14  2165  
-829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar        2017-06-21  2166  /**
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2167   * _opp_set_clknames() - Set clk names for the device
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2168   * @dev: Device for which clk names is being set.
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2169   * @names: Clk names.
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2170   *
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2171   * In order to support OPP switching, OPP layer needs to get pointers to the
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2172   * clocks for the device. Simple cases work fine without using this routine
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2173   * (i.e. by passing connection-id as NULL), but for a device with multiple
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2174   * clocks available, the OPP core needs to know the exact names of the clks to
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2175   * use.
-829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar        2017-06-21  2176   *
-829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar        2017-06-21  2177   * This must be called before any OPPs are initialized for the device.
-829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar        2017-06-21  2178   */
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2179  static int _opp_set_clknames(struct opp_table *opp_table, struct device *dev,
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2180  			     const char * const names[])
-829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar        2017-06-21 @2181  {
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2182  	const char * const *temp = names;
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2183  	int count = 0;
-829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar        2017-06-21  2184  
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2185  	/* Count number of clks */
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2186  	while (*temp++)
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2187  		count++;
-829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar        2017-06-21  2188  
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2189  	/*
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2190  	 * This is a special case where we have a single clock, whose connection
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2191  	 * id name is NULL, i.e. first two entries are NULL in the array.
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2192  	 */
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2193  	if (!count && !names[1])
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2194  		count = 1;
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2195  
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2196  	/* We support only one clock name for now */
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2197  	if (count != 1)
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2198  		return -EINVAL;
-829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar        2017-06-21  2199  
-0a43452bb6b1f4 drivers/opp/core.c            Viresh Kumar        2022-05-25  2200  	/* Another CPU that shares the OPP table has set the clkname ? */
-0a43452bb6b1f4 drivers/opp/core.c            Viresh Kumar        2022-05-25  2201  	if (opp_table->clk_configured)
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2202  		return 0;
-0a43452bb6b1f4 drivers/opp/core.c            Viresh Kumar        2022-05-25  2203  
-32439ac7535a8e drivers/opp/core.c            Viresh Kumar        2021-01-28  2204  	/* clk shouldn't be initialized at this point */
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2205  	if (WARN_ON(opp_table->clk))
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2206  		return -EBUSY;
-829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar        2017-06-21  2207  
-829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar        2017-06-21  2208  	/* Find clk for the device */
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2209  	opp_table->clk = clk_get(dev, names[0]);
-829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar        2017-06-21  2210  	if (IS_ERR(opp_table->clk)) {
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2211  		return dev_err_probe(dev, PTR_ERR(opp_table->clk),
-543256d239b415 drivers/opp/core.c            Krzysztof Kozlowski 2022-04-08  2212  				    "%s: Couldn't find clock\n", __func__);
-829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar        2017-06-21  2213  	}
-829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar        2017-06-21  2214  
-0a43452bb6b1f4 drivers/opp/core.c            Viresh Kumar        2022-05-25  2215  	opp_table->clk_configured = true;
-0a43452bb6b1f4 drivers/opp/core.c            Viresh Kumar        2022-05-25  2216  
-2368f57685768f drivers/opp/core.c            Viresh Kumar        2022-05-26  2217  	return 0;
-829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar        2017-06-21  2218  }
-829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar        2017-06-21  2219  
-
-:::::: The code at line 2181 was first introduced by commit
-:::::: 829a4e8c0e9aab17bcfe2ddb070388b8ada26292 PM / OPP: Add dev_pm_opp_{set|put}_clkname()
-
-:::::: TO: Viresh Kumar <viresh.kumar@linaro.org>
-:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+     6	
+   > 7	:Copyright: |copy| 2023 MICROCHIP
+     8	
+     9	Introduction
+    10	------------
+    11	
+    12	The IEEE 802.3cg project defines two 10 Mbit/s PHYs operating over a
+    13	single pair of conductors. The 10BASE-T1L (Clause 146) is a long reach
+    14	PHY supporting full duplex point-to-point operation over 1 km of single
+    15	balanced pair of conductors. The 10BASE-T1S (Clause 147) is a short reach
+    16	PHY supporting full / half duplex point-to-point operation over 15 m of
+    17	single balanced pair of conductors, or half duplex multidrop bus
+    18	operation over 25 m of single balanced pair of conductors.
+    19	
+    20	Furthermore, the IEEE 802.3cg project defines the new Physical Layer
+    21	Collision Avoidance (PLCA) Reconciliation Sublayer (Clause 148) meant to
+    22	provide improved determinism to the CSMA/CD media access method. PLCA
+    23	works in conjunction with the 10BASE-T1S PHY operating in multidrop mode.
+    24	
+    25	The aforementioned PHYs are intended to cover the low-speed / low-cost
+    26	applications in industrial and automotive environment. The large number
+    27	of pins (16) required by the MII interface, which is specified by the
+    28	IEEE 802.3 in Clause 22, is one of the major cost factors that need to be
+    29	addressed to fulfil this objective.
+    30	
+    31	The MAC-PHY solution integrates an IEEE Clause 4 MAC and a 10BASE-T1x PHY
+    32	exposing a low pin count Serial Peripheral Interface (SPI) to the host
+    33	microcontroller. This also enables the addition of Ethernet functionality
+    34	to existing low-end microcontrollers which do not integrate a MAC
+    35	controller.
+    36	
+    37	Overview
+    38	--------
+    39	
+    40	The MAC-PHY is specified to carry both data (Ethernet frames) and control
+    41	(register access) transactions over a single full-duplex serial
+    42	peripheral interface.
+    43	
+    44	Protocol Overview
+    45	-----------------
+    46	
+    47	Two types of transactions are defined in the protocol: data transactions
+    48	for Ethernet frame transfers and control transactions for register
+    49	read/write transfers. A chunk is the basic element of data transactions
+    50	and is composed of 4 bytes of overhead plus the configured payload size
+    51	for each chunk. Ethernet frames are transferred over one or more data
+    52	chunks. Control transactions consist of one or more register read/write
+    53	control commands.
+    54	
+    55	SPI transactions are initiated by the SPI host with the assertion of CSn
+    56	low to the MAC-PHY and ends with the deassertion of CSn high. In between
+    57	each SPI transaction, the SPI host may need time for additional
+    58	processing and to setup the next SPI data or control transaction.
+    59	
+    60	SPI data transactions consist of an equal number of transmit (TX) and
+    61	receive (RX) chunks. Chunks in both transmit and receive directions may
+    62	or may not contain valid frame data independent from each other, allowing
+    63	for the simultaneous transmission and reception of different length
+    64	frames.
+    65	
+    66	Each transmit data chunk begins with a 32-bit data header followed by a
+    67	data chunk payload on MOSI. The data header indicates whether transmit
+    68	frame data is present and provides the information to determine which
+    69	bytes of the payload contain valid frame data.
+    70	
+    71	In parallel, receive data chunks are received on MISO. Each receive data
+    72	chunk consists of a data chunk payload ending with a 32-bit data footer.
+    73	The data footer indicates if there is receive frame data present within
+    74	the payload or not and provides the information to determine which bytes
+    75	of the payload contain valid frame data.
+    76	
+    77	Reference
+    78	---------
+    79	
+    80	10BASE-T1x MAC-PHY Serial Interface Specification,
+    81	
+    82	Link: https://www.opensig.org/about/specifications/
+    83	
+    84	Hardware Architecture
+    85	---------------------
+    86	
+  > 87	.. code-block:: none
+    88	                    +-------------------------------------+
+    89	                    |                MAC-PHY              |
+    90	  +----------+      | +-----------+  +-------+  +-------+ |
+    91	  | SPI Host |<---->| | SPI Slave |  |  MAC  |  |  PHY  | |
+    92	  +----------+      | +-----------+  +-------+  +-------+ |
+    93	                    +-------------------------------------+
+    94	
 
 -- 
 0-DAY CI Kernel Test Service
