@@ -1,44 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C88130F89
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Sep 2023 09:45:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD201FAB;
+	Sat,  9 Sep 2023 10:07:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694252705; x=1725788705;
+  t=1694254028; x=1725790028;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=TjYMvQ3w4a9/hCUG3+mPofZi8A1chm8Cx4jbpxRnBDI=;
-  b=CHpTnx7c/v6XYmhTxKB5LBWJyVocC+Uhcc0lprY6KtTnp8flvzJd16aQ
-   +UiAcko6VZ6Vyw4szCaYhu+w6pd5Rqqs4ffirGuwXW7eZr4hWH/CHbYlP
-   lW3gCnxbtOrqkqgqjubi03gXAvjwHljEAzz8T4P37au7cc+2F0nrW2U95
-   FXacT7WdIp3A/m5U/lvky+FsiF6cdmeBjzkGM0w/S6KpY5aUbZtQsT3jm
-   6v4c45tAzxC+hechTj+zUwkAHcqZkahNhmqPD+/B0e9skuzrGLfTuW0IA
-   CtVu2OATIO5GBJQl0G6H+chdug9xWMs2dR2oph60AMHnnwhDHqHXj3or7
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="444240565"
+  bh=E5kgblMB7JiKmXG1Rz+9maFmsoais6/+oJ9GGpqltdg=;
+  b=COuR6BKDkkQbrAsaN3mFgfKFE8oRQqwu9tFq2J0WAws3Sc7BLiNegt1c
+   T8L08BBNwjVodMIlTGKUGC8ikfqjEqrQiPMs3JD1bwt1OliBAZA6CyXPF
+   GWrCO6sefYQ4yTK0esUgwTQkXSCuHb93I4FuluZRwztYlI6akBEN9cFvF
+   Rq2w5GqHneXM7lnzhBktuBXnphLWglPPxuS/Ylnm1v5sRPvy3dgY6YM/6
+   ysevPJovh6M0ncpNwRNim1YdwMc0+9ei0IemCdVz7cUeFUfoBBt4j49KY
+   Sca1Ps21laPC8so3WXQr0arWiXyoJMBqKXcWUsa/aNWbuhogTndYyNKvi
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="357275532"
 X-IronPort-AV: E=Sophos;i="6.02,239,1688454000"; 
-   d="scan'208";a="444240565"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 02:45:04 -0700
+   d="scan'208";a="357275532"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 03:07:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="808278683"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="745868179"
 X-IronPort-AV: E=Sophos;i="6.02,239,1688454000"; 
-   d="scan'208";a="808278683"
+   d="scan'208";a="745868179"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 09 Sep 2023 02:45:03 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 09 Sep 2023 03:07:05 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qeuWT-0003G4-0C;
-	Sat, 09 Sep 2023 09:45:01 +0000
-Date: Sat, 9 Sep 2023 17:44:20 +0800
+	id 1qeurn-0003He-0V;
+	Sat, 09 Sep 2023 10:07:03 +0000
+Date: Sat, 9 Sep 2023 18:06:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jernej Skrabec <jernej.skrabec@gmail.com>, linus.walleij@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
 Subject: Re: [PATCH 2/2] pinctrl: pinmux: Use dev_err_probe() in pin_request()
-Message-ID: <202309091753.JqeFteSy-lkp@intel.com>
+Message-ID: <202309091724.tJzAxzS5-lkp@intel.com>
 References: <20230909063613.2867-3-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -52,10 +52,10 @@ In-Reply-To: <20230909063613.2867-3-jernej.skrabec@gmail.com>
 
 Hi Jernej,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on linusw-pinctrl/devel]
-[also build test WARNING on linusw-pinctrl/for-next linus/master v6.5 next-20230908]
+[auto build test ERROR on linusw-pinctrl/devel]
+[also build test ERROR on linusw-pinctrl/for-next linus/master v6.5 next-20230908]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
@@ -64,38 +64,33 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jernej-Skrabec/pinctrl-pi
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
 patch link:    https://lore.kernel.org/r/20230909063613.2867-3-jernej.skrabec%40gmail.com
 patch subject: [PATCH 2/2] pinctrl: pinmux: Use dev_err_probe() in pin_request()
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230909/202309091753.JqeFteSy-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309091753.JqeFteSy-lkp@intel.com/reproduce)
+config: hexagon-randconfig-002-20230909 (https://download.01.org/0day-ci/archive/20230909/202309091724.tJzAxzS5-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309091724.tJzAxzS5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309091753.JqeFteSy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309091724.tJzAxzS5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/pinctrl/pinmux.c: In function 'pin_request':
->> drivers/pinctrl/pinmux.c:191:45: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
+>> drivers/pinctrl/pinmux.c:191:31: error: incompatible pointer to integer conversion passing 'char[23]' to parameter of type 'int' [-Wint-conversion]
      191 |                 dev_err_probe(pctldev->dev, "pin-%d (%s) status %d\n",
          |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                             |
-         |                                             char *
-   In file included from drivers/pinctrl/pinmux.c:17:
-   include/linux/device.h:1218:64: note: expected 'int' but argument is of type 'char *'
+   include/linux/device.h:1218:64: note: passing argument to parameter 'err' here
     1218 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                            ~~~~^~~
->> drivers/pinctrl/pinmux.c:192:31: warning: passing argument 3 of 'dev_err_probe' makes pointer from integer without a cast [-Wint-conversion]
+         |                                                                ^
+>> drivers/pinctrl/pinmux.c:192:10: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'const char *' [-Wint-conversion]
      192 |                               pin, owner, status);
          |                               ^~~
-         |                               |
-         |                               int
-   include/linux/device.h:1218:81: note: expected 'const char *' but argument is of type 'int'
+   include/linux/device.h:1218:81: note: passing argument to parameter 'fmt' here
     1218 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                                     ~~~~~~~~~~~~^~~
+         |                                                                                 ^
+   2 errors generated.
 
 
-vim +/dev_err_probe +191 drivers/pinctrl/pinmux.c
+vim +191 drivers/pinctrl/pinmux.c
 
    101	
    102	/**
