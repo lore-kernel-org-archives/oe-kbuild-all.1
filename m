@@ -1,42 +1,42 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151512919
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Sep 2023 13:35:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D55B2919
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Sep 2023 13:35:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694266524; x=1725802524;
+  t=1694266526; x=1725802526;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dVu3tiDU0An9oMd1+32Ja4qf+AJtSRM+YdWvQXV2EF8=;
-  b=T536r2T8iz+XiuRJt4cs7weZPYua2gssBhGR20EmlqOaAkBmn6tGymj3
-   JgJVzIg0A4uUGYEAcAur4VzjmygYOy0FTywFQfmrBTlmxKvhJMVKRyvT/
-   ExzBkZS0CK8k2X4f+Rpy/EijwvQdABCaFMcwzyuiOQUtoNwJrK3Q920HF
-   gqp1HJIPQk8u1J2zRaGe3FEVjKZ2TeU9smEFs3l7UpPN3F26QheXCs6yh
-   ttZ3qF4OmNSPCWi7AQPW7cqN1BPcCuHMtr8XayGgRjPF1HPuckA1Die5t
-   FxC/yTxsaqcRTqyIurMu1RdFbPtE4PoBp9c9j46EL98Gb3PyhnZD50TuO
+  bh=dzTDb+rbzDlxMvyXj5wfCQ+vb5o5IwOugPWV6O5Wl18=;
+  b=Ji4Yremzluzz2OaCZZtoe86B1POCMD8NYm3szH5//PVEc3X5oRUW3Eu8
+   b4VivkowH//X2pWdggSiEK/MGXGs/3cU/R1OT9dyitjpWa70lJXlMNYH7
+   gk9QPNnyS4mdJKSbrh3JK9bj6D4jE5Lrpx+dRk4sASodp4y4+x4Ax3OtE
+   3AfM3uEztycbidg0Y1y8Bvzyngbm7jOmUgvzT5KO3nHNhJr1lu4ZjcWav
+   tPb7eyCZAC43KHKTssUYIRG8EgEvIMc38XaEaQH+pyuKUvM0cgMe/KesW
+   zHJAqTe+i5TF3vDRQn374bXORRyxq1TWxQDqvZpjPTOJR1r2N2XPwm0Nk
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="464190329"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="464190330"
 X-IronPort-AV: E=Sophos;i="6.02,239,1688454000"; 
-   d="scan'208";a="464190329"
+   d="scan'208";a="464190330"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
   by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 06:35:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="1073618274"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="1073618275"
 X-IronPort-AV: E=Sophos;i="6.02,239,1688454000"; 
-   d="scan'208";a="1073618274"
+   d="scan'208";a="1073618275"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
   by fmsmga005.fm.intel.com with ESMTP; 09 Sep 2023 06:35:22 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qey7M-0003Y2-0D;
+	id 1qey7M-0003Y8-0S;
 	Sat, 09 Sep 2023 13:35:20 +0000
-Date: Sat, 9 Sep 2023 21:35:10 +0800
+Date: Sat, 9 Sep 2023 21:35:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (IBM)" <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
-Subject: [rppt:jitalloc/v2.4 3/13] arch/mips/include/asm/page.h:156:39:
- error: initializer element is not constant
-Message-ID: <202309092136.QgGAmIub-lkp@intel.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/opp/core.c:2331: warning: Function parameter or member
+ 'opp_table' not described in '_opp_attach_genpd'
+Message-ID: <202309092131.Z35nBw8N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,79 +46,120 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git jitalloc/v2.4
-head:   508766bb924d535d2b80ffe50eb60eae25c0c02e
-commit: dd4c108ee0b2ef49e5bdb599d491fd029ddca09e [3/13] mm/execmem, arch: convert simple overrides of module_alloc to execmem
-config: mips-bigsur_defconfig (https://download.01.org/0day-ci/archive/20230909/202309092136.QgGAmIub-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309092136.QgGAmIub-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6099776f9f268e61fe5ecd721f994a8cfce5306f
+commit: 442e7a1786e628b38175314ec1805966b8d0c02c OPP: Migrate attach-genpd API to use set-config helpers
+date:   1 year, 2 months ago
+config: csky-defconfig (https://download.01.org/0day-ci/archive/20230909/202309092131.Z35nBw8N-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309092131.Z35nBw8N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309092136.QgGAmIub-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309092131.Z35nBw8N-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/mips/kernel/module.c:40:34: error: 'MODULES_VADDR' undeclared here (not in a function)
-      40 |                         .start = MODULES_VADDR,
-         |                                  ^~~~~~~~~~~~~
-   arch/mips/kernel/module.c:41:32: error: 'MODULES_END' undeclared here (not in a function); did you mean 'MODULE_END'?
-      41 |                         .end = MODULES_END,
-         |                                ^~~~~~~~~~~
-         |                                MODULE_END
-   In file included from arch/mips/include/asm/io.h:29,
-                    from include/linux/io.h:13,
-                    from arch/mips/include/asm/mips-cps.h:11,
-                    from arch/mips/include/asm/smp-ops.h:16,
-                    from arch/mips/include/asm/smp.h:21,
-                    from include/linux/smp.h:113,
-                    from arch/mips/include/asm/cpu-type.h:12,
-                    from arch/mips/include/asm/timex.h:19,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from include/linux/moduleloader.h:6,
-                    from arch/mips/kernel/module.c:12:
->> arch/mips/include/asm/page.h:156:39: error: initializer element is not constant
-     156 | #define __pgprot(x)     ((pgprot_t) { (x) } )
-         |                                       ^
-   arch/mips/include/asm/pgtable.h:30:25: note: in expansion of macro '__pgprot'
-      30 | #define PAGE_KERNEL     __pgprot(_PAGE_PRESENT | __READABLE | __WRITEABLE | \
-         |                         ^~~~~~~~
-   arch/mips/kernel/module.c:42:35: note: in expansion of macro 'PAGE_KERNEL'
-      42 |                         .pgprot = PAGE_KERNEL,
-         |                                   ^~~~~~~~~~~
-   arch/mips/include/asm/page.h:156:39: note: (near initialization for '(anonymous).pgprot')
-     156 | #define __pgprot(x)     ((pgprot_t) { (x) } )
-         |                                       ^
-   arch/mips/include/asm/pgtable.h:30:25: note: in expansion of macro '__pgprot'
-      30 | #define PAGE_KERNEL     __pgprot(_PAGE_PRESENT | __READABLE | __WRITEABLE | \
-         |                         ^~~~~~~~
-   arch/mips/kernel/module.c:42:35: note: in expansion of macro 'PAGE_KERNEL'
-      42 |                         .pgprot = PAGE_KERNEL,
-         |                                   ^~~~~~~~~~~
+   drivers/opp/core.c:1967: warning: Function parameter or member 'opp_table' not described in '_opp_set_supported_hw'
+   drivers/opp/core.c:1967: warning: Excess function parameter 'dev' description in '_opp_set_supported_hw'
+   drivers/opp/core.c:2068: warning: Function parameter or member 'opp_table' not described in '_opp_set_regulators'
+   drivers/opp/core.c:2068: warning: Excess function parameter 'count' description in '_opp_set_regulators'
+   drivers/opp/core.c:2181: warning: Function parameter or member 'opp_table' not described in '_opp_set_clknames'
+   drivers/opp/core.c:2245: warning: Function parameter or member 'opp_table' not described in '_opp_register_set_opp_helper'
+>> drivers/opp/core.c:2331: warning: Function parameter or member 'opp_table' not described in '_opp_attach_genpd'
+   drivers/opp/core.c:2555: warning: Function parameter or member 'token' not described in 'dev_pm_opp_clear_config'
+   drivers/opp/core.c:2555: warning: Excess function parameter 'opp_table' description in 'dev_pm_opp_clear_config'
 
 
-vim +156 arch/mips/include/asm/page.h
+vim +2331 drivers/opp/core.c
 
-c6e8b587718c48 include/asm-mips/page.h      Ralf Baechle   2005-02-10  150  
-c6e8b587718c48 include/asm-mips/page.h      Ralf Baechle   2005-02-10  151  /*
-c6e8b587718c48 include/asm-mips/page.h      Ralf Baechle   2005-02-10  152   * Manipulate page protection bits
-c6e8b587718c48 include/asm-mips/page.h      Ralf Baechle   2005-02-10  153   */
-c6e8b587718c48 include/asm-mips/page.h      Ralf Baechle   2005-02-10  154  typedef struct { unsigned long pgprot; } pgprot_t;
-c6e8b587718c48 include/asm-mips/page.h      Ralf Baechle   2005-02-10  155  #define pgprot_val(x)	((x).pgprot)
-^1da177e4c3f41 include/asm-mips/page.h      Linus Torvalds 2005-04-16 @156  #define __pgprot(x)	((pgprot_t) { (x) } )
-b3a428b4b18d49 arch/mips/include/asm/page.h Hassan Naveed  2018-10-29  157  #define pte_pgprot(x)	__pgprot(pte_val(x) & ~_PFN_MASK)
-^1da177e4c3f41 include/asm-mips/page.h      Linus Torvalds 2005-04-16  158  
+6319aee10e5303 Viresh Kumar    2019-05-08  2306  
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2307  /**
+442e7a1786e628 Viresh Kumar    2022-05-26  2308   * _opp_attach_genpd - Attach genpd(s) for the device and save virtual device pointer
+6319aee10e5303 Viresh Kumar    2019-05-08  2309   * @dev: Consumer device for which the genpd is getting attached.
+6319aee10e5303 Viresh Kumar    2019-05-08  2310   * @names: Null terminated array of pointers containing names of genpd to attach.
+17a8f868ae3e85 Viresh Kumar    2019-07-08  2311   * @virt_devs: Pointer to return the array of virtual devices.
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2312   *
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2313   * Multiple generic power domains for a device are supported with the help of
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2314   * virtual genpd devices, which are created for each consumer device - genpd
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2315   * pair. These are the device structures which are attached to the power domain
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2316   * and are required by the OPP core to set the performance state of the genpd.
+6319aee10e5303 Viresh Kumar    2019-05-08  2317   * The same API also works for the case where single genpd is available and so
+6319aee10e5303 Viresh Kumar    2019-05-08  2318   * we don't need to support that separately.
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2319   *
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2320   * This helper will normally be called by the consumer driver of the device
+6319aee10e5303 Viresh Kumar    2019-05-08  2321   * "dev", as only that has details of the genpd names.
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2322   *
+6319aee10e5303 Viresh Kumar    2019-05-08  2323   * This helper needs to be called once with a list of all genpd to attach.
+6319aee10e5303 Viresh Kumar    2019-05-08  2324   * Otherwise the original device structure will be used instead by the OPP core.
+baea35e4db17a7 Viresh Kumar    2019-07-17  2325   *
+baea35e4db17a7 Viresh Kumar    2019-07-17  2326   * The order of entries in the names array must match the order in which
+baea35e4db17a7 Viresh Kumar    2019-07-17  2327   * "required-opps" are added in DT.
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2328   */
+442e7a1786e628 Viresh Kumar    2022-05-26  2329  static int _opp_attach_genpd(struct opp_table *opp_table, struct device *dev,
+3734b9f2cee01d Dmitry Osipenko 2021-09-27  2330  			const char * const *names, struct device ***virt_devs)
+4f018bc0e1cfde Viresh Kumar    2018-06-26 @2331  {
+6319aee10e5303 Viresh Kumar    2019-05-08  2332  	struct device *virt_dev;
+baea35e4db17a7 Viresh Kumar    2019-07-17  2333  	int index = 0, ret = -EINVAL;
+3734b9f2cee01d Dmitry Osipenko 2021-09-27  2334  	const char * const *name = names;
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2335  
+cb60e9602cce15 Viresh Kumar    2020-08-31  2336  	if (opp_table->genpd_virt_devs)
+442e7a1786e628 Viresh Kumar    2022-05-26  2337  		return 0;
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2338  
+6319aee10e5303 Viresh Kumar    2019-05-08  2339  	/*
+6319aee10e5303 Viresh Kumar    2019-05-08  2340  	 * If the genpd's OPP table isn't already initialized, parsing of the
+6319aee10e5303 Viresh Kumar    2019-05-08  2341  	 * required-opps fail for dev. We should retry this after genpd's OPP
+6319aee10e5303 Viresh Kumar    2019-05-08  2342  	 * table is added.
+6319aee10e5303 Viresh Kumar    2019-05-08  2343  	 */
+442e7a1786e628 Viresh Kumar    2022-05-26  2344  	if (!opp_table->required_opp_count)
+442e7a1786e628 Viresh Kumar    2022-05-26  2345  		return -EPROBE_DEFER;
+6319aee10e5303 Viresh Kumar    2019-05-08  2346  
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2347  	mutex_lock(&opp_table->genpd_virt_dev_lock);
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2348  
+c0ab9e0812da8e Viresh Kumar    2019-05-08  2349  	opp_table->genpd_virt_devs = kcalloc(opp_table->required_opp_count,
+c0ab9e0812da8e Viresh Kumar    2019-05-08  2350  					     sizeof(*opp_table->genpd_virt_devs),
+c0ab9e0812da8e Viresh Kumar    2019-05-08  2351  					     GFP_KERNEL);
+c0ab9e0812da8e Viresh Kumar    2019-05-08  2352  	if (!opp_table->genpd_virt_devs)
+c0ab9e0812da8e Viresh Kumar    2019-05-08  2353  		goto unlock;
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2354  
+6319aee10e5303 Viresh Kumar    2019-05-08  2355  	while (*name) {
+6319aee10e5303 Viresh Kumar    2019-05-08  2356  		if (index >= opp_table->required_opp_count) {
+6319aee10e5303 Viresh Kumar    2019-05-08  2357  			dev_err(dev, "Index can't be greater than required-opp-count - 1, %s (%d : %d)\n",
+6319aee10e5303 Viresh Kumar    2019-05-08  2358  				*name, opp_table->required_opp_count, index);
+6319aee10e5303 Viresh Kumar    2019-05-08  2359  			goto err;
+6319aee10e5303 Viresh Kumar    2019-05-08  2360  		}
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2361  
+6319aee10e5303 Viresh Kumar    2019-05-08  2362  		virt_dev = dev_pm_domain_attach_by_name(dev, *name);
+4ea9496cbc959e Tang Bin        2022-05-24  2363  		if (IS_ERR_OR_NULL(virt_dev)) {
+4ea9496cbc959e Tang Bin        2022-05-24  2364  			ret = PTR_ERR(virt_dev) ? : -ENODEV;
+6319aee10e5303 Viresh Kumar    2019-05-08  2365  			dev_err(dev, "Couldn't attach to pm_domain: %d\n", ret);
+6319aee10e5303 Viresh Kumar    2019-05-08  2366  			goto err;
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2367  		}
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2368  
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2369  		opp_table->genpd_virt_devs[index] = virt_dev;
+baea35e4db17a7 Viresh Kumar    2019-07-17  2370  		index++;
+6319aee10e5303 Viresh Kumar    2019-05-08  2371  		name++;
+6319aee10e5303 Viresh Kumar    2019-05-08  2372  	}
+6319aee10e5303 Viresh Kumar    2019-05-08  2373  
+17a8f868ae3e85 Viresh Kumar    2019-07-08  2374  	if (virt_devs)
+17a8f868ae3e85 Viresh Kumar    2019-07-08  2375  		*virt_devs = opp_table->genpd_virt_devs;
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2376  	mutex_unlock(&opp_table->genpd_virt_dev_lock);
+4f018bc0e1cfde Viresh Kumar    2018-06-26  2377  
+442e7a1786e628 Viresh Kumar    2022-05-26  2378  	return 0;
+6319aee10e5303 Viresh Kumar    2019-05-08  2379  
+6319aee10e5303 Viresh Kumar    2019-05-08  2380  err:
+442e7a1786e628 Viresh Kumar    2022-05-26  2381  	_detach_genpd(opp_table);
+c0ab9e0812da8e Viresh Kumar    2019-05-08  2382  unlock:
+6319aee10e5303 Viresh Kumar    2019-05-08  2383  	mutex_unlock(&opp_table->genpd_virt_dev_lock);
+442e7a1786e628 Viresh Kumar    2022-05-26  2384  	return ret;
+6319aee10e5303 Viresh Kumar    2019-05-08  2385  
 
-:::::: The code at line 156 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code at line 2331 was first introduced by commit
+:::::: 4f018bc0e1cfdec2e25072db9fecc1f363ba79ea OPP: Add dev_pm_opp_{set|put}_genpd_virt_dev() helper
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Viresh Kumar <viresh.kumar@linaro.org>
+:::::: CC: Viresh Kumar <viresh.kumar@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
