@@ -1,42 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B98B33C1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 12:14:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCE93C16
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 13:16:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694348093; x=1725884093;
+  t=1694351816; x=1725887816;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=S0ZTkZY2QzpUyDAV2t0L8uQGRVylGbv9FmBji7NmVjs=;
-  b=fbjHm1LegcRVqfJbfSnrT+JrQo06RYnCueNBd9IveGrJg1ixz1amLImP
-   MEoB1DENoo+jBHffPwglsxA/7ahJvu1LOjm98HDQRM/7tW+bn85IFUj3S
-   K7gbPJGtStnvyMNt41UtqpMySIlvRuNLQvrKcf2kN7XbiJ6PW2//p/m09
-   AurrSe1fKr9BLVwKhdIcOfSFd7kln/spWz+c0S5MzbAh7pqgViN0/Sb29
-   tpSuODRTxeh+WyUbbD5ObDlnA38mMJ0Js6itmKViS9QiT2CTrWu6OjzZq
-   eWlgO/CbiN3JbM8PZ7beb662duRxOZ5EQ/XHiiC4dNwRRSBred5eyNpkA
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="362937639"
+  bh=NRlH3oZGbbuCMekb6i/2KsmZ0rPCDwFh9Uc0JpBXUmE=;
+  b=AGyErL/DI3Lr4igp7wPApW5+34JrP9ThRzTq50/E8WYAd/yHrutLPCTE
+   rqWfL9QSijD9E9dVGP9RxHM351am3huRja+bY8aTbA95lp8FSZz64JCjp
+   mmGhayJT1TbvqaF5bpYj7OZ/cdZKz4zD1FJhz/lj7Fjv+vYlxL/Xz+Oxi
+   k0U1zmKes5KybSzWQSCBtn3wB8ja6aSol7RfMoVNRQZ+ineLNM7fhOYd4
+   UZZwo86WBJLfbrLFgGY7l1wBVDEvfdu7Df5GjkSD9S0tPl8alazZelRSp
+   2MB8sr7DQ6BmsQuAT4bFs1+I6eMpapUmTh01hwxhojvuQiJTsxwSIs/5m
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="464262005"
 X-IronPort-AV: E=Sophos;i="6.02,241,1688454000"; 
-   d="scan'208";a="362937639"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 05:14:52 -0700
+   d="scan'208";a="464262005"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 06:16:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="692753713"
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="886191806"
 X-IronPort-AV: E=Sophos;i="6.02,241,1688454000"; 
-   d="scan'208";a="692753713"
+   d="scan'208";a="886191806"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 10 Sep 2023 05:14:51 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 10 Sep 2023 06:16:32 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfJKy-0004tq-2m;
-	Sun, 10 Sep 2023 12:14:48 +0000
-Date: Sun, 10 Sep 2023 20:13:53 +0800
+	id 1qfKJ1-0004y0-1o;
+	Sun, 10 Sep 2023 13:16:51 +0000
+Date: Sun, 10 Sep 2023 21:16:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-fix-5f 23/25] include/drm/drm_print.h:423:9: error:
- implicit declaration of function '_dynamic_func_call_cls'
-Message-ID: <202309102032.DrU7xTZn-lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Kevin Tian <kevin.tian@intel.com>,
+	Eric Auger <eric.auger@redhat.com>,
+	Nicolin Chen <nicolinc@nvidia.com>
+Subject: drivers/iommu/iommufd/vfio_compat.c:315:17: sparse: sparse: cast
+ removes address space '__user' of expression
+Message-ID: <202309102158.44x6nW0r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,201 +49,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Jim,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://github.com/jimc/linux.git dd-fix-5f
-head:   dc6931cc4126fd98ba55329c9545f128ee112b4f
-commit: a292927eecefacddc81d3015a07d575d9f702c75 [23/25] drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
-config: x86_64-randconfig-122-20230910 (https://download.01.org/0day-ci/archive/20230910/202309102032.DrU7xTZn-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309102032.DrU7xTZn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   535a265d7f0dd50d8c3a4f8b4f3a452d56bd160f
+commit: d624d6652a65ad4f47a58b8651a1ec1163bb81d3 iommufd: vfio container FD ioctl compatibility
+date:   9 months ago
+config: i386-randconfig-063-20230910 (https://download.01.org/0day-ci/archive/20230910/202309102158.44x6nW0r-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309102158.44x6nW0r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309102032.DrU7xTZn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309102158.44x6nW0r-lkp@intel.com/
 
-Note: the jimc/dd-fix-5f HEAD dc6931cc4126fd98ba55329c9545f128ee112b4f builds fine.
-      It only hurts bisectability.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iommu/iommufd/vfio_compat.c:315:17: sparse: sparse: cast removes address space '__user' of expression
 
-All errors (new ones prefixed by >>):
+vim +/__user +315 drivers/iommu/iommufd/vfio_compat.c
 
-   In file included from drivers/gpu/drm/display/drm_dp_dual_mode_helper.c:32:
-   drivers/gpu/drm/display/drm_dp_dual_mode_helper.c: In function 'drm_dp_dual_mode_detect':
->> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:504:9: note: in expansion of macro 'drm_dev_dbg'
-     504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   drivers/gpu/drm/display/drm_dp_dual_mode_helper.c:228:9: note: in expansion of macro 'drm_dbg_kms'
-     228 |         drm_dbg_kms(dev, "DP dual mode HDMI ID: %*pE (err %zd)\n",
-         |         ^~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/gpu/drm/display/drm_dp_helper.c:38:
-   drivers/gpu/drm/display/drm_dp_helper.c: In function '__8b10b_clock_recovery_delay_us':
->> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:504:9: note: in expansion of macro 'drm_dev_dbg'
-     504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   drivers/gpu/drm/display/drm_dp_helper.c:219:17: note: in expansion of macro 'drm_dbg_kms'
-     219 |                 drm_dbg_kms(aux->drm_dev, "%s: invalid AUX interval 0x%02x (max 4)\n",
-         |                 ^~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/gpu/drm/display/drm_dp_mst_topology.c:46:
-   drivers/gpu/drm/display/drm_dp_mst_topology.c: In function 'drm_dp_decode_sideband_msg_hdr':
->> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:504:9: note: in expansion of macro 'drm_dev_dbg'
-     504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   drivers/gpu/drm/display/drm_dp_mst_topology.c:310:17: note: in expansion of macro 'drm_dbg_kms'
-     310 |                 drm_dbg_kms(mgr->dev, "crc4 mismatch 0x%x 0x%x\n", crc4, buf[len - 1]);
-         |                 ^~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/gpu/drm/logicvc/logicvc_layer.c:17:
-   drivers/gpu/drm/logicvc/logicvc_layer.c: In function 'logicvc_plane_atomic_update':
->> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:504:9: note: in expansion of macro 'drm_dev_dbg'
-     504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   drivers/gpu/drm/logicvc/logicvc_layer.c:215:17: note: in expansion of macro 'drm_dbg_kms'
-     215 |                 drm_dbg_kms(drm_dev, "Setting layer %d alpha to %d/%d\n", index,
-         |                 ^~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/gpu/drm/bridge/chipone-icn6211.c:9:
-   drivers/gpu/drm/bridge/chipone-icn6211.c: In function 'chipone_parse_dt':
->> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:436:9: note: in expansion of macro 'drm_dev_dbg'
-     436 |         drm_dev_dbg(dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   drivers/gpu/drm/bridge/chipone-icn6211.c:656:17: note: in expansion of macro 'DRM_DEV_DEBUG'
-     656 |                 DRM_DEV_DEBUG(dev, "failed to get VDD1 regulator: %d\n", ret);
-         |                 ^~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/gpu/drm/bridge/ite-it6505.c:30:
-   drivers/gpu/drm/bridge/ite-it6505.c: In function 'it6505_debug_print':
->> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:446:9: note: in expansion of macro 'drm_dev_dbg'
-     446 |         drm_dev_dbg(dev, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   drivers/gpu/drm/bridge/ite-it6505.c:591:17: note: in expansion of macro 'DRM_DEV_DEBUG_DRIVER'
-     591 |                 DRM_DEV_DEBUG_DRIVER(dev, "%s reg[%02x] read error (%d)",
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/gpu/drm/bridge/ti-dlpc3433.c:13:
-   drivers/gpu/drm/bridge/ti-dlpc3433.c: In function 'dlpc_atomic_enable':
->> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:436:9: note: in expansion of macro 'drm_dev_dbg'
-     436 |         drm_dev_dbg(dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   drivers/gpu/drm/bridge/ti-dlpc3433.c:120:9: note: in expansion of macro 'DRM_DEV_DEBUG'
-     120 |         DRM_DEV_DEBUG(dev, "DLPC3433 device id: 0x%02x\n", devid);
-         |         ^~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/gpu/drm/drm_ioc32.c:35:
-   drivers/gpu/drm/drm_ioc32.c: In function 'drm_compat_ioctl':
->> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:500:9: note: in expansion of macro 'drm_dev_dbg'
-     500 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   drivers/gpu/drm/drm_ioc32.c:990:9: note: in expansion of macro 'drm_dbg_core'
-     990 |         drm_dbg_core(dev, "comm=\"%s\", pid=%d, dev=0x%lx, auth=%d, %s\n",
-         |         ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/drm/drm_mm.h:51,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/drm/drm_gem.h:40,
-                    from include/drm/drm_gem_dma_helper.h:7,
-                    from drivers/gpu/drm/drm_gem_dma_helper.c:23:
-   drivers/gpu/drm/drm_gem_dma_helper.c: In function 'drm_gem_dma_create':
->> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
-     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
-     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_gem_dma_helper.c:157:17: note: in expansion of macro 'drm_dbg'
-     157 |                 drm_dbg(drm, "failed to allocate buffer with size %zu\n",
-         |                 ^~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/drm/drm_mm.h:51,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/drm/drm_gem.h:40,
-                    from include/drm/drm_gem_shmem_helper.h:11,
-                    from drivers/gpu/drm/drm_gem_shmem_helper.c:22:
-   drivers/gpu/drm/drm_gem_shmem_helper.c: In function 'drm_gem_shmem_get_pages_locked':
->> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:504:9: note: in expansion of macro 'drm_dev_dbg'
-     504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   drivers/gpu/drm/drm_gem_shmem_helper.c:178:17: note: in expansion of macro 'drm_dbg_kms'
-     178 |                 drm_dbg_kms(obj->dev, "Failed to get pages (%ld)\n",
-         |                 ^~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/gpu/drm/drm_atomic_helper.c:41:
-   drivers/gpu/drm/drm_atomic_helper.c: In function 'handle_conflicting_encoders':
->> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:508:9: note: in expansion of macro 'drm_dev_dbg'
-     508 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   drivers/gpu/drm/drm_atomic_helper.c:136:33: note: in expansion of macro 'drm_dbg_atomic'
-     136 |                                 drm_dbg_atomic(connector->dev,
-         |                                 ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-..
-
-
-vim +/_dynamic_func_call_cls +423 include/drm/drm_print.h
-
-02c9656b2f0d69 Haneen Mohammed 2017-10-17  417  
-84ec67288c10fb Jim Cromie      2022-09-11  418  #if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
-e820f52577b14c Jim Cromie      2022-09-11  419  #define drm_dev_dbg(dev, cat, fmt, ...)				\
-16deeb8e18cafd Jim Cromie      2022-09-11  420  	__drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-84ec67288c10fb Jim Cromie      2022-09-11  421  #else
-84ec67288c10fb Jim Cromie      2022-09-11  422  #define drm_dev_dbg(dev, cat, fmt, ...)				\
-16deeb8e18cafd Jim Cromie      2022-09-11 @423  	_dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,		\
-84ec67288c10fb Jim Cromie      2022-09-11  424  			       dev, cat, fmt, ##__VA_ARGS__)
-84ec67288c10fb Jim Cromie      2022-09-11  425  #endif
-e820f52577b14c Jim Cromie      2022-09-11  426  
-
-:::::: The code at line 423 was first introduced by commit
-:::::: 16deeb8e18cafd30e70d8dc2b12a753b28298d8a drm_print: add _ddebug descriptor to drm_*dbg prototypes
-
-:::::: TO: Jim Cromie <jim.cromie@gmail.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+   309	
+   310	static int iommufd_fill_cap_iova(struct iommufd_ioas *ioas,
+   311					 struct vfio_info_cap_header __user *cur,
+   312					 size_t avail)
+   313	{
+   314		struct vfio_iommu_type1_info_cap_iova_range __user *ucap_iovas =
+ > 315			container_of(cur,
+   316				     struct vfio_iommu_type1_info_cap_iova_range __user,
+   317				     header);
+   318		struct vfio_iommu_type1_info_cap_iova_range cap_iovas = {
+   319			.header = {
+   320				.id = VFIO_IOMMU_TYPE1_INFO_CAP_IOVA_RANGE,
+   321				.version = 1,
+   322			},
+   323		};
+   324		struct interval_tree_span_iter span;
+   325	
+   326		interval_tree_for_each_span(&span, &ioas->iopt.reserved_itree, 0,
+   327					    ULONG_MAX) {
+   328			struct vfio_iova_range range;
+   329	
+   330			if (!span.is_hole)
+   331				continue;
+   332			range.start = span.start_hole;
+   333			range.end = span.last_hole;
+   334			if (avail >= struct_size(&cap_iovas, iova_ranges,
+   335						 cap_iovas.nr_iovas + 1) &&
+   336			    copy_to_user(&ucap_iovas->iova_ranges[cap_iovas.nr_iovas],
+   337					 &range, sizeof(range)))
+   338				return -EFAULT;
+   339			cap_iovas.nr_iovas++;
+   340		}
+   341		if (avail >= struct_size(&cap_iovas, iova_ranges, cap_iovas.nr_iovas) &&
+   342		    copy_to_user(ucap_iovas, &cap_iovas, sizeof(cap_iovas)))
+   343			return -EFAULT;
+   344		return struct_size(&cap_iovas, iova_ranges, cap_iovas.nr_iovas);
+   345	}
+   346	
 
 -- 
 0-DAY CI Kernel Test Service
