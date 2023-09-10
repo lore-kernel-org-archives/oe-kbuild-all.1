@@ -1,43 +1,42 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B793C33C1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 12:02:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B98B33C1
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 12:14:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694347374; x=1725883374;
+  t=1694348093; x=1725884093;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A9XGPoEjE5HHPr2HX5pVLvyW4/4UAKmHQi+66pZzHpA=;
-  b=AFpWtZQpOsxbkVs5tD/qLP8zMNHQgRxAUVd6+tHX77wqSwgKJkXcsUHN
-   OGBqiMTQ5T4ASh8+1ucrznF3d67gYi3jO+4JInZZTHqWmkt3LK6C2VEi4
-   f2kJ+u8j+4GhMHC9HPwWgwceBcZ7uGz+hVsFut46n8Co4SEkBEaMCQdG8
-   e3EjRoegJrplLOAI9Nh3snhDqkvcTyZB/UVaIX08MYk9mztT2hayHGhRB
-   EcPZ0225Od0IPQrwnEtUu4aD7/PjXPYJxZ6TFWzT8kiiz1CQHVIcbWmMB
-   njCFZ2hJQ1E1cVpKI6vaNnhSCJKqDgymwZsAJdWY4oMmuXqyQLuD7nnBz
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="362936632"
+  bh=S0ZTkZY2QzpUyDAV2t0L8uQGRVylGbv9FmBji7NmVjs=;
+  b=fbjHm1LegcRVqfJbfSnrT+JrQo06RYnCueNBd9IveGrJg1ixz1amLImP
+   MEoB1DENoo+jBHffPwglsxA/7ahJvu1LOjm98HDQRM/7tW+bn85IFUj3S
+   K7gbPJGtStnvyMNt41UtqpMySIlvRuNLQvrKcf2kN7XbiJ6PW2//p/m09
+   AurrSe1fKr9BLVwKhdIcOfSFd7kln/spWz+c0S5MzbAh7pqgViN0/Sb29
+   tpSuODRTxeh+WyUbbD5ObDlnA38mMJ0Js6itmKViS9QiT2CTrWu6OjzZq
+   eWlgO/CbiN3JbM8PZ7beb662duRxOZ5EQ/XHiiC4dNwRRSBred5eyNpkA
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="362937639"
 X-IronPort-AV: E=Sophos;i="6.02,241,1688454000"; 
-   d="scan'208";a="362936632"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 05:02:51 -0700
+   d="scan'208";a="362937639"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 05:14:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="916690941"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="692753713"
 X-IronPort-AV: E=Sophos;i="6.02,241,1688454000"; 
-   d="scan'208";a="916690941"
+   d="scan'208";a="692753713"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 10 Sep 2023 05:02:50 -0700
+  by orsmga003.jf.intel.com with ESMTP; 10 Sep 2023 05:14:51 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfJ9M-0004sd-00;
-	Sun, 10 Sep 2023 12:02:48 +0000
-Date: Sun, 10 Sep 2023 20:02:23 +0800
+	id 1qfJKy-0004tq-2m;
+	Sun, 10 Sep 2023 12:14:48 +0000
+Date: Sun, 10 Sep 2023 20:13:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <ast@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Daniel Borkmann <daniel@iogearbox.net>
-Subject: kernel/bpf/hashtab.c:1059:30: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202309101935.zgcMq85L-lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-fix-5f 23/25] include/drm/drm_print.h:423:9: error:
+ implicit declaration of function '_dynamic_func_call_cls'
+Message-ID: <202309102032.DrU7xTZn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,123 +46,201 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   535a265d7f0dd50d8c3a4f8b4f3a452d56bd160f
-commit: ee4ed53c5eb62f49f23560cc2642353547e46c32 bpf: Convert percpu hash map to per-cpu bpf_mem_alloc.
-date:   1 year ago
-config: i386-randconfig-063-20230910 (https://download.01.org/0day-ci/archive/20230910/202309101935.zgcMq85L-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309101935.zgcMq85L-lkp@intel.com/reproduce)
+Hi Jim,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://github.com/jimc/linux.git dd-fix-5f
+head:   dc6931cc4126fd98ba55329c9545f128ee112b4f
+commit: a292927eecefacddc81d3015a07d575d9f702c75 [23/25] drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
+config: x86_64-randconfig-122-20230910 (https://download.01.org/0day-ci/archive/20230910/202309102032.DrU7xTZn-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309102032.DrU7xTZn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309101935.zgcMq85L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309102032.DrU7xTZn-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/bpf/hashtab.c:1059:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __percpu *[assigned] pptr @@     got void * @@
-   kernel/bpf/hashtab.c:1059:30: sparse:     expected void [noderef] __percpu *[assigned] pptr
-   kernel/bpf/hashtab.c:1059:30: sparse:     got void *
->> kernel/bpf/hashtab.c:1065:44: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *ptr_to_pptr @@     got void [noderef] __percpu *[assigned] pptr @@
-   kernel/bpf/hashtab.c:1065:44: sparse:     expected void *ptr_to_pptr
-   kernel/bpf/hashtab.c:1065:44: sparse:     got void [noderef] __percpu *[assigned] pptr
->> kernel/bpf/hashtab.c:1066:34: sparse: sparse: cast removes address space '__percpu' of expression
-   kernel/bpf/hashtab.c:1066:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __percpu *[assigned] pptr @@     got void * @@
-   kernel/bpf/hashtab.c:1066:30: sparse:     expected void [noderef] __percpu *[assigned] pptr
-   kernel/bpf/hashtab.c:1066:30: sparse:     got void *
-   kernel/bpf/hashtab.c:1441:27: sparse: sparse: context imbalance in 'htab_map_delete_elem' - unexpected unlock
-   kernel/bpf/hashtab.c:1475:27: sparse: sparse: context imbalance in 'htab_lru_map_delete_elem' - unexpected unlock
-   kernel/bpf/hashtab.c:1650:27: sparse: sparse: context imbalance in '__htab_map_lookup_and_delete_elem' - unexpected unlock
-   kernel/bpf/hashtab.c: note: in included file (through include/linux/workqueue.h, include/linux/bpf.h):
-   include/linux/rcupdate.h:737:9: sparse: sparse: context imbalance in '__htab_map_lookup_and_delete_batch' - unexpected unlock
-   include/linux/rcupdate.h:737:9: sparse: sparse: context imbalance in 'bpf_hash_map_seq_find_next' - unexpected unlock
-   include/linux/rcupdate.h:737:9: sparse: sparse: context imbalance in 'bpf_hash_map_seq_stop' - unexpected unlock
+Note: the jimc/dd-fix-5f HEAD dc6931cc4126fd98ba55329c9545f128ee112b4f builds fine.
+      It only hurts bisectability.
 
-vim +1059 kernel/bpf/hashtab.c
+All errors (new ones prefixed by >>):
 
-  1006	
-  1007	static struct htab_elem *alloc_htab_elem(struct bpf_htab *htab, void *key,
-  1008						 void *value, u32 key_size, u32 hash,
-  1009						 bool percpu, bool onallcpus,
-  1010						 struct htab_elem *old_elem)
-  1011	{
-  1012		u32 size = htab->map.value_size;
-  1013		bool prealloc = htab_is_prealloc(htab);
-  1014		struct htab_elem *l_new, **pl_new;
-  1015		void __percpu *pptr;
-  1016	
-  1017		if (prealloc) {
-  1018			if (old_elem) {
-  1019				/* if we're updating the existing element,
-  1020				 * use per-cpu extra elems to avoid freelist_pop/push
-  1021				 */
-  1022				pl_new = this_cpu_ptr(htab->extra_elems);
-  1023				l_new = *pl_new;
-  1024				htab_put_fd_value(htab, old_elem);
-  1025				*pl_new = old_elem;
-  1026			} else {
-  1027				struct pcpu_freelist_node *l;
-  1028	
-  1029				l = __pcpu_freelist_pop(&htab->freelist);
-  1030				if (!l)
-  1031					return ERR_PTR(-E2BIG);
-  1032				l_new = container_of(l, struct htab_elem, fnode);
-  1033			}
-  1034		} else {
-  1035			if (is_map_full(htab))
-  1036				if (!old_elem)
-  1037					/* when map is full and update() is replacing
-  1038					 * old element, it's ok to allocate, since
-  1039					 * old element will be freed immediately.
-  1040					 * Otherwise return an error
-  1041					 */
-  1042					return ERR_PTR(-E2BIG);
-  1043			inc_elem_count(htab);
-  1044			l_new = bpf_mem_cache_alloc(&htab->ma);
-  1045			if (!l_new) {
-  1046				l_new = ERR_PTR(-ENOMEM);
-  1047				goto dec_count;
-  1048			}
-  1049			check_and_init_map_value(&htab->map,
-  1050						 l_new->key + round_up(key_size, 8));
-  1051		}
-  1052	
-  1053		memcpy(l_new->key, key, key_size);
-  1054		if (percpu) {
-  1055			if (prealloc) {
-  1056				pptr = htab_elem_get_ptr(l_new, key_size);
-  1057			} else {
-  1058				/* alloc_percpu zero-fills */
-> 1059				pptr = bpf_mem_cache_alloc(&htab->pcpu_ma);
-  1060				if (!pptr) {
-  1061					bpf_mem_cache_free(&htab->ma, l_new);
-  1062					l_new = ERR_PTR(-ENOMEM);
-  1063					goto dec_count;
-  1064				}
-> 1065				l_new->ptr_to_pptr = pptr;
-> 1066				pptr = *(void **)pptr;
-  1067			}
-  1068	
-  1069			pcpu_init_value(htab, pptr, value, onallcpus);
-  1070	
-  1071			if (!prealloc)
-  1072				htab_elem_set_ptr(l_new, key_size, pptr);
-  1073		} else if (fd_htab_map_needs_adjust(htab)) {
-  1074			size = round_up(size, 8);
-  1075			memcpy(l_new->key + round_up(key_size, 8), value, size);
-  1076		} else {
-  1077			copy_map_value(&htab->map,
-  1078				       l_new->key + round_up(key_size, 8),
-  1079				       value);
-  1080		}
-  1081	
-  1082		l_new->hash = hash;
-  1083		return l_new;
-  1084	dec_count:
-  1085		dec_elem_count(htab);
-  1086		return l_new;
-  1087	}
-  1088	
+   In file included from drivers/gpu/drm/display/drm_dp_dual_mode_helper.c:32:
+   drivers/gpu/drm/display/drm_dp_dual_mode_helper.c: In function 'drm_dp_dual_mode_detect':
+>> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:504:9: note: in expansion of macro 'drm_dev_dbg'
+     504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/display/drm_dp_dual_mode_helper.c:228:9: note: in expansion of macro 'drm_dbg_kms'
+     228 |         drm_dbg_kms(dev, "DP dual mode HDMI ID: %*pE (err %zd)\n",
+         |         ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/display/drm_dp_helper.c:38:
+   drivers/gpu/drm/display/drm_dp_helper.c: In function '__8b10b_clock_recovery_delay_us':
+>> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:504:9: note: in expansion of macro 'drm_dev_dbg'
+     504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/display/drm_dp_helper.c:219:17: note: in expansion of macro 'drm_dbg_kms'
+     219 |                 drm_dbg_kms(aux->drm_dev, "%s: invalid AUX interval 0x%02x (max 4)\n",
+         |                 ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/display/drm_dp_mst_topology.c:46:
+   drivers/gpu/drm/display/drm_dp_mst_topology.c: In function 'drm_dp_decode_sideband_msg_hdr':
+>> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:504:9: note: in expansion of macro 'drm_dev_dbg'
+     504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/display/drm_dp_mst_topology.c:310:17: note: in expansion of macro 'drm_dbg_kms'
+     310 |                 drm_dbg_kms(mgr->dev, "crc4 mismatch 0x%x 0x%x\n", crc4, buf[len - 1]);
+         |                 ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/logicvc/logicvc_layer.c:17:
+   drivers/gpu/drm/logicvc/logicvc_layer.c: In function 'logicvc_plane_atomic_update':
+>> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:504:9: note: in expansion of macro 'drm_dev_dbg'
+     504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/logicvc/logicvc_layer.c:215:17: note: in expansion of macro 'drm_dbg_kms'
+     215 |                 drm_dbg_kms(drm_dev, "Setting layer %d alpha to %d/%d\n", index,
+         |                 ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/bridge/chipone-icn6211.c:9:
+   drivers/gpu/drm/bridge/chipone-icn6211.c: In function 'chipone_parse_dt':
+>> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:436:9: note: in expansion of macro 'drm_dev_dbg'
+     436 |         drm_dev_dbg(dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/bridge/chipone-icn6211.c:656:17: note: in expansion of macro 'DRM_DEV_DEBUG'
+     656 |                 DRM_DEV_DEBUG(dev, "failed to get VDD1 regulator: %d\n", ret);
+         |                 ^~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/bridge/ite-it6505.c:30:
+   drivers/gpu/drm/bridge/ite-it6505.c: In function 'it6505_debug_print':
+>> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:446:9: note: in expansion of macro 'drm_dev_dbg'
+     446 |         drm_dev_dbg(dev, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/bridge/ite-it6505.c:591:17: note: in expansion of macro 'DRM_DEV_DEBUG_DRIVER'
+     591 |                 DRM_DEV_DEBUG_DRIVER(dev, "%s reg[%02x] read error (%d)",
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/bridge/ti-dlpc3433.c:13:
+   drivers/gpu/drm/bridge/ti-dlpc3433.c: In function 'dlpc_atomic_enable':
+>> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:436:9: note: in expansion of macro 'drm_dev_dbg'
+     436 |         drm_dev_dbg(dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/bridge/ti-dlpc3433.c:120:9: note: in expansion of macro 'DRM_DEV_DEBUG'
+     120 |         DRM_DEV_DEBUG(dev, "DLPC3433 device id: 0x%02x\n", devid);
+         |         ^~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/drm_ioc32.c:35:
+   drivers/gpu/drm/drm_ioc32.c: In function 'drm_compat_ioctl':
+>> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:500:9: note: in expansion of macro 'drm_dev_dbg'
+     500 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/drm_ioc32.c:990:9: note: in expansion of macro 'drm_dbg_core'
+     990 |         drm_dbg_core(dev, "comm=\"%s\", pid=%d, dev=0x%lx, auth=%d, %s\n",
+         |         ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from include/drm/drm_mm.h:51,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/drm/drm_gem.h:40,
+                    from include/drm/drm_gem_dma_helper.h:7,
+                    from drivers/gpu/drm/drm_gem_dma_helper.c:23:
+   drivers/gpu/drm/drm_gem_dma_helper.c: In function 'drm_gem_dma_create':
+>> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:502:9: note: in expansion of macro 'drm_dev_dbg'
+     502 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/drm/drm_print.h:520:33: note: in expansion of macro 'drm_dbg_driver'
+     520 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_gem_dma_helper.c:157:17: note: in expansion of macro 'drm_dbg'
+     157 |                 drm_dbg(drm, "failed to allocate buffer with size %zu\n",
+         |                 ^~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from include/drm/drm_mm.h:51,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/drm/drm_gem.h:40,
+                    from include/drm/drm_gem_shmem_helper.h:11,
+                    from drivers/gpu/drm/drm_gem_shmem_helper.c:22:
+   drivers/gpu/drm/drm_gem_shmem_helper.c: In function 'drm_gem_shmem_get_pages_locked':
+>> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:504:9: note: in expansion of macro 'drm_dev_dbg'
+     504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/drm_gem_shmem_helper.c:178:17: note: in expansion of macro 'drm_dbg_kms'
+     178 |                 drm_dbg_kms(obj->dev, "Failed to get pages (%ld)\n",
+         |                 ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/drm_atomic_helper.c:41:
+   drivers/gpu/drm/drm_atomic_helper.c: In function 'handle_conflicting_encoders':
+>> include/drm/drm_print.h:423:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     423 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:508:9: note: in expansion of macro 'drm_dev_dbg'
+     508 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/drm_atomic_helper.c:136:33: note: in expansion of macro 'drm_dbg_atomic'
+     136 |                                 drm_dbg_atomic(connector->dev,
+         |                                 ^~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+..
+
+
+vim +/_dynamic_func_call_cls +423 include/drm/drm_print.h
+
+02c9656b2f0d69 Haneen Mohammed 2017-10-17  417  
+84ec67288c10fb Jim Cromie      2022-09-11  418  #if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
+e820f52577b14c Jim Cromie      2022-09-11  419  #define drm_dev_dbg(dev, cat, fmt, ...)				\
+16deeb8e18cafd Jim Cromie      2022-09-11  420  	__drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
+84ec67288c10fb Jim Cromie      2022-09-11  421  #else
+84ec67288c10fb Jim Cromie      2022-09-11  422  #define drm_dev_dbg(dev, cat, fmt, ...)				\
+16deeb8e18cafd Jim Cromie      2022-09-11 @423  	_dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,		\
+84ec67288c10fb Jim Cromie      2022-09-11  424  			       dev, cat, fmt, ##__VA_ARGS__)
+84ec67288c10fb Jim Cromie      2022-09-11  425  #endif
+e820f52577b14c Jim Cromie      2022-09-11  426  
+
+:::::: The code at line 423 was first introduced by commit
+:::::: 16deeb8e18cafd30e70d8dc2b12a753b28298d8a drm_print: add _ddebug descriptor to drm_*dbg prototypes
+
+:::::: TO: Jim Cromie <jim.cromie@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
