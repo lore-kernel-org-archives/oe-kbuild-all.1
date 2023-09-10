@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8080DA49
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 10:18:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970D3A42
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 10:40:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694341127; x=1725877127;
+  t=1694342447; x=1725878447;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OhgAhVlkb6RjiqlbvQ3YtHQ46UG3jqrwznfxCv68j14=;
-  b=G0kbOw8keYPhD90e5hpE5R4vDDB7+v+jSpWkVHC3h7xpv1tuR/ElBA3Q
-   whN6l1Cv4o3LWx7v/uQSYjnjMI1ywfZtBqmoH7kAr7C5+Y9N+FZgqev+r
-   QL9Q0vn6U1ck0wRYIrwwib2zBqRm6tM08rAqUpOkzJqqvnN0TGGpbNrou
-   Dr0eMTTX0E94dJIaup+gqF9ePHcx0hpqhCZ09n/GdJOZtc8btBmb9woiI
-   H9S9uvu5twWsypRAg6eb4luS2I2bbB757ZEm4mFb/5AlfeGcR/8XeHneD
-   tVpWpojLMh/5ruCF0FY9lIYgTUPJLRrct9cLWxLoA713lR2Cq8HFuvTQ4
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="376795354"
+  bh=SffAgeq+w1Ui5SY1Ck8R89Jvc1xInelScvPEGigLG4A=;
+  b=TP+vatSd1G7uItsbzRYmdIchL8bdhYK77PIImeH8lrYaL8GWAYoEwMQw
+   rNNmFgyST61WxlFgOvz4038u2XP4CT9oBtb8H6pPyBQ+wzM7q3/Ef0z44
+   BhDTZYnL5BRrW7tUVD+O31IL0k73a+TenGE4Q/59xD/+vnkA/SXxGUdi5
+   C7gbPeC/Ui+7ra5sOC8F5xGoDKUv4KJJ6vpQCezl2tUlGY6uq7OPqmxue
+   +C/wslZ/0NcDNd3XCMDYwoMnoX3ZR7uDBf8HVSkutRBOBG3x+7PaP86wj
+   Mar5wIh0090gIcce1A4B8YHjXRX+xLJB3kQ0WUJPgcO92mb0eFRZxpIPf
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="408861335"
 X-IronPort-AV: E=Sophos;i="6.02,241,1688454000"; 
-   d="scan'208";a="376795354"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 03:18:46 -0700
+   d="scan'208";a="408861335"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 03:40:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="772247097"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="989748453"
 X-IronPort-AV: E=Sophos;i="6.02,241,1688454000"; 
-   d="scan'208";a="772247097"
+   d="scan'208";a="989748453"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 10 Sep 2023 03:18:44 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 10 Sep 2023 03:40:45 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfHWc-0004mo-1t;
-	Sun, 10 Sep 2023 10:18:42 +0000
-Date: Sun, 10 Sep 2023 18:18:03 +0800
+	id 1qfHrv-0004o4-1U;
+	Sun, 10 Sep 2023 10:40:43 +0000
+Date: Sun, 10 Sep 2023 18:39:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <ast@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Daniel Borkmann <daniel@iogearbox.net>
-Subject: kernel/bpf/memalloc.c:139:48: sparse: sparse: incorrect type in
- initializer (different address spaces)
-Message-ID: <202309101831.gKPgP4iA-lkp@intel.com>
+To: Alex Deucher <alexander.deucher@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 14120/14158]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c:60:52: warning: '%s' directive
+ output may be truncated writing up to 63 bytes into a region of size 57
+Message-ID: <202309101830.7uQV4SMc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,127 +48,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   535a265d7f0dd50d8c3a4f8b4f3a452d56bd160f
-commit: 4ab67149f3c6e97c5c506a726f0ebdec38241679 bpf: Add percpu allocation support to bpf_mem_alloc.
-date:   1 year ago
-config: i386-randconfig-063-20230910 (https://download.01.org/0day-ci/archive/20230910/202309101831.gKPgP4iA-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   af3c30d33476bc2694b0d699173544b07f7ae7de
+commit: 75736b3ff0253cb1246f9f65a0594b1369a2d8b6 [14120/14158] Merge branch 'drm-next' of https://gitlab.freedesktop.org/agd5f/linux
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230910/202309101830.7uQV4SMc-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309101831.gKPgP4iA-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309101830.7uQV4SMc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309101831.gKPgP4iA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309101830.7uQV4SMc-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/bpf/memalloc.c:139:48: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *pptr @@     got void [noderef] __percpu * @@
-   kernel/bpf/memalloc.c:139:48: sparse:     expected void *pptr
-   kernel/bpf/memalloc.c:139:48: sparse:     got void [noderef] __percpu *
->> kernel/bpf/memalloc.c:142:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *__pdata @@     got void *pptr @@
-   kernel/bpf/memalloc.c:142:37: sparse:     expected void [noderef] __percpu *__pdata
-   kernel/bpf/memalloc.c:142:37: sparse:     got void *pptr
->> kernel/bpf/memalloc.c:211:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *__pdata @@     got void * @@
-   kernel/bpf/memalloc.c:211:43: sparse:     expected void [noderef] __percpu *__pdata
-   kernel/bpf/memalloc.c:211:43: sparse:     got void *
+All warnings (new ones prefixed by >>):
 
-vim +139 kernel/bpf/memalloc.c
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c: In function 'amdgpu_vpe_init_microcode':
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c:60:52: warning: '%s' directive output may be truncated writing up to 63 bytes into a region of size 57 [-Wformat-truncation=]
+      60 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", fw_prefix);
+         |                                                    ^~       ~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c:60:9: note: 'snprintf' output between 12 and 75 bytes into a destination of size 64
+      60 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", fw_prefix);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   127	
-   128	static void *__alloc(struct bpf_mem_cache *c, int node)
-   129	{
-   130		/* Allocate, but don't deplete atomic reserves that typical
-   131		 * GFP_ATOMIC would do. irq_work runs on this cpu and kmalloc
-   132		 * will allocate from the current numa node which is what we
-   133		 * want here.
-   134		 */
-   135		gfp_t flags = GFP_NOWAIT | __GFP_NOWARN | __GFP_ACCOUNT;
-   136	
-   137		if (c->percpu) {
-   138			void **obj = kmem_cache_alloc_node(c->kmem_cache, flags, node);
- > 139			void *pptr = __alloc_percpu_gfp(c->unit_size, 8, flags);
-   140	
-   141			if (!obj || !pptr) {
- > 142				free_percpu(pptr);
-   143				kfree(obj);
-   144				return NULL;
-   145			}
-   146			obj[1] = pptr;
-   147			return obj;
-   148		}
-   149	
-   150		if (c->kmem_cache)
-   151			return kmem_cache_alloc_node(c->kmem_cache, flags, node);
-   152	
-   153		return kmalloc_node(c->unit_size, flags, node);
-   154	}
-   155	
-   156	static struct mem_cgroup *get_memcg(const struct bpf_mem_cache *c)
-   157	{
-   158	#ifdef CONFIG_MEMCG_KMEM
-   159		if (c->objcg)
-   160			return get_mem_cgroup_from_objcg(c->objcg);
-   161	#endif
-   162	
-   163	#ifdef CONFIG_MEMCG
-   164		return root_mem_cgroup;
-   165	#else
-   166		return NULL;
-   167	#endif
-   168	}
-   169	
-   170	/* Mostly runs from irq_work except __init phase. */
-   171	static void alloc_bulk(struct bpf_mem_cache *c, int cnt, int node)
-   172	{
-   173		struct mem_cgroup *memcg = NULL, *old_memcg;
-   174		unsigned long flags;
-   175		void *obj;
-   176		int i;
-   177	
-   178		memcg = get_memcg(c);
-   179		old_memcg = set_active_memcg(memcg);
-   180		for (i = 0; i < cnt; i++) {
-   181			obj = __alloc(c, node);
-   182			if (!obj)
-   183				break;
-   184			if (IS_ENABLED(CONFIG_PREEMPT_RT))
-   185				/* In RT irq_work runs in per-cpu kthread, so disable
-   186				 * interrupts to avoid preemption and interrupts and
-   187				 * reduce the chance of bpf prog executing on this cpu
-   188				 * when active counter is busy.
-   189				 */
-   190				local_irq_save(flags);
-   191			/* alloc_bulk runs from irq_work which will not preempt a bpf
-   192			 * program that does unit_alloc/unit_free since IRQs are
-   193			 * disabled there. There is no race to increment 'active'
-   194			 * counter. It protects free_llist from corruption in case NMI
-   195			 * bpf prog preempted this loop.
-   196			 */
-   197			WARN_ON_ONCE(local_inc_return(&c->active) != 1);
-   198			__llist_add(obj, &c->free_llist);
-   199			c->free_cnt++;
-   200			local_dec(&c->active);
-   201			if (IS_ENABLED(CONFIG_PREEMPT_RT))
-   202				local_irq_restore(flags);
-   203		}
-   204		set_active_memcg(old_memcg);
-   205		mem_cgroup_put(memcg);
-   206	}
-   207	
-   208	static void free_one(struct bpf_mem_cache *c, void *obj)
-   209	{
-   210		if (c->percpu) {
- > 211			free_percpu(((void **)obj)[1]);
-   212			kmem_cache_free(c->kmem_cache, obj);
-   213			return;
-   214		}
-   215	
-   216		if (c->kmem_cache)
-   217			kmem_cache_free(c->kmem_cache, obj);
-   218		else
-   219			kfree(obj);
-   220	}
-   221	
+
+vim +60 drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c
+
+f9ecae9a4ec19c2 Lang Yu 2023-06-27  50  
+9d4346bdbc6484a Lang Yu 2022-05-23  51  int amdgpu_vpe_init_microcode(struct amdgpu_vpe *vpe)
+9d4346bdbc6484a Lang Yu 2022-05-23  52  {
+9d4346bdbc6484a Lang Yu 2022-05-23  53  	struct amdgpu_device *adev = vpe->ring.adev;
+9d4346bdbc6484a Lang Yu 2022-05-23  54  	const struct vpe_firmware_header_v1_0 *vpe_hdr;
+9d4346bdbc6484a Lang Yu 2022-05-23  55  	char fw_name[VPE_FW_NAME_LEN];
+9d4346bdbc6484a Lang Yu 2022-05-23  56  	char fw_prefix[VPE_FW_NAME_LEN];
+9d4346bdbc6484a Lang Yu 2022-05-23  57  	int ret;
+9d4346bdbc6484a Lang Yu 2022-05-23  58  
+9d4346bdbc6484a Lang Yu 2022-05-23  59  	amdgpu_ucode_ip_version_decode(adev, VPE_HWIP, fw_prefix, sizeof(fw_prefix));
+9d4346bdbc6484a Lang Yu 2022-05-23 @60  	snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", fw_prefix);
+9d4346bdbc6484a Lang Yu 2022-05-23  61  
+9d4346bdbc6484a Lang Yu 2022-05-23  62  	ret = amdgpu_ucode_request(adev, &adev->vpe.fw, fw_name);
+9d4346bdbc6484a Lang Yu 2022-05-23  63  	if (ret)
+9d4346bdbc6484a Lang Yu 2022-05-23  64  		goto out;
+9d4346bdbc6484a Lang Yu 2022-05-23  65  
+9d4346bdbc6484a Lang Yu 2022-05-23  66  	vpe_hdr = (const struct vpe_firmware_header_v1_0 *)adev->vpe.fw->data;
+9d4346bdbc6484a Lang Yu 2022-05-23  67  	adev->vpe.fw_version = le32_to_cpu(vpe_hdr->header.ucode_version);
+9d4346bdbc6484a Lang Yu 2022-05-23  68  	adev->vpe.feature_version = le32_to_cpu(vpe_hdr->ucode_feature_version);
+9d4346bdbc6484a Lang Yu 2022-05-23  69  
+c5d67a0ec3cc05e Lang Yu 2023-05-09  70  	if (adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) {
+c5d67a0ec3cc05e Lang Yu 2023-05-09  71  		struct amdgpu_firmware_info *info;
+c5d67a0ec3cc05e Lang Yu 2023-05-09  72  
+c5d67a0ec3cc05e Lang Yu 2023-05-09  73  		info = &adev->firmware.ucode[AMDGPU_UCODE_ID_VPE_CTX];
+c5d67a0ec3cc05e Lang Yu 2023-05-09  74  		info->ucode_id = AMDGPU_UCODE_ID_VPE_CTX;
+c5d67a0ec3cc05e Lang Yu 2023-05-09  75  		info->fw = adev->vpe.fw;
+c5d67a0ec3cc05e Lang Yu 2023-05-09  76  		adev->firmware.fw_size +=
+c5d67a0ec3cc05e Lang Yu 2023-05-09  77  			ALIGN(le32_to_cpu(vpe_hdr->ctx_ucode_size_bytes), PAGE_SIZE);
+c5d67a0ec3cc05e Lang Yu 2023-05-09  78  
+c5d67a0ec3cc05e Lang Yu 2023-05-09  79  		info = &adev->firmware.ucode[AMDGPU_UCODE_ID_VPE_CTL];
+c5d67a0ec3cc05e Lang Yu 2023-05-09  80  		info->ucode_id = AMDGPU_UCODE_ID_VPE_CTL;
+c5d67a0ec3cc05e Lang Yu 2023-05-09  81  		info->fw = adev->vpe.fw;
+c5d67a0ec3cc05e Lang Yu 2023-05-09  82  		adev->firmware.fw_size +=
+c5d67a0ec3cc05e Lang Yu 2023-05-09  83  			ALIGN(le32_to_cpu(vpe_hdr->ctl_ucode_size_bytes), PAGE_SIZE);
+c5d67a0ec3cc05e Lang Yu 2023-05-09  84  	}
+c5d67a0ec3cc05e Lang Yu 2023-05-09  85  
+9d4346bdbc6484a Lang Yu 2022-05-23  86  	return 0;
+9d4346bdbc6484a Lang Yu 2022-05-23  87  out:
+9d4346bdbc6484a Lang Yu 2022-05-23  88  	dev_err(adev->dev, "fail to initialize vpe microcode\n");
+9d4346bdbc6484a Lang Yu 2022-05-23  89  	release_firmware(adev->vpe.fw);
+9d4346bdbc6484a Lang Yu 2022-05-23  90  	adev->vpe.fw = NULL;
+9d4346bdbc6484a Lang Yu 2022-05-23  91  	return ret;
+9d4346bdbc6484a Lang Yu 2022-05-23  92  }
+9d4346bdbc6484a Lang Yu 2022-05-23  93  
+
+:::::: The code at line 60 was first introduced by commit
+:::::: 9d4346bdbc6484a1814011315827c258509b483c drm/amdgpu: add VPE 6.1.0 support
+
+:::::: TO: Lang Yu <Lang.Yu@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
