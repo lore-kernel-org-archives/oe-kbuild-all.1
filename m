@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6838A4E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 06:31:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663B2180
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 06:53:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694327492; x=1725863492;
+  t=1694328814; x=1725864814;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U3iG6LgXZQ7FolTQxpt6088yhDwOXsb6hjg4qCdjBCo=;
-  b=WVBLPbZS9alS6vsZM/YrB5V0SEIQrKZam9UYOM61WtMh4hN/PU2BEgX2
-   40UUwMVfyjXnSP8w9Y0+ijUL/AiIIAM/79BxcUhBXsFg4Z6OxSMnWCNVS
-   pSGcP03ZxyjyByFYtTd/GRXaix+0rZOinjYhHDWa6rhs08FTUfs2zIczf
-   vfQzWPYtYzSbx/G+yfADSZ4VtrkEHacJTwgIUIKDTuYwDEQ7NO5SN+S/n
-   WjOuBiggvH73Xl4fiWCMRYyynS3XYkcc9ZbRTSvXA/nUpijVkA4heJCAR
-   7O4CbwKE8VrRRXdo2gtdbGKDm8G7SFtafqOOTMvs+/4qKFejcJadeY2sL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="358173577"
+  bh=hnOUIOAjBzRCcxdvdC353QCLXM1KrtreBoWvGOaPMno=;
+  b=JKHvYz+EiYb374di01O+V0gGhEov8foYA1URmrIKUp6kwzpTibCZix/G
+   kt8/Yn8V6acxWgJOtAQ/UC3u5q55g2+bdezoK5N7HbHA3t89srOS4gTYR
+   JA9GVKGhuGjJGWMzAPnPO9u7WZfzMh0zkM/RQvF3FCpjFXkD6fvOoFz+0
+   GeBfaFXn5MD5L2bbmKiBSGbjdk/iUO2QBJpkByGu89BUDyIOxxR2K2a/t
+   fJtuQqN94agF8C9H19GQ5cn/7pb0eg3XdllYuuyklBOnktVSjFhtP5S70
+   DbOgRPTmhjGTH5alHa7vUR7zF4pVm/Qskb8n0oU8Q3taJSO4hPbFAFSyi
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="357338897"
 X-IronPort-AV: E=Sophos;i="6.02,241,1688454000"; 
-   d="scan'208";a="358173577"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 23:31:31 -0700
+   d="scan'208";a="357338897"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 23:53:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="808446691"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="989711334"
 X-IronPort-AV: E=Sophos;i="6.02,241,1688454000"; 
-   d="scan'208";a="808446691"
+   d="scan'208";a="989711334"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 09 Sep 2023 23:31:30 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 09 Sep 2023 23:53:32 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfDyi-0004Wr-1t;
-	Sun, 10 Sep 2023 06:31:28 +0000
-Date: Sun, 10 Sep 2023 14:30:57 +0800
+	id 1qfEK2-0004Yy-0u;
+	Sun, 10 Sep 2023 06:53:30 +0000
+Date: Sun, 10 Sep 2023 14:52:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/641 4500/25020] versioncheck:
- ./drivers/net/ethernet/freescale/sdk_fman/src/system/sys_io.c: 33
- linux/version.h not needed.
-Message-ID: <202309101451.ah79tNsK-lkp@intel.com>
+Subject: [freescale-fslc:pr/641 4522/25020] versioncheck:
+ ./drivers/staging/fsl_ppfe/pfe_eth.c: 25 linux/version.h not needed.
+Message-ID: <202309101454.jFu2VYMa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,13 +48,13 @@ Content-Disposition: inline
 
 tree:   https://github.com/Freescale/linux-fslc pr/641
 head:   ba2847ffebda28ba7be1b96bb506bfe5b67c856e
-commit: f8642d6c1b9918bf9a50e6449b09f17f60c6a3c6 [4500/25020] net: sdk_fman: remove obsolete modversions.h includes
-reproduce: (https://download.01.org/0day-ci/archive/20230910/202309101451.ah79tNsK-lkp@intel.com/reproduce)
+commit: dcf8d04096aa550828e91a7c11b454ea131b081e [4522/25020] staging: fsl_ppfe/eth: introduce pfe driver
+reproduce: (https://download.01.org/0day-ci/archive/20230910/202309101454.jFu2VYMa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309101451.ah79tNsK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309101454.jFu2VYMa-lkp@intel.com/
 
 versioncheck warnings: (new ones prefixed by >>)
    INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -71,16 +70,13 @@ versioncheck warnings: (new ones prefixed by >>)
    ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
    ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
    ./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
->> ./drivers/net/ethernet/freescale/sdk_fman/src/system/sys_io.c: 33 linux/version.h not needed.
-   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: 40 linux/version.h not needed.
-   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm_port.c: 40 linux/version.h not needed.
-   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c: 40 linux/version.h not needed.
-   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_sysfs.h: 37 linux/version.h not needed.
    ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
    ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
    ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
    ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
    ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+>> ./drivers/staging/fsl_ppfe/pfe_eth.c: 25 linux/version.h not needed.
+>> ./drivers/staging/fsl_ppfe/pfe_hif_lib.c: 19 linux/version.h not needed.
    ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
    ./init/version.c: 17 linux/version.h not needed.
    ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
