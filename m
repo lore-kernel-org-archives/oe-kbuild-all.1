@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A72D1FA5
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 07:25:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8080DA49
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 10:18:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694330736; x=1725866736;
+  t=1694341127; x=1725877127;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BeYc2MHMzuFg0xJJ1WEWD2QjjYxEOR3VeFwmFhxTWc4=;
-  b=cuOABC7nyQzsNUNY5g4HHhZ5AG23ieLA/q+J16a8F80TokbKSFEptfWT
-   2xNshgQTT1wJfZAC1kq0B+gGDftc4ajX0uIrzvS5niOwXj+oC1f7Mevoy
-   j8KDDuzviijvaaX4k1b/z3eqtGc0OyjGclW9iIc/+Sw0LAqMTMgdnIBe1
-   GUOd5ZFSgX1hIrKmi5jlnkbHsv2OA7Q+zPe6TPPPh+Rs1d6mStHQKITmq
-   RmCMC7JYSSJj+Lu935jXSKoF1Je6ZAqfnhKUXacPhqv5ilmrJ3BuB6XpZ
-   HjZyWrpTtNNbfFJxziaG2MMLbwPpCRVvSMEZyMLoTSASj3HsPPiDm1vEI
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="464241548"
+  bh=OhgAhVlkb6RjiqlbvQ3YtHQ46UG3jqrwznfxCv68j14=;
+  b=G0kbOw8keYPhD90e5hpE5R4vDDB7+v+jSpWkVHC3h7xpv1tuR/ElBA3Q
+   whN6l1Cv4o3LWx7v/uQSYjnjMI1ywfZtBqmoH7kAr7C5+Y9N+FZgqev+r
+   QL9Q0vn6U1ck0wRYIrwwib2zBqRm6tM08rAqUpOkzJqqvnN0TGGpbNrou
+   Dr0eMTTX0E94dJIaup+gqF9ePHcx0hpqhCZ09n/GdJOZtc8btBmb9woiI
+   H9S9uvu5twWsypRAg6eb4luS2I2bbB757ZEm4mFb/5AlfeGcR/8XeHneD
+   tVpWpojLMh/5ruCF0FY9lIYgTUPJLRrct9cLWxLoA713lR2Cq8HFuvTQ4
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="376795354"
 X-IronPort-AV: E=Sophos;i="6.02,241,1688454000"; 
-   d="scan'208";a="464241548"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 00:25:35 -0700
+   d="scan'208";a="376795354"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 03:18:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="736412960"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="772247097"
 X-IronPort-AV: E=Sophos;i="6.02,241,1688454000"; 
-   d="scan'208";a="736412960"
+   d="scan'208";a="772247097"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 10 Sep 2023 00:25:33 -0700
+  by orsmga008.jf.intel.com with ESMTP; 10 Sep 2023 03:18:44 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfEp1-0004b8-2f;
-	Sun, 10 Sep 2023 07:25:31 +0000
-Date: Sun, 10 Sep 2023 15:24:40 +0800
+	id 1qfHWc-0004mo-1t;
+	Sun, 10 Sep 2023 10:18:42 +0000
+Date: Sun, 10 Sep 2023 18:18:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/641 9885/25020] versioncheck:
- ./drivers/staging/media/imx/imx8-mipi-csi2-sam.c: 42 linux/version.h not
- needed.
-Message-ID: <202309101517.nVpaFtM6-lkp@intel.com>
+To: Alexei Starovoitov <ast@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Daniel Borkmann <daniel@iogearbox.net>
+Subject: kernel/bpf/memalloc.c:139:48: sparse: sparse: incorrect type in
+ initializer (different address spaces)
+Message-ID: <202309101831.gKPgP4iA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,92 +47,127 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc pr/641
-head:   ba2847ffebda28ba7be1b96bb506bfe5b67c856e
-commit: 3c566d782b874da3b5929b2c7a2ac9d29c60de89 [9885/25020] LF-5503 CSI: i.MX8MP use dual 10bit raw sensor images is abnormal
-reproduce: (https://download.01.org/0day-ci/archive/20230910/202309101517.nVpaFtM6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   535a265d7f0dd50d8c3a4f8b4f3a452d56bd160f
+commit: 4ab67149f3c6e97c5c506a726f0ebdec38241679 bpf: Add percpu allocation support to bpf_mem_alloc.
+date:   1 year ago
+config: i386-randconfig-063-20230910 (https://download.01.org/0day-ci/archive/20230910/202309101831.gKPgP4iA-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309101831.gKPgP4iA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309101517.nVpaFtM6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309101831.gKPgP4iA-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/csky/include/asm/io.h: 8 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
-   ./drivers/input/touchscreen/focaltech_touch/focaltech_core.h: 56 linux/version.h not needed.
-   ./drivers/input/touchscreen/vtl/vtl_ts.c: 20 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
-   ./drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware.c: 16472: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel.c: 6097: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel_video_memory.c: 4865: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/kernel/inc/gc_hal_drm.h: 216: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dma.c: 638: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dmabuf.c: 548: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_gfp.c: 1408: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_reserved_mem.c: 592: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_user_memory.c: 937: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/freescale/gc_hal_kernel_allocator_cma.c: 641: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.c: 259: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debug.h: 183: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debugfs.h: 119: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_device.c: 3062: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_driver.c: 1530: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_iommu.c: 236: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_os.c: 7647: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.c: 378: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.h: 151: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/default/gc_hal_kernel_platform_default.c: 449: need linux/version.h
-   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c: 2054: need linux/version.h
-   ./drivers/mxc/hantro/hantrodec.c: 41 linux/version.h not needed.
-   ./drivers/mxc/hantro_845/hantrodec_845s.c: 40 linux/version.h not needed.
-   ./drivers/mxc/hantro_v4l2/vsi-v4l2-dec.c: 41 linux/version.h not needed.
-   ./drivers/mxc/hantro_v4l2/vsi-v4l2-enc.c: 41 linux/version.h not needed.
-   ./drivers/mxc/hantro_v4l2/vsi-v4l2.c: 41 linux/version.h not needed.
-   ./drivers/mxc/vpu_malone/vpu_b0.c: 6923: need linux/version.h
-   ./drivers/mxc/vpu_malone/vpu_b0.h: 23 linux/version.h not needed.
-   ./drivers/mxc/vpu_malone/vpu_mu.h: 23 linux/version.h not needed.
-   ./drivers/mxc/vpu_malone/vpu_pm.h: 23 linux/version.h not needed.
-   ./drivers/mxc/vpu_windsor/vpu_encoder_mu.h: 23 linux/version.h not needed.
-   ./drivers/mxc/vpu_windsor/vpu_encoder_pm.h: 23 linux/version.h not needed.
-   ./drivers/net/ethernet/freescale/sdk_fman/src/system/sys_io.c: 33 linux/version.h not needed.
-   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: 40 linux/version.h not needed.
-   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm_port.c: 40 linux/version.h not needed.
-   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c: 41 linux/version.h not needed.
-   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_sysfs.h: 37 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/staging/fsl_ppfe/pfe_eth.c: 13 linux/version.h not needed.
-   ./drivers/staging/fsl_ppfe/pfe_hif_lib.c: 7 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
->> ./drivers/staging/media/imx/imx8-mipi-csi2-sam.c: 42 linux/version.h not needed.
-   ./init/version.c: 17 linux/version.h not needed.
-   ./net/tsn/genl_tsn.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 227: need linux/version.h
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
+sparse warnings: (new ones prefixed by >>)
+>> kernel/bpf/memalloc.c:139:48: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *pptr @@     got void [noderef] __percpu * @@
+   kernel/bpf/memalloc.c:139:48: sparse:     expected void *pptr
+   kernel/bpf/memalloc.c:139:48: sparse:     got void [noderef] __percpu *
+>> kernel/bpf/memalloc.c:142:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *__pdata @@     got void *pptr @@
+   kernel/bpf/memalloc.c:142:37: sparse:     expected void [noderef] __percpu *__pdata
+   kernel/bpf/memalloc.c:142:37: sparse:     got void *pptr
+>> kernel/bpf/memalloc.c:211:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *__pdata @@     got void * @@
+   kernel/bpf/memalloc.c:211:43: sparse:     expected void [noderef] __percpu *__pdata
+   kernel/bpf/memalloc.c:211:43: sparse:     got void *
+
+vim +139 kernel/bpf/memalloc.c
+
+   127	
+   128	static void *__alloc(struct bpf_mem_cache *c, int node)
+   129	{
+   130		/* Allocate, but don't deplete atomic reserves that typical
+   131		 * GFP_ATOMIC would do. irq_work runs on this cpu and kmalloc
+   132		 * will allocate from the current numa node which is what we
+   133		 * want here.
+   134		 */
+   135		gfp_t flags = GFP_NOWAIT | __GFP_NOWARN | __GFP_ACCOUNT;
+   136	
+   137		if (c->percpu) {
+   138			void **obj = kmem_cache_alloc_node(c->kmem_cache, flags, node);
+ > 139			void *pptr = __alloc_percpu_gfp(c->unit_size, 8, flags);
+   140	
+   141			if (!obj || !pptr) {
+ > 142				free_percpu(pptr);
+   143				kfree(obj);
+   144				return NULL;
+   145			}
+   146			obj[1] = pptr;
+   147			return obj;
+   148		}
+   149	
+   150		if (c->kmem_cache)
+   151			return kmem_cache_alloc_node(c->kmem_cache, flags, node);
+   152	
+   153		return kmalloc_node(c->unit_size, flags, node);
+   154	}
+   155	
+   156	static struct mem_cgroup *get_memcg(const struct bpf_mem_cache *c)
+   157	{
+   158	#ifdef CONFIG_MEMCG_KMEM
+   159		if (c->objcg)
+   160			return get_mem_cgroup_from_objcg(c->objcg);
+   161	#endif
+   162	
+   163	#ifdef CONFIG_MEMCG
+   164		return root_mem_cgroup;
+   165	#else
+   166		return NULL;
+   167	#endif
+   168	}
+   169	
+   170	/* Mostly runs from irq_work except __init phase. */
+   171	static void alloc_bulk(struct bpf_mem_cache *c, int cnt, int node)
+   172	{
+   173		struct mem_cgroup *memcg = NULL, *old_memcg;
+   174		unsigned long flags;
+   175		void *obj;
+   176		int i;
+   177	
+   178		memcg = get_memcg(c);
+   179		old_memcg = set_active_memcg(memcg);
+   180		for (i = 0; i < cnt; i++) {
+   181			obj = __alloc(c, node);
+   182			if (!obj)
+   183				break;
+   184			if (IS_ENABLED(CONFIG_PREEMPT_RT))
+   185				/* In RT irq_work runs in per-cpu kthread, so disable
+   186				 * interrupts to avoid preemption and interrupts and
+   187				 * reduce the chance of bpf prog executing on this cpu
+   188				 * when active counter is busy.
+   189				 */
+   190				local_irq_save(flags);
+   191			/* alloc_bulk runs from irq_work which will not preempt a bpf
+   192			 * program that does unit_alloc/unit_free since IRQs are
+   193			 * disabled there. There is no race to increment 'active'
+   194			 * counter. It protects free_llist from corruption in case NMI
+   195			 * bpf prog preempted this loop.
+   196			 */
+   197			WARN_ON_ONCE(local_inc_return(&c->active) != 1);
+   198			__llist_add(obj, &c->free_llist);
+   199			c->free_cnt++;
+   200			local_dec(&c->active);
+   201			if (IS_ENABLED(CONFIG_PREEMPT_RT))
+   202				local_irq_restore(flags);
+   203		}
+   204		set_active_memcg(old_memcg);
+   205		mem_cgroup_put(memcg);
+   206	}
+   207	
+   208	static void free_one(struct bpf_mem_cache *c, void *obj)
+   209	{
+   210		if (c->percpu) {
+ > 211			free_percpu(((void **)obj)[1]);
+   212			kmem_cache_free(c->kmem_cache, obj);
+   213			return;
+   214		}
+   215	
+   216		if (c->kmem_cache)
+   217			kmem_cache_free(c->kmem_cache, obj);
+   218		else
+   219			kfree(obj);
+   220	}
+   221	
 
 -- 
 0-DAY CI Kernel Test Service
