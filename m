@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E10A49
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 20:55:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA8FEA49
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 20:55:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694379325; x=1725915325;
+  t=1694379333; x=1725915333;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VTlQ7Avn/wsMkcwD2OrnENNJ1DrZLgE2BLeybRCP/rw=;
-  b=b8pB2AEBf+PL99fPKhnQAgeIN2gSuNgUKPpcuXI66wlLM6C224+lmKAw
-   9Y8FW5uoSJndS65rdgvAjyZOe6sdn2rdO5hSIVK4KddD2j1JqunENU7dZ
-   gjUxbpmggNhZP0tUOku+2CCtC8Sxgkmr9Qj0n6L9bKovH/GEpLX5MjiIU
-   NDFSgwBcAj/27OohiWgeNe+jh7q2n3aY+cvTa+v9WFdSXvZf265YATHe2
-   8pMyabjdcIsiS5y9r0kqf4+CwjcY7cdjrHPCOfRtVS/ACKApXSfuLZxb6
-   qsu0dX/h1tGkOGnjbe+1atPVgn85C23NgWDJ6QMKEnCwRMOWbzBAoLht+
+  bh=GhlWNRqhbecokBqazbv3oP1ixcMd/ur7J2xjsKjpf3s=;
+  b=LFWRm8s+gzzg8AOCVzIC4zORxWhswsRWKe88zEnbByTH7HIF1tt6jOnp
+   GMI22LNrqsi09JTOAsFU4Q9mW7IlZ3r+np8P6MPXooNgWGVPBzyijlI3S
+   V4DJU+S7CzVXjzH23SJLfsGizPNkFh31w9zt6FZEYlXqj4jJi3BDOpaNc
+   za3HSf9nYoVDe9GpzBO7QRMnKIBAGoIRwMC0kv6nx+j2o1E2E0a/E1hwR
+   fz2P5bJmOK1dOFktFeI/uas+O1BoC2eFzvjqKFf5W1RSICmVUsGhraTMa
+   yVAIQjcAJaqGHRViwdUz0yUPAEnqRehjTJQaIBS1TlWYHzheS0aun9CzA
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="381744823"
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="362968514"
 X-IronPort-AV: E=Sophos;i="6.02,242,1688454000"; 
-   d="scan'208";a="381744823"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 13:55:23 -0700
+   d="scan'208";a="362968514"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 13:55:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="989847922"
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="916794380"
 X-IronPort-AV: E=Sophos;i="6.02,242,1688454000"; 
-   d="scan'208";a="989847922"
+   d="scan'208";a="916794380"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 10 Sep 2023 13:55:22 -0700
+  by orsmga005.jf.intel.com with ESMTP; 10 Sep 2023 13:55:22 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfRSi-0005Od-1L;
+	id 1qfRSi-0005Os-2H;
 	Sun, 10 Sep 2023 20:55:20 +0000
-Date: Mon, 11 Sep 2023 04:54:59 +0800
+Date: Mon, 11 Sep 2023 04:54:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>
-Subject: drivers/net/dsa/sja1105/sja1105.o: warning: objtool:
- sja1105_fast_age() falls through to next function sja1105_setup.cold()
-Message-ID: <202309110440.cYGeoXqE-lkp@intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/base/regmap/regmap-kunit.c:795:43: sparse: sparse: cast to
+ restricted __le16
+Message-ID: <202309110407.qVp0e60U-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,21 +47,103 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1548b060d6f32a00a2f7e2c11328205fb66fc4fa
-commit: c27cd083cfb9d392f304657ed00fcde1136704e7 Compiler attributes: GCC cold function alignment workarounds
-date:   8 months ago
-config: x86_64-buildonly-randconfig-003-20230911 (https://download.01.org/0day-ci/archive/20230911/202309110440.cYGeoXqE-lkp@intel.com/config)
+head:   e56b2b6057996c5f48da518c79d6590f8bfaabf3
+commit: 155a6bd6375b584c8bdbf963b8ddef672ff9aca3 regmap: Provide basic KUnit coverage for the raw register I/O
+date:   3 months ago
+config: i386-randconfig-063-20230910 (https://download.01.org/0day-ci/archive/20230911/202309110407.qVp0e60U-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230911/202309110440.cYGeoXqE-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230911/202309110407.qVp0e60U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309110440.cYGeoXqE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309110407.qVp0e60U-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/base/regmap/regmap-kunit.c:795:43: sparse: sparse: cast to restricted __le16
+>> drivers/base/regmap/regmap-kunit.c:798:43: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:875:25: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:875:25: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:877:25: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:877:25: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:944:33: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:944:33: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:947:33: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:947:33: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:989:17: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:989:17: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:992:17: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:992:17: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:1004:33: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:1004:33: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:1007:33: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:1007:33: sparse: sparse: cast to restricted __le16
 
->> drivers/net/dsa/sja1105/sja1105.o: warning: objtool: sja1105_fast_age() falls through to next function sja1105_setup.cold()
+vim +795 drivers/base/regmap/regmap-kunit.c
+
+   758	
+   759	static struct regmap *gen_raw_regmap(struct regmap_config *config,
+   760					     struct raw_test_types *test_type,
+   761					     struct regmap_ram_data **data)
+   762	{
+   763		u16 *buf;
+   764		struct regmap *ret;
+   765		size_t size = (config->max_register + 1) * config->reg_bits / 8;
+   766		int i;
+   767		struct reg_default *defaults;
+   768	
+   769		config->cache_type = test_type->cache_type;
+   770		config->val_format_endian = test_type->val_endian;
+   771	
+   772		buf = kmalloc(size, GFP_KERNEL);
+   773		if (!buf)
+   774			return ERR_PTR(-ENOMEM);
+   775	
+   776		get_random_bytes(buf, size);
+   777	
+   778		*data = kzalloc(sizeof(**data), GFP_KERNEL);
+   779		if (!(*data))
+   780			return ERR_PTR(-ENOMEM);
+   781		(*data)->vals = (void *)buf;
+   782	
+   783		config->num_reg_defaults = config->max_register + 1;
+   784		defaults = kcalloc(config->num_reg_defaults,
+   785				   sizeof(struct reg_default),
+   786				   GFP_KERNEL);
+   787		if (!defaults)
+   788			return ERR_PTR(-ENOMEM);
+   789		config->reg_defaults = defaults;
+   790	
+   791		for (i = 0; i < config->num_reg_defaults; i++) {
+   792			defaults[i].reg = i;
+   793			switch (test_type->val_endian) {
+   794			case REGMAP_ENDIAN_LITTLE:
+ > 795				defaults[i].def = le16_to_cpu(buf[i]);
+   796				break;
+   797			case REGMAP_ENDIAN_BIG:
+ > 798				defaults[i].def = be16_to_cpu(buf[i]);
+   799				break;
+   800			default:
+   801				return ERR_PTR(-EINVAL);
+   802			}
+   803		}
+   804	
+   805		/*
+   806		 * We use the defaults in the tests but they don't make sense
+   807		 * to the core if there's no cache.
+   808		 */
+   809		if (config->cache_type == REGCACHE_NONE)
+   810			config->num_reg_defaults = 0;
+   811	
+   812		ret = regmap_init_raw_ram(config, *data);
+   813		if (IS_ERR(ret)) {
+   814			kfree(buf);
+   815			kfree(*data);
+   816		}
+   817	
+   818		return ret;
+   819	}
+   820	
 
 -- 
 0-DAY CI Kernel Test Service
