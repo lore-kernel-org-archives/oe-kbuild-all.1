@@ -1,43 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506F1257F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 17:33:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75773257E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 18:06:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694367197; x=1725903197;
+  t=1694369176; x=1725905176;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FB8MLD92bLqFOc+7aRIg7tBy3DBOx6gOOOldjTh0c04=;
-  b=U+Oik7DDJmy3jcWPRjLRqmrhbs+SyDwRleNGLvqroMTcKep/YjkbILFw
-   l3HiNYmBmrYTiEiQroL+o84IJm/Edoe/h066F8zJVyegM5QMb9dUnSFDp
-   ZUeuOzurzkkMbhpHRohUJGIAhr/uFWmltjlvpnvOinPd1gjNpZxhRGup9
-   kxeoZS9micK3zvZHPKtBAmVnTbeh2Kb8sC1Tg+7NHxP29p5vikUZf3FoR
-   LlCfitTxdJtiQ7wVbLc95oXSuhmCMwIvhpzmqSUoSivK/eTEiRhEQohgj
-   K/1p7Rc6scAjjXeIBJocHFR94T+K14XPOmBIgYZyJY0kJDMg/vkTROXsn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="362957514"
+  bh=GuWkts7cK66umI5jWrMkoWYYMNGTIR+Ltc9Nke6Phuk=;
+  b=l2pOa3hel7ZKlgZPZmcAq71IohEcGDROrQThLdTMRSoi8kQn0ukyMz+w
+   IbV+uJU1jiNjrWnWFLwpmz73VF8b0++viIqVEAgGkxzL7cGJnHgD0KYjh
+   erlxQ2cV0gAdzxWjYhvC6lSgE0aqxv+l5p5L+wGWQciFVKAtDMS+EvBZU
+   DyfUhfCXm9clBuXUnFZu+frHYxlneXNfBQqgM/NPx/UL1CT/JEyXH+OZh
+   rRTHwlagHpH9yqUyOaX1CZV2lHs56Ex+GVoHRiDfZNDrhoBNp0Q9Vj+/x
+   vTOY3jlttPv9uozzxWTCKQtcI2bNw283KB/LE0xCBJsW49jCSwwaIDVpe
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="362959404"
 X-IronPort-AV: E=Sophos;i="6.02,242,1688454000"; 
-   d="scan'208";a="362957514"
+   d="scan'208";a="362959404"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 10:33:16 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 11:06:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="772323069"
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="772326819"
 X-IronPort-AV: E=Sophos;i="6.02,242,1688454000"; 
-   d="scan'208";a="772323069"
+   d="scan'208";a="772326819"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 10 Sep 2023 10:33:15 -0700
+  by orsmga008.jf.intel.com with ESMTP; 10 Sep 2023 11:06:14 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfOJ5-0005E3-07;
-	Sun, 10 Sep 2023 17:33:11 +0000
-Date: Mon, 11 Sep 2023 01:32:40 +0800
+	id 1qfOp2-0005Fb-25;
+	Sun, 10 Sep 2023 18:06:12 +0000
+Date: Mon, 11 Sep 2023 02:05:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Feiyang Chen <chenfeiyang@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Huacai Chen <chenhuacai@kernel.org>
-Subject: ../lib/gcc/loongarch64-linux/13.2.0/plugin/include/config/loongarch/loongarch-opts.h:31:10:
- fatal error: loongarch-def.h: No such file or directory
-Message-ID: <202309110109.rbZxQdD6-lkp@intel.com>
+To: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: [intel-tdx:guest 2/4] arch/x86/kernel/tdx-tests.c:66:12: warning: no
+ previous prototype for 'kvm_unit_test_debug_init'
+Message-ID: <202309110227.lx7Y9V0V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,52 +47,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   535a265d7f0dd50d8c3a4f8b4f3a452d56bd160f
-commit: 2363088eba2ecccfb643725e4864af73c4226a04 LoongArch: Allow building with kcov coverage
-date:   4 days ago
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230911/202309110109.rbZxQdD6-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230911/202309110109.rbZxQdD6-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/tdx.git guest
+head:   f3d7a7e86bf2f0d5ce629f2fb7be11dca88ac06d
+commit: 4cd6be90a565d847e1d7ccfe28264a1610a02a34 [2/4] x86/tdx-tests: Add a port of a kvm unit test
+config: x86_64-randconfig-005-20230910 (https://download.01.org/0day-ci/archive/20230911/202309110227.lx7Y9V0V-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230911/202309110227.lx7Y9V0V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309110109.rbZxQdD6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309110227.lx7Y9V0V-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from ../lib/gcc/loongarch64-linux/13.2.0/plugin/include/options.h:8,
-                    from ../lib/gcc/loongarch64-linux/13.2.0/plugin/include/tm.h:46,
-                    from ../lib/gcc/loongarch64-linux/13.2.0/plugin/include/backend.h:28,
-                    from ../lib/gcc/loongarch64-linux/13.2.0/plugin/include/gcc-plugin.h:30,
-                    from scripts/gcc-plugins/gcc-common.h:7,
-                    from scripts/gcc-plugins/randomize_layout_plugin.c:19:
->> ../lib/gcc/loongarch64-linux/13.2.0/plugin/include/config/loongarch/loongarch-opts.h:31:10: fatal error: loongarch-def.h: No such file or directory
-      31 | #include "loongarch-def.h"
-         |          ^~~~~~~~~~~~~~~~~
-   compilation terminated.
-   In file included from ../lib/gcc/loongarch64-linux/13.2.0/plugin/include/options.h:8,
-                    from ../lib/gcc/loongarch64-linux/13.2.0/plugin/include/tm.h:46,
-                    from ../lib/gcc/loongarch64-linux/13.2.0/plugin/include/backend.h:28,
-                    from ../lib/gcc/loongarch64-linux/13.2.0/plugin/include/gcc-plugin.h:30,
-                    from scripts/gcc-plugins/gcc-common.h:7,
-                    from scripts/gcc-plugins/latent_entropy_plugin.c:78:
->> ../lib/gcc/loongarch64-linux/13.2.0/plugin/include/config/loongarch/loongarch-opts.h:31:10: fatal error: loongarch-def.h: No such file or directory
-      31 | #include "loongarch-def.h"
-         |          ^~~~~~~~~~~~~~~~~
-   compilation terminated.
-   make[4]: *** [scripts/gcc-plugins/Makefile:54: scripts/gcc-plugins/randomize_layout_plugin.so] Error 1
-   make[4]: *** [scripts/gcc-plugins/Makefile:54: scripts/gcc-plugins/latent_entropy_plugin.so] Error 1
-   make[4]: Target 'scripts/gcc-plugins/' not remade because of errors.
-   make[3]: *** [scripts/Makefile.build:480: scripts/gcc-plugins] Error 2
-   make[3]: Target 'scripts/' not remade because of errors.
-   make[2]: *** [Makefile:1271: scripts] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> arch/x86/kernel/tdx-tests.c:66:12: warning: no previous prototype for 'kvm_unit_test_debug_init' [-Wmissing-prototypes]
+      66 | int __init kvm_unit_test_debug_init(void)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/kvm_unit_test_debug_init +66 arch/x86/kernel/tdx-tests.c
+
+    65	
+  > 66	int __init kvm_unit_test_debug_init(void)
 
 -- 
 0-DAY CI Kernel Test Service
