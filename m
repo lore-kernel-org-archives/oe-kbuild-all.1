@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019976FA5
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 15:34:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF606ABC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 15:56:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694360041; x=1725896041;
+  t=1694361363; x=1725897363;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UbKlm6gCyssVhZky0AdNZO3KfsbUESXOnh4I9ytAAXE=;
-  b=HOl1DXCdLhq0a5FHO/nOGqTF8rIKg2lPa0niByK8hRuSWjrsOkVPJ3Ss
-   ORHkeRmbQ0Mhk8O3fwbV2sSREeFTMSBe34m+81GHDbDEcE78GpbJPMCd7
-   wlWZJxAiqYJxd/k9JJxqxiqH5ZoyoX8a8wKbplPkgC618ZlI3LsiBiIh8
-   3DvfoFLNEgNSz3/asfO92kuwL7rhXOUU2eRdajMfW4uawIfsbwLPVSL4h
-   77jRSx8TY+t5YKGmCWGt5/9Jq0VrdmJTV5U6VYF+UrIUiZPzti3PiWt90
-   mLm+mcreBu7OKHa6gQyn8iiKqwglbPTs7SM92GcOS4KjbBH48qkD4za6i
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="362949688"
+  bh=nj45BA+pWu/nJu6iJbdzNI9R9I9bO1cCR8/yyn9BZ6w=;
+  b=aP5HOQDtDD4PkFiARBktsNxQXPiV7yNDKeCn90Td3flSBzXRO6XLpops
+   SRxi6F7nDiV4ItAtE2O67sTjkRKaWJaXQLn4yomZmlP1oPfqGIm9aO36I
+   rELzcDy3VvUYkPSz5wFr/JSF6PH/6TiGOvjxnG8ITmXRdSNtbFacM6lM3
+   MzYJnS4O8TYkLhq9kLgIEmGQY+/C+PCVB/SW9uPvdEQFr2AKrjwTX1QSc
+   RdQX/Ms+N8WCzt/Fl9JfxhEnmLUgpPl7X62SPji56MQe0U0lSa/DiSMxz
+   Dfg/hAKJeUM+T4TFVVCTO1Yc0l4hzz8QGY5fgCrfehwiAHIthaiaLAQ1C
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="441920237"
 X-IronPort-AV: E=Sophos;i="6.02,242,1688454000"; 
-   d="scan'208";a="362949688"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 08:34:01 -0700
+   d="scan'208";a="441920237"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 08:56:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="746136964"
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="858019601"
 X-IronPort-AV: E=Sophos;i="6.02,242,1688454000"; 
-   d="scan'208";a="746136964"
+   d="scan'208";a="858019601"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 10 Sep 2023 08:34:00 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 10 Sep 2023 08:56:01 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfMRh-00055m-2u;
-	Sun, 10 Sep 2023 15:33:57 +0000
-Date: Sun, 10 Sep 2023 23:33:39 +0800
+	id 1qfMn0-00057E-2i;
+	Sun, 10 Sep 2023 15:55:58 +0000
+Date: Sun, 10 Sep 2023 23:55:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [hverkuil-media-tree:hdmi-dbg 11/27] htmldocs:
- Documentation/admin-guide/media/cec.rst:50: WARNING: undefined label:
- extron_da_hd_4k_plus (if the link has no caption the label must precede a
- section header)
-Message-ID: <202309102306.O46hkAzJ-lkp@intel.com>
+To: Qi Hu <huqi@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Huacai Chen <chenhuacai@kernel.org>
+Subject: arch/loongarch/kernel/asm-offsets.c:172:6: warning: no previous
+ prototype for 'output_thread_lbt_defines'
+Message-ID: <202309102312.Dh7fxcU6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,37 +47,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://linuxtv.org/hverkuil/media_tree.git hdmi-dbg
-head:   4e36f69879c101236bfb136deb83de210cf43046
-commit: 1eb159538ab221d1ffb1002a0cf8585906e75ca0 [11/27] cec/extron-da-hd-4k-plus: add the Extron DA HD 4K Plus CEC driver
-reproduce: (https://download.01.org/0day-ci/archive/20230910/202309102306.O46hkAzJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   535a265d7f0dd50d8c3a4f8b4f3a452d56bd160f
+commit: bd3c5798484aa9a08302a844d7a75a2ee3b53d05 LoongArch: Add Loongson Binary Translation (LBT) extension support
+date:   4 days ago
+config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20230910/202309102312.Dh7fxcU6-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309102312.Dh7fxcU6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309102306.O46hkAzJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309102312.Dh7fxcU6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/admin-guide/media/cec.rst:50: WARNING: undefined label: extron_da_hd_4k_plus (if the link has no caption the label must precede a section header)
+   arch/loongarch/kernel/asm-offsets.c:17:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
+      17 | void output_ptreg_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:64:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
+      64 | void output_task_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:79:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
+      79 | void output_thread_info_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:95:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
+      95 | void output_thread_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:131:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
+     131 | void output_thread_fpu_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/loongarch/kernel/asm-offsets.c:172:6: warning: no previous prototype for 'output_thread_lbt_defines' [-Wmissing-prototypes]
+     172 | void output_thread_lbt_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:182:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
+     182 | void output_mm_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:214:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
+     214 | void output_sc_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:222:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
+     222 | void output_signal_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:260:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
+     260 | void output_smpboot_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+--
+   arch/loongarch/kernel/asm-offsets.c:17:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
+      17 | void output_ptreg_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:64:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
+      64 | void output_task_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:79:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
+      79 | void output_thread_info_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:95:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
+      95 | void output_thread_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:131:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
+     131 | void output_thread_fpu_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/loongarch/kernel/asm-offsets.c:172:6: warning: no previous prototype for 'output_thread_lbt_defines' [-Wmissing-prototypes]
+     172 | void output_thread_lbt_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:182:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
+     182 | void output_mm_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:214:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
+     214 | void output_sc_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:222:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
+     222 | void output_signal_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:260:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
+     260 | void output_smpboot_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
 
-vim +50 Documentation/admin-guide/media/cec.rst
 
-    40	
-    41	- Pulse-Eight: the pulse8-cec driver implements the following module option:
-    42	  ``persistent_config``: by default this is off, but when set to 1 the driver
-    43	  will store the current settings to the device's internal eeprom and restore
-    44	  it the next time the device is connected to the USB port.
-    45	
-    46	- RainShadow Tech. Note: this driver does not support the persistent_config
-    47	  module option of the Pulse-Eight driver. The hardware supports it, but I
-    48	  have no plans to add this feature. But I accept patches :-)
-    49	
-  > 50	- Extron DA HD 4K PLUS HDMI Distribution Amplifier. See
-    51	  :ref:`extron_da_hd_4k_plus` for more information.
-    52	
-    53	Miscellaneous:
-    54	
+vim +/output_thread_lbt_defines +172 arch/loongarch/kernel/asm-offsets.c
+
+   171	
+ > 172	void output_thread_lbt_defines(void)
+   173	{
+   174		OFFSET(THREAD_SCR0,  loongarch_lbt, scr0);
+   175		OFFSET(THREAD_SCR1,  loongarch_lbt, scr1);
+   176		OFFSET(THREAD_SCR2,  loongarch_lbt, scr2);
+   177		OFFSET(THREAD_SCR3,  loongarch_lbt, scr3);
+   178		OFFSET(THREAD_EFLAGS, loongarch_lbt, eflags);
+   179		BLANK();
+   180	}
+   181	
 
 -- 
 0-DAY CI Kernel Test Service
