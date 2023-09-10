@@ -1,42 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37B41C3F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 22:38:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63CC8488
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 22:59:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694385513; x=1725921513;
+  t=1694386775; x=1725922775;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WzBjukuJt4LMbxaHpUYO58KiOn/3vDch9dev3DMmh+8=;
-  b=VsSRT4c3HBeVY5AMhRyevZAW8pWQLljXf2imrOajgN5bsMvyx1KQX7Uk
-   DCrCnelS8t3Q8fBFEuryM1ZG1l3WRr9mIv4PT9WZW+MIOC6y+k+sW26YR
-   zDbuBendSd8FTQ7LOJVMqDYnImN6rSpBHwH3CXvT6DaWi5B8nlNOWPdbH
-   nMsqOKH8N+9TDUhybxqpV8T9zfu1y2JFM/pntS0mgP1FwKU5R5MBGyhT6
-   /47qxupGdei1Bskh1QibEwkhPaPfZ1PL+ORnvALYxbg9ZWy4EDCbMuI16
-   XQSDLUpuaGhooXtDzm2gm5kWrJpiDFgYytvUcPUAHSdXX+iEnATHZ03QU
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="358231259"
+  bh=1MdT0j3frEZg/TUUFPU0wOKp1Tn2f5lqsDpEQ+Kf+YA=;
+  b=JdzPmJeAyoZ0TrB+EbTgu/EmEykMzhE8pZW534DpimBVFvruLeaU+gRa
+   1TffzlVxsF7r0jFz4QNn8aloXDKZKT+M+072S4uMyYTtDmGKKHHISHdaT
+   kGoGj07yYw05Szvx8wD0yzvaN0z//o+f2Uy2ohAASpcxaXAS1d1kteo/A
+   ncwaHwUOPq59qIrn/3dbICg1ijY42UadGPCwgu15jzCRFkOpHOLhIZEuw
+   FKoAr0bOQa6hPiLC1zGqKE0n9okJX/CDkxI59ZaeO6SmB3YXfJbyUNVYD
+   FYNI8EsiyekIPg9F/ij6S3Vi1KKNmrIlK78TaPLAEVH5G0PjvbAtBbwBy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="376837189"
 X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
-   d="scan'208";a="358231259"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 15:38:32 -0700
+   d="scan'208";a="376837189"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 15:59:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="746200319"
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="736569862"
 X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
-   d="scan'208";a="746200319"
+   d="scan'208";a="736569862"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 10 Sep 2023 15:38:31 -0700
+  by orsmga007.jf.intel.com with ESMTP; 10 Sep 2023 15:59:32 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfT4X-0005Vs-1u;
-	Sun, 10 Sep 2023 22:38:29 +0000
-Date: Mon, 11 Sep 2023 06:38:15 +0800
+	id 1qfTOs-0005Wa-0G;
+	Sun, 10 Sep 2023 22:59:30 +0000
+Date: Mon, 11 Sep 2023 06:58:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Filippov <jcmvbkbc@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jcmvbkbc-xtensa:xtensa-6.5-esp32 35/36] kernel/events/core.c:6629
- perf_get_unmapped_area() warn: unsigned 'ret' is never less than zero.
-Message-ID: <202309110617.gLD9VOs0-lkp@intel.com>
+To: Pei Zhang <pei.zhang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
+	"Jiang, Fei" <fei.jiang@intel.com>, "He, Min" <min.he@intel.com>,
+	"Dong, Eddie" <eddie.dong@intel.com>
+Subject: [intel-lts:4.19/android_t 3675/30000]
+ drivers/gpu/drm/i915/i915_drv.c:996:43: sparse: sparse: incorrect type in
+ argument 2 (different address spaces)
+Message-ID: <202309110640.OZEsWbjr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,80 +49,118 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.5-esp32
-head:   6497b8ba138880f5f4a44ec7315b57ccaca7200c
-commit: fed5ff883d40df4789e87c3b8b9476cb70f595e6 [35/36] WIP: perf: support mmapping event on noMMU
-config: i386-randconfig-141-20230910 (https://download.01.org/0day-ci/archive/20230911/202309110617.gLD9VOs0-lkp@intel.com/config)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
+head:   247bc655e03e4ac3632b21081ca56b813a644dcf
+commit: 3abfdfac8f8c0b356cd4b32e1287cc59062751a3 [3675/30000] drm/i915/gvt: add module parameter enable_pvmmio
+config: x86_64-randconfig-121-20230910 (https://download.01.org/0day-ci/archive/20230911/202309110640.OZEsWbjr-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230911/202309110617.gLD9VOs0-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230911/202309110640.OZEsWbjr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309110617.gLD9VOs0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309110640.OZEsWbjr-lkp@intel.com/
 
-smatch warnings:
-kernel/events/core.c:6629 perf_get_unmapped_area() warn: unsigned 'ret' is never less than zero.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/i915/i915_drv.c:996:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] <asn:2> * @@     got struct gvt_shared_page *shared_page @@
+   drivers/gpu/drm/i915/i915_drv.c:996:43: sparse:     expected void [noderef] <asn:2> *
+   drivers/gpu/drm/i915/i915_drv.c:996:43: sparse:     got struct gvt_shared_page *shared_page
+>> drivers/gpu/drm/i915/i915_drv.c:1036:42: sparse: sparse: cast removes address space '<asn:2>' of expression
+   drivers/gpu/drm/i915/i915_drv.c:1056:57: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] <asn:2> * @@     got struct gvt_shared_page *shared_page @@
+   drivers/gpu/drm/i915/i915_drv.c:1056:57: sparse:     expected void [noderef] <asn:2> *
+   drivers/gpu/drm/i915/i915_drv.c:1056:57: sparse:     got struct gvt_shared_page *shared_page
+   drivers/gpu/drm/i915/i915_drv.o: warning: objtool: i915_getparam_ioctl()+0x56f: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_drv.o: warning: objtool: i915_mmio_cleanup()+0xe6: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_drv.o: warning: objtool: i915_driver_init_hw()+0x84: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_drv.o: warning: objtool: i915_driver_init_early()+0x80: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_drv.o: warning: objtool: i915_driver_init_mmio()+0x3b6: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_drv.o: warning: objtool: __i915_inject_load_failure()+0x51: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_drv.o: warning: objtool: __i915_printk()+0x22f: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_drv.o: warning: objtool: i915_driver_load()+0xa2: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_drv.o: warning: objtool: i915_reset()+0x362: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_drv.o: warning: objtool: i915_drm_resume_early()+0x1d2: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_drv.o: warning: objtool: intel_runtime_resume()+0x384: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_drv.o: warning: objtool: i915_drm_suspend_late()+0x2f3: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_drv.o: warning: objtool: intel_runtime_suspend()+0x6b: sibling call from callable instruction with modified stack frame
 
-vim +/ret +6629 kernel/events/core.c
+vim +996 drivers/gpu/drm/i915/i915_drv.c
 
-  6582	
-  6583	unsigned long perf_get_unmapped_area(struct file *file,
-  6584					     unsigned long addr, unsigned long len,
-  6585					     unsigned long pgoff, unsigned long flags)
-  6586	{
-  6587		unsigned long ret = -EINVAL;
-  6588		struct perf_event *event = file->private_data;
-  6589		unsigned long nr_pages = len / PAGE_SIZE;
-  6590	
-  6591		pr_debug("%s: addr = 0x%lx, len = 0x%lx, pgoff = 0x%lx, flags = 0x%lx, event = %p, event->rb = %p\n",
-  6592			 __func__, addr, len, pgoff, flags, event, event->rb);
-  6593	
-  6594		if (!event->rb) {
-  6595			int flags = RING_BUFFER_WRITABLE;
-  6596			struct perf_buffer *rb = NULL;
-  6597	
-  6598			if (pgoff != 0) {
-  6599				ret = -EINVAL;
-  6600				goto unlock;
-  6601			}
-  6602			--nr_pages;
-  6603			rb = rb_alloc(nr_pages,
-  6604				      event->attr.watermark ? event->attr.wakeup_watermark : 0,
-  6605				      event->cpu, flags);
-  6606	
-  6607			if (!rb) {
-  6608				ret = -ENOMEM;
-  6609				goto unlock;
-  6610			}
-  6611			atomic_set(&rb->mmap_count, 1);
-  6612			rb->mmap_user = get_current_user();
-  6613			rb->mmap_locked = 0;
-  6614	
-  6615			ring_buffer_attach(event, rb);
-  6616	
-  6617			perf_event_update_time(event);
-  6618			perf_event_init_userpage(event);
-  6619			perf_event_update_userpage(event);
-  6620		}
-  6621		if (event->rb) {
-  6622			struct perf_buffer *rb = event->rb;
-  6623	
-  6624			if (!pgoff) {
-  6625				ret = (unsigned long)rb->user_page;
-  6626			} else {
-  6627				ret = rb_alloc_aux(rb, event, pgoff, nr_pages,
-  6628						   event->attr.aux_watermark, flags);
-> 6629				if (ret < 0)
-  6630					goto unlock;
-  6631				ret = (unsigned long)rb->data_pages[pgoff - 1];
-  6632			}
-  6633		}
-  6634	unlock:
-  6635		pr_debug("%s: ret = 0x%lx\n", __func__, ret);
-  6636		return ret;
-  6637	}
-  6638	
+   988	
+   989	static void i915_mmio_cleanup(struct drm_i915_private *dev_priv)
+   990	{
+   991		struct pci_dev *pdev = dev_priv->drm.pdev;
+   992	
+   993		intel_teardown_mchbar(dev_priv);
+   994		pci_iounmap(pdev, dev_priv->regs);
+   995		if (intel_vgpu_active(dev_priv) && dev_priv->shared_page)
+ > 996			pci_iounmap(pdev, dev_priv->shared_page);
+   997	
+   998	}
+   999	
+  1000	/**
+  1001	 * i915_driver_init_mmio - setup device MMIO
+  1002	 * @dev_priv: device private
+  1003	 *
+  1004	 * Setup minimal device state necessary for MMIO accesses later in the
+  1005	 * initialization sequence. The setup here should avoid any other device-wide
+  1006	 * side effects or exposing the driver via kernel internal or user space
+  1007	 * interfaces.
+  1008	 */
+  1009	static int i915_driver_init_mmio(struct drm_i915_private *dev_priv)
+  1010	{
+  1011		int ret;
+  1012	
+  1013		if (i915_inject_load_failure())
+  1014			return -ENODEV;
+  1015	
+  1016		if (i915_get_bridge_dev(dev_priv))
+  1017			return -EIO;
+  1018	
+  1019		ret = i915_mmio_setup(dev_priv);
+  1020		if (ret < 0)
+  1021			goto err_bridge;
+  1022	
+  1023		intel_uncore_init(dev_priv);
+  1024	
+  1025		intel_device_info_init_mmio(dev_priv);
+  1026	
+  1027		intel_uncore_prune(dev_priv);
+  1028	
+  1029		intel_uc_init_mmio(dev_priv);
+  1030	
+  1031		if (intel_vgpu_active(dev_priv) && i915_modparams.enable_pvmmio) {
+  1032			u32 bar = 0;
+  1033			u32 mmio_size = 2 * 1024 * 1024;
+  1034	
+  1035			/* Map a share page from the end of 2M mmio region in bar0. */
+> 1036			dev_priv->shared_page = (struct gvt_shared_page *)
+  1037				pci_iomap_range(dev_priv->drm.pdev, bar,
+  1038				mmio_size, PAGE_SIZE);
+  1039			if (dev_priv->shared_page == NULL) {
+  1040				ret = -EIO;
+  1041				DRM_ERROR("ivi: failed to map share page.\n");
+  1042				goto err_uncore;
+  1043			}
+  1044		}
+  1045	
+  1046		ret = intel_engines_init_mmio(dev_priv);
+  1047		if (ret)
+  1048			goto err_uncore;
+  1049	
+  1050		i915_gem_init_mmio(dev_priv);
+  1051	
+  1052		return 0;
+  1053	
+  1054	err_uncore:
+  1055		if (intel_vgpu_active(dev_priv) && dev_priv->shared_page)
+  1056			pci_iounmap(dev_priv->drm.pdev, dev_priv->shared_page);
+  1057		intel_uncore_fini(dev_priv);
+  1058	err_bridge:
+  1059		pci_dev_put(dev_priv->bridge_dev);
+  1060	
+  1061		return ret;
+  1062	}
+  1063	
 
 -- 
 0-DAY CI Kernel Test Service
