@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A7510E9
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 00:55:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF2610E9
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 01:47:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694307307; x=1725843307;
+  t=1694310429; x=1725846429;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Bvf2aoCZhu+qm01hoQ6MuqydZx6l6R8msqM8FDCJgIY=;
-  b=fNHLl3hvoX4Zpg9k7U01dzjsACNE83NEMZLmZzP1FsUNuBzcZ3u78rpI
-   CC2IoIGSZDI4u5oEeP+NPG8vAF/pazPQd3c+dz2GVl/tbQYhlq6MKZcPj
-   tnZl8BtcotmzcAutGlLEZFyJQ4NLyL2uo9lfwQLlrnL533gHBfdxQ7Qws
-   1ZpfXP+pXhvhiupxTHGtf+Zr3gsJrPhmFMxP/OVfjUpD7D6a5x5y0CT+s
-   0tTOpUE1KrkbTgalQ7ZeAiwtxHNreyyESCl5ix/JIafxY/t8lTamARRXU
-   tlPBiJH92lAPqF2fdpjY4l2SQTKAo9+Ia26gtrigZpf5qLJJnrAnfj4zX
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="441871550"
+  bh=OEj0u4anMkB3rV0nU6/xMDj0JAfxK9JBvWMcgnjptMk=;
+  b=TAG2TdOvqOVH91X/Qjs06QVWA2TbwgVCsXPyP0lOBRYqVTr/+n7KPC61
+   OYWPJlCqaNEiARNLu1k+AGfKMAbrP8kNxnoTzQaAz3ZlmvcNAxJMrWhcp
+   VPlNWmEFpP3TJtn633CVPHEweC+pQTC49n3du8PvtvP5VlG1DsAPWS77r
+   z6ps2L1m7oKO604iUopFOUqs7nijzAoPcV0MfgHB8YHFWeKHP5oxrCFb6
+   RPSBEBv0rgClrT5tVbOKy2ZCr8o3ARf9zC/tEQhfoIrFp4RMZ1BlgJXM9
+   Tf79WlSswNwXO0nf66e7qxnKwk7yTwGGDOeE3Th5aTgNAvXgF5qR0HPFg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="444291075"
 X-IronPort-AV: E=Sophos;i="6.02,240,1688454000"; 
-   d="scan'208";a="441871550"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 17:55:04 -0700
+   d="scan'208";a="444291075"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 18:47:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="772142177"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="777989921"
 X-IronPort-AV: E=Sophos;i="6.02,240,1688454000"; 
-   d="scan'208";a="772142177"
+   d="scan'208";a="777989921"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 09 Sep 2023 17:55:04 -0700
+  by orsmga001.jf.intel.com with ESMTP; 09 Sep 2023 18:47:06 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qf8j7-00047G-30;
-	Sun, 10 Sep 2023 00:55:01 +0000
-Date: Sun, 10 Sep 2023 08:54:42 +0800
+	id 1qf9XU-0004C7-2P;
+	Sun, 10 Sep 2023 01:47:04 +0000
+Date: Sun, 10 Sep 2023 09:46:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 1/3] fs/fuse/backing.c:1218:
- undefined reference to `fuse_get_bpf_prog'
-Message-ID: <202309100803.ZojB6Bgv-lkp@intel.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/opp/core.c:2010: warning: Function parameter or member
+ 'opp_table' not described in '_opp_set_prop_name'
+Message-ID: <202309100917.zNUUhk19-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,75 +46,110 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   d4f95b543e9e58a9ca8a5c5825ccb30767afe211
-commit: f5f4199c102aa676998b42abff60d071385c1c0c [1/3] ANDROID: fuse-bpf v1.1
-config: i386-randconfig-054-20230910 (https://download.01.org/0day-ci/archive/20230910/202309100803.ZojB6Bgv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309100803.ZojB6Bgv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a3c57ab79a06e333a869ae340420cb3c6f5921d3
+commit: 298098e55a6fcc176a5af52cd689f33577ead5ca OPP: Migrate set-prop-name helper API to use set-config helpers
+date:   1 year, 2 months ago
+config: csky-defconfig (https://download.01.org/0day-ci/archive/20230910/202309100917.zNUUhk19-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309100917.zNUUhk19-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309100803.ZojB6Bgv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309100917.zNUUhk19-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: fs/fuse/backing.o: in function `fuse_handle_bpf_prog':
->> fs/fuse/backing.c:1218: undefined reference to `fuse_get_bpf_prog'
+   drivers/opp/core.c:1967: warning: Function parameter or member 'opp_table' not described in '_opp_set_supported_hw'
+   drivers/opp/core.c:1967: warning: Excess function parameter 'dev' description in '_opp_set_supported_hw'
+>> drivers/opp/core.c:2010: warning: Function parameter or member 'opp_table' not described in '_opp_set_prop_name'
+>> drivers/opp/core.c:2010: warning: Excess function parameter 'dev' description in '_opp_set_prop_name'
+   drivers/opp/core.c:2051: warning: Function parameter or member 'opp_table' not described in '_opp_set_regulators'
+   drivers/opp/core.c:2051: warning: Excess function parameter 'count' description in '_opp_set_regulators'
+   drivers/opp/core.c:2164: warning: Function parameter or member 'opp_table' not described in '_opp_set_clknames'
+   drivers/opp/core.c:2228: warning: Function parameter or member 'opp_table' not described in '_opp_register_set_opp_helper'
+   drivers/opp/core.c:2314: warning: Function parameter or member 'opp_table' not described in '_opp_attach_genpd'
+   drivers/opp/core.c:2536: warning: Function parameter or member 'token' not described in 'dev_pm_opp_clear_config'
+   drivers/opp/core.c:2536: warning: Excess function parameter 'opp_table' description in 'dev_pm_opp_clear_config'
 
 
-vim +1218 fs/fuse/backing.c
+vim +2010 drivers/opp/core.c
 
-  1186	
-  1187	int fuse_handle_bpf_prog(struct fuse_entry_bpf *feb, struct inode *parent,
-  1188				 struct bpf_prog **bpf)
-  1189	{
-  1190		struct fuse_inode *pi;
-  1191	
-  1192		// Parent isn't presented, but we want to keep
-  1193		// Don't touch bpf program at all in this case
-  1194		if (feb->out.bpf_action == FUSE_ACTION_KEEP && !parent)
-  1195			goto out;
-  1196	
-  1197		if (*bpf) {
-  1198			bpf_prog_put(*bpf);
-  1199			*bpf = NULL;
-  1200		}
-  1201	
-  1202		switch (feb->out.bpf_action) {
-  1203		case FUSE_ACTION_KEEP:
-  1204			pi = get_fuse_inode(parent);
-  1205			*bpf = pi->bpf;
-  1206			if (*bpf)
-  1207				bpf_prog_inc(*bpf);
-  1208			break;
-  1209	
-  1210		case FUSE_ACTION_REMOVE:
-  1211			break;
-  1212	
-  1213		case FUSE_ACTION_REPLACE: {
-  1214			struct file *bpf_file = feb->bpf_file;
-  1215			struct bpf_prog *bpf_prog = ERR_PTR(-EINVAL);
-  1216	
-  1217			if (bpf_file && !IS_ERR(bpf_file))
-> 1218				bpf_prog = fuse_get_bpf_prog(bpf_file);
-  1219	
-  1220			if (IS_ERR(bpf_prog))
-  1221				return PTR_ERR(bpf_prog);
-  1222	
-  1223			*bpf = bpf_prog;
-  1224			break;
-  1225		}
-  1226	
-  1227		default:
-  1228			return -EINVAL;
-  1229		}
-  1230	
-  1231	out:
-  1232		return 0;
-  1233	}
-  1234	
+38393409da345c drivers/base/power/opp.c      Viresh Kumar 2014-11-25  1953  
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1954  /**
+89f03984fa2abf drivers/opp/core.c            Viresh Kumar 2022-05-26  1955   * _opp_set_supported_hw() - Set supported platforms
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1956   * @dev: Device for which supported-hw has to be set.
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1957   * @versions: Array of hierarchy of versions to match.
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1958   * @count: Number of elements in the array.
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1959   *
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1960   * This is required only for the V2 bindings, and it enables a platform to
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1961   * specify the hierarchy of versions it supports. OPP layer will then enable
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1962   * OPPs, which are available for those versions, based on its 'opp-supported-hw'
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1963   * property.
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1964   */
+89f03984fa2abf drivers/opp/core.c            Viresh Kumar 2022-05-26  1965  static int _opp_set_supported_hw(struct opp_table *opp_table,
+fa30184d192ec7 drivers/base/power/opp/core.c Viresh Kumar 2017-01-23  1966  				 const u32 *versions, unsigned int count)
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09 @1967  {
+25419de1b8dda2 drivers/opp/core.c            Viresh Kumar 2018-05-22  1968  	/* Another CPU that shares the OPP table has set the property ? */
+25419de1b8dda2 drivers/opp/core.c            Viresh Kumar 2018-05-22  1969  	if (opp_table->supported_hw)
+89f03984fa2abf drivers/opp/core.c            Viresh Kumar 2022-05-26  1970  		return 0;
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1971  
+2c2709dc6921c5 drivers/base/power/opp/core.c Viresh Kumar 2016-02-16  1972  	opp_table->supported_hw = kmemdup(versions, count * sizeof(*versions),
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1973  					GFP_KERNEL);
+89f03984fa2abf drivers/opp/core.c            Viresh Kumar 2022-05-26  1974  	if (!opp_table->supported_hw)
+89f03984fa2abf drivers/opp/core.c            Viresh Kumar 2022-05-26  1975  		return -ENOMEM;
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1976  
+2c2709dc6921c5 drivers/base/power/opp/core.c Viresh Kumar 2016-02-16  1977  	opp_table->supported_hw_count = count;
+fa30184d192ec7 drivers/base/power/opp/core.c Viresh Kumar 2017-01-23  1978  
+89f03984fa2abf drivers/opp/core.c            Viresh Kumar 2022-05-26  1979  	return 0;
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1980  }
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1981  
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1982  /**
+89f03984fa2abf drivers/opp/core.c            Viresh Kumar 2022-05-26  1983   * _opp_put_supported_hw() - Releases resources blocked for supported hw
+89f03984fa2abf drivers/opp/core.c            Viresh Kumar 2022-05-26  1984   * @opp_table: OPP table returned by _opp_set_supported_hw().
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1985   *
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1986   * This is required only for the V2 bindings, and is called for a matching
+89f03984fa2abf drivers/opp/core.c            Viresh Kumar 2022-05-26  1987   * _opp_set_supported_hw(). Until this is called, the opp_table structure
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1988   * will not be freed.
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1989   */
+89f03984fa2abf drivers/opp/core.c            Viresh Kumar 2022-05-26  1990  static void _opp_put_supported_hw(struct opp_table *opp_table)
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1991  {
+89f03984fa2abf drivers/opp/core.c            Viresh Kumar 2022-05-26  1992  	if (opp_table->supported_hw) {
+2c2709dc6921c5 drivers/base/power/opp/core.c Viresh Kumar 2016-02-16  1993  		kfree(opp_table->supported_hw);
+2c2709dc6921c5 drivers/base/power/opp/core.c Viresh Kumar 2016-02-16  1994  		opp_table->supported_hw = NULL;
+2c2709dc6921c5 drivers/base/power/opp/core.c Viresh Kumar 2016-02-16  1995  		opp_table->supported_hw_count = 0;
+7de36b0aa51a5a drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1996  	}
+9c4f220f3dc260 drivers/opp/core.c            Yangtao Li   2021-03-14  1997  }
+9c4f220f3dc260 drivers/opp/core.c            Yangtao Li   2021-03-14  1998  
+01fb4d3c39d35b drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  1999  /**
+298098e55a6fcc drivers/opp/core.c            Viresh Kumar 2022-05-26  2000   * _opp_set_prop_name() - Set prop-extn name
+a5da64477ee79e drivers/base/power/opp/core.c Viresh Kumar 2016-02-16  2001   * @dev: Device for which the prop-name has to be set.
+01fb4d3c39d35b drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  2002   * @name: name to postfix to properties.
+01fb4d3c39d35b drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  2003   *
+01fb4d3c39d35b drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  2004   * This is required only for the V2 bindings, and it enables a platform to
+01fb4d3c39d35b drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  2005   * specify the extn to be used for certain property names. The properties to
+01fb4d3c39d35b drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  2006   * which the extension will apply are opp-microvolt and opp-microamp. OPP core
+01fb4d3c39d35b drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  2007   * should postfix the property name with -<name> while looking for them.
+01fb4d3c39d35b drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  2008   */
+298098e55a6fcc drivers/opp/core.c            Viresh Kumar 2022-05-26  2009  static int _opp_set_prop_name(struct opp_table *opp_table, const char *name)
+01fb4d3c39d35b drivers/base/power/opp/core.c Viresh Kumar 2015-12-09 @2010  {
+878ec1a9f0e5a6 drivers/opp/core.c            Viresh Kumar 2018-05-22  2011  	/* Another CPU that shares the OPP table has set the property ? */
+2c2709dc6921c5 drivers/base/power/opp/core.c Viresh Kumar 2016-02-16  2012  	if (!opp_table->prop_name) {
+298098e55a6fcc drivers/opp/core.c            Viresh Kumar 2022-05-26  2013  		opp_table->prop_name = kstrdup(name, GFP_KERNEL);
+298098e55a6fcc drivers/opp/core.c            Viresh Kumar 2022-05-26  2014  		if (!opp_table->prop_name)
+298098e55a6fcc drivers/opp/core.c            Viresh Kumar 2022-05-26  2015  			return -ENOMEM;
+01fb4d3c39d35b drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  2016  	}
+01fb4d3c39d35b drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  2017  
+298098e55a6fcc drivers/opp/core.c            Viresh Kumar 2022-05-26  2018  	return 0;
+01fb4d3c39d35b drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  2019  }
+01fb4d3c39d35b drivers/base/power/opp/core.c Viresh Kumar 2015-12-09  2020  
+
+:::::: The code at line 2010 was first introduced by commit
+:::::: 01fb4d3c39d35b725441e8a9a26b3f3ad67793ed PM / OPP: Parse 'opp-<prop>-<name>' bindings
+
+:::::: TO: Viresh Kumar <viresh.kumar@linaro.org>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
