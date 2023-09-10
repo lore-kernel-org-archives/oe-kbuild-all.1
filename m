@@ -1,45 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D2CA3B;
-	Sun, 10 Sep 2023 00:32:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B3A10E9
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 00:55:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694305926; x=1725841926;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ogKDOjx2dSxZbUXxCQ9VmGzjND6gVaC8vCUMG/dlN7o=;
-  b=Hxb9YW7hwJz6mYUur5EcqNA+RNuGZRd31cLhzcl82eVbznnrcv/idYQA
-   QdP/aGCtN5NspAIUdOlKg/e2nPoDrMZetKKtNoZOwCuIb7WtDbci+0XMW
-   UVfeEp0pomDTmy7mnkG7CES+P3QyDTg9Drm2iv0dVoX5jg0O8LoCtVjMp
-   w2x6NrpsTrZ5UlQMPWooL0aIov7iYUh2Ge/NRV8JKC3pUpdNqGutq0qn6
-   bDAlv9eICCH2HHKYJS2UVQOg4pPTNdt4Pcu9ATj5wm/asZ+Bwg0lxdU1E
-   O1TDnyBosOAIU7Cw1oVrc4lflcEe4hxMUitxbNqoCmwYsYJU71ZCm1cOV
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="368119149"
+  t=1694307305; x=1725843305;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5wNyXnPpKsSUlSwcD03LOJLtPH9zm5uuiUW8P4tpGNI=;
+  b=KxTbwW5FL5nBvK9H4eWA40UhFNw1mEj4OClCsvyGux0pAOLXX8dvRPyd
+   4AJKWOmr3ARQkLwqmIwmv2SyFmyOKiBhLIKDrGtYkiKo9xku7mnT6LSkH
+   R7p76pr3Bb1aQJ686gAE/O9PDjQi6s6QiTNCasAJvl56yxvhe5RmPgUES
+   Wca7luLx7V4h5VM4Mx8VLOIN9R5TyAuxC16v1TVN46cU7Z+BY57gBkaHc
+   +EgJkcb9TYM6Sr9GAcT1nplifROPpJq+ZSNKSH6uTltXhG0TpRjwovUb0
+   CksXADTC3SDeqgpM/qmqHAx9ouAhQje6l+N48Knl6z56HrkquVebnG8G4
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="441871549"
 X-IronPort-AV: E=Sophos;i="6.02,240,1688454000"; 
-   d="scan'208";a="368119149"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 17:32:05 -0700
+   d="scan'208";a="441871549"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 17:55:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="916583516"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="772142175"
 X-IronPort-AV: E=Sophos;i="6.02,240,1688454000"; 
-   d="scan'208";a="916583516"
+   d="scan'208";a="772142175"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 09 Sep 2023 17:32:03 -0700
+  by orsmga008.jf.intel.com with ESMTP; 09 Sep 2023 17:55:03 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qf8Mr-000464-0J;
-	Sun, 10 Sep 2023 00:32:01 +0000
-Date: Sun, 10 Sep 2023 08:31:44 +0800
+	id 1qf8j7-00047E-2t;
+	Sun, 10 Sep 2023 00:55:01 +0000
+Date: Sun, 10 Sep 2023 08:54:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Potapenko <glider@google.com>, dvyukov@google.com,
-	elver@google.com, akpm@linux-foundation.org, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH 2/2] kmsan: prevent optimizations in memcpy tests
-Message-ID: <202309100805.cRHktAYd-lkp@intel.com>
-References: <20230907130642.245222-2-glider@google.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:5.15-2.2.x-imx 3225/25021]
+ drivers/gpio/gpio-scu.c:99:6: error: no member named 'of_node' in 'struct
+ gpio_chip'
+Message-ID: <202309100815.t2vXlCZl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,122 +46,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230907130642.245222-2-glider@google.com>
 
-Hi Alexander,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v6.5 next-20230908]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Potapenko/kmsan-prevent-optimizations-in-memcpy-tests/20230907-210817
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230907130642.245222-2-glider%40google.com
-patch subject: [PATCH 2/2] kmsan: prevent optimizations in memcpy tests
-config: x86_64-buildonly-randconfig-006-20230910 (https://download.01.org/0day-ci/archive/20230910/202309100805.cRHktAYd-lkp@intel.com/config)
+tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
+head:   3a95b5654979d1c2d61616bf60249ed3a98dcfbc
+commit: cdb7bf80f99743df8c3375d3191d3b96661c4b65 [3225/25021] MLK-25166-1 gpio: gpio-scu: gpio driver over scu fw misc api
+config: hexagon-randconfig-r036-20230910 (https://download.01.org/0day-ci/archive/20230910/202309100815.t2vXlCZl-lkp@intel.com/config)
 compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309100805.cRHktAYd-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309100815.t2vXlCZl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309100805.cRHktAYd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309100815.t2vXlCZl-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/kmsan/kmsan_test.c:414:16: error: passing 'volatile void *' to parameter of type 'void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-           return memcpy(dst, src, size);
-                         ^~~
-   arch/x86/include/asm/string_64.h:18:27: note: passing argument to parameter 'to' here
-   extern void *memcpy(void *to, const void *from, size_t len);
-                             ^
->> mm/kmsan/kmsan_test.c:414:21: error: passing 'const volatile void *' to parameter of type 'const void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-           return memcpy(dst, src, size);
-                              ^~~
-   arch/x86/include/asm/string_64.h:18:43: note: passing argument to parameter 'from' here
-   extern void *memcpy(void *to, const void *from, size_t len);
-                                             ^
->> mm/kmsan/kmsan_test.c:468:21: error: passing 'volatile int *' to parameter of type 'const void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-           kmsan_check_memory(&uninit_src, sizeof(uninit_src));
-                              ^~~~~~~~~~~
-   include/linux/kmsan-checks.h:47:37: note: passing argument to parameter 'address' here
-   void kmsan_check_memory(const void *address, size_t size);
-                                       ^
-   3 errors generated.
+>> drivers/gpio/gpio-scu.c:99:6: error: no member named 'of_node' in 'struct gpio_chip'
+           gc->of_node = np;
+           ~~  ^
+   1 error generated.
 
 
-vim +414 mm/kmsan/kmsan_test.c
+vim +99 drivers/gpio/gpio-scu.c
 
-   409	
-   410	/* Prevent the compiler from inlining a memcpy() call. */
-   411	static noinline void *memcpy_noinline(volatile void *dst,
-   412					      const volatile void *src, size_t size)
-   413	{
- > 414		return memcpy(dst, src, size);
-   415	}
-   416	
-   417	/* Test case: ensure that memcpy() correctly copies initialized values. */
-   418	static void test_init_memcpy(struct kunit *test)
-   419	{
-   420		EXPECTATION_NO_REPORT(expect);
-   421		volatile int src;
-   422		volatile int dst = 0;
-   423	
-   424		src = 1;
-   425		kunit_info(
-   426			test,
-   427			"memcpy()ing aligned initialized src to aligned dst (no reports)\n");
-   428		memcpy_noinline((void *)&dst, (void *)&src, sizeof(src));
-   429		kmsan_check_memory((void *)&dst, sizeof(dst));
-   430		KUNIT_EXPECT_TRUE(test, report_matches(&expect));
-   431	}
-   432	
-   433	/*
-   434	 * Test case: ensure that memcpy() correctly copies uninitialized values between
-   435	 * aligned `src` and `dst`.
-   436	 */
-   437	static void test_memcpy_aligned_to_aligned(struct kunit *test)
-   438	{
-   439		EXPECTATION_UNINIT_VALUE_FN(expect, "test_memcpy_aligned_to_aligned");
-   440		volatile int uninit_src;
-   441		volatile int dst = 0;
-   442	
-   443		kunit_info(
-   444			test,
-   445			"memcpy()ing aligned uninit src to aligned dst (UMR report)\n");
-   446		memcpy_noinline((void *)&dst, (void *)&uninit_src, sizeof(uninit_src));
-   447		kmsan_check_memory((void *)&dst, sizeof(dst));
-   448		KUNIT_EXPECT_TRUE(test, report_matches(&expect));
-   449	}
-   450	
-   451	/*
-   452	 * Test case: ensure that memcpy() correctly copies uninitialized values between
-   453	 * aligned `src` and unaligned `dst`.
-   454	 *
-   455	 * Copying aligned 4-byte value to an unaligned one leads to touching two
-   456	 * aligned 4-byte values. This test case checks that KMSAN correctly reports an
-   457	 * error on the first of the two values.
-   458	 */
-   459	static void test_memcpy_aligned_to_unaligned(struct kunit *test)
-   460	{
-   461		EXPECTATION_UNINIT_VALUE_FN(expect, "test_memcpy_aligned_to_unaligned");
-   462		volatile int uninit_src;
-   463		volatile char dst[8] = { 0 };
-   464	
-   465		kunit_info(
-   466			test,
-   467			"memcpy()ing aligned uninit src to unaligned dst (UMR report)\n");
- > 468		kmsan_check_memory(&uninit_src, sizeof(uninit_src));
-   469		memcpy_noinline((void *)&dst[1], (void *)&uninit_src,
-   470				sizeof(uninit_src));
-   471		kmsan_check_memory((void *)dst, 4);
-   472		KUNIT_EXPECT_TRUE(test, report_matches(&expect));
-   473	}
-   474	
+    80	
+    81	static int imx_scu_gpio_probe(struct platform_device *pdev)
+    82	{
+    83		struct device *dev = &pdev->dev;
+    84		struct device_node *np = dev->of_node;
+    85		struct imxscfw *port;
+    86		struct gpio_chip *gc;
+    87		int ret;
+    88	
+    89		port = devm_kzalloc(&pdev->dev, sizeof(*port), GFP_KERNEL);
+    90		if (!port)
+    91			return -ENOMEM;
+    92	
+    93		ret = imx_scu_get_handle(&port->handle);
+    94		if (ret)
+    95			return ret;
+    96	
+    97		mutex_init(&port->lock);
+    98		gc = &port->chip;
+  > 99		gc->of_node = np;
+   100		gc->parent = dev;
+   101		gc->label = "imx-scu-gpio";
+   102		gc->ngpio = PIN_NUMBER;
+   103		gc->base = of_alias_get_id(np, "gpio") * 32;
+   104	
+   105		gc->get = imxscfw_get;
+   106		gc->set = imxscfw_set;
+   107	
+   108		platform_set_drvdata(pdev, port);
+   109	
+   110		ret = devm_gpiochip_add_data(dev, gc, port);
+   111	
+   112		return ret;
+   113	}
+   114	
 
 -- 
 0-DAY CI Kernel Test Service
