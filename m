@@ -1,42 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A640E33C1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 12:02:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B793C33C1
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Sep 2023 12:02:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694347372; x=1725883372;
+  t=1694347374; x=1725883374;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1vAe78zw7yRfOL1IOt11gB170DT4bAJbJhlZM/NCGms=;
-  b=TzMMfJnfiflfBfcH8aaaAlWJHdwzwF9l7Utw+3EvA8Um++lhnaNjZcb3
-   X9/UMjaKzq3yUW50RkvR3gHcbDlPWlZomMbLMI4wzK23H5bUKiH4rDxTS
-   qtFjWx6JcyFIO99BMk/mddT4AnfpEjGXRN1y6CLABDm11pRksf+LLrYtQ
-   ZSUxyJXTO1d7/wlJ0/+y7ATo+QvXjyySJSlLnVEmH+hU7SJYfijq4Z1V3
-   vz6k/1sKRns5Ni5hEB6e9tCH2wi2XlYPStdgsPUgU258wkuiG5YWPiULk
-   Y0Yj5vO4rjbl+uqWyrvea9komkr07BwCcJwhsAe+YoCioX7bhVTgizVrO
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="362936631"
+  bh=A9XGPoEjE5HHPr2HX5pVLvyW4/4UAKmHQi+66pZzHpA=;
+  b=AFpWtZQpOsxbkVs5tD/qLP8zMNHQgRxAUVd6+tHX77wqSwgKJkXcsUHN
+   OGBqiMTQ5T4ASh8+1ucrznF3d67gYi3jO+4JInZZTHqWmkt3LK6C2VEi4
+   f2kJ+u8j+4GhMHC9HPwWgwceBcZ7uGz+hVsFut46n8Co4SEkBEaMCQdG8
+   e3EjRoegJrplLOAI9Nh3snhDqkvcTyZB/UVaIX08MYk9mztT2hayHGhRB
+   EcPZ0225Od0IPQrwnEtUu4aD7/PjXPYJxZ6TFWzT8kiiz1CQHVIcbWmMB
+   njCFZ2hJQ1E1cVpKI6vaNnhSCJKqDgymwZsAJdWY4oMmuXqyQLuD7nnBz
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="362936632"
 X-IronPort-AV: E=Sophos;i="6.02,241,1688454000"; 
-   d="scan'208";a="362936631"
+   d="scan'208";a="362936632"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
   by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 05:02:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="916690939"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="916690941"
 X-IronPort-AV: E=Sophos;i="6.02,241,1688454000"; 
-   d="scan'208";a="916690939"
+   d="scan'208";a="916690941"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
   by orsmga005.jf.intel.com with ESMTP; 10 Sep 2023 05:02:50 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfJ9M-0004sf-0D;
+	id 1qfJ9M-0004sd-00;
 	Sun, 10 Sep 2023 12:02:48 +0000
-Date: Sun, 10 Sep 2023 20:02:22 +0800
+Date: Sun, 10 Sep 2023 20:02:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/641 3820/25020] spdxcheck:
- drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c: 1:28 Invalid License ID: GPL-
-Message-ID: <202309101914.Unzcii57-lkp@intel.com>
+To: Alexei Starovoitov <ast@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Daniel Borkmann <daniel@iogearbox.net>
+Subject: kernel/bpf/hashtab.c:1059:30: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202309101935.zgcMq85L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,18 +47,123 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc pr/641
-head:   ba2847ffebda28ba7be1b96bb506bfe5b67c856e
-commit: 03fb7ec593b9ccd041bfc1456a53a5f0451141bd [3820/25020] MLK-24007: mtd: rawnand: gpmi: fix the random DMA timeout issue
-reproduce: (https://download.01.org/0day-ci/archive/20230910/202309101914.Unzcii57-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   535a265d7f0dd50d8c3a4f8b4f3a452d56bd160f
+commit: ee4ed53c5eb62f49f23560cc2642353547e46c32 bpf: Convert percpu hash map to per-cpu bpf_mem_alloc.
+date:   1 year ago
+config: i386-randconfig-063-20230910 (https://download.01.org/0day-ci/archive/20230910/202309101935.zgcMq85L-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309101935.zgcMq85L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309101914.Unzcii57-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309101935.zgcMq85L-lkp@intel.com/
 
-spdxcheck warnings: (new ones prefixed by >>)
->> drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c: 1:28 Invalid License ID: GPL-
+sparse warnings: (new ones prefixed by >>)
+>> kernel/bpf/hashtab.c:1059:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __percpu *[assigned] pptr @@     got void * @@
+   kernel/bpf/hashtab.c:1059:30: sparse:     expected void [noderef] __percpu *[assigned] pptr
+   kernel/bpf/hashtab.c:1059:30: sparse:     got void *
+>> kernel/bpf/hashtab.c:1065:44: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *ptr_to_pptr @@     got void [noderef] __percpu *[assigned] pptr @@
+   kernel/bpf/hashtab.c:1065:44: sparse:     expected void *ptr_to_pptr
+   kernel/bpf/hashtab.c:1065:44: sparse:     got void [noderef] __percpu *[assigned] pptr
+>> kernel/bpf/hashtab.c:1066:34: sparse: sparse: cast removes address space '__percpu' of expression
+   kernel/bpf/hashtab.c:1066:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __percpu *[assigned] pptr @@     got void * @@
+   kernel/bpf/hashtab.c:1066:30: sparse:     expected void [noderef] __percpu *[assigned] pptr
+   kernel/bpf/hashtab.c:1066:30: sparse:     got void *
+   kernel/bpf/hashtab.c:1441:27: sparse: sparse: context imbalance in 'htab_map_delete_elem' - unexpected unlock
+   kernel/bpf/hashtab.c:1475:27: sparse: sparse: context imbalance in 'htab_lru_map_delete_elem' - unexpected unlock
+   kernel/bpf/hashtab.c:1650:27: sparse: sparse: context imbalance in '__htab_map_lookup_and_delete_elem' - unexpected unlock
+   kernel/bpf/hashtab.c: note: in included file (through include/linux/workqueue.h, include/linux/bpf.h):
+   include/linux/rcupdate.h:737:9: sparse: sparse: context imbalance in '__htab_map_lookup_and_delete_batch' - unexpected unlock
+   include/linux/rcupdate.h:737:9: sparse: sparse: context imbalance in 'bpf_hash_map_seq_find_next' - unexpected unlock
+   include/linux/rcupdate.h:737:9: sparse: sparse: context imbalance in 'bpf_hash_map_seq_stop' - unexpected unlock
+
+vim +1059 kernel/bpf/hashtab.c
+
+  1006	
+  1007	static struct htab_elem *alloc_htab_elem(struct bpf_htab *htab, void *key,
+  1008						 void *value, u32 key_size, u32 hash,
+  1009						 bool percpu, bool onallcpus,
+  1010						 struct htab_elem *old_elem)
+  1011	{
+  1012		u32 size = htab->map.value_size;
+  1013		bool prealloc = htab_is_prealloc(htab);
+  1014		struct htab_elem *l_new, **pl_new;
+  1015		void __percpu *pptr;
+  1016	
+  1017		if (prealloc) {
+  1018			if (old_elem) {
+  1019				/* if we're updating the existing element,
+  1020				 * use per-cpu extra elems to avoid freelist_pop/push
+  1021				 */
+  1022				pl_new = this_cpu_ptr(htab->extra_elems);
+  1023				l_new = *pl_new;
+  1024				htab_put_fd_value(htab, old_elem);
+  1025				*pl_new = old_elem;
+  1026			} else {
+  1027				struct pcpu_freelist_node *l;
+  1028	
+  1029				l = __pcpu_freelist_pop(&htab->freelist);
+  1030				if (!l)
+  1031					return ERR_PTR(-E2BIG);
+  1032				l_new = container_of(l, struct htab_elem, fnode);
+  1033			}
+  1034		} else {
+  1035			if (is_map_full(htab))
+  1036				if (!old_elem)
+  1037					/* when map is full and update() is replacing
+  1038					 * old element, it's ok to allocate, since
+  1039					 * old element will be freed immediately.
+  1040					 * Otherwise return an error
+  1041					 */
+  1042					return ERR_PTR(-E2BIG);
+  1043			inc_elem_count(htab);
+  1044			l_new = bpf_mem_cache_alloc(&htab->ma);
+  1045			if (!l_new) {
+  1046				l_new = ERR_PTR(-ENOMEM);
+  1047				goto dec_count;
+  1048			}
+  1049			check_and_init_map_value(&htab->map,
+  1050						 l_new->key + round_up(key_size, 8));
+  1051		}
+  1052	
+  1053		memcpy(l_new->key, key, key_size);
+  1054		if (percpu) {
+  1055			if (prealloc) {
+  1056				pptr = htab_elem_get_ptr(l_new, key_size);
+  1057			} else {
+  1058				/* alloc_percpu zero-fills */
+> 1059				pptr = bpf_mem_cache_alloc(&htab->pcpu_ma);
+  1060				if (!pptr) {
+  1061					bpf_mem_cache_free(&htab->ma, l_new);
+  1062					l_new = ERR_PTR(-ENOMEM);
+  1063					goto dec_count;
+  1064				}
+> 1065				l_new->ptr_to_pptr = pptr;
+> 1066				pptr = *(void **)pptr;
+  1067			}
+  1068	
+  1069			pcpu_init_value(htab, pptr, value, onallcpus);
+  1070	
+  1071			if (!prealloc)
+  1072				htab_elem_set_ptr(l_new, key_size, pptr);
+  1073		} else if (fd_htab_map_needs_adjust(htab)) {
+  1074			size = round_up(size, 8);
+  1075			memcpy(l_new->key + round_up(key_size, 8), value, size);
+  1076		} else {
+  1077			copy_map_value(&htab->map,
+  1078				       l_new->key + round_up(key_size, 8),
+  1079				       value);
+  1080		}
+  1081	
+  1082		l_new->hash = hash;
+  1083		return l_new;
+  1084	dec_count:
+  1085		dec_elem_count(htab);
+  1086		return l_new;
+  1087	}
+  1088	
 
 -- 
 0-DAY CI Kernel Test Service
