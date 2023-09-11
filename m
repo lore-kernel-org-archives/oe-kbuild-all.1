@@ -1,43 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35FCA188;
-	Mon, 11 Sep 2023 00:10:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D42D917D1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 01:34:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694391038; x=1725927038;
+  t=1694396068; x=1725932068;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ACgnR0YhV3fY3rXZqE76fi6AVcC8mbdtp3ZCPUrIOdw=;
-  b=kYnjYsLIL6FI2xXJ/qDRFIa0U6GnGtwJRedvbAqT0CaQtLtALOI467es
-   iBf2HoOwaRTb7lsD053U0dSFbQSsoT/xvA73zXJU5r69EJSZ2jyqqYUpc
-   irlBYcFgikisrAVDRTAUAAiFASAV11pzstaYUnI3UBM47tTwwb9cfHwvI
-   gdrPS+y4X7zB3tkgoZlWPQYZCkXlBt/OwxPEHdvtDZ3zOj81fExmyActn
-   1DL/YpFXI1PHOW1KineyvE9781J7iCnfafNJxSLS3UztXqZzL6oM7/P/j
-   43v4fwRIT2VsNuCTtxID8N0mfuwogaDEZv3TdPAw/rxsXE4WaDMD98H9M
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="368202278"
+  bh=OJJFXSprj4HDI5e719avf/BQ8FAvbjbx/aGJgWPLDXk=;
+  b=aFIyMtwRfR+0aAkob0dFgWAhcVPTIdgv/Ei0YrFrxB8Gb5+MrtfOkVhF
+   cW1YilZSeTyP7aVJ4vWHjgqCmWQgqE/fDeQudGwPbC9WuVEKc4XxA4ZpP
+   MOu7wngdlAGqb0t5CoaL7LgJuPMExxTun0pt6A9jROs37XITxTPuz3tLO
+   slNTBYx2C49DHueyKSO+RWqofjspveLkbfc7tb0rRZU31ShqPd5WOHly+
+   3CVXDL0wq0cNRetHdm4BhyaD2UrwxsgK4O7aK2ZdIspOgeXnvsme3Zo/y
+   uG+0tnlciH3GchaOdvylziVMmDf4pvHVAVhXWS32ywXGA9xssdmVOaFQv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="358274283"
 X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
-   d="scan'208";a="368202278"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 17:10:37 -0700
+   d="scan'208";a="358274283"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 18:34:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="743133743"
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="866757301"
 X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
-   d="scan'208";a="743133743"
+   d="scan'208";a="866757301"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 10 Sep 2023 17:10:34 -0700
+  by orsmga004.jf.intel.com with ESMTP; 10 Sep 2023 18:34:25 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfUVc-0005Zk-1q;
-	Mon, 11 Sep 2023 00:10:32 +0000
-Date: Mon, 11 Sep 2023 08:10:27 +0800
+	id 1qfVol-0005et-0V;
+	Mon, 11 Sep 2023 01:34:23 +0000
+Date: Mon, 11 Sep 2023 09:33:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eileen Yoon <eyn@gmx.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:isp/heap-alloc 109/143] ld.lld: error: undefined symbol:
- drm_mm_init
-Message-ID: <202309110842.6vzVlTIy-lkp@intel.com>
+To: Yi Liu <yi.l.liu@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: include/linux/vfio.h:294:35: error: weak declaration of
+ 'vfio_file_iommu_group' being applied to a already existing, static
+ definition
+Message-ID: <202309110914.QLH0LU6L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,55 +49,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux isp/heap-alloc
-head:   fdd4fa0037948a22f3fff6d893e4ccb26cdb2396
-commit: 4d8c45047d73f6f6d25ffe8c6abcf58c5d4b97a4 [109/143] media: apple: Add Apple ISP driver
-config: hexagon-randconfig-r024-20230911 (https://download.01.org/0day-ci/archive/20230911/202309110842.6vzVlTIy-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230911/202309110842.6vzVlTIy-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+commit: c1cce6d079b875396c9a7c6838fc5b024758e540 vfio: Compile vfio_group infrastructure optionally
+date:   7 weeks ago
+config: powerpc64-randconfig-r025-20210929 (https://download.01.org/0day-ci/archive/20230911/202309110914.QLH0LU6L-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230911/202309110914.QLH0LU6L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309110842.6vzVlTIy-lkp@intel.com/
-
-Note: the asahilinux/isp/heap-alloc HEAD fdd4fa0037948a22f3fff6d893e4ccb26cdb2396 builds fine.
-      It only hurts bisectability.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309110914.QLH0LU6L-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: drm_mm_init
-   >>> referenced by isp-drv.c:176 (drivers/media/platform/apple/isp/isp-drv.c:176)
-   >>>               drivers/media/platform/apple/isp/isp-drv.o:(apple_isp_init_iommu) in archive vmlinux.a
-   >>> referenced by isp-drv.c:176 (drivers/media/platform/apple/isp/isp-drv.c:176)
-   >>>               drivers/media/platform/apple/isp/isp-drv.o:(apple_isp_init_iommu) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: drm_mm_takedown
-   >>> referenced by isp-drv.c:181 (drivers/media/platform/apple/isp/isp-drv.c:181)
-   >>>               drivers/media/platform/apple/isp/isp-drv.o:(apple_isp_init_iommu) in archive vmlinux.a
-   >>> referenced by isp-drv.c:181 (drivers/media/platform/apple/isp/isp-drv.c:181)
-   >>>               drivers/media/platform/apple/isp/isp-drv.o:(apple_isp_init_iommu) in archive vmlinux.a
-   >>> referenced by isp-drv.c:199 (drivers/media/platform/apple/isp/isp-drv.c:199)
-   >>>               drivers/media/platform/apple/isp/isp-drv.o:(apple_isp_free_iommu) in archive vmlinux.a
-   >>> referenced 1 more times
---
->> ld.lld: error: undefined symbol: drm_mm_insert_node_in_range
-   >>> referenced by isp-iommu.c:94 (drivers/media/platform/apple/isp/isp-iommu.c:94)
-   >>>               drivers/media/platform/apple/isp/isp-iommu.o:(isp_surf_reserve_iova) in archive vmlinux.a
-   >>> referenced by isp-iommu.c:94 (drivers/media/platform/apple/isp/isp-iommu.c:94)
-   >>>               drivers/media/platform/apple/isp/isp-iommu.o:(isp_surf_reserve_iova) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: drm_mm_remove_node
-   >>> referenced by isp-iommu.c:77 (drivers/media/platform/apple/isp/isp-iommu.c:77)
-   >>>               drivers/media/platform/apple/isp/isp-iommu.o:(isp_surf_unreserve_iova) in archive vmlinux.a
-   >>> referenced by isp-iommu.c:77 (drivers/media/platform/apple/isp/isp-iommu.c:77)
-   >>>               drivers/media/platform/apple/isp/isp-iommu.o:(isp_surf_unreserve_iova) in archive vmlinux.a
+   In file included from arch/powerpc/kvm/../../../virt/kvm/vfio.c:17:
+   include/linux/vfio.h: In function 'kvm_vfio_file_iommu_group':
+>> include/linux/vfio.h:294:35: error: weak declaration of 'vfio_file_iommu_group' being applied to a already existing, static definition
+     294 | static inline struct iommu_group *vfio_file_iommu_group(struct file *file)
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for TYPEC
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - PHY_APPLE_ATC [=y] && (ARCH_APPLE || COMPILE_TEST [=y])
+
+vim +/vfio_file_iommu_group +294 include/linux/vfio.h
+
+   274	
+   275	int vfio_assign_device_set(struct vfio_device *device, void *set_id);
+   276	unsigned int vfio_device_set_open_count(struct vfio_device_set *dev_set);
+   277	struct vfio_device *
+   278	vfio_find_device_in_devset(struct vfio_device_set *dev_set,
+   279				   struct device *dev);
+   280	
+   281	int vfio_mig_get_next_state(struct vfio_device *device,
+   282				    enum vfio_device_mig_state cur_fsm,
+   283				    enum vfio_device_mig_state new_fsm,
+   284				    enum vfio_device_mig_state *next_fsm);
+   285	
+   286	/*
+   287	 * External user API
+   288	 */
+   289	#if IS_ENABLED(CONFIG_VFIO_GROUP)
+   290	struct iommu_group *vfio_file_iommu_group(struct file *file);
+   291	bool vfio_file_is_group(struct file *file);
+   292	bool vfio_file_has_dev(struct file *file, struct vfio_device *device);
+   293	#else
+ > 294	static inline struct iommu_group *vfio_file_iommu_group(struct file *file)
+   295	{
+   296		return NULL;
+   297	}
+   298	
 
 -- 
 0-DAY CI Kernel Test Service
