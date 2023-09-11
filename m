@@ -1,53 +1,50 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C653188
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 07:38:55 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4018af1038cso44998525e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 00:38:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F373D68
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 07:51:09 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-401da71b85eso45067185e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 00:51:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694417934; x=1695022734; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1694418668; x=1695023468; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=FetblLldLesZtXS0mMVb6VGHuGGMOUnVxGb31vZJsmU=;
-        b=QaozwUw4lMDt/lzBJVBc4gLXl7U4QfGSMO7RcK3knIQPaSS6AIhCbHxA0CMaV/3AFn
-         eNYp+El1JZdaJAEjzgwM/PhMkbdsf51JsLh1Y8Nozx3+iNYhGimv2OHQSTbY2d91N07I
-         h1yd/tMP0KWbPSn93ISyygsY0nPsObPplHO7fTuXtD77IVxBpnIC7iIdO5FDmHLpRkYb
-         m9vNJ1AZ5ubL0mOHOcppMAnhxUEu7Xttswc9FZdVjnTRZXdH5CdMj1nNS38hBAS5x8g5
-         UNoW8JJTJFO0KccPGZ0RftBsKqqhz6zEL4Kw3wp2cEdikMMKXFGQUZYO8kMU1tVav2+4
-         1oPA==
+        bh=gWnYh4CN57jmnhJ4yU3N3USKhafop4eKhKph1Fyl+mc=;
+        b=aSY8gTYKmBCPNgaU2GEK6+64sfhzuGQKyGwnuz01Hn4o1jRLv8PSO90fzWQOinz4/Y
+         cdsBwvM7bwQ6vkNeO0WuHwJ/6CKinU4u3sJrlySMpPE+BdEUp8RaSo2P9mXP5Rixi6wf
+         pqtQ1Onh7SiQkVa5blaB13TBR+K5rXBiUjP9ntEPiUQ2X4yTdbvJVGFw0FlHZPzXXHfA
+         jFJP4lDraS/NDSGqokAq0QpnN4lWwbBwkwR5lvW5Cwqbd0MuFDgkW2T7mkpzZzeKl/vn
+         U0NIrF47uEYQwmTCm6O+kTGLw4pyvPc2AGv/Ru0BFl9oR4Qw6TUOsdm0y8cCwqxHlng6
+         DQKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694417934; x=1695022734;
+        d=1e100.net; s=20230601; t=1694418668; x=1695023468;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FetblLldLesZtXS0mMVb6VGHuGGMOUnVxGb31vZJsmU=;
-        b=g0wYM3E+TGARz+SCmnYUftVRPuzuGfudYOEKGYxmcxPsmTIwmOffQZiR0gcILQFvYM
-         UsSyeS4JOb2vrDIJyl7VLZovHlhWcV4rAWfNY5hS6JV5naEGfcOc+6qnF3ZXFQ/lTiv3
-         04tzreMcTQFDJMP3IwdCdRQTa6iGDzlhQl2Dwk/HD5xFszwhGli51Oz28ztpU+KAMmra
-         R4kbWTLrShoB8xIKEvqd51E5107S/QOy5P28W5Qke28H7nAiZaFDxIswBWOw2OilK5Ej
-         ebDu9HPESyhiXfIOunya9AcYdwQtndxJhWVDBsiQcS/nZyWhQbHpNw35T/do8r0BPjtb
-         HyQw==
-X-Gm-Message-State: AOJu0Yx+9QbAhLvjj4Nk22o9nHSXp1iWB8078gv5x9nXp8ZYNa5kEYHU
-	dhWVY88yEoWIxUQF6azVewIyzA==
-X-Google-Smtp-Source: AGHT+IHg/uG/uVE9zFCBtAs3XxtVF56R/MorKt39RG457BLvWLiHlsIK2RlRVsKxIT8sY8Lo9YlNqQ==
-X-Received: by 2002:adf:fe8c:0:b0:317:c2a9:9b0c with SMTP id l12-20020adffe8c000000b00317c2a99b0cmr7553093wrr.50.1694417934282;
-        Mon, 11 Sep 2023 00:38:54 -0700 (PDT)
+        bh=gWnYh4CN57jmnhJ4yU3N3USKhafop4eKhKph1Fyl+mc=;
+        b=fGI+L2kNTlRiFOHt/wyskXrG6dcl7bUuMna1qOOG9HuIv2Pgtigs8ohtOPF9AxtXC1
+         ocmLgoAn4stUULXghu51X5UVCkQbpC5LXG6U4wLLxkO0dKitAvKnXZzi2+mgmaVSXs8i
+         wKWk3d/KE/348XFHkx0gmzD2VvKmV4Y0Rtj/4LqSY5Nb40LX413aPxDN5YByqFCJilRv
+         yxlhtpEMozvoWKOhgc2M7fz1DTwiUJcGhdfoqyin7YOGPrQLoljzX5y2pSBG2WidZoyh
+         +Gd2JHNna2Iq9hZ3D3Yip+7qs7dxMjazPtRVox81umASRjw999xdgyfLjpJhnqz+h8vd
+         i2iA==
+X-Gm-Message-State: AOJu0Yx0IK82VKn/+7jdemdc975bhb9tdSPNlFvo70fl6BzDMKQkK2PO
+	51G8QT01GLMAKxcjbil0/LOhMA==
+X-Google-Smtp-Source: AGHT+IECbvY4Hp7cae3cXFMGtYytnGnLISzQ3uBSG7uUw/oIeICC3Zeub830AdClcieScDUYfqLX7Q==
+X-Received: by 2002:a05:600c:21d8:b0:3fc:e1:24b5 with SMTP id x24-20020a05600c21d800b003fc00e124b5mr7405212wmj.23.1694418667873;
+        Mon, 11 Sep 2023 00:51:07 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id d1-20020a056000114100b0031971ab70c9sm9211103wrx.73.2023.09.11.00.38.53
+        by smtp.gmail.com with ESMTPSA id f7-20020a7bcd07000000b00401c595fcc7sm12415696wmj.11.2023.09.11.00.51.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 00:38:53 -0700 (PDT)
-Date: Mon, 11 Sep 2023 10:38:51 +0300
+        Mon, 11 Sep 2023 00:51:07 -0700 (PDT)
+Date: Mon, 11 Sep 2023 10:51:04 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Nick Alcock <nick.alcock@oracle.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Kris Van Hees <kris.van.hees@oracle.com>,
-	Tomas Jedlicka <tomas.jedlicka@oracle.com>,
-	Eugene Loh <eugene.loh@oracle.com>,
-	David Mc Lean <david.mclean@oracle.com>,
-	Vincent Lim <vincent.lim@oracle.com>
-Subject: [oracle-dtrace:v2/6.5 10/13] fs/eventpoll.c:1300
- ep_ptable_queue_proc() warn: maybe use && instead of &
-Message-ID: <220ec8e8-f5b1-4b2a-b311-b414793053bb@kadam.mountain>
+To: oe-kbuild@lists.linux.dev, Yi Liu <yi.l.liu@intel.com>,
+	Kevin Tian <kevin.tian@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [yiliu1765-iommufd:wip/iommufd_nesting_09042023-yi-not-tested 13/26]
+ drivers/iommu/iommufd/hw_pagetable.c:325 iommufd_hwpt_alloc() error:
+ potentially dereferencing uninitialized 'parent'.
+Message-ID: <3ae3ca2f-290b-4697-b8f3-4c1f98ac01d3@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,61 +54,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/oracle/dtrace-linux-kernel v2/6.5
-head:   1120d1c598d4ae2d08278969b9001a866aa8273a
-commit: 051cfd2102807119e31bdd4947d18388b3df5fd3 [10/13] waitfd: new syscall implementing waitpid() over fds
-config: x86_64-randconfig-161-20230907 (https://download.01.org/0day-ci/archive/20230909/202309090448.6VlaNPfY-lkp@intel.com/config)
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_nesting_09042023-yi-not-tested
+head:   19df4ebfe078e091791110a53bfcc1abc6f72fb3
+commit: 56bfc2cb8d81259247dcedd479140554c66f9aa3 [13/26] iommufd: Add user-managed hw_pagetable support
+config: x86_64-randconfig-161-20230907 (https://download.01.org/0day-ci/archive/20230909/202309090432.uLNWDOfL-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230909/202309090448.6VlaNPfY-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230909/202309090432.uLNWDOfL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202309090448.6VlaNPfY-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309090432.uLNWDOfL-lkp@intel.com/
 
 smatch warnings:
-fs/eventpoll.c:1300 ep_ptable_queue_proc() warn: maybe use && instead of &
+drivers/iommu/iommufd/hw_pagetable.c:325 iommufd_hwpt_alloc() error: potentially dereferencing uninitialized 'parent'.
 
-vim +1300 fs/eventpoll.c
+vim +/parent +325 drivers/iommu/iommufd/hw_pagetable.c
 
-^1da177e4c3f4152 Linus Torvalds 2005-04-16  1290  static void ep_ptable_queue_proc(struct file *file, wait_queue_head_t *whead,
-051cfd2102807119 Nick Alcock    2018-11-14  1291  				 poll_table *pt, unsigned long fixed_event)
-^1da177e4c3f4152 Linus Torvalds 2005-04-16  1292  {
-364f374f22ba1b04 Al Viro        2020-09-02  1293  	struct ep_pqueue *epq = container_of(pt, struct ep_pqueue, pt);
-364f374f22ba1b04 Al Viro        2020-09-02  1294  	struct epitem *epi = epq->epi;
-^1da177e4c3f4152 Linus Torvalds 2005-04-16  1295  	struct eppoll_entry *pwq;
-^1da177e4c3f4152 Linus Torvalds 2005-04-16  1296  
-364f374f22ba1b04 Al Viro        2020-09-02  1297  	if (unlikely(!epi))	// an earlier allocation has failed
-364f374f22ba1b04 Al Viro        2020-09-02  1298  		return;
-364f374f22ba1b04 Al Viro        2020-09-02  1299  
-051cfd2102807119 Nick Alcock    2018-11-14 @1300  	if (fixed_event & !(epi->event.events & fixed_event))
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  284  int iommufd_hwpt_alloc(struct iommufd_ucmd *ucmd)
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  285  {
+cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  286  	struct iommufd_hw_pagetable *(*alloc_fn)(
+cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  287  					struct iommufd_ctx *ictx,
+cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  288  					struct iommufd_object *pt_obj,
+cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  289  					struct iommufd_device *idev,
+cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  290  					u32 flags, enum iommu_hwpt_type type,
+cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  291  					struct iommu_user_data *user_data,
+cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  292  					bool flag);
+56bfc2cb8d8125 Nicolin Chen    2023-08-02  293  	struct iommufd_hw_pagetable *hwpt, *parent;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  294  	struct iommu_hwpt_alloc *cmd = ucmd->cmd;
+cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  295  	struct iommufd_object *pt_obj;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  296  	struct iommufd_device *idev;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  297  	struct iommufd_ioas *ioas;
+cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  298  	struct mutex *mutex;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  299  	int rc;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  300  
+08fa18dbae1178 Yi Liu          2023-09-01  301  	if (cmd->flags & (~IOMMU_HWPT_ALLOC_NEST_PARENT) || cmd->__reserved)
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  302  		return -EOPNOTSUPP;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  303  
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  304  	idev = iommufd_get_device(ucmd, cmd->dev_id);
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  305  	if (IS_ERR(idev))
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  306  		return PTR_ERR(idev);
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  307  
+cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  308  	pt_obj = iommufd_get_object(ucmd->ictx, cmd->pt_id, IOMMUFD_OBJ_ANY);
+cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  309  	if (IS_ERR(pt_obj)) {
+cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  310  		rc = -EINVAL;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  311  		goto out_put_idev;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  312  	}
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  313  
+cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  314  	switch (pt_obj->type) {
+cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  315  	case IOMMUFD_OBJ_IOAS:
+cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  316  		ioas = container_of(pt_obj, struct iommufd_ioas, obj);
+cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  317  		mutex = &ioas->mutex;
+cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  318  		alloc_fn = iommufd_hw_pagetable_alloc;
+cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  319  		break;
+56bfc2cb8d8125 Nicolin Chen    2023-08-02  320  	case IOMMUFD_OBJ_HW_PAGETABLE:
+56bfc2cb8d8125 Nicolin Chen    2023-08-02  321  		/*
+56bfc2cb8d8125 Nicolin Chen    2023-08-02  322  		 * No user-managed HWPT on top of an user-managed one,
+56bfc2cb8d8125 Nicolin Chen    2023-08-02  323  		 * parent should be allocated with NEST_PARENT flag.
+56bfc2cb8d8125 Nicolin Chen    2023-08-02  324  		 */
+56bfc2cb8d8125 Nicolin Chen    2023-08-02 @325  		if (parent->user_managed || !parent->nest_parent) {
+                                                                    ^^^^^^^^                ^^^^^^^^^^
+parent is uninitialized.
 
-This should be && instead of &.  See my previous email:
 
-https://download.01.org/0day-ci/archive/20230715/202307150418.yMkaVxN8-lkp@intel.com/reproduce
-
-051cfd2102807119 Nick Alcock    2018-11-14  1301  		return;
-051cfd2102807119 Nick Alcock    2018-11-14  1302  
-051cfd2102807119 Nick Alcock    2018-11-14  1303  	if (fixed_event)
-051cfd2102807119 Nick Alcock    2018-11-14  1304  		epi->fixed_event = fixed_event;
-051cfd2102807119 Nick Alcock    2018-11-14  1305  
-364f374f22ba1b04 Al Viro        2020-09-02  1306  	pwq = kmem_cache_alloc(pwq_cache, GFP_KERNEL);
-364f374f22ba1b04 Al Viro        2020-09-02  1307  	if (unlikely(!pwq)) {
-364f374f22ba1b04 Al Viro        2020-09-02  1308  		epq->epi = NULL;
-364f374f22ba1b04 Al Viro        2020-09-02  1309  		return;
-364f374f22ba1b04 Al Viro        2020-09-02  1310  	}
-364f374f22ba1b04 Al Viro        2020-09-02  1311  
-^1da177e4c3f4152 Linus Torvalds 2005-04-16  1312  	init_waitqueue_func_entry(&pwq->wait, ep_poll_callback);
-^1da177e4c3f4152 Linus Torvalds 2005-04-16  1313  	pwq->whead = whead;
-^1da177e4c3f4152 Linus Torvalds 2005-04-16  1314  	pwq->base = epi;
-df0108c5da561c66 Jason Baron    2016-01-20  1315  	if (epi->event.events & EPOLLEXCLUSIVE)
-df0108c5da561c66 Jason Baron    2016-01-20  1316  		add_wait_queue_exclusive(whead, &pwq->wait);
-df0108c5da561c66 Jason Baron    2016-01-20  1317  	else
-^1da177e4c3f4152 Linus Torvalds 2005-04-16  1318  		add_wait_queue(whead, &pwq->wait);
-80285b75c683484d Al Viro        2020-09-02  1319  	pwq->next = epi->pwqlist;
-80285b75c683484d Al Viro        2020-09-02  1320  	epi->pwqlist = pwq;
-296e236e96dddef3 Davide Libenzi 2009-03-31  1321  }
 
 -- 
 0-DAY CI Kernel Test Service
