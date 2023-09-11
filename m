@@ -1,43 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE6A3C27
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 07:54:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0A83C27
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 07:54:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694418887; x=1725954887;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=40Vd/3MXLpUlXvowAcmvE9gBEIbt5RlbmY5yDYRdPlI=;
-  b=gx3Re+C2JqYKcJnZ2pLFug4fOZYXm6EsNch4TInkTJpCRiEDIWh4XkHC
-   M5W044dMfeP/PXyGQZvY4g+wunIak2tVmknCZ+mGl1Db1KWCbHHSU8aVJ
-   bo1OlHOq7UYyyTzQ4KReiyZuYVUN29vnMoBXJHGFcKrEqkMhy3Zz1DAv0
-   5ihMklyr+zKSM8mj+pA7O58Z6Aaj5QiNKULTqmy9Scfm3uVWlJCxRyLdi
-   wu4pyJeJCAPQd3CZcL4BxKAD7jzdVjye6cmef8mWuvH1P+yUG9k/ezkSo
-   NMl/FwtGxUOuR8JXos5Rp/5uyI81GvjO5Kn7AwenrOXnPV1W4trJBXKtK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="368260574"
+  t=1694418891; x=1725954891;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Rw+1GpQVF2iqb5KxEMblRebBygcxvlmM9MdvNnizhls=;
+  b=LxN7B/hYVjQ3uFuU2BpgWBZvY9BNaSXEjRUTdaL+KSk59gDfkE2/5ziK
+   ShpC5TRGAPLftIctdc/ezFqkJ24XnaoMlXU5fIeKjBmMmImcO03XoNQJa
+   sFfaVbMyL6lwxzsR3vabyTGO4B6iYvZvliRBZFw4D057MXWMVvEAOmuqy
+   UNRf1i/B2Pvwv9UjOvs7MWyvMd/6i+gfwGqbvfGj2nrEhIKuq/AKShPnl
+   fd81/g/bqxlnGug86DcRiqeGfFTIN8ZaQ58/pF0ieIK6CrxAIaI/11cfq
+   kHQrhDXPnklpozpW1yJOPnQNDn3xiJ9vcQqSTmalrn+VgrxWlyzNxbMLN
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="444436816"
 X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
-   d="scan'208";a="368260574"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 00:54:45 -0700
+   d="scan'208";a="444436816"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 00:54:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="989995341"
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="693003165"
 X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
-   d="scan'208";a="989995341"
+   d="scan'208";a="693003165"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 11 Sep 2023 00:54:43 -0700
+  by orsmga003.jf.intel.com with ESMTP; 11 Sep 2023 00:54:44 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfbkn-0005xQ-2j;
+	id 1qfbkn-0005xL-2S;
 	Mon, 11 Sep 2023 07:54:41 +0000
-Date: Mon, 11 Sep 2023 15:54:37 +0800
+Date: Mon, 11 Sep 2023 15:54:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: kernel/time/hrtimer.c:1483:14: warning: variable
- 'expires_in_hardirq' set but not used
-Message-ID: <202309111514.seVql7NU-lkp@intel.com>
+To: Linyu Yuan <quic_linyyuan@quicinc.com>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Peter Chen <peter.chen@kernel.org>,
+	Pawel Laszczak <pawell@cadence.com>,
+	Roger Quadros <rogerq@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Chunfeng Yun <chunfeng.yun@mediatek.com>,
+	Neal Liu <neal_liu@aspeedtech.com>,
+	Cristian Birsan <cristian.birsan@microchip.com>,
+	Bin Liu <b-liu@ti.com>, Kevin Cernekee <cernekee@gmail.com>,
+	Justin Chen <justin.chen@broadcom.com>,
+	Al Cooper <alcooperx@gmail.com>, Li Yang <leoyang.li@nxp.com>,
+	Vladimir Zapolskiy <vz@mleia.com>, Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Herve Codina <herve.codina@bootlin.com>,
+	hierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Michal Simek <monstr@monstr.eu>,
+	Rui Miguel Silva <rui.silva@linaro.org>,
+	Valentina Manea <valentina.manea.m@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Hongren Zheng <i@zenithal.me>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+	Linyu Yuan <quic_linyyuan@quicinc.com>
+Subject: Re: [PATCH 04/11] usb: udc: assign epnum for each usb endpoint
+Message-ID: <202309111507.a1IUZf1O-lkp@intel.com>
+References: <20230911042843.2711-5-quic_linyyuan@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,140 +71,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230911042843.2711-5-quic_linyyuan@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-commit: 73d20564e0dcae003e0d79977f044d5e57496304 hrtimer: Don't dereference the hrtimer pointer after the callback
-date:   3 years, 5 months ago
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20230911/202309111514.seVql7NU-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230911/202309111514.seVql7NU-lkp@intel.com/reproduce)
+Hi Linyu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus tegra/for-next linus/master v6.6-rc1 next-20230911]
+[cannot apply to xilinx-xlnx/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Linyu-Yuan/usb-gadget-add-anonymous-definition-in-struct-usb_gadget/20230911-123307
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20230911042843.2711-5-quic_linyyuan%40quicinc.com
+patch subject: [PATCH 04/11] usb: udc: assign epnum for each usb endpoint
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230911/202309111507.a1IUZf1O-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230911/202309111507.a1IUZf1O-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309111514.seVql7NU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309111507.a1IUZf1O-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/time/hrtimer.c:120:35: warning: initialized field overwritten [-Woverride-init]
-     120 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:120:35: note: (near initialization for 'hrtimer_clock_to_base_table[0]')
-   kernel/time/hrtimer.c:121:35: warning: initialized field overwritten [-Woverride-init]
-     121 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:121:35: note: (near initialization for 'hrtimer_clock_to_base_table[1]')
-   kernel/time/hrtimer.c:122:35: warning: initialized field overwritten [-Woverride-init]
-     122 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:122:35: note: (near initialization for 'hrtimer_clock_to_base_table[7]')
-   kernel/time/hrtimer.c:123:35: warning: initialized field overwritten [-Woverride-init]
-     123 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
-         |                                   ^~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:123:35: note: (near initialization for 'hrtimer_clock_to_base_table[11]')
-   kernel/time/hrtimer.c: In function '__run_hrtimer':
->> kernel/time/hrtimer.c:1483:14: warning: variable 'expires_in_hardirq' set but not used [-Wunused-but-set-variable]
-    1483 |         bool expires_in_hardirq;
-         |              ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/tegra-xudc.c: In function 'tegra_xudc_alloc_ep':
+>> drivers/usb/gadget/udc/tegra-xudc.c:3176:19: error: 'struct tegra_xudc_ep' has no member named 'ep'
+    3176 |                 ep->ep.epnum = index / 2;
+         |                   ^~
+   drivers/usb/gadget/udc/tegra-xudc.c:3190:19: error: 'struct tegra_xudc_ep' has no member named 'ep'
+    3190 |                 ep->ep.epnum = 0;
+         |                   ^~
 
 
-vim +/expires_in_hardirq +1483 kernel/time/hrtimer.c
+vim +3176 drivers/usb/gadget/udc/tegra-xudc.c
 
-  1458	
-  1459	/*
-  1460	 * The write_seqcount_barrier()s in __run_hrtimer() split the thing into 3
-  1461	 * distinct sections:
-  1462	 *
-  1463	 *  - queued:	the timer is queued
-  1464	 *  - callback:	the timer is being ran
-  1465	 *  - post:	the timer is inactive or (re)queued
-  1466	 *
-  1467	 * On the read side we ensure we observe timer->state and cpu_base->running
-  1468	 * from the same section, if anything changed while we looked at it, we retry.
-  1469	 * This includes timer->base changing because sequence numbers alone are
-  1470	 * insufficient for that.
-  1471	 *
-  1472	 * The sequence numbers are required because otherwise we could still observe
-  1473	 * a false negative if the read side got smeared over multiple consequtive
-  1474	 * __run_hrtimer() invocations.
-  1475	 */
-  1476	
-  1477	static void __run_hrtimer(struct hrtimer_cpu_base *cpu_base,
-  1478				  struct hrtimer_clock_base *base,
-  1479				  struct hrtimer *timer, ktime_t *now,
-  1480				  unsigned long flags) __must_hold(&cpu_base->lock)
-  1481	{
-  1482		enum hrtimer_restart (*fn)(struct hrtimer *);
-> 1483		bool expires_in_hardirq;
-  1484		int restart;
-  1485	
-  1486		lockdep_assert_held(&cpu_base->lock);
-  1487	
-  1488		debug_deactivate(timer);
-  1489		base->running = timer;
-  1490	
-  1491		/*
-  1492		 * Separate the ->running assignment from the ->state assignment.
-  1493		 *
-  1494		 * As with a regular write barrier, this ensures the read side in
-  1495		 * hrtimer_active() cannot observe base->running == NULL &&
-  1496		 * timer->state == INACTIVE.
-  1497		 */
-  1498		raw_write_seqcount_barrier(&base->seq);
-  1499	
-  1500		__remove_hrtimer(timer, base, HRTIMER_STATE_INACTIVE, 0);
-  1501		fn = timer->function;
-  1502	
-  1503		/*
-  1504		 * Clear the 'is relative' flag for the TIME_LOW_RES case. If the
-  1505		 * timer is restarted with a period then it becomes an absolute
-  1506		 * timer. If its not restarted it does not matter.
-  1507		 */
-  1508		if (IS_ENABLED(CONFIG_TIME_LOW_RES))
-  1509			timer->is_rel = false;
-  1510	
-  1511		/*
-  1512		 * The timer is marked as running in the CPU base, so it is
-  1513		 * protected against migration to a different CPU even if the lock
-  1514		 * is dropped.
-  1515		 */
-  1516		raw_spin_unlock_irqrestore(&cpu_base->lock, flags);
-  1517		trace_hrtimer_expire_entry(timer, now);
-  1518		expires_in_hardirq = lockdep_hrtimer_enter(timer);
-  1519	
-  1520		restart = fn(timer);
-  1521	
-  1522		lockdep_hrtimer_exit(expires_in_hardirq);
-  1523		trace_hrtimer_expire_exit(timer);
-  1524		raw_spin_lock_irq(&cpu_base->lock);
-  1525	
-  1526		/*
-  1527		 * Note: We clear the running state after enqueue_hrtimer and
-  1528		 * we do not reprogram the event hardware. Happens either in
-  1529		 * hrtimer_start_range_ns() or in hrtimer_interrupt()
-  1530		 *
-  1531		 * Note: Because we dropped the cpu_base->lock above,
-  1532		 * hrtimer_start_range_ns() can have popped in and enqueued the timer
-  1533		 * for us already.
-  1534		 */
-  1535		if (restart != HRTIMER_NORESTART &&
-  1536		    !(timer->state & HRTIMER_STATE_ENQUEUED))
-  1537			enqueue_hrtimer(timer, base, HRTIMER_MODE_ABS);
-  1538	
-  1539		/*
-  1540		 * Separate the ->running assignment from the ->state assignment.
-  1541		 *
-  1542		 * As with a regular write barrier, this ensures the read side in
-  1543		 * hrtimer_active() cannot observe base->running.timer == NULL &&
-  1544		 * timer->state == INACTIVE.
-  1545		 */
-  1546		raw_write_seqcount_barrier(&base->seq);
-  1547	
-  1548		WARN_ON_ONCE(base->running != timer);
-  1549		base->running = NULL;
-  1550	}
-  1551	
+  3150	
+  3151	static int tegra_xudc_alloc_ep(struct tegra_xudc *xudc, unsigned int index)
+  3152	{
+  3153		struct tegra_xudc_ep *ep = &xudc->ep[index];
+  3154	
+  3155		ep->xudc = xudc;
+  3156		ep->index = index;
+  3157		ep->context = &xudc->ep_context[index];
+  3158		INIT_LIST_HEAD(&ep->queue);
+  3159	
+  3160		/*
+  3161		 * EP1 would be the input endpoint corresponding to EP0, but since
+  3162		 * EP0 is bi-directional, EP1 is unused.
+  3163		 */
+  3164		if (index == 1)
+  3165			return 0;
+  3166	
+  3167		ep->transfer_ring = dma_pool_alloc(xudc->transfer_ring_pool,
+  3168						   GFP_KERNEL,
+  3169						   &ep->transfer_ring_phys);
+  3170		if (!ep->transfer_ring)
+  3171			return -ENOMEM;
+  3172	
+  3173		if (index) {
+  3174			snprintf(ep->name, sizeof(ep->name), "ep%u%s", index / 2,
+  3175				 (index % 2 == 0) ? "out" : "in");
+> 3176			ep->ep.epnum = index / 2;
+  3177			ep->usb_ep.name = ep->name;
+  3178			usb_ep_set_maxpacket_limit(&ep->usb_ep, 1024);
+  3179			ep->usb_ep.max_streams = 16;
+  3180			ep->usb_ep.ops = &tegra_xudc_ep_ops;
+  3181			ep->usb_ep.caps.type_bulk = true;
+  3182			ep->usb_ep.caps.type_int = true;
+  3183			if (index & 1)
+  3184				ep->usb_ep.caps.dir_in = true;
+  3185			else
+  3186				ep->usb_ep.caps.dir_out = true;
+  3187			list_add_tail(&ep->usb_ep.ep_list, &xudc->gadget.ep_list);
+  3188		} else {
+  3189			strscpy(ep->name, "ep0", 3);
+  3190			ep->ep.epnum = 0;
+  3191			ep->usb_ep.name = ep->name;
+  3192			usb_ep_set_maxpacket_limit(&ep->usb_ep, 512);
+  3193			ep->usb_ep.ops = &tegra_xudc_ep0_ops;
+  3194			ep->usb_ep.caps.type_control = true;
+  3195			ep->usb_ep.caps.dir_in = true;
+  3196			ep->usb_ep.caps.dir_out = true;
+  3197		}
+  3198	
+  3199		return 0;
+  3200	}
+  3201	
 
 -- 
 0-DAY CI Kernel Test Service
