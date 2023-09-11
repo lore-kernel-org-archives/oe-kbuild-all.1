@@ -1,44 +1,49 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F13B23A8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 05:13:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0BFA20EB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 05:46:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694409218; x=1725945218;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TPk6l62HlDiM/Jsl6WIrxFxWUgKm3HyH9IFh0wAjg90=;
-  b=KFOC6524Q3gaTExCgOCdRkVNvIdkJg1iFlx9QTy+VF7P9Ry+4gLxMWhC
-   J+dnUcfzfBGC8DCkT9Rn30lPq6eg2NmWPh1BvmWju1QbSJbu1EYe8L94t
-   HrXymxJj89NgstzPH6R6YFK1QEI76hc5BuVRvYF9nVWXK0Wt9+YMI7+fM
-   5f5rgTUIKN57LOCPz/SM1TNSLE0fO4UDKhF6aYtr7aEaX76RHtS+G9DIm
-   frAdUEscSBgZGI4uMCohTW3wWXEfMukwGPTdxr8cb53dKIRVGy9F0EA6J
-   NflUbmCg0yuNi9fEyCedxHEhFDTnN2tIS+cgFuEkpoo2shPatsbXwueBz
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="375349985"
+  t=1694411199; x=1725947199;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wWthW3CAQOeR24yqLtHN12hyt+cgqArE3vdOGuNIP74=;
+  b=aGGRWsZJnRY4xxiH+mk4ZOyZXtup42L4hv1pXyKncOUrqwNxWGpCPC3O
+   onFGQIqcqJTRwaVcF3fGVcsBfaSOKlQH3Rh9Xsi/B65XmAQ+Wj9SjMVTO
+   /rhflb0mfG0JKO9K9OBM3SvQP3G5TuJtwbCMfP4GjNkk9xi1u81MS8c28
+   JFruAwDQaDm0n1s7JUO+iCQ9ytKZBSOyiIPlNcLP5duihTSw4K/LYQC1a
+   GbnOCrLbh0/204KtTUziza0134+NMtF/tWNu8/rTkML0oPkKCCl0PcXs2
+   bPt2FJkNE2SI7WEAFLfn+/teQgOHQ0r26jrNgcwQE3WVpvqygzsbCzv3Y
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="375353788"
 X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
-   d="scan'208";a="375349985"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 22:13:37 -0700
+   d="scan'208";a="375353788"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 22:46:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="778256725"
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="858188074"
 X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
-   d="scan'208";a="778256725"
+   d="scan'208";a="858188074"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 10 Sep 2023 22:13:35 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 10 Sep 2023 22:46:35 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfZEq-0005pG-1z;
-	Mon, 11 Sep 2023 05:13:32 +0000
-Date: Mon, 11 Sep 2023 13:09:02 +0800
+	id 1qfZkn-0005qa-1u;
+	Mon, 11 Sep 2023 05:46:33 +0000
+Date: Mon, 11 Sep 2023 13:46:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fei Jiang <fei.jiang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
-	Min He <min.he@intel.com>, Zhao Yakui <yakui.zhao@intel.com>
-Subject: [intel-lts:4.19/android_t 3682/30000]
- drivers/gpu/drm/i915/intel_sprite.c:246:34: sparse: sparse: incorrect type
- in initializer (different address spaces)
-Message-ID: <202309111201.zqSkwHN9-lkp@intel.com>
+To: Saravanan Sekar <saravanan@linumiz.com>, sravanhome@gmail.com,
+	lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	linux@roeck-us.net, jdelvare@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	Saravanan Sekar <saravanan@linumiz.com>
+Subject: Re: [PATCH 1/3] hwmon: (pmbus/mpq7932) Get page count based on chip
+ info
+Message-ID: <202309111345.BXkwu3pD-lkp@intel.com>
+References: <20230911034150.181880-2-saravanan@linumiz.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,103 +52,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230911034150.181880-2-saravanan@linumiz.com>
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
-head:   247bc655e03e4ac3632b21081ca56b813a644dcf
-commit: 57004ce5f0c42ec3c1dc052e03cf8a805201472f [3682/30000] drm/i915/gvt: pvmmio optimization for plane update
-config: x86_64-randconfig-121-20230910 (https://download.01.org/0day-ci/archive/20230911/202309111201.zqSkwHN9-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230911/202309111201.zqSkwHN9-lkp@intel.com/reproduce)
+Hi Saravanan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on broonie-regulator/for-next linus/master v6.6-rc1 next-20230911]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Saravanan-Sekar/hwmon-pmbus-mpq7932-Get-page-count-based-on-chip-info/20230911-114451
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20230911034150.181880-2-saravanan%40linumiz.com
+patch subject: [PATCH 1/3] hwmon: (pmbus/mpq7932) Get page count based on chip info
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230911/202309111345.BXkwu3pD-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230911/202309111345.BXkwu3pD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309111201.zqSkwHN9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309111345.BXkwu3pD-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/intel_sprite.c:246:34: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int [noderef] [usertype] <asn:2> *pv_plane @@     got unsigned int [usertype] * @@
-   drivers/gpu/drm/i915/intel_sprite.c:246:34: sparse:     expected unsigned int [noderef] [usertype] <asn:2> *pv_plane
-   drivers/gpu/drm/i915/intel_sprite.c:246:34: sparse:     got unsigned int [usertype] *
-   drivers/gpu/drm/i915/intel_sprite.o: warning: objtool: skl_disable_plane()+0x12c: sibling call from callable instruction with modified stack frame
-   drivers/gpu/drm/i915/intel_sprite.o: warning: objtool: vlv_disable_plane()+0x12b: sibling call from callable instruction with modified stack frame
-   drivers/gpu/drm/i915/intel_sprite.o: warning: objtool: g4x_disable_plane()+0xfb: sibling call from callable instruction with modified stack frame
-   drivers/gpu/drm/i915/intel_sprite.o: warning: objtool: skl_update_plane()+0x3dd: sibling call from callable instruction with modified stack frame
-   drivers/gpu/drm/i915/intel_sprite.o: warning: objtool: g4x_update_plane()+0x66a: sibling call from callable instruction with modified stack frame
-   drivers/gpu/drm/i915/intel_sprite.o: warning: objtool: ivb_disable_plane()+0xe2: sibling call from callable instruction with modified stack frame
-   drivers/gpu/drm/i915/intel_sprite.o: warning: objtool: ivb_update_plane()+0x5e0: sibling call from callable instruction with modified stack frame
-   drivers/gpu/drm/i915/intel_sprite.o: warning: objtool: chv_update_csc()+0x12b: sibling call from callable instruction with modified stack frame
-   drivers/gpu/drm/i915/intel_sprite.o: warning: objtool: vlv_update_plane()+0x3bc: sibling call from callable instruction with modified stack frame
-   drivers/gpu/drm/i915/intel_sprite.o: warning: objtool: skl_plane_format_mod_supported()+0x6e: sibling call from callable instruction with modified stack frame
-   drivers/gpu/drm/i915/intel_sprite.o: warning: objtool: intel_check_sprite_plane()+0x275: sibling call from callable instruction with modified stack frame
-   drivers/gpu/drm/i915/intel_sprite.o: warning: objtool: intel_pipe_update_start()+0x519: sibling call from callable instruction with modified stack frame
-   drivers/gpu/drm/i915/intel_sprite.o: warning: objtool: intel_pipe_update_end()+0x239: sibling call from callable instruction with modified stack frame
-   drivers/gpu/drm/i915/intel_sprite.o: warning: objtool: intel_sprite_plane_create()+0x810: sibling call from callable instruction with modified stack frame
+All warnings (new ones prefixed by >>):
 
-vim +246 drivers/gpu/drm/i915/intel_sprite.c
+   drivers/hwmon/pmbus/mpq7932.c: In function 'mpq7932_probe':
+>> drivers/hwmon/pmbus/mpq7932.c:108:23: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     108 |         info->pages = (int)device_get_match_data(&client->dev);
+         |                       ^
 
-   234	
-   235	static void pv_update_plane_reg(struct intel_plane *plane,
-   236			u32 stride, uint32_t src_w, uint32_t src_h,
-   237			uint32_t crtc_w, uint32_t crtc_h, u32 aux_stride,
-   238			const struct intel_crtc_state *crtc_state,
-   239			const struct intel_plane_state *plane_state)
-   240	{
-   241		int i;
-   242		struct pv_plane_update tmp_plane;
-   243		uint32_t x = plane_state->main.x;
-   244		uint32_t y = plane_state->main.y;
-   245		struct drm_i915_private *dev_priv = to_i915(plane->base.dev);
- > 246		u32 __iomem *pv_plane = (u32 *)&(dev_priv->shared_page->pv_plane);
-   247	
-   248		memset(&tmp_plane, 0, sizeof(struct pv_plane_update));
-   249		if (IS_GEMINILAKE(dev_priv) || IS_CANNONLAKE(dev_priv)) {
-   250			tmp_plane.flags |= PLANE_COLOR_CTL_BIT;
-   251			tmp_plane.plane_color_ctl = PLANE_COLOR_PIPE_GAMMA_ENABLE |
-   252			      PLANE_COLOR_PIPE_CSC_ENABLE |
-   253			      PLANE_COLOR_PLANE_GAMMA_DISABLE;
-   254		}
-   255	
-   256		if (plane_state->ckey.flags) {
-   257			tmp_plane.flags |= PLANE_KEY_BIT;
-   258			tmp_plane.plane_key_val = plane_state->ckey.min_value;
-   259			tmp_plane.plane_key_max = plane_state->ckey.max_value;
-   260			tmp_plane.plane_key_msk = plane_state->ckey.channel_mask;
-   261		}
-   262	
-   263		tmp_plane.plane_offset = (y << 16) | x;
-   264		tmp_plane.plane_stride = stride;
-   265		tmp_plane.plane_size = (src_h << 16) | src_w;
-   266		tmp_plane.plane_aux_dist =
-   267			(plane_state->aux.offset - plane_state->main.offset) |
-   268			aux_stride;
-   269		tmp_plane.plane_aux_offset =
-   270			(plane_state->aux.y << 16) | plane_state->aux.x;
-   271	
-   272		/* program plane scaler */
-   273		if (plane_state->scaler_id >= 0) {
-   274			tmp_plane.flags |= PLANE_SCALER_BIT;
-   275			tmp_plane.ps_ctrl = PS_SCALER_EN | PS_PLANE_SEL(plane->id) |
-   276			  crtc_state->scaler_state.scalers[plane_state->scaler_id].mode;
-   277			tmp_plane.ps_pwr_gate = 0;
-   278			tmp_plane.ps_win_ps =
-   279			  (plane_state->base.dst.x1 << 16) | plane_state->base.dst.y1;
-   280			tmp_plane.ps_win_sz = ((crtc_w + 1) << 16) | (crtc_h + 1);
-   281			tmp_plane.plane_pos = 0;
-   282		} else {
-   283			tmp_plane.plane_pos =
-   284			  (plane_state->base.dst.y1 << 16) | plane_state->base.dst.x1;
-   285		}
-   286	
-   287		tmp_plane.plane_ctl = plane_state->ctl;
-   288	
-   289		spin_lock(&dev_priv->shared_page_lock);
-   290		for (i = 0; i < sizeof(struct pv_plane_update) / 4; i++)
-   291			writel(*((u32 *)(&tmp_plane) + i), pv_plane + i);
-   292		I915_WRITE_FW(PLANE_SURF(plane->pipe, plane->id),
-   293		      intel_plane_ggtt_offset(plane_state) + plane_state->main.offset);
-   294		spin_unlock(&dev_priv->shared_page_lock);
-   295	}
-   296	
+
+vim +108 drivers/hwmon/pmbus/mpq7932.c
+
+    95	
+    96	static int mpq7932_probe(struct i2c_client *client)
+    97	{
+    98		struct mpq7932_data *data;
+    99		struct pmbus_driver_info *info;
+   100		struct device *dev = &client->dev;
+   101		int i;
+   102	
+   103		data = devm_kzalloc(dev, sizeof(struct mpq7932_data), GFP_KERNEL);
+   104		if (!data)
+   105			return -ENOMEM;
+   106	
+   107		info = &data->info;
+ > 108		info->pages = (int)device_get_match_data(&client->dev);
+   109		info->format[PSC_VOLTAGE_OUT] = direct;
+   110		info->m[PSC_VOLTAGE_OUT] = 160;
+   111		info->b[PSC_VOLTAGE_OUT] = -33;
+   112		for (i = 0; i < info->pages; i++) {
+   113			info->func[i] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
+   114					| PMBUS_HAVE_STATUS_TEMP;
+   115		}
+   116	
 
 -- 
 0-DAY CI Kernel Test Service
