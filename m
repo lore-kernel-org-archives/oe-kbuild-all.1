@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ECB8C2C7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 09:50:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB649C2D0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 11:25:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694425858; x=1725961858;
+  t=1694431501; x=1725967501;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vB9WN78z+dnoouhq3mXmuFXtYMMYqNoN4TPEw8Y9L0E=;
-  b=gMA/yhlo8po7cbfhiwCkRlmAvXlEHg8wSSnc4Lzk/PLbavBRRg1xVp63
-   nYHc8/EyPD3xl7zuSSjsi5GNPeS0yIGUn612hCm/UFfba4LxDCuH4PkEt
-   EnnNPVglbyvr33+nbG0M1+KVO9fwRdp5cLFyzBivafMRE3THpD/IC/75K
-   V9tpPF9quIHN54jrqmoCBoSlYpEpXrMOyCZYa4QXqtOaragu/nadCkgtp
-   bAN4TPN4BG0JXApyLG4KFMrYhm3iPSaf7VsKODZosWGm7NKMcFSVxFiU8
-   fsavhnzLp7Yhe0PNtSadfUdwA0Sz9Xses2Wse5spkyHJfom8VXgZWa5oE
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="444457387"
+  bh=Uv9nAbEUF62DMugRVD9iw/zFF/YRVeZaMUgdwRDQng0=;
+  b=fVV9uS+RXpXVxKO/MbTMBXIpl55QpdxfIIXc/0jjDNCvgZL5mGTwVD7V
+   gHExL9JeLvrDZFcDeNBg7EN97jLQvLDMYD8CP6batKSUJ5LzDiDH/JRyK
+   cl3KtSYpT7sgC4EwB/4OFuS4HnqXVwANMPYm9KHIaja4F/1jA45NX/8BJ
+   SEYarcdzV5/3YS9A8B226UhPe4cjiXEmLIjCLOSVMU+sAY6svaxPCM/Vt
+   Qre4HA6bF2EVv7o9e1qH72YRURr2g8EdxrCnFz/R8UKi42hcR6ZX+oc50
+   JAF+jyY482ObAZAQyddTGfUmgBA/kClqLBt6qZtb8hNWVZtHr7qrGVBsS
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="363078865"
 X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
-   d="scan'208";a="444457387"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 02:50:57 -0700
+   d="scan'208";a="363078865"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 04:25:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="833443257"
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="719958932"
 X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
-   d="scan'208";a="833443257"
+   d="scan'208";a="719958932"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 11 Sep 2023 02:50:55 -0700
+  by orsmga006.jf.intel.com with ESMTP; 11 Sep 2023 04:25:00 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfdZF-00064i-2l;
-	Mon, 11 Sep 2023 09:50:53 +0000
-Date: Mon, 11 Sep 2023 17:50:28 +0800
+	id 1qff2H-00068t-34;
+	Mon, 11 Sep 2023 11:24:57 +0000
+Date: Mon, 11 Sep 2023 19:24:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>
-Subject: kernel/power/swap.c:1518: warning: Function parameter or member
- 'snapshot_test' not described in 'swsusp_check'
-Message-ID: <202309111712.x7XJ8EkV-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:5.15-2.2.x-imx 4220/25021]
+ drivers/spi/spi-nxp-fspi.c:1311:12: error: use of undeclared identifier
+ 'nxp_fspi_pm_ops'; did you mean 'nxp_fspi_mem_ops'?
+Message-ID: <202309111936.WZplseLz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,99 +47,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Christoph,
+Hi Han,
 
 FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-commit: d6545e687271ab27472eebff770f2de6a5f1a464 PM: hibernate: remove the global snapshot_test variable
-date:   3 months ago
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230911/202309111712.x7XJ8EkV-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230911/202309111712.x7XJ8EkV-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
+head:   3a95b5654979d1c2d61616bf60249ed3a98dcfbc
+commit: b14e8d1b1ca9bcf02a4e43900141ff8f17fed3f0 [4220/25021] MLK-23644: spi: spi-nxp-fspi: enable runtime pm for fspi
+config: i386-buildonly-randconfig-001-20230910 (https://download.01.org/0day-ci/archive/20230911/202309111936.WZplseLz-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230911/202309111936.WZplseLz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309111712.x7XJ8EkV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309111936.WZplseLz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/power/swap.c:543: warning: Function parameter or member 'handle' not described in 'save_image'
-   kernel/power/swap.c:543: warning: Function parameter or member 'snapshot' not described in 'save_image'
-   kernel/power/swap.c:543: warning: Function parameter or member 'nr_to_write' not described in 'save_image'
-   kernel/power/swap.c:890: warning: Function parameter or member 'nr_pages' not described in 'enough_swap'
-   kernel/power/swap.c:1061: warning: Function parameter or member 'handle' not described in 'load_image'
-   kernel/power/swap.c:1061: warning: Function parameter or member 'snapshot' not described in 'load_image'
-   kernel/power/swap.c:1061: warning: Function parameter or member 'nr_to_read' not described in 'load_image'
->> kernel/power/swap.c:1518: warning: Function parameter or member 'snapshot_test' not described in 'swsusp_check'
-   kernel/power/swap.c:1572: warning: Function parameter or member 'mode' not described in 'swsusp_close'
+>> drivers/spi/spi-nxp-fspi.c:1311:12: error: use of undeclared identifier 'nxp_fspi_pm_ops'; did you mean 'nxp_fspi_mem_ops'?
+                   .pm =   &nxp_fspi_pm_ops,
+                            ^~~~~~~~~~~~~~~
+                            nxp_fspi_mem_ops
+   drivers/spi/spi-nxp-fspi.c:1086:44: note: 'nxp_fspi_mem_ops' declared here
+   static const struct spi_controller_mem_ops nxp_fspi_mem_ops = {
+                                              ^
+>> drivers/spi/spi-nxp-fspi.c:1311:11: error: incompatible pointer types initializing 'const struct dev_pm_ops *' with an expression of type 'const struct spi_controller_mem_ops *' [-Werror,-Wincompatible-pointer-types]
+                   .pm =   &nxp_fspi_pm_ops,
+                           ^~~~~~~~~~~~~~~~
+   2 errors generated.
 
 
-vim +1518 kernel/power/swap.c
+vim +1311 drivers/spi/spi-nxp-fspi.c
 
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1512  
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1513  /**
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1514   *      swsusp_check - Check for swsusp signature in the resume device
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1515   */
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1516  
-d6545e687271ab Christoph Hellwig 2023-05-31  1517  int swsusp_check(bool snapshot_test)
-61159a314bca64 Rafael J. Wysocki 2006-03-23 @1518  {
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1519  	int error;
-39fbef4b0f77f9 Ye Bin            2021-10-13  1520  	void *holder;
-5904de0d735bbb Chen Yu           2023-04-14  1521  	fmode_t mode = FMODE_READ;
-5904de0d735bbb Chen Yu           2023-04-14  1522  
-5904de0d735bbb Chen Yu           2023-04-14  1523  	if (snapshot_test)
-5904de0d735bbb Chen Yu           2023-04-14  1524  		mode |= FMODE_EXCL;
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1525  
-d4d77629953eab Tejun Heo         2010-11-13  1526  	hib_resume_bdev = blkdev_get_by_dev(swsusp_resume_device,
-0718afd47f70cf Christoph Hellwig 2023-06-01  1527  					    mode, &holder, NULL);
-8a0d613fa12e1b Jiri Slaby        2010-05-01  1528  	if (!IS_ERR(hib_resume_bdev)) {
-8a0d613fa12e1b Jiri Slaby        2010-05-01  1529  		set_blocksize(hib_resume_bdev, PAGE_SIZE);
-3ecb01df3261d3 Jan Beulich       2010-10-26  1530  		clear_page(swsusp_header);
-568e34ed7339e3 Bart Van Assche   2022-07-14  1531  		error = hib_submit_io(REQ_OP_READ, swsusp_resume_block,
-1b29c1643c0d82 Vivek Goyal       2007-05-02  1532  					swsusp_header, NULL);
-9a154d9d95b7b9 Rafael J. Wysocki 2006-12-06  1533  		if (error)
-76b57e613f6006 Jiri Slaby        2009-10-07  1534  			goto put;
-9a154d9d95b7b9 Rafael J. Wysocki 2006-12-06  1535  
-3624eb04c24861 Rafael J. Wysocki 2010-10-04  1536  		if (!memcmp(HIBERNATE_SIG, swsusp_header->sig, 10)) {
-1b29c1643c0d82 Vivek Goyal       2007-05-02  1537  			memcpy(swsusp_header->sig, swsusp_header->orig_sig, 10);
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1538  			/* Reset swap signature now */
-568e34ed7339e3 Bart Van Assche   2022-07-14  1539  			error = hib_submit_io(REQ_OP_WRITE | REQ_SYNC,
-162b99e3119767 Mike Christie     2016-06-05  1540  						swsusp_resume_block,
-1b29c1643c0d82 Vivek Goyal       2007-05-02  1541  						swsusp_header, NULL);
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1542  		} else {
-76b57e613f6006 Jiri Slaby        2009-10-07  1543  			error = -EINVAL;
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1544  		}
-74d9555580c48a David Woodhouse   2021-11-08  1545  		if (!error && swsusp_header->flags & SF_HW_SIG &&
-74d9555580c48a David Woodhouse   2021-11-08  1546  		    swsusp_header->hw_sig != swsusp_hardware_signature) {
-74d9555580c48a David Woodhouse   2021-11-08  1547  			pr_info("Suspend image hardware signature mismatch (%08x now %08x); aborting resume.\n",
-74d9555580c48a David Woodhouse   2021-11-08  1548  				swsusp_header->hw_sig, swsusp_hardware_signature);
-74d9555580c48a David Woodhouse   2021-11-08  1549  			error = -EINVAL;
-74d9555580c48a David Woodhouse   2021-11-08  1550  		}
-76b57e613f6006 Jiri Slaby        2009-10-07  1551  
-76b57e613f6006 Jiri Slaby        2009-10-07  1552  put:
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1553  		if (error)
-5904de0d735bbb Chen Yu           2023-04-14  1554  			blkdev_put(hib_resume_bdev, mode);
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1555  		else
-64ec72a1ece37d Joe Perches       2017-09-27  1556  			pr_debug("Image signature found, resuming\n");
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1557  	} else {
-8a0d613fa12e1b Jiri Slaby        2010-05-01  1558  		error = PTR_ERR(hib_resume_bdev);
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1559  	}
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1560  
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1561  	if (error)
-64ec72a1ece37d Joe Perches       2017-09-27  1562  		pr_debug("Image not found (code %d)\n", error);
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1563  
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1564  	return error;
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1565  }
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1566  
+55ab8487e01d18 kuldip dwivedi      2020-09-11  1305  
+a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1306  static struct platform_driver nxp_fspi_driver = {
+a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1307  	.driver = {
+a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1308  		.name	= "nxp-fspi",
+a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1309  		.of_match_table = nxp_fspi_dt_ids,
+55ab8487e01d18 kuldip dwivedi      2020-09-11  1310  		.acpi_match_table = ACPI_PTR(nxp_fspi_acpi_ids),
+a5356aef6a907c Yogesh Narayan Gaur 2019-01-15 @1311  		.pm =   &nxp_fspi_pm_ops,
+a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1312  	},
+a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1313  	.probe          = nxp_fspi_probe,
+a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1314  	.remove		= nxp_fspi_remove,
+a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1315  };
+a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1316  module_platform_driver(nxp_fspi_driver);
+a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1317  
 
-:::::: The code at line 1518 was first introduced by commit
-:::::: 61159a314bca6408320c3173c1282c64f5cdaa76 [PATCH] swsusp: separate swap-writing/reading code
+:::::: The code at line 1311 was first introduced by commit
+:::::: a5356aef6a907c2e2aed0caaa2b88b6021394471 spi: spi-mem: Add driver for NXP FlexSPI controller
 
-:::::: TO: Rafael J. Wysocki <rjw@sisk.pl>
-:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
+:::::: TO: Yogesh Narayan Gaur <yogeshnarayan.gaur@nxp.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
