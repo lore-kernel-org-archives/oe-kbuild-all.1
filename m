@@ -1,43 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9FBE28F9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 22:40:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1FD528F9;
+	Mon, 11 Sep 2023 22:40:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694472054; x=1726008054;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+luhMqJzd5t2PX9yoJxMR2B4a8hOtjp3kpbTrBssBYE=;
-  b=E1W6rw7ygztDBBcZr+eh0Rte7/AntCrtGGz8yb1sbpR6bYwAtKlxc+aQ
-   O203l1lnij91zWYHOCYUqPS87fIyFqlw/XjhpKDeZRvPROuXWpb+8jRGq
-   7toxCv5xunvDpfct3WZ2/0YACgjQ13YWC1v6PVeNPWD1gmwmfS2NPXT1g
-   WzNbfoSN/TqTAAY9BMOTOa5et0CN2KGF5dG2C5smdvsqmJrydp6QNImNc
-   xJMnkFE6OmbNteXK2TtItCs6aDqTbkLvYEqM59J1k2YRAbYnnPn44igqh
-   cnKlQyyGgiThlqb5GGjwt/IfVZYouERxiD9Y3rR/x2foTuKB+IpR7J28J
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="375557092"
+  t=1694472056; x=1726008056;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mhmmY5VPSlyAdVNJJgS7iufwlfE+amRbTJE+gdUzzM0=;
+  b=UeKGNXKFDVQSv80s4PaKmn4m/gyMHKkATE4vvWKO2fttWLab4ArSPcP9
+   51X3KtCSUjjuLRHsnu9CNtA9rfjY7eutRJtiLl8xYm3eeAOVr5AZgbwzf
+   hBrUDjeoPvWg/lXn5h4mqQ+GuJWdzl697oF/T+9840PV0eDW/o8Fbb3Oy
+   oT+Vi8sBbYsY2Kx8C/wF1X/YTx3NEfyZd1ce0EZT2XQYRw4a5CIV66brd
+   yMzc3+GUpnLfZf3NRq6lpfqG8v2nua76KhtxV/EMtobKEgicu2vR108Rj
+   GKuVUbzA5u3F5XQgfDQ7RQXO1WXlbnJR4Djc/z17Ol5aFFkYKLAKjDmcJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="375557090"
 X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="375557092"
+   d="scan'208";a="375557090"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
   by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 15:40:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="833666958"
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="833666959"
 X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="833666958"
+   d="scan'208";a="833666959"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
   by FMSMGA003.fm.intel.com with ESMTP; 11 Sep 2023 15:40:52 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfpaM-0006pY-0o;
+	id 1qfpaM-0006pa-0u;
 	Mon, 11 Sep 2023 22:40:50 +0000
-Date: Tue, 12 Sep 2023 06:40:22 +0800
+Date: Tue, 12 Sep 2023 06:40:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chuanhong Guo <gch981213@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>
-Subject: drivers/spi/spi-mtk-snfi.c:1168: warning: Function parameter or
- member 'op' not described in 'mtk_snand_is_page_ops'
-Message-ID: <202309120607.CST7vQDG-lkp@intel.com>
+To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH net-next 5/6] microchip: lan865x: add driver support
+ for Microchip's LAN865X MACPHY
+Message-ID: <202309120628.2Mkm0paw-lkp@intel.com>
+References: <20230908142919.14849-6-Parthiban.Veerasooran@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,82 +47,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230908142919.14849-6-Parthiban.Veerasooran@microchip.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-commit: 764f1b7481645b2b4488eda26c4da7f331697e6b spi: add driver for MTK SPI NAND Flash Interface
-date:   1 year, 5 months ago
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230912/202309120607.CST7vQDG-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309120607.CST7vQDG-lkp@intel.com/reproduce)
+Hi Parthiban,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Parthiban-Veerasooran/net-ethernet-implement-OPEN-Alliance-control-transaction-interface/20230908-224352
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230908142919.14849-6-Parthiban.Veerasooran%40microchip.com
+patch subject: [RFC PATCH net-next 5/6] microchip: lan865x: add driver support for Microchip's LAN865X MACPHY
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230912/202309120628.2Mkm0paw-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309120628.2Mkm0paw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309120607.CST7vQDG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309120628.2Mkm0paw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/spi/spi-mtk-snfi.c:1168: warning: Function parameter or member 'op' not described in 'mtk_snand_is_page_ops'
+>> drivers/net/ethernet/microchip/../oa_tc6.c:133:5: warning: no previous prototype for function 'oa_tc6_perform_ctrl' [-Wmissing-prototypes]
+   int oa_tc6_perform_ctrl(struct oa_tc6 *tc6, u32 addr, u32 val[], u8 len,
+       ^
+   drivers/net/ethernet/microchip/../oa_tc6.c:133:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int oa_tc6_perform_ctrl(struct oa_tc6 *tc6, u32 addr, u32 val[], u8 len,
+   ^
+   static 
+   1 warning generated.
 
 
-vim +1168 drivers/spi/spi-mtk-snfi.c
+vim +/oa_tc6_perform_ctrl +133 drivers/net/ethernet/microchip/../oa_tc6.c
 
-  1154	
-  1155	/**
-  1156	 * mtk_snand_is_page_ops() - check if the op is a controller supported page op.
-  1157	 * @op spi-mem op to check
-  1158	 *
-  1159	 * Check whether op can be executed with read_from_cache or program_load
-  1160	 * mode in the controller.
-  1161	 * This controller can execute typical Read From Cache and Program Load
-  1162	 * instructions found on SPI-NAND with 2-byte address.
-  1163	 * DTR and cmd buswidth & nbytes should be checked before calling this.
-  1164	 *
-  1165	 * Return: true if the op matches the instruction template
-  1166	 */
-  1167	static bool mtk_snand_is_page_ops(const struct spi_mem_op *op)
-> 1168	{
-  1169		if (op->addr.nbytes != 2)
-  1170			return false;
-  1171	
-  1172		if (op->addr.buswidth != 1 && op->addr.buswidth != 2 &&
-  1173		    op->addr.buswidth != 4)
-  1174			return false;
-  1175	
-  1176		// match read from page instructions
-  1177		if (op->data.dir == SPI_MEM_DATA_IN) {
-  1178			// check dummy cycle first
-  1179			if (op->dummy.nbytes * BITS_PER_BYTE / op->dummy.buswidth >
-  1180			    DATA_READ_MAX_DUMMY)
-  1181				return false;
-  1182			// quad io / quad out
-  1183			if ((op->addr.buswidth == 4 || op->addr.buswidth == 1) &&
-  1184			    op->data.buswidth == 4)
-  1185				return true;
-  1186	
-  1187			// dual io / dual out
-  1188			if ((op->addr.buswidth == 2 || op->addr.buswidth == 1) &&
-  1189			    op->data.buswidth == 2)
-  1190				return true;
-  1191	
-  1192			// standard spi
-  1193			if (op->addr.buswidth == 1 && op->data.buswidth == 1)
-  1194				return true;
-  1195		} else if (op->data.dir == SPI_MEM_DATA_OUT) {
-  1196			// check dummy cycle first
-  1197			if (op->dummy.nbytes)
-  1198				return false;
-  1199			// program load quad out
-  1200			if (op->addr.buswidth == 1 && op->data.buswidth == 4)
-  1201				return true;
-  1202			// standard spi
-  1203			if (op->addr.buswidth == 1 && op->data.buswidth == 1)
-  1204				return true;
-  1205		}
-  1206		return false;
-  1207	}
-  1208	
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  132  
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08 @133  int oa_tc6_perform_ctrl(struct oa_tc6 *tc6, u32 addr, u32 val[], u8 len,
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  134  			bool wnr, bool ctrl_prot)
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  135  {
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  136  	u8 *tx_buf;
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  137  	u8 *rx_buf;
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  138  	u16 size;
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  139  	u16 pos;
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  140  	int ret;
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  141  
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  142  	if (ctrl_prot)
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  143  		size = (TC6_HDR_SIZE * 2) + (len * (TC6_HDR_SIZE * 2));
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  144  	else
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  145  		size = (TC6_HDR_SIZE * 2) + (len * TC6_HDR_SIZE);
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  146  
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  147  	tx_buf = kzalloc(size, GFP_KERNEL);
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  148  	if (!tx_buf)
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  149  		return -ENOMEM;
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  150  
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  151  	rx_buf = kzalloc(size, GFP_KERNEL);
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  152  	if (!rx_buf) {
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  153  		ret = -ENOMEM;
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  154  		goto err_rx_buf_kzalloc;
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  155  	}
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  156  
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  157  	/* Prepare control command */
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  158  	oa_tc6_prepare_ctrl_buf(tc6, addr, val, len, wnr, tx_buf, ctrl_prot);
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  159  
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  160  	/* Perform SPI transfer */
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  161  	ret = oa_tc6_spi_transfer(tc6->spi, tx_buf, rx_buf, size);
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  162  	if (ret)
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  163  		goto err_ctrl;
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  164  
+2dc8ae856934a3 Parthiban Veerasooran 2023-09-08  165  	/* In case of reset write, the echoed control command doesn't have any
+2dc8ae856934a3 Parthiban Veerasooran 2023-09-08  166  	 * valid data. So no need to check for error.
+2dc8ae856934a3 Parthiban Veerasooran 2023-09-08  167  	 */
+2dc8ae856934a3 Parthiban Veerasooran 2023-09-08  168  	if (addr != OA_TC6_RESET) {
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  169  		/* Check echoed/received control reply */
+2dc8ae856934a3 Parthiban Veerasooran 2023-09-08  170  		ret = oa_tc6_check_control(tc6, tx_buf, rx_buf, len, wnr,
+2dc8ae856934a3 Parthiban Veerasooran 2023-09-08  171  					   ctrl_prot);
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  172  		if (ret)
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  173  			goto err_ctrl;
+2dc8ae856934a3 Parthiban Veerasooran 2023-09-08  174  	}
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  175  
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  176  	if (!wnr) {
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  177  		/* Copy read data from the rx data in case of ctrl read */
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  178  		for (u8 i = 0; i < len; i++) {
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  179  			if (!ctrl_prot) {
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  180  				pos = (TC6_HDR_SIZE * 2) + (i * TC6_HDR_SIZE);
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  181  				val[i] = be32_to_cpu(*(u32 *)&rx_buf[pos]);
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  182  			} else {
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  183  				pos = (TC6_HDR_SIZE * 2) +
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  184  				       (i * (TC6_HDR_SIZE * 2));
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  185  				val[i] = be32_to_cpu(*(u32 *)&rx_buf[pos]);
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  186  			}
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  187  		}
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  188  	}
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  189  
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  190  err_ctrl:
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  191  	kfree(rx_buf);
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  192  err_rx_buf_kzalloc:
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  193  	kfree(tx_buf);
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  194  	return ret;
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  195  }
+9c44fe1a3412d9 Parthiban Veerasooran 2023-09-08  196  
 
 -- 
 0-DAY CI Kernel Test Service
