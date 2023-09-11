@@ -1,111 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683EF5699;
-	Mon, 11 Sep 2023 23:01:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694473315; x=1726009315;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SJjqIEs3BpehUYyropfNGyc1F1+vwavmpmiIpcemogE=;
-  b=f+UePbcwjAtSvy875p8zG8sXo/OIiPuTrUk0FkJ0xs/gOIVKa/ACLVvX
-   AAHY1bpUb4szEE2DW0T485WEwRmzSyFoAvyUTATdoDp/vOl6NnaZG+6JT
-   OebM0sdnwDkk3hxp69yq6eFQEQ4DnENS6luZ7fEbUXF7YI75BEvKPxqaw
-   Or9ZOnra9+wXpIqrPcQ4tn7PnZvXZbxkCGOH6GHT095OmshPS7ayY2er5
-   6Vx39syoxoT+E0RVtRGiIxGH57Lhcjd9GIQbYMZsMu5OfgkFBZtAV11zP
-   EJv7W0D4Bb9wDflxRjg1L/kEGtoqe6ITNwiKOSJTwcZKYqaO97OQvQVQA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="382039406"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="382039406"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 16:01:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="720162063"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="720162063"
-Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 11 Sep 2023 16:01:53 -0700
-Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qfpuh-0006qU-0e;
-	Mon, 11 Sep 2023 23:01:51 +0000
-Date: Tue, 12 Sep 2023 07:01:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Janne Grunau <j@jannau.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:pr/186 9/9] drivers/gpu/drm/apple/dcp.c:455:2: warning:
- add explicit braces to avoid dangling else
-Message-ID: <202309120640.fKUAz3Jc-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8F88BFA;
+	Mon, 11 Sep 2023 23:45:01 +0000 (UTC)
+Received: from [192.168.2.112] (109-252-153-31.dynamic.spd-mgts.ru [109.252.153.31])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: dmitry.osipenko)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 9DF3A66072FD;
+	Tue, 12 Sep 2023 00:44:58 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1694475900;
+	bh=WkotUAC8lDAjycWqSJXebM742z0pXxUqQkHS57KhQSQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TkH+MPbx6TY/R6uMAKG41NtKuJONwdQE7fCB1AZDH8nNT0/TvmVbleNAz3h/bxL8B
+	 wRsPtGqCMtzo6HPppFPG9S0l/sEZhGwPU/ioIAmCPUWFE8Pvt/WeA2JO3yb1V+HHZJ
+	 eWJEBzc3j0XTSATB+o4hwKBuZriHRYgMgwwx/Oq0LzaVuMOjafdVFz9uCrPPx5QHoP
+	 yS+nJH0ewVf+CXQGOXcYIcXME1DGvi5amRDYx+4MXoXVUeS7H6SK3thkwDJXTwIGhU
+	 qvKW7QanB2V1rbVCcizQIQWiyl97HCLt/OaWYGVtK2v+eIRoH14R6FvXIFz8NjrTzk
+	 QzUYVJVi3Xf7w==
+Message-ID: <ac995ee3-9819-9b10-a7ae-642720828b32@collabora.com>
+Date: Tue, 12 Sep 2023 02:44:55 +0300
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v16 15/20] drm/shmem-helper: Add memory shrinker
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
+ Boris Brezillon <bbrezillon@kernel.org>, Emma Anholt <emma@anholt.net>,
+ Melissa Wen <mwen@igalia.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
+References: <55952e5b-8c55-4888-ba22-eda33525c3b9@kadam.mountain>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <55952e5b-8c55-4888-ba22-eda33525c3b9@kadam.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/AsahiLinux/linux pr/186
-head:   4030a6363f99fa38544b1556016ce71676406070
-commit: 4030a6363f99fa38544b1556016ce71676406070 [9/9] drm: apple: Update supported firmware versions to 12.3 and 13.5
-config: arm64-randconfig-r006-20230912 (https://download.01.org/0day-ci/archive/20230912/202309120640.fKUAz3Jc-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309120640.fKUAz3Jc-lkp@intel.com/reproduce)
+On 9/7/23 13:03, Dan Carpenter wrote:
+> 2c607edf57db6a Dmitry Osipenko 2023-09-03 @724  	if (page_offset >= num_pages || (!shmem->pages && !shmem->evicted)) {
+>                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> Should this be || instead of &&?  (The other thing that people do is
+> add "!shmem->evicted" for readability even though it doesn't need to be
+> checked.  So maybe that's the issue, but the checker assumes it needs to
+> be checked).
+> 
+> d611b4a0907cec Neil Roberts    2021-02-23  725  		ret = VM_FAULT_SIGBUS;
+> d611b4a0907cec Neil Roberts    2021-02-23  726  	} else {
+> 2c607edf57db6a Dmitry Osipenko 2023-09-03  727  		err = drm_gem_shmem_swapin_locked(shmem);
+> 
+> Or maybe it's because the kbuild bot can't use the cross function db
+> and shmem->pages is assigned here?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309120640.fKUAz3Jc-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/apple/dcp.c:455:2: warning: add explicit braces to avoid dangling else [-Wdangling-else]
-           else if (strncmp(compat_str, "13.5.0", sizeof(compat_str)) == 0)
-           ^
-   1 warning generated.
-
-
-vim +455 drivers/gpu/drm/apple/dcp.c
-
-   427	
-   428	static enum dcp_firmware_version dcp_check_firmware_version(struct device *dev)
-   429	{
-   430		char compat_str[DCP_FW_VERSION_STR_LEN];
-   431		char fw_str[DCP_FW_VERSION_STR_LEN];
-   432		int ret;
-   433	
-   434		/* firmware version is just informative */
-   435		dcp_read_fw_version(dev, "apple,firmware-version", fw_str);
-   436	
-   437		ret = dcp_read_fw_version(dev, "apple,firmware-compat", compat_str);
-   438		if (ret < 0) {
-   439			dev_err(dev, "Could not read 'apple,firmware-compat': %d\n", ret);
-   440			return DCP_FIRMWARE_UNKNOWN;
-   441		}
-   442	
-   443		if (strncmp(compat_str, "12.3.0", sizeof(compat_str)) == 0)
-   444			return DCP_FIRMWARE_V_12_3;
-   445		/*
-   446		 * m1n1 reports firmware version 13.5 as compatible with 13.3. This is
-   447		 * only true for the iomfb endpoint. The interface for the dptx-port
-   448		 * endpoint changed between 13.3 and 13.5. The driver will only support
-   449		 * firmware 13.5. Check the actual firmware version for compat version
-   450		 * 13.3 until m1n1 reports 13.5 as "firmware-compat".
-   451		 */
-   452		else if (strncmp(compat_str, "13.3.0", sizeof(compat_str)) == 0)
-   453			if (strncmp(fw_str, "13.5.0", sizeof(compat_str)) == 0)
-   454				return DCP_FIRMWARE_V_13_5;
- > 455		else if (strncmp(compat_str, "13.5.0", sizeof(compat_str)) == 0)
-   456			return DCP_FIRMWARE_V_13_5;
-   457	
-   458		dev_err(dev, "DCP firmware-compat %s (FW: %s) is not supported\n",
-   459			compat_str, fw_str);
-   460	
-   461		return DCP_FIRMWARE_UNKNOWN;
-   462	}
-   463	
+Should be a function db problem. The shmem->pages won't be NULL if
+drm_gem_shmem_swapin_locked() succeeds.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Dmitry
+
