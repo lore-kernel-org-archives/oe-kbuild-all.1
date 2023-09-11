@@ -1,117 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDEC156DB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 19:15:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694459708; x=1725995708;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=07/p9oDn31rTGw7P//H58/j97irnDVEbpN9U4gK1A4E=;
-  b=F2Zbln2L59Oa3pCwhakIpt+44S42TiDI/qJYBlW1IunyYMfRIpgl4kMH
-   Z2XB1MszymCyBevLZJTX2jdjNfDDhEMEdZmtHWKlxp4uQ5q1APx2sq0CN
-   btPJ500Up4vaIN/ixDlumlX4cE2IPgdWTVJWEldrDzvYRrQ752KzG9fsp
-   RK3UOJkdTiF2ciPQJ9QIxw7MG9f1/8C0J36HRudD1Wfl+qzayzSv6KQJs
-   VODT2QmtUOGl2QEXLehJgj0x1Hj0ZW/VhIRbD+q1z9UirxHesbAQRJpD8
-   Q47Pwp9gQGeNElKPfWt0r/laZr7WmxT5pRWov+Cqq1ARgoXmEp4y5cCaj
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="375519361"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="375519361"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 12:13:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="736875361"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="736875361"
-Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 11 Sep 2023 12:13:34 -0700
-Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qfmLk-0006dm-0I;
-	Mon, 11 Sep 2023 19:13:32 +0000
-Date: Tue, 12 Sep 2023 03:12:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Oleg Nesterov <oleg@redhat.com>
-Subject: kernel/task_work.c:73: warning: Function parameter or member 'data'
- not described in 'task_work_cancel_match'
-Message-ID: <202309120307.zis3yQGe-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90DCF156DB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 19:29:59 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1befe39630bso10437575ad.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 12:29:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1694460598; x=1695065398; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BGQStCvoWj3/Xp0jbKniFWE15sG3u2sI0fTxWSIsDmg=;
+        b=ERjUrmNr6gyfCkQB6rXZYNnscXpnXsAWylQOq9eCx47Nt9/eQGywCN8WCq5TyvlAeF
+         2eJGiQyy9xtywhiETg4nhLU2BnmHE9z7gyvXt7xGqVHj1bfdeGvnr78kculnKPQD+XjQ
+         kv7jOO+WcI9W2y6GmEt1h8r368jXHru3M7lb2SinNwgLFyTwe4WpYEqxPQFM/w/CcxBv
+         BhnqQevnwmYn6HKvRYNP2/gmL6JR/Eowu0n145rKtHEFj+s6gWlwJW0n9XVgUog2TMdJ
+         iA66Ps0D/HHCXrUchqfAe+0TXeNqQy6F8s7emw6ghBZugDuUG6tuJUFC2fDwyx3akIKX
+         1+yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694460598; x=1695065398;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BGQStCvoWj3/Xp0jbKniFWE15sG3u2sI0fTxWSIsDmg=;
+        b=QWUydpF6loYUgX98OEYta8g5R4tqAEYPMMoUutIDI0ZQJX17xlHBOAragJlZ51xKLA
+         sRKhgkjEMVOZv0IgzjM24IjWuORL35SiA7AHKBvAQh8BH86xBB25MZSJsw9XiVeW8v96
+         qFuPo5APxpS650/9mEz4hXMSyx94xq3rQxMOka3y25Ehv48TZXaj3GbdjUnab9qK2408
+         7jEv6kAzZ2QGeuhBf7sZiFlkDsccKKjhIKRX3oqW5uNl4fHlhtlVdPrRDFAXwZhNSI6h
+         uyW/cHA5YAkZSO8DUj58D2inoI34mTyw0u33L3A6pngCJtG5SwKltC9W1weskRmGxfK5
+         9+gg==
+X-Gm-Message-State: AOJu0Yx3+1dgJlIY2zZYtKsnbyOa9SdIEA6Z6m1zDZIcthgVqLhd2cBg
+	+h8AtQXPXyyMc9UarZk2hf0QNw==
+X-Google-Smtp-Source: AGHT+IEaqmgNPlrgJsJYHYB0ZENpQMy8GU6BQOpJO6AC4O+btal68J7EbL9UcfulTF4O8CmZsO2gQg==
+X-Received: by 2002:a17:902:e546:b0:1bb:9e6e:a9f3 with SMTP id n6-20020a170902e54600b001bb9e6ea9f3mr12355983plf.4.1694460598344;
+        Mon, 11 Sep 2023 12:29:58 -0700 (PDT)
+Received: from [192.168.1.136] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id c13-20020a170902d48d00b001bdc66478c1sm6809944plg.309.2023.09.11.12.29.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Sep 2023 12:29:57 -0700 (PDT)
+Message-ID: <bf5831cf-74b8-438f-8892-8b41cc222c2b@kernel.dk>
+Date: Mon, 11 Sep 2023 13:29:56 -0600
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: kernel/task_work.c:73: warning: Function parameter or member
+ 'data' not described in 'task_work_cancel_match'
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Oleg Nesterov <oleg@redhat.com>
+References: <202309120307.zis3yQGe-lkp@intel.com>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <202309120307.zis3yQGe-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-commit: c7aab1a7c52b82d9afd7e03c398eb03dc2aa0507 task_work: add helper for more targeted task_work canceling
-date:   2 years, 5 months ago
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20230912/202309120307.zis3yQGe-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309120307.zis3yQGe-lkp@intel.com/reproduce)
+On 9/11/23 1:12 PM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+> commit: c7aab1a7c52b82d9afd7e03c398eb03dc2aa0507 task_work: add helper for more targeted task_work canceling
+> date:   2 years, 5 months ago
+> config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20230912/202309120307.zis3yQGe-lkp@intel.com/config)
+> compiler: or1k-linux-gcc (GCC) 12.3.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309120307.zis3yQGe-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309120307.zis3yQGe-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> kernel/task_work.c:73: warning: Function parameter or member 'data' not described in 'task_work_cancel_match'
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309120307.zis3yQGe-lkp@intel.com/
+Wow, that got introduced with:
 
-All warnings (new ones prefixed by >>):
+commit c7aab1a7c52b82d9afd7e03c398eb03dc2aa0507
+Author: Jens Axboe <axboe@kernel.dk>
+Date:   Thu Apr 1 19:53:29 2021 -0600
 
->> kernel/task_work.c:73: warning: Function parameter or member 'data' not described in 'task_work_cancel_match'
+    task_work: add helper for more targeted task_work canceling
+
+which is a while ago. In any case, this should fix it. I'll send out a
+proper patch.
 
 
-vim +73 kernel/task_work.c
-
-e73f8959af0439 Oleg Nesterov 2012-05-11  60  
-892f6668f3a708 Oleg Nesterov 2013-09-11  61  /**
-c7aab1a7c52b82 Jens Axboe    2021-04-01  62   * task_work_cancel_match - cancel a pending work added by task_work_add()
-892f6668f3a708 Oleg Nesterov 2013-09-11  63   * @task: the task which should execute the work
-c7aab1a7c52b82 Jens Axboe    2021-04-01  64   * @match: match function to call
-892f6668f3a708 Oleg Nesterov 2013-09-11  65   *
-892f6668f3a708 Oleg Nesterov 2013-09-11  66   * RETURNS:
-892f6668f3a708 Oleg Nesterov 2013-09-11  67   * The found work or NULL if not found.
-892f6668f3a708 Oleg Nesterov 2013-09-11  68   */
-67d1214551e800 Al Viro       2012-06-27  69  struct callback_head *
-c7aab1a7c52b82 Jens Axboe    2021-04-01  70  task_work_cancel_match(struct task_struct *task,
-c7aab1a7c52b82 Jens Axboe    2021-04-01  71  		       bool (*match)(struct callback_head *, void *data),
-c7aab1a7c52b82 Jens Axboe    2021-04-01  72  		       void *data)
-e73f8959af0439 Oleg Nesterov 2012-05-11 @73  {
-ac3d0da8f3290b Oleg Nesterov 2012-08-26  74  	struct callback_head **pprev = &task->task_works;
-205e550a0fb469 Oleg Nesterov 2013-09-11  75  	struct callback_head *work;
-e73f8959af0439 Oleg Nesterov 2012-05-11  76  	unsigned long flags;
-61e96496d3c949 Oleg Nesterov 2016-08-02  77  
-61e96496d3c949 Oleg Nesterov 2016-08-02  78  	if (likely(!task->task_works))
-61e96496d3c949 Oleg Nesterov 2016-08-02  79  		return NULL;
-ac3d0da8f3290b Oleg Nesterov 2012-08-26  80  	/*
-ac3d0da8f3290b Oleg Nesterov 2012-08-26  81  	 * If cmpxchg() fails we continue without updating pprev.
-ac3d0da8f3290b Oleg Nesterov 2012-08-26  82  	 * Either we raced with task_work_add() which added the
-ac3d0da8f3290b Oleg Nesterov 2012-08-26  83  	 * new entry before this work, we will find it again. Or
-9da33de62431c7 Oleg Nesterov 2012-08-26  84  	 * we raced with task_work_run(), *pprev == NULL/exited.
-ac3d0da8f3290b Oleg Nesterov 2012-08-26  85  	 */
-e73f8959af0439 Oleg Nesterov 2012-05-11  86  	raw_spin_lock_irqsave(&task->pi_lock, flags);
-506458efaf153c Will Deacon   2017-10-24  87  	while ((work = READ_ONCE(*pprev))) {
-c7aab1a7c52b82 Jens Axboe    2021-04-01  88  		if (!match(work, data))
-ac3d0da8f3290b Oleg Nesterov 2012-08-26  89  			pprev = &work->next;
-ac3d0da8f3290b Oleg Nesterov 2012-08-26  90  		else if (cmpxchg(pprev, work, work->next) == work)
-158e1645e07f3e Al Viro       2012-06-27  91  			break;
-158e1645e07f3e Al Viro       2012-06-27  92  	}
-e73f8959af0439 Oleg Nesterov 2012-05-11  93  	raw_spin_unlock_irqrestore(&task->pi_lock, flags);
-ac3d0da8f3290b Oleg Nesterov 2012-08-26  94  
-ac3d0da8f3290b Oleg Nesterov 2012-08-26  95  	return work;
-e73f8959af0439 Oleg Nesterov 2012-05-11  96  }
-e73f8959af0439 Oleg Nesterov 2012-05-11  97  
-
-:::::: The code at line 73 was first introduced by commit
-:::::: e73f8959af0439d114847eab5a8a5ce48f1217c4 task_work_add: generic process-context callbacks
-
-:::::: TO: Oleg Nesterov <oleg@redhat.com>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+diff --git a/kernel/task_work.c b/kernel/task_work.c
+index 065e1ef8fc8d..2a628b4a6124 100644
+--- a/kernel/task_work.c
++++ b/kernel/task_work.c
+@@ -78,6 +78,7 @@ int task_work_add(struct task_struct *task, struct callback_head *work,
+  * task_work_cancel_match - cancel a pending work added by task_work_add()
+  * @task: the task which should execute the work
+  * @match: match function to call
++ * @data: data to pass into match function
+  *
+  * RETURNS:
+  * The found work or NULL if not found.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jens Axboe
+
