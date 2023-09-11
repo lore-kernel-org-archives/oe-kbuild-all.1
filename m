@@ -1,50 +1,43 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F373D68
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 07:51:09 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-401da71b85eso45067185e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 00:51:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694418668; x=1695023468; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gWnYh4CN57jmnhJ4yU3N3USKhafop4eKhKph1Fyl+mc=;
-        b=aSY8gTYKmBCPNgaU2GEK6+64sfhzuGQKyGwnuz01Hn4o1jRLv8PSO90fzWQOinz4/Y
-         cdsBwvM7bwQ6vkNeO0WuHwJ/6CKinU4u3sJrlySMpPE+BdEUp8RaSo2P9mXP5Rixi6wf
-         pqtQ1Onh7SiQkVa5blaB13TBR+K5rXBiUjP9ntEPiUQ2X4yTdbvJVGFw0FlHZPzXXHfA
-         jFJP4lDraS/NDSGqokAq0QpnN4lWwbBwkwR5lvW5Cwqbd0MuFDgkW2T7mkpzZzeKl/vn
-         U0NIrF47uEYQwmTCm6O+kTGLw4pyvPc2AGv/Ru0BFl9oR4Qw6TUOsdm0y8cCwqxHlng6
-         DQKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694418668; x=1695023468;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gWnYh4CN57jmnhJ4yU3N3USKhafop4eKhKph1Fyl+mc=;
-        b=fGI+L2kNTlRiFOHt/wyskXrG6dcl7bUuMna1qOOG9HuIv2Pgtigs8ohtOPF9AxtXC1
-         ocmLgoAn4stUULXghu51X5UVCkQbpC5LXG6U4wLLxkO0dKitAvKnXZzi2+mgmaVSXs8i
-         wKWk3d/KE/348XFHkx0gmzD2VvKmV4Y0Rtj/4LqSY5Nb40LX413aPxDN5YByqFCJilRv
-         yxlhtpEMozvoWKOhgc2M7fz1DTwiUJcGhdfoqyin7YOGPrQLoljzX5y2pSBG2WidZoyh
-         +Gd2JHNna2Iq9hZ3D3Yip+7qs7dxMjazPtRVox81umASRjw999xdgyfLjpJhnqz+h8vd
-         i2iA==
-X-Gm-Message-State: AOJu0Yx0IK82VKn/+7jdemdc975bhb9tdSPNlFvo70fl6BzDMKQkK2PO
-	51G8QT01GLMAKxcjbil0/LOhMA==
-X-Google-Smtp-Source: AGHT+IECbvY4Hp7cae3cXFMGtYytnGnLISzQ3uBSG7uUw/oIeICC3Zeub830AdClcieScDUYfqLX7Q==
-X-Received: by 2002:a05:600c:21d8:b0:3fc:e1:24b5 with SMTP id x24-20020a05600c21d800b003fc00e124b5mr7405212wmj.23.1694418667873;
-        Mon, 11 Sep 2023 00:51:07 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id f7-20020a7bcd07000000b00401c595fcc7sm12415696wmj.11.2023.09.11.00.51.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 00:51:07 -0700 (PDT)
-Date: Mon, 11 Sep 2023 10:51:04 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Yi Liu <yi.l.liu@intel.com>,
-	Kevin Tian <kevin.tian@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:wip/iommufd_nesting_09042023-yi-not-tested 13/26]
- drivers/iommu/iommufd/hw_pagetable.c:325 iommufd_hwpt_alloc() error:
- potentially dereferencing uninitialized 'parent'.
-Message-ID: <3ae3ca2f-290b-4697-b8f3-4c1f98ac01d3@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1663C27
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 07:54:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694418885; x=1725954885;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sY1AcfvpX4DDkwt+QmJjCLO65PXr0lHFI/eGUfN3flg=;
+  b=cY5Hh+3qMLrrQt/BA0HR52pifGwDiRhPniAEXoLYMr6VDyxu6H1oqC/f
+   4FW9P+7yPmHwfnb0fBiGPFr6KjA1Eo4jGqWRaW/I/Iu5Dak7COmMtDisQ
+   CRIJ5llCPIHpm8cgtqRzvZCtgxdgK6yKepruTUv3/fmdOriA7FyT/7jQi
+   0XdHOpNHBKZpJ2ImnLyWQFL3o12RQ8ZUllBpuzG2IJ6BI1rSpPS33vIhp
+   S/gFCSyJbzMDj1VyHOMyO3BLG6t3huJKIAdTogGCiY+YFSePssTzc2jh3
+   7bYp20XscwZ7gDHdtUVvweVxBUznpygLhI3s69Q1UlLG5CwJrShFIS/Ax
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="368260571"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
+   d="scan'208";a="368260571"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 00:54:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="989995342"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
+   d="scan'208";a="989995342"
+Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 11 Sep 2023 00:54:43 -0700
+Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qfbkn-0005xT-2q;
+	Mon, 11 Sep 2023 07:54:41 +0000
+Date: Mon, 11 Sep 2023 15:54:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hui Wang <hui.wang@canonical.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>
+Subject: sound/soc/fsl/fsl-asoc-card.c:57: warning: Function parameter or
+ member 'mclk' not described in 'codec_priv'
+Message-ID: <202309111520.OcgoPaRW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,72 +47,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_nesting_09042023-yi-not-tested
-head:   19df4ebfe078e091791110a53bfcc1abc6f72fb3
-commit: 56bfc2cb8d81259247dcedd479140554c66f9aa3 [13/26] iommufd: Add user-managed hw_pagetable support
-config: x86_64-randconfig-161-20230907 (https://download.01.org/0day-ci/archive/20230909/202309090432.uLNWDOfL-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230909/202309090432.uLNWDOfL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+commit: 1075df4bdeb320bbf94a1f6d3761391264eb2c7f ASoC: fsl-asoc-card: add nau8822 support
+date:   3 months ago
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230911/202309111520.OcgoPaRW-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230911/202309111520.OcgoPaRW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202309090432.uLNWDOfL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309111520.OcgoPaRW-lkp@intel.com/
 
-smatch warnings:
-drivers/iommu/iommufd/hw_pagetable.c:325 iommufd_hwpt_alloc() error: potentially dereferencing uninitialized 'parent'.
+All warnings (new ones prefixed by >>):
 
-vim +/parent +325 drivers/iommu/iommufd/hw_pagetable.c
-
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  284  int iommufd_hwpt_alloc(struct iommufd_ucmd *ucmd)
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  285  {
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  286  	struct iommufd_hw_pagetable *(*alloc_fn)(
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  287  					struct iommufd_ctx *ictx,
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  288  					struct iommufd_object *pt_obj,
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  289  					struct iommufd_device *idev,
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  290  					u32 flags, enum iommu_hwpt_type type,
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  291  					struct iommu_user_data *user_data,
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  292  					bool flag);
-56bfc2cb8d8125 Nicolin Chen    2023-08-02  293  	struct iommufd_hw_pagetable *hwpt, *parent;
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  294  	struct iommu_hwpt_alloc *cmd = ucmd->cmd;
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  295  	struct iommufd_object *pt_obj;
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  296  	struct iommufd_device *idev;
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  297  	struct iommufd_ioas *ioas;
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  298  	struct mutex *mutex;
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  299  	int rc;
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  300  
-08fa18dbae1178 Yi Liu          2023-09-01  301  	if (cmd->flags & (~IOMMU_HWPT_ALLOC_NEST_PARENT) || cmd->__reserved)
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  302  		return -EOPNOTSUPP;
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  303  
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  304  	idev = iommufd_get_device(ucmd, cmd->dev_id);
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  305  	if (IS_ERR(idev))
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  306  		return PTR_ERR(idev);
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  307  
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  308  	pt_obj = iommufd_get_object(ucmd->ictx, cmd->pt_id, IOMMUFD_OBJ_ANY);
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  309  	if (IS_ERR(pt_obj)) {
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  310  		rc = -EINVAL;
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  311  		goto out_put_idev;
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  312  	}
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  313  
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  314  	switch (pt_obj->type) {
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  315  	case IOMMUFD_OBJ_IOAS:
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  316  		ioas = container_of(pt_obj, struct iommufd_ioas, obj);
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  317  		mutex = &ioas->mutex;
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  318  		alloc_fn = iommufd_hw_pagetable_alloc;
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  319  		break;
-56bfc2cb8d8125 Nicolin Chen    2023-08-02  320  	case IOMMUFD_OBJ_HW_PAGETABLE:
-56bfc2cb8d8125 Nicolin Chen    2023-08-02  321  		/*
-56bfc2cb8d8125 Nicolin Chen    2023-08-02  322  		 * No user-managed HWPT on top of an user-managed one,
-56bfc2cb8d8125 Nicolin Chen    2023-08-02  323  		 * parent should be allocated with NEST_PARENT flag.
-56bfc2cb8d8125 Nicolin Chen    2023-08-02  324  		 */
-56bfc2cb8d8125 Nicolin Chen    2023-08-02 @325  		if (parent->user_managed || !parent->nest_parent) {
-                                                                    ^^^^^^^^                ^^^^^^^^^^
-parent is uninitialized.
+>> sound/soc/fsl/fsl-asoc-card.c:57: warning: Function parameter or member 'mclk' not described in 'codec_priv'
 
 
+vim +57 sound/soc/fsl/fsl-asoc-card.c
+
+708b4351f08c08 Nicolin Chen         2014-07-30  41  
+708b4351f08c08 Nicolin Chen         2014-07-30  42  /**
+31deacffcdba10 Pierre-Louis Bossart 2020-07-02  43   * struct codec_priv - CODEC private data
+708b4351f08c08 Nicolin Chen         2014-07-30  44   * @mclk_freq: Clock rate of MCLK
+efd0b1660829a9 Shengjiu Wang        2021-03-17  45   * @free_freq: Clock rate of MCLK for hw_free()
+708b4351f08c08 Nicolin Chen         2014-07-30  46   * @mclk_id: MCLK (or main clock) id for set_sysclk()
+708b4351f08c08 Nicolin Chen         2014-07-30  47   * @fll_id: FLL (or secordary clock) id for set_sysclk()
+708b4351f08c08 Nicolin Chen         2014-07-30  48   * @pll_id: PLL id for set_pll()
+708b4351f08c08 Nicolin Chen         2014-07-30  49   */
+708b4351f08c08 Nicolin Chen         2014-07-30  50  struct codec_priv {
+1075df4bdeb320 Hui Wang             2022-06-16  51  	struct clk *mclk;
+708b4351f08c08 Nicolin Chen         2014-07-30  52  	unsigned long mclk_freq;
+efd0b1660829a9 Shengjiu Wang        2021-03-17  53  	unsigned long free_freq;
+708b4351f08c08 Nicolin Chen         2014-07-30  54  	u32 mclk_id;
+708b4351f08c08 Nicolin Chen         2014-07-30  55  	u32 fll_id;
+708b4351f08c08 Nicolin Chen         2014-07-30  56  	u32 pll_id;
+708b4351f08c08 Nicolin Chen         2014-07-30 @57  };
+708b4351f08c08 Nicolin Chen         2014-07-30  58  
+
+:::::: The code at line 57 was first introduced by commit
+:::::: 708b4351f08c08ea93f773fb9197bdd3f3b08273 ASoC: fsl: Add Freescale Generic ASoC Sound Card with ASRC support
+
+:::::: TO: Nicolin Chen <nicoleotsuka@gmail.com>
+:::::: CC: Mark Brown <broonie@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
