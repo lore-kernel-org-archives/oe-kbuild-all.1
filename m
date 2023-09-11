@@ -1,68 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0A83C27
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 07:54:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970D2AD29
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 08:06:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694418891; x=1725954891;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Rw+1GpQVF2iqb5KxEMblRebBygcxvlmM9MdvNnizhls=;
-  b=LxN7B/hYVjQ3uFuU2BpgWBZvY9BNaSXEjRUTdaL+KSk59gDfkE2/5ziK
-   ShpC5TRGAPLftIctdc/ezFqkJ24XnaoMlXU5fIeKjBmMmImcO03XoNQJa
-   sFfaVbMyL6lwxzsR3vabyTGO4B6iYvZvliRBZFw4D057MXWMVvEAOmuqy
-   UNRf1i/B2Pvwv9UjOvs7MWyvMd/6i+gfwGqbvfGj2nrEhIKuq/AKShPnl
-   fd81/g/bqxlnGug86DcRiqeGfFTIN8ZaQ58/pF0ieIK6CrxAIaI/11cfq
-   kHQrhDXPnklpozpW1yJOPnQNDn3xiJ9vcQqSTmalrn+VgrxWlyzNxbMLN
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="444436816"
+  t=1694419609; x=1725955609;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3wPOvDXNZgnYg3KjVVMt2nxChFcGqUawfx5C6RjstXo=;
+  b=A+vI/TdeErQvlr5s0NAg4fUAmTe2tmEBhQCSU6zQq9hOwh5NhXUqDkt1
+   a6BrZtqF5ImZ/aiOevHE0sLlt6AxMC3HDuAITYOklf6mTp1OxSXtr8yzN
+   sPcawhbyC/q1g1XjsUcOaqi9gFs5KP9oaeI7ogzOMuhq15Hw7Nmt5wlB7
+   4scjnGfKJcXgt3Dw2S5Hn41ibPPv4nEKLPz0QElt3VMmJ9idHPC9sVEAt
+   tmS3cArv0SUNvWqyf2lljGW4ylmw7CDQkzpzqsu6hN6fY2aLsy5WGiUNI
+   eCZT0/TnicH9VrQCS1/v5kapQYJ26cbfsaDdCq/t/AJ5NAxZtDOPV3FdV
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="444438882"
 X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
-   d="scan'208";a="444436816"
+   d="scan'208";a="444438882"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 00:54:50 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 01:06:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="693003165"
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="693005179"
 X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
-   d="scan'208";a="693003165"
+   d="scan'208";a="693005179"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 11 Sep 2023 00:54:44 -0700
+  by orsmga003.jf.intel.com with ESMTP; 11 Sep 2023 01:06:47 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfbkn-0005xL-2S;
-	Mon, 11 Sep 2023 07:54:41 +0000
-Date: Mon, 11 Sep 2023 15:54:38 +0800
+	id 1qfbwS-0005ya-2w;
+	Mon, 11 Sep 2023 08:06:44 +0000
+Date: Mon, 11 Sep 2023 16:05:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linyu Yuan <quic_linyyuan@quicinc.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Peter Chen <peter.chen@kernel.org>,
-	Pawel Laszczak <pawell@cadence.com>,
-	Roger Quadros <rogerq@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Chunfeng Yun <chunfeng.yun@mediatek.com>,
-	Neal Liu <neal_liu@aspeedtech.com>,
-	Cristian Birsan <cristian.birsan@microchip.com>,
-	Bin Liu <b-liu@ti.com>, Kevin Cernekee <cernekee@gmail.com>,
-	Justin Chen <justin.chen@broadcom.com>,
-	Al Cooper <alcooperx@gmail.com>, Li Yang <leoyang.li@nxp.com>,
-	Vladimir Zapolskiy <vz@mleia.com>, Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Herve Codina <herve.codina@bootlin.com>,
-	hierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Michal Simek <monstr@monstr.eu>,
-	Rui Miguel Silva <rui.silva@linaro.org>,
-	Valentina Manea <valentina.manea.m@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Hongren Zheng <i@zenithal.me>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	Linyu Yuan <quic_linyyuan@quicinc.com>
-Subject: Re: [PATCH 04/11] usb: udc: assign epnum for each usb endpoint
-Message-ID: <202309111507.a1IUZf1O-lkp@intel.com>
-References: <20230911042843.2711-5-quic_linyyuan@quicinc.com>
+To: Zhipeng Gong <zhipeng.gong@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
+	"He, Min" <min.he@intel.com>, Zhao Yakui <yakui.zhao@intel.com>
+Subject: [intel-lts:4.19/android_t 3688/30000]
+ drivers/gpu/drm/i915/i915_gem_gtt.c:1022:39: sparse: sparse: incorrect type
+ in argument 2 (different address spaces)
+Message-ID: <202309111607.xTACvWyv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,97 +47,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230911042843.2711-5-quic_linyyuan@quicinc.com>
 
-Hi Linyu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus tegra/for-next linus/master v6.6-rc1 next-20230911]
-[cannot apply to xilinx-xlnx/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Linyu-Yuan/usb-gadget-add-anonymous-definition-in-struct-usb_gadget/20230911-123307
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230911042843.2711-5-quic_linyyuan%40quicinc.com
-patch subject: [PATCH 04/11] usb: udc: assign epnum for each usb endpoint
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230911/202309111507.a1IUZf1O-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230911/202309111507.a1IUZf1O-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
+head:   247bc655e03e4ac3632b21081ca56b813a644dcf
+commit: f1964915364c169131ec07afef206ecaa773843b [3688/30000] drm/i915/gvt: notify ppgtt update through g2v
+config: x86_64-randconfig-121-20230910 (https://download.01.org/0day-ci/archive/20230911/202309111607.xTACvWyv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230911/202309111607.xTACvWyv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309111507.a1IUZf1O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309111607.xTACvWyv-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/i915/i915_gem_gtt.c:1022:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned long long * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1022:39: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1022:39: sparse:     got unsigned long long *
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1023:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned long long * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1023:37: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1023:37: sparse:     got unsigned long long *
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1024:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned long long * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1024:38: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1024:38: sparse:     got unsigned long long *
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1271:55: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned long long * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1271:55: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1271:55: sparse:     got unsigned long long *
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1272:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned long long * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1272:50: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1272:50: sparse:     got unsigned long long *
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1273:49: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned long long * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1273:49: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1273:49: sparse:     got unsigned long long *
+>> drivers/gpu/drm/i915/i915_gem_gtt.c:1274:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned int * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1274:46: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1274:46: sparse:     got unsigned int *
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1549:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned long long * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1549:39: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1549:39: sparse:     got unsigned long long *
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1550:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned long long * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1550:37: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1550:37: sparse:     got unsigned long long *
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1551:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned long long * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1551:38: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1551:38: sparse:     got unsigned long long *
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: cleanup_scratch_page()+0x3e: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: bdw_private_pat_update_hw()+0xb9: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: pot_hole()+0xf9: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: __shrink_hole()+0x8d: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: drunk_hole()+0x15c: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: igt_ggtt_page()+0x690: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: lowlevel_hole()+0x194: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: pd_vma_unbind()+0xa9: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: gen8_ppgtt_insert_huge_entries()+0x773: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: gen8_ppgtt_insert_4lvl()+0x638: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: vm_alloc_page.constprop.0()+0x412: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: gen8_ppgtt_alloc_pdp()+0x301: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: gen8_ppgtt_clear_4lvl()+0x220: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: gen8_ppgtt_alloc_4lvl()+0x289: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: gen8_ppgtt_cleanup()+0x72: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: gen8_ppgtt_create()+0x1ba: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: igt_gtt_reserve()+0x9f6: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: intel_sanitize_enable_ppgtt()+0xf0: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: i915_ppgtt_create()+0xd0: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: i915_ppgtt_release()+0x9f: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: igt_ppgtt_alloc()+0x2ce: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: i915_gem_gtt_finish_pages()+0xa0: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: i915_gem_init_ggtt()+0xcf: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: igt_gtt_insert()+0x737: sibling call from callable instruction with modified stack frame
 
-   drivers/usb/gadget/udc/tegra-xudc.c: In function 'tegra_xudc_alloc_ep':
->> drivers/usb/gadget/udc/tegra-xudc.c:3176:19: error: 'struct tegra_xudc_ep' has no member named 'ep'
-    3176 |                 ep->ep.epnum = index / 2;
-         |                   ^~
-   drivers/usb/gadget/udc/tegra-xudc.c:3190:19: error: 'struct tegra_xudc_ep' has no member named 'ep'
-    3190 |                 ep->ep.epnum = 0;
-         |                   ^~
+vim +1022 drivers/gpu/drm/i915/i915_gem_gtt.c
 
-
-vim +3176 drivers/usb/gadget/udc/tegra-xudc.c
-
-  3150	
-  3151	static int tegra_xudc_alloc_ep(struct tegra_xudc *xudc, unsigned int index)
-  3152	{
-  3153		struct tegra_xudc_ep *ep = &xudc->ep[index];
-  3154	
-  3155		ep->xudc = xudc;
-  3156		ep->index = index;
-  3157		ep->context = &xudc->ep_context[index];
-  3158		INIT_LIST_HEAD(&ep->queue);
-  3159	
-  3160		/*
-  3161		 * EP1 would be the input endpoint corresponding to EP0, but since
-  3162		 * EP0 is bi-directional, EP1 is unused.
-  3163		 */
-  3164		if (index == 1)
-  3165			return 0;
-  3166	
-  3167		ep->transfer_ring = dma_pool_alloc(xudc->transfer_ring_pool,
-  3168						   GFP_KERNEL,
-  3169						   &ep->transfer_ring_phys);
-  3170		if (!ep->transfer_ring)
-  3171			return -ENOMEM;
-  3172	
-  3173		if (index) {
-  3174			snprintf(ep->name, sizeof(ep->name), "ep%u%s", index / 2,
-  3175				 (index % 2 == 0) ? "out" : "in");
-> 3176			ep->ep.epnum = index / 2;
-  3177			ep->usb_ep.name = ep->name;
-  3178			usb_ep_set_maxpacket_limit(&ep->usb_ep, 1024);
-  3179			ep->usb_ep.max_streams = 16;
-  3180			ep->usb_ep.ops = &tegra_xudc_ep_ops;
-  3181			ep->usb_ep.caps.type_bulk = true;
-  3182			ep->usb_ep.caps.type_int = true;
-  3183			if (index & 1)
-  3184				ep->usb_ep.caps.dir_in = true;
-  3185			else
-  3186				ep->usb_ep.caps.dir_out = true;
-  3187			list_add_tail(&ep->usb_ep.ep_list, &xudc->gadget.ep_list);
-  3188		} else {
-  3189			strscpy(ep->name, "ep0", 3);
-  3190			ep->ep.epnum = 0;
-  3191			ep->usb_ep.name = ep->name;
-  3192			usb_ep_set_maxpacket_limit(&ep->usb_ep, 512);
-  3193			ep->usb_ep.ops = &tegra_xudc_ep0_ops;
-  3194			ep->usb_ep.caps.type_control = true;
-  3195			ep->usb_ep.caps.dir_in = true;
-  3196			ep->usb_ep.caps.dir_out = true;
-  3197		}
-  3198	
-  3199		return 0;
-  3200	}
-  3201	
+   989	
+   990	/* Removes entries from a single pml4.
+   991	 * This is the top-level structure in 4-level page tables used on gen8+.
+   992	 * Empty entries are always scratch pml4e.
+   993	 */
+   994	static void gen8_ppgtt_clear_4lvl(struct i915_address_space *vm,
+   995					  u64 start, u64 length)
+   996	{
+   997		struct i915_hw_ppgtt *ppgtt = i915_vm_to_ppgtt(vm);
+   998		struct i915_pml4 *pml4 = &ppgtt->pml4;
+   999		struct i915_page_directory_pointer *pdp;
+  1000		unsigned int pml4e;
+  1001		u64 orig_start = start;
+  1002		u64 orig_length = length;
+  1003	
+  1004		GEM_BUG_ON(!use_4lvl(vm));
+  1005	
+  1006		gen8_for_each_pml4e(pdp, pml4, start, length, pml4e) {
+  1007			GEM_BUG_ON(pdp == vm->scratch_pdp);
+  1008	
+  1009			if (!gen8_ppgtt_clear_pdp(vm, pdp, start, length))
+  1010				continue;
+  1011	
+  1012			gen8_ppgtt_set_pml4e(pml4, vm->scratch_pdp, pml4e);
+  1013	
+  1014			free_pdp(vm, pdp);
+  1015		}
+  1016	
+  1017		if (PVMMIO_LEVEL(vm->i915, PVMMIO_PPGTT_UPDATE)) {
+  1018			struct drm_i915_private *dev_priv = vm->i915;
+  1019			struct pv_ppgtt_update *pv_ppgtt =
+  1020						&dev_priv->shared_page->pv_ppgtt;
+  1021	
+> 1022			writeq(px_dma(pml4), &pv_ppgtt->pdp);
+  1023			writeq(orig_start, &pv_ppgtt->start);
+  1024			writeq(orig_length, &pv_ppgtt->length);
+  1025			I915_WRITE(vgtif_reg(g2v_notify), VGT_G2V_PPGTT_L4_CLEAR);
+  1026		}
+  1027	}
+  1028	
 
 -- 
 0-DAY CI Kernel Test Service
