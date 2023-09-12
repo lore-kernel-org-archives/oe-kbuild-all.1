@@ -1,42 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D3C8A959
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 20:56:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6EABB64C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 21:06:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694552197; x=1726088197;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OXPzaPgkhoRYGGIT8WhoXADv2BFgMbsW5N7wSX1ttgg=;
-  b=NAVs3tNTCaTTPfsNwJyVkDFqlvRreUxwcOYwpSQQSmSI49ZR2AvHITce
-   /HBWyS+FFgQYkZI4Attm6DVwMzfQ8Gcah4DZ32Qyoi3ioqidN3s7/XhWk
-   L+O9IaB4Sv7UXPAu0lAd2OLCDzKojkwnE+hIvx3b3wpAGZIKf8A/4A6Sa
-   htmYamBUetw/4mciLGt7CN6QTgDc/R7Tie1qFLE9PioKNTSCQo0mqafpr
-   l7+juI5XNYteAvrOm4YhkahGqmwUFkvNhObctQJ2yB37RFY8u7zbDbya+
-   qiz5zwOj80KVbjBzeL8QUWK3Ts/NeQZh3Kb7UY8KoA0usp0oqoh27NC/C
+  t=1694552799; x=1726088799;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cw22/moUFtf9A0iJvuGutCWN5elSyS3g5jzGF4nmW7I=;
+  b=L3J+j1SavbaY/wSTUPZtu6ygdMZ4W+2ytownUHLLnJmKJmOY00QedMT7
+   Bd6bGEQpJ8ePfz2T/xar3PAgFRDNgp6MBJaBl/KeY1fhr5xKUyUO9S8TF
+   hl+JI7af+miVxEboWofJg0PYS3o1rVFKhCTPSnbKcTQ3PnsUBG4nTYFzH
+   Lj5eqxmpQRzqy1kLOld47Ru5hysYCPpvSgB7ZFgAJhLu7CcHz/+7//1DO
+   EPV17WaSJYqycyJliCBj+KI4/bMUMIpAdwBPCtX8JRu7FdjNhZuKL4NG5
+   x7SFn8/MFRa8zVC1AwiQxn4y/iBHd8T+lZMb+6SZMnx7zMZnE2gROBuEx
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="368757576"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="378401566"
 X-IronPort-AV: E=Sophos;i="6.02,141,1688454000"; 
-   d="scan'208";a="368757576"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 13:56:36 -0700
+   d="scan'208";a="378401566"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 14:06:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="887079187"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="773181987"
 X-IronPort-AV: E=Sophos;i="6.02,141,1688454000"; 
-   d="scan'208";a="887079187"
+   d="scan'208";a="773181987"
 Received: from lkp-server02.sh.intel.com (HELO 47e905db7d2b) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 12 Sep 2023 13:56:07 -0700
+  by orsmga008.jf.intel.com with ESMTP; 12 Sep 2023 14:06:36 -0700
 Received: from kbuild by 47e905db7d2b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgAQz-0000G3-1Q;
-	Tue, 12 Sep 2023 20:56:33 +0000
-Date: Wed, 13 Sep 2023 04:55:33 +0800
+	id 1qgAag-0000H7-0i;
+	Tue, 12 Sep 2023 21:06:34 +0000
+Date: Wed, 13 Sep 2023 05:05:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
+To: Kairui Song <ryncsn@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:serial 6/74] include/linux/serial_core.h:616:9: sparse:
- sparse: incompatible types in comparison expression (different base types):
-Message-ID: <202309130428.4HhHGJl2-lkp@intel.com>
+Subject: Re: [RFC PATCH v2 1/5] workingset: simplify and use a more intuitive
+ model
+Message-ID: <202309130414.AExd7FVY-lkp@intel.com>
+References: <20230912184511.49333-2-ryncsn@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,116 +47,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230912184511.49333-2-ryncsn@gmail.com>
 
-Hi Thomas,
+Hi Kairui,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git serial
-head:   75adfb6dc779d7c86a2e31b3ca6b266b8a8ef854
-commit: 5022835b8285ab19d4c175f00091977c2a40c5f7 [6/74] serial: 8250: Use port lock wrappers
-config: x86_64-randconfig-121-20230912 (https://download.01.org/0day-ci/archive/20230913/202309130428.4HhHGJl2-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309130428.4HhHGJl2-lkp@intel.com/reproduce)
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.6-rc1]
+[cannot apply to akpm-mm/mm-everything next-20230912]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kairui-Song/workingset-simplify-and-use-a-more-intuitive-model/20230913-024648
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230912184511.49333-2-ryncsn%40gmail.com
+patch subject: [RFC PATCH v2 1/5] workingset: simplify and use a more intuitive model
+config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20230913/202309130414.AExd7FVY-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309130414.AExd7FVY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309130428.4HhHGJl2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309130414.AExd7FVY-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/tty/serial/8250/8250_core.c: note: in included file (through include/linux/serial_8250.h):
->> include/linux/serial_core.h:616:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> include/linux/serial_core.h:616:9: sparse:    unsigned long *
->> include/linux/serial_core.h:616:9: sparse:    unsigned long **
->> include/linux/serial_core.h:616:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> include/linux/serial_core.h:616:9: sparse:    unsigned long *
->> include/linux/serial_core.h:616:9: sparse:    unsigned long **
->> include/linux/serial_core.h:616:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> include/linux/serial_core.h:616:9: sparse:    unsigned long *
->> include/linux/serial_core.h:616:9: sparse:    unsigned long **
---
-   drivers/tty/serial/8250/8250_port.c: note: in included file (through include/linux/serial_8250.h):
->> include/linux/serial_core.h:616:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> include/linux/serial_core.h:616:9: sparse:    unsigned long *
->> include/linux/serial_core.h:616:9: sparse:    unsigned long **
->> include/linux/serial_core.h:616:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> include/linux/serial_core.h:616:9: sparse:    unsigned long *
->> include/linux/serial_core.h:616:9: sparse:    unsigned long **
->> include/linux/serial_core.h:616:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> include/linux/serial_core.h:616:9: sparse:    unsigned long *
->> include/linux/serial_core.h:616:9: sparse:    unsigned long **
->> include/linux/serial_core.h:616:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> include/linux/serial_core.h:616:9: sparse:    unsigned long *
->> include/linux/serial_core.h:616:9: sparse:    unsigned long **
->> include/linux/serial_core.h:616:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> include/linux/serial_core.h:616:9: sparse:    unsigned long *
->> include/linux/serial_core.h:616:9: sparse:    unsigned long **
->> include/linux/serial_core.h:616:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> include/linux/serial_core.h:616:9: sparse:    unsigned long *
->> include/linux/serial_core.h:616:9: sparse:    unsigned long **
->> include/linux/serial_core.h:616:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> include/linux/serial_core.h:616:9: sparse:    unsigned long *
->> include/linux/serial_core.h:616:9: sparse:    unsigned long **
->> include/linux/serial_core.h:616:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> include/linux/serial_core.h:616:9: sparse:    unsigned long *
->> include/linux/serial_core.h:616:9: sparse:    unsigned long **
->> include/linux/serial_core.h:616:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> include/linux/serial_core.h:616:9: sparse:    unsigned long *
->> include/linux/serial_core.h:616:9: sparse:    unsigned long **
->> include/linux/serial_core.h:616:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> include/linux/serial_core.h:616:9: sparse:    unsigned long *
->> include/linux/serial_core.h:616:9: sparse:    unsigned long **
->> include/linux/serial_core.h:616:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> include/linux/serial_core.h:616:9: sparse:    unsigned long *
->> include/linux/serial_core.h:616:9: sparse:    unsigned long **
->> include/linux/serial_core.h:616:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> include/linux/serial_core.h:616:9: sparse:    unsigned long *
->> include/linux/serial_core.h:616:9: sparse:    unsigned long **
->> include/linux/serial_core.h:616:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> include/linux/serial_core.h:616:9: sparse:    unsigned long *
->> include/linux/serial_core.h:616:9: sparse:    unsigned long **
->> include/linux/serial_core.h:616:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> include/linux/serial_core.h:616:9: sparse:    unsigned long *
->> include/linux/serial_core.h:616:9: sparse:    unsigned long **
->> include/linux/serial_core.h:616:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> include/linux/serial_core.h:616:9: sparse:    unsigned long *
->> include/linux/serial_core.h:616:9: sparse:    unsigned long **
-   include/linux/serial_core.h:639:16: sparse: sparse: incompatible types in comparison expression (different base types):
-   include/linux/serial_core.h:639:16: sparse:    unsigned long *
-   include/linux/serial_core.h:639:16: sparse:    unsigned long **
-   include/linux/serial_core.h:639:16: sparse: sparse: incompatible types in comparison expression (different base types):
-   include/linux/serial_core.h:639:16: sparse:    unsigned long *
-   include/linux/serial_core.h:639:16: sparse:    unsigned long **
-   include/linux/serial_core.h:639:16: sparse: sparse: incompatible types in comparison expression (different base types):
-   include/linux/serial_core.h:639:16: sparse:    unsigned long *
-   include/linux/serial_core.h:639:16: sparse:    unsigned long **
-   include/linux/serial_core.h:639:16: sparse: sparse: incompatible types in comparison expression (different base types):
-   include/linux/serial_core.h:639:16: sparse:    unsigned long *
-   include/linux/serial_core.h:639:16: sparse:    unsigned long **
->> include/linux/serial_core.h:616:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> include/linux/serial_core.h:616:9: sparse:    unsigned long *
->> include/linux/serial_core.h:616:9: sparse:    unsigned long **
+All warnings (new ones prefixed by >>):
 
-vim +616 include/linux/serial_core.h
+   mm/workingset.c: In function 'lru_refault':
+>> mm/workingset.c:253:43: warning: unused variable 'inactive' [-Wunused-variable]
+     253 |         unsigned long workingset, active, inactive, inactive_file, inactive_anon = 0;
+         |                                           ^~~~~~~~
+>> mm/workingset.c:253:23: warning: unused variable 'workingset' [-Wunused-variable]
+     253 |         unsigned long workingset, active, inactive, inactive_file, inactive_anon = 0;
+         |                       ^~~~~~~~~~
 
-7887baec9d8546 Thomas Gleixner 2023-09-08  608  
-7887baec9d8546 Thomas Gleixner 2023-09-08  609  /**
-7887baec9d8546 Thomas Gleixner 2023-09-08  610   * uart_port_lock_irqsave - Lock the UART port, save and disable interrupts
-7887baec9d8546 Thomas Gleixner 2023-09-08  611   * @up:		Pointer to UART port structure
-7887baec9d8546 Thomas Gleixner 2023-09-08  612   * @flags:	Pointer to interrupt flags storage
-7887baec9d8546 Thomas Gleixner 2023-09-08  613   */
-7887baec9d8546 Thomas Gleixner 2023-09-08  614  static inline void uart_port_lock_irqsave(struct uart_port *up, unsigned long *flags)
-7887baec9d8546 Thomas Gleixner 2023-09-08  615  {
-7887baec9d8546 Thomas Gleixner 2023-09-08 @616  	spin_lock_irqsave(&up->lock, flags);
-7887baec9d8546 Thomas Gleixner 2023-09-08  617  }
-7887baec9d8546 Thomas Gleixner 2023-09-08  618  
 
-:::::: The code at line 616 was first introduced by commit
-:::::: 7887baec9d85468ea43d70b614fc3f51f7206793 serial: core: Provide port lock wrappers
+vim +/inactive +253 mm/workingset.c
 
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+   243	
+   244	/*
+   245	 * Calculate and test refault distance
+   246	 */
+   247	static inline bool lru_refault(struct mem_cgroup *memcg,
+   248				       struct lruvec *lruvec,
+   249				       unsigned long eviction, bool file,
+   250				       int bits, int bucket_order)
+   251	{
+   252		unsigned long refault, distance;
+ > 253		unsigned long workingset, active, inactive, inactive_file, inactive_anon = 0;
+   254	
+   255		eviction <<= bucket_order;
+   256		refault = atomic_long_read(&lruvec->nonresident_age);
+   257	
+   258		/*
+   259		 * The unsigned subtraction here gives an accurate distance
+   260		 * across nonresident_age overflows in most cases. There is a
+   261		 * special case: usually, shadow entries have a short lifetime
+   262		 * and are either refaulted or reclaimed along with the inode
+   263		 * before they get too old.  But it is not impossible for the
+   264		 * nonresident_age to lap a shadow entry in the field, which
+   265		 * can then result in a false small refault distance, leading
+   266		 * to a false activation should this old entry actually
+   267		 * refault again.  However, earlier kernels used to deactivate
+   268		 * unconditionally with *every* reclaim invocation for the
+   269		 * longest time, so the occasional inappropriate activation
+   270		 * leading to pressure on the active list is not a problem.
+   271		 */
+   272		distance = (refault - eviction) & (~0UL >> (BITS_PER_LONG - bits));
+   273	
+   274		active = lruvec_page_state(lruvec, NR_ACTIVE_FILE);
+   275		inactive_file = lruvec_page_state(lruvec, NR_INACTIVE_FILE);
+   276		if (mem_cgroup_get_nr_swap_pages(memcg) > 0) {
+   277			active += lruvec_page_state(lruvec, NR_ACTIVE_ANON);
+   278			inactive_anon = lruvec_page_state(lruvec, NR_INACTIVE_ANON);
+   279		}
+   280	
+   281		/*
+   282		 * Compare the distance to the existing workingset size. We
+   283		 * don't activate pages that couldn't stay resident even if
+   284		 * all the memory was available to the workingset. Whether
+   285		 * workingset competition needs to consider anon or not depends
+   286		 * on having free swap space.
+   287		 *
+   288		 * When there are already enough active pages, be less aggressive
+   289		 * on reactivating pages, challenge an already established set of
+   290		 * active pages with one time refaulted page may not be a good idea.
+   291		 */
+   292		if (active >= (inactive_anon + inactive_file))
+   293			return distance < inactive_anon + inactive_file;
+   294		else
+   295			return distance < active + (file ? inactive_anon : inactive_file);
+   296	}
+   297	
 
 -- 
 0-DAY CI Kernel Test Service
