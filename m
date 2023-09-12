@@ -1,43 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E06EAD49
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 16:20:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C82FAD49
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 16:22:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694535649; x=1726071649;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+6V9tbTIKJFpIFptoQTGqmYoPMAIGmpA8RmsR6fD+BY=;
-  b=i4d+b3d/bfVKWDlEhaUzVLsS4SlvZajnbsRPTqkrfE+nqADZzp9bsPl3
-   2zvKTEf2rBJq7S/m3xvZo4o9t25+j+qXs49pMYAZpmDq6AtQyUqoT5g9R
-   Ie1T64WYKy3EFvI9qG9byWpFR+bwrM5OOPOJlRlN2pJLHABV1LM2cDyDv
-   dlk22S52gRAqU7NJlp77mAIVXOXI0WaXGuQ26cBwlE3wyM/IZ9fvh2rcl
-   pyqadEeKs/17euAy9TlWsfF7g454eoHr1c161WUdhvWDHs1EQ1a9DjfCN
-   x3MHVNMi4FuxmVv8WwAhJ96iAX2X+XXyw2YjvozYP+2jhD3XXtYmhWRmh
+  t=1694535749; x=1726071749;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mwK32jgEcjiMlJxPxk0G0xYgI3vfMvfC8fyaTAmOUkQ=;
+  b=FbICvCuT6rWXkNFmbOT6bKR54TE6/J8reqQRAQuiiWu6a9ZzIQl+5GJq
+   syyTjB6ijYqxTjXLJmVGx7cw+fWcQ8feMcl1MBDlN5XFu4nzLAHqQtZyI
+   Mmx7UOSvQambhrycrpm2IuZg+77e76QyF0ipWikCcwbPDdwKelwSVQ4pZ
+   E7I+10uSFxz597Yh+RrlumcPNE+yiQxx12Novsbzr6dMDgDka2s+YTlvw
+   oxXWM1c9T0VnU4cQOFsEPgnke5mphHZNoSHBbOY7KxiFCo+mQGBTwdNXs
+   DjhW7I/CYWzPNTyXAb64dycHStldsjgSMD4vxJtl/KAtcVfK0WcFPWljk
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="357858873"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="358702302"
 X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="357858873"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 09:20:48 -0700
+   d="scan'208";a="358702302"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 09:19:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="737173359"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="867435721"
 X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="737173359"
+   d="scan'208";a="867435721"
 Received: from lkp-server02.sh.intel.com (HELO 0a6943a0b3e1) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 12 Sep 2023 09:20:46 -0700
+  by orsmga004.jf.intel.com with ESMTP; 12 Sep 2023 09:19:49 -0700
 Received: from kbuild by 0a6943a0b3e1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qg680-0000EA-0v;
-	Tue, 12 Sep 2023 16:20:41 +0000
-Date: Wed, 13 Sep 2023 00:11:22 +0800
+	id 1qg665-0000DX-0V;
+	Tue, 12 Sep 2023 16:18:58 +0000
+Date: Wed, 13 Sep 2023 00:11:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:serial 5/74]
- arch/arc/include/asm/irqflags-compact.h:87:9: warning: 'flags' is used
- uninitialized
-Message-ID: <202309130042.a5NKTfI3-lkp@intel.com>
+To: "guojinhui.liam" <guojinhui.liam@bytedance.com>, rafael@kernel.org,
+	lenb@kernel.org, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, lizefan.x@bytedance.com,
+	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	"guojinhui.liam" <guojinhui.liam@bytedance.com>
+Subject: Re: [PATCH] driver core: platform: set numa_node before
+ platform_add_device()
+Message-ID: <202309122309.mbxAnAIe-lkp@intel.com>
+References: <20230912070900.1862-1-guojinhui.liam@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,150 +50,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230912070900.1862-1-guojinhui.liam@bytedance.com>
 
-Hi Thomas,
+Hi guojinhui.liam,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git serial
-head:   75adfb6dc779d7c86a2e31b3ca6b266b8a8ef854
-commit: 4a28d2af5e30aa4598ff584be8a3bf9131592820 [5/74] serial: 8250_bcm7271: Use port lock wrappers
-config: arc-randconfig-r013-20230912 (https://download.01.org/0day-ci/archive/20230913/202309130042.a5NKTfI3-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309130042.a5NKTfI3-lkp@intel.com/reproduce)
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc1 next-20230912]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/guojinhui-liam/driver-core-platform-set-numa_node-before-platform_add_device/20230912-151119
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230912070900.1862-1-guojinhui.liam%40bytedance.com
+patch subject: [PATCH] driver core: platform: set numa_node before platform_add_device()
+config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230912/202309122309.mbxAnAIe-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309122309.mbxAnAIe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309130042.a5NKTfI3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309122309.mbxAnAIe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-                    from include/linux/bitops.h:68:
-   include/linux/irqflags.h:179:23: warning: assignment to 'long unsigned int *' from 'long int' makes pointer from integer without a cast [-Wint-conversion]
-     179 |                 flags = arch_local_irq_save();          \
-         |                       ^
-   include/linux/irqflags.h:245:38: note: in expansion of macro 'raw_local_irq_save'
-     245 | #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while (0)
-         |                                      ^~~~~~~~~~~~~~~~~~
-   include/linux/spinlock_api_up.h:40:8: note: in expansion of macro 'local_irq_save'
-      40 |   do { local_irq_save(flags); __LOCK(lock); } while (0)
-         |        ^~~~~~~~~~~~~~
-   include/linux/spinlock_api_up.h:69:49: note: in expansion of macro '__LOCK_IRQSAVE'
-      69 | #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, flags)
-         |                                                 ^~~~~~~~~~~~~~
-   include/linux/spinlock.h:266:17: note: in expansion of macro '_raw_spin_lock_irqsave'
-     266 |                 _raw_spin_lock_irqsave(lock, flags);    \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:381:9: note: in expansion of macro 'raw_spin_lock_irqsave'
-     381 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/serial_core.h:616:9: note: in expansion of macro 'spin_lock_irqsave'
-     616 |         spin_lock_irqsave(&up->lock, flags);
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/serial_core.h: In function 'uart_port_trylock_irqsave':
-   include/linux/typecheck.h:12:25: warning: comparison of distinct pointer types lacks a cast
-      12 |         (void)(&__dummy == &__dummy2); \
-         |                         ^~
-   include/linux/irqflags.h:178:17: note: in expansion of macro 'typecheck'
-     178 |                 typecheck(unsigned long, flags);        \
-         |                 ^~~~~~~~~
-   include/linux/irqflags.h:245:38: note: in expansion of macro 'raw_local_irq_save'
-     245 | #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while (0)
-         |                                      ^~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:298:9: note: in expansion of macro 'local_irq_save'
-     298 |         local_irq_save(flags); \
-         |         ^~~~~~~~~~~~~~
-   include/linux/spinlock.h:421:9: note: in expansion of macro 'raw_spin_trylock_irqsave'
-     421 |         raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/serial_core.h:639:16: note: in expansion of macro 'spin_trylock_irqsave'
-     639 |         return spin_trylock_irqsave(&up->lock, flags);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:179:23: warning: assignment to 'long unsigned int *' from 'long int' makes pointer from integer without a cast [-Wint-conversion]
-     179 |                 flags = arch_local_irq_save();          \
-         |                       ^
-   include/linux/irqflags.h:245:38: note: in expansion of macro 'raw_local_irq_save'
-     245 | #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while (0)
-         |                                      ^~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:298:9: note: in expansion of macro 'local_irq_save'
-     298 |         local_irq_save(flags); \
-         |         ^~~~~~~~~~~~~~
-   include/linux/spinlock.h:421:9: note: in expansion of macro 'raw_spin_trylock_irqsave'
-     421 |         raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/serial_core.h:639:16: note: in expansion of macro 'spin_trylock_irqsave'
-     639 |         return spin_trylock_irqsave(&up->lock, flags);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   include/linux/typecheck.h:12:25: warning: comparison of distinct pointer types lacks a cast
-      12 |         (void)(&__dummy == &__dummy2); \
-         |                         ^~
-   include/linux/irqflags.h:183:17: note: in expansion of macro 'typecheck'
-     183 |                 typecheck(unsigned long, flags);        \
-         |                 ^~~~~~~~~
-   include/linux/irqflags.h:246:39: note: in expansion of macro 'raw_local_irq_restore'
-     246 | #define local_irq_restore(flags) do { raw_local_irq_restore(flags); } while (0)
-         |                                       ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:300:16: note: in expansion of macro 'local_irq_restore'
-     300 |         1 : ({ local_irq_restore(flags); 0; }); \
-         |                ^~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:421:9: note: in expansion of macro 'raw_spin_trylock_irqsave'
-     421 |         raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/serial_core.h:639:16: note: in expansion of macro 'spin_trylock_irqsave'
-     639 |         return spin_trylock_irqsave(&up->lock, flags);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   include/linux/serial_core.h:639:48: warning: passing argument 1 of 'arch_local_irq_restore' makes integer from pointer without a cast [-Wint-conversion]
-     639 |         return spin_trylock_irqsave(&up->lock, flags);
-         |                                                ^~~~~
-         |                                                |
-         |                                                long unsigned int *
-   include/linux/irqflags.h:185:40: note: in definition of macro 'raw_local_irq_restore'
-     185 |                 arch_local_irq_restore(flags);          \
-         |                                        ^~~~~
-   include/linux/spinlock.h:300:16: note: in expansion of macro 'local_irq_restore'
-     300 |         1 : ({ local_irq_restore(flags); 0; }); \
-         |                ^~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:421:9: note: in expansion of macro 'raw_spin_trylock_irqsave'
-     421 |         raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/serial_core.h:639:16: note: in expansion of macro 'spin_trylock_irqsave'
-     639 |         return spin_trylock_irqsave(&up->lock, flags);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   In file included from arch/arc/include/asm/irqflags.h:11,
-                    from include/linux/irqflags.h:17:
-   arch/arc/include/asm/irqflags-compact.h:84:57: note: expected 'long unsigned int' but argument is of type 'long unsigned int *'
-      84 | static inline void arch_local_irq_restore(unsigned long flags)
-         |                                           ~~~~~~~~~~~~~~^~~~~
-   In function 'arch_local_irq_restore',
-       inlined from 'spin_unlock_irqrestore' at include/linux/spinlock.h:406:2,
-       inlined from 'uart_port_unlock_irqrestore' at include/linux/serial_core.h:667:2,
-       inlined from 'brcmuart_shutdown' at drivers/tty/serial/8250/8250_bcm7271.c:648:2:
->> arch/arc/include/asm/irqflags-compact.h:87:9: warning: 'flags' is used uninitialized [-Wuninitialized]
-      87 |         __asm__ __volatile__(
-         |         ^~~~~~~
-   drivers/tty/serial/8250/8250_bcm7271.c: In function 'brcmuart_shutdown':
-   drivers/tty/serial/8250/8250_bcm7271.c:630:23: note: 'flags' was declared here
-     630 |         unsigned long flags;
-         |                       ^~~~~
+   drivers/base/platform.c: In function 'platform_device_register_full':
+>> drivers/base/platform.c:846:42: error: implicit declaration of function 'acpi_get_node'; did you mean 'acpi_get_name'? [-Werror=implicit-function-declaration]
+     846 |                 set_dev_node(&pdev->dev, acpi_get_node(adev->handle));
+         |                                          ^~~~~~~~~~~~~
+         |                                          acpi_get_name
+>> drivers/base/platform.c:846:60: error: invalid use of undefined type 'struct acpi_device'
+     846 |                 set_dev_node(&pdev->dev, acpi_get_node(adev->handle));
+         |                                                            ^~
+   cc1: some warnings being treated as errors
 
 
-vim +/flags +87 arch/arc/include/asm/irqflags-compact.h
+vim +846 drivers/base/platform.c
 
-5793e273a13433 Vineet Gupta 2015-03-05  86  
-5793e273a13433 Vineet Gupta 2015-03-05 @87  	__asm__ __volatile__(
-5793e273a13433 Vineet Gupta 2015-03-05  88  	"	flag %0			\n"
-5793e273a13433 Vineet Gupta 2015-03-05  89  	:
-5793e273a13433 Vineet Gupta 2015-03-05  90  	: "r"(flags)
-5793e273a13433 Vineet Gupta 2015-03-05  91  	: "memory");
-5793e273a13433 Vineet Gupta 2015-03-05  92  }
-5793e273a13433 Vineet Gupta 2015-03-05  93  
-
-:::::: The code at line 87 was first introduced by commit
-:::::: 5793e273a134331d05ed904e5be3b31ccfca54c1 ARC: intc: split into ARCompact ISA specific, common bits
-
-:::::: TO: Vineet Gupta <vgupta@synopsys.com>
-:::::: CC: Vineet Gupta <vgupta@synopsys.com>
+   797	
+   798	/**
+   799	 * platform_device_register_full - add a platform-level device with
+   800	 * resources and platform-specific data
+   801	 *
+   802	 * @pdevinfo: data used to create device
+   803	 *
+   804	 * Returns &struct platform_device pointer on success, or ERR_PTR() on error.
+   805	 */
+   806	struct platform_device *platform_device_register_full(
+   807			const struct platform_device_info *pdevinfo)
+   808	{
+   809		int ret;
+   810		struct platform_device *pdev;
+   811		struct acpi_device *adev = to_acpi_device_node(pdevinfo->fwnode);
+   812	
+   813		pdev = platform_device_alloc(pdevinfo->name, pdevinfo->id);
+   814		if (!pdev)
+   815			return ERR_PTR(-ENOMEM);
+   816	
+   817		pdev->dev.parent = pdevinfo->parent;
+   818		pdev->dev.fwnode = pdevinfo->fwnode;
+   819		pdev->dev.of_node = of_node_get(to_of_node(pdev->dev.fwnode));
+   820		pdev->dev.of_node_reused = pdevinfo->of_node_reused;
+   821	
+   822		if (pdevinfo->dma_mask) {
+   823			pdev->platform_dma_mask = pdevinfo->dma_mask;
+   824			pdev->dev.dma_mask = &pdev->platform_dma_mask;
+   825			pdev->dev.coherent_dma_mask = pdevinfo->dma_mask;
+   826		}
+   827	
+   828		ret = platform_device_add_resources(pdev,
+   829				pdevinfo->res, pdevinfo->num_res);
+   830		if (ret)
+   831			goto err;
+   832	
+   833		ret = platform_device_add_data(pdev,
+   834				pdevinfo->data, pdevinfo->size_data);
+   835		if (ret)
+   836			goto err;
+   837	
+   838		if (pdevinfo->properties) {
+   839			ret = device_create_managed_software_node(&pdev->dev,
+   840								  pdevinfo->properties, NULL);
+   841			if (ret)
+   842				goto err;
+   843		}
+   844	
+   845		if (adev)
+ > 846			set_dev_node(&pdev->dev, acpi_get_node(adev->handle));
+   847	
+   848		ret = platform_device_add(pdev);
+   849		if (ret) {
+   850	err:
+   851			ACPI_COMPANION_SET(&pdev->dev, NULL);
+   852			platform_device_put(pdev);
+   853			return ERR_PTR(ret);
+   854		}
+   855	
+   856		return pdev;
+   857	}
+   858	EXPORT_SYMBOL_GPL(platform_device_register_full);
+   859	
 
 -- 
 0-DAY CI Kernel Test Service
