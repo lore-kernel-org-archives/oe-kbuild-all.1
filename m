@@ -1,47 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5047A5C;
-	Tue, 12 Sep 2023 18:29:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6929D944C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 18:41:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694543356; x=1726079356;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=noUppIXGLhBknpgZjyW5ncBj42qBUVhQH0TGLAaHDes=;
-  b=nagji18/0WqakhTm9m/GpTJOPCc8fyanY2N+ByEdKAaXN04QhbJt0IhU
-   un6ktaYnmhlhHp7ABTc4wvDG5CMaIDfkywhXuNxzGeVnHJpEFksD5hCPd
-   MzeCzoSZ85pI4aIyYxQIeq0OhnQwHYIZzEcX/ivbNpCn3/7b+eJuSRtvh
-   QEEKUeKv1R2GObkfzaMTCKNAQI/rKsuRp5qgPcR4AoReeBiZOtP5iChxz
-   PM37KZcB9mmuyaF0Xpx5Icfa631rieQqiedVbe8w35J8j5S/Koj/2qDlp
-   pwGA9e5LySd+ai7qPDIdXnDK2rcVFpjPi1nk8WO922FOUCqP7lGlNX0YO
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="375788255"
+  t=1694544082; x=1726080082;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rj0SE3CciN0z4kfrezXr0AOEMO+hADJyWx1mFzQixto=;
+  b=bY1IMxPEtmMUJRFQDNHPHdBVAxGJz7GPQvyOderPBdPvGUprzDbafsEh
+   V2VnlskeuASYbPNqThZvAuqF9VgnO7tIJ7zB9blDG4dnkg8Z0F7yRSsQU
+   nxq7FV7u5/KxI4NTR5nr2Ojq1uclsyl91JLK/NuX83VRLADDRV9S1F2mH
+   KjfvcRnf/k/xchBVgSZFhyTVr4kTUAsQjFo0Y1KhvHrbg86QmTUX+jWO3
+   TEOmi/sXpWZvhJtx9nei44e0M1qoLW6ZxR3MQVDHZTmWQ2kUXlmx+7tJ/
+   sTx3fVot0fbzAAejbF1VLtEGQ2n2BavsY7OY/GmmNe2gfsrhHfWkRFwIT
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="382270974"
 X-IronPort-AV: E=Sophos;i="6.02,141,1688454000"; 
-   d="scan'208";a="375788255"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 11:29:15 -0700
+   d="scan'208";a="382270974"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 11:41:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="693590601"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="720516087"
 X-IronPort-AV: E=Sophos;i="6.02,141,1688454000"; 
-   d="scan'208";a="693590601"
+   d="scan'208";a="720516087"
 Received: from lkp-server02.sh.intel.com (HELO 47e905db7d2b) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 12 Sep 2023 11:29:12 -0700
+  by orsmga006.jf.intel.com with ESMTP; 12 Sep 2023 11:41:12 -0700
 Received: from kbuild by 47e905db7d2b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qg88M-000077-0N;
-	Tue, 12 Sep 2023 18:29:10 +0000
-Date: Wed, 13 Sep 2023 02:28:23 +0800
+	id 1qg8Jy-00007v-2O;
+	Tue, 12 Sep 2023 18:41:10 +0000
+Date: Wed, 13 Sep 2023 02:40:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jia He <justin.he@arm.com>, Christoph Hellwig <hch@lst.de>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jia He <justin.he@arm.com>
-Subject: Re: [PATCH] dma-mapping: fix dma_addressing_limited if dma_range_map
- is scanned
-Message-ID: <202309130234.COIfUg9W-lkp@intel.com>
-References: <20230912084002.2168-1-justin.he@arm.com>
+To: Kai Huang <kai.huang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Isaku Yamahata <isaku.yamahata@intel.com>
+Subject: [intel-tdx:kvm-upstream-next 52/321] arch/x86/hyperv/ivm.c:388:18:
+ error: 'struct tdx_hypercall_args' has no member named 'r10'
+Message-ID: <202309130245.pyp4qyT6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,389 +46,167 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230912084002.2168-1-justin.he@arm.com>
 
-Hi Jia,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.6-rc1 next-20230912]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jia-He/dma-mapping-fix-dma_addressing_limited-if-dma_range_map-is-scanned/20230912-164126
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230912084002.2168-1-justin.he%40arm.com
-patch subject: [PATCH] dma-mapping: fix dma_addressing_limited if dma_range_map is scanned
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20230913/202309130234.COIfUg9W-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309130234.COIfUg9W-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/tdx.git kvm-upstream-next
+head:   f6388449e0300e7413c7e2ea4875923875ddb340
+commit: 0e818a85fca5bd4f4a9311dc5dfd250bfe9b88d9 [52/321] x86/tdx: Remove 'struct tdx_hypercall_args'
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230913/202309130245.pyp4qyT6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309130245.pyp4qyT6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309130234.COIfUg9W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309130245.pyp4qyT6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from init/main.c:21:
-   In file included from include/linux/syscalls.h:90:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:9:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from init/main.c:21:
-   In file included from include/linux/syscalls.h:90:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:9:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from init/main.c:21:
-   In file included from include/linux/syscalls.h:90:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:9:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   In file included from init/main.c:102:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
->> include/linux/dma-mapping.h:483:10: error: implicit declaration of function 'all_ram_in_dma_range_map' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           return !all_ram_in_dma_range_map(dev);
-                   ^
-   12 warnings and 1 error generated.
---
-   In file included from arch/um/os-Linux/drivers/ethertap_kern.c:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from arch/um/os-Linux/drivers/ethertap_kern.c:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from arch/um/os-Linux/drivers/ethertap_kern.c:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   In file included from arch/um/os-Linux/drivers/ethertap_kern.c:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
->> include/linux/dma-mapping.h:483:10: error: implicit declaration of function 'all_ram_in_dma_range_map' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           return !all_ram_in_dma_range_map(dev);
-                   ^
-   arch/um/os-Linux/drivers/ethertap_kern.c:66:5: warning: no previous prototype for function 'ethertap_setup' [-Wmissing-prototypes]
-   int ethertap_setup(char *str, char **mac_out, void *data)
-       ^
-   arch/um/os-Linux/drivers/ethertap_kern.c:66:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int ethertap_setup(char *str, char **mac_out, void *data)
-   ^
-   static 
-   13 warnings and 1 error generated.
---
-   In file included from arch/um/os-Linux/drivers/tuntap_kern.c:6:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from arch/um/os-Linux/drivers/tuntap_kern.c:6:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from arch/um/os-Linux/drivers/tuntap_kern.c:6:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   In file included from arch/um/os-Linux/drivers/tuntap_kern.c:6:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
->> include/linux/dma-mapping.h:483:10: error: implicit declaration of function 'all_ram_in_dma_range_map' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           return !all_ram_in_dma_range_map(dev);
-                   ^
-   arch/um/os-Linux/drivers/tuntap_kern.c:56:5: warning: no previous prototype for function 'tuntap_setup' [-Wmissing-prototypes]
-   int tuntap_setup(char *str, char **mac_out, void *data)
-       ^
-   arch/um/os-Linux/drivers/tuntap_kern.c:56:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int tuntap_setup(char *str, char **mac_out, void *data)
-   ^
-   static 
-   13 warnings and 1 error generated.
---
-   In file included from net/ipv4/route.c:67:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/um/include/asm/dma.h:5:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from net/ipv4/route.c:67:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/um/include/asm/dma.h:5:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from net/ipv4/route.c:67:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/um/include/asm/dma.h:5:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   In file included from net/ipv4/route.c:71:
-   In file included from include/linux/inet.h:42:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
->> include/linux/dma-mapping.h:483:10: error: implicit declaration of function 'all_ram_in_dma_range_map' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           return !all_ram_in_dma_range_map(dev);
-                   ^
-   net/ipv4/route.c:880:6: warning: variable 'log_martians' set but not used [-Wunused-but-set-variable]
-           int log_martians;
-               ^
-   13 warnings and 1 error generated.
-..
+   arch/x86/hyperv/ivm.c: In function 'hv_tdx_msr_write':
+>> arch/x86/hyperv/ivm.c:387:16: error: variable 'args' has initializer but incomplete type
+     387 |         struct tdx_hypercall_args args = {
+         |                ^~~~~~~~~~~~~~~~~~
+>> arch/x86/hyperv/ivm.c:388:18: error: 'struct tdx_hypercall_args' has no member named 'r10'
+     388 |                 .r10 = TDX_HYPERCALL_STANDARD,
+         |                  ^~~
+   In file included from arch/x86/include/asm/tdx.h:11,
+                    from arch/x86/include/asm/kvm_para.h:10,
+                    from arch/x86/include/asm/hypervisor.h:37,
+                    from arch/x86/hyperv/ivm.c:19:
+   arch/x86/include/asm/shared/tdx.h:8:33: warning: excess elements in struct initializer
+       8 | #define TDX_HYPERCALL_STANDARD  0
+         |                                 ^
+   arch/x86/hyperv/ivm.c:388:24: note: in expansion of macro 'TDX_HYPERCALL_STANDARD'
+     388 |                 .r10 = TDX_HYPERCALL_STANDARD,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/shared/tdx.h:8:33: note: (near initialization for 'args')
+       8 | #define TDX_HYPERCALL_STANDARD  0
+         |                                 ^
+   arch/x86/hyperv/ivm.c:388:24: note: in expansion of macro 'TDX_HYPERCALL_STANDARD'
+     388 |                 .r10 = TDX_HYPERCALL_STANDARD,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/hyperv/ivm.c:389:18: error: 'struct tdx_hypercall_args' has no member named 'r11'
+     389 |                 .r11 = EXIT_REASON_MSR_WRITE,
+         |                  ^~~
+   In file included from arch/x86/hyperv/ivm.c:25:
+   arch/x86/include/uapi/asm/vmx.h:61:41: warning: excess elements in struct initializer
+      61 | #define EXIT_REASON_MSR_WRITE           32
+         |                                         ^~
+   arch/x86/hyperv/ivm.c:389:24: note: in expansion of macro 'EXIT_REASON_MSR_WRITE'
+     389 |                 .r11 = EXIT_REASON_MSR_WRITE,
+         |                        ^~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/uapi/asm/vmx.h:61:41: note: (near initialization for 'args')
+      61 | #define EXIT_REASON_MSR_WRITE           32
+         |                                         ^~
+   arch/x86/hyperv/ivm.c:389:24: note: in expansion of macro 'EXIT_REASON_MSR_WRITE'
+     389 |                 .r11 = EXIT_REASON_MSR_WRITE,
+         |                        ^~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/hyperv/ivm.c:390:18: error: 'struct tdx_hypercall_args' has no member named 'r12'
+     390 |                 .r12 = msr,
+         |                  ^~~
+   arch/x86/hyperv/ivm.c:390:24: warning: excess elements in struct initializer
+     390 |                 .r12 = msr,
+         |                        ^~~
+   arch/x86/hyperv/ivm.c:390:24: note: (near initialization for 'args')
+>> arch/x86/hyperv/ivm.c:391:18: error: 'struct tdx_hypercall_args' has no member named 'r13'
+     391 |                 .r13 = val,
+         |                  ^~~
+   arch/x86/hyperv/ivm.c:391:24: warning: excess elements in struct initializer
+     391 |                 .r13 = val,
+         |                        ^~~
+   arch/x86/hyperv/ivm.c:391:24: note: (near initialization for 'args')
+>> arch/x86/hyperv/ivm.c:387:35: error: storage size of 'args' isn't known
+     387 |         struct tdx_hypercall_args args = {
+         |                                   ^~~~
+   arch/x86/hyperv/ivm.c:387:35: warning: unused variable 'args' [-Wunused-variable]
+   arch/x86/hyperv/ivm.c: In function 'hv_tdx_msr_read':
+   arch/x86/hyperv/ivm.c:401:16: error: variable 'args' has initializer but incomplete type
+     401 |         struct tdx_hypercall_args args = {
+         |                ^~~~~~~~~~~~~~~~~~
+   arch/x86/hyperv/ivm.c:402:18: error: 'struct tdx_hypercall_args' has no member named 'r10'
+     402 |                 .r10 = TDX_HYPERCALL_STANDARD,
+         |                  ^~~
+   arch/x86/include/asm/shared/tdx.h:8:33: warning: excess elements in struct initializer
+       8 | #define TDX_HYPERCALL_STANDARD  0
+         |                                 ^
+   arch/x86/hyperv/ivm.c:402:24: note: in expansion of macro 'TDX_HYPERCALL_STANDARD'
+     402 |                 .r10 = TDX_HYPERCALL_STANDARD,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/shared/tdx.h:8:33: note: (near initialization for 'args')
+       8 | #define TDX_HYPERCALL_STANDARD  0
+         |                                 ^
+   arch/x86/hyperv/ivm.c:402:24: note: in expansion of macro 'TDX_HYPERCALL_STANDARD'
+     402 |                 .r10 = TDX_HYPERCALL_STANDARD,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/hyperv/ivm.c:403:18: error: 'struct tdx_hypercall_args' has no member named 'r11'
+     403 |                 .r11 = EXIT_REASON_MSR_READ,
+         |                  ^~~
+   arch/x86/include/uapi/asm/vmx.h:60:41: warning: excess elements in struct initializer
+      60 | #define EXIT_REASON_MSR_READ            31
+         |                                         ^~
+   arch/x86/hyperv/ivm.c:403:24: note: in expansion of macro 'EXIT_REASON_MSR_READ'
+     403 |                 .r11 = EXIT_REASON_MSR_READ,
+         |                        ^~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/uapi/asm/vmx.h:60:41: note: (near initialization for 'args')
+      60 | #define EXIT_REASON_MSR_READ            31
+         |                                         ^~
+   arch/x86/hyperv/ivm.c:403:24: note: in expansion of macro 'EXIT_REASON_MSR_READ'
+     403 |                 .r11 = EXIT_REASON_MSR_READ,
+         |                        ^~~~~~~~~~~~~~~~~~~~
+   arch/x86/hyperv/ivm.c:404:18: error: 'struct tdx_hypercall_args' has no member named 'r12'
+     404 |                 .r12 = msr,
+         |                  ^~~
+   arch/x86/hyperv/ivm.c:404:24: warning: excess elements in struct initializer
+     404 |                 .r12 = msr,
+         |                        ^~~
+   arch/x86/hyperv/ivm.c:404:24: note: (near initialization for 'args')
+   arch/x86/hyperv/ivm.c:401:35: error: storage size of 'args' isn't known
+     401 |         struct tdx_hypercall_args args = {
+         |                                   ^~~~
+   arch/x86/hyperv/ivm.c:407:19: error: implicit declaration of function '__tdx_hypercall_ret'; did you mean '__tdx_hypercall'? [-Werror=implicit-function-declaration]
+     407 |         u64 ret = __tdx_hypercall_ret(&args);
+         |                   ^~~~~~~~~~~~~~~~~~~
+         |                   __tdx_hypercall
+   arch/x86/hyperv/ivm.c:401:35: warning: unused variable 'args' [-Wunused-variable]
+     401 |         struct tdx_hypercall_args args = {
+         |                                   ^~~~
+   arch/x86/hyperv/ivm.c: In function 'hv_tdx_hypercall':
+   arch/x86/hyperv/ivm.c:417:16: error: variable 'args' has initializer but incomplete type
+     417 |         struct tdx_hypercall_args args = { };
+         |                ^~~~~~~~~~~~~~~~~~
+   arch/x86/hyperv/ivm.c:417:35: error: storage size of 'args' isn't known
+     417 |         struct tdx_hypercall_args args = { };
+         |                                   ^~~~
+   arch/x86/hyperv/ivm.c:417:35: warning: unused variable 'args' [-Wunused-variable]
+   arch/x86/hyperv/ivm.c:426:1: error: control reaches end of non-void function [-Werror=return-type]
+     426 | }
+         | ^
+   cc1: some warnings being treated as errors
 
 
-vim +/all_ram_in_dma_range_map +483 include/linux/dma-mapping.h
+vim +388 arch/x86/hyperv/ivm.c
 
-   468	
-   469	/**
-   470	 * dma_addressing_limited - return if the device is addressing limited
-   471	 * @dev:	device to check
-   472	 *
-   473	 * Return %true if the devices DMA mask is too small to address all memory in
-   474	 * the system, else %false.  Lack of addressing bits is the prime reason for
-   475	 * bounce buffering, but might not be the only one.
-   476	 */
-   477	static inline bool dma_addressing_limited(struct device *dev)
-   478	{
-   479		if (min_not_zero(dma_get_mask(dev), dev->bus_dma_limit) <
-   480							dma_get_required_mask(dev))
-   481			return true;
-   482	
- > 483		return !all_ram_in_dma_range_map(dev);
-   484	}
-   485	
+d3a9d7e49d1531 Dexuan Cui 2023-08-24  383  
+b9b4fe3a72b60c Dexuan Cui 2023-08-24  384  #ifdef CONFIG_INTEL_TDX_GUEST
+b9b4fe3a72b60c Dexuan Cui 2023-08-24  385  static void hv_tdx_msr_write(u64 msr, u64 val)
+b9b4fe3a72b60c Dexuan Cui 2023-08-24  386  {
+b9b4fe3a72b60c Dexuan Cui 2023-08-24 @387  	struct tdx_hypercall_args args = {
+b9b4fe3a72b60c Dexuan Cui 2023-08-24 @388  		.r10 = TDX_HYPERCALL_STANDARD,
+b9b4fe3a72b60c Dexuan Cui 2023-08-24 @389  		.r11 = EXIT_REASON_MSR_WRITE,
+b9b4fe3a72b60c Dexuan Cui 2023-08-24 @390  		.r12 = msr,
+b9b4fe3a72b60c Dexuan Cui 2023-08-24 @391  		.r13 = val,
+b9b4fe3a72b60c Dexuan Cui 2023-08-24  392  	};
+b9b4fe3a72b60c Dexuan Cui 2023-08-24  393  
+b9b4fe3a72b60c Dexuan Cui 2023-08-24  394  	u64 ret = __tdx_hypercall(&args);
+b9b4fe3a72b60c Dexuan Cui 2023-08-24  395  
+b9b4fe3a72b60c Dexuan Cui 2023-08-24  396  	WARN_ONCE(ret, "Failed to emulate MSR write: %lld\n", ret);
+b9b4fe3a72b60c Dexuan Cui 2023-08-24  397  }
+b9b4fe3a72b60c Dexuan Cui 2023-08-24  398  
+
+:::::: The code at line 388 was first introduced by commit
+:::::: b9b4fe3a72b60c8d74a9ffb61aa778f04eaddd87 x86/hyperv: Use TDX GHCI to access some MSRs in a TDX VM with the paravisor
+
+:::::: TO: Dexuan Cui <decui@microsoft.com>
+:::::: CC: Wei Liu <wei.liu@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
