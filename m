@@ -1,43 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD05D8F59
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 03:06:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011E017C4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 03:39:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694487973; x=1726023973;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RQt/Xq0uUaq9HjioPhTOJdOIq/LtL0LF6d0y9ZcdtKE=;
-  b=kITsfHjz+55VkImXarDfTUPgl36dtqJDywHtZwUa9TL8kJPwLDDl9Ag1
-   fOZD096xuadMHF90j2gJWA10F1AB+AYRM7GgSniksnGtUFyuclmK4F6KF
-   wtXZ+4gosRhS6NtYhNzR2mrHMUiVwytBQSVfNFUEehtI+hJuyo9zq56GD
-   jm9IipP6/Rsh2qu+lfnVxLQYIUww+xfHEg/FJVZuXgSqx1CMad/MCJ02m
-   WmkInPm5K9M6cQzVbx+yLTBRYsc+ZgL/sK/9x06ZViFv3GFoAMNwAj5yB
-   sox7LaCdTUWRVvTxpAkWdOaydPiF++375a/APrz1CrPyZqDFaLHX/4m+k
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="357698312"
+  t=1694489957; x=1726025957;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=asEFt1CVdBW9xqV/fumhs3gNiT+YkcjnqaRb6Cad6Is=;
+  b=FMEtYlIpS9vDdCYD5eKCtqIsc4kQT7tVZb8miAnVLE6u/qEPenE/zlCX
+   rmj+uEoOQF8GURg23CaO5R4GxdeDdVpSztOFVIb9gFxGb1Y1NUYH4/fMW
+   xbfJdj+8AZuRHsEJ5fO5OG21RsLRiR4BhEVa1zLFtfgMm3ZVY0YmnfBz6
+   Qcy6tdRqVErdvWI9JYGRvKwDnOIu99s+nIkUCZ5pXqLJxI/PJOMriB20h
+   33edzix7S/9a6DfR3W8uuAp6NyR7sCrvCZaC+mAd552GBtRB4c/KETK2R
+   le7dQ6DdHRyJpygdJBl4UQndVdHnzov2w3U8zUx9RZVToJUrsllHOQxR3
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="377182552"
 X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; 
-   d="scan'208";a="357698312"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 20:06:13 -0700
+   d="scan'208";a="377182552"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 20:39:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="746699813"
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="833743280"
 X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; 
-   d="scan'208";a="746699813"
+   d="scan'208";a="833743280"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 11 Sep 2023 20:06:11 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 11 Sep 2023 20:39:14 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qftj7-0007Bp-1e;
-	Tue, 12 Sep 2023 03:06:09 +0000
-Date: Tue, 12 Sep 2023 11:06:02 +0800
+	id 1qfuF6-0007Fa-1t;
+	Tue, 12 Sep 2023 03:39:12 +0000
+Date: Tue, 12 Sep 2023 11:38:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <frank.li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>
-Subject: drivers/pci/endpoint/functions/pci-epf-vntb.c:559:21: sparse:
- sparse: incorrect type in assignment (different address spaces)
-Message-ID: <202309121102.XRIDbaLp-lkp@intel.com>
+To: Aryan Srivastava <aryan.srivastava@alliedtelesis.co.nz>,
+	andi.shyti@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, aryan.srivastava@alliedtelesis.co.nz,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] THUNDERX_I2C_BLOCK_MODE
+Message-ID: <202309121146.BqM4z7k7-lkp@intel.com>
+References: <20230912002706.2393450-1-aryan.srivastava@alliedtelesis.co.nz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,106 +48,144 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230912002706.2393450-1-aryan.srivastava@alliedtelesis.co.nz>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-commit: 01dcec6d57ce62d535b2016fc4a617627fff506d PCI: endpoint: pci-epf-vntb: Fix sparse build warning for epf_db
-date:   10 months ago
-config: i386-randconfig-063-20230912 (https://download.01.org/0day-ci/archive/20230912/202309121102.XRIDbaLp-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309121102.XRIDbaLp-lkp@intel.com/reproduce)
+Hi Aryan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on wsa/i2c/for-next]
+[also build test WARNING on linus/master v6.6-rc1 next-20230911]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aryan-Srivastava/THUNDERX_I2C_BLOCK_MODE/20230912-084721
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
+patch link:    https://lore.kernel.org/r/20230912002706.2393450-1-aryan.srivastava%40alliedtelesis.co.nz
+patch subject: [PATCH] THUNDERX_I2C_BLOCK_MODE
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230912/202309121146.BqM4z7k7-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309121146.BqM4z7k7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309121102.XRIDbaLp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309121146.BqM4z7k7-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:553:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *mw_addr @@     got void * @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:553:17: sparse:     expected void [noderef] __iomem *mw_addr
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:553:17: sparse:     got void *
->> drivers/pci/endpoint/functions/pci-epf-vntb.c:559:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned int [usertype] *epf_db @@     got void [noderef] __iomem *mw_addr @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:559:21: sparse:     expected unsigned int [usertype] *epf_db
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:559:21: sparse:     got void [noderef] __iomem *mw_addr
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:571:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem *mw_addr @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:571:38: sparse:     expected void *addr
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:571:38: sparse:     got void [noderef] __iomem *mw_addr
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1124:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1124:33: sparse:     expected void [noderef] __iomem *base
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1124:33: sparse:     got struct epf_ntb_ctrl *reg
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1135:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1135:33: sparse:     expected void [noderef] __iomem *base
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1135:33: sparse:     got struct epf_ntb_ctrl *reg
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1146:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1146:33: sparse:     expected void [noderef] __iomem *base
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1146:33: sparse:     got struct epf_ntb_ctrl *reg
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1158:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1158:33: sparse:     expected void [noderef] __iomem *base
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1158:33: sparse:     got struct epf_ntb_ctrl *reg
+All warnings (new ones prefixed by >>):
 
-vim +559 drivers/pci/endpoint/functions/pci-epf-vntb.c
+>> drivers/i2c/busses/i2c-octeon-core.c:632: warning: Function parameter or member 'i2c' not described in 'octeon_i2c_hlc_block_comp_read'
+>> drivers/i2c/busses/i2c-octeon-core.c:632: warning: Function parameter or member 'msgs' not described in 'octeon_i2c_hlc_block_comp_read'
+>> drivers/i2c/busses/i2c-octeon-core.c:632: warning: expecting prototype for high(). Prototype was for octeon_i2c_hlc_block_comp_read() instead
+>> drivers/i2c/busses/i2c-octeon-core.c:673: warning: Function parameter or member 'i2c' not described in 'octeon_i2c_hlc_block_comp_write'
+>> drivers/i2c/busses/i2c-octeon-core.c:673: warning: Function parameter or member 'msgs' not described in 'octeon_i2c_hlc_block_comp_write'
+>> drivers/i2c/busses/i2c-octeon-core.c:673: warning: expecting prototype for high(). Prototype was for octeon_i2c_hlc_block_comp_write() instead
 
-e35f56bb03304a Frank Li 2022-02-22  520  
-e35f56bb03304a Frank Li 2022-02-22  521  /**
-e35f56bb03304a Frank Li 2022-02-22  522   * epf_ntb_db_bar_init() - Configure Doorbell window BARs
-9298804840457c Frank Li 2022-11-02  523   * @ntb: NTB device that facilitates communication between HOST and VHOST
-9298804840457c Frank Li 2022-11-02  524   *
-9298804840457c Frank Li 2022-11-02  525   * Returns: Zero for success, or an error code in case of failure
-e35f56bb03304a Frank Li 2022-02-22  526   */
-e35f56bb03304a Frank Li 2022-02-22  527  static int epf_ntb_db_bar_init(struct epf_ntb *ntb)
-e35f56bb03304a Frank Li 2022-02-22  528  {
-e35f56bb03304a Frank Li 2022-02-22  529  	const struct pci_epc_features *epc_features;
-e35f56bb03304a Frank Li 2022-02-22  530  	u32 align;
-e35f56bb03304a Frank Li 2022-02-22  531  	struct device *dev = &ntb->epf->dev;
-e35f56bb03304a Frank Li 2022-02-22  532  	int ret;
-e35f56bb03304a Frank Li 2022-02-22  533  	struct pci_epf_bar *epf_bar;
-e35f56bb03304a Frank Li 2022-02-22  534  	void __iomem *mw_addr;
-e35f56bb03304a Frank Li 2022-02-22  535  	enum pci_barno barno;
-2b35c886556a24 Frank Li 2022-11-02  536  	size_t size = sizeof(u32) * ntb->db_count;
-e35f56bb03304a Frank Li 2022-02-22  537  
-e35f56bb03304a Frank Li 2022-02-22  538  	epc_features = pci_epc_get_features(ntb->epf->epc,
-e35f56bb03304a Frank Li 2022-02-22  539  					    ntb->epf->func_no,
-e35f56bb03304a Frank Li 2022-02-22  540  					    ntb->epf->vfunc_no);
-e35f56bb03304a Frank Li 2022-02-22  541  	align = epc_features->align;
-e35f56bb03304a Frank Li 2022-02-22  542  
-e35f56bb03304a Frank Li 2022-02-22  543  	if (size < 128)
-e35f56bb03304a Frank Li 2022-02-22  544  		size = 128;
-e35f56bb03304a Frank Li 2022-02-22  545  
-e35f56bb03304a Frank Li 2022-02-22  546  	if (align)
-e35f56bb03304a Frank Li 2022-02-22  547  		size = ALIGN(size, align);
-e35f56bb03304a Frank Li 2022-02-22  548  	else
-e35f56bb03304a Frank Li 2022-02-22  549  		size = roundup_pow_of_two(size);
-e35f56bb03304a Frank Li 2022-02-22  550  
-e35f56bb03304a Frank Li 2022-02-22  551  	barno = ntb->epf_ntb_bar[BAR_DB];
-e35f56bb03304a Frank Li 2022-02-22  552  
-e35f56bb03304a Frank Li 2022-02-22  553  	mw_addr = pci_epf_alloc_space(ntb->epf, size, barno, align, 0);
-e35f56bb03304a Frank Li 2022-02-22  554  	if (!mw_addr) {
-e35f56bb03304a Frank Li 2022-02-22  555  		dev_err(dev, "Failed to allocate OB address\n");
-e35f56bb03304a Frank Li 2022-02-22  556  		return -ENOMEM;
-e35f56bb03304a Frank Li 2022-02-22  557  	}
-e35f56bb03304a Frank Li 2022-02-22  558  
-e35f56bb03304a Frank Li 2022-02-22 @559  	ntb->epf_db = mw_addr;
-e35f56bb03304a Frank Li 2022-02-22  560  
-e35f56bb03304a Frank Li 2022-02-22  561  	epf_bar = &ntb->epf->bar[barno];
-e35f56bb03304a Frank Li 2022-02-22  562  
-e35f56bb03304a Frank Li 2022-02-22  563  	ret = pci_epc_set_bar(ntb->epf->epc, ntb->epf->func_no, ntb->epf->vfunc_no, epf_bar);
-e35f56bb03304a Frank Li 2022-02-22  564  	if (ret) {
-e35f56bb03304a Frank Li 2022-02-22  565  		dev_err(dev, "Doorbell BAR set failed\n");
-e35f56bb03304a Frank Li 2022-02-22  566  			goto err_alloc_peer_mem;
-e35f56bb03304a Frank Li 2022-02-22  567  	}
-e35f56bb03304a Frank Li 2022-02-22  568  	return ret;
-e35f56bb03304a Frank Li 2022-02-22  569  
-e35f56bb03304a Frank Li 2022-02-22  570  err_alloc_peer_mem:
-0c031262d2ddfb Frank Li 2022-11-02  571  	pci_epf_free_space(ntb->epf, mw_addr, barno, 0);
-e35f56bb03304a Frank Li 2022-02-22  572  	return -1;
-e35f56bb03304a Frank Li 2022-02-22  573  }
-e35f56bb03304a Frank Li 2022-02-22  574  
 
-:::::: The code at line 559 was first introduced by commit
-:::::: e35f56bb03304abc92c928b641af41ca372966bb PCI: endpoint: Support NTB transfer between RC and EP
+vim +632 drivers/i2c/busses/i2c-octeon-core.c
 
-:::::: TO: Frank Li <Frank.Li@nxp.com>
-:::::: CC: Jon Mason <jdmason@kudzu.us>
+   626	
+   627	/**
+   628	 * high-level-controller composite block write+read, msg0=addr, msg1=data
+   629	 * Used in the case where the i2c xfer is for greater than 8 bytes of read data.
+   630	 */
+   631	static int octeon_i2c_hlc_block_comp_read(struct octeon_i2c *i2c, struct i2c_msg *msgs)
+ > 632	{
+   633		int len, ret = 0;
+   634		u64 cmd = 0;
+   635	
+   636		octeon_i2c_hlc_enable(i2c);
+   637		octeon_i2c_block_enable(i2c);
+   638	
+   639		/* Write (size - 1) into block control register */
+   640		len = msgs[1].len - 1;
+   641		octeon_i2c_writeq_flush((u64)(len), i2c->twsi_base + TWSI_BLOCK_CTL(i2c));
+   642	
+   643		/* Prepare core command */
+   644		cmd = SW_TWSI_V | SW_TWSI_R | SW_TWSI_SOVR;
+   645		cmd |= (u64)(msgs[0].addr & 0x7full) << SW_TWSI_ADDR_SHIFT;
+   646	
+   647		/* Send core command */
+   648		ret = octeon_i2c_hlc_cmd(i2c, msgs[0], cmd);
+   649		if (ret)
+   650			return ret;
+   651	
+   652		cmd = __raw_readq(i2c->twsi_base + SW_TWSI(i2c));
+   653		if ((cmd & SW_TWSI_R) == 0)
+   654			return octeon_i2c_check_status(i2c, false);
+   655	
+   656		/* read data in FIFO */
+   657		octeon_i2c_writeq_flush(TWSI_BLOCK_STS_RESET_PTR, i2c->twsi_base + TWSI_BLOCK_STS(i2c));
+   658		for (int i = 0; i < len; i += 8) {
+   659			u64 rd = __raw_readq(i2c->twsi_base + TWSI_BLOCK_FIFO(i2c));
+   660			for (int j = 7; j >= 0; j--)
+   661				msgs[1].buf[i + (7 - j)] = (rd >> (8 * j)) & 0xff;
+   662		}
+   663	
+   664		octeon_i2c_block_disable(i2c);
+   665		return ret;
+   666	}
+   667	
+   668	/**
+   669	 * high-level-controller composite block write+write, m[0]len<=2, m[1]len<=1024
+   670	 * Used in the case where the i2c xfer is for greater than 8 bytes of write data.
+   671	 */
+   672	static int octeon_i2c_hlc_block_comp_write(struct octeon_i2c *i2c, struct i2c_msg *msgs)
+ > 673	{
+   674		bool set_ext = false;
+   675		int i, j, len, ret = 0;
+   676		u64 cmd, ext = 0;
+   677	
+   678		octeon_i2c_hlc_enable(i2c);
+   679		octeon_i2c_block_enable(i2c);
+   680	
+   681		/* Write (size - 1) into block control register */
+   682		len = msgs[1].len - 1;
+   683		octeon_i2c_writeq_flush((u64)(len), i2c->twsi_base + TWSI_BLOCK_CTL(i2c));
+   684	
+   685		/* Prepare core command */
+   686		cmd = SW_TWSI_V | SW_TWSI_SOVR;
+   687		cmd |= (u64)(msgs[0].addr & 0x7full) << SW_TWSI_ADDR_SHIFT;
+   688	
+   689		if (msgs[0].flags & I2C_M_TEN)
+   690			cmd |= SW_TWSI_OP_10_IA;
+   691		else
+   692			cmd |= SW_TWSI_OP_7_IA;
+   693	
+   694		if (msgs[0].len == 2) {
+   695			cmd |= SW_TWSI_EIA;
+   696			ext |= (u64)msgs[0].buf[0] << SW_TWSI_IA_SHIFT;
+   697			set_ext = true;
+   698			cmd |= (u64)msgs[0].buf[1] << SW_TWSI_IA_SHIFT;
+   699		} else {
+   700			cmd |= (u64)msgs[0].buf[0] << SW_TWSI_IA_SHIFT;
+   701		}
+   702	
+   703		/* Write msg into FIFO buffer */
+   704		octeon_i2c_writeq_flush(TWSI_BLOCK_STS_RESET_PTR, i2c->twsi_base + TWSI_BLOCK_STS(i2c));
+   705		for (i = 0; i < len; i += 8) {
+   706			u64 buf = 0;
+   707			for (j = 7; j >= 0; j--)
+   708				buf |= (msgs[1].buf[i + (7 - j)] << (8 * j));
+   709			octeon_i2c_writeq_flush(buf, i2c->twsi_base + TWSI_BLOCK_FIFO(i2c));
+   710		}
+   711		if (set_ext)
+   712			octeon_i2c_writeq_flush(ext, i2c->twsi_base + SW_TWSI_EXT(i2c));
+   713	
+   714		/* Send command to core (send data in FIFO) */
+   715		ret = octeon_i2c_hlc_cmd_send(i2c, cmd);
+   716		if (ret)
+   717			return ret;
+   718	
+   719		cmd = __raw_readq(i2c->twsi_base + SW_TWSI(i2c));
+   720		if ((cmd & SW_TWSI_R) == 0)
+   721			return octeon_i2c_check_status(i2c, false);
+   722	
+   723		octeon_i2c_block_disable(i2c);
+   724		return ret;
+   725	}
+   726	
 
 -- 
 0-DAY CI Kernel Test Service
