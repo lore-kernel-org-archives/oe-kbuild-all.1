@@ -1,248 +1,411 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E15F18032
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 12:00:24 +0000 (UTC)
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3aa1c046659so4019255b6e.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 05:00:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694520024; x=1695124824; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bfx8qyKxeQqpt+NjmLCChFJkKXstxcEm0yVFNB6xs3M=;
-        b=HDz8AIYM+iqGu8dcGOWyzBlbw5qTIxwQu0Lc0Ujy+poJJEugOTY8A3nT1HnOLXRyz4
-         XXyeYkhAWegRDknNzz3kD1HfLwu2+42uEIDUoV54u1rO3ZY79FvlIIgWAZaYSqdDJVxl
-         WGHRchjGw2z0y1IUlv+3ZMPBUS3hETp6zST9osZpME09OCu+41n1jEQyc1qWO+GACFt8
-         7Ry3kPGgNzn3+lOlHMtgbXJie2z0lHP7uelJduvP/efojJnGeh/nmh2Yys+h+DG5TmXV
-         z4T+eggRFInsaBHjwWTUOAY9IRhnjVHCgRO9KUhLsiDYCCP8xVs2Qg0gjVhUYPCqmLGn
-         JMCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694520024; x=1695124824;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Bfx8qyKxeQqpt+NjmLCChFJkKXstxcEm0yVFNB6xs3M=;
-        b=uKrBqoH1ikpscBLhedIiEzR4jbyCk/+HXwlxi2MAH21HEqd/NmnMh+zG2sTNGbD8t/
-         Oz/Y45gFpBsogDLoweR12bLvY4hKJEhl+ms98MAyaT6KIk6jc5Av5uUg0AvAe4TX3dNw
-         9SmNuA8qsMiQTS1jV9nriOFjeI0Tx9uFRu8mpRiUPlnZu3t88u5sTp4yBTutbWCqMEOO
-         aSn4sqe8aECTEljbYFslD8dGSsfRKXKkNAbOcCMkcGJHw+2xsen4IU/jTa01zVgQ2G0u
-         fkbyOAPbAblrdzuFY/s71NEsP+KQQbjrrG0Jx2NcHoQ/TrusVCrayN4Suhq9HjlWXGwH
-         URew==
-X-Gm-Message-State: AOJu0Yx6/iDPLEGtvKMQAzD7ff23s9xu6mcwgs2m/hXUFr72aroOHYxm
-	KEWXkafl01xn/KVzK2NtwnEUDUDFqANK1dhLMHE=
-X-Google-Smtp-Source: AGHT+IFu915Ongf7qGoEx5uG6du+SHYbHAjqGAg+yP49LNsWS4aGUG+9ov+iK1LrZOQ+/4kcWO7JdRp0uCHJtdCPT8Q=
-X-Received: by 2002:a05:6808:14d5:b0:3a4:ccf:6a63 with SMTP id
- f21-20020a05680814d500b003a40ccf6a63mr15980885oiw.55.1694520024037; Tue, 12
- Sep 2023 05:00:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936AEBE4B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 12:23:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694521418; x=1726057418;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lvkhAfGZWBDM45VTx0se293N3QcLZ50oGAS4fiw0nUY=;
+  b=FBG3ulThr8wpyOx0Hjjkiv6hTTFTfYT+QcChbT3jo8aCkUXntORdshCV
+   ibGGSP6tFPfyaKUg3dDcb5KN18wZvDVSFtWNU196AFt3JhYQUiveTNYo/
+   4uGIabKVutVE+HkegZYK0h971ThfeSRSheygEDelJRsr1S2JbtJRtey2r
+   C8KpQv0UZnyonSyiQJpMi6vFDYTCoPahdfVc7RShJiS+sMoGUJXL0Dvd6
+   aiokY1ci4ctI9HMU4wzOWthTdynGpktjd92lw7+u+ggxGI3As9nguyoXo
+   hb02jPK8O76U3IrislIqjORScDS7Sy5x2FdXU2FL6nG8U3neCOyoMQ6zU
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="442372985"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
+   d="scan'208";a="442372985"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 05:23:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="743705755"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
+   d="scan'208";a="743705755"
+Received: from lkp-server02.sh.intel.com (HELO 1e56c5165d33) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 12 Sep 2023 05:23:36 -0700
+Received: from kbuild by 1e56c5165d33 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qg2QY-0000Lz-00;
+	Tue, 12 Sep 2023 12:23:34 +0000
+Date: Tue, 12 Sep 2023 20:23:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kent Overstreet <kmo@daterainc.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 1118/4552] fs/bcachefs/bcachefs_format.h:198:25:
+ warning: 'p' offset 3 in 'struct bkey' isn't aligned to 4
+Message-ID: <202309122047.cRi9yJrq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230906115928.3749928-1-alpic@google.com> <202309090600.NSyo7d2q-lkp@intel.com>
- <CAEjxPJ4GOq3E4zqXbEMKUxqewopyeU5nmUg89rL+P5YsuEBi7A@mail.gmail.com>
- <CAEjxPJ4uoqkwmbeOOmUHJwoKiK3cnfJP5P2w+hOXr4BZNtQ+JQ@mail.gmail.com> <CALcwBGBPaYh98d+3_3k8o+8WCbYU8cNPoOHaqhUduKZYz7Ntow@mail.gmail.com>
-In-Reply-To: <CALcwBGBPaYh98d+3_3k8o+8WCbYU8cNPoOHaqhUduKZYz7Ntow@mail.gmail.com>
-From: Stephen Smalley <stephen.smalley.work@gmail.com>
-Date: Tue, 12 Sep 2023 08:00:12 -0400
-Message-ID: <CAEjxPJ6gFh7h5MnEEqTL34_dVEoAmoGfqa01eeYHnOECjkYxBg@mail.gmail.com>
-Subject: Re: [PATCH V2] SELinux: Check correct permissions for FS_IOC32_*
-To: Alfred Piccioni <alpic@google.com>
-Cc: kernel test robot <lkp@intel.com>, Paul Moore <paul@paul-moore.com>, 
-	Eric Paris <eparis@parisplace.org>, oe-kbuild-all@lists.linux.dev, 
-	stable@vger.kernel.org, selinux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	LSM List <linux-security-module@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Sep 12, 2023 at 5:00=E2=80=AFAM Alfred Piccioni <alpic@google.com> =
-wrote:
->
-> On Mon, Sep 11, 2023 at 3:49=E2=80=AFPM Stephen Smalley
-> <stephen.smalley.work@gmail.com> wrote:
-> >
-> > On Mon, Sep 11, 2023 at 9:19=E2=80=AFAM Stephen Smalley
-> > <stephen.smalley.work@gmail.com> wrote:
-> > >
-> > > On Fri, Sep 8, 2023 at 6:54=E2=80=AFPM kernel test robot <lkp@intel.c=
-om> wrote:
-> > > >
-> > > > Hi Alfred,
-> > > >
-> > > > kernel test robot noticed the following build errors:
-> > > >
-> > > > [auto build test ERROR on 50a510a78287c15cee644f345ef8bac8977986a7]
-> > > >
-> > > > url:    https://github.com/intel-lab-lkp/linux/commits/Alfred-Picci=
-oni/SELinux-Check-correct-permissions-for-FS_IOC32_/20230906-200131
-> > > > base:   50a510a78287c15cee644f345ef8bac8977986a7
-> > > > patch link:    https://lore.kernel.org/r/20230906115928.3749928-1-a=
-lpic%40google.com
-> > > > patch subject: [PATCH V2] SELinux: Check correct permissions for FS=
-_IOC32_*
-> > > > config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/2=
-0230909/202309090600.NSyo7d2q-lkp@intel.com/config)
-> > > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci=
-/archive/20230909/202309090600.NSyo7d2q-lkp@intel.com/reproduce)
-> > > >
-> > > > If you fix the issue in a separate patch/commit (i.e. not just a ne=
-w version of
-> > > > the same patch/commit), kindly add following tags
-> > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202309090600.NSyo7d=
-2q-lkp@intel.com/
-> > > >
-> > > > All errors (new ones prefixed by >>):
-> > > >
-> > > >    security/selinux/hooks.c: In function 'selinux_file_ioctl':
-> > > > >> security/selinux/hooks.c:3647:9: error: duplicate case value
-> > > >     3647 |         case FS_IOC32_GETFLAGS:
-> > > >          |         ^~~~
-> > > >    security/selinux/hooks.c:3645:9: note: previously used here
-> > > >     3645 |         case FS_IOC_GETFLAGS:
-> > > >          |         ^~~~
-> > > >    security/selinux/hooks.c:3648:9: error: duplicate case value
-> > > >     3648 |         case FS_IOC32_GETVERSION:
-> > > >          |         ^~~~
-> > > >    security/selinux/hooks.c:3646:9: note: previously used here
-> > > >     3646 |         case FS_IOC_GETVERSION:
-> > > >          |         ^~~~
-> > > >    security/selinux/hooks.c:3654:9: error: duplicate case value
-> > > >     3654 |         case FS_IOC32_SETFLAGS:
-> > > >          |         ^~~~
-> > > >    security/selinux/hooks.c:3652:9: note: previously used here
-> > > >     3652 |         case FS_IOC_SETFLAGS:
-> > > >          |         ^~~~
-> > > >    security/selinux/hooks.c:3655:9: error: duplicate case value
-> > > >     3655 |         case FS_IOC32_SETVERSION:
-> > > >          |         ^~~~
-> > > >    security/selinux/hooks.c:3653:9: note: previously used here
-> > > >     3653 |         case FS_IOC_SETVERSION:
-> > > >          |         ^~~~
-> > >
-> > > Not sure of the right way to fix this while addressing the original
-> > > issue that this patch was intended to fix. Looking in fs/ioctl.c, I
-> > > see that the some FS_IOC32 values are remapped to the corresponding
-> > > FS_IOC values by the compat ioctl syscall entrypoint. Also notice thi=
-s
-> > > comment there:
-> > >
-> > >         /* RED-PEN how should LSM module know it's handling 32bit? */
-> > >         error =3D security_file_ioctl(f.file, cmd, arg);
-> > >         if (error)
-> > >                 goto out;
-> > >
-> > > So perhaps this is a defect in LSM that needs to be addressed?
-> >
-> > Note btw that some of the 32-bit ioctl commands are only handled in
-> > the fs-specific compat_ioctl routines, e.g. ext4_compat_ioctl()
-> > handles EXT4_IOC32_GETVERSION =3D=3D FS_IOC32_GETVERSION and ditto for
-> > _SETVERSION.
-> >
-> > >
-> > >
-> > > >
-> > > >
-> > > > vim +3647 security/selinux/hooks.c
-> > > >
-> > > >   3634
-> > > >   3635  static int selinux_file_ioctl(struct file *file, unsigned i=
-nt cmd,
-> > > >   3636                                unsigned long arg)
-> > > >   3637  {
-> > > >   3638          const struct cred *cred =3D current_cred();
-> > > >   3639          int error =3D 0;
-> > > >   3640
-> > > >   3641          switch (cmd) {
-> > > >   3642          case FIONREAD:
-> > > >   3643          case FIBMAP:
-> > > >   3644          case FIGETBSZ:
-> > > >   3645          case FS_IOC_GETFLAGS:
-> > > >   3646          case FS_IOC_GETVERSION:
-> > > > > 3647          case FS_IOC32_GETFLAGS:
-> > > >   3648          case FS_IOC32_GETVERSION:
-> > > >   3649                  error =3D file_has_perm(cred, file, FILE__G=
-ETATTR);
-> > > >   3650                  break;
-> > > >   3651
-> > > >   3652          case FS_IOC_SETFLAGS:
-> > > >   3653          case FS_IOC_SETVERSION:
-> > > >   3654          case FS_IOC32_SETFLAGS:
-> > > >   3655          case FS_IOC32_SETVERSION:
-> > > >   3656                  error =3D file_has_perm(cred, file, FILE__S=
-ETATTR);
-> > > >   3657                  break;
-> > > >   3658
-> > > >   3659          /* sys_ioctl() checks */
-> > > >   3660          case FIONBIO:
-> > > >   3661          case FIOASYNC:
-> > > >   3662                  error =3D file_has_perm(cred, file, 0);
-> > > >   3663                  break;
-> > > >   3664
-> > > >   3665          case KDSKBENT:
-> > > >   3666          case KDSKBSENT:
-> > > >   3667                  error =3D cred_has_capability(cred, CAP_SYS=
-_TTY_CONFIG,
-> > > >   3668                                              CAP_OPT_NONE, t=
-rue);
-> > > >   3669                  break;
-> > > >   3670
-> > > >   3671          case FIOCLEX:
-> > > >   3672          case FIONCLEX:
-> > > >   3673                  if (!selinux_policycap_ioctl_skip_cloexec()=
-)
-> > > >   3674                          error =3D ioctl_has_perm(cred, file=
-, FILE__IOCTL, (u16) cmd);
-> > > >   3675                  break;
-> > > >   3676
-> > > >   3677          /* default case assumes that the command will go
-> > > >   3678           * to the file's ioctl() function.
-> > > >   3679           */
-> > > >   3680          default:
-> > > >   3681                  error =3D ioctl_has_perm(cred, file, FILE__=
-IOCTL, (u16) cmd);
-> > > >   3682          }
-> > > >   3683          return error;
-> > > >   3684  }
-> > > >   3685
->
-> Hey Stephen,
->
-> Thanks for looking into it a bit deeper! This seems a bit of a pickle.
-> I can think of a few somewhat hacky ways to fix this.
->
-> I can just set the flags to check `if FS_IOC32_*; set FS_IOC_*;`,
-> which is the quickest but kinda hacky.
->
-> I can go with the other plan of dropping the irrelevant bytes from the
-> cmd code, so all codes will be read as u16. This effectively does the
-> same thing, but may be unclear.
->
-> I can also look into whether this can be solved at the LSM or a higher
-> level. Perhaps the filesystems setting `if FS_IOC32_*; set FS_IOC_*;`
-> is a hint that something else interesting is going wrong.
->
-> I'll spend a little time thinking and investigating and get back with
-> a more concrete solution. I'll also need to do a bit more robust
-> testing; it built on my machine!
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3c13c772fc233a10342c8e1605ff0855dfdf0c89
+commit: 5ec30115c06692f17b20e4f4c7bdcd62cf96e30d [1118/4552] bcachefs: Initial commit
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230912/202309122047.cRi9yJrq-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309122047.cRi9yJrq-lkp@intel.com/reproduce)
 
-Likewise for me; I don't generally try building for 32-bit systems.
-Remapping FS_IOC32_* to FS_IOC_* in selinux_file_ioctl() seems
-reasonable to me although optimally that would be conditional on
-whether selinux_file_ioctl() is being called from the compat ioctl
-syscall (e.g. adding a flag to the LSM hook to indicate this or using
-a separate hook for it). Otherwise we might misinterpret some other
-ioctl on 64-bit.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309122047.cRi9yJrq-lkp@intel.com/
 
-If we didn't have compatibility requirements, it would be tempting to
-just get rid of all the special case ioctl command handling in
-selinux_file_ioctl() and let ioctl_has_perm() handle them all with the
-extended ioctl permissions support. But that would require a SELinux
-policy cap to switch it on conditionally for compatibility at least
-and not sure anyone is willing to refactor their policies accordingly.
+All warnings (new ones prefixed by >>):
 
->
-> Thanks!
+   In file included from fs/bcachefs/bcachefs.h:199,
+                    from fs/bcachefs/acl.c:4:
+>> fs/bcachefs/bcachefs_format.h:198:25: warning: 'p' offset 3 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
+     198 |         struct bpos     p;
+         |                         ^
+>> fs/bcachefs/bcachefs_format.h:200:25: warning: 'version' offset 27 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
+     200 |         struct bversion version;
+         |                         ^~~~~~~
+   In file included from fs/bcachefs/super-io.h:5,
+                    from fs/bcachefs/checksum.h:7,
+                    from fs/bcachefs/str_hash.h:7,
+                    from fs/bcachefs/fs.h:6,
+                    from fs/bcachefs/acl.c:13:
+   fs/bcachefs/extents.h: In function 'bch2_extent_devs':
+   fs/bcachefs/extents.h:403:40: warning: variable '_crc' set but not used [-Wunused-but-set-variable]
+     403 |         struct bch_extent_crc_unpacked _crc;                            \
+         |                                        ^~~~
+   fs/bcachefs/extents.h:410:24: note: in expansion of macro 'extent_ptr_next'
+     410 |              ((_ptr) = extent_ptr_next(_e, _ptr));                      \
+         |                        ^~~~~~~~~~~~~~~
+   fs/bcachefs/extents.h:462:9: note: in expansion of macro 'extent_for_each_ptr'
+     462 |         extent_for_each_ptr(e, ptr)
+         |         ^~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/extents.h: In function 'bch2_extent_dirty_devs':
+   fs/bcachefs/extents.h:403:40: warning: variable '_crc' set but not used [-Wunused-but-set-variable]
+     403 |         struct bch_extent_crc_unpacked _crc;                            \
+         |                                        ^~~~
+   fs/bcachefs/extents.h:410:24: note: in expansion of macro 'extent_ptr_next'
+     410 |              ((_ptr) = extent_ptr_next(_e, _ptr));                      \
+         |                        ^~~~~~~~~~~~~~~
+   fs/bcachefs/extents.h:473:9: note: in expansion of macro 'extent_for_each_ptr'
+     473 |         extent_for_each_ptr(e, ptr)
+         |         ^~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/extents.h: In function 'bch2_extent_cached_devs':
+   fs/bcachefs/extents.h:403:40: warning: variable '_crc' set but not used [-Wunused-but-set-variable]
+     403 |         struct bch_extent_crc_unpacked _crc;                            \
+         |                                        ^~~~
+   fs/bcachefs/extents.h:410:24: note: in expansion of macro 'extent_ptr_next'
+     410 |              ((_ptr) = extent_ptr_next(_e, _ptr));                      \
+         |                        ^~~~~~~~~~~~~~~
+   fs/bcachefs/extents.h:485:9: note: in expansion of macro 'extent_for_each_ptr'
+     485 |         extent_for_each_ptr(e, ptr)
+         |         ^~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/checksum.h: At top level:
+   fs/bcachefs/checksum.h:95:23: warning: 'bch2_compression_opt_to_type' defined but not used [-Wunused-const-variable=]
+      95 | static const unsigned bch2_compression_opt_to_type[] = {
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from fs/bcachefs/bcachefs.h:201:
+   fs/bcachefs/opts.h:194:30: warning: 'bch2_opts_default' defined but not used [-Wunused-const-variable=]
+     194 | static const struct bch_opts bch2_opts_default = {
+         |                              ^~~~~~~~~~~~~~~~~
+   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_MAX' defined but not used [-Wunused-const-variable=]
+      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         |              ^~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
+      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
+         |                         ^~~~
+   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
+      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_BITS' defined but not used [-Wunused-const-variable=]
+      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         |              ^~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
+      85 | static const unsigned   name##_BITS = (end - offset);                   \
+         |                         ^~~~
+   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
+      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_OFFSET' defined but not used [-Wunused-const-variable=]
+      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         |              ^~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:84:25: note: in definition of macro 'LE_BITMASK'
+      84 | static const unsigned   name##_OFFSET = offset;                         \
+         |                         ^~~~
+   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
+      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_MAX' defined but not used [-Wunused-const-variable=]
+    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         |              ^~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
+      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
+    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_BITS' defined but not used [-Wunused-const-variable=]
+    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         |              ^~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
+      85 | static const unsigned   name##_BITS = (end - offset);                   \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
+    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_OFFSET' defined but not used [-Wunused-const-variable=]
+    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         |              ^~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:84:25: note: in definition of macro 'LE_BITMASK'
+      84 | static const unsigned   name##_OFFSET = offset;                         \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
+    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1480:14: warning: 'BTREE_NODE_LEVEL_MAX' defined but not used [-Wunused-const-variable=]
+--
+   In file included from fs/bcachefs/bcachefs.h:199,
+                    from fs/bcachefs/alloc.c:56:
+>> fs/bcachefs/bcachefs_format.h:198:25: warning: 'p' offset 3 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
+     198 |         struct bpos     p;
+         |                         ^
+>> fs/bcachefs/bcachefs_format.h:200:25: warning: 'version' offset 27 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
+     200 |         struct bversion version;
+         |                         ^~~~~~~
+   In file included from fs/bcachefs/btree_cache.h:7,
+                    from fs/bcachefs/alloc.c:58:
+   fs/bcachefs/extents.h: In function 'bch2_extent_devs':
+   fs/bcachefs/extents.h:403:40: warning: variable '_crc' set but not used [-Wunused-but-set-variable]
+     403 |         struct bch_extent_crc_unpacked _crc;                            \
+         |                                        ^~~~
+   fs/bcachefs/extents.h:410:24: note: in expansion of macro 'extent_ptr_next'
+     410 |              ((_ptr) = extent_ptr_next(_e, _ptr));                      \
+         |                        ^~~~~~~~~~~~~~~
+   fs/bcachefs/extents.h:462:9: note: in expansion of macro 'extent_for_each_ptr'
+     462 |         extent_for_each_ptr(e, ptr)
+         |         ^~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/extents.h: In function 'bch2_extent_dirty_devs':
+   fs/bcachefs/extents.h:403:40: warning: variable '_crc' set but not used [-Wunused-but-set-variable]
+     403 |         struct bch_extent_crc_unpacked _crc;                            \
+         |                                        ^~~~
+   fs/bcachefs/extents.h:410:24: note: in expansion of macro 'extent_ptr_next'
+     410 |              ((_ptr) = extent_ptr_next(_e, _ptr));                      \
+         |                        ^~~~~~~~~~~~~~~
+   fs/bcachefs/extents.h:473:9: note: in expansion of macro 'extent_for_each_ptr'
+     473 |         extent_for_each_ptr(e, ptr)
+         |         ^~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/extents.h: In function 'bch2_extent_cached_devs':
+   fs/bcachefs/extents.h:403:40: warning: variable '_crc' set but not used [-Wunused-but-set-variable]
+     403 |         struct bch_extent_crc_unpacked _crc;                            \
+         |                                        ^~~~
+   fs/bcachefs/extents.h:410:24: note: in expansion of macro 'extent_ptr_next'
+     410 |              ((_ptr) = extent_ptr_next(_e, _ptr));                      \
+         |                        ^~~~~~~~~~~~~~~
+   fs/bcachefs/extents.h:485:9: note: in expansion of macro 'extent_for_each_ptr'
+     485 |         extent_for_each_ptr(e, ptr)
+         |         ^~~~~~~~~~~~~~~~~~~
+   In file included from fs/bcachefs/alloc.c:60:
+   fs/bcachefs/alloc.c: In function '__bch2_alloc_write_key':
+   fs/bcachefs/btree_update.h:72:35: error: implicit declaration of function 'COUNT_ARGS' [-Werror=implicit-function-declaration]
+      72 |                 .nr             = COUNT_ARGS(__VA_ARGS__),              \
+         |                                   ^~~~~~~~~~
+   fs/bcachefs/alloc.c:332:23: note: in expansion of macro 'bch2_btree_insert_at'
+     332 |                 ret = bch2_btree_insert_at(c, NULL, NULL, journal_seq, flags,
+         |                       ^~~~~~~~~~~~~~~~~~~~
+   In file included from fs/bcachefs/bcachefs.h:201:
+   fs/bcachefs/opts.h: At top level:
+   fs/bcachefs/opts.h:194:30: warning: 'bch2_opts_default' defined but not used [-Wunused-const-variable=]
+     194 | static const struct bch_opts bch2_opts_default = {
+         |                              ^~~~~~~~~~~~~~~~~
+   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_MAX' defined but not used [-Wunused-const-variable=]
+      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         |              ^~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
+      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
+         |                         ^~~~
+   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
+      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_BITS' defined but not used [-Wunused-const-variable=]
+      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         |              ^~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
+      85 | static const unsigned   name##_BITS = (end - offset);                   \
+         |                         ^~~~
+   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
+      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_OFFSET' defined but not used [-Wunused-const-variable=]
+      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         |              ^~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:84:25: note: in definition of macro 'LE_BITMASK'
+      84 | static const unsigned   name##_OFFSET = offset;                         \
+         |                         ^~~~
+   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
+      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_MAX' defined but not used [-Wunused-const-variable=]
+    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         |              ^~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
+      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
+    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_BITS' defined but not used [-Wunused-const-variable=]
+    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         |              ^~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
+      85 | static const unsigned   name##_BITS = (end - offset);                   \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
+    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_OFFSET' defined but not used [-Wunused-const-variable=]
+    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         |              ^~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:84:25: note: in definition of macro 'LE_BITMASK'
+      84 | static const unsigned   name##_OFFSET = offset;                         \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
+    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+--
+   In file included from fs/bcachefs/bcachefs.h:199,
+                    from fs/bcachefs/bkey.c:3:
+>> fs/bcachefs/bcachefs_format.h:198:25: warning: 'p' offset 3 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
+     198 |         struct bpos     p;
+         |                         ^
+>> fs/bcachefs/bcachefs_format.h:200:25: warning: 'version' offset 27 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
+     200 |         struct bversion version;
+         |                         ^~~~~~~
+   In file included from fs/bcachefs/bcachefs.h:201:
+   fs/bcachefs/opts.h:194:30: warning: 'bch2_opts_default' defined but not used [-Wunused-const-variable=]
+     194 | static const struct bch_opts bch2_opts_default = {
+         |                              ^~~~~~~~~~~~~~~~~
+   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_MAX' defined but not used [-Wunused-const-variable=]
+      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         |              ^~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
+      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
+         |                         ^~~~
+   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
+      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_BITS' defined but not used [-Wunused-const-variable=]
+      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         |              ^~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
+      85 | static const unsigned   name##_BITS = (end - offset);                   \
+         |                         ^~~~
+   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
+      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_OFFSET' defined but not used [-Wunused-const-variable=]
+      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         |              ^~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:84:25: note: in definition of macro 'LE_BITMASK'
+      84 | static const unsigned   name##_OFFSET = offset;                         \
+         |                         ^~~~
+   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
+      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_MAX' defined but not used [-Wunused-const-variable=]
+    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         |              ^~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
+      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
+    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_BITS' defined but not used [-Wunused-const-variable=]
+    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         |              ^~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
+      85 | static const unsigned   name##_BITS = (end - offset);                   \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
+    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_OFFSET' defined but not used [-Wunused-const-variable=]
+    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         |              ^~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:84:25: note: in definition of macro 'LE_BITMASK'
+      84 | static const unsigned   name##_OFFSET = offset;                         \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
+    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1480:14: warning: 'BTREE_NODE_LEVEL_MAX' defined but not used [-Wunused-const-variable=]
+    1480 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
+         |              ^~~~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
+      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:1480:1: note: in expansion of macro 'LE64_BITMASK'
+    1480 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1480:14: warning: 'BTREE_NODE_LEVEL_BITS' defined but not used [-Wunused-const-variable=]
+    1480 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
+         |              ^~~~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
+      85 | static const unsigned   name##_BITS = (end - offset);                   \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:1480:1: note: in expansion of macro 'LE64_BITMASK'
+    1480 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1480:14: warning: 'BTREE_NODE_LEVEL_OFFSET' defined but not used [-Wunused-const-variable=]
+    1480 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
+         |              ^~~~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:84:25: note: in definition of macro 'LE_BITMASK'
+      84 | static const unsigned   name##_OFFSET = offset;                         \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:1480:1: note: in expansion of macro 'LE64_BITMASK'
+    1480 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1479:14: warning: 'BTREE_NODE_ID_MAX' defined but not used [-Wunused-const-variable=]
+    1479 | LE64_BITMASK(BTREE_NODE_ID,     struct btree_node, flags,  0,  4);
+         |              ^~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
+      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:1479:1: note: in expansion of macro 'LE64_BITMASK'
+    1479 | LE64_BITMASK(BTREE_NODE_ID,     struct btree_node, flags,  0,  4);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1479:14: warning: 'BTREE_NODE_ID_BITS' defined but not used [-Wunused-const-variable=]
+    1479 | LE64_BITMASK(BTREE_NODE_ID,     struct btree_node, flags,  0,  4);
+         |              ^~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
+..
+
+
+vim +198 fs/bcachefs/bcachefs_format.h
+
+   187	
+   188		/* Type of the value */
+   189		__u8		type;
+   190	
+   191	#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+   192		__u8		pad[1];
+   193	
+   194		struct bversion	version;
+   195		__u32		size;		/* extent size, in sectors */
+   196		struct bpos	p;
+   197	#elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+ > 198		struct bpos	p;
+   199		__u32		size;		/* extent size, in sectors */
+ > 200		struct bversion	version;
+   201	
+   202		__u8		pad[1];
+   203	#endif
+   204	} __attribute__((packed, aligned(8)));
+   205	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
