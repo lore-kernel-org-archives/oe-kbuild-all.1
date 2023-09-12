@@ -1,47 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04268F6D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 09:30:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8821640A;
+	Tue, 12 Sep 2023 10:07:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694511043; x=1726047043;
+  t=1694513232; x=1726049232;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ZZsMX87ZBA2LSNsBXxrcaHlzB7WnuqbevwSrDLDgc/k=;
-  b=FWbHFI9hDt/GXTR1LMvmhTicqJiBHK05mFEsZmMeJvqslj9/43yc8JhA
-   fMDcn2LVQUQoMYunuu7+P+l4W5iEZKv64Yi16l3p+1qMXyweCQ+sNM7JH
-   YSjqX7D3p5SsczDURQ80En2c6tWJLjcsRL2acICvC48JQjEcsqxEcixDF
-   ypHHvbmc70JcQqnMzrv+7+7O/dAZXUqOpMBb6ouyZ1duqclEXDMYMBPqM
-   A4E2TAibQYwT5lYJNwgQcQ3qkaJ+ctdfniKt6wz9pDtAIaHCf/7fDLrxm
-   dw5xowEBNh+Fe/1cq86vewaoa3K77nW4JG58PHJ8hOSs1FiTX55bvu3Q+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="381025441"
-X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; 
-   d="scan'208";a="381025441"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 02:30:23 -0700
+  bh=eK2t15mGnsXgSy49KZauX10qwOfSdZIw/vwbiA8F8s0=;
+  b=KW51nUaYHCu/eAG/xGfC/KpKhLHciWHZNt9/mP+5Yxl8Hjbqme3h3OqM
+   zGOmyy5QDulRkM0IqA8rMu71/c5mSovdyOtomE5ECmmZUUfQzpRoV2HvN
+   6+E6qpttqbeSXRUwsIaVwJ4oYCYHThFkMjaR9BxnYaOgONR76/SQw5b8m
+   1Uzf17ga0up3LxhUa66oeQc9fqyWa0N6OMHQgpPpfOanmcYRLQBfKjuD5
+   lAZUvTGhOxEOfm2FtlpL2lownHokMB040aiDmyN80gouqRiGKwsqGsO2p
+   QxI8wXlLbzLzNfKbVex7cusC+CBU+UfB1R4OY81cA7RjG29k3Kt4KKFR1
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="368589853"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
+   d="scan'208";a="368589853"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 03:07:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="990440198"
-X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; 
-   d="scan'208";a="990440198"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 02:30:18 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1qfzin-008Y4U-0a;
-	Tue, 12 Sep 2023 12:30:13 +0300
-Date: Tue, 12 Sep 2023 12:30:12 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Ken Xue <Ken.Xue@amd.com>
-Cc: linux-acpi@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-	rafael@kernel.org, kernel test robot <lkp@intel.com>,
-	cwhuang@linux.org.tw
-Subject: Re: [PATCH] acpi: trigger wakeup key event from power button
-Message-ID: <ZQAvpIKqmLeWbh0v@smile.fi.intel.com>
-References: <20230908095747.446389-1-Ken.Xue@amd.com>
- <ZP7hH9i6ZQgINbcB@smile.fi.intel.com>
- <2bfaa431-ca9f-c879-9967-f13d18dd4cd3@amd.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="778738399"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
+   d="scan'208";a="778738399"
+Received: from lkp-server02.sh.intel.com (HELO 1e56c5165d33) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 12 Sep 2023 03:07:06 -0700
+Received: from kbuild by 1e56c5165d33 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qg0IP-0000Ej-0o;
+	Tue, 12 Sep 2023 10:07:01 +0000
+Date: Tue, 12 Sep 2023 18:06:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Abel Vesa <abel.vesa@linaro.org>,
+	Johan Hovold <johan+linaro@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH v2 1/2] phy: qcom-qmp-combo: Square out 8550
+ POWER_STATE_CONFIG1
+Message-ID: <202309121747.8Ln8K1XY-lkp@intel.com>
+References: <20230829-topic-8550_usbphy-v2-1-a72f43311d19@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,56 +58,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2bfaa431-ca9f-c879-9967-f13d18dd4cd3@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20230829-topic-8550_usbphy-v2-1-a72f43311d19@linaro.org>
 
-On Tue, Sep 12, 2023 at 01:32:02PM +0800, Ken Xue wrote:
-> On 2023/9/11 17:42, Andy Shevchenko wrote:
-> > On Fri, Sep 08, 2023 at 05:57:49PM +0800, Ken Xue wrote:
+Hi Konrad,
 
-...
+kernel test robot noticed the following build errors:
 
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > Are you sure?
-> 
-> Thanks for review. Sorry for confusion.
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc1 next-20230912]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> 2) test robot reported some compile warnings and errors detected by test
-> robot which is fixed in V2.
+url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/phy-qcom-qmp-combo-initialize-PCS_USB-registers/20230912-072106
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230829-topic-8550_usbphy-v2-1-a72f43311d19%40linaro.org
+patch subject: [PATCH v2 1/2] phy: qcom-qmp-combo: Square out 8550 POWER_STATE_CONFIG1
+config: arm-randconfig-r016-20230912 (https://download.01.org/0day-ci/archive/20230912/202309121747.8Ln8K1XY-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309121747.8Ln8K1XY-lkp@intel.com/reproduce)
 
-Yes and that's what I'm asking about. You are not supposed to add it as the
-initial problem, the patch is trying to solve, has _not_ been reported by LKP,
-hasn't it?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309121747.8Ln8K1XY-lkp@intel.com/
 
-...
+All errors (new ones prefixed by >>):
 
-> > > Closes: https://lore.kernel.org/oe-kbuild-all/202309080315.txQUEyHQ-lkp@intel.com/
-> > > Closes: https://lore.kernel.org/oe-kbuild-all/202309080239.IiC7uLpW-lkp@intel.com/
-> > > Closes: https://lore.kernel.org/oe-kbuild-all/202309080351.xHt2qhP2-lkp@intel.com/
-> > Are you sure?
-> 
-> Just some errors/warnings from the v1 patch.
+>> drivers/phy/qualcomm/phy-qcom-qmp-combo.c:865:19: error: use of undeclared identifier 'QPHY_USB_Q6_PCS_USB3_POWER_STATE_CONFIG1'
+     865 |         QMP_PHY_INIT_CFG(QPHY_USB_Q6_PCS_USB3_POWER_STATE_CONFIG1, 0x68),
+         |                          ^
+>> drivers/phy/qualcomm/phy-qcom-qmp-combo.c:1837:21: error: invalid application of 'sizeof' to an incomplete type 'const struct qmp_phy_init_tbl[]'
+    1837 |         .pcs_usb_tbl_num        = ARRAY_SIZE(sm8550_usb3_pcs_usb_tbl),
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:57:32: note: expanded from macro 'ARRAY_SIZE'
+      57 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                ^~~~~
+   2 errors generated.
 
-Same as above.
 
-...
+vim +/QPHY_USB_Q6_PCS_USB3_POWER_STATE_CONFIG1 +865 drivers/phy/qualcomm/phy-qcom-qmp-combo.c
 
-> > > +#include <linux/acpi.h>
-> > There are no users of this header.
-> > 
-> > Check how forward declaration can be used (as it's done in many other headers).
-> > 
-> Yes, "struct acpi_device" is defined in "include/acpi/acpi_bus.h", but
-> include acpi_bus.h alone will lead to more compile issues.
-> 
-> Regarding "forward declaration", how about
-> 
-> typedef struct acpi_device *acpi_device;
-
-Is it a forward declaration?
+   863	
+   864	static const struct qmp_phy_init_tbl sm8550_usb3_pcs_usb_tbl[] = {
+ > 865		QMP_PHY_INIT_CFG(QPHY_USB_Q6_PCS_USB3_POWER_STATE_CONFIG1, 0x68),
+   866		QMP_PHY_INIT_CFG(QPHY_USB_V6_PCS_USB3_LFPS_DET_HIGH_COUNT_VAL, 0xf8),
+   867		QMP_PHY_INIT_CFG(QPHY_USB_V6_PCS_USB3_RXEQTRAINING_DFE_TIME_S2, 0x07),
+   868		QMP_PHY_INIT_CFG(QPHY_USB_V6_PCS_USB3_RCVR_DTCT_DLY_U3_L, 0x40),
+   869		QMP_PHY_INIT_CFG(QPHY_USB_V6_PCS_USB3_RCVR_DTCT_DLY_U3_H, 0x00),
+   870	};
+   871	
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
