@@ -1,45 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9251F361
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 22:32:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8903361
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 22:43:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694557970; x=1726093970;
+  t=1694558585; x=1726094585;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ce0zvqS5Nt3pmPhIWEU5X1Z9/IeQB64+TM/3MKq/3sc=;
-  b=UUbvLJ9O4h7jh9HU9sQIN9uB1MNT/zKOGr6p5OaMRe2NSvWPYf1AxYkS
-   DhdA0aHF2BDkFSUhG2to9qxmSXHLMfhWRjYfZs0pHUkbW4mcJlxJEDzgJ
-   T1TA9tgE/2m5zWNHhRcFSrIVhe9BauVvdJHwQv2DhBki2ld4l1Bg/DXt7
-   f/brZXyNbQzvNtqtQhtt8+ro5YU41F9J3aqTIe9S19fLXWug1582SXQQD
-   58Y19XhUtc2fVsGc3wptHzemHQ77ifoqg/9UXzFp9GrOyDOc/aSCaxVXQ
-   yQ29ut145VhIVb+y/mcVKw7wTfHFXolFhsrPbSZQBlmfncBO2jO5wJxEW
+  bh=PlHSU90+0N8rhEWREl04BGkk7Jzf3/BgZ0qW3gb/PFo=;
+  b=NKLeCPPbpOvO6eeEZZ9v6bS2WE2qIi7RWf/kRJzAyguH/AvIgKd6PLIs
+   gvRUDyfwt4oPLR0EShxjhw6OBAgjJC7XMvu9nk1NHvR3c9n8/IbSynCEa
+   wTCVtuF/7UQ0WcNEZDkMG4EXEZlNWvGTaMSr2uNNE5oQuTVhKsNlDRSbm
+   l1v5udWOGyqDoDP0b1CndNY1WOzhDlBoYNT1eCKUBSgmgTkl59iaVVgxU
+   YeYm/J4jFoL5ybA1T6mQF77ZhKBvneJE1mQ3K7G+zg9xGFkozmLsxu3sJ
+   xXFymmx1r2fzLvVC1ZB6sADgoMYuwjDfIe1qGSLX/8rdxlUZp8TuUyq34
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="363542925"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="358784393"
 X-IronPort-AV: E=Sophos;i="6.02,141,1688454000"; 
-   d="scan'208";a="363542925"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 15:32:50 -0700
+   d="scan'208";a="358784393"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 15:43:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="720582582"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="814007332"
 X-IronPort-AV: E=Sophos;i="6.02,141,1688454000"; 
-   d="scan'208";a="720582582"
+   d="scan'208";a="814007332"
 Received: from lkp-server02.sh.intel.com (HELO 47e905db7d2b) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 12 Sep 2023 15:32:48 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 12 Sep 2023 15:43:03 -0700
 Received: from kbuild by 47e905db7d2b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgBw5-0000MT-2l;
-	Tue, 12 Sep 2023 22:32:45 +0000
-Date: Wed, 13 Sep 2023 06:32:32 +0800
+	id 1qgC61-0000NO-1X;
+	Tue, 12 Sep 2023 22:43:01 +0000
+Date: Wed, 13 Sep 2023 06:42:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kai Huang <kai.huang@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: [tip:x86/tdx 8/12] arch/x86/coco/tdx/tdx.c:733:27: error: implicit
- declaration of function '__tdx_hypercall_ret'; did you mean
- '__tdx_hypercall'?
-Message-ID: <202309130622.Ba60ODDl-lkp@intel.com>
+	Sam Ravnborg <sam@ravnborg.org>
+Subject: sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:undefined reference to
+ `fb_io_read'
+Message-ID: <202309130632.LS04CPWu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,88 +47,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/tdx
-head:   d6cb0f01644c5cd2bc51b88df933e07849cfaa76
-commit: f9ea69e6406abf2145aba7987e7b81ea1b4ea356 [8/12] x86/tdx: Make TDX_HYPERCALL asm similar to TDX_MODULE_CALL
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230913/202309130622.Ba60ODDl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309130622.Ba60ODDl-lkp@intel.com/reproduce)
+Hi Thomas,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3669558bdf354cd352be955ef2764cde6a9bf5ec
+commit: 5f86367006c6a0662faaf36f753f437afe42fb63 fbdev/sh7760fb: Use fbdev I/O helpers
+date:   6 weeks ago
+config: sh-randconfig-r012-20230913 (https://download.01.org/0day-ci/archive/20230913/202309130632.LS04CPWu-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309130632.LS04CPWu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309130622.Ba60ODDl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309130632.LS04CPWu-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/x86/coco/tdx/tdx.c: In function 'tdx_map_gpa':
->> arch/x86/coco/tdx/tdx.c:733:27: error: implicit declaration of function '__tdx_hypercall_ret'; did you mean '__tdx_hypercall'? [-Werror=implicit-function-declaration]
-     733 |                 u64 ret = __tdx_hypercall_ret(&args);
-         |                           ^~~~~~~~~~~~~~~~~~~
-         |                           __tdx_hypercall
-   cc1: some warnings being treated as errors
-
-
-vim +733 arch/x86/coco/tdx/tdx.c
-
-7dbde763162989 Kirill A. Shutemov 2022-04-06  707  
-7dbde763162989 Kirill A. Shutemov 2022-04-06  708  /*
-019b383d1132e4 Dexuan Cui         2023-08-10  709   * Notify the VMM about page mapping conversion. More info about ABI
-019b383d1132e4 Dexuan Cui         2023-08-10  710   * can be found in TDX Guest-Host-Communication Interface (GHCI),
-019b383d1132e4 Dexuan Cui         2023-08-10  711   * section "TDG.VP.VMCALL<MapGPA>".
-7dbde763162989 Kirill A. Shutemov 2022-04-06  712   */
-019b383d1132e4 Dexuan Cui         2023-08-10  713  static bool tdx_map_gpa(phys_addr_t start, phys_addr_t end, bool enc)
-7dbde763162989 Kirill A. Shutemov 2022-04-06  714  {
-019b383d1132e4 Dexuan Cui         2023-08-10  715  	/* Retrying the hypercall a second time should succeed; use 3 just in case */
-019b383d1132e4 Dexuan Cui         2023-08-10  716  	const int max_retries_per_page = 3;
-019b383d1132e4 Dexuan Cui         2023-08-10  717  	int retry_count = 0;
-7dbde763162989 Kirill A. Shutemov 2022-04-06  718  
-7dbde763162989 Kirill A. Shutemov 2022-04-06  719  	if (!enc) {
-7dbde763162989 Kirill A. Shutemov 2022-04-06  720  		/* Set the shared (decrypted) bits: */
-7dbde763162989 Kirill A. Shutemov 2022-04-06  721  		start |= cc_mkdec(0);
-7dbde763162989 Kirill A. Shutemov 2022-04-06  722  		end   |= cc_mkdec(0);
-7dbde763162989 Kirill A. Shutemov 2022-04-06  723  	}
-7dbde763162989 Kirill A. Shutemov 2022-04-06  724  
-019b383d1132e4 Dexuan Cui         2023-08-10  725  	while (retry_count < max_retries_per_page) {
-019b383d1132e4 Dexuan Cui         2023-08-10  726  		struct tdx_hypercall_args args = {
-019b383d1132e4 Dexuan Cui         2023-08-10  727  			.r10 = TDX_HYPERCALL_STANDARD,
-019b383d1132e4 Dexuan Cui         2023-08-10  728  			.r11 = TDVMCALL_MAP_GPA,
-019b383d1132e4 Dexuan Cui         2023-08-10  729  			.r12 = start,
-019b383d1132e4 Dexuan Cui         2023-08-10  730  			.r13 = end - start };
-019b383d1132e4 Dexuan Cui         2023-08-10  731  
-019b383d1132e4 Dexuan Cui         2023-08-10  732  		u64 map_fail_paddr;
-019b383d1132e4 Dexuan Cui         2023-08-10 @733  		u64 ret = __tdx_hypercall_ret(&args);
-019b383d1132e4 Dexuan Cui         2023-08-10  734  
-019b383d1132e4 Dexuan Cui         2023-08-10  735  		if (ret != TDVMCALL_STATUS_RETRY)
-019b383d1132e4 Dexuan Cui         2023-08-10  736  			return !ret;
-7dbde763162989 Kirill A. Shutemov 2022-04-06  737  		/*
-019b383d1132e4 Dexuan Cui         2023-08-10  738  		 * The guest must retry the operation for the pages in the
-019b383d1132e4 Dexuan Cui         2023-08-10  739  		 * region starting at the GPA specified in R11. R11 comes
-019b383d1132e4 Dexuan Cui         2023-08-10  740  		 * from the untrusted VMM. Sanity check it.
-7dbde763162989 Kirill A. Shutemov 2022-04-06  741  		 */
-019b383d1132e4 Dexuan Cui         2023-08-10  742  		map_fail_paddr = args.r11;
-019b383d1132e4 Dexuan Cui         2023-08-10  743  		if (map_fail_paddr < start || map_fail_paddr >= end)
-019b383d1132e4 Dexuan Cui         2023-08-10  744  			return false;
-019b383d1132e4 Dexuan Cui         2023-08-10  745  
-019b383d1132e4 Dexuan Cui         2023-08-10  746  		/* "Consume" a retry without forward progress */
-019b383d1132e4 Dexuan Cui         2023-08-10  747  		if (map_fail_paddr == start) {
-019b383d1132e4 Dexuan Cui         2023-08-10  748  			retry_count++;
-019b383d1132e4 Dexuan Cui         2023-08-10  749  			continue;
-019b383d1132e4 Dexuan Cui         2023-08-10  750  		}
-019b383d1132e4 Dexuan Cui         2023-08-10  751  
-019b383d1132e4 Dexuan Cui         2023-08-10  752  		start = map_fail_paddr;
-019b383d1132e4 Dexuan Cui         2023-08-10  753  		retry_count = 0;
-019b383d1132e4 Dexuan Cui         2023-08-10  754  	}
-019b383d1132e4 Dexuan Cui         2023-08-10  755  
-019b383d1132e4 Dexuan Cui         2023-08-10  756  	return false;
-019b383d1132e4 Dexuan Cui         2023-08-10  757  }
-019b383d1132e4 Dexuan Cui         2023-08-10  758  
-
-:::::: The code at line 733 was first introduced by commit
-:::::: 019b383d1132e4051de0d2e43254454b86538cf4 x86/tdx: Retry partially-completed page conversion hypercalls
-
-:::::: TO: Dexuan Cui <decui@microsoft.com>
-:::::: CC: Dave Hansen <dave.hansen@linux.intel.com>
+   sh4-linux-ld: drivers/video/fbdev/sh7760fb.o: in function `sh7760fb_probe':
+   sh7760fb.c:(.text+0x374): undefined reference to `framebuffer_alloc'
+   sh4-linux-ld: sh7760fb.c:(.text+0x394): undefined reference to `fb_videomode_to_var'
+   sh4-linux-ld: sh7760fb.c:(.text+0x39c): undefined reference to `fb_alloc_cmap'
+   sh4-linux-ld: sh7760fb.c:(.text+0x3a4): undefined reference to `register_framebuffer'
+   sh4-linux-ld: sh7760fb.c:(.text+0x3ac): undefined reference to `fb_dealloc_cmap'
+   sh4-linux-ld: sh7760fb.c:(.text+0x434): undefined reference to `framebuffer_release'
+   sh4-linux-ld: drivers/video/fbdev/sh7760fb.o: in function `sh7760fb_remove':
+   sh7760fb.c:(.text+0x800): undefined reference to `unregister_framebuffer'
+   sh4-linux-ld: sh7760fb.c:(.text+0x804): undefined reference to `fb_dealloc_cmap'
+   sh4-linux-ld: sh7760fb.c:(.text+0x814): undefined reference to `framebuffer_release'
+>> sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0xc): undefined reference to `fb_io_read'
+>> sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x10): undefined reference to `fb_io_write'
+   sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x2c): undefined reference to `cfb_fillrect'
+   sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x30): undefined reference to `cfb_copyarea'
+   sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x34): undefined reference to `cfb_imageblit'
 
 -- 
 0-DAY CI Kernel Test Service
