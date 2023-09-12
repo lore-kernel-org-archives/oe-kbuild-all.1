@@ -1,43 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D89D171BA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 12:58:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625A8171BA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 12:58:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694523481; x=1726059481;
+  t=1694523483; x=1726059483;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Axb6RpDm+q+2AVTxheJJzIPpthMSlbf0mz6G/9jHMBU=;
-  b=cGR5oQF3brd1TyLzl68Pf9gVLbrW+n7TwSTKcm/fI8sMbyxERn6x+4No
-   6cRtyaBfsVaD+m8uptueF6cXuAbOYgwEXqKhdFES6k5G7AXcfdBKgxMx+
-   OAD/YToR3OCt4sH4acYizr2Gyq+HkqH5T48VizjOoSQnHdi831ngndFNp
-   EhKQEwzt4bWj9bWTMxoypGtwqSiX+ghuAPAnbj1ES9pVFun9JQvTvXA5n
-   44hNWzggAbS3YlbrefSdPv1RVlKmwpTtl8fD5Ac5qjgB5zIfxHo3jQwkd
-   dDgUAFDKUMBaqp0dksrbTTrE/hrKmeQVR7lcMY5rOCiMdXbavRsCsYDd1
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="378277011"
+  bh=4Ay623mMakHl/eqjjZxE52Xbt3gn7IvGQ+XRhsIM9Yo=;
+  b=U7ZqUBKtdeD9icO4SFhNDZ18QW44sLSikdeuPKGDGxad9Kr5L087mpwU
+   2RFWP7Pa12NZzN7OHMsD9louh50pf6hOg+A6frrYkgsNu6jTf9ntv2XnQ
+   qN01CuXZPZYqcVPJ9iu4sJBCXzWvZjkQ+jGFOEF8DVupHqXWoE2y9ZnRJ
+   bxOgEx0/BrHcEtndKTm2/JDuf1f3gMU4IlD75mkyouYqXtO/HZ9r9QsiR
+   XWiUZVnRPlR/n+HkPGijjmbx7HqqddmIBK8wDREAEZzOO4zIJnZgPYgPf
+   Ddg48vqstd5LWIrkMP8TTMgPjkkp3FazAM13v5IrlPyotEL/m3oOeNlxp
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="378277010"
 X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="378277011"
+   d="scan'208";a="378277010"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 05:57:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="858799076"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="858799074"
 X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="858799076"
+   d="scan'208";a="858799074"
 Received: from lkp-server02.sh.intel.com (HELO 1e56c5165d33) ([10.239.97.151])
   by fmsmga002.fm.intel.com with ESMTP; 12 Sep 2023 05:57:57 -0700
 Received: from kbuild by 1e56c5165d33 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qg2xn-0000Oh-0B;
+	id 1qg2xn-0000Oj-0L;
 	Tue, 12 Sep 2023 12:57:55 +0000
-Date: Tue, 12 Sep 2023 20:57:14 +0800
+Date: Tue, 12 Sep 2023 20:57:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Elena Reshetova <elena.reshetova@intel.com>
+To: James Morse <james.morse@arm.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Subject: [intel-tdx:guest-filter 30/34] drivers/acpi/osl.c:382:17: sparse:
- sparse: incorrect type in return expression (different address spaces)
-Message-ID: <202309122009.J4I3z2ks-lkp@intel.com>
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Subject: [rmk-arm:aarch64/hotplug-vcpu/v6.6-rc1 31/33]
+ drivers/acpi/acpi_processor.c:565: undefined reference to
+ `arch_unregister_cpu'
+Message-ID: <202309122045.bQXDxj5u-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,55 +48,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/tdx.git guest-filter
-head:   205bbdcce0e2be471018d939d81dae51d63b5bd5
-commit: 5bad3b6e79c1f4036a7ae6b3699dadb2635e8717 [30/34] acpica: add acpi_os_map_memory_opregion
-config: i386-randconfig-062-20230912 (https://download.01.org/0day-ci/archive/20230912/202309122009.J4I3z2ks-lkp@intel.com/config)
+tree:   git://git.armlinux.org.uk/~rmk/linux-arm aarch64/hotplug-vcpu/v6.6-rc1
+head:   8c3da820fb216ca0aa4f79018870f248733758c0
+commit: 9d3c5dd53f7a68aa2ec351691174250fc680b280 [31/33] ACPI: add support to register CPUs based on the _STA enabled bit
+config: i386-randconfig-015-20230912 (https://download.01.org/0day-ci/archive/20230912/202309122045.bQXDxj5u-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309122009.J4I3z2ks-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309122045.bQXDxj5u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309122009.J4I3z2ks-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309122045.bQXDxj5u-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/acpi/osl.c:382:17: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/acpi/osl.c:382:17: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   drivers/acpi/osl.c:382:17: sparse:     expected void [noderef] __iomem *
-   drivers/acpi/osl.c:382:17: sparse:     got void *
-   drivers/acpi/osl.c:388:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/acpi/osl.c:412:25: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/acpi/osl.c:414:25: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/acpi/osl.c:1717:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *rv @@     got void [noderef] __iomem * @@
-   drivers/acpi/osl.c:1717:20: sparse:     expected void *rv
-   drivers/acpi/osl.c:1717:20: sparse:     got void [noderef] __iomem *
-   drivers/acpi/osl.c:747:1: sparse: sparse: context imbalance in 'acpi_os_read_memory' - wrong count at exit
-   drivers/acpi/osl.c:780:1: sparse: sparse: context imbalance in 'acpi_os_write_memory' - wrong count at exit
+All errors (new ones prefixed by >>):
 
-vim +382 drivers/acpi/osl.c
+   ld: drivers/acpi/acpi_processor.o: in function `acpi_processor_post_eject':
+>> drivers/acpi/acpi_processor.c:565: undefined reference to `arch_unregister_cpu'
 
-   365	
-   366	/**
-   367	 * acpi_os_map_iomem - Get a virtual address for a given physical address range.
-   368	 * @phys: Start of the physical address range to map.
-   369	 * @size: Size of the physical address range to map.
-   370	 *
-   371	 * Look up the given physical address range in the list of existing ACPI memory
-   372	 * mappings.  If found, get a reference to it and return a pointer to it (its
-   373	 * virtual address).  If not found, map it, add it to that list and return a
-   374	 * pointer to it.
-   375	 *
-   376	 * During early init (when acpi_permanent_mmap has not been set yet) this
-   377	 * routine simply calls __acpi_map_table() to get the job done.
-   378	 */
-   379	void __iomem __ref
-   380	*acpi_os_map_iomem(acpi_physical_address phys, acpi_size size)
-   381	{
- > 382		return (void *)__acpi_os_map_iomem(phys, size, false);
-   383	}
-   384	EXPORT_SYMBOL_GPL(acpi_os_map_iomem);
-   385	
+
+vim +565 drivers/acpi/acpi_processor.c
+
+   541	
+   542	static void acpi_processor_post_eject(struct acpi_device *device)
+   543	{
+   544		struct acpi_processor *pr;
+   545		unsigned long long sta;
+   546		acpi_status status;
+   547	
+   548		if (!device)
+   549			return;
+   550	
+   551		pr = acpi_driver_data(device);
+   552		if (!pr || pr->id >= nr_cpu_ids || invalid_phys_cpuid(pr->phys_id))
+   553			return;
+   554	
+   555		status = acpi_evaluate_integer(pr->handle, "_STA", NULL, &sta);
+   556		if (ACPI_FAILURE(status))
+   557			return;
+   558	
+   559		if (cpu_present(pr->id) && !(sta & ACPI_STA_DEVICE_PRESENT)) {
+   560			acpi_processor_make_not_present(device);
+   561			return;
+   562		}
+   563	
+   564		if (cpu_present(pr->id) && !(sta & ACPI_STA_DEVICE_ENABLED))
+ > 565			arch_unregister_cpu(pr->id);
+   566	}
+   567	
 
 -- 
 0-DAY CI Kernel Test Service
