@@ -1,51 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1A8168DA;
-	Tue, 12 Sep 2023 14:12:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 839FA168DA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 14:13:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694527933; x=1726063933;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wbRiBFZ4+dx/HV/xU4htIqQ3xk7BwZ0yVTxG47NP2co=;
-  b=ASXcP4p/2UuHhqAXYyVEquscwMVpu60Q8p1n1jdkoidvu+cFSXbJ73kJ
-   AGfjHhVcPYQ7s1Y9qEehfjRlnWjHIvYU494ItWbvaMKv/yfuvf7gUwE39
-   iFkExogo/mHHqjdmkkSEslLJSGTg619jBvgNmVB+EcTsH92j2Cijm6OFw
-   GjWXubbKAI39gqCyOnp1xFu1nrnmJCYCYpG+DO/1sIEanK+xlub0KILyj
-   Z6Lk+IWArFXh1PtzC6Ng7NC75/pevk4X026Bp1FQqRnIvI8aSohTcWVwk
-   6Tb75j7+T/iCB1q+IliAw4GPtAbCi8GZg5w9RpzcoT5SnNaeHd8QY6wL7
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="375715161"
+  t=1694527986; x=1726063986;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=p7wHGvZPNbTbMIqJRRIhfqEuhQAE5gmblZKFr2URf+U=;
+  b=CdUVzFaSyAIE9+gE/64R8h4jiUM5A2Ru3fmNt81TeFdbHj8iyzkV1GGM
+   vPTkuZtEDZafN0N/37yLi8Af2ir14zdu5Rxdfm+wYHrfhHZLeBs1Z7lcE
+   5MJM8Vry5W7vsM4yPKORQwRZVGltmqrCIB3aJQZ6TtgZx79phNlYhMZ26
+   6tYaNCZZYoP+pasTJ97ne3pBVFcCLBxLeA3X/f4ETcGixjDyRMC6PMIve
+   pAJyKVz+cIwQos/AMe4zJ2woP9ADInw8oUeC4ojeHObmeBOHSYo0hhwnk
+   KjRYti0nC7ZVXz1hviL2auuPSRgz0A2TR++m/8PXOZXet2y8DNqF3QQIX
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="409339095"
 X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="375715161"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 07:12:09 -0700
+   d="scan'208";a="409339095"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 07:13:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="809276394"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="886946481"
 X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="809276394"
+   d="scan'208";a="886946481"
 Received: from lkp-server02.sh.intel.com (HELO 0a6943a0b3e1) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 12 Sep 2023 07:12:05 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 12 Sep 2023 07:12:37 -0700
 Received: from kbuild by 0a6943a0b3e1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qg47V-00003L-2y;
-	Tue, 12 Sep 2023 14:12:01 +0000
-Date: Tue, 12 Sep 2023 22:11:56 +0800
+	id 1qg48U-00003f-0J;
+	Tue, 12 Sep 2023 14:13:02 +0000
+Date: Tue, 12 Sep 2023 22:12:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Brost <matthew.brost@intel.com>,
-	dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
-	Matthew Brost <matthew.brost@intel.com>, sarah.walker@imgtec.com,
-	ketil.johnsen@arm.com, mcanal@igalia.com, Liviu.Dudau@arm.com,
-	luben.tuikov@amd.com, lina@asahilina.net, donald.robson@imgtec.com,
-	boris.brezillon@collabora.com, christian.koenig@amd.com,
-	faith.ekstrand@collabora.com
-Subject: Re: [PATCH v3 03/13] drm/sched: Move schedule policy to scheduler /
- entity
-Message-ID: <202309122100.HAEi8ytJ-lkp@intel.com>
-References: <20230912021615.2086698-4-matthew.brost@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:serial 1/74] include/linux/serial_core.h:639:48:
+ warning: passing argument 1 of 'arch_local_irq_restore' makes integer from
+ pointer without a cast
+Message-ID: <202309122209.9jWcaeU5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,105 +46,253 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230912021615.2086698-4-matthew.brost@intel.com>
 
-Hi Matthew,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.6-rc1 next-20230912]
-[cannot apply to drm-misc/drm-misc-next drm-intel/for-linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/drm-sched-Add-drm_sched_submit_-helpers/20230912-102001
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20230912021615.2086698-4-matthew.brost%40intel.com
-patch subject: [PATCH v3 03/13] drm/sched: Move schedule policy to scheduler / entity
-config: arm64-randconfig-r032-20230912 (https://download.01.org/0day-ci/archive/20230912/202309122100.HAEi8ytJ-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309122100.HAEi8ytJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git serial
+head:   75adfb6dc779d7c86a2e31b3ca6b266b8a8ef854
+commit: 7887baec9d85468ea43d70b614fc3f51f7206793 [1/74] serial: core: Provide port lock wrappers
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230912/202309122209.9jWcaeU5-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309122209.9jWcaeU5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309122100.HAEi8ytJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309122209.9jWcaeU5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/v3d/v3d_sched.c:403:9: error: use of undeclared identifier 'ULL'
-                                ULL, "v3d_render", DRM_SCHED_POLICY_DEFAULT,
-                                ^
-   1 error generated.
+   In file included from include/linux/irqflags.h:15,
+                    from arch/m68k/include/asm/atomic.h:6,
+                    from include/linux/atomic.h:7,
+                    from include/linux/mm_types_task.h:13,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from drivers/tty/serial/serial_core.c:10:
+   include/linux/serial_core.h: In function 'uart_port_lock_irqsave':
+   include/linux/typecheck.h:12:25: warning: comparison of distinct pointer types lacks a cast
+      12 |         (void)(&__dummy == &__dummy2); \
+         |                         ^~
+   include/linux/spinlock.h:243:17: note: in expansion of macro 'typecheck'
+     243 |                 typecheck(unsigned long, flags);        \
+         |                 ^~~~~~~~~
+   include/linux/spinlock.h:381:9: note: in expansion of macro 'raw_spin_lock_irqsave'
+     381 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/serial_core.h:616:9: note: in expansion of macro 'spin_lock_irqsave'
+     616 |         spin_lock_irqsave(&up->lock, flags);
+         |         ^~~~~~~~~~~~~~~~~
+   In file included from include/linux/kref.h:16,
+                    from include/linux/mm_types.h:8:
+>> include/linux/spinlock.h:244:23: warning: assignment to 'long unsigned int *' from 'long unsigned int' makes pointer from integer without a cast [-Wint-conversion]
+     244 |                 flags = _raw_spin_lock_irqsave(lock);   \
+         |                       ^
+   include/linux/spinlock.h:381:9: note: in expansion of macro 'raw_spin_lock_irqsave'
+     381 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/serial_core.h:616:9: note: in expansion of macro 'spin_lock_irqsave'
+     616 |         spin_lock_irqsave(&up->lock, flags);
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/serial_core.h: In function 'uart_port_trylock_irqsave':
+   include/linux/typecheck.h:12:25: warning: comparison of distinct pointer types lacks a cast
+      12 |         (void)(&__dummy == &__dummy2); \
+         |                         ^~
+   include/linux/irqflags.h:178:17: note: in expansion of macro 'typecheck'
+     178 |                 typecheck(unsigned long, flags);        \
+         |                 ^~~~~~~~~
+   include/linux/irqflags.h:245:38: note: in expansion of macro 'raw_local_irq_save'
+     245 | #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while (0)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:298:9: note: in expansion of macro 'local_irq_save'
+     298 |         local_irq_save(flags); \
+         |         ^~~~~~~~~~~~~~
+   include/linux/spinlock.h:421:9: note: in expansion of macro 'raw_spin_trylock_irqsave'
+     421 |         raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/serial_core.h:639:16: note: in expansion of macro 'spin_trylock_irqsave'
+     639 |         return spin_trylock_irqsave(&up->lock, flags);
+         |                ^~~~~~~~~~~~~~~~~~~~
+>> include/linux/irqflags.h:179:23: warning: assignment to 'long unsigned int *' from 'long unsigned int' makes pointer from integer without a cast [-Wint-conversion]
+     179 |                 flags = arch_local_irq_save();          \
+         |                       ^
+   include/linux/irqflags.h:245:38: note: in expansion of macro 'raw_local_irq_save'
+     245 | #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while (0)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:298:9: note: in expansion of macro 'local_irq_save'
+     298 |         local_irq_save(flags); \
+         |         ^~~~~~~~~~~~~~
+   include/linux/spinlock.h:421:9: note: in expansion of macro 'raw_spin_trylock_irqsave'
+     421 |         raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/serial_core.h:639:16: note: in expansion of macro 'spin_trylock_irqsave'
+     639 |         return spin_trylock_irqsave(&up->lock, flags);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   include/linux/typecheck.h:12:25: warning: comparison of distinct pointer types lacks a cast
+      12 |         (void)(&__dummy == &__dummy2); \
+         |                         ^~
+   include/linux/irqflags.h:183:17: note: in expansion of macro 'typecheck'
+     183 |                 typecheck(unsigned long, flags);        \
+         |                 ^~~~~~~~~
+   include/linux/irqflags.h:246:39: note: in expansion of macro 'raw_local_irq_restore'
+     246 | #define local_irq_restore(flags) do { raw_local_irq_restore(flags); } while (0)
+         |                                       ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:300:16: note: in expansion of macro 'local_irq_restore'
+     300 |         1 : ({ local_irq_restore(flags); 0; }); \
+         |                ^~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:421:9: note: in expansion of macro 'raw_spin_trylock_irqsave'
+     421 |         raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/serial_core.h:639:16: note: in expansion of macro 'spin_trylock_irqsave'
+     639 |         return spin_trylock_irqsave(&up->lock, flags);
+         |                ^~~~~~~~~~~~~~~~~~~~
+>> include/linux/serial_core.h:639:48: warning: passing argument 1 of 'arch_local_irq_restore' makes integer from pointer without a cast [-Wint-conversion]
+     639 |         return spin_trylock_irqsave(&up->lock, flags);
+         |                                                ^~~~~
+         |                                                |
+         |                                                long unsigned int *
+   include/linux/irqflags.h:185:40: note: in definition of macro 'raw_local_irq_restore'
+     185 |                 arch_local_irq_restore(flags);          \
+         |                                        ^~~~~
+   include/linux/spinlock.h:300:16: note: in expansion of macro 'local_irq_restore'
+     300 |         1 : ({ local_irq_restore(flags); 0; }); \
+         |                ^~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:421:9: note: in expansion of macro 'raw_spin_trylock_irqsave'
+     421 |         raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/serial_core.h:639:16: note: in expansion of macro 'spin_trylock_irqsave'
+     639 |         return spin_trylock_irqsave(&up->lock, flags);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/irqflags.h:17:
+   arch/m68k/include/asm/irqflags.h:61:57: note: expected 'long unsigned int' but argument is of type 'long unsigned int *'
+      61 | static inline void arch_local_irq_restore(unsigned long flags)
+         |                                           ~~~~~~~~~~~~~~^~~~~
+--
+   In file included from include/linux/irqflags.h:15,
+                    from arch/m68k/include/asm/atomic.h:6,
+                    from include/linux/atomic.h:7,
+                    from include/linux/mm_types_task.h:13,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from drivers/tty/serial/8250/8250_hp300.c:9:
+   include/linux/serial_core.h: In function 'uart_port_lock_irqsave':
+   include/linux/typecheck.h:12:25: warning: comparison of distinct pointer types lacks a cast
+      12 |         (void)(&__dummy == &__dummy2); \
+         |                         ^~
+   include/linux/spinlock.h:243:17: note: in expansion of macro 'typecheck'
+     243 |                 typecheck(unsigned long, flags);        \
+         |                 ^~~~~~~~~
+   include/linux/spinlock.h:381:9: note: in expansion of macro 'raw_spin_lock_irqsave'
+     381 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/serial_core.h:616:9: note: in expansion of macro 'spin_lock_irqsave'
+     616 |         spin_lock_irqsave(&up->lock, flags);
+         |         ^~~~~~~~~~~~~~~~~
+   In file included from include/linux/kref.h:16,
+                    from include/linux/mm_types.h:8:
+>> include/linux/spinlock.h:244:23: warning: assignment to 'long unsigned int *' from 'long unsigned int' makes pointer from integer without a cast [-Wint-conversion]
+     244 |                 flags = _raw_spin_lock_irqsave(lock);   \
+         |                       ^
+   include/linux/spinlock.h:381:9: note: in expansion of macro 'raw_spin_lock_irqsave'
+     381 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/serial_core.h:616:9: note: in expansion of macro 'spin_lock_irqsave'
+     616 |         spin_lock_irqsave(&up->lock, flags);
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/serial_core.h: In function 'uart_port_trylock_irqsave':
+   include/linux/typecheck.h:12:25: warning: comparison of distinct pointer types lacks a cast
+      12 |         (void)(&__dummy == &__dummy2); \
+         |                         ^~
+   include/linux/irqflags.h:178:17: note: in expansion of macro 'typecheck'
+     178 |                 typecheck(unsigned long, flags);        \
+         |                 ^~~~~~~~~
+   include/linux/irqflags.h:245:38: note: in expansion of macro 'raw_local_irq_save'
+     245 | #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while (0)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:298:9: note: in expansion of macro 'local_irq_save'
+     298 |         local_irq_save(flags); \
+         |         ^~~~~~~~~~~~~~
+   include/linux/spinlock.h:421:9: note: in expansion of macro 'raw_spin_trylock_irqsave'
+     421 |         raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/serial_core.h:639:16: note: in expansion of macro 'spin_trylock_irqsave'
+     639 |         return spin_trylock_irqsave(&up->lock, flags);
+         |                ^~~~~~~~~~~~~~~~~~~~
+>> include/linux/irqflags.h:179:23: warning: assignment to 'long unsigned int *' from 'long unsigned int' makes pointer from integer without a cast [-Wint-conversion]
+     179 |                 flags = arch_local_irq_save();          \
+         |                       ^
+   include/linux/irqflags.h:245:38: note: in expansion of macro 'raw_local_irq_save'
+     245 | #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while (0)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:298:9: note: in expansion of macro 'local_irq_save'
+     298 |         local_irq_save(flags); \
+         |         ^~~~~~~~~~~~~~
+   include/linux/spinlock.h:421:9: note: in expansion of macro 'raw_spin_trylock_irqsave'
+     421 |         raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/serial_core.h:639:16: note: in expansion of macro 'spin_trylock_irqsave'
+     639 |         return spin_trylock_irqsave(&up->lock, flags);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   include/linux/typecheck.h:12:25: warning: comparison of distinct pointer types lacks a cast
+      12 |         (void)(&__dummy == &__dummy2); \
+         |                         ^~
+   include/linux/irqflags.h:183:17: note: in expansion of macro 'typecheck'
+     183 |                 typecheck(unsigned long, flags);        \
+         |                 ^~~~~~~~~
+   include/linux/irqflags.h:246:39: note: in expansion of macro 'raw_local_irq_restore'
+     246 | #define local_irq_restore(flags) do { raw_local_irq_restore(flags); } while (0)
+         |                                       ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:300:16: note: in expansion of macro 'local_irq_restore'
+     300 |         1 : ({ local_irq_restore(flags); 0; }); \
+         |                ^~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:421:9: note: in expansion of macro 'raw_spin_trylock_irqsave'
+     421 |         raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/serial_core.h:639:16: note: in expansion of macro 'spin_trylock_irqsave'
+     639 |         return spin_trylock_irqsave(&up->lock, flags);
+         |                ^~~~~~~~~~~~~~~~~~~~
+>> include/linux/serial_core.h:639:48: warning: passing argument 1 of 'arch_local_irq_restore' makes integer from pointer without a cast [-Wint-conversion]
+     639 |         return spin_trylock_irqsave(&up->lock, flags);
+         |                                                ^~~~~
+         |                                                |
+         |                                                long unsigned int *
+   include/linux/irqflags.h:185:40: note: in definition of macro 'raw_local_irq_restore'
+     185 |                 arch_local_irq_restore(flags);          \
+         |                                        ^~~~~
+   include/linux/spinlock.h:300:16: note: in expansion of macro 'local_irq_restore'
+     300 |         1 : ({ local_irq_restore(flags); 0; }); \
+         |                ^~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:421:9: note: in expansion of macro 'raw_spin_trylock_irqsave'
+     421 |         raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/serial_core.h:639:16: note: in expansion of macro 'spin_trylock_irqsave'
+     639 |         return spin_trylock_irqsave(&up->lock, flags);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/irqflags.h:17:
+   arch/m68k/include/asm/irqflags.h:61:57: note: expected 'long unsigned int' but argument is of type 'long unsigned int *'
+      61 | static inline void arch_local_irq_restore(unsigned long flags)
+         |                                           ~~~~~~~~~~~~~~^~~~~
+   drivers/tty/serial/8250/8250_hp300.c: At top level:
+   drivers/tty/serial/8250/8250_hp300.c:91:12: warning: no previous prototype for 'hp300_setup_serial_console' [-Wmissing-prototypes]
+      91 | int __init hp300_setup_serial_console(void)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/ULL +403 drivers/gpu/drm/v3d/v3d_sched.c
+vim +/arch_local_irq_restore +639 include/linux/serial_core.h
 
-   381	
-   382	int
-   383	v3d_sched_init(struct v3d_dev *v3d)
-   384	{
-   385		int hw_jobs_limit = 1;
-   386		int job_hang_limit = 0;
-   387		int hang_limit_ms = 500;
-   388		int ret;
-   389	
-   390		ret = drm_sched_init(&v3d->queue[V3D_BIN].sched,
-   391				     &v3d_bin_sched_ops, NULL,
-   392				     hw_jobs_limit, job_hang_limit,
-   393				     msecs_to_jiffies(hang_limit_ms), NULL,
-   394				     NULL, "v3d_bin", DRM_SCHED_POLICY_DEFAULT,
-   395				     v3d->drm.dev);
-   396		if (ret)
-   397			return ret;
-   398	
-   399		ret = drm_sched_init(&v3d->queue[V3D_RENDER].sched,
-   400				     &v3d_render_sched_ops, NULL,
-   401				     hw_jobs_limit, job_hang_limit,
-   402				     msecs_to_jiffies(hang_limit_ms), NULL,
- > 403				     ULL, "v3d_render", DRM_SCHED_POLICY_DEFAULT,
-   404				     v3d->drm.dev);
-   405		if (ret)
-   406			goto fail;
-   407	
-   408		ret = drm_sched_init(&v3d->queue[V3D_TFU].sched,
-   409				     &v3d_tfu_sched_ops, NULL,
-   410				     hw_jobs_limit, job_hang_limit,
-   411				     msecs_to_jiffies(hang_limit_ms), NULL,
-   412				     NULL, "v3d_tfu", DRM_SCHED_POLICY_DEFAULT,
-   413				     v3d->drm.dev);
-   414		if (ret)
-   415			goto fail;
-   416	
-   417		if (v3d_has_csd(v3d)) {
-   418			ret = drm_sched_init(&v3d->queue[V3D_CSD].sched,
-   419					     &v3d_csd_sched_ops, NULL,
-   420					     hw_jobs_limit, job_hang_limit,
-   421					     msecs_to_jiffies(hang_limit_ms), NULL,
-   422					     NULL, "v3d_csd", DRM_SCHED_POLICY_DEFAULT,
-   423					     v3d->drm.dev);
-   424			if (ret)
-   425				goto fail;
-   426	
-   427			ret = drm_sched_init(&v3d->queue[V3D_CACHE_CLEAN].sched,
-   428					     &v3d_cache_clean_sched_ops, NULL,
-   429					     hw_jobs_limit, job_hang_limit,
-   430					     msecs_to_jiffies(hang_limit_ms), NULL,
-   431					     NULL, "v3d_cache_clean",
-   432					     DRM_SCHED_POLICY_DEFAULT, v3d->drm.dev);
-   433			if (ret)
-   434				goto fail;
-   435		}
-   436	
-   437		return 0;
-   438	
-   439	fail:
-   440		v3d_sched_fini(v3d);
-   441		return ret;
-   442	}
-   443	
+   629	
+   630	/**
+   631	 * uart_port_trylock_irqsave - Try to lock the UART port, save and disable interrupts
+   632	 * @up:		Pointer to UART port structure
+   633	 * @flags:	Pointer to interrupt flags storage
+   634	 *
+   635	 * Returns: True if lock was acquired, false otherwise
+   636	 */
+   637	static inline bool uart_port_trylock_irqsave(struct uart_port *up, unsigned long *flags)
+   638	{
+ > 639		return spin_trylock_irqsave(&up->lock, flags);
+   640	}
+   641	
 
 -- 
 0-DAY CI Kernel Test Service
