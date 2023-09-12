@@ -1,84 +1,105 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0908F7C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 09:22:42 +0000 (UTC)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38C7U1QU025512;
-	Tue, 12 Sep 2023 04:19:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=PODMain02222019; bh=3842lPQ3i0eYHtp
-	hxkwXTnHk43pagi8qo0tmHBx87V0=; b=h31q5+dZJV24i7yPKRvahiKVBS7uc9e
-	MPPsp58G4nT6OOycUCauPjhPhLVQ+zah3VFF/nQXUR80r5yZQpxgfIiQdYqmS7TG
-	YqSjt8HLMdSX2Tq8sCULNTkKuJXlZr7uwQR/U75w1D2sgujCD6tNuUuaK4vggA3i
-	ZUn3Tj4a8uqLX9aJbVfwNh4+Zo8ur8cu183DB7ePWix4EmcH1Imph6ZwyaswZxOK
-	+KPIeQsvwhMf/9K7A5bx8U2ONx9lZHrBKRU/JVPgVZzN5u81+TmW4Rxv14nGT1wa
-	7KnprnuUYAfQdLRLs8ipC2j1llPLjGJmjCzrDAGsoocT1ND1dDLRwHg==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3t0n4jau22-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 12 Sep 2023 04:19:55 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.37; Tue, 12 Sep
- 2023 10:19:54 +0100
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.37 via Frontend Transport; Tue, 12 Sep 2023 10:19:54 +0100
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 38C943560;
-	Tue, 12 Sep 2023 09:19:54 +0000 (UTC)
-Date: Tue, 12 Sep 2023 09:19:54 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: kernel test robot <lkp@intel.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-        Lee Jones
-	<lee@kernel.org>
-Subject: Re: cs42l43.c:undefined reference to `devm_regmap_add_irq_chip'
-Message-ID: <20230912091954.GQ103419@ediswmail.ad.cirrus.com>
-References: <202309120614.y7xm6iqp-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04268F6D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 09:30:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694511043; x=1726047043;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZZsMX87ZBA2LSNsBXxrcaHlzB7WnuqbevwSrDLDgc/k=;
+  b=FWbHFI9hDt/GXTR1LMvmhTicqJiBHK05mFEsZmMeJvqslj9/43yc8JhA
+   fMDcn2LVQUQoMYunuu7+P+l4W5iEZKv64Yi16l3p+1qMXyweCQ+sNM7JH
+   YSjqX7D3p5SsczDURQ80En2c6tWJLjcsRL2acICvC48JQjEcsqxEcixDF
+   ypHHvbmc70JcQqnMzrv+7+7O/dAZXUqOpMBb6ouyZ1duqclEXDMYMBPqM
+   A4E2TAibQYwT5lYJNwgQcQ3qkaJ+ctdfniKt6wz9pDtAIaHCf/7fDLrxm
+   dw5xowEBNh+Fe/1cq86vewaoa3K77nW4JG58PHJ8hOSs1FiTX55bvu3Q+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="381025441"
+X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; 
+   d="scan'208";a="381025441"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 02:30:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="990440198"
+X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; 
+   d="scan'208";a="990440198"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 02:30:18 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1qfzin-008Y4U-0a;
+	Tue, 12 Sep 2023 12:30:13 +0300
+Date: Tue, 12 Sep 2023 12:30:12 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Ken Xue <Ken.Xue@amd.com>
+Cc: linux-acpi@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+	rafael@kernel.org, kernel test robot <lkp@intel.com>,
+	cwhuang@linux.org.tw
+Subject: Re: [PATCH] acpi: trigger wakeup key event from power button
+Message-ID: <ZQAvpIKqmLeWbh0v@smile.fi.intel.com>
+References: <20230908095747.446389-1-Ken.Xue@amd.com>
+ <ZP7hH9i6ZQgINbcB@smile.fi.intel.com>
+ <2bfaa431-ca9f-c879-9967-f13d18dd4cd3@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202309120614.y7xm6iqp-lkp@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-ORIG-GUID: Ag_oE9TnNfyc6BAu10hfPa0KBb4vqNzM
-X-Proofpoint-GUID: Ag_oE9TnNfyc6BAu10hfPa0KBb4vqNzM
-X-Proofpoint-Spam-Reason: safe
+In-Reply-To: <2bfaa431-ca9f-c879-9967-f13d18dd4cd3@amd.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, Sep 12, 2023 at 06:29:42AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-> commit: ace6d14481386ec6c1b63cc2b24c71433a583dc2 mfd: cs42l43: Add support for cs42l43 core driver
-> date:   4 weeks ago
-> config: nios2-randconfig-r013-20230912 (https://download.01.org/0day-ci/archive/20230912/202309120614.y7xm6iqp-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309120614.y7xm6iqp-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309120614.y7xm6iqp-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    nios2-linux-ld: drivers/mfd/cs42l43.o: in function `cs42l43_boot_work':
-> >> cs42l43.c:(.text+0x614): undefined reference to `devm_regmap_add_irq_chip'
->    cs42l43.c:(.text+0x614): relocation truncated to fit: R_NIOS2_CALL26 against `devm_regmap_add_irq_chip'
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+On Tue, Sep 12, 2023 at 01:32:02PM +0800, Ken Xue wrote:
+> On 2023/9/11 17:42, Andy Shevchenko wrote:
+> > On Fri, Sep 08, 2023 at 05:57:49PM +0800, Ken Xue wrote:
 
-This should be fixed by this patch:
+...
 
-https://lore.kernel.org/lkml/20230905133406.GM103419@ediswmail.ad.cirrus.com/T/
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > Are you sure?
+> 
+> Thanks for review. Sorry for confusion.
 
-Thanks,
-Charles
+> 2) test robot reported some compile warnings and errors detected by test
+> robot which is fixed in V2.
+
+Yes and that's what I'm asking about. You are not supposed to add it as the
+initial problem, the patch is trying to solve, has _not_ been reported by LKP,
+hasn't it?
+
+...
+
+> > > Closes: https://lore.kernel.org/oe-kbuild-all/202309080315.txQUEyHQ-lkp@intel.com/
+> > > Closes: https://lore.kernel.org/oe-kbuild-all/202309080239.IiC7uLpW-lkp@intel.com/
+> > > Closes: https://lore.kernel.org/oe-kbuild-all/202309080351.xHt2qhP2-lkp@intel.com/
+> > Are you sure?
+> 
+> Just some errors/warnings from the v1 patch.
+
+Same as above.
+
+...
+
+> > > +#include <linux/acpi.h>
+> > There are no users of this header.
+> > 
+> > Check how forward declaration can be used (as it's done in many other headers).
+> > 
+> Yes, "struct acpi_device" is defined in "include/acpi/acpi_bus.h", but
+> include acpi_bus.h alone will lead to more compile issues.
+> 
+> Regarding "forward declaration", how about
+> 
+> typedef struct acpi_device *acpi_device;
+
+Is it a forward declaration?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
