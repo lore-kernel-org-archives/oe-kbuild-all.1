@@ -1,226 +1,112 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB4D15AE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 09:00:22 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-31c8321c48fso4158199f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 02:00:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1694509220; x=1695114020; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DPuhXIrsoDRwKm2c4doZfBy6UJlqWZcuCP4pbW2cMJU=;
-        b=ilMboI7jGadR9TvQm3xhCRwHUOlbmI/PA/kAC3SDM/NRh6aaqjrFhpAbQlZ7+ujJyc
-         obAGjt312OdgoXowHs998w3S6HE8bbzJFN+1riPFxZZvFRMgx1VQZnWUJVF0/6O6jLvY
-         yHoIrpf3xSzjxUaoS+SQEcf1ibWsx3zmaA/Y/c3BWJgYnpLSucOn36jUwZXNPlg5LpGt
-         iuXsy6yrCAbkCrFb0debopMDFfA9QHZEjwZ7o5kZI/WdWkkNl+iryciWXmU0Dnqz+hCX
-         7JQkWmlFr3rKD9dgpHLz5UAWgBSOH8vPk/LYTIi87rJijFIXy8LMdG6cnndAH14vKiG3
-         qFwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694509220; x=1695114020;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DPuhXIrsoDRwKm2c4doZfBy6UJlqWZcuCP4pbW2cMJU=;
-        b=fYKCkUKP75H/f3MLHEN5xLJv0omHxutLqHvLJHuTCJCi89qy95sdq9OXdj9/Y/BBBk
-         i4m72Sdzk4jxEwuiZRnM2K+tLrK2x/Ak6waY/Oz0zg5ETkb2V/vtY6jVzJ3DH8qXoT7Y
-         BDZze5/eF+9m5knGAujkHMuA1rrhp2ViC9D2HAhwleWQ6PYk0YXgTYt0L0Z7VCDz04UJ
-         DbxNA/b1tiKd6pKptZGr/9box7aXMz2Ebqkk8tcakdhMYen/deMOJqcNq5fsgynOk+QO
-         ZrmBLvby67/3NpoSNBiFxUtyq/i+vBDjbFFrCFIjOW/rPlBhHQEQB0gMgsAqKhmDww7h
-         CCpQ==
-X-Gm-Message-State: AOJu0YyeJGqlFD5S9GX0j6U7NBB1MugLS3BvXDw2n21h4EBTQSj8FWUw
-	to3RpjUlz5hkLbsNVfsPUqS/R5+pCuv54TXrBdv7Wg==
-X-Google-Smtp-Source: AGHT+IEruaY/XJBjah+iWq3HcBLI4GKyhigsTj6VWb1ntfR010vgfqEBZKHcesQHRAHWD6nSXOXZYQmhyGeyUOCjYig=
-X-Received: by 2002:a05:6000:1245:b0:319:6b14:555c with SMTP id
- j5-20020a056000124500b003196b14555cmr1373860wrx.3.1694509220233; Tue, 12 Sep
- 2023 02:00:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743555688
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 09:17:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694510261; x=1726046261;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=76LYHFnxt3VRf3kTnVT7UE/ECnFeE/FhnxT3niq7iPw=;
+  b=ZkMoLYXRD1dzzCm7SAeOMW4LemYP1c/exntxrMbtWw/D8ReJwz3G2g9r
+   ezf+aKpFB0Z2AE0GBngmWk77/JyAn9j7iQEEioo5WoFJPNdb+ZuoDawFF
+   N8YhXZhKix3ZH2lSdNxSezniOJE9d0EcqRXELB8kpwN7PnbkS9uq+1w57
+   EwCZn+fcLKOYfRUdzugoio3ajExVDGdYYjEEcsee4UEXY0KZ/smEOOuRU
+   EXDggsEockS2QghuY0cN5dR6vrQ6+zkKzmqttzdo51qnZQcyia37A4Kj3
+   /ReYCMd2V7/zuatAjYLqcQf3gE5eOAgSYXuYefqwTpL5SFY2ea4pm2CYF
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="381022678"
+X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; 
+   d="scan'208";a="381022678"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 02:17:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="990436572"
+X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; 
+   d="scan'208";a="990436572"
+Received: from lkp-server02.sh.intel.com (HELO 1e56c5165d33) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 12 Sep 2023 02:17:39 -0700
+Received: from kbuild by 1e56c5165d33 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qfzWF-0000C6-01;
+	Tue, 12 Sep 2023 09:17:16 +0000
+Date: Tue, 12 Sep 2023 17:14:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-tdx:guest-attest 9/9]
+ drivers/virt/coco/tdx-guest/tdx-guest.c:163:35: warning: variable 'size' set
+ but not used
+Message-ID: <202309121756.9Zp1Jql5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230906115928.3749928-1-alpic@google.com> <202309090600.NSyo7d2q-lkp@intel.com>
- <CAEjxPJ4GOq3E4zqXbEMKUxqewopyeU5nmUg89rL+P5YsuEBi7A@mail.gmail.com> <CAEjxPJ4uoqkwmbeOOmUHJwoKiK3cnfJP5P2w+hOXr4BZNtQ+JQ@mail.gmail.com>
-In-Reply-To: <CAEjxPJ4uoqkwmbeOOmUHJwoKiK3cnfJP5P2w+hOXr4BZNtQ+JQ@mail.gmail.com>
-From: Alfred Piccioni <alpic@google.com>
-Date: Tue, 12 Sep 2023 11:00:07 +0200
-Message-ID: <CALcwBGBPaYh98d+3_3k8o+8WCbYU8cNPoOHaqhUduKZYz7Ntow@mail.gmail.com>
-Subject: Re: [PATCH V2] SELinux: Check correct permissions for FS_IOC32_*
-To: Stephen Smalley <stephen.smalley.work@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, Paul Moore <paul@paul-moore.com>, 
-	Eric Paris <eparis@parisplace.org>, oe-kbuild-all@lists.linux.dev, 
-	stable@vger.kernel.org, selinux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	LSM List <linux-security-module@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Sep 11, 2023 at 3:49=E2=80=AFPM Stephen Smalley
-<stephen.smalley.work@gmail.com> wrote:
->
-> On Mon, Sep 11, 2023 at 9:19=E2=80=AFAM Stephen Smalley
-> <stephen.smalley.work@gmail.com> wrote:
-> >
-> > On Fri, Sep 8, 2023 at 6:54=E2=80=AFPM kernel test robot <lkp@intel.com=
-> wrote:
-> > >
-> > > Hi Alfred,
-> > >
-> > > kernel test robot noticed the following build errors:
-> > >
-> > > [auto build test ERROR on 50a510a78287c15cee644f345ef8bac8977986a7]
-> > >
-> > > url:    https://github.com/intel-lab-lkp/linux/commits/Alfred-Piccion=
-i/SELinux-Check-correct-permissions-for-FS_IOC32_/20230906-200131
-> > > base:   50a510a78287c15cee644f345ef8bac8977986a7
-> > > patch link:    https://lore.kernel.org/r/20230906115928.3749928-1-alp=
-ic%40google.com
-> > > patch subject: [PATCH V2] SELinux: Check correct permissions for FS_I=
-OC32_*
-> > > config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/202=
-30909/202309090600.NSyo7d2q-lkp@intel.com/config)
-> > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
-rchive/20230909/202309090600.NSyo7d2q-lkp@intel.com/reproduce)
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202309090600.NSyo7d2q=
--lkp@intel.com/
-> > >
-> > > All errors (new ones prefixed by >>):
-> > >
-> > >    security/selinux/hooks.c: In function 'selinux_file_ioctl':
-> > > >> security/selinux/hooks.c:3647:9: error: duplicate case value
-> > >     3647 |         case FS_IOC32_GETFLAGS:
-> > >          |         ^~~~
-> > >    security/selinux/hooks.c:3645:9: note: previously used here
-> > >     3645 |         case FS_IOC_GETFLAGS:
-> > >          |         ^~~~
-> > >    security/selinux/hooks.c:3648:9: error: duplicate case value
-> > >     3648 |         case FS_IOC32_GETVERSION:
-> > >          |         ^~~~
-> > >    security/selinux/hooks.c:3646:9: note: previously used here
-> > >     3646 |         case FS_IOC_GETVERSION:
-> > >          |         ^~~~
-> > >    security/selinux/hooks.c:3654:9: error: duplicate case value
-> > >     3654 |         case FS_IOC32_SETFLAGS:
-> > >          |         ^~~~
-> > >    security/selinux/hooks.c:3652:9: note: previously used here
-> > >     3652 |         case FS_IOC_SETFLAGS:
-> > >          |         ^~~~
-> > >    security/selinux/hooks.c:3655:9: error: duplicate case value
-> > >     3655 |         case FS_IOC32_SETVERSION:
-> > >          |         ^~~~
-> > >    security/selinux/hooks.c:3653:9: note: previously used here
-> > >     3653 |         case FS_IOC_SETVERSION:
-> > >          |         ^~~~
-> >
-> > Not sure of the right way to fix this while addressing the original
-> > issue that this patch was intended to fix. Looking in fs/ioctl.c, I
-> > see that the some FS_IOC32 values are remapped to the corresponding
-> > FS_IOC values by the compat ioctl syscall entrypoint. Also notice this
-> > comment there:
-> >
-> >         /* RED-PEN how should LSM module know it's handling 32bit? */
-> >         error =3D security_file_ioctl(f.file, cmd, arg);
-> >         if (error)
-> >                 goto out;
-> >
-> > So perhaps this is a defect in LSM that needs to be addressed?
->
-> Note btw that some of the 32-bit ioctl commands are only handled in
-> the fs-specific compat_ioctl routines, e.g. ext4_compat_ioctl()
-> handles EXT4_IOC32_GETVERSION =3D=3D FS_IOC32_GETVERSION and ditto for
-> _SETVERSION.
->
-> >
-> >
-> > >
-> > >
-> > > vim +3647 security/selinux/hooks.c
-> > >
-> > >   3634
-> > >   3635  static int selinux_file_ioctl(struct file *file, unsigned int=
- cmd,
-> > >   3636                                unsigned long arg)
-> > >   3637  {
-> > >   3638          const struct cred *cred =3D current_cred();
-> > >   3639          int error =3D 0;
-> > >   3640
-> > >   3641          switch (cmd) {
-> > >   3642          case FIONREAD:
-> > >   3643          case FIBMAP:
-> > >   3644          case FIGETBSZ:
-> > >   3645          case FS_IOC_GETFLAGS:
-> > >   3646          case FS_IOC_GETVERSION:
-> > > > 3647          case FS_IOC32_GETFLAGS:
-> > >   3648          case FS_IOC32_GETVERSION:
-> > >   3649                  error =3D file_has_perm(cred, file, FILE__GET=
-ATTR);
-> > >   3650                  break;
-> > >   3651
-> > >   3652          case FS_IOC_SETFLAGS:
-> > >   3653          case FS_IOC_SETVERSION:
-> > >   3654          case FS_IOC32_SETFLAGS:
-> > >   3655          case FS_IOC32_SETVERSION:
-> > >   3656                  error =3D file_has_perm(cred, file, FILE__SET=
-ATTR);
-> > >   3657                  break;
-> > >   3658
-> > >   3659          /* sys_ioctl() checks */
-> > >   3660          case FIONBIO:
-> > >   3661          case FIOASYNC:
-> > >   3662                  error =3D file_has_perm(cred, file, 0);
-> > >   3663                  break;
-> > >   3664
-> > >   3665          case KDSKBENT:
-> > >   3666          case KDSKBSENT:
-> > >   3667                  error =3D cred_has_capability(cred, CAP_SYS_T=
-TY_CONFIG,
-> > >   3668                                              CAP_OPT_NONE, tru=
-e);
-> > >   3669                  break;
-> > >   3670
-> > >   3671          case FIOCLEX:
-> > >   3672          case FIONCLEX:
-> > >   3673                  if (!selinux_policycap_ioctl_skip_cloexec())
-> > >   3674                          error =3D ioctl_has_perm(cred, file, =
-FILE__IOCTL, (u16) cmd);
-> > >   3675                  break;
-> > >   3676
-> > >   3677          /* default case assumes that the command will go
-> > >   3678           * to the file's ioctl() function.
-> > >   3679           */
-> > >   3680          default:
-> > >   3681                  error =3D ioctl_has_perm(cred, file, FILE__IO=
-CTL, (u16) cmd);
-> > >   3682          }
-> > >   3683          return error;
-> > >   3684  }
-> > >   3685
+tree:   https://github.com/intel/tdx.git guest-attest
+head:   af7df693905dad1ebb64bb16cf45af9c6515adfc
+commit: af7df693905dad1ebb64bb16cf45af9c6515adfc [9/9] virt: tdx-guest: Add RTMR extend event logging support
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230912/202309121756.9Zp1Jql5-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309121756.9Zp1Jql5-lkp@intel.com/reproduce)
 
-Hey Stephen,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309121756.9Zp1Jql5-lkp@intel.com/
 
-Thanks for looking into it a bit deeper! This seems a bit of a pickle.
-I can think of a few somewhat hacky ways to fix this.
+All warnings (new ones prefixed by >>):
 
-I can just set the flags to check `if FS_IOC32_*; set FS_IOC_*;`,
-which is the quickest but kinda hacky.
+   drivers/virt/coco/tdx-guest/tdx-guest.c: In function 'acpi_ccel_next_event':
+>> drivers/virt/coco/tdx-guest/tdx-guest.c:163:35: warning: variable 'size' set but not used [-Wunused-but-set-variable]
+     163 |         u64 index = 0, start = 0, size = 0;
+         |                                   ^~~~
 
-I can go with the other plan of dropping the irrelevant bytes from the
-cmd code, so all codes will be read as u16. This effectively does the
-same thing, but may be unclear.
 
-I can also look into whether this can be solved at the LSM or a higher
-level. Perhaps the filesystems setting `if FS_IOC32_*; set FS_IOC_*;`
-is a hint that something else interesting is going wrong.
+vim +/size +163 drivers/virt/coco/tdx-guest/tdx-guest.c
 
-I'll spend a little time thinking and investigating and get back with
-a more concrete solution. I'll also need to do a bit more robust
-testing; it built on my machine!
+   157	
+   158	
+   159	static void* acpi_ccel_next_event(void)
+   160	{
+   161		struct cc_event_head *evhead;
+   162		struct acpi_table_ccel *ccel;
+ > 163		u64 index = 0, start = 0, size = 0;
+   164		acpi_status status;
+   165		void *data;
+   166	
+   167		status = acpi_get_table(ACPI_SIG_CCEL, 0, (struct acpi_table_header **)&ccel);
+   168		if (ACPI_FAILURE(status))
+   169			return NULL;
+   170	
+   171		data = acpi_os_map_iomem(ccel->log_area_start_address, ccel->log_area_minimum_length);
+   172	
+   173		ccel_addr = data;
+   174		ccel_len = ccel->log_area_minimum_length;
+   175	
+   176		while (index < ccel->log_area_minimum_length) {
+   177			evhead = data + index;
+   178			start = index;
+   179	
+   180			if (evhead->mr_idx == CC_INVALID_RTMR_IDX)
+   181		                break;
+   182	
+   183			if (evhead->event_type == EV_NO_ACTION)
+   184				index += parse_spec_id_event(evhead);
+   185			else
+   186				index += parse_cc_event(evhead);
+   187	
+   188			size = index - start;
+   189		}
+   190	
+   191		return evhead;
+   192	}
+   193	
 
-Thanks!
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
