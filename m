@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD90136A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 00:59:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B251A55
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 01:10:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694480346; x=1726016346;
+  t=1694481007; x=1726017007;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fCMy3r4N1B3+e2GI85Z+5178rGlne1SNJMr8FD9iObA=;
-  b=DY2ZltOLYfc5R/ZweDPILQFRXpEyGQFriI/k5xWu3oHf0Qx1/6byzhyv
-   5fVK9TqGDzKX9Vc781bSObYinjvyJlkDaX1YMn/d7/Xu+zpGBJRQUXZ9k
-   BRqyakCEE98MBQlIWKPZBUL+dH7xzFHWwizY69IXoKESHzWiJFQ+uvNEE
-   CxRtiQ3TyvdWRvGcR0vSotLEjduGAqgmrR+I59q8jsqyXUmBfdjOQUJfZ
-   SkbosibJh9jM3dcWtQbfO4DJVIzeRPKNpsI/7uB3AiPhy+ic+BSDNgrs4
-   m6b3JqnpM5EzkV9twzLQFmREYzl91XvsXqQq7HHRJESnK1G4mjGx5VYDU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="377161454"
+  bh=+Uvu7q+m85ooZsPmlS83MoSZRQOkl6ZVhvejGoiZmNg=;
+  b=ZNmVVBRl+u+VHVL+vsQE3T0GXBIXTjP+ZVpjqwT4ckdoE0d9MZG6OV7N
+   5ZYeGq7nQeFGqDj9C0VpIINAZ8kULQK8lBtDRS15KkwEKErA9q1LvZVdI
+   EB6/upiDpUR6j/I3k/tChOmpQeV5P1zAp7n8yDGL4u28JHGrBOGouUUYg
+   zFHlZ1vgdvL6MwGZGFxNaeydDIgkraD4ZddT37Pk9nC1br2s758noXC43
+   njzwywLQfdEf5goAZ5pCM06g+8lOA8dmkPYWWls9AHOJ1/PgR+ZW2RFHV
+   GagylSF8/GEpWh8DC00yvGY0g5Uo0KDvXgvcmbdXkIr+xw9U1l/gC29SG
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="378154780"
 X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="377161454"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 17:59:05 -0700
+   d="scan'208";a="378154780"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 18:10:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="833703368"
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="858575203"
 X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="833703368"
+   d="scan'208";a="858575203"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 11 Sep 2023 17:59:04 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 11 Sep 2023 18:10:04 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfrk5-00070d-2v;
-	Tue, 12 Sep 2023 00:59:01 +0000
-Date: Tue, 12 Sep 2023 08:58:37 +0800
+	id 1qfruk-000729-32;
+	Tue, 12 Sep 2023 01:10:02 +0000
+Date: Tue, 12 Sep 2023 09:09:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Marchevsky <davemarchevsky@fb.com>
+To: Frank Li <frank.li@nxp.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: kernel/bpf/helpers.c:1920:19: warning: no previous declaration for
- 'bpf_refcount_acquire_impl'
-Message-ID: <202309120843.Vt687y9F-lkp@intel.com>
+	Lorenzo Pieralisi <lpieralisi@kernel.org>
+Subject: drivers/pci/endpoint/functions/pci-epf-vntb.c:574:38: sparse:
+ sparse: incorrect type in argument 2 (different address spaces)
+Message-ID: <202309120945.5UQE5GCL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,149 +49,97 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-commit: 7c50b1cb76aca4540aa917db5f2a302acddcadff bpf: Add bpf_refcount_acquire kfunc
-date:   5 months ago
-config: x86_64-randconfig-002-20230910 (https://download.01.org/0day-ci/archive/20230912/202309120843.Vt687y9F-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309120843.Vt687y9F-lkp@intel.com/reproduce)
+commit: 0c031262d2ddfb938f9668d620d7ed674771646c PCI: endpoint: pci-epf-vntb: Fix call pci_epc_mem_free_addr() in error path
+date:   10 months ago
+config: i386-randconfig-063-20230912 (https://download.01.org/0day-ci/archive/20230912/202309120945.5UQE5GCL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309120945.5UQE5GCL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309120843.Vt687y9F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309120945.5UQE5GCL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:556:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *mw_addr @@     got void * @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:556:17: sparse:     expected void [noderef] __iomem *mw_addr
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:556:17: sparse:     got void *
+>> drivers/pci/endpoint/functions/pci-epf-vntb.c:574:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem *mw_addr @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:574:38: sparse:     expected void *addr
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:574:38: sparse:     got void [noderef] __iomem *mw_addr
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:590:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem *epf_db @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:590:41: sparse:     expected void *addr
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:590:41: sparse:     got void [noderef] __iomem *epf_db
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1127:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1127:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1127:33: sparse:     got struct epf_ntb_ctrl *reg
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1138:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1138:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1138:33: sparse:     got struct epf_ntb_ctrl *reg
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1149:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1149:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1149:33: sparse:     got struct epf_ntb_ctrl *reg
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1161:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1161:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1161:33: sparse:     got struct epf_ntb_ctrl *reg
 
-   kernel/bpf/helpers.c:1882:19: warning: no previous declaration for 'bpf_obj_new_impl' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_obj_new_impl(u64 local_type_id__k, void *meta__ign)
-                      ^~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:1912:18: warning: no previous declaration for 'bpf_obj_drop_impl' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_obj_drop_impl(void *p__alloc, void *meta__ign)
-                     ^~~~~~~~~~~~~~~~~
->> kernel/bpf/helpers.c:1920:19: warning: no previous declaration for 'bpf_refcount_acquire_impl' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_refcount_acquire_impl(void *p__refcounted_kptr, void *meta__ign)
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:1945:18: warning: no previous declaration for 'bpf_list_push_front' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_list_push_front(struct bpf_list_head *head, struct bpf_list_node *node)
-                     ^~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:1950:18: warning: no previous declaration for 'bpf_list_push_back' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_list_push_back(struct bpf_list_head *head, struct bpf_list_node *node)
-                     ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:1968:35: warning: no previous declaration for 'bpf_list_pop_front' [-Wmissing-declarations]
-    __bpf_kfunc struct bpf_list_node *bpf_list_pop_front(struct bpf_list_head *head)
-                                      ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:1973:35: warning: no previous declaration for 'bpf_list_pop_back' [-Wmissing-declarations]
-    __bpf_kfunc struct bpf_list_node *bpf_list_pop_back(struct bpf_list_head *head)
-                                      ^~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:1978:33: warning: no previous declaration for 'bpf_rbtree_remove' [-Wmissing-declarations]
-    __bpf_kfunc struct bpf_rb_node *bpf_rbtree_remove(struct bpf_rb_root *root,
-                                    ^~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2015:18: warning: no previous declaration for 'bpf_rbtree_add' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_rbtree_add(struct bpf_rb_root *root, struct bpf_rb_node *node,
-                     ^~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2021:33: warning: no previous declaration for 'bpf_rbtree_first' [-Wmissing-declarations]
-    __bpf_kfunc struct bpf_rb_node *bpf_rbtree_first(struct bpf_rb_root *root)
-                                    ^~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2034:33: warning: no previous declaration for 'bpf_task_acquire' [-Wmissing-declarations]
-    __bpf_kfunc struct task_struct *bpf_task_acquire(struct task_struct *p)
-                                    ^~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2045:18: warning: no previous declaration for 'bpf_task_release' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_task_release(struct task_struct *p)
-                     ^~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2057:28: warning: no previous declaration for 'bpf_cgroup_acquire' [-Wmissing-declarations]
-    __bpf_kfunc struct cgroup *bpf_cgroup_acquire(struct cgroup *cgrp)
-                               ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2069:18: warning: no previous declaration for 'bpf_cgroup_release' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_cgroup_release(struct cgroup *cgrp)
-                     ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2081:28: warning: no previous declaration for 'bpf_cgroup_ancestor' [-Wmissing-declarations]
-    __bpf_kfunc struct cgroup *bpf_cgroup_ancestor(struct cgroup *cgrp, int level)
-                               ^~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2101:28: warning: no previous declaration for 'bpf_cgroup_from_id' [-Wmissing-declarations]
-    __bpf_kfunc struct cgroup *bpf_cgroup_from_id(u64 cgid)
-                               ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2118:33: warning: no previous declaration for 'bpf_task_from_pid' [-Wmissing-declarations]
-    __bpf_kfunc struct task_struct *bpf_task_from_pid(s32 pid)
-                                    ^~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2157:19: warning: no previous declaration for 'bpf_dynptr_slice' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_dynptr_slice(const struct bpf_dynptr_kern *ptr, u32 offset,
-                      ^~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2234:19: warning: no previous declaration for 'bpf_dynptr_slice_rdwr' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_dynptr_slice_rdwr(const struct bpf_dynptr_kern *ptr, u32 offset,
-                      ^~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2265:19: warning: no previous declaration for 'bpf_cast_to_kern_ctx' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_cast_to_kern_ctx(void *obj)
-                      ^~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2270:19: warning: no previous declaration for 'bpf_rdonly_cast' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_rdonly_cast(void *obj__ign, u32 btf_id__k)
-                      ^~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2275:18: warning: no previous declaration for 'bpf_rcu_read_lock' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_rcu_read_lock(void)
-                     ^~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2280:18: warning: no previous declaration for 'bpf_rcu_read_unlock' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_rcu_read_unlock(void)
-                     ^~~~~~~~~~~~~~~~~~~
+vim +574 drivers/pci/endpoint/functions/pci-epf-vntb.c
 
-
-vim +/bpf_refcount_acquire_impl +1920 kernel/bpf/helpers.c
-
-  1877	
-  1878	__diag_push();
-  1879	__diag_ignore_all("-Wmissing-prototypes",
-  1880			  "Global functions as their definitions will be in vmlinux BTF");
-  1881	
-> 1882	__bpf_kfunc void *bpf_obj_new_impl(u64 local_type_id__k, void *meta__ign)
-  1883	{
-  1884		struct btf_struct_meta *meta = meta__ign;
-  1885		u64 size = local_type_id__k;
-  1886		void *p;
-  1887	
-  1888		p = bpf_mem_alloc(&bpf_global_ma, size);
-  1889		if (!p)
-  1890			return NULL;
-  1891		if (meta)
-  1892			bpf_obj_init(meta->record, p);
-  1893		return p;
-  1894	}
-  1895	
-  1896	/* Must be called under migrate_disable(), as required by bpf_mem_free */
-  1897	void __bpf_obj_drop_impl(void *p, const struct btf_record *rec)
-  1898	{
-  1899		if (rec && rec->refcount_off >= 0 &&
-  1900		    !refcount_dec_and_test((refcount_t *)(p + rec->refcount_off))) {
-  1901			/* Object is refcounted and refcount_dec didn't result in 0
-  1902			 * refcount. Return without freeing the object
-  1903			 */
-  1904			return;
-  1905		}
-  1906	
-  1907		if (rec)
-  1908			bpf_obj_free_fields(rec, p);
-  1909		bpf_mem_free(&bpf_global_ma, p);
-  1910	}
-  1911	
-  1912	__bpf_kfunc void bpf_obj_drop_impl(void *p__alloc, void *meta__ign)
-  1913	{
-  1914		struct btf_struct_meta *meta = meta__ign;
-  1915		void *p = p__alloc;
-  1916	
-  1917		__bpf_obj_drop_impl(p, meta ? meta->record : NULL);
-  1918	}
-  1919	
-> 1920	__bpf_kfunc void *bpf_refcount_acquire_impl(void *p__refcounted_kptr, void *meta__ign)
-  1921	{
-  1922		struct btf_struct_meta *meta = meta__ign;
-  1923		struct bpf_refcount *ref;
-  1924	
-  1925		/* Could just cast directly to refcount_t *, but need some code using
-  1926		 * bpf_refcount type so that it is emitted in vmlinux BTF
-  1927		 */
-  1928		ref = (struct bpf_refcount *)p__refcounted_kptr + meta->record->refcount_off;
-  1929	
-  1930		refcount_inc((refcount_t *)ref);
-  1931		return (void *)p__refcounted_kptr;
-  1932	}
-  1933	
+   523	
+   524	/**
+   525	 * epf_ntb_db_bar_init() - Configure Doorbell window BARs
+   526	 * @ntb: NTB device that facilitates communication between HOST and VHOST
+   527	 *
+   528	 * Returns: Zero for success, or an error code in case of failure
+   529	 */
+   530	static int epf_ntb_db_bar_init(struct epf_ntb *ntb)
+   531	{
+   532		const struct pci_epc_features *epc_features;
+   533		u32 align;
+   534		struct device *dev = &ntb->epf->dev;
+   535		int ret;
+   536		struct pci_epf_bar *epf_bar;
+   537		void __iomem *mw_addr;
+   538		enum pci_barno barno;
+   539		size_t size = 4 * ntb->db_count;
+   540	
+   541		epc_features = pci_epc_get_features(ntb->epf->epc,
+   542						    ntb->epf->func_no,
+   543						    ntb->epf->vfunc_no);
+   544		align = epc_features->align;
+   545	
+   546		if (size < 128)
+   547			size = 128;
+   548	
+   549		if (align)
+   550			size = ALIGN(size, align);
+   551		else
+   552			size = roundup_pow_of_two(size);
+   553	
+   554		barno = ntb->epf_ntb_bar[BAR_DB];
+   555	
+ > 556		mw_addr = pci_epf_alloc_space(ntb->epf, size, barno, align, 0);
+   557		if (!mw_addr) {
+   558			dev_err(dev, "Failed to allocate OB address\n");
+   559			return -ENOMEM;
+   560		}
+   561	
+   562		ntb->epf_db = mw_addr;
+   563	
+   564		epf_bar = &ntb->epf->bar[barno];
+   565	
+   566		ret = pci_epc_set_bar(ntb->epf->epc, ntb->epf->func_no, ntb->epf->vfunc_no, epf_bar);
+   567		if (ret) {
+   568			dev_err(dev, "Doorbell BAR set failed\n");
+   569				goto err_alloc_peer_mem;
+   570		}
+   571		return ret;
+   572	
+   573	err_alloc_peer_mem:
+ > 574		pci_epf_free_space(ntb->epf, mw_addr, barno, 0);
+   575		return -1;
+   576	}
+   577	
 
 -- 
 0-DAY CI Kernel Test Service
