@@ -1,47 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BADA92A;
-	Tue, 12 Sep 2023 19:58:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11FEA959
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 20:55:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694548720; x=1726084720;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9aolbvVGXe/o5wJcSDgi7kIHANgfNpY59ibfl3KF8d8=;
-  b=ewrL5VbC91GRrmmlJlbWzAKEjrzUpIOq8MHDqsRrz1jqFjJflJX4O2l3
-   OEGcgbJPk0DqxllT54GBGGvDeo7FhJRwMexdHWjwBCiz4sZHcurWw/8Qa
-   XDx/YHI95NWGtUp2E9I7lcZ5qfGP/6NP2g0Xm9JYBjYb0RMUO2TEMoIQg
-   q17WMsuKplSiUKAgw3fsec5qdEH+TdwOafEsEgZ16WQlMB5KPkFJ+SdOJ
-   0DQKEjGxxRMC8rVQN26yEx8FgXsDEecrJlnu4/uzGqv6rB8ylLGsx9AkK
-   rws5LGOYn4AvJokdVTz3ztVrzsJ0zPynGR2CUG7a7ChZvuuUqafGMogXr
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="382287534"
+  t=1694552137; x=1726088137;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NSSczz8DvrMGulQXEU94PsG7zUlNakJlMDwfbr4fvPU=;
+  b=c++unkwxnhm2qJWILReoaVa2ywtKJEkI9IrqsfUdEz47uBwB4vFDEHIR
+   X7aro4bajDs7n2HqCyh5Ugz4b+5sJS6xfVOKLVOlgMW13Tip9EI+iPX1H
+   39i20G+haA7ihGFJ1M5B6Q6fkML1vtaU6x94RtWoYWgYaabjopN+IpJln
+   fH1fxAvuRNRP5zIXJvOIbMirrKwOc3m2Y5a9QreGQFx2P01b8C2/r+XIz
+   VpU8s4nTWvr3Kpfi3UAl+dLTKMufn9i61YJPMq7/qi86uan7yQ7+mF3uH
+   NRNqWf6PQrOmOJlS/wMPGAl1mwTol9eBFxv3vatocQezncotSnGU7cPby
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="358763086"
 X-IronPort-AV: E=Sophos;i="6.02,141,1688454000"; 
-   d="scan'208";a="382287534"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 12:54:25 -0700
+   d="scan'208";a="358763086"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 13:55:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="693604621"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="720549459"
 X-IronPort-AV: E=Sophos;i="6.02,141,1688454000"; 
-   d="scan'208";a="693604621"
+   d="scan'208";a="720549459"
 Received: from lkp-server02.sh.intel.com (HELO 47e905db7d2b) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 12 Sep 2023 12:54:22 -0700
+  by orsmga006.jf.intel.com with ESMTP; 12 Sep 2023 13:55:35 -0700
 Received: from kbuild by 47e905db7d2b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qg9Sj-0000D1-1x;
-	Tue, 12 Sep 2023 19:54:18 +0000
-Date: Wed, 13 Sep 2023 03:53:20 +0800
+	id 1qgAQ1-0000Fx-1D;
+	Tue, 12 Sep 2023 20:55:33 +0000
+Date: Wed, 13 Sep 2023 04:55:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ma Ke <make_ruc2021@163.com>, perex@perex.cz, tiwai@suse.com,
-	cujomalainey@chromium.org, maciej.szmigiero@oracle.com,
-	clecigne@google.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: control: do not access controls without possession
- of r_w lock
-Message-ID: <202309130328.UdCL3yzt-lkp@intel.com>
-References: <20230912084530.3307329-1-make_ruc2021@163.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:5.15-2.2.x-imx 14210/25021]
+ drivers/pwm/pwm-adp5585.c:213:25: error: 'adp5585_of_match' undeclared here
+ (not in a function); did you mean 'adp5585_pwm_of_match'?
+Message-ID: <202309130455.RHlfVNk9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,68 +46,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230912084530.3307329-1-make_ruc2021@163.com>
 
-Hi Ma,
+Hi Clark,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on tiwai-sound/for-next]
-[also build test ERROR on tiwai-sound/for-linus linus/master v6.6-rc1 next-20230912]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ma-Ke/ALSA-control-do-not-access-controls-without-possession-of-r_w-lock/20230912-164832
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20230912084530.3307329-1-make_ruc2021%40163.com
-patch subject: [PATCH] ALSA: control: do not access controls without possession of r_w lock
-config: arm-randconfig-r032-20230913 (https://download.01.org/0day-ci/archive/20230913/202309130328.UdCL3yzt-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309130328.UdCL3yzt-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
+head:   3a95b5654979d1c2d61616bf60249ed3a98dcfbc
+commit: cec7a32e8fb83d0a26023114f85036c0138fd4bc [14210/25021] MLK-25922-1 pwm: adp5585: add adp5585 PWM support
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230913/202309130455.RHlfVNk9-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309130455.RHlfVNk9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309130328.UdCL3yzt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309130455.RHlfVNk9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> sound/core/control.c:593:2: error: use of undeclared identifier 'count'
-     593 |         count = kcontrol->count;
-         |         ^
-   sound/core/control.c:594:22: error: use of undeclared identifier 'count'
-     594 |         for (idx = 0; idx < count; idx++)
-         |                             ^
-   2 errors generated.
+   In file included from drivers/pwm/pwm-adp5585.c:12:
+>> drivers/pwm/pwm-adp5585.c:213:25: error: 'adp5585_of_match' undeclared here (not in a function); did you mean 'adp5585_pwm_of_match'?
+     213 | MODULE_DEVICE_TABLE(of, adp5585_of_match);
+         |                         ^~~~~~~~~~~~~~~~
+   include/linux/module.h:244:15: note: in definition of macro 'MODULE_DEVICE_TABLE'
+     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
+         |               ^~~~
+>> include/linux/module.h:244:21: error: '__mod_of__adp5585_of_match_device_table' aliased to undefined symbol 'adp5585_of_match'
+     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
+         |                     ^~~~~~
+   drivers/pwm/pwm-adp5585.c:213:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
+     213 | MODULE_DEVICE_TABLE(of, adp5585_of_match);
+         | ^~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for RPMSG_VIRTIO
+   Depends on [n]: HAS_DMA [=n]
+   Selected by [m]:
+   - HAVE_IMX_RPMSG [=y] && IMX_MBOX [=m]
+   WARNING: unmet direct dependencies detected for UIO
+   Depends on [n]: MMU [=n]
+   Selected by [m]:
+   - FEC_UIO [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_FREESCALE [=y]
 
 
-vim +/count +593 sound/core/control.c
+vim +213 drivers/pwm/pwm-adp5585.c
 
-   576	
-   577	static int __snd_ctl_remove(struct snd_card *card,
-   578				    struct snd_kcontrol *kcontrol,
-   579				    bool remove_hash)
-   580	{
-   581		unsigned int idx;
-   582	
-   583		lockdep_assert_held_write(&card->controls_rwsem);
-   584	
-   585		if (snd_BUG_ON(!card || !kcontrol))
-   586			return -EINVAL;
-   587		list_del(&kcontrol->list);
-   588	
-   589		if (remove_hash)
-   590			remove_hash_entries(card, kcontrol);
-   591	
-   592		card->controls_count -= kcontrol->count;
- > 593		count = kcontrol->count;
-   594		for (idx = 0; idx < count; idx++)
-   595			snd_ctl_notify_one(card, SNDRV_CTL_EVENT_MASK_REMOVE, kcontrol, idx);
-   596		snd_ctl_free_one(kcontrol);
-   597		return 0;
-   598	}
-   599	
+   208	
+   209	static const struct of_device_id adp5585_pwm_of_match[] = {
+   210		{.compatible = "adp5585-pwm", },
+   211		{ /* sentinel */ }
+   212	};
+ > 213	MODULE_DEVICE_TABLE(of, adp5585_of_match);
+   214	
 
 -- 
 0-DAY CI Kernel Test Service
