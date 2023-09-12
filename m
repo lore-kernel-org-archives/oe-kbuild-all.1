@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94CD48F60
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 13:08:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E97377
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 13:30:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694524113; x=1726060113;
+  t=1694525403; x=1726061403;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vkE8lG82EDJN09NJ3o1sQAiZvur1P55NKmgigQmEeN8=;
-  b=FGriSbbI+DOtJEb1QX6M9IeenhJPUlHYqdccfVQIRAAT6yXNkXP/2UAk
-   8YX7SBJ4BV0TuiYsCRpBcTTkceOX/89x/YOA3dCHWCCZcJcnfrI0gKiDC
-   pXSj+9GTg5pb13h2q/cA+rLuD7UTIRtECZkFjUQlFx/oBvLSd5YleR1Fp
-   4SI/0Yl5zCRzqqNNmPTfSfls94G2/mQiuSZTxp8AHzpGZ4evvJeylt3NV
-   kc91ibjejGQ3N3m5tT5pUH7iMAHs9D29xQ70pI8vthaCVW6moT3b+icP5
-   6sGf7dG/9PftvzPIqpOXgDA+2KWyNZcl8nhgvlRRDQ78BthcxbCtDp+hW
+  bh=31LdtEnfdY3lScJibKNOTW+l2KZRQhz2DKwuPqKMmMc=;
+  b=YFOsca+cmP9FRlaV2R3E/IQBaeMHF45l4txsleVfi94BLeBDGnptE1j4
+   aTadwyzTLvDNGdFIA2a6koSoIsnoDME1e5ZRHVKTuLMJmDjvjFSHaXLZc
+   VDzTsV16bKxhLQfqyPtjOrBuSrYehe5ynv+bySWSj3fyh0P2c9xWxOSj1
+   dr8otCAIAS02mxXF9hk3/3v7Ot4a87WqbA5hQljRrruXIC01n0fqTx1rF
+   pE3oa32ngtrDcBWxkC1V7qEn/181xnq79HojdQvO627DcSaAEdQxeBms0
+   SWVMAP1jSGSSZtsCbX4XQ4b+xvFIn4d0gd39/LUw8AGNOkVuAxCGbZRd7
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="409323464"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="363410001"
 X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="409323464"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 06:07:59 -0700
+   d="scan'208";a="363410001"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 06:30:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="743717625"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="693495284"
 X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="743717625"
+   d="scan'208";a="693495284"
 Received: from lkp-server02.sh.intel.com (HELO 1e56c5165d33) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 12 Sep 2023 06:07:58 -0700
+  by orsmga003.jf.intel.com with ESMTP; 12 Sep 2023 06:30:00 -0700
 Received: from kbuild by 1e56c5165d33 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qg37T-0000PD-2M;
-	Tue, 12 Sep 2023 13:07:55 +0000
-Date: Tue, 12 Sep 2023 21:07:35 +0800
+	id 1qg3So-0000QB-2m;
+	Tue, 12 Sep 2023 13:29:58 +0000
+Date: Tue, 12 Sep 2023 21:29:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kmo@daterainc.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 4491/4552] include/linux/fortify-string.h:57:33:
- warning: writing 8 bytes into a region of size 0
-Message-ID: <202309122155.dteFhtkC-lkp@intel.com>
+To: Frank Li <frank.li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>
+Subject: drivers/pci/endpoint/functions/pci-epf-vntb.c:574:38: sparse:
+ sparse: incorrect type in argument 2 (different address spaces)
+Message-ID: <202309122139.OtfSh8Ly-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,396 +47,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3c13c772fc233a10342c8e1605ff0855dfdf0c89
-commit: 977590f1aca51242a59e24bb9a50285107f29a98 [4491/4552] Merge branch 'for-next' of https://evilpiepirate.org/git/bcachefs.git
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230912/202309122155.dteFhtkC-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+commit: 0c031262d2ddfb938f9668d620d7ed674771646c PCI: endpoint: pci-epf-vntb: Fix call pci_epc_mem_free_addr() in error path
+date:   10 months ago
+config: i386-randconfig-063-20230912 (https://download.01.org/0day-ci/archive/20230912/202309122139.OtfSh8Ly-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309122155.dteFhtkC-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309122139.OtfSh8Ly-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309122155.dteFhtkC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309122139.OtfSh8Ly-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:556:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *mw_addr @@     got void * @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:556:17: sparse:     expected void [noderef] __iomem *mw_addr
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:556:17: sparse:     got void *
+>> drivers/pci/endpoint/functions/pci-epf-vntb.c:574:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem *mw_addr @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:574:38: sparse:     expected void *addr
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:574:38: sparse:     got void [noderef] __iomem *mw_addr
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:590:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem *epf_db @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:590:41: sparse:     expected void *addr
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:590:41: sparse:     got void [noderef] __iomem *epf_db
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1127:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1127:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1127:33: sparse:     got struct epf_ntb_ctrl *reg
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1138:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1138:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1138:33: sparse:     got struct epf_ntb_ctrl *reg
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1149:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1149:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1149:33: sparse:     got struct epf_ntb_ctrl *reg
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1161:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1161:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1161:33: sparse:     got struct epf_ntb_ctrl *reg
 
-   fs/bcachefs/bcachefs_format.h:870:14: warning: 'INODE_NEW_VARINT_OFFSET' defined but not used [-Wunused-const-variable=]
-     870 | LE32_BITMASK(INODE_NEW_VARINT,  struct bch_inode, bi_flags, 31, 32);
-         |              ^~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
-     101 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:870:1: note: in expansion of macro 'LE32_BITMASK'
-     870 | LE32_BITMASK(INODE_NEW_VARINT,  struct bch_inode, bi_flags, 31, 32);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:869:14: warning: 'INODE_NR_FIELDS_MAX' defined but not used [-Wunused-const-variable=]
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         |              ^~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:103:25: note: in definition of macro 'LE_BITMASK'
-     103 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:869:1: note: in expansion of macro 'LE32_BITMASK'
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:869:14: warning: 'INODE_NR_FIELDS_BITS' defined but not used [-Wunused-const-variable=]
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         |              ^~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:102:25: note: in definition of macro 'LE_BITMASK'
-     102 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:869:1: note: in expansion of macro 'LE32_BITMASK'
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:869:14: warning: 'INODE_NR_FIELDS_OFFSET' defined but not used [-Wunused-const-variable=]
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         |              ^~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
-     101 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:869:1: note: in expansion of macro 'LE32_BITMASK'
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:868:14: warning: 'INODE_STR_HASH_MAX' defined but not used [-Wunused-const-variable=]
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:103:25: note: in definition of macro 'LE_BITMASK'
-     103 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:868:1: note: in expansion of macro 'LE32_BITMASK'
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:868:14: warning: 'INODE_STR_HASH_BITS' defined but not used [-Wunused-const-variable=]
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:102:25: note: in definition of macro 'LE_BITMASK'
-     102 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:868:1: note: in expansion of macro 'LE32_BITMASK'
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:868:14: warning: 'INODE_STR_HASH_OFFSET' defined but not used [-Wunused-const-variable=]
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
-     101 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:868:1: note: in expansion of macro 'LE32_BITMASK'
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:678:14: warning: 'BTREE_PTR_RANGE_UPDATED_MAX' defined but not used [-Wunused-const-variable=]
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:103:25: note: in definition of macro 'LE_BITMASK'
-     103 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:678:1: note: in expansion of macro 'LE16_BITMASK'
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:678:14: warning: 'BTREE_PTR_RANGE_UPDATED_BITS' defined but not used [-Wunused-const-variable=]
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:102:25: note: in definition of macro 'LE_BITMASK'
-     102 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:678:1: note: in expansion of macro 'LE16_BITMASK'
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:678:14: warning: 'BTREE_PTR_RANGE_UPDATED_OFFSET' defined but not used [-Wunused-const-variable=]
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
-     101 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:678:1: note: in expansion of macro 'LE16_BITMASK'
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         | ^~~~~~~~~~~~
-   In file included from include/linux/string.h:254,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/radix-tree.h:14,
-                    from include/linux/backing-dev-defs.h:6,
-                    from fs/bcachefs/bcachefs.h:186:
-   In function 'bch2_bkey_append_ptr',
-       inlined from 'bch2_alloc_sectors_append_ptrs_inlined' at fs/bcachefs/alloc_foreground.h:194:3:
->> include/linux/fortify-string.h:57:33: warning: writing 8 bytes into a region of size 0 [-Wstringop-overflow=]
-      57 | #define __underlying_memcpy     __builtin_memcpy
-         |                                 ^
-   include/linux/fortify-string.h:648:9: note: in expansion of macro '__underlying_memcpy'
-     648 |         __underlying_##op(p, q, __fortify_size);                        \
-         |         ^~~~~~~~~~~~~
-   include/linux/fortify-string.h:693:26: note: in expansion of macro '__fortify_memcpy_chk'
-     693 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h:645:17: note: in expansion of macro 'memcpy'
-     645 |                 memcpy((void *) &k->v + bkey_val_bytes(&k->k),
-         |                 ^~~~~~
-   fs/bcachefs/bcachefs_format.h: In function 'bch2_alloc_sectors_append_ptrs_inlined':
-   fs/bcachefs/bcachefs_format.h:303:25: note: destination object 'v' of size 0
-     303 |         struct bch_val  v;
-         |                         ^
---
-   fs/bcachefs/bcachefs_format.h:870:14: warning: 'INODE_NEW_VARINT_OFFSET' defined but not used [-Wunused-const-variable=]
-     870 | LE32_BITMASK(INODE_NEW_VARINT,  struct bch_inode, bi_flags, 31, 32);
-         |              ^~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
-     101 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:870:1: note: in expansion of macro 'LE32_BITMASK'
-     870 | LE32_BITMASK(INODE_NEW_VARINT,  struct bch_inode, bi_flags, 31, 32);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:869:14: warning: 'INODE_NR_FIELDS_MAX' defined but not used [-Wunused-const-variable=]
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         |              ^~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:103:25: note: in definition of macro 'LE_BITMASK'
-     103 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:869:1: note: in expansion of macro 'LE32_BITMASK'
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:869:14: warning: 'INODE_NR_FIELDS_BITS' defined but not used [-Wunused-const-variable=]
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         |              ^~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:102:25: note: in definition of macro 'LE_BITMASK'
-     102 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:869:1: note: in expansion of macro 'LE32_BITMASK'
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:869:14: warning: 'INODE_NR_FIELDS_OFFSET' defined but not used [-Wunused-const-variable=]
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         |              ^~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
-     101 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:869:1: note: in expansion of macro 'LE32_BITMASK'
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:868:14: warning: 'INODE_STR_HASH_MAX' defined but not used [-Wunused-const-variable=]
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:103:25: note: in definition of macro 'LE_BITMASK'
-     103 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:868:1: note: in expansion of macro 'LE32_BITMASK'
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:868:14: warning: 'INODE_STR_HASH_BITS' defined but not used [-Wunused-const-variable=]
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:102:25: note: in definition of macro 'LE_BITMASK'
-     102 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:868:1: note: in expansion of macro 'LE32_BITMASK'
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:868:14: warning: 'INODE_STR_HASH_OFFSET' defined but not used [-Wunused-const-variable=]
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
-     101 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:868:1: note: in expansion of macro 'LE32_BITMASK'
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:678:14: warning: 'BTREE_PTR_RANGE_UPDATED_MAX' defined but not used [-Wunused-const-variable=]
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:103:25: note: in definition of macro 'LE_BITMASK'
-     103 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:678:1: note: in expansion of macro 'LE16_BITMASK'
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:678:14: warning: 'BTREE_PTR_RANGE_UPDATED_BITS' defined but not used [-Wunused-const-variable=]
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:102:25: note: in definition of macro 'LE_BITMASK'
-     102 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:678:1: note: in expansion of macro 'LE16_BITMASK'
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:678:14: warning: 'BTREE_PTR_RANGE_UPDATED_OFFSET' defined but not used [-Wunused-const-variable=]
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
-     101 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:678:1: note: in expansion of macro 'LE16_BITMASK'
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         | ^~~~~~~~~~~~
-   In file included from include/linux/string.h:254,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/radix-tree.h:14,
-                    from include/linux/backing-dev-defs.h:6,
-                    from fs/bcachefs/bcachefs.h:186:
-   In function 'bch2_bkey_append_ptr',
-       inlined from 'bch2_alloc_sectors_append_ptrs_inlined' at fs/bcachefs/alloc_foreground.h:194:3:
->> include/linux/fortify-string.h:57:33: warning: writing 8 bytes into a region of size 0 [-Wstringop-overflow=]
-      57 | #define __underlying_memcpy     __builtin_memcpy
-         |                                 ^
-   include/linux/fortify-string.h:648:9: note: in expansion of macro '__underlying_memcpy'
-     648 |         __underlying_##op(p, q, __fortify_size);                        \
-         |         ^~~~~~~~~~~~~
-   include/linux/fortify-string.h:693:26: note: in expansion of macro '__fortify_memcpy_chk'
-     693 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h:645:17: note: in expansion of macro 'memcpy'
-     645 |                 memcpy((void *) &k->v + bkey_val_bytes(&k->k),
-         |                 ^~~~~~
-   fs/bcachefs/bcachefs_format.h: In function 'bch2_alloc_sectors_append_ptrs_inlined':
-   fs/bcachefs/bcachefs_format.h:303:25: note: destination object 'v' of size 0
-     303 |         struct bch_val  v;
-         |                         ^
---
-   fs/bcachefs/bcachefs_format.h:870:14: warning: 'INODE_NEW_VARINT_OFFSET' defined but not used [-Wunused-const-variable=]
-     870 | LE32_BITMASK(INODE_NEW_VARINT,  struct bch_inode, bi_flags, 31, 32);
-         |              ^~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
-     101 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:870:1: note: in expansion of macro 'LE32_BITMASK'
-     870 | LE32_BITMASK(INODE_NEW_VARINT,  struct bch_inode, bi_flags, 31, 32);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:869:14: warning: 'INODE_NR_FIELDS_MAX' defined but not used [-Wunused-const-variable=]
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         |              ^~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:103:25: note: in definition of macro 'LE_BITMASK'
-     103 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:869:1: note: in expansion of macro 'LE32_BITMASK'
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:869:14: warning: 'INODE_NR_FIELDS_BITS' defined but not used [-Wunused-const-variable=]
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         |              ^~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:102:25: note: in definition of macro 'LE_BITMASK'
-     102 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:869:1: note: in expansion of macro 'LE32_BITMASK'
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:869:14: warning: 'INODE_NR_FIELDS_OFFSET' defined but not used [-Wunused-const-variable=]
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         |              ^~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
-     101 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:869:1: note: in expansion of macro 'LE32_BITMASK'
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:868:14: warning: 'INODE_STR_HASH_MAX' defined but not used [-Wunused-const-variable=]
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:103:25: note: in definition of macro 'LE_BITMASK'
-     103 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:868:1: note: in expansion of macro 'LE32_BITMASK'
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:868:14: warning: 'INODE_STR_HASH_BITS' defined but not used [-Wunused-const-variable=]
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:102:25: note: in definition of macro 'LE_BITMASK'
-     102 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:868:1: note: in expansion of macro 'LE32_BITMASK'
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:868:14: warning: 'INODE_STR_HASH_OFFSET' defined but not used [-Wunused-const-variable=]
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
-     101 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:868:1: note: in expansion of macro 'LE32_BITMASK'
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:678:14: warning: 'BTREE_PTR_RANGE_UPDATED_MAX' defined but not used [-Wunused-const-variable=]
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:103:25: note: in definition of macro 'LE_BITMASK'
-     103 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:678:1: note: in expansion of macro 'LE16_BITMASK'
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:678:14: warning: 'BTREE_PTR_RANGE_UPDATED_BITS' defined but not used [-Wunused-const-variable=]
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:102:25: note: in definition of macro 'LE_BITMASK'
-     102 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:678:1: note: in expansion of macro 'LE16_BITMASK'
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:678:14: warning: 'BTREE_PTR_RANGE_UPDATED_OFFSET' defined but not used [-Wunused-const-variable=]
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
-     101 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:678:1: note: in expansion of macro 'LE16_BITMASK'
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         | ^~~~~~~~~~~~
-   In file included from include/linux/string.h:254,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/radix-tree.h:14,
-                    from include/linux/backing-dev-defs.h:6,
-                    from fs/bcachefs/bcachefs.h:186:
-   In function 'bch2_bkey_append_ptr',
-       inlined from '__journal_write_alloc' at fs/bcachefs/journal_io.c:1363:3:
->> include/linux/fortify-string.h:57:33: warning: writing 8 bytes into a region of size 0 [-Wstringop-overflow=]
-      57 | #define __underlying_memcpy     __builtin_memcpy
-         |                                 ^
-   include/linux/fortify-string.h:648:9: note: in expansion of macro '__underlying_memcpy'
-     648 |         __underlying_##op(p, q, __fortify_size);                        \
-         |         ^~~~~~~~~~~~~
-   include/linux/fortify-string.h:693:26: note: in expansion of macro '__fortify_memcpy_chk'
-     693 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h:645:17: note: in expansion of macro 'memcpy'
-     645 |                 memcpy((void *) &k->v + bkey_val_bytes(&k->k),
-         |                 ^~~~~~
-   fs/bcachefs/bcachefs_format.h: In function '__journal_write_alloc':
-   fs/bcachefs/bcachefs_format.h:303:25: note: destination object 'v' of size 0
-     303 |         struct bch_val  v;
-         |                         ^
+vim +574 drivers/pci/endpoint/functions/pci-epf-vntb.c
 
-
-vim +57 include/linux/fortify-string.h
-
-78a498c3a227f2 Alexander Potapenko 2022-10-24  46  
-78a498c3a227f2 Alexander Potapenko 2022-10-24  47  #if defined(__SANITIZE_MEMORY__)
-78a498c3a227f2 Alexander Potapenko 2022-10-24  48  /*
-78a498c3a227f2 Alexander Potapenko 2022-10-24  49   * For KMSAN builds all memcpy/memset/memmove calls should be replaced by the
-78a498c3a227f2 Alexander Potapenko 2022-10-24  50   * corresponding __msan_XXX functions.
-78a498c3a227f2 Alexander Potapenko 2022-10-24  51   */
-78a498c3a227f2 Alexander Potapenko 2022-10-24  52  #include <linux/kmsan_string.h>
-78a498c3a227f2 Alexander Potapenko 2022-10-24  53  #define __underlying_memcpy	__msan_memcpy
-78a498c3a227f2 Alexander Potapenko 2022-10-24  54  #define __underlying_memmove	__msan_memmove
-78a498c3a227f2 Alexander Potapenko 2022-10-24  55  #define __underlying_memset	__msan_memset
-78a498c3a227f2 Alexander Potapenko 2022-10-24  56  #else
-a28a6e860c6cf2 Francis Laniel      2021-02-25 @57  #define __underlying_memcpy	__builtin_memcpy
-a28a6e860c6cf2 Francis Laniel      2021-02-25  58  #define __underlying_memmove	__builtin_memmove
-a28a6e860c6cf2 Francis Laniel      2021-02-25  59  #define __underlying_memset	__builtin_memset
-78a498c3a227f2 Alexander Potapenko 2022-10-24  60  #endif
-78a498c3a227f2 Alexander Potapenko 2022-10-24  61  
-
-:::::: The code at line 57 was first introduced by commit
-:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified functions definitions in a dedicated header.
-
-:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   523	
+   524	/**
+   525	 * epf_ntb_db_bar_init() - Configure Doorbell window BARs
+   526	 * @ntb: NTB device that facilitates communication between HOST and VHOST
+   527	 *
+   528	 * Returns: Zero for success, or an error code in case of failure
+   529	 */
+   530	static int epf_ntb_db_bar_init(struct epf_ntb *ntb)
+   531	{
+   532		const struct pci_epc_features *epc_features;
+   533		u32 align;
+   534		struct device *dev = &ntb->epf->dev;
+   535		int ret;
+   536		struct pci_epf_bar *epf_bar;
+   537		void __iomem *mw_addr;
+   538		enum pci_barno barno;
+   539		size_t size = 4 * ntb->db_count;
+   540	
+   541		epc_features = pci_epc_get_features(ntb->epf->epc,
+   542						    ntb->epf->func_no,
+   543						    ntb->epf->vfunc_no);
+   544		align = epc_features->align;
+   545	
+   546		if (size < 128)
+   547			size = 128;
+   548	
+   549		if (align)
+   550			size = ALIGN(size, align);
+   551		else
+   552			size = roundup_pow_of_two(size);
+   553	
+   554		barno = ntb->epf_ntb_bar[BAR_DB];
+   555	
+   556		mw_addr = pci_epf_alloc_space(ntb->epf, size, barno, align, 0);
+   557		if (!mw_addr) {
+   558			dev_err(dev, "Failed to allocate OB address\n");
+   559			return -ENOMEM;
+   560		}
+   561	
+   562		ntb->epf_db = mw_addr;
+   563	
+   564		epf_bar = &ntb->epf->bar[barno];
+   565	
+   566		ret = pci_epc_set_bar(ntb->epf->epc, ntb->epf->func_no, ntb->epf->vfunc_no, epf_bar);
+   567		if (ret) {
+   568			dev_err(dev, "Doorbell BAR set failed\n");
+   569				goto err_alloc_peer_mem;
+   570		}
+   571		return ret;
+   572	
+   573	err_alloc_peer_mem:
+ > 574		pci_epf_free_space(ntb->epf, mw_addr, barno, 0);
+   575		return -1;
+   576	}
+   577	
 
 -- 
 0-DAY CI Kernel Test Service
