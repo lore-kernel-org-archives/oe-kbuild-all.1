@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AEAA8F59
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 03:02:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD05D8F59
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 03:06:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694487734; x=1726023734;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=b+7vQ3gcDrvCYXFKtOaJZHg6kU6GvLosAhUKznK801o=;
-  b=GrsVNTyuoDPc21DgPc35ZQQ3QV/2e7sj1zebb2l0LRh+w1ht9nyekXjP
-   WPM1C+Hn/NJ5ZKmAPDIWFsECwK3FdqwdtrqNrxW6AK2CLPjeZg8O1jd2k
-   GyUXb9+RetXEwdQjlPBgJ13eZlXS07IPf4Ltl81p9Ddvgp/+eRElLZfTK
-   gnOM/ITh2D7PPfSUNhSj4sQ5eFXZ/yJtFmYOfmHSt8IUdOcUpMd4kdMA3
-   YOlSYMM33E/bQZCswD1xX3OGfRhdluPc7xQrCStfS/SahqQPCB3rKpnmR
-   U13VW+jMwVdtVPpuJkGL15MKqOPog6mV5hCx5ipeUDQsPCv3Y9IdiTYrj
+  t=1694487973; x=1726023973;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RQt/Xq0uUaq9HjioPhTOJdOIq/LtL0LF6d0y9ZcdtKE=;
+  b=kITsfHjz+55VkImXarDfTUPgl36dtqJDywHtZwUa9TL8kJPwLDDl9Ag1
+   fOZD096xuadMHF90j2gJWA10F1AB+AYRM7GgSniksnGtUFyuclmK4F6KF
+   wtXZ+4gosRhS6NtYhNzR2mrHMUiVwytBQSVfNFUEehtI+hJuyo9zq56GD
+   jm9IipP6/Rsh2qu+lfnVxLQYIUww+xfHEg/FJVZuXgSqx1CMad/MCJ02m
+   WmkInPm5K9M6cQzVbx+yLTBRYsc+ZgL/sK/9x06ZViFv3GFoAMNwAj5yB
+   sox7LaCdTUWRVvTxpAkWdOaydPiF++375a/APrz1CrPyZqDFaLHX/4m+k
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="382075844"
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="357698312"
 X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; 
-   d="scan'208";a="382075844"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 20:02:12 -0700
+   d="scan'208";a="357698312"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 20:06:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="858606801"
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="746699813"
 X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; 
-   d="scan'208";a="858606801"
+   d="scan'208";a="746699813"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 11 Sep 2023 20:02:11 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 11 Sep 2023 20:06:11 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qftfF-0007Ba-1H;
-	Tue, 12 Sep 2023 03:02:09 +0000
-Date: Tue, 12 Sep 2023 11:01:23 +0800
+	id 1qftj7-0007Bp-1e;
+	Tue, 12 Sep 2023 03:06:09 +0000
+Date: Tue, 12 Sep 2023 11:06:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cindy Lu <lulu@redhat.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC v2 1/4] vduse: Add function to get/free the pages for
- reconnection
-Message-ID: <ZP/Ugy0vLvmomlWG@0091dd92274c>
+To: Frank Li <frank.li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>
+Subject: drivers/pci/endpoint/functions/pci-epf-vntb.c:559:21: sparse:
+ sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202309121102.XRIDbaLp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,23 +46,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230912030008.3599514-2-lulu@redhat.com>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+commit: 01dcec6d57ce62d535b2016fc4a617627fff506d PCI: endpoint: pci-epf-vntb: Fix sparse build warning for epf_db
+date:   10 months ago
+config: i386-randconfig-063-20230912 (https://download.01.org/0day-ci/archive/20230912/202309121102.XRIDbaLp-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309121102.XRIDbaLp-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309121102.XRIDbaLp-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+sparse warnings: (new ones prefixed by >>)
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:553:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *mw_addr @@     got void * @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:553:17: sparse:     expected void [noderef] __iomem *mw_addr
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:553:17: sparse:     got void *
+>> drivers/pci/endpoint/functions/pci-epf-vntb.c:559:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned int [usertype] *epf_db @@     got void [noderef] __iomem *mw_addr @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:559:21: sparse:     expected unsigned int [usertype] *epf_db
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:559:21: sparse:     got void [noderef] __iomem *mw_addr
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:571:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem *mw_addr @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:571:38: sparse:     expected void *addr
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:571:38: sparse:     got void [noderef] __iomem *mw_addr
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1124:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1124:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1124:33: sparse:     got struct epf_ntb_ctrl *reg
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1135:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1135:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1135:33: sparse:     got struct epf_ntb_ctrl *reg
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1146:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1146:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1146:33: sparse:     got struct epf_ntb_ctrl *reg
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1158:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1158:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1158:33: sparse:     got struct epf_ntb_ctrl *reg
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html/#option-1
+vim +559 drivers/pci/endpoint/functions/pci-epf-vntb.c
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [RFC v2 1/4] vduse: Add function to get/free the pages for reconnection
-Link: https://lore.kernel.org/stable/20230912030008.3599514-2-lulu%40redhat.com
+e35f56bb03304a Frank Li 2022-02-22  520  
+e35f56bb03304a Frank Li 2022-02-22  521  /**
+e35f56bb03304a Frank Li 2022-02-22  522   * epf_ntb_db_bar_init() - Configure Doorbell window BARs
+9298804840457c Frank Li 2022-11-02  523   * @ntb: NTB device that facilitates communication between HOST and VHOST
+9298804840457c Frank Li 2022-11-02  524   *
+9298804840457c Frank Li 2022-11-02  525   * Returns: Zero for success, or an error code in case of failure
+e35f56bb03304a Frank Li 2022-02-22  526   */
+e35f56bb03304a Frank Li 2022-02-22  527  static int epf_ntb_db_bar_init(struct epf_ntb *ntb)
+e35f56bb03304a Frank Li 2022-02-22  528  {
+e35f56bb03304a Frank Li 2022-02-22  529  	const struct pci_epc_features *epc_features;
+e35f56bb03304a Frank Li 2022-02-22  530  	u32 align;
+e35f56bb03304a Frank Li 2022-02-22  531  	struct device *dev = &ntb->epf->dev;
+e35f56bb03304a Frank Li 2022-02-22  532  	int ret;
+e35f56bb03304a Frank Li 2022-02-22  533  	struct pci_epf_bar *epf_bar;
+e35f56bb03304a Frank Li 2022-02-22  534  	void __iomem *mw_addr;
+e35f56bb03304a Frank Li 2022-02-22  535  	enum pci_barno barno;
+2b35c886556a24 Frank Li 2022-11-02  536  	size_t size = sizeof(u32) * ntb->db_count;
+e35f56bb03304a Frank Li 2022-02-22  537  
+e35f56bb03304a Frank Li 2022-02-22  538  	epc_features = pci_epc_get_features(ntb->epf->epc,
+e35f56bb03304a Frank Li 2022-02-22  539  					    ntb->epf->func_no,
+e35f56bb03304a Frank Li 2022-02-22  540  					    ntb->epf->vfunc_no);
+e35f56bb03304a Frank Li 2022-02-22  541  	align = epc_features->align;
+e35f56bb03304a Frank Li 2022-02-22  542  
+e35f56bb03304a Frank Li 2022-02-22  543  	if (size < 128)
+e35f56bb03304a Frank Li 2022-02-22  544  		size = 128;
+e35f56bb03304a Frank Li 2022-02-22  545  
+e35f56bb03304a Frank Li 2022-02-22  546  	if (align)
+e35f56bb03304a Frank Li 2022-02-22  547  		size = ALIGN(size, align);
+e35f56bb03304a Frank Li 2022-02-22  548  	else
+e35f56bb03304a Frank Li 2022-02-22  549  		size = roundup_pow_of_two(size);
+e35f56bb03304a Frank Li 2022-02-22  550  
+e35f56bb03304a Frank Li 2022-02-22  551  	barno = ntb->epf_ntb_bar[BAR_DB];
+e35f56bb03304a Frank Li 2022-02-22  552  
+e35f56bb03304a Frank Li 2022-02-22  553  	mw_addr = pci_epf_alloc_space(ntb->epf, size, barno, align, 0);
+e35f56bb03304a Frank Li 2022-02-22  554  	if (!mw_addr) {
+e35f56bb03304a Frank Li 2022-02-22  555  		dev_err(dev, "Failed to allocate OB address\n");
+e35f56bb03304a Frank Li 2022-02-22  556  		return -ENOMEM;
+e35f56bb03304a Frank Li 2022-02-22  557  	}
+e35f56bb03304a Frank Li 2022-02-22  558  
+e35f56bb03304a Frank Li 2022-02-22 @559  	ntb->epf_db = mw_addr;
+e35f56bb03304a Frank Li 2022-02-22  560  
+e35f56bb03304a Frank Li 2022-02-22  561  	epf_bar = &ntb->epf->bar[barno];
+e35f56bb03304a Frank Li 2022-02-22  562  
+e35f56bb03304a Frank Li 2022-02-22  563  	ret = pci_epc_set_bar(ntb->epf->epc, ntb->epf->func_no, ntb->epf->vfunc_no, epf_bar);
+e35f56bb03304a Frank Li 2022-02-22  564  	if (ret) {
+e35f56bb03304a Frank Li 2022-02-22  565  		dev_err(dev, "Doorbell BAR set failed\n");
+e35f56bb03304a Frank Li 2022-02-22  566  			goto err_alloc_peer_mem;
+e35f56bb03304a Frank Li 2022-02-22  567  	}
+e35f56bb03304a Frank Li 2022-02-22  568  	return ret;
+e35f56bb03304a Frank Li 2022-02-22  569  
+e35f56bb03304a Frank Li 2022-02-22  570  err_alloc_peer_mem:
+0c031262d2ddfb Frank Li 2022-11-02  571  	pci_epf_free_space(ntb->epf, mw_addr, barno, 0);
+e35f56bb03304a Frank Li 2022-02-22  572  	return -1;
+e35f56bb03304a Frank Li 2022-02-22  573  }
+e35f56bb03304a Frank Li 2022-02-22  574  
+
+:::::: The code at line 559 was first introduced by commit
+:::::: e35f56bb03304abc92c928b641af41ca372966bb PCI: endpoint: Support NTB transfer between RC and EP
+
+:::::: TO: Frank Li <Frank.Li@nxp.com>
+:::::: CC: Jon Mason <jdmason@kudzu.us>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
