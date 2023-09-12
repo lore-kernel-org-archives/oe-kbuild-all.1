@@ -1,204 +1,228 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2063.outbound.protection.outlook.com [40.107.93.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7665017D0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 05:25:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694496323; x=1726032323;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TB6ypRdYhux97a+jNvaWbN8K4Q81uDo6mqY+EXtSRIM=;
-  b=IWnH4AfkUzRYTFeMzE9IEQU9eev41Ds/ZicRiohpHxWUy1u9rP0kG57t
-   tTYIRzNneEldSDiLokMhddMcEbqhPUI48FjbX78V9796d0GrALO4pIpJi
-   48OmMhprRG9KTBq0wup3tGjzySUiDUaZZYOQF9U4KmK93cBKtP8JL63t2
-   Preq/aa5t2oJSoE4tlnsaorAfBkEILeQw1AO6SqmaWc49pGc03kejTnT8
-   KLPJfAYDmdk/2KEoeOCg6DUzsf+XJvzTbAyI1Qp1DPlDmXe15xsj+LM63
-   SELmJXc4C74Mvko1v05WuwUBry/5f3bdBAFvS8kzj/e30M0pfIPiODbbA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="378188941"
-X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; 
-   d="scan'208";a="378188941"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 22:25:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="886815321"
-X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; 
-   d="scan'208";a="886815321"
-Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Sep 2023 22:24:55 -0700
-Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qfvtn-0007NC-0h;
-	Tue, 12 Sep 2023 05:25:19 +0000
-Date: Tue, 12 Sep 2023 13:24:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [broonie-ci:kvm-arm64-sme 22/22] arch/arm64/kvm/sys_regs.c:1508:42:
- error: 'SYS_ID_AA64SMFR1_EL1' undeclared; did you mean
- 'SYS_ID_AA64MMFR1_EL1'?
-Message-ID: <202309121313.KZ5IuToM-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2561017D0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 05:32:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Jl7odXh7n15HigfhyGjvxgT/NbWnZQ7wsHNIFtboCEE87i1DzsYMkNtdspbthMsWbOrKUMO0spLbnpIM9Y4XgUbPt8lnv0Jnq/TduVZwPrfj7+ujZuMFnfcaJZhc2m/q67FqOoUn0KegA0hQdL42/twRWv0CMuCIZQ40Y6o8n7Y4X1wOPgEsVM8/6bWJBoY+EQrCtvrE00kCzi8VUwpgDtsYAy1Mvo3j6O1j35R9W/6gWdTvIkXFhI6PU88GxWpAHPK38ezOzqg6zy4LB0F2LoGMr3T4w6GE9eAmwsGVQHd8t9u5rKb3QJNQpTUGBdNqRI5o/WqpiPFU6+yJycd19A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CcMi/ZR1p8M9bmR3Mx9PxE85nvgprxCXgXC7YthPBCc=;
+ b=Ea31szbLzhNhCPwiPipiUBdC8Fn1tp94cHyzW572iHK4oqRmGqJcr5iELmPqnxDUQBoBqmvDKo6E7H+MhbZaduDG4HX2iK6/nTvSiMn9PSkpJAi27I+/hocdyPok2llOHGmFrdi5QaWySzI/f/ZWOSYiq3ousMH0nPnpYDYqfxptbzA7agSWKHzlpZatVGQ7UnbHNxHQG3rfGjJ7lPjwnFitTC/Vjrg4UpORhDx7lZDhgjOSIosb8flggdHjs14+CqLqkJWJPn6HxSrT3OjJrhOD6hex949uGxRTMOT30Z9JoeNZU0fR+TaIYkQ1PgeMbNBmfBY9RAWYccYsVmB/pA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CcMi/ZR1p8M9bmR3Mx9PxE85nvgprxCXgXC7YthPBCc=;
+ b=eKPrjtwLIzN8jE11V9OfWcL9jetAHGyfFw7ihXYDh9OPis5p88vZMwNPtLLo+f4COPJV1D3EAFmkcfCqJpyJX1DoHwyauVjYw4U3IGKvik5iY+c1V8f3494MCGKTk/C0+kpo3RDNy7VwH1cP5W2xT+mkYmk4etis4xRMsbWAgbg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB6978.namprd12.prod.outlook.com (2603:10b6:510:1b8::10)
+ by MW4PR12MB7483.namprd12.prod.outlook.com (2603:10b6:303:212::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.37; Tue, 12 Sep
+ 2023 05:32:16 +0000
+Received: from PH7PR12MB6978.namprd12.prod.outlook.com
+ ([fe80::c422:217b:5b:979d]) by PH7PR12MB6978.namprd12.prod.outlook.com
+ ([fe80::c422:217b:5b:979d%4]) with mapi id 15.20.6768.029; Tue, 12 Sep 2023
+ 05:32:15 +0000
+Message-ID: <2bfaa431-ca9f-c879-9967-f13d18dd4cd3@amd.com>
+Date: Tue, 12 Sep 2023 13:32:02 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH] acpi: trigger wakeup key event from power button
+Content-Language: en-US
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-acpi@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+ rafael@kernel.org, kernel test robot <lkp@intel.com>, cwhuang@linux.org.tw
+References: <20230908095747.446389-1-Ken.Xue@amd.com>
+ <ZP7hH9i6ZQgINbcB@smile.fi.intel.com>
+From: Ken Xue <Ken.Xue@amd.com>
+In-Reply-To: <ZP7hH9i6ZQgINbcB@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SI2PR04CA0010.apcprd04.prod.outlook.com
+ (2603:1096:4:197::11) To PH7PR12MB6978.namprd12.prod.outlook.com
+ (2603:10b6:510:1b8::10)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git kvm-arm64-sme
-head:   ef6f1cbc96dcd3e50e1e42e7269f3f90a1199abc
-commit: ef6f1cbc96dcd3e50e1e42e7269f3f90a1199abc [22/22] KVM: arm64: Support SME version configuration via ID registers
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230912/202309121313.KZ5IuToM-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309121313.KZ5IuToM-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309121313.KZ5IuToM-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arch/arm64/kvm/sys_regs.c: In function 'read_sanitised_id_aa64smfr_el1':
->> arch/arm64/kvm/sys_regs.c:1508:42: error: 'SYS_ID_AA64SMFR1_EL1' undeclared (first use in this function); did you mean 'SYS_ID_AA64MMFR1_EL1'?
-    1508 |         u64 val = read_sanitised_ftr_reg(SYS_ID_AA64SMFR1_EL1);
-         |                                          ^~~~~~~~~~~~~~~~~~~~
-         |                                          SYS_ID_AA64MMFR1_EL1
-   arch/arm64/kvm/sys_regs.c:1508:42: note: each undeclared identifier is reported only once for each function it appears in
-   In file included from arch/arm64/kvm/sys_regs.c:34:
-   arch/arm64/kvm/sys_regs.c: At top level:
->> arch/arm64/kvm/sys_regs.c:2070:20: error: 'SYS_ID_AA64SMFR1_EL1' undeclared here (not in a function); did you mean 'SYS_ID_AA64MMFR1_EL1'?
-    2070 |         { SYS_DESC(SYS_ID_AA64SMFR1_EL1),
-         |                    ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/sys_regs.h:237:32: note: in definition of macro 'Op0'
-     237 | #define Op0(_x)         .Op0 = _x
-         |                                ^~
-   arch/arm64/kvm/sys_regs.h:245:13: note: in expansion of macro 'sys_reg_Op0'
-     245 |         Op0(sys_reg_Op0(reg)), Op1(sys_reg_Op1(reg)),   \
-         |             ^~~~~~~~~~~
-   arch/arm64/kvm/sys_regs.c:2070:11: note: in expansion of macro 'SYS_DESC'
-    2070 |         { SYS_DESC(SYS_ID_AA64SMFR1_EL1),
-         |           ^~~~~~~~
->> arch/arm64/kvm/sys_regs.c:2074:20: error: 'read_sanitised_id_aa64smfr1_el1' undeclared here (not in a function); did you mean 'read_sanitised_id_aa64smfr_el1'?
-    2074 |           .reset = read_sanitised_id_aa64smfr1_el1, },
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                    read_sanitised_id_aa64smfr_el1
-   arch/arm64/kvm/sys_regs.c:2223:20: warning: initialized field overwritten [-Woverride-init]
-    2223 |           .reset = reset_pmcr, .reg = PMCR_EL0 },
-         |                    ^~~~~~~~~~
-   arch/arm64/kvm/sys_regs.c:2223:20: note: (near initialization for 'sys_reg_descs[233].reset')
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from arch/arm64/include/asm/rwonce.h:71,
-                    from include/linux/compiler.h:246,
-                    from include/linux/build_bug.h:5,
-                    from include/linux/bitfield.h:10,
-                    from arch/arm64/kvm/sys_regs.c:12:
-   include/linux/stddef.h:8:14: warning: initialized field overwritten [-Woverride-init]
-       8 | #define NULL ((void *)0)
-         |              ^
-   arch/arm64/kvm/sys_regs.c:2236:46: note: in expansion of macro 'NULL'
-    2236 |           .access = access_pmswinc, .reset = NULL },
-         |                                              ^~~~
-   include/linux/stddef.h:8:14: note: (near initialization for 'sys_reg_descs[237].reset')
-       8 | #define NULL ((void *)0)
-         |              ^
-   arch/arm64/kvm/sys_regs.c:2236:46: note: in expansion of macro 'NULL'
-    2236 |           .access = access_pmswinc, .reset = NULL },
-         |                                              ^~~~
-   arch/arm64/kvm/sys_regs.c:2238:45: warning: initialized field overwritten [-Woverride-init]
-    2238 |           .access = access_pmselr, .reset = reset_pmselr, .reg = PMSELR_EL0 },
-         |                                             ^~~~~~~~~~~~
-   arch/arm64/kvm/sys_regs.c:2238:45: note: (near initialization for 'sys_reg_descs[238].reset')
-   include/linux/stddef.h:8:14: warning: initialized field overwritten [-Woverride-init]
-       8 | #define NULL ((void *)0)
-         |              ^
-   arch/arm64/kvm/sys_regs.c:2240:45: note: in expansion of macro 'NULL'
-    2240 |           .access = access_pmceid, .reset = NULL },
-         |                                             ^~~~
-   include/linux/stddef.h:8:14: note: (near initialization for 'sys_reg_descs[239].reset')
-       8 | #define NULL ((void *)0)
-         |              ^
-   arch/arm64/kvm/sys_regs.c:2240:45: note: in expansion of macro 'NULL'
-    2240 |           .access = access_pmceid, .reset = NULL },
-         |                                             ^~~~
-   include/linux/stddef.h:8:14: warning: initialized field overwritten [-Woverride-init]
-       8 | #define NULL ((void *)0)
-         |              ^
-   arch/arm64/kvm/sys_regs.c:2242:45: note: in expansion of macro 'NULL'
-    2242 |           .access = access_pmceid, .reset = NULL },
-         |                                             ^~~~
-   include/linux/stddef.h:8:14: note: (near initialization for 'sys_reg_descs[240].reset')
-       8 | #define NULL ((void *)0)
-         |              ^
-   arch/arm64/kvm/sys_regs.c:2242:45: note: in expansion of macro 'NULL'
-    2242 |           .access = access_pmceid, .reset = NULL },
-         |                                             ^~~~
-   arch/arm64/kvm/sys_regs.c:2244:49: warning: initialized field overwritten [-Woverride-init]
-    2244 |           .access = access_pmu_evcntr, .reset = reset_unknown,
-         |                                                 ^~~~~~~~~~~~~
-   arch/arm64/kvm/sys_regs.c:2244:49: note: (near initialization for 'sys_reg_descs[241].reset')
-   include/linux/stddef.h:8:14: warning: initialized field overwritten [-Woverride-init]
-       8 | #define NULL ((void *)0)
-         |              ^
-   arch/arm64/kvm/sys_regs.c:2247:50: note: in expansion of macro 'NULL'
-    2247 |           .access = access_pmu_evtyper, .reset = NULL },
-         |                                                  ^~~~
-   include/linux/stddef.h:8:14: note: (near initialization for 'sys_reg_descs[242].reset')
-       8 | #define NULL ((void *)0)
-         |              ^
-   arch/arm64/kvm/sys_regs.c:2247:50: note: in expansion of macro 'NULL'
-    2247 |           .access = access_pmu_evtyper, .reset = NULL },
-         |                                                  ^~~~
-   include/linux/stddef.h:8:14: warning: initialized field overwritten [-Woverride-init]
-       8 | #define NULL ((void *)0)
-         |              ^
-   arch/arm64/kvm/sys_regs.c:2249:49: note: in expansion of macro 'NULL'
-    2249 |           .access = access_pmu_evcntr, .reset = NULL },
-         |                                                 ^~~~
-   include/linux/stddef.h:8:14: note: (near initialization for 'sys_reg_descs[243].reset')
-       8 | #define NULL ((void *)0)
-         |              ^
-   arch/arm64/kvm/sys_regs.c:2249:49: note: in expansion of macro 'NULL'
-    2249 |           .access = access_pmu_evcntr, .reset = NULL },
-         |                                                 ^~~~
-   arch/arm64/kvm/sys_regs.c:2255:20: warning: initialized field overwritten [-Woverride-init]
-    2255 |           .reset = reset_val, .reg = PMUSERENR_EL0, .val = 0 },
-         |                    ^~~~~~~~~
-   arch/arm64/kvm/sys_regs.c:2255:20: note: (near initialization for 'sys_reg_descs[244].reset')
-   arch/arm64/kvm/sys_regs.c:1136:20: warning: initialized field overwritten [-Woverride-init]
-    1136 |           .reset = reset_pmevcntr, .get_user = get_pmu_evcntr,          \
-         |                    ^~~~~~~~~~~~~~
-   arch/arm64/kvm/sys_regs.c:2345:9: note: in expansion of macro 'PMU_PMEVCNTR_EL0'
-    2345 |         PMU_PMEVCNTR_EL0(0),
-         |         ^~~~~~~~~~~~~~~~
-   arch/arm64/kvm/sys_regs.c:1136:20: note: (near initialization for 'sys_reg_descs[327].reset')
-    1136 |           .reset = reset_pmevcntr, .get_user = get_pmu_evcntr,          \
-         |                    ^~~~~~~~~~~~~~
-   arch/arm64/kvm/sys_regs.c:2345:9: note: in expansion of macro 'PMU_PMEVCNTR_EL0'
-    2345 |         PMU_PMEVCNTR_EL0(0),
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB6978:EE_|MW4PR12MB7483:EE_
+X-MS-Office365-Filtering-Correlation-Id: 85fec3b7-204a-4946-15fa-08dbb3519f8a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	Z6gElZaasQHX34estrVec0JWTt69roHkcMDn4izO2d2D0Jt2g/Ux8RaDxiLgKTrd3avDPPo/VmHRheTp8nAmZ9WOveo0e+7zzRxTayTQAdQT9Vl1jNtIlpNy7OPiCJaC1cjn7ovKobsFOg2lRpfQ2Lx96LSLA/0DE0gjCoVTbJbRke0X6i8kfnF7zxmTLVK49McNjzBnfy+a/Sy89DayVGI7UowaDh26E5LfZL/rlw6iyRsorCWotBk2cPJLotlRtePhROCVCi/e2E1rXtYF191aTCZKhfrkedi4cl48A/OoOZKW8hQ/3qqYxUbcmKJoPtbGpK14pMsITDVm9fW3I6Jt4bfH9+FNpa5jwiuvUBz7Wly9ev7TGyfykILijqRwHRBhwR1/EDrliPm74sG6fXL9xn32+KgpavuvqjL3G92kfBHoEQuduhekUjU0riqk+LNRV0iTW/B+vHRHf+Bl1Z/aaTZDdU9WQXr5NthKNoydQXDtNfhtvKULv7a1brwoEeD/q3F80Tf7pk+moUiQdUx3LcX2klKuZoNLmiUoSkaXjhgyLoqlMxEkYwjxhvSmx16IfJTwmKXjIO0lFpvWlkv7OJaWFcz3KyjgkvvMvQa9qdsi/ijOVAe1QtBaOvupGsBEhx9dtb0gU5toL0uCIQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB6978.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(136003)(396003)(376002)(366004)(346002)(186009)(1800799009)(451199024)(2906002)(83380400001)(6512007)(2616005)(26005)(6666004)(66556008)(316002)(6916009)(4326008)(8676002)(8936002)(66946007)(66476007)(6486002)(41300700001)(5660300002)(53546011)(6506007)(478600001)(966005)(38100700002)(31696002)(86362001)(36756003)(31686004)(3714002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?amoyTFZIUzhuV1hNVTQ4QitJY2RISlg2aENwbFcvQ3ZjbjNyeUNBemtkOEps?=
+ =?utf-8?B?N1VhM0VGTjNlUHZZOFpDS1ViMVQzMG9QeGlFK3dzOWV1QzhHSGFKU0NyazNq?=
+ =?utf-8?B?ZVBRSUc2c3QveFJWYnJmMmRxeXpqU044eGk5RVE1NTNsZmcrOGdFQ2VyWkIv?=
+ =?utf-8?B?Q3lrcmhyc0gyUlFTcXEyM2VtaDVqR0prM2ZKTWFkUUxCNTlXSzJPUDdENTY0?=
+ =?utf-8?B?Yit4N2xNTGJYekdzYm42ZFA3dmpYU1FOMDVaVG1uTnRkVmhoN1Z4TkNhZVcy?=
+ =?utf-8?B?UXgyOVRqYlN2ckxKc0JSU0NRSGg3WmhrejV2LzJsSFNDWWJTbjJKOGdhNWUw?=
+ =?utf-8?B?RlQzaVZacG9lL3NQTlRkQTFxSmtqWTJhNUp3SE9Nck1OVnpmM2FqeFhKRmJE?=
+ =?utf-8?B?UTg1RFlFUzl4UVdQZVc0V2tKV2tydEM5WXpkRjdGamVWcjFiRktHVkxSR0Ur?=
+ =?utf-8?B?b1k0aWhHOEkzaU9POWpMdTVYbGp2ZDdUamluenFqb3hUdHAxa21RL0w1TnJv?=
+ =?utf-8?B?NHBRM0pYaytlTWgzbk9Fb3NSbFRWZzV3ZzFxa1BaMFVKOUkrQm9MeW12WlFh?=
+ =?utf-8?B?NGVCZlNrcDg4T1Zyck9Ob25ObmNVOHJ2WnhBeGdLUGF2NDdtWTdocjJEY3J0?=
+ =?utf-8?B?azFldEtwdThRb3hPeURpOTNpa2wwQ01BditrcWxYZUEzU3VRYjNMVE1Sa2N0?=
+ =?utf-8?B?NUZjNDluSHNDc0FtSjB5L0hieUpyeUZ0TC9KQzdKZkpTempUbWk0blIyVkVU?=
+ =?utf-8?B?QnBKYXd3K0tHOFpZQkRKVjl1c25SS3JUQ3hHVlRDRnRBNVBhVk5XY1BEVkNj?=
+ =?utf-8?B?YXRHRzR0b0FJSEhRUG9PcXZ0STg3RW93d2dFeWZmK1hGRUpnVlZkQ0FLMEJN?=
+ =?utf-8?B?bmNJWXNlcFR3RFh4RERHeFlITysyRkoxNG5halZXOXI4ZXpsVXBpWi9BSDFm?=
+ =?utf-8?B?aGNtdWFOYXhWNUNLU3NMdTNrTDF6QWdiV0ZxNFA5T21XL3c4Z0NzWWhRZkdJ?=
+ =?utf-8?B?VUZNYWsyOHlhVkxycUZmSVpXem51WUtvUnV4OFVKRm9SSjFueTVKeHJpMnhk?=
+ =?utf-8?B?NnNReThkMzJBQkRnWDRBdHhqdTBtYjNteHNLVEVaZFRYNld5bEtRVHFnQ2Ju?=
+ =?utf-8?B?R016L2lURE9rL3FQREplT1RhUWo2RnkxUmppM3pjU05la3FTN0VpZ0FXN1lG?=
+ =?utf-8?B?MW1pak5qV0Z5aUVuOXUzaFZuU3BvNjFEWTVmVnNpcE9tdjNqRVNUWFdVWDhI?=
+ =?utf-8?B?YmVxMFF3d1NQc2xadTFuM1dMdm5IU050bDhwd3RQSjMyenNZbjYxd3ZqWnhL?=
+ =?utf-8?B?TW9vallVdVBrNjZ6MHQ3V1F1dkFrNUNGQzFXck04ekdKMXFmcDNqU255SmVJ?=
+ =?utf-8?B?TTBKVmloZ0JLNThzT1g2bzRXeUVISjB4NHJWWisxY3hPZjZuWTFTTU9WOGFq?=
+ =?utf-8?B?OXBiYXJ2YkR2NFpseFFpOTQxV0htN3lVRU5ZVGxGY0VLSFpUQ1VEVlk5c3Ba?=
+ =?utf-8?B?azR6SnZ3T2hYbEhSNFVKeThoanNod0xxeDBiZWRnZFkrMFBLS3FYcEg4TW43?=
+ =?utf-8?B?UjlEQ28zOEFzdm5xcG5rVU5QMlQwd1l4S1F1YU5lb3Y5eG5JbkdocWVuRHdh?=
+ =?utf-8?B?NFJVNnhrUGdZOWhpd3dwMGV2RHBTRG9PYWlhT1RuQnZWTVhKZjVIaW5CVG5a?=
+ =?utf-8?B?VDRkS3hnV3FUSVAwV2hNbUVzMDBnZHNBU1U2SVdoZUREM2Z4NVB6L1pyZ3Bq?=
+ =?utf-8?B?eGhWQmRnRzFKaitWckZHTUZtUlJNOXFvL1QySG9hYnZ0Q3hYTzhPSGVXRzFB?=
+ =?utf-8?B?SjQwSlZ3UWI3QUVuUWsxV01naXhXQmxpRU41a3Qzc3I0cEZ4ckFLdnkrY3ZE?=
+ =?utf-8?B?dlpDRENMUzBxbmsrRXNNemVPZnIwUXpiZzlXVHpZQ2FpbnFXY2NFVGlwVEF5?=
+ =?utf-8?B?Y2FMWm9Jcmh1Z0daeFJleFNqbzJJQzdacGpwcVMrTlk3eitXTEYrS2JnQkZU?=
+ =?utf-8?B?QVVOQ1ZON2lqMStrZnIwQWxqV1ZZMUhEb1MvUlJ0VjdNc0RvL1JzRkdCSkRj?=
+ =?utf-8?B?VEt2YXpWKy9SL1hMUXNVQjZPUkRidVpmcnFVdC9XNllGYklkWVUyZmJjVmVv?=
+ =?utf-8?Q?I7h9pRr9jYmk+/mg0A2XEa8WT?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85fec3b7-204a-4946-15fa-08dbb3519f8a
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB6978.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2023 05:32:15.5821
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HFi4HGJ0j5TEbqLtvYZk7R/UxJaejY97yglekNsV/9HgHFiVQo7B6utq6c6HgJts
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7483
 
 
-vim +1508 arch/arm64/kvm/sys_regs.c
+On 2023/9/11 17:42, Andy Shevchenko wrote:
+> On Fri, Sep 08, 2023 at 05:57:49PM +0800, Ken Xue wrote:
+>> Andorid can wakeup from various wakeup sources,
+>> but only several wakeup sources can wake up screen
+>> with right events(POWER, WAKEUP) from input device.
+>>
+>> Regarding pressing acpi power button, it can resume system and
+>> ACPI_BITMASK_WAKE_STATUS and ACPI_BITMASK_POWER_BUTTON_STATUS
+>> are set in pm1a_sts, but kernel does not report any key
+>> event to user space during resume by default.
+>>
+>> So, trigger wakeup key event to user space during resume
+>> from power button.
+>> Reported-by: kernel test robot <lkp@intel.com>
+> Are you sure?
 
-  1504	
-  1505	static u64 read_sanitised_id_aa64smfr_el1(struct kvm_vcpu *vcpu,
-  1506						  const struct sys_reg_desc *rd)
-  1507	{
-> 1508		u64 val = read_sanitised_ftr_reg(SYS_ID_AA64SMFR1_EL1);
-  1509	
-  1510		if (!vcpu_has_sme(vcpu))
-  1511			val = 0;
-  1512	
-  1513		return val;
-  1514	}
-  1515	
+Thanks for review. Sorry for confusion.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+1)The patch is trying to fix the android wakeup from power button issue
+
+I can see Android can resume from S3 and wake up screen from USB keyboard.
+
+but Android only can resume from S3 and fail to wake up screen from 
+power button.
+
+
+opensource android-x86 tried to fix this issue with a patch
+
+(https://git.osdn.net/view?p=android-x86/system-hardware-interfaces.git;a=commit;h=78688b149314ec16cb2d90507a5908e5f2ba0fda) 
+
+
+in upper layer system_suspend service as a WA.  It  emulates wakeup key 
+during resume in a user space thread. And it is still not part of 
+upstream Android.
+
+
+I believe the root cause is no wakeup key event being reported in kernel 
+during the resume from acpi power button.
+
+And I have verified this patch on linux also, it seems no side effect 
+for Linux resume with this patch.
+
+
+2) test robot reported some compile warnings and errors detected by test 
+robot which is fixed in V2.
+
+
+>
+>> Closes: https://lore.kernel.org/oe-kbuild-all/202309080315.txQUEyHQ-lkp@intel.com/
+>> Closes: https://lore.kernel.org/oe-kbuild-all/202309080239.IiC7uLpW-lkp@intel.com/
+>> Closes: https://lore.kernel.org/oe-kbuild-all/202309080351.xHt2qhP2-lkp@intel.com/
+> Are you sure?
+
+Just some errors/warnings from the v1 patch.
+
+
+>
+>>
+> Blank lines are not allowed in the tag block.
+>
+>> Signed-off-by: Ken Xue <Ken.Xue@amd.com>
+>> ---
+> How this change is different to the previous patch you sent?
+> Do you forgot versioning?
+> Do you forgot changelog?
+>
+> Please, read Submitting Patches documentation before trying again.
+> It will help to make your contribution nice and understandable.
+>
+> ...
+
+sorry.
+
+I will add V3 and change log later.
+
+
+>
+>> +	if (button->type == ACPI_BUTTON_TYPE_POWER) {
+> 	if (... != )
+> 		return;
+>
+> ?
+>
+>> +		input = button->input;
+>> +		input_report_key(input, KEY_WAKEUP, 1);
+>> +		input_sync(input);
+>> +		input_report_key(input, KEY_WAKEUP, 0);
+>> +		input_sync(input);
+>> +	}
+> ...
+>
+>> +#include <linux/acpi.h>
+> There is no users of this header.
+>
+> Check how forward declaration can be used (as it's done in many other headers).
+>
+Yes, "struct acpi_device" is defined in "include/acpi/acpi_bus.h", but include acpi_bus.h alone
+
+will lead to more compile issues.
+
+Regarding "forward declaration", how about
+
+typedef struct acpi_device *acpi_device;
+
+>> +extern void acpi_power_button_wakeup(struct acpi_device *device);
+> ...
+>
+>> +static inline void acpi_power_button_wakeup(struct acpi_device *device)
+>> +{
+>> +}
+> This can be done on a single line.
+>
+Ack.
