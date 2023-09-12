@@ -1,48 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708A68C1E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 02:04:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58D1017E8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 02:56:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694484252; x=1726020252;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YQg+s2V6b7qoKhAYmVAQrA4PEOfHbzWWvRfnD0nfzeg=;
-  b=eaRawVxPEKTZeufz1wJis/GhDGbeLwZPvR88GXUIgQ/3A4yl71hvEcwy
-   vnbVRWauOOpaaNzq/T3jxVqJdglecNchIik2ADhW4RH7AdiHYhkHQETmg
-   NyFU5mKG2rsxzEdy2CG+KqQg2utQbVsrDbSHLdyh3vf4LSCbcJJ+yBdvA
-   bu6uMeRKS8ja/YJoscJrKFrwnnWXJbGVaM+pqy1s39JZ+f3VbU3WIRdPf
-   /Sh81UI1oP2UzXvKUrxy16zoIDmP6iLDQNz5iBd/eqR5Z4LPUzoOa3R4K
-   G0AEik9mrl31RHFCIIcGVjC9k3DCINekNiE/tcdUBwL1RE4nzZxDF21En
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="363289093"
+  t=1694487373; x=1726023373;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8VIc2ZeSiQFfIsfLgbTAne9hXIMdxxj5H1TIoldJwOk=;
+  b=GGaeBGoh4M9ZGgn1xYq+BhYFrs9JY/rMfZai15bzfDqktgjRBC9zJngj
+   Z4tTgrM3ZXz2xOQwzoiXhRNG3T7SHdaGs9SmHolsbQEs0KgYiO73kkogT
+   NAs2J+fW7J9bP83TrPhdl1OkDEqcQb6BEJNvKXUwDbAmRVwsFHXU1zpla
+   9s1bgv0aMg6kamEbIDzFqn2JrcjJOnCfs4+mdsWK5BT0EScU6NhCBtHEc
+   782Dav+Hgkx6IJuejZIYkOZeBNj1Ct7QgG52atG+Ls5X6ZQhFeDb/gV34
+   9R0ag169G7UM4torYND+RwiH9WmDeD5qiNsQA7FTvsVoghZpLglUTs75F
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="464629274"
 X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="363289093"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 19:04:10 -0700
+   d="scan'208";a="464629274"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 19:56:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="813616648"
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="833735256"
 X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="813616648"
+   d="scan'208";a="833735256"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 11 Sep 2023 19:04:08 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 11 Sep 2023 19:56:11 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfsl4-00077s-0j;
-	Tue, 12 Sep 2023 02:04:06 +0000
-Date: Tue, 12 Sep 2023 10:03:23 +0800
+	id 1qftZR-0007Ay-0Z;
+	Tue, 12 Sep 2023 02:56:09 +0000
+Date: Tue, 12 Sep 2023 10:55:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Samuel Holland <samuel@sholland.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	linux-riscv@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 7/7] riscv: mm: Combine the SMP and non-SMP TLB flushing
- code
-Message-ID: <202309120901.kQtGm3L4-lkp@intel.com>
-References: <20230909201727.10909-8-samuel@sholland.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [broonie-ci:kvm-arm64-sme 22/22] arch/arm64/kvm/sys_regs.c:1505:12:
+ warning: 'read_sanitised_id_aa64smfr_el1' defined but not used
+Message-ID: <202309121048.1g9L6iEK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,62 +45,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230909201727.10909-8-samuel@sholland.org>
 
-Hi Samuel,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.6-rc1 next-20230911]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Holland/riscv-Apply-SiFive-CIP-1200-workaround-to-single-ASID-sfence-vma/20230910-042028
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230909201727.10909-8-samuel%40sholland.org
-patch subject: [PATCH 7/7] riscv: mm: Combine the SMP and non-SMP TLB flushing code
-config: riscv-nommu_k210_sdcard_defconfig (https://download.01.org/0day-ci/archive/20230912/202309120901.kQtGm3L4-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309120901.kQtGm3L4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git kvm-arm64-sme
+head:   ef6f1cbc96dcd3e50e1e42e7269f3f90a1199abc
+commit: ef6f1cbc96dcd3e50e1e42e7269f3f90a1199abc [22/22] KVM: arm64: Support SME version configuration via ID registers
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230912/202309121048.1g9L6iEK-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309121048.1g9L6iEK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309120901.kQtGm3L4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309121048.1g9L6iEK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/riscv/include/asm/pgtable.h:117,
-                    from include/linux/pgtable.h:6,
-                    from include/linux/mm.h:29,
-                    from arch/riscv/kernel/asm-offsets.c:10:
-   arch/riscv/include/asm/tlbflush.h: In function 'flush_tlb_kernel_range':
->> arch/riscv/include/asm/tlbflush.h:60:9: error: implicit declaration of function 'flush_tlb_all' [-Werror=implicit-function-declaration]
-      60 |         flush_tlb_all();
-         |         ^~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-   make[3]: *** [scripts/Makefile.build:116: arch/riscv/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1202: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   arch/arm64/kvm/sys_regs.c:1142:20: warning: initialized field overwritten [-Woverride-init]
+    1142 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2400:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2400 |         PMU_PMEVTYPER_EL0(23),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1142:20: note: (near initialization for 'sys_reg_descs[381].reset')
+    1142 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2400:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2400 |         PMU_PMEVTYPER_EL0(23),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1142:20: warning: initialized field overwritten [-Woverride-init]
+    1142 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2401:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2401 |         PMU_PMEVTYPER_EL0(24),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1142:20: note: (near initialization for 'sys_reg_descs[382].reset')
+    1142 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2401:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2401 |         PMU_PMEVTYPER_EL0(24),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1142:20: warning: initialized field overwritten [-Woverride-init]
+    1142 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2402:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2402 |         PMU_PMEVTYPER_EL0(25),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1142:20: note: (near initialization for 'sys_reg_descs[383].reset')
+    1142 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2402:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2402 |         PMU_PMEVTYPER_EL0(25),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1142:20: warning: initialized field overwritten [-Woverride-init]
+    1142 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2403:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2403 |         PMU_PMEVTYPER_EL0(26),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1142:20: note: (near initialization for 'sys_reg_descs[384].reset')
+    1142 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2403:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2403 |         PMU_PMEVTYPER_EL0(26),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1142:20: warning: initialized field overwritten [-Woverride-init]
+    1142 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2404:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2404 |         PMU_PMEVTYPER_EL0(27),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1142:20: note: (near initialization for 'sys_reg_descs[385].reset')
+    1142 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2404:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2404 |         PMU_PMEVTYPER_EL0(27),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1142:20: warning: initialized field overwritten [-Woverride-init]
+    1142 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2405:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2405 |         PMU_PMEVTYPER_EL0(28),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1142:20: note: (near initialization for 'sys_reg_descs[386].reset')
+    1142 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2405:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2405 |         PMU_PMEVTYPER_EL0(28),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1142:20: warning: initialized field overwritten [-Woverride-init]
+    1142 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2406:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2406 |         PMU_PMEVTYPER_EL0(29),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1142:20: note: (near initialization for 'sys_reg_descs[387].reset')
+    1142 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2406:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2406 |         PMU_PMEVTYPER_EL0(29),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1142:20: warning: initialized field overwritten [-Woverride-init]
+    1142 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2407:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2407 |         PMU_PMEVTYPER_EL0(30),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1142:20: note: (near initialization for 'sys_reg_descs[388].reset')
+    1142 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2407:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2407 |         PMU_PMEVTYPER_EL0(30),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2413:20: warning: initialized field overwritten [-Woverride-init]
+    2413 |           .reset = reset_val, .reg = PMCCFILTR_EL0, .val = 0 },
+         |                    ^~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2413:20: note: (near initialization for 'sys_reg_descs[389].reset')
+>> arch/arm64/kvm/sys_regs.c:1505:12: warning: 'read_sanitised_id_aa64smfr_el1' defined but not used [-Wunused-function]
+    1505 | static u64 read_sanitised_id_aa64smfr_el1(struct kvm_vcpu *vcpu,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/flush_tlb_all +60 arch/riscv/include/asm/tlbflush.h
+vim +/read_sanitised_id_aa64smfr_el1 +1505 arch/arm64/kvm/sys_regs.c
 
-fab957c11efe2f Palmer Dabbelt 2017-07-10  55  
-fab957c11efe2f Palmer Dabbelt 2017-07-10  56  /* Flush a range of kernel pages */
-fab957c11efe2f Palmer Dabbelt 2017-07-10  57  static inline void flush_tlb_kernel_range(unsigned long start,
-fab957c11efe2f Palmer Dabbelt 2017-07-10  58  	unsigned long end)
-fab957c11efe2f Palmer Dabbelt 2017-07-10  59  {
-fab957c11efe2f Palmer Dabbelt 2017-07-10 @60  	flush_tlb_all();
-fab957c11efe2f Palmer Dabbelt 2017-07-10  61  }
-fab957c11efe2f Palmer Dabbelt 2017-07-10  62  
+  1504	
+> 1505	static u64 read_sanitised_id_aa64smfr_el1(struct kvm_vcpu *vcpu,
+  1506						  const struct sys_reg_desc *rd)
+  1507	{
+  1508		u64 val = read_sanitised_ftr_reg(SYS_ID_AA64SMFR1_EL1);
+  1509	
+  1510		if (!vcpu_has_sme(vcpu))
+  1511			val = 0;
+  1512	
+  1513		return val;
+  1514	}
+  1515	
 
 -- 
 0-DAY CI Kernel Test Service
