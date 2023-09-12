@@ -1,44 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97BB4168DA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 14:12:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1A8168DA;
+	Tue, 12 Sep 2023 14:12:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694527925; x=1726063925;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PXzv8qm2hNmKvYmOAtKIAuCt9W6OZvmY50dBev2g9eA=;
-  b=hRstIJ2pAGhma5yUljST2VO8E7bzIKuG2/xEB1OYSRGjH62vmuE7ySEU
-   kzs4uR6vwyL9GGIqWN7Mu21EzsVMyogrRAk/QUuvgWlqk8B3qKIiQMTSM
-   OYC64Q8ZMPtpNAfizXdlTTJN8MSFO1ZG76EL2o7qzVseXkAwLL8rL1AF9
-   RnEZgAfwi9jDxOsX2G5bonj3+znP1NF33ng4TKgsynJPs1jYBfTbAbtUv
-   xXTjJPIf/8yDY1+iKIVB5lsBynPlX2oiWGoDYfvdmmofkqxRW3UR7dsCU
-   w621eXr3APVKGN7PCS/OBnOuC1Sj7tig9fFJz6zx874W7itFr4cQp7wCk
+  t=1694527933; x=1726063933;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wbRiBFZ4+dx/HV/xU4htIqQ3xk7BwZ0yVTxG47NP2co=;
+  b=ASXcP4p/2UuHhqAXYyVEquscwMVpu60Q8p1n1jdkoidvu+cFSXbJ73kJ
+   AGfjHhVcPYQ7s1Y9qEehfjRlnWjHIvYU494ItWbvaMKv/yfuvf7gUwE39
+   iFkExogo/mHHqjdmkkSEslLJSGTg619jBvgNmVB+EcTsH92j2Cijm6OFw
+   GjWXubbKAI39gqCyOnp1xFu1nrnmJCYCYpG+DO/1sIEanK+xlub0KILyj
+   Z6Lk+IWArFXh1PtzC6Ng7NC75/pevk4X026Bp1FQqRnIvI8aSohTcWVwk
+   6Tb75j7+T/iCB1q+IliAw4GPtAbCi8GZg5w9RpzcoT5SnNaeHd8QY6wL7
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="382193290"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="375715161"
 X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="382193290"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 07:12:04 -0700
+   d="scan'208";a="375715161"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 07:12:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="813837995"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="809276394"
 X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="813837995"
+   d="scan'208";a="809276394"
 Received: from lkp-server02.sh.intel.com (HELO 0a6943a0b3e1) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 12 Sep 2023 07:12:02 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 12 Sep 2023 07:12:05 -0700
 Received: from kbuild by 0a6943a0b3e1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qg47V-00003F-2d;
+	id 1qg47V-00003L-2y;
 	Tue, 12 Sep 2023 14:12:01 +0000
-Date: Tue, 12 Sep 2023 22:11:57 +0800
+Date: Tue, 12 Sep 2023 22:11:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kai Huang <kai.huang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Isaku Yamahata <isaku.yamahata@intel.com>
-Subject: [intel-tdx:kvm-upstream-next 52/321]
- arch/x86/include/asm/shared/tdx.h:8:33: warning: excess elements in struct
- initializer
-Message-ID: <202309122217.ilUPf9gd-lkp@intel.com>
+To: Matthew Brost <matthew.brost@intel.com>,
+	dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
+	Matthew Brost <matthew.brost@intel.com>, sarah.walker@imgtec.com,
+	ketil.johnsen@arm.com, mcanal@igalia.com, Liviu.Dudau@arm.com,
+	luben.tuikov@amd.com, lina@asahilina.net, donald.robson@imgtec.com,
+	boris.brezillon@collabora.com, christian.koenig@amd.com,
+	faith.ekstrand@collabora.com
+Subject: Re: [PATCH v3 03/13] drm/sched: Move schedule policy to scheduler /
+ entity
+Message-ID: <202309122100.HAEi8ytJ-lkp@intel.com>
+References: <20230912021615.2086698-4-matthew.brost@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,154 +54,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230912021615.2086698-4-matthew.brost@intel.com>
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-next
-head:   f6388449e0300e7413c7e2ea4875923875ddb340
-commit: 0e818a85fca5bd4f4a9311dc5dfd250bfe9b88d9 [52/321] x86/tdx: Remove 'struct tdx_hypercall_args'
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230912/202309122217.ilUPf9gd-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309122217.ilUPf9gd-lkp@intel.com/reproduce)
+Hi Matthew,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.6-rc1 next-20230912]
+[cannot apply to drm-misc/drm-misc-next drm-intel/for-linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/drm-sched-Add-drm_sched_submit_-helpers/20230912-102001
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20230912021615.2086698-4-matthew.brost%40intel.com
+patch subject: [PATCH v3 03/13] drm/sched: Move schedule policy to scheduler / entity
+config: arm64-randconfig-r032-20230912 (https://download.01.org/0day-ci/archive/20230912/202309122100.HAEi8ytJ-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309122100.HAEi8ytJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309122217.ilUPf9gd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309122100.HAEi8ytJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/x86/hyperv/ivm.c: In function 'hv_tdx_msr_write':
-   arch/x86/hyperv/ivm.c:387:16: error: variable 'args' has initializer but incomplete type
-     387 |         struct tdx_hypercall_args args = {
-         |                ^~~~~~~~~~~~~~~~~~
-   arch/x86/hyperv/ivm.c:388:18: error: 'struct tdx_hypercall_args' has no member named 'r10'
-     388 |                 .r10 = TDX_HYPERCALL_STANDARD,
-         |                  ^~~
-   In file included from arch/x86/include/asm/tdx.h:11,
-                    from arch/x86/include/asm/kvm_para.h:10,
-                    from arch/x86/include/asm/hypervisor.h:37,
-                    from arch/x86/hyperv/ivm.c:19:
->> arch/x86/include/asm/shared/tdx.h:8:33: warning: excess elements in struct initializer
-       8 | #define TDX_HYPERCALL_STANDARD  0
-         |                                 ^
-   arch/x86/hyperv/ivm.c:388:24: note: in expansion of macro 'TDX_HYPERCALL_STANDARD'
-     388 |                 .r10 = TDX_HYPERCALL_STANDARD,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/shared/tdx.h:8:33: note: (near initialization for 'args')
-       8 | #define TDX_HYPERCALL_STANDARD  0
-         |                                 ^
-   arch/x86/hyperv/ivm.c:388:24: note: in expansion of macro 'TDX_HYPERCALL_STANDARD'
-     388 |                 .r10 = TDX_HYPERCALL_STANDARD,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/hyperv/ivm.c:389:18: error: 'struct tdx_hypercall_args' has no member named 'r11'
-     389 |                 .r11 = EXIT_REASON_MSR_WRITE,
-         |                  ^~~
-   In file included from arch/x86/hyperv/ivm.c:25:
->> arch/x86/include/uapi/asm/vmx.h:61:41: warning: excess elements in struct initializer
-      61 | #define EXIT_REASON_MSR_WRITE           32
-         |                                         ^~
-   arch/x86/hyperv/ivm.c:389:24: note: in expansion of macro 'EXIT_REASON_MSR_WRITE'
-     389 |                 .r11 = EXIT_REASON_MSR_WRITE,
-         |                        ^~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/uapi/asm/vmx.h:61:41: note: (near initialization for 'args')
-      61 | #define EXIT_REASON_MSR_WRITE           32
-         |                                         ^~
-   arch/x86/hyperv/ivm.c:389:24: note: in expansion of macro 'EXIT_REASON_MSR_WRITE'
-     389 |                 .r11 = EXIT_REASON_MSR_WRITE,
-         |                        ^~~~~~~~~~~~~~~~~~~~~
-   arch/x86/hyperv/ivm.c:390:18: error: 'struct tdx_hypercall_args' has no member named 'r12'
-     390 |                 .r12 = msr,
-         |                  ^~~
->> arch/x86/hyperv/ivm.c:390:24: warning: excess elements in struct initializer
-     390 |                 .r12 = msr,
-         |                        ^~~
-   arch/x86/hyperv/ivm.c:390:24: note: (near initialization for 'args')
-   arch/x86/hyperv/ivm.c:391:18: error: 'struct tdx_hypercall_args' has no member named 'r13'
-     391 |                 .r13 = val,
-         |                  ^~~
-   arch/x86/hyperv/ivm.c:391:24: warning: excess elements in struct initializer
-     391 |                 .r13 = val,
-         |                        ^~~
-   arch/x86/hyperv/ivm.c:391:24: note: (near initialization for 'args')
-   arch/x86/hyperv/ivm.c:387:35: error: storage size of 'args' isn't known
-     387 |         struct tdx_hypercall_args args = {
-         |                                   ^~~~
->> arch/x86/hyperv/ivm.c:387:35: warning: unused variable 'args' [-Wunused-variable]
-   arch/x86/hyperv/ivm.c: In function 'hv_tdx_msr_read':
-   arch/x86/hyperv/ivm.c:401:16: error: variable 'args' has initializer but incomplete type
-     401 |         struct tdx_hypercall_args args = {
-         |                ^~~~~~~~~~~~~~~~~~
-   arch/x86/hyperv/ivm.c:402:18: error: 'struct tdx_hypercall_args' has no member named 'r10'
-     402 |                 .r10 = TDX_HYPERCALL_STANDARD,
-         |                  ^~~
->> arch/x86/include/asm/shared/tdx.h:8:33: warning: excess elements in struct initializer
-       8 | #define TDX_HYPERCALL_STANDARD  0
-         |                                 ^
-   arch/x86/hyperv/ivm.c:402:24: note: in expansion of macro 'TDX_HYPERCALL_STANDARD'
-     402 |                 .r10 = TDX_HYPERCALL_STANDARD,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/shared/tdx.h:8:33: note: (near initialization for 'args')
-       8 | #define TDX_HYPERCALL_STANDARD  0
-         |                                 ^
-   arch/x86/hyperv/ivm.c:402:24: note: in expansion of macro 'TDX_HYPERCALL_STANDARD'
-     402 |                 .r10 = TDX_HYPERCALL_STANDARD,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/hyperv/ivm.c:403:18: error: 'struct tdx_hypercall_args' has no member named 'r11'
-     403 |                 .r11 = EXIT_REASON_MSR_READ,
-         |                  ^~~
-   arch/x86/include/uapi/asm/vmx.h:60:41: warning: excess elements in struct initializer
-      60 | #define EXIT_REASON_MSR_READ            31
-         |                                         ^~
-   arch/x86/hyperv/ivm.c:403:24: note: in expansion of macro 'EXIT_REASON_MSR_READ'
-     403 |                 .r11 = EXIT_REASON_MSR_READ,
-         |                        ^~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/uapi/asm/vmx.h:60:41: note: (near initialization for 'args')
-      60 | #define EXIT_REASON_MSR_READ            31
-         |                                         ^~
-   arch/x86/hyperv/ivm.c:403:24: note: in expansion of macro 'EXIT_REASON_MSR_READ'
-     403 |                 .r11 = EXIT_REASON_MSR_READ,
-         |                        ^~~~~~~~~~~~~~~~~~~~
-   arch/x86/hyperv/ivm.c:404:18: error: 'struct tdx_hypercall_args' has no member named 'r12'
-     404 |                 .r12 = msr,
-         |                  ^~~
-   arch/x86/hyperv/ivm.c:404:24: warning: excess elements in struct initializer
-     404 |                 .r12 = msr,
-         |                        ^~~
-   arch/x86/hyperv/ivm.c:404:24: note: (near initialization for 'args')
-   arch/x86/hyperv/ivm.c:401:35: error: storage size of 'args' isn't known
-     401 |         struct tdx_hypercall_args args = {
-         |                                   ^~~~
-   arch/x86/hyperv/ivm.c:407:19: error: implicit declaration of function '__tdx_hypercall_ret'; did you mean '__tdx_hypercall'? [-Werror=implicit-function-declaration]
-     407 |         u64 ret = __tdx_hypercall_ret(&args);
-         |                   ^~~~~~~~~~~~~~~~~~~
-         |                   __tdx_hypercall
-   arch/x86/hyperv/ivm.c:401:35: warning: unused variable 'args' [-Wunused-variable]
-     401 |         struct tdx_hypercall_args args = {
-         |                                   ^~~~
-   arch/x86/hyperv/ivm.c: In function 'hv_tdx_hypercall':
-   arch/x86/hyperv/ivm.c:417:16: error: variable 'args' has initializer but incomplete type
-     417 |         struct tdx_hypercall_args args = { };
-         |                ^~~~~~~~~~~~~~~~~~
-   arch/x86/hyperv/ivm.c:417:35: error: storage size of 'args' isn't known
-     417 |         struct tdx_hypercall_args args = { };
-         |                                   ^~~~
-   arch/x86/hyperv/ivm.c:417:35: warning: unused variable 'args' [-Wunused-variable]
-   arch/x86/hyperv/ivm.c:426:1: error: control reaches end of non-void function [-Werror=return-type]
-     426 | }
-         | ^
-   cc1: some warnings being treated as errors
+>> drivers/gpu/drm/v3d/v3d_sched.c:403:9: error: use of undeclared identifier 'ULL'
+                                ULL, "v3d_render", DRM_SCHED_POLICY_DEFAULT,
+                                ^
+   1 error generated.
 
 
-vim +8 arch/x86/include/asm/shared/tdx.h
+vim +/ULL +403 drivers/gpu/drm/v3d/v3d_sched.c
 
-4c5b9aac6cade5 Kirill A. Shutemov 2022-04-06  7  
-4c5b9aac6cade5 Kirill A. Shutemov 2022-04-06 @8  #define TDX_HYPERCALL_STANDARD  0
-4c5b9aac6cade5 Kirill A. Shutemov 2022-04-06  9  
-
-:::::: The code at line 8 was first introduced by commit
-:::::: 4c5b9aac6cade51aef64cc6ed67f2ad5acda9aed x86/boot: Port I/O: Add decompression-time support for TDX
-
-:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-:::::: CC: Dave Hansen <dave.hansen@linux.intel.com>
+   381	
+   382	int
+   383	v3d_sched_init(struct v3d_dev *v3d)
+   384	{
+   385		int hw_jobs_limit = 1;
+   386		int job_hang_limit = 0;
+   387		int hang_limit_ms = 500;
+   388		int ret;
+   389	
+   390		ret = drm_sched_init(&v3d->queue[V3D_BIN].sched,
+   391				     &v3d_bin_sched_ops, NULL,
+   392				     hw_jobs_limit, job_hang_limit,
+   393				     msecs_to_jiffies(hang_limit_ms), NULL,
+   394				     NULL, "v3d_bin", DRM_SCHED_POLICY_DEFAULT,
+   395				     v3d->drm.dev);
+   396		if (ret)
+   397			return ret;
+   398	
+   399		ret = drm_sched_init(&v3d->queue[V3D_RENDER].sched,
+   400				     &v3d_render_sched_ops, NULL,
+   401				     hw_jobs_limit, job_hang_limit,
+   402				     msecs_to_jiffies(hang_limit_ms), NULL,
+ > 403				     ULL, "v3d_render", DRM_SCHED_POLICY_DEFAULT,
+   404				     v3d->drm.dev);
+   405		if (ret)
+   406			goto fail;
+   407	
+   408		ret = drm_sched_init(&v3d->queue[V3D_TFU].sched,
+   409				     &v3d_tfu_sched_ops, NULL,
+   410				     hw_jobs_limit, job_hang_limit,
+   411				     msecs_to_jiffies(hang_limit_ms), NULL,
+   412				     NULL, "v3d_tfu", DRM_SCHED_POLICY_DEFAULT,
+   413				     v3d->drm.dev);
+   414		if (ret)
+   415			goto fail;
+   416	
+   417		if (v3d_has_csd(v3d)) {
+   418			ret = drm_sched_init(&v3d->queue[V3D_CSD].sched,
+   419					     &v3d_csd_sched_ops, NULL,
+   420					     hw_jobs_limit, job_hang_limit,
+   421					     msecs_to_jiffies(hang_limit_ms), NULL,
+   422					     NULL, "v3d_csd", DRM_SCHED_POLICY_DEFAULT,
+   423					     v3d->drm.dev);
+   424			if (ret)
+   425				goto fail;
+   426	
+   427			ret = drm_sched_init(&v3d->queue[V3D_CACHE_CLEAN].sched,
+   428					     &v3d_cache_clean_sched_ops, NULL,
+   429					     hw_jobs_limit, job_hang_limit,
+   430					     msecs_to_jiffies(hang_limit_ms), NULL,
+   431					     NULL, "v3d_cache_clean",
+   432					     DRM_SCHED_POLICY_DEFAULT, v3d->drm.dev);
+   433			if (ret)
+   434				goto fail;
+   435		}
+   436	
+   437		return 0;
+   438	
+   439	fail:
+   440		v3d_sched_fini(v3d);
+   441		return ret;
+   442	}
+   443	
 
 -- 
 0-DAY CI Kernel Test Service
