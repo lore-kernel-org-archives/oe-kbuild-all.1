@@ -1,112 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743555688
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 09:17:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694510261; x=1726046261;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=76LYHFnxt3VRf3kTnVT7UE/ECnFeE/FhnxT3niq7iPw=;
-  b=ZkMoLYXRD1dzzCm7SAeOMW4LemYP1c/exntxrMbtWw/D8ReJwz3G2g9r
-   ezf+aKpFB0Z2AE0GBngmWk77/JyAn9j7iQEEioo5WoFJPNdb+ZuoDawFF
-   N8YhXZhKix3ZH2lSdNxSezniOJE9d0EcqRXELB8kpwN7PnbkS9uq+1w57
-   EwCZn+fcLKOYfRUdzugoio3ajExVDGdYYjEEcsee4UEXY0KZ/smEOOuRU
-   EXDggsEockS2QghuY0cN5dR6vrQ6+zkKzmqttzdo51qnZQcyia37A4Kj3
-   /ReYCMd2V7/zuatAjYLqcQf3gE5eOAgSYXuYefqwTpL5SFY2ea4pm2CYF
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="381022678"
-X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; 
-   d="scan'208";a="381022678"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 02:17:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="990436572"
-X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; 
-   d="scan'208";a="990436572"
-Received: from lkp-server02.sh.intel.com (HELO 1e56c5165d33) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 12 Sep 2023 02:17:39 -0700
-Received: from kbuild by 1e56c5165d33 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qfzWF-0000C6-01;
-	Tue, 12 Sep 2023 09:17:16 +0000
-Date: Tue, 12 Sep 2023 17:14:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:guest-attest 9/9]
- drivers/virt/coco/tdx-guest/tdx-guest.c:163:35: warning: variable 'size' set
- but not used
-Message-ID: <202309121756.9Zp1Jql5-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0908F7C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 09:22:42 +0000 (UTC)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38C7U1QU025512;
+	Tue, 12 Sep 2023 04:19:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=3842lPQ3i0eYHtp
+	hxkwXTnHk43pagi8qo0tmHBx87V0=; b=h31q5+dZJV24i7yPKRvahiKVBS7uc9e
+	MPPsp58G4nT6OOycUCauPjhPhLVQ+zah3VFF/nQXUR80r5yZQpxgfIiQdYqmS7TG
+	YqSjt8HLMdSX2Tq8sCULNTkKuJXlZr7uwQR/U75w1D2sgujCD6tNuUuaK4vggA3i
+	ZUn3Tj4a8uqLX9aJbVfwNh4+Zo8ur8cu183DB7ePWix4EmcH1Imph6ZwyaswZxOK
+	+KPIeQsvwhMf/9K7A5bx8U2ONx9lZHrBKRU/JVPgVZzN5u81+TmW4Rxv14nGT1wa
+	7KnprnuUYAfQdLRLs8ipC2j1llPLjGJmjCzrDAGsoocT1ND1dDLRwHg==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3t0n4jau22-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Sep 2023 04:19:55 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.37; Tue, 12 Sep
+ 2023 10:19:54 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.37 via Frontend Transport; Tue, 12 Sep 2023 10:19:54 +0100
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 38C943560;
+	Tue, 12 Sep 2023 09:19:54 +0000 (UTC)
+Date: Tue, 12 Sep 2023 09:19:54 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: kernel test robot <lkp@intel.com>
+CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+        Lee Jones
+	<lee@kernel.org>
+Subject: Re: cs42l43.c:undefined reference to `devm_regmap_add_irq_chip'
+Message-ID: <20230912091954.GQ103419@ediswmail.ad.cirrus.com>
+References: <202309120614.y7xm6iqp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
+In-Reply-To: <202309120614.y7xm6iqp-lkp@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-ORIG-GUID: Ag_oE9TnNfyc6BAu10hfPa0KBb4vqNzM
+X-Proofpoint-GUID: Ag_oE9TnNfyc6BAu10hfPa0KBb4vqNzM
+X-Proofpoint-Spam-Reason: safe
 
-tree:   https://github.com/intel/tdx.git guest-attest
-head:   af7df693905dad1ebb64bb16cf45af9c6515adfc
-commit: af7df693905dad1ebb64bb16cf45af9c6515adfc [9/9] virt: tdx-guest: Add RTMR extend event logging support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230912/202309121756.9Zp1Jql5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309121756.9Zp1Jql5-lkp@intel.com/reproduce)
+On Tue, Sep 12, 2023 at 06:29:42AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+> commit: ace6d14481386ec6c1b63cc2b24c71433a583dc2 mfd: cs42l43: Add support for cs42l43 core driver
+> date:   4 weeks ago
+> config: nios2-randconfig-r013-20230912 (https://download.01.org/0day-ci/archive/20230912/202309120614.y7xm6iqp-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309120614.y7xm6iqp-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309120614.y7xm6iqp-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    nios2-linux-ld: drivers/mfd/cs42l43.o: in function `cs42l43_boot_work':
+> >> cs42l43.c:(.text+0x614): undefined reference to `devm_regmap_add_irq_chip'
+>    cs42l43.c:(.text+0x614): relocation truncated to fit: R_NIOS2_CALL26 against `devm_regmap_add_irq_chip'
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309121756.9Zp1Jql5-lkp@intel.com/
+This should be fixed by this patch:
 
-All warnings (new ones prefixed by >>):
+https://lore.kernel.org/lkml/20230905133406.GM103419@ediswmail.ad.cirrus.com/T/
 
-   drivers/virt/coco/tdx-guest/tdx-guest.c: In function 'acpi_ccel_next_event':
->> drivers/virt/coco/tdx-guest/tdx-guest.c:163:35: warning: variable 'size' set but not used [-Wunused-but-set-variable]
-     163 |         u64 index = 0, start = 0, size = 0;
-         |                                   ^~~~
-
-
-vim +/size +163 drivers/virt/coco/tdx-guest/tdx-guest.c
-
-   157	
-   158	
-   159	static void* acpi_ccel_next_event(void)
-   160	{
-   161		struct cc_event_head *evhead;
-   162		struct acpi_table_ccel *ccel;
- > 163		u64 index = 0, start = 0, size = 0;
-   164		acpi_status status;
-   165		void *data;
-   166	
-   167		status = acpi_get_table(ACPI_SIG_CCEL, 0, (struct acpi_table_header **)&ccel);
-   168		if (ACPI_FAILURE(status))
-   169			return NULL;
-   170	
-   171		data = acpi_os_map_iomem(ccel->log_area_start_address, ccel->log_area_minimum_length);
-   172	
-   173		ccel_addr = data;
-   174		ccel_len = ccel->log_area_minimum_length;
-   175	
-   176		while (index < ccel->log_area_minimum_length) {
-   177			evhead = data + index;
-   178			start = index;
-   179	
-   180			if (evhead->mr_idx == CC_INVALID_RTMR_IDX)
-   181		                break;
-   182	
-   183			if (evhead->event_type == EV_NO_ACTION)
-   184				index += parse_spec_id_event(evhead);
-   185			else
-   186				index += parse_cc_event(evhead);
-   187	
-   188			size = index - start;
-   189		}
-   190	
-   191		return evhead;
-   192	}
-   193	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Charles
