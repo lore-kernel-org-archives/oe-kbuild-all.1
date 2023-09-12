@@ -1,169 +1,234 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC47524E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 18:03:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334C5A5C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 18:08:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694541808; x=1726077808;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   mime-version;
-  bh=zPt7q2syp3f7MxA8dQb1if3ecWYo5O2s8uuJUzpQr48=;
-  b=n7LXKyUpWHGQoiBPrbB3u6RFDP3QhQWsbef/lXuBSMBYhJw5ow2eEPJ3
-   n8bB9S7vbSLbMph+BsAw2SARDuiaJ/EHQDHyXLU8Qe1WGYSiNLRz0veQM
-   RQW7YJBbSf8jBfVyC923STJeL+VxdYaTX9OIvztZGXukZdlRhJ43NYgl7
-   bApZdSAUSii9hqByWndi8FuhRp2PYtuhpumTS7gP31jFuVyrUf6ZOyH/U
-   vXsgVNdHZQdk+PvJ9D2fzY6lbn9zC0VPSM2SUib0GWjY9HJgq9NjwXAUE
-   HF/cMaz7BATpWPIz40g2HNqzCgpqee0ClfJzDI9UP4a9K4vvQV6OMs+AB
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="377367191"
+  t=1694542106; x=1726078106;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZT0WowJ6uW13UMD/Oz1CpBr+CyvI+f5mCg6AErZJq+k=;
+  b=ICWXKi6gx+Lq7yFXOyGqSB/EhvxYGRzR39X+d2tYcgNTZRhT/KEAdm7s
+   kc/AXT0/vnV2J8Ac6krdGnr1qnCSJBl9qYmVoNQG5l/SVg1O1CmlYk7B8
+   i6Yy9xIVwI6lzdAHGjGHURL3j4ltKK45j1Uo/Jk/SM0ibdJ9b0kHo/qWr
+   7Q56fw2LW9OpGC9P1VVpPtXDSUgQ7yTeN4qjQXme1sCRoBZewnycy8eEK
+   OZvGs5JbgjuSY0/eHdeAJcw9DtLl+Ce7nnon3BzjVQvzUDeJRwfpeaAgk
+   Nx1ePu02f8GIqX6/l4SILxGjmjCwiy0qw1pOhC+RhJxCR8eG0PZrzWhME
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="377369224"
 X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="377367191"
+   d="scan'208";a="377369224"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 11:03:23 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 11:08:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="778899344"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="778900226"
 X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="778899344"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Sep 2023 11:03:22 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Tue, 12 Sep 2023 11:03:22 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Tue, 12 Sep 2023 11:03:21 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Tue, 12 Sep 2023 11:03:21 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.49) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Tue, 12 Sep 2023 11:03:21 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ag5sOz9GObKbbo3koWjqV2OHS6zN19plixsJg+fXYSSSqaHx6BWroY1lYTc1P0n+qw/Wh9cOLxU1f6ZThwNGlkaKEGa54aJ73mQDNXNmIarJ6hgADLD0hzBz4P3gk7hC9OJtNcJLrvoXNtesgkfpPq4YJC5+rkT30h9lCpaoh+ts26jjWVCoamM0zUGbW38eNZpxToad5pCfkYeKX8TpIhzy+qrealzERFXQH3YNpeOHiyBJzWquvkBfuq4ZJNjRa6Jfp4887zWSTSpxb+YVEJASmlJGV38AbOnXWgobbnwnht2Xi/p7zXX/34CB88LY0KYZfomevMuGy44vqJ2fLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Oqej35KyO03bGWQN+AZPj5K9MjWtpeShgoRlOSD+c0Q=;
- b=YKOkCBokajZPM+z00VN7mjrasPlgf65rwJZJlMYD1q5jN1H8EeWOt2M86YqIM8PNag3Z1j3GY5Mo1beFMCKR1iGfen0PKKGUKgDqcAwcP1KZZNJkqxWwGJ9obsdVsj6lmGmMx2IA1ivPNDJz6EzmN2DxfAU7/1QLKZXJu1nK1s5jofj7DVhoEoAXjqCBBSmVFItB74yheRvgmMM524sbX1gXPySt7DopR9HCWGkhQ4cfjN3fBPWbJsSCRq/XBuwpPnPtAyMQ4HTo7hDYn35uJ9Ml7GI+WfYpWNhXPwxjHdrYQTnHW/OQjIia/9Y/Yf6pC1mbtVxH6msdVWc5nMKgAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by PH0PR11MB5595.namprd11.prod.outlook.com (2603:10b6:510:e5::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.37; Tue, 12 Sep
- 2023 18:03:20 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::d35:d16b:4ee3:77e5]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::d35:d16b:4ee3:77e5%7]) with mapi id 15.20.6768.029; Tue, 12 Sep 2023
- 18:03:19 +0000
-Date: Wed, 13 Sep 2023 01:58:14 +0800
-From: kernel test robot <yujie.liu@intel.com>
-To: Jiexun Wang <wangjiexun@tinylab.org>
-CC: <oe-kbuild-all@lists.linux.dev>, <akpm@linux-foundation.org>,
-	<brauner@kernel.org>, <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
-	<falcon@tinylab.org>, Jiexun Wang <wangjiexun@tinylab.org>
-Subject: Re: [PATCH 1/1] mm/madvise: add cond_resched() in
- madvise_cold_or_pageout_pte_range()
-Message-ID: <202309111456.SBqOkY0h-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <95d610623363009a71024c7a473d6895f39f3caf.1694219361.git.wangjiexun@tinylab.org>
-X-ClientProxiedBy: SG2PR03CA0106.apcprd03.prod.outlook.com
- (2603:1096:4:7c::34) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+   d="scan'208";a="778900226"
+Received: from lkp-server02.sh.intel.com (HELO 47e905db7d2b) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 12 Sep 2023 11:08:23 -0700
+Received: from kbuild by 47e905db7d2b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qg7o9-00005R-01;
+	Tue, 12 Sep 2023 18:08:18 +0000
+Date: Wed, 13 Sep 2023 02:07:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
+Subject: [tiwai-sound:test/format-truncation-fixes 20/23]
+ sound/pci/cmipci.c:3106:35: warning: '%d' directive output may be truncated
+ writing between 1 and 11 bytes into a region of size 8
+Message-ID: <202309130112.VUtCZ4wu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|PH0PR11MB5595:EE_
-X-MS-Office365-Filtering-Correlation-Id: 85980270-eddc-4e4b-dccf-08dbb3ba8bf4
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wvB5c5bTRUDxvXtL5l9JqvEQoJzXmmrhF61N/D1P4RDHuMqQvpf+BZSuO+vXOySUa8KcGwk3yJnnhcXQs6FlTN2fWOT53ajz4Ks2s2vaSR4ipjad0IO+LxZfrqRyDnPsJ75X9gPHov0B4Gn/Oy3aVyfs2Q2przvCxdV4hD8cEL28I5Gu54CgPoqetDF/oqiQAp5tYjwbreYg5j1umVlrVOuBeHmigCkzQMBn/4NJQriSaGR6Mr4Tso18jTezFuVcvzUePSWptuIzSBul4+iVHKxzgqnKgdD3IMsNmae5M7a8ieI7VE3UxZod3ymhLS2+NVtF5ho2utP+8HGcMOgYN/FI5r5934IRGwLHDRmgNvD4iSRAa5zvLKDVAnH2pQ7cd5Kbwe/uJGkeE2G8Dg7Jyfu2YfRFr1PW4m+VCBoC9CDHr5gTMmQ6KLLYMQuKVKrHv2SEsgUIpmIeWkPCrlQnwJtgQJoDrE7J624KuPz3nSzGM3ut8bYhxwdIZy+LwOu0kRVdssi28FNGczTaVdhWRyc8e01nLPIbOdF5sY6NnLj+eVjZo9zCLYbKGioGU+EJ+AYpaaVJthCuO/ZCJjfbag==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39860400002)(396003)(136003)(346002)(366004)(1800799009)(186009)(451199024)(36756003)(86362001)(82960400001)(38100700002)(6666004)(26005)(966005)(478600001)(1076003)(6486002)(316002)(66556008)(66946007)(6506007)(66476007)(6916009)(5660300002)(4326008)(41300700001)(6512007)(8676002)(8936002)(2616005)(2906002)(83380400001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?SzjTaFn6kh5DK7WxnemjYoD71zsSxFvFvyMAk73SKuIoymARJTtedEXTeBls?=
- =?us-ascii?Q?dn0BLN0BNgG9gv4KdBpSQa9WlWBodHnQ4YbUk7H+Kd4gnRBcozm6mpXhPL0r?=
- =?us-ascii?Q?Qh59ToaVVBYjPfUGrnrgjlLSZ1PyXKw1Q9xo+pnqECyYCefkFESXvwHOQYSx?=
- =?us-ascii?Q?XCiZ6GM/78qoZeikQcUOW92mcQk03SRuzjfl1m4JEx2lLBxRZhTARtLJ6Op0?=
- =?us-ascii?Q?M+p8ajbnMKxyCuvcTZLPxdogHWqn7G6Pay+JuK+YHYnvQ/x8Sm3SqG1p05+C?=
- =?us-ascii?Q?q+tghHpi1qlGT5LZyib9pj4oJamS3sm7usW0enj9kjWU04HnZ1qQaDj/s1Pk?=
- =?us-ascii?Q?PBX/KBzSsjHow8nyG9sYGEQHjC5Mx5OHdOjadkcFHGgAH9sCqRftjtKsKh5O?=
- =?us-ascii?Q?n8i1owj39tgx3pni3fKEWzshpKGULwXAf5EZngqKsKh40ToW9LByfOW7DjYM?=
- =?us-ascii?Q?XQ6nUaP2LJU4ywH0Bmu5DwIAgDsCVTInD2lrLbnMlB1FjnpnSh5OC2YuGZf2?=
- =?us-ascii?Q?SZgsJb7NACxF3SPudGUt93GtdSvJYfvXwZ4wfR4+EVq8LLyiJSlLdetPKCp+?=
- =?us-ascii?Q?PbJgrHWQ4jvu73E5DRqOuibbukZjXMdq3si+iPU6EU2oXMM4HOK7Pn3EBAs6?=
- =?us-ascii?Q?hEGNLftEnP7L3f8aZU75MxUN9ulEApaymGYSEJ7zYIGwN5AhqXxw0XgNt9Y+?=
- =?us-ascii?Q?mb9IxFhr+hTxymCCuT1AZG+aJuOG6GqT1+gWLkakmLCSRkO2WbUN8IoR/O0X?=
- =?us-ascii?Q?ro60sckV3WvjIFNLb//BFIF21KI5O0kNXj892/lW9rjsh9NeqUIJigdswi09?=
- =?us-ascii?Q?3XBVy42f6MYFsDUPzWZ+yHAQYdVRfBvjNar91E2dEVYOwx5HZ38eTaKduUFM?=
- =?us-ascii?Q?zN9bFrMJfWTJ3CjuSGg9g4yYeeY4L2go9q5f+6nImTG8ZGDxvXpvK9sWKRK2?=
- =?us-ascii?Q?otLXz5ORF9831wZ0lBIw4G/KayUZOdYU1LwsRtoSZRxS/zgvjQv7+iUWfDGk?=
- =?us-ascii?Q?4qchfPkQ1z7y5YEsg+GnEpsNpUgROZK8GwC0v9hNr93/pnRpPi8GjVw6/nd1?=
- =?us-ascii?Q?PcgVyG8ndEp54Y+5ZdauBXwDDcpkWQ1YeFvyb8q3299SGjWsEs0gb1tTJjrQ?=
- =?us-ascii?Q?m0mIA/KiWr3MnuGCI0Npv2M+x2GvAS08ryaMOONKchIyYbshjsM/5/A+29mw?=
- =?us-ascii?Q?NAXGUvLZ5eap0P9UWah5ZwpWZYa9PmJ9gCJlzVWy3nX+/IWFzTCIcLqmROhh?=
- =?us-ascii?Q?+3wucnmZWTilbpkBfYIPJL2RBPH8hOaY1GXsGZ5K1YwegFcsHH6qLQVQC0ZT?=
- =?us-ascii?Q?L8wL7GTrga348ew55hdi8YY0ydbw8qvFRwR/PYHKOODIfuo3VKoCw0jOWuDq?=
- =?us-ascii?Q?I8vRqNPZQ6t0+95OLi2Sa3BMP/R0VN9jHVPryF+2D/8KtdHPsRABKYh1m224?=
- =?us-ascii?Q?Rxh8kfQK0L2AYQ53CSZQBFHMKenNGA8Cd9iG0jtnSNV61ysX4oCvQp+bDh4i?=
- =?us-ascii?Q?emBpmbjXjt937VszXWmjEqAPfEOKU6MfEPoep3PjM6ZxRRhfkJ6uI+49KcQd?=
- =?us-ascii?Q?NwhB7EDq/yTpIYeWevlgXNItCaF7q6cyps3S3S/q?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85980270-eddc-4e4b-dccf-08dbb3ba8bf4
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2023 18:03:19.8186
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qtYGHdi0uO01keSgg+BubYhbEVlsxVPMDeIxcDxv9XNqXDOG1yPjYN8ecLb+GTMjyUBItIUU1/d/+4OCK3omeA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5595
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Jiexun,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiexun-Wang/mm-madvise-add-cond_resched-in-madvise_cold_or_pageout_pte_range/20230909-133707
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/95d610623363009a71024c7a473d6895f39f3caf.1694219361.git.wangjiexun%40tinylab.org
-patch subject: [PATCH 1/1] mm/madvise: add cond_resched() in madvise_cold_or_pageout_pte_range()
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git test/format-truncation-fixes
+head:   5eb64dfc2dc9c05e50f2f122d77b28cede293b6b
+commit: 1c87c035c832a55414b42288df76bb10a5b11b34 [20/23] ALSA: cmipci: Fix -Wformat-truncation warning
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230913/202309130112.VUtCZ4wu-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309130112.VUtCZ4wu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <yujie.liu@intel.com>
-| Closes: https://lore.kernel.org/r/202309111456.SBqOkY0h-lkp@intel.com/
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309130112.VUtCZ4wu-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> mm/madvise.c: linux/swap.h is included more than once.
+All warnings (new ones prefixed by >>):
 
-vim +30 mm/madvise.c
+   sound/pci/cmipci.c: In function 'snd_cmipci_create':
+>> sound/pci/cmipci.c:3106:35: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 8 [-Wformat-truncation=]
+    3106 |                          " (model %d)", cm->chip_version);
+         |                                   ^~
+   sound/pci/cmipci.c:3106:26: note: directive argument in the range [-2147483648, 67]
+    3106 |                          " (model %d)", cm->chip_version);
+         |                          ^~~~~~~~~~~~~
+   sound/pci/cmipci.c:3105:17: note: 'snprintf' output between 11 and 21 bytes into a destination of size 16
+    3105 |                 snprintf(modelstr, sizeof(modelstr),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    3106 |                          " (model %d)", cm->chip_version);
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  > 30	#include <linux/swap.h>
-    31	#include <linux/swapops.h>
-    32	#include <linux/shmem_fs.h>
-    33	#include <linux/mmu_notifier.h>
-  > 34	#include <linux/swap.h>
-    35	
+
+vim +3106 sound/pci/cmipci.c
+
+  3041	
+  3042		/* initialize codec registers */
+  3043		snd_cmipci_set_bit(cm, CM_REG_MISC_CTRL, CM_RESET);
+  3044		snd_cmipci_clear_bit(cm, CM_REG_MISC_CTRL, CM_RESET);
+  3045		snd_cmipci_write(cm, CM_REG_INT_HLDCLR, 0);	/* disable ints */
+  3046		snd_cmipci_ch_reset(cm, CM_CH_PLAY);
+  3047		snd_cmipci_ch_reset(cm, CM_CH_CAPT);
+  3048		snd_cmipci_write(cm, CM_REG_FUNCTRL0, 0);	/* disable channels */
+  3049		snd_cmipci_write(cm, CM_REG_FUNCTRL1, 0);
+  3050	
+  3051		snd_cmipci_write(cm, CM_REG_CHFORMAT, 0);
+  3052		snd_cmipci_set_bit(cm, CM_REG_MISC_CTRL, CM_ENDBDAC|CM_N4SPK3D);
+  3053	#if CM_CH_PLAY == 1
+  3054		snd_cmipci_set_bit(cm, CM_REG_MISC_CTRL, CM_XCHGDAC);
+  3055	#else
+  3056		snd_cmipci_clear_bit(cm, CM_REG_MISC_CTRL, CM_XCHGDAC);
+  3057	#endif
+  3058		if (cm->chip_version) {
+  3059			snd_cmipci_write_b(cm, CM_REG_EXT_MISC, 0x20); /* magic */
+  3060			snd_cmipci_write_b(cm, CM_REG_EXT_MISC + 1, 0x09); /* more magic */
+  3061		}
+  3062		/* Set Bus Master Request */
+  3063		snd_cmipci_set_bit(cm, CM_REG_FUNCTRL1, CM_BREQ);
+  3064	
+  3065		/* Assume TX and compatible chip set (Autodetection required for VX chip sets) */
+  3066		switch (pci->device) {
+  3067		case PCI_DEVICE_ID_CMEDIA_CM8738:
+  3068		case PCI_DEVICE_ID_CMEDIA_CM8738B:
+  3069			if (!pci_dev_present(intel_82437vx)) 
+  3070				snd_cmipci_set_bit(cm, CM_REG_MISC_CTRL, CM_TXVX);
+  3071			break;
+  3072		default:
+  3073			break;
+  3074		}
+  3075	
+  3076		if (cm->chip_version < 68) {
+  3077			val = pci->device < 0x110 ? 8338 : 8738;
+  3078		} else {
+  3079			switch (snd_cmipci_read_b(cm, CM_REG_INT_HLDCLR + 3) & 0x03) {
+  3080			case 0:
+  3081				val = 8769;
+  3082				break;
+  3083			case 2:
+  3084				val = 8762;
+  3085				break;
+  3086			default:
+  3087				switch ((pci->subsystem_vendor << 16) |
+  3088					pci->subsystem_device) {
+  3089				case 0x13f69761:
+  3090				case 0x584d3741:
+  3091				case 0x584d3751:
+  3092				case 0x584d3761:
+  3093				case 0x584d3771:
+  3094				case 0x72848384:
+  3095					val = 8770;
+  3096					break;
+  3097				default:
+  3098					val = 8768;
+  3099					break;
+  3100				}
+  3101			}
+  3102		}
+  3103		sprintf(card->shortname, "C-Media CMI%d", val);
+  3104		if (cm->chip_version < 68)
+  3105			snprintf(modelstr, sizeof(modelstr),
+> 3106				 " (model %d)", cm->chip_version);
+  3107		else
+  3108			modelstr[0] = '\0';
+  3109		scnprintf(card->longname, sizeof(card->longname),
+  3110			  "%s%s at %#lx, irq %i",
+  3111			  card->shortname, modelstr, cm->iobase, cm->irq);
+  3112	
+  3113		if (cm->chip_version >= 39) {
+  3114			val = snd_cmipci_read_b(cm, CM_REG_MPU_PCI + 1);
+  3115			if (val != 0x00 && val != 0xff) {
+  3116				if (mpu_port[dev])
+  3117					iomidi = cm->iobase + CM_REG_MPU_PCI;
+  3118				integrated_midi = 1;
+  3119			}
+  3120		}
+  3121		if (!integrated_midi) {
+  3122			val = 0;
+  3123			iomidi = mpu_port[dev];
+  3124			switch (iomidi) {
+  3125			case 0x320: val = CM_VMPU_320; break;
+  3126			case 0x310: val = CM_VMPU_310; break;
+  3127			case 0x300: val = CM_VMPU_300; break;
+  3128			case 0x330: val = CM_VMPU_330; break;
+  3129			default:
+  3130				    iomidi = 0; break;
+  3131			}
+  3132			if (iomidi > 0) {
+  3133				snd_cmipci_write(cm, CM_REG_LEGACY_CTRL, val);
+  3134				/* enable UART */
+  3135				snd_cmipci_set_bit(cm, CM_REG_FUNCTRL1, CM_UART_EN);
+  3136				if (inb(iomidi + 1) == 0xff) {
+  3137					dev_err(cm->card->dev,
+  3138						"cannot enable MPU-401 port at %#lx\n",
+  3139						iomidi);
+  3140					snd_cmipci_clear_bit(cm, CM_REG_FUNCTRL1,
+  3141							     CM_UART_EN);
+  3142					iomidi = 0;
+  3143				}
+  3144			}
+  3145		}
+  3146	
+  3147		if (cm->chip_version < 68) {
+  3148			err = snd_cmipci_create_fm(cm, fm_port[dev]);
+  3149			if (err < 0)
+  3150				return err;
+  3151		}
+  3152	
+  3153		/* reset mixer */
+  3154		snd_cmipci_mixer_write(cm, 0, 0);
+  3155	
+  3156		snd_cmipci_proc_init(cm);
+  3157	
+  3158		/* create pcm devices */
+  3159		pcm_index = pcm_spdif_index = 0;
+  3160		err = snd_cmipci_pcm_new(cm, pcm_index);
+  3161		if (err < 0)
+  3162			return err;
+  3163		pcm_index++;
+  3164		err = snd_cmipci_pcm2_new(cm, pcm_index);
+  3165		if (err < 0)
+  3166			return err;
+  3167		pcm_index++;
+  3168		if (cm->can_ac3_hw || cm->can_ac3_sw) {
+  3169			pcm_spdif_index = pcm_index;
+  3170			err = snd_cmipci_pcm_spdif_new(cm, pcm_index);
+  3171			if (err < 0)
+  3172				return err;
+  3173		}
+  3174	
+  3175		/* create mixer interface & switches */
+  3176		err = snd_cmipci_mixer_new(cm, pcm_spdif_index);
+  3177		if (err < 0)
+  3178			return err;
+  3179	
+  3180		if (iomidi > 0) {
+  3181			err = snd_mpu401_uart_new(card, 0, MPU401_HW_CMIPCI,
+  3182						  iomidi,
+  3183						  (integrated_midi ?
+  3184						   MPU401_INFO_INTEGRATED : 0) |
+  3185						  MPU401_INFO_IRQ_HOOK,
+  3186						  -1, &cm->rmidi);
+  3187			if (err < 0)
+  3188				dev_err(cm->card->dev,
+  3189					"no UART401 device at 0x%lx\n", iomidi);
+  3190		}
+  3191	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
