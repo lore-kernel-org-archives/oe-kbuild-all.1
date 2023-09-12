@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09BC0AD49;
-	Tue, 12 Sep 2023 15:45:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4F3AD49
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 15:45:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694533514; x=1726069514;
+  t=1694533558; x=1726069558;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SAfWgFdVAfYhSmCX1cTWCZbhzdmxdfEVFf0WxAoFADg=;
-  b=IGc1pnHoxqkTlgMk2rxYxBoAEV4b/FdmFP03QFATrVK4h1lU8sTRQTZj
-   yMBHBGuRzqYgZL1GzKiaA64M5CgVqr3Bks/RM2RGwEmc5/2IoacTFOmqW
-   kUooQ5ffRX6fk++ntx/gxEvBx3ewXTbMTNf06w2hbZe64SW1si0VPnU4S
-   syyrsci14be/caO8AcD/5b3DrLFMZHmfKzm4r+BDw67a3mQwVZovx7G1g
-   XNdyKUC10jgPBxwCZXFI9kk5NYSLGs8NNQZvh2O1NIh1NTLUpUDjwRXi+
-   CANf1BW4zQKpEvGtTcanLTsAupj/DDkRuzs8A4Z/V1f07OsnK9/dhHDwT
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="357845811"
+  bh=kUe+U5qKIETKaSIt+mF0u9eBRsOQSXVG3S3n9gypS3g=;
+  b=GmAlxwLMyjI34yaGYo5E9k8bSapo0oXKFFfV4wIXMAexkwFqCH6JODb+
+   Ta5ndKkMlrER+lBbIlOk/+qq96LlArqEM3WOGJ3gVtuLjY4pg0XfhTBAR
+   9kdCzFt8jpe23oJM0ups14VrR1GVzqbHsZEDpCarDAVTeDcD+tPgE4yD4
+   uXUxcznkhaffB/6b87xbCQIhViTYIk14WQPKc2iJ0xdTAcucTEGo73eKC
+   OlEaA+2jkka/l3qcA4dnY+uJu3EYBaz6iywZWNBdQu0hNpdVha/+C5pIR
+   Tq3aHhVcbnCU0kaqYBvKdnfcTH96zAld5fOLRq6XQS0xGj4yDlFRfFZZ+
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="464786540"
 X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="357845811"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 08:45:13 -0700
+   d="scan'208";a="464786540"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 08:45:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="743762946"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="773082269"
 X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="743762946"
+   d="scan'208";a="773082269"
 Received: from lkp-server02.sh.intel.com (HELO 0a6943a0b3e1) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 12 Sep 2023 08:45:11 -0700
+  by orsmga008.jf.intel.com with ESMTP; 12 Sep 2023 08:45:55 -0700
 Received: from kbuild by 0a6943a0b3e1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qg5XQ-00007w-39;
-	Tue, 12 Sep 2023 15:43:44 +0000
+	id 1qg5aG-000083-2I;
+	Tue, 12 Sep 2023 15:45:50 +0000
 Date: Tue, 12 Sep 2023 23:38:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:serial 1/74] include/linux/serial_core.h:616:2: error:
- incompatible integer to pointer conversion assigning to 'unsigned long *'
- from 'unsigned long'
-Message-ID: <202309122312.lRVq9AHw-lkp@intel.com>
+To: Dmitry Safonov <dima@arista.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: arch/microblaze/kernel/unwind.c:168: warning: Function parameter or
+ member 'loglvl' not described in 'unwind_trap'
+Message-ID: <202309122318.VLgfp802-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,303 +48,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git serial
-head:   75adfb6dc779d7c86a2e31b3ca6b266b8a8ef854
-commit: 7887baec9d85468ea43d70b614fc3f51f7206793 [1/74] serial: core: Provide port lock wrappers
-config: um-randconfig-r011-20230912 (https://download.01.org/0day-ci/archive/20230912/202309122312.lRVq9AHw-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309122312.lRVq9AHw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+commit: 77530a5277bcab0433d0f68af11e04a5c4d79039 microblaze: add loglvl to microblaze_unwind_inner()
+date:   3 years, 3 months ago
+config: microblaze-alldefconfig (https://download.01.org/0day-ci/archive/20230912/202309122318.VLgfp802-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309122318.VLgfp802-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309122312.lRVq9AHw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309122318.VLgfp802-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/tty/hvc/hvc_console.c:15:
-   In file included from include/linux/kbd_kern.h:5:
-   In file included from include/linux/tty.h:12:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/tty/hvc/hvc_console.c:15:
-   In file included from include/linux/kbd_kern.h:5:
-   In file included from include/linux/tty.h:12:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/tty/hvc/hvc_console.c:15:
-   In file included from include/linux/kbd_kern.h:5:
-   In file included from include/linux/tty.h:12:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   In file included from drivers/tty/hvc/hvc_console.c:29:
->> include/linux/serial_core.h:616:2: warning: comparison of distinct pointer types ('unsigned long *' and 'typeof (flags) *' (aka 'unsigned long **')) [-Wcompare-distinct-pointer-types]
-           spin_lock_irqsave(&up->lock, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:381:2: note: expanded from macro 'spin_lock_irqsave'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:243:3: note: expanded from macro 'raw_spin_lock_irqsave'
-                   typecheck(unsigned long, flags);        \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/typecheck.h:12:18: note: expanded from macro 'typecheck'
-           (void)(&__dummy == &__dummy2); \
-                  ~~~~~~~~ ^  ~~~~~~~~~
-   In file included from drivers/tty/hvc/hvc_console.c:29:
->> include/linux/serial_core.h:616:2: error: incompatible integer to pointer conversion assigning to 'unsigned long *' from 'unsigned long' [-Wint-conversion]
-           spin_lock_irqsave(&up->lock, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:381:2: note: expanded from macro 'spin_lock_irqsave'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:244:9: note: expanded from macro 'raw_spin_lock_irqsave'
-                   flags = _raw_spin_lock_irqsave(lock);   \
-                         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/tty/hvc/hvc_console.c:29:
-   include/linux/serial_core.h:639:9: warning: comparison of distinct pointer types ('unsigned long *' and 'typeof (flags) *' (aka 'unsigned long **')) [-Wcompare-distinct-pointer-types]
-           return spin_trylock_irqsave(&up->lock, flags);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:421:2: note: expanded from macro 'spin_trylock_irqsave'
-           raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:298:2: note: expanded from macro 'raw_spin_trylock_irqsave'
-           local_irq_save(flags); \
-           ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:222:3: note: expanded from macro 'local_irq_save'
-                   raw_local_irq_save(flags);              \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:178:3: note: expanded from macro 'raw_local_irq_save'
-                   typecheck(unsigned long, flags);        \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/typecheck.h:12:18: note: expanded from macro 'typecheck'
-           (void)(&__dummy == &__dummy2); \
-                  ~~~~~~~~ ^  ~~~~~~~~~
-   In file included from drivers/tty/hvc/hvc_console.c:29:
-   include/linux/serial_core.h:639:9: error: incompatible integer to pointer conversion assigning to 'unsigned long *' from 'unsigned long' [-Wint-conversion]
-           return spin_trylock_irqsave(&up->lock, flags);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:421:2: note: expanded from macro 'spin_trylock_irqsave'
-           raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:298:2: note: expanded from macro 'raw_spin_trylock_irqsave'
-           local_irq_save(flags); \
-           ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:222:3: note: expanded from macro 'local_irq_save'
-                   raw_local_irq_save(flags);              \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:179:9: note: expanded from macro 'raw_local_irq_save'
-                   flags = arch_local_irq_save();          \
-                         ^ ~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/tty/hvc/hvc_console.c:29:
-   include/linux/serial_core.h:639:9: warning: comparison of distinct pointer types ('unsigned long *' and 'typeof (flags) *' (aka 'unsigned long **')) [-Wcompare-distinct-pointer-types]
-           return spin_trylock_irqsave(&up->lock, flags);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:421:2: note: expanded from macro 'spin_trylock_irqsave'
-           raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:298:2: note: expanded from macro 'raw_spin_trylock_irqsave'
-           local_irq_save(flags); \
-           ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:223:8: note: expanded from macro 'local_irq_save'
-                   if (!raw_irqs_disabled_flags(flags))    \
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:194:3: note: expanded from macro 'raw_irqs_disabled_flags'
-                   typecheck(unsigned long, flags);        \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/typecheck.h:12:18: note: expanded from macro 'typecheck'
-           (void)(&__dummy == &__dummy2); \
-                  ~~~~~~~~ ^  ~~~~~~~~~
-   In file included from drivers/tty/hvc/hvc_console.c:29:
->> include/linux/serial_core.h:639:41: error: incompatible pointer to integer conversion passing 'unsigned long *' to parameter of type 'unsigned long'; dereference with * [-Wint-conversion]
-           return spin_trylock_irqsave(&up->lock, flags);
-                                                  ^~~~~
-                                                  *
-   include/linux/spinlock.h:421:49: note: expanded from macro 'spin_trylock_irqsave'
-           raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
-                                                          ^~~~~
-   include/linux/spinlock.h:298:17: note: expanded from macro 'raw_spin_trylock_irqsave'
-           local_irq_save(flags); \
-                          ^~~~~
-   include/linux/irqflags.h:223:32: note: expanded from macro 'local_irq_save'
-                   if (!raw_irqs_disabled_flags(flags))    \
-                                                ^~~~~
-   include/linux/irqflags.h:195:28: note: expanded from macro 'raw_irqs_disabled_flags'
-                   arch_irqs_disabled_flags(flags);        \
-                                            ^~~~~
-   include/asm-generic/irqflags.h:37:58: note: passing argument to parameter 'flags' here
-   static inline int arch_irqs_disabled_flags(unsigned long flags)
-                                                            ^
-   In file included from drivers/tty/hvc/hvc_console.c:29:
-   include/linux/serial_core.h:639:9: warning: comparison of distinct pointer types ('unsigned long *' and 'typeof (flags) *' (aka 'unsigned long **')) [-Wcompare-distinct-pointer-types]
-           return spin_trylock_irqsave(&up->lock, flags);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:421:2: note: expanded from macro 'spin_trylock_irqsave'
-           raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:300:9: note: expanded from macro 'raw_spin_trylock_irqsave'
-           1 : ({ local_irq_restore(flags); 0; }); \
-                  ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:229:8: note: expanded from macro 'local_irq_restore'
-                   if (!raw_irqs_disabled_flags(flags))    \
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:194:3: note: expanded from macro 'raw_irqs_disabled_flags'
-                   typecheck(unsigned long, flags);        \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/typecheck.h:12:18: note: expanded from macro 'typecheck'
-           (void)(&__dummy == &__dummy2); \
-                  ~~~~~~~~ ^  ~~~~~~~~~
-   In file included from drivers/tty/hvc/hvc_console.c:29:
->> include/linux/serial_core.h:639:41: error: incompatible pointer to integer conversion passing 'unsigned long *' to parameter of type 'unsigned long'; dereference with * [-Wint-conversion]
-           return spin_trylock_irqsave(&up->lock, flags);
-                                                  ^~~~~
-                                                  *
-   include/linux/spinlock.h:421:49: note: expanded from macro 'spin_trylock_irqsave'
-           raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
-                                                          ^~~~~
-   include/linux/spinlock.h:300:27: note: expanded from macro 'raw_spin_trylock_irqsave'
-           1 : ({ local_irq_restore(flags); 0; }); \
-                                    ^~~~~
-   include/linux/irqflags.h:229:32: note: expanded from macro 'local_irq_restore'
-                   if (!raw_irqs_disabled_flags(flags))    \
-                                                ^~~~~
-   include/linux/irqflags.h:195:28: note: expanded from macro 'raw_irqs_disabled_flags'
-                   arch_irqs_disabled_flags(flags);        \
-                                            ^~~~~
-   include/asm-generic/irqflags.h:37:58: note: passing argument to parameter 'flags' here
-   static inline int arch_irqs_disabled_flags(unsigned long flags)
-                                                            ^
-   In file included from drivers/tty/hvc/hvc_console.c:29:
-   include/linux/serial_core.h:639:9: warning: comparison of distinct pointer types ('unsigned long *' and 'typeof (flags) *' (aka 'unsigned long **')) [-Wcompare-distinct-pointer-types]
-           return spin_trylock_irqsave(&up->lock, flags);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:421:2: note: expanded from macro 'spin_trylock_irqsave'
-           raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:300:9: note: expanded from macro 'raw_spin_trylock_irqsave'
-           1 : ({ local_irq_restore(flags); 0; }); \
-                  ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:231:3: note: expanded from macro 'local_irq_restore'
-                   raw_local_irq_restore(flags);           \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:183:3: note: expanded from macro 'raw_local_irq_restore'
-                   typecheck(unsigned long, flags);        \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/typecheck.h:12:18: note: expanded from macro 'typecheck'
-           (void)(&__dummy == &__dummy2); \
-                  ~~~~~~~~ ^  ~~~~~~~~~
-   In file included from drivers/tty/hvc/hvc_console.c:29:
->> include/linux/serial_core.h:639:41: error: incompatible pointer to integer conversion passing 'unsigned long *' to parameter of type 'unsigned long'; dereference with * [-Wint-conversion]
-           return spin_trylock_irqsave(&up->lock, flags);
-                                                  ^~~~~
-                                                  *
-   include/linux/spinlock.h:421:49: note: expanded from macro 'spin_trylock_irqsave'
-           raw_spin_trylock_irqsave(spinlock_check(lock), flags); \
-                                                          ^~~~~
-   include/linux/spinlock.h:300:27: note: expanded from macro 'raw_spin_trylock_irqsave'
-           1 : ({ local_irq_restore(flags); 0; }); \
-                                    ^~~~~
-   include/linux/irqflags.h:231:25: note: expanded from macro 'local_irq_restore'
-                   raw_local_irq_restore(flags);           \
-                                         ^~~~~
-   include/linux/irqflags.h:185:26: note: expanded from macro 'raw_local_irq_restore'
-                   arch_local_irq_restore(flags);          \
-                                          ^~~~~
-   arch/um/include/asm/irqflags.h:17:57: note: passing argument to parameter 'flags' here
-   static inline void arch_local_irq_restore(unsigned long flags)
-                                                           ^
-   17 warnings and 5 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for VIDEO_OV7670
-   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && VIDEO_CAMERA_SENSOR [=n]
-   Selected by [y]:
-   - VIDEO_CAFE_CCIC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && PCI [=y] && I2C [=y] && VIDEO_DEV [=y] && COMMON_CLK [=y]
+   arch/microblaze/kernel/unwind.c:168: warning: Function parameter or member 'task' not described in 'unwind_trap'
+   arch/microblaze/kernel/unwind.c:168: warning: Function parameter or member 'pc' not described in 'unwind_trap'
+   arch/microblaze/kernel/unwind.c:168: warning: Function parameter or member 'fp' not described in 'unwind_trap'
+   arch/microblaze/kernel/unwind.c:168: warning: Function parameter or member 'trace' not described in 'unwind_trap'
+>> arch/microblaze/kernel/unwind.c:168: warning: Function parameter or member 'loglvl' not described in 'unwind_trap'
 
 
-vim +616 include/linux/serial_core.h
+vim +168 arch/microblaze/kernel/unwind.c
 
-   608	
-   609	/**
-   610	 * uart_port_lock_irqsave - Lock the UART port, save and disable interrupts
-   611	 * @up:		Pointer to UART port structure
-   612	 * @flags:	Pointer to interrupt flags storage
-   613	 */
-   614	static inline void uart_port_lock_irqsave(struct uart_port *up, unsigned long *flags)
-   615	{
- > 616		spin_lock_irqsave(&up->lock, flags);
-   617	}
-   618	
-   619	/**
-   620	 * uart_port_trylock - Try to lock the UART port
-   621	 * @up:		Pointer to UART port structure
-   622	 *
-   623	 * Returns: True if lock was acquired, false otherwise
-   624	 */
-   625	static inline bool uart_port_trylock(struct uart_port *up)
-   626	{
-   627		return spin_trylock(&up->lock);
-   628	}
-   629	
-   630	/**
-   631	 * uart_port_trylock_irqsave - Try to lock the UART port, save and disable interrupts
-   632	 * @up:		Pointer to UART port structure
-   633	 * @flags:	Pointer to interrupt flags storage
-   634	 *
-   635	 * Returns: True if lock was acquired, false otherwise
-   636	 */
-   637	static inline bool uart_port_trylock_irqsave(struct uart_port *up, unsigned long *flags)
-   638	{
- > 639		return spin_trylock_irqsave(&up->lock, flags);
-   640	}
-   641	
+ce3266c0473894 Steven J. Magnani 2010-04-27  153  
+ce3266c0473894 Steven J. Magnani 2010-04-27  154  static void microblaze_unwind_inner(struct task_struct *task,
+ce3266c0473894 Steven J. Magnani 2010-04-27  155  				    unsigned long pc, unsigned long fp,
+ce3266c0473894 Steven J. Magnani 2010-04-27  156  				    unsigned long leaf_return,
+77530a5277bcab Dmitry Safonov    2020-06-08  157  				    struct stack_trace *trace,
+77530a5277bcab Dmitry Safonov    2020-06-08  158  				    const char *loglvl);
+ce3266c0473894 Steven J. Magnani 2010-04-27  159  
+ce3266c0473894 Steven J. Magnani 2010-04-27  160  /**
+ce3266c0473894 Steven J. Magnani 2010-04-27  161   * unwind_trap - Unwind through a system trap, that stored previous state
+ce3266c0473894 Steven J. Magnani 2010-04-27  162   *		 on the stack.
+ce3266c0473894 Steven J. Magnani 2010-04-27  163   */
+ce3266c0473894 Steven J. Magnani 2010-04-27  164  #ifdef CONFIG_MMU
+ce3266c0473894 Steven J. Magnani 2010-04-27  165  static inline void unwind_trap(struct task_struct *task, unsigned long pc,
+77530a5277bcab Dmitry Safonov    2020-06-08  166  				unsigned long fp, struct stack_trace *trace,
+77530a5277bcab Dmitry Safonov    2020-06-08  167  				const char *loglvl)
+ce3266c0473894 Steven J. Magnani 2010-04-27 @168  {
+ce3266c0473894 Steven J. Magnani 2010-04-27  169  	/* To be implemented */
+ce3266c0473894 Steven J. Magnani 2010-04-27  170  }
+ce3266c0473894 Steven J. Magnani 2010-04-27  171  #else
+ce3266c0473894 Steven J. Magnani 2010-04-27  172  static inline void unwind_trap(struct task_struct *task, unsigned long pc,
+77530a5277bcab Dmitry Safonov    2020-06-08  173  				unsigned long fp, struct stack_trace *trace,
+77530a5277bcab Dmitry Safonov    2020-06-08  174  				const char *loglvl)
+ce3266c0473894 Steven J. Magnani 2010-04-27  175  {
+ce3266c0473894 Steven J. Magnani 2010-04-27  176  	const struct pt_regs *regs = (const struct pt_regs *) fp;
+77530a5277bcab Dmitry Safonov    2020-06-08  177  	microblaze_unwind_inner(task, regs->pc, regs->r1, regs->r15, trace, loglvl);
+ce3266c0473894 Steven J. Magnani 2010-04-27  178  }
+ce3266c0473894 Steven J. Magnani 2010-04-27  179  #endif
+ce3266c0473894 Steven J. Magnani 2010-04-27  180  
+
+:::::: The code at line 168 was first introduced by commit
+:::::: ce3266c047389443d5f433d605c769e878cbe46e microblaze: Add stack unwinder
+
+:::::: TO: Steven J. Magnani <steve@digidescorp.com>
+:::::: CC: Michal Simek <monstr@monstr.eu>
 
 -- 
 0-DAY CI Kernel Test Service
