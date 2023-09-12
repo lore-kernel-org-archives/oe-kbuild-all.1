@@ -1,228 +1,101 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2063.outbound.protection.outlook.com [40.107.93.63])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2561017D0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 05:32:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Jl7odXh7n15HigfhyGjvxgT/NbWnZQ7wsHNIFtboCEE87i1DzsYMkNtdspbthMsWbOrKUMO0spLbnpIM9Y4XgUbPt8lnv0Jnq/TduVZwPrfj7+ujZuMFnfcaJZhc2m/q67FqOoUn0KegA0hQdL42/twRWv0CMuCIZQ40Y6o8n7Y4X1wOPgEsVM8/6bWJBoY+EQrCtvrE00kCzi8VUwpgDtsYAy1Mvo3j6O1j35R9W/6gWdTvIkXFhI6PU88GxWpAHPK38ezOzqg6zy4LB0F2LoGMr3T4w6GE9eAmwsGVQHd8t9u5rKb3QJNQpTUGBdNqRI5o/WqpiPFU6+yJycd19A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CcMi/ZR1p8M9bmR3Mx9PxE85nvgprxCXgXC7YthPBCc=;
- b=Ea31szbLzhNhCPwiPipiUBdC8Fn1tp94cHyzW572iHK4oqRmGqJcr5iELmPqnxDUQBoBqmvDKo6E7H+MhbZaduDG4HX2iK6/nTvSiMn9PSkpJAi27I+/hocdyPok2llOHGmFrdi5QaWySzI/f/ZWOSYiq3ousMH0nPnpYDYqfxptbzA7agSWKHzlpZatVGQ7UnbHNxHQG3rfGjJ7lPjwnFitTC/Vjrg4UpORhDx7lZDhgjOSIosb8flggdHjs14+CqLqkJWJPn6HxSrT3OjJrhOD6hex949uGxRTMOT30Z9JoeNZU0fR+TaIYkQ1PgeMbNBmfBY9RAWYccYsVmB/pA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CcMi/ZR1p8M9bmR3Mx9PxE85nvgprxCXgXC7YthPBCc=;
- b=eKPrjtwLIzN8jE11V9OfWcL9jetAHGyfFw7ihXYDh9OPis5p88vZMwNPtLLo+f4COPJV1D3EAFmkcfCqJpyJX1DoHwyauVjYw4U3IGKvik5iY+c1V8f3494MCGKTk/C0+kpo3RDNy7VwH1cP5W2xT+mkYmk4etis4xRMsbWAgbg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB6978.namprd12.prod.outlook.com (2603:10b6:510:1b8::10)
- by MW4PR12MB7483.namprd12.prod.outlook.com (2603:10b6:303:212::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.37; Tue, 12 Sep
- 2023 05:32:16 +0000
-Received: from PH7PR12MB6978.namprd12.prod.outlook.com
- ([fe80::c422:217b:5b:979d]) by PH7PR12MB6978.namprd12.prod.outlook.com
- ([fe80::c422:217b:5b:979d%4]) with mapi id 15.20.6768.029; Tue, 12 Sep 2023
- 05:32:15 +0000
-Message-ID: <2bfaa431-ca9f-c879-9967-f13d18dd4cd3@amd.com>
-Date: Tue, 12 Sep 2023 13:32:02 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH] acpi: trigger wakeup key event from power button
-Content-Language: en-US
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: linux-acpi@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
- rafael@kernel.org, kernel test robot <lkp@intel.com>, cwhuang@linux.org.tw
-References: <20230908095747.446389-1-Ken.Xue@amd.com>
- <ZP7hH9i6ZQgINbcB@smile.fi.intel.com>
-From: Ken Xue <Ken.Xue@amd.com>
-In-Reply-To: <ZP7hH9i6ZQgINbcB@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI2PR04CA0010.apcprd04.prod.outlook.com
- (2603:1096:4:197::11) To PH7PR12MB6978.namprd12.prod.outlook.com
- (2603:10b6:510:1b8::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA94F17D0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 06:22:05 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4013454fa93so59453785e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Sep 2023 23:22:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694499724; x=1695104524; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WHZmX0HdVaeA7e+GTMUWOnquBG2VN2h00kw4Wwdycoc=;
+        b=C982y8V7YvcGJdWknTCseJE2lyauX5sBk0bmFpHD+LWnVD7mO3mKmjSU7HgjNLmea4
+         p8CQ9EjY6S+yIZLIzrYk4EJeobqMbXMLqYt0dWGTe8Mnd1cbea+nslbkfs40KHCxj85e
+         33hmm2iyVZ2mT91HHvglnCeLxM7Kgu10iUfRjfrs18Jg2NzPIzCT/JIcLK+y4kRB7ATo
+         VUfeVoQvqPiJElW771lKujyKyyhy5KNv8/sRlEjZ8VIvB1WzhoAGLVat2i1X6iNJcdtH
+         33ma/MfMJaZ/MP/0wortOejV1NCayEecm6v0oh/B88M7q5sbmDwsHwaamz+xNqRNbv7f
+         xqgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694499724; x=1695104524;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WHZmX0HdVaeA7e+GTMUWOnquBG2VN2h00kw4Wwdycoc=;
+        b=wa2Kw1hM3yIecpBNb/GJ2huh4W0VJfSMyBzhKUX/lgYoreOhg+/vdLhJ6DyuXsjETm
+         JLyQbiaR3G4eUNSwFys55STRHCo3cRthFfmLJpOXmQONqEOncfjoOPoczPJFXA8oqZYr
+         hW85EU0mw8N8lVbXu6U4fNZkDduPrXVnzFZZvgr1fqpVfuyYqg3lfWT/8IVgGL1jFxLn
+         HUI1hr59xGfeKAdhZcufAzFK5lRPq5Thj7Ciqn+Yrp+D5YZqprpf/QV/cwxbonC6aFN8
+         g21O1DtpR4V1sU29mXtHi//MmL3BN837yh8f9q/M29j6ZzoXYunyhfsu2OZOPxPrXMFr
+         BH3g==
+X-Gm-Message-State: AOJu0YyFGgmiW5PdSpo6V8jLy24Y7wUZZHBO1IS582InA2BWHSeRNItc
+	N0rVEQZA6xw7DvOl9T6E5NsDSg==
+X-Google-Smtp-Source: AGHT+IG+I5BM37b86sq3KhHg2M4gwi+dJ5j0QXzcWb/eRJJdZtbiMZShPPawrSYbiYVy5fd/1WoMtA==
+X-Received: by 2002:a7b:c7d5:0:b0:3fe:d1b9:7ea8 with SMTP id z21-20020a7bc7d5000000b003fed1b97ea8mr9409877wmk.28.1694499724016;
+        Mon, 11 Sep 2023 23:22:04 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id 3-20020a05600c22c300b003fe2b6d64c8sm15036691wmg.21.2023.09.11.23.22.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Sep 2023 23:22:03 -0700 (PDT)
+Date: Tue, 12 Sep 2023 09:22:01 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Cai Huoqing <cai.huoqing@linux.dev>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: drivers/net/ethernet/huawei/hinic/hinic_port.c:459
+ hinic_set_vlan_fliter() warn: variable dereferenced before check 'hwdev'
+ (see line 453)
+Message-ID: <dce439ac-bf77-408a-b017-1ffe5ccdd755@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB6978:EE_|MW4PR12MB7483:EE_
-X-MS-Office365-Filtering-Correlation-Id: 85fec3b7-204a-4946-15fa-08dbb3519f8a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	Z6gElZaasQHX34estrVec0JWTt69roHkcMDn4izO2d2D0Jt2g/Ux8RaDxiLgKTrd3avDPPo/VmHRheTp8nAmZ9WOveo0e+7zzRxTayTQAdQT9Vl1jNtIlpNy7OPiCJaC1cjn7ovKobsFOg2lRpfQ2Lx96LSLA/0DE0gjCoVTbJbRke0X6i8kfnF7zxmTLVK49McNjzBnfy+a/Sy89DayVGI7UowaDh26E5LfZL/rlw6iyRsorCWotBk2cPJLotlRtePhROCVCi/e2E1rXtYF191aTCZKhfrkedi4cl48A/OoOZKW8hQ/3qqYxUbcmKJoPtbGpK14pMsITDVm9fW3I6Jt4bfH9+FNpa5jwiuvUBz7Wly9ev7TGyfykILijqRwHRBhwR1/EDrliPm74sG6fXL9xn32+KgpavuvqjL3G92kfBHoEQuduhekUjU0riqk+LNRV0iTW/B+vHRHf+Bl1Z/aaTZDdU9WQXr5NthKNoydQXDtNfhtvKULv7a1brwoEeD/q3F80Tf7pk+moUiQdUx3LcX2klKuZoNLmiUoSkaXjhgyLoqlMxEkYwjxhvSmx16IfJTwmKXjIO0lFpvWlkv7OJaWFcz3KyjgkvvMvQa9qdsi/ijOVAe1QtBaOvupGsBEhx9dtb0gU5toL0uCIQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB6978.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(136003)(396003)(376002)(366004)(346002)(186009)(1800799009)(451199024)(2906002)(83380400001)(6512007)(2616005)(26005)(6666004)(66556008)(316002)(6916009)(4326008)(8676002)(8936002)(66946007)(66476007)(6486002)(41300700001)(5660300002)(53546011)(6506007)(478600001)(966005)(38100700002)(31696002)(86362001)(36756003)(31686004)(3714002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?amoyTFZIUzhuV1hNVTQ4QitJY2RISlg2aENwbFcvQ3ZjbjNyeUNBemtkOEps?=
- =?utf-8?B?N1VhM0VGTjNlUHZZOFpDS1ViMVQzMG9QeGlFK3dzOWV1QzhHSGFKU0NyazNq?=
- =?utf-8?B?ZVBRSUc2c3QveFJWYnJmMmRxeXpqU044eGk5RVE1NTNsZmcrOGdFQ2VyWkIv?=
- =?utf-8?B?Q3lrcmhyc0gyUlFTcXEyM2VtaDVqR0prM2ZKTWFkUUxCNTlXSzJPUDdENTY0?=
- =?utf-8?B?Yit4N2xNTGJYekdzYm42ZFA3dmpYU1FOMDVaVG1uTnRkVmhoN1Z4TkNhZVcy?=
- =?utf-8?B?UXgyOVRqYlN2ckxKc0JSU0NRSGg3WmhrejV2LzJsSFNDWWJTbjJKOGdhNWUw?=
- =?utf-8?B?RlQzaVZacG9lL3NQTlRkQTFxSmtqWTJhNUp3SE9Nck1OVnpmM2FqeFhKRmJE?=
- =?utf-8?B?UTg1RFlFUzl4UVdQZVc0V2tKV2tydEM5WXpkRjdGamVWcjFiRktHVkxSR0Ur?=
- =?utf-8?B?b1k0aWhHOEkzaU9POWpMdTVYbGp2ZDdUamluenFqb3hUdHAxa21RL0w1TnJv?=
- =?utf-8?B?NHBRM0pYaytlTWgzbk9Fb3NSbFRWZzV3ZzFxa1BaMFVKOUkrQm9MeW12WlFh?=
- =?utf-8?B?NGVCZlNrcDg4T1Zyck9Ob25ObmNVOHJ2WnhBeGdLUGF2NDdtWTdocjJEY3J0?=
- =?utf-8?B?azFldEtwdThRb3hPeURpOTNpa2wwQ01BditrcWxYZUEzU3VRYjNMVE1Sa2N0?=
- =?utf-8?B?NUZjNDluSHNDc0FtSjB5L0hieUpyeUZ0TC9KQzdKZkpTempUbWk0blIyVkVU?=
- =?utf-8?B?QnBKYXd3K0tHOFpZQkRKVjl1c25SS3JUQ3hHVlRDRnRBNVBhVk5XY1BEVkNj?=
- =?utf-8?B?YXRHRzR0b0FJSEhRUG9PcXZ0STg3RW93d2dFeWZmK1hGRUpnVlZkQ0FLMEJN?=
- =?utf-8?B?bmNJWXNlcFR3RFh4RERHeFlITysyRkoxNG5halZXOXI4ZXpsVXBpWi9BSDFm?=
- =?utf-8?B?aGNtdWFOYXhWNUNLU3NMdTNrTDF6QWdiV0ZxNFA5T21XL3c4Z0NzWWhRZkdJ?=
- =?utf-8?B?VUZNYWsyOHlhVkxycUZmSVpXem51WUtvUnV4OFVKRm9SSjFueTVKeHJpMnhk?=
- =?utf-8?B?NnNReThkMzJBQkRnWDRBdHhqdTBtYjNteHNLVEVaZFRYNld5bEtRVHFnQ2Ju?=
- =?utf-8?B?R016L2lURE9rL3FQREplT1RhUWo2RnkxUmppM3pjU05la3FTN0VpZ0FXN1lG?=
- =?utf-8?B?MW1pak5qV0Z5aUVuOXUzaFZuU3BvNjFEWTVmVnNpcE9tdjNqRVNUWFdVWDhI?=
- =?utf-8?B?YmVxMFF3d1NQc2xadTFuM1dMdm5IU050bDhwd3RQSjMyenNZbjYxd3ZqWnhL?=
- =?utf-8?B?TW9vallVdVBrNjZ6MHQ3V1F1dkFrNUNGQzFXck04ekdKMXFmcDNqU255SmVJ?=
- =?utf-8?B?TTBKVmloZ0JLNThzT1g2bzRXeUVISjB4NHJWWisxY3hPZjZuWTFTTU9WOGFq?=
- =?utf-8?B?OXBiYXJ2YkR2NFpseFFpOTQxV0htN3lVRU5ZVGxGY0VLSFpUQ1VEVlk5c3Ba?=
- =?utf-8?B?azR6SnZ3T2hYbEhSNFVKeThoanNod0xxeDBiZWRnZFkrMFBLS3FYcEg4TW43?=
- =?utf-8?B?UjlEQ28zOEFzdm5xcG5rVU5QMlQwd1l4S1F1YU5lb3Y5eG5JbkdocWVuRHdh?=
- =?utf-8?B?NFJVNnhrUGdZOWhpd3dwMGV2RHBTRG9PYWlhT1RuQnZWTVhKZjVIaW5CVG5a?=
- =?utf-8?B?VDRkS3hnV3FUSVAwV2hNbUVzMDBnZHNBU1U2SVdoZUREM2Z4NVB6L1pyZ3Bq?=
- =?utf-8?B?eGhWQmRnRzFKaitWckZHTUZtUlJNOXFvL1QySG9hYnZ0Q3hYTzhPSGVXRzFB?=
- =?utf-8?B?SjQwSlZ3UWI3QUVuUWsxV01naXhXQmxpRU41a3Qzc3I0cEZ4ckFLdnkrY3ZE?=
- =?utf-8?B?dlpDRENMUzBxbmsrRXNNemVPZnIwUXpiZzlXVHpZQ2FpbnFXY2NFVGlwVEF5?=
- =?utf-8?B?Y2FMWm9Jcmh1Z0daeFJleFNqbzJJQzdacGpwcVMrTlk3eitXTEYrS2JnQkZU?=
- =?utf-8?B?QVVOQ1ZON2lqMStrZnIwQWxqV1ZZMUhEb1MvUlJ0VjdNc0RvL1JzRkdCSkRj?=
- =?utf-8?B?VEt2YXpWKy9SL1hMUXNVQjZPUkRidVpmcnFVdC9XNllGYklkWVUyZmJjVmVv?=
- =?utf-8?Q?I7h9pRr9jYmk+/mg0A2XEa8WT?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85fec3b7-204a-4946-15fa-08dbb3519f8a
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB6978.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2023 05:32:15.5821
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HFi4HGJ0j5TEbqLtvYZk7R/UxJaejY97yglekNsV/9HgHFiVQo7B6utq6c6HgJts
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7483
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+commit: 2acf960e3be6177f437baade6d1883ebe4c641b2 net: hinic: Add support for configuration of rx-vlan-filter by ethtool
+config: x86_64-randconfig-161-20230911 (https://download.01.org/0day-ci/archive/20230911/202309112354.pikZCmyk-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230911/202309112354.pikZCmyk-lkp@intel.com/reproduce)
 
-On 2023/9/11 17:42, Andy Shevchenko wrote:
-> On Fri, Sep 08, 2023 at 05:57:49PM +0800, Ken Xue wrote:
->> Andorid can wakeup from various wakeup sources,
->> but only several wakeup sources can wake up screen
->> with right events(POWER, WAKEUP) from input device.
->>
->> Regarding pressing acpi power button, it can resume system and
->> ACPI_BITMASK_WAKE_STATUS and ACPI_BITMASK_POWER_BUTTON_STATUS
->> are set in pm1a_sts, but kernel does not report any key
->> event to user space during resume by default.
->>
->> So, trigger wakeup key event to user space during resume
->> from power button.
->> Reported-by: kernel test robot <lkp@intel.com>
-> Are you sure?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202309112354.pikZCmyk-lkp@intel.com/
 
-Thanks for review. Sorry for confusion.
+smatch warnings:
+drivers/net/ethernet/huawei/hinic/hinic_port.c:459 hinic_set_vlan_fliter() warn: variable dereferenced before check 'hwdev' (see line 453)
 
-1)The patch is trying to fix the android wakeup from power button issue
+vim +/hwdev +459 drivers/net/ethernet/huawei/hinic/hinic_port.c
 
-I can see Android can resume from S3 and wake up screen from USB keyboard.
+2acf960e3be617 Cai Huoqing  2022-11-03  450  int hinic_set_vlan_fliter(struct hinic_dev *nic_dev, u32 en)
+2acf960e3be617 Cai Huoqing  2022-11-03  451  {
+2acf960e3be617 Cai Huoqing  2022-11-03  452  	struct hinic_hwdev *hwdev = nic_dev->hwdev;
+2acf960e3be617 Cai Huoqing  2022-11-03 @453  	struct hinic_hwif *hwif = hwdev->hwif;
+                                                                          ^^^^^^^
+Dereference
 
-but Android only can resume from S3 and fail to wake up screen from 
-power button.
+2acf960e3be617 Cai Huoqing  2022-11-03  454  	struct pci_dev *pdev = hwif->pdev;
+2acf960e3be617 Cai Huoqing  2022-11-03  455  	struct hinic_vlan_filter vlan_filter;
+2acf960e3be617 Cai Huoqing  2022-11-03  456  	u16 out_size = sizeof(vlan_filter);
+2acf960e3be617 Cai Huoqing  2022-11-03  457  	int err;
+2acf960e3be617 Cai Huoqing  2022-11-03  458  
+2acf960e3be617 Cai Huoqing  2022-11-03 @459  	if (!hwdev)
+                                                    ^^^^^^
+Checked too late.
 
+2acf960e3be617 Cai Huoqing  2022-11-03  460  		return -EINVAL;
+2acf960e3be617 Cai Huoqing  2022-11-03  461  
+2acf960e3be617 Cai Huoqing  2022-11-03  462  	vlan_filter.func_idx = HINIC_HWIF_FUNC_IDX(hwif);
+2acf960e3be617 Cai Huoqing  2022-11-03  463  	vlan_filter.enable = en;
+2acf960e3be617 Cai Huoqing  2022-11-03  464  
+2acf960e3be617 Cai Huoqing  2022-11-03  465  	err = hinic_port_msg_cmd(hwdev, HINIC_PORT_CMD_SET_VLAN_FILTER,
 
-opensource android-x86 tried to fix this issue with a patch
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
-(https://git.osdn.net/view?p=android-x86/system-hardware-interfaces.git;a=commit;h=78688b149314ec16cb2d90507a5908e5f2ba0fda) 
-
-
-in upper layer system_suspend service as a WA.  It  emulates wakeup key 
-during resume in a user space thread. And it is still not part of 
-upstream Android.
-
-
-I believe the root cause is no wakeup key event being reported in kernel 
-during the resume from acpi power button.
-
-And I have verified this patch on linux also, it seems no side effect 
-for Linux resume with this patch.
-
-
-2) test robot reported some compile warnings and errors detected by test 
-robot which is fixed in V2.
-
-
->
->> Closes: https://lore.kernel.org/oe-kbuild-all/202309080315.txQUEyHQ-lkp@intel.com/
->> Closes: https://lore.kernel.org/oe-kbuild-all/202309080239.IiC7uLpW-lkp@intel.com/
->> Closes: https://lore.kernel.org/oe-kbuild-all/202309080351.xHt2qhP2-lkp@intel.com/
-> Are you sure?
-
-Just some errors/warnings from the v1 patch.
-
-
->
->>
-> Blank lines are not allowed in the tag block.
->
->> Signed-off-by: Ken Xue <Ken.Xue@amd.com>
->> ---
-> How this change is different to the previous patch you sent?
-> Do you forgot versioning?
-> Do you forgot changelog?
->
-> Please, read Submitting Patches documentation before trying again.
-> It will help to make your contribution nice and understandable.
->
-> ...
-
-sorry.
-
-I will add V3 and change log later.
-
-
->
->> +	if (button->type == ACPI_BUTTON_TYPE_POWER) {
-> 	if (... != )
-> 		return;
->
-> ?
->
->> +		input = button->input;
->> +		input_report_key(input, KEY_WAKEUP, 1);
->> +		input_sync(input);
->> +		input_report_key(input, KEY_WAKEUP, 0);
->> +		input_sync(input);
->> +	}
-> ...
->
->> +#include <linux/acpi.h>
-> There is no users of this header.
->
-> Check how forward declaration can be used (as it's done in many other headers).
->
-Yes, "struct acpi_device" is defined in "include/acpi/acpi_bus.h", but include acpi_bus.h alone
-
-will lead to more compile issues.
-
-Regarding "forward declaration", how about
-
-typedef struct acpi_device *acpi_device;
-
->> +extern void acpi_power_button_wakeup(struct acpi_device *device);
-> ...
->
->> +static inline void acpi_power_button_wakeup(struct acpi_device *device)
->> +{
->> +}
-> This can be done on a single line.
->
-Ack.
