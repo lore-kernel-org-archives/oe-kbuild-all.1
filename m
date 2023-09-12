@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E97377
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 13:30:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97BB4168DA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 14:12:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694525403; x=1726061403;
+  t=1694527925; x=1726063925;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=31LdtEnfdY3lScJibKNOTW+l2KZRQhz2DKwuPqKMmMc=;
-  b=YFOsca+cmP9FRlaV2R3E/IQBaeMHF45l4txsleVfi94BLeBDGnptE1j4
-   aTadwyzTLvDNGdFIA2a6koSoIsnoDME1e5ZRHVKTuLMJmDjvjFSHaXLZc
-   VDzTsV16bKxhLQfqyPtjOrBuSrYehe5ynv+bySWSj3fyh0P2c9xWxOSj1
-   dr8otCAIAS02mxXF9hk3/3v7Ot4a87WqbA5hQljRrruXIC01n0fqTx1rF
-   pE3oa32ngtrDcBWxkC1V7qEn/181xnq79HojdQvO627DcSaAEdQxeBms0
-   SWVMAP1jSGSSZtsCbX4XQ4b+xvFIn4d0gd39/LUw8AGNOkVuAxCGbZRd7
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="363410001"
+  bh=PXzv8qm2hNmKvYmOAtKIAuCt9W6OZvmY50dBev2g9eA=;
+  b=hRstIJ2pAGhma5yUljST2VO8E7bzIKuG2/xEB1OYSRGjH62vmuE7ySEU
+   kzs4uR6vwyL9GGIqWN7Mu21EzsVMyogrRAk/QUuvgWlqk8B3qKIiQMTSM
+   OYC64Q8ZMPtpNAfizXdlTTJN8MSFO1ZG76EL2o7qzVseXkAwLL8rL1AF9
+   RnEZgAfwi9jDxOsX2G5bonj3+znP1NF33ng4TKgsynJPs1jYBfTbAbtUv
+   xXTjJPIf/8yDY1+iKIVB5lsBynPlX2oiWGoDYfvdmmofkqxRW3UR7dsCU
+   w621eXr3APVKGN7PCS/OBnOuC1Sj7tig9fFJz6zx874W7itFr4cQp7wCk
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="382193290"
 X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="363410001"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 06:30:02 -0700
+   d="scan'208";a="382193290"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 07:12:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="693495284"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="813837995"
 X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="693495284"
-Received: from lkp-server02.sh.intel.com (HELO 1e56c5165d33) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 12 Sep 2023 06:30:00 -0700
-Received: from kbuild by 1e56c5165d33 with local (Exim 4.96)
+   d="scan'208";a="813837995"
+Received: from lkp-server02.sh.intel.com (HELO 0a6943a0b3e1) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 12 Sep 2023 07:12:02 -0700
+Received: from kbuild by 0a6943a0b3e1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qg3So-0000QB-2m;
-	Tue, 12 Sep 2023 13:29:58 +0000
-Date: Tue, 12 Sep 2023 21:29:30 +0800
+	id 1qg47V-00003F-2d;
+	Tue, 12 Sep 2023 14:12:01 +0000
+Date: Tue, 12 Sep 2023 22:11:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <frank.li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>
-Subject: drivers/pci/endpoint/functions/pci-epf-vntb.c:574:38: sparse:
- sparse: incorrect type in argument 2 (different address spaces)
-Message-ID: <202309122139.OtfSh8Ly-lkp@intel.com>
+To: Kai Huang <kai.huang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Isaku Yamahata <isaku.yamahata@intel.com>
+Subject: [intel-tdx:kvm-upstream-next 52/321]
+ arch/x86/include/asm/shared/tdx.h:8:33: warning: excess elements in struct
+ initializer
+Message-ID: <202309122217.ilUPf9gd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,99 +48,153 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-commit: 0c031262d2ddfb938f9668d620d7ed674771646c PCI: endpoint: pci-epf-vntb: Fix call pci_epc_mem_free_addr() in error path
-date:   10 months ago
-config: i386-randconfig-063-20230912 (https://download.01.org/0day-ci/archive/20230912/202309122139.OtfSh8Ly-lkp@intel.com/config)
+tree:   https://github.com/intel/tdx.git kvm-upstream-next
+head:   f6388449e0300e7413c7e2ea4875923875ddb340
+commit: 0e818a85fca5bd4f4a9311dc5dfd250bfe9b88d9 [52/321] x86/tdx: Remove 'struct tdx_hypercall_args'
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230912/202309122217.ilUPf9gd-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309122139.OtfSh8Ly-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309122217.ilUPf9gd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309122139.OtfSh8Ly-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309122217.ilUPf9gd-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:556:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *mw_addr @@     got void * @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:556:17: sparse:     expected void [noderef] __iomem *mw_addr
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:556:17: sparse:     got void *
->> drivers/pci/endpoint/functions/pci-epf-vntb.c:574:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem *mw_addr @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:574:38: sparse:     expected void *addr
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:574:38: sparse:     got void [noderef] __iomem *mw_addr
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:590:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem *epf_db @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:590:41: sparse:     expected void *addr
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:590:41: sparse:     got void [noderef] __iomem *epf_db
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1127:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1127:33: sparse:     expected void [noderef] __iomem *base
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1127:33: sparse:     got struct epf_ntb_ctrl *reg
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1138:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1138:33: sparse:     expected void [noderef] __iomem *base
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1138:33: sparse:     got struct epf_ntb_ctrl *reg
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1149:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1149:33: sparse:     expected void [noderef] __iomem *base
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1149:33: sparse:     got struct epf_ntb_ctrl *reg
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1161:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1161:33: sparse:     expected void [noderef] __iomem *base
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1161:33: sparse:     got struct epf_ntb_ctrl *reg
+All warnings (new ones prefixed by >>):
 
-vim +574 drivers/pci/endpoint/functions/pci-epf-vntb.c
+   arch/x86/hyperv/ivm.c: In function 'hv_tdx_msr_write':
+   arch/x86/hyperv/ivm.c:387:16: error: variable 'args' has initializer but incomplete type
+     387 |         struct tdx_hypercall_args args = {
+         |                ^~~~~~~~~~~~~~~~~~
+   arch/x86/hyperv/ivm.c:388:18: error: 'struct tdx_hypercall_args' has no member named 'r10'
+     388 |                 .r10 = TDX_HYPERCALL_STANDARD,
+         |                  ^~~
+   In file included from arch/x86/include/asm/tdx.h:11,
+                    from arch/x86/include/asm/kvm_para.h:10,
+                    from arch/x86/include/asm/hypervisor.h:37,
+                    from arch/x86/hyperv/ivm.c:19:
+>> arch/x86/include/asm/shared/tdx.h:8:33: warning: excess elements in struct initializer
+       8 | #define TDX_HYPERCALL_STANDARD  0
+         |                                 ^
+   arch/x86/hyperv/ivm.c:388:24: note: in expansion of macro 'TDX_HYPERCALL_STANDARD'
+     388 |                 .r10 = TDX_HYPERCALL_STANDARD,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/shared/tdx.h:8:33: note: (near initialization for 'args')
+       8 | #define TDX_HYPERCALL_STANDARD  0
+         |                                 ^
+   arch/x86/hyperv/ivm.c:388:24: note: in expansion of macro 'TDX_HYPERCALL_STANDARD'
+     388 |                 .r10 = TDX_HYPERCALL_STANDARD,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/hyperv/ivm.c:389:18: error: 'struct tdx_hypercall_args' has no member named 'r11'
+     389 |                 .r11 = EXIT_REASON_MSR_WRITE,
+         |                  ^~~
+   In file included from arch/x86/hyperv/ivm.c:25:
+>> arch/x86/include/uapi/asm/vmx.h:61:41: warning: excess elements in struct initializer
+      61 | #define EXIT_REASON_MSR_WRITE           32
+         |                                         ^~
+   arch/x86/hyperv/ivm.c:389:24: note: in expansion of macro 'EXIT_REASON_MSR_WRITE'
+     389 |                 .r11 = EXIT_REASON_MSR_WRITE,
+         |                        ^~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/uapi/asm/vmx.h:61:41: note: (near initialization for 'args')
+      61 | #define EXIT_REASON_MSR_WRITE           32
+         |                                         ^~
+   arch/x86/hyperv/ivm.c:389:24: note: in expansion of macro 'EXIT_REASON_MSR_WRITE'
+     389 |                 .r11 = EXIT_REASON_MSR_WRITE,
+         |                        ^~~~~~~~~~~~~~~~~~~~~
+   arch/x86/hyperv/ivm.c:390:18: error: 'struct tdx_hypercall_args' has no member named 'r12'
+     390 |                 .r12 = msr,
+         |                  ^~~
+>> arch/x86/hyperv/ivm.c:390:24: warning: excess elements in struct initializer
+     390 |                 .r12 = msr,
+         |                        ^~~
+   arch/x86/hyperv/ivm.c:390:24: note: (near initialization for 'args')
+   arch/x86/hyperv/ivm.c:391:18: error: 'struct tdx_hypercall_args' has no member named 'r13'
+     391 |                 .r13 = val,
+         |                  ^~~
+   arch/x86/hyperv/ivm.c:391:24: warning: excess elements in struct initializer
+     391 |                 .r13 = val,
+         |                        ^~~
+   arch/x86/hyperv/ivm.c:391:24: note: (near initialization for 'args')
+   arch/x86/hyperv/ivm.c:387:35: error: storage size of 'args' isn't known
+     387 |         struct tdx_hypercall_args args = {
+         |                                   ^~~~
+>> arch/x86/hyperv/ivm.c:387:35: warning: unused variable 'args' [-Wunused-variable]
+   arch/x86/hyperv/ivm.c: In function 'hv_tdx_msr_read':
+   arch/x86/hyperv/ivm.c:401:16: error: variable 'args' has initializer but incomplete type
+     401 |         struct tdx_hypercall_args args = {
+         |                ^~~~~~~~~~~~~~~~~~
+   arch/x86/hyperv/ivm.c:402:18: error: 'struct tdx_hypercall_args' has no member named 'r10'
+     402 |                 .r10 = TDX_HYPERCALL_STANDARD,
+         |                  ^~~
+>> arch/x86/include/asm/shared/tdx.h:8:33: warning: excess elements in struct initializer
+       8 | #define TDX_HYPERCALL_STANDARD  0
+         |                                 ^
+   arch/x86/hyperv/ivm.c:402:24: note: in expansion of macro 'TDX_HYPERCALL_STANDARD'
+     402 |                 .r10 = TDX_HYPERCALL_STANDARD,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/shared/tdx.h:8:33: note: (near initialization for 'args')
+       8 | #define TDX_HYPERCALL_STANDARD  0
+         |                                 ^
+   arch/x86/hyperv/ivm.c:402:24: note: in expansion of macro 'TDX_HYPERCALL_STANDARD'
+     402 |                 .r10 = TDX_HYPERCALL_STANDARD,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/hyperv/ivm.c:403:18: error: 'struct tdx_hypercall_args' has no member named 'r11'
+     403 |                 .r11 = EXIT_REASON_MSR_READ,
+         |                  ^~~
+   arch/x86/include/uapi/asm/vmx.h:60:41: warning: excess elements in struct initializer
+      60 | #define EXIT_REASON_MSR_READ            31
+         |                                         ^~
+   arch/x86/hyperv/ivm.c:403:24: note: in expansion of macro 'EXIT_REASON_MSR_READ'
+     403 |                 .r11 = EXIT_REASON_MSR_READ,
+         |                        ^~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/uapi/asm/vmx.h:60:41: note: (near initialization for 'args')
+      60 | #define EXIT_REASON_MSR_READ            31
+         |                                         ^~
+   arch/x86/hyperv/ivm.c:403:24: note: in expansion of macro 'EXIT_REASON_MSR_READ'
+     403 |                 .r11 = EXIT_REASON_MSR_READ,
+         |                        ^~~~~~~~~~~~~~~~~~~~
+   arch/x86/hyperv/ivm.c:404:18: error: 'struct tdx_hypercall_args' has no member named 'r12'
+     404 |                 .r12 = msr,
+         |                  ^~~
+   arch/x86/hyperv/ivm.c:404:24: warning: excess elements in struct initializer
+     404 |                 .r12 = msr,
+         |                        ^~~
+   arch/x86/hyperv/ivm.c:404:24: note: (near initialization for 'args')
+   arch/x86/hyperv/ivm.c:401:35: error: storage size of 'args' isn't known
+     401 |         struct tdx_hypercall_args args = {
+         |                                   ^~~~
+   arch/x86/hyperv/ivm.c:407:19: error: implicit declaration of function '__tdx_hypercall_ret'; did you mean '__tdx_hypercall'? [-Werror=implicit-function-declaration]
+     407 |         u64 ret = __tdx_hypercall_ret(&args);
+         |                   ^~~~~~~~~~~~~~~~~~~
+         |                   __tdx_hypercall
+   arch/x86/hyperv/ivm.c:401:35: warning: unused variable 'args' [-Wunused-variable]
+     401 |         struct tdx_hypercall_args args = {
+         |                                   ^~~~
+   arch/x86/hyperv/ivm.c: In function 'hv_tdx_hypercall':
+   arch/x86/hyperv/ivm.c:417:16: error: variable 'args' has initializer but incomplete type
+     417 |         struct tdx_hypercall_args args = { };
+         |                ^~~~~~~~~~~~~~~~~~
+   arch/x86/hyperv/ivm.c:417:35: error: storage size of 'args' isn't known
+     417 |         struct tdx_hypercall_args args = { };
+         |                                   ^~~~
+   arch/x86/hyperv/ivm.c:417:35: warning: unused variable 'args' [-Wunused-variable]
+   arch/x86/hyperv/ivm.c:426:1: error: control reaches end of non-void function [-Werror=return-type]
+     426 | }
+         | ^
+   cc1: some warnings being treated as errors
 
-   523	
-   524	/**
-   525	 * epf_ntb_db_bar_init() - Configure Doorbell window BARs
-   526	 * @ntb: NTB device that facilitates communication between HOST and VHOST
-   527	 *
-   528	 * Returns: Zero for success, or an error code in case of failure
-   529	 */
-   530	static int epf_ntb_db_bar_init(struct epf_ntb *ntb)
-   531	{
-   532		const struct pci_epc_features *epc_features;
-   533		u32 align;
-   534		struct device *dev = &ntb->epf->dev;
-   535		int ret;
-   536		struct pci_epf_bar *epf_bar;
-   537		void __iomem *mw_addr;
-   538		enum pci_barno barno;
-   539		size_t size = 4 * ntb->db_count;
-   540	
-   541		epc_features = pci_epc_get_features(ntb->epf->epc,
-   542						    ntb->epf->func_no,
-   543						    ntb->epf->vfunc_no);
-   544		align = epc_features->align;
-   545	
-   546		if (size < 128)
-   547			size = 128;
-   548	
-   549		if (align)
-   550			size = ALIGN(size, align);
-   551		else
-   552			size = roundup_pow_of_two(size);
-   553	
-   554		barno = ntb->epf_ntb_bar[BAR_DB];
-   555	
-   556		mw_addr = pci_epf_alloc_space(ntb->epf, size, barno, align, 0);
-   557		if (!mw_addr) {
-   558			dev_err(dev, "Failed to allocate OB address\n");
-   559			return -ENOMEM;
-   560		}
-   561	
-   562		ntb->epf_db = mw_addr;
-   563	
-   564		epf_bar = &ntb->epf->bar[barno];
-   565	
-   566		ret = pci_epc_set_bar(ntb->epf->epc, ntb->epf->func_no, ntb->epf->vfunc_no, epf_bar);
-   567		if (ret) {
-   568			dev_err(dev, "Doorbell BAR set failed\n");
-   569				goto err_alloc_peer_mem;
-   570		}
-   571		return ret;
-   572	
-   573	err_alloc_peer_mem:
- > 574		pci_epf_free_space(ntb->epf, mw_addr, barno, 0);
-   575		return -1;
-   576	}
-   577	
+
+vim +8 arch/x86/include/asm/shared/tdx.h
+
+4c5b9aac6cade5 Kirill A. Shutemov 2022-04-06  7  
+4c5b9aac6cade5 Kirill A. Shutemov 2022-04-06 @8  #define TDX_HYPERCALL_STANDARD  0
+4c5b9aac6cade5 Kirill A. Shutemov 2022-04-06  9  
+
+:::::: The code at line 8 was first introduced by commit
+:::::: 4c5b9aac6cade51aef64cc6ed67f2ad5acda9aed x86/boot: Port I/O: Add decompression-time support for TDX
+
+:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+:::::: CC: Dave Hansen <dave.hansen@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
