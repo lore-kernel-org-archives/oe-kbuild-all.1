@@ -1,80 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2DF2566
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 04:57:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694581023; x=1726117023;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0SzukiZqeuhVgL4Y6GY9n5ArZRoYw3DfNp92MdmbiYA=;
-  b=WsrBj08djatxTh25eoCef/xmXIa91cK+XGhbEWSfgaF8/CyWe1BNrr+7
-   2OWtUB83loHaxEZbRWn296NQ4D8RMDVeRi8oB4uxSkf7LF3l1woEoYNrg
-   4N2/6PuFhBpEV+cuueWHne1BFrhoJp8W07O7kP4vW5cERCsXp8YPa4dx2
-   /dY4Y42pK+81hnZnZ8c8kUTyzODaG6DcgusZkgD7uW9K+UYKp1nP8wCTc
-   T7kBmXjsDGh0vdA6tpfxN/iX4UnmRJDMbCs8E789EfaeRrL9hJGIiYnVy
-   vgvFRwZKplSrwm5PCOSHWQDPhe9akGrUe7slgmfclIKzmv4vEGoiiIsqD
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="358838550"
-X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="358838550"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 21:57:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="834170989"
-X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="834170989"
-Received: from lkp-server02.sh.intel.com (HELO cf13c67269a2) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 12 Sep 2023 21:57:01 -0700
-Received: from kbuild by cf13c67269a2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qgHvv-00002f-09;
-	Wed, 13 Sep 2023 04:56:59 +0000
-Date: Wed, 13 Sep 2023 12:56:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nathan Lynch <nathanl@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>
-Subject: arch/powerpc/platforms/pseries/rtas-work-area.c:189: warning:
- Function parameter or member 'limit' not described in
- 'rtas_work_area_reserve_arena'
-Message-ID: <202309131221.Bm1pg96n-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3AB29B2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 05:13:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=wi7sEbnWQkNm+KIFbt3O9vgRJK/F8KR/obeG/emHIA8=; b=mF4o7D1Pwuotid1cqUWyP06EWN
+	wdHk1PWBHmFNgEJj9ir7EfipnECbpCn+2OjcwKU9ut7MzkaurrT0nlKh2M4K0E1YVWQt5kTD1Un0z
+	gKOAHtClUeHNckSh7UbmPTb+ykXCvZqNrS8e0Cy4BadXGmszINThFi8OAs8bS8K0maQNoeqrzQXPH
+	ujZST+qzlif3pqAjOGra+2gG6UCanH9jWre8WT43o+gLiFLuzP7gyd9qwmA7mybIS7YfDKnPdL2+B
+	15VAtbtaDkd21lFi6jpl4qH5pPNhquNPBBRFJDXNbXAE8impg2scv+4R1j3pwkSv7CWcd4rd7uDWL
+	zoYgc6BA==;
+Received: from [2601:1c2:980:9ec0::9fed]
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1qgIBz-004edS-29;
+	Wed, 13 Sep 2023 05:13:35 +0000
+Message-ID: <feadd6a5-0f56-4575-9891-3a7d88e69e64@infradead.org>
+Date: Tue, 12 Sep 2023 22:13:34 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3669558bdf354cd352be955ef2764cde6a9bf5ec
-commit: 43033bc62d349d8d852855a336c91d046de819bd powerpc/pseries: add RTAS work area allocator
-date:   7 months ago
-config: powerpc-ppc64_defconfig (https://download.01.org/0day-ci/archive/20230913/202309131221.Bm1pg96n-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131221.Bm1pg96n-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309131221.Bm1pg96n-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> arch/powerpc/platforms/pseries/rtas-work-area.c:189: warning: Function parameter or member 'limit' not described in 'rtas_work_area_reserve_arena'
+User-Agent: Mozilla Thunderbird
+Subject: Re: sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:undefined reference
+ to `fb_io_read'
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ linux-fbdev@vger.kernel.org
+References: <202309130632.LS04CPWu-lkp@intel.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <202309130632.LS04CPWu-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-vim +189 arch/powerpc/platforms/pseries/rtas-work-area.c
 
-   184	
-   185	/**
-   186	 * rtas_work_area_reserve_arena() - Reserve memory suitable for RTAS work areas.
-   187	 */
-   188	void __init rtas_work_area_reserve_arena(const phys_addr_t limit)
- > 189	{
+On 9/12/23 15:42, kernel test robot wrote:
+> Hi Thomas,
+> 
+> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   3669558bdf354cd352be955ef2764cde6a9bf5ec
+> commit: 5f86367006c6a0662faaf36f753f437afe42fb63 fbdev/sh7760fb: Use fbdev I/O helpers
+> date:   6 weeks ago
+> config: sh-randconfig-r012-20230913 (https://download.01.org/0day-ci/archive/20230913/202309130632.LS04CPWu-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309130632.LS04CPWu-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309130632.LS04CPWu-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o: in function `sh7760fb_probe':
+>    sh7760fb.c:(.text+0x374): undefined reference to `framebuffer_alloc'
+>    sh4-linux-ld: sh7760fb.c:(.text+0x394): undefined reference to `fb_videomode_to_var'
+>    sh4-linux-ld: sh7760fb.c:(.text+0x39c): undefined reference to `fb_alloc_cmap'
+>    sh4-linux-ld: sh7760fb.c:(.text+0x3a4): undefined reference to `register_framebuffer'
+>    sh4-linux-ld: sh7760fb.c:(.text+0x3ac): undefined reference to `fb_dealloc_cmap'
+>    sh4-linux-ld: sh7760fb.c:(.text+0x434): undefined reference to `framebuffer_release'
+>    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o: in function `sh7760fb_remove':
+>    sh7760fb.c:(.text+0x800): undefined reference to `unregister_framebuffer'
+>    sh4-linux-ld: sh7760fb.c:(.text+0x804): undefined reference to `fb_dealloc_cmap'
+>    sh4-linux-ld: sh7760fb.c:(.text+0x814): undefined reference to `framebuffer_release'
+>>> sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0xc): undefined reference to `fb_io_read'
+>>> sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x10): undefined reference to `fb_io_write'
+>    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x2c): undefined reference to `cfb_fillrect'
+>    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x30): undefined reference to `cfb_copyarea'
+>    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x34): undefined reference to `cfb_imageblit'
+
+The problem is CONFIG_FB=m and CONFIG_FB_SH7760=y.
+
+This can be fixed by this simple change ... if it's correct.
+
+or this Kconfig entry can be made into a tristate, but that may not
+help with booting a system.
+
+~~~
+diff -- a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+--- a/drivers/video/fbdev/Kconfig
++++ b/drivers/video/fbdev/Kconfig
+@@ -1762,7 +1762,7 @@ config FB_COBALT
+ 
+ config FB_SH7760
+ 	bool "SH7760/SH7763/SH7720/SH7721 LCDC support"
+-	depends on FB && (CPU_SUBTYPE_SH7760 || CPU_SUBTYPE_SH7763 \
++	depends on FB=y && (CPU_SUBTYPE_SH7760 || CPU_SUBTYPE_SH7763 \
+ 		|| CPU_SUBTYPE_SH7720 || CPU_SUBTYPE_SH7721)
+ 	select FB_IOMEM_HELPERS
+ 	help
+
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Randy
