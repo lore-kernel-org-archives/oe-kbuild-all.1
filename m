@@ -1,44 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C3A1FD6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 07:17:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694589433; x=1726125433;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CzMnrLw6Aoblyhf/wdNHkvTJ1620mcG6vnS2RsgkEWg=;
-  b=AiincBO096rQXETNTFlRACDDctOmZ5tNryqhUDSsr+9sfNiFYOh6+yAO
-   oDElly9zF5OxH16c+wfi27Ptu0wQrYz+7cizhnpzMUHuNnqooqxla0hxX
-   HWsK78iCn4VxAV3RUTmOJCdbLETHYCfvC9fEsVxVq925uuR5shBhkzJxV
-   b5Hs6uctZd3Tm4Lli5pkv8UZVViHqfry7ydQmMhv4NfR01qeUn7rcJtzC
-   YRzkrD3cFJ3101S6S83L+u8O0CiluJ0EU8tiJ12l4s3TQSLDIBPqSI/se
-   KNwSaeY5Y5yYT/CstvR5D6b2PISem8dGVkQTrRkoKJTD77q+Kypq6W5ux
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="377496854"
-X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="377496854"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 00:16:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="693758670"
-X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="693758670"
-Received: from lkp-server02.sh.intel.com (HELO cf13c67269a2) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 13 Sep 2023 00:16:54 -0700
-Received: from kbuild by cf13c67269a2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qgK5L-0000Bp-31;
-	Wed, 13 Sep 2023 07:15:16 +0000
-Date: Wed, 13 Sep 2023 15:14:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tom Rix <trix@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>
-Subject: arch/powerpc/platforms/cell/spu_base.c:229: warning: Function
- parameter or member 'slbs' not described in '__slb_present'
-Message-ID: <202309131549.VzC1pNwr-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B544EC2F9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 07:18:07 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-403004a96a4so44501125e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 00:18:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694589486; x=1695194286; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HobCr1YvW+uQSy9dj9a5595BmgRYMkqX7jfk+9Xr840=;
+        b=EsaRtDUcppdwCVEq+RKSo45TynEkDfQEg30OrP0lEhiP20OnrnXGUURkz1EzrRZ/Xn
+         rkbgahwfNYvoi6LpiwlqoFSCVTZ9ssHn7lZ7Pnnih4fCnEeZluaToZslWxneBVGi2ov7
+         QC4ENNtgCF+YQP/ussGGIfTbmGUgqZqN+OMoarucQX/rMS9OmsCoeCkRNRpe5YNzu2hj
+         lGaBWTJ0uakqr/L7BrEaZkdukS+Nv3fy3ZnadMYAJVF24tht4Abt1OugX9UXynmo13j4
+         xG9bo8R+z7DAA9z0Vch7sfenHh65D4Rx25RyItjJMKLUXLxSHaAvSt1HfrmCt0KK8eX8
+         zNMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694589486; x=1695194286;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HobCr1YvW+uQSy9dj9a5595BmgRYMkqX7jfk+9Xr840=;
+        b=cuR+LpZxTnDHZCjLpidXF41rkPM5cxUX6pDqDaMda8dVm+AeLZjLKgbaskjdgUxPvc
+         0iXqmOTL+Uw7JGJGrCFJVHxkzZYhst71MD+205w/WLC7U3qzEX0NqF9oZpSJsM64pzcf
+         OWC1+LCt7BaaL57y40oGxAaRBByZSd6/LWudwXzaHo6YYLUtOQmeicHENwrBtg1ziB5T
+         uBJqF9tWQt/yy4C85xCOt0Wwd1p4tjKCoOaZr6FHGSY7oAr42AnGNGYiLq8sPy/BUj52
+         t6JvQKBi8qUO78W7LEHJmCEXYtgn7CN+HqNHoy8cyI+jX3JgBW8ZrDJbG4rcKL9WvdPB
+         5T6Q==
+X-Gm-Message-State: AOJu0YyZmAb7B9PWltqaxRKdP4B1DvM+I7VIKKgiLqWxAS1QCa+kEJ6k
+	w4rgNVS+ivr4KhSlWZiRzpyIsg==
+X-Google-Smtp-Source: AGHT+IEbQBgayXNJblrUIThLYaVXgYZABLp2tLpnLNnjRe3Kktx0V+OpYipBJgeEvAqEhtLs6hwJUg==
+X-Received: by 2002:a7b:cd9a:0:b0:3fe:1cac:37d7 with SMTP id y26-20020a7bcd9a000000b003fe1cac37d7mr1158816wmj.10.1694589485899;
+        Wed, 13 Sep 2023 00:18:05 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id c19-20020a7bc013000000b003fed70fb09dsm1136763wmb.26.2023.09.13.00.18.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Sep 2023 00:18:05 -0700 (PDT)
+Date: Wed, 13 Sep 2023 10:18:03 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Qiang Yu <quic_qianyu@quicinc.com>,
+	mani@kernel.org, quic_jhugo@quicinc.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	quic_cang@quicinc.com, quic_mrana@quicinc.com,
+	Bhaumik Bhatt <bbhatt@codeaurora.org>,
+	Qiang Yu <quic_qianyu@quicinc.com>
+Subject: Re: [PATCH 1/2] bus: mhi: host: Add spinlock to protect WP access
+ when queueing TREs
+Message-ID: <6fd73c41-852d-4d4a-9a48-b0c6dffe2515@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,95 +57,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1694426069-74140-2-git-send-email-quic_qianyu@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3669558bdf354cd352be955ef2764cde6a9bf5ec
-commit: da5311a4b852eaf2c0feac8b28884a8d8a801dfc powerpc/spufs: remove unneeded if-checks
-date:   4 months ago
-config: powerpc-ppc64_defconfig (https://download.01.org/0day-ci/archive/20230913/202309131549.VzC1pNwr-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131549.VzC1pNwr-lkp@intel.com/reproduce)
+Hi Qiang,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qiang-Yu/bus-mhi-host-Add-spinlock-to-protect-WP-access-when-queueing-TREs/20230912-072349
+base:   linus/master
+patch link:    https://lore.kernel.org/r/1694426069-74140-2-git-send-email-quic_qianyu%40quicinc.com
+patch subject: [PATCH 1/2] bus: mhi: host: Add spinlock to protect WP access when queueing TREs
+config: i386-randconfig-141-20230913 (https://download.01.org/0day-ci/archive/20230913/202309131155.OQbvsWhZ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230913/202309131155.OQbvsWhZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309131549.VzC1pNwr-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202309131155.OQbvsWhZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/bus/mhi/host/main.c:1249 mhi_gen_tre() warn: inconsistent returns '&mhi_chan->lock'.
 
->> arch/powerpc/platforms/cell/spu_base.c:229: warning: Function parameter or member 'slbs' not described in '__slb_present'
->> arch/powerpc/platforms/cell/spu_base.c:229: warning: Function parameter or member 'nr_slbs' not described in '__slb_present'
->> arch/powerpc/platforms/cell/spu_base.c:229: warning: Function parameter or member 'new_addr' not described in '__slb_present'
->> arch/powerpc/platforms/cell/spu_base.c:229: warning: expecting prototype for Given an array of @nr_slbs SLB entries, @slbs, return non(). Prototype was for __slb_present() instead
->> arch/powerpc/platforms/cell/spu_base.c:241: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Setup the SPU kernel SLBs, in preparation for a context save/restore. We
+vim +1249 drivers/bus/mhi/host/main.c
 
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1200  int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1201  			struct mhi_buf_info *info, enum mhi_flags flags)
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1202  {
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1203  	struct mhi_ring *buf_ring, *tre_ring;
+84f5f31f110e5e drivers/bus/mhi/host/main.c Manivannan Sadhasivam 2022-03-01  1204  	struct mhi_ring_element *mhi_tre;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1205  	struct mhi_buf_info *buf_info;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1206  	int eot, eob, chain, bei;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1207  	int ret;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1208  
+c8a037317010d5 drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-09-11  1209  	/* Protect accesses for reading and incrementing WP */
+c8a037317010d5 drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-09-11  1210  	write_lock_bh(&mhi_chan->lock);
+c8a037317010d5 drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-09-11  1211  
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1212  	buf_ring = &mhi_chan->buf_ring;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1213  	tre_ring = &mhi_chan->tre_ring;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1214  
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1215  	buf_info = buf_ring->wp;
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1216  	WARN_ON(buf_info->used);
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1217  	buf_info->pre_mapped = info->pre_mapped;
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1218  	if (info->pre_mapped)
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1219  		buf_info->p_addr = info->p_addr;
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1220  	else
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1221  		buf_info->v_addr = info->v_addr;
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1222  	buf_info->cb_buf = info->cb_buf;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1223  	buf_info->wp = tre_ring->wp;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1224  	buf_info->dir = mhi_chan->dir;
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1225  	buf_info->len = info->len;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1226  
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1227  	if (!info->pre_mapped) {
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1228  		ret = mhi_cntrl->map_single(mhi_cntrl, buf_info);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1229  		if (ret)
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1230  			return ret;
 
-vim +229 arch/powerpc/platforms/cell/spu_base.c
+write_unlock_bh(&mhi_chan->lock);
 
-58bd403c3c79dd Jeremy Kerr      2007-12-05  222  
-684bd614015188 Jeremy Kerr      2007-12-05  223  /**
-684bd614015188 Jeremy Kerr      2007-12-05  224   * Given an array of @nr_slbs SLB entries, @slbs, return non-zero if the
-684bd614015188 Jeremy Kerr      2007-12-05  225   * address @new_addr is present.
-684bd614015188 Jeremy Kerr      2007-12-05  226   */
-73d16a6e0e5199 Ian Munsie       2014-10-08  227  static inline int __slb_present(struct copro_slb *slbs, int nr_slbs,
-684bd614015188 Jeremy Kerr      2007-12-05  228  		void *new_addr)
-684bd614015188 Jeremy Kerr      2007-12-05 @229  {
-684bd614015188 Jeremy Kerr      2007-12-05  230  	unsigned long ea = (unsigned long)new_addr;
-684bd614015188 Jeremy Kerr      2007-12-05  231  	int i;
-684bd614015188 Jeremy Kerr      2007-12-05  232  
-684bd614015188 Jeremy Kerr      2007-12-05  233  	for (i = 0; i < nr_slbs; i++)
-684bd614015188 Jeremy Kerr      2007-12-05  234  		if (!((slbs[i].esid ^ ea) & ESID_MASK))
-684bd614015188 Jeremy Kerr      2007-12-05  235  			return 1;
-684bd614015188 Jeremy Kerr      2007-12-05  236  
-684bd614015188 Jeremy Kerr      2007-12-05  237  	return 0;
-684bd614015188 Jeremy Kerr      2007-12-05  238  }
-684bd614015188 Jeremy Kerr      2007-12-05  239  
-58bd403c3c79dd Jeremy Kerr      2007-12-05  240  /**
-58bd403c3c79dd Jeremy Kerr      2007-12-05 @241   * Setup the SPU kernel SLBs, in preparation for a context save/restore. We
-58bd403c3c79dd Jeremy Kerr      2007-12-05  242   * need to map both the context save area, and the save/restore code.
-684bd614015188 Jeremy Kerr      2007-12-05  243   *
-027dfac694fc27 Michael Ellerman 2016-06-01  244   * Because the lscsa and code may cross segment boundaries, we check to see
-684bd614015188 Jeremy Kerr      2007-12-05  245   * if mappings are required for the start and end of each range. We currently
-684bd614015188 Jeremy Kerr      2007-12-05  246   * assume that the mappings are smaller that one segment - if not, something
-684bd614015188 Jeremy Kerr      2007-12-05  247   * is seriously wrong.
-58bd403c3c79dd Jeremy Kerr      2007-12-05  248   */
-684bd614015188 Jeremy Kerr      2007-12-05  249  void spu_setup_kernel_slbs(struct spu *spu, struct spu_lscsa *lscsa,
-684bd614015188 Jeremy Kerr      2007-12-05  250  		void *code, int code_size)
-58bd403c3c79dd Jeremy Kerr      2007-12-05  251  {
-73d16a6e0e5199 Ian Munsie       2014-10-08  252  	struct copro_slb slbs[4];
-684bd614015188 Jeremy Kerr      2007-12-05  253  	int i, nr_slbs = 0;
-684bd614015188 Jeremy Kerr      2007-12-05  254  	/* start and end addresses of both mappings */
-684bd614015188 Jeremy Kerr      2007-12-05  255  	void *addrs[] = {
-684bd614015188 Jeremy Kerr      2007-12-05  256  		lscsa, (void *)lscsa + sizeof(*lscsa) - 1,
-684bd614015188 Jeremy Kerr      2007-12-05  257  		code, code + code_size - 1
-684bd614015188 Jeremy Kerr      2007-12-05  258  	};
-684bd614015188 Jeremy Kerr      2007-12-05  259  
-684bd614015188 Jeremy Kerr      2007-12-05  260  	/* check the set of addresses, and create a new entry in the slbs array
-684bd614015188 Jeremy Kerr      2007-12-05  261  	 * if there isn't already a SLB for that address */
-684bd614015188 Jeremy Kerr      2007-12-05  262  	for (i = 0; i < ARRAY_SIZE(addrs); i++) {
-684bd614015188 Jeremy Kerr      2007-12-05  263  		if (__slb_present(slbs, nr_slbs, addrs[i]))
-684bd614015188 Jeremy Kerr      2007-12-05  264  			continue;
-58bd403c3c79dd Jeremy Kerr      2007-12-05  265  
-684bd614015188 Jeremy Kerr      2007-12-05  266  		__spu_kernel_slb(addrs[i], &slbs[nr_slbs]);
-684bd614015188 Jeremy Kerr      2007-12-05  267  		nr_slbs++;
-684bd614015188 Jeremy Kerr      2007-12-05  268  	}
-58bd403c3c79dd Jeremy Kerr      2007-12-05  269  
-c92a1acb675058 Arnd Bergmann    2008-02-28  270  	spin_lock_irq(&spu->register_lock);
-684bd614015188 Jeremy Kerr      2007-12-05  271  	/* Add the set of SLBs */
-684bd614015188 Jeremy Kerr      2007-12-05  272  	for (i = 0; i < nr_slbs; i++)
-684bd614015188 Jeremy Kerr      2007-12-05  273  		spu_load_slb(spu, i, &slbs[i]);
-c92a1acb675058 Arnd Bergmann    2008-02-28  274  	spin_unlock_irq(&spu->register_lock);
-58bd403c3c79dd Jeremy Kerr      2007-12-05  275  }
-58bd403c3c79dd Jeremy Kerr      2007-12-05  276  EXPORT_SYMBOL_GPL(spu_setup_kernel_slbs);
-58bd403c3c79dd Jeremy Kerr      2007-12-05  277  
-
-:::::: The code at line 229 was first introduced by commit
-:::::: 684bd614015188561197342fd336292e9e2ce196 [POWERPC] cell: handle SPE kernel mappings that cross segment boundaries
-
-:::::: TO: Jeremy Kerr <jk@ozlabs.org>
-:::::: CC: Arnd Bergmann <arnd@arndb.de>
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1231  	}
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1232  
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1233  	eob = !!(flags & MHI_EOB);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1234  	eot = !!(flags & MHI_EOT);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1235  	chain = !!(flags & MHI_CHAIN);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1236  	bei = !!(mhi_chan->intmod);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1237  
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1238  	mhi_tre = tre_ring->wp;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1239  	mhi_tre->ptr = MHI_TRE_DATA_PTR(buf_info->p_addr);
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1240  	mhi_tre->dword[0] = MHI_TRE_DATA_DWORD0(info->len);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1241  	mhi_tre->dword[1] = MHI_TRE_DATA_DWORD1(bei, eot, eob, chain);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1242  
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1243  	/* increment WP */
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1244  	mhi_add_ring_element(mhi_cntrl, tre_ring);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1245  	mhi_add_ring_element(mhi_cntrl, buf_ring);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1246  
+c8a037317010d5 drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-09-11  1247  	write_unlock_bh(&mhi_chan->lock);
+c8a037317010d5 drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-09-11  1248  
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20 @1249  	return 0;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1250  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
