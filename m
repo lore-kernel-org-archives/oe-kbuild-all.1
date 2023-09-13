@@ -1,45 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08382210D;
-	Wed, 13 Sep 2023 11:04:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163D01E51E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 11:14:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694603068; x=1726139068;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o75pkzL8hE8MlB27drtG7HJ970mpOPOXAgZVWPdc4eQ=;
-  b=W3s8UvgzHQA3ZWY0PeGz7jE+B1q5AA5G/djdExk/4LEYMy2w1p5TZPXM
-   Nr0dP4PSOrR++YQUdx1XoNs8S2cn+2ZN+dUBsrsHDVg/6pAxrNDrcOZp8
-   ms0T1s4H4JwYQd0/H/J24ugaYLO+ie4hI1mLrFTvNVVI4JFWHRicquxj7
-   B33UNkBepI/8nQi5tXFNYpBetuUba/nl7ZzIPtl9DzVhJL0MjLOL2Tq/P
-   8nUXckDVzn9I2Tboiz6wMEKpnjQ025bZgPgNg69YRYz2et/7qY0QuDNn/
-   ox9iIN3dgB+TbH2Izw1gEmlqyjCoyhBpQ2nrF6swu8t+UYpv2szL5MNi3
+  t=1694603674; x=1726139674;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CO7FuKGxFldgK75QHPqN9lKBJ3RZKKyTcKvNBywVB6U=;
+  b=Zzfyg8HDA5+7XrjlfzPdCaeoNAiNFwN64a1rRZoNgMgS/fTUWiup4Xej
+   pG1agdYmu1BK7k+qeseMh+IQ/rQR4159G58JI7wNj87MHJ0nPf3J1CKe0
+   2w5cd7AUN1zHWBfXFE2XU3mBpNjV3hJDpsfyuGZp/htnk6+OoBHE0dfP6
+   77bPiWQxWkXwRO9Svl2Oq1Booci/EDFCjxXqhknsjgXjRSI8qqVCBs2E1
+   WydN4w6wuE4RVE2ZJCrR76eZIFOgNZ6F3HU0o6j4zIE3EK7NTBR6qcb2s
+   iaTM2enBVgNy4YF5IcQ2dAWJx3FZVUXrucCwnwrUoystADNCTG/dvB10G
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="409578294"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="363660574"
 X-IronPort-AV: E=Sophos;i="6.02,143,1688454000"; 
-   d="scan'208";a="409578294"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 04:04:27 -0700
+   d="scan'208";a="363660574"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 04:14:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="1074910277"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="917791463"
 X-IronPort-AV: E=Sophos;i="6.02,143,1688454000"; 
-   d="scan'208";a="1074910277"
+   d="scan'208";a="917791463"
 Received: from lkp-server02.sh.intel.com (HELO cf13c67269a2) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 13 Sep 2023 04:04:24 -0700
+  by orsmga005.jf.intel.com with ESMTP; 13 Sep 2023 04:14:31 -0700
 Received: from kbuild by cf13c67269a2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgNfR-0000Qj-19;
-	Wed, 13 Sep 2023 11:04:21 +0000
-Date: Wed, 13 Sep 2023 19:03:24 +0800
+	id 1qgNpD-0000R1-29;
+	Wed, 13 Sep 2023 11:14:28 +0000
+Date: Wed, 13 Sep 2023 19:14:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Rosenberg <drosen@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Jaegeuk Kim <jaegeuk@kernel.org>
-Subject: [jaegeuk-f2fs:dev-test 8/9] fs/f2fs/inode.c:320:7: warning: format
- specifies type 'size_t' (aka 'unsigned int') but the argument has type
- 'unsigned long'
-Message-ID: <202309131837.F3EVkv15-lkp@intel.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 07/19] powerpc: Untangle fixmap.h and pgtable.h and
+ mmu.h
+Message-ID: <202309131942.k7EzJho8-lkp@intel.com>
+References: <c94717708db817a0a0a6349431a2701252686899.1694443576.git.christophe.leroy@csgroup.eu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,158 +50,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <c94717708db817a0a0a6349431a2701252686899.1694443576.git.christophe.leroy@csgroup.eu>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
-head:   67dadd6ef509ed922ec667ef6b0ef0cdbb2fe04c
-commit: e152f298a65c86ab89200d2d32132ab359c66a3c [8/9] f2fs: Support Block Size == Page Size
-config: arm-randconfig-r032-20230913 (https://download.01.org/0day-ci/archive/20230913/202309131837.F3EVkv15-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131837.F3EVkv15-lkp@intel.com/reproduce)
+Hi Christophe,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc1 next-20230913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/powerpc-8xx-Fix-pte_access_permitted-for-PAGE_NONE/20230912-031616
+base:   linus/master
+patch link:    https://lore.kernel.org/r/c94717708db817a0a0a6349431a2701252686899.1694443576.git.christophe.leroy%40csgroup.eu
+patch subject: [PATCH v1 07/19] powerpc: Untangle fixmap.h and pgtable.h and mmu.h
+config: powerpc-randconfig-r013-20230912 (https://download.01.org/0day-ci/archive/20230913/202309131942.k7EzJho8-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131942.k7EzJho8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309131837.F3EVkv15-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309131942.k7EzJho8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/f2fs/inode.c:320:7: warning: format specifies type 'size_t' (aka 'unsigned int') but the argument has type 'unsigned long' [-Wformat]
-     320 |                         f2fs_warn(sbi, "%s: inode (ino=%lx) has corrupted i_inline_xattr_size: %d, max: %zu",
-         |                                                                                                         ~~~
-         |                                                                                                         %lu
-     321 |                                   __func__, inode->i_ino, fi->i_inline_xattr_size,
-     322 |                                   MAX_INLINE_XATTR_SIZE);
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:2321:39: note: expanded from macro 'f2fs_warn'
-    2321 |         f2fs_printk(sbi, KERN_WARNING fmt, ##__VA_ARGS__)
-         |                                       ~~~    ^~~~~~~~~~~
-   fs/f2fs/xattr.h:88:4: note: expanded from macro 'MAX_INLINE_XATTR_SIZE'
-      88 |                         (DEF_ADDRS_PER_INODE -                          \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      89 |                         F2FS_TOTAL_EXTRA_ATTR_SIZE / sizeof(__le32) -   \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      90 |                         DEF_INLINE_RESERVED_SIZE -                      \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      91 |                         MIN_INLINE_DENTRY_SIZE / sizeof(__le32))
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+   arch/powerpc/platforms/83xx/misc.c: In function 'mpc83xx_setup_arch':
+>> arch/powerpc/platforms/83xx/misc.c:126:28: error: implicit declaration of function 'fix_to_virt'; did you mean 'bus_to_virt'? [-Werror=implicit-function-declaration]
+     126 |         unsigned long va = fix_to_virt(FIX_IMMR_BASE);
+         |                            ^~~~~~~~~~~
+         |                            bus_to_virt
+>> arch/powerpc/platforms/83xx/misc.c:126:40: error: 'FIX_IMMR_BASE' undeclared (first use in this function)
+     126 |         unsigned long va = fix_to_virt(FIX_IMMR_BASE);
+         |                                        ^~~~~~~~~~~~~
+   arch/powerpc/platforms/83xx/misc.c:126:40: note: each undeclared identifier is reported only once for each function it appears in
+   cc1: all warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
+   Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
+   Selected by [y]:
+   - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=y] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
 
 
-vim +320 fs/f2fs/inode.c
+vim +/FIX_IMMR_BASE +126 arch/powerpc/platforms/83xx/misc.c
 
-698a5c8c8e0559 Yangtao Li   2023-04-08  278  
-e34438c903b653 Chao Yu      2018-06-29  279  static bool sanity_check_inode(struct inode *inode, struct page *node_page)
-5d64600d4f337d Jaegeuk Kim  2018-04-24  280  {
-5d64600d4f337d Jaegeuk Kim  2018-04-24  281  	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
-18dd6470c2d14d Chao Yu      2018-07-08  282  	struct f2fs_inode_info *fi = F2FS_I(inode);
-4c8ff7095bef64 Chao Yu      2019-11-01  283  	struct f2fs_inode *ri = F2FS_INODE(node_page);
-e34438c903b653 Chao Yu      2018-06-29  284  	unsigned long long iblocks;
-e34438c903b653 Chao Yu      2018-06-29  285  
-e34438c903b653 Chao Yu      2018-06-29  286  	iblocks = le64_to_cpu(F2FS_INODE(node_page)->i_blocks);
-e34438c903b653 Chao Yu      2018-06-29  287  	if (!iblocks) {
-dcbb4c10e6d969 Joe Perches  2019-06-18  288  		f2fs_warn(sbi, "%s: corrupted inode i_blocks i_ino=%lx iblocks=%llu, run fsck to fix.",
-e34438c903b653 Chao Yu      2018-06-29  289  			  __func__, inode->i_ino, iblocks);
-e34438c903b653 Chao Yu      2018-06-29  290  		return false;
-e34438c903b653 Chao Yu      2018-06-29  291  	}
-e34438c903b653 Chao Yu      2018-06-29  292  
-e34438c903b653 Chao Yu      2018-06-29  293  	if (ino_of_node(node_page) != nid_of_node(node_page)) {
-dcbb4c10e6d969 Joe Perches  2019-06-18  294  		f2fs_warn(sbi, "%s: corrupted inode footer i_ino=%lx, ino,nid: [%u, %u] run fsck to fix.",
-e34438c903b653 Chao Yu      2018-06-29  295  			  __func__, inode->i_ino,
-e34438c903b653 Chao Yu      2018-06-29  296  			  ino_of_node(node_page), nid_of_node(node_page));
-e34438c903b653 Chao Yu      2018-06-29  297  		return false;
-e34438c903b653 Chao Yu      2018-06-29  298  	}
-5d64600d4f337d Jaegeuk Kim  2018-04-24  299  
-f240d3aaf5a155 Chao Yu      2023-05-31  300  	if (f2fs_has_extra_attr(inode)) {
-f240d3aaf5a155 Chao Yu      2023-05-31  301  		if (!f2fs_sb_has_extra_attr(sbi)) {
-dcbb4c10e6d969 Joe Perches  2019-06-18  302  			f2fs_warn(sbi, "%s: inode (ino=%lx) is with extra_attr, but extra_attr feature is off",
-76d56d4ab4f2a9 Chao Yu      2018-06-25  303  				  __func__, inode->i_ino);
-76d56d4ab4f2a9 Chao Yu      2018-06-25  304  			return false;
-76d56d4ab4f2a9 Chao Yu      2018-06-25  305  		}
-18dd6470c2d14d Chao Yu      2018-07-08  306  		if (fi->i_extra_isize > F2FS_TOTAL_EXTRA_ATTR_SIZE ||
-f240d3aaf5a155 Chao Yu      2023-05-31  307  			fi->i_extra_isize < F2FS_MIN_EXTRA_ATTR_SIZE ||
-18dd6470c2d14d Chao Yu      2018-07-08  308  			fi->i_extra_isize % sizeof(__le32)) {
-dcbb4c10e6d969 Joe Perches  2019-06-18  309  			f2fs_warn(sbi, "%s: inode (ino=%lx) has corrupted i_extra_isize: %d, max: %zu",
-18dd6470c2d14d Chao Yu      2018-07-08  310  				  __func__, inode->i_ino, fi->i_extra_isize,
-18dd6470c2d14d Chao Yu      2018-07-08  311  				  F2FS_TOTAL_EXTRA_ATTR_SIZE);
-18dd6470c2d14d Chao Yu      2018-07-08  312  			return false;
-18dd6470c2d14d Chao Yu      2018-07-08  313  		}
-f240d3aaf5a155 Chao Yu      2023-05-31  314  		if (f2fs_sb_has_flexible_inline_xattr(sbi) &&
-dd6c89b5f2b93c Chao Yu      2019-03-04  315  			f2fs_has_inline_xattr(inode) &&
-dd6c89b5f2b93c Chao Yu      2019-03-04  316  			(!fi->i_inline_xattr_size ||
-dd6c89b5f2b93c Chao Yu      2019-03-04  317  			fi->i_inline_xattr_size > MAX_INLINE_XATTR_SIZE)) {
-dcbb4c10e6d969 Joe Perches  2019-06-18  318  			f2fs_warn(sbi, "%s: inode (ino=%lx) has corrupted i_inline_xattr_size: %d, max: %zu",
-dd6c89b5f2b93c Chao Yu      2019-03-04  319  				  __func__, inode->i_ino, fi->i_inline_xattr_size,
-dd6c89b5f2b93c Chao Yu      2019-03-04 @320  				  MAX_INLINE_XATTR_SIZE);
-dd6c89b5f2b93c Chao Yu      2019-03-04  321  			return false;
-dd6c89b5f2b93c Chao Yu      2019-03-04  322  		}
-f240d3aaf5a155 Chao Yu      2023-05-31  323  		if (f2fs_sb_has_compression(sbi) &&
-f240d3aaf5a155 Chao Yu      2023-05-31  324  			fi->i_flags & F2FS_COMPR_FL &&
-f240d3aaf5a155 Chao Yu      2023-05-31  325  			F2FS_FITS_IN_INODE(ri, fi->i_extra_isize,
-f240d3aaf5a155 Chao Yu      2023-05-31  326  						i_compress_flag)) {
-f240d3aaf5a155 Chao Yu      2023-05-31  327  			if (!sanity_check_compress_inode(inode, ri))
-f240d3aaf5a155 Chao Yu      2023-05-31  328  				return false;
-f240d3aaf5a155 Chao Yu      2023-05-31  329  		}
-f240d3aaf5a155 Chao Yu      2023-05-31  330  	} else if (f2fs_sb_has_flexible_inline_xattr(sbi)) {
-f240d3aaf5a155 Chao Yu      2023-05-31  331  		f2fs_warn(sbi, "%s: corrupted inode ino=%lx, run fsck to fix.",
-f240d3aaf5a155 Chao Yu      2023-05-31  332  			  __func__, inode->i_ino);
-f240d3aaf5a155 Chao Yu      2023-05-31  333  		return false;
-f240d3aaf5a155 Chao Yu      2023-05-31  334  	}
-f240d3aaf5a155 Chao Yu      2023-05-31  335  
-f240d3aaf5a155 Chao Yu      2023-05-31  336  	if (!f2fs_sb_has_extra_attr(sbi)) {
-f240d3aaf5a155 Chao Yu      2023-05-31  337  		if (f2fs_sb_has_project_quota(sbi)) {
-f240d3aaf5a155 Chao Yu      2023-05-31  338  			f2fs_warn(sbi, "%s: corrupted inode ino=%lx, wrong feature flag: %u, run fsck to fix.",
-f240d3aaf5a155 Chao Yu      2023-05-31  339  				  __func__, inode->i_ino, F2FS_FEATURE_PRJQUOTA);
-f240d3aaf5a155 Chao Yu      2023-05-31  340  			return false;
-f240d3aaf5a155 Chao Yu      2023-05-31  341  		}
-f240d3aaf5a155 Chao Yu      2023-05-31  342  		if (f2fs_sb_has_inode_chksum(sbi)) {
-f240d3aaf5a155 Chao Yu      2023-05-31  343  			f2fs_warn(sbi, "%s: corrupted inode ino=%lx, wrong feature flag: %u, run fsck to fix.",
-f240d3aaf5a155 Chao Yu      2023-05-31  344  				  __func__, inode->i_ino, F2FS_FEATURE_INODE_CHKSUM);
-f240d3aaf5a155 Chao Yu      2023-05-31  345  			return false;
-f240d3aaf5a155 Chao Yu      2023-05-31  346  		}
-f240d3aaf5a155 Chao Yu      2023-05-31  347  		if (f2fs_sb_has_flexible_inline_xattr(sbi)) {
-f240d3aaf5a155 Chao Yu      2023-05-31  348  			f2fs_warn(sbi, "%s: corrupted inode ino=%lx, wrong feature flag: %u, run fsck to fix.",
-f240d3aaf5a155 Chao Yu      2023-05-31  349  				  __func__, inode->i_ino, F2FS_FEATURE_FLEXIBLE_INLINE_XATTR);
-f240d3aaf5a155 Chao Yu      2023-05-31  350  			return false;
-f240d3aaf5a155 Chao Yu      2023-05-31  351  		}
-f240d3aaf5a155 Chao Yu      2023-05-31  352  		if (f2fs_sb_has_inode_crtime(sbi)) {
-f240d3aaf5a155 Chao Yu      2023-05-31  353  			f2fs_warn(sbi, "%s: corrupted inode ino=%lx, wrong feature flag: %u, run fsck to fix.",
-f240d3aaf5a155 Chao Yu      2023-05-31  354  				  __func__, inode->i_ino, F2FS_FEATURE_INODE_CRTIME);
-f240d3aaf5a155 Chao Yu      2023-05-31  355  			return false;
-f240d3aaf5a155 Chao Yu      2023-05-31  356  		}
-f240d3aaf5a155 Chao Yu      2023-05-31  357  		if (f2fs_sb_has_compression(sbi)) {
-f240d3aaf5a155 Chao Yu      2023-05-31  358  			f2fs_warn(sbi, "%s: corrupted inode ino=%lx, wrong feature flag: %u, run fsck to fix.",
-f240d3aaf5a155 Chao Yu      2023-05-31  359  				  __func__, inode->i_ino, F2FS_FEATURE_COMPRESSION);
-f240d3aaf5a155 Chao Yu      2023-05-31  360  			return false;
-f240d3aaf5a155 Chao Yu      2023-05-31  361  		}
-f240d3aaf5a155 Chao Yu      2023-05-31  362  	}
-dd6c89b5f2b93c Chao Yu      2019-03-04  363  
-677a82b44ebf26 Chao Yu      2022-05-18  364  	if (f2fs_sanity_check_inline_data(inode)) {
-dcbb4c10e6d969 Joe Perches  2019-06-18  365  		f2fs_warn(sbi, "%s: inode (ino=%lx, mode=%u) should not have inline_data, run fsck to fix",
-bcbfbd604dcba4 Chao Yu      2018-06-29  366  			  __func__, inode->i_ino, inode->i_mode);
-bcbfbd604dcba4 Chao Yu      2018-06-29  367  		return false;
-bcbfbd604dcba4 Chao Yu      2018-06-29  368  	}
-bcbfbd604dcba4 Chao Yu      2018-06-29  369  
-bcbfbd604dcba4 Chao Yu      2018-06-29  370  	if (f2fs_has_inline_dentry(inode) && !S_ISDIR(inode->i_mode)) {
-dcbb4c10e6d969 Joe Perches  2019-06-18  371  		f2fs_warn(sbi, "%s: inode (ino=%lx, mode=%u) should not have inline_dentry, run fsck to fix",
-bcbfbd604dcba4 Chao Yu      2018-06-29  372  			  __func__, inode->i_ino, inode->i_mode);
-bcbfbd604dcba4 Chao Yu      2018-06-29  373  		return false;
-bcbfbd604dcba4 Chao Yu      2018-06-29  374  	}
-bcbfbd604dcba4 Chao Yu      2018-06-29  375  
-f6322f3f1212e0 Eric Biggers 2020-10-08  376  	if ((fi->i_flags & F2FS_CASEFOLD_FL) && !f2fs_sb_has_casefold(sbi)) {
-f6322f3f1212e0 Eric Biggers 2020-10-08  377  		f2fs_warn(sbi, "%s: inode (ino=%lx) has casefold flag, but casefold feature is off",
-f6322f3f1212e0 Eric Biggers 2020-10-08  378  			  __func__, inode->i_ino);
-f6322f3f1212e0 Eric Biggers 2020-10-08  379  		return false;
-f6322f3f1212e0 Eric Biggers 2020-10-08  380  	}
-f6322f3f1212e0 Eric Biggers 2020-10-08  381  
-5d64600d4f337d Jaegeuk Kim  2018-04-24  382  	return true;
-5d64600d4f337d Jaegeuk Kim  2018-04-24  383  }
-5d64600d4f337d Jaegeuk Kim  2018-04-24  384  
-
-:::::: The code at line 320 was first introduced by commit
-:::::: dd6c89b5f2b93ceced4111e7b69d4efd8c312713 f2fs: fix to do sanity check with inode.i_inline_xattr_size
-
-:::::: TO: Chao Yu <yuchao0@huawei.com>
-:::::: CC: Jaegeuk Kim <jaegeuk@kernel.org>
+fff69fd03d1290 Kevin Hao        2016-08-23  121  
+fff69fd03d1290 Kevin Hao        2016-08-23  122  void __init mpc83xx_setup_arch(void)
+fff69fd03d1290 Kevin Hao        2016-08-23  123  {
+6b7c095a51e1ba Christophe Leroy 2019-09-16  124  	phys_addr_t immrbase = get_immrbase();
+6b7c095a51e1ba Christophe Leroy 2019-09-16  125  	int immrsize = IS_ALIGNED(immrbase, SZ_2M) ? SZ_2M : SZ_1M;
+6b7c095a51e1ba Christophe Leroy 2019-09-16 @126  	unsigned long va = fix_to_virt(FIX_IMMR_BASE);
+6b7c095a51e1ba Christophe Leroy 2019-09-16  127  
+1ce844973bb516 Christophe Leroy 2022-06-14  128  	if (ppc_md.progress)
+1ce844973bb516 Christophe Leroy 2022-06-14  129  		ppc_md.progress("mpc83xx_setup_arch()", 0);
+1ce844973bb516 Christophe Leroy 2022-06-14  130  
+6b7c095a51e1ba Christophe Leroy 2019-09-16  131  	setbat(-1, va, immrbase, immrsize, PAGE_KERNEL_NCG);
+6b7c095a51e1ba Christophe Leroy 2019-09-16  132  	update_bats();
+6b7c095a51e1ba Christophe Leroy 2019-09-16  133  }
+0deae39cec6dab Christophe Leroy 2018-12-10  134  
 
 -- 
 0-DAY CI Kernel Test Service
