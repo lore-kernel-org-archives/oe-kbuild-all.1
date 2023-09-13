@@ -1,48 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8615218C1A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 10:28:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58DF23A0;
+	Wed, 13 Sep 2023 10:52:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694600905; x=1726136905;
+  t=1694602346; x=1726138346;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=BOm7IybDAePeWd4TLpHqIfUxkm0hIFIrRWXa31Z5Nis=;
-  b=F23BHJmf145ATC4Q8X0mTTw7o5wV2wZOmxyCt9jv1zD+LO9k9pBjeKWY
-   P01QGG7gRtx5IzTkFEXZh6EHR0cuvwqLuXE3Bct8lCo6UWu0LwJ/Wp5zy
-   aGRTk7jTt1pOwC8ECAYp+22eKaUBm/LSftclGYtgaLac+PoZBogz26Upw
-   bt3xyvoiG/Zt63ixyonJbZVvr0xMCLjltrDALfIlhK7MLObbh1Ab7CEWd
-   MGDKi3D3j55+ur6imyZZThYCqdpZ/vIsx7yWifAo1d0XVtu3SMhwEJvfl
-   SX2iDhXOILANZ8Vs1panmmnROiwYYLFyW3fhvlYvJbJZbOQxqzsdBUokq
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="363652639"
-X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="363652639"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 03:28:24 -0700
+  bh=uIXZmLagWKHpKAxrnpcZV9CNBqds5leMt0sK3E0/sCc=;
+  b=b3UIbLKk3LKG2bCFPqbfU3zUxGGKZ0BkoTl91ZMC1NJ1g6PjeetZxuHR
+   bGQ4IO53sb/M7ZHutm/zInIshmV1LaVD5ltZSeQT8Fyti48bF+NZlVonZ
+   3E11+QksACaPtyXSsMOJbe1yF0JY/ZUFvsYleTtgPHI9M9FU736ALfivv
+   puf3pStxlKgn/xy2IjldY/e/+V7X0ewuuzRqBdaIrFJAi8ee3yUBUXBcC
+   Xf/g8JOTvpX3qKlRBXHF44bQmDpYyq0837THTKwdvrBaDZzU69G5KrgyK
+   M/Q0YQnLacyD9frBEMfMfSEhSx+BElTt71bOmth2TfEV0pfUL5ETb5w4x
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="377538673"
+X-IronPort-AV: E=Sophos;i="6.02,143,1688454000"; 
+   d="scan'208";a="377538673"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 03:52:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="917773493"
-X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="917773493"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="809636480"
+X-IronPort-AV: E=Sophos;i="6.02,143,1688454000"; 
+   d="scan'208";a="809636480"
 Received: from lkp-server02.sh.intel.com (HELO cf13c67269a2) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 13 Sep 2023 03:28:22 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 13 Sep 2023 03:52:22 -0700
 Received: from kbuild by cf13c67269a2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgN6Z-0000Oh-2V;
-	Wed, 13 Sep 2023 10:28:19 +0000
-Date: Wed, 13 Sep 2023 18:28:15 +0800
+	id 1qgNTo-0000Px-2m;
+	Wed, 13 Sep 2023 10:52:20 +0000
+Date: Wed, 13 Sep 2023 18:52:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Naresh Solanki <naresh.solanki@9elements.com>, broonie@kernel.org,
-	zev@bewilderbeest.net, Liam Girdwood <lgirdwood@gmail.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Naresh Solanki <naresh.solanki@9elements.com>,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org
-Subject: Re: [PATCH v3] regulator (max5970): Add hwmon support
-Message-ID: <202309131847.4GIyTQIO-lkp@intel.com>
-References: <20230911113647.1259204-1-naresh.solanki@9elements.com>
+To: "guojinhui.liam" <guojinhui.liam@bytedance.com>, rafael@kernel.org,
+	lenb@kernel.org, gregkh@linuxfoundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	lizefan.x@bytedance.com, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"guojinhui.liam" <guojinhui.liam@bytedance.com>
+Subject: Re: [PATCH] driver core: platform: set numa_node before
+ platform_add_device()
+Message-ID: <202309131848.CgiiHpZu-lkp@intel.com>
+References: <20230912070900.1862-1-guojinhui.liam@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,121 +51,174 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230911113647.1259204-1-naresh.solanki@9elements.com>
+In-Reply-To: <20230912070900.1862-1-guojinhui.liam@bytedance.com>
 
-Hi Naresh,
+Hi guojinhui.liam,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 41f02a383ac652f1a0b5538c5901b7ec93e37290]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc1 next-20230913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Naresh-Solanki/regulator-max5970-Add-hwmon-support/20230912-072321
-base:   41f02a383ac652f1a0b5538c5901b7ec93e37290
-patch link:    https://lore.kernel.org/r/20230911113647.1259204-1-naresh.solanki%409elements.com
-patch subject: [PATCH v3] regulator (max5970): Add hwmon support
-config: i386-randconfig-062-20230913 (https://download.01.org/0day-ci/archive/20230913/202309131847.4GIyTQIO-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131847.4GIyTQIO-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/guojinhui-liam/driver-core-platform-set-numa_node-before-platform_add_device/20230912-151119
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230912070900.1862-1-guojinhui.liam%40bytedance.com
+patch subject: [PATCH] driver core: platform: set numa_node before platform_add_device()
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20230913/202309131848.CgiiHpZu-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131848.CgiiHpZu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309131847.4GIyTQIO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309131848.CgiiHpZu-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/regulator/max5970-regulator.o: in function `max597x_regulator_probe':
->> drivers/regulator/max5970-regulator.c:606: undefined reference to `devm_hwmon_device_register_with_info'
+   In file included from drivers/base/platform.c:15:
+   In file included from include/linux/of_irq.h:7:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/base/platform.c:15:
+   In file included from include/linux/of_irq.h:7:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/base/platform.c:15:
+   In file included from include/linux/of_irq.h:7:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> drivers/base/platform.c:846:28: error: implicit declaration of function 'acpi_get_node' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   set_dev_node(&pdev->dev, acpi_get_node(adev->handle));
+                                            ^
+   drivers/base/platform.c:846:28: note: did you mean 'acpi_get_name'?
+   include/acpi/acpixf.h:525:9: note: 'acpi_get_name' declared here
+                                acpi_get_name(acpi_handle object, u32 name_type,
+                                ^
+   include/acpi/platform/aclinux.h:93:21: note: expanded from macro 'ACPI_EXTERNAL_RETURN_STATUS'
+           static ACPI_INLINE prototype {return(AE_NOT_CONFIGURED);}
+                              ^
+   drivers/base/platform.c:846:46: error: incomplete definition of type 'struct acpi_device'
+                   set_dev_node(&pdev->dev, acpi_get_node(adev->handle));
+                                                          ~~~~^
+   include/linux/acpi.h:788:8: note: forward declaration of 'struct acpi_device'
+   struct acpi_device;
+          ^
+   12 warnings and 2 errors generated.
 
 
-vim +606 drivers/regulator/max5970-regulator.c
+vim +/acpi_get_node +846 drivers/base/platform.c
 
-   541	
-   542	static int max597x_regulator_probe(struct platform_device *pdev)
-   543	{
-   544		struct max5970_data *max597x;
-   545		struct regmap *regmap = dev_get_regmap(pdev->dev.parent, NULL);
-   546		struct max5970_regulator *data;
-   547		struct i2c_client *i2c = to_i2c_client(pdev->dev.parent);
-   548		struct regulator_config config = { };
-   549		struct regulator_dev *rdev;
-   550		struct regulator_dev *rdevs[MAX5970_NUM_SWITCHES];
-   551		struct device *hwmon_dev;
-   552		int num_switches;
-   553		int ret, i;
-   554	
-   555		if (!regmap)
-   556			return -EPROBE_DEFER;
-   557	
-   558		max597x = devm_kzalloc(&i2c->dev, sizeof(struct max5970_data), GFP_KERNEL);
-   559		if (!max597x)
-   560			return -ENOMEM;
-   561	
-   562		i2c_set_clientdata(i2c, max597x);
-   563	
-   564		if (of_device_is_compatible(i2c->dev.of_node, "maxim,max5978"))
-   565			max597x->num_switches = MAX5978_NUM_SWITCHES;
-   566		else if (of_device_is_compatible(i2c->dev.of_node, "maxim,max5970"))
-   567			max597x->num_switches = MAX5970_NUM_SWITCHES;
-   568		else
-   569			return -ENODEV;
-   570	
-   571		i2c_set_clientdata(i2c, max597x);
-   572		num_switches = max597x->num_switches;
-   573	
-   574		for (i = 0; i < num_switches; i++) {
-   575			data =
-   576			    devm_kzalloc(&i2c->dev, sizeof(struct max5970_regulator),
-   577					 GFP_KERNEL);
-   578			if (!data)
-   579				return -ENOMEM;
-   580	
-   581			data->num_switches = num_switches;
-   582			data->regmap = regmap;
-   583	
-   584			ret = max597x_adc_range(regmap, i, &max597x->irng[i], &max597x->mon_rng[i]);
-   585			if (ret < 0)
-   586				return ret;
-   587	
-   588			data->irng = max597x->irng[i];
-   589			data->mon_rng = max597x->mon_rng[i];
-   590	
-   591			config.dev = &i2c->dev;
-   592			config.driver_data = (void *)data;
-   593			config.regmap = data->regmap;
-   594			rdev = devm_regulator_register(&i2c->dev,
-   595						       &regulators[i], &config);
-   596			if (IS_ERR(rdev)) {
-   597				dev_err(&i2c->dev, "failed to register regulator %s\n",
-   598					regulators[i].name);
-   599				return PTR_ERR(rdev);
-   600			}
-   601			rdevs[i] = rdev;
-   602			max597x->shunt_micro_ohms[i] = data->shunt_micro_ohms;
-   603		}
-   604	
-   605		if (IS_ENABLED(CONFIG_HWMON)) {
- > 606			hwmon_dev = devm_hwmon_device_register_with_info(&i2c->dev, "max5970", max597x,
-   607									 &max5970_chip_info, NULL);
-   608			if (IS_ERR(hwmon_dev)) {
-   609				return dev_err_probe(&i2c->dev, PTR_ERR(hwmon_dev),
-   610						     "Unable to register hwmon device\n");
-   611			}
-   612		}
-   613	
-   614		if (i2c->irq) {
-   615			ret =
-   616			    max597x_setup_irq(&i2c->dev, i2c->irq, rdevs, num_switches,
-   617					      data);
-   618			if (ret) {
-   619				dev_err(&i2c->dev, "IRQ setup failed");
-   620				return ret;
-   621			}
-   622		}
-   623	
-   624		return ret;
-   625	}
-   626	
+   797	
+   798	/**
+   799	 * platform_device_register_full - add a platform-level device with
+   800	 * resources and platform-specific data
+   801	 *
+   802	 * @pdevinfo: data used to create device
+   803	 *
+   804	 * Returns &struct platform_device pointer on success, or ERR_PTR() on error.
+   805	 */
+   806	struct platform_device *platform_device_register_full(
+   807			const struct platform_device_info *pdevinfo)
+   808	{
+   809		int ret;
+   810		struct platform_device *pdev;
+   811		struct acpi_device *adev = to_acpi_device_node(pdevinfo->fwnode);
+   812	
+   813		pdev = platform_device_alloc(pdevinfo->name, pdevinfo->id);
+   814		if (!pdev)
+   815			return ERR_PTR(-ENOMEM);
+   816	
+   817		pdev->dev.parent = pdevinfo->parent;
+   818		pdev->dev.fwnode = pdevinfo->fwnode;
+   819		pdev->dev.of_node = of_node_get(to_of_node(pdev->dev.fwnode));
+   820		pdev->dev.of_node_reused = pdevinfo->of_node_reused;
+   821	
+   822		if (pdevinfo->dma_mask) {
+   823			pdev->platform_dma_mask = pdevinfo->dma_mask;
+   824			pdev->dev.dma_mask = &pdev->platform_dma_mask;
+   825			pdev->dev.coherent_dma_mask = pdevinfo->dma_mask;
+   826		}
+   827	
+   828		ret = platform_device_add_resources(pdev,
+   829				pdevinfo->res, pdevinfo->num_res);
+   830		if (ret)
+   831			goto err;
+   832	
+   833		ret = platform_device_add_data(pdev,
+   834				pdevinfo->data, pdevinfo->size_data);
+   835		if (ret)
+   836			goto err;
+   837	
+   838		if (pdevinfo->properties) {
+   839			ret = device_create_managed_software_node(&pdev->dev,
+   840								  pdevinfo->properties, NULL);
+   841			if (ret)
+   842				goto err;
+   843		}
+   844	
+   845		if (adev)
+ > 846			set_dev_node(&pdev->dev, acpi_get_node(adev->handle));
+   847	
+   848		ret = platform_device_add(pdev);
+   849		if (ret) {
+   850	err:
+   851			ACPI_COMPANION_SET(&pdev->dev, NULL);
+   852			platform_device_put(pdev);
+   853			return ERR_PTR(ret);
+   854		}
+   855	
+   856		return pdev;
+   857	}
+   858	EXPORT_SYMBOL_GPL(platform_device_register_full);
+   859	
 
 -- 
 0-DAY CI Kernel Test Service
