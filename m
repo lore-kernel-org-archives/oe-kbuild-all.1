@@ -1,42 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE55264C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 22:37:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A941839F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 22:57:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694644624; x=1726180624;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4la7L2bM/2fbIN4DbKVyOdCmFRmtecd/MviUFYxuh3k=;
-  b=mJAPm4+m0EBSm6+5BNFF0EenZYIRPzNwcS3IbG+Xjl+9GTQo9aGLjgSt
-   c8ya5EEexlJAkzxttI47YWkvcvGVv9Qpfrol6VuR1p9LaQd5BtOShNv9X
-   AmOHzq71ySobVTHhq3YzYMCUQbXffM9xXvOaTUzeE3NWsXVAoQCimldKs
-   /5TatXU2kuWqgn1m///qL0lDP79803kH+7c2CkDmg6BTYaxv37sNJ2n48
-   og8DYk3SBLePyLC8XqGyM9r5JG62qUUp5yxePAqAgH4+Vm6e+Zzx/s8kc
-   0UwJ/2KQuNaoM39l1YbVkkMEbOmw/+6uTMPWr5s9bKk/VrKhURYYiPZOZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="442829766"
+  t=1694645867; x=1726181867;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mGu+6SGLu3cDH/AYs0TR6bH6F0/9OOjChs6jiW1wBWQ=;
+  b=JFueXszfQO68yiXWt/nSfwXyGfNA32VXM0Dg62SkW0KIiSuKxawpaP2d
+   uJPxaidtcOC7++K8Jua30XeE4hFWyiaeG5gptNCJc9ZZ3xZMXTq+58CCh
+   8iC7xYDxrTgAw+PfTlLQNoht1kx+xbtIwk84r2awzZkG2CYrprtFza6MD
+   6VrEV0C9QOBNo3zbaM3i9saQEycTHBEz4YEHCc/+ND09zF2FaQfVVzxGI
+   BF6pTt6MFKEKJ3HRkGZJIkDEwnkJ9+ybP070emDw9ykSyrVG323Gol5/4
+   B6Iu3W86aY3BCbRFN+kjme9RIAcvEIgSQ6SvB+iSokwkMnfssEN6YLfRf
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="442833243"
 X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="442829766"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 15:37:02 -0700
+   d="scan'208";a="442833243"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 15:57:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="747499403"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="868009019"
 X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="747499403"
+   d="scan'208";a="868009019"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 13 Sep 2023 15:37:01 -0700
+  by orsmga004.jf.intel.com with ESMTP; 13 Sep 2023 15:57:44 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgYT9-0000l1-08;
-	Wed, 13 Sep 2023 22:36:25 +0000
-Date: Thu, 14 Sep 2023 06:35:31 +0800
+	id 1qgYnm-0000mH-1g;
+	Wed, 13 Sep 2023 22:57:42 +0000
+Date: Thu, 14 Sep 2023 06:57:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
+To: Miklos Szeredi <mszeredi@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:iov-cleanup 3/13] sound/core/pcm_native.c:3530:16:
- error: 'struct iov_iter' has no member named 'user_backed'
-Message-ID: <202309140636.QRnbB1Vd-lkp@intel.com>
+Subject: Re: [RFC PATCH 2/3] add statmnt(2) syscall
+Message-ID: <202309140628.cbfucE4v-lkp@intel.com>
+References: <20230913152238.905247-3-mszeredi@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,80 +46,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230913152238.905247-3-mszeredi@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git iov-cleanup
-head:   bbca19708859dff75c7d28b9cb73f114497d6f60
-commit: 4336b89e6c0cbdd1ef25bb321f105f066d462e25 [3/13] iov_iter: Derive user-backedness from the iterator type
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230914/202309140636.QRnbB1Vd-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309140636.QRnbB1Vd-lkp@intel.com/reproduce)
+Hi Miklos,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/x86/asm]
+[also build test ERROR on linux/master linus/master v6.6-rc1 next-20230913]
+[cannot apply to arnd-asm-generic/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Miklos-Szeredi/add-unique-mount-ID/20230913-232732
+base:   tip/x86/asm
+patch link:    https://lore.kernel.org/r/20230913152238.905247-3-mszeredi%40redhat.com
+patch subject: [RFC PATCH 2/3] add statmnt(2) syscall
+config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20230914/202309140628.cbfucE4v-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309140628.cbfucE4v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309140636.QRnbB1Vd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309140628.cbfucE4v-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   sound/core/pcm_native.c: In function 'snd_pcm_readv':
->> sound/core/pcm_native.c:3530:16: error: 'struct iov_iter' has no member named 'user_backed'
-    3530 |         if (!to->user_backed)
-         |                ^~
-   sound/core/pcm_native.c: In function 'snd_pcm_writev':
-   sound/core/pcm_native.c:3570:18: error: 'struct iov_iter' has no member named 'user_backed'
-    3570 |         if (!from->user_backed)
-         |                  ^~
+   In file included from fs/namespace.c:11:0:
+   include/linux/syscalls.h:412:15: warning: 'struct statmnt' declared inside parameter list will not be visible outside of this definition or declaration
+           struct statmnt __user *buf, size_t bufsize,
+                  ^~~~~~~
+>> fs/namespace.c:4690:18: warning: no previous declaration for 'lookup_mnt_in_ns' [-Wmissing-declarations]
+    struct vfsmount *lookup_mnt_in_ns(u64 id, struct mnt_namespace *ns)
+                     ^~~~~~~~~~~~~~~~
+   fs/namespace.c:4750:10: error: unknown type name 'stmt_str_t'; did you mean 'stmt_func_t'?
+             stmt_str_t *str)
+             ^~~~~~~~~~
+             stmt_func_t
+   fs/namespace.c: In function 'do_statmnt':
+   fs/namespace.c:4946:2: error: implicit declaration of function 'stmt_string'; did you mean 'stmt_string_seq'? [-Werror=implicit-function-declaration]
+     stmt_string(s, STMT_MNT_ROOT, stmt_mnt_root, &sm->mnt_root);
+     ^~~~~~~~~~~
+     stmt_string_seq
+   In file included from fs/namespace.c:11:0:
+   fs/namespace.c: At top level:
+>> include/linux/syscalls.h:244:18: error: conflicting types for 'sys_statmnt'
+     asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__)) \
+                     ^
+   include/linux/syscalls.h:230:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:223:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   fs/namespace.c:4960:1: note: in expansion of macro 'SYSCALL_DEFINE5'
+    SYSCALL_DEFINE5(statmnt, u64, mnt_id,
+    ^~~~~~~~~~~~~~~
+   include/linux/syscalls.h:411:17: note: previous declaration of 'sys_statmnt' was here
+    asmlinkage long sys_statmnt(u64 mnt_id, u64 mask,
+                    ^~~~~~~~~~~
+   fs/namespace.c:4720:12: warning: 'stmt_string_seq' defined but not used [-Wunused-function]
+    static int stmt_string_seq(struct stmt_state *s, stmt_func_t func)
+               ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +3530 sound/core/pcm_native.c
+vim +/sys_statmnt +244 include/linux/syscalls.h
 
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3510  
-1c65d98672e09a Al Viro          2015-04-04  3511  static ssize_t snd_pcm_readv(struct kiocb *iocb, struct iov_iter *to)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3512  {
-877211f5e1b119 Takashi Iwai     2005-11-17  3513  	struct snd_pcm_file *pcm_file;
-877211f5e1b119 Takashi Iwai     2005-11-17  3514  	struct snd_pcm_substream *substream;
-877211f5e1b119 Takashi Iwai     2005-11-17  3515  	struct snd_pcm_runtime *runtime;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3516  	snd_pcm_sframes_t result;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3517  	unsigned long i;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3518  	void __user **bufs;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3519  	snd_pcm_uframes_t frames;
-de4f5fed3f231a Jens Axboe       2023-03-29  3520  	const struct iovec *iov = iter_iov(to);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3521  
-ee0b3e671baff6 Badari Pulavarty 2006-09-30  3522  	pcm_file = iocb->ki_filp->private_data;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3523  	substream = pcm_file->substream;
-7eaa943c8ed8e9 Takashi Iwai     2008-08-08  3524  	if (PCM_RUNTIME_CHECK(substream))
-7eaa943c8ed8e9 Takashi Iwai     2008-08-08  3525  		return -ENXIO;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3526  	runtime = substream->runtime;
-f0061c18c169f0 Takashi Iwai     2022-09-26  3527  	if (runtime->state == SNDRV_PCM_STATE_OPEN ||
-f0061c18c169f0 Takashi Iwai     2022-09-26  3528  	    runtime->state == SNDRV_PCM_STATE_DISCONNECTED)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3529  		return -EBADFD;
-e4d3202c18329b Jens Axboe       2023-03-28 @3530  	if (!to->user_backed)
-1c65d98672e09a Al Viro          2015-04-04  3531  		return -EINVAL;
-1c65d98672e09a Al Viro          2015-04-04  3532  	if (to->nr_segs > 1024 || to->nr_segs != runtime->channels)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3533  		return -EINVAL;
-de4f5fed3f231a Jens Axboe       2023-03-29  3534  	if (!frame_aligned(runtime, iov->iov_len))
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3535  		return -EINVAL;
-de4f5fed3f231a Jens Axboe       2023-03-29  3536  	frames = bytes_to_samples(runtime, iov->iov_len);
-6da2ec56059c3c Kees Cook        2018-06-12  3537  	bufs = kmalloc_array(to->nr_segs, sizeof(void *), GFP_KERNEL);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3538  	if (bufs == NULL)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3539  		return -ENOMEM;
-de4f5fed3f231a Jens Axboe       2023-03-29  3540  	for (i = 0; i < to->nr_segs; ++i) {
-de4f5fed3f231a Jens Axboe       2023-03-29  3541  		bufs[i] = iov->iov_base;
-de4f5fed3f231a Jens Axboe       2023-03-29  3542  		iov++;
-de4f5fed3f231a Jens Axboe       2023-03-29  3543  	}
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3544  	result = snd_pcm_lib_readv(substream, bufs, frames);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3545  	if (result > 0)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3546  		result = frames_to_bytes(runtime, result);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3547  	kfree(bufs);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3548  	return result;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3549  }
-^1da177e4c3f41 Linus Torvalds   2005-04-16  3550  
-
-:::::: The code at line 3530 was first introduced by commit
-:::::: e4d3202c18329ba2733c9e04489b6ef05d3bce08 ALSA: pcm: check for user backed iterator, not specific iterator type
-
-:::::: TO: Jens Axboe <axboe@kernel.dk>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+1bd21c6c21e848 Dominik Brodowski   2018-04-05  233  
+e145242ea0df6b Dominik Brodowski   2018-04-09  234  /*
+e145242ea0df6b Dominik Brodowski   2018-04-09  235   * The asmlinkage stub is aliased to a function named __se_sys_*() which
+e145242ea0df6b Dominik Brodowski   2018-04-09  236   * sign-extends 32-bit ints to longs whenever needed. The actual work is
+e145242ea0df6b Dominik Brodowski   2018-04-09  237   * done within __do_sys_*().
+e145242ea0df6b Dominik Brodowski   2018-04-09  238   */
+1bd21c6c21e848 Dominik Brodowski   2018-04-05  239  #ifndef __SYSCALL_DEFINEx
+bed1ffca022cc8 Frederic Weisbecker 2009-03-13  240  #define __SYSCALL_DEFINEx(x, name, ...)					\
+bee20031772af3 Arnd Bergmann       2018-06-19  241  	__diag_push();							\
+bee20031772af3 Arnd Bergmann       2018-06-19  242  	__diag_ignore(GCC, 8, "-Wattribute-alias",			\
+bee20031772af3 Arnd Bergmann       2018-06-19  243  		      "Type aliasing is used to sanitize syscall arguments");\
+83460ec8dcac14 Andi Kleen          2013-11-12 @244  	asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))	\
+e145242ea0df6b Dominik Brodowski   2018-04-09  245  		__attribute__((alias(__stringify(__se_sys##name))));	\
+c9a211951c7c79 Howard McLauchlan   2018-03-21  246  	ALLOW_ERROR_INJECTION(sys##name, ERRNO);			\
+e145242ea0df6b Dominik Brodowski   2018-04-09  247  	static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__));\
+e145242ea0df6b Dominik Brodowski   2018-04-09  248  	asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__));	\
+e145242ea0df6b Dominik Brodowski   2018-04-09  249  	asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))	\
+1a94bc34768e46 Heiko Carstens      2009-01-14  250  	{								\
+e145242ea0df6b Dominik Brodowski   2018-04-09  251  		long ret = __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS__));\
+07fe6e00f6cca6 Al Viro             2013-01-21  252  		__MAP(x,__SC_TEST,__VA_ARGS__);				\
+2cf0966683430b Al Viro             2013-01-21  253  		__PROTECT(x, ret,__MAP(x,__SC_ARGS,__VA_ARGS__));	\
+2cf0966683430b Al Viro             2013-01-21  254  		return ret;						\
+1a94bc34768e46 Heiko Carstens      2009-01-14  255  	}								\
+bee20031772af3 Arnd Bergmann       2018-06-19  256  	__diag_pop();							\
+e145242ea0df6b Dominik Brodowski   2018-04-09  257  	static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))
+1bd21c6c21e848 Dominik Brodowski   2018-04-05  258  #endif /* __SYSCALL_DEFINEx */
+1a94bc34768e46 Heiko Carstens      2009-01-14  259  
 
 -- 
 0-DAY CI Kernel Test Service
