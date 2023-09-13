@@ -1,44 +1,51 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62605E558
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 19:24:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56B61A261
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 19:24:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694633041; x=1726169041;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wNe9PpuREl4o1SuMhqGlMthlpYLgOoAbfNgfXgbwpIo=;
-  b=krGs9XDr4D5/qgRBi6QEYrgQixtMz0e1arhm3b8V/D82BpHlWDudvrU9
-   m32JGgZG7/RXWhRjoGPwItwtI0+kj6zClA4IViQLSl7dZhPM+3LzAQJH7
-   eNLv0SMkA/UXve/W5+ojkTaEQL9jLYfa7DTB1DkddIZq5WkS/rWhYWICI
-   gzhdvUJetTLTRynOX/j2YXRC686ziiWji7bi7dB3a5puEfu80dmZqPc6J
-   kDXhaibwEQYwpOr06AbuTbawdi3KGyQPhRUmNAW8Nchew8W9m/MItSmVn
-   rKU7WEpbiVAZ+ZwTVDlJeHC+yGUatsfsn/8iP+amF5m5n+Ms7fEOWSnWu
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="377673269"
+  t=1694633042; x=1726169042;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9Um2MtTfHVP3AhNYPuGkHR/IlcPV4IcwmbHNi4nWhmw=;
+  b=XJinCfo9v73ttMVjB2J5PlJ5TZYhEEy3ylr3oAeSKwWbjZWLDz2BNlPJ
+   yaxAXM8Rjis1VkTvVwOa6uUWRCykGXF06GeltOfI5J6LQlBtnGGT1+o+R
+   O7vm/rHazCeGk1x6yIdRIPurwMR9DBUJ70ujeR7jC/ZHYt8IdeZeQS7MG
+   XZmksDn9aTq/Evlr2e/lNwsRHwB9wxJgzP5YslMXHjd9bjGhOYNzEqwSv
+   GkNnTYb3cD4KVdFsel7q+r8+mfXjbgUkCR0ARIVD3NSHKltwWym3ZzH1g
+   wwrAB43cBCKXdOthA/EVzyFIu1cnzFp1fdG8jtDTnrljQPQV/WZ+Q4azQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="377673273"
 X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="377673269"
+   d="scan'208";a="377673273"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 12:24:00 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 12:24:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="917962141"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="917962140"
 X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="917962141"
+   d="scan'208";a="917962140"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
   by orsmga005.jf.intel.com with ESMTP; 13 Sep 2023 12:23:58 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgVSu-0000Vs-2M;
+	id 1qgVSu-0000Vn-2B;
 	Wed, 13 Sep 2023 19:23:56 +0000
-Date: Thu, 14 Sep 2023 03:23:50 +0800
+Date: Thu, 14 Sep 2023 03:23:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aaradhana Sahu <quic_aarasahu@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Kalle Valo <kvalo@codeaurora.org>,
-	ath10k@lists.infradead.org, Kalle Valo <quic_kvalo@quicinc.com>
-Subject: [kvalo-ath:ath11k-testmode 6/7]
- drivers/net/wireless/ath/ath12k/testmode.c:28:16: warning: no previous
- prototype for 'ath12k_tm_get_ar'
-Message-ID: <202309140338.JIMolIml-lkp@intel.com>
+To: Oleg Nesterov <oleg@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Rik van Riel <riel@surriel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Alexey Gladkov <legion@kernel.org>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/5] seqlock: change __seqprop() to return the function
+ pointer
+Message-ID: <202309140355.Sglwk06B-lkp@intel.com>
+References: <20230913154956.GA26245@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,46 +54,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230913154956.GA26245@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git ath11k-testmode
-head:   ba2a7d5c57ba0703f64cf849c0299ac23eb1c1f5
-commit: b50dc57cafcdbdeab2e799fa6e3148498e7805d7 [6/7] wifi: ath12k: add factory test mode support
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230914/202309140338.JIMolIml-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309140338.JIMolIml-lkp@intel.com/reproduce)
+Hi Oleg,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/locking/core]
+[also build test ERROR on tip/sched/core linus/master v6.6-rc1 next-20230913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oleg-Nesterov/seqlock-simplify-SEQCOUNT_LOCKNAME/20230913-235245
+base:   tip/locking/core
+patch link:    https://lore.kernel.org/r/20230913154956.GA26245%40redhat.com
+patch subject: [PATCH 2/5] seqlock: change __seqprop() to return the function pointer
+config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230914/202309140355.Sglwk06B-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309140355.Sglwk06B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309140338.JIMolIml-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309140355.Sglwk06B-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/wireless/ath/ath12k/testmode.c:28:16: warning: no previous prototype for 'ath12k_tm_get_ar' [-Wmissing-prototypes]
-      28 | struct ath12k *ath12k_tm_get_ar(struct ath12k_base *ab)
-         |                ^~~~~~~~~~~~~~~~
+   In file included from include/linux/hrtimer.h:20,
+                    from include/linux/sched.h:20,
+                    from arch/powerpc/kernel/syscalls.c:18:
+   include/linux/u64_stats_sync.h: In function '__u64_stats_fetch_retry':
+>> include/linux/u64_stats_sync.h:176:36: error: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Werror=discarded-qualifiers]
+     176 |         return read_seqcount_retry(&syncp->seq, start);
+         |                                    ^~~~~~~~~~~
+   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
+     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
+         |                                                           ^
+   include/linux/u64_stats_sync.h:176:16: note: in expansion of macro 'read_seqcount_retry'
+     176 |         return read_seqcount_retry(&syncp->seq, start);
+         |                ^~~~~~~~~~~~~~~~~~~
+   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
+     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
+         |                                         ~~~~~~~~~~~~^
+   cc1: all warnings being treated as errors
 
 
-vim +/ath12k_tm_get_ar +28 drivers/net/wireless/ath/ath12k/testmode.c
+vim +176 include/linux/u64_stats_sync.h
 
-    27	
-  > 28	struct ath12k *ath12k_tm_get_ar(struct ath12k_base *ab)
-    29	{
-    30		struct ath12k_pdev *pdev;
-    31		struct ath12k *ar;
-    32		int i;
-    33	
-    34		for (i = 0; i < ab->num_radios; i++) {
-    35			pdev = &ab->pdevs[i];
-    36			ar = pdev->ar;
-    37	
-    38			if (ar && ar->state == ATH12K_STATE_TM)
-    39				return ar;
-    40		}
-    41	
-    42		return NULL;
-    43	}
-    44	
+68107df5f2cb5d Frederic Weisbecker 2016-09-26  172  
+68107df5f2cb5d Frederic Weisbecker 2016-09-26  173  static inline bool __u64_stats_fetch_retry(const struct u64_stats_sync *syncp,
+16b8a4761cbe50 Eric Dumazet        2010-06-22  174  					   unsigned int start)
+16b8a4761cbe50 Eric Dumazet        2010-06-22  175  {
+16b8a4761cbe50 Eric Dumazet        2010-06-22 @176  	return read_seqcount_retry(&syncp->seq, start);
+44b0c2957adc62 Thomas Gleixner     2022-08-25  177  }
+44b0c2957adc62 Thomas Gleixner     2022-08-25  178  #endif /* !64 bit */
+44b0c2957adc62 Thomas Gleixner     2022-08-25  179  
 
 -- 
 0-DAY CI Kernel Test Service
