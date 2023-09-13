@@ -1,94 +1,170 @@
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C5F1E526
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 11:46:44 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id d2e1a72fcca58-68fb79ef55eso3269154b3a.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 04:46:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1694605604; x=1695210404; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7nITPxVDnC41/6mqrOtoGNiOb/yuzadv3G0v6KlC07k=;
-        b=WCaDtXvD9EEtoN91qlDvaPypwpOTYQWPx3Uwcgt8hAMiHLCFKuKuNEahDrYCL1nOEF
-         qoPnJFqsJNis+XdR77iKW1hXCLeQ6DK3E1cODISr293KPmUypH9BXovUIVA15fIDoD5+
-         x4u/pEJJySGud4s1q3sG/0G4VGCAPE3nQXdjOIoDOLuRUJhMdzzgk2MYBzbaIO3qtaRS
-         t9oQ++F8XZ/jtIC3i7xLck1d03oByACcX+W/hPrcVFS2ssvneo8x7EL5B4wR2Tvm/56V
-         dnDhIe95abUW7KfIGzhRz6frVk1FTTFnLWP3FW8yI7bDGDTpYXHDT519axh/JCN2EGb7
-         43EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694605604; x=1695210404;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7nITPxVDnC41/6mqrOtoGNiOb/yuzadv3G0v6KlC07k=;
-        b=Gtd/6k3VJeg0ofK6CLFdFEtQELOVEeK8QxgWxh2rOMDtC6+V4RU3RVqyNB1JBd1w1V
-         NKrnhb1mq7T39lqSxNN6KMGl8deqoeFrho6TV5JZed88cLh69byRlCFH/0b9ZhU8KmYs
-         G80eYO06gFZ9Jv4UlLrO7iregEwSwDqsYiHMDbEi/oiTO2r6K/GmC2n/tcsAbfdENMRR
-         RoGJ80l3OGYn9BoCUmhQxqGvaZzWYQBeZXBGdKF7uT4SiWeCPd5qnMCsH30dGV7t6UmW
-         dkvc+VqfMMyrS8T7/VJVIhVUtZKzffgtfNwAHU6fy+Ivn5eU0TqQh4tp0GwJVx8z6VFc
-         I9Zg==
-X-Gm-Message-State: AOJu0YwRExUgfna1dJ5xcHQv+gLh6tUx4eSir0AkYdKydxcvroPAhajW
-	TD4mMbELzCCF5B5SyKUPn/NhnA==
-X-Google-Smtp-Source: AGHT+IF5VM5hzkBEO13mv1Q/VU2jY3YJ+ax2K89xqvIKqKVeOhgZo4a5+WbdKRLdhkgdM/NeHs6qXg==
-X-Received: by 2002:a05:6a21:3e09:b0:14e:b4d5:782e with SMTP id bk9-20020a056a213e0900b0014eb4d5782emr2104693pzc.29.1694605603948;
-        Wed, 13 Sep 2023 04:46:43 -0700 (PDT)
-Received: from PF2LML5M-SMJ.bytedance.net ([220.243.131.6])
-        by smtp.gmail.com with ESMTPSA id iz2-20020a170902ef8200b001b5656b0bf9sm10246025plb.286.2023.09.13.04.46.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 04:46:43 -0700 (PDT)
-From: Jinhui Guo <guojinhui.liam@bytedance.com>
-To: lkp@intel.com
-Cc: gregkh@linuxfoundation.org,
-	guojinhui.liam@bytedance.com,
-	lenb@kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lizefan.x@bytedance.com,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	rafael@kernel.org
-Subject: Re: [PATCH] driver core: platform: set numa_node before platform_add_device()
-Date: Wed, 13 Sep 2023 19:46:31 +0800
-Message-Id: <20230913114631.2966-1-guojinhui.liam@bytedance.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <202309131848.CgiiHpZu-lkp@intel.com>
-References: <202309131848.CgiiHpZu-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D574B1EA7B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 12:19:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694607568; x=1726143568;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=X1Pn9TpUNoyPdD3j0+oAS9diSSpPQYYq5l0i8RYiScQ=;
+  b=VTsSMIPBw9BEQ45IWBzIc/d12pKSt9Skmkr6KXSqY04KUXADFQeB4m6t
+   hHUQMEqhPABL7zsqtY2OyQ/yt0G6yXujC92oY5Hr/Zgo/JS41aPZLHZr3
+   lcXjlj5/NSHrhAe8uKdSxMg6Q4CsqRa3e4eeqA6eEFbZGaOplhzpzuwtX
+   RarUw17ZPX++dcFKUf8ec8j/ESgJNDBu9VWzgejxhzNH3L7fiBisO4Pg/
+   sRLhbT6B+9vHb0qAF7sroW9DHGzxhQhdfIjq4V0Zlh5wzUQ2cWMBEXfIm
+   XgphjwSOIXaaQRDAcwVBeMcw11NfMShie8sWTfzozGfDsSxgeBwjydtLQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="363673111"
+X-IronPort-AV: E=Sophos;i="6.02,143,1688454000"; 
+   d="scan'208";a="363673111"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 05:19:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="779169400"
+X-IronPort-AV: E=Sophos;i="6.02,143,1688454000"; 
+   d="scan'208";a="779169400"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 13 Sep 2023 05:19:25 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qgOq3-00002J-0E;
+	Wed, 13 Sep 2023 12:19:23 +0000
+Date: Wed, 13 Sep 2023 20:19:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ping Gan <jacky_gam_2001@163.com>, kbusch@kernel.org, axboe@kernel.dk,
+	hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, ping_gan@dell.com,
+	jacky_gam_2001@163.com
+Subject: Re: [PATCH 2/4] nvmet: Add polling queue task for nvme target
+Message-ID: <202309131959.1zH6sjmk-lkp@intel.com>
+References: <84d7f188e892b5b0ba251a4601455d7a137075f3.1694592708.git.jacky_gam_2001@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <84d7f188e892b5b0ba251a4601455d7a137075f3.1694592708.git.jacky_gam_2001@163.com>
 
-> Hi guojinhui.liam,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v6.6-rc1 next-20230913]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/guojinhui-liam/driver-core-platform-set-numa_node-before-platform_add_device/20230912-151119
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20230912070900.1862-1-guojinhui.liam%40bytedance.com
-> patch subject: [PATCH] driver core: platform: set numa_node before platform_add_device()
-> config: um-allyesconfig (https://download.01.org/0day-ci/archive/20230913/202309131848.CgiiHpZu-lkp@intel.com/config)
-> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131848.CgiiHpZu-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309131848.CgiiHpZu-lkp@intel.com/
-> ...
+Hi Ping,
 
-Is there anyone known how to stop this test for my first patch? I have sent a new one to review, which fixes the compile bug.
+kernel test robot noticed the following build warnings:
 
-thanks,
+[auto build test WARNING on v6.6-rc1]
+[also build test WARNING on linus/master next-20230913]
+[cannot apply to hch-configfs/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Jinhui Guo
+url:    https://github.com/intel-lab-lkp/linux/commits/Ping-Gan/nvmet-Add-nvme-target-polling-queue-task-parameters/20230913-164112
+base:   v6.6-rc1
+patch link:    https://lore.kernel.org/r/84d7f188e892b5b0ba251a4601455d7a137075f3.1694592708.git.jacky_gam_2001%40163.com
+patch subject: [PATCH 2/4] nvmet: Add polling queue task for nvme target
+config: arc-randconfig-r004-20230913 (https://download.01.org/0day-ci/archive/20230913/202309131959.1zH6sjmk-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131959.1zH6sjmk-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309131959.1zH6sjmk-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/nvme/target/polling-queue-thread.c: In function '__nvmet_pq_ring_do_enqueue':
+>> drivers/nvme/target/polling-queue-thread.c:150:37: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     150 |                         ring[idx++] = obj_table[i++]; /* fallthrough */ \
+         |                         ~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+   drivers/nvme/target/polling-queue-thread.c:278:9: note: in expansion of macro 'ENQUEUE_PTRS'
+     278 |         ENQUEUE_PTRS(r, &r[1], prod_head, obj_table, n, void *);
+         |         ^~~~~~~~~~~~
+   drivers/nvme/target/polling-queue-thread.c:151:17: note: here
+     151 |                 case 2: \
+         |                 ^~~~
+   drivers/nvme/target/polling-queue-thread.c:278:9: note: in expansion of macro 'ENQUEUE_PTRS'
+     278 |         ENQUEUE_PTRS(r, &r[1], prod_head, obj_table, n, void *);
+         |         ^~~~~~~~~~~~
+   drivers/nvme/target/polling-queue-thread.c:152:37: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     152 |                         ring[idx++] = obj_table[i++]; /* fallthrough */ \
+         |                         ~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+   drivers/nvme/target/polling-queue-thread.c:278:9: note: in expansion of macro 'ENQUEUE_PTRS'
+     278 |         ENQUEUE_PTRS(r, &r[1], prod_head, obj_table, n, void *);
+         |         ^~~~~~~~~~~~
+   drivers/nvme/target/polling-queue-thread.c:153:17: note: here
+     153 |                 case 1: \
+         |                 ^~~~
+   drivers/nvme/target/polling-queue-thread.c:278:9: note: in expansion of macro 'ENQUEUE_PTRS'
+     278 |         ENQUEUE_PTRS(r, &r[1], prod_head, obj_table, n, void *);
+         |         ^~~~~~~~~~~~
+   drivers/nvme/target/polling-queue-thread.c: In function '__nvmet_pq_ring_do_dequeue':
+   drivers/nvme/target/polling-queue-thread.c:181:40: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     181 |                         obj_table[i++] = ring[idx++]; /* fallthrough */ \
+         |                                        ^
+   drivers/nvme/target/polling-queue-thread.c:298:9: note: in expansion of macro 'DEQUEUE_PTRS'
+     298 |         DEQUEUE_PTRS(r, &r[1], cons_head, obj_table, n, void *);
+         |         ^~~~~~~~~~~~
+   drivers/nvme/target/polling-queue-thread.c:182:17: note: here
+     182 |                 case 2: \
+         |                 ^~~~
+   drivers/nvme/target/polling-queue-thread.c:298:9: note: in expansion of macro 'DEQUEUE_PTRS'
+     298 |         DEQUEUE_PTRS(r, &r[1], cons_head, obj_table, n, void *);
+         |         ^~~~~~~~~~~~
+   drivers/nvme/target/polling-queue-thread.c:183:40: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     183 |                         obj_table[i++] = ring[idx++]; /* fallthrough */ \
+         |                                        ^
+   drivers/nvme/target/polling-queue-thread.c:298:9: note: in expansion of macro 'DEQUEUE_PTRS'
+     298 |         DEQUEUE_PTRS(r, &r[1], cons_head, obj_table, n, void *);
+         |         ^~~~~~~~~~~~
+   drivers/nvme/target/polling-queue-thread.c:184:17: note: here
+     184 |                 case 1: \
+         |                 ^~~~
+   drivers/nvme/target/polling-queue-thread.c:298:9: note: in expansion of macro 'DEQUEUE_PTRS'
+     298 |         DEQUEUE_PTRS(r, &r[1], cons_head, obj_table, n, void *);
+         |         ^~~~~~~~~~~~
+
+
+vim +150 drivers/nvme/target/polling-queue-thread.c
+
+   131	
+   132	//below is derived from FreeBSD's bufring.h
+   133	/* the actual enqueue of pointers on the ring.
+   134	 * Placed here since identical code needed in both
+   135	 * single and multi producer enqueue functions */
+   136	#define ENQUEUE_PTRS(r, ring_start, prod_head, obj_table, n, obj_type) do { \
+   137		unsigned int i; \
+   138		const u32 size = (r)->size; \
+   139		u32 idx = prod_head & (r)->mask; \
+   140		obj_type *ring = (obj_type *)ring_start; \
+   141		if (likely(idx + n < size)) { \
+   142			for (i = 0; i < (n & ((~(unsigned)0x3))); i += 4, idx += 4) { \
+   143				ring[idx] = obj_table[i]; \
+   144				ring[idx+1] = obj_table[i+1]; \
+   145				ring[idx+2] = obj_table[i+2]; \
+   146				ring[idx+3] = obj_table[i+3]; \
+   147			} \
+   148			switch (n & 0x3) { \
+   149			case 3: \
+ > 150				ring[idx++] = obj_table[i++]; /* fallthrough */ \
+   151			case 2: \
+   152				ring[idx++] = obj_table[i++]; /* fallthrough */ \
+   153			case 1: \
+   154				ring[idx++] = obj_table[i++]; \
+   155			} \
+   156		} else { \
+   157			for (i = 0; idx < size; i++, idx++)\
+   158				ring[idx] = obj_table[i]; \
+   159			for (idx = 0; i < n; i++, idx++) \
+   160				ring[idx] = obj_table[i]; \
+   161		} \
+   162	} while (0)
+   163	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
