@@ -1,44 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6B010F5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 09:46:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A3B10F5;
+	Wed, 13 Sep 2023 09:46:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694598382; x=1726134382;
+  t=1694598385; x=1726134385;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=f9l1RiTaMDYkw5Zi0CZVNxrrp4Z5wbHguc5RdWojjz4=;
-  b=XB+L3psTPJqx9wMQWm3+SGpou+fwq0Rkg4gExFO+vIYtIPvGzhmTzY1h
-   6slEoQchiI3lAKINiROHqbo4QvD0UmzdoXRNX+6wMCMGYFgXtd6iNRaWe
-   54xyhfhIsqUFiIYxiAqijQX3OJC6pgKv4z1EGoJDBtqgyd85QdgullIDX
-   YpgxrzgGPlHVwIicnhErsZGNcx5SeEGE/lYaIGNBzVOOzwjoyoC+CedyM
-   5LZdrTnkq8hTjBOjYOUwfTk2X2z6T2eTauDbQjGph/p7MMek4KSi7v9PM
-   aOTzDeF53aM/Dq+EkaiVXXXnFvavGxiIXrcrNS2D62VxVNTkIOGNutxSF
+  bh=S0U1sJQmWgIOy7aN4TQkzxQY5zUz0O3HFLs3l1IT65o=;
+  b=gfSYVztn9ClEzJijbp9lGEW8NBL3/Ctzh4CS9UZcL2dQ5SoV5JqAs6Db
+   iYkq8B8UJYo9FG38yIRpbGy0vWAKXBrr9LRL4REI5Ah6pFrieD16ytoj5
+   qWIijg+PEy6KEBVqxhrXAGbnLYzRPW1W52yMOvgjsbRk3Xbv+qVrnk/Xq
+   PA0Wb23OUpnPk6mf3TclncxaMJPXRAsVOGhSKlrh1IyrqP5u6MY7+NJjS
+   jGSvouZLL8Mdc8JX1mAF69T3Y9LkfboRAFzlmkG0d0ANYjLolrXf+VSwG
+   xWNVWpSc312DlDYz0hO7n/vbhDnyLJeGfMnaCvOJgLHB2rzwZgRAgD5VV
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="464983641"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="382420820"
 X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="464983641"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 02:46:21 -0700
+   d="scan'208";a="382420820"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 02:46:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="867722743"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="814156788"
 X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="867722743"
+   d="scan'208";a="814156788"
 Received: from lkp-server02.sh.intel.com (HELO cf13c67269a2) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 13 Sep 2023 02:46:20 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 13 Sep 2023 02:46:19 -0700
 Received: from kbuild by cf13c67269a2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgMRt-0000Lf-2O;
+	id 1qgMRt-0000Lc-23;
 	Wed, 13 Sep 2023 09:46:17 +0000
-Date: Wed, 13 Sep 2023 17:45:45 +0800
+Date: Wed, 13 Sep 2023 17:45:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC v1 2/2] PM: Update EXPORT_*_DEV_PM_OPS() to
- EXPORT_*_RUNTIME_PM_OPS()
-Message-ID: <202309131701.zgcZGf8F-lkp@intel.com>
-References: <20230913074032.27927-3-raag.jadav@intel.com>
+To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, keescook@chromium.org,
+	brauner@kernel.org, lennart@poettering.net, kernel-team@meta.com,
+	sargun@sargun.me
+Subject: Re: [PATCH v4 bpf-next 06/12] bpf: take into account BPF token when
+ fetching helper protos
+Message-ID: <202309131744.fLl0eeCO-lkp@intel.com>
+References: <20230912212906.3975866-7-andrii@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,67 +51,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230913074032.27927-3-raag.jadav@intel.com>
+In-Reply-To: <20230912212906.3975866-7-andrii@kernel.org>
 
-Hi Raag,
+Hi Andrii,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.6-rc1 next-20230913]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/PM-Introduce-export-macros-for-_SIMPLE_-variants-of-_PM_OPS/20230913-154244
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230913074032.27927-3-raag.jadav%40intel.com
-patch subject: [RFC v1 2/2] PM: Update EXPORT_*_DEV_PM_OPS() to EXPORT_*_RUNTIME_PM_OPS()
-config: riscv-randconfig-r005-20230913 (https://download.01.org/0day-ci/archive/20230913/202309131701.zgcZGf8F-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131701.zgcZGf8F-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-add-BPF-token-delegation-mount-options-to-BPF-FS/20230913-053240
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230912212906.3975866-7-andrii%40kernel.org
+patch subject: [PATCH v4 bpf-next 06/12] bpf: take into account BPF token when fetching helper protos
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20230913/202309131744.fLl0eeCO-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131744.fLl0eeCO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309131701.zgcZGf8F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309131744.fLl0eeCO-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/mfd/cs42l43.c:1180:1: warning: data definition has no type or storage class
-    1180 | EXPORT_NS_GPL_DEV_PM_OPS(cs42l43_pm_ops, MFD_CS42L43) = {
-         | ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/mfd/cs42l43.c:1180:1: error: type defaults to 'int' in declaration of 'EXPORT_NS_GPL_DEV_PM_OPS' [-Werror=implicit-int]
->> drivers/mfd/cs42l43.c:1180:1: warning: parameter names (without types) in function declaration
->> drivers/mfd/cs42l43.c:1180:1: error: function 'EXPORT_NS_GPL_DEV_PM_OPS' is initialized like a variable
->> drivers/mfd/cs42l43.c:1180:57: error: invalid initializer
-    1180 | EXPORT_NS_GPL_DEV_PM_OPS(cs42l43_pm_ops, MFD_CS42L43) = {
-         |                                                         ^
-   drivers/mfd/cs42l43.c:1180:57: note: (near initialization for 'EXPORT_NS_GPL_DEV_PM_OPS')
-   drivers/mfd/cs42l43.c:1138:12: warning: 'cs42l43_runtime_resume' defined but not used [-Wunused-function]
-    1138 | static int cs42l43_runtime_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/mfd/cs42l43.c:1124:12: warning: 'cs42l43_runtime_suspend' defined but not used [-Wunused-function]
-    1124 | static int cs42l43_runtime_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mfd/cs42l43.c:1106:12: warning: 'cs42l43_resume' defined but not used [-Wunused-function]
-    1106 | static int cs42l43_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~
-   drivers/mfd/cs42l43.c:1076:12: warning: 'cs42l43_suspend' defined but not used [-Wunused-function]
-    1076 | static int cs42l43_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from net/core/filter.c:21:
+   In file included from include/linux/bpf_verifier.h:7:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from net/core/filter.c:21:
+   In file included from include/linux/bpf_verifier.h:7:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from net/core/filter.c:21:
+   In file included from include/linux/bpf_verifier.h:7:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> net/core/filter.c:11721:7: error: implicit declaration of function 'bpf_token_capable' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           if (!bpf_token_capable(prog->aux->token, CAP_PERFMON))
+                ^
+   12 warnings and 1 error generated.
 
 
-vim +1180 drivers/mfd/cs42l43.c
+vim +/bpf_token_capable +11721 net/core/filter.c
 
-ace6d14481386ec Charles Keepax 2023-08-04  1179  
-ace6d14481386ec Charles Keepax 2023-08-04 @1180  EXPORT_NS_GPL_DEV_PM_OPS(cs42l43_pm_ops, MFD_CS42L43) = {
-ace6d14481386ec Charles Keepax 2023-08-04  1181  	SET_SYSTEM_SLEEP_PM_OPS(cs42l43_suspend, cs42l43_resume)
-ace6d14481386ec Charles Keepax 2023-08-04  1182  	SET_RUNTIME_PM_OPS(cs42l43_runtime_suspend, cs42l43_runtime_resume, NULL)
-ace6d14481386ec Charles Keepax 2023-08-04  1183  };
-ace6d14481386ec Charles Keepax 2023-08-04  1184  
+ 11687	
+ 11688	static const struct bpf_func_proto *
+ 11689	bpf_sk_base_func_proto(enum bpf_func_id func_id, const struct bpf_prog *prog)
+ 11690	{
+ 11691		const struct bpf_func_proto *func;
+ 11692	
+ 11693		switch (func_id) {
+ 11694		case BPF_FUNC_skc_to_tcp6_sock:
+ 11695			func = &bpf_skc_to_tcp6_sock_proto;
+ 11696			break;
+ 11697		case BPF_FUNC_skc_to_tcp_sock:
+ 11698			func = &bpf_skc_to_tcp_sock_proto;
+ 11699			break;
+ 11700		case BPF_FUNC_skc_to_tcp_timewait_sock:
+ 11701			func = &bpf_skc_to_tcp_timewait_sock_proto;
+ 11702			break;
+ 11703		case BPF_FUNC_skc_to_tcp_request_sock:
+ 11704			func = &bpf_skc_to_tcp_request_sock_proto;
+ 11705			break;
+ 11706		case BPF_FUNC_skc_to_udp6_sock:
+ 11707			func = &bpf_skc_to_udp6_sock_proto;
+ 11708			break;
+ 11709		case BPF_FUNC_skc_to_unix_sock:
+ 11710			func = &bpf_skc_to_unix_sock_proto;
+ 11711			break;
+ 11712		case BPF_FUNC_skc_to_mptcp_sock:
+ 11713			func = &bpf_skc_to_mptcp_sock_proto;
+ 11714			break;
+ 11715		case BPF_FUNC_ktime_get_coarse_ns:
+ 11716			return &bpf_ktime_get_coarse_ns_proto;
+ 11717		default:
+ 11718			return bpf_base_func_proto(func_id, prog);
+ 11719		}
+ 11720	
+ 11721		if (!bpf_token_capable(prog->aux->token, CAP_PERFMON))
+ 11722			return NULL;
+ 11723	
+ 11724		return func;
+ 11725	}
+ 11726	
 
 -- 
 0-DAY CI Kernel Test Service
