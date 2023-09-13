@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C2F1DA29
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 07:27:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB571DA3E;
+	Wed, 13 Sep 2023 07:59:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694590053; x=1726126053;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xdNcP7YzTuO/KtXmc0b2clcxVqK94aaCrneS0dMIvoo=;
-  b=Y+orIYEOKl68ADSyNOoH/H4417m9InkXST+aD0QCJTiJJJc+rCFMxUDP
-   Mz6RW+klKH2UCWPpQBYDIbtwppJ+YiXi90apOxzqONq7s9W1NhuGnA/K6
-   GdTZTYav4aOmmEjug8fWX2PzbDMcd97zKxrWAZStO2MEQXRscKRKPdbG5
-   WRmiCXKsaaDSZEw7DHdiUglNAO10JMYNNAop4+BLMPYXd1pBYC/3zA73c
-   ef/dQH4JHkIKZHgWM0MRsF1NpvEjvx9ejU21Da/d6deuqp3Bj4dK7rIEg
-   EmRdO6XbSxAzBEh/HjkRuTqD5vc9OQD6WXaBv9LggEohpc8hoteAXenYf
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="358862270"
+  t=1694591945; x=1726127945;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gPQNZEe1YEOGiUtznoITlD5zYqVq4jlOgQ1m841xUmo=;
+  b=YrWlPKANMHO7G8D0rxrNjiITCFiBGATbQzGvRHwgmsuAQwT9FuFzWLCT
+   AXLMNoM4JhC7dU2HYppHx5A15D05oGDKGOChkntymqaoV/PSJECrutGMi
+   +IcoiHzZT0JGMdQBiY+tkV378dnMpebZeoaIEQccnbERIOak+7OWQuC8N
+   dYkooEega0vqCWVfLxnrIUNsl3V8JKcTKlsnjWUQwcXUfMYE8Whp2TR/4
+   hZtXcgkdBEW91UR8YTlCrVW7hlom/AH2dBClHvf1fQUlpfbia+g7UPMMf
+   WgrktgjW2ixAlxSOOhehIYlQgOGhx7U879Z62tHM9CXWCmZwrPYuN4zdb
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="464964996"
 X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="358862270"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 00:27:27 -0700
+   d="scan'208";a="464964996"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 00:59:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="773349016"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="917740655"
 X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="773349016"
+   d="scan'208";a="917740655"
 Received: from lkp-server02.sh.intel.com (HELO cf13c67269a2) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 13 Sep 2023 00:27:15 -0700
+  by orsmga005.jf.intel.com with ESMTP; 13 Sep 2023 00:59:02 -0700
 Received: from kbuild by cf13c67269a2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgKGS-0000CX-1Q;
-	Wed, 13 Sep 2023 07:26:30 +0000
-Date: Wed, 13 Sep 2023 15:25:02 +0800
+	id 1qgKm4-0000F7-0D;
+	Wed, 13 Sep 2023 07:59:00 +0000
+Date: Wed, 13 Sep 2023 15:58:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chuyi Zhou <zhouchuyi@bytedance.com>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org, martin.lau@kernel.org, tj@kernel.org,
-	linux-kernel@vger.kernel.org, Chuyi Zhou <zhouchuyi@bytedance.com>
-Subject: Re: [PATCH bpf-next v2 4/6] bpf: Introduce css_descendant open-coded
- iterator kfuncs
-Message-ID: <202309131500.J19z0Dil-lkp@intel.com>
-References: <20230912070149.969939-5-zhouchuyi@bytedance.com>
+To: Greg Joyce <gjoyce@linux.vnet.ibm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Jonathan Derrick <jonathan.derrick@linux.dev>,
+	Hannes Reinecke <hare@suse.de>
+Subject: [linux-next:master 1798/4965]
+ arch/powerpc/platforms/pseries/plpks_sed_ops.c:42:6: warning: no previous
+ prototype for function 'plpks_init_var'
+Message-ID: <202309131502.S7bZJiaV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,118 +50,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230912070149.969939-5-zhouchuyi@bytedance.com>
 
-Hi Chuyi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chuyi-Zhou/cgroup-Prepare-for-using-css_task_iter_-in-BPF/20230912-150454
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230912070149.969939-5-zhouchuyi%40bytedance.com
-patch subject: [PATCH bpf-next v2 4/6] bpf: Introduce css_descendant open-coded iterator kfuncs
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230913/202309131500.J19z0Dil-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131500.J19z0Dil-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e143016b56ecb0fcda5bb6026b0a25fe55274f56
+commit: 9f2c7411ada98f9e062bcd493be7d6b694048505 [1798/4965] powerpc/pseries: PLPKS SED Opal keystore support
+config: powerpc64-randconfig-r013-20230913 (https://download.01.org/0day-ci/archive/20230913/202309131502.S7bZJiaV-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131502.S7bZJiaV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309131500.J19z0Dil-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309131502.S7bZJiaV-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/bpf/task_iter.c:810:17: warning: no previous prototype for 'bpf_iter_css_task_new' [-Wmissing-prototypes]
-     810 | __bpf_kfunc int bpf_iter_css_task_new(struct bpf_iter_css_task *it,
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/task_iter.c:835:33: warning: no previous prototype for 'bpf_iter_css_task_next' [-Wmissing-prototypes]
-     835 | __bpf_kfunc struct task_struct *bpf_iter_css_task_next(struct bpf_iter_css_task *it)
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/task_iter.c:844:18: warning: no previous prototype for 'bpf_iter_css_task_destroy' [-Wmissing-prototypes]
-     844 | __bpf_kfunc void bpf_iter_css_task_destroy(struct bpf_iter_css_task *it)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/task_iter.c:858:17: warning: no previous prototype for 'bpf_iter_process_new' [-Wmissing-prototypes]
-     858 | __bpf_kfunc int bpf_iter_process_new(struct bpf_iter_process *it)
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/task_iter.c:870:33: warning: no previous prototype for 'bpf_iter_process_next' [-Wmissing-prototypes]
-     870 | __bpf_kfunc struct task_struct *bpf_iter_process_next(struct bpf_iter_process *it)
-         |                                 ^~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/task_iter.c:879:18: warning: no previous prototype for 'bpf_iter_process_destroy' [-Wmissing-prototypes]
-     879 | __bpf_kfunc void bpf_iter_process_destroy(struct bpf_iter_process *it)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/task_iter.c:888:17: warning: no previous prototype for 'bpf_iter_css_pre_new' [-Wmissing-prototypes]
-     888 | __bpf_kfunc int bpf_iter_css_pre_new(struct bpf_iter_css_pre *it,
-         |                 ^~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/task_iter.c:900:41: warning: no previous prototype for 'bpf_iter_css_pre_next' [-Wmissing-prototypes]
-     900 | __bpf_kfunc struct cgroup_subsys_state *bpf_iter_css_pre_next(struct bpf_iter_css_pre *it)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/task_iter.c:908:18: warning: no previous prototype for 'bpf_iter_css_pre_destroy' [-Wmissing-prototypes]
-     908 | __bpf_kfunc void bpf_iter_css_pre_destroy(struct bpf_iter_css_pre *it)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/task_iter.c:912:17: warning: no previous prototype for 'bpf_iter_css_post_new' [-Wmissing-prototypes]
-     912 | __bpf_kfunc int bpf_iter_css_post_new(struct bpf_iter_css_post *it,
-         |                 ^~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/task_iter.c:924:41: warning: no previous prototype for 'bpf_iter_css_post_next' [-Wmissing-prototypes]
-     924 | __bpf_kfunc struct cgroup_subsys_state *bpf_iter_css_post_next(struct bpf_iter_css_post *it)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/task_iter.c:932:18: warning: no previous prototype for 'bpf_iter_css_post_destroy' [-Wmissing-prototypes]
-     932 | __bpf_kfunc void bpf_iter_css_post_destroy(struct bpf_iter_css_post *it)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/powerpc/platforms/pseries/plpks_sed_ops.c:42:6: warning: no previous prototype for function 'plpks_init_var' [-Wmissing-prototypes]
+      42 | void plpks_init_var(struct plpks_var *var, char *keyname)
+         |      ^
+   arch/powerpc/platforms/pseries/plpks_sed_ops.c:42:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      42 | void plpks_init_var(struct plpks_var *var, char *keyname)
+         | ^
+         | static 
+   1 warning generated.
 
 
-vim +/bpf_iter_css_pre_new +888 kernel/bpf/task_iter.c
+vim +/plpks_init_var +42 arch/powerpc/platforms/pseries/plpks_sed_ops.c
 
-   887	
- > 888	__bpf_kfunc int bpf_iter_css_pre_new(struct bpf_iter_css_pre *it,
-   889			struct cgroup_subsys_state *root)
-   890	{
-   891		struct bpf_iter_css_kern *kit = (void *)it;
-   892	
-   893		BUILD_BUG_ON(sizeof(struct bpf_iter_css_kern) != sizeof(struct bpf_iter_css_pre));
-   894		BUILD_BUG_ON(__alignof__(struct bpf_iter_css_kern) != __alignof__(struct bpf_iter_css_pre));
-   895		kit->root = root;
-   896		kit->pos = NULL;
-   897		return 0;
-   898	}
-   899	
- > 900	__bpf_kfunc struct cgroup_subsys_state *bpf_iter_css_pre_next(struct bpf_iter_css_pre *it)
-   901	{
-   902		struct bpf_iter_css_kern *kit = (void *)it;
-   903	
-   904		kit->pos = css_next_descendant_pre(kit->pos, kit->root);
-   905		return kit->pos;
-   906	}
-   907	
- > 908	__bpf_kfunc void bpf_iter_css_pre_destroy(struct bpf_iter_css_pre *it)
-   909	{
-   910	}
-   911	
- > 912	__bpf_kfunc int bpf_iter_css_post_new(struct bpf_iter_css_post *it,
-   913			struct cgroup_subsys_state *root)
-   914	{
-   915		struct bpf_iter_css_kern *kit = (void *)it;
-   916	
-   917		BUILD_BUG_ON(sizeof(struct bpf_iter_css_kern) != sizeof(struct bpf_iter_css_post));
-   918		BUILD_BUG_ON(__alignof__(struct bpf_iter_css_kern) != __alignof__(struct bpf_iter_css_post));
-   919		kit->root = root;
-   920		kit->pos = NULL;
-   921		return 0;
-   922	}
-   923	
- > 924	__bpf_kfunc struct cgroup_subsys_state *bpf_iter_css_post_next(struct bpf_iter_css_post *it)
-   925	{
-   926		struct bpf_iter_css_kern *kit = (void *)it;
-   927	
-   928		kit->pos = css_next_descendant_post(kit->pos, kit->root);
-   929		return kit->pos;
-   930	}
-   931	
- > 932	__bpf_kfunc void bpf_iter_css_post_destroy(struct bpf_iter_css_post *it)
-   933	{
-   934	}
-   935	
+    41	
+  > 42	void plpks_init_var(struct plpks_var *var, char *keyname)
+    43	{
+    44		var->name = keyname;
+    45		var->namelen = strlen(keyname);
+    46		if (strcmp(PLPKS_SED_KEY, keyname) == 0) {
+    47			var->name = PLPKS_SED_MANGLED_LABEL;
+    48			var->namelen = strlen(keyname);
+    49		}
+    50		var->policy = PLPKS_WORLDREADABLE;
+    51		var->os = PLPKS_VAR_COMMON;
+    52		var->data = NULL;
+    53		var->datalen = 0;
+    54		var->component = PLPKS_SED_COMPONENT;
+    55	}
+    56	
 
 -- 
 0-DAY CI Kernel Test Service
