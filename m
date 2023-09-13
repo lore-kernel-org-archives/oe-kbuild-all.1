@@ -1,45 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5DD14F6F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 10:08:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12DDE14F6F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 10:18:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694599703; x=1726135703;
+  t=1694600308; x=1726136308;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=uwDr3IKLlAqEBaHrnAQsnwV8YabWsCAnONEq1+Cb1Bc=;
-  b=BSf94Q6ORnoUP19v/dw8Fd7PVol1sHec7iTSDQNV70vyh/EnGnqmuhvv
-   E0eFjD8wScJPEi0oyjia2huwcovNjRYX70P4B3spxRn4vZDRE2DBTgz1w
-   4PooyapXNt0XqheGOD+00WWUvWNfXymO1fyuskzsSSIIzelY/l1zEY+YN
-   79fHMTIAFs896quKUhLiawifW0XBGjWDsvsSLDRo4zLxKWyKWVn/d2QTE
-   VK+LRFsn5L7+wbcODNoYwb1ccoC6TiDEIAMsnSTXJVDPTQu5gcUlHfre6
-   oWBvT1ojtWcFilAJkeS6xl2A0i7jLWjw6kiKa2CJzIT+W31H9tqae+q+z
+  bh=SHP0nIGBAt4mtaptQJxzxBO3GPdpuwYHV4f9icbzzAo=;
+  b=UN2tCHKdu1ugSNeHb3FDJPPi25VVe8KpNyiGj69xbGV90EOrWbBYeeOP
+   yBAAknOtS1ExgIkFh/XQmsu/dOr+nw8vjVzHh6GhwNli8UFydR+Dkhj03
+   TDAPZCICPk3Th7NVNn3KwHzGWF156dHnbILfGMEkZsvzZooK5StzpJJRH
+   U1o2uazSr/BmY2wRgK0cMWx/ztxWLL8SL8jPTUnJOiTbPIkTp3hjiK3CL
+   SMfoj1E6R77GhFMVdmJyaJsnQ2O9rEzemBb6NvFt991Qm5o4gb2D3IvRE
+   ZQhvy7u4+EE8h2TDKEnDlRAIdStKWOtBwqa+jOiLtKd+2gAhCDWPIMVzm
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="378530413"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="445058225"
 X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="378530413"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 03:08:22 -0700
+   d="scan'208";a="445058225"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 03:18:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="834253253"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="814171608"
 X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="834253253"
+   d="scan'208";a="814171608"
 Received: from lkp-server02.sh.intel.com (HELO cf13c67269a2) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 13 Sep 2023 03:08:20 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 13 Sep 2023 03:18:23 -0700
 Received: from kbuild by cf13c67269a2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgMnC-0000N9-1p;
-	Wed, 13 Sep 2023 10:08:18 +0000
-Date: Wed, 13 Sep 2023 18:07:37 +0800
+	id 1qgMwt-0000O9-0y;
+	Wed, 13 Sep 2023 10:18:19 +0000
+Date: Wed, 13 Sep 2023 18:17:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tan En De <ende.tan@starfivetech.com>, dmaengine@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Eugeniy.Paltsev@synopsys.com,
-	vkoul@kernel.org, Tan En De <ende.tan@starfivetech.com>
-Subject: Re: [1/1] dmaengine: dw-axi-dmac: Support src_maxburst and
- dst_maxburst
-Message-ID: <202309131749.P3k6i6Fz-lkp@intel.com>
-References: <20230913083249.1244-1-ende.tan@starfivetech.com>
+To: Ping Gan <jacky_gam_2001@163.com>, kbusch@kernel.org, axboe@kernel.dk,
+	hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, ping_gan@dell.com,
+	jacky_gam_2001@163.com
+Subject: Re: [PATCH 4/4] nvme-core: Get lowlevel disk for target polling
+ queue task
+Message-ID: <202309131858.YUV19V9E-lkp@intel.com>
+References: <006b6aefe94d73ee64931c769af4a908616439ad.1694592708.git.jacky_gam_2001@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,160 +50,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230913083249.1244-1-ende.tan@starfivetech.com>
+In-Reply-To: <006b6aefe94d73ee64931c769af4a908616439ad.1694592708.git.jacky_gam_2001@163.com>
 
-Hi Tan,
+Hi Ping,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on vkoul-dmaengine/next]
-[also build test WARNING on linus/master v6.6-rc1 next-20230913]
+[auto build test WARNING on v6.6-rc1]
+[also build test WARNING on linus/master next-20230913]
+[cannot apply to hch-configfs/for-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tan-En-De/dmaengine-dw-axi-dmac-Support-src_maxburst-and-dst_maxburst/20230913-163406
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-patch link:    https://lore.kernel.org/r/20230913083249.1244-1-ende.tan%40starfivetech.com
-patch subject: [1/1] dmaengine: dw-axi-dmac: Support src_maxburst and dst_maxburst
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230913/202309131749.P3k6i6Fz-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ping-Gan/nvmet-Add-nvme-target-polling-queue-task-parameters/20230913-164112
+base:   v6.6-rc1
+patch link:    https://lore.kernel.org/r/006b6aefe94d73ee64931c769af4a908616439ad.1694592708.git.jacky_gam_2001%40163.com
+patch subject: [PATCH 4/4] nvme-core: Get lowlevel disk for target polling queue task
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230913/202309131858.YUV19V9E-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131749.P3k6i6Fz-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131858.YUV19V9E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309131749.P3k6i6Fz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309131858.YUV19V9E-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c: In function 'dma_chan_prep_dma_memcpy':
->> drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:955:32: warning: returning 'int' from a function with return type 'struct dma_async_tx_descriptor *' makes pointer from integer without a cast [-Wint-conversion]
-     955 |                         return -EINVAL;
-         |                                ^
-   drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:962:32: warning: returning 'int' from a function with return type 'struct dma_async_tx_descriptor *' makes pointer from integer without a cast [-Wint-conversion]
-     962 |                         return -EINVAL;
-         |                                ^
+>> drivers/nvme/host/multipath.c:375:22: warning: no previous prototype for 'nvme_mpath_get_bdev' [-Wmissing-prototypes]
+     375 | struct block_device *nvme_mpath_get_bdev(struct block_device *bdev)
+         |                      ^~~~~~~~~~~~~~~~~~~
 
 
-vim +955 drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
+vim +/nvme_mpath_get_bdev +375 drivers/nvme/host/multipath.c
 
-   884	
-   885	static struct dma_async_tx_descriptor *
-   886	dma_chan_prep_dma_memcpy(struct dma_chan *dchan, dma_addr_t dst_adr,
-   887				 dma_addr_t src_adr, size_t len, unsigned long flags)
-   888	{
-   889		struct axi_dma_chan *chan = dchan_to_axi_dma_chan(dchan);
-   890		size_t block_ts, max_block_ts, xfer_len;
-   891		struct axi_dma_hw_desc *hw_desc = NULL;
-   892		struct axi_dma_desc *desc = NULL;
-   893		u32 xfer_width, reg, num, src_burst_trans_len, dst_burst_trans_len;
-   894		u64 llp = 0;
-   895		u8 lms = 0; /* Select AXI0 master for LLI fetching */
-   896	
-   897		dev_dbg(chan2dev(chan), "%s: memcpy: src: %pad dst: %pad length: %zd flags: %#lx",
-   898			axi_chan_name(chan), &src_adr, &dst_adr, len, flags);
-   899	
-   900		max_block_ts = chan->chip->dw->hdata->block_size[chan->id];
-   901		xfer_width = axi_chan_get_xfer_width(chan, src_adr, dst_adr, len);
-   902		num = DIV_ROUND_UP(len, max_block_ts << xfer_width);
-   903		desc = axi_desc_alloc(num);
-   904		if (unlikely(!desc))
-   905			goto err_desc_get;
-   906	
-   907		desc->chan = chan;
-   908		num = 0;
-   909		desc->length = 0;
-   910		while (len) {
-   911			xfer_len = len;
-   912	
-   913			hw_desc = &desc->hw_desc[num];
-   914			/*
-   915			 * Take care for the alignment.
-   916			 * Actually source and destination widths can be different, but
-   917			 * make them same to be simpler.
-   918			 */
-   919			xfer_width = axi_chan_get_xfer_width(chan, src_adr, dst_adr, xfer_len);
-   920	
-   921			/*
-   922			 * block_ts indicates the total number of data of width
-   923			 * to be transferred in a DMA block transfer.
-   924			 * BLOCK_TS register should be set to block_ts - 1
-   925			 */
-   926			block_ts = xfer_len >> xfer_width;
-   927			if (block_ts > max_block_ts) {
-   928				block_ts = max_block_ts;
-   929				xfer_len = max_block_ts << xfer_width;
-   930			}
-   931	
-   932			hw_desc->lli = axi_desc_get(chan, &hw_desc->llp);
-   933			if (unlikely(!hw_desc->lli))
-   934				goto err_desc_get;
-   935	
-   936			write_desc_sar(hw_desc, src_adr);
-   937			write_desc_dar(hw_desc, dst_adr);
-   938			hw_desc->lli->block_ts_lo = cpu_to_le32(block_ts - 1);
-   939	
-   940			reg = CH_CTL_H_LLI_VALID;
-   941			if (chan->chip->dw->hdata->restrict_axi_burst_len) {
-   942				u32 burst_len = chan->chip->dw->hdata->axi_rw_burst_len;
-   943	
-   944				reg |= (CH_CTL_H_ARLEN_EN |
-   945					burst_len << CH_CTL_H_ARLEN_POS |
-   946					CH_CTL_H_AWLEN_EN |
-   947					burst_len << CH_CTL_H_AWLEN_POS);
-   948			}
-   949			hw_desc->lli->ctl_hi = cpu_to_le32(reg);
-   950	
-   951			dst_burst_trans_len = chan->config.dst_maxburst ?
-   952						__ffs(chan->config.dst_maxburst) - 1 :
-   953						DWAXIDMAC_BURST_TRANS_LEN_4;
-   954			if (dst_burst_trans_len > DWAXIDMAC_BURST_TRANS_LEN_MAX)
- > 955				return -EINVAL;
-   956			reg |= dst_burst_trans_len << CH_CTL_L_DST_MSIZE_POS;
-   957	
-   958			src_burst_trans_len = chan->config.src_maxburst ?
-   959						__ffs(chan->config.src_maxburst) - 1 :
-   960						DWAXIDMAC_BURST_TRANS_LEN_4;
-   961			if (src_burst_trans_len > DWAXIDMAC_BURST_TRANS_LEN_MAX)
-   962				return -EINVAL;
-   963			reg |= src_burst_trans_len << CH_CTL_L_SRC_MSIZE_POS;
-   964	
-   965			reg = (xfer_width << CH_CTL_L_DST_WIDTH_POS |
-   966			       xfer_width << CH_CTL_L_SRC_WIDTH_POS |
-   967			       DWAXIDMAC_CH_CTL_L_INC << CH_CTL_L_DST_INC_POS |
-   968			       DWAXIDMAC_CH_CTL_L_INC << CH_CTL_L_SRC_INC_POS);
-   969			hw_desc->lli->ctl_lo = cpu_to_le32(reg);
-   970	
-   971			set_desc_src_master(hw_desc);
-   972			set_desc_dest_master(hw_desc, desc);
-   973	
-   974			hw_desc->len = xfer_len;
-   975			desc->length += hw_desc->len;
-   976			/* update the length and addresses for the next loop cycle */
-   977			len -= xfer_len;
-   978			dst_adr += xfer_len;
-   979			src_adr += xfer_len;
-   980			num++;
-   981		}
-   982	
-   983		/* Set end-of-link to the last link descriptor of list */
-   984		set_desc_last(&desc->hw_desc[num - 1]);
-   985		/* Managed transfer list */
-   986		do {
-   987			hw_desc = &desc->hw_desc[--num];
-   988			write_desc_llp(hw_desc, llp | lms);
-   989			llp = hw_desc->llp;
-   990		} while (num);
-   991	
-   992		return vchan_tx_prep(&chan->vc, &desc->vd, flags);
-   993	
-   994	err_desc_get:
-   995		if (desc)
-   996			axi_desc_put(desc);
-   997		return NULL;
-   998	}
-   999	
+   373	
+   374	//for polling queue task to get lowlevel block device
+ > 375	struct block_device *nvme_mpath_get_bdev(struct block_device *bdev)
+   376	{
+   377		struct nvme_ns_head *head = bdev->bd_disk->private_data;
+   378		int srcu_idx;
+   379		struct nvme_ns *ns;
+   380		struct block_device *ret = NULL;
+   381	
+   382		if (!multipath)
+   383			return NULL;
+   384		srcu_idx = srcu_read_lock(&head->srcu);
+   385		ns = nvme_find_path(head);
+   386		if (likely(ns))
+   387			ret = ns->disk->part0;
+   388		srcu_read_unlock(&head->srcu, srcu_idx);
+   389		return ret;
+   390	}
+   391	EXPORT_SYMBOL_GPL(nvme_mpath_get_bdev);
+   392	
 
 -- 
 0-DAY CI Kernel Test Service
