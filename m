@@ -1,128 +1,235 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE41A1401B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 07:19:27 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-31aec0a1a8bso362805f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 00:19:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694589566; x=1695194366; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OOrhY0fStqbrl1T10xJqj44f9gQdNFyS2zesAVqheNI=;
-        b=LjJkoT53cc7IephgXN3/vOrkf7jj/8vy12XxVSzTWQnRGuSts4yiyHAeWJOI1pJGcr
-         ExUEMgUE0sMBoHmOz+vfVmoyuJusL+R4btL0JUcbSMeCA/WBAVPYturvGjy4sTdY0cO/
-         1xGO20xOuFElC3E3dHhnhRRKSTJqSgZzXeWF/rm8qGi6MyZygg7spvUtz/wsfgdlZEHm
-         EpJsjsB7CszsAJitSAb21NTKewuDG/+KgALcswZHp/Aj8gwxv4bKr8sT8V4RMFI4o9ZB
-         ybfABtI1tQpO+BjngviOOymfINkJ8+NS76xHfmN1fDqb1bCSpkJ7KYE9LefmN6WQSoXV
-         CWIw==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53726659
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 07:26:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1694589993;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y+z/VJVoCY4LZ35ZR0Mzw7V+/Zr+JLFHRkK2GVRV/EU=;
+	b=dfInFt1hHbsOj1W2mn2/MSotPrMI/X9mhHzzYiD4MDqe3mZCKQefhKlhySXgEAvb2WxeWe
+	IoaHl9XrEoCW/HXNzrZq6befPnSM9XxcaCaL6pPdpBBEvc56/3NNE7yTZOiqd4RKy2aZh7
+	hU3P26IGG4NKbm60nAB/bZRMYxBq8CA=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-7-JPM_6oIGNiaEqkYH_SDEpA-1; Wed, 13 Sep 2023 03:26:32 -0400
+X-MC-Unique: JPM_6oIGNiaEqkYH_SDEpA-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-9a9e12a3093so95961766b.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 00:26:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694589566; x=1695194366;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OOrhY0fStqbrl1T10xJqj44f9gQdNFyS2zesAVqheNI=;
-        b=G3CiIh7KIEB6HArWA+pTT0L8kUKR3oHYgB5lzrpWCjZMm/s4MMNh0YbTG+aOlwMo6f
-         qSdzB8CdUWK54GXibzS11VgRplzV+Oc2zzS3yNI/it6hDm0fKVelNxXXO9nZZYrHMkuh
-         WPo1HcuAB4NaW8kiX7dvTgAdgM/o4loWKYu4a5xcyEs8DZzA2jHRF2uy8QZPmD3kr6ZR
-         tFzMrD/i5T9vkoJNwpUf+bO1+naIVlZsskpKX4hg7GfsVqCUrUyTUjL1ZpbLRh4WLgMp
-         HMc51CwF/nIva7/rWuFolc0M9GLPYKaMKFaN0VN94isuhi59pYwLbF3FVF8zqGEK+gBR
-         TPLw==
-X-Gm-Message-State: AOJu0YzHGiiukdcDSs4b2zTA4A/Zg48EnFT1uyKIV6zBMTj5cbTz/fJt
-	OjE4Wa1p4OvDWEXE0lpi3uMB3A==
-X-Google-Smtp-Source: AGHT+IHsazqIL11PKacyVnf+9RrTt5f9sjed4c0ZffP83n32Xhh80sNv01hOC/lg84FMXdqs2v8RtQ==
-X-Received: by 2002:adf:f7cd:0:b0:31d:db2d:27c6 with SMTP id a13-20020adff7cd000000b0031ddb2d27c6mr3558455wrq.30.1694589566102;
-        Wed, 13 Sep 2023 00:19:26 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id u4-20020a5d6da4000000b0031fb91f23e9sm3773345wrs.43.2023.09.13.00.19.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 00:19:25 -0700 (PDT)
-Date: Wed, 13 Sep 2023 10:19:23 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jordan Rife <jrife@google.com>,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, netdev@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, dborkman@kernel.org,
-	Jordan Rife <jrife@google.com>
-Subject: Re: [PATCH net] net: prevent address overwrite in connect() and
- sendmsg()
-Message-ID: <f162bcec-7c13-47f0-b784-77e0c3e2c766@kadam.mountain>
+        d=1e100.net; s=20230601; t=1694589991; x=1695194791;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=y+z/VJVoCY4LZ35ZR0Mzw7V+/Zr+JLFHRkK2GVRV/EU=;
+        b=c46ykoZT5ueF0b/KrXiImjuj0dcjB3PZVZDyiNW78N7HuAxg/aVdB4YQnSKt5PiWx5
+         fiGk16iFr6jlXsAuLChXmk5/7AwXIpIRPUdBd/AeKsU5brSxpuCTj41oo49fLTrIfLg/
+         /l5meGW1N/w5TqYPjUiGrfYW9c+lM9J1gM0fMSkEf2R78M+5IQW9HrpDnlzXRck9vadX
+         FoA4athimHkKvJ0JEVj7FMCIYm3wVIy81X6SwYq7tQcKSvWfEnP9bFCqhdt8asaNV6iL
+         vgBR4et9JmZNdeB5JyxIEovVrDz/vGtY6vGPeN/AIwWTw187KqBjqrVWl2G1dkGgTbye
+         pisQ==
+X-Gm-Message-State: AOJu0Yz407sNZiWmHMnUg0uQCZ6880kWUEuHgTLzYUa1MiiKElhcCldi
+	i6ksnrCdRD4p+MUmruMSJoD3TK8AvhbHXEj5WVEYJeAAmOXhjSiuNPvHrMbv+ckFOYxPqjm+m7z
+	D2V92VccykrDv8dvb7s1KQBfUWg==
+X-Received: by 2002:a17:906:3150:b0:9ad:a46c:66a2 with SMTP id e16-20020a170906315000b009ada46c66a2mr892525eje.11.1694589991110;
+        Wed, 13 Sep 2023 00:26:31 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHFZiNOK2Yzq5Yl/6Ha26/Um8kT7PCaxJDRjRJvq8ELbAzF48q+8/IwCFhaHoaB1/6hRAFoIw==
+X-Received: by 2002:a17:906:3150:b0:9ad:a46c:66a2 with SMTP id e16-20020a170906315000b009ada46c66a2mr892499eje.11.1694589990725;
+        Wed, 13 Sep 2023 00:26:30 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id v14-20020a17090690ce00b0099c53c44083sm7923202ejw.79.2023.09.13.00.26.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Sep 2023 00:26:30 -0700 (PDT)
+Message-ID: <764de5af-d589-9c43-be02-a9934eb9044b@redhat.com>
+Date: Wed, 13 Sep 2023 09:26:28 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230912013332.2048422-1-jrife@google.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v16 1/4] usb: Add support for Intel LJCA device
+To: kernel test robot <lkp@intel.com>, Wentong Wu <wentong.wu@intel.com>,
+ gregkh@linuxfoundation.org, arnd@arndb.de, mka@chromium.org,
+ oneukum@suse.com, lee@kernel.org, wsa@kernel.org, kfting@nuvoton.com,
+ broonie@kernel.org, linus.walleij@linaro.org, maz@kernel.org, brgl@bgdev.pl,
+ linux-usb@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org,
+ andriy.shevchenko@linux.intel.com, heikki.krogerus@linux.intel.com,
+ andi.shyti@linux.intel.com, sakari.ailus@linux.intel.com,
+ bartosz.golaszewski@linaro.org, srinivas.pandruvada@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, zhifeng.wang@intel.com
+References: <1694569212-10080-2-git-send-email-wentong.wu@intel.com>
+ <202309131427.AUBwVNBm-lkp@intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <202309131427.AUBwVNBm-lkp@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Jordan,
+Hi,
 
-kernel test robot noticed the following build warnings:
+On 9/13/23 08:12, kernel test robot wrote:
+> Hi Wentong,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on wsa/i2c/for-next]
+> [also build test WARNING on broonie-spi/for-next linus/master v6.6-rc1 next-20230912]
+> [cannot apply to usb/usb-testing usb/usb-next usb/usb-linus]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Wentong-Wu/usb-Add-support-for-Intel-LJCA-device/20230913-094239
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
+> patch link:    https://lore.kernel.org/r/1694569212-10080-2-git-send-email-wentong.wu%40intel.com
+> patch subject: [PATCH v16 1/4] usb: Add support for Intel LJCA device
+> config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230913/202309131427.AUBwVNBm-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131427.AUBwVNBm-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309131427.AUBwVNBm-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    drivers/usb/misc/usb-ljca.c: In function 'ljca_match_device_ids':
+>    drivers/usb/misc/usb-ljca.c:389:27: error: implicit declaration of function 'acpi_device_uid'; did you mean 'dmi_device_id'? [-Werror=implicit-function-declaration]
+>      389 |         const char *uid = acpi_device_uid(adev);
+>          |                           ^~~~~~~~~~~~~~~
+>          |                           dmi_device_id
+>>> drivers/usb/misc/usb-ljca.c:389:27: warning: initialization of 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>    drivers/usb/misc/usb-ljca.c:391:13: error: implicit declaration of function 'acpi_match_device_ids'; did you mean 'ljca_match_device_ids'? [-Werror=implicit-function-declaration]
+>      391 |         if (acpi_match_device_ids(adev, wd->ids))
+>          |             ^~~~~~~~~~~~~~~~~~~~~
+>          |             ljca_match_device_ids
+>    drivers/usb/misc/usb-ljca.c: In function 'ljca_auxdev_acpi_bind':
+>    drivers/usb/misc/usb-ljca.c:429:16: error: implicit declaration of function 'acpi_find_child_device'; did you mean 'acpi_match_device'? [-Werror=implicit-function-declaration]
+>      429 |         adev = acpi_find_child_device(parent, adr, false);
+>          |                ^~~~~~~~~~~~~~~~~~~~~~
+>          |                acpi_match_device
+>>> drivers/usb/misc/usb-ljca.c:429:14: warning: assignment to 'struct acpi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>      429 |         adev = acpi_find_child_device(parent, adr, false);
+>          |              ^
+>    drivers/usb/misc/usb-ljca.c:458:9: error: implicit declaration of function 'acpi_dev_for_each_child'; did you mean 'device_for_each_child'? [-Werror=implicit-function-declaration]
+>      458 |         acpi_dev_for_each_child(parent, ljca_match_device_ids, &wd);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~
+>          |         device_for_each_child
+>    cc1: some warnings being treated as errors
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jordan-Rife/net-prevent-address-overwrite-in-connect-and-sendmsg/20230912-093550
-base:   net/main
-patch link:    https://lore.kernel.org/r/20230912013332.2048422-1-jrife%40google.com
-patch subject: [PATCH net] net: prevent address overwrite in connect() and sendmsg()
-config: x86_64-randconfig-161-20230912 (https://download.01.org/0day-ci/archive/20230913/202309131155.MonA0VTS-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230913/202309131155.MonA0VTS-lkp@intel.com/reproduce)
+Ok, so this need to have a "depends on ACPI" added to its Kconfig
+entry. There are other ways to fix it, but this driver will not
+be functional without ACPI anyways so "depends on ACPI" seems
+to be the best solution for this.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202309131155.MonA0VTS-lkp@intel.com/
+Regards,
 
-smatch warnings:
-net/ipv4/af_inet.c:584 inet_dgram_connect() warn: variable dereferenced before check 'uaddr' (see line 580)
+Hans
 
-vim +/uaddr +584 net/ipv4/af_inet.c
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  566  int inet_dgram_connect(struct socket *sock, struct sockaddr *uaddr,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  567  		       int addr_len, int flags)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  568  {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  569  	struct sock *sk = sock->sk;
-364f997b5cfe1d Kuniyuki Iwashima 2022-10-06  570  	const struct proto *prot;
-6113a07e1ad512 Jordan Rife       2023-09-11  571  	struct sockaddr_storage addr;
-d74bad4e74ee37 Andrey Ignatov    2018-03-30  572  	int err;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  573  
-6503d96168f891 Changli Gao       2010-03-31  574  	if (addr_len < sizeof(uaddr->sa_family))
-6503d96168f891 Changli Gao       2010-03-31  575  		return -EINVAL;
-364f997b5cfe1d Kuniyuki Iwashima 2022-10-06  576  
-364f997b5cfe1d Kuniyuki Iwashima 2022-10-06  577  	/* IPV6_ADDRFORM can change sk->sk_prot under us. */
-364f997b5cfe1d Kuniyuki Iwashima 2022-10-06  578  	prot = READ_ONCE(sk->sk_prot);
-364f997b5cfe1d Kuniyuki Iwashima 2022-10-06  579  
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @580  	if (uaddr->sa_family == AF_UNSPEC)
-                                                            ^^^^^^^^^^^^^^^^
-"uaddr" better not be NULL
 
-364f997b5cfe1d Kuniyuki Iwashima 2022-10-06  581  		return prot->disconnect(sk, flags);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  582  
-d74bad4e74ee37 Andrey Ignatov    2018-03-30  583  	if (BPF_CGROUP_PRE_CONNECT_ENABLED(sk)) {
-6113a07e1ad512 Jordan Rife       2023-09-11 @584  		if (uaddr && addr_len <= sizeof(addr)) {
-                                                                    ^^^^^
-Remove this check?
 
-6113a07e1ad512 Jordan Rife       2023-09-11  585  			/* pre_connect can rewrite uaddr, so make a copy to
-6113a07e1ad512 Jordan Rife       2023-09-11  586  			 * insulate the caller.
-6113a07e1ad512 Jordan Rife       2023-09-11  587  			 */
-6113a07e1ad512 Jordan Rife       2023-09-11  588  			memcpy(&addr, uaddr, addr_len);
-6113a07e1ad512 Jordan Rife       2023-09-11  589  			uaddr = (struct sockaddr *)&addr;
-6113a07e1ad512 Jordan Rife       2023-09-11  590  		}
-6113a07e1ad512 Jordan Rife       2023-09-11  591  
-364f997b5cfe1d Kuniyuki Iwashima 2022-10-06  592  		err = prot->pre_connect(sk, uaddr, addr_len);
-d74bad4e74ee37 Andrey Ignatov    2018-03-30  593  		if (err)
-d74bad4e74ee37 Andrey Ignatov    2018-03-30  594  			return err;
-d74bad4e74ee37 Andrey Ignatov    2018-03-30  595  	}
-d74bad4e74ee37 Andrey Ignatov    2018-03-30  596  
-dcd01eeac14486 Eric Dumazet      2021-06-09  597  	if (data_race(!inet_sk(sk)->inet_num) && inet_autobind(sk))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  598  		return -EAGAIN;
-364f997b5cfe1d Kuniyuki Iwashima 2022-10-06  599  	return prot->connect(sk, uaddr, addr_len);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  600  }
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> vim +389 drivers/usb/misc/usb-ljca.c
+> 
+>    385	
+>    386	static int ljca_match_device_ids(struct acpi_device *adev, void *data)
+>    387	{
+>    388		struct ljca_match_ids_walk_data *wd = data;
+>  > 389		const char *uid = acpi_device_uid(adev);
+>    390	
+>    391		if (acpi_match_device_ids(adev, wd->ids))
+>    392			return 0;
+>    393	
+>    394		if (!wd->uid)
+>    395			goto match;
+>    396	
+>    397		if (!uid)
+>    398			uid = "0";
+>    399		else
+>    400			uid = strchr(uid, wd->uid[0]);
+>    401	
+>    402		if (!uid || strcmp(uid, wd->uid))
+>    403			return 0;
+>    404	
+>    405	match:
+>    406		wd->adev = adev;
+>    407	
+>    408		return 1;
+>    409	}
+>    410	
+>    411	/* bind auxiliary device to acpi device */
+>    412	static void ljca_auxdev_acpi_bind(struct ljca_adapter *adap,
+>    413					  struct auxiliary_device *auxdev,
+>    414					  u64 adr, u8 id)
+>    415	{
+>    416		struct ljca_match_ids_walk_data wd = { 0 };
+>    417		struct acpi_device *parent, *adev;
+>    418		struct device *dev = adap->dev;
+>    419		char uid[4];
+>    420	
+>    421		parent = ACPI_COMPANION(dev);
+>    422		if (!parent)
+>    423			return;
+>    424	
+>    425		/*
+>    426		 * get auxdev ACPI handle from the ACPI device directly
+>    427		 * under the parent that matches _ADR.
+>    428		 */
+>  > 429		adev = acpi_find_child_device(parent, adr, false);
+>    430		if (adev) {
+>    431			ACPI_COMPANION_SET(&auxdev->dev, adev);
+>    432			return;
+>    433		}
+>    434	
+>    435		/*
+>    436		 * _ADR is a grey area in the ACPI specification, some
+>    437		 * platforms use _HID to distinguish children devices.
+>    438		 */
+>    439		switch (adr) {
+>    440		case LJCA_GPIO_ACPI_ADR:
+>    441			wd.ids = ljca_gpio_hids;
+>    442			break;
+>    443		case LJCA_I2C1_ACPI_ADR:
+>    444		case LJCA_I2C2_ACPI_ADR:
+>    445			snprintf(uid, sizeof(uid), "%d", id);
+>    446			wd.uid = uid;
+>    447			wd.ids = ljca_i2c_hids;
+>    448			break;
+>    449		case LJCA_SPI1_ACPI_ADR:
+>    450		case LJCA_SPI2_ACPI_ADR:
+>    451			wd.ids = ljca_spi_hids;
+>    452			break;
+>    453		default:
+>    454			dev_warn(dev, "unsupported _ADR\n");
+>    455			return;
+>    456		}
+>    457	
+>    458		acpi_dev_for_each_child(parent, ljca_match_device_ids, &wd);
+>    459		if (wd.adev) {
+>    460			ACPI_COMPANION_SET(&auxdev->dev, wd.adev);
+>    461			return;
+>    462		}
+>    463	
+>    464		parent = ACPI_COMPANION(dev->parent->parent);
+>    465		if (!parent)
+>    466			return;
+>    467	
+>    468		acpi_dev_for_each_child(parent, ljca_match_device_ids, &wd);
+>    469		if (wd.adev)
+>    470			ACPI_COMPANION_SET(&auxdev->dev, wd.adev);
+>    471	}
+>    472	
+> 
 
