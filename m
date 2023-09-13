@@ -1,43 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283C41A27B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 19:25:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C556B667
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 19:35:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694633101; x=1726169101;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2riCU2MuRiKv5KzWGqh8XLuGMfVgNylN3CPlHBkuvbs=;
-  b=YlQHFqxlOX/mvgDiozMSfYHrxWrMWrQCf1hgmXFfMZ/IY/j0Iu7p/aKh
-   dNriqKxVCYe2v9MMsQCp/ub8N1niZI8pJr0l/3QCliz8gR8NVQ8cSldTO
-   AhBBfsWduSySyu8CYd15zvC5sdL44zL2FgGntPay/4KotDAbZvJrXUW9/
-   mUin2PYzma+44D53n0hjis6WS4rL/bvp8scr4QHWP2C/vUad38O31YdUO
-   /vBlxSOsj5DwMb7IZ8xvFvq5crYC3RG4OvgjTRD0TkRBl5HC15PdUYW+r
-   6YYePUJ6uY1rm26QKaSeX0obZ3q91Gu7kMEo7U1lUUd5/rk2tcjFUFbIP
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="376100063"
+  t=1694633709; x=1726169709;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BKdDmwR0ImqwcCwZEvaS7Oi5BImbBc0gOTOmvoBXyPg=;
+  b=OPyfkHEYEUeGhdNlbRgM63qM1r/alXclHMPSuc2w9ZwsxKGOrqJ54jXR
+   dpx+Iz5H1TLjw0V+l7U0xCYtGYIW82t79Th1T1DYDb5HJgwirtpoKqRo7
+   ZMDofrcY9PNYXJcllL9pdFkqvxeputxrHME+hyE62y2gF3aI2GLEljBN1
+   CqaIR6e+2Uw9Hb2e6mhD0+NcEskKcGyTdZXGuKLudIq15mn4ARxJHU5m3
+   AQxmP6XKCvSYT207bJIzB5LPa2OarYSHX0ZxtkL/aEWmAOCiUIzM4BlIu
+   DOYXyZn9a7Ha2OirHJTUJOeS2d8qT/PokVPj1PGTsVauOU7S5ZWpXQe4Q
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="376102143"
 X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="376100063"
+   d="scan'208";a="376102143"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 12:25:00 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 12:35:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="737646238"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="737650919"
 X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="737646238"
+   d="scan'208";a="737650919"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 13 Sep 2023 12:24:58 -0700
+  by orsmga007.jf.intel.com with ESMTP; 13 Sep 2023 12:34:59 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgVTs-0000W1-2S;
-	Wed, 13 Sep 2023 19:24:56 +0000
-Date: Thu, 14 Sep 2023 03:23:56 +0800
+	id 1qgVdZ-0000Wr-1B;
+	Wed, 13 Sep 2023 19:34:57 +0000
+Date: Thu, 14 Sep 2023 03:34:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dave Airlie <airlied@redhat.com>
-Subject: drivers/gpu/drm/nouveau/nouveau_fence.c:210:45: sparse: sparse:
- incorrect type in initializer (different address spaces)
-Message-ID: <202309140340.BwKXzaDx-lkp@intel.com>
+To: Sourav Panda <souravpanda@google.com>, corbet@lwn.net,
+	gregkh@linuxfoundation.org, rafael@kernel.org,
+	akpm@linux-foundation.org, mike.kravetz@oracle.com,
+	muchun.song@linux.dev, rppt@kernel.org, david@redhat.com,
+	rdunlap@infradead.org, chenlinxuan@uniontech.com,
+	yang.yang29@zte.com.cn, tomas.mudrunka@gmail.com,
+	bhelgaas@google.com, ivan@cloudflare.com, pasha.tatashin@soleen.com,
+	yosryahmed@google.com, hannes@cmpxchg.org, shakeelb@google.com,
+	kirill.shutemov@linux.intel.com, wangkefeng.wang@huawei.com,
+	adobriyan@gmail.com, vbabka@suse.cz, Liam.Howlett@oracle.com,
+	surenb@google.com, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1 1/1] mm: report per-page metadata information
+Message-ID: <202309140322.cF62Kywb-lkp@intel.com>
+References: <20230913173000.4016218-2-souravpanda@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,70 +58,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230913173000.4016218-2-souravpanda@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3669558bdf354cd352be955ef2764cde6a9bf5ec
-commit: 978474dc8278f661930e02e08d292a45a45fa01a drm/nouveau: fence: fix undefined fence state after emit
-date:   2 weeks ago
-config: i386-randconfig-062-20230913 (https://download.01.org/0day-ci/archive/20230914/202309140340.BwKXzaDx-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309140340.BwKXzaDx-lkp@intel.com/reproduce)
+Hi Sourav,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.6-rc1 next-20230913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sourav-Panda/mm-report-per-page-metadata-information/20230914-013201
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230913173000.4016218-2-souravpanda%40google.com
+patch subject: [PATCH v1 1/1] mm: report per-page metadata information
+config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20230914/202309140322.cF62Kywb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309140322.cF62Kywb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309140340.BwKXzaDx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309140322.cF62Kywb-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/nouveau/nouveau_fence.c:210:45: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct nouveau_channel *chan @@     got struct nouveau_channel [noderef] __rcu *channel @@
-   drivers/gpu/drm/nouveau/nouveau_fence.c:210:45: sparse:     expected struct nouveau_channel *chan
-   drivers/gpu/drm/nouveau/nouveau_fence.c:210:45: sparse:     got struct nouveau_channel [noderef] __rcu *channel
-   drivers/gpu/drm/nouveau/nouveau_fence.c:418:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct nouveau_channel [noderef] __rcu *channel @@     got struct nouveau_channel *chan @@
-   drivers/gpu/drm/nouveau/nouveau_fence.c:418:24: sparse:     expected struct nouveau_channel [noderef] __rcu *channel
-   drivers/gpu/drm/nouveau/nouveau_fence.c:418:24: sparse:     got struct nouveau_channel *chan
+All errors (new ones prefixed by >>):
 
-vim +210 drivers/gpu/drm/nouveau/nouveau_fence.c
-
-   206	
-   207	int
-   208	nouveau_fence_emit(struct nouveau_fence *fence)
-   209	{
- > 210		struct nouveau_channel *chan = fence->channel;
-   211		struct nouveau_fence_chan *fctx = chan->fence;
-   212		struct nouveau_fence_priv *priv = (void*)chan->drm->fence;
-   213		int ret;
-   214	
-   215		fence->timeout  = jiffies + (15 * HZ);
-   216	
-   217		if (priv->uevent)
-   218			dma_fence_init(&fence->base, &nouveau_fence_ops_uevent,
-   219				       &fctx->lock, fctx->context, ++fctx->sequence);
-   220		else
-   221			dma_fence_init(&fence->base, &nouveau_fence_ops_legacy,
-   222				       &fctx->lock, fctx->context, ++fctx->sequence);
-   223		kref_get(&fctx->fence_ref);
-   224	
-   225		ret = fctx->emit(fence);
-   226		if (!ret) {
-   227			dma_fence_get(&fence->base);
-   228			spin_lock_irq(&fctx->lock);
-   229	
-   230			if (unlikely(fctx->killed)) {
-   231				spin_unlock_irq(&fctx->lock);
-   232				dma_fence_put(&fence->base);
-   233				return -ENODEV;
-   234			}
-   235	
-   236			if (nouveau_fence_update(chan, fctx))
-   237				nvif_event_block(&fctx->event);
-   238	
-   239			list_add_tail(&fence->head, &fctx->pending);
-   240			spin_unlock_irq(&fctx->lock);
-   241		}
-   242	
-   243		return ret;
-   244	}
-   245	
+   ld: mm/mm_init.o: in function `free_area_init':
+>> mm_init.c:(.init.text+0x842): undefined reference to `mod_node_early_perpage_metadata'
+   ld: mm/page_alloc.o: in function `setup_per_cpu_pageset':
+>> page_alloc.c:(.init.text+0x60): undefined reference to `writeout_early_perpage_metadata'
 
 -- 
 0-DAY CI Kernel Test Service
