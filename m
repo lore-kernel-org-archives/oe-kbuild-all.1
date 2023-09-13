@@ -1,47 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBBCB1DA42;
-	Wed, 13 Sep 2023 20:17:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8975C1DA42
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 20:28:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694636234; x=1726172234;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hDZx/NnQIDPBjtB/AhtOHhAokFh4nKpl+iCA4tYh6as=;
-  b=Oih/JMQKLItjRi5mgbspc86yrGm7/U2XBiHIQLecOtWCiPXRzKvovmOh
-   L3lXjB9uu43ta2USkwBEMgTZt+IqCUWf2E0hRfy8nk5XWhXnc666w8BXH
-   2D/BPVUqUIvft69JgnL+CwoCNk4pI1++U/1r0T5U8Fhtwz7rseUshZbRC
-   kMXlOGcdPjBvW/r/OyfP4svYo/0h62rGb/K6F4tPVlQ19xoSo0EyIfWW9
-   Gj33IOlUPTaf0ee15b8PkY9qkQKWikVReXbMY5Od4Kdj7Ky+b/GtnMXUe
-   izKGfWv7IaRGlQzixVlM9W2V0pr2NXOVKR/08ccGK61xQCwXp745dIc0K
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="409731020"
+  t=1694636891; x=1726172891;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yppS0u/uE1OIbUQHB8OHrywrXFEsfaNUI24KVDD/7n4=;
+  b=ezVjDt5H/3uP2tYIBUnYwRSVokg3k7mH/UQd/vICwYovu2dL0xAqQv+E
+   ZujJ9JIjrHpJRyt5O1A51s9lJU86MgKUHp4BFOGDgy5sFNV6c+Xxt/xbd
+   hQE/1JXltOtEdssfiI+OCIAeu/P+pjFqWDgloreog+jDC/XNcXgZbiw7I
+   S6ebM02tMQsj3ZeXDn32U9EsvRXonFy5PcthfgygMDdKbvetYWMfg9TuV
+   gG8DCvtkIu/P1zr1MwO1lrrEDBXX+hI4p9N48ymC5yDwDWUe+k5C3/ACA
+   3XlGVmxW2YYaEbqsDlf4+6lp66zRkqWC45k1JDM8VKzWuZhq/XzENIVL8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="465149009"
 X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="409731020"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 13:17:12 -0700
+   d="scan'208";a="465149009"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 13:28:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="737667569"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="773612753"
 X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="737667569"
+   d="scan'208";a="773612753"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 13 Sep 2023 13:17:08 -0700
+  by orsmga008.jf.intel.com with ESMTP; 13 Sep 2023 13:28:09 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgWIJ-0000ZV-1q;
-	Wed, 13 Sep 2023 20:17:04 +0000
-Date: Thu, 14 Sep 2023 04:16:50 +0800
+	id 1qgWT1-0000aZ-08;
+	Wed, 13 Sep 2023 20:28:07 +0000
+Date: Thu, 14 Sep 2023 04:27:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vern Hao <haoxing990@gmail.com>, hannes@cmpxchg.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, mhocko@kernel.org,
-	roman.gushchin@linux.dev, shakeelb@google.com,
-	akpm@linux-foundation.org, cgroups@vger.kernel.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	haoxing990@gmail.com, Xin Hao <vernhao@tencent.com>
-Subject: Re: [PATCH v3] mm: memcg: add THP swap out info for anonymous reclaim
-Message-ID: <202309140314.DrcFvlZS-lkp@intel.com>
-References: <20230913164938.16918-1-vernhao@tencent.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Frederic Weisbecker <frederic@kernel.org>
+Subject: [frederic-dynticks:rcu/torture 1/8]
+ kernel/locking/locktorture.c:1310:undefined reference to
+ `torture_sched_setaffinity'
+Message-ID: <202309140452.b519gqGU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,145 +47,188 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230913164938.16918-1-vernhao@tencent.com>
 
-Hi Vern,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vern-Hao/mm-memcg-add-THP-swap-out-info-for-anonymous-reclaim/20230914-005121
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230913164938.16918-1-vernhao%40tencent.com
-patch subject: [PATCH v3] mm: memcg: add THP swap out info for anonymous reclaim
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20230914/202309140314.DrcFvlZS-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309140314.DrcFvlZS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git rcu/torture
+head:   8d86d4452a4cf36af59b79c3f646f5b7ebb823b1
+commit: d559059c7e9a825bc42f97f9b89dbfc02c9214f9 [1/8] locktorture: Add readers_bind and writers_bind module parameters
+config: nios2-randconfig-002-20230914 (https://download.01.org/0day-ci/archive/20230914/202309140452.b519gqGU-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309140452.b519gqGU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309140314.DrcFvlZS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309140452.b519gqGU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from mm/page_io.c:15:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from mm/page_io.c:15:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from mm/page_io.c:15:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> mm/page_io.c:298:45: error: use of undeclared identifier 'p'
-     298 |         count_swpout_vm_event(page_folio(sio->bvec[p].bv_page));
-         |                                                    ^
-   12 warnings and 1 error generated.
+   nios2-linux-ld: kernel/locking/locktorture.o: in function `lock_torture_init':
+>> kernel/locking/locktorture.c:1310:(.init.text+0x528): undefined reference to `torture_sched_setaffinity'
+   kernel/locking/locktorture.c:1310:(.init.text+0x528): relocation truncated to fit: R_NIOS2_CALL26 against `torture_sched_setaffinity'
+>> nios2-linux-ld: kernel/locking/locktorture.c:1321:(.init.text+0x5e0): undefined reference to `torture_sched_setaffinity'
+   kernel/locking/locktorture.c:1321:(.init.text+0x5e0): relocation truncated to fit: R_NIOS2_CALL26 against `torture_sched_setaffinity'
 
 
-vim +/p +298 mm/page_io.c
+vim +1310 kernel/locking/locktorture.c
 
-   290	
-   291	static void swap_writepage_fs(struct page *page, struct writeback_control *wbc)
-   292	{
-   293		struct swap_iocb *sio = NULL;
-   294		struct swap_info_struct *sis = page_swap_info(page);
-   295		struct file *swap_file = sis->swap_file;
-   296		loff_t pos = page_file_offset(page);
-   297	
- > 298		count_swpout_vm_event(page_folio(sio->bvec[p].bv_page));
-   299		set_page_writeback(page);
-   300		unlock_page(page);
-   301		if (wbc->swap_plug)
-   302			sio = *wbc->swap_plug;
-   303		if (sio) {
-   304			if (sio->iocb.ki_filp != swap_file ||
-   305			    sio->iocb.ki_pos + sio->len != pos) {
-   306				swap_write_unplug(sio);
-   307				sio = NULL;
-   308			}
-   309		}
-   310		if (!sio) {
-   311			sio = mempool_alloc(sio_pool, GFP_NOIO);
-   312			init_sync_kiocb(&sio->iocb, swap_file);
-   313			sio->iocb.ki_complete = sio_write_complete;
-   314			sio->iocb.ki_pos = pos;
-   315			sio->pages = 0;
-   316			sio->len = 0;
-   317		}
-   318		bvec_set_page(&sio->bvec[sio->pages], page, thp_size(page), 0);
-   319		sio->len += thp_size(page);
-   320		sio->pages += 1;
-   321		if (sio->pages == ARRAY_SIZE(sio->bvec) || !wbc->swap_plug) {
-   322			swap_write_unplug(sio);
-   323			sio = NULL;
-   324		}
-   325		if (wbc->swap_plug)
-   326			*wbc->swap_plug = sio;
-   327	}
-   328	
+  1184	
+  1185		/* Initialize the statistics so that each run gets its own numbers. */
+  1186		if (nwriters_stress) {
+  1187			lock_is_write_held = false;
+  1188			cxt.lwsa = kmalloc_array(cxt.nrealwriters_stress,
+  1189						 sizeof(*cxt.lwsa),
+  1190						 GFP_KERNEL);
+  1191			if (cxt.lwsa == NULL) {
+  1192				VERBOSE_TOROUT_STRING("cxt.lwsa: Out of memory");
+  1193				firsterr = -ENOMEM;
+  1194				goto unwind;
+  1195			}
+  1196	
+  1197			for (i = 0; i < cxt.nrealwriters_stress; i++) {
+  1198				cxt.lwsa[i].n_lock_fail = 0;
+  1199				cxt.lwsa[i].n_lock_acquired = 0;
+  1200			}
+  1201		}
+  1202	
+  1203		if (cxt.cur_ops->readlock) {
+  1204			if (nreaders_stress >= 0)
+  1205				cxt.nrealreaders_stress = nreaders_stress;
+  1206			else {
+  1207				/*
+  1208				 * By default distribute evenly the number of
+  1209				 * readers and writers. We still run the same number
+  1210				 * of threads as the writer-only locks default.
+  1211				 */
+  1212				if (nwriters_stress < 0) /* user doesn't care */
+  1213					cxt.nrealwriters_stress = num_online_cpus();
+  1214				cxt.nrealreaders_stress = cxt.nrealwriters_stress;
+  1215			}
+  1216	
+  1217			if (nreaders_stress) {
+  1218				cxt.lrsa = kmalloc_array(cxt.nrealreaders_stress,
+  1219							 sizeof(*cxt.lrsa),
+  1220							 GFP_KERNEL);
+  1221				if (cxt.lrsa == NULL) {
+  1222					VERBOSE_TOROUT_STRING("cxt.lrsa: Out of memory");
+  1223					firsterr = -ENOMEM;
+  1224					kfree(cxt.lwsa);
+  1225					cxt.lwsa = NULL;
+  1226					goto unwind;
+  1227				}
+  1228	
+  1229				for (i = 0; i < cxt.nrealreaders_stress; i++) {
+  1230					cxt.lrsa[i].n_lock_fail = 0;
+  1231					cxt.lrsa[i].n_lock_acquired = 0;
+  1232				}
+  1233			}
+  1234		}
+  1235	
+  1236		lock_torture_print_module_parms(cxt.cur_ops, "Start of test");
+  1237	
+  1238		/* Prepare torture context. */
+  1239		if (onoff_interval > 0) {
+  1240			firsterr = torture_onoff_init(onoff_holdoff * HZ,
+  1241						      onoff_interval * HZ, NULL);
+  1242			if (torture_init_error(firsterr))
+  1243				goto unwind;
+  1244		}
+  1245		if (shuffle_interval > 0) {
+  1246			firsterr = torture_shuffle_init(shuffle_interval);
+  1247			if (torture_init_error(firsterr))
+  1248				goto unwind;
+  1249		}
+  1250		if (shutdown_secs > 0) {
+  1251			firsterr = torture_shutdown_init(shutdown_secs,
+  1252							 lock_torture_cleanup);
+  1253			if (torture_init_error(firsterr))
+  1254				goto unwind;
+  1255		}
+  1256		if (stutter > 0) {
+  1257			firsterr = torture_stutter_init(stutter, stutter);
+  1258			if (torture_init_error(firsterr))
+  1259				goto unwind;
+  1260		}
+  1261	
+  1262		if (nwriters_stress) {
+  1263			writer_tasks = kcalloc(cxt.nrealwriters_stress,
+  1264					       sizeof(writer_tasks[0]),
+  1265					       GFP_KERNEL);
+  1266			if (writer_tasks == NULL) {
+  1267				TOROUT_ERRSTRING("writer_tasks: Out of memory");
+  1268				firsterr = -ENOMEM;
+  1269				goto unwind;
+  1270			}
+  1271		}
+  1272	
+  1273		/* cap nested_locks to MAX_NESTED_LOCKS */
+  1274		if (nested_locks > MAX_NESTED_LOCKS)
+  1275			nested_locks = MAX_NESTED_LOCKS;
+  1276	
+  1277		if (cxt.cur_ops->readlock) {
+  1278			reader_tasks = kcalloc(cxt.nrealreaders_stress,
+  1279					       sizeof(reader_tasks[0]),
+  1280					       GFP_KERNEL);
+  1281			if (reader_tasks == NULL) {
+  1282				TOROUT_ERRSTRING("reader_tasks: Out of memory");
+  1283				kfree(writer_tasks);
+  1284				writer_tasks = NULL;
+  1285				firsterr = -ENOMEM;
+  1286				goto unwind;
+  1287			}
+  1288		}
+  1289	
+  1290		/*
+  1291		 * Create the kthreads and start torturing (oh, those poor little locks).
+  1292		 *
+  1293		 * TODO: Note that we interleave writers with readers, giving writers a
+  1294		 * slight advantage, by creating its kthread first. This can be modified
+  1295		 * for very specific needs, or even let the user choose the policy, if
+  1296		 * ever wanted.
+  1297		 */
+  1298		for (i = 0, j = 0; i < cxt.nrealwriters_stress ||
+  1299			    j < cxt.nrealreaders_stress; i++, j++) {
+  1300			if (i >= cxt.nrealwriters_stress)
+  1301				goto create_reader;
+  1302	
+  1303			/* Create writer. */
+  1304			firsterr = torture_create_kthread_cb(lock_torture_writer, &cxt.lwsa[i],
+  1305							     writer_tasks[i],
+  1306							     writer_fifo ? sched_set_fifo : NULL);
+  1307			if (torture_init_error(firsterr))
+  1308				goto unwind;
+  1309			if (cpumask_nonempty(writers_bind))
+> 1310				torture_sched_setaffinity(writer_tasks[i]->pid, writers_bind);
+  1311	
+  1312		create_reader:
+  1313			if (cxt.cur_ops->readlock == NULL || (j >= cxt.nrealreaders_stress))
+  1314				continue;
+  1315			/* Create reader. */
+  1316			firsterr = torture_create_kthread(lock_torture_reader, &cxt.lrsa[j],
+  1317							  reader_tasks[j]);
+  1318			if (torture_init_error(firsterr))
+  1319				goto unwind;
+  1320			if (cpumask_nonempty(readers_bind))
+> 1321				torture_sched_setaffinity(reader_tasks[j]->pid, readers_bind);
+  1322		}
+  1323		if (stat_interval > 0) {
+  1324			firsterr = torture_create_kthread(lock_torture_stats, NULL,
+  1325							  stats_task);
+  1326			if (torture_init_error(firsterr))
+  1327				goto unwind;
+  1328		}
+  1329		torture_init_end();
+  1330		return 0;
+  1331	
+  1332	unwind:
+  1333		torture_init_end();
+  1334		lock_torture_cleanup();
+  1335		if (shutdown_secs) {
+  1336			WARN_ON(!IS_MODULE(CONFIG_LOCK_TORTURE_TEST));
+  1337			kernel_power_off();
+  1338		}
+  1339		return firsterr;
+  1340	}
+  1341	
 
 -- 
 0-DAY CI Kernel Test Service
