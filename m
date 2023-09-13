@@ -1,47 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0FF10F5;
-	Wed, 13 Sep 2023 09:13:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05B641DA49
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 09:24:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694596390; x=1726132390;
+  t=1694597049; x=1726133049;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=UI7Qbv2ISxSWzVTtCLjJhlZfMYW9yi+U3VgE2/7eP5M=;
-  b=h+iqKoyfahZv56xDh7FKJYwrqjdPzGCjclznRNWlnsSK9oBlxG5nkGC3
-   RGWvntAC7/9P4xdrT0VkE7f9BFtmJLV/NYWQKOnm9SAuhj+z8W8EAAa2u
-   kkIhjgvT4GcBkhDmbt5vdeubrF/MN8m5Cy6unWshh42Qi6ofNPf51rN1g
-   LMitPhDCv1KQZbhEAK89j87YxRgFY+upYxWnmfgiVgbcOd7vJ1GP9R4Vi
-   sB8fMAxUueiliaKRn1XCFOYU+YhpZUnTemFIxVzWfyHwag7afGkQYve/r
-   rqBlkPm/WAPUWuXX7E/sRiODGxvK78ue/JtEihkK06ZK0KQTFdHPBcakW
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="445046173"
+  bh=5d3wU/VPV+JvQAF+BcinZ0+T/5nOyDoguu3t5ebj9Mo=;
+  b=h8TWiOhZ7H0G48Tmli2P9BQuAGj8ZliN287FT2DSp2iIzR5tvdJYPL5Z
+   W9YK/Kn1z2vnh0Kp+ZbjuK14G9t9HMtNicATBif1B7d5ApPbhpjXQaR9R
+   hJ6a9HOvgqDOS8LY/zEj51vMXF7noasPlizZK6U65gA2kFKfbaDBgS2ua
+   w61jb7/uzDL4xwVW9vvuWUrs+vrc8Mji62RgHLvsYGF/JTsbNgk1eGKxO
+   fpglA55mJQZ66SfIAk4fefR8akfQsSMouI+knsbhwT9WOm94e5oTOYYH+
+   +8eYrC60RJjacEzpZ6CgaWvhaEEaoCuFnTtsOMFjiudxxbf4kxNZQDiqj
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="445047845"
 X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="445046173"
+   d="scan'208";a="445047845"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 02:13:09 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 02:24:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="693786102"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="693788949"
 X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="693786102"
+   d="scan'208";a="693788949"
 Received: from lkp-server02.sh.intel.com (HELO cf13c67269a2) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 13 Sep 2023 02:13:06 -0700
+  by orsmga003.jf.intel.com with ESMTP; 13 Sep 2023 02:24:06 -0700
 Received: from kbuild by cf13c67269a2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgLvk-0000K1-13;
-	Wed, 13 Sep 2023 09:13:04 +0000
-Date: Wed, 13 Sep 2023 17:13:00 +0800
+	id 1qgM6O-0000KX-2N;
+	Wed, 13 Sep 2023 09:24:04 +0000
+Date: Wed, 13 Sep 2023 17:23:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chuyi Zhou <zhouchuyi@bytedance.com>, bpf@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, ast@kernel.org,
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@kernel.org,
-	tj@kernel.org, linux-kernel@vger.kernel.org,
-	Chuyi Zhou <zhouchuyi@bytedance.com>
-Subject: Re: [PATCH bpf-next v2 4/6] bpf: Introduce css_descendant open-coded
- iterator kfuncs
-Message-ID: <202309131634.hJlxw7NA-lkp@intel.com>
-References: <20230912070149.969939-5-zhouchuyi@bytedance.com>
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC v1 1/2] PM: Introduce export macros for _SIMPLE_ variants
+ of _PM_OPS()
+Message-ID: <202309131731.unx0PbdR-lkp@intel.com>
+References: <20230913074032.27927-2-raag.jadav@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,197 +47,159 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230912070149.969939-5-zhouchuyi@bytedance.com>
+In-Reply-To: <20230913074032.27927-2-raag.jadav@intel.com>
 
-Hi Chuyi,
+Hi Raag,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on bpf-next/master]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc1 next-20230913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chuyi-Zhou/cgroup-Prepare-for-using-css_task_iter_-in-BPF/20230912-150454
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230912070149.969939-5-zhouchuyi%40bytedance.com
-patch subject: [PATCH bpf-next v2 4/6] bpf: Introduce css_descendant open-coded iterator kfuncs
-config: arm-randconfig-r032-20230913 (https://download.01.org/0day-ci/archive/20230913/202309131634.hJlxw7NA-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131634.hJlxw7NA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/PM-Introduce-export-macros-for-_SIMPLE_-variants-of-_PM_OPS/20230913-154244
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230913074032.27927-2-raag.jadav%40intel.com
+patch subject: [RFC v1 1/2] PM: Introduce export macros for _SIMPLE_ variants of _PM_OPS()
+config: openrisc-randconfig-r006-20230913 (https://download.01.org/0day-ci/archive/20230913/202309131731.unx0PbdR-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131731.unx0PbdR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309131634.hJlxw7NA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309131731.unx0PbdR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   kernel/bpf/task_iter.c:810:17: warning: no previous prototype for function 'bpf_iter_css_task_new' [-Wmissing-prototypes]
-     810 | __bpf_kfunc int bpf_iter_css_task_new(struct bpf_iter_css_task *it,
-         |                 ^
-   kernel/bpf/task_iter.c:810:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     810 | __bpf_kfunc int bpf_iter_css_task_new(struct bpf_iter_css_task *it,
-         |             ^
-         |             static 
-   kernel/bpf/task_iter.c:835:33: warning: no previous prototype for function 'bpf_iter_css_task_next' [-Wmissing-prototypes]
-     835 | __bpf_kfunc struct task_struct *bpf_iter_css_task_next(struct bpf_iter_css_task *it)
+   In file included from include/linux/device.h:25,
+                    from include/linux/acpi.h:14,
+                    from drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:59:
+   include/linux/pm.h:430:9: warning: data definition has no type or storage class
+     430 |         EXPORT_NS_SIMPLE_PM_OPS(name, ns) = { \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2858:1: note: in expansion of macro 'EXPORT_NS_SIMPLE_DEV_PM_OPS'
+    2858 | EXPORT_NS_SIMPLE_DEV_PM_OPS(st_lsm6dsx_pm_ops, st_lsm6dsx_suspend,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pm.h:430:9: error: type defaults to 'int' in declaration of 'EXPORT_NS_SIMPLE_PM_OPS' [-Werror=implicit-int]
+     430 |         EXPORT_NS_SIMPLE_PM_OPS(name, ns) = { \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2858:1: note: in expansion of macro 'EXPORT_NS_SIMPLE_DEV_PM_OPS'
+    2858 | EXPORT_NS_SIMPLE_DEV_PM_OPS(st_lsm6dsx_pm_ops, st_lsm6dsx_suspend,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2858:1: warning: parameter names (without types) in function declaration
+>> drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2858:1: error: function 'EXPORT_NS_SIMPLE_PM_OPS' is initialized like a variable
+   include/linux/pm.h:313:9: error: field name not in record or union initializer
+     313 |         .suspend = pm_sleep_ptr(suspend_fn), \
+         |         ^
+   include/linux/pm.h:431:17: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
+     431 |                 SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn) \
+         |                 ^~~~~~~~~~~~~~~~~~~
+   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2858:1: note: in expansion of macro 'EXPORT_NS_SIMPLE_DEV_PM_OPS'
+    2858 | EXPORT_NS_SIMPLE_DEV_PM_OPS(st_lsm6dsx_pm_ops, st_lsm6dsx_suspend,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pm.h:313:9: note: (near initialization for 'EXPORT_NS_SIMPLE_PM_OPS')
+     313 |         .suspend = pm_sleep_ptr(suspend_fn), \
+         |         ^
+   include/linux/pm.h:431:17: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
+     431 |                 SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn) \
+         |                 ^~~~~~~~~~~~~~~~~~~
+   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2858:1: note: in expansion of macro 'EXPORT_NS_SIMPLE_DEV_PM_OPS'
+    2858 | EXPORT_NS_SIMPLE_DEV_PM_OPS(st_lsm6dsx_pm_ops, st_lsm6dsx_suspend,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:57:
+   include/linux/kernel.h:59:33: error: invalid initializer
+      59 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
          |                                 ^
-   kernel/bpf/task_iter.c:835:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     835 | __bpf_kfunc struct task_struct *bpf_iter_css_task_next(struct bpf_iter_css_task *it)
-         |             ^
-         |             static 
-   kernel/bpf/task_iter.c:844:18: warning: no previous prototype for function 'bpf_iter_css_task_destroy' [-Wmissing-prototypes]
-     844 | __bpf_kfunc void bpf_iter_css_task_destroy(struct bpf_iter_css_task *it)
-         |                  ^
-   kernel/bpf/task_iter.c:844:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     844 | __bpf_kfunc void bpf_iter_css_task_destroy(struct bpf_iter_css_task *it)
-         |             ^
-         |             static 
-   kernel/bpf/task_iter.c:858:17: warning: no previous prototype for function 'bpf_iter_process_new' [-Wmissing-prototypes]
-     858 | __bpf_kfunc int bpf_iter_process_new(struct bpf_iter_process *it)
-         |                 ^
-   kernel/bpf/task_iter.c:858:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     858 | __bpf_kfunc int bpf_iter_process_new(struct bpf_iter_process *it)
-         |             ^
-         |             static 
-   kernel/bpf/task_iter.c:870:33: warning: no previous prototype for function 'bpf_iter_process_next' [-Wmissing-prototypes]
-     870 | __bpf_kfunc struct task_struct *bpf_iter_process_next(struct bpf_iter_process *it)
+   include/linux/pm.h:476:28: note: in expansion of macro 'PTR_IF'
+     476 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
+         |                            ^~~~~~
+   include/linux/pm.h:313:20: note: in expansion of macro 'pm_sleep_ptr'
+     313 |         .suspend = pm_sleep_ptr(suspend_fn), \
+         |                    ^~~~~~~~~~~~
+   include/linux/pm.h:431:17: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
+     431 |                 SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn) \
+         |                 ^~~~~~~~~~~~~~~~~~~
+   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2858:1: note: in expansion of macro 'EXPORT_NS_SIMPLE_DEV_PM_OPS'
+    2858 | EXPORT_NS_SIMPLE_DEV_PM_OPS(st_lsm6dsx_pm_ops, st_lsm6dsx_suspend,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:59:33: note: (near initialization for 'EXPORT_NS_SIMPLE_PM_OPS')
+      59 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
          |                                 ^
-   kernel/bpf/task_iter.c:870:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     870 | __bpf_kfunc struct task_struct *bpf_iter_process_next(struct bpf_iter_process *it)
-         |             ^
-         |             static 
-   kernel/bpf/task_iter.c:879:18: warning: no previous prototype for function 'bpf_iter_process_destroy' [-Wmissing-prototypes]
-     879 | __bpf_kfunc void bpf_iter_process_destroy(struct bpf_iter_process *it)
-         |                  ^
-   kernel/bpf/task_iter.c:879:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     879 | __bpf_kfunc void bpf_iter_process_destroy(struct bpf_iter_process *it)
-         |             ^
-         |             static 
-   kernel/bpf/task_iter.c:888:17: warning: no previous prototype for function 'bpf_iter_css_pre_new' [-Wmissing-prototypes]
-     888 | __bpf_kfunc int bpf_iter_css_pre_new(struct bpf_iter_css_pre *it,
-         |                 ^
-   kernel/bpf/task_iter.c:888:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     888 | __bpf_kfunc int bpf_iter_css_pre_new(struct bpf_iter_css_pre *it,
-         |             ^
-         |             static 
-   kernel/bpf/task_iter.c:900:41: warning: no previous prototype for function 'bpf_iter_css_pre_next' [-Wmissing-prototypes]
-     900 | __bpf_kfunc struct cgroup_subsys_state *bpf_iter_css_pre_next(struct bpf_iter_css_pre *it)
-         |                                         ^
-   kernel/bpf/task_iter.c:900:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     900 | __bpf_kfunc struct cgroup_subsys_state *bpf_iter_css_pre_next(struct bpf_iter_css_pre *it)
-         |             ^
-         |             static 
-   kernel/bpf/task_iter.c:908:18: warning: no previous prototype for function 'bpf_iter_css_pre_destroy' [-Wmissing-prototypes]
-     908 | __bpf_kfunc void bpf_iter_css_pre_destroy(struct bpf_iter_css_pre *it)
-         |                  ^
-   kernel/bpf/task_iter.c:908:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     908 | __bpf_kfunc void bpf_iter_css_pre_destroy(struct bpf_iter_css_pre *it)
-         |             ^
-         |             static 
-   kernel/bpf/task_iter.c:912:17: warning: no previous prototype for function 'bpf_iter_css_post_new' [-Wmissing-prototypes]
-     912 | __bpf_kfunc int bpf_iter_css_post_new(struct bpf_iter_css_post *it,
-         |                 ^
-   kernel/bpf/task_iter.c:912:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     912 | __bpf_kfunc int bpf_iter_css_post_new(struct bpf_iter_css_post *it,
-         |             ^
-         |             static 
-   kernel/bpf/task_iter.c:924:41: warning: no previous prototype for function 'bpf_iter_css_post_next' [-Wmissing-prototypes]
-     924 | __bpf_kfunc struct cgroup_subsys_state *bpf_iter_css_post_next(struct bpf_iter_css_post *it)
-         |                                         ^
-   kernel/bpf/task_iter.c:924:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     924 | __bpf_kfunc struct cgroup_subsys_state *bpf_iter_css_post_next(struct bpf_iter_css_post *it)
-         |             ^
-         |             static 
-   kernel/bpf/task_iter.c:932:18: warning: no previous prototype for function 'bpf_iter_css_post_destroy' [-Wmissing-prototypes]
-     932 | __bpf_kfunc void bpf_iter_css_post_destroy(struct bpf_iter_css_post *it)
-         |                  ^
-   kernel/bpf/task_iter.c:932:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     932 | __bpf_kfunc void bpf_iter_css_post_destroy(struct bpf_iter_css_post *it)
-         |             ^
-         |             static 
->> kernel/bpf/task_iter.c:893:2: error: call to '__compiletime_assert_389' declared with 'error' attribute: BUILD_BUG_ON failed: sizeof(struct bpf_iter_css_kern) != sizeof(struct bpf_iter_css_pre)
-     893 |         BUILD_BUG_ON(sizeof(struct bpf_iter_css_kern) != sizeof(struct bpf_iter_css_pre));
+   include/linux/pm.h:476:28: note: in expansion of macro 'PTR_IF'
+     476 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
+         |                            ^~~~~~
+   include/linux/pm.h:313:20: note: in expansion of macro 'pm_sleep_ptr'
+     313 |         .suspend = pm_sleep_ptr(suspend_fn), \
+         |                    ^~~~~~~~~~~~
+   include/linux/pm.h:431:17: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
+     431 |                 SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn) \
+         |                 ^~~~~~~~~~~~~~~~~~~
+   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2858:1: note: in expansion of macro 'EXPORT_NS_SIMPLE_DEV_PM_OPS'
+    2858 | EXPORT_NS_SIMPLE_DEV_PM_OPS(st_lsm6dsx_pm_ops, st_lsm6dsx_suspend,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pm.h:314:9: error: field name not in record or union initializer
+     314 |         .resume = pm_sleep_ptr(resume_fn), \
          |         ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+   include/linux/pm.h:431:17: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
+     431 |                 SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn) \
+         |                 ^~~~~~~~~~~~~~~~~~~
+   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2858:1: note: in expansion of macro 'EXPORT_NS_SIMPLE_DEV_PM_OPS'
+    2858 | EXPORT_NS_SIMPLE_DEV_PM_OPS(st_lsm6dsx_pm_ops, st_lsm6dsx_suspend,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pm.h:314:9: note: (near initialization for 'EXPORT_NS_SIMPLE_PM_OPS')
+     314 |         .resume = pm_sleep_ptr(resume_fn), \
          |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:425:2: note: expanded from macro 'compiletime_assert'
-     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+   include/linux/pm.h:431:17: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
+     431 |                 SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn) \
+         |                 ^~~~~~~~~~~~~~~~~~~
+   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2858:1: note: in expansion of macro 'EXPORT_NS_SIMPLE_DEV_PM_OPS'
+    2858 | EXPORT_NS_SIMPLE_DEV_PM_OPS(st_lsm6dsx_pm_ops, st_lsm6dsx_suspend,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:59:33: warning: excess elements in scalar initializer
+      59 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                 ^
+   include/linux/pm.h:476:28: note: in expansion of macro 'PTR_IF'
+     476 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
+         |                            ^~~~~~
+   include/linux/pm.h:314:19: note: in expansion of macro 'pm_sleep_ptr'
+     314 |         .resume = pm_sleep_ptr(resume_fn), \
+         |                   ^~~~~~~~~~~~
+   include/linux/pm.h:431:17: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
+     431 |                 SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn) \
+         |                 ^~~~~~~~~~~~~~~~~~~
+   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2858:1: note: in expansion of macro 'EXPORT_NS_SIMPLE_DEV_PM_OPS'
+    2858 | EXPORT_NS_SIMPLE_DEV_PM_OPS(st_lsm6dsx_pm_ops, st_lsm6dsx_suspend,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:59:33: note: (near initialization for 'EXPORT_NS_SIMPLE_PM_OPS')
+      59 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                 ^
+   include/linux/pm.h:476:28: note: in expansion of macro 'PTR_IF'
+     476 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
+         |                            ^~~~~~
+   include/linux/pm.h:314:19: note: in expansion of macro 'pm_sleep_ptr'
+     314 |         .resume = pm_sleep_ptr(resume_fn), \
+         |                   ^~~~~~~~~~~~
+   include/linux/pm.h:431:17: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
+     431 |                 SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn) \
+         |                 ^~~~~~~~~~~~~~~~~~~
+   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2858:1: note: in expansion of macro 'EXPORT_NS_SIMPLE_DEV_PM_OPS'
+    2858 | EXPORT_NS_SIMPLE_DEV_PM_OPS(st_lsm6dsx_pm_ops, st_lsm6dsx_suspend,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pm.h:315:9: error: field name not in record or union initializer
+     315 |         .freeze = pm_sleep_ptr(suspend_fn), \
          |         ^
-   include/linux/compiler_types.h:413:2: note: expanded from macro '_compiletime_assert'
-     413 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:406:4: note: expanded from macro '__compiletime_assert'
-     406 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:6:1: note: expanded from here
-       6 | __compiletime_assert_389
-         | ^
->> kernel/bpf/task_iter.c:917:2: error: call to '__compiletime_assert_391' declared with 'error' attribute: BUILD_BUG_ON failed: sizeof(struct bpf_iter_css_kern) != sizeof(struct bpf_iter_css_post)
-     917 |         BUILD_BUG_ON(sizeof(struct bpf_iter_css_kern) != sizeof(struct bpf_iter_css_post));
-         |         ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:425:2: note: expanded from macro 'compiletime_assert'
-     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:413:2: note: expanded from macro '_compiletime_assert'
-     413 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:406:4: note: expanded from macro '__compiletime_assert'
-     406 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:14:1: note: expanded from here
-      14 | __compiletime_assert_391
-         | ^
-   12 warnings and 2 errors generated.
 
 
-vim +893 kernel/bpf/task_iter.c
+vim +/EXPORT_NS_SIMPLE_PM_OPS +2858 drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
 
-   887	
-   888	__bpf_kfunc int bpf_iter_css_pre_new(struct bpf_iter_css_pre *it,
-   889			struct cgroup_subsys_state *root)
-   890	{
-   891		struct bpf_iter_css_kern *kit = (void *)it;
-   892	
- > 893		BUILD_BUG_ON(sizeof(struct bpf_iter_css_kern) != sizeof(struct bpf_iter_css_pre));
-   894		BUILD_BUG_ON(__alignof__(struct bpf_iter_css_kern) != __alignof__(struct bpf_iter_css_pre));
-   895		kit->root = root;
-   896		kit->pos = NULL;
-   897		return 0;
-   898	}
-   899	
-   900	__bpf_kfunc struct cgroup_subsys_state *bpf_iter_css_pre_next(struct bpf_iter_css_pre *it)
-   901	{
-   902		struct bpf_iter_css_kern *kit = (void *)it;
-   903	
-   904		kit->pos = css_next_descendant_pre(kit->pos, kit->root);
-   905		return kit->pos;
-   906	}
-   907	
-   908	__bpf_kfunc void bpf_iter_css_pre_destroy(struct bpf_iter_css_pre *it)
-   909	{
-   910	}
-   911	
-   912	__bpf_kfunc int bpf_iter_css_post_new(struct bpf_iter_css_post *it,
-   913			struct cgroup_subsys_state *root)
-   914	{
-   915		struct bpf_iter_css_kern *kit = (void *)it;
-   916	
- > 917		BUILD_BUG_ON(sizeof(struct bpf_iter_css_kern) != sizeof(struct bpf_iter_css_post));
-   918		BUILD_BUG_ON(__alignof__(struct bpf_iter_css_kern) != __alignof__(struct bpf_iter_css_post));
-   919		kit->root = root;
-   920		kit->pos = NULL;
-   921		return 0;
-   922	}
-   923	
+d3f770582aeb11 Lorenzo Bianconi 2017-04-27  2857  
+2b059449b5a3d2 Jonathan Cameron 2022-06-04 @2858  EXPORT_NS_SIMPLE_DEV_PM_OPS(st_lsm6dsx_pm_ops, st_lsm6dsx_suspend,
+2b059449b5a3d2 Jonathan Cameron 2022-06-04  2859  			    st_lsm6dsx_resume, IIO_LSM6DSX);
+d3f770582aeb11 Lorenzo Bianconi 2017-04-27  2860  
 
 -- 
 0-DAY CI Kernel Test Service
