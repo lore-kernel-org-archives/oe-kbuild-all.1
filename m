@@ -1,218 +1,153 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F33E10F5;
-	Wed, 13 Sep 2023 08:51:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694595068; x=1726131068;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CxZlJL4IZV34v0VOIj/Uns0IfPnLy4SJOkl5TJm3F50=;
-  b=CERfqWmdeNnn9QpmYyYxlFpm64ZhJfErFXGjbH4uAOJW3DNVS9otuppx
-   8uplqcRB7RcAQBJJhMloAhqPiM6Q/ssddlCF4wLXfKxeYETFjizBvyRw+
-   1rgYf/Aylital6eEFWxfbOWqEYxKpJTDLcD3b6fiFXUuFh4R3SCU9AQBn
-   Qmskikpf/w5B4g2diSm/qwouC0Pj1dJrC6P7a7OHuNjRQZVUJEyXvcBUI
-   ZsvR7ieycv0fp/qCGansaKkRvy6dEIM5sfkn7rdY0IpRM5niaqYamMBRc
-   c4zTX2WBzl+H1bGRVuJ+qtS5nQjs6qHNlUU3y7NlOupanZU5D/5qx6E8t
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="375934535"
-X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="375934535"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 01:51:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="737415081"
-X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="737415081"
-Received: from lkp-server02.sh.intel.com (HELO cf13c67269a2) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 13 Sep 2023 01:51:05 -0700
-Received: from kbuild by cf13c67269a2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qgLaR-0000IP-0R;
-	Wed, 13 Sep 2023 08:51:03 +0000
-Date: Wed, 13 Sep 2023 16:50:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kmo@daterainc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 3370/4552] fs/bcachefs/alloc_background.c:627:10:
- warning: format specifies type 'unsigned long' but the argument has type
- 'size_t' (aka 'unsigned int')
-Message-ID: <202309131633.dudKjDW7-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876C910F5;
+	Wed, 13 Sep 2023 08:51:37 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38D8bvrE011988;
+	Wed, 13 Sep 2023 08:50:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=RgQpJCOK3bDFZ1dpUq09zxE57TA/jA/GRxmPNuz9zJs=;
+ b=f4rVatg+hNgC2qG5YOCyKxoA7wmXGn/NTM/JdkOaPQNbRKlZ3WEd21RGsX4GMYnl6/6I
+ acOWj58sZT70rsjRc/IR4TKiQp7LPPjbC/GTXA81B+SpKh957VAK505exFrvP+RXmjbn
+ oDRWATHGx7yUTuKGeE3TrhDoylWmqdSZGafEu9G9fZuz/9A8isVkvTYyWetiN4Dv6QmV
+ E0TRI7jF/3zQt060XjiGFku39PiZf98pqrhU2SM4b68gSK1gfzVm5l3zlI5rN3VMfOYh
+ IPbUH93iuwyVPVhlrVNobaETnCECmAiVg2qZVjnZ3B9qX7wtIZPrMiX3N1QOpPtpNQri Tg== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t2y8e14tn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Sep 2023 08:50:44 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38D8oh8p004975
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Sep 2023 08:50:43 GMT
+Received: from [10.253.13.18] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Wed, 13 Sep
+ 2023 01:50:39 -0700
+Message-ID: <8096b5cc-cc25-d24d-f5af-e86220e25c09@quicinc.com>
+Date: Wed, 13 Sep 2023 16:50:27 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e143016b56ecb0fcda5bb6026b0a25fe55274f56
-commit: 4be0d766a7e917bc514bd9f5ebeca365a2b22f07 [3370/4552] bcachefs: bucket_gens btree
-config: powerpc-randconfig-r006-20230912 (https://download.01.org/0day-ci/archive/20230913/202309131633.dudKjDW7-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131633.dudKjDW7-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309131633.dudKjDW7-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/bio.h:10:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/powerpc/include/asm/hardirq.h:6:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/powerpc/include/asm/io.h:672:
-   arch/powerpc/include/asm/io-defs.h:51:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-      51 | DEF_PCI_AC_NORET(outsw, (unsigned long p, const void *b, unsigned long c),
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      52 |                  (p, b, c), pio, p)
-         |                  ~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/io.h:669:3: note: expanded from macro 'DEF_PCI_AC_NORET'
-     669 |                 __do_##name al;                                 \
-         |                 ^~~~~~~~~~~~~~
-   <scratch space>:215:1: note: expanded from here
-     215 | __do_outsw
-         | ^
-   arch/powerpc/include/asm/io.h:613:58: note: expanded from macro '__do_outsw'
-     613 | #define __do_outsw(p, b, n)     writesw((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
-         |                                         ~~~~~~~~~~~~~~~~~~~~~^
-   In file included from fs/bcachefs/alloc_background.c:2:
-   In file included from fs/bcachefs/bcachefs.h:188:
-   In file included from include/linux/bio.h:10:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/powerpc/include/asm/hardirq.h:6:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/powerpc/include/asm/io.h:672:
-   arch/powerpc/include/asm/io-defs.h:53:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-      53 | DEF_PCI_AC_NORET(outsl, (unsigned long p, const void *b, unsigned long c),
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      54 |                  (p, b, c), pio, p)
-         |                  ~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/io.h:669:3: note: expanded from macro 'DEF_PCI_AC_NORET'
-     669 |                 __do_##name al;                                 \
-         |                 ^~~~~~~~~~~~~~
-   <scratch space>:217:1: note: expanded from here
-     217 | __do_outsl
-         | ^
-   arch/powerpc/include/asm/io.h:614:58: note: expanded from macro '__do_outsl'
-     614 | #define __do_outsl(p, b, n)     writesl((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
-         |                                         ~~~~~~~~~~~~~~~~~~~~~^
-   In file included from fs/bcachefs/alloc_background.c:5:
-   In file included from fs/bcachefs/backpointers.h:5:
-   fs/bcachefs/btree_iter.h:248:8: warning: duplicate 'inline' declaration specifier [-Wduplicate-decl-specifier]
-     248 | static inline int btree_trans_restart_nounlock(struct btree_trans *trans, int err)
-         |        ^
-   include/linux/compiler_types.h:215:16: note: expanded from macro 'inline'
-     215 | #define inline inline __gnu_inline __inline_maybe_unused notrace
-         |                ^
-   In file included from fs/bcachefs/alloc_background.c:5:
-   In file included from fs/bcachefs/backpointers.h:5:
-   fs/bcachefs/btree_iter.h:258:8: warning: duplicate 'inline' declaration specifier [-Wduplicate-decl-specifier]
-     258 | static inline int btree_trans_restart(struct btree_trans *trans, int err)
-         |        ^
-   include/linux/compiler_types.h:215:16: note: expanded from macro 'inline'
-     215 | #define inline inline __gnu_inline __inline_maybe_unused notrace
-         |                ^
-   In file included from fs/bcachefs/alloc_background.c:7:
-   In file included from fs/bcachefs/btree_io.h:7:
-   fs/bcachefs/btree_locking.h:88:46: warning: implicit conversion from enumeration type 'enum six_lock_type' to different enumeration type 'enum btree_node_locked_type' [-Wenum-conversion]
-      88 |         mark_btree_node_locked_noreset(path, level, type);
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~              ^~~~
-   fs/bcachefs/btree_locking.h:175:51: warning: implicit conversion from enumeration type 'enum six_lock_type' to different enumeration type 'enum btree_node_locked_type' [-Wenum-conversion]
-     175 |         mark_btree_node_locked_noreset(path, b->c.level, SIX_LOCK_intent);
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                   ^~~~~~~~~~~~~~~
-   fs/bcachefs/btree_locking.h:241:33: warning: implicit conversion from enumeration type 'enum btree_node_locked_type' to different enumeration type 'enum six_lock_type' [-Wenum-conversion]
-     241 |                         six_lock_increment(&b->lock, want);
-         |                         ~~~~~~~~~~~~~~~~~~           ^~~~
-   fs/bcachefs/btree_locking.h:261:49: warning: implicit conversion from enumeration type 'enum six_lock_type' to different enumeration type 'enum btree_node_locked_type' [-Wenum-conversion]
-     261 |             btree_node_lock_increment(trans, b, level, type) ||
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~                  ^~~~
-   fs/bcachefs/btree_locking.h:288:49: warning: implicit conversion from enumeration type 'enum six_lock_type' to different enumeration type 'enum btree_node_locked_type' [-Wenum-conversion]
-     288 |         mark_btree_node_locked_noreset(path, b->level, SIX_LOCK_write);
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                 ^~~~~~~~~~~~~~
-   In file included from fs/bcachefs/alloc_background.c:7:
-   fs/bcachefs/btree_io.h:203:33: warning: implicit conversion from enumeration type 'enum btree_id' to different enumeration type 'enum btree_node_type' [-Wenum-conversion]
-     203 |             btree_node_type_is_extents(btree_id) &&
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~
-   fs/bcachefs/btree_io.h:220:33: warning: implicit conversion from enumeration type 'enum btree_id' to different enumeration type 'enum btree_node_type' [-Wenum-conversion]
-     220 |             btree_node_type_is_extents(btree_id) &&
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~
-   fs/bcachefs/alloc_background.c:272:10: warning: format specifies type 'unsigned long' but the argument has type 'unsigned int' [-Wformat]
-     272 |                 prt_printf(err, "bad val size (%lu != %u)",
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                %u
-     273 |                        bkey_val_u64s(k.k), alloc_v4_u64s(a.v));
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/bkey.h:47:27: note: expanded from macro 'bkey_val_u64s'
-      47 | #define bkey_val_u64s(_k)       ((_k)->u64s - BKEY_U64s)
-         |                                 ^
-   fs/bcachefs/util.h:221:54: note: expanded from macro 'prt_printf'
-     221 | #define prt_printf(_out, ...)           bch2_prt_printf(_out, __VA_ARGS__)
-         |                                                               ^~~~~~~~~~~
->> fs/bcachefs/alloc_background.c:627:10: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-     627 |                 prt_printf(err, "bad val size (%lu != %zu)",
-         |                                                ~~~
-         |                                                %zu
-     628 |                        bkey_val_bytes(k.k), sizeof(struct bch_bucket_gens));
-         |                        ^~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/util.h:221:54: note: expanded from macro 'prt_printf'
-     221 | #define prt_printf(_out, ...)           bch2_prt_printf(_out, __VA_ARGS__)
-         |                                                               ^~~~~~~~~~~
-   fs/bcachefs/alloc_background.c:939:17: warning: no previous prototype for function 'bch2_get_key_or_hole' [-Wmissing-prototypes]
-     939 | struct bkey_s_c bch2_get_key_or_hole(struct btree_iter *iter, struct bpos end, struct bkey *hole)
-         |                 ^
-   fs/bcachefs/alloc_background.c:939:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     939 | struct bkey_s_c bch2_get_key_or_hole(struct btree_iter *iter, struct bpos end, struct bkey *hole)
-         | ^
-         | static 
-   fs/bcachefs/alloc_background.c:1003:17: warning: no previous prototype for function 'bch2_get_key_or_real_bucket_hole' [-Wmissing-prototypes]
-    1003 | struct bkey_s_c bch2_get_key_or_real_bucket_hole(struct btree_iter *iter, struct bkey *hole)
-         |                 ^
-   fs/bcachefs/alloc_background.c:1003:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1003 | struct bkey_s_c bch2_get_key_or_real_bucket_hole(struct btree_iter *iter, struct bkey *hole)
-         | ^
-         | static 
-   fs/bcachefs/alloc_background.c:81:20: warning: unused function 'alloc_field_v1_put' [-Wunused-function]
-      81 | static inline void alloc_field_v1_put(struct bkey_i_alloc *a, void **p,
-         |                    ^
-   20 warnings generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
-   Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
-   Selected by [y]:
-   - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=n] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 1/2] bus: mhi: host: Add spinlock to protect WP access
+ when queueing TREs
+To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
+        <mani@kernel.org>, <quic_jhugo@quicinc.com>
+CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, <mhi@lists.linux.dev>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <quic_cang@quicinc.com>, <quic_mrana@quicinc.com>,
+        Bhaumik Bhatt
+	<bbhatt@codeaurora.org>
+References: <6fd73c41-852d-4d4a-9a48-b0c6dffe2515@kadam.mountain>
+Content-Language: en-US
+From: Qiang Yu <quic_qianyu@quicinc.com>
+In-Reply-To: <6fd73c41-852d-4d4a-9a48-b0c6dffe2515@kadam.mountain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: Nx-laNVULctxCzORmYBsMCdYylJX0T44
+X-Proofpoint-GUID: Nx-laNVULctxCzORmYBsMCdYylJX0T44
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-13_02,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ mlxlogscore=999 phishscore=0 impostorscore=0 lowpriorityscore=0 mlxscore=0
+ clxscore=1011 adultscore=0 suspectscore=0 priorityscore=1501 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
+ definitions=main-2309130070
 
 
-vim +627 fs/bcachefs/alloc_background.c
-
-   621	
-   622	int bch2_bucket_gens_invalid(const struct bch_fs *c, struct bkey_s_c k,
-   623				     int rw, struct printbuf *err)
-   624	{
-   625		if (bkey_val_bytes(k.k) != sizeof(struct bch_bucket_gens)) {
-   626			prt_printf(err, "bad val size (%lu != %zu)",
- > 627			       bkey_val_bytes(k.k), sizeof(struct bch_bucket_gens));
-   628			return -BCH_ERR_invalid_bkey;
-   629		}
-   630	
-   631		return 0;
-   632	}
-   633	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On 9/13/2023 3:18 PM, Dan Carpenter wrote:
+> Hi Qiang,
+>
+> kernel test robot noticed the following build warnings:
+>
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Qiang-Yu/bus-mhi-host-Add-spinlock-to-protect-WP-access-when-queueing-TREs/20230912-072349
+> base:   linus/master
+> patch link:    https://lore.kernel.org/r/1694426069-74140-2-git-send-email-quic_qianyu%40quicinc.com
+> patch subject: [PATCH 1/2] bus: mhi: host: Add spinlock to protect WP access when queueing TREs
+> config: i386-randconfig-141-20230913 (https://download.01.org/0day-ci/archive/20230913/202309131155.OQbvsWhZ-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230913/202309131155.OQbvsWhZ-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202309131155.OQbvsWhZ-lkp@intel.com/
+>
+> smatch warnings:
+> drivers/bus/mhi/host/main.c:1249 mhi_gen_tre() warn: inconsistent returns '&mhi_chan->lock'.
+>
+> vim +1249 drivers/bus/mhi/host/main.c
+Thanks for reporting this error. Added write_unlock_bh(&mhi_chan->lock) 
+before return because of error process in v2 patch.
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1200  int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
+> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1201  			struct mhi_buf_info *info, enum mhi_flags flags)
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1202  {
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1203  	struct mhi_ring *buf_ring, *tre_ring;
+> 84f5f31f110e5e drivers/bus/mhi/host/main.c Manivannan Sadhasivam 2022-03-01  1204  	struct mhi_ring_element *mhi_tre;
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1205  	struct mhi_buf_info *buf_info;
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1206  	int eot, eob, chain, bei;
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1207  	int ret;
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1208
+> c8a037317010d5 drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-09-11  1209  	/* Protect accesses for reading and incrementing WP */
+> c8a037317010d5 drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-09-11  1210  	write_lock_bh(&mhi_chan->lock);
+> c8a037317010d5 drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-09-11  1211
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1212  	buf_ring = &mhi_chan->buf_ring;
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1213  	tre_ring = &mhi_chan->tre_ring;
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1214
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1215  	buf_info = buf_ring->wp;
+> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1216  	WARN_ON(buf_info->used);
+> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1217  	buf_info->pre_mapped = info->pre_mapped;
+> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1218  	if (info->pre_mapped)
+> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1219  		buf_info->p_addr = info->p_addr;
+> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1220  	else
+> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1221  		buf_info->v_addr = info->v_addr;
+> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1222  	buf_info->cb_buf = info->cb_buf;
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1223  	buf_info->wp = tre_ring->wp;
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1224  	buf_info->dir = mhi_chan->dir;
+> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1225  	buf_info->len = info->len;
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1226
+> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1227  	if (!info->pre_mapped) {
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1228  		ret = mhi_cntrl->map_single(mhi_cntrl, buf_info);
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1229  		if (ret)
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1230  			return ret;
+>
+> write_unlock_bh(&mhi_chan->lock);
+>
+> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1231  	}
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1232
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1233  	eob = !!(flags & MHI_EOB);
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1234  	eot = !!(flags & MHI_EOT);
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1235  	chain = !!(flags & MHI_CHAIN);
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1236  	bei = !!(mhi_chan->intmod);
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1237
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1238  	mhi_tre = tre_ring->wp;
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1239  	mhi_tre->ptr = MHI_TRE_DATA_PTR(buf_info->p_addr);
+> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1240  	mhi_tre->dword[0] = MHI_TRE_DATA_DWORD0(info->len);
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1241  	mhi_tre->dword[1] = MHI_TRE_DATA_DWORD1(bei, eot, eob, chain);
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1242
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1243  	/* increment WP */
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1244  	mhi_add_ring_element(mhi_cntrl, tre_ring);
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1245  	mhi_add_ring_element(mhi_cntrl, buf_ring);
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1246
+> c8a037317010d5 drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-09-11  1247  	write_unlock_bh(&mhi_chan->lock);
+> c8a037317010d5 drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-09-11  1248
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20 @1249  	return 0;
+> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1250  }
+>
