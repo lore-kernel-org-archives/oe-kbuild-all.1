@@ -1,43 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0B413AC1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 23:47:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763957F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 00:09:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694562442; x=1726098442;
+  t=1694563759; x=1726099759;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y3wW37slRhOUnWo2Y02Y2UIp8mYBGFdxJG8ez4esL1Q=;
-  b=Ks37olhRkZ1oxFAWfEky93VMKgtZLiUlG0mByBj4MAOttDu23BgIoj4T
-   A59Pv0R8pkj/ReDN8EsV53ZvHvjXvkJBGi8kVd0rYa5T7zb7gfzCW6pzJ
-   tZaQy2MCzEBQ1iDVj8b4pLYgnoMSQ+IHYsDL+UxEnnz9zvgF8FdfIZwZJ
-   BXbNflQ0LSuriivxXn3mYdevb9z21M3Hv2UmGROxGqh7r6g/x7vL28Vm7
-   d/LujMk8+GP2jCu/XwGwRADXdkFhSZ97MLmZFrq8xUPze3UBcZ55/bwhh
-   C7WN3a0mi63R4DJ4EFOZSGjrMqzkKP8qucRBWD3UYFT3iq5dCsdAeFMgj
+  bh=ChlckRbWbRy80tIrWWC4IFv+F0VZNViog1KMF8jLLho=;
+  b=mcQ/TipsueKH708BrB76BbcAKW9ZDF9+bmquGIfwZRGt4ibt8IjyQtyM
+   iKptsd7Ak8HlbnGdYdr2DqDPymAkPp/2wHLF3hVLDeVoF+U45PnhpZFHJ
+   8HhlpWJuc58dct0yPwSXS49qsqPxxzEKbjsaFmhbHploKMn0NnOi9Yt51
+   x/PXhyx7kFRTRNNnTv3+ijpq7ettU6CKZ+fF6uSISav32ZXsXE3ez/+4o
+   eRSsSBIlHygDNu5003QDt1YJpMPIxfzzlXxaBIGjiDKD9Z1hqAWX36n2Z
+   y0OY4TGM7ZshYXOdoVXqpUllzOduQMuZVLTuN11tnNQMBrC4ssW0GHm4q
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="375852988"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="381228231"
 X-IronPort-AV: E=Sophos;i="6.02,141,1688454000"; 
-   d="scan'208";a="375852988"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 16:47:18 -0700
+   d="scan'208";a="381228231"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 17:09:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="867560536"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="773227676"
 X-IronPort-AV: E=Sophos;i="6.02,141,1688454000"; 
-   d="scan'208";a="867560536"
+   d="scan'208";a="773227676"
 Received: from lkp-server02.sh.intel.com (HELO 47e905db7d2b) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 12 Sep 2023 16:47:16 -0700
+  by orsmga008.jf.intel.com with ESMTP; 12 Sep 2023 17:09:17 -0700
 Received: from kbuild by 47e905db7d2b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgD6A-0000TU-0p;
-	Tue, 12 Sep 2023 23:47:14 +0000
-Date: Wed, 13 Sep 2023 07:46:47 +0800
+	id 1qgDRT-0000Ur-0Y;
+	Wed, 13 Sep 2023 00:09:15 +0000
+Date: Wed, 13 Sep 2023 08:08:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kmo@daterainc.com>
+To: Johannes Berg <johannes.berg@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 1126/4552] fs/bcachefs/fs-ioctl.h:25:23: warning:
- 'bch_flags_to_xflags' defined but not used
-Message-ID: <202309130759.QTaYO6Tf-lkp@intel.com>
+Subject: [linux-next:master 3857/4552] htmldocs:
+ ./include/net/cfg80211.h:5891: warning: expecting prototype for
+ wiphy_delayed work_flush(). Prototype was for wiphy_delayed_work_flush()
+ instead
+Message-ID: <202309130803.vjwpbJWy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,181 +51,60 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   3c13c772fc233a10342c8e1605ff0855dfdf0c89
-commit: 23d1f63070de873a0ce58086338fadeea6f63705 [1126/4552] bcachefs: Fix mtime/ctime updates
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230913/202309130759.QTaYO6Tf-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309130759.QTaYO6Tf-lkp@intel.com/reproduce)
+commit: 56cfb8ce1f7f6c4e5ca571a2ec0880e131cd0311 [3857/4552] wifi: cfg80211: add flush functions for wiphy work
+reproduce: (https://download.01.org/0day-ci/archive/20230913/202309130803.vjwpbJWy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309130759.QTaYO6Tf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309130803.vjwpbJWy-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from fs/bcachefs/super.h:5,
-                    from fs/bcachefs/buckets.h:12,
-                    from fs/bcachefs/fs.c:7:
-   fs/bcachefs/extents.h: In function 'bch2_extent_devs':
-   fs/bcachefs/extents.h:403:40: warning: variable '_crc' set but not used [-Wunused-but-set-variable]
-     403 |         struct bch_extent_crc_unpacked _crc;                            \
-         |                                        ^~~~
-   fs/bcachefs/extents.h:410:24: note: in expansion of macro 'extent_ptr_next'
-     410 |              ((_ptr) = extent_ptr_next(_e, _ptr));                      \
-         |                        ^~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h:462:9: note: in expansion of macro 'extent_for_each_ptr'
-     462 |         extent_for_each_ptr(e, ptr)
-         |         ^~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h: In function 'bch2_extent_dirty_devs':
-   fs/bcachefs/extents.h:403:40: warning: variable '_crc' set but not used [-Wunused-but-set-variable]
-     403 |         struct bch_extent_crc_unpacked _crc;                            \
-         |                                        ^~~~
-   fs/bcachefs/extents.h:410:24: note: in expansion of macro 'extent_ptr_next'
-     410 |              ((_ptr) = extent_ptr_next(_e, _ptr));                      \
-         |                        ^~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h:473:9: note: in expansion of macro 'extent_for_each_ptr'
-     473 |         extent_for_each_ptr(e, ptr)
-         |         ^~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h: In function 'bch2_extent_cached_devs':
-   fs/bcachefs/extents.h:403:40: warning: variable '_crc' set but not used [-Wunused-but-set-variable]
-     403 |         struct bch_extent_crc_unpacked _crc;                            \
-         |                                        ^~~~
-   fs/bcachefs/extents.h:410:24: note: in expansion of macro 'extent_ptr_next'
-     410 |              ((_ptr) = extent_ptr_next(_e, _ptr));                      \
-         |                        ^~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h:485:9: note: in expansion of macro 'extent_for_each_ptr'
-     485 |         extent_for_each_ptr(e, ptr)
-         |         ^~~~~~~~~~~~~~~~~~~
-   In file included from fs/bcachefs/fs.c:13:
-   fs/bcachefs/fs-ioctl.h: At top level:
->> fs/bcachefs/fs-ioctl.h:25:23: warning: 'bch_flags_to_xflags' defined but not used [-Wunused-const-variable=]
-      25 | static const unsigned bch_flags_to_xflags[] = {
-         |                       ^~~~~~~~~~~~~~~~~~~
->> fs/bcachefs/fs-ioctl.h:16:23: warning: 'bch_flags_to_uflags' defined but not used [-Wunused-const-variable=]
-      16 | static const unsigned bch_flags_to_uflags[] = {
-         |                       ^~~~~~~~~~~~~~~~~~~
-   In file included from fs/bcachefs/bcachefs.h:199,
-                    from fs/bcachefs/fs.c:4:
-   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_MAX' defined but not used [-Wunused-const-variable=]
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         |              ^~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
-      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_BITS' defined but not used [-Wunused-const-variable=]
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         |              ^~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
-      85 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_OFFSET' defined but not used [-Wunused-const-variable=]
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         |              ^~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:84:25: note: in definition of macro 'LE_BITMASK'
-      84 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_MAX' defined but not used [-Wunused-const-variable=]
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
-      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_BITS' defined but not used [-Wunused-const-variable=]
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
-      85 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_OFFSET' defined but not used [-Wunused-const-variable=]
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:84:25: note: in definition of macro 'LE_BITMASK'
-      84 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1480:14: warning: 'BTREE_NODE_LEVEL_MAX' defined but not used [-Wunused-const-variable=]
-    1480 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
-         |              ^~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
-      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1480:1: note: in expansion of macro 'LE64_BITMASK'
-    1480 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1480:14: warning: 'BTREE_NODE_LEVEL_BITS' defined but not used [-Wunused-const-variable=]
-    1480 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
-         |              ^~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
-      85 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1480:1: note: in expansion of macro 'LE64_BITMASK'
-    1480 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1480:14: warning: 'BTREE_NODE_LEVEL_OFFSET' defined but not used [-Wunused-const-variable=]
-    1480 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
-         |              ^~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:84:25: note: in definition of macro 'LE_BITMASK'
-      84 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1480:1: note: in expansion of macro 'LE64_BITMASK'
-    1480 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1479:14: warning: 'BTREE_NODE_ID_MAX' defined but not used [-Wunused-const-variable=]
-    1479 | LE64_BITMASK(BTREE_NODE_ID,     struct btree_node, flags,  0,  4);
-         |              ^~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
-      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1479:1: note: in expansion of macro 'LE64_BITMASK'
-    1479 | LE64_BITMASK(BTREE_NODE_ID,     struct btree_node, flags,  0,  4);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1479:14: warning: 'BTREE_NODE_ID_BITS' defined but not used [-Wunused-const-variable=]
-    1479 | LE64_BITMASK(BTREE_NODE_ID,     struct btree_node, flags,  0,  4);
-         |              ^~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
-      85 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
+>> ./include/net/cfg80211.h:5891: warning: expecting prototype for wiphy_delayed work_flush(). Prototype was for wiphy_delayed_work_flush() instead
 
+vim +5891 ./include/net/cfg80211.h
 
-vim +/bch_flags_to_xflags +25 fs/bcachefs/fs-ioctl.h
-
-    14	
-    15	/* bcachefs inode flags -> FS_IOC_GETFLAGS: */
-  > 16	static const unsigned bch_flags_to_uflags[] = {
-    17		[__BCH_INODE_SYNC]	= FS_SYNC_FL,
-    18		[__BCH_INODE_IMMUTABLE]	= FS_IMMUTABLE_FL,
-    19		[__BCH_INODE_APPEND]	= FS_APPEND_FL,
-    20		[__BCH_INODE_NODUMP]	= FS_NODUMP_FL,
-    21		[__BCH_INODE_NOATIME]	= FS_NOATIME_FL,
-    22	};
-    23	
-    24	/* bcachefs inode flags -> FS_IOC_FSGETXATTR: */
-  > 25	static const unsigned bch_flags_to_xflags[] = {
-    26		[__BCH_INODE_SYNC]	= FS_XFLAG_SYNC,
-    27		[__BCH_INODE_IMMUTABLE]	= FS_XFLAG_IMMUTABLE,
-    28		[__BCH_INODE_APPEND]	= FS_XFLAG_APPEND,
-    29		[__BCH_INODE_NODUMP]	= FS_XFLAG_NODUMP,
-    30		[__BCH_INODE_NOATIME]	= FS_XFLAG_NOATIME,
-    31		//[__BCH_INODE_PROJINHERIT] = FS_XFLAG_PROJINHERIT;
-    32	};
-    33	
+  5853	
+  5854	/**
+  5855	 * wiphy_delayed_work_queue - queue delayed work for the wiphy
+  5856	 * @wiphy: the wiphy to queue for
+  5857	 * @dwork: the delayable worker
+  5858	 * @delay: number of jiffies to wait before queueing
+  5859	 *
+  5860	 * This is useful for work that must be done asynchronously, and work
+  5861	 * queued here has the special property that the wiphy mutex will be
+  5862	 * held as if wiphy_lock() was called, and that it cannot be running
+  5863	 * after wiphy_lock() was called. Therefore, wiphy_cancel_work() can
+  5864	 * use just cancel_work() instead of cancel_work_sync(), it requires
+  5865	 * being in a section protected by wiphy_lock().
+  5866	 */
+  5867	void wiphy_delayed_work_queue(struct wiphy *wiphy,
+  5868				      struct wiphy_delayed_work *dwork,
+  5869				      unsigned long delay);
+  5870	
+  5871	/**
+  5872	 * wiphy_delayed_work_cancel - cancel previously queued delayed work
+  5873	 * @wiphy: the wiphy, for debug purposes
+  5874	 * @dwork: the delayed work to cancel
+  5875	 *
+  5876	 * Cancel the work *without* waiting for it, this assumes being
+  5877	 * called under the wiphy mutex acquired by wiphy_lock().
+  5878	 */
+  5879	void wiphy_delayed_work_cancel(struct wiphy *wiphy,
+  5880				       struct wiphy_delayed_work *dwork);
+  5881	
+  5882	/**
+  5883	 * wiphy_delayed work_flush - flush previously queued delayed work
+  5884	 * @wiphy: the wiphy, for debug purposes
+  5885	 * @work: the work to flush
+  5886	 *
+  5887	 * Flush the work (i.e. run it if pending). This must be called
+  5888	 * under the wiphy mutex acquired by wiphy_lock().
+  5889	 */
+  5890	void wiphy_delayed_work_flush(struct wiphy *wiphy,
+> 5891				      struct wiphy_delayed_work *dwork);
+  5892	
 
 -- 
 0-DAY CI Kernel Test Service
