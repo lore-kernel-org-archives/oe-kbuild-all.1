@@ -1,43 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F114A384
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 01:03:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E73384
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 01:34:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694567001; x=1726103001;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e5BXdJPwcd/vIMgFc5nzRVqTN17OjXkuhh42cC3Wpa4=;
-  b=WKT4NgTmSOJHVcAkW/xI2c+2FL0E3i483ET3OI0CRmWtO1/ZsKTCVrYB
-   JDjD/h2FvjTPc7FyZhNM/tc+Brp6llINpiaRyaaow83KK8MYHdnt3kivT
-   68wnKF26kCXVrRRLKQ9YesgWMpt0NaOIXSvAgyq5PCbrDv+llrBqJZt3j
-   u6MzcCdnBM6o84gyEQFTmtDvjqAQBNaet826UBx49UtY77MFe9Lfngn0k
-   RKDO1Rxw9VuhAV7xoy53AIi5ACYz975RiCS0Ibmph6F0mKAmz6wRK9Df0
-   2Y2l4Im0Y88SIvaxpBZNhqQVszuuIa1H3V+6l4y+IUpgnbfO1EITFia4B
+  t=1694568876; x=1726104876;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BWOxUPW3HtPNFgEFOHoQhbd+ni/5DnSj2ZCuh3rTtAc=;
+  b=MlS/uVHTD2N5QZDtNYgPmPG1vprvqsPPYzSYiFFxumw1NjcRX97Xs7gg
+   2L3KlnLfrtS2fdA0HIG5mBdTsSn0hjP46/VbT/yFQvb+jdjGf23nEo7Lf
+   fsTiTOL9xp5czPAiY9JO/81qXylJ8GwZpv7eqjLoA/y7aPBB3w+m9n8YE
+   0Tx6gRZcSaVyVxddguYszx0dxJhC95F8IS57NmgbpFQg8CcpS1xlfsqjg
+   sDdMJsv6RJv1M4EPy85g7Yo9WktjLuIqfdXchx80tYWqUu2MYQZBOkpPn
+   S/ulMr8KdsNZqQPA8LJBR3yraslI8knHu+rFCI3i0qckvj345aFKwXbuO
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="442562619"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="375868413"
 X-IronPort-AV: E=Sophos;i="6.02,141,1688454000"; 
-   d="scan'208";a="442562619"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 18:03:20 -0700
+   d="scan'208";a="375868413"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 18:34:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="859045473"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="867581317"
 X-IronPort-AV: E=Sophos;i="6.02,141,1688454000"; 
-   d="scan'208";a="859045473"
+   d="scan'208";a="867581317"
 Received: from lkp-server02.sh.intel.com (HELO 47e905db7d2b) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 12 Sep 2023 18:03:19 -0700
+  by orsmga004.jf.intel.com with ESMTP; 12 Sep 2023 18:34:29 -0700
 Received: from kbuild by 47e905db7d2b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgEHl-0000Xl-0Q;
-	Wed, 13 Sep 2023 01:03:17 +0000
-Date: Wed, 13 Sep 2023 09:02:23 +0800
+	id 1qgElv-0000Zb-2H;
+	Wed, 13 Sep 2023 01:34:27 +0000
+Date: Wed, 13 Sep 2023 09:34:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 18/24]
- drivers/media/i2c/ccs/ccs-core.c:2059:1: warning: 'static' is not at
- beginning of declaration
-Message-ID: <202309130842.vMagrOma-lkp@intel.com>
+To: Meng Li <li.meng@amd.com>,
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+	Huang Rui <ray.huang@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	linux-acpi@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kselftest@vger.kernel.org,
+	Nathan Fontenot <nathan.fontenot@amd.com>,
+	Deepak Sharma <deepak.sharma@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Shimmer Huang <shimmer.huang@amd.com>,
+	Perry Yuan <Perry.Yuan@amd.com>, Xiaojian Du <Xiaojian.Du@amd.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Borislav Petkov <bp@alien8.de>, Meng Li <li.meng@amd.com>
+Subject: Re: [PATCH V6 1/7] x86: Drop CPU_SUP_INTEL from SCHED_MC_PRIO for
+ the expansion.
+Message-ID: <202309130938.dmI2pWUB-lkp@intel.com>
+References: <20230908074653.2799055-2-li.meng@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,50 +60,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230908074653.2799055-2-li.meng@amd.com>
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   677e6a2139a965fa6eee306d4b015a95b427ef34
-commit: 1cba6f4ce24282a593d6121260660c112739a063 [18/24] media: ccs: Add support for embedded data stream
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230913/202309130842.vMagrOma-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309130842.vMagrOma-lkp@intel.com/reproduce)
+Hi Meng,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on tip/x86/core linus/master v6.6-rc1 next-20230912]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Meng-Li/x86-Drop-CPU_SUP_INTEL-from-SCHED_MC_PRIO-for-the-expansion/20230908-154939
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20230908074653.2799055-2-li.meng%40amd.com
+patch subject: [PATCH V6 1/7] x86: Drop CPU_SUP_INTEL from SCHED_MC_PRIO for the expansion.
+config: i386-buildonly-randconfig-004-20230913 (https://download.01.org/0day-ci/archive/20230913/202309130938.dmI2pWUB-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309130938.dmI2pWUB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309130842.vMagrOma-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309130938.dmI2pWUB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/media/i2c/ccs/ccs-core.c:2059:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
-    2059 | } static const ccs_embedded_codes[] = {
-         | ^
+   In file included from drivers/cpufreq/amd-pstate.c:41:
+>> include/acpi/processor.h:226:9: error: unknown type name 'phys_cpuid_t'
+     226 |         phys_cpuid_t phys_id;   /* CPU hardware ID such as APIC ID for x86 */
+         |         ^~~~~~~~~~~~
+   include/acpi/processor.h:355:1: error: unknown type name 'phys_cpuid_t'
+     355 | phys_cpuid_t acpi_get_phys_id(acpi_handle, int type, u32 acpi_id);
+         | ^~~~~~~~~~~~
+   include/acpi/processor.h:356:1: error: unknown type name 'phys_cpuid_t'
+     356 | phys_cpuid_t acpi_map_madt_entry(u32 acpi_id);
+         | ^~~~~~~~~~~~
+   include/acpi/processor.h:357:20: error: unknown type name 'phys_cpuid_t'
+     357 | int acpi_map_cpuid(phys_cpuid_t phys_id, u32 acpi_id);
+         |                    ^~~~~~~~~~~~
+   drivers/cpufreq/amd-pstate.c: In function 'amd_pstate_acpi_pm_profile_server':
+   drivers/cpufreq/amd-pstate.c:1076:17: error: 'acpi_gbl_FADT' undeclared (first use in this function); did you mean 'acpi_table_fadt'?
+    1076 |         switch (acpi_gbl_FADT.preferred_profile) {
+         |                 ^~~~~~~~~~~~~
+         |                 acpi_table_fadt
+   drivers/cpufreq/amd-pstate.c:1076:17: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/cpufreq/amd-pstate.c: In function 'amd_pstate_acpi_pm_profile_undefined':
+   drivers/cpufreq/amd-pstate.c:1087:13: error: 'acpi_gbl_FADT' undeclared (first use in this function); did you mean 'acpi_table_fadt'?
+    1087 |         if (acpi_gbl_FADT.preferred_profile == PM_UNSPECIFIED)
+         |             ^~~~~~~~~~~~~
+         |             acpi_table_fadt
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for X86_AMD_PSTATE
+   Depends on [n]: CPU_FREQ [=y] && X86 [=y] && ACPI [=n]
+   Selected by [y]:
+   - SCHED_MC_PRIO [=y] && SCHED_MC [=y] && CPU_SUP_AMD [=y]
+   WARNING: unmet direct dependencies detected for VIDEO_OV7640
+   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && VIDEO_CAMERA_SENSOR [=n]
+   Selected by [y]:
+   - VIDEO_GO7007 [=y] && MEDIA_SUPPORT [=y] && MEDIA_USB_SUPPORT [=y] && MEDIA_ANALOG_TV_SUPPORT [=y] && VIDEO_DEV [=y] && I2C [=y] && SND [=y] && USB [=y] && MEDIA_SUBDRV_AUTOSELECT [=y] && MEDIA_CAMERA_SUPPORT [=y]
 
 
-vim +/static +2059 drivers/media/i2c/ccs/ccs-core.c
+vim +/phys_cpuid_t +226 include/acpi/processor.h
 
-  2043	
-  2044	#define CCS_EMBEDDED_CODE_DEPTH(depth, half_depth)			\
-  2045		depth,								\
-  2046		CCS_EMB_DATA_CAPABILITY_TWO_BYTES_PER_RAW##depth,		\
-  2047		CCS_EMB_DATA_CAPABILITY_NO_ONE_BYTE_PER_RAW##depth,		\
-  2048		CCS_EMB_DATA_CTRL_RAW##half_depth##_PACKING_FOR_RAW##depth,	\
-  2049		MEDIA_BUS_FMT_CCS_EMBEDDED_##half_depth,			\
-  2050		MEDIA_BUS_FMT_CCS_EMBEDDED_##depth,				\
-  2051	
-  2052	struct ccs_embedded_code {
-  2053		u8 depth;
-  2054		u8 cap_two_bytes_per_sample;
-  2055		u8 cap_no_legacy;
-  2056		u8 ctrl;
-  2057		u32 ccs_code_two_bytes;
-  2058		u32 ccs_code_legacy;
-> 2059	} static const ccs_embedded_codes[] = {
-  2060		{ CCS_EMBEDDED_CODE_DEPTH(16, 8) },
-  2061		{ CCS_EMBEDDED_CODE_DEPTH(20, 10) },
-  2062		{ CCS_EMBEDDED_CODE_DEPTH(24, 12) },
-  2063	};
-  2064	
+^1da177e4c3f41 Linus Torvalds    2005-04-16  222  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  223  struct acpi_processor {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  224  	acpi_handle handle;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  225  	u32 acpi_id;
+828aef376d7a12 Catalin Marinas   2015-03-24 @226  	phys_cpuid_t phys_id;	/* CPU hardware ID such as APIC ID for x86 */
+af8f3f514d193e Hanjun Guo        2015-01-04  227  	u32 id;		/* CPU logical ID allocated by OS */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  228  	u32 pblk;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  229  	int performance_platform_limit;
+01854e697a77a4 Luming Yu         2007-05-26  230  	int throttling_platform_limit;
+ff55a9cebab024 Len Brown         2007-06-02  231  	/* 0 - states 0..n-th state available */
+01854e697a77a4 Luming Yu         2007-05-26  232  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  233  	struct acpi_processor_flags flags;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  234  	struct acpi_processor_power power;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  235  	struct acpi_processor_performance *performance;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  236  	struct acpi_processor_throttling throttling;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  237  	struct acpi_processor_limit limit;
+d9460fd227ed2c Zhang Rui         2008-01-17  238  	struct thermal_cooling_device *cdev;
+ac212b6980d8d5 Rafael J. Wysocki 2013-05-03  239  	struct device *dev; /* Processor device. */
+3000ce3c52f8b8 Rafael J. Wysocki 2019-10-16  240  	struct freq_qos_request perflib_req;
+3000ce3c52f8b8 Rafael J. Wysocki 2019-10-16  241  	struct freq_qos_request thermal_req;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  242  };
+^1da177e4c3f41 Linus Torvalds    2005-04-16  243  
 
 -- 
 0-DAY CI Kernel Test Service
