@@ -1,56 +1,42 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1723D6C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 13:35:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAFEA3FFE
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 13:45:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694612155; x=1726148155;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pj/V2UP2unub0wz1wILtsfcstjsxnGVCuZljE+FR6is=;
-  b=hwFMlmw/Vpz1TIdSWWVzkDj2SrdocYj2Mc8TkpyDn6Gby0/vZf6IchS5
-   Z8RgMCbQbbQGkPWGTfFNY9tUtrr18IT+tXtCmGsT/GsX9tcNP+0tKX6fe
-   sxlamtAzS1LaG48cj/hRNoBYK1Y9vKn2qmOcHYUREMYxs3myo8Aduq4uh
-   TnPa+GypGZYMGSneFHau27qyrSQ1tLAV3WJIkU+wjc6HuehIcLa1YsuK+
-   1CrWblBZw8f76eo9GHhV6NBnTgkh/ZcTJad8/AE6USNWKgmuwTPNn6LEY
-   UpWjT1DA21mEPwrz+cxmth9qJcGY7wh7EI+SpbaD4+yxySAKpk5tcLT+y
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="375993255"
+  t=1694612752; x=1726148752;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GCLaFcwHhlJuHgafwVLpXMyOgrPNb4ShTKeaOQkpDmQ=;
+  b=GdNzZcRXoSwGDs+ZvgI/KsJwwRcSwbmIYiQXBUToe5PF8l5MguwMiAxe
+   CAjGC4Oth7VAz+MoX/2t03Pa0v1Rtp2Q1GDj+Dc5tICJNH9fsCDTpqRC5
+   oQsYCXQPpZ7BEkVg9fUM1glRfcfHl7+hoosaCHEVEkhtFCScbpnVWJp2f
+   gwmytWSNT6Omr2E3rgMdNFB/pqzGMew2JhNzhWDQ0H1jte9WHGkDsK/pq
+   foso67km3IekWGv34g/Ebw02bDZXl8/l2mAQ3xycc38R0kz5i5hPCzJXD
+   8CxdoomjjVrHIgnPZzxGF50nY0Xa0ruhNzqewMkaghCstZ5Aq94i958Bd
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="375995833"
 X-IronPort-AV: E=Sophos;i="6.02,143,1688454000"; 
-   d="scan'208";a="375993255"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 06:35:54 -0700
+   d="scan'208";a="375995833"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 06:45:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="859269609"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="720810862"
 X-IronPort-AV: E=Sophos;i="6.02,143,1688454000"; 
-   d="scan'208";a="859269609"
+   d="scan'208";a="720810862"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Sep 2023 06:35:50 -0700
+  by orsmga006.jf.intel.com with ESMTP; 13 Sep 2023 06:45:50 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgQ1z-00006X-2b;
-	Wed, 13 Sep 2023 13:35:47 +0000
-Date: Wed, 13 Sep 2023 21:35:04 +0800
+	id 1qgQBg-00007R-14;
+	Wed, 13 Sep 2023 13:45:48 +0000
+Date: Wed, 13 Sep 2023 21:45:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com,
-	Matthias Brugger <matthias.bgg@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>, tjmercier@google.com,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Yong Wu <yong.wu@mediatek.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, jianjiao.zeng@mediatek.com,
-	kuohong.wang@mediatek.com
-Subject: Re: [PATCH 5/9] dma-buf: heaps: mtk_sec_heap: Initialise tee session
-Message-ID: <202309132148.UABRshAB-lkp@intel.com>
-References: <20230911023038.30649-6-yong.wu@mediatek.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [arm-integrator:b4/virt-to-phys-kfence 2/2]
+ mm/kfence/kfence_test.c:647:39: warning: dereferencing 'void *' pointer
+Message-ID: <202309132114.QnzvZDAs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,39 +45,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230911023038.30649-6-yong.wu@mediatek.com>
 
-Hi Yong,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on robh/for-next linus/master v6.6-rc1 next-20230912]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yong-Wu/dma-buf-heaps-Deduplicate-docs-and-adopt-common-format/20230911-103308
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230911023038.30649-6-yong.wu%40mediatek.com
-patch subject: [PATCH 5/9] dma-buf: heaps: mtk_sec_heap: Initialise tee session
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230913/202309132148.UABRshAB-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309132148.UABRshAB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/virt-to-phys-kfence
+head:   b086f69b6ffadeb19959f05bd67cc5d196a78558
+commit: b086f69b6ffadeb19959f05bd67cc5d196a78558 [2/2] kfence: Use a void * for page pool
+config: parisc-randconfig-r035-20230913 (https://download.01.org/0day-ci/archive/20230913/202309132114.QnzvZDAs-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309132114.QnzvZDAs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309132148.UABRshAB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309132114.QnzvZDAs-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   loongarch64-linux-ld: drivers/dma-buf/heaps/mtk_secure_heap.o: in function `mtk_kree_secure_session_init':
->> mtk_secure_heap.c:(.text+0x130): undefined reference to `tee_client_open_context'
-   loongarch64-linux-ld: drivers/dma-buf/heaps/mtk_secure_heap.o: in function `.L10':
->> mtk_secure_heap.c:(.text+0x19c): undefined reference to `tee_client_open_session'
-   loongarch64-linux-ld: drivers/dma-buf/heaps/mtk_secure_heap.o: in function `.L12':
->> mtk_secure_heap.c:(.text+0x1dc): undefined reference to `tee_client_close_context'
+   In file included from include/linux/err.h:5,
+                    from include/kunit/assert.h:12,
+                    from include/kunit/test.h:12,
+                    from mm/kfence/kfence_test.c:14:
+   include/linux/kfence.h: In function 'is_kfence_address':
+   include/linux/kfence.h:58:54: error: invalid operands to binary - (have 'char *' and 'void *')
+      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
+         |                                         ~~~~~~~~~~~~ ^
+         |                                         |
+         |                                         char *
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   mm/kfence/kfence_test.c: In function 'test_invalid_access':
+>> mm/kfence/kfence_test.c:647:39: warning: dereferencing 'void *' pointer
+     647 |                 .addr = &__kfence_pool[10],
+         |                                       ^
+   In file included from ./arch/parisc/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:246:
+   mm/kfence/kfence_test.c:651:32: warning: dereferencing 'void *' pointer
+     651 |         READ_ONCE(__kfence_pool[10]);
+         |                                ^
+   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                         ^
+   mm/kfence/kfence_test.c:651:9: note: in expansion of macro 'READ_ONCE'
+     651 |         READ_ONCE(__kfence_pool[10]);
+         |         ^~~~~~~~~
+>> include/asm-generic/rwonce.h:44:26: warning: dereferencing 'void *' pointer
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |         ^~~~~~~~~~~
+   mm/kfence/kfence_test.c:651:9: note: in expansion of macro 'READ_ONCE'
+     651 |         READ_ONCE(__kfence_pool[10]);
+         |         ^~~~~~~~~
+   In file included from mm/kfence/kfence_test.c:17:
+   include/linux/kfence.h: In function 'is_kfence_address':
+   include/linux/kfence.h:59:1: error: control reaches end of non-void function [-Werror=return-type]
+      59 | }
+         | ^
+   cc1: some warnings being treated as errors
+
+
+vim +647 mm/kfence/kfence_test.c
+
+bc8fbc5f305aec Marco Elver 2021-02-25  641  
+bc8fbc5f305aec Marco Elver 2021-02-25  642  static void test_invalid_access(struct kunit *test)
+bc8fbc5f305aec Marco Elver 2021-02-25  643  {
+bc8fbc5f305aec Marco Elver 2021-02-25  644  	const struct expect_report expect = {
+bc8fbc5f305aec Marco Elver 2021-02-25  645  		.type = KFENCE_ERROR_INVALID,
+bc8fbc5f305aec Marco Elver 2021-02-25  646  		.fn = test_invalid_access,
+bc8fbc5f305aec Marco Elver 2021-02-25 @647  		.addr = &__kfence_pool[10],
+bc8fbc5f305aec Marco Elver 2021-02-25  648  		.is_write = false,
+bc8fbc5f305aec Marco Elver 2021-02-25  649  	};
+bc8fbc5f305aec Marco Elver 2021-02-25  650  
+bc8fbc5f305aec Marco Elver 2021-02-25  651  	READ_ONCE(__kfence_pool[10]);
+bc8fbc5f305aec Marco Elver 2021-02-25  652  	KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+bc8fbc5f305aec Marco Elver 2021-02-25  653  }
+bc8fbc5f305aec Marco Elver 2021-02-25  654  
+
+:::::: The code at line 647 was first introduced by commit
+:::::: bc8fbc5f305aecf63423da91e5faf4c0ce40bf38 kfence: add test suite
+
+:::::: TO: Marco Elver <elver@google.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
