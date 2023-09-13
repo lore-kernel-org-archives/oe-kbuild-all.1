@@ -1,43 +1,51 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 749ED1F930
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 12:31:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCF02773B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 12:31:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694608308; x=1726144308;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ymLSW1L95jleLchFQXPWopRf7sZeZ4TRazRZmPxgIEY=;
-  b=UsmhXg59+sRYCUquCf9yKRknCTEYqJ0/matdvnoA3fzsmrClYlMVvrjH
-   0dlt3Zp6TDwU6nS3TkIds06U30YnlheiGSmbfNFEjnl3dOue18eHSptlw
-   CuunEZ75RMFXaOEDk4xNvzFUMNbgyZfhZi82DDOHQ5jV77M23eLXKUFxb
-   WYMP02gfvZxxu1zrK9TmvuiNIu60Lu7cBp3uGXdDta0/hN8FCZOGOnBrm
-   jNlEmH8/y1UIxaOAnQRM/cZenUfQslGj1aAT18dKOaj3EXRYXy9BkGAwo
-   2mUNmGMOYzIZ+64wTjK/BowDjg12VdxBrOW2dofO7QsL1pXESOZh2eNIi
+  t=1694608311; x=1726144311;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HrD1kau9wT3KEsqQTKdQ+/wu8yACK1Fs2bkBjLcV3V0=;
+  b=hz24A3CbORyWP4s3KRWrqaCZXDciHbaOd3+vQ/EA82nQOI61DE14cwye
+   PQKTEEp8TjYCTwhGdpQi78SBk+LyjSO8myUOxozYB8u3ijkJ6jaa0LE3b
+   nyHbnhHy3DIwkpb8DFGSZV1QJuOU0s9rPh5Y/A0/fKSeqiFUmJ4feEikO
+   xGdusH+ICgze3695i/QNEsDDmUAe938XJs6Jp7nYFql1oJYKx7NiW7NmM
+   y9REJoQSY8k5nLf2T9SzxoKoxT7irxjpy0RBuVnFg4kNBO6Apx5FI/j+3
+   X50nqKVtqaYfRuqF+fvGw9V7PnmAYKFCzADobbgNQchpSa4vo7mIqwqTb
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="375975529"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="375975557"
 X-IronPort-AV: E=Sophos;i="6.02,143,1688454000"; 
-   d="scan'208";a="375975529"
+   d="scan'208";a="375975557"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 05:31:44 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 05:31:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="779171240"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="779171258"
 X-IronPort-AV: E=Sophos;i="6.02,143,1688454000"; 
-   d="scan'208";a="779171240"
+   d="scan'208";a="779171258"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 13 Sep 2023 05:31:43 -0700
+  by orsmga001.jf.intel.com with ESMTP; 13 Sep 2023 05:31:44 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgP1v-000031-1O;
-	Wed, 13 Sep 2023 12:31:40 +0000
-Date: Wed, 13 Sep 2023 20:30:57 +0800
+	id 1qgP1x-000034-0k;
+	Wed, 13 Sep 2023 12:31:41 +0000
+Date: Wed, 13 Sep 2023 20:30:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Igor Torrente <igormtorrente@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Melissa Wen <melissa.srw@gmail.com>
-Subject: drivers/gpu/drm/vkms/vkms_formats.c:91:35: sparse: sparse: cast to
- restricted __le16
-Message-ID: <202309132039.QGjCtYXa-lkp@intel.com>
+To: Matthew Brost <matthew.brost@intel.com>,
+	dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, robdclark@chromium.org,
+	thomas.hellstrom@linux.intel.com,
+	Matthew Brost <matthew.brost@intel.com>, sarah.walker@imgtec.com,
+	ketil.johnsen@arm.com, mcanal@igalia.com, Liviu.Dudau@arm.com,
+	luben.tuikov@amd.com, lina@asahilina.net, donald.robson@imgtec.com,
+	boris.brezillon@collabora.com, christian.koenig@amd.com,
+	faith.ekstrand@collabora.com
+Subject: Re: [PATCH v3 04/13] drm/sched: Add DRM_SCHED_POLICY_SINGLE_ENTITY
+ scheduling policy
+Message-ID: <202309132041.76l2uKon-lkp@intel.com>
+References: <20230912021615.2086698-5-matthew.brost@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,156 +54,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230912021615.2086698-5-matthew.brost@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3669558bdf354cd352be955ef2764cde6a9bf5ec
-commit: 3675d8a1726337bd1e839a185e0a7ce0bc459b6b drm: vkms: Adds XRGB_16161616 and ARGB_1616161616 formats
-date:   1 year ago
-config: i386-randconfig-061-20230909 (https://download.01.org/0day-ci/archive/20230913/202309132039.QGjCtYXa-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309132039.QGjCtYXa-lkp@intel.com/reproduce)
+Hi Matthew,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.6-rc1 next-20230913]
+[cannot apply to drm-misc/drm-misc-next drm-intel/for-linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/drm-sched-Add-drm_sched_submit_-helpers/20230912-102001
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20230912021615.2086698-5-matthew.brost%40intel.com
+patch subject: [PATCH v3 04/13] drm/sched: Add DRM_SCHED_POLICY_SINGLE_ENTITY scheduling policy
+reproduce: (https://download.01.org/0day-ci/archive/20230913/202309132041.76l2uKon-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309132039.QGjCtYXa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309132041.76l2uKon-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/vkms/vkms_formats.c:91:35: sparse: sparse: cast to restricted __le16
-   drivers/gpu/drm/vkms/vkms_formats.c:92:35: sparse: sparse: cast to restricted __le16
-   drivers/gpu/drm/vkms/vkms_formats.c:93:35: sparse: sparse: cast to restricted __le16
-   drivers/gpu/drm/vkms/vkms_formats.c:94:35: sparse: sparse: cast to restricted __le16
-   drivers/gpu/drm/vkms/vkms_formats.c:109:35: sparse: sparse: cast to restricted __le16
-   drivers/gpu/drm/vkms/vkms_formats.c:110:35: sparse: sparse: cast to restricted __le16
-   drivers/gpu/drm/vkms/vkms_formats.c:111:35: sparse: sparse: cast to restricted __le16
->> drivers/gpu/drm/vkms/vkms_formats.c:177:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:177:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:177:31: sparse:     got restricted __le16 [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:178:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:178:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:178:31: sparse:     got restricted __le16 [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:179:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:179:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:179:31: sparse:     got restricted __le16 [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:180:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:180:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:180:31: sparse:     got restricted __le16 [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:195:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:195:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:195:31: sparse:     got restricted __le16 [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:196:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:196:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:196:31: sparse:     got restricted __le16 [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:197:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:197:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:197:31: sparse:     got restricted __le16 [usertype]
+All warnings (new ones prefixed by >>):
 
-vim +91 drivers/gpu/drm/vkms/vkms_formats.c
-
-    80	
-    81	static void ARGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
-    82					     const struct vkms_frame_info *frame_info,
-    83					     int y)
-    84	{
-    85		struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-    86		u16 *src_pixels = get_packed_src_addr(frame_info, y);
-    87		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-    88				    stage_buffer->n_pixels);
-    89	
-    90		for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
-  > 91			out_pixels[x].a = le16_to_cpu(src_pixels[3]);
-    92			out_pixels[x].r = le16_to_cpu(src_pixels[2]);
-    93			out_pixels[x].g = le16_to_cpu(src_pixels[1]);
-    94			out_pixels[x].b = le16_to_cpu(src_pixels[0]);
-    95		}
-    96	}
-    97	
-    98	static void XRGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
-    99					     const struct vkms_frame_info *frame_info,
-   100					     int y)
-   101	{
-   102		struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-   103		u16 *src_pixels = get_packed_src_addr(frame_info, y);
-   104		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-   105				    stage_buffer->n_pixels);
-   106	
-   107		for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
-   108			out_pixels[x].a = (u16)0xffff;
-   109			out_pixels[x].r = le16_to_cpu(src_pixels[2]);
-   110			out_pixels[x].g = le16_to_cpu(src_pixels[1]);
-   111			out_pixels[x].b = le16_to_cpu(src_pixels[0]);
-   112		}
-   113	}
-   114	
-   115	/*
-   116	 * The following  functions take an line of argb_u16 pixels from the
-   117	 * src_buffer, convert them to a specific format, and store them in the
-   118	 * destination.
-   119	 *
-   120	 * They are used in the `compose_active_planes` to convert and store a line
-   121	 * from the src_buffer to the writeback buffer.
-   122	 */
-   123	static void argb_u16_to_ARGB8888(struct vkms_frame_info *frame_info,
-   124					 const struct line_buffer *src_buffer, int y)
-   125	{
-   126		int x_dst = frame_info->dst.x1;
-   127		u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
-   128		struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
-   129		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-   130				    src_buffer->n_pixels);
-   131	
-   132		for (size_t x = 0; x < x_limit; x++, dst_pixels += 4) {
-   133			/*
-   134			 * This sequence below is important because the format's byte order is
-   135			 * in little-endian. In the case of the ARGB8888 the memory is
-   136			 * organized this way:
-   137			 *
-   138			 * | Addr     | = blue channel
-   139			 * | Addr + 1 | = green channel
-   140			 * | Addr + 2 | = Red channel
-   141			 * | Addr + 3 | = Alpha channel
-   142			 */
-   143			dst_pixels[3] = DIV_ROUND_CLOSEST(in_pixels[x].a, 257);
-   144			dst_pixels[2] = DIV_ROUND_CLOSEST(in_pixels[x].r, 257);
-   145			dst_pixels[1] = DIV_ROUND_CLOSEST(in_pixels[x].g, 257);
-   146			dst_pixels[0] = DIV_ROUND_CLOSEST(in_pixels[x].b, 257);
-   147		}
-   148	}
-   149	
-   150	static void argb_u16_to_XRGB8888(struct vkms_frame_info *frame_info,
-   151					 const struct line_buffer *src_buffer, int y)
-   152	{
-   153		int x_dst = frame_info->dst.x1;
-   154		u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
-   155		struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
-   156		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-   157				    src_buffer->n_pixels);
-   158	
-   159		for (size_t x = 0; x < x_limit; x++, dst_pixels += 4) {
-   160			dst_pixels[3] = 0xff;
-   161			dst_pixels[2] = DIV_ROUND_CLOSEST(in_pixels[x].r, 257);
-   162			dst_pixels[1] = DIV_ROUND_CLOSEST(in_pixels[x].g, 257);
-   163			dst_pixels[0] = DIV_ROUND_CLOSEST(in_pixels[x].b, 257);
-   164		}
-   165	}
-   166	
-   167	static void argb_u16_to_ARGB16161616(struct vkms_frame_info *frame_info,
-   168					     const struct line_buffer *src_buffer, int y)
-   169	{
-   170		int x_dst = frame_info->dst.x1;
-   171		u16 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
-   172		struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
-   173		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-   174				    src_buffer->n_pixels);
-   175	
-   176		for (size_t x = 0; x < x_limit; x++, dst_pixels += 4) {
- > 177			dst_pixels[3] = cpu_to_le16(in_pixels[x].a);
-   178			dst_pixels[2] = cpu_to_le16(in_pixels[x].r);
-   179			dst_pixels[1] = cpu_to_le16(in_pixels[x].g);
-   180			dst_pixels[0] = cpu_to_le16(in_pixels[x].b);
-   181		}
-   182	}
-   183	
+>> Documentation/gpu/drm-mm:552: ./drivers/gpu/drm/scheduler/sched_main.c:52: WARNING: Enumerated list ends without a blank line; unexpected unindent.
 
 -- 
 0-DAY CI Kernel Test Service
