@@ -1,48 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C781384
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 01:45:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13AA5384
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 01:56:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694569534; x=1726105534;
+  t=1694570193; x=1726106193;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QQiwUW+QZswjdtHRi9vYCtGkW8OkLOjny8stQTm8EJc=;
-  b=O2y1lmqjF3fPnTt7jUs6T0QCV2xf1sLkBjDi0GxBoqxUCaTpe8lEoS3M
-   T4UDhXAEVmQ4ddKOWoySjFxoQO5AtD3SDbbAGTHqU8/Qr3gHtKbYqaV6O
-   NPOHzoMJBFwU0yLSmW6c0Zr9xCIZm9M9yT2a0vBL3JbnQAd7kdGTy7UAh
-   joIvDhz7pwPdPnVdOznEeI+Fer+ZS5S5YsMJtt6AVN3YaQelT+GWkCKNX
-   BodlKdE2c29c+G8j/Jlrzfq31oH6Qjsj6VhrEtod+6rGFHA13aNlowY30
-   iHNI7ds4L9d64Km7TAlKlxKk5GZl19qszt3BimAc8V+agNuHsGaiciguz
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="378452444"
+  bh=mgt4hJ4Gz1q7qQnoboHCcBn796CD6aUGzc4z1QJo8+c=;
+  b=ca9zPjEyCb6jTApP7S1mfC5OVa+34Z++Mn35lbjMKZ73OMoJT0rKpTrG
+   JirVNHm6U+k1HbAqbmWJeIJdqvcNh4edMH5ioXBRB2eM83nASippP/zmK
+   VDJm2VyJvX4Cqo3SlPaW1v2fKkgGvrJgtJuCUUMQkTOKdXtdazno7wrTR
+   zdOqHzrZHiy2NrERdwBpxYcWJKsx6FLh1NHNt4QqKe/bZdDkFdnA5z4N/
+   X4LbJe4/MuJ6DKofBKgNkS878FcjJFDFGKSk4xB5/HbWjzK1xYIVH+nR6
+   hJdjcX3Nvxjw67SLXFnUDRMkmAel1UjokTRZBtsWTen6VCdGwddI3PToe
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="377448743"
 X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="378452444"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 18:45:32 -0700
+   d="scan'208";a="377448743"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 18:56:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="859059257"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="779024219"
 X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="859059257"
+   d="scan'208";a="779024219"
 Received: from lkp-server02.sh.intel.com (HELO 47e905db7d2b) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 12 Sep 2023 18:45:30 -0700
+  by orsmga001.jf.intel.com with ESMTP; 12 Sep 2023 18:56:30 -0700
 Received: from kbuild by 47e905db7d2b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgEwa-0000aM-0U;
-	Wed, 13 Sep 2023 01:45:28 +0000
-Date: Wed, 13 Sep 2023 09:44:33 +0800
+	id 1qgF7E-0000b7-1n;
+	Wed, 13 Sep 2023 01:56:28 +0000
+Date: Wed, 13 Sep 2023 09:56:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jordan Niethe <jniethe5@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Vaibhav Jain <vaibhav@linux.ibm.com>,
-	Gautam Menghani <gautam@linux.ibm.com>,
-	Kautuk Consul <kconsul@linux.vnet.ibm.com>,
-	Amit Machhiwal <amachhiw@linux.vnet.ibm.com>
-Subject: [powerpc:topic/ppc-kvm 10/11]
- arch/powerpc/kvm/book3s_hv_nestedv2.c:465:29: error: variable 'amor' set but
- not used
-Message-ID: <202309130935.Bj7eusw4-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/641 449/25020] htmldocs:
+ ./include/media/v4l2-async.h:240: warning: This comment starts with '/**',
+ but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202309130952.4ddN2UdF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,258 +47,139 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git topic/ppc-kvm
-head:   5af8497e01ed97410b2f19ca8320a3bcdcfe267b
-commit: da467d188ec7dd17770d813226cd92329e9b5b3b [10/11] KVM: PPC: Add support for nestedv2 guests
-config: powerpc-ppc64_defconfig (https://download.01.org/0day-ci/archive/20230913/202309130935.Bj7eusw4-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309130935.Bj7eusw4-lkp@intel.com/reproduce)
+Hi Robby,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/Freescale/linux-fslc pr/641
+head:   ba2847ffebda28ba7be1b96bb506bfe5b67c856e
+commit: 660780bb2c44fe378f3e59bc0636c7978aec78cb [449/25020] LF-4575-1 Revert "media: v4l2-async: Remove V4L2_ASYNC_MATCH_DEVNAME"
+reproduce: (https://download.01.org/0day-ci/archive/20230913/202309130952.4ddN2UdF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309130935.Bj7eusw4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309130952.4ddN2UdF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/powerpc/kvm/book3s_hv_nestedv2.c: In function 'gs_msg_ops_vcpu_refresh_info':
->> arch/powerpc/kvm/book3s_hv_nestedv2.c:465:29: error: variable 'amor' set but not used [-Werror=unused-but-set-variable]
-     465 |                         u64 amor;
-         |                             ^~~~
-   cc1: all warnings being treated as errors
+>> ./include/media/v4l2-async.h:240: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
 
+vim +240 ./include/media/v4l2-async.h
 
-vim +/amor +465 arch/powerpc/kvm/book3s_hv_nestedv2.c
-
-   361	
-   362	static int gs_msg_ops_vcpu_refresh_info(struct kvmppc_gs_msg *gsm,
-   363						struct kvmppc_gs_buff *gsb)
-   364	{
-   365		struct kvmppc_gs_parser gsp = { 0 };
-   366		struct kvmhv_nestedv2_io *io;
-   367		struct kvmppc_gs_bitmap *valids;
-   368		struct kvm_vcpu *vcpu;
-   369		struct kvmppc_gs_elem *gse;
-   370		vector128 v;
-   371		int rc, i;
-   372		u16 iden;
-   373	
-   374		vcpu = gsm->data;
-   375	
-   376		rc = kvmppc_gse_parse(&gsp, gsb);
-   377		if (rc < 0)
-   378			return rc;
-   379	
-   380		io = &vcpu->arch.nestedv2_io;
-   381		valids = &io->valids;
-   382	
-   383		kvmppc_gsp_for_each(&gsp, iden, gse)
-   384		{
-   385			switch (iden) {
-   386			case KVMPPC_GSID_DSCR:
-   387				vcpu->arch.dscr = kvmppc_gse_get_u64(gse);
-   388				break;
-   389			case KVMPPC_GSID_MMCRA:
-   390				vcpu->arch.mmcra = kvmppc_gse_get_u64(gse);
-   391				break;
-   392			case KVMPPC_GSID_HFSCR:
-   393				vcpu->arch.hfscr = kvmppc_gse_get_u64(gse);
-   394				break;
-   395			case KVMPPC_GSID_PURR:
-   396				vcpu->arch.purr = kvmppc_gse_get_u64(gse);
-   397				break;
-   398			case KVMPPC_GSID_SPURR:
-   399				vcpu->arch.spurr = kvmppc_gse_get_u64(gse);
-   400				break;
-   401			case KVMPPC_GSID_AMR:
-   402				vcpu->arch.amr = kvmppc_gse_get_u64(gse);
-   403				break;
-   404			case KVMPPC_GSID_UAMOR:
-   405				vcpu->arch.uamor = kvmppc_gse_get_u64(gse);
-   406				break;
-   407			case KVMPPC_GSID_SIAR:
-   408				vcpu->arch.siar = kvmppc_gse_get_u64(gse);
-   409				break;
-   410			case KVMPPC_GSID_SDAR:
-   411				vcpu->arch.sdar = kvmppc_gse_get_u64(gse);
-   412				break;
-   413			case KVMPPC_GSID_IAMR:
-   414				vcpu->arch.iamr = kvmppc_gse_get_u64(gse);
-   415				break;
-   416			case KVMPPC_GSID_DAWR0:
-   417				vcpu->arch.dawr0 = kvmppc_gse_get_u64(gse);
-   418				break;
-   419			case KVMPPC_GSID_DAWR1:
-   420				vcpu->arch.dawr1 = kvmppc_gse_get_u64(gse);
-   421				break;
-   422			case KVMPPC_GSID_DAWRX0:
-   423				vcpu->arch.dawrx0 = kvmppc_gse_get_u32(gse);
-   424				break;
-   425			case KVMPPC_GSID_DAWRX1:
-   426				vcpu->arch.dawrx1 = kvmppc_gse_get_u32(gse);
-   427				break;
-   428			case KVMPPC_GSID_CIABR:
-   429				vcpu->arch.ciabr = kvmppc_gse_get_u64(gse);
-   430				break;
-   431			case KVMPPC_GSID_WORT:
-   432				vcpu->arch.wort = kvmppc_gse_get_u32(gse);
-   433				break;
-   434			case KVMPPC_GSID_PPR:
-   435				vcpu->arch.ppr = kvmppc_gse_get_u64(gse);
-   436				break;
-   437			case KVMPPC_GSID_PSPB:
-   438				vcpu->arch.pspb = kvmppc_gse_get_u32(gse);
-   439				break;
-   440			case KVMPPC_GSID_TAR:
-   441				vcpu->arch.tar = kvmppc_gse_get_u64(gse);
-   442				break;
-   443			case KVMPPC_GSID_FSCR:
-   444				vcpu->arch.fscr = kvmppc_gse_get_u64(gse);
-   445				break;
-   446			case KVMPPC_GSID_EBBHR:
-   447				vcpu->arch.ebbhr = kvmppc_gse_get_u64(gse);
-   448				break;
-   449			case KVMPPC_GSID_EBBRR:
-   450				vcpu->arch.ebbrr = kvmppc_gse_get_u64(gse);
-   451				break;
-   452			case KVMPPC_GSID_BESCR:
-   453				vcpu->arch.bescr = kvmppc_gse_get_u64(gse);
-   454				break;
-   455			case KVMPPC_GSID_IC:
-   456				vcpu->arch.ic = kvmppc_gse_get_u64(gse);
-   457				break;
-   458			case KVMPPC_GSID_CTRL:
-   459				vcpu->arch.ctrl = kvmppc_gse_get_u64(gse);
-   460				break;
-   461			case KVMPPC_GSID_PIDR:
-   462				vcpu->arch.pid = kvmppc_gse_get_u32(gse);
-   463				break;
-   464			case KVMPPC_GSID_AMOR: {
- > 465				u64 amor;
-   466	
-   467				amor = kvmppc_gse_get_u64(gse);
-   468				break;
-   469			}
-   470			case KVMPPC_GSID_VRSAVE:
-   471				vcpu->arch.vrsave = kvmppc_gse_get_u32(gse);
-   472				break;
-   473			case KVMPPC_GSID_MMCR(0)... KVMPPC_GSID_MMCR(3):
-   474				i = iden - KVMPPC_GSID_MMCR(0);
-   475				vcpu->arch.mmcr[i] = kvmppc_gse_get_u64(gse);
-   476				break;
-   477			case KVMPPC_GSID_SIER(0)... KVMPPC_GSID_SIER(2):
-   478				i = iden - KVMPPC_GSID_SIER(0);
-   479				vcpu->arch.sier[i] = kvmppc_gse_get_u64(gse);
-   480				break;
-   481			case KVMPPC_GSID_PMC(0)... KVMPPC_GSID_PMC(5):
-   482				i = iden - KVMPPC_GSID_PMC(0);
-   483				vcpu->arch.pmc[i] = kvmppc_gse_get_u32(gse);
-   484				break;
-   485			case KVMPPC_GSID_GPR(0)... KVMPPC_GSID_GPR(31):
-   486				i = iden - KVMPPC_GSID_GPR(0);
-   487				vcpu->arch.regs.gpr[i] = kvmppc_gse_get_u64(gse);
-   488				break;
-   489			case KVMPPC_GSID_CR:
-   490				vcpu->arch.regs.ccr = kvmppc_gse_get_u32(gse);
-   491				break;
-   492			case KVMPPC_GSID_XER:
-   493				vcpu->arch.regs.xer = kvmppc_gse_get_u64(gse);
-   494				break;
-   495			case KVMPPC_GSID_CTR:
-   496				vcpu->arch.regs.ctr = kvmppc_gse_get_u64(gse);
-   497				break;
-   498			case KVMPPC_GSID_LR:
-   499				vcpu->arch.regs.link = kvmppc_gse_get_u64(gse);
-   500				break;
-   501			case KVMPPC_GSID_NIA:
-   502				vcpu->arch.regs.nip = kvmppc_gse_get_u64(gse);
-   503				break;
-   504			case KVMPPC_GSID_SRR0:
-   505				vcpu->arch.shregs.srr0 = kvmppc_gse_get_u64(gse);
-   506				break;
-   507			case KVMPPC_GSID_SRR1:
-   508				vcpu->arch.shregs.srr1 = kvmppc_gse_get_u64(gse);
-   509				break;
-   510			case KVMPPC_GSID_SPRG0:
-   511				vcpu->arch.shregs.sprg0 = kvmppc_gse_get_u64(gse);
-   512				break;
-   513			case KVMPPC_GSID_SPRG1:
-   514				vcpu->arch.shregs.sprg1 = kvmppc_gse_get_u64(gse);
-   515				break;
-   516			case KVMPPC_GSID_SPRG2:
-   517				vcpu->arch.shregs.sprg2 = kvmppc_gse_get_u64(gse);
-   518				break;
-   519			case KVMPPC_GSID_SPRG3:
-   520				vcpu->arch.shregs.sprg3 = kvmppc_gse_get_u64(gse);
-   521				break;
-   522			case KVMPPC_GSID_DAR:
-   523				vcpu->arch.shregs.dar = kvmppc_gse_get_u64(gse);
-   524				break;
-   525			case KVMPPC_GSID_DSISR:
-   526				vcpu->arch.shregs.dsisr = kvmppc_gse_get_u32(gse);
-   527				break;
-   528			case KVMPPC_GSID_MSR:
-   529				vcpu->arch.shregs.msr = kvmppc_gse_get_u64(gse);
-   530				break;
-   531			case KVMPPC_GSID_VTB:
-   532				vcpu->arch.vcore->vtb = kvmppc_gse_get_u64(gse);
-   533				break;
-   534			case KVMPPC_GSID_LPCR:
-   535				vcpu->arch.vcore->lpcr = kvmppc_gse_get_u64(gse);
-   536				break;
-   537			case KVMPPC_GSID_TB_OFFSET:
-   538				vcpu->arch.vcore->tb_offset = kvmppc_gse_get_u64(gse);
-   539				break;
-   540			case KVMPPC_GSID_FPSCR:
-   541				vcpu->arch.fp.fpscr = kvmppc_gse_get_u64(gse);
-   542				break;
-   543			case KVMPPC_GSID_VSRS(0)... KVMPPC_GSID_VSRS(31):
-   544				kvmppc_gse_get_vector128(gse, &v);
-   545				i = iden - KVMPPC_GSID_VSRS(0);
-   546				memcpy(&vcpu->arch.fp.fpr[i], &v,
-   547				       sizeof(vcpu->arch.fp.fpr[i]));
-   548				break;
-   549	#ifdef CONFIG_VSX
-   550			case KVMPPC_GSID_VSCR:
-   551				vcpu->arch.vr.vscr.u[3] = kvmppc_gse_get_u32(gse);
-   552				break;
-   553			case KVMPPC_GSID_VSRS(32)... KVMPPC_GSID_VSRS(63):
-   554				i = iden - KVMPPC_GSID_VSRS(32);
-   555				kvmppc_gse_get_vector128(gse, &vcpu->arch.vr.vr[i]);
-   556				break;
-   557	#endif
-   558			case KVMPPC_GSID_HDAR:
-   559				vcpu->arch.fault_dar = kvmppc_gse_get_u64(gse);
-   560				break;
-   561			case KVMPPC_GSID_HDSISR:
-   562				vcpu->arch.fault_dsisr = kvmppc_gse_get_u32(gse);
-   563				break;
-   564			case KVMPPC_GSID_ASDR:
-   565				vcpu->arch.fault_gpa = kvmppc_gse_get_u64(gse);
-   566				break;
-   567			case KVMPPC_GSID_HEIR:
-   568				vcpu->arch.emul_inst = kvmppc_gse_get_u64(gse);
-   569				break;
-   570			case KVMPPC_GSID_DEC_EXPIRY_TB: {
-   571				u64 dw;
-   572	
-   573				dw = kvmppc_gse_get_u64(gse);
-   574				vcpu->arch.dec_expires =
-   575					dw + vcpu->arch.vcore->tb_offset;
-   576				break;
-   577			}
-   578			case KVMPPC_GSID_LOGICAL_PVR:
-   579				vcpu->arch.vcore->arch_compat = kvmppc_gse_get_u32(gse);
-   580				break;
-   581			default:
-   582				continue;
-   583			}
-   584			kvmppc_gsbm_set(valids, iden);
-   585		}
-   586	
-   587		return 0;
-   588	}
-   589	
+   145	
+   146	/**
+   147	 * __v4l2_async_notifier_add_subdev - Add an async subdev to the
+   148	 *				notifier's master asd list.
+   149	 *
+   150	 * @notifier: pointer to &struct v4l2_async_notifier
+   151	 * @asd: pointer to &struct v4l2_async_subdev
+   152	 *
+   153	 * \warning: Drivers should avoid using this function and instead use one of:
+   154	 * v4l2_async_notifier_add_fwnode_subdev(),
+   155	 * v4l2_async_notifier_add_fwnode_remote_subdev() or
+   156	 * v4l2_async_notifier_add_i2c_subdev().
+   157	 *
+   158	 * Call this function before registering a notifier to link the provided @asd to
+   159	 * the notifiers master @asd_list. The @asd must be allocated with k*alloc() as
+   160	 * it will be freed by the framework when the notifier is destroyed.
+   161	 */
+   162	int __v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
+   163					   struct v4l2_async_subdev *asd);
+   164	
+   165	struct v4l2_async_subdev *
+   166	__v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
+   167						struct fwnode_handle *fwnode,
+   168						unsigned int asd_struct_size);
+   169	/**
+   170	 * v4l2_async_notifier_add_fwnode_subdev - Allocate and add a fwnode async
+   171	 *				subdev to the notifier's master asd_list.
+   172	 *
+   173	 * @notifier: pointer to &struct v4l2_async_notifier
+   174	 * @fwnode: fwnode handle of the sub-device to be matched, pointer to
+   175	 *	    &struct fwnode_handle
+   176	 * @type: Type of the driver's async sub-device struct. The &struct
+   177	 *	  v4l2_async_subdev shall be the first member of the driver's async
+   178	 *	  sub-device struct, i.e. both begin at the same memory address.
+   179	 *
+   180	 * Allocate a fwnode-matched asd of size asd_struct_size, and add it to the
+   181	 * notifiers @asd_list. The function also gets a reference of the fwnode which
+   182	 * is released later at notifier cleanup time.
+   183	 */
+   184	#define v4l2_async_notifier_add_fwnode_subdev(notifier, fwnode, type)	\
+   185		((type *)__v4l2_async_notifier_add_fwnode_subdev(notifier, fwnode, \
+   186								   sizeof(type)))
+   187	
+   188	struct v4l2_async_subdev *
+   189	__v4l2_async_notifier_add_fwnode_remote_subdev(struct v4l2_async_notifier *notif,
+   190						       struct fwnode_handle *endpoint,
+   191						       unsigned int asd_struct_size);
+   192	/**
+   193	 * v4l2_async_notifier_add_fwnode_remote_subdev - Allocate and add a fwnode
+   194	 *						  remote async subdev to the
+   195	 *						  notifier's master asd_list.
+   196	 *
+   197	 * @notifier: pointer to &struct v4l2_async_notifier
+   198	 * @ep: local endpoint pointing to the remote sub-device to be matched,
+   199	 *	pointer to &struct fwnode_handle
+   200	 * @type: Type of the driver's async sub-device struct. The &struct
+   201	 *	  v4l2_async_subdev shall be the first member of the driver's async
+   202	 *	  sub-device struct, i.e. both begin at the same memory address.
+   203	 *
+   204	 * Gets the remote endpoint of a given local endpoint, set it up for fwnode
+   205	 * matching and adds the async sub-device to the notifier's @asd_list. The
+   206	 * function also gets a reference of the fwnode which is released later at
+   207	 * notifier cleanup time.
+   208	 *
+   209	 * This is just like v4l2_async_notifier_add_fwnode_subdev(), but with the
+   210	 * exception that the fwnode refers to a local endpoint, not the remote one.
+   211	 */
+   212	#define v4l2_async_notifier_add_fwnode_remote_subdev(notifier, ep, type) \
+   213		((type *)							\
+   214		 __v4l2_async_notifier_add_fwnode_remote_subdev(notifier, ep,	\
+   215								sizeof(type)))
+   216	
+   217	struct v4l2_async_subdev *
+   218	__v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
+   219					     int adapter_id, unsigned short address,
+   220					     unsigned int asd_struct_size);
+   221	/**
+   222	 * v4l2_async_notifier_add_i2c_subdev - Allocate and add an i2c async
+   223	 *				subdev to the notifier's master asd_list.
+   224	 *
+   225	 * @notifier: pointer to &struct v4l2_async_notifier
+   226	 * @adapter: I2C adapter ID to be matched
+   227	 * @address: I2C address of sub-device to be matched
+   228	 * @type: Type of the driver's async sub-device struct. The &struct
+   229	 *	  v4l2_async_subdev shall be the first member of the driver's async
+   230	 *	  sub-device struct, i.e. both begin at the same memory address.
+   231	 *
+   232	 * Same as v4l2_async_notifier_add_fwnode_subdev() but for I2C matched
+   233	 * sub-devices.
+   234	 */
+   235	#define v4l2_async_notifier_add_i2c_subdev(notifier, adapter, address, type) \
+   236		((type *)__v4l2_async_notifier_add_i2c_subdev(notifier, adapter, \
+   237							      address, sizeof(type)))
+   238	
+   239	/**
+ > 240	 * * v4l2_async_notifier_add_devname_subdev - Allocate and add a device-name
+   241	 *				async subdev to the notifier's master asd_list.
+   242	 *
+   243	 * @notifier: pointer to &struct v4l2_async_notifier
+   244	 * @device_name: device name string to be matched
+   245	 * @asd_struct_size: size of the driver's async sub-device struct, including
+   246	 *		     sizeof(struct v4l2_async_subdev). The &struct
+   247	 *		     v4l2_async_subdev shall be the first member of
+   248	 *		     the driver's async sub-device struct, i.e. both
+   249	 *		     begin at the same memory address.
+   250	 *
+   251	 * Same as above but for device-name matched sub-devices.
+   252	 */
+   253	struct v4l2_async_subdev *
+   254	v4l2_async_notifier_add_devname_subdev(struct v4l2_async_notifier *notifier,
+   255					       const char *device_name,
+   256					       unsigned int asd_struct_size);
+   257	
 
 -- 
 0-DAY CI Kernel Test Service
