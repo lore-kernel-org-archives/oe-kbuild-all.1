@@ -1,129 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D371AD5C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 22:16:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694643411; x=1726179411;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gV5m7FnIi0psr4k+6ytGpr38jWqH/wH1K3hvo+SLTQI=;
-  b=iFRRcrwmnz0dL4nJTpfGqn1jwCs4QA+hJVfAW+bgHdoIZPGLgg9pjULI
-   s2XK7b72vZQQSQazmqKtkFUQ8Y+pryatS+9ITXiyivk9+Wh+S45FNnA0/
-   LcaMfQag9l8mgNNsW7YLTCW5IMO9JViZanSik/KBlWtDoYarJsWIlG60o
-   /jF7SCQLCS7HwZTbL2ZZG2MaflxPZj/4RwOJ8BpjPxqzV/Ox7IWP4j3JJ
-   b9wrjjpsHk6BEsSRWBlYJUvS0fXsg/6QNJscpvGqwKo2KSjS1k9H1iwxb
-   ZRzexnbJNNMjMTO0e6QcA0JOtbNqwavMW6WRWkE/q8JuRvcghbFTYLL+p
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="377706284"
-X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="377706284"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 15:16:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="694001202"
-X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="694001202"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 13 Sep 2023 15:16:47 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qgYA3-0000iz-1N;
-	Wed, 13 Sep 2023 22:16:42 +0000
-Date: Thu, 14 Sep 2023 06:15:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, keescook@chromium.org,
-	brauner@kernel.org, lennart@poettering.net, kernel-team@meta.com,
-	sargun@sargun.me
-Subject: Re: [PATCH v4 bpf-next 07/12] bpf: consistenly use BPF token
- throughout BPF verifier logic
-Message-ID: <202309140537.jHmBqMd6-lkp@intel.com>
-References: <20230912212906.3975866-8-andrii@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D527200CB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 22:19:04 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-59bbed7353aso5508567b3.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 15:19:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1694643543; x=1695248343; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5pve2evvQG8Wu6dcM6eIRAvQq/3oe/203mcy+b19gA8=;
+        b=Y7N3n2zkkK4BHbLGpRAzwQk8KFR6Z9zNgov5tnHdLohweaAS2pj3leANe96wGqYhUf
+         ETFpL945HhUmZ5oyD8f42919yE7RJBpqjEkUHGtdH/T1Q2ruQHS/4TVibkic0pGUp6L2
+         whWr9Pk6CaWYRkmU6KgBh0phnajy7I7sqlQ1anfFzgv/slntsGTeO/duJKo/okbYk+zw
+         Sx31DnOTi8w6h1+rg/MyEq6e4t2nqVMYo7XSm7sy5/F5+ug9nGQfnTf+ef0YDhGmCosI
+         L8dsMdsheSb94mcJyHZkJ4VnnZpK+B2QIB6JFtSMuEUUiRGqW8goEefxt/YdkYN69ZLd
+         xnoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694643543; x=1695248343;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5pve2evvQG8Wu6dcM6eIRAvQq/3oe/203mcy+b19gA8=;
+        b=aFprJM5QMKGFWMiEddp8Mm/Zqip/4knW5w9XGcBbzA/Qc5GTh3whd/ZMAzOn+eFM1Y
+         7E0E1lWCtgqPm4UeBDwekA7cOByBQHLFhAMk0uL8XvLc0seKTGaPJjFC4TLGNRL3SMW8
+         EONGL3EUFYYFWn3a7P3J1JIp153BT9WYa+wYp2JUE2/UpF1UQis+D1TXNOysfTe7cL18
+         EZAtbOfIxtknpwdWVxDbPpwh7PcaUA0lIlKsOYBImZPBG67kO8VqIi+7K8G8iEfgbJnb
+         zJZHnT1bnR4Rgsu8f4Qu0CIyvjKNmPWtDnla5jy1/SrqCKL1MyVAdfC98gUCZsEWQfV+
+         ZOZg==
+X-Gm-Message-State: AOJu0YwVx/HA8oOCihWC0n6ZBm/Y/OGMCZCHL4QgrPQcUMAGUujDpzs5
+	PbW0mN+B8cQhq/38DnxyMuIVYIAJG7Q4C5VceC4x
+X-Google-Smtp-Source: AGHT+IHd6f6RECjVcqmCL7A7894346dihNwE1aPIds0EMQzgoG2VHb2Uwc+wEHwTPX1DhNcQCvdHYBRnbGkUN+jxvow=
+X-Received: by 2002:a81:91d3:0:b0:59b:52c2:5f15 with SMTP id
+ i202-20020a8191d3000000b0059b52c25f15mr19342ywg.25.1694643543316; Wed, 13 Sep
+ 2023 15:19:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230912212906.3975866-8-andrii@kernel.org>
+References: <ZOXG/VVC1XRc7TtI@gmail.com> <202308240128.Gsn0b0Fv-lkp@intel.com>
+In-Reply-To: <202308240128.Gsn0b0Fv-lkp@intel.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Wed, 13 Sep 2023 18:18:52 -0400
+Message-ID: <CAHC9VhS2Smf9V0xJoBeuVfpMP2fhUnn8za_rLzJCmLB_-wBVLA@mail.gmail.com>
+Subject: Re: [PATCH] lsm: constify 'mnt_opts' parameter in security_free_mnt_opts()
+To: Khadija Kamran <kamrankhadijadj@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, Casey Schaufler <casey@schaufler-ca.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Eric Paris <eparis@parisplace.org>, 
+	selinux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, ztarkhani@microsoft.com, 
+	alison.schofield@intel.com, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Andrii,
+On Wed, Aug 23, 2023 at 1:22=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Khadija,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on pcmoore-selinux/next]
+> [also build test ERROR on pcmoore-audit/next linus/master v6.5-rc7 next-2=
+0230823]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Khadija-Kamran/lsm=
+-constify-mnt_opts-parameter-in-security_free_mnt_opts/20230823-170310
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/selinux.g=
+it next
+> patch link:    https://lore.kernel.org/r/ZOXG%2FVVC1XRc7TtI%40gmail.com
+> patch subject: [PATCH] lsm: constify 'mnt_opts' parameter in security_fre=
+e_mnt_opts()
+> config: riscv-randconfig-001-20230823 (https://download.01.org/0day-ci/ar=
+chive/20230824/202308240128.Gsn0b0Fv-lkp@intel.com/config)
+> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git =
+f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> reproduce: (https://download.01.org/0day-ci/archive/20230824/202308240128=
+.Gsn0b0Fv-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308240128.Gsn0b0Fv-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> fs/btrfs/super.c:1523:25: error: passing 'void **' to parameter of typ=
+e 'const void **' discards qualifiers in nested pointer types [-Werror,-Win=
+compatible-pointer-types-discards-qualifiers]
+>            security_free_mnt_opts(&new_sec_opts);
+>                                   ^~~~~~~~~~~~~
+>    include/linux/security.h:301:42: note: passing argument to parameter '=
+mnt_opts' here
+>    void security_free_mnt_opts(const void **mnt_opts);
+>                                             ^
+>    fs/btrfs/super.c:1536:25: error: passing 'void **' to parameter of typ=
+e 'const void **' discards qualifiers in nested pointer types [-Werror,-Win=
+compatible-pointer-types-discards-qualifiers]
+>            security_free_mnt_opts(&new_sec_opts);
+>                                   ^~~~~~~~~~~~~
+>    include/linux/security.h:301:42: note: passing argument to parameter '=
+mnt_opts' here
+>    void security_free_mnt_opts(const void **mnt_opts);
+>                                             ^
+>    fs/btrfs/super.c:1699:26: error: passing 'void **' to parameter of typ=
+e 'const void **' discards qualifiers in nested pointer types [-Werror,-Win=
+compatible-pointer-types-discards-qualifiers]
+>                    security_free_mnt_opts(&new_sec_opts);
+>                                           ^~~~~~~~~~~~~
+>    include/linux/security.h:301:42: note: passing argument to parameter '=
+mnt_opts' here
+>    void security_free_mnt_opts(const void **mnt_opts);
+>                                             ^
+>    3 errors generated.
 
-kernel test robot noticed the following build errors:
+Hi Khadija, can you check to see if these errors can be resolved?
 
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-add-BPF-token-delegation-mount-options-to-BPF-FS/20230913-053240
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230912212906.3975866-8-andrii%40kernel.org
-patch subject: [PATCH v4 bpf-next 07/12] bpf: consistenly use BPF token throughout BPF verifier logic
-config: x86_64-randconfig-074-20230914 (https://download.01.org/0day-ci/archive/20230914/202309140537.jHmBqMd6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309140537.jHmBqMd6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309140537.jHmBqMd6-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/net/sock_reuseport.h:5,
-                    from include/net/tcp.h:35,
-                    from include/linux/netfilter_ipv6.h:11,
-                    from include/uapi/linux/netfilter_ipv6/ip6_tables.h:22,
-                    from include/linux/netfilter_ipv6/ip6_tables.h:23,
-                    from net/ipv6/netfilter/ip6table_filter.c:11:
-   include/linux/filter.h: In function 'bpf_jit_blinding_enabled':
->> include/linux/filter.h:1104:36: error: implicit declaration of function 'bpf_token_capable'; did you mean 'bpf_token_put'? [-Werror=implicit-function-declaration]
-    1104 |         if (bpf_jit_harden == 1 && bpf_token_capable(prog->aux->token, CAP_BPF))
-         |                                    ^~~~~~~~~~~~~~~~~
-         |                                    bpf_token_put
-   cc1: some warnings being treated as errors
---
-   In file included from include/net/sock_reuseport.h:5,
-                    from include/net/tcp.h:35,
-                    from include/linux/netfilter_ipv6.h:11,
-                    from net/ipv6/netfilter/nf_reject_ipv6.c:12:
-   include/linux/filter.h: In function 'bpf_jit_blinding_enabled':
->> include/linux/filter.h:1104:36: error: implicit declaration of function 'bpf_token_capable'; did you mean 'bpf_token_put'? [-Werror=implicit-function-declaration]
-    1104 |         if (bpf_jit_harden == 1 && bpf_token_capable(prog->aux->token, CAP_BPF))
-         |                                    ^~~~~~~~~~~~~~~~~
-         |                                    bpf_token_put
-   net/ipv6/netfilter/nf_reject_ipv6.c: In function 'nf_send_reset6':
-   net/ipv6/netfilter/nf_reject_ipv6.c:287:25: warning: variable 'ip6h' set but not used [-Wunused-but-set-variable]
-     287 |         struct ipv6hdr *ip6h;
-         |                         ^~~~
-   cc1: some warnings being treated as errors
-
-
-vim +1104 include/linux/filter.h
-
-  1091	
-  1092	static inline bool bpf_jit_blinding_enabled(struct bpf_prog *prog)
-  1093	{
-  1094		/* These are the prerequisites, should someone ever have the
-  1095		 * idea to call blinding outside of them, we make sure to
-  1096		 * bail out.
-  1097		 */
-  1098		if (!bpf_jit_is_ebpf())
-  1099			return false;
-  1100		if (!prog->jit_requested)
-  1101			return false;
-  1102		if (!bpf_jit_harden)
-  1103			return false;
-> 1104		if (bpf_jit_harden == 1 && bpf_token_capable(prog->aux->token, CAP_BPF))
-  1105			return false;
-  1106	
-  1107		return true;
-  1108	}
-  1109	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+paul-moore.com
