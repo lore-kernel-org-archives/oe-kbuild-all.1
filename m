@@ -1,55 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D96414F6F;
-	Wed, 13 Sep 2023 10:18:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BFA3C0F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 10:28:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694600310; x=1726136310;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jvJr9OQ5XaplZ2MlNIADa5rR127QA75ZhurnRWf+Y9g=;
-  b=jkWo0QUHh4tNXCEYqWHN3s0ORY1txbxcOME9ENcVijjbc6CbWeoThKe7
-   DCIAwhlfh5O2RzIRZsg+caBgtwjh6HAeryZ1KCkKEUAvN2uAsTw0dwZOh
-   Ts+loPeg8jpj2C8jUXZFulbq0Be8hCzOYV690CW8A/fd9sbLNIL3+Qu1d
-   9pv+z8A9nfu4zPUC6hucEUYDFNUEQ/MTCHHPbRo2YGEA0C1NV9rXhaTf/
-   H8NGZUBpHOgoiGyiwMKozRHZab5oUrBIVpcWgHpoiqD0YalmyixxY5tf+
-   i56BVHduNSgXXVpeCBWbmyDRGpuJOWidK0e7xFY3Xo+ydsvfvel9uCll/
+  t=1694600904; x=1726136904;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EoTmNYoTu9hub9BQ02LPRvcEkqcucebluHidZiTkYPs=;
+  b=mqkOU13tqcv32EmW5kYPl4IHHLDZgEZlIXV3HBq4KL9cTY9luLlE29bF
+   dLFdike6NYRWB8bS5AtcE1Nsy+yjHqRVC94c0j5kPPtdKNanNMctUUbS4
+   2U+4kYHxcwU6OEpH+Z54kZq5tfV00y2kEhwnqMFA8Fa+2KzykYDVD4eCk
+   +ICihHQjyU0KJ75QkUSJ4DG4Qi2NBypRM8pzgBZl5/IHRKwenTCXjt8UR
+   x3A8ssnlWSfwCRGnOZg7S7bgqWIl7Ag50oqlbf+N30+0oGSFgxqK56vcU
+   2/jZKAbyMiA45ro+A+6qm58T/RcJlhTzVg8ebxBRwa9B4VZp7DjdbpT5F
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="445058234"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="363652633"
 X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="445058234"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 03:18:27 -0700
+   d="scan'208";a="363652633"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 03:28:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="814171606"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="917773492"
 X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="814171606"
+   d="scan'208";a="917773492"
 Received: from lkp-server02.sh.intel.com (HELO cf13c67269a2) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Sep 2023 03:18:23 -0700
+  by orsmga005.jf.intel.com with ESMTP; 13 Sep 2023 03:28:22 -0700
 Received: from kbuild by cf13c67269a2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgMwt-0000OF-1K;
-	Wed, 13 Sep 2023 10:18:19 +0000
-Date: Wed, 13 Sep 2023 18:17:55 +0800
+	id 1qgN6Z-0000Of-2N;
+	Wed, 13 Sep 2023 10:28:19 +0000
+Date: Wed, 13 Sep 2023 18:28:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	"Rafael J . Wysocki" <rjw@rjwysocki.net>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Hans de Goede <hdegoede@redhat.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	"open list:X86 PLATFORM DRIVERS" <platform-driver-x86@vger.kernel.org>,
-	"open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
-	linux-pm@vger.kernel.org,
-	"open list:USB XHCI DRIVER" <linux-usb@vger.kernel.org>,
-	iain@orangesquash.org.uk,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v18 2/2] PCI: Add a quirk for AMD PCIe root ports w/ USB4
- controllers
-Message-ID: <202309131834.q68yWKdZ-lkp@intel.com>
-References: <20230913040832.114610-3-mario.limonciello@amd.com>
+To: Kent Overstreet <kmo@daterainc.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 2179/4552] fs/bcachefs/btree_key_cache.c:701:21:
+ warning: format '%zu' expects argument of type 'size_t', but argument 4 has
+ type 'long int'
+Message-ID: <202309131826.J2HlElWs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,172 +47,154 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230913040832.114610-3-mario.limonciello@amd.com>
 
-Hi Mario,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 0bb80ecc33a8fb5a682236443c1e740d5c917d1d]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PCI-Move-the-PCI_CLASS_SERIAL_USB_USB4-definition-to-common-header/20230913-121559
-base:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-patch link:    https://lore.kernel.org/r/20230913040832.114610-3-mario.limonciello%40amd.com
-patch subject: [PATCH v18 2/2] PCI: Add a quirk for AMD PCIe root ports w/ USB4 controllers
-config: i386-randconfig-r023-20230913 (https://download.01.org/0day-ci/archive/20230913/202309131834.q68yWKdZ-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131834.q68yWKdZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e143016b56ecb0fcda5bb6026b0a25fe55274f56
+commit: 0b07f462c6742128c9fcd67656fb110f2d39c4e1 [2179/4552] bcachefs: btree key cache locking improvements
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230913/202309131826.J2HlElWs-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131826.J2HlElWs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309131834.q68yWKdZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309131826.J2HlElWs-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/pci/quirks.c:3890:15: warning: using the result of an assignment as a condition without parentheses [-Wparentheses]
-           while (child = pci_get_class(PCI_CLASS_SERIAL_USB_USB4, child)) {
-                  ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/quirks.c:3890:15: note: place parentheses around the assignment to silence this warning
-           while (child = pci_get_class(PCI_CLASS_SERIAL_USB_USB4, child)) {
-                        ^
-                  (                                                      )
-   drivers/pci/quirks.c:3890:15: note: use '==' to turn this assignment into an equality comparison
-           while (child = pci_get_class(PCI_CLASS_SERIAL_USB_USB4, child)) {
-                        ^
-                        ==
-   1 warning generated.
+   In file included from fs/bcachefs/bcachefs.h:201,
+                    from fs/bcachefs/btree_key_cache.c:2:
+   fs/bcachefs/bcachefs_format.h:199:25: warning: 'p' offset 3 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
+     199 |         struct bpos     p;
+         |                         ^
+   fs/bcachefs/bcachefs_format.h:201:25: warning: 'version' offset 27 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
+     201 |         struct bversion version;
+         |                         ^~~~~~~
+   In file included from fs/bcachefs/btree_key_cache.c:6:
+   fs/bcachefs/btree_locking.h: In function 'btree_node_lock_increment':
+   fs/bcachefs/btree_locking.h:169:56: warning: implicit conversion from 'enum btree_node_locked_type' to 'enum six_lock_type' [-Wenum-conversion]
+     169 |                         six_lock_increment(&b->c.lock, want);
+         |                                                        ^~~~
+   fs/bcachefs/btree_locking.h: In function 'btree_node_lock':
+   fs/bcachefs/btree_locking.h:202:60: warning: implicit conversion from 'enum six_lock_type' to 'enum btree_node_locked_type' [-Wenum-conversion]
+     202 |                 btree_node_lock_increment(trans, b, level, type) ||
+         |                                                            ^~~~
+   In file included from fs/bcachefs/fifo.h:5,
+                    from fs/bcachefs/bcachefs.h:202:
+   fs/bcachefs/btree_key_cache.c: In function 'bch2_btree_key_cache_to_text':
+>> fs/bcachefs/btree_key_cache.c:701:21: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'long int' [-Wformat=]
+     701 |         pr_buf(out, "nr_keys:\t%zu\n",  atomic_long_read(&c->nr_keys));
+         |                     ^~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                         |
+         |                                         long int
+   fs/bcachefs/util.h:261:34: note: in definition of macro 'pr_buf'
+     261 |                                  __VA_ARGS__);                          \
+         |                                  ^~~~~~~~~~~
+   fs/bcachefs/btree_key_cache.c:701:34: note: format string is defined here
+     701 |         pr_buf(out, "nr_keys:\t%zu\n",  atomic_long_read(&c->nr_keys));
+         |                                ~~^
+         |                                  |
+         |                                  unsigned int
+         |                                %lu
+   fs/bcachefs/btree_key_cache.c:702:21: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'long int' [-Wformat=]
+     702 |         pr_buf(out, "nr_dirty:\t%zu\n", atomic_long_read(&c->nr_dirty));
+         |                     ^~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                         |
+         |                                         long int
+   fs/bcachefs/util.h:261:34: note: in definition of macro 'pr_buf'
+     261 |                                  __VA_ARGS__);                          \
+         |                                  ^~~~~~~~~~~
+   fs/bcachefs/btree_key_cache.c:702:35: note: format string is defined here
+     702 |         pr_buf(out, "nr_dirty:\t%zu\n", atomic_long_read(&c->nr_dirty));
+         |                                 ~~^
+         |                                   |
+         |                                   unsigned int
+         |                                 %lu
+   In file included from fs/bcachefs/bcachefs.h:203:
+   fs/bcachefs/opts.h: At top level:
+   fs/bcachefs/opts.h:353:30: warning: 'bch2_opts_default' defined but not used [-Wunused-const-variable=]
+     353 | static const struct bch_opts bch2_opts_default = {
+         |                              ^~~~~~~~~~~~~~~~~
+   fs/bcachefs/opts.h:35:14: warning: 'NO_SB_OPT_MAX' defined but not used [-Wunused-const-variable=]
+      35 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         |              ^~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:87:25: note: in definition of macro 'LE_BITMASK'
+      87 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
+         |                         ^~~~
+   fs/bcachefs/opts.h:35:1: note: in expansion of macro 'LE64_BITMASK'
+      35 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/opts.h:35:14: warning: 'NO_SB_OPT_BITS' defined but not used [-Wunused-const-variable=]
+      35 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         |              ^~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
+      86 | static const unsigned   name##_BITS = (end - offset);                   \
+         |                         ^~~~
+   fs/bcachefs/opts.h:35:1: note: in expansion of macro 'LE64_BITMASK'
+      35 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/opts.h:35:14: warning: 'NO_SB_OPT_OFFSET' defined but not used [-Wunused-const-variable=]
+      35 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         |              ^~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
+      85 | static const unsigned   name##_OFFSET = offset;                         \
+         |                         ^~~~
+   fs/bcachefs/opts.h:35:1: note: in expansion of macro 'LE64_BITMASK'
+      35 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1771:14: warning: 'BTREE_NODE_SEQ_MAX' defined but not used [-Wunused-const-variable=]
+    1771 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         |              ^~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:87:25: note: in definition of macro 'LE_BITMASK'
+      87 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:1771:1: note: in expansion of macro 'LE64_BITMASK'
+    1771 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1771:14: warning: 'BTREE_NODE_SEQ_BITS' defined but not used [-Wunused-const-variable=]
+    1771 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         |              ^~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
+      86 | static const unsigned   name##_BITS = (end - offset);                   \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:1771:1: note: in expansion of macro 'LE64_BITMASK'
+    1771 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1771:14: warning: 'BTREE_NODE_SEQ_OFFSET' defined but not used [-Wunused-const-variable=]
+    1771 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         |              ^~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
+      85 | static const unsigned   name##_OFFSET = offset;                         \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:1771:1: note: in expansion of macro 'LE64_BITMASK'
+    1771 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1768:14: warning: 'BTREE_NODE_NEW_EXTENT_OVERWRITE_MAX' defined but not used [-Wunused-const-variable=]
+    1768 | LE64_BITMASK(BTREE_NODE_NEW_EXTENT_OVERWRITE,
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:87:25: note: in definition of macro 'LE_BITMASK'
+      87 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:1768:1: note: in expansion of macro 'LE64_BITMASK'
+    1768 | LE64_BITMASK(BTREE_NODE_NEW_EXTENT_OVERWRITE,
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:1768:14: warning: 'BTREE_NODE_NEW_EXTENT_OVERWRITE_BITS' defined but not used [-Wunused-const-variable=]
+    1768 | LE64_BITMASK(BTREE_NODE_NEW_EXTENT_OVERWRITE,
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
+      86 | static const unsigned   name##_BITS = (end - offset);                   \
 
 
-vim +3890 drivers/pci/quirks.c
+vim +701 fs/bcachefs/btree_key_cache.c
 
-  3775	
-  3776	/*
-  3777	 * Some AMD/ATI GPUS (HD8570 - Oland) report that a D3hot->D0 transition
-  3778	 * causes a reset (i.e., they advertise NoSoftRst-).  This transition seems
-  3779	 * to have no effect on the device: it retains the framebuffer contents and
-  3780	 * monitor sync.  Advertising this support makes other layers, like VFIO,
-  3781	 * assume pci_reset_function() is viable for this device.  Mark it as
-  3782	 * unavailable to skip it when testing reset methods.
-  3783	 */
-  3784	DECLARE_PCI_FIXUP_CLASS_HEADER(PCI_VENDOR_ID_ATI, PCI_ANY_ID,
-  3785				       PCI_CLASS_DISPLAY_VGA, 8, quirk_no_pm_reset);
-  3786	
-  3787	/*
-  3788	 * Thunderbolt controllers with broken MSI hotplug signaling:
-  3789	 * Entire 1st generation (Light Ridge, Eagle Ridge, Light Peak) and part
-  3790	 * of the 2nd generation (Cactus Ridge 4C up to revision 1, Port Ridge).
-  3791	 */
-  3792	static void quirk_thunderbolt_hotplug_msi(struct pci_dev *pdev)
-  3793	{
-  3794		if (pdev->is_hotplug_bridge &&
-  3795		    (pdev->device != PCI_DEVICE_ID_INTEL_CACTUS_RIDGE_4C ||
-  3796		     pdev->revision <= 1))
-  3797			pdev->no_msi = 1;
-  3798	}
-  3799	DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_LIGHT_RIDGE,
-  3800				quirk_thunderbolt_hotplug_msi);
-  3801	DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_EAGLE_RIDGE,
-  3802				quirk_thunderbolt_hotplug_msi);
-  3803	DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_LIGHT_PEAK,
-  3804				quirk_thunderbolt_hotplug_msi);
-  3805	DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_CACTUS_RIDGE_4C,
-  3806				quirk_thunderbolt_hotplug_msi);
-  3807	DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_PORT_RIDGE,
-  3808				quirk_thunderbolt_hotplug_msi);
-  3809	
-  3810	#ifdef CONFIG_ACPI
-  3811	/*
-  3812	 * Apple: Shutdown Cactus Ridge Thunderbolt controller.
-  3813	 *
-  3814	 * On Apple hardware the Cactus Ridge Thunderbolt controller needs to be
-  3815	 * shutdown before suspend. Otherwise the native host interface (NHI) will not
-  3816	 * be present after resume if a device was plugged in before suspend.
-  3817	 *
-  3818	 * The Thunderbolt controller consists of a PCIe switch with downstream
-  3819	 * bridges leading to the NHI and to the tunnel PCI bridges.
-  3820	 *
-  3821	 * This quirk cuts power to the whole chip. Therefore we have to apply it
-  3822	 * during suspend_noirq of the upstream bridge.
-  3823	 *
-  3824	 * Power is automagically restored before resume. No action is needed.
-  3825	 */
-  3826	static void quirk_apple_poweroff_thunderbolt(struct pci_dev *dev)
-  3827	{
-  3828		acpi_handle bridge, SXIO, SXFP, SXLV;
-  3829	
-  3830		if (!x86_apple_machine)
-  3831			return;
-  3832		if (pci_pcie_type(dev) != PCI_EXP_TYPE_UPSTREAM)
-  3833			return;
-  3834	
-  3835		/*
-  3836		 * SXIO/SXFP/SXLF turns off power to the Thunderbolt controller.
-  3837		 * We don't know how to turn it back on again, but firmware does,
-  3838		 * so we can only use SXIO/SXFP/SXLF if we're suspending via
-  3839		 * firmware.
-  3840		 */
-  3841		if (!pm_suspend_via_firmware())
-  3842			return;
-  3843	
-  3844		bridge = ACPI_HANDLE(&dev->dev);
-  3845		if (!bridge)
-  3846			return;
-  3847	
-  3848		/*
-  3849		 * SXIO and SXLV are present only on machines requiring this quirk.
-  3850		 * Thunderbolt bridges in external devices might have the same
-  3851		 * device ID as those on the host, but they will not have the
-  3852		 * associated ACPI methods. This implicitly checks that we are at
-  3853		 * the right bridge.
-  3854		 */
-  3855		if (ACPI_FAILURE(acpi_get_handle(bridge, "DSB0.NHI0.SXIO", &SXIO))
-  3856		    || ACPI_FAILURE(acpi_get_handle(bridge, "DSB0.NHI0.SXFP", &SXFP))
-  3857		    || ACPI_FAILURE(acpi_get_handle(bridge, "DSB0.NHI0.SXLV", &SXLV)))
-  3858			return;
-  3859		pci_info(dev, "quirk: cutting power to Thunderbolt controller...\n");
-  3860	
-  3861		/* magic sequence */
-  3862		acpi_execute_simple_method(SXIO, NULL, 1);
-  3863		acpi_execute_simple_method(SXFP, NULL, 0);
-  3864		msleep(300);
-  3865		acpi_execute_simple_method(SXLV, NULL, 0);
-  3866		acpi_execute_simple_method(SXIO, NULL, 0);
-  3867		acpi_execute_simple_method(SXLV, NULL, 0);
-  3868	}
-  3869	DECLARE_PCI_FIXUP_SUSPEND_LATE(PCI_VENDOR_ID_INTEL,
-  3870				       PCI_DEVICE_ID_INTEL_CACTUS_RIDGE_4C,
-  3871				       quirk_apple_poweroff_thunderbolt);
-  3872	
-  3873	
-  3874	/*
-  3875	 * Putting PCIe root ports on Ryzen SoCs with USB4 controllers into D3 power
-  3876	 * states may cause problems when the system attempts wake up from s2idle.
-  3877	 *
-  3878	 * This manifests as a missing wakeup interrupt on the following systems:
-  3879	 * Family 19h model 44h (PCI 0x14b9)
-  3880	 * Family 19h model 74h (PCI 0x14eb)
-  3881	 * Family 19h model 78h (PCI 0x14eb)
-  3882	 *
-  3883	 * Add a quirk to the root port if a USB4 controller is connected to it
-  3884	 * to avoid D3 power states.
-  3885	 */
-  3886	static void quirk_ryzen_rp_d3(struct pci_dev *pdev)
-  3887	{
-  3888		struct pci_dev *child = NULL;
-  3889	
-> 3890		while (child = pci_get_class(PCI_CLASS_SERIAL_USB_USB4, child)) {
-  3891			if (pci_upstream_bridge(child) != pdev)
-  3892				continue;
-  3893			pdev->dev_flags |= PCI_DEV_FLAGS_NO_WAKE_D3;
-  3894			pci_info(pdev, "quirk: disabling D3 for wakeup\n");
-  3895			break;
-  3896		}
-  3897	}
-  3898	DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_AMD, 0x14b9, quirk_ryzen_rp_d3);
-  3899	DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_AMD, 0x14eb, quirk_ryzen_rp_d3);
-  3900	#endif
-  3901	
+   697	
+   698	void bch2_btree_key_cache_to_text(struct printbuf *out, struct btree_key_cache *c)
+   699	{
+   700		pr_buf(out, "nr_freed:\t%zu\n",	c->nr_freed);
+ > 701		pr_buf(out, "nr_keys:\t%zu\n",	atomic_long_read(&c->nr_keys));
+   702		pr_buf(out, "nr_dirty:\t%zu\n",	atomic_long_read(&c->nr_dirty));
+   703	}
+   704	
 
 -- 
 0-DAY CI Kernel Test Service
