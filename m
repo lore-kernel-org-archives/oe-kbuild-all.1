@@ -1,51 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FEA71798E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 18:00:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4B98AD52
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 18:09:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694628006; x=1726164006;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9qCurJ+jOiH/i/Kxtn+yRMCnJIKseSSgx4bXEEjv/jA=;
-  b=NcTz/hndgXidoHwoMcoxqjtLtkiFQYDSVRHGwdNdGYmV3kf7PlC78Yv5
-   AJRKlI4NBosM7qVAxvdeYjzOUDYcLZf06wn5IBN+UOnU9WMX/Kx1djkHx
-   5oWD6UDXLvNiGxWQopnoAaoDoMm1i8qi31jBCOwtiZGhIpes+JTMDs/na
-   HkbWs0DSTIe3lzFsnIfRUTyuabPkSINeaAKkHS1WZReC1t1rWnLqGymNJ
-   ylmvb1ram5fZmNsdRXY7qbWgqLJSV7FBNaCCbzqpMWm+lcgbtPSP+o38U
-   tcgElOXf5/MorVy/+7QHS5U80/uXcIDF9H1NucGDX/xrztqapdd9GGfWN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="377649738"
+  t=1694628599; x=1726164599;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1SjpcihCe+Y5PRzkc39Noxhi7e9p6/Z/6KaUYAYjhu8=;
+  b=D9FD9T8ZK8lVj156qKPGWpc8nJfiR7/1JKgFJv5gHQXfi0i33PejmPby
+   DTQCdFOAgozFeHR/uy0JXttVVw56rHzmL/rpXzobWSthADvrb9A+kv/Cw
+   AQBY1PVo5bXoELIpG7P0aCTxCKlq4dp6xH7lb+FLN/95ESH0JdON7hSBd
+   XHAe7zA8/tFaIkQKj+/3VzRixmwkkNBtule5NgkMARt7J2oveG08+JciS
+   +p9VyvERwuO32p2OvrhpChexFt77uRNlsXy8VVTFQ2H6qZVIlvQxCi0/n
+   NtqFoRDk7DPn9+j2hzGXigsn9D0tNdGtRvTM9DsYJatF+KuQHnKCmpa4W
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="378660835"
 X-IronPort-AV: E=Sophos;i="6.02,143,1688454000"; 
-   d="scan'208";a="377649738"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 10:59:59 -0700
+   d="scan'208";a="378660835"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 11:09:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="859357719"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="814309035"
 X-IronPort-AV: E=Sophos;i="6.02,143,1688454000"; 
-   d="scan'208";a="859357719"
+   d="scan'208";a="814309035"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Sep 2023 10:59:55 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 13 Sep 2023 11:09:57 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgU9Z-0000Qr-2i;
-	Wed, 13 Sep 2023 17:59:53 +0000
-Date: Thu, 14 Sep 2023 01:59:12 +0800
+	id 1qgUJG-0000Rp-1F;
+	Wed, 13 Sep 2023 18:09:54 +0000
+Date: Thu, 14 Sep 2023 02:09:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oleg Nesterov <oleg@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Rik van Riel <riel@surriel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Alexey Gladkov <legion@kernel.org>,
-	"Eric W. Biederman" <ebiederm@xmission.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/5] seqlock: change __seqprop() to return the function
- pointer
-Message-ID: <202309140156.adz3K06E-lkp@intel.com>
-References: <20230913154956.GA26245@redhat.com>
+To: Kent Overstreet <kmo@daterainc.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 3349/4552] fs/bcachefs/alloc_background.c:271:33:
+ warning: format '%lu' expects argument of type 'long unsigned int', but
+ argument 3 has type 'unsigned int'
+Message-ID: <202309140235.PXjhIQKN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,437 +47,256 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230913154956.GA26245@redhat.com>
 
-Hi Oleg,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/locking/core]
-[also build test WARNING on tip/sched/core linus/master v6.6-rc1 next-20230913]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oleg-Nesterov/seqlock-simplify-SEQCOUNT_LOCKNAME/20230913-235245
-base:   tip/locking/core
-patch link:    https://lore.kernel.org/r/20230913154956.GA26245%40redhat.com
-patch subject: [PATCH 2/5] seqlock: change __seqprop() to return the function pointer
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230914/202309140156.adz3K06E-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309140156.adz3K06E-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e143016b56ecb0fcda5bb6026b0a25fe55274f56
+commit: 11be8e8db283485aa09fa68985f2aee1af0097bf [3349/4552] bcachefs: New on disk format: Backpointers
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230914/202309140235.PXjhIQKN-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309140235.PXjhIQKN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309140156.adz3K06E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309140235.PXjhIQKN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/hrtimer.h:20,
-                    from include/linux/sched.h:20,
-                    from arch/parisc/kernel/asm-offsets.c:18:
-   include/linux/fs.h: In function 'i_size_read':
->> include/linux/fs.h:867:43: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     867 |                 seq = read_seqcount_begin(&inode->i_size_seqcount);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/fs.h:867:23: note: in expansion of macro 'read_seqcount_begin'
-     867 |                 seq = read_seqcount_begin(&inode->i_size_seqcount);
-         |                       ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   include/linux/fs.h:869:38: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     869 |         } while (read_seqcount_retry(&inode->i_size_seqcount, seq));
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/fs.h:869:18: note: in expansion of macro 'read_seqcount_retry'
-     869 |         } while (read_seqcount_retry(&inode->i_size_seqcount, seq));
-         |                  ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
---
-   In file included from include/linux/mmzone.h:17,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from kernel/fork.c:16:
-   include/linux/fs.h: In function 'i_size_read':
->> include/linux/fs.h:867:43: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     867 |                 seq = read_seqcount_begin(&inode->i_size_seqcount);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/fs.h:867:23: note: in expansion of macro 'read_seqcount_begin'
-     867 |                 seq = read_seqcount_begin(&inode->i_size_seqcount);
-         |                       ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   include/linux/fs.h:869:38: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     869 |         } while (read_seqcount_retry(&inode->i_size_seqcount, seq));
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/fs.h:869:18: note: in expansion of macro 'read_seqcount_retry'
-     869 |         } while (read_seqcount_retry(&inode->i_size_seqcount, seq));
-         |                  ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   include/linux/u64_stats_sync.h: In function '__u64_stats_fetch_begin':
-   include/linux/u64_stats_sync.h:170:36: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     170 |         return read_seqcount_begin(&syncp->seq);
-         |                                    ^~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/u64_stats_sync.h:170:16: note: in expansion of macro 'read_seqcount_begin'
-     170 |         return read_seqcount_begin(&syncp->seq);
-         |                ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   include/linux/u64_stats_sync.h: In function '__u64_stats_fetch_retry':
-   include/linux/u64_stats_sync.h:176:36: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     176 |         return read_seqcount_retry(&syncp->seq, start);
-         |                                    ^~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/u64_stats_sync.h:176:16: note: in expansion of macro 'read_seqcount_retry'
-     176 |         return read_seqcount_retry(&syncp->seq, start);
-         |                ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
---
-   In file included from include/linux/hrtimer.h:20,
-                    from include/linux/sched.h:20,
-                    from include/linux/hardirq.h:9,
-                    from include/linux/interrupt.h:11,
-                    from kernel/panic.c:14:
-   include/linux/fs.h: In function 'i_size_read':
->> include/linux/fs.h:867:43: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     867 |                 seq = read_seqcount_begin(&inode->i_size_seqcount);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/fs.h:867:23: note: in expansion of macro 'read_seqcount_begin'
-     867 |                 seq = read_seqcount_begin(&inode->i_size_seqcount);
-         |                       ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   include/linux/fs.h:869:38: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     869 |         } while (read_seqcount_retry(&inode->i_size_seqcount, seq));
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/fs.h:869:18: note: in expansion of macro 'read_seqcount_retry'
-     869 |         } while (read_seqcount_retry(&inode->i_size_seqcount, seq));
-         |                  ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   kernel/panic.c: In function '__warn':
-   kernel/panic.c:666:17: warning: function '__warn' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     666 |                 vprintk(args->fmt, args->args);
-         |                 ^~~~~~~
---
-   In file included from include/linux/mmzone.h:17,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from kernel/audit.c:38:
-   include/linux/fs.h: In function 'i_size_read':
->> include/linux/fs.h:867:43: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     867 |                 seq = read_seqcount_begin(&inode->i_size_seqcount);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/fs.h:867:23: note: in expansion of macro 'read_seqcount_begin'
-     867 |                 seq = read_seqcount_begin(&inode->i_size_seqcount);
-         |                       ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   include/linux/fs.h:869:38: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     869 |         } while (read_seqcount_retry(&inode->i_size_seqcount, seq));
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/fs.h:869:18: note: in expansion of macro 'read_seqcount_retry'
-     869 |         } while (read_seqcount_retry(&inode->i_size_seqcount, seq));
-         |                  ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   include/linux/u64_stats_sync.h: In function '__u64_stats_fetch_begin':
-   include/linux/u64_stats_sync.h:170:36: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     170 |         return read_seqcount_begin(&syncp->seq);
-         |                                    ^~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/u64_stats_sync.h:170:16: note: in expansion of macro 'read_seqcount_begin'
-     170 |         return read_seqcount_begin(&syncp->seq);
-         |                ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   include/linux/u64_stats_sync.h: In function '__u64_stats_fetch_retry':
-   include/linux/u64_stats_sync.h:176:36: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     176 |         return read_seqcount_retry(&syncp->seq, start);
-         |                                    ^~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/u64_stats_sync.h:176:16: note: in expansion of macro 'read_seqcount_retry'
-     176 |         return read_seqcount_retry(&syncp->seq, start);
-         |                ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   kernel/audit.c: In function 'audit_log_vformat':
-   kernel/audit.c:1963:9: warning: function 'audit_log_vformat' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    1963 |         len = vsnprintf(skb_tail_pointer(skb), avail, fmt, args);
-         |         ^~~
-   kernel/audit.c:1972:17: warning: function 'audit_log_vformat' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    1972 |                 len = vsnprintf(skb_tail_pointer(skb), avail, fmt, args2);
-         |                 ^~~
---
-   In file included from include/linux/hrtimer.h:20,
-                    from include/linux/sched.h:20,
-                    from include/linux/hardirq.h:9,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/trace_recursion.h:5,
-                    from include/linux/ftrace.h:10,
-                    from include/linux/kprobes.h:28,
-                    from kernel/kprobes.c:23:
-   include/linux/fs.h: In function 'i_size_read':
->> include/linux/fs.h:867:43: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     867 |                 seq = read_seqcount_begin(&inode->i_size_seqcount);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/fs.h:867:23: note: in expansion of macro 'read_seqcount_begin'
-     867 |                 seq = read_seqcount_begin(&inode->i_size_seqcount);
-         |                       ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   include/linux/fs.h:869:38: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     869 |         } while (read_seqcount_retry(&inode->i_size_seqcount, seq));
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/fs.h:869:18: note: in expansion of macro 'read_seqcount_retry'
-     869 |         } while (read_seqcount_retry(&inode->i_size_seqcount, seq));
-         |                  ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   include/linux/u64_stats_sync.h: In function '__u64_stats_fetch_begin':
-   include/linux/u64_stats_sync.h:170:36: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     170 |         return read_seqcount_begin(&syncp->seq);
-         |                                    ^~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/u64_stats_sync.h:170:16: note: in expansion of macro 'read_seqcount_begin'
-     170 |         return read_seqcount_begin(&syncp->seq);
-         |                ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   include/linux/u64_stats_sync.h: In function '__u64_stats_fetch_retry':
-   include/linux/u64_stats_sync.h:176:36: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     176 |         return read_seqcount_retry(&syncp->seq, start);
-         |                                    ^~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/u64_stats_sync.h:176:16: note: in expansion of macro 'read_seqcount_retry'
-     176 |         return read_seqcount_retry(&syncp->seq, start);
-         |                ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   kernel/kprobes.c: At top level:
-   kernel/kprobes.c:1853:12: warning: no previous prototype for 'kprobe_exceptions_notify' [-Wmissing-prototypes]
-    1853 | int __weak kprobe_exceptions_notify(struct notifier_block *self,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/hrtimer.h:20,
-                    from include/linux/sched.h:20,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from kernel/iomem.c:2:
-   include/linux/fs.h: In function 'i_size_read':
->> include/linux/fs.h:867:43: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     867 |                 seq = read_seqcount_begin(&inode->i_size_seqcount);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/fs.h:867:23: note: in expansion of macro 'read_seqcount_begin'
-     867 |                 seq = read_seqcount_begin(&inode->i_size_seqcount);
-         |                       ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   include/linux/fs.h:869:38: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     869 |         } while (read_seqcount_retry(&inode->i_size_seqcount, seq));
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/fs.h:869:18: note: in expansion of macro 'read_seqcount_retry'
-     869 |         } while (read_seqcount_retry(&inode->i_size_seqcount, seq));
-         |                  ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   kernel/iomem.c: At top level:
-   kernel/iomem.c:9:22: warning: no previous prototype for 'ioremap_cache' [-Wmissing-prototypes]
-       9 | __weak void __iomem *ioremap_cache(resource_size_t offset, unsigned long size)
-         |                      ^~~~~~~~~~~~~
---
-   In file included from include/linux/hrtimer.h:20,
-                    from include/linux/sched.h:20,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from kernel/time/hrtimer.c:25:
-   include/linux/fs.h: In function 'i_size_read':
->> include/linux/fs.h:867:43: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     867 |                 seq = read_seqcount_begin(&inode->i_size_seqcount);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/fs.h:867:23: note: in expansion of macro 'read_seqcount_begin'
-     867 |                 seq = read_seqcount_begin(&inode->i_size_seqcount);
-         |                       ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   include/linux/fs.h:869:38: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     869 |         } while (read_seqcount_retry(&inode->i_size_seqcount, seq));
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/fs.h:869:18: note: in expansion of macro 'read_seqcount_retry'
-     869 |         } while (read_seqcount_retry(&inode->i_size_seqcount, seq));
-         |                  ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   include/linux/u64_stats_sync.h: In function '__u64_stats_fetch_begin':
-   include/linux/u64_stats_sync.h:170:36: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     170 |         return read_seqcount_begin(&syncp->seq);
-         |                                    ^~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/u64_stats_sync.h:170:16: note: in expansion of macro 'read_seqcount_begin'
-     170 |         return read_seqcount_begin(&syncp->seq);
-         |                ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   include/linux/u64_stats_sync.h: In function '__u64_stats_fetch_retry':
-   include/linux/u64_stats_sync.h:176:36: warning: passing argument 1 of '__seqprop_ptr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     176 |         return read_seqcount_retry(&syncp->seq, start);
-         |                                    ^~~~~~~~~~~
-   include/linux/seqlock.h:304:59: note: in definition of macro 'seqprop_ptr'
-     304 | #define seqprop_ptr(s)                  __seqprop(s, ptr)(s)
-         |                                                           ^
-   include/linux/u64_stats_sync.h:176:16: note: in expansion of macro 'read_seqcount_retry'
-     176 |         return read_seqcount_retry(&syncp->seq, start);
-         |                ^~~~~~~~~~~~~~~~~~~
-   include/linux/seqlock.h:250:53: note: expected 'seqcount_t *' {aka 'struct seqcount *'} but argument is of type 'const seqcount_t *' {aka 'const struct seqcount *'}
-     250 | static inline seqcount_t *__seqprop_ptr(seqcount_t *s)
-         |                                         ~~~~~~~~~~~~^
-   kernel/time/hrtimer.c: At top level:
-   kernel/time/hrtimer.c:120:35: warning: initialized field overwritten [-Woverride-init]
-     120 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:120:35: note: (near initialization for 'hrtimer_clock_to_base_table[0]')
-   kernel/time/hrtimer.c:121:35: warning: initialized field overwritten [-Woverride-init]
-     121 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:121:35: note: (near initialization for 'hrtimer_clock_to_base_table[1]')
-   kernel/time/hrtimer.c:122:35: warning: initialized field overwritten [-Woverride-init]
-     122 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:122:35: note: (near initialization for 'hrtimer_clock_to_base_table[7]')
-   kernel/time/hrtimer.c:123:35: warning: initialized field overwritten [-Woverride-init]
-     123 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
-         |                                   ^~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:123:35: note: (near initialization for 'hrtimer_clock_to_base_table[11]')
-..
+   In file included from fs/bcachefs/bcachefs.h:206,
+                    from fs/bcachefs/alloc_background.c:2:
+   fs/bcachefs/bcachefs_format.h:215:25: warning: 'p' offset 3 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
+     215 |         struct bpos     p;
+         |                         ^
+   fs/bcachefs/bcachefs_format.h:217:25: warning: 'version' offset 27 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
+     217 |         struct bversion version;
+         |                         ^~~~~~~
+   In file included from fs/bcachefs/btree_io.h:7,
+                    from fs/bcachefs/alloc_background.c:7:
+   fs/bcachefs/btree_locking.h: In function 'mark_btree_node_locked':
+   fs/bcachefs/btree_locking.h:88:53: warning: implicit conversion from 'enum six_lock_type' to 'enum btree_node_locked_type' [-Wenum-conversion]
+      88 |         mark_btree_node_locked_noreset(path, level, type);
+         |                                                     ^~~~
+   fs/bcachefs/btree_locking.h: In function 'bch2_btree_node_unlock_write_inlined':
+   fs/bcachefs/btree_locking.h:175:58: warning: implicit conversion from 'enum six_lock_type' to 'enum btree_node_locked_type' [-Wenum-conversion]
+     175 |         mark_btree_node_locked_noreset(path, b->c.level, SIX_LOCK_intent);
+         |                                                          ^~~~~~~~~~~~~~~
+   fs/bcachefs/btree_locking.h: In function 'btree_node_lock_increment':
+   fs/bcachefs/btree_locking.h:241:54: warning: implicit conversion from 'enum btree_node_locked_type' to 'enum six_lock_type' [-Wenum-conversion]
+     241 |                         six_lock_increment(&b->lock, want);
+         |                                                      ^~~~
+   fs/bcachefs/btree_locking.h: In function 'btree_node_lock':
+   fs/bcachefs/btree_locking.h:261:56: warning: implicit conversion from 'enum six_lock_type' to 'enum btree_node_locked_type' [-Wenum-conversion]
+     261 |             btree_node_lock_increment(trans, b, level, type) ||
+         |                                                        ^~~~
+   fs/bcachefs/btree_locking.h: In function '__btree_node_lock_write':
+   fs/bcachefs/btree_locking.h:288:56: warning: implicit conversion from 'enum six_lock_type' to 'enum btree_node_locked_type' [-Wenum-conversion]
+     288 |         mark_btree_node_locked_noreset(path, b->level, SIX_LOCK_write);
+         |                                                        ^~~~~~~~~~~~~~
+   fs/bcachefs/btree_io.h: In function 'compat_btree_node':
+   fs/bcachefs/btree_io.h:203:40: warning: implicit conversion from 'enum btree_id' to 'enum btree_node_type' [-Wenum-conversion]
+     203 |             btree_node_type_is_extents(btree_id) &&
+         |                                        ^~~~~~~~
+   fs/bcachefs/btree_io.h:220:40: warning: implicit conversion from 'enum btree_id' to 'enum btree_node_type' [-Wenum-conversion]
+     220 |             btree_node_type_is_extents(btree_id) &&
+         |                                        ^~~~~~~~
+   In file included from fs/bcachefs/vstructs.h:5,
+                    from fs/bcachefs/bcachefs_format.h:79:
+   fs/bcachefs/alloc_background.c: In function 'bch2_alloc_v4_invalid':
+>> fs/bcachefs/alloc_background.c:271:33: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'unsigned int' [-Wformat=]
+     271 |                 prt_printf(err, "bad val size (%lu != %u)",
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/util.h:221:63: note: in definition of macro 'prt_printf'
+     221 | #define prt_printf(_out, ...)           bch2_prt_printf(_out, __VA_ARGS__)
+         |                                                               ^~~~~~~~~~~
+   fs/bcachefs/alloc_background.c:271:50: note: format string is defined here
+     271 |                 prt_printf(err, "bad val size (%lu != %u)",
+         |                                                ~~^
+         |                                                  |
+         |                                                  long unsigned int
+         |                                                %u
+   In file included from fs/bcachefs/btree_io.h:8:
+   fs/bcachefs/checksum.h: At top level:
+   fs/bcachefs/checksum.h:120:23: warning: 'bch2_compression_opt_to_type' defined but not used [-Wunused-const-variable=]
+     120 | static const unsigned bch2_compression_opt_to_type[] = {
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from fs/bcachefs/bcachefs.h:209:
+   fs/bcachefs/opts.h:428:30: warning: 'bch2_opts_default' defined but not used [-Wunused-const-variable=]
+     428 | static const struct bch_opts bch2_opts_default = {
+         |                              ^~~~~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:2115:14: warning: 'BTREE_NODE_SEQ_MAX' defined but not used [-Wunused-const-variable=]
+    2115 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         |              ^~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:103:25: note: in definition of macro 'LE_BITMASK'
+     103 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:2115:1: note: in expansion of macro 'LE64_BITMASK'
+    2115 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:2115:14: warning: 'BTREE_NODE_SEQ_BITS' defined but not used [-Wunused-const-variable=]
+    2115 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         |              ^~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:102:25: note: in definition of macro 'LE_BITMASK'
+     102 | static const unsigned   name##_BITS = (end - offset);                   \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:2115:1: note: in expansion of macro 'LE64_BITMASK'
+    2115 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:2115:14: warning: 'BTREE_NODE_SEQ_OFFSET' defined but not used [-Wunused-const-variable=]
+    2115 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         |              ^~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
+     101 | static const unsigned   name##_OFFSET = offset;                         \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:2115:1: note: in expansion of macro 'LE64_BITMASK'
+    2115 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:2112:14: warning: 'BTREE_NODE_NEW_EXTENT_OVERWRITE_MAX' defined but not used [-Wunused-const-variable=]
+    2112 | LE64_BITMASK(BTREE_NODE_NEW_EXTENT_OVERWRITE,
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:103:25: note: in definition of macro 'LE_BITMASK'
+     103 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:2112:1: note: in expansion of macro 'LE64_BITMASK'
+    2112 | LE64_BITMASK(BTREE_NODE_NEW_EXTENT_OVERWRITE,
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:2112:14: warning: 'BTREE_NODE_NEW_EXTENT_OVERWRITE_BITS' defined but not used [-Wunused-const-variable=]
+    2112 | LE64_BITMASK(BTREE_NODE_NEW_EXTENT_OVERWRITE,
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:102:25: note: in definition of macro 'LE_BITMASK'
+     102 | static const unsigned   name##_BITS = (end - offset);                   \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:2112:1: note: in expansion of macro 'LE64_BITMASK'
+    2112 | LE64_BITMASK(BTREE_NODE_NEW_EXTENT_OVERWRITE,
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:2112:14: warning: 'BTREE_NODE_NEW_EXTENT_OVERWRITE_OFFSET' defined but not used [-Wunused-const-variable=]
+    2112 | LE64_BITMASK(BTREE_NODE_NEW_EXTENT_OVERWRITE,
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
+     101 | static const unsigned   name##_OFFSET = offset;                         \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:2112:1: note: in expansion of macro 'LE64_BITMASK'
+    2112 | LE64_BITMASK(BTREE_NODE_NEW_EXTENT_OVERWRITE,
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:2111:14: warning: 'BTREE_NODE_LEVEL_MAX' defined but not used [-Wunused-const-variable=]
+    2111 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
+         |              ^~~~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:103:25: note: in definition of macro 'LE_BITMASK'
+     103 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:2111:1: note: in expansion of macro 'LE64_BITMASK'
+    2111 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:2111:14: warning: 'BTREE_NODE_LEVEL_BITS' defined but not used [-Wunused-const-variable=]
+    2111 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
+         |              ^~~~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:102:25: note: in definition of macro 'LE_BITMASK'
+     102 | static const unsigned   name##_BITS = (end - offset);                   \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:2111:1: note: in expansion of macro 'LE64_BITMASK'
+    2111 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
+         | ^~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:2111:14: warning: 'BTREE_NODE_LEVEL_OFFSET' defined but not used [-Wunused-const-variable=]
+    2111 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
+         |              ^~~~~~~~~~~~~~~~
+   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
+     101 | static const unsigned   name##_OFFSET = offset;                         \
+         |                         ^~~~
+   fs/bcachefs/bcachefs_format.h:2111:1: note: in expansion of macro 'LE64_BITMASK'
+    2111 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
 
 
-vim +867 include/linux/fs.h
+vim +271 fs/bcachefs/alloc_background.c
 
-375e289ea85166 J. Bruce Fields 2012-04-18  843  
-7506ae6a7033f6 Jan Kara        2021-05-24  844  void filemap_invalidate_lock_two(struct address_space *mapping1,
-7506ae6a7033f6 Jan Kara        2021-05-24  845  				 struct address_space *mapping2);
-7506ae6a7033f6 Jan Kara        2021-05-24  846  void filemap_invalidate_unlock_two(struct address_space *mapping1,
-7506ae6a7033f6 Jan Kara        2021-05-24  847  				   struct address_space *mapping2);
-7506ae6a7033f6 Jan Kara        2021-05-24  848  
-7506ae6a7033f6 Jan Kara        2021-05-24  849  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  850  /*
-^1da177e4c3f41 Linus Torvalds  2005-04-16  851   * NOTE: in a 32bit arch with a preemptable kernel and
-^1da177e4c3f41 Linus Torvalds  2005-04-16  852   * an UP compile the i_size_read/write must be atomic
-^1da177e4c3f41 Linus Torvalds  2005-04-16  853   * with respect to the local cpu (unlike with preempt disabled),
-^1da177e4c3f41 Linus Torvalds  2005-04-16  854   * but they don't need to be atomic with respect to other cpus like in
-^1da177e4c3f41 Linus Torvalds  2005-04-16  855   * true SMP (so they need either to either locally disable irq around
-^1da177e4c3f41 Linus Torvalds  2005-04-16  856   * the read or for example on x86 they can be still implemented as a
-^1da177e4c3f41 Linus Torvalds  2005-04-16  857   * cmpxchg8b without the need of the lock prefix). For SMP compiles
-^1da177e4c3f41 Linus Torvalds  2005-04-16  858   * and 64bit archs it makes no difference if preempt is enabled or not.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  859   */
-48ed214d10ae3c Jan Engelhardt  2006-12-06  860  static inline loff_t i_size_read(const struct inode *inode)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  861  {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  862  #if BITS_PER_LONG==32 && defined(CONFIG_SMP)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  863  	loff_t i_size;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  864  	unsigned int seq;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  865  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  866  	do {
-^1da177e4c3f41 Linus Torvalds  2005-04-16 @867  		seq = read_seqcount_begin(&inode->i_size_seqcount);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  868  		i_size = inode->i_size;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  869  	} while (read_seqcount_retry(&inode->i_size_seqcount, seq));
-^1da177e4c3f41 Linus Torvalds  2005-04-16  870  	return i_size;
-2496396fcb4440 Thomas Gleixner 2019-10-15  871  #elif BITS_PER_LONG==32 && defined(CONFIG_PREEMPTION)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  872  	loff_t i_size;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  873  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  874  	preempt_disable();
-^1da177e4c3f41 Linus Torvalds  2005-04-16  875  	i_size = inode->i_size;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  876  	preempt_enable();
-^1da177e4c3f41 Linus Torvalds  2005-04-16  877  	return i_size;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  878  #else
-^1da177e4c3f41 Linus Torvalds  2005-04-16  879  	return inode->i_size;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  880  #endif
-^1da177e4c3f41 Linus Torvalds  2005-04-16  881  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  882  
+   264	
+   265	int bch2_alloc_v4_invalid(const struct bch_fs *c, struct bkey_s_c k,
+   266				  int rw, struct printbuf *err)
+   267	{
+   268		struct bkey_s_c_alloc_v4 a = bkey_s_c_to_alloc_v4(k);
+   269	
+   270		if (alloc_v4_u64s(a.v) != bkey_val_u64s(k.k)) {
+ > 271			prt_printf(err, "bad val size (%lu != %u)",
+   272			       bkey_val_u64s(k.k), alloc_v4_u64s(a.v));
+   273			return -BCH_ERR_invalid_bkey;
+   274		}
+   275	
+   276		if (!BCH_ALLOC_V4_BACKPOINTERS_START(a.v) &&
+   277		    BCH_ALLOC_V4_NR_BACKPOINTERS(a.v)) {
+   278			prt_printf(err, "invalid backpointers_start");
+   279			return -BCH_ERR_invalid_bkey;
+   280		}
+   281	
+   282		/*
+   283		 * XXX this is wrong, we'll be checking updates that happened from
+   284		 * before BCH_FS_CHECK_BACKPOINTERS_DONE
+   285		 */
+   286		if (rw == WRITE && test_bit(BCH_FS_CHECK_BACKPOINTERS_DONE, &c->flags)) {
+   287			unsigned i, bp_len = 0;
+   288	
+   289			for (i = 0; i < BCH_ALLOC_V4_NR_BACKPOINTERS(a.v); i++)
+   290				bp_len += alloc_v4_backpointers_c(a.v)[i].bucket_len;
+   291	
+   292			if (bp_len > a.v->dirty_sectors) {
+   293				prt_printf(err, "too many backpointers");
+   294				return -BCH_ERR_invalid_bkey;
+   295			}
+   296		}
+   297	
+   298		if (rw == WRITE) {
+   299			if (alloc_data_type(*a.v, a.v->data_type) != a.v->data_type) {
+   300				prt_printf(err, "invalid data type (got %u should be %u)",
+   301				       a.v->data_type, alloc_data_type(*a.v, a.v->data_type));
+   302				return -BCH_ERR_invalid_bkey;
+   303			}
+   304	
+   305			switch (a.v->data_type) {
+   306			case BCH_DATA_free:
+   307			case BCH_DATA_need_gc_gens:
+   308			case BCH_DATA_need_discard:
+   309				if (a.v->dirty_sectors ||
+   310				    a.v->cached_sectors ||
+   311				    a.v->stripe) {
+   312					prt_printf(err, "empty data type free but have data");
+   313					return -BCH_ERR_invalid_bkey;
+   314				}
+   315				break;
+   316			case BCH_DATA_sb:
+   317			case BCH_DATA_journal:
+   318			case BCH_DATA_btree:
+   319			case BCH_DATA_user:
+   320			case BCH_DATA_parity:
+   321				if (!a.v->dirty_sectors) {
+   322					prt_printf(err, "data_type %s but dirty_sectors==0",
+   323					       bch2_data_types[a.v->data_type]);
+   324					return -BCH_ERR_invalid_bkey;
+   325				}
+   326				break;
+   327			case BCH_DATA_cached:
+   328				if (!a.v->cached_sectors ||
+   329				    a.v->dirty_sectors ||
+   330				    a.v->stripe) {
+   331					prt_printf(err, "data type inconsistency");
+   332					return -BCH_ERR_invalid_bkey;
+   333				}
+   334	
+   335				if (!a.v->io_time[READ] &&
+   336				    test_bit(BCH_FS_CHECK_ALLOC_TO_LRU_REFS_DONE, &c->flags)) {
+   337					prt_printf(err, "cached bucket with read_time == 0");
+   338					return -BCH_ERR_invalid_bkey;
+   339				}
+   340				break;
+   341			case BCH_DATA_stripe:
+   342				if (!a.v->stripe) {
+   343					prt_printf(err, "data_type %s but stripe==0",
+   344					       bch2_data_types[a.v->data_type]);
+   345					return -BCH_ERR_invalid_bkey;
+   346				}
+   347				break;
+   348			}
+   349		}
+   350	
+   351		return 0;
+   352	}
+   353	
 
 -- 
 0-DAY CI Kernel Test Service
