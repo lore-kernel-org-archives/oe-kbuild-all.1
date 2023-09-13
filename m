@@ -1,144 +1,80 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA4265A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 03:53:11 +0000 (UTC)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-59b8f5b6c0aso26898397b3.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Sep 2023 20:53:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1694577190; x=1695181990; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SYJQAFk4TkvEcbrRQ1V1P9VjmHlaAWhJgURQMMrzUVs=;
-        b=UdkORsiSBVMc6+iBWcVv/M1aBXJn6XP4gBJgCL16cCy/iDkijBGPNBFqjX66PdJRy1
-         7t/Pi+0u4n7j2mfo2puUc768Di+qPbMycxYFVoBvXQIavCyt4xkRClssrd0qb2eXC5f5
-         t04Yolo2OEd3yjP/Ok+s8NACSmzyVW1Fp6jahx+4k5pQKXACNMfSB5B1H2kFnjkXwLOw
-         fjC5+Oq0SXehCQYuJ2FAYhhe19Jf67zhEJ2Vs6hkNgnCBG1aXH1Pg+yyil0w2gi5cb1j
-         XjYeUBAwQd3AhXM2+HZiajS3IxEA9TCsXhnG0xNSai1moxWTzWvHXnWwomAsLCn/qxxV
-         Doyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694577190; x=1695181990;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SYJQAFk4TkvEcbrRQ1V1P9VjmHlaAWhJgURQMMrzUVs=;
-        b=pjt+8OfQp9EYHU+FLlrV/vLvqDPXdysANvJQ5LyEYcvdsIAtboJr++jDW5LIdf9YrQ
-         ZUeWkCxLNP1SMPJnIjLuF7orIoK+o8e1VqqoAK+OwgP+cN/7ZEbyy4g1q8Q0wPCt4b+1
-         z+5CsKbXnS24TL6BXXzaAGax9fhCdhZzhrB/XVYKrfWHQn6eEekLopErLEB0OAT93yk9
-         JGmceV/J52To6mOApZTJ48cLwwTpDXhPgov78dbDzmuS1Kkd26BmsC99jUc6cHAdhByd
-         VBF3yAS9RxVGyIg5MdUZ2154d5yGJuD3Zu+i3V5C/IZtJquXwqUSDmVjH44EZLvrVyn0
-         zstA==
-X-Gm-Message-State: AOJu0Yz9F7l+GNJU1Mtu4bDN0b6yBW6aM1/mfbu8TU6+oR30euDKH1MK
-	pj5DRzTS7xDsFUtARGvEmTrCoFYWz0tJia4BWWzE
-X-Google-Smtp-Source: AGHT+IGWFtCPQVNwSqBN05Ij423EEN2/RjQvZH93bfk5icnuXTXVrRWFfuWbtfhha38djcat1yub4i+QKIKm61zQI50=
-X-Received: by 2002:a0d:ebc3:0:b0:57a:9b2c:51f1 with SMTP id
- u186-20020a0debc3000000b0057a9b2c51f1mr1446354ywe.1.1694577190229; Tue, 12
- Sep 2023 20:53:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2DF2566
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 04:57:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694581023; x=1726117023;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0SzukiZqeuhVgL4Y6GY9n5ArZRoYw3DfNp92MdmbiYA=;
+  b=WsrBj08djatxTh25eoCef/xmXIa91cK+XGhbEWSfgaF8/CyWe1BNrr+7
+   2OWtUB83loHaxEZbRWn296NQ4D8RMDVeRi8oB4uxSkf7LF3l1woEoYNrg
+   4N2/6PuFhBpEV+cuueWHne1BFrhoJp8W07O7kP4vW5cERCsXp8YPa4dx2
+   /dY4Y42pK+81hnZnZ8c8kUTyzODaG6DcgusZkgD7uW9K+UYKp1nP8wCTc
+   T7kBmXjsDGh0vdA6tpfxN/iX4UnmRJDMbCs8E789EfaeRrL9hJGIiYnVy
+   vgvFRwZKplSrwm5PCOSHWQDPhe9akGrUe7slgmfclIKzmv4vEGoiiIsqD
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="358838550"
+X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
+   d="scan'208";a="358838550"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 21:57:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="834170989"
+X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
+   d="scan'208";a="834170989"
+Received: from lkp-server02.sh.intel.com (HELO cf13c67269a2) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 12 Sep 2023 21:57:01 -0700
+Received: from kbuild by cf13c67269a2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qgHvv-00002f-09;
+	Wed, 13 Sep 2023 04:56:59 +0000
+Date: Wed, 13 Sep 2023 12:56:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nathan Lynch <nathanl@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Michael Ellerman <mpe@ellerman.id.au>
+Subject: arch/powerpc/platforms/pseries/rtas-work-area.c:189: warning:
+ Function parameter or member 'limit' not described in
+ 'rtas_work_area_reserve_arena'
+Message-ID: <202309131221.Bm1pg96n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230906115928.3749928-1-alpic@google.com> <202309090600.NSyo7d2q-lkp@intel.com>
- <CAEjxPJ4GOq3E4zqXbEMKUxqewopyeU5nmUg89rL+P5YsuEBi7A@mail.gmail.com>
-In-Reply-To: <CAEjxPJ4GOq3E4zqXbEMKUxqewopyeU5nmUg89rL+P5YsuEBi7A@mail.gmail.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Tue, 12 Sep 2023 23:52:59 -0400
-Message-ID: <CAHC9VhRFs0gaMpnnFb2dLy7SWQRbPT_8Wpf3a5WbHiasE8UPiQ@mail.gmail.com>
-Subject: Re: [PATCH V2] SELinux: Check correct permissions for FS_IOC32_*
-To: Stephen Smalley <stephen.smalley.work@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, Alfred Piccioni <alpic@google.com>, Eric Paris <eparis@parisplace.org>, 
-	oe-kbuild-all@lists.linux.dev, stable@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	LSM List <linux-security-module@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Sep 11, 2023 at 9:19=E2=80=AFAM Stephen Smalley
-<stephen.smalley.work@gmail.com> wrote:
-> On Fri, Sep 8, 2023 at 6:54=E2=80=AFPM kernel test robot <lkp@intel.com> =
-wrote:
-> >
-> > Hi Alfred,
-> >
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on 50a510a78287c15cee644f345ef8bac8977986a7]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Alfred-Piccioni/=
-SELinux-Check-correct-permissions-for-FS_IOC32_/20230906-200131
-> > base:   50a510a78287c15cee644f345ef8bac8977986a7
-> > patch link:    https://lore.kernel.org/r/20230906115928.3749928-1-alpic=
-%40google.com
-> > patch subject: [PATCH V2] SELinux: Check correct permissions for FS_IOC=
-32_*
-> > config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230=
-909/202309090600.NSyo7d2q-lkp@intel.com/config)
-> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20230909/202309090600.NSyo7d2q-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202309090600.NSyo7d2q-l=
-kp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    security/selinux/hooks.c: In function 'selinux_file_ioctl':
-> > >> security/selinux/hooks.c:3647:9: error: duplicate case value
-> >     3647 |         case FS_IOC32_GETFLAGS:
-> >          |         ^~~~
-> >    security/selinux/hooks.c:3645:9: note: previously used here
-> >     3645 |         case FS_IOC_GETFLAGS:
-> >          |         ^~~~
-> >    security/selinux/hooks.c:3648:9: error: duplicate case value
-> >     3648 |         case FS_IOC32_GETVERSION:
-> >          |         ^~~~
-> >    security/selinux/hooks.c:3646:9: note: previously used here
-> >     3646 |         case FS_IOC_GETVERSION:
-> >          |         ^~~~
-> >    security/selinux/hooks.c:3654:9: error: duplicate case value
-> >     3654 |         case FS_IOC32_SETFLAGS:
-> >          |         ^~~~
-> >    security/selinux/hooks.c:3652:9: note: previously used here
-> >     3652 |         case FS_IOC_SETFLAGS:
-> >          |         ^~~~
-> >    security/selinux/hooks.c:3655:9: error: duplicate case value
-> >     3655 |         case FS_IOC32_SETVERSION:
-> >          |         ^~~~
-> >    security/selinux/hooks.c:3653:9: note: previously used here
-> >     3653 |         case FS_IOC_SETVERSION:
-> >          |         ^~~~
->
-> Not sure of the right way to fix this while addressing the original
-> issue that this patch was intended to fix. Looking in fs/ioctl.c, I
-> see that the some FS_IOC32 values are remapped to the corresponding
-> FS_IOC values by the compat ioctl syscall entrypoint. Also notice this
-> comment there:
->
->         /* RED-PEN how should LSM module know it's handling 32bit? */
->         error =3D security_file_ioctl(f.file, cmd, arg);
->         if (error)
->                 goto out;
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3669558bdf354cd352be955ef2764cde6a9bf5ec
+commit: 43033bc62d349d8d852855a336c91d046de819bd powerpc/pseries: add RTAS work area allocator
+date:   7 months ago
+config: powerpc-ppc64_defconfig (https://download.01.org/0day-ci/archive/20230913/202309131221.Bm1pg96n-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131221.Bm1pg96n-lkp@intel.com/reproduce)
 
-What is both interesting and scary is that the "RED-PEN" comment seems
-to go back at least as far as git, which is a lifetime these days.
-This has been broken for a while.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309131221.Bm1pg96n-lkp@intel.com/
 
-> So perhaps this is a defect in LSM that needs to be addressed?
+All warnings (new ones prefixed by >>):
 
-I think so.  I would suggest a new security_file_ioctl_compat() hook
-as I often worry that flags are too easy to misuse whereas a separate
-hook, especially one with "_compat" at the end, are a bit more clear.
-The good news is that of the three LSMs that have file_ioctl hook
-implementations it looks like only SELinux will need a dedicated
-compat hook implementation (*maybe* TOMOYO, but I think it should be
-okay reusing the existing tomoyo_file_ioctl() implementation).
+>> arch/powerpc/platforms/pseries/rtas-work-area.c:189: warning: Function parameter or member 'limit' not described in 'rtas_work_area_reserve_arena'
 
---=20
-paul-moore.com
+
+vim +189 arch/powerpc/platforms/pseries/rtas-work-area.c
+
+   184	
+   185	/**
+   186	 * rtas_work_area_reserve_arena() - Reserve memory suitable for RTAS work areas.
+   187	 */
+   188	void __init rtas_work_area_reserve_arena(const phys_addr_t limit)
+ > 189	{
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
