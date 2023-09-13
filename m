@@ -1,105 +1,150 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C33D1A713
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 14:22:46 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-401d10e3e54so74655995e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 07:22:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694614964; x=1695219764; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3/cSQ/gn/9BlBHvzxrF6REhvWl10D040ztnlQ5APhF0=;
-        b=LE4GoNjtWPG7N4O6Xy25p/pAbi3fYnF9YazQJSYbTiYl9AX5zwDueQF49QmqP5yUXv
-         /6evO7JbmY4zSSyNcTxOlRw4bNFGWMo+3QNlFzjLwZnmbqrrNEWrSacTnT4T7plKKKMs
-         RBY/hr50qi7ma8gO9IL1RastmnlR/aR2FK0Mxr5uwK00gpHMQ47xsxN5b2lcrNlMqbLM
-         8XtbV08g8KyWTCfs5BaOG1dvKG1VhNkMfXsHj1lIs6maxDv5As93j+ES3TrkuhPITjhZ
-         cPG8/I009hNeWtmQwNFpc9C6NJH3nx6GZEBX/057wVIxZEsDSRnTYGzEy97He88W76Fw
-         DldQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694614964; x=1695219764;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3/cSQ/gn/9BlBHvzxrF6REhvWl10D040ztnlQ5APhF0=;
-        b=vJ/CvobvMf/R2HNu7gPCtnxNpxFizMm0ws90a5eF+NTIjjdcLf6Yn57I6hjTEhhw/v
-         4WJV9wJ1HeMJcyhcGe/Zh3OthT3bleF/lU0OVSA5dxXWFY5JtOoWgLiGjvaBEe2pj4ER
-         bY/aUHsnRZDJGCDY98LTg92YeGVcm6DpcEcD3eCcrjOwod3czcJIAEmQXgTol7MpIiNS
-         GVZZYbm7eZw1LCYyVYpuk9OuYA1pzcZ+rGl4Tg83NI+Wpaf48t+V7GHdPyRD7PeE9B3s
-         bM2CI5Tpopsw6fYdI+VqqLFHWlkjkT2IjiYTtabkTBuiAEqx+dKlY6H8gs7J4ygG07Lw
-         x6jQ==
-X-Gm-Message-State: AOJu0YwmnRauVYYVVfNdzAsIs0WzfBoSWdJ8REK7FnSpu3o+Tp6SGogX
-	miT1asKOqPqpNbiCvtNDlpioGg==
-X-Google-Smtp-Source: AGHT+IEPwGf+clK4WcSoiNwHgaX+aNXh5YG2dD20Nqb4GRlnoVZ0kOYrGUyvCg+A0teTMnx+yC0k1A==
-X-Received: by 2002:a7b:c3cc:0:b0:3fe:1232:93fa with SMTP id t12-20020a7bc3cc000000b003fe123293famr2282744wmj.22.1694614964489;
-        Wed, 13 Sep 2023 07:22:44 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id g13-20020a7bc4cd000000b003fc02e8ea68sm2219370wmk.13.2023.09.13.07.22.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 07:22:44 -0700 (PDT)
-Date: Wed, 13 Sep 2023 15:00:08 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Leon Hwang <hffilwlqm@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Alexei Starovoitov <ast@kernel.org>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>
-Subject: [linux-next:master 4799/4965] kernel/bpf/verifier.c:19778
- check_attach_btf_id() error: 'tr' dereferencing possible ERR_PTR()
-Message-ID: <2af3eb60-d4fe-42dd-a34f-b85f2a0607f3@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2088F68
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 14:43:45 +0000 (UTC)
+Received: from mercury (dyndsl-091-248-208-175.ewe-ip-backbone.de [91.248.208.175])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sre)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id B6AAC6607341;
+	Wed, 13 Sep 2023 15:43:43 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1694616223;
+	bh=45c5gw/f2jBbyJLhmpXqI2WamtRnBzbETao/nifAbys=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JbNIquAj9HcChNrpbB3TnOOJK8C+DH65aCaaEYo+Cwknu6g9wyUu4UcEPx9pKvrhe
+	 PZQZkm03AsVscnb5msvheRmMHLaxu813A/+LEWCzsEsDWwaf/JSU6OPiWyiJ0Xc5AE
+	 FmIWXAK22CVO0g/YX5k1lsaj5YVWen4fZUOAlqrT42gOhcz1ENVowuntOfISNRFTpq
+	 C+xGan02w+ZdhL9GyTKqqzlR5EDgSCA0zoEzUEM9nZDCChwFhRLeQPCeisTIKbKuon
+	 mut2P2FJGvF9VidzNYES3J9gQy3+jhGRDNCAE00y+f4J8idGP/WvDf5hJ6w/07FmGx
+	 6k5TrUUmvoMnQ==
+Received: by mercury (Postfix, from userid 1000)
+	id D2377106098A; Wed, 13 Sep 2023 16:43:40 +0200 (CEST)
+Date: Wed, 13 Sep 2023 16:43:40 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: drivers/power/supply/qcom_battmgr.c:357:31: sparse: sparse:
+ incorrect type in initializer (different base types)
+Message-ID: <20230913144340.l2vg6wtq56lnzejn@mercury.elektranox.org>
+References: <202308280602.nE6xa80J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="kg7dkqg6i3kdnmsn"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <202308280602.nE6xa80J-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e143016b56ecb0fcda5bb6026b0a25fe55274f56
-commit: 2b5dcb31a19a2e0acd869b12c9db9b2d696ef544 [4799/4965] bpf, x64: Fix tailcall infinite loop
-config: i386-randconfig-141-20230913 (https://download.01.org/0day-ci/archive/20230913/202309131936.5Nc8eUD0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230913/202309131936.5Nc8eUD0-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202309131936.5Nc8eUD0-lkp@intel.com/
+--kg7dkqg6i3kdnmsn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-smatch warnings:
-kernel/bpf/verifier.c:19778 check_attach_btf_id() error: 'tr' dereferencing possible ERR_PTR()
+Hi Bjorn,
 
-vim +/tr +19778 kernel/bpf/verifier.c
+On Mon, Aug 28, 2023 at 06:19:22AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   85eb043618bb17124050197d71c453d4a1f556e5
+> commit: 29e8142b5623b5949587bcc4f591c4e6595c4aca power: supply: Introduce=
+ Qualcomm PMIC GLINK power supply
+> date:   7 months ago
+> config: i386-randconfig-061-20230828 (https://download.01.org/0day-ci/arc=
+hive/20230828/202308280602.nE6xa80J-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230828/202308280602=
+=2EnE6xa80J-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308280602.nE6xa80J-lkp=
+@intel.com/
+>=20
+> sparse warnings: (new ones prefixed by >>)
+> >> drivers/power/supply/qcom_battmgr.c:357:31: sparse: sparse: incorrect =
+type in initializer (different base types) @@     expected unsigned int [us=
+ertype] battery_id @@     got restricted __le32 [usertype] @@
+>    drivers/power/supply/qcom_battmgr.c:357:31: sparse:     expected unsig=
+ned int [usertype] battery_id
+>    drivers/power/supply/qcom_battmgr.c:357:31: sparse:     got restricted=
+ __le32 [usertype]
+>    drivers/power/supply/qcom_battmgr.c:369:31: sparse: sparse: incorrect =
+type in initializer (different base types) @@     expected unsigned int [us=
+ertype] battery_id @@     got restricted __le32 [usertype] @@
+>    drivers/power/supply/qcom_battmgr.c:369:31: sparse:     expected unsig=
+ned int [usertype] battery_id
+>    drivers/power/supply/qcom_battmgr.c:369:31: sparse:     got restricted=
+ __le32 [usertype]
+> >> drivers/power/supply/qcom_battmgr.c:1286:30: sparse: sparse: incorrect=
+ type in initializer (different base types) @@     expected restricted __le=
+32 [usertype] owner @@     got int @@
+>    drivers/power/supply/qcom_battmgr.c:1286:30: sparse:     expected rest=
+ricted __le32 [usertype] owner
+>    drivers/power/supply/qcom_battmgr.c:1286:30: sparse:     got int
+> >> drivers/power/supply/qcom_battmgr.c:1287:29: sparse: sparse: incorrect=
+ type in initializer (different base types) @@     expected restricted __le=
+32 [usertype] type @@     got int @@
+>    drivers/power/supply/qcom_battmgr.c:1287:29: sparse:     expected rest=
+ricted __le32 [usertype] type
+>    drivers/power/supply/qcom_battmgr.c:1287:29: sparse:     got int
+> >> drivers/power/supply/qcom_battmgr.c:1288:31: sparse: sparse: incorrect=
+ type in initializer (different base types) @@     expected restricted __le=
+32 [usertype] opcode @@     got int @@
+>    drivers/power/supply/qcom_battmgr.c:1288:31: sparse:     expected rest=
+ricted __le32 [usertype] opcode
+>    drivers/power/supply/qcom_battmgr.c:1288:31: sparse:     got int
+>=20
+> vim +357 drivers/power/supply/qcom_battmgr.c
+>=20
+>    350=09
+>    351	static int qcom_battmgr_update_status(struct qcom_battmgr *battmgr)
+>    352	{
+>    353		struct qcom_battmgr_update_request request =3D {
+>    354			.hdr.owner =3D cpu_to_le32(PMIC_GLINK_OWNER_BATTMGR),
+>    355			.hdr.type =3D cpu_to_le32(PMIC_GLINK_REQ_RESP),
+>    356			.hdr.opcode =3D cpu_to_le32(BATTMGR_BAT_STATUS),
+>  > 357			.battery_id =3D cpu_to_le32(0),
+>    358		};
+>    359=09
+>    360		return qcom_battmgr_request(battmgr, &request, sizeof(request));
+>    361	}
+>    362=09
 
-f1b9509c2fb0ef Alexei Starovoitov     2019-10-30  19770  	}
-f7b12b6fea0098 Toke Høiland-Jørgensen 2020-09-25  19771  
-22dc4a0f5ed11b Andrii Nakryiko        2020-12-03  19772  	key = bpf_trampoline_compute_key(tgt_prog, prog->aux->attach_btf, btf_id);
-f7b12b6fea0098 Toke Høiland-Jørgensen 2020-09-25  19773  	tr = bpf_trampoline_get(key, &tgt_info);
-f7b12b6fea0098 Toke Høiland-Jørgensen 2020-09-25  19774  	if (!tr)
+It looks like  battery_id should be __le32 in 'struct
+qcom_battmgr_update_request', care to send a patch for that?
 
-bpf_trampoline_get() returns error pointers if CONFIG_BPF_JIT is turned
-off.  We should make either return NULL in that case, or change
-CONFIG_BPF_SYSCALL to depend on or select CONFIG_BPF_JIT.  Probably we
-should do both honestly.
+Greetings,
 
-Normally when functions return a mix of error pointers and NULL the
-error pointer means error and the NULL means the feature is disabled.
-This code does is the reverse way.
+-- Sebastian
 
-f7b12b6fea0098 Toke Høiland-Jørgensen 2020-09-25  19775  		return -ENOMEM;
-f7b12b6fea0098 Toke Høiland-Jørgensen 2020-09-25  19776  
-2b5dcb31a19a2e Leon Hwang             2023-09-12  19777  	if (tgt_prog && tgt_prog->aux->tail_call_reachable)
-2b5dcb31a19a2e Leon Hwang             2023-09-12 @19778  		tr->flags = BPF_TRAMP_F_TAIL_CALL_CTX;
-2b5dcb31a19a2e Leon Hwang             2023-09-12  19779  
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  19780  	prog->aux->dst_trampoline = tr;
-f7b12b6fea0098 Toke Høiland-Jørgensen 2020-09-25  19781  	return 0;
-38207291604401 Martin KaFai Lau       2019-10-24  19782  }
+--kg7dkqg6i3kdnmsn
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-----BEGIN PGP SIGNATURE-----
 
+iQIyBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmUBypYACgkQ2O7X88g7
++pq/rw/3SEKux/ZBackYrIw9y9Z/kn115vH7rfdk3/pfhpgjpVVGENZso9k+tHE5
+lj6/Fu6Dbe2e0qQWYEDSxRrMVvSrJsEKYdt9j+s9r+0DseOJQkzXIIq3LNzLrN5F
+t3Cntgfn5XZiA0RaIEuRQAZSTcU37bYVc5F/JQ3WmENF39dfFSS7EQJvSZSxJ5RR
+6ET1iKroiMbxnFvM1UDDxyMgl0tr66e85es4zm4V2D4F/LwHmsprfgTfLtQs7izT
+l8NkyKy2MYbe0TsVT5ombTwsaXcg8A03jgb3m32gI6Z5MUzcVFw9Ke+uWRHgVCF6
+7f+hoRjk3bhdgex0g+XjLRO3AeuIoNo9JGhbezTaOJClSu6Ew7vw7Z6N4y5df4e3
+XoruytZrG/Ck4cLJ4ypgHcKzLBk2bSF8/h/IBls484pX4XAm1PuPGWQuObNII45S
+SEz1/6vSRs4KlCeJMcx7JT0IrTCdK5d78UHLk3T2fdK7afH8blL+PoDLDqLZQOhf
+WADrZ6mTE0xR7UtQhp+Q43Ra4eWRSbL1+HzydaPuFjFFtZdpg+PorQYXNA/UcgeH
+j8i/fRqqoLfB/GlCI2ihh6W0zX/nXFv9hz1cjReu/Ldma/6Vw4zwn+tHCD/4LEN8
+A1FOp6px43ciBsvYSxiUfUBrl9UQAvtkpMPjSbOjiXz4plQbJg==
+=xOI2
+-----END PGP SIGNATURE-----
+
+--kg7dkqg6i3kdnmsn--
