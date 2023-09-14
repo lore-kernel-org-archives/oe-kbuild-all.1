@@ -1,42 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D47B369
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 01:38:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC7B39C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 02:09:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694655488; x=1726191488;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d5i4xO2ELA1Pe8xiN4vp8E2EVzwEgrhRsDYOA3hrPxI=;
-  b=HqOD02bL6MeNXCAj7J2pCLSF4HSwAK/FH33UK18cTbXgZ1v1ltl9tJP+
-   cc5FMOmv7NUccro4XNbkTdPQQrIoPl5/QO24qENhNTJoGoUQJRHlFrnun
-   Sj7GSJeukNl7C62CCyLErp9jW584SUe0yKcdycPNVFNIh6xAPZwmeu8G6
-   Ibfr0jXIMh95Ew09SZcg+zIxK/Qv1MFgGRZ0JuDvC1bFWljvlintNK02V
-   3HrDQKBZe7lZvaA2+RijtxDmWb7SpU5ZZSMR0luEzGqIFyuoPmaISBvuf
-   CCr5k43E8AEj5ou01oX5U1xOijkUuBeyPa8Cq9kFs1Mk8L5m6kV5JZrAq
+  t=1694657387; x=1726193387;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XSQkTceluSnPVGEvmSOHQLuZ2d6CUEkWNEeZbE/Eqr4=;
+  b=AxS6IYqV38WGEXorBlR8BTWMd/wdUZwto3STzE+iDPXw/gy8POXUDHkv
+   nb+U66l5qv8DG660JekGOfzCVFSyiz4UFs1txqcS+ElO5/JylC++HUYO0
+   QteYsoaPa8heM5OMP/m0Rr8sYmOW6fXo0oNOXCLs6fPqHyCKJO4HrWUBV
+   NAH0aeCZMOSauQVAzJXVFTeWHkEgzfWwSGqsGqGsXFH/fJG+X7ykJYmju
+   +YJB8OFkS+9LUCaFJkT6SxWinUkWhYe04GQnOogCnEjYocTcdEVGOxzZh
+   P0i2+1Xe2XVov3nvySP5ZMEjXK8ss4v8FX+t080PdC8nBjXr0dSBYFu5f
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="377735358"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="442862984"
 X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="377735358"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 18:38:07 -0700
+   d="scan'208";a="442862984"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 19:09:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="694053169"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="859516489"
 X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="694053169"
+   d="scan'208";a="859516489"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 13 Sep 2023 18:38:05 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 13 Sep 2023 19:09:39 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgbIw-0000wf-2T;
-	Thu, 14 Sep 2023 01:38:03 +0000
-Date: Thu, 14 Sep 2023 09:37:22 +0800
+	id 1qgbnV-0000yz-0B;
+	Thu, 14 Sep 2023 02:09:37 +0000
+Date: Thu, 14 Sep 2023 10:09:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Song Liu <song@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [song:test-bpf-tramp-to-prog-pack 5/5]
- kernel/bpf/trampoline.c:365:15: warning: unused variable 'image'
-Message-ID: <202309140926.bup0Urm0-lkp@intel.com>
+To: Sumit Gupta <sumitg@nvidia.com>, rafael@kernel.org, rui.zhang@intel.com,
+	lenb@kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
+	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-tegra@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, sumitg@nvidia.com, sanjayc@nvidia.com,
+	ksitaraman@nvidia.com, srikars@nvidia.com, jbrasen@nvidia.com,
+	bbasu@nvidia.com
+Subject: Re: [Patch v2 2/2] ACPI: processor: reduce CPUFREQ thermal reduction
+ pctg for Tegra241
+Message-ID: <202309140915.2J9OzWIZ-lkp@intel.com>
+References: <20230913164659.9345-3-sumitg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,56 +52,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230913164659.9345-3-sumitg@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/song/linux.git test-bpf-tramp-to-prog-pack
-head:   2e429f41922fabd2a64862c11b90056abf7ce9c1
-commit: 2e429f41922fabd2a64862c11b90056abf7ce9c1 [5/5] bpf: Allocate image in arch_prepare_bpf_trampoline()
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230914/202309140926.bup0Urm0-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309140926.bup0Urm0-lkp@intel.com/reproduce)
+Hi Sumit,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on linus/master v6.6-rc1 next-20230913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Gupta/ACPI-thermal-Add-Thermal-fast-Sampling-Period-_TFP-support/20230914-004929
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20230913164659.9345-3-sumitg%40nvidia.com
+patch subject: [Patch v2 2/2] ACPI: processor: reduce CPUFREQ thermal reduction pctg for Tegra241
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20230914/202309140915.2J9OzWIZ-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309140915.2J9OzWIZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309140926.bup0Urm0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309140915.2J9OzWIZ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/bpf/trampoline.c: In function 'bpf_tramp_image_alloc':
->> kernel/bpf/trampoline.c:365:15: warning: unused variable 'image' [-Wunused-variable]
-     365 |         void *image;
-         |               ^~~~~
+>> drivers/acpi/processor_thermal.c:141:6: warning: no previous declaration for 'acpi_thermal_cpufreq_config_nvidia' [-Wmissing-declarations]
+    void acpi_thermal_cpufreq_config_nvidia(void)
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/image +365 kernel/bpf/trampoline.c
+vim +/acpi_thermal_cpufreq_config_nvidia +141 drivers/acpi/processor_thermal.c
 
-29949b46ac1de7 Song Liu           2023-09-13  361  
-29949b46ac1de7 Song Liu           2023-09-13  362  static struct bpf_tramp_image *bpf_tramp_image_alloc(void)
-29949b46ac1de7 Song Liu           2023-09-13  363  {
-29949b46ac1de7 Song Liu           2023-09-13  364  	struct bpf_tramp_image *im;
-e21aa341785c67 Alexei Starovoitov 2021-03-16 @365  	void *image;
-2e429f41922fab Song Liu           2023-09-13  366  	int err;
-e21aa341785c67 Alexei Starovoitov 2021-03-16  367  
-e21aa341785c67 Alexei Starovoitov 2021-03-16  368  	im = kzalloc(sizeof(*im), GFP_KERNEL);
-e21aa341785c67 Alexei Starovoitov 2021-03-16  369  	if (!im)
-2e429f41922fab Song Liu           2023-09-13  370  		return ERR_PTR(-ENOMEM);
-e21aa341785c67 Alexei Starovoitov 2021-03-16  371  
-e21aa341785c67 Alexei Starovoitov 2021-03-16  372  	err = percpu_ref_init(&im->pcref, __bpf_tramp_image_release, 0, GFP_KERNEL);
-e21aa341785c67 Alexei Starovoitov 2021-03-16  373  	if (err)
-2e429f41922fab Song Liu           2023-09-13  374  		goto out_free_im;
-e21aa341785c67 Alexei Starovoitov 2021-03-16  375  	return im;
-e21aa341785c67 Alexei Starovoitov 2021-03-16  376  
-e21aa341785c67 Alexei Starovoitov 2021-03-16  377  out_free_im:
-e21aa341785c67 Alexei Starovoitov 2021-03-16  378  	kfree(im);
-e21aa341785c67 Alexei Starovoitov 2021-03-16  379  	return ERR_PTR(err);
-e21aa341785c67 Alexei Starovoitov 2021-03-16  380  }
-e21aa341785c67 Alexei Starovoitov 2021-03-16  381  
-
-:::::: The code at line 365 was first introduced by commit
-:::::: e21aa341785c679dd409c8cb71f864c00fe6c463 bpf: Fix fexit trampoline.
-
-:::::: TO: Alexei Starovoitov <ast@kernel.org>
-:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
+   140	
+ > 141	void acpi_thermal_cpufreq_config_nvidia(void)
+   142	{
+   143	#ifdef CONFIG_HAVE_ARM_SMCCC_DISCOVERY
+   144		s32 soc_id = arm_smccc_get_soc_id_version();
+   145	
+   146		/* Check JEP106 code for NVIDIA Tegra241 chip (036b:0241) */
+   147		if ((soc_id < 0) || (soc_id != SMCCC_SOC_ID_T241))
+   148			return;
+   149	
+   150		/* Reduce the CPUFREQ Thermal reduction percentage to 5% */
+   151		cpufreq_thermal_pctg = 5;
+   152	
+   153		/*
+   154		 * Derive the MAX_STEP from minimum throttle percentage so that the reduction
+   155		 * percentage doesn't end up becoming negative. Also, cap the MAX_STEP so that
+   156		 * the CPU performance doesn't become 0.
+   157		 */
+   158		cpufreq_thermal_max_step = ((100 / cpufreq_thermal_pctg) - 1);
+   159	#endif
+   160	}
+   161	
 
 -- 
 0-DAY CI Kernel Test Service
