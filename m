@@ -1,41 +1,44 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3764D224CF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 08:59:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=767aOcIiPAu+a4xSMgdj3nN/8LUSwQTBQXYqcr4vSMA=; b=kgFcO0zVBVsnq/RZPRCNd5HN35
-	p8VN7t6TqAXFG6k7to+8XkKW7wL8LCf5SehsFSaqHD1AaIkwUt6v9G2sujMmd6go9KeAUzOGU01vx
-	PYa0S46uqrKSX3jShgHJkktVfOlmzHDOg2ho7ZBTjqgVdzrTHOKn/CIiDgDu8KMOdpJz1Uf4t8cZB
-	mkldwNURQ48hqWknD2F7GZZfCkoI0YizQDxNpSXmolQGtbUktQR1xoQy7ez4O+c6ItAKXp/lFS+JS
-	BoFU8x/UBhieJ/Bvqul8Z+OeyrunOe/Gt0KfqlGMKVFlH5l+ThDhPqD/Zgv6ogKRNs0R6jdW0uRjj
-	NjgP8vBQ==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1qgiBt-001xaT-HM; Thu, 14 Sep 2023 08:59:13 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 35FEA30036C; Thu, 14 Sep 2023 10:59:13 +0200 (CEST)
-Date: Thu, 14 Sep 2023 10:59:13 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: "Huang, Kai" <kai.huang@intel.com>
-Cc: "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	lkp <lkp@intel.com>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"x86@kernel.org" <x86@kernel.org>
-Subject: Re: [tip:x86/tdx 8/12] vmlinux.o: warning: objtool:
- __tdx_hypercall+0x128: __tdx_hypercall_failed() is missing a __noreturn
- annotation
-Message-ID: <20230914085913.GD16631@noisy.programming.kicks-ass.net>
-References: <202309140828.9RdmlH2Z-lkp@intel.com>
- <90f0a4d44704f9c296f3a4d8b72c57f2916aa09d.camel@intel.com>
- <377b1ce2ecd390f4b6f8cdf68d22c708f7cef6d1.camel@intel.com>
- <20230914072959.GC16631@noisy.programming.kicks-ass.net>
- <9eb77be3a64c25b3264d5011a93242d006b88627.camel@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7160A15E83
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 09:07:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694682426; x=1726218426;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=01I1I7GqBC1Q5UxicFhLDuQTGY+HuvIqglYsv//iM7Q=;
+  b=OK8Pt1vkdFwp14qz9Y08KjJhboOKmO2Jf8Ma6KgkSdnPUcyx3KqWJ56u
+   c+4Uyf0ZBdrNY5yYcWj/9YxqpFqbeiC0kE42KpD9E4/0vKuWlzKZs59zU
+   Q1wjmwbx5c7i85Mgt3lLo5cipWRT5NIkIEOFvTI0+K/E2fL1CC5t1wqnM
+   Q31nRodnDX/juB5isTN5reWaLSCiDGzfw5IHrPsAKSCsK4m3z+coAD9Vq
+   ZzdDJLP41qx5H/Fe2uVQ5QrhYmxNoOi8mXimc7hvyH8FZr0UvmW3FEBtN
+   lBEhx+1BjGApLLTLaLCmrdevlh/iueg1RD8nV3oXcFshV4e8diYhc37ux
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="369171073"
+X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
+   d="scan'208";a="369171073"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 02:07:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="918184531"
+X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
+   d="scan'208";a="918184531"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 14 Sep 2023 02:07:04 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qgiJS-0001PS-1v;
+	Thu, 14 Sep 2023 09:07:02 +0000
+Date: Thu, 14 Sep 2023 17:06:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yang Weijiang <weijiang.yang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 7/8] x86/fpu/xstate: Tweak guest fpstate to support
+ kernel dynamic xfeatures
+Message-ID: <202309141610.x0Q8QRPE-lkp@intel.com>
+References: <20230914032334.75212-8-weijiang.yang@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,37 +47,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9eb77be3a64c25b3264d5011a93242d006b88627.camel@intel.com>
+In-Reply-To: <20230914032334.75212-8-weijiang.yang@intel.com>
 
-On Thu, Sep 14, 2023 at 07:54:10AM +0000, Huang, Kai wrote:
+Hi Yang,
 
-> > The point of noreturn is that the caller should know to stop generating
-> > code. For that the declaration needs the attribute, because call sites
-> > typically do not have access to the function definition in C.
-> 
-> Ah that makes perfect sense.  Thanks!
-> 
-> Then I assume we don't need to annotate __noreturn in the function body, but
-> only in the declaration?  Because the compiler must already have seen the
-> declaration when it generates the code for the function body.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-I think so, I'm sure it'll tell you if it disagrees :-)
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.6-rc1 next-20230914]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> Btw, I happened to notice that the objtool documentation suggests that we should
-> also add the the function to tools/objtool/noreturns.h:
-> 
-> 3. file.o: warning: objtool: foo+0x48c: bar() is missing a __noreturn annotation
-> 
->    The call from foo() to bar() doesn't return, but bar() is missing the
->    __noreturn annotation.  NOTE: In addition to annotating the function
->    with __noreturn, please also add it to tools/objtool/noreturns.h.
-> 
-> Is it a behaviour that we still need to follow?
+url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Weijiang/x86-fpu-xstate-Manually-check-and-add-XFEATURE_CET_USER-xstate-bit/20230914-142957
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230914032334.75212-8-weijiang.yang%40intel.com
+patch subject: [RFC PATCH 7/8] x86/fpu/xstate: Tweak guest fpstate to support kernel dynamic xfeatures
+config: x86_64-buildonly-randconfig-002-20230914 (https://download.01.org/0day-ci/archive/20230914/202309141610.x0Q8QRPE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309141610.x0Q8QRPE-lkp@intel.com/reproduce)
 
-Yes. objtool has some heuristics to detect noreturn, but is is very
-difficult. Sadly noreturn is not something that is reflected in the ELF
-object file so we have to guess.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309141610.x0Q8QRPE-lkp@intel.com/
 
-For now manually adding it to the objtool list is required, we're trying
-to get to the point where it is generated/validated by the compiler,
-perhaps with a plugin, but we're not there yet.
+All warnings (new ones prefixed by >>):
+
+>> arch/x86/kernel/fpu/xstate.c:564:14: warning: no previous prototype for 'xstate_calculate_size' [-Wmissing-prototypes]
+     564 | unsigned int xstate_calculate_size(u64 xfeatures, bool compacted)
+         |              ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/xstate_calculate_size +564 arch/x86/kernel/fpu/xstate.c
+
+   563	
+ > 564	unsigned int xstate_calculate_size(u64 xfeatures, bool compacted)
+   565	{
+   566		unsigned int topmost = fls64(xfeatures) -  1;
+   567		unsigned int offset = xstate_offsets[topmost];
+   568	
+   569		if (topmost <= XFEATURE_SSE)
+   570			return sizeof(struct xregs_state);
+   571	
+   572		if (compacted)
+   573			offset = xfeature_get_offset(xfeatures, topmost);
+   574		return offset + xstate_sizes[topmost];
+   575	}
+   576	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
