@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9984A1C13
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 07:41:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF5D62C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 07:51:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694677280; x=1726213280;
+  t=1694677879; x=1726213879;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=k9tzPjDGucXQrVJqH5L941CR1sIiZChvdfUXhsjfOA0=;
-  b=noQ2bWMa/XcKMvd2m+SGZfKma2p5DixjFduLiDfGTuxTBNyiN3Bwdr6h
-   U1vI5Sbp+NgGjutcUYf3gDZFS9qJCXs/QlMGSuEH23ChrdHm2/u+CR5Ed
-   vd4oH7PLjIX/RrUuNT0xuulbvpLkzZf5Ce1hyypRHLfuUiadNtnWD4ITF
-   F1U6yFkiVVMOd+ggELFv9Wu7EZnUhyLaqy8G5wJsKQ5++tQqtC6VWPu7Z
-   mCZFc+VatyhoCq4+imu4HY0oZDArwjaUek6br0RkYeLNoO2FE1tzA3n32
-   nX1o+x93eozoxfoZM8xNyDRQTp37OEAn8Xzkn28FULKgA9TBUD6we/JwS
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="377787459"
+  bh=RtQCDaBP7L/4bx7M4m1qTMsz/LT00/YjUxxmWI/zFMs=;
+  b=c7lCU2Anw19elwEAozbqKAz/9HCtkNxDXmGn/o7Ibyf0d9vXn5gdaoLQ
+   EDtPfXP4w7mhqbwnU/6x3UcDnJ0whBSdV655lCEeQF2qDp6JTvfAnP4DP
+   dkjsdGPfEdTO2vROsxzxIYg8v/rhGTkUCwslrv4Y8prVZ2qiTTtan590M
+   g40R3wGKBGhVVV4IPUVgMfQHrF7bxoSHgw4Uf4d8SGZD0o7ImRgaXrQqA
+   w+NaXbA1CKG0eIEoKf5a8//d5vxV1TwetpF6JtxgVUTSM45Lx4kJxIo/C
+   x/8ih/QMsrPnLxWqvMeyNYmhrICm08uAaNaGhyjLZHx0K2iLGFEIUiSqb
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="442913330"
 X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="377787459"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 00:41:19 -0700
+   d="scan'208";a="442913330"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 00:51:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="918149185"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="991298669"
 X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="918149185"
+   d="scan'208";a="991298669"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 14 Sep 2023 00:41:17 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 14 Sep 2023 00:51:17 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qggyR-0001KP-2M;
-	Thu, 14 Sep 2023 07:41:15 +0000
-Date: Thu, 14 Sep 2023 15:40:35 +0800
+	id 1qgh87-0001Kv-38;
+	Thu, 14 Sep 2023 07:51:15 +0000
+Date: Thu, 14 Sep 2023 15:50:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Hangbin Liu <liuhangbin@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 07/12] drm/msm/dpu: add support for virtual planes
-Message-ID: <202309141500.5UFd8NkL-lkp@intel.com>
-References: <20230914050706.1058620-8-dmitry.baryshkov@linaro.org>
+Subject: Re: [RFC Draft PATCH net-next] Doc: update bridge doc
+Message-ID: <202309141500.tFcscvwX-lkp@intel.com>
+References: <20230913092854.1027336-2-liuhangbin@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,511 +46,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230914050706.1058620-8-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230913092854.1027336-2-liuhangbin@gmail.com>
 
-Hi Dmitry,
+Hi Hangbin,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.6-rc1 next-20230914]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-atomic-helper-split-not-scaling-part-of-drm_atomic_helper_check_plane_state/20230914-130917
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230914050706.1058620-8-dmitry.baryshkov%40linaro.org
-patch subject: [PATCH v3 07/12] drm/msm/dpu: add support for virtual planes
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20230914/202309141500.5UFd8NkL-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309141500.5UFd8NkL-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hangbin-Liu/Doc-update-bridge-doc/20230913-173039
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230913092854.1027336-2-liuhangbin%40gmail.com
+patch subject: [RFC Draft PATCH net-next] Doc: update bridge doc
+reproduce: (https://download.01.org/0day-ci/archive/20230914/202309141500.tFcscvwX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309141500.5UFd8NkL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309141500.tFcscvwX-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bitops/hweight.h:6,
-                    from arch/arm/include/asm/bitops.h:244,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:22,
-                    from include/linux/cpumask.h:10,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/mutex.h:17,
-                    from include/linux/interconnect.h:10,
-                    from drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h:11,
-                    from drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:8:
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c: In function 'dpu_rm_reserve_sspp':
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:10:16: note: in definition of macro '__const_hweight8'
-      10 |          ((!!((w) & (1ULL << 0))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:31: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:11:16: note: in definition of macro '__const_hweight8'
-      11 |           (!!((w) & (1ULL << 1))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:31: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:12:16: note: in definition of macro '__const_hweight8'
-      12 |           (!!((w) & (1ULL << 2))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:31: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:13:16: note: in definition of macro '__const_hweight8'
-      13 |           (!!((w) & (1ULL << 3))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:31: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:14:16: note: in definition of macro '__const_hweight8'
-      14 |           (!!((w) & (1ULL << 4))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:31: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:15:16: note: in definition of macro '__const_hweight8'
-      15 |           (!!((w) & (1ULL << 5))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:31: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:16:16: note: in definition of macro '__const_hweight8'
-      16 |           (!!((w) & (1ULL << 6))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:31: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:17:16: note: in definition of macro '__const_hweight8'
-      17 |           (!!((w) & (1ULL << 7)))))
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:31: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:10:16: note: in definition of macro '__const_hweight8'
-      10 |          ((!!((w) & (1ULL << 0))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:31: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:11:16: note: in definition of macro '__const_hweight8'
-      11 |           (!!((w) & (1ULL << 1))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:31: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:12:16: note: in definition of macro '__const_hweight8'
-      12 |           (!!((w) & (1ULL << 2))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:31: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:13:16: note: in definition of macro '__const_hweight8'
-      13 |           (!!((w) & (1ULL << 3))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:31: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:14:16: note: in definition of macro '__const_hweight8'
-      14 |           (!!((w) & (1ULL << 4))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:31: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:15:16: note: in definition of macro '__const_hweight8'
-      15 |           (!!((w) & (1ULL << 5))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:31: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:16:16: note: in definition of macro '__const_hweight8'
-      16 |           (!!((w) & (1ULL << 6))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:31: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:17:16: note: in definition of macro '__const_hweight8'
-      17 |           (!!((w) & (1ULL << 7)))))
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:31: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:10:16: note: in definition of macro '__const_hweight8'
-      10 |          ((!!((w) & (1ULL << 0))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:54: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:11:16: note: in definition of macro '__const_hweight8'
-      11 |           (!!((w) & (1ULL << 1))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:54: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:12:16: note: in definition of macro '__const_hweight8'
-      12 |           (!!((w) & (1ULL << 2))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:54: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
->> include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:13:16: note: in definition of macro '__const_hweight8'
-      13 |           (!!((w) & (1ULL << 3))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:54: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:14:16: note: in definition of macro '__const_hweight8'
-      14 |           (!!((w) & (1ULL << 4))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:54: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:15:16: note: in definition of macro '__const_hweight8'
-      15 |           (!!((w) & (1ULL << 5))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:54: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:16:16: note: in definition of macro '__const_hweight8'
-      16 |           (!!((w) & (1ULL << 6))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:54: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:17:16: note: in definition of macro '__const_hweight8'
-      17 |           (!!((w) & (1ULL << 7)))))
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:54: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:29:49: note: in expansion of macro '__const_hweight64'
-      29 | #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
-         |                                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:646:26: note: in expansion of macro 'hweight64'
-     646 |                 weight = hweight64(hw_sspp->cap->features & ~mask);
-         |                          ^~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-         |                                                                            ^~
-   include/asm-generic/bitops/const_hweight.h:10:16: note: in definition of macro '__const_hweight8'
-      10 |          ((!!((w) & (1ULL << 0))) +     \
-         |                ^
-   include/asm-generic/bitops/const_hweight.h:20:54: note: in expansion of macro '__const_hweight16'
-      20 | #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-         |                                                      ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/const_hweight.h:21:54: note: in expansion of macro '__const_hweight32'
-      21 | #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
+>> ./include/uapi/linux/if_bridge.h:88: warning: Function parameter or member 'forward_delay' not described in '__bridge_info'
+>> ./include/uapi/linux/if_bridge.h:88: warning: Function parameter or member 'bridge_max_age' not described in '__bridge_info'
+>> ./include/uapi/linux/if_bridge.h:88: warning: Function parameter or member 'bridge_hello_time' not described in '__bridge_info'
+>> ./include/uapi/linux/if_bridge.h:88: warning: Function parameter or member 'bridge_forward_delay' not described in '__bridge_info'
+>> ./include/uapi/linux/if_bridge.h:88: warning: Function parameter or member 'topology_change' not described in '__bridge_info'
+>> ./include/uapi/linux/if_bridge.h:88: warning: Function parameter or member 'topology_change_detected' not described in '__bridge_info'
+>> ./include/uapi/linux/if_bridge.h:88: warning: Function parameter or member 'root_port' not described in '__bridge_info'
+>> ./include/uapi/linux/if_bridge.h:88: warning: Function parameter or member 'stp_enabled' not described in '__bridge_info'
+>> ./include/uapi/linux/if_bridge.h:88: warning: Function parameter or member 'ageing_time' not described in '__bridge_info'
+>> ./include/uapi/linux/if_bridge.h:88: warning: Function parameter or member 'gc_interval' not described in '__bridge_info'
+>> ./include/uapi/linux/if_bridge.h:88: warning: Function parameter or member 'hello_timer_value' not described in '__bridge_info'
+>> ./include/uapi/linux/if_bridge.h:88: warning: Function parameter or member 'tcn_timer_value' not described in '__bridge_info'
+>> ./include/uapi/linux/if_bridge.h:88: warning: Function parameter or member 'topology_change_timer_value' not described in '__bridge_info'
+>> ./include/uapi/linux/if_bridge.h:88: warning: Function parameter or member 'gc_timer_value' not described in '__bridge_info'
+>> ./include/uapi/linux/if_bridge.h:115: warning: Function parameter or member 'path_cost' not described in '__port_info'
+>> ./include/uapi/linux/if_bridge.h:115: warning: Function parameter or member 'designated_cost' not described in '__port_info'
+>> ./include/uapi/linux/if_bridge.h:115: warning: Function parameter or member 'state' not described in '__port_info'
+>> ./include/uapi/linux/if_bridge.h:115: warning: Function parameter or member 'top_change_ack' not described in '__port_info'
+>> ./include/uapi/linux/if_bridge.h:115: warning: Function parameter or member 'config_pending' not described in '__port_info'
+>> ./include/uapi/linux/if_bridge.h:115: warning: Function parameter or member 'unused0' not described in '__port_info'
+>> ./include/uapi/linux/if_bridge.h:115: warning: Function parameter or member 'message_age_timer_value' not described in '__port_info'
+>> ./include/uapi/linux/if_bridge.h:115: warning: Function parameter or member 'forward_delay_timer_value' not described in '__port_info'
+>> ./include/uapi/linux/if_bridge.h:115: warning: Function parameter or member 'hold_timer_value' not described in '__port_info'
 
+vim +88 ./include/uapi/linux/if_bridge.h
 
-vim +21 include/asm-generic/bitops/const_hweight.h
-
-1527bc8b928dd1 Peter Zijlstra 2010-02-01   4  
-1527bc8b928dd1 Peter Zijlstra 2010-02-01   5  /*
-1527bc8b928dd1 Peter Zijlstra 2010-02-01   6   * Compile time versions of __arch_hweightN()
-1527bc8b928dd1 Peter Zijlstra 2010-02-01   7   */
-1527bc8b928dd1 Peter Zijlstra 2010-02-01   8  #define __const_hweight8(w)		\
-c32fa99f0b4252 Paul Walmsley  2013-12-18   9  	((unsigned int)			\
-1527bc8b928dd1 Peter Zijlstra 2010-02-01  10  	 ((!!((w) & (1ULL << 0))) +	\
-1527bc8b928dd1 Peter Zijlstra 2010-02-01  11  	  (!!((w) & (1ULL << 1))) +	\
-1527bc8b928dd1 Peter Zijlstra 2010-02-01  12  	  (!!((w) & (1ULL << 2))) +	\
-1527bc8b928dd1 Peter Zijlstra 2010-02-01  13  	  (!!((w) & (1ULL << 3))) +	\
-1527bc8b928dd1 Peter Zijlstra 2010-02-01  14  	  (!!((w) & (1ULL << 4))) +	\
-1527bc8b928dd1 Peter Zijlstra 2010-02-01  15  	  (!!((w) & (1ULL << 5))) +	\
-1527bc8b928dd1 Peter Zijlstra 2010-02-01  16  	  (!!((w) & (1ULL << 6))) +	\
-c32fa99f0b4252 Paul Walmsley  2013-12-18  17  	  (!!((w) & (1ULL << 7)))))
-1527bc8b928dd1 Peter Zijlstra 2010-02-01  18  
-1527bc8b928dd1 Peter Zijlstra 2010-02-01  19  #define __const_hweight16(w) (__const_hweight8(w)  + __const_hweight8((w)  >> 8 ))
-1527bc8b928dd1 Peter Zijlstra 2010-02-01  20  #define __const_hweight32(w) (__const_hweight16(w) + __const_hweight16((w) >> 16))
-1527bc8b928dd1 Peter Zijlstra 2010-02-01 @21  #define __const_hweight64(w) (__const_hweight32(w) + __const_hweight32((w) >> 32))
-1527bc8b928dd1 Peter Zijlstra 2010-02-01  22  
+607ca46e97a1b6 David Howells 2012-10-13   54  
+26bff9744d2e66 Hangbin Liu   2023-09-13   55  /**
+26bff9744d2e66 Hangbin Liu   2023-09-13   56   * struct __bridge_info - the bridge information
+26bff9744d2e66 Hangbin Liu   2023-09-13   57   *
+26bff9744d2e66 Hangbin Liu   2023-09-13   58   * @designated_root: designated root
+26bff9744d2e66 Hangbin Liu   2023-09-13   59   *
+26bff9744d2e66 Hangbin Liu   2023-09-13   60   * @bridge_id: bridge id
+26bff9744d2e66 Hangbin Liu   2023-09-13   61   *
+26bff9744d2e66 Hangbin Liu   2023-09-13   62   * @root_path_cost: root path cost
+26bff9744d2e66 Hangbin Liu   2023-09-13   63   *
+26bff9744d2e66 Hangbin Liu   2023-09-13   64   * @max_age: max age
+26bff9744d2e66 Hangbin Liu   2023-09-13   65   *
+26bff9744d2e66 Hangbin Liu   2023-09-13   66   * @hello_time: hello time
+26bff9744d2e66 Hangbin Liu   2023-09-13   67   */
+607ca46e97a1b6 David Howells 2012-10-13   68  struct __bridge_info {
+607ca46e97a1b6 David Howells 2012-10-13   69  	__u64 designated_root;
+607ca46e97a1b6 David Howells 2012-10-13   70  	__u64 bridge_id;
+607ca46e97a1b6 David Howells 2012-10-13   71  	__u32 root_path_cost;
+607ca46e97a1b6 David Howells 2012-10-13   72  	__u32 max_age;
+607ca46e97a1b6 David Howells 2012-10-13   73  	__u32 hello_time;
+607ca46e97a1b6 David Howells 2012-10-13   74  	__u32 forward_delay;
+607ca46e97a1b6 David Howells 2012-10-13   75  	__u32 bridge_max_age;
+607ca46e97a1b6 David Howells 2012-10-13   76  	__u32 bridge_hello_time;
+607ca46e97a1b6 David Howells 2012-10-13   77  	__u32 bridge_forward_delay;
+607ca46e97a1b6 David Howells 2012-10-13   78  	__u8 topology_change;
+607ca46e97a1b6 David Howells 2012-10-13   79  	__u8 topology_change_detected;
+607ca46e97a1b6 David Howells 2012-10-13   80  	__u8 root_port;
+607ca46e97a1b6 David Howells 2012-10-13   81  	__u8 stp_enabled;
+607ca46e97a1b6 David Howells 2012-10-13   82  	__u32 ageing_time;
+607ca46e97a1b6 David Howells 2012-10-13   83  	__u32 gc_interval;
+607ca46e97a1b6 David Howells 2012-10-13   84  	__u32 hello_timer_value;
+607ca46e97a1b6 David Howells 2012-10-13   85  	__u32 tcn_timer_value;
+607ca46e97a1b6 David Howells 2012-10-13   86  	__u32 topology_change_timer_value;
+607ca46e97a1b6 David Howells 2012-10-13   87  	__u32 gc_timer_value;
+607ca46e97a1b6 David Howells 2012-10-13  @88  };
+607ca46e97a1b6 David Howells 2012-10-13   89  
+26bff9744d2e66 Hangbin Liu   2023-09-13   90  /**
+26bff9744d2e66 Hangbin Liu   2023-09-13   91   * struct __port_info - the bridge port information
+26bff9744d2e66 Hangbin Liu   2023-09-13   92   *
+26bff9744d2e66 Hangbin Liu   2023-09-13   93   * @designated_root: designated root
+26bff9744d2e66 Hangbin Liu   2023-09-13   94   *
+26bff9744d2e66 Hangbin Liu   2023-09-13   95   * @designated_bridge: designated bridge
+26bff9744d2e66 Hangbin Liu   2023-09-13   96   *
+26bff9744d2e66 Hangbin Liu   2023-09-13   97   * @port_id: port id
+26bff9744d2e66 Hangbin Liu   2023-09-13   98   *
+26bff9744d2e66 Hangbin Liu   2023-09-13   99   * @designated_port: designated port
+26bff9744d2e66 Hangbin Liu   2023-09-13  100   */
+607ca46e97a1b6 David Howells 2012-10-13  101  struct __port_info {
+607ca46e97a1b6 David Howells 2012-10-13  102  	__u64 designated_root;
+607ca46e97a1b6 David Howells 2012-10-13  103  	__u64 designated_bridge;
+607ca46e97a1b6 David Howells 2012-10-13  104  	__u16 port_id;
+607ca46e97a1b6 David Howells 2012-10-13  105  	__u16 designated_port;
+607ca46e97a1b6 David Howells 2012-10-13  106  	__u32 path_cost;
+607ca46e97a1b6 David Howells 2012-10-13  107  	__u32 designated_cost;
+607ca46e97a1b6 David Howells 2012-10-13  108  	__u8 state;
+607ca46e97a1b6 David Howells 2012-10-13  109  	__u8 top_change_ack;
+607ca46e97a1b6 David Howells 2012-10-13  110  	__u8 config_pending;
+607ca46e97a1b6 David Howells 2012-10-13  111  	__u8 unused0;
+607ca46e97a1b6 David Howells 2012-10-13  112  	__u32 message_age_timer_value;
+607ca46e97a1b6 David Howells 2012-10-13  113  	__u32 forward_delay_timer_value;
+607ca46e97a1b6 David Howells 2012-10-13  114  	__u32 hold_timer_value;
+607ca46e97a1b6 David Howells 2012-10-13 @115  };
+607ca46e97a1b6 David Howells 2012-10-13  116  
 
 -- 
 0-DAY CI Kernel Test Service
