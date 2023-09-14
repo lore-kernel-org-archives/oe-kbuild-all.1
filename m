@@ -1,196 +1,158 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7838F2AB52
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 10:03:27 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-400a087b0bfso7674905e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 03:03:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694685805; x=1695290605; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=JY+ypo6kGzkaXFHtkRbqzNpVHOnI52QDLUoaBcukhRM=;
-        b=TENzvov2VmazCbLm6MoIXmdgDLgj143NyECK8scWehXwQpzXAJi5gNjsWVO5HLhSxm
-         zWCDJKZ8xz3IICCHsi+M25izdNiDrfEzFysQrMkTFDpdpqLdDBn8b/eZJpRkMuL81CSB
-         UNoIZr5ofqs+xw2wO0v2UFn7bzko9EWCUx1Z831BOHmGuWgL/m3GPYfpyZ/Iz2Y808Sg
-         Ka92yApWh7LKDyULOOVSpMl3p43wav1PR2O1+XW7mttmg1Y9yNaX+5U9IBdHcVv4B9SD
-         cIeYtAoF9dn+q2Jn9TVbOPwu25otmrIV2t6SgnWz6DaHe1g3gDNpUIXiOlvpwgXf9RWC
-         EAdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694685805; x=1695290605;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JY+ypo6kGzkaXFHtkRbqzNpVHOnI52QDLUoaBcukhRM=;
-        b=agnjRZKiHS4BkEIAPCe8c669BlxoMtFDYLnutyXKo1OdzpYOzMiXQGDzh+KQS7Q5JY
-         m+pxqHZv/CHsCbnw1S+Xwbav4JfkGVFhsAgSCgOroMRK9BVASx9VRgR3x/FtBwq9uXO1
-         UKARVBWBDBrdT2KrIfvcM4ksi7zxLccUternb1NlY24vbXG3WtbLxAkJJW2Y9h6inDER
-         x84oI90ulSpcNm7Uqco3/22tYNGYEPx5/hXYq8f81CgQlLW0OFIDkYBUKtWZVEyzQXSY
-         kOQW8uWe7bLn8EUhqDdN6J8sfoz2FGocK8PjyZ5UvKj0cp0Kotv7Qo7wmIvJSPEDFzlj
-         EZ8Q==
-X-Gm-Message-State: AOJu0YwUn1HoVcABGX//0C+DVmaHhGW70TnxeVvjnfnzsUxr60eV+XaF
-	1eBx60YStqhOoco9MHF8yECVwoUrBU81dWr0484=
-X-Google-Smtp-Source: AGHT+IEOYkYBZVPKcojHfhgFzG1H7hMO68mi4fWMVt9RM7KP7LzfSaKqB9I2Lt/XkI6ZtjOsNfkUmw==
-X-Received: by 2002:a05:6000:1112:b0:315:8f4f:81b2 with SMTP id z18-20020a056000111200b003158f4f81b2mr3870517wrw.64.1694685805446;
-        Thu, 14 Sep 2023 03:03:25 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id i11-20020a0560001acb00b0031fa870d4b3sm495797wry.60.2023.09.14.03.03.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 03:03:24 -0700 (PDT)
-Date: Thu, 14 Sep 2023 13:03:21 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 25/54] ASoC: generic: convert not to use asoc_xxx()
-Message-ID: <3a818c96-8056-44ea-bc62-7104606da2ed@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DEF31D52D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 10:11:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694686299; x=1726222299;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=zajzbg3Rb/LlajFeS8qJc17hi5gDEbClDpSPuV9Xhbw=;
+  b=FNJ7rMVNHphhWMu0TMzthqKef6Mn9T4vKytu7RPNQLikZrRjgwAnAqHT
+   +O5QuYGdo578SA1E3tPEo+ohSKKPfcECN+E11en5iAP4rfzLW/HVtwe5t
+   wg9Kpa6BHRZcX9Rze0q+WvaYYDSUou5Bm0sFRtXmHazpol/drRSZHLUQw
+   cvIY2UZQWECoX/kNfIXsN9i90ukqLo8nHnoRfXoVj/+TO1lUlU8iXZsas
+   HZ3JedQ6AVoOr30XvIokxZiYFSOsWnHxFmg4f47Kv7wI0PS0W9ETVZg8R
+   I7Ftwy5xIRbimT57IN13xBi0DI5Ww/3nH78fxIeTblz0+gN5eijDoEY5o
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="363947726"
+X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
+   d="scan'208";a="363947726"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 03:11:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="773837905"
+X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
+   d="scan'208";a="773837905"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orsmga008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 14 Sep 2023 03:11:29 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Thu, 14 Sep 2023 03:11:28 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Thu, 14 Sep 2023 03:11:28 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.172)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Thu, 14 Sep 2023 03:11:28 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gPrM2/7cscCFrm08ga80Ne0FUsIpRMwGjYJVdRKC9s8RyUSYGsqd7HOW3zkhQ5+n1C7XH3wpw0G74+OZos/v7FG0zLC+J8pdOYxQcqAjt34RMd7c11gNUbl/BWz/vzLJthV6pxWTRmqeG59j2S+ZVUPIirlLmjuTrSsOKNYGB4XodfqaAgjLIyMbn9tAgz8RM5mOAAcPIMbUZI8rxaHoa2EuVYsoSmS0aCCIjjN3sKsfSYGaoJd/dy5yEtKwKRNA4YhhCWqi19r+kr/1rcKCLripUviMVjK+dGt8Q1XGtPK46HcNAseU7ay/9lRrazZZ2nn9A9ci6cYYO4IWmtmyxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4F4LcX0OaNPBX/++mwrbgsYdR8mXyGCOfHSBvWjkr+k=;
+ b=Q9DAz4rjdTyhz+hDGeevjkLN4ozdSE6FwX3XdLK1ikomKdM3yqWIr3cOtbQc7MIXfq/YcuzWq/Q/4GhBD8Gg5FdSa03GvNP3TFkCOYL2/vMOrtD4I2lDdJEyYUp3wU/uD6cYP0BdauaK96IFkkFOeeprM+3csOwEhKSJdbj0qasQiJ0YOc8w5LH96wUTyjx60ILKp9Mfp2KQjqo8KY30X5LNQyQLN9RSTm+RHVhdGvKrqKD3G5gHtKDkmE7FkjYTC+UEjKasfS+b+p9wFGO/SrPmil4Dhw6NRWMpFTfBcjrIZb+cQDWuMVbIJTnZE4yeInDP7MaXwhM3cBLCnjb0pg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
+ by CY8PR11MB7136.namprd11.prod.outlook.com (2603:10b6:930:60::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Thu, 14 Sep
+ 2023 10:11:26 +0000
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::357b:2c33:35f0:ed0b]) by BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::357b:2c33:35f0:ed0b%5]) with mapi id 15.20.6792.020; Thu, 14 Sep 2023
+ 10:11:25 +0000
+Date: Thu, 14 Sep 2023 18:11:12 +0800
+From: Philip Li <philip.li@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Jens Axboe <axboe@kernel.dk>
+Subject: Re: arm-linux-gnueabi-ld: error: .btf.vmlinux.bin.o is already in
+ final BE8 format
+Message-ID: <ZQLcQARpjBzYzgVF@rli9-mobl>
+References: <202309141131.pNe5J6HH-lkp@intel.com>
+ <5cace191-31f6-4aa5-8b19-aa6c1f2db7e6@app.fastmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <5cace191-31f6-4aa5-8b19-aa6c1f2db7e6@app.fastmail.com>
+X-ClientProxiedBy: SG2PR04CA0165.apcprd04.prod.outlook.com (2603:1096:4::27)
+ To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87h6o0qnho.wl-kuninori.morimoto.gx@renesas.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR11MB2995:EE_|CY8PR11MB7136:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1015dc9e-84bc-4eaf-c5f7-08dbb50af360
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fxSV721ca5reLwP+VcB/AxdcD+4ERtBRnGg+XHOjb2wfC/320FO8CmepDlQEgxp23/XmFvyahPE3gTw/VqFKTVXJpFVtg7rTVJ1XUx/wxCjr48c899p3FtaIas/4K1Rl+C7xEFBG1EutlcA3KcYlrVqyD6lrtuu8qne0CwA0WImGWysbMfjJ98Wh7MAlb/ZKAAYuVtyNzWHWdu0CUFE+/tIYpl3HJTBCZTAf3pdm+TvHK4yVKAvXEkpa9Qm3LuY/+21mrtF6Od3ugdYcmAqqR0f5yZ7q7zy1ppCQYu7sQPGWkpS/6UfnHGH19FlD62y4AXh0tBGufv6CXdmrA4uHLjOVdw68kitftj2NJgVIeLS3MOZYHOBeidoDq3u17LrdAP0tAHSZKcS65+z4el8s5ekfpZK9PVasAeM9DJaj4pPpHjJ4+tPnxYqAQ0BSd5f5XhwhFfs26UASEZcsSABkwTLHlAtHGdb07ImFKCwySu9COn8J4F3MdIVe1VBe06KGzmfQwZ9U7zYwm0eRp6ynOz6jcBAw68/FBa3VZdkln/4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(346002)(376002)(396003)(366004)(136003)(39860400002)(186009)(451199024)(1800799009)(316002)(8936002)(41300700001)(8676002)(6486002)(86362001)(33716001)(66556008)(82960400001)(478600001)(54906003)(66946007)(38100700002)(2906002)(66476007)(6916009)(4744005)(6506007)(966005)(5660300002)(44832011)(6512007)(26005)(83380400001)(6666004)(4326008)(9686003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9T8xpY1M0otNKtD2RK8GfUesjR4oQTM6uWZSSIYF5NpNvWpqOIUnPnolGFtJ?=
+ =?us-ascii?Q?K6/nH3n8mYVW4UjphJouHGh2P+aMndIrsoGB4kEqKv0IgKPtVcSKVnLUn6rd?=
+ =?us-ascii?Q?JsZwE4nb5zyVJ5lhYpQbMxPvRgd8I7D7op7BNBQxVXEYU3u9Ab25cSWR1elf?=
+ =?us-ascii?Q?fmIyeOQstMcp0973XE31T7eHGOW+S+x19fMrbAbMaLJt3QTr6qezOrZ41wRo?=
+ =?us-ascii?Q?IyEW4qahiYQ66vm59+Ydgyp/nqAopDUI1l4MyCwMWIfXJEZvUiFcPa9vKL77?=
+ =?us-ascii?Q?5vdO5cqqNddSw5n0qoZg/TUR9FmvKG1K3S5aRMZ4h/PYXtiYP0mmrFM61Qk4?=
+ =?us-ascii?Q?qyRJYbV6jtF3UkQOK+1rX+gthyKvq8CqpeTLJCJlaqGThxtcuhqVDhCzRVVE?=
+ =?us-ascii?Q?e1xAN8HofB2IkgtMTMYL0Ww//5MozfPdephQgeBxmmuF5IsmdZzdvVQbG9l1?=
+ =?us-ascii?Q?nz1axKFzqqpOyD/qpjB0iDnEI8IvMDfIxar5XrrW442ZpQuprJJN92tljoqC?=
+ =?us-ascii?Q?7pR5atWzp2wDly6oNMq8LrKsvQYxWE3hlYoBi/br9NiBs/nu4S+P5gf5NxdH?=
+ =?us-ascii?Q?Av1Aen21GAl1xHgKYXmnE/HncqZPWzTuB17+CZWOpBIaBzm95F5SCMh38mjJ?=
+ =?us-ascii?Q?ZavPjd7bdmj/vjNngZtRlEqbamIkklviRVRFOGUzRDxv5zqvij6gSgS5K+u6?=
+ =?us-ascii?Q?F6bMzI2mDRlliF8U8GPm/siay7DTRCmrlNOLu7kNKU1V04GZ9ISDXFnIydy3?=
+ =?us-ascii?Q?W10vWYXfsRPxiqIJB1h0tkgGaI0GYQjzI0wzNH3sDG2/bQo0V/UGttQKYxyL?=
+ =?us-ascii?Q?jvzcpv/uWkCnZc+266IR3AhfsYzKAbj8u9TU0eQQB2gZ1VFt7a8glS+24AOu?=
+ =?us-ascii?Q?u7LUuG/fCeLZ6VzveGlvs1O99LPNZR59DAs11Yl9QkRm//3/uaee8JaXfyEO?=
+ =?us-ascii?Q?VJ1BD7auWufjMPPhlf0IS/hFmKD5klLfZPEnsLbiULoY66W084lTtbnVeeKJ?=
+ =?us-ascii?Q?7iqpIW7lE1u/CBaOskNHpPzcpdKhRmFM25OvlX38jQ8+XpT4PirGg9Y3yN9x?=
+ =?us-ascii?Q?FTImoG0oVQjcOC0J3lg8R7c/zYMTb8qHffZvB47oHx6gxIAXpSBsplmupkVs?=
+ =?us-ascii?Q?kpDGs5vweSpZNdQdv2YwYoZD2XgTPzhNhJAEg8r5psLTXQ80qNg44iHv/AQU?=
+ =?us-ascii?Q?h7deNGYtLDPlhvnAMgtrG6GNOPmylyrGn1VJa9xBkCg+yJuaWNyGjO9t+6p3?=
+ =?us-ascii?Q?RPOaour1FQD1CbjG/pybP4dq9KQlnyJbGZ+s/+JeL6mBV7jk+3esr2z08bB3?=
+ =?us-ascii?Q?zNzmEHeNDKDbJKSK/0Sytx96XEqzH3YeMIRSpKa+ObG5dBiqVizgBKFkPkvv?=
+ =?us-ascii?Q?93YpBvY5TNDNJx6B4V2NDm8778vSuVEKi1kQdyigFnzzlK/ml9/8jljax5Pf?=
+ =?us-ascii?Q?UJO3tLV1MeZCIBwBQJBB4Gu9FV3jTALAc5Ib7TVca1HJHS8pFpdf0BO/OXhS?=
+ =?us-ascii?Q?GcGG8h5oE2eiafGdUl2gxiEc7iHQwHccv42PX43rRaN3DQILIRRTbKqxRpYj?=
+ =?us-ascii?Q?l3GlSbRkUwqvAgwlEFw7l5B3498AZdjwVJDM0PlB?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1015dc9e-84bc-4eaf-c5f7-08dbb50af360
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2023 10:11:24.2800
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4QJ57tkfCLpBlBzfNIk3/qiDg8yY2R9OVwZlRF01Iv1ZTH5EPva3jwXySWegcZ5P1eC53O03XWRIR4JhzT52hQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7136
+X-OriginatorOrg: intel.com
 
-Hi Kuninori,
+On Thu, Sep 14, 2023 at 07:08:14AM +0200, Arnd Bergmann wrote:
+> On Thu, Sep 14, 2023, at 05:45, kernel test robot wrote:
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new 
+> > version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: 
+> > https://lore.kernel.org/oe-kbuild-all/202309141131.pNe5J6HH-lkp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >>> arm-linux-gnueabi-ld: error: .btf.vmlinux.bin.o is already in final BE8 format
+> >    arm-linux-gnueabi-ld: failed to merge target specific data of file 
+> > .btf.vmlinux.bin.o
+> 
+> It's a completely unrelated issue at the link stage that gets
+> exposed by fixing the other bug. I don't see this in my
 
-kernel test robot noticed the following build warnings:
+Thanks Arnd for the info, we will check and avoid wrong bisection
+for this. Sorry for the noise.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuninori-Morimoto/ASoC-simple_card_utils-h-convert-not-to-use-asoc_xxx/20230912-084751
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/87h6o0qnho.wl-kuninori.morimoto.gx%40renesas.com
-patch subject: [PATCH 25/54] ASoC: generic: convert not to use asoc_xxx()
-config: i386-randconfig-141-20230914 (https://download.01.org/0day-ci/archive/20230914/202309141310.ziolPEP5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230914/202309141310.ziolPEP5-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202309141310.ziolPEP5-lkp@intel.com/
-
-smatch warnings:
-sound/soc/generic/simple-card.c:773 simple_probe() warn: missing unwind goto?
-
-vim +773 sound/soc/generic/simple-card.c
-
-88c819af51a9cc Kuninori Morimoto   2023-09-11  710  static int simple_probe(struct platform_device *pdev)
-f2390880ec0264 Kuninori Morimoto   2012-04-08  711  {
-88c819af51a9cc Kuninori Morimoto   2023-09-11  712  	struct simple_util_priv *priv;
-f89983ef61677a Kuninori Morimoto   2012-12-25  713  	struct device *dev = &pdev->dev;
-dcee9bfe890451 Kuninori Morimoto   2017-03-15  714  	struct device_node *np = dev->of_node;
-5be509576cf634 Kuninori Morimoto   2017-03-15  715  	struct snd_soc_card *card;
-ec1af6c64db94e Thierry Reding      2021-04-19  716  	struct link_info *li;
-65a5056b21202e Kuninori Morimoto   2019-03-20  717  	int ret;
-f2390880ec0264 Kuninori Morimoto   2012-04-08  718  
-0dd4fc3c2f663b Xiubo Li            2014-09-10  719  	/* Allocate the private data and the DAI link array */
-b0133d9c4d7600 Kuninori Morimoto   2016-08-26  720  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-ca65b492c7a265 Jean-Francois Moine 2014-01-15  721  	if (!priv)
-ca919fe4b972b9 Xiubo Li            2014-01-14  722  		return -ENOMEM;
-ca919fe4b972b9 Xiubo Li            2014-01-14  723  
-d947cdfd4be29c Kuninori Morimoto   2018-12-20  724  	card = simple_priv_to_card(priv);
-d947cdfd4be29c Kuninori Morimoto   2018-12-20  725  	card->owner		= THIS_MODULE;
-d947cdfd4be29c Kuninori Morimoto   2018-12-20  726  	card->dev		= dev;
-2d01a84605a55c Kuninori Morimoto   2018-12-20  727  	card->probe		= simple_soc_probe;
-907f0a3051869a Guido Günther       2021-06-22  728  	card->driver_name       = "simple-card";
-d947cdfd4be29c Kuninori Morimoto   2018-12-20  729  
-ec1af6c64db94e Thierry Reding      2021-04-19  730  	li = devm_kzalloc(dev, sizeof(*li), GFP_KERNEL);
-ec1af6c64db94e Thierry Reding      2021-04-19  731  	if (!li)
-ec1af6c64db94e Thierry Reding      2021-04-19  732  		return -ENOMEM;
-ec1af6c64db94e Thierry Reding      2021-04-19  733  
-ec1af6c64db94e Thierry Reding      2021-04-19  734  	ret = simple_get_dais_count(priv, li);
-0f687d826736a5 Thierry Reding      2021-04-16  735  	if (ret < 0)
-0f687d826736a5 Thierry Reding      2021-04-16  736  		return ret;
-0f687d826736a5 Thierry Reding      2021-04-16  737  
-ec1af6c64db94e Thierry Reding      2021-04-19  738  	if (!li->link)
-da215354eb55c3 Kuninori Morimoto   2018-12-14  739  		return -EINVAL;
-da215354eb55c3 Kuninori Morimoto   2018-12-14  740  
-88c819af51a9cc Kuninori Morimoto   2023-09-11  741  	ret = simple_util_init_priv(priv, li);
-65a5056b21202e Kuninori Morimoto   2019-03-20  742  	if (ret < 0)
-65a5056b21202e Kuninori Morimoto   2019-03-20  743  		return ret;
-201a0eac7fe5e7 Jean-Francois Moine 2014-01-15  744  
-201a0eac7fe5e7 Jean-Francois Moine 2014-01-15  745  	if (np && of_device_is_available(np)) {
-ca919fe4b972b9 Xiubo Li            2014-01-14  746  
-ec1af6c64db94e Thierry Reding      2021-04-19  747  		ret = simple_parse_of(priv, li);
-fa558c2801fc17 Kuninori Morimoto   2013-11-20  748  		if (ret < 0) {
-7a0299e13bc740 Kuninori Morimoto   2021-12-14  749  			dev_err_probe(dev, ret, "parse error\n");
-e512e001dafa54 Jean-Francois Moine 2014-03-11  750  			goto err;
-fa558c2801fc17 Kuninori Morimoto   2013-11-20  751  		}
-6a91a17bd7b92b Jean-Francois Moine 2014-03-20  752  
-fa558c2801fc17 Kuninori Morimoto   2013-11-20  753  	} else {
-88c819af51a9cc Kuninori Morimoto   2023-09-11  754  		struct simple_util_info *cinfo;
-f107294c6422e7 Kuninori Morimoto   2019-06-06  755  		struct snd_soc_dai_link_component *cpus;
-710af9196ce614 Kuninori Morimoto   2018-08-31  756  		struct snd_soc_dai_link_component *codecs;
-e58f41e41185c6 Kuninori Morimoto   2018-08-31  757  		struct snd_soc_dai_link_component *platform;
-65a5056b21202e Kuninori Morimoto   2019-03-20  758  		struct snd_soc_dai_link *dai_link = priv->dai_link;
-65a5056b21202e Kuninori Morimoto   2019-03-20  759  		struct simple_dai_props *dai_props = priv->dai_props;
-65a5056b21202e Kuninori Morimoto   2019-03-20  760  
-ca65b492c7a265 Jean-Francois Moine 2014-01-15  761  		cinfo = dev->platform_data;
-ca65b492c7a265 Jean-Francois Moine 2014-01-15  762  		if (!cinfo) {
-f89983ef61677a Kuninori Morimoto   2012-12-25  763  			dev_err(dev, "no info for asoc-simple-card\n");
-f2390880ec0264 Kuninori Morimoto   2012-04-08  764  			return -EINVAL;
-
-goto err?
-
-f2390880ec0264 Kuninori Morimoto   2012-04-08  765  		}
-f2390880ec0264 Kuninori Morimoto   2012-04-08  766  
-f2390880ec0264 Kuninori Morimoto   2012-04-08  767  		if (!cinfo->name ||
-fa558c2801fc17 Kuninori Morimoto   2013-11-20  768  		    !cinfo->codec_dai.name ||
-7722f830a45f7f Jean-Francois Moine 2014-01-15  769  		    !cinfo->codec ||
-7722f830a45f7f Jean-Francois Moine 2014-01-15  770  		    !cinfo->platform ||
-7722f830a45f7f Jean-Francois Moine 2014-01-15  771  		    !cinfo->cpu_dai.name) {
-88c819af51a9cc Kuninori Morimoto   2023-09-11  772  			dev_err(dev, "insufficient simple_util_info settings\n");
-f2390880ec0264 Kuninori Morimoto   2012-04-08 @773  			return -EINVAL;
-
-goto err?
-
-f2390880ec0264 Kuninori Morimoto   2012-04-08  774  		}
-2bee991460a838 Jean-Francois Moine 2014-01-15  775  
-f107294c6422e7 Kuninori Morimoto   2019-06-06  776  		cpus			= dai_link->cpus;
-f107294c6422e7 Kuninori Morimoto   2019-06-06  777  		cpus->dai_name		= cinfo->cpu_dai.name;
-f107294c6422e7 Kuninori Morimoto   2019-06-06  778  
-710af9196ce614 Kuninori Morimoto   2018-08-31  779  		codecs			= dai_link->codecs;
-710af9196ce614 Kuninori Morimoto   2018-08-31  780  		codecs->name		= cinfo->codec;
-710af9196ce614 Kuninori Morimoto   2018-08-31  781  		codecs->dai_name	= cinfo->codec_dai.name;
-710af9196ce614 Kuninori Morimoto   2018-08-31  782  
-910fdcabedd235 Kuninori Morimoto   2019-01-21  783  		platform		= dai_link->platforms;
-e58f41e41185c6 Kuninori Morimoto   2018-08-31  784  		platform->name		= cinfo->platform;
-e58f41e41185c6 Kuninori Morimoto   2018-08-31  785  
-5be509576cf634 Kuninori Morimoto   2017-03-15  786  		card->name		= (cinfo->card) ? cinfo->card : cinfo->name;
-5ca8ba4180a6f6 Jean-Francois Moine 2014-01-15  787  		dai_link->name		= cinfo->name;
-5ca8ba4180a6f6 Jean-Francois Moine 2014-01-15  788  		dai_link->stream_name	= cinfo->name;
-1efb53a220b78f Lars-Peter Clausen  2015-03-24  789  		dai_link->dai_fmt	= cinfo->daifmt;
-88c819af51a9cc Kuninori Morimoto   2023-09-11  790  		dai_link->init		= simple_util_dai_init;
-65a5056b21202e Kuninori Morimoto   2019-03-20  791  		memcpy(dai_props->cpu_dai, &cinfo->cpu_dai,
-65a5056b21202e Kuninori Morimoto   2019-03-20  792  					sizeof(*dai_props->cpu_dai));
-65a5056b21202e Kuninori Morimoto   2019-03-20  793  		memcpy(dai_props->codec_dai, &cinfo->codec_dai,
-65a5056b21202e Kuninori Morimoto   2019-03-20  794  					sizeof(*dai_props->codec_dai));
-7722f830a45f7f Jean-Francois Moine 2014-01-15  795  	}
-f2390880ec0264 Kuninori Morimoto   2012-04-08  796  
-5be509576cf634 Kuninori Morimoto   2017-03-15  797  	snd_soc_card_set_drvdata(card, priv);
-f2390880ec0264 Kuninori Morimoto   2012-04-08  798  
-88c819af51a9cc Kuninori Morimoto   2023-09-11  799  	simple_util_debug_info(priv);
-0580dde5943868 Kuninori Morimoto   2019-03-20  800  
-5be509576cf634 Kuninori Morimoto   2017-03-15  801  	ret = devm_snd_soc_register_card(dev, card);
-c6d112e442fed7 Kuninori Morimoto   2017-05-19  802  	if (ret < 0)
-c6d112e442fed7 Kuninori Morimoto   2017-05-19  803  		goto err;
-c6d112e442fed7 Kuninori Morimoto   2017-05-19  804  
-ec1af6c64db94e Thierry Reding      2021-04-19  805  	devm_kfree(dev, li);
-c6d112e442fed7 Kuninori Morimoto   2017-05-19  806  	return 0;
-e512e001dafa54 Jean-Francois Moine 2014-03-11  807  err:
-88c819af51a9cc Kuninori Morimoto   2023-09-11  808  	simple_util_clean_reference(card);
-387f5823f40044 Kuninori Morimoto   2016-08-26  809  
-e512e001dafa54 Jean-Francois Moine 2014-03-11  810  	return ret;
-f2390880ec0264 Kuninori Morimoto   2012-04-08  811  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+> randconfig builds right now, so I probably have a workaround for
+> it somewhere, but I can't find it.
+> 
+>      Arnd
