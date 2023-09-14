@@ -1,45 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC3C10A0C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 21:59:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8671A26E24
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 22:09:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694728757; x=1726264757;
+  t=1694729395; x=1726265395;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VvHYPw4PBqg2OBLzpmfzy5WhfsqdqcPxJdOtRSKXE6U=;
-  b=PjoL+7Jn46OiSi5Fj6I4OQgp3wOWrBgj0q2nUVvcZYFZxHqInzTUJmGr
-   FjfNnro/7wFfiGV/TWk3mEVJRnWLbVU2+uh5dh1B7B7tvzflgMplnVr9j
-   d1NjZUT65TFIHKh+8GyD/vAbA+Pq0rLbFxohWlIBdSpCS8E3WuWXIc47R
-   TIh0SVZVcEQagLY2b4FVZXm//5r8Hi8LIVYba/2jXGXycC90YFAp7MxvD
-   V+gx0mN0INx6gZAEt1qFM8HdNjliF08ZHjHZuaqzgqWm1tZT6OTlyBCVf
-   +0DWzuI0tsZijxBDLGWtqX+qVW2i1vhPIVzlomLkMnQIxCrJwawAuZ8ZO
+  bh=tjg2RypE8ZmSJhS1/ioVdiv5NX1uITgdokZk/s/UCpg=;
+  b=UKVJNXub9OrDN8fRv/OsHgD40aTsRwcNF4yZx32pajNAIAEfY3tVzyxH
+   Gt+cx3W26Eymwue1n1ABthOIaBsVINSGChDqQ6W6MnASSqudrKXzzZG4P
+   dUQEgI4uAiUxNJnHymEWdGD993fF2DqeGVpMXFK3UZ+46BPj8A4TQW6W5
+   3KqxE/usV3G1Zr8Hfyd5AUsMhA/ldrAyCAiyND7WyVBKMjflTroZT/mHY
+   rOOPUi7pArmNV6+GAdczobOvaIuD/T5otYO0fOCUlwcR32GxL+alQGdZl
+   fgtncNm6PKR4XdxPR0xHUyb5a+/kp00Zf73zc6QQ/PzaiuYRONQZtWvyh
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="377999186"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="410028990"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="377999186"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 14:59:15 -0700
+   d="scan'208";a="410028990"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 15:09:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="747939319"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="1075550994"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="747939319"
+   d="scan'208";a="1075550994"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 14 Sep 2023 14:58:50 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 14 Sep 2023 15:09:51 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qguMK-00025z-1y;
-	Thu, 14 Sep 2023 21:58:48 +0000
-Date: Fri, 15 Sep 2023 05:58:35 +0800
+	id 1qguWz-000271-0U;
+	Thu, 14 Sep 2023 22:09:49 +0000
+Date: Fri, 15 Sep 2023 06:09:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lucas Tanure <tanureal@opensource.cirrus.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Lee Jones <lee@kernel.org>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>
-Subject: drivers/soundwire/bus.c:173:21: warning: assignment to 'struct
- irq_domain *' from 'int' makes pointer from integer without a cast
-Message-ID: <202309150522.MoKeF4jx-lkp@intel.com>
+To: Steen Hegelund <steen.hegelund@microchip.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/net/ethernet/microchip/vcap/vcap_api_kunit.c:843:1: warning:
+ the frame size of 1228 bytes is larger than 1024 bytes
+Message-ID: <202309150608.QJq73Uqn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,174 +48,141 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9fdfb15a3dbf818e06be514f4abbfc071004cbe7
-commit: 12a95123bfe1dd1a6020a35f5e67a560591bb02a soundwire: bus: Allow SoundWire peripherals to register IRQ handlers
-date:   4 weeks ago
-config: s390-randconfig-r031-20220110 (https://download.01.org/0day-ci/archive/20230915/202309150522.MoKeF4jx-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150522.MoKeF4jx-lkp@intel.com/reproduce)
+commit: 67d637516fa91c718dd60acd9358a9fb0e19b7b5 net: microchip: sparx5: Adding KUNIT test for the VCAP API
+date:   11 months ago
+config: i386-buildonly-randconfig-003-20230915 (https://download.01.org/0day-ci/archive/20230915/202309150608.QJq73Uqn-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150608.QJq73Uqn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309150522.MoKeF4jx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309150608.QJq73Uqn-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/soundwire/bus.c: In function 'sdw_bus_master_add':
-   drivers/soundwire/bus.c:173:23: error: implicit declaration of function 'irq_domain_create_linear' [-Werror=implicit-function-declaration]
-     173 |         bus->domain = irq_domain_create_linear(fwnode, SDW_MAX_DEVICES,
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/soundwire/bus.c:173:21: warning: assignment to 'struct irq_domain *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     173 |         bus->domain = irq_domain_create_linear(fwnode, SDW_MAX_DEVICES,
-         |                     ^
-   drivers/soundwire/bus.c: In function 'sdw_bus_master_delete':
-   drivers/soundwire/bus.c:217:9: error: implicit declaration of function 'irq_domain_remove' [-Werror=implicit-function-declaration]
-     217 |         irq_domain_remove(bus->domain);
-         |         ^~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/net/ethernet/microchip/vcap/vcap_api.c:1183:
+   drivers/net/ethernet/microchip/vcap/vcap_api_kunit.c: In function 'vcap_api_encode_rule_keyset_test':
+>> drivers/net/ethernet/microchip/vcap/vcap_api_kunit.c:843:1: warning: the frame size of 1228 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     843 | }
+         | ^
 
 
-vim +173 drivers/soundwire/bus.c
+vim +843 drivers/net/ethernet/microchip/vcap/vcap_api_kunit.c
 
-    45	
-    46	/**
-    47	 * sdw_bus_master_add() - add a bus Master instance
-    48	 * @bus: bus instance
-    49	 * @parent: parent device
-    50	 * @fwnode: firmware node handle
-    51	 *
-    52	 * Initializes the bus instance, read properties and create child
-    53	 * devices.
-    54	 */
-    55	int sdw_bus_master_add(struct sdw_bus *bus, struct device *parent,
-    56			       struct fwnode_handle *fwnode)
-    57	{
-    58		struct sdw_master_prop *prop = NULL;
-    59		int ret;
-    60	
-    61		if (!parent) {
-    62			pr_err("SoundWire parent device is not set\n");
-    63			return -ENODEV;
-    64		}
-    65	
-    66		ret = sdw_get_id(bus);
-    67		if (ret < 0) {
-    68			dev_err(parent, "Failed to get bus id\n");
-    69			return ret;
-    70		}
-    71	
-    72		ret = sdw_master_device_add(bus, parent, fwnode);
-    73		if (ret < 0) {
-    74			dev_err(parent, "Failed to add master device at link %d\n",
-    75				bus->link_id);
-    76			return ret;
-    77		}
-    78	
-    79		if (!bus->ops) {
-    80			dev_err(bus->dev, "SoundWire Bus ops are not set\n");
-    81			return -EINVAL;
-    82		}
-    83	
-    84		if (!bus->compute_params) {
-    85			dev_err(bus->dev,
-    86				"Bandwidth allocation not configured, compute_params no set\n");
-    87			return -EINVAL;
-    88		}
-    89	
-    90		/*
-    91		 * Give each bus_lock and msg_lock a unique key so that lockdep won't
-    92		 * trigger a deadlock warning when the locks of several buses are
-    93		 * grabbed during configuration of a multi-bus stream.
-    94		 */
-    95		lockdep_register_key(&bus->msg_lock_key);
-    96		__mutex_init(&bus->msg_lock, "msg_lock", &bus->msg_lock_key);
-    97	
-    98		lockdep_register_key(&bus->bus_lock_key);
-    99		__mutex_init(&bus->bus_lock, "bus_lock", &bus->bus_lock_key);
-   100	
-   101		INIT_LIST_HEAD(&bus->slaves);
-   102		INIT_LIST_HEAD(&bus->m_rt_list);
-   103	
-   104		/*
-   105		 * Initialize multi_link flag
-   106		 */
-   107		bus->multi_link = false;
-   108		if (bus->ops->read_prop) {
-   109			ret = bus->ops->read_prop(bus);
-   110			if (ret < 0) {
-   111				dev_err(bus->dev,
-   112					"Bus read properties failed:%d\n", ret);
-   113				return ret;
-   114			}
-   115		}
-   116	
-   117		sdw_bus_debugfs_init(bus);
-   118	
-   119		/*
-   120		 * Device numbers in SoundWire are 0 through 15. Enumeration device
-   121		 * number (0), Broadcast device number (15), Group numbers (12 and
-   122		 * 13) and Master device number (14) are not used for assignment so
-   123		 * mask these and other higher bits.
-   124		 */
-   125	
-   126		/* Set higher order bits */
-   127		*bus->assigned = ~GENMASK(SDW_BROADCAST_DEV_NUM, SDW_ENUM_DEV_NUM);
-   128	
-   129		/* Set enumuration device number and broadcast device number */
-   130		set_bit(SDW_ENUM_DEV_NUM, bus->assigned);
-   131		set_bit(SDW_BROADCAST_DEV_NUM, bus->assigned);
-   132	
-   133		/* Set group device numbers and master device number */
-   134		set_bit(SDW_GROUP12_DEV_NUM, bus->assigned);
-   135		set_bit(SDW_GROUP13_DEV_NUM, bus->assigned);
-   136		set_bit(SDW_MASTER_DEV_NUM, bus->assigned);
-   137	
-   138		/*
-   139		 * SDW is an enumerable bus, but devices can be powered off. So,
-   140		 * they won't be able to report as present.
-   141		 *
-   142		 * Create Slave devices based on Slaves described in
-   143		 * the respective firmware (ACPI/DT)
-   144		 */
-   145		if (IS_ENABLED(CONFIG_ACPI) && ACPI_HANDLE(bus->dev))
-   146			ret = sdw_acpi_find_slaves(bus);
-   147		else if (IS_ENABLED(CONFIG_OF) && bus->dev->of_node)
-   148			ret = sdw_of_find_slaves(bus);
-   149		else
-   150			ret = -ENOTSUPP; /* No ACPI/DT so error out */
-   151	
-   152		if (ret < 0) {
-   153			dev_err(bus->dev, "Finding slaves failed:%d\n", ret);
-   154			return ret;
-   155		}
-   156	
-   157		/*
-   158		 * Initialize clock values based on Master properties. The max
-   159		 * frequency is read from max_clk_freq property. Current assumption
-   160		 * is that the bus will start at highest clock frequency when
-   161		 * powered on.
-   162		 *
-   163		 * Default active bank will be 0 as out of reset the Slaves have
-   164		 * to start with bank 0 (Table 40 of Spec)
-   165		 */
-   166		prop = &bus->prop;
-   167		bus->params.max_dr_freq = prop->max_clk_freq * SDW_DOUBLE_RATE_FACTOR;
-   168		bus->params.curr_dr_freq = bus->params.max_dr_freq;
-   169		bus->params.curr_bank = SDW_BANK0;
-   170		bus->params.next_bank = SDW_BANK1;
-   171	
-   172		bus->irq_chip.name = dev_name(bus->dev);
- > 173		bus->domain = irq_domain_create_linear(fwnode, SDW_MAX_DEVICES,
-   174						       &sdw_domain_ops, bus);
-   175		if (!bus->domain) {
-   176			dev_err(bus->dev, "Failed to add IRQ domain\n");
-   177			return -EINVAL;
-   178		}
-   179	
-   180		return 0;
-   181	}
-   182	EXPORT_SYMBOL(sdw_bus_master_add);
-   183	
+   732	
+   733	static void vcap_api_encode_rule_keyset_test(struct kunit *test)
+   734	{
+   735		u32 keywords[16] = {0};
+   736		u32 maskwords[16] = {0};
+   737		struct vcap_admin admin = {
+   738			.vtype = VCAP_TYPE_IS2,
+   739			.cache = {
+   740				.keystream = keywords,
+   741				.maskstream = maskwords,
+   742			},
+   743		};
+   744		struct vcap_rule_internal rule = {
+   745			.admin = &admin,
+   746			.data = {
+   747				.keyset = VCAP_KFS_MAC_ETYPE,
+   748			},
+   749			.vctrl = &test_vctrl,
+   750		};
+   751		struct vcap_client_keyfield ckf[] = {
+   752			{
+   753				.ctrl.key = VCAP_KF_TYPE,
+   754				.ctrl.type = VCAP_FIELD_U32,
+   755				.data.u32.value = 0x00,
+   756				.data.u32.mask = 0x0f,
+   757			},
+   758			{
+   759				.ctrl.key = VCAP_KF_LOOKUP_FIRST_IS,
+   760				.ctrl.type = VCAP_FIELD_BIT,
+   761				.data.u1.value = 0x01,
+   762				.data.u1.mask = 0x01,
+   763			},
+   764			{
+   765				.ctrl.key = VCAP_KF_IF_IGR_PORT_MASK_L3,
+   766				.ctrl.type = VCAP_FIELD_BIT,
+   767				.data.u1.value = 0x00,
+   768				.data.u1.mask = 0x01,
+   769			},
+   770			{
+   771				.ctrl.key = VCAP_KF_IF_IGR_PORT_MASK_RNG,
+   772				.ctrl.type = VCAP_FIELD_U32,
+   773				.data.u32.value = 0x00,
+   774				.data.u32.mask = 0x0f,
+   775			},
+   776			{
+   777				.ctrl.key = VCAP_KF_IF_IGR_PORT_MASK,
+   778				.ctrl.type = VCAP_FIELD_U72,
+   779				.data.u72.value = {0x0, 0x00, 0x00, 0x00},
+   780				.data.u72.mask = {0xfd, 0xff, 0xff, 0xff},
+   781			},
+   782			{
+   783				.ctrl.key = VCAP_KF_L2_DMAC,
+   784				.ctrl.type = VCAP_FIELD_U48,
+   785				/* Opposite endianness */
+   786				.data.u48.value = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06},
+   787				.data.u48.mask = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
+   788			},
+   789			{
+   790				.ctrl.key = VCAP_KF_ETYPE_LEN_IS,
+   791				.ctrl.type = VCAP_FIELD_BIT,
+   792				.data.u1.value = 0x01,
+   793				.data.u1.mask = 0x01,
+   794			},
+   795			{
+   796				.ctrl.key = VCAP_KF_ETYPE,
+   797				.ctrl.type = VCAP_FIELD_U32,
+   798				.data.u32.value = 0xaabb,
+   799				.data.u32.mask = 0xffff,
+   800			},
+   801		};
+   802		int idx;
+   803		int ret;
+   804	
+   805		/* Empty entry list */
+   806		INIT_LIST_HEAD(&rule.data.keyfields);
+   807		ret = vcap_encode_rule_keyset(&rule);
+   808		KUNIT_EXPECT_EQ(test, -EINVAL, ret);
+   809	
+   810		for (idx = 0; idx < ARRAY_SIZE(ckf); idx++)
+   811			list_add_tail(&ckf[idx].ctrl.list, &rule.data.keyfields);
+   812		ret = vcap_encode_rule_keyset(&rule);
+   813		KUNIT_EXPECT_EQ(test, 0, ret);
+   814	
+   815		/* The key and mask values below are from an actual Sparx5 rule config */
+   816		/* Key */
+   817		KUNIT_EXPECT_EQ(test, (u32)0x00000042, keywords[0]);
+   818		KUNIT_EXPECT_EQ(test, (u32)0x00000000, keywords[1]);
+   819		KUNIT_EXPECT_EQ(test, (u32)0x00000000, keywords[2]);
+   820		KUNIT_EXPECT_EQ(test, (u32)0x00020100, keywords[3]);
+   821		KUNIT_EXPECT_EQ(test, (u32)0x60504030, keywords[4]);
+   822		KUNIT_EXPECT_EQ(test, (u32)0x00000000, keywords[5]);
+   823		KUNIT_EXPECT_EQ(test, (u32)0x00000000, keywords[6]);
+   824		KUNIT_EXPECT_EQ(test, (u32)0x0002aaee, keywords[7]);
+   825		KUNIT_EXPECT_EQ(test, (u32)0x00000000, keywords[8]);
+   826		KUNIT_EXPECT_EQ(test, (u32)0x00000000, keywords[9]);
+   827		KUNIT_EXPECT_EQ(test, (u32)0x00000000, keywords[10]);
+   828		KUNIT_EXPECT_EQ(test, (u32)0x00000000, keywords[11]);
+   829	
+   830		/* Mask: they will be inverted when applied to the register */
+   831		KUNIT_EXPECT_EQ(test, (u32)~0x00b07f80, maskwords[0]);
+   832		KUNIT_EXPECT_EQ(test, (u32)~0xfff00000, maskwords[1]);
+   833		KUNIT_EXPECT_EQ(test, (u32)~0xfffffffc, maskwords[2]);
+   834		KUNIT_EXPECT_EQ(test, (u32)~0xfff000ff, maskwords[3]);
+   835		KUNIT_EXPECT_EQ(test, (u32)~0x00000000, maskwords[4]);
+   836		KUNIT_EXPECT_EQ(test, (u32)~0xfffffff0, maskwords[5]);
+   837		KUNIT_EXPECT_EQ(test, (u32)~0xfffffffe, maskwords[6]);
+   838		KUNIT_EXPECT_EQ(test, (u32)~0xfffc0001, maskwords[7]);
+   839		KUNIT_EXPECT_EQ(test, (u32)~0xffffffff, maskwords[8]);
+   840		KUNIT_EXPECT_EQ(test, (u32)~0xffffffff, maskwords[9]);
+   841		KUNIT_EXPECT_EQ(test, (u32)~0xffffffff, maskwords[10]);
+   842		KUNIT_EXPECT_EQ(test, (u32)~0xffffffff, maskwords[11]);
+ > 843	}
+   844	
 
 -- 
 0-DAY CI Kernel Test Service
