@@ -1,47 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23FA241E0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 13:25:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D7424209
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 13:53:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694697926; x=1726233926;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uMETyqtbGd0+2yZ6vcmk8p1UWyK4xWyn8bFDmPW9z1k=;
-  b=IJD28pYjs+y7bYnTOrO8s2sptpXSf1RkUqScH5VJXuYAWE/IlT1ETm7L
-   waURxWd810NvL8/I4olv/8mr4i+HToxPZIRyFefnfYuWPs6cFr6uEc+ib
-   NVhRIOyoxZ+uAwaSrZ5OHTRZMDyiYqfSot54NC0dXgwJseks+5mce9m/e
-   4fOBWbMQTBdTfSdwqqKS//kuSOjqW1rHTHql0iE8egfIv2tW1urF7/72+
-   S83iAGIxj3PtF2YRLULUR5XGGQaLCpOPOaNkOcNGDMkeOMBUm+swO+6KF
-   EtQ0VmysKwdoPTeOIaMn559CGaq68UkBu6t5+ZUxw4OOQk3XC8U8PJU1N
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="377856374"
+  t=1694699637; x=1726235637;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iWXcxrU74K2FjMxVTKdKsXj5b2rV6/He22ehKPQcY5w=;
+  b=UKBuNiozJ8i5N+X0V+c6v+w9Gucgen+QYWoSHFzkT56F4TIRTSzWkLlE
+   YlTdkvWlB+u25ou4cQdwsV139f/35GHruU/daHmposxN1qBEc+2CNbOI9
+   9ndhWA3ydAzNI5XTOs1hCOYnGA6k/fy0Sd6J5utPBVQ9rHWM5uq+lrCfc
+   VkzLcjAORIgq6IsIvtfxJEm5fEoIjQopCq9SIAZWA2lq6SZNG+ukBauSK
+   lwIoHZEjiVi97i7YcH8MyAAxipy6KqhRXPkxNPUNDFF6jyoKyLx4MCJP5
+   5lFtanaKL8LLyHu+WUYcrPJUWXl9YWSR5YQeGHjT8fcp9ZrRIHRLIt4/s
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="364000227"
 X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
-   d="scan'208";a="377856374"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 06:25:06 -0700
+   d="scan'208";a="364000227"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 06:36:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="779625823"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="991389375"
 X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
-   d="scan'208";a="779625823"
+   d="scan'208";a="991389375"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 14 Sep 2023 06:25:03 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 14 Sep 2023 06:36:02 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgmL7-0001cf-2f;
-	Thu, 14 Sep 2023 13:25:01 +0000
-Date: Thu, 14 Sep 2023 21:24:17 +0800
+	id 1qgmVk-0001dK-1S;
+	Thu, 14 Sep 2023 13:36:00 +0000
+Date: Thu, 14 Sep 2023 21:34:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiazi Li <jqqlijiazi@gmail.com>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jiazi Li <jiazi.li@transsion.com>,
-	linux-pm@vger.kernel.org
-Subject: Re: [PATCH] PM / devfreq: Show trans_stat info via debugfs
-Message-ID: <202309142101.hL5Buk6G-lkp@intel.com>
-References: <20230914102317.29302-1-jiazi.li@transsion.com>
+To: Vignesh Raghavendra <vigneshr@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Georgi Vlaev <g-vlaev@ti.com>
+Subject: [ti:ti-rt-linux-6.1.y-cicd 217/382]
+ drivers/dma/ti/k3-udma.c:5551:12: warning: 'udma_pm_resume' defined but not
+ used
+Message-ID: <202309142146.euQethmd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,100 +47,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230914102317.29302-1-jiazi.li@transsion.com>
 
-Hi Jiazi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on chanwoo/devfreq-testing]
-[also build test WARNING on linus/master v6.6-rc1 next-20230914]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiazi-Li/PM-devfreq-Show-trans_stat-info-via-debugfs/20230914-182515
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git devfreq-testing
-patch link:    https://lore.kernel.org/r/20230914102317.29302-1-jiazi.li%40transsion.com
-patch subject: [PATCH] PM / devfreq: Show trans_stat info via debugfs
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230914/202309142101.hL5Buk6G-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309142101.hL5Buk6G-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   67baeccff6749ac4362307312cdf2f68175dabb7
+commit: 5f0c27386ed3c8d9408d9c5a9fb79981e05199a7 [217/382] dmaengine: ti: k3-udma: Add system suspend/resume support
+config: arm64-randconfig-002-20230914 (https://download.01.org/0day-ci/archive/20230914/202309142146.euQethmd-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309142146.euQethmd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309142101.hL5Buk6G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309142146.euQethmd-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/devfreq/devfreq.c:1699: warning: Function parameter or member 'unused' not described in 'devfreq_trans_stat_show'
->> drivers/devfreq/devfreq.c:1699: warning: Excess function parameter 'data' description in 'devfreq_trans_stat_show'
+>> drivers/dma/ti/k3-udma.c:5551:12: warning: 'udma_pm_resume' defined but not used [-Wunused-function]
+    5551 | static int udma_pm_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~
+>> drivers/dma/ti/k3-udma.c:5529:12: warning: 'udma_pm_suspend' defined but not used [-Wunused-function]
+    5529 | static int udma_pm_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~
 
 
-vim +1699 drivers/devfreq/devfreq.c
+vim +/udma_pm_resume +5551 drivers/dma/ti/k3-udma.c
 
-  1689	
-  1690	/**
-  1691	 * devfreq_trans_stat_show() - show trans stat info through debugfs
-  1692	 * @s:		seq_file instance to show trans_stat info of devfreq devices
-  1693	 * @data:	not used
-  1694	 *
-  1695	 * Show detailed information for some device which has more than PAGE_SIZE
-  1696	 * bytes of trans stat info.
-  1697	 */
-  1698	static int devfreq_trans_stat_show(struct seq_file *s, void *unused)
-> 1699	{
-  1700		struct devfreq *df = s->private;
-  1701		unsigned int max_state;
-  1702		int i, j;
-  1703	
-  1704		if (!df->profile)
-  1705			return -EINVAL;
-  1706		max_state = df->max_state;
-  1707	
-  1708		if (max_state == 0) {
-  1709			seq_puts(s, "Not Supported.\n");
-  1710			return 0;
-  1711		}
-  1712	
-  1713		mutex_lock(&df->lock);
-  1714		if (!df->stop_polling &&
-  1715				devfreq_update_status(df, df->previous_freq)) {
-  1716			mutex_unlock(&df->lock);
-  1717			return 0;
-  1718		}
-  1719		mutex_unlock(&df->lock);
-  1720	
-  1721		seq_puts(s, "     From  :   To\n");
-  1722		seq_puts(s, "           :");
-  1723		for (i = 0; i < max_state; i++)
-  1724			seq_printf(s, "%10lu", df->freq_table[i]);
-  1725	
-  1726		seq_puts(s, "   time(ms)\n");
-  1727	
-  1728		for (i = 0; i < max_state; i++) {
-  1729			if (df->freq_table[i] == df->previous_freq)
-  1730				seq_puts(s, "*");
-  1731			else
-  1732				seq_puts(s, " ");
-  1733	
-  1734			seq_printf(s, "%10lu:", df->freq_table[i]);
-  1735	
-  1736			for (j = 0; j < max_state; j++)
-  1737				seq_printf(s, "%10u",
-  1738					df->stats.trans_table[(i * max_state) + j]);
-  1739	
-  1740			seq_printf(s, "%10llu\n", (u64)
-  1741				jiffies64_to_msecs(df->stats.time_in_state[i]));
-  1742		}
-  1743	
-  1744		seq_printf(s, "Total transition : %u\n", df->stats.total_trans);
-  1745	
-  1746		return 0;
-  1747	}
-  1748	DEFINE_SHOW_ATTRIBUTE(devfreq_trans_stat);
-  1749	
+  5528	
+> 5529	static int udma_pm_suspend(struct device *dev)
+  5530	{
+  5531		struct udma_dev *ud = dev_get_drvdata(dev);
+  5532		struct dma_device *dma_dev = &ud->ddev;
+  5533		struct dma_chan *chan;
+  5534		struct udma_chan *uc;
+  5535	
+  5536		list_for_each_entry(chan, &dma_dev->channels, device_node) {
+  5537			if (chan->client_count) {
+  5538				uc = to_udma_chan(chan);
+  5539				/* backup the channel configuration */
+  5540				memcpy(&uc->backup_config, &uc->config,
+  5541				       sizeof(struct udma_chan_config));
+  5542				dev_dbg(dev, "Suspending channel %s\n",
+  5543					dma_chan_name(chan));
+  5544				ud->ddev.device_free_chan_resources(chan);
+  5545			}
+  5546		}
+  5547	
+  5548		return 0;
+  5549	}
+  5550	
+> 5551	static int udma_pm_resume(struct device *dev)
+  5552	{
+  5553		struct udma_dev *ud = dev_get_drvdata(dev);
+  5554		struct dma_device *dma_dev = &ud->ddev;
+  5555		struct dma_chan *chan;
+  5556		struct udma_chan *uc;
+  5557		int ret;
+  5558	
+  5559		list_for_each_entry(chan, &dma_dev->channels, device_node) {
+  5560			if (chan->client_count) {
+  5561				uc = to_udma_chan(chan);
+  5562				/* restore the channel configuration */
+  5563				memcpy(&uc->config, &uc->backup_config,
+  5564				       sizeof(struct udma_chan_config));
+  5565				dev_dbg(dev, "Resuming channel %s\n",
+  5566					dma_chan_name(chan));
+  5567				ret = ud->ddev.device_alloc_chan_resources(chan);
+  5568				if (ret)
+  5569					return ret;
+  5570			}
+  5571		}
+  5572	
+  5573		return 0;
+  5574	}
+  5575	
 
 -- 
 0-DAY CI Kernel Test Service
