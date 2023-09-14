@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8ED6241E7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 14:23:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694701414; x=1726237414;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o0aFQeFvYE5Fl0e+udftt49nlFtoBvPIn/xz24Igkr4=;
-  b=IrTv78yptuHESv95UOsOJK5r5M8pCwZaeWSBeslNiJN7zSESK0pPT/gS
-   GErCNeCP4rCYdHIiVTeWDz4a7IUV3muBkW7phsnV8DTaoD46hdPA+alq7
-   p9hPXH+laZ/qKRzkak5zAlZvoTaJ4dWLfQAunxb8kMav7yaqg8Dyz+AW9
-   gk/VL6D3Mi+JTlE+Xf/LhP6WFPn9CFY/O/XAN3pk66d+LWVtQ8bSJ8C8f
-   1Jl5WreIO8m798krDciZsZpjuyP7WFSg4GgxmuEldeEZu7RwC+nGVpCYv
-   PscOIGCsrCeFGIN2BLCbTKmTPeb0Ll4ZMHfdZNTB44tFpOtjHMUAsy/Yk
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="382778184"
-X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
-   d="scan'208";a="382778184"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 07:07:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="737924630"
-X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
-   d="scan'208";a="737924630"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 14 Sep 2023 07:07:48 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qgn0U-0001fN-1a;
-	Thu, 14 Sep 2023 14:07:46 +0000
-Date: Thu, 14 Sep 2023 22:07:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/641 4188/25020] htmldocs: Warning:
- MAINTAINERS.NXP references a file that doesn't exist:
- Documentation/devicetree/bindings/sound/fsl,dsp.txt
-Message-ID: <202309142214.tZWA44NY-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2FD3D309
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 14:27:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=rg4afThrd0boKj++tc2gp5IX8j6/oqBQQnl2Ndhwbw8=; b=LGDddFnqewuxTTVGO3/21p4nK0
+	qBYceHdhjMDF3DDM4uvGRYIDHZBtIaHqwfYXeYxi6blUI1atxm19kehFcpZR4ijNk8EdYLXCCyBaT
+	t3HaLClVDFfGctv8AaRdE5vKqtwGqu9xPwV8qq0ZIW+wf8dNJEX77OE15kHHe+WuqbyyYwxOheQ8b
+	Qc1qJPnJhrBVmQ2skDuqhTS2REN7ZvocBsH0HsbdBnMATgZnNcxee4oTWsdWR/eJSbMV10K5C5lJ+
+	J46vvMVAoO/9M757fY9J6+y/Tn55uEamWc/IkI0XluTNKM5Uji5jItVbYr90c0DdxZ3zqNbibD/wt
+	6sUXZlZw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1qgnIq-007vTK-00;
+	Thu, 14 Sep 2023 14:26:45 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 1FB1430036C; Thu, 14 Sep 2023 16:26:45 +0200 (CEST)
+Date: Thu, 14 Sep 2023 16:26:44 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Ingo Molnar <mingo@kernel.org>
+Cc: "Huang, Kai" <kai.huang@intel.com>, lkp <lkp@intel.com>,
+	"kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	matz@suse.de
+Subject: Re: [tip:x86/tdx 8/12] vmlinux.o: warning: objtool:
+ __tdx_hypercall+0x128: __tdx_hypercall_failed() is missing a __noreturn
+ annotation
+Message-ID: <20230914142644.GC18948@noisy.programming.kicks-ass.net>
+References: <202309140828.9RdmlH2Z-lkp@intel.com>
+ <90f0a4d44704f9c296f3a4d8b72c57f2916aa09d.camel@intel.com>
+ <377b1ce2ecd390f4b6f8cdf68d22c708f7cef6d1.camel@intel.com>
+ <20230914072959.GC16631@noisy.programming.kicks-ass.net>
+ <ZQMVz/wepyo9rlhE@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,36 +46,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZQMVz/wepyo9rlhE@gmail.com>
 
-tree:   https://github.com/Freescale/linux-fslc pr/641
-head:   ba2847ffebda28ba7be1b96bb506bfe5b67c856e
-commit: 29594c4e553412a288d6e44c8704af8fab26d464 [4188/25020] LF-2358-1 script: add get_maintainer_nxp.sh and MAITAINERS.NXP
-reproduce: (https://download.01.org/0day-ci/archive/20230914/202309142214.tZWA44NY-lkp@intel.com/reproduce)
+On Thu, Sep 14, 2023 at 04:16:47PM +0200, Ingo Molnar wrote:
+> 
+> * Peter Zijlstra <peterz@infradead.org> wrote:
+> 
+> > > It appears the __noreturn must be annotated to the function declaration 
+> > > but not the function body.  I'll send out the fix as soon as I confirm 
+> > > the fix with LKP.
+> > 
+> > FWIW, the reason being that...
+> > 
+> > The point of noreturn is that the caller should know to stop generating 
+> > code. For that the declaration needs the attribute, because call sites 
+> > typically do not have access to the function definition in C.
+> 
+> BTW., arguably shouldn't the compiler generate a warning to begin with, 
+> when it encounters a noreturn function definition whose prototype doesn't 
+> have the attribute?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309142214.tZWA44NY-lkp@intel.com/
+Yeah, I would agree with that, but I think the problem is that gnu
+attributes are all considered 'optional' and do not factor into the
+actual signature.
 
-All warnings (new ones prefixed by >>):
-
->> Warning: MAINTAINERS.NXP references a file that doesn't exist: Documentation/devicetree/bindings/sound/fsl,dsp.txt
->> Warning: MAINTAINERS.NXP references a file that doesn't exist: Documentation/devicetree/bindings/sound/imx-audio-si476x.txt
->> Warning: MAINTAINERS.NXP references a file that doesn't exist: Documentation/devicetree/bindings/sound/imx-audio-cdnhdmi.txt
->> Warning: MAINTAINERS.NXP references a file that doesn't exist: Documentation/devicetree/bindings/sound/fsl,rpmsg-i2s.txt
->> Warning: MAINTAINERS.NXP references a file that doesn't exist: Documentation/devicetree/bindings/sound/imx-audio-rpmsg.txt
->> Warning: MAINTAINERS.NXP references a file that doesn't exist: Documentation/devicetree/bindings/sound/fsl,spdif.txt
->> Warning: MAINTAINERS.NXP references a file that doesn't exist: Documentation/devicetree/bindings/net/can/fsl-flexcan.txt
->> Warning: MAINTAINERS.NXP references a file that doesn't exist: Documentation/devicetree/bindings/media/imx8-jpeg.txt
->> Warning: MAINTAINERS.NXP references a file that doesn't exist: Documentation/devicetree/bindings/display/mxsfb.txt
->> Warning: MAINTAINERS.NXP references a file that doesn't exist: Documentation/devicetree/bindings/net/fsl-fec.txt
->> Warning: MAINTAINERS.NXP references a file that doesn't exist: Documentation/devicetree/bindings/pci/fsl,imx6q-pcie.txt
->> Warning: MAINTAINERS.NXP references a file that doesn't exist: Documentation/devicetree/bindings/regulator/pfuze100.txt
->> Warning: MAINTAINERS.NXP references a file that doesn't exist: Documentation/devicetree/bindings/spi/spi-fsl-qspi.txt
->> Warning: MAINTAINERS.NXP references a file that doesn't exist: Documentation/devicetree/bindings/usb/cdns-usb3.txt
->> Warning: MAINTAINERS.NXP references a file that doesn't exist: Documentation/devicetree/bindings/usb/usb-xhci.txt
->> Warning: MAINTAINERS.NXP references a file that doesn't exist: Documentation/devicetree/bindings/usb/dwc3.txt
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Added Michael to Cc so he may clarify if I'm talking nonsense.
