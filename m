@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7650AD51B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 09:35:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B271BDDA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 09:35:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694684112; x=1726220112;
+  t=1694684116; x=1726220116;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xv1a0gFVKwM0KgM27I+fvR02P+gkJIUr4CQzjEBt0Mg=;
-  b=b5vHJIwg/9Q3ZhqlWNIRp2hW2xlJaTTBXvUzS3tZuWopXzLDPOGPVxsf
-   D69U6CXiwLbTCTbliAIITPy/gGepZ9sCs7V/wnzcJDus4NGcksuKl1iJX
-   4uMdXHKqinwe87jysG8GPqUoFXkrI/+aWCNexIpJSGENuXUMPa7ApN70o
-   vpq03/TrGSBewHvfd2Q3q9bRCyUj8hgol99UNuabJHfsbl3AABQEvmhoQ
-   K9fb78QDNNPhzKTL1M3nL/YgCCz8hiZUZoMGeyJKKu0+AACIqY4gN+mlQ
-   wQr+Z7EgUWnytzufqzH/WV8ZsI27pDVv9C7uM+utJvMaWihXBdXCUxmSm
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="409856692"
+  bh=9DywaM42znADHrWCrVr5tRHSVFmTEcEuvHEVIsSSDB4=;
+  b=iWfRd/EISQJE9Xgv6RTi8ERgNHtUsTPdoNi8XGvZ9BZaINlA0PzgUBbn
+   1G33huFxSDU0Y0WCcNm7e1xKu+eU5R8JsHki8kvzBbga7gTF3QM5WxMN7
+   RWmATEWMv3hiOBPfVKV4eaqkZmJomRYaB3KfHBXwjA+3oRE0pHpZpd3qy
+   M+dUjSpo9BJIa0O9TA9vdHq8wlByr+BeSQGkwXsgWweZcvnZxMhSNZl4F
+   OYDtGVMjWeNsq4COcMGJX+aTkTb1hUXT/FUBnb8bI9ZCEp18BX5JOh9yP
+   Ahkgzr+7aIupU+9amhBIWe5QEgv0zt1og8dfajx6wydYuuWXq3LFQ9EFm
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="465274606"
 X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="409856692"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 02:35:10 -0700
+   d="scan'208";a="465274606"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 02:35:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="747655958"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="859626041"
 X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="747655958"
+   d="scan'208";a="859626041"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 14 Sep 2023 02:35:06 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 14 Sep 2023 02:35:06 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgika-0001RR-1I;
+	id 1qgika-0001RT-1O;
 	Thu, 14 Sep 2023 09:35:04 +0000
-Date: Thu, 14 Sep 2023 17:34:22 +0800
+Date: Thu, 14 Sep 2023 17:34:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, hannes@cmpxchg.org,
-	cerasuolodomenico@gmail.com, yosryahmed@google.com,
-	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com,
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com,
-	muchun.song@linux.dev, linux-mm@kvack.org, kernel-team@meta.com,
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org
-Subject: Re: [PATCH 1/2] zswap: make shrinking memcg-aware
-Message-ID: <202309141736.ABab8fuf-lkp@intel.com>
-References: <20230911164024.2541401-2-nphamcs@gmail.com>
+To: Heng Guo <heng.guo@windriver.com>, davem@davemloft.net,
+	sahern@kernel.org, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	filip.pudak@windriver.com, heng.guo@windriver.com
+Subject: Re: [PATCH 1/1] net: ipv4,ipv6: fix IPSTATS_MIB_OUTFORWDATAGRAMS
+ increment after fragment check
+Message-ID: <202309141701.7OFxGdE5-lkp@intel.com>
+References: <20230914051623.2180843-2-heng.guo@windriver.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,92 +50,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230911164024.2541401-2-nphamcs@gmail.com>
+In-Reply-To: <20230914051623.2180843-2-heng.guo@windriver.com>
 
-Hi Nhat,
+Hi Heng,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v6.6-rc1 next-20230914]
+[auto build test WARNING on net-next/main]
+[also build test WARNING on net/main linus/master v6.6-rc1 next-20230914]
+[cannot apply to horms-ipvs/master]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/zswap-make-shrinking-memcg-aware/20230912-004147
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230911164024.2541401-2-nphamcs%40gmail.com
-patch subject: [PATCH 1/2] zswap: make shrinking memcg-aware
-config: loongarch-randconfig-001-20230914 (https://download.01.org/0day-ci/archive/20230914/202309141736.ABab8fuf-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309141736.ABab8fuf-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Guo/net-ipv4-ipv6-fix-IPSTATS_MIB_OUTFORWDATAGRAMS-increment-after-fragment-check/20230914-131757
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230914051623.2180843-2-heng.guo%40windriver.com
+patch subject: [PATCH 1/1] net: ipv4,ipv6: fix IPSTATS_MIB_OUTFORWDATAGRAMS increment after fragment check
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230914/202309141701.7OFxGdE5-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309141701.7OFxGdE5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309141736.ABab8fuf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309141701.7OFxGdE5-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/zswap.c: In function 'zswap_lru_add':
->> mm/zswap.c:320:17: error: implicit declaration of function 'get_mem_cgroup_from_objcg'; did you mean 'get_mem_cgroup_from_mm'? [-Werror=implicit-function-declaration]
-     320 |                 get_mem_cgroup_from_objcg(entry->objcg) : NULL;
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 get_mem_cgroup_from_mm
->> mm/zswap.c:320:57: warning: pointer/integer type mismatch in conditional expression
-     320 |                 get_mem_cgroup_from_objcg(entry->objcg) : NULL;
-         |                                                         ^
-   mm/zswap.c: In function 'zswap_lru_del':
-   mm/zswap.c:330:57: warning: pointer/integer type mismatch in conditional expression
-     330 |                 get_mem_cgroup_from_objcg(entry->objcg) : NULL;
-         |                                                         ^
-   mm/zswap.c: In function 'shrink_memcg_cb':
-   mm/zswap.c:694:80: warning: pointer/integer type mismatch in conditional expression
-     694 |                 memcg = entry->objcg ? get_mem_cgroup_from_objcg(entry->objcg) : NULL;
-         |                                                                                ^
-   mm/zswap.c: In function 'shrink_worker':
->> mm/zswap.c:758:51: error: invalid use of undefined type 'struct mem_cgroup'
-     758 |                         css_put(&pool->next_shrink->css);
-         |                                                   ^~
-   mm/zswap.c: In function 'zswap_pool_destroy':
-   mm/zswap.c:906:43: error: invalid use of undefined type 'struct mem_cgroup'
-     906 |                 css_put(&pool->next_shrink->css);
-         |                                           ^~
-   mm/zswap.c: In function 'zswap_store':
->> mm/zswap.c:1298:23: warning: assignment to 'struct mem_cgroup *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1298 |                 memcg = get_mem_cgroup_from_objcg(objcg);
-         |                       ^
-   mm/zswap.c:1300:39: error: invalid use of undefined type 'struct mem_cgroup'
-    1300 |                         css_put(&memcg->css);
-         |                                       ^~
-   mm/zswap.c:1303:31: error: invalid use of undefined type 'struct mem_cgroup'
-    1303 |                 css_put(&memcg->css);
-         |                               ^~
-   mm/zswap.c:1349:23: warning: assignment to 'struct mem_cgroup *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1349 |                 memcg = get_mem_cgroup_from_objcg(objcg);
-         |                       ^
-   mm/zswap.c:1351:31: error: invalid use of undefined type 'struct mem_cgroup'
-    1351 |                 css_put(&memcg->css);
-         |                               ^~
-   cc1: some warnings being treated as errors
+   net/ipv6/ip6_output.c: In function 'ip6_forward_finish':
+>> net/ipv6/ip6_output.c:451:27: warning: unused variable 'dst' [-Wunused-variable]
+     451 |         struct dst_entry *dst = skb_dst(skb);
+         |                           ^~~
 
 
-vim +320 mm/zswap.c
+vim +/dst +451 net/ipv6/ip6_output.c
 
-   313	
-   314	/*********************************
-   315	* lru functions
-   316	**********************************/
-   317	static bool zswap_lru_add(struct list_lru *list_lru, struct zswap_entry *entry)
-   318	{
-   319		struct mem_cgroup *memcg = entry->objcg ?
- > 320			get_mem_cgroup_from_objcg(entry->objcg) : NULL;
-   321		bool added = __list_lru_add(list_lru, &entry->lru, entry->nid, memcg);
-   322	
-   323		mem_cgroup_put(memcg);
-   324		return added;
-   325	}
-   326	
+e21e0b5f19ac78 Ville Nuorvala    2006-09-22  447  
+0c4b51f0054ce8 Eric W. Biederman 2015-09-15  448  static inline int ip6_forward_finish(struct net *net, struct sock *sk,
+0c4b51f0054ce8 Eric W. Biederman 2015-09-15  449  				     struct sk_buff *skb)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  450  {
+71a1c915238c97 Jeff Barnhill     2018-04-05 @451  	struct dst_entry *dst = skb_dst(skb);
+71a1c915238c97 Jeff Barnhill     2018-04-05  452  
 
 -- 
 0-DAY CI Kernel Test Service
