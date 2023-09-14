@@ -1,51 +1,42 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51904ED9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 06:41:34 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-401d24f1f27so6450005e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 23:41:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694673692; x=1695278492; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mbPn8jG0aaiKDlxm4t2ttIZEEd6U3lKk9eO8XNX7zCA=;
-        b=pLMUpDB7gFe5hQt7w5C4ljVlJzlgjGvpWaV1i7ekOS7UJQ+3EnKH1KT24CGPXNnwC9
-         bkjMzpqlre6oh0sEDlrPEqQv8JYKzaYxaFV0EJyBhVUuOomUO8kgjc4r9YE2GygxbqQ+
-         vlsPfVwycoHinjWEZktUMBPfUC5JLNiRshuMxIPmkuCM1hCTrSCdklSbcvv+JUhyhD2y
-         n9qp/nCTqAa9Trda/0jmnOJJHb4eC/vyK6X15glYPg4oh7KVPu24P1id3dCjaOfYkkLO
-         gEyVgowrQBOMp/U90IFnlFshLPC80Ut9/7WJR80joT6lrPxqo60LusGQbDkWX+PoS6hZ
-         NMHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694673692; x=1695278492;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mbPn8jG0aaiKDlxm4t2ttIZEEd6U3lKk9eO8XNX7zCA=;
-        b=XAJCa0LD6utDVEssHhFISU5NGGnk2ziPwEbDETevwj42226A59sPD+rrTwDiBCHS2g
-         ghhVXK9ktGnJDSXpympLuBbsmNp9CcGoXNfqXI/vvKHKj3lKyF3V21o3kJm8R7bMNjzQ
-         04cgYujcA3Xgvw1bv+90tTFI6OCSWAWzFrNq5Vqe1RXxMcOIO2h8h9Af3C+2cZItmRHb
-         H1Am7aw1lGRRvlFHCothvWG+y9L8zzA1rVj6Bb8wmB6Wr7zN5HX/c5MxHYuOBSne3hho
-         sNG8UHJHzR/RT4cvmXHS7hLgjWlLUlNyzL8MND2NbOPERXWfnIDrBFV09s8emhSKT5WW
-         Zevg==
-X-Gm-Message-State: AOJu0Yy38JoK1LTlHH9kgC5dbJaFHy8d98kWBltaZ20x0vYM3/guXm15
-	Z/xxhRd+JDfWKzle3pMohwfBhw==
-X-Google-Smtp-Source: AGHT+IFgeGqKGjC19iBPDtNMSzCBGblrqc4Ak12Todt8W8/zsACpjAIRkD+d9CMRsRDWUFDe6Nn7WA==
-X-Received: by 2002:a1c:7204:0:b0:403:442:5421 with SMTP id n4-20020a1c7204000000b0040304425421mr3855814wmc.4.1694673692426;
-        Wed, 13 Sep 2023 23:41:32 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id m10-20020a7bce0a000000b003fee53feab5sm1061962wmc.10.2023.09.13.23.41.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 23:41:32 -0700 (PDT)
-Date: Thu, 14 Sep 2023 09:41:29 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	devel@driverdev.osuosl.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [staging:staging-testing 17/17] drivers/staging/vme_user/vme.c:296
- vme_slave_request() error: we previously assumed 'slave_image' could be null
- (see line 297)
-Message-ID: <87c5de5b-ecb8-46ec-8489-605971214683@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57128ED9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 06:58:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694674703; x=1726210703;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8vedmYXU1hL+rLYQXYwSyVor1LSA/qKNDfFa1UOetpM=;
+  b=RTib416rze3kZI/5sLtqalmnaqqn2L51blSpjLC3SVCRCM63fwUop4PL
+   8oGnpDw43Omj+ZN6aTI5H3R0b5px2carGgkA/F4iumK5D5YktJMzwHtgU
+   5DwIyaYcwLh0qpohNlEejNn6sgBihjVui3rqFxMJ3oukk5/7zxkeYGGTl
+   +f4SjGkIuq1a2Ath/kukhXo5XP1kdqcb4kp8VMkkfze6Xmaaql8RbAry2
+   CqPs73imGMy9rGxQ7QdYHF1WhWHLEFBbllqWHToDbluIhguvviDZEs8Jx
+   vmbhj63+Ze/nJ7baPOGyFrSEV9XKb5m+SlaCGrowC+pq8CuEnQ+BN7u3V
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="359132459"
+X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
+   d="scan'208";a="359132459"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 23:58:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="737813328"
+X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
+   d="scan'208";a="737813328"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 13 Sep 2023 23:58:16 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qggIo-0001IL-0u;
+	Thu, 14 Sep 2023 06:58:14 +0000
+Date: Thu, 14 Sep 2023 14:58:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: James Morse <james.morse@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morse:mpam/snapshot/v6.5-rc1 52/154] fs/resctrl/monitor.c:584:30:
+ warning: variable 'r' set but not used
+Message-ID: <202309141401.jwoof029-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,72 +46,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Jinjie,
+Hi James,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git staging-testing
-head:   4c5ba1d7a93e098aececbf93afbdd7add98ec6f3
-commit: 4c5ba1d7a93e098aececbf93afbdd7add98ec6f3 [17/17] staging: vme_user: Use list_for_each_entry() helper
-config: x86_64-randconfig-161-20230913 (https://download.01.org/0day-ci/archive/20230914/202309140330.fgOxoRhE-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.5-rc1
+head:   47a123f932a23dc3eff4110197949d418914a4ac
+commit: eb73c346f06a1570cd8a6791164482440dafc0fc [52/154] x86/resctrl: Move all the filesystem code to /fs/resctrl
+config: i386-randconfig-011-20230914 (https://download.01.org/0day-ci/archive/20230914/202309141401.jwoof029-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230914/202309140330.fgOxoRhE-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309141401.jwoof029-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202309140330.fgOxoRhE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309141401.jwoof029-lkp@intel.com/
 
-smatch warnings:
-drivers/staging/vme_user/vme.c:296 vme_slave_request() error: we previously assumed 'slave_image' could be null (see line 297)
-drivers/staging/vme_user/vme.c:492 vme_master_request() error: we previously assumed 'master_image' could be null (see line 493)
-drivers/staging/vme_user/vme.c:866 vme_dma_request() error: we previously assumed 'dma_ctrlr' could be null (see line 867)
-drivers/staging/vme_user/vme.c:1460 vme_lm_request() error: we previously assumed 'lm' could be null (see line 1461)
+All warnings (new ones prefixed by >>):
 
-vim +/slave_image +296 drivers/staging/vme_user/vme.c
+   fs/resctrl/monitor.c: In function 'cqm_handle_limbo':
+>> fs/resctrl/monitor.c:584:30: warning: variable 'r' set but not used [-Wunused-but-set-variable]
+     584 |         struct rdt_resource *r;
+         |                              ^
 
-6af04b065b048e drivers/staging/vme/vme.c      Martyn Welch    2011-12-01  281  struct vme_resource *vme_slave_request(struct vme_dev *vdev, u32 address,
-6af04b065b048e drivers/staging/vme/vme.c      Martyn Welch    2011-12-01  282  				       u32 cycle)
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  283  {
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  284  	struct vme_bridge *bridge;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  285  	struct vme_slave_resource *allocated_image = NULL;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  286  	struct vme_slave_resource *slave_image = NULL;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  287  	struct vme_resource *resource = NULL;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  288  
-8f966dc444b11a drivers/staging/vme/vme.c      Manohar Vanga   2011-09-26  289  	bridge = vdev->bridge;
-61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24  290  	if (!bridge) {
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  291  		printk(KERN_ERR "Can't find VME bus\n");
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  292  		goto err_bus;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  293  	}
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  294  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  295  	/* Loop through slave resources */
-4c5ba1d7a93e09 drivers/staging/vme_user/vme.c Jinjie Ruan     2023-08-23 @296  	list_for_each_entry(slave_image, &bridge->slave_resources, list) {
-                                                                                                    ^^^^^^^^^^^
-This is the iterator.
 
-61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24 @297  		if (!slave_image) {
+vim +/r +584 fs/resctrl/monitor.c
 
-And list iterators are never NULL.  Please remove this if statement.
-
-ead1f3e301e2d8 drivers/staging/vme/vme.c      Martyn Welch    2009-12-15  298  			printk(KERN_ERR "Registered NULL Slave resource\n");
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  299  			continue;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  300  		}
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  301  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  302  		/* Find an unlocked and compatible image */
-886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  303  		mutex_lock(&slave_image->mtx);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  304  		if (((slave_image->address_attr & address) == address) &&
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  305  		    ((slave_image->cycle_attr & cycle) == cycle) &&
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  306  		    (slave_image->locked == 0)) {
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  307  			slave_image->locked = 1;
-886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  308  			mutex_unlock(&slave_image->mtx);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  309  			allocated_image = slave_image;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  310  			break;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  311  		}
-886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  312  		mutex_unlock(&slave_image->mtx);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  313  	}
+   576	
+   577	/*
+   578	 * Handler to scan the limbo list and move the RMIDs
+   579	 * to free list whose occupancy < threshold_occupancy.
+   580	 */
+   581	void cqm_handle_limbo(struct work_struct *work)
+   582	{
+   583		unsigned long delay = msecs_to_jiffies(CQM_LIMBOCHECK_INTERVAL);
+ > 584		struct rdt_resource *r;
+   585		struct rdt_domain *d;
+   586		int cpu;
+   587	
+   588		mutex_lock(&rdtgroup_mutex);
+   589	
+   590		r = resctrl_arch_get_resource(RDT_RESOURCE_L3);
+   591		d = container_of(work, struct rdt_domain, cqm_limbo.work);
+   592	
+   593		__check_limbo(d, false);
+   594	
+   595		if (has_busy_rmid(d)) {
+   596			cpu = cpumask_any_housekeeping(&d->cpu_mask);
+   597			schedule_delayed_work_on(cpu, &d->cqm_limbo, delay);
+   598		}
+   599	
+   600		mutex_unlock(&rdtgroup_mutex);
+   601	}
+   602	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
