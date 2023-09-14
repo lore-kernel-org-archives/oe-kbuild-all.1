@@ -1,50 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D278763B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 06:26:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694672778; x=1726208778;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ncX/3ojufQFnWpGsuTFsyqcxHO1fpWiWL7gR6yynDb4=;
-  b=LOJjpR99Ij3ZPAZHDKJj5CKyTf8ibkFzKFS4WzYOnSTjulSKvjmj5zI/
-   +hHfzyNqT5GRc2idA1w6AGj5eCPOt0JxyJ9ZFTw9M4mfpYeqV7dIm2+6Z
-   quuGwZr4SMMihcaDUzkPEroik8mwi+acE5hras2QvngjkhFWoQe95s2GD
-   UI3ObErjX3GkDh1f54Do9+3cycncE7nYMOLGJ8OhO+D6/QWf4DSnniVWr
-   7Rj+fKXibYeUyO1mTkqdN7/ZHSCXn9CVSjM9Ge4iSHIQK7Q8HlC1exN6f
-   K6d7OsLfUoPFWkRhFulXshRiw0jmW1bOiacrMRo1cqz60Dw6cu1AzeAN8
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="442897813"
-X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="442897813"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 23:26:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="918130824"
-X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="918130824"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 13 Sep 2023 23:26:15 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qgfno-0001Fx-2a;
-	Thu, 14 Sep 2023 06:26:12 +0000
-Date: Thu, 14 Sep 2023 14:25:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Stuart Hayes <stuart.w.hayes@gmail.com>, linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Tanjore Suresh <tansuresh@google.com>,
-	Martin Belanger <Martin.Belanger@dell.com>,
-	Oliver O'Halloran <oohall@gmail.com>,
-	Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>,
-	Lukas Wunner <lukas@wunner.de>
-Cc: oe-kbuild-all@lists.linux.dev, Stuart Hayes <stuart.w.hayes@gmail.com>
-Subject: Re: [PATCH v2] driver core: shut down devices asynchronously
-Message-ID: <202309141407.CpZtIa2w-lkp@intel.com>
-References: <20230913210516.3545-1-stuart.w.hayes@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33FA63FEC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 06:39:20 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-400a087b0bfso5818215e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Sep 2023 23:39:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694673559; x=1695278359; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rryeilmHVsTcYrCE5ypYa65vGftDTEhvKiA4HjqLsnY=;
+        b=iYEbrAosXtu9auaEKoTsF+KnWDwXpOiJU6WqC8V3qC9QbqTN5t1emOEm/0N4xCDixS
+         JUEy8ihMOgRWQ5FBIeuUHxas9KIsltMlb7RdEhc64yq2lgpBInIPXUO/veP4Ax9VojzR
+         lu649eySKy317yLrZzHsbI89qC7eakT0khK1KW43JpZpdJNQRSbLE8Vbi8N1ky5fhTHU
+         MXRSNaYydZKXsW/W+/3E7e5FGy0KSSDq4PZSvihahHByZJgrTisLxYSnvfXQVzETqhhB
+         GVK9u4D25fgvCcVdDRU4W5fQCxhb1XwTLXrGSmDw+aF1kO7FT86F652Dt8O30bGcsTHV
+         KU9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694673559; x=1695278359;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rryeilmHVsTcYrCE5ypYa65vGftDTEhvKiA4HjqLsnY=;
+        b=fp6n0lUNgxmwg3UhVXBiltEvOSplSFS5OvEupkZruDAMSaasEKnEXsaiOlcwV/FnV+
+         1Hvz7dnw5B1X5hNEVbeD5aIPrFJ5sP1VmbDalFlgo4a6lgrYVqp5jxlna2F/g4OSJnG1
+         qC8pE87Sw88TzxDTrEX38UZVi+AttLjaC2kycaq4mhZ1G8nQ7vF3+DFelEjWRkInA8dK
+         5RYJN7G/ZCAPH7wDfQ04Wqf2iME2HC7E6+WZvn+tKHLrQU6f5p5ZKeqCVYy7dLAx1uWD
+         wduGpqUUA130hca88wvMnF6UKnjso/Zv0swjb97nuvBTe0OiUij0CDdUMgQA133FWaCS
+         0VWw==
+X-Gm-Message-State: AOJu0YzWH9zUJ+iU25SsIBMRP6uxGy1mG0X8iQ8/enxXhFkbt0hvRWoS
+	CayUbVpxMHLXGYX5YNSjj1RxPA==
+X-Google-Smtp-Source: AGHT+IG+/qdPplJXDD0+lN4yHo05FQxVTl93zDo17Uyz7IvIM31rz3w/2/XB3ia+oEveTVposJWNFg==
+X-Received: by 2002:a1c:f717:0:b0:401:23fc:1f92 with SMTP id v23-20020a1cf717000000b0040123fc1f92mr3982730wmh.25.1694673559261;
+        Wed, 13 Sep 2023 23:39:19 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id c3-20020a05600c0ac300b003fef6881350sm1052699wmr.25.2023.09.13.23.39.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Sep 2023 23:39:18 -0700 (PDT)
+Date: Thu, 14 Sep 2023 09:39:16 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 6539/11302]
+ kernel/trace/ring_buffer.c:2177 ring_buffer_resize() warn: variable
+ dereferenced before check 'buffer' (see line 2172)
+Message-ID: <844e068c-5d8e-489b-9bff-7b98996fa3b9@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,68 +52,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230913210516.3545-1-stuart.w.hayes@gmail.com>
 
-Hi Stuart,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on driver-core/driver-core-testing]
-[also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.6-rc1 next-20230913]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Stuart-Hayes/driver-core-shut-down-devices-asynchronously/20230914-050611
-base:   driver-core/driver-core-testing
-patch link:    https://lore.kernel.org/r/20230913210516.3545-1-stuart.w.hayes%40gmail.com
-patch subject: [PATCH v2] driver core: shut down devices asynchronously
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230914/202309141407.CpZtIa2w-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309141407.CpZtIa2w-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   7579b22626ff63d1e755c7afe0e6a82b879f939e
+commit: 5ecbcb61e172d82faf1bd8c00b17837d3c658c59 [6539/11302] ANDROID: ring-buffer: Introducing external writer support
+config: x86_64-randconfig-161-20230913 (https://download.01.org/0day-ci/archive/20230914/202309140321.8D6yrzxp-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230914/202309140321.8D6yrzxp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309141407.CpZtIa2w-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202309140321.8D6yrzxp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+kernel/trace/ring_buffer.c:2177 ring_buffer_resize() warn: variable dereferenced before check 'buffer' (see line 2172)
 
-   drivers/base/core.c:68: warning: Function parameter or member 'flags' not described in '__fwnode_link_add'
->> drivers/base/core.c:4771: warning: Function parameter or member 'dev' not described in 'shutdown_device_and_children'
->> drivers/base/core.c:4771: warning: Function parameter or member 'data' not described in 'shutdown_device_and_children'
->> drivers/base/core.c:4771: warning: expecting prototype for device_shutdown_async(). Prototype was for shutdown_device_and_children() instead
+vim +/buffer +2177 kernel/trace/ring_buffer.c
 
+13292494379f92 Steven Rostedt (VMware    2019-12-13  2165) int ring_buffer_resize(struct trace_buffer *buffer, unsigned long size,
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2166  			int cpu_id)
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2167  {
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2168  	struct ring_buffer_per_cpu *cpu_buffer;
+9b94a8fba501f3 Steven Rostedt (Red Hat   2016-05-12  2169) 	unsigned long nr_pages;
+0a1754b2a97efa Qiujun Huang              2020-10-19  2170  	int cpu, err;
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2171  
+5ecbcb61e172d8 Vincent Donnefort         2022-08-24 @2172  	if (unlikely(has_ext_writer(buffer)))
+                                                                                            ^^^^^^
+Dereferenced inside the function.
 
-vim +4771 drivers/base/core.c
+5ecbcb61e172d8 Vincent Donnefort         2022-08-24  2173  		return -EINVAL;
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2174  	/*
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2175  	 * Always succeed at resizing a non-existent buffer:
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2176  	 */
+ee51a1de7e3837 Ingo Molnar               2008-11-13 @2177  	if (!buffer)
+                                                                     ^^^^^^
+Too late.
 
-  4764	
-  4765	/**
-  4766	 * device_shutdown_async - schedule ->shutdown() on each device to shutdown
-  4767	 * asynchronously, ensuring each device's children are shut down before
-  4768	 * shutting down the device
-  4769	 */
-  4770	static int shutdown_device_and_children(struct device *dev, void *data)
-> 4771	{
-  4772		struct async_domain *domain = data;
-  4773		struct device_private *p = dev->p;
-  4774	
-  4775		INIT_ASYNC_DOMAIN_EXCLUSIVE(&p->children_shutdown);
-  4776	
-  4777		/* make sure device doesn't go away before it is shut down */
-  4778		get_device(dev);
-  4779	
-  4780		/* schedule shutdown of children */
-  4781		device_for_each_child(dev, &p->children_shutdown,
-  4782				      shutdown_device_and_children);
-  4783	
-  4784		/* schedule shutdown of this device */
-  4785		async_schedule_domain(shutdown_device, dev, domain);
-  4786	
-  4787		return 0;
-  4788	}
-  4789	
+0a1754b2a97efa Qiujun Huang              2020-10-19  2178  		return 0;
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2179  
+6a31e1f135d1ab Steven Rostedt            2012-05-23  2180  	/* Make sure the requested buffer exists */
+6a31e1f135d1ab Steven Rostedt            2012-05-23  2181  	if (cpu_id != RING_BUFFER_ALL_CPUS &&
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
