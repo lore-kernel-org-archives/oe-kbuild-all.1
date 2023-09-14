@@ -1,43 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC95369
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 01:28:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE6A4369
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 01:28:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694654883; x=1726190883;
+  t=1694654887; x=1726190887;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u/oCCHdUWLnfQuZXq8gFuMvNWNnJXkxa0spmV+ZXrcE=;
-  b=OkI6WjCDlziC+skd9CupNKSdzlMc5S2hTXq8XqoJiCUl475BVz8m7XsS
-   H+KP/BqP8RfCQz2tSY5cYEpCl7UovMHLnh+hdNsYNfJQpBA2FtKdiYzE1
-   fYl5/ivwpZmCBGJrvGrEuQeq0Z7pdFJKygW54eYRpaPPs8rg4xn6iipdk
-   E7bu2sBhGFsGdwn/0FgzUL6+pVWXN5tsqmivbdo7QFIA1KVz3yaepo4rr
-   /i8Wn1bXut2H9Qz0feGwZJKk97GbkXeLBEINCHfFSY5MtfJpEkggUS1Cw
-   gY6VoeGUup9nh4oSHSww2lnlM/yl6cSUYapRFdPockxIMOnH1yzLSyww2
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="363864222"
+  bh=9SP8e/kt6frrUU8cakHEKjjORTiAyYa7on3mChVtLxY=;
+  b=RXG9ZIG2ZLV2RsBuEGmkOboHiPoa/y3MXDQG6bYbJahMP63ZJtnLl7B5
+   TDUFve01hjvhKB7hkyAGBAD+2mStNQp6iN2lxqKBxc7cKqt1szaeF5W4/
+   8hLfg4tdd9kD7CvMHN42QbHIkvk+waTT31ULD92RX3fTIZH2IAXKLiiES
+   ZmDkacbHVqXBw4rQmg8autvSop+t9SYuCXvZXbOOLTtFcIRHcoTfyJcn6
+   Fkg3W8dXgQUP7SVjr7nhUzQTSaZ203fCdqsyxMRLePjBBRiJRywb/VV8A
+   hKUXCSxpXksewPzebrepTvFtrJFDV6PNr3B3tZ+u2hkHgO8NKot1G2JXp
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="363864224"
 X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="363864222"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+   d="scan'208";a="363864224"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 18:28:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="814470947"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="887574442"
 X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="814470947"
+   d="scan'208";a="887574442"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Sep 2023 18:28:01 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 13 Sep 2023 18:27:30 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgb9D-0000w1-28;
+	id 1qgb9D-0000w5-2H;
 	Thu, 14 Sep 2023 01:27:59 +0000
-Date: Thu, 14 Sep 2023 09:27:09 +0800
+Date: Thu, 14 Sep 2023 09:27:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
+To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morse:mpam/snapshot/v6.5-rc1 65/154] drivers/acpi/pptt.c:308:
- warning: Function parameter or member 'callback' not described in
- 'acpi_pptt_for_each_container'
-Message-ID: <202309140946.68gUY8mp-lkp@intel.com>
+Subject: [sashal-stable:pending-4.19 221/222]
+ include/net/ip_tunnels.h:469:17: error: implicit declaration of function
+ 'DEV_STATS_INC'
+Message-ID: <202309140945.vVSVRdwy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,87 +47,112 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi James,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.5-rc1
-head:   47a123f932a23dc3eff4110197949d418914a4ac
-commit: ac00bd5fb4f893f43b13c6299db1f6795de94709 [65/154] ACPI / PPTT: Provide a helper to walk processor containers
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230914/202309140946.68gUY8mp-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309140946.68gUY8mp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-4.19
+head:   abc83abe491d0306da538cddb3047de9f34f4d8a
+commit: 7edcdbd724c9dd63f624fb736ba72cfcff8c5a19 [221/222] ip_tunnels: use DEV_STATS_INC()
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230914/202309140945.vVSVRdwy-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309140945.vVSVRdwy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309140946.68gUY8mp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309140945.vVSVRdwy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/acpi/pptt.c:308: warning: Function parameter or member 'callback' not described in 'acpi_pptt_for_each_container'
->> drivers/acpi/pptt.c:308: warning: Function parameter or member 'arg' not described in 'acpi_pptt_for_each_container'
+   In file included from include/net/udp_tunnel.h:5,
+                    from drivers/net/ethernet/broadcom/bnxt/bnxt.c:44:
+   include/net/ip_tunnels.h: In function 'iptunnel_xmit_stats':
+>> include/net/ip_tunnels.h:469:17: error: implicit declaration of function 'DEV_STATS_INC' [-Werror=implicit-function-declaration]
+     469 |                 DEV_STATS_INC(dev, tx_errors);
+         |                 ^~~~~~~~~~~~~
+>> include/net/ip_tunnels.h:469:36: error: 'tx_errors' undeclared (first use in this function); did you mean 'PG_error'?
+     469 |                 DEV_STATS_INC(dev, tx_errors);
+         |                                    ^~~~~~~~~
+         |                                    PG_error
+   include/net/ip_tunnels.h:469:36: note: each undeclared identifier is reported only once for each function it appears in
+>> include/net/ip_tunnels.h:470:36: error: 'tx_aborted_errors' undeclared (first use in this function)
+     470 |                 DEV_STATS_INC(dev, tx_aborted_errors);
+         |                                    ^~~~~~~~~~~~~~~~~
+>> include/net/ip_tunnels.h:472:36: error: 'tx_dropped' undeclared (first use in this function)
+     472 |                 DEV_STATS_INC(dev, tx_dropped);
+         |                                    ^~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from include/net/dst_metadata.h:6,
+                    from drivers/net/ethernet/broadcom/bnxt/bnxt.h:24,
+                    from drivers/net/ethernet/broadcom/bnxt/bnxt_vfr.c:17:
+   include/net/ip_tunnels.h: In function 'iptunnel_xmit_stats':
+>> include/net/ip_tunnels.h:469:17: error: implicit declaration of function 'DEV_STATS_INC' [-Werror=implicit-function-declaration]
+     469 |                 DEV_STATS_INC(dev, tx_errors);
+         |                 ^~~~~~~~~~~~~
+>> include/net/ip_tunnels.h:469:36: error: 'tx_errors' undeclared (first use in this function); did you mean 'PG_error'?
+     469 |                 DEV_STATS_INC(dev, tx_errors);
+         |                                    ^~~~~~~~~
+         |                                    PG_error
+   include/net/ip_tunnels.h:469:36: note: each undeclared identifier is reported only once for each function it appears in
+>> include/net/ip_tunnels.h:470:36: error: 'tx_aborted_errors' undeclared (first use in this function)
+     470 |                 DEV_STATS_INC(dev, tx_aborted_errors);
+         |                                    ^~~~~~~~~~~~~~~~~
+>> include/net/ip_tunnels.h:472:36: error: 'tx_dropped' undeclared (first use in this function)
+     472 |                 DEV_STATS_INC(dev, tx_dropped);
+         |                                    ^~~~~~~~~~
+   drivers/net/ethernet/broadcom/bnxt/bnxt_vfr.c: In function 'bnxt_vf_rep_rx':
+   drivers/net/ethernet/broadcom/bnxt/bnxt_vfr.c:212:35: warning: variable 'rx_stats' set but not used [-Wunused-but-set-variable]
+     212 |         struct bnxt_vf_rep_stats *rx_stats;
+         |                                   ^~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from include/net/dst_metadata.h:6,
+                    from include/net/tc_act/tc_tunnel_key.h:16,
+                    from drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c:19:
+   include/net/ip_tunnels.h: In function 'iptunnel_xmit_stats':
+>> include/net/ip_tunnels.h:469:17: error: implicit declaration of function 'DEV_STATS_INC' [-Werror=implicit-function-declaration]
+     469 |                 DEV_STATS_INC(dev, tx_errors);
+         |                 ^~~~~~~~~~~~~
+>> include/net/ip_tunnels.h:469:36: error: 'tx_errors' undeclared (first use in this function); did you mean 'PG_error'?
+     469 |                 DEV_STATS_INC(dev, tx_errors);
+         |                                    ^~~~~~~~~
+         |                                    PG_error
+   include/net/ip_tunnels.h:469:36: note: each undeclared identifier is reported only once for each function it appears in
+>> include/net/ip_tunnels.h:470:36: error: 'tx_aborted_errors' undeclared (first use in this function)
+     470 |                 DEV_STATS_INC(dev, tx_aborted_errors);
+         |                                    ^~~~~~~~~~~~~~~~~
+>> include/net/ip_tunnels.h:472:36: error: 'tx_dropped' undeclared (first use in this function)
+     472 |                 DEV_STATS_INC(dev, tx_dropped);
+         |                                    ^~~~~~~~~~
+   drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c: In function 'bnxt_tc_parse_flow':
+   drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c:192:13: warning: variable 'addr_type' set but not used [-Wunused-but-set-variable]
+     192 |         u16 addr_type = 0;
+         |             ^~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +308 drivers/acpi/pptt.c
+vim +/DEV_STATS_INC +469 include/net/ip_tunnels.h
 
-   295	
-   296	/**
-   297	 * acpi_pptt_for_each_container() - Iterate over all processor containers
-   298	 *
-   299	 * Not all 'Processor' entries in the PPTT are either a CPU or a Processor
-   300	 * Container, they may exist purely to describe a Private resource. CPUs
-   301	 * have to be leaves, so a Processor Container is a non-leaf that has the
-   302	 * 'ACPI Processor ID valid' flag set.
-   303	 *
-   304	 * Return: 0 for a complete walk, or the first non-zero value from the callback
-   305	 *         that stopped the walk.
-   306	 */
-   307	int acpi_pptt_for_each_container(acpi_pptt_cpu_callback_t callback, void *arg)
- > 308	{
-   309		struct acpi_pptt_processor *cpu_node;
-   310		struct acpi_table_header *table_hdr;
-   311		struct acpi_subtable_header *entry;
-   312		bool leaf_flag, has_leaf_flag = false;
-   313		unsigned long table_end;
-   314		acpi_status status;
-   315		u32 proc_sz;
-   316		int ret = 0;
-   317	
-   318		status = acpi_get_table(ACPI_SIG_PPTT, 0, &table_hdr);
-   319		if (ACPI_FAILURE(status))
-   320			return 0;
-   321	
-   322		if (table_hdr->revision > 1)
-   323			has_leaf_flag = true;
-   324	
-   325		table_end = (unsigned long)table_hdr + table_hdr->length;
-   326		entry = ACPI_ADD_PTR(struct acpi_subtable_header, table_hdr,
-   327				     sizeof(struct acpi_table_pptt));
-   328		proc_sz = sizeof(struct acpi_pptt_processor);
-   329		while ((unsigned long)entry + proc_sz < table_end) {
-   330			cpu_node = (struct acpi_pptt_processor *)entry;
-   331			if (entry->type == ACPI_PPTT_TYPE_PROCESSOR &&
-   332			    cpu_node->flags & ACPI_PPTT_ACPI_PROCESSOR_ID_VALID)
-   333			{
-   334				leaf_flag = cpu_node->flags & ACPI_PPTT_ACPI_LEAF_NODE;
-   335				if ((has_leaf_flag && !leaf_flag) ||
-   336				    (!has_leaf_flag && !acpi_pptt_leaf_node(table_hdr, cpu_node)))
-   337				{
-   338					ret = callback(cpu_node, arg);
-   339					if (ret)
-   340						break;
-   341				}
-   342			}
-   343			entry = ACPI_ADD_PTR(struct acpi_subtable_header, entry,
-   344					     entry->length);
-   345		}
-   346	
-   347		acpi_put_table(table_hdr);
-   348	
-   349		return ret;
-   350	}
-   351	
+   454	
+   455	static inline void iptunnel_xmit_stats(struct net_device *dev, int pkt_len)
+   456	{
+   457		if (pkt_len > 0) {
+   458			struct pcpu_sw_netstats *tstats = get_cpu_ptr(dev->tstats);
+   459	
+   460			u64_stats_update_begin(&tstats->syncp);
+   461			tstats->tx_bytes += pkt_len;
+   462			tstats->tx_packets++;
+   463			u64_stats_update_end(&tstats->syncp);
+   464			put_cpu_ptr(tstats);
+   465			return;
+   466		}
+   467	
+   468		if (pkt_len < 0) {
+ > 469			DEV_STATS_INC(dev, tx_errors);
+ > 470			DEV_STATS_INC(dev, tx_aborted_errors);
+   471		} else {
+ > 472			DEV_STATS_INC(dev, tx_dropped);
+   473		}
+   474	}
+   475	
 
 -- 
 0-DAY CI Kernel Test Service
