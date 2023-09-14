@@ -1,45 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF91410A0C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 21:59:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC3C10A0C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 21:59:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694728755; x=1726264755;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=orTRfm3EWFvxsGYhX/MqmdMcQ7oo82in9+K7MsVadmc=;
-  b=m67bnL4ibR7IAMzlOwBDKnE9nJeCOe2QxdMO4lzGSN2n5NmwSAaPTifX
-   4DJuTtRPVD0g6KTGAqjdjJDtmEc28p42BpGLC9iYlYMh0ox0lsnSqfhrt
-   8zLrfuk4g9DGFECGhw5cizI2qOxKG/AU0y4yDVMcokzrv9stxcX//PB9F
-   9AuGV8BXCq5iFB7dGrpBZvxjOaqL96AxfTdgnwBlvnn4DoSfD1A5GWgIt
-   i8t/DFyrJlOU3qXds86cHAZj+sAMyJybkZ66uvc9pQOiDD1UieFEV0Y/b
-   PDYlShw/DcJYe+J1oC2iKdbq2QqSRN+JFdEg9yHGf8bDV4KVeEt74E2Yk
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="377999179"
+  t=1694728757; x=1726264757;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VvHYPw4PBqg2OBLzpmfzy5WhfsqdqcPxJdOtRSKXE6U=;
+  b=PjoL+7Jn46OiSi5Fj6I4OQgp3wOWrBgj0q2nUVvcZYFZxHqInzTUJmGr
+   FjfNnro/7wFfiGV/TWk3mEVJRnWLbVU2+uh5dh1B7B7tvzflgMplnVr9j
+   d1NjZUT65TFIHKh+8GyD/vAbA+Pq0rLbFxohWlIBdSpCS8E3WuWXIc47R
+   TIh0SVZVcEQagLY2b4FVZXm//5r8Hi8LIVYba/2jXGXycC90YFAp7MxvD
+   V+gx0mN0INx6gZAEt1qFM8HdNjliF08ZHjHZuaqzgqWm1tZT6OTlyBCVf
+   +0DWzuI0tsZijxBDLGWtqX+qVW2i1vhPIVzlomLkMnQIxCrJwawAuZ8ZO
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="377999186"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="377999179"
+   d="scan'208";a="377999186"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 14:59:14 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 14:59:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="747939318"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="747939319"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="747939318"
+   d="scan'208";a="747939319"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
   by fmsmga007.fm.intel.com with ESMTP; 14 Sep 2023 14:58:50 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qguMK-00025t-1c;
+	id 1qguMK-00025z-1y;
 	Thu, 14 Sep 2023 21:58:48 +0000
-Date: Fri, 15 Sep 2023 05:58:42 +0800
+Date: Fri, 15 Sep 2023 05:58:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ken Xue <Ken.Xue@amd.com>, andriy.shevchenko@linux.intel.com,
-	linux-acpi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, rafael@kernel.org, cwhuang@linux.org.tw,
-	Ken Xue <Ken.Xue@amd.com>
-Subject: Re: [PATCH V4] acpi: trigger wakeup key event from power button
-Message-ID: <202309150547.0dolJMlI-lkp@intel.com>
-References: <20230913002145.743571-1-Ken.Xue@amd.com>
+To: Lucas Tanure <tanureal@opensource.cirrus.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Lee Jones <lee@kernel.org>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>
+Subject: drivers/soundwire/bus.c:173:21: warning: assignment to 'struct
+ irq_domain *' from 'int' makes pointer from integer without a cast
+Message-ID: <202309150522.MoKeF4jx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,83 +48,177 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230913002145.743571-1-Ken.Xue@amd.com>
 
-Hi Ken,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on b483d3b8a54a544ab8854ca6dbb8d99c423b3ba4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ken-Xue/acpi-trigger-wakeup-key-event-from-power-button/20230913-084852
-base:   b483d3b8a54a544ab8854ca6dbb8d99c423b3ba4
-patch link:    https://lore.kernel.org/r/20230913002145.743571-1-Ken.Xue%40amd.com
-patch subject: [PATCH V4] acpi: trigger wakeup key event from power button
-config: loongarch-randconfig-001-20230914 (https://download.01.org/0day-ci/archive/20230915/202309150547.0dolJMlI-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150547.0dolJMlI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9fdfb15a3dbf818e06be514f4abbfc071004cbe7
+commit: 12a95123bfe1dd1a6020a35f5e67a560591bb02a soundwire: bus: Allow SoundWire peripherals to register IRQ handlers
+date:   4 weeks ago
+config: s390-randconfig-r031-20220110 (https://download.01.org/0day-ci/archive/20230915/202309150522.MoKeF4jx-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150522.MoKeF4jx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309150547.0dolJMlI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309150522.MoKeF4jx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   loongarch64-linux-ld: drivers/acpi/sleep.o: in function `acpi_pm_finish':
->> drivers/acpi/sleep.c:514:(.text+0x29c): undefined reference to `acpi_power_button_wakeup'
+   drivers/soundwire/bus.c: In function 'sdw_bus_master_add':
+   drivers/soundwire/bus.c:173:23: error: implicit declaration of function 'irq_domain_create_linear' [-Werror=implicit-function-declaration]
+     173 |         bus->domain = irq_domain_create_linear(fwnode, SDW_MAX_DEVICES,
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/soundwire/bus.c:173:21: warning: assignment to 'struct irq_domain *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     173 |         bus->domain = irq_domain_create_linear(fwnode, SDW_MAX_DEVICES,
+         |                     ^
+   drivers/soundwire/bus.c: In function 'sdw_bus_master_delete':
+   drivers/soundwire/bus.c:217:9: error: implicit declaration of function 'irq_domain_remove' [-Werror=implicit-function-declaration]
+     217 |         irq_domain_remove(bus->domain);
+         |         ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +514 drivers/acpi/sleep.c
+vim +173 drivers/soundwire/bus.c
 
-   472	
-   473	/**
-   474	 *	acpi_pm_finish - Instruct the platform to leave a sleep state.
-   475	 *
-   476	 *	This is called after we wake back up (or if entering the sleep state
-   477	 *	failed).
-   478	 */
-   479	static void acpi_pm_finish(void)
-   480	{
-   481		struct acpi_device *pwr_btn_adev;
-   482		u32 acpi_state = acpi_target_sleep_state;
-   483	
-   484		acpi_ec_unblock_transactions();
-   485		suspend_nvs_free();
-   486	
-   487		if (acpi_state == ACPI_STATE_S0)
-   488			return;
-   489	
-   490		pr_info("Waking up from system sleep state S%d\n", acpi_state);
-   491		acpi_disable_wakeup_devices(acpi_state);
-   492		acpi_leave_sleep_state(acpi_state);
-   493	
-   494		/* reset firmware waking vector */
-   495		acpi_set_waking_vector(0);
-   496	
-   497		acpi_target_sleep_state = ACPI_STATE_S0;
-   498	
-   499		acpi_resume_power_resources();
-   500	
-   501		/* If we were woken with the fixed power button, provide a small
-   502		 * hint to userspace in the form of a wakeup event on the fixed power
-   503		 * button device (if it can be found).
-   504		 *
-   505		 * We delay the event generation til now, as the PM layer requires
-   506		 * timekeeping to be running before we generate events. */
-   507		if (!pwr_btn_event_pending)
-   508			return;
-   509	
-   510		pwr_btn_event_pending = false;
-   511		pwr_btn_adev = acpi_dev_get_first_match_dev(ACPI_BUTTON_HID_POWERF,
-   512							    NULL, -1);
-   513		if (pwr_btn_adev) {
- > 514			acpi_power_button_wakeup(pwr_btn_adev);
-   515			pm_wakeup_event(&pwr_btn_adev->dev, 0);
-   516			acpi_dev_put(pwr_btn_adev);
-   517		}
-   518	}
-   519	
+    45	
+    46	/**
+    47	 * sdw_bus_master_add() - add a bus Master instance
+    48	 * @bus: bus instance
+    49	 * @parent: parent device
+    50	 * @fwnode: firmware node handle
+    51	 *
+    52	 * Initializes the bus instance, read properties and create child
+    53	 * devices.
+    54	 */
+    55	int sdw_bus_master_add(struct sdw_bus *bus, struct device *parent,
+    56			       struct fwnode_handle *fwnode)
+    57	{
+    58		struct sdw_master_prop *prop = NULL;
+    59		int ret;
+    60	
+    61		if (!parent) {
+    62			pr_err("SoundWire parent device is not set\n");
+    63			return -ENODEV;
+    64		}
+    65	
+    66		ret = sdw_get_id(bus);
+    67		if (ret < 0) {
+    68			dev_err(parent, "Failed to get bus id\n");
+    69			return ret;
+    70		}
+    71	
+    72		ret = sdw_master_device_add(bus, parent, fwnode);
+    73		if (ret < 0) {
+    74			dev_err(parent, "Failed to add master device at link %d\n",
+    75				bus->link_id);
+    76			return ret;
+    77		}
+    78	
+    79		if (!bus->ops) {
+    80			dev_err(bus->dev, "SoundWire Bus ops are not set\n");
+    81			return -EINVAL;
+    82		}
+    83	
+    84		if (!bus->compute_params) {
+    85			dev_err(bus->dev,
+    86				"Bandwidth allocation not configured, compute_params no set\n");
+    87			return -EINVAL;
+    88		}
+    89	
+    90		/*
+    91		 * Give each bus_lock and msg_lock a unique key so that lockdep won't
+    92		 * trigger a deadlock warning when the locks of several buses are
+    93		 * grabbed during configuration of a multi-bus stream.
+    94		 */
+    95		lockdep_register_key(&bus->msg_lock_key);
+    96		__mutex_init(&bus->msg_lock, "msg_lock", &bus->msg_lock_key);
+    97	
+    98		lockdep_register_key(&bus->bus_lock_key);
+    99		__mutex_init(&bus->bus_lock, "bus_lock", &bus->bus_lock_key);
+   100	
+   101		INIT_LIST_HEAD(&bus->slaves);
+   102		INIT_LIST_HEAD(&bus->m_rt_list);
+   103	
+   104		/*
+   105		 * Initialize multi_link flag
+   106		 */
+   107		bus->multi_link = false;
+   108		if (bus->ops->read_prop) {
+   109			ret = bus->ops->read_prop(bus);
+   110			if (ret < 0) {
+   111				dev_err(bus->dev,
+   112					"Bus read properties failed:%d\n", ret);
+   113				return ret;
+   114			}
+   115		}
+   116	
+   117		sdw_bus_debugfs_init(bus);
+   118	
+   119		/*
+   120		 * Device numbers in SoundWire are 0 through 15. Enumeration device
+   121		 * number (0), Broadcast device number (15), Group numbers (12 and
+   122		 * 13) and Master device number (14) are not used for assignment so
+   123		 * mask these and other higher bits.
+   124		 */
+   125	
+   126		/* Set higher order bits */
+   127		*bus->assigned = ~GENMASK(SDW_BROADCAST_DEV_NUM, SDW_ENUM_DEV_NUM);
+   128	
+   129		/* Set enumuration device number and broadcast device number */
+   130		set_bit(SDW_ENUM_DEV_NUM, bus->assigned);
+   131		set_bit(SDW_BROADCAST_DEV_NUM, bus->assigned);
+   132	
+   133		/* Set group device numbers and master device number */
+   134		set_bit(SDW_GROUP12_DEV_NUM, bus->assigned);
+   135		set_bit(SDW_GROUP13_DEV_NUM, bus->assigned);
+   136		set_bit(SDW_MASTER_DEV_NUM, bus->assigned);
+   137	
+   138		/*
+   139		 * SDW is an enumerable bus, but devices can be powered off. So,
+   140		 * they won't be able to report as present.
+   141		 *
+   142		 * Create Slave devices based on Slaves described in
+   143		 * the respective firmware (ACPI/DT)
+   144		 */
+   145		if (IS_ENABLED(CONFIG_ACPI) && ACPI_HANDLE(bus->dev))
+   146			ret = sdw_acpi_find_slaves(bus);
+   147		else if (IS_ENABLED(CONFIG_OF) && bus->dev->of_node)
+   148			ret = sdw_of_find_slaves(bus);
+   149		else
+   150			ret = -ENOTSUPP; /* No ACPI/DT so error out */
+   151	
+   152		if (ret < 0) {
+   153			dev_err(bus->dev, "Finding slaves failed:%d\n", ret);
+   154			return ret;
+   155		}
+   156	
+   157		/*
+   158		 * Initialize clock values based on Master properties. The max
+   159		 * frequency is read from max_clk_freq property. Current assumption
+   160		 * is that the bus will start at highest clock frequency when
+   161		 * powered on.
+   162		 *
+   163		 * Default active bank will be 0 as out of reset the Slaves have
+   164		 * to start with bank 0 (Table 40 of Spec)
+   165		 */
+   166		prop = &bus->prop;
+   167		bus->params.max_dr_freq = prop->max_clk_freq * SDW_DOUBLE_RATE_FACTOR;
+   168		bus->params.curr_dr_freq = bus->params.max_dr_freq;
+   169		bus->params.curr_bank = SDW_BANK0;
+   170		bus->params.next_bank = SDW_BANK1;
+   171	
+   172		bus->irq_chip.name = dev_name(bus->dev);
+ > 173		bus->domain = irq_domain_create_linear(fwnode, SDW_MAX_DEVICES,
+   174						       &sdw_domain_ops, bus);
+   175		if (!bus->domain) {
+   176			dev_err(bus->dev, "Failed to add IRQ domain\n");
+   177			return -EINVAL;
+   178		}
+   179	
+   180		return 0;
+   181	}
+   182	EXPORT_SYMBOL(sdw_bus_master_add);
+   183	
 
 -- 
 0-DAY CI Kernel Test Service
