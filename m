@@ -1,50 +1,44 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D00241E4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 12:43:55 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-404732a0700so4793215e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 05:43:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694695434; x=1695300234; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RVMnfKNHlwV6ahUqneKXp7GuP6scvwxex/BQBdlMFRA=;
-        b=VMuEnXtEOelePnl6zdQ85eKlsXNeHICkvg+GBAovxFgoIx+kvJnbm30qQbtq43NkAr
-         aRi+YzKFhAVylz6554VC+MfyNeQSQSg40KrOaU1QpXhMij2bHs1ss2J1dUWM6WW2v3Tj
-         2arl88Tn+ioOAtmRdXG2LxxK2xgESfBSa41k10nlAydTs1BSlw6Gvuq1UXypSbRv2zsu
-         Sre9ZfRcedfno8u8im1pVhnqXpCmfTUwVa3XpunfqibOHPVk0etASir4OQHk5ZTYgS/T
-         kj/RX0FdL0V7WIKe6/Tsu/PSsdB9RsU7Jsm8SA9uKLXNUCWtsx+MqVpahbEHAoqNQBEc
-         sUfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694695434; x=1695300234;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RVMnfKNHlwV6ahUqneKXp7GuP6scvwxex/BQBdlMFRA=;
-        b=kx0uxWDQMtfDIvcDCDfxfLoZft9JqRvfyuX+fVUzP8aJ7h7lkhmjBx+pXQZqvzn9Cy
-         WBQWYYkK4/GnMmlKKJ4WM/XvHH75b7HCw/C4GyDqnYr5tGLuoLkiJO8GWSmpqzDqpTjk
-         8cyX726gu3Yz32dRpW5FrwIcNIvqEWnZYd2V+3mNE0rVEDObeiDtRPdk2xNMgILLN6vJ
-         bYFsfRhLy4xa9xHKDCgoFQWMPfiZeYaXeVAEidOSWJ6uus+JScTo/Vtvd66Q9jMKuIAe
-         5E6jHaB/RM6QvYMDtwZcO0G20cCbMjy4cyfOa1HVA/N1I5ZNzLmYwihbXCZOps0w35LX
-         6Pdw==
-X-Gm-Message-State: AOJu0Yx97QW/X2l75Ogu5ThrltTLQ8Vq9yl82rNyfd9Fc8Xto6eeNIqB
-	XVHqMYwrNtU2kDxrBA3aCFNLeg==
-X-Google-Smtp-Source: AGHT+IHizEGuq+cT4++mpZfrpEE6exeXMp3yxFmX2ySqhur0dQwpWf3YFrbEFdNIUnwIadb+kIymEw==
-X-Received: by 2002:a05:600c:3787:b0:402:ee72:2314 with SMTP id o7-20020a05600c378700b00402ee722314mr4705085wmr.3.1694695434062;
-        Thu, 14 Sep 2023 05:43:54 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id 26-20020a05600c231a00b003fe1a96845bsm4795661wmo.2.2023.09.14.05.43.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 05:43:53 -0700 (PDT)
-Date: Thu, 14 Sep 2023 15:43:50 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	linux-bluetooth@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] Bluetooth: L2CAP: Fix leaking l2cap_conn objects
-Message-ID: <70e80b39-c974-4069-acce-d8ea7559555b@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B907024201
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 13:04:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694696663; x=1726232663;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GDQbhU9Gg8rlal0S/MQt01JWyA68WcGgPdEM+GOQN6Q=;
+  b=RamRvnl8DRmFKR74YyvFgCeJCtxVnNj+AkHf0bEw4gr//Th9zy6NbfIt
+   NFJSPevLUA1WAkcDxH4XGrcuDGaiNlCm2OD2dtj+bJIezSXrd6Ij981PD
+   SrgNyJCt0yliX5v0BjhPlpnBVNZE0fimUk1mobykSS7lQAMNOjWjd13rJ
+   n3q6QYWmhWFprdMvAuCMceQjNyZrKIFFjhoUEwCp4yCY+BTRj4OS7bD5B
+   FIEtIZRPCSPSbu+212cmhJjoFAnpfRDlEUfqs5HECwnRun3C1FdSlmZ7i
+   wTvt0hDLMeadErJ6zY+8CgrZ2naES6C+vZMyDkekO5yk/3jAn6sWfbHTi
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="465313715"
+X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
+   d="scan'208";a="465313715"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 06:03:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="737914838"
+X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
+   d="scan'208";a="737914838"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 14 Sep 2023 06:03:34 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qgm04-0001bd-1q;
+	Thu, 14 Sep 2023 13:03:31 +0000
+Date: Thu, 14 Sep 2023 21:02:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>
+Subject: kernel/bpf/helpers.c:2307:17: warning: no previous declaration for
+ 'bpf_dynptr_adjust'
+Message-ID: <202309142045.CbO5iFUB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,48 +47,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230913193839.3029428-1-luiz.dentz@gmail.com>
 
-Hi Luiz,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Augusto-von-Dentz/Bluetooth-L2CAP-Fix-leaking-l2cap_conn-objects/20230914-034053
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230913193839.3029428-1-luiz.dentz%40gmail.com
-patch subject: [PATCH] Bluetooth: L2CAP: Fix leaking l2cap_conn objects
-config: x86_64-randconfig-161-20230914 (https://download.01.org/0day-ci/archive/20230914/202309141910.lGRlJL61-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230914/202309141910.lGRlJL61-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   aed8aee11130a954356200afa3f1b8753e8a9482
+commit: 987d0242d189661f78b77cc4d77f843b15600fed bpf: Add bpf_dynptr_adjust
+date:   5 months ago
+config: x86_64-randconfig-002-20230910 (https://download.01.org/0day-ci/archive/20230914/202309142045.CbO5iFUB-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309142045.CbO5iFUB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202309141910.lGRlJL61-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309142045.CbO5iFUB-lkp@intel.com/
 
-smatch warnings:
-net/bluetooth/hci_conn.c:2725 hci_chan_del() warn: variable dereferenced before check 'conn' (see line 2723)
+All warnings (new ones prefixed by >>):
 
-vim +/conn +2725 net/bluetooth/hci_conn.c
+   kernel/bpf/helpers.c:1889:19: warning: no previous declaration for 'bpf_obj_new_impl' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+                      ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1919:18: warning: no previous declaration for 'bpf_obj_drop_impl' [-Wmissing-declarations]
+    __bpf_kfunc void bpf_obj_drop_impl(void *p__alloc, void *meta__ign)
+                     ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1927:19: warning: no previous declaration for 'bpf_refcount_acquire_impl' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_refcount_acquire_impl(void *p__refcounted_kptr, void *meta__ign)
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1962:17: warning: no previous declaration for 'bpf_list_push_front_impl' [-Wmissing-declarations]
+    __bpf_kfunc int bpf_list_push_front_impl(struct bpf_list_head *head,
+                    ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1972:17: warning: no previous declaration for 'bpf_list_push_back_impl' [-Wmissing-declarations]
+    __bpf_kfunc int bpf_list_push_back_impl(struct bpf_list_head *head,
+                    ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1998:35: warning: no previous declaration for 'bpf_list_pop_front' [-Wmissing-declarations]
+    __bpf_kfunc struct bpf_list_node *bpf_list_pop_front(struct bpf_list_head *head)
+                                      ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2003:35: warning: no previous declaration for 'bpf_list_pop_back' [-Wmissing-declarations]
+    __bpf_kfunc struct bpf_list_node *bpf_list_pop_back(struct bpf_list_head *head)
+                                      ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2008:33: warning: no previous declaration for 'bpf_rbtree_remove' [-Wmissing-declarations]
+    __bpf_kfunc struct bpf_rb_node *bpf_rbtree_remove(struct bpf_rb_root *root,
+                                    ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2054:17: warning: no previous declaration for 'bpf_rbtree_add_impl' [-Wmissing-declarations]
+    __bpf_kfunc int bpf_rbtree_add_impl(struct bpf_rb_root *root, struct bpf_rb_node *node,
+                    ^~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2063:33: warning: no previous declaration for 'bpf_rbtree_first' [-Wmissing-declarations]
+    __bpf_kfunc struct bpf_rb_node *bpf_rbtree_first(struct bpf_rb_root *root)
+                                    ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2076:33: warning: no previous declaration for 'bpf_task_acquire' [-Wmissing-declarations]
+    __bpf_kfunc struct task_struct *bpf_task_acquire(struct task_struct *p)
+                                    ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2087:18: warning: no previous declaration for 'bpf_task_release' [-Wmissing-declarations]
+    __bpf_kfunc void bpf_task_release(struct task_struct *p)
+                     ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2099:28: warning: no previous declaration for 'bpf_cgroup_acquire' [-Wmissing-declarations]
+    __bpf_kfunc struct cgroup *bpf_cgroup_acquire(struct cgroup *cgrp)
+                               ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2111:18: warning: no previous declaration for 'bpf_cgroup_release' [-Wmissing-declarations]
+    __bpf_kfunc void bpf_cgroup_release(struct cgroup *cgrp)
+                     ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2123:28: warning: no previous declaration for 'bpf_cgroup_ancestor' [-Wmissing-declarations]
+    __bpf_kfunc struct cgroup *bpf_cgroup_ancestor(struct cgroup *cgrp, int level)
+                               ^~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2143:28: warning: no previous declaration for 'bpf_cgroup_from_id' [-Wmissing-declarations]
+    __bpf_kfunc struct cgroup *bpf_cgroup_from_id(u64 cgid)
+                               ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2160:33: warning: no previous declaration for 'bpf_task_from_pid' [-Wmissing-declarations]
+    __bpf_kfunc struct task_struct *bpf_task_from_pid(s32 pid)
+                                    ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2199:19: warning: no previous declaration for 'bpf_dynptr_slice' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_dynptr_slice(const struct bpf_dynptr_kern *ptr, u32 offset,
+                      ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2276:19: warning: no previous declaration for 'bpf_dynptr_slice_rdwr' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_dynptr_slice_rdwr(const struct bpf_dynptr_kern *ptr, u32 offset,
+                      ^~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/helpers.c:2307:17: warning: no previous declaration for 'bpf_dynptr_adjust' [-Wmissing-declarations]
+    __bpf_kfunc int bpf_dynptr_adjust(struct bpf_dynptr_kern *ptr, u32 start, u32 end)
+                    ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2325:19: warning: no previous declaration for 'bpf_cast_to_kern_ctx' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_cast_to_kern_ctx(void *obj)
+                      ^~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2330:19: warning: no previous declaration for 'bpf_rdonly_cast' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_rdonly_cast(void *obj__ign, u32 btf_id__k)
+                      ^~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2335:18: warning: no previous declaration for 'bpf_rcu_read_lock' [-Wmissing-declarations]
+    __bpf_kfunc void bpf_rcu_read_lock(void)
+                     ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2340:18: warning: no previous declaration for 'bpf_rcu_read_unlock' [-Wmissing-declarations]
+    __bpf_kfunc void bpf_rcu_read_unlock(void)
+                     ^~~~~~~~~~~~~~~~~~~
 
-9472007c62ecc8 Andrei Emeltchenko     2012-09-06  2720  void hci_chan_del(struct hci_chan *chan)
-73d80deb7bdf01 Luiz Augusto von Dentz 2011-11-02  2721  {
-73d80deb7bdf01 Luiz Augusto von Dentz 2011-11-02  2722  	struct hci_conn *conn = chan->conn;
-73d80deb7bdf01 Luiz Augusto von Dentz 2011-11-02 @2723  	struct hci_dev *hdev = conn->hdev;
-                                                                                       ^^^^^^^^^^
-Dereference
 
-73d80deb7bdf01 Luiz Augusto von Dentz 2011-11-02  2724  
-6fc2f406e4158e Luiz Augusto von Dentz 2023-09-13 @2725  	if (!conn)
-                                                                    ^^^^^
-Too late
+vim +/bpf_dynptr_adjust +2307 kernel/bpf/helpers.c
 
-6fc2f406e4158e Luiz Augusto von Dentz 2023-09-13  2726  		return;
+  2306	
+> 2307	__bpf_kfunc int bpf_dynptr_adjust(struct bpf_dynptr_kern *ptr, u32 start, u32 end)
+  2308	{
+  2309		u32 size;
+  2310	
+  2311		if (!ptr->data || start > end)
+  2312			return -EINVAL;
+  2313	
+  2314		size = bpf_dynptr_get_size(ptr);
+  2315	
+  2316		if (start > size || end > size)
+  2317			return -ERANGE;
+  2318	
+  2319		ptr->offset += start;
+  2320		bpf_dynptr_set_size(ptr, end - start);
+  2321	
+  2322		return 0;
+  2323	}
+  2324	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
