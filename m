@@ -1,44 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1E814F6B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 18:48:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D89ED2134C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 20:11:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694717318; x=1726253318;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yg+I/BVGCaZ4KlxyuSeOvYdV2GUZhpINsTvKj4PlK08=;
-  b=FaNjFF8pOrkkUSn9M1x+C1Uj9xdKmFIwdP6WpTbWTmUuSg78J4mXaTyW
-   7FU7+kMQgpWmR9AJPVg7/EBjv0J2JbbiaXmyIRunXoXrIyosP7hl831Ts
-   E4jdRhXt9s1JQDSvpgxWTcqTm801EOVDf0gzPPCHCXJ9BlbsZf/ATOCMU
-   0MAr2ldW/yPmnOi2XMToES7Hwh0eCr/I2vdeZqBehqJxETSuldV+Nzquv
-   zbSgel+I+CQ6VmV3r+PuLZyDuS3Yi3za2GmOwr1EVo8Ns1NHzSY+Q4cSh
-   cAr6eYVumCY9tnFS1zWWHOYz6Ly5wxoJNiBjdeu0e6PI5crwre4xC4dXq
+  t=1694722274; x=1726258274;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NhXCkUx/4wEGy8PcYWROJV8yPyG8l+yxCesPcMIlveg=;
+  b=TZJ0iKu+GfbF3YN87x5aPwaM52wtrNydGhdeXSNCkBJ7mFKwUepIJXYK
+   uAuyHsxg6Af9zAQ7OIeosgzB5tfDOv1UYBfxa0Srkk2MjLHdDYRnHskBf
+   9e1RvU24WLpu4BpNvIVTpIqprS2smrftS7NA8zDVPpRNZbHU/S0ZamOJP
+   h+GMnBHt/zh1tjkk3Nn7E0gY7f3lkZOH3bQ5NT1xCJqfrooT+42i7STwW
+   Uf0AnVVljNTw5ztUjMLvvWI48K/rHNKvus08b/gBxCn4VCb+ZAWb6D6V/
+   rb6vSwd4w1QYc59l0RTkvRBhR9At9xtm1RRC6/ZqnOwScLb524ySZjn5k
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="443088393"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="465432011"
 X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
-   d="scan'208";a="443088393"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 11:48:38 -0700
+   d="scan'208";a="465432011"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 13:10:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="747865937"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="918366163"
 X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
-   d="scan'208";a="747865937"
+   d="scan'208";a="918366163"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 14 Sep 2023 11:48:36 -0700
+  by orsmga005.jf.intel.com with ESMTP; 14 Sep 2023 13:10:47 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgrOA-0001xL-0v;
-	Thu, 14 Sep 2023 18:48:31 +0000
-Date: Fri, 15 Sep 2023 02:47:44 +0800
+	id 1qgsfl-00021V-1c;
+	Thu, 14 Sep 2023 20:10:45 +0000
+Date: Fri, 15 Sep 2023 04:10:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sunil V L <sunilvl@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>,
-	Haibo Xu <haibo1.xu@intel.com>
-Subject: [avpatel:riscv_acpi_b2_v1 84/85]
- drivers/acpi/riscv/irqchip.c:501:13: warning: no previous prototype for
- 'riscv_acpi_plic_platform_init'
-Message-ID: <202309150252.mDBYTV3Y-lkp@intel.com>
+To: Paul Durrant <paul@xen.org>, kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Paul Durrant <pdurrant@amazon.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	David Woodhouse <dwmw2@infradead.org>, x86@kernel.org
+Subject: Re: [PATCH 7/8] KVM: xen: prepare for using 'default' vcpu_info
+Message-ID: <202309150313.w8vtnM1C-lkp@intel.com>
+References: <20230914084946.200043-8-paul@xen.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,36 +54,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230914084946.200043-8-paul@xen.org>
 
-tree:   https://github.com/avpatel/linux.git riscv_acpi_b2_v1
-head:   20e056e5bd7a90eb271eb43d1138de5bdb7bf20d
-commit: 792f8c8826b7f9211f8efd32cf7ff649a6d182c0 [84/85] RISC-V: ACPI: Create PLIC platform device
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20230915/202309150252.mDBYTV3Y-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150252.mDBYTV3Y-lkp@intel.com/reproduce)
+Hi Paul,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kvm/queue]
+[also build test WARNING on mst-vhost/linux-next]
+[cannot apply to kvm/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Durrant/KVM-pfncache-add-a-map-helper-function/20230914-171017
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20230914084946.200043-8-paul%40xen.org
+patch subject: [PATCH 7/8] KVM: xen: prepare for using 'default' vcpu_info
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230915/202309150313.w8vtnM1C-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150313.w8vtnM1C-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309150252.mDBYTV3Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309150313.w8vtnM1C-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/acpi/riscv/irqchip.c:112:13: warning: no previous prototype for 'riscv_acpi_imsic_platform_init' [-Wmissing-prototypes]
-     112 | void __init riscv_acpi_imsic_platform_init(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/riscv/irqchip.c:305:13: warning: no previous prototype for 'riscv_acpi_aplic_platform_init' [-Wmissing-prototypes]
-     305 | void __init riscv_acpi_aplic_platform_init(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/acpi/riscv/irqchip.c:501:13: warning: no previous prototype for 'riscv_acpi_plic_platform_init' [-Wmissing-prototypes]
-     501 | void __init riscv_acpi_plic_platform_init(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kvm/xen.c:492:26: warning: no previous prototype for 'get_vcpu_info_cache' [-Wmissing-prototypes]
+     492 | struct gfn_to_pfn_cache *get_vcpu_info_cache(struct kvm_vcpu *v, unsigned long *offset)
+         |                          ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/riscv_acpi_plic_platform_init +501 drivers/acpi/riscv/irqchip.c
+vim +/get_vcpu_info_cache +492 arch/x86/kvm/xen.c
 
-   500	
- > 501	void __init riscv_acpi_plic_platform_init(void)
+   491	
+ > 492	struct gfn_to_pfn_cache *get_vcpu_info_cache(struct kvm_vcpu *v, unsigned long *offset)
+   493	{
+   494		if (offset)
+   495			*offset = 0;
+   496	
+   497		return &v->arch.xen.vcpu_info_cache;
+   498	}
+   499	
 
 -- 
 0-DAY CI Kernel Test Service
