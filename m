@@ -1,45 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C284E1CF94
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 08:35:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694680503; x=1726216503;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LUGkJLg5b3ubSyaMpZmVDF1fYcq2ZIfLqxeL5EVcJ1g=;
-  b=SsRpH0vzDpc7xe+PUc91mkVlFtbG8cNMwe1rRaz3TcN8q2OIWJ4SLBHh
-   4CXOFfECwYmfY9teNHWb20e2ANObGbMxTEYb6sfbP/ZBcuXfKNgb8m8Wx
-   eY/vZ88v8f+OOtb1Vrm4s25MX1py7RIF3KOAFLHn7xhmOSDvaJzAv0OmS
-   ArTPFFQziLvd1NqgerzYRECtXuCAoY2m+z+gvTuALXq9deNru0N5a2sU+
-   3Ejp6gMA64D4yki3X+hpB5qvAmJl5JmYKsWKe2B2/PzCcV/rhNyD9S6kz
-   z7JIBtICA7bcESdN+dWxPbQaIJ4W0v4tcBOkxQLmhMJlocE3Y+CnPoBnu
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="363929611"
-X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="363929611"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 01:35:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="859608176"
-X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="859608176"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 14 Sep 2023 01:35:01 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qghoR-0001Nc-39;
-	Thu, 14 Sep 2023 08:34:59 +0000
-Date: Thu, 14 Sep 2023 16:34:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 12/21]
- drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c:33: warning: expecting prototype
- for struct _gsccs_client_ctx. Prototype was for struct gsccs_client_ctx
- instead
-Message-ID: <202309141603.TjF05sQc-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3764D224CF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 08:59:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=767aOcIiPAu+a4xSMgdj3nN/8LUSwQTBQXYqcr4vSMA=; b=kgFcO0zVBVsnq/RZPRCNd5HN35
+	p8VN7t6TqAXFG6k7to+8XkKW7wL8LCf5SehsFSaqHD1AaIkwUt6v9G2sujMmd6go9KeAUzOGU01vx
+	PYa0S46uqrKSX3jShgHJkktVfOlmzHDOg2ho7ZBTjqgVdzrTHOKn/CIiDgDu8KMOdpJz1Uf4t8cZB
+	mkldwNURQ48hqWknD2F7GZZfCkoI0YizQDxNpSXmolQGtbUktQR1xoQy7ez4O+c6ItAKXp/lFS+JS
+	BoFU8x/UBhieJ/Bvqul8Z+OeyrunOe/Gt0KfqlGMKVFlH5l+ThDhPqD/Zgv6ogKRNs0R6jdW0uRjj
+	NjgP8vBQ==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1qgiBt-001xaT-HM; Thu, 14 Sep 2023 08:59:13 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 35FEA30036C; Thu, 14 Sep 2023 10:59:13 +0200 (CEST)
+Date: Thu, 14 Sep 2023 10:59:13 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: "Huang, Kai" <kai.huang@intel.com>
+Cc: "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	lkp <lkp@intel.com>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"x86@kernel.org" <x86@kernel.org>
+Subject: Re: [tip:x86/tdx 8/12] vmlinux.o: warning: objtool:
+ __tdx_hypercall+0x128: __tdx_hypercall_failed() is missing a __noreturn
+ annotation
+Message-ID: <20230914085913.GD16631@noisy.programming.kicks-ass.net>
+References: <202309140828.9RdmlH2Z-lkp@intel.com>
+ <90f0a4d44704f9c296f3a4d8b72c57f2916aa09d.camel@intel.com>
+ <377b1ce2ecd390f4b6f8cdf68d22c708f7cef6d1.camel@intel.com>
+ <20230914072959.GC16631@noisy.programming.kicks-ass.net>
+ <9eb77be3a64c25b3264d5011a93242d006b88627.camel@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,41 +44,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <9eb77be3a64c25b3264d5011a93242d006b88627.camel@intel.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   594fd51eca94e00d5cd37eff668d762e9d613115
-commit: 9b39a063a5855376413f556cf1911df355f502d1 [12/21] CHROMIUM: drm/i915/pxp/mtl: Add client resource management into GSCCS
-config: x86_64-randconfig-004-20230914 (https://download.01.org/0day-ci/archive/20230914/202309141603.TjF05sQc-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309141603.TjF05sQc-lkp@intel.com/reproduce)
+On Thu, Sep 14, 2023 at 07:54:10AM +0000, Huang, Kai wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309141603.TjF05sQc-lkp@intel.com/
+> > The point of noreturn is that the caller should know to stop generating
+> > code. For that the declaration needs the attribute, because call sites
+> > typically do not have access to the function definition in C.
+> 
+> Ah that makes perfect sense.  Thanks!
+> 
+> Then I assume we don't need to annotate __noreturn in the function body, but
+> only in the declaration?  Because the compiler must already have seen the
+> declaration when it generates the code for the function body.
 
-All warnings (new ones prefixed by >>):
+I think so, I'm sure it'll tell you if it disagrees :-)
 
->> drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c:33: warning: expecting prototype for struct _gsccs_client_ctx. Prototype was for struct gsccs_client_ctx instead
+> Btw, I happened to notice that the objtool documentation suggests that we should
+> also add the the function to tools/objtool/noreturns.h:
+> 
+> 3. file.o: warning: objtool: foo+0x48c: bar() is missing a __noreturn annotation
+> 
+>    The call from foo() to bar() doesn't return, but bar() is missing the
+>    __noreturn annotation.  NOTE: In addition to annotating the function
+>    with __noreturn, please also add it to tools/objtool/noreturns.h.
+> 
+> Is it a behaviour that we still need to follow?
 
+Yes. objtool has some heuristics to detect noreturn, but is is very
+difficult. Sadly noreturn is not something that is reflected in the ELF
+object file so we have to guess.
 
-vim +33 drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
-
-    21	
-    22	/**
-    23	 * struct _gsccs_client_ctx
-    24	 *
-    25	 * We dont need to allocate multiple execution resources (above struct)
-    26	 * for a single drm_client that is executing multiple PXP sessions.
-    27	 * So we use a link list of nodes indexed by the drmclient handle
-    28	 */
-    29	struct gsccs_client_ctx {
-    30		struct list_head link;
-    31		struct gsccs_session_resources exec;
-    32		struct drm_file *drmfile;
-  > 33	};
-    34	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+For now manually adding it to the objtool list is required, we're trying
+to get to the point where it is generated/validated by the compiler,
+perhaps with a plugin, but we're not there yet.
