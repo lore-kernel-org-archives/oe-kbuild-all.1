@@ -1,92 +1,106 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B83062C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 05:09:09 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id 3D37E5C0267;
-	Thu, 14 Sep 2023 01:09:08 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Thu, 14 Sep 2023 01:09:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1694668148; x=1694754548; bh=yd
-	JTNhSaUGGtg0mobQUwtBl+Oa8gBYThWl5NgNFBv+M=; b=kWSgLc7j9kEBO4uJgN
-	wSavPAVuaWHtZfMRBfsIMbXRuoaZVBo9Q/ooFDP6erl5ujtDJ5rnaJKNJIanayu/
-	9hJKstmZn8ArTRSQEqCHo1IeDuGETGql3s2sDerV6H2hbm2irEI5L2Guc3G2+eVc
-	KJFvAge4UD6wvGLkS5FRaP2XYh1Kl5thZRPigrl7YYbF8Ufswv79j81JNEkWnCq4
-	b7W2MNaMzCdZgyHxesOY5dx55gYHvascpFj5hhWa1tCk0QTTxLT3TRAky4rApyZN
-	7PPKQLNaELW/2JtrLl7+y6+aMpx+2K3F8d/sKhGrYHNWprS+NMmzen/z97ZC9xRU
-	KXGQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1694668148; x=1694754548; bh=ydJTNhSaUGGtg
-	0mobQUwtBl+Oa8gBYThWl5NgNFBv+M=; b=riZbqwy3rL5Ha4BCuoaZogNIjd56E
-	HkLQDxUTtNsz2UIzLauerPae2aR+qvlLwNv8dOshW/PBSkZ1EE9p3yoYs+7tjQy1
-	b1f/OJbrbclcpStnfc2rFv04vjCMduVTFmkKsuYn3gfMJx/jmdUJRTH7v+XMzxdu
-	S4m3P8JJqAgyeWjuVnTJqF78kjw373Y4/1zPJmEjQvDRbHEistFr7Wi9aOvyRQSC
-	kIv/fdNcRnxKak3GfuUkkIydxC4fv4H1aW80K2JIF0/dBmLto5rjw8vJ7ila4EJX
-	oOFEpvMiPcxsL5Hw1Pzm8ON1Ezz5YMxj4b4HZxCbDdN5z+agdEURRpLqw==
-X-ME-Sender: <xms:c5UCZahM7-7ai_2pds8mz8FQHNWPZVUKCs-sWupIKvkPdOCJcp4i9w>
-    <xme:c5UCZbCvmF1YKg9Zx1KfJ-UC7ut9ZAHUVqgbzWYA8GJl3jYYczce1TpIZtYDkKN3O
-    Ot4FjxaHpeRcDC8NYY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudeiledgledtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepvefhffeltdegheeffffhtdegvdehjedtgfekueevgfduffettedtkeekueef
-    hedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:c5UCZSFGe5XAzgjQWKe5a0XHdkti_gljUFkeX3hHOSijRT5MQM1hMg>
-    <xmx:c5UCZTTuze8Re_FeY6OoANbU4CBv0cRa1x9QYDB_-iYrtfDpp0IksA>
-    <xmx:c5UCZXzo5AqSn9cmjr8I6M-kTAHWV6aNifsthxKLs6HvkMiPikeXtQ>
-    <xmx:dJUCZQoMWaVZyI0-QfqEgduDrScXcuyb2WTlt3nacQa3bvV6F5TiCA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id B16E7B60089; Thu, 14 Sep 2023 01:09:07 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-745-g95dd7bea33-fm-20230905.001-g95dd7bea
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29EB463B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 05:42:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694670126; x=1726206126;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=lfsVOYKBGl+zhq8pTidkfBBNWqUGafXrtYk5WWbBKss=;
+  b=he2NCCQqvHL+WTxNO8G9G/DwIdSUjUpypnqCB9OFyJeH99FHmlybMRWI
+   8fhVTRua839FK6GQbUcxpThtVE2SAJCOjm6v9eSdWDhqvztEdzHKiTKjB
+   lHK0EMy4q9BmgtfRo9X9sHB4jw7QFZjQlk5F+24jv0/2ZYQli7RYk9n7D
+   Z9le9FQwwbtWFGhUpxS8y2DflLemOhMAwa6vKDZS/vzdUtXZBiIQgJKVg
+   hkSUNBfkl5vyYpcZ6Gk+rOGl1OoLUL7C6REAhVdpJNnDkRTIEngDCVDoo
+   M0ZZOS1yTgvX6FQLpi9FzZxzzWP7eGyzGuD3SVhoSpp4xDka9B5kWxAvA
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="442889910"
+X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
+   d="scan'208";a="442889910"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 22:42:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="721085534"
+X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
+   d="scan'208";a="721085534"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 13 Sep 2023 22:42:03 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qgf71-0001Cr-1V;
+	Thu, 14 Sep 2023 05:42:00 +0000
+Date: Thu, 14 Sep 2023 13:41:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/guarded_kvm_headers 13/24]
+ arch/arm64/include/asm/kvm_arch_timer.h:109:58: warning: 'struct
+ kvm_device_attr' declared inside parameter list will not be visible outside
+ of this definition or declaration
+Message-ID: <202309141335.eh0pnssZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <5cace191-31f6-4aa5-8b19-aa6c1f2db7e6@app.fastmail.com>
-In-Reply-To: <202309141131.pNe5J6HH-lkp@intel.com>
-References: <202309141131.pNe5J6HH-lkp@intel.com>
-Date: Thu, 14 Sep 2023 07:08:14 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "kernel test robot" <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Jens Axboe" <axboe@kernel.dk>
-Subject: Re: arm-linux-gnueabi-ld: error: .btf.vmlinux.bin.o is already in final BE8
- format
-Content-Type: text/plain
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 14, 2023, at 05:45, kernel test robot wrote:
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new 
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: 
-> https://lore.kernel.org/oe-kbuild-all/202309141131.pNe5J6HH-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->>> arm-linux-gnueabi-ld: error: .btf.vmlinux.bin.o is already in final BE8 format
->    arm-linux-gnueabi-ld: failed to merge target specific data of file 
-> .btf.vmlinux.bin.o
+tree:   https://github.com/sean-jc/linux x86/guarded_kvm_headers
+head:   9c11b02f61e145112d46a646b193604329601d9f
+commit: a83ef3f8917185f2aa1a7daa42ccfa0087904d48 [13/24] KVM: arm64: Move ARM specific headers in include/kvm to arch directory
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20230914/202309141335.eh0pnssZ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309141335.eh0pnssZ-lkp@intel.com/reproduce)
 
-It's a completely unrelated issue at the link stage that gets
-exposed by fixing the other bug. I don't see this in my
-randconfig builds right now, so I probably have a workaround for
-it somewhere, but I can't find it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309141335.eh0pnssZ-lkp@intel.com/
 
-     Arnd
+All warnings (new ones prefixed by >>):
+
+   In file included from arch/arm64/include/asm/kvm_host.h:29,
+                    from arch/arm64/kernel/cpufeature.c:85:
+>> arch/arm64/include/asm/kvm_arch_timer.h:109:58: warning: 'struct kvm_device_attr' declared inside parameter list will not be visible outside of this definition or declaration
+     109 | int kvm_arm_timer_set_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr);
+         |                                                          ^~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_arch_timer.h:110:58: warning: 'struct kvm_device_attr' declared inside parameter list will not be visible outside of this definition or declaration
+     110 | int kvm_arm_timer_get_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr);
+         |                                                          ^~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_arch_timer.h:111:58: warning: 'struct kvm_device_attr' declared inside parameter list will not be visible outside of this definition or declaration
+     111 | int kvm_arm_timer_has_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr);
+         |                                                          ^~~~~~~~~~~~~~~
+   In file included from arch/arm64/include/asm/kvm_host.h:31:
+>> arch/arm64/include/asm/kvm_pmu.h:143:50: warning: 'struct kvm_device_attr' declared inside parameter list will not be visible outside of this definition or declaration
+     143 |                                           struct kvm_device_attr *attr)
+         |                                                  ^~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_pmu.h:148:50: warning: 'struct kvm_device_attr' declared inside parameter list will not be visible outside of this definition or declaration
+     148 |                                           struct kvm_device_attr *attr)
+         |                                                  ^~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_pmu.h:153:50: warning: 'struct kvm_device_attr' declared inside parameter list will not be visible outside of this definition or declaration
+     153 |                                           struct kvm_device_attr *attr)
+         |                                                  ^~~~~~~~~~~~~~~
+
+
+vim +109 arch/arm64/include/asm/kvm_arch_timer.h
+
+1df08ba0aa95f1 include/kvm/arm_arch_timer.h Alex Bennée      2014-07-04  108  
+99a1db7a2c9b2e include/kvm/arm_arch_timer.h Christoffer Dall 2017-05-02 @109  int kvm_arm_timer_set_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr);
+99a1db7a2c9b2e include/kvm/arm_arch_timer.h Christoffer Dall 2017-05-02  110  int kvm_arm_timer_get_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr);
+99a1db7a2c9b2e include/kvm/arm_arch_timer.h Christoffer Dall 2017-05-02  111  int kvm_arm_timer_has_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr);
+99a1db7a2c9b2e include/kvm/arm_arch_timer.h Christoffer Dall 2017-05-02  112  
+
+:::::: The code at line 109 was first introduced by commit
+:::::: 99a1db7a2c9b2ecb9a801cee3f6a7a71945a2fca KVM: arm/arm64: Allow setting the timer IRQ numbers from userspace
+
+:::::: TO: Christoffer Dall <cdall@linaro.org>
+:::::: CC: Christoffer Dall <cdall@linaro.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
