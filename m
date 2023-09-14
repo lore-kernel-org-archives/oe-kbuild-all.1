@@ -1,57 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B3A1D524
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 10:19:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694686743; x=1726222743;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=O1LLvMPKGNc5ZFEUOpVx7SNJUHBbUo3ACKo6XHAjDn8=;
-  b=YhtEHe0H9Am871U0BLW6PIkwxC9RaTUKojP2lhFvOhoP1uN+cf3iRhG6
-   Mlm3KGiqbVAaWcE1yptiwN82CKY3Ut3l0TagzZdKDiCTzHpnoBxIilbOr
-   Q/oCU8JsUOMBGXGUBvGT4wcqbZNLY7ip+4opBPP7YemJiZ9onuSzTjsEm
-   X0ahhgwZEokZWN838NFXbnKRWxWzIDEIXSC9obI4zWnJjvSGnv55H6yco
-   vUSI/eChs1zZ6FpG+9XUdaIkeK++2psoh2gPfu+5FeDPTYhpIvhFmJtq1
-   eO3SZMCF6fLCtiLhQK3cGoxUCDOP6LzYgWT5vs47300cs63L/BOgVapLp
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="363949203"
-X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="363949203"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 03:18:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="773840738"
-X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="773840738"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 14 Sep 2023 03:18:44 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qgjQo-0001Tp-0F;
-	Thu, 14 Sep 2023 10:18:42 +0000
-Date: Thu, 14 Sep 2023 18:18:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com,
-	Matthias Brugger <matthias.bgg@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anan Sun <anan.sun@mediatek.com>,
-	devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	jianjiao.zeng@mediatek.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	kuohong.wang@mediatek.com, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, tjmercier@google.com,
-	linaro-mm-sig@lists.linaro.org, John Stultz <jstultz@google.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-	Yong Wu <yong.wu@mediatek.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH 6/9] dma-buf: heaps: mtk_sec_heap: Add tee service call
- for buffer allocating/freeing
-Message-ID: <202309141707.zdT0yuMT-lkp@intel.com>
-References: <20230911023038.30649-7-yong.wu@mediatek.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583A9208C9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 11:06:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=31Mk8LyxJ/i2+GjpPHSXdxRgP0SAQUj9tBvhJ35XS1Q=; b=pMq0MbCDyhC/AppRuT/3DlvLCr
+	b95eGXoEwxDyiyj/L9//DrjtXUWlf7+A3YaZn6tnPgzDwDXMpn2QJPUD1Wc7509exPNNsr3DFu6U/
+	sLOX5oTNucU4KpFcw/3OQSd2KmvzXNK9mq+JOhzKsw1dyJBBm4VBzTXwYhEZaWN6saslZT35DKFA5
+	SuZ+/ZmxlaB9iwo9N8NBFCZlhIYYSxDUnkwxLzpCsVeIb0nKKnSk03aZIHdff+FCLsQtnBY3Beavt
+	Nx14FlXYmC6CXursGkIUZQlHYOTVGGc3TvplR+7mPJ+bu9e1ErH1oQ9Lf3hZ6m+Utp3hDJoLGyA3i
+	TfCmlkdw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1qgkAd-002XTv-O7; Thu, 14 Sep 2023 11:06:03 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 69D7930036C; Thu, 14 Sep 2023 13:06:03 +0200 (CEST)
+Date: Thu, 14 Sep 2023 13:06:03 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: "Huang, Kai" <kai.huang@intel.com>
+Cc: "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	lkp <lkp@intel.com>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"x86@kernel.org" <x86@kernel.org>
+Subject: Re: [tip:x86/tdx 8/12] vmlinux.o: warning: objtool:
+ __tdx_hypercall+0x128: __tdx_hypercall_failed() is missing a __noreturn
+ annotation
+Message-ID: <20230914110603.GA18948@noisy.programming.kicks-ass.net>
+References: <202309140828.9RdmlH2Z-lkp@intel.com>
+ <90f0a4d44704f9c296f3a4d8b72c57f2916aa09d.camel@intel.com>
+ <377b1ce2ecd390f4b6f8cdf68d22c708f7cef6d1.camel@intel.com>
+ <20230914072959.GC16631@noisy.programming.kicks-ass.net>
+ <9eb77be3a64c25b3264d5011a93242d006b88627.camel@intel.com>
+ <20230914085913.GD16631@noisy.programming.kicks-ass.net>
+ <560662b4dd5088164119e0d312f88ed97f6f94a7.camel@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,44 +46,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230911023038.30649-7-yong.wu@mediatek.com>
+In-Reply-To: <560662b4dd5088164119e0d312f88ed97f6f94a7.camel@intel.com>
 
-Hi Yong,
+On Thu, Sep 14, 2023 at 10:02:40AM +0000, Huang, Kai wrote:
+> On Thu, 2023-09-14 at 10:59 +0200, Peter Zijlstra wrote:
+> > On Thu, Sep 14, 2023 at 07:54:10AM +0000, Huang, Kai wrote:
+> > 
+> > > > The point of noreturn is that the caller should know to stop generating
+> > > > code. For that the declaration needs the attribute, because call sites
+> > > > typically do not have access to the function definition in C.
+> > > 
+> > > Ah that makes perfect sense.  Thanks!
+> > > 
+> > > Then I assume we don't need to annotate __noreturn in the function body, but
+> > > only in the declaration?  Because the compiler must already have seen the
+> > > declaration when it generates the code for the function body.
+> > 
+> > I think so, I'm sure it'll tell you if it disagrees :-)
+> > 
+> > > Btw, I happened to notice that the objtool documentation suggests that we should
+> > > also add the the function to tools/objtool/noreturns.h:
+> > > 
+> > > 3. file.o: warning: objtool: foo+0x48c: bar() is missing a __noreturn annotation
+> > > 
+> > >    The call from foo() to bar() doesn't return, but bar() is missing the
+> > >    __noreturn annotation.  NOTE: In addition to annotating the function
+> > >    with __noreturn, please also add it to tools/objtool/noreturns.h.
+> > > 
+> > > Is it a behaviour that we still need to follow?
+> > 
+> > Yes. objtool has some heuristics to detect noreturn, but is is very
+> > difficult. Sadly noreturn is not something that is reflected in the ELF
+> > object file so we have to guess.
+> > 
+> > For now manually adding it to the objtool list is required, we're trying
+> > to get to the point where it is generated/validated by the compiler,
+> > perhaps with a plugin, but we're not there yet.
+> 
+> Sorry one more question, do you know what Kconfig option triggers this
+> __noreturn objtool check?  I couldn't reproduce it on my own machine but have to
+> depend on LKP for now.
 
-kernel test robot noticed the following build errors:
+Nope, sorry. Could be very GCC version specific through, this is all
+about a specific code-gen pattern.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on robh/for-next linus/master v6.6-rc1 next-20230914]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yong-Wu/dma-buf-heaps-Deduplicate-docs-and-adopt-common-format/20230911-103308
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230911023038.30649-7-yong.wu%40mediatek.com
-patch subject: [PATCH 6/9] dma-buf: heaps: mtk_sec_heap: Add tee service call for buffer allocating/freeing
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230914/202309141707.zdT0yuMT-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309141707.zdT0yuMT-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309141707.zdT0yuMT-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   loongarch64-linux-ld: drivers/dma-buf/heaps/mtk_secure_heap.o: in function `mtk_kree_secure_session_init':
-   mtk_secure_heap.c:(.text+0x130): undefined reference to `tee_client_open_context'
-   loongarch64-linux-ld: drivers/dma-buf/heaps/mtk_secure_heap.o: in function `.L10':
-   mtk_secure_heap.c:(.text+0x19c): undefined reference to `tee_client_open_session'
-   loongarch64-linux-ld: drivers/dma-buf/heaps/mtk_secure_heap.o: in function `.L12':
-   mtk_secure_heap.c:(.text+0x1dc): undefined reference to `tee_client_close_context'
-   loongarch64-linux-ld: drivers/dma-buf/heaps/mtk_secure_heap.o: in function `mtk_sec_mem_tee_service_call.constprop.0':
->> mtk_secure_heap.c:(.text+0x274): undefined reference to `tee_client_invoke_func'
-   loongarch64-linux-ld: drivers/dma-buf/heaps/mtk_secure_heap.o: in function `mtk_sec_mem_release.isra.0':
-   mtk_secure_heap.c:(.text+0x464): undefined reference to `tee_client_invoke_func'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+AFAICT we emit this warning when objtool finds this function is a
+noreturn but code-gen continued.
