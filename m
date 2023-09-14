@@ -1,44 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CB4266AB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 21:37:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF91410A0C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 21:59:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694727472; x=1726263472;
+  t=1694728755; x=1726264755;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=IMDycsnXMCsmEiBMFNnUQkkLigow3fm+g7dBa+9j1z4=;
-  b=n3jhKsYvDKDi6JDOaBBR0yuABMhTac0RqfuCi9IqcO0VPxAEieneXzpx
-   6GJyG0xx6nVAD2XSL6HXL0gG50ZzXEiz6e72OZO5mxhlW8uzFpSylQyXW
-   bVm4BXGQ8gElVGfS+JEUaD1550Ak83lyZuy5gxaQbA+Dn5z8WY91BFryH
-   cuEBnatoz1gq45339EZ17PMnC7YXUEwzNJkzbRzRzxUdtsUVNjjMNPsdC
-   vd97I6fnJ+N2G8XaZlnrln/qFjrpCtsvXZR1b34FCgU+NLjBQGt39I1Bs
-   qCwMVAAstJy6L8jlfg0LL7SxdcFBTrNtgI/nCf+/W9gT3G1t5U4My+Ron
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="381796296"
+  bh=orTRfm3EWFvxsGYhX/MqmdMcQ7oo82in9+K7MsVadmc=;
+  b=m67bnL4ibR7IAMzlOwBDKnE9nJeCOe2QxdMO4lzGSN2n5NmwSAaPTifX
+   4DJuTtRPVD0g6KTGAqjdjJDtmEc28p42BpGLC9iYlYMh0ox0lsnSqfhrt
+   8zLrfuk4g9DGFECGhw5cizI2qOxKG/AU0y4yDVMcokzrv9stxcX//PB9F
+   9AuGV8BXCq5iFB7dGrpBZvxjOaqL96AxfTdgnwBlvnn4DoSfD1A5GWgIt
+   i8t/DFyrJlOU3qXds86cHAZj+sAMyJybkZ66uvc9pQOiDD1UieFEV0Y/b
+   PDYlShw/DcJYe+J1oC2iKdbq2QqSRN+JFdEg9yHGf8bDV4KVeEt74E2Yk
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="377999179"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="381796296"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 14:37:51 -0700
+   d="scan'208";a="377999179"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 14:59:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="887969816"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="747939318"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="887969816"
+   d="scan'208";a="747939318"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Sep 2023 14:37:16 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 14 Sep 2023 14:58:50 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgu20-00025a-0f;
-	Thu, 14 Sep 2023 21:37:48 +0000
-Date: Fri, 15 Sep 2023 05:36:51 +0800
+	id 1qguMK-00025t-1c;
+	Thu, 14 Sep 2023 21:58:48 +0000
+Date: Fri, 15 Sep 2023 05:58:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Baoquan He <bhe@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 6/9] x86: kdump: use generic interface to simplify
- crashkernel reservation code
-Message-ID: <202309150538.TyCUwATI-lkp@intel.com>
-References: <20230914033142.676708-7-bhe@redhat.com>
+To: Ken Xue <Ken.Xue@amd.com>, andriy.shevchenko@linux.intel.com,
+	linux-acpi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, rafael@kernel.org, cwhuang@linux.org.tw,
+	Ken Xue <Ken.Xue@amd.com>
+Subject: Re: [PATCH V4] acpi: trigger wakeup key event from power button
+Message-ID: <202309150547.0dolJMlI-lkp@intel.com>
+References: <20230913002145.743571-1-Ken.Xue@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,54 +48,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230914033142.676708-7-bhe@redhat.com>
+In-Reply-To: <20230913002145.743571-1-Ken.Xue@amd.com>
 
-Hi Baoquan,
+Hi Ken,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on powerpc/next]
-[also build test WARNING on powerpc/fixes linus/master v6.6-rc1 next-20230914]
-[cannot apply to arm64/for-next/core tip/x86/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on b483d3b8a54a544ab8854ca6dbb8d99c423b3ba4]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/crash_core-c-remove-unnecessary-parameter-of-function/20230914-113546
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/20230914033142.676708-7-bhe%40redhat.com
-patch subject: [PATCH v3 6/9] x86: kdump: use generic interface to simplify crashkernel reservation code
-config: i386-randconfig-003-20230915 (https://download.01.org/0day-ci/archive/20230915/202309150538.TyCUwATI-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150538.TyCUwATI-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ken-Xue/acpi-trigger-wakeup-key-event-from-power-button/20230913-084852
+base:   b483d3b8a54a544ab8854ca6dbb8d99c423b3ba4
+patch link:    https://lore.kernel.org/r/20230913002145.743571-1-Ken.Xue%40amd.com
+patch subject: [PATCH V4] acpi: trigger wakeup key event from power button
+config: loongarch-randconfig-001-20230914 (https://download.01.org/0day-ci/archive/20230915/202309150547.0dolJMlI-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150547.0dolJMlI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309150538.TyCUwATI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309150547.0dolJMlI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/kernel/setup.c:476:15: warning: no previous declaration for 'crash_low_size_default' [-Wmissing-declarations]
-    unsigned long crash_low_size_default(void)
-                  ^~~~~~~~~~~~~~~~~~~~~~
+   loongarch64-linux-ld: drivers/acpi/sleep.o: in function `acpi_pm_finish':
+>> drivers/acpi/sleep.c:514:(.text+0x29c): undefined reference to `acpi_power_button_wakeup'
 
 
-vim +/crash_low_size_default +476 arch/x86/kernel/setup.c
+vim +514 drivers/acpi/sleep.c
 
    472	
-   473	/*
-   474	 * --------- Crashkernel reservation ------------------------------
-   475	 */
- > 476	unsigned long crash_low_size_default(void)
-   477	{
-   478	#ifdef CONFIG_X86_64
-   479		return max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20);
-   480	#else
-   481		return 0;
-   482	#endif
-   483	}
-   484	
+   473	/**
+   474	 *	acpi_pm_finish - Instruct the platform to leave a sleep state.
+   475	 *
+   476	 *	This is called after we wake back up (or if entering the sleep state
+   477	 *	failed).
+   478	 */
+   479	static void acpi_pm_finish(void)
+   480	{
+   481		struct acpi_device *pwr_btn_adev;
+   482		u32 acpi_state = acpi_target_sleep_state;
+   483	
+   484		acpi_ec_unblock_transactions();
+   485		suspend_nvs_free();
+   486	
+   487		if (acpi_state == ACPI_STATE_S0)
+   488			return;
+   489	
+   490		pr_info("Waking up from system sleep state S%d\n", acpi_state);
+   491		acpi_disable_wakeup_devices(acpi_state);
+   492		acpi_leave_sleep_state(acpi_state);
+   493	
+   494		/* reset firmware waking vector */
+   495		acpi_set_waking_vector(0);
+   496	
+   497		acpi_target_sleep_state = ACPI_STATE_S0;
+   498	
+   499		acpi_resume_power_resources();
+   500	
+   501		/* If we were woken with the fixed power button, provide a small
+   502		 * hint to userspace in the form of a wakeup event on the fixed power
+   503		 * button device (if it can be found).
+   504		 *
+   505		 * We delay the event generation til now, as the PM layer requires
+   506		 * timekeeping to be running before we generate events. */
+   507		if (!pwr_btn_event_pending)
+   508			return;
+   509	
+   510		pwr_btn_event_pending = false;
+   511		pwr_btn_adev = acpi_dev_get_first_match_dev(ACPI_BUTTON_HID_POWERF,
+   512							    NULL, -1);
+   513		if (pwr_btn_adev) {
+ > 514			acpi_power_button_wakeup(pwr_btn_adev);
+   515			pm_wakeup_event(&pwr_btn_adev->dev, 0);
+   516			acpi_dev_put(pwr_btn_adev);
+   517		}
+   518	}
+   519	
 
 -- 
 0-DAY CI Kernel Test Service
