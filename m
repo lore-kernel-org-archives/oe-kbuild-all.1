@@ -1,51 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D89ED2134C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 20:11:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D0733D3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 20:47:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694722274; x=1726258274;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NhXCkUx/4wEGy8PcYWROJV8yPyG8l+yxCesPcMIlveg=;
-  b=TZJ0iKu+GfbF3YN87x5aPwaM52wtrNydGhdeXSNCkBJ7mFKwUepIJXYK
-   uAuyHsxg6Af9zAQ7OIeosgzB5tfDOv1UYBfxa0Srkk2MjLHdDYRnHskBf
-   9e1RvU24WLpu4BpNvIVTpIqprS2smrftS7NA8zDVPpRNZbHU/S0ZamOJP
-   h+GMnBHt/zh1tjkk3Nn7E0gY7f3lkZOH3bQ5NT1xCJqfrooT+42i7STwW
-   Uf0AnVVljNTw5ztUjMLvvWI48K/rHNKvus08b/gBxCn4VCb+ZAWb6D6V/
-   rb6vSwd4w1QYc59l0RTkvRBhR9At9xtm1RRC6/ZqnOwScLb524ySZjn5k
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="465432011"
+  t=1694724430; x=1726260430;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fP4WDtReDNMIXfk4X3PpM72oZLtMeIfZA1RUjQWQFB0=;
+  b=HoVrjgRRq752YvI0LIht/ZbW9oqH1Cy+geZgzcFqn6owTh5K7xmmpWGl
+   MI9ah3XY1DU1nd4cwdqFFt1yhmSLo4pO42Km/1lYaSofgQs0dkMqd8TNQ
+   o0sqGrH8WXox7/Vz6GbjUNEzj9xNM6nWjVJC1Hv61MlH9nyah2MUes8R+
+   Z9LHfhKLPtpVbS0agaS9CNZ5UHeFT9q+LEAdt8fWZ0GTA14reBO8x5MUN
+   TEPYjVc3a+RulYn351F13FtHIoNq9/xwdu64lZhU6hwW7tT8sAOr4RcVF
+   WXN8RR03jEtpZLuJZCV684WsXdH1iGlD3cHN0WiCajsnuvdzWcWfWcSzK
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="376405731"
 X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
-   d="scan'208";a="465432011"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 13:10:51 -0700
+   d="scan'208";a="376405731"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 13:42:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="918366163"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="868395826"
 X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
-   d="scan'208";a="918366163"
+   d="scan'208";a="868395826"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 14 Sep 2023 13:10:47 -0700
+  by orsmga004.jf.intel.com with ESMTP; 14 Sep 2023 13:42:48 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgsfl-00021V-1c;
-	Thu, 14 Sep 2023 20:10:45 +0000
-Date: Fri, 15 Sep 2023 04:10:24 +0800
+	id 1qgtAk-00022j-1Q;
+	Thu, 14 Sep 2023 20:42:46 +0000
+Date: Fri, 15 Sep 2023 04:42:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paul Durrant <paul@xen.org>, kvm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Paul Durrant <pdurrant@amazon.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	David Woodhouse <dwmw2@infradead.org>, x86@kernel.org
-Subject: Re: [PATCH 7/8] KVM: xen: prepare for using 'default' vcpu_info
-Message-ID: <202309150313.w8vtnM1C-lkp@intel.com>
-References: <20230914084946.200043-8-paul@xen.org>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-5.10 58/63]
+ drivers/gpu/drm/i915/display/intel_bios.o: warning: objtool:
+ intel_bios_init_panel()+0x292: unreachable instruction
+Message-ID: <202309150439.jiWnbkZD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,50 +47,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230914084946.200043-8-paul@xen.org>
 
-Hi Paul,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on kvm/queue]
-[also build test WARNING on mst-vhost/linux-next]
-[cannot apply to kvm/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Durrant/KVM-pfncache-add-a-map-helper-function/20230914-171017
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20230914084946.200043-8-paul%40xen.org
-patch subject: [PATCH 7/8] KVM: xen: prepare for using 'default' vcpu_info
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230915/202309150313.w8vtnM1C-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150313.w8vtnM1C-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.10
+head:   d77922f2c5a8670e703d82f7e9b1fe680d528bf0
+commit: af4813882f90477626ca010a1f6fbce9ec9963cf [58/63] UPSTREAM: drm/i915: Do panel VBT init early if the VBT declares an explicit panel type
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230915/202309150439.jiWnbkZD-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150439.jiWnbkZD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309150313.w8vtnM1C-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309150439.jiWnbkZD-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/kvm/xen.c:492:26: warning: no previous prototype for 'get_vcpu_info_cache' [-Wmissing-prototypes]
-     492 | struct gfn_to_pfn_cache *get_vcpu_info_cache(struct kvm_vcpu *v, unsigned long *offset)
-         |                          ^~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/display/intel_bios.o: warning: objtool: intel_bios_init_panel()+0x292: unreachable instruction
 
 
-vim +/get_vcpu_info_cache +492 arch/x86/kvm/xen.c
-
-   491	
- > 492	struct gfn_to_pfn_cache *get_vcpu_info_cache(struct kvm_vcpu *v, unsigned long *offset)
-   493	{
-   494		if (offset)
-   495			*offset = 0;
-   496	
-   497		return &v->arch.xen.vcpu_info_cache;
-   498	}
-   499	
+objdump-func vmlinux.o intel_bios_init_panel:
 
 -- 
 0-DAY CI Kernel Test Service
