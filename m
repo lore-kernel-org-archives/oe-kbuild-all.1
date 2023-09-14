@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F5A26E24
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 22:09:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840623C05;
+	Thu, 14 Sep 2023 22:50:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694729397; x=1726265397;
+  t=1694731853; x=1726267853;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=i4f2hEwbc51rFz7HU9r9ZVQR35g2MfAlU7DdAx6oyjA=;
-  b=BpL4HIEuvyEpwkuZXYxBxejgqqnW+APQjaX1C2DM2K6QnTlZkoFikBdn
-   XC6DlUbp4YHmLIr1WSjD09PoIKw/TvZsnAAXw1skWXQjI4doUC8fTKjOF
-   Iub8Z9Gb0AsNWt3uyih2ZabfDRUiBrVpkQ82+/fQgyGJey6hRbyMBDlUn
-   4E8yqHc7BjRpOI5yTTDj6S8eyVjRwd1V1ndz51l6zF8cuFHLGTVx8jXes
-   8pnpapYT/ZwvQsLOoHuez34Hb/cvhiIONo7Kgn9eWsDrmz7vQi9E/8G0h
-   2WVAB3ND6nwIWPGzNNO6SYX5HQ1G4pxdRXz8zIAgnqdooA2NJOh+gAs3+
+  bh=Z4ug5or7k4TrDT2AACbO1c08ViFDiZBOj1Rlt1drq4M=;
+  b=P/JodmYGtohxpM0pmJ00w53BTb6NniwJy5H2TeVO5durT/8Cl8mRA5hD
+   4KqYJmsMJM0ZWBL60e8KtoGWhMmOR+QbS7kHYsMX9quSr4SkEjOnaoUk1
+   CKFF0KD+yaUI+QwSjYO7RvSjeOqBKjwTXPvtdvqD267BSZ82r5eW6elMZ
+   jP0QLYid7Y19yWV42jydW5XfBbRo6Su1gussAHR8otyN0mjqbMi8BRhBv
+   b6+wVC2KRQEY6EEijfkx5+CGVanIC1hkvHF1LdT+/ELR6rNPkb3CYSw1s
+   D8J9jeRkU4B5aRWKR/kJ3fBK74j6qG3XDXso2h0QmSuEXL1q3ts9E16oN
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="410028992"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="445548759"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="410028992"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 15:09:52 -0700
+   d="scan'208";a="445548759"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 15:41:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="1075550995"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="859899147"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="1075550995"
+   d="scan'208";a="859899147"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 14 Sep 2023 15:09:51 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 14 Sep 2023 15:41:52 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qguWz-00026z-0P;
-	Thu, 14 Sep 2023 22:09:49 +0000
-Date: Fri, 15 Sep 2023 06:09:17 +0800
+	id 1qgv1y-000293-0b;
+	Thu, 14 Sep 2023 22:41:50 +0000
+Date: Fri, 15 Sep 2023 06:41:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ondrej Zary <linux@zary.sk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Subject: drivers/ata/pata_parport/comm.c:64 comm_read_regr() warn:
- inconsistent indenting
-Message-ID: <202309150646.n3iBvbPj-lkp@intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [broonie-ci:arm64-gcs 24/39]
+ include/uapi/asm-generic/unistd.h:827:11: error: array designator index
+ (453) exceeds array bounds (453)
+Message-ID: <202309150640.Qv36FvN5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,166 +47,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9fdfb15a3dbf818e06be514f4abbfc071004cbe7
-commit: 72f2b0b2185099dce354c805009f591dda3ab73d drivers/block: Move PARIDE protocol modules to drivers/ata/pata_parport
-date:   8 months ago
-config: x86_64-randconfig-161-20230915 (https://download.01.org/0day-ci/archive/20230915/202309150646.n3iBvbPj-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230915/202309150646.n3iBvbPj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git arm64-gcs
+head:   5886243daf585a7ed8f45646340af1ee602e1edd
+commit: 21d72b8bd77f499b2d293febab37b9dbae5e46d4 [24/39] arm64/mm: Implement map_shadow_stack()
+config: hexagon-randconfig-r012-20230913 (https://download.01.org/0day-ci/archive/20230915/202309150640.Qv36FvN5-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150640.Qv36FvN5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309150646.n3iBvbPj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309150640.Qv36FvN5-lkp@intel.com/
 
-New smatch warnings:
-drivers/ata/pata_parport/comm.c:64 comm_read_regr() warn: inconsistent indenting
-drivers/ata/pata_parport/comm.c:164 comm_write_block() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/ata/pata_parport/comm.c:168 comm_write_block() warn: inconsistent indenting
-drivers/ata/pata_parport/comm.c:172 comm_write_block() warn: inconsistent indenting
+   In file included from arch/hexagon/kernel/syscalltab.c:8:
+   In file included from include/linux/syscalls.h:90:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from arch/hexagon/kernel/syscalltab.c:8:
+   In file included from include/linux/syscalls.h:90:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from arch/hexagon/kernel/syscalltab.c:8:
+   In file included from include/linux/syscalls.h:90:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   In file included from arch/hexagon/kernel/syscalltab.c:18:
+   In file included from arch/hexagon/include/uapi/asm/unistd.h:40:
+>> include/uapi/asm-generic/unistd.h:827:11: error: array designator index (453) exceeds array bounds (453)
+   __SYSCALL(__NR_map_shadow_stack, sys_map_shadow_stack)
+             ^~~~~~~~~~~~~~~~~~~~~
+   include/uapi/asm-generic/unistd.h:826:31: note: expanded from macro '__NR_map_shadow_stack'
+   #define __NR_map_shadow_stack 453
+                                 ^~~
+   arch/hexagon/kernel/syscalltab.c:15:30: note: expanded from macro '__SYSCALL'
+   #define __SYSCALL(nr, call) [nr] = (call),
+                                ^~
+   6 warnings and 1 error generated.
 
-vim +64 drivers/ata/pata_parport/comm.c
 
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   48  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   49          r = regr + cont_map[cont];
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   50  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   51          switch (pi->mode)  {
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   52  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   53          case 0: w0(r); P1; w0(0);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   54          	w2(6); l = r1(); w0(0x80); h = r1(); w2(4);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   55                  return j44(l,h);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   56  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   57          case 1: w0(r+0x20); P1; 
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   58          	w0(0); w2(0x26); h = r0(); w2(4);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   59                  return h;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   60  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   61  	case 2:
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   62  	case 3:
-10e705f83c3e79 drivers/block/paride/comm.c Takashi Iwai   2006-03-24   63          case 4: w3(r+0x20); (void)r1();
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  @64          	w2(0x24); h = r4(); w2(4);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   65                  return h;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   66  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   67          }
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   68          return -1;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   69  }       
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   70  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   71  static void comm_write_regr( PIA *pi, int cont, int regr, int val )
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   72  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   73  {       int  r;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   74  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   75          r = regr + cont_map[cont];
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   76  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   77          switch (pi->mode)  {
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   78  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   79          case 0:
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   80          case 1: w0(r); P1; w0(val); P2;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   81  		break;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   82  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   83  	case 2:
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   84  	case 3:
-10e705f83c3e79 drivers/block/paride/comm.c Takashi Iwai   2006-03-24   85          case 4: w3(r); (void)r1(); w4(val);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   86                  break;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   87          }
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   88  }
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   89  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   90  static void comm_connect ( PIA *pi  )
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   91  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   92  {       pi->saved_r0 = r0();
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   93          pi->saved_r2 = r2();
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   94          w2(4); w0(0xff); w2(6);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   95          w2(4); w0(0xaa); w2(6);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   96          w2(4); w0(0x00); w2(6);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   97          w2(4); w0(0x87); w2(6);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   98          w2(4); w0(0xe0); w2(0xc); w2(0xc); w2(4);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16   99  }
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  100  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  101  static void comm_disconnect ( PIA *pi )
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  102  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  103  {       w2(0); w2(0); w2(0); w2(4); 
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  104  	w0(pi->saved_r0);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  105          w2(pi->saved_r2);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  106  } 
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  107  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  108  static void comm_read_block( PIA *pi, char * buf, int count )
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  109  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  110  {       int     i, l, h;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  111  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  112          switch (pi->mode) {
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  113          
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  114          case 0: w0(0x48); P1;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  115                  for(i=0;i<count;i++) {
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  116                          w0(0); w2(6); l = r1();
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  117                          w0(0x80); h = r1(); w2(4);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  118                          buf[i] = j44(l,h);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  119                  }
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  120                  break;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  121  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  122          case 1: w0(0x68); P1; w0(0);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  123                  for(i=0;i<count;i++) {
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  124                          w2(0x26); buf[i] = r0(); w2(0x24);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  125                  }
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  126  		w2(4);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  127  		break;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  128  		
-10e705f83c3e79 drivers/block/paride/comm.c Takashi Iwai   2006-03-24  129  	case 2: w3(0x68); (void)r1(); w2(0x24);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  130  		for (i=0;i<count;i++) buf[i] = r4();
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  131  		w2(4);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  132  		break;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  133  
-10e705f83c3e79 drivers/block/paride/comm.c Takashi Iwai   2006-03-24  134          case 3: w3(0x68); (void)r1(); w2(0x24);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  135                  for (i=0;i<count/2;i++) ((u16 *)buf)[i] = r4w();
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  136                  w2(4);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  137                  break;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  138  
-10e705f83c3e79 drivers/block/paride/comm.c Takashi Iwai   2006-03-24  139          case 4: w3(0x68); (void)r1(); w2(0x24);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  140                  for (i=0;i<count/4;i++) ((u32 *)buf)[i] = r4l();
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  141                  w2(4);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  142                  break;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  143  		
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  144  	}
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  145  }
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  146  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  147  /* NB: Watch out for the byte swapped writes ! */
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  148  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  149  static void comm_write_block( PIA *pi, char * buf, int count )
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  150  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  151  {       int	k;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  152  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  153          switch (pi->mode) {
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  154  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  155          case 0:
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  156          case 1: w0(0x68); P1;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  157          	for (k=0;k<count;k++) {
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  158                          w2(5); w0(buf[k^1]); w2(7);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  159                  }
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  160                  w2(5); w2(4);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  161                  break;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  162  
-10e705f83c3e79 drivers/block/paride/comm.c Takashi Iwai   2006-03-24  163          case 2: w3(0x48); (void)r1();
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16 @164                  for (k=0;k<count;k++) w4(buf[k^1]);
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  165                  break;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  166  
-10e705f83c3e79 drivers/block/paride/comm.c Takashi Iwai   2006-03-24  167          case 3: w3(0x48); (void)r1();
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  168                  for (k=0;k<count/2;k++) w4w(pi_swab16(buf,k));
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  169                  break;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  170  
-10e705f83c3e79 drivers/block/paride/comm.c Takashi Iwai   2006-03-24  171          case 4: w3(0x48); (void)r1();
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  172                  for (k=0;k<count/4;k++) w4l(pi_swab32(buf,k));
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  173                  break;
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  174  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  175  
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  176          }
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  177  }
-^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  178  
+vim +827 include/uapi/asm-generic/unistd.h
 
-:::::: The code at line 64 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+   825	
+   826	#define __NR_map_shadow_stack 453
+ > 827	__SYSCALL(__NR_map_shadow_stack, sys_map_shadow_stack)
+   828	
 
 -- 
 0-DAY CI Kernel Test Service
