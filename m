@@ -1,141 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2130.outbound.protection.outlook.com [40.107.113.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840623C05;
-	Thu, 14 Sep 2023 22:50:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694731853; x=1726267853;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z4ug5or7k4TrDT2AACbO1c08ViFDiZBOj1Rlt1drq4M=;
-  b=P/JodmYGtohxpM0pmJ00w53BTb6NniwJy5H2TeVO5durT/8Cl8mRA5hD
-   4KqYJmsMJM0ZWBL60e8KtoGWhMmOR+QbS7kHYsMX9quSr4SkEjOnaoUk1
-   CKFF0KD+yaUI+QwSjYO7RvSjeOqBKjwTXPvtdvqD267BSZ82r5eW6elMZ
-   jP0QLYid7Y19yWV42jydW5XfBbRo6Su1gussAHR8otyN0mjqbMi8BRhBv
-   b6+wVC2KRQEY6EEijfkx5+CGVanIC1hkvHF1LdT+/ELR6rNPkb3CYSw1s
-   D8J9jeRkU4B5aRWKR/kJ3fBK74j6qG3XDXso2h0QmSuEXL1q3ts9E16oN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="445548759"
-X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="445548759"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 15:41:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="859899147"
-X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="859899147"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 14 Sep 2023 15:41:52 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qgv1y-000293-0b;
-	Thu, 14 Sep 2023 22:41:50 +0000
-Date: Fri, 15 Sep 2023 06:41:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [broonie-ci:arm64-gcs 24/39]
- include/uapi/asm-generic/unistd.h:827:11: error: array designator index
- (453) exceeds array bounds (453)
-Message-ID: <202309150640.Qv36FvN5-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753E33C05;
+	Thu, 14 Sep 2023 23:00:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dXSHw9FjT4Exe9eQOkoRVT0bvR1j91HJFOqVqgn12bDuXba5R6O/sC/43HMhDlF36iGi1xhFwMVkgWVFOGv0yeIqCoRwjJtfjIAiL4sxYXxD9YIaC2ntM7DRXseZHRv8424nNykX1E3vT2kC+zcGRXryBvx21ViFl/vWQYMeUJJ7IRE4or9qNgcb9D4ONOxAQfhqdbkK28nxbWj9QY1Zz/4RI5K2aJQ9klXNtZvRT9LDm1++R7NuKfwYLJvD/5k/blDxSOcKeEhgxg+Q5onGfWDtA5nuGDLg3XxfUcrBwGdIeTSmIgH3x+sV6+Z5iojlT3MdlcZLJMl2YSn5tc9FBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yIPxLkR9bzxNUVN4DXEy7xNMHzQHCqUq0EfoCTmy1zk=;
+ b=PKnBDuAgJ8tAfYQRFWV1nqsxaTcXXZOf5JihpPI0xCZ3WI14VbxFM+k5AYwK2bCrNk61bC+twxp+zs2/IRPPHpIXyzRvoOo9ksRBNAuvusbzA9L+VLdRDmBfODUgM5HNG1dGWyrNTfai8GLER0P3/al3xtaBmqu4z8p3fCkRs4dJwvlzLoMyi/AEXfUBath7mho7GZGZ4LcuoUCK37YftM9r3JeXJNveUns/drtQs9MfOmzO6oAieSSogI1FSoY8Hw5GAFMhkyNek0OEKFLt/ZWdEqlIJ2irSutaqGgXMa6uw328gqj3205d53H0wDcpA1aYwE+4LdcQ5oIYBC9/Hw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yIPxLkR9bzxNUVN4DXEy7xNMHzQHCqUq0EfoCTmy1zk=;
+ b=FqaPT7pFF5WJjxSian/A1HrphsaDVHIg34esx/lWr/75kkqloxRlGQ7x0LAPC/k6m3n6Z+DECjpAEgpGCTnia242Ng/VdhHZDkod1w/gk2vgIw1+VoBj3uryRG7eNosaHW1BWhaMLovPY/J/esbV67q97AuQA2D34UqwGmjZp8Y=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
+ by TYWPR01MB8329.jpnprd01.prod.outlook.com (2603:1096:400:165::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.21; Thu, 14 Sep
+ 2023 22:59:58 +0000
+Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
+ ([fe80::8c08:d94c:8e54:9b5d]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
+ ([fe80::8c08:d94c:8e54:9b5d%6]) with mapi id 15.20.6792.021; Thu, 14 Sep 2023
+ 22:59:58 +0000
+Message-ID: <8734zgqs2h.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev,
+	Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH 02/54] ASoC: simple_card_utils.h: convert not to use asoc_xxx()
+In-Reply-To: <3def750c-5f58-4c36-a58b-bd839a38d3a7@kadam.mountain>
+References: <87edj4s26a.wl-kuninori.morimoto.gx@renesas.com>
+	<3def750c-5f58-4c36-a58b-bd839a38d3a7@kadam.mountain>
+User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Thu, 14 Sep 2023 22:59:57 +0000
+X-ClientProxiedBy: TYBP286CA0011.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:404:ce::23) To OS3PR01MB8426.jpnprd01.prod.outlook.com
+ (2603:1096:604:194::10)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git arm64-gcs
-head:   5886243daf585a7ed8f45646340af1ee602e1edd
-commit: 21d72b8bd77f499b2d293febab37b9dbae5e46d4 [24/39] arm64/mm: Implement map_shadow_stack()
-config: hexagon-randconfig-r012-20230913 (https://download.01.org/0day-ci/archive/20230915/202309150640.Qv36FvN5-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150640.Qv36FvN5-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309150640.Qv36FvN5-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/hexagon/kernel/syscalltab.c:8:
-   In file included from include/linux/syscalls.h:90:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:9:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from arch/hexagon/kernel/syscalltab.c:8:
-   In file included from include/linux/syscalls.h:90:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:9:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from arch/hexagon/kernel/syscalltab.c:8:
-   In file included from include/linux/syscalls.h:90:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:9:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   In file included from arch/hexagon/kernel/syscalltab.c:18:
-   In file included from arch/hexagon/include/uapi/asm/unistd.h:40:
->> include/uapi/asm-generic/unistd.h:827:11: error: array designator index (453) exceeds array bounds (453)
-   __SYSCALL(__NR_map_shadow_stack, sys_map_shadow_stack)
-             ^~~~~~~~~~~~~~~~~~~~~
-   include/uapi/asm-generic/unistd.h:826:31: note: expanded from macro '__NR_map_shadow_stack'
-   #define __NR_map_shadow_stack 453
-                                 ^~~
-   arch/hexagon/kernel/syscalltab.c:15:30: note: expanded from macro '__SYSCALL'
-   #define __SYSCALL(nr, call) [nr] = (call),
-                                ^~
-   6 warnings and 1 error generated.
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OS3PR01MB8426:EE_|TYWPR01MB8329:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1e34390b-2712-4af1-9b81-08dbb576515d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	iUey2nvzVoKAw2uL2FNfXW20S35YWfIv/PVqlDAUd1VCsAsmINiii6BSW4e4zcKJ052MtY6DaBIgKW3Nzlsy2V6bt5pxZwi06QtyD8lL9Jr12Mtr8wu+jyK7IvA5yQZyA8yzdNlBxNflU/z3NyGzIeFMga43vKaC9hhM4ao7wuEhGVroWD0YKDW6NoorQc/ewaZsg8mqj/vQ1WzdogcILYRp8x1oC9wxsmAypXG4gCM26S25JqGCpADffuppnJx+dCTNPn6tva1KuxfZaDJ6hk3ksEtspGr12RQ8adlh9gfWUJXtr4yOq/2yHsfu5uCjlylcgpC1Qj1GzwIkMH5fcV+VZF2z+OoHH0tBuZDkAEREco5XP9gYQwb6AgixLxHm66oni+ALpiIOO7LBf4rqdQRlr/DBNTletwYlktExktxII1YXmYPIto6IZbeqoR8xg2/JA72q6nJydnjLcaXhheFaI9p/rSV+czKIpFHkfMS2xV4R2/2UEyaloVRLiRCmwJq0mmLcmM27PmG7CsZV+APDsL/aMJfqb7q94m8anM1IMcjAb7De1UOQlmZN1rNjwgS+kKBblitWlkBsIeFLYUD+94jtJBioS4w5DxTLtnE6C2EYTZXcbRZjkRKiPKHqqmA9dacbp49G3kXl96YXgg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(376002)(346002)(366004)(39860400002)(186009)(451199024)(1800799009)(86362001)(36756003)(478600001)(38350700002)(38100700002)(26005)(2906002)(2616005)(5660300002)(41300700001)(6512007)(52116002)(6486002)(6506007)(66946007)(66556008)(66476007)(316002)(4326008)(8676002)(6916009)(8936002)(54906003)(21314003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?FyF2RKKK5aSKni59T6GjQNr3fzAYwHrRjNgLKuEpDxLrCiWAFUgDbvOc5moT?=
+ =?us-ascii?Q?y+wH/atJlIpn2C8zrczkKg+up6lgaECMwfvQfCpsdoagTRtUb8Guapaz1ITp?=
+ =?us-ascii?Q?iXHaFavpKEJpQQqgLySTJfBTEvkTk8D8Z52CZTpbYIlElsa64tmqFCwtReGr?=
+ =?us-ascii?Q?smhAvsaqPJK3tFs9oFaMeQtEyzbxF4G4i89rnMxJhOpxpY6loghuF3mo+qq8?=
+ =?us-ascii?Q?wmjEauss1N+y5BSTmr1qZZxrevV+hw5QtGI9dZXLmCCYhiFiHpSkdIONlfkl?=
+ =?us-ascii?Q?UyB3t2CLShPppKxh3gjgOCC4R6doZmRiS3+9olEcBKrRzKmSUYhne49tkMne?=
+ =?us-ascii?Q?SjDZPcQe39Qg9P7fGWFpsXtxlagdSX5lfcl2fnqlnq3m0MuZvHrE6MlctFv+?=
+ =?us-ascii?Q?P1uZj1gOcBkmhXi30iy1nFXExs5uLmm5zgdLO9qlpYUw9HkmmyG2jhXMlbaf?=
+ =?us-ascii?Q?5Fu0wpGyQ/vL6KMANaBLOnoImT5mWNHz2mGYT648lIpQ8HvSLFRHGYDMd4hI?=
+ =?us-ascii?Q?+RiteM3SQEdCPZnxOeS2lK/cHuytp9SNvvld/zUrg+3XHLgytfYGxWWioSG8?=
+ =?us-ascii?Q?c+k1rBobnYj8i58tLTspnOLWUaRlOTtXveS0O1JvraR8v6hA1SMT6erc1t3b?=
+ =?us-ascii?Q?Vgc6ndT1O9trNOeKRnmr8fBTclC+33ZqgqhyvVLc0y70QD+zKiV8OPUJzG7D?=
+ =?us-ascii?Q?XHdS8iWcvo1BvSp5m/egZ200eiu0IQ5IRFzgsCIm3otLNOtExh6kn7HCyyHw?=
+ =?us-ascii?Q?Vn3os7NITbH8WgPLNgz9L9bGNyGq/50DDH+6AVa753TyGrTRT678CnXpoE96?=
+ =?us-ascii?Q?KxBE0NOayVg6aEoqCtK0SOcBjix3Wj72miO9C66F4kqM+XtIi/cDTA6/WoFn?=
+ =?us-ascii?Q?ATdAeeAUdgGIyr+AB02JVQ1kyb6FkwMv64YsGqq08WRtEp7PaN+0DeY/EgmT?=
+ =?us-ascii?Q?yP+ht53JLWfIMpdds4KPkwUSBVihvKzZYvaw1WYYHrI6EkRDvYG2js9gy1d4?=
+ =?us-ascii?Q?YtRdbl+kDVzMOke03O1m3daxhIqC1qCzLB7jJg1KZ1CtePhSZA5UoWfEAtI9?=
+ =?us-ascii?Q?3fgx/UYVgYe9j5FTK88ZeWlgU+yNfF+wDLkTzyfheNsjdldc6EwMtzQuSXh9?=
+ =?us-ascii?Q?ug8DKPjBbJ2ERTp5tXB6i3LJvJ+cUZtGHTRjC2rgNYPslpi9bHehEo88Lffe?=
+ =?us-ascii?Q?2+jsLAYO+zLeqpMGrT/9UDCoxjN+EGmSdCYhbF6XFz3iGf8OP4cDWoa3KlFK?=
+ =?us-ascii?Q?t2qLpxvMiv67Axwt+ypkQsrOtiGMoEoxM9EHmSeZ8jIkwNOMMHJGbMU4ZJ2i?=
+ =?us-ascii?Q?sAUm06YWhWDx7dFpom95bd4bVVMIDuJGBgFhLqOSMQuJufM3C52mqbHj3Zza?=
+ =?us-ascii?Q?0kqXV4iqLiHzaUD8Bk3xEl9aZEq7U9s5vBa3K+dGPfFK6A/p6QAUc1JR5FcO?=
+ =?us-ascii?Q?+4NBk02wmbBlW1+aWaUp8XKvoYd1kt5iesrm+YCYYHZfh2Nsib0kfUAMDQYr?=
+ =?us-ascii?Q?DJtH2hx3CFfzdl6cX/Mzn1zzwT0nUH/afWGlmrupe37b3uC5jotcrQkiHTZn?=
+ =?us-ascii?Q?JNh+9sPldLakjLYY72sdQepQFxJhIA5AkyJlgbFE9fZaDEWERN4L0rK1b6aa?=
+ =?us-ascii?Q?FqC+usTjiR7RtMamDZyhCKg=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e34390b-2712-4af1-9b81-08dbb576515d
+X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2023 22:59:58.2326
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4Vup+SpZK6V5+M8QB3n9vtk1rijnkdzShhh8+dPpxW/Ygi0TZiqU45lvFbwatPjX7WefuDKatFkOz4BatnYkS2KUKt4vAHwnfDUg/2O3+uhrk5nPSuNOSW7/qpgm7RA5
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8329
 
 
-vim +827 include/uapi/asm-generic/unistd.h
+Hi Dan
 
-   825	
-   826	#define __NR_map_shadow_stack 453
- > 827	__SYSCALL(__NR_map_shadow_stack, sys_map_shadow_stack)
-   828	
+Thank you for the report
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 5ca2ab4598179a Robert Hancock    2022-01-20  307  	if (fixed_sysclk && props->mclk_fs) {
+> 5ca2ab4598179a Robert Hancock    2022-01-20  308  		unsigned int fixed_rate = fixed_sysclk / props->mclk_fs;
+> 5ca2ab4598179a Robert Hancock    2022-01-20  309  
+> 5ca2ab4598179a Robert Hancock    2022-01-20  310  		if (fixed_sysclk % props->mclk_fs) {
+> 5ca2ab4598179a Robert Hancock    2022-01-20  311  			dev_err(rtd->dev, "fixed sysclk %u not divisible by mclk_fs %u\n",
+> 5ca2ab4598179a Robert Hancock    2022-01-20  312  				fixed_sysclk, props->mclk_fs);
+> 5ca2ab4598179a Robert Hancock    2022-01-20 @313  			return -EINVAL;
+> 
+> goto codec_err?
+> 
+> 5ca2ab4598179a Robert Hancock    2022-01-20  314  		}
+> 5ca2ab4598179a Robert Hancock    2022-01-20  315  		ret = snd_pcm_hw_constraint_minmax(substream->runtime, SNDRV_PCM_HW_PARAM_RATE,
+> 5ca2ab4598179a Robert Hancock    2022-01-20  316  			fixed_rate, fixed_rate);
+> 635071f5fee315 Robert Hancock    2023-06-01  317  		if (ret < 0)
+> 5ca2ab4598179a Robert Hancock    2022-01-20  318  			goto codec_err;
+> fafc05aadd4b6c Kuninori Morimoto 2021-04-12  319  	}
+
+The correct fixup is not for line 313, but line 318,
+but thank you for pointing it.
+
+This issue itself is not related to "convert not to use asoc_xxx()"
+patch. I will post separate patch with your sign.
+
+Thank you for your help !!
+
+Best regards
+---
+Kuninori Morimoto
