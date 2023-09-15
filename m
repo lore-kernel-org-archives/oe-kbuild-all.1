@@ -1,51 +1,42 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B051A6119
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 06:39:35 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-31adc5c899fso1591204f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 23:39:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694759974; x=1695364774; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iTvz/7YrGXBBG3/XgDpueAsB2wVewc4vUbof5jngdtw=;
-        b=crWNqShyWn9PcUByFUsTPNkUqy5aeYublsggP/uqBr7kipeqZl1Vr+wveUtyzxix9I
-         hbLEEJh7LGbe/bzhMfSLv9LAyP/AARFqurI2/ypNMwSZih7aK9Ko9Q0G8npEj5D6SRAn
-         GmHJAdZytgZ1OejTxqL+VjmFao9BbzGz0tV1McMJwLWCNF0y0qu3piY3ZVXn8y3+DkD2
-         z3ljjfXstmakc8ZcwsuWJHkTFF2LGDlS1zYr8jMKT5iFvvIFkvM6ETskElRnXdX5qO2E
-         p/KWBkl2d2eNjlBSFYFNq867Kx+RgH1olSrGhC007R+7Mw6mZHoI/BrgulbeRhB4meoA
-         a8dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694759974; x=1695364774;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iTvz/7YrGXBBG3/XgDpueAsB2wVewc4vUbof5jngdtw=;
-        b=JSL4lMjEXckotJkusiHytSCHYCTC/6qYpUU1yKls0rPYwdhByNTwH6BMyj7tgPea3/
-         l0zeK9zR6/Aa6JODzx+hGW94bV+V0IpjtC7kd7CN1jxukeis+YU4nkjl12/ufoloNbJl
-         4fm/iv34S//pSTPD2U2WHw/zi87fRCqkbLvk1qEtDC0oMtrzio1f1nX5oAHzaFBlTXeE
-         f+PZbDxAGVqTzYfX8ofEkaVx45eraJ4KzDDXH9H4RqT1VrNXYjk8ew+xTFAommw3IniK
-         rM3JpmKkfesVSa7xQkyUnHA8hMbQ/YU5/64m5SBnzKInEo3ezZEqoCSW1MWlHXZZJHLq
-         vkyg==
-X-Gm-Message-State: AOJu0YwTMsKBD6Mtu6pxWwXoEhk+boavTwl0NOCSTjoPbVDjxAfbTPGw
-	4cpwg2ZtT7k3iYW72FqCgdvoWA==
-X-Google-Smtp-Source: AGHT+IEq+d+DobvWyQp3Y+xzHX1/5fJhxIphESRsiOJ85Fg497Atqyldi/+PGTfAwHwISmsSbsPArA==
-X-Received: by 2002:adf:f110:0:b0:319:7c7d:8d1 with SMTP id r16-20020adff110000000b003197c7d08d1mr579352wro.44.1694759973935;
-        Thu, 14 Sep 2023 23:39:33 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id t18-20020a5d5352000000b0031c3ee933b5sm3562792wrv.108.2023.09.14.23.39.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 23:39:33 -0700 (PDT)
-Date: Fri, 15 Sep 2023 09:39:30 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 25/54] ASoC: generic: convert not to use asoc_xxx()
-Message-ID: <f8790567-237c-4424-b185-9862a168c91d@kadam.mountain>
-References: <87h6o0qnho.wl-kuninori.morimoto.gx@renesas.com>
- <3a818c96-8056-44ea-bc62-7104606da2ed@kadam.mountain>
- <871qf0qrwk.wl-kuninori.morimoto.gx@renesas.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962BE2591
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 06:46:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694760392; x=1726296392;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WTKf/YXMIiQ7VJy96NA8HvBvq65gejnD0Vum9h8O5mY=;
+  b=Kkmjx9mtFxyVLT+SutvVfsdD7Xeujr8IbIZXRHzlBH2Z/EOJKmypMb+6
+   qTgqrPY6Jr4v9cdWor7TQaDCDJNfWzkf/CWDvXmy01/WTznTzw51zh3CA
+   pBWaxvliuZwKKiPTftBNskKeSluVe7lm+EMWM/m94+YNCK2+ABHUyBhPy
+   086MMQSAwRR7nYneqbgedVnVzAu1A0J8q43opDWgTTCbR2DvJwC+WdJ/J
+   s4oXcnyHlX8rOaBnYHS1RFpuuH4CfrxdXjkv5owOJ+Lrn/zl/gXQG7SR7
+   9XEeNj6UMvzdqGpdexVRla/hX2qGiaUMaWO7mJBtHYiAxKK00mFuQaCXA
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="465541498"
+X-IronPort-AV: E=Sophos;i="6.02,148,1688454000"; 
+   d="scan'208";a="465541498"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 23:46:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="918547836"
+X-IronPort-AV: E=Sophos;i="6.02,148,1688454000"; 
+   d="scan'208";a="918547836"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 14 Sep 2023 23:46:30 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qh2ay-0002aj-18;
+	Fri, 15 Sep 2023 06:46:28 +0000
+Date: Fri, 15 Sep 2023 14:45:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mark:arm64/cpucap/cleanup 9/36] aarch64-linux-ld:
+ arch/arm64/kernel/cpufeature.o:undefined reference to `cpu_enable_fpsimd'
+Message-ID: <202309151416.T2eo4FrF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,56 +45,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <871qf0qrwk.wl-kuninori.morimoto.gx@renesas.com>
 
-On Thu, Sep 14, 2023 at 11:03:23PM +0000, Kuninori Morimoto wrote:
-> 
-> Hi Dan
-> 
-> Thank you for the report
-> 
-> > fa558c2801fc17 Kuninori Morimoto   2013-11-20  753  	} else {
-> > 88c819af51a9cc Kuninori Morimoto   2023-09-11  754  		struct simple_util_info *cinfo;
-> > f107294c6422e7 Kuninori Morimoto   2019-06-06  755  		struct snd_soc_dai_link_component *cpus;
-> > 710af9196ce614 Kuninori Morimoto   2018-08-31  756  		struct snd_soc_dai_link_component *codecs;
-> > e58f41e41185c6 Kuninori Morimoto   2018-08-31  757  		struct snd_soc_dai_link_component *platform;
-> > 65a5056b21202e Kuninori Morimoto   2019-03-20  758  		struct snd_soc_dai_link *dai_link = priv->dai_link;
-> > 65a5056b21202e Kuninori Morimoto   2019-03-20  759  		struct simple_dai_props *dai_props = priv->dai_props;
-> > 65a5056b21202e Kuninori Morimoto   2019-03-20  760  
-> > ca65b492c7a265 Jean-Francois Moine 2014-01-15  761  		cinfo = dev->platform_data;
-> > ca65b492c7a265 Jean-Francois Moine 2014-01-15  762  		if (!cinfo) {
-> > f89983ef61677a Kuninori Morimoto   2012-12-25  763  			dev_err(dev, "no info for asoc-simple-card\n");
-> > f2390880ec0264 Kuninori Morimoto   2012-04-08  764  			return -EINVAL;
-> > 
-> > goto err?
-> > 
-> > f2390880ec0264 Kuninori Morimoto   2012-04-08  765  		}
-> > f2390880ec0264 Kuninori Morimoto   2012-04-08  766  
-> > f2390880ec0264 Kuninori Morimoto   2012-04-08  767  		if (!cinfo->name ||
-> > fa558c2801fc17 Kuninori Morimoto   2013-11-20  768  		    !cinfo->codec_dai.name ||
-> > 7722f830a45f7f Jean-Francois Moine 2014-01-15  769  		    !cinfo->codec ||
-> > 7722f830a45f7f Jean-Francois Moine 2014-01-15  770  		    !cinfo->platform ||
-> > 7722f830a45f7f Jean-Francois Moine 2014-01-15  771  		    !cinfo->cpu_dai.name) {
-> > 88c819af51a9cc Kuninori Morimoto   2023-09-11  772  			dev_err(dev, "insufficient simple_util_info settings\n");
-> > f2390880ec0264 Kuninori Morimoto   2012-04-08 @773  			return -EINVAL;
-> > 
-> > goto err?
-> 
-> Thank you for pointing it, but it is correct.
-> This driver is supporting both "DT sytle" and "platform data style"
-> and "DT style" error only need to use "goto err".
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/cpucap/cleanup
+head:   f18c17118a776a4fe1509f9f8ef624245725008f
+commit: e043f25122190a7ef642a88e408661d3d0d6062c [9/36] arm64: use a positive cpucap for FP/SIMD
+config: arm64-randconfig-001-20230915 (https://download.01.org/0day-ci/archive/20230915/202309151416.T2eo4FrF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309151416.T2eo4FrF-lkp@intel.com/reproduce)
 
-Currently, this check looks at if there is a return surrounded by goto
-cleanup.  I could silence this false positive by adding a check that
-it has to be surrounded but also we have to have goto in our path
-earlier.  In this case, the goto cleanup was on the if true side and
-we are on the if false side.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309151416.T2eo4FrF-lkp@intel.com/
 
-It's a little bit of work to write this code but it's doable.  I'll add
-it to my TODO list (and then probably forget about it forever honestly.
-:P).
+All errors (new ones prefixed by >>):
 
-KTODO: Modifiy smatch to silence goto unwind false positive
+>> aarch64-linux-ld: arch/arm64/kernel/cpufeature.o:(.rodata+0x550): undefined reference to `cpu_enable_fpsimd'
 
-regards,
-dan carpenter
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
