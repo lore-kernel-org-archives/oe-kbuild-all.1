@@ -1,44 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12062658
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 02:13:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFEA5A32
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 02:13:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694743992; x=1726279992;
+  t=1694743993; x=1726279993;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=o0ihxlD9VGYdDUFHJQC3Y4QhtalS/ktYCLLHzl7ZjXs=;
-  b=DCJoBKm+bqPgI1yTwmDd//5fqd2CTcBpTjgSQD72BxvNlYZZzsabtmfL
-   G6E+DgqWy5L1oosX5GBZmK7EFfoXgy7ty+rEynqhCOk3B6I4bLhNT1sCz
-   y7gw3qViisudqMrxkTWX3Fl6wtAl2YIqcTU6sy6VbkGvd5P4JWA2WY8cm
-   x4HVtP8UYVDroM3+W/VnrE5IHX6rpTEZrfDWzI3KhaHZ8lUItj/frAREh
-   kK5F/MlVa3bP+fPieSKy9V7DuTPzg7ja0Ka/P5nz9Nwxl3ymDMhqgyGoO
-   Lu6alsTeLTiQdDL3l8KUZyrEv3awZqxmL0usHD2DZVUXrj1LaSoXSKhFF
+  bh=Y8FsBrE2zFb+CfVLiOvn7+rHs6rmIW4pomrtZC30VF4=;
+  b=Ck0SxYc4UzMtaer1vVTBKlZUjOtdB1S3/9QVW08GLO49gZVQkWo+D8v3
+   t+8/bRdyItrajzOQTLD3vN6ZB7xOIF9sNy4uxH4bOaYyVtfIndPX5U03C
+   sAURSto9QM6Wi3YRh1CsO1Xf11jTEm3g99Gef+d+dNQ+RX57iAbesK47W
+   h4n+mRSI9uO7uypXxRcPevkBOHupfr/O2aIZbJo90cFuSho7VsCsDKQWC
+   Avqnme/PH9u4KmTCCo8ColhgnQOP36wrJR2v4juu+YR8aDvcynyO3aH1j
+   RWG3RQ0erk0QK6p6HR0ew0UOoSaGx2FNnoVxr6SnVdtAvv2/K6y3OW+vp
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="410077489"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="381864233"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="410077489"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 19:13:11 -0700
+   d="scan'208";a="381864233"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 19:13:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="1075621684"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="779913181"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="1075621684"
+   d="scan'208";a="779913181"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 14 Sep 2023 19:13:10 -0700
+  by orsmga001.jf.intel.com with ESMTP; 14 Sep 2023 19:13:10 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgyKS-0002J5-0L;
+	id 1qgyKS-0002J3-0H;
 	Fri, 15 Sep 2023 02:13:08 +0000
 Date: Fri, 15 Sep 2023 10:12:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 2/3] mm/mempolicy: Implement set_mempolicy2 and
- get_mempolicy2 syscalls
-Message-ID: <202309150911.zqWpX8gL-lkp@intel.com>
-References: <20230914235457.482710-3-gregory.price@memverge.com>
+To: Ken Xue <Ken.Xue@amd.com>, andriy.shevchenko@linux.intel.com,
+	linux-acpi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, rafael@kernel.org, cwhuang@linux.org.tw,
+	Ken Xue <Ken.Xue@amd.com>
+Subject: Re: [PATCH V4] acpi: trigger wakeup key event from power button
+Message-ID: <202309150947.YLjvs2Vv-lkp@intel.com>
+References: <20230913002145.743571-1-Ken.Xue@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,56 +48,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230914235457.482710-3-gregory.price@memverge.com>
+In-Reply-To: <20230913002145.743571-1-Ken.Xue@amd.com>
 
-Hi Gregory,
+Hi Ken,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on akpm-mm/mm-everything]
+[auto build test ERROR on b483d3b8a54a544ab8854ca6dbb8d99c423b3ba4]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-refactor-do_set_mempolicy-for-code-re-use/20230915-075649
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230914235457.482710-3-gregory.price%40memverge.com
-patch subject: [RFC PATCH 2/3] mm/mempolicy: Implement set_mempolicy2 and get_mempolicy2 syscalls
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230915/202309150911.zqWpX8gL-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150911.zqWpX8gL-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ken-Xue/acpi-trigger-wakeup-key-event-from-power-button/20230913-084852
+base:   b483d3b8a54a544ab8854ca6dbb8d99c423b3ba4
+patch link:    https://lore.kernel.org/r/20230913002145.743571-1-Ken.Xue%40amd.com
+patch subject: [PATCH V4] acpi: trigger wakeup key event from power button
+config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230915/202309150947.YLjvs2Vv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150947.YLjvs2Vv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309150911.zqWpX8gL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309150947.YLjvs2Vv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> <stdin>:1573:2: warning: #warning syscall set_mempolicy2 not implemented [-Wcpp]
->> <stdin>:1576:2: warning: #warning syscall get_mempolicy2 not implemented [-Wcpp]
---
-   In file included from mm/fadvise.c:19:
->> include/linux/syscalls.h:816:43: warning: 'struct mempolicy_args' declared inside parameter list will not be visible outside of this definition or declaration
-     816 | asmlinkage long sys_get_mempolicy2(struct mempolicy_args __user *args);
-         |                                           ^~~~~~~~~~~~~~
-   include/linux/syscalls.h:817:43: warning: 'struct mempolicy_args' declared inside parameter list will not be visible outside of this definition or declaration
-     817 | asmlinkage long sys_set_mempolicy2(struct mempolicy_args __user *args);
-         |                                           ^~~~~~~~~~~~~~
---
->> <stdin>:1573:2: warning: #warning syscall set_mempolicy2 not implemented [-Wcpp]
->> <stdin>:1576:2: warning: #warning syscall get_mempolicy2 not implemented [-Wcpp]
---
-   WARNING: unmet direct dependencies detected for STACKTRACE
-   Depends on [n]: STACKTRACE_SUPPORT
-   Selected by [y]:
-   - STACKDEPOT [=y]
->> <stdin>:1573:2: warning: #warning syscall set_mempolicy2 not implemented [-Wcpp]
->> <stdin>:1576:2: warning: #warning syscall get_mempolicy2 not implemented [-Wcpp]
+   ld: drivers/acpi/sleep.o: in function `acpi_pm_finish':
+>> drivers/acpi/sleep.c:514: undefined reference to `acpi_power_button_wakeup'
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for STACKTRACE
-   Depends on [n]: STACKTRACE_SUPPORT
-   Selected by [y]:
-   - STACKDEPOT [=y]
+
+vim +514 drivers/acpi/sleep.c
+
+   472	
+   473	/**
+   474	 *	acpi_pm_finish - Instruct the platform to leave a sleep state.
+   475	 *
+   476	 *	This is called after we wake back up (or if entering the sleep state
+   477	 *	failed).
+   478	 */
+   479	static void acpi_pm_finish(void)
+   480	{
+   481		struct acpi_device *pwr_btn_adev;
+   482		u32 acpi_state = acpi_target_sleep_state;
+   483	
+   484		acpi_ec_unblock_transactions();
+   485		suspend_nvs_free();
+   486	
+   487		if (acpi_state == ACPI_STATE_S0)
+   488			return;
+   489	
+   490		pr_info("Waking up from system sleep state S%d\n", acpi_state);
+   491		acpi_disable_wakeup_devices(acpi_state);
+   492		acpi_leave_sleep_state(acpi_state);
+   493	
+   494		/* reset firmware waking vector */
+   495		acpi_set_waking_vector(0);
+   496	
+   497		acpi_target_sleep_state = ACPI_STATE_S0;
+   498	
+   499		acpi_resume_power_resources();
+   500	
+   501		/* If we were woken with the fixed power button, provide a small
+   502		 * hint to userspace in the form of a wakeup event on the fixed power
+   503		 * button device (if it can be found).
+   504		 *
+   505		 * We delay the event generation til now, as the PM layer requires
+   506		 * timekeeping to be running before we generate events. */
+   507		if (!pwr_btn_event_pending)
+   508			return;
+   509	
+   510		pwr_btn_event_pending = false;
+   511		pwr_btn_adev = acpi_dev_get_first_match_dev(ACPI_BUTTON_HID_POWERF,
+   512							    NULL, -1);
+   513		if (pwr_btn_adev) {
+ > 514			acpi_power_button_wakeup(pwr_btn_adev);
+   515			pm_wakeup_event(&pwr_btn_adev->dev, 0);
+   516			acpi_dev_put(pwr_btn_adev);
+   517		}
+   518	}
+   519	
 
 -- 
 0-DAY CI Kernel Test Service
