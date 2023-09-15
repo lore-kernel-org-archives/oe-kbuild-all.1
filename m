@@ -1,42 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BEDD36A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 01:43:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12062658
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 02:13:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694742213; x=1726278213;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/Zixrr10o9M88noBSHesWycv9vN9Z7S0VmWX9nUcQzc=;
-  b=mMmeLbUpBUYEhZvcdUM089XBZAoVOHmgfnuaa+mm+vCXqG9CW/UxY+4L
-   08p31KkDeYEyBw0iQOnRHsGdjwipSdTAu4kHYxVVpCoTIwXyxsAw5787W
-   c+Vf2n20Cj7KpMLZ25T7hmILCfBCzsrqzQKaQZ1fMkHiabx8JJ8E2FEM2
-   uz9BvsbjqFvPWCdwYrt2ZICHh4wPiBefK86VBfyZjtp0tUJl3kBEPhcdg
-   V2By1CbJRxoIrXPiJXG543FV8QKsJzn5krE7FI8GSpFWzKzRniewRYX2Q
-   TGJW1nwHKd8v5GywhR7EFmqFO+fssZb/gGomu2AWFoFgnHRcR8kzdUp68
+  t=1694743992; x=1726279992;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=o0ihxlD9VGYdDUFHJQC3Y4QhtalS/ktYCLLHzl7ZjXs=;
+  b=DCJoBKm+bqPgI1yTwmDd//5fqd2CTcBpTjgSQD72BxvNlYZZzsabtmfL
+   G6E+DgqWy5L1oosX5GBZmK7EFfoXgy7ty+rEynqhCOk3B6I4bLhNT1sCz
+   y7gw3qViisudqMrxkTWX3Fl6wtAl2YIqcTU6sy6VbkGvd5P4JWA2WY8cm
+   x4HVtP8UYVDroM3+W/VnrE5IHX6rpTEZrfDWzI3KhaHZ8lUItj/frAREh
+   kK5F/MlVa3bP+fPieSKy9V7DuTPzg7ja0Ka/P5nz9Nwxl3ymDMhqgyGoO
+   Lu6alsTeLTiQdDL3l8KUZyrEv3awZqxmL0usHD2DZVUXrj1LaSoXSKhFF
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="376469807"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="410077489"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="376469807"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 18:40:10 -0700
+   d="scan'208";a="410077489"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 19:13:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="810330450"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="1075621684"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="810330450"
+   d="scan'208";a="1075621684"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 14 Sep 2023 18:40:09 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 14 Sep 2023 19:13:10 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgxoU-0002H7-2t;
-	Fri, 15 Sep 2023 01:40:06 +0000
-Date: Fri, 15 Sep 2023 09:39:21 +0800
+	id 1qgyKS-0002J5-0L;
+	Fri, 15 Sep 2023 02:13:08 +0000
+Date: Fri, 15 Sep 2023 10:12:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
+To: Gregory Price <gourry.memverge@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:iov-kunit 5/9] arch/loongarch/include/asm/page.h:99:35:
- error: 'READ_IMPLIES_EXEC' undeclared
-Message-ID: <202309150911.0CwWN4PA-lkp@intel.com>
+Subject: Re: [RFC PATCH 2/3] mm/mempolicy: Implement set_mempolicy2 and
+ get_mempolicy2 syscalls
+Message-ID: <202309150911.zqWpX8gL-lkp@intel.com>
+References: <20230914235457.482710-3-gregory.price@memverge.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,77 +47,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230914235457.482710-3-gregory.price@memverge.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git iov-kunit
-head:   75675904b940d8090d74bde195d8ba4a2e3aee80
-commit: 282ae3bc8ef2f1742153b9462ff31c20c09ebc6a [5/9] iov_iter: Create a function to prepare userspace VM for UBUF/IOVEC tests
-config: loongarch-randconfig-002-20230915 (https://download.01.org/0day-ci/archive/20230915/202309150911.0CwWN4PA-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150911.0CwWN4PA-lkp@intel.com/reproduce)
+Hi Gregory,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-refactor-do_set_mempolicy-for-code-re-use/20230915-075649
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230914235457.482710-3-gregory.price%40memverge.com
+patch subject: [RFC PATCH 2/3] mm/mempolicy: Implement set_mempolicy2 and get_mempolicy2 syscalls
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230915/202309150911.zqWpX8gL-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150911.zqWpX8gL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309150911.0CwWN4PA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309150911.zqWpX8gL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/mm_types_task.h:16,
-                    from include/linux/mm_types.h:5,
-                    from include/linux/buildid.h:5,
-                    from include/linux/module.h:14,
-                    from lib/kunit_iov_iter.c:10:
-   lib/kunit_iov_iter.c: In function 'iov_kunit_create_user_buf':
->> arch/loongarch/include/asm/page.h:99:35: error: 'READ_IMPLIES_EXEC' undeclared (first use in this function)
-      99 |          ((current->personality & READ_IMPLIES_EXEC) ? VM_EXEC : 0) | \
-         |                                   ^~~~~~~~~~~~~~~~~
-   include/linux/mm.h:414:32: note: in expansion of macro 'VM_DATA_DEFAULT_FLAGS'
-     414 | #define VM_STACK_DEFAULT_FLAGS VM_DATA_DEFAULT_FLAGS
-         |                                ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/mm.h:427:37: note: in expansion of macro 'VM_STACK_DEFAULT_FLAGS'
-     427 | #define VM_STACK_FLAGS  (VM_STACK | VM_STACK_DEFAULT_FLAGS | VM_ACCOUNT)
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit_iov_iter.c:294:43: note: in expansion of macro 'VM_STACK_FLAGS'
-     294 |         vm_flags_init(vma, VM_SOFTDIRTY | VM_STACK_FLAGS | VM_STACK_INCOMPLETE_SETUP);
+>> <stdin>:1573:2: warning: #warning syscall set_mempolicy2 not implemented [-Wcpp]
+>> <stdin>:1576:2: warning: #warning syscall get_mempolicy2 not implemented [-Wcpp]
+--
+   In file included from mm/fadvise.c:19:
+>> include/linux/syscalls.h:816:43: warning: 'struct mempolicy_args' declared inside parameter list will not be visible outside of this definition or declaration
+     816 | asmlinkage long sys_get_mempolicy2(struct mempolicy_args __user *args);
          |                                           ^~~~~~~~~~~~~~
-   arch/loongarch/include/asm/page.h:99:35: note: each undeclared identifier is reported only once for each function it appears in
-      99 |          ((current->personality & READ_IMPLIES_EXEC) ? VM_EXEC : 0) | \
-         |                                   ^~~~~~~~~~~~~~~~~
-   include/linux/mm.h:414:32: note: in expansion of macro 'VM_DATA_DEFAULT_FLAGS'
-     414 | #define VM_STACK_DEFAULT_FLAGS VM_DATA_DEFAULT_FLAGS
-         |                                ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/mm.h:427:37: note: in expansion of macro 'VM_STACK_DEFAULT_FLAGS'
-     427 | #define VM_STACK_FLAGS  (VM_STACK | VM_STACK_DEFAULT_FLAGS | VM_ACCOUNT)
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit_iov_iter.c:294:43: note: in expansion of macro 'VM_STACK_FLAGS'
-     294 |         vm_flags_init(vma, VM_SOFTDIRTY | VM_STACK_FLAGS | VM_STACK_INCOMPLETE_SETUP);
+   include/linux/syscalls.h:817:43: warning: 'struct mempolicy_args' declared inside parameter list will not be visible outside of this definition or declaration
+     817 | asmlinkage long sys_set_mempolicy2(struct mempolicy_args __user *args);
          |                                           ^~~~~~~~~~~~~~
-   lib/kunit_iov_iter.c: At top level:
-   lib/kunit_iov_iter.c:261:26: warning: 'iov_kunit_create_user_buf' defined but not used [-Wunused-function]
-     261 | static u8 __user *__init iov_kunit_create_user_buf(struct kunit *test,
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit_iov_iter.c:191:13: warning: 'iov_kunit_check_user_pattern' defined but not used [-Wunused-function]
-     191 | static void iov_kunit_check_user_pattern(struct kunit *test, const u8 __user *buffer,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit_iov_iter.c:119:13: warning: 'iov_kunit_fill_user_buf' defined but not used [-Wunused-function]
-     119 | static void iov_kunit_fill_user_buf(struct kunit *test,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~
+--
+>> <stdin>:1573:2: warning: #warning syscall set_mempolicy2 not implemented [-Wcpp]
+>> <stdin>:1576:2: warning: #warning syscall get_mempolicy2 not implemented [-Wcpp]
+--
+   WARNING: unmet direct dependencies detected for STACKTRACE
+   Depends on [n]: STACKTRACE_SUPPORT
+   Selected by [y]:
+   - STACKDEPOT [=y]
+>> <stdin>:1573:2: warning: #warning syscall set_mempolicy2 not implemented [-Wcpp]
+>> <stdin>:1576:2: warning: #warning syscall get_mempolicy2 not implemented [-Wcpp]
 
-
-vim +/READ_IMPLIES_EXEC +99 arch/loongarch/include/asm/page.h
-
-09cfefb7fa70c3 Huacai Chen 2022-05-31   96  
-09cfefb7fa70c3 Huacai Chen 2022-05-31   97  #define VM_DATA_DEFAULT_FLAGS \
-09cfefb7fa70c3 Huacai Chen 2022-05-31   98  	(VM_READ | VM_WRITE | \
-09cfefb7fa70c3 Huacai Chen 2022-05-31  @99  	 ((current->personality & READ_IMPLIES_EXEC) ? VM_EXEC : 0) | \
-09cfefb7fa70c3 Huacai Chen 2022-05-31  100  	 VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC)
-09cfefb7fa70c3 Huacai Chen 2022-05-31  101  
-
-:::::: The code at line 99 was first introduced by commit
-:::::: 09cfefb7fa70c3af011b0db0a513fd80b2f18abc LoongArch: Add memory management
-
-:::::: TO: Huacai Chen <chenhuacai@loongson.cn>
-:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for STACKTRACE
+   Depends on [n]: STACKTRACE_SUPPORT
+   Selected by [y]:
+   - STACKDEPOT [=y]
 
 -- 
 0-DAY CI Kernel Test Service
