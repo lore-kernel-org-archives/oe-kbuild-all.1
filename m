@@ -1,44 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D3DED2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 02:55:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D1EED2;
+	Fri, 15 Sep 2023 02:55:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694746522; x=1726282522;
+  t=1694746524; x=1726282524;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xVv4wetAPUYbmvdPMU1bPrb4r0mE6a399jmY7vzyoXI=;
-  b=RJGoOF4fEUCwS1LzbDNhha7MIWzONfC3WNG8ItLB9Yaf4LHHv3Cg6AZ0
-   Ev4MrStsdNi4+gIAi736sVIlc7yhwpYAD1ti9CcwadWcf5kAzQtBQJvi3
-   FREgFK9asiskxgd2eoXn7iNa9SXeTT9VDA4DwG1P6cp1jFdn0PpY5ST7T
-   IWjRIbKJtqweY9c7LXNKIfOd+PMNHSIhrM4EpqOctKodWWJo9HwnroSBX
-   X6nnd5fSFS43Ryp7W3IXKReku77fPGhfw6T8TGdXodP2+Lw7z6oi4DOTW
-   k+U9Cy+Zkkhk261NlX4PXSV/VaQeRoaTB2enRoZ9ELVDqzf2TA0RAeIi2
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="443202134"
+  bh=aLKY0hRp8/R8+WbLPIjcPIdpei2Ch16j6F7Zhk8MChQ=;
+  b=lSoqb29zOGjQcVHOaKc9tlsWpSIqNGfYkyQeyMTDGIuCYFikqaWmrtDP
+   SLCMEwkx59KWW9B8o9MdQFZDGzB4h5kP6GyLDsRn2VzdnWXr+mJVcIfd6
+   DcBHP78ILvGeGnDK7FpMVo5Y/Ie6iLJg6cLur5JCHTnd2hC1/QM115hjw
+   66/q1nHCnHrpgCzccgXTGA7svNilNg99sZFM6KCZ0ocFEhvlvjoqwpPuB
+   bGiYQQ3iUu/NFHSKoGiByJjkOi+aRvq3hj0L3fLueR5jQLKVSv02Yt0T6
+   TM4EPHMIdiGVqrUUeWsBRIMDKwQY0cb2VC4CcRyHOXoyaDaL/aaSXj7rV
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="443202128"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="443202134"
+   d="scan'208";a="443202128"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
   by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 19:55:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="721513512"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="721513511"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="721513512"
+   d="scan'208";a="721513511"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
   by orsmga006.jf.intel.com with ESMTP; 14 Sep 2023 19:55:12 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgyz7-0002LN-2g;
+	id 1qgyz7-0002LP-2n;
 	Fri, 15 Sep 2023 02:55:09 +0000
-Date: Fri, 15 Sep 2023 10:54:46 +0800
+Date: Fri, 15 Sep 2023 10:54:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	David Sterba <dsterba@suse.com>
-Subject: [linux-next:master 5242/5666] ERROR: modpost: "__udivdi3"
- [fs/btrfs/btrfs.ko] undefined!
-Message-ID: <202309151035.TmeOSXOd-lkp@intel.com>
+To: Joe Thornber <ejt@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dm-devel@redhat.com, Mike Snitzer <snitzer@kernel.org>
+Subject: [device-mapper-dm:for-next 2/4]
+ drivers/md/persistent-data/dm-extent-allocator.c:530:24: error: expected ';'
+ after expression
+Message-ID: <202309151023.QPBCNoCN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,56 +48,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   dfa449a58323de195773cf928d99db4130702bf7
-commit: 564654867daa781a21b67d952b3d18353a85c73a [5242/5666] btrfs: add support for inserting raid stripe extents
-config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20230915/202309151035.TmeOSXOd-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309151035.TmeOSXOd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git for-next
+head:   edcabec81f12dfc9b86b05084bba3232efdc5e4e
+commit: 59d814674dd66fc64ba229605174bfe0b8e566d5 [2/4] dm persistent data: Introduce extent allocator
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230915/202309151023.QPBCNoCN-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309151023.QPBCNoCN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309151035.TmeOSXOd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309151023.QPBCNoCN-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/riscv/kvm/kvm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/btrfs/btrfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/xor.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libsha256.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_deflate/zlib_deflate.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-de2-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/virt-dma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_dma_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/pcs/pcs_xpcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/dummy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/p8022.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/psnap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/stp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_cgroup.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_conntrack.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_rr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
->> ERROR: modpost: "__udivdi3" [fs/btrfs/btrfs.ko] undefined!
+>> drivers/md/persistent-data/dm-extent-allocator.c:530:24: error: expected ';' after expression
+           spin_unlock(&ea->lock)
+                                 ^
+                                 ;
+   drivers/md/persistent-data/dm-extent-allocator.c:544:24: error: expected ';' after expression
+           spin_unlock(&ea->lock)
+                                 ^
+                                 ;
+   2 errors generated.
+
+
+vim +530 drivers/md/persistent-data/dm-extent-allocator.c
+
+   511	
+   512	void dm_alloc_context_get(struct dm_extent_allocator *ea,
+   513				  struct dm_alloc_context *ac)
+   514	{
+   515		spin_lock(&ea->lock);
+   516		ac->ea = ea;
+   517	
+   518		ea->nr_allocation_contexts++;
+   519	
+   520		/*
+   521		 * We try and maintain a couple of nodes per alloc context to avoid sharing.
+   522		 * If allocation fails it's no big deal; we'll just get more fragmentation.
+   523		 */
+   524		if (ea->nr_preallocated_nodes < ea->nr_allocation_contexts * 2)
+   525			__prealloc_nodes(ea, 2, GFP_NOIO);
+   526	
+   527		list_add(&ac->list, &ea->allocation_contexts);
+   528		INIT_LIST_HEAD(&ac->holders_list);
+   529		ac->leaf = NULL;
+ > 530		spin_unlock(&ea->lock)
+   531	}
+   532	EXPORT_SYMBOL_GPL(dm_alloc_context_get);
+   533	
 
 -- 
 0-DAY CI Kernel Test Service
