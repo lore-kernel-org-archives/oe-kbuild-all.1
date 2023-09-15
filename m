@@ -1,44 +1,43 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A6110954
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 13:14:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1694783637;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sb5wr0wfo93KZmmG9iONfAq+eRQpW+VSRFFBiRCmnG8=;
-	b=gLBdpzYqa9yQeB3Ocn/QJRj7z/GYsd3WCZrgwmkeTfmM1P00rxw58TxuSF8ZNZ81Fc1Ij7
-	eEpQjAqQMvU5/ACX/vXahlQckbDc/l3euv+txqM4B6aXsVfVqZqv5o6WnvbOCKfNd7xxDP
-	ExKGrpbB/9VbT7EW/pXlXytsmZ2to6w=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-219-qPOpJlElMJyjGulFdS2cwQ-1; Fri, 15 Sep 2023 09:13:52 -0400
-X-MC-Unique: qPOpJlElMJyjGulFdS2cwQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C1227858285;
-	Fri, 15 Sep 2023 13:13:51 +0000 (UTC)
-Received: from localhost (unknown [10.72.113.71])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 806C32026D68;
-	Fri, 15 Sep 2023 13:13:50 +0000 (UTC)
-Date: Fri, 15 Sep 2023 21:13:47 +0800
-From: Baoquan He <bhe@redhat.com>
-To: kernel test robot <lkp@intel.com>, akpm@linux-foundation.org
-Cc: linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
-	thunder.leizhen@huawei.com, catalin.marinas@arm.com,
-	chenjiahao16@huawei.com, kexec@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, x86@kernel.org
-Subject: Re: [PATCH v3 6/9] x86: kdump: use generic interface to simplify
- crashkernel reservation code
-Message-ID: <ZQRYixr2AtJtRFrh@MiWiFi-R3L-srv>
-References: <20230914033142.676708-7-bhe@redhat.com>
- <202309141534.moH4dTcz-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD30101EB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 13:30:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694784604; x=1726320604;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oKb0pKZU4T6x9lFqGX6Mn/zjzyMb2NDiMqrD1nssiYo=;
+  b=I7GlYPY6gMedgxYdEv3YGTNXRkzCLNAreUjmmDbslXKOO8SEaCn2tfhJ
+   cfDHbqGqdUu01LQU4j2Ab3uYR5iZs+vwqO77HbphDBtuBSOropwb76adD
+   rvOXI+IvY5pmTvjpE3hawDA0z+hS6pfcQEgEdO+qJunfjfoIfbwfCF1Je
+   04y1Xerxd3XEVJ3gjjH/9HYICzwMvKwxWXjr7DZHd1NnG1rgxs+CMNoWh
+   OQ+ShUlZ9vAzNGQEug6cxP3kg72BgrdtppEdhj88Q5k2IJlVIXeJ+x4gn
+   letWI4MahiIgV8wLae84Gwoj7IuRone7kEu5WxPyQbo9NvPxz9yodyrNW
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="381976139"
+X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; 
+   d="scan'208";a="381976139"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 06:30:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="744985175"
+X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; 
+   d="scan'208";a="744985175"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 15 Sep 2023 06:30:02 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qh8tT-00030j-2T;
+	Fri, 15 Sep 2023 13:29:59 +0000
+Date: Fri, 15 Sep 2023 21:29:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Isaku Yamahata <isaku.yamahata@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-tdx:kvm-upstream-next 37/323]
+ arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1957:20: error: 'struct
+ kvm_memory_slot' has no member named 'file'
+Message-ID: <202309152115.KXtvN1BE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,108 +46,137 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202309141534.moH4dTcz-lkp@intel.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 
-On 09/14/23 at 04:12pm, kernel test robot wrote:
-> Hi Baoquan,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on powerpc/next]
-> [also build test WARNING on powerpc/fixes linus/master v6.6-rc1 next-20230914]
-> [cannot apply to arm64/for-next/core tip/x86/core]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/crash_core-c-remove-unnecessary-parameter-of-function/20230914-113546
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-> patch link:    https://lore.kernel.org/r/20230914033142.676708-7-bhe%40redhat.com
-> patch subject: [PATCH v3 6/9] x86: kdump: use generic interface to simplify crashkernel reservation code
-> config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20230914/202309141534.moH4dTcz-lkp@intel.com/config)
-> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309141534.moH4dTcz-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309141534.moH4dTcz-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> arch/x86/kernel/setup.c:476:15: warning: no previous prototype for function 'crash_low_size_default' [-Wmissing-prototypes]
->    unsigned long crash_low_size_default(void)
->                  ^
->    arch/x86/kernel/setup.c:476:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
->    unsigned long crash_low_size_default(void)
->    ^
->    static 
->    1 warning generated.
+tree:   https://github.com/intel/tdx.git kvm-upstream-next
+head:   5f6df2bb916b5aca21bbdc6962234979b1476ef1
+commit: e840dbba5f248b69d48348cc1458e1980f624e24 [37/323] RFC: KVM: gmem: Guarantee the order of destruction
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20230915/202309152115.KXtvN1BE-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309152115.KXtvN1BE-lkp@intel.com/reproduce)
 
-Thanks for reporting this. I can reproduced this warning on x86_64
-machine by retrieving the LKP's config and build it with below command:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309152115.KXtvN1BE-lkp@intel.com/
 
-	make ARCH=i386 -j128 W=1 arch/x86/kernel/
+All errors (new ones prefixed by >>):
 
-I can fix it by moving crash_low_size_default() into arch/x86/include/asm/crash_core.h 
-and make it as static inline as below draft change.
-
-Hi Andrew,
-
-I should post v4 of the whole series or just v4 of this patch?
-
-[PATCH v3 6/9] x86: kdump: use generic interface to simplify crashkernel reservation code
+   arch/riscv/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_set_memslot':
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1957:20: error: 'struct kvm_memory_slot' has no member named 'file'
+    1957 |                 new->file = old->file;
+         |                    ^~
+   arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1957:32: error: 'struct kvm_memory_slot' has no member named 'file'
+    1957 |                 new->file = old->file;
+         |                                ^~
+   arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1958:20: error: 'struct kvm_memory_slot' has no member named 'file'
+    1958 |                 old->file = NULL;
+         |                    ^~
 
 
-diff --git a/arch/x86/include/asm/crash_core.h b/arch/x86/include/asm/crash_core.h
-index 5fc5e4f94521..76af98f4e801 100644
---- a/arch/x86/include/asm/crash_core.h
-+++ b/arch/x86/include/asm/crash_core.h
-@@ -18,6 +18,7 @@
-  * no good way to detect the paging mode of the target kernel which will be
-  * loaded for dumping.
-  */
-+extern unsigned long swiotlb_size_or_default(void);
- 
- #ifdef CONFIG_X86_32
- # define CRASH_ADDR_LOW_MAX     SZ_512M
-@@ -29,6 +30,13 @@
- 
- # define DEFAULT_CRASH_KERNEL_LOW_SIZE crash_low_size_default()
- 
--extern unsigned long crash_low_size_default(void);
-+static inline unsigned long crash_low_size_default(void)
-+{
-+#ifdef CONFIG_X86_64
-+	return max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20);
-+#else
-+	return 0;
-+#endif
-+}
- 
- #endif /* _X86_CRASH_CORE_H */
-diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-index 0acc86587fc0..d7baa567c68e 100644
---- a/arch/x86/kernel/setup.c
-+++ b/arch/x86/kernel/setup.c
-@@ -470,18 +470,6 @@ static void __init memblock_x86_reserve_range_setup_data(void)
- 	}
- }
- 
--/*
-- * --------- Crashkernel reservation ------------------------------
-- */
--unsigned long crash_low_size_default(void)
--{
--#ifdef CONFIG_X86_64
--	return max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20);
--#else
--	return 0;
--#endif
--}
--
- static void __init arch_reserve_crashkernel(void)
- {
- 	unsigned long long crash_base, crash_size, low_size = 0;
+vim +1957 arch/riscv/kvm/../../../virt/kvm/kvm_main.c
 
+  1908	
+  1909	static int kvm_set_memslot(struct kvm *kvm,
+  1910				   struct kvm_memory_slot *old,
+  1911				   struct kvm_memory_slot *new,
+  1912				   enum kvm_mr_change change)
+  1913	{
+  1914		struct kvm_memory_slot *invalid_slot;
+  1915		int r;
+  1916	
+  1917		/*
+  1918		 * Released in kvm_swap_active_memslots().
+  1919		 *
+  1920		 * Must be held from before the current memslots are copied until after
+  1921		 * the new memslots are installed with rcu_assign_pointer, then
+  1922		 * released before the synchronize srcu in kvm_swap_active_memslots().
+  1923		 *
+  1924		 * When modifying memslots outside of the slots_lock, must be held
+  1925		 * before reading the pointer to the current memslots until after all
+  1926		 * changes to those memslots are complete.
+  1927		 *
+  1928		 * These rules ensure that installing new memslots does not lose
+  1929		 * changes made to the previous memslots.
+  1930		 */
+  1931		mutex_lock(&kvm->slots_arch_lock);
+  1932	
+  1933		/*
+  1934		 * Invalidate the old slot if it's being deleted or moved.  This is
+  1935		 * done prior to actually deleting/moving the memslot to allow vCPUs to
+  1936		 * continue running by ensuring there are no mappings or shadow pages
+  1937		 * for the memslot when it is deleted/moved.  Without pre-invalidation
+  1938		 * (and without a lock), a window would exist between effecting the
+  1939		 * delete/move and committing the changes in arch code where KVM or a
+  1940		 * guest could access a non-existent memslot.
+  1941		 *
+  1942		 * Modifications are done on a temporary, unreachable slot.  The old
+  1943		 * slot needs to be preserved in case a later step fails and the
+  1944		 * invalidation needs to be reverted.
+  1945		 */
+  1946		if (change == KVM_MR_DELETE || change == KVM_MR_MOVE) {
+  1947			invalid_slot = kzalloc(sizeof(*invalid_slot), GFP_KERNEL_ACCOUNT);
+  1948			if (!invalid_slot) {
+  1949				mutex_unlock(&kvm->slots_arch_lock);
+  1950				return -ENOMEM;
+  1951			}
+  1952			kvm_invalidate_memslot(kvm, old, invalid_slot);
+  1953		}
+  1954	
+  1955	
+  1956		if (new && old) {
+> 1957			new->file = old->file;
+  1958			old->file = NULL;
+  1959		}
+  1960		r = kvm_prepare_memory_region(kvm, old, new, change);
+  1961		if (r) {
+  1962			/*
+  1963			 * For DELETE/MOVE, revert the above INVALID change.  No
+  1964			 * modifications required since the original slot was preserved
+  1965			 * in the inactive slots.  Changing the active memslots also
+  1966			 * release slots_arch_lock.
+  1967			 */
+  1968			if (change == KVM_MR_DELETE || change == KVM_MR_MOVE) {
+  1969				kvm_activate_memslot(kvm, invalid_slot, old);
+  1970				kfree(invalid_slot);
+  1971			} else {
+  1972				mutex_unlock(&kvm->slots_arch_lock);
+  1973			}
+  1974			return r;
+  1975		}
+  1976	
+  1977		/*
+  1978		 * For DELETE and MOVE, the working slot is now active as the INVALID
+  1979		 * version of the old slot.  MOVE is particularly special as it reuses
+  1980		 * the old slot and returns a copy of the old slot (in working_slot).
+  1981		 * For CREATE, there is no old slot.  For DELETE and FLAGS_ONLY, the
+  1982		 * old slot is detached but otherwise preserved.
+  1983		 */
+  1984		if (change == KVM_MR_CREATE)
+  1985			kvm_create_memslot(kvm, new);
+  1986		else if (change == KVM_MR_DELETE)
+  1987			kvm_delete_memslot(kvm, old, invalid_slot);
+  1988		else if (change == KVM_MR_MOVE)
+  1989			kvm_move_memslot(kvm, old, new, invalid_slot);
+  1990		else if (change == KVM_MR_FLAGS_ONLY)
+  1991			kvm_update_flags_memslot(kvm, old, new);
+  1992		else
+  1993			BUG();
+  1994	
+  1995		/* Free the temporary INVALID slot used for DELETE and MOVE. */
+  1996		if (change == KVM_MR_DELETE || change == KVM_MR_MOVE)
+  1997			kfree(invalid_slot);
+  1998	
+  1999		/*
+  2000		 * No need to refresh new->arch, changes after dropping slots_arch_lock
+  2001		 * will directly hit the final, active memslot.  Architectures are
+  2002		 * responsible for knowing that new->arch may be stale.
+  2003		 */
+  2004		kvm_commit_memory_region(kvm, old, new, change);
+  2005	
+  2006		return 0;
+  2007	}
+  2008	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
