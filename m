@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592061805C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 20:43:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CAD31B28A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 21:35:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694810611; x=1726346611;
+  t=1694813734; x=1726349734;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=18dz03K1cAItjEKem7F0jRTTAN1G5rxKaRlf9jhGURc=;
-  b=ZLVZarRkHGxE0aYyEIJpPvV0wsI1fyL/atl8Ofrjtmkq2MPAJuyqnwgy
-   QnggiaTI0NCzLo3QhoBG9c4jj092Q+BxH2KVGb/keZSLw7Bny/7vh+1ju
-   6yEbGOBrwr8/M7FwnZxyZiPB0O/5JFjysNtLlD9Q8Zu3PzVTivYcQ7OJE
-   FLifbBMvO7QT7sg7AxDx4KRETNjekk+2aVUWZ8wmcLzoO2GgEMuz0fWIn
-   QrEgeEbjU0r5exUhSAtkCToEDXx8xtOpfCFf/uS5QjmGV4oPGE6qClaVN
-   6ZZu6zdKUcHupKecUU33t3aprYiYE8962FIy56HiZ9zEbx0ikfro1JEP4
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="359587488"
+  bh=/ogXUJOmjDW/bpJ8jXZiRIzF7x9Aedll9nbBHLvWLCQ=;
+  b=mXF5lRAORi0wVMUPaMbBX0n3Ct7emVm+vuz5ybyQHZp3jRRdiSHfgTZX
+   StwmlXm2FA1YJTEpB+xHf0DUfdbi4Scz9faD9X3mrP/y0mvxJvkm2ZFZG
+   LY3sqoDqjv2kHUityqeWAXL3IvRYBCR1isBRJS1hg0YwgfRnlisyMBrKt
+   7nEsiGRs46Ehk7gvBQHVQRAHClSvDPt3pLv+R+cmtPb5jhywnXSM7e8+l
+   3hqVBPSt+9ehmfBxF1XJ6fTlu6HvUsHdDkQL7ac07Z1QiXHczzDBdo8te
+   TS+7E+YL09aqJcfe4Gyh2znhWe+IsPZRwXEAGXTP4x4Sd8rXAyYmmrRmX
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="443417143"
 X-IronPort-AV: E=Sophos;i="6.02,150,1688454000"; 
-   d="scan'208";a="359587488"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 13:43:30 -0700
+   d="scan'208";a="443417143"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 14:35:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="991992077"
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="748326764"
 X-IronPort-AV: E=Sophos;i="6.02,150,1688454000"; 
-   d="scan'208";a="991992077"
+   d="scan'208";a="748326764"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 15 Sep 2023 13:43:28 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 15 Sep 2023 14:35:32 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qhFer-0003Ps-1p;
-	Fri, 15 Sep 2023 20:43:25 +0000
-Date: Sat, 16 Sep 2023 04:42:35 +0800
+	id 1qhGTJ-0003Tg-2m;
+	Fri, 15 Sep 2023 21:35:29 +0000
+Date: Sat, 16 Sep 2023 05:34:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qing Zhang <zhangqing@loongson.cn>
+To: Robin Murphy <robin.murphy@arm.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Huacai Chen <chenhuacai@kernel.org>
-Subject: include/linux/kasan-checks.h:38:27: warning: 'space_args' may be
- used uninitialized
-Message-ID: <202309160440.jECtzdr6-lkp@intel.com>
+	Joerg Roedel <jroedel@suse.de>
+Subject: drivers/iommu/ipmmu-vmsa.c:946:34: warning: 'ipmmu_of_ids' defined
+ but not used
+Message-ID: <202309160540.Y5aiYqMR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,76 +47,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Robin,
+
+FYI, the error/warning still remains.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9fdfb15a3dbf818e06be514f4abbfc071004cbe7
-commit: 5aa4ac64e6add3e40d5049e31275b2822daf885d LoongArch: Add KASAN (Kernel Address Sanitizer) support
-date:   9 days ago
-config: loongarch-randconfig-002-20230916 (https://download.01.org/0day-ci/archive/20230916/202309160440.jECtzdr6-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230916/202309160440.jECtzdr6-lkp@intel.com/reproduce)
+head:   9608c7b729e29c177525006711966ae0fd399b11
+commit: b87d6d7fa405e23478f1e1dff6d66b5a533a5433 iommu/ipmmu-vmsa: Clean up bus_set_iommu()
+date:   1 year ago
+config: um-randconfig-002-20230916 (https://download.01.org/0day-ci/archive/20230916/202309160540.Y5aiYqMR-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230916/202309160540.Y5aiYqMR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309160440.jECtzdr6-lkp@intel.com/
-
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309160540.Y5aiYqMR-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/rwonce.h:26,
-                    from ./arch/loongarch/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:246,
-                    from include/linux/export.h:5,
-                    from include/linux/linkage.h:7,
-                    from include/linux/kernel.h:17,
-                    from fs/btrfs/ioctl.c:6:
-   In function 'instrument_copy_from_user_before',
-       inlined from '_copy_from_user' at include/linux/uaccess.h:148:3,
-       inlined from 'copy_from_user' at include/linux/uaccess.h:183:7,
-       inlined from 'btrfs_ioctl_space_info' at fs/btrfs/ioctl.c:2993:6:
->> include/linux/kasan-checks.h:38:27: warning: 'space_args' may be used uninitialized [-Wmaybe-uninitialized]
-      38 | #define kasan_check_write __kasan_check_write
-   include/linux/instrumented.h:129:9: note: in expansion of macro 'kasan_check_write'
-     129 |         kasan_check_write(to, n);
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'btrfs_ioctl_space_info':
-   include/linux/kasan-checks.h:20:6: note: by argument 1 of type 'const volatile void *' to '__kasan_check_write' declared here
-      20 | bool __kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:2975:39: note: 'space_args' declared here
-    2975 |         struct btrfs_ioctl_space_args space_args;
-         |                                       ^~~~~~~~~~
+>> drivers/iommu/ipmmu-vmsa.c:946:34: warning: 'ipmmu_of_ids' defined but not used [-Wunused-const-variable=]
+     946 | static const struct of_device_id ipmmu_of_ids[] = {
+         |                                  ^~~~~~~~~~~~
 
 
-vim +/space_args +38 include/linux/kasan-checks.h
+vim +/ipmmu_of_ids +946 drivers/iommu/ipmmu-vmsa.c
 
-7d8ad890dad00f Marco Elver     2019-07-11  31  
-7d8ad890dad00f Marco Elver     2019-07-11  32  /*
-7d8ad890dad00f Marco Elver     2019-07-11  33   * kasan_check_*: Only available when the particular compilation unit has KASAN
-7d8ad890dad00f Marco Elver     2019-07-11  34   * instrumentation enabled. May be used in header files.
-7d8ad890dad00f Marco Elver     2019-07-11  35   */
-7d8ad890dad00f Marco Elver     2019-07-11  36  #ifdef __SANITIZE_ADDRESS__
-7d8ad890dad00f Marco Elver     2019-07-11  37  #define kasan_check_read __kasan_check_read
-7d8ad890dad00f Marco Elver     2019-07-11 @38  #define kasan_check_write __kasan_check_write
-64f8ebaf115bcd Andrey Ryabinin 2016-05-20  39  #else
-b5f6e0fc7d60e0 Marco Elver     2019-07-11  40  static inline bool kasan_check_read(const volatile void *p, unsigned int size)
-b5f6e0fc7d60e0 Marco Elver     2019-07-11  41  {
-b5f6e0fc7d60e0 Marco Elver     2019-07-11  42  	return true;
-b5f6e0fc7d60e0 Marco Elver     2019-07-11  43  }
-b5f6e0fc7d60e0 Marco Elver     2019-07-11  44  static inline bool kasan_check_write(const volatile void *p, unsigned int size)
-b5f6e0fc7d60e0 Marco Elver     2019-07-11  45  {
-b5f6e0fc7d60e0 Marco Elver     2019-07-11  46  	return true;
-b5f6e0fc7d60e0 Marco Elver     2019-07-11  47  }
-64f8ebaf115bcd Andrey Ryabinin 2016-05-20  48  #endif
-64f8ebaf115bcd Andrey Ryabinin 2016-05-20  49  
+7a62ced8ebd0e1 Yoshihiro Shimoda       2021-09-07  945  
+33f3ac9b511612 Magnus Damm             2017-10-16 @946  static const struct of_device_id ipmmu_of_ids[] = {
+33f3ac9b511612 Magnus Damm             2017-10-16  947  	{
+33f3ac9b511612 Magnus Damm             2017-10-16  948  		.compatible = "renesas,ipmmu-vmsa",
+33f3ac9b511612 Magnus Damm             2017-10-16  949  		.data = &ipmmu_features_default,
+60fb0083c9d43b Fabrizio Castro         2018-08-23  950  	}, {
+60fb0083c9d43b Fabrizio Castro         2018-08-23  951  		.compatible = "renesas,ipmmu-r8a774a1",
+60fb0083c9d43b Fabrizio Castro         2018-08-23  952  		.data = &ipmmu_features_rcar_gen3,
+757f26a3a9ec2c Biju Das                2019-09-27  953  	}, {
+757f26a3a9ec2c Biju Das                2019-09-27  954  		.compatible = "renesas,ipmmu-r8a774b1",
+757f26a3a9ec2c Biju Das                2019-09-27  955  		.data = &ipmmu_features_rcar_gen3,
+b6d39cd82241bf Fabrizio Castro         2018-12-13  956  	}, {
+b6d39cd82241bf Fabrizio Castro         2018-12-13  957  		.compatible = "renesas,ipmmu-r8a774c0",
+b6d39cd82241bf Fabrizio Castro         2018-12-13  958  		.data = &ipmmu_features_rcar_gen3,
+4b2aa7a6f9b793 Marian-Cristian Rotariu 2020-07-14  959  	}, {
+4b2aa7a6f9b793 Marian-Cristian Rotariu 2020-07-14  960  		.compatible = "renesas,ipmmu-r8a774e1",
+4b2aa7a6f9b793 Marian-Cristian Rotariu 2020-07-14  961  		.data = &ipmmu_features_rcar_gen3,
+58b8e8bf409236 Magnus Damm             2017-10-16  962  	}, {
+58b8e8bf409236 Magnus Damm             2017-10-16  963  		.compatible = "renesas,ipmmu-r8a7795",
+0b8ac1409641e1 Magnus Damm             2018-06-14  964  		.data = &ipmmu_features_rcar_gen3,
+0b8ac1409641e1 Magnus Damm             2018-06-14  965  	}, {
+0b8ac1409641e1 Magnus Damm             2018-06-14  966  		.compatible = "renesas,ipmmu-r8a7796",
+0b8ac1409641e1 Magnus Damm             2018-06-14  967  		.data = &ipmmu_features_rcar_gen3,
+17fe1618163980 Yoshihiro Shimoda       2020-06-11  968  	}, {
+17fe1618163980 Yoshihiro Shimoda       2020-06-11  969  		.compatible = "renesas,ipmmu-r8a77961",
+17fe1618163980 Yoshihiro Shimoda       2020-06-11  970  		.data = &ipmmu_features_rcar_gen3,
+98dbffd39a6513 Jacopo Mondi            2018-06-14  971  	}, {
+98dbffd39a6513 Jacopo Mondi            2018-06-14  972  		.compatible = "renesas,ipmmu-r8a77965",
+98dbffd39a6513 Jacopo Mondi            2018-06-14  973  		.data = &ipmmu_features_rcar_gen3,
+3701c123e1c13c Simon Horman            2018-06-14  974  	}, {
+3701c123e1c13c Simon Horman            2018-06-14  975  		.compatible = "renesas,ipmmu-r8a77970",
+3701c123e1c13c Simon Horman            2018-06-14  976  		.data = &ipmmu_features_rcar_gen3,
+1cdeb52e5c245b Nikita Yushchenko       2021-09-23  977  	}, {
+1cdeb52e5c245b Nikita Yushchenko       2021-09-23  978  		.compatible = "renesas,ipmmu-r8a77980",
+1cdeb52e5c245b Nikita Yushchenko       2021-09-23  979  		.data = &ipmmu_features_rcar_gen3,
+b0c32912150565 Hai Nguyen Pham         2018-10-17  980  	}, {
+b0c32912150565 Hai Nguyen Pham         2018-10-17  981  		.compatible = "renesas,ipmmu-r8a77990",
+b0c32912150565 Hai Nguyen Pham         2018-10-17  982  		.data = &ipmmu_features_rcar_gen3,
+3701c123e1c13c Simon Horman            2018-06-14  983  	}, {
+3701c123e1c13c Simon Horman            2018-06-14  984  		.compatible = "renesas,ipmmu-r8a77995",
+3701c123e1c13c Simon Horman            2018-06-14  985  		.data = &ipmmu_features_rcar_gen3,
+7a62ced8ebd0e1 Yoshihiro Shimoda       2021-09-07  986  	}, {
+7a62ced8ebd0e1 Yoshihiro Shimoda       2021-09-07  987  		.compatible = "renesas,ipmmu-r8a779a0",
+ae684caf465b7d Yoshihiro Shimoda       2022-02-08  988  		.data = &ipmmu_features_rcar_gen4,
+ae684caf465b7d Yoshihiro Shimoda       2022-02-08  989  	}, {
+9f7d09fe23a011 Yoshihiro Shimoda       2022-06-17  990  		.compatible = "renesas,rcar-gen4-ipmmu-vmsa",
+ae684caf465b7d Yoshihiro Shimoda       2022-02-08  991  		.data = &ipmmu_features_rcar_gen4,
+33f3ac9b511612 Magnus Damm             2017-10-16  992  	}, {
+33f3ac9b511612 Magnus Damm             2017-10-16  993  		/* Terminator */
+33f3ac9b511612 Magnus Damm             2017-10-16  994  	},
+33f3ac9b511612 Magnus Damm             2017-10-16  995  };
+33f3ac9b511612 Magnus Damm             2017-10-16  996  
 
-:::::: The code at line 38 was first introduced by commit
-:::::: 7d8ad890dad00f6cd64bfb44d9be4fceb10cf819 mm/kasan: introduce __kasan_check_{read,write}
+:::::: The code at line 946 was first introduced by commit
+:::::: 33f3ac9b511612153bae1d328b0c84c0367cd08d iommu/ipmmu-vmsa: Introduce features, break out alias
 
-:::::: TO: Marco Elver <elver@google.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Magnus Damm <damm+renesas@opensource.se>
+:::::: CC: Alex Williamson <alex.williamson@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
