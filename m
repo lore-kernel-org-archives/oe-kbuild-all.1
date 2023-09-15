@@ -1,45 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02EE17E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 00:27:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D60A36A;
+	Fri, 15 Sep 2023 00:48:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694737628; x=1726273628;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NfawGZ/wOoTAAqH0D5cMeL8UCV11W9FTI2gsyatgKMQ=;
-  b=n+UGtnAW+Pgi6/dDmK0UgTigmy9hlvRmM8a4iZou2TSiPAIOicMb1QQE
-   lWGWgf5L9xNZrOJLTYdmtw40JT4Ay2EfQGG1yvVVMbLRyDUSlgumtHI3f
-   DhUAaBGM6ZbxF1Bt+EfC+2RjWDT+mlFvt9tLXo9ux7SM8Yfo7MJ9HNAk/
-   T+fJQZ5aIPf4mI9Jo824bz+TjT69kguy/+cPoqjL8sYmOb9WGGLgJNFo+
-   SIf3mt6O+JGrR2ZN0xFfrCHlYpFChVlFlbExKrHh2krUq+0zWl3PtTCM6
-   Me25tIUyr94GN4TTFSb7310j1bWRptcyIO7aI0WcvuA0Z+zS3k7ZkQq9O
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="369432939"
+  t=1694738891; x=1726274891;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0/Y8tr6+72dx/dGIQEQzCuenUy3CT3AAuLaoi6w6Aa4=;
+  b=jYcTL0PdCMO/j7Xh4EBa8kbXh96AbvWr830w3Gadq9+/Yhx5UNLLteG6
+   4k3RvPSmNGsQyfogKXDsZnK5uNeZ7SE0g/bM8JottQskagtYGgvebXWF9
+   Yi1aH46rNB4e6qifFUk10dzK0YOYh8lEe/Nm/BFg6+T5bd5zkBW8YpX6r
+   5KvOmdCRJl+9Pj51bCY1lihAsSzBpX/uUsIlycL1mzChzzjdrZj4y+sNH
+   PEx0QcrsnIcQ3HKFP1eg1H5YUAcNo8uZdU7ddLS+pd9igAIFzaQyH2ls4
+   37Sp5dPFiXxszVWWJsL7UGZ+UIdQCowWhKGf2PP++Xi8GQL2XZdHXkEi0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="410063863"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="369432939"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 17:27:07 -0700
+   d="scan'208";a="410063863"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 17:48:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="744754672"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="859950717"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="744754672"
+   d="scan'208";a="859950717"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 14 Sep 2023 17:27:05 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 14 Sep 2023 17:48:06 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgwfl-0002Cz-0n;
-	Fri, 15 Sep 2023 00:27:01 +0000
-Date: Fri, 15 Sep 2023 08:26:43 +0800
+	id 1qgx07-0002Dx-2Z;
+	Fri, 15 Sep 2023 00:48:03 +0000
+Date: Fri, 15 Sep 2023 08:47:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lucas Tanure <tanureal@opensource.cirrus.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Lee Jones <lee@kernel.org>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>
-Subject: drivers/soundwire/bus_type.c:126:30: error: implicit declaration of
- function 'irq_create_mapping'; did you mean 'irq_dispose_mapping'?
-Message-ID: <202309150820.6zuErL12-lkp@intel.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+	tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+	nicolas.dufresne@collabora.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v7 45/49] media: core: Add bitmap manage bufs array
+ entries
+Message-ID: <202309150835.kxjWQyEU-lkp@intel.com>
+References: <20230914133323.198857-46-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,163 +56,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230914133323.198857-46-benjamin.gaignard@collabora.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9fdfb15a3dbf818e06be514f4abbfc071004cbe7
-commit: 12a95123bfe1dd1a6020a35f5e67a560591bb02a soundwire: bus: Allow SoundWire peripherals to register IRQ handlers
-date:   4 weeks ago
-config: s390-randconfig-r031-20220110 (https://download.01.org/0day-ci/archive/20230915/202309150820.6zuErL12-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150820.6zuErL12-lkp@intel.com/reproduce)
+Hi Benjamin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc1]
+[cannot apply to next-20230914]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Rework-offset-cookie-encoding-pattern/20230914-221757
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230914133323.198857-46-benjamin.gaignard%40collabora.com
+patch subject: [PATCH v7 45/49] media: core: Add bitmap manage bufs array entries
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230915/202309150835.kxjWQyEU-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150835.kxjWQyEU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309150820.6zuErL12-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309150835.kxjWQyEU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/soundwire/bus_type.c: In function 'sdw_drv_probe':
->> drivers/soundwire/bus_type.c:126:30: error: implicit declaration of function 'irq_create_mapping'; did you mean 'irq_dispose_mapping'? [-Werror=implicit-function-declaration]
-     126 |                 slave->irq = irq_create_mapping(slave->bus->domain, slave->dev_num);
-         |                              ^~~~~~~~~~~~~~~~~~
-         |                              irq_dispose_mapping
-   drivers/soundwire/bus_type.c: In function 'sdw_drv_remove':
->> drivers/soundwire/bus_type.c:179:37: error: implicit declaration of function 'irq_find_mapping'; did you mean 'irq_dispose_mapping'? [-Werror=implicit-function-declaration]
-     179 |                 irq_dispose_mapping(irq_find_mapping(slave->bus->domain,
-         |                                     ^~~~~~~~~~~~~~~~
-         |                                     irq_dispose_mapping
-   cc1: some warnings being treated as errors
+   samples/v4l/v4l2-pci-skeleton.c: In function 'queue_setup':
+>> samples/v4l/v4l2-pci-skeleton.c:170:15: error: 'struct vb2_queue' has no member named 'num_buffers'
+     170 |         if (vq->num_buffers + *nbuffers < 3)
+         |               ^~
+   samples/v4l/v4l2-pci-skeleton.c:171:35: error: 'struct vb2_queue' has no member named 'num_buffers'
+     171 |                 *nbuffers = 3 - vq->num_buffers;
+         |                                   ^~
 --
-   drivers/soundwire/bus.c: In function 'sdw_bus_master_add':
->> drivers/soundwire/bus.c:173:23: error: implicit declaration of function 'irq_domain_create_linear' [-Werror=implicit-function-declaration]
-     173 |         bus->domain = irq_domain_create_linear(fwnode, SDW_MAX_DEVICES,
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/soundwire/bus.c:173:21: warning: assignment to 'struct irq_domain *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     173 |         bus->domain = irq_domain_create_linear(fwnode, SDW_MAX_DEVICES,
-         |                     ^
-   drivers/soundwire/bus.c: In function 'sdw_bus_master_delete':
->> drivers/soundwire/bus.c:217:9: error: implicit declaration of function 'irq_domain_remove' [-Werror=implicit-function-declaration]
-     217 |         irq_domain_remove(bus->domain);
-         |         ^~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   drivers/input/touchscreen/sur40.c: In function 'sur40_queue_setup':
+>> drivers/input/touchscreen/sur40.c:851:14: error: 'struct vb2_queue' has no member named 'num_buffers'
+     851 |         if (q->num_buffers + *nbuffers < 3)
+         |              ^~
+   drivers/input/touchscreen/sur40.c:852:34: error: 'struct vb2_queue' has no member named 'num_buffers'
+     852 |                 *nbuffers = 3 - q->num_buffers;
+         |                                  ^~
 
 
-vim +126 drivers/soundwire/bus_type.c
+vim +170 samples/v4l/v4l2-pci-skeleton.c
 
-    79	
-    80	static int sdw_drv_probe(struct device *dev)
-    81	{
-    82		struct sdw_slave *slave = dev_to_sdw_dev(dev);
-    83		struct sdw_driver *drv = drv_to_sdw_driver(dev->driver);
-    84		const struct sdw_device_id *id;
-    85		const char *name;
-    86		int ret;
-    87	
-    88		/*
-    89		 * fw description is mandatory to bind
-    90		 */
-    91		if (!dev->fwnode)
-    92			return -ENODEV;
-    93	
-    94		if (!IS_ENABLED(CONFIG_ACPI) && !dev->of_node)
-    95			return -ENODEV;
-    96	
-    97		id = sdw_get_device_id(slave, drv);
-    98		if (!id)
-    99			return -ENODEV;
-   100	
-   101		/*
-   102		 * attach to power domain but don't turn on (last arg)
-   103		 */
-   104		ret = dev_pm_domain_attach(dev, false);
-   105		if (ret)
-   106			return ret;
-   107	
-   108		ret = drv->probe(slave, id);
-   109		if (ret) {
-   110			name = drv->name;
-   111			if (!name)
-   112				name = drv->driver.name;
-   113	
-   114			dev_err(dev, "Probe of %s failed: %d\n", name, ret);
-   115			dev_pm_domain_detach(dev, false);
-   116			return ret;
-   117		}
-   118	
-   119		mutex_lock(&slave->sdw_dev_lock);
-   120	
-   121		/* device is probed so let's read the properties now */
-   122		if (drv->ops && drv->ops->read_prop)
-   123			drv->ops->read_prop(slave);
-   124	
-   125		if (slave->prop.use_domain_irq) {
- > 126			slave->irq = irq_create_mapping(slave->bus->domain, slave->dev_num);
-   127			if (!slave->irq)
-   128				dev_warn(dev, "Failed to map IRQ\n");
-   129		}
-   130	
-   131		/* init the sysfs as we have properties now */
-   132		ret = sdw_slave_sysfs_init(slave);
-   133		if (ret < 0)
-   134			dev_warn(dev, "Slave sysfs init failed:%d\n", ret);
-   135	
-   136		/*
-   137		 * Check for valid clk_stop_timeout, use DisCo worst case value of
-   138		 * 300ms
-   139		 *
-   140		 * TODO: check the timeouts and driver removal case
-   141		 */
-   142		if (slave->prop.clk_stop_timeout == 0)
-   143			slave->prop.clk_stop_timeout = 300;
-   144	
-   145		slave->bus->clk_stop_timeout = max_t(u32, slave->bus->clk_stop_timeout,
-   146						     slave->prop.clk_stop_timeout);
-   147	
-   148		slave->probed = true;
-   149	
-   150		/*
-   151		 * if the probe happened after the bus was started, notify the codec driver
-   152		 * of the current hardware status to e.g. start the initialization.
-   153		 * Errors are only logged as warnings to avoid failing the probe.
-   154		 */
-   155		if (drv->ops && drv->ops->update_status) {
-   156			ret = drv->ops->update_status(slave, slave->status);
-   157			if (ret < 0)
-   158				dev_warn(dev, "%s: update_status failed with status %d\n", __func__, ret);
-   159		}
-   160	
-   161		mutex_unlock(&slave->sdw_dev_lock);
-   162	
-   163		dev_dbg(dev, "probe complete\n");
-   164	
-   165		return 0;
-   166	}
-   167	
-   168	static int sdw_drv_remove(struct device *dev)
-   169	{
-   170		struct sdw_slave *slave = dev_to_sdw_dev(dev);
-   171		struct sdw_driver *drv = drv_to_sdw_driver(dev->driver);
-   172		int ret = 0;
-   173	
-   174		mutex_lock(&slave->sdw_dev_lock);
-   175	
-   176		slave->probed = false;
-   177	
-   178		if (slave->prop.use_domain_irq)
- > 179			irq_dispose_mapping(irq_find_mapping(slave->bus->domain,
-   180							     slave->dev_num));
-   181	
-   182		mutex_unlock(&slave->sdw_dev_lock);
-   183	
-   184		if (drv->remove)
-   185			ret = drv->remove(slave);
-   186	
-   187		dev_pm_domain_detach(dev, false);
-   188	
-   189		return ret;
-   190	}
-   191	
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  145  
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  146  /*
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  147   * Setup the constraints of the queue: besides setting the number of planes
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  148   * per buffer and the size and allocation context of each plane, it also
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  149   * checks if sufficient buffers have been allocated. Usually 3 is a good
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  150   * minimum number: many DMA engines need a minimum of 2 buffers in the
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  151   * queue and you need to have another available for userspace processing.
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  152   */
+df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  153  static int queue_setup(struct vb2_queue *vq,
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  154  		       unsigned int *nbuffers, unsigned int *nplanes,
+36c0f8b32c4bd4 samples/v4l/v4l2-pci-skeleton.c               Hans Verkuil 2016-04-15  155  		       unsigned int sizes[], struct device *alloc_devs[])
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  156  {
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  157  	struct skeleton *skel = vb2_get_drv_priv(vq);
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  158  
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  159  	skel->field = skel->format.field;
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  160  	if (skel->field == V4L2_FIELD_ALTERNATE) {
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  161  		/*
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  162  		 * You cannot use read() with FIELD_ALTERNATE since the field
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  163  		 * information (TOP/BOTTOM) cannot be passed back to the user.
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  164  		 */
+3130a28a1568b1 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-23  165  		if (vb2_fileio_is_active(vq))
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  166  			return -EINVAL;
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  167  		skel->field = V4L2_FIELD_TOP;
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  168  	}
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  169  
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14 @170  	if (vq->num_buffers + *nbuffers < 3)
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  171  		*nbuffers = 3 - vq->num_buffers;
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  172  
+df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  173  	if (*nplanes)
+df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  174  		return sizes[0] < skel->format.sizeimage ? -EINVAL : 0;
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  175  	*nplanes = 1;
+df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  176  	sizes[0] = skel->format.sizeimage;
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  177  	return 0;
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  178  }
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  179  
 
 -- 
 0-DAY CI Kernel Test Service
