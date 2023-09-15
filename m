@@ -1,142 +1,154 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A2CDDB7;
-	Fri, 15 Sep 2023 13:13:11 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:7735:5996:cf40:bca6] (unknown [IPv6:2a01:e0a:120:3210:7735:5996:cf40:bca6])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A6110954
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 13:14:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1694783637;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sb5wr0wfo93KZmmG9iONfAq+eRQpW+VSRFFBiRCmnG8=;
+	b=gLBdpzYqa9yQeB3Ocn/QJRj7z/GYsd3WCZrgwmkeTfmM1P00rxw58TxuSF8ZNZ81Fc1Ij7
+	eEpQjAqQMvU5/ACX/vXahlQckbDc/l3euv+txqM4B6aXsVfVqZqv5o6WnvbOCKfNd7xxDP
+	ExKGrpbB/9VbT7EW/pXlXytsmZ2to6w=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-219-qPOpJlElMJyjGulFdS2cwQ-1; Fri, 15 Sep 2023 09:13:52 -0400
+X-MC-Unique: qPOpJlElMJyjGulFdS2cwQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 1D60B66072ED;
-	Fri, 15 Sep 2023 14:02:56 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1694782976;
-	bh=p3dIJk432sgjwEaG99pDgDD1HBalYst4ezbAkgYJyz4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jqb6/GyVg5IuUKgGjzBkcnNg1wXFDJFiSi6o2rQe5WYoXkRfqvzt8Zinleucikwy+
-	 hRA2+5AaN16cDBPUxAABqKfK854lwKRdJYLH8RyKWUWiXqEzYHGLPF9Ys9CeeeBeLt
-	 P5ikdtNdI08HzbDRZarbCfotl/dnWAQV31r2PuTklWR/YoAVfZUlHMP4VIrQXpyl1e
-	 nK+EOUaUt0FpTB3XBAIdy3He2cwufeUhtmXD+wwrne81yOtRh+7LA8r6ziwG6U/0tg
-	 5kKbsqRIMxeBTLzXkSWnJ9ADpe9KeV6QS8W7ybOhnSMEcatthVpy6JUQDM/efEajFH
-	 JtGFEwcByqq1A==
-Message-ID: <b048719a-9397-7490-0651-7c1470ef61e0@collabora.com>
-Date: Fri, 15 Sep 2023 15:02:53 +0200
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C1227858285;
+	Fri, 15 Sep 2023 13:13:51 +0000 (UTC)
+Received: from localhost (unknown [10.72.113.71])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 806C32026D68;
+	Fri, 15 Sep 2023 13:13:50 +0000 (UTC)
+Date: Fri, 15 Sep 2023 21:13:47 +0800
+From: Baoquan He <bhe@redhat.com>
+To: kernel test robot <lkp@intel.com>, akpm@linux-foundation.org
+Cc: linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
+	thunder.leizhen@huawei.com, catalin.marinas@arm.com,
+	chenjiahao16@huawei.com, kexec@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, x86@kernel.org
+Subject: Re: [PATCH v3 6/9] x86: kdump: use generic interface to simplify
+ crashkernel reservation code
+Message-ID: <ZQRYixr2AtJtRFrh@MiWiFi-R3L-srv>
+References: <20230914033142.676708-7-bhe@redhat.com>
+ <202309141534.moH4dTcz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v7 45/49] media: core: Add bitmap manage bufs array
- entries
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, mchehab@kernel.org,
- tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
- nicolas.dufresne@collabora.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- kernel@collabora.com
-References: <20230914133323.198857-46-benjamin.gaignard@collabora.com>
- <202309150835.kxjWQyEU-lkp@intel.com>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <202309150835.kxjWQyEU-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202309141534.moH4dTcz-lkp@intel.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 
-
-Le 15/09/2023 à 02:47, kernel test robot a écrit :
-> Hi Benjamin,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v6.6-rc1]
-> [cannot apply to next-20230914]
+On 09/14/23 at 04:12pm, kernel test robot wrote:
+> Hi Baoquan,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on powerpc/next]
+> [also build test WARNING on powerpc/fixes linus/master v6.6-rc1 next-20230914]
+> [cannot apply to arm64/for-next/core tip/x86/core]
 > [If your patch is applied to the wrong git tree, kindly drop us a note.
 > And when submitting patch, we suggest to use '--base' as documented in
 > https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Rework-offset-cookie-encoding-pattern/20230914-221757
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20230914133323.198857-46-benjamin.gaignard%40collabora.com
-> patch subject: [PATCH v7 45/49] media: core: Add bitmap manage bufs array entries
-> config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230915/202309150835.kxjWQyEU-lkp@intel.com/config)
-> compiler: sparc64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150835.kxjWQyEU-lkp@intel.com/reproduce)
->
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/crash_core-c-remove-unnecessary-parameter-of-function/20230914-113546
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+> patch link:    https://lore.kernel.org/r/20230914033142.676708-7-bhe%40redhat.com
+> patch subject: [PATCH v3 6/9] x86: kdump: use generic interface to simplify crashkernel reservation code
+> config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20230914/202309141534.moH4dTcz-lkp@intel.com/config)
+> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309141534.moH4dTcz-lkp@intel.com/reproduce)
+> 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309150835.kxjWQyEU-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->     samples/v4l/v4l2-pci-skeleton.c: In function 'queue_setup':
->>> samples/v4l/v4l2-pci-skeleton.c:170:15: error: 'struct vb2_queue' has no member named 'num_buffers'
->       170 |         if (vq->num_buffers + *nbuffers < 3)
->           |               ^~
->     samples/v4l/v4l2-pci-skeleton.c:171:35: error: 'struct vb2_queue' has no member named 'num_buffers'
->       171 |                 *nbuffers = 3 - vq->num_buffers;
->           |                                   ^~
-> --
->     drivers/input/touchscreen/sur40.c: In function 'sur40_queue_setup':
->>> drivers/input/touchscreen/sur40.c:851:14: error: 'struct vb2_queue' has no member named 'num_buffers'
->       851 |         if (q->num_buffers + *nbuffers < 3)
->           |              ^~
->     drivers/input/touchscreen/sur40.c:852:34: error: 'struct vb2_queue' has no member named 'num_buffers'
->       852 |                 *nbuffers = 3 - q->num_buffers;
->           |                                  ^~
->
->
-> vim +170 samples/v4l/v4l2-pci-skeleton.c
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309141534.moH4dTcz-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> arch/x86/kernel/setup.c:476:15: warning: no previous prototype for function 'crash_low_size_default' [-Wmissing-prototypes]
+>    unsigned long crash_low_size_default(void)
+>                  ^
+>    arch/x86/kernel/setup.c:476:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+>    unsigned long crash_low_size_default(void)
+>    ^
+>    static 
+>    1 warning generated.
 
-v4l2 drivers outside drivers/media or drivers/staging/media direct directories.
-I have miss them. I will fix that in v8.
+Thanks for reporting this. I can reproduced this warning on x86_64
+machine by retrieving the LKP's config and build it with below command:
 
-Regards,
-Benjamin
+	make ARCH=i386 -j128 W=1 arch/x86/kernel/
 
->
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  145
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  146  /*
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  147   * Setup the constraints of the queue: besides setting the number of planes
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  148   * per buffer and the size and allocation context of each plane, it also
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  149   * checks if sufficient buffers have been allocated. Usually 3 is a good
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  150   * minimum number: many DMA engines need a minimum of 2 buffers in the
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  151   * queue and you need to have another available for userspace processing.
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  152   */
-> df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  153  static int queue_setup(struct vb2_queue *vq,
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  154  		       unsigned int *nbuffers, unsigned int *nplanes,
-> 36c0f8b32c4bd4 samples/v4l/v4l2-pci-skeleton.c               Hans Verkuil 2016-04-15  155  		       unsigned int sizes[], struct device *alloc_devs[])
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  156  {
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  157  	struct skeleton *skel = vb2_get_drv_priv(vq);
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  158
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  159  	skel->field = skel->format.field;
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  160  	if (skel->field == V4L2_FIELD_ALTERNATE) {
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  161  		/*
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  162  		 * You cannot use read() with FIELD_ALTERNATE since the field
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  163  		 * information (TOP/BOTTOM) cannot be passed back to the user.
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  164  		 */
-> 3130a28a1568b1 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-23  165  		if (vb2_fileio_is_active(vq))
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  166  			return -EINVAL;
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  167  		skel->field = V4L2_FIELD_TOP;
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  168  	}
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  169
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14 @170  	if (vq->num_buffers + *nbuffers < 3)
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  171  		*nbuffers = 3 - vq->num_buffers;
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  172
-> df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  173  	if (*nplanes)
-> df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  174  		return sizes[0] < skel->format.sizeimage ? -EINVAL : 0;
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  175  	*nplanes = 1;
-> df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  176  	sizes[0] = skel->format.sizeimage;
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  177  	return 0;
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  178  }
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  179
->
+I can fix it by moving crash_low_size_default() into arch/x86/include/asm/crash_core.h 
+and make it as static inline as below draft change.
+
+Hi Andrew,
+
+I should post v4 of the whole series or just v4 of this patch?
+
+[PATCH v3 6/9] x86: kdump: use generic interface to simplify crashkernel reservation code
+
+
+diff --git a/arch/x86/include/asm/crash_core.h b/arch/x86/include/asm/crash_core.h
+index 5fc5e4f94521..76af98f4e801 100644
+--- a/arch/x86/include/asm/crash_core.h
++++ b/arch/x86/include/asm/crash_core.h
+@@ -18,6 +18,7 @@
+  * no good way to detect the paging mode of the target kernel which will be
+  * loaded for dumping.
+  */
++extern unsigned long swiotlb_size_or_default(void);
+ 
+ #ifdef CONFIG_X86_32
+ # define CRASH_ADDR_LOW_MAX     SZ_512M
+@@ -29,6 +30,13 @@
+ 
+ # define DEFAULT_CRASH_KERNEL_LOW_SIZE crash_low_size_default()
+ 
+-extern unsigned long crash_low_size_default(void);
++static inline unsigned long crash_low_size_default(void)
++{
++#ifdef CONFIG_X86_64
++	return max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20);
++#else
++	return 0;
++#endif
++}
+ 
+ #endif /* _X86_CRASH_CORE_H */
+diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+index 0acc86587fc0..d7baa567c68e 100644
+--- a/arch/x86/kernel/setup.c
++++ b/arch/x86/kernel/setup.c
+@@ -470,18 +470,6 @@ static void __init memblock_x86_reserve_range_setup_data(void)
+ 	}
+ }
+ 
+-/*
+- * --------- Crashkernel reservation ------------------------------
+- */
+-unsigned long crash_low_size_default(void)
+-{
+-#ifdef CONFIG_X86_64
+-	return max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20);
+-#else
+-	return 0;
+-#endif
+-}
+-
+ static void __init arch_reserve_crashkernel(void)
+ {
+ 	unsigned long long crash_base, crash_size, low_size = 0;
+
