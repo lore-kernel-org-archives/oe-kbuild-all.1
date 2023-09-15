@@ -1,46 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146BE7EE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 03:17:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694747859; x=1726283859;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MaDiuZtp6V5mUHTfROEW8D4uVOrgIeTR86RAYSCnNeY=;
-  b=Hr/Dd2dCPKdM8lzLqhtqXBcv+FCpTgVj0ildBaQFkofEfNCkU2OrjAoP
-   OCxxvsU3esfKt1NvyvO9NKBqtgawhbvYiVLRjpmXqCt47e//1LPH2cWrp
-   WKrDS009BabQn9KeCKxAgzKiskrY2AzPJZahUsOL1/nDxHA/Jp8NY4t+7
-   N+YOdLOyK0t301sEiqw3TLslo6P4FT443383YXCHWNrfWZ11Jk1T8CjZQ
-   +AhR4Nlm9giCy4WZN+Sc3jlFZxmMUC6r3hqWByeHZqgvXZyLm597omq1G
-   T0XiLjUQIQKWXHYsHk1qP9JcCkGGAOTf97S/Av6brxcULJlGo9Ls3GKkU
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="378059563"
-X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="378059563"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 20:17:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="744799511"
-X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="744799511"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 14 Sep 2023 20:17:35 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qgzKm-0002N7-2z;
-	Fri, 15 Sep 2023 03:17:32 +0000
-Date: Fri, 15 Sep 2023 11:17:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Josef Bacik <josef@toxicpanda.com>, linux-btrfs@vger.kernel.org,
-	linux-fscrypt@vger.kernel.org, clm@fb.com, ebiggers@kernel.org,
-	ngompa13@gmail.com, sweettea-kernel@dorminy.me,
-	kernel-team@meta.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/4] fscrypt: add per-extent encryption support
-Message-ID: <202309151147.DmtmoJbq-lkp@intel.com>
-References: <29b2303463c3b4978d17a6a257e7a8aa3da23de4.1694738282.git.josef@toxicpanda.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8062F2591
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 03:34:03 +0000 (UTC)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6562330d68dso6369216d6.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 20:34:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694748842; x=1695353642;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iaRpWeQBHF9xrScwEaYmj1hDO7gFWhFOcR6aMt6yIR4=;
+        b=tMwSmeriV/+j3zy8axIm1YKhetqEUUkl75YZLfeN+Gfz2Un68quO2vbDsTdTx8qrwJ
+         xMweCO/MVVhVP7PPG5O7fR6mQRXVQgVIXNC0LnMmKxKQL3D6jE/Ls18ml6RO28P6W2gD
+         tdcym0qT6Lxic+Dfat55pQSBHTC9H0cKKTZz69nizBojcFmOZMzeflHlhaCc3DSkpzzy
+         4JhLEj/eEvcwol8/V1G5Uzy6WsJiT7X0bonn4Cs53h8DaOZ5+2TsHN+kdnX0/AMSun2F
+         eSQFNk6DQQeGWThMROjCNxGt/ztKc/G8ZjRJO9FwnPpL90i3YpawVc41/4gDUc+0YSGu
+         vBBA==
+X-Gm-Message-State: AOJu0YxswYU4fNHwc6wxeZpSnnp2ySSCrWCWxTx9Hz/ZBbqUWk4wbYnA
+	Jn3N6nUByxYzBkwxdZNfZIvg
+X-Google-Smtp-Source: AGHT+IEBEYKRA2Zo7KXzkVVYdgYjkcKhhHD3gv62cQKEjoTRsB89tTRb5JOZnctFnGbpqENER6tIsg==
+X-Received: by 2002:a0c:b4c9:0:b0:635:f899:660b with SMTP id h9-20020a0cb4c9000000b00635f899660bmr523466qvf.36.1694748842373;
+        Thu, 14 Sep 2023 20:34:02 -0700 (PDT)
+Received: from localhost (pool-68-160-141-91.bstnma.fios.verizon.net. [68.160.141.91])
+        by smtp.gmail.com with ESMTPSA id e3-20020ad44183000000b0063d30c10f1esm781581qvp.70.2023.09.14.20.34.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Sep 2023 20:34:01 -0700 (PDT)
+Date: Thu, 14 Sep 2023 23:34:00 -0400
+From: Mike Snitzer <snitzer@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Joe Thornber <ejt@redhat.com>, dm-devel@redhat.com,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [device-mapper-dm:for-next 2/4]
+ drivers/md/persistent-data/dm-extent-allocator.c:530:24: error: expected ';
+ ' after expression
+Message-ID: <ZQPQqCzlu3AUtumF@redhat.com>
+References: <202309151023.QPBCNoCN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,70 +44,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <29b2303463c3b4978d17a6a257e7a8aa3da23de4.1694738282.git.josef@toxicpanda.com>
+In-Reply-To: <202309151023.QPBCNoCN-lkp@intel.com>
 
-Hi Josef,
+On Thu, Sep 14 2023 at 10:54P -0400,
+kernel test robot <lkp@intel.com> wrote:
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on linus/master v6.6-rc1 next-20230914]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Josef-Bacik/fscrypt-rename-fscrypt_info-fscrypt_inode_info/20230915-085013
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/29b2303463c3b4978d17a6a257e7a8aa3da23de4.1694738282.git.josef%40toxicpanda.com
-patch subject: [PATCH 2/4] fscrypt: add per-extent encryption support
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230915/202309151147.DmtmoJbq-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309151147.DmtmoJbq-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309151147.DmtmoJbq-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   fs/crypto/keysetup.c: In function 'fscrypt_load_extent_info':
->> fs/crypto/keysetup.c:904:40: warning: argument to 'sizeof' in 'memcpy' call is the same expression as the source; did you mean to provide an explicit length? [-Wsizeof-pointer-memaccess]
-     904 |         memcpy(&extent_ctx, ctx, sizeof(ctx));
-         |                                        ^
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git for-next
+> head:   edcabec81f12dfc9b86b05084bba3232efdc5e4e
+> commit: 59d814674dd66fc64ba229605174bfe0b8e566d5 [2/4] dm persistent data: Introduce extent allocator
+> config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230915/202309151023.QPBCNoCN-lkp@intel.com/config)
+> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309151023.QPBCNoCN-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309151023.QPBCNoCN-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> drivers/md/persistent-data/dm-extent-allocator.c:530:24: error: expected ';' after expression
+>            spin_unlock(&ea->lock)
+>                                  ^
+>                                  ;
+>    drivers/md/persistent-data/dm-extent-allocator.c:544:24: error: expected ';' after expression
+>            spin_unlock(&ea->lock)
+>                                  ^
+>                                  ;
+>    2 errors generated.
 
 
-vim +904 fs/crypto/keysetup.c
-
-   881	
-   882	/**
-   883	 * fscrypt_load_extent_info() - create an fscrypt_extent_info from the context
-   884	 * @inode: the inode
-   885	 * @ctx: the context buffer
-   886	 * @ctx_size: the size of the context buffer
-   887	 *
-   888	 * Create the file_extent_info and derive the key based on the
-   889	 * fscrypt_extent_context buffer that is probided.
-   890	 *
-   891	 * Return: The newly allocated fscrypt_extent_info on success, -EOPNOTSUPP if
-   892	 *	   we're not encrypted, or another -errno code
-   893	 */
-   894	struct fscrypt_extent_info *fscrypt_load_extent_info(struct inode *inode,
-   895							     u8 *ctx, size_t ctx_size)
-   896	{
-   897		struct fscrypt_extent_context extent_ctx;
-   898	
-   899		if (!fscrypt_inode_uses_inline_crypto(inode))
-   900			return ERR_PTR(-EOPNOTSUPP);
-   901		if (ctx_size < sizeof(extent_ctx))
-   902			return ERR_PTR(-EINVAL);
-   903	
- > 904		memcpy(&extent_ctx, ctx, sizeof(ctx));
-   905		return setup_extent_info(inode, extent_ctx.nonce);
-   906	}
-   907	EXPORT_SYMBOL(fscrypt_load_extent_info);
-   908	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+These were my fault.. Fixed, sorry about the noise.
