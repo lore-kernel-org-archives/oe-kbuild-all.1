@@ -1,45 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFEA5A32
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 02:13:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524397F8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 02:23:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694743993; x=1726279993;
+  t=1694744594; x=1726280594;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Y8FsBrE2zFb+CfVLiOvn7+rHs6rmIW4pomrtZC30VF4=;
-  b=Ck0SxYc4UzMtaer1vVTBKlZUjOtdB1S3/9QVW08GLO49gZVQkWo+D8v3
-   t+8/bRdyItrajzOQTLD3vN6ZB7xOIF9sNy4uxH4bOaYyVtfIndPX5U03C
-   sAURSto9QM6Wi3YRh1CsO1Xf11jTEm3g99Gef+d+dNQ+RX57iAbesK47W
-   h4n+mRSI9uO7uypXxRcPevkBOHupfr/O2aIZbJo90cFuSho7VsCsDKQWC
-   Avqnme/PH9u4KmTCCo8ColhgnQOP36wrJR2v4juu+YR8aDvcynyO3aH1j
-   RWG3RQ0erk0QK6p6HR0ew0UOoSaGx2FNnoVxr6SnVdtAvv2/K6y3OW+vp
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="381864233"
+  bh=LkRtX4xDjrzbuJ0zUvHlNe5UHFdTBTOSsQKpr/EQiEo=;
+  b=gHPqTPoSFfzlToHB1FlPvqCPdW5065A+ThxM3h8glO4GKRxmw8ukFEOF
+   1hCyHfGtOMnSSORqNHLnGDKL5IZSsAfWjC1EYLWoxoXXaAMxIQl2UcdDe
+   n+g+1AOLtj4kiu7vCmODpYsFCLI+IDe63YxIyhcFfciShciuanKGrrhZv
+   ++9hky9j3R2iTd9lNUIjZXCKJy1XiWKPRCgyzegx/avjbLKnjm/B6rxtl
+   RVJRnj9AsO+PMTjptffXCtjmrM8cQaO4tmKGeq8n0Fe0vgqEmbYbuxv5o
+   5ukPacNV/kqBfrZYM2bsscHP/BJIj71DL3AMpwpvF5tsRBoHQtoOpmHj1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="381865744"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="381864233"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 19:13:12 -0700
+   d="scan'208";a="381865744"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 19:23:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="779913181"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="744790536"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="779913181"
+   d="scan'208";a="744790536"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 14 Sep 2023 19:13:10 -0700
+  by orsmga002.jf.intel.com with ESMTP; 14 Sep 2023 19:23:11 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgyKS-0002J3-0H;
-	Fri, 15 Sep 2023 02:13:08 +0000
-Date: Fri, 15 Sep 2023 10:12:17 +0800
+	id 1qgyU8-0002Jb-2g;
+	Fri, 15 Sep 2023 02:23:08 +0000
+Date: Fri, 15 Sep 2023 10:22:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ken Xue <Ken.Xue@amd.com>, andriy.shevchenko@linux.intel.com,
-	linux-acpi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, rafael@kernel.org, cwhuang@linux.org.tw,
-	Ken Xue <Ken.Xue@amd.com>
-Subject: Re: [PATCH V4] acpi: trigger wakeup key event from power button
-Message-ID: <202309150947.YLjvs2Vv-lkp@intel.com>
-References: <20230913002145.743571-1-Ken.Xue@amd.com>
+To: Josef Bacik <josef@toxicpanda.com>, linux-btrfs@vger.kernel.org,
+	linux-fscrypt@vger.kernel.org, clm@fb.com, ebiggers@kernel.org,
+	ngompa13@gmail.com, sweettea-kernel@dorminy.me,
+	kernel-team@meta.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/4] fscrypt: add per-extent encryption support
+Message-ID: <202309151037.zysaiWNO-lkp@intel.com>
+References: <29b2303463c3b4978d17a6a257e7a8aa3da23de4.1694738282.git.josef@toxicpanda.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,83 +49,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230913002145.743571-1-Ken.Xue@amd.com>
+In-Reply-To: <29b2303463c3b4978d17a6a257e7a8aa3da23de4.1694738282.git.josef@toxicpanda.com>
 
-Hi Ken,
+Hi Josef,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on b483d3b8a54a544ab8854ca6dbb8d99c423b3ba4]
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on linus/master v6.6-rc1 next-20230914]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ken-Xue/acpi-trigger-wakeup-key-event-from-power-button/20230913-084852
-base:   b483d3b8a54a544ab8854ca6dbb8d99c423b3ba4
-patch link:    https://lore.kernel.org/r/20230913002145.743571-1-Ken.Xue%40amd.com
-patch subject: [PATCH V4] acpi: trigger wakeup key event from power button
-config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230915/202309150947.YLjvs2Vv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150947.YLjvs2Vv-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Josef-Bacik/fscrypt-rename-fscrypt_info-fscrypt_inode_info/20230915-085013
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/29b2303463c3b4978d17a6a257e7a8aa3da23de4.1694738282.git.josef%40toxicpanda.com
+patch subject: [PATCH 2/4] fscrypt: add per-extent encryption support
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230915/202309151037.zysaiWNO-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309151037.zysaiWNO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309150947.YLjvs2Vv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309151037.zysaiWNO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/acpi/sleep.o: in function `acpi_pm_finish':
->> drivers/acpi/sleep.c:514: undefined reference to `acpi_power_button_wakeup'
+   In file included from include/linux/string.h:20,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/swait.h:7,
+                    from include/linux/completion.h:12,
+                    from include/linux/crypto.h:15,
+                    from include/crypto/skcipher.h:13,
+                    from fs/crypto/keysetup.c:11:
+   fs/crypto/keysetup.c: In function 'fscrypt_load_extent_info':
+>> fs/crypto/keysetup.c:904:40: warning: argument to 'sizeof' in '__builtin_memcpy' call is the same expression as the source; did you mean to provide an explicit length? [-Wsizeof-pointer-memaccess]
+     904 |         memcpy(&extent_ctx, ctx, sizeof(ctx));
+         |                                        ^
+   arch/m68k/include/asm/string.h:53:48: note: in definition of macro 'memcpy'
+      53 | #define memcpy(d, s, n) __builtin_memcpy(d, s, n)
+         |                                                ^
+--
+>> fs/crypto/inline_crypt.c:302: warning: expecting prototype for fscrypt_set_bio_crypt_ctx(). Prototype was for fscrypt_set_bio_crypt_ctx_from_extent() instead
 
 
-vim +514 drivers/acpi/sleep.c
+vim +904 fs/crypto/keysetup.c
 
-   472	
-   473	/**
-   474	 *	acpi_pm_finish - Instruct the platform to leave a sleep state.
-   475	 *
-   476	 *	This is called after we wake back up (or if entering the sleep state
-   477	 *	failed).
-   478	 */
-   479	static void acpi_pm_finish(void)
-   480	{
-   481		struct acpi_device *pwr_btn_adev;
-   482		u32 acpi_state = acpi_target_sleep_state;
-   483	
-   484		acpi_ec_unblock_transactions();
-   485		suspend_nvs_free();
-   486	
-   487		if (acpi_state == ACPI_STATE_S0)
-   488			return;
-   489	
-   490		pr_info("Waking up from system sleep state S%d\n", acpi_state);
-   491		acpi_disable_wakeup_devices(acpi_state);
-   492		acpi_leave_sleep_state(acpi_state);
-   493	
-   494		/* reset firmware waking vector */
-   495		acpi_set_waking_vector(0);
-   496	
-   497		acpi_target_sleep_state = ACPI_STATE_S0;
-   498	
-   499		acpi_resume_power_resources();
-   500	
-   501		/* If we were woken with the fixed power button, provide a small
-   502		 * hint to userspace in the form of a wakeup event on the fixed power
-   503		 * button device (if it can be found).
-   504		 *
-   505		 * We delay the event generation til now, as the PM layer requires
-   506		 * timekeeping to be running before we generate events. */
-   507		if (!pwr_btn_event_pending)
-   508			return;
-   509	
-   510		pwr_btn_event_pending = false;
-   511		pwr_btn_adev = acpi_dev_get_first_match_dev(ACPI_BUTTON_HID_POWERF,
-   512							    NULL, -1);
-   513		if (pwr_btn_adev) {
- > 514			acpi_power_button_wakeup(pwr_btn_adev);
-   515			pm_wakeup_event(&pwr_btn_adev->dev, 0);
-   516			acpi_dev_put(pwr_btn_adev);
-   517		}
-   518	}
-   519	
+   881	
+   882	/**
+   883	 * fscrypt_load_extent_info() - create an fscrypt_extent_info from the context
+   884	 * @inode: the inode
+   885	 * @ctx: the context buffer
+   886	 * @ctx_size: the size of the context buffer
+   887	 *
+   888	 * Create the file_extent_info and derive the key based on the
+   889	 * fscrypt_extent_context buffer that is probided.
+   890	 *
+   891	 * Return: The newly allocated fscrypt_extent_info on success, -EOPNOTSUPP if
+   892	 *	   we're not encrypted, or another -errno code
+   893	 */
+   894	struct fscrypt_extent_info *fscrypt_load_extent_info(struct inode *inode,
+   895							     u8 *ctx, size_t ctx_size)
+   896	{
+   897		struct fscrypt_extent_context extent_ctx;
+   898	
+   899		if (!fscrypt_inode_uses_inline_crypto(inode))
+   900			return ERR_PTR(-EOPNOTSUPP);
+   901		if (ctx_size < sizeof(extent_ctx))
+   902			return ERR_PTR(-EINVAL);
+   903	
+ > 904		memcpy(&extent_ctx, ctx, sizeof(ctx));
+   905		return setup_extent_info(inode, extent_ctx.nonce);
+   906	}
+   907	EXPORT_SYMBOL(fscrypt_load_extent_info);
+   908	
 
 -- 
 0-DAY CI Kernel Test Service
