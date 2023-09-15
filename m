@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F80CA7A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 14:10:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969CE30CE2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 14:35:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694787005; x=1726323005;
+  t=1694788506; x=1726324506;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XFPnyIbZVBZlKxbyg1wh9v7hY9doCpfPmuTAIPOWXYE=;
-  b=dh1hgS73VZ6kuk2s6YDjhE2LxEPoj0PR6gegQpUw9U1kuVsthp5QaWSt
-   YM0RA+0sSGJde2ziUK2qpKlVTy8HZRhnA9QhuaKHccKlrcph256BpHs0W
-   ygTVymefvXkLmPnIBJ7xTgtp21HvrpBUUiEpPlaI9AcWEK/SdZlqGP9qe
-   iOzp0muhF4S4Ik3y7vgce4QDsIoofi/asZ/+oKAFHXJvKYuwNZObm241R
-   OuiC/7o8tvA4vvmPp94V2IRQ7O88uGuaMVhalgGGatfjeVZDoj58XgXFQ
-   b2dZDpgA6zmcLeHX/Z/7z1D7r1U0GHwWcibYGEgeVGmJef4ov20672HLI
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="410192519"
+  bh=RosdHvG6iaPJRphkjCdyy+nGvEOuOEXvSKioRfFElaQ=;
+  b=nMcDGoBD/JtdbJ4F0fwXMan1qoEgQcIgRxanwv//2cASADgYFBTJ+3+y
+   ImPQvML6MDScjX64clTJp4gFSoYB0J7xLg6qGlbdhSR7KD/r3iaCLln5S
+   lK7i9HgukXyIExsHtJA0QfDBhg6gYqGyHWY7yNP8NtAnwR91dXDbKqqZJ
+   FkCwjqUlleClnfoU3DtcPDBO8JJ20NmmD8O7K12aprIoGn1mfu2L+epsG
+   SEH9WBm4BgImEcbv9PYTfpPkVsRulsjqY2QTZ2rCVC47O1JcHj6mJFgiX
+   /8Z1EZ2xdfFaPiPUI2u3DOXcHdOiwzPR23936HXECqMfku2cYtVMZOsB+
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="358676561"
 X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; 
-   d="scan'208";a="410192519"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 07:10:04 -0700
+   d="scan'208";a="358676561"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 07:35:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="694728973"
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="815190694"
 X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; 
-   d="scan'208";a="694728973"
+   d="scan'208";a="815190694"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 15 Sep 2023 07:10:03 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 15 Sep 2023 07:35:04 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qh9WC-00032b-34;
-	Fri, 15 Sep 2023 14:10:00 +0000
-Date: Fri, 15 Sep 2023 22:09:10 +0800
+	id 1qh9uQ-00034T-0x;
+	Fri, 15 Sep 2023 14:35:02 +0000
+Date: Fri, 15 Sep 2023 22:34:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Isaku Yamahata <isaku.yamahata@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.4 18038/28548]
- include/trace/hooks/net.h:26:1: sparse: sparse: incorrect type in assignment
- (different address spaces)
-Message-ID: <202309152229.7g83jsjb-lkp@intel.com>
+Subject: [intel-tdx:kvm-upstream-next 37/323]
+ arch/arm64/kvm/../../../virt/kvm/kvm_main.c:1957:20: error: 'struct
+ kvm_memory_slot' has no member named 'file'
+Message-ID: <202309152245.NsxzcNDr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,57 +47,135 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-5.4
-head:   19cff29fe49cb187d02a308880d58ad8ce1cdc71
-commit: 48b03352a3bd46c2aec1804fd36fc78b4270e3d0 [18038/28548] ANDROID: GKI: net: add vendor hooks for 'struct sock' lifecycle
-config: i386-randconfig-061-20230915 (https://download.01.org/0day-ci/archive/20230915/202309152229.7g83jsjb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309152229.7g83jsjb-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/tdx.git kvm-upstream-next
+head:   5f6df2bb916b5aca21bbdc6962234979b1476ef1
+commit: e840dbba5f248b69d48348cc1458e1980f624e24 [37/323] RFC: KVM: gmem: Guarantee the order of destruction
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230915/202309152245.NsxzcNDr-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309152245.NsxzcNDr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309152229.7g83jsjb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309152245.NsxzcNDr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/core/sock.c: note: in included file:
->> include/trace/hooks/net.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] <asn:4> *funcs @@
-   include/trace/hooks/net.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/net.h:26:1: sparse:     got struct tracepoint_func [noderef] <asn:4> *funcs
-   include/trace/hooks/net.h:28:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] <asn:4> *funcs @@
-   include/trace/hooks/net.h:28:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/net.h:28:1: sparse:     got struct tracepoint_func [noderef] <asn:4> *funcs
-   include/trace/hooks/net.h:28:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] <asn:4> *funcs @@
-   include/trace/hooks/net.h:28:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/net.h:28:1: sparse:     got struct tracepoint_func [noderef] <asn:4> *funcs
-   net/core/sock.c:1910:9: sparse: sparse: context imbalance in 'sk_clone_lock' - wrong count at exit
-   net/core/sock.c:1914:6: sparse: sparse: context imbalance in 'sk_free_unlock_clone' - unexpected unlock
-   net/core/sock.c:3003:6: sparse: sparse: context imbalance in 'lock_sock_fast' - different lock contexts for basic block
-   net/core/sock.c:3502:13: sparse: sparse: context imbalance in 'proto_seq_start' - wrong count at exit
-   net/core/sock.c:3514:13: sparse: sparse: context imbalance in 'proto_seq_stop' - wrong count at exit
+All errors (new ones prefixed by >>):
 
-vim +26 include/trace/hooks/net.h
+   arch/arm64/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_set_memslot':
+>> arch/arm64/kvm/../../../virt/kvm/kvm_main.c:1957:20: error: 'struct kvm_memory_slot' has no member named 'file'
+    1957 |                 new->file = old->file;
+         |                    ^~
+   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:1957:32: error: 'struct kvm_memory_slot' has no member named 'file'
+    1957 |                 new->file = old->file;
+         |                                ^~
+   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:1958:20: error: 'struct kvm_memory_slot' has no member named 'file'
+    1958 |                 old->file = NULL;
+         |                    ^~
 
-    11	
-    12	struct packet_type;
-    13	struct list_head;
-    14	struct sk_buff;
-    15	struct nf_conn;
-    16	struct sock;
-    17	DECLARE_HOOK(android_vh_ptype_head,
-    18		TP_PROTO(const struct packet_type *pt, struct list_head *vendor_pt),
-    19		TP_ARGS(pt, vendor_pt));
-    20	DECLARE_HOOK(android_vh_kfree_skb,
-    21		TP_PROTO(struct sk_buff *skb), TP_ARGS(skb));
-    22	DECLARE_RESTRICTED_HOOK(android_rvh_nf_conn_alloc,
-    23		TP_PROTO(struct nf_conn *nf_conn), TP_ARGS(nf_conn), 1);
-    24	DECLARE_RESTRICTED_HOOK(android_rvh_nf_conn_free,
-    25		TP_PROTO(struct nf_conn *nf_conn), TP_ARGS(nf_conn), 1);
-  > 26	DECLARE_RESTRICTED_HOOK(android_rvh_sk_alloc,
-    27		TP_PROTO(struct sock *sock), TP_ARGS(sock), 1);
-    28	DECLARE_RESTRICTED_HOOK(android_rvh_sk_free,
-    29		TP_PROTO(struct sock *sock), TP_ARGS(sock), 1);
-    30	
+
+vim +1957 arch/arm64/kvm/../../../virt/kvm/kvm_main.c
+
+  1908	
+  1909	static int kvm_set_memslot(struct kvm *kvm,
+  1910				   struct kvm_memory_slot *old,
+  1911				   struct kvm_memory_slot *new,
+  1912				   enum kvm_mr_change change)
+  1913	{
+  1914		struct kvm_memory_slot *invalid_slot;
+  1915		int r;
+  1916	
+  1917		/*
+  1918		 * Released in kvm_swap_active_memslots().
+  1919		 *
+  1920		 * Must be held from before the current memslots are copied until after
+  1921		 * the new memslots are installed with rcu_assign_pointer, then
+  1922		 * released before the synchronize srcu in kvm_swap_active_memslots().
+  1923		 *
+  1924		 * When modifying memslots outside of the slots_lock, must be held
+  1925		 * before reading the pointer to the current memslots until after all
+  1926		 * changes to those memslots are complete.
+  1927		 *
+  1928		 * These rules ensure that installing new memslots does not lose
+  1929		 * changes made to the previous memslots.
+  1930		 */
+  1931		mutex_lock(&kvm->slots_arch_lock);
+  1932	
+  1933		/*
+  1934		 * Invalidate the old slot if it's being deleted or moved.  This is
+  1935		 * done prior to actually deleting/moving the memslot to allow vCPUs to
+  1936		 * continue running by ensuring there are no mappings or shadow pages
+  1937		 * for the memslot when it is deleted/moved.  Without pre-invalidation
+  1938		 * (and without a lock), a window would exist between effecting the
+  1939		 * delete/move and committing the changes in arch code where KVM or a
+  1940		 * guest could access a non-existent memslot.
+  1941		 *
+  1942		 * Modifications are done on a temporary, unreachable slot.  The old
+  1943		 * slot needs to be preserved in case a later step fails and the
+  1944		 * invalidation needs to be reverted.
+  1945		 */
+  1946		if (change == KVM_MR_DELETE || change == KVM_MR_MOVE) {
+  1947			invalid_slot = kzalloc(sizeof(*invalid_slot), GFP_KERNEL_ACCOUNT);
+  1948			if (!invalid_slot) {
+  1949				mutex_unlock(&kvm->slots_arch_lock);
+  1950				return -ENOMEM;
+  1951			}
+  1952			kvm_invalidate_memslot(kvm, old, invalid_slot);
+  1953		}
+  1954	
+  1955	
+  1956		if (new && old) {
+> 1957			new->file = old->file;
+  1958			old->file = NULL;
+  1959		}
+  1960		r = kvm_prepare_memory_region(kvm, old, new, change);
+  1961		if (r) {
+  1962			/*
+  1963			 * For DELETE/MOVE, revert the above INVALID change.  No
+  1964			 * modifications required since the original slot was preserved
+  1965			 * in the inactive slots.  Changing the active memslots also
+  1966			 * release slots_arch_lock.
+  1967			 */
+  1968			if (change == KVM_MR_DELETE || change == KVM_MR_MOVE) {
+  1969				kvm_activate_memslot(kvm, invalid_slot, old);
+  1970				kfree(invalid_slot);
+  1971			} else {
+  1972				mutex_unlock(&kvm->slots_arch_lock);
+  1973			}
+  1974			return r;
+  1975		}
+  1976	
+  1977		/*
+  1978		 * For DELETE and MOVE, the working slot is now active as the INVALID
+  1979		 * version of the old slot.  MOVE is particularly special as it reuses
+  1980		 * the old slot and returns a copy of the old slot (in working_slot).
+  1981		 * For CREATE, there is no old slot.  For DELETE and FLAGS_ONLY, the
+  1982		 * old slot is detached but otherwise preserved.
+  1983		 */
+  1984		if (change == KVM_MR_CREATE)
+  1985			kvm_create_memslot(kvm, new);
+  1986		else if (change == KVM_MR_DELETE)
+  1987			kvm_delete_memslot(kvm, old, invalid_slot);
+  1988		else if (change == KVM_MR_MOVE)
+  1989			kvm_move_memslot(kvm, old, new, invalid_slot);
+  1990		else if (change == KVM_MR_FLAGS_ONLY)
+  1991			kvm_update_flags_memslot(kvm, old, new);
+  1992		else
+  1993			BUG();
+  1994	
+  1995		/* Free the temporary INVALID slot used for DELETE and MOVE. */
+  1996		if (change == KVM_MR_DELETE || change == KVM_MR_MOVE)
+  1997			kfree(invalid_slot);
+  1998	
+  1999		/*
+  2000		 * No need to refresh new->arch, changes after dropping slots_arch_lock
+  2001		 * will directly hit the final, active memslot.  Architectures are
+  2002		 * responsible for knowing that new->arch may be stale.
+  2003		 */
+  2004		kvm_commit_memory_region(kvm, old, new, change);
+  2005	
+  2006		return 0;
+  2007	}
+  2008	
 
 -- 
 0-DAY CI Kernel Test Service
