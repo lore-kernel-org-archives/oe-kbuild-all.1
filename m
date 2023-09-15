@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C03F30CEE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 19:08:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E1618AE7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 19:08:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694804937; x=1726340937;
+  t=1694804938; x=1726340938;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rgBrumOV2mAn5UshKD0Yo3PtckwP8FoTVd5SuXQWTI4=;
-  b=Qcp7yUCLUHXQY/I9h9M2EqT/Kehr2aLz8WlwpUeVZxvfVr1nszk9KWJX
-   xRrwevx9ToBBS7mWZ3hiokNzp70KiylbbdaiOwtefeLgM00YUR8LMfGXM
-   hZlqTA0N43dnhIxcZcDHlSvLtZeBqG5tks9OQYKQGS1jvdFnej1T4Gaub
-   T1NysjmEJQQZAXrjlvywfEdZBOtBfxFkQJUhxPe5dNFlVovbOAEWwjoAH
-   U4+179kVQ7TDtdYSPztl+8FN1vO92VTtxC6zAXqFtqrx+xHneCJEnF3VX
-   4UnBK6kq8YMsMk9HQkARlPlXdLgDY+eaM16sq6YHzR3iE8mFYqMh1Uc5n
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="378235263"
+  bh=QcLD/5NBAFPWT1G9n6vpUOrlpoqza+ero4QHdnoEkZ0=;
+  b=RTNklxshkbcNyouuhRebf/ZhXYpwYSRsrJy/vB/1+tgQMVrhTwfH9xgt
+   N+pLlHY6UAdfDARTn8Y5cF8XO9sO9qJuFyte0eWMpigwFQObnFHnnK0/3
+   VPfxBTN8c6XhG+IZ1hfhvVMLKyUSHco17nQuDKHc+WvFCdG3YDYNULJL2
+   N3i0+9LcjVRua2QgPMq+g5wAte89ViTav6aZ9fZqM5TX2r+hqeh+y2afs
+   GYB3QoFohMJcS2GVqqTB61UKCyObWpwOuZkOAlY0i53FlZToOlsLK2G3T
+   +zNGjJMs5cw24RMkyfV6inkLeLDpwyiMQhXiLHZuZ9LxpyvPMwi88eZXs
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="443388133"
 X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; 
-   d="scan'208";a="378235263"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 12:08:56 -0700
+   d="scan'208";a="443388133"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 12:08:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="721794421"
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="748296617"
 X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; 
-   d="scan'208";a="721794421"
+   d="scan'208";a="748296617"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 15 Sep 2023 12:08:54 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 15 Sep 2023 12:08:34 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qhEB4-0003Jv-08;
-	Fri, 15 Sep 2023 19:08:34 +0000
-Date: Sat, 16 Sep 2023 03:07:25 +0800
+	id 1qhEAg-0003Jr-2S;
+	Fri, 15 Sep 2023 19:08:10 +0000
+Date: Sat, 16 Sep 2023 03:07:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Vernet <void@manifault.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: kernel/bpf/cpumask.c:41:21: warning: no previous declaration for
- 'bpf_cpumask_create'
-Message-ID: <202309160350.D3bbZlsa-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 4/5] include/trace/hooks/psci.h:13:1:
+ sparse: sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202309160354.7YsZPfpU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,267 +46,133 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi David,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9fdfb15a3dbf818e06be514f4abbfc071004cbe7
-commit: 516f4d3397c9e90f4da04f59986c856016269aa1 bpf: Enable cpumasks to be queried and used as kptrs
-date:   8 months ago
-config: x86_64-randconfig-003-20230916 (https://download.01.org/0day-ci/archive/20230916/202309160350.D3bbZlsa-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230916/202309160350.D3bbZlsa-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   e52e60e3ed8dff3fe0fb9d839c93819c91501560
+commit: 9e2fa0a396079d69d6da2fa21426a9ac9e52e8bf [4/5] ANDROID: Fix incorrect hook declaration
+config: i386-randconfig-061-20230915 (https://download.01.org/0day-ci/archive/20230916/202309160354.7YsZPfpU-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230916/202309160354.7YsZPfpU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309160350.D3bbZlsa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309160354.7YsZPfpU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   include/trace/hooks/net.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/net.h:21:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/net.h:21:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/net.h:21:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/net.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/net.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/net.h:23:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/net.h:25:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/net.h:25:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/net.h:25:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/vmscan.h):
+   include/trace/hooks/vmscan.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/vmscan.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/vmscan.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/avc.h):
+   include/trace/hooks/avc.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/avc.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/avc.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/avc.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/creds.h):
+   include/trace/hooks/creds.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/creds.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/creds.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:23:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/creds.h:27:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:27:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:27:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/module.h):
+   include/trace/hooks/module.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/module.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/module.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/module.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/selinux.h):
+   include/trace/hooks/selinux.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/selinux.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/selinux.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/gic_v3.h):
+   include/trace/hooks/gic_v3.h:21:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/gic_v3.h:21:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/gic_v3.h:21:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/bug.h):
+   include/trace/hooks/bug.h:10:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/bug.h:10:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/bug.h:10:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/fault.h):
+   include/trace/hooks/fault.h:11:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/fault.h:11:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/fault.h:11:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/fault.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/fault.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/fault.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/fault.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/fault.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/fault.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/traps.h):
+   include/trace/hooks/traps.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/traps.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/traps.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/traps.h:17:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/traps.h:17:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/traps.h:17:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/traps.h:21:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/traps.h:21:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/traps.h:21:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/traps.h:25:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/traps.h:25:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/traps.h:25:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/traps.h:29:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/traps.h:29:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/traps.h:29:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/audio_usboffload.h):
+   include/trace/hooks/audio_usboffload.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/audio_usboffload.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/audio_usboffload.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/typec.h):
+   include/trace/hooks/typec.h:37:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/typec.h:37:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/typec.h:37:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/psci.h):
+>> include/trace/hooks/psci.h:13:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/psci.h:13:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/psci.h:13:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/psci.h:17:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/psci.h:17:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/psci.h:17:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
 
->> kernel/bpf/cpumask.c:41:21: warning: no previous declaration for 'bpf_cpumask_create' [-Wmissing-declarations]
-    struct bpf_cpumask *bpf_cpumask_create(void)
-                        ^~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:55:21: warning: no previous declaration for 'bpf_cpumask_acquire' [-Wmissing-declarations]
-    struct bpf_cpumask *bpf_cpumask_acquire(struct bpf_cpumask *cpumask)
-                        ^~~~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:61:21: warning: no previous declaration for 'bpf_cpumask_kptr_get' [-Wmissing-declarations]
-    struct bpf_cpumask *bpf_cpumask_kptr_get(struct bpf_cpumask **cpumaskp)
-                        ^~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:79:6: warning: no previous declaration for 'bpf_cpumask_release' [-Wmissing-declarations]
-    void bpf_cpumask_release(struct bpf_cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:91:5: warning: no previous declaration for 'bpf_cpumask_first' [-Wmissing-declarations]
-    u32 bpf_cpumask_first(const struct cpumask *cpumask)
-        ^~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:96:5: warning: no previous declaration for 'bpf_cpumask_first_zero' [-Wmissing-declarations]
-    u32 bpf_cpumask_first_zero(const struct cpumask *cpumask)
-        ^~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:101:6: warning: no previous declaration for 'bpf_cpumask_set_cpu' [-Wmissing-declarations]
-    void bpf_cpumask_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:109:6: warning: no previous declaration for 'bpf_cpumask_clear_cpu' [-Wmissing-declarations]
-    void bpf_cpumask_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:117:6: warning: no previous declaration for 'bpf_cpumask_test_cpu' [-Wmissing-declarations]
-    bool bpf_cpumask_test_cpu(u32 cpu, const struct cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:125:6: warning: no previous declaration for 'bpf_cpumask_test_and_set_cpu' [-Wmissing-declarations]
-    bool bpf_cpumask_test_and_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:133:6: warning: no previous declaration for 'bpf_cpumask_test_and_clear_cpu' [-Wmissing-declarations]
-    bool bpf_cpumask_test_and_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:141:6: warning: no previous declaration for 'bpf_cpumask_setall' [-Wmissing-declarations]
-    void bpf_cpumask_setall(struct bpf_cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:146:6: warning: no previous declaration for 'bpf_cpumask_clear' [-Wmissing-declarations]
-    void bpf_cpumask_clear(struct bpf_cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:151:6: warning: no previous declaration for 'bpf_cpumask_and' [-Wmissing-declarations]
-    bool bpf_cpumask_and(struct bpf_cpumask *dst,
-         ^~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:158:6: warning: no previous declaration for 'bpf_cpumask_or' [-Wmissing-declarations]
-    void bpf_cpumask_or(struct bpf_cpumask *dst,
-         ^~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:165:6: warning: no previous declaration for 'bpf_cpumask_xor' [-Wmissing-declarations]
-    void bpf_cpumask_xor(struct bpf_cpumask *dst,
-         ^~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:172:6: warning: no previous declaration for 'bpf_cpumask_equal' [-Wmissing-declarations]
-    bool bpf_cpumask_equal(const struct cpumask *src1, const struct cpumask *src2)
-         ^~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:177:6: warning: no previous declaration for 'bpf_cpumask_intersects' [-Wmissing-declarations]
-    bool bpf_cpumask_intersects(const struct cpumask *src1, const struct cpumask *src2)
-         ^~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:182:6: warning: no previous declaration for 'bpf_cpumask_subset' [-Wmissing-declarations]
-    bool bpf_cpumask_subset(const struct cpumask *src1, const struct cpumask *src2)
-         ^~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:187:6: warning: no previous declaration for 'bpf_cpumask_empty' [-Wmissing-declarations]
-    bool bpf_cpumask_empty(const struct cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:192:6: warning: no previous declaration for 'bpf_cpumask_full' [-Wmissing-declarations]
-    bool bpf_cpumask_full(const struct cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:197:6: warning: no previous declaration for 'bpf_cpumask_copy' [-Wmissing-declarations]
-    void bpf_cpumask_copy(struct bpf_cpumask *dst, const struct cpumask *src)
-         ^~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:202:5: warning: no previous declaration for 'bpf_cpumask_any' [-Wmissing-declarations]
-    u32 bpf_cpumask_any(const struct cpumask *cpumask)
-        ^~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:207:5: warning: no previous declaration for 'bpf_cpumask_any_and' [-Wmissing-declarations]
-    u32 bpf_cpumask_any_and(const struct cpumask *src1, const struct cpumask *src2)
-        ^~~~~~~~~~~~~~~~~~~
+vim +13 include/trace/hooks/psci.h
 
-
-vim +/bpf_cpumask_create +41 kernel/bpf/cpumask.c
-
-    36	
-    37	__diag_push();
-    38	__diag_ignore_all("-Wmissing-prototypes",
-    39			  "Global kfuncs as their definitions will be in BTF");
-    40	
-  > 41	struct bpf_cpumask *bpf_cpumask_create(void)
-    42	{
-    43		struct bpf_cpumask *cpumask;
-    44	
-    45		cpumask = bpf_mem_alloc(&bpf_cpumask_ma, sizeof(*cpumask));
-    46		if (!cpumask)
-    47			return NULL;
-    48	
-    49		memset(cpumask, 0, sizeof(*cpumask));
-    50		refcount_set(&cpumask->usage, 1);
-    51	
-    52		return cpumask;
-    53	}
-    54	
-  > 55	struct bpf_cpumask *bpf_cpumask_acquire(struct bpf_cpumask *cpumask)
-    56	{
-    57		refcount_inc(&cpumask->usage);
-    58		return cpumask;
-    59	}
-    60	
-    61	struct bpf_cpumask *bpf_cpumask_kptr_get(struct bpf_cpumask **cpumaskp)
-    62	{
-    63		struct bpf_cpumask *cpumask;
-    64	
-    65		/* The BPF memory allocator frees memory backing its caches in an RCU
-    66		 * callback. Thus, we can safely use RCU to ensure that the cpumask is
-    67		 * safe to read.
-    68		 */
-    69		rcu_read_lock();
-    70	
-    71		cpumask = READ_ONCE(*cpumaskp);
-    72		if (cpumask && !refcount_inc_not_zero(&cpumask->usage))
-    73			cpumask = NULL;
-    74	
-    75		rcu_read_unlock();
-    76		return cpumask;
-    77	}
-    78	
-  > 79	void bpf_cpumask_release(struct bpf_cpumask *cpumask)
-    80	{
-    81		if (!cpumask)
-    82			return;
-    83	
-    84		if (refcount_dec_and_test(&cpumask->usage)) {
-    85			migrate_disable();
-    86			bpf_mem_free(&bpf_cpumask_ma, cpumask);
-    87			migrate_enable();
-    88		}
-    89	}
-    90	
-  > 91	u32 bpf_cpumask_first(const struct cpumask *cpumask)
-    92	{
-    93		return cpumask_first(cpumask);
-    94	}
-    95	
-  > 96	u32 bpf_cpumask_first_zero(const struct cpumask *cpumask)
-    97	{
-    98		return cpumask_first_zero(cpumask);
-    99	}
-   100	
- > 101	void bpf_cpumask_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-   102	{
-   103		if (!cpu_valid(cpu))
-   104			return;
-   105	
-   106		cpumask_set_cpu(cpu, (struct cpumask *)cpumask);
-   107	}
-   108	
- > 109	void bpf_cpumask_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-   110	{
-   111		if (!cpu_valid(cpu))
-   112			return;
-   113	
-   114		cpumask_clear_cpu(cpu, (struct cpumask *)cpumask);
-   115	}
-   116	
- > 117	bool bpf_cpumask_test_cpu(u32 cpu, const struct cpumask *cpumask)
-   118	{
-   119		if (!cpu_valid(cpu))
-   120			return false;
-   121	
-   122		return cpumask_test_cpu(cpu, (struct cpumask *)cpumask);
-   123	}
-   124	
- > 125	bool bpf_cpumask_test_and_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-   126	{
-   127		if (!cpu_valid(cpu))
-   128			return false;
-   129	
-   130		return cpumask_test_and_set_cpu(cpu, (struct cpumask *)cpumask);
-   131	}
-   132	
- > 133	bool bpf_cpumask_test_and_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-   134	{
-   135		if (!cpu_valid(cpu))
-   136			return false;
-   137	
-   138		return cpumask_test_and_clear_cpu(cpu, (struct cpumask *)cpumask);
-   139	}
-   140	
- > 141	void bpf_cpumask_setall(struct bpf_cpumask *cpumask)
-   142	{
-   143		cpumask_setall((struct cpumask *)cpumask);
-   144	}
-   145	
- > 146	void bpf_cpumask_clear(struct bpf_cpumask *cpumask)
-   147	{
-   148		cpumask_clear((struct cpumask *)cpumask);
-   149	}
-   150	
- > 151	bool bpf_cpumask_and(struct bpf_cpumask *dst,
-   152			     const struct cpumask *src1,
-   153			     const struct cpumask *src2)
-   154	{
-   155		return cpumask_and((struct cpumask *)dst, src1, src2);
-   156	}
-   157	
- > 158	void bpf_cpumask_or(struct bpf_cpumask *dst,
-   159			    const struct cpumask *src1,
-   160			    const struct cpumask *src2)
-   161	{
-   162		cpumask_or((struct cpumask *)dst, src1, src2);
-   163	}
-   164	
- > 165	void bpf_cpumask_xor(struct bpf_cpumask *dst,
-   166			     const struct cpumask *src1,
-   167			     const struct cpumask *src2)
-   168	{
-   169		cpumask_xor((struct cpumask *)dst, src1, src2);
-   170	}
-   171	
- > 172	bool bpf_cpumask_equal(const struct cpumask *src1, const struct cpumask *src2)
-   173	{
-   174		return cpumask_equal(src1, src2);
-   175	}
-   176	
- > 177	bool bpf_cpumask_intersects(const struct cpumask *src1, const struct cpumask *src2)
-   178	{
-   179		return cpumask_intersects(src1, src2);
-   180	}
-   181	
- > 182	bool bpf_cpumask_subset(const struct cpumask *src1, const struct cpumask *src2)
-   183	{
-   184		return cpumask_subset(src1, src2);
-   185	}
-   186	
- > 187	bool bpf_cpumask_empty(const struct cpumask *cpumask)
-   188	{
-   189		return cpumask_empty(cpumask);
-   190	}
-   191	
- > 192	bool bpf_cpumask_full(const struct cpumask *cpumask)
-   193	{
-   194		return cpumask_full(cpumask);
-   195	}
-   196	
- > 197	void bpf_cpumask_copy(struct bpf_cpumask *dst, const struct cpumask *src)
-   198	{
-   199		cpumask_copy((struct cpumask *)dst, src);
-   200	}
-   201	
+    12	
+  > 13	DECLARE_RESTRICTED_HOOK(android_rvh_psci_tos_resident_on,
+    14		TP_PROTO(int cpu, bool *resident),
+    15		TP_ARGS(cpu, resident), 1);
+    16	
 
 -- 
 0-DAY CI Kernel Test Service
