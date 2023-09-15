@@ -1,46 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524397F8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 02:23:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DBBC7F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 02:45:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694744594; x=1726280594;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LkRtX4xDjrzbuJ0zUvHlNe5UHFdTBTOSsQKpr/EQiEo=;
-  b=gHPqTPoSFfzlToHB1FlPvqCPdW5065A+ThxM3h8glO4GKRxmw8ukFEOF
-   1hCyHfGtOMnSSORqNHLnGDKL5IZSsAfWjC1EYLWoxoXXaAMxIQl2UcdDe
-   n+g+1AOLtj4kiu7vCmODpYsFCLI+IDe63YxIyhcFfciShciuanKGrrhZv
-   ++9hky9j3R2iTd9lNUIjZXCKJy1XiWKPRCgyzegx/avjbLKnjm/B6rxtl
-   RVJRnj9AsO+PMTjptffXCtjmrM8cQaO4tmKGeq8n0Fe0vgqEmbYbuxv5o
-   5ukPacNV/kqBfrZYM2bsscHP/BJIj71DL3AMpwpvF5tsRBoHQtoOpmHj1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="381865744"
+  t=1694745914; x=1726281914;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=w4mzJbpef5jg92MoFhQRjizdMYPdJ8ri75ihi0Ppom8=;
+  b=ErGYW9F5VfnWfl6dGExu1Y+5Hg0/a6SOuZz8DnGvKa1Ws50XxmEDLaJN
+   kCEzT3WNRzYsajswG+kN87GgIVRTbVAQXHcTJYEARwDBl/nQi2NBrOXL4
+   AvrR0KDOY7M5Hidoimf7/eg6S1aZf9zMGBBw1fDgGyaTJiI4+GG7L5GwP
+   bA0i+ROKFrOg4uj9AFvnabnhinNOHmMuNuMfDuZdknMHywmp6OcRVRPbq
+   cSR6I1uuZVGMZsK0ZNN+GKkrXnTA+vsAFHj72uHUQZMZnVm7VcKJ1/lqC
+   gnlB00d+CsAa++DkDodA5HbhfDhCCvuZZTBA1FI6sFjV/JxdbgEEiEVyz
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="378053409"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="381865744"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 19:23:13 -0700
+   d="scan'208";a="378053409"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 19:45:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="744790536"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="991675488"
 X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="744790536"
+   d="scan'208";a="991675488"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 14 Sep 2023 19:23:11 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 14 Sep 2023 19:45:11 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgyU8-0002Jb-2g;
-	Fri, 15 Sep 2023 02:23:08 +0000
-Date: Fri, 15 Sep 2023 10:22:41 +0800
+	id 1qgypR-0002KV-0q;
+	Fri, 15 Sep 2023 02:45:09 +0000
+Date: Fri, 15 Sep 2023 10:44:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josef Bacik <josef@toxicpanda.com>, linux-btrfs@vger.kernel.org,
-	linux-fscrypt@vger.kernel.org, clm@fb.com, ebiggers@kernel.org,
-	ngompa13@gmail.com, sweettea-kernel@dorminy.me,
-	kernel-team@meta.com
+To: David Howells <dhowells@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/4] fscrypt: add per-extent encryption support
-Message-ID: <202309151037.zysaiWNO-lkp@intel.com>
-References: <29b2303463c3b4978d17a6a257e7a8aa3da23de4.1694738282.git.josef@toxicpanda.com>
+Subject: [dhowells-fs:iov-kunit 5/9] ERROR: modpost: vmlinux: local symbol
+ 'arch_pick_mmap_layout' was exported
+Message-ID: <202309151035.vGGt7WXc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,85 +45,111 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <29b2303463c3b4978d17a6a257e7a8aa3da23de4.1694738282.git.josef@toxicpanda.com>
 
-Hi Josef,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on linus/master v6.6-rc1 next-20230914]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Josef-Bacik/fscrypt-rename-fscrypt_info-fscrypt_inode_info/20230915-085013
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/29b2303463c3b4978d17a6a257e7a8aa3da23de4.1694738282.git.josef%40toxicpanda.com
-patch subject: [PATCH 2/4] fscrypt: add per-extent encryption support
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230915/202309151037.zysaiWNO-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309151037.zysaiWNO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git iov-kunit
+head:   75675904b940d8090d74bde195d8ba4a2e3aee80
+commit: 282ae3bc8ef2f1742153b9462ff31c20c09ebc6a [5/9] iov_iter: Create a function to prepare userspace VM for UBUF/IOVEC tests
+config: arm-randconfig-002-20230915 (https://download.01.org/0day-ci/archive/20230915/202309151035.vGGt7WXc-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309151035.vGGt7WXc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309151037.zysaiWNO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309151035.vGGt7WXc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from include/linux/string.h:20,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/swait.h:7,
-                    from include/linux/completion.h:12,
-                    from include/linux/crypto.h:15,
-                    from include/crypto/skcipher.h:13,
-                    from fs/crypto/keysetup.c:11:
-   fs/crypto/keysetup.c: In function 'fscrypt_load_extent_info':
->> fs/crypto/keysetup.c:904:40: warning: argument to 'sizeof' in '__builtin_memcpy' call is the same expression as the source; did you mean to provide an explicit length? [-Wsizeof-pointer-memaccess]
-     904 |         memcpy(&extent_ctx, ctx, sizeof(ctx));
-         |                                        ^
-   arch/m68k/include/asm/string.h:53:48: note: in definition of macro 'memcpy'
-      53 | #define memcpy(d, s, n) __builtin_memcpy(d, s, n)
-         |                                                ^
---
->> fs/crypto/inline_crypt.c:302: warning: expecting prototype for fscrypt_set_bio_crypt_ctx(). Prototype was for fscrypt_set_bio_crypt_ctx_from_extent() instead
-
-
-vim +904 fs/crypto/keysetup.c
-
-   881	
-   882	/**
-   883	 * fscrypt_load_extent_info() - create an fscrypt_extent_info from the context
-   884	 * @inode: the inode
-   885	 * @ctx: the context buffer
-   886	 * @ctx_size: the size of the context buffer
-   887	 *
-   888	 * Create the file_extent_info and derive the key based on the
-   889	 * fscrypt_extent_context buffer that is probided.
-   890	 *
-   891	 * Return: The newly allocated fscrypt_extent_info on success, -EOPNOTSUPP if
-   892	 *	   we're not encrypted, or another -errno code
-   893	 */
-   894	struct fscrypt_extent_info *fscrypt_load_extent_info(struct inode *inode,
-   895							     u8 *ctx, size_t ctx_size)
-   896	{
-   897		struct fscrypt_extent_context extent_ctx;
-   898	
-   899		if (!fscrypt_inode_uses_inline_crypto(inode))
-   900			return ERR_PTR(-EOPNOTSUPP);
-   901		if (ctx_size < sizeof(extent_ctx))
-   902			return ERR_PTR(-EINVAL);
-   903	
- > 904		memcpy(&extent_ctx, ctx, sizeof(ctx));
-   905		return setup_extent_info(inode, extent_ctx.nonce);
-   906	}
-   907	EXPORT_SYMBOL(fscrypt_load_extent_info);
-   908	
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+>> ERROR: modpost: vmlinux: local symbol 'arch_pick_mmap_layout' was exported
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/locktorture.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp737.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp775.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp857.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp863.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp864.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp866.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp869.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ascii.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-celtic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-croatian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-gaelic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/autofs/autofs4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ubsan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpio/gpio-pcf857x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/versatile/clk-vexpress-osc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma_mgmt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_base.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/serial_mctrl_gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/ttynull.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ttyprintk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sil-sii8620.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spmi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/charlcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/xhci-pci-renesas.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/mxuport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/ezusb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/isight_firmware.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/libcomposite.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_acm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ss_lb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_serial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_serial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uvc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_printer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/legacy/g_dbgp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-goldfish.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/uvc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/atmel-sha204a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ezkey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-google-stadiaff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ite.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kye.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redragon.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gaff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm-ccn.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
 
 -- 
 0-DAY CI Kernel Test Service
