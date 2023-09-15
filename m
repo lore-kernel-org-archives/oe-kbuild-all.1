@@ -1,41 +1,47 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8062F2591
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 03:34:03 +0000 (UTC)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6562330d68dso6369216d6.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Sep 2023 20:34:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694748842; x=1695353642;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iaRpWeQBHF9xrScwEaYmj1hDO7gFWhFOcR6aMt6yIR4=;
-        b=tMwSmeriV/+j3zy8axIm1YKhetqEUUkl75YZLfeN+Gfz2Un68quO2vbDsTdTx8qrwJ
-         xMweCO/MVVhVP7PPG5O7fR6mQRXVQgVIXNC0LnMmKxKQL3D6jE/Ls18ml6RO28P6W2gD
-         tdcym0qT6Lxic+Dfat55pQSBHTC9H0cKKTZz69nizBojcFmOZMzeflHlhaCc3DSkpzzy
-         4JhLEj/eEvcwol8/V1G5Uzy6WsJiT7X0bonn4Cs53h8DaOZ5+2TsHN+kdnX0/AMSun2F
-         eSQFNk6DQQeGWThMROjCNxGt/ztKc/G8ZjRJO9FwnPpL90i3YpawVc41/4gDUc+0YSGu
-         vBBA==
-X-Gm-Message-State: AOJu0YxswYU4fNHwc6wxeZpSnnp2ySSCrWCWxTx9Hz/ZBbqUWk4wbYnA
-	Jn3N6nUByxYzBkwxdZNfZIvg
-X-Google-Smtp-Source: AGHT+IEBEYKRA2Zo7KXzkVVYdgYjkcKhhHD3gv62cQKEjoTRsB89tTRb5JOZnctFnGbpqENER6tIsg==
-X-Received: by 2002:a0c:b4c9:0:b0:635:f899:660b with SMTP id h9-20020a0cb4c9000000b00635f899660bmr523466qvf.36.1694748842373;
-        Thu, 14 Sep 2023 20:34:02 -0700 (PDT)
-Received: from localhost (pool-68-160-141-91.bstnma.fios.verizon.net. [68.160.141.91])
-        by smtp.gmail.com with ESMTPSA id e3-20020ad44183000000b0063d30c10f1esm781581qvp.70.2023.09.14.20.34.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 20:34:01 -0700 (PDT)
-Date: Thu, 14 Sep 2023 23:34:00 -0400
-From: Mike Snitzer <snitzer@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Joe Thornber <ejt@redhat.com>, dm-devel@redhat.com,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [device-mapper-dm:for-next 2/4]
- drivers/md/persistent-data/dm-extent-allocator.c:530:24: error: expected ';
- ' after expression
-Message-ID: <ZQPQqCzlu3AUtumF@redhat.com>
-References: <202309151023.QPBCNoCN-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6DA6211A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 03:40:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694749249; x=1726285249;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bt+hjTDDLQJjJdIyHbFT3WkRnY7jlECv6Dg+oQ8mbWs=;
+  b=BhtYZHlAe/mkoVg/xN7V3G854aF4ux3At+iirP8cCRvZy5kk84awt7VA
+   iuNEvSG5IHOcMHc/sulng6rhuvsCsoKtvg7RzhaFQRkcBgue/gI+QKwd2
+   KV4cN6tm24tiZxBxq1Lk0M0EXURE52DAZOjbiYktaOEVciJsW7kTwXPLn
+   QNP7Gl82ledbW5oTINJQU90BjU8I0IV0/KBFTA0sc03Argn3eQOEqDMgU
+   8XWcBhbpfzbNxJQryQlDfevXm2cH4oGDEBW2Py8Zp8Q/AYoUotokOYNwf
+   16y3vyiGAlJvthOEfEL771XvVOtjHI9nK5dDtbCqOOvVS1Ie3UJqfItCR
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="376484391"
+X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
+   d="scan'208";a="376484391"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 20:40:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="991693467"
+X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
+   d="scan'208";a="991693467"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 14 Sep 2023 20:40:46 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qgzfq-0002O5-2g;
+	Fri, 15 Sep 2023 03:39:41 +0000
+Date: Fri, 15 Sep 2023 11:39:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Oza Pawandeep <quic_poza@quicinc.com>, sudeep.holla@arm.com,
+	catalin.marinas@arm.com, will@kernel.org, rafael@kernel.org,
+	lenb@kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Oza Pawandeep <quic_poza@quicinc.com>
+Subject: Re: [PATCH v6] cpuidle, ACPI: Evaluate LPI arch_flags for broadcast
+ timer
+Message-ID: <202309151138.69mFCPtW-lkp@intel.com>
+References: <20230914184840.649412-1-quic_poza@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,34 +50,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202309151023.QPBCNoCN-lkp@intel.com>
+In-Reply-To: <20230914184840.649412-1-quic_poza@quicinc.com>
 
-On Thu, Sep 14 2023 at 10:54P -0400,
-kernel test robot <lkp@intel.com> wrote:
+Hi Oza,
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git for-next
-> head:   edcabec81f12dfc9b86b05084bba3232efdc5e4e
-> commit: 59d814674dd66fc64ba229605174bfe0b8e566d5 [2/4] dm persistent data: Introduce extent allocator
-> config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230915/202309151023.QPBCNoCN-lkp@intel.com/config)
-> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309151023.QPBCNoCN-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309151023.QPBCNoCN-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> drivers/md/persistent-data/dm-extent-allocator.c:530:24: error: expected ';' after expression
->            spin_unlock(&ea->lock)
->                                  ^
->                                  ;
->    drivers/md/persistent-data/dm-extent-allocator.c:544:24: error: expected ';' after expression
->            spin_unlock(&ea->lock)
->                                  ^
->                                  ;
->    2 errors generated.
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.6-rc1 next-20230915]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oza-Pawandeep/cpuidle-ACPI-Evaluate-LPI-arch_flags-for-broadcast-timer/20230915-025307
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230914184840.649412-1-quic_poza%40quicinc.com
+patch subject: [PATCH v6] cpuidle, ACPI: Evaluate LPI arch_flags for broadcast timer
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20230915/202309151138.69mFCPtW-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309151138.69mFCPtW-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309151138.69mFCPtW-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from arch/arm64/kernel/setup.c:36:
+>> arch/arm64/include/asm/acpi.h:60: warning: "arch_update_idle_state_flags" redefined
+      60 | #define arch_update_idle_state_flags _arch_update_idle_state_flags
+         | 
+   In file included from arch/arm64/kernel/setup.c:9:
+   include/linux/acpi.h:1484: note: this is the location of the previous definition
+    1484 | #define arch_update_idle_state_flags(af, sf)    do {} while (0)
+         | 
 
 
-These were my fault.. Fixed, sorry about the noise.
+vim +/arch_update_idle_state_flags +60 arch/arm64/include/asm/acpi.h
+
+    53	
+    54	static __always_inline void _arch_update_idle_state_flags(u32 arch_flags,
+    55								unsigned int *sflags)
+    56	{
+    57		if (arch_flags & CPUIDLE_CORE_CTXT)
+    58			*sflags |= CPUIDLE_FLAG_TIMER_STOP;
+    59	}
+  > 60	#define arch_update_idle_state_flags _arch_update_idle_state_flags
+    61	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
