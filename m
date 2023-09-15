@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F34218E27
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 23:19:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB02A1BDD3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Sep 2023 23:40:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694819987; x=1726355987;
+  t=1694821247; x=1726357247;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OyPB4FiXpy0hwy8Ujm0Th7oLsYvphQlWbTk0gjT5mP0=;
-  b=LdrKRaDUCNAUsVt6TTp88VQptgvY1551EVhBXy1YrPFZ5DNTi2ASNlgj
-   aVt4HKPE7LakL5Tx/EH+2w4AOOvykZl6BQPaviGUKLmdMkPXjWYwd9dxH
-   kTNaIlyvP/fk6E+DUsMb4KMT1kPmtK/TRUya3aJt1efHPhPOULFzDdp0f
-   lzkxb/wFpuD25IvqMGSuxInPW10sO27XFL9tqgsMgn4gpeBuU+0W8szrm
-   YAWzo5em6fPR6hLi8fP+iUMtxh7m4w7RCwdf5ofc/OW6Ca5YbQ95sBoXa
-   72JDibTk2yuSVF5B2mUZ1fPMrICtb9i+rf4pKzGbL/VmdT1dhL8ImYzvP
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="443432423"
+  bh=ji5SIbgD2OdHO+cXqNJjYudIkj3OSGwEBZ8mSGkzsWQ=;
+  b=cVygfBu5qquqGlWZ/XpBT8tDgd/feDZGsxzeT+UEgPptL19+EYYjJVhp
+   cIhEVKf5pOqIITDeSDmoxdbWHIrl53TImOCr9wROK0HZRRcYzL3oD0pX0
+   xVOvKOV3eC+j1lr+mM9AhsF/cUqQGpRu2Vnl8Kb1kkbN9Bm1Js0kG+B55
+   ir53/1+GFc006fS4vVC7l4U8bSvsx8V+7I8Q8g/WzhD8YAb+k2tRz4b/8
+   2snmrj8t/KvexjU27DsUJqXmrEweewD0lXmcwdf7JmI8WZ4pTaybhShJZ
+   IBFszbH4mRSml4ICAPJQq+opKUCRJJAQ1KBYgU+OBgT9d6aFxTSGS+HQ+
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="369684714"
 X-IronPort-AV: E=Sophos;i="6.02,150,1688454000"; 
-   d="scan'208";a="443432423"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 16:19:46 -0700
+   d="scan'208";a="369684714"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 16:40:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="1075940298"
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="918820974"
 X-IronPort-AV: E=Sophos;i="6.02,150,1688454000"; 
-   d="scan'208";a="1075940298"
+   d="scan'208";a="918820974"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 15 Sep 2023 16:19:45 -0700
+  by orsmga005.jf.intel.com with ESMTP; 15 Sep 2023 16:40:46 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qhI6B-0003bA-0d;
-	Fri, 15 Sep 2023 23:19:43 +0000
-Date: Sat, 16 Sep 2023 07:19:01 +0800
+	id 1qhIQV-0003c1-2d;
+	Fri, 15 Sep 2023 23:40:43 +0000
+Date: Sat, 16 Sep 2023 07:39:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
+To: Amir Goldstein <amir73il@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:x86/topo-full 42/92]
- arch/x86/kernel/cpu/topology_common.c:185:31: error: 'cpuid_to_apicid'
- undeclared; did you mean 'x86_cpu_to_apicid'?
-Message-ID: <202309160746.FdJLBvJj-lkp@intel.com>
+Subject: [amir73il:fuse-backing-fd 12/14] fs/fuse/fuse_i.h:13:22: warning:
+ format '%lu' expects argument of type 'long unsigned int', but argument 6
+ has type 'size_t' {aka 'unsigned int'}
+Message-ID: <202309160730.a7JXNJlh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,69 +47,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/topo-full
-head:   a71fe714eb23e6465ebd4962d95ea340b20bd792
-commit: 0fe8ff5a6a522b6019d24015a06d7e03ee94296f [42/92] x86/cpu/topology: Make the APIC mismatch warnings complete
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20230916/202309160746.FdJLBvJj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230916/202309160746.FdJLBvJj-lkp@intel.com/reproduce)
+tree:   https://github.com/amir73il/linux fuse-backing-fd
+head:   a162ad55e2618ff22555d226f9076c83304a12ce
+commit: cf8388aefa4988849bf36191d3f3ad87c1ab42c8 [12/14] fuse: implement read/write passthrough
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20230916/202309160730.a7JXNJlh-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230916/202309160730.a7JXNJlh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309160746.FdJLBvJj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309160730.a7JXNJlh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/x86/kernel/cpu/topology_common.c: In function 'cpu_parse_topology':
->> arch/x86/kernel/cpu/topology_common.c:185:31: error: 'cpuid_to_apicid' undeclared (first use in this function); did you mean 'x86_cpu_to_apicid'?
-     185 |         if (c->topo.apicid != cpuid_to_apicid[cpu]) {
-         |                               ^~~~~~~~~~~~~~~
-         |                               x86_cpu_to_apicid
-   arch/x86/kernel/cpu/topology_common.c:185:31: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from fs/fuse/passthrough.c:8:
+   fs/fuse/passthrough.c: In function 'fuse_passthrough_read_iter':
+>> fs/fuse/fuse_i.h:13:22: warning: format '%lu' expects argument of type 'long unsigned int', but argument 6 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+      13 | # define pr_fmt(fmt) "fuse: " fmt
+         |                      ^~~~~~~~
+   include/linux/dynamic_debug.h:224:29: note: in expansion of macro 'pr_fmt'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '__dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call'
+     269 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:579:9: note: in expansion of macro 'dynamic_pr_debug'
+     579 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~
+   fs/fuse/passthrough.c:66:9: note: in expansion of macro 'pr_debug'
+      66 |         pr_debug("%s: fb=0x%p, pos=%lld, len=%lu\n", __func__,
+         |         ^~~~~~~~
+   fs/fuse/passthrough.c: In function 'fuse_passthrough_write_iter':
+>> fs/fuse/fuse_i.h:13:22: warning: format '%lu' expects argument of type 'long unsigned int', but argument 6 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+      13 | # define pr_fmt(fmt) "fuse: " fmt
+         |                      ^~~~~~~~
+   include/linux/dynamic_debug.h:224:29: note: in expansion of macro 'pr_fmt'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '__dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call'
+     269 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:579:9: note: in expansion of macro 'dynamic_pr_debug'
+     579 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~
+   fs/fuse/passthrough.c:91:9: note: in expansion of macro 'pr_debug'
+      91 |         pr_debug("%s: fb=0x%p, pos=%lld, len=%lu\n", __func__,
+         |         ^~~~~~~~
 
 
-vim +185 arch/x86/kernel/cpu/topology_common.c
+vim +13 fs/fuse/fuse_i.h
 
-   172	
-   173	void cpu_parse_topology(struct cpuinfo_x86 *c)
-   174	{
-   175		unsigned int dom, cpu = smp_processor_id();
-   176		struct topo_scan tscan = { .c = c, };
-   177	
-   178		parse_topology(&tscan, false);
-   179	
-   180		if (c->topo.initial_apicid != c->topo.apicid) {
-   181			pr_err(FW_BUG "CPU%4u: APIC ID mismatch. CPUID: 0x%04x APIC: 0x%04x\n",
-   182			       cpu, c->topo.initial_apicid, c->topo.apicid);
-   183		}
-   184	
- > 185		if (c->topo.apicid != cpuid_to_apicid[cpu]) {
-   186			pr_err(FW_BUG "CPU%4u: APIC ID mismatch. Firmware: 0x%04x APIC: 0x%04x\n",
-   187			       cpu, cpuid_to_apicid[cpu], c->topo.apicid);
-   188		}
-   189	
-   190		for (dom = TOPO_SMT_DOMAIN; dom < TOPO_MAX_DOMAIN; dom++) {
-   191			if (tscan.dom_shifts[dom] == x86_topo_system.dom_shifts[dom])
-   192				continue;
-   193			pr_err(FW_BUG "CPU%d: Topology domain %u shift %u != %u\n", cpu, dom,
-   194			       tscan.dom_shifts[dom], x86_topo_system.dom_shifts[dom]);
-   195		}
-   196	
-   197		/* Bug compatible with the existing parsers */
-   198		if (tscan.dom_ncpus[TOPO_SMT_DOMAIN] > smp_num_siblings) {
-   199			if (system_state == SYSTEM_BOOTING) {
-   200				pr_warn_once("CPU%d: SMT detected and enabled late\n", cpu);
-   201				smp_num_siblings = tscan.dom_ncpus[TOPO_SMT_DOMAIN];
-   202			} else {
-   203				pr_warn_once("CPU%d: SMT detected after init. Too late!\n", cpu);
-   204			}
-   205		}
-   206	
-   207		topo_set_ids(&tscan);
-   208		topo_set_max_cores(&tscan);
-   209	}
-   210	
+29d434b39c8073 Tejun Heo      2008-10-16  11  
+f2294482ff65dd Kirill Smelkov 2019-03-27  12  #ifndef pr_fmt
+f2294482ff65dd Kirill Smelkov 2019-03-27 @13  # define pr_fmt(fmt) "fuse: " fmt
+f2294482ff65dd Kirill Smelkov 2019-03-27  14  #endif
+f2294482ff65dd Kirill Smelkov 2019-03-27  15  
+
+:::::: The code at line 13 was first introduced by commit
+:::::: f2294482ff65dd9c9c3c6ae1447f908c6aa60f52 fuse: convert printk -> pr_*
+
+:::::: TO: Kirill Smelkov <kirr@nexedi.com>
+:::::: CC: Miklos Szeredi <mszeredi@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
