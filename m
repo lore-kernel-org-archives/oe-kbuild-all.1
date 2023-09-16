@@ -1,210 +1,113 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE02253A2
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Sep 2023 05:14:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=YWEYl9oA0z7SJ68zQ/Nnnq1m8700sN5EcXcPdXr2XDk=; b=ng4lhClV3eQ5D7MeqtOl4xYQKg
-	9ZQK1PIMVlXZmml85NxiO9nHeqxo5wpOXAoyKn9DwYLwl5KZ/JxPmJ+360bQixrhYRjZ0LuP3ivl+
-	rQlbQzRqLpa+cF1+F4Fyi3IxQ8zaSNja1XXmJH0ylJEB48x/zPehs3J1VqygHQg2C9WIXBQ8HBpEm
-	aYVD6PxDuMMMXcLAgU9RNGMI+Z/MDD4F9Jn3pmgj4gF9FhLW+9/LV5PU9oIOYPwOYBsF/C0XiSclg
-	iGOcbCloGvhJTMoNkjrHXzuU5ExAk3RjmdW0QbzTihNaXjzTwsxpBE6AhPiYHU3yTFAaqm/y0gdgg
-	sv1tz80Q==;
-Received: from [2601:1c2:980:9ec0:e65e:37ff:febd:ee53]
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qhNdt-00BxxZ-0O;
-	Sat, 16 Sep 2023 05:14:53 +0000
-Message-ID: <bf1bd8ee-b102-47e5-82c7-e190a43d984c@infradead.org>
-Date: Fri, 15 Sep 2023 22:14:52 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748BF33DC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Sep 2023 05:26:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694841983; x=1726377983;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sQqNUz8NvUk6DBasGIZFf64Imf283b8WYPr38zLikEA=;
+  b=OIZ4pbKaFCn0nM0FDzobFYXxyceV5hWbYn0mEmLEFnHci7Sygv12/SRe
+   Wlsnh5OZJvLbHoi5J23cz9+iAfYvFAWzX7SBu3nUeExPQB/DbLkSZ+cKD
+   0QhlR+dImVEMSv2U6y/drkDcRvrcmFThB854oYUjrSqdqfPtSwiJSUmgt
+   Xy3/0hQmm2NALE9UVhDNRPnkeMbyNihs/+bLu3smHin3T3LnFqE/77Muv
+   iMiYFkE3ZM5AciacFWkkT3G6cuhCCsbw99WXzjMECE+uchKoc5r+fd69F
+   FpHNXHZ5qmkAGSjUymnmP+tuxYO4op07iBlI2h9CpEsRBd8OvxiphWxzH
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="445860732"
+X-IronPort-AV: E=Sophos;i="6.02,151,1688454000"; 
+   d="scan'208";a="445860732"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 22:26:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="860400269"
+X-IronPort-AV: E=Sophos;i="6.02,151,1688454000"; 
+   d="scan'208";a="860400269"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 15 Sep 2023 22:26:18 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qhNou-0003ts-09;
+	Sat, 16 Sep 2023 05:26:16 +0000
+Date: Sat, 16 Sep 2023 13:25:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+	robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+	dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch,
+	airlied@gmail.com, agross@kernel.org, dmitry.baryshkov@linaro.org,
+	andersson@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, quic_sbillaka@quicinc.com,
+	linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+	Kuogee Hsieh <quic_khsieh@quicinc.com>,
+	marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 4/7] drm/msm/dp: incorporate pm_runtime framework into
+ DP driver
+Message-ID: <202309161321.UeiYRcIs-lkp@intel.com>
+References: <1694813901-26952-5-git-send-email-quic_khsieh@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drivers/soundwire/bus_type.c:126:30: error: implicit declaration
- of function 'irq_create_mapping'; did you mean 'irq_dispose_mapping'?
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>,
- Lucas Tanure <tanureal@opensource.cirrus.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Lee Jones <lee@kernel.org>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>
-References: <202309150820.6zuErL12-lkp@intel.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <202309150820.6zuErL12-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1694813901-26952-5-git-send-email-quic_khsieh@quicinc.com>
+
+Hi Kuogee,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.6-rc1]
+[cannot apply to drm-misc/drm-misc-next drm-tip/drm-tip next-20230915]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuogee-Hsieh/drm-msm-dp-tie-dp_display_irq_handler-with-dp-driver/20230916-054014
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/1694813901-26952-5-git-send-email-quic_khsieh%40quicinc.com
+patch subject: [PATCH v3 4/7] drm/msm/dp: incorporate pm_runtime framework into DP driver
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230916/202309161321.UeiYRcIs-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230916/202309161321.UeiYRcIs-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309161321.UeiYRcIs-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/msm/dp/dp_power.c: In function 'dp_power_client_deinit':
+>> drivers/gpu/drm/msm/dp/dp_power.c:160:34: warning: variable 'power' set but not used [-Wunused-but-set-variable]
+     160 |         struct dp_power_private *power;
+         |                                  ^~~~~
+   drivers/gpu/drm/msm/dp/dp_power.c: In function 'dp_power_init':
+   drivers/gpu/drm/msm/dp/dp_power.c:168:34: warning: variable 'power' set but not used [-Wunused-but-set-variable]
+     168 |         struct dp_power_private *power = NULL;
+         |                                  ^~~~~
+   drivers/gpu/drm/msm/dp/dp_power.c: In function 'dp_power_deinit':
+   drivers/gpu/drm/msm/dp/dp_power.c:179:34: warning: variable 'power' set but not used [-Wunused-but-set-variable]
+     179 |         struct dp_power_private *power;
+         |                                  ^~~~~
 
 
+vim +/power +160 drivers/gpu/drm/msm/dp/dp_power.c
 
-On 9/14/23 17:26, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   9fdfb15a3dbf818e06be514f4abbfc071004cbe7
-> commit: 12a95123bfe1dd1a6020a35f5e67a560591bb02a soundwire: bus: Allow SoundWire peripherals to register IRQ handlers
-> date:   4 weeks ago
-> config: s390-randconfig-r031-20220110 (https://download.01.org/0day-ci/archive/20230915/202309150820.6zuErL12-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 11.3.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150820.6zuErL12-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309150820.6zuErL12-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    drivers/soundwire/bus_type.c: In function 'sdw_drv_probe':
->>> drivers/soundwire/bus_type.c:126:30: error: implicit declaration of function 'irq_create_mapping'; did you mean 'irq_dispose_mapping'? [-Werror=implicit-function-declaration]
->      126 |                 slave->irq = irq_create_mapping(slave->bus->domain, slave->dev_num);
->          |                              ^~~~~~~~~~~~~~~~~~
->          |                              irq_dispose_mapping
->    drivers/soundwire/bus_type.c: In function 'sdw_drv_remove':
->>> drivers/soundwire/bus_type.c:179:37: error: implicit declaration of function 'irq_find_mapping'; did you mean 'irq_dispose_mapping'? [-Werror=implicit-function-declaration]
->      179 |                 irq_dispose_mapping(irq_find_mapping(slave->bus->domain,
->          |                                     ^~~~~~~~~~~~~~~~
->          |                                     irq_dispose_mapping
->    cc1: some warnings being treated as errors
-> --
->    drivers/soundwire/bus.c: In function 'sdw_bus_master_add':
->>> drivers/soundwire/bus.c:173:23: error: implicit declaration of function 'irq_domain_create_linear' [-Werror=implicit-function-declaration]
->      173 |         bus->domain = irq_domain_create_linear(fwnode, SDW_MAX_DEVICES,
->          |                       ^~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/soundwire/bus.c:173:21: warning: assignment to 'struct irq_domain *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
->      173 |         bus->domain = irq_domain_create_linear(fwnode, SDW_MAX_DEVICES,
->          |                     ^
->    drivers/soundwire/bus.c: In function 'sdw_bus_master_delete':
->>> drivers/soundwire/bus.c:217:9: error: implicit declaration of function 'irq_domain_remove' [-Werror=implicit-function-declaration]
->      217 |         irq_domain_remove(bus->domain);
->          |         ^~~~~~~~~~~~~~~~~
->    cc1: some warnings being treated as errors
-> 
-
-CONFIG_IRQ_DOMAIN is not set in the .config file.
-Should SOUNDWIRE select IRQ_DOMAIN?
-
-> 
-> vim +126 drivers/soundwire/bus_type.c
-> 
->     79	
->     80	static int sdw_drv_probe(struct device *dev)
->     81	{
->     82		struct sdw_slave *slave = dev_to_sdw_dev(dev);
->     83		struct sdw_driver *drv = drv_to_sdw_driver(dev->driver);
->     84		const struct sdw_device_id *id;
->     85		const char *name;
->     86		int ret;
->     87	
->     88		/*
->     89		 * fw description is mandatory to bind
->     90		 */
->     91		if (!dev->fwnode)
->     92			return -ENODEV;
->     93	
->     94		if (!IS_ENABLED(CONFIG_ACPI) && !dev->of_node)
->     95			return -ENODEV;
->     96	
->     97		id = sdw_get_device_id(slave, drv);
->     98		if (!id)
->     99			return -ENODEV;
->    100	
->    101		/*
->    102		 * attach to power domain but don't turn on (last arg)
->    103		 */
->    104		ret = dev_pm_domain_attach(dev, false);
->    105		if (ret)
->    106			return ret;
->    107	
->    108		ret = drv->probe(slave, id);
->    109		if (ret) {
->    110			name = drv->name;
->    111			if (!name)
->    112				name = drv->driver.name;
->    113	
->    114			dev_err(dev, "Probe of %s failed: %d\n", name, ret);
->    115			dev_pm_domain_detach(dev, false);
->    116			return ret;
->    117		}
->    118	
->    119		mutex_lock(&slave->sdw_dev_lock);
->    120	
->    121		/* device is probed so let's read the properties now */
->    122		if (drv->ops && drv->ops->read_prop)
->    123			drv->ops->read_prop(slave);
->    124	
->    125		if (slave->prop.use_domain_irq) {
->  > 126			slave->irq = irq_create_mapping(slave->bus->domain, slave->dev_num);
->    127			if (!slave->irq)
->    128				dev_warn(dev, "Failed to map IRQ\n");
->    129		}
->    130	
->    131		/* init the sysfs as we have properties now */
->    132		ret = sdw_slave_sysfs_init(slave);
->    133		if (ret < 0)
->    134			dev_warn(dev, "Slave sysfs init failed:%d\n", ret);
->    135	
->    136		/*
->    137		 * Check for valid clk_stop_timeout, use DisCo worst case value of
->    138		 * 300ms
->    139		 *
->    140		 * TODO: check the timeouts and driver removal case
->    141		 */
->    142		if (slave->prop.clk_stop_timeout == 0)
->    143			slave->prop.clk_stop_timeout = 300;
->    144	
->    145		slave->bus->clk_stop_timeout = max_t(u32, slave->bus->clk_stop_timeout,
->    146						     slave->prop.clk_stop_timeout);
->    147	
->    148		slave->probed = true;
->    149	
->    150		/*
->    151		 * if the probe happened after the bus was started, notify the codec driver
->    152		 * of the current hardware status to e.g. start the initialization.
->    153		 * Errors are only logged as warnings to avoid failing the probe.
->    154		 */
->    155		if (drv->ops && drv->ops->update_status) {
->    156			ret = drv->ops->update_status(slave, slave->status);
->    157			if (ret < 0)
->    158				dev_warn(dev, "%s: update_status failed with status %d\n", __func__, ret);
->    159		}
->    160	
->    161		mutex_unlock(&slave->sdw_dev_lock);
->    162	
->    163		dev_dbg(dev, "probe complete\n");
->    164	
->    165		return 0;
->    166	}
->    167	
->    168	static int sdw_drv_remove(struct device *dev)
->    169	{
->    170		struct sdw_slave *slave = dev_to_sdw_dev(dev);
->    171		struct sdw_driver *drv = drv_to_sdw_driver(dev->driver);
->    172		int ret = 0;
->    173	
->    174		mutex_lock(&slave->sdw_dev_lock);
->    175	
->    176		slave->probed = false;
->    177	
->    178		if (slave->prop.use_domain_irq)
->  > 179			irq_dispose_mapping(irq_find_mapping(slave->bus->domain,
->    180							     slave->dev_num));
->    181	
->    182		mutex_unlock(&slave->sdw_dev_lock);
->    183	
->    184		if (drv->remove)
->    185			ret = drv->remove(slave);
->    186	
->    187		dev_pm_domain_detach(dev, false);
->    188	
->    189		return ret;
->    190	}
->    191	
-> 
+c943b4948b5848 Chandan Uddaraju 2020-08-27  157  
+c943b4948b5848 Chandan Uddaraju 2020-08-27  158  void dp_power_client_deinit(struct dp_power *dp_power)
+c943b4948b5848 Chandan Uddaraju 2020-08-27  159  {
+c943b4948b5848 Chandan Uddaraju 2020-08-27 @160  	struct dp_power_private *power;
+c943b4948b5848 Chandan Uddaraju 2020-08-27  161  
+c943b4948b5848 Chandan Uddaraju 2020-08-27  162  	power = container_of(dp_power, struct dp_power_private, dp_power);
+c943b4948b5848 Chandan Uddaraju 2020-08-27  163  }
+c943b4948b5848 Chandan Uddaraju 2020-08-27  164  
 
 -- 
-~Randy
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
