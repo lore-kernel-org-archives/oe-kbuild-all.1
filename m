@@ -1,42 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF9F13AC6
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Sep 2023 18:48:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E091213ACA
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Sep 2023 18:59:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694890101; x=1726426101;
+  t=1694890758; x=1726426758;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b9m89pC7kryG7zuMqeBx78sFEj8vC8zbxNDFy0GjWVo=;
-  b=a3avKTuUxGOuk+UauKCc0FOYw6fQUjNEip9F6gQrc/kFoIqGPklyo30a
-   +4qtdkaqbH91kSi1JB/BkkFWQO80KRNHiaMXoZpPnqZp4u+4qtvV1TdGH
-   wt/51et73UFM9CIKymsXJBFIAGMxe4KVAwK4T/VUKw7oES3TVG8l0EdlS
-   fa/IQfM7jWWg46AclLA95pQ23P4qEXARhGOHMXyr3ZdBjaqRp7e3IMMBh
-   ehb4OGkjRUHyq9tnNJZBnl4bBUlUy8zFuNwSrA3h+eHWJE2dlfu1FCgii
-   8DExkPfHPMPbu83xWv0hboSPk6YzElWECdPrtH75T4GBuW18yypszeKM/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="369766729"
+  bh=RBeuABchE9bAdbZdLQeaxdFRuPjEX9Qtnh5cbNNZLWI=;
+  b=e9MHIra6cy9e6LSOOp35FSX9o5AmPU1d/8TTMqZtaHDM70GxQSfOOcps
+   lgpQRy0uidumLB2L4hKmGCvoWq4ZScughxlVTPObfSzt/uJrbwecXEW1+
+   OqcVqXSV21hkT7odLeOMLLpswlefprj10VK9WX90Jqb6z+TdvAcTGbT1d
+   0KH9VrXtbofTX6WAmtXQV/x6MasBI+hVxhQVUg3Wub+4UwPhGBQAwZqUK
+   lMYBtAFb77kLdTuJWWOEB6bT7anjR/d+G8b+BSqWTJ2wOdappDfallkXZ
+   vsW85nB4hLcL27D8Bxc9yd1I80GZ1etEXKTSwBMuF8Fxi7FUULDvJMhhf
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="369767223"
 X-IronPort-AV: E=Sophos;i="6.02,152,1688454000"; 
-   d="scan'208";a="369766729"
+   d="scan'208";a="369767223"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2023 11:48:18 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2023 11:59:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="888583253"
+X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="888584475"
 X-IronPort-AV: E=Sophos;i="6.02,152,1688454000"; 
-   d="scan'208";a="888583253"
+   d="scan'208";a="888584475"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 16 Sep 2023 11:47:38 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 16 Sep 2023 11:58:38 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qhaL0-0004ZQ-2o;
-	Sat, 16 Sep 2023 18:48:14 +0000
-Date: Sun, 17 Sep 2023 02:47:29 +0800
+	id 1qhaVf-0004Zq-0L;
+	Sat, 16 Sep 2023 18:59:15 +0000
+Date: Sun, 17 Sep 2023 02:59:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.6/zen-sauce 2/32] drivers/scsi/vhba/vhba.c:145:6: error: no
- previous prototype for 'devnum_to_bus_and_id'
-Message-ID: <202309170210.jBL7c9tp-lkp@intel.com>
+Subject: [zen:6.6/zen-sauce 8/32]
+ drivers/net/wireless/ath/ath10k/core.c:928:50: warning: '%s' directive
+ output may be truncated writing up to 99 bytes into a region of size 93
+Message-ID: <202309170205.zVQDKvdE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,329 +49,97 @@ Content-Disposition: inline
 
 tree:   https://github.com/zen-kernel/zen-kernel 6.6/zen-sauce
 head:   de10967a8b79627cbe295d7331f84fc9cff3bcef
-commit: 9a71ba5a47d70f90d20fdb9cc6070a71cd74315a [2/32] ZEN: Add VHBA driver
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20230917/202309170210.jBL7c9tp-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230917/202309170210.jBL7c9tp-lkp@intel.com/reproduce)
+commit: ab5b9b701262f2f2c916d70b757382da1a64a1d3 [8/32] ZEN: Disable stack conservation for GCC
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230917/202309170205.zVQDKvdE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230917/202309170205.zVQDKvdE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309170210.jBL7c9tp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309170205.zVQDKvdE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/scsi/vhba/vhba.c:145:6: error: no previous prototype for 'devnum_to_bus_and_id' [-Werror=missing-prototypes]
-     145 | void devnum_to_bus_and_id(unsigned int devnum, unsigned int *bus, unsigned int *id)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:151:14: error: no previous prototype for 'bus_and_id_to_devnum' [-Werror=missing-prototypes]
-     151 | unsigned int bus_and_id_to_devnum(unsigned int bus, unsigned int id)
-         |              ^~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:156:21: error: no previous prototype for 'vhba_device_alloc' [-Werror=missing-prototypes]
-     156 | struct vhba_device *vhba_device_alloc (void)
-         |                     ^~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:176:6: error: no previous prototype for 'vhba_device_put' [-Werror=missing-prototypes]
-     176 | void vhba_device_put (struct vhba_device *vdev)
-         |      ^~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:183:21: error: no previous prototype for 'vhba_device_get' [-Werror=missing-prototypes]
-     183 | struct vhba_device *vhba_device_get (struct vhba_device *vdev)
-         |                     ^~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:190:5: error: no previous prototype for 'vhba_device_queue' [-Werror=missing-prototypes]
-     190 | int vhba_device_queue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
-         |     ^~~~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c: In function 'vhba_device_queue':
->> drivers/scsi/vhba/vhba.c:192:23: error: variable 'vhost' set but not used [-Werror=unused-but-set-variable]
-     192 |     struct vhba_host *vhost;
-         |                       ^~~~~
-   drivers/scsi/vhba/vhba.c: At top level:
->> drivers/scsi/vhba/vhba.c:219:5: error: no previous prototype for 'vhba_device_dequeue' [-Werror=missing-prototypes]
-     219 | int vhba_device_dequeue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
-         |     ^~~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:274:6: error: no previous prototype for 'vhba_scan_devices_add' [-Werror=missing-prototypes]
-     274 | void vhba_scan_devices_add (struct vhba_host *vhost, int bus, int id)
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:287:6: error: no previous prototype for 'vhba_scan_devices_remove' [-Werror=missing-prototypes]
-     287 | void vhba_scan_devices_remove (struct vhba_host *vhost, int bus, int id)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:300:6: error: no previous prototype for 'vhba_scan_devices' [-Werror=missing-prototypes]
-     300 | void vhba_scan_devices (struct work_struct *work)
-         |      ^~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:348:5: error: no previous prototype for 'vhba_add_device' [-Werror=missing-prototypes]
-     348 | int vhba_add_device (struct vhba_device *vdev)
-         |     ^~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:382:5: error: no previous prototype for 'vhba_remove_device' [-Werror=missing-prototypes]
-     382 | int vhba_remove_device (struct vhba_device *vdev)
-         |     ^~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:403:21: error: no previous prototype for 'vhba_lookup_device' [-Werror=missing-prototypes]
-     403 | struct vhba_device *vhba_lookup_device (int devnum)
-         |                     ^~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:474:5: error: no previous prototype for 'vhba_queuecommand' [-Werror=missing-prototypes]
-     474 | int vhba_queuecommand (struct Scsi_Host *shost, struct scsi_cmnd *cmd)
-         |     ^~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:508:5: error: no previous prototype for 'vhba_abort' [-Werror=missing-prototypes]
-     508 | int vhba_abort (struct scsi_cmnd *cmd)
-         |     ^~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:551:9: error: no previous prototype for 'do_request' [-Werror=missing-prototypes]
-     551 | ssize_t do_request (struct vhba_device *vdev, unsigned long metatag, struct scsi_cmnd *cmd, char __user *buf, size_t buf_len)
-         |         ^~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:617:9: error: no previous prototype for 'do_response' [-Werror=missing-prototypes]
-     617 | ssize_t do_response (struct vhba_device *vdev, unsigned long metatag, struct scsi_cmnd *cmd, const char __user *buf, size_t buf_len, struct vhba_response *res)
-         |         ^~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:693:22: error: no previous prototype for 'next_command' [-Werror=missing-prototypes]
-     693 | struct vhba_command *next_command (struct vhba_device *vdev)
-         |                      ^~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:710:22: error: no previous prototype for 'match_command' [-Werror=missing-prototypes]
-     710 | struct vhba_command *match_command (struct vhba_device *vdev, __u32 metatag)
-         |                      ^~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:727:22: error: no previous prototype for 'wait_command' [-Werror=missing-prototypes]
-     727 | struct vhba_command *wait_command (struct vhba_device *vdev, unsigned long flags)
-         |                      ^~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:754:9: error: no previous prototype for 'vhba_ctl_read' [-Werror=missing-prototypes]
-     754 | ssize_t vhba_ctl_read (struct file *file, char __user *buf, size_t buf_len, loff_t *offset)
-         |         ^~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:799:9: error: no previous prototype for 'vhba_ctl_write' [-Werror=missing-prototypes]
-     799 | ssize_t vhba_ctl_write (struct file *file, const char __user *buf, size_t buf_len, loff_t *offset)
-         |         ^~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:852:6: error: no previous prototype for 'vhba_ctl_ioctl' [-Werror=missing-prototypes]
-     852 | long vhba_ctl_ioctl (struct file *file, unsigned int cmd, unsigned long arg)
-         |      ^~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:893:14: error: no previous prototype for 'vhba_ctl_poll' [-Werror=missing-prototypes]
-     893 | unsigned int vhba_ctl_poll (struct file *file, poll_table *wait)
-         |              ^~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:910:5: error: no previous prototype for 'vhba_ctl_open' [-Werror=missing-prototypes]
-     910 | int vhba_ctl_open (struct inode *inode, struct file *file)
-         |     ^~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:942:5: error: no previous prototype for 'vhba_ctl_release' [-Werror=missing-prototypes]
-     942 | int vhba_ctl_release (struct inode *inode, struct file *file)
-         |     ^~~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:998:5: error: no previous prototype for 'vhba_probe' [-Werror=missing-prototypes]
-     998 | int vhba_probe (struct platform_device *pdev)
-         |     ^~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:1052:5: error: no previous prototype for 'vhba_remove' [-Werror=missing-prototypes]
-    1052 | int vhba_remove (struct platform_device *pdev)
-         |     ^~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:1068:6: error: no previous prototype for 'vhba_release' [-Werror=missing-prototypes]
-    1068 | void vhba_release (struct device * dev)
-         |      ^~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:1090:12: error: no previous prototype for 'vhba_init' [-Werror=missing-prototypes]
-    1090 | int __init vhba_init (void)
-         |            ^~~~~~~~~
-   drivers/scsi/vhba/vhba.c:1115:13: error: no previous prototype for 'vhba_exit' [-Werror=missing-prototypes]
-    1115 | void __exit vhba_exit(void)
-         |             ^~~~~~~~~
-   cc1: all warnings being treated as errors
+   drivers/net/wireless/ath/ath10k/core.c: In function 'ath10k_core_fetch_board_file':
+   drivers/net/wireless/ath/ath10k/core.c:928:50: warning: '%s' directive output may be truncated writing up to 99 bytes into a region of size between 98 and 99 [-Wformat-truncation=]
+     928 |         snprintf(filename, sizeof(filename), "%s/%s", dir, file);
+         |                                                  ^~
+   ......
+    1282 |                 ar->normal_mode_fw.board = ath10k_fetch_fw_file(ar,
+         |                                            ~~~~~~~~~~~~~~~~~~~~~~~~
+    1283 |                                                                 ar->hw_params.fw.dir,
+         |                                                                 ~~~~~~~~~~~~~~~~~~~~~
+    1284 |                                                                 boardname);
+         |                                                                 ~~~~~~~~~~
+   In function 'ath10k_fetch_fw_file',
+       inlined from 'ath10k_core_fetch_board_data_api_1' at drivers/net/wireless/ath/ath10k/core.c:1282:30,
+       inlined from 'ath10k_core_fetch_board_file' at drivers/net/wireless/ath/ath10k/core.c:1655:8:
+   drivers/net/wireless/ath/ath10k/core.c:928:9: note: 'snprintf' output 2 or more bytes (assuming 102) into a destination of size 100
+     928 |         snprintf(filename, sizeof(filename), "%s/%s", dir, file);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/ath/ath10k/core.c: In function 'ath10k_core_fetch_firmware_files':
+>> drivers/net/wireless/ath/ath10k/core.c:928:50: warning: '%s' directive output may be truncated writing up to 99 bytes into a region of size 93 [-Wformat-truncation=]
+     928 |         snprintf(filename, sizeof(filename), "%s/%s", dir, file);
+         |                                                  ^~
+   ......
+    1249 |         ar->pre_cal_file = ath10k_fetch_fw_file(ar, ATH10K_FW_DIR, filename);
+         |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In function 'ath10k_fetch_fw_file',
+       inlined from 'ath10k_fetch_cal_file' at drivers/net/wireless/ath/ath10k/core.c:1249:21,
+       inlined from 'ath10k_core_fetch_firmware_files' at drivers/net/wireless/ath/ath10k/core.c:2189:2:
+   drivers/net/wireless/ath/ath10k/core.c:928:9: note: 'snprintf' output between 8 and 107 bytes into a destination of size 100
+     928 |         snprintf(filename, sizeof(filename), "%s/%s", dir, file);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/ath/ath10k/core.c: In function 'ath10k_core_fetch_firmware_files':
+>> drivers/net/wireless/ath/ath10k/core.c:928:50: warning: '%s' directive output may be truncated writing up to 99 bytes into a region of size 93 [-Wformat-truncation=]
+     928 |         snprintf(filename, sizeof(filename), "%s/%s", dir, file);
+         |                                                  ^~
+   ......
+    1257 |         ar->cal_file = ath10k_fetch_fw_file(ar, ATH10K_FW_DIR, filename);
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In function 'ath10k_fetch_fw_file',
+       inlined from 'ath10k_fetch_cal_file' at drivers/net/wireless/ath/ath10k/core.c:1257:17,
+       inlined from 'ath10k_core_fetch_firmware_files' at drivers/net/wireless/ath/ath10k/core.c:2189:2:
+   drivers/net/wireless/ath/ath10k/core.c:928:9: note: 'snprintf' output between 8 and 107 bytes into a destination of size 100
+     928 |         snprintf(filename, sizeof(filename), "%s/%s", dir, file);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/devnum_to_bus_and_id +145 drivers/scsi/vhba/vhba.c
+vim +928 drivers/net/wireless/ath/ath10k/core.c
 
-   140	
-   141	
-   142	
-   143	/* These functions define a symmetric 1:1 mapping between device numbers and
-   144	   the bus and id. We have reserved the last id per bus for the host itself. */
- > 145	void devnum_to_bus_and_id(unsigned int devnum, unsigned int *bus, unsigned int *id)
-   146	{
-   147	    *bus = devnum / (VHBA_MAX_ID-1);
-   148	    *id  = devnum % (VHBA_MAX_ID-1);
-   149	}
-   150	
- > 151	unsigned int bus_and_id_to_devnum(unsigned int bus, unsigned int id)
-   152	{
-   153	    return (bus * (VHBA_MAX_ID-1)) + id;
-   154	}
-   155	
- > 156	struct vhba_device *vhba_device_alloc (void)
-   157	{
-   158	    struct vhba_device *vdev;
-   159	
-   160	    vdev = kzalloc(sizeof(struct vhba_device), GFP_KERNEL);
-   161	    if (!vdev) {
-   162	        return NULL;
-   163	    }
-   164	
-   165	    spin_lock_init(&vdev->cmd_lock);
-   166	    INIT_LIST_HEAD(&vdev->cmd_list);
-   167	    init_waitqueue_head(&vdev->cmd_wq);
-   168	    atomic_set(&vdev->refcnt, 1);
-   169	
-   170	    vdev->kbuf = NULL;
-   171	    vdev->kbuf_size = 0;
-   172	
-   173	    return vdev;
-   174	}
-   175	
- > 176	void vhba_device_put (struct vhba_device *vdev)
-   177	{
-   178	    if (atomic_dec_and_test(&vdev->refcnt)) {
-   179	        kfree(vdev);
-   180	    }
-   181	}
-   182	
- > 183	struct vhba_device *vhba_device_get (struct vhba_device *vdev)
-   184	{
-   185	    atomic_inc(&vdev->refcnt);
-   186	
-   187	    return vdev;
-   188	}
-   189	
- > 190	int vhba_device_queue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
-   191	{
- > 192	    struct vhba_host *vhost;
-   193	    struct vhba_command *vcmd;
-   194	    unsigned long flags;
-   195	
-   196	    vhost = platform_get_drvdata(&vhba_platform_device);
-   197	
-   198	    vcmd = vhba_alloc_command();
-   199	    if (!vcmd) {
-   200	        return SCSI_MLQUEUE_HOST_BUSY;
-   201	    }
-   202	
-   203	    vcmd->cmd = cmd;
-   204	
-   205	    spin_lock_irqsave(&vdev->cmd_lock, flags);
-   206	#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 15, 0)
-   207	    vcmd->metatag = scsi_cmd_to_rq(vcmd->cmd)->tag;
-   208	#else
-   209	    vcmd->metatag = vcmd->cmd->request->tag;
-   210	#endif
-   211	    list_add_tail(&vcmd->entry, &vdev->cmd_list);
-   212	    spin_unlock_irqrestore(&vdev->cmd_lock, flags);
-   213	
-   214	    wake_up_interruptible(&vdev->cmd_wq);
-   215	
-   216	    return 0;
-   217	}
-   218	
- > 219	int vhba_device_dequeue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
-   220	{
-   221	    struct vhba_command *vcmd;
-   222	    int retval;
-   223	    unsigned long flags;
-   224	
-   225	    spin_lock_irqsave(&vdev->cmd_lock, flags);
-   226	    list_for_each_entry(vcmd, &vdev->cmd_list, entry) {
-   227	        if (vcmd->cmd == cmd) {
-   228	            list_del_init(&vcmd->entry);
-   229	            break;
-   230	        }
-   231	    }
-   232	
-   233	    /* command not found */
-   234	    if (&vcmd->entry == &vdev->cmd_list) {
-   235	        spin_unlock_irqrestore(&vdev->cmd_lock, flags);
-   236	        return SUCCESS;
-   237	    }
-   238	
-   239	    while (vcmd->status == VHBA_REQ_READING || vcmd->status == VHBA_REQ_WRITING) {
-   240	        spin_unlock_irqrestore(&vdev->cmd_lock, flags);
-   241	        scmd_dbg(cmd, "wait for I/O before aborting\n");
-   242	        schedule_timeout(1);
-   243	        spin_lock_irqsave(&vdev->cmd_lock, flags);
-   244	    }
-   245	
-   246	    retval = (vcmd->status == VHBA_REQ_SENT) ? FAILED : SUCCESS;
-   247	
-   248	    vhba_free_command(vcmd);
-   249	
-   250	    spin_unlock_irqrestore(&vdev->cmd_lock, flags);
-   251	
-   252	    return retval;
-   253	}
-   254	
-   255	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 19, 0)
-   256	int vhba_slave_alloc(struct scsi_device *sdev)
-   257	{
-   258	    struct Scsi_Host *shost = sdev->host;
-   259	
-   260	    sdev_dbg(sdev, "enabling tagging (queue depth: %i).\n", sdev->queue_depth);
-   261	#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 17, 0)
-   262	    if (!shost_use_blk_mq(shost) && shost->bqt) {
-   263	#else
-   264	    if (shost->bqt) {
-   265	#endif
-   266	        blk_queue_init_tags(sdev->request_queue, sdev->queue_depth, shost->bqt);
-   267	    }
-   268	    scsi_adjust_queue_depth(sdev, 0, sdev->queue_depth);
-   269	
-   270	    return 0;
-   271	}
-   272	#endif
-   273	
- > 274	void vhba_scan_devices_add (struct vhba_host *vhost, int bus, int id)
-   275	{
-   276	    struct scsi_device *sdev;
-   277	
-   278	    sdev = scsi_device_lookup(vhost->shost, bus, id, 0);
-   279	    if (!sdev) {
-   280	        scsi_add_device(vhost->shost, bus, id, 0);
-   281	    } else {
-   282	        dev_warn(&vhost->shost->shost_gendev, "tried to add an already-existing device %d:%d:0!\n", bus, id);
-   283	        scsi_device_put(sdev);
-   284	    }
-   285	}
-   286	
- > 287	void vhba_scan_devices_remove (struct vhba_host *vhost, int bus, int id)
-   288	{
-   289	    struct scsi_device *sdev;
-   290	
-   291	    sdev = scsi_device_lookup(vhost->shost, bus, id, 0);
-   292	    if (sdev) {
-   293	        scsi_remove_device(sdev);
-   294	        scsi_device_put(sdev);
-   295	    } else {
-   296	        dev_warn(&vhost->shost->shost_gendev, "tried to remove non-existing device %d:%d:0!\n", bus, id);
-   297	    }
-   298	}
-   299	
- > 300	void vhba_scan_devices (struct work_struct *work)
-   301	{
-   302	    struct vhba_host *vhost = container_of(work, struct vhba_host, scan_devices);
-   303	    unsigned long flags;
-   304	    int change, exists;
-   305	    unsigned int devnum;
-   306	    unsigned int bus, id;
-   307	
-   308	    for (;;) {
-   309	        spin_lock_irqsave(&vhost->dev_lock, flags);
-   310	
-   311	        devnum = find_first_bit(vhost->chgmap, VHBA_MAX_DEVICES);
-   312	        if (devnum >= VHBA_MAX_DEVICES) {
-   313	            spin_unlock_irqrestore(&vhost->dev_lock, flags);
-   314	            break;
-   315	        }
-   316	        change = vhost->chgtype[devnum];
-   317	        exists = vhost->devices[devnum] != NULL;
-   318	
-   319	        vhost->chgtype[devnum] = 0;
-   320	        clear_bit(devnum, vhost->chgmap);
-   321	
-   322	        spin_unlock_irqrestore(&vhost->dev_lock, flags);
-   323	
-   324	        devnum_to_bus_and_id(devnum, &bus, &id);
-   325	
-   326	        if (change < 0) {
-   327	            dev_dbg(&vhost->shost->shost_gendev, "trying to remove target %d:%d:0\n", bus, id);
-   328	            vhba_scan_devices_remove(vhost, bus, id);
-   329	        } else if (change > 0) {
-   330	            dev_dbg(&vhost->shost->shost_gendev, "trying to add target %d:%d:0\n", bus, id);
-   331	            vhba_scan_devices_add(vhost, bus, id);
-   332	        } else {
-   333	            /* quick sequence of add/remove or remove/add; we determine
-   334	               which one it was by checking if device structure exists */
-   335	            if (exists) {
-   336	                /* remove followed by add: remove and (re)add */
-   337	                dev_dbg(&vhost->shost->shost_gendev, "trying to (re)add target %d:%d:0\n", bus, id);
-   338	                vhba_scan_devices_remove(vhost, bus, id);
-   339	                vhba_scan_devices_add(vhost, bus, id);
-   340	            } else {
-   341	                /* add followed by remove: no-op */
-   342	                dev_dbg(&vhost->shost->shost_gendev, "no-op for target %d:%d:0\n", bus, id);
-   343	            }
-   344	        }
-   345	    }
-   346	}
-   347	
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  913  
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  914  static const struct firmware *ath10k_fetch_fw_file(struct ath10k *ar,
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  915  						   const char *dir,
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  916  						   const char *file)
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  917  {
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  918  	char filename[100];
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  919  	const struct firmware *fw;
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  920  	int ret;
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  921  
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  922  	if (file == NULL)
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  923  		return ERR_PTR(-ENOENT);
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  924  
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  925  	if (dir == NULL)
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  926  		dir = ".";
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  927  
+5e3dd157d7e70f0 Kalle Valo       2013-06-12 @928  	snprintf(filename, sizeof(filename), "%s/%s", dir, file);
+c8e028026387ea2 Andres Rodriguez 2018-05-10  929  	ret = firmware_request_nowarn(&fw, filename, ar->dev);
+9f5bcfe93315d75 Michal Kazior    2017-02-13  930  	ath10k_dbg(ar, ATH10K_DBG_BOOT, "boot fw request '%s': %d\n",
+9f5bcfe93315d75 Michal Kazior    2017-02-13  931  		   filename, ret);
+9f5bcfe93315d75 Michal Kazior    2017-02-13  932  
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  933  	if (ret)
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  934  		return ERR_PTR(ret);
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  935  
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  936  	return fw;
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  937  }
+5e3dd157d7e70f0 Kalle Valo       2013-06-12  938  
+
+:::::: The code at line 928 was first introduced by commit
+:::::: 5e3dd157d7e70f0e3cea3f2573ed69fb156a19d5 ath10k: mac80211 driver for Qualcomm Atheros 802.11ac CQA98xx devices
+
+:::::: TO: Kalle Valo <kvalo@qca.qualcomm.com>
+:::::: CC: Kalle Valo <kvalo@qca.qualcomm.com>
 
 -- 
 0-DAY CI Kernel Test Service
