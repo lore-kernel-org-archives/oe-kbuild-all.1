@@ -1,48 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A2620E4;
-	Sat, 16 Sep 2023 12:03:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E31D6134
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Sep 2023 13:05:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694865821; x=1726401821;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=O0LjvPrP3FZDihyJh1AF+1Q4z1B9ca4sUEFNGNOglSc=;
-  b=ObIByEpi8Kp6H98UYN6uoEjG5ACHPxRXLjQGvNtODn9iqT8gEJ2RiIm/
-   kAxdhlk7Fha8ThzqD32jCpwlAjlJ2iFQmEe4w3aWeFH+O09a1hDMj9J3E
-   vKL7/DYEXWEHufv+vkFcOWvB2EvdP5a8KDVy0N/Tj2K06C2cQx8yRDKZt
-   +YiF8ZpFcGlqsIxDcMj5TMjJ6noR4dH52kuuIJjudJBib07LGe2Mnb1lL
-   MqsfHxYcSJ5sINir20f4F7xG+r8AdT93lDxSdPKVyGu39iWCiL+jY6+al
-   bDmu8xRmNoInsmY4mVXkWvlx1kJBYej0usMP+IdMGwFXssWkMymqh1y5f
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="358821418"
+  t=1694869540; x=1726405540;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=b6c8RV6xpuZ1eKCYQpfzzRh2WgwFw2VLQ9I5QaXbNY0=;
+  b=jKodcT4oRPsXnApx4bIDYyrr36kxqXO0EPqjiXfDWSzCUiuvzADMWaDt
+   RxA8a1HGj8tLiDrrYYU616whpCB1ILPIxsMhxHoBBOqVfhVKuWanX1wPv
+   55r2bP38n1e7C2TMieurg7sdzQIn6u3loeieO0uCMP4aD4Dmp6hfMuxbI
+   rc8RZCqmhv4gO362jvLE1E4QTxziohXAFUr2arDC1gaB9hNOIt2Mj9tRA
+   WKVxzlS6Ij5Qac5TK4+cnKI9ef/wH0+wEuNOFwF4FyG7r/1tH7kcrj80u
+   X9KLsEClq3YUKk5g/AmR2TJAAkHeAaTmR921pRLrkdUsvk+506FPvLa7t
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="410368577"
 X-IronPort-AV: E=Sophos;i="6.02,152,1688454000"; 
-   d="scan'208";a="358821418"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2023 05:03:40 -0700
+   d="scan'208";a="410368577"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2023 06:05:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="774630319"
+X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="810840291"
 X-IronPort-AV: E=Sophos;i="6.02,152,1688454000"; 
-   d="scan'208";a="774630319"
+   d="scan'208";a="810840291"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 16 Sep 2023 05:03:36 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 16 Sep 2023 06:05:38 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qhU1O-0004Ga-0p;
-	Sat, 16 Sep 2023 12:03:34 +0000
-Date: Sat, 16 Sep 2023 20:03:26 +0800
+	id 1qhUzP-0004Iq-37;
+	Sat, 16 Sep 2023 13:05:35 +0000
+Date: Sat, 16 Sep 2023 21:05:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ma Ke <make_ruc2021@163.com>, jhs@mojatatu.com,
-	xiyou.wangcong@gmail.com, jiri@resnulli.us, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Ma Ke <make_ruc2021@163.com>
-Subject: Re: [PATCH] net: sched: hfsc: dont intepret cls results when asked
- to drop
-Message-ID: <202309161941.5lMYMKdM-lkp@intel.com>
-References: <20230915134408.3410595-1-make_ruc2021@163.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:locking/futex 11/14]
+ kernel/futex/core.c:1211:undefined reference to `vmalloc_huge_node'
+Message-ID: <202309162119.sF0a8lEx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,99 +45,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230915134408.3410595-1-make_ruc2021@163.com>
 
-Hi Ma,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-[also build test ERROR on net/main linus/master v6.6-rc1 next-20230915]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ma-Ke/net-sched-hfsc-dont-intepret-cls-results-when-asked-to-drop/20230915-214635
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230915134408.3410595-1-make_ruc2021%40163.com
-patch subject: [PATCH] net: sched: hfsc: dont intepret cls results when asked to drop
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230916/202309161941.5lMYMKdM-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230916/202309161941.5lMYMKdM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git locking/futex
+head:   be4c83232e8e9ff26d2228a2b197aee00c16b17f
+commit: e9a29f7e22ce8b589fd76ea86dc4182443761ce6 [11/14] futex: Implement FUTEX2_NUMA
+config: riscv-randconfig-002-20230916 (https://download.01.org/0day-ci/archive/20230916/202309162119.sF0a8lEx-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230916/202309162119.sF0a8lEx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309161941.5lMYMKdM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309162119.sF0a8lEx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> net/sched/sch_hfsc.c:1146:4: error: fallthrough annotation does not directly precede switch label
-                           fallthrough;
-                           ^
-   include/linux/compiler_attributes.h:227:41: note: expanded from macro 'fallthrough'
-   # define fallthrough                    __attribute__((__fallthrough__))
-                                           ^
-   1 error generated.
+   riscv64-linux-ld: kernel/futex/core.o: in function `futex_init':
+>> kernel/futex/core.c:1211:(.init.text+0x1ec): undefined reference to `vmalloc_huge_node'
+   pahole: .tmp_vmlinux.btf: Invalid argument
+   .btf.vmlinux.bin.o: file not recognized: file format not recognized
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for VIDEO_OV2640
+   Depends on [n]: MEDIA_SUPPORT [=m] && VIDEO_DEV [=m] && VIDEO_CAMERA_SENSOR [=n]
+   Selected by [m]:
+   - VIDEO_EM28XX_V4L2 [=m] && USB [=m] && MEDIA_SUPPORT [=m] && MEDIA_USB_SUPPORT [=y] && (MEDIA_CAMERA_SUPPORT [=y] || MEDIA_ANALOG_TV_SUPPORT [=y] || MEDIA_DIGITAL_TV_SUPPORT [=y]) && VIDEO_EM28XX [=m] && MEDIA_SUBDRV_AUTOSELECT [=y] && MEDIA_CAMERA_SUPPORT [=y]
+   WARNING: unmet direct dependencies detected for VIDEO_OV7640
+   Depends on [n]: MEDIA_SUPPORT [=m] && VIDEO_DEV [=m] && VIDEO_CAMERA_SENSOR [=n]
+   Selected by [m]:
+   - VIDEO_GO7007 [=m] && MEDIA_SUPPORT [=m] && MEDIA_USB_SUPPORT [=y] && MEDIA_ANALOG_TV_SUPPORT [=y] && VIDEO_DEV [=m] && I2C [=y] && SND [=y] && USB [=m] && MEDIA_SUBDRV_AUTOSELECT [=y] && MEDIA_CAMERA_SUPPORT [=y]
+   WARNING: unmet direct dependencies detected for VIDEO_MT9V011
+   Depends on [n]: MEDIA_SUPPORT [=m] && VIDEO_DEV [=m] && VIDEO_CAMERA_SENSOR [=n]
+   Selected by [m]:
+   - VIDEO_EM28XX_V4L2 [=m] && USB [=m] && MEDIA_SUPPORT [=m] && MEDIA_USB_SUPPORT [=y] && (MEDIA_CAMERA_SUPPORT [=y] || MEDIA_ANALOG_TV_SUPPORT [=y] || MEDIA_DIGITAL_TV_SUPPORT [=y]) && VIDEO_EM28XX [=m] && MEDIA_SUBDRV_AUTOSELECT [=y] && MEDIA_CAMERA_SUPPORT [=y]
+   WARNING: unmet direct dependencies detected for VIDEO_OV7670
+   Depends on [n]: MEDIA_SUPPORT [=m] && VIDEO_DEV [=m] && VIDEO_CAMERA_SENSOR [=n]
+   Selected by [m]:
+   - VIDEO_CAFE_CCIC [=m] && MEDIA_SUPPORT [=m] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && PCI [=y] && I2C [=y] && VIDEO_DEV [=m] && COMMON_CLK [=y]
 
 
-vim +1146 net/sched/sch_hfsc.c
+vim +1211 kernel/futex/core.c
 
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1119  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1120  static struct hfsc_class *
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1121  hfsc_classify(struct sk_buff *skb, struct Qdisc *sch, int *qerr)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1122  {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1123  	struct hfsc_sched *q = qdisc_priv(sch);
-a2f79227138c71 Patrick McHardy     2010-05-14  1124  	struct hfsc_class *head, *cl;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1125  	struct tcf_result res;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1126  	struct tcf_proto *tcf;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1127  	int result;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1128  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1129  	if (TC_H_MAJ(skb->priority ^ sch->handle) == 0 &&
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1130  	    (cl = hfsc_find_class(skb->priority, sch)) != NULL)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1131  		if (cl->level == 0)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1132  			return cl;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1133  
-c27f339af90bb8 Jarek Poplawski     2008-08-04  1134  	*qerr = NET_XMIT_SUCCESS | __NET_XMIT_BYPASS;
-a2f79227138c71 Patrick McHardy     2010-05-14  1135  	head = &q->root;
-25d8c0d55f241c John Fastabend      2014-09-12  1136  	tcf = rcu_dereference_bh(q->root.filter_list);
-3aa2605594556c Davide Caratti      2021-07-28  1137  	while (tcf && (result = tcf_classify(skb, NULL, tcf, &res, false)) >= 0) {
-b633b393d00632 Ma Ke               2023-09-15  1138  		if (result == TC_ACT_SHOT)
-b633b393d00632 Ma Ke               2023-09-15  1139  			return NULL;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1140  #ifdef CONFIG_NET_CLS_ACT
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1141  		switch (result) {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1142  		case TC_ACT_QUEUED:
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1143  		case TC_ACT_STOLEN:
-e25ea21ffa66a0 Jiri Pirko          2017-06-06  1144  		case TC_ACT_TRAP:
-378a2f090f7a47 Jarek Poplawski     2008-08-04  1145  			*qerr = NET_XMIT_SUCCESS | __NET_XMIT_STOLEN;
-964201de695b8a Gustavo A. R. Silva 2020-07-07 @1146  			fallthrough;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1147  		}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1148  #endif
-cc7ec456f82da7 Eric Dumazet        2011-01-19  1149  		cl = (struct hfsc_class *)res.class;
-cc7ec456f82da7 Eric Dumazet        2011-01-19  1150  		if (!cl) {
-cc7ec456f82da7 Eric Dumazet        2011-01-19  1151  			cl = hfsc_find_class(res.classid, sch);
-cc7ec456f82da7 Eric Dumazet        2011-01-19  1152  			if (!cl)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1153  				break; /* filter selected invalid classid */
-a2f79227138c71 Patrick McHardy     2010-05-14  1154  			if (cl->level >= head->level)
-a2f79227138c71 Patrick McHardy     2010-05-14  1155  				break; /* filter may only point downwards */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1156  		}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1157  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1158  		if (cl->level == 0)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1159  			return cl; /* hit leaf class */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1160  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1161  		/* apply inner filter chain */
-25d8c0d55f241c John Fastabend      2014-09-12  1162  		tcf = rcu_dereference_bh(cl->filter_list);
-a2f79227138c71 Patrick McHardy     2010-05-14  1163  		head = cl;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1164  	}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1165  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1166  	/* classification failed, try default class */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1167  	cl = hfsc_find_class(TC_H_MAKE(TC_H_MAJ(sch->handle), q->defcls), sch);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1168  	if (cl == NULL || cl->level > 0)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1169  		return NULL;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1170  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1171  	return cl;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1172  }
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1173  
+  1190	
+  1191	static int __init futex_init(void)
+  1192	{
+  1193		unsigned int order, n;
+  1194		unsigned long size, i;
+  1195	
+  1196	#if CONFIG_BASE_SMALL
+  1197		futex_hashsize = 16;
+  1198	#else
+  1199		futex_hashsize = 256 * num_possible_cpus();
+  1200		futex_hashsize /= num_possible_nodes();
+  1201		futex_hashsize = roundup_pow_of_two(futex_hashsize);
+  1202	#endif
+  1203		futex_hashshift = ilog2(futex_hashsize);
+  1204		size = sizeof(struct futex_hash_bucket) * futex_hashsize;
+  1205		order = get_order(size);
+  1206	
+  1207		for_each_node(n) {
+  1208			struct futex_hash_bucket *table;
+  1209	
+  1210			if (order > MAX_ORDER)
+> 1211				table = vmalloc_huge_node(size, GFP_KERNEL, n);
 
 -- 
 0-DAY CI Kernel Test Service
