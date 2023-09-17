@@ -1,43 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9697FF
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Sep 2023 02:59:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54712EA2
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Sep 2023 04:44:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694919591; x=1726455591;
+  t=1694925849; x=1726461849;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zFJ69BsoEQxmnE+lc1TuECaZQUCSm13Pkh/6KqsdDwI=;
-  b=iSNtmS8RbOtQ7DdW3wtMOCRcD9pHOa5h4i74tEwxJwqlN9336ptzPRKk
-   L6noUWaRUACF501BpkSzFe8En/vZFOyA0Xedjp2dW8oNRT4obcbBHL3U8
-   xJonUOSKvi0dvgRGg8C6/CWXwHTSRAYIzTJfxtBygIL1BOHEABs74IFLg
-   ChnN1WfHKJRp8gktm6vy3oeQuKE37etHxIY0QYjnhcTjuyINY4sIA6PX8
-   u5y6N86ewp69Mj0QO+k7P96df6RKXpD7uN3NYx4Utxip/tMLKWf9Zf9HC
-   3AH/0SYeB7Iq1MwEo0OinxycI41c1GmmnaFhqDyUDBI0paGn9vkPPgNLM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="382202305"
-X-IronPort-AV: E=Sophos;i="6.02,152,1688454000"; 
-   d="scan'208";a="382202305"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2023 19:59:50 -0700
+  bh=9SrpjqlCeNa7z2s2hc0244OOpnADIFOsXgvKlzL2RBg=;
+  b=aQ8Bv6J3/0skg/WtFO9tXvO99Fr2IwHPL+4XT5oFqobyIqqT+VWxzJRk
+   5G7M4JT/yEaDNzbimhXmshGsd7Tkcb8N+l5V86waoiglvfknUy9jXA49X
+   gaf41MSLOmcK/F4IObGXeSQkDqLO4shF0fsK3304eVUR5l+Id5fYAMAUx
+   gLQTi9XHWbVO79Tjqb8s+Qz5WpW5KsWQzF2mFntlT+kRD4TE3Iu6oZfen
+   A6NPa3PIz3tc9vhB3R+1Fk/M4YmThMOnWGolanlqIaJRJSRucUFlQXIxL
+   EAcc6iO/7C860zhzHUokk4XCMrxizsX1Hb12qlzdic0EmZ9JCAYuPJpz4
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="359720001"
+X-IronPort-AV: E=Sophos;i="6.02,153,1688454000"; 
+   d="scan'208";a="359720001"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2023 21:44:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="738757666"
-X-IronPort-AV: E=Sophos;i="6.02,152,1688454000"; 
-   d="scan'208";a="738757666"
+X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="888664912"
+X-IronPort-AV: E=Sophos;i="6.02,153,1688454000"; 
+   d="scan'208";a="888664912"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 16 Sep 2023 19:59:49 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 16 Sep 2023 21:43:28 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qhi0g-0004sS-2x;
-	Sun, 17 Sep 2023 02:59:46 +0000
-Date: Sun, 17 Sep 2023 10:58:50 +0800
+	id 1qhjdd-0004wu-1k;
+	Sun, 17 Sep 2023 04:44:05 +0000
+Date: Sun, 17 Sep 2023 12:43:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sunil V L <sunilvl@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>,
-	linux-doc@vger.kernel.org
-Subject: [avpatel:riscv_acpi_b2_v1 75/85] htmldocs:
- Documentation/riscv/acpi.rst:13: WARNING: Title underline too short.
-Message-ID: <202309171037.brRrJwEV-lkp@intel.com>
+To: NeilBrown <neilb@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>
+Subject: [cel:nfsd-next 19/29] lib/lwq.c:118:2-3: Unneeded semicolon
+Message-ID: <202309171249.n0rBFvdw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,26 +45,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/avpatel/linux.git riscv_acpi_b2_v1
-head:   20e056e5bd7a90eb271eb43d1138de5bdb7bf20d
-commit: a77c65d23d4bf7220d44ef8227705376d433b22a [75/85] irqchip/riscv-intc: Use swnode framework to create fwnode
-reproduce: (https://download.01.org/0day-ci/archive/20230917/202309171037.brRrJwEV-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-next
+head:   078f32da1096100ff82a4d4f76f06af4e7afd321
+commit: 0bd143da74f6989a4a234f387677dbae95e13bf9 [19/29] lib: add light-weight queuing mechanism.
+config: x86_64-randconfig-102-20230917 (https://download.01.org/0day-ci/archive/20230917/202309171249.n0rBFvdw-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20230917/202309171249.n0rBFvdw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309171037.brRrJwEV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309171249.n0rBFvdw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/riscv/acpi.rst:13: WARNING: Title underline too short.
-
-vim +13 Documentation/riscv/acpi.rst
-
-    11	
-    12	Interrupt Controller Drivers
-  > 13	=======
-    14	
+cocci warnings: (new ones prefixed by >>)
+>> lib/lwq.c:118:2-3: Unneeded semicolon
 
 -- 
 0-DAY CI Kernel Test Service
