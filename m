@@ -1,104 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CEA06FB8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 13:49:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60B51C433AB;
-	Mon, 18 Sep 2023 13:49:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695044999;
-	bh=VNgj3ibSIjeoHvbwHyjlxMIDlcI3vpbC0COb4xKHMOo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=nCSQJE0UAVOTe05d26M1mSNVEPEi9P4p2t49urcIeD12JNgqwKoUpRGLqB0q246Oq
-	 iUCzop8GzTjWPYLQtRsO45rtdJn2oD493GXgd5uYgVp1J+cSyQlyOZs7+OBBjL502H
-	 vqJjyk6COfZvXF6Bu4puBBfxKyy+jjWujRnJ8ZyLplIldy1t2bNSDUrza43FDuTH5v
-	 gANAkPA6ClbFh88fhlhpjh8F+QEo1Ri2epiFY8M783Lfgbgwk+HZJrNiKJblvMdMrB
-	 wp2YPBLTFA7JNVRn9tLfHNqNWEaIqu4d3q2IubWyPr4ejK1SiQ70ulSchBwktHu5ZE
-	 Ha+WTOTY+ZmVg==
-Message-ID: <9deaa260-7a15-502e-0159-2012d06c8d05@kernel.org>
-Date: Mon, 18 Sep 2023 15:49:56 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B873F1D691
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 14:30:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695047449; x=1726583449;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XKhmz+G0lnP+76Z3tkxK0WuEs+71wcF0ZOUkcKbskhI=;
+  b=D+gBOo+d+PQR5qMF7Awlzef4s94NrWbyaqFsJWMAggWSY8kkR+2hEkhS
+   S82NhZKykK646A0YHqGibY9s/td0F6Ox7jnYUH6QhuUfqOO7H1lGkN7g9
+   nyP2Kf0b2Lkb5HqGTV3EA2Vbi7SfTfHKjUeclQpbUbcOae+CL6wYE+Xeb
+   50PovbJePEXMaOQK2Lcza/QpBdEeLav1LSwm48uqy0CChX6JvpCHCams6
+   01wZuGlUjQY5iaCJL7mAEu0bqMXRYBPq0oe0M/0gFGKN8lJ0SwTpBj2z4
+   DuA1rEBZqY3is4uzJ6dTbd3PzvH2KAY7zWx30SRX7Iz4ws5rKV0vh7NB2
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="364714487"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="364714487"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 07:30:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="889089014"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="889089014"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 18 Sep 2023 07:30:02 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qiFGt-0006BI-2a;
+	Mon, 18 Sep 2023 14:30:43 +0000
+Date: Mon, 18 Sep 2023 22:29:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andi Shyti <andi.shyti@linux.intel.com>
+Subject: [linux-next:master 758/5912] include/drm/drm_drv.h:587:13: error:
+ 'drm_debugfs_dev_init' defined but not used
+Message-ID: <202309182211.yFC3zaup-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] tracing/timerlat: Hotplug support for the user-space
- interface
-To: kernel test robot <lkp@intel.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <b619d9fd08a3bb47018cf40afa95783844a3c1fd.1694789910.git.bristot@kernel.org>
- <202309160854.SAw0rIUm-lkp@intel.com>
-Content-Language: en-US, pt-BR, it-IT
-From: Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <202309160854.SAw0rIUm-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 9/16/23 02:21, kernel test robot wrote:
-> Hi Daniel,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on linus/master]
-> [also build test WARNING on v6.6-rc1 next-20230915]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Bristot-de-Oliveira/tracing-timerlat-Hotplug-support-for-the-user-space-interface/20230915-230157
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/b619d9fd08a3bb47018cf40afa95783844a3c1fd.1694789910.git.bristot%40kernel.org
-> patch subject: [PATCH] tracing/timerlat: Hotplug support for the user-space interface
-> config: um-randconfig-002-20230916 (https://download.01.org/0day-ci/archive/20230916/202309160854.SAw0rIUm-lkp@intel.com/config)
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7fc7222d9680366edeecc219c21ca96310bdbc10
+commit: 0b30d57acafcaa5374756d314ee54f80d0bcc860 [758/5912] drm/debugfs: rework debugfs directory creation v5
+config: arm-randconfig-003-20230918 (https://download.01.org/0day-ci/archive/20230918/202309182211.yFC3zaup-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230918/202309182211.yFC3zaup-lkp@intel.com/reproduce)
 
-^^ The config has no timerlat and no hotplug...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309182211.yFC3zaup-lkp@intel.com/
 
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230916/202309160854.SAw0rIUm-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309160854.SAw0rIUm-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> kernel/trace/trace_osnoise.c:2125:13: warning: 'timerlat_rm_per_cpu_interface' defined but not used [-Wunused-function]
->     2125 | static void timerlat_rm_per_cpu_interface(long cpu) {};
->          |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>> kernel/trace/trace_osnoise.c:2124:12: warning: 'timerlat_add_per_cpu_interface' defined but not used [-Wunused-function]
->     2124 | static int timerlat_add_per_cpu_interface(long cpu) { return 0; };
->          |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Note: the linux-next/master HEAD 7fc7222d9680366edeecc219c21ca96310bdbc10 builds fine.
+      It may have been fixed somewhere.
 
-These functions are called when hotplug but no timerlat.... when no hotplug: defined but not used.
+All errors (new ones prefixed by >>):
 
-> 
-> vim +/timerlat_rm_per_cpu_interface +2125 kernel/trace/trace_osnoise.c
-> 
->   2112	
->   2113	static void timerlat_rm_per_cpu_interface(long cpu)
->   2114	{
->   2115		struct dentry *cpu_dir = per_cpu_ptr(&osnoise_per_cpu_dir, cpu)->root;
->   2116	
->   2117		if (cpu_dir) {
->   2118			tracefs_remove(cpu_dir);
->   2119			per_cpu_ptr(&osnoise_per_cpu_dir, cpu)->root = NULL;
->   2120			per_cpu_ptr(&osnoise_per_cpu_dir, cpu)->timerlat_fd = NULL;
->   2121		}
->   2122	}
->   2123	#else
->> 2124	static int timerlat_add_per_cpu_interface(long cpu) { return 0; };
->> 2125	static void timerlat_rm_per_cpu_interface(long cpu) {};
->   2126	#endif
->   2127	
-> 
+   In file included from drivers/gpu/drm/tilcdc/tilcdc_drv.c:18:
+>> include/drm/drm_drv.h:587:13: error: 'drm_debugfs_dev_init' defined but not used [-Werror=unused-function]
+     587 | static void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root)
+         |             ^~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
-Fixing it.
 
--- Daniel
+vim +/drm_debugfs_dev_init +587 include/drm/drm_drv.h
+
+   583	
+   584	#if defined(CONFIG_DEBUG_FS)
+   585	void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root);
+   586	#else
+ > 587	static void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root)
+   588	{
+   589	}
+   590	#endif
+   591	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
