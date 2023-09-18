@@ -1,47 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CB71170A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 15:12:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66FDA1CA87
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 16:24:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695049970; x=1726585970;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PuPVH6kC0OL/jK1UXKYb9C1jeOY57YJIinFY/4p/zkY=;
-  b=N3+dpRCWajbSdw2orwKQhCQB9UZx7G6kaXBSMCMuVvwlk8BKgYySuc0/
-   6vZ7wKIbgLP7DfcSgfEJgpm6Scb+QcW23vl8wZ3qwcbxlTDFgoibzulRQ
-   4HAFU0fS3R0TeNeCn7OZYTL9FYe40V1ZIO50EpAm7Zme0GEG559xaDpiZ
-   /E/k+ISIK0a80lw7D9Ca7r6b6SQ2pOLXiidpAHuHlMdoE69hC1x2bZrSB
-   PjzS0/OpsjIJ6T1vUM+8rwvwSh2ez0hTkGL76SD5wFPRRO+0B1vv8AxNJ
-   1JnkSuBazaX9ADhOMshTKOUPm1x57gu4qB1JU8Bk64bcE4l+JdIyBlw/o
+  t=1695054299; x=1726590299;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Y+NFO0qPHOJgCDm2A2F8161JwSN2yP7AX8rHLKx9KJk=;
+  b=W/pw7OdRnXUSwHMb1jKXPn45gIxEVYn3/0sum62iRpqB2aPjZkejCyAm
+   z9P0W2w8LBZkC5uAS4HxBF0atthZFvujo7xt9//J3Nwznh2KupEFXozW5
+   9LA2El5BVzWrI5DZFo4SNNChw4BENU0u4a1ntCv6AWH/zQrw0zyYcOUWF
+   PhN7ZIypyHG8fzsQ/gRnfFci6BJX10WE7gMRJzdo8VgpBkhGsIDMU2PBG
+   YtaJUMdYpkOaexwaROq6r2sDA/c5ocCy6qcYV4ImJLqMWKreccJyU8LnL
+   O6+CGgmDsVyhiwnmR9MoX3+pRfx22jiuojLh4VomKEIEWdtPvBFClBK4X
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="370000919"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="382450177"
 X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="370000919"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 08:12:49 -0700
+   d="scan'208";a="382450177"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 09:24:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="811387869"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="1076642825"
 X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="811387869"
+   d="scan'208";a="1076642825"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 18 Sep 2023 08:12:47 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 18 Sep 2023 09:24:57 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qiFvZ-0006DI-0K;
-	Mon, 18 Sep 2023 15:12:45 +0000
-Date: Mon, 18 Sep 2023 23:11:59 +0800
+	id 1qiH3P-0006HQ-10;
+	Mon, 18 Sep 2023 16:24:55 +0000
+Date: Tue, 19 Sep 2023 00:24:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cezary Rojewski <cezary.rojewski@intel.com>, broonie@kernel.org,
-	tiwai@suse.com, perex@perex.cz
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
-	amadeuszx.slawinski@linux.intel.com,
-	pierre-louis.bossart@linux.intel.com, hdegoede@redhat.com,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: Re: [PATCH v2 15/17] ALSA: hda: Drop snd_hdac_calc_stream_format()
-Message-ID: <202309182301.K9lVpMbl-lkp@intel.com>
-References: <20230918133940.3676091-16-cezary.rojewski@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-fix-5k 29/29] or1k-linux-ld: test_dynamic_debug.c:undefined
+ reference to `dd_mt_sites'
+Message-ID: <202309190022.1SbaEIvw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,57 +45,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230918133940.3676091-16-cezary.rojewski@intel.com>
 
-Hi Cezary,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 564ee9ac788b680e4ec4a6cb3a4a953dc61d5da8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cezary-Rojewski/ALSA-pcm-Introduce-MSBITS-subformat-interface/20230918-214758
-base:   564ee9ac788b680e4ec4a6cb3a4a953dc61d5da8
-patch link:    https://lore.kernel.org/r/20230918133940.3676091-16-cezary.rojewski%40intel.com
-patch subject: [PATCH v2 15/17] ALSA: hda: Drop snd_hdac_calc_stream_format()
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20230918/202309182301.K9lVpMbl-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230918/202309182301.K9lVpMbl-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git dd-fix-5k
+head:   4ddb17b77bfb55e87a4ee98d72b9432d229fb1a6
+commit: 4ddb17b77bfb55e87a4ee98d72b9432d229fb1a6 [29/29] dyndbg: add sites_mt into _ddebug_info
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20230919/202309190022.1SbaEIvw-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309190022.1SbaEIvw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309182301.K9lVpMbl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309190022.1SbaEIvw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sound/soc/sof/intel/hda-dai-ops.c: In function 'generic_calc_stream_format':
->> sound/soc/sof/intel/hda-dai-ops.c:243:22: error: implicit declaration of function 'snd_hdac_calc_stream_format'; did you mean 'hda_calc_stream_format'? [-Werror=implicit-function-declaration]
-     243 |         format_val = snd_hdac_calc_stream_format(params_rate(params), params_channels(params),
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                      hda_calc_stream_format
-   cc1: some warnings being treated as errors
-
-
-vim +243 sound/soc/sof/intel/hda-dai-ops.c
-
-d1bf58474d17a7 Pierre-Louis Bossart 2023-06-02  236  
-12547730e5b7c4 Pierre-Louis Bossart 2023-08-07  237  static unsigned int generic_calc_stream_format(struct snd_sof_dev *sdev,
-12547730e5b7c4 Pierre-Louis Bossart 2023-08-07  238  					       struct snd_pcm_substream *substream,
-12547730e5b7c4 Pierre-Louis Bossart 2023-08-07  239  					       struct snd_pcm_hw_params *params)
-12547730e5b7c4 Pierre-Louis Bossart 2023-08-07  240  {
-12547730e5b7c4 Pierre-Louis Bossart 2023-08-07  241  	unsigned int format_val;
-12547730e5b7c4 Pierre-Louis Bossart 2023-08-07  242  
-12547730e5b7c4 Pierre-Louis Bossart 2023-08-07 @243  	format_val = snd_hdac_calc_stream_format(params_rate(params), params_channels(params),
-12547730e5b7c4 Pierre-Louis Bossart 2023-08-07  244  						 params_format(params),
-12547730e5b7c4 Pierre-Louis Bossart 2023-08-07  245  						 params_physical_width(params),
-12547730e5b7c4 Pierre-Louis Bossart 2023-08-07  246  						 0);
-12547730e5b7c4 Pierre-Louis Bossart 2023-08-07  247  
-12547730e5b7c4 Pierre-Louis Bossart 2023-08-07  248  	dev_dbg(sdev->dev, "format_val=%#x, rate=%d, ch=%d, format=%d\n", format_val,
-12547730e5b7c4 Pierre-Louis Bossart 2023-08-07  249  		params_rate(params), params_channels(params), params_format(params));
-12547730e5b7c4 Pierre-Louis Bossart 2023-08-07  250  
-12547730e5b7c4 Pierre-Louis Bossart 2023-08-07  251  	return format_val;
-12547730e5b7c4 Pierre-Louis Bossart 2023-08-07  252  }
-12547730e5b7c4 Pierre-Louis Bossart 2023-08-07  253  
+   arch/openrisc/kernel/head.o: in function `_dispatch_do_ipage_fault':
+   (.text+0x900): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
+   (.text+0xa00): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
+   arch/openrisc/kernel/head.o: in function `exit_with_no_dtranslation':
+   (.head.text+0x21bc): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
+   arch/openrisc/kernel/head.o: in function `exit_with_no_itranslation':
+   (.head.text+0x2264): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
+   init/main.o: in function `init_setup':
+   main.c:(.init.text+0xf4): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `memset' defined in .text section in arch/openrisc/lib/memset.o
+   init/main.o: in function `rdinit_setup':
+   main.c:(.init.text+0x14c): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `memset' defined in .text section in arch/openrisc/lib/memset.o
+   init/main.o: in function `do_early_param':
+   main.c:(.init.text+0x27c): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `parameq' defined in .text section in kernel/params.o
+   init/main.o: in function `unknown_bootoption':
+   main.c:(.init.text+0x564): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `parameqn' defined in .text section in kernel/params.o
+   init/main.o: in function `setup_boot_config':
+   main.c:(.init.text+0xc2c): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `parse_args' defined in .text section in kernel/params.o
+   init/main.o: in function `setup_command_line':
+   main.c:(.init.text+0xf74): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `memcpy' defined in .text section in arch/openrisc/lib/memcpy.o
+   init/main.o: in function `initcall_blacklist':
+   main.c:(.init.text+0x10d4): additional relocation overflows omitted from the output
+   or1k-linux-ld: lib/test_dynamic_debug.o: in function `do_prints':
+   test_dynamic_debug.c:(.text+0x2ec): undefined reference to `dd_mt_sites'
+>> or1k-linux-ld: test_dynamic_debug.c:(.text+0x2f0): undefined reference to `dd_mt_sites'
+   or1k-linux-ld: lib/test_dynamic_debug_submod.o: in function `do_prints':
+   test_dynamic_debug_submod.c:(.text+0x2ec): undefined reference to `dd_mt_sites'
+>> or1k-linux-ld: test_dynamic_debug_submod.c:(.text+0x2f0): undefined reference to `dd_mt_sites'
 
 -- 
 0-DAY CI Kernel Test Service
