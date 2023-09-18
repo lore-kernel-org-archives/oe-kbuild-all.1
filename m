@@ -1,42 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66FDA1CA87
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 16:24:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BA723757
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 17:08:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695054299; x=1726590299;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y+NFO0qPHOJgCDm2A2F8161JwSN2yP7AX8rHLKx9KJk=;
-  b=W/pw7OdRnXUSwHMb1jKXPn45gIxEVYn3/0sum62iRpqB2aPjZkejCyAm
-   z9P0W2w8LBZkC5uAS4HxBF0atthZFvujo7xt9//J3Nwznh2KupEFXozW5
-   9LA2El5BVzWrI5DZFo4SNNChw4BENU0u4a1ntCv6AWH/zQrw0zyYcOUWF
-   PhN7ZIypyHG8fzsQ/gRnfFci6BJX10WE7gMRJzdo8VgpBkhGsIDMU2PBG
-   YtaJUMdYpkOaexwaROq6r2sDA/c5ocCy6qcYV4ImJLqMWKreccJyU8LnL
-   O6+CGgmDsVyhiwnmR9MoX3+pRfx22jiuojLh4VomKEIEWdtPvBFClBK4X
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="382450177"
-X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="382450177"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 09:24:58 -0700
+  t=1695056884; x=1726592884;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=R0IYlcHB+mDxKxCzHImBnbsDf3CITkOOK5I/jc4Vt4g=;
+  b=jHmVXcnHxtmp9g7cDHL/OkxMyvebYAO6oquBDrkJo/a+KVVdUPtx3o4J
+   MkVxl3S9cxl7Cw5d2qJb8JI3a65E+VPflJvNO+0VsWgvki9hFLNCiaSba
+   jC+xQpNXl1k8aT95Bhb5M2muNoIEtY3hIzw0rE6KrlLH6Zz+fRQ2ljPp0
+   Q+z8C4FtEwY5cEi6NWyMwHiriy3qHJo3YdqzMX4ZIvcIzxFyCNZfOpSsY
+   asldT74jT9fkq2KuYrs3kGhzAXk6jmhyWjmR6hVIsURsKZKKn0f38xiZH
+   diUwLCbpjKWkYzycxjq4BIbH9mR2SrwBRF/T3lXD9m4XXeNu2jRpJ2vhc
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="377037217"
+X-IronPort-AV: E=Sophos;i="6.02,157,1688454000"; 
+   d="scan'208";a="377037217"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 10:08:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="1076642825"
-X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="1076642825"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="775202677"
+X-IronPort-AV: E=Sophos;i="6.02,157,1688454000"; 
+   d="scan'208";a="775202677"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 18 Sep 2023 09:24:57 -0700
+  by orsmga008.jf.intel.com with ESMTP; 18 Sep 2023 10:07:58 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qiH3P-0006HQ-10;
-	Mon, 18 Sep 2023 16:24:55 +0000
-Date: Tue, 19 Sep 2023 00:24:32 +0800
+	id 1qiHj2-0006J6-1j;
+	Mon, 18 Sep 2023 17:07:56 +0000
+Date: Tue, 19 Sep 2023 01:07:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-fix-5k 29/29] or1k-linux-ld: test_dynamic_debug.c:undefined
- reference to `dd_mt_sites'
-Message-ID: <202309190022.1SbaEIvw-lkp@intel.com>
+To: Elaine Zhang <zhangqing@rock-chips.com>, mturquette@baylibre.com,
+	sboyd@kernel.org, kever.yang@rock-chips.com, heiko@sntech.de,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+	huangtao@rock-chips.com, xxx@rock-chips.com, xf@rock-chips.com
+Subject: Re: [PATCH v1 4/8] clk: rockchip: Avoid __clk_lookup() calls
+Message-ID: <202309190032.1NPAySNx-lkp@intel.com>
+References: <20230918073151.7660-5-zhangqing@rock-chips.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,48 +52,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230918073151.7660-5-zhangqing@rock-chips.com>
 
-tree:   https://github.com/jimc/linux.git dd-fix-5k
-head:   4ddb17b77bfb55e87a4ee98d72b9432d229fb1a6
-commit: 4ddb17b77bfb55e87a4ee98d72b9432d229fb1a6 [29/29] dyndbg: add sites_mt into _ddebug_info
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20230919/202309190022.1SbaEIvw-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309190022.1SbaEIvw-lkp@intel.com/reproduce)
+Hi Elaine,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rockchip/for-next]
+[also build test WARNING on clk/clk-next linus/master v6.6-rc2 next-20230918]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Elaine-Zhang/clk-clk-fractional-divider-Export-clk_fractional_divider_general_approximation-API/20230918-154652
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
+patch link:    https://lore.kernel.org/r/20230918073151.7660-5-zhangqing%40rock-chips.com
+patch subject: [PATCH v1 4/8] clk: rockchip: Avoid __clk_lookup() calls
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230919/202309190032.1NPAySNx-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309190032.1NPAySNx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309190022.1SbaEIvw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309190032.1NPAySNx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/openrisc/kernel/head.o: in function `_dispatch_do_ipage_fault':
-   (.text+0x900): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
-   (.text+0xa00): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
-   arch/openrisc/kernel/head.o: in function `exit_with_no_dtranslation':
-   (.head.text+0x21bc): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
-   arch/openrisc/kernel/head.o: in function `exit_with_no_itranslation':
-   (.head.text+0x2264): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
-   init/main.o: in function `init_setup':
-   main.c:(.init.text+0xf4): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `memset' defined in .text section in arch/openrisc/lib/memset.o
-   init/main.o: in function `rdinit_setup':
-   main.c:(.init.text+0x14c): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `memset' defined in .text section in arch/openrisc/lib/memset.o
-   init/main.o: in function `do_early_param':
-   main.c:(.init.text+0x27c): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `parameq' defined in .text section in kernel/params.o
-   init/main.o: in function `unknown_bootoption':
-   main.c:(.init.text+0x564): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `parameqn' defined in .text section in kernel/params.o
-   init/main.o: in function `setup_boot_config':
-   main.c:(.init.text+0xc2c): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `parse_args' defined in .text section in kernel/params.o
-   init/main.o: in function `setup_command_line':
-   main.c:(.init.text+0xf74): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `memcpy' defined in .text section in arch/openrisc/lib/memcpy.o
-   init/main.o: in function `initcall_blacklist':
-   main.c:(.init.text+0x10d4): additional relocation overflows omitted from the output
-   or1k-linux-ld: lib/test_dynamic_debug.o: in function `do_prints':
-   test_dynamic_debug.c:(.text+0x2ec): undefined reference to `dd_mt_sites'
->> or1k-linux-ld: test_dynamic_debug.c:(.text+0x2f0): undefined reference to `dd_mt_sites'
-   or1k-linux-ld: lib/test_dynamic_debug_submod.o: in function `do_prints':
-   test_dynamic_debug_submod.c:(.text+0x2ec): undefined reference to `dd_mt_sites'
->> or1k-linux-ld: test_dynamic_debug_submod.c:(.text+0x2f0): undefined reference to `dd_mt_sites'
+   In file included from drivers/clk/rockchip/clk-rk3328.c:13:
+>> drivers/clk/rockchip/clk-rk3328.c:160:7: warning: 'mux_armclk_p' defined but not used [-Wunused-const-variable=]
+     160 | PNAME(mux_armclk_p)             = { "apll_core",
+         |       ^~~~~~~~~~~~
+   drivers/clk/rockchip/clk.h:512:43: note: in definition of macro 'PNAME'
+     512 | #define PNAME(x) static const char *const x[] __initconst
+         |                                           ^
+--
+   In file included from drivers/clk/rockchip/clk-rk3588.c:13:
+>> drivers/clk/rockchip/clk-rk3588.c:447:7: warning: 'mux_armclkb23_p' defined but not used [-Wunused-const-variable=]
+     447 | PNAME(mux_armclkb23_p)                  = { "xin24m", "gpll", "b1pll",};
+         |       ^~~~~~~~~~~~~~~
+   drivers/clk/rockchip/clk.h:512:43: note: in definition of macro 'PNAME'
+     512 | #define PNAME(x) static const char *const x[] __initconst
+         |                                           ^
+>> drivers/clk/rockchip/clk-rk3588.c:446:7: warning: 'mux_armclkb01_p' defined but not used [-Wunused-const-variable=]
+     446 | PNAME(mux_armclkb01_p)                  = { "xin24m", "gpll", "b0pll",};
+         |       ^~~~~~~~~~~~~~~
+   drivers/clk/rockchip/clk.h:512:43: note: in definition of macro 'PNAME'
+     512 | #define PNAME(x) static const char *const x[] __initconst
+         |                                           ^
+>> drivers/clk/rockchip/clk-rk3588.c:445:7: warning: 'mux_armclkl_p' defined but not used [-Wunused-const-variable=]
+     445 | PNAME(mux_armclkl_p)                    = { "xin24m", "gpll", "lpll" };
+         |       ^~~~~~~~~~~~~
+   drivers/clk/rockchip/clk.h:512:43: note: in definition of macro 'PNAME'
+     512 | #define PNAME(x) static const char *const x[] __initconst
+         |                                           ^
+
+
+vim +/mux_armclk_p +160 drivers/clk/rockchip/clk-rk3328.c
+
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  144  
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  145  PNAME(mux_2plls_p)		= { "cpll", "gpll" };
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  146  PNAME(mux_gpll_cpll_p)		= { "gpll", "cpll" };
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  147  PNAME(mux_cpll_gpll_apll_p)	= { "cpll", "gpll", "apll" };
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  148  PNAME(mux_2plls_xin24m_p)	= { "cpll", "gpll", "xin24m" };
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  149  PNAME(mux_2plls_hdmiphy_p)	= { "cpll", "gpll",
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  150  				    "dummy_hdmiphy" };
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  151  PNAME(mux_4plls_p)		= { "cpll", "gpll",
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  152  				    "dummy_hdmiphy",
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  153  				    "usb480m" };
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  154  PNAME(mux_2plls_u480m_p)	= { "cpll", "gpll",
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  155  				    "usb480m" };
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  156  PNAME(mux_2plls_24m_u480m_p)	= { "cpll", "gpll",
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  157  				     "xin24m", "usb480m" };
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  158  
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  159  PNAME(mux_ddrphy_p)		= { "dpll", "apll", "cpll" };
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29 @160  PNAME(mux_armclk_p)		= { "apll_core",
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  161  				    "gpll_core",
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  162  				    "dpll_core",
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  163  				    "npll_core"};
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  164  PNAME(mux_hdmiphy_p)		= { "hdmi_phy", "xin24m" };
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  165  PNAME(mux_usb480m_p)		= { "usb480m_phy",
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  166  				    "xin24m" };
+fe3511ad8a1cf6 Elaine Zhang 2016-12-29  167  
 
 -- 
 0-DAY CI Kernel Test Service
