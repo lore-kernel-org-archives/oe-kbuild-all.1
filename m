@@ -1,107 +1,74 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED3D5382
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 09:04:09 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 626931FD92;
-	Mon, 18 Sep 2023 09:04:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1695027842; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=y8ulxZTAU8ZHRSVUlnFEqeNxmI2g5k3RdNfkDBzDyL4=;
-	b=QanKoGQDn+l/JZ21hEKb+AMs28Dq5uMeR9Nld3yJhyelrsKXD+fQWu0yhKkOvf8o/eL133
-	TUbfm5z033M+P24F1F3RBppZXJh4LsRzwrrJGrL8cjO6I5BLv8Sw6AhQKhRdo6xpJiWFsZ
-	ZizWAnL1AcrKj2kqj12ABhoiGUwA5vs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1695027842;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=y8ulxZTAU8ZHRSVUlnFEqeNxmI2g5k3RdNfkDBzDyL4=;
-	b=54tZC2yWZS+MbxdWdVOcFqsWohg5jRmfAqQ3t+wOtGjMKL6HtRuU2g8FpClwaYuF+9q6TC
-	gprw7VKHpq/QNhBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2A5CA13480;
-	Mon, 18 Sep 2023 09:04:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id tgl1CYISCGX7CgAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 18 Sep 2023 09:04:02 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: deller@gmx.de,
-	sam@ravnborg.org,
-	arnd@arndb.de,
-	javierm@redhat.com,
-	rdunlap@infradead.org,
-	glaubitz@physik.fu-berlin.de
-Cc: linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH] fbdev/sh7760fb: Depend on FB=y
-Date: Mon, 18 Sep 2023 11:03:49 +0200
-Message-ID: <20230918090400.13264-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.42.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20B3513AFA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 09:16:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695028566; x=1726564566;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+w6oxSxiXuOkTLNLS005s9K2GeB0Y5R9v77tRZ0bXcc=;
+  b=f82cvn9/b+G73GbnDvPxKIDdEqKhV4AY3rFTq+RFLppCPLpnJQcObpJs
+   8tsflcHg5NlLrTPN57dHtMCeUM1iYOeQ/wuJPlDxK96dATgQgC8AOo15E
+   Zw0UgSTnhzbqC/fc87TDFu3vCFvkFWVJic0blyUXZfzM5RYssQRGWUQt6
+   jBtnIuwFDnJTRTw1OEhg3rl43WfMGEe0iPNzpRge+fQ5p48KNdk15m6RI
+   TR9QLzBNyBh8qTohiXGkmu9uZyJ+pxAno7eaY8/qfVDD3dQLTKc1QY92x
+   jf8twuhDAz/2waLIjVpTVPEOnmqOGAcMvze8PuXicfhdJivTQROt9b+1b
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="410561996"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="410561996"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 02:16:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="860985222"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="860985222"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 18 Sep 2023 02:16:04 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qiAMK-0005ye-2D;
+	Mon, 18 Sep 2023 09:16:01 +0000
+Date: Mon, 18 Sep 2023 17:15:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ben Skeggs <bskeggs@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [skeggsb-nouveau:00.02-gsp-rm 81/87] r535.c:undefined reference to
+ `__udivdi3'
+Message-ID: <202309181749.PKanZ1aC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fix linker error if FB=m about missing fb_io_read and fb_io_write. The
-linker's error message suggests that this config setting has already
-been broken for other symbols.
+tree:   https://gitlab.freedesktop.org/skeggsb/nouveau 00.02-gsp-rm
+head:   0e721db5649d18bcfb3219434d24af61bf5afb15
+commit: bd8dac2b4d91ff21d9cb9e58c0e68fe385215e87 [81/87] drm/nouveau/fifo/r535: initial support
+config: i386-buildonly-randconfig-003-20230918 (https://download.01.org/0day-ci/archive/20230918/202309181749.PKanZ1aC-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230918/202309181749.PKanZ1aC-lkp@intel.com/reproduce)
 
-  All errors (new ones prefixed by >>):
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309181749.PKanZ1aC-lkp@intel.com/
 
-     sh4-linux-ld: drivers/video/fbdev/sh7760fb.o: in function `sh7760fb_probe':
-     sh7760fb.c:(.text+0x374): undefined reference to `framebuffer_alloc'
-     sh4-linux-ld: sh7760fb.c:(.text+0x394): undefined reference to `fb_videomode_to_var'
-     sh4-linux-ld: sh7760fb.c:(.text+0x39c): undefined reference to `fb_alloc_cmap'
-     sh4-linux-ld: sh7760fb.c:(.text+0x3a4): undefined reference to `register_framebuffer'
-     sh4-linux-ld: sh7760fb.c:(.text+0x3ac): undefined reference to `fb_dealloc_cmap'
-     sh4-linux-ld: sh7760fb.c:(.text+0x434): undefined reference to `framebuffer_release'
-     sh4-linux-ld: drivers/video/fbdev/sh7760fb.o: in function `sh7760fb_remove':
-     sh7760fb.c:(.text+0x800): undefined reference to `unregister_framebuffer'
-     sh4-linux-ld: sh7760fb.c:(.text+0x804): undefined reference to `fb_dealloc_cmap'
-     sh4-linux-ld: sh7760fb.c:(.text+0x814): undefined reference to `framebuffer_release'
-  >> sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0xc): undefined reference to `fb_io_read'
-  >> sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x10): undefined reference to `fb_io_write'
-     sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x2c): undefined reference to `cfb_fillrect'
-     sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x30): undefined reference to `cfb_copyarea'
-     sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x34): undefined reference to `cfb_imageblit'
+All errors (new ones prefixed by >>):
 
-Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202309130632.LS04CPWu-lkp@intel.com/
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/video/fbdev/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+   ld: drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.o: in function `r535_chan_id_get_locked':
+>> r535.c:(.text+0x45d): undefined reference to `__udivdi3'
+   ld: drivers/gpu/drm/nouveau/dispnv50/disp.o: in function `nv50_sor_dp_watermark_sst.isra.0':
+   disp.c:(.text+0x1a9b): undefined reference to `__udivdi3'
+   ld: disp.c:(.text+0x1b21): undefined reference to `__udivdi3'
+   ld: disp.c:(.text+0x1b38): undefined reference to `__udivdi3'
+   ld: disp.c:(.text+0x1b52): undefined reference to `__udivdi3'
+   ld: drivers/gpu/drm/nouveau/dispnv50/disp.o:disp.c:(.text+0x1bc5): more undefined references to `__udivdi3' follow
 
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 4455bfd57f0ec..64ccb34d882dd 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -1756,7 +1756,7 @@ config FB_COBALT
- 
- config FB_SH7760
- 	bool "SH7760/SH7763/SH7720/SH7721 LCDC support"
--	depends on FB && (CPU_SUBTYPE_SH7760 || CPU_SUBTYPE_SH7763 \
-+	depends on FB=y && (CPU_SUBTYPE_SH7760 || CPU_SUBTYPE_SH7763 \
- 		|| CPU_SUBTYPE_SH7720 || CPU_SUBTYPE_SH7721)
- 	select FB_IOMEM_HELPERS
- 	help
 -- 
-2.42.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
