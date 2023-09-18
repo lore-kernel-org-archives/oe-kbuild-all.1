@@ -1,110 +1,117 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25D856FD0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 09:31:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1695029462;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=K9mKfMs2axUjRk4VejYXL9YNHsofaFImODtn3an3J0Q=;
-	b=BpcqJPrloomRyKriyBFoffG+optmS/69INq4f7Cal6ZorfRyRrFwhQsGZm4XE4B2mjTZ0m
-	XNpMtLdHX9rSNOVh50v8vHGEW+LA18WrGoTH/yoman0dN00EMmeFKYOt9VdtAQ3RxIptws
-	QSHrDYlspvnk44h17uUwkhKxwickTMM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-656-ppfbZ5UBOS2krHAFDvsdiQ-1; Mon, 18 Sep 2023 05:30:57 -0400
-X-MC-Unique: ppfbZ5UBOS2krHAFDvsdiQ-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-31fd48da316so3002007f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 02:30:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695029456; x=1695634256;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K9mKfMs2axUjRk4VejYXL9YNHsofaFImODtn3an3J0Q=;
-        b=p7MfmIUix2kY2jvfyBjKQOrzju+Rlj+wGq88v7IHIG3BdopNpccFMdbGryFvxD5piC
-         SJRolzlSvn5Q1CTtTYWkKnrEKf/pwfmvRI+2GxShIp1nV4ZUcohD0W1F9+CKzjH1AYnn
-         Hkpi1+es0rbcAl3kAQrYI/c+HIq7bpo2U9j6r0VRys78cR1ETn2FufjACoTrGlUHXy3f
-         EYit/a6P9GcNYfVm0l/a2IvXz8ELeGtakJcqUd795Fl0eFwZpoG3dhrGKM4zrm82/apI
-         fG4AxR7ri5w1MJ2ShoJt0bUQf1DJcoi7n3KtDixuxMTsxidsakOSlgt0oN6B3OoLW+KM
-         TKig==
-X-Gm-Message-State: AOJu0Yy5CRGVSKZwRZ3BuIrFl1GNFOZi7DHLRUK2aEDVZ0JCkUHk1xQt
-	QII4ma5Eag3AjXHlPPMWunACWutbKuIsyV7idU3tvuOO1DXbDgZm8FA7o9zFbwb0UhOEIjeuLlZ
-	XfX16CQWsSlZ3kQKxZTqYntCyOg==
-X-Received: by 2002:a5d:4152:0:b0:317:5182:7b55 with SMTP id c18-20020a5d4152000000b0031751827b55mr6601629wrq.42.1695029455963;
-        Mon, 18 Sep 2023 02:30:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFuVwKer/t6wO8e6EaqpLJk3xr8QAnbzNM6Ra4QUQXA+9orH05TCHII2aGbpDgbji3C7zRZ1Q==
-X-Received: by 2002:a5d:4152:0:b0:317:5182:7b55 with SMTP id c18-20020a5d4152000000b0031751827b55mr6601614wrq.42.1695029455646;
-        Mon, 18 Sep 2023 02:30:55 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id q11-20020adff50b000000b0031c71693449sm12122610wro.1.2023.09.18.02.30.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Sep 2023 02:30:55 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
- sam@ravnborg.org, arnd@arndb.de, rdunlap@infradead.org,
- glaubitz@physik.fu-berlin.de
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, Thomas
- Zimmermann <tzimmermann@suse.de>, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] fbdev/sh7760fb: Depend on FB=y
-In-Reply-To: <20230918090400.13264-1-tzimmermann@suse.de>
-References: <20230918090400.13264-1-tzimmermann@suse.de>
-Date: Mon, 18 Sep 2023 11:30:54 +0200
-Message-ID: <87o7hz4ylt.fsf@minerva.mail-host-address-is-not-set>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7C5EED0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 12:01:23 +0000 (UTC)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38IBOmKw007675;
+	Mon, 18 Sep 2023 07:01:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=yL2E826Vt1q+57J
+	6jFRsHwaJbh1oPSMB7gsPT2ALWLw=; b=VxsOrqxcUhvq1TrMD7bom8fHUlFColE
+	DzRdG1gT2UI9wZZntxgBigQeVipsUBP6pC93Rho2dAkouo8KOXSyVOllvtP5DzDu
+	LsKZRSDAPlKBUTDCLHKAyE03WQKksnSWevBSjEG6hQf4TM0pZA41rfWoxDttzCBc
+	qrzOkqwfkfnliNJP3YNTkHKxCoGzQpbDP5JCqiESMd2t6uVGyuLfnvdjo3tFKse/
+	OvCLXYAvHmUimK1AEbBOgxgszMcoJEfU0uHJnhMNFC1CKmsAj/NvOIXeVcgHjErB
+	Ayl51DCiPUOrtkhGKoXTNGGrNl4skGeP4MD62UdoOYc9O1cc0Jng8qg==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3t58shsqy8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 18 Sep 2023 07:01:05 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.37; Mon, 18 Sep
+ 2023 13:01:03 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.37 via Frontend
+ Transport; Mon, 18 Sep 2023 13:01:03 +0100
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 7BF713563;
+	Mon, 18 Sep 2023 12:01:03 +0000 (UTC)
+Date: Mon, 18 Sep 2023 12:01:03 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+CC: kernel test robot <lkp@intel.com>,
+        Lucas Tanure
+	<tanureal@opensource.cirrus.com>,
+        <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+        Lee Jones <lee@kernel.org>,
+        Pierre-Louis
+ Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: Re: drivers/soundwire/bus_type.c:126:30: error: implicit declaration
+ of function 'irq_create_mapping'; did you mean 'irq_dispose_mapping'?
+Message-ID: <20230918120103.GZ103419@ediswmail.ad.cirrus.com>
+References: <202309150820.6zuErL12-lkp@intel.com>
+ <bf1bd8ee-b102-47e5-82c7-e190a43d984c@infradead.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <bf1bd8ee-b102-47e5-82c7-e190a43d984c@infradead.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-GUID: vQTv1IexqBbMf-B4FUwi2tm4c0BGjZ9X
+X-Proofpoint-ORIG-GUID: vQTv1IexqBbMf-B4FUwi2tm4c0BGjZ9X
+X-Proofpoint-Spam-Reason: safe
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+On Fri, Sep 15, 2023 at 10:14:52PM -0700, Randy Dunlap wrote:
+> 
+> 
+> On 9/14/23 17:26, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   9fdfb15a3dbf818e06be514f4abbfc071004cbe7
+> > commit: 12a95123bfe1dd1a6020a35f5e67a560591bb02a soundwire: bus: Allow SoundWire peripherals to register IRQ handlers
+> > date:   4 weeks ago
+> > config: s390-randconfig-r031-20220110 (https://download.01.org/0day-ci/archive/20230915/202309150820.6zuErL12-lkp@intel.com/config)
+> > compiler: s390-linux-gcc (GCC) 11.3.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150820.6zuErL12-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202309150820.6zuErL12-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> >    drivers/soundwire/bus_type.c: In function 'sdw_drv_probe':
+> >>> drivers/soundwire/bus_type.c:126:30: error: implicit declaration of function 'irq_create_mapping'; did you mean 'irq_dispose_mapping'? [-Werror=implicit-function-declaration]
+> >      126 |                 slave->irq = irq_create_mapping(slave->bus->domain, slave->dev_num);
+> >          |                              ^~~~~~~~~~~~~~~~~~
+> >          |                              irq_dispose_mapping
+> >    drivers/soundwire/bus_type.c: In function 'sdw_drv_remove':
+> >>> drivers/soundwire/bus_type.c:179:37: error: implicit declaration of function 'irq_find_mapping'; did you mean 'irq_dispose_mapping'? [-Werror=implicit-function-declaration]
+> >      179 |                 irq_dispose_mapping(irq_find_mapping(slave->bus->domain,
+> >          |                                     ^~~~~~~~~~~~~~~~
+> >          |                                     irq_dispose_mapping
+> >    cc1: some warnings being treated as errors
+> > --
+> >    drivers/soundwire/bus.c: In function 'sdw_bus_master_add':
+> >>> drivers/soundwire/bus.c:173:23: error: implicit declaration of function 'irq_domain_create_linear' [-Werror=implicit-function-declaration]
+> >      173 |         bus->domain = irq_domain_create_linear(fwnode, SDW_MAX_DEVICES,
+> >          |                       ^~~~~~~~~~~~~~~~~~~~~~~~
+> >    drivers/soundwire/bus.c:173:21: warning: assignment to 'struct irq_domain *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+> >      173 |         bus->domain = irq_domain_create_linear(fwnode, SDW_MAX_DEVICES,
+> >          |                     ^
+> >    drivers/soundwire/bus.c: In function 'sdw_bus_master_delete':
+> >>> drivers/soundwire/bus.c:217:9: error: implicit declaration of function 'irq_domain_remove' [-Werror=implicit-function-declaration]
+> >      217 |         irq_domain_remove(bus->domain);
+> >          |         ^~~~~~~~~~~~~~~~~
+> >    cc1: some warnings being treated as errors
+> > 
+> 
+> CONFIG_IRQ_DOMAIN is not set in the .config file.
+> Should SOUNDWIRE select IRQ_DOMAIN?
+> 
 
-Hello Thomas,
+Probably a reasonable fix, but I wonder if it might be better to
+make my new additions optional. Since SoundWire isn't strictly
+dependent on my IRQ additions.
 
-> Fix linker error if FB=m about missing fb_io_read and fb_io_write. The
-> linker's error message suggests that this config setting has already
-> been broken for other symbols.
->
->   All errors (new ones prefixed by >>):
->
->      sh4-linux-ld: drivers/video/fbdev/sh7760fb.o: in function `sh7760fb_probe':
->      sh7760fb.c:(.text+0x374): undefined reference to `framebuffer_alloc'
->      sh4-linux-ld: sh7760fb.c:(.text+0x394): undefined reference to `fb_videomode_to_var'
->      sh4-linux-ld: sh7760fb.c:(.text+0x39c): undefined reference to `fb_alloc_cmap'
->      sh4-linux-ld: sh7760fb.c:(.text+0x3a4): undefined reference to `register_framebuffer'
->      sh4-linux-ld: sh7760fb.c:(.text+0x3ac): undefined reference to `fb_dealloc_cmap'
->      sh4-linux-ld: sh7760fb.c:(.text+0x434): undefined reference to `framebuffer_release'
->      sh4-linux-ld: drivers/video/fbdev/sh7760fb.o: in function `sh7760fb_remove':
->      sh7760fb.c:(.text+0x800): undefined reference to `unregister_framebuffer'
->      sh4-linux-ld: sh7760fb.c:(.text+0x804): undefined reference to `fb_dealloc_cmap'
->      sh4-linux-ld: sh7760fb.c:(.text+0x814): undefined reference to `framebuffer_release'
->   >> sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0xc): undefined reference to `fb_io_read'
->   >> sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x10): undefined reference to `fb_io_write'
->      sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x2c): undefined reference to `cfb_fillrect'
->      sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x30): undefined reference to `cfb_copyarea'
->      sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x34): undefined reference to `cfb_imageblit'
->
-> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202309130632.LS04CPWu-lkp@intel.com/
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+I will have a look this afternoon at what I can get working.
 
-Agreed with your change.
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Thanks,
+Charles
