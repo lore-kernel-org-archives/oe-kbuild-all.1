@@ -1,44 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4927E1D699
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 12:30:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6171CAA4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 13:20:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695040220; x=1726576220;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=nf3qlUGpmmhEqAhu6/uOPOZrq8FidMpC0keEoc6ZBao=;
-  b=Wi2lnhLGlQhTavqs1UKOXP9RqmlmiJd/O4VG5wqG9uXZKOabGsPyDvrR
-   I1ndWtbWGz5m0tc5iM+p0HeuxR994KUFB6MZoqU93ikQYtNw7b6Rb8y7o
-   /fB3KwuGpSatPDTjdxyaJ7wqNKTdkjAyrv2gLa6OWOecpk3YrGqYEsnoZ
-   9yYCYgQ1WVjuuHinm0fTZGm3Yb/JSh9Zu0XAwO/Sv+mk+clLoyh9pAT2F
-   N5DirVsAKdGTcpBgdSjH7rND6G/JxqSP/oV09zCl+SBDks4vzkE+nMhNr
-   zBvF/M5eM75bWENyagTQvTfGSbDyT54POn9OYJb7lqhmPX6oZRGd03VfF
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="383461765"
+  t=1695043202; x=1726579202;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ykgUdcAyff68JbKMpOfYfrK6kmGZcZxRKCMtU2anr+I=;
+  b=OlqTThdUKqUh+WKrN7wwZ8HsShOZJ1tQ/+xy6U1czZoqEsS/8jokcdDS
+   ielhXCmAK7AqPPbzpRzw7//dwA15vVTnMftZDQX1FXF0aiJSGvuPDfBc8
+   lIZl5Fojc+yftzJEMgCCchT4bnAfdZ3rq2VWHPbD9td4l92bOsVVnH0Am
+   7ofBrgTtwY68IGuUj7+8hokwBafnh92n0ZOPXlOLtGzeUrkdS3XN0tZ1M
+   YRyLaPZsQU5GGtFCWJ2s93t3MdZ5plrRlcBgEGR5PHdDtHYWGbWYCU9jI
+   ZUY9OlQulDZOSOT7AIc4v9CEjiq91XdZT5A1tgKzBBW4WovAEdyzGJWZ2
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="446113309"
 X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="383461765"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 05:30:19 -0700
+   d="scan'208";a="446113309"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 06:12:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="739122616"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="811342022"
 X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="739122616"
+   d="scan'208";a="811342022"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 18 Sep 2023 05:30:18 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 18 Sep 2023 06:12:19 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qiDOK-00065y-0X;
-	Mon, 18 Sep 2023 12:30:16 +0000
-Date: Mon, 18 Sep 2023 20:29:47 +0800
+	id 1qiE2z-00067M-0D;
+	Mon, 18 Sep 2023 13:12:17 +0000
+Date: Mon, 18 Sep 2023 21:11:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, lkp@intel.com,
-	Josh Triplett <josh@joshtriplett.org>
-Subject: [lkp] [+550 bytes kernel size regression] [i386-tinyconfig]
- [8558b2228d] fs: Allow fine-grained control of folio sizes
-Message-ID: <ZQhCu8zIiPwWGYJK@f25e8072a0ba>
+To: Hannes Reinecke <hare@suse.de>, Matthew Wilcox <willy@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, Luis Chamberlain <mcgrof@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Pankaj Raghav <p.raghav@samsung.com>, linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH 08/18] mm/readahead: allocate folios with mapping order
+ preference
+Message-ID: <202309182020.nSchrF93-lkp@intel.com>
+References: <20230918110510.66470-9-hare@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,37 +50,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230918110510.66470-7-hare@suse.de>
+In-Reply-To: <20230918110510.66470-9-hare@suse.de>
 
+Hi Hannes,
 
-FYI, we noticed a +550 bytes kernel size regression due to commit:
+kernel test robot noticed the following build errors:
 
-commit: 8558b2228d415844dc8bb42d48a08aa85678fef9 (fs: Allow fine-grained control of folio sizes)
-url: https://github.com/intel-lab-lkp/linux/commits/Hannes-Reinecke/mm-readahead-rework-loop-in-page_cache_ra_unbounded/20230918-190732
-base: https://git.kernel.org/cgit/linux/kernel/git/axboe/linux-block.git for-next
-patch link: https://lore.kernel.org/all/20230918110510.66470-7-hare@suse.de/
-patch subject: [PATCH 06/18] fs: Allow fine-grained control of folio sizes
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on akpm-mm/mm-everything linus/master v6.6-rc2 next-20230918]
+[cannot apply to xfs-linux/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Hannes-Reinecke/mm-readahead-rework-loop-in-page_cache_ra_unbounded/20230918-190732
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230918110510.66470-9-hare%40suse.de
+patch subject: [PATCH 08/18] mm/readahead: allocate folios with mapping order preference
+config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20230918/202309182020.nSchrF93-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230918/202309182020.nSchrF93-lkp@intel.com/reproduce)
 
-Details as below (size data is obtained by `nm --size-sort vmlinux`):
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309182020.nSchrF93-lkp@intel.com/
 
-4cf60235: fs/mpage: use accessor function to translate page index to sectors
-8558b222: fs: Allow fine-grained control of folio sizes
+All errors (new ones prefixed by >>):
 
-+------------------------------+----------+----------+-------+
-|            symbol            | 4cf60235 | 8558b222 | delta |
-+------------------------------+----------+----------+-------+
-| nm.T.page_cache_ra_order     | 11       | 447      | 436   |
-| bzImage                      | 522176   | 522560   | 384   |
-| nm.T.__filemap_get_folio     | 338      | 442      | 104   |
-| nm.T.readahead_expand        | 351      | 355      | 4     |
-| nm.t.do_read_cache_folio     | 251      | 253      | 2     |
-| nm.T.page_cache_ra_unbounded | 290      | 292      | 2     |
-| nm.t.filemap_get_pages       | 699      | 701      | 2     |
-+------------------------------+----------+----------+-------+
+   ld: mm/readahead.o: in function `readahead_expand':
+>> readahead.c:(.text+0x17b): undefined reference to `__divdi3'
 
-
-
-Thanks
-
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
