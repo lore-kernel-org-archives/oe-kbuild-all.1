@@ -1,44 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FDC5328A5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 20:34:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 461CA266D6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 20:46:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695069279; x=1726605279;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JE8WkXxWGNJHGH+00ed7qBc2wg/QAH1DiAO7I1aoU+g=;
-  b=lWMuU8gNtjH0EHGdbVyvzKK9rrjg0K+Hg5BrvGOsMmUQ9MTwk1JBhamO
-   4dXi2DOJbfVy8QWq0DXpOMZIag51aHnFsF3zDW0pzlUJttVNZC/cnKkgi
-   zXfFKUAGQ5x2RJ14tSkIIZYXRklwKhPSB9rkxfrm6ChS8xyhTRGvufZrO
-   z4mAfr/crTb3DFJhBloabspt+TYiiWZC7xLHSUR3Sr1eMtbaENsGffCJw
-   b7Zc2uGfZnrdA5vU7vTT6/cxj4FhzGgfgWlGIHu5bC0H3kb3uYdG66cTj
-   2Ul+94XLiOb88lTFLLhaVnhDEkMgZJV5gTPPZPdg6aTHsvOCnpO98ygxi
+  t=1695070001; x=1726606001;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BCNg8esHIlrbdDxoNAjFo9ABEI2hCjdPdGFJI6Lz/AM=;
+  b=nnSxdXlmwErn1TKcQvQ6L4y1XCL++nslgxx5h5PkWK7vjXP+QuMNDOBG
+   ShW98v93BJUv83ElrLJ1jQCaom7SyRYRn/G9xOsfw/nUuv8M78O9yADoj
+   XnzysM2JZA9cTDppKxDeKKLIEqf3DErffXay0DsIhTsNvjoBJ0SScKpqo
+   cg1T8lSjhrSrUPb4gpCU6lLsJrt/4pW2X+PpTEs6DW+0VDz4BXN60jWkT
+   gBjSpBAcFil5zUMG1lA6z+OSXtXgrCkgpjexJWSJwJyJg0wPkFumEiiFx
+   FSs9QtDbfNp7aMSgeD6pO2U8doJHrbCqkga4PMkXK2nHgea3rkKEJFq8X
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="379679623"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="378676689"
 X-IronPort-AV: E=Sophos;i="6.02,157,1688454000"; 
-   d="scan'208";a="379679623"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 13:34:38 -0700
+   d="scan'208";a="378676689"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 13:46:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="1076716229"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="695646891"
 X-IronPort-AV: E=Sophos;i="6.02,157,1688454000"; 
-   d="scan'208";a="1076716229"
+   d="scan'208";a="695646891"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 18 Sep 2023 13:34:36 -0700
+  by orsmga003.jf.intel.com with ESMTP; 18 Sep 2023 13:46:37 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qiKx0-0006SQ-2A;
-	Mon, 18 Sep 2023 20:34:34 +0000
-Date: Tue, 19 Sep 2023 04:34:14 +0800
+	id 1qiL8d-0006TW-1D;
+	Mon, 18 Sep 2023 20:46:35 +0000
+Date: Tue, 19 Sep 2023 04:46:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Miroslav Benes <mbenes@suse.cz>
-Subject: drivers/video/fbdev/omap2/omapfb/dss/omapdss.o: warning: objtool:
- hdmi_power_on_full.isra.0+0x120: hdmi_pll_compute() is missing a __noreturn
- annotation
-Message-ID: <202309190420.CoYRYNNK-lkp@intel.com>
+To: Hannes Reinecke <hare@suse.de>, Matthew Wilcox <willy@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, Luis Chamberlain <mcgrof@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Pankaj Raghav <p.raghav@samsung.com>, linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH 08/18] mm/readahead: allocate folios with mapping order
+ preference
+Message-ID: <202309190435.X4RxeTJO-lkp@intel.com>
+References: <20230918110510.66470-9-hare@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,26 +50,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230918110510.66470-9-hare@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ce9ecca0238b140b88f43859b211c9fdfd8e5b70
-commit: fedb724c3db5490234ddde0103811c28c2fedae0 objtool: Detect missing __noreturn annotations
-date:   4 months ago
-config: x86_64-buildonly-randconfig-005-20230919 (https://download.01.org/0day-ci/archive/20230919/202309190420.CoYRYNNK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309190420.CoYRYNNK-lkp@intel.com/reproduce)
+Hi Hannes,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on akpm-mm/mm-everything linus/master v6.6-rc2 next-20230918]
+[cannot apply to xfs-linux/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hannes-Reinecke/mm-readahead-rework-loop-in-page_cache_ra_unbounded/20230918-190732
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230918110510.66470-9-hare%40suse.de
+patch subject: [PATCH 08/18] mm/readahead: allocate folios with mapping order preference
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20230919/202309190435.X4RxeTJO-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309190435.X4RxeTJO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309190420.CoYRYNNK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309190435.X4RxeTJO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/video/fbdev/omap2/omapfb/dss/omapdss.o: warning: objtool: hdmi_power_on_full.isra.0+0x120: hdmi_pll_compute() is missing a __noreturn annotation
-
-
-objdump-func vmlinux.o hdmi_power_on_full.isra.0:
+   arm-linux-gnueabi-ld: mm/readahead.o: in function `readahead_expand':
+>> readahead.c:(.text+0x360): undefined reference to `__aeabi_ldivmod'
 
 -- 
 0-DAY CI Kernel Test Service
