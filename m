@@ -1,117 +1,83 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7C5EED0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 12:01:23 +0000 (UTC)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38IBOmKw007675;
-	Mon, 18 Sep 2023 07:01:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=PODMain02222019; bh=yL2E826Vt1q+57J
-	6jFRsHwaJbh1oPSMB7gsPT2ALWLw=; b=VxsOrqxcUhvq1TrMD7bom8fHUlFColE
-	DzRdG1gT2UI9wZZntxgBigQeVipsUBP6pC93Rho2dAkouo8KOXSyVOllvtP5DzDu
-	LsKZRSDAPlKBUTDCLHKAyE03WQKksnSWevBSjEG6hQf4TM0pZA41rfWoxDttzCBc
-	qrzOkqwfkfnliNJP3YNTkHKxCoGzQpbDP5JCqiESMd2t6uVGyuLfnvdjo3tFKse/
-	OvCLXYAvHmUimK1AEbBOgxgszMcoJEfU0uHJnhMNFC1CKmsAj/NvOIXeVcgHjErB
-	Ayl51DCiPUOrtkhGKoXTNGGrNl4skGeP4MD62UdoOYc9O1cc0Jng8qg==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3t58shsqy8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 18 Sep 2023 07:01:05 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.37; Mon, 18 Sep
- 2023 13:01:03 +0100
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.37 via Frontend
- Transport; Mon, 18 Sep 2023 13:01:03 +0100
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 7BF713563;
-	Mon, 18 Sep 2023 12:01:03 +0000 (UTC)
-Date: Mon, 18 Sep 2023 12:01:03 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-CC: kernel test robot <lkp@intel.com>,
-        Lucas Tanure
-	<tanureal@opensource.cirrus.com>,
-        <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-        Lee Jones <lee@kernel.org>,
-        Pierre-Louis
- Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: Re: drivers/soundwire/bus_type.c:126:30: error: implicit declaration
- of function 'irq_create_mapping'; did you mean 'irq_dispose_mapping'?
-Message-ID: <20230918120103.GZ103419@ediswmail.ad.cirrus.com>
-References: <202309150820.6zuErL12-lkp@intel.com>
- <bf1bd8ee-b102-47e5-82c7-e190a43d984c@infradead.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4927E1D699
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 12:30:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695040220; x=1726576220;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=nf3qlUGpmmhEqAhu6/uOPOZrq8FidMpC0keEoc6ZBao=;
+  b=Wi2lnhLGlQhTavqs1UKOXP9RqmlmiJd/O4VG5wqG9uXZKOabGsPyDvrR
+   I1ndWtbWGz5m0tc5iM+p0HeuxR994KUFB6MZoqU93ikQYtNw7b6Rb8y7o
+   /fB3KwuGpSatPDTjdxyaJ7wqNKTdkjAyrv2gLa6OWOecpk3YrGqYEsnoZ
+   9yYCYgQ1WVjuuHinm0fTZGm3Yb/JSh9Zu0XAwO/Sv+mk+clLoyh9pAT2F
+   N5DirVsAKdGTcpBgdSjH7rND6G/JxqSP/oV09zCl+SBDks4vzkE+nMhNr
+   zBvF/M5eM75bWENyagTQvTfGSbDyT54POn9OYJb7lqhmPX6oZRGd03VfF
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="383461765"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="383461765"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 05:30:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="739122616"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="739122616"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 18 Sep 2023 05:30:18 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qiDOK-00065y-0X;
+	Mon, 18 Sep 2023 12:30:16 +0000
+Date: Mon, 18 Sep 2023 20:29:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, lkp@intel.com,
+	Josh Triplett <josh@joshtriplett.org>
+Subject: [lkp] [+550 bytes kernel size regression] [i386-tinyconfig]
+ [8558b2228d] fs: Allow fine-grained control of folio sizes
+Message-ID: <ZQhCu8zIiPwWGYJK@f25e8072a0ba>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bf1bd8ee-b102-47e5-82c7-e190a43d984c@infradead.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-GUID: vQTv1IexqBbMf-B4FUwi2tm4c0BGjZ9X
-X-Proofpoint-ORIG-GUID: vQTv1IexqBbMf-B4FUwi2tm4c0BGjZ9X
-X-Proofpoint-Spam-Reason: safe
+In-Reply-To: <20230918110510.66470-7-hare@suse.de>
 
-On Fri, Sep 15, 2023 at 10:14:52PM -0700, Randy Dunlap wrote:
-> 
-> 
-> On 9/14/23 17:26, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   9fdfb15a3dbf818e06be514f4abbfc071004cbe7
-> > commit: 12a95123bfe1dd1a6020a35f5e67a560591bb02a soundwire: bus: Allow SoundWire peripherals to register IRQ handlers
-> > date:   4 weeks ago
-> > config: s390-randconfig-r031-20220110 (https://download.01.org/0day-ci/archive/20230915/202309150820.6zuErL12-lkp@intel.com/config)
-> > compiler: s390-linux-gcc (GCC) 11.3.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150820.6zuErL12-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202309150820.6zuErL12-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> >    drivers/soundwire/bus_type.c: In function 'sdw_drv_probe':
-> >>> drivers/soundwire/bus_type.c:126:30: error: implicit declaration of function 'irq_create_mapping'; did you mean 'irq_dispose_mapping'? [-Werror=implicit-function-declaration]
-> >      126 |                 slave->irq = irq_create_mapping(slave->bus->domain, slave->dev_num);
-> >          |                              ^~~~~~~~~~~~~~~~~~
-> >          |                              irq_dispose_mapping
-> >    drivers/soundwire/bus_type.c: In function 'sdw_drv_remove':
-> >>> drivers/soundwire/bus_type.c:179:37: error: implicit declaration of function 'irq_find_mapping'; did you mean 'irq_dispose_mapping'? [-Werror=implicit-function-declaration]
-> >      179 |                 irq_dispose_mapping(irq_find_mapping(slave->bus->domain,
-> >          |                                     ^~~~~~~~~~~~~~~~
-> >          |                                     irq_dispose_mapping
-> >    cc1: some warnings being treated as errors
-> > --
-> >    drivers/soundwire/bus.c: In function 'sdw_bus_master_add':
-> >>> drivers/soundwire/bus.c:173:23: error: implicit declaration of function 'irq_domain_create_linear' [-Werror=implicit-function-declaration]
-> >      173 |         bus->domain = irq_domain_create_linear(fwnode, SDW_MAX_DEVICES,
-> >          |                       ^~~~~~~~~~~~~~~~~~~~~~~~
-> >    drivers/soundwire/bus.c:173:21: warning: assignment to 'struct irq_domain *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-> >      173 |         bus->domain = irq_domain_create_linear(fwnode, SDW_MAX_DEVICES,
-> >          |                     ^
-> >    drivers/soundwire/bus.c: In function 'sdw_bus_master_delete':
-> >>> drivers/soundwire/bus.c:217:9: error: implicit declaration of function 'irq_domain_remove' [-Werror=implicit-function-declaration]
-> >      217 |         irq_domain_remove(bus->domain);
-> >          |         ^~~~~~~~~~~~~~~~~
-> >    cc1: some warnings being treated as errors
-> > 
-> 
-> CONFIG_IRQ_DOMAIN is not set in the .config file.
-> Should SOUNDWIRE select IRQ_DOMAIN?
-> 
 
-Probably a reasonable fix, but I wonder if it might be better to
-make my new additions optional. Since SoundWire isn't strictly
-dependent on my IRQ additions.
+FYI, we noticed a +550 bytes kernel size regression due to commit:
 
-I will have a look this afternoon at what I can get working.
+commit: 8558b2228d415844dc8bb42d48a08aa85678fef9 (fs: Allow fine-grained control of folio sizes)
+url: https://github.com/intel-lab-lkp/linux/commits/Hannes-Reinecke/mm-readahead-rework-loop-in-page_cache_ra_unbounded/20230918-190732
+base: https://git.kernel.org/cgit/linux/kernel/git/axboe/linux-block.git for-next
+patch link: https://lore.kernel.org/all/20230918110510.66470-7-hare@suse.de/
+patch subject: [PATCH 06/18] fs: Allow fine-grained control of folio sizes
 
-Thanks,
-Charles
+
+Details as below (size data is obtained by `nm --size-sort vmlinux`):
+
+4cf60235: fs/mpage: use accessor function to translate page index to sectors
+8558b222: fs: Allow fine-grained control of folio sizes
+
++------------------------------+----------+----------+-------+
+|            symbol            | 4cf60235 | 8558b222 | delta |
++------------------------------+----------+----------+-------+
+| nm.T.page_cache_ra_order     | 11       | 447      | 436   |
+| bzImage                      | 522176   | 522560   | 384   |
+| nm.T.__filemap_get_folio     | 338      | 442      | 104   |
+| nm.T.readahead_expand        | 351      | 355      | 4     |
+| nm.t.do_read_cache_folio     | 251      | 253      | 2     |
+| nm.T.page_cache_ra_unbounded | 290      | 292      | 2     |
+| nm.t.filemap_get_pages       | 699      | 701      | 2     |
++------------------------------+----------+----------+-------+
+
+
+
+Thanks
+
+
