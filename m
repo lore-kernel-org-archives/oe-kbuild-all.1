@@ -1,42 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CE822F15
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 17:12:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB303BE42
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 20:15:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695057121; x=1726593121;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=bhsO3UK/tiC8VZSa32uhHY21Knn6aajSceTjYxVjDPs=;
-  b=d8GOSw/M811ENZuy5hNKqG2ieEBIUpZH6wKdYJQ5tFehysjeDnpl7zc5
-   rsN7bRASs80XTn7PzU/A5QVmTapIY2HLXXCeE3Ih0zAJRu46f+7wugvpY
-   C+AsO3D24EWTXiXKnl1fgFcDN1Y7O7ma/bqoRAFz4Q9QAhh9b+vC9oXgk
-   8EW+8UqMdYCsppwrkvxVp6CDbmDb4k4P/MOkMNdiaRpIb9+Ki1jgbf4Bw
-   /ralxPIRuLirXpvyyI/h60nKgF4XfbZxov+lNoXzYqwzq9rhFUTQOrASa
-   940fkGC2oLX1VvZKZAC/4zBdZfBxL0rc70seZSd2zFK5A4vcUTRSAh1hw
+  t=1695068139; x=1726604139;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aMOXzZtb6Dhzgg3FncXrqWcdk3Q4Jq+gAqROF/yQJ2w=;
+  b=gFOqT6vZ/bIWRNq+OEEedOTYBXjUBAPMWsMariR6LflJVU1p+G5TObyK
+   NW5Y6Mpe6Q+5Cy2+e36ewLenT3r1zXdANYVimQ+8E+Yv38n4FfBOEz8bQ
+   Zx67m83xCrg8DCUbHd3xCZUAbqNO4WtbNwGPxA7mrbqS9uNB2M0mgY4Np
+   LsTTfv/Q2dALgBbJuxb2BzZQGAj1qPEBRKaS4rnw2XxdO0mAYkGHnrIrq
+   FPjKIGYE0aSIXLjmDrII5UbaipbgbpX0+MME3yxQzBieMLjtbMhM2w4x5
+   80AO1vL4IGDpZzWWnHVafTrQqktmPlWnoMltK4J/x00IDXX+zXYiTcSBd
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="377038075"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="360015484"
 X-IronPort-AV: E=Sophos;i="6.02,157,1688454000"; 
-   d="scan'208";a="377038075"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 10:12:00 -0700
+   d="scan'208";a="360015484"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 13:15:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="775204993"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="869693678"
 X-IronPort-AV: E=Sophos;i="6.02,157,1688454000"; 
-   d="scan'208";a="775204993"
+   d="scan'208";a="869693678"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 18 Sep 2023 10:11:59 -0700
+  by orsmga004.jf.intel.com with ESMTP; 18 Sep 2023 13:15:36 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qiHmu-0006JU-2e;
-	Mon, 18 Sep 2023 17:11:56 +0000
-Date: Tue, 19 Sep 2023 01:11:15 +0800
+	id 1qiKeW-0006Qw-2g;
+	Mon, 18 Sep 2023 20:15:30 +0000
+Date: Tue, 19 Sep 2023 04:13:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jade Lovelace <lists@jade.fyi>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] Revert "misc: rtsx: judge ASPM Mode to set PETXCFG Reg"
-Message-ID: <ZQiEsy+j14XWevqZ@6fe19fc45f19>
+To: Bernd Schubert <bschubert@ddn.com>, linux-fsdevel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, bernd.schubert@fastmail.fm,
+	miklos@szeredi.hu, dsingh@ddn.com,
+	Bernd Schubert <bschubert@ddn.com>, Hao Xu <howeyxu@tencent.com>
+Subject: Re: [PATCH v4 07/10] fuse: Remove fuse_direct_write_iter code path /
+ use IOCB_DIRECT
+Message-ID: <202309190423.cEQ7h6ai-lkp@intel.com>
+References: <20230918150313.3845114-8-bschubert@ddn.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,23 +49,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230918170831.1677690-3-lists@jade.fyi>
+In-Reply-To: <20230918150313.3845114-8-bschubert@ddn.com>
 
-Hi,
+Hi Bernd,
 
-Thanks for your patch.
+kernel test robot noticed the following build warnings:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test WARNING on mszeredi-fuse/for-next]
+[also build test WARNING on linus/master v6.6-rc2 next-20230918]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html/#option-1
+url:    https://github.com/intel-lab-lkp/linux/commits/Bernd-Schubert/fuse-direct-IO-can-use-the-write-through-code-path/20230919-005745
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
+patch link:    https://lore.kernel.org/r/20230918150313.3845114-8-bschubert%40ddn.com
+patch subject: [PATCH v4 07/10] fuse: Remove fuse_direct_write_iter code path / use IOCB_DIRECT
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230919/202309190423.cEQ7h6ai-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309190423.cEQ7h6ai-lkp@intel.com/reproduce)
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] Revert "misc: rtsx: judge ASPM Mode to set PETXCFG Reg"
-Link: https://lore.kernel.org/stable/20230918170831.1677690-3-lists%40jade.fyi
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309190423.cEQ7h6ai-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> fs/fuse/file.c:1060: warning: Function parameter or member 'iocb' not described in 'fuse_write_flags'
+>> fs/fuse/file.c:1060: warning: expecting prototype for Note(). Prototype was for fuse_write_flags() instead
+
+
+vim +1060 fs/fuse/file.c
+
+338f2e3f3341a9 Miklos Szeredi 2019-09-10  1054  
+abb63dd79fa5c1 Bernd Schubert 2023-09-18  1055  /**
+abb63dd79fa5c1 Bernd Schubert 2023-09-18  1056   * Note: iocb->ki_flags & IOCB_DIRECT cannot be trusted here,
+abb63dd79fa5c1 Bernd Schubert 2023-09-18  1057   *       it might be set when FOPEN_DIRECT_IO is used.
+abb63dd79fa5c1 Bernd Schubert 2023-09-18  1058   */
+338f2e3f3341a9 Miklos Szeredi 2019-09-10  1059  static unsigned int fuse_write_flags(struct kiocb *iocb)
+338f2e3f3341a9 Miklos Szeredi 2019-09-10 @1060  {
+338f2e3f3341a9 Miklos Szeredi 2019-09-10  1061  	unsigned int flags = iocb->ki_filp->f_flags;
+338f2e3f3341a9 Miklos Szeredi 2019-09-10  1062  
+91b94c5d6ae55d Al Viro        2022-05-22  1063  	if (iocb_is_dsync(iocb))
+338f2e3f3341a9 Miklos Szeredi 2019-09-10  1064  		flags |= O_DSYNC;
+338f2e3f3341a9 Miklos Szeredi 2019-09-10  1065  	if (iocb->ki_flags & IOCB_SYNC)
+338f2e3f3341a9 Miklos Szeredi 2019-09-10  1066  		flags |= O_SYNC;
+338f2e3f3341a9 Miklos Szeredi 2019-09-10  1067  
+338f2e3f3341a9 Miklos Szeredi 2019-09-10  1068  	return flags;
+338f2e3f3341a9 Miklos Szeredi 2019-09-10  1069  }
+338f2e3f3341a9 Miklos Szeredi 2019-09-10  1070  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
