@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4345A749D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 07:42:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2C013AFA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 08:24:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695022952; x=1726558952;
+  t=1695025475; x=1726561475;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CSYBPd1z99neGS6B0yZK2r5skzKCv9XyPqQeCXAd5y0=;
-  b=H9mU/c4UbNmWE67ViMSyDx9J0pNj+nPKeVQhj+RCwM52lGZN6gU03Azu
-   m+TCkdffectQL7f82efZBGYxlcslEKMw+cVmx876Fwgemn2uDJeCNGDP4
-   ZihdZu7QaNhyV2nBjNhBpOfoaN/+lmi1MdvOgQPEB7j7kJMz74rQxvVjH
-   fT7I+dfWSWkHNq7M0FUykMG2W3VmWjf2rWzFYN1KBGUSGcKGkUWC/M1pr
-   D821mo4BKUyNnXApihMJHl7kCwWxiF1gIkgUDKnoeq1aSfGSRfS6ZDBOM
-   vQ/ZvzR83V6inaQaQxEUdE6gp5DnxTJP2f38moklUmvOM+CIjLTd6Bz+o
+  bh=YCWoiA/y7wlUbGBMEITz5t+dFg0+NODF9e3hIrfLlHM=;
+  b=bWDe2D8tA4U3wMSgCJbEUgF6R22ofxmcN1z5VS88JeMCtRjAfQi5EBL1
+   twOGEDR4RDijrfpOZxrJzM998rMUEL5KGuErUEvcig409N33ZZ3ock5eC
+   8hfFYK1ylf2Lip1rOl1MA6GY4TKdG1mgLVUIw9wCCFUqPqd3acR9+bMdI
+   lzG3rqT9QRXPuCY+C4xGp0y06xszJxTVis47mG+47U/CTlHYD9s53d7Yy
+   EQWRwfDZCWaPynaKENW3GeVlKG46F+RiU9vCbYsp2fab6JpV0NmzYLy18
+   k1haX8OTedag7CkSRzZoYGBcFYv5PTsAOfiNEDUhaxM+4LE20OLm/b5l5
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="446054286"
+X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="410553207"
 X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="446054286"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 00:42:31 -0700
+   d="scan'208";a="410553207"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 01:24:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="835928780"
+X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="695446531"
 X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="835928780"
+   d="scan'208";a="695446531"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 18 Sep 2023 00:42:30 -0700
+  by orsmga003.jf.intel.com with ESMTP; 18 Sep 2023 01:24:33 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qi8tn-0005tC-35;
-	Mon, 18 Sep 2023 07:42:27 +0000
-Date: Mon, 18 Sep 2023 15:41:42 +0800
+	id 1qi9YV-0005vU-0k;
+	Mon, 18 Sep 2023 08:24:31 +0000
+Date: Mon, 18 Sep 2023 16:24:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maximilian Luz <luzmaximilian@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Steev Klimaszewski <steev@kali.org>,
-	Johan Hovold <johan+linaro@kernel.org>
-Subject: [steev:lenovo-x13s-v6.6.0-rc2 23/71]
- include/linux/firmware/qcom/qcom_scm.h:133:5: warning: no previous prototype
- for 'qcom_scm_qseecom_app_get_id'
-Message-ID: <202309181550.SUCgZ681-lkp@intel.com>
+To: Ben Skeggs <bskeggs@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [skeggsb-nouveau:00.02-gsp-rm 81/87]
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c:258: undefined reference to
+ `__udivdi3'
+Message-ID: <202309181639.XEwufJ6z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,49 +47,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/steev/linux lenovo-x13s-v6.6.0-rc2
-head:   4fd493cb7636ef75b284372585714caebe45e699
-commit: 1eb11ed6fe7c57513ab1057a631befe308f169d5 [23/71] firmware: qcom_scm: Add support for Qualcomm Secure Execution Environment SCM interface
-config: arc-randconfig-001-20230918 (https://download.01.org/0day-ci/archive/20230918/202309181550.SUCgZ681-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230918/202309181550.SUCgZ681-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/skeggsb/nouveau 00.02-gsp-rm
+head:   0e721db5649d18bcfb3219434d24af61bf5afb15
+commit: bd8dac2b4d91ff21d9cb9e58c0e68fe385215e87 [81/87] drm/nouveau/fifo/r535: initial support
+config: i386-randconfig-012-20230918 (https://download.01.org/0day-ci/archive/20230918/202309181639.XEwufJ6z-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230918/202309181639.XEwufJ6z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309181550.SUCgZ681-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309181639.XEwufJ6z-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/pinctrl/qcom/pinctrl-msm.c:17:
->> include/linux/firmware/qcom/qcom_scm.h:133:5: warning: no previous prototype for 'qcom_scm_qseecom_app_get_id' [-Wmissing-prototypes]
-     133 | int qcom_scm_qseecom_app_get_id(const char *app_name, u32 *app_id)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/firmware/qcom/qcom_scm.h:138:5: warning: no previous prototype for 'qcom_scm_qseecom_app_send' [-Wmissing-prototypes]
-     138 | int qcom_scm_qseecom_app_send(u32 app_id, void *req, size_t req_size, void *rsp,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for VIDEO_OV7670
-   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=m] && VIDEO_CAMERA_SENSOR [=n]
-   Selected by [m]:
-   - VIDEO_MMP_CAMERA [=m] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && I2C [=y] && VIDEO_DEV [=m] && (ARCH_MMP || COMPILE_TEST [=y]) && COMMON_CLK [=y]
+   ld: drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.o: in function `r535_chan_id_get_locked':
+>> drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c:258: undefined reference to `__udivdi3'
+   ld: drivers/gpu/drm/nouveau/dispnv50/disp.o: in function `nv50_sor_dp_watermark_sst':
+   drivers/gpu/drm/nouveau/dispnv50/disp.c:1659: undefined reference to `__udivdi3'
+   ld: drivers/gpu/drm/nouveau/dispnv50/disp.c:1664: undefined reference to `__udivdi3'
+   ld: drivers/gpu/drm/nouveau/dispnv50/disp.c:1665: undefined reference to `__udivdi3'
+   ld: drivers/gpu/drm/nouveau/dispnv50/disp.c:1665: undefined reference to `__udivdi3'
+   ld: drivers/gpu/drm/nouveau/dispnv50/disp.o:drivers/gpu/drm/nouveau/dispnv50/disp.c:1694: more undefined references to `__udivdi3' follow
 
 
-vim +/qcom_scm_qseecom_app_get_id +133 include/linux/firmware/qcom/qcom_scm.h
+vim +258 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c
 
-   132	
- > 133	int qcom_scm_qseecom_app_get_id(const char *app_name, u32 *app_id)
-   134	{
-   135		return -EINVAL;
-   136	}
-   137	
- > 138	int qcom_scm_qseecom_app_send(u32 app_id, void *req, size_t req_size, void *rsp,
-   139				      size_t rsp_size)
-   140	{
-   141		return -EINVAL;
-   142	}
-   143	
+   241	
+   242	static int
+   243	r535_chan_id_get_locked(struct nvkm_chan *chan, struct nvkm_memory *muserd, u64 ouserd)
+   244	{
+   245		const u32 userd_size = CHID_PER_USERD * chan->func->userd->size;
+   246		struct nvkm_runl *runl = chan->cgrp->runl;
+   247		struct nvkm_fifo *fifo = runl->fifo;
+   248		struct r535_chan_userd *userd;
+   249		u32 chid;
+   250		int ret;
+   251	
+   252		if (ouserd + chan->func->userd->size >= userd_size ||
+   253		    (ouserd & (chan->func->userd->size - 1))) {
+   254			RUNL_DEBUG(runl, "ouserd %llx", ouserd);
+   255			return -EINVAL;
+   256		}
+   257	
+ > 258		chid = ouserd / chan->func->userd->size;
+   259	
+   260		list_for_each_entry(userd, &fifo->userd.list, head) {
+   261			if (userd->mem == muserd) {
+   262				if (userd->used & BIT(chid))
+   263					return -EBUSY;
+   264				break;
+   265			}
+   266		}
+   267	
+   268		if (&userd->head == &fifo->userd.list) {
+   269			if (nvkm_memory_size(muserd) < userd_size) {
+   270				RUNL_DEBUG(runl, "userd too small");
+   271				return -EINVAL;
+   272			}
+   273	
+   274			userd = kzalloc(sizeof(*userd), GFP_KERNEL);
+   275			if (!userd)
+   276				return -ENOMEM;
+   277	
+   278			userd->chid = nvkm_chid_get(runl->chid, chan);
+   279			if (userd->chid < 0) {
+   280				ret = userd->chid;
+   281				kfree(userd);
+   282				return ret;
+   283			}
+   284	
+   285			userd->mem = nvkm_memory_ref(muserd);
+   286	
+   287			ret = nvkm_memory_kmap(userd->mem, &userd->map);
+   288			if (ret) {
+   289				nvkm_chid_put(runl->chid, userd->chid, &chan->cgrp->lock);
+   290				kfree(userd);
+   291				return ret;
+   292			}
+   293	
+   294	
+   295			list_add(&userd->head, &fifo->userd.list);
+   296		}
+   297	
+   298		userd->used |= BIT(chid);
+   299	
+   300		chan->userd.mem = nvkm_memory_ref(userd->map);
+   301		chan->userd.base = ouserd;
+   302	
+   303		return (userd->chid * CHID_PER_USERD) + chid;
+   304	}
+   305	
 
 -- 
 0-DAY CI Kernel Test Service
