@@ -1,89 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D46C14F7E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 09:26:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695029170; x=1726565170;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=m3S2iJ6j3tD+50xgQRW0LmCvHsaXc0Bmt3ebkzB3hxc=;
-  b=jFyqJg82kEzW4hOKu4XIr8gI7MTQ+ddLMbJ8Wn3LcPgKS1Vb6QD3vFLd
-   TERxrpqkPhbN8ZDeBTd7FTJCE45nayKH2YcXPF6V/AMwX+IhEr9TyHe8E
-   XpsK2Xjg3RR0Xyae/ecWQg5uUtp/BbgpI7iUxbykWpIgRWevrtMYW9YAL
-   h3sC44DiML6ShKK2MCgust/LbcS/hKMXhvULFP/obpgwieGCJqJiSuwTP
-   Zkp1TAMme91Hkcr4/4Kxoe1frTJoNKY2oTYPf4A6JpbaaCF35ahA2XhRU
-   gfDUSCmBeO8N8GTcvdRmF6Wvt+Okp6IlnzxbOzHBy/xH1k/+YA4a95hjV
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="383430567"
-X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="383430567"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 02:26:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="811288402"
-X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="811288402"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 18 Sep 2023 02:26:06 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qiAW4-0005zN-0S;
-	Mon, 18 Sep 2023 09:26:04 +0000
-Date: Mon, 18 Sep 2023 17:25:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Paul Durrant <paul@xen.org>, kvm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Paul Durrant <pdurrant@amazon.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	David Woodhouse <dwmw2@infradead.org>, x86@kernel.org
-Subject: Re: [PATCH 7/8] KVM: xen: prepare for using 'default' vcpu_info
-Message-ID: <202309181725.cpTHcjo6-lkp@intel.com>
-References: <20230914084946.200043-8-paul@xen.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25D856FD0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 09:31:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1695029462;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=K9mKfMs2axUjRk4VejYXL9YNHsofaFImODtn3an3J0Q=;
+	b=BpcqJPrloomRyKriyBFoffG+optmS/69INq4f7Cal6ZorfRyRrFwhQsGZm4XE4B2mjTZ0m
+	XNpMtLdHX9rSNOVh50v8vHGEW+LA18WrGoTH/yoman0dN00EMmeFKYOt9VdtAQ3RxIptws
+	QSHrDYlspvnk44h17uUwkhKxwickTMM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-656-ppfbZ5UBOS2krHAFDvsdiQ-1; Mon, 18 Sep 2023 05:30:57 -0400
+X-MC-Unique: ppfbZ5UBOS2krHAFDvsdiQ-1
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-31fd48da316so3002007f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 02:30:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695029456; x=1695634256;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=K9mKfMs2axUjRk4VejYXL9YNHsofaFImODtn3an3J0Q=;
+        b=p7MfmIUix2kY2jvfyBjKQOrzju+Rlj+wGq88v7IHIG3BdopNpccFMdbGryFvxD5piC
+         SJRolzlSvn5Q1CTtTYWkKnrEKf/pwfmvRI+2GxShIp1nV4ZUcohD0W1F9+CKzjH1AYnn
+         Hkpi1+es0rbcAl3kAQrYI/c+HIq7bpo2U9j6r0VRys78cR1ETn2FufjACoTrGlUHXy3f
+         EYit/a6P9GcNYfVm0l/a2IvXz8ELeGtakJcqUd795Fl0eFwZpoG3dhrGKM4zrm82/apI
+         fG4AxR7ri5w1MJ2ShoJt0bUQf1DJcoi7n3KtDixuxMTsxidsakOSlgt0oN6B3OoLW+KM
+         TKig==
+X-Gm-Message-State: AOJu0Yy5CRGVSKZwRZ3BuIrFl1GNFOZi7DHLRUK2aEDVZ0JCkUHk1xQt
+	QII4ma5Eag3AjXHlPPMWunACWutbKuIsyV7idU3tvuOO1DXbDgZm8FA7o9zFbwb0UhOEIjeuLlZ
+	XfX16CQWsSlZ3kQKxZTqYntCyOg==
+X-Received: by 2002:a5d:4152:0:b0:317:5182:7b55 with SMTP id c18-20020a5d4152000000b0031751827b55mr6601629wrq.42.1695029455963;
+        Mon, 18 Sep 2023 02:30:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFuVwKer/t6wO8e6EaqpLJk3xr8QAnbzNM6Ra4QUQXA+9orH05TCHII2aGbpDgbji3C7zRZ1Q==
+X-Received: by 2002:a5d:4152:0:b0:317:5182:7b55 with SMTP id c18-20020a5d4152000000b0031751827b55mr6601614wrq.42.1695029455646;
+        Mon, 18 Sep 2023 02:30:55 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id q11-20020adff50b000000b0031c71693449sm12122610wro.1.2023.09.18.02.30.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Sep 2023 02:30:55 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
+ sam@ravnborg.org, arnd@arndb.de, rdunlap@infradead.org,
+ glaubitz@physik.fu-berlin.de
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, Thomas
+ Zimmermann <tzimmermann@suse.de>, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] fbdev/sh7760fb: Depend on FB=y
+In-Reply-To: <20230918090400.13264-1-tzimmermann@suse.de>
+References: <20230918090400.13264-1-tzimmermann@suse.de>
+Date: Mon, 18 Sep 2023 11:30:54 +0200
+Message-ID: <87o7hz4ylt.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230914084946.200043-8-paul@xen.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 
-Hi Paul,
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-kernel test robot noticed the following build warnings:
+Hello Thomas,
 
-[auto build test WARNING on kvm/queue]
-[also build test WARNING on mst-vhost/linux-next linus/master v6.6-rc2 next-20230918]
-[cannot apply to kvm/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> Fix linker error if FB=m about missing fb_io_read and fb_io_write. The
+> linker's error message suggests that this config setting has already
+> been broken for other symbols.
+>
+>   All errors (new ones prefixed by >>):
+>
+>      sh4-linux-ld: drivers/video/fbdev/sh7760fb.o: in function `sh7760fb_probe':
+>      sh7760fb.c:(.text+0x374): undefined reference to `framebuffer_alloc'
+>      sh4-linux-ld: sh7760fb.c:(.text+0x394): undefined reference to `fb_videomode_to_var'
+>      sh4-linux-ld: sh7760fb.c:(.text+0x39c): undefined reference to `fb_alloc_cmap'
+>      sh4-linux-ld: sh7760fb.c:(.text+0x3a4): undefined reference to `register_framebuffer'
+>      sh4-linux-ld: sh7760fb.c:(.text+0x3ac): undefined reference to `fb_dealloc_cmap'
+>      sh4-linux-ld: sh7760fb.c:(.text+0x434): undefined reference to `framebuffer_release'
+>      sh4-linux-ld: drivers/video/fbdev/sh7760fb.o: in function `sh7760fb_remove':
+>      sh7760fb.c:(.text+0x800): undefined reference to `unregister_framebuffer'
+>      sh4-linux-ld: sh7760fb.c:(.text+0x804): undefined reference to `fb_dealloc_cmap'
+>      sh4-linux-ld: sh7760fb.c:(.text+0x814): undefined reference to `framebuffer_release'
+>   >> sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0xc): undefined reference to `fb_io_read'
+>   >> sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x10): undefined reference to `fb_io_write'
+>      sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x2c): undefined reference to `cfb_fillrect'
+>      sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x30): undefined reference to `cfb_copyarea'
+>      sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x34): undefined reference to `cfb_imageblit'
+>
+> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202309130632.LS04CPWu-lkp@intel.com/
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Durrant/KVM-pfncache-add-a-map-helper-function/20230914-171017
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20230914084946.200043-8-paul%40xen.org
-patch subject: [PATCH 7/8] KVM: xen: prepare for using 'default' vcpu_info
-config: i386-randconfig-063-20230918 (https://download.01.org/0day-ci/archive/20230918/202309181725.cpTHcjo6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230918/202309181725.cpTHcjo6-lkp@intel.com/reproduce)
+Agreed with your change.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309181725.cpTHcjo6-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kvm/xen.c:492:25: sparse: sparse: symbol 'get_vcpu_info_cache' was not declared. Should it be static?
-   arch/x86/kvm/xen.c:441:9: sparse: sparse: context imbalance in 'kvm_xen_update_runstate_guest' - unexpected unlock
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
