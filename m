@@ -1,72 +1,77 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A1515A8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 03:02:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B1D23C7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 05:16:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695006124; x=1726542124;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FGX+Dn1HoRHGoCLByogqaXBjz07DFwJR6GOWA39eNPo=;
-  b=fXbe0l0M8EAaprNuY0aKy2VFufi4zQ9wScYNjG1MwdFuNUrBC4UTIfKw
-   O5yzXCU7u7ZSBgd/D1DN4nDfWmxlVTocqenKXQxv18R17wiU9x8ABvryc
-   Xy+sZ0VL55ZeFO4/nq6vO/inhaBplceFeWBfok9ToPufK/AfNhYM9ii7q
-   R/U2brHjYpkuT84SD/l98bmk00aLzE3lC65C2IvG19n1SsOq490njIepg
-   7uv52XxqDrYBfJJUYSqW42GfSYx+ZjuSksV9NADY4v/veKd1qhVLKZRz+
-   ZEoTCG+s80hwDG8JnEkLK1P9E2lyfP4GiM+Ykv8D27i++9N1EoJyDTFcn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="359806943"
+  t=1695014203; x=1726550203;
+  h=date:from:to:cc:subject:message-id;
+  bh=vAvVh9/kfJoS4NYmfx/h9nRCp6y+V/wFifbg496YFVY=;
+  b=XePanhfBw9XqJBrqXe2g/uodGXrx8GA4c1XqVu4bgcGoD7wgpEcRqU2k
+   H43OIqhvTSQnM/CY7Jcjf/RaKT3SW6VEOv2XbHFI8IDf8FBlA4pm4DVfF
+   5lvVxoubwPmBjkwg68kf6kDoYmI+4NH1fdNjaF2IvRcaq7r2Jxr7qQ4vs
+   O760pyRdBZE5TWR1uYIMHuuULhIt9L34LUKzZz3GA6oSIPIECX/ueB7gG
+   wFyaS2iUvY3rtETTE64JKbfK5ZXehFEZhhKfaD5cX6kv2yDHA0cpHYiSn
+   GqaarMRrUenj+kw8aZE05902Fr6XucVH6/hGrnRtcy66XTY57hMtlYl9I
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="359821489"
 X-IronPort-AV: E=Sophos;i="6.02,155,1688454000"; 
-   d="scan'208";a="359806943"
+   d="scan'208";a="359821489"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2023 20:02:03 -0700
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2023 22:16:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="722315944"
+X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="722340758"
 X-IronPort-AV: E=Sophos;i="6.02,155,1688454000"; 
-   d="scan'208";a="722315944"
+   d="scan'208";a="722340758"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 17 Sep 2023 20:02:02 -0700
+  by orsmga006.jf.intel.com with ESMTP; 17 Sep 2023 22:16:39 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qi4WO-0005em-0U;
-	Mon, 18 Sep 2023 03:02:00 +0000
-Date: Mon, 18 Sep 2023 11:01:12 +0800
+	id 1qi6cf-0005l4-0w;
+	Mon, 18 Sep 2023 05:16:37 +0000
+Date: Mon, 18 Sep 2023 13:16:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Bianconi <lorenzo@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>
-Subject: [cel:nfsd-next 28/29] ld: fs/nfsd/netlink.o:undefined reference to
- `nfsd_nl_rpc_status_get_done'
-Message-ID: <202309181002.9STX60YB-lkp@intel.com>
+To: Matthew Wilcox (Oracle) <willy@infradead.org>,
+ Luis Chamberlain <mcgrof@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, lkp@intel.com,
+ Josh Triplett <josh@joshtriplett.org>
+Subject: [lkp] [+549 bytes kernel size regression] [i386-tinyconfig]
+ [90d28b9285] fs: Allow fine-grained control of folio sizes
+Message-ID: <20230918051612.oQcSZ%lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-next
-head:   013fd95f671a2d4427bf3aa0820897e41f384ccd
-commit: ecb61abdf1985420234b8f12f93a07d59d5718ed [28/29] NFSD: introduce netlink stubs
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230918/202309181002.9STX60YB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230918/202309181002.9STX60YB-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309181002.9STX60YB-lkp@intel.com/
+FYI, we noticed a +549 bytes kernel size regression due to commit:
 
-Note: the cel/nfsd-next HEAD 013fd95f671a2d4427bf3aa0820897e41f384ccd builds fine.
-      It only hurts bisectability.
+commit: 90d28b9285f106957489dc1d368f4e7f14545678 (fs: Allow fine-grained control of folio sizes)
+https://git.kernel.org/cgit/linux/kernel/git/mcgrof/linux.git v6.6-rc2-lbs-nobdev
 
-All errors (new ones prefixed by >>):
 
->> ld: fs/nfsd/netlink.o:(.rodata+0x0): undefined reference to `nfsd_nl_rpc_status_get_done'
->> ld: fs/nfsd/netlink.o:(.rodata+0x4): undefined reference to `nfsd_nl_rpc_status_get_start'
->> ld: fs/nfsd/netlink.o:(.rodata+0x8): undefined reference to `nfsd_nl_rpc_status_get_dumpit'
+Details as below (size data is obtained by `nm --size-sort vmlinux`):
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ce9ecca0: Linux 6.6-rc2
+90d28b92: fs: Allow fine-grained control of folio sizes
+
++------------------------------+----------+----------+-------+
+|            symbol            | ce9ecca0 | 90d28b92 | delta |
++------------------------------+----------+----------+-------+
+| nm.T.page_cache_ra_order     | 11       | 445      | 434   |
+| bzImage                      | 522176   | 522528   | 352   |
+| nm.T.__filemap_get_folio     | 338      | 442      | 104   |
+| nm.T.readahead_expand        | 351      | 355      | 4     |
+| nm.t.do_read_cache_folio     | 251      | 253      | 2     |
+| nm.T.page_cache_ra_unbounded | 265      | 267      | 2     |
+| nm.t.filemap_get_pages       | 699      | 701      | 2     |
+| nm.D.linux_banner            | 154      | 155      | 1     |
++------------------------------+----------+----------+-------+
+
+
+
+Thanks
+
