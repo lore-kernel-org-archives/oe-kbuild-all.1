@@ -1,49 +1,42 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BA723757
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 17:08:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CE822F15
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Sep 2023 17:12:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695056884; x=1726592884;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=R0IYlcHB+mDxKxCzHImBnbsDf3CITkOOK5I/jc4Vt4g=;
-  b=jHmVXcnHxtmp9g7cDHL/OkxMyvebYAO6oquBDrkJo/a+KVVdUPtx3o4J
-   MkVxl3S9cxl7Cw5d2qJb8JI3a65E+VPflJvNO+0VsWgvki9hFLNCiaSba
-   jC+xQpNXl1k8aT95Bhb5M2muNoIEtY3hIzw0rE6KrlLH6Zz+fRQ2ljPp0
-   Q+z8C4FtEwY5cEi6NWyMwHiriy3qHJo3YdqzMX4ZIvcIzxFyCNZfOpSsY
-   asldT74jT9fkq2KuYrs3kGhzAXk6jmhyWjmR6hVIsURsKZKKn0f38xiZH
-   diUwLCbpjKWkYzycxjq4BIbH9mR2SrwBRF/T3lXD9m4XXeNu2jRpJ2vhc
+  t=1695057121; x=1726593121;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=bhsO3UK/tiC8VZSa32uhHY21Knn6aajSceTjYxVjDPs=;
+  b=d8GOSw/M811ENZuy5hNKqG2ieEBIUpZH6wKdYJQ5tFehysjeDnpl7zc5
+   rsN7bRASs80XTn7PzU/A5QVmTapIY2HLXXCeE3Ih0zAJRu46f+7wugvpY
+   C+AsO3D24EWTXiXKnl1fgFcDN1Y7O7ma/bqoRAFz4Q9QAhh9b+vC9oXgk
+   8EW+8UqMdYCsppwrkvxVp6CDbmDb4k4P/MOkMNdiaRpIb9+Ki1jgbf4Bw
+   /ralxPIRuLirXpvyyI/h60nKgF4XfbZxov+lNoXzYqwzq9rhFUTQOrASa
+   940fkGC2oLX1VvZKZAC/4zBdZfBxL0rc70seZSd2zFK5A4vcUTRSAh1hw
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="377037217"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="377038075"
 X-IronPort-AV: E=Sophos;i="6.02,157,1688454000"; 
-   d="scan'208";a="377037217"
+   d="scan'208";a="377038075"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 10:08:02 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 10:12:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="775202677"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="775204993"
 X-IronPort-AV: E=Sophos;i="6.02,157,1688454000"; 
-   d="scan'208";a="775202677"
+   d="scan'208";a="775204993"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 18 Sep 2023 10:07:58 -0700
+  by orsmga008.jf.intel.com with ESMTP; 18 Sep 2023 10:11:59 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qiHj2-0006J6-1j;
-	Mon, 18 Sep 2023 17:07:56 +0000
-Date: Tue, 19 Sep 2023 01:07:42 +0800
+	id 1qiHmu-0006JU-2e;
+	Mon, 18 Sep 2023 17:11:56 +0000
+Date: Tue, 19 Sep 2023 01:11:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Elaine Zhang <zhangqing@rock-chips.com>, mturquette@baylibre.com,
-	sboyd@kernel.org, kever.yang@rock-chips.com, heiko@sntech.de,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	huangtao@rock-chips.com, xxx@rock-chips.com, xf@rock-chips.com
-Subject: Re: [PATCH v1 4/8] clk: rockchip: Avoid __clk_lookup() calls
-Message-ID: <202309190032.1NPAySNx-lkp@intel.com>
-References: <20230918073151.7660-5-zhangqing@rock-chips.com>
+To: Jade Lovelace <lists@jade.fyi>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] Revert "misc: rtsx: judge ASPM Mode to set PETXCFG Reg"
+Message-ID: <ZQiEsy+j14XWevqZ@6fe19fc45f19>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,89 +45,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230918073151.7660-5-zhangqing@rock-chips.com>
+In-Reply-To: <20230918170831.1677690-3-lists@jade.fyi>
 
-Hi Elaine,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Thanks for your patch.
 
-[auto build test WARNING on rockchip/for-next]
-[also build test WARNING on clk/clk-next linus/master v6.6-rc2 next-20230918]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Elaine-Zhang/clk-clk-fractional-divider-Export-clk_fractional_divider_general_approximation-API/20230918-154652
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/20230918073151.7660-5-zhangqing%40rock-chips.com
-patch subject: [PATCH v1 4/8] clk: rockchip: Avoid __clk_lookup() calls
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230919/202309190032.1NPAySNx-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309190032.1NPAySNx-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html/#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309190032.1NPAySNx-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/clk/rockchip/clk-rk3328.c:13:
->> drivers/clk/rockchip/clk-rk3328.c:160:7: warning: 'mux_armclk_p' defined but not used [-Wunused-const-variable=]
-     160 | PNAME(mux_armclk_p)             = { "apll_core",
-         |       ^~~~~~~~~~~~
-   drivers/clk/rockchip/clk.h:512:43: note: in definition of macro 'PNAME'
-     512 | #define PNAME(x) static const char *const x[] __initconst
-         |                                           ^
---
-   In file included from drivers/clk/rockchip/clk-rk3588.c:13:
->> drivers/clk/rockchip/clk-rk3588.c:447:7: warning: 'mux_armclkb23_p' defined but not used [-Wunused-const-variable=]
-     447 | PNAME(mux_armclkb23_p)                  = { "xin24m", "gpll", "b1pll",};
-         |       ^~~~~~~~~~~~~~~
-   drivers/clk/rockchip/clk.h:512:43: note: in definition of macro 'PNAME'
-     512 | #define PNAME(x) static const char *const x[] __initconst
-         |                                           ^
->> drivers/clk/rockchip/clk-rk3588.c:446:7: warning: 'mux_armclkb01_p' defined but not used [-Wunused-const-variable=]
-     446 | PNAME(mux_armclkb01_p)                  = { "xin24m", "gpll", "b0pll",};
-         |       ^~~~~~~~~~~~~~~
-   drivers/clk/rockchip/clk.h:512:43: note: in definition of macro 'PNAME'
-     512 | #define PNAME(x) static const char *const x[] __initconst
-         |                                           ^
->> drivers/clk/rockchip/clk-rk3588.c:445:7: warning: 'mux_armclkl_p' defined but not used [-Wunused-const-variable=]
-     445 | PNAME(mux_armclkl_p)                    = { "xin24m", "gpll", "lpll" };
-         |       ^~~~~~~~~~~~~
-   drivers/clk/rockchip/clk.h:512:43: note: in definition of macro 'PNAME'
-     512 | #define PNAME(x) static const char *const x[] __initconst
-         |                                           ^
-
-
-vim +/mux_armclk_p +160 drivers/clk/rockchip/clk-rk3328.c
-
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  144  
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  145  PNAME(mux_2plls_p)		= { "cpll", "gpll" };
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  146  PNAME(mux_gpll_cpll_p)		= { "gpll", "cpll" };
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  147  PNAME(mux_cpll_gpll_apll_p)	= { "cpll", "gpll", "apll" };
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  148  PNAME(mux_2plls_xin24m_p)	= { "cpll", "gpll", "xin24m" };
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  149  PNAME(mux_2plls_hdmiphy_p)	= { "cpll", "gpll",
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  150  				    "dummy_hdmiphy" };
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  151  PNAME(mux_4plls_p)		= { "cpll", "gpll",
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  152  				    "dummy_hdmiphy",
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  153  				    "usb480m" };
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  154  PNAME(mux_2plls_u480m_p)	= { "cpll", "gpll",
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  155  				    "usb480m" };
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  156  PNAME(mux_2plls_24m_u480m_p)	= { "cpll", "gpll",
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  157  				     "xin24m", "usb480m" };
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  158  
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  159  PNAME(mux_ddrphy_p)		= { "dpll", "apll", "cpll" };
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29 @160  PNAME(mux_armclk_p)		= { "apll_core",
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  161  				    "gpll_core",
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  162  				    "dpll_core",
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  163  				    "npll_core"};
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  164  PNAME(mux_hdmiphy_p)		= { "hdmi_phy", "xin24m" };
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  165  PNAME(mux_usb480m_p)		= { "usb480m_phy",
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  166  				    "xin24m" };
-fe3511ad8a1cf6 Elaine Zhang 2016-12-29  167  
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] Revert "misc: rtsx: judge ASPM Mode to set PETXCFG Reg"
+Link: https://lore.kernel.org/stable/20230918170831.1677690-3-lists%40jade.fyi
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
