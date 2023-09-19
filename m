@@ -1,44 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F1E28DDD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 21:37:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B21347D5;
+	Tue, 19 Sep 2023 21:47:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695159428; x=1726695428;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=f/NUT2MmEHOUU/rv3ssKB1yfbTAKPpChVhZ2x/2lVpA=;
-  b=bmrBR2JXmgK9jXskHOG/vkS2wtyIHLmxx8Mb+kFWpOX/vr1e8lyOU1DD
-   jmYiuBD10sopqq0OqgBZIukU9V0RyT080zbLQIny20umfz0hLn76mjns2
-   YDRjm4Ver4nOY45nwRAOSJl9mg+MkaXM0nRnheHfdaKirzZzT9HK60REL
-   J4QM8LHeDPq3yDYWwq6S208/0fMlpsXvu0VXzfaZyRK5vGpqPTTM/871k
-   KM0QOa0boqDNx8S+Ez6OTz4FheGXzFGt6zDM1h3Zlvtbrx4u4SbFrZnNG
-   N7063U1vP2bvB6rDHbiKUx/BICCl/mZ4+yX2R7oGxKwtjxH5ucJp0IDV0
+  t=1695160061; x=1726696061;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WS9L3QFPXiqwWBLJkP/BjE61p/kydfJWxwHndNJas9s=;
+  b=gyDl9WmqHRONy88rGPpqyV1Q0f8GqveFc+hm6/bIKKKOkU3M7IV6OiXb
+   nILCaWoG79qd+dFG0InGR/KvWCo57CdMNTFRyJD/aQYHv9YT86PiZZnks
+   XYcDYlnq9qsf10F6OfCoij7IMLe/n4q8L8spJEZseJUG7RY0wRA2v/AIx
+   3FxD1yL0lwtAabFfYumVWvidk9lvNCGX9woFUpTsuKPogezcX1nvo1DXY
+   6WyGIigL44nbAhNVr261WctWNycQEoigLvGAvnmbrMyKoEIVfSH3dRcfv
+   9FoFjlAy96qSsPjnVnQix4/Cd35LAAfTV4cNKTOSjm7wPUtBdnE9r4oBf
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="365105533"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="360315087"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="365105533"
+   d="scan'208";a="360315087"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 14:36:39 -0700
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 14:47:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="993317243"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="993320987"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="993317243"
+   d="scan'208";a="993320987"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 19 Sep 2023 14:36:37 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 19 Sep 2023 14:47:38 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qiiOZ-0007x5-2X;
-	Tue, 19 Sep 2023 21:36:35 +0000
-Date: Wed, 20 Sep 2023 05:36:25 +0800
+	id 1qiiZE-0007xU-08;
+	Tue, 19 Sep 2023 21:47:36 +0000
+Date: Wed, 20 Sep 2023 05:47:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 1226/1363]
- drivers/mtd/nand/raw/arasan-nand-controller.c:1107:35: warning:
- 'anfc_hw_ecc_caps' defined but not used
-Message-ID: <202309200505.MQW4FKEC-lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>, vkoul@kernel.org,
+	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+	imx@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 2/2] dmaengine: fsl-edma: add trace event support
+Message-ID: <202309200524.QTINjSsC-lkp@intel.com>
+References: <20230919151430.2919042-3-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,41 +48,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230919151430.2919042-3-Frank.Li@nxp.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   4f412ed20fd2c5353c1e878ef9ed77952a5040a1
-commit: bd2c73dd60da25dae9f78894f9d96688543abccf [1226/1363] mtd: rawnand: arasan: Use on-host ecc engine in hw-ecc mode
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230920/202309200505.MQW4FKEC-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200505.MQW4FKEC-lkp@intel.com/reproduce)
+Hi Frank,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on vkoul-dmaengine/next]
+[also build test WARNING on linus/master v6.6-rc2 next-20230919]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dmaengine-fsl-emda-add-debugfs-support/20230920-010257
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+patch link:    https://lore.kernel.org/r/20230919151430.2919042-3-Frank.Li%40nxp.com
+patch subject: [PATCH v2 2/2] dmaengine: fsl-edma: add trace event support
+config: arc-randconfig-001-20230920 (https://download.01.org/0day-ci/archive/20230920/202309200524.QTINjSsC-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200524.QTINjSsC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309200505.MQW4FKEC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309200524.QTINjSsC-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/mtd/nand/raw/arasan-nand-controller.c:1107:35: warning: 'anfc_hw_ecc_caps' defined but not used [-Wunused-const-variable=]
-    1107 | static const struct nand_ecc_caps anfc_hw_ecc_caps = {
-         |                                   ^~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from drivers/dma/fsl-edma-trace.h:134,
+                    from drivers/dma/fsl-edma-common.h:238,
+                    from drivers/dma/fsl-edma-trace.c:4:
+   drivers/dma/./fsl-edma-trace.h: In function 'trace_raw_output_edma_log_io':
+>> drivers/dma/./fsl-edma-trace.h:28:19: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'int' [-Wformat=]
+      28 |         TP_printk("offset %08lx: value %08x",
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     203 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   drivers/dma/./fsl-edma-trace.h:28:9: note: in expansion of macro 'TP_printk'
+      28 |         TP_printk("offset %08lx: value %08x",
+         |         ^~~~~~~~~
+   In file included from include/trace/trace_events.h:237:
+   drivers/dma/./fsl-edma-trace.h:28:31: note: format string is defined here
+      28 |         TP_printk("offset %08lx: value %08x",
+         |                           ~~~~^
+         |                               |
+         |                               long unsigned int
+         |                           %08x
 
 
-vim +/anfc_hw_ecc_caps +1107 drivers/mtd/nand/raw/arasan-nand-controller.c
+vim +28 drivers/dma/./fsl-edma-trace.h
 
-88ffef1b65cf98 Miquel Raynal 2020-05-19  1106  
-88ffef1b65cf98 Miquel Raynal 2020-05-19 @1107  static const struct nand_ecc_caps anfc_hw_ecc_caps = {
-88ffef1b65cf98 Miquel Raynal 2020-05-19  1108  	.stepinfos = anfc_hw_ecc_step_infos,
-88ffef1b65cf98 Miquel Raynal 2020-05-19  1109  	.nstepinfos = ARRAY_SIZE(anfc_hw_ecc_step_infos),
-88ffef1b65cf98 Miquel Raynal 2020-05-19  1110  	.calc_ecc_bytes = anfc_calc_hw_ecc_bytes,
-88ffef1b65cf98 Miquel Raynal 2020-05-19  1111  };
-88ffef1b65cf98 Miquel Raynal 2020-05-19  1112  
-
-:::::: The code at line 1107 was first introduced by commit
-:::::: 88ffef1b65cf989b2dfea6374caff804fca6ec32 mtd: rawnand: arasan: Support the hardware BCH ECC engine
-
-:::::: TO: Miquel Raynal <miquel.raynal@bootlin.com>
-:::::: CC: Miquel Raynal <miquel.raynal@bootlin.com>
+    14	
+    15	DECLARE_EVENT_CLASS(edma_log_io,
+    16		TP_PROTO(struct fsl_edma_engine *edma, void __iomem *addr, u32 value),
+    17		TP_ARGS(edma, addr, value),
+    18		TP_STRUCT__entry(
+    19			__field(struct fsl_edma_engine *, edma)
+    20			__field(void __iomem *, addr)
+    21			__field(u32, value)
+    22		),
+    23		TP_fast_assign(
+    24			__entry->edma = edma;
+    25			__entry->addr = addr;
+    26			__entry->value = value;
+    27		),
+  > 28		TP_printk("offset %08lx: value %08x",
+    29			__entry->addr - __entry->edma->membase, __entry->value)
+    30	);
+    31	
 
 -- 
 0-DAY CI Kernel Test Service
