@@ -1,45 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9661BE4C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 22:51:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9FB3BE4C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 22:51:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695163873; x=1726699873;
+  t=1695163904; x=1726699904;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ngltZrqZ7X5pGJHeRyTEn6OUr2WIJhJqNV4iDYQ3CwM=;
-  b=WtQ5WaKYZ//w/PjGkT6EWDAofVsp3orD+8weJZO7HC02L6NvzD+W9mtS
-   TRDXLNHVLwIoLpZbYhUZ+9GOw0jr6iAmH9pxfMQmPBPLZVMcwSMaJ5RH2
-   x39dqmh9CZ5RX1HR0gmuvlYRdKr9cNjMdmeh2yaZPoSwb7/Ubxog+QCBc
-   bdIZiRy6oBEjBbCTCTYU+B1sVd+IMZ9gBfs2gQS97Yf1ArGfGVqjw9Ql5
-   tcvXBT4jLgfynudmFmlfacgiOuNgX5zuBelLtyFZodNXq/2PiLmLDPEsG
-   Z9a3A3cmO3q1H8cYw6zyfPciOSeRA/I2w/F4ZQ7kUgIzJYzdNXhdnVN45
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="466385346"
+  bh=IwMEkYqYPfNNJ7EOFDOA4WJaCL60XnnbTv/PltgA1u0=;
+  b=NHlWA9XePV2KR+mHbKqvq6X8PQkdEgzuVWNxhgypITWO9pN9KvDhQAqC
+   4StLHyDB9s1VHCV1L2yQYYX2TcI0IbQhhtKnsw3xBOxJC153ySHB+ngw6
+   vXo7pqiz/X9lty/kOSg+Hkcy5NGpfwsDX15k79CZrR3RxUX1SqbMfSgeh
+   dAk0RjIDPpmlOCoHZgFPN6iQLnCIK/lxghu4x5BxUwXOiRAff43AqXoJE
+   L8L963nJs4X/zMiuas+DH6Sxh1rGQZFKyGmABZRT8/p7nRvTqn3b9G90W
+   Vc/D1Nj6SwfGSBKzTN4HqmAa0w0uWGLl5k/eRNYC5gyj+alHo7ajLkGyK
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="360325508"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="466385346"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 15:50:54 -0700
+   d="scan'208";a="360325508"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 15:50:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="836605266"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="749650658"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="836605266"
+   d="scan'208";a="749650658"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 19 Sep 2023 15:50:52 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 19 Sep 2023 15:50:55 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qijYP-00082C-2G;
-	Tue, 19 Sep 2023 22:50:50 +0000
-Date: Wed, 20 Sep 2023 06:48:52 +0800
+	id 1qijYR-00082I-2A;
+	Tue, 19 Sep 2023 22:50:52 +0000
+Date: Wed, 20 Sep 2023 06:48:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
-	Paolo Abeni <pabeni@redhat.com>, David Ahern <dsahern@kernel.org>
-Subject: [tnguy-next-queue:main 4/22] include/asm-generic/rwonce.h:44:26:
- warning: array subscript 0 is outside array bounds of '__u8[0]' {aka
- 'unsigned char[]'}
-Message-ID: <202309200607.eC7wVSd1-lkp@intel.com>
+To: Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Edward Cree <ecree.xilinx@gmail.com>
+Subject: include/linux/netlink.h:116:6: warning: ') out of range, only
+ support mangle action on ipv6.hop_limit' directive output truncated writing
+ 60 bytes into a region of size between 46 and 55
+Message-ID: <202309200608.idRk3QU5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,121 +48,206 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git main
-head:   5bed8d585aa1db1651745173a66e32df82a5cb05
-commit: fa17a6d8a5bd0cd7565b613cb804242cd0f6b7ab [4/22] ipv6: lockless IPV6_ADDR_PREFERENCES implementation
-config: nios2-randconfig-002-20230920 (https://download.01.org/0day-ci/archive/20230920/202309200607.eC7wVSd1-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200607.eC7wVSd1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2cf0f715623872823a72e451243bbf555d10d032
+commit: 9dbc8d2b9a02f938d32741297d56cc364dc0dce6 sfc: add decrement ipv6 hop limit by offloading set hop limit actions
+date:   3 weeks ago
+config: x86_64-randconfig-014-20230906 (https://download.01.org/0day-ci/archive/20230920/202309200608.idRk3QU5-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200608.idRk3QU5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309200607.eC7wVSd1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309200608.idRk3QU5-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from ./arch/nios2/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:246,
-                    from include/linux/string.h:5,
-                    from net/sunrpc/xprtsock.c:23:
-   In function 'ip6_sock_set_addr_preferences',
-       inlined from 'xs_tcp_tls_finish_connecting' at net/sunrpc/xprtsock.c:2478:4,
-       inlined from 'xs_tcp_tls_setup_socket' at net/sunrpc/xprtsock.c:2681:11:
->> include/asm-generic/rwonce.h:44:26: warning: array subscript 0 is outside array bounds of '__u8[0]' {aka 'unsigned char[]'} [-Warray-bounds=]
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:55:40: note: in definition of macro '__WRITE_ONCE'
-      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
-         |                                        ^~~
-   include/net/ipv6.h:1365:9: note: in expansion of macro 'WRITE_ONCE'
-    1365 |         WRITE_ONCE(inet6_sk(sk)->srcprefs,
-         |         ^~~~~~~~~~
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^~~~~~~~~~~
-   include/net/ipv6.h:1366:21: note: in expansion of macro 'READ_ONCE'
-    1366 |                    (READ_ONCE(inet6_sk(sk)->srcprefs) & prefmask) | pref);
-         |                     ^~~~~~~~~
-   In function 'xs_tcp_tls_setup_socket':
-   cc1: note: source object is likely at address zero
-   In function 'ip6_sock_set_addr_preferences',
-       inlined from 'xs_tcp_tls_finish_connecting' at net/sunrpc/xprtsock.c:2478:4,
-       inlined from 'xs_tcp_tls_setup_socket' at net/sunrpc/xprtsock.c:2681:11:
-   include/asm-generic/rwonce.h:55:37: warning: array subscript 0 is outside array bounds of '__u8[0]' {aka 'unsigned char[]'} [-Warray-bounds=]
-      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   include/asm-generic/rwonce.h:61:9: note: in expansion of macro '__WRITE_ONCE'
-      61 |         __WRITE_ONCE(x, val);                                           \
-         |         ^~~~~~~~~~~~
-   include/net/ipv6.h:1365:9: note: in expansion of macro 'WRITE_ONCE'
-    1365 |         WRITE_ONCE(inet6_sk(sk)->srcprefs,
-         |         ^~~~~~~~~~
-   In function 'xs_tcp_tls_setup_socket':
-   cc1: note: source object is likely at address zero
-   In function 'ip6_sock_set_addr_preferences',
-       inlined from 'xs_tcp_finish_connecting' at net/sunrpc/xprtsock.c:2325:4,
-       inlined from 'xs_tcp_setup_socket' at net/sunrpc/xprtsock.c:2405:11:
->> include/asm-generic/rwonce.h:44:26: warning: array subscript 0 is outside array bounds of '__u8[0]' {aka 'unsigned char[]'} [-Warray-bounds=]
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:55:40: note: in definition of macro '__WRITE_ONCE'
-      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
-         |                                        ^~~
-   include/net/ipv6.h:1365:9: note: in expansion of macro 'WRITE_ONCE'
-    1365 |         WRITE_ONCE(inet6_sk(sk)->srcprefs,
-         |         ^~~~~~~~~~
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^~~~~~~~~~~
-   include/net/ipv6.h:1366:21: note: in expansion of macro 'READ_ONCE'
-    1366 |                    (READ_ONCE(inet6_sk(sk)->srcprefs) & prefmask) | pref);
-         |                     ^~~~~~~~~
-   In function 'xs_tcp_setup_socket':
-   cc1: note: source object is likely at address zero
-   In function 'ip6_sock_set_addr_preferences',
-       inlined from 'xs_tcp_finish_connecting' at net/sunrpc/xprtsock.c:2325:4,
-       inlined from 'xs_tcp_setup_socket' at net/sunrpc/xprtsock.c:2405:11:
-   include/asm-generic/rwonce.h:55:37: warning: array subscript 0 is outside array bounds of '__u8[0]' {aka 'unsigned char[]'} [-Warray-bounds=]
-      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   include/asm-generic/rwonce.h:61:9: note: in expansion of macro '__WRITE_ONCE'
-      61 |         __WRITE_ONCE(x, val);                                           \
-         |         ^~~~~~~~~~~~
-   include/net/ipv6.h:1365:9: note: in expansion of macro 'WRITE_ONCE'
-    1365 |         WRITE_ONCE(inet6_sk(sk)->srcprefs,
-         |         ^~~~~~~~~~
-   In function 'xs_tcp_setup_socket':
-   cc1: note: source object is likely at address zero
+   include/linux/netlink.h:116:6: warning: ' conflicts with existing pseudo(MASK) entry for TOS mask ' directive output truncated writing 57 bytes into a region of size between 33 and 39 [-Wformat-truncation=]
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:627:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:6: note: directive argument in the range [0, 2147483647]
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:627:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:6: note: 'snprintf' output between 103 and 115 bytes into a destination of size 80
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:627:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:6: warning: ' conflicts with existing pseudo(MASK) entry for mask ' directive output truncated writing 53 bytes into a region of size between 24 and 33 [-Wformat-truncation=]
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:634:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:6: note: directive argument in the range [0, 2147483647]
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:634:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:6: note: 'snprintf' output between 102 and 120 bytes into a destination of size 80
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:634:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c: In function 'efx_tc_mangle':
+   include/linux/netlink.h:116:6: warning: 'sfc: Unsupported: only support mangle ipv4.ttl when we have an exact match on ttl, mask used for match (' directive output truncated writing 104 bytes into a region of size 80 [-Wformat-truncation=]
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:1157:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:6: note: directive argument in the range [0, 254]
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:1157:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:6: note: 'snprintf' output between 107 and 110 bytes into a destination of size 80
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:1157:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/netlink.h:116:6: warning: ') out of range, only support mangle action on ipv6.hop_limit' directive output truncated writing 60 bytes into a region of size between 46 and 55 [-Wformat-truncation=]
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:1205:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:6: note: 'snprintf' output between 86 and 95 bytes into a destination of size 80
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:1205:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/netlink.h:116:6: warning: 'sfc: Unsupported: only support mangle ipv6.hop_limit when we have an exact match on ttl, mask used for match (' directive output truncated writing 110 bytes into a region of size 80 [-Wformat-truncation=]
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:1216:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:6: note: directive argument in the range [0, 254]
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:1216:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:6: note: 'snprintf' output between 113 and 116 bytes into a destination of size 80
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:1216:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +44 include/asm-generic/rwonce.h
+vim +116 include/linux/netlink.h
 
-e506ea451254ab Will Deacon 2019-10-15  28  
-e506ea451254ab Will Deacon 2019-10-15  29  /*
-e506ea451254ab Will Deacon 2019-10-15  30   * Yes, this permits 64-bit accesses on 32-bit architectures. These will
-e506ea451254ab Will Deacon 2019-10-15  31   * actually be atomic in some cases (namely Armv7 + LPAE), but for others we
-e506ea451254ab Will Deacon 2019-10-15  32   * rely on the access being split into 2x32-bit accesses for a 32-bit quantity
-e506ea451254ab Will Deacon 2019-10-15  33   * (e.g. a virtual address) and a strong prevailing wind.
-e506ea451254ab Will Deacon 2019-10-15  34   */
-e506ea451254ab Will Deacon 2019-10-15  35  #define compiletime_assert_rwonce_type(t)					\
-e506ea451254ab Will Deacon 2019-10-15  36  	compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),	\
-e506ea451254ab Will Deacon 2019-10-15  37  		"Unsupported access size for {READ,WRITE}_ONCE().")
-e506ea451254ab Will Deacon 2019-10-15  38  
-e506ea451254ab Will Deacon 2019-10-15  39  /*
-e506ea451254ab Will Deacon 2019-10-15  40   * Use __READ_ONCE() instead of READ_ONCE() if you do not require any
-3c9184109e78ea Will Deacon 2019-10-30  41   * atomicity. Note that this may result in tears!
-e506ea451254ab Will Deacon 2019-10-15  42   */
-b78b331a3f5c07 Will Deacon 2019-10-15  43  #ifndef __READ_ONCE
-e506ea451254ab Will Deacon 2019-10-15 @44  #define __READ_ONCE(x)	(*(const volatile __unqual_scalar_typeof(x) *)&(x))
-b78b331a3f5c07 Will Deacon 2019-10-15  45  #endif
-e506ea451254ab Will Deacon 2019-10-15  46  
+2d4bc93368f5a0 Johannes Berg 2017-04-12  107  
+51c352bdbcd23d Edward Cree   2022-10-18  108  /* We splice fmt with %s at each end even in the snprintf so that both calls
+51c352bdbcd23d Edward Cree   2022-10-18  109   * can use the same string constant, avoiding its duplication in .ro
+51c352bdbcd23d Edward Cree   2022-10-18  110   */
+51c352bdbcd23d Edward Cree   2022-10-18  111  #define NL_SET_ERR_MSG_FMT(extack, fmt, args...) do {			       \
+51c352bdbcd23d Edward Cree   2022-10-18  112  	struct netlink_ext_ack *__extack = (extack);			       \
+51c352bdbcd23d Edward Cree   2022-10-18  113  									       \
+51c352bdbcd23d Edward Cree   2022-10-18  114  	if (!__extack)							       \
+51c352bdbcd23d Edward Cree   2022-10-18  115  		break;							       \
+51c352bdbcd23d Edward Cree   2022-10-18 @116  	if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,	       \
+51c352bdbcd23d Edward Cree   2022-10-18  117  		     "%s" fmt "%s", "", ##args, "") >=			       \
+51c352bdbcd23d Edward Cree   2022-10-18  118  	    NETLINK_MAX_FMTMSG_LEN)					       \
+51c352bdbcd23d Edward Cree   2022-10-18  119  		net_warn_ratelimited("%s" fmt "%s", "truncated extack: ",      \
+51c352bdbcd23d Edward Cree   2022-10-18  120  				     ##args, "\n");			       \
+51c352bdbcd23d Edward Cree   2022-10-18  121  									       \
+51c352bdbcd23d Edward Cree   2022-10-18  122  	do_trace_netlink_extack(__extack->_msg_buf);			       \
+51c352bdbcd23d Edward Cree   2022-10-18  123  									       \
+51c352bdbcd23d Edward Cree   2022-10-18  124  	__extack->_msg = __extack->_msg_buf;				       \
+51c352bdbcd23d Edward Cree   2022-10-18  125  } while (0)
+51c352bdbcd23d Edward Cree   2022-10-18  126  
 
-:::::: The code at line 44 was first introduced by commit
-:::::: e506ea451254ab17e0bf918ca36232fec2a9b10c compiler.h: Split {READ,WRITE}_ONCE definitions out into rwonce.h
+:::::: The code at line 116 was first introduced by commit
+:::::: 51c352bdbcd23d7ce46b06c1e64c82754dc44044 netlink: add support for formatted extack messages
 
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+:::::: TO: Edward Cree <ecree.xilinx@gmail.com>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
