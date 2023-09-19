@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512A4374ED
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 14:06:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9990B328B1;
+	Tue, 19 Sep 2023 14:42:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695132383; x=1726668383;
+  t=1695134574; x=1726670574;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UqrwduPl8f9EKYWDRCS6PJ+u8b5KxhrEjyOJZPW8uNM=;
-  b=NfJjfSJUJE1KM+vAbfSSwT6sRHjyZ6/ZagSLLkAxzifbVOglbefacQo8
-   hq/wRIsIH/83yaaR0dCRbsBy0ZMeIIfLpWI2hbaONUFUSyt4sRCr9Ayrv
-   5n4zPvNh5dCSYQCL5epDhQoFkIDES94d5NqB9HFl2/W1eo8Z/NFJcwGiX
-   8L/+uCG2bvRuM/oJ8s2AA7duivqeqiUKDuZ5aUevPRugqUBQ9xfdP6qeQ
-   oZccAPVwL4TIUCAmoiU0wa2U92kZRZqAB386RQ4oAA7gp/9jnh8gGDP/1
-   CN0pxvgHTG7zOJ89/FNg0kEWqCqzdWBgIA+pfmJzDaWBRrwOkHB5kMNA+
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="370265674"
+  bh=iSPzEI6ai+IfQ92VJY4BsG+KgWguOThO7IO/TLYrv00=;
+  b=V1uf6BEW05GDF6xs6S9D1t9iVpfriUnxIAX948jaGZM3lydYOnG5tNVw
+   S7P+gTneSn8KCvUnLutOBPZ1SLb56IQX4a7g5rkRXa0ovI3Md/cpYaxiQ
+   T5fnhT4bzILi1ye1azZVUNdeiZ0oF0D15pv3mvILTZBUcGG0Woi0XH2f4
+   ChmIQwTRJiFjekdSc1NIOl91EEI8VazU/mKWpmsQsm8KXLphYCmzE9KSb
+   ORzB+kk2nlEzOOv050TPSHVL4qxPZ1cQd/ry89Q/ZHy0aanPY354r4KBB
+   HKN0TzZq0T21CUACt/gZkPXqFAnP2PnrdNeLiiEWS24rRqiEmfnmgxR2t
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="378850856"
 X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
-   d="scan'208";a="370265674"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 07:06:18 -0700
+   d="scan'208";a="378850856"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 07:42:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="889510973"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="749508232"
 X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
-   d="scan'208";a="889510973"
+   d="scan'208";a="749508232"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 19 Sep 2023 07:05:31 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 19 Sep 2023 07:42:35 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qibMk-0007Qe-2t;
-	Tue, 19 Sep 2023 14:06:14 +0000
-Date: Tue, 19 Sep 2023 22:05:41 +0800
+	id 1qibvL-0007TQ-1a;
+	Tue, 19 Sep 2023 14:42:03 +0000
+Date: Tue, 19 Sep 2023 22:40:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alobakin:pfcp /15] include/linux/bitmap.h:614:12: warning: array
- subscript [2, 288230376151711743] is outside array bounds of 'long unsigned
- int[1]'
-Message-ID: <202309192102.IbPhVSJj-lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>
+Subject: warning: unknown warning option '-Wrestrict'
+Message-ID: <202309192257.IAbw1lnx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,78 +46,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alobakin/linux pfcp
-head:   b963c50bbf48f78bf5dd0750b9e11a2b64536356
-commit: 305dd2e2a8739070f378d87ee0c2871e42d80d3c [/15] bitmap: extend bitmap_{get,set}_value8() to bitmap_{get,set}_bits()
-config: arm64-randconfig-003-20230919 (https://download.01.org/0day-ci/archive/20230919/202309192102.IbPhVSJj-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309192102.IbPhVSJj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2cf0f715623872823a72e451243bbf555d10d032
+commit: feb843a469fb0ab00d2d23cfb9bcc379791011bb kbuild: add $(CLANG_FLAGS) to KBUILD_CPPFLAGS
+date:   4 months ago
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20230919/202309192257.IAbw1lnx-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309192257.IAbw1lnx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309192102.IbPhVSJj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309192257.IAbw1lnx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/irq.h:14,
-                    from include/linux/irqchip/chained_irq.h:10,
-                    from include/linux/gpio/driver.h:6,
-                    from drivers/pinctrl/pinctrl-keembay.c:6:
-   In function 'bitmap_set_bits',
-       inlined from 'keembay_gpio_set_irq' at drivers/pinctrl/pinctrl-keembay.c:1348:2,
-       inlined from 'keembay_gpio_irq_enable' at drivers/pinctrl/pinctrl-keembay.c:1380:2:
->> include/linux/bitmap.h:614:12: warning: array subscript [2, 288230376151711743] is outside array bounds of 'long unsigned int[1]' [-Warray-bounds=]
-     614 |         map[index] &= ~(mask << offset);
-         |         ~~~^~~~~~~
-   drivers/pinctrl/pinctrl-keembay.c: In function 'keembay_gpio_irq_enable':
-   drivers/pinctrl/pinctrl-keembay.c:1344:30: note: at offset [16, 2305843009213693944] into object 'reg' of size 8
-    1344 |         unsigned long flags, reg;
-         |                              ^~~
-   In function 'bitmap_set_bits',
-       inlined from 'keembay_gpio_set_irq' at drivers/pinctrl/pinctrl-keembay.c:1348:2,
-       inlined from 'keembay_gpio_irq_enable' at drivers/pinctrl/pinctrl-keembay.c:1380:2:
-   include/linux/bitmap.h:615:20: warning: array subscript [2, 288230376151711743] is outside array bounds of 'long unsigned int[1]' [-Warray-bounds=]
-     615 |         map[index] |= (value & mask) << offset;
-         |         ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-keembay.c: In function 'keembay_gpio_irq_enable':
-   drivers/pinctrl/pinctrl-keembay.c:1344:30: note: at offset [16, 2305843009213693944] into object 'reg' of size 8
-    1344 |         unsigned long flags, reg;
-         |                              ^~~
-
-
-vim +614 include/linux/bitmap.h
-
-   592	
-   593	/**
-   594	 * bitmap_set_bits - set a @len-bit value within a memory region
-   595	 * @map: address to the bitmap memory region
-   596	 * @start: bit offset of the value
-   597	 * @len: bit width of the value
-   598	 * @value: new value to set
-   599	 *
-   600	 * Replaces the @len-bit value located at the @start bit offset within the @src
-   601	 * memory region with the new @value. The value can't cross ``BITS_PER_LONG``
-   602	 * boundary.
-   603	 */
-   604	static inline void bitmap_set_bits(unsigned long *map, unsigned long start,
-   605					   size_t len, unsigned long value)
-   606	{
-   607		const size_t index = BIT_WORD(start);
-   608		const unsigned long offset = start % BITS_PER_LONG;
-   609		unsigned long mask = GENMASK(len - 1, 0);
-   610	
-   611		if (WARN_ON_ONCE(offset + len > BITS_PER_LONG))
-   612			return;
-   613	
- > 614		map[index] &= ~(mask << offset);
-   615		map[index] |= (value & mask) << offset;
-   616	}
-   617	
+>> warning: unknown warning option '-Wrestrict' [-Wunknown-warning-option]
+>> warning: unknown warning option '-Wformat-overflow'; did you mean '-Wshift-overflow'? [-Wunknown-warning-option]
+>> warning: unknown warning option '-Wformat-truncation' [-Wunknown-warning-option]
+>> warning: unknown warning option '-Wstringop-overflow'; did you mean '-Wshift-overflow'? [-Wunknown-warning-option]
+   arch/x86/um/user-offsets.c:17:6: warning: no previous prototype for function 'foo' [-Wmissing-prototypes]
+      17 | void foo(void)
+         |      ^
+   arch/x86/um/user-offsets.c:17:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      17 | void foo(void)
+         | ^
+         | static 
+   5 warnings generated.
+   error: unknown warning option '-Wrestrict' [-Werror,-Wunknown-warning-option]
+   error: unknown warning option '-Wformat-overflow'; did you mean '-Wshift-overflow'? [-Werror,-Wunknown-warning-option]
+   error: unknown warning option '-Wformat-truncation' [-Werror,-Wunknown-warning-option]
+   error: unknown warning option '-Wstringop-overflow'; did you mean '-Wshift-overflow'? [-Werror,-Wunknown-warning-option]
+   make[2]: *** [scripts/Makefile.build:252: scripts/mod/empty.o] Error 1
+   error: unknown warning option '-Wrestrict' [-Werror,-Wunknown-warning-option]
+   error: unknown warning option '-Wformat-overflow'; did you mean '-Wshift-overflow'? [-Werror,-Wunknown-warning-option]
+   error: unknown warning option '-Wformat-truncation' [-Werror,-Wunknown-warning-option]
+   error: unknown warning option '-Wstringop-overflow'; did you mean '-Wshift-overflow'? [-Werror,-Wunknown-warning-option]
+   make[2]: *** [scripts/Makefile.build:114: scripts/mod/devicetable-offsets.s] Error 1
+   make[2]: Target 'scripts/mod/' not remade because of errors.
+   make[1]: *** [Makefile:1286: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:226: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
