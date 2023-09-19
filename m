@@ -1,90 +1,151 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54EDC328A4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 07:32:46 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CD8DB1BF20A;
-	Tue, 19 Sep 2023 07:32:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1695108765;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8vxL7pYoQxk9FSR+fqgg0+sjwi0fCCi1XB+3HlChxV0=;
-	b=JdVtLK+5cLlScXDozenIb4lPgdx148FNLNOG2Id4iyo8764/hRSHNTyWm9YCign9VGEF29
-	+PIsNUj4O4I1goIg6De/Mp7IfEBlyB6OyZWv7EcK4n3tdeqKogUi7nEzQDWLm/1iVjAHEw
-	dqS5cWOJO8mK7HegkfJzRSk5qwMcboWgk+gUnT6xa3FTN3ZrFlXmz/PbXbgAaB4WlxmVcd
-	iN8e4ZJUUcWuyTcUPgKCPwaSm90zDqmVy/dApyJL7UB/eTEKMUTPcmHOisLbo7o5Xo0Hn/
-	HCL0PBlMhj+lXCthHEpt+V0QwRydfS/0aKGHj3jyckjgJPMj+G2prERRcCKfHg==
-Date: Tue, 19 Sep 2023 09:32:43 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Alexander Aring <alex.aring@gmail.com>, Stefan Schmidt
- <stefan@datenfreihafen.org>, linux-wpan@vger.kernel.org,
- oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
- netdev@vger.kernel.org, David Girault <david.girault@qorvo.com>, Romuald
- Despres <romuald.despres@qorvo.com>, Frederic Blain
- <frederic.blain@qorvo.com>, Nicolas Schodet <nico@ni.fr.eu.org>, Guilhem
- Imberton <guilhem.imberton@qorvo.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH wpan-next v3 11/11] ieee802154: Give the user the
- association list
-Message-ID: <20230919093243.3e5f3429@xps-13>
-In-Reply-To: <202309191044.4ABvPP5X-lkp@intel.com>
-References: <20230918150809.275058-12-miquel.raynal@bootlin.com>
-	<202309191044.4ABvPP5X-lkp@intel.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20868A3B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 07:49:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695109751; x=1726645751;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DOwKPK2ZKm9AIg5bJUx80+sSzuoUpgRbbL5MT+RoMqY=;
+  b=UJR0fFqYGZeRXFE98vT7ms2zWDgsfzUr+qIMuYaxJtQ/HnUXUPoA82H7
+   UvBNnQ8UpVNgWkgePeXLEtXvLj5KP6Ms3kZSrL+VXYew/xbNkMiGnUD+E
+   troHbcme0Rvjb80Wdz89L9z3uQv17qwNd5pU7n00oGqvS33X3Jw0CdoFL
+   b+HbsfeAWQ5fL0WXi+0aeRrugLdktPax8FGFy378xBsxoRI5yCXohJTzE
+   Enqz4bBT1ndZMacbQLMNUlJLYKCMMFnD/E3TyucwPVvrevIlTg9FkzYoA
+   kx9xoSRTKZLq8PwX1Fh/O8SGch19nKbFYLlA1n/6ZC/2L8voX5oB7du8X
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="466207113"
+X-IronPort-AV: E=Sophos;i="6.02,158,1688454000"; 
+   d="scan'208";a="466207113"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 00:49:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="775449486"
+X-IronPort-AV: E=Sophos;i="6.02,158,1688454000"; 
+   d="scan'208";a="775449486"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 19 Sep 2023 00:49:05 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qiVTh-00074k-2W;
+	Tue, 19 Sep 2023 07:49:01 +0000
+Date: Tue, 19 Sep 2023 15:45:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tomer Maimon <tmaimon77@gmail.com>, peter.chen@kernel.org,
+	gregkh@linuxfoundation.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, xu.yang_2@nxp.com,
+	peng.fan@nxp.com, avifishman70@gmail.com, tali.perry1@gmail.com,
+	joel@jms.id.au, venture@google.com, yuenn@google.com,
+	benjaminfair@google.com, j.neuschaefer@gmx.net
+Cc: oe-kbuild-all@lists.linux.dev, openbmc@lists.ozlabs.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, Tomer Maimon <tmaimon77@gmail.com>
+Subject: Re: [PATCH v1 2/2] usb: chipidea: Add support for NPCM
+Message-ID: <202309191545.dZXS2Y2p-lkp@intel.com>
+References: <20230918165958.2659-3-tmaimon77@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230918165958.2659-3-tmaimon77@gmail.com>
 
-Hello,
+Hi Tomer,
 
->    net/ieee802154/nl802154.c: In function 'nl802154_list_associations':
-> >> net/ieee802154/nl802154.c:1778:15: error: implicit declaration of func=
-tion 'nl802154_prepare_wpan_dev_dump' [-Werror=3Dimplicit-function-declarat=
-ion] =20
->     1778 |         err =3D nl802154_prepare_wpan_dev_dump(skb, cb, &rdev,=
- &wpan_dev);
->          |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >> net/ieee802154/nl802154.c:1811:9: error: implicit declaration of funct=
-ion 'nl802154_finish_wpan_dev_dump' [-Werror=3Dimplicit-function-declaratio=
-n] =20
->     1811 |         nl802154_finish_wpan_dev_dump(rdev);
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    cc1: some warnings being treated as errors
->=20
->=20
-> vim +/nl802154_prepare_wpan_dev_dump +1778 net/ieee802154/nl802154.c
->=20
->   1769=09
->   1770	static int nl802154_list_associations(struct sk_buff *skb,
->   1771					      struct netlink_callback *cb)
->   1772	{
->   1773		struct cfg802154_registered_device *rdev;
->   1774		struct ieee802154_pan_device *child;
->   1775		struct wpan_dev *wpan_dev;
->   1776		int err;
->   1777=09
-> > 1778		err =3D nl802154_prepare_wpan_dev_dump(skb, cb, &rdev, &wpan_dev)=
-; =20
+kernel test robot noticed the following build errors:
 
-[...]
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.6-rc2 next-20230918]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> > 1811		nl802154_finish_wpan_dev_dump(rdev); =20
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomer-Maimon/dt-binding-usb-ci-hdrc-usb2-document-Nuvoton-NPCM-supprt/20230919-010147
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20230918165958.2659-3-tmaimon77%40gmail.com
+patch subject: [PATCH v1 2/2] usb: chipidea: Add support for NPCM
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230919/202309191545.dZXS2Y2p-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309191545.dZXS2Y2p-lkp@intel.com/reproduce)
 
-These two are defined within #ifdef EXPERIMENTAL. I will move them out
-as I need them as well inthe !EXPERIMENTAL case. Good that kernel test
-robot eventually catch that.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309191545.dZXS2Y2p-lkp@intel.com/
 
-Thanks,
-Miqu=C3=A8l
+All errors (new ones prefixed by >>):
+
+   drivers/usb/chipidea/ci_hdrc_npcm.c: In function 'npcm_udc_probe':
+>> drivers/usb/chipidea/ci_hdrc_npcm.c:68:17: error: 'CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS' undeclared (first use in this function)
+      68 |                 CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/chipidea/ci_hdrc_npcm.c:68:17: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS +68 drivers/usb/chipidea/ci_hdrc_npcm.c
+
+    39	
+    40	static int npcm_udc_probe(struct platform_device *pdev)
+    41	{
+    42		int ret;
+    43		unsigned int args[3];
+    44		struct regmap *gcr_regmap;
+    45		struct npcm_udc_data *ci;
+    46		struct platform_device *plat_ci;
+    47		struct device *dev = &pdev->dev;
+    48		struct device_node *np = dev->of_node;
+    49	
+    50		ci = devm_kzalloc(&pdev->dev, sizeof(*ci), GFP_KERNEL);
+    51		if (!ci)
+    52			return -ENOMEM;
+    53		platform_set_drvdata(pdev, ci);
+    54	
+    55		ci->core_clk = devm_clk_get_optional(dev, NULL);
+    56		if (IS_ERR(ci->core_clk))
+    57			return PTR_ERR(ci->core_clk);
+    58	
+    59		ret = clk_prepare_enable(ci->core_clk);
+    60		if (ret) {
+    61			dev_err(dev, "failed to enable the clock: %d\n", ret);
+    62			return ret;
+    63		}
+    64	
+    65		ci->pdata.name = dev_name(dev);
+    66		ci->pdata.capoffset = DEF_CAPOFFSET;
+    67		ci->pdata.flags	= CI_HDRC_REQUIRES_ALIGNED_DMA |
+  > 68			CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS;
+    69		ci->pdata.phy_mode = USBPHY_INTERFACE_MODE_UTMI;
+    70		ci->pdata.notify_event = npcm_udc_notify_event;
+    71	
+    72		gcr_regmap = syscon_regmap_lookup_by_phandle_args(np, "nuvoton,sysgcr",
+    73								  3, args);
+    74		if (!IS_ERR(gcr_regmap))
+    75			regmap_update_bits(gcr_regmap, args[0], args[1], args[2]);
+    76	
+    77		plat_ci = ci_hdrc_add_device(dev, pdev->resource, pdev->num_resources,
+    78					     &ci->pdata);
+    79		if (IS_ERR(plat_ci)) {
+    80			ret = PTR_ERR(plat_ci);
+    81			dev_err(dev, "failed to register HDRC NPCM device: %d\n", ret);
+    82			goto clk_err;
+    83		}
+    84	
+    85		pm_runtime_no_callbacks(dev);
+    86		pm_runtime_enable(dev);
+    87	
+    88		return 0;
+    89	
+    90	clk_err:
+    91		clk_disable_unprepare(ci->core_clk);
+    92		return ret;
+    93	}
+    94	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
