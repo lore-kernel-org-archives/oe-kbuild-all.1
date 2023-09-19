@@ -1,45 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60EC434CC3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 04:02:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16825F509;
+	Tue, 19 Sep 2023 04:13:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695096154; x=1726632154;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QZtJ169XLNB/hgirj4TxxTNmDKW2Zzz320oct2Pelaw=;
-  b=C11TCeMJPY5nF5bSqG7RhERBEq391TJ+QTjckNRYtWPofLWrxRunWNUl
-   kTEmklRoUDQ0gsJo6rIwlUw7b7DP7TPdqB3iDQRGk+0JIbCYYVjtnzmyW
-   61LoiQTwOO1fpMk3cw3rmAlX9rugaVauF0Hxlu3/SUFmH29PoOqpsgePp
-   cHzDR6HiVSkfjhPLp8AjOnUekXuC7QLRqBKqiWArOAMQ7M5Xsdr3QTtJ3
-   C0GUHhkkVNPEsajMWRITO0ojxdDguoM70frwRqKit5qQ1r97JtGFD+adC
-   238lGxiBElMz7ZjAzHbTnT7MDd6DFMeUommD4+M+qb4nS+mAbZ2yt/7Qh
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="446319634"
+  t=1695096823; x=1726632823;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WZJ0m+dc8R+eXloEKls21l6T5masyhw2d6iFcNL6/2s=;
+  b=N4mu7T8Tlv4aPSIfiNNsANmDrg1IKF/8n2YDfePjnMh1aYB05h0noR2/
+   hkRQ+eQZj3n2/8RsiRcwpkN8ZMOxhJb7oFHxRhaaZWlzHNF5g/CUiLF8D
+   Kual3FOFzfzKqdyr0S7voIqZlCnwu0/BqLsFdekAxozriRnFhIokA4SoZ
+   6cnMxwFk4AQ07+uHLBtZ9b6oc1JzeHn3gnHfHw4Y21eaw3h7sVICsJSbi
+   t7iRDo1Dn360ytpNt2qsdtBoilJzM1fjQ/7gYTxT9DwExnyUPEoPf6y9/
+   PSy5MS7Z/vSrAgZdl0sYQxiia7GstiPvzt2piLnR2zLGF3QONsHOsR119
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="379750815"
 X-IronPort-AV: E=Sophos;i="6.02,158,1688454000"; 
-   d="scan'208";a="446319634"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 21:02:33 -0700
+   d="scan'208";a="379750815"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 21:13:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="722713301"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="739505968"
 X-IronPort-AV: E=Sophos;i="6.02,158,1688454000"; 
-   d="scan'208";a="722713301"
+   d="scan'208";a="739505968"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 18 Sep 2023 21:02:32 -0700
+  by orsmga007.jf.intel.com with ESMTP; 18 Sep 2023 21:13:39 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qiRwT-0006sE-2z;
-	Tue, 19 Sep 2023 04:02:29 +0000
-Date: Tue, 19 Sep 2023 12:02:17 +0800
+	id 1qiS7F-0006se-0z;
+	Tue, 19 Sep 2023 04:13:37 +0000
+Date: Tue, 19 Sep 2023 12:12:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Baoquan He <bhe@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Zhen Lei <thunder.leizhen@huawei.com>
-Subject: [linux-next:master 5741/5912] kernel/crash_core.c:214:13: warning:
- argument 2 null where non-null expected
-Message-ID: <202309191144.B0MToaPG-lkp@intel.com>
+To: Tyrel Datwyler <tyreld@linux.ibm.com>, martin.petersen@oracle.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-scsi@vger.kernel.org, brking@linux.ibm.com,
+	james.bottomley@hansenpartnership.com,
+	Tyrel Datwyler <tyreld@linux.ibm.com>,
+	Brian King <brking@linux.vnet.ibm.com>
+Subject: Re: [PATCH 02/11] ibmvfc: implement channel queue depth and event
+ buffer accounting
+Message-ID: <202309191225.q759yNtz-lkp@intel.com>
+References: <20230913230457.2575849-3-tyreld@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,92 +51,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230913230457.2575849-3-tyreld@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7fc7222d9680366edeecc219c21ca96310bdbc10
-commit: 5c322f6aad10f0920f842a4ccf82e9b9f351c0a5 [5741/5912] crash_core.c: remove unneeded functions
-config: s390-buildonly-randconfig-r006-20220512 (https://download.01.org/0day-ci/archive/20230919/202309191144.B0MToaPG-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309191144.B0MToaPG-lkp@intel.com/reproduce)
+Hi Tyrel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.6-rc2 next-20230918]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tyrel-Datwyler/ibmvfc-remove-BUG_ON-in-the-case-of-an-empty-event-pool/20230914-085530
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230913230457.2575849-3-tyreld%40linux.ibm.com
+patch subject: [PATCH 02/11] ibmvfc: implement channel queue depth and event buffer accounting
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230919/202309191225.q759yNtz-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309191225.q759yNtz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309191144.B0MToaPG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309191225.q759yNtz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/s390/include/asm/atomic.h:12,
-                    from include/linux/atomic.h:7,
-                    from include/linux/mm_types_task.h:13,
-                    from include/linux/mm_types.h:5,
-                    from include/linux/buildid.h:5,
-                    from kernel/crash_core.c:7:
-   kernel/crash_core.c: In function 'parse_crashkernel_suffix.constprop':
->> kernel/crash_core.c:214:13: warning: argument 2 null where non-null expected [-Wnonnull]
-     214 |         if (strncmp(cur, suffix, strlen(suffix))) {
-   include/linux/compiler.h:68:10: note: in definition of macro '__trace_if_value'
-      68 |         (cond) ?                                        \
-         |          ^~~~
-   include/linux/compiler.h:55:28: note: in expansion of macro '__trace_if_var'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                            ^~~~~~~~~~~~~~
-   kernel/crash_core.c:214:9: note: in expansion of macro 'if'
-     214 |         if (strncmp(cur, suffix, strlen(suffix))) {
-         |         ^~
-   In file included from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/mm_types_task.h:14,
-                    from include/linux/mm_types.h:5,
-                    from include/linux/buildid.h:5,
-                    from kernel/crash_core.c:7:
-   include/linux/string.h:51:12: note: in a call to function 'strncmp' declared 'nonnull'
-      51 | extern int strncmp(const char *,const char *,__kernel_size_t);
-         |            ^~~~~~~
+>> drivers/scsi/ibmvscsi/ibmvfc.c:789: warning: Excess function parameter 'size' description in 'ibmvfc_init_event_pool'
+>> drivers/scsi/ibmvscsi/ibmvfc.c:1534: warning: Function parameter or member 'reserved' not described in '__ibmvfc_get_event'
+>> drivers/scsi/ibmvscsi/ibmvfc.c:1534: warning: expecting prototype for ibmvfc_get_event(). Prototype was for __ibmvfc_get_event() instead
 
 
-vim +214 kernel/crash_core.c
+vim +789 drivers/scsi/ibmvscsi/ibmvfc.c
 
-692f66f26a4c19 Hari Bathini 2017-05-08  193  
-692f66f26a4c19 Hari Bathini 2017-05-08  194  /*
-692f66f26a4c19 Hari Bathini 2017-05-08  195   * That function parses "suffix"  crashkernel command lines like
-692f66f26a4c19 Hari Bathini 2017-05-08  196   *
-692f66f26a4c19 Hari Bathini 2017-05-08  197   *	crashkernel=size,[high|low]
-692f66f26a4c19 Hari Bathini 2017-05-08  198   *
-692f66f26a4c19 Hari Bathini 2017-05-08  199   * It returns 0 on success and -EINVAL on failure.
-692f66f26a4c19 Hari Bathini 2017-05-08  200   */
-692f66f26a4c19 Hari Bathini 2017-05-08  201  static int __init parse_crashkernel_suffix(char *cmdline,
-692f66f26a4c19 Hari Bathini 2017-05-08  202  					   unsigned long long	*crash_size,
-692f66f26a4c19 Hari Bathini 2017-05-08  203  					   const char *suffix)
-692f66f26a4c19 Hari Bathini 2017-05-08  204  {
-692f66f26a4c19 Hari Bathini 2017-05-08  205  	char *cur = cmdline;
-692f66f26a4c19 Hari Bathini 2017-05-08  206  
-692f66f26a4c19 Hari Bathini 2017-05-08  207  	*crash_size = memparse(cmdline, &cur);
-692f66f26a4c19 Hari Bathini 2017-05-08  208  	if (cmdline == cur) {
-692f66f26a4c19 Hari Bathini 2017-05-08  209  		pr_warn("crashkernel: memory value expected\n");
-692f66f26a4c19 Hari Bathini 2017-05-08  210  		return -EINVAL;
-692f66f26a4c19 Hari Bathini 2017-05-08  211  	}
-692f66f26a4c19 Hari Bathini 2017-05-08  212  
-692f66f26a4c19 Hari Bathini 2017-05-08  213  	/* check with suffix */
-692f66f26a4c19 Hari Bathini 2017-05-08 @214  	if (strncmp(cur, suffix, strlen(suffix))) {
-692f66f26a4c19 Hari Bathini 2017-05-08  215  		pr_warn("crashkernel: unrecognized char: %c\n", *cur);
-692f66f26a4c19 Hari Bathini 2017-05-08  216  		return -EINVAL;
-692f66f26a4c19 Hari Bathini 2017-05-08  217  	}
-692f66f26a4c19 Hari Bathini 2017-05-08  218  	cur += strlen(suffix);
-692f66f26a4c19 Hari Bathini 2017-05-08  219  	if (*cur != ' ' && *cur != '\0') {
-692f66f26a4c19 Hari Bathini 2017-05-08  220  		pr_warn("crashkernel: unrecognized char: %c\n", *cur);
-692f66f26a4c19 Hari Bathini 2017-05-08  221  		return -EINVAL;
-692f66f26a4c19 Hari Bathini 2017-05-08  222  	}
-692f66f26a4c19 Hari Bathini 2017-05-08  223  
-692f66f26a4c19 Hari Bathini 2017-05-08  224  	return 0;
-692f66f26a4c19 Hari Bathini 2017-05-08  225  }
-692f66f26a4c19 Hari Bathini 2017-05-08  226  
-
-:::::: The code at line 214 was first introduced by commit
-:::::: 692f66f26a4c19d73249736aa973c13a1521b387 crash: move crashkernel parsing and vmcore related code under CONFIG_CRASH_CORE
-
-:::::: TO: Hari Bathini <hbathini@linux.vnet.ibm.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+072b91f9c6510d Brian King     2008-07-01  778  
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  779  /**
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  780   * ibmvfc_init_event_pool - Allocates and initializes the event pool for a host
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  781   * @vhost:	ibmvfc host who owns the event pool
+dd9c772971485d Lee Jones      2021-03-17  782   * @queue:      ibmvfc queue struct
+dd9c772971485d Lee Jones      2021-03-17  783   * @size:       pool size
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  784   *
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  785   * Returns zero on success.
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  786   **/
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  787  static int ibmvfc_init_event_pool(struct ibmvfc_host *vhost,
+a7ed558d0b9030 Tyrel Datwyler 2023-09-13  788  				  struct ibmvfc_queue *queue)
+225acf5f1aba3b Tyrel Datwyler 2021-01-14 @789  {
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  790  	int i;
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  791  	struct ibmvfc_event_pool *pool = &queue->evt_pool;
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  792  
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  793  	ENTER;
+a7ed558d0b9030 Tyrel Datwyler 2023-09-13  794  	if (!queue->total_depth)
+bb35ecb2a949d9 Tyrel Datwyler 2021-01-14  795  		return 0;
+bb35ecb2a949d9 Tyrel Datwyler 2021-01-14  796  
+a7ed558d0b9030 Tyrel Datwyler 2023-09-13  797  	pool->size = queue->total_depth;
+a7ed558d0b9030 Tyrel Datwyler 2023-09-13  798  	pool->events = kcalloc(pool->size, sizeof(*pool->events), GFP_KERNEL);
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  799  	if (!pool->events)
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  800  		return -ENOMEM;
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  801  
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  802  	pool->iu_storage = dma_alloc_coherent(vhost->dev,
+a7ed558d0b9030 Tyrel Datwyler 2023-09-13  803  					      pool->size * sizeof(*pool->iu_storage),
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  804  					      &pool->iu_token, 0);
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  805  
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  806  	if (!pool->iu_storage) {
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  807  		kfree(pool->events);
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  808  		return -ENOMEM;
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  809  	}
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  810  
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  811  	INIT_LIST_HEAD(&queue->sent);
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  812  	INIT_LIST_HEAD(&queue->free);
+a7ed558d0b9030 Tyrel Datwyler 2023-09-13  813  	queue->evt_free = queue->evt_depth;
+a7ed558d0b9030 Tyrel Datwyler 2023-09-13  814  	queue->reserved_free = queue->reserved_depth;
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  815  	spin_lock_init(&queue->l_lock);
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  816  
+a7ed558d0b9030 Tyrel Datwyler 2023-09-13  817  	for (i = 0; i < pool->size; ++i) {
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  818  		struct ibmvfc_event *evt = &pool->events[i];
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  819  
+a264cf5e81c78e Tyrel Datwyler 2021-07-16  820  		/*
+a264cf5e81c78e Tyrel Datwyler 2021-07-16  821  		 * evt->active states
+a264cf5e81c78e Tyrel Datwyler 2021-07-16  822  		 *  1 = in flight
+a264cf5e81c78e Tyrel Datwyler 2021-07-16  823  		 *  0 = being completed
+a264cf5e81c78e Tyrel Datwyler 2021-07-16  824  		 * -1 = free/freed
+a264cf5e81c78e Tyrel Datwyler 2021-07-16  825  		 */
+a264cf5e81c78e Tyrel Datwyler 2021-07-16  826  		atomic_set(&evt->active, -1);
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  827  		atomic_set(&evt->free, 1);
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  828  		evt->crq.valid = 0x80;
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  829  		evt->crq.ioba = cpu_to_be64(pool->iu_token + (sizeof(*evt->xfer_iu) * i));
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  830  		evt->xfer_iu = pool->iu_storage + i;
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  831  		evt->vhost = vhost;
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  832  		evt->queue = queue;
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  833  		evt->ext_list = NULL;
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  834  		list_add_tail(&evt->queue_list, &queue->free);
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  835  	}
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  836  
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  837  	LEAVE;
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  838  	return 0;
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  839  }
+225acf5f1aba3b Tyrel Datwyler 2021-01-14  840  
 
 -- 
 0-DAY CI Kernel Test Service
