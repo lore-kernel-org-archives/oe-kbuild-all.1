@@ -1,45 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DA1347B2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 17:27:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C150347B2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 17:27:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695144425; x=1726680425;
+  t=1695144427; x=1726680427;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=JYtHS6/pwErt9eMHkWOA4Rpq7zWdXU9JPzjptQ4Zl+o=;
-  b=CqGK8dWAOhgh2OgngDq9n41xTB5vcvDHdbfJV3LaB5eV/MQ08ivVPhEb
-   u7WrsbXxj0+Yq2zHtCvnBGFfl3RFNZXqSby2DN1MOBc8KO7PFxgn2kGee
-   5P7ZBQZyEgup007AXN81Nu8d4CMeeCgr2KACrhLf8VqGZqJftMkfz6O1+
-   5oYmRKFyPKls0q6aoBU0F/l6VTLyNhRjuNRMV7dZcBri1UkLrH7+r4EOJ
-   dkpguz9Hz7pvt6qDTnEZC9OEoq78APCLN6hWZo7qoUm2hbfiHAr70TwgZ
-   KZoPKLqH2vgAtMmuyzoNxjKiStnNkaPYEzuIFbNtqHYv55q9b21FFbZU7
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="410936042"
+  bh=/GfKecIDbouGTE7n4315amFnYOI3c0tRqeNu43t9cFw=;
+  b=kdHr+Z5lECr23t2F8+Yul/Ror5ZgJV6yODqqTGOswpt1OdEGubuoPJLJ
+   SRCa15YdqsGAlZTvm78qS7RhJVu/myzdIbZtEjJJTP8c+gfzQk/hWG0jr
+   0zCm65xz3+pkTYQfji6Oeez3VbSwcIP2S0GoJWZ8TYyeipPEmTLg+Dtey
+   mJPV6k6d6sjT5YPEG9XX3vhHFp3sHFGzID63YWR+4mJtAODbJL32w1mmQ
+   nGK10GArcyFf3O4BV8h03QrK08FxurDair6q4O+5x7t1XQ91MbEsK/eNH
+   /Q01Z6pbE2VGXBHxGHf8vaCeJbfTdVRQC8Hnv1/gwe5QbCk+9HYNhNkeo
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="410936064"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="410936042"
+   d="scan'208";a="410936064"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 10:27:02 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 10:27:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="746316071"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="746316089"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="746316071"
+   d="scan'208";a="746316089"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
   by orsmga002.jf.intel.com with ESMTP; 19 Sep 2023 10:27:00 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qieV0-0007jo-0c;
+	id 1qieV0-0007jz-15;
 	Tue, 19 Sep 2023 17:26:58 +0000
-Date: Wed, 20 Sep 2023 01:26:27 +0800
+Date: Wed, 20 Sep 2023 01:26:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dan Raymond <draymond@foxvalley.net>, linux-kernel@vger.kernel.org,
-	x86@kernel.org, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v1] arch/x86: port I/O tracing on x86
-Message-ID: <202309200143.Me2RTikv-lkp@intel.com>
-References: <14c27df7-12a3-e432-a741-17672185c092@foxvalley.net>
+To: Krishna Kurapati <quic_kriskura@quicinc.com>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Felipe Balbi <balbi@kernel.org>,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
+	Johan Hovold <johan@kernel.org>,
+	Mathias Nyman <mathias.nyman@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, quic_pkondeti@quicinc.com,
+	quic_ppratap@quicinc.com, quic_jackp@quicinc.com,
+	ahalaney@redhat.com, quic_shazhuss@quicinc.com,
+	Harsh Agarwal <quic_harshq@quicinc.com>,
+	Krishna Kurapati <quic_kriskura@quicinc.com>
+Subject: Re: [PATCH v11 06/13] usb: dwc3: core: Refactor PHY logic to support
+ Multiport Controller
+Message-ID: <202309200156.CxQ3yaLY-lkp@intel.com>
+References: <20230828133033.11988-7-quic_kriskura@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,48 +65,125 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <14c27df7-12a3-e432-a741-17672185c092@foxvalley.net>
+In-Reply-To: <20230828133033.11988-7-quic_kriskura@quicinc.com>
 
-Hi Dan,
+Hi Krishna,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on be8b93b5cc7d533eb8c9b0590cdac055ecafe13a]
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus robh/for-next pza/reset/next linus/master v6.6-rc2 next-20230919]
+[cannot apply to pza/imx-drm/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Raymond/arch-x86-port-I-O-tracing-on-x86/20230919-015640
-base:   be8b93b5cc7d533eb8c9b0590cdac055ecafe13a
-patch link:    https://lore.kernel.org/r/14c27df7-12a3-e432-a741-17672185c092%40foxvalley.net
-patch subject: [PATCH v1] arch/x86: port I/O tracing on x86
-config: x86_64-buildonly-randconfig-001-20230919 (https://download.01.org/0day-ci/archive/20230920/202309200143.Me2RTikv-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200143.Me2RTikv-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Kurapati/dt-bindings-usb-qcom-dwc3-Add-bindings-for-SC8280-Multiport/20230828-214326
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20230828133033.11988-7-quic_kriskura%40quicinc.com
+patch subject: [PATCH v11 06/13] usb: dwc3: core: Refactor PHY logic to support Multiport Controller
+config: x86_64-randconfig-011-20230902 (https://download.01.org/0day-ci/archive/20230920/202309200156.CxQ3yaLY-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200156.CxQ3yaLY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309200143.Me2RTikv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309200156.CxQ3yaLY-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/lib/trace_portio.c:6:6: warning: no previous prototype for 'do_trace_portio_read' [-Wmissing-prototypes]
-       6 | void do_trace_portio_read(u32 value, u16 port, char width, long ip_addr)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> arch/x86/lib/trace_portio.c:13:6: warning: no previous prototype for 'do_trace_portio_write' [-Wmissing-prototypes]
-      13 | void do_trace_portio_write(u32 value, u16 port, char width, long ip_addr)
-         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc3/core.c: In function 'dwc3_core_get_phy':
+>> drivers/usb/dwc3/core.c:1375:53: warning: '%d' directive writing between 1 and 3 bytes into a region of size 2 [-Wformat-overflow=]
+    1375 |                         sprintf(phy_name, "usb2-port%d", i);
+         |                                                     ^~
+   drivers/usb/dwc3/core.c:1375:43: note: directive argument in the range [0, 254]
+    1375 |                         sprintf(phy_name, "usb2-port%d", i);
+         |                                           ^~~~~~~~~~~~~
+   drivers/usb/dwc3/core.c:1375:25: note: 'sprintf' output between 11 and 13 bytes into a destination of size 11
+    1375 |                         sprintf(phy_name, "usb2-port%d", i);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc3/core.c:1390:53: warning: '%d' directive writing between 1 and 3 bytes into a region of size 2 [-Wformat-overflow=]
+    1390 |                         sprintf(phy_name, "usb3-port%d", i);
+         |                                                     ^~
+   drivers/usb/dwc3/core.c:1390:43: note: directive argument in the range [0, 254]
+    1390 |                         sprintf(phy_name, "usb3-port%d", i);
+         |                                           ^~~~~~~~~~~~~
+   drivers/usb/dwc3/core.c:1390:25: note: 'sprintf' output between 11 and 13 bytes into a destination of size 11
+    1390 |                         sprintf(phy_name, "usb3-port%d", i);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/do_trace_portio_read +6 arch/x86/lib/trace_portio.c
+vim +1375 drivers/usb/dwc3/core.c
 
-     5	
-   > 6	void do_trace_portio_read(u32 value, u16 port, char width, long ip_addr)
-     7	{
-     8		trace_portio_read(value, port, width, ip_addr);
-     9	}
-    10	EXPORT_SYMBOL_GPL(do_trace_portio_read);
-    11	EXPORT_TRACEPOINT_SYMBOL_GPL(portio_read);
-    12	
-  > 13	void do_trace_portio_write(u32 value, u16 port, char width, long ip_addr)
+  1338	
+  1339	static int dwc3_core_get_phy(struct dwc3 *dwc)
+  1340	{
+  1341		struct device		*dev = dwc->dev;
+  1342		struct device_node	*node = dev->of_node;
+  1343		char phy_name[11];
+  1344		int ret;
+  1345		int i;
+  1346	
+  1347		if (node) {
+  1348			dwc->usb2_phy = devm_usb_get_phy_by_phandle(dev, "usb-phy", 0);
+  1349			dwc->usb3_phy = devm_usb_get_phy_by_phandle(dev, "usb-phy", 1);
+  1350		} else {
+  1351			dwc->usb2_phy = devm_usb_get_phy(dev, USB_PHY_TYPE_USB2);
+  1352			dwc->usb3_phy = devm_usb_get_phy(dev, USB_PHY_TYPE_USB3);
+  1353		}
+  1354	
+  1355		if (IS_ERR(dwc->usb2_phy)) {
+  1356			ret = PTR_ERR(dwc->usb2_phy);
+  1357			if (ret == -ENXIO || ret == -ENODEV)
+  1358				dwc->usb2_phy = NULL;
+  1359			else
+  1360				return dev_err_probe(dev, ret, "no usb2 phy configured\n");
+  1361		}
+  1362	
+  1363		if (IS_ERR(dwc->usb3_phy)) {
+  1364			ret = PTR_ERR(dwc->usb3_phy);
+  1365			if (ret == -ENXIO || ret == -ENODEV)
+  1366				dwc->usb3_phy = NULL;
+  1367			else
+  1368				return dev_err_probe(dev, ret, "no usb3 phy configured\n");
+  1369		}
+  1370	
+  1371		for (i = 0; i < dwc->num_usb2_ports; i++) {
+  1372			if (dwc->num_usb2_ports == 1)
+  1373				sprintf(phy_name, "usb2-phy");
+  1374			else
+> 1375				sprintf(phy_name, "usb2-port%d", i);
+  1376	
+  1377			dwc->usb2_generic_phy[i] = devm_phy_get(dev, phy_name);
+  1378			if (IS_ERR(dwc->usb2_generic_phy[i])) {
+  1379				ret = PTR_ERR(dwc->usb2_generic_phy[i]);
+  1380				if (ret == -ENOSYS || ret == -ENODEV)
+  1381					dwc->usb2_generic_phy[i] = NULL;
+  1382				else
+  1383					return dev_err_probe(dev, ret,
+  1384						"failed to lookup phy %s\n", phy_name);
+  1385			}
+  1386	
+  1387			if (dwc->num_usb2_ports == 1)
+  1388				sprintf(phy_name, "usb3-phy");
+  1389			else
+  1390				sprintf(phy_name, "usb3-port%d", i);
+  1391	
+  1392			dwc->usb3_generic_phy[i] = devm_phy_get(dev, phy_name);
+  1393			if (IS_ERR(dwc->usb3_generic_phy[i])) {
+  1394				ret = PTR_ERR(dwc->usb3_generic_phy[i]);
+  1395				if (ret == -ENOSYS || ret == -ENODEV)
+  1396					dwc->usb3_generic_phy[i] = NULL;
+  1397				else
+  1398					return dev_err_probe(dev, ret,
+  1399						"failed to lookup phy %s\n", phy_name);
+  1400			}
+  1401		}
+  1402	
+  1403		return 0;
+  1404	}
+  1405	
 
 -- 
 0-DAY CI Kernel Test Service
