@@ -1,48 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDF027718
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 18:19:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D4F30F8F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 18:30:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695147547; x=1726683547;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3FR81ZkNHRdK+lOnUeVZcaHcl/uafUM0C3FgoIlRkag=;
-  b=eEwN37URhJazXMyXHG7P3xtqnhoTt4g//e+Hk0MCMyYTq6uD4Ao0hOEe
-   HDH3ttZt40pJjFrFqygu1lKGc/t9yHBHT41TY0IRBNmZsvSf8HoJGUU7u
-   nbux+nl9hlZ1V4Kn8hmB+cZEBb43de1FS2vGBLvjRgu7efgK4skQMq+iq
-   8m463CMMWmkULRFGYigVmMUmsMdXD3WFhWFz5me7QU+TsmiTXN5XN3+Ql
-   QiFrj7UQ3AcrtAUw8ObO7GbBiJk+L7vgkSilacXF/cT6xqp0ZWkPrmzf0
-   qmWvLbN1UQ360Ns/bjhPtmY+zt66Tj9IdkbTjZo6RNrBR+DgTzjfNNrsN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="378909638"
+  t=1695148206; x=1726684206;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=50GNO5IvhfVjwdd6weH5GDYS7RNPqTEiLwbvd0qpxVU=;
+  b=U9uNZF45L/+ehsTLD8BtVVPUUB9PVHbQiXy/jzgYmIegfpcRLqLEf51U
+   jFZv08CW5zCjP2s5xeYG6nxMrH+W1I+NpO7xT0NpFXxA7ivN06gX8iTKo
+   9PN1XGNtDZEGed6+av+h9EqYVS5C/bWDhhjE/TdXOatPWAuKpaHewNoB7
+   HGq0OWlG+j9tEouXj4/rMohYlHjCa126evtjxPuiWJQTGSBYu+UZRuM5K
+   YktQlSxUhUaZ00PeHNo7aZPH2mGovrhj2cvIau97fSMaO5lfRDth4Pq5U
+   ruz5gb3JBotXdlx+UaLOnAuUAqzjpaGo+SHM3iKbhL0j39r0Go5+XtGYC
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="446493178"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="378909638"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 11:19:06 -0700
+   d="scan'208";a="446493178"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 11:30:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="722966010"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="749594506"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="722966010"
+   d="scan'208";a="749594506"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 19 Sep 2023 11:19:03 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 19 Sep 2023 11:30:04 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qifJN-0007n9-1e;
-	Tue, 19 Sep 2023 18:19:01 +0000
-Date: Wed, 20 Sep 2023 02:18:56 +0800
+	id 1qifU2-0007ni-0X;
+	Tue, 19 Sep 2023 18:30:02 +0000
+Date: Wed, 20 Sep 2023 02:29:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stefan Binding <sbinding@opensource.cirrus.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
-	Vitaly Rodionov <vitalyr@opensource.cirrus.com>,
-	Stefan Binding <sbinding@opensource.cirrus.com>
-Subject: Re: [PATCH v3 1/2] ALSA: hda: cs35l41: Support mute notifications
- for CS35L41 HDA
-Message-ID: <202309200216.1V4V854z-lkp@intel.com>
-References: <20230919142240.467682-2-sbinding@opensource.cirrus.com>
+To: Katta Dhanunjanrao <katta.dhanunjanrao@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 1216/1363]
+ drivers/staging/xlnx_hdcp1x/xilinx-hdcp1x-cipher.c:812: warning: Function
+ parameter or member 'bx' not described in 'xhdcp1x_cipher_setb'
+Message-ID: <202309200212.AZDbCXZz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,69 +47,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230919142240.467682-2-sbinding@opensource.cirrus.com>
 
-Hi Stefan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20230919]
-[cannot apply to tiwai-sound/for-next tiwai-sound/for-linus v6.6-rc2 v6.6-rc1 v6.5 linus/master v6.6-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Binding/ALSA-hda-cs35l41-Support-mute-notifications-for-CS35L41-HDA/20230920-005359
-base:   next-20230919
-patch link:    https://lore.kernel.org/r/20230919142240.467682-2-sbinding%40opensource.cirrus.com
-patch subject: [PATCH v3 1/2] ALSA: hda: cs35l41: Support mute notifications for CS35L41 HDA
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230920/202309200216.1V4V854z-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200216.1V4V854z-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
+head:   4f412ed20fd2c5353c1e878ef9ed77952a5040a1
+commit: e6f04926dcd85fb353928a9c899a54e023bf4e69 [1216/1363] staging: xlnx_hdcp1x: Add HDCP1x cipher common functionality
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230920/202309200212.AZDbCXZz-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200212.AZDbCXZz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309200216.1V4V854z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309200212.AZDbCXZz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   sound/pci/hda/patch_realtek.c: In function 'comp_acpi_device_notify':
-   sound/pci/hda/patch_realtek.c:6718:52: error: implicit declaration of function 'acpi_device_handle'; did you mean 'acpi_fwnode_handle'? [-Werror=implicit-function-declaration]
-    6718 |                         spec->comps[i].acpi_notify(acpi_device_handle(spec->comps[i].adev), event,
-         |                                                    ^~~~~~~~~~~~~~~~~~
-         |                                                    acpi_fwnode_handle
-   sound/pci/hda/patch_realtek.c:6718:52: warning: passing argument 1 of 'spec->comps[i].acpi_notify' makes pointer from integer without a cast [-Wint-conversion]
-    6718 |                         spec->comps[i].acpi_notify(acpi_device_handle(spec->comps[i].adev), event,
-         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                    |
-         |                                                    int
-   sound/pci/hda/patch_realtek.c:6718:52: note: expected 'acpi_handle' {aka 'void *'} but argument is of type 'int'
-   sound/pci/hda/patch_realtek.c: At top level:
->> sound/pci/hda/patch_realtek.c:6708:13: warning: 'comp_acpi_device_notify' defined but not used [-Wunused-function]
-    6708 | static void comp_acpi_device_notify(acpi_handle handle, u32 event, void *data)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/staging/xlnx_hdcp1x/xilinx-hdcp1x-cipher.c:812: warning: Function parameter or member 'bx' not described in 'xhdcp1x_cipher_setb'
+>> drivers/staging/xlnx_hdcp1x/xilinx-hdcp1x-cipher.c:812: warning: Function parameter or member 'by' not described in 'xhdcp1x_cipher_setb'
+>> drivers/staging/xlnx_hdcp1x/xilinx-hdcp1x-cipher.c:812: warning: Function parameter or member 'bz' not described in 'xhdcp1x_cipher_setb'
+>> drivers/staging/xlnx_hdcp1x/xilinx-hdcp1x-cipher.c:812: warning: Excess function parameter 'x' description in 'xhdcp1x_cipher_setb'
+>> drivers/staging/xlnx_hdcp1x/xilinx-hdcp1x-cipher.c:812: warning: Excess function parameter 'y' description in 'xhdcp1x_cipher_setb'
+>> drivers/staging/xlnx_hdcp1x/xilinx-hdcp1x-cipher.c:812: warning: Excess function parameter 'z' description in 'xhdcp1x_cipher_setb'
 
 
-vim +/comp_acpi_device_notify +6708 sound/pci/hda/patch_realtek.c
+vim +812 drivers/staging/xlnx_hdcp1x/xilinx-hdcp1x-cipher.c
 
-  6707	
-> 6708	static void comp_acpi_device_notify(acpi_handle handle, u32 event, void *data)
-  6709	{
-  6710		struct hda_codec *cdc = data;
-  6711		struct alc_spec *spec = cdc->spec;
-  6712		int i;
-  6713	
-  6714		codec_info(cdc, "ACPI Notification %d\n", event);
-  6715	
-  6716		for (i = 0; i < HDA_MAX_COMPONENTS; i++) {
-  6717			if (spec->comps[i].dev && spec->comps[i].acpi_notify)
-> 6718				spec->comps[i].acpi_notify(acpi_device_handle(spec->comps[i].adev), event,
-  6719							   spec->comps[i].dev);
-  6720		}
-  6721	}
-  6722	
+   799	
+   800	/**
+   801	 * xhdcp1x_cipher_setb - This function writes the contents of the B register in BM0.
+   802	 * @ref: reference to cipher instance
+   803	 * @x: is the value to be written to bx.
+   804	 * @y: is the value to be written to by.
+   805	 * @z: is the value to be written to bz.
+   806	 *
+   807	 * @return:
+   808	 *		- SUCCESS if successful.
+   809	 *		- NON_ZERO otherwise.
+   810	 */
+   811	int xhdcp1x_cipher_setb(void *ref, u32 bx, u32 by, u32 bz)
+ > 812	{
+   813		struct xhdcp1x_cipher *cipher = (struct xhdcp1x_cipher *)ref;
+   814		u32 value = 0;
+   815	
+   816		if (!(xhdcp1x_cipher_is_enabled(cipher)))
+   817			return -EINVAL;
+   818	
+   819		/* Clear the register update bit */
+   820		value = xhdcp1x_cipher_read(cipher, XHDCP1X_CIPHER_REG_CONTROL);
+   821		value &= ~XHDCP1X_CIPHER_BITMASK_CONTROL_UPDATE;
+   822		xhdcp1x_cipher_write(cipher, XHDCP1X_CIPHER_REG_CONTROL, value);
+   823	
+   824		/* Update the Bx */
+   825		value = (bx & XHDCP1X_CIPHER_SET_B);
+   826		xhdcp1x_cipher_write(cipher, XHDCP1X_CIPHER_REG_CIPHER_BX, value);
+   827	
+   828		/* Update the By */
+   829		value = (by & XHDCP1X_CIPHER_SET_B);
+   830		xhdcp1x_cipher_write(cipher, XHDCP1X_CIPHER_REG_CIPHER_BY, value);
+   831	
+   832		/* Update the Bz */
+   833		value = (bz & XHDCP1X_CIPHER_SET_B);
+   834		xhdcp1x_cipher_write(cipher, XHDCP1X_CIPHER_REG_CIPHER_BZ, value);
+   835	
+   836		/* Set the register update bit */
+   837		value = xhdcp1x_cipher_read(cipher, XHDCP1X_CIPHER_REG_CONTROL);
+   838		value |= XHDCP1X_CIPHER_BITMASK_CONTROL_UPDATE;
+   839		xhdcp1x_cipher_write(cipher, XHDCP1X_CIPHER_REG_CONTROL, value);
+   840	
+   841		return 0;
+   842	}
+   843	EXPORT_SYMBOL_GPL(xhdcp1x_cipher_setb);
+   844	
 
 -- 
 0-DAY CI Kernel Test Service
