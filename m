@@ -1,43 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C69333D5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 22:40:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9661BE4C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 22:51:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695163250; x=1726699250;
+  t=1695163873; x=1726699873;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+xnLVIUpcpTP2Z1lP020OrDQJPoWj0qXoGR4h8mQBg0=;
-  b=Lc26zG1Uc2Fv7nmFLTV7jbdUFtTjxBCDpoXzoHZawjCe+auqhKiE+3N3
-   pJ7+Th1yJ7FJJVCbJsZp10I0P4/Sg9c72MCEiraptMyfMCxDKMFX99FoM
-   3EhE3daU7Z7I336L+dlTWe+pp74rAcqYkU/sskrppZt0E/2OLnpASQC2C
-   oNyD9uyeDATdcs6Xq++gWU4XQnVQHW2B9VVpcaw0o3UoTdPnJhd5QVcYn
-   FXZ1CD1MMWvYF0G5HIlUDSiqzij7mnoURx938S9j1ntH3H8/D1HkVNCjp
-   qpLIx2Pb4mOugi05P9713GSFrqke72CFNxQTPrO8XHCb9he2EOu5Yb/mw
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="378958408"
+  bh=ngltZrqZ7X5pGJHeRyTEn6OUr2WIJhJqNV4iDYQ3CwM=;
+  b=WtQ5WaKYZ//w/PjGkT6EWDAofVsp3orD+8weJZO7HC02L6NvzD+W9mtS
+   TRDXLNHVLwIoLpZbYhUZ+9GOw0jr6iAmH9pxfMQmPBPLZVMcwSMaJ5RH2
+   x39dqmh9CZ5RX1HR0gmuvlYRdKr9cNjMdmeh2yaZPoSwb7/Ubxog+QCBc
+   bdIZiRy6oBEjBbCTCTYU+B1sVd+IMZ9gBfs2gQS97Yf1ArGfGVqjw9Ql5
+   tcvXBT4jLgfynudmFmlfacgiOuNgX5zuBelLtyFZodNXq/2PiLmLDPEsG
+   Z9a3A3cmO3q1H8cYw6zyfPciOSeRA/I2w/F4ZQ7kUgIzJYzdNXhdnVN45
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="466385346"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="378958408"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 15:40:49 -0700
+   d="scan'208";a="466385346"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 15:50:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="889666333"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="836605266"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="889666333"
+   d="scan'208";a="836605266"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 19 Sep 2023 15:40:01 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 19 Sep 2023 15:50:52 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qijOf-00080Q-1C;
-	Tue, 19 Sep 2023 22:40:45 +0000
-Date: Wed, 20 Sep 2023 06:38:32 +0800
+	id 1qijYP-00082C-2G;
+	Tue, 19 Sep 2023 22:50:50 +0000
+Date: Wed, 20 Sep 2023 06:48:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-6.5 25/166]
- drivers/regulator/max77857-regulator.c:209:5: warning: no previous prototype
- for 'max77859_get_voltage_sel'
-Message-ID: <202309200638.YmaVRIAl-lkp@intel.com>
+To: Eric Dumazet <edumazet@google.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
+	Paolo Abeni <pabeni@redhat.com>, David Ahern <dsahern@kernel.org>
+Subject: [tnguy-next-queue:main 4/22] include/asm-generic/rwonce.h:44:26:
+ warning: array subscript 0 is outside array bounds of '__u8[0]' {aka
+ 'unsigned char[]'}
+Message-ID: <202309200607.eC7wVSd1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,78 +49,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.5
-head:   fd1a1970676435366dd0f58cb455292d92d7ecce
-commit: bfce6add9cad1ff9ce759219a58b7ea892fb9535 [25/166] regulator: max77857: Add ADI MAX77857/59/MAX77831 Regulator Support
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230920/202309200638.YmaVRIAl-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200638.YmaVRIAl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git main
+head:   5bed8d585aa1db1651745173a66e32df82a5cb05
+commit: fa17a6d8a5bd0cd7565b613cb804242cd0f6b7ab [4/22] ipv6: lockless IPV6_ADDR_PREFERENCES implementation
+config: nios2-randconfig-002-20230920 (https://download.01.org/0day-ci/archive/20230920/202309200607.eC7wVSd1-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200607.eC7wVSd1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309200638.YmaVRIAl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309200607.eC7wVSd1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/regulator/max77857-regulator.c:209:5: warning: no previous prototype for 'max77859_get_voltage_sel' [-Wmissing-prototypes]
-     209 | int max77859_get_voltage_sel(struct regulator_dev *rdev)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/regulator/max77857-regulator.c:221:5: warning: no previous prototype for 'max77859_set_current_limit' [-Wmissing-prototypes]
-     221 | int max77859_set_current_limit(struct regulator_dev *rdev, int min_uA, int max_uA)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/regulator/max77857-regulator.c:235:5: warning: no previous prototype for 'max77859_get_current_limit' [-Wmissing-prototypes]
-     235 | int max77859_get_current_limit(struct regulator_dev *rdev)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from ./arch/nios2/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:246,
+                    from include/linux/string.h:5,
+                    from net/sunrpc/xprtsock.c:23:
+   In function 'ip6_sock_set_addr_preferences',
+       inlined from 'xs_tcp_tls_finish_connecting' at net/sunrpc/xprtsock.c:2478:4,
+       inlined from 'xs_tcp_tls_setup_socket' at net/sunrpc/xprtsock.c:2681:11:
+>> include/asm-generic/rwonce.h:44:26: warning: array subscript 0 is outside array bounds of '__u8[0]' {aka 'unsigned char[]'} [-Warray-bounds=]
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:55:40: note: in definition of macro '__WRITE_ONCE'
+      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
+         |                                        ^~~
+   include/net/ipv6.h:1365:9: note: in expansion of macro 'WRITE_ONCE'
+    1365 |         WRITE_ONCE(inet6_sk(sk)->srcprefs,
+         |         ^~~~~~~~~~
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |         ^~~~~~~~~~~
+   include/net/ipv6.h:1366:21: note: in expansion of macro 'READ_ONCE'
+    1366 |                    (READ_ONCE(inet6_sk(sk)->srcprefs) & prefmask) | pref);
+         |                     ^~~~~~~~~
+   In function 'xs_tcp_tls_setup_socket':
+   cc1: note: source object is likely at address zero
+   In function 'ip6_sock_set_addr_preferences',
+       inlined from 'xs_tcp_tls_finish_connecting' at net/sunrpc/xprtsock.c:2478:4,
+       inlined from 'xs_tcp_tls_setup_socket' at net/sunrpc/xprtsock.c:2681:11:
+   include/asm-generic/rwonce.h:55:37: warning: array subscript 0 is outside array bounds of '__u8[0]' {aka 'unsigned char[]'} [-Warray-bounds=]
+      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   include/asm-generic/rwonce.h:61:9: note: in expansion of macro '__WRITE_ONCE'
+      61 |         __WRITE_ONCE(x, val);                                           \
+         |         ^~~~~~~~~~~~
+   include/net/ipv6.h:1365:9: note: in expansion of macro 'WRITE_ONCE'
+    1365 |         WRITE_ONCE(inet6_sk(sk)->srcprefs,
+         |         ^~~~~~~~~~
+   In function 'xs_tcp_tls_setup_socket':
+   cc1: note: source object is likely at address zero
+   In function 'ip6_sock_set_addr_preferences',
+       inlined from 'xs_tcp_finish_connecting' at net/sunrpc/xprtsock.c:2325:4,
+       inlined from 'xs_tcp_setup_socket' at net/sunrpc/xprtsock.c:2405:11:
+>> include/asm-generic/rwonce.h:44:26: warning: array subscript 0 is outside array bounds of '__u8[0]' {aka 'unsigned char[]'} [-Warray-bounds=]
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:55:40: note: in definition of macro '__WRITE_ONCE'
+      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
+         |                                        ^~~
+   include/net/ipv6.h:1365:9: note: in expansion of macro 'WRITE_ONCE'
+    1365 |         WRITE_ONCE(inet6_sk(sk)->srcprefs,
+         |         ^~~~~~~~~~
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |         ^~~~~~~~~~~
+   include/net/ipv6.h:1366:21: note: in expansion of macro 'READ_ONCE'
+    1366 |                    (READ_ONCE(inet6_sk(sk)->srcprefs) & prefmask) | pref);
+         |                     ^~~~~~~~~
+   In function 'xs_tcp_setup_socket':
+   cc1: note: source object is likely at address zero
+   In function 'ip6_sock_set_addr_preferences',
+       inlined from 'xs_tcp_finish_connecting' at net/sunrpc/xprtsock.c:2325:4,
+       inlined from 'xs_tcp_setup_socket' at net/sunrpc/xprtsock.c:2405:11:
+   include/asm-generic/rwonce.h:55:37: warning: array subscript 0 is outside array bounds of '__u8[0]' {aka 'unsigned char[]'} [-Warray-bounds=]
+      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   include/asm-generic/rwonce.h:61:9: note: in expansion of macro '__WRITE_ONCE'
+      61 |         __WRITE_ONCE(x, val);                                           \
+         |         ^~~~~~~~~~~~
+   include/net/ipv6.h:1365:9: note: in expansion of macro 'WRITE_ONCE'
+    1365 |         WRITE_ONCE(inet6_sk(sk)->srcprefs,
+         |         ^~~~~~~~~~
+   In function 'xs_tcp_setup_socket':
+   cc1: note: source object is likely at address zero
 
 
-vim +/max77859_get_voltage_sel +209 drivers/regulator/max77857-regulator.c
+vim +44 include/asm-generic/rwonce.h
 
-   208	
- > 209	int max77859_get_voltage_sel(struct regulator_dev *rdev)
-   210	{
-   211		__be16 reg;
-   212		int ret;
-   213	
-   214		ret = regmap_bulk_read(rdev->regmap, MAX77859_REG_CONT3, &reg, 2);
-   215		if (ret)
-   216			return ret;
-   217	
-   218		return FIELD_GET(MAX77859_VOLTAGE_SEL_MASK, __be16_to_cpu(reg));
-   219	}
-   220	
- > 221	int max77859_set_current_limit(struct regulator_dev *rdev, int min_uA, int max_uA)
-   222	{
-   223		u32 selector;
-   224	
-   225		if (max_uA < MAX77859_CURRENT_MIN)
-   226			return -EINVAL;
-   227	
-   228		selector = 0x12 + (max_uA - MAX77859_CURRENT_MIN) / MAX77859_CURRENT_STEP;
-   229	
-   230		selector = clamp_val(selector, 0x00, 0x7F);
-   231	
-   232		return regmap_write(rdev->regmap, MAX77859_REG_CONT5, selector);
-   233	}
-   234	
- > 235	int max77859_get_current_limit(struct regulator_dev *rdev)
-   236	{
-   237		u32 selector;
-   238		int ret;
-   239	
-   240		ret = regmap_read(rdev->regmap, MAX77859_REG_CONT5, &selector);
-   241		if (ret)
-   242			return ret;
-   243	
-   244		if (selector <= 0x12)
-   245			return MAX77859_CURRENT_MIN;
-   246	
-   247		if (selector >= 0x64)
-   248			return MAX77859_CURRENT_MAX;
-   249	
-   250		return MAX77859_CURRENT_MIN + (selector - 0x12) * MAX77859_CURRENT_STEP;
-   251	}
-   252	
+e506ea451254ab Will Deacon 2019-10-15  28  
+e506ea451254ab Will Deacon 2019-10-15  29  /*
+e506ea451254ab Will Deacon 2019-10-15  30   * Yes, this permits 64-bit accesses on 32-bit architectures. These will
+e506ea451254ab Will Deacon 2019-10-15  31   * actually be atomic in some cases (namely Armv7 + LPAE), but for others we
+e506ea451254ab Will Deacon 2019-10-15  32   * rely on the access being split into 2x32-bit accesses for a 32-bit quantity
+e506ea451254ab Will Deacon 2019-10-15  33   * (e.g. a virtual address) and a strong prevailing wind.
+e506ea451254ab Will Deacon 2019-10-15  34   */
+e506ea451254ab Will Deacon 2019-10-15  35  #define compiletime_assert_rwonce_type(t)					\
+e506ea451254ab Will Deacon 2019-10-15  36  	compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),	\
+e506ea451254ab Will Deacon 2019-10-15  37  		"Unsupported access size for {READ,WRITE}_ONCE().")
+e506ea451254ab Will Deacon 2019-10-15  38  
+e506ea451254ab Will Deacon 2019-10-15  39  /*
+e506ea451254ab Will Deacon 2019-10-15  40   * Use __READ_ONCE() instead of READ_ONCE() if you do not require any
+3c9184109e78ea Will Deacon 2019-10-30  41   * atomicity. Note that this may result in tears!
+e506ea451254ab Will Deacon 2019-10-15  42   */
+b78b331a3f5c07 Will Deacon 2019-10-15  43  #ifndef __READ_ONCE
+e506ea451254ab Will Deacon 2019-10-15 @44  #define __READ_ONCE(x)	(*(const volatile __unqual_scalar_typeof(x) *)&(x))
+b78b331a3f5c07 Will Deacon 2019-10-15  45  #endif
+e506ea451254ab Will Deacon 2019-10-15  46  
+
+:::::: The code at line 44 was first introduced by commit
+:::::: e506ea451254ab17e0bf918ca36232fec2a9b10c compiler.h: Split {READ,WRITE}_ONCE definitions out into rwonce.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
