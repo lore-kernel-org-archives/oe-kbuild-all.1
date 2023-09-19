@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE18E15A6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 10:43:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1322E18636
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 10:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695120185; x=1726656185;
+  t=1695120785; x=1726656785;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HweMeV3StQaTObldLMr5619inUbeHhG0ufZI8LmTruE=;
-  b=YRAWd9YPovFU3oXMAPK36IVyVEBO5IqCGiEbjHE+6tJ8cIUlqsxiJNz1
-   +zqlkTOX4hmlRDv3xyD/rK3PhDo8saSEDkPjWF3oyURk2uPUC2GXEwHJm
-   LI4xc7NkqzfFpvgnVCPBUJKULJuvdJeFqAgJVElNRiryR9j5TrsS2CF7F
-   3PiAeFUcAZxttAfYQpGcqpE4JjZiBsQdObwA77YLA2EOgRzuWEYrqqna9
-   Qqs4qb0feDrJ1L+mYbcrKeygBCvi9aD/1EIY89Kd8iuFMXKf3zgQvZ6S3
-   IFxszfM1kj35Fh8GGY+xyOD7lKdgONtl2d02R16Z7J88fr/Dvi90gdpO4
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="379810573"
+  bh=HbFb1sKowCtknrvidfm9Oh3r+xu/8WHNML90TxyJaCc=;
+  b=gr8zp0GRV+J1Y9E6npxzIuDi0e5LmvkIb1W3K1/bNT6RvMM+yrrTpeBM
+   QdsyQ/c/+SC/NnH+Sh7sS3k4u+s8WwT1nlGRQQIfsSQ724TrE1qIDPai1
+   Atu+aI0KoySNNbSYfaXNcEJU3FY0KOZ1RcsyvzdWVHbXHac2YR1KujFCf
+   L1XJOOhuASAsXM5MGUGM8R3+YDSe4123V1MhvyIFZcLMq6YtPOMPHebz7
+   JDuIU7x0xKfWw+hWXFA57vFMvS437x7NansA6KG5q8oxv8Rsbd7sGhl1U
+   cFTpm29r7LmGMePZJwI9ePq7mvzTrRFIibqtTsRgEh5ERGudcukdTFUUJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="443994296"
 X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
-   d="scan'208";a="379810573"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 03:43:04 -0700
+   d="scan'208";a="443994296"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 03:53:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="739637974"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="775505247"
 X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
-   d="scan'208";a="739637974"
+   d="scan'208";a="775505247"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 19 Sep 2023 03:43:02 -0700
+  by orsmga008.jf.intel.com with ESMTP; 19 Sep 2023 03:53:03 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qiYC4-0007EC-1r;
-	Tue, 19 Sep 2023 10:43:00 +0000
-Date: Tue, 19 Sep 2023 18:42:19 +0800
+	id 1qiYLk-0007Es-3C;
+	Tue, 19 Sep 2023 10:53:00 +0000
+Date: Tue, 19 Sep 2023 18:52:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexander Larsson <alexl@redhat.com>,
-	Miklos Szeredi <mszeredi@redhat.com>
-Subject: arch/alpha/include/asm/rwonce.h:25:35: warning: array subscript 0 is
- outside array bounds of 'struct inode[11885788707287082]'
-Message-ID: <202309191848.cMwd2D4d-lkp@intel.com>
+To: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 5187/6333] arch/alpha/include/asm/string.h:22:16:
+ warning: '__builtin_memcpy' offset [0, 2] is out of the bounds [0, 0]
+Message-ID: <202309191804.VDlimbHj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,71 +47,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2cf0f715623872823a72e451243bbf555d10d032
-commit: 0af950f57fefabab628f1963af881e6b9bfe7f38 ovl: move ovl_entry into ovl_inode
-date:   3 months ago
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230919/202309191848.cMwd2D4d-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309191848.cMwd2D4d-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   29e400e3ea486bf942b214769fc9778098114113
+commit: 0e2bdaccb10a440a7a451343e8347d29a874b58e [5187/6333] Bluetooth: hci_core: Fix build warnings
+config: alpha-randconfig-r011-20220512 (https://download.01.org/0day-ci/archive/20230919/202309191804.VDlimbHj-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309191804.VDlimbHj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309191848.cMwd2D4d-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309191804.VDlimbHj-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/compiler.h:246,
-                    from include/linux/build_bug.h:5,
-                    from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/wait.h:7,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from fs/overlayfs/util.c:7:
-   In function 'ovl_upperdentry_dereference',
-       inlined from 'ovl_dentry_upper' at fs/overlayfs/util.c:266:9,
-       inlined from 'ovl_path_type' at fs/overlayfs/util.c:184:6:
->> arch/alpha/include/asm/rwonce.h:25:35: warning: array subscript 0 is outside array bounds of 'struct inode[11885788707287082]' [-Warray-bounds=]
-      25 |         __unqual_scalar_typeof(x) __x =                                 \
-         |                                   ^~~
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^~~~~~~~~~~
-   fs/overlayfs/ovl_entry.h:163:16: note: in expansion of macro 'READ_ONCE'
-     163 |         return READ_ONCE(oi->__upperdentry);
-         |                ^~~~~~~~~
+   In file included from include/linux/string.h:20,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/wait.h:9,
+                    from include/linux/poll.h:8,
+                    from include/net/bluetooth/bluetooth.h:29,
+                    from net/bluetooth/hci_event.c:30:
+   In function 'hci_cc_read_class_of_dev',
+       inlined from 'hci_cc_read_class_of_dev' at net/bluetooth/hci_event.c:511:11:
+>> arch/alpha/include/asm/string.h:22:16: warning: '__builtin_memcpy' offset [0, 2] is out of the bounds [0, 0] [-Warray-bounds]
+      22 | #define memcpy __builtin_memcpy
+   net/bluetooth/hci_event.c:521:9: note: in expansion of macro 'memcpy'
+     521 |         memcpy(hdev->dev_class, rp->dev_class, 3);
+         |         ^~~~~~
 
 
-vim +25 arch/alpha/include/asm/rwonce.h
+vim +/__builtin_memcpy +22 arch/alpha/include/asm/string.h
 
-d6462858851549 Will Deacon 2019-10-30  11  
-d6462858851549 Will Deacon 2019-10-30  12  /*
-d6462858851549 Will Deacon 2019-10-30  13   * Alpha is apparently daft enough to reorder address-dependent loads
-d6462858851549 Will Deacon 2019-10-30  14   * on some CPU implementations. Knock some common sense into it with
-d6462858851549 Will Deacon 2019-10-30  15   * a memory barrier in READ_ONCE().
-d6462858851549 Will Deacon 2019-10-30  16   *
-d6462858851549 Will Deacon 2019-10-30  17   * For the curious, more information about this unusual reordering is
-d6462858851549 Will Deacon 2019-10-30  18   * available in chapter 15 of the "perfbook":
-d6462858851549 Will Deacon 2019-10-30  19   *
-d6462858851549 Will Deacon 2019-10-30  20   *  https://kernel.org/pub/linux/kernel/people/paulmck/perfbook/perfbook.html
-d6462858851549 Will Deacon 2019-10-30  21   *
-d6462858851549 Will Deacon 2019-10-30  22   */
-d6462858851549 Will Deacon 2019-10-30  23  #define __READ_ONCE(x)							\
-d6462858851549 Will Deacon 2019-10-30  24  ({									\
-d6462858851549 Will Deacon 2019-10-30 @25  	__unqual_scalar_typeof(x) __x =					\
-d6462858851549 Will Deacon 2019-10-30  26  		(*(volatile typeof(__x) *)(&(x)));			\
-d6462858851549 Will Deacon 2019-10-30  27  	mb();								\
-d6462858851549 Will Deacon 2019-10-30  28  	(typeof(x))__x;							\
-d6462858851549 Will Deacon 2019-10-30  29  })
-d6462858851549 Will Deacon 2019-10-30  30  
+^1da177e4c3f41 include/asm-alpha/string.h Linus Torvalds 2005-04-16  21  
+^1da177e4c3f41 include/asm-alpha/string.h Linus Torvalds 2005-04-16 @22  #define memcpy __builtin_memcpy
+^1da177e4c3f41 include/asm-alpha/string.h Linus Torvalds 2005-04-16  23  
 
-:::::: The code at line 25 was first introduced by commit
-:::::: d6462858851549c62d73eaa14b31132b0f32d6b6 alpha: Override READ_ONCE() with barriered implementation
+:::::: The code at line 22 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
