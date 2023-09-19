@@ -1,145 +1,228 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6690D46A1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 23:14:07 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-578cc95db68so469437a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 16:14:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695165246; x=1695770046; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=+0wJC7iUqUi/VsmoECNjzdaGcwsX7nzVBUm4bndTmRU=;
-        b=aq7cyNlGwJ00qmnaHxxmQxUqYvjKfs4OWMSzg/jh7ZTCZmY2JxauKBUx3c53mtC+Q8
-         IirZG51CdsSk8w0cf0aeyna8IDbLLGqmflkxpWrY0UiV8LtfzDLP+VmwkcFE9hN7lC+k
-         TZhcfrJa5zufXkLoO5p3r/KeP31BWO88DPf+w9yxLrvw9Kl62aiXpB1hJnZkUA9mgG0+
-         MkTgKAGZj0HCjTHpTejx9PwdHIux4bw/V//R///bNRnTA3I5Gg1Go+yyTj7WJTkOiUWV
-         8BmogWTR3QAS6InKnQGiDmfjcUFl33gsKVBW5JdTWc5DYxugXhTZR7uofAw1kANy1lRa
-         wN5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695165246; x=1695770046;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+0wJC7iUqUi/VsmoECNjzdaGcwsX7nzVBUm4bndTmRU=;
-        b=crqLGw69yKUivFH0V03K8PSEOccZ5xcD23AtGxVdK8FAb79RjEF+JBbg/3qv17pmi3
-         WSBqSb1Eq28Ex5FOr27ysAaCmgcx9BFGdvDsMRCf3xVhon/ArpSa/aSMTcukm/jXgGPX
-         flJjkUP7L+1HKKJCpuoEpz/IaPRhryiS574jH7rtUcFI0GnGVqW6fuhR3d1Bb0cyMgus
-         zhanGn75L9HRxUtHirhMmkVY6rACuQKPk9HZ7PddLdi07OC+RQQM4DFnWnmn0b2miEpJ
-         zqmG2mmN1DSqpG37YkB9iw+jT8tQajk2ZKcvAixwJI5CvLlWoz1y234a9BX917Cx73v7
-         H/bg==
-X-Gm-Message-State: AOJu0Yz9ESnob+WHTzfo/LeZXSZggzvzJ60p3jX+aYSCk8LoeQV0n4uj
-	7Qjs/O8ANjVciC9Zg9ZTwWM=
-X-Google-Smtp-Source: AGHT+IEZe/2KTsL6EVUWfjL3HIExO8u4xxxki/8R7e4Pplf40roIx+nF/BcODB1F5YyVg3S44WH1Tw==
-X-Received: by 2002:a05:6a21:8185:b0:14b:7d8b:cbaf with SMTP id pd5-20020a056a21818500b0014b7d8bcbafmr869151pzb.57.1695165246513;
-        Tue, 19 Sep 2023 16:14:06 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id y15-20020a17090a1f4f00b00276a0d96a2esm123641pjy.46.2023.09.19.16.14.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Sep 2023 16:14:05 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <a57afd40-71a2-aa68-84cb-44d2a88a1e2b@roeck-us.net>
-Date: Tue, 19 Sep 2023 16:14:04 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E432347AE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 23:31:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695166295; x=1726702295;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mGcK0swoEalivBNNHxtWaNWDkJ1wcBQMPAV547VGABI=;
+  b=nbUDU1O0851aHdM7u3+TsTWSmre4WRwpzEHDUTu3oYfuZ3nerSKd0a5+
+   0ROREuzORkmNlqdBiNNz9tCPznQtn1z/L5XRYpaVGjmAXEY+BVS60ESM5
+   LJvpPU6R5n63XVUWJfQA8aDzqqZQ9P43CB4J0W3NWEglfyWUp2r9pWDUe
+   KVkbxnZlbw84dA33b1YkT+9WWr3pk0efpRv3+ewZGV5BExFKsUt6s3jgz
+   DVzWK3WpHKwzgvXH945y6pWyB2/67g+bOc05pxXtsfwtQFlcNVeYbhMNe
+   578kjM5EmHlzdXoNsesMFIKJ3dvUuwn0mj0W+97zWdkXfo1XkRTrpdcx6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="446554148"
+X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
+   d="scan'208";a="446554148"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 16:31:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="781481811"
+X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
+   d="scan'208";a="781481811"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 19 Sep 2023 16:31:32 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qikBm-00084A-11;
+	Tue, 19 Sep 2023 23:31:30 +0000
+Date: Wed, 20 Sep 2023 07:30:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 15/276]
+ arch/arm64/include/asm/atomic_lse.h:351:9: warning: array subscript 'long
+ unsigned int[0]' is partly outside array bounds of 'u32[1]' {aka 'unsigned
+ int[1]'}
+Message-ID: <202309200715.F8QRrZAj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: arch/m68k/include/asm/raw_io.h:91:13: warning: array subscript 0
- is outside array bounds of 'volatile u16[0]' {aka 'volatile short unsigned
- int[]'}
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, kernel test robot <lkp@intel.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Wim Van Sebroeck <wim@linux-watchdog.org>
-References: <202309192013.vI4DKHmw-lkp@intel.com>
- <CAL_JsqJ0BoR7Dan3=oyWPa6HU3YV=eOFTO5fx7u5zz2i=eB-jQ@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <CAL_JsqJ0BoR7Dan3=oyWPa6HU3YV=eOFTO5fx7u5zz2i=eB-jQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 9/19/23 11:37, Rob Herring wrote:
-> On Tue, Sep 19, 2023 at 7:09 AM kernel test robot <lkp@intel.com> wrote:
->>
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
->> head:   2cf0f715623872823a72e451243bbf555d10d032
->> commit: f1a43aadb5a690e141a3b6700e2a40c1d4dbe088 watchdog: Enable COMPILE_TEST for more drivers
->> date:   5 weeks ago
->> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230919/202309192013.vI4DKHmw-lkp@intel.com/config)
->> compiler: m68k-linux-gcc (GCC) 13.2.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309192013.vI4DKHmw-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202309192013.vI4DKHmw-lkp@intel.com/
->>
->> All warnings (new ones prefixed by >>):
->>
->>     In file included from arch/m68k/include/asm/io_mm.h:25,
->>                      from arch/m68k/include/asm/io.h:8,
->>                      from include/linux/io.h:13,
->>                      from drivers/watchdog/machzwd.c:39:
->>     In function 'zf_set_timer',
->>         inlined from 'zf_timer_on' at drivers/watchdog/machzwd.c:218:2:
->>>> arch/m68k/include/asm/raw_io.h:91:13: warning: array subscript 0 is outside array bounds of 'volatile u16[0]' {aka 'volatile short unsigned int[]'} [-Warray-bounds=]
->>        91 |         __w = ((*(__force volatile u16 *) ((_addr & 0xFFFF0000UL) + ((__v >> 8)<<1)))); \
->>           |         ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>     arch/m68k/include/asm/io_mm.h:228:20: note: in expansion of macro 'rom_out_le16'
->>       228 |                  : rom_out_le16(isa_itw(port), (val)))
->>           |                    ^~~~~~~~~~~~
->>     arch/m68k/include/asm/io_mm.h:356:42: note: in expansion of macro 'isa_rom_outw'
->>       356 | #define outw(val, port) ((port) < 1024 ? isa_rom_outw((val), (port)) : out_le16((port), (val)))
->>           |                                          ^~~~~~~~~~~~
->>     drivers/watchdog/machzwd.c:74:53: note: in expansion of macro 'outw'
->>        74 | #define zf_writew(port, data)  { outb(port, INDEX); outw(data, DATA_W); }
->>           |                                                     ^~~~
->>     drivers/watchdog/machzwd.c:173:17: note: in expansion of macro 'zf_writew'
->>       173 |                 zf_writew(COUNTER_1, new);
->>           |                 ^~~~~~~~~
->>     In function 'zf_timer_on':
->>     cc1: note: source object is likely at address zero
-> 
-> This seems to be some newish check in gcc which looks for fixed
-> pointers below 4KB[1]. The linked issue says more was planned for
-> gcc-13, but I haven't found what that is. AFAICT, that shouldn't
-> happen with this config because isa_itw() should be variable and the
-> compiler shouldn't be able to determine the value of _addr. However, a
-> config with CONFIG_Q40=n, CONFIG_AMIGA_PCMCIA=n, and
-> CONFIG_ATARI_ROM_ISA=n would have a fixed NULL value and could trigger
-> the warning. This should also have warnings everywhere outw() (and
-> others) are used with a constant port value.
-> 
-> Rob
-> 
-> [1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=99578
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   cfe32cb3c3a4d4ee8b1350b9d9366b06021cb60b
+commit: bb964d6864307aab86412a8bc2cdc7f28eb726ac [15/276] UPSTREAM: arm64: perf: Don't register user access sysctl handler multiple times
+config: arm64-randconfig-003-20230920 (https://download.01.org/0day-ci/archive/20230920/202309200715.F8QRrZAj-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200715.F8QRrZAj-lkp@intel.com/reproduce)
 
-A long time ago, when someone submitted a "cleanup: patch for the machzwd
-watchdog driver, I approved it but added this comment.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309200715.F8QRrZAj-lkp@intel.com/
 
- > If anyone is still using the HW supported by this driver, it would
- > be a prime target for conversion to use the watchdog subsystem.
- > This would reduce code size and improve driver stability.
- > _That_ would be useful.
+All warnings (new ones prefixed by >>):
 
- > The only reason for replacing 0 with NULL is to make a static checker
- > happy. This kind of change adds zero value to the code. Instead, it
- > takes time from those who have to review the patches and apply them.
+     113 | #define ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR                0x43
+         |                                                                 ^~~~
+   arch/arm64/kernel/perf_event.c:145:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR'
+     145 |         [C(L1D)][C(OP_WRITE)][C(RESULT_MISS)]   = ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/perf_event.h:122:65: warning: initialized field overwritten [-Woverride-init]
+     122 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD                         0x4E
+         |                                                                 ^~~~
+   arch/arm64/kernel/perf_event.c:147:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD'
+     147 |         [C(DTLB)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/perf_event.h:122:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[3][0][0]')
+     122 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD                         0x4E
+         |                                                                 ^~~~
+   arch/arm64/kernel/perf_event.c:147:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD'
+     147 |         [C(DTLB)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/perf_event.h:123:65: warning: initialized field overwritten [-Woverride-init]
+     123 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR                         0x4F
+         |                                                                 ^~~~
+   arch/arm64/kernel/perf_event.c:148:52: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR'
+     148 |         [C(DTLB)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR,
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/perf_event.h:123:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[3][1][0]')
+     123 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR                         0x4F
+         |                                                                 ^~~~
+   arch/arm64/kernel/perf_event.c:148:52: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR'
+     148 |         [C(DTLB)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR,
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/perf_event.h:120:65: warning: initialized field overwritten [-Woverride-init]
+     120 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD                  0x4C
+         |                                                                 ^~~~
+   arch/arm64/kernel/perf_event.c:149:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD'
+     149 |         [C(DTLB)][C(OP_READ)][C(RESULT_MISS)]   = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/perf_event.h:120:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[3][0][1]')
+     120 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD                  0x4C
+         |                                                                 ^~~~
+   arch/arm64/kernel/perf_event.c:149:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD'
+     149 |         [C(DTLB)][C(OP_READ)][C(RESULT_MISS)]   = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/perf_event.h:121:65: warning: initialized field overwritten [-Woverride-init]
+     121 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR                  0x4D
+         |                                                                 ^~~~
+   arch/arm64/kernel/perf_event.c:150:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR'
+     150 |         [C(DTLB)][C(OP_WRITE)][C(RESULT_MISS)]  = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/perf_event.h:121:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[3][1][1]')
+     121 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR                  0x4D
+         |                                                                 ^~~~
+   arch/arm64/kernel/perf_event.c:150:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR'
+     150 |         [C(DTLB)][C(OP_WRITE)][C(RESULT_MISS)]  = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/perf_event.h:137:65: warning: initialized field overwritten [-Woverride-init]
+     137 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD                      0x60
+         |                                                                 ^~~~
+   arch/arm64/kernel/perf_event.c:152:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD'
+     152 |         [C(NODE)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/perf_event.h:137:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[6][0][0]')
+     137 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD                      0x60
+         |                                                                 ^~~~
+   arch/arm64/kernel/perf_event.c:152:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD'
+     152 |         [C(NODE)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/perf_event.h:138:65: warning: initialized field overwritten [-Woverride-init]
+     138 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR                      0x61
+         |                                                                 ^~~~
+   arch/arm64/kernel/perf_event.c:153:52: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR'
+     153 |         [C(NODE)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR,
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/perf_event.h:138:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[6][1][0]')
+     138 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR                      0x61
+         |                                                                 ^~~~
+   arch/arm64/kernel/perf_event.c:153:52: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR'
+     153 |         [C(NODE)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR,
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/arm64/include/asm/lse.h:16,
+                    from arch/arm64/include/asm/cmpxchg.h:14,
+                    from arch/arm64/include/asm/atomic.h:16,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/arm64/include/asm/bitops.h:26,
+                    from include/linux/bitops.h:33,
+                    from arch/arm64/include/asm/cache.h:60,
+                    from include/linux/cache.h:6,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:22,
+                    from arch/arm64/include/asm/bug.h:26,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/percpu.h:5,
+                    from include/asm-generic/irq_regs.h:11,
+                    from ./arch/arm64/include/generated/asm/irq_regs.h:1,
+                    from arch/arm64/kernel/perf_event.c:11:
+   In function '__lse__cmpxchg_case_32',
+       inlined from '__cmpxchg_case_32' at arch/arm64/include/asm/cmpxchg.h:117:1,
+       inlined from '__cmpxchg' at arch/arm64/include/asm/cmpxchg.h:172:1,
+       inlined from 'armv8_pmu_register_sysctl_table' at arch/arm64/kernel/perf_event.c:1126:7,
+       inlined from 'armv8_pmu_init.constprop' at arch/arm64/kernel/perf_event.c:1162:2:
+>> arch/arm64/include/asm/atomic_lse.h:351:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'u32[1]' {aka 'unsigned int[1]'} [-Warray-bounds=]
+     351 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_lse.h:366:1: note: in expansion of macro '__CMPXCHG_CASE'
+     366 | __CMPXCHG_CASE(w,  ,     , 32,   )
+         | ^~~~~~~~~~~~~~
+   arch/arm64/kernel/perf_event.c: In function 'armv8_pmu_init.constprop':
+   arch/arm64/kernel/perf_event.c:1124:20: note: object 'tbl_registered' of size 4
+    1124 |         static u32 tbl_registered = 0;
+         |                    ^~~~~~~~~~~~~~
+   In function '__lse__cmpxchg_case_32',
+       inlined from '__cmpxchg_case_32' at arch/arm64/include/asm/cmpxchg.h:117:1,
+       inlined from '__cmpxchg' at arch/arm64/include/asm/cmpxchg.h:172:1,
+       inlined from 'armv8_pmu_register_sysctl_table' at arch/arm64/kernel/perf_event.c:1126:7,
+       inlined from 'armv8_pmu_init.constprop' at arch/arm64/kernel/perf_event.c:1162:2:
+>> arch/arm64/include/asm/atomic_lse.h:351:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'u32[1]' {aka 'unsigned int[1]'} [-Warray-bounds=]
+     351 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_lse.h:366:1: note: in expansion of macro '__CMPXCHG_CASE'
+     366 | __CMPXCHG_CASE(w,  ,     , 32,   )
+         | ^~~~~~~~~~~~~~
+   arch/arm64/kernel/perf_event.c: In function 'armv8_pmu_init.constprop':
+   arch/arm64/kernel/perf_event.c:1124:20: note: object 'tbl_registered' of size 4
+    1124 |         static u32 tbl_registered = 0;
+         |                    ^~~~~~~~~~~~~~
 
- > If we ignore such patches, we'll get them again and again, taking
- > away even more time. If we don't ignore them, we encourage submitters
- > and get even more useless patches. If we try to discourage them, we
- > risk being accused of being unfriendly. This is a perfect lose-lose
- > situation for maintainers.
 
-I do wonder if enabling BUILD_TEST on such drivers is any better.
+vim +351 arch/arm64/include/asm/atomic_lse.h
 
-Guenter
+c0385b24af1502 Will Deacon   2015-02-03  339  
+5ef3fe4cecdf82 Will Deacon   2018-09-13  340  #define __CMPXCHG_CASE(w, sfx, name, sz, mb, cl...)			\
+a48e61de758c6b Will Deacon   2019-10-01  341  static __always_inline u##sz						\
+a48e61de758c6b Will Deacon   2019-10-01  342  __lse__cmpxchg_case_##name##sz(volatile void *ptr,			\
+b4f9209bfcd596 Will Deacon   2018-09-13  343  					      u##sz old,		\
+5ef3fe4cecdf82 Will Deacon   2018-09-13  344  					      u##sz new)		\
+c342f78217e822 Will Deacon   2015-04-23  345  {									\
+c342f78217e822 Will Deacon   2015-04-23  346  	register unsigned long x0 asm ("x0") = (unsigned long)ptr;	\
+b4f9209bfcd596 Will Deacon   2018-09-13  347  	register u##sz x1 asm ("x1") = old;				\
+5ef3fe4cecdf82 Will Deacon   2018-09-13  348  	register u##sz x2 asm ("x2") = new;				\
+3337cb5aea594e Andrew Murray 2019-08-28  349  	unsigned long tmp;						\
+c342f78217e822 Will Deacon   2015-04-23  350  									\
+addfc38672c73e Andrew Murray 2019-08-28 @351  	asm volatile(							\
+4307fb91346616 Sami Tolvanen 2019-02-06  352  	__LSE_PREAMBLE							\
+3337cb5aea594e Andrew Murray 2019-08-28  353  	"	mov	%" #w "[tmp], %" #w "[old]\n"			\
+3337cb5aea594e Andrew Murray 2019-08-28  354  	"	cas" #mb #sfx "\t%" #w "[tmp], %" #w "[new], %[v]\n"	\
+3337cb5aea594e Andrew Murray 2019-08-28  355  	"	mov	%" #w "[ret], %" #w "[tmp]"			\
+3337cb5aea594e Andrew Murray 2019-08-28  356  	: [ret] "+r" (x0), [v] "+Q" (*(unsigned long *)ptr),		\
+3337cb5aea594e Andrew Murray 2019-08-28  357  	  [tmp] "=&r" (tmp)						\
+c342f78217e822 Will Deacon   2015-04-23  358  	: [old] "r" (x1), [new] "r" (x2)				\
+3337cb5aea594e Andrew Murray 2019-08-28  359  	: cl);								\
+c342f78217e822 Will Deacon   2015-04-23  360  									\
+c342f78217e822 Will Deacon   2015-04-23  361  	return x0;							\
+c342f78217e822 Will Deacon   2015-04-23  362  }
+c342f78217e822 Will Deacon   2015-04-23  363  
 
+:::::: The code at line 351 was first introduced by commit
+:::::: addfc38672c73efd5c4e559a2e455b086e3e20c5 arm64: atomics: avoid out-of-line ll/sc atomics
+
+:::::: TO: Andrew Murray <andrew.murray@arm.com>
+:::::: CC: Will Deacon <will@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
