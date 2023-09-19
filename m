@@ -1,44 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3144F28DDD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 21:36:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F1E28DDD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 21:37:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695159399; x=1726695399;
+  t=1695159428; x=1726695428;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2a9Q0CqHuF+KokNsbLBpDUcUw1le2RTcFG+HI5Deyck=;
-  b=VZ1cjuDwd7G7KPi7dBn28zPURSbhXCzr/kJubmtnDEw6K8+UOIz8wX8z
-   WZ08D7/oUEAWlqV2wJtB/JXmvjX8Mnw2gBLVQOLHdHA8FV5hSWJ8U876t
-   Mcz/MkiZ1SIAN7OWVa9F2OCnura21dbb0J3YcfKUyWhzpWK8XOxNfEydY
-   jn0juIdXjCBeC9nd2aZXJD+xr8xuf8M+RZbNoMI8LkgiPAWL8ZlLY/zwQ
-   byEFQjZpV/ZptovGXW6pnkwM8zclDa0WXbxJrUOwqr6l50qPLtXbCsd03
-   HRaeRdgpvEEZjUMiFUsTbHurEYjuaxe87Zysno4qhHsH/EwOosQJzUznd
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="382807368"
+  bh=f/NUT2MmEHOUU/rv3ssKB1yfbTAKPpChVhZ2x/2lVpA=;
+  b=bmrBR2JXmgK9jXskHOG/vkS2wtyIHLmxx8Mb+kFWpOX/vr1e8lyOU1DD
+   jmYiuBD10sopqq0OqgBZIukU9V0RyT080zbLQIny20umfz0hLn76mjns2
+   YDRjm4Ver4nOY45nwRAOSJl9mg+MkaXM0nRnheHfdaKirzZzT9HK60REL
+   J4QM8LHeDPq3yDYWwq6S208/0fMlpsXvu0VXzfaZyRK5vGpqPTTM/871k
+   KM0QOa0boqDNx8S+Ez6OTz4FheGXzFGt6zDM1h3Zlvtbrx4u4SbFrZnNG
+   N7063U1vP2bvB6rDHbiKUx/BICCl/mZ4+yX2R7oGxKwtjxH5ucJp0IDV0
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="365105533"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="382807368"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 14:36:38 -0700
+   d="scan'208";a="365105533"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 14:36:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="816599498"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="993317243"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="816599498"
+   d="scan'208";a="993317243"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Sep 2023 14:36:37 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 19 Sep 2023 14:36:37 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qiiOQ-0007x2-32;
-	Tue, 19 Sep 2023 21:36:32 +0000
-Date: Wed, 20 Sep 2023 05:36:26 +0800
+	id 1qiiOZ-0007x5-2X;
+	Tue, 19 Sep 2023 21:36:35 +0000
+Date: Wed, 20 Sep 2023 05:36:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: [linux-next:master 5228/6333] arch/x86/net/bpf_jit_comp.c:2957:72:
- error: 'struct unwind_state' has no member named 'sp'; did you mean 'bp'?
-Message-ID: <202309200500.jcqrmwKs-lkp@intel.com>
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 1226/1363]
+ drivers/mtd/nand/raw/arasan-nand-controller.c:1107:35: warning:
+ 'anfc_hw_ecc_caps' defined but not used
+Message-ID: <202309200505.MQW4FKEC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,43 +48,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   29e400e3ea486bf942b214769fc9778098114113
-commit: fd5d27b70188379bb441d404c29a0afb111e1753 [5228/6333] arch/x86: Implement arch_bpf_stack_walk
-config: x86_64-randconfig-161-20230919 (https://download.01.org/0day-ci/archive/20230920/202309200500.jcqrmwKs-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200500.jcqrmwKs-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
+head:   4f412ed20fd2c5353c1e878ef9ed77952a5040a1
+commit: bd2c73dd60da25dae9f78894f9d96688543abccf [1226/1363] mtd: rawnand: arasan: Use on-host ecc engine in hw-ecc mode
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230920/202309200505.MQW4FKEC-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200505.MQW4FKEC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309200500.jcqrmwKs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309200505.MQW4FKEC-lkp@intel.com/
 
-Note: the linux-next/master HEAD 29e400e3ea486bf942b214769fc9778098114113 builds fine.
-      It may have been fixed somewhere.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
-
-   arch/x86/net/bpf_jit_comp.c: In function 'arch_bpf_stack_walk':
->> arch/x86/net/bpf_jit_comp.c:2957:72: error: 'struct unwind_state' has no member named 'sp'; did you mean 'bp'?
-    2957 |                 if (!addr || !consume_fn(cookie, (u64)addr, (u64)state.sp, (u64)state.bp))
-         |                                                                        ^~
-         |                                                                        bp
+>> drivers/mtd/nand/raw/arasan-nand-controller.c:1107:35: warning: 'anfc_hw_ecc_caps' defined but not used [-Wunused-const-variable=]
+    1107 | static const struct nand_ecc_caps anfc_hw_ecc_caps = {
+         |                                   ^~~~~~~~~~~~~~~~
 
 
-vim +2957 arch/x86/net/bpf_jit_comp.c
+vim +/anfc_hw_ecc_caps +1107 drivers/mtd/nand/raw/arasan-nand-controller.c
 
-  2947	
-  2948	void arch_bpf_stack_walk(bool (*consume_fn)(void *cookie, u64 ip, u64 sp, u64 bp), void *cookie)
-  2949	{
-  2950	#if defined(CONFIG_UNWINDER_ORC) || defined(CONFIG_UNWINDER_FRAME_POINTER)
-  2951		struct unwind_state state;
-  2952		unsigned long addr;
-  2953	
-  2954		for (unwind_start(&state, current, NULL, NULL); !unwind_done(&state);
-  2955		     unwind_next_frame(&state)) {
-  2956			addr = unwind_get_return_address(&state);
-> 2957			if (!addr || !consume_fn(cookie, (u64)addr, (u64)state.sp, (u64)state.bp))
+88ffef1b65cf98 Miquel Raynal 2020-05-19  1106  
+88ffef1b65cf98 Miquel Raynal 2020-05-19 @1107  static const struct nand_ecc_caps anfc_hw_ecc_caps = {
+88ffef1b65cf98 Miquel Raynal 2020-05-19  1108  	.stepinfos = anfc_hw_ecc_step_infos,
+88ffef1b65cf98 Miquel Raynal 2020-05-19  1109  	.nstepinfos = ARRAY_SIZE(anfc_hw_ecc_step_infos),
+88ffef1b65cf98 Miquel Raynal 2020-05-19  1110  	.calc_ecc_bytes = anfc_calc_hw_ecc_bytes,
+88ffef1b65cf98 Miquel Raynal 2020-05-19  1111  };
+88ffef1b65cf98 Miquel Raynal 2020-05-19  1112  
+
+:::::: The code at line 1107 was first introduced by commit
+:::::: 88ffef1b65cf989b2dfea6374caff804fca6ec32 mtd: rawnand: arasan: Support the hardware BCH ECC engine
+
+:::::: TO: Miquel Raynal <miquel.raynal@bootlin.com>
+:::::: CC: Miquel Raynal <miquel.raynal@bootlin.com>
 
 -- 
 0-DAY CI Kernel Test Service
