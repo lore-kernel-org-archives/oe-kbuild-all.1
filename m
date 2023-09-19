@@ -1,190 +1,200 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB922905;
-	Tue, 19 Sep 2023 19:00:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695150009; x=1726686009;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+sS+JNmoHLMHmoY3ifeSMQHL71aCGWfQ89oWz/WEOJ8=;
-  b=LhP9oVFjSui/o4uBYHPrew7pTOk6347zOD/rJ6GTf8ekyr9Z9mJnHZku
-   Ki55cr0p4IGqPzAInL2y6526yNmYl2CrnD6Kc5mxa4w9MXiI0HiNCPzfZ
-   rHn7xK9YmY6oj3cFY/vGvYzjhK+iHQo6cy9feGSkA1W6T6sv/q2+0KkkG
-   fo+iDpeMqjehgGMq0FyPSJ0eAMO3V53oH6CPYFqyzZa3E4ZQx05+cY17y
-   irgLYKuIeZC/U7k6W1yGMIbCEosFmjcFJq/DMaZBs7py79EPUeekxRlGE
-   Y182+AMltHbrzHMcY8f7WBZKbOvfbxmPcmpX25ay98U3jgaSnDbiOJiFu
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="377335261"
-X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="377335261"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 12:00:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="749601584"
-X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="749601584"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 19 Sep 2023 12:00:05 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qifx4-0007oq-2w;
-	Tue, 19 Sep 2023 19:00:02 +0000
-Date: Wed, 20 Sep 2023 02:59:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	linux-fsdevel@vger.kernel.org, gfs2@lists.linux.dev,
-	linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
-	ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
-	reiserfs-devel@vger.kernel.org, linux-ext4@vger.kernel.org,
-	Pankaj Raghav <p.raghav@samsung.com>
-Subject: Re: [PATCH 11/26] nilfs2: Convert nilfs_copy_page() to
- nilfs_copy_folio()
-Message-ID: <202309200252.NpD8SUsn-lkp@intel.com>
-References: <20230919045135.3635437-12-willy@infradead.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF8E1D6A7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 19:04:36 +0000 (UTC)
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-770ef96aa01so392897685a.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 12:04:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1695150275; x=1695755075; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=SuRBdENIw7V9twXocQxarZXJFwOqUVR2w1pbySakEfo=;
+        b=ulS5krnX6jxo6RjLbyWF9j4UDfz/pchIzptmPvSfvajzHBRf9ZaB2ASIziEsdn2qQA
+         FxOM+iPiOd5AXwX8QWZXb8EW1i8WscwYAwbVz6NsUe8Nf8NWGRqXUUD1jix2dvB+h+W6
+         fJCos8JRiEKBvdjv0VnNbLkjMw2stu4byzPVRorGYU63KWJoJjiKgjuRwPZDCCKicntT
+         fXnE+v7tT+e+jrFt81E0AX9JIcy1kxhtky5azVEpccWBjPpo927Y5QQtBhFDyleLK9Fd
+         G4jCklBg8f7BZxs4EgFB/HHM+7OE6gYkxQZe3GAhKG1nW8wSnG/6AvYaZri4CRiOwE8b
+         aSjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695150275; x=1695755075;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SuRBdENIw7V9twXocQxarZXJFwOqUVR2w1pbySakEfo=;
+        b=HAL/AYFPeIIEpo71vWxyrOOp4okrhY77idIaQeRm1QytHUeU/I+2RRbu24V3KFayEP
+         fq+TM9pPJJYMgwbq0p7Phkq+RSmEXGevAmsO5M629uhyjyaMzcS/ZvfzlbWp8IXQdbL0
+         zE9Q48h3q1UrE9n2cY6ks0H+VK9a3o7GI0NqwKL8tbqjxJaEuoyijNcv9LyRSMPBAI3W
+         k9nr5EXdaZE0FL79q3t0t2hzJL24Q+5UBE7uDU7ik6uP3oU3IseT5YKyn8ZYf4DW3HHq
+         gpr/ZQYYBUsoOdig6t4QkbYkZXv5+0bjpkJNsZOfw9wL71bgJ59HC1aKFzQmd+EW3Bt9
+         KXGg==
+X-Gm-Message-State: AOJu0Yw/at7S6cEX5zHcG7slTi5uC2VOsoAb/JN5lf2IWB5ow3NsmviA
+	z+pqyvtGcTB95iK8ogl0Z+rcvw==
+X-Google-Smtp-Source: AGHT+IFpzS+R18C2PIqZZdUsvjxaUNur77Qpz5Dgu0rMfOHyIuqx6jVj6XU3qmkPHOq2fuA812kYkg==
+X-Received: by 2002:a05:620a:2224:b0:76d:acd1:447b with SMTP id n4-20020a05620a222400b0076dacd1447bmr529703qkh.41.1695150275619;
+        Tue, 19 Sep 2023 12:04:35 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:bae9::7a9])
+        by smtp.gmail.com with ESMTPSA id oo18-20020a05620a531200b00765ab6d3e81sm4192894qkn.122.2023.09.19.12.04.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Sep 2023 12:04:35 -0700 (PDT)
+Message-ID: <61caa860d8b5c35514da48a2548a1f6718458ec5.camel@ndufresne.ca>
+Subject: Re: [EXT] Re: [PATCH] MA-21654 Use dma_alloc_pages in
+ vb2_dma_sg_alloc_compacted
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Hui Fang <hui.fang@nxp.com>, kernel test robot <lkp@intel.com>, 
+ "tfiga@chromium.org" <tfiga@chromium.org>, "m.szyprowski@samsung.com"
+ <m.szyprowski@samsung.com>,  "mchehab@kernel.org" <mchehab@kernel.org>
+Cc: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, 
+	"linux-media@vger.kernel.org"
+	 <linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	 <linux-kernel@vger.kernel.org>, Anle Pan <anle.pan@nxp.com>, Xuegang Liu
+	 <xuegang.liu@nxp.com>
+Date: Tue, 19 Sep 2023 15:04:34 -0400
+In-Reply-To: <DB9PR04MB9284F8565C0A5A3F1E70603D87FAA@DB9PR04MB9284.eurprd04.prod.outlook.com>
+References: <20230914145812.12851-1-hui.fang@nxp.com>
+	 <202309190740.sIUYQTIq-lkp@intel.com>
+	 <DB9PR04MB9284F8565C0A5A3F1E70603D87FAA@DB9PR04MB9284.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230919045135.3635437-12-willy@infradead.org>
 
-Hi Matthew,
+Le mardi 19 septembre 2023 =C3=A0 06:43 +0000, Hui Fang a =C3=A9crit=C2=A0:
+> On Thu, Sep 19, 2023 at 07:44=E2=80=AFAM kernel test robot <lkp@intel.com=
+> wrote:
+> > Hi Fang,
+> >=20
+> > kernel test robot noticed the following build errors:
+> >=20
+> > [auto build test ERROR on media-tree/master] [also build test ERROR on
+> > linus/master v6.6-rc2 next-20230918] [If your patch is applied to the w=
+rong git
+> > tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.c/
+> > om%2Fdocs%2Fgit-format-patch%23_base_tree_information&data=3D05%7C01%
+> > 7Chui.fang%40nxp.com%7C3c6f14962ebc4483235308dbb8a12782%7C686ea1d
+> > 3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C638306774533762887%7CUnknow
+> > n%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haW
+> > wiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3D4Xf2y8dA7JGZF4hlEMdnLIIK
+> > b%2FIH2NS612ZNFvblqqo%3D&reserved=3D0]
+> >=20
+> > url:
+> > https://github.co/
+> > m%2Fintel-lab-lkp%2Flinux%2Fcommits%2FFang-Hui%2FMA-21654-Use-dma_all
+> > oc_pages-in-vb2_dma_sg_alloc_compacted%2F20230914-154333&data=3D05%7
+> > C01%7Chui.fang%40nxp.com%7C3c6f14962ebc4483235308dbb8a12782%7C68
+> > 6ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C638306774533762887%7CU
+> > nknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik
+> > 1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DuPPbnMqqO1X55H7tC
+> > bOlsfuO46dcErvJLxNSG5BslrU%3D&reserved=3D0
+> > base:   git://linuxtv.org/media_tree.git master
+> > patch link:
+> > https://lore.kern/
+> > el.org%2Fr%2F20230914145812.12851-1-hui.fang%2540nxp.com&data=3D05%7C
+> > 01%7Chui.fang%40nxp.com%7C3c6f14962ebc4483235308dbb8a12782%7C686
+> > ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C638306774533762887%7CUn
+> > known%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1
+> > haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3D6dYF2kk5ba0TE0B2jZM
+> > hNWPRTkdn2zhWgQZ7LHTE1cE%3D&reserved=3D0
+> > patch subject: [PATCH] MA-21654 Use dma_alloc_pages in
+> > vb2_dma_sg_alloc_compacted
+> > config: sh-randconfig-002-20230919
+> > (https://downloa/
+> > d.01.org%2F0day-ci%2Farchive%2F20230919%2F202309190740.sIUYQTIq-lkp%
+> > 40intel.com%2Fconfig&data=3D05%7C01%7Chui.fang%40nxp.com%7C3c6f14962
+> > ebc4483235308dbb8a12782%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7
+> > C0%7C638306774533762887%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLj
+> > AwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C
+> > %7C&sdata=3DPMZX%2F9gMPOGxPnC5cVSABHqa4Xfd%2Fa6sgyjcghRqfoI%3D&r
+> > eserved=3D0)
+> > compiler: sh4-linux-gcc (GCC) 13.2.0
+> > reproduce (this is a W=3D1 build):
+> > (https://downloa/
+> > d.01.org%2F0day-ci%2Farchive%2F20230919%2F202309190740.sIUYQTIq-lkp%
+> > 40intel.com%2Freproduce&data=3D05%7C01%7Chui.fang%40nxp.com%7C3c6f14
+> > 962ebc4483235308dbb8a12782%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C
+> > 0%7C0%7C638306774533762887%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC
+> > 4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7
+> > C%7C%7C&sdata=3D6pzcKMI%2By2W1bpAjntJ7eizgiNmtcCG7ti4oEF3R01g%3D&r
+> > eserved=3D0)
+> >=20
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of the
+> > same patch/commit), kindly add following tags
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > > Closes:
+> > > https://lore/
+> > > .kernel.org%2Foe-kbuild-all%2F202309190740.sIUYQTIq-lkp%40intel.com%2=
+F
+> > >=20
+> > &data=3D05%7C01%7Chui.fang%40nxp.com%7C3c6f14962ebc4483235308dbb8a
+> > 12782%
+> > >=20
+> > 7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C638306774533762887
+> > %7CUnkn
+> > >=20
+> > own%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1ha
+> > Wwi
+> > >=20
+> > LCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3D45a%2FVY%2Fu8axIKigPCE3e
+> > WEXinD1EG
+> > > dQQu9TCnBZ%2BMI0%3D&reserved=3D0
+> >=20
+> > All errors (new ones prefixed by >>):
+> >=20
+> >    sh4-linux-ld: drivers/media/i2c/tc358746.o: in function `tc358746_pr=
+obe':
+> >    tc358746.c:(.text+0x1b8c): undefined reference to `devm_clk_hw_regis=
+ter'
+> >    sh4-linux-ld: tc358746.c:(.text+0x1b90): undefined reference to
+> > `devm_of_clk_add_hw_provider'
+> >    sh4-linux-ld: tc358746.c:(.text+0x1b94): undefined reference to
+> > `of_clk_hw_simple_get'
+> >    sh4-linux-ld: drivers/media/common/videobuf2/videobuf2-dma-sg.o: in
+> > function `vb2_dma_sg_alloc_compacted':
+> > > > videobuf2-dma-sg.c:(.text+0x57c): undefined reference to `dma_alloc=
+_pages'
+> >=20
+> > --
+> > 0-DAY CI Kernel Test Service
+> > https://github.co/
+> > m%2Fintel%2Flkp-tests%2Fwiki&data=3D05%7C01%7Chui.fang%40nxp.com%7C3c
+> > 6f14962ebc4483235308dbb8a12782%7C686ea1d3bc2b4c6fa92cd99c5c301635
+> > %7C0%7C0%7C638306774533762887%7CUnknown%7CTWFpbGZsb3d8eyJWIjoi
+> > MC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000
+> > %7C%7C%7C&sdata=3DvA9h%2FGFfIel5hbcYVB0LgJGjHtDq1oF4SrfIvQcRm90%3D
+> > &reserved=3D0
+>=20
+>=20
+> I wonder if it's suitable to us the config (CONFIG_NO_DMA=3Dy) to build?
+> Also, there are other undefined references no related to the patch.
 
-kernel test robot noticed the following build errors:
+May I suggest this ?
 
-[auto build test ERROR on next-20230918]
-[also build test ERROR on v6.6-rc2]
-[cannot apply to konis-nilfs2/upstream gfs2/for-next tytso-ext4/dev linus/master v6.6-rc2 v6.6-rc1 v6.5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/buffer-Make-folio_create_empty_buffers-return-a-buffer_head/20230919-125330
-base:   next-20230918
-patch link:    https://lore.kernel.org/r/20230919045135.3635437-12-willy%40infradead.org
-patch subject: [PATCH 11/26] nilfs2: Convert nilfs_copy_page() to nilfs_copy_folio()
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230920/202309200252.NpD8SUsn-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200252.NpD8SUsn-lkp@intel.com/reproduce)
+diff --git a/drivers/media/common/videobuf2/Kconfig
+b/drivers/media/common/videobuf2/Kconfig
+index d2223a12c95f..7cf869e48246 100644
+--- a/drivers/media/common/videobuf2/Kconfig
++++ b/drivers/media/common/videobuf2/Kconfig
+@@ -26,6 +26,7 @@ config VIDEOBUF2_DMA_SG
+        tristate
+        select VIDEOBUF2_CORE
+        select VIDEOBUF2_MEMOPS
++       select DMA_SHARED_BUFFER
+=20
+ config VIDEOBUF2_DVB
+        tristate
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309200252.NpD8SUsn-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+>=20
+> BRs,
+> Fang Hui
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/amt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/macvtap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/tap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/ppp_generic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/ppp_async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/bsd_comp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/ppp_deflate.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/ppp_synctty.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/slip/slhc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cdrom/cdrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/cio/vfio_ccw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/block/dcssblk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/net/lcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/garp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/act_gate.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_htb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_hfsc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_red.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_gred.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_ingress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_sfq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_tbf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_teql.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_prio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_multiq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_netem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_drr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_plug.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_ets.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_mqprio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_mqprio_lib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_choke.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_qfq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_u32.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_route.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_fw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_basic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netlink/netlink_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nfnetlink_osf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_conntrack.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_conntrack_netlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_conntrack_broadcast.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_tables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_fib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_chain_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_rr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wrr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
->> ERROR: modpost: "folio_copy" [fs/nilfs2/nilfs2.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
