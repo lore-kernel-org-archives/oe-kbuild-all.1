@@ -1,151 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20868A3B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 07:49:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695109751; x=1726645751;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DOwKPK2ZKm9AIg5bJUx80+sSzuoUpgRbbL5MT+RoMqY=;
-  b=UJR0fFqYGZeRXFE98vT7ms2zWDgsfzUr+qIMuYaxJtQ/HnUXUPoA82H7
-   UvBNnQ8UpVNgWkgePeXLEtXvLj5KP6Ms3kZSrL+VXYew/xbNkMiGnUD+E
-   troHbcme0Rvjb80Wdz89L9z3uQv17qwNd5pU7n00oGqvS33X3Jw0CdoFL
-   b+HbsfeAWQ5fL0WXi+0aeRrugLdktPax8FGFy378xBsxoRI5yCXohJTzE
-   Enqz4bBT1ndZMacbQLMNUlJLYKCMMFnD/E3TyucwPVvrevIlTg9FkzYoA
-   kx9xoSRTKZLq8PwX1Fh/O8SGch19nKbFYLlA1n/6ZC/2L8voX5oB7du8X
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="466207113"
-X-IronPort-AV: E=Sophos;i="6.02,158,1688454000"; 
-   d="scan'208";a="466207113"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 00:49:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="775449486"
-X-IronPort-AV: E=Sophos;i="6.02,158,1688454000"; 
-   d="scan'208";a="775449486"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 19 Sep 2023 00:49:05 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qiVTh-00074k-2W;
-	Tue, 19 Sep 2023 07:49:01 +0000
-Date: Tue, 19 Sep 2023 15:45:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tomer Maimon <tmaimon77@gmail.com>, peter.chen@kernel.org,
-	gregkh@linuxfoundation.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, xu.yang_2@nxp.com,
-	peng.fan@nxp.com, avifishman70@gmail.com, tali.perry1@gmail.com,
-	joel@jms.id.au, venture@google.com, yuenn@google.com,
-	benjaminfair@google.com, j.neuschaefer@gmx.net
-Cc: oe-kbuild-all@lists.linux.dev, openbmc@lists.ozlabs.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, Tomer Maimon <tmaimon77@gmail.com>
-Subject: Re: [PATCH v1 2/2] usb: chipidea: Add support for NPCM
-Message-ID: <202309191545.dZXS2Y2p-lkp@intel.com>
-References: <20230918165958.2659-3-tmaimon77@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49615110B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 09:33:33 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-403012f27e1so58335085e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 02:33:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695116012; x=1695720812; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MpYHaXDJ9fV3McCT5caMeGlmzeSYOtE24Q/o7Z1lAx0=;
+        b=RFB2EVW6X629Ftgm2pxCjElmEMddmAUDwzKdCqk0mGLPNCc1vAeeVLZrEdpM0krbHm
+         GISd9I+gUOhLoSFb9XUYHMTpBWH7z/feubRQyFRF9DJ6Nbs7cbiHIVg6kSEpzg7BNatk
+         ksHSRN/N0fSVqqpMyxZbRJEuHtCNWwOrTNxIwTKlZ6HLM5Muna39sx9wL92IqTKA3B0T
+         m29zxdSpDI70SCckRJiFW5oy4GLRyAkMViY+zEAyAHQb11RUqjtXiOlEUVyXjQZ2dUA+
+         ZFuQuaaMb57hyTYrY5yF0EO+Uix8fDGR4/rvjskzaLWN6Xv0yFXhwNhDmphDwrbhCiN7
+         JwOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695116012; x=1695720812;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MpYHaXDJ9fV3McCT5caMeGlmzeSYOtE24Q/o7Z1lAx0=;
+        b=jt0v1fzsPV6Fp9B3vHkghDWRc4VVTCPbxBWnh2K63Gc1w/b2AkkqsR9Jlv6FAOw6I1
+         38kHj3xxYKhiedH3qHoC4124A07ex/8dbWTDZM07AoN/pZDmiUA8SsrMYDZRjn9n7BeJ
+         xlxD92A11R/gwnQFL9i8URhK2a0DM8aiwJwlY5SLwoNQekh/4L61ESAgu/YQirxFHeN8
+         4pxjAF6J/gjitA32xQ2S/lQFe0aEQyH5OBEdnYSqctskwtJnxRUzdgepjQT12KPBnY2S
+         QtTMtDHOPoN+Vv5nxNFMFyWrtQPvMNvshTdz1CB58oVsmIKB0/JaIz5xDz0smgwtxglO
+         VNSw==
+X-Gm-Message-State: AOJu0YyqzL0d/FIRX8JkN48hPKLNK9sfhJe6jYMoqHVN61vQmvKzbDNg
+	IAvEbti74fyRRyhgF+6/I95Ld5/U1J9WAxoI6dWKaAMxVOk=
+X-Google-Smtp-Source: AGHT+IFoeASmfFuxlv4GDCZjiRfLtAzZFkECWaLXabSgbEsfWe9UvJ2c42YXYzNjsAGXKQNQQxdE0buGI7r1JzgxgCE=
+X-Received: by 2002:a05:6000:98d:b0:320:a19:7f87 with SMTP id
+ by13-20020a056000098d00b003200a197f87mr5985622wrb.18.1695116012003; Tue, 19
+ Sep 2023 02:33:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230918165958.2659-3-tmaimon77@gmail.com>
+References: <202309190634.fL17FWoT-lkp@intel.com>
+In-Reply-To: <202309190634.fL17FWoT-lkp@intel.com>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Tue, 19 Sep 2023 02:33:19 -0700
+Message-ID: <CAADnVQLvqidYQp4jnrL+ryi5o32P-yqHgrQ+aKdp5gvDBndbJw@mail.gmail.com>
+Subject: Re: [linux-next:master 5430/5912] kernel/bpf/verifier.c:15232:13:
+ warning: variable 'prev_offset' set but not used
+To: kernel test robot <lkp@intel.com>
+Cc: Kumar Kartikeya Dwivedi <memxor@gmail.com>, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Alexei Starovoitov <ast@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tomer,
+On Mon, Sep 18, 2023 at 3:31=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   7fc7222d9680366edeecc219c21ca96310bdbc10
+> commit: aaa619ebccb2b78b3c6d2c0cd72d206ee8fc0025 [5430/5912] bpf: Refacto=
+r check_btf_func and split into two phases
+> config: arc-randconfig-002-20230919 (https://download.01.org/0day-ci/arch=
+ive/20230919/202309190634.fL17FWoT-lkp@intel.com/config)
+> compiler: arc-elf-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20230919/202309190634.fL17FWoT-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309190634.fL17FWoT-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    kernel/bpf/verifier.c: In function 'check_btf_func':
+> >> kernel/bpf/verifier.c:15232:13: warning: variable 'prev_offset' set bu=
+t not used [-Wunused-but-set-variable]
+>    15232 |         u32 prev_offset =3D 0;
+>          |             ^~~~~~~~~~~
+> >> kernel/bpf/verifier.c:15225:35: warning: variable 'min_size' set but n=
+ot used [-Wunused-but-set-variable]
+>    15225 |         u32 i, nfuncs, urec_size, min_size;
+>          |                                   ^~~~~~~~
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.6-rc2 next-20230918]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tomer-Maimon/dt-binding-usb-ci-hdrc-usb2-document-Nuvoton-NPCM-supprt/20230919-010147
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230918165958.2659-3-tmaimon77%40gmail.com
-patch subject: [PATCH v1 2/2] usb: chipidea: Add support for NPCM
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230919/202309191545.dZXS2Y2p-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309191545.dZXS2Y2p-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309191545.dZXS2Y2p-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/usb/chipidea/ci_hdrc_npcm.c: In function 'npcm_udc_probe':
->> drivers/usb/chipidea/ci_hdrc_npcm.c:68:17: error: 'CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS' undeclared (first use in this function)
-      68 |                 CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS;
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/chipidea/ci_hdrc_npcm.c:68:17: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +/CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS +68 drivers/usb/chipidea/ci_hdrc_npcm.c
-
-    39	
-    40	static int npcm_udc_probe(struct platform_device *pdev)
-    41	{
-    42		int ret;
-    43		unsigned int args[3];
-    44		struct regmap *gcr_regmap;
-    45		struct npcm_udc_data *ci;
-    46		struct platform_device *plat_ci;
-    47		struct device *dev = &pdev->dev;
-    48		struct device_node *np = dev->of_node;
-    49	
-    50		ci = devm_kzalloc(&pdev->dev, sizeof(*ci), GFP_KERNEL);
-    51		if (!ci)
-    52			return -ENOMEM;
-    53		platform_set_drvdata(pdev, ci);
-    54	
-    55		ci->core_clk = devm_clk_get_optional(dev, NULL);
-    56		if (IS_ERR(ci->core_clk))
-    57			return PTR_ERR(ci->core_clk);
-    58	
-    59		ret = clk_prepare_enable(ci->core_clk);
-    60		if (ret) {
-    61			dev_err(dev, "failed to enable the clock: %d\n", ret);
-    62			return ret;
-    63		}
-    64	
-    65		ci->pdata.name = dev_name(dev);
-    66		ci->pdata.capoffset = DEF_CAPOFFSET;
-    67		ci->pdata.flags	= CI_HDRC_REQUIRES_ALIGNED_DMA |
-  > 68			CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS;
-    69		ci->pdata.phy_mode = USBPHY_INTERFACE_MODE_UTMI;
-    70		ci->pdata.notify_event = npcm_udc_notify_event;
-    71	
-    72		gcr_regmap = syscon_regmap_lookup_by_phandle_args(np, "nuvoton,sysgcr",
-    73								  3, args);
-    74		if (!IS_ERR(gcr_regmap))
-    75			regmap_update_bits(gcr_regmap, args[0], args[1], args[2]);
-    76	
-    77		plat_ci = ci_hdrc_add_device(dev, pdev->resource, pdev->num_resources,
-    78					     &ci->pdata);
-    79		if (IS_ERR(plat_ci)) {
-    80			ret = PTR_ERR(plat_ci);
-    81			dev_err(dev, "failed to register HDRC NPCM device: %d\n", ret);
-    82			goto clk_err;
-    83		}
-    84	
-    85		pm_runtime_no_callbacks(dev);
-    86		pm_runtime_enable(dev);
-    87	
-    88		return 0;
-    89	
-    90	clk_err:
-    91		clk_disable_unprepare(ci->core_clk);
-    92		return ret;
-    93	}
-    94	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Applied trivial fix to bpf-next.
