@@ -1,246 +1,110 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB1F83B793
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 15:21:05 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id A6D2B5C0182;
-	Tue, 19 Sep 2023 11:21:04 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Tue, 19 Sep 2023 11:21:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.fm; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to; s=fm2; t=
-	1695136864; x=1695223264; bh=3yQ/E5fXi8IYKNdgyuCIBZq9U0mUDfGFlEu
-	oaY5ix+8=; b=Kdp/sD4hn3stBVQQCRsIUN/pS4fw/23N9GTmFPBQ1SWr5QcUDGt
-	BpLhHVmeoNUk0pq4HYY2EEticgiNEp9d3tYfpbLxdF73VDNz8hBvyUZMWbef/Isq
-	BJ74De0LdQ5bM1FVthfT976QEYU9dMkhYlcp/B3GWEPYpJk69j/9ctP0mvtA2cuv
-	FqAA8EZLyPfhndKjReUdcG6fyq4tZnZvUlSaHPtcyFI/4PNetSsVe0Y/07YbS/ef
-	tRd6esq2/8xIj0WmhuuFSjaxPos2lBR5fpc6VuFrYXO1q4c6dTjv0nopkwdv9/Dc
-	zGFppRPkJGO+Zk5yuGKTI16PkKrzgk0Kscw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1695136864; x=1695223264; bh=3yQ/E5fXi8IYKNdgyuCIBZq9U0mUDfGFlEu
-	oaY5ix+8=; b=GDG1HpoYEWwmPu614hrdOVVSu3PLMFtdfLOZrmOT8nyjSpexzUq
-	sFGoWzo8hev5Cx7D/RLcG1DiaTMZzkSIDTT9FyyJIo6Xs701hbhI7e0j/U+520tY
-	hAMmP5uWjnvtZPomW/Q0Bbb8bYb11Znb1aUz+pYjIGvR92h/WegNwEzCKgmZqwb8
-	i7pH88F/bMfnr48HM1/xx7g2LJcHVDvVkdDEXfpRLDFZX6LkoPfrvJg0wbPA6VC8
-	6YipOK8Q2N9V0aut6PFzDgLEuqM/uLBnlxR+370gXJHVncDJXCvTcZqtMxR2l/EY
-	D6EhjRV8L1gMyoB/GBv3AwUXGSmIVFwklvw==
-X-ME-Sender: <xms:X7wJZfaDkAyf6wNr7w3YdvnG2eX6z0te5xOcY5lcuRE1w5COEycH1w>
-    <xme:X7wJZeZP1XKBdtDm7O_bkxLF9phmRH2pohueGcmnEM2UN2bfz3geJegH0QMWlnlPV
-    yXZTxPuVP7WzO85>
-X-ME-Received: <xmr:X7wJZR8BBJ51-6jqp8viBXaSMoaBt5kRDwwqQl9ZpudSMA9Ju_WdhQRm55n0QH9ozt4EjM3U8vaydHtSTDqBVncIFno4v0vGtMOJS9RgEty3hlZ8kZ4P>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudekuddgheeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefkffggfgfuvfevfhfhjggtgfesth
-    ejredttdefjeenucfhrhhomhepuegvrhhnugcuufgthhhusggvrhhtuceosggvrhhnugdr
-    shgthhhusggvrhhtsehfrghsthhmrghilhdrfhhmqeenucggtffrrghtthgvrhhnpeekhe
-    evkeelkeekjefhheegfedtffduudejjeeiheehudeuleelgefhueekfeevudenucevlhhu
-    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsvghrnhgurdhstg
-    hhuhgsvghrthesfhgrshhtmhgrihhlrdhfmh
-X-ME-Proxy: <xmx:YLwJZVrALRBfMFR0_k7kszGQO52DbxoyGXsO40Fyp2sW9q0erNFLNg>
-    <xmx:YLwJZaqGh5lXBLMu28hG3cs4_M8v0YON2xQqS_LWRKPe0-02QoyiZA>
-    <xmx:YLwJZbSuTzMEqpXaLlt28NA9Ev6SlecMEE3spSkol2dTxQKrWxKVOg>
-    <xmx:YLwJZXBiUgKewxwpYxJ52rLZpRfXMlTWtY6xNrcZzinxzoNlIcK0hA>
-Feedback-ID: id8a24192:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 19 Sep 2023 11:21:02 -0400 (EDT)
-Message-ID: <9f7dda94-fb94-3b99-a16c-9f6d3a25029c@fastmail.fm>
-Date: Tue, 19 Sep 2023 17:21:00 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4709F3B7AA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 15:30:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695137428; x=1726673428;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oWeXSQPtUiPUqGfjOQckVWGeyHasO/de5g3+UoWk7rg=;
+  b=HajNqDl+yNk6eULDN5j8vgcOWpAqgFPXZ0qo8E3nRPkRFocBBwat0QQ8
+   4PzrXO8JZ6+WxfI8gX9n/gcubZxK9d/DaAoKx+cpY+7aQCuEJOF/c8Xrx
+   +Jk/nUFLsuiOI6jIJv0U7JzC4UJuGsCwvV36OHuYbZUqsX1dXiPh7Yq6U
+   Kk5PIsSo7OsRv2jy4+/JOsD2JWSxa+JlCqoJZfdcEOT2o7zB4ubi/tTbP
+   C4oR1dapuWVfk/dUQ7CIVekF2mfgW8fYg4ko+1TrIjCMIOYCjmKCH4skW
+   MJjGPT17woDiUOXcH3OeZB87oxknY//xVIEVR+c87293GpsNO7THIjlFd
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="370286854"
+X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
+   d="scan'208";a="370286854"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 08:30:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="739759900"
+X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
+   d="scan'208";a="739759900"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 19 Sep 2023 08:30:24 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qicg9-0007YA-0S;
+	Tue, 19 Sep 2023 15:30:21 +0000
+Date: Tue, 19 Sep 2023 23:29:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Rohit Athavale <rohit.athavale@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>, Hyun Kwon <hyun.kwon@xilinx.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 333/1363]
+ drivers/media/platform/xilinx/xilinx-vpss-csc.c:660:17: warning:
+ 'xcsc_correct_coeff' accessing 48 bytes in a region of size 16
+Message-ID: <202309192343.ltuBatmX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v4 07/10] fuse: Remove fuse_direct_write_iter code path /
- use IOCB_DIRECT
-To: kernel test robot <lkp@intel.com>, Bernd Schubert <bschubert@ddn.com>,
- linux-fsdevel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, miklos@szeredi.hu, dsingh@ddn.com,
- Hao Xu <howeyxu@tencent.com>
-References: <20230918150313.3845114-8-bschubert@ddn.com>
- <202309190423.cEQ7h6ai-lkp@intel.com>
-Content-Language: en-US, de-DE
-From: Bernd Schubert <bernd.schubert@fastmail.fm>
-In-Reply-To: <202309190423.cEQ7h6ai-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
+head:   4f412ed20fd2c5353c1e878ef9ed77952a5040a1
+commit: 9626b289ddbc935c133304a957c2ac1ce43f98f5 [333/1363] v4l: xilinx-vpss-csc: driver support for xilinx vpss csc
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230919/202309192343.ltuBatmX-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309192343.ltuBatmX-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309192343.ltuBatmX-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In function 'xcsc_set_red_gain',
+       inlined from 'xcsc_s_stream' at drivers/media/platform/xilinx/xilinx-vpss-csc.c:759:2:
+>> drivers/media/platform/xilinx/xilinx-vpss-csc.c:660:17: warning: 'xcsc_correct_coeff' accessing 48 bytes in a region of size 16 [-Wstringop-overflow=]
+     660 |                 xcsc_correct_coeff(xcsc, xcsc->shadow_coeff);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/xilinx/xilinx-vpss-csc.c:660:17: note: referencing argument 2 of type 's32[3][4]' {aka 'int[3][4]'}
+   drivers/media/platform/xilinx/xilinx-vpss-csc.c: In function 'xcsc_s_stream':
+   drivers/media/platform/xilinx/xilinx-vpss-csc.c:552:1: note: in a call to function 'xcsc_correct_coeff'
+     552 | xcsc_correct_coeff(struct xcsc_dev *xcsc,
+         | ^~~~~~~~~~~~~~~~~~
 
 
+vim +/xcsc_correct_coeff +660 drivers/media/platform/xilinx/xilinx-vpss-csc.c
 
-On 9/18/23 22:13, kernel test robot wrote:
-> Hi Bernd,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on mszeredi-fuse/for-next]
+   641	
+   642	static void xcsc_set_red_gain(struct xcsc_dev *xcsc)
+   643	{
+   644		dev_dbg(xcsc->xvip.dev,
+   645			"%s: Red Gain %d Red Gain Active %d", __func__,
+   646			(xcsc->red_gain - 20) / 2,
+   647			(xcsc->red_gain_active - 20) / 2);
+   648	
+   649		if (xcsc->red_gain != xcsc->red_gain_active) {
+   650			xcsc->shadow_coeff[0][0] = (xcsc->shadow_coeff[0][0] *
+   651						    xcsc->red_gain) /
+   652						    xcsc->red_gain_active;
+   653			xcsc->shadow_coeff[0][1] = (xcsc->shadow_coeff[0][1] *
+   654						    xcsc->red_gain) /
+   655						    xcsc->red_gain_active;
+   656			xcsc->shadow_coeff[0][2] = (xcsc->shadow_coeff[0][2] *
+   657						    xcsc->red_gain) /
+   658						    xcsc->red_gain_active;
+   659			xcsc->red_gain_active = xcsc->red_gain;
+ > 660			xcsc_correct_coeff(xcsc, xcsc->shadow_coeff);
+   661			xcsc_write_coeff(xcsc);
+   662		}
+   663	#ifdef DEBUG
+   664		xcsc_print_k_hw(xcsc);
+   665		xcsc_print_coeff(xcsc);
+   666	#endif
+   667	}
+   668	
 
-
-Thanks, updated patch:
-
----
-From: Bernd Schubert <bschubert@ddn.com>
-Subject: fuse: Remove fuse_direct_write_iter code path / use
-  IOCB_DIRECT
-
-fuse_direct_write_iter is basically duplicating what is already
-in fuse_cache_write_iter/generic_file_direct_write. That can be
-avoided by setting IOCB_DIRECT in fuse_file_write_iter, after that
-fuse_cache_write_iter can be used for the FOPEN_DIRECT_IO code path
-and fuse_direct_write_iter can be removed.
-
-Before it was using for FOPEN_DIRECT_IO
-
-1) async (!is_sync_kiocb(iocb)) && IOCB_DIRECT
-
-fuse_file_write_iter
-     fuse_direct_write_iter
-         fuse_direct_IO
-             fuse_send_dio
-
-2) sync (is_sync_kiocb(iocb)) or IOCB_DIRECT not being set
-
-fuse_file_write_iter
-     fuse_direct_write_iter
-         fuse_send_dio
-
-3) FOPEN_DIRECT_IO not set
-
-Same as the consolidates path below
-
-The new consolidated code path is always
-
-fuse_file_write_iter
-     fuse_cache_write_iter
-         generic_file_write_iter
-              __generic_file_write_iter
-                  generic_file_direct_write
-                      mapping->a_ops->direct_IO / fuse_direct_IO
-                          fuse_send_dio
-
-So in general for FOPEN_DIRECT_IO the code path gets longer. Additionally
-fuse_direct_IO does an allocation of struct fuse_io_priv - might be a bit
-slower in micro benchmarks.
-Also, the IOCB_DIRECT information gets lost (as we now set it outselves).
-But then IOCB_DIRECT is directly related to O_DIRECT set in
-struct file::f_flags.
-
-An additional change is for condition 2 above, which might will now do
-async IO on the condition ff->fm->fc->async_dio. Given that async IO for
-FOPEN_DIRECT_IO was especially introduced in commit
-'commit 23c94e1cdcbf ("fuse: Switch to using async direct IO for
-  FOPEN_DIRECT_IO")'
-it should not matter. Especially as fuse_direct_IO is blocking for
-is_sync_kiocb(), at worst it has another slight overhead.
-
-Advantage is the removal of code paths and conditions and it is now also
-possible to remove FOPEN_DIRECT_IO conditions in fuse_send_dio
-(in a later patch).
-
-Cc: Hao Xu <howeyxu@tencent.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Dharmendra Singh <dsingh@ddn.com>
-Cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Bernd Schubert <bschubert@ddn.com>
----
-  fs/fuse/file.c | 60 +++++++++-----------------------------------------
-  1 file changed, 10 insertions(+), 50 deletions(-)
-
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index 24fa6cab836f..41e10e6f5aa4 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -1061,6 +1061,12 @@ static unsigned int fuse_write_flags(struct kiocb *iocb)
-  	if (iocb->ki_flags & IOCB_SYNC)
-  		flags |= O_SYNC;
-  
-+	/*
-+	 * Note: If O_DIRECT should be ever added here,
-+	 *       iocb->ki_flags & IOCB_DIRECT cannot be trusted when
-+	 *       FOPEN_DIRECT_IO is set.
-+	 */
-+
-  	return flags;
-  }
-  
-@@ -1631,52 +1637,6 @@ static ssize_t fuse_direct_read_iter(struct kiocb *iocb, struct iov_iter *to)
-  	return res;
-  }
-  
--static ssize_t fuse_direct_write_iter(struct kiocb *iocb, struct iov_iter *from)
--{
--	struct inode *inode = file_inode(iocb->ki_filp);
--	struct fuse_io_priv io = FUSE_IO_PRIV_SYNC(iocb);
--	ssize_t res;
--	bool exclusive_lock = fuse_dio_wr_exclusive_lock(iocb, from, inode);
--
--	/*
--	 * Take exclusive lock if
--	 * - Parallel direct writes are disabled - a user space decision
--	 * - Parallel direct writes are enabled and i_size is being extended.
--	 *   This might not be needed at all, but needs further investigation.
--	 */
--	if (exclusive_lock)
--		inode_lock(inode);
--	else {
--		inode_lock_shared(inode);
--
--		/* A race with truncate might have come up as the decision for
--		 * the lock type was done without holding the lock, check again.
--		 */
--		if (fuse_io_past_eof(iocb, from)) {
--			inode_unlock_shared(inode);
--			inode_lock(inode);
--			exclusive_lock = true;
--		}
--	}
--
--	res = generic_write_checks(iocb, from);
--	if (res > 0) {
--		if (!is_sync_kiocb(iocb) && iocb->ki_flags & IOCB_DIRECT) {
--			res = fuse_direct_IO(iocb, from);
--		} else {
--			res = fuse_send_dio(&io, from, &iocb->ki_pos,
--					    FUSE_DIO_WRITE);
--			fuse_write_update_attr(inode, iocb->ki_pos, res);
--		}
--	}
--	if (exclusive_lock)
--		inode_unlock(inode);
--	else
--		inode_unlock_shared(inode);
--
--	return res;
--}
--
-  static ssize_t fuse_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
-  {
-  	struct file *file = iocb->ki_filp;
-@@ -1707,10 +1667,10 @@ static ssize_t fuse_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
-  	if (FUSE_IS_DAX(inode))
-  		return fuse_dax_write_iter(iocb, from);
-  
--	if (!(ff->open_flags & FOPEN_DIRECT_IO))
--		return fuse_cache_write_iter(iocb, from);
--	else
--		return fuse_direct_write_iter(iocb, from);
-+	if (ff->open_flags & FOPEN_DIRECT_IO)
-+		iocb->ki_flags |= IOCB_DIRECT;
-+
-+	return fuse_cache_write_iter(iocb, from);
-  }
-  
-  static void fuse_writepage_free(struct fuse_writepage_args *wpa)
 -- 
-2.39.2
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
