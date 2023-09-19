@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16488831
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 21:05:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D23347C7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 21:26:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695157534; x=1726693534;
+  t=1695158791; x=1726694791;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=omphm54i8oEs3XfIw/fGcpYAX3qOmu+AqnU1rfDIN40=;
-  b=lVhVdBjMkQ4DcOtrYvbHVS3uxqC+p4R85e3RtpX1PIF090KsSk6QkY+J
-   R/t0TvVVZq4y+lz8P5v2U1t0S7o9Mw3VI8HxzbFJPStJBER4/niTB+XSL
-   7wJOodMOFltL9yy0DeA0C/7Cxs63y2z8lP9M9l/8IZFSDuuhe4uyFRx5o
-   OVgrdgoUfozyf8QoQKvYIuQqRor3kELdxERht2rdxqMh7lr4/wdW7GB6K
-   AKjj3nDHsPdfoTbCQBlslW/yMHF2X153GvpD+WRmYMaya+hfDY6fthnIZ
-   k3BB+H7NAAO/V6OSa2Vl8B5RlSh9t/xqYdtp1WEtOYLgljgtiRDELpHx8
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="377360072"
+  bh=YJNTpEqHwE0d5IZhxbZbyM1zFqYhtuUDvHUgux2KLcc=;
+  b=ay6QwLeye0pta5Z9aeRZPnAnUzG3IhXNdOLN+2ojiwjs/WPg5D6XbPcA
+   MhHH0sXfn0azxWATNpiiWk4GH9A+/BYozVIxfWdvj2Lo6PmQD7Ji3IHSr
+   OvCMmNma5QuVMvv/vD6YuEFSLtKAi7vVgvt1mgkKI39Knl99CvfdDP/OL
+   zAMx9be5s3T6JL8cASsfWkcREbITIuMwtZcEbb20BXYs0iBx71xW6euLz
+   JlsIAICmkyc+yMo4PwHOPtp8o12xSMcjSiqkSa2VAC7ddCXZaku8OjbGd
+   U0UYQ8g5IiAMX+a9LScqEG9xHYuL8SVmLEopF2wcHJtdKujLjNlllMjlN
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="365102482"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="377360072"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 14:05:34 -0700
+   d="scan'208";a="365102482"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 14:26:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="836585392"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="920020270"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="836585392"
+   d="scan'208";a="920020270"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 19 Sep 2023 14:05:31 -0700
+  by orsmga005.jf.intel.com with ESMTP; 19 Sep 2023 14:26:28 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qihuQ-0007w4-0x;
-	Tue, 19 Sep 2023 21:05:26 +0000
-Date: Wed, 20 Sep 2023 05:05:17 +0800
+	id 1qiiEk-0007wm-2I;
+	Tue, 19 Sep 2023 21:26:26 +0000
+Date: Wed, 20 Sep 2023 05:25:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Edward Cree <ecree.xilinx@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: include/linux/netlink.h:115:6: warning: ' conflicts with existing
- pseudo(MASK) entry for mask ' directive output truncated writing 53 bytes
- into a region of size between 24 and 33
-Message-ID: <202309200420.FBqvqbSC-lkp@intel.com>
+To: Piyush Mehta <piyush.mehta@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 1023/1363] core.c:undefined
+ reference to `ulpi_write'
+Message-ID: <202309200559.okEK6DBC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,123 +48,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2cf0f715623872823a72e451243bbf555d10d032
-commit: b6583d5e9e94adce1be61ec59fef4e129f0bc68a sfc: support TC decap rules matching on enc_src_port
-date:   4 months ago
-config: x86_64-randconfig-014-20230906 (https://download.01.org/0day-ci/archive/20230920/202309200420.FBqvqbSC-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200420.FBqvqbSC-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
+head:   4f412ed20fd2c5353c1e878ef9ed77952a5040a1
+commit: a9a2045ee9fff8975ed0b20887309d5883ef5edb [1023/1363] usb: dwc3: core: Add support for disabling vbus when suspended
+config: arm64-randconfig-003-20230920 (https://download.01.org/0day-ci/archive/20230920/202309200559.okEK6DBC-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200559.okEK6DBC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309200420.FBqvqbSC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309200559.okEK6DBC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/uapi/linux/neighbour.h:6:0,
-                    from include/linux/netdevice.h:46,
-                    from include/net/sch_generic.h:5,
-                    from include/net/pkt_cls.h:7,
-                    from drivers/net/ethernet/sfc/tc.c:12:
-   drivers/net/ethernet/sfc/tc.c: In function 'efx_tc_flower_record_encap_match':
-   include/linux/netlink.h:115:6: warning: ' conflicts with existing pseudo(MASK) entry for TOS mask ' directive output truncated writing 57 bytes into a region of size between 33 and 39 [-Wformat-truncation=]
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:130:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:511:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:115:6: note: directive argument in the range [0, 2147483647]
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:130:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:511:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:115:6: note: 'snprintf' output between 103 and 115 bytes into a destination of size 80
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:130:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:511:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
->> include/linux/netlink.h:115:6: warning: ' conflicts with existing pseudo(MASK) entry for mask ' directive output truncated writing 53 bytes into a region of size between 24 and 33 [-Wformat-truncation=]
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:130:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:518:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:115:6: note: directive argument in the range [0, 2147483647]
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:130:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:518:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:115:6: note: 'snprintf' output between 102 and 120 bytes into a destination of size 80
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:130:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:518:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +115 include/linux/netlink.h
-
-2d4bc93368f5a0 Johannes Berg 2017-04-12  106  
-51c352bdbcd23d Edward Cree   2022-10-18  107  /* We splice fmt with %s at each end even in the snprintf so that both calls
-51c352bdbcd23d Edward Cree   2022-10-18  108   * can use the same string constant, avoiding its duplication in .ro
-51c352bdbcd23d Edward Cree   2022-10-18  109   */
-51c352bdbcd23d Edward Cree   2022-10-18  110  #define NL_SET_ERR_MSG_FMT(extack, fmt, args...) do {			       \
-51c352bdbcd23d Edward Cree   2022-10-18  111  	struct netlink_ext_ack *__extack = (extack);			       \
-51c352bdbcd23d Edward Cree   2022-10-18  112  									       \
-51c352bdbcd23d Edward Cree   2022-10-18  113  	if (!__extack)							       \
-51c352bdbcd23d Edward Cree   2022-10-18  114  		break;							       \
-51c352bdbcd23d Edward Cree   2022-10-18 @115  	if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,	       \
-51c352bdbcd23d Edward Cree   2022-10-18  116  		     "%s" fmt "%s", "", ##args, "") >=			       \
-51c352bdbcd23d Edward Cree   2022-10-18  117  	    NETLINK_MAX_FMTMSG_LEN)					       \
-51c352bdbcd23d Edward Cree   2022-10-18  118  		net_warn_ratelimited("%s" fmt "%s", "truncated extack: ",      \
-51c352bdbcd23d Edward Cree   2022-10-18  119  				     ##args, "\n");			       \
-51c352bdbcd23d Edward Cree   2022-10-18  120  									       \
-51c352bdbcd23d Edward Cree   2022-10-18  121  	do_trace_netlink_extack(__extack->_msg_buf);			       \
-51c352bdbcd23d Edward Cree   2022-10-18  122  									       \
-51c352bdbcd23d Edward Cree   2022-10-18  123  	__extack->_msg = __extack->_msg_buf;				       \
-51c352bdbcd23d Edward Cree   2022-10-18  124  } while (0)
-51c352bdbcd23d Edward Cree   2022-10-18  125  
-
-:::::: The code at line 115 was first introduced by commit
-:::::: 51c352bdbcd23d7ce46b06c1e64c82754dc44044 netlink: add support for formatted extack messages
-
-:::::: TO: Edward Cree <ecree.xilinx@gmail.com>
-:::::: CC: Jakub Kicinski <kuba@kernel.org>
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: ID map text too big or misaligned
+   aarch64-linux-ld: drivers/usb/dwc3/core.o: in function `dwc3_runtime_suspend':
+>> core.c:(.text+0x242c): undefined reference to `ulpi_write'
+   aarch64-linux-ld: drivers/usb/dwc3/core.o: in function `dwc3_runtime_resume':
+   core.c:(.text+0x3510): undefined reference to `ulpi_write'
 
 -- 
 0-DAY CI Kernel Test Service
