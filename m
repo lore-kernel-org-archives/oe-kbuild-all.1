@@ -1,42 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B9F1FDD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 03:11:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A752B1FDD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 03:11:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695093082; x=1726629082;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hpXSOgD9ZV9rP43A7fQDx3fdVFkKVxznEGgaTjOFUmo=;
-  b=QKF73JOfmAMTok/OHcMMyupMp/kj9ya5UxXOESwnjRRAHAiGGFyuuG8G
-   10JosRDudOIL8JjAeu90oDH89uveF5akAKrZY/gwfcGtBiW/kWDD43o/H
-   aOV0DngWzJBnbuP/JQZnZkP2VFRRknvw3geyeq7qMyETbJFjjObLkmA9t
-   VL9Tt4zeyP9JpNDrzHw1djczUFbDQHz9/G4a9ryXC1SE7EK3De1YThYQk
-   vcBZB+wdUSltXeeiECqe0SvlwLM8C2oxBjSnQgRHQN+EbWi+xGgp5zltC
-   P8Ndh1u18JNegVrOpyl7DpO5Y+Jxx3u+nu/E/siP/EW28r3++iEI9BlDB
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="378740626"
+  t=1695093084; x=1726629084;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=//n56qSOGpYjB+Tw3lFwSa+S8fDa2+ZU1y1haKxm4iY=;
+  b=ZiFpgAQnMTN6QK9EIoRBhF7DU6QEOJbvGDq2tla4xKLtHZSe35e/N6PS
+   +7c1iGASVdzk89oEP5XQ5Wq/39d9XVlpaH41dI9ZdK8NrShpSpwCNLQkZ
+   HK/pYeCVxY7tagQeQwu11WBdXfqzNwbr2z/mtwoV8/N1wWVmQkcJNBu3m
+   E8JK6VeyJzlY6uSU1nmuaBoqFCi5PIxur5SpHcsxRoiDSscWxcHt/Qhwt
+   26TFcFuCpTBot72nM3O2ZH2SlCo5Z5uj2n2nMFt42kKYuPVrDU3EwL0Vt
+   ldruDii/HUDh1O8qh+vl5Dz9rjEgmA5wKCQ0PgXKr+kbYjW4/hEK+EzsL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="378740631"
 X-IronPort-AV: E=Sophos;i="6.02,158,1688454000"; 
-   d="scan'208";a="378740626"
+   d="scan'208";a="378740631"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 20:11:21 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 20:11:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="992995675"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="992995676"
 X-IronPort-AV: E=Sophos;i="6.02,158,1688454000"; 
-   d="scan'208";a="992995675"
+   d="scan'208";a="992995676"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
   by fmsmga006.fm.intel.com with ESMTP; 18 Sep 2023 20:11:20 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qiR8w-0006pU-1h;
+	id 1qiR8w-0006pQ-1V;
 	Tue, 19 Sep 2023 03:11:18 +0000
-Date: Tue, 19 Sep 2023 11:10:45 +0800
+Date: Tue, 19 Sep 2023 11:10:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:x86/topo-full 87/92] topology_common.c:undefined
- reference to `topology_get_logical_id'
-Message-ID: <202309191114.Fg65Qtpo-lkp@intel.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>,
+	Alexander Aring <alex.aring@gmail.com>,
+	Stefan Schmidt <stefan@datenfreihafen.org>,
+	linux-wpan@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
+	netdev@vger.kernel.org, David Girault <david.girault@qorvo.com>,
+	Romuald Despres <romuald.despres@qorvo.com>,
+	Frederic Blain <frederic.blain@qorvo.com>,
+	Nicolas Schodet <nico@ni.fr.eu.org>,
+	Guilhem Imberton <guilhem.imberton@qorvo.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH wpan-next v3 11/11] ieee802154: Give the user the
+ association list
+Message-ID: <202309191044.4ABvPP5X-lkp@intel.com>
+References: <20230918150809.275058-12-miquel.raynal@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,26 +58,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230918150809.275058-12-miquel.raynal@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/topo-full
-head:   91418b13c03f8f6c26f4bfca7a82d9b94c4dccde
-commit: 78c2272b69e36c329a8639b52af1b4741f2ce967 [87/92] x86/cpu/topology: Use topology logical mapping mechanism
-config: i386-buildonly-randconfig-005-20230919 (https://download.01.org/0day-ci/archive/20230919/202309191114.Fg65Qtpo-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309191114.Fg65Qtpo-lkp@intel.com/reproduce)
+Hi Miquel,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+[also build test ERROR on net/main linus/master v6.6-rc2 next-20230918]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Miquel-Raynal/ieee802154-Let-PAN-IDs-be-reset/20230919-002634
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230918150809.275058-12-miquel.raynal%40bootlin.com
+patch subject: [PATCH wpan-next v3 11/11] ieee802154: Give the user the association list
+config: powerpc64-randconfig-001-20230919 (https://download.01.org/0day-ci/archive/20230919/202309191044.4ABvPP5X-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309191044.4ABvPP5X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309191114.Fg65Qtpo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309191044.4ABvPP5X-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: arch/x86/kernel/cpu/topology_common.o: in function `topo_set_ids':
->> topology_common.c:(.text+0xf4): undefined reference to `topology_get_logical_id'
->> ld: topology_common.c:(.text+0x103): undefined reference to `topology_get_logical_id'
-   ld: arch/x86/kernel/cpu/debugfs.o: in function `dom_debug_show':
-   debugfs.c:(.text+0x227): undefined reference to `domain_names'
+   net/ieee802154/nl802154.c: In function 'nl802154_list_associations':
+>> net/ieee802154/nl802154.c:1778:15: error: implicit declaration of function 'nl802154_prepare_wpan_dev_dump' [-Werror=implicit-function-declaration]
+    1778 |         err = nl802154_prepare_wpan_dev_dump(skb, cb, &rdev, &wpan_dev);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> net/ieee802154/nl802154.c:1811:9: error: implicit declaration of function 'nl802154_finish_wpan_dev_dump' [-Werror=implicit-function-declaration]
+    1811 |         nl802154_finish_wpan_dev_dump(rdev);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/nl802154_prepare_wpan_dev_dump +1778 net/ieee802154/nl802154.c
+
+  1769	
+  1770	static int nl802154_list_associations(struct sk_buff *skb,
+  1771					      struct netlink_callback *cb)
+  1772	{
+  1773		struct cfg802154_registered_device *rdev;
+  1774		struct ieee802154_pan_device *child;
+  1775		struct wpan_dev *wpan_dev;
+  1776		int err;
+  1777	
+> 1778		err = nl802154_prepare_wpan_dev_dump(skb, cb, &rdev, &wpan_dev);
+  1779		if (err)
+  1780			return err;
+  1781	
+  1782		mutex_lock(&wpan_dev->association_lock);
+  1783	
+  1784		if (cb->args[2])
+  1785			goto out;
+  1786	
+  1787		if (wpan_dev->parent) {
+  1788			err = nl802154_send_peer_info(skb, cb, cb->nlh->nlmsg_seq,
+  1789						      NLM_F_MULTI, rdev, wpan_dev,
+  1790						      wpan_dev->parent,
+  1791						      NL802154_PEER_TYPE_PARENT);
+  1792			if (err < 0)
+  1793				goto out_err;
+  1794		}
+  1795	
+  1796		list_for_each_entry(child, &wpan_dev->children, node) {
+  1797			err = nl802154_send_peer_info(skb, cb, cb->nlh->nlmsg_seq,
+  1798						      NLM_F_MULTI, rdev, wpan_dev,
+  1799						      child,
+  1800						      NL802154_PEER_TYPE_CHILD);
+  1801			if (err < 0)
+  1802				goto out_err;
+  1803		}
+  1804	
+  1805		cb->args[2] = 1;
+  1806	out:
+  1807		err = skb->len;
+  1808	out_err:
+  1809		mutex_unlock(&wpan_dev->association_lock);
+  1810	
+> 1811		nl802154_finish_wpan_dev_dump(rdev);
+  1812	
+  1813		return err;
+  1814	}
+  1815	
 
 -- 
 0-DAY CI Kernel Test Service
