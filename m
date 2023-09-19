@@ -1,125 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43CED3717C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 16:24:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB1B1865D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 16:34:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695140655; x=1726676655;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=1pePVDO6gpPRGYyhv14FSeDB1/mY9G6zz2Z1fcS+wwQ=;
-  b=KSj8QFlj9lIoh8fvkoTAK3eTQsuUvcqes93y4tMg5GV10jqXkEV7EFOM
-   I5E7OteOt/s5REX3udoy6ySycfU4ntI+vRyNYqckzKwR/rgZRqFguIn+W
-   NQdXG4BuJ3K0SvR8jiY+aVx3L//bLfn5TPoMU6dOc5g3J7443HRqY35pX
-   s3PjyjevdsWAWl04V6+IjspLEjNR6XO9mBfEIr+Xs2sX9ITDab3QU0vPf
-   vKFqO+zQfe3LPCVbFxfj7nuQOtYPOaDHogFnR7SytKrIs1wJ5utSd1I29
-   vp5Rn/3x98DZrKhSm3MpJxE+oZMHVNIOABgkwXUUFpksO4sZwPdbDR9Pk
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="446457260"
+  t=1695141241; x=1726677241;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XZpIBnSgkGa/ncmo+0kefgMVs9Xpwzuup2UeBrdxQro=;
+  b=cxPDDxQZwD94VnM1E9wE/RiszfELu/Y6Qu5eze3atsZ/kq78Ds+0fiMe
+   9XBfMh7hle1lItI+0SpK5UPAWtNoBZFMzhAs8S33AOUGo/JeaFYjqxC50
+   wBpBR/7k8JFZzhJxXT/+Zbhbl0jab/PalggChF5JafvAcXR/g5g89spOq
+   xIVPRsgpTfv0AJREzYfFpHCaypJ5Y2T0xJeINKV7VPpd0AkSvUtVZlp5A
+   cTFdW+tCcTjyu6T4AIr41GyUocfx9D+ebGpkn7C44XHdc2O/j94kMmD1R
+   tHMoAjhOZCSSS/ZMKPBzBep1IT6UWEdu44Tkpz6IzrX9Kz43f76MELW2T
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="377304619"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="446457260"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 09:23:59 -0700
+   d="scan'208";a="377304619"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 09:34:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="746301786"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="739786740"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="746301786"
+   d="scan'208";a="739786740"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 19 Sep 2023 09:23:58 -0700
+  by orsmga007.jf.intel.com with ESMTP; 19 Sep 2023 09:33:59 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qidW0-0007dV-08;
-	Tue, 19 Sep 2023 16:23:56 +0000
-Date: Wed, 20 Sep 2023 00:23:20 +0800
+	id 1qidfg-0007ei-2u;
+	Tue, 19 Sep 2023 16:33:56 +0000
+Date: Wed, 20 Sep 2023 00:33:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dave Airlie <airlied@redhat.com>
-Subject: drivers/gpu/drm/nouveau/nouveau_gem.c:195:16: warning: array
- subscript 0 is outside array bounds of 'struct nouveau_vmm[0]'
-Message-ID: <202309200028.GO8pvnyf-lkp@intel.com>
+To: Lang Yu <Lang.Yu@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Huang Rui <ray.huang@amd.com>
+Subject: [linux-next:master 679/6333]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c:49:52: warning: '%s' directive
+ output may be truncated writing up to 63 bytes into a region of size 57
+Message-ID: <202309200028.aUVuM8os-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2cf0f715623872823a72e451243bbf555d10d032
-commit: b88baab828713ce0b49b185444b2ee83bed373a8 drm/nouveau: implement new VM_BIND uAPI
-date:   7 weeks ago
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20230920/202309200028.GO8pvnyf-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200028.GO8pvnyf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   29e400e3ea486bf942b214769fc9778098114113
+commit: 9d4346bdbc6484a1814011315827c258509b483c [679/6333] drm/amdgpu: add VPE 6.1.0 support
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230920/202309200028.aUVuM8os-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200028.aUVuM8os-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309200028.GO8pvnyf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309200028.aUVuM8os-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/nouveau/nouveau_gem.c: In function 'nouveau_gem_object_close':
->> drivers/gpu/drm/nouveau/nouveau_gem.c:195:16: warning: array subscript 0 is outside array bounds of 'struct nouveau_vmm[0]' [-Warray-bounds=]
-     195 |         if (vmm->vmm.object.oclass < NVIF_CLASS_VMM_NV50)
-         |                ^~
-   cc1: note: source object is likely at address zero
->> drivers/gpu/drm/nouveau/nouveau_gem.c:195:16: warning: array subscript 0 is outside array bounds of 'struct nouveau_vmm[0]' [-Warray-bounds=]
-   cc1: note: source object is likely at address zero
->> drivers/gpu/drm/nouveau/nouveau_gem.c:195:16: warning: array subscript 0 is outside array bounds of 'struct nouveau_vmm[0]' [-Warray-bounds=]
-   cc1: note: source object is likely at address zero
-   cc1: note: source object is likely at address zero
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c: In function 'amdgpu_vpe_init_microcode':
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c:49:52: warning: '%s' directive output may be truncated writing up to 63 bytes into a region of size 57 [-Wformat-truncation=]
+      49 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", fw_prefix);
+         |                                                    ^~       ~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c:49:9: note: 'snprintf' output between 12 and 75 bytes into a destination of size 64
+      49 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", fw_prefix);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +195 drivers/gpu/drm/nouveau/nouveau_gem.c
+vim +49 drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c
 
-c4c7044ffc1ba9 Ben Skeggs       2013-05-07  183  
-639212d0115726 Ben Skeggs       2011-06-03  184  void
-639212d0115726 Ben Skeggs       2011-06-03  185  nouveau_gem_object_close(struct drm_gem_object *gem, struct drm_file *file_priv)
-639212d0115726 Ben Skeggs       2011-06-03  186  {
-ebb945a94bba2c Ben Skeggs       2012-07-20  187  	struct nouveau_cli *cli = nouveau_cli(file_priv);
-2fd3db6f145705 Ben Skeggs       2011-06-07  188  	struct nouveau_bo *nvbo = nouveau_gem_object(gem);
-5cc8d536c21a17 Ben Skeggs       2014-12-11  189  	struct nouveau_drm *drm = nouveau_bdev(nvbo->bo.bdev);
-5cc8d536c21a17 Ben Skeggs       2014-12-11  190  	struct device *dev = drm->dev->dev;
-7b05a7c0c9ca6e Danilo Krummrich 2023-08-04  191  	struct nouveau_vmm *vmm = nouveau_cli_vmm(cli);
-24e8375b1bfdf7 Ben Skeggs       2017-11-01  192  	struct nouveau_vma *vma;
-2fd3db6f145705 Ben Skeggs       2011-06-07  193  	int ret;
-639212d0115726 Ben Skeggs       2011-06-03  194  
-bfe91afaca5925 Ben Skeggs       2019-02-19 @195  	if (vmm->vmm.object.oclass < NVIF_CLASS_VMM_NV50)
-639212d0115726 Ben Skeggs       2011-06-03  196  		return;
-2fd3db6f145705 Ben Skeggs       2011-06-07  197  
-b88baab828713c Danilo Krummrich 2023-08-04  198  	if (nouveau_cli_uvmm(cli))
-b88baab828713c Danilo Krummrich 2023-08-04  199  		return;
-b88baab828713c Danilo Krummrich 2023-08-04  200  
-dfd5e50ea43ca4 Christian König  2016-04-06  201  	ret = ttm_bo_reserve(&nvbo->bo, false, false, NULL);
-2fd3db6f145705 Ben Skeggs       2011-06-07  202  	if (ret)
-2fd3db6f145705 Ben Skeggs       2011-06-07  203  		return;
-2fd3db6f145705 Ben Skeggs       2011-06-07  204  
-bfe91afaca5925 Ben Skeggs       2019-02-19  205  	vma = nouveau_vma_find(nvbo, vmm);
-2fd3db6f145705 Ben Skeggs       2011-06-07  206  	if (vma) {
-24e8375b1bfdf7 Ben Skeggs       2017-11-01  207  		if (--vma->refs == 0) {
-5cc8d536c21a17 Ben Skeggs       2014-12-11  208  			ret = pm_runtime_get_sync(dev);
-5cc8d536c21a17 Ben Skeggs       2014-12-11  209  			if (!WARN_ON(ret < 0 && ret != -EACCES)) {
-c4c7044ffc1ba9 Ben Skeggs       2013-05-07  210  				nouveau_gem_object_unmap(nvbo, vma);
-5cc8d536c21a17 Ben Skeggs       2014-12-11  211  				pm_runtime_mark_last_busy(dev);
-5cc8d536c21a17 Ben Skeggs       2014-12-11  212  			}
-d3faddc7dcd326 Dinghao Liu      2020-05-20  213  			pm_runtime_put_autosuspend(dev);
-5cc8d536c21a17 Ben Skeggs       2014-12-11  214  		}
-2fd3db6f145705 Ben Skeggs       2011-06-07  215  	}
-2fd3db6f145705 Ben Skeggs       2011-06-07  216  	ttm_bo_unreserve(&nvbo->bo);
-639212d0115726 Ben Skeggs       2011-06-03  217  }
-639212d0115726 Ben Skeggs       2011-06-03  218  
-
-:::::: The code at line 195 was first introduced by commit
-:::::: bfe91afaca59251fbf5d62143fdd8f740b551302 drm/nouveau: prepare for enabling svm with existing userspace interfaces
-
-:::::: TO: Ben Skeggs <bskeggs@redhat.com>
-:::::: CC: Ben Skeggs <bskeggs@redhat.com>
+    39	
+    40	int amdgpu_vpe_init_microcode(struct amdgpu_vpe *vpe)
+    41	{
+    42		struct amdgpu_device *adev = vpe->ring.adev;
+    43		const struct vpe_firmware_header_v1_0 *vpe_hdr;
+    44		char fw_name[VPE_FW_NAME_LEN];
+    45		char fw_prefix[VPE_FW_NAME_LEN];
+    46		int ret;
+    47	
+    48		amdgpu_ucode_ip_version_decode(adev, VPE_HWIP, fw_prefix, sizeof(fw_prefix));
+  > 49		snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", fw_prefix);
+    50	
+    51		ret = amdgpu_ucode_request(adev, &adev->vpe.fw, fw_name);
+    52		if (ret)
+    53			goto out;
+    54	
+    55		vpe_hdr = (const struct vpe_firmware_header_v1_0 *)adev->vpe.fw->data;
+    56		adev->vpe.fw_version = le32_to_cpu(vpe_hdr->header.ucode_version);
+    57		adev->vpe.feature_version = le32_to_cpu(vpe_hdr->ucode_feature_version);
+    58	
+    59		return 0;
+    60	out:
+    61		dev_err(adev->dev, "fail to initialize vpe microcode\n");
+    62		release_firmware(adev->vpe.fw);
+    63		adev->vpe.fw = NULL;
+    64		return ret;
+    65	}
+    66	
 
 -- 
 0-DAY CI Kernel Test Service
