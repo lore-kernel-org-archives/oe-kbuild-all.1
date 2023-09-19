@@ -1,143 +1,140 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F691863B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 20:06:08 +0000 (UTC)
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6564515ec4eso20700146d6.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 13:06:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695153967; x=1695758767; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kQnPY0z4taKHApL77Ffx1d50jLqp8wyhR11FZPBq+qk=;
-        b=2E1HiAdlkLzElX+fm8bseLgmTXTHEIxLau9UhSwo0bMe21Plt5sgQehvYLZ4Jo4z91
-         1xtPdAR2vOOBrTlz94el83lSTaL1OFaHrhcAmig/HPX6NEjBFadK0aYD49wiVoR/JtlS
-         Jn6K2KoxFlELiuP4CoOhSC19b71Ya/aj/sWWrx/2EQr3jLZjPg9XBHkatcanJihAV5wA
-         CqiIq1Vw8e5ojNb/VDj27WTQJGzZbE23bpE07+/IqVkxDX6dqqTs9J5rm1101yI24JMx
-         6RDVnE7DezPoweu1Wplm5e/Kq5Vfz8X/vL975MihgpGHAhgkDSL30sYp2ye+6Z+PKQFp
-         GL9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695153967; x=1695758767;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kQnPY0z4taKHApL77Ffx1d50jLqp8wyhR11FZPBq+qk=;
-        b=UYTgZb/0ckT6gk4gxBGP1Zt0sl5EUyPiPst/onrOhHOhR1s9qyBI+wmt+QGMuM41Bj
-         wJ5zdiSz2KReH/+j4lX+GTKPcvC35MCbzSajKYteLCGrXU94+PukgzAML+uFYpR3duxw
-         Ttlf27VBf5bIFmVXWjX5bfNf356rkiDvmLLW0e67/eFV8S78asHFyliHaAE790FULkaZ
-         /m8uAzjmP/jcMUW4HGCVEGLdTLPRxTCmI38xw5hgsuysl44gUFBMSTiG8JdUgiCacJs2
-         r2/IbBcfF706SnxLxA2hPWoNV3YPxGfNtnvA5i+UvgDijaUklDWfmjDQkAhKy/uQJU+t
-         ZRFA==
-X-Gm-Message-State: AOJu0YxrCnrBTlG8aTxkDIslIbDxpQljZokNOh3Lr+cB3fvjMV3//Wt8
-	T5icvSChz+OOJiAF9q0UJFwfS8dF8y32FRQJlwl7HA==
-X-Google-Smtp-Source: AGHT+IGwcqVkGXd3Zf3N82ll6JyqL1rHSLbA5bxgmmbMggRlybY8gxv4W57FTpofp4S8SxPCW/NJEqRwqbRLF7XD53I=
-X-Received: by 2002:a0c:e304:0:b0:658:4cae:b43a with SMTP id
- s4-20020a0ce304000000b006584caeb43amr217436qvl.4.1695153967060; Tue, 19 Sep
- 2023 13:06:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BCA8831
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 20:55:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695156932; x=1726692932;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FF0ZPQSrk4gbXx35U3K5Nvy3Iv4s+6kViKsplQcKT9Q=;
+  b=M3aVdRiZiGRTuLgZyxMu9LRYeXG0ite9QuW5H+Aq5+IrBW1kdSnE34ka
+   5B4r+p/VA1IfPDIZDTuxqmmPy15fn1zjtCmy9+eBXjA+LX5yOnsYrDo9T
+   KIZeAVrNvjViPq/12TuUaBpaJ/l7mycB+SLDHT9R2BH5FCZH3XSNsrYMO
+   Q0yxl0cnGe40txyyH7eeeatWIlwV6t+78CybbXOS8u0reG/eI8sqLBdD4
+   E3mUJji9Pw1cJZDI2Xt0+PgqvZ93XA3vjbeeiJEu3/R2lyapRo5r1QKy/
+   Mclb0YqNo/MXcdOOdgxg8G6mrHoXHIgP0TJVhgGROA+8xd4DH1mUA5ufj
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="377358391"
+X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
+   d="scan'208";a="377358391"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 13:55:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="836579877"
+X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
+   d="scan'208";a="836579877"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 19 Sep 2023 13:55:27 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qihkj-0007vI-2v;
+	Tue, 19 Sep 2023 20:55:25 +0000
+Date: Wed, 20 Sep 2023 04:55:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+	Carl Vanderlip <quic_carlv@quicinc.com>,
+	Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Subject: drivers/accel/qaic/qaic_control.c:348:17: warning: array subscript
+ 'struct wrapper_msg[0]' is partly outside array bounds of 'unsigned
+ char[44]'
+Message-ID: <202309200403.mGPrZFN4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202309192257.IAbw1lnx-lkp@intel.com> <ZQm2W9r2a+cgeaEM@rli9-mobl>
-In-Reply-To: <ZQm2W9r2a+cgeaEM@rli9-mobl>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Tue, 19 Sep 2023 13:05:52 -0700
-Message-ID: <CAKwvOdmUmLRMP0OUOJkPSKucn3NJTxz7uJGWfn83LX=gbZ-5Zw@mail.gmail.com>
-Subject: Re: warning: unknown warning option '-Wrestrict'
-To: Philip Li <philip.li@intel.com>
-Cc: kernel test robot <lkp@intel.com>, Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Nathan Chancellor <nathan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Sep 19, 2023 at 7:56=E2=80=AFAM Philip Li <philip.li@intel.com> wro=
-te:
->
-> On Tue, Sep 19, 2023 at 10:40:57PM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
-git master
-> > head:   2cf0f715623872823a72e451243bbf555d10d032
-> > commit: feb843a469fb0ab00d2d23cfb9bcc379791011bb kbuild: add $(CLANG_FL=
-AGS) to KBUILD_CPPFLAGS
-> > date:   4 months ago
-> > config: um-allnoconfig (https://download.01.org/0day-ci/archive/2023091=
-9/202309192257.IAbw1lnx-lkp@intel.com/config)
-> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.gi=
-t 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20230919/202309192257.IAbw1lnx-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202309192257.IAbw1lnx-l=
-kp@intel.com/
-> >
-> > All warnings (new ones prefixed by >>):
->
-> Sorry for the false report. Kindly ignore this.
+Hi Jeffrey,
 
-No worries, I just checked `make LLVM=3D1 arch=3Dum -j128 allnoconfig all`
-and had no issue.
+First bad commit (maybe != root cause):
 
->
-> >
-> > >> warning: unknown warning option '-Wrestrict' [-Wunknown-warning-opti=
-on]
-> > >> warning: unknown warning option '-Wformat-overflow'; did you mean '-=
-Wshift-overflow'? [-Wunknown-warning-option]
-> > >> warning: unknown warning option '-Wformat-truncation' [-Wunknown-war=
-ning-option]
-> > >> warning: unknown warning option '-Wstringop-overflow'; did you mean =
-'-Wshift-overflow'? [-Wunknown-warning-option]
-> >    arch/x86/um/user-offsets.c:17:6: warning: no previous prototype for =
-function 'foo' [-Wmissing-prototypes]
-> >       17 | void foo(void)
-> >          |      ^
-> >    arch/x86/um/user-offsets.c:17:1: note: declare 'static' if the funct=
-ion is not intended to be used outside of this translation unit
-> >       17 | void foo(void)
-> >          | ^
-> >          | static
-> >    5 warnings generated.
-> >    error: unknown warning option '-Wrestrict' [-Werror,-Wunknown-warnin=
-g-option]
-> >    error: unknown warning option '-Wformat-overflow'; did you mean '-Ws=
-hift-overflow'? [-Werror,-Wunknown-warning-option]
-> >    error: unknown warning option '-Wformat-truncation' [-Werror,-Wunkno=
-wn-warning-option]
-> >    error: unknown warning option '-Wstringop-overflow'; did you mean '-=
-Wshift-overflow'? [-Werror,-Wunknown-warning-option]
-> >    make[2]: *** [scripts/Makefile.build:252: scripts/mod/empty.o] Error=
- 1
-> >    error: unknown warning option '-Wrestrict' [-Werror,-Wunknown-warnin=
-g-option]
-> >    error: unknown warning option '-Wformat-overflow'; did you mean '-Ws=
-hift-overflow'? [-Werror,-Wunknown-warning-option]
-> >    error: unknown warning option '-Wformat-truncation' [-Werror,-Wunkno=
-wn-warning-option]
-> >    error: unknown warning option '-Wstringop-overflow'; did you mean '-=
-Wshift-overflow'? [-Werror,-Wunknown-warning-option]
-> >    make[2]: *** [scripts/Makefile.build:114: scripts/mod/devicetable-of=
-fsets.s] Error 1
-> >    make[2]: Target 'scripts/mod/' not remade because of errors.
-> >    make[1]: *** [Makefile:1286: prepare0] Error 2
-> >    make[1]: Target 'prepare' not remade because of errors.
-> >    make: *** [Makefile:226: __sub-make] Error 2
-> >    make: Target 'prepare' not remade because of errors.
-> >
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
-> >
->
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2cf0f715623872823a72e451243bbf555d10d032
+commit: 759662e4f1f8cd6ea0ec466e10cf29fe7c1fec36 accel/qaic: Add qaic driver to the build system
+date:   6 months ago
+config: i386-randconfig-i015-20230718 (https://download.01.org/0day-ci/archive/20230920/202309200403.mGPrZFN4-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200403.mGPrZFN4-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309200403.mGPrZFN4-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In function 'add_wrapper',
+       inlined from 'abort_dma_cont' at drivers/accel/qaic/qaic_control.c:1107:12,
+       inlined from 'qaic_manage_msg_xfer' at drivers/accel/qaic/qaic_control.c:1165:9:
+>> drivers/accel/qaic/qaic_control.c:348:17: warning: array subscript 'struct wrapper_msg[0]' is partly outside array bounds of 'unsigned char[44]' [-Warray-bounds]
+     348 |         w->head = wrappers;
+         |         ~~~~~~~~^~~~~~~~~~
+   In file included from include/linux/fs.h:45,
+                    from include/linux/huge_mm.h:8,
+                    from include/linux/mm.h:855,
+                    from include/linux/scatterlist.h:8,
+                    from include/linux/dma-mapping.h:10,
+                    from drivers/accel/qaic/qaic_control.c:10:
+   In function 'kmalloc',
+       inlined from 'kzalloc' at include/linux/slab.h:720:9,
+       inlined from 'add_wrapper' at drivers/accel/qaic/qaic_control.c:342:26,
+       inlined from 'abort_dma_cont' at drivers/accel/qaic/qaic_control.c:1107:12,
+       inlined from 'qaic_manage_msg_xfer' at drivers/accel/qaic/qaic_control.c:1165:9:
+   include/linux/slab.h:580:24: note: object of size 44 allocated by 'kmalloc_trace'
+     580 |                 return kmalloc_trace(
+         |                        ^~~~~~~~~~~~~~
+     581 |                                 kmalloc_caches[kmalloc_type(flags)][index],
+         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     582 |                                 flags, size);
+         |                                 ~~~~~~~~~~~~
+   In function 'abort_dma_cont',
+       inlined from 'qaic_manage_msg_xfer' at drivers/accel/qaic/qaic_control.c:1165:9:
+   drivers/accel/qaic/qaic_control.c:1121:22: warning: array subscript 'struct wrapper_msg[0]' is partly outside array bounds of 'unsigned char[44]' [-Warray-bounds]
+    1121 |         wrapper->len = size;
+         |         ~~~~~~~~~~~~~^~~~~~
+   In function 'kmalloc',
+       inlined from 'kzalloc' at include/linux/slab.h:720:9,
+       inlined from 'add_wrapper' at drivers/accel/qaic/qaic_control.c:342:26,
+       inlined from 'abort_dma_cont' at drivers/accel/qaic/qaic_control.c:1107:12,
+       inlined from 'qaic_manage_msg_xfer' at drivers/accel/qaic/qaic_control.c:1165:9:
+   include/linux/slab.h:580:24: note: object of size 44 allocated by 'kmalloc_trace'
+     580 |                 return kmalloc_trace(
+         |                        ^~~~~~~~~~~~~~
+     581 |                                 kmalloc_caches[kmalloc_type(flags)][index],
+         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     582 |                                 flags, size);
+         |                                 ~~~~~~~~~~~~
 
 
---=20
-Thanks,
-~Nick Desaulniers
+vim +348 drivers/accel/qaic/qaic_control.c
+
+129776ac2e3823 Jeffrey Hugo 2023-03-27  339  
+129776ac2e3823 Jeffrey Hugo 2023-03-27  340  static struct wrapper_msg *add_wrapper(struct wrapper_list *wrappers, u32 size)
+129776ac2e3823 Jeffrey Hugo 2023-03-27  341  {
+129776ac2e3823 Jeffrey Hugo 2023-03-27  342  	struct wrapper_msg *w = kzalloc(size, GFP_KERNEL);
+129776ac2e3823 Jeffrey Hugo 2023-03-27  343  
+129776ac2e3823 Jeffrey Hugo 2023-03-27  344  	if (!w)
+129776ac2e3823 Jeffrey Hugo 2023-03-27  345  		return NULL;
+129776ac2e3823 Jeffrey Hugo 2023-03-27  346  	list_add_tail(&w->list, &wrappers->list);
+129776ac2e3823 Jeffrey Hugo 2023-03-27  347  	kref_init(&w->ref_count);
+129776ac2e3823 Jeffrey Hugo 2023-03-27 @348  	w->head = wrappers;
+129776ac2e3823 Jeffrey Hugo 2023-03-27  349  	return w;
+129776ac2e3823 Jeffrey Hugo 2023-03-27  350  }
+129776ac2e3823 Jeffrey Hugo 2023-03-27  351  
+
+:::::: The code at line 348 was first introduced by commit
+:::::: 129776ac2e38231fa9c02ce20e116c99de291666 accel/qaic: Add control path
+
+:::::: TO: Jeffrey Hugo <quic_jhugo@quicinc.com>
+:::::: CC: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
