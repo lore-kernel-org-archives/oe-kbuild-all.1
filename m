@@ -1,121 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADD028DB9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 19:53:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695153190; x=1726689190;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=geHwA3OeDB3eBBn9jJ8anp9OdK21qswmKQE2nVcMoVw=;
-  b=dLzXvkmw6FsSp96zPC5trSPXVUJro+4L7rNI0leU03Q3CYSq901U4V36
-   XDBelfEscXrfFsSL2ZzAFE7xfDhmxj80bkH329JrtGBrxHhoPh1d72IT1
-   rZzJHF0MvJJt5wtg0ajHluQEERKQcJIUbPcn7dUIG/CGfEE9RaGmh8Npo
-   3bk49F9wxIiKcqxTJmBtFAzYzPKuzo+irVn9suWpcyhvXbzKXVJv71Wil
-   Y/SxKIZOciPyXgouI6/kvdgw54wziRiH/iwEIuzHqw4WBgnEff6tAiFAu
-   ptf73Z6nKgJ13XGMLAB3/OxS9zb7abN4A6lRhQ1aFjL19km7k4FmBwlZ2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="410969237"
-X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="410969237"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 12:53:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="1077112204"
-X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="1077112204"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 19 Sep 2023 12:53:07 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qigmP-0007rA-06;
-	Tue, 19 Sep 2023 19:53:05 +0000
-Date: Wed, 20 Sep 2023 03:52:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Naresh Solanki <naresh.solanki@9elements.com>, broonie@kernel.org,
-	zev@bewilderbeest.net, Liam Girdwood <lgirdwood@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Naresh Solanki <Naresh.Solanki@9elements.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] regulator: userspace-consumer: Retrieve supplies from DT
-Message-ID: <202309200316.ACh8kKEW-lkp@intel.com>
-References: <20230919061755.3412016-1-naresh.solanki@9elements.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F691863B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 20:06:08 +0000 (UTC)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6564515ec4eso20700146d6.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 13:06:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1695153967; x=1695758767; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kQnPY0z4taKHApL77Ffx1d50jLqp8wyhR11FZPBq+qk=;
+        b=2E1HiAdlkLzElX+fm8bseLgmTXTHEIxLau9UhSwo0bMe21Plt5sgQehvYLZ4Jo4z91
+         1xtPdAR2vOOBrTlz94el83lSTaL1OFaHrhcAmig/HPX6NEjBFadK0aYD49wiVoR/JtlS
+         Jn6K2KoxFlELiuP4CoOhSC19b71Ya/aj/sWWrx/2EQr3jLZjPg9XBHkatcanJihAV5wA
+         CqiIq1Vw8e5ojNb/VDj27WTQJGzZbE23bpE07+/IqVkxDX6dqqTs9J5rm1101yI24JMx
+         6RDVnE7DezPoweu1Wplm5e/Kq5Vfz8X/vL975MihgpGHAhgkDSL30sYp2ye+6Z+PKQFp
+         GL9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695153967; x=1695758767;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kQnPY0z4taKHApL77Ffx1d50jLqp8wyhR11FZPBq+qk=;
+        b=UYTgZb/0ckT6gk4gxBGP1Zt0sl5EUyPiPst/onrOhHOhR1s9qyBI+wmt+QGMuM41Bj
+         wJ5zdiSz2KReH/+j4lX+GTKPcvC35MCbzSajKYteLCGrXU94+PukgzAML+uFYpR3duxw
+         Ttlf27VBf5bIFmVXWjX5bfNf356rkiDvmLLW0e67/eFV8S78asHFyliHaAE790FULkaZ
+         /m8uAzjmP/jcMUW4HGCVEGLdTLPRxTCmI38xw5hgsuysl44gUFBMSTiG8JdUgiCacJs2
+         r2/IbBcfF706SnxLxA2hPWoNV3YPxGfNtnvA5i+UvgDijaUklDWfmjDQkAhKy/uQJU+t
+         ZRFA==
+X-Gm-Message-State: AOJu0YxrCnrBTlG8aTxkDIslIbDxpQljZokNOh3Lr+cB3fvjMV3//Wt8
+	T5icvSChz+OOJiAF9q0UJFwfS8dF8y32FRQJlwl7HA==
+X-Google-Smtp-Source: AGHT+IGwcqVkGXd3Zf3N82ll6JyqL1rHSLbA5bxgmmbMggRlybY8gxv4W57FTpofp4S8SxPCW/NJEqRwqbRLF7XD53I=
+X-Received: by 2002:a0c:e304:0:b0:658:4cae:b43a with SMTP id
+ s4-20020a0ce304000000b006584caeb43amr217436qvl.4.1695153967060; Tue, 19 Sep
+ 2023 13:06:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230919061755.3412016-1-naresh.solanki@9elements.com>
+References: <202309192257.IAbw1lnx-lkp@intel.com> <ZQm2W9r2a+cgeaEM@rli9-mobl>
+In-Reply-To: <ZQm2W9r2a+cgeaEM@rli9-mobl>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Tue, 19 Sep 2023 13:05:52 -0700
+Message-ID: <CAKwvOdmUmLRMP0OUOJkPSKucn3NJTxz7uJGWfn83LX=gbZ-5Zw@mail.gmail.com>
+Subject: Re: warning: unknown warning option '-Wrestrict'
+To: Philip Li <philip.li@intel.com>
+Cc: kernel test robot <lkp@intel.com>, Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Naresh,
+On Tue, Sep 19, 2023 at 7:56=E2=80=AFAM Philip Li <philip.li@intel.com> wro=
+te:
+>
+> On Tue, Sep 19, 2023 at 10:40:57PM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git master
+> > head:   2cf0f715623872823a72e451243bbf555d10d032
+> > commit: feb843a469fb0ab00d2d23cfb9bcc379791011bb kbuild: add $(CLANG_FL=
+AGS) to KBUILD_CPPFLAGS
+> > date:   4 months ago
+> > config: um-allnoconfig (https://download.01.org/0day-ci/archive/2023091=
+9/202309192257.IAbw1lnx-lkp@intel.com/config)
+> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.gi=
+t 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20230919/202309192257.IAbw1lnx-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202309192257.IAbw1lnx-l=
+kp@intel.com/
+> >
+> > All warnings (new ones prefixed by >>):
+>
+> Sorry for the false report. Kindly ignore this.
 
-kernel test robot noticed the following build errors:
+No worries, I just checked `make LLVM=3D1 arch=3Dum -j128 allnoconfig all`
+and had no issue.
 
-[auto build test ERROR on 451e85e29c9d6f20639d4cfcff4b9dea280178cc]
+>
+> >
+> > >> warning: unknown warning option '-Wrestrict' [-Wunknown-warning-opti=
+on]
+> > >> warning: unknown warning option '-Wformat-overflow'; did you mean '-=
+Wshift-overflow'? [-Wunknown-warning-option]
+> > >> warning: unknown warning option '-Wformat-truncation' [-Wunknown-war=
+ning-option]
+> > >> warning: unknown warning option '-Wstringop-overflow'; did you mean =
+'-Wshift-overflow'? [-Wunknown-warning-option]
+> >    arch/x86/um/user-offsets.c:17:6: warning: no previous prototype for =
+function 'foo' [-Wmissing-prototypes]
+> >       17 | void foo(void)
+> >          |      ^
+> >    arch/x86/um/user-offsets.c:17:1: note: declare 'static' if the funct=
+ion is not intended to be used outside of this translation unit
+> >       17 | void foo(void)
+> >          | ^
+> >          | static
+> >    5 warnings generated.
+> >    error: unknown warning option '-Wrestrict' [-Werror,-Wunknown-warnin=
+g-option]
+> >    error: unknown warning option '-Wformat-overflow'; did you mean '-Ws=
+hift-overflow'? [-Werror,-Wunknown-warning-option]
+> >    error: unknown warning option '-Wformat-truncation' [-Werror,-Wunkno=
+wn-warning-option]
+> >    error: unknown warning option '-Wstringop-overflow'; did you mean '-=
+Wshift-overflow'? [-Werror,-Wunknown-warning-option]
+> >    make[2]: *** [scripts/Makefile.build:252: scripts/mod/empty.o] Error=
+ 1
+> >    error: unknown warning option '-Wrestrict' [-Werror,-Wunknown-warnin=
+g-option]
+> >    error: unknown warning option '-Wformat-overflow'; did you mean '-Ws=
+hift-overflow'? [-Werror,-Wunknown-warning-option]
+> >    error: unknown warning option '-Wformat-truncation' [-Werror,-Wunkno=
+wn-warning-option]
+> >    error: unknown warning option '-Wstringop-overflow'; did you mean '-=
+Wshift-overflow'? [-Werror,-Wunknown-warning-option]
+> >    make[2]: *** [scripts/Makefile.build:114: scripts/mod/devicetable-of=
+fsets.s] Error 1
+> >    make[2]: Target 'scripts/mod/' not remade because of errors.
+> >    make[1]: *** [Makefile:1286: prepare0] Error 2
+> >    make[1]: Target 'prepare' not remade because of errors.
+> >    make: *** [Makefile:226: __sub-make] Error 2
+> >    make: Target 'prepare' not remade because of errors.
+> >
+> > --
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
+> >
+>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Naresh-Solanki/regulator-userspace-consumer-Retrieve-supplies-from-DT/20230919-141840
-base:   451e85e29c9d6f20639d4cfcff4b9dea280178cc
-patch link:    https://lore.kernel.org/r/20230919061755.3412016-1-naresh.solanki%409elements.com
-patch subject: [PATCH] regulator: userspace-consumer: Retrieve supplies from DT
-config: i386-randconfig-014-20230919 (https://download.01.org/0day-ci/archive/20230920/202309200316.ACh8kKEW-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200316.ACh8kKEW-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309200316.ACh8kKEW-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/regulator/userspace-consumer.c: In function 'get_num_supplies':
->> drivers/regulator/userspace-consumer.c:126:9: error: implicit declaration of function 'for_each_property_of_node'; did you mean 'for_each_child_of_node'? [-Werror=implicit-function-declaration]
-     126 |         for_each_property_of_node(pdev->dev.of_node, prop) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |         for_each_child_of_node
->> drivers/regulator/userspace-consumer.c:126:59: error: expected ';' before '{' token
-     126 |         for_each_property_of_node(pdev->dev.of_node, prop) {
-         |                                                           ^~
-         |                                                           ;
-   drivers/regulator/userspace-consumer.c:124:13: warning: unused variable 'num_supplies' [-Wunused-variable]
-     124 |         int num_supplies = 0;
-         |             ^~~~~~~~~~~~
-   drivers/regulator/userspace-consumer.c:136:1: error: no return statement in function returning non-void [-Werror=return-type]
-     136 | }
-         | ^
-   drivers/regulator/userspace-consumer.c: In function 'regulator_userspace_consumer_probe':
-   drivers/regulator/userspace-consumer.c:162:67: error: expected ';' before '{' token
-     162 |                 for_each_property_of_node(pdev->dev.of_node, prop) {
-         |                                                                   ^~
-         |                                                                   ;
-   cc1: some warnings being treated as errors
-
-
-vim +126 drivers/regulator/userspace-consumer.c
-
-   120	
-   121	static int get_num_supplies(struct platform_device *pdev)
-   122	{
-   123		struct  property *prop;
-   124		int num_supplies = 0;
-   125	
- > 126		for_each_property_of_node(pdev->dev.of_node, prop) {
-   127			const char *prop_name = prop->name;
-   128			int len = strlen(prop_name);
-   129	
-   130			if (len > SUPPLY_SUFFIX_LEN &&
-   131			    strcmp(prop_name + len - SUPPLY_SUFFIX_LEN, SUPPLY_SUFFIX) == 0) {
-   132				num_supplies++;
-   133			}
-   134		}
-   135		return num_supplies;
-   136	}
-   137	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Thanks,
+~Nick Desaulniers
