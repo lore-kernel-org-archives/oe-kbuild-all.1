@@ -1,200 +1,137 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF8E1D6A7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 19:04:36 +0000 (UTC)
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-770ef96aa01so392897685a.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 12:04:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1695150275; x=1695755075; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=SuRBdENIw7V9twXocQxarZXJFwOqUVR2w1pbySakEfo=;
-        b=ulS5krnX6jxo6RjLbyWF9j4UDfz/pchIzptmPvSfvajzHBRf9ZaB2ASIziEsdn2qQA
-         FxOM+iPiOd5AXwX8QWZXb8EW1i8WscwYAwbVz6NsUe8Nf8NWGRqXUUD1jix2dvB+h+W6
-         fJCos8JRiEKBvdjv0VnNbLkjMw2stu4byzPVRorGYU63KWJoJjiKgjuRwPZDCCKicntT
-         fXnE+v7tT+e+jrFt81E0AX9JIcy1kxhtky5azVEpccWBjPpo927Y5QQtBhFDyleLK9Fd
-         G4jCklBg8f7BZxs4EgFB/HHM+7OE6gYkxQZe3GAhKG1nW8wSnG/6AvYaZri4CRiOwE8b
-         aSjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695150275; x=1695755075;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SuRBdENIw7V9twXocQxarZXJFwOqUVR2w1pbySakEfo=;
-        b=HAL/AYFPeIIEpo71vWxyrOOp4okrhY77idIaQeRm1QytHUeU/I+2RRbu24V3KFayEP
-         fq+TM9pPJJYMgwbq0p7Phkq+RSmEXGevAmsO5M629uhyjyaMzcS/ZvfzlbWp8IXQdbL0
-         zE9Q48h3q1UrE9n2cY6ks0H+VK9a3o7GI0NqwKL8tbqjxJaEuoyijNcv9LyRSMPBAI3W
-         k9nr5EXdaZE0FL79q3t0t2hzJL24Q+5UBE7uDU7ik6uP3oU3IseT5YKyn8ZYf4DW3HHq
-         gpr/ZQYYBUsoOdig6t4QkbYkZXv5+0bjpkJNsZOfw9wL71bgJ59HC1aKFzQmd+EW3Bt9
-         KXGg==
-X-Gm-Message-State: AOJu0Yw/at7S6cEX5zHcG7slTi5uC2VOsoAb/JN5lf2IWB5ow3NsmviA
-	z+pqyvtGcTB95iK8ogl0Z+rcvw==
-X-Google-Smtp-Source: AGHT+IFpzS+R18C2PIqZZdUsvjxaUNur77Qpz5Dgu0rMfOHyIuqx6jVj6XU3qmkPHOq2fuA812kYkg==
-X-Received: by 2002:a05:620a:2224:b0:76d:acd1:447b with SMTP id n4-20020a05620a222400b0076dacd1447bmr529703qkh.41.1695150275619;
-        Tue, 19 Sep 2023 12:04:35 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:15:bae9::7a9])
-        by smtp.gmail.com with ESMTPSA id oo18-20020a05620a531200b00765ab6d3e81sm4192894qkn.122.2023.09.19.12.04.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Sep 2023 12:04:35 -0700 (PDT)
-Message-ID: <61caa860d8b5c35514da48a2548a1f6718458ec5.camel@ndufresne.ca>
-Subject: Re: [EXT] Re: [PATCH] MA-21654 Use dma_alloc_pages in
- vb2_dma_sg_alloc_compacted
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Hui Fang <hui.fang@nxp.com>, kernel test robot <lkp@intel.com>, 
- "tfiga@chromium.org" <tfiga@chromium.org>, "m.szyprowski@samsung.com"
- <m.szyprowski@samsung.com>,  "mchehab@kernel.org" <mchehab@kernel.org>
-Cc: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, 
-	"linux-media@vger.kernel.org"
-	 <linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	 <linux-kernel@vger.kernel.org>, Anle Pan <anle.pan@nxp.com>, Xuegang Liu
-	 <xuegang.liu@nxp.com>
-Date: Tue, 19 Sep 2023 15:04:34 -0400
-In-Reply-To: <DB9PR04MB9284F8565C0A5A3F1E70603D87FAA@DB9PR04MB9284.eurprd04.prod.outlook.com>
-References: <20230914145812.12851-1-hui.fang@nxp.com>
-	 <202309190740.sIUYQTIq-lkp@intel.com>
-	 <DB9PR04MB9284F8565C0A5A3F1E70603D87FAA@DB9PR04MB9284.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654BC1D6A7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 19:10:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695150608; x=1726686608;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aMuofLrrJXedSGiAELisp9bPZXomRUaSBqDF7zBR9Z0=;
+  b=nNxcBowYgIWP0Z2KpKKiF8Y9kyiZEEV3oMtf2JZRhIXjS6DquCy9S4A8
+   SSD3a0n/8xzCxh2wW7CSvibqP6yqOP4vn+d1QD6pWcoo6UAkwH8amAjwt
+   7Y6rPVFxynTGSJujImUjt5yQDGAOq88R+x8ygT+p033uuc/VA6pyAy5Sa
+   eH5Vh7WqCE6n8EpfjpzI3TkrkC29Fqxw6h19SiFcfjJKxBtSxYSFT5G+S
+   JaT7LyLl7kIAX8q0XgjR0xEJumN08GnbWV1/mTddn8blF+OM/PiDR8fNF
+   pMybPDilW3AK7dOz1CEZ3UyZZOpOw9X8J/5Tk39uZyrMFYnnrM2AIpbZL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="378922435"
+X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
+   d="scan'208";a="378922435"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 12:10:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="861662635"
+X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
+   d="scan'208";a="861662635"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 19 Sep 2023 12:10:05 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qig6l-0007p8-2H;
+	Tue, 19 Sep 2023 19:10:03 +0000
+Date: Wed, 20 Sep 2023 03:10:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Edward Cree <ecree.xilinx@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: include/linux/netlink.h:115:6: warning: ' conflicts with existing
+ pseudo(MASK) entry for TOS mask ' directive output truncated writing 57
+ bytes into a region of size between 33 and 39
+Message-ID: <202309200308.Eu2HF6Md-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Le mardi 19 septembre 2023 =C3=A0 06:43 +0000, Hui Fang a =C3=A9crit=C2=A0:
-> On Thu, Sep 19, 2023 at 07:44=E2=80=AFAM kernel test robot <lkp@intel.com=
-> wrote:
-> > Hi Fang,
-> >=20
-> > kernel test robot noticed the following build errors:
-> >=20
-> > [auto build test ERROR on media-tree/master] [also build test ERROR on
-> > linus/master v6.6-rc2 next-20230918] [If your patch is applied to the w=
-rong git
-> > tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.c/
-> > om%2Fdocs%2Fgit-format-patch%23_base_tree_information&data=3D05%7C01%
-> > 7Chui.fang%40nxp.com%7C3c6f14962ebc4483235308dbb8a12782%7C686ea1d
-> > 3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C638306774533762887%7CUnknow
-> > n%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haW
-> > wiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3D4Xf2y8dA7JGZF4hlEMdnLIIK
-> > b%2FIH2NS612ZNFvblqqo%3D&reserved=3D0]
-> >=20
-> > url:
-> > https://github.co/
-> > m%2Fintel-lab-lkp%2Flinux%2Fcommits%2FFang-Hui%2FMA-21654-Use-dma_all
-> > oc_pages-in-vb2_dma_sg_alloc_compacted%2F20230914-154333&data=3D05%7
-> > C01%7Chui.fang%40nxp.com%7C3c6f14962ebc4483235308dbb8a12782%7C68
-> > 6ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C638306774533762887%7CU
-> > nknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik
-> > 1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DuPPbnMqqO1X55H7tC
-> > bOlsfuO46dcErvJLxNSG5BslrU%3D&reserved=3D0
-> > base:   git://linuxtv.org/media_tree.git master
-> > patch link:
-> > https://lore.kern/
-> > el.org%2Fr%2F20230914145812.12851-1-hui.fang%2540nxp.com&data=3D05%7C
-> > 01%7Chui.fang%40nxp.com%7C3c6f14962ebc4483235308dbb8a12782%7C686
-> > ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C638306774533762887%7CUn
-> > known%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1
-> > haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3D6dYF2kk5ba0TE0B2jZM
-> > hNWPRTkdn2zhWgQZ7LHTE1cE%3D&reserved=3D0
-> > patch subject: [PATCH] MA-21654 Use dma_alloc_pages in
-> > vb2_dma_sg_alloc_compacted
-> > config: sh-randconfig-002-20230919
-> > (https://downloa/
-> > d.01.org%2F0day-ci%2Farchive%2F20230919%2F202309190740.sIUYQTIq-lkp%
-> > 40intel.com%2Fconfig&data=3D05%7C01%7Chui.fang%40nxp.com%7C3c6f14962
-> > ebc4483235308dbb8a12782%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7
-> > C0%7C638306774533762887%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLj
-> > AwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C
-> > %7C&sdata=3DPMZX%2F9gMPOGxPnC5cVSABHqa4Xfd%2Fa6sgyjcghRqfoI%3D&r
-> > eserved=3D0)
-> > compiler: sh4-linux-gcc (GCC) 13.2.0
-> > reproduce (this is a W=3D1 build):
-> > (https://downloa/
-> > d.01.org%2F0day-ci%2Farchive%2F20230919%2F202309190740.sIUYQTIq-lkp%
-> > 40intel.com%2Freproduce&data=3D05%7C01%7Chui.fang%40nxp.com%7C3c6f14
-> > 962ebc4483235308dbb8a12782%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C
-> > 0%7C0%7C638306774533762887%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC
-> > 4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7
-> > C%7C%7C&sdata=3D6pzcKMI%2By2W1bpAjntJ7eizgiNmtcCG7ti4oEF3R01g%3D&r
-> > eserved=3D0)
-> >=20
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of the
-> > same patch/commit), kindly add following tags
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Closes:
-> > > https://lore/
-> > > .kernel.org%2Foe-kbuild-all%2F202309190740.sIUYQTIq-lkp%40intel.com%2=
-F
-> > >=20
-> > &data=3D05%7C01%7Chui.fang%40nxp.com%7C3c6f14962ebc4483235308dbb8a
-> > 12782%
-> > >=20
-> > 7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C638306774533762887
-> > %7CUnkn
-> > >=20
-> > own%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1ha
-> > Wwi
-> > >=20
-> > LCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3D45a%2FVY%2Fu8axIKigPCE3e
-> > WEXinD1EG
-> > > dQQu9TCnBZ%2BMI0%3D&reserved=3D0
-> >=20
-> > All errors (new ones prefixed by >>):
-> >=20
-> >    sh4-linux-ld: drivers/media/i2c/tc358746.o: in function `tc358746_pr=
-obe':
-> >    tc358746.c:(.text+0x1b8c): undefined reference to `devm_clk_hw_regis=
-ter'
-> >    sh4-linux-ld: tc358746.c:(.text+0x1b90): undefined reference to
-> > `devm_of_clk_add_hw_provider'
-> >    sh4-linux-ld: tc358746.c:(.text+0x1b94): undefined reference to
-> > `of_clk_hw_simple_get'
-> >    sh4-linux-ld: drivers/media/common/videobuf2/videobuf2-dma-sg.o: in
-> > function `vb2_dma_sg_alloc_compacted':
-> > > > videobuf2-dma-sg.c:(.text+0x57c): undefined reference to `dma_alloc=
-_pages'
-> >=20
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.co/
-> > m%2Fintel%2Flkp-tests%2Fwiki&data=3D05%7C01%7Chui.fang%40nxp.com%7C3c
-> > 6f14962ebc4483235308dbb8a12782%7C686ea1d3bc2b4c6fa92cd99c5c301635
-> > %7C0%7C0%7C638306774533762887%7CUnknown%7CTWFpbGZsb3d8eyJWIjoi
-> > MC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000
-> > %7C%7C%7C&sdata=3DvA9h%2FGFfIel5hbcYVB0LgJGjHtDq1oF4SrfIvQcRm90%3D
-> > &reserved=3D0
->=20
->=20
-> I wonder if it's suitable to us the config (CONFIG_NO_DMA=3Dy) to build?
-> Also, there are other undefined references no related to the patch.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2cf0f715623872823a72e451243bbf555d10d032
+commit: 3c9561c0a5b988be3dfd24ea1de2301b95efc640 sfc: support TC decap rules matching on enc_ip_tos
+date:   4 months ago
+config: x86_64-randconfig-014-20230906 (https://download.01.org/0day-ci/archive/20230920/202309200308.Eu2HF6Md-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200308.Eu2HF6Md-lkp@intel.com/reproduce)
 
-May I suggest this ?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309200308.Eu2HF6Md-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/uapi/linux/neighbour.h:6:0,
+                    from include/linux/netdevice.h:46,
+                    from include/net/sch_generic.h:5,
+                    from include/net/pkt_cls.h:7,
+                    from drivers/net/ethernet/sfc/tc.c:12:
+   drivers/net/ethernet/sfc/tc.c: In function 'efx_tc_flower_record_encap_match':
+>> include/linux/netlink.h:115:6: warning: ' conflicts with existing pseudo(MASK) entry for TOS mask ' directive output truncated writing 57 bytes into a region of size between 33 and 39 [-Wformat-truncation=]
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:130:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:507:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:115:6: note: directive argument in the range [0, 2147483647]
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:130:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:507:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:115:6: note: 'snprintf' output between 103 and 115 bytes into a destination of size 80
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:130:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:507:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
 
 
-diff --git a/drivers/media/common/videobuf2/Kconfig
-b/drivers/media/common/videobuf2/Kconfig
-index d2223a12c95f..7cf869e48246 100644
---- a/drivers/media/common/videobuf2/Kconfig
-+++ b/drivers/media/common/videobuf2/Kconfig
-@@ -26,6 +26,7 @@ config VIDEOBUF2_DMA_SG
-        tristate
-        select VIDEOBUF2_CORE
-        select VIDEOBUF2_MEMOPS
-+       select DMA_SHARED_BUFFER
-=20
- config VIDEOBUF2_DVB
-        tristate
+vim +115 include/linux/netlink.h
 
+2d4bc93368f5a0 Johannes Berg 2017-04-12  106  
+51c352bdbcd23d Edward Cree   2022-10-18  107  /* We splice fmt with %s at each end even in the snprintf so that both calls
+51c352bdbcd23d Edward Cree   2022-10-18  108   * can use the same string constant, avoiding its duplication in .ro
+51c352bdbcd23d Edward Cree   2022-10-18  109   */
+51c352bdbcd23d Edward Cree   2022-10-18  110  #define NL_SET_ERR_MSG_FMT(extack, fmt, args...) do {			       \
+51c352bdbcd23d Edward Cree   2022-10-18  111  	struct netlink_ext_ack *__extack = (extack);			       \
+51c352bdbcd23d Edward Cree   2022-10-18  112  									       \
+51c352bdbcd23d Edward Cree   2022-10-18  113  	if (!__extack)							       \
+51c352bdbcd23d Edward Cree   2022-10-18  114  		break;							       \
+51c352bdbcd23d Edward Cree   2022-10-18 @115  	if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,	       \
+51c352bdbcd23d Edward Cree   2022-10-18  116  		     "%s" fmt "%s", "", ##args, "") >=			       \
+51c352bdbcd23d Edward Cree   2022-10-18  117  	    NETLINK_MAX_FMTMSG_LEN)					       \
+51c352bdbcd23d Edward Cree   2022-10-18  118  		net_warn_ratelimited("%s" fmt "%s", "truncated extack: ",      \
+51c352bdbcd23d Edward Cree   2022-10-18  119  				     ##args, "\n");			       \
+51c352bdbcd23d Edward Cree   2022-10-18  120  									       \
+51c352bdbcd23d Edward Cree   2022-10-18  121  	do_trace_netlink_extack(__extack->_msg_buf);			       \
+51c352bdbcd23d Edward Cree   2022-10-18  122  									       \
+51c352bdbcd23d Edward Cree   2022-10-18  123  	__extack->_msg = __extack->_msg_buf;				       \
+51c352bdbcd23d Edward Cree   2022-10-18  124  } while (0)
+51c352bdbcd23d Edward Cree   2022-10-18  125  
 
->=20
-> BRs,
-> Fang Hui
+:::::: The code at line 115 was first introduced by commit
+:::::: 51c352bdbcd23d7ce46b06c1e64c82754dc44044 netlink: add support for formatted extack messages
 
+:::::: TO: Edward Cree <ecree.xilinx@gmail.com>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
