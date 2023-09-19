@@ -1,124 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D4F30F8F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 18:30:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695148206; x=1726684206;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=50GNO5IvhfVjwdd6weH5GDYS7RNPqTEiLwbvd0qpxVU=;
-  b=U9uNZF45L/+ehsTLD8BtVVPUUB9PVHbQiXy/jzgYmIegfpcRLqLEf51U
-   jFZv08CW5zCjP2s5xeYG6nxMrH+W1I+NpO7xT0NpFXxA7ivN06gX8iTKo
-   9PN1XGNtDZEGed6+av+h9EqYVS5C/bWDhhjE/TdXOatPWAuKpaHewNoB7
-   HGq0OWlG+j9tEouXj4/rMohYlHjCa126evtjxPuiWJQTGSBYu+UZRuM5K
-   YktQlSxUhUaZ00PeHNo7aZPH2mGovrhj2cvIau97fSMaO5lfRDth4Pq5U
-   ruz5gb3JBotXdlx+UaLOnAuUAqzjpaGo+SHM3iKbhL0j39r0Go5+XtGYC
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="446493178"
-X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="446493178"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 11:30:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="749594506"
-X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="749594506"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 19 Sep 2023 11:30:04 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qifU2-0007ni-0X;
-	Tue, 19 Sep 2023 18:30:02 +0000
-Date: Wed, 20 Sep 2023 02:29:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Katta Dhanunjanrao <katta.dhanunjanrao@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 1216/1363]
- drivers/staging/xlnx_hdcp1x/xilinx-hdcp1x-cipher.c:812: warning: Function
- parameter or member 'bx' not described in 'xhdcp1x_cipher_setb'
-Message-ID: <202309200212.AZDbCXZz-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451C8A4E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 18:37:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FC15C433C9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 18:37:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1695148654;
+	bh=SZCi30lXAL9PMLnakDIVwpPGl0ou1Y/fgS+6JaO3cRc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=fHtjSs1N/wQoAHhv+DDZMDDIbF4Ui+GrHXGv3C1uITpBsqjUzZi0/U3niDJB4feOt
+	 JiTsu2XbQVEkd0zshzTXbbq/3JC2ucKvEXZYtO7hlzJ7aLVLHJorW6JIsxkUGfBW3s
+	 qSthUBTpepDcxgtCqApVH9jRaTYGM9+0lR/yrvE5Cs4lDQ4y8/5rxOksO/PM8uoes2
+	 IrlnpwsBOsGZeTowJ0ccPiUg0O0F2MREamLuOECFPcCeefYQ3l6soSjYea2VaxEqsL
+	 dswpWYGOEu4SFQdUDf8lcacKlNSa/faRHRzgwDIJugwPbl0YMKq8WAMGqNfYfqT3J0
+	 Gd3b8zznoFU/g==
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2b9c907bc68so100191281fa.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 11:37:34 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yz+Ia/3Pat5Ror+ec6rgMbGSvuEXpVg+FXT13nNm4qiiOqnXEvm
+	tvyqYxJXPC7lw9jfbbUTaZsLN3blXT65L4ZWTg==
+X-Google-Smtp-Source: AGHT+IHh9rud6D/2NK2Oyt7X5iqW0MyRB7qXn8hbmlU0moQeXDHnJl0giXjPyZw3/gbBPsCJBY5EjQAWErARHZgCoBI=
+X-Received: by 2002:a2e:7405:0:b0:2c0:34f9:5a6a with SMTP id
+ p5-20020a2e7405000000b002c034f95a6amr210916ljc.34.1695148652805; Tue, 19 Sep
+ 2023 11:37:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202309192013.vI4DKHmw-lkp@intel.com>
+In-Reply-To: <202309192013.vI4DKHmw-lkp@intel.com>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 19 Sep 2023 13:37:20 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJ0BoR7Dan3=oyWPa6HU3YV=eOFTO5fx7u5zz2i=eB-jQ@mail.gmail.com>
+Message-ID: <CAL_JsqJ0BoR7Dan3=oyWPa6HU3YV=eOFTO5fx7u5zz2i=eB-jQ@mail.gmail.com>
+Subject: Re: arch/m68k/include/asm/raw_io.h:91:13: warning: array subscript 0
+ is outside array bounds of 'volatile u16[0]' {aka 'volatile short unsigned int[]'}
+To: kernel test robot <lkp@intel.com>, Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   4f412ed20fd2c5353c1e878ef9ed77952a5040a1
-commit: e6f04926dcd85fb353928a9c899a54e023bf4e69 [1216/1363] staging: xlnx_hdcp1x: Add HDCP1x cipher common functionality
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230920/202309200212.AZDbCXZz-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200212.AZDbCXZz-lkp@intel.com/reproduce)
+On Tue, Sep 19, 2023 at 7:09=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   2cf0f715623872823a72e451243bbf555d10d032
+> commit: f1a43aadb5a690e141a3b6700e2a40c1d4dbe088 watchdog: Enable COMPILE=
+_TEST for more drivers
+> date:   5 weeks ago
+> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/202309=
+19/202309192013.vI4DKHmw-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20230919/202309192013.vI4DKHmw-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309192013.vI4DKHmw-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    In file included from arch/m68k/include/asm/io_mm.h:25,
+>                     from arch/m68k/include/asm/io.h:8,
+>                     from include/linux/io.h:13,
+>                     from drivers/watchdog/machzwd.c:39:
+>    In function 'zf_set_timer',
+>        inlined from 'zf_timer_on' at drivers/watchdog/machzwd.c:218:2:
+> >> arch/m68k/include/asm/raw_io.h:91:13: warning: array subscript 0 is ou=
+tside array bounds of 'volatile u16[0]' {aka 'volatile short unsigned int[]=
+'} [-Warray-bounds=3D]
+>       91 |         __w =3D ((*(__force volatile u16 *) ((_addr & 0xFFFF00=
+00UL) + ((__v >> 8)<<1)))); \
+>          |         ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~
+>    arch/m68k/include/asm/io_mm.h:228:20: note: in expansion of macro 'rom=
+_out_le16'
+>      228 |                  : rom_out_le16(isa_itw(port), (val)))
+>          |                    ^~~~~~~~~~~~
+>    arch/m68k/include/asm/io_mm.h:356:42: note: in expansion of macro 'isa=
+_rom_outw'
+>      356 | #define outw(val, port) ((port) < 1024 ? isa_rom_outw((val), (=
+port)) : out_le16((port), (val)))
+>          |                                          ^~~~~~~~~~~~
+>    drivers/watchdog/machzwd.c:74:53: note: in expansion of macro 'outw'
+>       74 | #define zf_writew(port, data)  { outb(port, INDEX); outw(data,=
+ DATA_W); }
+>          |                                                     ^~~~
+>    drivers/watchdog/machzwd.c:173:17: note: in expansion of macro 'zf_wri=
+tew'
+>      173 |                 zf_writew(COUNTER_1, new);
+>          |                 ^~~~~~~~~
+>    In function 'zf_timer_on':
+>    cc1: note: source object is likely at address zero
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309200212.AZDbCXZz-lkp@intel.com/
+This seems to be some newish check in gcc which looks for fixed
+pointers below 4KB[1]. The linked issue says more was planned for
+gcc-13, but I haven't found what that is. AFAICT, that shouldn't
+happen with this config because isa_itw() should be variable and the
+compiler shouldn't be able to determine the value of _addr. However, a
+config with CONFIG_Q40=3Dn, CONFIG_AMIGA_PCMCIA=3Dn, and
+CONFIG_ATARI_ROM_ISA=3Dn would have a fixed NULL value and could trigger
+the warning. This should also have warnings everywhere outw() (and
+others) are used with a constant port value.
 
-All warnings (new ones prefixed by >>):
+Rob
 
->> drivers/staging/xlnx_hdcp1x/xilinx-hdcp1x-cipher.c:812: warning: Function parameter or member 'bx' not described in 'xhdcp1x_cipher_setb'
->> drivers/staging/xlnx_hdcp1x/xilinx-hdcp1x-cipher.c:812: warning: Function parameter or member 'by' not described in 'xhdcp1x_cipher_setb'
->> drivers/staging/xlnx_hdcp1x/xilinx-hdcp1x-cipher.c:812: warning: Function parameter or member 'bz' not described in 'xhdcp1x_cipher_setb'
->> drivers/staging/xlnx_hdcp1x/xilinx-hdcp1x-cipher.c:812: warning: Excess function parameter 'x' description in 'xhdcp1x_cipher_setb'
->> drivers/staging/xlnx_hdcp1x/xilinx-hdcp1x-cipher.c:812: warning: Excess function parameter 'y' description in 'xhdcp1x_cipher_setb'
->> drivers/staging/xlnx_hdcp1x/xilinx-hdcp1x-cipher.c:812: warning: Excess function parameter 'z' description in 'xhdcp1x_cipher_setb'
-
-
-vim +812 drivers/staging/xlnx_hdcp1x/xilinx-hdcp1x-cipher.c
-
-   799	
-   800	/**
-   801	 * xhdcp1x_cipher_setb - This function writes the contents of the B register in BM0.
-   802	 * @ref: reference to cipher instance
-   803	 * @x: is the value to be written to bx.
-   804	 * @y: is the value to be written to by.
-   805	 * @z: is the value to be written to bz.
-   806	 *
-   807	 * @return:
-   808	 *		- SUCCESS if successful.
-   809	 *		- NON_ZERO otherwise.
-   810	 */
-   811	int xhdcp1x_cipher_setb(void *ref, u32 bx, u32 by, u32 bz)
- > 812	{
-   813		struct xhdcp1x_cipher *cipher = (struct xhdcp1x_cipher *)ref;
-   814		u32 value = 0;
-   815	
-   816		if (!(xhdcp1x_cipher_is_enabled(cipher)))
-   817			return -EINVAL;
-   818	
-   819		/* Clear the register update bit */
-   820		value = xhdcp1x_cipher_read(cipher, XHDCP1X_CIPHER_REG_CONTROL);
-   821		value &= ~XHDCP1X_CIPHER_BITMASK_CONTROL_UPDATE;
-   822		xhdcp1x_cipher_write(cipher, XHDCP1X_CIPHER_REG_CONTROL, value);
-   823	
-   824		/* Update the Bx */
-   825		value = (bx & XHDCP1X_CIPHER_SET_B);
-   826		xhdcp1x_cipher_write(cipher, XHDCP1X_CIPHER_REG_CIPHER_BX, value);
-   827	
-   828		/* Update the By */
-   829		value = (by & XHDCP1X_CIPHER_SET_B);
-   830		xhdcp1x_cipher_write(cipher, XHDCP1X_CIPHER_REG_CIPHER_BY, value);
-   831	
-   832		/* Update the Bz */
-   833		value = (bz & XHDCP1X_CIPHER_SET_B);
-   834		xhdcp1x_cipher_write(cipher, XHDCP1X_CIPHER_REG_CIPHER_BZ, value);
-   835	
-   836		/* Set the register update bit */
-   837		value = xhdcp1x_cipher_read(cipher, XHDCP1X_CIPHER_REG_CONTROL);
-   838		value |= XHDCP1X_CIPHER_BITMASK_CONTROL_UPDATE;
-   839		xhdcp1x_cipher_write(cipher, XHDCP1X_CIPHER_REG_CONTROL, value);
-   840	
-   841		return 0;
-   842	}
-   843	EXPORT_SYMBOL_GPL(xhdcp1x_cipher_setb);
-   844	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D99578
