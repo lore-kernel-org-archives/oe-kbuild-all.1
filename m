@@ -1,47 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BCA8831
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 20:55:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16488831
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 21:05:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695156932; x=1726692932;
+  t=1695157534; x=1726693534;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FF0ZPQSrk4gbXx35U3K5Nvy3Iv4s+6kViKsplQcKT9Q=;
-  b=M3aVdRiZiGRTuLgZyxMu9LRYeXG0ite9QuW5H+Aq5+IrBW1kdSnE34ka
-   5B4r+p/VA1IfPDIZDTuxqmmPy15fn1zjtCmy9+eBXjA+LX5yOnsYrDo9T
-   KIZeAVrNvjViPq/12TuUaBpaJ/l7mycB+SLDHT9R2BH5FCZH3XSNsrYMO
-   Q0yxl0cnGe40txyyH7eeeatWIlwV6t+78CybbXOS8u0reG/eI8sqLBdD4
-   E3mUJji9Pw1cJZDI2Xt0+PgqvZ93XA3vjbeeiJEu3/R2lyapRo5r1QKy/
-   Mclb0YqNo/MXcdOOdgxg8G6mrHoXHIgP0TJVhgGROA+8xd4DH1mUA5ufj
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="377358391"
+  bh=omphm54i8oEs3XfIw/fGcpYAX3qOmu+AqnU1rfDIN40=;
+  b=lVhVdBjMkQ4DcOtrYvbHVS3uxqC+p4R85e3RtpX1PIF090KsSk6QkY+J
+   R/t0TvVVZq4y+lz8P5v2U1t0S7o9Mw3VI8HxzbFJPStJBER4/niTB+XSL
+   7wJOodMOFltL9yy0DeA0C/7Cxs63y2z8lP9M9l/8IZFSDuuhe4uyFRx5o
+   OVgrdgoUfozyf8QoQKvYIuQqRor3kELdxERht2rdxqMh7lr4/wdW7GB6K
+   AKjj3nDHsPdfoTbCQBlslW/yMHF2X153GvpD+WRmYMaya+hfDY6fthnIZ
+   k3BB+H7NAAO/V6OSa2Vl8B5RlSh9t/xqYdtp1WEtOYLgljgtiRDELpHx8
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="377360072"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="377358391"
+   d="scan'208";a="377360072"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 13:55:31 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 14:05:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="836579877"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="836585392"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="836579877"
+   d="scan'208";a="836585392"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 19 Sep 2023 13:55:27 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 19 Sep 2023 14:05:31 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qihkj-0007vI-2v;
-	Tue, 19 Sep 2023 20:55:25 +0000
-Date: Wed, 20 Sep 2023 04:55:05 +0800
+	id 1qihuQ-0007w4-0x;
+	Tue, 19 Sep 2023 21:05:26 +0000
+Date: Wed, 20 Sep 2023 05:05:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-	Carl Vanderlip <quic_carlv@quicinc.com>,
-	Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Subject: drivers/accel/qaic/qaic_control.c:348:17: warning: array subscript
- 'struct wrapper_msg[0]' is partly outside array bounds of 'unsigned
- char[44]'
-Message-ID: <202309200403.mGPrZFN4-lkp@intel.com>
+To: Edward Cree <ecree.xilinx@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: include/linux/netlink.h:115:6: warning: ' conflicts with existing
+ pseudo(MASK) entry for mask ' directive output truncated writing 53 bytes
+ into a region of size between 24 and 33
+Message-ID: <202309200420.FBqvqbSC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,89 +47,123 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Jeffrey,
-
-First bad commit (maybe != root cause):
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   2cf0f715623872823a72e451243bbf555d10d032
-commit: 759662e4f1f8cd6ea0ec466e10cf29fe7c1fec36 accel/qaic: Add qaic driver to the build system
-date:   6 months ago
-config: i386-randconfig-i015-20230718 (https://download.01.org/0day-ci/archive/20230920/202309200403.mGPrZFN4-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200403.mGPrZFN4-lkp@intel.com/reproduce)
+commit: b6583d5e9e94adce1be61ec59fef4e129f0bc68a sfc: support TC decap rules matching on enc_src_port
+date:   4 months ago
+config: x86_64-randconfig-014-20230906 (https://download.01.org/0day-ci/archive/20230920/202309200420.FBqvqbSC-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200420.FBqvqbSC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309200403.mGPrZFN4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309200420.FBqvqbSC-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In function 'add_wrapper',
-       inlined from 'abort_dma_cont' at drivers/accel/qaic/qaic_control.c:1107:12,
-       inlined from 'qaic_manage_msg_xfer' at drivers/accel/qaic/qaic_control.c:1165:9:
->> drivers/accel/qaic/qaic_control.c:348:17: warning: array subscript 'struct wrapper_msg[0]' is partly outside array bounds of 'unsigned char[44]' [-Warray-bounds]
-     348 |         w->head = wrappers;
-         |         ~~~~~~~~^~~~~~~~~~
-   In file included from include/linux/fs.h:45,
-                    from include/linux/huge_mm.h:8,
-                    from include/linux/mm.h:855,
-                    from include/linux/scatterlist.h:8,
-                    from include/linux/dma-mapping.h:10,
-                    from drivers/accel/qaic/qaic_control.c:10:
-   In function 'kmalloc',
-       inlined from 'kzalloc' at include/linux/slab.h:720:9,
-       inlined from 'add_wrapper' at drivers/accel/qaic/qaic_control.c:342:26,
-       inlined from 'abort_dma_cont' at drivers/accel/qaic/qaic_control.c:1107:12,
-       inlined from 'qaic_manage_msg_xfer' at drivers/accel/qaic/qaic_control.c:1165:9:
-   include/linux/slab.h:580:24: note: object of size 44 allocated by 'kmalloc_trace'
-     580 |                 return kmalloc_trace(
-         |                        ^~~~~~~~~~~~~~
-     581 |                                 kmalloc_caches[kmalloc_type(flags)][index],
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     582 |                                 flags, size);
-         |                                 ~~~~~~~~~~~~
-   In function 'abort_dma_cont',
-       inlined from 'qaic_manage_msg_xfer' at drivers/accel/qaic/qaic_control.c:1165:9:
-   drivers/accel/qaic/qaic_control.c:1121:22: warning: array subscript 'struct wrapper_msg[0]' is partly outside array bounds of 'unsigned char[44]' [-Warray-bounds]
-    1121 |         wrapper->len = size;
-         |         ~~~~~~~~~~~~~^~~~~~
-   In function 'kmalloc',
-       inlined from 'kzalloc' at include/linux/slab.h:720:9,
-       inlined from 'add_wrapper' at drivers/accel/qaic/qaic_control.c:342:26,
-       inlined from 'abort_dma_cont' at drivers/accel/qaic/qaic_control.c:1107:12,
-       inlined from 'qaic_manage_msg_xfer' at drivers/accel/qaic/qaic_control.c:1165:9:
-   include/linux/slab.h:580:24: note: object of size 44 allocated by 'kmalloc_trace'
-     580 |                 return kmalloc_trace(
-         |                        ^~~~~~~~~~~~~~
-     581 |                                 kmalloc_caches[kmalloc_type(flags)][index],
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     582 |                                 flags, size);
-         |                                 ~~~~~~~~~~~~
+   In file included from include/uapi/linux/neighbour.h:6:0,
+                    from include/linux/netdevice.h:46,
+                    from include/net/sch_generic.h:5,
+                    from include/net/pkt_cls.h:7,
+                    from drivers/net/ethernet/sfc/tc.c:12:
+   drivers/net/ethernet/sfc/tc.c: In function 'efx_tc_flower_record_encap_match':
+   include/linux/netlink.h:115:6: warning: ' conflicts with existing pseudo(MASK) entry for TOS mask ' directive output truncated writing 57 bytes into a region of size between 33 and 39 [-Wformat-truncation=]
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:130:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:511:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:115:6: note: directive argument in the range [0, 2147483647]
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:130:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:511:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:115:6: note: 'snprintf' output between 103 and 115 bytes into a destination of size 80
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:130:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:511:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/netlink.h:115:6: warning: ' conflicts with existing pseudo(MASK) entry for mask ' directive output truncated writing 53 bytes into a region of size between 24 and 33 [-Wformat-truncation=]
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:130:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:518:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:115:6: note: directive argument in the range [0, 2147483647]
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:130:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:518:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:115:6: note: 'snprintf' output between 102 and 120 bytes into a destination of size 80
+     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           "%s" fmt "%s", "", ##args, "") >=          \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:130:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:518:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+        NL_SET_ERR_MSG_FMT_MOD(extack,
+        ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +348 drivers/accel/qaic/qaic_control.c
+vim +115 include/linux/netlink.h
 
-129776ac2e3823 Jeffrey Hugo 2023-03-27  339  
-129776ac2e3823 Jeffrey Hugo 2023-03-27  340  static struct wrapper_msg *add_wrapper(struct wrapper_list *wrappers, u32 size)
-129776ac2e3823 Jeffrey Hugo 2023-03-27  341  {
-129776ac2e3823 Jeffrey Hugo 2023-03-27  342  	struct wrapper_msg *w = kzalloc(size, GFP_KERNEL);
-129776ac2e3823 Jeffrey Hugo 2023-03-27  343  
-129776ac2e3823 Jeffrey Hugo 2023-03-27  344  	if (!w)
-129776ac2e3823 Jeffrey Hugo 2023-03-27  345  		return NULL;
-129776ac2e3823 Jeffrey Hugo 2023-03-27  346  	list_add_tail(&w->list, &wrappers->list);
-129776ac2e3823 Jeffrey Hugo 2023-03-27  347  	kref_init(&w->ref_count);
-129776ac2e3823 Jeffrey Hugo 2023-03-27 @348  	w->head = wrappers;
-129776ac2e3823 Jeffrey Hugo 2023-03-27  349  	return w;
-129776ac2e3823 Jeffrey Hugo 2023-03-27  350  }
-129776ac2e3823 Jeffrey Hugo 2023-03-27  351  
+2d4bc93368f5a0 Johannes Berg 2017-04-12  106  
+51c352bdbcd23d Edward Cree   2022-10-18  107  /* We splice fmt with %s at each end even in the snprintf so that both calls
+51c352bdbcd23d Edward Cree   2022-10-18  108   * can use the same string constant, avoiding its duplication in .ro
+51c352bdbcd23d Edward Cree   2022-10-18  109   */
+51c352bdbcd23d Edward Cree   2022-10-18  110  #define NL_SET_ERR_MSG_FMT(extack, fmt, args...) do {			       \
+51c352bdbcd23d Edward Cree   2022-10-18  111  	struct netlink_ext_ack *__extack = (extack);			       \
+51c352bdbcd23d Edward Cree   2022-10-18  112  									       \
+51c352bdbcd23d Edward Cree   2022-10-18  113  	if (!__extack)							       \
+51c352bdbcd23d Edward Cree   2022-10-18  114  		break;							       \
+51c352bdbcd23d Edward Cree   2022-10-18 @115  	if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,	       \
+51c352bdbcd23d Edward Cree   2022-10-18  116  		     "%s" fmt "%s", "", ##args, "") >=			       \
+51c352bdbcd23d Edward Cree   2022-10-18  117  	    NETLINK_MAX_FMTMSG_LEN)					       \
+51c352bdbcd23d Edward Cree   2022-10-18  118  		net_warn_ratelimited("%s" fmt "%s", "truncated extack: ",      \
+51c352bdbcd23d Edward Cree   2022-10-18  119  				     ##args, "\n");			       \
+51c352bdbcd23d Edward Cree   2022-10-18  120  									       \
+51c352bdbcd23d Edward Cree   2022-10-18  121  	do_trace_netlink_extack(__extack->_msg_buf);			       \
+51c352bdbcd23d Edward Cree   2022-10-18  122  									       \
+51c352bdbcd23d Edward Cree   2022-10-18  123  	__extack->_msg = __extack->_msg_buf;				       \
+51c352bdbcd23d Edward Cree   2022-10-18  124  } while (0)
+51c352bdbcd23d Edward Cree   2022-10-18  125  
 
-:::::: The code at line 348 was first introduced by commit
-:::::: 129776ac2e38231fa9c02ce20e116c99de291666 accel/qaic: Add control path
+:::::: The code at line 115 was first introduced by commit
+:::::: 51c352bdbcd23d7ce46b06c1e64c82754dc44044 netlink: add support for formatted extack messages
 
-:::::: TO: Jeffrey Hugo <quic_jhugo@quicinc.com>
-:::::: CC: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+:::::: TO: Edward Cree <ecree.xilinx@gmail.com>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
