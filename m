@@ -1,115 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451C8A4E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 18:37:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FC15C433C9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 18:37:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695148654;
-	bh=SZCi30lXAL9PMLnakDIVwpPGl0ou1Y/fgS+6JaO3cRc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=fHtjSs1N/wQoAHhv+DDZMDDIbF4Ui+GrHXGv3C1uITpBsqjUzZi0/U3niDJB4feOt
-	 JiTsu2XbQVEkd0zshzTXbbq/3JC2ucKvEXZYtO7hlzJ7aLVLHJorW6JIsxkUGfBW3s
-	 qSthUBTpepDcxgtCqApVH9jRaTYGM9+0lR/yrvE5Cs4lDQ4y8/5rxOksO/PM8uoes2
-	 IrlnpwsBOsGZeTowJ0ccPiUg0O0F2MREamLuOECFPcCeefYQ3l6soSjYea2VaxEqsL
-	 dswpWYGOEu4SFQdUDf8lcacKlNSa/faRHRzgwDIJugwPbl0YMKq8WAMGqNfYfqT3J0
-	 Gd3b8zznoFU/g==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2b9c907bc68so100191281fa.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 11:37:34 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yz+Ia/3Pat5Ror+ec6rgMbGSvuEXpVg+FXT13nNm4qiiOqnXEvm
-	tvyqYxJXPC7lw9jfbbUTaZsLN3blXT65L4ZWTg==
-X-Google-Smtp-Source: AGHT+IHh9rud6D/2NK2Oyt7X5iqW0MyRB7qXn8hbmlU0moQeXDHnJl0giXjPyZw3/gbBPsCJBY5EjQAWErARHZgCoBI=
-X-Received: by 2002:a2e:7405:0:b0:2c0:34f9:5a6a with SMTP id
- p5-20020a2e7405000000b002c034f95a6amr210916ljc.34.1695148652805; Tue, 19 Sep
- 2023 11:37:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED288A4E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 18:40:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695148806; x=1726684806;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HgiCX2NPNi6aj2gQU8cfgqC4LKwirSjRm3n1CYfCe7c=;
+  b=YhwQ4f3bpCC7U+lAaj4lgZ6bbPJM/MvI/1G9Up7X/vurrFOHIGrHOAMO
+   9zvuIRgzVx6dS/wf6oCP0hSXXvRywIEXO1K38YLKoPxc9adHBCwuhCKLy
+   IYN9EoQC+VFSlLsFlh2rJ3z3XP/zj5n9KLbkmNiS6nnQU7pYS7QUBTbbX
+   U58VmFFR1alJSlzv3VCy+/gF5y5n6CHmcWiBqM2JbxZjmpoXy9EyLWnC8
+   dRzrlE2lJwdncv+JHsAtOZwxo5Hk+4KfixbmLazit5s/9/oSLpnySRkGk
+   w/HQ1YtduKE0FNOQs5er21G1TygzHOEJXLGjZ7QHVIvbrK1USnBnXbZyC
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="444110929"
+X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
+   d="scan'208";a="444110929"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 11:40:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="746344967"
+X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
+   d="scan'208";a="746344967"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 19 Sep 2023 11:40:04 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qifdi-0007nw-13;
+	Tue, 19 Sep 2023 18:40:02 +0000
+Date: Wed, 20 Sep 2023 02:39:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Anirudha Sarangi <anirudha.sarangi@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>,
+	Mubin Usman Sayyed <mubin.usman.sayyed@xilinx.com>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 627/1363]
+ drivers/irqchip/irq-imx-mu-msi.c:448:61: error: macro
+ "IRQCHIP_PLATFORM_DRIVER_END" passed 2 arguments, but takes just 1
+Message-ID: <202309200215.X0zbkZjp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202309192013.vI4DKHmw-lkp@intel.com>
-In-Reply-To: <202309192013.vI4DKHmw-lkp@intel.com>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 19 Sep 2023 13:37:20 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJ0BoR7Dan3=oyWPa6HU3YV=eOFTO5fx7u5zz2i=eB-jQ@mail.gmail.com>
-Message-ID: <CAL_JsqJ0BoR7Dan3=oyWPa6HU3YV=eOFTO5fx7u5zz2i=eB-jQ@mail.gmail.com>
-Subject: Re: arch/m68k/include/asm/raw_io.h:91:13: warning: array subscript 0
- is outside array bounds of 'volatile u16[0]' {aka 'volatile short unsigned int[]'}
-To: kernel test robot <lkp@intel.com>, Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Sep 19, 2023 at 7:09=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   2cf0f715623872823a72e451243bbf555d10d032
-> commit: f1a43aadb5a690e141a3b6700e2a40c1d4dbe088 watchdog: Enable COMPILE=
-_TEST for more drivers
-> date:   5 weeks ago
-> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/202309=
-19/202309192013.vI4DKHmw-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20230919/202309192013.vI4DKHmw-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309192013.vI4DKHmw-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    In file included from arch/m68k/include/asm/io_mm.h:25,
->                     from arch/m68k/include/asm/io.h:8,
->                     from include/linux/io.h:13,
->                     from drivers/watchdog/machzwd.c:39:
->    In function 'zf_set_timer',
->        inlined from 'zf_timer_on' at drivers/watchdog/machzwd.c:218:2:
-> >> arch/m68k/include/asm/raw_io.h:91:13: warning: array subscript 0 is ou=
-tside array bounds of 'volatile u16[0]' {aka 'volatile short unsigned int[]=
-'} [-Warray-bounds=3D]
->       91 |         __w =3D ((*(__force volatile u16 *) ((_addr & 0xFFFF00=
-00UL) + ((__v >> 8)<<1)))); \
->          |         ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~
->    arch/m68k/include/asm/io_mm.h:228:20: note: in expansion of macro 'rom=
-_out_le16'
->      228 |                  : rom_out_le16(isa_itw(port), (val)))
->          |                    ^~~~~~~~~~~~
->    arch/m68k/include/asm/io_mm.h:356:42: note: in expansion of macro 'isa=
-_rom_outw'
->      356 | #define outw(val, port) ((port) < 1024 ? isa_rom_outw((val), (=
-port)) : out_le16((port), (val)))
->          |                                          ^~~~~~~~~~~~
->    drivers/watchdog/machzwd.c:74:53: note: in expansion of macro 'outw'
->       74 | #define zf_writew(port, data)  { outb(port, INDEX); outw(data,=
- DATA_W); }
->          |                                                     ^~~~
->    drivers/watchdog/machzwd.c:173:17: note: in expansion of macro 'zf_wri=
-tew'
->      173 |                 zf_writew(COUNTER_1, new);
->          |                 ^~~~~~~~~
->    In function 'zf_timer_on':
->    cc1: note: source object is likely at address zero
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
+head:   4f412ed20fd2c5353c1e878ef9ed77952a5040a1
+commit: d57a0ce28405d21558291942fc17979408936244 [627/1363] irqchip: xilinx: Add support to remove Xilinx INTC irqchip driver module
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230920/202309200215.X0zbkZjp-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200215.X0zbkZjp-lkp@intel.com/reproduce)
 
-This seems to be some newish check in gcc which looks for fixed
-pointers below 4KB[1]. The linked issue says more was planned for
-gcc-13, but I haven't found what that is. AFAICT, that shouldn't
-happen with this config because isa_itw() should be variable and the
-compiler shouldn't be able to determine the value of _addr. However, a
-config with CONFIG_Q40=3Dn, CONFIG_AMIGA_PCMCIA=3Dn, and
-CONFIG_ATARI_ROM_ISA=3Dn would have a fixed NULL value and could trigger
-the warning. This should also have warnings everywhere outw() (and
-others) are used with a constant port value.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309200215.X0zbkZjp-lkp@intel.com/
 
-Rob
+All error/warnings (new ones prefixed by >>):
 
-[1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D99578
+>> drivers/irqchip/irq-imx-mu-msi.c:448:61: error: macro "IRQCHIP_PLATFORM_DRIVER_END" passed 2 arguments, but takes just 1
+     448 | IRQCHIP_PLATFORM_DRIVER_END(imx_mu_msi, .pm = &imx_mu_pm_ops)
+         |                                                             ^
+   In file included from drivers/irqchip/irq-imx-mu-msi.c:15:
+   include/linux/irqchip.h:68: note: macro "IRQCHIP_PLATFORM_DRIVER_END" defined here
+      68 | #define IRQCHIP_PLATFORM_DRIVER_END(drv_name)                           \
+         | 
+>> drivers/irqchip/irq-imx-mu-msi.c:448:1: error: 'IRQCHIP_PLATFORM_DRIVER_END' undeclared here (not in a function)
+     448 | IRQCHIP_PLATFORM_DRIVER_END(imx_mu_msi, .pm = &imx_mu_pm_ops)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/module.h:22,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/acpi.h:15,
+                    from include/linux/irqchip.h:14:
+>> include/linux/moduleparam.h:24:9: error: expected '}' before 'static'
+      24 |         static const char __UNIQUE_ID(name)[]                             \
+         |         ^~~~~~
+   include/linux/module.h:165:32: note: in expansion of macro '__MODULE_INFO'
+     165 | #define MODULE_INFO(tag, info) __MODULE_INFO(tag, tag, info)
+         |                                ^~~~~~~~~~~~~
+   include/linux/module.h:235:32: note: in expansion of macro 'MODULE_INFO'
+     235 | #define MODULE_AUTHOR(_author) MODULE_INFO(author, _author)
+         |                                ^~~~~~~~~~~
+   drivers/irqchip/irq-imx-mu-msi.c:451:1: note: in expansion of macro 'MODULE_AUTHOR'
+     451 | MODULE_AUTHOR("Frank Li <Frank.Li@nxp.com>");
+         | ^~~~~~~~~~~~~
+   include/linux/irqchip.h:45:69: note: to match this '{'
+      45 | static const struct of_device_id drv_name##_irqchip_match_table[] = {
+         |                                                                     ^
+   drivers/irqchip/irq-imx-mu-msi.c:444:1: note: in expansion of macro 'IRQCHIP_PLATFORM_DRIVER_BEGIN'
+     444 | IRQCHIP_PLATFORM_DRIVER_BEGIN(imx_mu_msi)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-imx-mu-msi.c:444:31: warning: 'imx_mu_msi_irqchip_match_table' defined but not used [-Wunused-const-variable=]
+     444 | IRQCHIP_PLATFORM_DRIVER_BEGIN(imx_mu_msi)
+         |                               ^~~~~~~~~~
+   include/linux/irqchip.h:45:34: note: in definition of macro 'IRQCHIP_PLATFORM_DRIVER_BEGIN'
+      45 | static const struct of_device_id drv_name##_irqchip_match_table[] = {
+         |                                  ^~~~~~~~
+>> drivers/irqchip/irq-imx-mu-msi.c:421:32: warning: 'imx_mu_pm_ops' defined but not used [-Wunused-const-variable=]
+     421 | static const struct dev_pm_ops imx_mu_pm_ops = {
+         |                                ^~~~~~~~~~~~~
+
+
+vim +/IRQCHIP_PLATFORM_DRIVER_END +448 drivers/irqchip/irq-imx-mu-msi.c
+
+70afdab904d2d1 Frank Li 2022-09-22  420  
+70afdab904d2d1 Frank Li 2022-09-22 @421  static const struct dev_pm_ops imx_mu_pm_ops = {
+70afdab904d2d1 Frank Li 2022-09-22  422  	SET_RUNTIME_PM_OPS(imx_mu_runtime_suspend,
+70afdab904d2d1 Frank Li 2022-09-22  423  			   imx_mu_runtime_resume, NULL)
+70afdab904d2d1 Frank Li 2022-09-22  424  };
+70afdab904d2d1 Frank Li 2022-09-22  425  
+70afdab904d2d1 Frank Li 2022-09-22  426  static int __init imx_mu_imx7ulp_of_init(struct device_node *dn,
+70afdab904d2d1 Frank Li 2022-09-22  427  					 struct device_node *parent)
+70afdab904d2d1 Frank Li 2022-09-22  428  {
+70afdab904d2d1 Frank Li 2022-09-22  429  	return imx_mu_of_init(dn, parent, &imx_mu_cfg_imx7ulp);
+70afdab904d2d1 Frank Li 2022-09-22  430  }
+70afdab904d2d1 Frank Li 2022-09-22  431  
+70afdab904d2d1 Frank Li 2022-09-22  432  static int __init imx_mu_imx6sx_of_init(struct device_node *dn,
+70afdab904d2d1 Frank Li 2022-09-22  433  					struct device_node *parent)
+70afdab904d2d1 Frank Li 2022-09-22  434  {
+70afdab904d2d1 Frank Li 2022-09-22  435  	return imx_mu_of_init(dn, parent, &imx_mu_cfg_imx6sx);
+70afdab904d2d1 Frank Li 2022-09-22  436  }
+70afdab904d2d1 Frank Li 2022-09-22  437  
+70afdab904d2d1 Frank Li 2022-09-22  438  static int __init imx_mu_imx8ulp_of_init(struct device_node *dn,
+70afdab904d2d1 Frank Li 2022-09-22  439  					 struct device_node *parent)
+70afdab904d2d1 Frank Li 2022-09-22  440  {
+70afdab904d2d1 Frank Li 2022-09-22  441  	return imx_mu_of_init(dn, parent, &imx_mu_cfg_imx8ulp);
+70afdab904d2d1 Frank Li 2022-09-22  442  }
+70afdab904d2d1 Frank Li 2022-09-22  443  
+70afdab904d2d1 Frank Li 2022-09-22 @444  IRQCHIP_PLATFORM_DRIVER_BEGIN(imx_mu_msi)
+70afdab904d2d1 Frank Li 2022-09-22  445  IRQCHIP_MATCH("fsl,imx7ulp-mu-msi", imx_mu_imx7ulp_of_init)
+70afdab904d2d1 Frank Li 2022-09-22  446  IRQCHIP_MATCH("fsl,imx6sx-mu-msi", imx_mu_imx6sx_of_init)
+70afdab904d2d1 Frank Li 2022-09-22  447  IRQCHIP_MATCH("fsl,imx8ulp-mu-msi", imx_mu_imx8ulp_of_init)
+70afdab904d2d1 Frank Li 2022-09-22 @448  IRQCHIP_PLATFORM_DRIVER_END(imx_mu_msi, .pm = &imx_mu_pm_ops)
+70afdab904d2d1 Frank Li 2022-09-22  449  
+70afdab904d2d1 Frank Li 2022-09-22  450  
+
+:::::: The code at line 448 was first introduced by commit
+:::::: 70afdab904d2d1e68bffe75fe08e7e48e0b0ff8e irqchip: Add IMX MU MSI controller driver
+
+:::::: TO: Frank Li <Frank.Li@nxp.com>
+:::::: CC: Marc Zyngier <maz@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
