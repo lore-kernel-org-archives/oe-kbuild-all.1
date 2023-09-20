@@ -1,47 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1340E3CCEC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 19:07:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A28293CCE7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 19:19:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695236830; x=1726772830;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sL6iW6SOwAPGrywQPxbdj5emoBwquLspeStTZa9IQhE=;
-  b=P5eGOqm/x+CCfXexoN5/DkmXvfajO5yj4RBTzVGZprUoo6hu0qgFYBL/
-   7ivv22OJDLW8uo3TOkTTmUiGBqJ+qAdMMbCrD1BaSqnZTL7R31n/oaMEN
-   0JS+pKhJMHu4IhFE2aWv3Z+Is40Wt5dpCN/MOGXmDq3x44g4lnPuM8bu2
-   rxFc6Qc4duHUfKViV8ojVhenp1PeNC4Q+KnyBkb1dot33mvAeMwqc6k/P
-   opSeKR10DDi5LEXbHJ1dxc20R2dGkj0ag4Ku1TMwm/YEyQQKYzfxaRfEM
-   EmYd7xHhayLhAQD7IHOlU5gV7rslxoqSFE04YTPNQ8IRjfDCzP0MrH1l2
+  t=1695237547; x=1726773547;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ptOzKmxjX00QqCWEZ2eL2CmdL3ePWiDm7tAxri9nrbE=;
+  b=fl3S+pxy1PWApwQ9II92ZQ7Y9LcRmt6RVmbP2tEoCdmxV12X/ki6ela0
+   YZNHMYiEV5Ix5ch+8n41i89rW4l/GTU2pfHaDSwUmWVQbDWQWNvNX7GZX
+   dIDGwGveu+xQmBWqe7pyZs79rcimVnb97iYPWqsANsvhGVAJJsE89aCbI
+   dXfwL8IqqSNowLtkc1EUUZlLlKwDlSKwBW2HMM4tryp3AMJlXCMb/AReo
+   qE0THqwH9Xb0mKeXiwqdWq6j4rUgn2MoX0lslMM/BGy+mpZ7oVsNALs+F
+   t/gEu4Jwtqil/jNcKFWzcAmFEKSBwqkk3W75vhpEcmEuqYwytT7ZwSzfL
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="377614517"
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="444412424"
 X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="377614517"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 12:07:08 -0700
+   d="scan'208";a="444412424"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 12:19:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="993745781"
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="890059150"
 X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="993745781"
+   d="scan'208";a="890059150"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 20 Sep 2023 12:07:05 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 20 Sep 2023 12:18:16 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qj2XP-00093I-1T;
-	Wed, 20 Sep 2023 19:07:03 +0000
-Date: Thu, 21 Sep 2023 03:06:35 +0800
+	id 1qj2j1-00093b-2N;
+	Wed, 20 Sep 2023 19:19:03 +0000
+Date: Thu, 21 Sep 2023 03:18:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ekansh Gupta <quic_ekangupt@quicinc.com>,
-	srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Ekansh Gupta <quic_ekangupt@quicinc.com>,
-	ekangupt@qti.qualcomm.com, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, fastrpc.upstream@qti.qualcomm.com
-Subject: Re: [PATCH v3 1/5] misc: fastrpc: Add fastrpc multimode invoke
- request support
-Message-ID: <202309210217.5IbRcqeu-lkp@intel.com>
-References: <1695206827-29446-2-git-send-email-quic_ekangupt@quicinc.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sashal-stable:pending-5.15 31/82]
+ samples/hw_breakpoint/data_breakpoint.c:73:9: error: implicit declaration of
+ function '__symbol_put'; did you mean '__symbol_get'?
+Message-ID: <202309210348.8leZ8gtz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,163 +46,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1695206827-29446-2-git-send-email-quic_ekangupt@quicinc.com>
 
-Hi Ekansh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.6-rc2 next-20230920]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ekansh-Gupta/misc-fastrpc-Add-fastrpc-multimode-invoke-request-support/20230920-184942
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/1695206827-29446-2-git-send-email-quic_ekangupt%40quicinc.com
-patch subject: [PATCH v3 1/5] misc: fastrpc: Add fastrpc multimode invoke request support
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230921/202309210217.5IbRcqeu-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309210217.5IbRcqeu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.15
+head:   bfed096c8fc5881926d6eb51eaafd9f8f75ec384
+commit: e876a323e61b3d5ceb9623daecd910fe1d32319b [31/82] samples/hw_breakpoint: Fix kernel BUG 'invalid opcode: 0000'
+config: x86_64-buildonly-randconfig-005-20230921 (https://download.01.org/0day-ci/archive/20230921/202309210348.8leZ8gtz-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309210348.8leZ8gtz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309210217.5IbRcqeu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309210348.8leZ8gtz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/misc/fastrpc.c: In function 'fastrpc_context_alloc':
->> drivers/misc/fastrpc.c:607:29: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     607 |                 ctx->args = (struct fastrpc_invoke_args *)invoke->inv.args;
-         |                             ^
-   drivers/misc/fastrpc.c: In function 'fastrpc_init_create_static_process':
->> drivers/misc/fastrpc.c:1320:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1320 |         ioctl.inv.args = (__u64)args;
-         |                          ^
-   drivers/misc/fastrpc.c: In function 'fastrpc_init_create_process':
-   drivers/misc/fastrpc.c:1453:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1453 |         ioctl.inv.args = (__u64)args;
-         |                          ^
-   drivers/misc/fastrpc.c: In function 'fastrpc_release_current_dsp_process':
-   drivers/misc/fastrpc.c:1517:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1517 |         ioctl.inv.args = (__u64)args;
-         |                          ^
-   drivers/misc/fastrpc.c: In function 'fastrpc_init_attach':
-   drivers/misc/fastrpc.c:1665:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1665 |         ioctl.inv.args = (__u64)args;
-         |                          ^
-   drivers/misc/fastrpc.c: In function 'fastrpc_invoke':
-   drivers/misc/fastrpc.c:1696:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1696 |         ioctl.inv.args = (__u64)args;
-         |                          ^
-   drivers/misc/fastrpc.c: In function 'fastrpc_multimode_invoke':
-   drivers/misc/fastrpc.c:1732:33: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1732 |                 einv.inv.args = (__u64)args;
-         |                                 ^
-   drivers/misc/fastrpc.c: In function 'fastrpc_get_info_from_dsp':
-   drivers/misc/fastrpc.c:1762:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1762 |         ioctl.inv.args = (__u64)args;
-         |                          ^
-   drivers/misc/fastrpc.c: In function 'fastrpc_req_munmap_impl':
-   drivers/misc/fastrpc.c:1865:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1865 |         ioctl.inv.args = (__u64)args;
-         |                          ^
-   drivers/misc/fastrpc.c: In function 'fastrpc_req_mmap':
-   drivers/misc/fastrpc.c:1963:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1963 |         ioctl.inv.args = (__u64)args;
-         |                          ^
-   drivers/misc/fastrpc.c: In function 'fastrpc_req_mem_unmap_impl':
-   drivers/misc/fastrpc.c:2044:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    2044 |         ioctl.inv.args = (__u64)args;
-         |                          ^
-   drivers/misc/fastrpc.c: In function 'fastrpc_req_mem_map':
-   drivers/misc/fastrpc.c:2113:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    2113 |         ioctl.inv.args = (__u64)args;
-         |                          ^
+   samples/hw_breakpoint/data_breakpoint.c: In function 'hw_break_module_exit':
+>> samples/hw_breakpoint/data_breakpoint.c:73:9: error: implicit declaration of function '__symbol_put'; did you mean '__symbol_get'? [-Werror=implicit-function-declaration]
+      73 |         __symbol_put(ksym_name);
+         |         ^~~~~~~~~~~~
+         |         __symbol_get
+   cc1: some warnings being treated as errors
 
 
-vim +607 drivers/misc/fastrpc.c
+vim +73 samples/hw_breakpoint/data_breakpoint.c
 
-   573	
-   574	static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
-   575				struct fastrpc_user *user, u32 kernel, u32 sc,
-   576				struct fastrpc_enhanced_invoke *invoke)
-   577	{
-   578		struct fastrpc_channel_ctx *cctx = user->cctx;
-   579		struct fastrpc_invoke_ctx *ctx = NULL;
-   580		unsigned long flags;
-   581		int ret;
-   582	
-   583		ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
-   584		if (!ctx)
-   585			return ERR_PTR(-ENOMEM);
-   586	
-   587		INIT_LIST_HEAD(&ctx->node);
-   588		ctx->fl = user;
-   589		ctx->nscalars = REMOTE_SCALARS_LENGTH(sc);
-   590		ctx->nbufs = REMOTE_SCALARS_INBUFS(sc) +
-   591			     REMOTE_SCALARS_OUTBUFS(sc);
-   592	
-   593		if (ctx->nscalars) {
-   594			ctx->maps = kcalloc(ctx->nscalars,
-   595					    sizeof(*ctx->maps), GFP_KERNEL);
-   596			if (!ctx->maps) {
-   597				kfree(ctx);
-   598				return ERR_PTR(-ENOMEM);
-   599			}
-   600			ctx->olaps = kcalloc(ctx->nscalars,
-   601					    sizeof(*ctx->olaps), GFP_KERNEL);
-   602			if (!ctx->olaps) {
-   603				kfree(ctx->maps);
-   604				kfree(ctx);
-   605				return ERR_PTR(-ENOMEM);
-   606			}
- > 607			ctx->args = (struct fastrpc_invoke_args *)invoke->inv.args;
-   608			fastrpc_get_buff_overlaps(ctx);
-   609		}
-   610	
-   611		/* Released in fastrpc_context_put() */
-   612		fastrpc_channel_ctx_get(cctx);
-   613	
-   614		ctx->sc = sc;
-   615		ctx->retval = -1;
-   616		ctx->pid = current->pid;
-   617		ctx->tgid = user->tgid;
-   618		ctx->cctx = cctx;
-   619		init_completion(&ctx->work);
-   620		INIT_WORK(&ctx->put_work, fastrpc_context_put_wq);
-   621	
-   622		spin_lock(&user->lock);
-   623		list_add_tail(&ctx->node, &user->pending);
-   624		spin_unlock(&user->lock);
-   625	
-   626		spin_lock_irqsave(&cctx->lock, flags);
-   627		ret = idr_alloc_cyclic(&cctx->ctx_idr, ctx, 1,
-   628				       FASTRPC_CTX_MAX, GFP_ATOMIC);
-   629		if (ret < 0) {
-   630			spin_unlock_irqrestore(&cctx->lock, flags);
-   631			goto err_idr;
-   632		}
-   633		ctx->ctxid = ret << 4;
-   634		spin_unlock_irqrestore(&cctx->lock, flags);
-   635	
-   636		kref_init(&ctx->refcount);
-   637	
-   638		return ctx;
-   639	err_idr:
-   640		spin_lock(&user->lock);
-   641		list_del(&ctx->node);
-   642		spin_unlock(&user->lock);
-   643		fastrpc_channel_ctx_put(cctx);
-   644		kfree(ctx->maps);
-   645		kfree(ctx->olaps);
-   646		kfree(ctx);
-   647	
-   648		return ERR_PTR(ret);
-   649	}
-   650	
+    69	
+    70	static void __exit hw_break_module_exit(void)
+    71	{
+    72		unregister_wide_hw_breakpoint(sample_hbp);
+  > 73		__symbol_put(ksym_name);
+    74		printk(KERN_INFO "HW Breakpoint for %s write uninstalled\n", ksym_name);
+    75	}
+    76	
 
 -- 
 0-DAY CI Kernel Test Service
