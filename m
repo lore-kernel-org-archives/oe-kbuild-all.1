@@ -1,152 +1,170 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6410C36B04
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 14:20:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695219647; x=1726755647;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+yYhz+1LWcxeHLfgL0jWizkKmRw2XYNL5ixJn6K+hNA=;
-  b=T+NB1ctkJJpBM7DrvnonyQcRm85bZI3n+QX4zKWqEJ7rDwjS7TEGf2hG
-   XqfqBXMjKQqHzH6NplS+ryzbI6bTNKohZQWSZyEDOKfVHcZc34x4IJUcQ
-   xInmtDcMtqGVSDRFgwYLpU4NHXllHfrN+FVZFL8rZrYdlaQXzGuQUPXHs
-   GVLs0FayEMimRs8Uq734nxOH4ArPzOifFHC+YOCr5Y6Swf1IbzlU2gfdF
-   FMYGdpNGGMJ/CymVtplpSWtlIomBjbusk+IPxN7/8ngkPdfYet+XIGvN9
-   vDNPDVtdLvWNG74Lmv2OeibZX5p0u3TBF2j8Qfj6KyNEUUJbbIMK5idHB
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="359625705"
-X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="359625705"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 07:20:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="889933198"
-X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="889933198"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 20 Sep 2023 07:19:34 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qiy3w-0008ok-2b;
-	Wed, 20 Sep 2023 14:20:20 +0000
-Date: Wed, 20 Sep 2023 22:20:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Antipov <dmantipov@yandex.ru>,
-	Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Kalle Valo <kvalo@kernel.org>,
-	ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
-	Dmitry Antipov <dmantipov@yandex.ru>
-Subject: Re: [PATCH] wifi: ath10k: consistently use kstrtoX_from_user()
- functions
-Message-ID: <202309202242.GlXozks6-lkp@intel.com>
-References: <20230920115249.38296-1-dmantipov@yandex.ru>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EADB3B2AC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 14:30:25 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1c3d6d88231so55262645ad.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 07:30:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695220225; x=1695825025; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=RLl4qoUlhpaHYAbyJIpQaEfJYSLzVtx1nfy54m+QJkY=;
+        b=SBMKr+D6qMi4zhun8qOEKN2y9yqZR7cSJCOCRtqPbzSpgyKWtnE2EG6SW7XcHu9tBc
+         e+/iPqRFl9W6VYkunlDoD9+5azr/Kcbt0w0Dv/YgqYONTAPtZt6yl2hbE5VV63t7dHyc
+         iKvQDhsiiHnQuTTKDcYWZbSl5MrhTtfyCF3AGnUNHydEPmDY+6xLQ81osRl4qsXf+0e1
+         11sar4hlj16Ecl1Q1xG3wwKmTMr3byCsIQIPxemWIRk8stivKA1jzrz3raUhIvWFiUUu
+         O1GRZ+IYLW1NNcu4PTod+o1pIrx7DcXBoaUj+s+Wgr9CbFt+Nz+KR5NlpfouxMFhnAcS
+         UZtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695220225; x=1695825025;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RLl4qoUlhpaHYAbyJIpQaEfJYSLzVtx1nfy54m+QJkY=;
+        b=EeQELX4h+1fu8cOmUglCEOHVNhlHWwKQib86Mk37fMCQT14Rku8sCBtQ6PRfn57spv
+         E8HlREJM5V8m8bmLQhiE2QK7E6kOt4aAHvWXI4qWx7oF6HDttrrAZA/erpZWAgh9qIvK
+         MtgtjId3EaUX6LYeFftpqfN7icOiQrKoKIqY7AtEzZFY4B/KrUjxG+6LIRvtzz2dVnhv
+         jUvbYmraBEjse6LDR00hDWanQjPlLDe45u9cwtk4msqH+sWEFUYcagSN5A/2GqbbMJSO
+         zBb4PgiOYDoVD3x/3iXfrnWj/39tq9DMoVHP7JxlujFAbduaIn3LiWjBF9XU51dRiEyk
+         Td2g==
+X-Gm-Message-State: AOJu0Yxeu+ppecN6Pv/Od+nBsapR0v3m6fyrtDnecZllJ8Tq2B13S3sv
+	rHtq+IsmGTkNVBln9Zkm+w0=
+X-Google-Smtp-Source: AGHT+IHwSSHAlcdVPUgiAFGYQZnQphxjRZ9SGDjWVXQGkQYFN0QJP75e+rD69BasK7iSoJ6N0PDYrw==
+X-Received: by 2002:a17:902:b58d:b0:1c3:ebfc:5198 with SMTP id a13-20020a170902b58d00b001c3ebfc5198mr2326654pls.11.1695220225195;
+        Wed, 20 Sep 2023 07:30:25 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d7-20020a170902cec700b001b89891bfc4sm7950634plg.199.2023.09.20.07.30.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Sep 2023 07:30:24 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <194e2d22-9eff-ec6c-9bc9-13b62bda870a@roeck-us.net>
+Date: Wed, 20 Sep 2023 07:30:22 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230920115249.38296-1-dmantipov@yandex.ru>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: arch/m68k/include/asm/raw_io.h:91:13: warning: array subscript 0
+ is outside array bounds of 'volatile u16[0]' {aka 'volatile short unsigned
+ int[]'}
+To: Rob Herring <robh@kernel.org>
+Cc: kernel test robot <lkp@intel.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Wim Van Sebroeck <wim@linux-watchdog.org>
+References: <202309192013.vI4DKHmw-lkp@intel.com>
+ <CAL_JsqJ0BoR7Dan3=oyWPa6HU3YV=eOFTO5fx7u5zz2i=eB-jQ@mail.gmail.com>
+ <a57afd40-71a2-aa68-84cb-44d2a88a1e2b@roeck-us.net>
+ <CAL_JsqJYPJVTxH=d5nYK78+ZWhZAfh4VhEyBLqzyg4MzMhrX0g@mail.gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <CAL_JsqJYPJVTxH=d5nYK78+ZWhZAfh4VhEyBLqzyg4MzMhrX0g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Dmitry,
+On 9/20/23 05:44, Rob Herring wrote:
+> On Tue, Sep 19, 2023 at 6:14 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>>
+>> On 9/19/23 11:37, Rob Herring wrote:
+>>> On Tue, Sep 19, 2023 at 7:09 AM kernel test robot <lkp@intel.com> wrote:
+>>>>
+>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+>>>> head:   2cf0f715623872823a72e451243bbf555d10d032
+>>>> commit: f1a43aadb5a690e141a3b6700e2a40c1d4dbe088 watchdog: Enable COMPILE_TEST for more drivers
+>>>> date:   5 weeks ago
+>>>> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230919/202309192013.vI4DKHmw-lkp@intel.com/config)
+>>>> compiler: m68k-linux-gcc (GCC) 13.2.0
+>>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309192013.vI4DKHmw-lkp@intel.com/reproduce)
+>>>>
+>>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>>> the same patch/commit), kindly add following tags
+>>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202309192013.vI4DKHmw-lkp@intel.com/
+>>>>
+>>>> All warnings (new ones prefixed by >>):
+>>>>
+>>>>      In file included from arch/m68k/include/asm/io_mm.h:25,
+>>>>                       from arch/m68k/include/asm/io.h:8,
+>>>>                       from include/linux/io.h:13,
+>>>>                       from drivers/watchdog/machzwd.c:39:
+>>>>      In function 'zf_set_timer',
+>>>>          inlined from 'zf_timer_on' at drivers/watchdog/machzwd.c:218:2:
+>>>>>> arch/m68k/include/asm/raw_io.h:91:13: warning: array subscript 0 is outside array bounds of 'volatile u16[0]' {aka 'volatile short unsigned int[]'} [-Warray-bounds=]
+>>>>         91 |         __w = ((*(__force volatile u16 *) ((_addr & 0xFFFF0000UL) + ((__v >> 8)<<1)))); \
+>>>>            |         ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>>      arch/m68k/include/asm/io_mm.h:228:20: note: in expansion of macro 'rom_out_le16'
+>>>>        228 |                  : rom_out_le16(isa_itw(port), (val)))
+>>>>            |                    ^~~~~~~~~~~~
+>>>>      arch/m68k/include/asm/io_mm.h:356:42: note: in expansion of macro 'isa_rom_outw'
+>>>>        356 | #define outw(val, port) ((port) < 1024 ? isa_rom_outw((val), (port)) : out_le16((port), (val)))
+>>>>            |                                          ^~~~~~~~~~~~
+>>>>      drivers/watchdog/machzwd.c:74:53: note: in expansion of macro 'outw'
+>>>>         74 | #define zf_writew(port, data)  { outb(port, INDEX); outw(data, DATA_W); }
+>>>>            |                                                     ^~~~
+>>>>      drivers/watchdog/machzwd.c:173:17: note: in expansion of macro 'zf_writew'
+>>>>        173 |                 zf_writew(COUNTER_1, new);
+>>>>            |                 ^~~~~~~~~
+>>>>      In function 'zf_timer_on':
+>>>>      cc1: note: source object is likely at address zero
+>>>
+>>> This seems to be some newish check in gcc which looks for fixed
+>>> pointers below 4KB[1]. The linked issue says more was planned for
+>>> gcc-13, but I haven't found what that is. AFAICT, that shouldn't
+>>> happen with this config because isa_itw() should be variable and the
+>>> compiler shouldn't be able to determine the value of _addr. However, a
+>>> config with CONFIG_Q40=n, CONFIG_AMIGA_PCMCIA=n, and
+>>> CONFIG_ATARI_ROM_ISA=n would have a fixed NULL value and could trigger
+>>> the warning. This should also have warnings everywhere outw() (and
+>>> others) are used with a constant port value.
+>>>
+>>> Rob
+>>>
+>>> [1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=99578
+>>
+>> A long time ago, when someone submitted a "cleanup: patch for the machzwd
+>> watchdog driver, I approved it but added this comment.
+>>
+>>   > If anyone is still using the HW supported by this driver, it would
+>>   > be a prime target for conversion to use the watchdog subsystem.
+>>   > This would reduce code size and improve driver stability.
+>>   > _That_ would be useful.
+>>
+>>   > The only reason for replacing 0 with NULL is to make a static checker
+>>   > happy. This kind of change adds zero value to the code. Instead, it
+>>   > takes time from those who have to review the patches and apply them.
+>>
+>>   > If we ignore such patches, we'll get them again and again, taking
+>>   > away even more time. If we don't ignore them, we encourage submitters
+>>   > and get even more useless patches. If we try to discourage them, we
+>>   > risk being accused of being unfriendly. This is a perfect lose-lose
+>>   > situation for maintainers.
+> 
+> Agreed. I keep getting one to fix "of of" in a comment. The fix is
+> always to drop an "of", but that's actually wrong because it's
+> supposed to be "OF". I keep pointing this out and *never* get the
+> right fix. I don't fix it myself because at this point, I find
+> continuing to get "fixes" entertaining.
+> 
+>> I do wonder if enabling BUILD_TEST on such drivers is any better.
+> 
+> I think that and trivial fixes on a specific driver are completely
+> different. If you want to test build one driver, that's not too hard.
+> Find its kconfig value, turn it on and build the right arch. For tree
+> wide stuff, it's a real pain to ensure you built everything. For
+> example, the only way to build many Cavium Octeon drivers is with the
+> Octeon defconfig which is just one of dozens configs for MIPS (which
+> is still a bigger mess than arm32 ever was).
+> 
 
-kernel test robot noticed the following build warnings:
+Sure, but I still argue that this isn't worth it for drivers like this one.
+Are you going to submit a fix ? Because otherwise I'll submit a patch
+to drop COMPILE_TEST from MACHZ_WDT.
 
-[auto build test WARNING on kvalo-ath/ath-next]
-[also build test WARNING on wireless-next/main wireless/main linus/master v6.6-rc2 next-20230920]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks,
+Guenter
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Antipov/wifi-ath10k-consistently-use-kstrtoX_from_user-functions/20230920-195625
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git ath-next
-patch link:    https://lore.kernel.org/r/20230920115249.38296-1-dmantipov%40yandex.ru
-patch subject: [PATCH] wifi: ath10k: consistently use kstrtoX_from_user() functions
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230920/202309202242.GlXozks6-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309202242.GlXozks6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309202242.GlXozks6-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/net/wireless/ath/ath10k/debug.c: In function 'ath10k_write_btcoex':
->> drivers/net/wireless/ath/ath10k/debug.c:1996:69: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'ssize_t' {aka 'int'} [-Wformat=]
-    1996 |                         ath10k_warn(ar, "failed to enable btcoex: %ld\n", ret);
-         |                                                                   ~~^     ~~~
-         |                                                                     |     |
-         |                                                                     |     ssize_t {aka int}
-         |                                                                     long int
-         |                                                                   %d
-
-
-vim +1996 drivers/net/wireless/ath/ath10k/debug.c
-
-  1961	
-  1962	static ssize_t ath10k_write_btcoex(struct file *file,
-  1963					   const char __user *ubuf,
-  1964					   size_t count, loff_t *ppos)
-  1965	{
-  1966		struct ath10k *ar = file->private_data;
-  1967		ssize_t ret;
-  1968		bool val;
-  1969		u32 pdev_param;
-  1970	
-  1971		ret = kstrtobool_from_user(ubuf, count, &val);
-  1972		if (ret)
-  1973			return ret;
-  1974	
-  1975		if (!ar->coex_support)
-  1976			return -EOPNOTSUPP;
-  1977	
-  1978		mutex_lock(&ar->conf_mutex);
-  1979	
-  1980		if (ar->state != ATH10K_STATE_ON &&
-  1981		    ar->state != ATH10K_STATE_RESTARTED) {
-  1982			ret = -ENETDOWN;
-  1983			goto exit;
-  1984		}
-  1985	
-  1986		if (!(test_bit(ATH10K_FLAG_BTCOEX, &ar->dev_flags) ^ val)) {
-  1987			ret = count;
-  1988			goto exit;
-  1989		}
-  1990	
-  1991		pdev_param = ar->wmi.pdev_param->enable_btcoex;
-  1992		if (test_bit(ATH10K_FW_FEATURE_BTCOEX_PARAM,
-  1993			     ar->running_fw->fw_file.fw_features)) {
-  1994			ret = ath10k_wmi_pdev_set_param(ar, pdev_param, val);
-  1995			if (ret) {
-> 1996				ath10k_warn(ar, "failed to enable btcoex: %ld\n", ret);
-  1997				ret = count;
-  1998				goto exit;
-  1999			}
-  2000		} else {
-  2001			ath10k_info(ar, "restarting firmware due to btcoex change");
-  2002			ath10k_core_start_recovery(ar);
-  2003		}
-  2004	
-  2005		if (val)
-  2006			set_bit(ATH10K_FLAG_BTCOEX, &ar->dev_flags);
-  2007		else
-  2008			clear_bit(ATH10K_FLAG_BTCOEX, &ar->dev_flags);
-  2009	
-  2010		ret = count;
-  2011	
-  2012	exit:
-  2013		mutex_unlock(&ar->conf_mutex);
-  2014	
-  2015		return ret;
-  2016	}
-  2017	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
