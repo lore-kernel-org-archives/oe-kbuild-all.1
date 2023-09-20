@@ -1,48 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2483C6A7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 15:57:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695225478; x=1726761478;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=U06UEjfbDpwUyjwQ4zD2dI4F8pWZSId0Txotlq8VNgs=;
-  b=doBY0+/nw/jh9qfEGfYEJlqxdZTB1Vy1P98mEMuspUEH/kdI46I44Sbj
-   o4Y036qO/kWgDaZG8lBwzMATSjiSsgSIQKyC4ViqsvNiaITQN2zom1gxd
-   zoPqE5Nocjfi+60Z6DEvfXMvjStPUA75nBWm3KzEPTBbGjMkaMMfxnS6+
-   btzXEJdVRrg7XckWoiWNYSxZ749XuqvGKQPJUQ4Go8JOKe8Z3B5eUHZ5o
-   EXaxV9mQc0odtvQRNMq6/vlMpfMe1pY1CX81S/KJjbN1+EDzfuf/wQx7J
-   OxwshLc0PECSSjy8n+Wsw84FzZ+OB5M60HGxzXBt/Sky7HgLpsLENsPUC
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="466571400"
-X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="466571400"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 08:57:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="816960208"
-X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="816960208"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 20 Sep 2023 08:57:54 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qizaK-0008uG-0v;
-	Wed, 20 Sep 2023 15:57:52 +0000
-Date: Wed, 20 Sep 2023 23:57:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Petr Mladek <pmladek@suse.com>, John Ogness <john.ogness@linutronix.de>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Steven Rostedt <rostedt@goodmis.org>
-Cc: oe-kbuild-all@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, Petr Mladek <pmladek@suse.com>
-Subject: Re: [PATCH] printk/nbcon: Add assert that CPU migration is disabled
- when calling nbcon_context_try_acquire()
-Message-ID: <202309202313.vdq31WtT-lkp@intel.com>
-References: <20230920125136.15504-1-pmladek@suse.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB0CC8ED
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 16:09:35 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-690bfd4f3ebso1974459b3a.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 09:09:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1695226174; x=1695830974; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kZPdmXl4ZwuGt3eSBwgMVSxnCz69SpDGNBEX3pNmeW4=;
+        b=YR3XiB4wfuInn8C7GJqEgcRvxPtAZsKi1b0mb/fbRijHOIkDisDJE00/NdfAAasnbs
+         quOmZ/27fWlabkfDhv9/P5WCDhoFbmPHs82Ea6PclewiTHGmASa64c9Y8M9Nx1UarBj8
+         tQZjFQ5KUwqtsSbKT2K9X67B9r74tq+m6LHOc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695226174; x=1695830974;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kZPdmXl4ZwuGt3eSBwgMVSxnCz69SpDGNBEX3pNmeW4=;
+        b=bu2G36+8V5YwWUXZKdlyIsWLMFO9cUsRxIP355jYm4R18/zxmv7cPZPwkenottBLX/
+         Kpl72Sb1VQ9SeaWdgpGADchSkbP8SbMU2K9YmpARkLFYuLJ/d7ZTgBwdGgRJSIO0DuAK
+         VMGMGFK2/LfCDmOuwojloSCdwQ9lW5HVObLdE0xyWs2Py8ZlP54LVL4QYI96GLa6nsbK
+         P432ziQhqRjQ+qMcSLQgvy/7lJACEc+gSaD3R1YM+id6XpLMVUq3g5kKwRfG1Jxpb/ls
+         lPoU6XXvJs4WaBvlIjiaNGOf/PnJySUvPJuwVuTidBtJ5NfFKWMMUqK01BSZONNsXeJn
+         Kvug==
+X-Gm-Message-State: AOJu0YzkXBcWwZ79jAeLNsWa1WxCvfLU0mcJpxVBPpRgCBoZHYRya7Cx
+	YBSMo7vwdAxodAnf5FG6z7FJng==
+X-Google-Smtp-Source: AGHT+IFZEbhAj0VF0cfiwS9CwelgZgX4SNQUZu5W0XXu7LEGDZAj+oplpFNBiJANw/y7//sKSq9U9w==
+X-Received: by 2002:a05:6a00:8087:b0:690:f6a1:ae62 with SMTP id eh7-20020a056a00808700b00690f6a1ae62mr1544166pfb.23.1695226174549;
+        Wed, 20 Sep 2023 09:09:34 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id x23-20020aa793b7000000b0068bbf578694sm10668960pff.18.2023.09.20.09.09.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Sep 2023 09:09:33 -0700 (PDT)
+Date: Wed, 20 Sep 2023 09:09:33 -0700
+From: Kees Cook <keescook@chromium.org>
+To: kernel test robot <lkp@intel.com>, Mirko Lindner <mlindner@marvell.com>,
+	Stephen Hemminger <stephen@networkplumber.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: Re: include/linux/dma-mapping.h:416:36: warning: array subscript i
+ is outside array bounds of 'dma_addr_t[0]' {aka 'long long unsigned int[]'}
+Message-ID: <202309200904.CEED70DA33@keescook>
+References: <202309191958.UBw1cjXk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,97 +53,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230920125136.15504-1-pmladek@suse.com>
+In-Reply-To: <202309191958.UBw1cjXk-lkp@intel.com>
 
-Hi Petr,
+On Tue, Sep 19, 2023 at 07:27:26PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   2cf0f715623872823a72e451243bbf555d10d032
+> commit: df8fc4e934c12b906d08050d7779f292b9c5c6b5 kbuild: Enable -fstrict-flex-arrays=3
+> date:   4 months ago
+> config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230919/202309191958.UBw1cjXk-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309191958.UBw1cjXk-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309191958.UBw1cjXk-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from include/linux/skbuff.h:28,
+>                     from include/net/net_namespace.h:43,
+>                     from include/linux/netdevice.h:38,
+>                     from drivers/net/ethernet/marvell/sky2.c:18:
+>    drivers/net/ethernet/marvell/sky2.c: In function 'sky2_rx_unmap_skb':
+> >> include/linux/dma-mapping.h:416:36: warning: array subscript i is outside array bounds of 'dma_addr_t[0]' {aka 'long long unsigned int[]'} [-Warray-bounds=]
+>      416 | #define dma_unmap_page(d, a, s, r) dma_unmap_page_attrs(d, a, s, r, 0)
+>          |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    drivers/net/ethernet/marvell/sky2.c:1257:17: note: in expansion of macro 'dma_unmap_page'
+>     1257 |                 dma_unmap_page(&pdev->dev, re->frag_addr[i],
+>          |                 ^~~~~~~~~~~~~~
+>    In file included from drivers/net/ethernet/marvell/sky2.c:41:
+>    drivers/net/ethernet/marvell/sky2.h:2198:25: note: while referencing 'frag_addr'
+>     2198 |         dma_addr_t      frag_addr[ETH_JUMBO_MTU >> PAGE_SHIFT];
+>          |                         ^~~~~~~~~
 
-kernel test robot noticed the following build errors:
+The .config has:
+CONFIG_PAGE_SIZE_16KB=y
+which makes PAGE_SHIFT == 14
 
-[auto build test ERROR on next-20230920]
-[cannot apply to linus/master v6.6-rc2 v6.6-rc1 v6.5 v6.6-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+#ifdef CONFIG_PAGE_SIZE_16KB
+#define PAGE_SHIFT      14
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Petr-Mladek/printk-nbcon-Add-assert-that-CPU-migration-is-disabled-when-calling-nbcon_context_try_acquire/20230920-205406
-base:   next-20230920
-patch link:    https://lore.kernel.org/r/20230920125136.15504-1-pmladek%40suse.com
-patch subject: [PATCH] printk/nbcon: Add assert that CPU migration is disabled when calling nbcon_context_try_acquire()
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230920/202309202313.vdq31WtT-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309202313.vdq31WtT-lkp@intel.com/reproduce)
+ETH_JUMBO_MTU is:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309202313.vdq31WtT-lkp@intel.com/
+#define ETH_JUMBO_MTU	9000
 
-All errors (new ones prefixed by >>):
+which forces "ETH_JUMBO_MTU >> PAGE_SHIFT" to be 0.
 
-   kernel/printk/nbcon.c: In function 'nbcon_context_try_acquire':
->> kernel/printk/nbcon.c:595:9: error: implicit declaration of function 'nbcon_assert_cpu_migration_disabled'; did you mean 'nbcon_assert_cpu_migration'? [-Werror=implicit-function-declaration]
-     595 |         nbcon_assert_cpu_migration_disabled();
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         nbcon_assert_cpu_migration
-   cc1: some warnings being treated as errors
+I think the right fix would be:
 
+dma_addr_t      frag_addr[ETH_JUMBO_MTU >> PAGE_SHIFT ?: 1]
 
-vim +595 kernel/printk/nbcon.c
+Thoughts?
 
-   575	
-   576	/**
-   577	 * nbcon_context_try_acquire - Try to acquire nbcon console
-   578	 * @ctxt:	The context of the caller
-   579	 *
-   580	 * Return:	True if the console was acquired. False otherwise.
-   581	 *
-   582	 * If the caller allowed an unsafe hostile takeover, on success the
-   583	 * caller should check the current console state to see if it is
-   584	 * in an unsafe state. Otherwise, on success the caller may assume
-   585	 * the console is not in an unsafe state.
-   586	 */
-   587	__maybe_unused
-   588	static bool nbcon_context_try_acquire(struct nbcon_context *ctxt)
-   589	{
-   590		unsigned int cpu = smp_processor_id();
-   591		struct console *con = ctxt->console;
-   592		struct nbcon_state cur;
-   593		int err;
-   594	
- > 595		nbcon_assert_cpu_migration_disabled();
-   596	
-   597		nbcon_state_read(con, &cur);
-   598	try_again:
-   599		err = nbcon_context_try_acquire_direct(ctxt, &cur);
-   600		if (err != -EBUSY)
-   601			goto out;
-   602	
-   603		err = nbcon_context_try_acquire_handover(ctxt, &cur);
-   604		if (err == -EAGAIN)
-   605			goto try_again;
-   606		if (err != -EBUSY)
-   607			goto out;
-   608	
-   609		err = nbcon_context_try_acquire_hostile(ctxt, &cur);
-   610	out:
-   611		if (err)
-   612			return false;
-   613	
-   614		/* Acquire succeeded. */
-   615	
-   616		/* Assign the appropriate buffer for this context. */
-   617		if (atomic_read(&panic_cpu) == cpu)
-   618			ctxt->pbufs = &panic_nbcon_pbufs;
-   619		else
-   620			ctxt->pbufs = con->pbufs;
-   621	
-   622		/* Set the record sequence for this context to print. */
-   623		ctxt->seq = nbcon_seq_read(ctxt->console);
-   624	
-   625		return true;
-   626	}
-   627	
+-Kees
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kees Cook
