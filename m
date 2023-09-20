@@ -1,44 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4395252
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 06:42:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2CE23C0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 07:03:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695192162; x=1726728162;
+  t=1695193418; x=1726729418;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9i027jUkyqey9CRdwOplbHHSW6lvTcmlSYzdxiPS1wk=;
-  b=HbHtilAaH7COoVL43bg3PHWojDJdQJlYR5YksOQHeZ0DyOhM5LsRQ4qm
-   yMrrgTuGMMmT8mYesI4ThknlXWkiS/mfmrVELA6lUEn8VcduhqoAzBOM9
-   D5k1Cd9ZQim6yHYdF4kvEhDDwOTRCMms6yc79SROU810fO/1YHHY9YzQj
-   imuI+EdO62LuFFDCr2EFcsL4sv6LT1EK4I2mv6CEK4tWMBvHhe0OjaepF
-   RpnJZkc77exqhnM3YFNS0XkgxokbImnIVh+ppLNoa5bLN3+SLGWMxPK5c
-   fFsKBhygVf310jNf6NVCgYmuGgmbMNJYOnKVfETxKtr1wzw2g0/aXgayZ
+  bh=6EtTh13CKXNbPz2a7ayAQwbnTJR4U+Lo4uuuRZZuaJM=;
+  b=EUb17RjvO6/66502O3oHssQNrCLHbDf6YCV1e5qkB+nDahVOyW/5+7Ew
+   d2u1t0HZtb7ACNUFwYLTYuO/T8FTkJmfzRYWdB3Ieu5d+Ot4aOXEMlDuV
+   ZBub74ew4saRRMvcs3y9S+4QpjStk8ULR4UjNmMEXtdtekd/PuH7LLdqM
+   6GjfjmsBqJ7goyC89ruO3SIHGO2Yr0ihU2qshWbAjn/+T/wufGayARxpb
+   TiiBbvL5b2m15RM9biTgyYr7934JM2i+wgxK3xsTTWAyStvCl9Qx4Z/0q
+   5xwc+bWFMr7GeZsskj0Qr0rawainzgRNOC1/qO77pQBCYT87v0hwgctKQ
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="411076873"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="380045015"
 X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="411076873"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 23:42:34 -0700
+   d="scan'208";a="380045015"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 00:03:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="861859153"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="920164837"
 X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="861859153"
+   d="scan'208";a="920164837"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 19 Sep 2023 23:42:32 -0700
+  by orsmga005.jf.intel.com with ESMTP; 20 Sep 2023 00:03:33 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qiqus-0008Po-2q;
-	Wed, 20 Sep 2023 06:42:30 +0000
-Date: Wed, 20 Sep 2023 14:42:01 +0800
+	id 1qirFD-0008Qi-1g;
+	Wed, 20 Sep 2023 07:03:31 +0000
+Date: Wed, 20 Sep 2023 15:02:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shekhar Chauhan <shekhar.chauhan@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Add Wa_18028616096
-Message-ID: <202309201405.PF0VVCts-lkp@intel.com>
-References: <20230920040547.181861-1-shekhar.chauhan@intel.com>
+To: Wen Gu <guwen@linux.alibaba.com>, kgraul@linux.ibm.com,
+	wenjia@linux.ibm.com, jaka@linux.ibm.com, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, alibuda@linux.alibaba.com,
+	tonylu@linux.alibaba.com, guwen@linux.alibaba.com,
+	linux-s390@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 06/18] net/smc: extend GID to 128bits for
+ virtual ISM device
+Message-ID: <202309201408.95QRxHEl-lkp@intel.com>
+References: <1695134522-126655-7-git-send-email-guwen@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,64 +52,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230920040547.181861-1-shekhar.chauhan@intel.com>
+In-Reply-To: <1695134522-126655-7-git-send-email-guwen@linux.alibaba.com>
 
-Hi Shekhar,
+Hi Wen,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on drm-tip/drm-tip]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shekhar-Chauhan/drm-i915-Add-Wa_18028616096/20230920-121417
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230920040547.181861-1-shekhar.chauhan%40intel.com
-patch subject: [Intel-gfx] [PATCH] drm/i915: Add Wa_18028616096
-config: x86_64-randconfig-003-20230920 (https://download.01.org/0day-ci/archive/20230920/202309201405.PF0VVCts-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201405.PF0VVCts-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Wen-Gu/net-smc-decouple-ism_dev-from-SMC-D-device-dump/20230920-010019
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/1695134522-126655-7-git-send-email-guwen%40linux.alibaba.com
+patch subject: [PATCH net-next 06/18] net/smc: extend GID to 128bits for virtual ISM device
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20230920/202309201408.95QRxHEl-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201408.95QRxHEl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309201405.PF0VVCts-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309201408.95QRxHEl-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/plist.h:76,
-                    from include/linux/pm_qos.h:15,
-                    from drivers/gpu/drm/i915/i915_drv.h:35,
-                    from drivers/gpu/drm/i915/gt/intel_workarounds.c:6:
-   drivers/gpu/drm/i915/gt/intel_workarounds.c: In function 'general_render_compute_wa_init':
->> include/linux/build_bug.h:16:51: error: negative width in bit-field '<anonymous>'
-      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-         |                                                   ^
-   drivers/gpu/drm/i915/i915_reg_defs.h:22:16: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
-      22 |                BUILD_BUG_ON_ZERO(__is_constexpr(__n) &&         \
-         |                ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gt/intel_gt_regs.h:1232:49: note: in expansion of macro 'REG_BIT'
-    1232 | #define   UGM_FRAGMENT_THRESHOLD_TO_3           REG_BIT(58)
-         |                                                 ^~~~~~~
-   drivers/gpu/drm/i915/gt/intel_workarounds.c:2919:57: note: in expansion of macro 'UGM_FRAGMENT_THRESHOLD_TO_3'
-    2919 |                 wa_mcr_write_or(wal, LSC_CHICKEN_BIT_0, UGM_FRAGMENT_THRESHOLD_TO_3);
-         |                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/smc/smc_ism.c: In function 'smc_ism_signal_shutdown':
+>> net/smc/smc_ism.c:539:57: error: incompatible type for argument 2 of 'lgr-><U72f8>.<U7260>.smcd->ops->signal_event'
+     539 |         rc = lgr->smcd->ops->signal_event(lgr->smcd, lgr->peer_gid,
+         |                                                      ~~~^~~~~~~~~~
+         |                                                         |
+         |                                                         struct smcd_gid
+   net/smc/smc_ism.c:539:57: note: expected 'u64' {aka 'long long unsigned int'} but argument is of type 'struct smcd_gid'
 
 
-vim +16 include/linux/build_bug.h
+vim +539 net/smc/smc_ism.c
 
-bc6245e5efd70c Ian Abbott       2017-07-10   6  
-bc6245e5efd70c Ian Abbott       2017-07-10   7  #ifdef __CHECKER__
-bc6245e5efd70c Ian Abbott       2017-07-10   8  #define BUILD_BUG_ON_ZERO(e) (0)
-bc6245e5efd70c Ian Abbott       2017-07-10   9  #else /* __CHECKER__ */
-bc6245e5efd70c Ian Abbott       2017-07-10  10  /*
-bc6245e5efd70c Ian Abbott       2017-07-10  11   * Force a compilation error if condition is true, but also produce a
-8788994376d84d Rikard Falkeborn 2019-12-04  12   * result (of value 0 and type int), so the expression can be used
-bc6245e5efd70c Ian Abbott       2017-07-10  13   * e.g. in a structure initializer (or where-ever else comma expressions
-bc6245e5efd70c Ian Abbott       2017-07-10  14   * aren't permitted).
-bc6245e5efd70c Ian Abbott       2017-07-10  15   */
-8788994376d84d Rikard Falkeborn 2019-12-04 @16  #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-527edbc18a70e7 Masahiro Yamada  2019-01-03  17  #endif /* __CHECKER__ */
-527edbc18a70e7 Masahiro Yamada  2019-01-03  18  
+820f21009f1bc7a Stefan Raspl 2023-01-23  526  
+820f21009f1bc7a Stefan Raspl 2023-01-23  527  int smc_ism_signal_shutdown(struct smc_link_group *lgr)
+820f21009f1bc7a Stefan Raspl 2023-01-23  528  {
+820f21009f1bc7a Stefan Raspl 2023-01-23  529  	int rc = 0;
+820f21009f1bc7a Stefan Raspl 2023-01-23  530  #if IS_ENABLED(CONFIG_ISM)
+820f21009f1bc7a Stefan Raspl 2023-01-23  531  	union smcd_sw_event_info ev_info;
+820f21009f1bc7a Stefan Raspl 2023-01-23  532  
+820f21009f1bc7a Stefan Raspl 2023-01-23  533  	if (lgr->peer_shutdown)
+820f21009f1bc7a Stefan Raspl 2023-01-23  534  		return 0;
+820f21009f1bc7a Stefan Raspl 2023-01-23  535  
+820f21009f1bc7a Stefan Raspl 2023-01-23  536  	memcpy(ev_info.uid, lgr->id, SMC_LGR_ID_SIZE);
+820f21009f1bc7a Stefan Raspl 2023-01-23  537  	ev_info.vlan_id = lgr->vlan_id;
+820f21009f1bc7a Stefan Raspl 2023-01-23  538  	ev_info.code = ISM_EVENT_REQUEST;
+820f21009f1bc7a Stefan Raspl 2023-01-23 @539  	rc = lgr->smcd->ops->signal_event(lgr->smcd, lgr->peer_gid,
+820f21009f1bc7a Stefan Raspl 2023-01-23  540  					  ISM_EVENT_REQUEST_IR,
+820f21009f1bc7a Stefan Raspl 2023-01-23  541  					  ISM_EVENT_CODE_SHUTDOWN,
+820f21009f1bc7a Stefan Raspl 2023-01-23  542  					  ev_info.info);
+820f21009f1bc7a Stefan Raspl 2023-01-23  543  #endif
+820f21009f1bc7a Stefan Raspl 2023-01-23  544  	return rc;
+820f21009f1bc7a Stefan Raspl 2023-01-23  545  }
+201091ebb2a161a Ursula Braun 2020-09-26  546  
 
 -- 
 0-DAY CI Kernel Test Service
