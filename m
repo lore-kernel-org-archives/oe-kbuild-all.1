@@ -1,85 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D5B23CF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 22:52:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB2C1A58E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 23:01:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695250363; x=1726786363;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yVpODLTsfKSSpQf9Ave4nU9ZD6akZUgh1jMAjstIE1w=;
-  b=GM7Cd8Pp+Q6KB9DE9Y4dGesUIoN1OvJzqSxMdJSolR+hza3Aneq3EgML
-   yd4lGOMbNzExpqYMrIzLouTFlZnhhj6eJvVzKCL1x+6CWrROlZjpYbzV3
-   +4fwrrP1ULmzJLCDXjj7hXD3fEXroKdWSDc+hshmPzxme7wHxNND/2xft
-   LkcQo8bahxwKUjRmM6rxxzJJ2e/dwYAH7aycfaWQtbjUSllfQ8fKc2Vo6
-   cDcas7R42fekm6RnFXc6nxmIe9wKdB7iC51I7ApVPg/6iAXUU3fOPzhHU
-   mSJB896J7zitijSSRuL+0VgmX4VKKKmggBKi7eAnm69QDGKu56z1xosVW
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="360611729"
+  t=1695250916; x=1726786916;
+  h=date:from:to:cc:subject:message-id;
+  bh=L5PGAkYOuwiGYJPLcUA1AGUb5Y/ISSk60v16sabH9AI=;
+  b=djhenpJQWRdLo6qvaPTZOgcdHPwT8/MK/888cit8NC0/2Pef895F7qve
+   2IaQvxFt1DyoER4uTNqbtd4ZyktetttKTryf8lF5kZctKSM3h2MxdnmJo
+   9UUL9JONr1wlhljYBKofmkK7NzNJ7IhqQEeTfoM9E8jeoe9pWHNsCQw9c
+   OcmZjJPj1Da7C/5Skko5AtO2sMIAZ+JzpvI3gyIbH8jkWVzD7ukDrFOW1
+   anLq4XRJmQfP7cOPKWB6PMijWDygDjhxIgmxXkG64GyuKuAbGQaC5wOr8
+   oYbWnZZa6CsC4yulqmqdK2uxwBbLG5BvxFfGlrzRlglXWdqfXcvP/DOTT
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="365428328"
 X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="360611729"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 15:52:28 -0700
+   d="scan'208";a="365428328"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 16:01:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="993808401"
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="862198438"
 X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="993808401"
+   d="scan'208";a="862198438"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 20 Sep 2023 15:52:26 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 20 Sep 2023 16:01:26 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qj63T-0009EW-2b;
-	Wed, 20 Sep 2023 22:52:23 +0000
-Date: Thu, 21 Sep 2023 06:51:40 +0800
+	id 1qj6CC-0009F8-0c;
+	Wed, 20 Sep 2023 23:01:24 +0000
+Date: Thu, 21 Sep 2023 07:00:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Kellermann <max.kellermann@ionos.com>, Jan Kara <jack@suse.cz>,
-	Amir Goldstein <amir73il@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Max Kellermann <max.kellermann@ionos.com>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] inotify: support returning file_handles
-Message-ID: <202309210656.zoCH7Ysu-lkp@intel.com>
-References: <20230919202304.1197654-1-max.kellermann@ionos.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, lkp@intel.com,
+ Josh Triplett <josh@joshtriplett.org>
+Subject: [lkp] [+323 bytes kernel size regression] [i386-tinyconfig]
+ [587a6a805e] iov_iter: Convert iterate*() to inline funcs
+Message-ID: <20230920230034.ixGH9%lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230919202304.1197654-1-max.kellermann@ionos.com>
 
-Hi Max,
 
-kernel test robot noticed the following build errors:
+FYI, we noticed a +323 bytes kernel size regression due to commit:
 
-[auto build test ERROR on jack-fs/fsnotify]
-[also build test ERROR on linus/master v6.6-rc2 next-20230920]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+commit: 587a6a805e2ebf90427af4f9ac35496678d49ca3 (iov_iter: Convert iterate*() to inline funcs)
+https://git.kernel.org/cgit/linux/kernel/git/dhowells/linux-fs.git iov-cleanup
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Max-Kellermann/inotify-support-returning-file_handles/20230920-042458
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fsnotify
-patch link:    https://lore.kernel.org/r/20230919202304.1197654-1-max.kellermann%40ionos.com
-patch subject: [PATCH] inotify: support returning file_handles
-config: mips-ath25_defconfig (https://download.01.org/0day-ci/archive/20230921/202309210656.zoCH7Ysu-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309210656.zoCH7Ysu-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309210656.zoCH7Ysu-lkp@intel.com/
+Details as below (size data is obtained by `nm --size-sort vmlinux`):
 
-All errors (new ones prefixed by >>):
+e2532bd2: iov_iter: Derive user-backedness from the iterator type
+587a6a80: iov_iter: Convert iterate*() to inline funcs
 
-   mips-linux-ld: fs/notify/inotify/inotify_fsnotify.o: in function `inotify_handle_inode_event':
-   inotify_fsnotify.c:(.text+0x200): undefined reference to `exportfs_encode_inode_fh'
->> mips-linux-ld: inotify_fsnotify.c:(.text+0x318): undefined reference to `exportfs_encode_inode_fh'
++---------------------------------+----------+----------+-------+
+|             symbol              | e2532bd2 | 587a6a80 | delta |
++---------------------------------+----------+----------+-------+
+| bzImage                         | 522176   | 522304   | 128   |
+| nm.T._copy_to_iter              | 776      | 874      | 98    |
+| nm.T._copy_from_iter            | 776      | 861      | 85    |
+| nm.t.copy_page_from_iter_atomic | 810      | 891      | 81    |
+| nm.T._copy_from_iter_nocache    | 776      | 832      | 56    |
+| nm.T.iov_iter_zero              | 695      | 750      | 55    |
+| nm.T.csum_and_copy_from_iter    | 932      | 985      | 53    |
+| nm.T.csum_and_copy_to_iter      | 1030     | 1056     | 26    |
+| nm.t.copyout                    | 41       | 0        | -41   |
+| nm.t.copyin                     | 43       | 0        | -43   |
+| nm.t.copy_page_to_iter_nofault  | 975      | 928      | -47   |
++---------------------------------+----------+----------+-------+
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+
+Thanks
+
