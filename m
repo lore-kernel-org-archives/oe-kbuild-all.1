@@ -1,44 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7211315A0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 05:07:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EEFB185D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 05:18:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695186428; x=1726722428;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m+LbKjYe36k/RjePTDK9Hxm4JbLihW6uNZl6pa3k/XY=;
-  b=j0O2Knm+2E0ljqCjANiphiNRiRov7qU72JGwbCRVjt1X6pYyftg+eqdZ
-   s+Rb3I9XmqDIf+PHFzttlpEWP1kcyOxgww0spSx6PygRcsA/43arJVHT+
-   Tr2NGbBKGyTJDwmcCrWvsWyzf65PxZVJbvKfKaUb/rP8lZqFQrvrJ4Kyn
-   yD64tYfl+Kj+iHzXeNB3qjg7P1AKpIuuozdoF6ekEHwaHcn/h0nJgkyyp
-   CZzGleptx/d335J/0Kbs/5TCYyPDI9YxXzmGQDnJGFRy8dUy8wQkN+1tl
-   pDHU9XxS9H9BaexCRx2wp3ANl5ohfvItkX+81zTGqEAikn+4Ce3NfvIXK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="383970549"
+  t=1695187089; x=1726723089;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RwF545D3aEX3rCro9ClSaDFWR4O8eRSEXZYKHUxDEJ8=;
+  b=mIzJjP/APe/tbUhVpwaSNkaeALWZODdOXKEgtQG2ERgJRnTeXlgyYl0V
+   tCSomDanPQMyp8Pk3dwx1kAxhk/L9hGGaG9PctkFuK4El3/bTAfZBBVJF
+   uT1z2T9zOSUH0vglxlTG0v95i8f0PETUe1qvfroBDjpkVOdoWcdBq6V4G
+   uE5tenj5lRteet5pzW/iKzo4Be768xKALCMH29q9W6iSPSJWNggQ72FRP
+   ar1MM+JeXV8MBOmAp76u5YVz4OlOYu5pXThvHInf0i32ZdD+yHv7s6E/w
+   +Lfw+GqPDjvmg1U///2pEXpYHj3lRc+RJ9ZdbzCW5zh4ORG4OgeQ86//C
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="359515764"
 X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="383970549"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 22:07:07 -0700
+   d="scan'208";a="359515764"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 22:18:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="723117206"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="812001424"
 X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="723117206"
+   d="scan'208";a="812001424"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 19 Sep 2023 22:07:05 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 19 Sep 2023 22:18:06 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qipQV-0008KW-1b;
-	Wed, 20 Sep 2023 05:07:03 +0000
-Date: Wed, 20 Sep 2023 13:06:27 +0800
+	id 1qipb9-0008Ko-3B;
+	Wed, 20 Sep 2023 05:18:03 +0000
+Date: Wed, 20 Sep 2023 13:17:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Katta Dhanunjanrao <katta.dhanunjanrao@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 1217/1363]
- drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:31: warning: cast to
- pointer from integer of different size
-Message-ID: <202309201302.diqJVnUF-lkp@intel.com>
+To: Junxian Huang <huangjunxian6@hisilicon.com>, jgg@ziepe.ca,
+	leon@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-rdma@vger.kernel.org,
+	linuxarm@huawei.com, linux-kernel@vger.kernel.org,
+	huangjunxian6@hisilicon.com
+Subject: Re: [PATCH for-next] RDMA/hns: Support SRQ record doorbell
+Message-ID: <202309201334.ecTzlCD0-lkp@intel.com>
+References: <20230920033005.1557-1-huangjunxian6@hisilicon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,380 +49,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230920033005.1557-1-huangjunxian6@hisilicon.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   4f412ed20fd2c5353c1e878ef9ed77952a5040a1
-commit: cda08684a23737aa453f96a6542047c8ecdfa5d6 [1217/1363] drm: xlnx: dptx: Add HDCP1x support for DPTx subsystem
-config: nios2-allyesconfig (https://download.01.org/0day-ci/archive/20230920/202309201302.diqJVnUF-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201302.diqJVnUF-lkp@intel.com/reproduce)
+Hi Junxian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rdma/for-next]
+[also build test WARNING on linus/master v6.6-rc2 next-20230920]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Junxian-Huang/RDMA-hns-Support-SRQ-record-doorbell/20230920-113419
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
+patch link:    https://lore.kernel.org/r/20230920033005.1557-1-huangjunxian6%40hisilicon.com
+patch subject: [PATCH for-next] RDMA/hns: Support SRQ record doorbell
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230920/202309201334.ecTzlCD0-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201334.ecTzlCD0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309201302.diqJVnUF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309201334.ecTzlCD0-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/swab.h:5,
-                    from include/uapi/linux/byteorder/little_endian.h:14,
-                    from include/linux/byteorder/little_endian.h:5,
-                    from arch/nios2/include/uapi/asm/byteorder.h:21,
-                    from include/asm-generic/bitops/le.h:6,
-                    from include/asm-generic/bitops.h:35,
-                    from ./arch/nios2/include/generated/asm/bitops.h:1,
-                    from include/linux/bitops.h:68,
-                    from include/linux/log2.h:12,
-                    from include/asm-generic/div64.h:55,
-                    from ./arch/nios2/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time64.h:5,
-                    from include/linux/restart_block.h:10,
-                    from include/linux/thread_info.h:14,
-                    from include/asm-generic/current.h:5,
-                    from ./arch/nios2/include/generated/asm/current.h:1,
-                    from include/linux/sched.h:12,
-                    from include/linux/uaccess.h:8,
-                    from drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:12:
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c: In function 'xdptx_hdcp1x_keymgmt_set_key':
->> drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                               ^
-   include/uapi/linux/swab.h:131:38: note: in definition of macro '__swab64'
-     131 |         (__u64)(__builtin_constant_p(x) ?       \
-         |                                      ^
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> include/uapi/linux/byteorder/little_endian.h:39:50: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                                                  ^
-   include/uapi/linux/swab.h:131:38: note: in definition of macro '__swab64'
-     131 |         (__u64)(__builtin_constant_p(x) ?       \
-         |                                      ^
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:19: note: in expansion of macro 'be64_to_cpu'
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                   ^~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                               ^
-   include/uapi/linux/swab.h:25:19: note: in definition of macro '___constant_swab64'
-      25 |         (((__u64)(x) & (__u64)0x00000000000000ffULL) << 56) |   \
-         |                   ^
-   include/uapi/linux/byteorder/little_endian.h:39:26: note: in expansion of macro '__swab64'
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> include/uapi/linux/byteorder/little_endian.h:39:50: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                                                  ^
-   include/uapi/linux/swab.h:25:19: note: in definition of macro '___constant_swab64'
-      25 |         (((__u64)(x) & (__u64)0x00000000000000ffULL) << 56) |   \
-         |                   ^
-   include/uapi/linux/byteorder/little_endian.h:39:26: note: in expansion of macro '__swab64'
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:19: note: in expansion of macro 'be64_to_cpu'
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                   ^~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                               ^
-   include/uapi/linux/swab.h:26:19: note: in definition of macro '___constant_swab64'
-      26 |         (((__u64)(x) & (__u64)0x000000000000ff00ULL) << 40) |   \
-         |                   ^
-   include/uapi/linux/byteorder/little_endian.h:39:26: note: in expansion of macro '__swab64'
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> include/uapi/linux/byteorder/little_endian.h:39:50: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                                                  ^
-   include/uapi/linux/swab.h:26:19: note: in definition of macro '___constant_swab64'
-      26 |         (((__u64)(x) & (__u64)0x000000000000ff00ULL) << 40) |   \
-         |                   ^
-   include/uapi/linux/byteorder/little_endian.h:39:26: note: in expansion of macro '__swab64'
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:19: note: in expansion of macro 'be64_to_cpu'
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                   ^~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                               ^
-   include/uapi/linux/swab.h:27:19: note: in definition of macro '___constant_swab64'
-      27 |         (((__u64)(x) & (__u64)0x0000000000ff0000ULL) << 24) |   \
-         |                   ^
-   include/uapi/linux/byteorder/little_endian.h:39:26: note: in expansion of macro '__swab64'
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> include/uapi/linux/byteorder/little_endian.h:39:50: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                                                  ^
-   include/uapi/linux/swab.h:27:19: note: in definition of macro '___constant_swab64'
-      27 |         (((__u64)(x) & (__u64)0x0000000000ff0000ULL) << 24) |   \
-         |                   ^
-   include/uapi/linux/byteorder/little_endian.h:39:26: note: in expansion of macro '__swab64'
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:19: note: in expansion of macro 'be64_to_cpu'
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                   ^~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                               ^
-   include/uapi/linux/swab.h:28:19: note: in definition of macro '___constant_swab64'
-      28 |         (((__u64)(x) & (__u64)0x00000000ff000000ULL) <<  8) |   \
-         |                   ^
-   include/uapi/linux/byteorder/little_endian.h:39:26: note: in expansion of macro '__swab64'
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> include/uapi/linux/byteorder/little_endian.h:39:50: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                                                  ^
-   include/uapi/linux/swab.h:28:19: note: in definition of macro '___constant_swab64'
-      28 |         (((__u64)(x) & (__u64)0x00000000ff000000ULL) <<  8) |   \
-         |                   ^
-   include/uapi/linux/byteorder/little_endian.h:39:26: note: in expansion of macro '__swab64'
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:19: note: in expansion of macro 'be64_to_cpu'
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                   ^~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                               ^
-   include/uapi/linux/swab.h:29:19: note: in definition of macro '___constant_swab64'
-      29 |         (((__u64)(x) & (__u64)0x000000ff00000000ULL) >>  8) |   \
-         |                   ^
-   include/uapi/linux/byteorder/little_endian.h:39:26: note: in expansion of macro '__swab64'
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> include/uapi/linux/byteorder/little_endian.h:39:50: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                                                  ^
-   include/uapi/linux/swab.h:29:19: note: in definition of macro '___constant_swab64'
-      29 |         (((__u64)(x) & (__u64)0x000000ff00000000ULL) >>  8) |   \
-         |                   ^
-   include/uapi/linux/byteorder/little_endian.h:39:26: note: in expansion of macro '__swab64'
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:19: note: in expansion of macro 'be64_to_cpu'
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                   ^~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                               ^
-   include/uapi/linux/swab.h:30:19: note: in definition of macro '___constant_swab64'
-      30 |         (((__u64)(x) & (__u64)0x0000ff0000000000ULL) >> 24) |   \
-         |                   ^
-   include/uapi/linux/byteorder/little_endian.h:39:26: note: in expansion of macro '__swab64'
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> include/uapi/linux/byteorder/little_endian.h:39:50: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                                                  ^
-   include/uapi/linux/swab.h:30:19: note: in definition of macro '___constant_swab64'
-      30 |         (((__u64)(x) & (__u64)0x0000ff0000000000ULL) >> 24) |   \
-         |                   ^
-   include/uapi/linux/byteorder/little_endian.h:39:26: note: in expansion of macro '__swab64'
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:19: note: in expansion of macro 'be64_to_cpu'
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                   ^~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                               ^
-   include/uapi/linux/swab.h:31:19: note: in definition of macro '___constant_swab64'
-      31 |         (((__u64)(x) & (__u64)0x00ff000000000000ULL) >> 40) |   \
-         |                   ^
-   include/uapi/linux/byteorder/little_endian.h:39:26: note: in expansion of macro '__swab64'
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> include/uapi/linux/byteorder/little_endian.h:39:50: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                                                  ^
-   include/uapi/linux/swab.h:31:19: note: in definition of macro '___constant_swab64'
-      31 |         (((__u64)(x) & (__u64)0x00ff000000000000ULL) >> 40) |   \
-         |                   ^
-   include/uapi/linux/byteorder/little_endian.h:39:26: note: in expansion of macro '__swab64'
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:19: note: in expansion of macro 'be64_to_cpu'
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                   ^~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                               ^
-   include/uapi/linux/swab.h:32:19: note: in definition of macro '___constant_swab64'
-      32 |         (((__u64)(x) & (__u64)0xff00000000000000ULL) >> 56)))
-         |                   ^
-   include/uapi/linux/byteorder/little_endian.h:39:26: note: in expansion of macro '__swab64'
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> include/uapi/linux/byteorder/little_endian.h:39:50: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                                                  ^
-   include/uapi/linux/swab.h:32:19: note: in definition of macro '___constant_swab64'
-      32 |         (((__u64)(x) & (__u64)0xff00000000000000ULL) >> 56)))
-         |                   ^
-   include/uapi/linux/byteorder/little_endian.h:39:26: note: in expansion of macro '__swab64'
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:19: note: in expansion of macro 'be64_to_cpu'
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                   ^~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                               ^
-   include/uapi/linux/swab.h:133:19: note: in definition of macro '__swab64'
-     133 |         __fswab64(x))
-         |                   ^
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
->> include/uapi/linux/byteorder/little_endian.h:39:50: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      39 | #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-         |                                                  ^
-   include/uapi/linux/swab.h:133:19: note: in definition of macro '__swab64'
-     133 |         __fswab64(x))
-         |                   ^
-   include/linux/byteorder/generic.h:93:21: note: in expansion of macro '__be64_to_cpu'
-      93 | #define be64_to_cpu __be64_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:41:19: note: in expansion of macro 'be64_to_cpu'
-      41 | #define ntohll(x) be64_to_cpu((__be64 *)x)
-         |                   ^~~~~~~~~~~
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c:286:45: note: in expansion of macro 'ntohll'
-     286 |                 key_table.data_u64[index] = ntohll(key_table.data_u64[index]);
-         |                                             ^~~~~~
+   drivers/infiniband/hw/hns/hns_roce_hw_v2.c: In function 'hns_roce_v2_post_srq_recv':
+>> drivers/infiniband/hw/hns/hns_roce_hw_v2.c:960:30: warning: unused variable 'hr_dev' [-Wunused-variable]
+     960 |         struct hns_roce_dev *hr_dev = to_hr_dev(ibsrq->device);
+         |                              ^~~~~~
 
 
-vim +41 drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_keymngt.c
+vim +/hr_dev +960 drivers/infiniband/hw/hns/hns_roce_hw_v2.c
 
-    28	
-    29	#define HDCP1X_KEYMGMT_REG_CTRL_RST_MASK	BIT(31)
-    30	#define HDCP1X_KEYMGMT_REG_CTRL_DISABLE_MASK	GENMASK(31, 1)
-    31	#define HDCP1X_KEYMGMT_REG_CTRL_ENABLE_MASK	BIT(0)
-    32	#define HDCP1X_KEYMGMT_REG_TBL_STATUS_RETRY	0x400
-    33	#define HDCP1X_KEYMGMT_TBLID_0			0
-    34	#define HDCP1X_KEYMGMT_REG_TBL_CTRL_WR_MASK	BIT(0)
-    35	#define HDCP1X_KEYMGMT_REG_TBL_CTRL_RD_MASK	BIT(1)
-    36	#define HDCP1X_KEYMGMT_REG_TBL_CTRL_EN_MASK	BIT(31)
-    37	#define HDCP1X_KEYMGMT_REG_TBL_STATUS_DONE_MASK	BIT(0)
-    38	#define HDCP1X_KEYMGMT_MAX_TBLS			8
-    39	#define HDCP1X_KEYS_SIZE			336
-    40	#define HDCP1X_KEYMGMT_MAX_ROWS_PER_TBL		41
-  > 41	#define ntohll(x) be64_to_cpu((__be64 *)x)
-    42	
+2b035e7312b508 Yixing Liu    2021-06-21   955  
+ffb1308b88b602 Yixian Liu    2020-04-28   956  static int hns_roce_v2_post_srq_recv(struct ib_srq *ibsrq,
+ffb1308b88b602 Yixian Liu    2020-04-28   957  				     const struct ib_recv_wr *wr,
+ffb1308b88b602 Yixian Liu    2020-04-28   958  				     const struct ib_recv_wr **bad_wr)
+ffb1308b88b602 Yixian Liu    2020-04-28   959  {
+ffb1308b88b602 Yixian Liu    2020-04-28  @960  	struct hns_roce_dev *hr_dev = to_hr_dev(ibsrq->device);
+ffb1308b88b602 Yixian Liu    2020-04-28   961  	struct hns_roce_srq *srq = to_hr_srq(ibsrq);
+ffb1308b88b602 Yixian Liu    2020-04-28   962  	unsigned long flags;
+ffb1308b88b602 Yixian Liu    2020-04-28   963  	int ret = 0;
+2e07a3d945851f Wenpeng Liang 2021-01-30   964  	u32 max_sge;
+2e07a3d945851f Wenpeng Liang 2021-01-30   965  	u32 wqe_idx;
+ffb1308b88b602 Yixian Liu    2020-04-28   966  	void *wqe;
+2e07a3d945851f Wenpeng Liang 2021-01-30   967  	u32 nreq;
+ffb1308b88b602 Yixian Liu    2020-04-28   968  
+ffb1308b88b602 Yixian Liu    2020-04-28   969  	spin_lock_irqsave(&srq->lock, flags);
+ffb1308b88b602 Yixian Liu    2020-04-28   970  
+9dd052474a2645 Lang Cheng    2021-01-30   971  	max_sge = srq->max_gs - srq->rsv_sge;
+ffb1308b88b602 Yixian Liu    2020-04-28   972  	for (nreq = 0; wr; ++nreq, wr = wr->next) {
+2e07a3d945851f Wenpeng Liang 2021-01-30   973  		ret = check_post_srq_valid(srq, max_sge, wr);
+2e07a3d945851f Wenpeng Liang 2021-01-30   974  		if (ret) {
+ffb1308b88b602 Yixian Liu    2020-04-28   975  			*bad_wr = wr;
+ffb1308b88b602 Yixian Liu    2020-04-28   976  			break;
+ffb1308b88b602 Yixian Liu    2020-04-28   977  		}
+ffb1308b88b602 Yixian Liu    2020-04-28   978  
+6b981e2bd9251f Xi Wang       2021-01-30   979  		ret = get_srq_wqe_idx(srq, &wqe_idx);
+6b981e2bd9251f Xi Wang       2021-01-30   980  		if (unlikely(ret)) {
+ffb1308b88b602 Yixian Liu    2020-04-28   981  			*bad_wr = wr;
+ffb1308b88b602 Yixian Liu    2020-04-28   982  			break;
+ffb1308b88b602 Yixian Liu    2020-04-28   983  		}
+ffb1308b88b602 Yixian Liu    2020-04-28   984  
+6b981e2bd9251f Xi Wang       2021-01-30   985  		wqe = get_srq_wqe_buf(srq, wqe_idx);
+6b981e2bd9251f Xi Wang       2021-01-30   986  		fill_recv_sge_to_wqe(wr, wqe, max_sge, srq->rsv_sge);
+2e07a3d945851f Wenpeng Liang 2021-01-30   987  		fill_wqe_idx(srq, wqe_idx);
+ffb1308b88b602 Yixian Liu    2020-04-28   988  		srq->wrid[wqe_idx] = wr->wr_id;
+ffb1308b88b602 Yixian Liu    2020-04-28   989  	}
+ffb1308b88b602 Yixian Liu    2020-04-28   990  
+ffb1308b88b602 Yixian Liu    2020-04-28   991  	if (likely(nreq)) {
+14d4b5285cbe41 Yangyang Li   2023-09-20   992  		if (srq->cap_flags & HNS_ROCE_SRQ_CAP_RECORD_DB)
+14d4b5285cbe41 Yangyang Li   2023-09-20   993  			*srq->rdb.db_record = srq->idx_que.head &
+14d4b5285cbe41 Yangyang Li   2023-09-20   994  					      V2_DB_PRODUCER_IDX_M;
+14d4b5285cbe41 Yangyang Li   2023-09-20   995  		else
+14d4b5285cbe41 Yangyang Li   2023-09-20   996  			update_srq_db(srq);
+ffb1308b88b602 Yixian Liu    2020-04-28   997  	}
+ffb1308b88b602 Yixian Liu    2020-04-28   998  
+ffb1308b88b602 Yixian Liu    2020-04-28   999  	spin_unlock_irqrestore(&srq->lock, flags);
+ffb1308b88b602 Yixian Liu    2020-04-28  1000  
+ffb1308b88b602 Yixian Liu    2020-04-28  1001  	return ret;
+ffb1308b88b602 Yixian Liu    2020-04-28  1002  }
+ffb1308b88b602 Yixian Liu    2020-04-28  1003  
 
 -- 
 0-DAY CI Kernel Test Service
