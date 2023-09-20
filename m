@@ -1,137 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B1A339BB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 16:41:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695228086; x=1726764086;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=624sNm//FBgltBdHDHv3/pdXOCBHeESxANslKi0+4IE=;
-  b=TUl04rr5mvXNROO4EcoAdg+7rKkmKZaTtFQMrIVJO4dEp9PnSLKiPojP
-   w8O4GgW4JMW7t33HQfgp0gS4qM8GCNOCPFqvz3g1OpIcBBZ2FKs+DfZIH
-   Sva7Lu0ytRWq48wVilQJ6+pxkmDlkgo35NFrQui/Eo56e5YYn8+dPBR3C
-   NPcEC1kHMYPyN9IJRNMgV+vU71gGxUHnSt1GeuNpMOEQaxbB7Mn7natUq
-   kUvLLU9WR3svobKvaCPEP+TRuZa2yGwMrxQrlbyfb6DYXaghO25R2TcMd
-   pO+7fMXEwq83z7/l+f9LiTqFcnhcDgcIunjcuOzAYvMb2PdupWvB3h3j7
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="466584292"
-X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="466584292"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 09:40:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="749981294"
-X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="749981294"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 20 Sep 2023 09:40:35 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qj0Fd-0008xG-0W;
-	Wed, 20 Sep 2023 16:40:33 +0000
-Date: Thu, 21 Sep 2023 00:40:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
-	matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
-	sarah.walker@imgtec.com, donald.robson@imgtec.com,
-	boris.brezillon@collabora.com, christian.koenig@amd.com,
-	faith.ekstrand@collabora.com
-Cc: oe-kbuild-all@lists.linux.dev, nouveau@lists.freedesktop.org,
-	Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH drm-misc-next v4 6/8] drm/gpuvm: add drm_gpuvm_flags to
- drm_gpuvm
-Message-ID: <202309210041.Ypce0gUk-lkp@intel.com>
-References: <20230920144343.64830-7-dakr@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1631A5A8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 17:29:37 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-274d3ff35e5so2799104a91.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 10:29:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=networkplumber-org.20230601.gappssmtp.com; s=20230601; t=1695230977; x=1695835777; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=S2kSqjbE4R4s9y9PfagLdxTPyk6OQBps7KGlApfLIXc=;
+        b=xM5cQf8tGTPv+sjhuiIQ04+eIL7LIVm5GPpKs+nw+/rMA3DSYL/meOVSTeSWD4hhv7
+         dcn2dST0J43I3ODYjCYXVVjOjkC66ev8KgZxdzSjJkTB6FUXZgQ9Tg/WgEh8f6IIMwbr
+         L8884EQRJuVmK0g7d0l3dhGjHbOJLLFZA+tRTQaqmvepJhtIGksGfYlW2158bbXfcLEV
+         iavBV+//JlvlK6QeJiWeN6mx2PEGIziCDnoJXghINHsXbJV9tP4DQLT5TbxAz1tHc0iR
+         e4NyVpDfk99Hiu9+2OoPnqXWjjj8ZoppjEmk3wNQ85nej9lKHqwHeBhGyuRpYABcmOvD
+         coQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695230977; x=1695835777;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=S2kSqjbE4R4s9y9PfagLdxTPyk6OQBps7KGlApfLIXc=;
+        b=QVCwAj9VtBt55keFBw5hNp/KssX8eE6x92fJpXGqpcUip+9OWBNv9oiCdVYj9R+Fzx
+         v2pw6s+wfBvoQOm2MvQYnmkJL3t15FB+ai8gP5QayfVQMQ3uM3du81s1hBETjC2PGPbZ
+         RaIjdyvjbafT8Y/By+mBuC7fK1ElOcd08hBHvaoQ05G3lyoF0j4njTNCrwhVrDOwzvM7
+         9dwmmBjBGcwZx+K6374xDv4pcRJnFxoGcLO4t4PVuf6qYSOI+ZXDLpuELaHL+dBKvwTD
+         Py/st3gzbls621ocfHUsYHbgO7DdDSk2tqDe9Brm5Tzk6QNL2ieXB8a+vTIfTEllQZQC
+         Mbjw==
+X-Gm-Message-State: AOJu0YzcsgQ34+xns2mVNSm2W1k8B40Kq9el0p3R4qy4+C6laa4HCCF5
+	G9ApYqbfEeqM7x90T7VZv3EEGA==
+X-Google-Smtp-Source: AGHT+IENxeIO9GsbP5Nbf4A5wYx4U8iUO+I6y0wMlt3QBuQ04m3lMwzoskKgzx6T3xCx7qIkJBoaEQ==
+X-Received: by 2002:a17:90b:1b03:b0:26b:4ce1:9705 with SMTP id nu3-20020a17090b1b0300b0026b4ce19705mr3390551pjb.38.1695230977427;
+        Wed, 20 Sep 2023 10:29:37 -0700 (PDT)
+Received: from hermes.local (204-195-112-131.wavecable.com. [204.195.112.131])
+        by smtp.gmail.com with ESMTPSA id oj15-20020a17090b4d8f00b0026b3ed37ddcsm1591518pjb.32.2023.09.20.10.29.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Sep 2023 10:29:37 -0700 (PDT)
+Date: Wed, 20 Sep 2023 10:29:34 -0700
+From: Stephen Hemminger <stephen@networkplumber.org>
+To: Kees Cook <keescook@chromium.org>
+Cc: kernel test robot <lkp@intel.com>, Mirko Lindner <mlindner@marvell.com>,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, "Gustavo A. R.
+ Silva" <gustavoars@kernel.org>, linux-hardening@vger.kernel.org
+Subject: Re: include/linux/dma-mapping.h:416:36: warning: array subscript i
+ is outside array bounds of 'dma_addr_t[0]' {aka 'long long unsigned int[]'}
+Message-ID: <20230920102934.595b755f@hermes.local>
+In-Reply-To: <202309200904.CEED70DA33@keescook>
+References: <202309191958.UBw1cjXk-lkp@intel.com>
+	<202309200904.CEED70DA33@keescook>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230920144343.64830-7-dakr@redhat.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Danilo,
+On Wed, 20 Sep 2023 09:09:33 -0700
+Kees Cook <keescook@chromium.org> wrote:
 
-kernel test robot noticed the following build warnings:
+> On Tue, Sep 19, 2023 at 07:27:26PM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   2cf0f715623872823a72e451243bbf555d10d032
+> > commit: df8fc4e934c12b906d08050d7779f292b9c5c6b5 kbuild: Enable -fstrict-flex-arrays=3
+> > date:   4 months ago
+> > config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230919/202309191958.UBw1cjXk-lkp@intel.com/config)
+> > compiler: loongarch64-linux-gcc (GCC) 13.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309191958.UBw1cjXk-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202309191958.UBw1cjXk-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> >    In file included from include/linux/skbuff.h:28,
+> >                     from include/net/net_namespace.h:43,
+> >                     from include/linux/netdevice.h:38,
+> >                     from drivers/net/ethernet/marvell/sky2.c:18:
+> >    drivers/net/ethernet/marvell/sky2.c: In function 'sky2_rx_unmap_skb':  
+> > >> include/linux/dma-mapping.h:416:36: warning: array subscript i is outside array bounds of 'dma_addr_t[0]' {aka 'long long unsigned int[]'} [-Warray-bounds=]  
+> >      416 | #define dma_unmap_page(d, a, s, r) dma_unmap_page_attrs(d, a, s, r, 0)
+> >          |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >    drivers/net/ethernet/marvell/sky2.c:1257:17: note: in expansion of macro 'dma_unmap_page'
+> >     1257 |                 dma_unmap_page(&pdev->dev, re->frag_addr[i],
+> >          |                 ^~~~~~~~~~~~~~
+> >    In file included from drivers/net/ethernet/marvell/sky2.c:41:
+> >    drivers/net/ethernet/marvell/sky2.h:2198:25: note: while referencing 'frag_addr'
+> >     2198 |         dma_addr_t      frag_addr[ETH_JUMBO_MTU >> PAGE_SHIFT];
+> >          |                         ^~~~~~~~~  
+> 
+> The .config has:
+> CONFIG_PAGE_SIZE_16KB=y
+> which makes PAGE_SHIFT == 14
+> 
+> #ifdef CONFIG_PAGE_SIZE_16KB
+> #define PAGE_SHIFT      14
+> 
+> ETH_JUMBO_MTU is:
+> 
+> #define ETH_JUMBO_MTU	9000
+> 
+> which forces "ETH_JUMBO_MTU >> PAGE_SHIFT" to be 0.
+> 
+> I think the right fix would be:
+> 
+> dma_addr_t      frag_addr[ETH_JUMBO_MTU >> PAGE_SHIFT ?: 1]
+> 
+> Thoughts?
+> 
+> -Kees
+> 
 
-[auto build test WARNING on 1c7a387ffef894b1ab3942f0482dac7a6e0a909c]
+This is old driver, I don't have the HW anymore, it went to Free Geek.
+Most of this code was based off of code in other drivers.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-gpuvm-rename-struct-drm_gpuva_manager-to-struct-drm_gpuvm/20230920-224605
-base:   1c7a387ffef894b1ab3942f0482dac7a6e0a909c
-patch link:    https://lore.kernel.org/r/20230920144343.64830-7-dakr%40redhat.com
-patch subject: [PATCH drm-misc-next v4 6/8] drm/gpuvm: add drm_gpuvm_flags to drm_gpuvm
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230921/202309210041.Ypce0gUk-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309210041.Ypce0gUk-lkp@intel.com/reproduce)
+The assumption is that the first part of the data will be received in the
+skb itself, then pages are used for overflow.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309210041.Ypce0gUk-lkp@intel.com/
+static unsigned sky2_get_rx_data_size(struct sky2_port *sky2)
+{
+	struct rx_ring_info *re;
+	unsigned size;
 
-All warnings (new ones prefixed by >>):
+	/* Space needed for frame data + headers rounded up */
+	size = roundup(sky2->netdev->mtu + ETH_HLEN + VLAN_HLEN, 8);
 
->> drivers/gpu/drm/drm_gpuvm.c:712: warning: Function parameter or member 'flags' not described in 'drm_gpuvm_init'
+	sky2->rx_nfrags = size >> PAGE_SHIFT;
+	BUG_ON(sky2->rx_nfrags > ARRAY_SIZE(re->frag_addr));
 
+Assuming PAGE_SIZE of 16k and MTU of 9000.
 
-vim +712 drivers/gpu/drm/drm_gpuvm.c
+	size = roundup(9000 + 14 + 4, 8) => 9024
+	sky2->rx_nfrags = 9024 >> 14 = 0
 
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  689  
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  690  /**
-06f9274d201d5d drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  691   * drm_gpuvm_init() - initialize a &drm_gpuvm
-06f9274d201d5d drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  692   * @gpuvm: pointer to the &drm_gpuvm to initialize
-52ef25512ca721 drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  693   * @drm: the drivers &drm_device
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  694   * @name: the name of the GPU VA space
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  695   * @start_offset: the start offset of the GPU VA space
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  696   * @range: the size of the GPU VA space
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  697   * @reserve_offset: the start of the kernel reserved GPU VA area
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  698   * @reserve_range: the size of the kernel reserved GPU VA area
-06f9274d201d5d drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  699   * @ops: &drm_gpuvm_ops called on &drm_gpuvm_sm_map / &drm_gpuvm_sm_unmap
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  700   *
-06f9274d201d5d drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  701   * The &drm_gpuvm must be initialized with this function before use.
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  702   *
-06f9274d201d5d drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  703   * Note that @gpuvm must be cleared to 0 before calling this function. The given
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  704   * &name is expected to be managed by the surrounding driver structures.
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  705   */
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  706  void
-52ef25512ca721 drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  707  drm_gpuvm_init(struct drm_gpuvm *gpuvm, struct drm_device *drm,
-790facc6dac6ef drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  708  	       const char *name, enum drm_gpuva_flags flags,
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  709  	       u64 start_offset, u64 range,
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  710  	       u64 reserve_offset, u64 reserve_range,
-06f9274d201d5d drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  711  	       const struct drm_gpuvm_ops *ops)
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20 @712  {
-06f9274d201d5d drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  713  	gpuvm->rb.tree = RB_ROOT_CACHED;
-06f9274d201d5d drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  714  	INIT_LIST_HEAD(&gpuvm->rb.list);
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  715  
-06f9274d201d5d drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  716  	drm_gpuvm_check_overflow(start_offset, range);
-06f9274d201d5d drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  717  	gpuvm->mm_start = start_offset;
-06f9274d201d5d drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  718  	gpuvm->mm_range = range;
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  719  
-06f9274d201d5d drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  720  	gpuvm->name = name ? name : "unknown";
-790facc6dac6ef drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  721  	gpuvm->flags = flags;
-06f9274d201d5d drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  722  	gpuvm->ops = ops;
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  723  
-06f9274d201d5d drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  724  	memset(&gpuvm->kernel_alloc_node, 0, sizeof(struct drm_gpuva));
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  725  
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  726  	if (reserve_range) {
-06f9274d201d5d drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  727  		gpuvm->kernel_alloc_node.va.addr = reserve_offset;
-06f9274d201d5d drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  728  		gpuvm->kernel_alloc_node.va.range = reserve_range;
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  729  
-06f9274d201d5d drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  730  		if (likely(!drm_gpuvm_check_overflow(reserve_offset,
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  731  						     reserve_range)))
-06f9274d201d5d drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  732  			__drm_gpuva_insert(gpuvm, &gpuvm->kernel_alloc_node);
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  733  	}
-52ef25512ca721 drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  734  
-52ef25512ca721 drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  735  	drm_gem_private_object_init(drm, &gpuvm->d_obj, 0);
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  736  }
-06f9274d201d5d drivers/gpu/drm/drm_gpuvm.c     Danilo Krummrich 2023-09-20  737  EXPORT_SYMBOL_GPL(drm_gpuvm_init);
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  738  
+Which means no skb frags will be used.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+This is probably suboptimal since it will endup calling alloc_skb()
+to get a 9024 skb. Which in turn causes a call to kmalloc() of 9024.
+
+Not really worth fixing if not testable.
+
