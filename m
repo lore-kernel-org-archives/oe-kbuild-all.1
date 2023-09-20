@@ -1,99 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A12420E0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 04:24:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695183845; x=1726719845;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xUVqJeU+OdzqdYJUGqZnfzHUjctZrNdF1pOPhQE0CpU=;
-  b=HLSoM+jFxY2t/5at7COr87YUkbWTJ7Hleh+4R6tIZns77wlKYSB6FWyH
-   0t4Vh8eSZu2mAqAqncARjQo6ZK4doktpPXYkuj0iPdUeL/kYtR6xnGPao
-   rewQC8hTvC/ravp3GuMkBNXCG3s2jjhyhhayt4Q7wPs+oOQiWZQuWrcWH
-   VTggD+Db8OR7VmdZw9VYWYNkV6/rNdoRjXIoKDfecUC6RUZ87sFY01qa4
-   VwdB6CAp+97XyHawAzRMHwxnyCUOrpJxx0P+5wVXCU4NM6L6xIqzJCmCx
-   +gi3KNpcfvAzvdzskeqasqDRYMuaX9I0o7oFA1ix68NVQfdeb1qoXfjz/
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="359507854"
-X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="359507854"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 21:24:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="870212703"
-X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="870212703"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 19 Sep 2023 21:24:02 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qiokp-0008HI-2d;
-	Wed, 20 Sep 2023 04:23:59 +0000
-Date: Wed, 20 Sep 2023 12:23:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lakshmi Prasanna Eachuri <lakshmi.prasanna.eachuri@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>,
-	Vishal Sagar <vishal.sagar@amd.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 947/1363]
- drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp2x_crypt.c:147:1: warning: the frame size
- of 1536 bytes is larger than 1024 bytes
-Message-ID: <202309201253.z1e9Ncnf-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F271381
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 04:35:35 +0000 (UTC)
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-496a775af2fso1260686e0c.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 21:35:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695184534; x=1695789334; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=azuj7xcq6eQ3UpWdDpWKUV4XGXp2CNoolDstHELC1/c=;
+        b=Yl9iC2VJQhc9v93p0m6dsEBDvZGPNPHxw/emJrvWbq4U2cW/QZ0PbP/t1AF+svgyap
+         AeXpGj6vID13NoAlDjYb/mDVAei0RhuoEgwBccL74RQBskXr18xpTBJqCnWfeAAskFqF
+         9czVkoCJTFnOFjWjSAYhn8PBs8DMAokKPeBZlSxVesEhJ9NdsvDCsXAPU2zC0TWGeXpF
+         uartGln3RFjtw+yyizfcP+WYfK0p8BcRovjfybc778n9RPK5RkvQSqkP8QNg9QrwEl13
+         gSSU3N4qLaIlBX518498oFiHNnkOJ3K4m0LAVnR+LuIGisMlqEliCpZ9nXheLlBREzwY
+         67kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695184534; x=1695789334;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=azuj7xcq6eQ3UpWdDpWKUV4XGXp2CNoolDstHELC1/c=;
+        b=vkn+oT1IcLDK0/7EdTivDQx+9aJxShEL1Gz1QkUkodKb6lff+jhk5pwDhrDd9iuF5/
+         YvqQxdBudthJgWbZrLUK4rA4Jd1a/DO6KZjHzv2vlhjVgtwNG5KbvCw0IknqODuj5ozH
+         zIPu1QyC+9k0402BNy6+8FOEUyz9ROfc4QOpFM/eMIGJLez61w3G6tQJ/49dZZc6VNR6
+         orvR2lDoemFzD2kfD4XY5gMVICpMYXLxSNM5ovUiMreJcXGcqVuRB3hrHfWOlsRa0LtV
+         +1YT4nBmvzb0pn/bbjs5UK2JJ76AFZ6VaYA+KmZjZ5nVZsIwhCtmsZrIM39MtkjnGybD
+         I4NQ==
+X-Gm-Message-State: AOJu0YxiyFi14Fq44nrrgZDewKqa+okIdz1DZ9iOB4lT3z7yfLXGlgUD
+	hVxRD7DY8W75gkXCQ0QeMTbVM1NOPHwvU+J/aMU=
+X-Google-Smtp-Source: AGHT+IExHNh2WhAbEaA4SQ/mudAUGhUPe8vGstLIvuW9HiXr+96pF1eFwDgZY7qv8ThkhnTMX6WlmFj3D1AE863ju7k=
+X-Received: by 2002:a1f:e6c3:0:b0:47e:8a9:478c with SMTP id
+ d186-20020a1fe6c3000000b0047e08a9478cmr1678764vkh.16.1695184534162; Tue, 19
+ Sep 2023 21:35:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202309191848.cMwd2D4d-lkp@intel.com>
+In-Reply-To: <202309191848.cMwd2D4d-lkp@intel.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Wed, 20 Sep 2023 07:35:23 +0300
+Message-ID: <CAOQ4uxjTv+5cB4z8TZQ02c5F3rags1HARoEQG9834A0+_+_twA@mail.gmail.com>
+Subject: Re: arch/alpha/include/asm/rwonce.h:25:35: warning: array subscript 0
+ is outside array bounds of 'struct inode[11885788707287082]'
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Alexander Larsson <alexl@redhat.com>, Miklos Szeredi <mszeredi@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   4f412ed20fd2c5353c1e878ef9ed77952a5040a1
-commit: fc17295f8f45aaabf0830b50523638fd4542c318 [947/1363] drm: xlnx: Add HDCP2X TX support
-config: nios2-allyesconfig (https://download.01.org/0day-ci/archive/20230920/202309201253.z1e9Ncnf-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201253.z1e9Ncnf-lkp@intel.com/reproduce)
+On Tue, Sep 19, 2023 at 1:43=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   2cf0f715623872823a72e451243bbf555d10d032
+> commit: 0af950f57fefabab628f1963af881e6b9bfe7f38 ovl: move ovl_entry into=
+ ovl_inode
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309201253.z1e9Ncnf-lkp@intel.com/
+Are you sure that this is the regressing commit?
+I don't see anything that has changed wrt the ovl_dentry_upper()
+call chain.
 
-All warnings (new ones prefixed by >>):
+> date:   3 months ago
+> config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230=
+919/202309191848.cMwd2D4d-lkp@intel.com/config)
+> compiler: alpha-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20230919/202309191848.cMwd2D4d-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309191848.cMwd2D4d-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    In file included from include/linux/compiler.h:246,
+>                     from include/linux/build_bug.h:5,
+>                     from include/linux/container_of.h:5,
+>                     from include/linux/list.h:5,
+>                     from include/linux/wait.h:7,
+>                     from include/linux/wait_bit.h:8,
+>                     from include/linux/fs.h:6,
+>                     from fs/overlayfs/util.c:7:
+>    In function 'ovl_upperdentry_dereference',
+>        inlined from 'ovl_dentry_upper' at fs/overlayfs/util.c:266:9,
+>        inlined from 'ovl_path_type' at fs/overlayfs/util.c:184:6:
+> >> arch/alpha/include/asm/rwonce.h:25:35: warning: array subscript 0 is o=
+utside array bounds of 'struct inode[11885788707287082]' [-Warray-bounds=3D=
+]
+>       25 |         __unqual_scalar_typeof(x) __x =3D                     =
+            \
+>          |                                   ^~~
+>    include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ=
+_ONCE'
+>       50 |         __READ_ONCE(x);                                       =
+          \
+>          |         ^~~~~~~~~~~
+>    fs/overlayfs/ovl_entry.h:163:16: note: in expansion of macro 'READ_ONC=
+E'
+>      163 |         return READ_ONCE(oi->__upperdentry);
+>          |                ^~~~~~~~~
+>
 
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp2x_crypt.c: In function 'xlnx_hdcp2x_tx_rsa_encrypt':
->> drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp2x_crypt.c:147:1: warning: the frame size of 1536 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     147 | }
-         | ^
+Why would the type of oi->__upperdentry be considered to be
+'struct inode[11885788707287082]'?
+I don't understand this report.
 
+Miklos, any clue?
 
-vim +147 drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp2x_crypt.c
+Thanks,
+Amir.
 
-   127	
-   128	static int xlnx_hdcp2x_tx_rsa_encrypt(const u8 *rsa_public_key, int public_key_size,
-   129					      const u8 *exponent_key, int exponent_key_size,
-   130					      const u8 *msg, int msg_size, u8 *encrypted_msg)
-   131	{
-   132		unsigned int n[BD_MAX_MOD_SIZE], e[BD_MAX_MOD_SIZE],
-   133				m[BD_MAX_MOD_SIZE], s[BD_MAX_MOD_SIZE];
-   134		unsigned int mod_size = public_key_size / sizeof(unsigned int);
-   135	
-   136		if (msg_size != public_key_size)
-   137			return -EINVAL;
-   138	
-   139		mp_conv_from_octets(n, mod_size, rsa_public_key, public_key_size);
-   140		mp_conv_from_octets(e, mod_size, exponent_key, exponent_key_size);
-   141	
-   142		mp_conv_from_octets(m, mod_size, msg, msg_size);
-   143		mp_mod_exp(s, m, e, n, mod_size);
-   144		mp_conv_to_octets(s, mod_size, encrypted_msg, msg_size);
-   145	
-   146		return 0;
- > 147	}
-   148	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> vim +25 arch/alpha/include/asm/rwonce.h
+>
+> d6462858851549 Will Deacon 2019-10-30  11
+> d6462858851549 Will Deacon 2019-10-30  12  /*
+> d6462858851549 Will Deacon 2019-10-30  13   * Alpha is apparently daft en=
+ough to reorder address-dependent loads
+> d6462858851549 Will Deacon 2019-10-30  14   * on some CPU implementations=
+. Knock some common sense into it with
+> d6462858851549 Will Deacon 2019-10-30  15   * a memory barrier in READ_ON=
+CE().
+> d6462858851549 Will Deacon 2019-10-30  16   *
+> d6462858851549 Will Deacon 2019-10-30  17   * For the curious, more infor=
+mation about this unusual reordering is
+> d6462858851549 Will Deacon 2019-10-30  18   * available in chapter 15 of =
+the "perfbook":
+> d6462858851549 Will Deacon 2019-10-30  19   *
+> d6462858851549 Will Deacon 2019-10-30  20   *  https://kernel.org/pub/lin=
+ux/kernel/people/paulmck/perfbook/perfbook.html
+> d6462858851549 Will Deacon 2019-10-30  21   *
+> d6462858851549 Will Deacon 2019-10-30  22   */
+> d6462858851549 Will Deacon 2019-10-30  23  #define __READ_ONCE(x)        =
+                                               \
+> d6462858851549 Will Deacon 2019-10-30  24  ({                            =
+                                       \
+> d6462858851549 Will Deacon 2019-10-30 @25       __unqual_scalar_typeof(x)=
+ __x =3D                                 \
+> d6462858851549 Will Deacon 2019-10-30  26               (*(volatile typeo=
+f(__x) *)(&(x)));                      \
+> d6462858851549 Will Deacon 2019-10-30  27       mb();                    =
+                                       \
+> d6462858851549 Will Deacon 2019-10-30  28       (typeof(x))__x;          =
+                                       \
+> d6462858851549 Will Deacon 2019-10-30  29  })
+> d6462858851549 Will Deacon 2019-10-30  30
+>
+> :::::: The code at line 25 was first introduced by commit
+> :::::: d6462858851549c62d73eaa14b31132b0f32d6b6 alpha: Override READ_ONCE=
+() with barriered implementation
+>
+> :::::: TO: Will Deacon <will@kernel.org>
+> :::::: CC: Will Deacon <will@kernel.org>
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
