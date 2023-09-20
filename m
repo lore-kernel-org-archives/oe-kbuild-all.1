@@ -1,45 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 253A38C1F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 08:47:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D15B11711
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 08:47:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695199625; x=1726735625;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=38t0E40cwyin+6k65JBwAPShSihkKzNEwQlkppZRe5w=;
-  b=OYPyDTCIQHdcOsoz4oWjlN6BD7zORnbBknwsoW5m++VF8r2AcbAOJcYf
-   bXVl3lcnAXq/iethlcBRq/vVNANNHHVn4LJ4/A5rPvYekj0pj2GXnUrFV
-   yoPQjMU29on7Sw2AqilQtF1trB+NfZ6XoMiqlCrSg4f0yWBkWdW1HcuEf
-   HWjZhywPVPUH/0LWE1j25p460jYMHXV/1Cvwrmuh5ElzMdU1ZDrXpn+ok
-   o9R6SxgP4ELRZR29rTucBy6js5gsPUYB/rORNIqIXzIaNDq+yolkeGAPZ
-   ZaN1EK4CEoRmGk3te9dVDVsjzwnjjzGsTKz8Fxi9JAYrzyngKECnRfTQH
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="359553733"
+  t=1695199626; x=1726735626;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XjTbLlvqV3eBrIre9/zk7HU8HtO19tjP9ClTh2919oQ=;
+  b=a/A2JxV9wiTITqHvdb+94MlALJO98yOnpLLE6mnpxKlqqkOvrgtw47Ug
+   j2el+WJdTmFOz3E/b/XNP6UIrhEmo1SV90ORc98f2ZA78nOedNu1ecko2
+   vtJL3gVr8VNfuLLe6NSW36sVEnNscS/GzmbGdbk9Gkbgfa4NYRAFx4w2Q
+   sqc6gezyh/81cERd1zvNBm2mrreJOeVFbH3oWquEJH+h/poAAUNZB2hhM
+   d5GMOGNEDimKXnAk+8OnXPxf3r8Qh2iJYpxbI81hJ5UrSmfxXQZK48knc
+   T2NeHyoB+O0GW7Zdm8rvyIQBs3RA0HrK8ugyXC/8EoiIpf4AkSEy00ylG
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="380071196"
 X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="359553733"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 01:47:04 -0700
+   d="scan'208";a="380071196"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 01:47:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="836767916"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="870285455"
 X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="836767916"
+   d="scan'208";a="870285455"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 20 Sep 2023 01:47:02 -0700
+  by orsmga004.jf.intel.com with ESMTP; 20 Sep 2023 01:47:02 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qisrM-0008Xs-1N;
+	id 1qisrM-0008Xx-1Z;
 	Wed, 20 Sep 2023 08:47:00 +0000
-Date: Wed, 20 Sep 2023 16:46:38 +0800
+Date: Wed, 20 Sep 2023 16:46:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suraj Kandpal <suraj.kandpal@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@intel.com
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915/hdcp: Move common message
- filling function to its own file
-Message-ID: <202309201638.5N9aAfd1-lkp@intel.com>
-References: <20230920063611.242942-3-suraj.kandpal@intel.com>
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 891/1363]
+ include/linux/mtd/spi-nor.h:429:27: warning: array subscript 2 is above
+ array bounds of 'struct spi_nor_flash_parameter * const[2]'
+Message-ID: <202309201656.ORxgHWeW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,43 +47,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230920063611.242942-3-suraj.kandpal@intel.com>
 
-Hi Suraj,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-tip/drm-tip]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Kandpal/drm-i915-hdcp-Move-checks-for-gsc-health-status/20230920-143839
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230920063611.242942-3-suraj.kandpal%40intel.com
-patch subject: [Intel-gfx] [PATCH 2/2] drm/i915/hdcp: Move common message filling function to its own file
-config: x86_64-buildonly-randconfig-001-20230920 (https://download.01.org/0day-ci/archive/20230920/202309201638.5N9aAfd1-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201638.5N9aAfd1-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
+head:   4f412ed20fd2c5353c1e878ef9ed77952a5040a1
+commit: e500b96b4c8a5c61ab86c2a5bb1750abf2d59bf0 [891/1363] mtd: spi-nor: Add stacked memories support in spi-nor
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230920/202309201656.ORxgHWeW-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201656.ORxgHWeW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309201638.5N9aAfd1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309201656.ORxgHWeW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   make[7]: *** [scripts/Makefile.build:243: drivers/gpu/drm/i915/display/intel_hdcp_gsc.o] Error 1 shuffle=3352712196
->> make[7]: *** No rule to make target 'drivers/gpu/drm/i915/display/intel_hdcp_gsc_message.o', needed by 'drivers/gpu/drm/i915/built-in.a'.
-   make[7]: Target 'drivers/gpu/drm/i915/' not remade because of errors.
---
->> drivers/gpu/drm/i915/display/intel_hdcp_gsc.c:11:10: fatal error: intel_hdcp_gsc_message.h: No such file or directory
-      11 | #include "intel_hdcp_gsc_message.h"
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+   In file included from drivers/mtd/spi-nor/core.c:23:
+   In function 'spi_nor_get_params',
+       inlined from 'spi_nor_read' at drivers/mtd/spi-nor/core.c:1765:12:
+>> include/linux/mtd/spi-nor.h:429:27: warning: array subscript 2 is above array bounds of 'struct spi_nor_flash_parameter * const[2]' [-Warray-bounds=]
+     429 |         return nor->params[idx];
+         |                ~~~~~~~~~~~^~~~~
+   include/linux/mtd/spi-nor.h: In function 'spi_nor_read':
+   include/linux/mtd/spi-nor.h:406:41: note: while referencing 'params'
+     406 |         struct spi_nor_flash_parameter *params[SNOR_FLASH_CNT_MAX];
+         |                                         ^~~~~~
+   In function 'spi_nor_get_params',
+       inlined from 'spi_nor_write' at drivers/mtd/spi-nor/core.c:1835:12:
+>> include/linux/mtd/spi-nor.h:429:27: warning: array subscript 2 is above array bounds of 'struct spi_nor_flash_parameter * const[2]' [-Warray-bounds=]
+     429 |         return nor->params[idx];
+         |                ~~~~~~~~~~~^~~~~
+   include/linux/mtd/spi-nor.h: In function 'spi_nor_write':
+   include/linux/mtd/spi-nor.h:406:41: note: while referencing 'params'
+     406 |         struct spi_nor_flash_parameter *params[SNOR_FLASH_CNT_MAX];
+         |                                         ^~~~~~
+   In function 'spi_nor_get_params',
+       inlined from 'spi_nor_erase' at drivers/mtd/spi-nor/core.c:1552:13:
+>> include/linux/mtd/spi-nor.h:429:27: warning: array subscript 2 is above array bounds of 'struct spi_nor_flash_parameter * const[2]' [-Warray-bounds=]
+     429 |         return nor->params[idx];
+         |                ~~~~~~~~~~~^~~~~
+   include/linux/mtd/spi-nor.h: In function 'spi_nor_erase':
+   include/linux/mtd/spi-nor.h:406:41: note: while referencing 'params'
+     406 |         struct spi_nor_flash_parameter *params[SNOR_FLASH_CNT_MAX];
+         |                                         ^~~~~~
+   In function 'spi_nor_get_params',
+       inlined from 'spi_nor_erase' at drivers/mtd/spi-nor/core.c:1508:13:
+>> include/linux/mtd/spi-nor.h:429:27: warning: array subscript 2 is above array bounds of 'struct spi_nor_flash_parameter * const[2]' [-Warray-bounds=]
+     429 |         return nor->params[idx];
+         |                ~~~~~~~~~~~^~~~~
+   include/linux/mtd/spi-nor.h: In function 'spi_nor_erase':
+   include/linux/mtd/spi-nor.h:406:41: note: while referencing 'params'
+     406 |         struct spi_nor_flash_parameter *params[SNOR_FLASH_CNT_MAX];
+         |                                         ^~~~~~
 
 
-vim +11 drivers/gpu/drm/i915/display/intel_hdcp_gsc.c
+vim +429 include/linux/mtd/spi-nor.h
 
-  > 11	#include "intel_hdcp_gsc_message.h"
-    12	
+   426	
+   427	static inline struct spi_nor_flash_parameter *spi_nor_get_params(const struct spi_nor *nor, u8 idx)
+   428	{
+ > 429		return nor->params[idx];
+   430	}
+   431	
 
 -- 
 0-DAY CI Kernel Test Service
