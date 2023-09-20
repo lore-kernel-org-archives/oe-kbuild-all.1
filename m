@@ -1,168 +1,120 @@
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F271381
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 04:35:35 +0000 (UTC)
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-496a775af2fso1260686e0c.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Sep 2023 21:35:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695184534; x=1695789334; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=azuj7xcq6eQ3UpWdDpWKUV4XGXp2CNoolDstHELC1/c=;
-        b=Yl9iC2VJQhc9v93p0m6dsEBDvZGPNPHxw/emJrvWbq4U2cW/QZ0PbP/t1AF+svgyap
-         AeXpGj6vID13NoAlDjYb/mDVAei0RhuoEgwBccL74RQBskXr18xpTBJqCnWfeAAskFqF
-         9czVkoCJTFnOFjWjSAYhn8PBs8DMAokKPeBZlSxVesEhJ9NdsvDCsXAPU2zC0TWGeXpF
-         uartGln3RFjtw+yyizfcP+WYfK0p8BcRovjfybc778n9RPK5RkvQSqkP8QNg9QrwEl13
-         gSSU3N4qLaIlBX518498oFiHNnkOJ3K4m0LAVnR+LuIGisMlqEliCpZ9nXheLlBREzwY
-         67kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695184534; x=1695789334;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=azuj7xcq6eQ3UpWdDpWKUV4XGXp2CNoolDstHELC1/c=;
-        b=vkn+oT1IcLDK0/7EdTivDQx+9aJxShEL1Gz1QkUkodKb6lff+jhk5pwDhrDd9iuF5/
-         YvqQxdBudthJgWbZrLUK4rA4Jd1a/DO6KZjHzv2vlhjVgtwNG5KbvCw0IknqODuj5ozH
-         zIPu1QyC+9k0402BNy6+8FOEUyz9ROfc4QOpFM/eMIGJLez61w3G6tQJ/49dZZc6VNR6
-         orvR2lDoemFzD2kfD4XY5gMVICpMYXLxSNM5ovUiMreJcXGcqVuRB3hrHfWOlsRa0LtV
-         +1YT4nBmvzb0pn/bbjs5UK2JJ76AFZ6VaYA+KmZjZ5nVZsIwhCtmsZrIM39MtkjnGybD
-         I4NQ==
-X-Gm-Message-State: AOJu0YxiyFi14Fq44nrrgZDewKqa+okIdz1DZ9iOB4lT3z7yfLXGlgUD
-	hVxRD7DY8W75gkXCQ0QeMTbVM1NOPHwvU+J/aMU=
-X-Google-Smtp-Source: AGHT+IExHNh2WhAbEaA4SQ/mudAUGhUPe8vGstLIvuW9HiXr+96pF1eFwDgZY7qv8ThkhnTMX6WlmFj3D1AE863ju7k=
-X-Received: by 2002:a1f:e6c3:0:b0:47e:8a9:478c with SMTP id
- d186-20020a1fe6c3000000b0047e08a9478cmr1678764vkh.16.1695184534162; Tue, 19
- Sep 2023 21:35:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFB91381
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 04:45:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695185104; x=1726721104;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WxFrhb0VpBH5JPputEeuqrFfTF5T1+W9QkXuN4PKB1o=;
+  b=L+QG5HcxpQHmByEN5dnUX2UwOym2eGDG0Y9yT1Kutb3wfzuQwCg9KbKl
+   R8JECY3xBtZUOmZMH7AGDkxB1U/mMRLcv42MBeVUviDXjya3jtbJ083yJ
+   r65Ma6Z+rXR/F20EUrUWlJ2Fv7t85+shIhK+WrB7DlY7Dw8JAizxcL8gR
+   LaVZblioYp9IoHnnjtUMS/EPbRoakyFxXUkVE+SZKIqo/u2RMGsK8pqtF
+   OoJnzifzXkM0z2JlhS5x8gxuAktRBQLRJWOOMcWJpkA1Sy8PMF/Q07Pe8
+   kd2MCQr6IdtWbFvS1fZhWb2uhxHp7uV7kwh7p/yxwgYUtnujhigevT2ka
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="380022062"
+X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
+   d="scan'208";a="380022062"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 21:45:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="836698256"
+X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
+   d="scan'208";a="836698256"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 19 Sep 2023 21:45:02 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qip5A-0008IG-1o;
+	Wed, 20 Sep 2023 04:45:00 +0000
+Date: Wed, 20 Sep 2023 12:44:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 2/2] media: i2c: Add driver for onsemi MT9M114 camera
+ sensor
+Message-ID: <202309201259.CoDIK0SO-lkp@intel.com>
+References: <20230919232636.19755-3-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202309191848.cMwd2D4d-lkp@intel.com>
-In-Reply-To: <202309191848.cMwd2D4d-lkp@intel.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 20 Sep 2023 07:35:23 +0300
-Message-ID: <CAOQ4uxjTv+5cB4z8TZQ02c5F3rags1HARoEQG9834A0+_+_twA@mail.gmail.com>
-Subject: Re: arch/alpha/include/asm/rwonce.h:25:35: warning: array subscript 0
- is outside array bounds of 'struct inode[11885788707287082]'
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Alexander Larsson <alexl@redhat.com>, Miklos Szeredi <mszeredi@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230919232636.19755-3-laurent.pinchart@ideasonboard.com>
 
-On Tue, Sep 19, 2023 at 1:43=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   2cf0f715623872823a72e451243bbf555d10d032
-> commit: 0af950f57fefabab628f1963af881e6b9bfe7f38 ovl: move ovl_entry into=
- ovl_inode
+Hi Laurent,
 
-Are you sure that this is the regressing commit?
-I don't see anything that has changed wrt the ovl_dentry_upper()
-call chain.
+kernel test robot noticed the following build warnings:
 
-> date:   3 months ago
-> config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230=
-919/202309191848.cMwd2D4d-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20230919/202309191848.cMwd2D4d-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309191848.cMwd2D4d-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    In file included from include/linux/compiler.h:246,
->                     from include/linux/build_bug.h:5,
->                     from include/linux/container_of.h:5,
->                     from include/linux/list.h:5,
->                     from include/linux/wait.h:7,
->                     from include/linux/wait_bit.h:8,
->                     from include/linux/fs.h:6,
->                     from fs/overlayfs/util.c:7:
->    In function 'ovl_upperdentry_dereference',
->        inlined from 'ovl_dentry_upper' at fs/overlayfs/util.c:266:9,
->        inlined from 'ovl_path_type' at fs/overlayfs/util.c:184:6:
-> >> arch/alpha/include/asm/rwonce.h:25:35: warning: array subscript 0 is o=
-utside array bounds of 'struct inode[11885788707287082]' [-Warray-bounds=3D=
-]
->       25 |         __unqual_scalar_typeof(x) __x =3D                     =
-            \
->          |                                   ^~~
->    include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ=
-_ONCE'
->       50 |         __READ_ONCE(x);                                       =
-          \
->          |         ^~~~~~~~~~~
->    fs/overlayfs/ovl_entry.h:163:16: note: in expansion of macro 'READ_ONC=
-E'
->      163 |         return READ_ONCE(oi->__upperdentry);
->          |                ^~~~~~~~~
->
+[auto build test WARNING on 0bb80ecc33a8fb5a682236443c1e740d5c917d1d]
 
-Why would the type of oi->__upperdentry be considered to be
-'struct inode[11885788707287082]'?
-I don't understand this report.
+url:    https://github.com/intel-lab-lkp/linux/commits/Laurent-Pinchart/media-dt-bindings-media-i2c-Add-MT9M114-camera-sensor-binding/20230920-072719
+base:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+patch link:    https://lore.kernel.org/r/20230919232636.19755-3-laurent.pinchart%40ideasonboard.com
+patch subject: [PATCH v3 2/2] media: i2c: Add driver for onsemi MT9M114 camera sensor
+config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20230920/202309201259.CoDIK0SO-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201259.CoDIK0SO-lkp@intel.com/reproduce)
 
-Miklos, any clue?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309201259.CoDIK0SO-lkp@intel.com/
 
-Thanks,
-Amir.
+All warnings (new ones prefixed by >>):
 
->
-> vim +25 arch/alpha/include/asm/rwonce.h
->
-> d6462858851549 Will Deacon 2019-10-30  11
-> d6462858851549 Will Deacon 2019-10-30  12  /*
-> d6462858851549 Will Deacon 2019-10-30  13   * Alpha is apparently daft en=
-ough to reorder address-dependent loads
-> d6462858851549 Will Deacon 2019-10-30  14   * on some CPU implementations=
-. Knock some common sense into it with
-> d6462858851549 Will Deacon 2019-10-30  15   * a memory barrier in READ_ON=
-CE().
-> d6462858851549 Will Deacon 2019-10-30  16   *
-> d6462858851549 Will Deacon 2019-10-30  17   * For the curious, more infor=
-mation about this unusual reordering is
-> d6462858851549 Will Deacon 2019-10-30  18   * available in chapter 15 of =
-the "perfbook":
-> d6462858851549 Will Deacon 2019-10-30  19   *
-> d6462858851549 Will Deacon 2019-10-30  20   *  https://kernel.org/pub/lin=
-ux/kernel/people/paulmck/perfbook/perfbook.html
-> d6462858851549 Will Deacon 2019-10-30  21   *
-> d6462858851549 Will Deacon 2019-10-30  22   */
-> d6462858851549 Will Deacon 2019-10-30  23  #define __READ_ONCE(x)        =
-                                               \
-> d6462858851549 Will Deacon 2019-10-30  24  ({                            =
-                                       \
-> d6462858851549 Will Deacon 2019-10-30 @25       __unqual_scalar_typeof(x)=
- __x =3D                                 \
-> d6462858851549 Will Deacon 2019-10-30  26               (*(volatile typeo=
-f(__x) *)(&(x)));                      \
-> d6462858851549 Will Deacon 2019-10-30  27       mb();                    =
-                                       \
-> d6462858851549 Will Deacon 2019-10-30  28       (typeof(x))__x;          =
-                                       \
-> d6462858851549 Will Deacon 2019-10-30  29  })
-> d6462858851549 Will Deacon 2019-10-30  30
->
-> :::::: The code at line 25 was first introduced by commit
-> :::::: d6462858851549c62d73eaa14b31132b0f32d6b6 alpha: Override READ_ONCE=
-() with barriered implementation
->
-> :::::: TO: Will Deacon <will@kernel.org>
-> :::::: CC: Will Deacon <will@kernel.org>
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+>> drivers/media/i2c/mt9m114.c:2201:12: warning: 'mt9m114_runtime_suspend' defined but not used [-Wunused-function]
+    2201 | static int mt9m114_runtime_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/i2c/mt9m114.c:2182:12: warning: 'mt9m114_runtime_resume' defined but not used [-Wunused-function]
+    2182 | static int mt9m114_runtime_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/mt9m114.c: In function 'mt9m114_ifp_init_cfg':
+   drivers/media/i2c/mt9m114.c:1635:9: warning: 'memset' offset [0, 27] is out of the bounds [0, 0] [-Warray-bounds=]
+    1635 |         memset(format, 0, sizeof(*format));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/mt9m114_runtime_suspend +2201 drivers/media/i2c/mt9m114.c
+
+  2181	
+> 2182	static int mt9m114_runtime_resume(struct device *dev)
+  2183	{
+  2184		struct v4l2_subdev *sd = dev_get_drvdata(dev);
+  2185		struct mt9m114 *sensor = ifp_to_mt9m114(sd);
+  2186		int ret;
+  2187	
+  2188		ret = mt9m114_power_on(sensor);
+  2189		if (ret)
+  2190			return ret;
+  2191	
+  2192		ret = mt9m114_initialize(sensor);
+  2193		if (ret) {
+  2194			mt9m114_power_off(sensor);
+  2195			return ret;
+  2196		}
+  2197	
+  2198		return 0;
+  2199	}
+  2200	
+> 2201	static int mt9m114_runtime_suspend(struct device *dev)
+  2202	{
+  2203		struct v4l2_subdev *sd = dev_get_drvdata(dev);
+  2204		struct mt9m114 *sensor = ifp_to_mt9m114(sd);
+  2205	
+  2206		mt9m114_power_off(sensor);
+  2207	
+  2208		return 0;
+  2209	}
+  2210	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
