@@ -1,46 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F21D79FA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 10:35:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A8F8833
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 10:45:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695206121; x=1726742121;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Nu0uPKuj6l7c/rwtzMfToNHhsaqRW3IbihtuYwV6BZ0=;
-  b=a+phMrJkOQDgSWy2pEEoEuLYNjQ6zCVM6YvhzTZLEirVQDI/aB4SmPBM
-   qjMHfgEF2KHgoLzjlWqEfPekHfPZoIl07bFpTaYwawe7Hn03v5O2lFlIo
-   AkvxfLfXW4BHLYavfP06hOIsNvfLksQqk07qsZRclmV7N+GoEijq9l2uv
-   7T4jCJY2nhM/mZg0otrXS7fYH1XFFJ+reGu7ZKWInOsEc2bbrIMZ0cqI3
-   cN9CVvteVj2dvwsYWAeUm0qEZCl1QP78n/OPmEKWBirYLfiKQXzgSdqsw
-   Ir056N31kB4B3lGn0D6WMhsnb1neMzNkN/NuJMQDVk1wrvyo1G35UCfm9
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="365234828"
+  t=1695206731; x=1726742731;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BQ04r3rhhEvN+xUr1SkWuerOykbF40OxGzgam9T1NW4=;
+  b=O24NrbdaDheZvKNYYOj7MkHhqsCKCUjV2Z6YDFph1/PfVlmjHExC4t81
+   +0j6y/yWXhIWbA21wUC8CC/kgcJ+tA4kmW72s9uvdvxV+qEc6zinqsDJ3
+   x+na9AOCuNJtqysCyh9syNbSClzS9lfma76w7OcUyYl3RJz9oGCV8pYp4
+   LbazsTUZRvO4jURkKN/IBNnXrsKLVXAoJK/aRKurA68YK8rXD5ZzjUE6o
+   j1Gug0scBImDl92BQKFAUNffwbG35DxBKcZILi/WZR718o6EM9zq4XLi1
+   Z2GMNP+DwXzkJJZsVc1lyH/u9H2+OPq9NsKSQ2IsliGuxnVh4WOGL+cqt
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="360445469"
 X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="365234828"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 03:35:20 -0700
+   d="scan'208";a="360445469"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 03:45:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="749849162"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="723226594"
 X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="749849162"
+   d="scan'208";a="723226594"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 20 Sep 2023 03:35:19 -0700
+  by orsmga006.jf.intel.com with ESMTP; 20 Sep 2023 03:45:27 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qiuY2-0008eE-0y;
-	Wed, 20 Sep 2023 10:35:15 +0000
-Date: Wed, 20 Sep 2023 18:34:26 +0800
+	id 1qiuhx-0008ei-08;
+	Wed, 20 Sep 2023 10:45:25 +0000
+Date: Wed, 20 Sep 2023 18:44:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Piyush Mehta <piyush.mehta@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>,
-	Manish Narani <manish.narani@xilinx.com>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 671/1363]
- drivers/usb/host/xhci-plat.c:94: undefined reference to
- `dwc3_host_wakeup_capable'
-Message-ID: <202309201853.5M01WUwi-lkp@intel.com>
+To: Bragatheswaran Manickavel <bragathemanick0908@gmail.com>,
+	lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Bragatheswaran Manickavel <bragathemanick0908@gmail.com>,
+	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: dt-bindings: tfa9879: Convert to dtschema
+Message-ID: <202309201811.iKOZ5prG-lkp@intel.com>
+References: <20230919090739.2448-1-bragathemanick0908@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,33 +51,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230919090739.2448-1-bragathemanick0908@gmail.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   4f412ed20fd2c5353c1e878ef9ed77952a5040a1
-commit: c72511380a06150f86102ac467cefe77a69339e7 [671/1363] usb: xhci-plat: Add remote wakeup support
-config: i386-randconfig-012-20230920 (https://download.01.org/0day-ci/archive/20230920/202309201853.5M01WUwi-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201853.5M01WUwi-lkp@intel.com/reproduce)
+Hi Bragatheswaran,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on linus/master v6.6-rc2 next-20230920]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bragatheswaran-Manickavel/ASoC-dt-bindings-tfa9879-Convert-to-dtschema/20230919-170919
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230919090739.2448-1-bragathemanick0908%40gmail.com
+patch subject: [PATCH] ASoC: dt-bindings: tfa9879: Convert to dtschema
+reproduce: (https://download.01.org/0day-ci/archive/20230920/202309201811.iKOZ5prG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309201853.5M01WUwi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309201811.iKOZ5prG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/usb/host/xhci-plat.o: in function `host_wakeup_register':
->> drivers/usb/host/xhci-plat.c:94: undefined reference to `dwc3_host_wakeup_capable'
-
-
-vim +94 drivers/usb/host/xhci-plat.c
-
-    91	
-    92	static void host_wakeup_register(host_wakeup_t func)
-    93	{
-  > 94		host_wakeup_fn = func;
-    95	}
-    96	
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/sound/tfa9879.txt
 
 -- 
 0-DAY CI Kernel Test Service
