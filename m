@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA77842BE2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 22:28:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6169823CF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 22:38:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695248907; x=1726784907;
+  t=1695249524; x=1726785524;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sZgbw2NPXjKEr66TPP+W5kacQEm1toqtpgHrn2xpDvg=;
-  b=bh3mWYaHwvmPBJKVdpuS1Axiu8fn3DK0kAAWlHnem5+sxrviKodqOOP7
-   wprG3fxPuD0z9XQNlhkTLsuz3vRFPiqFyskl3FtVMTnut1lJmpYgedPZi
-   1Uluwblx2P2iW3dM6f38vM2O9fh+MCy0pRAmAKI+Fq9BzwEdJxW74r8RJ
-   mm1vfrc5DpX1psxIfNLmEtGW8TUp30qje7LW4S9u06aFAHAjh2gpgBg4o
-   LObXV14wahwSfM5jnnZ9Dth1CNDo/hxIKdL6P9rB0sjmia+5PS/q+gYzP
-   GV5Fqok4JMHmHRcgjmZ1IZ0K8INVtAu6A23jnvYW45S3rOoXCk2DRGOFz
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="359738959"
+  bh=DDfObYajov6TDML3jWIrPnuZ1mOJuN+EqgpphWNYXM4=;
+  b=LWx2y05E+BWgrLK7tVkFyZJ7GXiO9Z2hsIorjDajmBWLPvSZ3+vgJd//
+   WFU2fybsYg3bU1hejsDRgBaB/KRJnJXI4e3q2F9Jv+3JNNWQnmiF87d3e
+   mxASHL2NXVamQ+tJXdj03tLWcje02Lk7Bs29n9uz22TV9l49q+JyII13p
+   WdGbAPscAQE0kOFgJFTdTUiZJGo3WAsdOBrykdae4Gpx4iJKVOx2c8o5v
+   soCEukXhSPl4IDTR2vvtiW7flxeSd1JyYWiLrYCAs8nzBFY/qetbhkYl8
+   GiTCKinzLMNbnx0xQ1KQFNI6QWamMUWFs5mFS3Kgqa9atFZ4P3rXCz3qM
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="383102234"
 X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="359738959"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 15:28:26 -0700
+   d="scan'208";a="383102234"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 15:38:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="890120733"
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="920467699"
 X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="890120733"
+   d="scan'208";a="920467699"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 20 Sep 2023 15:27:35 -0700
+  by orsmga005.jf.intel.com with ESMTP; 20 Sep 2023 15:38:25 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qj5gF-0009DI-09;
-	Wed, 20 Sep 2023 22:28:23 +0000
-Date: Thu, 21 Sep 2023 06:27:35 +0800
+	id 1qj5pv-0009Ds-1R;
+	Wed, 20 Sep 2023 22:38:23 +0000
+Date: Thu, 21 Sep 2023 06:37:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kunal Rane <kunal.rane@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>, Vishal Sagar <vishal.sagar@amd.co>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 1359/1365]
- drivers/media/platform/xilinx/xilinx-hdcp2x-rx.c:120:22: error: implicit
- declaration of function 'kzalloc'; did you mean 'vzalloc'?
-Message-ID: <202309210635.fM3RfkPc-lkp@intel.com>
+To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [yiliu1765-iommufd:wip/iommufd_nesting-09202023-yi 24/30]
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:2928: warning: Function
+ parameter or member 'flags' not described in '__arm_smmu_domain_alloc'
+Message-ID: <202309210638.npWN8pYp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,106 +47,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Kunal,
-
-First bad commit (maybe != root cause):
-
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   008e6788f5aa09862307822bfc396c926dc0dbac
-commit: 63a2ddb4ca597d67d4e4e858761c1f7ff81ebd11 [1359/1365] v4l2: xilinx: dprx: Add HDCP2x support
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230921/202309210635.fM3RfkPc-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309210635.fM3RfkPc-lkp@intel.com/reproduce)
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_nesting-09202023-yi
+head:   5b4388d50a82e09067420dd07d85ee351e7defca
+commit: d96d9373bbbd59e9aa8df8b7f25d8d9286f2ddac [24/30] iommu/arm-smmu-v3: Add arm_smmu_domain_alloc_user
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230921/202309210638.npWN8pYp-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309210638.npWN8pYp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309210635.fM3RfkPc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309210638.npWN8pYp-lkp@intel.com/
 
-Note: the xilinx-xlnx/xlnx_rebase_v6.1_LTS HEAD 008e6788f5aa09862307822bfc396c926dc0dbac builds fine.
-      It only hurts bisectability.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
-
-   drivers/media/platform/xilinx/xilinx-hdcp2x-rx.c: In function 'xhdcp2x_rx_init':
->> drivers/media/platform/xilinx/xilinx-hdcp2x-rx.c:120:22: error: implicit declaration of function 'kzalloc'; did you mean 'vzalloc'? [-Werror=implicit-function-declaration]
-     120 |         xhdcp2x_rx = kzalloc(sizeof(*xhdcp2x_rx), GFP_KERNEL);
-         |                      ^~~~~~~
-         |                      vzalloc
-   drivers/media/platform/xilinx/xilinx-hdcp2x-rx.c:120:20: warning: assignment to 'struct xlnx_hdcp2x_config *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     120 |         xhdcp2x_rx = kzalloc(sizeof(*xhdcp2x_rx), GFP_KERNEL);
-         |                    ^
-   cc1: some warnings being treated as errors
+>> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:2928: warning: Function parameter or member 'flags' not described in '__arm_smmu_domain_alloc'
 
 
-vim +120 drivers/media/platform/xilinx/xilinx-hdcp2x-rx.c
+vim +2928 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 
-727d5d0c59572f Kunal Rane 2023-09-04  105  
-727d5d0c59572f Kunal Rane 2023-09-04  106  int *xhdcp2x_rx_init(struct device *dev, void *protocol_ref, void __iomem *xhdcp_base_address,
-727d5d0c59572f Kunal Rane 2023-09-04  107  		     enum xhdcp2x_rx_protocol protocol_rx, bool is_repeater, u8 lane_count)
-727d5d0c59572f Kunal Rane 2023-09-04  108  {
-727d5d0c59572f Kunal Rane 2023-09-04  109  	int status;
-727d5d0c59572f Kunal Rane 2023-09-04  110  	struct xlnx_hdcp2x_config *xhdcp2x_rx;
-727d5d0c59572f Kunal Rane 2023-09-04  111  
-727d5d0c59572f Kunal Rane 2023-09-04  112  	if (!dev || !protocol_ref || !xhdcp_base_address)
-727d5d0c59572f Kunal Rane 2023-09-04  113  		return ERR_PTR(-EINVAL);
-727d5d0c59572f Kunal Rane 2023-09-04  114  
-727d5d0c59572f Kunal Rane 2023-09-04  115  	if (is_repeater) {
-727d5d0c59572f Kunal Rane 2023-09-04  116  		dev_info(dev, "Hdcp2x repeater functionality not supported\n");
-727d5d0c59572f Kunal Rane 2023-09-04  117  		return ERR_PTR(-EINVAL);
-727d5d0c59572f Kunal Rane 2023-09-04  118  	}
-727d5d0c59572f Kunal Rane 2023-09-04  119  
-727d5d0c59572f Kunal Rane 2023-09-04 @120  	xhdcp2x_rx = kzalloc(sizeof(*xhdcp2x_rx), GFP_KERNEL);
-727d5d0c59572f Kunal Rane 2023-09-04  121  	if (!xhdcp2x_rx)
-727d5d0c59572f Kunal Rane 2023-09-04  122  		return ERR_PTR(-ENOMEM);
-727d5d0c59572f Kunal Rane 2023-09-04  123  
-727d5d0c59572f Kunal Rane 2023-09-04  124  	xhdcp2x_rx->xhdcp2x_hw.hdcp2xcore_address = (void __iomem *)xhdcp_base_address;
-727d5d0c59572f Kunal Rane 2023-09-04  125  	xhdcp2x_rx->dev = dev;
-727d5d0c59572f Kunal Rane 2023-09-04  126  	xhdcp2x_rx->interface_ref = protocol_ref;
-727d5d0c59572f Kunal Rane 2023-09-04  127  	xhdcp2x_rx->interface_base = xhdcp_base_address;
-727d5d0c59572f Kunal Rane 2023-09-04  128  	xhdcp2x_rx->is_repeater = is_repeater ? 1 : 0;
-727d5d0c59572f Kunal Rane 2023-09-04  129  	xhdcp2x_rx->lane_count = lane_count;
-727d5d0c59572f Kunal Rane 2023-09-04  130  	xhdcp2x_rx->protocol = protocol_rx;
-727d5d0c59572f Kunal Rane 2023-09-04  131  	xhdcp2x_rx->rx_caps[0] = HDCP_2_2_RX_CAPS_VERSION_VAL;
-727d5d0c59572f Kunal Rane 2023-09-04  132  	xhdcp2x_rx->rx_caps[1] = 0x00;
-727d5d0c59572f Kunal Rane 2023-09-04  133  	xhdcp2x_rx->rx_caps[2] = (xhdcp2x_rx->mode == xhdcp2x_rx_receiver) ?
-727d5d0c59572f Kunal Rane 2023-09-04  134  				RXCAPS_HDCP_ENABLE :  RXCAPS_REPEATER;
-727d5d0c59572f Kunal Rane 2023-09-04  135  	xhdcp2x_rx->keys_loaded = 0;
-727d5d0c59572f Kunal Rane 2023-09-04  136  
-727d5d0c59572f Kunal Rane 2023-09-04  137  	xhdcp2x_rx->xhdcp2x_hw.rng_inst.rng_coreaddress =
-727d5d0c59572f Kunal Rane 2023-09-04  138  		xhdcp2x_rx->xhdcp2x_hw.hdcp2xcore_address + XHDCP2X_RNG_OFFSET;
-727d5d0c59572f Kunal Rane 2023-09-04  139  	xhdcp2x_rx->xhdcp2x_hw.mmult_inst.mmult_coreaddress =
-727d5d0c59572f Kunal Rane 2023-09-04  140  		xhdcp2x_rx->xhdcp2x_hw.hdcp2xcore_address + XHDCP2X_MMULT_OFFSET;
-727d5d0c59572f Kunal Rane 2023-09-04  141  	xhdcp2x_rx->xhdcp2x_hw.cipher_inst.cipher_coreaddress =
-727d5d0c59572f Kunal Rane 2023-09-04  142  		xhdcp2x_rx->xhdcp2x_hw.hdcp2xcore_address + XHDCP2X_CIPHER_OFFSET;
-727d5d0c59572f Kunal Rane 2023-09-04  143  
-727d5d0c59572f Kunal Rane 2023-09-04  144  	status = xlnx_hdcp2x_rng_cfg_init(&xhdcp2x_rx->xhdcp2x_hw.rng_inst);
-727d5d0c59572f Kunal Rane 2023-09-04  145  	if (status < 0)
-727d5d0c59572f Kunal Rane 2023-09-04  146  		return ERR_PTR(-EINVAL);
-727d5d0c59572f Kunal Rane 2023-09-04  147  
-727d5d0c59572f Kunal Rane 2023-09-04  148  	status = xlnx_hdcp2x_mmult_cfginit(&xhdcp2x_rx->xhdcp2x_hw.mmult_inst);
-727d5d0c59572f Kunal Rane 2023-09-04  149  	if (status < 0)
-727d5d0c59572f Kunal Rane 2023-09-04  150  		return ERR_PTR(-EINVAL);
-727d5d0c59572f Kunal Rane 2023-09-04  151  
-727d5d0c59572f Kunal Rane 2023-09-04  152  	status = xlnx_hdcp2x_cipher_cfg_init(&xhdcp2x_rx->xhdcp2x_hw.cipher_inst);
-727d5d0c59572f Kunal Rane 2023-09-04  153  	if (status < 0)
-727d5d0c59572f Kunal Rane 2023-09-04  154  		return ERR_PTR(-EINVAL);
-727d5d0c59572f Kunal Rane 2023-09-04  155  
-727d5d0c59572f Kunal Rane 2023-09-04  156  	xlnx_hdcp2x_rx_cipher_init(&xhdcp2x_rx->xhdcp2x_hw.cipher_inst);
-727d5d0c59572f Kunal Rane 2023-09-04  157  
-727d5d0c59572f Kunal Rane 2023-09-04  158  	mutex_init(&xhdcp2x_rx->hdcprx_mutex);
-727d5d0c59572f Kunal Rane 2023-09-04  159  
-727d5d0c59572f Kunal Rane 2023-09-04  160  	INIT_DELAYED_WORK(&xhdcp2x_rx->sm_work, xhdcp2x_sm_work_func);
-727d5d0c59572f Kunal Rane 2023-09-04  161  
-727d5d0c59572f Kunal Rane 2023-09-04  162  	return (void *)xhdcp2x_rx;
-727d5d0c59572f Kunal Rane 2023-09-04  163  }
-727d5d0c59572f Kunal Rane 2023-09-04  164  
-
-:::::: The code at line 120 was first introduced by commit
-:::::: 727d5d0c59572f086ee1f33334aac4b02205f87c v4l2: xilinx: Add HDCP2x Rx support
-
-:::::: TO: Kunal Rane <kunal.rane@amd.com>
-:::::: CC: Michal Simek <michal.simek@amd.com>
+  2905	
+  2906	/**
+  2907	 * __arm_smmu_domain_alloc - Allocate a customizable iommu_domain
+  2908	 * @type: Type of the new iommu_domain, in form of IOMMU_DOMAIN_*
+  2909	 * @master: Optional master pointer for the allocation. If given, this will be
+  2910	 *          used to call arm_smmu_domain_finalise at the end of the allocation.
+  2911	 *          Otherwise, arm_smmu_domain_finalise will be done when the domain is
+  2912	 *          attached to a device.
+  2913	 * @user_cfg: Optional user configuration for the allocation. This allows the
+  2914	 *            caller, mainly user space, to customize the iommu_domain in the
+  2915	 *            arm_smmu_domain_finalise function that decodes the user_cfg data.
+  2916	 *
+  2917	 * This helper function is shared by domain_alloc_user() and domain_alloc().
+  2918	 * Unlike ops->domain_alloc has been so far only called by the iommu core that
+  2919	 * sets default values of domain->type, domain->ops and domain->pgsize_bitmap,
+  2920	 * the ops->domain_alloc_user could be directly called by the iommufd core. So,
+  2921	 * this function should set those default values for an ops->domain_alloc_user
+  2922	 * call. Note that domain->pgsize_bitmap is set in arm_smmu_domain_finalise().
+  2923	 */
+  2924	static struct iommu_domain *
+  2925	__arm_smmu_domain_alloc(unsigned type,
+  2926				struct arm_smmu_master *master, u32 flags,
+  2927				const struct iommu_hwpt_arm_smmuv3 *user_cfg)
+> 2928	{
+  2929		bool flag_s2 = flags & IOMMU_HWPT_ALLOC_NEST_PARENT;
+  2930		struct arm_smmu_domain *smmu_domain;
+  2931		struct iommu_domain *domain;
+  2932		int ret = 0;
+  2933	
+  2934		if (type == IOMMU_DOMAIN_SVA)
+  2935			return arm_smmu_sva_domain_alloc();
+  2936	
+  2937		if (type != IOMMU_DOMAIN_UNMANAGED &&
+  2938		    type != IOMMU_DOMAIN_DMA &&
+  2939		    type != IOMMU_DOMAIN_IDENTITY)
+  2940			return NULL;
+  2941	
+  2942		/*
+  2943		 * Allocate the domain and initialise some of its data structures.
+  2944		 * We can't really finalise the domain unless a master is given.
+  2945		 */
+  2946		smmu_domain = kzalloc(sizeof(*smmu_domain), GFP_KERNEL);
+  2947		if (!smmu_domain)
+  2948			return NULL;
+  2949		domain = &smmu_domain->domain;
+  2950	
+  2951		domain->type = type;
+  2952		domain->ops = arm_smmu_ops.default_domain_ops;
+  2953	
+  2954		mutex_init(&smmu_domain->init_mutex);
+  2955		INIT_LIST_HEAD(&smmu_domain->devices);
+  2956		spin_lock_init(&smmu_domain->devices_lock);
+  2957		INIT_LIST_HEAD(&smmu_domain->mmu_notifiers);
+  2958	
+  2959		if (master) {
+  2960			smmu_domain->smmu = master->smmu;
+  2961			ret = arm_smmu_domain_finalise(domain, master, flag_s2, user_cfg);
+  2962			if (ret) {
+  2963				kfree(smmu_domain);
+  2964				return NULL;
+  2965			}
+  2966		}
+  2967	
+  2968		return domain;
+  2969	}
+  2970	
 
 -- 
 0-DAY CI Kernel Test Service
