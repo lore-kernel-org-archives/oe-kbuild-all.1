@@ -1,46 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840583CCF9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 19:29:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90203B2A1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 19:29:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695238149; x=1726774149;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5bus4JomaMT2B0sfk6IwhIfAbpKTvNbve2f6eVboVD4=;
-  b=mVmh83KP7TRkiL4vh2VW1Q4DrNKLU+S0J8od002WHP1Jx8tTDw5Uq5JN
-   KuYxVRYR2ar6lmWsZa1xhmWCJ0oHV3u6Wj3NQB+6bETaLmz5/qFa5FXZB
-   mNtd1+JU9yLQqHXTrwwIkJsp82ofnDBuhoxX6E+aMHKb/TJnsIb1K7tlg
-   ej5a/mDXgHzYzkKu2PnCWQ2JvbIykJ6poopE0a3nH4HZK+OmTrN5guRrv
-   mSS9Y5kFKXv1gtWHsGEk3qZ1pYQKE9kLkTZ7m+b1+cwFMGpGSBGSIHu7u
-   i56BnWrcHGkqx0Q+bx2dhzeEwm/RRA/70w3PULUYt6zh8cyG0MN2woZh6
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="466630084"
+  t=1695238151; x=1726774151;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PUcW9mG/BSXV2j0arFHe6YcIhOAu5GzjJn08mAWeLhA=;
+  b=dPP2FcIh7B1VxNzhYt8wmFr0D3QnmUT9EIq83RWpDha6OaEdFgkV+Y3X
+   qheBhhG5noGidbZ42jdSzrV0r8qF5K811hNhELLLfWWykftzDMJxwTqOI
+   /gr9YbMiriQXyI7yv8JFyjoKOWQo8WgDAdm7iuoc7GXGqk9Z74ZXHSCiw
+   yte3ayKL8hUOotfsNEjEuwJf+5hHV/MZ2FDYVydR994TqGv/wP4P1tlgY
+   c44tnmNZIUC6Ppx9qjBsFVqRL2Am6fNYySYRy6z0tNTplyEb8oZo2+hnO
+   42bO2qc9Qibl/9ofJcNqya+bBIcRQ1eq31fTTRQMBat7cJFDymP3eLgBx
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="380232176"
 X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="466630084"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 12:29:08 -0700
+   d="scan'208";a="380232176"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 12:29:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="696450735"
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="837004159"
 X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="696450735"
+   d="scan'208";a="837004159"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 20 Sep 2023 12:29:06 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 20 Sep 2023 12:29:06 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qj2si-00093y-02;
-	Wed, 20 Sep 2023 19:29:04 +0000
-Date: Thu, 21 Sep 2023 03:28:56 +0800
+	id 1qj2sh-00093w-3B;
+	Wed, 20 Sep 2023 19:29:03 +0000
+Date: Thu, 21 Sep 2023 03:28:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>,
-	Manish Narani <manish.narani@xilinx.com>,
-	Piyush Mehta <piyush.mehta@amd.com>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 670/1365] core.c:undefined
- reference to `dwc3_gadget_exit_hibernation'
-Message-ID: <202309210358.96RcLAUU-lkp@intel.com>
+To: Josh Don <joshdon@google.com>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Daniel Bristot de Oliveira <bristot@redhat.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	linux-kernel@vger.kernel.org, Josh Don <joshdon@google.com>
+Subject: Re: [PATCH] sched: fix warning in bandwidth distribution
+Message-ID: <202309210339.XihTnzE3-lkp@intel.com>
+References: <20230920000559.3872416-1-joshdon@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,27 +55,444 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230920000559.3872416-1-joshdon@google.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   008e6788f5aa09862307822bfc396c926dc0dbac
-commit: cbd364755cd28447d078372bda5ab27896856c84 [670/1365] usb: dwc3: don't setup event buffers when operating in host mode
-config: x86_64-buildonly-randconfig-003-20230920 (https://download.01.org/0day-ci/archive/20230921/202309210358.96RcLAUU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309210358.96RcLAUU-lkp@intel.com/reproduce)
+Hi Josh,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/sched/core]
+[also build test ERROR on tip/master tip/auto-latest linus/master v6.6-rc2 next-20230920]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Josh-Don/sched-fix-warning-in-bandwidth-distribution/20230920-080712
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20230920000559.3872416-1-joshdon%40google.com
+patch subject: [PATCH] sched: fix warning in bandwidth distribution
+config: arm-bcm2835_defconfig (https://download.01.org/0day-ci/archive/20230921/202309210339.XihTnzE3-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309210339.XihTnzE3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309210358.96RcLAUU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309210339.XihTnzE3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/usb/dwc3/core.o: in function `dwc3_suspend':
->> core.c:(.text+0x667a): undefined reference to `dwc3_gadget_exit_hibernation'
-   ld: drivers/usb/dwc3/core.o: in function `dwc3_remove':
-   core.c:(.text+0x687c): undefined reference to `dwc3_gadget_exit_hibernation'
-   ld: sound/soc/intel/skylake/skl.o: in function `skl_codec_create':
-   skl.c:(.text+0x1074): undefined reference to `snd_hda_codec_device_init'
+   kernel/sched/fair.c: In function 'distribute_cfs_runtime':
+   kernel/sched/fair.c:5808:56: error: 'struct cfs_rq' has no member named 'throttled_csd_list'; did you mean 'throttled_list'?
+    5808 |                                 list_add_tail(&cfs_rq->throttled_csd_list,
+         |                                                        ^~~~~~~~~~~~~~~~~~
+         |                                                        throttled_list
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/kernel.h:21,
+                    from include/linux/cpumask.h:10,
+                    from include/linux/energy_model.h:4,
+                    from kernel/sched/fair.c:23:
+   kernel/sched/fair.c:5820:34: error: 'struct cfs_rq' has no member named 'throttled_csd_list'; did you mean 'throttled_list'?
+    5820 |                                  throttled_csd_list) {
+         |                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
+     612 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:857:20: note: in expansion of macro 'list_first_entry'
+     857 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
+         |                    ^~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5819:9: note: in expansion of macro 'list_for_each_entry_safe'
+    5819 |         list_for_each_entry_safe(cfs_rq, tmp, &local_unthrottle,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/compiler_types.h:366:27: error: expression in static assertion is not an integer
+     366 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
+     612 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:857:20: note: in expansion of macro 'list_first_entry'
+     857 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
+         |                    ^~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5819:9: note: in expansion of macro 'list_for_each_entry_safe'
+    5819 |         list_for_each_entry_safe(cfs_rq, tmp, &local_unthrottle,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/limits.h:6,
+                    from include/linux/kernel.h:16,
+                    from include/linux/cpumask.h:10,
+                    from include/linux/energy_model.h:4,
+                    from kernel/sched/fair.c:23:
+   kernel/sched/fair.c:5820:34: error: 'struct cfs_rq' has no member named 'throttled_csd_list'; did you mean 'throttled_list'?
+    5820 |                                  throttled_csd_list) {
+         |                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/stddef.h:16:58: note: in definition of macro 'offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                                          ^~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
+     612 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:857:20: note: in expansion of macro 'list_first_entry'
+     857 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
+         |                    ^~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5819:9: note: in expansion of macro 'list_for_each_entry_safe'
+    5819 |         list_for_each_entry_safe(cfs_rq, tmp, &local_unthrottle,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/kernel.h:21,
+                    from include/linux/cpumask.h:10,
+                    from include/linux/energy_model.h:4,
+                    from kernel/sched/fair.c:23:
+   kernel/sched/fair.c:5820:34: error: 'struct cfs_rq' has no member named 'throttled_csd_list'; did you mean 'throttled_list'?
+    5820 |                                  throttled_csd_list) {
+         |                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
+      19 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:858:21: note: in expansion of macro 'list_next_entry'
+     858 |                 n = list_next_entry(pos, member);                       \
+         |                     ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5819:9: note: in expansion of macro 'list_for_each_entry_safe'
+    5819 |         list_for_each_entry_safe(cfs_rq, tmp, &local_unthrottle,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/kernel.h:21,
+                    from include/linux/cpumask.h:10,
+                    from include/linux/energy_model.h:4,
+                    from kernel/sched/fair.c:23:
+   kernel/sched/fair.c:5820:34: error: 'struct cfs_rq' has no member named 'throttled_csd_list'; did you mean 'throttled_list'?
+    5820 |                                  throttled_csd_list) {
+         |                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:858:21: note: in expansion of macro 'list_next_entry'
+     858 |                 n = list_next_entry(pos, member);                       \
+         |                     ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5819:9: note: in expansion of macro 'list_for_each_entry_safe'
+    5819 |         list_for_each_entry_safe(cfs_rq, tmp, &local_unthrottle,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5820:34: error: 'struct cfs_rq' has no member named 'throttled_csd_list'; did you mean 'throttled_list'?
+    5820 |                                  throttled_csd_list) {
+         |                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:858:21: note: in expansion of macro 'list_next_entry'
+     858 |                 n = list_next_entry(pos, member);                       \
+         |                     ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5819:9: note: in expansion of macro 'list_for_each_entry_safe'
+    5819 |         list_for_each_entry_safe(cfs_rq, tmp, &local_unthrottle,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5820:34: error: 'struct cfs_rq' has no member named 'throttled_csd_list'; did you mean 'throttled_list'?
+    5820 |                                  throttled_csd_list) {
+         |                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |                       __same_type(*(ptr), void),                        \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:858:21: note: in expansion of macro 'list_next_entry'
+     858 |                 n = list_next_entry(pos, member);                       \
+         |                     ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5819:9: note: in expansion of macro 'list_for_each_entry_safe'
+    5819 |         list_for_each_entry_safe(cfs_rq, tmp, &local_unthrottle,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/compiler_types.h:366:27: error: expression in static assertion is not an integer
+     366 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:858:21: note: in expansion of macro 'list_next_entry'
+     858 |                 n = list_next_entry(pos, member);                       \
+         |                     ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5819:9: note: in expansion of macro 'list_for_each_entry_safe'
+    5819 |         list_for_each_entry_safe(cfs_rq, tmp, &local_unthrottle,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/limits.h:6,
+                    from include/linux/kernel.h:16,
+                    from include/linux/cpumask.h:10,
+                    from include/linux/energy_model.h:4,
+                    from kernel/sched/fair.c:23:
+   kernel/sched/fair.c:5820:34: error: 'struct cfs_rq' has no member named 'throttled_csd_list'; did you mean 'throttled_list'?
+    5820 |                                  throttled_csd_list) {
+         |                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/stddef.h:16:58: note: in definition of macro 'offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                                          ^~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:858:21: note: in expansion of macro 'list_next_entry'
+     858 |                 n = list_next_entry(pos, member);                       \
+         |                     ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5819:9: note: in expansion of macro 'list_for_each_entry_safe'
+    5819 |         list_for_each_entry_safe(cfs_rq, tmp, &local_unthrottle,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/rculist.h:10,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/energy_model.h:5,
+                    from kernel/sched/fair.c:23:
+   include/linux/list.h:857:64: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+     857 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
+         |                                                                ^
+   kernel/sched/fair.c:5819:9: note: in expansion of macro 'list_for_each_entry_safe'
+    5819 |         list_for_each_entry_safe(cfs_rq, tmp, &local_unthrottle,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5820:34: error: 'struct cfs_rq' has no member named 'throttled_csd_list'; did you mean 'throttled_list'?
+    5820 |                                  throttled_csd_list) {
+         |                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/list.h:761:16: note: in definition of macro 'list_entry_is_head'
+     761 |         (&pos->member == (head))
+         |                ^~~~~~
+   kernel/sched/fair.c:5819:9: note: in expansion of macro 'list_for_each_entry_safe'
+    5819 |         list_for_each_entry_safe(cfs_rq, tmp, &local_unthrottle,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/kernel.h:21,
+                    from include/linux/cpumask.h:10,
+                    from include/linux/energy_model.h:4,
+                    from kernel/sched/fair.c:23:
+   kernel/sched/fair.c:5820:34: error: 'struct cfs_rq' has no member named 'throttled_csd_list'; did you mean 'throttled_list'?
+    5820 |                                  throttled_csd_list) {
+         |                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
+      19 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:860:27: note: in expansion of macro 'list_next_entry'
+     860 |              pos = n, n = list_next_entry(n, member))
+         |                           ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5819:9: note: in expansion of macro 'list_for_each_entry_safe'
+    5819 |         list_for_each_entry_safe(cfs_rq, tmp, &local_unthrottle,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/kernel.h:21,
+                    from include/linux/cpumask.h:10,
+                    from include/linux/energy_model.h:4,
+                    from kernel/sched/fair.c:23:
+   kernel/sched/fair.c:5820:34: error: 'struct cfs_rq' has no member named 'throttled_csd_list'; did you mean 'throttled_list'?
+    5820 |                                  throttled_csd_list) {
+         |                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:860:27: note: in expansion of macro 'list_next_entry'
+     860 |              pos = n, n = list_next_entry(n, member))
+         |                           ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5819:9: note: in expansion of macro 'list_for_each_entry_safe'
+    5819 |         list_for_each_entry_safe(cfs_rq, tmp, &local_unthrottle,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5820:34: error: 'struct cfs_rq' has no member named 'throttled_csd_list'; did you mean 'throttled_list'?
+    5820 |                                  throttled_csd_list) {
+         |                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:860:27: note: in expansion of macro 'list_next_entry'
+     860 |              pos = n, n = list_next_entry(n, member))
+         |                           ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5819:9: note: in expansion of macro 'list_for_each_entry_safe'
+    5819 |         list_for_each_entry_safe(cfs_rq, tmp, &local_unthrottle,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5820:34: error: 'struct cfs_rq' has no member named 'throttled_csd_list'; did you mean 'throttled_list'?
+    5820 |                                  throttled_csd_list) {
+         |                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |                       __same_type(*(ptr), void),                        \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:860:27: note: in expansion of macro 'list_next_entry'
+     860 |              pos = n, n = list_next_entry(n, member))
+         |                           ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5819:9: note: in expansion of macro 'list_for_each_entry_safe'
+    5819 |         list_for_each_entry_safe(cfs_rq, tmp, &local_unthrottle,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/compiler_types.h:366:27: error: expression in static assertion is not an integer
+     366 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:860:27: note: in expansion of macro 'list_next_entry'
+     860 |              pos = n, n = list_next_entry(n, member))
+         |                           ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5819:9: note: in expansion of macro 'list_for_each_entry_safe'
+    5819 |         list_for_each_entry_safe(cfs_rq, tmp, &local_unthrottle,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/limits.h:6,
+                    from include/linux/kernel.h:16,
+                    from include/linux/cpumask.h:10,
+                    from include/linux/energy_model.h:4,
+                    from kernel/sched/fair.c:23:
+   kernel/sched/fair.c:5820:34: error: 'struct cfs_rq' has no member named 'throttled_csd_list'; did you mean 'throttled_list'?
+    5820 |                                  throttled_csd_list) {
+         |                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/stddef.h:16:58: note: in definition of macro 'offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                                          ^~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:860:27: note: in expansion of macro 'list_next_entry'
+     860 |              pos = n, n = list_next_entry(n, member))
+         |                           ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5819:9: note: in expansion of macro 'list_for_each_entry_safe'
+    5819 |         list_for_each_entry_safe(cfs_rq, tmp, &local_unthrottle,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5825:40: error: 'struct cfs_rq' has no member named 'throttled_csd_list'; did you mean 'throttled_list'?
+    5825 |                 list_del_init(&cfs_rq->throttled_csd_list);
+         |                                        ^~~~~~~~~~~~~~~~~~
+         |                                        throttled_list
+
+
+vim +366 include/linux/compiler_types.h
+
+eb111869301e15 Rasmus Villemoes 2019-09-13  364  
+d15155824c5014 Will Deacon      2017-10-24  365  /* Are two types/vars the same type (ignoring qualifiers)? */
+d15155824c5014 Will Deacon      2017-10-24 @366  #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+d15155824c5014 Will Deacon      2017-10-24  367  
 
 -- 
 0-DAY CI Kernel Test Service
