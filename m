@@ -1,112 +1,189 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB0CC8ED
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 16:09:35 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-690bfd4f3ebso1974459b3a.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 09:09:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1695226174; x=1695830974; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kZPdmXl4ZwuGt3eSBwgMVSxnCz69SpDGNBEX3pNmeW4=;
-        b=YR3XiB4wfuInn8C7GJqEgcRvxPtAZsKi1b0mb/fbRijHOIkDisDJE00/NdfAAasnbs
-         quOmZ/27fWlabkfDhv9/P5WCDhoFbmPHs82Ea6PclewiTHGmASa64c9Y8M9Nx1UarBj8
-         tQZjFQ5KUwqtsSbKT2K9X67B9r74tq+m6LHOc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695226174; x=1695830974;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kZPdmXl4ZwuGt3eSBwgMVSxnCz69SpDGNBEX3pNmeW4=;
-        b=bu2G36+8V5YwWUXZKdlyIsWLMFO9cUsRxIP355jYm4R18/zxmv7cPZPwkenottBLX/
-         Kpl72Sb1VQ9SeaWdgpGADchSkbP8SbMU2K9YmpARkLFYuLJ/d7ZTgBwdGgRJSIO0DuAK
-         VMGMGFK2/LfCDmOuwojloSCdwQ9lW5HVObLdE0xyWs2Py8ZlP54LVL4QYI96GLa6nsbK
-         P432ziQhqRjQ+qMcSLQgvy/7lJACEc+gSaD3R1YM+id6XpLMVUq3g5kKwRfG1Jxpb/ls
-         lPoU6XXvJs4WaBvlIjiaNGOf/PnJySUvPJuwVuTidBtJ5NfFKWMMUqK01BSZONNsXeJn
-         Kvug==
-X-Gm-Message-State: AOJu0YzkXBcWwZ79jAeLNsWa1WxCvfLU0mcJpxVBPpRgCBoZHYRya7Cx
-	YBSMo7vwdAxodAnf5FG6z7FJng==
-X-Google-Smtp-Source: AGHT+IFZEbhAj0VF0cfiwS9CwelgZgX4SNQUZu5W0XXu7LEGDZAj+oplpFNBiJANw/y7//sKSq9U9w==
-X-Received: by 2002:a05:6a00:8087:b0:690:f6a1:ae62 with SMTP id eh7-20020a056a00808700b00690f6a1ae62mr1544166pfb.23.1695226174549;
-        Wed, 20 Sep 2023 09:09:34 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id x23-20020aa793b7000000b0068bbf578694sm10668960pff.18.2023.09.20.09.09.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Sep 2023 09:09:33 -0700 (PDT)
-Date: Wed, 20 Sep 2023 09:09:33 -0700
-From: Kees Cook <keescook@chromium.org>
-To: kernel test robot <lkp@intel.com>, Mirko Lindner <mlindner@marvell.com>,
-	Stephen Hemminger <stephen@networkplumber.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-hardening@vger.kernel.org
-Subject: Re: include/linux/dma-mapping.h:416:36: warning: array subscript i
- is outside array bounds of 'dma_addr_t[0]' {aka 'long long unsigned int[]'}
-Message-ID: <202309200904.CEED70DA33@keescook>
-References: <202309191958.UBw1cjXk-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D18873C68D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 16:20:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 584B6C433C9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 16:20:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1695226823;
+	bh=KcR2/qS3SyhnxYdT6WldJOounUSlQTkI4WgTOPbYWSo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=vO3E17pGXsNuUh2QKbJYn57dIww7emTD55aoFS8gdJ0ji09a6pZtWL+V7hHWF0itV
+	 eYcGaQnFCTs46D+KBTAg4tdrcLgbJc1gzVdQnHPkSHCPPuCU66DPdeTetds7c5PDh9
+	 dPDEtNIKsUuV05NS31V29xltdBaqcSEBCdBJk0JfHv5UQodaSWuIkLxZNg+xdow6Cp
+	 DjEWB315GObPWCFeGVKm3kSTf8srnImwm9QYgd/MuI2z1f3oNEhd0JhHJ/gex/rAvF
+	 SKzEVWNz/MENHsk9trFLI+q7nZh3k9+xSfXSxpv2VWFZD+1ryMylsEun4Fn6vemW37
+	 VAx3gnnISW30A==
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5033918c09eso30308e87.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 09:20:23 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwhfIQYpl/TeWch9I+C0RlBQszM+up7Agnd0vwm7W706fS7A1NU
+	Q6Fd2lXgpfoSiEcgtWP/9TiulhklPBsKcWOm4g==
+X-Google-Smtp-Source: AGHT+IGYK1YDQqxwPAqEtWJEYiTmWTEIUZFZjEHumaUI6MiGKPBi1DFNVXLufyy5dNB5HhSYkNNj51P846+qqrU5IXg=
+X-Received: by 2002:a19:654b:0:b0:4ff:7e1e:b4b4 with SMTP id
+ c11-20020a19654b000000b004ff7e1eb4b4mr2590776lfj.39.1695226821304; Wed, 20
+ Sep 2023 09:20:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202309191958.UBw1cjXk-lkp@intel.com>
+References: <202309192013.vI4DKHmw-lkp@intel.com> <CAL_JsqJ0BoR7Dan3=oyWPa6HU3YV=eOFTO5fx7u5zz2i=eB-jQ@mail.gmail.com>
+ <a57afd40-71a2-aa68-84cb-44d2a88a1e2b@roeck-us.net> <CAL_JsqJYPJVTxH=d5nYK78+ZWhZAfh4VhEyBLqzyg4MzMhrX0g@mail.gmail.com>
+ <194e2d22-9eff-ec6c-9bc9-13b62bda870a@roeck-us.net>
+In-Reply-To: <194e2d22-9eff-ec6c-9bc9-13b62bda870a@roeck-us.net>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 20 Sep 2023 11:20:07 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKcD4AttSVUEi5zuF8S1E4xNdqdZVKiHmk0r79SRW5Cqw@mail.gmail.com>
+Message-ID: <CAL_JsqKcD4AttSVUEi5zuF8S1E4xNdqdZVKiHmk0r79SRW5Cqw@mail.gmail.com>
+Subject: Re: arch/m68k/include/asm/raw_io.h:91:13: warning: array subscript 0
+ is outside array bounds of 'volatile u16[0]' {aka 'volatile short unsigned int[]'}
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: kernel test robot <lkp@intel.com>, Geert Uytterhoeven <geert@linux-m68k.org>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Wim Van Sebroeck <wim@linux-watchdog.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 19, 2023 at 07:27:26PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   2cf0f715623872823a72e451243bbf555d10d032
-> commit: df8fc4e934c12b906d08050d7779f292b9c5c6b5 kbuild: Enable -fstrict-flex-arrays=3
-> date:   4 months ago
-> config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230919/202309191958.UBw1cjXk-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309191958.UBw1cjXk-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309191958.UBw1cjXk-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from include/linux/skbuff.h:28,
->                     from include/net/net_namespace.h:43,
->                     from include/linux/netdevice.h:38,
->                     from drivers/net/ethernet/marvell/sky2.c:18:
->    drivers/net/ethernet/marvell/sky2.c: In function 'sky2_rx_unmap_skb':
-> >> include/linux/dma-mapping.h:416:36: warning: array subscript i is outside array bounds of 'dma_addr_t[0]' {aka 'long long unsigned int[]'} [-Warray-bounds=]
->      416 | #define dma_unmap_page(d, a, s, r) dma_unmap_page_attrs(d, a, s, r, 0)
->          |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/net/ethernet/marvell/sky2.c:1257:17: note: in expansion of macro 'dma_unmap_page'
->     1257 |                 dma_unmap_page(&pdev->dev, re->frag_addr[i],
->          |                 ^~~~~~~~~~~~~~
->    In file included from drivers/net/ethernet/marvell/sky2.c:41:
->    drivers/net/ethernet/marvell/sky2.h:2198:25: note: while referencing 'frag_addr'
->     2198 |         dma_addr_t      frag_addr[ETH_JUMBO_MTU >> PAGE_SHIFT];
->          |                         ^~~~~~~~~
+On Wed, Sep 20, 2023 at 9:30=E2=80=AFAM Guenter Roeck <linux@roeck-us.net> =
+wrote:
+>
+> On 9/20/23 05:44, Rob Herring wrote:
+> > On Tue, Sep 19, 2023 at 6:14=E2=80=AFPM Guenter Roeck <linux@roeck-us.n=
+et> wrote:
+> >>
+> >> On 9/19/23 11:37, Rob Herring wrote:
+> >>> On Tue, Sep 19, 2023 at 7:09=E2=80=AFAM kernel test robot <lkp@intel.=
+com> wrote:
+> >>>>
+> >>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/lin=
+ux.git master
+> >>>> head:   2cf0f715623872823a72e451243bbf555d10d032
+> >>>> commit: f1a43aadb5a690e141a3b6700e2a40c1d4dbe088 watchdog: Enable CO=
+MPILE_TEST for more drivers
+> >>>> date:   5 weeks ago
+> >>>> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/2=
+0230919/202309192013.vI4DKHmw-lkp@intel.com/config)
+> >>>> compiler: m68k-linux-gcc (GCC) 13.2.0
+> >>>> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/=
+archive/20230919/202309192013.vI4DKHmw-lkp@intel.com/reproduce)
+> >>>>
+> >>>> If you fix the issue in a separate patch/commit (i.e. not just a new=
+ version of
+> >>>> the same patch/commit), kindly add following tags
+> >>>> | Reported-by: kernel test robot <lkp@intel.com>
+> >>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202309192013.vI4DKHm=
+w-lkp@intel.com/
+> >>>>
+> >>>> All warnings (new ones prefixed by >>):
+> >>>>
+> >>>>      In file included from arch/m68k/include/asm/io_mm.h:25,
+> >>>>                       from arch/m68k/include/asm/io.h:8,
+> >>>>                       from include/linux/io.h:13,
+> >>>>                       from drivers/watchdog/machzwd.c:39:
+> >>>>      In function 'zf_set_timer',
+> >>>>          inlined from 'zf_timer_on' at drivers/watchdog/machzwd.c:21=
+8:2:
+> >>>>>> arch/m68k/include/asm/raw_io.h:91:13: warning: array subscript 0 i=
+s outside array bounds of 'volatile u16[0]' {aka 'volatile short unsigned i=
+nt[]'} [-Warray-bounds=3D]
+> >>>>         91 |         __w =3D ((*(__force volatile u16 *) ((_addr & 0=
+xFFFF0000UL) + ((__v >> 8)<<1)))); \
+> >>>>            |         ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >>>>      arch/m68k/include/asm/io_mm.h:228:20: note: in expansion of mac=
+ro 'rom_out_le16'
+> >>>>        228 |                  : rom_out_le16(isa_itw(port), (val)))
+> >>>>            |                    ^~~~~~~~~~~~
+> >>>>      arch/m68k/include/asm/io_mm.h:356:42: note: in expansion of mac=
+ro 'isa_rom_outw'
+> >>>>        356 | #define outw(val, port) ((port) < 1024 ? isa_rom_outw((=
+val), (port)) : out_le16((port), (val)))
+> >>>>            |                                          ^~~~~~~~~~~~
+> >>>>      drivers/watchdog/machzwd.c:74:53: note: in expansion of macro '=
+outw'
+> >>>>         74 | #define zf_writew(port, data)  { outb(port, INDEX); out=
+w(data, DATA_W); }
+> >>>>            |                                                     ^~~=
+~
+> >>>>      drivers/watchdog/machzwd.c:173:17: note: in expansion of macro =
+'zf_writew'
+> >>>>        173 |                 zf_writew(COUNTER_1, new);
+> >>>>            |                 ^~~~~~~~~
+> >>>>      In function 'zf_timer_on':
+> >>>>      cc1: note: source object is likely at address zero
+> >>>
+> >>> This seems to be some newish check in gcc which looks for fixed
+> >>> pointers below 4KB[1]. The linked issue says more was planned for
+> >>> gcc-13, but I haven't found what that is. AFAICT, that shouldn't
+> >>> happen with this config because isa_itw() should be variable and the
+> >>> compiler shouldn't be able to determine the value of _addr. However, =
+a
+> >>> config with CONFIG_Q40=3Dn, CONFIG_AMIGA_PCMCIA=3Dn, and
+> >>> CONFIG_ATARI_ROM_ISA=3Dn would have a fixed NULL value and could trig=
+ger
+> >>> the warning. This should also have warnings everywhere outw() (and
+> >>> others) are used with a constant port value.
+> >>>
+> >>> Rob
+> >>>
+> >>> [1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D99578
+> >>
+> >> A long time ago, when someone submitted a "cleanup: patch for the mach=
+zwd
+> >> watchdog driver, I approved it but added this comment.
+> >>
+> >>   > If anyone is still using the HW supported by this driver, it would
+> >>   > be a prime target for conversion to use the watchdog subsystem.
+> >>   > This would reduce code size and improve driver stability.
+> >>   > _That_ would be useful.
+> >>
+> >>   > The only reason for replacing 0 with NULL is to make a static chec=
+ker
+> >>   > happy. This kind of change adds zero value to the code. Instead, i=
+t
+> >>   > takes time from those who have to review the patches and apply the=
+m.
+> >>
+> >>   > If we ignore such patches, we'll get them again and again, taking
+> >>   > away even more time. If we don't ignore them, we encourage submitt=
+ers
+> >>   > and get even more useless patches. If we try to discourage them, w=
+e
+> >>   > risk being accused of being unfriendly. This is a perfect lose-los=
+e
+> >>   > situation for maintainers.
+> >
+> > Agreed. I keep getting one to fix "of of" in a comment. The fix is
+> > always to drop an "of", but that's actually wrong because it's
+> > supposed to be "OF". I keep pointing this out and *never* get the
+> > right fix. I don't fix it myself because at this point, I find
+> > continuing to get "fixes" entertaining.
+> >
+> >> I do wonder if enabling BUILD_TEST on such drivers is any better.
+> >
+> > I think that and trivial fixes on a specific driver are completely
+> > different. If you want to test build one driver, that's not too hard.
+> > Find its kconfig value, turn it on and build the right arch. For tree
+> > wide stuff, it's a real pain to ensure you built everything. For
+> > example, the only way to build many Cavium Octeon drivers is with the
+> > Octeon defconfig which is just one of dozens configs for MIPS (which
+> > is still a bigger mess than arm32 ever was).
+> >
+>
+> Sure, but I still argue that this isn't worth it for drivers like this on=
+e.
+> Are you going to submit a fix ? Because otherwise I'll submit a patch
+> to drop COMPILE_TEST from MACHZ_WDT.
 
-The .config has:
-CONFIG_PAGE_SIZE_16KB=y
-which makes PAGE_SHIFT == 14
+I honestly don't know what the fix is. There's a compiler flag to
+allow 0 address, but that seems like a big hammer. From what I read on
+the fix for gcc-12, we shouldn't be getting this, but I haven't
+confirmed. I was hoping for comment from Geert as the issue doesn't
+appear to be the driver, but the arch code.
 
-#ifdef CONFIG_PAGE_SIZE_16KB
-#define PAGE_SHIFT      14
+Furthermore, I just built the same HEAD and config as reported and
+don't see this error. I'm using kernel.org nolibc gcc 13.2.0 which
+should be the same version.
 
-ETH_JUMBO_MTU is:
-
-#define ETH_JUMBO_MTU	9000
-
-which forces "ETH_JUMBO_MTU >> PAGE_SHIFT" to be 0.
-
-I think the right fix would be:
-
-dma_addr_t      frag_addr[ETH_JUMBO_MTU >> PAGE_SHIFT ?: 1]
-
-Thoughts?
-
--Kees
-
--- 
-Kees Cook
+Rob
