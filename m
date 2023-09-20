@@ -1,123 +1,93 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3201A49
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 01:36:48 +0000 (UTC)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.54])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Rr1Jr55smzVjdt;
-	Wed, 20 Sep 2023 09:33:48 +0800 (CST)
-Received: from [10.67.121.177] (10.67.121.177) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31; Wed, 20 Sep 2023 09:36:45 +0800
-Subject: Re: [PATCH] arch_topology: Support SMT control on arm64
-To: kernel test robot <lkp@intel.com>, Yicong Yang <yangyicong@huawei.com>,
-	<catalin.marinas@arm.com>, <will@kernel.org>, <sudeep.holla@arm.com>,
-	<linux-arm-kernel@lists.infradead.org>
-CC: <oe-kbuild-all@lists.linux.dev>, <gregkh@linuxfoundation.org>,
-	<rafael@kernel.org>, <jonathan.cameron@huawei.com>,
-	<prime.zeng@hisilicon.com>, <yangyicong@hisilicon.com>,
-	<linux-kernel@vger.kernel.org>
-References: <20230919123319.23785-1-yangyicong@huawei.com>
- <202309200727.CtYl75aH-lkp@intel.com>
-From: Yicong Yang <yangyicong@huawei.com>
-Message-ID: <f181a417-4f5c-07c5-7f6a-e236717b84d1@huawei.com>
-Date: Wed, 20 Sep 2023 09:36:45 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE5717CD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 01:36:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1695173809;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=baEu5FPyeTXJzYRHn3PcdTp5ENYXg7QNVbnUbXlgQOg=;
+	b=aEDn3qUo87UV0q6HybS1sCBoCrxoqK/Ai+8SRyJJZ10vo0PTsIIAx+zZl6mTBqmHHcc6jk
+	4snQo+zYepNssmaT/VhQ8B4Ya2Y2qB6gBIm80iUqFjw0W4xMc3Swlhrh8WYM8cuL0zaH8/
+	rylnIE40kZiZhr8ujr4t7cJ6gQRoH8A=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-658-HVVPq3jcP_aQ9b8IppfD7A-1; Tue, 19 Sep 2023 21:36:46 -0400
+X-MC-Unique: HVVPq3jcP_aQ9b8IppfD7A-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CBF67800969;
+	Wed, 20 Sep 2023 01:36:45 +0000 (UTC)
+Received: from localhost (unknown [10.72.112.22])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 06803492B05;
+	Wed, 20 Sep 2023 01:36:44 +0000 (UTC)
+Date: Wed, 20 Sep 2023 09:36:41 +0800
+From: Baoquan He <bhe@redhat.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Zhen Lei <thunder.leizhen@huawei.com>
+Subject: Re: [linux-next:master 5741/5912] kernel/crash_core.c:214:13:
+ warning: argument 2 null where non-null expected
+Message-ID: <ZQpMqbNvjZxX/aDJ@MiWiFi-R3L-srv>
+References: <202309191144.B0MToaPG-lkp@intel.com>
+ <20230919094200.0f6495393a8eef3dc398e8ac@linux-foundation.org>
+ <ZQoqsV3xLvQuGW1d@MiWiFi-R3L-srv>
+ <20230919181621.382be43e97f51effb47ab412@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202309200727.CtYl75aH-lkp@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.121.177]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
+In-Reply-To: <20230919181621.382be43e97f51effb47ab412@linux-foundation.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2023/9/20 7:30, kernel test robot wrote:
-> Hi Yicong,
+On 09/19/23 at 06:16pm, Andrew Morton wrote:
+> On Wed, 20 Sep 2023 07:11:45 +0800 Baoquan He <bhe@redhat.com> wrote:
 > 
-> kernel test robot noticed the following build errors:
+> > > 
+> > > 	ret = __parse_crashkernel(cmdline, system_ram, crash_size,
+> > > 				crash_base, NULL);
+> > > 
+> > > and that suffix==NULL gets passed through to the strncmp()?
+> > 
+> > Yeah, this looks like a false positive report. I reproduced this, below
+> > change can mute the warning. However, the null pointer checking has been
+> > done in __parse_crashkernel() when calls parse_crashkernel_suffix().
 > 
-> [auto build test ERROR on arm64/for-next/core]
-> [also build test ERROR on driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.6-rc2 next-20230919]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> How the heck did I miss that.
 > 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Yicong-Yang/arch_topology-Support-SMT-control-on-arm64/20230919-223458
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-> patch link:    https://lore.kernel.org/r/20230919123319.23785-1-yangyicong%40huawei.com
-> patch subject: [PATCH] arch_topology: Support SMT control on arm64
-> config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20230920/202309200727.CtYl75aH-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309200727.CtYl75aH-lkp@intel.com/reproduce)
+> > Add below check anyway to satisfy the W=1 compiling?
 > 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309200727.CtYl75aH-lkp@intel.com/
+> I dunno, gcc is so wrong here I'm inclined to leave it as-is, because
+> surely this will get fixed in later gcc's.
 > 
-> All errors (new ones prefixed by >>):
+> > --- a/kernel/crash_core.c
+> > +++ b/kernel/crash_core.c
+> > @@ -204,6 +204,9 @@ static int __init parse_crashkernel_suffix(char *cmdline,
+> >  {
+> >  	char *cur = cmdline;
+> >  
+> > +	if(!suffix)
+> > +		return -EINVAL;
+> > +
+> >  	*crash_size = memparse(cmdline, &cur);
+> >  	if (cmdline == cur) {
+> >  		pr_warn("crashkernel: memory value expected\n");
 > 
->    kernel/cpu.c: In function 'cpuhp_get_primary_thread_mask':
->    kernel/cpu.c:660:16: error: 'cpu_primary_thread_mask' undeclared (first use in this function); did you mean 'cpuhp_get_primary_thread_mask'?
->      660 |         return cpu_primary_thread_mask;
->          |                ^~~~~~~~~~~~~~~~~~~~~~~
->          |                cpuhp_get_primary_thread_mask
+> If we were to do this, let's have a comment explaining why we're doing
+> it - otherwise helpful people will try to remove it again.
 
-cpu_primary_thread_mask is used for CONFIG_HOTPLUG_PARALLEL which is not enabled on arm64. Previous it has a dependency for
-CONFIG_HOTPLUG_SMT but is later decoupled by 7a4dcb4a5de1 ("cpu/hotplug: Remove dependancy against cpu_primary_thread_mask")
-which is merged after v6.6-rc1. Checked that arm64 branch doesn't contain this commit for now.
+I will post v4 patchset anyway to include another fixing in patch 6/9
+since LKP spotted a real issue causing compiling warning. I can add this
+change with a comment to explain why the checking is needed here.
 
-The patch builds well after v6.6-rc1.
-
->    kernel/cpu.c:660:16: note: each undeclared identifier is reported only once for each function it appears in
->    kernel/cpu.c: In function 'cpuhp_smt_disable':
->>> kernel/cpu.c:2629:23: error: implicit declaration of function 'cpu_down_maps_locked' [-Werror=implicit-function-declaration]
->     2629 |                 ret = cpu_down_maps_locked(cpu, CPUHP_OFFLINE);
->          |                       ^~~~~~~~~~~~~~~~~~~~
->    cc1: some warnings being treated as errors
-> 
-> 
-> vim +/cpu_down_maps_locked +2629 kernel/cpu.c
-> 
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2620  
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2621  int cpuhp_smt_disable(enum cpuhp_smt_control ctrlval)
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2622  {
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2623  	int cpu, ret = 0;
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2624  
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2625  	cpu_maps_update_begin();
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2626  	for_each_online_cpu(cpu) {
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2627  		if (topology_is_primary_thread(cpu))
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2628  			continue;
-> dc8d37ed304eee Arnd Bergmann 2019-12-10 @2629  		ret = cpu_down_maps_locked(cpu, CPUHP_OFFLINE);
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2630  		if (ret)
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2631  			break;
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2632  		/*
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2633  		 * As this needs to hold the cpu maps lock it's impossible
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2634  		 * to call device_offline() because that ends up calling
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2635  		 * cpu_down() which takes cpu maps lock. cpu maps lock
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2636  		 * needs to be held as this might race against in kernel
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2637  		 * abusers of the hotplug machinery (thermal management).
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2638  		 *
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2639  		 * So nothing would update device:offline state. That would
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2640  		 * leave the sysfs entry stale and prevent onlining after
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2641  		 * smt control has been changed to 'off' again. This is
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2642  		 * called under the sysfs hotplug lock, so it is properly
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2643  		 * serialized against the regular offline usage.
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2644  		 */
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2645  		cpuhp_offline_cpu_device(cpu);
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2646  	}
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2647  	if (!ret)
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2648  		cpu_smt_control = ctrlval;
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2649  	cpu_maps_update_done();
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2650  	return ret;
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2651  }
-> dc8d37ed304eee Arnd Bergmann 2019-12-10  2652  
-> 
