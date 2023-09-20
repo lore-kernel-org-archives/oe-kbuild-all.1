@@ -1,44 +1,52 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA3D3CCEF;
-	Wed, 20 Sep 2023 23:39:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F081C15AF6;
+	Wed, 20 Sep 2023 23:39:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695253196; x=1726789196;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UTR46IBrTkbQ0Ugvt+v5ysaDfs4jKCRtGqauY0gMI14=;
-  b=E0zNZx8ei5kCbsP7Rjmt503R8DeWPOA9MHdy5WMyEEVYh7hmfOWGqg9w
-   V/Zyd8JkJqzQxitol/Yz17KTQt4d3/I0bpvfx4cDzbRP9mW59xBtRxz3i
-   MbkMF8fEnVJRdaIqIaZTVVeq3PhQwMTI6m1pz5Bv0O+8/ZeRndPEPKkn2
-   93xAN+Dj77U3l3SDJWpnmdz0e9iepf+veZ/NYYy94PDM2Ulj0B5QVEuSj
-   5PmSlSxp3+z7svigv+EGK/CXAi8jd3kcK5eUqY6WfhO0YJndlANpk/sV6
-   wS5RqwxQfcJnDYGCYFM2Pcz5mp6rpKiQw85BEb1lA7sQZueqfC4atjRRB
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="384209301"
+  t=1695253199; x=1726789199;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7rBWAZNkXl0XliJjOhwzouxtCGTxulwG6PXP2zaxTVY=;
+  b=CQpiCzC0MMJBHJvpyVMx6W9sAZAdVNZlGf4lJOMqYoxZkAXKOVEArOFr
+   fkPqXjs/I1HWLnT7ewn7Fujii/TGKyaYS43W7tHs6SRdmFXro1yg+Z40M
+   VggMPCj5UWHq95iZJomtmpb+6roHK8X8vsfRphT66RJ7dAWcBFzWbShVy
+   piyrY6VtKqqrpqIUrlpNNC4xN7coBvRUy7izEB2Npl6x2ooDeCeUtmaFC
+   N97jHj3WDy5AVw34cwgei+heysHwKxJAaoOXltsETYUeOQLRYaLvjCugi
+   IsXeCRtrs3MnqKRG/emQ6B+oWc72/QcDHhoyv+2MRVopqNyhoyIqXR4pC
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="384209307"
 X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="384209301"
+   d="scan'208";a="384209307"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 16:35:29 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 16:35:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="750146566"
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="750146565"
 X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="750146566"
+   d="scan'208";a="750146565"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 20 Sep 2023 16:35:27 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 20 Sep 2023 16:35:26 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qj6j7-0009GU-04;
-	Wed, 20 Sep 2023 23:35:25 +0000
+	id 1qj6j6-0009GO-30;
+	Wed, 20 Sep 2023 23:35:24 +0000
 Date: Thu, 21 Sep 2023 07:35:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	alsa-devel@alsa-project.org, Takashi Iwai <tiwai@suse.de>
-Subject: [tiwai-sound:for-next 36/38]
- sound/pci/hda/cirrus_scodec_test.c:151:60: error: initializer element is not
- a compile-time constant
-Message-ID: <202309210751.TXlnuEMF-lkp@intel.com>
+To: David Lechner <dlechner@baylibre.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-staging@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, David Lechner <dlechner@baylibre.com>,
+	linux-kernel@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Axel Haslam <ahaslam@baylibre.com>,
+	Philip Molloy <pmolloy@baylibre.com>
+Subject: Re: [PATCH 4/4] iio: resolver: add new driver for AD2S1210
+Message-ID: <202309210740.YRdN185w-lkp@intel.com>
+References: <20230920170253.203395-5-dlechner@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,96 +55,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230920170253.203395-5-dlechner@baylibre.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-head:   72f6a13022f3bf16df305b75c32f95ece263a5ce
-commit: 2144833e7b41459fa2d52bb0676f0ab4920cf32c [36/38] ALSA: hda: cirrus_scodec: Add KUnit test
-config: hexagon-randconfig-r041-20211219 (https://download.01.org/0day-ci/archive/20230921/202309210751.TXlnuEMF-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309210751.TXlnuEMF-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.6-rc2 next-20230920]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/dt-bindings-iio-resolver-add-devicetree-bindings-for-ad2s1210/20230921-010529
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20230920170253.203395-5-dlechner%40baylibre.com
+patch subject: [PATCH 4/4] iio: resolver: add new driver for AD2S1210
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230921/202309210740.YRdN185w-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309210740.YRdN185w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309210751.TXlnuEMF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309210740.YRdN185w-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from sound/pci/hda/cirrus_scodec_test.c:9:
-   In file included from include/linux/gpio/driver.h:6:
-   In file included from include/linux/irqchip/chained_irq.h:10:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from sound/pci/hda/cirrus_scodec_test.c:9:
-   In file included from include/linux/gpio/driver.h:6:
-   In file included from include/linux/irqchip/chained_irq.h:10:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from sound/pci/hda/cirrus_scodec_test.c:9:
-   In file included from include/linux/gpio/driver.h:6:
-   In file included from include/linux/irqchip/chained_irq.h:10:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> sound/pci/hda/cirrus_scodec_test.c:151:60: error: initializer element is not a compile-time constant
-                   SOFTWARE_NODE_REFERENCE(&cirrus_scodec_test_gpio_swnode, gpio_num, 0);
-                                                                            ^~~~~~~~
-   include/linux/property.h:291:37: note: expanded from macro 'SOFTWARE_NODE_REFERENCE'
-           .nargs = ARRAY_SIZE(((u64[]){ 0, ##__VA_ARGS__ })) - 1, \
-                                              ^~~~~~~~~~~
-   include/linux/kernel.h:57:75: note: expanded from macro 'ARRAY_SIZE'
-   #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-                                                                             ^~~
-   include/linux/compiler.h:231:59: note: expanded from macro '__must_be_array'
-   #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
-                                                                  ^
-   include/linux/compiler_types.h:366:63: note: expanded from macro '__same_type'
-   #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-                                                                 ^
-   include/linux/build_bug.h:16:62: note: expanded from macro 'BUILD_BUG_ON_ZERO'
-   #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-                                                                ^
-   6 warnings and 1 error generated.
+>> drivers/iio/resolver/ad2s1210.c:113: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Writes the given data to the given register address.
+   drivers/iio/resolver/ad2s1210.c:151: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Reads value from one of the registers.
+   drivers/iio/resolver/ad2s1210.c:201: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Sets the excitation frequency and performs software reset.
 
 
-vim +151 sound/pci/hda/cirrus_scodec_test.c
+vim +113 drivers/iio/resolver/ad2s1210.c
 
+   111	
+   112	/**
+ > 113	 * Writes the given data to the given register address.
+   114	 *
+   115	 * If the mode is configurable, the device will first be placed in
+   116	 * configuration mode.
+   117	 */
+   118	static int ad2s1210_regmap_reg_write(void *context, unsigned int reg,
+   119					     unsigned int val)
+   120	{
+   121		struct ad2s1210_state *st = context;
+   122		struct spi_transfer xfers[] = {
+   123			{
+   124				.len = 1,
+   125				.rx_buf = &st->rx[0],
+   126				.tx_buf = &st->tx[0],
+   127				.cs_change = 1,
+   128			}, {
+   129				.len = 1,
+   130				.rx_buf = &st->rx[1],
+   131				.tx_buf = &st->tx[1],
+   132			},
+   133		};
+   134		int ret;
+   135	
+   136		/* values can only be 7 bits, the MSB indicates an address */
+   137		if (val & ~0x7F)
+   138			return -EINVAL;
+   139	
+   140		st->tx[0] = reg;
+   141		st->tx[1] = val;
+   142	
+   143		ret = ad2s1210_set_mode(st, AD2S1210_MODE_CONFIG);
+   144		if (ret < 0)
+   145			return ret;
    146	
-   147	static void cirrus_scodec_test_set_gpio_ref_arg(struct software_node_ref_args *arg,
-   148							int gpio_num)
-   149	{
-   150		struct software_node_ref_args template =
- > 151			SOFTWARE_NODE_REFERENCE(&cirrus_scodec_test_gpio_swnode, gpio_num, 0);
-   152	
-   153		*arg = template;
-   154	}
-   155	
+   147		return spi_sync_transfer(st->sdev, xfers, ARRAY_SIZE(xfers));
+   148	}
+   149	
 
 -- 
 0-DAY CI Kernel Test Service
