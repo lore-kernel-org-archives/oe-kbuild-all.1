@@ -1,45 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6193A23A8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 03:43:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A12420E0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 04:24:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695181383; x=1726717383;
+  t=1695183845; x=1726719845;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PONhccOGVBHoyfXZSHu6M1+bWoQWd8v0wm/TpKcLxJw=;
-  b=UW49r54xjRnnMpVVPbaBITFqXq2SDfmEvlYZxQfOVKCimYjOJgRNU8A/
-   jGHkyC7nrlQqZmN2HlYqYExwgY28RIa0TDsLgGap09UEI/hfBNj6RtNe8
-   d24fdHGAQdS0ZnUpgZz4IIstpTqfuxDpjJtroV1HU9WD9GnbkttWeH4PA
-   J92S6ejp8kiRxFrJjZcUAxueSkHUnHmFLfFRaVunOvx4mCNzy5wfGStvM
-   BPrMRUeJa2yPf7Fy8Og7R9azNKVjGz1k17SPA4zXa+JFDb2D4Q4r5t0Vo
-   LGHb2iioEGRrNMp2LjGlWMZNeZ87lHdhyVoH0wZoQ0r2WgGAQ99cPa1Vg
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="360370245"
-X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="360370245"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 20:43:01 -0700
+  bh=xUVqJeU+OdzqdYJUGqZnfzHUjctZrNdF1pOPhQE0CpU=;
+  b=HLSoM+jFxY2t/5at7COr87YUkbWTJ7Hleh+4R6tIZns77wlKYSB6FWyH
+   0t4Vh8eSZu2mAqAqncARjQo6ZK4doktpPXYkuj0iPdUeL/kYtR6xnGPao
+   rewQC8hTvC/ravp3GuMkBNXCG3s2jjhyhhayt4Q7wPs+oOQiWZQuWrcWH
+   VTggD+Db8OR7VmdZw9VYWYNkV6/rNdoRjXIoKDfecUC6RUZ87sFY01qa4
+   VwdB6CAp+97XyHawAzRMHwxnyCUOrpJxx0P+5wVXCU4NM6L6xIqzJCmCx
+   +gi3KNpcfvAzvdzskeqasqDRYMuaX9I0o7oFA1ix68NVQfdeb1qoXfjz/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="359507854"
+X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
+   d="scan'208";a="359507854"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 21:24:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="723099070"
-X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="723099070"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="870212703"
+X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
+   d="scan'208";a="870212703"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 19 Sep 2023 20:42:59 -0700
+  by orsmga004.jf.intel.com with ESMTP; 19 Sep 2023 21:24:02 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qio77-0008FU-1z;
-	Wed, 20 Sep 2023 03:42:57 +0000
-Date: Wed, 20 Sep 2023 11:42:30 +0800
+	id 1qiokp-0008HI-2d;
+	Wed, 20 Sep 2023 04:23:59 +0000
+Date: Wed, 20 Sep 2023 12:23:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Saurabh Sengar <saurabh.singh@xilinx.com>
+To: Lakshmi Prasanna Eachuri <lakshmi.prasanna.eachuri@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>, Hyun Kwon <hyun.kwon@xilinx.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 341/1363]
- drivers/gpu/drm/xlnx/xlnx_dsi.c:88:33: warning: conversion from 'long long
- unsigned int' to 'long unsigned int' changes value from '200000000000' to
- '2431504384'
-Message-ID: <202309201126.2DO03dYx-lkp@intel.com>
+	Michal Simek <monstr@monstr.eu>,
+	Vishal Sagar <vishal.sagar@amd.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 947/1363]
+ drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp2x_crypt.c:147:1: warning: the frame size
+ of 1536 bytes is larger than 1024 bytes
+Message-ID: <202309201253.z1e9Ncnf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,40 +51,48 @@ Content-Disposition: inline
 
 tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
 head:   4f412ed20fd2c5353c1e878ef9ed77952a5040a1
-commit: d3e7c74ac96205a2a31f16b67c60edfd1ae5faa1 [341/1363] drm: xlnx: dsi: Adding dsi driver to new framework
-config: nios2-allyesconfig (https://download.01.org/0day-ci/archive/20230920/202309201126.2DO03dYx-lkp@intel.com/config)
+commit: fc17295f8f45aaabf0830b50523638fd4542c318 [947/1363] drm: xlnx: Add HDCP2X TX support
+config: nios2-allyesconfig (https://download.01.org/0day-ci/archive/20230920/202309201253.z1e9Ncnf-lkp@intel.com/config)
 compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201126.2DO03dYx-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201253.z1e9Ncnf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309201126.2DO03dYx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309201253.z1e9Ncnf-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/xlnx/xlnx_dsi.c: In function 'xlnx_dsi_probe':
->> drivers/gpu/drm/xlnx/xlnx_dsi.c:88:33: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '200000000000' to '2431504384' [-Woverflow]
-      88 | #define XDSI_DPHY_CLK_REQ       200000000000UL
-         |                                 ^~~~~~~~~~~~~~
-   drivers/gpu/drm/xlnx/xlnx_dsi.c:967:48: note: in expansion of macro 'XDSI_DPHY_CLK_REQ'
-     967 |         ret = clk_set_rate(dsi->dphy_clk_200M, XDSI_DPHY_CLK_REQ);
-         |                                                ^~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_PANEL_SIMPLE
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_PANEL [=y] && OF [=y] && BACKLIGHT_CLASS_DEVICE [=y] && PM
-   Selected by [y]:
-   - DRM_XLNX_DSI [=y] && HAS_IOMEM [=y] && DRM_XLNX [=y]
+   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp2x_crypt.c: In function 'xlnx_hdcp2x_tx_rsa_encrypt':
+>> drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp2x_crypt.c:147:1: warning: the frame size of 1536 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     147 | }
+         | ^
 
 
-vim +88 drivers/gpu/drm/xlnx/xlnx_dsi.c
+vim +147 drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp2x_crypt.c
 
-    85	
-    86	#define XDSI_DPHY_CLK_MIN	197000000000UL
-    87	#define XDSI_DPHY_CLK_MAX	203000000000UL
-  > 88	#define XDSI_DPHY_CLK_REQ	200000000000UL
-    89	
+   127	
+   128	static int xlnx_hdcp2x_tx_rsa_encrypt(const u8 *rsa_public_key, int public_key_size,
+   129					      const u8 *exponent_key, int exponent_key_size,
+   130					      const u8 *msg, int msg_size, u8 *encrypted_msg)
+   131	{
+   132		unsigned int n[BD_MAX_MOD_SIZE], e[BD_MAX_MOD_SIZE],
+   133				m[BD_MAX_MOD_SIZE], s[BD_MAX_MOD_SIZE];
+   134		unsigned int mod_size = public_key_size / sizeof(unsigned int);
+   135	
+   136		if (msg_size != public_key_size)
+   137			return -EINVAL;
+   138	
+   139		mp_conv_from_octets(n, mod_size, rsa_public_key, public_key_size);
+   140		mp_conv_from_octets(e, mod_size, exponent_key, exponent_key_size);
+   141	
+   142		mp_conv_from_octets(m, mod_size, msg, msg_size);
+   143		mp_mod_exp(s, m, e, n, mod_size);
+   144		mp_conv_to_octets(s, mod_size, encrypted_msg, msg_size);
+   145	
+   146		return 0;
+ > 147	}
+   148	
 
 -- 
 0-DAY CI Kernel Test Service
