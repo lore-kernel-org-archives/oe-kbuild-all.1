@@ -1,46 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74EFA41200
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 20:01:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26CFA19BC2;
+	Wed, 20 Sep 2023 20:11:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695240072; x=1726776072;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Hgf8mlIeG943OnKxgsr92EWCC+aiPFnq9FwDaYJ6LGE=;
-  b=O00X2Iep31HkIdwZFZMPIS2V6kwHBRnnscRBTfLKZOnuwzUnlpNdVg9H
-   Av7wxjserT4H+DJXC4Q2GVhbgbHbEY21+aJWe4dRp9Kb0xA/PyMaKKi6W
-   GtrPQLcOo2rNAnohLBxPrTtaMYE93zppEDCfMQq68gANmFc39tdDPXB/i
-   qTZhiwEp7i0QMbW5qFrJ7/j5v1GGFUwpewskX9gurL7ouvkvM1+HDWFmv
-   PUgfaIP3ZfAe73YzpcgpKHktrM/PRglUPUqj1iNy0ovzNJN0lMt0eaTmU
-   ehBn/aVGeH1b9AwO4NEpkEChiKnYZncafL4PIBD5LM8TETkpOnTDC9gNz
+  t=1695240673; x=1726776673;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=l7BZD98a1R/UWxHb1L9HAqTrOOagCvkiMqR8MSyUT38=;
+  b=inEN5CLG3MCUoabl8oa9BnsZvoyrBN/aTxmg+fDFsQTjlIkJvI7DWw9x
+   VHShRJxG/3uZVng6hZV9LbM/a0Q3/vm7b+Afw30we9W+22mDNEb6/7AUp
+   pM/3Ws7VuXVOBUZ2ltldF+a2uwsG0IrAvmM/GrHTk+Bgltptjy5pSNbzm
+   ut1HSm8YXO+0R209JRLj7ohLs0zr35ohxjr4cGtroAr4BAseM8/8gJtP0
+   ZP6tE/rXdpZopGwCdaxUaV3qpGV1TAKo42E/ycOCDSD4muD+ue2DWfEMY
+   4IU6XEV1rkpLEgZR1UGOqpsR+sPx/E625jFn637p4YapavYrDzSlmcrkp
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="384161990"
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="365394312"
 X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="384161990"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 13:01:11 -0700
+   d="scan'208";a="365394312"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 13:11:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="862133056"
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="870511101"
 X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="862133056"
+   d="scan'208";a="870511101"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 20 Sep 2023 13:01:09 -0700
+  by orsmga004.jf.intel.com with ESMTP; 20 Sep 2023 13:11:11 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qj3Nj-00095k-1b;
-	Wed, 20 Sep 2023 20:01:07 +0000
-Date: Thu, 21 Sep 2023 04:00:45 +0800
+	id 1qj3XQ-00096m-2w;
+	Wed, 20 Sep 2023 20:11:08 +0000
+Date: Thu, 21 Sep 2023 04:10:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Appana Durga Kedareswara Rao <appana.durga.rao@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
-	Srinivas Neeli <srinivas.neeli@amd.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 769/1365]
- drivers/net/ethernet/xilinx/xilinx_axienet_main.c:705:31: warning: cast to
- pointer from integer of different size
-Message-ID: <202309210320.Jv36HaLI-lkp@intel.com>
+To: Geliang Tang <geliang.tang@suse.com>, mptcp@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, Geliang Tang <geliang.tang@suse.com>
+Subject: Re: [PATCH mptcp-next v2 04/30] mptcp: use mptcp_wnd_end helper
+Message-ID: <202309210337.Gf1gTgm6-lkp@intel.com>
+References: <61179b15016da6055cc5a33dfdaacdaa30883cfb.1695095289.git.geliang.tang@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,136 +46,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <61179b15016da6055cc5a33dfdaacdaa30883cfb.1695095289.git.geliang.tang@suse.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   008e6788f5aa09862307822bfc396c926dc0dbac
-commit: 6e5e2904207eff583b017a2eb3dff5cbde8c54b6 [769/1365] net: axienet: Add support for 1588
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20230921/202309210320.Jv36HaLI-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309210320.Jv36HaLI-lkp@intel.com/reproduce)
+Hi Geliang,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc2 next-20230920]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Geliang-Tang/mptcp-drop-useless-ssk-in-pm_subflow_check_next/20230919-120834
+base:   linus/master
+patch link:    https://lore.kernel.org/r/61179b15016da6055cc5a33dfdaacdaa30883cfb.1695095289.git.geliang.tang%40suse.com
+patch subject: [PATCH mptcp-next v2 04/30] mptcp: use mptcp_wnd_end helper
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20230921/202309210337.Gf1gTgm6-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309210337.Gf1gTgm6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309210320.Jv36HaLI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309210337.Gf1gTgm6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_tx_hwtstamp':
->> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:705:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     705 |                 skb_hwtstamps((struct sk_buff *)cur_p->ptp_tx_skb);
-         |                               ^
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:767:26: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     767 |                 skb_pull((struct sk_buff *)cur_p->ptp_tx_skb,
-         |                          ^
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:770:23: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     770 |         skb_tstamp_tx((struct sk_buff *)cur_p->ptp_tx_skb, shhwtstamps);
-         |                       ^
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:771:27: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     771 |         dev_kfree_skb_any((struct sk_buff *)cur_p->ptp_tx_skb);
-         |                           ^
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_start_xmit':
->> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1102:53: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1102 |                                 cur_p->ptp_tx_skb = (phys_addr_t)skb_get(skb);
-         |                                                     ^
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1171:25: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1171 |         cur_p->tx_skb = (phys_addr_t)skb;
-         |                         ^
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_dma_err_handler':
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2367:43: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-    2367 |                         dev_kfree_skb_irq((struct sk_buff *)cur_p->tx_skb);
-         |                                           ^
+   In file included from net/mptcp/options.c:13:
+   net/mptcp/options.c: In function 'ack_update_msk':
+>> net/mptcp/options.c:1062:21: error: implicit declaration of function 'mptcp_wnd_end'; did you mean 'tcp_wnd_end'? [-Werror=implicit-function-declaration]
+    1062 |         if (after64(mptcp_wnd_end(msk), READ_ONCE(msk->snd_nxt)))
+         |                     ^~~~~~~~~~~~~
+   net/mptcp/protocol.h:141:48: note: in definition of macro 'after64'
+     141 | #define after64(seq2, seq1)     before64(seq1, seq2)
+         |                                                ^~~~
+   cc1: some warnings being treated as errors
 
 
-vim +705 drivers/net/ethernet/xilinx/xilinx_axienet_main.c
+vim +1062 net/mptcp/options.c
 
-   688	
-   689	#ifdef CONFIG_XILINX_AXI_EMAC_HWTSTAMP
-   690	/**
-   691	 * axienet_tx_hwtstamp - Read tx timestamp from hw and update it to the skbuff
-   692	 * @lp:		Pointer to axienet local structure
-   693	 * @cur_p:	Pointer to the axi_dma current bd
-   694	 *
-   695	 * Return:	None.
-   696	 */
-   697	static void axienet_tx_hwtstamp(struct axienet_local *lp,
-   698					struct axidma_bd *cur_p)
-   699	{
-   700		u32 sec = 0, nsec = 0, val;
-   701		u64 time64;
-   702		int err = 0;
-   703		u32 count, len = lp->axienet_config->tx_ptplen;
-   704		struct skb_shared_hwtstamps *shhwtstamps =
- > 705			skb_hwtstamps((struct sk_buff *)cur_p->ptp_tx_skb);
-   706	
-   707		val = axienet_txts_ior(lp, XAXIFIFO_TXTS_ISR);
-   708		if (unlikely(!(val & XAXIFIFO_TXTS_INT_RC_MASK)))
-   709			dev_info(lp->dev, "Did't get FIFO tx interrupt %d\n", val);
-   710	
-   711		/* Ensure to read Occupany register before accessing Length register */
-   712		if (!axienet_txts_ior(lp, XAXIFIFO_TXTS_RFO)) {
-   713			netdev_err(lp->ndev, "%s: TX Timestamp FIFO is empty", __func__);
-   714			goto skb_exit;
-   715		}
-   716	
-   717		/* If FIFO is configured in cut through Mode we will get Rx complete
-   718		 * interrupt even one byte is there in the fifo wait for the full packet
-   719		 */
-   720		err = readl_poll_timeout_atomic(lp->tx_ts_regs + XAXIFIFO_TXTS_RLR, val,
-   721						((val & XAXIFIFO_TXTS_RXFD_MASK) >=
-   722						len), 0, 1000000);
-   723		if (err) {
-   724			netdev_err(lp->ndev, "%s: Didn't get the full timestamp packet",
-   725				   __func__);
-   726			goto skb_exit;
-   727		}
-   728	
-   729		nsec = axienet_txts_ior(lp, XAXIFIFO_TXTS_RXFD);
-   730		sec  = axienet_txts_ior(lp, XAXIFIFO_TXTS_RXFD);
-   731		val = axienet_txts_ior(lp, XAXIFIFO_TXTS_RXFD);
-   732		val = ((val & XAXIFIFO_TXTS_TAG_MASK) >> XAXIFIFO_TXTS_TAG_SHIFT);
-   733		dev_dbg(lp->dev, "tx_stamp:[%04x] %04x %u %9u\n",
-   734			cur_p->ptp_tx_ts_tag, val, sec, nsec);
-   735	
-   736		if (val != cur_p->ptp_tx_ts_tag) {
-   737			count = axienet_txts_ior(lp, XAXIFIFO_TXTS_RFO);
-   738			while (count) {
-   739				nsec = axienet_txts_ior(lp, XAXIFIFO_TXTS_RXFD);
-   740				sec  = axienet_txts_ior(lp, XAXIFIFO_TXTS_RXFD);
-   741				val = axienet_txts_ior(lp, XAXIFIFO_TXTS_RXFD);
-   742				val = ((val & XAXIFIFO_TXTS_TAG_MASK) >>
-   743					XAXIFIFO_TXTS_TAG_SHIFT);
-   744	
-   745				dev_dbg(lp->dev, "tx_stamp:[%04x] %04x %u %9u\n",
-   746					cur_p->ptp_tx_ts_tag, val, sec, nsec);
-   747				if (val == cur_p->ptp_tx_ts_tag)
-   748					break;
-   749				count = axienet_txts_ior(lp, XAXIFIFO_TXTS_RFO);
-   750			}
-   751			if (val != cur_p->ptp_tx_ts_tag) {
-   752				dev_info(lp->dev, "Mismatching 2-step tag. Got %x",
-   753					 val);
-   754				dev_info(lp->dev, "Expected %x\n",
-   755					 cur_p->ptp_tx_ts_tag);
-   756			}
-   757		}
-   758	
-   759		if (lp->axienet_config->mactype != XAXIENET_10G_25G)
-   760			val = axienet_txts_ior(lp, XAXIFIFO_TXTS_RXFD);
-   761	
-   762	skb_exit:
-   763		time64 = sec * NS_PER_SEC + nsec;
-   764		memset(shhwtstamps, 0, sizeof(struct skb_shared_hwtstamps));
-   765		shhwtstamps->hwtstamp = ns_to_ktime(time64);
-   766		if (lp->axienet_config->mactype != XAXIENET_10G_25G)
-   767			skb_pull((struct sk_buff *)cur_p->ptp_tx_skb,
-   768				 AXIENET_TS_HEADER_LEN);
-   769	
-   770		skb_tstamp_tx((struct sk_buff *)cur_p->ptp_tx_skb, shhwtstamps);
-   771		dev_kfree_skb_any((struct sk_buff *)cur_p->ptp_tx_skb);
-   772		cur_p->ptp_tx_skb = 0;
-   773	}
-   774	
+  1034	
+  1035	static void ack_update_msk(struct mptcp_sock *msk,
+  1036				   struct sock *ssk,
+  1037				   struct mptcp_options_received *mp_opt)
+  1038	{
+  1039		u64 new_wnd_end, new_snd_una, snd_nxt = READ_ONCE(msk->snd_nxt);
+  1040		struct sock *sk = (struct sock *)msk;
+  1041		u64 old_snd_una;
+  1042	
+  1043		mptcp_data_lock(sk);
+  1044	
+  1045		/* avoid ack expansion on update conflict, to reduce the risk of
+  1046		 * wrongly expanding to a future ack sequence number, which is way
+  1047		 * more dangerous than missing an ack
+  1048		 */
+  1049		old_snd_una = msk->snd_una;
+  1050		new_snd_una = mptcp_expand_seq(old_snd_una, mp_opt->data_ack, mp_opt->ack64);
+  1051	
+  1052		/* ACK for data not even sent yet? Ignore.*/
+  1053		if (unlikely(after64(new_snd_una, snd_nxt)))
+  1054			new_snd_una = old_snd_una;
+  1055	
+  1056		new_wnd_end = new_snd_una + tcp_sk(ssk)->snd_wnd;
+  1057	
+  1058		if (after64(new_wnd_end, msk->wnd_end))
+  1059			msk->wnd_end = new_wnd_end;
+  1060	
+  1061		/* this assumes mptcp_incoming_options() is invoked after tcp_ack() */
+> 1062		if (after64(mptcp_wnd_end(msk), READ_ONCE(msk->snd_nxt)))
+  1063			__mptcp_check_push(sk, ssk);
+  1064	
+  1065		if (after64(new_snd_una, old_snd_una)) {
+  1066			__mptcp_snd_una_update(msk, new_snd_una);
+  1067			__mptcp_data_acked(sk);
+  1068		}
+  1069		mptcp_data_unlock(sk);
+  1070	
+  1071		trace_ack_update_msk(mp_opt->data_ack,
+  1072				     old_snd_una, new_snd_una,
+  1073				     new_wnd_end, msk->wnd_end);
+  1074	}
+  1075	
 
 -- 
 0-DAY CI Kernel Test Service
