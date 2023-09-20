@@ -1,45 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D14617F3;
-	Wed, 20 Sep 2023 02:49:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4767A49
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 03:00:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695178184; x=1726714184;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ER8fiiAPm2caQoOxgx6snBR2K9CLgCFNotUsHekV2Lw=;
-  b=KvcnPlB0CAGLFtU5EKc3J2oH3TN2zFvuqaROPWGUU2k2x8YsgWeWO2Vh
-   zl5P8KcH4aQOTEp7q7s12NCUVPiDfepvZ+P7aBhv/LhoVyzS1WF6a4/Gg
-   jkDQT5zsBbJMDff44nTaMjiBPQ8FaoAPm+QtCOAFCYtfaKZl8OBV8lV7u
-   R6OCEgrPE2+xTms4mjXouVzF2powkTgaAtdsuY2wdna7OVZsd+MRzHUCn
-   SYUOj4p/KG+nJMqgsBPyLEZiXpkZZ9rKj7GSopuSLsRj9KymFAUyoUbNB
-   aCouWoEW8Ce31AcjY/3DrwQl523Jem8lCeGs66To5zrDCu+bpmVlKNpks
+  t=1695178840; x=1726714840;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LOIvXQQbVxnyLwcwmNxqAXupHoHGzulbhbnvyaC4f50=;
+  b=jghS51j3MSngSnOH0F3RhFwVJ72FKtL6o8sR8ZhKAPLLidxO/h7p+HBu
+   yB/MYtb91VK66OohoOSZijDG1M/JSQSejclR6XMIf//CjBgPIW/L+V1j9
+   S8WafiHVnO2N6wq5JPT3822AxNZbQeH+GTGtHxhfWMkoSLhYHlesQ9vb3
+   5dyXFr95+L+YWkWEjkk2rG132OoHWqTA1xXpY16bJbz6WTUVpkn9xPo5A
+   MOp8P4LLmIkJEtM3IImBojWa+hEX0AvI1vF6BSWvKO4sgwJfARTPe/vOc
+   HGpHSY+Gp2kVB38JJgdgJcCsFqhMHizFYddSYtkwBSPaZaZp8RSBtQWt8
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="359496826"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="378999137"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="359496826"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 19:49:40 -0700
+   d="scan'208";a="378999137"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 20:00:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="993408437"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="889737330"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="993408437"
+   d="scan'208";a="889737330"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 19 Sep 2023 19:49:38 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 19 Sep 2023 19:59:51 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qinHU-0008C0-1w;
-	Wed, 20 Sep 2023 02:49:36 +0000
-Date: Wed, 20 Sep 2023 10:49:35 +0800
+	id 1qinS8-0008Cc-31;
+	Wed, 20 Sep 2023 03:00:36 +0000
+Date: Wed, 20 Sep 2023 10:59:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>, vkoul@kernel.org,
-	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
-	imx@lists.linux.dev
+To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 2/2] dmaengine: fsl-edma: add trace event support
-Message-ID: <202309201032.LMx2JZTV-lkp@intel.com>
-References: <20230919151430.2919042-3-Frank.Li@nxp.com>
+Subject: [sashal-stable:pending-6.5 74/166]
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dsc/dc_dsc.c:55:17: warning:
+ 'apply_128b_132b_stream_overhead' defined but not used
+Message-ID: <202309201033.obS01oWG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,161 +46,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230919151430.2919042-3-Frank.Li@nxp.com>
 
-Hi Frank,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on vkoul-dmaengine/next]
-[also build test WARNING on linus/master v6.6-rc2 next-20230919]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dmaengine-fsl-emda-add-debugfs-support/20230920-010257
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-patch link:    https://lore.kernel.org/r/20230919151430.2919042-3-Frank.Li%40nxp.com
-patch subject: [PATCH v2 2/2] dmaengine: fsl-edma: add trace event support
-config: x86_64-randconfig-123-20230920 (https://download.01.org/0day-ci/archive/20230920/202309201032.LMx2JZTV-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201032.LMx2JZTV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.5
+head:   fd1a1970676435366dd0f58cb455292d92d7ecce
+commit: 26681b7d8fc3e5ea6e65a2999e1589f59a2dad1d [74/166] drm/amd/display: Add stream overhead in BW calculations for 128b/132b
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230920/202309201033.obS01oWG-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201033.obS01oWG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309201032.LMx2JZTV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309201033.obS01oWG-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/dma/fsl-edma-trace.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, drivers/dma/fsl-edma-trace.h, ...):
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] saddr @@     got restricted __le32 [usertype] saddr @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned int [usertype] saddr
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le32 [usertype] saddr
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] soff @@     got restricted __le16 [usertype] soff @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned short [usertype] soff
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le16 [usertype] soff
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] attr @@     got restricted __le16 [usertype] attr @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned short [usertype] attr
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le16 [usertype] attr
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] nbytes @@     got restricted __le32 [usertype] nbytes @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned int [usertype] nbytes
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le32 [usertype] nbytes
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] slast @@     got restricted __le32 [usertype] slast @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned int [usertype] slast
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le32 [usertype] slast
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] daddr @@     got restricted __le32 [usertype] daddr @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned int [usertype] daddr
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le32 [usertype] daddr
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] doff @@     got restricted __le16 [usertype] doff @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned short [usertype] doff
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le16 [usertype] doff
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] citer @@     got restricted __le16 [usertype] citer @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned short [usertype] citer
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le16 [usertype] citer
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dlast_sga @@     got restricted __le32 [usertype] dlast_sga @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned int [usertype] dlast_sga
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le32 [usertype] dlast_sga
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] csr @@     got restricted __le16 [usertype] csr @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned short [usertype] csr
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le16 [usertype] csr
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] biter @@     got restricted __le16 [usertype] biter @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned short [usertype] biter
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le16 [usertype] biter
-   drivers/dma/fsl-edma-trace.c: note: in included file (through include/trace/perf.h, include/trace/define_trace.h, drivers/dma/fsl-edma-trace.h, ...):
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] saddr @@     got restricted __le32 [usertype] saddr @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned int [usertype] saddr
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le32 [usertype] saddr
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] soff @@     got restricted __le16 [usertype] soff @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned short [usertype] soff
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le16 [usertype] soff
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] attr @@     got restricted __le16 [usertype] attr @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned short [usertype] attr
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le16 [usertype] attr
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] nbytes @@     got restricted __le32 [usertype] nbytes @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned int [usertype] nbytes
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le32 [usertype] nbytes
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] slast @@     got restricted __le32 [usertype] slast @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned int [usertype] slast
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le32 [usertype] slast
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] daddr @@     got restricted __le32 [usertype] daddr @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned int [usertype] daddr
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le32 [usertype] daddr
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] doff @@     got restricted __le16 [usertype] doff @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned short [usertype] doff
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le16 [usertype] doff
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] citer @@     got restricted __le16 [usertype] citer @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned short [usertype] citer
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le16 [usertype] citer
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dlast_sga @@     got restricted __le32 [usertype] dlast_sga @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned int [usertype] dlast_sga
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le32 [usertype] dlast_sga
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] csr @@     got restricted __le16 [usertype] csr @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned short [usertype] csr
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le16 [usertype] csr
->> drivers/dma/./fsl-edma-trace.h:62:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] biter @@     got restricted __le16 [usertype] biter @@
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     expected unsigned short [usertype] biter
-   drivers/dma/./fsl-edma-trace.h:62:1: sparse:     got restricted __le16 [usertype] biter
+All warnings (new ones prefixed by >>):
 
-vim +62 drivers/dma/./fsl-edma-trace.h
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/dsc/dc_dsc.c:55:17: warning: 'apply_128b_132b_stream_overhead' defined but not used [-Wunused-function]
+      55 | static uint32_t apply_128b_132b_stream_overhead(
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    61	
-  > 62	DECLARE_EVENT_CLASS(edma_log_tcd,
-    63		TP_PROTO(struct fsl_edma_engine *edma, struct fsl_edma_hw_tcd *tcd),
-    64		TP_ARGS(edma, tcd),
-    65		TP_STRUCT__entry(
-    66			__field(struct fsl_edma_engine *, edma)
-    67			__field(u32, saddr)
-    68			__field(u16, soff)
-    69			__field(u16, attr)
-    70			__field(u32, nbytes)
-    71			__field(u32, slast)
-    72			__field(u32, daddr)
-    73			__field(u16, doff)
-    74			__field(u16, citer)
-    75			__field(u32, dlast_sga)
-    76			__field(u16, csr)
-    77			__field(u16, biter)
-    78	
-    79		),
-    80		TP_fast_assign(
-    81			__entry->edma = edma;
-    82			__entry->saddr = tcd->saddr,
-    83			__entry->soff = tcd->soff,
-    84			__entry->attr = tcd->attr,
-    85			__entry->nbytes = tcd->nbytes,
-    86			__entry->slast = tcd->slast,
-    87			__entry->daddr = tcd->daddr,
-    88			__entry->doff = tcd->doff,
-    89			__entry->citer = tcd->citer,
-    90			__entry->dlast_sga = tcd->dlast_sga,
-    91			__entry->csr = tcd->csr,
-    92			__entry->biter = tcd->biter;
-    93		),
-    94		TP_printk("\n==== TCD =====\n"
-    95			  "  saddr:  0x%08x\n"
-    96			  "  soff:       0x%04x\n"
-    97			  "  attr:       0x%04x\n"
-    98			  "  nbytes: 0x%08x\n"
-    99			  "  slast:  0x%08x\n"
-   100			  "  daddr:  0x%08x\n"
-   101			  "  doff:       0x%04x\n"
-   102			  "  citer:      0x%04x\n"
-   103			  "  dlast:  0x%08x\n"
-   104			  "  csr:        0x%04x\n"
-   105			  "  biter:      0x%04x\n",
-   106			__entry->saddr,
-   107			__entry->soff,
-   108			__entry->attr,
-   109			__entry->nbytes,
-   110			__entry->slast,
-   111			__entry->daddr,
-   112			__entry->doff,
-   113			__entry->citer,
-   114			__entry->dlast_sga,
-   115			__entry->csr,
-   116			__entry->biter)
-   117	);
-   118	
+
+vim +/apply_128b_132b_stream_overhead +55 drivers/gpu/drm/amd/amdgpu/../display/dc/dsc/dc_dsc.c
+
+    51	
+    52	/* Need to account for padding due to pixel-to-symbol packing
+    53	 * for uncompressed 128b/132b streams.
+    54	 */
+  > 55	static uint32_t apply_128b_132b_stream_overhead(
+    56		const struct dc_crtc_timing *timing, const uint32_t kbps)
+    57	{
+    58		uint32_t total_kbps = kbps;
+    59	
+    60		if (disable_128b_132b_stream_overhead)
+    61			return kbps;
+    62	
+    63		if (!timing->flags.DSC) {
+    64			struct fixed31_32 bpp;
+    65			struct fixed31_32 overhead_factor;
+    66	
+    67			bpp = dc_fixpt_from_int(kbps);
+    68			bpp = dc_fixpt_div_int(bpp, timing->pix_clk_100hz / 10);
+    69	
+    70			/* Symbols_per_HActive = HActive * bpp / (4 lanes * 32-bit symbol size)
+    71			 * Overhead_factor = ceil(Symbols_per_HActive) / Symbols_per_HActive
+    72			 */
+    73			overhead_factor = dc_fixpt_from_int(timing->h_addressable);
+    74			overhead_factor = dc_fixpt_mul(overhead_factor, bpp);
+    75			overhead_factor = dc_fixpt_div_int(overhead_factor, 128);
+    76			overhead_factor = dc_fixpt_div(
+    77				dc_fixpt_from_int(dc_fixpt_ceil(overhead_factor)),
+    78				overhead_factor);
+    79	
+    80			total_kbps = dc_fixpt_ceil(
+    81				dc_fixpt_mul_int(overhead_factor, total_kbps));
+    82		}
+    83	
+    84		return total_kbps;
+    85	}
+    86	
 
 -- 
 0-DAY CI Kernel Test Service
