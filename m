@@ -1,45 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23BCAC8E0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 08:16:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6D2DDCF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 08:27:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695197771; x=1726733771;
+  t=1695198423; x=1726734423;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xyS/3nnF/3j8JeCLPxehzCLLlUt1xqcZOqD2H/zSJfE=;
-  b=HRcJGRO+S+2Hh2nOcrQrGWWPexu99o7Nesogup2TdbtLaKkRhxSJftl9
-   6BlpjBjC+58QlwCQLHy9Et8Lt0LhhHmmDVKgvLGQO8ajGdBp3MbsfcSk+
-   nukJ46dTJujmymGuqc8Zp9O0BuY85NwbZraOl2cdJ5R0e+WZCRtBzasfP
-   9Ku7Df1p/OXJ7gikpSa+2Tg4bDbzI+fQBKEkea1glM4Ubt2JUs0IyovrI
-   FY8blQNDmBaanvo3zeZ7CsAzXBOj+K05fEowLOLHT1UR2KsV0/AJ6ZZek
-   zg/GSxeptbqYYMyqOD0dvbafwKpR0EANw86F3+DheggLoBzpIoQfL6C1A
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="444254437"
+  bh=C0F5YbDFCz75sfXUOQcFBf63WMC5WfJoh3pFVE5WcXs=;
+  b=Z1afCX7QTtpglZMX1uiBm1m94RrPM/2Tp974FN8/LrIuCmWN4SVpTj8Q
+   aanCHiV3AmNntwJ1+zf7GZnwhYXSx1g9qo+7wawWbp+j6PoKDUKgHz8my
+   Qc6V80Ycx94A1YLxabgtVgw3GmlvjNK26qm8UspbkxFYV9c+RI9C8/pyI
+   mfRSAV6UiAlynY9DmB6ej48LSLBVg5UYtk+DrLVAIkKhVQB8tNXpgVEEZ
+   MDKmiOrBCvs6IZ9FrWnCmblxwII+NHAQaSF1l6g/VwosylNRu/jdq8/cb
+   7ptovmWzQQEAEswb6gqVD4cW5ZGIml7wgmaFw2Eqlu/u/XT9JsvwTcaCB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="377468787"
 X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="444254437"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 01:16:01 -0700
+   d="scan'208";a="377468787"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 01:27:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="746560963"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="781607027"
 X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="746560963"
+   d="scan'208";a="781607027"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 20 Sep 2023 01:16:00 -0700
+  by orsmga001.jf.intel.com with ESMTP; 20 Sep 2023 01:27:00 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qisNK-0008Uk-0K;
-	Wed, 20 Sep 2023 08:15:58 +0000
-Date: Wed, 20 Sep 2023 16:15:43 +0800
+	id 1qisXy-0008Vd-2J;
+	Wed, 20 Sep 2023 08:26:58 +0000
+Date: Wed, 20 Sep 2023 16:26:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kunal Rane <kunal.rane@amd.com>
+To: Michal Simek <monstr@monstr.eu>
 Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>, Vishal Sagar <vishal.sagar@amd.co>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 1359/1363]
- drivers/media/platform/xilinx/xilinx-hdcp2x-rx.c:120:20: warning: assignment
- to 'struct xlnx_hdcp2x_config *' from 'int' makes pointer from integer
- without a cast
-Message-ID: <202309201610.Zdni5Z1k-lkp@intel.com>
+	Stefan Asserhall <stefan.asserhall@xilinx.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 190/1363]
+ arch/microblaze/include/asm/spinlock_types.h:10:3: error: #error "please
+ don't include this file directly"
+Message-ID: <202309201657.vTULJr8p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,96 +50,49 @@ Content-Disposition: inline
 
 tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
 head:   4f412ed20fd2c5353c1e878ef9ed77952a5040a1
-commit: 63a2ddb4ca597d67d4e4e858761c1f7ff81ebd11 [1359/1363] v4l2: xilinx: dprx: Add HDCP2x support
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230920/202309201610.Zdni5Z1k-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201610.Zdni5Z1k-lkp@intel.com/reproduce)
+commit: ea81ee258e9f1abbfb27c667cbd3161c039af2cd [190/1363] microblaze: Enable experimental SMP functionality
+config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20230920/202309201657.vTULJr8p-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201657.vTULJr8p-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309201610.Zdni5Z1k-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309201657.vTULJr8p-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/media/platform/xilinx/xilinx-hdcp2x-rx.c: In function 'xhdcp2x_rx_init':
-   drivers/media/platform/xilinx/xilinx-hdcp2x-rx.c:120:22: error: implicit declaration of function 'kzalloc'; did you mean 'vzalloc'? [-Werror=implicit-function-declaration]
-     120 |         xhdcp2x_rx = kzalloc(sizeof(*xhdcp2x_rx), GFP_KERNEL);
-         |                      ^~~~~~~
-         |                      vzalloc
->> drivers/media/platform/xilinx/xilinx-hdcp2x-rx.c:120:20: warning: assignment to 'struct xlnx_hdcp2x_config *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     120 |         xhdcp2x_rx = kzalloc(sizeof(*xhdcp2x_rx), GFP_KERNEL);
-         |                    ^
-   cc1: some warnings being treated as errors
+   In file included from include/linux/spinlock_types_raw.h:7,
+                    from include/linux/ratelimit_types.h:7,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:22,
+                    from ./arch/microblaze/include/generated/asm/bug.h:1,
+                    from include/linux/bug.h:5,
+                    from include/linux/page-flags.h:10,
+                    from kernel/bounds.c:10:
+>> arch/microblaze/include/asm/spinlock_types.h:10:3: error: #error "please don't include this file directly"
+      10 | # error "please don't include this file directly"
+         |   ^~~~~
+   make[2]: *** [scripts/Makefile.build:118: kernel/bounds.s] Error 1
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:1270: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:231: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +120 drivers/media/platform/xilinx/xilinx-hdcp2x-rx.c
+vim +10 arch/microblaze/include/asm/spinlock_types.h
 
-727d5d0c59572f Kunal Rane 2023-09-04  105  
-727d5d0c59572f Kunal Rane 2023-09-04  106  int *xhdcp2x_rx_init(struct device *dev, void *protocol_ref, void __iomem *xhdcp_base_address,
-727d5d0c59572f Kunal Rane 2023-09-04  107  		     enum xhdcp2x_rx_protocol protocol_rx, bool is_repeater, u8 lane_count)
-727d5d0c59572f Kunal Rane 2023-09-04  108  {
-727d5d0c59572f Kunal Rane 2023-09-04  109  	int status;
-727d5d0c59572f Kunal Rane 2023-09-04  110  	struct xlnx_hdcp2x_config *xhdcp2x_rx;
-727d5d0c59572f Kunal Rane 2023-09-04  111  
-727d5d0c59572f Kunal Rane 2023-09-04  112  	if (!dev || !protocol_ref || !xhdcp_base_address)
-727d5d0c59572f Kunal Rane 2023-09-04  113  		return ERR_PTR(-EINVAL);
-727d5d0c59572f Kunal Rane 2023-09-04  114  
-727d5d0c59572f Kunal Rane 2023-09-04  115  	if (is_repeater) {
-727d5d0c59572f Kunal Rane 2023-09-04  116  		dev_info(dev, "Hdcp2x repeater functionality not supported\n");
-727d5d0c59572f Kunal Rane 2023-09-04  117  		return ERR_PTR(-EINVAL);
-727d5d0c59572f Kunal Rane 2023-09-04  118  	}
-727d5d0c59572f Kunal Rane 2023-09-04  119  
-727d5d0c59572f Kunal Rane 2023-09-04 @120  	xhdcp2x_rx = kzalloc(sizeof(*xhdcp2x_rx), GFP_KERNEL);
-727d5d0c59572f Kunal Rane 2023-09-04  121  	if (!xhdcp2x_rx)
-727d5d0c59572f Kunal Rane 2023-09-04  122  		return ERR_PTR(-ENOMEM);
-727d5d0c59572f Kunal Rane 2023-09-04  123  
-727d5d0c59572f Kunal Rane 2023-09-04  124  	xhdcp2x_rx->xhdcp2x_hw.hdcp2xcore_address = (void __iomem *)xhdcp_base_address;
-727d5d0c59572f Kunal Rane 2023-09-04  125  	xhdcp2x_rx->dev = dev;
-727d5d0c59572f Kunal Rane 2023-09-04  126  	xhdcp2x_rx->interface_ref = protocol_ref;
-727d5d0c59572f Kunal Rane 2023-09-04  127  	xhdcp2x_rx->interface_base = xhdcp_base_address;
-727d5d0c59572f Kunal Rane 2023-09-04  128  	xhdcp2x_rx->is_repeater = is_repeater ? 1 : 0;
-727d5d0c59572f Kunal Rane 2023-09-04  129  	xhdcp2x_rx->lane_count = lane_count;
-727d5d0c59572f Kunal Rane 2023-09-04  130  	xhdcp2x_rx->protocol = protocol_rx;
-727d5d0c59572f Kunal Rane 2023-09-04  131  	xhdcp2x_rx->rx_caps[0] = HDCP_2_2_RX_CAPS_VERSION_VAL;
-727d5d0c59572f Kunal Rane 2023-09-04  132  	xhdcp2x_rx->rx_caps[1] = 0x00;
-727d5d0c59572f Kunal Rane 2023-09-04  133  	xhdcp2x_rx->rx_caps[2] = (xhdcp2x_rx->mode == xhdcp2x_rx_receiver) ?
-727d5d0c59572f Kunal Rane 2023-09-04  134  				RXCAPS_HDCP_ENABLE :  RXCAPS_REPEATER;
-727d5d0c59572f Kunal Rane 2023-09-04  135  	xhdcp2x_rx->keys_loaded = 0;
-727d5d0c59572f Kunal Rane 2023-09-04  136  
-727d5d0c59572f Kunal Rane 2023-09-04  137  	xhdcp2x_rx->xhdcp2x_hw.rng_inst.rng_coreaddress =
-727d5d0c59572f Kunal Rane 2023-09-04  138  		xhdcp2x_rx->xhdcp2x_hw.hdcp2xcore_address + XHDCP2X_RNG_OFFSET;
-727d5d0c59572f Kunal Rane 2023-09-04  139  	xhdcp2x_rx->xhdcp2x_hw.mmult_inst.mmult_coreaddress =
-727d5d0c59572f Kunal Rane 2023-09-04  140  		xhdcp2x_rx->xhdcp2x_hw.hdcp2xcore_address + XHDCP2X_MMULT_OFFSET;
-727d5d0c59572f Kunal Rane 2023-09-04  141  	xhdcp2x_rx->xhdcp2x_hw.cipher_inst.cipher_coreaddress =
-727d5d0c59572f Kunal Rane 2023-09-04  142  		xhdcp2x_rx->xhdcp2x_hw.hdcp2xcore_address + XHDCP2X_CIPHER_OFFSET;
-727d5d0c59572f Kunal Rane 2023-09-04  143  
-727d5d0c59572f Kunal Rane 2023-09-04  144  	status = xlnx_hdcp2x_rng_cfg_init(&xhdcp2x_rx->xhdcp2x_hw.rng_inst);
-727d5d0c59572f Kunal Rane 2023-09-04  145  	if (status < 0)
-727d5d0c59572f Kunal Rane 2023-09-04  146  		return ERR_PTR(-EINVAL);
-727d5d0c59572f Kunal Rane 2023-09-04  147  
-727d5d0c59572f Kunal Rane 2023-09-04  148  	status = xlnx_hdcp2x_mmult_cfginit(&xhdcp2x_rx->xhdcp2x_hw.mmult_inst);
-727d5d0c59572f Kunal Rane 2023-09-04  149  	if (status < 0)
-727d5d0c59572f Kunal Rane 2023-09-04  150  		return ERR_PTR(-EINVAL);
-727d5d0c59572f Kunal Rane 2023-09-04  151  
-727d5d0c59572f Kunal Rane 2023-09-04  152  	status = xlnx_hdcp2x_cipher_cfg_init(&xhdcp2x_rx->xhdcp2x_hw.cipher_inst);
-727d5d0c59572f Kunal Rane 2023-09-04  153  	if (status < 0)
-727d5d0c59572f Kunal Rane 2023-09-04  154  		return ERR_PTR(-EINVAL);
-727d5d0c59572f Kunal Rane 2023-09-04  155  
-727d5d0c59572f Kunal Rane 2023-09-04  156  	xlnx_hdcp2x_rx_cipher_init(&xhdcp2x_rx->xhdcp2x_hw.cipher_inst);
-727d5d0c59572f Kunal Rane 2023-09-04  157  
-727d5d0c59572f Kunal Rane 2023-09-04  158  	mutex_init(&xhdcp2x_rx->hdcprx_mutex);
-727d5d0c59572f Kunal Rane 2023-09-04  159  
-727d5d0c59572f Kunal Rane 2023-09-04  160  	INIT_DELAYED_WORK(&xhdcp2x_rx->sm_work, xhdcp2x_sm_work_func);
-727d5d0c59572f Kunal Rane 2023-09-04  161  
-727d5d0c59572f Kunal Rane 2023-09-04  162  	return (void *)xhdcp2x_rx;
-727d5d0c59572f Kunal Rane 2023-09-04  163  }
-727d5d0c59572f Kunal Rane 2023-09-04  164  
+84966a8e9d282c8 Stefan Asserhall 2020-02-03   8  
+84966a8e9d282c8 Stefan Asserhall 2020-02-03   9  #ifndef __LINUX_SPINLOCK_TYPES_H
+84966a8e9d282c8 Stefan Asserhall 2020-02-03 @10  # error "please don't include this file directly"
+84966a8e9d282c8 Stefan Asserhall 2020-02-03  11  #endif
+84966a8e9d282c8 Stefan Asserhall 2020-02-03  12  
 
-:::::: The code at line 120 was first introduced by commit
-:::::: 727d5d0c59572f086ee1f33334aac4b02205f87c v4l2: xilinx: Add HDCP2x Rx support
+:::::: The code at line 10 was first introduced by commit
+:::::: 84966a8e9d282c8cf43064ef2bebc7260d7725e6 microblaze: Implement architecture spinlock
 
-:::::: TO: Kunal Rane <kunal.rane@amd.com>
+:::::: TO: Stefan Asserhall <stefan.asserhall@xilinx.com>
 :::::: CC: Michal Simek <michal.simek@amd.com>
 
 -- 
