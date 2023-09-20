@@ -1,46 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EEFB185D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 05:18:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17881C3F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Sep 2023 05:18:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695187089; x=1726723089;
+  t=1695187090; x=1726723090;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=RwF545D3aEX3rCro9ClSaDFWR4O8eRSEXZYKHUxDEJ8=;
-  b=mIzJjP/APe/tbUhVpwaSNkaeALWZODdOXKEgtQG2ERgJRnTeXlgyYl0V
-   tCSomDanPQMyp8Pk3dwx1kAxhk/L9hGGaG9PctkFuK4El3/bTAfZBBVJF
-   uT1z2T9zOSUH0vglxlTG0v95i8f0PETUe1qvfroBDjpkVOdoWcdBq6V4G
-   uE5tenj5lRteet5pzW/iKzo4Be768xKALCMH29q9W6iSPSJWNggQ72FRP
-   ar1MM+JeXV8MBOmAp76u5YVz4OlOYu5pXThvHInf0i32ZdD+yHv7s6E/w
-   +Lfw+GqPDjvmg1U///2pEXpYHj3lRc+RJ9ZdbzCW5zh4ORG4OgeQ86//C
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="359515764"
+  bh=vgocaKsbmdpjMaJx3xBQwNzNeJ/8n5uXEO7B6NpSHU4=;
+  b=CNlUD5L0riL+e4fzypdQ6g1vr84CDqmkln3RRu+KRfhdIAolbF9AmxwH
+   XOGCdSSJFCYlZ4XsKqYRMoJpcdicOnPIRFhOT+hb/37rLhYk2lPl3xJ6r
+   V3Mlrf5fyPydNOkjR4nM96JdovBd8QyeBhImL3B0uJQidgIz9IkOv+zNg
+   mH9A9OIxmTI4crWPRh6PxY3w1OELYquphE1L6WrLRXm1/1km+ho/oHUpO
+   fyjZjcRxt3DwIy1qz7reePwdMyrdwQlwPfyg5A4t5p0+jd4QdcdzL1jy6
+   QylcY2+WPdDQ7A6pdzbShazpXwbq5oZHW+8dJm6+AkcvCG9yiFtyHN+G5
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="383972293"
 X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="359515764"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 22:18:08 -0700
+   d="scan'208";a="383972293"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 22:18:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="812001424"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="775838770"
 X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="812001424"
+   d="scan'208";a="775838770"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 19 Sep 2023 22:18:06 -0700
+  by orsmga008.jf.intel.com with ESMTP; 19 Sep 2023 22:18:06 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qipb9-0008Ko-3B;
+	id 1qipb9-0008Km-36;
 	Wed, 20 Sep 2023 05:18:03 +0000
-Date: Wed, 20 Sep 2023 13:17:12 +0800
+Date: Wed, 20 Sep 2023 13:17:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Junxian Huang <huangjunxian6@hisilicon.com>, jgg@ziepe.ca,
-	leon@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-rdma@vger.kernel.org,
-	linuxarm@huawei.com, linux-kernel@vger.kernel.org,
-	huangjunxian6@hisilicon.com
-Subject: Re: [PATCH for-next] RDMA/hns: Support SRQ record doorbell
-Message-ID: <202309201334.ecTzlCD0-lkp@intel.com>
-References: <20230920033005.1557-1-huangjunxian6@hisilicon.com>
+To: Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>,
+	linux-acpi@vger.kernel.org, acpica-devel@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Robert Moore <robert.moore@intel.com>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Len Brown <lenb@kernel.org>, Jung-uk Kim <jkim@freebsd.org>,
+	Erik Kaneda <erik.kaneda@intel.com>
+Subject: Re: [PATCH v1 1/1] acpica: use spinlocks to fix the data-races
+ reported by the KCSAN
+Message-ID: <202309201331.S2c1JL2h-lkp@intel.com>
+References: <20230920000139.15533-1-mirsad.todorovac@alu.unizg.hr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,90 +52,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230920033005.1557-1-huangjunxian6@hisilicon.com>
+In-Reply-To: <20230920000139.15533-1-mirsad.todorovac@alu.unizg.hr>
 
-Hi Junxian,
+Hi Mirsad,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on rdma/for-next]
-[also build test WARNING on linus/master v6.6-rc2 next-20230920]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.6-rc2 next-20230920]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Junxian-Huang/RDMA-hns-Support-SRQ-record-doorbell/20230920-113419
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
-patch link:    https://lore.kernel.org/r/20230920033005.1557-1-huangjunxian6%40hisilicon.com
-patch subject: [PATCH for-next] RDMA/hns: Support SRQ record doorbell
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230920/202309201334.ecTzlCD0-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201334.ecTzlCD0-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mirsad-Goran-Todorovac/acpica-use-spinlocks-to-fix-the-data-races-reported-by-the-KCSAN/20230920-080345
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230920000139.15533-1-mirsad.todorovac%40alu.unizg.hr
+patch subject: [PATCH v1 1/1] acpica: use spinlocks to fix the data-races reported by the KCSAN
+config: i386-randconfig-003-20230920 (https://download.01.org/0day-ci/archive/20230920/202309201331.S2c1JL2h-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201331.S2c1JL2h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309201334.ecTzlCD0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309201331.S2c1JL2h-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/infiniband/hw/hns/hns_roce_hw_v2.c: In function 'hns_roce_v2_post_srq_recv':
->> drivers/infiniband/hw/hns/hns_roce_hw_v2.c:960:30: warning: unused variable 'hr_dev' [-Wunused-variable]
-     960 |         struct hns_roce_dev *hr_dev = to_hr_dev(ibsrq->device);
-         |                              ^~~~~~
+   drivers/acpi/acpica/utdebug.c: In function 'acpi_debug_print':
+>> drivers/acpi/acpica/utdebug.c:145:13: warning: unused variable 'nesting_level' [-Wunused-variable]
+     145 |         u32 nesting_level;
+         |             ^~~~~~~~~~~~~
 
 
-vim +/hr_dev +960 drivers/infiniband/hw/hns/hns_roce_hw_v2.c
+vim +/nesting_level +145 drivers/acpi/acpica/utdebug.c
 
-2b035e7312b508 Yixing Liu    2021-06-21   955  
-ffb1308b88b602 Yixian Liu    2020-04-28   956  static int hns_roce_v2_post_srq_recv(struct ib_srq *ibsrq,
-ffb1308b88b602 Yixian Liu    2020-04-28   957  				     const struct ib_recv_wr *wr,
-ffb1308b88b602 Yixian Liu    2020-04-28   958  				     const struct ib_recv_wr **bad_wr)
-ffb1308b88b602 Yixian Liu    2020-04-28   959  {
-ffb1308b88b602 Yixian Liu    2020-04-28  @960  	struct hns_roce_dev *hr_dev = to_hr_dev(ibsrq->device);
-ffb1308b88b602 Yixian Liu    2020-04-28   961  	struct hns_roce_srq *srq = to_hr_srq(ibsrq);
-ffb1308b88b602 Yixian Liu    2020-04-28   962  	unsigned long flags;
-ffb1308b88b602 Yixian Liu    2020-04-28   963  	int ret = 0;
-2e07a3d945851f Wenpeng Liang 2021-01-30   964  	u32 max_sge;
-2e07a3d945851f Wenpeng Liang 2021-01-30   965  	u32 wqe_idx;
-ffb1308b88b602 Yixian Liu    2020-04-28   966  	void *wqe;
-2e07a3d945851f Wenpeng Liang 2021-01-30   967  	u32 nreq;
-ffb1308b88b602 Yixian Liu    2020-04-28   968  
-ffb1308b88b602 Yixian Liu    2020-04-28   969  	spin_lock_irqsave(&srq->lock, flags);
-ffb1308b88b602 Yixian Liu    2020-04-28   970  
-9dd052474a2645 Lang Cheng    2021-01-30   971  	max_sge = srq->max_gs - srq->rsv_sge;
-ffb1308b88b602 Yixian Liu    2020-04-28   972  	for (nreq = 0; wr; ++nreq, wr = wr->next) {
-2e07a3d945851f Wenpeng Liang 2021-01-30   973  		ret = check_post_srq_valid(srq, max_sge, wr);
-2e07a3d945851f Wenpeng Liang 2021-01-30   974  		if (ret) {
-ffb1308b88b602 Yixian Liu    2020-04-28   975  			*bad_wr = wr;
-ffb1308b88b602 Yixian Liu    2020-04-28   976  			break;
-ffb1308b88b602 Yixian Liu    2020-04-28   977  		}
-ffb1308b88b602 Yixian Liu    2020-04-28   978  
-6b981e2bd9251f Xi Wang       2021-01-30   979  		ret = get_srq_wqe_idx(srq, &wqe_idx);
-6b981e2bd9251f Xi Wang       2021-01-30   980  		if (unlikely(ret)) {
-ffb1308b88b602 Yixian Liu    2020-04-28   981  			*bad_wr = wr;
-ffb1308b88b602 Yixian Liu    2020-04-28   982  			break;
-ffb1308b88b602 Yixian Liu    2020-04-28   983  		}
-ffb1308b88b602 Yixian Liu    2020-04-28   984  
-6b981e2bd9251f Xi Wang       2021-01-30   985  		wqe = get_srq_wqe_buf(srq, wqe_idx);
-6b981e2bd9251f Xi Wang       2021-01-30   986  		fill_recv_sge_to_wqe(wr, wqe, max_sge, srq->rsv_sge);
-2e07a3d945851f Wenpeng Liang 2021-01-30   987  		fill_wqe_idx(srq, wqe_idx);
-ffb1308b88b602 Yixian Liu    2020-04-28   988  		srq->wrid[wqe_idx] = wr->wr_id;
-ffb1308b88b602 Yixian Liu    2020-04-28   989  	}
-ffb1308b88b602 Yixian Liu    2020-04-28   990  
-ffb1308b88b602 Yixian Liu    2020-04-28   991  	if (likely(nreq)) {
-14d4b5285cbe41 Yangyang Li   2023-09-20   992  		if (srq->cap_flags & HNS_ROCE_SRQ_CAP_RECORD_DB)
-14d4b5285cbe41 Yangyang Li   2023-09-20   993  			*srq->rdb.db_record = srq->idx_que.head &
-14d4b5285cbe41 Yangyang Li   2023-09-20   994  					      V2_DB_PRODUCER_IDX_M;
-14d4b5285cbe41 Yangyang Li   2023-09-20   995  		else
-14d4b5285cbe41 Yangyang Li   2023-09-20   996  			update_srq_db(srq);
-ffb1308b88b602 Yixian Liu    2020-04-28   997  	}
-ffb1308b88b602 Yixian Liu    2020-04-28   998  
-ffb1308b88b602 Yixian Liu    2020-04-28   999  	spin_unlock_irqrestore(&srq->lock, flags);
-ffb1308b88b602 Yixian Liu    2020-04-28  1000  
-ffb1308b88b602 Yixian Liu    2020-04-28  1001  	return ret;
-ffb1308b88b602 Yixian Liu    2020-04-28  1002  }
-ffb1308b88b602 Yixian Liu    2020-04-28  1003  
+   113	
+   114	/*******************************************************************************
+   115	 *
+   116	 * FUNCTION:    acpi_debug_print
+   117	 *
+   118	 * PARAMETERS:  requested_debug_level - Requested debug print level
+   119	 *              line_number         - Caller's line number (for error output)
+   120	 *              function_name       - Caller's procedure name
+   121	 *              module_name         - Caller's module name
+   122	 *              component_id        - Caller's component ID
+   123	 *              format              - Printf format field
+   124	 *              ...                 - Optional printf arguments
+   125	 *
+   126	 * RETURN:      None
+   127	 *
+   128	 * DESCRIPTION: Print error message with prefix consisting of the module name,
+   129	 *              line number, and component ID.
+   130	 *
+   131	 ******************************************************************************/
+   132	
+   133	void ACPI_INTERNAL_VAR_XFACE
+   134	acpi_debug_print(u32 requested_debug_level,
+   135			 u32 line_number,
+   136			 const char *function_name,
+   137			 const char *module_name,
+   138			 u32 component_id, const char *format, ...)
+   139	{
+   140		acpi_thread_id thread_id;
+   141		va_list args;
+   142	#ifdef ACPI_APPLICATION
+   143		int fill_count;
+   144	#endif
+ > 145		u32 nesting_level;
+   146	
+   147		/* Check if debug output enabled */
+   148	
+   149		if (!ACPI_IS_DEBUG_ENABLED(requested_debug_level, component_id)) {
+   150			return;
+   151		}
+   152	
+   153		/*
+   154		 * Thread tracking and context switch notification
+   155		 */
+   156		thread_id = acpi_os_get_thread_id();
+   157		if (thread_id != acpi_gbl_previous_thread_id) {
+   158			if (ACPI_LV_THREADS & acpi_dbg_level) {
+   159				acpi_os_printf
+   160				    ("\n**** Context Switch from TID %u to TID %u ****\n\n",
+   161				     (u32)acpi_gbl_previous_thread_id, (u32)thread_id);
+   162			}
+   163	
+   164			acpi_gbl_previous_thread_id = thread_id;
+   165			WRITE_ONCE(acpi_gbl_nesting_level, 0);
+   166		}
+   167	
+   168		/*
+   169		 * Display the module name, current line number, thread ID (if requested),
+   170		 * current procedure nesting level, and the current procedure name
+   171		 */
+   172		acpi_os_printf("%9s-%04d ", module_name, line_number);
+   173	
 
 -- 
 0-DAY CI Kernel Test Service
