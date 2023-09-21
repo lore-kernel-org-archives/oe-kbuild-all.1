@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E431947B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 21:43:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146A518C38
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 21:55:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695332587; x=1726868587;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9xjQ/Bm9dQGZSHv6qNNuTwUBSdSU1lkrE5hXszWoIIw=;
-  b=gKgf55/faPeWu5caVr7GvV8+QUS6vKAM+iTS5P25fJ5+YNnaIXDr8yWL
-   i7RagBG6zDa32xCEM7N8BRjj4c/NdiH+PMkBOWYTwaUHu1HZFzoh7kXSU
-   Uy++Z2K1HHz4maN1SOIA2+Hrh4RUIKZqhn5JBNYiEFmgQs+kL8OD+goGI
-   0R4C0gqQBw+hCS/BgJ1hmorzh03ZthBzsm8zKhI2WI31ncwr1U0PaJcaP
-   vUjIskwCb8Qd4aUwNrrJgiHRfGrEi5MCGJwMLZbP/FxVgRm4EOUyLor3s
-   8+aWUG3RBz18OHo+i8C3jPoDjlWDwh+xBkqBfNxl1oEne/ceSIJUV7Nyy
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="447153452"
+  t=1695333303; x=1726869303;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IPLP5m2v91RG6PGUczslDNsEu18LnwwC7FtT9LegcG0=;
+  b=jPKo3qTqzknQ3mDZlx0y4DRKG8/5iO1AZMjbBL58AX4mQsHVhcQVZD8Z
+   9FiqQX+2/aNzEOAR8NOdo0yyivAXt4G9EBRX1a96knPLxMiTKEN0TKwlE
+   r4lkLxUEaWwHmJHDJsl8W16dzj6RWHNbJ2ke6WM3oPauG4mls73tlqqEJ
+   YDp8XMFPXkvXGXB/N9q044nvL2qhq2MKlWpY7SBbPF4IXdafMA6BQfB0L
+   qWLJ65mDQl/wQ5a2r06dz95qLnzWx8WQo8jDHxD4r9YnYwOsG8Fi1/uvG
+   SAWpuKH3AJGX93zKMHL93NLVMR1r0s/vWbqXNHkFPzaFrHOZ9HFSMPcuZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="379552789"
 X-IronPort-AV: E=Sophos;i="6.03,166,1694761200"; 
-   d="scan'208";a="447153452"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 14:43:02 -0700
+   d="scan'208";a="379552789"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 14:55:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="740847709"
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="782388257"
 X-IronPort-AV: E=Sophos;i="6.03,166,1694761200"; 
-   d="scan'208";a="740847709"
+   d="scan'208";a="782388257"
 Received: from lkp-server02.sh.intel.com (HELO b77866e22201) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 21 Sep 2023 14:43:01 -0700
+  by orsmga001.jf.intel.com with ESMTP; 21 Sep 2023 14:54:59 -0700
 Received: from kbuild by b77866e22201 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjRRr-0000RH-0E;
-	Thu, 21 Sep 2023 21:42:59 +0000
-Date: Fri, 22 Sep 2023 05:42:47 +0800
+	id 1qjRdP-0000SD-2G;
+	Thu, 21 Sep 2023 21:54:56 +0000
+Date: Fri, 22 Sep 2023 05:54:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kairui Song <ryncsn@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v3 1/6] workingset: simplify and use a more intuitive
- model
-Message-ID: <202309220558.JSUOlHbi-lkp@intel.com>
-References: <20230920190244.16839-2-ryncsn@gmail.com>
+To: Oliver Glitta <glittao@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Vlastimil Babka <vbabka@suse.cz>
+Subject: kernel/stacktrace.c:138: warning: Function parameter or member 'tsk'
+ not described in 'stack_trace_save_tsk'
+Message-ID: <202309220545.NEMzjh18-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,36 +46,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230920190244.16839-2-ryncsn@gmail.com>
 
-Hi Kairui,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.6-rc2 next-20230921]
-[cannot apply to akpm-mm/mm-everything]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kairui-Song/workingset-simplify-and-use-a-more-intuitive-model/20230921-030515
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230920190244.16839-2-ryncsn%40gmail.com
-patch subject: [RFC PATCH v3 1/6] workingset: simplify and use a more intuitive model
-config: x86_64-randconfig-123-20230921 (https://download.01.org/0day-ci/archive/20230922/202309220558.JSUOlHbi-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309220558.JSUOlHbi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   27bbf45eae9ca98877a2d52a92a188147cd61b07
+commit: 5cf909c553e9efed573811de4b3f5172898d5515 mm/slub: use stackdepot to save stack trace in objects
+date:   1 year, 6 months ago
+config: csky-allnoconfig (https://download.01.org/0day-ci/archive/20230922/202309220545.NEMzjh18-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309220545.NEMzjh18-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309220558.JSUOlHbi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309220545.NEMzjh18-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/workingset.c:345:6: sparse: sparse: symbol 'workingset_age_nonresident' was not declared. Should it be static?
-   mm/workingset.c:724:9: sparse: sparse: context imbalance in 'shadow_lru_isolate' - different lock contexts for basic block
+All warnings (new ones prefixed by >>):
+
+>> kernel/stacktrace.c:138: warning: Function parameter or member 'tsk' not described in 'stack_trace_save_tsk'
+>> kernel/stacktrace.c:138: warning: Excess function parameter 'task' description in 'stack_trace_save_tsk'
+
+
+vim +138 kernel/stacktrace.c
+
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  126  
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  127  /**
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  128   * stack_trace_save_tsk - Save a task stack trace into a storage array
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  129   * @task:	The task to examine
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  130   * @store:	Pointer to storage array
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  131   * @size:	Size of the storage array
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  132   * @skipnr:	Number of entries to skip at the start of the stack trace
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  133   *
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  134   * Return: Number of trace entries stored.
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  135   */
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  136  unsigned int stack_trace_save_tsk(struct task_struct *tsk, unsigned long *store,
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  137  				  unsigned int size, unsigned int skipnr)
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25 @138  {
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  139  	stack_trace_consume_fn consume_entry = stack_trace_consume_entry_nosched;
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  140  	struct stacktrace_cookie c = {
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  141  		.store	= store,
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  142  		.size	= size,
+b0c51f158455e31 Jiri Slaby      2019-10-30  143  		/* skip this function if they are tracing us */
+4b48512c2e9c63b Jiri Slaby      2019-11-11  144  		.skip	= skipnr + (current == tsk),
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  145  	};
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  146  
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  147  	if (!try_get_task_stack(tsk))
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  148  		return 0;
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  149  
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  150  	arch_stack_walk(consume_entry, &c, tsk, NULL);
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  151  	put_task_stack(tsk);
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  152  	return c.len;
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  153  }
+214d8ca6ee854f6 Thomas Gleixner 2019-04-25  154  
+
+:::::: The code at line 138 was first introduced by commit
+:::::: 214d8ca6ee854f696f75e75511fe66b409e656db stacktrace: Provide common infrastructure
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
