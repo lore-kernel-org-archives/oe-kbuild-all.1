@@ -1,125 +1,203 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298F53D90
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 07:08:44 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-59bbdb435bfso7547877b3.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 00:08:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695280124; x=1695884924;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IrvL93JjA1OfTIMuGz/cONlaf0wwFcM6NEpdJQ6xEag=;
-        b=mLKLJnOlMltbm8ltROhjwNXSO2puyfb1h4oyZrTMvhNDR7Y2NHm55Fa8PWohAe9/7l
-         VAErCoN0yFxDdug6P+IzifJNR1yZnKdNpqGjlWEC6O0DCc5FLHZ5zl6SJJFmT49jyryJ
-         a5PaG1t6NPLCLs7ho3aVGZY9ahsDZ2+SAYrb82aoXnDsGCbkrSxWfAs5Qp6xPcEHkYTf
-         mafw/wABcuJTRD9F9e2uRZwCxDstP/AtkW6DYIvQ6mGfxOpCQhGt1uSKgyZ2hF2JHwe1
-         rHyeTOi2oNfKpXmX6py/dNwOZRw0KnL6xnJc0uyJ0p0wSmu21Id0piNEtzaXq2a804V8
-         Xz2Q==
-X-Gm-Message-State: AOJu0YxRg6DWGWjBwD01+nHy3PeG+MYrZXGOIsERsES0LlVzGEq+UxLK
-	9gRD0kPjl8+XrLt8kWg3/K+0zo2TBWvpYQ==
-X-Google-Smtp-Source: AGHT+IGPI1PG98qGvxP/7ay83mT5emmusVJXF+FB8aLEppI5/UIPIbenHpMCvVgLlciJkPSkI9b7tg==
-X-Received: by 2002:a0d:ea15:0:b0:59b:c11:ad7c with SMTP id t21-20020a0dea15000000b0059b0c11ad7cmr4710493ywe.18.1695280123763;
-        Thu, 21 Sep 2023 00:08:43 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id p72-20020a0de64b000000b0059beb468cb3sm191334ywe.32.2023.09.21.00.08.43
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Sep 2023 00:08:43 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-59bbdb435bfso7547707b3.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 00:08:43 -0700 (PDT)
-X-Received: by 2002:a81:8385:0:b0:57a:2f01:31d7 with SMTP id
- t127-20020a818385000000b0057a2f0131d7mr4953764ywf.1.1695280123148; Thu, 21
- Sep 2023 00:08:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE99E3D90
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 07:18:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695280702; x=1726816702;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aupaszkx+25EZH7fo8CqkCZFh6gPIeFpUmG7K/Rjnjc=;
+  b=XqEAYhYk/fGuz0OJffJJM2H3A1Kk38Y/nijcaf9g2+qw0SVXqj+kdjB3
+   hYsApQkO64C452WNurk88AttIn+fAyeoHWCio7xh8FEOhsudm/yyOZ6yC
+   pGnl6iulQHEbETXAQlH0VGFOwAoIsvH+72ftDcPa2RHMOErIQCX2rB+kx
+   RpJunQGDfhpHFLhB9CkZcI3Ci4UUno1os/GJLeXfd3DTdtz7aWsOnvmcc
+   LgJEuLjOEvrqhDQvTXpcPvBAGN0XyE0Fms3PJ83saevSWxoaKmSJzBlNB
+   9ENAgKbQQXSMrN8JfvtGMJd5c5mT0mUhBMnMxc9lzDdTQV3W6nPj3y1O+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="383184663"
+X-IronPort-AV: E=Sophos;i="6.03,164,1694761200"; 
+   d="scan'208";a="383184663"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 00:18:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="740519232"
+X-IronPort-AV: E=Sophos;i="6.03,164,1694761200"; 
+   d="scan'208";a="740519232"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 21 Sep 2023 00:18:13 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qjDww-0009gz-1M;
+	Thu, 21 Sep 2023 07:18:10 +0000
+Date: Thu, 21 Sep 2023 15:17:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Srinivas Neeli <srinivas.neeli@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>,
+	Saurabh Sengar <saurabh.singh@xilinx.com>,
+	Appana Durga Kedareswara Rao <appana.durga.rao@xilinx.com>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
+	Sarath Babu Naidu Gaddam <sarath.babu.naidu.gaddam@xilinx.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 777/1365]
+ drivers/net/ethernet/xilinx/xilinx_axienet.h:979:9: error: implicit
+ declaration of function 'writeq'; did you mean 'writeb'?
+Message-ID: <202309211554.I43hH7hZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202309192013.vI4DKHmw-lkp@intel.com> <CAL_JsqJ0BoR7Dan3=oyWPa6HU3YV=eOFTO5fx7u5zz2i=eB-jQ@mail.gmail.com>
- <a57afd40-71a2-aa68-84cb-44d2a88a1e2b@roeck-us.net> <CAL_JsqJYPJVTxH=d5nYK78+ZWhZAfh4VhEyBLqzyg4MzMhrX0g@mail.gmail.com>
- <194e2d22-9eff-ec6c-9bc9-13b62bda870a@roeck-us.net> <CAL_JsqKcD4AttSVUEi5zuF8S1E4xNdqdZVKiHmk0r79SRW5Cqw@mail.gmail.com>
- <ad1f36ab-29a6-98b6-8782-3980323760e1@roeck-us.net>
-In-Reply-To: <ad1f36ab-29a6-98b6-8782-3980323760e1@roeck-us.net>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 21 Sep 2023 09:08:30 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXsiSfp3DGnLXfuENVLOdG91a+GXj3+g9p8Yp6aGTuqDQ@mail.gmail.com>
-Message-ID: <CAMuHMdXsiSfp3DGnLXfuENVLOdG91a+GXj3+g9p8Yp6aGTuqDQ@mail.gmail.com>
-Subject: Re: arch/m68k/include/asm/raw_io.h:91:13: warning: array subscript 0
- is outside array bounds of 'volatile u16[0]' {aka 'volatile short unsigned int[]'}
-To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Wim Van Sebroeck <wim@linux-watchdog.org>, 
-	Michael Schmitz <schmitzmic@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi G=C3=BCnter, Rob,
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
+head:   008e6788f5aa09862307822bfc396c926dc0dbac
+commit: 34226470e8807581654cee237e6e9a89a2c6d0b7 [777/1365] net: axienet: added multichannel DMA support
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20230921/202309211554.I43hH7hZ-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309211554.I43hH7hZ-lkp@intel.com/reproduce)
 
-CC Michael
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309211554.I43hH7hZ-lkp@intel.com/
 
-On Wed, Sep 20, 2023 at 11:09=E2=80=AFPM Guenter Roeck <linux@roeck-us.net>=
- wrote:
-> On 9/20/23 09:20, Rob Herring wrote:
-> [....]
->
-> >>
-> >> Sure, but I still argue that this isn't worth it for drivers like this=
- one.
-> >> Are you going to submit a fix ? Because otherwise I'll submit a patch
-> >> to drop COMPILE_TEST from MACHZ_WDT.
+All errors (new ones prefixed by >>):
 
-I think dropping COMPILE_TEST from MACHZ_WDT is the right thing to do
-anyway.  Unlike most other drivers, this is not a driver that can be
-compiled in, and doesn't do anything if the hardware is not present.
-In fact it is a very dangerous driver: its probe function "reads" the
-ZF version register, but that involves doing an unconditional write,
-which might crash any non-X86 system.
+   In file included from drivers/net/ethernet/xilinx/xilinx_axienet_main.c:49:
+   drivers/net/ethernet/xilinx/xilinx_axienet.h: In function 'axienet_dma_bdout':
+>> drivers/net/ethernet/xilinx/xilinx_axienet.h:979:9: error: implicit declaration of function 'writeq'; did you mean 'writeb'? [-Werror=implicit-function-declaration]
+     979 |         writeq(value, (q->dma_regs + reg));
+         |         ^~~~~~
+         |         writeb
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_tx_hwtstamp':
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:555:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     555 |                 skb_hwtstamps((struct sk_buff *)cur_p->ptp_tx_skb);
+         |                               ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:617:26: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     617 |                 skb_pull((struct sk_buff *)cur_p->ptp_tx_skb,
+         |                          ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:620:23: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     620 |         skb_tstamp_tx((struct sk_buff *)cur_p->ptp_tx_skb, shhwtstamps);
+         |                       ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:621:27: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     621 |         dev_kfree_skb_any((struct sk_buff *)cur_p->ptp_tx_skb);
+         |                           ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_start_xmit_done':
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:722:43: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     722 |                         dev_kfree_skb_irq((struct sk_buff *)cur_p->tx_skb);
+         |                                           ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_skb_tstsmp':
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:926:53: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     926 |                                 cur_p->ptp_tx_skb = (phys_addr_t)skb_get(skb);
+         |                                                     ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_queue_xmit':
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1030:15: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1030 |             (((phys_addr_t)skb->data & 0x3) || num_frag > 0)) {
+         |               ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1082:25: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1082 |         cur_p->tx_skb = (phys_addr_t)skb;
+         |                         ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1083:25: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1083 |         cur_p->tx_skb = (phys_addr_t)skb;
+         |                         ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_recv':
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1177:23: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    1177 |                 skb = (struct sk_buff *)(cur_p->sw_id_offset);
+         |                       ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1267:39: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1267 |                 cur_p->sw_id_offset = (phys_addr_t)new_skb;
+         |                                       ^
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/net/ethernet/xilinx/xilinx_axienet_mdio.c:18:
+   drivers/net/ethernet/xilinx/xilinx_axienet.h: In function 'axienet_dma_bdout':
+>> drivers/net/ethernet/xilinx/xilinx_axienet.h:979:9: error: implicit declaration of function 'writeq'; did you mean 'writeb'? [-Werror=implicit-function-declaration]
+     979 |         writeq(value, (q->dma_regs + reg));
+         |         ^~~~~~
+         |         writeb
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/net/ethernet/xilinx/xilinx_axienet_dma.c:17:
+   drivers/net/ethernet/xilinx/xilinx_axienet.h: In function 'axienet_dma_bdout':
+>> drivers/net/ethernet/xilinx/xilinx_axienet.h:979:9: error: implicit declaration of function 'writeq'; did you mean 'writeb'? [-Werror=implicit-function-declaration]
+     979 |         writeq(value, (q->dma_regs + reg));
+         |         ^~~~~~
+         |         writeb
+   In file included from include/net/net_namespace.h:43,
+                    from include/linux/netdevice.h:38,
+                    from drivers/net/ethernet/xilinx/xilinx_axienet.h:14:
+   drivers/net/ethernet/xilinx/xilinx_axienet_dma.c: In function 'axienet_bd_free':
+   drivers/net/ethernet/xilinx/xilinx_axienet_dma.c:37:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+      37 |                 dev_kfree_skb((struct sk_buff *)
+         |                               ^
+   include/linux/skbuff.h:1362:45: note: in definition of macro 'dev_kfree_skb'
+    1362 | #define dev_kfree_skb(a)        consume_skb(a)
+         |                                             ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_dma.c: In function '__dma_rxq_init':
+   drivers/net/ethernet/xilinx/xilinx_axienet_dma.c:172:46: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     172 |                 q->rx_bd_v[i].sw_id_offset = (phys_addr_t)skb;
+         |                                              ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_dma.c: In function 'axienet_dma_err_handler':
+   drivers/net/ethernet/xilinx/xilinx_axienet_dma.c:412:43: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     412 |                         dev_kfree_skb_irq((struct sk_buff *)cur_p->tx_skb);
+         |                                           ^
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c:24:
+   drivers/net/ethernet/xilinx/xilinx_axienet.h: In function 'axienet_dma_bdout':
+>> drivers/net/ethernet/xilinx/xilinx_axienet.h:979:9: error: implicit declaration of function 'writeq'; did you mean 'writeb'? [-Werror=implicit-function-declaration]
+     979 |         writeq(value, (q->dma_regs + reg));
+         |         ^~~~~~
+         |         writeb
+   In file included from include/linux/netlink.h:7,
+                    from include/linux/ethtool.h:18,
+                    from include/linux/phy.h:16,
+                    from include/linux/of_mdio.h:12,
+                    from drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c:18:
+   drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c: In function 'axienet_mcdma_rx_bd_free':
+   drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c:148:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     148 |                 dev_kfree_skb((struct sk_buff *)
+         |                               ^
+   include/linux/skbuff.h:1362:45: note: in definition of macro 'dev_kfree_skb'
+    1362 | #define dev_kfree_skb(a)        consume_skb(a)
+         |                                             ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c: In function 'axienet_mcdma_rx_q_init':
+   drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c:285:47: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     285 |                 q->rxq_bd_v[i].sw_id_offset = (phys_addr_t)skb;
+         |                                               ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c: In function 'axienet_mcdma_err_handler':
+   drivers/net/ethernet/xilinx/xilinx_axienet_mcdma.c:625:43: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     625 |                         dev_kfree_skb_irq((struct sk_buff *)cur_p->tx_skb);
+         |                                           ^
+   cc1: some warnings being treated as errors
 
-IMHO a driver must not be enabled for compile-testing if its presence
-can harm the system.
 
-> > I honestly don't know what the fix is. There's a compiler flag to
-> > allow 0 address, but that seems like a big hammer. From what I read on
-> > the fix for gcc-12, we shouldn't be getting this, but I haven't
-> > confirmed. I was hoping for comment from Geert as the issue doesn't
-> > appear to be the driver, but the arch code.
+vim +979 drivers/net/ethernet/xilinx/xilinx_axienet.h
 
-Well, Atari ROM port ISA accesses are really weird, due to the really
-weird way the bus is wired to the address/data lines...
-The issue is that gcc considers accessing these addresses as "not
-done"...
+   965	
+   966	/**
+   967	 * axienet_dma_bdout - Memory mapped Axi DMA register Buffer Descriptor write.
+   968	 * @q:		Pointer to DMA queue structure
+   969	 * @reg:	Address offset from the base address of the Axi DMA core
+   970	 * @value:	Value to be written into the Axi DMA register
+   971	 *
+   972	 * This function writes the desired value into the corresponding Axi DMA
+   973	 * register.
+   974	 */
+   975	static inline void axienet_dma_bdout(struct axienet_dma_q *q,
+   976					     off_t reg, dma_addr_t value)
+   977	{
+   978	#if defined(CONFIG_PHYS_ADDR_T_64BIT)
+ > 979		writeq(value, (q->dma_regs + reg));
+   980	#else
+   981		writel(value, (q->dma_regs + reg));
+   982	#endif
+   983	}
+   984	
 
-> > Furthermore, I just built the same HEAD and config as reported and
-> > don't see this error. I'm using kernel.org nolibc gcc 13.2.0 which
-> > should be the same version.
->
-> Exactly my point. So now we are stuck with a report like this on a
-> driver which probably has 0 users and we don't know how to fix it,
-> all to get the benefit of being able to compile it for an architecture
-> and platform which will never use it.
->
-> I seem to recall similar errors with m68k and COMPILE_TEST last time
-> I tried to enable it on watchdog drivers, so I am not sure if this is
-> entirely new.
-
-Probably not.
-
-Michael: original build failure report in
-https://lore.kernel.org/r/202309192013.vI4DKHmw-lkp@intel.com/
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
