@@ -1,45 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05FEA944C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 09:54:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3AB39463;
+	Thu, 21 Sep 2023 09:54:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695290062; x=1726826062;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Zl3Ucm1eICQZgaQdIICPIFo1HJeIEsrvs5MGWbXEFOY=;
-  b=RDIZBiDLN7XgQb5z3eJVQlnikpnyzIt3qCx0YQcElf/UxoOnQojyrddj
-   Ut+2LX6Twyh720xd/Tgy/gyn/pQNgDYLpQuYroqwDuGg2xAh1VaFheC8C
-   TSax3BxIK6zjqmlfauuNI78HS7Shwf3J27lyoPobh8t55kcB2KJOKUDCc
-   Xp+uwmCBfL5rxINTufAR7GCFWypNPSGzBgwvzcsWdKDqXp0NPQz3VWulc
-   nSAjYlPKqZ6atGvTSQ6dhRP/3hTtgdM7jj7MUQBWt2576PKwgJxf6BfFp
-   lSn10jcqy292B27YOb+A6I5Vz9lalSOVU/K/LIfmMDutCPnjZ8k2MKldZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="466782201"
+  t=1695290063; x=1726826063;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mbUdodE1BmLOs31TQrxblmvCAcsSquPUpWxbLRjO6lY=;
+  b=Yen+vtV8pOyw/ogHWxaJktUmuTViq5tA38vp5LmYdXY/Njqj8bFHR4L4
+   bevOkQoHPlSnkeSngOiKehAnU4jtr5s6yiX/QDxDbds+1vaDtEKnh0/19
+   SSgnZXq+ajEyv39OaOyhE+raFKtyMMov/fTTeJegjvc7jlRJgRUgZ94kc
+   7vssFWbKGn46R1HXjiqgjC/dmFuqALBZuvympIQTVXu9Wh5jCh84s5h8+
+   UNakINAykD3SYlDbODris+k7+Umicz8BQL79/04AcYZFbEG9klNojsgJd
+   F/XiRWEmxfkPg/mMqOECkPxPU1g9cVVFzDwBYUDUrVOx5jXz+aQ0KZL5P
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="466782203"
 X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
-   d="scan'208";a="466782201"
+   d="scan'208";a="466782203"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
   by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 02:54:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="740556540"
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="740556538"
 X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
-   d="scan'208";a="740556540"
+   d="scan'208";a="740556538"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
   by orsmga007.jf.intel.com with ESMTP; 21 Sep 2023 02:54:18 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjGO0-0009qM-1l;
+	id 1qjGO0-0009qK-1b;
 	Thu, 21 Sep 2023 09:54:16 +0000
 Date: Thu, 21 Sep 2023 17:54:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ohad Sharabi <osharabi@habana.ai>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Oded Gabbay <ogabbay@kernel.org>
-Subject: [linux-next:master 5896/6975]
- drivers/accel/habanalabs/common/device.c:209:37: error: 'struct scatterlist'
- has no member named 'dma_length'; did you mean 'length'?
-Message-ID: <202309211712.ti68BWbS-lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>, Vinod Koul <vkoul@kernel.org>,
+	"open list:FREESCALE eDMA DRIVER" <imx@lists.linux.dev>,
+	open list <linux-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/1] dmaengine: fsl-dma: fix DMA error when enabling sg
+ if 'DONE' bit is set
+Message-ID: <202309211717.aYksVles-lkp@intel.com>
+References: <20230920203741.3184727-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,59 +49,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230920203741.3184727-1-Frank.Li@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   940fcc189c51032dd0282cbee4497542c982ac59
-commit: c313fc57eaefbeca50a51d5d2554264297d98526 [5896/6975] accel/habanalabs: trace dma map sgtable
-config: um-randconfig-r005-20230815 (https://download.01.org/0day-ci/archive/20230921/202309211712.ti68BWbS-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309211712.ti68BWbS-lkp@intel.com/reproduce)
+Hi Frank,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.6-rc2 next-20230921]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dmaengine-fsl-dma-fix-DMA-error-when-enabling-sg-if-DONE-bit-is-set/20230921-043838
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230920203741.3184727-1-Frank.Li%40nxp.com
+patch subject: [PATCH 1/1] dmaengine: fsl-dma: fix DMA error when enabling sg if 'DONE' bit is set
+config: i386-randconfig-062-20230921 (https://download.01.org/0day-ci/archive/20230921/202309211717.aYksVles-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309211717.aYksVles-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309211712.ti68BWbS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309211717.aYksVles-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/dma/fsl-edma-common.c:76:15: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/dma/fsl-edma-common.c:93:9: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/dma/fsl-edma-common.c:96:17: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/dma/fsl-edma-common.c:98:15: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/dma/fsl-edma-common.c:100:9: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/dma/fsl-edma-common.c:125:19: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/dma/fsl-edma-common.c:131:17: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/dma/fsl-edma-common.c:134:9: sparse: sparse: cast removes address space '__iomem' of expression
+>> drivers/dma/fsl-edma-common.c:463:21: sparse: sparse: restricted __le16 degrades to integer
+   drivers/dma/fsl-edma-common.c:465:21: sparse: sparse: restricted __le16 degrades to integer
+   drivers/dma/fsl-edma-common.c:466:17: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/dma/fsl-edma-common.c:466:17: sparse: sparse: cast removes address space '__iomem' of expression
 
-   drivers/accel/habanalabs/common/device.c: In function 'hl_dma_map_sgtable_caller':
->> drivers/accel/habanalabs/common/device.c:209:37: error: 'struct scatterlist' has no member named 'dma_length'; did you mean 'length'?
-     209 |                                 sg->dma_length, dir, caller);
-         |                                     ^~~~~~~~~~
-         |                                     length
-   drivers/accel/habanalabs/common/device.c: In function 'hl_dma_unmap_sgtable_caller':
-   drivers/accel/habanalabs/common/device.c:246:45: error: 'struct scatterlist' has no member named 'dma_length'; did you mean 'length'?
-     246 |                                         sg->dma_length, dir, caller);
-         |                                             ^~~~~~~~~~
-         |                                             length
+vim +463 drivers/dma/fsl-edma-common.c
 
-
-vim +209 drivers/accel/habanalabs/common/device.c
-
-   190	
-   191	int hl_dma_map_sgtable_caller(struct hl_device *hdev, struct sg_table *sgt,
-   192					enum dma_data_direction dir, const char *caller)
-   193	{
-   194		struct asic_fixed_properties *prop = &hdev->asic_prop;
-   195		struct scatterlist *sg;
-   196		int rc, i;
-   197	
-   198		rc = hdev->asic_funcs->dma_map_sgtable(hdev, sgt, dir);
-   199		if (rc)
-   200			return rc;
-   201	
-   202		if (!trace_habanalabs_dma_map_page_enabled())
-   203			return 0;
-   204	
-   205		for_each_sgtable_dma_sg(sgt, sg, i)
-   206			trace_habanalabs_dma_map_page(hdev->dev,
-   207					page_to_phys(sg_page(sg)),
-   208					sg->dma_address - prop->device_dma_offset_for_host_access,
- > 209					sg->dma_length, dir, caller);
-   210	
-   211		return 0;
-   212	}
-   213	
+   422	
+   423	static void fsl_edma_set_tcd_regs(struct fsl_edma_chan *fsl_chan,
+   424					  struct fsl_edma_hw_tcd *tcd)
+   425	{
+   426		u16 csr = 0;
+   427	
+   428		/*
+   429		 * TCD parameters are stored in struct fsl_edma_hw_tcd in little
+   430		 * endian format. However, we need to load the TCD registers in
+   431		 * big- or little-endian obeying the eDMA engine model endian,
+   432		 * and this is performed from specific edma_write functions
+   433		 */
+   434		edma_write_tcdreg(fsl_chan, 0, csr);
+   435	
+   436		edma_write_tcdreg(fsl_chan, tcd->saddr, saddr);
+   437		edma_write_tcdreg(fsl_chan, tcd->daddr, daddr);
+   438	
+   439		edma_write_tcdreg(fsl_chan, tcd->attr, attr);
+   440		edma_write_tcdreg(fsl_chan, tcd->soff, soff);
+   441	
+   442		edma_write_tcdreg(fsl_chan, tcd->nbytes, nbytes);
+   443		edma_write_tcdreg(fsl_chan, tcd->slast, slast);
+   444	
+   445		edma_write_tcdreg(fsl_chan, tcd->citer, citer);
+   446		edma_write_tcdreg(fsl_chan, tcd->biter, biter);
+   447		edma_write_tcdreg(fsl_chan, tcd->doff, doff);
+   448	
+   449		edma_write_tcdreg(fsl_chan, tcd->dlast_sga, dlast_sga);
+   450	
+   451		if (fsl_chan->is_sw) {
+   452			csr = le16_to_cpu(tcd->csr);
+   453			csr |= EDMA_TCD_CSR_START;
+   454			tcd->csr = cpu_to_le16(csr);
+   455		}
+   456	
+   457		/*
+   458		 * Must clear CHn_CSR[DONE] bit before enable TCDn_CSR[ESG] at EDMAv3
+   459		 * eDMAv4 have not such requirement.
+   460		 * Change MLINK need clear CHn_CSR[DONE] for both eDMAv3 and eDMAv4.
+   461		 */
+   462		if (((fsl_edma_drvflags(fsl_chan) & FSL_EDMA_DRV_CLEAR_DONE_E_SG) &&
+ > 463			(tcd->csr & EDMA_TCD_CSR_E_SG)) ||
+   464		    ((fsl_edma_drvflags(fsl_chan) & FSL_EDMA_DRV_CLEAR_DONE_E_LINK) &&
+   465			(tcd->csr & EDMA_TCD_CSR_E_LINK)))
+   466			edma_writel_chreg(fsl_chan, edma_readl_chreg(fsl_chan, ch_csr), ch_csr);
+   467	
+   468	
+   469		edma_write_tcdreg(fsl_chan, tcd->csr, csr);
+   470	}
+   471	
 
 -- 
 0-DAY CI Kernel Test Service
