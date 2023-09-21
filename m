@@ -1,95 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF0C1115
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 08:31:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695285099; x=1726821099;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8ZHu1hIXWBCsZA57pJrAZEA7etlLyQOr5qWeEtcu1xo=;
-  b=kr+qYAs0p/4ngj8UvNLv3wblcff4aq8fuI+JIRvKf9AQEpviUB0zvt2V
-   56csas1edFXvChE6NyWhgXcPs9jlFlnjDO2n8wK+x7nRFPSlvJ1HVuKKV
-   KL6eVDs1q1tUChJveqA+CWLgZVfwvIrbKXO+7mLNGyJrYfC0OmPMFO7sT
-   tfD3lEWwD6Ro50ve5fnDwNbN9sZIS810jNMhG4TRtcz+rBJ2aC6A9ty+M
-   REQXYftrYxPQazrOQlBr5jMVbni1N1IhkOArs3l2TRiGuxFJoThY95LTC
-   9ZfryfqzB4KN+fZhSMVoZ/jEFOe9YOhccV+l1Y2u/wIGRjys1EOmjYzH6
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="446924938"
-X-IronPort-AV: E=Sophos;i="6.03,164,1694761200"; 
-   d="scan'208";a="446924938"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 01:31:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="862380081"
-X-IronPort-AV: E=Sophos;i="6.03,164,1694761200"; 
-   d="scan'208";a="862380081"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 21 Sep 2023 01:31:36 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qjF5v-0009ma-2S;
-	Thu, 21 Sep 2023 08:31:33 +0000
-Date: Thu, 21 Sep 2023 16:31:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nathan Lynch <nathanl@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Alexey Kardashevskiy <aik@ozlabs.ru>,
-	Andrew Donnellan <ajd@linux.ibm.com>
-Subject: arch/powerpc/kernel/rtas-proc.c:771: warning: Function parameter or
- member 'm' not described in 'ppc_rtas_rmo_buf_show'
-Message-ID: <202309211645.1Lvwmbv4-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9087F7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 08:31:51 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-532aaba8747so738632a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 01:31:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1695285110; x=1695889910; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yXh14rgGSApBO2RLl9u0ZXXrRj21CwmUeFVGgznRjnM=;
+        b=cx7ZD13Em/dn7eA86TLAadNxkaBxjX8WJgiNm9tNiW1g+tmAgVwx+p4xRerGequBbf
+         lS/BD6y0c8WhBCuF1PIvu59VfQVA9GXs6XCikhGe5XOZVRk0Vc2iExT0sT4/RDKGLxW5
+         oIFMUnu3VlppFdfNhhKcflP2doXeFv0/mwPGjXFODDxC1xl8KcIMI+f86u9zbzyVJmx7
+         a11bwO11dzyVTRQp2RnnT8Kl8OfzzrYr2sTGzOmNK16380SPTfQY8/L9l+I+/5X8+6y/
+         qjcH3GCH4IZvUlrelrhHDdF0wnfDjSy1b39K0eEeDK+keUUaic7nuUSxKCz/ydGbBRgg
+         8gBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695285110; x=1695889910;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=yXh14rgGSApBO2RLl9u0ZXXrRj21CwmUeFVGgznRjnM=;
+        b=JTm54VvLj5ylq1gd7ko0HP5RzK01k8GZZLuJWUscvbTJcsh+Lj6oXD5u4CC0p9ALF6
+         QCLUT5Aq5Uc75Q99MpDdKcZCv58L1QZxk0P/NuIO7FaNrlYLPOtis+IOH+c2SmXBe6WT
+         pIyfRhYodq0iqjwrsuQ91jd/BEM3QVSihSsfBX4ONavNxntnv3tr/l5fkcflKC4HSHeD
+         QiFIcXeB7FpTBJzPwdIiC3bDCq34BgznkzRTKHoAUc+ZJyyBD2Z20mjak6A+SluDqrHv
+         v4W6I69XP2G3U6oejRIL3JgTSbhfwbBsIxESaM2Y0DDfk7cikRi3UWMVx+vn75MNIpUX
+         tsCg==
+X-Gm-Message-State: AOJu0YxUpMt0edLdE6D9fLXbOsdsQ/x+wYMCm8P9Fo9/k+8A/0GbenIj
+	rtJLQdoQUsITb4nOwaC0ziHKkA==
+X-Google-Smtp-Source: AGHT+IEr/TZ2L2Og4nDs079VMm6BL7IG4jplnaZNs47eesIvvzhAJROzYLz9FpU6VIV+IDWDXCBIZQ==
+X-Received: by 2002:aa7:c58f:0:b0:523:38f5:c5ad with SMTP id g15-20020aa7c58f000000b0052338f5c5admr4154251edq.20.1695285109782;
+        Thu, 21 Sep 2023 01:31:49 -0700 (PDT)
+Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id y19-20020a056402135300b0052fdfd8870bsm492257edw.89.2023.09.21.01.31.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Sep 2023 01:31:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 21 Sep 2023 10:31:48 +0200
+Message-Id: <CVOGEZD8EU2P.2NIMHV7AAUKR3@otso>
+Cc: <oe-kbuild-all@lists.linux.dev>, "Bjorn Andersson"
+ <andersson@kernel.org>, "Krzysztof Kozlowski" <krzk@kernel.org>
+Subject: Re: [qcom:arm64-for-6.7 139/142] Error:
+ scripts/dtc/include-prefixes/arm64/qcom/pm7250b.dtsi:44.10-11 syntax error
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "kernel test robot" <lkp@intel.com>
+X-Mailer: aerc 0.15.2
+References: <202309211630.0h14xtgj-lkp@intel.com>
+In-Reply-To: <202309211630.0h14xtgj-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   42dc814987c1feb6410904e58cfd4c36c4146150
-commit: c13ff6f3251318f5e1ff5b1a6d05f76996db672a powerpc/rtas: improve ppc_rtas_rmo_buf_show documentation
-date:   2 years, 5 months ago
-config: powerpc-mgcoge_defconfig (https://download.01.org/0day-ci/archive/20230921/202309211645.1Lvwmbv4-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309211645.1Lvwmbv4-lkp@intel.com/reproduce)
+On Thu Sep 21, 2023 at 10:10 AM CEST, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-=
+for-6.7
+> head:   eee9602ad6498eee9ddab1b7eb6aede288f0b934
+> commit: 8e2d56f64572e0432c355093a7601bde29677490 [139/142] arm64: dts: qc=
+om: pm7250b: make SID configurable
+> config: arm-defconfig (https://download.01.org/0day-ci/archive/20230921/2=
+02309211630.0h14xtgj-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20230921/202309211630.0h14xtgj-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309211630.0h14xtgj-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> Error: scripts/dtc/include-prefixes/arm64/qcom/pm7250b.dtsi:44.10-11 s=
+yntax error
+> >> FATAL ERROR: Unable to parse input tree
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309211645.1Lvwmbv4-lkp@intel.com/
+For completeness so it doesn't look like this is ignored, the same issue
+was also reported here [0] and I've sent a patch[1] to fix the issue
+(though I don't see it in the archives yet, neither my reply to [0] so
+I'm guessing the archives are just slow today).
 
-All warnings (new ones prefixed by >>):
+[0] https://lore.kernel.org/all/20230921084252.3c5ab501@canb.auug.org.au/
+[1] https://lore.kernel.org/all/20230921-pm7250b-sid-fixup-v1-1-231c1a65471=
+f@fairphone.com/
 
->> arch/powerpc/kernel/rtas-proc.c:771: warning: Function parameter or member 'm' not described in 'ppc_rtas_rmo_buf_show'
->> arch/powerpc/kernel/rtas-proc.c:771: warning: Function parameter or member 'v' not described in 'ppc_rtas_rmo_buf_show'
-
-
-vim +771 arch/powerpc/kernel/rtas-proc.c
-
-^1da177e4c3f41 arch/ppc64/kernel/rtas-proc.c   Linus Torvalds 2005-04-16  759  
-c13ff6f3251318 arch/powerpc/kernel/rtas-proc.c Nathan Lynch   2021-04-08  760  /**
-c13ff6f3251318 arch/powerpc/kernel/rtas-proc.c Nathan Lynch   2021-04-08  761   * ppc_rtas_rmo_buf_show() - Describe RTAS-addressable region for user space.
-c13ff6f3251318 arch/powerpc/kernel/rtas-proc.c Nathan Lynch   2021-04-08  762   *
-c13ff6f3251318 arch/powerpc/kernel/rtas-proc.c Nathan Lynch   2021-04-08  763   * Base + size description of a range of RTAS-addressable memory set
-c13ff6f3251318 arch/powerpc/kernel/rtas-proc.c Nathan Lynch   2021-04-08  764   * aside for user space to use as work area(s) for certain RTAS
-c13ff6f3251318 arch/powerpc/kernel/rtas-proc.c Nathan Lynch   2021-04-08  765   * functions. User space accesses this region via /dev/mem. Apart from
-c13ff6f3251318 arch/powerpc/kernel/rtas-proc.c Nathan Lynch   2021-04-08  766   * security policies, the kernel does not arbitrate or serialize
-c13ff6f3251318 arch/powerpc/kernel/rtas-proc.c Nathan Lynch   2021-04-08  767   * access to this region, and user space must ensure that concurrent
-c13ff6f3251318 arch/powerpc/kernel/rtas-proc.c Nathan Lynch   2021-04-08  768   * users do not interfere with each other.
-c13ff6f3251318 arch/powerpc/kernel/rtas-proc.c Nathan Lynch   2021-04-08  769   */
-^1da177e4c3f41 arch/ppc64/kernel/rtas-proc.c   Linus Torvalds 2005-04-16  770  static int ppc_rtas_rmo_buf_show(struct seq_file *m, void *v)
-^1da177e4c3f41 arch/ppc64/kernel/rtas-proc.c   Linus Torvalds 2005-04-16 @771  {
-
-:::::: The code at line 771 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards
+Luca
