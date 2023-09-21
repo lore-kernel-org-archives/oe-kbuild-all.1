@@ -1,261 +1,135 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34DB819455
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 21:01:38 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-307d20548adso1256825f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 14:01:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695330097; x=1695934897; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0rUsUqKbiTN+5AJFY5VneI8NJRSroN3WWkp9ziiQqp0=;
-        b=gn4neNBtznh73BB83ESv2dlDWO8S276Mz3yjMNagl3w117v8XjHXAFJUlZy7bYAjGy
-         j9Rvn321mKXz9EJNyGkhX7bb9/WywIR8TNsptHxcyTGovndUle35Yg8LwrWA6XsGjT81
-         4AgGNi+J92jKY5K78gk4wUo3qipWBxLdgk3Hlyw1edYgrZQS3Ih0D1ElRy5d4uFa1+R5
-         VHmFpEMI6vwf0vLYVsMNIop81bs83v5yKmJviJorWqQtjLar4lPzrtZr+5FmuKz6+wMr
-         uYTGSCSk92ys+lt2lwI7p+ryOb5YT/welEfrPw2Ou8xOhPN9OqtKfqtCvuLf8mjUBI+s
-         UdJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695330097; x=1695934897;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0rUsUqKbiTN+5AJFY5VneI8NJRSroN3WWkp9ziiQqp0=;
-        b=Yscs1nMk8xPQ3h3PflPj5KVdmozeKIDcVcGLY98wTomM1A3tAS7cWwp0Fotqymfa7k
-         g0UeMSdaX0IcKzu5z4IVLCb3BruDnfZJiTSDMFStJ+sGeDmRP0kzKNkdI/TEcEsdz3S1
-         JpfXY2aeyX+csYuqvuXGNmObVgloz7Ct+DHYpyb4cfD3G+BZ5CjYW5vwFp+JwcS1tOaJ
-         U5S76IEuCA5URvRu3EPojY+oPslgdABVohVcfWoO/uf+tHA/mBRstmr4TXK0rQR5l76G
-         Azxj94oCPEUiOf2fVvLjkp4iNPgOEeiHWDImmZpYtU0lLF/Dd8hYYkXDjw8tkX6sJBmX
-         /OaA==
-X-Gm-Message-State: AOJu0YwI3J60OLCRHs+3ZRdD2HZkjB40H5QlzTbFmauS2WSmBgrJieWI
-	swa0+xmQC6exU5KpNaJGSx9g2vSGRh6tfVRZLqFd6Q==
-X-Google-Smtp-Source: AGHT+IG+lgB6b0FlP6FTLmxGTFwXXXbuDjRWJ1vjsbR9lCrf7xYl/EarkvsXMyrafWLuLdoGAIYtDTgDuHS2NedZsQM=
-X-Received: by 2002:a5d:638a:0:b0:321:6fe4:d4eb with SMTP id
- p10-20020a5d638a000000b003216fe4d4ebmr4827582wru.2.1695330097084; Thu, 21 Sep
- 2023 14:01:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E4319468
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 21:11:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695330696; x=1726866696;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3+eI3UgLms590aA+oWQf7NdcqV5rfD94OQLXjXGtl2c=;
+  b=h9T4dD49rl0pcFqa3FiFUxodBFD679CGr3Kqn1JaamQzPBRRkLNOZvbx
+   tK248atdPqm8qyZqxILFA/HKIdgn+tthFb7xIN/eolpQYV/cMm9Djxr1X
+   us8WWNYrZqT13LtzIDKMMPkQOD8QelsU3YawgTq7y31g6K7iaXuUK73+c
+   120EJ2RlaUfgsUIn1NrIGTJYWCpz39UKN/xX/kIQcj5U9SXUQHXgUqMu9
+   R5yreM6dn6g8b+t0kmOsFc21UC0AORVA7NvudYZQp/+vIU8LeGrOYIu8K
+   t9zowhHgrBZh6BaLZSSdWr4+Wg3XUmUfAXtjO1s6eZ/FefdMGCDIBSDzh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="447144820"
+X-IronPort-AV: E=Sophos;i="6.03,166,1694761200"; 
+   d="scan'208";a="447144820"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 14:11:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="870992745"
+X-IronPort-AV: E=Sophos;i="6.03,166,1694761200"; 
+   d="scan'208";a="870992745"
+Received: from lkp-server02.sh.intel.com (HELO b77866e22201) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 21 Sep 2023 14:11:31 -0700
+Received: from kbuild by b77866e22201 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qjQxM-0000PY-2M;
+	Thu, 21 Sep 2023 21:11:28 +0000
+Date: Fri, 22 Sep 2023 05:11:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jon Hunter <jonathanh@nvidia.com>, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+	Ninad Malwade <nmalwade@nvidia.com>,
+	Rajkumar Kasirajan <rkasirajan@nvidia.com>,
+	Jon Hunter <jonathanh@nvidia.com>
+Subject: Re: [PATCH V3 3/4] hwmon: ina3221: Add support for channel summation
+ disable
+Message-ID: <202309220454.kCi2xD48-lkp@intel.com>
+References: <20230921130818.21247-4-jonathanh@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230921081057.3440885-5-yosryahmed@google.com> <202309211829.Efuqg8NE-lkp@intel.com>
-In-Reply-To: <202309211829.Efuqg8NE-lkp@intel.com>
-From: Yosry Ahmed <yosryahmed@google.com>
-Date: Thu, 21 Sep 2023 14:00:57 -0700
-Message-ID: <CAJD7tkam6BV0p99t503x0V__ygVk_3sdrDSLjiEP5dsE_5T7Qg@mail.gmail.com>
-Subject: Re: [PATCH 4/5] mm: workingset: move the stats flush into workingset_test_recent()
-To: kernel test robot <lkp@intel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeelb@google.com>, Muchun Song <muchun.song@linux.dev>, 
-	Ivan Babrou <ivan@cloudflare.com>, Tejun Heo <tj@kernel.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Waiman Long <longman@redhat.com>, kernel-team@cloudflare.com, 
-	Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>, cgroups@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230921130818.21247-4-jonathanh@nvidia.com>
 
-On Thu, Sep 21, 2023 at 4:06=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Yosry,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on akpm-mm/mm-everything]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/mm-mem=
-cg-change-flush_next_time-to-flush_last_time/20230921-161246
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-ev=
-erything
-> patch link:    https://lore.kernel.org/r/20230921081057.3440885-5-yosryah=
-med%40google.com
-> patch subject: [PATCH 4/5] mm: workingset: move the stats flush into work=
-ingset_test_recent()
-> config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/2023=
-0921/202309211829.Efuqg8NE-lkp@intel.com/config)
-> compiler: powerpc-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20230921/202309211829.Efuqg8NE-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309211829.Efuqg8NE-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    mm/workingset.c: In function 'workingset_test_recent':
-> >> mm/workingset.c:461:32: error: invalid use of undefined type 'struct m=
-em_cgroup'
->      461 |         css_get(&eviction_memcg->css);
->          |                                ^~
->
+Hi Jon,
 
-Ah yes, I cannot dereference the memcg pointer here. I think we want
-mem_cgroup_get_from_id (a getter version of mem_cgroup_from_id) or
-mem_cgroup_get (similar to mem_cgroup_put) to have stubs when
-!CONFIG_MEMCG. I will do this change in the next version, but I'll
-wait for feedback on this version first.
+kernel test robot noticed the following build warnings:
 
->
-> vim +461 mm/workingset.c
->
->    405
->    406  /**
->    407   * workingset_test_recent - tests if the shadow entry is for a fo=
-lio that was
->    408   * recently evicted. Also fills in @workingset with the value unp=
-acked from
->    409   * shadow.
->    410   * @shadow: the shadow entry to be tested.
->    411   * @file: whether the corresponding folio is from the file lru.
->    412   * @workingset: where the workingset value unpacked from shadow s=
-hould
->    413   * be stored.
->    414   *
->    415   * Return: true if the shadow is for a recently evicted folio; fa=
-lse otherwise.
->    416   */
->    417  bool workingset_test_recent(void *shadow, bool file, bool *workin=
-gset)
->    418  {
->    419          struct mem_cgroup *eviction_memcg;
->    420          struct lruvec *eviction_lruvec;
->    421          unsigned long refault_distance;
->    422          unsigned long workingset_size;
->    423          unsigned long refault;
->    424          int memcgid;
->    425          struct pglist_data *pgdat;
->    426          unsigned long eviction;
->    427
->    428          rcu_read_lock();
->    429
->    430          if (lru_gen_enabled()) {
->    431                  bool recent =3D lru_gen_test_recent(shadow, file,
->    432                                                    &eviction_lruve=
-c, &eviction,
->    433                                                    workingset);
->    434                  rcu_read_unlock();
->    435                  return recent;
->    436          }
->    437
->    438          unpack_shadow(shadow, &memcgid, &pgdat, &eviction, workin=
-gset);
->    439          eviction <<=3D bucket_order;
->    440
->    441          /*
->    442           * Look up the memcg associated with the stored ID. It mi=
-ght
->    443           * have been deleted since the folio's eviction.
->    444           *
->    445           * Note that in rare events the ID could have been recycl=
-ed
->    446           * for a new cgroup that refaults a shared folio. This is
->    447           * impossible to tell from the available data. However, t=
-his
->    448           * should be a rare and limited disturbance, and activati=
-ons
->    449           * are always speculative anyway. Ultimately, it's the ag=
-ing
->    450           * algorithm's job to shake out the minimum access freque=
-ncy
->    451           * for the active cache.
->    452           *
->    453           * XXX: On !CONFIG_MEMCG, this will always return NULL; i=
-t
->    454           * would be better if the root_mem_cgroup existed in all
->    455           * configurations instead.
->    456           */
->    457          eviction_memcg =3D mem_cgroup_from_id(memcgid);
->    458          if (!mem_cgroup_disabled() && !eviction_memcg)
->    459                  return false;
->    460
->  > 461          css_get(&eviction_memcg->css);
->    462          rcu_read_unlock();
->    463
->    464          /* Flush stats (and potentially sleep) outside the RCU re=
-ad section */
->    465          mem_cgroup_flush_stats_ratelimited();
->    466
->    467          eviction_lruvec =3D mem_cgroup_lruvec(eviction_memcg, pgd=
-at);
->    468          refault =3D atomic_long_read(&eviction_lruvec->nonresiden=
-t_age);
->    469
->    470          /*
->    471           * Calculate the refault distance
->    472           *
->    473           * The unsigned subtraction here gives an accurate distan=
-ce
->    474           * across nonresident_age overflows in most cases. There =
-is a
->    475           * special case: usually, shadow entries have a short lif=
-etime
->    476           * and are either refaulted or reclaimed along with the i=
-node
->    477           * before they get too old.  But it is not impossible for=
- the
->    478           * nonresident_age to lap a shadow entry in the field, wh=
-ich
->    479           * can then result in a false small refault distance, lea=
-ding
->    480           * to a false activation should this old entry actually
->    481           * refault again.  However, earlier kernels used to deact=
-ivate
->    482           * unconditionally with *every* reclaim invocation for th=
-e
->    483           * longest time, so the occasional inappropriate activati=
-on
->    484           * leading to pressure on the active list is not a proble=
-m.
->    485           */
->    486          refault_distance =3D (refault - eviction) & EVICTION_MASK=
-;
->    487
->    488          /*
->    489           * Compare the distance to the existing workingset size. =
-We
->    490           * don't activate pages that couldn't stay resident even =
-if
->    491           * all the memory was available to the workingset. Whethe=
-r
->    492           * workingset competition needs to consider anon or not d=
-epends
->    493           * on having free swap space.
->    494           */
->    495          workingset_size =3D lruvec_page_state(eviction_lruvec, NR=
-_ACTIVE_FILE);
->    496          if (!file) {
->    497                  workingset_size +=3D lruvec_page_state(eviction_l=
-ruvec,
->    498                                                       NR_INACTIVE_=
-FILE);
->    499          }
->    500          if (mem_cgroup_get_nr_swap_pages(eviction_memcg) > 0) {
->    501                  workingset_size +=3D lruvec_page_state(eviction_l=
-ruvec,
->    502                                                       NR_ACTIVE_AN=
-ON);
->    503                  if (file) {
->    504                          workingset_size +=3D lruvec_page_state(ev=
-iction_lruvec,
->    505                                                       NR_INACTIVE_=
-ANON);
->    506                  }
->    507          }
->    508
->    509          mem_cgroup_put(eviction_memcg);
->    510          return refault_distance <=3D workingset_size;
->    511  }
->    512
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on robh/for-next linus/master v6.6-rc2 next-20230921]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jon-Hunter/dt-bindings-hwmon-ina3221-Add-ti-summation-disable/20230922-011119
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20230921130818.21247-4-jonathanh%40nvidia.com
+patch subject: [PATCH V3 3/4] hwmon: ina3221: Add support for channel summation disable
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230922/202309220454.kCi2xD48-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309220454.kCi2xD48-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309220454.kCi2xD48-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/hwmon/ina3221.c:109: warning: Function parameter or member 'summation_disable' not described in 'ina3221_input'
+>> drivers/hwmon/ina3221.c:134: warning: Function parameter or member 'debugfs' not described in 'ina3221_data'
+>> drivers/hwmon/ina3221.c:134: warning: Function parameter or member 'summation_channel_control' not described in 'ina3221_data'
+
+
+vim +109 drivers/hwmon/ina3221.c
+
+7cb6dcff1956ec Andrew F. Davis 2016-06-10   97  
+a9e9dd9c6de5d8 Nicolin Chen    2018-10-01   98  /**
+a9e9dd9c6de5d8 Nicolin Chen    2018-10-01   99   * struct ina3221_input - channel input source specific information
+a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  100   * @label: label of channel input source
+a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  101   * @shunt_resistor: shunt resistor value of channel input source
+a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  102   * @disconnected: connection status of channel input source
+a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  103   */
+a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  104  struct ina3221_input {
+a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  105  	const char *label;
+a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  106  	int shunt_resistor;
+a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  107  	bool disconnected;
+ac0a832fd3617c Ninad Malwade   2023-09-21  108  	bool summation_disable;
+a9e9dd9c6de5d8 Nicolin Chen    2018-10-01 @109  };
+a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  110  
+7cb6dcff1956ec Andrew F. Davis 2016-06-10  111  /**
+7cb6dcff1956ec Andrew F. Davis 2016-06-10  112   * struct ina3221_data - device specific information
+323aeb0eb5d9a6 Nicolin Chen    2018-11-05  113   * @pm_dev: Device pointer for pm runtime
+7cb6dcff1956ec Andrew F. Davis 2016-06-10  114   * @regmap: Register map of the device
+7cb6dcff1956ec Andrew F. Davis 2016-06-10  115   * @fields: Register fields of the device
+a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  116   * @inputs: Array of channel input source specific structures
+87625b24986bc2 Nicolin Chen    2018-11-05  117   * @lock: mutex lock to serialize sysfs attribute accesses
+59d608e152e582 Nicolin Chen    2018-09-29  118   * @reg_config: Register value of INA3221_CONFIG
+2057bdfb7184e9 Nicolin Chen    2019-10-16  119   * @summation_shunt_resistor: equivalent shunt resistor value for summation
+43dece162de047 Nicolin Chen    2019-01-17  120   * @single_shot: running in single-shot operating mode
+7cb6dcff1956ec Andrew F. Davis 2016-06-10  121   */
+7cb6dcff1956ec Andrew F. Davis 2016-06-10  122  struct ina3221_data {
+323aeb0eb5d9a6 Nicolin Chen    2018-11-05  123  	struct device *pm_dev;
+7cb6dcff1956ec Andrew F. Davis 2016-06-10  124  	struct regmap *regmap;
+7cb6dcff1956ec Andrew F. Davis 2016-06-10  125  	struct regmap_field *fields[F_MAX_FIELDS];
+a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  126  	struct ina3221_input inputs[INA3221_NUM_CHANNELS];
+87625b24986bc2 Nicolin Chen    2018-11-05  127  	struct mutex lock;
+ac0a832fd3617c Ninad Malwade   2023-09-21  128  	struct dentry *debugfs;
+59d608e152e582 Nicolin Chen    2018-09-29  129  	u32 reg_config;
+2057bdfb7184e9 Nicolin Chen    2019-10-16  130  	int summation_shunt_resistor;
+ac0a832fd3617c Ninad Malwade   2023-09-21  131  	u32 summation_channel_control;
+43dece162de047 Nicolin Chen    2019-01-17  132  
+43dece162de047 Nicolin Chen    2019-01-17  133  	bool single_shot;
+7cb6dcff1956ec Andrew F. Davis 2016-06-10 @134  };
+7cb6dcff1956ec Andrew F. Davis 2016-06-10  135  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
