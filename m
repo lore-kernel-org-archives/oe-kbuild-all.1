@@ -1,57 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708A6946D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 11:06:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E684AD22
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 11:26:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695294389; x=1726830389;
+  t=1695295588; x=1726831588;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=FjWBe0gquMx3lNYmeIOSoDBa7nBK8aydjByq9TyafbE=;
-  b=XFJyEvRtCm0kWMtfUAnFJTbefgaxu3+XhUFjp8EeCqmODDrBLdOkiNJG
-   aq11tIJucw4qXHa4tdOe7dw7sxD7AKNZJJE3DLLFLqLejARBwpnxbyZjE
-   PUViq0wEh1btnQQuDIjsOEA2fDMjmwJ/SH/60VSU+WpvZm0r+pOd4l+AS
-   +u7TmfPcP8bPVLx3DKKZngs/NbrErSVAQHGUMIj+cCgc7kRAFhHDMdjig
-   7WcwlxTqAgPoA9N7inL+r7U4DmIyhAjY4w1RROAXMA1zq+6fPHiZfRBVQ
-   6zdOS4TmveNZsZLHbj+nG4s6/1sqC6UDEe5wcdtsG8Pml4er2LESsGOPl
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="359871054"
+  bh=4Ne+vrsW5UtAXBNbbGZuiUIqq3ylSla3sj1CH7LF+fA=;
+  b=VasnxqVHhOJni6PBG36eIvn3kCegtgFwxHUtwOKFS1WJ0Lp1tAmuzDZo
+   iZARveUS6hL1MiKBFeA+DZK1U0ESi9KO81u9Tia0USw1QGBBS4WfHxl3b
+   5uCHgiY3sWF2DJ/57ScjSQUCgCNwmXrOH43fs9yFKAw1CizQuh7Hg6S1G
+   TgsTfvzRM8rkW68YNyLzosk5DNPZnZEgValtvMde3BHcLNV7zTrtvxIUd
+   Vh2SFZAwWPwYxEAzK5KioIk9sdpgyFXieHzreFnqyn2z0zOg+tMT+lsYd
+   art1LdJzbGWEzupRM8j1/CCGDuWwFphldLEIir4+kRpHeG5xqQZ2FpP6B
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="446964128"
 X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
-   d="scan'208";a="359871054"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 04:06:28 -0700
+   d="scan'208";a="446964128"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 04:26:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="870765809"
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="862425479"
 X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
-   d="scan'208";a="870765809"
+   d="scan'208";a="862425479"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 21 Sep 2023 04:06:23 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 21 Sep 2023 04:26:23 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjHVl-0009uA-1C;
-	Thu, 21 Sep 2023 11:06:21 +0000
-Date: Thu, 21 Sep 2023 19:05:40 +0800
+	id 1qjHp7-0009uu-2J;
+	Thu, 21 Sep 2023 11:26:21 +0000
+Date: Thu, 21 Sep 2023 19:26:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yosry Ahmed <yosryahmed@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeelb@google.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	Ivan Babrou <ivan@cloudflare.com>, Tejun Heo <tj@kernel.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Waiman Long <longman@redhat.com>, kernel-team@cloudflare.com,
-	Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>,
-	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Yosry Ahmed <yosryahmed@google.com>
-Subject: Re: [PATCH 4/5] mm: workingset: move the stats flush into
- workingset_test_recent()
-Message-ID: <202309211829.Efuqg8NE-lkp@intel.com>
-References: <20230921081057.3440885-5-yosryahmed@google.com>
+To: Serge Semin <fancer.lancer@gmail.com>, Michal Simek <monstr@monstr.eu>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
+	James Morse <james.morse@arm.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Robert Richter <rric@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Serge Semin <fancer.lancer@gmail.com>,
+	Punnaiah Choudary Kalluri <punnaiah.choudary.kalluri@xilinx.com>,
+	Dinh Nguyen <dinguyen@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 16/20] EDAC/synopsys: Detach Zynq A05 DDRC support to
+ separate driver
+Message-ID: <202309211954.M7wyhXyv-lkp@intel.com>
+References: <20230920191059.28395-17-fancer.lancer@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,145 +58,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230921081057.3440885-5-yosryahmed@google.com>
+In-Reply-To: <20230920191059.28395-17-fancer.lancer@gmail.com>
 
-Hi Yosry,
+Hi Serge,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test WARNING on v6.5]
+[also build test WARNING on next-20230921]
+[cannot apply to linus/master v6.6-rc2 v6.6-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/mm-memcg-change-flush_next_time-to-flush_last_time/20230921-161246
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230921081057.3440885-5-yosryahmed%40google.com
-patch subject: [PATCH 4/5] mm: workingset: move the stats flush into workingset_test_recent()
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230921/202309211829.Efuqg8NE-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309211829.Efuqg8NE-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Serge-Semin/EDAC-synopsys-Fix-ECC-status-data-and-IRQ-disable-race-condition/20230921-031420
+base:   v6.5
+patch link:    https://lore.kernel.org/r/20230920191059.28395-17-fancer.lancer%40gmail.com
+patch subject: [PATCH v4 16/20] EDAC/synopsys: Detach Zynq A05 DDRC support to separate driver
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230921/202309211954.M7wyhXyv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309211954.M7wyhXyv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309211829.Efuqg8NE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309211954.M7wyhXyv-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/workingset.c: In function 'workingset_test_recent':
->> mm/workingset.c:461:32: error: invalid use of undefined type 'struct mem_cgroup'
-     461 |         css_get(&eviction_memcg->css);
-         |                                ^~
+>> drivers/edac/zynq_edac.c:194: warning: expecting prototype for handle_error(). Prototype was for zynq_handle_error() instead
+>> drivers/edac/zynq_edac.c:233: warning: expecting prototype for check_errors(). Prototype was for zynq_check_errors() instead
 
 
-vim +461 mm/workingset.c
+vim +194 drivers/edac/zynq_edac.c
 
-   405	
-   406	/**
-   407	 * workingset_test_recent - tests if the shadow entry is for a folio that was
-   408	 * recently evicted. Also fills in @workingset with the value unpacked from
-   409	 * shadow.
-   410	 * @shadow: the shadow entry to be tested.
-   411	 * @file: whether the corresponding folio is from the file lru.
-   412	 * @workingset: where the workingset value unpacked from shadow should
-   413	 * be stored.
-   414	 *
-   415	 * Return: true if the shadow is for a recently evicted folio; false otherwise.
-   416	 */
-   417	bool workingset_test_recent(void *shadow, bool file, bool *workingset)
-   418	{
-   419		struct mem_cgroup *eviction_memcg;
-   420		struct lruvec *eviction_lruvec;
-   421		unsigned long refault_distance;
-   422		unsigned long workingset_size;
-   423		unsigned long refault;
-   424		int memcgid;
-   425		struct pglist_data *pgdat;
-   426		unsigned long eviction;
-   427	
-   428		rcu_read_lock();
-   429	
-   430		if (lru_gen_enabled()) {
-   431			bool recent = lru_gen_test_recent(shadow, file,
-   432							  &eviction_lruvec, &eviction,
-   433							  workingset);
-   434			rcu_read_unlock();
-   435			return recent;
-   436		}
-   437	
-   438		unpack_shadow(shadow, &memcgid, &pgdat, &eviction, workingset);
-   439		eviction <<= bucket_order;
-   440	
-   441		/*
-   442		 * Look up the memcg associated with the stored ID. It might
-   443		 * have been deleted since the folio's eviction.
-   444		 *
-   445		 * Note that in rare events the ID could have been recycled
-   446		 * for a new cgroup that refaults a shared folio. This is
-   447		 * impossible to tell from the available data. However, this
-   448		 * should be a rare and limited disturbance, and activations
-   449		 * are always speculative anyway. Ultimately, it's the aging
-   450		 * algorithm's job to shake out the minimum access frequency
-   451		 * for the active cache.
-   452		 *
-   453		 * XXX: On !CONFIG_MEMCG, this will always return NULL; it
-   454		 * would be better if the root_mem_cgroup existed in all
-   455		 * configurations instead.
-   456		 */
-   457		eviction_memcg = mem_cgroup_from_id(memcgid);
-   458		if (!mem_cgroup_disabled() && !eviction_memcg)
-   459			return false;
-   460	
- > 461		css_get(&eviction_memcg->css);
-   462		rcu_read_unlock();
-   463	
-   464		/* Flush stats (and potentially sleep) outside the RCU read section */
-   465		mem_cgroup_flush_stats_ratelimited();
-   466	
-   467		eviction_lruvec = mem_cgroup_lruvec(eviction_memcg, pgdat);
-   468		refault = atomic_long_read(&eviction_lruvec->nonresident_age);
-   469	
-   470		/*
-   471		 * Calculate the refault distance
-   472		 *
-   473		 * The unsigned subtraction here gives an accurate distance
-   474		 * across nonresident_age overflows in most cases. There is a
-   475		 * special case: usually, shadow entries have a short lifetime
-   476		 * and are either refaulted or reclaimed along with the inode
-   477		 * before they get too old.  But it is not impossible for the
-   478		 * nonresident_age to lap a shadow entry in the field, which
-   479		 * can then result in a false small refault distance, leading
-   480		 * to a false activation should this old entry actually
-   481		 * refault again.  However, earlier kernels used to deactivate
-   482		 * unconditionally with *every* reclaim invocation for the
-   483		 * longest time, so the occasional inappropriate activation
-   484		 * leading to pressure on the active list is not a problem.
-   485		 */
-   486		refault_distance = (refault - eviction) & EVICTION_MASK;
-   487	
-   488		/*
-   489		 * Compare the distance to the existing workingset size. We
-   490		 * don't activate pages that couldn't stay resident even if
-   491		 * all the memory was available to the workingset. Whether
-   492		 * workingset competition needs to consider anon or not depends
-   493		 * on having free swap space.
-   494		 */
-   495		workingset_size = lruvec_page_state(eviction_lruvec, NR_ACTIVE_FILE);
-   496		if (!file) {
-   497			workingset_size += lruvec_page_state(eviction_lruvec,
-   498							     NR_INACTIVE_FILE);
-   499		}
-   500		if (mem_cgroup_get_nr_swap_pages(eviction_memcg) > 0) {
-   501			workingset_size += lruvec_page_state(eviction_lruvec,
-   502							     NR_ACTIVE_ANON);
-   503			if (file) {
-   504				workingset_size += lruvec_page_state(eviction_lruvec,
-   505							     NR_INACTIVE_ANON);
-   506			}
-   507		}
-   508	
-   509		mem_cgroup_put(eviction_memcg);
-   510		return refault_distance <= workingset_size;
-   511	}
-   512	
+   185	
+   186	/**
+   187	 * handle_error - Handle Correctable and Uncorrectable errors.
+   188	 * @mci:	EDAC memory controller instance.
+   189	 * @p:		Zynq ECC status structure.
+   190	 *
+   191	 * Handles ECC correctable and uncorrectable errors.
+   192	 */
+   193	static void zynq_handle_error(struct mem_ctl_info *mci, struct zynq_ecc_status *p)
+ > 194	{
+   195		struct zynq_edac_priv *priv = mci->pvt_info;
+   196		struct zynq_ecc_error_info *pinf;
+   197	
+   198		if (p->ce_cnt) {
+   199			pinf = &p->ceinfo;
+   200	
+   201			snprintf(priv->message, ZYNQ_EDAC_MSG_SIZE,
+   202				 "Row %d Bank %d Col %d Bit %d Data 0x%08x",
+   203				 pinf->row, pinf->bank, pinf->col,
+   204				 pinf->bitpos, pinf->data);
+   205	
+   206			edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci,
+   207					     p->ce_cnt, 0, 0, 0, 0, 0, -1,
+   208					     priv->message, "");
+   209		}
+   210	
+   211		if (p->ue_cnt) {
+   212			pinf = &p->ueinfo;
+   213	
+   214			snprintf(priv->message, ZYNQ_EDAC_MSG_SIZE,
+   215				 "Row %d Bank %d Col %d",
+   216				 pinf->row, pinf->bank, pinf->col);
+   217	
+   218			edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci,
+   219					     p->ue_cnt, 0, 0, 0, 0, 0, -1,
+   220					     priv->message, "");
+   221		}
+   222	
+   223		memset(p, 0, sizeof(*p));
+   224	}
+   225	
+   226	/**
+   227	 * check_errors - Check controller for ECC errors.
+   228	 * @mci:	EDAC memory controller instance.
+   229	 *
+   230	 * Check and post ECC errors. Called by the polling thread.
+   231	 */
+   232	static void zynq_check_errors(struct mem_ctl_info *mci)
+ > 233	{
+   234		struct zynq_edac_priv *priv = mci->pvt_info;
+   235		int status;
+   236	
+   237		status = zynq_get_error_info(priv);
+   238		if (status)
+   239			return;
+   240	
+   241		zynq_handle_error(mci, &priv->stat);
+   242	}
+   243	
 
 -- 
 0-DAY CI Kernel Test Service
