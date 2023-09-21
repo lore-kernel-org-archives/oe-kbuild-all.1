@@ -1,96 +1,104 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9087F7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 08:31:51 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-532aaba8747so738632a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 01:31:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1695285110; x=1695889910; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yXh14rgGSApBO2RLl9u0ZXXrRj21CwmUeFVGgznRjnM=;
-        b=cx7ZD13Em/dn7eA86TLAadNxkaBxjX8WJgiNm9tNiW1g+tmAgVwx+p4xRerGequBbf
-         lS/BD6y0c8WhBCuF1PIvu59VfQVA9GXs6XCikhGe5XOZVRk0Vc2iExT0sT4/RDKGLxW5
-         oIFMUnu3VlppFdfNhhKcflP2doXeFv0/mwPGjXFODDxC1xl8KcIMI+f86u9zbzyVJmx7
-         a11bwO11dzyVTRQp2RnnT8Kl8OfzzrYr2sTGzOmNK16380SPTfQY8/L9l+I+/5X8+6y/
-         qjcH3GCH4IZvUlrelrhHDdF0wnfDjSy1b39K0eEeDK+keUUaic7nuUSxKCz/ydGbBRgg
-         8gBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695285110; x=1695889910;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=yXh14rgGSApBO2RLl9u0ZXXrRj21CwmUeFVGgznRjnM=;
-        b=JTm54VvLj5ylq1gd7ko0HP5RzK01k8GZZLuJWUscvbTJcsh+Lj6oXD5u4CC0p9ALF6
-         QCLUT5Aq5Uc75Q99MpDdKcZCv58L1QZxk0P/NuIO7FaNrlYLPOtis+IOH+c2SmXBe6WT
-         pIyfRhYodq0iqjwrsuQ91jd/BEM3QVSihSsfBX4ONavNxntnv3tr/l5fkcflKC4HSHeD
-         QiFIcXeB7FpTBJzPwdIiC3bDCq34BgznkzRTKHoAUc+ZJyyBD2Z20mjak6A+SluDqrHv
-         v4W6I69XP2G3U6oejRIL3JgTSbhfwbBsIxESaM2Y0DDfk7cikRi3UWMVx+vn75MNIpUX
-         tsCg==
-X-Gm-Message-State: AOJu0YxUpMt0edLdE6D9fLXbOsdsQ/x+wYMCm8P9Fo9/k+8A/0GbenIj
-	rtJLQdoQUsITb4nOwaC0ziHKkA==
-X-Google-Smtp-Source: AGHT+IEr/TZ2L2Og4nDs079VMm6BL7IG4jplnaZNs47eesIvvzhAJROzYLz9FpU6VIV+IDWDXCBIZQ==
-X-Received: by 2002:aa7:c58f:0:b0:523:38f5:c5ad with SMTP id g15-20020aa7c58f000000b0052338f5c5admr4154251edq.20.1695285109782;
-        Thu, 21 Sep 2023 01:31:49 -0700 (PDT)
-Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
-        by smtp.gmail.com with ESMTPSA id y19-20020a056402135300b0052fdfd8870bsm492257edw.89.2023.09.21.01.31.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Sep 2023 01:31:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0183C8F55;
+	Thu, 21 Sep 2023 09:23:35 +0000 (UTC)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38L8q8d1026256;
+	Thu, 21 Sep 2023 04:23:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	PODMain02222019; bh=J2qZUJ1cFFZzjHH3/osBYzH3RiKVzD3UD+0CYZe2Z0w=; b=
+	K25k0jVXTmiC1djsdbSsw3+D847Wwreu5QA/zqwZjNDh/roLz3QUnhfMaPGtAhGC
+	k7jZ2xnHQA5e0HshCUgeskbptgi0oKbrCzaaY62wUNU5vuRy86vtRK3drhWDCtxd
+	aZ9TWLuwKg4inVXhkM59vlGc1WiJntNIjTu4euy9XCNeVxAq+pKbPKyEoI6ROVV1
+	aW9jWmHDbYC6gsDxHLtVAU6fFbFmhtfqyd/VTQlBzd9xVftEksK9NqHQQfC+S6/C
+	KZnX1OuWkQzWL2CxoGY5nOMvMidTunznSYbVtMtMYeZyF1/SiyHNp2Sd10Fd/oaj
+	8WFzUqsEhvKA5CiXjGVGdw==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3t58shwgnd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 21 Sep 2023 04:23:23 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.37; Thu, 21 Sep
+ 2023 10:23:22 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.37 via Frontend Transport; Thu, 21 Sep 2023 10:23:22 +0100
+Received: from [198.90.238.129] (unknown [198.90.238.129])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 9749C2A1;
+	Thu, 21 Sep 2023 09:23:19 +0000 (UTC)
+Message-ID: <0a4644bc-d345-9988-2eb6-e95c8db06219@opensource.cirrus.com>
+Date: Thu, 21 Sep 2023 10:23:14 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 21 Sep 2023 10:31:48 +0200
-Message-Id: <CVOGEZD8EU2P.2NIMHV7AAUKR3@otso>
-Cc: <oe-kbuild-all@lists.linux.dev>, "Bjorn Andersson"
- <andersson@kernel.org>, "Krzysztof Kozlowski" <krzk@kernel.org>
-Subject: Re: [qcom:arm64-for-6.7 139/142] Error:
- scripts/dtc/include-prefixes/arm64/qcom/pm7250b.dtsi:44.10-11 syntax error
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "kernel test robot" <lkp@intel.com>
-X-Mailer: aerc 0.15.2
-References: <202309211630.0h14xtgj-lkp@intel.com>
-In-Reply-To: <202309211630.0h14xtgj-lkp@intel.com>
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [tiwai-sound:for-next 36/38]
+ sound/pci/hda/cirrus_scodec_test.c:151:60: error: initializer element is not
+ a compile-time constant
+Content-Language: en-US
+To: <arnd@arndb.de>, <treding@nvidia.com>
+CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
+        <alsa-devel@alsa-project.org>, Takashi Iwai <tiwai@suse.de>
+References: <202309210751.TXlnuEMF-lkp@intel.com>
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <202309210751.TXlnuEMF-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: 5UtX-_ESS5mGioR1LtJsS8Ft0QeIi43-
+X-Proofpoint-ORIG-GUID: 5UtX-_ESS5mGioR1LtJsS8Ft0QeIi43-
+X-Proofpoint-Spam-Reason: safe
 
-On Thu Sep 21, 2023 at 10:10 AM CEST, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-=
-for-6.7
-> head:   eee9602ad6498eee9ddab1b7eb6aede288f0b934
-> commit: 8e2d56f64572e0432c355093a7601bde29677490 [139/142] arm64: dts: qc=
-om: pm7250b: make SID configurable
-> config: arm-defconfig (https://download.01.org/0day-ci/archive/20230921/2=
-02309211630.0h14xtgj-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20230921/202309211630.0h14xtgj-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
+On 21/9/23 00:35, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+> head:   72f6a13022f3bf16df305b75c32f95ece263a5ce
+> commit: 2144833e7b41459fa2d52bb0676f0ab4920cf32c [36/38] ALSA: hda: cirrus_scodec: Add KUnit test
+> config: hexagon-randconfig-r041-20211219 (https://download.01.org/0day-ci/archive/20230921/202309210751.TXlnuEMF-lkp@intel.com/config)
+> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309210751.TXlnuEMF-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309211630.0h14xtgj-lkp=
-@intel.com/
->
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309210751.TXlnuEMF-lkp@intel.com/
+> 
 > All errors (new ones prefixed by >>):
->
-> >> Error: scripts/dtc/include-prefixes/arm64/qcom/pm7250b.dtsi:44.10-11 s=
-yntax error
-> >> FATAL ERROR: Unable to parse input tree
+> 
+>     In file included from sound/pci/hda/cirrus_scodec_test.c:9:
+>     In file included from include/linux/gpio/driver.h:6:
+>     In file included from include/linux/irqchip/chained_irq.h:10:
+>     In file included from include/linux/irq.h:20:
+>     In file included from include/linux/io.h:13:
+>     In file included from arch/hexagon/include/asm/io.h:337:
+>     include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>             val = __raw_readb(PCI_IOBASE + addr);
+>                               ~~~~~~~~~~ ^
+>     include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>             val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+>                                                             ~~~~~~~~~~ ^
+>     include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+>     #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+>                                                       ^
 
-For completeness so it doesn't look like this is ignored, the same issue
-was also reported here [0] and I've sent a patch[1] to fix the issue
-(though I don't see it in the archives yet, neither my reply to [0] so
-I'm guessing the archives are just slow today).
+This looks like it has nothing to do with cirrus_scodec_test, it's just
+unfortunate that including gpio/driver.h results in also including io.h.
 
-[0] https://lore.kernel.org/all/20230921084252.3c5ab501@canb.auug.org.au/
-[1] https://lore.kernel.org/all/20230921-pm7250b-sid-fixup-v1-1-231c1a65471=
-f@fairphone.com/
+I think the problem here is that the way io.h tries to implement some
+functions that might depend on PCI_IOBASE is not portable. If PCI_IOBASE
+is not defined it defines it as NULL so that the functions will use
+(0 + addr). But clang doesn't like this.
 
-Regards
-Luca
+Probably the address calculation should be factored out from all these
+functions so that it can be alternately defined as (PCI_IOBASE + addr)
+or just (addr) depending whether PCI_IOBASE is set.
+
+I've added the author and maintainer of the io.h code and the author of
+the PCI_IOBASE hack for comment.
+
