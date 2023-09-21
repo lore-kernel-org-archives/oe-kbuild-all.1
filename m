@@ -1,57 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A643129409
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 23:30:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C902032D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 23:40:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695339024; x=1726875024;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1ME8C2bw+S9S5r4SeJgGmarGxYaSLP1dZzXZxGZxMzo=;
-  b=iB4D8utquMBnmAy8D/3KoJTke/rjulrt55GelF/K4bPwvmlsSU7fBqaw
-   ALpn7sg/Z31rlo3HbuBqSeQONPywj6Ssy0db0uNVYC2jLtx57hb8d8l6J
-   UAuzH1uCOR5KjVFSu7PpyWrr11P3p2ib7KHkwkBLaRzSBwdm2C97gZWtG
-   P8ABO1utiuBA0138yHeIVkX0V+NlUjamFAf/714eQkxYvJsbwD3mtkgCx
-   u3YSLX1TQQgkA7jrUCUWNmNWlq4oCgQ4grLFtCUAiaNfAg/BEENPJ9pSm
-   TbiRM4d2AtCjpC+fC+NqxaV+vpNrqCbk40uIeUy6YXcWCON2mh2q4w5l+
+  t=1695339618; x=1726875618;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KGNLZVgjnx5KVKQqKUlX+jOWwdVBwEq2V+ro2XyTICI=;
+  b=Tk3ZMOFGNnNoZl+DeB4Thyv3zttw/tQzZNSCSgkTpsEn6bznMheeF4XP
+   xeQFkhLyBcEozETpf19RR+eRegTBCqR+xh1wmp/lMcbknB+zWpZq5r7pB
+   O1V22/dV9WqF8KNIpf6+2Qf66N7SEGc20XNScBxAWkZUgfBRCN9LrzD+i
+   7gzW+Teo9C/hT8xzVGfmA9fkLxxK9dm6eUyx4T8SKZ59Wf3m5bJVD6ubs
+   a2nL6ikFCrheQER5lksaj1N+6ddxfM3aEs5Ywjg3xkrzD9//yOZTDp2yM
+   CPGlu29Tbm1oDcfro1oTBm2SAKwDi8/i5qg8zZNMCHllpQkNQ/obXtNp6
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="360076103"
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="384536165"
 X-IronPort-AV: E=Sophos;i="6.03,166,1694761200"; 
-   d="scan'208";a="360076103"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 16:30:19 -0700
+   d="scan'208";a="384536165"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 16:40:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="723960313"
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="920936837"
 X-IronPort-AV: E=Sophos;i="6.03,166,1694761200"; 
-   d="scan'208";a="723960313"
+   d="scan'208";a="920936837"
 Received: from lkp-server02.sh.intel.com (HELO b77866e22201) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 21 Sep 2023 16:30:14 -0700
+  by orsmga005.jf.intel.com with ESMTP; 21 Sep 2023 16:40:16 -0700
 Received: from kbuild by b77866e22201 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjT7c-0000Xt-1e;
-	Thu, 21 Sep 2023 23:30:12 +0000
-Date: Fri, 22 Sep 2023 07:29:54 +0800
+	id 1qjTHK-0000YN-2S;
+	Thu, 21 Sep 2023 23:40:14 +0000
+Date: Fri, 22 Sep 2023 07:40:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yosry Ahmed <yosryahmed@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeelb@google.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	Ivan Babrou <ivan@cloudflare.com>, Tejun Heo <tj@kernel.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Waiman Long <longman@redhat.com>, kernel-team@cloudflare.com,
-	Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>,
-	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Yosry Ahmed <yosryahmed@google.com>
-Subject: Re: [PATCH 4/5] mm: workingset: move the stats flush into
- workingset_test_recent()
-Message-ID: <202309220704.NF0GCRP2-lkp@intel.com>
-References: <20230921081057.3440885-5-yosryahmed@google.com>
+To: Sandor Yu <Sandor.yu@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c:332
+ dw_hdmi_cec_suspend() warn: inconsistent indenting
+Message-ID: <202309220730.BHfIyHe1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,145 +46,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230921081057.3440885-5-yosryahmed@google.com>
 
-Hi Yosry,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/mm-memcg-change-flush_next_time-to-flush_last_time/20230921-161246
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230921081057.3440885-5-yosryahmed%40google.com
-patch subject: [PATCH 4/5] mm: workingset: move the stats flush into workingset_test_recent()
-config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20230922/202309220704.NF0GCRP2-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309220704.NF0GCRP2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   27bbf45eae9ca98877a2d52a92a188147cd61b07
+commit: db1184e410744a680f92ca21e5acd5ae54510db8 drm: bridge: dw_hdmi: Add cec suspend/resume functions
+date:   7 weeks ago
+config: csky-randconfig-r071-20230917 (https://download.01.org/0day-ci/archive/20230922/202309220730.BHfIyHe1-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230922/202309220730.BHfIyHe1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309220704.NF0GCRP2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309220730.BHfIyHe1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c:332 dw_hdmi_cec_suspend() warn: inconsistent indenting
 
-   mm/workingset.c: In function 'workingset_test_recent':
->> mm/workingset.c:461:25: error: dereferencing pointer to incomplete type 'struct mem_cgroup'
-     css_get(&eviction_memcg->css);
-                            ^~
+vim +332 drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
 
-
-vim +461 mm/workingset.c
-
-   405	
-   406	/**
-   407	 * workingset_test_recent - tests if the shadow entry is for a folio that was
-   408	 * recently evicted. Also fills in @workingset with the value unpacked from
-   409	 * shadow.
-   410	 * @shadow: the shadow entry to be tested.
-   411	 * @file: whether the corresponding folio is from the file lru.
-   412	 * @workingset: where the workingset value unpacked from shadow should
-   413	 * be stored.
-   414	 *
-   415	 * Return: true if the shadow is for a recently evicted folio; false otherwise.
-   416	 */
-   417	bool workingset_test_recent(void *shadow, bool file, bool *workingset)
-   418	{
-   419		struct mem_cgroup *eviction_memcg;
-   420		struct lruvec *eviction_lruvec;
-   421		unsigned long refault_distance;
-   422		unsigned long workingset_size;
-   423		unsigned long refault;
-   424		int memcgid;
-   425		struct pglist_data *pgdat;
-   426		unsigned long eviction;
-   427	
-   428		rcu_read_lock();
-   429	
-   430		if (lru_gen_enabled()) {
-   431			bool recent = lru_gen_test_recent(shadow, file,
-   432							  &eviction_lruvec, &eviction,
-   433							  workingset);
-   434			rcu_read_unlock();
-   435			return recent;
-   436		}
-   437	
-   438		unpack_shadow(shadow, &memcgid, &pgdat, &eviction, workingset);
-   439		eviction <<= bucket_order;
-   440	
-   441		/*
-   442		 * Look up the memcg associated with the stored ID. It might
-   443		 * have been deleted since the folio's eviction.
-   444		 *
-   445		 * Note that in rare events the ID could have been recycled
-   446		 * for a new cgroup that refaults a shared folio. This is
-   447		 * impossible to tell from the available data. However, this
-   448		 * should be a rare and limited disturbance, and activations
-   449		 * are always speculative anyway. Ultimately, it's the aging
-   450		 * algorithm's job to shake out the minimum access frequency
-   451		 * for the active cache.
-   452		 *
-   453		 * XXX: On !CONFIG_MEMCG, this will always return NULL; it
-   454		 * would be better if the root_mem_cgroup existed in all
-   455		 * configurations instead.
-   456		 */
-   457		eviction_memcg = mem_cgroup_from_id(memcgid);
-   458		if (!mem_cgroup_disabled() && !eviction_memcg)
-   459			return false;
-   460	
- > 461		css_get(&eviction_memcg->css);
-   462		rcu_read_unlock();
-   463	
-   464		/* Flush stats (and potentially sleep) outside the RCU read section */
-   465		mem_cgroup_flush_stats_ratelimited();
-   466	
-   467		eviction_lruvec = mem_cgroup_lruvec(eviction_memcg, pgdat);
-   468		refault = atomic_long_read(&eviction_lruvec->nonresident_age);
-   469	
-   470		/*
-   471		 * Calculate the refault distance
-   472		 *
-   473		 * The unsigned subtraction here gives an accurate distance
-   474		 * across nonresident_age overflows in most cases. There is a
-   475		 * special case: usually, shadow entries have a short lifetime
-   476		 * and are either refaulted or reclaimed along with the inode
-   477		 * before they get too old.  But it is not impossible for the
-   478		 * nonresident_age to lap a shadow entry in the field, which
-   479		 * can then result in a false small refault distance, leading
-   480		 * to a false activation should this old entry actually
-   481		 * refault again.  However, earlier kernels used to deactivate
-   482		 * unconditionally with *every* reclaim invocation for the
-   483		 * longest time, so the occasional inappropriate activation
-   484		 * leading to pressure on the active list is not a problem.
-   485		 */
-   486		refault_distance = (refault - eviction) & EVICTION_MASK;
-   487	
-   488		/*
-   489		 * Compare the distance to the existing workingset size. We
-   490		 * don't activate pages that couldn't stay resident even if
-   491		 * all the memory was available to the workingset. Whether
-   492		 * workingset competition needs to consider anon or not depends
-   493		 * on having free swap space.
-   494		 */
-   495		workingset_size = lruvec_page_state(eviction_lruvec, NR_ACTIVE_FILE);
-   496		if (!file) {
-   497			workingset_size += lruvec_page_state(eviction_lruvec,
-   498							     NR_INACTIVE_FILE);
-   499		}
-   500		if (mem_cgroup_get_nr_swap_pages(eviction_memcg) > 0) {
-   501			workingset_size += lruvec_page_state(eviction_lruvec,
-   502							     NR_ACTIVE_ANON);
-   503			if (file) {
-   504				workingset_size += lruvec_page_state(eviction_lruvec,
-   505							     NR_INACTIVE_ANON);
-   506			}
-   507		}
-   508	
-   509		mem_cgroup_put(eviction_memcg);
-   510		return refault_distance <= workingset_size;
-   511	}
-   512	
+   326	
+   327	static int __maybe_unused dw_hdmi_cec_suspend(struct device *dev)
+   328	{
+   329		struct dw_hdmi_cec *cec = dev_get_drvdata(dev);
+   330	
+   331		/* store interrupt status/mask registers */
+ > 332		 cec->regs_polarity = dw_hdmi_read(cec, HDMI_CEC_POLARITY);
+   333		 cec->regs_mask = dw_hdmi_read(cec, HDMI_CEC_MASK);
+   334		 cec->regs_mute_stat0 = dw_hdmi_read(cec, HDMI_IH_MUTE_CEC_STAT0);
+   335	
+   336		return 0;
+   337	}
+   338	
 
 -- 
 0-DAY CI Kernel Test Service
