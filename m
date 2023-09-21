@@ -1,51 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C9020E7;
-	Thu, 21 Sep 2023 15:22:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB5F7199B1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 15:33:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695309779; x=1726845779;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FnsWRBzdZgNAyCUwkFjj8/oqtFBd7nKiOnqkBC+QPZk=;
-  b=Kn1G9GCjG7cMxUBfZG9Qjbodz4uIYMMQnGm8byLwOYPeIcxIZK4gLGPi
-   Cj+NuhfloqjKf+CbhJ7ONrsmmKj2YuXNInqfg5ngxhDYIU1KHqXs/w7K8
-   5p6gnnWgVfm8/OcgFWyntC+KtXKGmqLpGN4i6X//Q7TldlQpSz3sJFH/e
-   YuKe2Bho4NSOrEiWneQusBEcX7T0ed0h+eACcK81LwrbJwjneP6CS5R5Q
-   PkcWusIMHfIp9RztulBfTjuaETxv/1vSn2E21xwZF0JU8KcoNwEZtXnqB
-   O0MltF6q7SHjK8SgpZzT6r5L+ja4ydA4UFkfF1EBtLvJLub/H6G2T6uMC
+  t=1695310400; x=1726846400;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uLmJaqq50BNr8vEwm9l8LfI2IqYuFYV9qSikPkLfeXg=;
+  b=VTlmXxjkJHTvGyVyvOwe4rw85ub0FrnEtNgbQXeI34h149B8G68AU5ui
+   96T5MYHj5t4KxEVpZdJwGqRliiZkes6yStXN0hvEVbEGhtQlzzqe53viB
+   RiTnG9WdhPtUJ7rNzOLvJJUXszJR+JUL3PEWmKjzwV8zJKPALQCZokLrX
+   r0BeaB7cS2dRABJ3+c1kGwV0CjWzimI/qidZ/GdZ+HxdWZUQtFwFkm6hc
+   tj64HVaCAhc9jIJAwK8Jf/+NeBT+/NRnlMSaYy01ENwB03EXinsW5xuMY
+   L9OUAYVeAvgcUFoxV7vcar5XSnRKiZsEhNgsFug2cWYjWn11zJEqE5cwb
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="444669431"
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="377849583"
 X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
-   d="scan'208";a="444669431"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 08:22:55 -0700
+   d="scan'208";a="377849583"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 08:33:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="994120427"
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="890415106"
 X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
-   d="scan'208";a="994120427"
+   d="scan'208";a="890415106"
 Received: from lkp-server02.sh.intel.com (HELO b77866e22201) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 21 Sep 2023 08:22:52 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 21 Sep 2023 08:32:13 -0700
 Received: from kbuild by b77866e22201 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjLVv-00005Z-1X;
-	Thu, 21 Sep 2023 15:22:48 +0000
-Date: Thu, 21 Sep 2023 23:21:51 +0800
+	id 1qjLfr-000069-0f;
+	Thu, 21 Sep 2023 15:33:03 +0000
+Date: Thu, 21 Sep 2023 23:32:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stuart Hayes <stuart.w.hayes@gmail.com>, linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Tanjore Suresh <tansuresh@google.com>,
-	Martin Belanger <Martin.Belanger@dell.com>,
-	Oliver O'Halloran <oohall@gmail.com>,
-	Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>,
-	Lukas Wunner <lukas@wunner.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Stuart Hayes <stuart.w.hayes@gmail.com>
-Subject: Re: [PATCH v3] driver core: shut down devices asynchronously
-Message-ID: <202309212351.tXxMovlT-lkp@intel.com>
-References: <20230920185923.3422-1-stuart.w.hayes@gmail.com>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: [linux-next:master 5197/6975] kernel/bpf/helpers.c:2476:18: warning:
+ no previous declaration for 'bpf_throw'
+Message-ID: <202309212339.hxhBu2F1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,161 +47,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230920185923.3422-1-stuart.w.hayes@gmail.com>
 
-Hi Stuart,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on driver-core/driver-core-testing]
-[also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.6-rc2 next-20230921]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Stuart-Hayes/driver-core-shut-down-devices-asynchronously/20230921-030141
-base:   driver-core/driver-core-testing
-patch link:    https://lore.kernel.org/r/20230920185923.3422-1-stuart.w.hayes%40gmail.com
-patch subject: [PATCH v3] driver core: shut down devices asynchronously
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20230921/202309212351.tXxMovlT-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309212351.tXxMovlT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   940fcc189c51032dd0282cbee4497542c982ac59
+commit: f18b03fabaa9b7c80e80b72a621f481f0d706ae0 [5197/6975] bpf: Implement BPF exceptions
+config: i386-randconfig-006-20230921 (https://download.01.org/0day-ci/archive/20230921/202309212339.hxhBu2F1-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309212339.hxhBu2F1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309212351.tXxMovlT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309212339.hxhBu2F1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/base/core.c:25:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/base/core.c:25:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/base/core.c:25:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/base/core.c:4811:19: warning: variable 'parent' is uninitialized when used here [-Wuninitialized]
-    4811 |                         dev->parent ? &parent->p->child_domain : &top_domain);
-         |                                        ^~~~~~
-   drivers/base/core.c:4785:29: note: initialize the variable 'parent' to silence this warning
-    4785 |         struct device *dev, *parent;
-         |                                    ^
-         |                                     = NULL
-   13 warnings generated.
+   kernel/bpf/helpers.c:1891:19: warning: no previous declaration for 'bpf_obj_new_impl' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+                      ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1905:19: warning: no previous declaration for 'bpf_percpu_obj_new_impl' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_percpu_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+                      ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1933:18: warning: no previous declaration for 'bpf_obj_drop_impl' [-Wmissing-declarations]
+    __bpf_kfunc void bpf_obj_drop_impl(void *p__alloc, void *meta__ign)
+                     ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1941:18: warning: no previous declaration for 'bpf_percpu_obj_drop_impl' [-Wmissing-declarations]
+    __bpf_kfunc void bpf_percpu_obj_drop_impl(void *p__alloc, void *meta__ign)
+                     ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1947:19: warning: no previous declaration for 'bpf_refcount_acquire_impl' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_refcount_acquire_impl(void *p__refcounted_kptr, void *meta__ign)
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1992:17: warning: no previous declaration for 'bpf_list_push_front_impl' [-Wmissing-declarations]
+    __bpf_kfunc int bpf_list_push_front_impl(struct bpf_list_head *head,
+                    ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2002:17: warning: no previous declaration for 'bpf_list_push_back_impl' [-Wmissing-declarations]
+    __bpf_kfunc int bpf_list_push_back_impl(struct bpf_list_head *head,
+                    ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2035:35: warning: no previous declaration for 'bpf_list_pop_front' [-Wmissing-declarations]
+    __bpf_kfunc struct bpf_list_node *bpf_list_pop_front(struct bpf_list_head *head)
+                                      ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2040:35: warning: no previous declaration for 'bpf_list_pop_back' [-Wmissing-declarations]
+    __bpf_kfunc struct bpf_list_node *bpf_list_pop_back(struct bpf_list_head *head)
+                                      ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2045:33: warning: no previous declaration for 'bpf_rbtree_remove' [-Wmissing-declarations]
+    __bpf_kfunc struct bpf_rb_node *bpf_rbtree_remove(struct bpf_rb_root *root,
+                                    ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2101:17: warning: no previous declaration for 'bpf_rbtree_add_impl' [-Wmissing-declarations]
+    __bpf_kfunc int bpf_rbtree_add_impl(struct bpf_rb_root *root, struct bpf_rb_node *node,
+                    ^~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2111:33: warning: no previous declaration for 'bpf_rbtree_first' [-Wmissing-declarations]
+    __bpf_kfunc struct bpf_rb_node *bpf_rbtree_first(struct bpf_rb_root *root)
+                                    ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2124:33: warning: no previous declaration for 'bpf_task_acquire' [-Wmissing-declarations]
+    __bpf_kfunc struct task_struct *bpf_task_acquire(struct task_struct *p)
+                                    ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2135:18: warning: no previous declaration for 'bpf_task_release' [-Wmissing-declarations]
+    __bpf_kfunc void bpf_task_release(struct task_struct *p)
+                     ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2147:28: warning: no previous declaration for 'bpf_cgroup_acquire' [-Wmissing-declarations]
+    __bpf_kfunc struct cgroup *bpf_cgroup_acquire(struct cgroup *cgrp)
+                               ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2159:18: warning: no previous declaration for 'bpf_cgroup_release' [-Wmissing-declarations]
+    __bpf_kfunc void bpf_cgroup_release(struct cgroup *cgrp)
+                     ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2171:28: warning: no previous declaration for 'bpf_cgroup_ancestor' [-Wmissing-declarations]
+    __bpf_kfunc struct cgroup *bpf_cgroup_ancestor(struct cgroup *cgrp, int level)
+                               ^~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2191:28: warning: no previous declaration for 'bpf_cgroup_from_id' [-Wmissing-declarations]
+    __bpf_kfunc struct cgroup *bpf_cgroup_from_id(u64 cgid)
+                               ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2211:18: warning: no previous declaration for 'bpf_task_under_cgroup' [-Wmissing-declarations]
+    __bpf_kfunc long bpf_task_under_cgroup(struct task_struct *task,
+                     ^~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2224:33: warning: no previous declaration for 'bpf_task_from_pid' [-Wmissing-declarations]
+    __bpf_kfunc struct task_struct *bpf_task_from_pid(s32 pid)
+                                    ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2265:19: warning: no previous declaration for 'bpf_dynptr_slice' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_dynptr_slice(const struct bpf_dynptr_kern *ptr, u32 offset,
+                      ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2349:19: warning: no previous declaration for 'bpf_dynptr_slice_rdwr' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_dynptr_slice_rdwr(const struct bpf_dynptr_kern *ptr, u32 offset,
+                      ^~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2380:17: warning: no previous declaration for 'bpf_dynptr_adjust' [-Wmissing-declarations]
+    __bpf_kfunc int bpf_dynptr_adjust(struct bpf_dynptr_kern *ptr, u32 start, u32 end)
+                    ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2398:18: warning: no previous declaration for 'bpf_dynptr_is_null' [-Wmissing-declarations]
+    __bpf_kfunc bool bpf_dynptr_is_null(struct bpf_dynptr_kern *ptr)
+                     ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2403:18: warning: no previous declaration for 'bpf_dynptr_is_rdonly' [-Wmissing-declarations]
+    __bpf_kfunc bool bpf_dynptr_is_rdonly(struct bpf_dynptr_kern *ptr)
+                     ^~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2411:19: warning: no previous declaration for 'bpf_dynptr_size' [-Wmissing-declarations]
+    __bpf_kfunc __u32 bpf_dynptr_size(const struct bpf_dynptr_kern *ptr)
+                      ^~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2419:17: warning: no previous declaration for 'bpf_dynptr_clone' [-Wmissing-declarations]
+    __bpf_kfunc int bpf_dynptr_clone(struct bpf_dynptr_kern *ptr,
+                    ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2432:19: warning: no previous declaration for 'bpf_cast_to_kern_ctx' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_cast_to_kern_ctx(void *obj)
+                      ^~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2437:19: warning: no previous declaration for 'bpf_rdonly_cast' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_rdonly_cast(void *obj__ign, u32 btf_id__k)
+                      ^~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2442:18: warning: no previous declaration for 'bpf_rcu_read_lock' [-Wmissing-declarations]
+    __bpf_kfunc void bpf_rcu_read_lock(void)
+                     ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2447:18: warning: no previous declaration for 'bpf_rcu_read_unlock' [-Wmissing-declarations]
+    __bpf_kfunc void bpf_rcu_read_unlock(void)
+                     ^~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/helpers.c:2476:18: warning: no previous declaration for 'bpf_throw' [-Wmissing-declarations]
+    __bpf_kfunc void bpf_throw(u64 cookie)
+                     ^~~~~~~~~
 
 
-vim +/parent +4811 drivers/base/core.c
+vim +/bpf_throw +2476 kernel/bpf/helpers.c
 
-  4778	
-  4779	/**
-  4780	 * device_shutdown - call ->shutdown() on each device to shutdown.
-  4781	 */
-  4782	void device_shutdown(void)
-  4783	{
-  4784		ASYNC_DOMAIN_EXCLUSIVE(top_domain);
-  4785		struct device *dev, *parent;
-  4786	
-  4787		wait_for_device_probe();
-  4788		device_block_probing();
-  4789	
-  4790		cpufreq_suspend();
-  4791	
-  4792		spin_lock(&devices_kset->list_lock);
-  4793		/*
-  4794		 * Walk the devices list backward, scheduling shutdown of each in
-  4795		 * turn. Beware that device unplug events may also start pulling
-  4796		 * devices offline, even as the system is shutting down.
-  4797		 */
-  4798		while (!list_empty(&devices_kset->list)) {
-  4799			dev = list_entry(devices_kset->list.prev, struct device,
-  4800					kobj.entry);
-  4801	
-  4802			get_device(dev);
-  4803			/*
-  4804			 * Make sure the device is off the kset list, in the
-  4805			 * event that dev->*->shutdown() doesn't remove it.
-  4806			 */
-  4807			list_del_init(&dev->kobj.entry);
-  4808			spin_unlock(&devices_kset->list_lock);
-  4809	
-  4810			async_schedule_domain(shutdown_device, dev,
-> 4811				dev->parent ? &parent->p->child_domain : &top_domain);
-  4812	
-  4813			spin_lock(&devices_kset->list_lock);
-  4814		}
-  4815		spin_unlock(&devices_kset->list_lock);
-  4816		async_synchronize_full_domain(&top_domain);
-  4817	}
-  4818	
+  2475	
+> 2476	__bpf_kfunc void bpf_throw(u64 cookie)
+  2477	{
+  2478		struct bpf_throw_ctx ctx = {};
+  2479	
+  2480		arch_bpf_stack_walk(bpf_stack_walker, &ctx);
+  2481		WARN_ON_ONCE(!ctx.aux);
+  2482		if (ctx.aux)
+  2483			WARN_ON_ONCE(!ctx.aux->exception_boundary);
+  2484		WARN_ON_ONCE(!ctx.bp);
+  2485		WARN_ON_ONCE(!ctx.cnt);
+  2486		ctx.aux->bpf_exception_cb(cookie, ctx.sp, ctx.bp);
+  2487	}
+  2488	
 
 -- 
 0-DAY CI Kernel Test Service
