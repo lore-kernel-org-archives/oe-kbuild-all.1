@@ -1,101 +1,79 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656A820E7;
-	Thu, 21 Sep 2023 16:22:11 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id 5DCF45C00F5;
-	Thu, 21 Sep 2023 12:22:10 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Thu, 21 Sep 2023 12:22:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1695313330; x=1695399730; bh=Ak
-	TeiXuh1R0GwYgW9icwMNtyaC+fPAA3UuL0o7kHtXA=; b=W9y15g3EH9bJjempT8
-	+GXjIHTdeH+fnkwtU9PXakn42mnYK8z+ZMlKuE1CFY9ShkbOeKRK83GF+TgQ7vFs
-	keJDMoHxcpFbYKYBKcWJFmuypitoogZonoH1PVJ0iLcp0hmoCkBnJrWAU+R0fCsn
-	2RKYHax0XaNf1P5nUReAsS25zv3iCSY9Izp/gM8uILLcEyZ8OE9sP2DOo4zKY27H
-	lYuVnxoztz6udfUbsxbfPPFWutBlglayYpCEj4hPSGQuxMA+4Rqajk9vKPZPdEeP
-	XPhZc4KizcVml9Md5j+RLVKRwhfFA2SkmnuA4Y69p6ESEck1C/UxDsknfSq7UAJC
-	JjSg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1695313330; x=1695399730; bh=AkTeiXuh1R0Gw
-	YgW9icwMNtyaC+fPAA3UuL0o7kHtXA=; b=TjA3qLPBTIEtXUxpSuCxiujcGSSSt
-	gYpHY3FMzLXHZpqT/lYBfIC11FEBr3hwqLB5TzhTUI7+B1ZUjKanZOUsXcQgL84N
-	3fUxZcD7SS0lSMCRnluRzKiE7mlPw7DVvUcz2tj/9n93Dq7LAA5ZL6bUEGRHQNg+
-	HegkzZPpqZlA0t61hS3fCNOoi25VLqcCoWralv5VPt+HShmvZLDkG2jSlp/jlUgT
-	vBsGHyaG8DY5mA9xN6gz5stTdrvHdmH//Oc3QAVHOBh5rTRD1aWnOtIb/XpksVsU
-	2oLjKPr824DnAAGK74YvPll0WKozQmNDp3sXJpWG67rRe1u53KI/vMdYw==
-X-ME-Sender: <xms:sW0MZZE93hMTjKk52LCn1vqyxzJ4F947U0fqL5tatel9XhVwwyl7uA>
-    <xme:sW0MZeWYkuidBxxE8NInlsTtLnnrrz3j_CXscCTdV4yRt6ioeun-B_jemQ7OFKpen
-    Lyb5LjRY8R1hv-devE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudekiedgleelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:sW0MZbIvRTxOfiUICkvF_9mdqbMJY3-XyK473LOH-ealMElDXsm0tQ>
-    <xmx:sW0MZfGmSmuCAWxby9F501t-i1p9yT-EgXrHvfn1bCJgT9PpgAvKUA>
-    <xmx:sW0MZfVeNeG14nBQw--M0pcIrOxKDFMhHcUKN-bKzu7MyWZVXRiqiw>
-    <xmx:sm0MZaTfxSCuu0r6jGq3SUITIWXvzxeZrjQ-1YFpIoWtfdU0YF8TDQ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 6E6B5B6008D; Thu, 21 Sep 2023 12:22:09 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-761-gece9e40c48-fm-20230913.001-gece9e40c
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A84F210B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 16:37:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695314250; x=1726850250;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UMZPVC3lMtwrM21Iw9renkeBYIx9RM2W8vsdGOKT1Ls=;
+  b=IgYXLrf2W5BIfgnUOyqMmj6OhG/evsj2+yPAH2hZJxX1XauGPiUhO3K7
+   s2ysfWRYM5bj0L7LD+Ezk8oSma370RMH0TdrKpln7mHGrWCp9AvNDJsYB
+   vFeqvQSQpmU79GhoEHjk9fuxJC0SvQsYZLvBUS2Qc39YgZqPKDHSOW9jx
+   wSEByhzOJHhSO0AsSpvMtkoYYxim2Q9Ej0hUgF3Db1X/7sTDQxqd3YwrB
+   ThgubS2/YJFahj59tr86ylqd5j+dV7bRCITTitDxfl6NqYCEt6eWskjSN
+   IxPE3wmu95T3ed2loKmWNkfK6SNFTWsUDpAW+3Omhrn2yCBWeR8k1cYSL
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="383333069"
+X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
+   d="scan'208";a="383333069"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 09:36:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="696812013"
+X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
+   d="scan'208";a="696812013"
+Received: from lkp-server02.sh.intel.com (HELO b77866e22201) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 21 Sep 2023 09:36:11 -0700
+Received: from kbuild by b77866e22201 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qjMev-0000AB-0N;
+	Thu, 21 Sep 2023 16:36:09 +0000
+Date: Fri, 22 Sep 2023 00:35:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sandor Yu <Sandor.yu@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, Vinod Koul <vkoul@kernel.org>,
+	Kishon <kishon@ti.com>
+Subject: [phy:topic/hdmi 2/3]
+ drivers/phy/freescale/phy-fsl-imx8mq-dp.c:15:10: fatal error:
+ drm/bridge/cdns-mhdp-mailbox.h: No such file or directory
+Message-ID: <202309220027.OQmyDay9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <e09527e8-ac2d-49e8-9e36-ea8e5f9ed8aa@app.fastmail.com>
-In-Reply-To: <87pm2bzov8.wl-tiwai@suse.de>
-References: <202309210751.TXlnuEMF-lkp@intel.com>
- <0a4644bc-d345-9988-2eb6-e95c8db06219@opensource.cirrus.com>
- <87pm2bzov8.wl-tiwai@suse.de>
-Date: Thu, 21 Sep 2023 12:21:49 -0400
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Takashi Iwai" <tiwai@suse.de>,
- "Richard Fitzgerald" <rf@opensource.cirrus.com>
-Cc: "Thierry Reding" <treding@nvidia.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
-Subject: Re: [tiwai-sound:for-next 36/38] sound/pci/hda/cirrus_scodec_test.c:151:60:
- error: initializer element is not a compile-time constant
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Sep 21, 2023, at 08:34, Takashi Iwai wrote:
-> On Thu, 21 Sep 2023 11:23:14 +0200, Richard Fitzgerald wrote:
->> On 21/9/23 00:35, kernel test robot wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git topic/hdmi
+head:   8e36091a94d2d28e8dccb9bfda081b2e42e951ae
+commit: a2717f1d7c64660679441c407b96103abb7c4a8c [2/3] phy: freescale: Add DisplayPort PHY driver for i.MX8MQ
+config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20230922/202309220027.OQmyDay9-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309220027.OQmyDay9-lkp@intel.com/reproduce)
 
->> >     In file included from arch/hexagon/include/asm/io.h:337:
->> >     include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->> >             val = __raw_readb(PCI_IOBASE + addr);
->> >                               ~~~~~~~~~~ ^
->> >     include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->> >             val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
->> >                                                             ~~~~~~~~~~ ^
->> >     include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
->> >     #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
->> >                                                       ^
->> 
->> This looks like it has nothing to do with cirrus_scodec_test, it's just
->> unfortunate that including gpio/driver.h results in also including io.h.
->
-> Yeah, I believe this part is irrelevant can be ignored.  It's included
-> as a part of (single) log.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309220027.OQmyDay9-lkp@intel.com/
 
-Correct, it's a known bug that we've been working on for (literally) years,
-it should be fixed soon by enforcing CONFIG_HAS_IOPORT soon to blank out
-these functions on architectures that cannot support them. I hope we can
-land the last patch for this in 6.7.
+All errors (new ones prefixed by >>):
 
-       Arnd
+>> drivers/phy/freescale/phy-fsl-imx8mq-dp.c:15:10: fatal error: drm/bridge/cdns-mhdp-mailbox.h: No such file or directory
+      15 | #include <drm/bridge/cdns-mhdp-mailbox.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+
+
+vim +15 drivers/phy/freescale/phy-fsl-imx8mq-dp.c
+
+    14	
+  > 15	#include <drm/bridge/cdns-mhdp-mailbox.h>
+    16	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
