@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146A518C38
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 21:55:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426BE18C38
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 21:55:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695333303; x=1726869303;
+  t=1695333329; x=1726869329;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IPLP5m2v91RG6PGUczslDNsEu18LnwwC7FtT9LegcG0=;
-  b=jPKo3qTqzknQ3mDZlx0y4DRKG8/5iO1AZMjbBL58AX4mQsHVhcQVZD8Z
-   9FiqQX+2/aNzEOAR8NOdo0yyivAXt4G9EBRX1a96knPLxMiTKEN0TKwlE
-   r4lkLxUEaWwHmJHDJsl8W16dzj6RWHNbJ2ke6WM3oPauG4mls73tlqqEJ
-   YDp8XMFPXkvXGXB/N9q044nvL2qhq2MKlWpY7SBbPF4IXdafMA6BQfB0L
-   qWLJ65mDQl/wQ5a2r06dz95qLnzWx8WQo8jDHxD4r9YnYwOsG8Fi1/uvG
-   SAWpuKH3AJGX93zKMHL93NLVMR1r0s/vWbqXNHkFPzaFrHOZ9HFSMPcuZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="379552789"
+  bh=AcAlZpYbvVfrIOL6ESzFoFf6b1b7MmaI1+TjVthvUD8=;
+  b=Z3BwYQlu9QWw28xTJobHvn70dJIYQxlHVchoS8Y3YRy6I/d5+d+O0UV2
+   KPyHZOpdm0GF26zgZsk4v2WdKUqeUFbEq4AgtOM/FGUIZsp5wlXjxWW2H
+   Y/CTinYZ5mMB9MhNwRnZ5+QQfuRcowyARtn+X2MWkc318z4sdyIQm28+s
+   38aLTgVyHKaCtaSiETPVyPejhsbOga/4k9nEBE2m4x2GQePuFUXYxhdqY
+   lywqLLxiSfsHXzqI3S+Nlypjv2knHPXthMPNYC4J4JPQ3EnUChlrQ/YfB
+   DFs5aM3Typb6OtUvXSwKs+frZTUYxio80lE3PYOndbb6Fgf4/kva7kNO7
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="447156684"
 X-IronPort-AV: E=Sophos;i="6.03,166,1694761200"; 
-   d="scan'208";a="379552789"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 14:55:01 -0700
+   d="scan'208";a="447156684"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 14:55:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="782388257"
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="740849976"
 X-IronPort-AV: E=Sophos;i="6.03,166,1694761200"; 
-   d="scan'208";a="782388257"
+   d="scan'208";a="740849976"
 Received: from lkp-server02.sh.intel.com (HELO b77866e22201) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 21 Sep 2023 14:54:59 -0700
+  by orsmga007.jf.intel.com with ESMTP; 21 Sep 2023 14:55:05 -0700
 Received: from kbuild by b77866e22201 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjRdP-0000SD-2G;
-	Thu, 21 Sep 2023 21:54:56 +0000
-Date: Fri, 22 Sep 2023 05:54:07 +0800
+	id 1qjRdT-0000SJ-2l;
+	Thu, 21 Sep 2023 21:55:01 +0000
+Date: Fri, 22 Sep 2023 05:54:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oliver Glitta <glittao@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Vlastimil Babka <vbabka@suse.cz>
-Subject: kernel/stacktrace.c:138: warning: Function parameter or member 'tsk'
- not described in 'stack_trace_save_tsk'
-Message-ID: <202309220545.NEMzjh18-lkp@intel.com>
+To: Kent Overstreet <kmo@daterainc.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 4164/6975] fs/bcachefs/fs-io-pagecache.c:25:35:
+ sparse: sparse: invalid assignment: &=
+Message-ID: <202309220540.Tdv1xssY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,62 +47,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   27bbf45eae9ca98877a2d52a92a188147cd61b07
-commit: 5cf909c553e9efed573811de4b3f5172898d5515 mm/slub: use stackdepot to save stack trace in objects
-date:   1 year, 6 months ago
-config: csky-allnoconfig (https://download.01.org/0day-ci/archive/20230922/202309220545.NEMzjh18-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309220545.NEMzjh18-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   940fcc189c51032dd0282cbee4497542c982ac59
+commit: 0060c68159fc4cc2beb2e184ba0b5677ff6ada05 [4164/6975] bcachefs: Split up fs-io.[ch]
+config: x86_64-randconfig-122-20230922 (https://download.01.org/0day-ci/archive/20230922/202309220540.Tdv1xssY-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309220540.Tdv1xssY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309220545.NEMzjh18-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309220540.Tdv1xssY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/bcachefs/fs-io-pagecache.c:25:35: sparse: sparse: invalid assignment: &=
+>> fs/bcachefs/fs-io-pagecache.c:25:35: sparse:    left side has type int
+>> fs/bcachefs/fs-io-pagecache.c:25:35: sparse:    right side has type restricted fgf_t
+>> fs/bcachefs/fs-io-pagecache.c:31:69: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted fgf_t [usertype] fgp_flags @@     got int fgp_flags @@
+   fs/bcachefs/fs-io-pagecache.c:31:69: sparse:     expected restricted fgf_t [usertype] fgp_flags
+   fs/bcachefs/fs-io-pagecache.c:31:69: sparse:     got int fgp_flags
+>> fs/bcachefs/fs-io-pagecache.c:41:49: sparse: sparse: restricted fgf_t degrades to integer
+--
+>> fs/bcachefs/fs-io-buffered.c:833:65: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected int @@     got restricted fgf_t @@
+   fs/bcachefs/fs-io-buffered.c:833:65: sparse:     expected int
+   fs/bcachefs/fs-io-buffered.c:833:65: sparse:     got restricted fgf_t
 
->> kernel/stacktrace.c:138: warning: Function parameter or member 'tsk' not described in 'stack_trace_save_tsk'
->> kernel/stacktrace.c:138: warning: Excess function parameter 'task' description in 'stack_trace_save_tsk'
+vim +25 fs/bcachefs/fs-io-pagecache.c
 
-
-vim +138 kernel/stacktrace.c
-
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  126  
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  127  /**
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  128   * stack_trace_save_tsk - Save a task stack trace into a storage array
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  129   * @task:	The task to examine
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  130   * @store:	Pointer to storage array
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  131   * @size:	Size of the storage array
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  132   * @skipnr:	Number of entries to skip at the start of the stack trace
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  133   *
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  134   * Return: Number of trace entries stored.
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  135   */
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  136  unsigned int stack_trace_save_tsk(struct task_struct *tsk, unsigned long *store,
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  137  				  unsigned int size, unsigned int skipnr)
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25 @138  {
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  139  	stack_trace_consume_fn consume_entry = stack_trace_consume_entry_nosched;
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  140  	struct stacktrace_cookie c = {
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  141  		.store	= store,
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  142  		.size	= size,
-b0c51f158455e31 Jiri Slaby      2019-10-30  143  		/* skip this function if they are tracing us */
-4b48512c2e9c63b Jiri Slaby      2019-11-11  144  		.skip	= skipnr + (current == tsk),
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  145  	};
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  146  
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  147  	if (!try_get_task_stack(tsk))
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  148  		return 0;
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  149  
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  150  	arch_stack_walk(consume_entry, &c, tsk, NULL);
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  151  	put_task_stack(tsk);
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  152  	return c.len;
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  153  }
-214d8ca6ee854f6 Thomas Gleixner 2019-04-25  154  
-
-:::::: The code at line 138 was first introduced by commit
-:::::: 214d8ca6ee854f696f75e75511fe66b409e656db stacktrace: Provide common infrastructure
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+    13	
+    14	int bch2_filemap_get_contig_folios_d(struct address_space *mapping,
+    15					     loff_t start, u64 end,
+    16					     int fgp_flags, gfp_t gfp,
+    17					     folios *folios)
+    18	{
+    19		struct folio *f;
+    20		u64 pos = start;
+    21		int ret = 0;
+    22	
+    23		while (pos < end) {
+    24			if ((u64) pos >= (u64) start + (1ULL << 20))
+  > 25				fgp_flags &= ~FGP_CREAT;
+    26	
+    27			ret = darray_make_room_gfp(folios, 1, gfp & GFP_KERNEL);
+    28			if (ret)
+    29				break;
+    30	
+  > 31			f = __filemap_get_folio(mapping, pos >> PAGE_SHIFT, fgp_flags, gfp);
+    32			if (IS_ERR_OR_NULL(f))
+    33				break;
+    34	
+    35			BUG_ON(folios->nr && folio_pos(f) != pos);
+    36	
+    37			pos = folio_end_pos(f);
+    38			darray_push(folios, f);
+    39		}
+    40	
+  > 41		if (!folios->nr && !ret && (fgp_flags & FGP_CREAT))
+    42			ret = -ENOMEM;
+    43	
+    44		return folios->nr ? 0 : ret;
+    45	}
+    46	
 
 -- 
 0-DAY CI Kernel Test Service
