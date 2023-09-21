@@ -1,55 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E684AD22
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 11:26:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B62BFA956
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Sep 2023 11:48:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695295588; x=1726831588;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4Ne+vrsW5UtAXBNbbGZuiUIqq3ylSla3sj1CH7LF+fA=;
-  b=VasnxqVHhOJni6PBG36eIvn3kCegtgFwxHUtwOKFS1WJ0Lp1tAmuzDZo
-   iZARveUS6hL1MiKBFeA+DZK1U0ESi9KO81u9Tia0USw1QGBBS4WfHxl3b
-   5uCHgiY3sWF2DJ/57ScjSQUCgCNwmXrOH43fs9yFKAw1CizQuh7Hg6S1G
-   TgsTfvzRM8rkW68YNyLzosk5DNPZnZEgValtvMde3BHcLNV7zTrtvxIUd
-   Vh2SFZAwWPwYxEAzK5KioIk9sdpgyFXieHzreFnqyn2z0zOg+tMT+lsYd
-   art1LdJzbGWEzupRM8j1/CCGDuWwFphldLEIir4+kRpHeG5xqQZ2FpP6B
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="446964128"
+  t=1695296906; x=1726832906;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=K8aT+q7wtoz10QSssy7pwQ123juZ7rH0zeFJAAkQI3U=;
+  b=ljys+wRRO9Vj8qVc8cAMeRL7ZMO2C4LbxnXz5pv8TXz7gpgy9jBLTl28
+   5FXdTvHbpa6jx4GLEiedtMSE5oI1ufAKkUDTWlwU6859ezfidm7r4uZpn
+   +1MhGDSNs751Y6arU10pwbPUNmla4X9LZX0LMiY7NzG9F1R47GE9tdopY
+   uiktCxv1ukNg+RDn5aH4U6jj3qHNgTggxXzkouz/xUWLxnPFhZ3/owaFG
+   zNEQ7AVs6GE+q+1lDuQ2fnsnOfVn646f3vA3hHWjKcizG0ZgFy26sC/AL
+   qdkTsb5VRUC9ZI5ngQiG3jXYs4Mf6u4np9woB1EThBWBGbLvpnA4mybSe
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="370813752"
 X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
-   d="scan'208";a="446964128"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 04:26:27 -0700
+   d="scan'208";a="370813752"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 04:48:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="862425479"
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="696697976"
 X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
-   d="scan'208";a="862425479"
+   d="scan'208";a="696697976"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 21 Sep 2023 04:26:23 -0700
+  by orsmga003.jf.intel.com with ESMTP; 21 Sep 2023 04:48:24 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjHp7-0009uu-2J;
-	Thu, 21 Sep 2023 11:26:21 +0000
-Date: Thu, 21 Sep 2023 19:26:04 +0800
+	id 1qjIAQ-0009va-0a;
+	Thu, 21 Sep 2023 11:48:22 +0000
+Date: Thu, 21 Sep 2023 19:47:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Serge Semin <fancer.lancer@gmail.com>, Michal Simek <monstr@monstr.eu>,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
-	James Morse <james.morse@arm.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Robert Richter <rric@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Punnaiah Choudary Kalluri <punnaiah.choudary.kalluri@xilinx.com>,
-	Dinh Nguyen <dinguyen@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 16/20] EDAC/synopsys: Detach Zynq A05 DDRC support to
- separate driver
-Message-ID: <202309211954.M7wyhXyv-lkp@intel.com>
-References: <20230920191059.28395-17-fancer.lancer@gmail.com>
+To: Ignat Korchagin <ignat@cloudflare.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Richard Weinberger <richard@nod.at>
+Subject: ld: cannot find libpcap.a: No such file or directory
+Message-ID: <202309211916.BjQsfSM8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,99 +45,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230920191059.28395-17-fancer.lancer@gmail.com>
 
-Hi Serge,
+Hi Ignat,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on v6.5]
-[also build test WARNING on next-20230921]
-[cannot apply to linus/master v6.6-rc2 v6.6-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Serge-Semin/EDAC-synopsys-Fix-ECC-status-data-and-IRQ-disable-race-condition/20230921-031420
-base:   v6.5
-patch link:    https://lore.kernel.org/r/20230920191059.28395-17-fancer.lancer%40gmail.com
-patch subject: [PATCH v4 16/20] EDAC/synopsys: Detach Zynq A05 DDRC support to separate driver
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230921/202309211954.M7wyhXyv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309211954.M7wyhXyv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   42dc814987c1feb6410904e58cfd4c36c4146150
+commit: 5e1121cd43d4d3436140a462bfc230ff8aeb1693 um: Some fixes to build UML with musl
+date:   2 years, 11 months ago
+config: um-randconfig-r033-20230730 (https://download.01.org/0day-ci/archive/20230921/202309211916.BjQsfSM8-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309211916.BjQsfSM8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309211954.M7wyhXyv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309211916.BjQsfSM8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/edac/zynq_edac.c:194: warning: expecting prototype for handle_error(). Prototype was for zynq_handle_error() instead
->> drivers/edac/zynq_edac.c:233: warning: expecting prototype for check_errors(). Prototype was for zynq_check_errors() instead
-
-
-vim +194 drivers/edac/zynq_edac.c
-
-   185	
-   186	/**
-   187	 * handle_error - Handle Correctable and Uncorrectable errors.
-   188	 * @mci:	EDAC memory controller instance.
-   189	 * @p:		Zynq ECC status structure.
-   190	 *
-   191	 * Handles ECC correctable and uncorrectable errors.
-   192	 */
-   193	static void zynq_handle_error(struct mem_ctl_info *mci, struct zynq_ecc_status *p)
- > 194	{
-   195		struct zynq_edac_priv *priv = mci->pvt_info;
-   196		struct zynq_ecc_error_info *pinf;
-   197	
-   198		if (p->ce_cnt) {
-   199			pinf = &p->ceinfo;
-   200	
-   201			snprintf(priv->message, ZYNQ_EDAC_MSG_SIZE,
-   202				 "Row %d Bank %d Col %d Bit %d Data 0x%08x",
-   203				 pinf->row, pinf->bank, pinf->col,
-   204				 pinf->bitpos, pinf->data);
-   205	
-   206			edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci,
-   207					     p->ce_cnt, 0, 0, 0, 0, 0, -1,
-   208					     priv->message, "");
-   209		}
-   210	
-   211		if (p->ue_cnt) {
-   212			pinf = &p->ueinfo;
-   213	
-   214			snprintf(priv->message, ZYNQ_EDAC_MSG_SIZE,
-   215				 "Row %d Bank %d Col %d",
-   216				 pinf->row, pinf->bank, pinf->col);
-   217	
-   218			edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci,
-   219					     p->ue_cnt, 0, 0, 0, 0, 0, -1,
-   220					     priv->message, "");
-   221		}
-   222	
-   223		memset(p, 0, sizeof(*p));
-   224	}
-   225	
-   226	/**
-   227	 * check_errors - Check controller for ECC errors.
-   228	 * @mci:	EDAC memory controller instance.
-   229	 *
-   230	 * Check and post ECC errors. Called by the polling thread.
-   231	 */
-   232	static void zynq_check_errors(struct mem_ctl_info *mci)
- > 233	{
-   234		struct zynq_edac_priv *priv = mci->pvt_info;
-   235		int status;
-   236	
-   237		status = zynq_get_error_info(priv);
-   238		if (status)
-   239			return;
-   240	
-   241		zynq_handle_error(mci, &priv->stat);
-   242	}
-   243	
+>> ld: cannot find libpcap.a: No such file or directory
 
 -- 
 0-DAY CI Kernel Test Service
