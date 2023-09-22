@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B990F385
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Sep 2023 03:20:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B60781E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Sep 2023 03:51:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695352815; x=1726888815;
+  t=1695354699; x=1726890699;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vl+UznL5kAoKZDISGt5YoOopfZ2YWYi+zvNi/bKVkko=;
-  b=nTpcYnp+UjNwo/EWYYVx78UteWGwSr9qUOBUUWqSVtaGcYWVcXGbmAMB
-   ZNe2eWT31pqElk1OLp/BxKBwccDMU2c/a7eynjvYOtx2c6mvIrZmjCv9O
-   ut782d34d+pzgLr7GDwVwFrcnm86nZMvCfGwI5aWOpkh9zZwTJRk/K90Y
-   WDV9Vt/qKZeVg8JSM4CLF0d3BjJN5SjB6BYHGRbQFUAsWZTFRat/4nner
-   juHavK6Zk4H3Ja9ixSUhIMQ6tH7Avdip6K/6Aygtc2xekBKsXL2p5Pwee
-   O+8PTzgLaaA2Dyuw9yWY19o522b2/6qRWDV8J59TAsArvi12yrP5WgELV
+  bh=ivur85EoDsIGy/EeXG02c6MD4QU+TszHrynCC7ngDZE=;
+  b=NhZUXORHJ5baf5pcsMtoL+jyHQuKe2ezBieblYj1zyt/4q1ZuuCA3h5y
+   eNGbvD7mM52s0iFcGcvudgqkFksWaTE0k5cNtRmgAYmJWTTo4Y7XKFjOe
+   omtyFMu8+vXpSyPTdpm58UnzMrktI5+43NXJ74vla6WIZtMeUhW0I7se5
+   vza6Ee0ScoWQOkUKPlj4jMTG2NMS+cT1WO0xk6fOQnAiivC7Y94nsdBWr
+   fqCnVEiX1fKKNoigFHhPHsIq3nsQ/N1NsRbKkBinf34d3AXXemmmMH9Kk
+   8nqrEGmYBKvwA4k9HdOcMKOx/q0ujg/04luuJAa2DMmHe+shlI/sj45qQ
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="411665645"
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="360983467"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="411665645"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 20:20:09 -0700
+   d="scan'208";a="360983467"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 20:51:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="1078197291"
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="837575211"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="1078197291"
-Received: from lkp-server02.sh.intel.com (HELO b77866e22201) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 21 Sep 2023 20:20:08 -0700
-Received: from kbuild by b77866e22201 with local (Exim 4.96)
+   d="scan'208";a="837575211"
+Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 21 Sep 2023 20:51:36 -0700
+Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjWi6-0000lN-1N;
-	Fri, 22 Sep 2023 03:20:06 +0000
-Date: Fri, 22 Sep 2023 11:19:27 +0800
+	id 1qjXCY-00001O-12;
+	Fri, 22 Sep 2023 03:51:34 +0000
+Date: Fri, 22 Sep 2023 11:51:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-6.1 58/116] drivers/md/raid1.c:1833:21:
- warning: mixing declarations and code is incompatible with standards before
- C99
-Message-ID: <202309221140.BVl9bkzt-lkp@intel.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Subject: drivers/media/v4l2-core/v4l2-vp9.c:1834:1: warning: the frame size
+ of 1420 bytes is larger than 1024 bytes
+Message-ID: <202309221103.8XZIgTGy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,109 +48,119 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.1
-head:   2484246e96e01f62d47572e1ac731054b511cd26
-commit: 9275c3c8be42ac8da348eaf1e88931248f06095c [58/116] md: raid1: fix potential OOB in raid1_remove_disk()
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230922/202309221140.BVl9bkzt-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309221140.BVl9bkzt-lkp@intel.com/reproduce)
+Hi Ezequiel,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   27bbf45eae9ca98877a2d52a92a188147cd61b07
+commit: fbb6c848dd89786fe24856ee6b5e773910ded29c media: destage Hantro VPU driver
+date:   1 year, 1 month ago
+config: csky-randconfig-r032-20230813 (https://download.01.org/0day-ci/archive/20230922/202309221103.8XZIgTGy-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309221103.8XZIgTGy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309221140.BVl9bkzt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309221103.8XZIgTGy-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/md/raid1.c:1833:21: warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
-           struct raid1_info *p = conf->mirrors + number;
-                              ^
-   1 warning generated.
+   drivers/media/v4l2-core/v4l2-vp9.c: In function 'v4l2_vp9_adapt_noncoef_probs':
+>> drivers/media/v4l2-core/v4l2-vp9.c:1834:1: warning: the frame size of 1420 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    1834 | }
+         | ^
 
 
-vim +1833 drivers/md/raid1.c
+vim +1834 drivers/media/v4l2-core/v4l2-vp9.c
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1823  
-b8321b68d1445f NeilBrown          2011-12-23  1824  static int raid1_remove_disk(struct mddev *mddev, struct md_rdev *rdev)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1825  {
-e8096360476689 NeilBrown          2011-10-11  1826  	struct r1conf *conf = mddev->private;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1827  	int err = 0;
-b8321b68d1445f NeilBrown          2011-12-23  1828  	int number = rdev->raid_disk;
-9275c3c8be42ac Zhang Shurong      2023-07-22  1829  
-9275c3c8be42ac Zhang Shurong      2023-07-22  1830  	if (unlikely(number >= conf->raid_disks))
-9275c3c8be42ac Zhang Shurong      2023-07-22  1831  		goto abort;
-9275c3c8be42ac Zhang Shurong      2023-07-22  1832  
-0eaf822cb3dfcf Jonathan Brassow   2012-07-31 @1833  	struct raid1_info *p = conf->mirrors + number;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1834  
-b014f14c81bc5d NeilBrown          2011-12-23  1835  	if (rdev != p->rdev)
-b014f14c81bc5d NeilBrown          2011-12-23  1836  		p = conf->mirrors + conf->raid_disks + number;
-b014f14c81bc5d NeilBrown          2011-12-23  1837  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1838  	print_conf(conf);
-b8321b68d1445f NeilBrown          2011-12-23  1839  	if (rdev == p->rdev) {
-b2d444d7ad975d NeilBrown          2005-11-08  1840  		if (test_bit(In_sync, &rdev->flags) ||
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1841  		    atomic_read(&rdev->nr_pending)) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1842  			err = -EBUSY;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1843  			goto abort;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1844  		}
-046abeede71790 NeilBrown          2010-10-26  1845  		/* Only remove non-faulty devices if recovery
-dfc70645000616 NeilBrown          2008-05-23  1846  		 * is not possible.
-dfc70645000616 NeilBrown          2008-05-23  1847  		 */
-dfc70645000616 NeilBrown          2008-05-23  1848  		if (!test_bit(Faulty, &rdev->flags) &&
-5389042ffa3697 NeilBrown          2011-07-27  1849  		    mddev->recovery_disabled != conf->recovery_disabled &&
-dfc70645000616 NeilBrown          2008-05-23  1850  		    mddev->degraded < conf->raid_disks) {
-dfc70645000616 NeilBrown          2008-05-23  1851  			err = -EBUSY;
-dfc70645000616 NeilBrown          2008-05-23  1852  			goto abort;
-dfc70645000616 NeilBrown          2008-05-23  1853  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1854  		p->rdev = NULL;
-d787be4092e277 NeilBrown          2016-06-02  1855  		if (!test_bit(RemoveSynchronized, &rdev->flags)) {
-fbd568a3e61a7d Paul E. McKenney   2005-05-01  1856  			synchronize_rcu();
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1857  			if (atomic_read(&rdev->nr_pending)) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1858  				/* lost the race, try later */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1859  				err = -EBUSY;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1860  				p->rdev = rdev;
-ac5e7113e74872 Andre Noll         2009-08-03  1861  				goto abort;
-d787be4092e277 NeilBrown          2016-06-02  1862  			}
-d787be4092e277 NeilBrown          2016-06-02  1863  		}
-d787be4092e277 NeilBrown          2016-06-02  1864  		if (conf->mirrors[conf->raid_disks + number].rdev) {
-8c7a2c2bcfaf0e NeilBrown          2011-12-23  1865  			/* We just removed a device that is being replaced.
-8c7a2c2bcfaf0e NeilBrown          2011-12-23  1866  			 * Move down the replacement.  We drain all IO before
-8c7a2c2bcfaf0e NeilBrown          2011-12-23  1867  			 * doing this to avoid confusion.
-8c7a2c2bcfaf0e NeilBrown          2011-12-23  1868  			 */
-8c7a2c2bcfaf0e NeilBrown          2011-12-23  1869  			struct md_rdev *repl =
-8c7a2c2bcfaf0e NeilBrown          2011-12-23  1870  				conf->mirrors[conf->raid_disks + number].rdev;
-e2d59925221cd5 NeilBrown          2013-06-12  1871  			freeze_array(conf, 0);
-3de59bb9d55142 Yufen Yu           2018-02-24  1872  			if (atomic_read(&repl->nr_pending)) {
-3de59bb9d55142 Yufen Yu           2018-02-24  1873  				/* It means that some queued IO of retry_list
-3de59bb9d55142 Yufen Yu           2018-02-24  1874  				 * hold repl. Thus, we cannot set replacement
-3de59bb9d55142 Yufen Yu           2018-02-24  1875  				 * as NULL, avoiding rdev NULL pointer
-3de59bb9d55142 Yufen Yu           2018-02-24  1876  				 * dereference in sync_request_write and
-3de59bb9d55142 Yufen Yu           2018-02-24  1877  				 * handle_write_finished.
-3de59bb9d55142 Yufen Yu           2018-02-24  1878  				 */
-3de59bb9d55142 Yufen Yu           2018-02-24  1879  				err = -EBUSY;
-3de59bb9d55142 Yufen Yu           2018-02-24  1880  				unfreeze_array(conf);
-3de59bb9d55142 Yufen Yu           2018-02-24  1881  				goto abort;
-3de59bb9d55142 Yufen Yu           2018-02-24  1882  			}
-8c7a2c2bcfaf0e NeilBrown          2011-12-23  1883  			clear_bit(Replacement, &repl->flags);
-8c7a2c2bcfaf0e NeilBrown          2011-12-23  1884  			p->rdev = repl;
-8c7a2c2bcfaf0e NeilBrown          2011-12-23  1885  			conf->mirrors[conf->raid_disks + number].rdev = NULL;
-e2d59925221cd5 NeilBrown          2013-06-12  1886  			unfreeze_array(conf);
-e5bc9c3c5432f5 Guoqing Jiang      2017-04-24  1887  		}
-e5bc9c3c5432f5 Guoqing Jiang      2017-04-24  1888  
-b014f14c81bc5d NeilBrown          2011-12-23  1889  		clear_bit(WantReplacement, &rdev->flags);
-a91a2785b20086 Martin K. Petersen 2011-03-17  1890  		err = md_integrity_register(mddev);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1891  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1892  abort:
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1893  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1894  	print_conf(conf);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1895  	return err;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1896  }
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1897  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1757  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1758  /* 8.4.4 Non coefficient probability adaptation process */
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1759  void v4l2_vp9_adapt_noncoef_probs(struct v4l2_vp9_frame_context *probs,
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1760  				  struct v4l2_vp9_frame_symbol_counts *counts,
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1761  				  u8 reference_mode, u8 interpolation_filter, u8 tx_mode,
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1762  				  u32 flags)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1763  {
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1764  	unsigned int i, j;
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1765  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1766  	for (i = 0; i < ARRAY_SIZE(probs->is_inter); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1767  		probs->is_inter[i] = adapt_prob(probs->is_inter[i], (*counts->intra_inter)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1768  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1769  	for (i = 0; i < ARRAY_SIZE(probs->comp_mode); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1770  		probs->comp_mode[i] = adapt_prob(probs->comp_mode[i], (*counts->comp)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1771  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1772  	for (i = 0; i < ARRAY_SIZE(probs->comp_ref); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1773  		probs->comp_ref[i] = adapt_prob(probs->comp_ref[i], (*counts->comp_ref)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1774  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1775  	if (reference_mode != V4L2_VP9_REFERENCE_MODE_COMPOUND_REFERENCE)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1776  		for (i = 0; i < ARRAY_SIZE(probs->single_ref); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1777  			for (j = 0; j < ARRAY_SIZE(probs->single_ref[0]); j++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1778  				probs->single_ref[i][j] = adapt_prob(probs->single_ref[i][j],
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1779  								     (*counts->single_ref)[i][j]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1780  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1781  	for (i = 0; i < ARRAY_SIZE(probs->inter_mode); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1782  		adapt_probs_variant_c(probs->inter_mode[i], (*counts->mv_mode)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1783  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1784  	for (i = 0; i < ARRAY_SIZE(probs->y_mode); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1785  		adapt_probs_variant_d(probs->y_mode[i], (*counts->y_mode)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1786  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1787  	for (i = 0; i < ARRAY_SIZE(probs->uv_mode); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1788  		adapt_probs_variant_d(probs->uv_mode[i], (*counts->uv_mode)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1789  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1790  	for (i = 0; i < ARRAY_SIZE(probs->partition); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1791  		adapt_probs_variant_e(probs->partition[i], (*counts->partition)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1792  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1793  	for (i = 0; i < ARRAY_SIZE(probs->skip); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1794  		probs->skip[i] = adapt_prob(probs->skip[i], (*counts->skip)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1795  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1796  	if (interpolation_filter == V4L2_VP9_INTERP_FILTER_SWITCHABLE)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1797  		for (i = 0; i < ARRAY_SIZE(probs->interp_filter); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1798  			adapt_probs_variant_f(probs->interp_filter[i], (*counts->filter)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1799  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1800  	if (tx_mode == V4L2_VP9_TX_MODE_SELECT)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1801  		for (i = 0; i < ARRAY_SIZE(probs->tx8); i++) {
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1802  			adapt_probs_variant_b(probs->tx8[i], (*counts->tx8p)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1803  			adapt_probs_variant_f(probs->tx16[i], (*counts->tx16p)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1804  			adapt_probs_variant_e(probs->tx32[i], (*counts->tx32p)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1805  		}
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1806  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1807  	adapt_probs_variant_e(probs->mv.joint, *counts->mv_joint);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1808  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1809  	for (i = 0; i < ARRAY_SIZE(probs->mv.sign); i++) {
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1810  		probs->mv.sign[i] = adapt_prob(probs->mv.sign[i], (*counts->sign)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1811  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1812  		adapt_probs_variant_g(probs->mv.classes[i], (*counts->classes)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1813  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1814  		probs->mv.class0_bit[i] = adapt_prob(probs->mv.class0_bit[i], (*counts->class0)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1815  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1816  		for (j = 0; j < ARRAY_SIZE(probs->mv.bits[0]); j++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1817  			probs->mv.bits[i][j] = adapt_prob(probs->mv.bits[i][j],
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1818  							  (*counts->bits)[i][j]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1819  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1820  		for (j = 0; j < ARRAY_SIZE(probs->mv.class0_fr[0]); j++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1821  			adapt_probs_variant_e(probs->mv.class0_fr[i][j],
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1822  					      (*counts->class0_fp)[i][j]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1823  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1824  		adapt_probs_variant_e(probs->mv.fr[i], (*counts->fp)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1825  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1826  		if (!(flags & V4L2_VP9_FRAME_FLAG_ALLOW_HIGH_PREC_MV))
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1827  			continue;
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1828  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1829  		probs->mv.class0_hp[i] = adapt_prob(probs->mv.class0_hp[i],
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1830  						    (*counts->class0_hp)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1831  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1832  		probs->mv.hp[i] = adapt_prob(probs->mv.hp[i], (*counts->hp)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1833  	}
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16 @1834  }
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1835  EXPORT_SYMBOL_GPL(v4l2_vp9_adapt_noncoef_probs);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1836  
 
-:::::: The code at line 1833 was first introduced by commit
-:::::: 0eaf822cb3dfcf2a64b2d27f4f6219186adb2695 MD RAID1: rename mirror_info structure
+:::::: The code at line 1834 was first introduced by commit
+:::::: 3e3b1fb0e5d95c0cd7278717185ca3fb00f5d771 media: Add VP9 v4l2 library
 
-:::::: TO: Jonathan Brassow <jbrassow@redhat.com>
-:::::: CC: NeilBrown <neilb@suse.de>
+:::::: TO: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
