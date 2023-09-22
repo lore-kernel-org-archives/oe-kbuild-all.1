@@ -1,42 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2EB6377
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Sep 2023 02:06:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B054F385
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Sep 2023 03:00:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695348415; x=1726884415;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ju7O2NNqsSlJ/POKIvt+cPzUwWqbbX2JWFoYE336euo=;
-  b=hybrxl4MB5jzMg2/HUO9DgGuzYj0mCWFssp9cv5cAV4Nqw1KNDhfYaaB
-   WI2s8OJpuoRBSN1B2iI/2s/4BI7XF+6CRSo3FGJCIhVmBEiRFml/6QjBB
-   AsB01RtFKpHWFh6vxrdB2pzdKQZV1056rS26UUSAQp2wUiiFkfTs21E0c
-   JFq4jybrxgYd/FTpE5jDzWd82Fdjy71pnwgeBNN+pTKlicK5+Jm9GAhlx
-   p8Yatu8DyU3cUeoPkXcQXnozG9BbKeqvTxboh5pNGVlI4EUeZOyoi2Z/Z
-   /z1jjgblNU7AkKcxjJwgil7wEtXohJpUispH50tmygeN2Jm+pH2/BxBKi
+  t=1695351606; x=1726887606;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QltdyQ5UE0fnQZfOVgAuavBny+Gjji38QKmh+97005k=;
+  b=YEYLeYVsZJ4WpwvZITzs0hdLYZFjRgJ28Sebv3T1kVAgS8uaOk6Cyj0B
+   sgHs9wHl87qf/PuJ30QqG1R7OHbC3pPGvY2kMbdXCNwuI508qFN7SNpqO
+   sB1BPg6y/fjIQJ1NnANfvXHu/UziTjBlycJ3n7+Ew/7JcBEDJ4FZNAuDr
+   sbNv8OfRBxiIWsZytq5HuTt360mwKSDgPFNGmYo8HhjV0/7boqJVTiE+D
+   STLofntNFsYwM9Li9Z8deV/t6wMPc/s4+Zu8iYxYY1LdKy8XW5+H+Eacn
+   m59nxsbeKq/0/8H8r5fFAZj5Ak30spsm7gqEcWA/DW9zJU+nE9W6nb/AY
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="365778920"
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="444830858"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="365778920"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 19:06:55 -0700
+   d="scan'208";a="444830858"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 20:00:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="724002422"
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="782479798"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="724002422"
+   d="scan'208";a="782479798"
 Received: from lkp-server02.sh.intel.com (HELO b77866e22201) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 21 Sep 2023 19:06:54 -0700
+  by orsmga001.jf.intel.com with ESMTP; 21 Sep 2023 20:00:03 -0700
 Received: from kbuild by b77866e22201 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjVZE-0000el-0d;
-	Fri, 22 Sep 2023 02:06:52 +0000
-Date: Fri, 22 Sep 2023 10:06:08 +0800
+	id 1qjWOf-0000j7-0M;
+	Fri, 22 Sep 2023 03:00:01 +0000
+Date: Fri, 22 Sep 2023 10:59:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 6541/11339] aarch64-linux-ld:
- Unexpected GOT/PLT entries detected!
-Message-ID: <202309220901.BbJrhS0m-lkp@intel.com>
+To: Daan De Meyer <daan.j.demeyer@gmail.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Daan De Meyer <daan.j.demeyer@gmail.com>,
+	martin.lau@linux.dev, kernel-team@meta.com, netdev@vger.kernel.org
+Subject: Re: [PATCH bpf-next v5 2/9] bpf: Propagate modified uaddrlen from
+ cgroup sockaddr programs
+Message-ID: <202309221052.Tb6xh9pg-lkp@intel.com>
+References: <20230921120913.566702-3-daan.j.demeyer@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,26 +48,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230921120913.566702-3-daan.j.demeyer@gmail.com>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   a3cb85bffea164b19b0f650226207200a8439c54
-commit: 022b2198fc73b7b95231730eb944d74c7f1b253c [6541/11339] ANDROID: KVM: arm64: Add clock support in the nVHE hyp
-config: arm64-randconfig-003-20230922 (https://download.01.org/0day-ci/archive/20230922/202309220901.BbJrhS0m-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309220901.BbJrhS0m-lkp@intel.com/reproduce)
+Hi Daan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daan-De-Meyer/selftests-bpf-Add-missing-section-name-tests-for-getpeername-getsockname/20230922-032515
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230921120913.566702-3-daan.j.demeyer%40gmail.com
+patch subject: [PATCH bpf-next v5 2/9] bpf: Propagate modified uaddrlen from cgroup sockaddr programs
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20230922/202309221052.Tb6xh9pg-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309221052.Tb6xh9pg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309220901.BbJrhS0m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309221052.Tb6xh9pg-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> aarch64-linux-ld: Unexpected GOT/PLT entries detected!
->> aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: ID map text too big or misaligned
-   aarch64-linux-ld: arch/arm64/kvm/hyp/nvhe/kvm_nvhe.o: in function `__kvm_nvhe_trace_clock':
->> (.hyp.text+0x129d4): undefined reference to `__kvm_nvhe___lshrti3'
+   net/ipv4/af_inet.c: In function 'inet_getname':
+>> net/ipv4/af_inet.c:791:13: warning: unused variable 'sin_addr_len' [-Wunused-variable]
+     791 |         int sin_addr_len = sizeof(*sin);
+         |             ^~~~~~~~~~~~
+
+
+vim +/sin_addr_len +791 net/ipv4/af_inet.c
+
+   781	
+   782	/*
+   783	 *	This does both peername and sockname.
+   784	 */
+   785	int inet_getname(struct socket *sock, struct sockaddr *uaddr,
+   786			 int peer)
+   787	{
+   788		struct sock *sk		= sock->sk;
+   789		struct inet_sock *inet	= inet_sk(sk);
+   790		DECLARE_SOCKADDR(struct sockaddr_in *, sin, uaddr);
+ > 791		int sin_addr_len = sizeof(*sin);
+   792	
+   793		sin->sin_family = AF_INET;
+   794		lock_sock(sk);
+   795		if (peer) {
+   796			if (!inet->inet_dport ||
+   797			    (((1 << sk->sk_state) & (TCPF_CLOSE | TCPF_SYN_SENT)) &&
+   798			     peer == 1)) {
+   799				release_sock(sk);
+   800				return -ENOTCONN;
+   801			}
+   802			sin->sin_port = inet->inet_dport;
+   803			sin->sin_addr.s_addr = inet->inet_daddr;
+   804			BPF_CGROUP_RUN_SA_PROG(sk, (struct sockaddr *)sin, &sin_addr_len,
+   805					       CGROUP_INET4_GETPEERNAME);
+   806		} else {
+   807			__be32 addr = inet->inet_rcv_saddr;
+   808			if (!addr)
+   809				addr = inet->inet_saddr;
+   810			sin->sin_port = inet->inet_sport;
+   811			sin->sin_addr.s_addr = addr;
+   812			BPF_CGROUP_RUN_SA_PROG(sk, (struct sockaddr *)sin, &sin_addr_len,
+   813					       CGROUP_INET4_GETSOCKNAME);
+   814		}
+   815		release_sock(sk);
+   816		memset(sin->sin_zero, 0, sizeof(sin->sin_zero));
+   817		return sizeof(*sin);
+   818	}
+   819	EXPORT_SYMBOL(inet_getname);
+   820	
 
 -- 
 0-DAY CI Kernel Test Service
