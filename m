@@ -1,42 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593D741E4D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Sep 2023 17:11:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2781E502
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Sep 2023 17:44:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695402669; x=1726938669;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8NZvNJx1sq0bGE0ba2tzpQl8pgqz6yMZVkuHO8hXm58=;
-  b=afyoplFqFSYocrvk5aP4gyMFkRLMmjofwK2l6ddwg3mg2mosQ8lQXAXh
-   SgfxQFA2az2NzP56eVGziDOpI47lsv8XruF2yOdqs6iuAuPAHi0FGQGVg
-   vU0dlMJxXp227H2CSJtzfQjvIFwDyQudGArUi9AZNXS4r2tGqOCy7QEQq
-   otPw1z/9AYRUVuTNL1uyylaobuZtWWnTQbRcAgKoGUw01VbAEtKbcIcy5
-   YBNQ3IxuN84yL35t+WnHGd4TL6UJDgq9mPSWu3fwgzxGnibPJVuMl2Y/T
-   zWFIc6eaJnB7qwOFGgSQINbr35O14ypOhVMWV6xCZAUiW8BJOMufFcq4u
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="383640003"
-X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="383640003"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 10:11:04 -0700
+  t=1695404648; x=1726940648;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=erDccOGpni/Pxklbfq3AGnS0yt/c6zFaReiV6D8hxuE=;
+  b=HAm9qbe/NRPjD4bzbapEdCWbxCpPgF60y2aJqS+Mr92SzD7NcpX64jnF
+   Dzbcy6l2RUQcTYUvGK3Y5qZLPjqglb8uvFJxfgxMWhBSe+d6veLukDkie
+   RsQJhqk5LFOLMme9IiPdAirkwb6/wHCOSNTxCdXBNEYJCbHhqphBHHMpM
+   IJ+htgEJnYCasvhzjusikHotKkolh9Ys6doY8hbyivaSM1t1NfGV3kdFH
+   j8M5DxRdrF/cCIGTMlpvwuTp0jkXOS9uJ4IrstWSV/JBABKfR0V1gV4k/
+   ZHwyIe5l4Ct+rPQSAfODAY2H9N4EH0J6X87AGCLwdHItwcwNSXApMkR6l
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="378185011"
+X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
+   d="scan'208";a="378185011"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 10:44:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="697267088"
-X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="697267088"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="747608750"
+X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
+   d="scan'208";a="747608750"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 22 Sep 2023 10:11:01 -0700
+  by orsmga002.jf.intel.com with ESMTP; 22 Sep 2023 10:44:04 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjjgB-00014D-06;
-	Fri, 22 Sep 2023 17:10:59 +0000
-Date: Sat, 23 Sep 2023 01:10:08 +0800
+	id 1qjkC9-00016T-2z;
+	Fri, 22 Sep 2023 17:44:01 +0000
+Date: Sat, 23 Sep 2023 01:43:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ben Skeggs <bskeggs@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [skeggsb-nouveau:00.02-gsp-rm 81/88] ERROR: modpost: "__divdi3"
- [drivers/gpu/drm/nouveau/nouveau.ko] undefined!
-Message-ID: <202309230155.S1HaayLy-lkp@intel.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>,
+	Lizhi Hou <lizhi.hou@amd.com>, Brian Xu <brian.xu@amd.com>,
+	Raj Kumar Rampelli <raj.kumar.rampelli@amd.com>,
+	Vinod Koul <vkoul@kernel.org>, Michal Simek <monstr@monstr.eu>
+Cc: oe-kbuild-all@lists.linux.dev, dmaengine@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-kernel@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v2 2/2] dmaengine: xilinx: xdma: Support cyclic transfers
+Message-ID: <202309230103.YgvYkSCn-lkp@intel.com>
+References: <20230922162056.594933-3-miquel.raynal@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,123 +53,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230922162056.594933-3-miquel.raynal@bootlin.com>
 
-tree:   https://gitlab.freedesktop.org/skeggsb/nouveau 00.02-gsp-rm
-head:   3897e2d444b49105470ddf8b6beed3f183bc4886
-commit: 331ab451ba3754ceb865f9559b9540d00657ee7f [81/88] drm/nouveau/disp/r535: initial support
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20230923/202309230155.S1HaayLy-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230923/202309230155.S1HaayLy-lkp@intel.com/reproduce)
+Hi Miquel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.6-rc2]
+[also build test WARNING on linus/master next-20230921]
+[cannot apply to xilinx-xlnx/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Miquel-Raynal/dmaengine-xilinx-xdma-Prepare-the-introduction-of-cyclic-transfers/20230923-002252
+base:   v6.6-rc2
+patch link:    https://lore.kernel.org/r/20230922162056.594933-3-miquel.raynal%40bootlin.com
+patch subject: [PATCH v2 2/2] dmaengine: xilinx: xdma: Support cyclic transfers
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230923/202309230103.YgvYkSCn-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230923/202309230103.YgvYkSCn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309230155.S1HaayLy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309230103.YgvYkSCn-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ovf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bpfilter/bpfilter.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/video/fbdev.o
->> ERROR: modpost: "__divdi3" [drivers/gpu/drm/nouveau/nouveau.ko] undefined!
->> ERROR: modpost: "__udivdi3" [drivers/gpu/drm/nouveau/nouveau.ko] undefined!
+>> drivers/dma/xilinx/xdma.c:262: warning: Function parameter or member 'cyclic' not described in 'xdma_alloc_desc'
+
+
+vim +262 drivers/dma/xilinx/xdma.c
+
+17ce252266c7f0 Lizhi Hou     2023-01-19  254  
+17ce252266c7f0 Lizhi Hou     2023-01-19  255  /**
+17ce252266c7f0 Lizhi Hou     2023-01-19  256   * xdma_alloc_desc - Allocate descriptor
+17ce252266c7f0 Lizhi Hou     2023-01-19  257   * @chan: DMA channel pointer
+17ce252266c7f0 Lizhi Hou     2023-01-19  258   * @desc_num: Number of hardware descriptors
+17ce252266c7f0 Lizhi Hou     2023-01-19  259   */
+17ce252266c7f0 Lizhi Hou     2023-01-19  260  static struct xdma_desc *
+9dfa9406316d5c Miquel Raynal 2023-09-22  261  xdma_alloc_desc(struct xdma_chan *chan, u32 desc_num, bool cyclic)
+17ce252266c7f0 Lizhi Hou     2023-01-19 @262  {
+17ce252266c7f0 Lizhi Hou     2023-01-19  263  	struct xdma_desc *sw_desc;
+17ce252266c7f0 Lizhi Hou     2023-01-19  264  	struct xdma_hw_desc *desc;
+17ce252266c7f0 Lizhi Hou     2023-01-19  265  	dma_addr_t dma_addr;
+17ce252266c7f0 Lizhi Hou     2023-01-19  266  	u32 dblk_num;
+34df67fe3afc84 Miquel Raynal 2023-09-22  267  	u32 control;
+17ce252266c7f0 Lizhi Hou     2023-01-19  268  	void *addr;
+17ce252266c7f0 Lizhi Hou     2023-01-19  269  	int i, j;
+17ce252266c7f0 Lizhi Hou     2023-01-19  270  
+17ce252266c7f0 Lizhi Hou     2023-01-19  271  	sw_desc = kzalloc(sizeof(*sw_desc), GFP_NOWAIT);
+17ce252266c7f0 Lizhi Hou     2023-01-19  272  	if (!sw_desc)
+17ce252266c7f0 Lizhi Hou     2023-01-19  273  		return NULL;
+17ce252266c7f0 Lizhi Hou     2023-01-19  274  
+17ce252266c7f0 Lizhi Hou     2023-01-19  275  	sw_desc->chan = chan;
+17ce252266c7f0 Lizhi Hou     2023-01-19  276  	sw_desc->desc_num = desc_num;
+9dfa9406316d5c Miquel Raynal 2023-09-22  277  	sw_desc->cyclic = cyclic;
+17ce252266c7f0 Lizhi Hou     2023-01-19  278  	dblk_num = DIV_ROUND_UP(desc_num, XDMA_DESC_ADJACENT);
+17ce252266c7f0 Lizhi Hou     2023-01-19  279  	sw_desc->desc_blocks = kcalloc(dblk_num, sizeof(*sw_desc->desc_blocks),
+17ce252266c7f0 Lizhi Hou     2023-01-19  280  				       GFP_NOWAIT);
+17ce252266c7f0 Lizhi Hou     2023-01-19  281  	if (!sw_desc->desc_blocks)
+17ce252266c7f0 Lizhi Hou     2023-01-19  282  		goto failed;
+17ce252266c7f0 Lizhi Hou     2023-01-19  283  
+9dfa9406316d5c Miquel Raynal 2023-09-22  284  	if (cyclic)
+9dfa9406316d5c Miquel Raynal 2023-09-22  285  		control = XDMA_DESC_CONTROL_CYCLIC;
+9dfa9406316d5c Miquel Raynal 2023-09-22  286  	else
+34df67fe3afc84 Miquel Raynal 2023-09-22  287  		control = XDMA_DESC_CONTROL(1, 0);
+34df67fe3afc84 Miquel Raynal 2023-09-22  288  
+17ce252266c7f0 Lizhi Hou     2023-01-19  289  	sw_desc->dblk_num = dblk_num;
+17ce252266c7f0 Lizhi Hou     2023-01-19  290  	for (i = 0; i < sw_desc->dblk_num; i++) {
+17ce252266c7f0 Lizhi Hou     2023-01-19  291  		addr = dma_pool_alloc(chan->desc_pool, GFP_NOWAIT, &dma_addr);
+17ce252266c7f0 Lizhi Hou     2023-01-19  292  		if (!addr)
+17ce252266c7f0 Lizhi Hou     2023-01-19  293  			goto failed;
+17ce252266c7f0 Lizhi Hou     2023-01-19  294  
+17ce252266c7f0 Lizhi Hou     2023-01-19  295  		sw_desc->desc_blocks[i].virt_addr = addr;
+17ce252266c7f0 Lizhi Hou     2023-01-19  296  		sw_desc->desc_blocks[i].dma_addr = dma_addr;
+17ce252266c7f0 Lizhi Hou     2023-01-19  297  		for (j = 0, desc = addr; j < XDMA_DESC_ADJACENT; j++)
+34df67fe3afc84 Miquel Raynal 2023-09-22  298  			desc[j].control = cpu_to_le32(control);
+17ce252266c7f0 Lizhi Hou     2023-01-19  299  	}
+17ce252266c7f0 Lizhi Hou     2023-01-19  300  
+9dfa9406316d5c Miquel Raynal 2023-09-22  301  	if (cyclic)
+9dfa9406316d5c Miquel Raynal 2023-09-22  302  		xdma_link_cyclic_desc_blocks(sw_desc);
+9dfa9406316d5c Miquel Raynal 2023-09-22  303  	else
+34df67fe3afc84 Miquel Raynal 2023-09-22  304  		xdma_link_sg_desc_blocks(sw_desc);
+17ce252266c7f0 Lizhi Hou     2023-01-19  305  
+17ce252266c7f0 Lizhi Hou     2023-01-19  306  	return sw_desc;
+17ce252266c7f0 Lizhi Hou     2023-01-19  307  
+17ce252266c7f0 Lizhi Hou     2023-01-19  308  failed:
+17ce252266c7f0 Lizhi Hou     2023-01-19  309  	xdma_free_desc(&sw_desc->vdesc);
+17ce252266c7f0 Lizhi Hou     2023-01-19  310  	return NULL;
+17ce252266c7f0 Lizhi Hou     2023-01-19  311  }
+17ce252266c7f0 Lizhi Hou     2023-01-19  312  
 
 -- 
 0-DAY CI Kernel Test Service
