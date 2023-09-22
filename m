@@ -1,44 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86DF45F73
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Sep 2023 20:10:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A0143AAB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Sep 2023 20:51:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695413430; x=1726949430;
+  t=1695415892; x=1726951892;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6gHJDDIlijGGyuGaGLIEi6VOK2HK4QrqyhirK2icTh4=;
-  b=E2B+wSq5AwCPcwmSGmc1nWa31VDZ8p+r54eOhmNJySEdLSgwWRzCACXi
-   sJKge11MeJobcXjqnCWBY8V/Q3J8eFe0uOAshCntWrjCu3T7lkIwedPkd
-   c+LlWg/MDAhfHe6Xdg+IB74X32hXVYDCDp4/1Y9Tw3XlS3WuAthrtsr1O
-   KHHZkk2i9uzcIh74+OzjMIvZc15JWXn9YsMUs7PZ+l4BMvlM8IY1Txp8o
-   mNAH7Nf2GgXm6IQpBvvrzvD6LE10KbAQoPjAJIgdAZK9af9tDszPYeSVe
-   hSSBF76uyPWI68FKwm5bE2jMMe3UFfwg8C4JWzOzqplR16WT9/yEvsRKT
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="445031318"
+  bh=S560MoO4/Aq643/3boNM8DyTu41k6Mn6iW2w1aSYQdE=;
+  b=M2RfCw7+l4qJOyyFK8TgXZtZz4mhC9HI+AOFSACTRAILC9c6cNpB58m+
+   k6kMhf2G71l/fxNukdlty9lwmJ9h+1woZzJOICdGR3HGvpfFAHvowie3s
+   coQZpuV5SixJOSJ/FcuDmhQZZz2YzyNvJn+sAfFTMsblkWybWSZ1o7RBt
+   6DQuNIzO47v7WRcMeyfhd0COxzJt7tZbGzVkXFJ97opkosDfTyK62JEBx
+   G3UtMLyKIKF5Igw14snPPYMN7eGl3cBwFLZ7Wa59B6F/qkQF4wI7uPUJ/
+   40+regPsoJYN2elNrs9eZlBJCyuW8pNR4Kc1Q1TBeyZeHh6lK2DQtPess
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="445040558"
 X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
-   d="scan'208";a="445031318"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 13:10:30 -0700
+   d="scan'208";a="445040558"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 13:51:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="994670912"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="863099735"
 X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
-   d="scan'208";a="994670912"
+   d="scan'208";a="863099735"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 22 Sep 2023 13:10:28 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 22 Sep 2023 13:51:29 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjmTq-0001GP-0C;
-	Fri, 22 Sep 2023 20:10:26 +0000
-Date: Sat, 23 Sep 2023 04:10:11 +0800
+	id 1qjn7X-0001IX-1B;
+	Fri, 22 Sep 2023 20:51:27 +0000
+Date: Sat, 23 Sep 2023 04:51:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Sakai <msakai@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mike Snitzer <snitzer@kernel.org>,
-	"J. corwin Coburn" <corwin@hurlbutnet.net>,
-	John Wiele <jwiele@redhat.com>
-Subject: [snitzer:dm-6.5-vdo-v3 44/78] ERROR: modpost: "vdo_write_stats"
- [drivers/md/dm-vdo.ko] undefined!
-Message-ID: <202309230432.4UMYIHhL-lkp@intel.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: drivers/opp/core.c:2092: warning: Function parameter or member
+ 'config_clks' not described in '_opp_set_clknames'
+Message-ID: <202309230418.JKTJlSMq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,131 +47,136 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git dm-6.5-vdo-v3
-head:   fc20d4e5f876048eca1bbebeff41d72f1491c222
-commit: f32e659d20d873c35fe723c01a4ee67c114de12b [44/78] dm vdo: enable configuration and building of dm-vdo
-config: x86_64-randconfig-015-20230922 (https://download.01.org/0day-ci/archive/20230923/202309230432.4UMYIHhL-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230923/202309230432.4UMYIHhL-lkp@intel.com/reproduce)
+Hi Viresh,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   dc912ba91b7e2fa74650a0fc22cccf0e0d50f371
+commit: 2083da24eb56ce622332946800a67a7449d85fe5 OPP: Allow multiple clocks for a device
+date:   1 year, 2 months ago
+config: csky-defconfig (https://download.01.org/0day-ci/archive/20230923/202309230418.JKTJlSMq-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230923/202309230418.JKTJlSMq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309230432.4UMYIHhL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309230418.JKTJlSMq-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-odroid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pctv-sedna.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pine64.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pinnacle-color.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pinnacle-grey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pinnacle-pctv-hd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview-002t.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview-mk12.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview-new.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-powercolor-real-angel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-proteus-2309.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-purpletv.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pv951.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-rc6-mce.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-real-audio-220-32-keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-reddo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-snapstream-firefly.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-streamzap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-su3000.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tanix-tx3mini.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tanix-tx5max.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tbs-nec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-technisat-ts35.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-technisat-usb2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-c-pci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-s2-hd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-xs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-slim-2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-slim.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tevii-nec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tivo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-total-media-in-hand-02.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-total-media-in-hand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-trekstor.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tt-1500.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-twinhan1027.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-twinhan-dtv-cab-ci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-vega-s9x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-m1f.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-s350.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-tv-pvr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videostrong-kii-pro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-wetek-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-wetek-play2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-winfast.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-winfast-usbii-deluxe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-x96max.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-xbox-360.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-xbox-dvd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-zx-irdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/uvc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/usb/dvb-usb/dvb-usb-dibusb-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/usb/dvb-usb/dvb-usb-dibusb-mc-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/of_mmc_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_sd8787.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/simple/simatic-ipc-leds.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole-coreboot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/cbmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/intel/speed_select_if/isst_if_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/firmware_attributes_class.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/simatic-ipc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82092.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kmemleak/kmemleak-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/p8022.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/psnap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_htb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_gred.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_teql.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_prio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_drr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_choke.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_qfq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_fw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_cgroup.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
->> ERROR: modpost: "vdo_write_stats" [drivers/md/dm-vdo.ko] undefined!
->> ERROR: modpost: "VDO_ADMIN_STATE_SUSPENDED_OPERATION" [drivers/md/dm-vdo.ko] undefined!
->> ERROR: modpost: "VDO_ADMIN_STATE_FORMATTING" [drivers/md/dm-vdo.ko] undefined!
->> ERROR: modpost: "vdo_make_logical_zones" [drivers/md/dm-vdo.ko] undefined!
->> ERROR: modpost: "vdo_set_state" [drivers/md/dm-vdo.ko] undefined!
->> ERROR: modpost: "vdo_resume_slab_depot" [drivers/md/dm-vdo.ko] undefined!
->> ERROR: modpost: "vdo_repair" [drivers/md/dm-vdo.ko] undefined!
->> ERROR: modpost: "drain_data_vio_pool" [drivers/md/dm-vdo.ko] undefined!
->> ERROR: modpost: "vdo_get_current_work_queue" [drivers/md/dm-vdo.ko] undefined!
->> ERROR: modpost: "uds_unregister_thread_device_id" [drivers/md/dm-vdo.ko] undefined!
-WARNING: modpost: suppressed 103 unresolved symbol warnings because there were too many)
+   drivers/opp/core.c:1904: warning: Function parameter or member 'opp_table' not described in '_opp_set_supported_hw'
+   drivers/opp/core.c:1904: warning: Excess function parameter 'dev' description in '_opp_set_supported_hw'
+   drivers/opp/core.c:1947: warning: Function parameter or member 'opp_table' not described in '_opp_set_prop_name'
+   drivers/opp/core.c:1947: warning: Excess function parameter 'dev' description in '_opp_set_prop_name'
+   drivers/opp/core.c:1988: warning: Function parameter or member 'opp_table' not described in '_opp_set_regulators'
+   drivers/opp/core.c:1988: warning: Excess function parameter 'count' description in '_opp_set_regulators'
+   drivers/opp/core.c:2092: warning: Function parameter or member 'opp_table' not described in '_opp_set_clknames'
+>> drivers/opp/core.c:2092: warning: Function parameter or member 'config_clks' not described in '_opp_set_clknames'
+   drivers/opp/core.c:2190: warning: Function parameter or member 'opp_table' not described in '_opp_set_config_regulators_helper'
+   drivers/opp/core.c:2254: warning: Function parameter or member 'opp_table' not described in '_opp_attach_genpd'
+   drivers/opp/core.c:2481: warning: Function parameter or member 'token' not described in 'dev_pm_opp_clear_config'
+   drivers/opp/core.c:2481: warning: Excess function parameter 'opp_table' description in 'dev_pm_opp_clear_config'
+
+
+vim +2092 drivers/opp/core.c
+
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2075  
+829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar 2017-06-21  2076  /**
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2077   * _opp_set_clknames() - Set clk names for the device
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2078   * @dev: Device for which clk names is being set.
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2079   * @names: Clk names.
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2080   *
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2081   * In order to support OPP switching, OPP layer needs to get pointers to the
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2082   * clocks for the device. Simple cases work fine without using this routine
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2083   * (i.e. by passing connection-id as NULL), but for a device with multiple
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2084   * clocks available, the OPP core needs to know the exact names of the clks to
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2085   * use.
+829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar 2017-06-21  2086   *
+829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar 2017-06-21  2087   * This must be called before any OPPs are initialized for the device.
+829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar 2017-06-21  2088   */
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2089  static int _opp_set_clknames(struct opp_table *opp_table, struct device *dev,
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2090  			     const char * const names[],
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2091  			     config_clks_t config_clks)
+829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar 2017-06-21 @2092  {
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2093  	const char * const *temp = names;
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2094  	int count = 0, ret, i;
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2095  	struct clk *clk;
+829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar 2017-06-21  2096  
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2097  	/* Count number of clks */
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2098  	while (*temp++)
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2099  		count++;
+829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar 2017-06-21  2100  
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2101  	/*
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2102  	 * This is a special case where we have a single clock, whose connection
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2103  	 * id name is NULL, i.e. first two entries are NULL in the array.
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2104  	 */
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2105  	if (!count && !names[1])
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2106  		count = 1;
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2107  
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2108  	/* Fail early for invalid configurations */
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2109  	if (!count || (config_clks && count == 1) || (!config_clks && count > 1))
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2110  		return -EINVAL;
+829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar 2017-06-21  2111  
+0a43452bb6b1f4 drivers/opp/core.c            Viresh Kumar 2022-05-25  2112  	/* Another CPU that shares the OPP table has set the clkname ? */
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2113  	if (opp_table->clks)
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2114  		return 0;
+0a43452bb6b1f4 drivers/opp/core.c            Viresh Kumar 2022-05-25  2115  
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2116  	opp_table->clks = kmalloc_array(count, sizeof(*opp_table->clks),
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2117  					GFP_KERNEL);
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2118  	if (!opp_table->clks)
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2119  		return -ENOMEM;
+829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar 2017-06-21  2120  
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2121  	/* Find clks for the device */
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2122  	for (i = 0; i < count; i++) {
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2123  		clk = clk_get(dev, names[i]);
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2124  		if (IS_ERR(clk)) {
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2125  			ret = dev_err_probe(dev, PTR_ERR(clk),
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2126  					    "%s: Couldn't find clock with name: %s\n",
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2127  					    __func__, names[i]);
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2128  			goto free_clks;
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2129  		}
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2130  
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2131  		opp_table->clks[i] = clk;
+829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar 2017-06-21  2132  	}
+829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar 2017-06-21  2133  
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2134  	opp_table->clk_count = count;
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2135  
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2136  	/* Set generic single clk set here */
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2137  	if (count == 1) {
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2138  		opp_table->config_clks = _opp_config_clk_single;
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2139  
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2140  		/*
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2141  		 * We could have just dropped the "clk" field and used "clks"
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2142  		 * everywhere. Instead we kept the "clk" field around for
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2143  		 * following reasons:
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2144  		 *
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2145  		 * - avoiding clks[0] everywhere else.
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2146  		 * - not running single clk helpers for multiple clk usecase by
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2147  		 *   mistake.
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2148  		 *
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2149  		 * Since this is single-clk case, just update the clk pointer
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2150  		 * too.
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2151  		 */
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2152  		opp_table->clk = opp_table->clks[0];
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2153  	} else {
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2154  		opp_table->config_clks = config_clks;
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2155  	}
+0a43452bb6b1f4 drivers/opp/core.c            Viresh Kumar 2022-05-25  2156  
+2368f57685768f drivers/opp/core.c            Viresh Kumar 2022-05-26  2157  	return 0;
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2158  
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2159  free_clks:
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2160  	_put_clks(opp_table, i);
+2083da24eb56ce drivers/opp/core.c            Viresh Kumar 2022-06-10  2161  	return ret;
+829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar 2017-06-21  2162  }
+829a4e8c0e9aab drivers/base/power/opp/core.c Viresh Kumar 2017-06-21  2163  
+
+:::::: The code at line 2092 was first introduced by commit
+:::::: 829a4e8c0e9aab17bcfe2ddb070388b8ada26292 PM / OPP: Add dev_pm_opp_{set|put}_clkname()
+
+:::::: TO: Viresh Kumar <viresh.kumar@linaro.org>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
