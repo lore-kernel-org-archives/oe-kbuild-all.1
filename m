@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2025E4174B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Sep 2023 16:12:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF775323E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Sep 2023 16:33:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695399125; x=1726935125;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+1ZYtVBUsifH9zjdqoNORhsulycKouwOTBpUcx6Yzrc=;
-  b=MCiKC4vE2on6iMUICwcdzUuisldbSmoPOoEmweu3/wxJvo9Xb1WpUaoT
-   1fgkfw6qiSbz6+4Vuh47qN1zzyCuu/X+wrpj3wH+EEaT+HYpOGFgCmlr7
-   zN7q8ujeqcOJbMjc2xkBCKQMrcRwrYFu8Cm2t/CujcGJkeLgqG0Qk+qaC
-   ow+SjeBWP4CmDr1KKygLkUkn2pcPMRcJRk1rP/w/wgZwvHz5mpXp0LGne
-   fS7niCDfOv3BVUz0dOztUqw9H6ZRIuit2aqD2Z0qEd1qowll77kg0H+MO
-   YKG541oSDkdX7i/8OXy7yuZ13FM8NFEDGpLI9BSrhEL20NLbJ0HbSDYU7
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="380768243"
+  t=1695400383; x=1726936383;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=n2tpziZFCVuyN6rruA1ZmLCh2RYhKljPGvsKB6KiRu8=;
+  b=REewOiKIZmlAYyCe09XMO+SfxNqISgdVqLRAzTM20OAhY5JGKF4CHc1O
+   6xRyeMNS4WmreHjq8KZohYQv44LDFBzqM+oDVj8btKyyh/aB8TymBEgoy
+   rVhkgGQOfB7g4SOySVIHFxABSVP/W0P/e1e17oAV748MGvwiEdkyYC1ID
+   8X2Stv1uesIYH/Zos5iLYosF0Ua/QMN2x2qh044/ecd1ufkcNdCsRJhsG
+   57Axdq1GeSEl/Ri39IfBB5EXOPsrM9WFfS5IusmcvvgGoM3h3f5W5m1vD
+   TY525qZiYqZfIBE5WzUcDl1q5wEN/9e79NFg8N6BORfhYALZCscKEuB63
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="379757034"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="380768243"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 09:05:40 -0700
+   d="scan'208";a="379757034"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 09:33:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813110592"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="890873689"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="813110592"
+   d="scan'208";a="890873689"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 22 Sep 2023 09:05:38 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 22 Sep 2023 09:32:06 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjieu-0000wf-17;
-	Fri, 22 Sep 2023 16:05:36 +0000
-Date: Sat, 23 Sep 2023 00:05:22 +0800
+	id 1qjj4q-0000zB-21;
+	Fri, 22 Sep 2023 16:32:50 +0000
+Date: Sat, 23 Sep 2023 00:31:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stanislav Fomichev <sdf@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Martin KaFai Lau <martin.lau@kernel.org>
-Subject: net/core/xdp.c:725:5: error: no previous declaration for
- 'bpf_xdp_metadata_rx_timestamp'
-Message-ID: <202309230010.Eio2q6e0-lkp@intel.com>
+To: Pablo Neira Ayuso <pablo@netfilter.org>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [-stable,6.1 01/17] netfilter: nf_tables: don't skip expired
+ elements during walk
+Message-ID: <ZQ3BUNNkLY2EPB1n@845c4ce01481>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,67 +46,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230922163029.150988-2-pablo@netfilter.org>
 
-Hi Stanislav,
+Hi,
 
-FYI, the error/warning still remains.
+Thanks for your patch.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   27bbf45eae9ca98877a2d52a92a188147cd61b07
-commit: 3d76a4d3d4e591af3e789698affaad88a5a8e8ab bpf: XDP metadata RX kfuncs
-date:   8 months ago
-config: x86_64-sof-customedconfig-avs-defconfig (https://download.01.org/0day-ci/archive/20230923/202309230010.Eio2q6e0-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230923/202309230010.Eio2q6e0-lkp@intel.com/reproduce)
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309230010.Eio2q6e0-lkp@intel.com/
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html/#option-1
 
-All errors (new ones prefixed by >>):
-
->> net/core/xdp.c:725:5: error: no previous declaration for 'bpf_xdp_metadata_rx_timestamp' [-Werror=missing-declarations]
-    int bpf_xdp_metadata_rx_timestamp(const struct xdp_md *ctx, u64 *timestamp)
-        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> net/core/xdp.c:737:5: error: no previous declaration for 'bpf_xdp_metadata_rx_hash' [-Werror=missing-declarations]
-    int bpf_xdp_metadata_rx_hash(const struct xdp_md *ctx, u32 *hash)
-        ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-
-
-vim +/bpf_xdp_metadata_rx_timestamp +725 net/core/xdp.c
-
-   713	
-   714	__diag_push();
-   715	__diag_ignore_all("-Wmissing-prototypes",
-   716			  "Global functions as their definitions will be in vmlinux BTF");
-   717	
-   718	/**
-   719	 * bpf_xdp_metadata_rx_timestamp - Read XDP frame RX timestamp.
-   720	 * @ctx: XDP context pointer.
-   721	 * @timestamp: Return value pointer.
-   722	 *
-   723	 * Returns 0 on success or ``-errno`` on error.
-   724	 */
- > 725	int bpf_xdp_metadata_rx_timestamp(const struct xdp_md *ctx, u64 *timestamp)
-   726	{
-   727		return -EOPNOTSUPP;
-   728	}
-   729	
-   730	/**
-   731	 * bpf_xdp_metadata_rx_hash - Read XDP frame RX hash.
-   732	 * @ctx: XDP context pointer.
-   733	 * @hash: Return value pointer.
-   734	 *
-   735	 * Returns 0 on success or ``-errno`` on error.
-   736	 */
- > 737	int bpf_xdp_metadata_rx_hash(const struct xdp_md *ctx, u32 *hash)
-   738	{
-   739		return -EOPNOTSUPP;
-   740	}
-   741	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [-stable,6.1 01/17] netfilter: nf_tables: don't skip expired elements during walk
+Link: https://lore.kernel.org/stable/20230922163029.150988-2-pablo%40netfilter.org
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
