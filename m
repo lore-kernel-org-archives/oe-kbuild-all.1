@@ -1,42 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD861772B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Sep 2023 13:14:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BD23D3A9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Sep 2023 13:47:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695388463; x=1726924463;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UFNRja4x6oY/Ope8SMyY8VtxRobnXvO+xfGrOIxFCQw=;
-  b=YrHou4QyI+VJYiWbbsOIY6kERqRIQfN/5jQRQr0q1mIy/wbaWgky5ts/
-   WV9QY28ee7wrAWNNP5AYCytN38NKhykcyrUo0hkBH0O/Jspk6O+NpZYSa
-   8Ot5Hc7RECGShW5PN9DoHMiUwZtTRssT/Pon1GBQagm+oEkuTDMNmPxvU
-   nBt5Qqa5/yNpUMu9fzXaZ92V1WKS0d/QkLVhOdxhQBYqCn5otjWjssC3u
-   3SafZhbR/CDViaAzln76+6iOlDpi79qFEqkCFKgI4VN1U4bcVUea0Enr+
-   48FRL6sfnS7LN2CMdEZrtvWl7Vxd5jfGeIp0qx4wn1ABEUc9JyQYE6Ida
+  t=1695390452; x=1726926452;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GgIL7Exn3jx6iwe7BlNdp1jFiIlg0zgq62barbXZvBQ=;
+  b=b3mEGJ2sAYpsOmo6hbz149FznD/ri2E115B67E0Z/ccZRcPcmHkAA4NA
+   xi3/NeScOwtZULjTcUCHl4cAhfwTbwu12m1tQKSKq3sbsoHt3X7om3T6h
+   7oOMl0guXE9Y27G+Nb9PpHALrPE70VMNti+r3wIQQ30mb5jnnYKd2RGtk
+   vw4Egq/r+sBhCD8oJtSPOa5BI/z9EhDGdmzkAzbsHzJhetZbtSFSdgEeb
+   BXBK/BSsD9oy9svo+fkR1Kx8dklASsMmfMkWxy/hPAWKQKNnz01gIrpuY
+   0sL9KvBmTn81q7bDehXUoECHv+4bhBnjLtjFaXPly9x8Kna1p3s1SlztW
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="365880843"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447307608"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="365880843"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 06:14:22 -0700
+   d="scan'208";a="447307608"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 06:47:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="837745231"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="890814520"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="837745231"
+   d="scan'208";a="890814520"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 22 Sep 2023 06:14:21 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 22 Sep 2023 06:46:31 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjfz9-0000kU-0i;
-	Fri, 22 Sep 2023 13:14:19 +0000
-Date: Fri, 22 Sep 2023 21:13:24 +0800
+	id 1qjgV9-0000n5-0D;
+	Fri, 22 Sep 2023 13:47:23 +0000
+Date: Fri, 22 Sep 2023 21:47:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:iov-kunit 6/10] kunit_iov_iter.c:undefined reference to
- `insert_vm_struct'
-Message-ID: <202309222104.tHJDVXJU-lkp@intel.com>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
+	bhelgaas@google.com, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, jingoohan1@gmail.com,
+	gustavo.pimentel@synopsys.com, mani@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, marek.vasut+renesas@gmail.com,
+	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Serge Semin <fancer.lancer@gmail.com>
+Subject: Re: [PATCH v21 13/16] PCI: dwc: rcar-gen4: Add R-Car Gen4 PCIe
+ controller support
+Message-ID: <202309222125.KiN4nFhD-lkp@intel.com>
+References: <20230922065331.3806925-14-yoshihiro.shimoda.uh@renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,23 +55,162 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230922065331.3806925-14-yoshihiro.shimoda.uh@renesas.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git iov-kunit
-head:   895a7ddefa3e00a497187cac3d4fb5e57d3059fe
-commit: 4a57670659b9f9233e49e83ac8ae0c3ef140ae65 [6/10] iov_iter: Add copy kunit tests for ITER_UBUF and ITER_IOVEC
-config: sh-randconfig-002-20230922 (https://download.01.org/0day-ci/archive/20230922/202309222104.tHJDVXJU-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309222104.tHJDVXJU-lkp@intel.com/reproduce)
+Hi Yoshihiro,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v6.6-rc2 next-20230921]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yoshihiro-Shimoda/PCI-dwc-endpoint-Add-multiple-PFs-support-for-dbi2/20230922-145529
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20230922065331.3806925-14-yoshihiro.shimoda.uh%40renesas.com
+patch subject: [PATCH v21 13/16] PCI: dwc: rcar-gen4: Add R-Car Gen4 PCIe controller support
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230922/202309222125.KiN4nFhD-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309222125.KiN4nFhD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309222104.tHJDVXJU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309222125.KiN4nFhD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sh4-linux-ld: lib/kunit_iov_iter.o: in function `iov_kunit_create_user_buf.constprop.0':
->> kunit_iov_iter.c:(.init.text+0x6b8): undefined reference to `insert_vm_struct'
+>> drivers/pci/controller/dwc/pcie-rcar-gen4.c:155:5: warning: no previous prototype for 'rcar_gen4_pcie_common_init' [-Wmissing-prototypes]
+     155 | int rcar_gen4_pcie_common_init(struct rcar_gen4_pcie *rcar)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pci/controller/dwc/pcie-rcar-gen4.c:197:6: warning: no previous prototype for 'rcar_gen4_pcie_common_deinit' [-Wmissing-prototypes]
+     197 | void rcar_gen4_pcie_common_deinit(struct rcar_gen4_pcie *rcar)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pci/controller/dwc/pcie-rcar-gen4.c:205:5: warning: no previous prototype for 'rcar_gen4_pcie_prepare' [-Wmissing-prototypes]
+     205 | int rcar_gen4_pcie_prepare(struct rcar_gen4_pcie *rcar)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pci/controller/dwc/pcie-rcar-gen4.c:220:6: warning: no previous prototype for 'rcar_gen4_pcie_unprepare' [-Wmissing-prototypes]
+     220 | void rcar_gen4_pcie_unprepare(struct rcar_gen4_pcie *rcar)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pci/controller/dwc/pcie-rcar-gen4.c:228:5: warning: no previous prototype for 'rcar_gen4_pcie_get_resources' [-Wmissing-prototypes]
+     228 | int rcar_gen4_pcie_get_resources(struct rcar_gen4_pcie *rcar)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pci/controller/dwc/pcie-rcar-gen4.c:242:24: warning: no previous prototype for 'rcar_gen4_pcie_devm_alloc' [-Wmissing-prototypes]
+     242 | struct rcar_gen4_pcie *rcar_gen4_pcie_devm_alloc(struct platform_device *pdev)
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/rcar_gen4_pcie_common_init +155 drivers/pci/controller/dwc/pcie-rcar-gen4.c
+
+   154	
+ > 155	int rcar_gen4_pcie_common_init(struct rcar_gen4_pcie *rcar)
+   156	{
+   157		struct dw_pcie *dw = &rcar->dw;
+   158		u32 val;
+   159		int ret;
+   160	
+   161		ret = clk_bulk_prepare_enable(DW_PCIE_NUM_CORE_CLKS, dw->core_clks);
+   162		if (ret) {
+   163			dev_err(dw->dev, "Failed to enable ref clocks\n");
+   164			return ret;
+   165		}
+   166	
+   167		if (!reset_control_status(dw->core_rsts[DW_PCIE_PWR_RST].rstc))
+   168			reset_control_assert(dw->core_rsts[DW_PCIE_PWR_RST].rstc);
+   169	
+   170		val = readl(rcar->base + PCIEMSR0);
+   171		if (rcar->mode == DW_PCIE_RC_TYPE) {
+   172			val |= DEVICE_TYPE_RC;
+   173		} else if (rcar->mode == DW_PCIE_EP_TYPE) {
+   174			val |= DEVICE_TYPE_EP;
+   175		} else {
+   176			ret = -EINVAL;
+   177			goto err_unprepare;
+   178		}
+   179	
+   180		if (dw->num_lanes < 4)
+   181			val |= BIFUR_MOD_SET_ON;
+   182	
+   183		writel(val, rcar->base + PCIEMSR0);
+   184	
+   185		ret = reset_control_deassert(dw->core_rsts[DW_PCIE_PWR_RST].rstc);
+   186		if (ret)
+   187			goto err_unprepare;
+   188	
+   189		return 0;
+   190	
+   191	err_unprepare:
+   192		clk_bulk_disable_unprepare(DW_PCIE_NUM_CORE_CLKS, dw->core_clks);
+   193	
+   194		return ret;
+   195	}
+   196	
+ > 197	void rcar_gen4_pcie_common_deinit(struct rcar_gen4_pcie *rcar)
+   198	{
+   199		struct dw_pcie *dw = &rcar->dw;
+   200	
+   201		reset_control_assert(dw->core_rsts[DW_PCIE_PWR_RST].rstc);
+   202		clk_bulk_disable_unprepare(DW_PCIE_NUM_CORE_CLKS, dw->core_clks);
+   203	}
+   204	
+ > 205	int rcar_gen4_pcie_prepare(struct rcar_gen4_pcie *rcar)
+   206	{
+   207		struct device *dev = rcar->dw.dev;
+   208		int err;
+   209	
+   210		pm_runtime_enable(dev);
+   211		err = pm_runtime_resume_and_get(dev);
+   212		if (err < 0) {
+   213			dev_err(dev, "Failed to resume/get Runtime PM\n");
+   214			pm_runtime_disable(dev);
+   215		}
+   216	
+   217		return err;
+   218	}
+   219	
+ > 220	void rcar_gen4_pcie_unprepare(struct rcar_gen4_pcie *rcar)
+   221	{
+   222		struct device *dev = rcar->dw.dev;
+   223	
+   224		pm_runtime_put(dev);
+   225		pm_runtime_disable(dev);
+   226	}
+   227	
+ > 228	int rcar_gen4_pcie_get_resources(struct rcar_gen4_pcie *rcar)
+   229	{
+   230		/* Renesas-specific registers */
+   231		rcar->base = devm_platform_ioremap_resource_byname(rcar->pdev, "app");
+   232	
+   233		return PTR_ERR_OR_ZERO(rcar->base);
+   234	}
+   235	
+   236	static const struct dw_pcie_ops dw_pcie_ops = {
+   237		.start_link = rcar_gen4_pcie_start_link,
+   238		.stop_link = rcar_gen4_pcie_stop_link,
+   239		.link_up = rcar_gen4_pcie_link_up,
+   240	};
+   241	
+ > 242	struct rcar_gen4_pcie *rcar_gen4_pcie_devm_alloc(struct platform_device *pdev)
+   243	{
+   244		struct device *dev = &pdev->dev;
+   245		struct rcar_gen4_pcie *rcar;
+   246	
+   247		rcar = devm_kzalloc(dev, sizeof(*rcar), GFP_KERNEL);
+   248		if (!rcar)
+   249			return ERR_PTR(-ENOMEM);
+   250	
+   251		rcar->dw.ops = &dw_pcie_ops;
+   252		rcar->dw.dev = dev;
+   253		rcar->pdev = pdev;
+   254		dw_pcie_cap_set(&rcar->dw, EDMA_UNROLL);
+   255		dw_pcie_cap_set(&rcar->dw, REQ_RES);
+   256		platform_set_drvdata(pdev, rcar);
+   257	
+   258		return rcar;
+   259	}
+   260	
 
 -- 
 0-DAY CI Kernel Test Service
