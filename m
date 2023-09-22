@@ -1,45 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC11118C2D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Sep 2023 07:51:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B82E18C2D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Sep 2023 07:51:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695369091; x=1726905091;
+  t=1695369105; x=1726905105;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=68TIx116YzDFPMEe8kAbPJXicHYG0ofTUO9IKNbP77Y=;
-  b=Zs3MIC0kno3PjuodcBbjFoeILjNr+WiCb0wc1V65HgdC3z4AZILQXqms
-   Ilxr5pb5gY5LtJc/+++EbyppqSLblidRYKJwHCn2gwajx65iAvHRR27fq
-   PGqbVoMDgO+wxzTbTpphU0fGX103PSbs86MzMQ8GCm5xaoq3SFA0U0k9a
-   MN2qZrRB8btdVZkz6LdpGErsYt50JiFPP23XZpLxSBLW3hBDpEysiEr7I
-   sAYl3JC3kW8i1Vf6F10/4xuTr7cqali8KyJYDj/5cq6qVw36Vp12X0CHn
-   LSnkT/9kobiwvlkc66ovPIYpekAa0Budhv8/N0pjkBoZOPm27ZMJbDKjN
+  bh=xucIYSfmBTFWM8zuk4I/BdP2SE1Kco+rNXtuJntNyfY=;
+  b=crKpycgEjbwVmc4u8uf9KTFKW02+IkXbr+qARZRzJyWQbwisOP/BiTTn
+   Ht/yEINwvaoraveoToTUgHwNjfeDeIHpqxdn6X0U7CFlEb77DY1Ik2Aiv
+   27JkBW3I+v3sxa+twRtH+lUhQbJcbCRqb4w157fPzRVVxGb2hB2xH59rM
+   cvSM6ecsYI7YV26AS4iEah2aPnKr63PfBfYbwl7wV5qxhA96b+mdD26NH
+   Q+8d2jrD3RkozsZbZcn0XQddMtbrrbIEeHkHOmcGGScscdVH/mge7ejDF
+   h7pmwRbWdd0thnA4DzZYdfysfIEBMg4z7harngE2XCAT2TngJeL/7ROr8
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="384604344"
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="361021105"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="384604344"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 00:51:31 -0700
+   d="scan'208";a="361021105"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 00:51:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="837639647"
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="747439228"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="837639647"
+   d="scan'208";a="747439228"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 22 Sep 2023 00:51:29 -0700
+  by orsmga002.jf.intel.com with ESMTP; 22 Sep 2023 00:51:30 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjawh-0000KN-2b;
+	id 1qjawh-0000KL-2V;
 	Fri, 22 Sep 2023 07:51:27 +0000
-Date: Fri, 22 Sep 2023 15:51:23 +0800
+Date: Fri, 22 Sep 2023 15:51:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	John Ogness <john.ogness@linutronix.de>
-Subject: [rt-devel:linux-6.4.y-rt-rebase 38/79]
- kernel/printk/printk_nobkl.c:1457: warning: Function parameter or member
- 'skip_unsafe' not described in 'cons_atomic_try_acquire'
-Message-ID: <202309221553.m6a17u9D-lkp@intel.com>
+To: Patrick Rudolph <patrick.rudolph@9elements.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Naresh Solanki <Naresh.Solanki@9elements.com>
+Subject: drivers/pinctrl/pinctrl-cy8c95x0.c:168: warning: Function parameter
+ or member 'gpio_reset' not described in 'cy8c95x0_pinctrl'
+Message-ID: <202309221513.fMQaFYAd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,55 +48,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.4.y-rt-rebase
-head:   fb7828286d1ee12dc132500e9fc84085ceadabc3
-commit: b8f97964bcf3c87323ce9a4601cfbd89521e9b64 [38/79] printk: nobkl: Provide functions for atomic write enforcement
-config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20230922/202309221553.m6a17u9D-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309221553.m6a17u9D-lkp@intel.com/reproduce)
+Hi Patrick,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   27bbf45eae9ca98877a2d52a92a188147cd61b07
+commit: 99084881de88ffcd156b03aaeb7d4eb740005e3e pinctrl: cy8c95x0: Add reset support
+date:   9 weeks ago
+config: csky-randconfig-r034-20230817 (https://download.01.org/0day-ci/archive/20230922/202309221513.fMQaFYAd-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309221513.fMQaFYAd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309221553.m6a17u9D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309221513.fMQaFYAd-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/printk/printk_nobkl.c:1043: warning: Function parameter or member 'unsafe' not described in '__console_update_unsafe'
->> kernel/printk/printk_nobkl.c:1457: warning: Function parameter or member 'skip_unsafe' not described in 'cons_atomic_try_acquire'
+>> drivers/pinctrl/pinctrl-cy8c95x0.c:168: warning: Function parameter or member 'gpio_reset' not described in 'cy8c95x0_pinctrl'
 
 
-vim +1457 kernel/printk/printk_nobkl.c
+vim +168 drivers/pinctrl/pinctrl-cy8c95x0.c
 
-  1448	
-  1449	/**
-  1450	 * cons_atomic_try_acquire - Try to acquire the console for atomic printing
-  1451	 * @con:	The console to acquire
-  1452	 * @ctxt:	The console context instance to work on
-  1453	 * @prio:	The priority of the current context
-  1454	 */
-  1455	static bool cons_atomic_try_acquire(struct console *con, struct cons_context *ctxt,
-  1456					    enum cons_prio prio, bool skip_unsafe)
-> 1457	{
-  1458		memset(ctxt, 0, sizeof(*ctxt));
-  1459		ctxt->console		= con;
-  1460		ctxt->spinwait_max_us	= 2000;
-  1461		ctxt->prio		= prio;
-  1462		ctxt->spinwait		= 1;
-  1463	
-  1464		/* Try to acquire it directly or via a friendly handover */
-  1465		if (cons_try_acquire(ctxt))
-  1466			return true;
-  1467	
-  1468		/* Investigate whether a hostile takeover is due */
-  1469		if (ctxt->old_state.cur_prio >= prio)
-  1470			return false;
-  1471	
-  1472		if (!ctxt->old_state.unsafe || !skip_unsafe)
-  1473			ctxt->hostile = 1;
-  1474		return cons_try_acquire(ctxt);
-  1475	}
-  1476	
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  124  
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  125  /**
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  126   * struct cy8c95x0_pinctrl - driver data
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  127   * @regmap:         Device's regmap
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  128   * @irq_lock:       IRQ bus lock
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  129   * @i2c_lock:       Mutex for the device internal mux register
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  130   * @irq_mask:       I/O bits affected by interrupts
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  131   * @irq_trig_raise: I/O bits affected by raising voltage level
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  132   * @irq_trig_fall:  I/O bits affected by falling voltage level
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  133   * @irq_trig_low:   I/O bits affected by a low voltage level
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  134   * @irq_trig_high:  I/O bits affected by a high voltage level
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  135   * @push_pull:      I/O bits configured as push pull driver
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  136   * @shiftmask:      Mask used to compensate for Gport2 width
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  137   * @nport:          Number of Gports in this chip
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  138   * @gpio_chip:      gpiolib chip
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  139   * @driver_data:    private driver data
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  140   * @regulator:      Pointer to the regulator for the IC
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  141   * @dev:            struct device
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  142   * @pctldev:        pin controller device
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  143   * @pinctrl_desc:   pin controller description
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  144   * @name:           Chip controller name
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  145   * @tpin:           Total number of pins
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  146   */
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  147  struct cy8c95x0_pinctrl {
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  148  	struct regmap *regmap;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  149  	struct mutex irq_lock;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  150  	struct mutex i2c_lock;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  151  	DECLARE_BITMAP(irq_mask, MAX_LINE);
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  152  	DECLARE_BITMAP(irq_trig_raise, MAX_LINE);
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  153  	DECLARE_BITMAP(irq_trig_fall, MAX_LINE);
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  154  	DECLARE_BITMAP(irq_trig_low, MAX_LINE);
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  155  	DECLARE_BITMAP(irq_trig_high, MAX_LINE);
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  156  	DECLARE_BITMAP(push_pull, MAX_LINE);
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  157  	DECLARE_BITMAP(shiftmask, MAX_LINE);
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  158  	int nport;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  159  	struct gpio_chip gpio_chip;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  160  	unsigned long driver_data;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  161  	struct regulator *regulator;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  162  	struct device *dev;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  163  	struct pinctrl_dev *pctldev;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  164  	struct pinctrl_desc pinctrl_desc;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  165  	char name[32];
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  166  	unsigned int tpin;
+99084881de88ff Patrick Rudolph 2023-07-14  167  	struct gpio_desc *gpio_reset;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16 @168  };
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  169  
+
+:::::: The code at line 168 was first introduced by commit
+:::::: e6cbbe42944de93ba4e0785b4f90d284b1d7cdf6 pinctrl: Add Cypress cy8c95x0 support
+
+:::::: TO: Patrick Rudolph <patrick.rudolph@9elements.com>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
