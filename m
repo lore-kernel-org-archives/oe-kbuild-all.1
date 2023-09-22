@@ -1,44 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6A35660
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Sep 2023 06:59:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A00171B1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Sep 2023 06:59:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695365968; x=1726901968;
+  t=1695365970; x=1726901970;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0BwymBhUpLKMSBRLPmBCYKw1e3DzCf2eEKTtpvUDm/s=;
-  b=QdxP1b/R2cQhENqZyx4MTe/v7EWNwd9rdYFnVr+8Zcb1XqXjCRB7ywRl
-   iyJSQNTsbS1PLTcdYrMOM/DvBpaHmLPrk7bH2HBdFzHPGqzsP2QtgRUwk
-   qLrRXadoZR8iMCLqv835BzqPHeUIFCrehz0BCroWwXqutPqoKHW1UlqFc
-   8SJdagr0zvqYLlTKrspOocDNYtxenDPnL2x0lkD85QcfGJC1oC8iULUQQ
-   WxIkphyFl4kSUt/fFuxZRbVKwiXz/1waPzp8zUwolRoZUTaF1LWkX0baT
-   x4wDYfNCDXXEcifEPno9EiTNRcjGOQzToqAprGA10Xdl98U1c7PGaQ17u
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="411698543"
+  bh=auetQJNJSdgy1cpJ/7l9/uPBAnH3u6TY6eocg0SgsUw=;
+  b=Zi5W+RoGKyWH1yzuOf+KpxRQl2gvt78A6yggtniQu3THEfZ6cucRTxnt
+   U5wRuX2lwVIYe7BZNlhDUh/7XgVY2PEev0eiRJ7Js908BniOoA6P1+Iq2
+   mGjYR/qEN+6tGpPFYNoDM++o8PK05tpJeFRI6B8FqX4pIcpHV7/R7Epf4
+   VEBBX3TY2ZrNGN/ICEC4DAGxqAvJ5Y4zWCw/ziDdrQhznfnjW7vf1K0R0
+   2EN7657iIyVl/WU+y7x86Q1f3udUsLGza4+fCyzi6Qy7YecBMRlL217ib
+   c9ffViw5caJkJ4u9BCX7gq8A4tKR2JzYazCJ/Fcljo9/RLWVuNgOMZgZs
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="411698547"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="411698543"
+   d="scan'208";a="411698547"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
   by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 23:59:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="1078261979"
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="1078261980"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="1078261979"
+   d="scan'208";a="1078261980"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
   by fmsmga005.fm.intel.com with ESMTP; 21 Sep 2023 23:59:26 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qja8K-0000FB-1a;
+	id 1qja8K-0000FD-1e;
 	Fri, 22 Sep 2023 06:59:24 +0000
-Date: Fri, 22 Sep 2023 14:58:40 +0800
+Date: Fri, 22 Sep 2023 14:58:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Ogness <john.ogness@linutronix.de>
+To: Thomas Gleixner <tglx@linutronix.de>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [rt-devel:linux-6.4.y-rt-rebase 46/79]
- kernel/printk/printk.c:3361:6: warning: no previous prototype for
- 'console_bkl_kthread_create'
-Message-ID: <202309221431.jWGSVvmz-lkp@intel.com>
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	John Ogness <john.ogness@linutronix.de>
+Subject: [rt-devel:linux-6.4.y-rt-rebase 33/79]
+ kernel/printk/printk_nobkl.c:1029: warning: Function parameter or member
+ 'unsafe' not described in '__console_update_unsafe'
+Message-ID: <202309221409.ffZRjmwb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,59 +51,63 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.4.y-rt-rebase
 head:   fb7828286d1ee12dc132500e9fc84085ceadabc3
-commit: 094c02761170c2bb60bfd8203fde8c553e30871c [46/79] printk: Add threaded printing support for BKL consoles.
-config: csky-randconfig-001-20230922 (https://download.01.org/0day-ci/archive/20230922/202309221431.jWGSVvmz-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309221431.jWGSVvmz-lkp@intel.com/reproduce)
+commit: d523dabca7de4c0c516c0fc3eb595ccc13756145 [33/79] printk: nobkl: Add print state functions
+config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20230922/202309221409.ffZRjmwb-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309221409.ffZRjmwb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309221431.jWGSVvmz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309221409.ffZRjmwb-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/printk/printk.c:3361:6: warning: no previous prototype for 'console_bkl_kthread_create' [-Wmissing-prototypes]
-    3361 | void console_bkl_kthread_create(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/printk/printk_nobkl.c:1029: warning: Function parameter or member 'unsafe' not described in '__console_update_unsafe'
 
 
-vim +/console_bkl_kthread_create +3361 kernel/printk/printk.c
+vim +1029 kernel/printk/printk_nobkl.c
 
-  3360	
-> 3361	void console_bkl_kthread_create(void)
-  3362	{
-  3363		struct task_struct *kt;
-  3364		struct console *c;
-  3365	
-  3366		lockdep_assert_held(&console_mutex);
-  3367	
-  3368		if (!IS_ENABLED(CONFIG_PREEMPT_RT))
-  3369			return;
-  3370	
-  3371		if (!printk_threads_enabled || console_bkl_kthread)
-  3372			return;
-  3373	
-  3374		for_each_console(c) {
-  3375			if (c->flags & CON_BOOT)
-  3376				return;
-  3377		}
-  3378	
-  3379		kt = kthread_run(console_bkl_kthread_func, NULL, "pr/bkl");
-  3380		if (IS_ERR(kt)) {
-  3381			pr_err("unable to start BKL printing thread\n");
-  3382			return;
-  3383		}
-  3384	
-  3385		console_bkl_kthread = kt;
-  3386	
-  3387		/*
-  3388		 * It is important that console printing threads are scheduled
-  3389		 * shortly after a printk call and with generous runtime budgets.
-  3390		 */
-  3391		sched_set_normal(console_bkl_kthread, -20);
-  3392	}
-  3393	
+  1010	
+  1011	/**
+  1012	 * __console_update_unsafe - Update the unsafe bit in @con->atomic_state
+  1013	 * @wctxt:	The write context that was handed to the write function
+  1014	 *
+  1015	 * Returns:	True if the state is correct. False if a handover
+  1016	 *		has been requested or if the console was taken
+  1017	 *		over.
+  1018	 *
+  1019	 * Must be invoked before an unsafe driver section is entered.
+  1020	 *
+  1021	 * When this function returns false then the calling context is not allowed
+  1022	 * to go forward and has to back out immediately and carefully. The buffer
+  1023	 * content is no longer trusted either and the console lock is no longer
+  1024	 * held.
+  1025	 *
+  1026	 * Internal helper to avoid duplicated code
+  1027	 */
+  1028	static bool __console_update_unsafe(struct cons_write_context *wctxt, bool unsafe)
+> 1029	{
+  1030		struct cons_context *ctxt = &ACCESS_PRIVATE(wctxt, ctxt);
+  1031		struct console *con = ctxt->console;
+  1032		struct cons_state new;
+  1033	
+  1034		do  {
+  1035			if (!console_can_proceed(wctxt))
+  1036				return false;
+  1037			/*
+  1038			 * console_can_proceed() saved the real state in
+  1039			 * ctxt->old_state
+  1040			 */
+  1041			copy_full_state(new, ctxt->old_state);
+  1042			new.unsafe = unsafe;
+  1043	
+  1044		} while (!cons_state_try_cmpxchg(con, CON_STATE_CUR, &ctxt->old_state, &new));
+  1045	
+  1046		copy_full_state(ctxt->state, new);
+  1047		return true;
+  1048	}
+  1049	
 
 -- 
 0-DAY CI Kernel Test Service
