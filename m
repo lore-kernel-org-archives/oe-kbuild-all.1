@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B82E18C2D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Sep 2023 07:51:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99C014F6F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Sep 2023 09:25:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695369105; x=1726905105;
+  t=1695374756; x=1726910756;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xucIYSfmBTFWM8zuk4I/BdP2SE1Kco+rNXtuJntNyfY=;
-  b=crKpycgEjbwVmc4u8uf9KTFKW02+IkXbr+qARZRzJyWQbwisOP/BiTTn
-   Ht/yEINwvaoraveoToTUgHwNjfeDeIHpqxdn6X0U7CFlEb77DY1Ik2Aiv
-   27JkBW3I+v3sxa+twRtH+lUhQbJcbCRqb4w157fPzRVVxGb2hB2xH59rM
-   cvSM6ecsYI7YV26AS4iEah2aPnKr63PfBfYbwl7wV5qxhA96b+mdD26NH
-   Q+8d2jrD3RkozsZbZcn0XQddMtbrrbIEeHkHOmcGGScscdVH/mge7ejDF
-   h7pmwRbWdd0thnA4DzZYdfysfIEBMg4z7harngE2XCAT2TngJeL/7ROr8
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="361021105"
+  bh=guXUGf1mDoqbSRpGVzuqDiG+Tmo1gFAK8fnXm8atabU=;
+  b=Nt0D5PaTHOWSlmHfbd4i2vVBrugxyQhC56HX8j59lEkE935zW33rMzcN
+   lZeLq2j5jp6gqmANxCIB0wMLAGX7D8r1VscdVwRKPJnupERxP+XWY15EC
+   Ib9cbahDO+Qq0QXMeVaXx5uKqDcNKJqWcvyd4wELNenYWFrgadrQP89PB
+   ejqWw1zQxWl/SyoD6MY1aYh9wQpCucs744td9BTbBakWWPAhx5uoD+j0G
+   PoMgp+BHLb1Fj6hE2g8ImT2VCXTh3a4ipz4cxOYSvJSiB/xc/0vrN4Q43
+   qwyZtFaUAJs6aWl+uFpCr7boyBp3Qpp1Rve6rmuTlrygIdPinqYyHbhDw
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="384620796"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="361021105"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 00:51:32 -0700
+   d="scan'208";a="384620796"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 02:25:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="747439228"
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="741029753"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="747439228"
+   d="scan'208";a="741029753"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 22 Sep 2023 00:51:30 -0700
+  by orsmga007.jf.intel.com with ESMTP; 22 Sep 2023 02:25:54 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjawh-0000KL-2V;
-	Fri, 22 Sep 2023 07:51:27 +0000
-Date: Fri, 22 Sep 2023 15:51:24 +0800
+	id 1qjcQ4-0000TB-1h;
+	Fri, 22 Sep 2023 09:25:52 +0000
+Date: Fri, 22 Sep 2023 17:25:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Patrick Rudolph <patrick.rudolph@9elements.com>
+To: WANG Xuerui <git@xen0n.name>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Naresh Solanki <Naresh.Solanki@9elements.com>
-Subject: drivers/pinctrl/pinctrl-cy8c95x0.c:168: warning: Function parameter
- or member 'gpio_reset' not described in 'cy8c95x0_pinctrl'
-Message-ID: <202309221513.fMQaFYAd-lkp@intel.com>
+	Huacai Chen <chenhuacai@kernel.org>
+Subject: arch/loongarch/include/asm/percpu.h:20:4: error: #error compiler
+ support for the model attribute is necessary when a recent assembler is used
+Message-ID: <202309221713.iTLkJPrI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,82 +47,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Patrick,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   27bbf45eae9ca98877a2d52a92a188147cd61b07
-commit: 99084881de88ffcd156b03aaeb7d4eb740005e3e pinctrl: cy8c95x0: Add reset support
-date:   9 weeks ago
-config: csky-randconfig-r034-20230817 (https://download.01.org/0day-ci/archive/20230922/202309221513.fMQaFYAd-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309221513.fMQaFYAd-lkp@intel.com/reproduce)
+commit: 38b10b269d04540aee05c34a059dcf304cfce0a8 LoongArch: Tweak CFLAGS for Clang compatibility
+date:   3 months ago
+config: loongarch-loongson3_defconfig (https://download.01.org/0day-ci/archive/20230922/202309221713.iTLkJPrI-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309221713.iTLkJPrI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309221513.fMQaFYAd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309221713.iTLkJPrI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/pinctrl/pinctrl-cy8c95x0.c:168: warning: Function parameter or member 'gpio_reset' not described in 'cy8c95x0_pinctrl'
+   In file included from include/linux/percpu.h:12,
+                    from include/linux/context_tracking_state.h:5,
+                    from include/linux/hardirq.h:5,
+                    from include/linux/interrupt.h:11,
+                    from sound/pci/bt87x.c:11:
+>> arch/loongarch/include/asm/percpu.h:20:4: error: #error compiler support for the model attribute is necessary when a recent assembler is used
+      20 | #  error compiler support for the model attribute is necessary when a recent assembler is used
+         |    ^~~~~
 
 
-vim +168 drivers/pinctrl/pinctrl-cy8c95x0.c
+vim +20 arch/loongarch/include/asm/percpu.h
 
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  124  
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  125  /**
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  126   * struct cy8c95x0_pinctrl - driver data
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  127   * @regmap:         Device's regmap
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  128   * @irq_lock:       IRQ bus lock
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  129   * @i2c_lock:       Mutex for the device internal mux register
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  130   * @irq_mask:       I/O bits affected by interrupts
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  131   * @irq_trig_raise: I/O bits affected by raising voltage level
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  132   * @irq_trig_fall:  I/O bits affected by falling voltage level
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  133   * @irq_trig_low:   I/O bits affected by a low voltage level
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  134   * @irq_trig_high:  I/O bits affected by a high voltage level
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  135   * @push_pull:      I/O bits configured as push pull driver
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  136   * @shiftmask:      Mask used to compensate for Gport2 width
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  137   * @nport:          Number of Gports in this chip
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  138   * @gpio_chip:      gpiolib chip
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  139   * @driver_data:    private driver data
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  140   * @regulator:      Pointer to the regulator for the IC
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  141   * @dev:            struct device
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  142   * @pctldev:        pin controller device
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  143   * @pinctrl_desc:   pin controller description
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  144   * @name:           Chip controller name
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  145   * @tpin:           Total number of pins
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  146   */
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  147  struct cy8c95x0_pinctrl {
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  148  	struct regmap *regmap;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  149  	struct mutex irq_lock;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  150  	struct mutex i2c_lock;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  151  	DECLARE_BITMAP(irq_mask, MAX_LINE);
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  152  	DECLARE_BITMAP(irq_trig_raise, MAX_LINE);
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  153  	DECLARE_BITMAP(irq_trig_fall, MAX_LINE);
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  154  	DECLARE_BITMAP(irq_trig_low, MAX_LINE);
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  155  	DECLARE_BITMAP(irq_trig_high, MAX_LINE);
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  156  	DECLARE_BITMAP(push_pull, MAX_LINE);
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  157  	DECLARE_BITMAP(shiftmask, MAX_LINE);
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  158  	int nport;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  159  	struct gpio_chip gpio_chip;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  160  	unsigned long driver_data;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  161  	struct regulator *regulator;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  162  	struct device *dev;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  163  	struct pinctrl_dev *pctldev;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  164  	struct pinctrl_desc pinctrl_desc;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  165  	char name[32];
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  166  	unsigned int tpin;
-99084881de88ff Patrick Rudolph 2023-07-14  167  	struct gpio_desc *gpio_reset;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16 @168  };
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  169  
-
-:::::: The code at line 168 was first introduced by commit
-:::::: e6cbbe42944de93ba4e0785b4f90d284b1d7cdf6 pinctrl: Add Cypress cy8c95x0 support
-
-:::::: TO: Patrick Rudolph <patrick.rudolph@9elements.com>
-:::::: CC: Linus Walleij <linus.walleij@linaro.org>
+    10	
+    11	/*
+    12	 * The "address" (in fact, offset from $r21) of a per-CPU variable is close to
+    13	 * the loading address of main kernel image, but far from where the modules are
+    14	 * loaded. Tell the compiler this fact when using explicit relocs.
+    15	 */
+    16	#if defined(MODULE) && defined(CONFIG_AS_HAS_EXPLICIT_RELOCS)
+    17	# if __has_attribute(model)
+    18	#  define PER_CPU_ATTRIBUTES __attribute__((model("extreme")))
+    19	# else
+  > 20	#  error compiler support for the model attribute is necessary when a recent assembler is used
+    21	# endif
+    22	#endif
+    23	
 
 -- 
 0-DAY CI Kernel Test Service
