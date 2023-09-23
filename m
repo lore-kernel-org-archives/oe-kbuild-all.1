@@ -1,45 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731061D525
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Sep 2023 14:38:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC881D682;
+	Sat, 23 Sep 2023 14:38:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695479890; x=1727015890;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6iL2iP0bBLGGdY/x7CtPH02IZCPiOIq0/jaWpVKDZWk=;
-  b=MBGcI/OJJ4octPW/OVkA1HH0PtYORO93He6wrjDYx7X5BzG5hYL2+nIx
-   oh1NLB2/02+o8NsNIS9FkNxqWlzUI8O2zvgW6DAc+KxUo0CtLIXB5Ki8q
-   1DlN/yiu9mPu65nSZc3IvzhHg3/asNyKdvKhuO1IgWvFj3s8J+tp3t0M+
-   pJDYx76jJXManXEw2gFji/QPobGD/HZxzMjBGOxbFKt2yy51c5FAbi5qv
-   haw1Ym9X4dMa3zJl7/9MLcC4SF9ZN9566MEg8IbP/NyTdyY9QdFK514RJ
-   gJFUu6f3W/sRBjgZ8YG4HtK6NLFTXQyqd8UsV7s94AKoaC/lfsaqp0y6f
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="371340218"
+  t=1695479892; x=1727015892;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=m0LbyftualtJNSMv+9w+F5ke/dxsnjl8/rKq+vXQFGQ=;
+  b=GMgAsEHZksop4fgn1iEi2XObSwx4uX9kGzeHW6s/dNpskUUcVYlLG5aO
+   J7pRhvLLBOR1CpsfZSrckgzn3eg/jesQg5OwOraaIXr/u8hLXfr1jvxSQ
+   QZQ96KWTwvzvK/kvfpf8Eo4vla8OZdNkDjVTYVlDmPb+jQ8j/0jDfU8Wv
+   wds6K9WZjM/FcweYQnQUC1M7r3/PQKuu1o54awY7Bv9uFquUaSqH/NFE7
+   MOG8w6jBkirKkzXODyahR+tpl8858tIgDiQXGaLgSWmNjzA/qORAAeBWQ
+   HMIz4QXegnLLouASos0OSOuNdCVoIe4XEoo8mcHCJU48IUneZLSAdcHJC
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="371340226"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="371340218"
+   d="scan'208";a="371340226"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 07:38:09 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 07:38:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="777181741"
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="777181746"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="777181741"
+   d="scan'208";a="777181746"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 23 Sep 2023 07:38:07 -0700
+  by orsmga008.jf.intel.com with ESMTP; 23 Sep 2023 07:38:11 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qk3lg-0002Tv-0R;
-	Sat, 23 Sep 2023 14:38:02 +0000
-Date: Sat, 23 Sep 2023 22:37:15 +0800
+	id 1qk3li-0002Ty-2R;
+	Sat, 23 Sep 2023 14:38:03 +0000
+Date: Sat, 23 Sep 2023 22:37:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: liuhaoran <liuhaoran14@163.com>, davem@davemloft.net
-Cc: oe-kbuild-all@lists.linux.dev, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, netdev@vger.kernel.org,
-	liuhaoran <liuhaoran14@163.com>
-Subject: Re: [PATCH] net: phonet: Add error handling in phonet_device_init
-Message-ID: <202309232243.cyUNs2XY-lkp@intel.com>
-References: <20230923115847.32740-1-liuhaoran14@163.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/030-misc 22/24] error: Found argument
+ '--blocklist-type' which wasn't expected, or isn't valid in this context
+Message-ID: <202309232238.VCcGgqlA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,68 +46,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230923115847.32740-1-liuhaoran14@163.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi liuhaoran,
+tree:   https://github.com/AsahiLinux/linux bits/030-misc
+head:   d919825a8bd8b095f84447c913739f39b4f4c8b5
+commit: 2dc7e1e94502d46de601eee15011c47b19883df8 [22/24] rust: Fix for new =
+bindgen
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230=
+923/202309232238.VCcGgqlA-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8d=
+fdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20230923/202309232238.VCcGgqlA-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-[also build test WARNING on net/main linus/master horms-ipvs/master v6.6-rc2 next-20230921]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/liuhaoran/net-phonet-Add-error-handling-in-phonet_device_init/20230923-200141
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230923115847.32740-1-liuhaoran14%40163.com
-patch subject: [PATCH] net: phonet: Add error handling in phonet_device_init
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230923/202309232243.cyUNs2XY-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230923/202309232243.cyUNs2XY-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309232243.cyUNs2XY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309232238.VCcGgqlA-lkp@i=
+ntel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   net/phonet/pn_dev.c: In function 'phonet_device_init':
->> net/phonet/pn_dev.c:339:13: warning: assignment to 'int' from 'struct proc_dir_entry *' makes integer from pointer without a cast [-Wint-conversion]
-     339 |         err = proc_create_net("pnresource", 0, init_net.proc_net, &pn_res_seq_ops,
-         |             ^
+>> error: Found argument '--blocklist-type' which wasn't expected, or isn't=
+ valid in this context
+   Did you mean =1B[32m--=1B[0m=1B[32mblacklist-type=1B[0m?
 
-
-vim +339 net/phonet/pn_dev.c
-
-   331	
-   332	/* Initialize Phonet devices list */
-   333	int __init phonet_device_init(void)
-   334	{
-   335		int err = register_pernet_subsys(&phonet_net_ops);
-   336		if (err)
-   337			return err;
-   338	
- > 339		err = proc_create_net("pnresource", 0, init_net.proc_net, &pn_res_seq_ops,
-   340				      sizeof(struct seq_net_private));
-   341	
-   342		if (!err)
-   343			return err;
-   344	
-   345		err = register_netdevice_notifier(&phonet_device_notifier);
-   346	
-   347		if (!err)
-   348			return err;
-   349	
-   350		err = phonet_netlink_register();
-   351	
-   352		if (err)
-   353			phonet_device_exit();
-   354		return err;
-   355	}
-   356	
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
