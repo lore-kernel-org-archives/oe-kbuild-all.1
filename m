@@ -1,43 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75B2DF42
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Sep 2023 15:55:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B501E51C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Sep 2023 16:27:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695484521; x=1727020521;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sOa6pvLzLFZ42Rcs+LAbQLfQFRwFlQxwxwLMy9tfJ5I=;
-  b=azf2y93B40mKFU68Wnuhd8IsArhqOFw9pV5hRs6Rnw68ZwyUVhyeErQm
-   12jYYdyWNfFy9oXTOgZJNDQc+05Ysyr9DUCgfWTPpCY+whStG25c3PgNq
-   +ot5ERT/9gIwWZS9JtIHDD6bHUSK2VL3zK+BeEmBMzKqIKvwluwpIOg1Y
-   kbbqPvlDKFTO2cIJjJQ87HOiC1ttnDrIWFiFHrfZoWAoZGKLqXjBs4n4K
-   dwF91JDRY3r6Dpu+SvFkwglfdHFf0PvQltAQex1Qp8suznCdD4tOrU73Y
-   ZblbRQd0RjJBH2IKw/9bs0fguP9MkDHgzL3Q0NmQdsIjKYP48cyZFbklX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="361280753"
+  t=1695486474; x=1727022474;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2EgNBjJKkDIylgKrJfdQAHWESh7j0MS+R2T8A6UuXSQ=;
+  b=Dc74im1sQogK9GLlcNppJtSKEPEWXnkjQnH1PwcYpz6X68SA1+4VcpIR
+   yszxJvDSvkRBHNdZ6ruY27kzE6UML7N4oE9JEV4JWYvEoOxGWlzoJBvR3
+   t/teloBhTe2lVbZPwCmZq4Jkt+VK9KTsT4+yczRRfIh7SiYKTsAkd1GRw
+   uu2dt/Jn2q7dWie4bHWJ16ngmFY9N24UKb8EzNTH/Eb0aLXJzVwz+IBrv
+   wXroYxBv+qe9dMvYNesI6hurzWg9Eyc7bufP6e4ctgGbqUcmXcAXlAQSg
+   Jl4eSYikz5CcNR/vexEKoNT7YZHFkT0DMC0ND4uPzwyebq3Vr7xDjPnb/
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="379916304"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="361280753"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 08:55:20 -0700
+   d="scan'208";a="379916304"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 09:27:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="751184148"
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="697540892"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="751184148"
+   d="scan'208";a="697540892"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 23 Sep 2023 08:55:19 -0700
+  by orsmga003.jf.intel.com with ESMTP; 23 Sep 2023 09:27:49 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qk4yT-0002XR-0W;
-	Sat, 23 Sep 2023 15:55:17 +0000
-Date: Sat, 23 Sep 2023 23:55:07 +0800
+	id 1qk5Tv-0002cs-2D;
+	Sat, 23 Sep 2023 16:27:47 +0000
+Date: Sun, 24 Sep 2023 00:27:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, Shaopeng Tan <tan.shaopeng@fujitsu.com>
-Subject: [morse:mpam/monitors_and_locking/v6 8/24]
- arch/x86/kernel/cpu/resctrl/monitor.c:55: warning: Cannot understand  *
- @closid_num_dirty_rmid    The number of dirty RMID each CLOSID has.
-Message-ID: <202309232302.z3yFQvXl-lkp@intel.com>
+To: Rohit Agarwal <quic_rohiagar@quicinc.com>, agross@kernel.org,
+	andersson@kernel.org, konrad.dybcio@linaro.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Rohit Agarwal <quic_rohiagar@quicinc.com>
+Subject: Re: [PATCH 1/3] arm64: dts: qcom: Add interconnect nodes for SDX75
+Message-ID: <202309240033.AmuJpOkT-lkp@intel.com>
+References: <1695383434-24705-2-git-send-email-quic_rohiagar@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,41 +50,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1695383434-24705-2-git-send-email-quic_rohiagar@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/monitors_and_locking/v6
-head:   60cd5a617cf6d65701aa6a1d75435b9c05ee7e7b
-commit: b8aa13691f6a30d3349ab5625d55ac27566d52f5 [8/24] x86/resctrl: Track the number of dirty RMID a CLOSID has
-config: i386-randconfig-012-20230923 (https://download.01.org/0day-ci/archive/20230923/202309232302.z3yFQvXl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230923/202309232302.z3yFQvXl-lkp@intel.com/reproduce)
+Hi Rohit,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.6-rc2 next-20230921]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rohit-Agarwal/arm64-dts-qcom-Add-interconnect-nodes-for-SDX75/20230922-195140
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/1695383434-24705-2-git-send-email-quic_rohiagar%40quicinc.com
+patch subject: [PATCH 1/3] arm64: dts: qcom: Add interconnect nodes for SDX75
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230924/202309240033.AmuJpOkT-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230924/202309240033.AmuJpOkT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309232302.z3yFQvXl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309240033.AmuJpOkT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/x86/kernel/cpu/resctrl/monitor.c:48: warning: Cannot understand  * @rmid_free_lru    A least recently used list of free RMIDs
-    on line 48 - I thought it was a doc line
->> arch/x86/kernel/cpu/resctrl/monitor.c:55: warning: Cannot understand  * @closid_num_dirty_rmid    The number of dirty RMID each CLOSID has.
-    on line 55 - I thought it was a doc line
-   arch/x86/kernel/cpu/resctrl/monitor.c:62: warning: Cannot understand  * @rmid_limbo_count     count of currently unused but (potentially)
-    on line 62 - I thought it was a doc line
-   arch/x86/kernel/cpu/resctrl/monitor.c:71: warning: Cannot understand  * @rmid_entry - The entry in the limbo and free lists.
-    on line 71 - I thought it was a doc line
+   In file included from arch/arm64/boot/dts/qcom/sdx75-idp.dts:9:
+>> arch/arm64/boot/dts/qcom/sdx75.dtsi:11:10: fatal error: dt-bindings/interconnect/qcom,sdx75.h: No such file or directory
+      11 | #include <dt-bindings/interconnect/qcom,sdx75.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
-vim +55 arch/x86/kernel/cpu/resctrl/monitor.c
+vim +11 arch/arm64/boot/dts/qcom/sdx75.dtsi
 
-    53	
-    54	/**
-  > 55	 * @closid_num_dirty_rmid    The number of dirty RMID each CLOSID has.
-    56	 *     Only allocated when CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID is defined.
-    57	 *     Indexed by CLOSID. Protected by rdtgroup_mutex.
-    58	 */
-    59	static unsigned int *closid_num_dirty_rmid;
-    60	
+  > 11	#include <dt-bindings/interconnect/qcom,sdx75.h>
+    12	#include <dt-bindings/interrupt-controller/arm-gic.h>
+    13	#include <dt-bindings/power/qcom,rpmhpd.h>
+    14	#include <dt-bindings/power/qcom-rpmpd.h>
+    15	#include <dt-bindings/soc/qcom,rpmh-rsc.h>
+    16	
 
 -- 
 0-DAY CI Kernel Test Service
