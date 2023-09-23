@@ -1,44 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A508F15E87
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Sep 2023 14:38:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684F51D547
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Sep 2023 14:54:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695479894; x=1727015894;
+  t=1695480853; x=1727016853;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CkSjw4ADDS7WedgeKGj7xHuXJNDn3y0q84RAVQ3Q++0=;
-  b=ev7aKVItzOXpWC3J+eDxIyqvXo8JSnXDOU3rbXw/tbKGNlUz8yXrMoc2
-   uZC5UClUBFSssGP+GXcA7WhiHNeIJi8yTzTaIw/M4hcgzGRoqJl/AJEI/
-   ao8OcPwwqthUJReM0kcFLjXPTixeU4NFTrc7fPhnkbGfDQpq1cqdCkGke
-   NdndFBfFxmq/SgdT6tQnlEUoyhKsaZDaQV4+r/kFDAqmeMMd/rOUHiJSZ
-   hFacQrU7Tae4Wnv5+rbFXolt1OSRrL6dNI/w3312ebTRV8iAAAytv4z/f
-   6+aVdW4US76Ko3pr4vwqNrCdGaWLwvZKsMABJwbEMvwucEia78oz/mvT0
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="360408660"
+  bh=2GU4L5XwbONvpT/KbcdubrCADKBC+cDuByHqBIFHzqM=;
+  b=TqrUJpalJ9KmsDh3qPMM453lza2XEsYUPKGg6qU/2IdnX05K2YhF5kNU
+   /xi9ECieUHh5S2JDFl37bx6t1zDls4F3mdmPExGXqSiAcjoJcN81JK791
+   4p3wYbrVXJa639FdqSSdmwW6nkOPqQv+aQVuJeEhQunqXhSIo//LxnAeB
+   FHzBBsEtYEeqVseh94biqkuaYWTCJT8Je3FMPFUZX589m/m1OC/d1ANvE
+   HaTJw/FWRQ2RKY0/Ys9UIMC0c2lkbWv2lnIo/0s2vLJfPXax19L/NA059
+   0mhPp3RQCblPfeifZvjX4xcmk9yQ93nQrF+Q14jqeo6HK7w4ibGoZUBym
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="411959291"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="360408660"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 07:38:14 -0700
+   d="scan'208";a="411959291"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 07:54:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="697519662"
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="724507506"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="697519662"
+   d="scan'208";a="724507506"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 23 Sep 2023 07:38:13 -0700
+  by orsmga006.jf.intel.com with ESMTP; 23 Sep 2023 07:54:08 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qk3lp-0002U2-2L;
-	Sat, 23 Sep 2023 14:38:09 +0000
-Date: Sat, 23 Sep 2023 22:37:12 +0800
+	id 1qk40z-0002Uv-0g;
+	Sat, 23 Sep 2023 14:53:55 +0000
+Date: Sat, 23 Sep 2023 22:52:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 1/2] phy: qcom-qmp-combo: Square out 8550
- POWER_STATE_CONFIG1
-Message-ID: <202309232206.bFdyguL7-lkp@intel.com>
-References: <20230829-topic-8550_usbphy-v2-1-a72f43311d19@linaro.org>
+To: KP Singh <kpsingh@kernel.org>, linux-security-module@vger.kernel.org,
+	bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, paul@paul-moore.com,
+	keescook@chromium.org, casey@schaufler-ca.com, song@kernel.org,
+	daniel@iogearbox.net, ast@kernel.org, kpsingh@kernel.org,
+	renauld@google.com
+Subject: Re: [PATCH v4 3/5] security: Replace indirect LSM hook calls with
+ static calls
+Message-ID: <202309232244.uCfB7AMn-lkp@intel.com>
+References: <20230922145505.4044003-4-kpsingh@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,52 +51,282 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230829-topic-8550_usbphy-v2-1-a72f43311d19@linaro.org>
+In-Reply-To: <20230922145505.4044003-4-kpsingh@kernel.org>
 
-Hi Konrad,
+Hi KP,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.6-rc2 next-20230921]
+[auto build test WARNING on bpf-next/master]
+[also build test WARNING on bpf/master pcmoore-selinux/next linus/master v6.6-rc2 next-20230921]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/phy-qcom-qmp-combo-initialize-PCS_USB-registers/20230912-072106
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230829-topic-8550_usbphy-v2-1-a72f43311d19%40linaro.org
-patch subject: [PATCH v2 1/2] phy: qcom-qmp-combo: Square out 8550 POWER_STATE_CONFIG1
-config: parisc-randconfig-002-20230923 (https://download.01.org/0day-ci/archive/20230923/202309232206.bFdyguL7-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230923/202309232206.bFdyguL7-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/KP-Singh/kernel-Add-helper-macros-for-loop-unrolling/20230922-225925
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230922145505.4044003-4-kpsingh%40kernel.org
+patch subject: [PATCH v4 3/5] security: Replace indirect LSM hook calls with static calls
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230923/202309232244.uCfB7AMn-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230923/202309232244.uCfB7AMn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309232206.bFdyguL7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309232244.uCfB7AMn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/phy/qualcomm/phy-qcom-qmp-combo.c:865:26: error: 'QPHY_USB_Q6_PCS_USB3_POWER_STATE_CONFIG1' undeclared here (not in a function); did you mean 'QPHY_USB_V6_PCS_USB3_POWER_STATE_CONFIG1'?
-     865 |         QMP_PHY_INIT_CFG(QPHY_USB_Q6_PCS_USB3_POWER_STATE_CONFIG1, 0x68),
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/phy/qualcomm/phy-qcom-qmp-combo.c:87:27: note: in definition of macro 'QMP_PHY_INIT_CFG'
-      87 |                 .offset = o,            \
-         |                           ^
+   security/security.c: In function 'security_binder_set_context_mgr':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:872:16: note: in expansion of macro 'call_int_hook'
+     872 |         return call_int_hook(binder_set_context_mgr, 0, mgr);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_binder_transaction':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:887:16: note: in expansion of macro 'call_int_hook'
+     887 |         return call_int_hook(binder_transaction, 0, from, to);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_binder_transfer_binder':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:902:16: note: in expansion of macro 'call_int_hook'
+     902 |         return call_int_hook(binder_transfer_binder, 0, from, to);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_binder_transfer_file':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:918:16: note: in expansion of macro 'call_int_hook'
+     918 |         return call_int_hook(binder_transfer_file, 0, from, to, file);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_ptrace_access_check':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:937:16: note: in expansion of macro 'call_int_hook'
+     937 |         return call_int_hook(ptrace_access_check, 0, child, mode);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_ptrace_traceme':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:952:16: note: in expansion of macro 'call_int_hook'
+     952 |         return call_int_hook(ptrace_traceme, 0, parent);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_capget':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:974:16: note: in expansion of macro 'call_int_hook'
+     974 |         return call_int_hook(capget, 0, target,
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_capset':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:996:16: note: in expansion of macro 'call_int_hook'
+     996 |         return call_int_hook(capset, 0, new, old,
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_capable':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1018:16: note: in expansion of macro 'call_int_hook'
+    1018 |         return call_int_hook(capable, 0, cred, ns, cap, opts);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_quotactl':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1034:16: note: in expansion of macro 'call_int_hook'
+    1034 |         return call_int_hook(quotactl, 0, cmds, type, id, sb);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_quota_on':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1047:16: note: in expansion of macro 'call_int_hook'
+    1047 |         return call_int_hook(quota_on, 0, dentry);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_syslog':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1062:16: note: in expansion of macro 'call_int_hook'
+    1062 |         return call_int_hook(syslog, 0, type);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_settime64':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1077:16: note: in expansion of macro 'call_int_hook'
+    1077 |         return call_int_hook(settime, 0, ts, tz);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_bprm_creds_for_exec':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1132:16: note: in expansion of macro 'call_int_hook'
+    1132 |         return call_int_hook(bprm_creds_for_exec, 0, bprm);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_bprm_creds_from_file':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1156:16: note: in expansion of macro 'call_int_hook'
+    1156 |         return call_int_hook(bprm_creds_from_file, 0, bprm, file);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_bprm_check':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1175:15: note: in expansion of macro 'call_int_hook'
+    1175 |         ret = call_int_hook(bprm_check_security, 0, bprm);
+         |               ^~~~~~~~~~~~~
+   security/security.c: In function 'security_fs_context_submount':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1225:16: note: in expansion of macro 'call_int_hook'
+    1225 |         return call_int_hook(fs_context_submount, 0, fc, reference);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_fs_context_dup':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1241:16: note: in expansion of macro 'call_int_hook'
+    1241 |         return call_int_hook(fs_context_dup, 0, fc, src_fc);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_sb_alloc':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1289:14: note: in expansion of macro 'call_int_hook'
+    1289 |         rc = call_int_hook(sb_alloc_security, 0, sb);
+         |              ^~~~~~~~~~~~~
+   security/security.c: In function 'security_sb_eat_lsm_opts':
+>> security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1347:16: note: in expansion of macro 'call_int_hook'
+    1347 |         return call_int_hook(sb_eat_lsm_opts, 0, options, mnt_opts);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_sb_mnt_opts_compat':
+   security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1364:16: note: in expansion of macro 'call_int_hook'
+    1364 |         return call_int_hook(sb_mnt_opts_compat, 0, sb, mnt_opts);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_sb_remount':
+   security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1381:16: note: in expansion of macro 'call_int_hook'
+    1381 |         return call_int_hook(sb_remount, 0, sb, mnt_opts);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_sb_kern_mount':
+   security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1395:16: note: in expansion of macro 'call_int_hook'
+    1395 |         return call_int_hook(sb_kern_mount, 0, sb);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_sb_show_options':
+   security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1409:16: note: in expansion of macro 'call_int_hook'
+    1409 |         return call_int_hook(sb_show_options, 0, m, sb);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_sb_statfs':
+   security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1423:16: note: in expansion of macro 'call_int_hook'
+    1423 |         return call_int_hook(sb_statfs, 0, dentry);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_sb_mount':
+   security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1446:16: note: in expansion of macro 'call_int_hook'
+    1446 |         return call_int_hook(sb_mount, 0, dev_name, path, type, flags, data);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_sb_umount':
+   security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1460:16: note: in expansion of macro 'call_int_hook'
+    1460 |         return call_int_hook(sb_umount, 0, mnt, flags);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_sb_pivotroot':
+   security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1475:16: note: in expansion of macro 'call_int_hook'
+    1475 |         return call_int_hook(sb_pivotroot, 0, old_path, new_path);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_sb_set_mnt_opts':
+   security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1494:16: note: in expansion of macro 'call_int_hook'
+    1494 |         return call_int_hook(sb_set_mnt_opts,
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_sb_clone_mnt_opts':
+   security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1516:16: note: in expansion of macro 'call_int_hook'
+    1516 |         return call_int_hook(sb_clone_mnt_opts, 0, oldsb, newsb,
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_move_mount':
+   security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1533:16: note: in expansion of macro 'call_int_hook'
+    1533 |         return call_int_hook(move_mount, 0, from_path, to_path);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_path_notify':
+   security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1550:16: note: in expansion of macro 'call_int_hook'
+    1550 |         return call_int_hook(path_notify, 0, path, mask, obj_type);
+         |                ^~~~~~~~~~~~~
+   security/security.c: In function 'security_inode_alloc':
+   security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
+   security/security.c:1569:14: note: in expansion of macro 'call_int_hook'
+    1569 |         rc = call_int_hook(inode_alloc_security, 0, inode);
+         |              ^~~~~~~~~~~~~
+   security/security.c: In function 'security_dentry_create_files_as':
+   security/security.c:851:1: warning: label 'out' defined but not used [-Wunused-label]
+     851 | out:                                                                    \
+         | ^~~
 
 
-vim +865 drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+vim +/out +851 security/security.c
 
-   863	
-   864	static const struct qmp_phy_init_tbl sm8550_usb3_pcs_usb_tbl[] = {
- > 865		QMP_PHY_INIT_CFG(QPHY_USB_Q6_PCS_USB3_POWER_STATE_CONFIG1, 0x68),
-   866		QMP_PHY_INIT_CFG(QPHY_USB_V6_PCS_USB3_LFPS_DET_HIGH_COUNT_VAL, 0xf8),
-   867		QMP_PHY_INIT_CFG(QPHY_USB_V6_PCS_USB3_RXEQTRAINING_DFE_TIME_S2, 0x07),
-   868		QMP_PHY_INIT_CFG(QPHY_USB_V6_PCS_USB3_RCVR_DTCT_DLY_U3_L, 0x40),
-   869		QMP_PHY_INIT_CFG(QPHY_USB_V6_PCS_USB3_RCVR_DTCT_DLY_U3_H, 0x00),
-   870	};
-   871	
+   845	
+   846	#define call_int_hook(FUNC, IRC, ...)					\
+   847	({									\
+   848		__label__ out;							\
+   849		int RC = IRC;							\
+   850		LSM_LOOP_UNROLL(__CALL_STATIC_INT, RC, FUNC, out, __VA_ARGS__);	\
+ > 851	out:									\
+   852		RC;								\
+   853	})
+   854	
 
 -- 
 0-DAY CI Kernel Test Service
