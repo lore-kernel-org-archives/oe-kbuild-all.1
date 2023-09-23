@@ -1,42 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7090363
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Sep 2023 00:06:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F41B437A;
+	Sat, 23 Sep 2023 00:50:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695427604; x=1726963604;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9pZkepKP2RW6FPHyL255GvZV7UBZds/BAyBAw4eBSUE=;
-  b=B22J7KABaj7ImSYIkFGMum3GmYmHsGgLafIbD1H7hzjljIeCdsvgcIgW
-   sMQXn0Cl4bAVNRkdgnwc3MCpgc3exTF4FxMW3vbibGwSzStspVsQZIXI+
-   yUPu3UO2VsRqnO3bcOQIUsrLtC+5v9bbkkDIcUk1wDeTRRrzsWwsFjeSh
-   wKatvavt15n5iIo4IbC9BsRjj2wnAzM+LvOxua68ie+ksrRpBTEtf/nI+
-   GrM8IMyT/T4lJ3Jvt9rkGfljlBBkNIXnm/BbF2XIk1ialkIMBgidOr54w
-   w1IZ8n0JqaPuVTmXDxESJdbXJZLYhAVAGfEuRNsOISOP1GO1klDZxGPY6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="383728558"
+  t=1695430203; x=1726966203;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=arO5SOxrLYzeSSD/8djWtK8jhXdONIIS+QCZYXekP2Q=;
+  b=F4cbSgEqemm84na8kj+JOZ9liAyctbEr1wnL9+CUbrnivRvgIv7+/XzL
+   TXYe3u8qC8OiBJO+bW84IxWUlrzYymfvARFPrA1AfgQMUGnVb6t4ei9NK
+   xXi1MBNuXE+t9sFXmGLWzES8dsYZ6SUcfDy5ZkP5KOhkkz63dTZPp3jEe
+   oswvjLhyhSqhsCz1jXrtaGHJ7OLj1q0f5nQMAvAbOHqYmqDUb3ghVTA6A
+   mhK1S8dxSi4b+mMSGf5PeYnkHgcSrDZeWjiVwdk2ra6qKtjA3sTfvc7Ke
+   LRb2p4U83DU0WYtrV4RhZ9nlgsg3Hv9UFb2OiVjs4xB10BuamG76YEAbM
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="380885134"
 X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
-   d="scan'208";a="383728558"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 17:06:43 -0700
+   d="scan'208";a="380885134"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 17:49:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="921355837"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="817995342"
 X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
-   d="scan'208";a="921355837"
+   d="scan'208";a="817995342"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 22 Sep 2023 17:06:42 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 22 Sep 2023 17:49:54 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjqAS-0001VJ-1K;
-	Sat, 23 Sep 2023 00:06:40 +0000
-Date: Sat, 23 Sep 2023 08:06:40 +0800
+	id 1qjqqF-0001X4-2n;
+	Sat, 23 Sep 2023 00:49:52 +0000
+Date: Sat, 23 Sep 2023 08:49:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: sound/soc/codecs/ak4642.c:646:24: sparse: sparse: Using plain
- integer as NULL pointer
-Message-ID: <202309230808.muWc0Phh-lkp@intel.com>
+To: Wei Gong <gongwei833x@gmail.com>, tglx@linutronix.de
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Wei Gong <gongwei833x@gmail.com>
+Subject: Re: [PATCH] genirq: avoid long loops in handle_edge_irq
+Message-ID: <202309230859.ygo4QTtO-lkp@intel.com>
+References: <20230921080146.37186-1-gongwei833x@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,81 +47,166 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230921080146.37186-1-gongwei833x@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8018e02a87031a5e8afcbd9d35133edd520076bb
-commit: 3cd8cc98d63492f6f69edd4486c9bd1fe29f91c3 platform/x86: Drop the PMC_ATOM Kconfig option
-date:   1 year, 3 months ago
-config: i386-randconfig-061-20230923 (https://download.01.org/0day-ci/archive/20230923/202309230808.muWc0Phh-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230923/202309230808.muWc0Phh-lkp@intel.com/reproduce)
+Hi Wei,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/irq/core]
+[also build test ERROR on linus/master v6.6-rc2 next-20230921]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Gong/genirq-avoid-long-loops-in-handle_edge_irq/20230922-025437
+base:   tip/irq/core
+patch link:    https://lore.kernel.org/r/20230921080146.37186-1-gongwei833x%40gmail.com
+patch subject: [PATCH] genirq: avoid long loops in handle_edge_irq
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20230923/202309230859.ygo4QTtO-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230923/202309230859.ygo4QTtO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309230808.muWc0Phh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309230859.ygo4QTtO-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> sound/soc/codecs/ak4642.c:646:24: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>):
 
-vim +646 sound/soc/codecs/ak4642.c
+   In file included from kernel/irq/chip.c:11:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from kernel/irq/chip.c:11:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from kernel/irq/chip.c:11:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> kernel/irq/chip.c:835:63: error: no member named 'affinity' in 'struct irq_common_data'
+     835 |                  cpumask_test_cpu(smp_processor_id(), desc->irq_common_data.affinity));
+         |                                                       ~~~~~~~~~~~~~~~~~~~~~ ^
+   12 warnings and 1 error generated.
 
-171a0138ab75fc Kuninori Morimoto 2015-09-10  631  
-27204ca8b98116 Kiran Padwal      2014-07-28  632  static const struct of_device_id ak4642_of_match[];
-e654a1331f6855 Stephen Kitt      2022-04-15  633  static const struct i2c_device_id ak4642_i2c_id[];
-e654a1331f6855 Stephen Kitt      2022-04-15  634  static int ak4642_i2c_probe(struct i2c_client *i2c)
-a3a83d9a7cb0ce Kuninori Morimoto 2009-08-21  635  {
-2719a752b6e96b Kuninori Morimoto 2015-09-10  636  	struct device *dev = &i2c->dev;
-2719a752b6e96b Kuninori Morimoto 2015-09-10  637  	struct device_node *np = dev->of_node;
-d815c703cedbc7 Sascha Hauer      2014-05-14  638  	const struct ak4642_drvdata *drvdata = NULL;
-4574cd94a717ef Mark Brown        2013-11-28  639  	struct regmap *regmap;
-d815c703cedbc7 Sascha Hauer      2014-05-14  640  	struct ak4642_priv *priv;
-171a0138ab75fc Kuninori Morimoto 2015-09-10  641  	struct clk *mcko = NULL;
-bbf1453e28e4e3 Kuninori Morimoto 2013-01-10  642  
-bbf1453e28e4e3 Kuninori Morimoto 2013-01-10  643  	if (np) {
-bbf1453e28e4e3 Kuninori Morimoto 2013-01-10  644  		const struct of_device_id *of_id;
-bbf1453e28e4e3 Kuninori Morimoto 2013-01-10  645  
-171a0138ab75fc Kuninori Morimoto 2015-09-10 @646  		mcko = ak4642_of_parse_mcko(dev);
-171a0138ab75fc Kuninori Morimoto 2015-09-10  647  		if (IS_ERR(mcko))
-171a0138ab75fc Kuninori Morimoto 2015-09-10  648  			mcko = NULL;
-171a0138ab75fc Kuninori Morimoto 2015-09-10  649  
-2719a752b6e96b Kuninori Morimoto 2015-09-10  650  		of_id = of_match_device(ak4642_of_match, dev);
-bbf1453e28e4e3 Kuninori Morimoto 2013-01-10  651  		if (of_id)
-d815c703cedbc7 Sascha Hauer      2014-05-14  652  			drvdata = of_id->data;
-bbf1453e28e4e3 Kuninori Morimoto 2013-01-10  653  	} else {
-e654a1331f6855 Stephen Kitt      2022-04-15  654  		const struct i2c_device_id *id =
-e654a1331f6855 Stephen Kitt      2022-04-15  655  			i2c_match_id(ak4642_i2c_id, i2c);
-d815c703cedbc7 Sascha Hauer      2014-05-14  656  		drvdata = (const struct ak4642_drvdata *)id->driver_data;
-bbf1453e28e4e3 Kuninori Morimoto 2013-01-10  657  	}
-bbf1453e28e4e3 Kuninori Morimoto 2013-01-10  658  
-d815c703cedbc7 Sascha Hauer      2014-05-14  659  	if (!drvdata) {
-2719a752b6e96b Kuninori Morimoto 2015-09-10  660  		dev_err(dev, "Unknown device type\n");
-bbf1453e28e4e3 Kuninori Morimoto 2013-01-10  661  		return -EINVAL;
-bbf1453e28e4e3 Kuninori Morimoto 2013-01-10  662  	}
-bbf1453e28e4e3 Kuninori Morimoto 2013-01-10  663  
-2719a752b6e96b Kuninori Morimoto 2015-09-10  664  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-d815c703cedbc7 Sascha Hauer      2014-05-14  665  	if (!priv)
-d815c703cedbc7 Sascha Hauer      2014-05-14  666  		return -ENOMEM;
-d815c703cedbc7 Sascha Hauer      2014-05-14  667  
-d815c703cedbc7 Sascha Hauer      2014-05-14  668  	priv->drvdata = drvdata;
-171a0138ab75fc Kuninori Morimoto 2015-09-10  669  	priv->mcko = mcko;
-d815c703cedbc7 Sascha Hauer      2014-05-14  670  
-d815c703cedbc7 Sascha Hauer      2014-05-14  671  	i2c_set_clientdata(i2c, priv);
-d815c703cedbc7 Sascha Hauer      2014-05-14  672  
-d815c703cedbc7 Sascha Hauer      2014-05-14  673  	regmap = devm_regmap_init_i2c(i2c, drvdata->regmap_config);
-4574cd94a717ef Mark Brown        2013-11-28  674  	if (IS_ERR(regmap))
-4574cd94a717ef Mark Brown        2013-11-28  675  		return PTR_ERR(regmap);
-4574cd94a717ef Mark Brown        2013-11-28  676  
-43c5d0f05ec55a Kuninori Morimoto 2018-01-29  677  	return devm_snd_soc_register_component(dev,
-43c5d0f05ec55a Kuninori Morimoto 2018-01-29  678  				&soc_component_dev_ak4642, &ak4642_dai, 1);
-a3a83d9a7cb0ce Kuninori Morimoto 2009-08-21  679  }
-a3a83d9a7cb0ce Kuninori Morimoto 2009-08-21  680  
 
-:::::: The code at line 646 was first introduced by commit
-:::::: 171a0138ab75fcbe1228c4af0442221efccfb197 ASoC: ak4642: enable to use MCKO as fixed rate output pin on DT
+vim +835 kernel/irq/chip.c
 
-:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+   771	
+   772	/**
+   773	 *	handle_edge_irq - edge type IRQ handler
+   774	 *	@desc:	the interrupt description structure for this irq
+   775	 *
+   776	 *	Interrupt occurs on the falling and/or rising edge of a hardware
+   777	 *	signal. The occurrence is latched into the irq controller hardware
+   778	 *	and must be acked in order to be reenabled. After the ack another
+   779	 *	interrupt can happen on the same source even before the first one
+   780	 *	is handled by the associated event handler. If this happens it
+   781	 *	might be necessary to disable (mask) the interrupt depending on the
+   782	 *	controller hardware. This requires to reenable the interrupt inside
+   783	 *	of the loop which handles the interrupts which have arrived while
+   784	 *	the handler was running. If all pending interrupts are handled, the
+   785	 *	loop is left.
+   786	 */
+   787	void handle_edge_irq(struct irq_desc *desc)
+   788	{
+   789		raw_spin_lock(&desc->lock);
+   790	
+   791		desc->istate &= ~(IRQS_REPLAY | IRQS_WAITING);
+   792	
+   793		if (!irq_may_run(desc)) {
+   794			desc->istate |= IRQS_PENDING;
+   795			mask_ack_irq(desc);
+   796			goto out_unlock;
+   797		}
+   798	
+   799		/*
+   800		 * If its disabled or no action available then mask it and get
+   801		 * out of here.
+   802		 */
+   803		if (irqd_irq_disabled(&desc->irq_data) || !desc->action) {
+   804			desc->istate |= IRQS_PENDING;
+   805			mask_ack_irq(desc);
+   806			goto out_unlock;
+   807		}
+   808	
+   809		kstat_incr_irqs_this_cpu(desc);
+   810	
+   811		/* Start handling the irq */
+   812		desc->irq_data.chip->irq_ack(&desc->irq_data);
+   813	
+   814		do {
+   815			if (unlikely(!desc->action)) {
+   816				mask_irq(desc);
+   817				goto out_unlock;
+   818			}
+   819	
+   820			/*
+   821			 * When another irq arrived while we were handling
+   822			 * one, we could have masked the irq.
+   823			 * Reenable it, if it was not disabled in meantime.
+   824			 */
+   825			if (unlikely(desc->istate & IRQS_PENDING)) {
+   826				if (!irqd_irq_disabled(&desc->irq_data) &&
+   827				    irqd_irq_masked(&desc->irq_data))
+   828					unmask_irq(desc);
+   829			}
+   830	
+   831			handle_irq_event(desc);
+   832	
+   833		} while ((desc->istate & IRQS_PENDING) &&
+   834			 !irqd_irq_disabled(&desc->irq_data) &&
+ > 835			 cpumask_test_cpu(smp_processor_id(), desc->irq_common_data.affinity));
+   836	
+   837	out_unlock:
+   838		raw_spin_unlock(&desc->lock);
+   839	}
+   840	EXPORT_SYMBOL(handle_edge_irq);
+   841	
 
 -- 
 0-DAY CI Kernel Test Service
