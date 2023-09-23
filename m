@@ -1,42 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FEE1CF97
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Sep 2023 14:16:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD6D15E87;
+	Sat, 23 Sep 2023 14:38:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695478612; x=1727014612;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uQqN9d1VVIbs2tEsBqyWaGrxpS0VzbBpF5hoekTCElg=;
-  b=g0JBC61k32JKtwfTOtPORzxNXcyLuZzecKpDXF7dIfInhHEtkWsadUzM
-   GlLBvbusBr1gD7yomWhJfukOKhrpzjBFffOjUZp+v9i972mgYT/MEjROK
-   +nsJHcgxj/yMGqGxQ8uUfhyUyzVdrkw19ReQjowvQ+7WnOtG76xururJ2
-   ZLPDEum2VNyNwCjbkehu8ZnOxM7L0X1VjgmTwW1IFyjUO1ZsCca+uyu0u
-   wKeRTpRIRgr1yDZIeSkhz7HgchcN5HalDGNKbHeJsSVxvJ049MkaqQtWf
-   WbvDkwK6LB4vLIpt3ebTJIWbEgtssoVOW8qeX7uFAQ1KUXMM6lTC59Oxk
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="384857300"
+  t=1695479888; x=1727015888;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9FgEs+W2rw9WobfIupSC05nSHa9tZRyrzcLmSdnEKaM=;
+  b=G1v9xIqkAhfEihGV2laXpUr7g1M1QuvhUxijRdkXb6gpwin46yeIbEQH
+   Cxt65qdUpu7orqgM+nQ9SmwsqNruMegqoE3MdQnA+GVuOtkkr6l8bfVTd
+   XRN57hCv+6n0WEuoRoUBAqJkc0XWwVjK17wKJTIjHKtCfJZSoxHdSVO5t
+   yT2K5z4ims10ej7lQFsNRRg0OObteEXScs7OKad5KIuNgXYbRcGIaGxqb
+   4orMr23glM8KIUhk+oXn2SOnXVm1fD654XGKBK/bU/GrM0GWB7mPE+8Zp
+   4IKbJh62KjaZ7B4ch5g/ocT9WgQXGCuhm4ySRtx3F9BNPJ/1/KS4ERGsM
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="360408648"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="384857300"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 07:16:51 -0700
+   d="scan'208";a="360408648"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 07:38:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="838097891"
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="697519648"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="838097891"
+   d="scan'208";a="697519648"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 23 Sep 2023 07:16:49 -0700
+  by orsmga003.jf.intel.com with ESMTP; 23 Sep 2023 07:38:02 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qk3R9-0002Sk-2h;
-	Sat, 23 Sep 2023 14:16:47 +0000
-Date: Sat, 23 Sep 2023 22:15:47 +0800
+	id 1qk3lB-0002Tt-30;
+	Sat, 23 Sep 2023 14:37:34 +0000
+Date: Sat, 23 Sep 2023 22:37:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.6/zen-sauce 32/32] kernel/sched/fair.c:7221:52: sparse:
- sparse: incorrect type in argument 2 (different address spaces)
-Message-ID: <202309232212.WLSFsy83-lkp@intel.com>
+To: John Fastabend <john.fastabend@gmail.com>, daniel@iogearbox.net,
+	ast@kernel.org, andrii@kernel.org, jakub@cloudflare.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	john.fastabend@gmail.com, bpf@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH bpf 1/3] bpf: tcp_read_skb needs to pop skb regardless of
+ seq
+Message-ID: <202309232236.36lvZlKR-lkp@intel.com>
+References: <20230920232706.498747-2-john.fastabend@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,111 +50,154 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230920232706.498747-2-john.fastabend@gmail.com>
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.6/zen-sauce
-head:   de10967a8b79627cbe295d7331f84fc9cff3bcef
-commit: de10967a8b79627cbe295d7331f84fc9cff3bcef [32/32] ZEN: sched/fair: Multi-LLC select_idle_sibling()
-config: i386-randconfig-063-20230923 (https://download.01.org/0day-ci/archive/20230923/202309232212.WLSFsy83-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230923/202309232212.WLSFsy83-lkp@intel.com/reproduce)
+Hi John,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Fastabend/bpf-tcp_read_skb-needs-to-pop-skb-regardless-of-seq/20230921-073209
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
+patch link:    https://lore.kernel.org/r/20230920232706.498747-2-john.fastabend%40gmail.com
+patch subject: [PATCH bpf 1/3] bpf: tcp_read_skb needs to pop skb regardless of seq
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20230923/202309232236.36lvZlKR-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230923/202309232236.36lvZlKR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309232212.WLSFsy83-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309232236.36lvZlKR-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/fair.c:1150:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity const *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:1150:34: sparse:     expected struct sched_entity const *se
-   kernel/sched/fair.c:1150:34: sparse:     got struct sched_entity [noderef] __rcu *
-   kernel/sched/fair.c:12094:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12094:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12094:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:6404:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:6404:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:6404:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:7209:41: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:7209:41: sparse:     expected struct sched_domain *parent
-   kernel/sched/fair.c:7209:41: sparse:     got struct sched_domain [noderef] __rcu *parent
->> kernel/sched/fair.c:7221:52: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu * @@
-   kernel/sched/fair.c:7221:52: sparse:     expected struct sched_domain *sd
-   kernel/sched/fair.c:7221:52: sparse:     got struct sched_domain [noderef] __rcu *
-   kernel/sched/fair.c:7741:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:7741:20: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:7741:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:7947:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:7947:9: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/fair.c:7947:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8046:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:8046:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:8046:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:8326:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:8326:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:8326:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:9319:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:9319:40: sparse:     expected struct sched_domain *child
-   kernel/sched/fair.c:9319:40: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:9946:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:9946:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:9946:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:11366:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:11366:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:11366:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:11025:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:11025:44: sparse:     expected struct sched_domain *sd_parent
-   kernel/sched/fair.c:11025:44: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:11462:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:11462:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:11462:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:6326:35: sparse: sparse: marked inline, but without a definition
-   kernel/sched/fair.c: note: in included file:
-   kernel/sched/sched.h:2133:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2133:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2133:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2297:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2297:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2297:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2133:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2133:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2133:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2133:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2133:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2133:25: sparse:    struct task_struct *
+All warnings (new ones prefixed by >>):
 
-vim +7221 kernel/sched/fair.c
+   In file included from net/ipv4/tcp.c:252:
+   In file included from include/linux/inet_diag.h:5:
+   In file included from include/net/netlink.h:6:
+   In file included from include/linux/netlink.h:7:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from net/ipv4/tcp.c:252:
+   In file included from include/linux/inet_diag.h:5:
+   In file included from include/net/netlink.h:6:
+   In file included from include/linux/netlink.h:7:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from net/ipv4/tcp.c:252:
+   In file included from include/linux/inet_diag.h:5:
+   In file included from include/net/netlink.h:6:
+   In file included from include/linux/netlink.h:7:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> net/ipv4/tcp.c:1625:6: warning: variable 'seq' set but not used [-Wunused-but-set-variable]
+    1625 |         u32 seq = tp->copied_seq;
+         |             ^
+   13 warnings generated.
 
-  7201	
-  7202	/*
-  7203	 * For the multiple-LLC per node case, make sure to try the other LLC's if the
-  7204	 * local LLC comes up empty.
-  7205	 */
-  7206	static int
-  7207	select_idle_node(struct task_struct *p, struct sched_domain *sd, int target)
-  7208	{
-  7209		struct sched_domain *parent = sd->parent;
-  7210		struct sched_group *sg;
-  7211	
-  7212		/* Make sure to not cross nodes. */
-  7213		if (!parent || parent->flags & SD_NUMA)
-  7214			return -1;
-  7215	
-  7216		sg = parent->groups;
-  7217		do {
-  7218			int cpu = cpumask_first(sched_group_span(sg));
-  7219	
-  7220			if (!cpus_share_cache(cpu, target)) {
-> 7221				int i = select_idle_cpu(p, per_cpu(sd_llc, cpu),
-  7222							test_idle_cores(cpu), cpu);
-  7223				if ((unsigned)i < nr_cpumask_bits)
-  7224					return i;
-  7225			}
-  7226	
-  7227			sg = sg->next;
-  7228		} while (sg != parent->groups);
-  7229	
-  7230		return -1;
-  7231	}
-  7232	
+
+vim +/seq +1625 net/ipv4/tcp.c
+
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1621  
+965b57b469a589 Cong Wang      2022-06-15  1622  int tcp_read_skb(struct sock *sk, skb_read_actor_t recv_actor)
+04919bed948dc2 Cong Wang      2022-06-15  1623  {
+04919bed948dc2 Cong Wang      2022-06-15  1624  	struct tcp_sock *tp = tcp_sk(sk);
+04919bed948dc2 Cong Wang      2022-06-15 @1625  	u32 seq = tp->copied_seq;
+04919bed948dc2 Cong Wang      2022-06-15  1626  	struct sk_buff *skb;
+04919bed948dc2 Cong Wang      2022-06-15  1627  	int copied = 0;
+04919bed948dc2 Cong Wang      2022-06-15  1628  
+04919bed948dc2 Cong Wang      2022-06-15  1629  	if (sk->sk_state == TCP_LISTEN)
+04919bed948dc2 Cong Wang      2022-06-15  1630  		return -ENOTCONN;
+04919bed948dc2 Cong Wang      2022-06-15  1631  
+98edede7d6d1b6 John Fastabend 2023-09-20  1632  	while ((skb = skb_peek(&sk->sk_receive_queue)) != NULL) {
+db4192a754ebd5 Cong Wang      2022-09-12  1633  		u8 tcp_flags;
+db4192a754ebd5 Cong Wang      2022-09-12  1634  		int used;
+04919bed948dc2 Cong Wang      2022-06-15  1635  
+04919bed948dc2 Cong Wang      2022-06-15  1636  		__skb_unlink(skb, &sk->sk_receive_queue);
+96628951869c0d Peilin Ye      2022-09-08  1637  		WARN_ON_ONCE(!skb_set_owner_sk_safe(skb, sk));
+db4192a754ebd5 Cong Wang      2022-09-12  1638  		tcp_flags = TCP_SKB_CB(skb)->tcp_flags;
+db4192a754ebd5 Cong Wang      2022-09-12  1639  		used = recv_actor(sk, skb);
+db4192a754ebd5 Cong Wang      2022-09-12  1640  		if (used < 0) {
+db4192a754ebd5 Cong Wang      2022-09-12  1641  			if (!copied)
+db4192a754ebd5 Cong Wang      2022-09-12  1642  				copied = used;
+db4192a754ebd5 Cong Wang      2022-09-12  1643  			break;
+db4192a754ebd5 Cong Wang      2022-09-12  1644  		}
+db4192a754ebd5 Cong Wang      2022-09-12  1645  		seq += used;
+db4192a754ebd5 Cong Wang      2022-09-12  1646  		copied += used;
+db4192a754ebd5 Cong Wang      2022-09-12  1647  
+db4192a754ebd5 Cong Wang      2022-09-12  1648  		if (tcp_flags & TCPHDR_FIN) {
+04919bed948dc2 Cong Wang      2022-06-15  1649  			++seq;
+db4192a754ebd5 Cong Wang      2022-09-12  1650  			break;
+db4192a754ebd5 Cong Wang      2022-09-12  1651  		}
+04919bed948dc2 Cong Wang      2022-06-15  1652  	}
+04919bed948dc2 Cong Wang      2022-06-15  1653  	return copied;
+04919bed948dc2 Cong Wang      2022-06-15  1654  }
+04919bed948dc2 Cong Wang      2022-06-15  1655  EXPORT_SYMBOL(tcp_read_skb);
+04919bed948dc2 Cong Wang      2022-06-15  1656  
 
 -- 
 0-DAY CI Kernel Test Service
