@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8C4101E6
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Sep 2023 10:02:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11A97101EE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Sep 2023 10:45:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695463326; x=1726999326;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NrA11k6XQGHpbbQSCtznplV4MaC+3hqLs9QHx04hauc=;
-  b=KtfvLHuDoMmoQVXGWjhbKiB9DOup8HOASt1iDuf8si4lCys9Yd/ZSgwy
-   Pc8ioyCaUGqcI8tzw9OXBOlMWkA5p0zrGXLTjRWx3wBXr3m+ykicAOPtZ
-   3M7cqyc0/XoqkepEa1QqPWInhVM9zEm3BQsX0XnSGXVwDBqI8ln7WnmaM
-   wM7uRupNmy/8Mur/HSGojnc+JfRJqtuXv6vwnImjlSj9cpwx/mFc7BIvy
-   A9Wn9XIwn+Qcm2tOjEhLQ4gshB8frnWj1jf41m8bEH5FF1KwbNPfIEHe7
-   ECGo58o/59GkGx+vCmIder2DPNUnlO1nRi/xmTv9O10fYMb5lQVLYWMIF
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="360392537"
+  t=1695465921; x=1727001921;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ne1L2SX659vWY1O8tzgihrrpmyg4HBNO9E1cRuo201s=;
+  b=V88T9CehTHWZtkSavm6pyEcScQwMjkP08sbtcHwrWIyvM+H62umbvTnw
+   sEiyM6mF3isSKzP0MJ1wWjN7K/BoRqaRJ2VxYzcHcRft6DJfY1/HHIdUj
+   o/TdeYkdm7N7AY3jFw/jIXSjTF2KEvAk13zG7xCKHhbo3BJBfyU2IvcoV
+   AfPW5iOtJWFS4uXrTC1fQ1qp5qu4ULL8q6NBKIePqkCk+SBuUkg6iyMZ1
+   P/3EJarYOHyW0p4zilkqM5sUFhnjrgI9Gj1QOGRgbJUnzFCzE0C0oEHUt
+   CnCzcUfizvk29IkvFh4iQendyqryPvlyuM0BAY+9B4umlClr4WhBjacgC
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="383766328"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="360392537"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:02:05 -0700
+   d="scan'208";a="383766328"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:45:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="818080244"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="994831199"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="818080244"
+   d="scan'208";a="994831199"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 23 Sep 2023 03:02:02 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 23 Sep 2023 03:45:17 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjzSZ-000289-2o;
-	Sat, 23 Sep 2023 10:01:59 +0000
-Date: Sat, 23 Sep 2023 18:01:06 +0800
+	id 1qk08R-00029t-30;
+	Sat, 23 Sep 2023 10:45:15 +0000
+Date: Sat, 23 Sep 2023 18:44:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shravya Kumbham <shravya.kumbham@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>,
-	Srinivas Neeli <srinivas.neeli@amd.com>,
-	Harini Katakam <harini.katakam@xilinx.com>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 790/1367]
- drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2592:5: warning: no
- previous declaration for 'axienet_ethtools_sset_count'
-Message-ID: <202309231741.AkWzWwIP-lkp@intel.com>
+To: Naresh Solanki <naresh.solanki@9elements.com>, broonie@kernel.org,
+	zev@bewilderbeest.net, Liam Girdwood <lgirdwood@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Naresh Solanki <Naresh.Solanki@9elements.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RESEND PATCH] regulator: userspace-consumer: Retrieve supplies
+ from DT
+Message-ID: <202309231829.VrGZUH4E-lkp@intel.com>
+References: <20230922090330.1570350-1-naresh.solanki@9elements.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,109 +50,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230922090330.1570350-1-naresh.solanki@9elements.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   2c6eef04c4fd6ede2f4de2437f5760da8e84ace2
-commit: 32dd9901bb3d800af86b0ac388fd034cf46e0277 [790/1367] net: xilinx: Ethtool statistics support
-config: i386-buildonly-randconfig-006-20230923 (https://download.01.org/0day-ci/archive/20230923/202309231741.AkWzWwIP-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230923/202309231741.AkWzWwIP-lkp@intel.com/reproduce)
+Hi Naresh,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 451e85e29c9d6f20639d4cfcff4b9dea280178cc]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Naresh-Solanki/regulator-userspace-consumer-Retrieve-supplies-from-DT/20230922-170527
+base:   451e85e29c9d6f20639d4cfcff4b9dea280178cc
+patch link:    https://lore.kernel.org/r/20230922090330.1570350-1-naresh.solanki%409elements.com
+patch subject: [RESEND PATCH] regulator: userspace-consumer: Retrieve supplies from DT
+config: x86_64-randconfig-161-20230923 (https://download.01.org/0day-ci/archive/20230923/202309231829.VrGZUH4E-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230923/202309231829.VrGZUH4E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309231741.AkWzWwIP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309231829.VrGZUH4E-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2592:5: warning: no previous declaration for 'axienet_ethtools_sset_count' [-Wmissing-declarations]
-    int axienet_ethtools_sset_count(struct net_device *ndev, int sset)
-        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2615:6: warning: no previous declaration for 'axienet_ethtools_get_stats' [-Wmissing-declarations]
-    void axienet_ethtools_get_stats(struct net_device *ndev,
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2642:6: warning: no previous declaration for 'axienet_ethtools_strings' [-Wmissing-declarations]
-    void axienet_ethtools_strings(struct net_device *ndev, u32 sset, u8 *data)
-         ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/userspace-consumer.c: In function 'get_num_supplies':
+>> drivers/regulator/userspace-consumer.c:126:9: error: implicit declaration of function 'for_each_property_of_node'; did you mean 'for_each_child_of_node'? [-Werror=implicit-function-declaration]
+     126 |         for_each_property_of_node(pdev->dev.of_node, prop) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |         for_each_child_of_node
+>> drivers/regulator/userspace-consumer.c:126:59: error: expected ';' before '{' token
+     126 |         for_each_property_of_node(pdev->dev.of_node, prop) {
+         |                                                           ^~
+         |                                                           ;
+   drivers/regulator/userspace-consumer.c:124:13: warning: unused variable 'num_supplies' [-Wunused-variable]
+     124 |         int num_supplies = 0;
+         |             ^~~~~~~~~~~~
+   drivers/regulator/userspace-consumer.c:136:1: error: no return statement in function returning non-void [-Werror=return-type]
+     136 | }
+         | ^
+   drivers/regulator/userspace-consumer.c: In function 'regulator_userspace_consumer_probe':
+   drivers/regulator/userspace-consumer.c:162:67: error: expected ';' before '{' token
+     162 |                 for_each_property_of_node(pdev->dev.of_node, prop) {
+         |                                                                   ^~
+         |                                                                   ;
+   cc1: some warnings being treated as errors
 
 
-vim +/axienet_ethtools_sset_count +2592 drivers/net/ethernet/xilinx/xilinx_axienet_main.c
+vim +126 drivers/regulator/userspace-consumer.c
 
-  2582	
-  2583	/**
-  2584	 * axienet_ethtools_sset_count - Get number of strings that
-  2585	 *				 get_strings will write.
-  2586	 * @ndev:	Pointer to net_device structure
-  2587	 * @sset:	Get the set strings
-  2588	 *
-  2589	 * Return: number of strings, on success, Non-zero error value on
-  2590	 *	   failure.
-  2591	 */
-> 2592	int axienet_ethtools_sset_count(struct net_device *ndev, int sset)
-  2593	{
-  2594		switch (sset) {
-  2595		case ETH_SS_STATS:
-  2596	#ifdef CONFIG_AXIENET_HAS_MCDMA
-  2597			return axienet_sset_count(ndev, sset);
-  2598	#else
-  2599			return AXIENET_ETHTOOLS_SSTATS_LEN;
-  2600	#endif
-  2601		default:
-  2602			return -EOPNOTSUPP;
-  2603		}
-  2604	}
-  2605	
-  2606	/**
-  2607	 * axienet_ethtools_get_stats - Get the extended statistics
-  2608	 *				about the device.
-  2609	 * @ndev:	Pointer to net_device structure
-  2610	 * @stats:	Pointer to ethtool_stats structure
-  2611	 * @data:	To store the statistics values
-  2612	 *
-  2613	 * Return: None.
-  2614	 */
-> 2615	void axienet_ethtools_get_stats(struct net_device *ndev,
-  2616					struct ethtool_stats *stats,
-  2617					u64 *data)
-  2618	{
-  2619		unsigned int i = 0;
-  2620	
-  2621		data[i++] = ndev->stats.tx_packets;
-  2622		data[i++] = ndev->stats.rx_packets;
-  2623		data[i++] = ndev->stats.tx_bytes;
-  2624		data[i++] = ndev->stats.rx_bytes;
-  2625		data[i++] = ndev->stats.tx_errors;
-  2626		data[i++] = ndev->stats.rx_missed_errors + ndev->stats.rx_frame_errors;
-  2627	
-  2628	#ifdef CONFIG_AXIENET_HAS_MCDMA
-  2629		axienet_get_stats(ndev, stats, data);
-  2630	#endif
-  2631	}
-  2632	
-  2633	/**
-  2634	 * axienet_ethtools_strings - Set of strings that describe
-  2635	 *			 the requested objects.
-  2636	 * @ndev:	Pointer to net_device structure
-  2637	 * @sset:	Get the set strings
-  2638	 * @data:	Data of Transmit and Receive statistics
-  2639	 *
-  2640	 * Return: None.
-  2641	 */
-> 2642	void axienet_ethtools_strings(struct net_device *ndev, u32 sset, u8 *data)
-  2643	{
-  2644		int i;
-  2645	
-  2646		for (i = 0; i < AXIENET_ETHTOOLS_SSTATS_LEN; i++) {
-  2647			if (sset == ETH_SS_STATS)
-  2648				memcpy(data + i * ETH_GSTRING_LEN,
-  2649				       axienet_get_ethtools_strings_stats[i].name,
-  2650				       ETH_GSTRING_LEN);
-  2651		}
-  2652	#ifdef CONFIG_AXIENET_HAS_MCDMA
-  2653		axienet_strings(ndev, sset, data);
-  2654	#endif
-  2655	}
-  2656	
+   120	
+   121	static int get_num_supplies(struct platform_device *pdev)
+   122	{
+   123		struct  property *prop;
+   124		int num_supplies = 0;
+   125	
+ > 126		for_each_property_of_node(pdev->dev.of_node, prop) {
+   127			const char *prop_name = prop->name;
+   128			int len = strlen(prop_name);
+   129	
+   130			if (len > SUPPLY_SUFFIX_LEN &&
+   131			    strcmp(prop_name + len - SUPPLY_SUFFIX_LEN, SUPPLY_SUFFIX) == 0) {
+   132				num_supplies++;
+   133			}
+   134		}
+   135		return num_supplies;
+   136	}
+   137	
 
 -- 
 0-DAY CI Kernel Test Service
