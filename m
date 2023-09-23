@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6935C2135E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Sep 2023 20:19:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B19818
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Sep 2023 20:40:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695500390; x=1727036390;
+  t=1695501651; x=1727037651;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Qr/75FL+n9EW60D1MdOXEEjrS8NKlQZXA3if0XjW6eE=;
-  b=BW06BeMibbQ+npZht65RAJH7SHd85UexpZHVWmcvC0tcMe4pAtdsS0Bn
-   6PngNO2GPOYJwEev9/kifHVVOoQv5U1q14mUQ7r9Q4mMB5Q2MgP7jDG3p
-   kBBO7C/nF6F2oQTsr127A456kK6eWBMSe2qcZgoP0yYp8Xyp2TjZ+EYtQ
-   xAAtXf+j7pXEIjGnCs//XxVmFnNSpo0RKd/VjUQtnnas6Ec6GnDvBpKM8
-   yLE/D1BF0O3p98wYxpr0gvaYsB1WVPwp1oDvUibLHerkx4LuTKnrip8+J
-   StXDXiG8vX+IqaGnI4iA1YB0uSjheUenciQJpEWcoN/pvMGk7B6dUDMA+
+  bh=CBPmmrkb5v5mtVOBzT08mDmIia8sMXhxSwVaCxoav4w=;
+  b=lhyes1KsYinQlpcqtU5FUNh9kLkuwaFd3OmuWbYpulqRATS0CpvTyUij
+   WtEdDgXQ+/XrE4Njcq69iaUNieClrJEs1EVssqhAGgwvczVRn4w8uz2ML
+   HtDCFgTNQyFe3jWYuokvn0mRY7rX/b39uPZZI0OEVAxHr3BeYb7ozw8g/
+   uW9ubVpzXdMCahQDFRKIqpz9DIw0qt0SG2aybbIwsh4dqwMKdrs/5v+wn
+   f8gTv+TdnCS4RJNWFPBPmbCfx3SaQicH9kn/HgTZ0JNbOaZGfdZOvQ33X
+   PW4uDi6l8xeej7J65oeT1CG9I8/lMAkMBUCgRG9Luf9Mg8l7+2oM7Sb4Y
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="360439039"
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="366114553"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="360439039"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 13:19:49 -0700
+   d="scan'208";a="366114553"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 13:40:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="1078768155"
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="747927118"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="1078768155"
+   d="scan'208";a="747927118"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 23 Sep 2023 13:19:48 -0700
+  by orsmga002.jf.intel.com with ESMTP; 23 Sep 2023 13:40:49 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qk96P-0002nh-2s;
-	Sat, 23 Sep 2023 20:19:45 +0000
-Date: Sun, 24 Sep 2023 04:19:34 +0800
+	id 1qk9Ql-0002pX-1Q;
+	Sat, 23 Sep 2023 20:40:47 +0000
+Date: Sun, 24 Sep 2023 04:40:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Elena Reshetova <elena.reshetova@intel.com>
+To: Andi Kleen <ak@linux.intel.com>
 Cc: oe-kbuild-all@lists.linux.dev,
 	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Subject: [intel-tdx:guest-filter 29/34] arch/parisc/include/asm/io.h:128:22:
- error: called object is not a function or function pointer
-Message-ID: <202309240418.UeOJedBL-lkp@intel.com>
+Subject: [intel-tdx:guest-filter 17/34] arch/parisc/include/asm/io.h:139:23:
+ error: 'addr' undeclared
+Message-ID: <202309240414.RxIDRMGr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,15 +49,15 @@ Content-Disposition: inline
 
 tree:   https://github.com/intel/tdx.git guest-filter
 head:   205bbdcce0e2be471018d939d81dae51d63b5bd5
-commit: 7fe4861d7a94daeee2570ca50343ce449cf8f19c [29/34] asm/io.h: Add ioremap_cache_shared
-config: parisc-randconfig-002-20230923 (https://download.01.org/0day-ci/archive/20230924/202309240418.UeOJedBL-lkp@intel.com/config)
+commit: d80f2db5351d606316f8d9f3cd29d3e76fad255b [17/34] iomap: Mark ioremap shared when the device is authorized
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20230924/202309240414.RxIDRMGr-lkp@intel.com/config)
 compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230924/202309240418.UeOJedBL-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230924/202309240414.RxIDRMGr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309240418.UeOJedBL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309240414.RxIDRMGr-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
@@ -67,51 +67,48 @@ All errors (new ones prefixed by >>):
                     from include/linux/hardirq.h:11,
                     from include/linux/interrupt.h:11,
                     from include/linux/pci.h:38,
-                    from lib/devres.c:3:
-   arch/parisc/include/asm/io.h:143: warning: "ioremap_uc" redefined
-     143 | #define ioremap_uc \
-         | 
-   arch/parisc/include/asm/io.h:135: note: this is the location of the previous definition
-     135 | #define ioremap_uc(addr, size)  \
-         | 
-   lib/devres.c: In function '__devm_ioremap':
-   arch/parisc/include/asm/io.h:144:22: warning: passing argument 1 of 'ioremap_prot' makes integer from pointer without a cast [-Wint-conversion]
-     144 |         ioremap_prot((addr), (size), _PAGE_IOREMAP)
-         |                      ^~~~~~
-         |                      |
-         |                      void *
-   lib/devres.c:42:24: note: in expansion of macro 'ioremap_uc'
-      42 |                 addr = ioremap_uc(offset, size);
-         |                        ^~~~~~~~~~
-   In file included from arch/parisc/include/asm/io.h:286:
-   include/asm-generic/io.h:1053:40: note: expected 'phys_addr_t' {aka 'unsigned int'} but argument is of type 'void *'
-    1053 | void __iomem *ioremap_prot(phys_addr_t phys_addr, size_t size,
-         |                            ~~~~~~~~~~~~^~~~~~~~~
->> arch/parisc/include/asm/io.h:128:22: error: called object is not a function or function pointer
-     128 | #define ioremap_prot ioremap_prot
-         |                      ^~~~~~~~~~~~
-   arch/parisc/include/asm/io.h:144:9: note: in expansion of macro 'ioremap_prot'
-     144 |         ioremap_prot((addr), (size), _PAGE_IOREMAP)
-         |         ^~~~~~~~~~~~
-   lib/devres.c:42:24: note: in expansion of macro 'ioremap_uc'
-      42 |                 addr = ioremap_uc(offset, size);
-         |                        ^~~~~~~~~~
+                    from lib/pci_iomap.c:7:
+   lib/pci_iomap.c: In function 'pci_iomap_range':
+>> arch/parisc/include/asm/io.h:139:23: error: 'addr' undeclared (first use in this function)
+     139 |         ioremap_prot((addr), (size), _PAGE_IOREMAP)
+         |                       ^~~~
+   lib/pci_iomap.c:47:32: note: in expansion of macro 'ioremap_driver_hardened'
+      47 |                         return ioremap_driver_hardened(start, len);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/parisc/include/asm/io.h:139:23: note: each undeclared identifier is reported only once for each function it appears in
+     139 |         ioremap_prot((addr), (size), _PAGE_IOREMAP)
+         |                       ^~~~
+   lib/pci_iomap.c:47:32: note: in expansion of macro 'ioremap_driver_hardened'
+      47 |                         return ioremap_driver_hardened(start, len);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~
+>> arch/parisc/include/asm/io.h:139:31: error: 'size' undeclared (first use in this function); did you mean 'ksize'?
+     139 |         ioremap_prot((addr), (size), _PAGE_IOREMAP)
+         |                               ^~~~
+   lib/pci_iomap.c:47:32: note: in expansion of macro 'ioremap_driver_hardened'
+      47 |                         return ioremap_driver_hardened(start, len);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +128 arch/parisc/include/asm/io.h
+vim +/addr +139 arch/parisc/include/asm/io.h
 
-^1da177e4c3f41 include/asm-parisc/io.h      Linus Torvalds 2005-04-16  124  
-^1da177e4c3f41 include/asm-parisc/io.h      Linus Torvalds 2005-04-16  125  /*
-^1da177e4c3f41 include/asm-parisc/io.h      Linus Torvalds 2005-04-16  126   * The standard PCI ioremap interfaces
-^1da177e4c3f41 include/asm-parisc/io.h      Linus Torvalds 2005-04-16  127   */
-426b313f356a31 arch/parisc/include/asm/io.h Baoquan He     2023-07-06 @128  #define ioremap_prot ioremap_prot
 426b313f356a31 arch/parisc/include/asm/io.h Baoquan He     2023-07-06  129  
+426b313f356a31 arch/parisc/include/asm/io.h Baoquan He     2023-07-06  130  #define _PAGE_IOREMAP (_PAGE_PRESENT | _PAGE_RW | _PAGE_DIRTY | \
+426b313f356a31 arch/parisc/include/asm/io.h Baoquan He     2023-07-06  131  		       _PAGE_ACCESSED | _PAGE_NO_CACHE)
+^1da177e4c3f41 include/asm-parisc/io.h      Linus Torvalds 2005-04-16  132  
+426b313f356a31 arch/parisc/include/asm/io.h Baoquan He     2023-07-06  133  #define ioremap_wc(addr, size)  \
+426b313f356a31 arch/parisc/include/asm/io.h Baoquan He     2023-07-06  134  	ioremap_prot((addr), (size), _PAGE_IOREMAP)
+426b313f356a31 arch/parisc/include/asm/io.h Baoquan He     2023-07-06  135  #define ioremap_uc(addr, size)  \
+426b313f356a31 arch/parisc/include/asm/io.h Baoquan He     2023-07-06  136  	ioremap_prot((addr), (size), _PAGE_IOREMAP)
+6ecf3c252b954b arch/parisc/include/asm/io.h Andi Kleen     2021-10-20  137  /* Share memory with host in confidential guest platforms */
+6ecf3c252b954b arch/parisc/include/asm/io.h Andi Kleen     2021-10-20  138  #define ioremap_driver_hardened \
+6ecf3c252b954b arch/parisc/include/asm/io.h Andi Kleen     2021-10-20 @139  	ioremap_prot((addr), (size), _PAGE_IOREMAP)
+426b313f356a31 arch/parisc/include/asm/io.h Baoquan He     2023-07-06  140  
 
-:::::: The code at line 128 was first introduced by commit
-:::::: 426b313f356a314af335899c51250dc0f49cd4a7 parisc: mm: convert to GENERIC_IOREMAP
+:::::: The code at line 139 was first introduced by commit
+:::::: 6ecf3c252b954ba96df36a6f2be4ea3c83f23c7d asm/io.h: Add ioremap_driver_hardening
 
-:::::: TO: Baoquan He <bhe@redhat.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+:::::: TO: Andi Kleen <ak@linux.intel.com>
+:::::: CC: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
