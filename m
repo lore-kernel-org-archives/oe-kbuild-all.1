@@ -1,63 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3B0C8C4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Sep 2023 22:18:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0AC46AAB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Sep 2023 23:00:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695507494; x=1727043494;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UuDxwhfPF7O8T115b2FKrlhmBbJyLggQ2u1hq9AMO8g=;
-  b=FFQDRbcEVOZJuH4jlmWiDyPBQ+WJ30ps2hEg52UEo8g3x+7hzH3nuYZF
-   xAllISmALlw31uJX7mSZeY+sRkpLzUapwmcZR9ql+XtqgNzdmZb/5oaCV
-   ylSTDoAc5WomZV7T2mkC1RETQb5XnPm7VYYGzXlRYbY+MjF62QTqrFzOi
-   KrpUQcO/NfIoDVqnlC5+xWm5SzWsGG/6v/ckipd9sbLI+oMHyFKzJjXOL
-   QOXSPMhSyYR2GXV9sO6Wo9DAVcXZNvKmuCC22lZxF/2qtjXoe6PrsX+ym
-   NPoAlLdqmaTrXSk41rA3k2L70wGEd4/I2eroBT11UkfkqBFgpGCRh7nMq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="366122670"
+  t=1695510010; x=1727046010;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rkCwqwDVHc3Hznmk1Zr/IhGbmia5oAiDaNqpi6KJZOo=;
+  b=NvPI6xxqm2NMRJ3V6hGbqULAnvs1dC8vnKR37v5lUCtii8ljlRAIVBGn
+   xSw5E6WLHztvT0bJbKCRtdRvWVifdr2Xq0sLK3tpliNfT50AvV/xK8T3I
+   GL3Ifbd1EoxvB26yuPD8U9fxrBxZNcMtdfYqMlZS0FQ60qsVfDRtbz8lX
+   Vpbca7UC4T2CwwjASPOam66cJ8kw72kzC7mSXJ9rNyNURzqhF+R5ncAph
+   DGlt8/lhLqmZsrKm2yzF8L4zCLR6sUNfWIzsGjkco6VXhFUR40agxpMEr
+   Fn0tBIuZKnwpXzqYx5PdzpKLKfoPsvEH1YvlM9zhgZfecmJUFqyVk4hcb
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="379938344"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="366122670"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 15:18:13 -0700
+   d="scan'208";a="379938344"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 16:00:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="871643176"
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="863390763"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="871643176"
+   d="scan'208";a="863390763"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 23 Sep 2023 15:18:07 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 23 Sep 2023 16:00:09 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qkAwu-0002uy-2f;
-	Sat, 23 Sep 2023 22:18:04 +0000
-Date: Sun, 24 Sep 2023 06:17:54 +0800
+	id 1qkBbb-0002xd-08;
+	Sat, 23 Sep 2023 23:00:07 +0000
+Date: Sun, 24 Sep 2023 07:00:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
-	linux-clk@vger.kernel.org, openbmc@lists.ozlabs.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
-	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Avi Fishman <avifishman70@gmail.com>,
-	Tomer Maimon <tmaimon77@gmail.com>,
-	Tali Perry <tali.perry1@gmail.com>,
-	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
-	Benjamin Fair <benjaminfair@google.com>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Arnd Bergmann <arnd@arndb.de>, Jacky Huang <ychuang3@nuvoton.com>
-Subject: Re: [PATCH v9 3/3] clk: wpcm450: Add Nuvoton WPCM450 clock/reset
- controller driver
-Message-ID: <202309240553.3BXO3Rd6-lkp@intel.com>
-References: <20230923143438.1895461-4-j.neuschaefer@gmx.net>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:mirror-chromeos-5.10-arcvm 6733/29449]
+ arch/arm64/kvm/fpsimd.c:129:33: error: implicit declaration of function
+ 'sve_cond_update_zcr_vq'
+Message-ID: <202309240608.NA5Jb0mc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,37 +46,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230923143438.1895461-4-j.neuschaefer@gmx.net>
 
-Hi Jonathan,
+Hi Marc,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on clk/clk-next]
-[also build test ERROR on robh/for-next pza/reset/next linus/master v6.6-rc2 next-20230921]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Neusch-fer/dt-bindings-clock-Add-Nuvoton-WPCM450-clock-reset-controller/20230923-223751
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20230923143438.1895461-4-j.neuschaefer%40gmx.net
-patch subject: [PATCH v9 3/3] clk: wpcm450: Add Nuvoton WPCM450 clock/reset controller driver
-config: loongarch-randconfig-002-20230924 (https://download.01.org/0day-ci/archive/20230924/202309240553.3BXO3Rd6-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230924/202309240553.3BXO3Rd6-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
+head:   833db5ec53f6ad1606b5363338fb455e6bd7bd01
+commit: b0e15c8c44275afef4aacfb1560e38b974b02ac8 [6733/29449] FROMGIT: KVM: arm64: Save/restore SVE state for nVHE
+config: arm64-randconfig-004-20230924 (https://download.01.org/0day-ci/archive/20230924/202309240608.NA5Jb0mc-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230924/202309240608.NA5Jb0mc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309240553.3BXO3Rd6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309240608.NA5Jb0mc-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   loongarch64-linux-ld: drivers/clk/nuvoton/clk-wpcm450.o: in function `.L40':
->> clk-wpcm450.c:(.init.text+0x508): undefined reference to `reset_simple_ops'
->> loongarch64-linux-ld: clk-wpcm450.c:(.init.text+0x50c): undefined reference to `reset_simple_ops'
+   arch/arm64/kvm/fpsimd.c: In function 'kvm_arch_vcpu_put_fp':
+>> arch/arm64/kvm/fpsimd.c:129:33: error: implicit declaration of function 'sve_cond_update_zcr_vq' [-Werror=implicit-function-declaration]
+     129 |                                 sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/sve_cond_update_zcr_vq +129 arch/arm64/kvm/fpsimd.c
+
+   108	
+   109	/*
+   110	 * Write back the vcpu FPSIMD regs if they are dirty, and invalidate the
+   111	 * cpu FPSIMD regs so that they can't be spuriously reused if this vcpu
+   112	 * disappears and another task or vcpu appears that recycles the same
+   113	 * struct fpsimd_state.
+   114	 */
+   115	void kvm_arch_vcpu_put_fp(struct kvm_vcpu *vcpu)
+   116	{
+   117		unsigned long flags;
+   118		bool host_has_sve = system_supports_sve();
+   119		bool guest_has_sve = vcpu_has_sve(vcpu);
+   120	
+   121		local_irq_save(flags);
+   122	
+   123		if (vcpu->arch.flags & KVM_ARM64_FP_ENABLED) {
+   124			if (guest_has_sve) {
+   125				__vcpu_sys_reg(vcpu, ZCR_EL1) = read_sysreg_el1(SYS_ZCR);
+   126	
+   127				/* Restore the VL that was saved when bound to the CPU */
+   128				if (!has_vhe())
+ > 129					sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1,
 
 -- 
 0-DAY CI Kernel Test Service
