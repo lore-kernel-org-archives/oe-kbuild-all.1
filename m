@@ -1,40 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A952633CE;
-	Sat, 23 Sep 2023 18:53:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB83220B17
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Sep 2023 19:04:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695495180; x=1727031180;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=NA+ayn/5eJqnxwC7NXRTwdlmsT1nB+IdIDCvBeeKRGg=;
-  b=mpD2zSlxH29+Owf4Bv0RYaE0oPMJId6MIyDsS/Gvj3+wNAe7UummmI9Q
-   WqSbfaKDEmogbvE0W+OOVuVDlwFvB3yDDKJCQh1x5UG9BjotfXrWgbSqT
-   VRJ3zUkqWNISDRme+kbMI6aForgnTxPlbC+MSjp4OxYfIwbOB5RJT94fJ
-   AQRFhLf3HlEPJKEV60uiWb3bmCmRjsdlYXKP4IHufr2XeDF+tLup6ntIm
-   ZFlRcVmts+w14CtuUyEQBHKvsIER4lV3cHeiqo3fr2DgvUTGuD6ILG/It
-   0aYT7APU9JunKmh0Vv3aGRuQjE5M5z65tKMNRMUtlOwr40t7SAJaiP5a9
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="366106151"
+  t=1695495841; x=1727031841;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cAn2HSHmdcDUitjDq01mkiX0mbMW1X0gI9qrSLR11Tw=;
+  b=ApWYzloDP9iUf3BWRozjw9YkNlLJdJTO9fFhDhD9U6NJdp3urs5WVLQK
+   DaqsGOGF0VVZHfnC/e3gIMQt93IlYa34zhxuNoYOXdWo6MSbjZ1xc+I9u
+   S6NEGnnOXJofnLh02+ij09bh3vSRFw9Q4kiwv4sm1bvKxIXZyHrHkyddo
+   nZs/tFe/8Ft5MDGL+PbijYEh7Iyeuqx2HsQ5vi5bYKXH8ed8OV4YcSqVp
+   qi43+g6ZTN/dTWxCdRUuHScoDcI8vQzJv9Cat7irMLn0LBhIjUaCXR3l7
+   6eAOps6z7HOLY+XBf6wOnhN//mnzcVpKkSI58yzjcYGG21fqNBtIyeQKD
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="411980005"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="366106151"
+   d="scan'208";a="411980005"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 11:52:59 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 12:03:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="751210889"
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="751212204"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="751210889"
+   d="scan'208";a="751212204"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 23 Sep 2023 11:52:58 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 23 Sep 2023 12:03:58 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qk7kO-0002k9-1n;
-	Sat, 23 Sep 2023 18:52:56 +0000
-Date: Sun, 24 Sep 2023 02:52:54 +0800
+	id 1qk7v2-0002kf-2m;
+	Sat, 23 Sep 2023 19:03:56 +0000
+Date: Sun, 24 Sep 2023 03:03:06 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: clang: error: unknown argument: '-mr10k-cache-barrier=store'
-Message-ID: <202309240210.VjlATMSN-lkp@intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [arm-integrator:b4/virt-to-phys-kfence 2/2]
+ include/linux/kfence.h:58:54: error: invalid operands to binary - (have
+ 'char *' and 'void *')
+Message-ID: <202309240243.uZO6geuW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,42 +47,117 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-CC: linux-kernel@vger.kernel.org
-TO: Tiezhu Yang <yangtiezhu@loongson.cn>
-CC: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-CC: Nathan Chancellor <nathan@kernel.org>
-CC: Masahiro Yamada <masahiroy@kernel.org>
-
-Hi Tiezhu,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d90b0276af8f25a0b8ae081a30d1b2a61263393b
-commit: 048cc2378c2494519d940597629465b3ea44a96f MIPS: SGI-IP22: Remove unnecessary check of GCC option
-date:   1 year, 9 months ago
-config: mips-ip28_defconfig (https://download.01.org/0day-ci/archive/20230924/202309240210.VjlATMSN-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230924/202309240210.VjlATMSN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/virt-to-phys-kfence
+head:   b086f69b6ffadeb19959f05bd67cc5d196a78558
+commit: b086f69b6ffadeb19959f05bd67cc5d196a78558 [2/2] kfence: Use a void * for page pool
+config: powerpc64-randconfig-001-20230923 (https://download.01.org/0day-ci/archive/20230924/202309240243.uZO6geuW-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230924/202309240243.uZO6geuW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309240210.VjlATMSN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309240243.uZO6geuW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> clang: error: unknown argument: '-mr10k-cache-barrier=store'
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
->> clang: error: unknown argument: '-mr10k-cache-barrier=store'
-   make[2]: *** [scripts/Makefile.build:121: kernel/bounds.s] Error 1
-   make[2]: Target 'missing-syscalls' not remade because of errors.
-   make[1]: *** [arch/mips/Makefile:415: archprepare] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:219: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/init.h:5,
+                    from mm/kmemleak.c:63:
+   include/linux/kfence.h: In function 'is_kfence_address':
+>> include/linux/kfence.h:58:54: error: invalid operands to binary - (have 'char *' and 'void *')
+      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
+         |                                         ~~~~~~~~~~~~ ^
+         |                                         |
+         |                                         char *
+   include/linux/compiler.h:32:55: note: in definition of macro '__branch_check__'
+      32 |                         ______r = __builtin_expect(!!(x), expect);      \
+         |                                                       ^
+   include/linux/kfence.h:58:16: note: in expansion of macro 'unlikely'
+      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
+         |                ^~~~~~~~
+>> include/linux/kfence.h:58:54: error: invalid operands to binary - (have 'char *' and 'void *')
+      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
+         |                                         ~~~~~~~~~~~~ ^
+         |                                         |
+         |                                         char *
+   include/linux/compiler.h:34:54: note: in definition of macro '__branch_check__'
+      34 |                                              expect, is_constant);      \
+         |                                                      ^~~~~~~~~~~
+   include/linux/kfence.h:58:16: note: in expansion of macro 'unlikely'
+      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
+         |                ^~~~~~~~
+--
+   In file included from arch/powerpc/include/asm/cmpxchg.h:6,
+                    from arch/powerpc/include/asm/atomic.h:11,
+                    from include/linux/atomic.h:7,
+                    from mm/kfence/core.c:10:
+   include/linux/kfence.h: In function 'is_kfence_address':
+>> include/linux/kfence.h:58:54: error: invalid operands to binary - (have 'char *' and 'void *')
+      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
+         |                                         ~~~~~~~~~~~~ ^
+         |                                         |
+         |                                         char *
+   include/linux/compiler.h:32:55: note: in definition of macro '__branch_check__'
+      32 |                         ______r = __builtin_expect(!!(x), expect);      \
+         |                                                       ^
+   include/linux/kfence.h:58:16: note: in expansion of macro 'unlikely'
+      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
+         |                ^~~~~~~~
+>> include/linux/kfence.h:58:54: error: invalid operands to binary - (have 'char *' and 'void *')
+      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
+         |                                         ~~~~~~~~~~~~ ^
+         |                                         |
+         |                                         char *
+   include/linux/compiler.h:34:54: note: in definition of macro '__branch_check__'
+      34 |                                              expect, is_constant);      \
+         |                                                      ^~~~~~~~~~~
+   include/linux/kfence.h:58:16: note: in expansion of macro 'unlikely'
+      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
+         |                ^~~~~~~~
+   mm/kfence/core.c: In function 'metadata_to_pageaddr':
+   mm/kfence/core.c:253:63: warning: dereferencing 'void *' pointer
+     253 |         unsigned long pageaddr = (unsigned long)&__kfence_pool[offset];
+         |                                                               ^
+
+
+vim +58 include/linux/kfence.h
+
+0ce20dd840897b Alexander Potapenko 2021-02-25  32  
+0ce20dd840897b Alexander Potapenko 2021-02-25  33  /**
+0ce20dd840897b Alexander Potapenko 2021-02-25  34   * is_kfence_address() - check if an address belongs to KFENCE pool
+0ce20dd840897b Alexander Potapenko 2021-02-25  35   * @addr: address to check
+0ce20dd840897b Alexander Potapenko 2021-02-25  36   *
+0ce20dd840897b Alexander Potapenko 2021-02-25  37   * Return: true or false depending on whether the address is within the KFENCE
+0ce20dd840897b Alexander Potapenko 2021-02-25  38   * object range.
+0ce20dd840897b Alexander Potapenko 2021-02-25  39   *
+0ce20dd840897b Alexander Potapenko 2021-02-25  40   * KFENCE objects live in a separate page range and are not to be intermixed
+0ce20dd840897b Alexander Potapenko 2021-02-25  41   * with regular heap objects (e.g. KFENCE objects must never be added to the
+0ce20dd840897b Alexander Potapenko 2021-02-25  42   * allocator freelists). Failing to do so may and will result in heap
+0ce20dd840897b Alexander Potapenko 2021-02-25  43   * corruptions, therefore is_kfence_address() must be used to check whether
+0ce20dd840897b Alexander Potapenko 2021-02-25  44   * an object requires specific handling.
+0ce20dd840897b Alexander Potapenko 2021-02-25  45   *
+0ce20dd840897b Alexander Potapenko 2021-02-25  46   * Note: This function may be used in fast-paths, and is performance critical.
+0ce20dd840897b Alexander Potapenko 2021-02-25  47   * Future changes should take this into account; for instance, we want to avoid
+0ce20dd840897b Alexander Potapenko 2021-02-25  48   * introducing another load and therefore need to keep KFENCE_POOL_SIZE a
+0ce20dd840897b Alexander Potapenko 2021-02-25  49   * constant (until immediate patching support is added to the kernel).
+0ce20dd840897b Alexander Potapenko 2021-02-25  50   */
+0ce20dd840897b Alexander Potapenko 2021-02-25  51  static __always_inline bool is_kfence_address(const void *addr)
+0ce20dd840897b Alexander Potapenko 2021-02-25  52  {
+0ce20dd840897b Alexander Potapenko 2021-02-25  53  	/*
+a7cb5d23eaea14 Marco Elver         2021-08-19  54  	 * The __kfence_pool != NULL check is required to deal with the case
+a7cb5d23eaea14 Marco Elver         2021-08-19  55  	 * where __kfence_pool == NULL && addr < KFENCE_POOL_SIZE. Keep it in
+a7cb5d23eaea14 Marco Elver         2021-08-19  56  	 * the slow-path after the range-check!
+0ce20dd840897b Alexander Potapenko 2021-02-25  57  	 */
+a7cb5d23eaea14 Marco Elver         2021-08-19 @58  	return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
+0ce20dd840897b Alexander Potapenko 2021-02-25  59  }
+0ce20dd840897b Alexander Potapenko 2021-02-25  60  
+
+:::::: The code at line 58 was first introduced by commit
+:::::: a7cb5d23eaea148f8582229846f8dfff192f05c3 kfence: fix is_kfence_address() for addresses below KFENCE_POOL_SIZE
+
+:::::: TO: Marco Elver <elver@google.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
