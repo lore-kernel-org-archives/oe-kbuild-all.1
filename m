@@ -1,46 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE05E79C5
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Sep 2023 16:53:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE799CA5C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Sep 2023 18:06:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695574415; x=1727110415;
+  t=1695578802; x=1727114802;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1ySVJ21dOF/hNz1CgIR237l0d4nXRs5ZtNtPqME4wiU=;
-  b=gQM9cpJFPq0AMyN6XDCuaY9uHmsmquWeFjsB5wsKSegyQLhNIct28XvU
-   bk8tj49RaeQhR8upgPLY0KQUEsDQ1sRFTl7h6ZFIDYxWQbmyPzYqmK8jI
-   Bk3iZz6dkxBXHASUFxheOxaBybn8bRJ82T/7bARhNKc2p88FAOcqOaB4n
-   jY/Xcpo0zdpwqvoZiGl4HbJmP+3l30saPrk3rNX0LoA2GxvCMuyRISkRW
-   hpl7kHeDcfBbyfqYd7/Uu6kz6fnHVBLMPGP+T7Lr+mfy6L83NDMUTRlMD
-   6NftwjVCC1k+1952ppmfUJMPxRklPJXOpNPePz2je5AaqxKJUI3OC7ehx
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="371432190"
+  bh=Fwm4J9sXQH+nrqo+o+VmsQeVd70vBhYcLajXYFiHSi4=;
+  b=gIbkmrtbUqBNdYWuyFxBGWmyiOO4zdQ2xokdBsr81zNFC0Su1OCnY2fY
+   ApC5nau3dTfpoIWptbxUsLKlSSDwCduNZDtIxvfAPlld396Hff7dZnohq
+   my43QeGi9zuo9wJOBeroqiYkffDDMYpBR1HkFdjXXHq9EmlWf2o8twSFp
+   FFiczG1gMu9lBb9+DXWKSLb0LXEPNX2JaqCBAR14WAq8yv7e8SJZBP3ov
+   UU6mh9yS4YiQ74KsRct8ov4kY3AVxa1KearSltraX2saQe4Y9gr9EQmxg
+   inv6aeTgc+Q8cl/eOgF234e2Tbdi9wIUI/tgpaKRb4bMBmu/KCxSVWHKT
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="412051918"
 X-IronPort-AV: E=Sophos;i="6.03,173,1694761200"; 
-   d="scan'208";a="371432190"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 09:53:34 -0700
+   d="scan'208";a="412051918"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 11:06:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="724737739"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="777428321"
 X-IronPort-AV: E=Sophos;i="6.03,173,1694761200"; 
-   d="scan'208";a="724737739"
+   d="scan'208";a="777428321"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 24 Sep 2023 09:53:32 -0700
+  by orsmga008.jf.intel.com with ESMTP; 24 Sep 2023 11:06:37 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qkSMM-0000Aj-08;
-	Sun, 24 Sep 2023 16:53:30 +0000
-Date: Mon, 25 Sep 2023 00:53:16 +0800
+	id 1qkTV6-0000Gn-0h;
+	Sun, 24 Sep 2023 18:06:36 +0000
+Date: Mon, 25 Sep 2023 02:05:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harini Katakam <harinik@amd.com>
+To: Hyun Kwon <hyun.kwon@xilinx.com>
 Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
 	Michal Simek <monstr@monstr.eu>,
-	Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 905/1370]
- drivers/mtd/spi-nor/swp.c:696 spi_nor_try_unlock_all() warn: inconsistent
- indenting
-Message-ID: <202309250019.zIkG64Se-lkp@intel.com>
+	Wendy Liang <wendy.liang@xilinx.com>
+Subject: [xilinx-xlnx:pr/146 11884/14527]
+ drivers/uio/uio_xilinx_ai_engine.c:39:13: warning: variable 'irq' set but
+ not used
+Message-ID: <202309250250.xwTDuY72-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,67 +49,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
-commit: 5719f11b6499d5a94e70e5bad2cb1b0a3f9f1b5c [905/1370] mtd: spi-nor: Add flash lock/unlock feature
-config: i386-randconfig-141-20230924 (https://download.01.org/0day-ci/archive/20230925/202309250019.zIkG64Se-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230925/202309250019.zIkG64Se-lkp@intel.com/reproduce)
+Hi Hyun,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/Xilinx/linux-xlnx pr/146
+head:   38b0c0cf11566882cda99f8e4f2243924a684be5
+commit: 15d16835418c3d35e07f215d2934dcf9e6725cc6 [11884/14527] uio: Add the UIO driver for AI engine
+config: nios2-allyesconfig (https://download.01.org/0day-ci/archive/20230925/202309250250.xwTDuY72-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309250250.xwTDuY72-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309250019.zIkG64Se-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309250250.xwTDuY72-lkp@intel.com/
 
-smatch warnings:
-drivers/mtd/spi-nor/swp.c:696 spi_nor_try_unlock_all() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-vim +696 drivers/mtd/spi-nor/swp.c
+   drivers/uio/uio_xilinx_ai_engine.c: In function 'xilinx_ai_engine_debugfs_write':
+>> drivers/uio/uio_xilinx_ai_engine.c:39:13: warning: variable 'irq' set but not used [-Wunused-but-set-variable]
+      39 |         int irq, ret;
+         |             ^~~
 
-5719f11b6499d5 Harini Katakam       2023-01-18  664  
-c4c795105f2924 Tudor Ambarus        2021-03-22  665  /**
-c4c795105f2924 Tudor Ambarus        2021-03-22  666   * spi_nor_try_unlock_all() - Tries to unlock the entire flash memory array.
-c4c795105f2924 Tudor Ambarus        2021-03-22  667   * @nor:	pointer to a 'struct spi_nor'.
-c4c795105f2924 Tudor Ambarus        2021-03-22  668   *
-c4c795105f2924 Tudor Ambarus        2021-03-22  669   * Some SPI NOR flashes are write protected by default after a power-on reset
-c4c795105f2924 Tudor Ambarus        2021-03-22  670   * cycle, in order to avoid inadvertent writes during power-up. Backward
-c4c795105f2924 Tudor Ambarus        2021-03-22  671   * compatibility imposes to unlock the entire flash memory array at power-up
-c4c795105f2924 Tudor Ambarus        2021-03-22  672   * by default.
-c4c795105f2924 Tudor Ambarus        2021-03-22  673   *
-c4c795105f2924 Tudor Ambarus        2021-03-22  674   * Unprotecting the entire flash array will fail for boards which are hardware
-c4c795105f2924 Tudor Ambarus        2021-03-22  675   * write-protected. Thus any errors are ignored.
-c4c795105f2924 Tudor Ambarus        2021-03-22  676   */
-c4c795105f2924 Tudor Ambarus        2021-03-22  677  void spi_nor_try_unlock_all(struct spi_nor *nor)
-c4c795105f2924 Tudor Ambarus        2021-03-22  678  {
-aa5a6e93900b17 Amit Kumar Mahapatra 2023-01-18  679  	struct spi_nor_flash_parameter *params = spi_nor_get_params(nor, 0);
-c4c795105f2924 Tudor Ambarus        2021-03-22  680  	int ret;
-5719f11b6499d5 Harini Katakam       2023-01-18  681  	const struct flash_info *info = nor->info;
-3d20dfdb2efb3f Michal Simek         2023-01-19  682  
-3d20dfdb2efb3f Michal Simek         2023-01-19  683  	if (!(nor->flags & SNOR_F_HAS_LOCK))
-3d20dfdb2efb3f Michal Simek         2023-01-19  684  		return;
-3d20dfdb2efb3f Michal Simek         2023-01-19  685  
-3d20dfdb2efb3f Michal Simek         2023-01-19  686  	dev_dbg(nor->dev, "Unprotecting entire flash array\n");
-3d20dfdb2efb3f Michal Simek         2023-01-19  687  
-5719f11b6499d5 Harini Katakam       2023-01-18  688  	if (nor->jedec_id == CFI_MFR_ATMEL ||
-5719f11b6499d5 Harini Katakam       2023-01-18  689  	    nor->jedec_id == CFI_MFR_INTEL ||
-5719f11b6499d5 Harini Katakam       2023-01-18  690  	    nor->jedec_id == CFI_MFR_SST ||
-5719f11b6499d5 Harini Katakam       2023-01-18  691  	    nor->flags & SNOR_F_HAS_LOCK) {
-5719f11b6499d5 Harini Katakam       2023-01-18  692  		if (info->flags & SST_GLOBAL_PROT_UNLK) {
-5719f11b6499d5 Harini Katakam       2023-01-18  693  			spi_nor_prot_unlock(nor);
-5719f11b6499d5 Harini Katakam       2023-01-18  694  		} else {
-aa5a6e93900b17 Amit Kumar Mahapatra 2023-01-18  695  			ret = spi_nor_unlock(&nor->mtd, 0, params->size);
-c4c795105f2924 Tudor Ambarus        2021-03-22 @696  				if (ret)
-c4c795105f2924 Tudor Ambarus        2021-03-22  697  					dev_dbg(nor->dev, "Failed to unlock the entire flash memory array\n");
-c4c795105f2924 Tudor Ambarus        2021-03-22  698  		}
-5719f11b6499d5 Harini Katakam       2023-01-18  699  	}
-5719f11b6499d5 Harini Katakam       2023-01-18  700  }
-c4c795105f2924 Tudor Ambarus        2021-03-22  701  
 
-:::::: The code at line 696 was first introduced by commit
-:::::: c4c795105f2924c80752c30ffd3c7029a8e0ef28 mtd: spi-nor: Move Software Write Protection logic out of the core
+vim +/irq +39 drivers/uio/uio_xilinx_ai_engine.c
 
-:::::: TO: Tudor Ambarus <tudor.ambarus@microchip.com>
-:::::: CC: Tudor Ambarus <tudor.ambarus@microchip.com>
+    33	
+    34	static ssize_t xilinx_ai_engine_debugfs_write(struct file *f,
+    35						      const char __user *buf,
+    36						      size_t size, loff_t *pos)
+    37	{
+    38		struct irq_domain *irq_sim_domain = file_inode(f)->i_private;
+  > 39		int irq, ret;
+    40	
+    41		irq = irq_find_mapping(irq_sim_domain, 1);
+    42		ret = irq_set_irqchip_state(1, IRQCHIP_STATE_PENDING, true);
+    43		if (ret)
+    44			return ret;
+    45	
+    46		return size;
+    47	}
+    48	
 
 -- 
 0-DAY CI Kernel Test Service
