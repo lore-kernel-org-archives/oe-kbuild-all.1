@@ -1,164 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942D765B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Sep 2023 06:44:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695537852; x=1727073852;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=86g9FpOzZI6bqzZb1otAqFGoX2mHTdI/u5snVzJyeJo=;
-  b=Mty1cwSJTGd/vQlbWOqZMzNuLkJ2MroD+bxLZg07egtZQRXM5lNsXVue
-   wjHKCPCE8nM6v1ukzEMLIgjqby268AZppM4PiBlV/igSYVPsN6l0JbAuE
-   KjwgtioudNLV0Lyij5fyoHtISYi7fdr8zGKNgkR6Y/TWblYZkT5f1bWSw
-   2bEEGjYjSlEufz1hxx3nQxvGL8gsA82HzQvsBSSP29FVP3QoqiUXoHQia
-   CCmBd8Q1PtqIO17NKzVcEguB0RZcrsAZxFOWB9oD1d3NtS9l8DMaviksQ
-   nYjUI9ui1k4MuBFi1/QGWJISXMQmmvi1uSdnTzQMPeJdklGe1F2xQ+LU+
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="445183768"
-X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="445183768"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 23:44:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="1078848116"
-X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="1078848116"
-Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 23 Sep 2023 23:44:08 -0700
-Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qkIqc-0003KG-19;
-	Sun, 24 Sep 2023 06:44:06 +0000
-Date: Sun, 24 Sep 2023 14:44:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: riel@surriel.com, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kernel-team@meta.com, linux-mm@kvack.org,
-	akpm@linux-foundation.org, muchun.song@linux.dev,
-	mike.kravetz@oracle.com, leit@meta.com, willy@infradead.org,
-	Rik van Riel <riel@surriel.com>
-Subject: Re: [PATCH 3/3] hugetlbfs: replace hugetlb_vma_lock with
- invalidate_lock
-Message-ID: <202309241415.pQmcSx8R-lkp@intel.com>
-References: <20230922190552.3963067-4-riel@surriel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142167FC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Sep 2023 06:48:16 +0000 (UTC)
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-65b051a28b3so3827016d6.2
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Sep 2023 23:48:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695538096; x=1696142896; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aaBaRC6Ejtkpupl/KFvwg/rhByL4ZbGq6eOywagiD7w=;
+        b=Befy1LmiItZuuSUq6KqFsUkkqLjLaUhEcpmBFSPdmYA/GxN4OsytIjsVDL1PqpGD5g
+         uv0McHFf0G4MhUA2S/X8WlR6sXFXhtFf5+GPNsyCHPem/Hczs/hYs5LYlBNqlSs2QYrA
+         RdmLUIfQOnn9/odhIS3m36xQNFUk+ulh/Q8d3eiY1PBp3KKzCQB2XZcX4Nqo+OmCIk/2
+         bFx+o67q8e8lYl/yCYmtEoIHnD6tvJ1d1tB76V9GCCLFP91HJJFoarv2qcgLykvuFp01
+         l5jHHqI33RsKgt1w9TbA36MjWVVFuPkXCOIe7IxoB/EFM10omOxHVklx/klmQRSHgAeN
+         g1dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695538096; x=1696142896;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aaBaRC6Ejtkpupl/KFvwg/rhByL4ZbGq6eOywagiD7w=;
+        b=eaBSTj07IMA7P2ugWYN6RkF2BTLYw/w5aNk0QIuGxAicS1JPTpXif+XS7WqAT5KTvr
+         fPff/Ad6jHR4eCF6XwbA+vkMl5jjx3J2gm237nENtaf350MqRUMPSOUB+CIS/v9zn25M
+         goEeIjT3pTSa/WsqUXIN0st2g3ixECNzVUoBdPjDIUWdi1My5ID9BujK724+5/pX3E6U
+         a9AcMbcuajkydU/JtyeS8Z4c8sPYPuKClvTn/6Pixz8B7dyLVCtLERvpAwNHo1NLlCar
+         OHlnpc/NlHI2aJivf5cwm3wT0U3K2qyMmC+TbZ0dnZGPGUC35aN3K2GoIbxcrKh1QpPF
+         943A==
+X-Gm-Message-State: AOJu0YycDSItMsFOxPBwTZfRQkJJ92hWb4oPrm88BD8Fs5nlN8kn5UhE
+	FvhvfzA6ftEtz7wXxYAUvjIqJQ4BGaO8VzKgqskNp4R/mXA=
+X-Google-Smtp-Source: AGHT+IGZ5jpCCS98EXuBazVrznG140DjEfmpzITNh2eXCD2+1Y932a6Xi3cr4h2YlUvxBCsmpICIEjZGO2ytDZ5OsnE=
+X-Received: by 2002:a05:6214:a6a:b0:656:28b1:16c6 with SMTP id
+ ef10-20020a0562140a6a00b0065628b116c6mr3416996qvb.2.1695538095902; Sat, 23
+ Sep 2023 23:48:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230922190552.3963067-4-riel@surriel.com>
+References: <20230922112846.4265-5-laoar.shao@gmail.com> <202309222015.R8wLQyHs-lkp@intel.com>
+In-Reply-To: <202309222015.R8wLQyHs-lkp@intel.com>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Sun, 24 Sep 2023 14:47:39 +0800
+Message-ID: <CALOAHbD6tz_OFtEzAGveXSmJFzQjhFmWedeep6JvO9z8yqkywg@mail.gmail.com>
+Subject: Re: [RFC PATCH bpf-next 4/8] bpf: Add new kfuncs support for cgroup controller
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Fri, Sep 22, 2023 at 8:43=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Yafang,
+>
+> [This is a private test report for your RFC patch.]
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on bpf-next/master]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/bpf-Fi=
+x-missed-rcu-read-lock-in-bpf_task_under_cgroup/20230922-193148
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
+master
+> patch link:    https://lore.kernel.org/r/20230922112846.4265-5-laoar.shao=
+%40gmail.com
+> patch subject: [RFC PATCH bpf-next 4/8] bpf: Add new kfuncs support for c=
+group controller
+> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/202309=
+22/202309222015.R8wLQyHs-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20230922/202309222015.R8wLQyHs-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309222015.R8wLQyHs-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> kernel/bpf/helpers.c:2254: warning: expecting prototype for bpf_cgroup=
+_id_from_task_within_controller(). Prototype was for bpf_cgroup_ancestor_id=
+_from_task_within_controller() instead
+>
+>
+> vim +2254 kernel/bpf/helpers.c
+>
+>   2244
+>   2245  /**
+>   2246   * bpf_cgroup_id_from_task_within_controller - To get the associa=
+ted cgroup_id from
+>   2247   * a task within a specific cgroup controller.
+>   2248   * @task: The target task
+>   2249   * @ssid: The id of cgroup subsystem, e.g. cpu_cgrp_id, memory_cg=
+rp_id and etc.
+>   2250   * @level: The level of ancestor to look up
+>   2251   */
+>   2252  __bpf_kfunc u64 bpf_cgroup_ancestor_id_from_task_within_controlle=
+r(struct task_struct *task,
+>   2253                                                                   =
+  int ssid, int level)
+> > 2254  {
+>   2255          struct cgroup *cgrp, *ancestor;
+>   2256          int id =3D 0;
+>   2257
+>   2258          rcu_read_lock();
+>   2259          cgrp =3D task_cgroup(task, ssid);
+>   2260          if (!cgrp)
+>   2261                  goto out;
+>   2262          ancestor =3D cgroup_ancestor(cgrp, level);
+>   2263          if (ancestor)
+>   2264                  id =3D cgroup_id(ancestor);
+>   2265
+>   2266  out:
+>   2267          rcu_read_unlock();
+>   2268          return id;
+>   2269  }
+>   2270
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-kernel test robot noticed the following build errors:
+Many thanks for your report. Will fix it.
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v6.6-rc2 next-20230921]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/riel-surriel-com/hugetlbfs-extend-hugetlb_vma_lock-to-private-VMAs/20230923-030756
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230922190552.3963067-4-riel%40surriel.com
-patch subject: [PATCH 3/3] hugetlbfs: replace hugetlb_vma_lock with invalidate_lock
-config: i386-buildonly-randconfig-004-20230924 (https://download.01.org/0day-ci/archive/20230924/202309241415.pQmcSx8R-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230924/202309241415.pQmcSx8R-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309241415.pQmcSx8R-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/x86/include/asm/bug.h:87,
-                    from include/linux/bug.h:5,
-                    from include/linux/jump_label.h:256,
-                    from include/linux/static_key.h:1,
-                    from arch/x86/include/asm/nospec-branch.h:6,
-                    from arch/x86/include/asm/irqflags.h:9,
-                    from include/linux/irqflags.h:17,
-                    from include/linux/rcupdate.h:26,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/audit.h:12,
-                    from security/commoncap.c:6:
-   include/linux/hugetlb.h: In function 'hugetlb_walk':
->> include/linux/hugetlb.h:1285:56: error: invalid use of undefined type 'struct hugetlb_vma_lock'
-    1285 |                 WARN_ON_ONCE(!lockdep_is_held(&vma_lock->rw_sema) &&
-         |                                                        ^~
-   include/asm-generic/bug.h:168:32: note: in definition of macro 'WARN_ON'
-     168 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   include/linux/hugetlb.h:1285:17: note: in expansion of macro 'WARN_ON_ONCE'
-    1285 |                 WARN_ON_ONCE(!lockdep_is_held(&vma_lock->rw_sema) &&
-         |                 ^~~~~~~~~~~~
-   include/linux/hugetlb.h:1285:31: note: in expansion of macro 'lockdep_is_held'
-    1285 |                 WARN_ON_ONCE(!lockdep_is_held(&vma_lock->rw_sema) &&
-         |                               ^~~~~~~~~~~~~~~
---
-   In file included from arch/x86/include/asm/bug.h:87,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from mm/rmap.c:56:
-   include/linux/hugetlb.h: In function 'hugetlb_walk':
->> include/linux/hugetlb.h:1285:56: error: invalid use of undefined type 'struct hugetlb_vma_lock'
-    1285 |                 WARN_ON_ONCE(!lockdep_is_held(&vma_lock->rw_sema) &&
-         |                                                        ^~
-   include/asm-generic/bug.h:168:32: note: in definition of macro 'WARN_ON'
-     168 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   include/linux/hugetlb.h:1285:17: note: in expansion of macro 'WARN_ON_ONCE'
-    1285 |                 WARN_ON_ONCE(!lockdep_is_held(&vma_lock->rw_sema) &&
-         |                 ^~~~~~~~~~~~
-   include/linux/hugetlb.h:1285:31: note: in expansion of macro 'lockdep_is_held'
-    1285 |                 WARN_ON_ONCE(!lockdep_is_held(&vma_lock->rw_sema) &&
-         |                               ^~~~~~~~~~~~~~~
-   In file included from mm/rmap.c:85:
-   mm/internal.h: In function 'shrinker_debugfs_name_alloc':
-   mm/internal.h:1223:9: warning: function 'shrinker_debugfs_name_alloc' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    1223 |         shrinker->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
-         |         ^~~~~~~~
-
-
-vim +1285 include/linux/hugetlb.h
-
-185d8dcce62020 Rik van Riel 2023-09-22  1265  
-9c67a20704e763 Peter Xu     2022-12-16  1266  /*
-9c67a20704e763 Peter Xu     2022-12-16  1267   * Safe version of huge_pte_offset() to check the locks.  See comments
-9c67a20704e763 Peter Xu     2022-12-16  1268   * above huge_pte_offset().
-9c67a20704e763 Peter Xu     2022-12-16  1269   */
-9c67a20704e763 Peter Xu     2022-12-16  1270  static inline pte_t *
-9c67a20704e763 Peter Xu     2022-12-16  1271  hugetlb_walk(struct vm_area_struct *vma, unsigned long addr, unsigned long sz)
-9c67a20704e763 Peter Xu     2022-12-16  1272  {
-9c67a20704e763 Peter Xu     2022-12-16  1273  #if defined(CONFIG_HUGETLB_PAGE) && \
-9c67a20704e763 Peter Xu     2022-12-16  1274  	defined(CONFIG_ARCH_WANT_HUGE_PMD_SHARE) && defined(CONFIG_LOCKDEP)
-9c67a20704e763 Peter Xu     2022-12-16  1275  	struct hugetlb_vma_lock *vma_lock = vma->vm_private_data;
-9c67a20704e763 Peter Xu     2022-12-16  1276  
-9c67a20704e763 Peter Xu     2022-12-16  1277  	/*
-9c67a20704e763 Peter Xu     2022-12-16  1278  	 * If pmd sharing possible, locking needed to safely walk the
-9c67a20704e763 Peter Xu     2022-12-16  1279  	 * hugetlb pgtables.  More information can be found at the comment
-9c67a20704e763 Peter Xu     2022-12-16  1280  	 * above huge_pte_offset() in the same file.
-9c67a20704e763 Peter Xu     2022-12-16  1281  	 *
-9c67a20704e763 Peter Xu     2022-12-16  1282  	 * NOTE: lockdep_is_held() is only defined with CONFIG_LOCKDEP.
-9c67a20704e763 Peter Xu     2022-12-16  1283  	 */
-9c67a20704e763 Peter Xu     2022-12-16  1284  	if (__vma_shareable_lock(vma))
-9c67a20704e763 Peter Xu     2022-12-16 @1285  		WARN_ON_ONCE(!lockdep_is_held(&vma_lock->rw_sema) &&
-9c67a20704e763 Peter Xu     2022-12-16  1286  			     !lockdep_is_held(
-9c67a20704e763 Peter Xu     2022-12-16  1287  				 &vma->vm_file->f_mapping->i_mmap_rwsem));
-9c67a20704e763 Peter Xu     2022-12-16  1288  #endif
-9c67a20704e763 Peter Xu     2022-12-16  1289  	return huge_pte_offset(vma->vm_mm, addr, sz);
-9c67a20704e763 Peter Xu     2022-12-16  1290  }
-9c67a20704e763 Peter Xu     2022-12-16  1291  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Regards
+Yafang
