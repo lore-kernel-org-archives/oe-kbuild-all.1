@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B06D27D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Sep 2023 15:08:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834EBD280
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Sep 2023 15:28:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695568106; x=1727104106;
+  t=1695569325; x=1727105325;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KgklMpaUMfbveCUn+CZzcZf7RFV+I9QWMyfyyzGdunU=;
-  b=ndP40rlso3GhBAtksU/53yOy8btVXpOwmhRi8CVJBLOdO0qA39SJtomu
-   BAxrMBlYigORcjDfmRzQG1D57xz+j7nxQGwiW0mPmrVULJuwi3/exE8M4
-   ffzsuizM0/us+8vjd1UXCDFaqO6rIYBT5zvC7fsEiQ0vTtu5b+sboBPTZ
-   c588X9B8BCPdlHN8itKpXVw7MSo7GX8ULn9YYLyD5JoDlBZ1v5a1I39LB
-   Qla4Xi4TIt3qpCRg6dX6DfWyqlIYwlfrTlazi7ZHwN5Y74o/0T/Ch8AUE
-   exZInAmeFocbVRR+DlSXQKN90ZyTUzq/ycLEN54mj8pF/TSyeBer9UxhS
+  bh=tYYt0Pghqnlzny8r4Fev0y9Rj/Sw6Wv7+CrUiZjPeMg=;
+  b=JrXOssfU4RillxGtwX0e/LBvsJ/wK68petW4DX5yqsYqT9UZOUEEZ+zs
+   /8IQhKvJK/eEd4bEuy6S9K1NntJ2l4+IPpFlbUy2GV9HsIcklFGoeTwhr
+   iFUPWbZb8m9NE9tMzuimWik9o6iaxKy5tYyl5sBMPnlqPZkmXsQJcO//8
+   9/SgGyizACxqE9VXNKTbOfXEWzK7JHhQM5bA7dEHWXIl9QYN7IPVRCOfS
+   eJISyI0R3fIhCMvu4YQPnhoLebJdnV3eZ3UHHPwXd29P1uDgjaePWg2K4
+   ECKdHmOffgcE0sJp06VVtC6qWd/bT1AZiCXcOhqTC5AoKvCNgQIM7aZZ+
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="360492508"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="447589478"
 X-IronPort-AV: E=Sophos;i="6.03,173,1694761200"; 
-   d="scan'208";a="360492508"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 08:08:25 -0700
+   d="scan'208";a="447589478"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 08:28:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="838329460"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="995113760"
 X-IronPort-AV: E=Sophos;i="6.03,173,1694761200"; 
-   d="scan'208";a="838329460"
-Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 24 Sep 2023 08:08:24 -0700
-Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
+   d="scan'208";a="995113760"
+Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 24 Sep 2023 08:28:43 -0700
+Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qkQia-0003pP-0r;
-	Sun, 24 Sep 2023 15:08:20 +0000
-Date: Sun, 24 Sep 2023 23:07:37 +0800
+	id 1qkR2H-00001B-16;
+	Sun, 24 Sep 2023 15:28:41 +0000
+Date: Sun, 24 Sep 2023 23:28:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arseniy Krasnov <AVKrasnov@sberdevices.ru>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: ERROR: modpost: ".L771" [drivers/mtd/nand/raw/nand.ko] undefined!
-Message-ID: <202309242330.yZnwzJJI-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline 262/4608]
+ net/wireless/wext-proc.c:122:36: warning: 'wireless_seq_ops' defined but not
+ used
+Message-ID: <202309242304.zZjJjsgh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,126 +47,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Arseniy,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3aba70aed91f2b283f7952be152ad76ec5c34975
-commit: 079c8d9da26ed041a54706de68b754337e6df17e mtd: rawnand: export 'nand_exit_status_op()'
-date:   2 months ago
-config: parisc-randconfig-r022-20220530 (https://download.01.org/0day-ci/archive/20230924/202309242330.yZnwzJJI-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230924/202309242330.yZnwzJJI-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-mainline
+head:   46112c304156d3932c5e1efb77f41bebc96d6652
+commit: 8a167346a33aa28c6e422739e69abc87f57f81bc [262/4608] ANDROID: net: enable wireless core features with GKI_LEGACY_WEXT_ALLCONFIG
+config: x86_64-buildonly-randconfig-003-20230913 (https://download.01.org/0day-ci/archive/20230924/202309242304.zZjJjsgh-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230924/202309242304.zZjJjsgh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309242330.yZnwzJJI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309242304.zZjJjsgh-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x-control.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/ohci-exynos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/storage/uas.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/yurex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_acm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_serial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_obex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_midi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_printer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/legacy/g_midi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/mon/usbmon.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/ch341.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/navman.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/qcaux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb-serial-simple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/symbolserial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/lib_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-goldfish.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/tmio_mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/renesas_sdhi_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-bigbenff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elecom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-google-hammer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gyration.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-kbd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-mouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ite.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kye.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-letsketch.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-mf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ntrig.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-prodikeys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redragon.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-semitek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sony.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steelseries.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gaff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tmff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-uclogic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-waltop.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-bootrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spilib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-light.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-loopback.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-power-supply.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-vibrator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-sdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-mailbox.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_pruss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/snd-acp-config.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/mxs/snd-soc-mxs-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
->> ERROR: modpost: ".L771" [drivers/mtd/nand/raw/nand.ko] undefined!
+>> net/wireless/wext-proc.c:122:36: warning: 'wireless_seq_ops' defined but not used [-Wunused-const-variable=]
+     122 | static const struct seq_operations wireless_seq_ops = {
+         |                                    ^~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=y] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+
+
+vim +/wireless_seq_ops +122 net/wireless/wext-proc.c
+
+3d23e349d807177 Johannes Berg 2009-09-29  121  
+3d23e349d807177 Johannes Berg 2009-09-29 @122  static const struct seq_operations wireless_seq_ops = {
+3d23e349d807177 Johannes Berg 2009-09-29  123  	.start = wireless_dev_seq_start,
+3d23e349d807177 Johannes Berg 2009-09-29  124  	.next  = wireless_dev_seq_next,
+3d23e349d807177 Johannes Berg 2009-09-29  125  	.stop  = wireless_dev_seq_stop,
+3d23e349d807177 Johannes Berg 2009-09-29  126  	.show  = wireless_dev_seq_show,
+3d23e349d807177 Johannes Berg 2009-09-29  127  };
+3d23e349d807177 Johannes Berg 2009-09-29  128  
+
+:::::: The code at line 122 was first introduced by commit
+:::::: 3d23e349d807177eaf519d444677cee86b1a04cf wext: refactor
+
+:::::: TO: Johannes Berg <johannes@sipsolutions.net>
+:::::: CC: John W. Linville <linville@tuxdriver.com>
 
 -- 
 0-DAY CI Kernel Test Service
