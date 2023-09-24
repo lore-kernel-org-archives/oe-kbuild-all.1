@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B472A19B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Sep 2023 02:40:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A66C19B;
+	Sun, 24 Sep 2023 03:23:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695523230; x=1727059230;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+V+CDma2m6HxLGkhi72x0B/ugf2btrVh5qLHw7evXUI=;
-  b=bvnkKRMtjdIsDvqTh/kFvpfbX5hPaoz9bUen/+whuzLuNJNqThxu/iET
-   ZRY2bXeV7hlxDZcwtCbUri9CbB+Ce6cQP70vsJebQFqCqe1cjwT3xoP3G
-   QQ8v9b6KAzvc2z4W4bvMAMY0EnsEyLTWCYvoYgXI21i1l7woIzE2inygL
-   bbvV0cAEo0ataODOdCLYiwpuSyWpG0MsLrOuSAM9o9VAym0PBt7FvfGhT
-   0eEV+Wn/1USmya3TJOYYeSmCY/g/y2TupBG0YwcZkyVbs7BcmlSyDNaPc
-   q8+2Hr63vrJVtlXDXqOVY6fmV5hQCZiiRkrKR/MY0ljTKOq7kxWmQ/n6W
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="371390002"
+  t=1695525812; x=1727061812;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=99UbLRtfDufZJEkr/jAlLaUdBuJEET9RLedyrsC5b1M=;
+  b=TH6ML2H/9MEcjus5kEEi8nt8bD7wlStnI0wU4mMHF60ioiaJ3norZZjZ
+   R2ynuCmOHM77KYd8xchyFxGSaun1e8fUCaE+uVPKP8GYt9g0/8Ssw5Spi
+   FEYSO6WmFYUprGTXuSChb1A08FiwwEEtygaTj+khHaJSQA9+MwHW4i9s7
+   H9cYfkU+N7us6bj1raud8tltWX+slFeLO77flgsPF3YqsXjSOd3yg80GV
+   BEJtVHW9fBpwByCRF+n6npuG8X6AvWhTq9iA5Sa4rgthkUMIBWC10HNA0
+   gpA/z/XKiZ255rd4/lgwlcZD9lgSWf203Dk2/V5+BtCxFXut615i7m1sv
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="361322596"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="371390002"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 19:40:29 -0700
+   d="scan'208";a="361322596"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 20:23:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="871685729"
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="724617530"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="871685729"
+   d="scan'208";a="724617530"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 23 Sep 2023 19:40:28 -0700
+  by orsmga006.jf.intel.com with ESMTP; 23 Sep 2023 20:23:29 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qkF2o-00039l-1H;
-	Sun, 24 Sep 2023 02:40:26 +0000
-Date: Sun, 24 Sep 2023 10:40:08 +0800
+	id 1qkFiR-0003BB-2Y;
+	Sun, 24 Sep 2023 03:23:27 +0000
+Date: Sun, 24 Sep 2023 11:23:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sandor Yu <Sandor.yu@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c:332
- dw_hdmi_cec_suspend() warn: inconsistent indenting
-Message-ID: <202309241030.EdF09Szb-lkp@intel.com>
+To: thinker.li@gmail.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC bpf-next v3 07/11] bpf, net: switch to storing struct_ops
+ in btf
+Message-ID: <202309241144.PiijQmZj-lkp@intel.com>
+References: <20230920155923.151136-8-thinker.li@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,38 +47,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230920155923.151136-8-thinker.li@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3aba70aed91f2b283f7952be152ad76ec5c34975
-commit: db1184e410744a680f92ca21e5acd5ae54510db8 drm: bridge: dw_hdmi: Add cec suspend/resume functions
-date:   7 weeks ago
-config: csky-randconfig-r071-20230917 (https://download.01.org/0day-ci/archive/20230924/202309241030.EdF09Szb-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230924/202309241030.EdF09Szb-lkp@intel.com/reproduce)
+Hi,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/thinker-li-gmail-com/bpf-refactory-struct_ops-type-initialization-to-a-function/20230921-000546
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230920155923.151136-8-thinker.li%40gmail.com
+patch subject: [RFC bpf-next v3 07/11] bpf, net: switch to storing struct_ops in btf
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230924/202309241144.PiijQmZj-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230924/202309241144.PiijQmZj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309241030.EdF09Szb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309241144.PiijQmZj-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c:332 dw_hdmi_cec_suspend() warn: inconsistent indenting
+All error/warnings (new ones prefixed by >>):
 
-vim +332 drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+>> net/ipv4/bpf_tcp_ca.c:300:15: error: call to undeclared function 'register_bpf_struct_ops'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           ret = ret ?: register_bpf_struct_ops(&bpf_tcp_ca_ops_mod);
+                        ^
+   1 error generated.
+--
+>> kernel/bpf/bpf_struct_ops.c:252:8: error: call to undeclared function 'register_bpf_struct_ops'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           ret = register_bpf_struct_ops(&bpf_testmod_struct_ops);
+                 ^
+>> kernel/bpf/bpf_struct_ops.c:258:5: warning: no previous prototype for function 'register_bpf_struct_ops' [-Wmissing-prototypes]
+   int register_bpf_struct_ops(struct bpf_struct_ops_mod *mod)
+       ^
+   kernel/bpf/bpf_struct_ops.c:258:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int register_bpf_struct_ops(struct bpf_struct_ops_mod *mod)
+   ^
+   static 
+   1 warning and 1 error generated.
 
-   326	
-   327	static int __maybe_unused dw_hdmi_cec_suspend(struct device *dev)
-   328	{
-   329		struct dw_hdmi_cec *cec = dev_get_drvdata(dev);
-   330	
-   331		/* store interrupt status/mask registers */
- > 332		 cec->regs_polarity = dw_hdmi_read(cec, HDMI_CEC_POLARITY);
-   333		 cec->regs_mask = dw_hdmi_read(cec, HDMI_CEC_MASK);
-   334		 cec->regs_mute_stat0 = dw_hdmi_read(cec, HDMI_IH_MUTE_CEC_STAT0);
-   335	
-   336		return 0;
-   337	}
-   338	
+
+vim +/register_bpf_struct_ops +300 net/ipv4/bpf_tcp_ca.c
+
+   292	
+   293	static int __init bpf_tcp_ca_kfunc_init(void)
+   294	{
+   295		int ret;
+   296	
+   297		BTF_STRUCT_OPS_TYPE_EMIT(tcp_congestion_ops);
+   298	
+   299		ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_STRUCT_OPS, &bpf_tcp_ca_kfunc_set);
+ > 300		ret = ret ?: register_bpf_struct_ops(&bpf_tcp_ca_ops_mod);
 
 -- 
 0-DAY CI Kernel Test Service
