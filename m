@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7537ADF64
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Sep 2023 21:46:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F29E7FC17
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Sep 2023 23:10:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695592007; x=1727128007;
+  t=1695597000; x=1727133000;
   h=date:from:cc:subject:message-id:mime-version;
-  bh=asnm3wrs2aRsVMkPTfbkXf9SWiS6KRPS/38Apiw5KQE=;
-  b=N8XwbIfAb4fg9bGLmocqrOfHWsrEyJk9xpBhhXhP/mdN4RMYv585/fJr
-   hzTDbUKxmN90aQB/T+uuXTxT2WhSntkBazGSRYCo9b1f3nCtO93vgIXF4
-   JbfT9eCPasFsP1EImtoN9XxcTqePTsywzLBNIm2DCb0fvaDyydXB1EODn
-   6TGEoCbFTfs8MENB5nueJUO0GEPCaYp+g9gvie/7opHisTbyjl3XVJPza
-   QUfE1ymVOXcOWiQL9Ty9rqjqOw1XjtxzlpzuGZo/oiB47/1ivkfv7cK/j
-   HHnICRjjrgR2JkVJtu4CY56ZL0b7SGFJ7bdjkMCOEuK18Aw/tRNZMZIAf
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="380002901"
+  bh=gGVJA0vp1zjf4iF0RwIJ8vWUrzyo+pBOPnZG5JeM0AE=;
+  b=ZqMG2S6mcF7q8xC3ja7Ux2CLmC09INpY6E2cyEQCpYTyLXdnP9QNVgfs
+   gWi8bR5TcCtWvP0lMzLoLszIOk4sjnP2T9NTApDAV6a9K/jQcZcUymdvI
+   AIjabWdztZYyZEUjQ7y5nNbkudHztxp2JVGpM2JZ0bsSc5+8pgVuVVbkg
+   hz1rxhF/ltWwemR8Uuyrs4qhGVQ6FzBS/ENa7oeej3Yq7DGxxzHENzuxo
+   i0/uWhgn79PDXtRVnT4v30MRIB5v236RPRlP7bt6pDrJE0cU661RZniYu
+   eumagPTdeTjozQwCbclWzNU32pq6lNki5Yfts33hpEWQi7LeUn72B9QR7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="383890598"
 X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
-   d="scan'208";a="380002901"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 14:46:46 -0700
+   d="scan'208";a="383890598"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 16:10:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="783256328"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="741703824"
 X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
-   d="scan'208";a="783256328"
+   d="scan'208";a="741703824"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 24 Sep 2023 14:46:45 -0700
+  by orsmga007.jf.intel.com with ESMTP; 24 Sep 2023 16:09:59 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qkWw7-0000V8-00
+	id 1qkYEf-0000aL-18
 	for oe-kbuild-all@lists.linux.dev;
-	Sun, 24 Sep 2023 21:46:43 +0000
-Date: Mon, 25 Sep 2023 05:45:43 +0800
+	Sun, 24 Sep 2023 23:09:57 +0000
+Date: Mon, 25 Sep 2023 07:08:59 +0800
 From: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:4.19/android_t 5248/30000] drivers/tee/tee_core.c:538:
- Error: unrecognized opcode `csrs sstatus,s4', extension `zicsr' required
-Message-ID: <202309250523.YeWTmOLc-lkp@intel.com>
+Subject: [jsarha:topic/cros-sof-v4.19 3581/6555]
+ sound/pci/hda/hda_hwdep.c:39: Error: unrecognized opcode `csrs sstatus,s3',
+ extension `zicsr' required
+Message-ID: <202309250746.6RxaOJ2S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,110 +47,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
-head:   247bc655e03e4ac3632b21081ca56b813a644dcf
-commit: 90169c0955b2b89ef84a478549d16b24be977cd1 [5248/30000] UPSTREAM: security: Implement Clang's stack initialization
-config: riscv-randconfig-r006-20230807 (https://download.01.org/0day-ci/archive/20230925/202309250523.YeWTmOLc-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309250523.YeWTmOLc-lkp@intel.com/reproduce)
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
+head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
+commit: ff84d736ac384f7d79f33290d6638207f5ae495c [3581/6555] UPSTREAM: ASoC: hdac_hda: add asoc extension for legacy HDA codec drivers
+config: riscv-randconfig-r011-20230905 (https://download.01.org/0day-ci/archive/20230925/202309250746.6RxaOJ2S-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309250746.6RxaOJ2S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309250523.YeWTmOLc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309250746.6RxaOJ2S-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/tee/tee_core.c: Assembler messages:
-   drivers/tee/tee_core.c:276: Error: unrecognized opcode `csrs sstatus,s3', extension `zicsr' required
-   drivers/tee/tee_core.c:276: Error: unrecognized opcode `csrc sstatus,s3', extension `zicsr' required
-   drivers/tee/tee_core.c:277: Error: unrecognized opcode `csrs sstatus,s3', extension `zicsr' required
-   drivers/tee/tee_core.c:277: Error: unrecognized opcode `csrc sstatus,s3', extension `zicsr' required
-   drivers/tee/tee_core.c:278: Error: unrecognized opcode `csrs sstatus,s3', extension `zicsr' required
-   drivers/tee/tee_core.c:283: Error: unrecognized opcode `csrc sstatus,s3', extension `zicsr' required
-   drivers/tee/tee_core.c:283: Error: unrecognized opcode `csrs sstatus,s3', extension `zicsr' required
-   drivers/tee/tee_core.c:337: Error: unrecognized opcode `csrs sstatus,s1', extension `zicsr' required
-   drivers/tee/tee_core.c:337: Error: unrecognized opcode `csrc sstatus,s1', extension `zicsr' required
-   drivers/tee/tee_core.c:338: Error: unrecognized opcode `csrs sstatus,s1', extension `zicsr' required
-   drivers/tee/tee_core.c:338: Error: unrecognized opcode `csrc sstatus,s1', extension `zicsr' required
-   drivers/tee/tee_core.c:339: Error: unrecognized opcode `csrs sstatus,s1', extension `zicsr' required
-   drivers/tee/tee_core.c:339: Error: unrecognized opcode `csrc sstatus,s1', extension `zicsr' required
-   drivers/tee/tee_core.c:407: Error: unrecognized opcode `csrs sstatus,s1', extension `zicsr' required
-   drivers/tee/tee_core.c:407: Error: unrecognized opcode `csrc sstatus,s1', extension `zicsr' required
-   drivers/tee/tee_core.c:408: Error: unrecognized opcode `csrs sstatus,s1', extension `zicsr' required
-   drivers/tee/tee_core.c:408: Error: unrecognized opcode `csrc sstatus,s1', extension `zicsr' required
-   drivers/tee/tee_core.c:618: Error: unrecognized opcode `csrs sstatus,s0', extension `zicsr' required
-   drivers/tee/tee_core.c:618: Error: unrecognized opcode `csrc sstatus,s0', extension `zicsr' required
-   drivers/tee/tee_core.c:619: Error: unrecognized opcode `csrs sstatus,s0', extension `zicsr' required
-   drivers/tee/tee_core.c:619: Error: unrecognized opcode `csrc sstatus,s0', extension `zicsr' required
-   drivers/tee/tee_core.c:520: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
-   drivers/tee/tee_core.c:520: Error: unrecognized opcode `csrc sstatus,a4', extension `zicsr' required
->> drivers/tee/tee_core.c:538: Error: unrecognized opcode `csrs sstatus,s4', extension `zicsr' required
->> drivers/tee/tee_core.c:538: Error: unrecognized opcode `csrc sstatus,s4', extension `zicsr' required
-   drivers/tee/tee_core.c:539: Error: unrecognized opcode `csrs sstatus,s4', extension `zicsr' required
-   drivers/tee/tee_core.c:539: Error: unrecognized opcode `csrc sstatus,s4', extension `zicsr' required
+   sound/pci/hda/hda_hwdep.c: Assembler messages:
+   sound/pci/hda/hda_hwdep.c:53: Error: unrecognized opcode `csrs sstatus,a3', extension `zicsr' required
+   sound/pci/hda/hda_hwdep.c:53: Error: unrecognized opcode `csrc sstatus,a3', extension `zicsr' required
+   sound/pci/hda/hda_hwdep.c:65: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
+   sound/pci/hda/hda_hwdep.c:65: Error: unrecognized opcode `csrc sstatus,a4', extension `zicsr' required
+   sound/pci/hda/hda_hwdep.c:81: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
+   sound/pci/hda/hda_hwdep.c:81: Error: unrecognized opcode `csrc sstatus,a4', extension `zicsr' required
+>> sound/pci/hda/hda_hwdep.c:39: Error: unrecognized opcode `csrs sstatus,s3', extension `zicsr' required
+>> sound/pci/hda/hda_hwdep.c:39: Error: unrecognized opcode `csrc sstatus,s3', extension `zicsr' required
+   sound/pci/hda/hda_hwdep.c:43: Error: unrecognized opcode `csrs sstatus,s3', extension `zicsr' required
+   sound/pci/hda/hda_hwdep.c:43: Error: unrecognized opcode `csrc sstatus,s3', extension `zicsr' required
 
 
-vim +538 drivers/tee/tee_core.c
+vim +39 sound/pci/hda/hda_hwdep.c
 
-967c9cca2cc5056 Jens Wiklander 2015-03-11  498  
-967c9cca2cc5056 Jens Wiklander 2015-03-11  499  static int tee_ioctl_supp_recv(struct tee_context *ctx,
-967c9cca2cc5056 Jens Wiklander 2015-03-11  500  			       struct tee_ioctl_buf_data __user *ubuf)
-967c9cca2cc5056 Jens Wiklander 2015-03-11  501  {
-967c9cca2cc5056 Jens Wiklander 2015-03-11  502  	int rc;
-967c9cca2cc5056 Jens Wiklander 2015-03-11  503  	struct tee_ioctl_buf_data buf;
-967c9cca2cc5056 Jens Wiklander 2015-03-11  504  	struct tee_iocl_supp_recv_arg __user *uarg;
-967c9cca2cc5056 Jens Wiklander 2015-03-11  505  	struct tee_param *params;
-967c9cca2cc5056 Jens Wiklander 2015-03-11  506  	u32 num_params;
-967c9cca2cc5056 Jens Wiklander 2015-03-11  507  	u32 func;
-967c9cca2cc5056 Jens Wiklander 2015-03-11  508  
-967c9cca2cc5056 Jens Wiklander 2015-03-11  509  	if (!ctx->teedev->desc->ops->supp_recv)
-967c9cca2cc5056 Jens Wiklander 2015-03-11  510  		return -EINVAL;
-967c9cca2cc5056 Jens Wiklander 2015-03-11  511  
-967c9cca2cc5056 Jens Wiklander 2015-03-11  512  	if (copy_from_user(&buf, ubuf, sizeof(buf)))
-967c9cca2cc5056 Jens Wiklander 2015-03-11  513  		return -EFAULT;
-967c9cca2cc5056 Jens Wiklander 2015-03-11  514  
-967c9cca2cc5056 Jens Wiklander 2015-03-11  515  	if (buf.buf_len > TEE_MAX_ARG_SIZE ||
-967c9cca2cc5056 Jens Wiklander 2015-03-11  516  	    buf.buf_len < sizeof(struct tee_iocl_supp_recv_arg))
-967c9cca2cc5056 Jens Wiklander 2015-03-11  517  		return -EINVAL;
-967c9cca2cc5056 Jens Wiklander 2015-03-11  518  
-967c9cca2cc5056 Jens Wiklander 2015-03-11  519  	uarg = u64_to_user_ptr(buf.buf_ptr);
-967c9cca2cc5056 Jens Wiklander 2015-03-11  520  	if (get_user(num_params, &uarg->num_params))
-967c9cca2cc5056 Jens Wiklander 2015-03-11  521  		return -EFAULT;
-967c9cca2cc5056 Jens Wiklander 2015-03-11  522  
-967c9cca2cc5056 Jens Wiklander 2015-03-11  523  	if (sizeof(*uarg) + TEE_IOCTL_PARAM_SIZE(num_params) != buf.buf_len)
-967c9cca2cc5056 Jens Wiklander 2015-03-11  524  		return -EINVAL;
-967c9cca2cc5056 Jens Wiklander 2015-03-11  525  
-967c9cca2cc5056 Jens Wiklander 2015-03-11  526  	params = kcalloc(num_params, sizeof(struct tee_param), GFP_KERNEL);
-967c9cca2cc5056 Jens Wiklander 2015-03-11  527  	if (!params)
-967c9cca2cc5056 Jens Wiklander 2015-03-11  528  		return -ENOMEM;
-967c9cca2cc5056 Jens Wiklander 2015-03-11  529  
-f2aa97240c84b8f Jens Wiklander 2016-12-23  530  	rc = params_from_user(ctx, params, num_params, uarg->params);
-f2aa97240c84b8f Jens Wiklander 2016-12-23  531  	if (rc)
-f2aa97240c84b8f Jens Wiklander 2016-12-23  532  		goto out;
-f2aa97240c84b8f Jens Wiklander 2016-12-23  533  
-967c9cca2cc5056 Jens Wiklander 2015-03-11  534  	rc = ctx->teedev->desc->ops->supp_recv(ctx, &func, &num_params, params);
-967c9cca2cc5056 Jens Wiklander 2015-03-11  535  	if (rc)
-967c9cca2cc5056 Jens Wiklander 2015-03-11  536  		goto out;
-967c9cca2cc5056 Jens Wiklander 2015-03-11  537  
-967c9cca2cc5056 Jens Wiklander 2015-03-11 @538  	if (put_user(func, &uarg->func) ||
-967c9cca2cc5056 Jens Wiklander 2015-03-11  539  	    put_user(num_params, &uarg->num_params)) {
-967c9cca2cc5056 Jens Wiklander 2015-03-11  540  		rc = -EFAULT;
-967c9cca2cc5056 Jens Wiklander 2015-03-11  541  		goto out;
-967c9cca2cc5056 Jens Wiklander 2015-03-11  542  	}
-967c9cca2cc5056 Jens Wiklander 2015-03-11  543  
-967c9cca2cc5056 Jens Wiklander 2015-03-11  544  	rc = params_to_supp(ctx, uarg->params, num_params, params);
-967c9cca2cc5056 Jens Wiklander 2015-03-11  545  out:
-967c9cca2cc5056 Jens Wiklander 2015-03-11  546  	kfree(params);
-967c9cca2cc5056 Jens Wiklander 2015-03-11  547  	return rc;
-967c9cca2cc5056 Jens Wiklander 2015-03-11  548  }
-967c9cca2cc5056 Jens Wiklander 2015-03-11  549  
+2807314d467e7dd Takashi Iwai 2007-07-27  30  
+2807314d467e7dd Takashi Iwai 2007-07-27  31  /*
+2807314d467e7dd Takashi Iwai 2007-07-27  32   * write/read an out-of-bound verb
+2807314d467e7dd Takashi Iwai 2007-07-27  33   */
+2807314d467e7dd Takashi Iwai 2007-07-27  34  static int verb_write_ioctl(struct hda_codec *codec,
+2807314d467e7dd Takashi Iwai 2007-07-27  35  			    struct hda_verb_ioctl __user *arg)
+2807314d467e7dd Takashi Iwai 2007-07-27  36  {
+2807314d467e7dd Takashi Iwai 2007-07-27  37  	u32 verb, res;
+2807314d467e7dd Takashi Iwai 2007-07-27  38  
+2807314d467e7dd Takashi Iwai 2007-07-27 @39  	if (get_user(verb, &arg->verb))
+2807314d467e7dd Takashi Iwai 2007-07-27  40  		return -EFAULT;
+2807314d467e7dd Takashi Iwai 2007-07-27  41  	res = snd_hda_codec_read(codec, verb >> 24, 0,
+2807314d467e7dd Takashi Iwai 2007-07-27  42  				 (verb >> 8) & 0xffff, verb & 0xff);
+2807314d467e7dd Takashi Iwai 2007-07-27  43  	if (put_user(res, &arg->res))
+2807314d467e7dd Takashi Iwai 2007-07-27  44  		return -EFAULT;
+2807314d467e7dd Takashi Iwai 2007-07-27  45  	return 0;
+2807314d467e7dd Takashi Iwai 2007-07-27  46  }
+2807314d467e7dd Takashi Iwai 2007-07-27  47  
+2807314d467e7dd Takashi Iwai 2007-07-27  48  static int get_wcap_ioctl(struct hda_codec *codec,
+2807314d467e7dd Takashi Iwai 2007-07-27  49  			  struct hda_verb_ioctl __user *arg)
+2807314d467e7dd Takashi Iwai 2007-07-27  50  {
+2807314d467e7dd Takashi Iwai 2007-07-27  51  	u32 verb, res;
+2807314d467e7dd Takashi Iwai 2007-07-27  52  	
+2807314d467e7dd Takashi Iwai 2007-07-27 @53  	if (get_user(verb, &arg->verb))
+2807314d467e7dd Takashi Iwai 2007-07-27  54  		return -EFAULT;
+69fa6f19b955976 Takashi Iwai 2018-04-24  55  	/* open-code get_wcaps(verb>>24) with nospec */
+69fa6f19b955976 Takashi Iwai 2018-04-24  56  	verb >>= 24;
+69fa6f19b955976 Takashi Iwai 2018-04-24  57  	if (verb < codec->core.start_nid ||
+69fa6f19b955976 Takashi Iwai 2018-04-24  58  	    verb >= codec->core.start_nid + codec->core.num_nodes) {
+69fa6f19b955976 Takashi Iwai 2018-04-24  59  		res = 0;
+69fa6f19b955976 Takashi Iwai 2018-04-24  60  	} else {
+69fa6f19b955976 Takashi Iwai 2018-04-24  61  		verb -= codec->core.start_nid;
+69fa6f19b955976 Takashi Iwai 2018-04-24  62  		verb = array_index_nospec(verb, codec->core.num_nodes);
+69fa6f19b955976 Takashi Iwai 2018-04-24  63  		res = codec->wcaps[verb];
+69fa6f19b955976 Takashi Iwai 2018-04-24  64  	}
+2807314d467e7dd Takashi Iwai 2007-07-27  65  	if (put_user(res, &arg->res))
+2807314d467e7dd Takashi Iwai 2007-07-27  66  		return -EFAULT;
+2807314d467e7dd Takashi Iwai 2007-07-27  67  	return 0;
+2807314d467e7dd Takashi Iwai 2007-07-27  68  }
+2807314d467e7dd Takashi Iwai 2007-07-27  69  
 
-:::::: The code at line 538 was first introduced by commit
-:::::: 967c9cca2cc50569efc65945325c173cecba83bd tee: generic TEE subsystem
+:::::: The code at line 39 was first introduced by commit
+:::::: 2807314d467e7dd929c42050031aabbd28e78f0b [ALSA] hda-intel - Add hwdep interface
 
-:::::: TO: Jens Wiklander <jens.wiklander@linaro.org>
-:::::: CC: Jens Wiklander <jens.wiklander@linaro.org>
+:::::: TO: Takashi Iwai <tiwai@suse.de>
+:::::: CC: Jaroslav Kysela <perex@perex.cz>
 
 -- 
 0-DAY CI Kernel Test Service
