@@ -1,63 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D91369
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Sep 2023 23:11:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCAE360
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Sep 2023 00:05:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695510676; x=1727046676;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iP6hYCKOBexc8AVWr4kAh1Iv4qVnYnMqC7Y/Tlnd+yk=;
-  b=Faq4EH4pKi8/2hMngrAS70PG4W6halgGXghWRl+FBVTPFk6IvaB2xXUj
-   I+3/nLANui3C4khTAoiRmMq9H5texDZMAkuO4vS+LaIpeMQPc0ofLWK5P
-   0SJWFUYC337HjX3bdnAWIcw98twfz0w3o/RGVihKbyd238HlNuiiJZpQQ
-   Sx0FnUn7CvfmVsyDm/LS3EN17k3cegAPGLJnoNU++9G1qvTca0DXbSWsw
-   VSue/HCOoewQZVKdfVwRvqQ8gHVbEoqHi35EHbcQLIzxqHo0pSVEFbM1k
-   b7C5Dwq7cApMpAtHAJHKpyYf+Q31d3JfNUQUqPmoBeoI2gbMCBFzuBXls
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="360453145"
+  t=1695513920; x=1727049920;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WSouqECPSPC84u3gkoW0+QEc4PoxoIKAeR7OAVLs05U=;
+  b=JosEn8b7FuH37ZiZc2FfeLYNS9ArlZulBwP0ZxckbCnuUw+Leej/LtLo
+   s8oUdNT3ZJeD/6EvAZ0tVSV/FFsQIRCcIxjS4eF6XtBitfZfRV4xen9bP
+   TfZyReXgvBq3GX6kswmal58p3dBv1grxu3c+oK8bZHlabSJE7Fjf3wvSe
+   G69vfZLO5RSFiYTTU+qIYzbeBtMdzU8U9OPtB//jKYMshn4fCI0tmYZk1
+   8z7MldK2NRBvjH0fq8wILqizYMLsBu6V1PM2okEaKDGVW5Qv7xQnLdk0w
+   T40HF6JbyDYEmOaLKRHTIetmhbZKrRYnOUg3Yjhuytv3fA098/TifvKcT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="360454751"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="360453145"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 16:11:15 -0700
+   d="scan'208";a="360454751"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 17:05:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="1078790376"
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="783045923"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="1078790376"
+   d="scan'208";a="783045923"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 23 Sep 2023 16:11:10 -0700
+  by orsmga001.jf.intel.com with ESMTP; 23 Sep 2023 17:05:14 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qkBmF-0002yn-3B;
-	Sat, 23 Sep 2023 23:11:08 +0000
-Date: Sun, 24 Sep 2023 07:11:06 +0800
+	id 1qkCca-00031B-1t;
+	Sun, 24 Sep 2023 00:05:12 +0000
+Date: Sun, 24 Sep 2023 08:05:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
-	linux-clk@vger.kernel.org, openbmc@lists.ozlabs.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
-	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Avi Fishman <avifishman70@gmail.com>,
-	Tomer Maimon <tmaimon77@gmail.com>,
-	Tali Perry <tali.perry1@gmail.com>,
-	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
-	Benjamin Fair <benjaminfair@google.com>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Arnd Bergmann <arnd@arndb.de>, Jacky Huang <ychuang3@nuvoton.com>
-Subject: Re: [PATCH v9 3/3] clk: wpcm450: Add Nuvoton WPCM450 clock/reset
- controller driver
-Message-ID: <202309240640.6iNEdfCX-lkp@intel.com>
-References: <20230923143438.1895461-4-j.neuschaefer@gmx.net>
+To: John Harrison <John.C.Harrison@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: [drm-tip:drm-tip 4/6] arch/x86/include/asm/string_32.h:195:29:
+ warning: '__builtin_memset' writing 16 bytes into a region of size 0
+ overflows the destination
+Message-ID: <202309240849.DfoxxSha-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,37 +48,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230923143438.1895461-4-j.neuschaefer@gmx.net>
 
-Hi Jonathan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on clk/clk-next]
-[also build test ERROR on robh/for-next pza/reset/next linus/master v6.6-rc2 next-20230921]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Neusch-fer/dt-bindings-clock-Add-Nuvoton-WPCM450-clock-reset-controller/20230923-223751
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20230923143438.1895461-4-j.neuschaefer%40gmx.net
-patch subject: [PATCH v9 3/3] clk: wpcm450: Add Nuvoton WPCM450 clock/reset controller driver
-config: nios2-randconfig-002-20230924 (https://download.01.org/0day-ci/archive/20230924/202309240640.6iNEdfCX-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230924/202309240640.6iNEdfCX-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+head:   e1973de2c4516e9130157e538014e79c8aa57b41
+commit: a59bb8e436a090adb48ed2723fd6864cd82bf8c8 [4/6] Merge remote-tracking branch 'drm-intel/drm-intel-gt-next' into drm-tip
+config: i386-buildonly-randconfig-005-20230924 (https://download.01.org/0day-ci/archive/20230924/202309240849.DfoxxSha-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230924/202309240849.DfoxxSha-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309240640.6iNEdfCX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309240849.DfoxxSha-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   nios2-linux-ld: drivers/clk/nuvoton/clk-wpcm450.o: in function `wpcm450_clk_init':
-   clk-wpcm450.c:(.init.text+0x384): undefined reference to `reset_simple_ops'
->> nios2-linux-ld: clk-wpcm450.c:(.init.text+0x388): undefined reference to `reset_simple_ops'
+   In file included from arch/x86/include/asm/string.h:3,
+                    from include/linux/string.h:20,
+                    from arch/x86/include/asm/page_32.h:18,
+                    from arch/x86/include/asm/page.h:14,
+                    from arch/x86/include/asm/thread_info.h:12,
+                    from include/linux/thread_info.h:60,
+                    from arch/x86/include/asm/preempt.h:9,
+                    from include/linux/preempt.h:79,
+                    from include/linux/rcupdate.h:27,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/pm_runtime.h:11,
+                    from drivers/gpu/drm/i915/gt/intel_rc6.c:6:
+   In function 'rc6_res_reg_init',
+       inlined from 'intel_rc6_init' at drivers/gpu/drm/i915/gt/intel_rc6.c:610:2:
+>> arch/x86/include/asm/string_32.h:195:29: warning: '__builtin_memset' writing 16 bytes into a region of size 0 overflows the destination [-Wstringop-overflow=]
+     195 | #define memset(s, c, count) __builtin_memset(s, c, count)
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gt/intel_rc6.c:584:9: note: in expansion of macro 'memset'
+     584 |         memset(rc6->res_reg, INVALID_MMIO_REG.reg, sizeof(rc6->res_reg));
+         |         ^~~~~~
+
+
+vim +/__builtin_memset +195 arch/x86/include/asm/string_32.h
+
+^1da177e4c3f41 include/asm-i386/string.h        Linus Torvalds   2005-04-16  186  
+^1da177e4c3f41 include/asm-i386/string.h        Linus Torvalds   2005-04-16  187  #define __memset(s, c, count)				\
+78d64fc21d2aa4 include/asm-x86/string_32.h      Joe Perches      2008-05-12  188  	(__builtin_constant_p(count)			\
+78d64fc21d2aa4 include/asm-x86/string_32.h      Joe Perches      2008-05-12  189  	 ? __constant_count_memset((s), (c), (count))	\
+78d64fc21d2aa4 include/asm-x86/string_32.h      Joe Perches      2008-05-12  190  	 : __memset_generic((s), (c), (count)))
+^1da177e4c3f41 include/asm-i386/string.h        Linus Torvalds   2005-04-16  191  
+^1da177e4c3f41 include/asm-i386/string.h        Linus Torvalds   2005-04-16  192  #define __HAVE_ARCH_MEMSET
+6974f0c4555e28 arch/x86/include/asm/string_32.h Daniel Micay     2017-07-12  193  extern void *memset(void *, int, size_t);
+6974f0c4555e28 arch/x86/include/asm/string_32.h Daniel Micay     2017-07-12  194  #ifndef CONFIG_FORTIFY_SOURCE
+ff60fab71bb3b4 arch/x86/include/asm/string_32.h Arjan van de Ven 2009-09-28 @195  #define memset(s, c, count) __builtin_memset(s, c, count)
+6974f0c4555e28 arch/x86/include/asm/string_32.h Daniel Micay     2017-07-12  196  #endif /* !CONFIG_FORTIFY_SOURCE */
+^1da177e4c3f41 include/asm-i386/string.h        Linus Torvalds   2005-04-16  197  
+
+:::::: The code at line 195 was first introduced by commit
+:::::: ff60fab71bb3b4fdbf8caf57ff3739ffd0887396 x86: Use __builtin_memset and __builtin_memcpy for memset/memcpy
+
+:::::: TO: Arjan van de Ven <arjan@infradead.org>
+:::::: CC: H. Peter Anvin <hpa@zytor.com>
 
 -- 
 0-DAY CI Kernel Test Service
