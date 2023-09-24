@@ -1,57 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83192CA76
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Sep 2023 14:57:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B197D27C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Sep 2023 15:08:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695567446; x=1727103446;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vz2UOygP0PG/3NMBGLLpj3xINFuw6s3dUMhingYavng=;
-  b=gjbSUqDOCvJl/pDN1RwPy5Oco21MqntaoI1rwKcKS6xTwCarn+p4WxX+
-   OOjKgOrqcntQL4nq6xgZWPgkcMpUdKaqd3iJnXlA7AXYdbabMbJmAdzkg
-   eNVt3hv6/NRVKhZ7Og3Sf2mhdPxitn9YKWsIHlJp2+1uHHSd1HyOMA33Q
-   GYnjXFIhDyYN/o8hEQbM6jmWtKn1plSsrAWX4j9QvBUIfXFV6Rfa0bRS9
-   HluUGJ9F4C/138Ddtl6e6jEqHG6vEGg39tpTesTyUuSGOleHrLOYWv+RE
-   7vgHnz42g7/w94K8MEj8bCO8zSEhKxhpKSi5VBAPj6jXQ/G8eFUlj8CrF
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="447586298"
+  t=1695568105; x=1727104105;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9lMEdEJ/jNPgXwR79cwContSPgzX3uPW3E2QXcSQzrc=;
+  b=awDU8LSFaapZlJC2iC7iySLVbfppoKMWJIbEQPFrNFPWr72n2Kzlm2uB
+   Nsa9IwZXxI0iXzwWF7XUBhezqYyc/7auxo5PB8myQZrxVk9DC3chRSMuG
+   ITRFlfA+f89oVjbbwEIAT74UGjCjMGbgFLs0QJpRELhr7VCleSXF2cjD5
+   8k9WYx5KEyVqZzvqO7XWA43giUGyFv9NgDc+RIp6pogzL48lVVH3dk17R
+   IHhX7oJjHAvGDyb8ZhOb2fdOnMFsPXy7pVL2OdLgfV8J9LN5GWJwpYpyn
+   QMcftYfkF4lBQDD/x//61TLiwDA3f2buKutlRFgq1y9EG7Hto9RDELZEf
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="445206893"
 X-IronPort-AV: E=Sophos;i="6.03,173,1694761200"; 
-   d="scan'208";a="447586298"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 07:57:25 -0700
+   d="scan'208";a="445206893"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 08:08:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="783200304"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="1078952539"
 X-IronPort-AV: E=Sophos;i="6.03,173,1694761200"; 
-   d="scan'208";a="783200304"
+   d="scan'208";a="1078952539"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 24 Sep 2023 07:57:19 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 24 Sep 2023 08:08:22 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qkQXt-0003oH-0P;
-	Sun, 24 Sep 2023 14:57:17 +0000
-Date: Sun, 24 Sep 2023 22:57:11 +0800
+	id 1qkQiX-0003pN-2s;
+	Sun, 24 Sep 2023 15:08:18 +0000
+Date: Sun, 24 Sep 2023 23:07:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tengfei Fan <quic_tengfan@quicinc.com>, agross@kernel.org,
-	andersson@kernel.org, konrad.dybcio@linaro.org, tglx@linutronix.de,
-	maz@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	catalin.marinas@arm.com, will@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, geert+renesas@glider.be, arnd@arndb.de,
-	neil.armstrong@linaro.org, nfraprado@collabora.com,
-	rafal@milecki.pl, peng.fan@nxp.com, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, quic_tsoni@quicinc.com,
-	quic_shashim@quicinc.com, quic_kaushalk@quicinc.com,
-	quic_tdas@quicinc.com, quic_tingweiz@quicinc.com,
-	quic_aiquny@quicinc.com, kernel@quicinc.com,
-	Tengfei Fan <quic_tengfan@quicinc.com>,
-	Ajit Pandey <quic_ajipan@quicinc.com>
-Subject: Re: [PATCH v4 3/6] arm64: dts: qcom: sm4450: Add RPMH and Global
- clock
-Message-ID: <202309242226.wwMJhznj-lkp@intel.com>
-References: <20230922081026.2799-4-quic_tengfan@quicinc.com>
+To: Simon Horman <horms@kernel.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: kismet: WARNING: unmet direct dependencies detected for FIXED_PHY
+ when selected by LAN743X
+Message-ID: <202309242300.16HQ5Db3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,43 +48,26 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230922081026.2799-4-quic_tengfan@quicinc.com>
 
-Hi Tengfei,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 940fcc189c51032dd0282cbee4497542c982ac59]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tengfei-Fan/dt-bindings-interrupt-controller-qcom-pdc-document-qcom-sm4450-pdc/20230922-161433
-base:   940fcc189c51032dd0282cbee4497542c982ac59
-patch link:    https://lore.kernel.org/r/20230922081026.2799-4-quic_tengfan%40quicinc.com
-patch subject: [PATCH v4 3/6] arm64: dts: qcom: sm4450: Add RPMH and Global clock
-config: arm64-randconfig-002-20230924 (https://download.01.org/0day-ci/archive/20230924/202309242226.wwMJhznj-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230924/202309242226.wwMJhznj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3aba70aed91f2b283f7952be152ad76ec5c34975
+commit: 73c4d1b307aeb713e80ab03f90c7df9d417dc0f0 net: lan743x: select FIXED_PHY
+date:   3 months ago
+config: i386-kismet-CONFIG_FIXED_PHY-CONFIG_LAN743X-0-0 (https://download.01.org/0day-ci/archive/20230924/202309242300.16HQ5Db3-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20230924/202309242300.16HQ5Db3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309242226.wwMJhznj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309242300.16HQ5Db3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from arch/arm64/boot/dts/qcom/sm4450-qrd.dts:8:
->> arch/arm64/boot/dts/qcom/sm4450.dtsi:7:10: fatal error: dt-bindings/clock/qcom,sm4450-gcc.h: No such file or directory
-       7 | #include <dt-bindings/clock/qcom,sm4450-gcc.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
-
-
-vim +7 arch/arm64/boot/dts/qcom/sm4450.dtsi
-
-   > 7	#include <dt-bindings/clock/qcom,sm4450-gcc.h>
-     8	#include <dt-bindings/gpio/gpio.h>
-     9	#include <dt-bindings/interrupt-controller/arm-gic.h>
-    10	#include <dt-bindings/soc/qcom,rpmh-rsc.h>
-    11	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for FIXED_PHY when selected by LAN743X
+   
+   WARNING: unmet direct dependencies detected for FIXED_PHY
+     Depends on [n]: NETDEVICES [=y] && PHYLIB [=n]
+     Selected by [y]:
+     - LAN743X [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_MICROCHIP [=y] && PCI [=y] && PTP_1588_CLOCK_OPTIONAL [=y]
 
 -- 
 0-DAY CI Kernel Test Service
