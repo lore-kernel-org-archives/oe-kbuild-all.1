@@ -1,99 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C3821113
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 17:54:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695664448; x=1727200448;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NpZ85geHuTmogAXAMaWZYJDrModGKN8tlBc6tynaJj8=;
-  b=bmCYPfpwXul/+x6qtugGDaOZIK7Mk7Ihygb7tUd1oJOjZ5xnFp3obEui
-   ok0Fry298R396NlnvPFgUqFbfkqRZaWuteHUnvoBCnJfYbAiGXCZh64N4
-   tc8qWCuBPRe9RxLPf4hFS0LOZIJNwURSqz//TrkroIDliQKmFoWC3ecXC
-   mmHsZ4dqI8gPv/34tkC7Uy21su/0LcCKcxMeBh3fUcmkpDM8+J+gZ8G1t
-   IonhqVnMocoYnbnc3qJ6v2EqqOHI6f7RfBhDsW85++YikSQVe+oxW3ycj
-   GfoNJJAvg5+UsFdpbaCWD/3olAbqBq5KA2jX7p8yo1dJvJ6fh0yvQyJhl
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="445437475"
-X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
-   d="scan'208";a="445437475"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 10:54:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="891780338"
-X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
-   d="scan'208";a="891780338"
-Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 25 Sep 2023 10:53:03 -0700
-Received: from kbuild by 32c80313467c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qkpmV-0001t0-1t;
-	Mon, 25 Sep 2023 17:54:03 +0000
-Date: Tue, 26 Sep 2023 01:53:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, Arjan van de Ven <arjan@linux.intel.com>
-Subject: [tglx-devel:x86/topology 20/41]
- arch/x86/kernel/cpu/mshyperv.c:308:47: error: assignment to 'int (*)(u32,
-  long unsigned int)' {aka 'int (*)(unsigned int,  long unsigned int)'} from
- incompatible pointer type 'int (*)(int,  long unsigned int)'
-Message-ID: <202309260153.A0tCVgy6-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50859107B8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 18:16:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=BKLraxw+2cT6Y1DNrlWQPp9jaHszQHQqGz00lrO3DWs=; b=WY3k3i7SsxkjKjTCxuOxR3+/SV
+	v05dJNNqoLtu50Yt6ROa5S1jMLxqBwYvCU/cex79wucm7LUem3++XIkXOOvIUl4BZ0o74YxXtvA/v
+	Cr4KaWmxiHp+gQZesQxZbJNs4yYPjqWE4KU39EqQAurpa91Ka+Behmm6YlJ8u/mu3rniBizz2SO9l
+	SCvLJ1cVVXhlLFRHVfgjQmSpigPm6fjDyOOuNwaj72lehYBZMymFqwmY8hlVlWfaKO5d+HPDG6UPr
+	6Mw29QgSTcYIXSmYDHvdrBMpYLxfSLSJFZ9sBh43DOWAd3Kq2NmBrM+OJ+9jVNZhZtQuOuTZe59nw
+	iUY8aEHw==;
+Received: from [2601:1c2:980:9ec0::9fed]
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1qkq7f-00EoSA-1w;
+	Mon, 25 Sep 2023 18:15:55 +0000
+Message-ID: <f905a3ad-0259-4dae-8071-d3371b49f0c8@infradead.org>
+Date: Mon, 25 Sep 2023 11:15:52 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi Thomas,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/topology
-head:   7af21f666de6da397249efd280be644d06660947
-commit: 710f37067ff2e83aa99770f1101546187c65f975 [20/41] x86/apic: Use u32 for wakeup_secondary_cpu[_64]()
-config: x86_64-randconfig-012-20230925 (https://download.01.org/0day-ci/archive/20230926/202309260153.A0tCVgy6-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309260153.A0tCVgy6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309260153.A0tCVgy6-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arch/x86/kernel/cpu/mshyperv.c: In function 'hv_smp_prepare_cpus':
->> arch/x86/kernel/cpu/mshyperv.c:308:47: error: assignment to 'int (*)(u32,  long unsigned int)' {aka 'int (*)(unsigned int,  long unsigned int)'} from incompatible pointer type 'int (*)(int,  long unsigned int)' [-Werror=incompatible-pointer-types]
-     308 |                 apic->wakeup_secondary_cpu_64 = hv_snp_boot_ap;
-         |                                               ^
-   cc1: some warnings being treated as errors
+User-Agent: Mozilla Thunderbird
+Subject: Re: sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:undefined reference
+ to `fb_io_read'
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: kernel test robot <lkp@intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ linux-fbdev@vger.kernel.org, Linux-sh list <linux-sh@vger.kernel.org>
+References: <202309130632.LS04CPWu-lkp@intel.com>
+ <feadd6a5-0f56-4575-9891-3a7d88e69e64@infradead.org>
+ <CAMuHMdVRyaq5xT+2GGREHS95Nm86wHmmU0cE_qR5-eza1vMExw@mail.gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <CAMuHMdVRyaq5xT+2GGREHS95Nm86wHmmU0cE_qR5-eza1vMExw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
-vim +308 arch/x86/kernel/cpu/mshyperv.c
 
-333abaf5abb396 Wei Liu    2021-02-03  300  
-333abaf5abb396 Wei Liu    2021-02-03  301  	native_smp_prepare_cpus(max_cpus);
-333abaf5abb396 Wei Liu    2021-02-03  302  
-44676bb9d566ce Tianyu Lan 2023-08-18  303  	/*
-44676bb9d566ce Tianyu Lan 2023-08-18  304  	 *  Override wakeup_secondary_cpu_64 callback for SEV-SNP
-44676bb9d566ce Tianyu Lan 2023-08-18  305  	 *  enlightened guest.
-44676bb9d566ce Tianyu Lan 2023-08-18  306  	 */
-e3131f1c81448a Dexuan Cui 2023-08-24  307  	if (!ms_hyperv.paravisor_present && hv_isolation_type_snp()) {
-44676bb9d566ce Tianyu Lan 2023-08-18 @308  		apic->wakeup_secondary_cpu_64 = hv_snp_boot_ap;
-44676bb9d566ce Tianyu Lan 2023-08-18  309  		return;
-44676bb9d566ce Tianyu Lan 2023-08-18  310  	}
-44676bb9d566ce Tianyu Lan 2023-08-18  311  
+On 9/25/23 00:32, Geert Uytterhoeven wrote:
+> Hi Randy,
+> 
+> On Wed, Sep 13, 2023 at 7:13 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>> On 9/12/23 15:42, kernel test robot wrote:
+>>> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+>>>
+>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+>>> head:   3669558bdf354cd352be955ef2764cde6a9bf5ec
+>>> commit: 5f86367006c6a0662faaf36f753f437afe42fb63 fbdev/sh7760fb: Use fbdev I/O helpers
+>>> date:   6 weeks ago
+>>> config: sh-randconfig-r012-20230913 (https://download.01.org/0day-ci/archive/20230913/202309130632.LS04CPWu-lkp@intel.com/config)
+>>> compiler: sh4-linux-gcc (GCC) 13.2.0
+>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309130632.LS04CPWu-lkp@intel.com/reproduce)
+>>>
+>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>> the same patch/commit), kindly add following tags
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202309130632.LS04CPWu-lkp@intel.com/
+>>>
+>>> All errors (new ones prefixed by >>):
+>>>
+>>>    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o: in function `sh7760fb_probe':
+>>>    sh7760fb.c:(.text+0x374): undefined reference to `framebuffer_alloc'
+>>>    sh4-linux-ld: sh7760fb.c:(.text+0x394): undefined reference to `fb_videomode_to_var'
+>>>    sh4-linux-ld: sh7760fb.c:(.text+0x39c): undefined reference to `fb_alloc_cmap'
+>>>    sh4-linux-ld: sh7760fb.c:(.text+0x3a4): undefined reference to `register_framebuffer'
+>>>    sh4-linux-ld: sh7760fb.c:(.text+0x3ac): undefined reference to `fb_dealloc_cmap'
+>>>    sh4-linux-ld: sh7760fb.c:(.text+0x434): undefined reference to `framebuffer_release'
+>>>    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o: in function `sh7760fb_remove':
+>>>    sh7760fb.c:(.text+0x800): undefined reference to `unregister_framebuffer'
+>>>    sh4-linux-ld: sh7760fb.c:(.text+0x804): undefined reference to `fb_dealloc_cmap'
+>>>    sh4-linux-ld: sh7760fb.c:(.text+0x814): undefined reference to `framebuffer_release'
+>>>>> sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0xc): undefined reference to `fb_io_read'
+>>>>> sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x10): undefined reference to `fb_io_write'
+>>>    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x2c): undefined reference to `cfb_fillrect'
+>>>    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x30): undefined reference to `cfb_copyarea'
+>>>    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x34): undefined reference to `cfb_imageblit'
+>>
+>> The problem is CONFIG_FB=m and CONFIG_FB_SH7760=y.
+>>
+>> This can be fixed by this simple change ... if it's correct.
+>>
+>> or this Kconfig entry can be made into a tristate, but that may not
+>> help with booting a system.
+> 
+> What kind of problem do you foresee? Users could still configure it builtin
+> when needed.
 
-:::::: The code at line 308 was first introduced by commit
-:::::: 44676bb9d566ce2bfbd132f9745eb7eb2d784476 x86/hyperv: Add smp support for SEV-SNP guest
+I was hoping that someone who is familiar with this particular h/w
+could respond, but I agree with you:  I don't know of any reason to
+restrict this driver to builtin only.
 
-:::::: TO: Tianyu Lan <tiala@microsoft.com>
-:::::: CC: Wei Liu <wei.liu@kernel.org>
+> I see no reason to restrict this to builtin.
+> The driver already has all MODULE_*() boilerplate.
+> 
+>> --- a/drivers/video/fbdev/Kconfig
+>> +++ b/drivers/video/fbdev/Kconfig
+>> @@ -1762,7 +1762,7 @@ config FB_COBALT
+>>
+>>  config FB_SH7760
+>>         bool "SH7760/SH7763/SH7720/SH7721 LCDC support"
+>> -       depends on FB && (CPU_SUBTYPE_SH7760 || CPU_SUBTYPE_SH7763 \
+>> +       depends on FB=y && (CPU_SUBTYPE_SH7760 || CPU_SUBTYPE_SH7763 \
+>>                 || CPU_SUBTYPE_SH7720 || CPU_SUBTYPE_SH7721)
+>>         select FB_IOMEM_HELPERS
+>>         help
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Randy
