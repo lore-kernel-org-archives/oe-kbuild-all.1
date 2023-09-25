@@ -1,50 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902A217DB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Sep 2023 23:40:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F237E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 00:11:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695598805; x=1727134805;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tTLXRE1soXSYBY2G5ExuJtYE7YESikpbce6IZI55gSg=;
-  b=LsbXp7Xak0AClBicy27JoAbTXbuK/EnNWA+jqqS34PDqLRFTEGwjU+18
-   dQiyEUbJs/leXKGqSMx4ULXjIZg7koTdWMij/2/IYxoi5MNbP6sZ0zscp
-   vRYiSk46umIUCj4K0xw2doQJ66yCz1cLWrg062yc4Yr1ywon1I+krq1CN
-   0GHaTTIp4mP9n+wFlDrB4B5YSHl+xe2peuXKrK0EPmkdijeGj7vJNBP+W
-   hGy49WaeAz151LCs1aaUyrwkLNHgPQv3zkK0J9TSmpIgrIzfopF4LCUA0
-   8WzE+rUNBighFLaqujKDW9hMCwKkd0AM986mZCpN7DSWjKWWXqrl/nAxj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="381042098"
+  t=1695600665; x=1727136665;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=BCdG073ywCt4xul7U327IU8eWWKAIlWFVoWIkkCrkGg=;
+  b=FeWPSF4z87+bUyow3ZsXxqYyTFhdKA3V7pPV8OUOohqAVtQtR7Fw3BuI
+   EqPsF9gdbY4FTNHQhGD9qglzfwZxmtCU5w7Cj1CNITZ5ndupzDSnJeFKd
+   ioZtwLnUzkN/WcILe2QneKGU6yw2DTDGh7wb7gfQvCrVNw+m2X0Ong3af
+   PrE8gnJjgIOyQSdorYvvxnAacxnS3CzgO+XIGWWEwrbPWfOr9hWbszsY8
+   DE/WS/NDvUbpodPPfhaRfvl74IOIXIyn6ZV3kW3FkDvrTPMyz2YZEy1Su
+   +lFUnq8aVaxjW0yQmtBk/v9daPDhPG3YYjQHtQyc9kMowdcBT7Cj8kavs
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="380012683"
 X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
-   d="scan'208";a="381042098"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 16:40:04 -0700
+   d="scan'208";a="380012683"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 17:11:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="838402627"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="818420749"
 X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
-   d="scan'208";a="838402627"
+   d="scan'208";a="818420749"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 24 Sep 2023 16:40:00 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 24 Sep 2023 17:11:02 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qkYhi-0000bx-2V;
-	Sun, 24 Sep 2023 23:39:58 +0000
-Date: Mon, 25 Sep 2023 07:39:57 +0800
+	id 1qkZBk-0000dl-07;
+	Mon, 25 Sep 2023 00:11:00 +0000
+Date: Mon, 25 Sep 2023 08:10:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andreas Kemnade <andreas@kemnade.info>, jic23@kernel.org,
-	lars@metafoo.de, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	bcousson@baylibre.com, tony@atomide.com,
-	jean-baptiste.maneyrol@tdk.com, chenhuiz@axis.com,
-	andy.shevchenko@gmail.com, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-omap@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/3] dt-bindings: iio: imu: mpu6050: Add level shifter
-Message-ID: <202309250753.7v7FAzek-lkp@intel.com>
-References: <20230924222559.2038721-2-andreas@kemnade.info>
+To: Manish Narani <manish.narani@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>
+Subject: [xilinx-xlnx:pr/146 11930/14527]
+ drivers/usb/dwc3/gadget_hibernation.c:383: warning: Function parameter or
+ member '_dwc' not described in 'dwc3_gadget_exit_hibernation'
+Message-ID: <202309250831.tcStPIrW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,45 +47,187 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230924222559.2038721-2-andreas@kemnade.info>
 
-Hi Andreas,
+Hi Manish,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on robh/for-next linus/master v6.6-rc3 next-20230921]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Kemnade/dt-bindings-iio-imu-mpu6050-Add-level-shifter/20230925-062804
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20230924222559.2038721-2-andreas%40kemnade.info
-patch subject: [PATCH 1/3] dt-bindings: iio: imu: mpu6050: Add level shifter
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230925/202309250753.7v7FAzek-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx pr/146
+head:   38b0c0cf11566882cda99f8e4f2243924a684be5
+commit: 719080ff0022e05bb4cb8043d62739feebcd8dbc [11930/14527] usb: dwc3: gadget: Add hibernation support when operating in gadget mode
+config: arc-randconfig-r015-20230905 (https://download.01.org/0day-ci/archive/20230925/202309250831.tcStPIrW-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309250831.tcStPIrW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309250753.7v7FAzek-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309250831.tcStPIrW-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/iio/imu/invensense,mpu6050.yaml: properties:invensense,level-shifter: True is not of type 'object'
-   	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
-   	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
->> Documentation/devicetree/bindings/iio/imu/invensense,mpu6050.yaml: properties:invensense,level-shifter: More than one condition true in oneOf schema:
-   	{'description': 'Vendor specific properties must have a type and '
-   	                'description unless they have a defined, common '
-   	                'suffix.',
-   	 'oneOf': [{'additionalProperties': False,
-   	            'description': 'A vendor boolean property can use "type: '
-   	                           'boolean"',
-   	            'properties': {'deprecated': True,
-   	                           'description': True,
-   	                           'type': {'const': 'boolean'}},
-   	            'required': ['type', 'description']},
+All warnings (new ones prefixed by >>):
+
+   drivers/usb/dwc3/gadget_hibernation.c:16: warning: cannot understand function prototype: 'u32 save_reg_addr[] = '
+   drivers/usb/dwc3/gadget_hibernation.c:74: warning: Function parameter or member 'epnum' not described in 'restart_ep0_trans'
+>> drivers/usb/dwc3/gadget_hibernation.c:383: warning: Function parameter or member '_dwc' not described in 'dwc3_gadget_exit_hibernation'
+>> drivers/usb/dwc3/gadget_hibernation.c:383: warning: Excess function parameter 'dwc' description in 'dwc3_gadget_exit_hibernation'
+
+
+vim +383 drivers/usb/dwc3/gadget_hibernation.c
+
+   377	
+   378	/**
+   379	 * dwc3_gadget_exit_hibernation - Interrupt handler of wakeup
+   380	 * @dwc: pointer to our controller context structure
+   381	 */
+   382	void dwc3_gadget_exit_hibernation(void *_dwc)
+ > 383	{
+   384		struct dwc3 *dwc = (struct dwc3 *)(_dwc);
+   385	
+   386		u32 reg, link_state;
+   387		int ret, retries;
+   388		bool enter_hiber = false;
+   389	
+   390		/* On USB 2.0 we observed back to back wakeup interrupts */
+   391		if (!dwc->is_hibernated) {
+   392			dev_dbg(dwc->dev, "Not in hibernated state\n");
+   393			goto err;
+   394		}
+   395	
+   396		restore_regs(dwc);
+   397	
+   398		/* Initialize the core and restore the saved registers */
+   399		dwc3_core_init(dwc);
+   400	
+   401		/* ask controller to save the non-sticky registers */
+   402		reg = dwc3_readl(dwc->regs, DWC3_DCTL);
+   403		reg |= DWC3_DCTL_CRS;
+   404		dwc3_writel(dwc->regs, DWC3_DCTL, reg);
+   405	
+   406		/* Wait till non-sticky registers are restored */
+   407		retries = DWC3_NON_STICKY_RESTORE_RETRIES;
+   408		do {
+   409			reg = dwc3_readl(dwc->regs, DWC3_DSTS);
+   410			if (!(reg & DWC3_DSTS_RSS))
+   411				break;
+   412	
+   413			udelay(DWC3_NON_STICKY_RESTORE_DELAY);
+   414		} while (--retries);
+   415	
+   416		if (retries < 0 || (reg & DWC3_DSTS_SRE)) {
+   417			dev_err(dwc->dev, "Failed to restore non-sticky regs\n");
+   418			goto err;
+   419		}
+   420	
+   421		/* restore ep0 endpoints */
+   422		ret = restore_ep0(dwc);
+   423		if (ret) {
+   424			dev_err(dwc->dev, "Failed in restorig EP0 states\n");
+   425			goto err;
+   426		}
+   427	
+   428		/* start the controller */
+   429		ret = dwc3_gadget_run_stop(dwc, true, false);
+   430		if (ret < 0) {
+   431			dev_err(dwc->dev, "USB core failed to start on wakeup\n");
+   432			goto err;
+   433		}
+   434	
+   435		/* Wait until device controller is ready */
+   436		retries = DWC3_DEVICE_CTRL_READY_RETRIES;
+   437		while (--retries) {
+   438			reg = dwc3_readl(dwc->regs, DWC3_DSTS);
+   439			if (reg & DWC3_DSTS_DCNRD)
+   440				udelay(DWC3_DEVICE_CTRL_READY_DELAY);
+   441			else
+   442				break;
+   443		}
+   444	
+   445		if (retries < 0) {
+   446			dev_err(dwc->dev, "USB core failed to restore controller\n");
+   447			goto err;
+   448		}
+   449	
+   450		/*
+   451		 * As some suprious signals also cause wakeup event, wait for some time
+   452		 * and check the link state to confirm if the wakeup signal is real
+   453		 */
+   454		udelay(10);
+   455	
+   456		link_state = dwc3_gadget_get_link_state(dwc);
+   457	
+   458		/* check if the link state is in a valid state */
+   459		switch (link_state) {
+   460		case DWC3_LINK_STATE_RESET:
+   461			/* Reset devaddr */
+   462			reg = dwc3_readl(dwc->regs, DWC3_DCFG);
+   463			reg &= ~(DWC3_DCFG_DEVADDR_MASK);
+   464			dwc3_writel(dwc->regs, DWC3_DCFG, reg);
+   465	
+   466			/* issue recovery on the link */
+   467			ret = dwc3_gadget_set_link_state(dwc, DWC3_LINK_STATE_RECOV);
+   468			if (ret < 0) {
+   469				dev_err(dwc->dev,
+   470					"Failed to set link state to Recovery\n");
+   471				goto err;
+   472			}
+   473	
+   474			break;
+   475	
+   476		case DWC3_LINK_STATE_SS_DIS:
+   477			/* Clear keep connect from reconnecting to HOST */
+   478			reg = dwc3_readl(dwc->regs, DWC3_DCTL);
+   479			reg &= ~DWC3_DCTL_KEEP_CONNECT;
+   480			dwc3_writel(dwc->regs, DWC3_DCTL, reg);
+   481			/* fall through */
+   482		case DWC3_LINK_STATE_U3:
+   483			/* Ignore wakeup event as the link is still in U3 state */
+   484			dev_dbg(dwc->dev, "False wakeup event %d\n", link_state);
+   485	
+   486			if (!dwc->force_hiber_wake)
+   487				enter_hiber = true;
+   488			break;
+   489	
+   490		default:
+   491			/* issue recovery on the link */
+   492			ret = dwc3_gadget_set_link_state(dwc, DWC3_LINK_STATE_RECOV);
+   493			if (ret < 0) {
+   494				dev_err(dwc->dev,
+   495					"Failed to set link state to Recovery\n");
+   496				goto err;
+   497			}
+   498	
+   499			break;
+   500		}
+   501	
+   502		if (link_state != DWC3_LINK_STATE_SS_DIS) {
+   503			/* Restore non EP0 EPs */
+   504			ret = restore_eps(dwc);
+   505			if (ret) {
+   506				dev_err(dwc->dev, "Failed restoring non-EP0 states\n");
+   507				goto err;
+   508			}
+   509		}
+   510	
+   511		/* clear the flag */
+   512		dwc->is_hibernated = false;
+   513	
+   514		if (enter_hiber) {
+   515			/*
+   516			 * as the wakeup was because of the spurious signals,
+   517			 * enter hibernation again
+   518			 */
+   519			dwc3_gadget_enter_hibernation(dwc);
+   520			return;
+   521		}
+   522	
+   523		dev_dbg(dwc->dev, "We are back from hibernation!\n");
+   524		return;
+   525	
+   526	err:
+   527		dev_err(dwc->dev, "Fail in handling Wakeup Interrupt\n");
+   528		return;
+   529	}
+   530	
 
 -- 
 0-DAY CI Kernel Test Service
