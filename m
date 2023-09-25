@@ -1,194 +1,131 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E0CE63D6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 08:06:38 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5F6FD21871;
-	Mon, 25 Sep 2023 08:06:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1695629197; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=nKlZkiYEZg84HydCd50oy+SAWL2n1MumwA6jO2Zuyow=;
-	b=ccqhmzcRxv8Z0MOGAIxYdvr3lwTO0nIKiJTtisCAFhOP2C/fT4yMAa/Qyr+IHTX/nDdYyG
-	QmzTJtz+F7Rir5QV7blpHO7skIqlqBWNcTTqqY2e0TlvL+cJofOExDU6QRlb+OPzujgEg9
-	04XNOTPFavOH4h/2vGjZpMzccoOWo0M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1695629197;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=nKlZkiYEZg84HydCd50oy+SAWL2n1MumwA6jO2Zuyow=;
-	b=cFFREgK2+XbW3UdptXvAhooVKgY8Kis3ODWFnlEJ8n+ux7aXNkp/h8if6H/rgjuO+UmlKy
-	VlxQg7AcPrc4vLBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1894113A67;
-	Mon, 25 Sep 2023 08:06:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id NknLBI0/EWXkUQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 25 Sep 2023 08:06:37 +0000
-Message-ID: <40de19cc-e01f-4b3e-893a-28a82ded2682@suse.de>
-Date: Mon, 25 Sep 2023 10:06:36 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1022611CA9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 08:31:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695630678; x=1727166678;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KkA6piSLQ+BYJKP6PoFZM1BeoxIb7MNkg1gTjPPbr3s=;
+  b=OjZWEVh1O1qdss9ZhWJ70Ximrstu/RRpWr7aOuW6LK8EJ1iMONVS86nr
+   MYRUR6m5WZ/MW8RoSa6M5iXxcoPDFNqIBRx9J/fpiZ/rC4ck0sy+kGrrx
+   xVMayVRl8YARpWAh5yGFVpEhv+P6mIERmiWSH7ZB4Gy+tJltvb72pgMR0
+   XK/2/HKF5dvxSl8U64zlrFz+CqRX8vtSnnTfdun/EJGWyrTdLQXlIXazn
+   D/DfvoKb7ZOAEaxkeMP0NFABc1uwbJ+qu4NBFIMiOvnhWWnRenb2mClcn
+   rTVz//uZmBl9pFBpxwcA1cXKzCfegsRhQMQm4OkzF87Q9+WSA6YInDec8
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="360582214"
+X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
+   d="scan'208";a="360582214"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 01:31:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="741855936"
+X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
+   d="scan'208";a="741855936"
+Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 25 Sep 2023 01:31:15 -0700
+Received: from kbuild by 32c80313467c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qkgzp-0001Mj-0I;
+	Mon, 25 Sep 2023 08:31:13 +0000
+Date: Mon, 25 Sep 2023 16:30:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: thinker.li@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC bpf-next v3 07/11] bpf, net: switch to storing struct_ops
+ in btf
+Message-ID: <202309251600.fzViZTWK-lkp@intel.com>
+References: <20230920155923.151136-8-thinker.li@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev/sh7760fb: Depend on FB=y
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-fbdev@vger.kernel.org, kernel test robot <lkp@intel.com>,
- arnd@arndb.de, Linux-sh list <linux-sh@vger.kernel.org>, deller@gmx.de,
- rdunlap@infradead.org, javierm@redhat.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
- glaubitz@physik.fu-berlin.de, sam@ravnborg.org
-References: <20230918090400.13264-1-tzimmermann@suse.de>
- <CAMuHMdWodf+dfrs8wtwsyYJttx448o3AMVFwTXGzFVZ6MU3-Ew@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CAMuHMdWodf+dfrs8wtwsyYJttx448o3AMVFwTXGzFVZ6MU3-Ew@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------N49f0PY1h4Flu2XiTlzG7p98"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230920155923.151136-8-thinker.li@gmail.com>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------N49f0PY1h4Flu2XiTlzG7p98
-Content-Type: multipart/mixed; boundary="------------IgWtqYNwoUvgFyzMGqa207yo";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-fbdev@vger.kernel.org, kernel test robot <lkp@intel.com>,
- arnd@arndb.de, Linux-sh list <linux-sh@vger.kernel.org>, deller@gmx.de,
- rdunlap@infradead.org, javierm@redhat.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
- glaubitz@physik.fu-berlin.de, sam@ravnborg.org
-Message-ID: <40de19cc-e01f-4b3e-893a-28a82ded2682@suse.de>
-Subject: Re: [PATCH] fbdev/sh7760fb: Depend on FB=y
-References: <20230918090400.13264-1-tzimmermann@suse.de>
- <CAMuHMdWodf+dfrs8wtwsyYJttx448o3AMVFwTXGzFVZ6MU3-Ew@mail.gmail.com>
-In-Reply-To: <CAMuHMdWodf+dfrs8wtwsyYJttx448o3AMVFwTXGzFVZ6MU3-Ew@mail.gmail.com>
+Hi,
 
---------------IgWtqYNwoUvgFyzMGqa207yo
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-SGkgR2VlcnQNCg0KQW0gMjUuMDkuMjMgdW0gMDk6MzMgc2NocmllYiBHZWVydCBVeXR0ZXJo
-b2V2ZW46DQo+IEhpIFRob21hcywNCj4gDQo+IE9uIE1vbiwgU2VwIDE4LCAyMDIzIGF0IDEx
-OjQ14oCvQU0gVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3Rl
-Og0KPj4gRml4IGxpbmtlciBlcnJvciBpZiBGQj1tIGFib3V0IG1pc3NpbmcgZmJfaW9fcmVh
-ZCBhbmQgZmJfaW9fd3JpdGUuIFRoZQ0KPj4gbGlua2VyJ3MgZXJyb3IgbWVzc2FnZSBzdWdn
-ZXN0cyB0aGF0IHRoaXMgY29uZmlnIHNldHRpbmcgaGFzIGFscmVhZHkNCj4+IGJlZW4gYnJv
-a2VuIGZvciBvdGhlciBzeW1ib2xzLg0KPj4NCj4+ICAgIEFsbCBlcnJvcnMgKG5ldyBvbmVz
-IHByZWZpeGVkIGJ5ID4+KToNCj4+DQo+PiAgICAgICBzaDQtbGludXgtbGQ6IGRyaXZlcnMv
-dmlkZW8vZmJkZXYvc2g3NzYwZmIubzogaW4gZnVuY3Rpb24gYHNoNzc2MGZiX3Byb2JlJzoN
-Cj4+ICAgICAgIHNoNzc2MGZiLmM6KC50ZXh0KzB4Mzc0KTogdW5kZWZpbmVkIHJlZmVyZW5j
-ZSB0byBgZnJhbWVidWZmZXJfYWxsb2MnDQo+PiAgICAgICBzaDQtbGludXgtbGQ6IHNoNzc2
-MGZiLmM6KC50ZXh0KzB4Mzk0KTogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byBgZmJfdmlkZW9t
-b2RlX3RvX3ZhcicNCj4+ICAgICAgIHNoNC1saW51eC1sZDogc2g3NzYwZmIuYzooLnRleHQr
-MHgzOWMpOiB1bmRlZmluZWQgcmVmZXJlbmNlIHRvIGBmYl9hbGxvY19jbWFwJw0KPj4gICAg
-ICAgc2g0LWxpbnV4LWxkOiBzaDc3NjBmYi5jOigudGV4dCsweDNhNCk6IHVuZGVmaW5lZCBy
-ZWZlcmVuY2UgdG8gYHJlZ2lzdGVyX2ZyYW1lYnVmZmVyJw0KPj4gICAgICAgc2g0LWxpbnV4
-LWxkOiBzaDc3NjBmYi5jOigudGV4dCsweDNhYyk6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8g
-YGZiX2RlYWxsb2NfY21hcCcNCj4+ICAgICAgIHNoNC1saW51eC1sZDogc2g3NzYwZmIuYzoo
-LnRleHQrMHg0MzQpOiB1bmRlZmluZWQgcmVmZXJlbmNlIHRvIGBmcmFtZWJ1ZmZlcl9yZWxl
-YXNlJw0KPj4gICAgICAgc2g0LWxpbnV4LWxkOiBkcml2ZXJzL3ZpZGVvL2ZiZGV2L3NoNzc2
-MGZiLm86IGluIGZ1bmN0aW9uIGBzaDc3NjBmYl9yZW1vdmUnOg0KPj4gICAgICAgc2g3NzYw
-ZmIuYzooLnRleHQrMHg4MDApOiB1bmRlZmluZWQgcmVmZXJlbmNlIHRvIGB1bnJlZ2lzdGVy
-X2ZyYW1lYnVmZmVyJw0KPj4gICAgICAgc2g0LWxpbnV4LWxkOiBzaDc3NjBmYi5jOigudGV4
-dCsweDgwNCk6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYGZiX2RlYWxsb2NfY21hcCcNCj4+
-ICAgICAgIHNoNC1saW51eC1sZDogc2g3NzYwZmIuYzooLnRleHQrMHg4MTQpOiB1bmRlZmlu
-ZWQgcmVmZXJlbmNlIHRvIGBmcmFtZWJ1ZmZlcl9yZWxlYXNlJw0KPj4gICAgPj4gc2g0LWxp
-bnV4LWxkOiBkcml2ZXJzL3ZpZGVvL2ZiZGV2L3NoNzc2MGZiLm86KC5yb2RhdGErMHhjKTog
-dW5kZWZpbmVkIHJlZmVyZW5jZSB0byBgZmJfaW9fcmVhZCcNCj4+ICAgID4+IHNoNC1saW51
-eC1sZDogZHJpdmVycy92aWRlby9mYmRldi9zaDc3NjBmYi5vOigucm9kYXRhKzB4MTApOiB1
-bmRlZmluZWQgcmVmZXJlbmNlIHRvIGBmYl9pb193cml0ZScNCj4+ICAgICAgIHNoNC1saW51
-eC1sZDogZHJpdmVycy92aWRlby9mYmRldi9zaDc3NjBmYi5vOigucm9kYXRhKzB4MmMpOiB1
-bmRlZmluZWQgcmVmZXJlbmNlIHRvIGBjZmJfZmlsbHJlY3QnDQo+PiAgICAgICBzaDQtbGlu
-dXgtbGQ6IGRyaXZlcnMvdmlkZW8vZmJkZXYvc2g3NzYwZmIubzooLnJvZGF0YSsweDMwKTog
-dW5kZWZpbmVkIHJlZmVyZW5jZSB0byBgY2ZiX2NvcHlhcmVhJw0KPj4gICAgICAgc2g0LWxp
-bnV4LWxkOiBkcml2ZXJzL3ZpZGVvL2ZiZGV2L3NoNzc2MGZiLm86KC5yb2RhdGErMHgzNCk6
-IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYGNmYl9pbWFnZWJsaXQnDQo+Pg0KPj4gU3VnZ2Vz
-dGVkLWJ5OiBSYW5keSBEdW5sYXAgPHJkdW5sYXBAaW5mcmFkZWFkLm9yZz4NCj4+IFJlcG9y
-dGVkLWJ5OiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4NCj4+IENsb3Nlczog
-aHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvb2Uta2J1aWxkLWFsbC8yMDIzMDkxMzA2MzIuTFMw
-NENQV3UtbGtwQGludGVsLmNvbS8NCj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJt
-YW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPiANCj4gVGhhbmtzIGZvciB5b3VyIHBhdGNo
-IQ0KPiANCj4+IC0tLSBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvS2NvbmZpZw0KPj4gKysrIGIv
-ZHJpdmVycy92aWRlby9mYmRldi9LY29uZmlnDQo+PiBAQCAtMTc1Niw3ICsxNzU2LDcgQEAg
-Y29uZmlnIEZCX0NPQkFMVA0KPj4NCj4+ICAgY29uZmlnIEZCX1NINzc2MA0KPj4gICAgICAg
-ICAgYm9vbCAiU0g3NzYwL1NINzc2My9TSDc3MjAvU0g3NzIxIExDREMgc3VwcG9ydCINCj4+
-IC0gICAgICAgZGVwZW5kcyBvbiBGQiAmJiAoQ1BVX1NVQlRZUEVfU0g3NzYwIHx8IENQVV9T
-VUJUWVBFX1NINzc2MyBcDQo+PiArICAgICAgIGRlcGVuZHMgb24gRkI9eSAmJiAoQ1BVX1NV
-QlRZUEVfU0g3NzYwIHx8IENQVV9TVUJUWVBFX1NINzc2MyBcDQo+PiAgICAgICAgICAgICAg
-ICAgIHx8IENQVV9TVUJUWVBFX1NINzcyMCB8fCBDUFVfU1VCVFlQRV9TSDc3MjEpDQo+PiAg
-ICAgICAgICBzZWxlY3QgRkJfSU9NRU1fSEVMUEVSUw0KPj4gICAgICAgICAgaGVscA0KPj4g
-LS0NCj4gDQo+IEFueSByZWFzb24gdGhpcyBjYW4ndCBiZWNvbWUgdHJpc3RhdGUgaW5zdGVh
-ZD8NCj4gZHJpdmVycy92aWRlby9mYmRldi9zaDc3NjBmYi5jIHVzZXMgbW9kdWxlX3BsYXRm
-b3JtX2RyaXZlcigpLCBhbmQNCj4gYWxyZWFkeSBoYXMgYWxsIG5lZWRlZCBNT0RVTEVfKigp
-Lg0KDQpJJ3ZlIG1lYW53aGlsZSBmaXhlZCB0aGUgaW1tZWRpYXRlIGlzc3VlLiBCdXQgSSBk
-b24ndCBzZWUgYW55dGhpbmcgdGhhdCANCndvdWxkIHByZXZlbnQgdGhlIG9wdGlvbiBhbmQg
-ZHJpdmVyIGZyb20gYmVpbmcgYSB0cmlzdGF0ZS4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMN
-Cg0KPiANCj4gR3J7b2V0amUsZWV0aW5nfXMsDQo+IA0KPiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgR2VlcnQNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERy
-aXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0K
-RnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8g
-VG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4N
-CkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
+[auto build test WARNING on bpf-next/master]
 
---------------IgWtqYNwoUvgFyzMGqa207yo--
+url:    https://github.com/intel-lab-lkp/linux/commits/thinker-li-gmail-com/bpf-refactory-struct_ops-type-initialization-to-a-function/20230921-000546
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230920155923.151136-8-thinker.li%40gmail.com
+patch subject: [RFC bpf-next v3 07/11] bpf, net: switch to storing struct_ops in btf
+config: x86_64-randconfig-016-20230925 (https://download.01.org/0day-ci/archive/20230925/202309251600.fzViZTWK-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309251600.fzViZTWK-lkp@intel.com/reproduce)
 
---------------N49f0PY1h4Flu2XiTlzG7p98
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309251600.fzViZTWK-lkp@intel.com/
 
------BEGIN PGP SIGNATURE-----
+All warnings (new ones prefixed by >>):
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmURP4wFAwAAAAAACgkQlh/E3EQov+Bu
-NRAAve0QlHbYxAdkF3i6vjzM4B2OR2mQP7kXp4HuO8txrb1RQ9ojd4LLsfwP/K+2Q7rSCscDsrYb
-VsAGeAM0za+fTd1Glq+njziueYMg8PETbnIYXo4Hgx6yNXUc5E9eoFgkysg5EwB0l2lFcjDCxG+T
-2SZBqZXvcAg1X5LHwaa0xHqf8Dpai/twMR30QuiVQgY9cMJDXHyrMEcGYncRTj21BYMnZvH6Kfqm
-6MWDY4wnvSw0qEt/U9ATEhzTENWG4c95kjOEpdz/wZGPgGg7HfsS6zXAFkLZmUJeoUablK9DRWua
-ibciYUszxPuetb2E/5Y2vfkRJVFV54YevhPyTibU68mZu4aIoxpmtOJ++73v6qbtzDqAZPGfoFYc
-QKm+ISQLTZTefJcl11A+K+HsCzC50NVtolvsUIclKzpLuSisW9LvLSQmQKOdZplfDzPazvG9Io9G
-sCW1fVZwn2Fw/yI4gpR+WX7yy3h6mWDygG7uaW4XML+xrUDz+y8Oq4wGDL2IRmAsl93/nvWNqzHC
-ttMu4kOZwH/33uz8fdFbV0l4LOoRMc6/y6jOv0W0J9XfVz4dXsroT2ICRQLfluusDcHlxcu4sm20
-mIT0dQOlpmYrnh3k71C/fVTUzm8PSaKsEduijbpK0Txt0GcCzw0A3Yb5BkLas3bd+kBnev1KoIVW
-kFY=
-=ouYQ
------END PGP SIGNATURE-----
+   kernel/bpf/bpf_struct_ops.c: In function 'bpf_struct_ops_init':
+   kernel/bpf/bpf_struct_ops.c:252:8: error: implicit declaration of function 'register_bpf_struct_ops'; did you mean 'register_net_sysctl_sz'? [-Werror=implicit-function-declaration]
+     ret = register_bpf_struct_ops(&bpf_testmod_struct_ops);
+           ^~~~~~~~~~~~~~~~~~~~~~~
+           register_net_sysctl_sz
+   kernel/bpf/bpf_struct_ops.c: At top level:
+>> kernel/bpf/bpf_struct_ops.c:258:5: warning: no previous declaration for 'register_bpf_struct_ops' [-Wmissing-declarations]
+    int register_bpf_struct_ops(struct bpf_struct_ops_mod *mod)
+        ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
---------------N49f0PY1h4Flu2XiTlzG7p98--
+
+vim +/register_bpf_struct_ops +258 kernel/bpf/bpf_struct_ops.c
+
+   257	
+ > 258	int register_bpf_struct_ops(struct bpf_struct_ops_mod *mod)
+   259	{
+   260		struct bpf_struct_ops *st_ops = mod->st_ops;
+   261		struct bpf_verifier_log *log;
+   262		struct btf *btf;
+   263		int err;
+   264	
+   265		if (mod->st_ops == NULL ||
+   266		    mod->owner == NULL)
+   267			return -EINVAL;
+   268	
+   269		log = kzalloc(sizeof(*log), GFP_KERNEL | __GFP_NOWARN);
+   270		if (!log) {
+   271			err = -ENOMEM;
+   272			goto errout;
+   273		}
+   274	
+   275		log->level = BPF_LOG_KERNEL;
+   276	
+   277		btf = btf_get_module_btf(mod->owner);
+   278		if (!btf) {
+   279			err = -EINVAL;
+   280			goto errout;
+   281		}
+   282	
+   283		bpf_struct_ops_init_one(st_ops, btf, log);
+   284	
+   285		btf_put(btf);
+   286	
+   287		st_ops->owner = mod->owner;
+   288		err = btf_add_struct_ops(st_ops, st_ops->owner);
+   289	
+   290	errout:
+   291		kfree(log);
+   292	
+   293		return err;
+   294	}
+   295	EXPORT_SYMBOL_GPL(register_bpf_struct_ops);
+   296	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
