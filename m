@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FDB81095B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 16:51:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B89310962
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 17:22:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695660671; x=1727196671;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z9iBiFxfoSWxcJ2iOEt3xGtFAiNTTz0RelZPLmMj/tg=;
-  b=HvWZvGu6+PCFFluvZqSJFLlIXAgdnLfyesXkYmHpwG/tpOApyL8yE4cP
-   xYvVIzzYo4c4KLyaRPaSFyBc4GAL7WqIqqe6oSlcC3xVJ15A9YcxtvdwF
-   WMZdx6XnB4/uBkLdMxBYde4UQjdxDbvOwpz4STImENX2ACcwoN+tYTJ8t
-   gR+1oaUIV28F+u9cocKC1osxHZcS6BQPIBa3sR7Nqrslu6xFC85dfH0Op
-   uXLMGVc9T7LPxIgU2/eNQR/dDk6HkHB9SZHymgzyRAUR0J1/fbeuhUtHH
-   L5gtf1qWpFJY1HZ6wlpJKbfrgwFr96RMofeXQ7MsS6Rl+LbxzF+5TE0p+
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="366356228"
+  t=1695662535; x=1727198535;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=GUGykoT6/GkCtiz3R3KswapSgRFMW5RzZZpljeXpI1U=;
+  b=eYSwBVq5HHuyFCp7YcgmKje4XjZkp+FmnFz61r/2Rx8mBKypekB7ON2r
+   oU5VHCl5fHcq0OliUmSJXe6lrtKCEMtcUORuoCnPq2nEkN2jZ26T/yl80
+   ha3wr5ENxHV0Lhu7GtB89qSSoFI1+GC4fDFTd1FKUi0NGcM3gWwVQqEcJ
+   5AoGBpe/Grom5niTDY+aEEvcPjt4i8xCWG4mttQPNrrlu3CxWIjceJrUq
+   VwQoQ46PUlV7Z2YiSFDb/56MFmDiMNDHrQXrrHabpOasSFEmAdPrMNagD
+   cZBeKHvV8pilziQvBQ9xKulyFMi073r9YT3QsKToEeUuIbz0z9xPdnKSj
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="381217137"
 X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
-   d="scan'208";a="366356228"
+   d="scan'208";a="381217137"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 09:50:48 -0700
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 10:21:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="1079278411"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="1079305049"
 X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
-   d="scan'208";a="1079278411"
+   d="scan'208";a="1079305049"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 25 Sep 2023 09:50:46 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 25 Sep 2023 10:21:48 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qkonE-0001pG-38;
-	Mon, 25 Sep 2023 16:50:44 +0000
-Date: Tue, 26 Sep 2023 00:50:35 +0800
+	id 1qkpHG-0001qz-0f
+	for oe-kbuild-all@lists.linux.dev;
+	Mon, 25 Sep 2023 17:21:46 +0000
+Date: Tue, 26 Sep 2023 01:20:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-fix-5k 28/28] lib/dynamic_debug.c:1330:6: warning: no
- previous prototype for 'dd_store_func_range'
-Message-ID: <202309260018.e3OfOtEY-lkp@intel.com>
+Subject: [jsarha:topic/chromeos-4.19-s0ix 9724/9999]
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c:2160:39: sparse: sparse: cast
+ truncates bits from constant value (ffffff7f becomes 7f)
+Message-ID: <202309260119.BVruDqEH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,63 +47,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jimc/linux.git dd-fix-5k
-head:   eac2af73427b308c426b03a2ad349d76e7daa5c7
-commit: eac2af73427b308c426b03a2ad349d76e7daa5c7 [28/28] dyndbg: WIP insert _ddebug_site fields into a maple-tree
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230926/202309260018.e3OfOtEY-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309260018.e3OfOtEY-lkp@intel.com/reproduce)
+tree:   https://github.com/jsarha/linux topic/chromeos-4.19-s0ix
+head:   430bdaa0a8c38697780f45a148964d71951df11f
+commit: 3e0b620a47e1670e4a3029ebc7f54da59d852799 [9724/9999] CHROMIUM: drm/bridge: dw-hdmi: Add HDCP support
+config: i386-randconfig-062-20230925 (https://download.01.org/0day-ci/archive/20230926/202309260119.BVruDqEH-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309260119.BVruDqEH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309260018.e3OfOtEY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309260119.BVruDqEH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/bridge/synopsys/dw-hdmi.c:2160:39: sparse: sparse: cast truncates bits from constant value (ffffff7f becomes 7f)
+   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c:2720:39: sparse: sparse: cast truncates bits from constant value (ffffff7f becomes 7f)
+   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c:2889:30: sparse: sparse: cast truncates bits from constant value (ffffff0d becomes d)
+   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c:2308: warning: Function parameter or member 'work' not described in 'dw_hdmi_hdcp_periodic_work'
 
->> lib/dynamic_debug.c:1330:6: warning: no previous prototype for 'dd_store_func_range' [-Wmissing-prototypes]
-    1330 | void dd_store_func_range(struct maple_tree *mt, struct _ddebug *start, struct _ddebug *next, int reps)
-         |      ^~~~~~~~~~~~~~~~~~~
+vim +2160 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 
-
-vim +/dd_store_func_range +1330 lib/dynamic_debug.c
-
-  1328	
-  1329	#define TAIL_SPACER 1
-> 1330	void dd_store_func_range(struct maple_tree *mt, struct _ddebug *start, struct _ddebug *next, int reps)
-  1331	{
-  1332		int rc;
-  1333	
-  1334		BUG_ON(next != start + reps);
-  1335	
-  1336		v3pr_info("  function: %s, %d debugs %lx-%lx\n",
-  1337			  desc_function(start), reps, (unsigned long)start,
-  1338			  (unsigned long)(next - TAIL_SPACER));
-  1339	
-  1340		rc = mtree_store_range(mt, (unsigned long)start,
-  1341				       (unsigned long)(next - TAIL_SPACER),
-  1342				       (void*)desc_function(start), GFP_KERNEL);
-  1343		if (rc)
-  1344			pr_warn("func:%s range store failed: %d\n",
-  1345				desc_function(start), rc);
-  1346	}
-  1347				 
-  1348	#define find_save_edge(var, name, cur, N) ({				\
-  1349		if (strcmp(var, name)) {					\
-  1350			var = (char*) name;					\
-  1351			v3pr_info(" "#var"name: %s %lx\n", var, (unsigned long)cur - N); \
-  1352			rc = mtree_insert(di->sites_mt, (unsigned long)cur - N,	\
-  1353					  (void*)var, GFP_KERNEL);		\
-  1354			switch (rc) {						\
-  1355			case EEXIST:	pr_err("dd: range is occupied\n"); break; \
-  1356			case EINVAL:	pr_err("dd: invalid request\n"); break;	\
-  1357			case ENOMEM:	pr_err("dd: no memory\n"); break;	\
-  1358			case 0:		v4pr_info(" dd: ok on %s\n", var); break; \
-  1359			default:	pr_warn(" start "#var":%s\n", var);	\
-  1360			}							\
-  1361		}								\
-  1362	})
-  1363	
+  2107	
+  2108	static void initialize_hdmi_ih_mutes(struct dw_hdmi *hdmi)
+  2109	{
+  2110		u8 ih_mute;
+  2111	
+  2112		/*
+  2113		 * Boot up defaults are:
+  2114		 * HDMI_IH_MUTE   = 0x03 (disabled)
+  2115		 * HDMI_IH_MUTE_* = 0x00 (enabled)
+  2116		 *
+  2117		 * Disable top level interrupt bits in HDMI block
+  2118		 */
+  2119		ih_mute = hdmi_readb(hdmi, HDMI_IH_MUTE) |
+  2120			  HDMI_IH_MUTE_MUTE_WAKEUP_INTERRUPT |
+  2121			  HDMI_IH_MUTE_MUTE_ALL_INTERRUPT;
+  2122	
+  2123		hdmi_writeb(hdmi, ih_mute, HDMI_IH_MUTE);
+  2124	
+  2125		/* by default mask all interrupts */
+  2126		hdmi_writeb(hdmi, 0xff, HDMI_VP_MASK);
+  2127		hdmi_writeb(hdmi, 0xff, HDMI_FC_MASK0);
+  2128		hdmi_writeb(hdmi, 0xff, HDMI_FC_MASK1);
+  2129		hdmi_writeb(hdmi, 0xff, HDMI_FC_MASK2);
+  2130		hdmi_writeb(hdmi, 0xff, HDMI_PHY_MASK0);
+  2131		hdmi_writeb(hdmi, 0xff, HDMI_PHY_I2CM_INT_ADDR);
+  2132		hdmi_writeb(hdmi, 0xff, HDMI_PHY_I2CM_CTLINT_ADDR);
+  2133		hdmi_writeb(hdmi, 0xff, HDMI_AUD_INT);
+  2134		hdmi_writeb(hdmi, 0xff, HDMI_AUD_SPDIFINT);
+  2135		hdmi_writeb(hdmi, 0xff, HDMI_AUD_HBR_MASK);
+  2136		hdmi_writeb(hdmi, 0xff, HDMI_GP_MASK);
+  2137		hdmi_writeb(hdmi, 0xff, HDMI_A_APIINTMSK);
+  2138		hdmi_writeb(hdmi, 0xff, HDMI_I2CM_INT);
+  2139		hdmi_writeb(hdmi, 0xff, HDMI_I2CM_CTLINT);
+  2140	
+  2141		/* Disable interrupts in the IH_MUTE_* registers */
+  2142		hdmi_writeb(hdmi, 0xff, HDMI_IH_MUTE_FC_STAT0);
+  2143		hdmi_writeb(hdmi, 0xff, HDMI_IH_MUTE_FC_STAT1);
+  2144		hdmi_writeb(hdmi, 0xff, HDMI_IH_MUTE_FC_STAT2);
+  2145		hdmi_writeb(hdmi, 0xff, HDMI_IH_MUTE_AS_STAT0);
+  2146		hdmi_writeb(hdmi, 0xff, HDMI_IH_MUTE_PHY_STAT0);
+  2147		hdmi_writeb(hdmi, 0xff, HDMI_IH_MUTE_I2CM_STAT0);
+  2148		hdmi_writeb(hdmi, 0xff, HDMI_IH_MUTE_CEC_STAT0);
+  2149		hdmi_writeb(hdmi, 0xff, HDMI_IH_MUTE_VP_STAT0);
+  2150		hdmi_writeb(hdmi, 0xff, HDMI_IH_MUTE_I2CMPHY_STAT0);
+  2151		hdmi_writeb(hdmi, 0xff, HDMI_IH_MUTE_AHBDMAAUD_STAT0);
+  2152	
+  2153		/* Enable top level interrupt bits in HDMI block */
+  2154		ih_mute &= ~(HDMI_IH_MUTE_MUTE_WAKEUP_INTERRUPT |
+  2155			    HDMI_IH_MUTE_MUTE_ALL_INTERRUPT);
+  2156		hdmi_writeb(hdmi, ih_mute, HDMI_IH_MUTE);
+  2157	
+  2158		/* Unmask HDCP engaged interrupt */
+  2159		if (hdmi->hdcp_support)
+> 2160			hdmi_writeb(hdmi, (u8)~HDMI_A_APIINTSTAT_HDCP_ENGAGED,
+  2161				    HDMI_A_APIINTMSK);
+  2162	}
+  2163	
 
 -- 
 0-DAY CI Kernel Test Service
