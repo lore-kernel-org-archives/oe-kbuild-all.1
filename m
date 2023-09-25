@@ -1,122 +1,215 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50859107B8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 18:16:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=BKLraxw+2cT6Y1DNrlWQPp9jaHszQHQqGz00lrO3DWs=; b=WY3k3i7SsxkjKjTCxuOxR3+/SV
-	v05dJNNqoLtu50Yt6ROa5S1jMLxqBwYvCU/cex79wucm7LUem3++XIkXOOvIUl4BZ0o74YxXtvA/v
-	Cr4KaWmxiHp+gQZesQxZbJNs4yYPjqWE4KU39EqQAurpa91Ka+Behmm6YlJ8u/mu3rniBizz2SO9l
-	SCvLJ1cVVXhlLFRHVfgjQmSpigPm6fjDyOOuNwaj72lehYBZMymFqwmY8hlVlWfaKO5d+HPDG6UPr
-	6Mw29QgSTcYIXSmYDHvdrBMpYLxfSLSJFZ9sBh43DOWAd3Kq2NmBrM+OJ+9jVNZhZtQuOuTZe59nw
-	iUY8aEHw==;
-Received: from [2601:1c2:980:9ec0::9fed]
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qkq7f-00EoSA-1w;
-	Mon, 25 Sep 2023 18:15:55 +0000
-Message-ID: <f905a3ad-0259-4dae-8071-d3371b49f0c8@infradead.org>
-Date: Mon, 25 Sep 2023 11:15:52 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 033AD224D8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 18:24:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695666280; x=1727202280;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lbo6Vdh8Fhr9MzblTNI3gvybVho69lKVlQi3IByJG+8=;
+  b=FEPq7Wb4TO6SSWUmxAvBj3Q9MtKF3l2LTj8/4zsn/SbU5NAAFJnoA2OR
+   S6F7Z0My4I+v49ptIMpde0XdN2yCkStVcFYqQ9gVLtQK5EoHqg1r8g/lt
+   A7IlnuE7wgHW71nGApDVt5T969jtHoVQLsPtvaNyls0cX5FEvJC/pU7pm
+   eCWHnlZ0T9MOCxW3O7iwb4JJomiJJT2b5//7DGp5WzVpOJqKUm9mwGLae
+   3qBl7Q38tBcN4n2azVQJhd2XqSfwnaRu3dpQQmgbsbxRghXh77iqo9P3c
+   t350o8Oly3xOQ4+fDg/PEoPdMGvw+gTl517Q9JnPPO/KnNvRTyv2fdPfJ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="360709220"
+X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
+   d="scan'208";a="360709220"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 11:24:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="838642139"
+X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
+   d="scan'208";a="838642139"
+Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 25 Sep 2023 11:24:39 -0700
+Received: from kbuild by 32c80313467c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qkqG5-0001uJ-00;
+	Mon, 25 Sep 2023 18:24:37 +0000
+Date: Tue, 26 Sep 2023 02:24:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-kiwi-5.10 5031/29496]
+ sound/soc/hisilicon/hi3660-i2s.c:377:20: warning: assignment to 'struct
+ pinctrl *' from 'int' makes pointer from integer without a cast
+Message-ID: <202309260246.FR0WKf1E-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:undefined reference
- to `fb_io_read'
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: kernel test robot <lkp@intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- linux-fbdev@vger.kernel.org, Linux-sh list <linux-sh@vger.kernel.org>
-References: <202309130632.LS04CPWu-lkp@intel.com>
- <feadd6a5-0f56-4575-9891-3a7d88e69e64@infradead.org>
- <CAMuHMdVRyaq5xT+2GGREHS95Nm86wHmmU0cE_qR5-eza1vMExw@mail.gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CAMuHMdVRyaq5xT+2GGREHS95Nm86wHmmU0cE_qR5-eza1vMExw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Youlin,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   38375ed3e0c57f2cc82efa1d7ee46ef8c74ea8dc
+commit: b4b11198edb99eb17a4d032c3a80854d3a817b0d [5031/29496] ANDROID: sound: Add hikey960 i2s audio driver
+config: i386-randconfig-012-20230926 (https://download.01.org/0day-ci/archive/20230926/202309260246.FR0WKf1E-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309260246.FR0WKf1E-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309260246.FR0WKf1E-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   sound/soc/hisilicon/hi3660-i2s.c: In function 'hi3660_i2s_probe':
+   sound/soc/hisilicon/hi3660-i2s.c:377:22: error: implicit declaration of function 'devm_pinctrl_get'; did you mean 'of_pinctrl_get'? [-Werror=implicit-function-declaration]
+     377 |         i2s->pctrl = devm_pinctrl_get(dev);
+         |                      ^~~~~~~~~~~~~~~~
+         |                      of_pinctrl_get
+>> sound/soc/hisilicon/hi3660-i2s.c:377:20: warning: assignment to 'struct pinctrl *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     377 |         i2s->pctrl = devm_pinctrl_get(dev);
+         |                    ^
+   sound/soc/hisilicon/hi3660-i2s.c:384:28: error: implicit declaration of function 'pinctrl_lookup_state' [-Werror=implicit-function-declaration]
+     384 |         i2s->pin_default = pinctrl_lookup_state(i2s->pctrl,
+         |                            ^~~~~~~~~~~~~~~~~~~~
+>> sound/soc/hisilicon/hi3660-i2s.c:384:26: warning: assignment to 'struct pinctrl_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     384 |         i2s->pin_default = pinctrl_lookup_state(i2s->pctrl,
+         |                          ^
+   sound/soc/hisilicon/hi3660-i2s.c:394:13: error: implicit declaration of function 'pinctrl_select_state' [-Werror=implicit-function-declaration]
+     394 |         if (pinctrl_select_state(i2s->pctrl, i2s->pin_default)) {
+         |             ^~~~~~~~~~~~~~~~~~~~
+   sound/soc/hisilicon/hi3660-i2s.c: In function 'hi3660_i2s_remove':
+   sound/soc/hisilicon/hi3660-i2s.c:422:9: error: implicit declaration of function 'pinctrl_put'; did you mean 'of_pinctrl_get'? [-Werror=implicit-function-declaration]
+     422 |         pinctrl_put(i2s->pctrl);
+         |         ^~~~~~~~~~~
+         |         of_pinctrl_get
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for DRM_KMS_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_GEM_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 
+vim +377 sound/soc/hisilicon/hi3660-i2s.c
 
-On 9/25/23 00:32, Geert Uytterhoeven wrote:
-> Hi Randy,
-> 
-> On Wed, Sep 13, 2023 at 7:13 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->> On 9/12/23 15:42, kernel test robot wrote:
->>> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
->>>
->>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
->>> head:   3669558bdf354cd352be955ef2764cde6a9bf5ec
->>> commit: 5f86367006c6a0662faaf36f753f437afe42fb63 fbdev/sh7760fb: Use fbdev I/O helpers
->>> date:   6 weeks ago
->>> config: sh-randconfig-r012-20230913 (https://download.01.org/0day-ci/archive/20230913/202309130632.LS04CPWu-lkp@intel.com/config)
->>> compiler: sh4-linux-gcc (GCC) 13.2.0
->>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309130632.LS04CPWu-lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes: https://lore.kernel.org/oe-kbuild-all/202309130632.LS04CPWu-lkp@intel.com/
->>>
->>> All errors (new ones prefixed by >>):
->>>
->>>    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o: in function `sh7760fb_probe':
->>>    sh7760fb.c:(.text+0x374): undefined reference to `framebuffer_alloc'
->>>    sh4-linux-ld: sh7760fb.c:(.text+0x394): undefined reference to `fb_videomode_to_var'
->>>    sh4-linux-ld: sh7760fb.c:(.text+0x39c): undefined reference to `fb_alloc_cmap'
->>>    sh4-linux-ld: sh7760fb.c:(.text+0x3a4): undefined reference to `register_framebuffer'
->>>    sh4-linux-ld: sh7760fb.c:(.text+0x3ac): undefined reference to `fb_dealloc_cmap'
->>>    sh4-linux-ld: sh7760fb.c:(.text+0x434): undefined reference to `framebuffer_release'
->>>    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o: in function `sh7760fb_remove':
->>>    sh7760fb.c:(.text+0x800): undefined reference to `unregister_framebuffer'
->>>    sh4-linux-ld: sh7760fb.c:(.text+0x804): undefined reference to `fb_dealloc_cmap'
->>>    sh4-linux-ld: sh7760fb.c:(.text+0x814): undefined reference to `framebuffer_release'
->>>>> sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0xc): undefined reference to `fb_io_read'
->>>>> sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x10): undefined reference to `fb_io_write'
->>>    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x2c): undefined reference to `cfb_fillrect'
->>>    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x30): undefined reference to `cfb_copyarea'
->>>    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x34): undefined reference to `cfb_imageblit'
->>
->> The problem is CONFIG_FB=m and CONFIG_FB_SH7760=y.
->>
->> This can be fixed by this simple change ... if it's correct.
->>
->> or this Kconfig entry can be made into a tristate, but that may not
->> help with booting a system.
-> 
-> What kind of problem do you foresee? Users could still configure it builtin
-> when needed.
-
-I was hoping that someone who is familiar with this particular h/w
-could respond, but I agree with you:  I don't know of any reason to
-restrict this driver to builtin only.
-
-> I see no reason to restrict this to builtin.
-> The driver already has all MODULE_*() boilerplate.
-> 
->> --- a/drivers/video/fbdev/Kconfig
->> +++ b/drivers/video/fbdev/Kconfig
->> @@ -1762,7 +1762,7 @@ config FB_COBALT
->>
->>  config FB_SH7760
->>         bool "SH7760/SH7763/SH7720/SH7721 LCDC support"
->> -       depends on FB && (CPU_SUBTYPE_SH7760 || CPU_SUBTYPE_SH7763 \
->> +       depends on FB=y && (CPU_SUBTYPE_SH7760 || CPU_SUBTYPE_SH7763 \
->>                 || CPU_SUBTYPE_SH7720 || CPU_SUBTYPE_SH7721)
->>         select FB_IOMEM_HELPERS
->>         help
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+   332	
+   333	static int hi3660_i2s_probe(struct platform_device *pdev)
+   334	{
+   335		struct device *dev = &pdev->dev;
+   336		struct hi3660_i2s *i2s;
+   337		struct resource *res;
+   338		int ret;
+   339	
+   340		i2s = devm_kzalloc(dev, sizeof(*i2s), GFP_KERNEL);
+   341		if (!i2s)
+   342			return -ENOMEM;
+   343	
+   344		i2s->dev = dev;
+   345		spin_lock_init(&i2s->lock);
+   346	
+   347		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+   348		if (!res) {
+   349			ret = -ENODEV;
+   350			return ret;
+   351		}
+   352		i2s->base_phys = (phys_addr_t)res->start;
+   353	
+   354		i2s->dai = dai_init;
+   355		dev_set_drvdata(&pdev->dev, i2s);
+   356	
+   357		i2s->base = devm_ioremap_resource(dev, res);
+   358		if (IS_ERR(i2s->base)) {
+   359			dev_err(&pdev->dev, "ioremap failed\n");
+   360			ret = PTR_ERR(i2s->base);
+   361			return ret;
+   362		}
+   363	
+   364		res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+   365		if (!res) {
+   366			ret = -ENODEV;
+   367			return ret;
+   368		}
+   369		i2s->base_syscon = devm_ioremap(dev, res->start, resource_size(res));
+   370		if (IS_ERR(i2s->base_syscon)) {
+   371			dev_err(&pdev->dev, "ioremap failed\n");
+   372			ret = PTR_ERR(i2s->base_syscon);
+   373			return ret;
+   374		}
+   375	
+   376		/* i2s iomux config */
+ > 377		i2s->pctrl = devm_pinctrl_get(dev);
+   378		if (IS_ERR(i2s->pctrl)) {
+   379			dev_err(dev, "could not get pinctrl\n");
+   380			ret = -EIO;
+   381			return ret;
+   382		}
+   383	
+ > 384		i2s->pin_default = pinctrl_lookup_state(i2s->pctrl,
+   385						PINCTRL_STATE_DEFAULT);
+   386		if (IS_ERR(i2s->pin_default)) {
+   387			dev_err(dev,
+   388				"could not get default state (%li)\n",
+   389				PTR_ERR(i2s->pin_default));
+   390			ret = -EIO;
+   391			return ret;
+   392		}
+   393	
+   394		if (pinctrl_select_state(i2s->pctrl, i2s->pin_default)) {
+   395			dev_err(dev, "could not set pins to default state\n");
+   396			ret = -EIO;
+   397			return ret;
+   398		}
+   399	
+   400		ret = devm_snd_dmaengine_pcm_register(&pdev->dev,
+   401					&dmaengine_pcm_config, 0);
+   402		if (ret)
+   403			return ret;
+   404	
+   405		ret = snd_soc_register_component(&pdev->dev, &component_driver,
+   406					&i2s->dai, 1);
+   407		if (ret) {
+   408			dev_err(&pdev->dev, "Failed to register dai\n");
+   409			return ret;
+   410		}
+   411	
+   412		return 0;
+   413	}
+   414	
 
 -- 
-~Randy
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
