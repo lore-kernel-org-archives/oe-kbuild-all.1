@@ -1,102 +1,220 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A419F18C21
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 12:07:21 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-59f55c276c3so41545937b3.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 05:07:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695643640; x=1696248440;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bFBEfegJ3qKvlKJFWO80BnWRWZIHZ0dmFMA8YWuzIyA=;
-        b=UXtRh0VEpaP28kUbf1F5IbJT0CALRMw6iLlpG5n1X/cHev5PiDCga9HywhfEmDXaYZ
-         Fzs3JdUdScIIAmnRHSN5WMhntdfqdk1tnNVtJC7erTe5opbWxNCRK8UYlEsCpO9YlZBL
-         apwQMdo2f/qUNZExIyzToaxj21LwEpzw/j8E1uno2vSmgjQhNBQRV9UsK+L/7U0rnE8v
-         fr+AEQCmimZkkJOqED5nSM8WPhvktiDCMfSsKhNqQEtde0tAU7TGMuOMy0BoGjbx2ixJ
-         NiNe7y8YPl+2bB5JkYhSVYro4z8cJLj1yJxAGp5N5ro53tqISGe8gZGAW49YfIjYTvc/
-         QR9A==
-X-Gm-Message-State: AOJu0YzTJWra8sjpbDZrHUoIxn0hXZJ14b7sYbO86RsD3vshH2rjicTB
-	xmeUAuB/JthbqhQB9jGt7MVKxmG5FA7+9Q==
-X-Google-Smtp-Source: AGHT+IGR70nEavKIk4liml/RNC5tDZyUxi7PmNqndRPqRu6sw/LOyvdbjUab3m7Brj3N3+ZqU/7leA==
-X-Received: by 2002:a81:4c02:0:b0:59f:7dbe:5492 with SMTP id z2-20020a814c02000000b0059f7dbe5492mr2900390ywa.9.1695643640264;
-        Mon, 25 Sep 2023 05:07:20 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id o189-20020a0dccc6000000b00597f533cc64sm2368108ywd.9.2023.09.25.05.07.20
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Sep 2023 05:07:20 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-d815a5eee40so6813319276.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 05:07:20 -0700 (PDT)
-X-Received: by 2002:a25:ce53:0:b0:d77:8fd3:36e with SMTP id
- x80-20020a25ce53000000b00d778fd3036emr6855294ybe.20.1695643639909; Mon, 25
- Sep 2023 05:07:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FAAC1B281
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 12:27:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695644876; x=1727180876;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wSuwtBjtvDFUlF3fObX7GcYCdcLwEZvYk7g3c9iTdWY=;
+  b=Pt4Be+vCoQlWjVYksaUc8dXqz/oYA/d7enDwmEOyDtF+0vBgKQ8R79K/
+   DD1OJ5LHDbdkHP+MIL1QEkmp36aFuDM5d8B/QGisgidkVOeenarUN7vRY
+   5gksAt2LGwBlcQxVF4xHN96w3XTMNOrXYGA8jO41SD09TfcS1ku7MuzrR
+   jOc+lGuDUvCr6ZUvAU0/caLm8/UtgOpB7z2AAYKBLvRayU7DcpW24oIws
+   kFgxdY/gmks3ZgBNwFli9TUAtFfMIODwP5bPaGbEe3jltUYDbBYHq3ngz
+   dZo15tUmEg38ka1CFab4ojI1AAXpqY6PCN+Z5eaLv425CrlY7Kt5rTlee
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="378506764"
+X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
+   d="scan'208";a="378506764"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 05:27:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="872038972"
+X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
+   d="scan'208";a="872038972"
+Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 25 Sep 2023 05:27:53 -0700
+Received: from kbuild by 32c80313467c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qkkgp-0001V1-0c;
+	Mon, 25 Sep 2023 12:27:51 +0000
+Date: Mon, 25 Sep 2023 20:27:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-shrink-1b 30/30] lib/dynamic_debug.c:1461:19: error:
+ assignment from incompatible pointer type
+Message-ID: <202309252026.hbS6NGbf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202309222350.hCUFrIQ1-lkp@intel.com>
-In-Reply-To: <202309222350.hCUFrIQ1-lkp@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 25 Sep 2023 14:07:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUn1n47=nV_WMe9Yx1aTzYgsDKoj_AuZUPoAH7gJpCuGw@mail.gmail.com>
-Message-ID: <CAMuHMdUn1n47=nV_WMe9Yx1aTzYgsDKoj_AuZUPoAH7gJpCuGw@mail.gmail.com>
-Subject: Re: {standard input}:1198: Error: value of ffffff6c too large for
- field of 1 byte at 00000533
-To: kernel test robot <lkp@intel.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Dear robot,
+tree:   https://github.com/jimc/linux.git dd-shrink-1b
+head:   c4d0397c80ded0aa76c2d2a9ea8241e6c496205a
+commit: c4d0397c80ded0aa76c2d2a9ea8241e6c496205a [30/30] dyndbg: wip - drop site ptr between pairs
+config: i386-randconfig-002-20230925 (https://download.01.org/0day-ci/archive/20230925/202309252026.hbS6NGbf-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309252026.hbS6NGbf-lkp@intel.com/reproduce)
 
-On Fri, Sep 22, 2023 at 5:23=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   27bbf45eae9ca98877a2d52a92a188147cd61b07
-> commit: 481461f5109919babbb393d6f68002936b8e2493 linux/export.h: make <li=
-nux/export.h> independent of CONFIG_MODULES
-> date:   9 weeks ago
-> config: m68k-randconfig-r025-20230123 (https://download.01.org/0day-ci/ar=
-chive/20230922/202309222350.hCUFrIQ1-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20230922/202309222350.hCUFrIQ1-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309222350.hCUFrIQ1-lkp=
-@intel.com/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309252026.hbS6NGbf-lkp@intel.com/
 
-Thanks for your report!
+All errors (new ones prefixed by >>):
 
-> All errors (new ones prefixed by >>):
->
->    {standard input}: Assembler messages:
->    {standard input}:1198: Error: value -148 out of range
-> >> {standard input}:1198: Error: value of ffffff6c too large for field of=
- 1 byte at 00000533
+   lib/dynamic_debug.c: In function 'desc_function':
+   lib/dynamic_debug.c:235:22: error: 'const struct _ddebug' has no member named 'site'
+            if (ret != dp->site->function)
+                         ^~
+   In file included from include/linux/kernel.h:30:0,
+                    from lib/dynamic_debug.c:16:
+   lib/dynamic_debug.c:237:36: error: 'const struct _ddebug' has no member named 'site'
+             (unsigned long)dp, ret, dp->site->function);
+                                       ^
+   include/linux/printk.h:427:19: note: in definition of macro 'printk_index_wrap'
+      _p_func(_fmt, ##__VA_ARGS__);    \
+                      ^~~~~~~~~~~
+   include/linux/printk.h:498:2: note: in expansion of macro 'printk'
+     printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+     ^~~~~~
+   lib/dynamic_debug.c:236:3: note: in expansion of macro 'pr_err'
+      pr_err("mt-load func %lx got %s want %s\n",
+      ^~~~~~
+   lib/dynamic_debug.c: In function 'desc_filename':
+   lib/dynamic_debug.c:248:15: error: 'const struct _ddebug' has no member named 'site'
+     if (ret != dp->site->filename)
+                  ^~
+   In file included from include/linux/kernel.h:30:0,
+                    from lib/dynamic_debug.c:16:
+   lib/dynamic_debug.c:250:36: error: 'const struct _ddebug' has no member named 'site'
+             (unsigned long)dp, ret, dp->site->filename);
+                                       ^
+   include/linux/printk.h:427:19: note: in definition of macro 'printk_index_wrap'
+      _p_func(_fmt, ##__VA_ARGS__);    \
+                      ^~~~~~~~~~~
+   include/linux/printk.h:498:2: note: in expansion of macro 'printk'
+     printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+     ^~~~~~
+   lib/dynamic_debug.c:249:3: note: in expansion of macro 'pr_err'
+      pr_err("mt-load file %lx got %s want %s\n",
+      ^~~~~~
+   lib/dynamic_debug.c: In function 'desc_modname':
+   lib/dynamic_debug.c:261:15: error: 'const struct _ddebug' has no member named 'site'
+     if (ret != dp->site->modname)
+                  ^~
+   In file included from include/linux/kernel.h:30:0,
+                    from lib/dynamic_debug.c:16:
+   lib/dynamic_debug.c:263:43: error: 'const struct _ddebug' has no member named 'site'
+             (unsigned long)dp, (char*)ret, dp->site->modname);
+                                              ^
+   include/linux/printk.h:427:19: note: in definition of macro 'printk_index_wrap'
+      _p_func(_fmt, ##__VA_ARGS__);    \
+                      ^~~~~~~~~~~
+   include/linux/printk.h:498:2: note: in expansion of macro 'printk'
+     printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+     ^~~~~~
+   lib/dynamic_debug.c:262:3: note: in expansion of macro 'pr_err'
+      pr_err("mt-load mod %lx got %s want %s\n",
+      ^~~~~~
+   lib/dynamic_debug.c:265:11: error: 'const struct _ddebug' has no member named 'site'
+     return dp->site->modname;
+              ^~
+   lib/dynamic_debug.c: At top level:
+   lib/dynamic_debug.c:1398:6: warning: no previous declaration for 'dd_store_range' [-Wmissing-declarations]
+    void dd_store_range(struct maple_tree *mt, struct _ddebug *start, struct _ddebug *next,
+         ^~~~~~~~~~~~~~
+   lib/dynamic_debug.c: In function 'intervalize_descs':
+>> lib/dynamic_debug.c:1461:19: error: assignment from incompatible pointer type [-Werror=incompatible-pointer-types]
+     for (i = 0, site = &di->sites; i < di->num_sites; i++, site++) {
+                      ^
+   lib/dynamic_debug.c:1463:29: error: 'cur' undeclared (first use in this function)
+      if (!strcmp(site_function(cur), site_function(funcp)))
+                                ^
+   lib/dynamic_debug.c:1448:30: note: in definition of macro 'site_function'
+    #define site_function(site) (site)->function
+                                 ^~~~
+   lib/dynamic_debug.c:1463:29: note: each undeclared identifier is reported only once for each function it appears in
+      if (!strcmp(site_function(cur), site_function(funcp)))
+                                ^
+   lib/dynamic_debug.c:1448:30: note: in definition of macro 'site_function'
+    #define site_function(site) (site)->function
+                                 ^~~~
+   lib/dynamic_debug.c:1465:29: error: passing argument 2 of 'dd_store_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      dd_store_range(di->funcs, funcp, cur, "func", site_function(funcp));
+                                ^~~~~
+   lib/dynamic_debug.c:1398:6: note: expected 'struct _ddebug *' but argument is of type 'struct _ddebug_site *'
+    void dd_store_range(struct maple_tree *mt, struct _ddebug *start, struct _ddebug *next,
+         ^~~~~~~~~~~~~~
+   lib/dynamic_debug.c:1470:29: error: passing argument 2 of 'dd_store_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      dd_store_range(di->files, filep, cur, "file", site_filename(filep));
+                                ^~~~~
+   lib/dynamic_debug.c:1398:6: note: expected 'struct _ddebug *' but argument is of type 'struct _ddebug_site *'
+    void dd_store_range(struct maple_tree *mt, struct _ddebug *start, struct _ddebug *next,
+         ^~~~~~~~~~~~~~
+   lib/dynamic_debug.c:1475:28: error: passing argument 2 of 'dd_store_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      dd_store_range(di->mods, modp, cur, "mod", site_modname(modp));
+                               ^~~~
+   lib/dynamic_debug.c:1398:6: note: expected 'struct _ddebug *' but argument is of type 'struct _ddebug_site *'
+    void dd_store_range(struct maple_tree *mt, struct _ddebug *start, struct _ddebug *next,
+         ^~~~~~~~~~~~~~
+   lib/dynamic_debug.c:1478:28: error: passing argument 2 of 'dd_store_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     dd_store_range(di->funcs, funcp, cur, "func:", site_function(funcp));
+                               ^~~~~
+   lib/dynamic_debug.c:1398:6: note: expected 'struct _ddebug *' but argument is of type 'struct _ddebug_site *'
+    void dd_store_range(struct maple_tree *mt, struct _ddebug *start, struct _ddebug *next,
+         ^~~~~~~~~~~~~~
+   lib/dynamic_debug.c:1479:28: error: passing argument 2 of 'dd_store_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     dd_store_range(di->files, filep, cur, "file:", site_filename(filep));
+                               ^~~~~
+   lib/dynamic_debug.c:1398:6: note: expected 'struct _ddebug *' but argument is of type 'struct _ddebug_site *'
+    void dd_store_range(struct maple_tree *mt, struct _ddebug *start, struct _ddebug *next,
+         ^~~~~~~~~~~~~~
+   lib/dynamic_debug.c:1480:27: error: passing argument 2 of 'dd_store_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     dd_store_range(di->mods, modp, cur, "mod:", site_modname(modp));
+                              ^~~~
+   lib/dynamic_debug.c:1398:6: note: expected 'struct _ddebug *' but argument is of type 'struct _ddebug_site *'
+    void dd_store_range(struct maple_tree *mt, struct _ddebug *start, struct _ddebug *next,
+         ^~~~~~~~~~~~~~
+   lib/dynamic_debug.c: In function 'desc_modname':
+   lib/dynamic_debug.c:266:1: error: control reaches end of non-void function [-Werror=return-type]
+    }
+    ^
+   cc1: some warnings being treated as errors
 
-Do you have more context (e.g. which source file is being compiled)?
-Thanks!
 
-Gr{oetje,eeting}s,
+vim +1461 lib/dynamic_debug.c
 
-                        Geert
+  1451	
+  1452	static void intervalize_descs(struct _ddebug_info *di)
+  1453	{
+  1454		struct _ddebug_site *site, *funcp, *filep, *modp;
+  1455		int i;
+  1456	
+  1457		plant_trees(di);
+  1458	
+  1459		funcp = filep = modp = di->sites;
+  1460		//for_each_boxed_vector(di, descs, num_descs, i, cur) {
+> 1461		for (i = 0, site = &di->sites; i < di->num_sites; i++, site++) {	
+  1462	
+  1463			if (!strcmp(site_function(cur), site_function(funcp)))
+  1464				continue;
+  1465			dd_store_range(di->funcs, funcp, cur, "func", site_function(funcp));
+  1466			funcp = cur;
+  1467	
+  1468			if (!strcmp(site_filename(cur), site_filename(filep)))
+  1469				continue;
+  1470			dd_store_range(di->files, filep, cur, "file", site_filename(filep));
+  1471			filep = cur;
+  1472	
+  1473			if (!strcmp(site_modname(cur), site_modname(modp)))
+  1474				continue;
+  1475			dd_store_range(di->mods, modp, cur, "mod", site_modname(modp));
+  1476			modp = cur;
+  1477		}
+  1478		dd_store_range(di->funcs, funcp, cur, "func:", site_function(funcp));
+  1479		dd_store_range(di->files, filep, cur, "file:", site_filename(filep));
+  1480		dd_store_range(di->mods, modp, cur, "mod:", site_modname(modp));
+  1481	}
+  1482	
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
