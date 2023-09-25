@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157E91170A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 21:00:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920CE224F0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 21:32:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695675655; x=1727211655;
+  t=1695677575; x=1727213575;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hP0kyE/1B9v498jfdv47SVZuQywuNZuvg1ocILK96XE=;
-  b=YlTyvjtqmkNktXlar1OL9URkCrhtWhGL/BUqEva4JbNVmVm8Foe4ZyC+
-   G1Q2rrDhLkLnpOqmHANY5k++v6rXFlzPUS5U8ce9lw8kudloppsbx3AsQ
-   +4pZmdebMHSTQVqQOIqsNSigRqGKU4AEi9NDxEb2KuQo4CQ/wC/3jQDwk
-   cqJ6r/y4Ut609gs864g062KxSY8vt6rvpd6EXlGOLa3Y6fPYlTFL1YyTe
-   I5vbpZknFKU+B1DFswQxKCg+N+LQ6dOPqAXFYSDsP9UeLHHZ6OeMJKBDU
-   Nk7Xlpo4KEmO21BVN2u3NH1e+L/YuRJl1GLwtwp7Dguio9/bqf+qElXCA
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="447880180"
+  bh=ESADFklupkb/a+0xrhLZ15RH96lN8Sr7jKfrZrXJCq0=;
+  b=Irq/TC5QvGd1J/QvVghKlzhehqc4kD0HU4/FCQJDgxs5pAxJSfjXe5Oe
+   A7ZWVmOO9/tIg6CePPz5YhkEgoyHtnfYQWGtSrBrvr/LJ1FOS+d1WxAX/
+   WKOlZb6yFZclIBedsE6WhCOuUU7YpqPs8zwkM+JHLvqBrT3KY8RUM2YGE
+   71Zd8Tl1RytM/yCv/RplX6bDAxaKt7eSDovNN5YHxEPD8UwLgtNclsN7p
+   R+VZ7kxWFlpp5Cb5xecctzyHskOGZLpdlO8kdjI5pv4+cH3DsPnlEt36l
+   1f+RhaK7h4F6lpTg3AqEzO+aD6ecRuzjjUMdvz2I3aoNfP7+3Hb6Eve1h
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="385243128"
 X-IronPort-AV: E=Sophos;i="6.03,176,1694761200"; 
-   d="scan'208";a="447880180"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 14:00:54 -0700
+   d="scan'208";a="385243128"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 14:32:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="751881804"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="783679562"
 X-IronPort-AV: E=Sophos;i="6.03,176,1694761200"; 
-   d="scan'208";a="751881804"
+   d="scan'208";a="783679562"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 25 Sep 2023 14:00:52 -0700
+  by orsmga001.jf.intel.com with ESMTP; 25 Sep 2023 14:32:53 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qkshG-00021N-1e;
-	Mon, 25 Sep 2023 21:00:50 +0000
-Date: Tue, 26 Sep 2023 05:00:18 +0800
+	id 1qktCF-00022N-0k;
+	Mon, 25 Sep 2023 21:32:51 +0000
+Date: Tue, 26 Sep 2023 05:32:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tina Zhang <tina.zhang@intel.com>
+To: Hector Martin <marcan@marcan.st>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tinazhangzw:per-iommu_IOTLB_invalidation 9/14]
- sound/pci/ad1889.c:47:12: warning: 'index' defined but not used
-Message-ID: <202309260433.4iCwXhM2-lkp@intel.com>
+Subject: [asahilinux:bits/110-smc 1/23] lib/vsprintf.c:1779:30: sparse:
+ sparse: cast to restricted __le32
+Message-ID: <202309260543.Ml6zBSx6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,276 +46,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/TinaZhangZW/linux.git per-iommu_IOTLB_invalidation
-head:   c5144840fce67da51a43d9b6ef05b4b344f5786f
-commit: fa8b08eb650d3a32f2190224035305d113bbea75 [9/14] iommu: Add mmu_notifier to iommu_domain
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230926/202309260433.4iCwXhM2-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309260433.4iCwXhM2-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/110-smc
+head:   9a5dd94db698583243613e768d4b6162a7a6f084
+commit: 1d391718368ba499b3aa0a74fe74ec8998c1c61b [1/23] lib/vsprintf: Add support for generic FOURCCs by extending %p4cc
+config: i386-randconfig-061-20230925 (https://download.01.org/0day-ci/archive/20230926/202309260543.Ml6zBSx6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309260543.Ml6zBSx6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309260433.4iCwXhM2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309260543.Ml6zBSx6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> lib/vsprintf.c:1779:30: sparse: sparse: cast to restricted __le32
+>> lib/vsprintf.c:1782:30: sparse: sparse: cast to restricted __be32
 
-   In file included from arch/s390/include/asm/pci.h:7,
-                    from include/linux/pci.h:2037,
-                    from sound/pci/ad1889.c:24:
-   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
-     117 |                         struct mmu_notifier notifier;
-         |                                             ^~~~~~~~
-   In file included from include/linux/init.h:5,
-                    from sound/pci/ad1889.c:23:
-   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
-      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-         |                                                   ^
-   include/linux/compiler.h:231:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
-     231 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
-         |                                 ^~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:57:59: note: in expansion of macro '__must_be_array'
-      57 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:517:20: note: in expansion of macro 'ARRAY_SIZE'
-     517 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:501:9: note: in expansion of macro 'module_param_array_named'
-     501 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/pci/ad1889.c:48:1: note: in expansion of macro 'module_param_array'
-      48 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
->> sound/pci/ad1889.c:47:12: warning: 'index' defined but not used [-Wunused-variable]
-      47 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
-         |            ^~~~~
---
-   In file included from arch/s390/include/asm/pci.h:7,
-                    from include/linux/pci.h:2037,
-                    from sound/pci/atiixp.c:12:
-   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
-     117 |                         struct mmu_notifier notifier;
-         |                                             ^~~~~~~~
->> sound/pci/atiixp.c:27:12: warning: 'index' defined but not used [-Wunused-variable]
-      27 | static int index = SNDRV_DEFAULT_IDX1;  /* Index 0-MAX */
-         |            ^~~~~
---
-   In file included from arch/s390/include/asm/pci.h:7,
-                    from include/linux/pci.h:2037,
-                    from sound/pci/atiixp_modem.c:12:
-   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
-     117 |                         struct mmu_notifier notifier;
-         |                                             ^~~~~~~~
->> sound/pci/atiixp_modem.c:27:12: warning: 'index' defined but not used [-Wunused-variable]
-      27 | static int index = -2; /* Exclude the first card */
-         |            ^~~~~
---
-   In file included from arch/s390/include/asm/pci.h:7,
-                    from include/linux/pci.h:2037,
-                    from sound/pci/intel8x0.c:18:
-   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
-     117 |                         struct mmu_notifier notifier;
-         |                                             ^~~~~~~~
->> sound/pci/intel8x0.c:31:12: warning: 'index' defined but not used [-Wunused-variable]
-      31 | static int index = SNDRV_DEFAULT_IDX1;  /* Index 0-MAX */
-         |            ^~~~~
---
-   In file included from arch/s390/include/asm/pci.h:7,
-                    from include/linux/pci.h:2037,
-                    from sound/pci/intel8x0m.c:15:
-   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
-     117 |                         struct mmu_notifier notifier;
-         |                                             ^~~~~~~~
->> sound/pci/intel8x0m.c:29:12: warning: 'index' defined but not used [-Wunused-variable]
-      29 | static int index = -2; /* Exclude the first card */
-         |            ^~~~~
---
-   In file included from arch/s390/include/asm/pci.h:7,
-                    from include/linux/pci.h:2037,
-                    from sound/pci/aw2/aw2-alsa.c:11:
-   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
-     117 |                         struct mmu_notifier notifier;
-         |                                             ^~~~~~~~
-   In file included from include/linux/init.h:5,
-                    from sound/pci/aw2/aw2-alsa.c:10:
-   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
-      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-         |                                                   ^
-   include/linux/compiler.h:231:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
-     231 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
-         |                                 ^~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:57:59: note: in expansion of macro '__must_be_array'
-      57 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:517:20: note: in expansion of macro 'ARRAY_SIZE'
-     517 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:501:9: note: in expansion of macro 'module_param_array_named'
-     501 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/pci/aw2/aw2-alsa.c:137:1: note: in expansion of macro 'module_param_array'
-     137 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
->> sound/pci/aw2/aw2-alsa.c:133:12: warning: 'index' defined but not used [-Wunused-variable]
-     133 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
-         |            ^~~~~
---
-   In file included from arch/s390/include/asm/pci.h:7,
-                    from include/linux/pci.h:2037,
-                    from sound/pci/lola/lola.c:15:
-   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
-     117 |                         struct mmu_notifier notifier;
-         |                                             ^~~~~~~~
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/kernel.h:21,
-                    from sound/pci/lola/lola.c:8:
-   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
-      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-         |                                                   ^
-   include/linux/compiler.h:231:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
-     231 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
-         |                                 ^~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:57:59: note: in expansion of macro '__must_be_array'
-      57 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:517:20: note: in expansion of macro 'ARRAY_SIZE'
-     517 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:501:9: note: in expansion of macro 'module_param_array_named'
-     501 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/pci/lola/lola.c:27:1: note: in expansion of macro 'module_param_array'
-      27 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
->> sound/pci/lola/lola.c:23:12: warning: 'index' defined but not used [-Wunused-variable]
-      23 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
-         |            ^~~~~
---
-   In file included from arch/s390/include/asm/pci.h:7,
-                    from include/linux/pci.h:2037,
-                    from sound/pci/hda/hda_intel.c:31:
-   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
-     117 |                         struct mmu_notifier notifier;
-         |                                             ^~~~~~~~
-   In file included from include/linux/bits.h:21,
-                    from arch/s390/include/asm/ptrace.h:10,
-                    from arch/s390/include/asm/lowcore.h:13,
-                    from arch/s390/include/asm/current.h:13,
-                    from include/linux/sched.h:12,
-                    from include/linux/delay.h:23,
-                    from sound/pci/hda/hda_intel.c:23:
-   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
-      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-         |                                                   ^
-   include/linux/compiler.h:231:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
-     231 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
-         |                                 ^~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:57:59: note: in expansion of macro '__must_be_array'
-      57 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:517:20: note: in expansion of macro 'ARRAY_SIZE'
-     517 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:501:9: note: in expansion of macro 'module_param_array_named'
-     501 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/pci/hda/hda_intel.c:125:1: note: in expansion of macro 'module_param_array'
-     125 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
->> sound/pci/hda/hda_intel.c:104:12: warning: 'index' defined but not used [-Wunused-variable]
-     104 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
-         |            ^~~~~
---
-   In file included from arch/s390/include/asm/pci.h:7,
-                    from include/linux/pci.h:2037,
-                    from sound/pci/mixart/mixart.c:13:
-   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
-     117 |                         struct mmu_notifier notifier;
-         |                                             ^~~~~~~~
-   In file included from include/linux/init.h:5,
-                    from sound/pci/mixart/mixart.c:11:
-   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
-      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-         |                                                   ^
-   include/linux/compiler.h:231:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
-     231 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
-         |                                 ^~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:57:59: note: in expansion of macro '__must_be_array'
-      57 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:517:20: note: in expansion of macro 'ARRAY_SIZE'
-     517 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:501:9: note: in expansion of macro 'module_param_array_named'
-     501 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/pci/mixart/mixart.c:40:1: note: in expansion of macro 'module_param_array'
-      40 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
->> sound/pci/mixart/mixart.c:36:12: warning: 'index' defined but not used [-Wunused-variable]
-      36 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;             /* Index 0-MAX */
-         |            ^~~~~
---
-   In file included from arch/s390/include/asm/pci.h:7,
-                    from include/linux/pci.h:2037,
-                    from sound/pci/nm256/nm256.c:17:
-   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
-     117 |                         struct mmu_notifier notifier;
-         |                                             ^~~~~~~~
->> sound/pci/nm256/nm256.c:40:12: warning: 'index' defined but not used [-Wunused-variable]
-      40 | static int index = SNDRV_DEFAULT_IDX1;  /* Index */
-         |            ^~~~~
---
-   In file included from arch/s390/include/asm/pci.h:7,
-                    from include/linux/pci.h:2037,
-                    from sound/pci/rme9652/rme9652.c:12:
-   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
-     117 |                         struct mmu_notifier notifier;
-         |                                             ^~~~~~~~
-   In file included from include/linux/bits.h:21,
-                    from arch/s390/include/asm/ptrace.h:10,
-                    from arch/s390/include/asm/lowcore.h:13,
-                    from arch/s390/include/asm/current.h:13,
-                    from include/linux/sched.h:12,
-                    from include/linux/delay.h:23,
-                    from sound/pci/rme9652/rme9652.c:9:
-   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
-      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-         |                                                   ^
-   include/linux/compiler.h:231:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
-     231 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
-         |                                 ^~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:57:59: note: in expansion of macro '__must_be_array'
-      57 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:517:20: note: in expansion of macro 'ARRAY_SIZE'
-     517 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:501:9: note: in expansion of macro 'module_param_array_named'
-     501 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/pci/rme9652/rme9652.c:31:1: note: in expansion of macro 'module_param_array'
-      31 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
->> sound/pci/rme9652/rme9652.c:26:12: warning: 'index' defined but not used [-Wunused-variable]
-      26 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;      /* Index 0-MAX */
-         |            ^~~~~
-..
+vim +1779 lib/vsprintf.c
 
-
-vim +/index +47 sound/pci/ad1889.c
-
-12bb5b78e51289 Clemens Ladisch 2005-09-01  46  
-12bb5b78e51289 Clemens Ladisch 2005-09-01 @47  static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
-12bb5b78e51289 Clemens Ladisch 2005-09-01  48  module_param_array(index, int, NULL, 0444);
-12bb5b78e51289 Clemens Ladisch 2005-09-01  49  MODULE_PARM_DESC(index, "Index value for the AD1889 soundcard.");
-12bb5b78e51289 Clemens Ladisch 2005-09-01  50  
-
-:::::: The code at line 47 was first introduced by commit
-:::::: 12bb5b78e512898034cdd8813f2889743fa6fa3d [ALSA] ad1889: add AD1889 driver
-
-:::::: TO: Clemens Ladisch <clemens@ladisch.de>
-:::::: CC: Jaroslav Kysela <perex@suse.cz>
+  1753	
+  1754	static noinline_for_stack
+  1755	char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+  1756			    struct printf_spec spec, const char *fmt)
+  1757	{
+  1758		char output[sizeof("0123 little-endian (0x01234567)")];
+  1759		char *p = output;
+  1760		unsigned int i;
+  1761		bool pix_fmt = false;
+  1762		u32 orig, val;
+  1763	
+  1764		if (fmt[1] != 'c')
+  1765			return error_string(buf, end, "(%p4?)", spec);
+  1766	
+  1767		if (check_pointer(&buf, end, fourcc, spec))
+  1768			return buf;
+  1769	
+  1770		orig = get_unaligned(fourcc);
+  1771		switch (fmt[2]) {
+  1772		case 'h':
+  1773			val = orig;
+  1774			break;
+  1775		case 'r':
+  1776			val = orig = swab32(orig);
+  1777			break;
+  1778		case 'l':
+> 1779			val = orig = le32_to_cpu(orig);
+  1780			break;
+  1781		case 'b':
+> 1782			val = orig = be32_to_cpu(orig);
+  1783			break;
+  1784		case 'c':
+  1785			/* Pixel formats are printed LSB-first */
+  1786			val = swab32(orig & ~BIT(31));
+  1787			pix_fmt = true;
+  1788			break;
+  1789		default:
+  1790			return error_string(buf, end, "(%p4?)", spec);
+  1791		}
+  1792	
+  1793		for (i = 0; i < sizeof(u32); i++) {
+  1794			unsigned char c = val >> ((3 - i) * 8);
+  1795	
+  1796			/* Print non-control ASCII characters as-is, dot otherwise */
+  1797			*p++ = isascii(c) && isprint(c) ? c : '.';
+  1798		}
+  1799	
+  1800		if (pix_fmt) {
+  1801			*p++ = ' ';
+  1802			strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
+  1803			p += strlen(p);
+  1804		}
+  1805	
+  1806		*p++ = ' ';
+  1807		*p++ = '(';
+  1808		p = special_hex_number(p, output + sizeof(output) - 2, orig, sizeof(u32));
+  1809		*p++ = ')';
+  1810		*p = '\0';
+  1811	
+  1812		return string(buf, end, output, spec);
+  1813	}
+  1814	
 
 -- 
 0-DAY CI Kernel Test Service
