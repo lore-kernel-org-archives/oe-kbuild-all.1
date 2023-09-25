@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A16B79E3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 13:01:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D271913ACF
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 13:09:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695646874; x=1727182874;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=ZkN0p2Soq8XMUh+o99Wn1yc0hzf8lSpVouGsN39VDKQ=;
-  b=ZMdPQMcqjG89AhNjITuS9CW63sS88ci8CSifjEOrQvdVnl2J7GxfnBCm
-   9xeW6dNLnH28u/8B909aWJs47MQ1WjZJWSIeQPCqjO8anF2Nh5P/jsX4x
-   +/xg+8Jw4L40VBARjS1Jag157f7yiFEg3ptIqRYKWCCYGnTKpShKS2fda
-   sPI/bd3s0+lpfXlcEy18CLDJ7dZ7F6Bs7Nr+CbWE37TbazAxiLdfcJKeg
-   idZ3mMpPT9qGWW0+eFxgHUrxjBqAMIbmFz8a2Cz9y3GswAsSpSKA2OlMi
-   3L+pIxqrdQNFncCKZn7y/UKY/FH+H+Qq0GUWPjNy6uz34xTeiitymibkK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="467529151"
+  t=1695647355; x=1727183355;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+lOzy4MNxa6dvWFgmjo3SH802I/gRLOjlvBI3i2diVo=;
+  b=VFxCe7RHXJOj8icwTW36Uhu9toMF/qfsusCOevAGjFO37SfdnTuwxxYT
+   CFa8sUt4RI/5FyZlRgsqt+5Q+mrEYEeevgXjCQn7sQowfNSUoDjW4pijC
+   dQ+0RzhFC4bXGakQ6yAAlfG7We2rzy4ahxneL5r4lyg+dh0kwq3/veNsk
+   RAVW1MQkJzDO+SQ0fX03BRoTkI/Gr/bfV+zyYGI0U1fXDh9Gq7K/SOFD+
+   8tNoTUSgDPiG9a1RXyCzKMCGUHSNBFlQ/gxbw0mSScyRCnZyoh+mLJjUB
+   VOt/NmKnJ2miFpO/pwZIxQ89lflVnlG8BhH01AaQghtjbUmnFiR2NOqFM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="412174773"
 X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
-   d="scan'208";a="467529151"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 06:01:12 -0700
+   d="scan'208";a="412174773"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 06:09:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="751664086"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="697968293"
 X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
-   d="scan'208";a="751664086"
+   d="scan'208";a="697968293"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 25 Sep 2023 06:01:11 -0700
+  by orsmga003.jf.intel.com with ESMTP; 25 Sep 2023 06:09:12 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qklD3-0001Wv-1Y;
-	Mon, 25 Sep 2023 13:01:09 +0000
-Date: Mon, 25 Sep 2023 21:00:21 +0800
+	id 1qklKo-0001XF-1C;
+	Mon, 25 Sep 2023 13:09:10 +0000
+Date: Mon, 25 Sep 2023 21:08:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Eric W. Biederman" <ebiederm@xmission.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] binfmt_elf: Support segments with 0 filesz and
- misaligned starts
-Message-ID: <ZRGEZcVhvI2YKx2/@845c4ce01481>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Subject: drivers/platform/mips/rs780e-acpi.c:35:6: warning: no previous
+ prototype for 'pm_iowrite'
+Message-ID: <202309252145.ivuYn1BU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,23 +46,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87jzsemmsd.fsf_-_@email.froward.int.ebiederm.org>
 
-Hi,
+Hi Jiaxun,
 
-Thanks for your patch.
+First bad commit (maybe != root cause):
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6465e260f48790807eef06b583b38ca9789b6072
+commit: 0cfd2440aa03ea3d4b04cc2565561cecadcb1257 MIPS: Loongson64: Make RS780E ACPI as a platform driver
+date:   3 years, 5 months ago
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20230925/202309252145.ivuYn1BU-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309252145.ivuYn1BU-lkp@intel.com/reproduce)
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html/#option-1
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309252145.ivuYn1BU-lkp@intel.com/
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] binfmt_elf: Support segments with 0 filesz and misaligned starts
-Link: https://lore.kernel.org/stable/87jzsemmsd.fsf_-_%40email.froward.int.ebiederm.org
+All warnings (new ones prefixed by >>):
+
+>> drivers/platform/mips/rs780e-acpi.c:35:6: warning: no previous prototype for 'pm_iowrite' [-Wmissing-prototypes]
+      35 | void pm_iowrite(u8 reg, u8 value)
+         |      ^~~~~~~~~~
+>> drivers/platform/mips/rs780e-acpi.c:41:4: warning: no previous prototype for 'pm_ioread' [-Wmissing-prototypes]
+      41 | u8 pm_ioread(u8 reg)
+         |    ^~~~~~~~~
+>> drivers/platform/mips/rs780e-acpi.c:47:6: warning: no previous prototype for 'pm2_iowrite' [-Wmissing-prototypes]
+      47 | void pm2_iowrite(u8 reg, u8 value)
+         |      ^~~~~~~~~~~
+>> drivers/platform/mips/rs780e-acpi.c:53:4: warning: no previous prototype for 'pm2_ioread' [-Wmissing-prototypes]
+      53 | u8 pm2_ioread(u8 reg)
+         |    ^~~~~~~~~~
+   drivers/platform/mips/rs780e-acpi.c:72:6: warning: no previous prototype for 'acpi_registers_setup' [-Wmissing-prototypes]
+      72 | void acpi_registers_setup(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +/pm_iowrite +35 drivers/platform/mips/rs780e-acpi.c
+
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  34  
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29 @35  void pm_iowrite(u8 reg, u8 value)
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  36  {
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  37  	pmio_write_index(PM_INDEX, reg, value);
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  38  }
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  39  EXPORT_SYMBOL(pm_iowrite);
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  40  
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29 @41  u8 pm_ioread(u8 reg)
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  42  {
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  43  	return pmio_read_index(PM_INDEX, reg);
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  44  }
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  45  EXPORT_SYMBOL(pm_ioread);
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  46  
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29 @47  void pm2_iowrite(u8 reg, u8 value)
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  48  {
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  49  	pmio_write_index(PM2_INDEX, reg, value);
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  50  }
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  51  EXPORT_SYMBOL(pm2_iowrite);
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  52  
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29 @53  u8 pm2_ioread(u8 reg)
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  54  {
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  55  	return pmio_read_index(PM2_INDEX, reg);
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  56  }
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  57  EXPORT_SYMBOL(pm2_ioread);
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  58  
+
+:::::: The code at line 35 was first introduced by commit
+:::::: 9c057b3e02184b111d3392be75efc7c94f0fdf20 MIPS: Loongson-3: Add chipset ACPI platform driver
+
+:::::: TO: Huacai Chen <chenhc@lemote.com>
+:::::: CC: Ralf Baechle <ralf@linux-mips.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
