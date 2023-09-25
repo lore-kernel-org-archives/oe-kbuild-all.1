@@ -1,175 +1,134 @@
-Received: from out199-2.us.a.mail.aliyun.com (out199-2.us.a.mail.aliyun.com [47.90.199.2])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA99EA9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 01:47:30 +0000 (UTC)
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=guwen@linux.alibaba.com;NM=1;PH=DS;RN=19;SR=0;TI=SMTPD_---0Vsjo5EY_1695606431;
-Received: from 30.221.129.66(mailfrom:guwen@linux.alibaba.com fp:SMTPD_---0Vsjo5EY_1695606431)
-          by smtp.aliyun-inc.com;
-          Mon, 25 Sep 2023 09:47:13 +0800
-Message-ID: <0b49743f-1e2f-f0fd-22af-b9f76068fa75@linux.alibaba.com>
-Date: Mon, 25 Sep 2023 09:47:11 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC09AEA9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 02:04:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695607472; x=1727143472;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=N5N1MVnoLtn6COPC+Z9AaoRWzoVIYhiBRP33WVklB48=;
+  b=BZMFkSDjQE3rpcAonco7J3uGwWpd+iOWIpl3amHwSDrWktEM+crWiMiF
+   GP7UToEONpdCB1q67TrNzW+bI8xUGlXrTCO/vxDClTtje85e7bH40xbM7
+   9UHBIx/Q4qzPy8NKDL+PV8lhN0H/ELS4qw+EEilj72KcNSa8dPp5XaaPS
+   AQe6oTBjEbn9jrfgF7PA4Ib4zpGX83qWo1kg0HMcbZvvyoElk75zEEwhP
+   BUB8OC3bhxPoYk8y8RYuXz34Ihinsl5+nJqxt9qTuA6VLBOBIRAnnKT0s
+   oHp2v6ZO5bahklvLjM70SCgkAxQ19cdNk7U5TBKF4GJNv8VD34RmbHtOD
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="467433264"
+X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
+   d="scan'208";a="467433264"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 19:04:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="751499138"
+X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
+   d="scan'208";a="751499138"
+Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 24 Sep 2023 19:04:14 -0700
+Received: from kbuild by 32c80313467c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qkaxI-0000lZ-1W;
+	Mon, 25 Sep 2023 02:04:12 +0000
+Date: Mon, 25 Sep 2023 10:04:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: riel@surriel.com, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, kernel-team@meta.com, linux-mm@kvack.org,
+	akpm@linux-foundation.org, muchun.song@linux.dev,
+	mike.kravetz@oracle.com, leit@meta.com, willy@infradead.org,
+	Rik van Riel <riel@surriel.com>
+Subject: Re: [PATCH 3/3] hugetlbfs: replace hugetlb_vma_lock with
+ invalidate_lock
+Message-ID: <202309250923.NEPT0ip2-lkp@intel.com>
+References: <20230922190552.3963067-4-riel@surriel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH net-next v4 12/18] net/smc: implement DMB-related
- operations of loopback
-To: kernel test robot <lkp@intel.com>, kgraul@linux.ibm.com,
- wenjia@linux.ibm.com, jaka@linux.ibm.com, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, wintera@linux.ibm.com,
- schnelle@linux.ibm.com, gbayer@linux.ibm.com, pasic@linux.ibm.com,
- alibuda@linux.alibaba.com, tonylu@linux.alibaba.com,
- dust.li@linux.alibaba.com, linux-s390@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1695568613-125057-13-git-send-email-guwen@linux.alibaba.com>
- <202309250749.LB7ZUUGJ-lkp@intel.com>
-From: Wen Gu <guwen@linux.alibaba.com>
-In-Reply-To: <202309250749.LB7ZUUGJ-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230922190552.3963067-4-riel@surriel.com>
+
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.6-rc3 next-20230921]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/riel-surriel-com/hugetlbfs-extend-hugetlb_vma_lock-to-private-VMAs/20230923-030756
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230922190552.3963067-4-riel%40surriel.com
+patch subject: [PATCH 3/3] hugetlbfs: replace hugetlb_vma_lock with invalidate_lock
+config: x86_64-randconfig-013-20230925 (https://download.01.org/0day-ci/archive/20230925/202309250923.NEPT0ip2-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309250923.NEPT0ip2-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309250923.NEPT0ip2-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/x86/include/asm/bug.h:87,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from arch/x86/include/asm/preempt.h:9,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from fs/nfs/write.c:11:
+   include/linux/hugetlb.h: In function 'hugetlb_walk':
+>> include/linux/hugetlb.h:1285:42: error: dereferencing pointer to incomplete type 'struct hugetlb_vma_lock'
+    1285 |   WARN_ON_ONCE(!lockdep_is_held(&vma_lock->rw_sema) &&
+         |                                          ^~
+   include/asm-generic/bug.h:111:25: note: in definition of macro 'WARN_ON_ONCE'
+     111 |  int __ret_warn_on = !!(condition);   \
+         |                         ^~~~~~~~~
+   include/linux/hugetlb.h:1285:17: note: in expansion of macro 'lockdep_is_held'
+    1285 |   WARN_ON_ONCE(!lockdep_is_held(&vma_lock->rw_sema) &&
+         |                 ^~~~~~~~~~~~~~~
 
 
+vim +1285 include/linux/hugetlb.h
 
-On 2023/9/25 07:29, kernel test robot wrote:
-> Hi Wen,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on net-next/main]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Wen-Gu/net-smc-decouple-ism_dev-from-SMC-D-device-dump/20230924-231933
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/1695568613-125057-13-git-send-email-guwen%40linux.alibaba.com
-> patch subject: [PATCH net-next v4 12/18] net/smc: implement DMB-related operations of loopback
-> config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20230925/202309250749.LB7ZUUGJ-lkp@intel.com/config)
-> compiler: mips-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309250749.LB7ZUUGJ-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309250749.LB7ZUUGJ-lkp@intel.com/
-> 
-> All error/warnings (new ones prefixed by >>):
-> 
->     net/smc/smc_loopback.c: In function 'smc_lo_register_dmb':
->>> net/smc/smc_loopback.c:102:30: error: implicit declaration of function 'vzalloc'; did you mean 'kvzalloc'? [-Werror=implicit-function-declaration]
->       102 |         dmb_node->cpu_addr = vzalloc(dmb->dmb_len);
->           |                              ^~~~~~~
->           |                              kvzalloc
->>> net/smc/smc_loopback.c:102:28: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
->       102 |         dmb_node->cpu_addr = vzalloc(dmb->dmb_len);
->           |                            ^
->     net/smc/smc_loopback.c: In function 'smc_lo_unregister_dmb':
->>> net/smc/smc_loopback.c:159:9: error: implicit declaration of function 'vfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
->       159 |         vfree(dmb_node->cpu_addr);
->           |         ^~~~~
->           |         kvfree
->     cc1: some warnings being treated as errors
-> 
+185d8dcce62020 Rik van Riel 2023-09-22  1265  
+9c67a20704e763 Peter Xu     2022-12-16  1266  /*
+9c67a20704e763 Peter Xu     2022-12-16  1267   * Safe version of huge_pte_offset() to check the locks.  See comments
+9c67a20704e763 Peter Xu     2022-12-16  1268   * above huge_pte_offset().
+9c67a20704e763 Peter Xu     2022-12-16  1269   */
+9c67a20704e763 Peter Xu     2022-12-16  1270  static inline pte_t *
+9c67a20704e763 Peter Xu     2022-12-16  1271  hugetlb_walk(struct vm_area_struct *vma, unsigned long addr, unsigned long sz)
+9c67a20704e763 Peter Xu     2022-12-16  1272  {
+9c67a20704e763 Peter Xu     2022-12-16  1273  #if defined(CONFIG_HUGETLB_PAGE) && \
+9c67a20704e763 Peter Xu     2022-12-16  1274  	defined(CONFIG_ARCH_WANT_HUGE_PMD_SHARE) && defined(CONFIG_LOCKDEP)
+9c67a20704e763 Peter Xu     2022-12-16  1275  	struct hugetlb_vma_lock *vma_lock = vma->vm_private_data;
+9c67a20704e763 Peter Xu     2022-12-16  1276  
+9c67a20704e763 Peter Xu     2022-12-16  1277  	/*
+9c67a20704e763 Peter Xu     2022-12-16  1278  	 * If pmd sharing possible, locking needed to safely walk the
+9c67a20704e763 Peter Xu     2022-12-16  1279  	 * hugetlb pgtables.  More information can be found at the comment
+9c67a20704e763 Peter Xu     2022-12-16  1280  	 * above huge_pte_offset() in the same file.
+9c67a20704e763 Peter Xu     2022-12-16  1281  	 *
+9c67a20704e763 Peter Xu     2022-12-16  1282  	 * NOTE: lockdep_is_held() is only defined with CONFIG_LOCKDEP.
+9c67a20704e763 Peter Xu     2022-12-16  1283  	 */
+9c67a20704e763 Peter Xu     2022-12-16  1284  	if (__vma_shareable_lock(vma))
+9c67a20704e763 Peter Xu     2022-12-16 @1285  		WARN_ON_ONCE(!lockdep_is_held(&vma_lock->rw_sema) &&
+9c67a20704e763 Peter Xu     2022-12-16  1286  			     !lockdep_is_held(
+9c67a20704e763 Peter Xu     2022-12-16  1287  				 &vma->vm_file->f_mapping->i_mmap_rwsem));
+9c67a20704e763 Peter Xu     2022-12-16  1288  #endif
+9c67a20704e763 Peter Xu     2022-12-16  1289  	return huge_pte_offset(vma->vm_mm, addr, sz);
+9c67a20704e763 Peter Xu     2022-12-16  1290  }
+9c67a20704e763 Peter Xu     2022-12-16  1291  
 
-It can be fixed by including corresponding header file:
-
-#include <linux/vmalloc.h>
-
-
-Continue to wait for other review comments and will fix this in the next version.
-
-Thanks.
-
-> 
-> vim +102 net/smc/smc_loopback.c
-> 
->      79	
->      80	static int smc_lo_register_dmb(struct smcd_dev *smcd, struct smcd_dmb *dmb,
->      81				       void *client_priv)
->      82	{
->      83		struct smc_lo_dmb_node *dmb_node, *tmp_node;
->      84		struct smc_lo_dev *ldev = smcd->priv;
->      85		int sba_idx, rc;
->      86	
->      87		/* check space for new dmb */
->      88		for_each_clear_bit(sba_idx, ldev->sba_idx_mask, SMC_LODEV_MAX_DMBS) {
->      89			if (!test_and_set_bit(sba_idx, ldev->sba_idx_mask))
->      90				break;
->      91		}
->      92		if (sba_idx == SMC_LODEV_MAX_DMBS)
->      93			return -ENOSPC;
->      94	
->      95		dmb_node = kzalloc(sizeof(*dmb_node), GFP_KERNEL);
->      96		if (!dmb_node) {
->      97			rc = -ENOMEM;
->      98			goto err_bit;
->      99		}
->     100	
->     101		dmb_node->sba_idx = sba_idx;
->   > 102		dmb_node->cpu_addr = vzalloc(dmb->dmb_len);
->     103		if (!dmb_node->cpu_addr) {
->     104			rc = -ENOMEM;
->     105			goto err_node;
->     106		}
->     107		dmb_node->len = dmb->dmb_len;
->     108		dmb_node->dma_addr = SMC_DMA_ADDR_INVALID;
->     109	
->     110	again:
->     111		/* add new dmb into hash table */
->     112		get_random_bytes(&dmb_node->token, sizeof(dmb_node->token));
->     113		write_lock(&ldev->dmb_ht_lock);
->     114		hash_for_each_possible(ldev->dmb_ht, tmp_node, list, dmb_node->token) {
->     115			if (tmp_node->token == dmb_node->token) {
->     116				write_unlock(&ldev->dmb_ht_lock);
->     117				goto again;
->     118			}
->     119		}
->     120		hash_add(ldev->dmb_ht, &dmb_node->list, dmb_node->token);
->     121		write_unlock(&ldev->dmb_ht_lock);
->     122	
->     123		dmb->sba_idx = dmb_node->sba_idx;
->     124		dmb->dmb_tok = dmb_node->token;
->     125		dmb->cpu_addr = dmb_node->cpu_addr;
->     126		dmb->dma_addr = dmb_node->dma_addr;
->     127		dmb->dmb_len = dmb_node->len;
->     128	
->     129		return 0;
->     130	
->     131	err_node:
->     132		kfree(dmb_node);
->     133	err_bit:
->     134		clear_bit(sba_idx, ldev->sba_idx_mask);
->     135		return rc;
->     136	}
->     137	
->     138	static int smc_lo_unregister_dmb(struct smcd_dev *smcd, struct smcd_dmb *dmb)
->     139	{
->     140		struct smc_lo_dmb_node *dmb_node = NULL, *tmp_node;
->     141		struct smc_lo_dev *ldev = smcd->priv;
->     142	
->     143		/* remove dmb from hash table */
->     144		write_lock(&ldev->dmb_ht_lock);
->     145		hash_for_each_possible(ldev->dmb_ht, tmp_node, list, dmb->dmb_tok) {
->     146			if (tmp_node->token == dmb->dmb_tok) {
->     147				dmb_node = tmp_node;
->     148				break;
->     149			}
->     150		}
->     151		if (!dmb_node) {
->     152			write_unlock(&ldev->dmb_ht_lock);
->     153			return -EINVAL;
->     154		}
->     155		hash_del(&dmb_node->list);
->     156		write_unlock(&ldev->dmb_ht_lock);
->     157	
->     158		clear_bit(dmb_node->sba_idx, ldev->sba_idx_mask);
->   > 159		vfree(dmb_node->cpu_addr);
->     160		kfree(dmb_node);
->     161	
->     162		return 0;
->     163	}
->     164	
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
