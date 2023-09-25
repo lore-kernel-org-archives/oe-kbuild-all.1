@@ -1,45 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87E01CF90
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 15:06:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B5C1C283
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 15:38:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695654389; x=1727190389;
+  t=1695656309; x=1727192309;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KUWjDSlWrX8xWrBc85JL4lN5tIVKXcw3qOJlVcn0cnY=;
-  b=jZ8qTg0D0BYNWxJD3Z5w02LzZZ4Avy+9LE7dMcjvIoeD5FW9qvvJy/q2
-   72eXCWR2Xlf88c3OguCRN3SHt582nClr594bDKQj3M6+KBib5i+MdVZb+
-   jlCSTZPOeQkrJ1blMPrUmLdStTcTZfvbxpmP37KFFhPRIB3c5x9/QiUBF
-   Ie5TVyXbNAAzH3DZ8JgUtnnplER+B12Fk795B5c4P/VOM71iiDu3zXWbT
-   TJK6YfBjHcnvRLy7W7Fzz0xEvgTXhapPQpUF6kSfBAlsqAPxSkiIcNb4B
-   ki3WG/bc6/LMAKwLxlHK9WiYg3gyF/dlDmnpophO4FafHa7p0VQ8I6tjW
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="366332912"
+  bh=P5WYgYVhZBqoOQfHjqXKRq0VM8wbJjpj9VUxPGNRh/0=;
+  b=Jb17TuGOk0nQjBeyXIAO1A4sg8ytmX3h5JLm/TMQbSgXXOafojInnEPz
+   UG1B2q+Z2Atbp12TXzaG6irPoqHuk/i0bM+k66Qm3r1u24sMbRPj7srTY
+   +6QdWCltv3LWckUzfKqSRgHhRg8EZcd+LfzqoJUibICdL/G3oyr433L8J
+   +nlukNo76y7OcoPyFDdlA1KIk2P+CD9zkaJGDzVLoXY+KjA65n/9XYyzH
+   M6bdqzH04shwLmiTNVNkJcTFvHfe0tACe200kpF2mzlUppjoUJENv5/7A
+   4m9rjfvWsGvRYKmRaxDv62sLZ3I+B40zXikwqHfC6gyRiheN0MQMeGDvu
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="378566503"
 X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
-   d="scan'208";a="366332912"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 08:06:27 -0700
+   d="scan'208";a="378566503"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 08:38:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="741950756"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="838596888"
 X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
-   d="scan'208";a="741950756"
+   d="scan'208";a="838596888"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 25 Sep 2023 08:06:25 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 25 Sep 2023 08:38:27 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qknAF-0001dV-0j;
-	Mon, 25 Sep 2023 15:06:23 +0000
-Date: Mon, 25 Sep 2023 23:06:02 +0800
+	id 1qknfF-0001hN-2s;
+	Mon, 25 Sep 2023 15:38:25 +0000
+Date: Mon, 25 Sep 2023 23:38:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Liming Sun <limings@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Hans de Goede <hdegoede@redhat.com>,
-	David Thompson <davthompson@nvidia.com>,
-	Vadim Pasternak <vadimp@nvidia.com>
-Subject: drivers/platform/mellanox/mlxbf-tmfifo.c:148: warning: cannot
- understand function prototype: 'struct mlxbf_tmfifo_io '
-Message-ID: <202309252330.saRU491h-lkp@intel.com>
+To: Tina Zhang <tina.zhang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tinazhangzw:per-iommu_IOTLB_invalidation 14/14]
+ drivers/iommu/intel/svm.c:159:40: error: 'struct iommu_domain' has no member
+ named 'domain'
+Message-ID: <202309252332.vUY8IrkF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,44 +47,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6465e260f48790807eef06b583b38ca9789b6072
-commit: bc05ea63b39420fd561dcffba00753da90338ea8 platform/mellanox: Add BlueField-3 support in the tmfifo driver
-date:   10 months ago
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20230925/202309252330.saRU491h-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309252330.saRU491h-lkp@intel.com/reproduce)
+tree:   https://github.com/TinaZhangZW/linux.git per-iommu_IOTLB_invalidation
+head:   c5144840fce67da51a43d9b6ef05b4b344f5786f
+commit: c5144840fce67da51a43d9b6ef05b4b344f5786f [14/14] iommu/vt-d: Remove superfluous IOMMU IOTLB invalidations
+config: x86_64-randconfig-006-20230925 (https://download.01.org/0day-ci/archive/20230925/202309252332.vUY8IrkF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309252332.vUY8IrkF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309252330.saRU491h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309252332.vUY8IrkF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/platform/mellanox/mlxbf-tmfifo.c:72: warning: cannot understand function prototype: 'struct mlxbf_tmfifo_vring '
-   drivers/platform/mellanox/mlxbf-tmfifo.c:118: warning: cannot understand function prototype: 'struct mlxbf_tmfifo_vdev '
-   drivers/platform/mellanox/mlxbf-tmfifo.c:136: warning: cannot understand function prototype: 'struct mlxbf_tmfifo_irq_info '
->> drivers/platform/mellanox/mlxbf-tmfifo.c:148: warning: cannot understand function prototype: 'struct mlxbf_tmfifo_io '
-   drivers/platform/mellanox/mlxbf-tmfifo.c:172: warning: cannot understand function prototype: 'struct mlxbf_tmfifo '
-   drivers/platform/mellanox/mlxbf-tmfifo.c:198: warning: cannot understand function prototype: 'struct mlxbf_tmfifo_msg_hdr '
+   drivers/iommu/intel/svm.c: In function '__flush_svm_range_dev':
+>> drivers/iommu/intel/svm.c:159:40: error: 'struct iommu_domain' has no member named 'domain'
+     159 |         u32 pasid = mm_get_pasid(domain->domain.mm);
+         |                                        ^~
 
 
-vim +148 drivers/platform/mellanox/mlxbf-tmfifo.c
+vim +159 drivers/iommu/intel/svm.c
 
-   141	
-   142	/**
-   143	 * mlxbf_tmfifo_io - Structure of the TmFifo IO resource (for both rx & tx)
-   144	 * @ctl: control register offset (TMFIFO_RX_CTL / TMFIFO_TX_CTL)
-   145	 * @sts: status register offset (TMFIFO_RX_STS / TMFIFO_TX_STS)
-   146	 * @data: data register offset (TMFIFO_RX_DATA / TMFIFO_TX_DATA)
-   147	 */
- > 148	struct mlxbf_tmfifo_io {
-   149		void __iomem *ctl;
-   150		void __iomem *sts;
-   151		void __iomem *data;
-   152	};
-   153	
+ff3dc6521f7813 drivers/iommu/intel-svm.c Jacob Pan       2020-01-02  154  
+c5144840fce67d drivers/iommu/intel/svm.c Tina Zhang      2023-09-08  155  static void __flush_svm_range_dev(struct iommu_domain *domain,
+2d6ffc63f12417 drivers/iommu/intel/svm.c Lu Baolu        2020-12-31  156  				  unsigned long address,
+2d6ffc63f12417 drivers/iommu/intel/svm.c Lu Baolu        2020-12-31  157  				  unsigned long pages, int ih)
+2f26e0a9c9860d drivers/iommu/intel-svm.c David Woodhouse 2015-09-09  158  {
+6b707182dc1388 drivers/iommu/intel/svm.c Tina Zhang      2023-09-25 @159  	u32 pasid = mm_get_pasid(domain->domain.mm);
+c5144840fce67d drivers/iommu/intel/svm.c Tina Zhang      2023-09-08  160  	struct device_domain_info *info;
+c5144840fce67d drivers/iommu/intel/svm.c Tina Zhang      2023-09-08  161  	struct intel_iommu *iommu;
+c5144840fce67d drivers/iommu/intel/svm.c Tina Zhang      2023-09-08  162  	struct dev_pasid_info *dev_pasid;
+c5144840fce67d drivers/iommu/intel/svm.c Tina Zhang      2023-09-08  163  	unsigned long idx;
+9872f9bd9dbd68 drivers/iommu/intel/svm.c Lu Baolu        2021-01-14  164  
+9872f9bd9dbd68 drivers/iommu/intel/svm.c Lu Baolu        2021-01-14  165  	if (WARN_ON(!pages))
+9872f9bd9dbd68 drivers/iommu/intel/svm.c Lu Baolu        2021-01-14  166  		return;
+9872f9bd9dbd68 drivers/iommu/intel/svm.c Lu Baolu        2021-01-14  167  
+c5144840fce67d drivers/iommu/intel/svm.c Tina Zhang      2023-09-08  168  	rcu_read_lock();
+c5144840fce67d drivers/iommu/intel/svm.c Tina Zhang      2023-09-08  169  	list_for_each_entry_rcu(domain, &domain->mm->iommu_mm->sva_domains, next) {
+c5144840fce67d drivers/iommu/intel/svm.c Tina Zhang      2023-09-08  170  		xa_for_each(&to_dmar_domain(domain)->iommu_array, idx, iommu)
+c5144840fce67d drivers/iommu/intel/svm.c Tina Zhang      2023-09-08  171  			qi_flush_piotlb(iommu, FLPT_DEFAULT_DID,
+c5144840fce67d drivers/iommu/intel/svm.c Tina Zhang      2023-09-08  172  					pasid, address, pages, ih);
+c5144840fce67d drivers/iommu/intel/svm.c Tina Zhang      2023-09-08  173  	}
+c5144840fce67d drivers/iommu/intel/svm.c Tina Zhang      2023-09-08  174  
+c5144840fce67d drivers/iommu/intel/svm.c Tina Zhang      2023-09-08  175  	list_for_each_entry_rcu(dev_pasid, &to_dmar_domain(domain)->dev_pasids, link_domain) {
+c5144840fce67d drivers/iommu/intel/svm.c Tina Zhang      2023-09-08  176  		info = dev_iommu_priv_get(dev_pasid->dev);
+e65a6897be5e49 drivers/iommu/intel/svm.c Jacob Pan       2022-12-01  177  		if (info->ats_enabled) {
+555ad86bf0259a drivers/iommu/intel/svm.c Tina Zhang      2023-09-25  178  			qi_flush_dev_iotlb_pasid(dev_pasid->iommu, dev_pasid->sid, info->pfsid,
+555ad86bf0259a drivers/iommu/intel/svm.c Tina Zhang      2023-09-25  179  						 pasid, dev_pasid->qdep, address,
+9872f9bd9dbd68 drivers/iommu/intel/svm.c Lu Baolu        2021-01-14  180  						 order_base_2(pages));
+e65a6897be5e49 drivers/iommu/intel/svm.c Jacob Pan       2022-12-01  181  			quirk_extra_dev_tlb_flush(info, address, order_base_2(pages),
+555ad86bf0259a drivers/iommu/intel/svm.c Tina Zhang      2023-09-25  182  						  pasid, dev_pasid->qdep);
+e65a6897be5e49 drivers/iommu/intel/svm.c Jacob Pan       2022-12-01  183  		}
+2f26e0a9c9860d drivers/iommu/intel-svm.c David Woodhouse 2015-09-09  184  	}
+c5144840fce67d drivers/iommu/intel/svm.c Tina Zhang      2023-09-08  185  	rcu_read_unlock();
+c5144840fce67d drivers/iommu/intel/svm.c Tina Zhang      2023-09-08  186  }
+2f26e0a9c9860d drivers/iommu/intel-svm.c David Woodhouse 2015-09-09  187  
+
+:::::: The code at line 159 was first introduced by commit
+:::::: 6b707182dc13881992faac36f4cd1566bb5f0380 iommu/vt-d: Remove struct intel_svm
+
+:::::: TO: Tina Zhang <tina.zhang@intel.com>
+:::::: CC: Tina Zhang <tina.zhang@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
