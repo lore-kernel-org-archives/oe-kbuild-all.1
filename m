@@ -1,102 +1,175 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from out199-2.us.a.mail.aliyun.com (out199-2.us.a.mail.aliyun.com [47.90.199.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BBD0A46
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 01:23:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695604997; x=1727140997;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6sVZRiotsmL00ZmOLHcutCwg4Dmv28OiRqrgLO8rcFA=;
-  b=k/AYjU/Xu7S5WMEjnVTLC8PY5d7YEBg68m4Nw6IWKreWyJf9vXT5JF+L
-   uHRF4HOr+6S2n8RK7E4QL/iTxWmseBRl0yoYd4TrAL4pzoL7/MjgZb6Vv
-   Ac56OIFCovRa4YYgabrp/ULR3fJeYn6NHlzbRWsxsUyf+xKTD0qYOUaeQ
-   4Q+3kDXIGBNL9GaVkyzGw1cLOb/XGt6YGPQzBt7Ol8WL//dfNyDpnJhhK
-   MnqfqZHi6tFBfNWHATJf7o8rjxUdh3T3Jr6OGi2KmoMfuvES9Fa0t7rJM
-   oeUVQ6J0xMPyndVv9w44gQ2Tcj6ETi4eUmrO0qfDiNDT7vEEuwsWTmAk6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="412075742"
-X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
-   d="scan'208";a="412075742"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 18:23:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="777491323"
-X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
-   d="scan'208";a="777491323"
-Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 24 Sep 2023 18:23:11 -0700
-Received: from kbuild by 32c80313467c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qkaJa-0000j8-17;
-	Mon, 25 Sep 2023 01:23:10 +0000
-Date: Mon, 25 Sep 2023 09:23:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>
-Subject: include/linux/kern_levels.h:5:25: warning: format '%lx' expects
- argument of type 'long unsigned int', but argument 2 has type 'unsigned int'
-Message-ID: <202309250903.XNAjFuxy-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA99EA9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 01:47:30 +0000 (UTC)
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=guwen@linux.alibaba.com;NM=1;PH=DS;RN=19;SR=0;TI=SMTPD_---0Vsjo5EY_1695606431;
+Received: from 30.221.129.66(mailfrom:guwen@linux.alibaba.com fp:SMTPD_---0Vsjo5EY_1695606431)
+          by smtp.aliyun-inc.com;
+          Mon, 25 Sep 2023 09:47:13 +0800
+Message-ID: <0b49743f-1e2f-f0fd-22af-b9f76068fa75@linux.alibaba.com>
+Date: Mon, 25 Sep 2023 09:47:11 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6465e260f48790807eef06b583b38ca9789b6072
-commit: 02a07872f84fc5fe61fa65310ff23bcad166a4f5 ASoC: dma-sh7760: cleanup a debug printk
-date:   4 years, 9 months ago
-config: sh-randconfig-r015-20221226 (https://download.01.org/0day-ci/archive/20230925/202309250903.XNAjFuxy-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309250903.XNAjFuxy-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309250903.XNAjFuxy-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/kernel.h:14,
-                    from include/linux/list.h:9,
-                    from include/linux/module.h:9,
-                    from sound/soc/sh/dma-sh7760.c:13:
-   sound/soc/sh/dma-sh7760.c: In function 'camelot_prepare':
->> include/linux/kern_levels.h:5:25: warning: format '%lx' expects argument of type 'long unsigned int', but argument 2 has type 'unsigned int' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:136:24: note: in definition of macro 'no_printk'
-     136 |                 printk(fmt, ##__VA_ARGS__);             \
-         |                        ^~~
-   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
-      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
-         |                         ^~~~~~~~
-   include/linux/printk.h:346:19: note: in expansion of macro 'KERN_DEBUG'
-     346 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                   ^~~~~~~~~~
-   sound/soc/sh/dma-sh7760.c:205:9: note: in expansion of macro 'pr_debug'
-     205 |         pr_debug("PCM data: addr 0x%08lx len %d\n",
-         |         ^~~~~~~~
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.0
+Subject: Re: [PATCH net-next v4 12/18] net/smc: implement DMB-related
+ operations of loopback
+To: kernel test robot <lkp@intel.com>, kgraul@linux.ibm.com,
+ wenjia@linux.ibm.com, jaka@linux.ibm.com, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, wintera@linux.ibm.com,
+ schnelle@linux.ibm.com, gbayer@linux.ibm.com, pasic@linux.ibm.com,
+ alibuda@linux.alibaba.com, tonylu@linux.alibaba.com,
+ dust.li@linux.alibaba.com, linux-s390@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1695568613-125057-13-git-send-email-guwen@linux.alibaba.com>
+ <202309250749.LB7ZUUGJ-lkp@intel.com>
+From: Wen Gu <guwen@linux.alibaba.com>
+In-Reply-To: <202309250749.LB7ZUUGJ-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-vim +5 include/linux/kern_levels.h
 
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+On 2023/9/25 07:29, kernel test robot wrote:
+> Hi Wen,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on net-next/main]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Wen-Gu/net-smc-decouple-ism_dev-from-SMC-D-device-dump/20230924-231933
+> base:   net-next/main
+> patch link:    https://lore.kernel.org/r/1695568613-125057-13-git-send-email-guwen%40linux.alibaba.com
+> patch subject: [PATCH net-next v4 12/18] net/smc: implement DMB-related operations of loopback
+> config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20230925/202309250749.LB7ZUUGJ-lkp@intel.com/config)
+> compiler: mips-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309250749.LB7ZUUGJ-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309250749.LB7ZUUGJ-lkp@intel.com/
+> 
+> All error/warnings (new ones prefixed by >>):
+> 
+>     net/smc/smc_loopback.c: In function 'smc_lo_register_dmb':
+>>> net/smc/smc_loopback.c:102:30: error: implicit declaration of function 'vzalloc'; did you mean 'kvzalloc'? [-Werror=implicit-function-declaration]
+>       102 |         dmb_node->cpu_addr = vzalloc(dmb->dmb_len);
+>           |                              ^~~~~~~
+>           |                              kvzalloc
+>>> net/smc/smc_loopback.c:102:28: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>       102 |         dmb_node->cpu_addr = vzalloc(dmb->dmb_len);
+>           |                            ^
+>     net/smc/smc_loopback.c: In function 'smc_lo_unregister_dmb':
+>>> net/smc/smc_loopback.c:159:9: error: implicit declaration of function 'vfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
+>       159 |         vfree(dmb_node->cpu_addr);
+>           |         ^~~~~
+>           |         kvfree
+>     cc1: some warnings being treated as errors
+> 
 
-:::::: The code at line 5 was first introduced by commit
-:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
+It can be fixed by including corresponding header file:
 
-:::::: TO: Joe Perches <joe@perches.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+#include <linux/vmalloc.h>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+Continue to wait for other review comments and will fix this in the next version.
+
+Thanks.
+
+> 
+> vim +102 net/smc/smc_loopback.c
+> 
+>      79	
+>      80	static int smc_lo_register_dmb(struct smcd_dev *smcd, struct smcd_dmb *dmb,
+>      81				       void *client_priv)
+>      82	{
+>      83		struct smc_lo_dmb_node *dmb_node, *tmp_node;
+>      84		struct smc_lo_dev *ldev = smcd->priv;
+>      85		int sba_idx, rc;
+>      86	
+>      87		/* check space for new dmb */
+>      88		for_each_clear_bit(sba_idx, ldev->sba_idx_mask, SMC_LODEV_MAX_DMBS) {
+>      89			if (!test_and_set_bit(sba_idx, ldev->sba_idx_mask))
+>      90				break;
+>      91		}
+>      92		if (sba_idx == SMC_LODEV_MAX_DMBS)
+>      93			return -ENOSPC;
+>      94	
+>      95		dmb_node = kzalloc(sizeof(*dmb_node), GFP_KERNEL);
+>      96		if (!dmb_node) {
+>      97			rc = -ENOMEM;
+>      98			goto err_bit;
+>      99		}
+>     100	
+>     101		dmb_node->sba_idx = sba_idx;
+>   > 102		dmb_node->cpu_addr = vzalloc(dmb->dmb_len);
+>     103		if (!dmb_node->cpu_addr) {
+>     104			rc = -ENOMEM;
+>     105			goto err_node;
+>     106		}
+>     107		dmb_node->len = dmb->dmb_len;
+>     108		dmb_node->dma_addr = SMC_DMA_ADDR_INVALID;
+>     109	
+>     110	again:
+>     111		/* add new dmb into hash table */
+>     112		get_random_bytes(&dmb_node->token, sizeof(dmb_node->token));
+>     113		write_lock(&ldev->dmb_ht_lock);
+>     114		hash_for_each_possible(ldev->dmb_ht, tmp_node, list, dmb_node->token) {
+>     115			if (tmp_node->token == dmb_node->token) {
+>     116				write_unlock(&ldev->dmb_ht_lock);
+>     117				goto again;
+>     118			}
+>     119		}
+>     120		hash_add(ldev->dmb_ht, &dmb_node->list, dmb_node->token);
+>     121		write_unlock(&ldev->dmb_ht_lock);
+>     122	
+>     123		dmb->sba_idx = dmb_node->sba_idx;
+>     124		dmb->dmb_tok = dmb_node->token;
+>     125		dmb->cpu_addr = dmb_node->cpu_addr;
+>     126		dmb->dma_addr = dmb_node->dma_addr;
+>     127		dmb->dmb_len = dmb_node->len;
+>     128	
+>     129		return 0;
+>     130	
+>     131	err_node:
+>     132		kfree(dmb_node);
+>     133	err_bit:
+>     134		clear_bit(sba_idx, ldev->sba_idx_mask);
+>     135		return rc;
+>     136	}
+>     137	
+>     138	static int smc_lo_unregister_dmb(struct smcd_dev *smcd, struct smcd_dmb *dmb)
+>     139	{
+>     140		struct smc_lo_dmb_node *dmb_node = NULL, *tmp_node;
+>     141		struct smc_lo_dev *ldev = smcd->priv;
+>     142	
+>     143		/* remove dmb from hash table */
+>     144		write_lock(&ldev->dmb_ht_lock);
+>     145		hash_for_each_possible(ldev->dmb_ht, tmp_node, list, dmb->dmb_tok) {
+>     146			if (tmp_node->token == dmb->dmb_tok) {
+>     147				dmb_node = tmp_node;
+>     148				break;
+>     149			}
+>     150		}
+>     151		if (!dmb_node) {
+>     152			write_unlock(&ldev->dmb_ht_lock);
+>     153			return -EINVAL;
+>     154		}
+>     155		hash_del(&dmb_node->list);
+>     156		write_unlock(&ldev->dmb_ht_lock);
+>     157	
+>     158		clear_bit(dmb_node->sba_idx, ldev->sba_idx_mask);
+>   > 159		vfree(dmb_node->cpu_addr);
+>     160		kfree(dmb_node);
+>     161	
+>     162		return 0;
+>     163	}
+>     164	
+> 
