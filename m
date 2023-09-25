@@ -1,134 +1,153 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11CE915494;
-	Mon, 25 Sep 2023 20:40:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695674459; x=1727210459;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VlUjdyltOZyETgHH9ITiS2d/gAV4ljty/uBGboprFLU=;
-  b=SQTJeyQuL/xnXyGnbK58UPnrjDIvfTNJS+Q7WGrNwdp/XQxhgu1mNI8j
-   qpftvBOCCsMdjwc+N7AAzClAS2e+a02+vMk7pNEp2dsJnzYNF/xBvBmzZ
-   ElpOShYwpv5IPMKbLtIgrLoZ6bWKawa41B6kY6moLhwHc+tPL51xU+iCs
-   zp4o0EY4OdQj3hXYsz97eNVhK9Tw6yK6ljYjY78N2X5Khwq5z1jK6V3TH
-   Z+uSm3S8v1s2l9IdSlDw8is4yUnzRS4oKB0JqJ25N1CbAXZBpEvnisGKE
-   YaVQYo8+OfMfo5eyA+bljnMEjObD+oOWU1MuvnL2IYL9BozeCmSFe+4en
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="360761986"
-X-IronPort-AV: E=Sophos;i="6.03,176,1694761200"; 
-   d="scan'208";a="360761986"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 13:40:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="742046325"
-X-IronPort-AV: E=Sophos;i="6.03,176,1694761200"; 
-   d="scan'208";a="742046325"
-Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 25 Sep 2023 13:40:52 -0700
-Received: from kbuild by 32c80313467c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qksNt-00020R-2m;
-	Mon, 25 Sep 2023 20:40:49 +0000
-Date: Tue, 26 Sep 2023 04:39:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Daniel Gomez <da.gomez@samsung.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 6/6] shmem: add large folios support to the write path
-Message-ID: <202309260433.1Ai6wzDe-lkp@intel.com>
-References: <20230919135536.2165715-7-da.gomez@samsung.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7DD15494
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 20:49:32 +0000 (UTC)
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-41513d2cca7so123481cf.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 13:49:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1695674971; x=1696279771; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pK8VYz8FLmFdqFr7YXv95qBS2lVcAXB+4HwVM7h/HKA=;
+        b=xzkDKeVgJv2Vdl4hI4ITiKFdQXtsWHIKIH+4zrpn73pDMqo1QbGpwtuoZSxOCo5gbV
+         pn3DEAtMJPgPScf5dKJmPVNTolC0P9V91iCyIA8lcSSplK+lj3HnfJvsgjNCfIGfCEwO
+         s0EUxXhxyn6SnShi4+sGRXs/6/dn9NaAcHZ4xL8XrYIeUPCRvVmLZlRrUnEktcXR/dhg
+         aQPJRF2SVaXcsOhgeGtXbZLGFw4e5T5Xf6RWySfb/PvqNp5zcv37alJIRzhIg7Mhwz73
+         vWsjZt6gfupStrzBTGEtUQE9ARu9Fmztn1A6D4hidvBxr5RooZKpAIPbN7j9ITXV1KO2
+         YNCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695674971; x=1696279771;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pK8VYz8FLmFdqFr7YXv95qBS2lVcAXB+4HwVM7h/HKA=;
+        b=hU5H5gz62jsUX4Kd649w/Nx2y2gbn++5EmwjE7R50AZya3xmrHGAwaSe3K6U/XdB5a
+         4dVjsE9WpWmEbmtm536Dexrvp7Ccy3afSjxAtmcClgCd8zrcg2pYMHP9FqQv+uiV10xa
+         cGZ9XqOV1kg3lQ4J0AY9t10+dii3/NWKh67i/VB/9WNlzZeCjRyubtDfzS0bqRQJ4st6
+         WfsHEaYagD4M3VeWo0nf2v5AqpmK1hYiMK3Weu6+r4P6f3fm8anvEs/zq2aJ1ysauUiV
+         lynihgAk3asizwSmNIQ5vCptuIGhMqP2t1EQvf+/av883zjLYUvB/OJZ6dLyuh42Nif+
+         ERFA==
+X-Gm-Message-State: AOJu0YyuyHUhqo2z09/kuubYx9YrsGCAvqIXK4PJ1ga+lwtKiv0acmMw
+	NolKORji7Ls8P/a5ePCgIWyIHgcvcf3utGqzB7kKHk6dDNmtmNAM66WHKw==
+X-Google-Smtp-Source: AGHT+IGhl8Ns5Vxcp8XdHuBSBPP9EgT/tJ+ospWL6ZjEU7IYKkvFtJWSoe0GY+J86CRHtGtmGxqjBQ6gJlDBv4MlsDI=
+X-Received: by 2002:a05:622a:100f:b0:417:9238:5a30 with SMTP id
+ d15-20020a05622a100f00b0041792385a30mr23279qte.29.1695674971183; Mon, 25 Sep
+ 2023 13:49:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230919135536.2165715-7-da.gomez@samsung.com>
+References: <alpine.DEB.2.22.394.2309252107030.3165@hadrien>
+In-Reply-To: <alpine.DEB.2.22.394.2309252107030.3165@hadrien>
+From: Guenter Roeck <groeck@google.com>
+Date: Mon, 25 Sep 2023 13:49:17 -0700
+Message-ID: <CABXOdTeoq8DuKkQoOvHSRJ9txxpKgJkAZv7vMzACTY6edi0=uw@mail.gmail.com>
+Subject: Re: [chrome-os:chromeos-5.4 32/34] drivers/iio/industrialio-core.c:1851:2-8:
+ preceding lock on line 1848 (fwd)
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: cros-kernel-buildreports@googlegroups.com, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Daniel,
+Hi Julia,
 
-kernel test robot noticed the following build errors:
+On Mon, Sep 25, 2023 at 12:08=E2=80=AFPM Julia Lawall <julia.lawall@inria.f=
+r> wrote:
+>
+> Is it intended to hold the lock when successfully exiting the function?
+> If so, perhaps that information could be added to the predecing comment.
+>
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v6.6-rc3 next-20230925]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This code originates from the upstream kernel, and it indeed locks the
+mutex in one function and releases it in another. Should the functions
+be tagged with __acquires() and __releases() ? If so, that should
+probably be done in the upstream kernel.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Gomez/shmem-drop-BLOCKS_PER_PAGE-macro/20230920-005146
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230919135536.2165715-7-da.gomez%40samsung.com
-patch subject: [PATCH v2 6/6] shmem: add large folios support to the write path
-config: arm-spear3xx_defconfig (https://download.01.org/0day-ci/archive/20230926/202309260433.1Ai6wzDe-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309260433.1Ai6wzDe-lkp@intel.com/reproduce)
+Thanks,
+Guenter
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309260433.1Ai6wzDe-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> mm/shmem.c:1734:15: error: call to '__compiletime_assert_307' declared with 'error' attribute: BUILD_BUG failed
-           if (order == HPAGE_PMD_ORDER)
-                        ^
-   include/linux/huge_mm.h:67:26: note: expanded from macro 'HPAGE_PMD_ORDER'
-   #define HPAGE_PMD_ORDER (HPAGE_PMD_SHIFT-PAGE_SHIFT)
-                            ^
-   include/linux/huge_mm.h:257:28: note: expanded from macro 'HPAGE_PMD_SHIFT'
-   #define HPAGE_PMD_SHIFT ({ BUILD_BUG(); 0; })
-                              ^
-   include/linux/build_bug.h:59:21: note: expanded from macro 'BUILD_BUG'
-   #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-                       ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:413:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:406:4: note: expanded from macro '__compiletime_assert'
-                           prefix ## suffix();                             \
-                           ^
-   <scratch space>:52:1: note: expanded from here
-   __compiletime_assert_307
-   ^
-   1 error generated.
-
-
-vim +1734 mm/shmem.c
-
-  1722	
-  1723	static struct folio *shmem_alloc_and_acct_folio(gfp_t gfp, struct inode *inode,
-  1724			pgoff_t index, unsigned int order)
-  1725	{
-  1726		struct shmem_inode_info *info = SHMEM_I(inode);
-  1727		struct folio *folio;
-  1728		int nr = 1U << order;
-  1729		int err = shmem_inode_acct_block(inode, nr);
-  1730	
-  1731		if (err)
-  1732			goto failed;
-  1733	
-> 1734		if (order == HPAGE_PMD_ORDER)
-  1735			folio = shmem_alloc_hugefolio(gfp, info, index);
-  1736		else
-  1737			folio = shmem_alloc_folio(gfp, info, index, order);
-  1738		if (folio) {
-  1739			__folio_set_locked(folio);
-  1740			__folio_set_swapbacked(folio);
-  1741			return folio;
-  1742		}
-  1743	
-  1744		err = -ENOMEM;
-  1745		shmem_inode_unacct_blocks(inode, nr);
-  1746	failed:
-  1747		return ERR_PTR(err);
-  1748	}
-  1749	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> julia
+>
+> ---------- Forwarded message ----------
+> Date: Tue, 26 Sep 2023 02:24:25 +0800
+> From: kernel test robot <lkp@intel.com>
+> To: oe-kbuild@lists.linux.dev
+> Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+> Subject: [chrome-os:chromeos-5.4 32/34]
+>     drivers/iio/industrialio-core.c:1851:2-8: preceding lock on line 1848
+>
+> BCC: lkp@intel.com
+> CC: oe-kbuild-all@lists.linux.dev
+> TO: cros-kernel-buildreports@googlegroups.com
+> TO: Guenter Roeck <groeck@google.com>
+>
+> tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel c=
+hromeos-5.4
+> head:   47a5bab6041a6e6381156a2dfe5781ded89ffa63
+> commit: 16382e4ab8163f25b527ef0982887c66a9042a42 [32/34] BACKPORT: iio: c=
+ore: introduce iio_device_{claim|release}_buffer_mode() APIs
+> :::::: branch date: 2 days ago
+> :::::: commit date: 4 days ago
+> config: x86_64-randconfig-101-20230925 (https://download.01.org/0day-ci/a=
+rchive/20230926/202309260246.FFJPzbf1-lkp@intel.com/config)
+> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230926/202309260246=
+.FFJPzbf1-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Julia Lawall <julia.lawall@inria.fr>
+> | Closes: https://lore.kernel.org/r/202309260246.FFJPzbf1-lkp@intel.com/
+>
+> cocci warnings: (new ones prefixed by >>)
+> >> drivers/iio/industrialio-core.c:1851:2-8: preceding lock on line 1848
+>
+> vim +1851 drivers/iio/industrialio-core.c
+>
+> 08a33805518e784 Alison Schofield 2016-03-09  1834
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1835  /**
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1836   * iio_device_cla=
+im_buffer_mode - Keep device in buffer mode
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1837   * @indio_dev:   =
+    the iio_dev associated with the device
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1838   *
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1839   * If the device =
+is in buffer mode it is guaranteed to stay
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1840   * that way until=
+ iio_device_release_buffer_mode() is called.
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1841   *
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1842   * Use with iio_d=
+evice_release_buffer_mode().
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1843   *
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1844   * Returns: 0 on =
+success, -EBUSY on failure.
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1845   */
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1846  int iio_device_cl=
+aim_buffer_mode(struct iio_dev *indio_dev)
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1847  {
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12 @1848       mutex_lock(&=
+indio_dev->mlock);
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1849
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1850       if (iio_buff=
+er_enabled(indio_dev))
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12 @1851               retu=
+rn 0;
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1852
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1853       mutex_unlock=
+(&indio_dev->mlock);
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1854       return -EBUS=
+Y;
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1855  }
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1856  EXPORT_SYMBOL_GPL=
+(iio_device_claim_buffer_mode);
+> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1857
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
