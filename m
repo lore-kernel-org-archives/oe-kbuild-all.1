@@ -1,52 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2F01170A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 21:42:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE3D2421C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 21:52:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695678177; x=1727214177;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=snNq+RshksgPyasRZ5b0PQsm78eS6KzqCuWRL3ih9JA=;
-  b=TvKxBLM2KkwbLN/IozG53gr8mldqYGwSmKogLkC5bfeCq+zCNyX1BwPQ
-   mHpIz3bxJqeEZa8+4HeA403Lycd8WWUV5Jd5fupTkZSWFmt5dCT1rPKr+
-   ocYd/uIwOyH/nbn3Y1uZ7H7AHV79Q5DlV/0htJ/lL1k02qr8LeQFcatfZ
-   FRkwD6SzQYKz47DnDPx07j2D7QVS4wVv72xWXAd2tWW3kV7K7D0zZOZF3
-   eZt0aUPoD3RFvzPo4+ERwgq8uIpLq3lzlME20SCGmkrx7qsORmhOCDj/h
-   q92Krk6erXw73FtrKOv120AnjnrMYEZHYg/xnJGasFxufpRuKQKTE4oNc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="380273457"
+  t=1695678775; x=1727214775;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JHeVC/tbF3v7Nwq9QnuhqTPmw9B2stuy6QcGwLqcI00=;
+  b=Bo62r0g3neZuh9ScNczroFc/sVsR3dytBFuvnkhuQ82GW763YeUkExWE
+   0gvL2dLVJ79LdUlASdromOyLa5R1Sc3ajm+Mn2I/EO4bh8ZejbQdl6VHX
+   7l5JV6AzZKP46B1IqZVC8ykw7T8b30RDMhoXGgGgt9O52ZtOamMp59fVj
+   5J3ja7uGY6m4z4leF/tu5JrSO29InKPzXftqpf9yLrsF4XDPHUrNZ9OKv
+   jvIcs+C0cNKbNZoupQ6Fhe4FWQ/M79VYyy2I/809p43gBVQFyqGmTcqq2
+   /LRF549OqIGECeQFJFhzbRMfC3DChKCc0NbnQaG45F1GAulKxa3arq6zv
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="381315495"
 X-IronPort-AV: E=Sophos;i="6.03,176,1694761200"; 
-   d="scan'208";a="380273457"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 14:42:57 -0700
+   d="scan'208";a="381315495"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 14:52:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="838725559"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="864126093"
 X-IronPort-AV: E=Sophos;i="6.03,176,1694761200"; 
-   d="scan'208";a="838725559"
+   d="scan'208";a="864126093"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 25 Sep 2023 14:42:53 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 25 Sep 2023 14:52:54 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qktLv-00022n-1Q;
-	Mon, 25 Sep 2023 21:42:51 +0000
-Date: Tue, 26 Sep 2023 05:42:19 +0800
+	id 1qktVb-00023b-2g;
+	Mon, 25 Sep 2023 21:52:51 +0000
+Date: Tue, 26 Sep 2023 05:52:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, hdegoede@redhat.com,
-	markgross@kernel.org, basavaraj.natikar@amd.com, jikos@kernel.org,
-	benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
-	christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
-	daniel@ffwll.ch
-Cc: oe-kbuild-all@lists.linux.dev,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	amd-gfx@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, Patil.Reddy@amd.com,
-	linux-input@vger.kernel.org, mario.limonciello@amd.com
-Subject: Re: [PATCH 08/15] platform/x86/amd/pmf: Add support to update system
- state
-Message-ID: <202309260515.5XbR6N0g-lkp@intel.com>
-References: <20230922175056.244940-9-Shyam-sundar.S-k@amd.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-fix-5k 28/28] lib/dynamic_debug.c:1330:6: warning: no
+ previous declaration for 'dd_store_func_range'
+Message-ID: <202309260510.4jC061ER-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,44 +45,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230922175056.244940-9-Shyam-sundar.S-k@amd.com>
 
-Hi Shyam,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on hid/for-next]
-[also build test WARNING on linus/master v6.6-rc3 next-20230925]
-[cannot apply to drm-misc/drm-misc-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shyam-Sundar-S-K/platform-x86-amd-pmf-Add-PMF-TEE-interface/20230923-015418
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20230922175056.244940-9-Shyam-sundar.S-k%40amd.com
-patch subject: [PATCH 08/15] platform/x86/amd/pmf: Add support to update system state
-reproduce: (https://download.01.org/0day-ci/archive/20230926/202309260515.5XbR6N0g-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git dd-fix-5k
+head:   eac2af73427b308c426b03a2ad349d76e7daa5c7
+commit: eac2af73427b308c426b03a2ad349d76e7daa5c7 [28/28] dyndbg: WIP insert _ddebug_site fields into a maple-tree
+config: i386-randconfig-002-20230925 (https://download.01.org/0day-ci/archive/20230926/202309260510.4jC061ER-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309260510.4jC061ER-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309260515.5XbR6N0g-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309260510.4jC061ER-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/admin-guide/pmf.rst:16: WARNING: Unexpected indentation.
->> Documentation/admin-guide/pmf.rst: WARNING: document isn't included in any toctree
+>> lib/dynamic_debug.c:1330:6: warning: no previous declaration for 'dd_store_func_range' [-Wmissing-declarations]
+    void dd_store_func_range(struct maple_tree *mt, struct _ddebug *start, struct _ddebug *next, int reps)
+         ^~~~~~~~~~~~~~~~~~~
 
-vim +16 Documentation/admin-guide/pmf.rst
 
-    13	
-    14	Please add the following line(s) to
-    15	``/etc/udev/rules.d/99-local.rules``::
-  > 16	        DRIVERS=="amd-pmf", ACTION=="change", ENV{EVENT_ID}=="1", RUN+="/usr/bin/systemctl suspend"
-    17	        DRIVERS=="amd-pmf", ACTION=="change", ENV{EVENT_ID}=="2", RUN+="/usr/bin/systemctl hibernate"
-    18	        DRIVERS=="amd-pmf", ACTION=="change", ENV{EVENT_ID}=="3", RUN+="/bin/loginctl lock-sessions"
-    19	
+vim +/dd_store_func_range +1330 lib/dynamic_debug.c
+
+  1328	
+  1329	#define TAIL_SPACER 1
+> 1330	void dd_store_func_range(struct maple_tree *mt, struct _ddebug *start, struct _ddebug *next, int reps)
+  1331	{
+  1332		int rc;
+  1333	
+  1334		BUG_ON(next != start + reps);
+  1335	
+  1336		v3pr_info("  function: %s, %d debugs %lx-%lx\n",
+  1337			  desc_function(start), reps, (unsigned long)start,
+  1338			  (unsigned long)(next - TAIL_SPACER));
+  1339	
+  1340		rc = mtree_store_range(mt, (unsigned long)start,
+  1341				       (unsigned long)(next - TAIL_SPACER),
+  1342				       (void*)desc_function(start), GFP_KERNEL);
+  1343		if (rc)
+  1344			pr_warn("func:%s range store failed: %d\n",
+  1345				desc_function(start), rc);
+  1346	}
+  1347				 
+  1348	#define find_save_edge(var, name, cur, N) ({				\
+  1349		if (strcmp(var, name)) {					\
+  1350			var = (char*) name;					\
+  1351			v3pr_info(" "#var"name: %s %lx\n", var, (unsigned long)cur - N); \
+  1352			rc = mtree_insert(di->sites_mt, (unsigned long)cur - N,	\
+  1353					  (void*)var, GFP_KERNEL);		\
+  1354			switch (rc) {						\
+  1355			case EEXIST:	pr_err("dd: range is occupied\n"); break; \
+  1356			case EINVAL:	pr_err("dd: invalid request\n"); break;	\
+  1357			case ENOMEM:	pr_err("dd: no memory\n"); break;	\
+  1358			case 0:		v4pr_info(" dd: ok on %s\n", var); break; \
+  1359			default:	pr_warn(" start "#var":%s\n", var);	\
+  1360			}							\
+  1361		}								\
+  1362	})
+  1363	
 
 -- 
 0-DAY CI Kernel Test Service
