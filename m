@@ -1,104 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77FFC11C91
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 15:53:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3EC2C433C7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 15:53:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695657216;
-	bh=ooepbf62NfNRRnW2emPPD9TlOV1yoGGZl++MJ3mT9Go=;
-	h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
-	b=QThg+/g7tA8Q3HNuhk0+kLCehf7YQzjdrl4CpbT0BQNnn1dnMs+3QptIx+ZJ7LTFB
-	 AvExkjG6I67lo43r/de/V+4QMikc6CTYzaRwjPKqebOwLpWxDgskaMNFhf//J+lM+T
-	 KkDe9MGJSDbLB/a4eEb3OOUv3oPfRPs0k3f/rvwb6vdlWheWuhw8xmrTdD1v3gFj5D
-	 NJ5uGMJdsGrpg+VkYrnEUFx1sLTBOihcuEWfZ1XkCfwWG3UUH3msQ9dIjatmF4BFJJ
-	 lMlA+LbdupehrjW/zBLrrFBbbwVUYuQV6TG+LR5JLE7HJ7xUWzlT8Hs+PMBWO3HJIU
-	 qiIOLvfe0xm3A==
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailauth.nyi.internal (Postfix) with ESMTP id AC2D927C005B;
-	Mon, 25 Sep 2023 11:53:35 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Mon, 25 Sep 2023 11:53:35 -0400
-X-ME-Sender: <xms:_6wRZcVsS_CY8bCh6HwGhe8AHmBKbAzzEKXMK2I_vRD4qX9A3eLWww>
-    <xme:_6wRZQlqaHdFSn6rafJexjC11X2oIVpgZPORpdNBAjpDGXOUV5JZjn3cWwZu6msPq
-    tldA7qiVF_sU7eywMg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudelgedgleefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusehkvghrnhgvlhdrohhrgheqnecuggftrf
-    grthhtvghrnhepvdeviefgtedugeevieelvdfgveeuvdfgteegfeeiieejjeffgeeghedu
-    gedtveehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    eprghrnhguodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduvdekhedujedt
-    vdegqddvkeejtddtvdeigedqrghrnhgupeepkhgvrhhnvghlrdhorhhgsegrrhhnuggsrd
-    guvg
-X-ME-Proxy: <xmx:_6wRZQaUZSxSsRJr0CT8Zad0ZHRh54apFhcuZMDxHk4laqtwZFXpWA>
-    <xmx:_6wRZbXWqBj6gFaS7YPZ7Wg2aWJOVAWRss5sltFpm_ekuJHudi_g4Q>
-    <xmx:_6wRZWnN6VFI3ktiw_a0dUAeIeipS0edcfF71yn8vah0MweVCJSriA>
-    <xmx:_6wRZasjnpnFEAv42HOAduv-kdK6J5Y-qbtfhIUiUckL8yxKr3OU-A>
-Feedback-ID: i36794607:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 20CE4B6008D; Mon, 25 Sep 2023 11:53:35 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-957-ga1ccdb4cff-fm-20230919.001-ga1ccdb4c
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E11219F4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 15:59:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695657573; x=1727193573;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Agip7NiufgUtwn8yYnWGFOa6/EV2/BQIOm1L6bkP7EU=;
+  b=h/grsFm/+inGEFAZQyfVuQ9XoWaoTgxPaU8mMqlYxQv59mx6Vjpmn/xQ
+   Hd6xgdwgIKxuc1o7K8slxXnx5N/UEuyhxhPl+S/gWxg52AtbrdUbhkGtU
+   YoywjrOlrBwcM1c7C6uZrM/FpGfPEN5v8QZxA74WwEGFAs/8/dJzXSled
+   hWl33E49z2/ObuYiM7NhWNFPBB1gNqwRmC2IfT2fg4Uwyv8qKIHKZtRy6
+   50PbN4r6BPap2CLylNuBLlEb+v1O8MixE+gvaohMTKPLnV22tItFus9ZA
+   PBHtPOWaw7WguK1k9azuhbcYK3bNakC757CTv/oUO8XYSqqVD2ytBChS9
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="445398263"
+X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
+   d="scan'208";a="445398263"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 08:59:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="814021520"
+X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
+   d="scan'208";a="814021520"
+Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 25 Sep 2023 08:59:30 -0700
+Received: from kbuild by 32c80313467c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qknzc-0001jT-1A;
+	Mon, 25 Sep 2023 15:59:28 +0000
+Date: Mon, 25 Sep 2023 23:58:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: liuhaoran <liuhaoran14@163.com>, davem@davemloft.net
+Cc: oe-kbuild-all@lists.linux.dev, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, netdev@vger.kernel.org,
+	liuhaoran <liuhaoran14@163.com>
+Subject: Re: [PATCH] net: phonet: Add error handling in phonet_device_init
+Message-ID: <202309252347.ef6inFEC-lkp@intel.com>
+References: <20230923115847.32740-1-liuhaoran14@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <d1e0c228-04bd-4cd9-a8b0-1104a49068d0@app.fastmail.com>
-In-Reply-To: <202309251926.bPl23AhG-lkp@intel.com>
-References: <202309251926.bPl23AhG-lkp@intel.com>
-Date: Mon, 25 Sep 2023 17:53:14 +0200
-From: "Arnd Bergmann" <arnd@kernel.org>
-To: "kernel test robot" <lkp@intel.com>,
- "Niklas Schnelle" <schnelle@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Geert Uytterhoeven" <geert@linux-m68k.org>
-Subject: Re: [niks:has_ioport_v6 17/36] arch/m68k/include/asm/io_mm.h:375:44: warning:
- passing argument 1 of 'raw_insb' discards 'const' qualifier from pointer
- target type
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230923115847.32740-1-liuhaoran14@163.com>
 
-On Mon, Sep 25, 2023, at 13:04, kernel test robot wrote:
-> All warnings (new ones prefixed by >>):
->
->    In file included from arch/m68k/include/asm/io.h:8,
->                     from include/linux/io.h:13,
->                     from include/linux/irq.h:20,
->                     from include/asm-generic/hardirq.h:17,
->                     from ./arch/m68k/include/generated/asm/hardirq.h:1,
->                     from include/linux/hardirq.h:11,
->                     from include/linux/highmem.h:12,
->                     from include/linux/bvec.h:10,
->                     from include/linux/skbuff.h:17,
->                     from include/net/net_namespace.h:43,
->                     from include/linux/inet.h:42,
->                     from fs/smb/client/trace.h:15,
->                     from fs/smb/client/trace.c:8:
->    include/asm-generic/io.h: In function 'ioread8_rep':
->>> arch/m68k/include/asm/io_mm.h:375:44: warning: passing argument 1 of 'raw_insb' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
->      375 | #define readsb(port, buf, nr)     raw_insb((port), (u8 
-> *)(buf), (nr))
->          |                                            ^~~~~~
->    include/asm-generic/io.h:916:9: note: in expansion of macro 'readsb'
->      916 |         readsb(addr, buffer, count);
->          |         ^~~~~~
->    In file included from arch/m68k/include/asm/io_mm.h:25:
->    arch/m68k/include/asm/raw_io.h:101:50: note: expected 'volatile u8 
-> *' {aka 'volatile unsigned char *'} but argument is of type 'const 
-> volatile void *'
->      101 | static inline void raw_insb(volatile u8 __iomem *port, u8 
-> *buf, unsigned int len)
->          |                             ~~~~~~~~~~~~~~~~~~~~~^~~~
->    include/asm-generic/io.h: In function 'ioread16_rep':
->>> arch/m68k/include/asm/io_mm.h:376:44: warning: passing argument 1 of 'raw_insw' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
->      376 | #define readsw(port, buf, nr)     raw_insw((port), (u16 
-> *)(buf), (nr))
->          |                                            ^~~~~~
+Hi liuhaoran,
 
-Not sure what caused the warning, but it should be easy to avoid,
-I'll send a patch.
+kernel test robot noticed the following build warnings:
 
-       Arnd
+[auto build test WARNING on net-next/main]
+[also build test WARNING on net/main linus/master horms-ipvs/master v6.6-rc3 next-20230925]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/liuhaoran/net-phonet-Add-error-handling-in-phonet_device_init/20230923-200141
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230923115847.32740-1-liuhaoran14%40163.com
+patch subject: [PATCH] net: phonet: Add error handling in phonet_device_init
+config: x86_64-randconfig-123-20230925 (https://download.01.org/0day-ci/archive/20230925/202309252347.ef6inFEC-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309252347.ef6inFEC-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309252347.ef6inFEC-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> net/phonet/pn_dev.c:339:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected int err @@     got struct proc_dir_entry * @@
+   net/phonet/pn_dev.c:339:13: sparse:     expected int err
+   net/phonet/pn_dev.c:339:13: sparse:     got struct proc_dir_entry *
+
+vim +339 net/phonet/pn_dev.c
+
+   331	
+   332	/* Initialize Phonet devices list */
+   333	int __init phonet_device_init(void)
+   334	{
+   335		int err = register_pernet_subsys(&phonet_net_ops);
+   336		if (err)
+   337			return err;
+   338	
+ > 339		err = proc_create_net("pnresource", 0, init_net.proc_net, &pn_res_seq_ops,
+   340				      sizeof(struct seq_net_private));
+   341	
+   342		if (!err)
+   343			return err;
+   344	
+   345		err = register_netdevice_notifier(&phonet_device_notifier);
+   346	
+   347		if (!err)
+   348			return err;
+   349	
+   350		err = phonet_netlink_register();
+   351	
+   352		if (err)
+   353			phonet_device_exit();
+   354		return err;
+   355	}
+   356	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
