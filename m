@@ -1,153 +1,322 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7DD15494
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 20:49:32 +0000 (UTC)
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-41513d2cca7so123481cf.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 13:49:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695674971; x=1696279771; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pK8VYz8FLmFdqFr7YXv95qBS2lVcAXB+4HwVM7h/HKA=;
-        b=xzkDKeVgJv2Vdl4hI4ITiKFdQXtsWHIKIH+4zrpn73pDMqo1QbGpwtuoZSxOCo5gbV
-         pn3DEAtMJPgPScf5dKJmPVNTolC0P9V91iCyIA8lcSSplK+lj3HnfJvsgjNCfIGfCEwO
-         s0EUxXhxyn6SnShi4+sGRXs/6/dn9NaAcHZ4xL8XrYIeUPCRvVmLZlRrUnEktcXR/dhg
-         aQPJRF2SVaXcsOhgeGtXbZLGFw4e5T5Xf6RWySfb/PvqNp5zcv37alJIRzhIg7Mhwz73
-         vWsjZt6gfupStrzBTGEtUQE9ARu9Fmztn1A6D4hidvBxr5RooZKpAIPbN7j9ITXV1KO2
-         YNCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695674971; x=1696279771;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pK8VYz8FLmFdqFr7YXv95qBS2lVcAXB+4HwVM7h/HKA=;
-        b=hU5H5gz62jsUX4Kd649w/Nx2y2gbn++5EmwjE7R50AZya3xmrHGAwaSe3K6U/XdB5a
-         4dVjsE9WpWmEbmtm536Dexrvp7Ccy3afSjxAtmcClgCd8zrcg2pYMHP9FqQv+uiV10xa
-         cGZ9XqOV1kg3lQ4J0AY9t10+dii3/NWKh67i/VB/9WNlzZeCjRyubtDfzS0bqRQJ4st6
-         WfsHEaYagD4M3VeWo0nf2v5AqpmK1hYiMK3Weu6+r4P6f3fm8anvEs/zq2aJ1ysauUiV
-         lynihgAk3asizwSmNIQ5vCptuIGhMqP2t1EQvf+/av883zjLYUvB/OJZ6dLyuh42Nif+
-         ERFA==
-X-Gm-Message-State: AOJu0YyuyHUhqo2z09/kuubYx9YrsGCAvqIXK4PJ1ga+lwtKiv0acmMw
-	NolKORji7Ls8P/a5ePCgIWyIHgcvcf3utGqzB7kKHk6dDNmtmNAM66WHKw==
-X-Google-Smtp-Source: AGHT+IGhl8Ns5Vxcp8XdHuBSBPP9EgT/tJ+ospWL6ZjEU7IYKkvFtJWSoe0GY+J86CRHtGtmGxqjBQ6gJlDBv4MlsDI=
-X-Received: by 2002:a05:622a:100f:b0:417:9238:5a30 with SMTP id
- d15-20020a05622a100f00b0041792385a30mr23279qte.29.1695674971183; Mon, 25 Sep
- 2023 13:49:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157E91170A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 21:00:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695675655; x=1727211655;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hP0kyE/1B9v498jfdv47SVZuQywuNZuvg1ocILK96XE=;
+  b=YlTyvjtqmkNktXlar1OL9URkCrhtWhGL/BUqEva4JbNVmVm8Foe4ZyC+
+   G1Q2rrDhLkLnpOqmHANY5k++v6rXFlzPUS5U8ce9lw8kudloppsbx3AsQ
+   +4pZmdebMHSTQVqQOIqsNSigRqGKU4AEi9NDxEb2KuQo4CQ/wC/3jQDwk
+   cqJ6r/y4Ut609gs864g062KxSY8vt6rvpd6EXlGOLa3Y6fPYlTFL1YyTe
+   I5vbpZknFKU+B1DFswQxKCg+N+LQ6dOPqAXFYSDsP9UeLHHZ6OeMJKBDU
+   Nk7Xlpo4KEmO21BVN2u3NH1e+L/YuRJl1GLwtwp7Dguio9/bqf+qElXCA
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="447880180"
+X-IronPort-AV: E=Sophos;i="6.03,176,1694761200"; 
+   d="scan'208";a="447880180"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 14:00:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="751881804"
+X-IronPort-AV: E=Sophos;i="6.03,176,1694761200"; 
+   d="scan'208";a="751881804"
+Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 25 Sep 2023 14:00:52 -0700
+Received: from kbuild by 32c80313467c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qkshG-00021N-1e;
+	Mon, 25 Sep 2023 21:00:50 +0000
+Date: Tue, 26 Sep 2023 05:00:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tina Zhang <tina.zhang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tinazhangzw:per-iommu_IOTLB_invalidation 9/14]
+ sound/pci/ad1889.c:47:12: warning: 'index' defined but not used
+Message-ID: <202309260433.4iCwXhM2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <alpine.DEB.2.22.394.2309252107030.3165@hadrien>
-In-Reply-To: <alpine.DEB.2.22.394.2309252107030.3165@hadrien>
-From: Guenter Roeck <groeck@google.com>
-Date: Mon, 25 Sep 2023 13:49:17 -0700
-Message-ID: <CABXOdTeoq8DuKkQoOvHSRJ9txxpKgJkAZv7vMzACTY6edi0=uw@mail.gmail.com>
-Subject: Re: [chrome-os:chromeos-5.4 32/34] drivers/iio/industrialio-core.c:1851:2-8:
- preceding lock on line 1848 (fwd)
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: cros-kernel-buildreports@googlegroups.com, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Julia,
+tree:   https://github.com/TinaZhangZW/linux.git per-iommu_IOTLB_invalidation
+head:   c5144840fce67da51a43d9b6ef05b4b344f5786f
+commit: fa8b08eb650d3a32f2190224035305d113bbea75 [9/14] iommu: Add mmu_notifier to iommu_domain
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230926/202309260433.4iCwXhM2-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309260433.4iCwXhM2-lkp@intel.com/reproduce)
 
-On Mon, Sep 25, 2023 at 12:08=E2=80=AFPM Julia Lawall <julia.lawall@inria.f=
-r> wrote:
->
-> Is it intended to hold the lock when successfully exiting the function?
-> If so, perhaps that information could be added to the predecing comment.
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309260433.4iCwXhM2-lkp@intel.com/
 
-This code originates from the upstream kernel, and it indeed locks the
-mutex in one function and releases it in another. Should the functions
-be tagged with __acquires() and __releases() ? If so, that should
-probably be done in the upstream kernel.
+All warnings (new ones prefixed by >>):
 
-Thanks,
-Guenter
+   In file included from arch/s390/include/asm/pci.h:7,
+                    from include/linux/pci.h:2037,
+                    from sound/pci/ad1889.c:24:
+   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
+     117 |                         struct mmu_notifier notifier;
+         |                                             ^~~~~~~~
+   In file included from include/linux/init.h:5,
+                    from sound/pci/ad1889.c:23:
+   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:231:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     231 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:57:59: note: in expansion of macro '__must_be_array'
+      57 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:517:20: note: in expansion of macro 'ARRAY_SIZE'
+     517 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
+         |                    ^~~~~~~~~~
+   include/linux/moduleparam.h:501:9: note: in expansion of macro 'module_param_array_named'
+     501 |         module_param_array_named(name, name, type, nump, perm)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/pci/ad1889.c:48:1: note: in expansion of macro 'module_param_array'
+      48 | module_param_array(index, int, NULL, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+>> sound/pci/ad1889.c:47:12: warning: 'index' defined but not used [-Wunused-variable]
+      47 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
+         |            ^~~~~
+--
+   In file included from arch/s390/include/asm/pci.h:7,
+                    from include/linux/pci.h:2037,
+                    from sound/pci/atiixp.c:12:
+   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
+     117 |                         struct mmu_notifier notifier;
+         |                                             ^~~~~~~~
+>> sound/pci/atiixp.c:27:12: warning: 'index' defined but not used [-Wunused-variable]
+      27 | static int index = SNDRV_DEFAULT_IDX1;  /* Index 0-MAX */
+         |            ^~~~~
+--
+   In file included from arch/s390/include/asm/pci.h:7,
+                    from include/linux/pci.h:2037,
+                    from sound/pci/atiixp_modem.c:12:
+   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
+     117 |                         struct mmu_notifier notifier;
+         |                                             ^~~~~~~~
+>> sound/pci/atiixp_modem.c:27:12: warning: 'index' defined but not used [-Wunused-variable]
+      27 | static int index = -2; /* Exclude the first card */
+         |            ^~~~~
+--
+   In file included from arch/s390/include/asm/pci.h:7,
+                    from include/linux/pci.h:2037,
+                    from sound/pci/intel8x0.c:18:
+   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
+     117 |                         struct mmu_notifier notifier;
+         |                                             ^~~~~~~~
+>> sound/pci/intel8x0.c:31:12: warning: 'index' defined but not used [-Wunused-variable]
+      31 | static int index = SNDRV_DEFAULT_IDX1;  /* Index 0-MAX */
+         |            ^~~~~
+--
+   In file included from arch/s390/include/asm/pci.h:7,
+                    from include/linux/pci.h:2037,
+                    from sound/pci/intel8x0m.c:15:
+   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
+     117 |                         struct mmu_notifier notifier;
+         |                                             ^~~~~~~~
+>> sound/pci/intel8x0m.c:29:12: warning: 'index' defined but not used [-Wunused-variable]
+      29 | static int index = -2; /* Exclude the first card */
+         |            ^~~~~
+--
+   In file included from arch/s390/include/asm/pci.h:7,
+                    from include/linux/pci.h:2037,
+                    from sound/pci/aw2/aw2-alsa.c:11:
+   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
+     117 |                         struct mmu_notifier notifier;
+         |                                             ^~~~~~~~
+   In file included from include/linux/init.h:5,
+                    from sound/pci/aw2/aw2-alsa.c:10:
+   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:231:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     231 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:57:59: note: in expansion of macro '__must_be_array'
+      57 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:517:20: note: in expansion of macro 'ARRAY_SIZE'
+     517 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
+         |                    ^~~~~~~~~~
+   include/linux/moduleparam.h:501:9: note: in expansion of macro 'module_param_array_named'
+     501 |         module_param_array_named(name, name, type, nump, perm)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/pci/aw2/aw2-alsa.c:137:1: note: in expansion of macro 'module_param_array'
+     137 | module_param_array(index, int, NULL, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+>> sound/pci/aw2/aw2-alsa.c:133:12: warning: 'index' defined but not used [-Wunused-variable]
+     133 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
+         |            ^~~~~
+--
+   In file included from arch/s390/include/asm/pci.h:7,
+                    from include/linux/pci.h:2037,
+                    from sound/pci/lola/lola.c:15:
+   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
+     117 |                         struct mmu_notifier notifier;
+         |                                             ^~~~~~~~
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/kernel.h:21,
+                    from sound/pci/lola/lola.c:8:
+   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:231:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     231 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:57:59: note: in expansion of macro '__must_be_array'
+      57 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:517:20: note: in expansion of macro 'ARRAY_SIZE'
+     517 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
+         |                    ^~~~~~~~~~
+   include/linux/moduleparam.h:501:9: note: in expansion of macro 'module_param_array_named'
+     501 |         module_param_array_named(name, name, type, nump, perm)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/pci/lola/lola.c:27:1: note: in expansion of macro 'module_param_array'
+      27 | module_param_array(index, int, NULL, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+>> sound/pci/lola/lola.c:23:12: warning: 'index' defined but not used [-Wunused-variable]
+      23 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
+         |            ^~~~~
+--
+   In file included from arch/s390/include/asm/pci.h:7,
+                    from include/linux/pci.h:2037,
+                    from sound/pci/hda/hda_intel.c:31:
+   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
+     117 |                         struct mmu_notifier notifier;
+         |                                             ^~~~~~~~
+   In file included from include/linux/bits.h:21,
+                    from arch/s390/include/asm/ptrace.h:10,
+                    from arch/s390/include/asm/lowcore.h:13,
+                    from arch/s390/include/asm/current.h:13,
+                    from include/linux/sched.h:12,
+                    from include/linux/delay.h:23,
+                    from sound/pci/hda/hda_intel.c:23:
+   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:231:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     231 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:57:59: note: in expansion of macro '__must_be_array'
+      57 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:517:20: note: in expansion of macro 'ARRAY_SIZE'
+     517 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
+         |                    ^~~~~~~~~~
+   include/linux/moduleparam.h:501:9: note: in expansion of macro 'module_param_array_named'
+     501 |         module_param_array_named(name, name, type, nump, perm)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/pci/hda/hda_intel.c:125:1: note: in expansion of macro 'module_param_array'
+     125 | module_param_array(index, int, NULL, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+>> sound/pci/hda/hda_intel.c:104:12: warning: 'index' defined but not used [-Wunused-variable]
+     104 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
+         |            ^~~~~
+--
+   In file included from arch/s390/include/asm/pci.h:7,
+                    from include/linux/pci.h:2037,
+                    from sound/pci/mixart/mixart.c:13:
+   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
+     117 |                         struct mmu_notifier notifier;
+         |                                             ^~~~~~~~
+   In file included from include/linux/init.h:5,
+                    from sound/pci/mixart/mixart.c:11:
+   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:231:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     231 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:57:59: note: in expansion of macro '__must_be_array'
+      57 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:517:20: note: in expansion of macro 'ARRAY_SIZE'
+     517 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
+         |                    ^~~~~~~~~~
+   include/linux/moduleparam.h:501:9: note: in expansion of macro 'module_param_array_named'
+     501 |         module_param_array_named(name, name, type, nump, perm)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/pci/mixart/mixart.c:40:1: note: in expansion of macro 'module_param_array'
+      40 | module_param_array(index, int, NULL, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+>> sound/pci/mixart/mixart.c:36:12: warning: 'index' defined but not used [-Wunused-variable]
+      36 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;             /* Index 0-MAX */
+         |            ^~~~~
+--
+   In file included from arch/s390/include/asm/pci.h:7,
+                    from include/linux/pci.h:2037,
+                    from sound/pci/nm256/nm256.c:17:
+   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
+     117 |                         struct mmu_notifier notifier;
+         |                                             ^~~~~~~~
+>> sound/pci/nm256/nm256.c:40:12: warning: 'index' defined but not used [-Wunused-variable]
+      40 | static int index = SNDRV_DEFAULT_IDX1;  /* Index */
+         |            ^~~~~
+--
+   In file included from arch/s390/include/asm/pci.h:7,
+                    from include/linux/pci.h:2037,
+                    from sound/pci/rme9652/rme9652.c:12:
+   include/linux/iommu.h:117:45: error: field 'notifier' has incomplete type
+     117 |                         struct mmu_notifier notifier;
+         |                                             ^~~~~~~~
+   In file included from include/linux/bits.h:21,
+                    from arch/s390/include/asm/ptrace.h:10,
+                    from arch/s390/include/asm/lowcore.h:13,
+                    from arch/s390/include/asm/current.h:13,
+                    from include/linux/sched.h:12,
+                    from include/linux/delay.h:23,
+                    from sound/pci/rme9652/rme9652.c:9:
+   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:231:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     231 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:57:59: note: in expansion of macro '__must_be_array'
+      57 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:517:20: note: in expansion of macro 'ARRAY_SIZE'
+     517 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
+         |                    ^~~~~~~~~~
+   include/linux/moduleparam.h:501:9: note: in expansion of macro 'module_param_array_named'
+     501 |         module_param_array_named(name, name, type, nump, perm)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/pci/rme9652/rme9652.c:31:1: note: in expansion of macro 'module_param_array'
+      31 | module_param_array(index, int, NULL, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+>> sound/pci/rme9652/rme9652.c:26:12: warning: 'index' defined but not used [-Wunused-variable]
+      26 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;      /* Index 0-MAX */
+         |            ^~~~~
+..
 
-> julia
->
-> ---------- Forwarded message ----------
-> Date: Tue, 26 Sep 2023 02:24:25 +0800
-> From: kernel test robot <lkp@intel.com>
-> To: oe-kbuild@lists.linux.dev
-> Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-> Subject: [chrome-os:chromeos-5.4 32/34]
->     drivers/iio/industrialio-core.c:1851:2-8: preceding lock on line 1848
->
-> BCC: lkp@intel.com
-> CC: oe-kbuild-all@lists.linux.dev
-> TO: cros-kernel-buildreports@googlegroups.com
-> TO: Guenter Roeck <groeck@google.com>
->
-> tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel c=
-hromeos-5.4
-> head:   47a5bab6041a6e6381156a2dfe5781ded89ffa63
-> commit: 16382e4ab8163f25b527ef0982887c66a9042a42 [32/34] BACKPORT: iio: c=
-ore: introduce iio_device_{claim|release}_buffer_mode() APIs
-> :::::: branch date: 2 days ago
-> :::::: commit date: 4 days ago
-> config: x86_64-randconfig-101-20230925 (https://download.01.org/0day-ci/a=
-rchive/20230926/202309260246.FFJPzbf1-lkp@intel.com/config)
-> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230926/202309260246=
-.FFJPzbf1-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-> | Closes: https://lore.kernel.org/r/202309260246.FFJPzbf1-lkp@intel.com/
->
-> cocci warnings: (new ones prefixed by >>)
-> >> drivers/iio/industrialio-core.c:1851:2-8: preceding lock on line 1848
->
-> vim +1851 drivers/iio/industrialio-core.c
->
-> 08a33805518e784 Alison Schofield 2016-03-09  1834
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1835  /**
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1836   * iio_device_cla=
-im_buffer_mode - Keep device in buffer mode
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1837   * @indio_dev:   =
-    the iio_dev associated with the device
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1838   *
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1839   * If the device =
-is in buffer mode it is guaranteed to stay
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1840   * that way until=
- iio_device_release_buffer_mode() is called.
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1841   *
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1842   * Use with iio_d=
-evice_release_buffer_mode().
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1843   *
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1844   * Returns: 0 on =
-success, -EBUSY on failure.
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1845   */
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1846  int iio_device_cl=
-aim_buffer_mode(struct iio_dev *indio_dev)
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1847  {
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12 @1848       mutex_lock(&=
-indio_dev->mlock);
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1849
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1850       if (iio_buff=
-er_enabled(indio_dev))
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12 @1851               retu=
-rn 0;
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1852
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1853       mutex_unlock=
-(&indio_dev->mlock);
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1854       return -EBUS=
-Y;
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1855  }
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1856  EXPORT_SYMBOL_GPL=
-(iio_device_claim_buffer_mode);
-> 16382e4ab8163f2 Nuno S=C3=A1          2022-10-12  1857
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+
+vim +/index +47 sound/pci/ad1889.c
+
+12bb5b78e51289 Clemens Ladisch 2005-09-01  46  
+12bb5b78e51289 Clemens Ladisch 2005-09-01 @47  static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
+12bb5b78e51289 Clemens Ladisch 2005-09-01  48  module_param_array(index, int, NULL, 0444);
+12bb5b78e51289 Clemens Ladisch 2005-09-01  49  MODULE_PARM_DESC(index, "Index value for the AD1889 soundcard.");
+12bb5b78e51289 Clemens Ladisch 2005-09-01  50  
+
+:::::: The code at line 47 was first introduced by commit
+:::::: 12bb5b78e512898034cdd8813f2889743fa6fa3d [ALSA] ad1889: add AD1889 driver
+
+:::::: TO: Clemens Ladisch <clemens@ladisch.de>
+:::::: CC: Jaroslav Kysela <perex@suse.cz>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
