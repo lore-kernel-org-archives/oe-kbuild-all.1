@@ -1,333 +1,155 @@
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2139.outbound.protection.outlook.com [40.107.114.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13D29101F8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 06:54:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CUbQLp1QVaheg4PMzAcvAuMwkEbC/iqa34vTMhC3kjo9qmFVrx/UPR5VfKui4WOUqSLOP0fqppYxfp/LISn84eUfS7CazCgLyqtn4yuAUbOzBziCPvO8/Tefw2HCrFpPoPGeQiwLbSFIyLb8sH9xfdEDOlzeDSApPdSynWNdLLLfrRN8cJUPZSa+cqgwjJnrS9IS6VBl04ncq5Y7D9lHV0YSR83Z7fW4e7ha6x200vHpS4PfI46Xf+CorkLA3HXev77ObrfV3OKuW4UYM/NQy/cXC8zDUn1ibVa7Zdcgj8VhuKqsik53xddZhRuTV3qTAkVKLwXcfZgywY/Dz/+hug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AoRM0M4oCzFMS+TMpuoaSAunr4+fiRRqJlUvFWWffsQ=;
- b=TZ7hyt01DBZrfvFRF7N+Y9m9rdh72YP6cClMd56kMGfSFCQoUia1o8nm51Wl3JogrLOCRK0ewOSNsTm7ZODlPce7WUfvg+Hij/pwaPgjmbThjL4w6bIUVda+RVQYDyVtxZ8Lvg9qVK2DP9HHouTAYZ4vx6IIe9IARYubCbei4RgH0fS4ZH7hrYI6e7jIxtrAh51M4a7nP3QAE8yiEtyr1r5PiW7wT084DPGrgoBfUxMofdJdYytiHBnoSZJPV9OgGImKcjLSV+3TiS6yeSQak5QfpgyCXizFWMUaEHOLElXXuMl8EkVaEQi+7Tjpg/J+JEsrl4G26t3siNODLM2yZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AoRM0M4oCzFMS+TMpuoaSAunr4+fiRRqJlUvFWWffsQ=;
- b=Nf2/Uuzw50cteSmB5dcPb6N8X8fHSU0xxk0J/s8SoWrCcL52YHmc7Hp+VTTrrmkhaDImBnSEPSn/5ETlXvtXgSRQ6Aa5rsjqDXA22giNT8bK1OEyP4r6LTJwSNxRJ/0tya4tUwXY9Jwb5smAiy01xi5kzOgZfXS9zfaVeo1KX/8=
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- (2603:1096:404:8028::13) by TYCPR01MB8739.jpnprd01.prod.outlook.com
- (2603:1096:400:18f::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Mon, 25 Sep
- 2023 06:54:40 +0000
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::1dc4:e923:9916:c0f7]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::1dc4:e923:9916:c0f7%6]) with mapi id 15.20.6813.027; Mon, 25 Sep 2023
- 06:54:40 +0000
-From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To: kernel test robot <lkp@intel.com>, "lpieralisi@kernel.org"
-	<lpieralisi@kernel.org>, "kw@linux.com" <kw@linux.com>, "robh@kernel.org"
-	<robh@kernel.org>, "bhelgaas@google.com" <bhelgaas@google.com>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>, "jingoohan1@gmail.com"
-	<jingoohan1@gmail.com>, "gustavo.pimentel@synopsys.com"
-	<gustavo.pimentel@synopsys.com>, "mani@kernel.org" <mani@kernel.org>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	Serge Semin <fancer.lancer@gmail.com>
-Subject: RE: [PATCH v21 13/16] PCI: dwc: rcar-gen4: Add R-Car Gen4 PCIe
- controller support
-Thread-Topic: [PATCH v21 13/16] PCI: dwc: rcar-gen4: Add R-Car Gen4 PCIe
- controller support
-Thread-Index: AQHZ7SGG731ZoKcWlUmOj881Ilc+nrAm3FiAgARDKvA=
-Date: Mon, 25 Sep 2023 06:54:40 +0000
-Message-ID:
- <TYBPR01MB53413B00BEFA34B4ACA4AD68D8FCA@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-References: <20230922065331.3806925-14-yoshihiro.shimoda.uh@renesas.com>
- <202309222125.KiN4nFhD-lkp@intel.com>
-In-Reply-To: <202309222125.KiN4nFhD-lkp@intel.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|TYCPR01MB8739:EE_
-x-ms-office365-filtering-correlation-id: fc6a8593-d0fe-43d9-d61d-08dbbd944a48
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- XQapwxoXrN1HYkAowGGDGOmeV3rxrp/Qr+aEBgf6Ssosn3ISly2qomUAojLSZ/cfRq44uG3sw0KjiBlhGbn1nj7tBt3VmLW7b2atZKovGZw2bXGUiKJ5LQU6pUWLGRauQquJXLzkqqzaDUeaASlWX9/d6zPr41F0l3PGNkODtaknpvycS1tenwggOwFzErp1kIedg+KKzK7xYLsUuuvczH9qjguYZbD8SD/KlN20Y3YH14r0N70OH8C3CyCE0xajVFj6zjjl3UR0m5klDA1S4QMIi1f4rZslI0CFvNuv1ztvWKnyJvlkOFct0N2nYDT9Qd6cWWj2APyXE7regWcy/7q1XsK4CGn/4ZajgA39flvb2kTKaFLclmYePVVR6/6rdoPup4Po4zvcEEB5plGZ7YfwmDKblds6fCBloOBFmPLEZ7pCOYFqg/TOFPkSlCcqtQxoLNpVO8No+5k1rHbiogylFlnbSObs48AItLHkXx371gyKHqt7B/vHhwaQlr5odHUH0zcA07HdWopjWAtDutvXXMytWO3K97RlSfAgbpbqR0Ir25ykSP+CjfEBz7apTHq5QFbuDp5Y8TTNukX327fRXk6LZq+NOy+cxtRVSqNBJGxBfMsxIqUl9Wm8xaJH
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(136003)(346002)(366004)(376002)(396003)(230922051799003)(1800799009)(186009)(451199024)(33656002)(122000001)(38100700002)(38070700005)(86362001)(55016003)(5660300002)(9686003)(45080400002)(2906002)(66476007)(478600001)(41300700001)(52536014)(966005)(76116006)(316002)(66556008)(54906003)(64756008)(66446008)(110136005)(66946007)(71200400001)(6506007)(7416002)(7696005)(83380400001)(921005)(4326008)(8676002)(8936002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?xcRcuxwzkkgucWk/5KwGVpeqn2IR44X6lNmGWNjgjVoMaggICub7YO+pabF1?=
- =?us-ascii?Q?9s8e+8gj+CJvphV6FdW+7AhmJ3BQuzoLW3jc9XGyNRZrocvwctuLiYRI6MlX?=
- =?us-ascii?Q?KYVluTCQUmdglLtd9/AY1sDrU1HAobDX0VW40oih8EE6RZRkbZlJTURKbXLo?=
- =?us-ascii?Q?XZXLRZkoLNKRi0WrVOjL9EDkpZizCgBB6oysGUsLWEfuVMyN2XfNT0OElLwb?=
- =?us-ascii?Q?vFktUa+Slxi06Z9R94VkuYUm+GV7GaiMNWI+Nx6LXXJh76NCLt2Yotfq5A08?=
- =?us-ascii?Q?ayQQPvYj2xzWHI0KX1siz1Q5aDP7pnMVfdhpt0vURAJntxzMlpywS3aHij+K?=
- =?us-ascii?Q?Xm5g/VjP80gpANJP0RXrSztgus+8OMMPXdGz8hLoEpN0mLJQrd2Zq8XYzr1H?=
- =?us-ascii?Q?Nu6R0Vs/6BTuJZAWtUy/Ks/bSlTWRGdXQiuEDC6Q1StKoiVT8pbBE+IqE2Wi?=
- =?us-ascii?Q?YTE9bffIhg7SA9tuZtoCsSGJoESDeWV3wSMVdhs14kJjKJx/a2PsaowWfnW6?=
- =?us-ascii?Q?4GAHi21IAlZLKmuJ9wl149wwutFNuaCKrkFjq6M/TpUQ+cIJrzrKpfDVCg7f?=
- =?us-ascii?Q?S2UpGorcm80yUCrdbljzll/SDeqWYicPi89QaDKMIfDaorGcBbg6+Fr3ozSG?=
- =?us-ascii?Q?57O4a7+x2FuEDB4fK8taeVDnQ1RP0IMCJusk9JqFGFvgzVuzUtoXYW6Ud+/i?=
- =?us-ascii?Q?qWDlGNkSaMlHBq2WbGumZ64hRZEmyFUduykfAWvbAtSxOOt+6V+uFWuo5x7R?=
- =?us-ascii?Q?c9bvdUqsQQ2x08WDKYAtP7+5hvDvUw1ezVQ71DdSO7Csde/Hk+q3nWVwv3Vo?=
- =?us-ascii?Q?qwtIBJTURHS8QZcZsx81hCCUzUmKk+WDY5+k8ppae+44iHqKpwMOfkP9xEEZ?=
- =?us-ascii?Q?5kzahOQK5GlwzpFxvGdj4dYKWZ6g5P3Iuyf81zAqYeTvUYzwY5hVlqw5aKym?=
- =?us-ascii?Q?lZN0TPGyDiWagnJNmel2HrBkrmB0bIH1bkCjli2BrbEIooBcuqv0oRi393nX?=
- =?us-ascii?Q?Xx7dghvR+7s3gV1rsBXLpYLuJ2Ez2CFLsZ2R2hKrDaF76Rwijs2mLZn2kCuW?=
- =?us-ascii?Q?su+TrmbXlYzb+2zxZ6xdOnI5YnX9YALhhx7aPiWmf8qZC5NB/kurR7YMl7ff?=
- =?us-ascii?Q?mCECFBVCCsBAoeZJ/EaMAVIDtHvfhta07olOx0NDhmqMVVOHRU1OA3jBZNE0?=
- =?us-ascii?Q?Cw/IXqCAMnPeiI2OMORPuarg5E0CRNXg0IjKSoGZiklaG7n+mCXfSA1i5iFz?=
- =?us-ascii?Q?A1/TWqyTkhQt0/S3BtJFJRNzZqqhRelfamqJN2wEWkz1nBnnWIyoQ6ebTazL?=
- =?us-ascii?Q?PUgPnfFTFxUGqVXEfInvCRPbYJl2/1pqv8kyBAhgu4gf51p7AMeo7XDCNJB3?=
- =?us-ascii?Q?CGeu0i/614yYqtIRuX6mV3zZHJ2LNeFq6ODYoz5xTwWU/f4Lm0W47Qtn8SV0?=
- =?us-ascii?Q?fM4/Vct2DmEuu0h4OYk/Y5Jg46uConpywbevXyJ66hRUz9xnkTfQcPnOoLZF?=
- =?us-ascii?Q?9gG5PtME03uNNJEo7xV8rKAnYg80zJUc5PKjzEgkxOYfsF0b5w1J9qvHWn2E?=
- =?us-ascii?Q?h30tmSJUrbNsOo82uBYu6J1VcglS7707vPE0c4mdvxedvwSec2PXvW93ey0N?=
- =?us-ascii?Q?H5P9v0ZCpilEp3k9xM9UAS+b27N7HZ5oqVMy5q9FzG2XQ8SrPPJIh7lg5j/e?=
- =?us-ascii?Q?UN9+ZA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB8110942
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 07:32:14 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-59f55c276c3so35984397b3.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 00:32:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695627133; x=1696231933;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xThiWU+H5y1zPVxgj/ULPXRi0AJOVCXd78/fbyAqgmg=;
+        b=uiWqJ9hsJAIiu3UPjDr6IV0ltN2kLuatfs61wVXvH9AIaSlqJOTk/70sJTpeNvIHNd
+         YsqFxL9EuD+U0QjeOUigZ4V7+EzM9g7ST6E7lJcK4OEYLO5sqAYjg2sAzOkExbW6i0re
+         3NeyE8pSvYsKKXQY+1vBR1lelexi572AynYf19XZvUh2JW1eW9gZoCouJhf+AKIGhplU
+         etZmvaTjHnFHw59qJS8DHssUBMp5284Iy4gRscZMYve8k75WsHQuJUgJ1B3HwfVrBvtN
+         9+9zyNzkngFFjHvNeSU6az5fMCxf3ns9xVBgcj2sZy+YvVO0O15QJuJHyifMQQ5EPpZM
+         VL3A==
+X-Gm-Message-State: AOJu0Yy6ZY/dxa2PkzDm6ctHl99EZ5sM4wkG5BM8SBwEMS5WuLy4k45I
+	72Jne2ig1ZL1DPhYYLWnDw5AfEzf/xwCcg==
+X-Google-Smtp-Source: AGHT+IHEY9fVlvagJCB7LHdBqlV1UH+tQ+kq7uFxhW03Mcp+Fwg9iCmyKqQzE6Ijl6gFlELrygm+ww==
+X-Received: by 2002:a81:88c2:0:b0:59f:21c1:30b6 with SMTP id y185-20020a8188c2000000b0059f21c130b6mr6028950ywf.51.1695627133144;
+        Mon, 25 Sep 2023 00:32:13 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
+        by smtp.gmail.com with ESMTPSA id b145-20020a0dd997000000b00583d1fa1fccsm2270394ywe.0.2023.09.25.00.32.12
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Sep 2023 00:32:12 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-d8181087dc9so6365382276.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 00:32:12 -0700 (PDT)
+X-Received: by 2002:a25:ec0c:0:b0:d81:bb7e:f47f with SMTP id
+ j12-20020a25ec0c000000b00d81bb7ef47fmr6282466ybh.44.1695627132454; Mon, 25
+ Sep 2023 00:32:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc6a8593-d0fe-43d9-d61d-08dbbd944a48
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Sep 2023 06:54:40.2022
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: iIe6KSU5aqVPiH5Z/tjyI8+HTdle9Lz7qS5G6GMoT8PsjbZdGuF2TXl3aWAn24du3FRYRW42+rcqi3itgWWYZoa1+vhUZ0uf9VRzDBgTyTaOzljtzQNp4+vEasorBS+8
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8739
+References: <202309130632.LS04CPWu-lkp@intel.com> <feadd6a5-0f56-4575-9891-3a7d88e69e64@infradead.org>
+In-Reply-To: <feadd6a5-0f56-4575-9891-3a7d88e69e64@infradead.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 25 Sep 2023 09:32:00 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVRyaq5xT+2GGREHS95Nm86wHmmU0cE_qR5-eza1vMExw@mail.gmail.com>
+Message-ID: <CAMuHMdVRyaq5xT+2GGREHS95Nm86wHmmU0cE_qR5-eza1vMExw@mail.gmail.com>
+Subject: Re: sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:undefined reference
+ to `fb_io_read'
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: kernel test robot <lkp@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, linux-fbdev@vger.kernel.org, 
+	Linux-sh list <linux-sh@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi kerenl test robot,
+Hi Randy,
 
-> From: kernel test robot, Sent: Friday, September 22, 2023 10:47 PM
+On Wed, Sep 13, 2023 at 7:13=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org=
+> wrote:
+> On 9/12/23 15:42, kernel test robot wrote:
+> > FYI, the error/warning was bisected to this commit, please ignore it if=
+ it's irrelevant.
+> >
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git master
+> > head:   3669558bdf354cd352be955ef2764cde6a9bf5ec
+> > commit: 5f86367006c6a0662faaf36f753f437afe42fb63 fbdev/sh7760fb: Use fb=
+dev I/O helpers
+> > date:   6 weeks ago
+> > config: sh-randconfig-r012-20230913 (https://download.01.org/0day-ci/ar=
+chive/20230913/202309130632.LS04CPWu-lkp@intel.com/config)
+> > compiler: sh4-linux-gcc (GCC) 13.2.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20230913/202309130632.LS04CPWu-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202309130632.LS04CPWu-l=
+kp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o: in function `sh7760fb_=
+probe':
+> >    sh7760fb.c:(.text+0x374): undefined reference to `framebuffer_alloc'
+> >    sh4-linux-ld: sh7760fb.c:(.text+0x394): undefined reference to `fb_v=
+ideomode_to_var'
+> >    sh4-linux-ld: sh7760fb.c:(.text+0x39c): undefined reference to `fb_a=
+lloc_cmap'
+> >    sh4-linux-ld: sh7760fb.c:(.text+0x3a4): undefined reference to `regi=
+ster_framebuffer'
+> >    sh4-linux-ld: sh7760fb.c:(.text+0x3ac): undefined reference to `fb_d=
+ealloc_cmap'
+> >    sh4-linux-ld: sh7760fb.c:(.text+0x434): undefined reference to `fram=
+ebuffer_release'
+> >    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o: in function `sh7760fb_=
+remove':
+> >    sh7760fb.c:(.text+0x800): undefined reference to `unregister_framebu=
+ffer'
+> >    sh4-linux-ld: sh7760fb.c:(.text+0x804): undefined reference to `fb_d=
+ealloc_cmap'
+> >    sh4-linux-ld: sh7760fb.c:(.text+0x814): undefined reference to `fram=
+ebuffer_release'
+> >>> sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0xc): undefined=
+ reference to `fb_io_read'
+> >>> sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x10): undefine=
+d reference to `fb_io_write'
+> >    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x2c): undefin=
+ed reference to `cfb_fillrect'
+> >    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x30): undefin=
+ed reference to `cfb_copyarea'
+> >    sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x34): undefin=
+ed reference to `cfb_imageblit'
 >
-> Hi Yoshihiro,
+> The problem is CONFIG_FB=3Dm and CONFIG_FB_SH7760=3Dy.
 >
-> kernel test robot noticed the following build warnings:
+> This can be fixed by this simple change ... if it's correct.
 >
-> [auto build test WARNING on pci/next]
-> [also build test WARNING on pci/for-linus linus/master v6.6-rc2 next-2023=
-0921]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-<snip URLs>]
->
-> url:
-...
-> base:
-...
-next
-> patch link:
-...
-> patch subject: [PATCH v21 13/16] PCI: dwc: rcar-gen4: Add R-Car Gen4 PCIe=
- controller support
-> config: sparc-allyesconfig
-...
-> compiler: sparc64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build):
-...
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes:
-...
->
-> All warnings (new ones prefixed by >>):
->
-> >> drivers/pci/controller/dwc/pcie-rcar-gen4.c:155:5: warning: no previou=
-s prototype for 'rcar_gen4_pcie_common_init'
-> [-Wmissing-prototypes]
->      155 | int rcar_gen4_pcie_common_init(struct rcar_gen4_pcie *rcar)
->          |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-> >> drivers/pci/controller/dwc/pcie-rcar-gen4.c:197:6: warning: no previou=
-s prototype for 'rcar_gen4_pcie_common_deinit'
-> [-Wmissing-prototypes]
->      197 | void rcar_gen4_pcie_common_deinit(struct rcar_gen4_pcie *rcar)
->          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >> drivers/pci/controller/dwc/pcie-rcar-gen4.c:205:5: warning: no previou=
-s prototype for 'rcar_gen4_pcie_prepare'
-> [-Wmissing-prototypes]
->      205 | int rcar_gen4_pcie_prepare(struct rcar_gen4_pcie *rcar)
->          |     ^~~~~~~~~~~~~~~~~~~~~~
-> >> drivers/pci/controller/dwc/pcie-rcar-gen4.c:220:6: warning: no previou=
-s prototype for 'rcar_gen4_pcie_unprepare'
-> [-Wmissing-prototypes]
->      220 | void rcar_gen4_pcie_unprepare(struct rcar_gen4_pcie *rcar)
->          |      ^~~~~~~~~~~~~~~~~~~~~~~~
-> >> drivers/pci/controller/dwc/pcie-rcar-gen4.c:228:5: warning: no previou=
-s prototype for 'rcar_gen4_pcie_get_resources'
-> [-Wmissing-prototypes]
->      228 | int rcar_gen4_pcie_get_resources(struct rcar_gen4_pcie *rcar)
->          |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >> drivers/pci/controller/dwc/pcie-rcar-gen4.c:242:24: warning: no previo=
-us prototype for 'rcar_gen4_pcie_devm_alloc'
-> [-Wmissing-prototypes]
->      242 | struct rcar_gen4_pcie *rcar_gen4_pcie_devm_alloc(struct platfo=
-rm_device *pdev)
->          |                        ^~~~~~~~~~~~~~~~~~~~~~~~~
+> or this Kconfig entry can be made into a tristate, but that may not
+> help with booting a system.
 
-Thank you for the review! I should have added "static" to each function.
-I'll submit v22 patch series later.
+What kind of problem do you foresee? Users could still configure it builtin
+when needed.
 
-Best regards,
-Yoshihiro Shimoda
+I see no reason to restrict this to builtin.
+The driver already has all MODULE_*() boilerplate.
 
+> --- a/drivers/video/fbdev/Kconfig
+> +++ b/drivers/video/fbdev/Kconfig
+> @@ -1762,7 +1762,7 @@ config FB_COBALT
 >
-> vim +/rcar_gen4_pcie_common_init +155 drivers/pci/controller/dwc/pcie-rca=
-r-gen4.c
->
->    154
->  > 155        int rcar_gen4_pcie_common_init(struct rcar_gen4_pcie *rcar)
->    156        {
->    157                struct dw_pcie *dw =3D &rcar->dw;
->    158                u32 val;
->    159                int ret;
->    160
->    161                ret =3D clk_bulk_prepare_enable(DW_PCIE_NUM_CORE_CL=
-KS, dw->core_clks);
->    162                if (ret) {
->    163                        dev_err(dw->dev, "Failed to enable ref cloc=
-ks\n");
->    164                        return ret;
->    165                }
->    166
->    167                if (!reset_control_status(dw->core_rsts[DW_PCIE_PWR=
-_RST].rstc))
->    168                        reset_control_assert(dw->core_rsts[DW_PCIE_=
-PWR_RST].rstc);
->    169
->    170                val =3D readl(rcar->base + PCIEMSR0);
->    171                if (rcar->mode =3D=3D DW_PCIE_RC_TYPE) {
->    172                        val |=3D DEVICE_TYPE_RC;
->    173                } else if (rcar->mode =3D=3D DW_PCIE_EP_TYPE) {
->    174                        val |=3D DEVICE_TYPE_EP;
->    175                } else {
->    176                        ret =3D -EINVAL;
->    177                        goto err_unprepare;
->    178                }
->    179
->    180                if (dw->num_lanes < 4)
->    181                        val |=3D BIFUR_MOD_SET_ON;
->    182
->    183                writel(val, rcar->base + PCIEMSR0);
->    184
->    185                ret =3D reset_control_deassert(dw->core_rsts[DW_PCI=
-E_PWR_RST].rstc);
->    186                if (ret)
->    187                        goto err_unprepare;
->    188
->    189                return 0;
->    190
->    191        err_unprepare:
->    192                clk_bulk_disable_unprepare(DW_PCIE_NUM_CORE_CLKS, d=
-w->core_clks);
->    193
->    194                return ret;
->    195        }
->    196
->  > 197        void rcar_gen4_pcie_common_deinit(struct rcar_gen4_pcie *rc=
-ar)
->    198        {
->    199                struct dw_pcie *dw =3D &rcar->dw;
->    200
->    201                reset_control_assert(dw->core_rsts[DW_PCIE_PWR_RST]=
-.rstc);
->    202                clk_bulk_disable_unprepare(DW_PCIE_NUM_CORE_CLKS, d=
-w->core_clks);
->    203        }
->    204
->  > 205        int rcar_gen4_pcie_prepare(struct rcar_gen4_pcie *rcar)
->    206        {
->    207                struct device *dev =3D rcar->dw.dev;
->    208                int err;
->    209
->    210                pm_runtime_enable(dev);
->    211                err =3D pm_runtime_resume_and_get(dev);
->    212                if (err < 0) {
->    213                        dev_err(dev, "Failed to resume/get Runtime =
-PM\n");
->    214                        pm_runtime_disable(dev);
->    215                }
->    216
->    217                return err;
->    218        }
->    219
->  > 220        void rcar_gen4_pcie_unprepare(struct rcar_gen4_pcie *rcar)
->    221        {
->    222                struct device *dev =3D rcar->dw.dev;
->    223
->    224                pm_runtime_put(dev);
->    225                pm_runtime_disable(dev);
->    226        }
->    227
->  > 228        int rcar_gen4_pcie_get_resources(struct rcar_gen4_pcie *rca=
-r)
->    229        {
->    230                /* Renesas-specific registers */
->    231                rcar->base =3D devm_platform_ioremap_resource_bynam=
-e(rcar->pdev, "app");
->    232
->    233                return PTR_ERR_OR_ZERO(rcar->base);
->    234        }
->    235
->    236        static const struct dw_pcie_ops dw_pcie_ops =3D {
->    237                .start_link =3D rcar_gen4_pcie_start_link,
->    238                .stop_link =3D rcar_gen4_pcie_stop_link,
->    239                .link_up =3D rcar_gen4_pcie_link_up,
->    240        };
->    241
->  > 242        struct rcar_gen4_pcie *rcar_gen4_pcie_devm_alloc(struct pla=
-tform_device *pdev)
->    243        {
->    244                struct device *dev =3D &pdev->dev;
->    245                struct rcar_gen4_pcie *rcar;
->    246
->    247                rcar =3D devm_kzalloc(dev, sizeof(*rcar), GFP_KERNE=
-L);
->    248                if (!rcar)
->    249                        return ERR_PTR(-ENOMEM);
->    250
->    251                rcar->dw.ops =3D &dw_pcie_ops;
->    252                rcar->dw.dev =3D dev;
->    253                rcar->pdev =3D pdev;
->    254                dw_pcie_cap_set(&rcar->dw, EDMA_UNROLL);
->    255                dw_pcie_cap_set(&rcar->dw, REQ_RES);
->    256                platform_set_drvdata(pdev, rcar);
->    257
->    258                return rcar;
->    259        }
->    260
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> %7Cyoshihiro.shimoda.uh%40renesas.com%7Cbcb9117ada5545f21dd908dbbb7279cf%=
-7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%
-> 7C638309872567098849%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoi=
-V2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30
-> 00%7C%7C%7C&sdata=3DhZzw8jndtIs8RuMO9fvilRhybUCLFgA7gEyUSEdxZuI%3D&reserv=
-ed=3D0
+>  config FB_SH7760
+>         bool "SH7760/SH7763/SH7720/SH7721 LCDC support"
+> -       depends on FB && (CPU_SUBTYPE_SH7760 || CPU_SUBTYPE_SH7763 \
+> +       depends on FB=3Dy && (CPU_SUBTYPE_SH7760 || CPU_SUBTYPE_SH7763 \
+>                 || CPU_SUBTYPE_SH7720 || CPU_SUBTYPE_SH7721)
+>         select FB_IOMEM_HELPERS
+>         help
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
