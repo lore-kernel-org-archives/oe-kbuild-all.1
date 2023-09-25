@@ -1,188 +1,115 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373E122EED
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 20:07:23 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38PIJj1Z022044;
-	Mon, 25 Sep 2023 20:07:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2023-03-30;
- bh=IR+DzdDGO25+pwmclLTQyPo/I241ntgfcqlYlkgKxE8=;
- b=L+qVnIiUDzV6Wk6V2E3OjPeCkiyYO+7/NmIewTw8I0QUm8jc05GteP4X7zVRieoYuqij
- 0H8ImZEqeiA+kiYhaEgBCRt1B8LHqpet2sIR52EU326aXRjx6OgwXMz7GDT9VTaLquw0
- F1oJPcSFzeEuQreKGQAt2muR6Gn91DYRS48oWI0LGRjyYg+K79xcnPHTJi2DtmshiLZg
- HHa33yfs1eppBVpB0BoYUC1QpplAV5z/t830NDjKeyuOtOuvskQz3lFNqyPf1No+JnSC
- 102OUYqdz3XJ3/0z9EBCHomyFsnNrtLikq0bXAv8B4Z1RUI/JGmbKiUd0BTsZM0zyNYw mA== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3t9qwbcr8g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 25 Sep 2023 20:07:07 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 38PJoEVw017958;
-	Mon, 25 Sep 2023 20:07:06 GMT
-Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2173.outbound.protection.outlook.com [104.47.73.173])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3t9pfb2rfd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 25 Sep 2023 20:07:06 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jPwTBejPK+Ds4H9PD6equmLqXMpw37TAUdJxAZ16jdDH/Se0POj4BcSZH3BQAlLFfRpsslfOzhV+uL4cG25XPnzLIMq6T41CIh7W/WpuugvqRdEwqw/LqZid3QUjiOPLhIHznfguHX+I4Uqek76QXVx3jJV3pjaRcCTcM4mbjj+zTsJ7Ar/K1cYGeUbCzaGODyo2yEZmUAX5k8ovCLaONN+EIk+IwjX84nHz6G1HSkZOg1TpXdNpBD8eT0MzF3x2gRK7bPuivp+miwWgBWqazjZZKKIVNOLNS87J36ihQDTNbNO8TB9Srd7RD4X9nuE88uYvCOj85Vkspcv/ojGjdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IR+DzdDGO25+pwmclLTQyPo/I241ntgfcqlYlkgKxE8=;
- b=BhL9dY5h91PRFDgk9DaAgIGEdPKCHOUpDGUoh9zX/1EGb5uN2wXAeDo8muTSRGlEHdAvDZOQF6HVP/ywrPkD5ifLdgdwszaRg0aV+yzhp2WGdTwhaIIzszCxAcxka75wdbKBy6l2rcMYtQbO2pChzf+mT68gZqfx1OVh1wqo8a5PahlEJOCQ8TWgLNLdB0DgIRc8B4mZ4lDSM+RacNKJFVge2nk5GaWr4ThkV3J4MnkbwXJWfJ9/ZvzfBYto9nHUwLoy6sBXxOUHD7/rebgncU+jlfl6REoB285Jlh9XYXoAZCP5XFv6g0dpjl20cLBrtA5nTdcQ7pIeXq0pCuX8QA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IR+DzdDGO25+pwmclLTQyPo/I241ntgfcqlYlkgKxE8=;
- b=M4fbSDmAlK0ceFGEmAA5w/jn350rBuvAZNaa+PyxXl+/70SBRHaPPd1gm6Ebz/Ow6jl1CCE0A9wH6nO9rfZ2Uu8ilrKAElbAx6556xkZMxIh6dEzmoyDgJ6lsJjVvgsJLXTcqS6j408ly4YZ0GfFX7cjbw4NN5fPbj9ukDuTfC4=
-Received: from BY5PR10MB4196.namprd10.prod.outlook.com (2603:10b6:a03:20d::23)
- by BN0PR10MB5270.namprd10.prod.outlook.com (2603:10b6:408:120::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Mon, 25 Sep
- 2023 20:07:03 +0000
-Received: from BY5PR10MB4196.namprd10.prod.outlook.com
- ([fe80::c621:12ca:ba40:9054]) by BY5PR10MB4196.namprd10.prod.outlook.com
- ([fe80::c621:12ca:ba40:9054%5]) with mapi id 15.20.6813.027; Mon, 25 Sep 2023
- 20:07:02 +0000
-Date: Mon, 25 Sep 2023 13:06:59 -0700
-From: Mike Kravetz <mike.kravetz@oracle.com>
-To: Rik van Riel <riel@surriel.com>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
-        oe-kbuild-all@lists.linux.dev, kernel-team@meta.com,
-        linux-mm@kvack.org, akpm@linux-foundation.org, muchun.song@linux.dev,
-        leit@meta.com, willy@infradead.org
-Subject: Re: [PATCH 3/3] hugetlbfs: replace hugetlb_vma_lock with
- invalidate_lock
-Message-ID: <20230925200659.GB11309@monkey>
-References: <20230922190552.3963067-4-riel@surriel.com>
- <202309250923.NEPT0ip2-lkp@intel.com>
- <692fafae9842a9b15b7b4a033bb7dc800784d4aa.camel@surriel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <692fafae9842a9b15b7b4a033bb7dc800784d4aa.camel@surriel.com>
-X-ClientProxiedBy: MW4PR03CA0269.namprd03.prod.outlook.com
- (2603:10b6:303:b4::34) To BY5PR10MB4196.namprd10.prod.outlook.com
- (2603:10b6:a03:20d::23)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3ABA22EED
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 20:08:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695672529; x=1727208529;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HzIhxBTNSYlbP2I+Cxq/BOvGYCQSrcCmmT5sugzlN7A=;
+  b=avTrxjXDc0KIOhf3mY6B7pcW3gKcxLUHcxIbgfcvxQIgARwHv1iADG+4
+   zKu+9fCnhkYZFpLkS8Zt23Kh+E8F6N9P8C6TzEe50jhH69t6ahwqCWVyf
+   lRN8EpPbI88cddKOca5l8CWuuFLPzLLFH+N7pJNDvJ9biknrHNW5MuO3W
+   qNeghAVRzdw3WfIGtOorcA0h04v278frxcEY1Fk8GTe4qbjew9NKVfErT
+   OSDKo0ArpCEBXFMLNZ2mHDAQs1vNOGpKWOrPYeogOYRF10R5DUfYhW2m/
+   Fcn0Zl/5lSAr12AvekzogPGUlYv2PasMqpTG6ebxvOcEYMmxMXIlPZ3/j
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="380239579"
+X-IronPort-AV: E=Sophos;i="6.03,176,1694761200"; 
+   d="scan'208";a="380239579"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 13:08:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="814121319"
+X-IronPort-AV: E=Sophos;i="6.03,176,1694761200"; 
+   d="scan'208";a="814121319"
+Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 25 Sep 2023 13:08:47 -0700
+Received: from kbuild by 32c80313467c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qkrsr-0001zR-1V;
+	Mon, 25 Sep 2023 20:08:45 +0000
+Date: Tue, 26 Sep 2023 04:07:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Janne Grunau <j@jannau.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:pr/186 2/2] drivers/gpu/drm/apple/dcp.c:452:17: warning:
+ suggest explicit braces to avoid ambiguous 'else'
+Message-ID: <202309260409.ICpXTKXF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR10MB4196:EE_|BN0PR10MB5270:EE_
-X-MS-Office365-Filtering-Correlation-Id: f124a85c-9caa-4262-4df1-08dbbe02fb93
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	oxBakYcCmGysXT7iODiiCJPLdeik4iRfDJXb+zAUmTzpmcn0Bn9PAX8ZbE9AEZmdHA9q70z/B8pV3+00qbEXXNjp9p+Pwj4o+53bB2m47yqQawovepLwrg/cOuB7AovSnFJnijGXbeNiQyhWpEkFWanQIpPhHgSh8AzjLN70c6pwc/c0dMdFPbqfcm7zBm+1q8lNeB+FphZa5HxuETKvUynGUC9cRfXddH047db8qDonigvkqL0cbOlnJRj1fkGgZ9p/b8+jDADsRC3lrE/pVZb7CbzSTiAT1KaUe88y9rX0syb0W4owlwUHJjQHH2WvZWm1twQhzRIuk4zhnrkMtWyUPP9Fc3yeXHEi8AHrKQ4Bpkcc45m/22AZrdsHUnyuUCVB276YReF+fP58P2u5HjtTUFQuHob7KLDYwrxTWUSBIw6MYu8eu9GrWGzDMx5b+doP0C3E5xRGNcdAXJZdXklWhq2Dyr+dPX29F/8xvdDMOwaL4ibqk8uFN66NL4rjpVAaNneBf1pHhGSdvyL6JbxEBMsMsGHkWLxfWthzOF4=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB4196.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(39860400002)(346002)(136003)(396003)(366004)(230922051799003)(186009)(1800799009)(451199024)(1076003)(6666004)(478600001)(26005)(966005)(6486002)(83380400001)(86362001)(33716001)(38100700002)(33656002)(5660300002)(53546011)(6506007)(6512007)(9686003)(2906002)(66556008)(66476007)(66946007)(6916009)(316002)(7416002)(41300700001)(8676002)(8936002)(4326008)(44832011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?CsnfXNoM895IsMbvfrNpUfXPnV8yCH0KS6/GlT2bpPdCWlNLOpTPr7BxIQFC?=
- =?us-ascii?Q?/vpI1MAA+Oc4Ivlb03EUMeWSg4G/p7D1vg27zYbWlo6E5VBgxCIhzQAJ73hE?=
- =?us-ascii?Q?sbNYM8kvDRQyPENk6xQqrIex02HGapZF6PmGcyGG3Oj9vmaQgd/8W+4cWXNo?=
- =?us-ascii?Q?CeOqSXjmaEFEWQX4Ltyn5cHsmqSFGUR4wyh6D+bPOcW1Are6I/pyuxzF/BXv?=
- =?us-ascii?Q?2Pm/FFC+N5hpCA6lTcgfZxm+toXpcdNV+ThlWQl2lWiFNqacLigAvX0YINFd?=
- =?us-ascii?Q?zNLMt4HIsXAiKsmETgWSe2cX8RlqkhhNi2fTK8Jsz6aw65siH76umz2C+mdv?=
- =?us-ascii?Q?7UzC/nZ9mKmitPnR9NAzRUQKdt4vnVzf/2xoqXMwEqdLdU5eN3PlVjPSlMDD?=
- =?us-ascii?Q?+jiroKxCO1QWNHcIuEiKEnQNHegwfnolf8gNMBMU9k8w/tab6xZsTSXTjUKY?=
- =?us-ascii?Q?jutD105xcW8ixv+OwUpKB5UB21eooFhpa5AV5Yq3EaUbefBJZP4x7tbItCqD?=
- =?us-ascii?Q?nMS8GPXYk5MGyn8Di8lgvQkobzwe6Frv0q6P4RKLGdAhu4FOeqeWQk06jdlE?=
- =?us-ascii?Q?k/gycBb7yQUgj56lfTaojVLYLB1xWEuvRVDS09RqAf286m/3O29OCDNyvFwg?=
- =?us-ascii?Q?Fh8qbBfH8mTa9LvkSjNx790oaJP3G2Biqk9+SfGJpnyeqJYXuHjjwZW8MXgh?=
- =?us-ascii?Q?1hSre6wrlCcAZGduNRHP3g9LIewBM/pbJ8sqE1lLfjjrrVw2k1ZamurJwNsn?=
- =?us-ascii?Q?ALbz+5Xxy2uJ8e76hvjr1+osFNMT2y+iyv+t1+qLeq8AZnLedOGnETQL+ZhV?=
- =?us-ascii?Q?2Tgk0s71jRQOlfiiXonSw+fZojaIUgmEU9lQkV8apoFWuxwCUgji/2gOhhBU?=
- =?us-ascii?Q?NYTHuZKDCT9KJVj/VW5/p7r4dewX3V9/Di/xVbq25//IIepd8C3kh/Dd7h4p?=
- =?us-ascii?Q?UJysRx3/CbvddfKX1PCoJDHlnpKJtnmyz5ByOIWLuYQEZuCDyFqGaPX/vqDY?=
- =?us-ascii?Q?SOKpWWt+PNbkwznzpImpIiewRYJYxZj5gDUk5mGOcpSxorqHW3R2n2Xo7hbu?=
- =?us-ascii?Q?LMGKPkMItRAQEpQ52vblVYxDRiRuUUm4rxcSaEyfCWxKOZY2Bri61hyDGHEH?=
- =?us-ascii?Q?OU2kaYn2lENS1F2SLR62BJP+/mTdgf+1dEnzX3zlh3J7/kE0ugn/EkABaD7n?=
- =?us-ascii?Q?IBNdYdG0DQWhcVSIKCkcCw+RnJfN/TJbDd9Uc8y1sgYlyu1iijzRYgjPo1Ds?=
- =?us-ascii?Q?705I/iqnX20TsIIfATfGzRseHD6HtIdpA1XZhBaPI4b01xl9B71py9WlqpYr?=
- =?us-ascii?Q?Wy/1XbJTwUvSIiP8XLhOl/kouyj9D0BBxLon31cdOQynwZ5+w1svpGlXUj4+?=
- =?us-ascii?Q?yPlqMFEE0KVxIwP4LxqSLVP/VEEB4ygOPHSbLC30zwpA3MF5q8RuVgef7eba?=
- =?us-ascii?Q?6qTM0P/43LnIymPQK3NhfICI9kYme77AybAPgZH49azsrlyrjNLW9GAzYHb1?=
- =?us-ascii?Q?uf6DYQXyi6y09oGZunXoDw2mhb+BP6+K2N+d/OY+jDqLwE3jzHj+Bn/tbjlr?=
- =?us-ascii?Q?LATC4SjW2GcqNnABRYr6S2I63Bx6COwPOj/kyA8C9drocY8K8vRP4+ZFJq46?=
- =?us-ascii?Q?7A=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	=?us-ascii?Q?NHjY9XHvu860dlwmnOYlRoaB+lMuhFndZcRIOZWM0j1Fme+RA9RXKc7eUWdw?=
- =?us-ascii?Q?747yA/Yln56OTf5db9yzlNkQIL63zlvovTz/Asi7vyzNKBETJEgc20PVFQOs?=
- =?us-ascii?Q?ZkDo5DbGOTpdFNc/lR6LAPXpeSd1APXB2kkSHbZcAdCDlPM9AYI+n6EdcGpv?=
- =?us-ascii?Q?JIlseJ2rCkp77C9mTErMX3ZOxF1K9zQ0Sk1ebbTRN8KZVroKNiR/kyI2Cljv?=
- =?us-ascii?Q?EU+EKMcV0mSFwkreL7OH3BlMGwHmUTbuP0c7ylzwrZJ6cr3MwOgpZKLL+eSW?=
- =?us-ascii?Q?BTbYuPsKVTFjiJ5LaZAkEx9STkehlBBdn7w8MerMflG6Spf04pbKTGiQpzoO?=
- =?us-ascii?Q?WKBV8XSZo00zY0Wsr+HUIugPP0BM2YqIrkjeTFmEWRlitl23hY5ambmC/bQI?=
- =?us-ascii?Q?nRClfE8Df2VvP92UQVW51tthKZsDzyZoavt/jsI7K54vZOrJcLDuNeVV3+jC?=
- =?us-ascii?Q?xR2eNPmpelva+1La5WTEHAnvr9GJGYGw4tqGm7QtIvCiu91lAqqdfUzjZdMD?=
- =?us-ascii?Q?nhEGA/nMnQlA1jlqaIZMjAeSPxCEB98u2WCuUKcRYjs11ruHyaf+0H6odTZS?=
- =?us-ascii?Q?FQH5kOcuLOVJRGTnyVMhK2cpIZy3hAhlWt9WnlCZdc2p6GMw6mtKenhEBwW4?=
- =?us-ascii?Q?/aBzn/6BOwtfa+XsJCe0QOApVI1e5cC/QHNhFHDOpwnJbRe+78yoa+sz3/t8?=
- =?us-ascii?Q?M4Q+Q0TfZb0xSK74tzX6LFsYvIGcIJzW3so1yp1DiaZr7UKLU2hMfLvn90Ao?=
- =?us-ascii?Q?kw8jzs8nMX/c1pPnpOkVlZSw5n59H7tn97hJZQ1AYyFI+sxEJQTWTcXHzdd8?=
- =?us-ascii?Q?gXwd01NFcAZEd4qP5oZfBILJC+m7UIVvfhlzh2FN29KtHF1USRPdhPW8k8Fw?=
- =?us-ascii?Q?Jh0dEM36a8dlRSc+SETyxWJRfCuBja9cL1oaikiuMu83gpwVgp15miolEsr9?=
- =?us-ascii?Q?DCPvgM2lzVHjHr+BCGZp20/SGnvl5S766rdtzXlNdfIMO+wsRduVQr4k2KNH?=
- =?us-ascii?Q?9mAuteJzfdOe5QVrz68TQH34zg=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f124a85c-9caa-4262-4df1-08dbbe02fb93
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB4196.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2023 20:07:02.4863
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GrD3yZA97LnrBGNG3aBGM69d3yRoaB1D0Fr1xvGRiQbTZ6yGaG9GKOlxUILbsFGHASSlNCzrE8qB2jy9LflBRw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB5270
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-09-25_17,2023-09-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0 mlxscore=0
- spamscore=0 mlxlogscore=668 bulkscore=0 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2309180000
- definitions=main-2309250154
-X-Proofpoint-GUID: YgLd57S5L2mTbRiWpVsSd3ydELhUbQTy
-X-Proofpoint-ORIG-GUID: YgLd57S5L2mTbRiWpVsSd3ydELhUbQTy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 09/25/23 15:22, Rik van Riel wrote:
-> On Mon, 2023-09-25 at 10:04 +0800, kernel test robot wrote:
-> > Hi,
-> > 
-> > kernel test robot noticed the following build errors:
-> > 
-> > [auto build test ERROR on akpm-mm/mm-everything]
-> > [also build test ERROR on linus/master v6.6-rc3 next-20230921]
-> > [If your patch is applied to the wrong git tree, kindly drop us a
-> > note.
-> > And when submitting patch, we suggest to use '--base' as documented
-> > in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> OK, so I have a fix for patch 3/3 that gets rid of the
-> compile error, but the libhugetlbfs test cases show that
-> patch 3/3 opens up a condition where resv_hugepages 
-> underflows.
-> 
-> I have not figured out the cause of that yet, but
-> patches 1 & 2 seem to survive all tests fine.
+tree:   https://github.com/AsahiLinux/linux pr/186
+head:   c9f888a04befbdc1e8b3b32dbdf41ffeb3f8ecaa
+commit: c9f888a04befbdc1e8b3b32dbdf41ffeb3f8ecaa [2/2] drm: apple: Update supported firmware versions to 12.3 and 13.5
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230926/202309260409.ICpXTKXF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309260409.ICpXTKXF-lkp@intel.com/reproduce)
 
-In addition, I suspect patch 3 is going to cause a performance regression.
-It is taking me a little while to resurrect the test environment used when
-the hugetlb vma lock was introduced.  My plan is to exercise the series in
-that environment.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309260409.ICpXTKXF-lkp@intel.com/
 
-I should be able to review patches 1 & 2 later (my) today.
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/apple/dcp.c: In function 'dcp_crtc_atomic_check':
+   drivers/gpu/drm/apple/dcp.c:208:45: warning: variable 'old_state' set but not used [-Wunused-but-set-variable]
+     208 |         struct drm_plane_state *new_state, *old_state;
+         |                                             ^~~~~~~~~
+   drivers/gpu/drm/apple/dcp.c: In function 'dcp_check_firmware_version':
+>> drivers/gpu/drm/apple/dcp.c:452:17: warning: suggest explicit braces to avoid ambiguous 'else' [-Wdangling-else]
+     452 |         else if (strncmp(compat_str, "13.3.0", sizeof(compat_str)) == 0)
+         |                 ^
+
+
+vim +/else +452 drivers/gpu/drm/apple/dcp.c
+
+   427	
+   428	static enum dcp_firmware_version dcp_check_firmware_version(struct device *dev)
+   429	{
+   430		char compat_str[DCP_FW_VERSION_STR_LEN];
+   431		char fw_str[DCP_FW_VERSION_STR_LEN];
+   432		int ret;
+   433	
+   434		/* firmware version is just informative */
+   435		dcp_read_fw_version(dev, "apple,firmware-version", fw_str);
+   436	
+   437		ret = dcp_read_fw_version(dev, "apple,firmware-compat", compat_str);
+   438		if (ret < 0) {
+   439			dev_err(dev, "Could not read 'apple,firmware-compat': %d\n", ret);
+   440			return DCP_FIRMWARE_UNKNOWN;
+   441		}
+   442	
+   443		if (strncmp(compat_str, "12.3.0", sizeof(compat_str)) == 0)
+   444			return DCP_FIRMWARE_V_12_3;
+   445		/*
+   446		 * m1n1 reports firmware version 13.5 as compatible with 13.3. This is
+   447		 * only true for the iomfb endpoint. The interface for the dptx-port
+   448		 * endpoint changed between 13.3 and 13.5. The driver will only support
+   449		 * firmware 13.5. Check the actual firmware version for compat version
+   450		 * 13.3 until m1n1 reports 13.5 as "firmware-compat".
+   451		 */
+ > 452		else if (strncmp(compat_str, "13.3.0", sizeof(compat_str)) == 0)
+   453			if (strncmp(fw_str, "13.5.0", sizeof(compat_str)) == 0)
+   454				return DCP_FIRMWARE_V_13_5;
+   455		else if (strncmp(compat_str, "13.5.0", sizeof(compat_str)) == 0)
+   456			return DCP_FIRMWARE_V_13_5;
+   457	
+   458		dev_err(dev, "DCP firmware-compat %s (FW: %s) is not supported\n",
+   459			compat_str, fw_str);
+   460	
+   461		return DCP_FIRMWARE_UNKNOWN;
+   462	}
+   463	
+
 -- 
-Mike Kravetz
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
