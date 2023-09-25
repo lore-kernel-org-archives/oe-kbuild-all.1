@@ -1,44 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F237E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 00:11:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B540336E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 00:11:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1695600665; x=1727136665;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BCdG073ywCt4xul7U327IU8eWWKAIlWFVoWIkkCrkGg=;
-  b=FeWPSF4z87+bUyow3ZsXxqYyTFhdKA3V7pPV8OUOohqAVtQtR7Fw3BuI
-   EqPsF9gdbY4FTNHQhGD9qglzfwZxmtCU5w7Cj1CNITZ5ndupzDSnJeFKd
-   ioZtwLnUzkN/WcILe2QneKGU6yw2DTDGh7wb7gfQvCrVNw+m2X0Ong3af
-   PrE8gnJjgIOyQSdorYvvxnAacxnS3CzgO+XIGWWEwrbPWfOr9hWbszsY8
-   DE/WS/NDvUbpodPPfhaRfvl74IOIXIyn6ZV3kW3FkDvrTPMyz2YZEy1Su
-   +lFUnq8aVaxjW0yQmtBk/v9daPDhPG3YYjQHtQyc9kMowdcBT7Cj8kavs
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="380012683"
+  bh=pAiDJMa6WeWxycppKLbScEBQ9ZHSLM97YPga8zVmI5M=;
+  b=Z+grU82igIMf8dMgev/10QCymDNpiMc01bxorzhjKdtm2aU62p0i08NB
+   c7jaMv6aeOobXwCREn304jRb/5hYaMtRRwq5sYaMeVLWNrKXmQk8ZVG+n
+   B40pyzwBLiNXeM0FLfrX6o/NcZ04f6YS6Fgyf7Y530e5UpRYO5Wb1IWSE
+   3XwvzEPLUb7vPx4N7LCelpnYUsxFHcdsXZNeRO3VR2SaTjYEmR3DHCWRo
+   9eowAv5GBoWH6i1sO/BS+iwioc4GgEDli/OTQP7d4BP3f+byx3ePDFbjj
+   ixeDAW11QVQfT5aq2hpWjkUMlpYIKlqfKCxTKM9jxCsHdzBPcqOTn7fqf
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="467422889"
 X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
-   d="scan'208";a="380012683"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 17:11:03 -0700
+   d="scan'208";a="467422889"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 17:11:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="818420749"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="724803256"
 X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
-   d="scan'208";a="818420749"
+   d="scan'208";a="724803256"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 24 Sep 2023 17:11:02 -0700
+  by orsmga006.jf.intel.com with ESMTP; 24 Sep 2023 17:11:02 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qkZBk-0000dl-07;
+	id 1qkZBk-0000dn-0D;
 	Mon, 25 Sep 2023 00:11:00 +0000
-Date: Mon, 25 Sep 2023 08:10:58 +0800
+Date: Mon, 25 Sep 2023 08:10:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manish Narani <manish.narani@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>
-Subject: [xilinx-xlnx:pr/146 11930/14527]
- drivers/usb/dwc3/gadget_hibernation.c:383: warning: Function parameter or
- member '_dwc' not described in 'dwc3_gadget_exit_hibernation'
-Message-ID: <202309250831.tcStPIrW-lkp@intel.com>
+To: Janne Grunau <j@jannau.net>
+Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:bits/200-dcp 41/115] drivers/gpu/drm/apple/dcp.c:189:45:
+ warning: variable 'old_state' set but not used
+Message-ID: <202309250814.ATvf4pce-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,186 +46,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Manish,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/Xilinx/linux-xlnx pr/146
-head:   38b0c0cf11566882cda99f8e4f2243924a684be5
-commit: 719080ff0022e05bb4cb8043d62739feebcd8dbc [11930/14527] usb: dwc3: gadget: Add hibernation support when operating in gadget mode
-config: arc-randconfig-r015-20230905 (https://download.01.org/0day-ci/archive/20230925/202309250831.tcStPIrW-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309250831.tcStPIrW-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/200-dcp
+head:   f4266bb9a0d063559ea03f3a46244bb54c167e0c
+commit: bd2514bb7f205c34b109c693edfad7853892e33e [41/115] gpu: drm: apple: Add dcp_crtc_atomic_check
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230925/202309250814.ATvf4pce-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309250814.ATvf4pce-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309250831.tcStPIrW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309250814.ATvf4pce-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/usb/dwc3/gadget_hibernation.c:16: warning: cannot understand function prototype: 'u32 save_reg_addr[] = '
-   drivers/usb/dwc3/gadget_hibernation.c:74: warning: Function parameter or member 'epnum' not described in 'restart_ep0_trans'
->> drivers/usb/dwc3/gadget_hibernation.c:383: warning: Function parameter or member '_dwc' not described in 'dwc3_gadget_exit_hibernation'
->> drivers/usb/dwc3/gadget_hibernation.c:383: warning: Excess function parameter 'dwc' description in 'dwc3_gadget_exit_hibernation'
+   drivers/gpu/drm/apple/dcp.c: In function 'dcp_crtc_atomic_check':
+>> drivers/gpu/drm/apple/dcp.c:189:45: warning: variable 'old_state' set but not used [-Wunused-but-set-variable]
+     189 |         struct drm_plane_state *new_state, *old_state;
+         |                                             ^~~~~~~~~
 
 
-vim +383 drivers/usb/dwc3/gadget_hibernation.c
+vim +/old_state +189 drivers/gpu/drm/apple/dcp.c
 
-   377	
-   378	/**
-   379	 * dwc3_gadget_exit_hibernation - Interrupt handler of wakeup
-   380	 * @dwc: pointer to our controller context structure
-   381	 */
-   382	void dwc3_gadget_exit_hibernation(void *_dwc)
- > 383	{
-   384		struct dwc3 *dwc = (struct dwc3 *)(_dwc);
-   385	
-   386		u32 reg, link_state;
-   387		int ret, retries;
-   388		bool enter_hiber = false;
-   389	
-   390		/* On USB 2.0 we observed back to back wakeup interrupts */
-   391		if (!dwc->is_hibernated) {
-   392			dev_dbg(dwc->dev, "Not in hibernated state\n");
-   393			goto err;
-   394		}
-   395	
-   396		restore_regs(dwc);
-   397	
-   398		/* Initialize the core and restore the saved registers */
-   399		dwc3_core_init(dwc);
-   400	
-   401		/* ask controller to save the non-sticky registers */
-   402		reg = dwc3_readl(dwc->regs, DWC3_DCTL);
-   403		reg |= DWC3_DCTL_CRS;
-   404		dwc3_writel(dwc->regs, DWC3_DCTL, reg);
-   405	
-   406		/* Wait till non-sticky registers are restored */
-   407		retries = DWC3_NON_STICKY_RESTORE_RETRIES;
-   408		do {
-   409			reg = dwc3_readl(dwc->regs, DWC3_DSTS);
-   410			if (!(reg & DWC3_DSTS_RSS))
-   411				break;
-   412	
-   413			udelay(DWC3_NON_STICKY_RESTORE_DELAY);
-   414		} while (--retries);
-   415	
-   416		if (retries < 0 || (reg & DWC3_DSTS_SRE)) {
-   417			dev_err(dwc->dev, "Failed to restore non-sticky regs\n");
-   418			goto err;
-   419		}
-   420	
-   421		/* restore ep0 endpoints */
-   422		ret = restore_ep0(dwc);
-   423		if (ret) {
-   424			dev_err(dwc->dev, "Failed in restorig EP0 states\n");
-   425			goto err;
-   426		}
-   427	
-   428		/* start the controller */
-   429		ret = dwc3_gadget_run_stop(dwc, true, false);
-   430		if (ret < 0) {
-   431			dev_err(dwc->dev, "USB core failed to start on wakeup\n");
-   432			goto err;
-   433		}
-   434	
-   435		/* Wait until device controller is ready */
-   436		retries = DWC3_DEVICE_CTRL_READY_RETRIES;
-   437		while (--retries) {
-   438			reg = dwc3_readl(dwc->regs, DWC3_DSTS);
-   439			if (reg & DWC3_DSTS_DCNRD)
-   440				udelay(DWC3_DEVICE_CTRL_READY_DELAY);
-   441			else
-   442				break;
-   443		}
-   444	
-   445		if (retries < 0) {
-   446			dev_err(dwc->dev, "USB core failed to restore controller\n");
-   447			goto err;
-   448		}
-   449	
-   450		/*
-   451		 * As some suprious signals also cause wakeup event, wait for some time
-   452		 * and check the link state to confirm if the wakeup signal is real
-   453		 */
-   454		udelay(10);
-   455	
-   456		link_state = dwc3_gadget_get_link_state(dwc);
-   457	
-   458		/* check if the link state is in a valid state */
-   459		switch (link_state) {
-   460		case DWC3_LINK_STATE_RESET:
-   461			/* Reset devaddr */
-   462			reg = dwc3_readl(dwc->regs, DWC3_DCFG);
-   463			reg &= ~(DWC3_DCFG_DEVADDR_MASK);
-   464			dwc3_writel(dwc->regs, DWC3_DCFG, reg);
-   465	
-   466			/* issue recovery on the link */
-   467			ret = dwc3_gadget_set_link_state(dwc, DWC3_LINK_STATE_RECOV);
-   468			if (ret < 0) {
-   469				dev_err(dwc->dev,
-   470					"Failed to set link state to Recovery\n");
-   471				goto err;
-   472			}
-   473	
-   474			break;
-   475	
-   476		case DWC3_LINK_STATE_SS_DIS:
-   477			/* Clear keep connect from reconnecting to HOST */
-   478			reg = dwc3_readl(dwc->regs, DWC3_DCTL);
-   479			reg &= ~DWC3_DCTL_KEEP_CONNECT;
-   480			dwc3_writel(dwc->regs, DWC3_DCTL, reg);
-   481			/* fall through */
-   482		case DWC3_LINK_STATE_U3:
-   483			/* Ignore wakeup event as the link is still in U3 state */
-   484			dev_dbg(dwc->dev, "False wakeup event %d\n", link_state);
-   485	
-   486			if (!dwc->force_hiber_wake)
-   487				enter_hiber = true;
-   488			break;
-   489	
-   490		default:
-   491			/* issue recovery on the link */
-   492			ret = dwc3_gadget_set_link_state(dwc, DWC3_LINK_STATE_RECOV);
-   493			if (ret < 0) {
-   494				dev_err(dwc->dev,
-   495					"Failed to set link state to Recovery\n");
-   496				goto err;
-   497			}
-   498	
-   499			break;
-   500		}
-   501	
-   502		if (link_state != DWC3_LINK_STATE_SS_DIS) {
-   503			/* Restore non EP0 EPs */
-   504			ret = restore_eps(dwc);
-   505			if (ret) {
-   506				dev_err(dwc->dev, "Failed restoring non-EP0 states\n");
-   507				goto err;
-   508			}
-   509		}
-   510	
-   511		/* clear the flag */
-   512		dwc->is_hibernated = false;
-   513	
-   514		if (enter_hiber) {
-   515			/*
-   516			 * as the wakeup was because of the spurious signals,
-   517			 * enter hibernation again
-   518			 */
-   519			dwc3_gadget_enter_hibernation(dwc);
-   520			return;
-   521		}
-   522	
-   523		dev_dbg(dwc->dev, "We are back from hibernation!\n");
-   524		return;
-   525	
-   526	err:
-   527		dev_err(dwc->dev, "Fail in handling Wakeup Interrupt\n");
-   528		return;
-   529	}
-   530	
+   184	
+   185	int dcp_crtc_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state)
+   186	{
+   187		struct platform_device *pdev = to_apple_crtc(crtc)->dcp;
+   188		struct apple_dcp *dcp = platform_get_drvdata(pdev);
+ > 189		struct drm_plane_state *new_state, *old_state;
+   190		struct drm_plane *plane;
+   191		struct drm_crtc_state *crtc_state;
+   192		int plane_idx, plane_count = 0;
+   193		bool needs_modeset;
+   194	
+   195		if (dcp->crashed)
+   196			return -EINVAL;
+   197	
+   198		crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+   199	
+   200		needs_modeset = drm_atomic_crtc_needs_modeset(crtc_state) || !dcp->valid_mode;
+   201		if (!needs_modeset && !dcp->connector->connected) {
+   202			dev_err(dcp->dev, "crtc_atomic_check: disconnected but no modeset");
+   203			return -EINVAL;
+   204		}
+   205	
+   206		for_each_oldnew_plane_in_state(state, plane, old_state, new_state, plane_idx) {
+   207			/* skip planes not for this crtc */
+   208			if (new_state->crtc != crtc)
+   209				continue;
+   210	
+   211			plane_count += 1;
+   212		}
+   213	
+   214		if (plane_count > DCP_MAX_PLANES) {
+   215			dev_err(dcp->dev, "crtc_atomic_check: Blend supports only 2 layers!");
+   216			return -EINVAL;
+   217		}
+   218	
+   219		return 0;
+   220	}
+   221	EXPORT_SYMBOL_GPL(dcp_crtc_atomic_check);
+   222	
 
 -- 
 0-DAY CI Kernel Test Service
