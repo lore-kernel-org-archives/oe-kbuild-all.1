@@ -1,43 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F179918E1E;
-	Mon, 25 Sep 2023 11:35:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B91614005
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Sep 2023 11:35:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695641752; x=1727177752;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=obtdksO5Wy78pInJMPlOObfxrimyl6DmXmsB8Rk6BmM=;
-  b=Ct7IbIRW4sUbQ7tRv0lDLx9AxCyc9t4wVoBYWttabPBKZ8rw9a+po0+Q
-   yIXD5eTWFEqHX6P1H/WA6yALQdRxM5nvqhJ5o6L3KDDheCoZs7JJ97T1a
-   pPCO3prfyT4nP3joIJiGoL+lwHYP9XWeJnqNZXnW306RuVtg7VfHNhpyF
-   2P9C5GS6EVUYUMBJ7dYCk9upG/rKsTHfVl/NFJvbsU3biEHJFzwheDhxs
-   eS9qReG2dUGAAZlLZjDx63Y60i5yDjuhPgQpwGliQbPdSZkzHORcVjjis
-   sBwaEpwfsvSVMDoKyDcYk7v5BlUdPCalJrylmzDpw1sNK5ZRI17sUMt+w
+  t=1695641753; x=1727177753;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=A0N/3KD/SqIlzzRTtVUghnzqarLjTjUyuOAf9873lpc=;
+  b=BwopjTaaOy+x8lSwycGUkgxA8HK4nUMsV3pJJgdhSU1ail/00xDnOnl8
+   uP/4uLsmOU9g8nq5Y6eW5TD2W5ntLYAD+3bZNPn2oY/Dy2jemO0JMGDvl
+   aLDPvCXlKsy/hbTr1KQ79JF8pMf9rkQFOycs47RFglYcaP6/wM87u+fcF
+   7HbZ+tnvcA+DDqKKJ9b8p/4zA9HNzaEDah/yK7DvbifnjLrnyS8S3BZBR
+   b0YmpWzWw/+xBNn/In2hWNZ/azJ8q7mpArf/GIIfm+ccHZo0HyQvVnCZp
+   WIhy+x/ZfFlN+GrAuzTOHLkDF+n7JHdJlohX3VwRa14vynoIvopiXkluF
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="378496988"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="385058262"
 X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
-   d="scan'208";a="378496988"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 04:35:50 -0700
+   d="scan'208";a="385058262"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 04:35:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="751640858"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="891652378"
 X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
-   d="scan'208";a="751640858"
+   d="scan'208";a="891652378"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 25 Sep 2023 04:35:49 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 25 Sep 2023 04:34:47 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qkjsR-0001St-17;
+	id 1qkjsR-0001Sr-10;
 	Mon, 25 Sep 2023 11:35:47 +0000
-Date: Mon, 25 Sep 2023 19:35:23 +0800
+Date: Mon, 25 Sep 2023 19:35:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tina Zhang <tina.zhang@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [tinazhangzw:per-iommu_IOTLB_invalidation 9/14]
- include/linux/iommu.h:117:24: error: field has incomplete type 'struct
- mmu_notifier'
-Message-ID: <202309251937.zHCduPla-lkp@intel.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>,
+	Alexander Aring <alex.aring@gmail.com>,
+	Stefan Schmidt <stefan@datenfreihafen.org>,
+	linux-wpan@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
+	netdev@vger.kernel.org, David Girault <david.girault@qorvo.com>,
+	Romuald Despres <romuald.despres@qorvo.com>,
+	Frederic Blain <frederic.blain@qorvo.com>,
+	Nicolas Schodet <nico@ni.fr.eu.org>,
+	Guilhem Imberton <guilhem.imberton@qorvo.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH wpan-next v4 04/11] mac802154: Handle associating
+Message-ID: <202309251904.eSN2jHxq-lkp@intel.com>
+References: <20230922155029.592018-5-miquel.raynal@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,115 +57,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230922155029.592018-5-miquel.raynal@bootlin.com>
 
-tree:   https://github.com/TinaZhangZW/linux.git per-iommu_IOTLB_invalidation
-head:   c5144840fce67da51a43d9b6ef05b4b344f5786f
-commit: fa8b08eb650d3a32f2190224035305d113bbea75 [9/14] iommu: Add mmu_notifier to iommu_domain
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20230925/202309251937.zHCduPla-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309251937.zHCduPla-lkp@intel.com/reproduce)
+Hi Miquel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+[also build test WARNING on net/main linus/master v6.6-rc3 next-20230925]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Miquel-Raynal/ieee802154-Let-PAN-IDs-be-reset/20230923-000250
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230922155029.592018-5-miquel.raynal%40bootlin.com
+patch subject: [PATCH wpan-next v4 04/11] mac802154: Handle associating
+config: i386-randconfig-061-20230925 (https://download.01.org/0day-ci/archive/20230925/202309251904.eSN2jHxq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309251904.eSN2jHxq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309251937.zHCduPla-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309251904.eSN2jHxq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/mac802154/cfg.c:379:39: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __le16 [usertype] pan_id @@     got int @@
+   net/mac802154/cfg.c:379:39: sparse:     expected restricted __le16 [usertype] pan_id
+   net/mac802154/cfg.c:379:39: sparse:     got int
 
-   In file included from mm/init-mm.c:13:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from mm/init-mm.c:13:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from mm/init-mm.c:13:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from mm/init-mm.c:13:
->> include/linux/iommu.h:117:24: error: field has incomplete type 'struct mmu_notifier'
-     117 |                         struct mmu_notifier notifier;
-         |                                             ^
-   include/linux/iommu.h:117:11: note: forward declaration of 'struct mmu_notifier'
-     117 |                         struct mmu_notifier notifier;
-         |                                ^
-   12 warnings and 1 error generated.
+vim +379 net/mac802154/cfg.c
 
-
-vim +117 include/linux/iommu.h
-
-    94	
-    95	struct iommu_domain {
-    96		unsigned type;
-    97		const struct iommu_domain_ops *ops;
-    98		unsigned long pgsize_bitmap;	/* Bitmap of page sizes in use */
-    99		struct iommu_domain_geometry geometry;
-   100		struct iommu_dma_cookie *iova_cookie;
-   101		enum iommu_page_response_code (*iopf_handler)(struct iommu_fault *fault,
-   102							      void *data);
-   103		void *fault_data;
-   104		union {
-   105			struct {
-   106				iommu_fault_handler_t handler;
-   107				void *handler_token;
-   108			};
-   109			struct {	/* IOMMU_DOMAIN_SVA */
-   110				struct mm_struct *mm;
-   111				int users;
-   112				/*
-   113				 * Next iommu_domain in mm->iommu_mm->sva-domains list
-   114				 * protected by iommu_sva_lock.
-   115				 */
-   116				struct list_head next;
- > 117				struct mmu_notifier notifier;
-   118			};
-   119		};
-   120	};
-   121	
+   317	
+   318	static int mac802154_associate(struct wpan_phy *wpan_phy,
+   319				       struct wpan_dev *wpan_dev,
+   320				       struct ieee802154_addr *coord)
+   321	{
+   322		struct ieee802154_local *local = wpan_phy_priv(wpan_phy);
+   323		u64 ceaddr = swab64((__force u64)coord->extended_addr);
+   324		struct ieee802154_sub_if_data *sdata;
+   325		struct ieee802154_pan_device *parent;
+   326		__le16 short_addr;
+   327		int ret;
+   328	
+   329		ASSERT_RTNL();
+   330	
+   331		sdata = IEEE802154_WPAN_DEV_TO_SUB_IF(wpan_dev);
+   332	
+   333		if (wpan_dev->parent) {
+   334			dev_err(&sdata->dev->dev,
+   335				"Device %8phC is already associated\n", &ceaddr);
+   336			return -EPERM;
+   337		}
+   338	
+   339		if (coord->mode == IEEE802154_SHORT_ADDRESSING)
+   340			return -EINVAL;
+   341	
+   342		parent = kzalloc(sizeof(*parent), GFP_KERNEL);
+   343		if (!parent)
+   344			return -ENOMEM;
+   345	
+   346		parent->pan_id = coord->pan_id;
+   347		parent->mode = coord->mode;
+   348		parent->extended_addr = coord->extended_addr;
+   349		parent->short_addr = cpu_to_le16(IEEE802154_ADDR_SHORT_BROADCAST);
+   350	
+   351		/* Set the PAN ID hardware address filter beforehand to avoid dropping
+   352		 * the association response with a destination PAN ID field set to the
+   353		 * "new" PAN ID.
+   354		 */
+   355		if (local->hw.flags & IEEE802154_HW_AFILT) {
+   356			ret = drv_set_pan_id(local, coord->pan_id);
+   357			if (ret < 0)
+   358				goto free_parent;
+   359		}
+   360	
+   361		ret = mac802154_perform_association(sdata, parent, &short_addr);
+   362		if (ret)
+   363			goto reset_panid;
+   364	
+   365		if (local->hw.flags & IEEE802154_HW_AFILT) {
+   366			ret = drv_set_short_addr(local, short_addr);
+   367			if (ret < 0)
+   368				goto reset_panid;
+   369		}
+   370	
+   371		wpan_dev->pan_id = coord->pan_id;
+   372		wpan_dev->short_addr = short_addr;
+   373		wpan_dev->parent = parent;
+   374	
+   375		return 0;
+   376	
+   377	reset_panid:
+   378		if (local->hw.flags & IEEE802154_HW_AFILT)
+ > 379			drv_set_pan_id(local, IEEE802154_PAN_ID_BROADCAST);
+   380	
+   381	free_parent:
+   382		kfree(parent);
+   383		return ret;
+   384	}
+   385	
 
 -- 
 0-DAY CI Kernel Test Service
