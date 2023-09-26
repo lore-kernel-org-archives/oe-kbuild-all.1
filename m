@@ -1,48 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08E748E97
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Sep 2023 19:50:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1366730D00
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Sep 2023 20:13:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695757833; x=1727293833;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2yuwy3Y57nWqXAlW1YASdDQfdwt4RIuFLba+rx8HU+w=;
-  b=ADoBhADvXk+6Qmv5Cy/sOUCIN5Kgxj+e+DA0XWractRfYbciC/+s2qmZ
-   1ZO5NYxytLRdpw91aLS2NCsG0DApzaXA5V5XZnldOchD6LWAyZcH5S0A1
-   t9iHPCiGcau2KY234zK0r/ymcWO1vxCujeERRIsr29hWhwg89j9mmJnXM
-   WfprBpnZdDECbhHWVMqSqln7jyZK690o2c34xDbIFhr/nMO/KZ609Nyi/
-   bDJzcwrLMg8Mgf0Pi85liOHVe5vPB8iWCLk8QsId+iLY6qejZp98LZyoi
-   EEYQbm+Mg3qnNgwGwFoKPluJbbt9QFIt8F5AE6dJ9VqAP1IXgqhwXR0Un
+  t=1695759215; x=1727295215;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=N72NV8O8nD1FFy0IiqR7hFgCPZ0FcqUNYJqI2fHkI8o=;
+  b=kpGoFyMXhO06kNwaMnWeAlprj84x3o+9lDwl7kdK0CX7HZVAwE3b7oxT
+   bPP5DxgxdbJe4FarybxZzCUXmNXpWj/6Yo5g4JpcXcfy52gE4hcU157Q1
+   wxHYQHXAKynga/gLbVIF1Jf28F/4z+D29U5+pp60ogQK21auiHANnYC8N
+   SeiymMIIKDm/W0x2iqUA+trMymhKO1Yk7b2ZdcF6upVdByAKYYifXgc/A
+   RheKg/LGCL2YIr6kyEjECkk2OYTWuU69HEsh6oygp87fNZqDNdYKGAEP0
+   6euVoh9xOUAEPsFK1y120a7V2tW0OCrOSfntc/r3qRvJ3pStLtH5rcXRs
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="445786841"
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="448154318"
 X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; 
-   d="scan'208";a="445786841"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 12:50:32 -0700
+   d="scan'208";a="448154318"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 13:13:34 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="819163317"
 X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; 
-   d="scan'208";a="274191"
+   d="scan'208";a="819163317"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 26 Sep 2023 12:50:31 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 26 Sep 2023 13:13:32 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qlE4g-0003Iz-3C;
-	Tue, 26 Sep 2023 19:50:27 +0000
-Date: Wed, 27 Sep 2023 03:49:32 +0800
+	id 1qlER0-0003KF-0Z;
+	Tue, 26 Sep 2023 20:13:30 +0000
+Date: Wed, 27 Sep 2023 04:13:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Minas Harutyunyan <hminas@synopsys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ben Dooks <ben@simtec.co.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: dwc2: gadget: Fix a warning when compiling with W=1
-Message-ID: <202309270325.uqGsh5Cw-lkp@intel.com>
-References: <5cf603809388aa04c9a02bbfe3cf531c20bb043e.1695466447.git.christophe.jaillet@wanadoo.fr>
+To: Tzuyi Chang <tychang@realtek.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [linusw-pinctrl:devel 17/25]
+ drivers/pinctrl/realtek/pinctrl-rtd1319d.c:237:35: warning:
+ 'rtd1319d_testmode_pins' defined but not used
+Message-ID: <202309270448.7Aen3Sgx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,125 +47,166 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5cf603809388aa04c9a02bbfe3cf531c20bb043e.1695466447.git.christophe.jaillet@wanadoo.fr>
 
-Hi Christophe,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.6-rc3 next-20230926]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-JAILLET/usb-dwc2-gadget-Fix-a-warning-when-compiling-with-W-1/20230923-185559
-base:   linus/master
-patch link:    https://lore.kernel.org/r/5cf603809388aa04c9a02bbfe3cf531c20bb043e.1695466447.git.christophe.jaillet%40wanadoo.fr
-patch subject: [PATCH] usb: dwc2: gadget: Fix a warning when compiling with W=1
-config: x86_64-buildonly-randconfig-004-20230927 (https://download.01.org/0day-ci/archive/20230927/202309270325.uqGsh5Cw-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230927/202309270325.uqGsh5Cw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+head:   caaeb8c551123e26e86270c8dec99a78f1f6fe0f
+commit: 916cc2b734cbdfdd4c58887be51a8a8a398e18d7 [17/25] pinctrl: realtek: Add pinctrl driver for RTD1319D
+config: arm-randconfig-001-20230926 (https://download.01.org/0day-ci/archive/20230927/202309270448.7Aen3Sgx-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230927/202309270448.7Aen3Sgx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309270325.uqGsh5Cw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309270448.7Aen3Sgx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/usb/dwc2/gadget.c: In function 'dwc2_hsotg_initep':
->> drivers/usb/dwc2/gadget.c:4804:55: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 8 [-Wformat-truncation=]
-    4804 |         snprintf(hs_ep->name, sizeof(hs_ep->name), "ep%u%s", epnum, dir);
-         |                                                       ^~
-   drivers/usb/dwc2/gadget.c:4804:52: note: directive argument in the range [1, 4294967295]
-    4804 |         snprintf(hs_ep->name, sizeof(hs_ep->name), "ep%u%s", epnum, dir);
-         |                                                    ^~~~~~~~
-   drivers/usb/dwc2/gadget.c:4804:9: note: 'snprintf' output between 6 and 16 bytes into a destination of size 10
-    4804 |         snprintf(hs_ep->name, sizeof(hs_ep->name), "ep%u%s", epnum, dir);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/realtek/pinctrl-rtd1319d.c:237:35: warning: 'rtd1319d_testmode_pins' defined but not used [-Wunused-const-variable=]
+     237 |         static const unsigned int rtd1319d_## _name ##_pins[] = { _pin }
+         |                                   ^~~~~~~~~
+   drivers/pinctrl/realtek/pinctrl-rtd1319d.c:344:1: note: in expansion of macro 'DECLARE_RTD1319D_PIN'
+     344 | DECLARE_RTD1319D_PIN(RTD1319D_ISO_TESTMODE, testmode);
+         | ^~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/realtek/pinctrl-rtd1319d.c:237:35: warning: 'rtd1319d_reset_n_pins' defined but not used [-Wunused-const-variable=]
+     237 |         static const unsigned int rtd1319d_## _name ##_pins[] = { _pin }
+         |                                   ^~~~~~~~~
+   drivers/pinctrl/realtek/pinctrl-rtd1319d.c:343:1: note: in expansion of macro 'DECLARE_RTD1319D_PIN'
+     343 | DECLARE_RTD1319D_PIN(RTD1319D_ISO_RESET_N, reset_n);
+         | ^~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/realtek/pinctrl-rtd1319d.c:237:35: warning: 'rtd1319d_boot_sel_pins' defined but not used [-Wunused-const-variable=]
+     237 |         static const unsigned int rtd1319d_## _name ##_pins[] = { _pin }
+         |                                   ^~~~~~~~~
+   drivers/pinctrl/realtek/pinctrl-rtd1319d.c:342:1: note: in expansion of macro 'DECLARE_RTD1319D_PIN'
+     342 | DECLARE_RTD1319D_PIN(RTD1319D_ISO_BOOT_SEL, boot_sel);
+         | ^~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/realtek/pinctrl-rtd1319d.c:237:35: warning: 'rtd1319d_wd_rset_pins' defined but not used [-Wunused-const-variable=]
+     237 |         static const unsigned int rtd1319d_## _name ##_pins[] = { _pin }
+         |                                   ^~~~~~~~~
+   drivers/pinctrl/realtek/pinctrl-rtd1319d.c:341:1: note: in expansion of macro 'DECLARE_RTD1319D_PIN'
+     341 | DECLARE_RTD1319D_PIN(RTD1319D_ISO_WD_RSET, wd_rset);
+         | ^~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/realtek/pinctrl-rtd1319d.c:237:35: warning: 'rtd1319d_scan_switch_pins' defined but not used [-Wunused-const-variable=]
+     237 |         static const unsigned int rtd1319d_## _name ##_pins[] = { _pin }
+         |                                   ^~~~~~~~~
+   drivers/pinctrl/realtek/pinctrl-rtd1319d.c:340:1: note: in expansion of macro 'DECLARE_RTD1319D_PIN'
+     340 | DECLARE_RTD1319D_PIN(RTD1319D_ISO_SCAN_SWITCH, scan_switch);
+         | ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +4804 drivers/usb/dwc2/gadget.c
+vim +/rtd1319d_testmode_pins +237 drivers/pinctrl/realtek/pinctrl-rtd1319d.c
 
-  4775	
-  4776	/**
-  4777	 * dwc2_hsotg_initep - initialise a single endpoint
-  4778	 * @hsotg: The device state.
-  4779	 * @hs_ep: The endpoint to be initialised.
-  4780	 * @epnum: The endpoint number
-  4781	 * @dir_in: True if direction is in.
-  4782	 *
-  4783	 * Initialise the given endpoint (as part of the probe and device state
-  4784	 * creation) to give to the gadget driver. Setup the endpoint name, any
-  4785	 * direction information and other state that may be required.
-  4786	 */
-  4787	static void dwc2_hsotg_initep(struct dwc2_hsotg *hsotg,
-  4788				      struct dwc2_hsotg_ep *hs_ep,
-  4789				      unsigned int epnum,
-  4790				      bool dir_in)
-  4791	{
-  4792		char *dir;
-  4793	
-  4794		if (epnum == 0)
-  4795			dir = "";
-  4796		else if (dir_in)
-  4797			dir = "in";
-  4798		else
-  4799			dir = "out";
-  4800	
-  4801		hs_ep->dir_in = dir_in;
-  4802		hs_ep->index = epnum;
-  4803	
-> 4804		snprintf(hs_ep->name, sizeof(hs_ep->name), "ep%u%s", epnum, dir);
-  4805	
-  4806		INIT_LIST_HEAD(&hs_ep->queue);
-  4807		INIT_LIST_HEAD(&hs_ep->ep.ep_list);
-  4808	
-  4809		/* add to the list of endpoints known by the gadget driver */
-  4810		if (epnum)
-  4811			list_add_tail(&hs_ep->ep.ep_list, &hsotg->gadget.ep_list);
-  4812	
-  4813		hs_ep->parent = hsotg;
-  4814		hs_ep->ep.name = hs_ep->name;
-  4815	
-  4816		if (hsotg->params.speed == DWC2_SPEED_PARAM_LOW)
-  4817			usb_ep_set_maxpacket_limit(&hs_ep->ep, 8);
-  4818		else
-  4819			usb_ep_set_maxpacket_limit(&hs_ep->ep,
-  4820						   epnum ? 1024 : EP0_MPS_LIMIT);
-  4821		hs_ep->ep.ops = &dwc2_hsotg_ep_ops;
-  4822	
-  4823		if (epnum == 0) {
-  4824			hs_ep->ep.caps.type_control = true;
-  4825		} else {
-  4826			if (hsotg->params.speed != DWC2_SPEED_PARAM_LOW) {
-  4827				hs_ep->ep.caps.type_iso = true;
-  4828				hs_ep->ep.caps.type_bulk = true;
-  4829			}
-  4830			hs_ep->ep.caps.type_int = true;
-  4831		}
-  4832	
-  4833		if (dir_in)
-  4834			hs_ep->ep.caps.dir_in = true;
-  4835		else
-  4836			hs_ep->ep.caps.dir_out = true;
-  4837	
-  4838		/*
-  4839		 * if we're using dma, we need to set the next-endpoint pointer
-  4840		 * to be something valid.
-  4841		 */
-  4842	
-  4843		if (using_dma(hsotg)) {
-  4844			u32 next = DXEPCTL_NEXTEP((epnum + 1) % 15);
-  4845	
-  4846			if (dir_in)
-  4847				dwc2_writel(hsotg, next, DIEPCTL(epnum));
-  4848			else
-  4849				dwc2_writel(hsotg, next, DOEPCTL(epnum));
-  4850		}
-  4851	}
-  4852	
+   235	
+   236	#define DECLARE_RTD1319D_PIN(_pin, _name) \
+ > 237		static const unsigned int rtd1319d_## _name ##_pins[] = { _pin }
+   238	
+   239	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_0, gpio_0);
+   240	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_1, gpio_1);
+   241	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_2, gpio_2);
+   242	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_3, gpio_3);
+   243	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_4, gpio_4);
+   244	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_5, gpio_5);
+   245	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_6, gpio_6);
+   246	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_7, gpio_7);
+   247	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_8, gpio_8);
+   248	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_9, gpio_9);
+   249	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_10, gpio_10);
+   250	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_11, gpio_11);
+   251	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_12, gpio_12);
+   252	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_13, gpio_13);
+   253	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_14, gpio_14);
+   254	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_15, gpio_15);
+   255	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_16, gpio_16);
+   256	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_17, gpio_17);
+   257	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_18, gpio_18);
+   258	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_19, gpio_19);
+   259	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_20, gpio_20);
+   260	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_21, gpio_21);
+   261	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_22, gpio_22);
+   262	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_23, gpio_23);
+   263	DECLARE_RTD1319D_PIN(RTD1319D_ISO_USB_CC2, usb_cc2);
+   264	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_25, gpio_25);
+   265	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_26, gpio_26);
+   266	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_27, gpio_27);
+   267	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_28, gpio_28);
+   268	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_29, gpio_29);
+   269	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_30, gpio_30);
+   270	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_31, gpio_31);
+   271	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_32, gpio_32);
+   272	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_33, gpio_33);
+   273	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_34, gpio_34);
+   274	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_35, gpio_35);
+   275	DECLARE_RTD1319D_PIN(RTD1319D_ISO_HIF_DATA, hif_data);
+   276	DECLARE_RTD1319D_PIN(RTD1319D_ISO_HIF_EN, hif_en);
+   277	DECLARE_RTD1319D_PIN(RTD1319D_ISO_HIF_RDY, hif_rdy);
+   278	DECLARE_RTD1319D_PIN(RTD1319D_ISO_HIF_CLK, hif_clk);
+   279	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_40, gpio_40);
+   280	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_41, gpio_41);
+   281	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_42, gpio_42);
+   282	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_43, gpio_43);
+   283	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_44, gpio_44);
+   284	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_45, gpio_45);
+   285	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_46, gpio_46);
+   286	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_47, gpio_47);
+   287	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_48, gpio_48);
+   288	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_49, gpio_49);
+   289	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_50, gpio_50);
+   290	DECLARE_RTD1319D_PIN(RTD1319D_ISO_USB_CC1, usb_cc1);
+   291	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_52, gpio_52);
+   292	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_53, gpio_53);
+   293	DECLARE_RTD1319D_PIN(RTD1319D_ISO_IR_RX, ir_rx);
+   294	DECLARE_RTD1319D_PIN(RTD1319D_ISO_UR0_RX, ur0_rx);
+   295	DECLARE_RTD1319D_PIN(RTD1319D_ISO_UR0_TX, ur0_tx);
+   296	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_57, gpio_57);
+   297	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_58, gpio_58);
+   298	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_59, gpio_59);
+   299	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_60, gpio_60);
+   300	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_61, gpio_61);
+   301	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_62, gpio_62);
+   302	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_63, gpio_63);
+   303	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_64, gpio_64);
+   304	DECLARE_RTD1319D_PIN(RTD1319D_ISO_EMMC_RST_N, emmc_rst_n);
+   305	DECLARE_RTD1319D_PIN(RTD1319D_ISO_EMMC_DD_SB, emmc_dd_sb);
+   306	DECLARE_RTD1319D_PIN(RTD1319D_ISO_EMMC_CLK, emmc_clk);
+   307	DECLARE_RTD1319D_PIN(RTD1319D_ISO_EMMC_CMD, emmc_cmd);
+   308	DECLARE_RTD1319D_PIN(RTD1319D_ISO_EMMC_DATA_0, emmc_data_0);
+   309	DECLARE_RTD1319D_PIN(RTD1319D_ISO_EMMC_DATA_1, emmc_data_1);
+   310	DECLARE_RTD1319D_PIN(RTD1319D_ISO_EMMC_DATA_2, emmc_data_2);
+   311	DECLARE_RTD1319D_PIN(RTD1319D_ISO_EMMC_DATA_3, emmc_data_3);
+   312	DECLARE_RTD1319D_PIN(RTD1319D_ISO_EMMC_DATA_4, emmc_data_4);
+   313	DECLARE_RTD1319D_PIN(RTD1319D_ISO_EMMC_DATA_5, emmc_data_5);
+   314	DECLARE_RTD1319D_PIN(RTD1319D_ISO_EMMC_DATA_6, emmc_data_6);
+   315	DECLARE_RTD1319D_PIN(RTD1319D_ISO_EMMC_DATA_7, emmc_data_7);
+   316	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_78, gpio_78);
+   317	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_79, gpio_79);
+   318	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_80, gpio_80);
+   319	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GPIO_81, gpio_81);
+   320	DECLARE_RTD1319D_PIN(RTD1319D_ISO_UR2_LOC, ur2_loc);
+   321	DECLARE_RTD1319D_PIN(RTD1319D_ISO_GSPI_LOC, gspi_loc);
+   322	DECLARE_RTD1319D_PIN(RTD1319D_ISO_HI_WIDTH, hi_width);
+   323	DECLARE_RTD1319D_PIN(RTD1319D_ISO_SF_EN, sf_en);
+   324	DECLARE_RTD1319D_PIN(RTD1319D_ISO_ARM_TRACE_DBG_EN, arm_trace_dbg_en);
+   325	DECLARE_RTD1319D_PIN(RTD1319D_ISO_EJTAG_AUCPU_LOC, ejtag_aucpu_loc);
+   326	DECLARE_RTD1319D_PIN(RTD1319D_ISO_EJTAG_ACPU_LOC, ejtag_acpu_loc);
+   327	DECLARE_RTD1319D_PIN(RTD1319D_ISO_EJTAG_VCPU_LOC, ejtag_vcpu_loc);
+   328	DECLARE_RTD1319D_PIN(RTD1319D_ISO_EJTAG_SCPU_LOC, ejtag_scpu_loc);
+   329	DECLARE_RTD1319D_PIN(RTD1319D_ISO_DMIC_LOC, dmic_loc);
+   330	DECLARE_RTD1319D_PIN(RTD1319D_ISO_EJTAG_SECPU_LOC, ejtag_secpu_loc);
+   331	DECLARE_RTD1319D_PIN(RTD1319D_ISO_VTC_DMIC_LOC, vtc_dmic_loc);
+   332	DECLARE_RTD1319D_PIN(RTD1319D_ISO_VTC_TDM_LOC, vtc_tdm_loc);
+   333	DECLARE_RTD1319D_PIN(RTD1319D_ISO_VTC_I2SI_LOC, vtc_i2si_loc);
+   334	DECLARE_RTD1319D_PIN(RTD1319D_ISO_TDM_AI_LOC, tdm_ai_loc);
+   335	DECLARE_RTD1319D_PIN(RTD1319D_ISO_AI_LOC, ai_loc);
+   336	DECLARE_RTD1319D_PIN(RTD1319D_ISO_SPDIF_LOC, spdif_loc);
+   337	DECLARE_RTD1319D_PIN(RTD1319D_ISO_HIF_EN_LOC, hif_en_loc);
+   338	DECLARE_RTD1319D_PIN(RTD1319D_ISO_SC0_LOC, sc0_loc);
+   339	DECLARE_RTD1319D_PIN(RTD1319D_ISO_SC1_LOC, sc1_loc);
+   340	DECLARE_RTD1319D_PIN(RTD1319D_ISO_SCAN_SWITCH, scan_switch);
+   341	DECLARE_RTD1319D_PIN(RTD1319D_ISO_WD_RSET, wd_rset);
+ > 342	DECLARE_RTD1319D_PIN(RTD1319D_ISO_BOOT_SEL, boot_sel);
+ > 343	DECLARE_RTD1319D_PIN(RTD1319D_ISO_RESET_N, reset_n);
+ > 344	DECLARE_RTD1319D_PIN(RTD1319D_ISO_TESTMODE, testmode);
+   345	
 
 -- 
 0-DAY CI Kernel Test Service
