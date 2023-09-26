@@ -1,57 +1,43 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5280926E34
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Sep 2023 13:50:02 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-405361bba99so84739195e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Sep 2023 06:50:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695736201; x=1696341001; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cRs3HHfGHaH5W3/uj1x1VaVTGyeeNQR7KwXCiLuCrmM=;
-        b=FdBfcmUkaZ32VcQBe2tKL/b1QZ0yDpb/cZvgVjZl1bPWFVk0tAdHsSZ80dkav/fSIu
-         lXlxx84KpT4NbJrBD6OYTLu2wq6+zr7MwqR2MC3xTurYAJ5sB+z9/k7pqM25aU3XVdb5
-         Ydqsel4Ekpb1x278uimsvbZ+U4IShkPpkpoXhdKGiguECCcO0OpwzzUGG5PHr0jJBWd3
-         NiurB1rRfj/HlZbJ6ykdesXyrustgyHshzkpQ4qnHl+1rbR2h6bKBsg/PbohG/8S1fcf
-         /Xu/ER60Ay6a2IzwkTYl+G71b2oi9Z63Y7CHR16I+3Hp/FTx/i/HRmKJutZ37f4GyIHP
-         wPRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695736201; x=1696341001;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cRs3HHfGHaH5W3/uj1x1VaVTGyeeNQR7KwXCiLuCrmM=;
-        b=J3klVKfTS9mgrnCYXYjP865uZ/vWoEj0BjD+3fy6hjujw7L+PESPI4M6lRZnSoSnNN
-         ObPyrvi7gS+6Wi3Y5+q8lcnqrapqwoctz7sykv71JJUH4nFMILexuoa8LXeA+aOwtm7Y
-         fYzNNBdWIeuq/nceSD0+G6M09PB4fblujKXgQYX9VcETkbQoY1Ci0gUQKxz/pEe3x6sA
-         cvAn5mUrFGvJTni4zB13A3kAkYsRHk1HthHYBwI8dQbChSn4ql7wKDo7+E66x/kSUrD2
-         EV2rG9a/rrU9sDcKb/6Q6yGkVFXAdyhPuIyUGorxznZb1VO1NTbKe4ELBvWCj70m/gfm
-         DHFA==
-X-Gm-Message-State: AOJu0YyyMaa9D6Vg+22zxCATvHagqnHcWlL3K1smtJUVgtIPkz7eJ/9M
-	duM/kG3UQHtTnQwk4cJiXpPooQ==
-X-Google-Smtp-Source: AGHT+IF91hGN1iRDS8YgIh/vPtUJ+zpofgOyE21tn2k4Y0dzzbVuW2uJnDRcsiLSCzeUbXQdNsr/9Q==
-X-Received: by 2002:a5d:4fc9:0:b0:31a:dc2e:2db2 with SMTP id h9-20020a5d4fc9000000b0031adc2e2db2mr9310520wrw.49.1695736200924;
-        Tue, 26 Sep 2023 06:50:00 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id o11-20020a056000010b00b0031c52e81490sm14821340wrx.72.2023.09.26.06.49.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Sep 2023 06:50:00 -0700 (PDT)
-Date: Tue, 26 Sep 2023 16:49:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, "Eric W. Biederman" <ebiederm@xmission.com>,
-	Sebastian Ott <sebott@redhat.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Kees Cook <keescook@chromium.org>, Mark Brown <broonie@kernel.org>,
-	Willy Tarreau <w@1wt.eu>, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] binfmt_elf: Support segments with 0 filesz and
- misaligned starts
-Message-ID: <60c7fdeb-da32-4d21-9e34-368050224d6c@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1EC728E2C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Sep 2023 14:06:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695737173; x=1727273173;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TcK5us40vmqANLf7gKsmf2Y6kgwhwxQNl0QI2Yrl3Fs=;
+  b=b8IGytXYP3sZqK/anSASeZhV387k2cbfp98X5DakTzf0hDLtkrombtpG
+   Ms1lFt+LU011lShKH4IJuo1ftqaALIGMM4XDiX0dPc4O3vSJ4CE/2J5yE
+   QuqjE9NekXw0ndLFVbXLdI8t719LlbVhtSk5kTKTIBGA4PpfQGfro15EZ
+   S7bmnBqOv0DoYCK1rTU7u6jfKoMc18VOrkd513gzIpMG2BxkEZixQQ9VU
+   8B8jT1rVNtIR/OVmGMMX9iIEHk1oQVTVM8ayaxoTvxsBkf42N80N8QbgG
+   cKZ7N+HgWRGws2ei4YW1jLhaAqOs1JpQL5S6O3IM+YdGvLNuBgHnkdtaU
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="381471089"
+X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; 
+   d="scan'208";a="381471089"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 07:06:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="742375489"
+X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; 
+   d="scan'208";a="742375489"
+Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 26 Sep 2023 07:06:11 -0700
+Received: from kbuild by 32c80313467c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ql8hU-0002sf-23;
+	Tue, 26 Sep 2023 14:06:08 +0000
+Date: Tue, 26 Sep 2023 22:05:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-4.19-stable 14475/30000]
+ sound/usb/card.c:134: warning: Function parameter or member 'disconnect_cb'
+ not described in 'find_snd_usb_substream'
+Message-ID: <202309262152.h8PXX99E-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,81 +46,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87jzsemmsd.fsf_-_@email.froward.int.ebiederm.org>
 
-Hi Eric,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Eric-W-Biederman/binfmt_elf-Support-segments-with-0-filesz-and-misaligned-starts/20230925-210022
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/execve
-patch link:    https://lore.kernel.org/r/87jzsemmsd.fsf_-_%40email.froward.int.ebiederm.org
-patch subject: [PATCH] binfmt_elf: Support segments with 0 filesz and misaligned starts
-config: i386-randconfig-141-20230926 (https://download.01.org/0day-ci/archive/20230926/202309261925.QvgPAYL7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230926/202309261925.QvgPAYL7-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-4.19-stable
+head:   8daba3e055d00086f153f5562449f11065001703
+commit: 6da0c634f8bda1a50698a245374b8f86fdda6640 [14475/30000] ANDROID: GKI: sound: usb: Add snd_usb_enable_audio_stream/find_snd_usb_substream
+config: i386-randconfig-013-20230926 (https://download.01.org/0day-ci/archive/20230926/202309262152.h8PXX99E-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309262152.h8PXX99E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202309261925.QvgPAYL7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309262152.h8PXX99E-lkp@intel.com/
 
-smatch warnings:
-fs/binfmt_elf.c:431 elf_load() error: uninitialized symbol 'map_addr'.
+All warnings (new ones prefixed by >>):
 
-vim +/map_addr +431 fs/binfmt_elf.c
+>> sound/usb/card.c:134: warning: Function parameter or member 'disconnect_cb' not described in 'find_snd_usb_substream'
 
-a6409120b31666 Eric W. Biederman 2023-09-25  390  static unsigned long elf_load(struct file *filep, unsigned long addr,
-a6409120b31666 Eric W. Biederman 2023-09-25  391  		const struct elf_phdr *eppnt, int prot, int type,
-a6409120b31666 Eric W. Biederman 2023-09-25  392  		unsigned long total_size)
-a6409120b31666 Eric W. Biederman 2023-09-25  393  {
-a6409120b31666 Eric W. Biederman 2023-09-25  394  	unsigned long zero_start, zero_end;
-a6409120b31666 Eric W. Biederman 2023-09-25  395  	unsigned long map_addr;
-a6409120b31666 Eric W. Biederman 2023-09-25  396  
-a6409120b31666 Eric W. Biederman 2023-09-25  397  	if (eppnt->p_filesz) {
-a6409120b31666 Eric W. Biederman 2023-09-25  398  		map_addr = elf_map(filep, addr, eppnt, prot, type, total_size);
-a6409120b31666 Eric W. Biederman 2023-09-25  399  		if (BAD_ADDR(map_addr))
-a6409120b31666 Eric W. Biederman 2023-09-25  400  			return map_addr;
-a6409120b31666 Eric W. Biederman 2023-09-25  401  		if (eppnt->p_memsz > eppnt->p_filesz) {
-a6409120b31666 Eric W. Biederman 2023-09-25  402  			zero_start = map_addr + ELF_PAGEOFFSET(eppnt->p_vaddr) +
-a6409120b31666 Eric W. Biederman 2023-09-25  403  				eppnt->p_filesz;
-a6409120b31666 Eric W. Biederman 2023-09-25  404  			zero_end = map_addr + ELF_PAGEOFFSET(eppnt->p_vaddr) +
-a6409120b31666 Eric W. Biederman 2023-09-25  405  				eppnt->p_memsz;
-a6409120b31666 Eric W. Biederman 2023-09-25  406  
-a6409120b31666 Eric W. Biederman 2023-09-25  407  			/* Zero the end of the last mapped page */
-a6409120b31666 Eric W. Biederman 2023-09-25  408  			padzero(zero_start);
-a6409120b31666 Eric W. Biederman 2023-09-25  409  		}
-a6409120b31666 Eric W. Biederman 2023-09-25  410  	} else {
-a6409120b31666 Eric W. Biederman 2023-09-25  411  		zero_start = ELF_PAGESTART(addr);
-a6409120b31666 Eric W. Biederman 2023-09-25  412  		zero_end = zero_start + ELF_PAGEOFFSET(eppnt->p_vaddr) +
-a6409120b31666 Eric W. Biederman 2023-09-25  413  			eppnt->p_memsz;
 
-For this else path, map_addr is only set if there is an error.
+vim +134 sound/usb/card.c
 
-a6409120b31666 Eric W. Biederman 2023-09-25  414  	}
-a6409120b31666 Eric W. Biederman 2023-09-25  415  	if (eppnt->p_memsz > eppnt->p_filesz) {
-a6409120b31666 Eric W. Biederman 2023-09-25  416  		/*
-a6409120b31666 Eric W. Biederman 2023-09-25  417  		 * Map the last of the segment.
-a6409120b31666 Eric W. Biederman 2023-09-25  418  		 * If the header is requesting these pages to be
-a6409120b31666 Eric W. Biederman 2023-09-25  419  		 * executable, honour that (ppc32 needs this).
-a6409120b31666 Eric W. Biederman 2023-09-25  420  		 */
-a6409120b31666 Eric W. Biederman 2023-09-25  421  		int error;
-a6409120b31666 Eric W. Biederman 2023-09-25  422  
-a6409120b31666 Eric W. Biederman 2023-09-25  423  		zero_start = ELF_PAGEALIGN(zero_start);
-a6409120b31666 Eric W. Biederman 2023-09-25  424  		zero_end = ELF_PAGEALIGN(zero_end);
-a6409120b31666 Eric W. Biederman 2023-09-25  425  
-a6409120b31666 Eric W. Biederman 2023-09-25  426  		error = vm_brk_flags(zero_start, zero_end - zero_start,
-a6409120b31666 Eric W. Biederman 2023-09-25  427  				     prot & PROT_EXEC ? VM_EXEC : 0);
-a6409120b31666 Eric W. Biederman 2023-09-25  428  		if (error)
-a6409120b31666 Eric W. Biederman 2023-09-25  429  			map_addr = error;
-a6409120b31666 Eric W. Biederman 2023-09-25  430  	}
-a6409120b31666 Eric W. Biederman 2023-09-25 @431  	return map_addr;
-a6409120b31666 Eric W. Biederman 2023-09-25  432  }
+   121	
+   122	/**
+   123	 * find_snd_usb_substream - helper API to find usb substream context
+   124	 * information using card number, pcm device number and direction.
+   125	 * @card_num: card number
+   126	 * @pcm_idx: pcm device number
+   127	 * @direction: SNDRV_PCM_STREAM_PLAYBACK or SNDRV_PCM_STREAM_CAPTURE
+   128	 * @uchip: substream context.
+   129	 * disconnect_cb: callback to use for cleanup on disconnect.
+   130	 */
+   131	struct snd_usb_substream *find_snd_usb_substream(unsigned int card_num,
+   132		unsigned int pcm_idx, unsigned int direction, struct snd_usb_audio
+   133		**uchip, void (*disconnect_cb)(struct snd_usb_audio *chip))
+ > 134	{
+   135		int idx;
+   136		struct snd_usb_stream *as;
+   137		struct snd_usb_substream *subs = NULL;
+   138		struct snd_usb_audio *chip = NULL;
+   139	
+   140		mutex_lock(&register_mutex);
+   141		/*
+   142		 * legacy audio snd card number assignment is dynamic. Hence
+   143		 * search using chip->card->number
+   144		 */
+   145		for (idx = 0; idx < SNDRV_CARDS; idx++) {
+   146			if (!usb_chip[idx] || !usb_chip[idx]->card)
+   147				continue;
+   148			if (usb_chip[idx]->card->number == card_num) {
+   149				chip = usb_chip[idx];
+   150				break;
+   151			}
+   152		}
+   153	
+   154		if (!chip || atomic_read(&chip->shutdown)) {
+   155			pr_debug("%s: instance of usb card # %d does not exist\n",
+   156				__func__, card_num);
+   157			goto err;
+   158		}
+   159	
+   160		if (pcm_idx >= chip->pcm_devs) {
+   161			usb_audio_err(chip, "%s: invalid pcm dev number %u > %d\n",
+   162				      __func__, pcm_idx, chip->pcm_devs);
+   163			goto err;
+   164		}
+   165	
+   166		if (direction > SNDRV_PCM_STREAM_CAPTURE) {
+   167			usb_audio_err(chip, "%s: invalid direction %u\n", __func__,
+   168				      direction);
+   169			goto err;
+   170		}
+   171	
+   172		list_for_each_entry(as, &chip->pcm_list, list) {
+   173			if (as->pcm_index == pcm_idx) {
+   174				subs = &as->substream[direction];
+   175				if (subs->interface < 0 && !subs->data_endpoint &&
+   176				    !subs->sync_endpoint) {
+   177					usb_audio_err(chip, "%s: stream disconnected, bail out\n",
+   178						      __func__);
+   179					subs = NULL;
+   180					goto err;
+   181				}
+   182				goto done;
+   183			}
+   184		}
+   185	
+   186	done:
+   187		chip->card_num = card_num;
+   188		chip->disconnect_cb = disconnect_cb;
+   189	err:
+   190		*uchip = chip;
+   191		if (!subs)
+   192			pr_err("%s: substream instance not found\n", __func__);
+   193		mutex_unlock(&register_mutex);
+   194		return subs;
+   195	}
+   196	EXPORT_SYMBOL_GPL(find_snd_usb_substream);
+   197	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
