@@ -1,43 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD920273C3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Sep 2023 12:02:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 065E4273C3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Sep 2023 12:02:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695729764; x=1727265764;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rZrLTv1N0fnJ3i/PkJ43R5P4WXZq6VlrtB4/CSk2yzk=;
-  b=VKif+mQfuffIwUle3P1w7SEn8P1zVv1O4XxAqY9sifhu8YLCFCb/X5TW
-   tXT74GRSIGyhlneoUMfrztU1x6d8pFy3aNPfF+QdzFL2TU2uWW3nyBhkq
-   SzrHRajFD/+ba9dNW7ykhWUai40izpvbgQZ45K4oFzUQdJurXdza2r1dG
-   DlmgKvYXG8k7NGEE2XKDwZILcufJeU64rsctjSW4l00hRPmB7bkYHV3hq
-   73kEamHloKDQTL/qjeqzUWlgI7FIZqycE1p11Qz9XMWs4Wqf5WL/bGlgf
-   MTylb2OZo5CHfLA2/DPL8A3GpKyFEe6vBPc7Lj7lCEBUl086UJVvJ2cMV
+  t=1695729767; x=1727265767;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SP3EbuY1pr3nX/kVEaXbBUjA6EJivYJ3T6z0pZl7O7Q=;
+  b=euvei/xoi6xC2mePoA9b8cO9lS8sQCnpxYfu+9hli5dBU3cWoVLXokeU
+   1EzWNqlraBk42DxODsJOCr/tJf/M3NGtIBHW6fM6kIDWLyMKgM9o2JI/d
+   nMGLAcuxXDz8hcnvU+kDyFiFc22+Oid8wRzIpz2lgfUK/qYZmhm1t2XiG
+   JoHnUxMWzPoNmfsHZkvdvH6P1hrpQixqnJXwsUQERj5ApGETvQpzEYvn8
+   hTBMmNHseznaYrZNCTbI/leB3fJKVp+ViC1D0rRT0QyirS6wKy3xN02m+
+   BEtKAHeuc0rW7mf/gO9nSSEksetognRztmogqPL5YR0fa8MT39CFTRV4r
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="381448584"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="381448622"
 X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; 
-   d="scan'208";a="381448584"
+   d="scan'208";a="381448622"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 05:02:33 -0700
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 05:02:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="752153508"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="752153507"
 X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; 
-   d="scan'208";a="752153508"
+   d="scan'208";a="752153507"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
   by fmsmga007.fm.intel.com with ESMTP; 26 Sep 2023 05:02:32 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ql6lq-0002mr-29;
+	id 1ql6lq-0002mp-22;
 	Tue, 26 Sep 2023 12:02:30 +0000
-Date: Tue, 26 Sep 2023 20:02:13 +0800
+Date: Tue, 26 Sep 2023 20:02:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 27/32]
- drivers/virt/gunyah/rsc_mgr.c:159: warning: Function parameter or member
- 'adev' not described in 'gh_rm'
-Message-ID: <202309261952.QTG34QLU-lkp@intel.com>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Rob Clark <robdclark@gmail.com>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Andy Gross <agross@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v5 07/10] drm/msm/a6xx: Mostly implement A7xx gpu_state
+Message-ID: <202309261932.Dha9doOl-lkp@intel.com>
+References: <20230628-topic-a7xx_drmmsm-v5-7-3dc527b472d7@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,73 +61,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230628-topic-a7xx_drmmsm-v5-7-3dc527b472d7@linaro.org>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   b548c046c7de4c427ac5a0d5008a995d5e304f9b
-commit: 1dce9d7d4deea1d677677ba5dc6e0879679e5b38 [27/32] ANDROID: gunyah: Add support for Gunyah vendor modules
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20230926/202309261952.QTG34QLU-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309261952.QTG34QLU-lkp@intel.com/reproduce)
+Hi Konrad,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8fff9184d1b5810dca5dd1a02726d4f844af88fc]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/dt-bindings-display-msm-gmu-Add-Adreno-7-34-0-GMU/20230925-225348
+base:   8fff9184d1b5810dca5dd1a02726d4f844af88fc
+patch link:    https://lore.kernel.org/r/20230628-topic-a7xx_drmmsm-v5-7-3dc527b472d7%40linaro.org
+patch subject: [PATCH v5 07/10] drm/msm/a6xx: Mostly implement A7xx gpu_state
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230926/202309261932.Dha9doOl-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309261932.Dha9doOl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309261952.QTG34QLU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309261932.Dha9doOl-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/virt/gunyah/rsc_mgr.c:159: warning: Function parameter or member 'msgq_client' not described in 'gh_rm'
->> drivers/virt/gunyah/rsc_mgr.c:159: warning: Function parameter or member 'adev' not described in 'gh_rm'
-   drivers/virt/gunyah/rsc_mgr.c:166: warning: Function parameter or member 'rm_error' not described in 'gh_rm_remap_error'
-   drivers/virt/gunyah/rsc_mgr.c:166: warning: Excess function parameter 'gh_error' description in 'gh_rm_remap_error'
+   In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:8:
+>> drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h:360:36: warning: 'a7xx_gbif_reglist' defined but not used [-Wunused-const-variable=]
+     360 | static const struct a6xx_registers a7xx_gbif_reglist =
+         |                                    ^~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h:356:36: warning: 'a7xx_ahb_reglist' defined but not used [-Wunused-const-variable=]
+     356 | static const struct a6xx_registers a7xx_ahb_reglist[] = {
+         |                                    ^~~~~~~~~~~~~~~~
 
 
-vim +159 drivers/virt/gunyah/rsc_mgr.c
+vim +/a7xx_gbif_reglist +360 drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
 
-d5e8df2cc4a170 Elliot Berman           2022-08-10  123  
-d5e8df2cc4a170 Elliot Berman           2022-08-10  124  /**
-d5e8df2cc4a170 Elliot Berman           2022-08-10  125   * struct gh_rm - private data for communicating w/Gunyah resource manager
-d5e8df2cc4a170 Elliot Berman           2022-08-10  126   * @dev: pointer to device
-d5e8df2cc4a170 Elliot Berman           2022-08-10  127   * @tx_ghrsc: message queue resource to TX to RM
-d5e8df2cc4a170 Elliot Berman           2022-08-10  128   * @rx_ghrsc: message queue resource to RX from RM
-d5e8df2cc4a170 Elliot Berman           2022-08-10  129   * @msgq: mailbox instance of above
-d5e8df2cc4a170 Elliot Berman           2022-08-10  130   * @active_rx_connection: ongoing gh_rm_connection for which we're receiving fragments
-d5e8df2cc4a170 Elliot Berman           2022-08-10  131   * @last_tx_ret: return value of last mailbox tx
-d5e8df2cc4a170 Elliot Berman           2022-08-10  132   * @call_xarray: xarray to allocate & lookup sequence IDs for Request/Response flows
-d5e8df2cc4a170 Elliot Berman           2022-08-10  133   * @next_seq: next ID to allocate (for xa_alloc_cyclic)
-d5e8df2cc4a170 Elliot Berman           2022-08-10  134   * @cache: cache for allocating Tx messages
-d5e8df2cc4a170 Elliot Berman           2022-08-10  135   * @send_lock: synchronization to allow only one request to be sent at a time
-d5e8df2cc4a170 Elliot Berman           2022-08-10  136   * @nh: notifier chain for clients interested in RM notification messages
-f251362242ba3e Elliot Berman           2022-10-14  137   * @miscdev: /dev/gunyah
-4cf9feacb7e4ba Elliot Berman           2022-12-13  138   * @irq_domain: Domain to translate Gunyah hwirqs to Linux irqs
-d5e8df2cc4a170 Elliot Berman           2022-08-10  139   */
-d5e8df2cc4a170 Elliot Berman           2022-08-10  140  struct gh_rm {
-d5e8df2cc4a170 Elliot Berman           2022-08-10  141  	struct device *dev;
-d5e8df2cc4a170 Elliot Berman           2022-08-10  142  	struct gh_resource tx_ghrsc;
-d5e8df2cc4a170 Elliot Berman           2022-08-10  143  	struct gh_resource rx_ghrsc;
-d5e8df2cc4a170 Elliot Berman           2022-08-10  144  	struct gh_msgq msgq;
-d5e8df2cc4a170 Elliot Berman           2022-08-10  145  	struct mbox_client msgq_client;
-d5e8df2cc4a170 Elliot Berman           2022-08-10  146  	struct gh_rm_connection *active_rx_connection;
-d5e8df2cc4a170 Elliot Berman           2022-08-10  147  	int last_tx_ret;
-d5e8df2cc4a170 Elliot Berman           2022-08-10  148  
-d5e8df2cc4a170 Elliot Berman           2022-08-10  149  	struct xarray call_xarray;
-d5e8df2cc4a170 Elliot Berman           2022-08-10  150  	u32 next_seq;
-d5e8df2cc4a170 Elliot Berman           2022-08-10  151  
-d5e8df2cc4a170 Elliot Berman           2022-08-10  152  	struct kmem_cache *cache;
-d5e8df2cc4a170 Elliot Berman           2022-08-10  153  	struct mutex send_lock;
-d5e8df2cc4a170 Elliot Berman           2022-08-10  154  	struct blocking_notifier_head nh;
-f251362242ba3e Elliot Berman           2022-10-14  155  
-1dce9d7d4deea1 Prakruthi Deepak Heragu 2023-02-27  156  	struct auxiliary_device adev;
-f251362242ba3e Elliot Berman           2022-10-14  157  	struct miscdevice miscdev;
-4cf9feacb7e4ba Elliot Berman           2022-12-13  158  	struct irq_domain *irq_domain;
-d5e8df2cc4a170 Elliot Berman           2022-08-10 @159  };
-d5e8df2cc4a170 Elliot Berman           2022-08-10  160  
-
-:::::: The code at line 159 was first introduced by commit
-:::::: d5e8df2cc4a17063dcebc67a939356ad49a665bd FROMLIST: gunyah: rsc_mgr: Add resource manager RPC core
-
-:::::: TO: Elliot Berman <quic_eberman@quicinc.com>
-:::::: CC: Aleksei Vetrov <vvvvvv@google.com>
+   355	
+ > 356	static const struct a6xx_registers a7xx_ahb_reglist[] = {
+   357		REGS(a7xx_ahb_registers, 0, 0),
+   358	};
+   359	
+ > 360	static const struct a6xx_registers a7xx_gbif_reglist =
+   361		REGS(a7xx_gbif_registers, 0, 0);
+   362	
 
 -- 
 0-DAY CI Kernel Test Service
