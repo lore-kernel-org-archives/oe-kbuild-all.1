@@ -1,43 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A902626E2A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Sep 2023 15:51:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74DBA33980
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Sep 2023 16:21:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695743504; x=1727279504;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ycwh9RDXKmW3yaxF8DvmPUuFowdkHhIisWadfAeQVG4=;
-  b=WG+GG8HglgaccCi1N3FqU9yNlUo1LHAOsvrsVaq1fTX6qXh1f1/H8sCN
-   +p1ysSELkiswG3al0XMys/fOnOT9Wk+sjxi+46un2fIzmEWWHVWg3Cnji
-   eODAULXsEDXaf79Is1/9QODbnR5q+FUeecqJ+Pu2+fKAM2xiyGXsyQucf
-   FeLl83nofsYg4U89OQp6bOlGEIMU0DJVvVfm9hKIq3jQQji9V+9O/LEhu
-   7NnLAUB/0l9dTiBNHFHTyBLkVP1Z5KcE+1NfdtU33kIB/eZQmyM64rqx5
-   qWIbujjLxL/OzH4i7jAwZlWmJrcZAbsRPieA8SGBq01d8XFDB7CqjwY7J
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="448091033"
+  t=1695745310; x=1727281310;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kOLi+tNVVtaYkWTVX/7AESQkIiZFjfH3RaEZEz2Zfb4=;
+  b=J2iQVmhMqyEVf5PriM+zGSSEzrxW5+LP9nHUEIjDevc8kGaXP4WRaZai
+   KtKNlgLEiyDd6ahY7bAI1AaF84dFWRKISmkaQmdgoj9Ei6vsvz4AqXJ07
+   Yi7fsx2mh077mmdRFnFjHdB1k8B/hlrhq29dQZBR0paEORvV+3drv2U4D
+   BiY28KRK2ntNgYIkdQ8y2kJ+57BD2ZW4ruFxR76Jdt9D87oBIZz2Ihmft
+   Is3R3cJ0j62DX5GLCuSg+hdYhHDzc6hvNSVjv0ZigzfiJLfPDij4vhQtY
+   ZaD9852m8dAFCyzI5fL7DoL8bskqFCJ7ZyJIAdEICZ/GlSR6MLp677juB
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="445739333"
 X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; 
-   d="scan'208";a="448091033"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 08:51:43 -0700
+   d="scan'208";a="445739333"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 09:21:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="1079748876"
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="814540198"
 X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; 
-   d="scan'208";a="1079748876"
+   d="scan'208";a="814540198"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 26 Sep 2023 08:51:41 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 26 Sep 2023 09:21:47 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qlALb-00030t-0P;
-	Tue, 26 Sep 2023 15:51:39 +0000
-Date: Tue, 26 Sep 2023 23:51:07 +0800
+	id 1qlAoi-000358-2u;
+	Tue, 26 Sep 2023 16:21:44 +0000
+Date: Wed, 27 Sep 2023 00:21:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kmo@daterainc.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 3230/8008] ERROR: modpost: "__xchg_small"
- [fs/bcachefs/bcachefs.ko] undefined!
-Message-ID: <202309262307.NrOUpoSs-lkp@intel.com>
+To: Alain Volmat <alain.volmat@foss.st.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Andrey Skvortsov <andrej.skvortzov@gmail.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: i2c: gc2145: Galaxy Core GC2145 sensor support
+Message-ID: <202309270018.GBMyNvxU-lkp@intel.com>
+References: <20230926092825.819229-3-alain.volmat@foss.st.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,129 +52,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230926092825.819229-3-alain.volmat@foss.st.com>
 
-Hi Kent,
+Hi Alain,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4ae73bba62a367f2314f6ce69e3085a941983d8b
-commit: 43ae95661a99a8c76474469e91c3528c07eb5ce9 [3230/8008] bcachefs: Kill struct bucket_mark
-config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20230926/202309262307.NrOUpoSs-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309262307.NrOUpoSs-lkp@intel.com/reproduce)
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on robh/for-next linus/master v6.6-rc3 next-20230926]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alain-Volmat/dt-bindings-media-i2c-add-galaxycore-gc2145-dt-bindings/20230926-173518
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230926092825.819229-3-alain.volmat%40foss.st.com
+patch subject: [PATCH 2/2] media: i2c: gc2145: Galaxy Core GC2145 sensor support
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230927/202309270018.GBMyNvxU-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230927/202309270018.GBMyNvxU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309262307.NrOUpoSs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309270018.GBMyNvxU-lkp@intel.com/
 
-Note: the linux-next/master HEAD 4ae73bba62a367f2314f6ce69e3085a941983d8b builds fine.
-      It may have been fixed somewhere.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+>> drivers/media/i2c/gc2145.c:1140:12: warning: 'gc2145_resume' defined but not used [-Wunused-function]
+    1140 | static int gc2145_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~
+>> drivers/media/i2c/gc2145.c:1129:12: warning: 'gc2145_suspend' defined but not used [-Wunused-function]
+    1129 | static int gc2145_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ovf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/mips/crypto/poly1305-mips.o
-ERROR: modpost: "__umoddi3" [fs/bcachefs/bcachefs.ko] undefined!
->> ERROR: modpost: "__xchg_small" [fs/bcachefs/bcachefs.ko] undefined!
+
+vim +/gc2145_resume +1140 drivers/media/i2c/gc2145.c
+
+  1128	
+> 1129	static int gc2145_suspend(struct device *dev)
+  1130	{
+  1131		struct v4l2_subdev *sd = dev_get_drvdata(dev);
+  1132		struct gc2145 *gc2145 = to_gc2145(sd);
+  1133	
+  1134		if (gc2145->streaming)
+  1135			gc2145_stop_streaming(gc2145);
+  1136	
+  1137		return 0;
+  1138	}
+  1139	
+> 1140	static int gc2145_resume(struct device *dev)
+  1141	{
+  1142		struct v4l2_subdev *sd = dev_get_drvdata(dev);
+  1143		struct gc2145 *gc2145 = to_gc2145(sd);
+  1144		struct v4l2_subdev_state *state;
+  1145		int ret;
+  1146	
+  1147		if (gc2145->streaming) {
+  1148			state = v4l2_subdev_lock_and_get_active_state(sd);
+  1149			ret = gc2145_start_streaming(gc2145, state);
+  1150			v4l2_subdev_unlock_state(state);
+  1151			if (ret)
+  1152				goto error;
+  1153		}
+  1154	
+  1155		return 0;
+  1156	
+  1157	error:
+  1158		gc2145_stop_streaming(gc2145);
+  1159		gc2145->streaming = false;
+  1160	
+  1161		return ret;
+  1162	}
+  1163	
 
 -- 
 0-DAY CI Kernel Test Service
