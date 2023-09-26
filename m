@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1EC728E2C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Sep 2023 14:06:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF6010EF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Sep 2023 14:38:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695737173; x=1727273173;
+  t=1695739099; x=1727275099;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TcK5us40vmqANLf7gKsmf2Y6kgwhwxQNl0QI2Yrl3Fs=;
-  b=b8IGytXYP3sZqK/anSASeZhV387k2cbfp98X5DakTzf0hDLtkrombtpG
-   Ms1lFt+LU011lShKH4IJuo1ftqaALIGMM4XDiX0dPc4O3vSJ4CE/2J5yE
-   QuqjE9NekXw0ndLFVbXLdI8t719LlbVhtSk5kTKTIBGA4PpfQGfro15EZ
-   S7bmnBqOv0DoYCK1rTU7u6jfKoMc18VOrkd513gzIpMG2BxkEZixQQ9VU
-   8B8jT1rVNtIR/OVmGMMX9iIEHk1oQVTVM8ayaxoTvxsBkf42N80N8QbgG
-   cKZ7N+HgWRGws2ei4YW1jLhaAqOs1JpQL5S6O3IM+YdGvLNuBgHnkdtaU
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="381471089"
+  bh=KQR8iiPglidr6630q2Ui91Hg8zY/g3LgUDo42up5Syc=;
+  b=RXimyE+tUSiOJGeExlUcW83Z9guPWlVlNTQYfWXolAPTmzaGy0C3lM/8
+   /l4P/yegv4NpRRe7kf1IQ6S4l3bbBSKXXwusdmRiIhTTIX76No4/8zvI+
+   PgOWaJIxVlOQ5/p8OZJGucxvMhVuIRA11iJWrciO4pveMSCSz3GVgBuyb
+   X/QdWoLeqtpaM8aD/TJGjiEiPojKATg1Uyv2AhQ82/MwedWH8IbbiL3Nz
+   L0Fi/KG87JnDud1ighw+BqEy2Pug8mJLm0axdTjMdUoEeXThS4z8iyyEi
+   TvTvzsVYeRp3/yGWW6Qn3kB0CDtjN34pFj5YbTM3R4MBLeOPGdA1ukBUH
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="448075178"
 X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; 
-   d="scan'208";a="381471089"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 07:06:12 -0700
+   d="scan'208";a="448075178"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 07:38:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="742375489"
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="995834873"
 X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; 
-   d="scan'208";a="742375489"
+   d="scan'208";a="995834873"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 26 Sep 2023 07:06:11 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 26 Sep 2023 07:38:17 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ql8hU-0002sf-23;
-	Tue, 26 Sep 2023 14:06:08 +0000
-Date: Tue, 26 Sep 2023 22:05:38 +0800
+	id 1ql9CX-0002vX-0c;
+	Tue, 26 Sep 2023 14:38:14 +0000
+Date: Tue, 26 Sep 2023 22:37:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 14475/30000]
- sound/usb/card.c:134: warning: Function parameter or member 'disconnect_cb'
- not described in 'find_snd_usb_substream'
-Message-ID: <202309262152.h8PXX99E-lkp@intel.com>
+Subject: [android-common:android-4.19-stable 14692/30000]
+ drivers/tty/serial/msm_geni_serial_console.c:479:6: warning: variable
+ 'rx_stale' set but not used
+Message-ID: <202309262210.RgsOTNtT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,102 +47,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Mukesh,
+
+FYI, the error/warning still remains.
+
 tree:   https://android.googlesource.com/kernel/common android-4.19-stable
 head:   8daba3e055d00086f153f5562449f11065001703
-commit: 6da0c634f8bda1a50698a245374b8f86fdda6640 [14475/30000] ANDROID: GKI: sound: usb: Add snd_usb_enable_audio_stream/find_snd_usb_substream
-config: i386-randconfig-013-20230926 (https://download.01.org/0day-ci/archive/20230926/202309262152.h8PXX99E-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309262152.h8PXX99E-lkp@intel.com/reproduce)
+commit: 3b328707cf5e600683b13c9b19de3a3f22ea81e0 [14692/30000] ANDROID: serial: msm_geni_serial_console : Add Earlycon support
+config: i386-randconfig-014-20230926 (https://download.01.org/0day-ci/archive/20230926/202309262210.RgsOTNtT-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309262210.RgsOTNtT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309262152.h8PXX99E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309262210.RgsOTNtT-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> sound/usb/card.c:134: warning: Function parameter or member 'disconnect_cb' not described in 'find_snd_usb_substream'
+   drivers/tty/serial/msm_geni_serial_console.c: In function 'msm_geni_serial_earlycon_setup':
+>> drivers/tty/serial/msm_geni_serial_console.c:479:6: warning: variable 'rx_stale' set but not used [-Wunused-but-set-variable]
+     u32 rx_stale = 0;
+         ^~~~~~~~
+>> drivers/tty/serial/msm_geni_serial_console.c:477:6: warning: variable 'rx_parity_cfg' set but not used [-Wunused-but-set-variable]
+     u32 rx_parity_cfg = 0;
+         ^~~~~~~~~~~~~
+>> drivers/tty/serial/msm_geni_serial_console.c:476:6: warning: variable 'rx_trans_cfg' set but not used [-Wunused-but-set-variable]
+     u32 rx_trans_cfg = 0;
+         ^~~~~~~~~~~~
 
 
-vim +134 sound/usb/card.c
+vim +/rx_stale +479 drivers/tty/serial/msm_geni_serial_console.c
 
-   121	
-   122	/**
-   123	 * find_snd_usb_substream - helper API to find usb substream context
-   124	 * information using card number, pcm device number and direction.
-   125	 * @card_num: card number
-   126	 * @pcm_idx: pcm device number
-   127	 * @direction: SNDRV_PCM_STREAM_PLAYBACK or SNDRV_PCM_STREAM_CAPTURE
-   128	 * @uchip: substream context.
-   129	 * disconnect_cb: callback to use for cleanup on disconnect.
-   130	 */
-   131	struct snd_usb_substream *find_snd_usb_substream(unsigned int card_num,
-   132		unsigned int pcm_idx, unsigned int direction, struct snd_usb_audio
-   133		**uchip, void (*disconnect_cb)(struct snd_usb_audio *chip))
- > 134	{
-   135		int idx;
-   136		struct snd_usb_stream *as;
-   137		struct snd_usb_substream *subs = NULL;
-   138		struct snd_usb_audio *chip = NULL;
-   139	
-   140		mutex_lock(&register_mutex);
-   141		/*
-   142		 * legacy audio snd card number assignment is dynamic. Hence
-   143		 * search using chip->card->number
-   144		 */
-   145		for (idx = 0; idx < SNDRV_CARDS; idx++) {
-   146			if (!usb_chip[idx] || !usb_chip[idx]->card)
-   147				continue;
-   148			if (usb_chip[idx]->card->number == card_num) {
-   149				chip = usb_chip[idx];
-   150				break;
-   151			}
-   152		}
-   153	
-   154		if (!chip || atomic_read(&chip->shutdown)) {
-   155			pr_debug("%s: instance of usb card # %d does not exist\n",
-   156				__func__, card_num);
-   157			goto err;
-   158		}
-   159	
-   160		if (pcm_idx >= chip->pcm_devs) {
-   161			usb_audio_err(chip, "%s: invalid pcm dev number %u > %d\n",
-   162				      __func__, pcm_idx, chip->pcm_devs);
-   163			goto err;
-   164		}
-   165	
-   166		if (direction > SNDRV_PCM_STREAM_CAPTURE) {
-   167			usb_audio_err(chip, "%s: invalid direction %u\n", __func__,
-   168				      direction);
-   169			goto err;
-   170		}
-   171	
-   172		list_for_each_entry(as, &chip->pcm_list, list) {
-   173			if (as->pcm_index == pcm_idx) {
-   174				subs = &as->substream[direction];
-   175				if (subs->interface < 0 && !subs->data_endpoint &&
-   176				    !subs->sync_endpoint) {
-   177					usb_audio_err(chip, "%s: stream disconnected, bail out\n",
-   178						      __func__);
-   179					subs = NULL;
-   180					goto err;
-   181				}
-   182				goto done;
-   183			}
-   184		}
-   185	
-   186	done:
-   187		chip->card_num = card_num;
-   188		chip->disconnect_cb = disconnect_cb;
-   189	err:
-   190		*uchip = chip;
-   191		if (!subs)
-   192			pr_err("%s: substream instance not found\n", __func__);
-   193		mutex_unlock(&register_mutex);
-   194		return subs;
-   195	}
-   196	EXPORT_SYMBOL_GPL(find_snd_usb_substream);
-   197	
+   467	
+   468	static int __init
+   469	msm_geni_serial_earlycon_setup(struct earlycon_device *dev,
+   470			const char *opt)
+   471	{
+   472		struct uart_port *uport = &dev->port;
+   473		int ret = 0;
+   474		u32 tx_trans_cfg = 0;
+   475		u32 tx_parity_cfg = 0;
+ > 476		u32 rx_trans_cfg = 0;
+ > 477		u32 rx_parity_cfg = 0;
+   478		u32 stop_bit = 0;
+ > 479		u32 rx_stale = 0;
 
 -- 
 0-DAY CI Kernel Test Service
