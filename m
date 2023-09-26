@@ -1,80 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE7B4A32
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Sep 2023 06:23:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5932911CBC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Sep 2023 08:13:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695709390; x=1727245390;
+  t=1695715980; x=1727251980;
   h=date:from:to:cc:subject:message-id:in-reply-to:
    mime-version;
-  bh=z4zd7PyHM8fr0FWB8xLDeORPF+nQEScpeOVJlNu7GCQ=;
-  b=Gz/cF1LVgazRDOvg1Te6mqz/t+8qA3C+IG9Ep4gu3BwVpYPObVbbq93+
-   FUaGZqKYzuH0KeU54p15EDl6/7GXE+R4Kwv00TFyvand1Ak8UXCZytf/M
-   s0dnAGvAAqLMpKxDoKclM04sM4UpfGzi4aqxe2cbJrKM5uqGMWZy/M0Is
-   cvPwET+kHBV3Fgh4SMbPEUHw0NLxQrWVnpZZKEC2mobWmkx/wzmIFNaRQ
-   FNyf6H+dU01gzz6DH7tsZei6wlvanAoAUQmk6RAcu86g5oxLDeLGgekjT
-   DOenxHZiB1HPzlR8y8+RprbMrIrwAbTGWERdK6HKhMDQhoYKKiic0Swop
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="371831017"
+  bh=hebZiEO3cdXe/HghWeAwE7RJm4D5rz2RuJphGqhRr9o=;
+  b=OSiBoBK6FvOoicRsRo/5BuLEIbcLW8qEb/bS8vTY2brHnAB/JCGWTDWt
+   t8IL5nTEhS67VavvGpww+nha2Kd9HKVJ/G/P8mVnno/Vrf00qpRJnMGR8
+   G1ko2C69oFaDjjhSlpEQpKAV50ElvtKmH3fkwg+0U8jy9rSMQ0HrKQZl/
+   jk3nDVTKWnbBeLCwY/I4WQ+M25K8XLsRTiXQw9iKhzHUomMUy7+Thh27N
+   Nc3gCnsKVbKV8j43/BOjQKKEKdqwBLiGmuNvNrFS6Kgc+3rPX/svxyvgX
+   xEJkdGF/DqhyUNnIeH5xzFrSXSumGPjE9IaL4heoKukb6+Y48P12uRTat
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="360892719"
 X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; 
-   d="scan'208";a="371831017"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 23:23:09 -0700
+   d="scan'208";a="360892719"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 01:12:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="814356050"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="748735805"
 X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; 
-   d="scan'208";a="814356050"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmsmga008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 25 Sep 2023 23:23:08 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+   d="scan'208";a="748735805"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orsmga002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 26 Sep 2023 01:12:58 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 25 Sep 2023 23:23:08 -0700
+ 15.1.2507.32; Tue, 26 Sep 2023 01:12:58 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Tue, 26 Sep 2023 01:12:58 -0700
 Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Mon, 25 Sep 2023 23:23:08 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.102)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ 15.1.2507.32 via Frontend Transport; Tue, 26 Sep 2023 01:12:58 -0700
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.45) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Mon, 25 Sep 2023 23:23:07 -0700
+ 15.1.2507.32; Tue, 26 Sep 2023 01:12:57 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hmRVKoHIEn0sE50Us/mhR/d4TiqOs+qBDKsBdXJboRYLhh7UMKirWugtNJz60oiLk/g8lcrR54kwCEYSFU17K2mykDCEvdXZcuq77a6DMZ0Hw7Xd7ZqtzWaUzE4hMb009HjW4Gkyq1dspq91v2xebRHyr98AerUR3NPPWIVN6Az6v1G9WYSVfmvGfadvzox9KQ9+LEsUgoZuXMSDuqNqenplUEezLLHwwor0EfnK2sUt8cyGVr6apgG5Vkw//X8VK9mY45qFtyhChkc838PfFGSSn1PzoTxwXBtkHbLkWLJk65CgZOsdpbr8BlUulKuQCXGuK7WXcuL1P4eYurztug==
+ b=oRBN3F7A4nscZ5e9/GfSC3d2+4PwTCA0ENkaV+kqjAmcrSkuv+SoWaeXCWXHYfYfnH5eYgcmNxRL17jBfNdbfFzUZBhtPzmT/MQzLr3DIvRhi4QFUQFNAxnc66xmtybvk2F+qYOsq8Jl2BpkS4xj0xn4A2GkcTe8vG7pZOqeSsLaPjaGxV0g6WT6jTimbZ+3q+N3Xu8XEph0Iecq/L+Oqhku4WLj3Sh321XtLigVhJfm2XD/xxmzukc1TWo6CGXpjZJ09v05JqvgAvZW8tDbLxZMRQkQEnloxF2jkI4sZH/lYa6bCCzUw6m5Oo1YQPtfWn/IVmW2pj2JZymmI+16dA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I6RUb1wdNBd63EUg1/3JvXp+YYwZ6wtjQw7v9yMgBRM=;
- b=TCphy5j+l+UeE3XPNcjhr9lsWooBgF/36SYN7zCSmXk4OdJE6FYFZactlom7OQUS7e3A92AbxZfsEe6FRo9W+HiLh6sy7SjGzdwr6JHnVObFkiqyb7Z8jXyqN020GIxGyyPmdFgqFGBqZXWo3GgDPBZyz/q94cA+ShwJnxwNGjmndwDi/QVD7j6yGGGj1BTJ6sSEPVUi+JJZFEuKcoouRfCSv8HXCeB3JHtzd/BCZYnnFKpsUcDY8DzCItZHn6aEMTYiqJyWI7+HOov2IZHkrh6aM2HjvBLCgRsmGS2Jk6urmBpFxKTCKQtcUg5klGISbnuYJduo0A6lcS8+V80Hng==
+ bh=4HDFKHlNHxxtTFIsSNUlL6cLySLrhaWm8FbcFk8nPKA=;
+ b=fh6i3RhSVyQRnAQiQN5wv3wELyF5Wc/qhDogIN4XBARuF2tUNSI7raNkBunUWZfv3xVO6S16nYi0yxjqPLvUJcoL+/OMK+cUp0H6svWA4yHFal/imIPCgKVL2TU043r74r51eQIPA3HEOAzzZP20jCLec3HPSdIGHLGzHODKX58hLbWHhYm60xhDt9TQ2zzcayKf/X/Uf2WebYagf0CYn9UuHxVO0hfXPTe5TCeUgsdWWE86BEh37347OlgLo4HcUG1UqeFhpH/l/Lm+ouxqmZ7sOkBd2M7Uj0kOCzlvMZURC6Xj8gghugScW13MI5RQ6dPagjsuD8ibOZSfgw9/zA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by MW4PR11MB6934.namprd11.prod.outlook.com (2603:10b6:303:229::11) with
+ by BY1PR11MB8030.namprd11.prod.outlook.com (2603:10b6:a03:522::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.28; Tue, 26 Sep
- 2023 06:23:05 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.27; Tue, 26 Sep
+ 2023 08:12:55 +0000
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::d35:d16b:4ee3:77e5]) by CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::d35:d16b:4ee3:77e5%7]) with mapi id 15.20.6792.026; Tue, 26 Sep 2023
- 06:23:05 +0000
-Date: Tue, 26 Sep 2023 14:18:06 +0800
+ 08:12:55 +0000
+Date: Tue, 26 Sep 2023 16:07:49 +0800
 From: kernel test robot <yujie.liu@intel.com>
-To: Xiao Wang <xiao.w.wang@intel.com>, <paul.walmsley@sifive.com>,
-	<palmer@dabbelt.com>, <aou@eecs.berkeley.edu>, <ardb@kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>, <anup@brainfault.org>,
-	<haicheng.li@intel.com>, <ajones@ventanamicro.com>,
-	<linux-riscv@lists.infradead.org>, <linux-efi@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Xiao Wang <xiao.w.wang@intel.com>
-Subject: Re: [PATCH v2 1/2] riscv: Rearrange hwcap.h and cpufeature.h
-Message-ID: <202309201921.GvBmYK5q-lkp@intel.com>
+To: Serge Semin <fancer.lancer@gmail.com>, Michal Simek <monstr@monstr.eu>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>, Borislav Petkov
+	<bp@alien8.de>, Tony Luck <tony.luck@intel.com>, James Morse
+	<james.morse@arm.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, "Robert
+ Richter" <rric@kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>, <linux-media@vger.kernel.org>, "Serge
+ Semin" <fancer.lancer@gmail.com>, Punnaiah Choudary Kalluri
+	<punnaiah.choudary.kalluri@xilinx.com>, Dinh Nguyen <dinguyen@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 05/18] EDAC/synopsys: Add DDRC basic parameters
+ infrastructure
+Message-ID: <202309241117.1QIu7Ipb-lkp@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20230920074653.2509631-2-xiao.w.wang@intel.com>
-X-ClientProxiedBy: SG2PR01CA0189.apcprd01.prod.exchangelabs.com
- (2603:1096:4:189::15) To CY5PR11MB6392.namprd11.prod.outlook.com
+In-Reply-To: <20230920192806.29960-6-fancer.lancer@gmail.com>
+X-ClientProxiedBy: SG2PR03CA0120.apcprd03.prod.outlook.com
+ (2603:1096:4:91::24) To CY5PR11MB6392.namprd11.prod.outlook.com
  (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -83,232 +93,100 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|MW4PR11MB6934:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2c4f5e02-2df5-4e9f-d087-08dbbe590b58
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|BY1PR11MB8030:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0f3a6a3f-99e6-463d-589e-08dbbe68626e
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CIAtVLuFx0LzHs83Za9glylTXT3t5WYRaVkiowcGWIK5EW/VDC5SEdLoVeFcac+txEyyeyuXmQGhcztNwBqavaP2E49YhHI1IgJWQZ6B7JXIpEsDSLGOVNgzwQdVsdi3Ym1gpFnNPz3dG5848b618Jc0qd864IJEN18/BPcG4wMN3M4WLj0VtJITol4Yyy8WkVYoFlmNS6APhAPJyE4eSmT2VbXf58J1YVKWpKrdBNIOBK/4CY2HoohJ3LSio9vsDD79q96ylqlbh05HFuxeqUgcnAf8wddz87KOjM5ZJnVnZ+MGUuauF+iKquxGqGZorjX6pcq7OK7iPBdUUHofUEOecDRuT0UxlsXXWNI98wkOqu6PPRRl7wCBgoc77einnmzKDpk1zNo/fqi2F8KCz+d9QkW2x0Pvn7Sg73l7++mFB9/+s8GE3X69d6nMJ0e/nAi92m2aZHE/BUgDYw7SYUgnFwZ0dqOMgmSHkP4VfOe2gM1uvhdHrWW5dflusDXPAGPtGTPQZDJnj1GN6wdgaN5rwMzc5k5EWkCjrmoZVSeqrfyrlBh+dPgSvnxDsisKxNeLLi9NISUD4K8S3WFOCQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39860400002)(396003)(366004)(136003)(346002)(230922051799003)(186009)(1800799009)(451199024)(41300700001)(6506007)(83380400001)(38100700002)(7416002)(66946007)(966005)(66556008)(5660300002)(316002)(66476007)(2906002)(478600001)(6512007)(82960400001)(4326008)(6486002)(86362001)(8676002)(1076003)(8936002)(107886003)(2616005)(26005)(36756003);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: RsQE7BHIin7bG8C951q2RkBM9Q1jyWKSZcH28JjJWlLk9VW7afqRAOE/BkiYwS/X9JX8/vpuagN+rbl8J0GT6O8cj7/RkesUbBq5tvkzQDuXgD7VuCqFOSaMDSu7dEm71PIjtePwe8b+N1KxLMSulbHulokvj/WwnjWa/noCwLbQ3dwbd1pYy7mXIDVq6R3b3i0SPZq2aOZtiDQbxMsZ4HZ7ZJ7FOKXENXszpE/Egv7BLodBl9/AYBJwq5G1cyTa8Uu6kWQIn1PbmMh+0UOY28rJ5tlUv+sBREZIC73YI4WkV9/UvFndaBODfHv9d1Jzq5Yr5tTaVQ7SBoQkvDefV5mTtWEsXZvg5ehrR4jqJ/Dg/sTPk/tAxvRnpQMuHUCB96bDlPmvkIJ9QvRzstBhpZj1dH7w44gtbAdqSk7Hwv1AeIt3kmpljQECC5CdJyGw0k+7F8hB5ckTAXO7oE8N9CRwBdNvkqoI4EZajRrlzDBke2+pnHuJvE8K4O+YeMlKjD6hjEZdAdCcYKFvDZQuK5Qo4B0jCYGlH002ywPJcYeZirop+Ux+Gdw8prpmkSrypM2gXzHeXA2g2S2a3pIl5w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(346002)(396003)(366004)(39860400002)(230922051799003)(1800799009)(186009)(451199024)(83380400001)(2906002)(36756003)(86362001)(26005)(82960400001)(6512007)(7416002)(1076003)(41300700001)(2616005)(6666004)(38100700002)(6486002)(478600001)(6506007)(966005)(5660300002)(8676002)(4326008)(8936002)(316002)(66946007)(66476007)(66556008)(54906003)(110136005);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Lgys7eGXcfYHQcB5A6+xKRD+PQOOVyUETwEcaG7OFhCVzR3kws6ovLjLjVlu?=
- =?us-ascii?Q?U1w1LhMu80WH5QKRVSMupFsZWMfemyJgLM05G3PVr+9A9aJQ1j1fU6owsXJX?=
- =?us-ascii?Q?SHI/L7efuS/StVqh7UJmTzUcg3AeiLq15spbd4j1vuf/vJdJi9sliQEsfdXK?=
- =?us-ascii?Q?jZRlJ7vYrQJ5y5Io6ZFDm1zCTqP7T/ZDhQ57lDohqnsvfU2QoGvA3F77+v6R?=
- =?us-ascii?Q?x1WtD71tsVWusyWuM0RPiWAo/Sg3GK5ZfvasJRfqG+Z6Fv0QzGyGzSYbOege?=
- =?us-ascii?Q?tSd9qdW3e18M0AMhAMacIpD2j2bMHn9AfEuJi7EBPFK5a1JYD+KiR6Dz4ajp?=
- =?us-ascii?Q?upEUxvzvdc4rLCLB+E65y0o9/gbr6/TKH1Q03bMIJZnzxESAz8eGk6NwuOV2?=
- =?us-ascii?Q?Ehv0VwDNCYgLzD+zEYP+J7Aokz+bC3uj1E6PqLl2q0/UJ+Mzc2wknsFE7/kd?=
- =?us-ascii?Q?LBD5n1Zo0Pvd8A0DMon6w/N51rN9W1pzMMMXf/7AlqB33439heVyqWGSZ3mH?=
- =?us-ascii?Q?m0NgmJpJmjTeT3KKd6sqi//hIhnosT4g/N1c0tA4TJdMwxfFenIVZc1HS754?=
- =?us-ascii?Q?O6DsjyNQj5Td8norvyJcG9Fu99SAxGxUP8Ag8i95huPhhbTCJzBGZlgPFRqz?=
- =?us-ascii?Q?LFocUUS4MFHr1EmKvozA/Db840LmdpAGs4uM3EWTMZAtVIr0krlaKk0+8yz7?=
- =?us-ascii?Q?HC9rbNQoOsVagbVwrCtMgrieBX/fUsT9F3vuF6wtHSevhOAdMcrCvZLZn4mo?=
- =?us-ascii?Q?iHZGU4O82M3vsxq7GCNPqSx1BqV7NswLe1rktKxHDLWVn08F9NmoRmf4Lv4H?=
- =?us-ascii?Q?pLZfRkyj/FcED/XXHWtn+1MqeMjLZqDD3JGIrizm+W+TbEnqfhiAV4L/W306?=
- =?us-ascii?Q?fWfZqNzsYbFe5KdKNGx/3kffaUrOXnuHFwaooQOmK4U2oY9bA89gLhP+U/3u?=
- =?us-ascii?Q?Q1a3IB/VXfB4JTpQIAgZpe8Yn8ZBC26MhnTb9gciXf9q/Le7LeVJCN0HPTn4?=
- =?us-ascii?Q?5uRVnHRhNGKC0GGyq3mDeaJu1E5sjt2Ume1ArMiQG7MuL757aITYbQIdqjHs?=
- =?us-ascii?Q?p1AWhxnQXx8tnF0h8EB8BDMdX+C7bXptu4PYehJ5XpmFATFtv/Ig8jpImTjg?=
- =?us-ascii?Q?uObdgGHYpDKFcpooMlLPg+W77yFyJW/PhEfkCnbnSpPqnDqJLem5cgIQFlvP?=
- =?us-ascii?Q?Pomitn7AXXhSI1R+RHW/q5rkf2cqwKnyMGrycB1Q7VnttVmZNK6v/HiP4mPq?=
- =?us-ascii?Q?ZfbddY8UGckkhzqUKuqXZ9puC+FJqwoiNY8EGr3gYtS+ULp6p6KqUSVIfkYn?=
- =?us-ascii?Q?Ssg4ubasCNEU4KuIW4FJMg/B3i8HB/Otsy2ekg5HatYsSiwHu/96/8XL1EVk?=
- =?us-ascii?Q?O6LvN2Sho1WaMwb4wdEreH2dKuR+/F7bmf7f1zwLpnEahaDdj2aQKUj10Ye0?=
- =?us-ascii?Q?AGt7g07GF75WvaZxQhyzmmOS6NN+DeeR2mBNfBkR5cBuV3OnxVzjHzumRMPX?=
- =?us-ascii?Q?vSADgu/SpDZQSU/eVRcK/MmRDMovW1SpuXFH8N4+Ez3QWw62kTT/tnOkQElW?=
- =?us-ascii?Q?MxTCCpIw/urh/FP6yW4zLNnsVrzR/QJRZFIhVLrg?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c4f5e02-2df5-4e9f-d087-08dbbe590b58
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mlOQeb8WH+N7733Kqa8RailKLlAtbxmqof7RbHeiRG9I5w01JbximCEqI0po?=
+ =?us-ascii?Q?lmaUi9UAabBjZe3p7ZRMcrxwHhTbK4q5x1eZGMKrrRdPujqpgR4bQW2F/LaK?=
+ =?us-ascii?Q?yxWZbiaLfmkjj0aoolTrGo7yKAO+ji9H7/wdE4RJEBXpD3ZqQTPb+Siq1pGs?=
+ =?us-ascii?Q?nwefgY/tkTLBDxYnRxO/qML7s+8q9HHCtYt7c7wrGewedek99Hv3NdMJr+o1?=
+ =?us-ascii?Q?XX3dyummtp5NeJrYbExGpEx3LmeZZAxgBYUTGA5S/1MhE2kHMsieIMJ63Alx?=
+ =?us-ascii?Q?eT+N0r8MSQF7zRMAE86l6PXyDr83xaaESLs0bgQa1ypD4wnYO4qmiW/YsnGT?=
+ =?us-ascii?Q?j+rQaLAGJaWhNuZov6O2+vkdJ331AxAYkopn1aBf8IkUUs78+/5ADE8rF2fH?=
+ =?us-ascii?Q?gi32yAsbdMu6XBdywcv4/DFnxzWTYz4Us89f+5xY/SmerTujsuV1urJemTSX?=
+ =?us-ascii?Q?PQ5Ccrg6OiHtU/t2TASPLiURf5r2wf17h54AUN63F3BTwJUlQd5R1JsFdvVG?=
+ =?us-ascii?Q?A3iP4VLJo5/0UIktvqE5ENkJUZCgLgi3K1mwLZPT5rZVmR9AyiRyuk7U1VVh?=
+ =?us-ascii?Q?WNlWBpL+swqepv5RXnyli1W3yvQhW1Ch+CkefKC+owAV2ll8WfN1rlHvWRqm?=
+ =?us-ascii?Q?e3vkH3D7i6zo8OgVwmhda3bS8ZZDd36Rqd5S/zlmhsGThDCyCMnV+OJAQowM?=
+ =?us-ascii?Q?qFjGelZ7J/u/hXgoU+HXhLCKs646G9Gjlu61NuuDuONHx2x+Wlqav1mRyJKj?=
+ =?us-ascii?Q?xJr7qpl02UwBqpVE43xvbTknlIGHqjBBcMXRyXGey787NTNWWfcAPqnXRCip?=
+ =?us-ascii?Q?WxxOI2rpGNowoHfRQLqd0oyNZWRG1q0PILwBgNPAjGKYw+n3ARMDKvadgvNk?=
+ =?us-ascii?Q?ASRwXiEBa5b1OhU2BnLx+kPXgbKoOjBw2dU9DseKSvCQYLJWfPIixL3ARMY5?=
+ =?us-ascii?Q?A6V7M/S6XpdNBpHegYm9Vdgk/2Mv+dOKb98fy3RYl+hCp6tGgV99kTcOmOtx?=
+ =?us-ascii?Q?24LW9oRoc6TTKsb6Bzxft1Eg6+wcO/KvzJe7kIGKfOaAQ5gs8GzDtPzH5AQX?=
+ =?us-ascii?Q?AdEKpchxt/5shs3qShZdOE1AE0x3TgmJz5w3Y7PQrNqLs8MCRGpSMqzWQhBD?=
+ =?us-ascii?Q?AY1HcQAiLBLawxy28x1+wUarKeZuFomGE9FMxZ5UgCgC1aF0Z/bJDwnchqn5?=
+ =?us-ascii?Q?dqRUdakQzh+RNi3MsrFnz3RWxc/jUzavxwfI0qVlGL921HNmQyzsT89x5pA2?=
+ =?us-ascii?Q?k9CjVpXszKiv8SrtlXJ4tLqF0nkRKKeA51cNi01ETVGP4WB/g9clXa6rMMy4?=
+ =?us-ascii?Q?Ja0tAV5LzKOwj3nOV9zI5WG8cnF8fZ9vDtUHGgQiw0/G0NO7GEzGMK4DnQvq?=
+ =?us-ascii?Q?OrIRZj9EnnJxBJN93aYw4qddbm8TVLthIstcHDmYCNTODs94njldinuFpNuZ?=
+ =?us-ascii?Q?z6Aplg6wZkhp3Qwb9HduUSeQRxItcXF27mMGDL1FPz/juyBFd950o84r7+MX?=
+ =?us-ascii?Q?TXMbaMRStVsTjbe0zJGjXCmMZFkg51aHzYKCRni6M/0vqe8MlSkhOmlcqdl/?=
+ =?us-ascii?Q?kChoi3GO/ysG7t06zvQ/BgR5C15j701NI2fbOgkE?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f3a6a3f-99e6-463d-589e-08dbbe68626e
 X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2023 06:23:05.8244
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2023 08:12:55.5624
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kADm1L6IEu2iMNpihMD5zXym0yv3Y2/qxlUZwIQL7IJu/i31jE8TDdJ92Ts9t4Fm2rL/N+Frwwyaq2jUfYjxDQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6934
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZnjxPNxNSoSl4e3pT2nQAg3onip3lOaHkfNqYqq6/OpqHSPZ1PCgLvOtdiv4VIL3lwgQuW/+HBOTws9hbIeFjA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR11MB8030
 X-OriginatorOrg: intel.com
 
-Hi Xiao,
+Hi Serge,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.6-rc2 next-20230920]
-[cannot apply to efi/next]
+[auto build test WARNING on ras/edac-for-next]
+[also build test WARNING on linus/master v6.6-rc2 next-20230921]
+[cannot apply to xilinx-xlnx/master bp/for-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xiao-Wang/riscv-Rearrange-hwcap-h-and-cpufeature-h/20230920-154024
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230920074653.2509631-2-xiao.w.wang%40intel.com
-patch subject: [PATCH v2 1/2] riscv: Rearrange hwcap.h and cpufeature.h
-config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20230920/202309201921.GvBmYK5q-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201921.GvBmYK5q-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Serge-Semin/EDAC-synopsys-Convert-sysfs-nodes-to-debugfs-ones/20230921-035302
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
+patch link:    https://lore.kernel.org/r/20230920192806.29960-6-fancer.lancer%40gmail.com
+patch subject: [PATCH v4 05/18] EDAC/synopsys: Add DDRC basic parameters infrastructure
+config: arm64-randconfig-003-20230924 (https://download.01.org/0day-ci/archive/20230924/202309241117.1QIu7Ipb-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230924/202309241117.1QIu7Ipb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <yujie.liu@intel.com>
-| Closes: https://lore.kernel.org/r/202309201921.GvBmYK5q-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309241117.1QIu7Ipb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/binfmt_elf.c: In function 'create_elf_tables':
->> arch/riscv/include/asm/elf.h:70:25: error: implicit declaration of function 'riscv_get_elf_hwcap'; did you mean 'riscv_fill_hwcap'? [-Werror=implicit-function-declaration]
-      70 | #define ELF_HWCAP       riscv_get_elf_hwcap()
-         |                         ^~~~~~~~~~~~~~~~~~~
-   fs/binfmt_elf.c:248:31: note: in definition of macro 'NEW_AUX_ENT'
-     248 |                 *elf_info++ = val; \
-         |                               ^~~
-   fs/binfmt_elf.c:260:31: note: in expansion of macro 'ELF_HWCAP'
-     260 |         NEW_AUX_ENT(AT_HWCAP, ELF_HWCAP);
-         |                               ^~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   arch/riscv/kvm/main.c: In function 'riscv_kvm_init':
->> arch/riscv/kvm/main.c:73:14: error: implicit declaration of function 'riscv_isa_extension_available' [-Werror=implicit-function-declaration]
-      73 |         if (!riscv_isa_extension_available(NULL, h)) {
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/kvm/main.c:73:50: error: 'h' undeclared (first use in this function)
-      73 |         if (!riscv_isa_extension_available(NULL, h)) {
-         |                                                  ^
-   arch/riscv/kvm/main.c:73:50: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
---
-   arch/riscv/kvm/tlb.c: In function 'kvm_riscv_local_hfence_gvma_vmid_gpa':
->> arch/riscv/kvm/tlb.c:18:25: error: implicit declaration of function 'riscv_has_extension_unlikely' [-Werror=implicit-function-declaration]
-      18 | #define has_svinval()   riscv_has_extension_unlikely(RISCV_ISA_EXT_SVINVAL)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kvm/tlb.c:31:13: note: in expansion of macro 'has_svinval'
-      31 |         if (has_svinval()) {
-         |             ^~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   arch/riscv/kvm/vcpu_fp.c: In function 'kvm_riscv_vcpu_fp_reset':
->> arch/riscv/kvm/vcpu_fp.c:22:13: error: implicit declaration of function 'riscv_isa_extension_available' [-Werror=implicit-function-declaration]
-      22 |         if (riscv_isa_extension_available(vcpu->arch.isa, f) ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/kvm/vcpu_fp.c:22:59: error: 'f' undeclared (first use in this function); did you mean 'fd'?
-      22 |         if (riscv_isa_extension_available(vcpu->arch.isa, f) ||
-         |                                                           ^
-         |                                                           fd
-   arch/riscv/kvm/vcpu_fp.c:22:59: note: each undeclared identifier is reported only once for each function it appears in
->> arch/riscv/kvm/vcpu_fp.c:23:59: error: 'd' undeclared (first use in this function); did you mean 'fd'?
-      23 |             riscv_isa_extension_available(vcpu->arch.isa, d))
-         |                                                           ^
-         |                                                           fd
-   arch/riscv/kvm/vcpu_fp.c: In function 'kvm_riscv_vcpu_guest_fp_save':
-   arch/riscv/kvm/vcpu_fp.c:39:56: error: 'd' undeclared (first use in this function); did you mean 'fd'?
-      39 |                 if (riscv_isa_extension_available(isa, d))
-         |                                                        ^
-         |                                                        fd
-   arch/riscv/kvm/vcpu_fp.c:41:61: error: 'f' undeclared (first use in this function); did you mean 'fd'?
-      41 |                 else if (riscv_isa_extension_available(isa, f))
-         |                                                             ^
-         |                                                             fd
-   arch/riscv/kvm/vcpu_fp.c: In function 'kvm_riscv_vcpu_guest_fp_restore':
-   arch/riscv/kvm/vcpu_fp.c:51:56: error: 'd' undeclared (first use in this function); did you mean 'fd'?
-      51 |                 if (riscv_isa_extension_available(isa, d))
-         |                                                        ^
-         |                                                        fd
-   arch/riscv/kvm/vcpu_fp.c:53:61: error: 'f' undeclared (first use in this function); did you mean 'fd'?
-      53 |                 else if (riscv_isa_extension_available(isa, f))
-         |                                                             ^
-         |                                                             fd
-   arch/riscv/kvm/vcpu_fp.c: In function 'kvm_riscv_vcpu_host_fp_save':
-   arch/riscv/kvm/vcpu_fp.c:62:49: error: 'd' undeclared (first use in this function); did you mean 'fd'?
-      62 |         if (riscv_isa_extension_available(NULL, d))
-         |                                                 ^
-         |                                                 fd
-   arch/riscv/kvm/vcpu_fp.c:64:54: error: 'f' undeclared (first use in this function); did you mean 'fd'?
-      64 |         else if (riscv_isa_extension_available(NULL, f))
-         |                                                      ^
-         |                                                      fd
-   arch/riscv/kvm/vcpu_fp.c: In function 'kvm_riscv_vcpu_host_fp_restore':
-   arch/riscv/kvm/vcpu_fp.c:70:49: error: 'd' undeclared (first use in this function); did you mean 'fd'?
-      70 |         if (riscv_isa_extension_available(NULL, d))
-         |                                                 ^
-         |                                                 fd
-   arch/riscv/kvm/vcpu_fp.c:72:54: error: 'f' undeclared (first use in this function); did you mean 'fd'?
-      72 |         else if (riscv_isa_extension_available(NULL, f))
-         |                                                      ^
-         |                                                      fd
-   arch/riscv/kvm/vcpu_fp.c: In function 'kvm_riscv_vcpu_get_reg_fp':
-   arch/riscv/kvm/vcpu_fp.c:90:59: error: 'f' undeclared (first use in this function); did you mean 'fd'?
-      90 |             riscv_isa_extension_available(vcpu->arch.isa, f)) {
-         |                                                           ^
-         |                                                           fd
-   arch/riscv/kvm/vcpu_fp.c:101:66: error: 'd' undeclared (first use in this function); did you mean 'fd'?
-     101 |                    riscv_isa_extension_available(vcpu->arch.isa, d)) {
-         |                                                                  ^
-         |                                                                  fd
-   arch/riscv/kvm/vcpu_fp.c: In function 'kvm_riscv_vcpu_set_reg_fp':
-   arch/riscv/kvm/vcpu_fp.c:135:59: error: 'f' undeclared (first use in this function); did you mean 'fd'?
-     135 |             riscv_isa_extension_available(vcpu->arch.isa, f)) {
-         |                                                           ^
-         |                                                           fd
-   arch/riscv/kvm/vcpu_fp.c:146:66: error: 'd' undeclared (first use in this function); did you mean 'fd'?
-     146 |                    riscv_isa_extension_available(vcpu->arch.isa, d)) {
-         |                                                                  ^
-         |                                                                  fd
-   cc1: some warnings being treated as errors
---
-   arch/riscv/kvm/vcpu_timer.c: In function 'kvm_riscv_vcpu_timer_init':
->> arch/riscv/kvm/vcpu_timer.c:256:13: error: implicit declaration of function 'riscv_isa_extension_available' [-Werror=implicit-function-declaration]
-     256 |         if (riscv_isa_extension_available(NULL, SSTC)) {
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/kvm/vcpu_timer.c:256:49: error: 'SSTC' undeclared (first use in this function)
-     256 |         if (riscv_isa_extension_available(NULL, SSTC)) {
-         |                                                 ^~~~
-   arch/riscv/kvm/vcpu_timer.c:256:49: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
---
-   arch/riscv/kvm/vcpu_pmu.c: In function 'kvm_riscv_vcpu_pmu_init':
->> arch/riscv/kvm/vcpu_pmu.c:556:14: error: implicit declaration of function 'riscv_isa_extension_available' [-Werror=implicit-function-declaration]
-     556 |         if (!riscv_isa_extension_available(NULL, SSCOFPMF))
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/kvm/vcpu_pmu.c:556:50: error: 'SSCOFPMF' undeclared (first use in this function)
-     556 |         if (!riscv_isa_extension_available(NULL, SSCOFPMF))
-         |                                                  ^~~~~~~~
-   arch/riscv/kvm/vcpu_pmu.c:556:50: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
---
-   arch/riscv/kvm/aia.c: In function 'kvm_riscv_aia_init':
->> arch/riscv/kvm/aia.c:604:14: error: implicit declaration of function 'riscv_isa_extension_available' [-Werror=implicit-function-declaration]
-     604 |         if (!riscv_isa_extension_available(NULL, SxAIA))
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/kvm/aia.c:604:50: error: 'SxAIA' undeclared (first use in this function)
-     604 |         if (!riscv_isa_extension_available(NULL, SxAIA))
-         |                                                  ^~~~~
-   arch/riscv/kvm/aia.c:604:50: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
---
-   drivers/perf/riscv_pmu_sbi.c: In function 'pmu_sbi_setup_irqs':
->> drivers/perf/riscv_pmu_sbi.c:803:13: error: implicit declaration of function 'riscv_isa_extension_available' [-Werror=implicit-function-declaration]
-     803 |         if (riscv_isa_extension_available(NULL, SSCOFPMF)) {
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/perf/riscv_pmu_sbi.c:803:49: error: 'SSCOFPMF' undeclared (first use in this function)
-     803 |         if (riscv_isa_extension_available(NULL, SSCOFPMF)) {
-         |                                                 ^~~~~~~~
-   drivers/perf/riscv_pmu_sbi.c:803:49: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+>> drivers/edac/synopsys_edac.c:224: warning: Enum value 'SNPS_DQ_32' not described in enum 'snps_dq_width'
+>> drivers/edac/synopsys_edac.c:224: warning: Enum value 'SNPS_DQ_64' not described in enum 'snps_dq_width'
 
 
-vim +70 arch/riscv/include/asm/elf.h
+vim +224 drivers/edac/synopsys_edac.c
 
-2350bd192fa2d9 Palmer Dabbelt 2023-02-02  64  
-2129a235c09896 Palmer Dabbelt 2017-07-10  65  /*
-2350bd192fa2d9 Palmer Dabbelt 2023-02-02  66   * Provides information on the availiable set of ISA extensions to userspace,
-2350bd192fa2d9 Palmer Dabbelt 2023-02-02  67   * via a bitmap that coorespends to each single-letter ISA extension.  This is
-2350bd192fa2d9 Palmer Dabbelt 2023-02-02  68   * essentially defunct, but will remain for compatibility with userspace.
-2129a235c09896 Palmer Dabbelt 2017-07-10  69   */
-50724efcb370c6 Andy Chiu      2023-06-05 @70  #define ELF_HWCAP	riscv_get_elf_hwcap()
-2129a235c09896 Palmer Dabbelt 2017-07-10  71  extern unsigned long elf_hwcap;
-2129a235c09896 Palmer Dabbelt 2017-07-10  72  
+c85ef1323d2330 Serge Semin 2023-09-20  215  
+9e617225f1d8ba Serge Semin 2023-09-20  216  /**
+9e617225f1d8ba Serge Semin 2023-09-20  217   * enum snps_dq_width - SDRAM DQ bus width (ECC capable).
+9e617225f1d8ba Serge Semin 2023-09-20  218   * SNPS_DQ_32:	32-bit memory data width.
+9e617225f1d8ba Serge Semin 2023-09-20  219   * SNPS_DQ_64:	64-bit memory data width.
+
+a @ char is required in front of each name
+
+9e617225f1d8ba Serge Semin 2023-09-20  220   */
+9e617225f1d8ba Serge Semin 2023-09-20  221  enum snps_dq_width {
+9e617225f1d8ba Serge Semin 2023-09-20  222  	SNPS_DQ_32 = 2,
+9e617225f1d8ba Serge Semin 2023-09-20  223  	SNPS_DQ_64 = 3,
+9e617225f1d8ba Serge Semin 2023-09-20 @224  };
+9e617225f1d8ba Serge Semin 2023-09-20  225  
 
 -- 
 0-DAY CI Kernel Test Service
