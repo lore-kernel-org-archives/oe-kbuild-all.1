@@ -1,50 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C7A567F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Sep 2023 10:28:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7442426E0F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Sep 2023 11:41:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695724100; x=1727260100;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Xvco+exeZgwRDJrrqal2tUOI+h+5Ttj2/k49gkG3aJs=;
-  b=XEVkWlXl8qRf/eqIGmLtozVqvCemowAgsQxtuhqDLlaHCGQcv9+d0TCh
-   EKIU9j494ZRY0LNyTa7Tf2w9/iOXHLFbRopZvp/km6FxYHHCpidL+J7jP
-   F/93iiojnzxw7Hg/x9L8EhgmlElRxune+BR2df7K/pn25LqAPTwox5FFR
-   hB/rld3GxJp+L4Bty3VBBGVnPirJSXY92s07j9swKkPQ/EUYjrx368L2t
-   wZk72gZg/ZhaabAN/i8Ejv4t4XgGq1n4MHHTcBd1zmqA1WUg5ikbFIohT
-   z06GUf0WrDFBbJHViXGd3vVKFLoh6aSJGTzdRjUGmqhLVOY+baV6IEKe3
+  t=1695728494; x=1727264494;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pVXMbpmgn6C1a+8SE2RpNNc5I8xa5hXFdjGuUcE1pLk=;
+  b=nZ60/qmbFeAKrOUal69CUxHVPshMgquiDE8ZSmz2J0apei3iYNkQWO7y
+   dmZcafd+QJy5irbsaVFpqCtU11iKWvem3nCjWwQx1tP6qbUNexsEHEfTZ
+   l9pueIcecjlvGD+o9yJdyoR7O9TiiQjPB2TpKp9n/OOOKZsUYnJ/Ft2Ma
+   Sh1g6i6uj6MXZ67sbyoU+3X2Ha/nVYoz6WpMzlrcwYZiBfCSzCX+2+UNz
+   xKhLQaqMFagF+vr9jRPEOm+A92Oa8jJCDqfiWJM8n2Aom/JgD3yBQ0v98
+   y0DUZyr/x31H/zXUehKFcIbkKZa3r47MTd3c6oPskDuxCLAzXM+7mD6e/
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="448033238"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="361789060"
 X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; 
-   d="scan'208";a="448033238"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 03:28:20 -0700
+   d="scan'208";a="361789060"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 04:41:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="752126418"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="872468491"
 X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; 
-   d="scan'208";a="752126418"
+   d="scan'208";a="872468491"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 26 Sep 2023 03:28:16 -0700
+  by orsmga004.jf.intel.com with ESMTP; 26 Sep 2023 04:41:31 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ql5Ib-0002j5-2W;
-	Tue, 26 Sep 2023 10:28:13 +0000
-Date: Tue, 26 Sep 2023 18:28:10 +0800
+	id 1ql6RV-0002lj-36;
+	Tue, 26 Sep 2023 11:41:29 +0000
+Date: Tue, 26 Sep 2023 19:41:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukasz Luba <lukasz.luba@arm.com>, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, rafael@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, lukasz.luba@arm.com,
-	dietmar.eggemann@arm.com, rui.zhang@intel.com,
-	amit.kucheria@verdurent.com, amit.kachhap@gmail.com,
-	daniel.lezcano@linaro.org, viresh.kumar@linaro.org,
-	len.brown@intel.com, pavel@ucw.cz, mhiramat@kernel.org,
-	qyousef@layalina.io, wvw@google.com
-Subject: Re: [PATCH v4 10/18] PM: EM: Add RCU mechanism which safely cleans
- the old data
-Message-ID: <202309261850.jrucSbN8-lkp@intel.com>
-References: <20230925081139.1305766-11-lukasz.luba@arm.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-fix-5k 28/28] lib/dynamic_debug.c:1330:6: sparse: sparse:
+ symbol 'dd_store_func_range' was not declared. Should it be static?
+Message-ID: <202309261915.7BTiobUu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,56 +45,21 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230925081139.1305766-11-lukasz.luba@arm.com>
 
-Hi Lukasz,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/thermal linus/master v6.6-rc3 next-20230926]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lukasz-Luba/PM-EM-Add-missing-newline-for-the-message-log/20230925-181243
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20230925081139.1305766-11-lukasz.luba%40arm.com
-patch subject: [PATCH v4 10/18] PM: EM: Add RCU mechanism which safely cleans the old data
-config: i386-randconfig-063-20230926 (https://download.01.org/0day-ci/archive/20230926/202309261850.jrucSbN8-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309261850.jrucSbN8-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git dd-fix-5k
+head:   eac2af73427b308c426b03a2ad349d76e7daa5c7
+commit: eac2af73427b308c426b03a2ad349d76e7daa5c7 [28/28] dyndbg: WIP insert _ddebug_site fields into a maple-tree
+config: i386-randconfig-062-20230925 (https://download.01.org/0day-ci/archive/20230926/202309261915.7BTiobUu-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309261915.7BTiobUu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309261850.jrucSbN8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309261915.7BTiobUu-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> kernel/power/energy_model.c:125:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table *tmp @@     got struct em_perf_table [noderef] __rcu *runtime_table @@
-   kernel/power/energy_model.c:125:13: sparse:     expected struct em_perf_table *tmp
-   kernel/power/energy_model.c:125:13: sparse:     got struct em_perf_table [noderef] __rcu *runtime_table
-
-vim +125 kernel/power/energy_model.c
-
-   118	
-   119	static void em_perf_runtime_table_set(struct device *dev,
-   120					      struct em_perf_table *runtime_table)
-   121	{
-   122		struct em_perf_domain *pd = dev->em_pd;
-   123		struct em_perf_table *tmp;
-   124	
- > 125		tmp = pd->runtime_table;
-   126	
-   127		rcu_assign_pointer(pd->runtime_table, runtime_table);
-   128	
-   129		em_cpufreq_update_efficiencies(dev, runtime_table->state);
-   130	
-   131		/* Don't free default table since it's used by other frameworks. */
-   132		if (tmp != pd->default_table)
-   133			call_rcu(&tmp->rcu, em_destroy_rt_table_rcu);
-   134	}
-   135	
+>> lib/dynamic_debug.c:1330:6: sparse: sparse: symbol 'dd_store_func_range' was not declared. Should it be static?
 
 -- 
 0-DAY CI Kernel Test Service
