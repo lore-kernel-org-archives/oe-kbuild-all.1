@@ -1,45 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ECBB18E1B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Sep 2023 10:08:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C7A567F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Sep 2023 10:28:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695722898; x=1727258898;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YsHXiWnQ8H/I0iyjLhWW0SnPlnXLuk1IgrLSmPQeDx0=;
-  b=e3zrrjQP6HWpPpnISQMjPlAokbUlfgeqxjJ8O8O6sKmymZGts3FxDgLm
-   0K2Ip6IJDyDHHp3sacGaXfltOO2bA2ch20e3Cjsqhob4NaqVn9nEYn/MK
-   tj/5C0YpHtfY+gI5w3toTSjzkMEsKXx/g8LWsJhm+9odPAXlXt30Vik7N
-   NHdheJVSfFjiCUNNfPp/4ojua6clbmderGiVA3PVskqP9sqWyeAxP1YJP
-   CrBPd6TEdAmsHBDtRZ0LtE9uXXCtmP3cGNcuQ52NURVkKRBsNRDWWdQoP
-   1ug8J+YaOjTg/OTC4iluYOp7xxGZRK7bbTpbHevcoaW7Os/AIq2KgfwXH
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="385380547"
+  t=1695724100; x=1727260100;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Xvco+exeZgwRDJrrqal2tUOI+h+5Ttj2/k49gkG3aJs=;
+  b=XEVkWlXl8qRf/eqIGmLtozVqvCemowAgsQxtuhqDLlaHCGQcv9+d0TCh
+   EKIU9j494ZRY0LNyTa7Tf2w9/iOXHLFbRopZvp/km6FxYHHCpidL+J7jP
+   F/93iiojnzxw7Hg/x9L8EhgmlElRxune+BR2df7K/pn25LqAPTwox5FFR
+   hB/rld3GxJp+L4Bty3VBBGVnPirJSXY92s07j9swKkPQ/EUYjrx368L2t
+   wZk72gZg/ZhaabAN/i8Ejv4t4XgGq1n4MHHTcBd1zmqA1WUg5ikbFIohT
+   z06GUf0WrDFBbJHViXGd3vVKFLoh6aSJGTzdRjUGmqhLVOY+baV6IEKe3
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="448033238"
 X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; 
-   d="scan'208";a="385380547"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 03:08:17 -0700
+   d="scan'208";a="448033238"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 03:28:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="814414769"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="752126418"
 X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; 
-   d="scan'208";a="814414769"
+   d="scan'208";a="752126418"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 26 Sep 2023 03:08:15 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 26 Sep 2023 03:28:16 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ql4zE-0002i5-35;
-	Tue, 26 Sep 2023 10:08:12 +0000
-Date: Tue, 26 Sep 2023 18:07:23 +0800
+	id 1ql5Ib-0002j5-2W;
+	Tue, 26 Sep 2023 10:28:13 +0000
+Date: Tue, 26 Sep 2023 18:28:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Simon Horman <horms@kernel.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: kismet: WARNING: unmet direct dependencies detected for FIXED_PHY
- when selected by LAN743X
-Message-ID: <202309261802.JPbRHwti-lkp@intel.com>
+To: Lukasz Luba <lukasz.luba@arm.com>, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, rafael@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, lukasz.luba@arm.com,
+	dietmar.eggemann@arm.com, rui.zhang@intel.com,
+	amit.kucheria@verdurent.com, amit.kachhap@gmail.com,
+	daniel.lezcano@linaro.org, viresh.kumar@linaro.org,
+	len.brown@intel.com, pavel@ucw.cz, mhiramat@kernel.org,
+	qyousef@layalina.io, wvw@google.com
+Subject: Re: [PATCH v4 10/18] PM: EM: Add RCU mechanism which safely cleans
+ the old data
+Message-ID: <202309261850.jrucSbN8-lkp@intel.com>
+References: <20230925081139.1305766-11-lukasz.luba@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,28 +53,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230925081139.1305766-11-lukasz.luba@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6465e260f48790807eef06b583b38ca9789b6072
-commit: 73c4d1b307aeb713e80ab03f90c7df9d417dc0f0 net: lan743x: select FIXED_PHY
-date:   3 months ago
-config: i386-kismet-CONFIG_FIXED_PHY-CONFIG_LAN743X-0-0 (https://download.01.org/0day-ci/archive/20230926/202309261802.JPbRHwti-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20230926/202309261802.JPbRHwti-lkp@intel.com/reproduce)
+Hi Lukasz,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/thermal linus/master v6.6-rc3 next-20230926]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lukasz-Luba/PM-EM-Add-missing-newline-for-the-message-log/20230925-181243
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20230925081139.1305766-11-lukasz.luba%40arm.com
+patch subject: [PATCH v4 10/18] PM: EM: Add RCU mechanism which safely cleans the old data
+config: i386-randconfig-063-20230926 (https://download.01.org/0day-ci/archive/20230926/202309261850.jrucSbN8-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309261850.jrucSbN8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309261802.JPbRHwti-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309261850.jrucSbN8-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for FIXED_PHY when selected by LAN743X
-   .config:5298:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' invalid for ARCH_MMAP_RND_BITS
-   .config:13346:warning: symbol value 'ONFIG_NR_CPUS_DEFAUL' invalid for NR_CPUS
-   
-   WARNING: unmet direct dependencies detected for FIXED_PHY
-     Depends on [n]: NETDEVICES [=y] && PHYLIB [=n]
-     Selected by [y]:
-     - LAN743X [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_MICROCHIP [=y] && PCI [=y] && PTP_1588_CLOCK_OPTIONAL [=y]
+sparse warnings: (new ones prefixed by >>)
+>> kernel/power/energy_model.c:125:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table *tmp @@     got struct em_perf_table [noderef] __rcu *runtime_table @@
+   kernel/power/energy_model.c:125:13: sparse:     expected struct em_perf_table *tmp
+   kernel/power/energy_model.c:125:13: sparse:     got struct em_perf_table [noderef] __rcu *runtime_table
+
+vim +125 kernel/power/energy_model.c
+
+   118	
+   119	static void em_perf_runtime_table_set(struct device *dev,
+   120					      struct em_perf_table *runtime_table)
+   121	{
+   122		struct em_perf_domain *pd = dev->em_pd;
+   123		struct em_perf_table *tmp;
+   124	
+ > 125		tmp = pd->runtime_table;
+   126	
+   127		rcu_assign_pointer(pd->runtime_table, runtime_table);
+   128	
+   129		em_cpufreq_update_efficiencies(dev, runtime_table->state);
+   130	
+   131		/* Don't free default table since it's used by other frameworks. */
+   132		if (tmp != pd->default_table)
+   133			call_rcu(&tmp->rcu, em_destroy_rt_table_rcu);
+   134	}
+   135	
 
 -- 
 0-DAY CI Kernel Test Service
