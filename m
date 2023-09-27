@@ -1,54 +1,43 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3306F4E3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Sep 2023 08:41:51 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4063da036c9so29045305e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Sep 2023 01:41:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695804110; x=1696408910; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3avaBprYu+43ychYxLRbT6gVQ9C1A54ghz1t/5VqWt8=;
-        b=nB9bIjpUUIDg8mMg9eipUQMfPz5CflMa7YrmYNPnoijZ3Di90czwF7QNpvN0lLD+Zf
-         FrdP80UEhMl89Tw5csW34b6F5tlTB6ylCNttdbaQiLsnvV1yms+6DmnTwjjaEBb4h3LY
-         dG0CHhjGH3Luy4e+NOHo67SpaC1jMCyhpjs6Nek+kypF0ohL53gqSYqr6naCYI7/d5Q0
-         +wWhFvyLtzJhsW3n1idkQRnwJrofLTpeFWIwvM4fCk0PfFU+U08kTaok+Jy5rmfA1BY3
-         aMqrF3qlgSWC6L/VPKGpg4ZsKl7b0hPF+8r4BhwNJrCIE8HEarHS2GwRgUTUuziFrjQ1
-         c/Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695804110; x=1696408910;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3avaBprYu+43ychYxLRbT6gVQ9C1A54ghz1t/5VqWt8=;
-        b=KtXFQeubdiks41/ES33AuH/kkiAfzO6KH3CmP8FTXuln6nuvtFA7/X4kgetmDaZPGc
-         LnXSB66+TPEq3s/OvxykZj0bKmaxvTBVAavTbiqw2yQ457jTXqeogH56kPQcxllemQIZ
-         +gfTFViMaLwrq+DZdCc65/zPB1d1V66coAGbTwgPQepY1TeyLxn7BdXwQscuhddGgnmx
-         XJ7kpkNjllFsu0LWlXIf5iu5D93Wsv2A3wNrZMq5hBZF+gkwt5H8WgASOpOEyJvcVG8P
-         OLOlHrS6iFyTb4uKBQVpY4cU3NRCI1wqooFFWfekd5spYBPpO7IihbzCMexKlMyj5pFe
-         Wbwg==
-X-Gm-Message-State: AOJu0YzKo9XNb9bvRwjcylp7McNAq2m032wsuUOh6EVgkfrBrbvQUdSc
-	4IkhCQ2NFFN0qmttDSoQo63o28pQIS9ISfDayKk=
-X-Google-Smtp-Source: AGHT+IEg8fwCRd/CdOSgkLlLdD+6IUQQTDQsA6DBT2eT5cgZwyQt4e3Wb7SPfEoZekd1KXbszSB8ag==
-X-Received: by 2002:a05:600c:d1:b0:3fe:1f93:8cf4 with SMTP id u17-20020a05600c00d100b003fe1f938cf4mr1351176wmm.8.1695804109946;
-        Wed, 27 Sep 2023 01:41:49 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id h17-20020a5d5051000000b003197c7d08ddsm16557897wrt.71.2023.09.27.01.41.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Sep 2023 01:41:49 -0700 (PDT)
-Date: Wed, 27 Sep 2023 11:41:46 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Su Hui <suhui@nfschina.com>, oe-kbuild@lists.linux.dev, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [amir73il:ovl_want_write 8/8] fs/overlayfs/copy_up.c:459
- ovl_set_origin_fh() warn: variable dereferenced before check 'fh' (see line
- 458)
-Message-ID: <374b9ca8-1391-4c30-8c70-b788cb656a94@kadam.mountain>
-References: <1ce9ae3e-718d-490f-b85d-80f7a5d1df72@kadam.mountain>
- <CAOQ4uxizw5ogqcehJcmuZTDBNLM=hx=jZpdQZ2fsTyVdMZHf1g@mail.gmail.com>
- <d41c7647-2085-4f80-9d7c-5f17eecb03ba@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11A51C684;
+	Wed, 27 Sep 2023 09:01:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695805300; x=1727341300;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Cr5MCYb9m/L70OxZzhQMj2W1fq59DqJYRBk+aXlzeS4=;
+  b=fSTZFuX9/k8xwQ3tWCoCWqCo8jBYAbgdTd4f3NYedFF6bqY1cW6qkzJ/
+   ijvJLuFQJijonXQlfKR6qqhkKe+Cgi54jgUb60VPVQimU9kTcwTcjBcB1
+   6BXwc440yr8Tbuc5UM44iJtBQJx2CtyPjJ9bkApEug3qz5Z7GuV0RDC0m
+   4Kcq1LWGZXYTLaR1+a2/ZNBtwi3skzAnotcjMcJkd7jp3E5E9AX7NeZ1f
+   ynP3ut8qlwAg7EHjj8BtzWzTFKQlfSnltvKG3ojKw+ETdFjCjNi9JJRlu
+   6ilP/Be1kdhr+LpTHmp2yMvpmrLZe7Kbi5NRUACkNOAM4Xj0uRM3EjGD4
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="366834172"
+X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; 
+   d="scan'208";a="366834172"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 02:01:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="752490258"
+X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; 
+   d="scan'208";a="752490258"
+Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 27 Sep 2023 02:01:38 -0700
+Received: from kbuild by 32c80313467c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qlQQ4-0003wI-1W;
+	Wed, 27 Sep 2023 09:01:23 +0000
+Date: Wed, 27 Sep 2023 17:00:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [riteshharjani:ext2_dir_buffer_cache_rfc_wip1 15/15]
+ fs/ext2/dir.c:440:26: warning: no previous prototype for function
+ 'ext2_find_entry_old'
+Message-ID: <202309271615.haGzZ2k6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,44 +46,128 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d41c7647-2085-4f80-9d7c-5f17eecb03ba@kadam.mountain>
 
-On Wed, Sep 27, 2023 at 11:39:09AM +0300, Dan Carpenter wrote:
-> On Wed, Sep 27, 2023 at 11:16:12AM +0300, Amir Goldstein wrote:
-> > > a0c236b11706cc Amir Goldstein 2021-06-19 @458   err = ovl_check_setxattr(ofs, upper, OVL_XATTR_ORIGIN, fh->buf,
-> > >                                                                                                        ^^^^^^^
-> > > Dereference
-> > >
-> > > cbe7fba8edfc8c Amir Goldstein 2019-11-15 @459                            fh ? fh->fb.len : 0, 0);
-> > >                                                                          ^^
-> > > Checked too late.  This code is from 2021 though, so why is the warning
-> > > getting reported now?
-> > 
-> > That is what I was asking myself as well.
-> > The regressing commit is actually from 2019:
-> > 
-> > cbe7fba8edfc ("ovl: make sure that real fid is 32bit aligned in memory")
-> > 
-> > I am guessing that the report above was triggered by my change of helper
-> > name (to ovl_set_origin_fh()) in overlayfs-next.
-> > 
-> > Anyway, Su Hui just reported the same smatch warning a few days ago:
-> > 
-> > https://lore.kernel.org/linux-unionfs/20230925045059.92883-1-suhui@nfschina.com/
-> > 
-> > I will apply Su Hui's fix to overlayfs-next.
-> > It does not seem too urgent though, because setxattr with 0 length
-> > would probably ignore the invalid value of buf.
-> 
-> I don't know if it's urgent or not, but that explanation doesn't work.
-> This isn't an inline function.  So the dereference would happen at the
-> call site and not inside the ovl_check_setxattr() function.
+tree:   https://github.com/riteshharjani/linux ext2_dir_buffer_cache_rfc_wip1
+head:   3b878bc4805dd97f67ee17c6450059a4a7f2b261
+commit: 3b878bc4805dd97f67ee17c6450059a4a7f2b261 [15/15] ext2: everything else to make it work
+config: powerpc-g5_defconfig (https://download.01.org/0day-ci/archive/20230927/202309271615.haGzZ2k6-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230927/202309271615.haGzZ2k6-lkp@intel.com/reproduce)
 
-Ah.  Nope.   I'm wrong.  fb->buf[] is an array, so this is pointer
-math and not a dereference.  Sorry!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309271615.haGzZ2k6-lkp@intel.com/
 
-Perhaps we did discuss this earlier and decided it's not a bug.
+All warnings (new ones prefixed by >>):
 
-regards,
-dan carpenter
+>> fs/ext2/dir.c:440:26: warning: no previous prototype for function 'ext2_find_entry_old' [-Wmissing-prototypes]
+   struct ext2_dir_entry_2 *ext2_find_entry_old (struct inode *dir,
+                            ^
+   fs/ext2/dir.c:440:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   struct ext2_dir_entry_2 *ext2_find_entry_old (struct inode *dir,
+   ^
+   static 
+   fs/ext2/dir.c:818:15: warning: unused variable 'chunksize' [-Wunused-variable]
+           unsigned int chunksize = ext2_chunk_size(dir);
+                        ^
+   fs/ext2/dir.c:84:13: warning: unused function 'ext2_commit_chunk' [-Wunused-function]
+   static void ext2_commit_chunk(struct page *page, loff_t pos, unsigned len)
+               ^
+   fs/ext2/dir.c:236:1: warning: unused function 'ext2_validate_entry' [-Wunused-function]
+   ext2_validate_entry(char *base, unsigned offset, unsigned mask)
+   ^
+   fs/ext2/dir.c:549:12: warning: unused function 'ext2_prepare_chunk' [-Wunused-function]
+   static int ext2_prepare_chunk(struct page *page, loff_t pos, unsigned len)
+              ^
+   fs/ext2/dir.c:555:12: warning: unused function 'ext2_handle_dirsync' [-Wunused-function]
+   static int ext2_handle_dirsync(struct inode *dir)
+              ^
+   6 warnings generated.
 
+
+vim +/ext2_find_entry_old +440 fs/ext2/dir.c
+
+   423	
+   424	/*
+   425	 *	ext2_find_entry()
+   426	 *
+   427	 * finds an entry in the specified directory with the wanted name. It
+   428	 * returns the page in which the entry was found (as a parameter - res_page),
+   429	 * and the entry itself. Page is returned mapped and unlocked.
+   430	 * Entry is guaranteed to be valid.
+   431	 *
+   432	 * On Success ext2_put_page() should be called on *res_page.
+   433	 *
+   434	 * NOTE: Calls to ext2_get_page()/ext2_put_page() must be nested according to
+   435	 * the rules documented in kmap_local_page()/kunmap_local().
+   436	 *
+   437	 * ext2_find_entry() and ext2_dotdot() act as a call to ext2_get_page() and
+   438	 * should be treated as a call to ext2_get_page() for nesting purposes.
+   439	 */
+ > 440	struct ext2_dir_entry_2 *ext2_find_entry_old (struct inode *dir,
+   441				const struct qstr *child, struct page **res_page)
+   442	{
+   443		const char *name = child->name;
+   444		int namelen = child->len;
+   445		unsigned reclen = EXT2_DIR_REC_LEN(namelen);
+   446		unsigned long start, n;
+   447		unsigned long npages = dir_pages(dir);
+   448		struct page *page = NULL;
+   449		struct ext2_inode_info *ei = EXT2_I(dir);
+   450		ext2_dirent * de;
+   451	
+   452		if (npages == 0)
+   453			goto out;
+   454	
+   455		/* OFFSET_CACHE */
+   456		*res_page = NULL;
+   457	
+   458		start = ei->i_dir_start_lookup;
+   459		if (start >= npages)
+   460			start = 0;
+   461		n = start;
+   462		do {
+   463			char *kaddr = ext2_get_page(dir, n, 0, &page);
+   464			if (IS_ERR(kaddr))
+   465				return ERR_CAST(kaddr);
+   466	
+   467			de = (ext2_dirent *) kaddr;
+   468			kaddr += ext2_last_byte(dir, n) - reclen;
+   469			while ((char *) de <= kaddr) {
+   470				if (de->rec_len == 0) {
+   471					ext2_error(dir->i_sb, __func__,
+   472						"zero-length directory entry");
+   473					ext2_put_page(page, de);
+   474					goto out;
+   475				}
+   476				if (ext2_match(namelen, name, de))
+   477					goto found;
+   478				de = ext2_next_entry(de);
+   479			}
+   480			ext2_put_page(page, kaddr);
+   481	
+   482			if (++n >= npages)
+   483				n = 0;
+   484			/* next page is past the blocks we've got */
+   485			if (unlikely(n > (dir->i_blocks >> (PAGE_SHIFT - 9)))) {
+   486				ext2_error(dir->i_sb, __func__,
+   487					"dir %lu size %lld exceeds block count %llu",
+   488					dir->i_ino, dir->i_size,
+   489					(unsigned long long)dir->i_blocks);
+   490				goto out;
+   491			}
+   492		} while (n != start);
+   493	out:
+   494		return ERR_PTR(-ENOENT);
+   495	
+   496	found:
+   497		*res_page = page;
+   498		ei->i_dir_start_lookup = n;
+   499		return de;
+   500	}
+   501	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
