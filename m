@@ -1,173 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11A51C684;
-	Wed, 27 Sep 2023 09:01:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695805300; x=1727341300;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Cr5MCYb9m/L70OxZzhQMj2W1fq59DqJYRBk+aXlzeS4=;
-  b=fSTZFuX9/k8xwQ3tWCoCWqCo8jBYAbgdTd4f3NYedFF6bqY1cW6qkzJ/
-   ijvJLuFQJijonXQlfKR6qqhkKe+Cgi54jgUb60VPVQimU9kTcwTcjBcB1
-   6BXwc440yr8Tbuc5UM44iJtBQJx2CtyPjJ9bkApEug3qz5Z7GuV0RDC0m
-   4Kcq1LWGZXYTLaR1+a2/ZNBtwi3skzAnotcjMcJkd7jp3E5E9AX7NeZ1f
-   ynP3ut8qlwAg7EHjj8BtzWzTFKQlfSnltvKG3ojKw+ETdFjCjNi9JJRlu
-   6ilP/Be1kdhr+LpTHmp2yMvpmrLZe7Kbi5NRUACkNOAM4Xj0uRM3EjGD4
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="366834172"
-X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; 
-   d="scan'208";a="366834172"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 02:01:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="752490258"
-X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; 
-   d="scan'208";a="752490258"
-Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 27 Sep 2023 02:01:38 -0700
-Received: from kbuild by 32c80313467c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qlQQ4-0003wI-1W;
-	Wed, 27 Sep 2023 09:01:23 +0000
-Date: Wed, 27 Sep 2023 17:00:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [riteshharjani:ext2_dir_buffer_cache_rfc_wip1 15/15]
- fs/ext2/dir.c:440:26: warning: no previous prototype for function
- 'ext2_find_entry_old'
-Message-ID: <202309271615.haGzZ2k6-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDE4CA51
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Sep 2023 09:07:07 +0000 (UTC)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5a1d0fee86aso60528267b3.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Sep 2023 02:07:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695805626; x=1696410426; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Wm+CmHkCFmEfa7cbK5Jo56DJl1QMiUb2TNUipR3cFWA=;
+        b=y2ig6yR8x8P59fcytrADh4dsiOZCON/4XEZqOFqXeIHnUwKqR4jLfN1fWQjEA9g8eV
+         01XT3QOvEsbRfqgRRGMmueRIIkRtXuMGG4/yLzbxgimh4dvmSQ9IFdFn6s4HJ64oxkFu
+         IwGx4S1uQ1cJXy9rrSVAQUyilIfMbJphNXGMM91lCSTV9LJG6N7/URZeov3vW5egMT+1
+         PHRS76a6wo1CbeXuZPK0C5+5WtE5NyjqpW/6McNShAdUqtT9Z8+6Tdin50mZR/KjqcbK
+         qXEbfgJ7S0MLpwVc1mRqw4/3Z6/8c2/5uJpfZDrwoH5rqYq0BoofTj75XCaxtYsOGWhN
+         qmmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695805626; x=1696410426;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Wm+CmHkCFmEfa7cbK5Jo56DJl1QMiUb2TNUipR3cFWA=;
+        b=DfwK5XKhXGeNL8RX+e0T3k/284pW1nzP6S6AsqgDLalBsKI/fHQSYzQ7J0iOWx8Xt5
+         fneoNObH0Ng/vomhlLjTl+MPD3cJ68D8eab0UBsLOQT8Rlh2WHWuzwEmRJ8+exeNTISw
+         lfFqaDntB8UQSvVwohTxXhGZNENA+RCajGLXb4vXnvCDoIr3sg87lSouT7L6r+vkPTyJ
+         qO5C3C5nWjCcAtSWO3HeRHshiGGM2ngw1KsD5lxsAa+GG5pHw8sR9K7zM27nxsCW/tCN
+         wDUKEp0vQFsEIrfECcVPXul5G/g1QbuIxEyME0Pjum9HSHZkA9huB9pbMXv5w/34l6H/
+         kQXA==
+X-Gm-Message-State: AOJu0YxINoCBEmK8stSO6SKGmqDgqpb0zU/OrgDcduyZpDMhSlee7yA4
+	ijhnBRMCVL9+eYRuFob5wU43yxefcfXDUgkVIID6PqaZyUt40gWg
+X-Google-Smtp-Source: AGHT+IHOJ7uJz9wRRMx9WyJXVRZIxp98VLGc6U0MGhD6EvrOAqvdnUU1XL6wd4Dlp0oFyLPgxgq+FoerK6agjArWnwY=
+X-Received: by 2002:a0d:db11:0:b0:59f:5895:6e38 with SMTP id
+ d17-20020a0ddb11000000b0059f58956e38mr1693957ywe.4.1695805626721; Wed, 27 Sep
+ 2023 02:07:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202309270234.aJGlDE0P-lkp@intel.com>
+In-Reply-To: <202309270234.aJGlDE0P-lkp@intel.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 27 Sep 2023 11:06:55 +0200
+Message-ID: <CACRpkdYHUVno_E0iFE_Gxuoszr7TbtnTKaZGcAWz8_cnifwQUQ@mail.gmail.com>
+Subject: Re: [linusw-pinctrl:devel 15/25] drivers/pinctrl/realtek/pinctrl-rtd.c:180:29:
+ warning: '%s' directive argument is null
+To: kernel test robot <lkp@intel.com>
+Cc: Tzuyi Chang <tychang@realtek.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/riteshharjani/linux ext2_dir_buffer_cache_rfc_wip1
-head:   3b878bc4805dd97f67ee17c6450059a4a7f2b261
-commit: 3b878bc4805dd97f67ee17c6450059a4a7f2b261 [15/15] ext2: everything else to make it work
-config: powerpc-g5_defconfig (https://download.01.org/0day-ci/archive/20230927/202309271615.haGzZ2k6-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230927/202309271615.haGzZ2k6-lkp@intel.com/reproduce)
+On Tue, Sep 26, 2023 at 8:48=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309271615.haGzZ2k6-lkp@intel.com/
+>    drivers/pinctrl/realtek/pinctrl-rtd.c: In function 'rtd_pinctrl_set_on=
+e_mux':
+> >> drivers/pinctrl/realtek/pinctrl-rtd.c:180:29: warning: '%s' directive =
+argument is null [-Wformat-overflow=3D]
+>      180 |         dev_err(pcdev->dev, "No function %s available for pin =
+%s\n", func_name, mux->name);
+>          |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
 
-All warnings (new ones prefixed by >>):
+So:
 
->> fs/ext2/dir.c:440:26: warning: no previous prototype for function 'ext2_find_entry_old' [-Wmissing-prototypes]
-   struct ext2_dir_entry_2 *ext2_find_entry_old (struct inode *dir,
-                            ^
-   fs/ext2/dir.c:440:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct ext2_dir_entry_2 *ext2_find_entry_old (struct inode *dir,
-   ^
-   static 
-   fs/ext2/dir.c:818:15: warning: unused variable 'chunksize' [-Wunused-variable]
-           unsigned int chunksize = ext2_chunk_size(dir);
-                        ^
-   fs/ext2/dir.c:84:13: warning: unused function 'ext2_commit_chunk' [-Wunused-function]
-   static void ext2_commit_chunk(struct page *page, loff_t pos, unsigned len)
-               ^
-   fs/ext2/dir.c:236:1: warning: unused function 'ext2_validate_entry' [-Wunused-function]
-   ext2_validate_entry(char *base, unsigned offset, unsigned mask)
-   ^
-   fs/ext2/dir.c:549:12: warning: unused function 'ext2_prepare_chunk' [-Wunused-function]
-   static int ext2_prepare_chunk(struct page *page, loff_t pos, unsigned len)
-              ^
-   fs/ext2/dir.c:555:12: warning: unused function 'ext2_handle_dirsync' [-Wunused-function]
-   static int ext2_handle_dirsync(struct inode *dir)
-              ^
-   6 warnings generated.
+>    155  static int rtd_pinctrl_set_one_mux(struct pinctrl_dev *pcdev,
+>    156                                     unsigned int pin, const char *=
+func_name)
+>    157  {
+>    158          struct rtd_pinctrl *data =3D pinctrl_dev_get_drvdata(pcde=
+v);
+>    159          const struct rtd_pin_desc *mux;
+>    160          int ret =3D 0;
+>    161          int i;
+>    162
+>    163          mux =3D rtd_pinctrl_find_mux(data, pin);
+>    164          if (!mux)
+>    165                  return 0;
+>    166
+>    167          if (!mux->functions) {
+>    168                  dev_err(pcdev->dev, "No functions available for p=
+in %s\n", mux->name);
+>    169                  return -ENOTSUPP;
+>    170          }
+>    171
+>    172          for (i =3D 0; mux->functions[i].name; i++) {
+>    173                  if (strcmp(mux->functions[i].name, func_name) !=
+=3D 0)
+>    174                          continue;
+>    175                  ret =3D regmap_update_bits(data->regmap_pinctrl, =
+mux->mux_offset, mux->mux_mask,
+>    176                                          mux->functions[i].mux_val=
+ue);
+>    177                  return ret;
+>    178          }
+>    179
+>  > 180          dev_err(pcdev->dev, "No function %s available for pin %s\=
+n", func_name, mux->name);
 
+I can't see it, what am I missing? Why would func_name or mux->name be NULL=
+?
 
-vim +/ext2_find_entry_old +440 fs/ext2/dir.c
-
-   423	
-   424	/*
-   425	 *	ext2_find_entry()
-   426	 *
-   427	 * finds an entry in the specified directory with the wanted name. It
-   428	 * returns the page in which the entry was found (as a parameter - res_page),
-   429	 * and the entry itself. Page is returned mapped and unlocked.
-   430	 * Entry is guaranteed to be valid.
-   431	 *
-   432	 * On Success ext2_put_page() should be called on *res_page.
-   433	 *
-   434	 * NOTE: Calls to ext2_get_page()/ext2_put_page() must be nested according to
-   435	 * the rules documented in kmap_local_page()/kunmap_local().
-   436	 *
-   437	 * ext2_find_entry() and ext2_dotdot() act as a call to ext2_get_page() and
-   438	 * should be treated as a call to ext2_get_page() for nesting purposes.
-   439	 */
- > 440	struct ext2_dir_entry_2 *ext2_find_entry_old (struct inode *dir,
-   441				const struct qstr *child, struct page **res_page)
-   442	{
-   443		const char *name = child->name;
-   444		int namelen = child->len;
-   445		unsigned reclen = EXT2_DIR_REC_LEN(namelen);
-   446		unsigned long start, n;
-   447		unsigned long npages = dir_pages(dir);
-   448		struct page *page = NULL;
-   449		struct ext2_inode_info *ei = EXT2_I(dir);
-   450		ext2_dirent * de;
-   451	
-   452		if (npages == 0)
-   453			goto out;
-   454	
-   455		/* OFFSET_CACHE */
-   456		*res_page = NULL;
-   457	
-   458		start = ei->i_dir_start_lookup;
-   459		if (start >= npages)
-   460			start = 0;
-   461		n = start;
-   462		do {
-   463			char *kaddr = ext2_get_page(dir, n, 0, &page);
-   464			if (IS_ERR(kaddr))
-   465				return ERR_CAST(kaddr);
-   466	
-   467			de = (ext2_dirent *) kaddr;
-   468			kaddr += ext2_last_byte(dir, n) - reclen;
-   469			while ((char *) de <= kaddr) {
-   470				if (de->rec_len == 0) {
-   471					ext2_error(dir->i_sb, __func__,
-   472						"zero-length directory entry");
-   473					ext2_put_page(page, de);
-   474					goto out;
-   475				}
-   476				if (ext2_match(namelen, name, de))
-   477					goto found;
-   478				de = ext2_next_entry(de);
-   479			}
-   480			ext2_put_page(page, kaddr);
-   481	
-   482			if (++n >= npages)
-   483				n = 0;
-   484			/* next page is past the blocks we've got */
-   485			if (unlikely(n > (dir->i_blocks >> (PAGE_SHIFT - 9)))) {
-   486				ext2_error(dir->i_sb, __func__,
-   487					"dir %lu size %lld exceeds block count %llu",
-   488					dir->i_ino, dir->i_size,
-   489					(unsigned long long)dir->i_blocks);
-   490				goto out;
-   491			}
-   492		} while (n != start);
-   493	out:
-   494		return ERR_PTR(-ENOENT);
-   495	
-   496	found:
-   497		*res_page = page;
-   498		ei->i_dir_start_lookup = n;
-   499		return de;
-   500	}
-   501	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yours,
+Linus Walleij
