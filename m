@@ -1,126 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60044210A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Sep 2023 08:08:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695802104; x=1727338104;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cV2aBAWyl4YQAh/piPCEUInz8V67I9b0nl4f30dS2PQ=;
-  b=eIt+Py/6mUUIJp6EdCTw9smM62lEA+ovAa+cX6GNkWEi49MWDvkOqlXj
-   BhxzPzgHKxpsX2D/mJ51KDlDNyxf00HZhJa48rGi5+TaMeCh6qKoeSAsj
-   pMZgADuhjY9ajYNYcKO0wfMkPwThru1IyMLp555ckuxjoj7iQLVEY3ucl
-   YxKEW9gBU7RB29MTjiecZLs+eavwYhLF9FS7gW29QpTtp11t2bYXAJyE7
-   HC2S5wtXEG1R0o3F6eyxJkW7pRwuEQcBAWnB6+aQBpadzSok1Mj9MzDxF
-   GkQ57dpxGcow78Lp15LQn7j3zpuDRVOKs/oUIRnrP+7bqXUKD2DI1XHtg
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="381663808"
-X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; 
-   d="scan'208";a="381663808"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 01:08:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="864716462"
-X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; 
-   d="scan'208";a="864716462"
-Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 27 Sep 2023 01:08:20 -0700
-Received: from kbuild by 32c80313467c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qlPak-0003ta-1E;
-	Wed, 27 Sep 2023 08:08:18 +0000
-Date: Wed, 27 Sep 2023 16:07:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Tejas Upadhyay <tejas.upadhyay@intel.com>,
-	Andi Shyti <andi.shyti@linux.intel.com>,
-	Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Subject: Re: [PATCH 6/6] drm/i915: Implement fdinfo memory stats printing
-Message-ID: <202309271528.TmGx2jEq-lkp@intel.com>
-References: <20230922134700.235039-7-tvrtko.ursulin@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9BFA15C0;
+	Wed, 27 Sep 2023 08:16:24 +0000 (UTC)
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-7a8b839fc0aso3215577241.3;
+        Wed, 27 Sep 2023 01:16:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695802583; x=1696407383; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dUgLkpKSQhm88opg6l1TFrdCejUdTkpPszrJTse65Cg=;
+        b=AwXM00yB2Qa4lDNou6LQwWOaC1RJctntAbqyA9FsVOzWENRlo7esY2yPMu85LK6zAs
+         6DBcDO6OGI2tpLyTlx2vCdkbTM4kh1Zkv2XPZ3KZ/Ct9mPdLY6p6fvImC2RBUIbI5qIf
+         C0IrxuIvz9345fUVsdT9jCtJ4axPPiNImGsfl4+OLthoPm5GBw3ECOB388BKE6YTFM46
+         tvGv02Ank/6AsKxeRoIHi6LwY5NjiIpU2AiEVb+pUpV/v5Jk67XzCwTkIY3JJoNzdsCB
+         y82vwoUlB80EttVA9Eo0T7cgwkh+4OauUBZXRJPKG0va2HIpyYexLwe1KgvOWU5zlEZP
+         vZnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695802583; x=1696407383;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dUgLkpKSQhm88opg6l1TFrdCejUdTkpPszrJTse65Cg=;
+        b=WSugp6Tya6wWuolc/a6IqILBHg4lwDl3kAgvg33Vxym2W18cOzDXGYvZIgyqkdPgzJ
+         4cjCiEEtIEplHCcDWFSlcPyGT0+KO5KEOJ6A/YvTBJKN1LSDMysJwrI+yVqSqGeGXiVl
+         h57Ev5JjYY6ucW9kKdNQKQmvTrnZcxtPV3GvGlXGVqXLlGn52X2YnUgAX3voF+/ucQyB
+         kFios+Jy0/pGMJyvG6Yo4uXoKuLJtKD/CkjCF82dzB4hTps9oy4CJKNjpR/YrRlf4xaU
+         Hj9zzoMCKc7Ihn7HB4t5hu8n2Os8/Za37n9NUi7801aEwd9ax3Z4AsezSUzt+yPSMiAM
+         QmOQ==
+X-Gm-Message-State: AOJu0YzXvNsuwfcSWopsBaQ9Znz3bxioz16ee2ntolQWfsooMxyaRgKQ
+	YNmlrD7A6DiKX+Zzn2qazrVIwE2/k9iEDGQl2SE=
+X-Google-Smtp-Source: AGHT+IG1FpMengipmAlrUf+If+099h8X6iYckw+x637172ebpmoYN3IkGj/+IlkXANXrCrFMq779HLJGk/H0quhwsyk=
+X-Received: by 2002:a67:fb4e:0:b0:452:8574:4545 with SMTP id
+ e14-20020a67fb4e000000b0045285744545mr952923vsr.5.1695802583432; Wed, 27 Sep
+ 2023 01:16:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230922134700.235039-7-tvrtko.ursulin@linux.intel.com>
+References: <1ce9ae3e-718d-490f-b85d-80f7a5d1df72@kadam.mountain>
+In-Reply-To: <1ce9ae3e-718d-490f-b85d-80f7a5d1df72@kadam.mountain>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Wed, 27 Sep 2023 11:16:12 +0300
+Message-ID: <CAOQ4uxizw5ogqcehJcmuZTDBNLM=hx=jZpdQZ2fsTyVdMZHf1g@mail.gmail.com>
+Subject: Re: [amir73il:ovl_want_write 8/8] fs/overlayfs/copy_up.c:459
+ ovl_set_origin_fh() warn: variable dereferenced before check 'fh' (see line 458)
+To: Dan Carpenter <dan.carpenter@linaro.org>, Su Hui <suhui@nfschina.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tvrtko,
+On Wed, Sep 27, 2023 at 10:46=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
+o.org> wrote:
+>
+> tree:   https://github.com/amir73il/linux ovl_want_write
+> head:   4ea9d9f55925f6631923f76831d8a2a850d3876e
+> commit: 4ea9d9f55925f6631923f76831d8a2a850d3876e [8/8] ovl: do not encode=
+ lower fh with upper sb_writers held
+> config: i386-randconfig-141-20230909 (https://download.01.org/0day-ci/arc=
+hive/20230909/202309091443.rCZuOntT-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230909/202309091443=
+.rCZuOntT-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/1ce9ae3e-718d-490f-b85d-80f7a5d1df72@=
+kadam.mountain/
+>
+> smatch warnings:
+> fs/overlayfs/copy_up.c:459 ovl_set_origin_fh() warn: variable dereference=
+d before check 'fh' (see line 458)
+>
+> vim +/fh +459 fs/overlayfs/copy_up.c
+>
+> 4ea9d9f55925f6 Amir Goldstein 2023-08-16  450  int ovl_set_origin_fh(stru=
+ct ovl_fs *ofs, const struct ovl_fh *fh,
+> 4ea9d9f55925f6 Amir Goldstein 2023-08-16  451                 struct dent=
+ry *upper)
+> 4ea9d9f55925f6 Amir Goldstein 2023-08-16  452  {
+> 4ea9d9f55925f6 Amir Goldstein 2023-08-16  453   int err;
+> 4ea9d9f55925f6 Amir Goldstein 2023-08-16  454
+> 6266d465bde044 Miklos Szeredi 2017-05-18  455   /*
+> 6266d465bde044 Miklos Szeredi 2017-05-18  456    * Do not fail when upper=
+ doesn't support xattrs.
+> 6266d465bde044 Miklos Szeredi 2017-05-18  457    */
+> a0c236b11706cc Amir Goldstein 2021-06-19 @458   err =3D ovl_check_setxatt=
+r(ofs, upper, OVL_XATTR_ORIGIN, fh->buf,
+>                                                                          =
+                              ^^^^^^^
+> Dereference
+>
+> cbe7fba8edfc8c Amir Goldstein 2019-11-15 @459                            =
+fh ? fh->fb.len : 0, 0);
+>                                                                          =
+^^
+> Checked too late.  This code is from 2021 though, so why is the warning
+> getting reported now?
 
-kernel test robot noticed the following build warnings:
+That is what I was asking myself as well.
+The regressing commit is actually from 2019:
 
-[auto build test WARNING on drm-tip/drm-tip]
+cbe7fba8edfc ("ovl: make sure that real fid is 32bit aligned in memory")
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tvrtko-Ursulin/drm-i915-Add-ability-for-tracking-buffer-objects-per-client/20230922-214929
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230922134700.235039-7-tvrtko.ursulin%40linux.intel.com
-patch subject: [PATCH 6/6] drm/i915: Implement fdinfo memory stats printing
-config: i386-randconfig-062-20230927 (https://download.01.org/0day-ci/archive/20230927/202309271528.TmGx2jEq-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230927/202309271528.TmGx2jEq-lkp@intel.com/reproduce)
+I am guessing that the report above was triggered by my change of helper
+name (to ovl_set_origin_fh()) in overlayfs-next.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309271528.TmGx2jEq-lkp@intel.com/
+Anyway, Su Hui just reported the same smatch warning a few days ago:
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/i915_drm_client.c:92:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
->> drivers/gpu/drm/i915/i915_drm_client.c:92:9: sparse:    struct list_head [noderef] __rcu *
->> drivers/gpu/drm/i915/i915_drm_client.c:92:9: sparse:    struct list_head *
->> drivers/gpu/drm/i915/i915_drm_client.c:92:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
->> drivers/gpu/drm/i915/i915_drm_client.c:92:9: sparse:    struct list_head [noderef] __rcu *
->> drivers/gpu/drm/i915/i915_drm_client.c:92:9: sparse:    struct list_head *
+https://lore.kernel.org/linux-unionfs/20230925045059.92883-1-suhui@nfschina=
+.com/
 
-vim +92 drivers/gpu/drm/i915/i915_drm_client.c
+I will apply Su Hui's fix to overlayfs-next.
+It does not seem too urgent though, because setxattr with 0 length
+would probably ignore the invalid value of buf.
 
-    72	
-    73	static void show_meminfo(struct drm_printer *p, struct drm_file *file)
-    74	{
-    75		struct drm_memory_stats stats[INTEL_REGION_UNKNOWN] = {};
-    76		struct drm_i915_file_private *fpriv = file->driver_priv;
-    77		struct i915_drm_client *client = fpriv->client;
-    78		struct drm_i915_private *i915 = fpriv->i915;
-    79		struct drm_i915_gem_object *obj;
-    80		struct intel_memory_region *mr;
-    81		struct list_head *pos;
-    82		unsigned int id;
-    83	
-    84		/* Public objects. */
-    85		spin_lock(&file->table_lock);
-    86		idr_for_each_entry(&file->object_idr, obj, id)
-    87			obj_meminfo(obj, stats);
-    88		spin_unlock(&file->table_lock);
-    89	
-    90		/* Internal objects. */
-    91		rcu_read_lock();
-  > 92		list_for_each_rcu(pos, &client->objects_list) {
-    93			obj = i915_gem_object_get_rcu(list_entry(pos, typeof(*obj),
-    94								 client_link));
-    95			if (!obj)
-    96				continue;
-    97			obj_meminfo(obj, stats);
-    98			i915_gem_object_put(obj);
-    99		}
-   100		rcu_read_unlock();
-   101	
-   102		for_each_memory_region(mr, i915, id)
-   103			drm_print_memory_stats(p,
-   104					       &stats[id],
-   105					       DRM_GEM_OBJECT_RESIDENT |
-   106					       DRM_GEM_OBJECT_PURGEABLE,
-   107					       mr->uabi_name);
-   108	}
-   109	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Amir.
