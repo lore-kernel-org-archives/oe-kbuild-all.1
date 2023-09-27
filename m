@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98CA21A586
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Sep 2023 19:56:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3204BDD5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Sep 2023 20:06:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695844593; x=1727380593;
+  t=1695845192; x=1727381192;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vEob9OYhlb3C7kDCTQPB68srzWnEwyDGq/zBRYkaO90=;
-  b=a8wF5Yz5XFeKxVqluqkzBtM+H+esRfyfrxs3OMBbIHQIURiC0lNKH4EJ
-   8qAqMgpgwsJEzBMJrwIeSQAf4dBM+vNEgHdcpDTVuy8yOY3blnLsbfWBL
-   UbaQY0oj14jt3bRdG5jz6i0GUnSwp0Xu+CEwNgmgcX3CX9YVhUhKz6LQf
-   1xQ2GqVP3duY2zpDKWh37rY8aCk4tdKc7dElKb0Zco0v481iMpsu3gECH
-   5FZyiDw1saDep1pYXxDSgy4BkCJa5OuXVUCI3OerhrOXjAM2RsgF1V2oX
-   DVrf+Qi718rSPMJYXkUBp1eiOyt1XBUutyuSYUfD39FNVCZaXGGmT5vNR
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="446057714"
+  bh=TdKVoPTVA79F/RQlGAAEaJj8VgX+aZVKwAVtXmUwctk=;
+  b=YNu783XQne7eKtURPZk+i+aeHzmhUl9/ZwAN+1DTb4Gq2qybWd5vVPoq
+   8ceD7eKqKY79KT9uTBBO2+KaudCp0BUCBkRNTHHdBfJDZYs3QwA+A/7Wf
+   2f3QI5wz3kZ6DSenVZ+hbqM2T4RmQS2dMB+C8QgQsENwyYzwuQXlGNIGU
+   DTI6dGJP+bzu5WYLoDAwHBfnoz0NRSVuf65WM6K0jNdcjDd2JaMjlp6Wq
+   P/x9+spO+5TW34iJqLSsZI6zPcT4nBDXCCbzr2YnIyzo0PPNsdFAeX8JR
+   nsrWbWApHm735ft/m+/qW8pbPweJKu8s+VM/9mIn5RMtrA6ErdG8llt4e
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="468199999"
 X-IronPort-AV: E=Sophos;i="6.03,182,1694761200"; 
-   d="scan'208";a="446057714"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 12:56:31 -0700
+   d="scan'208";a="468199999"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 13:06:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="996295035"
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="1080305977"
 X-IronPort-AV: E=Sophos;i="6.03,182,1694761200"; 
-   d="scan'208";a="996295035"
+   d="scan'208";a="1080305977"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 27 Sep 2023 12:56:30 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 27 Sep 2023 13:06:30 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qlae3-0000bm-2V;
-	Wed, 27 Sep 2023 19:56:27 +0000
-Date: Thu, 28 Sep 2023 03:55:28 +0800
+	id 1qlank-0000cD-03;
+	Wed, 27 Sep 2023 20:06:28 +0000
+Date: Thu, 28 Sep 2023 04:06:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jan Kara <jack@suse.cz>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>,
-	Christian Brauner <brauner@kernel.org>
-Subject: [brauner-vfs:vfs.super 18/30] kernel/power/swap.c:1573: warning:
- Excess function parameter 'exclusive' description in 'swsusp_close'
-Message-ID: <202309280353.C3M5Aidp-lkp@intel.com>
+To: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [riteshharjani:ext2_dir_buffer_cache_rfc_wip1 15/15]
+ fs/ext2/dir.c:440:26: warning: no previous declaration for
+ 'ext2_find_entry_old'
+Message-ID: <202309280449.KISthPfu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,54 +47,120 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.super
-head:   953863a5a2ff126582a21068485dbf7d8ae1d6dc
-commit: b589a66e368838a00e827a62cfff6aac1621de32 [18/30] PM: hibernate: Drop unused snapshot_test argument
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230928/202309280353.C3M5Aidp-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230928/202309280353.C3M5Aidp-lkp@intel.com/reproduce)
+tree:   https://github.com/riteshharjani/linux ext2_dir_buffer_cache_rfc_wip1
+head:   3b878bc4805dd97f67ee17c6450059a4a7f2b261
+commit: 3b878bc4805dd97f67ee17c6450059a4a7f2b261 [15/15] ext2: everything else to make it work
+config: i386-randconfig-141-20230927 (https://download.01.org/0day-ci/archive/20230928/202309280449.KISthPfu-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230928/202309280449.KISthPfu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309280353.C3M5Aidp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309280449.KISthPfu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/power/swap.c:544: warning: Function parameter or member 'handle' not described in 'save_image'
-   kernel/power/swap.c:544: warning: Function parameter or member 'snapshot' not described in 'save_image'
-   kernel/power/swap.c:544: warning: Function parameter or member 'nr_to_write' not described in 'save_image'
-   kernel/power/swap.c:891: warning: Function parameter or member 'nr_pages' not described in 'enough_swap'
-   kernel/power/swap.c:1062: warning: Function parameter or member 'handle' not described in 'load_image'
-   kernel/power/swap.c:1062: warning: Function parameter or member 'snapshot' not described in 'load_image'
-   kernel/power/swap.c:1062: warning: Function parameter or member 'nr_to_read' not described in 'load_image'
->> kernel/power/swap.c:1573: warning: Excess function parameter 'exclusive' description in 'swsusp_close'
+>> fs/ext2/dir.c:440:26: warning: no previous declaration for 'ext2_find_entry_old' [-Wmissing-declarations]
+    struct ext2_dir_entry_2 *ext2_find_entry_old (struct inode *dir,
+                             ^~~~~~~~~~~~~~~~~~~
+   fs/ext2/dir.c: In function 'ext2_delete_entry':
+   fs/ext2/dir.c:818:15: warning: unused variable 'chunksize' [-Wunused-variable]
+     unsigned int chunksize = ext2_chunk_size(dir);
+                  ^~~~~~~~~
+   At top level:
+   fs/ext2/dir.c:555:12: warning: 'ext2_handle_dirsync' defined but not used [-Wunused-function]
+    static int ext2_handle_dirsync(struct inode *dir)
+               ^~~~~~~~~~~~~~~~~~~
+   fs/ext2/dir.c:549:12: warning: 'ext2_prepare_chunk' defined but not used [-Wunused-function]
+    static int ext2_prepare_chunk(struct page *page, loff_t pos, unsigned len)
+               ^~~~~~~~~~~~~~~~~~
+   fs/ext2/dir.c:84:13: warning: 'ext2_commit_chunk' defined but not used [-Wunused-function]
+    static void ext2_commit_chunk(struct page *page, loff_t pos, unsigned len)
+                ^~~~~~~~~~~~~~~~~
 
 
-vim +1573 kernel/power/swap.c
+vim +/ext2_find_entry_old +440 fs/ext2/dir.c
 
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1566  
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1567  /**
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1568   * swsusp_close - close swap device.
-40d84e198b0ae6 Chen Yu           2023-09-06  1569   * @exclusive: Close the resume device which is exclusively opened.
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1570   */
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1571  
-b589a66e368838 Jan Kara          2023-09-27  1572  void swsusp_close(void)
-61159a314bca64 Rafael J. Wysocki 2006-03-23 @1573  {
-105ea4a2fd1848 Jan Kara          2023-09-27  1574  	if (IS_ERR(hib_resume_bdev_handle)) {
-64ec72a1ece37d Joe Perches       2017-09-27  1575  		pr_debug("Image device not initialised\n");
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1576  		return;
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1577  	}
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1578  
-105ea4a2fd1848 Jan Kara          2023-09-27  1579  	bdev_release(hib_resume_bdev_handle);
-61159a314bca64 Rafael J. Wysocki 2006-03-23  1580  }
-1b29c1643c0d82 Vivek Goyal       2007-05-02  1581  
-
-:::::: The code at line 1573 was first introduced by commit
-:::::: 61159a314bca6408320c3173c1282c64f5cdaa76 [PATCH] swsusp: separate swap-writing/reading code
-
-:::::: TO: Rafael J. Wysocki <rjw@sisk.pl>
-:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
+   423	
+   424	/*
+   425	 *	ext2_find_entry()
+   426	 *
+   427	 * finds an entry in the specified directory with the wanted name. It
+   428	 * returns the page in which the entry was found (as a parameter - res_page),
+   429	 * and the entry itself. Page is returned mapped and unlocked.
+   430	 * Entry is guaranteed to be valid.
+   431	 *
+   432	 * On Success ext2_put_page() should be called on *res_page.
+   433	 *
+   434	 * NOTE: Calls to ext2_get_page()/ext2_put_page() must be nested according to
+   435	 * the rules documented in kmap_local_page()/kunmap_local().
+   436	 *
+   437	 * ext2_find_entry() and ext2_dotdot() act as a call to ext2_get_page() and
+   438	 * should be treated as a call to ext2_get_page() for nesting purposes.
+   439	 */
+ > 440	struct ext2_dir_entry_2 *ext2_find_entry_old (struct inode *dir,
+   441				const struct qstr *child, struct page **res_page)
+   442	{
+   443		const char *name = child->name;
+   444		int namelen = child->len;
+   445		unsigned reclen = EXT2_DIR_REC_LEN(namelen);
+   446		unsigned long start, n;
+   447		unsigned long npages = dir_pages(dir);
+   448		struct page *page = NULL;
+   449		struct ext2_inode_info *ei = EXT2_I(dir);
+   450		ext2_dirent * de;
+   451	
+   452		if (npages == 0)
+   453			goto out;
+   454	
+   455		/* OFFSET_CACHE */
+   456		*res_page = NULL;
+   457	
+   458		start = ei->i_dir_start_lookup;
+   459		if (start >= npages)
+   460			start = 0;
+   461		n = start;
+   462		do {
+   463			char *kaddr = ext2_get_page(dir, n, 0, &page);
+   464			if (IS_ERR(kaddr))
+   465				return ERR_CAST(kaddr);
+   466	
+   467			de = (ext2_dirent *) kaddr;
+   468			kaddr += ext2_last_byte(dir, n) - reclen;
+   469			while ((char *) de <= kaddr) {
+   470				if (de->rec_len == 0) {
+   471					ext2_error(dir->i_sb, __func__,
+   472						"zero-length directory entry");
+   473					ext2_put_page(page, de);
+   474					goto out;
+   475				}
+   476				if (ext2_match(namelen, name, de))
+   477					goto found;
+   478				de = ext2_next_entry(de);
+   479			}
+   480			ext2_put_page(page, kaddr);
+   481	
+   482			if (++n >= npages)
+   483				n = 0;
+   484			/* next page is past the blocks we've got */
+   485			if (unlikely(n > (dir->i_blocks >> (PAGE_SHIFT - 9)))) {
+   486				ext2_error(dir->i_sb, __func__,
+   487					"dir %lu size %lld exceeds block count %llu",
+   488					dir->i_ino, dir->i_size,
+   489					(unsigned long long)dir->i_blocks);
+   490				goto out;
+   491			}
+   492		} while (n != start);
+   493	out:
+   494		return ERR_PTR(-ENOENT);
+   495	
+   496	found:
+   497		*res_page = page;
+   498		ei->i_dir_start_lookup = n;
+   499		return de;
+   500	}
+   501	
 
 -- 
 0-DAY CI Kernel Test Service
