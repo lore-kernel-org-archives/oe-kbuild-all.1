@@ -1,45 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D082B629
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Sep 2023 00:42:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78485EA8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Sep 2023 00:42:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695775371; x=1727311371;
+  t=1695775375; x=1727311375;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=F6Bz04HLwZKmU4V8T935YAaMvZWHmnq0XOLucZBerfg=;
-  b=hc3ydvzwzOlirctt9MDlS7J1Z1rXAkU2bz7LLcfDcHV6OVfCOarv+cbm
-   qNg8NJ/T09jD9hn4kuzb0cSNtKECribCOjdW6CP7eNwLQTey+5Gza/TFd
-   Sh1FjHak7bRx9IYbH7ztKkxpVcCPvqpLXfvINmNREsFuJ8x9gwCy1E/25
-   hEvKUkf76jcT1Nx1HCAY2s/mHdDEIAfFD0nwb07mDmvMXyQ5yf+bh20mZ
-   fPD6MMZ7VzdIRLd5XHvXVKHY63m6NTgMoYyaMv+4OwdsvQxKhMWe45hrH
-   vKgiG/k2XZZaW3MONuEPSh0xfNvh8ok7iovzXeTUgcAOlpz+XenlDXpbD
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="361081153"
+  bh=abfoQSPVt17fR8DX8fA1zsxuQ00F/MRzLbn6R8vvj7k=;
+  b=JKzftUXjh895kYa4AfBDOqUhdMOoEJN4AoBIDIlAZHR4rmaK7UR/5vJ5
+   41erk4iFUAHOglV/+1EqtptJgavn+XUbvDj1wr/im5LUCX8oz0BCatJYO
+   Ce/re2nngjjYsMj8WcVV9fa4vOtc0SvhppewQeDqwcqE6syh+PsbUPu5E
+   QsHmOvqc2HT+7kVmD9bMJLE7kiIV/Iaa+h2h87UdUOcLxAswVKPpv6IYy
+   nZYqYlNCDCRK8cBMiTAmDvtC5n04uCc/2/inDmRNiMAi6V3fq+YT2yCeX
+   F/4RhbrVz3TcAVUp5fJpp4tg8k4Wopa/SpqtSgh47612lMPvFTgI/kzHs
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="372030158"
 X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; 
-   d="scan'208";a="361081153"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 17:42:50 -0700
+   d="scan'208";a="372030158"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 17:42:51 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="725613690"
 X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; 
-   d="scan'208";a="346492"
+   d="scan'208";a="725613690"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 26 Sep 2023 17:42:49 -0700
+  by orsmga006.jf.intel.com with ESMTP; 26 Sep 2023 17:42:48 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qlIda-0003Xj-23;
+	id 1qlIda-0003Xl-28;
 	Wed, 27 Sep 2023 00:42:46 +0000
-Date: Wed, 27 Sep 2023 08:42:22 +0800
+Date: Wed, 27 Sep 2023 08:42:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wang Jinchao <wangjinchao@xfusion.com>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Daniel Jordan <daniel.m.jordan@oracle.com>,
-	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, stone.xulei@xfusion.com
-Subject: Re: [PATCH] padata: Fix the UAF issue related to parallel_data
-Message-ID: <202309270829.xHgTOMKw-lkp@intel.com>
-References: <ZRE4XvOOhz4HSOgR@fedora>
+To: Sergey Khimich <serghox@gmail.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-mmc@vger.kernel.org,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Jyan Chou <jyanchou@realtek.com>
+Subject: Re: [PATCH v2 1/2] mmc: cqhci: Add cqhci_set_tran_desc() callback
+Message-ID: <202309270807.VoVn81m6-lkp@intel.com>
+References: <20230926090242.105020-2-serghox@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,59 +51,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZRE4XvOOhz4HSOgR@fedora>
+In-Reply-To: <20230926090242.105020-2-serghox@gmail.com>
 
-Hi Wang,
+Hi Sergey,
 
 kernel test robot noticed the following build warnings:
 
 [auto build test WARNING on linus/master]
-[also build test WARNING on v6.6-rc3 next-20230926]
+[also build test WARNING on ulf-hansson-mmc-mirror/next v6.6-rc3 next-20230926]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wang-Jinchao/padata-Fix-the-UAF-issue-related-to-parallel_data/20230925-153852
+url:    https://github.com/intel-lab-lkp/linux/commits/Sergey-Khimich/mmc-cqhci-Add-cqhci_set_tran_desc-callback/20230926-170331
 base:   linus/master
-patch link:    https://lore.kernel.org/r/ZRE4XvOOhz4HSOgR%40fedora
-patch subject: [PATCH] padata: Fix the UAF issue related to parallel_data
-config: i386-randconfig-062-20230925 (https://download.01.org/0day-ci/archive/20230927/202309270829.xHgTOMKw-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230927/202309270829.xHgTOMKw-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20230926090242.105020-2-serghox%40gmail.com
+patch subject: [PATCH v2 1/2] mmc: cqhci: Add cqhci_set_tran_desc() callback
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230927/202309270807.VoVn81m6-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230927/202309270807.VoVn81m6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309270829.xHgTOMKw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309270807.VoVn81m6-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/padata.c:1110:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
-   kernel/padata.c:1110:38: sparse:     expected struct refcount_struct [usertype] *r
-   kernel/padata.c:1110:38: sparse:     got struct refcount_struct [noderef] __rcu *
+All warnings (new ones prefixed by >>):
 
-vim +1110 kernel/padata.c
+   In file included from drivers/mmc/host/sdhci_am654.c:17:
+>> drivers/mmc/host/cqhci.h:296:39: warning: 'struct mmc_data' declared inside parameter list will not be visible outside of this definition or declaration
+     296 |         void (*prep_tran_desc)(struct mmc_data *data, struct cqhci_host *cq_host,
+         |                                       ^~~~~~~~
 
-  1097	
-  1098	/**
-  1099	 * padata_free_shell - free a padata shell
-  1100	 *
-  1101	 * @ps: padata shell to free
-  1102	 */
-  1103	void padata_free_shell(struct padata_shell *ps)
-  1104	{
-  1105		if (!ps)
-  1106			return;
-  1107	
-  1108		mutex_lock(&ps->pinst->lock);
-  1109		list_del(&ps->list);
-> 1110		if (refcount_dec_and_test(&ps->pd->refcnt))
-  1111			padata_free_pd(rcu_dereference_protected(ps->pd, 1));
-  1112		mutex_unlock(&ps->pinst->lock);
-  1113	
-  1114		kfree(ps);
-  1115	}
-  1116	EXPORT_SYMBOL(padata_free_shell);
-  1117	
+
+vim +296 drivers/mmc/host/cqhci.h
+
+   281	
+   282	struct cqhci_host_ops {
+   283		void (*dumpregs)(struct mmc_host *mmc);
+   284		void (*write_l)(struct cqhci_host *host, u32 val, int reg);
+   285		u32 (*read_l)(struct cqhci_host *host, int reg);
+   286		void (*enable)(struct mmc_host *mmc);
+   287		void (*disable)(struct mmc_host *mmc, bool recovery);
+   288		void (*update_dcmd_desc)(struct mmc_host *mmc, struct mmc_request *mrq,
+   289					 u64 *data);
+   290		void (*pre_enable)(struct mmc_host *mmc);
+   291		void (*post_disable)(struct mmc_host *mmc);
+   292	#ifdef CONFIG_MMC_CRYPTO
+   293		int (*program_key)(struct cqhci_host *cq_host,
+   294				   const union cqhci_crypto_cfg_entry *cfg, int slot);
+   295	#endif
+ > 296		void (*prep_tran_desc)(struct mmc_data *data, struct cqhci_host *cq_host,
+   297				       u8 *desc, int sg_count);
+   298	
 
 -- 
 0-DAY CI Kernel Test Service
