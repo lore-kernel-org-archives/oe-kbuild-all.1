@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3204BDD5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 733A41C690
 	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Sep 2023 20:06:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1695845192; x=1727381192;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TdKVoPTVA79F/RQlGAAEaJj8VgX+aZVKwAVtXmUwctk=;
-  b=YNu783XQne7eKtURPZk+i+aeHzmhUl9/ZwAN+1DTb4Gq2qybWd5vVPoq
-   8ceD7eKqKY79KT9uTBBO2+KaudCp0BUCBkRNTHHdBfJDZYs3QwA+A/7Wf
-   2f3QI5wz3kZ6DSenVZ+hbqM2T4RmQS2dMB+C8QgQsENwyYzwuQXlGNIGU
-   DTI6dGJP+bzu5WYLoDAwHBfnoz0NRSVuf65WM6K0jNdcjDd2JaMjlp6Wq
-   P/x9+spO+5TW34iJqLSsZI6zPcT4nBDXCCbzr2YnIyzo0PPNsdFAeX8JR
-   nsrWbWApHm735ft/m+/qW8pbPweJKu8s+VM/9mIn5RMtrA6ErdG8llt4e
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="468199999"
+  bh=C1PIVZsB79jRNfph3FjfCuuw9GWHBalqa+JkTr1l1EA=;
+  b=N2yGJdY15UP269JuuOcgqx7x9f7LGLSZBHXF11VhXoWhxNzGGiTA3uPZ
+   XV/CXy0FV6ndN7N9Tmyk504XySqf6l2D5M7FvdqfSkox1DG53AelC5/BS
+   uK9WejfDnYNJaFvdrj3cuqxCyxhyk25b0KDxlx2oAhymOny1nWwAaeM1Q
+   qEe1K16eQ+eBdpvzTsyeFMXUYrW3Oya+f9LRh3dAYS+kNPuPGZaSTAF0x
+   eyTg5hecba3R9XIo6BzYl82G3yWeRw9mvxahvEFlpYlKvZG/kt0aS3nqT
+   Bg0WujM082WjsglkAwvGyIMKls6BpwrhsYUFjv7QJY7RZGVA/mmqlO6Ya
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="366969853"
 X-IronPort-AV: E=Sophos;i="6.03,182,1694761200"; 
-   d="scan'208";a="468199999"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 13:06:31 -0700
+   d="scan'208";a="366969853"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 13:06:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="1080305977"
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="778659380"
 X-IronPort-AV: E=Sophos;i="6.03,182,1694761200"; 
-   d="scan'208";a="1080305977"
+   d="scan'208";a="778659380"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 27 Sep 2023 13:06:30 -0700
+  by orsmga008.jf.intel.com with ESMTP; 27 Sep 2023 13:06:28 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qlank-0000cD-03;
+	id 1qlank-0000cF-0J;
 	Wed, 27 Sep 2023 20:06:28 +0000
-Date: Thu, 28 Sep 2023 04:06:03 +0800
+Date: Thu, 28 Sep 2023 04:06:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [riteshharjani:ext2_dir_buffer_cache_rfc_wip1 15/15]
- fs/ext2/dir.c:440:26: warning: no previous declaration for
- 'ext2_find_entry_old'
-Message-ID: <202309280449.KISthPfu-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: [broonie-ci:v5_20230927_wangweidong_a_asoc_codecs_add_aw87390_amplifier_driver
+ 62/71] arch/sh/boards/mach-se/7724/setup.c:304:27: warning: excess elements
+ in struct initializer
+Message-ID: <202309280417.rOLRdrdM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,120 +47,124 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/riteshharjani/linux ext2_dir_buffer_cache_rfc_wip1
-head:   3b878bc4805dd97f67ee17c6450059a4a7f2b261
-commit: 3b878bc4805dd97f67ee17c6450059a4a7f2b261 [15/15] ext2: everything else to make it work
-config: i386-randconfig-141-20230927 (https://download.01.org/0day-ci/archive/20230928/202309280449.KISthPfu-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230928/202309280449.KISthPfu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v5_20230927_wangweidong_a_asoc_codecs_add_aw87390_amplifier_driver
+head:   cadf6ebe01b1b5f5bdb2eab0652f30c084c92495
+commit: ad484cc98f2c7ee8e22f63691562a7abae5a9832 [62/71] ASoC: remove asoc_xxx() compatible macro
+config: sh-se7724_defconfig (https://download.01.org/0day-ci/archive/20230928/202309280417.rOLRdrdM-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230928/202309280417.rOLRdrdM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309280449.KISthPfu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309280417.rOLRdrdM-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/ext2/dir.c:440:26: warning: no previous declaration for 'ext2_find_entry_old' [-Wmissing-declarations]
-    struct ext2_dir_entry_2 *ext2_find_entry_old (struct inode *dir,
-                             ^~~~~~~~~~~~~~~~~~~
-   fs/ext2/dir.c: In function 'ext2_delete_entry':
-   fs/ext2/dir.c:818:15: warning: unused variable 'chunksize' [-Wunused-variable]
-     unsigned int chunksize = ext2_chunk_size(dir);
-                  ^~~~~~~~~
-   At top level:
-   fs/ext2/dir.c:555:12: warning: 'ext2_handle_dirsync' defined but not used [-Wunused-function]
-    static int ext2_handle_dirsync(struct inode *dir)
-               ^~~~~~~~~~~~~~~~~~~
-   fs/ext2/dir.c:549:12: warning: 'ext2_prepare_chunk' defined but not used [-Wunused-function]
-    static int ext2_prepare_chunk(struct page *page, loff_t pos, unsigned len)
-               ^~~~~~~~~~~~~~~~~~
-   fs/ext2/dir.c:84:13: warning: 'ext2_commit_chunk' defined but not used [-Wunused-function]
-    static void ext2_commit_chunk(struct page *page, loff_t pos, unsigned len)
-                ^~~~~~~~~~~~~~~~~
+   arch/sh/boards/mach-se/7724/setup.c:303:15: error: variable 'fsi_ak4642_info' has initializer but incomplete type
+     303 | static struct asoc_simple_card_info fsi_ak4642_info = {
+         |               ^~~~~~~~~~~~~~~~~~~~~
+   arch/sh/boards/mach-se/7724/setup.c:304:10: error: 'struct asoc_simple_card_info' has no member named 'name'
+     304 |         .name           = "AK4642",
+         |          ^~~~
+>> arch/sh/boards/mach-se/7724/setup.c:304:27: warning: excess elements in struct initializer
+     304 |         .name           = "AK4642",
+         |                           ^~~~~~~~
+   arch/sh/boards/mach-se/7724/setup.c:304:27: note: (near initialization for 'fsi_ak4642_info')
+   arch/sh/boards/mach-se/7724/setup.c:305:10: error: 'struct asoc_simple_card_info' has no member named 'card'
+     305 |         .card           = "FSIA-AK4642",
+         |          ^~~~
+   arch/sh/boards/mach-se/7724/setup.c:305:27: warning: excess elements in struct initializer
+     305 |         .card           = "FSIA-AK4642",
+         |                           ^~~~~~~~~~~~~
+   arch/sh/boards/mach-se/7724/setup.c:305:27: note: (near initialization for 'fsi_ak4642_info')
+   arch/sh/boards/mach-se/7724/setup.c:306:10: error: 'struct asoc_simple_card_info' has no member named 'codec'
+     306 |         .codec          = "ak4642-codec.0-0012",
+         |          ^~~~~
+   arch/sh/boards/mach-se/7724/setup.c:306:27: warning: excess elements in struct initializer
+     306 |         .codec          = "ak4642-codec.0-0012",
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/sh/boards/mach-se/7724/setup.c:306:27: note: (near initialization for 'fsi_ak4642_info')
+   arch/sh/boards/mach-se/7724/setup.c:307:10: error: 'struct asoc_simple_card_info' has no member named 'platform'
+     307 |         .platform       = "sh_fsi.0",
+         |          ^~~~~~~~
+   arch/sh/boards/mach-se/7724/setup.c:307:27: warning: excess elements in struct initializer
+     307 |         .platform       = "sh_fsi.0",
+         |                           ^~~~~~~~~~
+   arch/sh/boards/mach-se/7724/setup.c:307:27: note: (near initialization for 'fsi_ak4642_info')
+   arch/sh/boards/mach-se/7724/setup.c:308:10: error: 'struct asoc_simple_card_info' has no member named 'daifmt'
+     308 |         .daifmt         = SND_SOC_DAIFMT_LEFT_J | SND_SOC_DAIFMT_CBP_CFP,
+         |          ^~~~~~
+   In file included from include/sound/soc-topology.h:15,
+                    from include/sound/soc-dapm.h:15,
+                    from include/sound/soc.h:418,
+                    from include/sound/sh_fsi.h:12,
+                    from arch/sh/boards/mach-se/7724/setup.c:40:
+>> include/uapi/sound/asoc.h:152:41: warning: excess elements in struct initializer
+     152 | #define SND_SOC_DAI_FORMAT_LEFT_J       3 /* Left Justified mode */
+         |                                         ^
+   include/sound/soc-dai.h:29:41: note: in expansion of macro 'SND_SOC_DAI_FORMAT_LEFT_J'
+      29 | #define SND_SOC_DAIFMT_LEFT_J           SND_SOC_DAI_FORMAT_LEFT_J
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/sh/boards/mach-se/7724/setup.c:308:27: note: in expansion of macro 'SND_SOC_DAIFMT_LEFT_J'
+     308 |         .daifmt         = SND_SOC_DAIFMT_LEFT_J | SND_SOC_DAIFMT_CBP_CFP,
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+   include/uapi/sound/asoc.h:152:41: note: (near initialization for 'fsi_ak4642_info')
+     152 | #define SND_SOC_DAI_FORMAT_LEFT_J       3 /* Left Justified mode */
+         |                                         ^
+   include/sound/soc-dai.h:29:41: note: in expansion of macro 'SND_SOC_DAI_FORMAT_LEFT_J'
+      29 | #define SND_SOC_DAIFMT_LEFT_J           SND_SOC_DAI_FORMAT_LEFT_J
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/sh/boards/mach-se/7724/setup.c:308:27: note: in expansion of macro 'SND_SOC_DAIFMT_LEFT_J'
+     308 |         .daifmt         = SND_SOC_DAIFMT_LEFT_J | SND_SOC_DAIFMT_CBP_CFP,
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/sh/boards/mach-se/7724/setup.c:309:10: error: 'struct asoc_simple_card_info' has no member named 'cpu_dai'
+     309 |         .cpu_dai = {
+         |          ^~~~~~~
+   arch/sh/boards/mach-se/7724/setup.c:309:20: error: extra brace group at end of initializer
+     309 |         .cpu_dai = {
+         |                    ^
+   arch/sh/boards/mach-se/7724/setup.c:309:20: note: (near initialization for 'fsi_ak4642_info')
+   arch/sh/boards/mach-se/7724/setup.c:309:20: warning: excess elements in struct initializer
+   arch/sh/boards/mach-se/7724/setup.c:309:20: note: (near initialization for 'fsi_ak4642_info')
+   arch/sh/boards/mach-se/7724/setup.c:312:10: error: 'struct asoc_simple_card_info' has no member named 'codec_dai'
+     312 |         .codec_dai = {
+         |          ^~~~~~~~~
+   arch/sh/boards/mach-se/7724/setup.c:312:22: error: extra brace group at end of initializer
+     312 |         .codec_dai = {
+         |                      ^
+   arch/sh/boards/mach-se/7724/setup.c:312:22: note: (near initialization for 'fsi_ak4642_info')
+   arch/sh/boards/mach-se/7724/setup.c:312:22: warning: excess elements in struct initializer
+   arch/sh/boards/mach-se/7724/setup.c:312:22: note: (near initialization for 'fsi_ak4642_info')
+   arch/sh/boards/mach-se/7724/setup.c:303:37: error: storage size of 'fsi_ak4642_info' isn't known
+     303 | static struct asoc_simple_card_info fsi_ak4642_info = {
+         |                                     ^~~~~~~~~~~~~~~
 
 
-vim +/ext2_find_entry_old +440 fs/ext2/dir.c
+vim +304 arch/sh/boards/mach-se/7724/setup.c
 
-   423	
-   424	/*
-   425	 *	ext2_find_entry()
-   426	 *
-   427	 * finds an entry in the specified directory with the wanted name. It
-   428	 * returns the page in which the entry was found (as a parameter - res_page),
-   429	 * and the entry itself. Page is returned mapped and unlocked.
-   430	 * Entry is guaranteed to be valid.
-   431	 *
-   432	 * On Success ext2_put_page() should be called on *res_page.
-   433	 *
-   434	 * NOTE: Calls to ext2_get_page()/ext2_put_page() must be nested according to
-   435	 * the rules documented in kmap_local_page()/kunmap_local().
-   436	 *
-   437	 * ext2_find_entry() and ext2_dotdot() act as a call to ext2_get_page() and
-   438	 * should be treated as a call to ext2_get_page() for nesting purposes.
-   439	 */
- > 440	struct ext2_dir_entry_2 *ext2_find_entry_old (struct inode *dir,
-   441				const struct qstr *child, struct page **res_page)
-   442	{
-   443		const char *name = child->name;
-   444		int namelen = child->len;
-   445		unsigned reclen = EXT2_DIR_REC_LEN(namelen);
-   446		unsigned long start, n;
-   447		unsigned long npages = dir_pages(dir);
-   448		struct page *page = NULL;
-   449		struct ext2_inode_info *ei = EXT2_I(dir);
-   450		ext2_dirent * de;
-   451	
-   452		if (npages == 0)
-   453			goto out;
-   454	
-   455		/* OFFSET_CACHE */
-   456		*res_page = NULL;
-   457	
-   458		start = ei->i_dir_start_lookup;
-   459		if (start >= npages)
-   460			start = 0;
-   461		n = start;
-   462		do {
-   463			char *kaddr = ext2_get_page(dir, n, 0, &page);
-   464			if (IS_ERR(kaddr))
-   465				return ERR_CAST(kaddr);
-   466	
-   467			de = (ext2_dirent *) kaddr;
-   468			kaddr += ext2_last_byte(dir, n) - reclen;
-   469			while ((char *) de <= kaddr) {
-   470				if (de->rec_len == 0) {
-   471					ext2_error(dir->i_sb, __func__,
-   472						"zero-length directory entry");
-   473					ext2_put_page(page, de);
-   474					goto out;
-   475				}
-   476				if (ext2_match(namelen, name, de))
-   477					goto found;
-   478				de = ext2_next_entry(de);
-   479			}
-   480			ext2_put_page(page, kaddr);
-   481	
-   482			if (++n >= npages)
-   483				n = 0;
-   484			/* next page is past the blocks we've got */
-   485			if (unlikely(n > (dir->i_blocks >> (PAGE_SHIFT - 9)))) {
-   486				ext2_error(dir->i_sb, __func__,
-   487					"dir %lu size %lld exceeds block count %llu",
-   488					dir->i_ino, dir->i_size,
-   489					(unsigned long long)dir->i_blocks);
-   490				goto out;
-   491			}
-   492		} while (n != start);
-   493	out:
-   494		return ERR_PTR(-ENOENT);
-   495	
-   496	found:
-   497		*res_page = page;
-   498		ei->i_dir_start_lookup = n;
-   499		return de;
-   500	}
-   501	
+3e9ad52b95e259 Kuninori Morimoto 2009-08-21  302  
+af8a2fe12fae1b Kuninori Morimoto 2012-04-08  303  static struct asoc_simple_card_info fsi_ak4642_info = {
+45f3121615b2b3 Kuninori Morimoto 2011-11-23 @304  	.name		= "AK4642",
+45f3121615b2b3 Kuninori Morimoto 2011-11-23  305  	.card		= "FSIA-AK4642",
+45f3121615b2b3 Kuninori Morimoto 2011-11-23  306  	.codec		= "ak4642-codec.0-0012",
+45f3121615b2b3 Kuninori Morimoto 2011-11-23  307  	.platform	= "sh_fsi.0",
+81a13ac7e3e490 Mark Brown        2021-09-15  308  	.daifmt		= SND_SOC_DAIFMT_LEFT_J | SND_SOC_DAIFMT_CBP_CFP,
+a4a2992c531f6c Kuninori Morimoto 2013-01-10  309  	.cpu_dai = {
+a4a2992c531f6c Kuninori Morimoto 2013-01-10  310  		.name	= "fsia-dai",
+a4a2992c531f6c Kuninori Morimoto 2013-01-10  311  	},
+a4a2992c531f6c Kuninori Morimoto 2013-01-10  312  	.codec_dai = {
+a4a2992c531f6c Kuninori Morimoto 2013-01-10  313  		.name	= "ak4642-hifi",
+a4a2992c531f6c Kuninori Morimoto 2013-01-10  314  		.sysclk	= 11289600,
+a4a2992c531f6c Kuninori Morimoto 2013-01-10  315  	},
+45f3121615b2b3 Kuninori Morimoto 2011-11-23  316  };
+45f3121615b2b3 Kuninori Morimoto 2011-11-23  317  
+
+:::::: The code at line 304 was first introduced by commit
+:::::: 45f3121615b2b354f7d95d30f795bc5fe0043e92 ASoC: fsi-ak4642: modify specification method of FSI / ak464x
+
+:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+:::::: CC: Mark Brown <broonie@opensource.wolfsonmicro.com>
 
 -- 
 0-DAY CI Kernel Test Service
