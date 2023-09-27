@@ -1,43 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AECA33D6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Sep 2023 07:34:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695800060; x=1727336060;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1UKu9ONxcGlNcFqkhiwsBAsWnHossgy3WqdaY7twEEI=;
-  b=mwNZqpzZguQXZDxPYs0rVqKgVuGwB9+GTVwfqwpOyOCoQF1S+p66RnWG
-   +k9gWJ3I5qHW3IX4CNAU5NBd7wa1GgRrgEC7Jr8G3CocFEmC7q02XvSWS
-   pT3i/Yv2A4D8lJjh0WOGxL9E+4qyN6th6KQW7NvBOUOuRQALypkp5GSVK
-   VxNr31lbH9WfjRVO3Au5YRVGJNhYB33Iz40KgmMqPA+WY7VdSMavWlH3c
-   X3OEc28fxvB8rALgSiPAW+qMZKMErs3kWzf24w+7dsK5mFXGgseUrAAsR
-   471LZYybv3IsbnadpPP0fTJE2TT9Ywd7HrWAvZ83fnCm+vRP+hRFlz588
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="380620490"
-X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; 
-   d="scan'208";a="380620490"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 00:34:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="864704167"
-X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; 
-   d="scan'208";a="864704167"
-Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 27 Sep 2023 00:34:18 -0700
-Received: from kbuild by 32c80313467c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qlP3o-0003s6-0k;
-	Wed, 27 Sep 2023 07:34:16 +0000
-Date: Wed, 27 Sep 2023 15:33:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [riteshharjani:ext2_dir_buffer_cache_rfc_wip1 1/15]
- fs/ext2/inode.c:821:5: warning: no previous declaration for
- 'ext2_read_bh_lock'
-Message-ID: <202309271555.JvKXA0ba-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF98013AEE
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Sep 2023 07:46:09 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40594697600so54315655e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Sep 2023 00:46:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695800768; x=1696405568; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9As+lJOY0lQwvkmgOpEKtf4u1BL8RJ1PAFxRq2flP+A=;
+        b=RZpKnopWMU1VY0SKJ4hUAWZtMyWcksGAOedUPJm2YGnK/PCaEH1+QeLnALXBRESIy7
+         O3iYTh3NNxzxZkG85xjFdRYjCm0bhFDpGo0vDpNh6JrlqH0N7eXC9ldkLVjRjyq81Egp
+         WJ74F3zPGdToXMnEiyEGR5YJmBAgRMj/A2WPf2gUUZUqEG/07JNfBwlXk/9XeLXJ2HM1
+         j7o4ocL22zW7HaAnvWKyTy5xK2sHVRLF0ghdUmVtGNqcCa4e+reiQWgxe8RWK0Gq2Wrs
+         RwwP1mejosETMjr1QnYRJM+Ipger4opZzSpCPICXo0pTjxlp5rstsmWBMMERjTq9hn/G
+         3zZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695800768; x=1696405568;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9As+lJOY0lQwvkmgOpEKtf4u1BL8RJ1PAFxRq2flP+A=;
+        b=Z31/T/w1wWt6DuZnkVk3YBJ5gKVJpZEYkP+afXecJikGCLpObd6py9kOZTu5Cz1Hvx
+         j7Vio1S0HIhl5/ZgHxFO+RRBadWOYp8NZkZ5Zals6HtkcL2foy8kzaQUh6Ko2ECWmtXe
+         GqRGKUyQ0GBg3u5ySERZaD4fHBmzOZyRuu1HM8gtQ1guFZL07y3/6KVAxxxQsrFWyW+/
+         GDlkUeBx9OoWxKNOq5XBefzRpbH/L0LiZUYDicpaRyAIbsCHdNGzkldglylwr7huV5lP
+         7L/+1Ozb402QAK/ZIzwXOl6aysotuo0d3u7kPhRXphQmTwkp325xAlNrwempN/8xkbgz
+         M5UA==
+X-Gm-Message-State: AOJu0YzhoPyUI/Mg1iIS3q/ec/SV8N+L69QS8BBK42236GG34H5Jxvb+
+	0HA0uK14nkv3okLNpSDustu6qg==
+X-Google-Smtp-Source: AGHT+IEyfEKgua+5MfFm29VSXuQCwtoO1zAZqoo5cb3LaKZyuQFLtsusG31OKcPm7Ay+E7dTMCfNOA==
+X-Received: by 2002:a05:600c:20d4:b0:3f7:f2d0:b904 with SMTP id y20-20020a05600c20d400b003f7f2d0b904mr1357965wmm.8.1695800767876;
+        Wed, 27 Sep 2023 00:46:07 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id t1-20020a1c7701000000b003fe23b10fdfsm19889573wmi.36.2023.09.27.00.46.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Sep 2023 00:46:07 -0700 (PDT)
+Date: Wed, 27 Sep 2023 10:46:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Amir Goldstein <amir73il@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:ovl_want_write 8/8] fs/overlayfs/copy_up.c:459
+ ovl_set_origin_fh() warn: variable dereferenced before check 'fh' (see line
+ 458)
+Message-ID: <1ce9ae3e-718d-490f-b85d-80f7a5d1df72@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,35 +53,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/riteshharjani/linux ext2_dir_buffer_cache_rfc_wip1
-head:   3b878bc4805dd97f67ee17c6450059a4a7f2b261
-commit: 47085f278819cf21a8b60c39a9a7d48714eb767c [1/15] ext2: add bh read apis
-config: i386-randconfig-141-20230927 (https://download.01.org/0day-ci/archive/20230927/202309271555.JvKXA0ba-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230927/202309271555.JvKXA0ba-lkp@intel.com/reproduce)
+tree:   https://github.com/amir73il/linux ovl_want_write
+head:   4ea9d9f55925f6631923f76831d8a2a850d3876e
+commit: 4ea9d9f55925f6631923f76831d8a2a850d3876e [8/8] ovl: do not encode lower fh with upper sb_writers held
+config: i386-randconfig-141-20230909 (https://download.01.org/0day-ci/archive/20230909/202309091443.rCZuOntT-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230909/202309091443.rCZuOntT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309271555.JvKXA0ba-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/1ce9ae3e-718d-490f-b85d-80f7a5d1df72@kadam.mountain/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+fs/overlayfs/copy_up.c:459 ovl_set_origin_fh() warn: variable dereferenced before check 'fh' (see line 458)
 
->> fs/ext2/inode.c:821:5: warning: no previous declaration for 'ext2_read_bh_lock' [-Wmissing-declarations]
-    int ext2_read_bh_lock(struct buffer_head *bh, blk_opf_t op_flags, bool wait)
-        ^~~~~~~~~~~~~~~~~
+vim +/fh +459 fs/overlayfs/copy_up.c
 
+4ea9d9f55925f6 Amir Goldstein 2023-08-16  450  int ovl_set_origin_fh(struct ovl_fs *ofs, const struct ovl_fh *fh,
+4ea9d9f55925f6 Amir Goldstein 2023-08-16  451  		      struct dentry *upper)
+4ea9d9f55925f6 Amir Goldstein 2023-08-16  452  {
+4ea9d9f55925f6 Amir Goldstein 2023-08-16  453  	int err;
+4ea9d9f55925f6 Amir Goldstein 2023-08-16  454  
+6266d465bde044 Miklos Szeredi 2017-05-18  455  	/*
+6266d465bde044 Miklos Szeredi 2017-05-18  456  	 * Do not fail when upper doesn't support xattrs.
+6266d465bde044 Miklos Szeredi 2017-05-18  457  	 */
+a0c236b11706cc Amir Goldstein 2021-06-19 @458  	err = ovl_check_setxattr(ofs, upper, OVL_XATTR_ORIGIN, fh->buf,
+                                                                                                       ^^^^^^^
+Dereference
 
-vim +/ext2_read_bh_lock +821 fs/ext2/inode.c
+cbe7fba8edfc8c Amir Goldstein 2019-11-15 @459  				 fh ? fh->fb.len : 0, 0);
+                                                                         ^^
+Checked too late.  This code is from 2021 though, so why is the warning
+getting reported now?
 
-   820	
- > 821	int ext2_read_bh_lock(struct buffer_head *bh, blk_opf_t op_flags, bool wait)
-   822	{
-   823		lock_buffer(bh);
-   824		return ext2_read_bh(bh, op_flags, NULL);
-   825	}
-   826	
+3a1e819b4e8021 Amir Goldstein 2017-03-30  460  
+6939f977c54a39 Miklos Szeredi 2020-12-14  461  	/* Ignore -EPERM from setting "user.*" on symlink/special */
+6939f977c54a39 Miklos Szeredi 2020-12-14  462  	return err == -EPERM ? 0 : err;
+3a1e819b4e8021 Amir Goldstein 2017-03-30  463  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
