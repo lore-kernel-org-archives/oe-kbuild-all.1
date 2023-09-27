@@ -1,43 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF92F28DCC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Sep 2023 16:45:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024AB28DCC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Sep 2023 16:45:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695833130; x=1727369130;
+  t=1695833132; x=1727369132;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qMoIFwkYdgbgAyojkVUluoIGqN3B+vu33cy6cTldlWI=;
-  b=hH4U8ZlRW6zHWM8NlZh4ln0q+13tHr6G4Z73okWfb6ArgMqrB/apP+qO
-   02Z1jXkk2EsiV4avt4k8PHZyqhBvkK7Jub6esJycs15SX4WUsBpyeNJ1J
-   2hFS9Y20jUJYNmJuc03almYIq+uEDtmH3+7EAE9Ca/gOjqG8w2rtOpFrx
-   XwAfj6zCzF84WGfnYvmtU4CgijRfXXl+dCxVgPmIBtXlXJZtPT50Q9pKX
-   qcQ6vPwcGgUUzpxj8vEiP4qPP6KacibDhVAzYK6HoII6o0AZelWahzQZJ
-   8kevzNGBFOeBTj4Xqj8J17tHk+QaNTkh9cKmDNnhdkvlRbj0X7jVtMuf1
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="3409643"
+  bh=YruFDaEAw4LJ4m4MyVN25yY/yEB3xoweeUlw55qHLGo=;
+  b=W87QseqKQFrV/AQfFuxkpgGrQHvNZAV2BUBkqysJlRdbYaibsHc6jLLn
+   /ID6eJX+zu/7bOaxtM7noT5teFLWpak2PLytvXode//BVeWlrvOPOHeRi
+   EngWUwB5FgFwBnomwv0TOosWMomPAodO47gDhIcNU7+7DKYEaUzIQNa32
+   lOaQuygAtcuf6BQWA7T+/nLLJAwmC3H5U6KNqK9HRsEITyW5MHdlcAonH
+   aK3DH5X/CcwQWr3SVAPaYupdj7e17QTTP7k85PrngtRFRzz1Bx4sp9u7x
+   ozYi+g9TvmdUHwtds+vq2+UjHK4DROTSgBT3aoMWbvFdZ9GwBdqKMP3ZP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="3409646"
 X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="3409643"
+   d="scan'208";a="3409646"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 09:45:28 -0700
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 09:45:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="819499719"
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="819499718"
 X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="819499719"
+   d="scan'208";a="819499718"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
   by fmsmga004.fm.intel.com with ESMTP; 27 Sep 2023 09:45:27 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qlXfB-0000Rt-1D;
+	id 1qlXfB-0000Rn-13;
 	Wed, 27 Sep 2023 16:45:25 +0000
-Date: Thu, 28 Sep 2023 00:45:12 +0800
+Date: Thu, 28 Sep 2023 00:45:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rgushchin:kmem_performance.rfc 4/7] mm/memcontrol.c:6916:17: error:
- 'mem_cgroup_fork' undeclared here (not in a function); did you mean
- 'mem_cgroup_free'?
-Message-ID: <202309280001.3XUUG8Ye-lkp@intel.com>
+To: Pantelis Antoniou <pantelis.antoniou@konsulko.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [geert-renesas-drivers:topic/renesas-overlays-v6.6-rc1 2/137]
+ drivers/of/overlay.c:82: warning: Function parameter or member 'kobj' not
+ described in 'overlay_changeset'
+Message-ID: <202309280043.aEmlhRNw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,56 +48,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/rgushchin/linux.git kmem_performance.rfc
-head:   2861702df93fd8d8093e9750f67d57bed3a673c8
-commit: 2938aa6b55a86fcc01eac93b94650782d10d7042 [4/7] mm: kmem: add direct objcg pointer to task_struct
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230928/202309280001.3XUUG8Ye-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230928/202309280001.3XUUG8Ye-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/renesas-overlays-v6.6-rc1
+head:   5b25c3b1c2d80478ded680c33b1067e3faed4c0d
+commit: 785f4b55d5d734c2524ae242831777b5210f8e2a [2/137] of: overlay: Kobjectify overlay objects
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230928/202309280043.aEmlhRNw-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230928/202309280043.aEmlhRNw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309280001.3XUUG8Ye-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309280043.aEmlhRNw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> mm/memcontrol.c:6916:17: error: 'mem_cgroup_fork' undeclared here (not in a function); did you mean 'mem_cgroup_free'?
-    6916 |         .fork = mem_cgroup_fork,
-         |                 ^~~~~~~~~~~~~~~
-         |                 mem_cgroup_free
->> mm/memcontrol.c:6917:17: error: 'mem_cgroup_exit' undeclared here (not in a function); did you mean 'mem_cgroup_reset'?
-    6917 |         .exit = mem_cgroup_exit,
-         |                 ^~~~~~~~~~~~~~~
-         |                 mem_cgroup_reset
+>> drivers/of/overlay.c:82: warning: Function parameter or member 'kobj' not described in 'overlay_changeset'
 
 
-vim +6916 mm/memcontrol.c
+vim +82 drivers/of/overlay.c
 
-  6900	
-  6901	struct cgroup_subsys memory_cgrp_subsys = {
-  6902		.css_alloc = mem_cgroup_css_alloc,
-  6903		.css_online = mem_cgroup_css_online,
-  6904		.css_offline = mem_cgroup_css_offline,
-  6905		.css_released = mem_cgroup_css_released,
-  6906		.css_free = mem_cgroup_css_free,
-  6907		.css_reset = mem_cgroup_css_reset,
-  6908		.css_rstat_flush = mem_cgroup_css_rstat_flush,
-  6909		.can_attach = mem_cgroup_can_attach,
-  6910	#if defined(CONFIG_LRU_GEN) || defined(CONFIG_MEMCG_KMEM)
-  6911		.attach = mem_cgroup_attach,
-  6912	#endif
-  6913		.cancel_attach = mem_cgroup_cancel_attach,
-  6914		.post_attach = mem_cgroup_move_task,
-  6915	#ifdef CONFIG_MEMCG_KMEM
-> 6916		.fork = mem_cgroup_fork,
-> 6917		.exit = mem_cgroup_exit,
-  6918	#endif
-  6919		.dfl_cftypes = memory_files,
-  6920		.legacy_cftypes = mem_cgroup_legacy_files,
-  6921		.early_init = 0,
-  6922	};
-  6923	
+7518b5890d8ac3 Pantelis Antoniou 2014-10-28  56  
+7518b5890d8ac3 Pantelis Antoniou 2014-10-28  57  /**
+0290c4ca2536a3 Frank Rowand      2017-10-17  58   * struct overlay_changeset
+39a751a4cb7e47 Frank Rowand      2018-02-12  59   * @id:			changeset identifier
+0290c4ca2536a3 Frank Rowand      2017-10-17  60   * @ovcs_list:		list on which we are located
+1e4089667c7c73 Frank Rowand      2022-04-20  61   * @new_fdt:		Memory allocated to hold unflattened aligned FDT
+067c098766c6af Frank Rowand      2022-04-20  62   * @overlay_mem:	the memory chunk that contains @overlay_root
+1e4089667c7c73 Frank Rowand      2022-04-20  63   * @overlay_root:	expanded device tree that contains the fragment nodes
+067c098766c6af Frank Rowand      2022-04-20  64   * @notify_state:	most recent notify action used on overlay
+3912b7917ab78d Frank Rowand      2017-10-17  65   * @count:		count of fragment structures
+3912b7917ab78d Frank Rowand      2017-10-17  66   * @fragments:		fragment nodes in the overlay expanded device tree
+3912b7917ab78d Frank Rowand      2017-10-17  67   * @symbols_fragment:	last element of @fragments[] is the  __symbols__ node
+0290c4ca2536a3 Frank Rowand      2017-10-17  68   * @cset:		changeset to apply fragments to live device tree
+7518b5890d8ac3 Pantelis Antoniou 2014-10-28  69   */
+0290c4ca2536a3 Frank Rowand      2017-10-17  70  struct overlay_changeset {
+7518b5890d8ac3 Pantelis Antoniou 2014-10-28  71  	int id;
+0290c4ca2536a3 Frank Rowand      2017-10-17  72  	struct list_head ovcs_list;
+1e4089667c7c73 Frank Rowand      2022-04-20  73  	const void *new_fdt;
+067c098766c6af Frank Rowand      2022-04-20  74  	const void *overlay_mem;
+1e4089667c7c73 Frank Rowand      2022-04-20  75  	struct device_node *overlay_root;
+067c098766c6af Frank Rowand      2022-04-20  76  	enum of_overlay_notify_action notify_state;
+7518b5890d8ac3 Pantelis Antoniou 2014-10-28  77  	int count;
+0290c4ca2536a3 Frank Rowand      2017-10-17  78  	struct fragment *fragments;
+3912b7917ab78d Frank Rowand      2017-10-17  79  	bool symbols_fragment;
+7518b5890d8ac3 Pantelis Antoniou 2014-10-28  80  	struct of_changeset cset;
+785f4b55d5d734 Pantelis Antoniou 2015-03-15  81  	struct kobject kobj;
+7518b5890d8ac3 Pantelis Antoniou 2014-10-28 @82  };
+7518b5890d8ac3 Pantelis Antoniou 2014-10-28  83  
+
+:::::: The code at line 82 was first introduced by commit
+:::::: 7518b5890d8ac366faa2326ce2356ef6392ce63d of/overlay: Introduce DT overlay support
+
+:::::: TO: Pantelis Antoniou <pantelis.antoniou@konsulko.com>
+:::::: CC: Grant Likely <grant.likely@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
