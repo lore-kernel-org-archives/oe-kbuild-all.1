@@ -1,60 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19549CA58
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Sep 2023 23:30:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F29018B02
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Sep 2023 23:40:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695943815; x=1727479815;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=v2ds4YulUEFwf7eurxc1fXVnPOhX2AoXRA7TsEihdLU=;
-  b=VUbWUMU5Jkr64DBYPmUAIchk6mH3b4Z34RL65KORIa6wevx3FcsFwpI6
-   1rACF2JNY64R5zXtHLw3F5Blezpy24H8sgKUgTgkdC8x0i3WcjIQNkFcs
-   cSV0Dy43Jk/QC/2QbY6NdveEtYBt1u71yOUVAKMUnAysNv2My2sRtYfXq
-   AfD/XaLhokWcZCCVcZxOVX2wiuWNAByhnIcz2ESeSdzV94T5fQkMnEDh+
-   Rm9NCZ8IM34nQQM1obMIPkFFeG5L56TIlyzAouQ0l8W+nBJwGgMaHV60s
-   U3ZeyvaD6cT3orCnvGPmiy74GO3J7CpI/uV4ayUkBYwzsWCEMxeSeA5iQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="382098092"
+  t=1695944429; x=1727480429;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=k/f/gKQZGDaEsUvegbnb3e92P2w+7dVz08wKtD7/Pgs=;
+  b=Kg60fZQkBuGsrnrutV7gPZwJ7hBl4UlY7HlvSJxWkhCmUI5e5PrEGDZQ
+   DwElSB1cLz/7cYermGFv11IaHpOzQ+K/91E86YXLHBxgUtmyOvq0k96sY
+   I818LqzBXR5Lq3wI6ogh1/Q2ceiFaANOeyjooLOy5HJcXRIvboiTwaSAb
+   BJLobKZl1yaK57CKo8DXKCe+4tKU9RU4UdRqC8cJe8SlIm9B7YVIzJksW
+   yhJT07lW+W18CIZ+Zk+G8dIoGMU0yLCFrzJYCVJZux4OZN9ArJ2ia+rLs
+   f983YJ76Yew/hftoVEKnZfQUbW5KpTCiXUxbR2jqe7cQYrxtnqP0cMVnn
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="3771151"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="382098092"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 16:30:01 -0700
+   d="scan'208";a="3771151"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 16:39:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="726418460"
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="749782827"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="726418460"
+   d="scan'208";a="749782827"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 28 Sep 2023 16:29:54 -0700
+  by orsmga002.jf.intel.com with ESMTP; 28 Sep 2023 16:39:57 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qm0S8-000297-2A;
-	Thu, 28 Sep 2023 23:29:52 +0000
-Date: Fri, 29 Sep 2023 07:29:01 +0800
+	id 1qm0bq-00029Z-2s;
+	Thu, 28 Sep 2023 23:39:54 +0000
+Date: Fri, 29 Sep 2023 07:39:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dumitru Ceclan <mitrutzceclan@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linus.walleij@linaro.org, brgl@bgdev.pl,
-	andy@kernel.org, linux-gpio@vger.kernel.org,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Michael Walle <michael@walle.cc>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, ChiaEn Wu <chiaen_wu@richtek.com>,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Leonard =?iso-8859-1?Q?G=F6hrs?= <l.goehrs@pengutronix.de>,
-	Mike Looijmans <mike.looijmans@topic.nl>,
-	Haibo Chen <haibo.chen@nxp.com>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Ceclan Dumitru <dumitru.ceclan@analog.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] iio: adc: ad7173: add AD7173 driver
-Message-ID: <202309290756.MgmIdaDl-lkp@intel.com>
-References: <20230928125443.615006-2-mitrutzceclan@gmail.com>
+To: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 88/1370]
+ drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c:1269:31: sparse: sparse:
+ incorrect type in return expression (different base types)
+Message-ID: <202309290707.ZFyEb8Lo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,63 +47,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230928125443.615006-2-mitrutzceclan@gmail.com>
 
-Hi Dumitru,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.6-rc3 next-20230928]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dumitru-Ceclan/iio-adc-ad7173-add-AD7173-driver/20230928-205802
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20230928125443.615006-2-mitrutzceclan%40gmail.com
-patch subject: [PATCH v2 2/2] iio: adc: ad7173: add AD7173 driver
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230929/202309290756.MgmIdaDl-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290756.MgmIdaDl-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
+head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
+commit: 94ece3554bcf455d4f036547a7030a774bbeec9c [88/1370] staging: xlnx_tsmux: Initial version of xlnx mpeg2tsmux driver
+config: i386-randconfig-062-20230929 (https://download.01.org/0day-ci/archive/20230929/202309290707.ZFyEb8Lo-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290707.ZFyEb8Lo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309290756.MgmIdaDl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309290707.ZFyEb8Lo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c:1269:31: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got int @@
+   drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c:1269:31: sparse:     expected restricted __poll_t
+   drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c:1269:31: sparse:     got int
 
->> drivers/iio/adc/ad7173.c:829:23: warning: initialization of 'long unsigned int' from 'const struct ad7173_device_info *' makes integer from pointer without a cast [-Wint-conversion]
-     829 |         { "ad7172-2", &ad7173_device_info[ID_AD7172_2], },
-         |                       ^
-   drivers/iio/adc/ad7173.c:829:23: note: (near initialization for 'ad7173_id_table[0].driver_data')
-   drivers/iio/adc/ad7173.c:830:23: warning: initialization of 'long unsigned int' from 'const struct ad7173_device_info *' makes integer from pointer without a cast [-Wint-conversion]
-     830 |         { "ad7173-8", &ad7173_device_info[ID_AD7173_8], },
-         |                       ^
-   drivers/iio/adc/ad7173.c:830:23: note: (near initialization for 'ad7173_id_table[1].driver_data')
-   drivers/iio/adc/ad7173.c:831:23: warning: initialization of 'long unsigned int' from 'const struct ad7173_device_info *' makes integer from pointer without a cast [-Wint-conversion]
-     831 |         { "ad7175-2", &ad7173_device_info[ID_AD7175_2], },
-         |                       ^
-   drivers/iio/adc/ad7173.c:831:23: note: (near initialization for 'ad7173_id_table[2].driver_data')
-   drivers/iio/adc/ad7173.c:832:23: warning: initialization of 'long unsigned int' from 'const struct ad7173_device_info *' makes integer from pointer without a cast [-Wint-conversion]
-     832 |         { "ad7176-2", &ad7173_device_info[ID_AD7176_2], },
-         |                       ^
-   drivers/iio/adc/ad7173.c:832:23: note: (near initialization for 'ad7173_id_table[3].driver_data')
+vim +1269 drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c
 
-
-vim +829 drivers/iio/adc/ad7173.c
-
-   827	
-   828	static const struct spi_device_id ad7173_id_table[] = {
- > 829		{ "ad7172-2", &ad7173_device_info[ID_AD7172_2], },
-   830		{ "ad7173-8", &ad7173_device_info[ID_AD7173_8], },
-   831		{ "ad7175-2", &ad7173_device_info[ID_AD7175_2], },
-   832		{ "ad7176-2", &ad7173_device_info[ID_AD7176_2], },
-   833		{ },
-   834	};
-   835	MODULE_DEVICE_TABLE(spi, ad7173_id_table);
-   836	
+  1261	
+  1262	static __poll_t xlnx_tsmux_poll(struct file *fptr, poll_table *wait)
+  1263	{
+  1264		struct xlnx_tsmux *mpgmuxts = fptr->private_data;
+  1265	
+  1266		poll_wait(fptr, &mpgmuxts->waitq, wait);
+  1267	
+  1268		if (xlnx_tsmux_read(mpgmuxts, XTSMUX_LAST_NODE_PROCESSED))
+> 1269			return POLLIN | POLLPRI;
+  1270	
+  1271		return 0;
+  1272	}
+  1273	
 
 -- 
 0-DAY CI Kernel Test Service
