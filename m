@@ -1,45 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F06A1079A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Sep 2023 23:55:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA17368
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Sep 2023 00:37:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695858953; x=1727394953;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dZORVe2yhZeUfl0yDHwSScn0mAmQXIVEZk6dceeBhFQ=;
-  b=R+M3g5BHBnmAQkn1CEX+jhH9sDlLtKKBPfAz7FdQhplqoAgBgfY9cfT1
-   EbA8OhIoiBkF/BF2KPN91YK2//p0HobElP8C6P1QkcZDlvJQ8ldQWzwe/
-   +5TpxAsVNmj/ngB643l+lL/RrjFF5X0v34+OR15rf3mABenp7Y6TbgwWq
-   h/UF2J7NlWkI3DPjucMlSsCFMqEFkHAoB4JAWtz/rHWePRNL0VYEXGym0
-   y5DdJn7d2mae9CV68S079qPHtLt7ATyTUuz3nZZY7rCrD/Lp66Qd4pMhC
-   QKBuA4ZnCCksjbuasiUHFVeYVkir2kf1LMrFx488DR7yC3IxIjI4c/6N5
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="448443006"
+  t=1695861478; x=1727397478;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uV5QaqpuKb5uDxr1hW2u8bXPE4XZPSR/+dsQ8TrfyRM=;
+  b=lO463FprBN0X7jUOmepopMnX+Wt+MK145CtwsmLbAa56XpwrjbQsXRRT
+   +18/JJvlmqjTenxYMsTUPX98YotXxZXl+zDotjETkAzSKUgBq0fmkdmal
+   TwC+U2H6LerANEnF0cl0tkWNB0O/Vyn5pAydeMNEZuKbXCNjKRpV0alJ7
+   kXUHRVAtDxbsn/7Wj5PkU0qvulB5K3vqM7zRD1GM14dRBNJ9kwJgn+amD
+   Ufw1bA75rxYx30DS4fVLjFJtLDHeZ3hTwIDhvMayATPOkWg59izYFm+HZ
+   yGU+8LOiqULwNynabeejNX9quZLosfEM3NLQI33DntQLWT2R0LSuEBhTl
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="565340"
 X-IronPort-AV: E=Sophos;i="6.03,182,1694761200"; 
-   d="scan'208";a="448443006"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 16:55:52 -0700
+   d="scan'208";a="565340"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 17:37:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="699068377"
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="784518923"
 X-IronPort-AV: E=Sophos;i="6.03,182,1694761200"; 
-   d="scan'208";a="699068377"
+   d="scan'208";a="784518923"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 27 Sep 2023 16:55:50 -0700
+  by orsmga001.jf.intel.com with ESMTP; 27 Sep 2023 17:37:53 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qleNf-0000og-13;
-	Wed, 27 Sep 2023 23:55:47 +0000
-Date: Thu, 28 Sep 2023 07:55:09 +0800
+	id 1qlf2M-0000vF-3C;
+	Thu, 28 Sep 2023 00:37:50 +0000
+Date: Thu, 28 Sep 2023 08:37:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Sekhar Nori <nsekhar@ti.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Subject: drivers/remoteproc/da8xx_remoteproc.c:80: warning: Function
- parameter or member 'dsp_reset' not described in 'da8xx_rproc'
-Message-ID: <202309280746.mMdNuGQ6-lkp@intel.com>
+To: liuchang_125125@163.com, adrian.hunter@intel.com,
+	ulf.hansson@linaro.org, linux-mmc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, shaper.liu@bayhubtech.com,
+	chevron.li@bayhubtech.com, thomas.hu@bayhubtech.com,
+	charl.liu@bayhubtech.com, Charl Liu <liuchang_125125@163.com>
+Subject: Re: [PATCH V1 1/1] mmc: sdhci-pci-o2micro: Fix Bayhub SD host
+ hardware tuning compatibility issue for BanQ card
+Message-ID: <202309280818.XQbiYALu-lkp@intel.com>
+References: <20230927122652.4969-1-liuchang_125125@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,63 +51,269 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230927122652.4969-1-liuchang_125125@163.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   633b47cb009d09dc8f4ba9cdb3a0ca138809c7c7
-commit: b2201ee554a5811f569f31280b0079e7d6177606 remoteproc/davinci: use the reset framework
-date:   5 years ago
-config: arm-randconfig-004-20230928 (https://download.01.org/0day-ci/archive/20230928/202309280746.mMdNuGQ6-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230928/202309280746.mMdNuGQ6-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 0e945134b680040b8613e962f586d91b6d40292d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/liuchang_125125-163-com/mmc-sdhci-pci-o2micro-Fix-Bayhub-SD-host-hardware-tuning-compatibility-issue-for-BanQ-card/20230927-203005
+base:   0e945134b680040b8613e962f586d91b6d40292d
+patch link:    https://lore.kernel.org/r/20230927122652.4969-1-liuchang_125125%40163.com
+patch subject: [PATCH V1 1/1] mmc: sdhci-pci-o2micro: Fix Bayhub SD host hardware tuning compatibility issue for BanQ card
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230928/202309280818.XQbiYALu-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230928/202309280818.XQbiYALu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309280746.mMdNuGQ6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309280818.XQbiYALu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/remoteproc/da8xx_remoteproc.c:80: warning: Function parameter or member 'dsp_reset' not described in 'da8xx_rproc'
-   drivers/remoteproc/da8xx_remoteproc.c:89: warning: Function parameter or member 'irq' not described in 'handle_event'
-   drivers/remoteproc/da8xx_remoteproc.c:89: warning: Function parameter or member 'p' not described in 'handle_event'
-   drivers/remoteproc/da8xx_remoteproc.c:109: warning: Function parameter or member 'irq' not described in 'da8xx_rproc_callback'
-   drivers/remoteproc/da8xx_remoteproc.c:109: warning: Function parameter or member 'p' not described in 'da8xx_rproc_callback'
+   drivers/mmc/host/sdhci-pci-o2micro.c: In function 'sdhci_o2_tuning_setting':
+>> drivers/mmc/host/sdhci-pci-o2micro.c:343:25: warning: unused variable 'o2_host' [-Wunused-variable]
+     343 |         struct o2_host *o2_host = sdhci_pci_priv(slot);
+         |                         ^~~~~~~
+   drivers/mmc/host/sdhci-pci-o2micro.c: In function 'sdhci_o2_configure_banq_best_input_phase':
+>> drivers/mmc/host/sdhci-pci-o2micro.c:370:13: warning: unused variable 'response' [-Wunused-variable]
+     370 |         u32 response = 0;
+         |             ^~~~~~~~
+   drivers/mmc/host/sdhci-pci-o2micro.c: In function 'sdhci_o2_execute_tuning':
+>> drivers/mmc/host/sdhci-pci-o2micro.c:407:26: warning: unused variable 'card' [-Wunused-variable]
+     407 |         struct mmc_card *card = mmc->card;
+         |                          ^~~~
 
 
-vim +80 drivers/remoteproc/da8xx_remoteproc.c
+vim +/o2_host +343 drivers/mmc/host/sdhci-pci-o2micro.c
 
-59b2355fc90e4a Suman Anna          2017-08-01  56  
-13be5432d8721d Robert Tivy         2013-04-09  57  /**
-13be5432d8721d Robert Tivy         2013-04-09  58   * struct da8xx_rproc - da8xx remote processor instance state
-13be5432d8721d Robert Tivy         2013-04-09  59   * @rproc: rproc handle
-59b2355fc90e4a Suman Anna          2017-08-01  60   * @mem: internal memory regions data
-59b2355fc90e4a Suman Anna          2017-08-01  61   * @num_mems: number of internal memory regions
-13be5432d8721d Robert Tivy         2013-04-09  62   * @dsp_clk: placeholder for platform's DSP clk
-13be5432d8721d Robert Tivy         2013-04-09  63   * @ack_fxn: chip-specific ack function for ack'ing irq
-13be5432d8721d Robert Tivy         2013-04-09  64   * @irq_data: ack_fxn function parameter
-13be5432d8721d Robert Tivy         2013-04-09  65   * @chipsig: virt ptr to DSP interrupt registers (CHIPSIG & CHIPSIG_CLR)
-13be5432d8721d Robert Tivy         2013-04-09  66   * @bootreg: virt ptr to DSP boot address register (HOST1CFG)
-13be5432d8721d Robert Tivy         2013-04-09  67   * @irq: irq # used by this instance
-13be5432d8721d Robert Tivy         2013-04-09  68   */
-13be5432d8721d Robert Tivy         2013-04-09  69  struct da8xx_rproc {
-13be5432d8721d Robert Tivy         2013-04-09  70  	struct rproc *rproc;
-59b2355fc90e4a Suman Anna          2017-08-01  71  	struct da8xx_rproc_mem *mem;
-59b2355fc90e4a Suman Anna          2017-08-01  72  	int num_mems;
-13be5432d8721d Robert Tivy         2013-04-09  73  	struct clk *dsp_clk;
-b2201ee554a581 Bartosz Golaszewski 2018-06-21  74  	struct reset_control *dsp_reset;
-13be5432d8721d Robert Tivy         2013-04-09  75  	void (*ack_fxn)(struct irq_data *data);
-13be5432d8721d Robert Tivy         2013-04-09  76  	struct irq_data *irq_data;
-13be5432d8721d Robert Tivy         2013-04-09  77  	void __iomem *chipsig;
-13be5432d8721d Robert Tivy         2013-04-09  78  	void __iomem *bootreg;
-13be5432d8721d Robert Tivy         2013-04-09  79  	int irq;
-13be5432d8721d Robert Tivy         2013-04-09 @80  };
-13be5432d8721d Robert Tivy         2013-04-09  81  
-
-:::::: The code at line 80 was first introduced by commit
-:::::: 13be5432d8721d89cadae105663761f45f427842 remoteproc/davinci: add a remoteproc driver for OMAP-L13x DSP
-
-:::::: TO: Robert Tivy <rtivy@ti.com>
-:::::: CC: Ohad Ben-Cohen <ohad@wizery.com>
+   337	
+   338	static void sdhci_o2_tuning_setting(struct mmc_host *mmc, bool isbanq, u8 phase_num)
+   339	{
+   340		struct sdhci_host *host = mmc_priv(mmc);
+   341		struct sdhci_pci_slot *slot = sdhci_priv(host);
+   342		struct sdhci_pci_chip *chip = slot->chip;
+ > 343		struct o2_host *o2_host = sdhci_pci_priv(slot);
+   344		u32 reg_val;
+   345	
+   346		if (isbanq) {
+   347			/* update tuning command times for BanQ card */
+   348			pci_read_config_dword(chip->pdev, O2_SD_TUNING_CTRL, &reg_val);
+   349			reg_val &= 0x00FFFFFF;
+   350			reg_val |= 0x02000000;
+   351			pci_write_config_dword(chip->pdev, O2_SD_TUNING_CTRL, reg_val);
+   352		} else {
+   353			reg_val = sdhci_readl(host, O2_SD_DLL_CTRL);
+   354			reg_val &= ~BIT(28);
+   355			sdhci_writel(host, reg_val, O2_SD_DLL_CTRL);
+   356	
+   357			/* Update tuning command times for normal card */
+   358			pci_read_config_dword(chip->pdev, O2_SD_TUNING_CTRL, &reg_val);
+   359			reg_val &= 0x00FFFFFF;
+   360			reg_val |= (phase_num * 3) << 24;
+   361			pci_write_config_dword(chip->pdev, O2_SD_TUNING_CTRL, reg_val);
+   362		}
+   363	}
+   364	
+   365	static void sdhci_o2_configure_banq_best_input_phase(struct sdhci_host *host)
+   366	{
+   367		struct sdhci_pci_slot *slot = sdhci_priv(host);
+   368		struct sdhci_pci_chip *chip = slot->chip;
+   369	
+ > 370		u32 response = 0;
+   371		u16 dll_phase_configure = 0;
+   372		u16 best_input_phase = 0;
+   373	
+   374		switch (chip->pdev->device) {
+   375		case PCI_DEVICE_ID_O2_FUJIN2:
+   376			best_input_phase = 0x0;
+   377			break;
+   378	
+   379		case PCI_DEVICE_ID_O2_SEABIRD0:
+   380		case PCI_DEVICE_ID_O2_SEABIRD1:
+   381			best_input_phase = 0x0;
+   382			break;
+   383	
+   384		case PCI_DEVICE_ID_O2_GG8_9860:
+   385		case PCI_DEVICE_ID_O2_GG8_9861:
+   386		case PCI_DEVICE_ID_O2_GG8_9862:
+   387		case PCI_DEVICE_ID_O2_GG8_9863:
+   388			best_input_phase = 0xB;
+   389			break;
+   390	
+   391		default:
+   392			break;
+   393		}
+   394	
+   395		/* configure the best input phase (0xB) for BanQ card */
+   396		dll_phase_configure = sdhci_readw(host, 0x1B2);
+   397		dll_phase_configure = (dll_phase_configure & (u16)0xF0FF) |
+   398			(best_input_phase << 8) | BIT(12);
+   399		sdhci_writew(host, dll_phase_configure, 0x1B2);
+   400	}
+   401	
+   402	static int sdhci_o2_execute_tuning(struct mmc_host *mmc, u32 opcode)
+   403	{
+   404		struct sdhci_host *host = mmc_priv(mmc);
+   405		struct sdhci_pci_slot *slot = sdhci_priv(host);
+   406		struct sdhci_pci_chip *chip = slot->chip;
+ > 407		struct mmc_card *card = mmc->card;
+   408		struct o2_host *o2_host = sdhci_pci_priv(slot);
+   409		int current_bus_width = 0;
+   410		u32 scratch32 = 0;
+   411		u16 data_timeout_counter_value = 0;
+   412		u16 scratch = 0;
+   413		u8 phase_num = 0;
+   414		u8  scratch_8 = 0;
+   415		u32 reg_val;
+   416	
+   417		/*
+   418		 * This handler implements the hardware tuning that is specific to
+   419		 * this controller.  Fall back to the standard method for other TIMING.
+   420		 */
+   421		if ((host->timing != MMC_TIMING_MMC_HS200) &&
+   422			(host->timing != MMC_TIMING_UHS_SDR104) &&
+   423			(host->timing != MMC_TIMING_UHS_SDR50))
+   424			return sdhci_execute_tuning(mmc, opcode);
+   425	
+   426		if (WARN_ON(!mmc_op_tuning(opcode)))
+   427			return -EINVAL;
+   428	
+   429		if ((chip->pdev->device == PCI_DEVICE_ID_O2_GG8_9860) ||
+   430			(chip->pdev->device == PCI_DEVICE_ID_O2_GG8_9861) ||
+   431			(chip->pdev->device == PCI_DEVICE_ID_O2_GG8_9862) ||
+   432			(chip->pdev->device == PCI_DEVICE_ID_O2_GG8_9863)) {
+   433			phase_num = 14;
+   434		} else {
+   435			phase_num = 11;
+   436		}
+   437	
+   438		/* UnLock WP */
+   439		pci_read_config_byte(chip->pdev, O2_SD_LOCK_WP, &scratch_8);
+   440		scratch_8 &= 0x7f;
+   441		pci_write_config_byte(chip->pdev, O2_SD_LOCK_WP, scratch_8);
+   442	
+   443		sdhci_o2_tuning_setting(mmc, (bool)o2_host->banq_card_setting, phase_num);
+   444	
+   445		if (o2_host->banq_card_setting) {
+   446			/*
+   447			 * set data timeout counter value to 0 to ensure that
+   448			 * the tuning process can be completed
+   449			 */
+   450			data_timeout_counter_value = sdhci_readw(host, SDHCI_TIMEOUT_CONTROL);
+   451			sdhci_writew(host, data_timeout_counter_value & (u16)0xFFF0, SDHCI_TIMEOUT_CONTROL);
+   452		}
+   453	
+   454		/* Force power mode enter L0 */
+   455		scratch = sdhci_readw(host, O2_SD_MISC_CTRL);
+   456		scratch |= O2_SD_PWR_FORCE_L0;
+   457		sdhci_writew(host, scratch, O2_SD_MISC_CTRL);
+   458	
+   459		/* Update output phase */
+   460		switch (chip->pdev->device) {
+   461		case PCI_DEVICE_ID_O2_SDS0:
+   462		case PCI_DEVICE_ID_O2_SEABIRD0:
+   463		case PCI_DEVICE_ID_O2_SEABIRD1:
+   464		case PCI_DEVICE_ID_O2_SDS1:
+   465		case PCI_DEVICE_ID_O2_FUJIN2:
+   466			/* Stop clk */
+   467			reg_val = sdhci_readw(host, SDHCI_CLOCK_CONTROL);
+   468			reg_val &= ~SDHCI_CLOCK_CARD_EN;
+   469			sdhci_writew(host, reg_val, SDHCI_CLOCK_CONTROL);
+   470	
+   471			if ((host->timing == MMC_TIMING_MMC_HS200) ||
+   472				(host->timing == MMC_TIMING_UHS_SDR104)) {
+   473				/* Set pcr 0x354[16] to choose dll clock, and set the default phase */
+   474				pci_read_config_dword(chip->pdev, O2_SD_OUTPUT_CLK_SOURCE_SWITCH, &reg_val);
+   475				reg_val &= ~(O2_SD_SEL_DLL | O2_SD_PHASE_MASK);
+   476				reg_val |= (O2_SD_SEL_DLL | O2_SD_FIX_PHASE);
+   477				pci_write_config_dword(chip->pdev, O2_SD_OUTPUT_CLK_SOURCE_SWITCH, reg_val);
+   478			}
+   479	
+   480			/* Start clk */
+   481			reg_val = sdhci_readw(host, SDHCI_CLOCK_CONTROL);
+   482			reg_val |= SDHCI_CLOCK_CARD_EN;
+   483			sdhci_writew(host, reg_val, SDHCI_CLOCK_CONTROL);
+   484			break;
+   485		case PCI_DEVICE_ID_O2_GG8_9860:
+   486		case PCI_DEVICE_ID_O2_GG8_9861:
+   487		case PCI_DEVICE_ID_O2_GG8_9862:
+   488		case PCI_DEVICE_ID_O2_GG8_9863:
+   489		default:
+   490			break;
+   491		}
+   492	
+   493		/* Lock WP */
+   494		pci_read_config_byte(chip->pdev, O2_SD_LOCK_WP, &scratch_8);
+   495		scratch_8 |= 0x80;
+   496		pci_write_config_byte(chip->pdev, O2_SD_LOCK_WP, scratch_8);
+   497	
+   498		/* wait DLL lock, timeout value 5ms */
+   499		if (readx_poll_timeout(sdhci_o2_pll_dll_wdt_control, host,
+   500			scratch32, (scratch32 & O2_DLL_LOCK_STATUS), 1, 5000))
+   501			pr_warn("%s: DLL can't lock in 5ms after force L0 during tuning.\n",
+   502					mmc_hostname(host->mmc));
+   503		/*
+   504		 * Judge the tuning reason, whether caused by dll shift
+   505		 * If cause by dll shift, should call sdhci_o2_dll_recovery
+   506		 */
+   507		if (!sdhci_o2_wait_dll_detect_lock(host))
+   508			if (!sdhci_o2_dll_recovery(host)) {
+   509				pr_err("%s: o2 dll recovery failed\n",
+   510					mmc_hostname(host->mmc));
+   511				return -EINVAL;
+   512			}
+   513		/*
+   514		 * o2 sdhci host didn't support 8bit emmc tuning
+   515		 */
+   516		if (mmc->ios.bus_width == MMC_BUS_WIDTH_8) {
+   517			current_bus_width = mmc->ios.bus_width;
+   518			mmc->ios.bus_width = MMC_BUS_WIDTH_4;
+   519			sdhci_set_bus_width(host, MMC_BUS_WIDTH_4);
+   520		}
+   521	
+   522		sdhci_o2_set_tuning_mode(host);
+   523	
+   524		sdhci_start_tuning(host);
+   525	
+   526		__sdhci_o2_execute_tuning(host, opcode);
+   527	
+   528		sdhci_end_tuning(host);
+   529	
+   530		if (current_bus_width == MMC_BUS_WIDTH_8) {
+   531			mmc->ios.bus_width = MMC_BUS_WIDTH_8;
+   532			sdhci_set_bus_width(host, current_bus_width);
+   533		}
+   534	
+   535		/* update input phase for BanQ card */
+   536		if (o2_host->banq_card_setting) {
+   537			/* recover the data timeout counter value */
+   538			sdhci_writew(host, data_timeout_counter_value, SDHCI_TIMEOUT_CONTROL);
+   539	
+   540			/*
+   541			 * Stop transfer for CMD19 after tuning done is set to
+   542			 * avoid data line inhibit
+   543			 */
+   544			sdhci_o2_send_stop_transmission(host);
+   545	
+   546			sdhci_o2_configure_banq_best_input_phase(host);
+   547		}
+   548	
+   549		/* Cancel force power mode enter L0 */
+   550		scratch = sdhci_readw(host, O2_SD_MISC_CTRL);
+   551		scratch &= ~(O2_SD_PWR_FORCE_L0);
+   552		sdhci_writew(host, scratch, O2_SD_MISC_CTRL);
+   553	
+   554		sdhci_reset(host, SDHCI_RESET_CMD);
+   555		sdhci_reset(host, SDHCI_RESET_DATA);
+   556	
+   557		host->flags &= ~SDHCI_HS400_TUNING;
+   558		return 0;
+   559	}
+   560	
 
 -- 
 0-DAY CI Kernel Test Service
