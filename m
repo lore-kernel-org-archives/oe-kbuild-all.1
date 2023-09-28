@@ -1,52 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08FDC30F94
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Sep 2023 07:53:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE2027715
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Sep 2023 08:56:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695887592; x=1727423592;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9jG+EMn0dA/h2sKAgTnFKUyQyUD0iwBJtT86r8rPMQE=;
-  b=L5BYvr8uq3qd8NvJIalDKBBBsy08KaqMg9saUSWBHK7MZb+hvzq5GJmP
-   4Vrc8qVajkXI22vileLiM+TY8c8/GSpcRynpsmpJg1J/J/eKYoB3Km81u
-   hA/t8jtq5Px5kQuT5p1UUJWtMZV5LtqO6HBdgIys1lKENVhqbEUc5LRZ4
-   voKBCP6AHQEoykj4fdD7nsWWjKWmjlFggJm/zydmo1Rru5WTxWf4EtDZl
-   Cv6VoZWn6tW4whaR3TwN0FYp8HjLwOTAcXvNaUy4xCwb2rnV8z+e29E1H
-   dJX02LYl7dmFbbH7Jtglt0TjW2PEjPWq1VO604JHo/agCit7q8f+tEnPs
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="381909553"
+  t=1695891372; x=1727427372;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6di/2lKy//QFeG0ruIdMDgAN1KG7AfhoHE5KSsnXfkI=;
+  b=NHaO9O0hVxcmuylfwVgxlM2B/34OIZABEx1amVcxUdY85SppK6v2fk4R
+   n7WpHYb2mkxH/96J2QUdU9MtE0DyduV+b5ZIs3yJTIJa05BHux37VXcrV
+   jo0F5PXLCAoTaFf3C0caoW4+HWD1HQ2ofSOK6kB+m+eR5ygoEDhfhZefw
+   n880BlbG46+82jvt/QvzRp+rPhUv0o+2aQ8UWmg8KagNqMMxI0n91cZh8
+   nyb4aOSr1imX584RDnsCs5KvyKym7QU83shkhJ6OFrJmAUwmqwgzOEGx0
+   jj0j/Kn+s23hB+p9GpoDA3q6IMWWwjrYfQGGPcYJjxWJzdYTM7lMgPZXR
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="623091"
 X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; 
-   d="scan'208";a="381909553"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 00:53:09 -0700
+   d="scan'208";a="623091"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 01:56:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="784611843"
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="778834273"
 X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; 
-   d="scan'208";a="784611843"
+   d="scan'208";a="778834273"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 28 Sep 2023 00:53:03 -0700
+  by orsmga008.jf.intel.com with ESMTP; 28 Sep 2023 01:56:06 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qllpV-0001FR-1c;
-	Thu, 28 Sep 2023 07:53:01 +0000
-Date: Thu, 28 Sep 2023 15:52:33 +0800
+	id 1qlmoV-0001I7-0O;
+	Thu, 28 Sep 2023 08:56:03 +0000
+Date: Thu, 28 Sep 2023 16:55:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xiaobing Li <xiaobing.li@samsung.com>, mingo@redhat.com,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
-	axboe@kernel.dk, asml.silence@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
-	kun.dou@samsung.com, peiwei.li@samsung.com, joshi.k@samsung.com,
-	kundan.kumar@samsung.com, wenwen.chen@samsung.com,
-	ruyi.zhang@samsung.com, Xiaobing Li <xiaobing.li@samsung.com>
-Subject: Re: [PATCH 1/3] SCHEDULER: Add an interface for counting real
- utilization.
-Message-ID: <202309281554.CwGBQGhe-lkp@intel.com>
-References: <20230928022228.15770-2-xiaobing.li@samsung.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [arnd-playground:randconfig-6.7-next 252/306]
+ drivers/infiniband/ulp/srpt/ib_srpt.c:216: warning: Function parameter or
+ member 'ptr' not described in 'srpt_qp_event'
+Message-ID: <202309281658.LvfMxa9G-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,93 +46,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230928022228.15770-2-xiaobing.li@samsung.com>
 
-Hi Xiaobing,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/sched/core]
-[also build test WARNING on linus/master v6.6-rc3 next-20230928]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xiaobing-Li/SCHEDULER-Add-an-interface-for-counting-real-utilization/20230928-103219
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20230928022228.15770-2-xiaobing.li%40samsung.com
-patch subject: [PATCH 1/3] SCHEDULER: Add an interface for counting real utilization.
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230928/202309281554.CwGBQGhe-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230928/202309281554.CwGBQGhe-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git randconfig-6.7-next
+head:   a126cc9f2f87fe0931a7bf053665560587086082
+commit: adbc8aa7902f966626e400ad09b383320a0060c8 [252/306] function casts
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230928/202309281658.LvfMxa9G-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230928/202309281658.LvfMxa9G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309281554.CwGBQGhe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309281658.LvfMxa9G-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_policy.c:52:
->> kernel/sched/cputime.c:482:6: warning: no previous prototype for 'get_sqthread_util' [-Wmissing-prototypes]
-     482 | void get_sqthread_util(struct task_struct *p)
-         |      ^~~~~~~~~~~~~~~~~
-   kernel/sched/cputime.c: In function 'get_sqthread_util':
-   kernel/sched/cputime.c:484:56: error: 'struct kernel_cpustat' has no member named 'sq_util'
-     484 |         struct task_struct **sqstat = kcpustat_this_cpu->sq_util;
-         |                                                        ^~
-   kernel/sched/cputime.c:486:29: error: 'MAX_SQ_NUM' undeclared (first use in this function)
-     486 |         for (int i = 0; i < MAX_SQ_NUM; i++) {
-         |                             ^~~~~~~~~~
-   kernel/sched/cputime.c:486:29: note: each undeclared identifier is reported only once for each function it appears in
-   kernel/sched/cputime.c:495:31: error: 'struct kernel_cpustat' has no member named 'flag'
-     495 |         if (!kcpustat_this_cpu->flag) {
-         |                               ^~
-   kernel/sched/cputime.c:497:42: error: 'struct kernel_cpustat' has no member named 'sq_util'
-     497 |                         kcpustat_this_cpu->sq_util[j] = NULL;
-         |                                          ^~
-   kernel/sched/cputime.c:498:34: error: 'struct kernel_cpustat' has no member named 'flag'
-     498 |                 kcpustat_this_cpu->flag = true;
-         |                                  ^~
+>> drivers/infiniband/ulp/srpt/ib_srpt.c:216: warning: Function parameter or member 'ptr' not described in 'srpt_qp_event'
+>> drivers/infiniband/ulp/srpt/ib_srpt.c:216: warning: Excess function parameter 'ch' description in 'srpt_qp_event'
 
 
-vim +/get_sqthread_util +482 kernel/sched/cputime.c
+vim +216 drivers/infiniband/ulp/srpt/ib_srpt.c
 
-   481	
- > 482	void get_sqthread_util(struct task_struct *p)
-   483	{
-   484		struct task_struct **sqstat = kcpustat_this_cpu->sq_util;
-   485	
-   486		for (int i = 0; i < MAX_SQ_NUM; i++) {
-   487			if (sqstat[i] && (task_cpu(sqstat[i]) != task_cpu(p)
-   488			|| sqstat[i]->__state == TASK_DEAD))
-   489				sqstat[i] = NULL;
-   490		}
-   491	
-   492		if (strncmp(p->comm, "iou-sqp", 7))
-   493			return;
-   494	
-   495		if (!kcpustat_this_cpu->flag) {
-   496			for (int j = 0; j < MAX_SQ_NUM; j++)
-   497				kcpustat_this_cpu->sq_util[j] = NULL;
-   498			kcpustat_this_cpu->flag = true;
-   499		}
-   500		int index = MAX_SQ_NUM;
-   501		bool flag = true;
-   502	
-   503		for (int i = 0; i < MAX_SQ_NUM; i++) {
-   504			if (sqstat[i] == p)
-   505				flag = false;
-   506			if (!sqstat[i] || task_cpu(sqstat[i]) != task_cpu(p)) {
-   507				sqstat[i] = NULL;
-   508				if (i < index)
-   509					index = i;
-   510			}
-   511		}
-   512		if (flag && index < MAX_SQ_NUM)
-   513			sqstat[index] = p;
-   514	}
-   515	
+aaf45bd83eba80 Bart Van Assche 2016-02-11  209  
+a42d985bd5b234 Bart Van Assche 2011-10-14  210  /**
+10eac19bb27241 Bart Van Assche 2018-01-08  211   * srpt_qp_event - QP event callback function
+10eac19bb27241 Bart Van Assche 2018-01-08  212   * @event: Description of the event that occurred.
+10eac19bb27241 Bart Van Assche 2018-01-08  213   * @ch: SRPT RDMA channel.
+a42d985bd5b234 Bart Van Assche 2011-10-14  214   */
+adbc8aa7902f96 Arnd Bergmann   2023-06-19  215  static void srpt_qp_event(struct ib_event *event, void *ptr)
+a42d985bd5b234 Bart Van Assche 2011-10-14 @216  {
+adbc8aa7902f96 Arnd Bergmann   2023-06-19  217  	struct srpt_rdma_ch *ch = ptr;
+adbc8aa7902f96 Arnd Bergmann   2023-06-19  218  
+d4ee7f3a4445ec Bart Van Assche 2020-05-25  219  	pr_debug("QP event %d on ch=%p sess_name=%s-%d state=%s\n",
+d4ee7f3a4445ec Bart Van Assche 2020-05-25  220  		 event->event, ch, ch->sess_name, ch->qp->qp_num,
+d4ee7f3a4445ec Bart Van Assche 2020-05-25  221  		 get_ch_state_name(ch->state));
+a42d985bd5b234 Bart Van Assche 2011-10-14  222  
+a42d985bd5b234 Bart Van Assche 2011-10-14  223  	switch (event->event) {
+a42d985bd5b234 Bart Van Assche 2011-10-14  224  	case IB_EVENT_COMM_EST:
+63cf1a902c9dd6 Bart Van Assche 2018-03-02  225  		if (ch->using_rdma_cm)
+63cf1a902c9dd6 Bart Van Assche 2018-03-02  226  			rdma_notify(ch->rdma_cm.cm_id, event->event);
+63cf1a902c9dd6 Bart Van Assche 2018-03-02  227  		else
+090fa24bf239ce Bart Van Assche 2018-01-16  228  			ib_cm_notify(ch->ib_cm.cm_id, event->event);
+a42d985bd5b234 Bart Van Assche 2011-10-14  229  		break;
+a42d985bd5b234 Bart Van Assche 2011-10-14  230  	case IB_EVENT_QP_LAST_WQE_REACHED:
+aaf45bd83eba80 Bart Van Assche 2016-02-11  231  		pr_debug("%s-%d, state %s: received Last WQE event.\n",
+aaf45bd83eba80 Bart Van Assche 2016-02-11  232  			 ch->sess_name, ch->qp->qp_num,
+aaf45bd83eba80 Bart Van Assche 2016-02-11  233  			 get_ch_state_name(ch->state));
+a42d985bd5b234 Bart Van Assche 2011-10-14  234  		break;
+a42d985bd5b234 Bart Van Assche 2011-10-14  235  	default:
+9f5d32af09b9a3 Doug Ledford    2014-10-20  236  		pr_err("received unrecognized IB QP event %d\n", event->event);
+a42d985bd5b234 Bart Van Assche 2011-10-14  237  		break;
+a42d985bd5b234 Bart Van Assche 2011-10-14  238  	}
+a42d985bd5b234 Bart Van Assche 2011-10-14  239  }
+a42d985bd5b234 Bart Van Assche 2011-10-14  240  
+
+:::::: The code at line 216 was first introduced by commit
+:::::: a42d985bd5b234da8b61347a78dc3057bf7bb94d ib_srpt: Initial SRP Target merge for v3.3-rc1
+
+:::::: TO: Bart Van Assche <bvanassche@acm.org>
+:::::: CC: Nicholas Bellinger <nab@linux-iscsi.org>
 
 -- 
 0-DAY CI Kernel Test Service
