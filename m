@@ -1,120 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C3318622
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Sep 2023 11:42:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695901332; x=1727437332;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fDPIHLcRgZN0dV5cFxZPZ18rZu5WNafEq2ZC+1rL2N0=;
-  b=VK9JSNLAWMr4Js8yikCInHbozYzUBzBJo3sNJoIk9sq3ly7PNITOKO8c
-   y0fwVGlBKkb/LnDADy9MrmBSHWNzeb0OCoxR/Iu5pPdk28ucnWZ7yJ0cO
-   NSyWgFFqKaoa+oTB0sXAB/53oKNrJnMEH94dLbLi3uBDyD44b4qVvMGIz
-   yE4vd/5DS7V4N0rBGDJsqbWXcjnWd95Lbl44XG8s+x1SomZ4k8hBKVJry
-   WZB5LWUwjs3L6HvK7xdxEeNuA/FQ7djwnaWVHJypZLRAMmFBFfdewiUAf
-   UX8u6xWJ7/GSGK1umIg1UjMAv0tpgYZd4Vury++J3xHEfykjlA5zSU0mq
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="372396044"
-X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; 
-   d="scan'208";a="372396044"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 04:42:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="815195646"
-X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; 
-   d="scan'208";a="815195646"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 28 Sep 2023 04:42:08 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qlpPC-0001PK-26;
-	Thu, 28 Sep 2023 11:42:06 +0000
-Date: Thu, 28 Sep 2023 19:41:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wenchao Hao <haowenchao2@huawei.com>,
-	"James E . J . Bottomley" <jejb@linux.ibm.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	linux-scsi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	louhongxiang@huawei.com, Wenchao Hao <haowenchao2@huawei.com>
-Subject: Re: [PATCH v2 1/4] scsi: core: Add new helper to iterate all devices
- of host
-Message-ID: <202309281916.qy89onYp-lkp@intel.com>
-References: <20230928073543.3496394-2-haowenchao2@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB84E18622;
+	Thu, 28 Sep 2023 11:56:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D7E6C433C7;
+	Thu, 28 Sep 2023 11:56:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1695902182;
+	bh=HlVb6KvrY32WHyaOFqIwYRhmxfd0p63UtxsXodhfazw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=E7saClIM2kz8OQdxPj8fdk3EndOTt8S6PvoWE1IlIIJI3C/uL5Vmfktx0wHkfIUVb
+	 pe6Sdsr+yubGGnN2H14126lhDChCW3WFxY3PVerfeNj+67lzk0ZYiVwHzQI3VqJks3
+	 G0frhOV3lrY8MzkvLpdpuEePXOeyiOPNKpOROUjwaN6qN1p4eQ22o5KCi0x2MvzqMi
+	 6KQNhtyt3cnbHryl5s+atXI5JX2kIb82CD3q6rfVr9kTtE/xHnQVRnTRYEpWrvFQ0g
+	 YN8gzkIJP5bYj/cwXJeAzoMSMCwMZrFnawjcmZSpNTEEw3YE76kdUNbULbeKksMaul
+	 GZy/RAhlrdivw==
+From: Vinod Koul <vkoul@kernel.org>
+To: frank.li@nxp.com, Frank Li <Frank.Li@nxp.com>
+Cc: dmaengine@vger.kernel.org, gregkh@linuxfoundation.org, 
+ imx@lists.linux.dev, linux-kernel@vger.kernel.org, lkp@intel.com, 
+ oe-kbuild-all@lists.linux.dev, rafael@kernel.org
+In-Reply-To: <20230921150144.3260231-1-Frank.Li@nxp.com>
+References: <20230921150144.3260231-1-Frank.Li@nxp.com>
+Subject: Re: [PATCH v4 0/3] dmaengine: fsl_edma: add trace and debugfs
+ support
+Message-Id: <169590217975.152265.11376979671569668186.b4-ty@kernel.org>
+Date: Thu, 28 Sep 2023 17:26:19 +0530
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230928073543.3496394-2-haowenchao2@huawei.com>
-
-Hi Wenchao,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mkp-scsi/for-next]
-[also build test WARNING on jejb-scsi/for-next linus/master v6.6-rc3 next-20230928]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wenchao-Hao/scsi-core-Add-new-helper-to-iterate-all-devices-of-host/20230928-153648
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20230928073543.3496394-2-haowenchao2%40huawei.com
-patch subject: [PATCH v2 1/4] scsi: core: Add new helper to iterate all devices of host
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230928/202309281916.qy89onYp-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230928/202309281916.qy89onYp-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309281916.qy89onYp-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/scsi/scsi.c:762: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * helper for shost_for_each_device, see that for documentation
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.3
 
 
-vim +762 drivers/scsi/scsi.c
+On Thu, 21 Sep 2023 11:01:41 -0400, Frank Li wrote:
+> Change from v3 to v4
+> - Fix build warning
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309210500.owiirl4c-lkp@intel.com/
+> 
+> [...]
 
-   760	
-   761	/**
- > 762	 * helper for shost_for_each_device, see that for documentation
-   763	 * @skip_deleted: if true, sdev in progress of removing would be skipped
-   764	 */
-   765	struct scsi_device *__scsi_iterate_devices(struct Scsi_Host *shost,
-   766						   struct scsi_device *prev,
-   767						   bool skip_deleted)
-   768	{
-   769		struct list_head *list = (prev ? &prev->siblings : &shost->__devices);
-   770		struct scsi_device *next = NULL;
-   771		unsigned long flags;
-   772	
-   773		spin_lock_irqsave(shost->host_lock, flags);
-   774		while (list->next != &shost->__devices) {
-   775			next = list_entry(list->next, struct scsi_device, siblings);
-   776			/* skip devices that we can't get a reference to */
-   777			if (!__scsi_device_get(next, skip_deleted))
-   778				break;
-   779			next = NULL;
-   780			list = list->next;
-   781		}
-   782		spin_unlock_irqrestore(shost->host_lock, flags);
-   783	
-   784		if (prev)
-   785			scsi_device_put(prev);
-   786		return next;
-   787	}
-   788	EXPORT_SYMBOL(__scsi_iterate_devices);
-   789	
+Applied, thanks!
 
+[1/3] debugfs_create_regset32() support 8/16/64 bit width registers
+      commit: 09289d0ad1226c4735f8d9f68c9c3e54cbaba3d4
+[2/3] dmaengine: fsl-emda: add debugfs support
+      commit: 105c148c66fa06ca2a375edacfa3139c814af9d1
+[3/3] dmaengine: fsl-edma: add trace event support
+      commit: c8fde7598064fc9b94a53264b1e0c605a140fedb
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Vinod
+
+
