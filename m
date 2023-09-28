@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4158F4E284
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Sep 2023 20:28:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D3A15BA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Sep 2023 21:00:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695932913; x=1727468913;
+  t=1695934832; x=1727470832;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sHCwWjwsx53xp1HeAsNEt/O+wi63WkKkc9B6hjQRK40=;
-  b=Zhe7Ao2i3P86OW2LQCf3l3FYq+2oZhN8UpocFCe3SEp3hwM+lpqQLm34
-   +mOKn0udZ//Yj/DuY+dipgsK7k3Zrvz3O1zKlazX8iIB0pjbqNGtaOuOs
-   OZXd34ylGAClM/0yYZr62kglsz2tyBQHc+peT2p/JCzmZDZ45hnqnGe/9
-   fi8YIizDIWleHFr4XNp14q6lOSXJucBqZscWnRteBI5rvtx2x/fMZtMGw
-   9vbkFsH3tV4z5BNzZc/bzloKfS0JMajax0NfvpH6RWhgRsu3pPqtK4xzU
-   gmOPgHl36QK7QD4KktwOez5kNGIUTh6GCBCIGBr5GGikM5fJWLLg/U0ld
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="382070576"
+  bh=plQZm9Gqmd4pF5S/4ppKbvpUSTgXLph+LF2jDBbgCl0=;
+  b=mh1D9NnPkTwe4Nh5VK1y47FbqrCdk28i/K3kjFFseiBWmet7LIZANAWI
+   9ESWsTQwwRTgFDGsoSrLEr0RubNpM34AFXKi+2dckxFUQI0trdM9SgbF/
+   D7E/AtQvh6IPJAJECrL2josT6owedARTaQ7FAB/sKQauTT6Qkn+RdLAKV
+   IyIUAq2sN/pjXH+XW7wfTrvS5nyTJF2nYBxJP1pZrNnOgvu5OS0iLwQxh
+   8x2IgpwgUGqd6rL1at2/Nps2q76815bojkVOUTFipNaQCobhdOIIZrvZ1
+   Fur3uEg4HkQaqN+XBfMe0MDYyCIyC2Ak77JUpeBI0yy5UVcxm75cgAdkv
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="386040038"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="382070576"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 13:28:29 -0700
+   d="scan'208";a="386040038"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 14:00:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="753132719"
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="873436157"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="753132719"
+   d="scan'208";a="873436157"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 28 Sep 2023 13:28:28 -0700
+  by orsmga004.jf.intel.com with ESMTP; 28 Sep 2023 14:00:30 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qlxcY-0001vS-2f;
-	Thu, 28 Sep 2023 20:28:26 +0000
-Date: Fri, 29 Sep 2023 04:28:14 +0800
+	id 1qly7Y-0001xS-0K;
+	Thu, 28 Sep 2023 21:00:28 +0000
+Date: Fri, 29 Sep 2023 05:00:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-unionfs@vger.kernel.org
-Subject: [mszeredi-vfs:statmount-v3 4/4] <stdin>:1576:2: warning: #warning
- syscall listmount not implemented
-Message-ID: <202309290415.ZLowlHzk-lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Marc Zyngier <maz@kernel.org>
+Subject: arch/x86/kernel/hpet.c:520:46: error: invalid use of incomplete
+ typedef 'msi_alloc_info_t' {aka 'struct irq_alloc_info'}
+Message-ID: <202309290439.8R8jcHz5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,31 +47,155 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/vfs.git statmount-v3
-head:   5321994510f383b43dd2d49fcbdaedcf8cba1306
-commit: 5321994510f383b43dd2d49fcbdaedcf8cba1306 [4/4] add listmount(2) syscall
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230929/202309290415.ZLowlHzk-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290415.ZLowlHzk-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   633b47cb009d09dc8f4ba9cdb3a0ca138809c7c7
+commit: 70afdab904d2d1e68bffe75fe08e7e48e0b0ff8e irqchip: Add IMX MU MSI controller driver
+date:   12 months ago
+config: i386-buildonly-randconfig-003-20230915 (https://download.01.org/0day-ci/archive/20230929/202309290439.8R8jcHz5-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290439.8R8jcHz5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309290415.ZLowlHzk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309290439.8R8jcHz5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   <stdin>:1573:2: warning: #warning syscall statmount not implemented [-Wcpp]
->> <stdin>:1576:2: warning: #warning syscall listmount not implemented [-Wcpp]
---
-   <stdin>:1573:2: warning: #warning syscall statmount not implemented [-Wcpp]
->> <stdin>:1576:2: warning: #warning syscall listmount not implemented [-Wcpp]
---
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   <stdin>:1573:2: warning: #warning syscall statmount not implemented [-Wcpp]
->> <stdin>:1576:2: warning: #warning syscall listmount not implemented [-Wcpp]
+   arch/x86/kernel/hpet.c: In function 'hpet_msi_init':
+>> arch/x86/kernel/hpet.c:520:46: error: invalid use of incomplete typedef 'msi_alloc_info_t' {aka 'struct irq_alloc_info'}
+     520 |         irq_domain_set_info(domain, virq, arg->hwirq, info->chip, NULL,
+         |                                              ^~
+   arch/x86/kernel/hpet.c:521:49: error: invalid use of incomplete typedef 'msi_alloc_info_t' {aka 'struct irq_alloc_info'}
+     521 |                             handle_edge_irq, arg->data, "edge");
+         |                                                 ^~
+   arch/x86/kernel/hpet.c: In function 'hpet_create_irq_domain':
+>> arch/x86/kernel/hpet.c:550:13: error: 'x86_vector_domain' undeclared (first use in this function)
+     550 |         if (x86_vector_domain == NULL)
+         |             ^~~~~~~~~~~~~~~~~
+   arch/x86/kernel/hpet.c:550:13: note: each undeclared identifier is reported only once for each function it appears in
+   arch/x86/kernel/hpet.c: In function 'hpet_assign_irq':
+>> arch/x86/kernel/hpet.c:598:31: error: storage size of 'info' isn't known
+     598 |         struct irq_alloc_info info;
+         |                               ^~~~
+>> arch/x86/kernel/hpet.c:600:9: error: implicit declaration of function 'init_irq_alloc_info' [-Werror=implicit-function-declaration]
+     600 |         init_irq_alloc_info(&info, NULL);
+         |         ^~~~~~~~~~~~~~~~~~~
+>> arch/x86/kernel/hpet.c:601:21: error: 'X86_IRQ_ALLOC_TYPE_HPET' undeclared (first use in this function)
+     601 |         info.type = X86_IRQ_ALLOC_TYPE_HPET;
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/hpet.c:598:31: warning: unused variable 'info' [-Wunused-variable]
+     598 |         struct irq_alloc_info info;
+         |                               ^~~~
+   arch/x86/kernel/hpet.c:607:1: error: control reaches end of non-void function [-Werror=return-type]
+     607 | }
+         | ^
+   cc1: some warnings being treated as errors
+
+
+vim +520 arch/x86/kernel/hpet.c
+
+3d7295eb3003aea David Woodhouse 2020-10-24  514  
+3d7295eb3003aea David Woodhouse 2020-10-24  515  static int hpet_msi_init(struct irq_domain *domain,
+3d7295eb3003aea David Woodhouse 2020-10-24  516  			 struct msi_domain_info *info, unsigned int virq,
+3d7295eb3003aea David Woodhouse 2020-10-24  517  			 irq_hw_number_t hwirq, msi_alloc_info_t *arg)
+3d7295eb3003aea David Woodhouse 2020-10-24  518  {
+3d7295eb3003aea David Woodhouse 2020-10-24  519  	irq_set_status_flags(virq, IRQ_MOVE_PCNTXT);
+3d7295eb3003aea David Woodhouse 2020-10-24 @520  	irq_domain_set_info(domain, virq, arg->hwirq, info->chip, NULL,
+3d7295eb3003aea David Woodhouse 2020-10-24  521  			    handle_edge_irq, arg->data, "edge");
+3d7295eb3003aea David Woodhouse 2020-10-24  522  
+3d7295eb3003aea David Woodhouse 2020-10-24  523  	return 0;
+3d7295eb3003aea David Woodhouse 2020-10-24  524  }
+3d7295eb3003aea David Woodhouse 2020-10-24  525  
+3d7295eb3003aea David Woodhouse 2020-10-24  526  static void hpet_msi_free(struct irq_domain *domain,
+3d7295eb3003aea David Woodhouse 2020-10-24  527  			  struct msi_domain_info *info, unsigned int virq)
+3d7295eb3003aea David Woodhouse 2020-10-24  528  {
+3d7295eb3003aea David Woodhouse 2020-10-24  529  	irq_clear_status_flags(virq, IRQ_MOVE_PCNTXT);
+3d7295eb3003aea David Woodhouse 2020-10-24  530  }
+3d7295eb3003aea David Woodhouse 2020-10-24  531  
+3d7295eb3003aea David Woodhouse 2020-10-24  532  static struct msi_domain_ops hpet_msi_domain_ops = {
+3d7295eb3003aea David Woodhouse 2020-10-24  533  	.msi_init	= hpet_msi_init,
+3d7295eb3003aea David Woodhouse 2020-10-24  534  	.msi_free	= hpet_msi_free,
+3d7295eb3003aea David Woodhouse 2020-10-24  535  };
+3d7295eb3003aea David Woodhouse 2020-10-24  536  
+3d7295eb3003aea David Woodhouse 2020-10-24  537  static struct msi_domain_info hpet_msi_domain_info = {
+3d7295eb3003aea David Woodhouse 2020-10-24  538  	.ops		= &hpet_msi_domain_ops,
+3d7295eb3003aea David Woodhouse 2020-10-24  539  	.chip		= &hpet_msi_controller,
+3d7295eb3003aea David Woodhouse 2020-10-24  540  	.flags		= MSI_FLAG_USE_DEF_DOM_OPS,
+3d7295eb3003aea David Woodhouse 2020-10-24  541  };
+3d7295eb3003aea David Woodhouse 2020-10-24  542  
+3d7295eb3003aea David Woodhouse 2020-10-24  543  static struct irq_domain *hpet_create_irq_domain(int hpet_id)
+3d7295eb3003aea David Woodhouse 2020-10-24  544  {
+3d7295eb3003aea David Woodhouse 2020-10-24  545  	struct msi_domain_info *domain_info;
+3d7295eb3003aea David Woodhouse 2020-10-24  546  	struct irq_domain *parent, *d;
+3d7295eb3003aea David Woodhouse 2020-10-24  547  	struct fwnode_handle *fn;
+c2a5881c28e5bb4 David Woodhouse 2020-10-24  548  	struct irq_fwspec fwspec;
+3d7295eb3003aea David Woodhouse 2020-10-24  549  
+3d7295eb3003aea David Woodhouse 2020-10-24 @550  	if (x86_vector_domain == NULL)
+3d7295eb3003aea David Woodhouse 2020-10-24  551  		return NULL;
+3d7295eb3003aea David Woodhouse 2020-10-24  552  
+3d7295eb3003aea David Woodhouse 2020-10-24  553  	domain_info = kzalloc(sizeof(*domain_info), GFP_KERNEL);
+3d7295eb3003aea David Woodhouse 2020-10-24  554  	if (!domain_info)
+3d7295eb3003aea David Woodhouse 2020-10-24  555  		return NULL;
+3d7295eb3003aea David Woodhouse 2020-10-24  556  
+3d7295eb3003aea David Woodhouse 2020-10-24  557  	*domain_info = hpet_msi_domain_info;
+3d7295eb3003aea David Woodhouse 2020-10-24  558  	domain_info->data = (void *)(long)hpet_id;
+3d7295eb3003aea David Woodhouse 2020-10-24  559  
+3d7295eb3003aea David Woodhouse 2020-10-24  560  	fn = irq_domain_alloc_named_id_fwnode(hpet_msi_controller.name,
+3d7295eb3003aea David Woodhouse 2020-10-24  561  					      hpet_id);
+3d7295eb3003aea David Woodhouse 2020-10-24  562  	if (!fn) {
+3d7295eb3003aea David Woodhouse 2020-10-24  563  		kfree(domain_info);
+3d7295eb3003aea David Woodhouse 2020-10-24  564  		return NULL;
+3d7295eb3003aea David Woodhouse 2020-10-24  565  	}
+3d7295eb3003aea David Woodhouse 2020-10-24  566  
+c2a5881c28e5bb4 David Woodhouse 2020-10-24  567  	fwspec.fwnode = fn;
+c2a5881c28e5bb4 David Woodhouse 2020-10-24  568  	fwspec.param_count = 1;
+c2a5881c28e5bb4 David Woodhouse 2020-10-24  569  	fwspec.param[0] = hpet_id;
+c2a5881c28e5bb4 David Woodhouse 2020-10-24  570  
+c2a5881c28e5bb4 David Woodhouse 2020-10-24  571  	parent = irq_find_matching_fwspec(&fwspec, DOMAIN_BUS_ANY);
+c2a5881c28e5bb4 David Woodhouse 2020-10-24  572  	if (!parent) {
+c2a5881c28e5bb4 David Woodhouse 2020-10-24  573  		irq_domain_free_fwnode(fn);
+c2a5881c28e5bb4 David Woodhouse 2020-10-24  574  		kfree(domain_info);
+c2a5881c28e5bb4 David Woodhouse 2020-10-24  575  		return NULL;
+c2a5881c28e5bb4 David Woodhouse 2020-10-24  576  	}
+c2a5881c28e5bb4 David Woodhouse 2020-10-24  577  	if (parent != x86_vector_domain)
+c2a5881c28e5bb4 David Woodhouse 2020-10-24  578  		hpet_msi_controller.name = "IR-HPET-MSI";
+c2a5881c28e5bb4 David Woodhouse 2020-10-24  579  
+3d7295eb3003aea David Woodhouse 2020-10-24  580  	d = msi_create_irq_domain(fn, domain_info, parent);
+3d7295eb3003aea David Woodhouse 2020-10-24  581  	if (!d) {
+3d7295eb3003aea David Woodhouse 2020-10-24  582  		irq_domain_free_fwnode(fn);
+3d7295eb3003aea David Woodhouse 2020-10-24  583  		kfree(domain_info);
+3d7295eb3003aea David Woodhouse 2020-10-24  584  	}
+3d7295eb3003aea David Woodhouse 2020-10-24  585  	return d;
+3d7295eb3003aea David Woodhouse 2020-10-24  586  }
+3d7295eb3003aea David Woodhouse 2020-10-24  587  
+3d7295eb3003aea David Woodhouse 2020-10-24  588  static inline int hpet_dev_id(struct irq_domain *domain)
+3d7295eb3003aea David Woodhouse 2020-10-24  589  {
+3d7295eb3003aea David Woodhouse 2020-10-24  590  	struct msi_domain_info *info = msi_get_domain_info(domain);
+3d7295eb3003aea David Woodhouse 2020-10-24  591  
+3d7295eb3003aea David Woodhouse 2020-10-24  592  	return (int)(long)info->data;
+3d7295eb3003aea David Woodhouse 2020-10-24  593  }
+3d7295eb3003aea David Woodhouse 2020-10-24  594  
+3d7295eb3003aea David Woodhouse 2020-10-24  595  static int hpet_assign_irq(struct irq_domain *domain, struct hpet_channel *hc,
+3d7295eb3003aea David Woodhouse 2020-10-24  596  			   int dev_num)
+3d7295eb3003aea David Woodhouse 2020-10-24  597  {
+3d7295eb3003aea David Woodhouse 2020-10-24 @598  	struct irq_alloc_info info;
+3d7295eb3003aea David Woodhouse 2020-10-24  599  
+3d7295eb3003aea David Woodhouse 2020-10-24 @600  	init_irq_alloc_info(&info, NULL);
+3d7295eb3003aea David Woodhouse 2020-10-24 @601  	info.type = X86_IRQ_ALLOC_TYPE_HPET;
+3d7295eb3003aea David Woodhouse 2020-10-24  602  	info.data = hc;
+3d7295eb3003aea David Woodhouse 2020-10-24  603  	info.devid = hpet_dev_id(domain);
+3d7295eb3003aea David Woodhouse 2020-10-24  604  	info.hwirq = dev_num;
+3d7295eb3003aea David Woodhouse 2020-10-24  605  
+3d7295eb3003aea David Woodhouse 2020-10-24  606  	return irq_domain_alloc_irqs(domain, 1, NUMA_NO_NODE, &info);
+3d7295eb3003aea David Woodhouse 2020-10-24  607  }
+3d7295eb3003aea David Woodhouse 2020-10-24  608  
+
+:::::: The code at line 520 was first introduced by commit
+:::::: 3d7295eb3003aea9f89de35304b3a88ae4d5036b x86/hpet: Move MSI support into hpet.c
+
+:::::: TO: David Woodhouse <dwmw@amazon.co.uk>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
