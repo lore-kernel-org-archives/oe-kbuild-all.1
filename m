@@ -1,44 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F29018B02
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Sep 2023 23:40:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A005818C0F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Sep 2023 23:51:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695944429; x=1727480429;
+  t=1695945061; x=1727481061;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=k/f/gKQZGDaEsUvegbnb3e92P2w+7dVz08wKtD7/Pgs=;
-  b=Kg60fZQkBuGsrnrutV7gPZwJ7hBl4UlY7HlvSJxWkhCmUI5e5PrEGDZQ
-   DwElSB1cLz/7cYermGFv11IaHpOzQ+K/91E86YXLHBxgUtmyOvq0k96sY
-   I818LqzBXR5Lq3wI6ogh1/Q2ceiFaANOeyjooLOy5HJcXRIvboiTwaSAb
-   BJLobKZl1yaK57CKo8DXKCe+4tKU9RU4UdRqC8cJe8SlIm9B7YVIzJksW
-   yhJT07lW+W18CIZ+Zk+G8dIoGMU0yLCFrzJYCVJZux4OZN9ArJ2ia+rLs
-   f983YJ76Yew/hftoVEKnZfQUbW5KpTCiXUxbR2jqe7cQYrxtnqP0cMVnn
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="3771151"
+  bh=XYDugT0VeocD4HFPwUA7we9H8vQyisM/+OF+o9u/v6o=;
+  b=eAXTnE7G5MtCL7Gb3oekb+63ZqRvLwRanVFkhuK6IBvSfqcUGz3pK+3c
+   4XTMySXig7HnWH5neeq+28LGXHZkRmaj3KsDaltM0Db6SxMV1VVUIG9Fr
+   P8G5zHh65W5MK73nnEo5f5X+PCaJ2zqLEju2CCWTrybiyNM4r8MGDfv9q
+   bshiQ4tpBnL+sZ+A4o/eyOOhozAp5HYZkkjbrKOKZEA++2VVeIdq+bxnS
+   z3BdSXX0JU+fZBw+YbaiTe+5IO10uCgqBnzT3RE3Qj4DXTuIxY+sTXZAc
+   rYsX5VK/rXUYMvxHWZEyIMPDzOs8vM6C2OtjOgXYswuHyrhEN44x6etnq
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="468482394"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="3771151"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 16:39:59 -0700
+   d="scan'208";a="468482394"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 16:51:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="749782827"
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="840099287"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="749782827"
+   d="scan'208";a="840099287"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 28 Sep 2023 16:39:57 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 28 Sep 2023 16:50:59 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qm0bq-00029Z-2s;
-	Thu, 28 Sep 2023 23:39:54 +0000
-Date: Fri, 29 Sep 2023 07:39:46 +0800
+	id 1qm0mX-0002AN-0F;
+	Thu, 28 Sep 2023 23:50:57 +0000
+Date: Fri, 29 Sep 2023 07:50:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 88/1370]
- drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c:1269:31: sparse: sparse:
- incorrect type in return expression (different base types)
-Message-ID: <202309290707.ZFyEb8Lo-lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, Vinod Koul <vkoul@kernel.org>
+Subject: [vkoul-dmaengine:next 83/89] file.c:undefined reference to
+ `ioread64be'
+Message-ID: <202309290701.SlXGDSsX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,38 +46,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
-commit: 94ece3554bcf455d4f036547a7030a774bbeec9c [88/1370] staging: xlnx_tsmux: Initial version of xlnx mpeg2tsmux driver
-config: i386-randconfig-062-20230929 (https://download.01.org/0day-ci/archive/20230929/202309290707.ZFyEb8Lo-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290707.ZFyEb8Lo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+head:   10c060edf581fdd0d8f23cab84e6c8546c2df8fc
+commit: 09289d0ad1226c4735f8d9f68c9c3e54cbaba3d4 [83/89] debugfs_create_regset32() support 8/16/64 bit width registers
+config: powerpc64-randconfig-001-20230929 (https://download.01.org/0day-ci/archive/20230929/202309290701.SlXGDSsX-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290701.SlXGDSsX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309290707.ZFyEb8Lo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309290701.SlXGDSsX-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c:1269:31: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got int @@
-   drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c:1269:31: sparse:     expected restricted __poll_t
-   drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c:1269:31: sparse:     got int
+All errors (new ones prefixed by >>):
 
-vim +1269 drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c
-
-  1261	
-  1262	static __poll_t xlnx_tsmux_poll(struct file *fptr, poll_table *wait)
-  1263	{
-  1264		struct xlnx_tsmux *mpgmuxts = fptr->private_data;
-  1265	
-  1266		poll_wait(fptr, &mpgmuxts->waitq, wait);
-  1267	
-  1268		if (xlnx_tsmux_read(mpgmuxts, XTSMUX_LAST_NODE_PROCESSED))
-> 1269			return POLLIN | POLLPRI;
-  1270	
-  1271		return 0;
-  1272	}
-  1273	
+   powerpc64-linux-ld: warning: discarding dynamic section .glink
+   powerpc64-linux-ld: warning: discarding dynamic section .plt
+   powerpc64-linux-ld: linkage table error against `ioread64be'
+   powerpc64-linux-ld: stubs don't match calculated size
+   powerpc64-linux-ld: can not build stubs: bad value
+   powerpc64-linux-ld: fs/debugfs/file.o: in function `debugfs_print_regs':
+>> file.c:(.text+0x1558): undefined reference to `ioread64be'
+>> powerpc64-linux-ld: file.c:(.text+0x1570): undefined reference to `ioread64'
 
 -- 
 0-DAY CI Kernel Test Service
