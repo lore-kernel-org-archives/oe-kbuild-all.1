@@ -1,45 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C35E13AD3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Sep 2023 21:00:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3132E8839
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Sep 2023 21:11:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695934847; x=1727470847;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RNNJTecZe3lDDdVUo90WNnnwhRxRi0q1fo0uq18yMDg=;
-  b=KSHNBqSgOcPlmyLpj1fR47IABofOWBGQWcIiGQHqYADFMg8c5iUxxXiT
-   3soXryCyxFdlZ5WKMKDYUnnVJo+lMAYwc/Qnq1LpG8BoYzTJJn8L/ZBbD
-   EiNAKbfePDOKjON6ZExNYh2uGDAJCl1ZB4aO1kLm70jdx9Mhduv0Vwie2
-   Ty5RcixshIOxityC79SnCKB1TefotxNsg8IsDozYnxMBd4V9B3SaoTQhV
-   2Q4KhdFOXc3icZ57gH5OLzG+HwD+IErxm1k55Qwu/nWUlPiAFhXvFM7o6
-   tdbGtWQQluZdnx3LQFJLvBhhxi5VpE8PAIQNWDBHMDPB4pXZWAMmbHba1
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="782271"
+  t=1695935493; x=1727471493;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fT9hmAFaR7J5WOa+Ay90bhREOoqwzRKxqclNQp3btkI=;
+  b=QCD7tm6jqRXqzXp4NtNJ/Rk05Ly0CJ0RuqLBZljrF0xOBMyfuV2lHfY+
+   iF2Ds5zzlGGkCFNBEIARP8EJaggJu/FwBQ/h35CTkMO6xFlD6pVxO/r6s
+   0bF1VMbcVq90t1lx+TijkDn8j0OzSDUlhkqqcV9GEfmMT/hY3rgJ2M24I
+   t8dhevwIols8B+ysMuIrQFXkJvUgSA74rmOdjPszGXxg1gdlbUTcdacLq
+   OpkTINdrl44D+tH6L6Bkc4FMcY0jyJwCTa5oxQvPmrBazIJ91vnmC65bO
+   +RlYY8qCeBD8rpA97q76pClHAGfBuw3aJAGvPyYQCfo9qzBTVOAGua1Cn
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="446338033"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="782271"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 14:00:33 -0700
+   d="scan'208";a="446338033"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 14:11:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="699431537"
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="996712651"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="699431537"
+   d="scan'208";a="996712651"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 28 Sep 2023 14:00:30 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 28 Sep 2023 14:11:30 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qly7Y-0001xL-04;
-	Thu, 28 Sep 2023 21:00:28 +0000
-Date: Fri, 29 Sep 2023 05:00:16 +0800
+	id 1qlyIC-0001yP-2f;
+	Thu, 28 Sep 2023 21:11:28 +0000
+Date: Fri, 29 Sep 2023 05:10:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Earl Chew <earl.chew@yahoo.ca>, linux-kernel@vger.kernel.org,
-	gregkh@linuxfoundation.org, jirislaby@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, peter@hurleysoftware.com,
-	earl.chew@yahoo.ca
-Subject: Re: [PATCH 2/3] tty: Serialise racing tiocspgrp() callers
-Message-ID: <202309290422.8TLHGj3t-lkp@intel.com>
-References: <20230901015030.2469062-3-earl.chew@yahoo.ca>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:x86/microcode 26/30]
+ arch/x86/kernel/cpu/microcode/core.c:384:21: warning: 'ucode_load_secondary'
+ defined but not used
+Message-ID: <202309290503.DTiXQutm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,93 +46,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230901015030.2469062-3-earl.chew@yahoo.ca>
 
-Hi Earl,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on tty/tty-next tty/tty-linus linus/master v6.6-rc3 next-20230928]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Earl-Chew/tty-Serialise-racing-tiocspgrp-callers/20230929-010844
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20230901015030.2469062-3-earl.chew%40yahoo.ca
-patch subject: [PATCH 2/3] tty: Serialise racing tiocspgrp() callers
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230929/202309290422.8TLHGj3t-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290422.8TLHGj3t-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/microcode
+head:   0168d5c24d9566114647bf6377e65c52c2325e3c
+commit: 798516f5cbaf888e972679feab8f19653603d44a [26/30] x86/microcode: Protect against instrumentation
+config: i386-randconfig-014-20230929 (https://download.01.org/0day-ci/archive/20230929/202309290503.DTiXQutm-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290503.DTiXQutm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309290422.8TLHGj3t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309290503.DTiXQutm-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/tty/tty_jobctrl.c:35: warning: Function parameter or member 'ctrl_lock' not described in '__tty_check_change_locked'
->> drivers/tty/tty_jobctrl.c:35: warning: expecting prototype for __tty_check_change(). Prototype was for __tty_check_change_locked() instead
+   arch/x86/kernel/cpu/microcode/core.c: In function 'ucode_load_secondary':
+   arch/x86/kernel/cpu/microcode/core.c:389:14: error: implicit declaration of function 'ucode_load_secondary_wait'; did you mean 'ucode_load_secondary'? [-Werror=implicit-function-declaration]
+     389 |         if (!ucode_load_secondary_wait(ctrl_cpu)) {
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |              ucode_load_secondary
+   arch/x86/kernel/cpu/microcode/core.c: In function 'microcode_update_handler':
+   arch/x86/kernel/cpu/microcode/core.c:457:17: error: implicit declaration of function 'load_secondary'; did you mean 'load_secondary_wait'? [-Werror=implicit-function-declaration]
+     457 |                 load_secondary(cpu);
+         |                 ^~~~~~~~~~~~~~
+         |                 load_secondary_wait
+   arch/x86/kernel/cpu/microcode/core.c: In function 'load_late_stop_cpus':
+   arch/x86/kernel/cpu/microcode/core.c:521:33: error: 'load_cpus_stopped' undeclared (first use in this function); did you mean 'ucode_load_cpus_stopped'?
+     521 |         stop_machine_cpuslocked(load_cpus_stopped, NULL, cpu_online_mask);
+         |                                 ^~~~~~~~~~~~~~~~~
+         |                                 ucode_load_cpus_stopped
+   arch/x86/kernel/cpu/microcode/core.c:521:33: note: each undeclared identifier is reported only once for each function it appears in
+   arch/x86/kernel/cpu/microcode/core.c: At top level:
+   arch/x86/kernel/cpu/microcode/core.c:487:12: warning: 'ucode_load_cpus_stopped' defined but not used [-Wunused-function]
+     487 | static int ucode_load_cpus_stopped(void *unused)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kernel/cpu/microcode/core.c:384:21: warning: 'ucode_load_secondary' defined but not used [-Wunused-function]
+     384 | static noinstr void ucode_load_secondary(unsigned int cpu)
+         |                     ^~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kernel/cpu/microcode/core.c:357:21: warning: 'load_secondary_wait' defined but not used [-Wunused-function]
+     357 | static noinstr bool load_secondary_wait(unsigned int ctrl_cpu)
+         |                     ^~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +35 drivers/tty/tty_jobctrl.c
+vim +/ucode_load_secondary +384 arch/x86/kernel/cpu/microcode/core.c
 
-a1235b3eb10086 Nicolas Pitre 2017-04-12  21  
-a1235b3eb10086 Nicolas Pitre 2017-04-12  22  /**
-6ef6785d781e9c Lee Jones     2021-05-20  23   *	__tty_check_change	-	check for POSIX terminal changes
-a1235b3eb10086 Nicolas Pitre 2017-04-12  24   *	@tty: tty to check
-bc38fe241bc320 Lee Jones     2020-11-04  25   *	@sig: signal to send
-a1235b3eb10086 Nicolas Pitre 2017-04-12  26   *
-a1235b3eb10086 Nicolas Pitre 2017-04-12  27   *	If we try to write to, or set the state of, a terminal and we're
-a1235b3eb10086 Nicolas Pitre 2017-04-12  28   *	not in the foreground, send a SIGTTOU.  If the signal is blocked or
-a1235b3eb10086 Nicolas Pitre 2017-04-12  29   *	ignored, go ahead and perform the operation.  (POSIX 7.2)
-a1235b3eb10086 Nicolas Pitre 2017-04-12  30   *
-64d608db38ffc0 Jiri Slaby    2021-05-05  31   *	Locking: ctrl.lock
-a1235b3eb10086 Nicolas Pitre 2017-04-12  32   */
-99d6f12e388e7a Earl Chew     2023-08-31  33  static int __tty_check_change_locked(struct tty_struct *tty, int sig,
-99d6f12e388e7a Earl Chew     2023-08-31  34  				     spinlock_t *ctrl_lock)
-a1235b3eb10086 Nicolas Pitre 2017-04-12 @35  {
-a1235b3eb10086 Nicolas Pitre 2017-04-12  36  	unsigned long flags;
-a1235b3eb10086 Nicolas Pitre 2017-04-12  37  	struct pid *pgrp, *tty_pgrp;
-a1235b3eb10086 Nicolas Pitre 2017-04-12  38  	int ret = 0;
-a1235b3eb10086 Nicolas Pitre 2017-04-12  39  
-99d6f12e388e7a Earl Chew     2023-08-31  40  	BUG_ON(ctrl_lock && (
-99d6f12e388e7a Earl Chew     2023-08-31  41  	       ctrl_lock != &tty->ctrl.lock || !spin_is_locked(ctrl_lock)));
-99d6f12e388e7a Earl Chew     2023-08-31  42  
-a1235b3eb10086 Nicolas Pitre 2017-04-12  43  	if (current->signal->tty != tty)
-a1235b3eb10086 Nicolas Pitre 2017-04-12  44  		return 0;
-a1235b3eb10086 Nicolas Pitre 2017-04-12  45  
-a1235b3eb10086 Nicolas Pitre 2017-04-12  46  	rcu_read_lock();
-a1235b3eb10086 Nicolas Pitre 2017-04-12  47  	pgrp = task_pgrp(current);
-a1235b3eb10086 Nicolas Pitre 2017-04-12  48  
-99d6f12e388e7a Earl Chew     2023-08-31  49  	if (!ctrl_lock)
-64d608db38ffc0 Jiri Slaby    2021-05-05  50  		spin_lock_irqsave(&tty->ctrl.lock, flags);
-64d608db38ffc0 Jiri Slaby    2021-05-05  51  	tty_pgrp = tty->ctrl.pgrp;
-a1235b3eb10086 Nicolas Pitre 2017-04-12  52  
-cf90c06f811501 David Emett   2019-03-10  53  	if (tty_pgrp && pgrp != tty_pgrp) {
-a1235b3eb10086 Nicolas Pitre 2017-04-12  54  		if (is_ignored(sig)) {
-a1235b3eb10086 Nicolas Pitre 2017-04-12  55  			if (sig == SIGTTIN)
-a1235b3eb10086 Nicolas Pitre 2017-04-12  56  				ret = -EIO;
-a1235b3eb10086 Nicolas Pitre 2017-04-12  57  		} else if (is_current_pgrp_orphaned())
-a1235b3eb10086 Nicolas Pitre 2017-04-12  58  			ret = -EIO;
-a1235b3eb10086 Nicolas Pitre 2017-04-12  59  		else {
-a1235b3eb10086 Nicolas Pitre 2017-04-12  60  			kill_pgrp(pgrp, sig, 1);
-a1235b3eb10086 Nicolas Pitre 2017-04-12  61  			set_thread_flag(TIF_SIGPENDING);
-a1235b3eb10086 Nicolas Pitre 2017-04-12  62  			ret = -ERESTARTSYS;
-a1235b3eb10086 Nicolas Pitre 2017-04-12  63  		}
-a1235b3eb10086 Nicolas Pitre 2017-04-12  64  	}
-99d6f12e388e7a Earl Chew     2023-08-31  65  	if (!ctrl_lock)
-95d3590fbe7aed Earl Chew     2023-08-31  66  		spin_unlock_irqrestore(&tty->ctrl.lock, flags);
-a1235b3eb10086 Nicolas Pitre 2017-04-12  67  	rcu_read_unlock();
-a1235b3eb10086 Nicolas Pitre 2017-04-12  68  
-a1235b3eb10086 Nicolas Pitre 2017-04-12  69  	if (!tty_pgrp)
-a1235b3eb10086 Nicolas Pitre 2017-04-12  70  		tty_warn(tty, "sig=%d, tty->pgrp == NULL!\n", sig);
-a1235b3eb10086 Nicolas Pitre 2017-04-12  71  
-a1235b3eb10086 Nicolas Pitre 2017-04-12  72  	return ret;
-a1235b3eb10086 Nicolas Pitre 2017-04-12  73  }
-a1235b3eb10086 Nicolas Pitre 2017-04-12  74  
+   352	
+   353	/*
+   354	 * Protected against instrumentation up to the point where the primary
+   355	 * thread completed the update. See microcode_nmi_handler() for details.
+   356	 */
+ > 357	static noinstr bool load_secondary_wait(unsigned int ctrl_cpu)
+   358	{
+   359		/* Initial rendezvouz to ensure that all CPUs have arrived */
+   360		if (!wait_for_cpus(&late_cpus_in)) {
+   361			raw_cpu_write(ucode_ctrl.result, UCODE_TIMEOUT);
+   362			return false;
+   363		}
+   364	
+   365		/*
+   366		 * Wait for primary threads to complete. If one of them hangs due
+   367		 * to the update, there is no way out. This is non-recoverable
+   368		 * because the CPU might hold locks or resources and confuse the
+   369		 * scheduler, watchdogs etc. There is no way to safely evacuate the
+   370		 * machine.
+   371		 */
+   372		if (wait_for_ctrl())
+   373			return true;
+   374	
+   375		instrumentation_begin();
+   376		panic("Microcode load: Primary CPU %d timed out\n", ctrl_cpu);
+   377		instrumentation_end();
+   378	}
+   379	
+   380	/*
+   381	 * Protected against instrumentation up to the point where the primary
+   382	 * thread completed the update. See microcode_nmi_handler() for details.
+   383	 */
+ > 384	static noinstr void ucode_load_secondary(unsigned int cpu)
+   385	{
+   386		unsigned int ctrl_cpu = raw_cpu_read(ucode_ctrl.ctrl_cpu);
+   387		enum ucode_state ret;
+   388	
+   389		if (!ucode_load_secondary_wait(ctrl_cpu)) {
+   390			instrumentation_begin();
+   391			pr_err_once("Microcode load: %d CPUs timed out\n",
+   392				    atomic_read(&late_cpus_in) - 1);
+   393			instrumentation_end();
+   394			return;
+   395		}
+   396	
+   397		/* Primary thread completed. Allow to invoke instrumentable code */
+   398		instrumentation_begin();
+   399		/*
+   400		 * If the primary succeeded then invoke the apply() callback,
+   401		 * otherwise copy the state from the primary thread.
+   402		 */
+   403		if (this_cpu_read(ucode_ctrl.ctrl) == SCTRL_APPLY)
+   404			ret = microcode_ops->apply_microcode(cpu);
+   405		else
+   406			ret = per_cpu(ucode_ctrl.result, ctrl_cpu);
+   407	
+   408		this_cpu_write(ucode_ctrl.result, ret);
+   409		this_cpu_write(ucode_ctrl.ctrl, SCTRL_DONE);
+   410		instrumentation_end();
+   411	}
+   412	
 
 -- 
 0-DAY CI Kernel Test Service
