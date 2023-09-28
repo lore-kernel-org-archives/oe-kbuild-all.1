@@ -1,43 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D3A15BA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Sep 2023 21:00:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C431C9CA79
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Sep 2023 21:00:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695934832; x=1727470832;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=plQZm9Gqmd4pF5S/4ppKbvpUSTgXLph+LF2jDBbgCl0=;
-  b=mh1D9NnPkTwe4Nh5VK1y47FbqrCdk28i/K3kjFFseiBWmet7LIZANAWI
-   9ESWsTQwwRTgFDGsoSrLEr0RubNpM34AFXKi+2dckxFUQI0trdM9SgbF/
-   D7E/AtQvh6IPJAJECrL2josT6owedARTaQ7FAB/sKQauTT6Qkn+RdLAKV
-   IyIUAq2sN/pjXH+XW7wfTrvS5nyTJF2nYBxJP1pZrNnOgvu5OS0iLwQxh
-   8x2IgpwgUGqd6rL1at2/Nps2q76815bojkVOUTFipNaQCobhdOIIZrvZ1
-   Fur3uEg4HkQaqN+XBfMe0MDYyCIyC2Ak77JUpeBI0yy5UVcxm75cgAdkv
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="386040038"
+  t=1695934833; x=1727470833;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6plKqUY39TQMJV0iebt7XT6W09lt/hQ5+xdiVKqIraw=;
+  b=YW3a7rmJ+9jpZ+pW+HKjkD8JvdjD7VDOQphLl2iDjUJejPKh0+B2UZx6
+   kPg99BkDNSnbZCNXXN96bN13cxKT3gn0QSy+f3H5h5rubaTMTwo92hI7L
+   HbRNSDEBpp1MMu/vLAyuBFERBSKhjO8SFTxYv68WUxCR3O1vcdIGLkctQ
+   aLlG0wiW3Sa9kjSyd8r5HGhhAS8HeOySJOUIf6SVpwtwGK1XcR8GdnY5W
+   QNR/M4FbfosPLc/Qd3KP8RKCcctCf/LBgRj52KK5yW9eoCX5yQnFejS23
+   2PnNrsHKtLHzJNuTn3le+7E9tzhR9cCQyfQ4YF12Cmch5xwtFk/tiaRHt
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="386040044"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="386040038"
+   d="scan'208";a="386040044"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 14:00:32 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 14:00:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="873436157"
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="873436155"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="873436157"
+   d="scan'208";a="873436155"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
   by orsmga004.jf.intel.com with ESMTP; 28 Sep 2023 14:00:30 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qly7Y-0001xS-0K;
-	Thu, 28 Sep 2023 21:00:28 +0000
-Date: Fri, 29 Sep 2023 05:00:15 +0800
+	id 1qly7X-0001xJ-3B;
+	Thu, 28 Sep 2023 21:00:27 +0000
+Date: Fri, 29 Sep 2023 05:00:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Marc Zyngier <maz@kernel.org>
-Subject: arch/x86/kernel/hpet.c:520:46: error: invalid use of incomplete
- typedef 'msi_alloc_info_t' {aka 'struct irq_alloc_info'}
-Message-ID: <202309290439.8R8jcHz5-lkp@intel.com>
+To: Justin Lai <justinlai0215@realtek.com>, kuba@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, edumazet@google.com,
+	pabeni@redhat.com, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, andrew@lunn.ch, pkshih@realtek.com,
+	larry.chiu@realtek.com, Justin Lai <justinlai0215@realtek.com>
+Subject: Re: [PATCH net-next v9 12/13] net:ethernet:realtek: Update the
+ Makefile and Kconfig in the realtek folder
+Message-ID: <202309290449.7BfzQ7jq-lkp@intel.com>
+References: <20230928104920.113511-13-justinlai0215@realtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,156 +50,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230928104920.113511-13-justinlai0215@realtek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   633b47cb009d09dc8f4ba9cdb3a0ca138809c7c7
-commit: 70afdab904d2d1e68bffe75fe08e7e48e0b0ff8e irqchip: Add IMX MU MSI controller driver
-date:   12 months ago
-config: i386-buildonly-randconfig-003-20230915 (https://download.01.org/0day-ci/archive/20230929/202309290439.8R8jcHz5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290439.8R8jcHz5-lkp@intel.com/reproduce)
+Hi Justin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Justin-Lai/net-ethernet-realtek-rtase-Add-pci-table-supported-in-this-module/20230928-185229
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230928104920.113511-13-justinlai0215%40realtek.com
+patch subject: [PATCH net-next v9 12/13] net:ethernet:realtek: Update the Makefile and Kconfig in the realtek folder
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230929/202309290449.7BfzQ7jq-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290449.7BfzQ7jq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309290439.8R8jcHz5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309290449.7BfzQ7jq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/x86/kernel/hpet.c: In function 'hpet_msi_init':
->> arch/x86/kernel/hpet.c:520:46: error: invalid use of incomplete typedef 'msi_alloc_info_t' {aka 'struct irq_alloc_info'}
-     520 |         irq_domain_set_info(domain, virq, arg->hwirq, info->chip, NULL,
-         |                                              ^~
-   arch/x86/kernel/hpet.c:521:49: error: invalid use of incomplete typedef 'msi_alloc_info_t' {aka 'struct irq_alloc_info'}
-     521 |                             handle_edge_irq, arg->data, "edge");
-         |                                                 ^~
-   arch/x86/kernel/hpet.c: In function 'hpet_create_irq_domain':
->> arch/x86/kernel/hpet.c:550:13: error: 'x86_vector_domain' undeclared (first use in this function)
-     550 |         if (x86_vector_domain == NULL)
-         |             ^~~~~~~~~~~~~~~~~
-   arch/x86/kernel/hpet.c:550:13: note: each undeclared identifier is reported only once for each function it appears in
-   arch/x86/kernel/hpet.c: In function 'hpet_assign_irq':
->> arch/x86/kernel/hpet.c:598:31: error: storage size of 'info' isn't known
-     598 |         struct irq_alloc_info info;
-         |                               ^~~~
->> arch/x86/kernel/hpet.c:600:9: error: implicit declaration of function 'init_irq_alloc_info' [-Werror=implicit-function-declaration]
-     600 |         init_irq_alloc_info(&info, NULL);
-         |         ^~~~~~~~~~~~~~~~~~~
->> arch/x86/kernel/hpet.c:601:21: error: 'X86_IRQ_ALLOC_TYPE_HPET' undeclared (first use in this function)
-     601 |         info.type = X86_IRQ_ALLOC_TYPE_HPET;
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/hpet.c:598:31: warning: unused variable 'info' [-Wunused-variable]
-     598 |         struct irq_alloc_info info;
-         |                               ^~~~
-   arch/x86/kernel/hpet.c:607:1: error: control reaches end of non-void function [-Werror=return-type]
-     607 | }
-         | ^
-   cc1: some warnings being treated as errors
+   drivers/net/ethernet/realtek/rtase/rtase_main.c: In function 'rtase_open':
+>> drivers/net/ethernet/realtek/rtase/rtase_main.c:1140:25: warning: 'snprintf' argument 4 may overlap destination object 'dev' [-Wrestrict]
+    1140 |                         snprintf(ivec->name, sizeof(ivec->name), "%s_int%i", dev->name, i);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/realtek/rtase/rtase_main.c:1105:42: note: destination object referenced by 'restrict'-qualified argument 1 was declared here
+    1105 | static int rtase_open(struct net_device *dev)
+         |                       ~~~~~~~~~~~~~~~~~~~^~~
 
 
-vim +520 arch/x86/kernel/hpet.c
+vim +1140 drivers/net/ethernet/realtek/rtase/rtase_main.c
 
-3d7295eb3003aea David Woodhouse 2020-10-24  514  
-3d7295eb3003aea David Woodhouse 2020-10-24  515  static int hpet_msi_init(struct irq_domain *domain,
-3d7295eb3003aea David Woodhouse 2020-10-24  516  			 struct msi_domain_info *info, unsigned int virq,
-3d7295eb3003aea David Woodhouse 2020-10-24  517  			 irq_hw_number_t hwirq, msi_alloc_info_t *arg)
-3d7295eb3003aea David Woodhouse 2020-10-24  518  {
-3d7295eb3003aea David Woodhouse 2020-10-24  519  	irq_set_status_flags(virq, IRQ_MOVE_PCNTXT);
-3d7295eb3003aea David Woodhouse 2020-10-24 @520  	irq_domain_set_info(domain, virq, arg->hwirq, info->chip, NULL,
-3d7295eb3003aea David Woodhouse 2020-10-24  521  			    handle_edge_irq, arg->data, "edge");
-3d7295eb3003aea David Woodhouse 2020-10-24  522  
-3d7295eb3003aea David Woodhouse 2020-10-24  523  	return 0;
-3d7295eb3003aea David Woodhouse 2020-10-24  524  }
-3d7295eb3003aea David Woodhouse 2020-10-24  525  
-3d7295eb3003aea David Woodhouse 2020-10-24  526  static void hpet_msi_free(struct irq_domain *domain,
-3d7295eb3003aea David Woodhouse 2020-10-24  527  			  struct msi_domain_info *info, unsigned int virq)
-3d7295eb3003aea David Woodhouse 2020-10-24  528  {
-3d7295eb3003aea David Woodhouse 2020-10-24  529  	irq_clear_status_flags(virq, IRQ_MOVE_PCNTXT);
-3d7295eb3003aea David Woodhouse 2020-10-24  530  }
-3d7295eb3003aea David Woodhouse 2020-10-24  531  
-3d7295eb3003aea David Woodhouse 2020-10-24  532  static struct msi_domain_ops hpet_msi_domain_ops = {
-3d7295eb3003aea David Woodhouse 2020-10-24  533  	.msi_init	= hpet_msi_init,
-3d7295eb3003aea David Woodhouse 2020-10-24  534  	.msi_free	= hpet_msi_free,
-3d7295eb3003aea David Woodhouse 2020-10-24  535  };
-3d7295eb3003aea David Woodhouse 2020-10-24  536  
-3d7295eb3003aea David Woodhouse 2020-10-24  537  static struct msi_domain_info hpet_msi_domain_info = {
-3d7295eb3003aea David Woodhouse 2020-10-24  538  	.ops		= &hpet_msi_domain_ops,
-3d7295eb3003aea David Woodhouse 2020-10-24  539  	.chip		= &hpet_msi_controller,
-3d7295eb3003aea David Woodhouse 2020-10-24  540  	.flags		= MSI_FLAG_USE_DEF_DOM_OPS,
-3d7295eb3003aea David Woodhouse 2020-10-24  541  };
-3d7295eb3003aea David Woodhouse 2020-10-24  542  
-3d7295eb3003aea David Woodhouse 2020-10-24  543  static struct irq_domain *hpet_create_irq_domain(int hpet_id)
-3d7295eb3003aea David Woodhouse 2020-10-24  544  {
-3d7295eb3003aea David Woodhouse 2020-10-24  545  	struct msi_domain_info *domain_info;
-3d7295eb3003aea David Woodhouse 2020-10-24  546  	struct irq_domain *parent, *d;
-3d7295eb3003aea David Woodhouse 2020-10-24  547  	struct fwnode_handle *fn;
-c2a5881c28e5bb4 David Woodhouse 2020-10-24  548  	struct irq_fwspec fwspec;
-3d7295eb3003aea David Woodhouse 2020-10-24  549  
-3d7295eb3003aea David Woodhouse 2020-10-24 @550  	if (x86_vector_domain == NULL)
-3d7295eb3003aea David Woodhouse 2020-10-24  551  		return NULL;
-3d7295eb3003aea David Woodhouse 2020-10-24  552  
-3d7295eb3003aea David Woodhouse 2020-10-24  553  	domain_info = kzalloc(sizeof(*domain_info), GFP_KERNEL);
-3d7295eb3003aea David Woodhouse 2020-10-24  554  	if (!domain_info)
-3d7295eb3003aea David Woodhouse 2020-10-24  555  		return NULL;
-3d7295eb3003aea David Woodhouse 2020-10-24  556  
-3d7295eb3003aea David Woodhouse 2020-10-24  557  	*domain_info = hpet_msi_domain_info;
-3d7295eb3003aea David Woodhouse 2020-10-24  558  	domain_info->data = (void *)(long)hpet_id;
-3d7295eb3003aea David Woodhouse 2020-10-24  559  
-3d7295eb3003aea David Woodhouse 2020-10-24  560  	fn = irq_domain_alloc_named_id_fwnode(hpet_msi_controller.name,
-3d7295eb3003aea David Woodhouse 2020-10-24  561  					      hpet_id);
-3d7295eb3003aea David Woodhouse 2020-10-24  562  	if (!fn) {
-3d7295eb3003aea David Woodhouse 2020-10-24  563  		kfree(domain_info);
-3d7295eb3003aea David Woodhouse 2020-10-24  564  		return NULL;
-3d7295eb3003aea David Woodhouse 2020-10-24  565  	}
-3d7295eb3003aea David Woodhouse 2020-10-24  566  
-c2a5881c28e5bb4 David Woodhouse 2020-10-24  567  	fwspec.fwnode = fn;
-c2a5881c28e5bb4 David Woodhouse 2020-10-24  568  	fwspec.param_count = 1;
-c2a5881c28e5bb4 David Woodhouse 2020-10-24  569  	fwspec.param[0] = hpet_id;
-c2a5881c28e5bb4 David Woodhouse 2020-10-24  570  
-c2a5881c28e5bb4 David Woodhouse 2020-10-24  571  	parent = irq_find_matching_fwspec(&fwspec, DOMAIN_BUS_ANY);
-c2a5881c28e5bb4 David Woodhouse 2020-10-24  572  	if (!parent) {
-c2a5881c28e5bb4 David Woodhouse 2020-10-24  573  		irq_domain_free_fwnode(fn);
-c2a5881c28e5bb4 David Woodhouse 2020-10-24  574  		kfree(domain_info);
-c2a5881c28e5bb4 David Woodhouse 2020-10-24  575  		return NULL;
-c2a5881c28e5bb4 David Woodhouse 2020-10-24  576  	}
-c2a5881c28e5bb4 David Woodhouse 2020-10-24  577  	if (parent != x86_vector_domain)
-c2a5881c28e5bb4 David Woodhouse 2020-10-24  578  		hpet_msi_controller.name = "IR-HPET-MSI";
-c2a5881c28e5bb4 David Woodhouse 2020-10-24  579  
-3d7295eb3003aea David Woodhouse 2020-10-24  580  	d = msi_create_irq_domain(fn, domain_info, parent);
-3d7295eb3003aea David Woodhouse 2020-10-24  581  	if (!d) {
-3d7295eb3003aea David Woodhouse 2020-10-24  582  		irq_domain_free_fwnode(fn);
-3d7295eb3003aea David Woodhouse 2020-10-24  583  		kfree(domain_info);
-3d7295eb3003aea David Woodhouse 2020-10-24  584  	}
-3d7295eb3003aea David Woodhouse 2020-10-24  585  	return d;
-3d7295eb3003aea David Woodhouse 2020-10-24  586  }
-3d7295eb3003aea David Woodhouse 2020-10-24  587  
-3d7295eb3003aea David Woodhouse 2020-10-24  588  static inline int hpet_dev_id(struct irq_domain *domain)
-3d7295eb3003aea David Woodhouse 2020-10-24  589  {
-3d7295eb3003aea David Woodhouse 2020-10-24  590  	struct msi_domain_info *info = msi_get_domain_info(domain);
-3d7295eb3003aea David Woodhouse 2020-10-24  591  
-3d7295eb3003aea David Woodhouse 2020-10-24  592  	return (int)(long)info->data;
-3d7295eb3003aea David Woodhouse 2020-10-24  593  }
-3d7295eb3003aea David Woodhouse 2020-10-24  594  
-3d7295eb3003aea David Woodhouse 2020-10-24  595  static int hpet_assign_irq(struct irq_domain *domain, struct hpet_channel *hc,
-3d7295eb3003aea David Woodhouse 2020-10-24  596  			   int dev_num)
-3d7295eb3003aea David Woodhouse 2020-10-24  597  {
-3d7295eb3003aea David Woodhouse 2020-10-24 @598  	struct irq_alloc_info info;
-3d7295eb3003aea David Woodhouse 2020-10-24  599  
-3d7295eb3003aea David Woodhouse 2020-10-24 @600  	init_irq_alloc_info(&info, NULL);
-3d7295eb3003aea David Woodhouse 2020-10-24 @601  	info.type = X86_IRQ_ALLOC_TYPE_HPET;
-3d7295eb3003aea David Woodhouse 2020-10-24  602  	info.data = hc;
-3d7295eb3003aea David Woodhouse 2020-10-24  603  	info.devid = hpet_dev_id(domain);
-3d7295eb3003aea David Woodhouse 2020-10-24  604  	info.hwirq = dev_num;
-3d7295eb3003aea David Woodhouse 2020-10-24  605  
-3d7295eb3003aea David Woodhouse 2020-10-24  606  	return irq_domain_alloc_irqs(domain, 1, NUMA_NO_NODE, &info);
-3d7295eb3003aea David Woodhouse 2020-10-24  607  }
-3d7295eb3003aea David Woodhouse 2020-10-24  608  
-
-:::::: The code at line 520 was first introduced by commit
-:::::: 3d7295eb3003aea9f89de35304b3a88ae4d5036b x86/hpet: Move MSI support into hpet.c
-
-:::::: TO: David Woodhouse <dwmw@amazon.co.uk>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+35c3134a765bbcb Justin Lai 2023-09-28  1104  
+1f431ee317f33f8 Justin Lai 2023-09-28  1105  static int rtase_open(struct net_device *dev)
+1f431ee317f33f8 Justin Lai 2023-09-28  1106  {
+1f431ee317f33f8 Justin Lai 2023-09-28  1107  	struct rtase_private *tp = netdev_priv(dev);
+1f431ee317f33f8 Justin Lai 2023-09-28  1108  	struct rtase_int_vector *ivec = &tp->int_vector[0];
+1f431ee317f33f8 Justin Lai 2023-09-28  1109  	const struct pci_dev *pdev = tp->pdev;
+1f431ee317f33f8 Justin Lai 2023-09-28  1110  	int ret;
+1f431ee317f33f8 Justin Lai 2023-09-28  1111  	u16 i;
+1f431ee317f33f8 Justin Lai 2023-09-28  1112  
+1f431ee317f33f8 Justin Lai 2023-09-28  1113  	rtase_set_rxbufsize(tp, dev);
+1f431ee317f33f8 Justin Lai 2023-09-28  1114  
+1f431ee317f33f8 Justin Lai 2023-09-28  1115  	ret = rtase_alloc_desc(tp);
+1f431ee317f33f8 Justin Lai 2023-09-28  1116  	if (ret)
+1f431ee317f33f8 Justin Lai 2023-09-28  1117  		goto err_free_all_allocated_mem;
+1f431ee317f33f8 Justin Lai 2023-09-28  1118  
+1f431ee317f33f8 Justin Lai 2023-09-28  1119  	ret = rtase_init_ring(dev);
+1f431ee317f33f8 Justin Lai 2023-09-28  1120  	if (ret)
+1f431ee317f33f8 Justin Lai 2023-09-28  1121  		goto err_free_all_allocated_mem;
+1f431ee317f33f8 Justin Lai 2023-09-28  1122  
+1f431ee317f33f8 Justin Lai 2023-09-28  1123  	INIT_DELAYED_WORK(&tp->task, NULL);
+1f431ee317f33f8 Justin Lai 2023-09-28  1124  
+1f431ee317f33f8 Justin Lai 2023-09-28  1125  	rtase_hw_config(dev);
+1f431ee317f33f8 Justin Lai 2023-09-28  1126  
+1f431ee317f33f8 Justin Lai 2023-09-28  1127  	if (tp->sw_flag & SWF_MSIX_ENABLED) {
+1f431ee317f33f8 Justin Lai 2023-09-28  1128  		ret = request_irq(ivec->irq, rtase_interrupt, 0,
+1f431ee317f33f8 Justin Lai 2023-09-28  1129  				  dev->name, ivec);
+1f431ee317f33f8 Justin Lai 2023-09-28  1130  
+1f431ee317f33f8 Justin Lai 2023-09-28  1131  		/* request other interrupts to handle multiqueue */
+1f431ee317f33f8 Justin Lai 2023-09-28  1132  		for (i = 1; i < tp->int_nums; i++) {
+1f431ee317f33f8 Justin Lai 2023-09-28  1133  			if (ret)
+1f431ee317f33f8 Justin Lai 2023-09-28  1134  				continue;
+1f431ee317f33f8 Justin Lai 2023-09-28  1135  
+1f431ee317f33f8 Justin Lai 2023-09-28  1136  			ivec = &tp->int_vector[i];
+1f431ee317f33f8 Justin Lai 2023-09-28  1137  			if (ivec->status != 1)
+1f431ee317f33f8 Justin Lai 2023-09-28  1138  				continue;
+1f431ee317f33f8 Justin Lai 2023-09-28  1139  
+1f431ee317f33f8 Justin Lai 2023-09-28 @1140  			snprintf(ivec->name, sizeof(ivec->name), "%s_int%i", dev->name, i);
+1f431ee317f33f8 Justin Lai 2023-09-28  1141  			ret = request_irq(ivec->irq, rtase_q_interrupt, 0,
+1f431ee317f33f8 Justin Lai 2023-09-28  1142  					  ivec->name, ivec);
+1f431ee317f33f8 Justin Lai 2023-09-28  1143  		}
+1f431ee317f33f8 Justin Lai 2023-09-28  1144  	} else if (tp->sw_flag & SWF_MSI_ENABLED) {
+1f431ee317f33f8 Justin Lai 2023-09-28  1145  		ret = request_irq(pdev->irq, rtase_interrupt, 0, dev->name,
+1f431ee317f33f8 Justin Lai 2023-09-28  1146  				  ivec);
+1f431ee317f33f8 Justin Lai 2023-09-28  1147  	} else {
+1f431ee317f33f8 Justin Lai 2023-09-28  1148  		ret = request_irq(pdev->irq, rtase_interrupt, IRQF_SHARED,
+1f431ee317f33f8 Justin Lai 2023-09-28  1149  				  dev->name, ivec);
+1f431ee317f33f8 Justin Lai 2023-09-28  1150  	}
+1f431ee317f33f8 Justin Lai 2023-09-28  1151  
+1f431ee317f33f8 Justin Lai 2023-09-28  1152  	if (ret != 0) {
+1f431ee317f33f8 Justin Lai 2023-09-28  1153  		netdev_err(dev, "can't request MSIX interrupt. Error: %d", ret);
+1f431ee317f33f8 Justin Lai 2023-09-28  1154  		goto err_free_all_allocated_mem;
+1f431ee317f33f8 Justin Lai 2023-09-28  1155  	}
+1f431ee317f33f8 Justin Lai 2023-09-28  1156  
+1f431ee317f33f8 Justin Lai 2023-09-28  1157  	rtase_hw_start(dev);
+1f431ee317f33f8 Justin Lai 2023-09-28  1158  
+1f431ee317f33f8 Justin Lai 2023-09-28  1159  	netif_carrier_on(dev);
+1f431ee317f33f8 Justin Lai 2023-09-28  1160  	netif_wake_queue(dev);
+1f431ee317f33f8 Justin Lai 2023-09-28  1161  	netdev_info(dev, "link up\n");
+1f431ee317f33f8 Justin Lai 2023-09-28  1162  
+1f431ee317f33f8 Justin Lai 2023-09-28  1163  	goto out;
+1f431ee317f33f8 Justin Lai 2023-09-28  1164  
+1f431ee317f33f8 Justin Lai 2023-09-28  1165  err_free_all_allocated_mem:
+1f431ee317f33f8 Justin Lai 2023-09-28  1166  	rtase_free_desc(tp);
+1f431ee317f33f8 Justin Lai 2023-09-28  1167  
+1f431ee317f33f8 Justin Lai 2023-09-28  1168  out:
+1f431ee317f33f8 Justin Lai 2023-09-28  1169  	return ret;
+1f431ee317f33f8 Justin Lai 2023-09-28  1170  }
+1f431ee317f33f8 Justin Lai 2023-09-28  1171  
 
 -- 
 0-DAY CI Kernel Test Service
