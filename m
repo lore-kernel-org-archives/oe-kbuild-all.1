@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB56518626
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Sep 2023 20:17:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF6C79F5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Sep 2023 20:28:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695932250; x=1727468250;
+  t=1695932910; x=1727468910;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=S1wO/TN52BMziRSAG8SPs2hOpxox3BBLHMaD0htA2rM=;
-  b=YL0sXPBOqQzNoyD/1doWV/jn7dCFnSqJdEv/SitZYT2LDesZ8+bjqFNj
-   LmGJvjHSzZ83gVpV8YATQSrVJiwYiGSfO1gmoPHx6C7ns/BlNzgDtu8CZ
-   IDujqS5wmseC6j2drMbLoZo9hAwHAXWftS8YLwoEvEyo9dpYHOBkrP7oq
-   vxpVCv2tdV6a4Q+KcSh/Hfiko85NAi0stDeIDztr337rtuWl4gShnMTgg
-   bDCv7HrZ32fgE/VYgLFqxp3T0JZx0CbTsC9w0Xl3rKGXzrQSJo/8ioTrI
-   1JgHpSSD9jndUDwKNnmbZ8wgTfZnwTH0XZJOPunVPJtz/DIJvUFx63t6e
+  bh=NCy6eqo/oKm4CVLCojNICH3uPk5kqeZFvJVk2dpz3II=;
+  b=ZNcq8HAa9jir1lwRsbo/UM81/XdTRjpsAijVPkxjbCYVWM1U9yU92wTj
+   DZnE2sE3waTkM+3E7A/+Ryc5M+h8oI2ZeuqWsNw+Ul1hnaflMQf418d0b
+   jSsfQ+l8D+L05/k9SLTUeerTbsOKlPKrkpSrGvap81MVM3T9dI9NIUpK+
+   h1xxnmqo51v0/pzMjq1wTg2F/4ai/cQRNGGF+5aSMSXm3wHG9tVyGYeBW
+   XUncMRcm5JHVoIyB+RePTlXPtB6dbUC1v4AbPBRwVEgDiMyFWhuJJvLkz
+   Me8N90OFAnkeBWC4uRsKGrSuzstLGqGQda2EsRHjpNVcPZgz5Onh31vHN
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="381051849"
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="367229340"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="381051849"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 13:17:29 -0700
+   d="scan'208";a="367229340"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 13:28:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="893166484"
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="1080686843"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="893166484"
+   d="scan'208";a="1080686843"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 28 Sep 2023 13:16:17 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 28 Sep 2023 13:28:28 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qlxRt-0001u1-2x;
-	Thu, 28 Sep 2023 20:17:25 +0000
-Date: Fri, 29 Sep 2023 04:17:21 +0800
+	id 1qlxcY-0001vN-2T;
+	Thu, 28 Sep 2023 20:28:26 +0000
+Date: Fri, 29 Sep 2023 04:28:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:x86/microcode 25/30]
- arch/x86/kernel/cpu/microcode/core.c:434:12: warning:
- 'ucode_load_cpus_stopped' defined but not used
-Message-ID: <202309290450.F3SHBp5L-lkp@intel.com>
+To: Mathieu Malaterre <malat@debian.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Michael Ellerman <mpe@ellerman.id.au>
+Subject: cc1: error: AltiVec not supported in this target
+Message-ID: <202309290441.KPUf5M1o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,48 +46,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/microcode
-head:   0168d5c24d9566114647bf6377e65c52c2325e3c
-commit: 4d9a488a84f0eebe598bd655b9d3c3ceceb1acff [25/30] x86/microcode: Rendezvous and load in NMI
-config: i386-randconfig-014-20230929 (https://download.01.org/0day-ci/archive/20230929/202309290450.F3SHBp5L-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290450.F3SHBp5L-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   633b47cb009d09dc8f4ba9cdb3a0ca138809c7c7
+commit: ebd1d3b74f8542a8f3bb80b453692d6d18f84071 powerpc/32: Move the old 6xx -mcpu logic before the TARGET_CPU logic
+date:   4 years, 9 months ago
+config: powerpc-randconfig-r035-20230908 (https://download.01.org/0day-ci/archive/20230929/202309290441.KPUf5M1o-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290441.KPUf5M1o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309290450.F3SHBp5L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309290441.KPUf5M1o-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/x86/kernel/cpu/microcode/core.c: In function 'load_late_stop_cpus':
-   arch/x86/kernel/cpu/microcode/core.c:467:33: error: 'load_cpus_stopped' undeclared (first use in this function); did you mean 'ucode_load_cpus_stopped'?
-     467 |         stop_machine_cpuslocked(load_cpus_stopped, NULL, cpu_online_mask);
-         |                                 ^~~~~~~~~~~~~~~~~
-         |                                 ucode_load_cpus_stopped
-   arch/x86/kernel/cpu/microcode/core.c:467:33: note: each undeclared identifier is reported only once for each function it appears in
-   arch/x86/kernel/cpu/microcode/core.c: At top level:
->> arch/x86/kernel/cpu/microcode/core.c:434:12: warning: 'ucode_load_cpus_stopped' defined but not used [-Wunused-function]
-     434 | static int ucode_load_cpus_stopped(void *unused)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/ucode_load_cpus_stopped +434 arch/x86/kernel/cpu/microcode/core.c
-
-   433	
- > 434	static int ucode_load_cpus_stopped(void *unused)
-   435	{
-   436		if (microcode_ops->use_nmi) {
-   437			/* Enable the NMI handler and raise NMI */
-   438			this_cpu_write(ucode_ctrl.nmi_enabled, true);
-   439			apic->send_IPI(smp_processor_id(), NMI_VECTOR);
-   440		} else {
-   441			/* Just invoke the handler directly */
-   442			microcode_update_handler();
-   443		}
-   444		return 0;
-   445	}
-   446	
+>> cc1: error: AltiVec not supported in this target
 
 -- 
 0-DAY CI Kernel Test Service
