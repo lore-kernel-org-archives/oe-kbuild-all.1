@@ -1,52 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 006D11CA8D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Sep 2023 22:58:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD065168B0;
+	Thu, 28 Sep 2023 23:08:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695941926; x=1727477926;
+  t=1695942524; x=1727478524;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=UbGttFfuP6lw+hHb/xkwIGlEdNBxv5J2I9w5oq0PHfc=;
-  b=EBRMuMUIcgNEh3I+7LiR4RgqUOF8QKNbFmQkK0VgBJdC0l7ZBDEIgvIg
-   C7h62+5kQDdDptHdH1UPqDgx8f+8b6BPOdasugvD/0AYSO53XMacj0oQC
-   lnmi6zgxi4xNoH1ikBEE4qA+ujHNRRUVm2fd1BISHGZGgMC4CtnI2Nf/x
-   e+2SIszjhkbzAuMKGFH8lq3hxIAW2z7LhWQs10HuGoy0xqA4PiYfaCnDt
-   FK9BDeWeiy2ZsZ5elnZRQ02ZhkqLVMqO3asQIzL4x8GPLiZF2HFSIR4gK
-   dqKK6I+7eBb0+HIo6twMCF06s1VsqSw8+bjId7bNhqMhYmpnKM9PawSfH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="362443599"
+  bh=bsdaHx5i6d0dQbRebscdJjGlFmzP3UXXQapI7gY5p/8=;
+  b=BZtgA3se+Ka89fvUu2cqJoGTzaF/DrIg3bIz4mCg0Zsk0POI6V/wHojH
+   Q67L6+XX/C+MU+nz6uIi767z1rB6bmaT0hXUT6G5fL6zsNdTcu62Re1SS
+   rNGBtsIsrt5fZ6+FAkjdjrf0Xwy0jmKwXEpN7V7lfXiPFuoAL7LJeFIJe
+   4mFa5HBz0zgm8GMhEFBiVfUvEDCPvPOacUwjR9jstL/OZPOBSL0GRI4IY
+   ZhNJSDYkz3dGmxSQRQItMZX06QO8HrS0TqiwxIqFwnJWtGCzkeD78Db4R
+   Rs0tiCbtatYtOfbDZWKODHmgRisx9g5dNjlXreiIIf3cpMqcl+WkBqZIZ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="446357863"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="362443599"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 15:58:44 -0700
+   d="scan'208";a="446357863"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 16:08:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="923423965"
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="749776304"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="923423965"
+   d="scan'208";a="749776304"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 28 Sep 2023 15:58:38 -0700
+  by orsmga002.jf.intel.com with ESMTP; 28 Sep 2023 16:08:39 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qlzxs-00026Y-0x;
-	Thu, 28 Sep 2023 22:58:36 +0000
-Date: Fri, 29 Sep 2023 06:58:15 +0800
+	id 1qm07Y-00027h-33;
+	Thu, 28 Sep 2023 23:08:36 +0000
+Date: Fri, 29 Sep 2023 07:08:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Konstantin Aladyshev <aladyshev22@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, minyard@acm.org, joel@jms.id.au,
-	andrew@aj.id.au, avifishman70@gmail.com, tmaimon77@gmail.com,
-	tali.perry1@gmail.com, venture@google.com, yuenn@google.com,
-	benjaminfair@google.com, aladyshev22@gmail.com,
-	jk@codeconstruct.com.au, matt@codeconstruct.com.au,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, openipmi-developer@lists.sourceforge.net,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH 3/3] mctp: Add MCTP-over-KCS transport binding
-Message-ID: <202309290613.qxRTI9f7-lkp@intel.com>
-References: <20230928123009.2913-4-aladyshev22@gmail.com>
+To: Raghavendra Rao Ananta <rananta@google.com>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Marc Zyngier <maz@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Shaoqin Huang <shahuang@redhat.com>,
+	Jing Zhang <jingzhangos@google.com>,
+	Reiji Watanabe <reijiw@google.com>,
+	Colton Lewis <coltonlewis@google.com>,
+	Raghavendra Rao Anata <rananta@google.com>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [PATCH v6 07/11] KVM: arm64: PMU: Allow userspace to limit
+ PMCR_EL0.N for the guest
+Message-ID: <202309290607.Qgg05wKw-lkp@intel.com>
+References: <20230926234008.2348607-8-rananta@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,107 +61,189 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230928123009.2913-4-aladyshev22@gmail.com>
+In-Reply-To: <20230926234008.2348607-8-rananta@google.com>
 
-Hi Konstantin,
+Hi Raghavendra,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on cminyard-ipmi/for-next]
-[also build test WARNING on linus/master v6.6-rc3 next-20230928]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 6465e260f48790807eef06b583b38ca9789b6072]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Konstantin-Aladyshev/ipmi-Move-KCS-headers-to-common-include-folder/20230928-203248
-base:   https://github.com/cminyard/linux-ipmi for-next
-patch link:    https://lore.kernel.org/r/20230928123009.2913-4-aladyshev22%40gmail.com
-patch subject: [PATCH 3/3] mctp: Add MCTP-over-KCS transport binding
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230929/202309290613.qxRTI9f7-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290613.qxRTI9f7-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Raghavendra-Rao-Ananta/KVM-arm64-PMU-Introduce-helpers-to-set-the-guest-s-PMU/20230927-095821
+base:   6465e260f48790807eef06b583b38ca9789b6072
+patch link:    https://lore.kernel.org/r/20230926234008.2348607-8-rananta%40google.com
+patch subject: [PATCH v6 07/11] KVM: arm64: PMU: Allow userspace to limit PMCR_EL0.N for the guest
+config: arm64-randconfig-003-20230928 (https://download.01.org/0day-ci/archive/20230929/202309290607.Qgg05wKw-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290607.Qgg05wKw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309290613.qxRTI9f7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309290607.Qgg05wKw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:8,
-                    from include/linux/skbuff.h:28,
-                    from include/linux/if_arp.h:22,
-                    from drivers/net/mctp/mctp-kcs.c:16:
-   drivers/net/mctp/mctp-kcs.c: In function 'mctp_kcs_validate_data':
->> drivers/net/mctp/mctp-kcs.c:121:25: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'long unsigned int' [-Wformat=]
-     121 |                         "%s: KCS binding header error! len = 0x%02x, but should be 0x%02x",
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/net/mctp/mctp-kcs.c:120:17: note: in expansion of macro 'dev_err'
-     120 |                 dev_err(mkcs->client.dev->dev,
-         |                 ^~~~~~~
-   drivers/net/mctp/mctp-kcs.c:121:89: note: format string is defined here
-     121 |                         "%s: KCS binding header error! len = 0x%02x, but should be 0x%02x",
-         |                                                                                      ~~~^
-         |                                                                                         |
-         |                                                                                         unsigned int
-         |                                                                                      %02lx
+   arch/arm64/kvm/sys_regs.c: In function 'set_pmcr':
+>> arch/arm64/kvm/sys_regs.c:1110:52: error: invalid use of undefined type 'struct arm_pmu'
+    1110 |                 u8 pmcr_n_limit = kvm->arch.arm_pmu->num_events - 1;
+         |                                                    ^~
+   arch/arm64/kvm/sys_regs.c: At top level:
+   arch/arm64/kvm/sys_regs.c:2207:66: warning: initialized field overwritten [-Woverride-init]
+    2207 |         { PMU_SYS_REG(PMCR_EL0), .access = access_pmcr, .reset = reset_pmcr,
+         |                                                                  ^~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2207:66: note: (near initialization for 'sys_reg_descs[233].reset')
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from arch/arm64/include/asm/rwonce.h:71,
+                    from include/linux/compiler.h:246,
+                    from include/linux/build_bug.h:5,
+                    from include/linux/bitfield.h:10,
+                    from arch/arm64/kvm/sys_regs.c:12:
+   include/linux/stddef.h:8:14: warning: initialized field overwritten [-Woverride-init]
+       8 | #define NULL ((void *)0)
+         |              ^
+   arch/arm64/kvm/sys_regs.c:2221:46: note: in expansion of macro 'NULL'
+    2221 |           .access = access_pmswinc, .reset = NULL },
+         |                                              ^~~~
+   include/linux/stddef.h:8:14: note: (near initialization for 'sys_reg_descs[237].reset')
+       8 | #define NULL ((void *)0)
+         |              ^
+   arch/arm64/kvm/sys_regs.c:2221:46: note: in expansion of macro 'NULL'
+    2221 |           .access = access_pmswinc, .reset = NULL },
+         |                                              ^~~~
+   arch/arm64/kvm/sys_regs.c:2223:45: warning: initialized field overwritten [-Woverride-init]
+    2223 |           .access = access_pmselr, .reset = reset_pmselr, .reg = PMSELR_EL0 },
+         |                                             ^~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2223:45: note: (near initialization for 'sys_reg_descs[238].reset')
+   include/linux/stddef.h:8:14: warning: initialized field overwritten [-Woverride-init]
+       8 | #define NULL ((void *)0)
+         |              ^
+   arch/arm64/kvm/sys_regs.c:2225:45: note: in expansion of macro 'NULL'
+    2225 |           .access = access_pmceid, .reset = NULL },
+         |                                             ^~~~
+   include/linux/stddef.h:8:14: note: (near initialization for 'sys_reg_descs[239].reset')
+       8 | #define NULL ((void *)0)
+         |              ^
+   arch/arm64/kvm/sys_regs.c:2225:45: note: in expansion of macro 'NULL'
+    2225 |           .access = access_pmceid, .reset = NULL },
+         |                                             ^~~~
+   include/linux/stddef.h:8:14: warning: initialized field overwritten [-Woverride-init]
+       8 | #define NULL ((void *)0)
+         |              ^
+   arch/arm64/kvm/sys_regs.c:2227:45: note: in expansion of macro 'NULL'
+    2227 |           .access = access_pmceid, .reset = NULL },
+         |                                             ^~~~
+   include/linux/stddef.h:8:14: note: (near initialization for 'sys_reg_descs[240].reset')
+       8 | #define NULL ((void *)0)
+         |              ^
+   arch/arm64/kvm/sys_regs.c:2227:45: note: in expansion of macro 'NULL'
+    2227 |           .access = access_pmceid, .reset = NULL },
+         |                                             ^~~~
+   arch/arm64/kvm/sys_regs.c:2229:49: warning: initialized field overwritten [-Woverride-init]
+    2229 |           .access = access_pmu_evcntr, .reset = reset_unknown,
+         |                                                 ^~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2229:49: note: (near initialization for 'sys_reg_descs[241].reset')
+   include/linux/stddef.h:8:14: warning: initialized field overwritten [-Woverride-init]
+       8 | #define NULL ((void *)0)
+         |              ^
+   arch/arm64/kvm/sys_regs.c:2232:50: note: in expansion of macro 'NULL'
+    2232 |           .access = access_pmu_evtyper, .reset = NULL },
+         |                                                  ^~~~
+   include/linux/stddef.h:8:14: note: (near initialization for 'sys_reg_descs[242].reset')
+       8 | #define NULL ((void *)0)
+         |              ^
+   arch/arm64/kvm/sys_regs.c:2232:50: note: in expansion of macro 'NULL'
+    2232 |           .access = access_pmu_evtyper, .reset = NULL },
+         |                                                  ^~~~
+   include/linux/stddef.h:8:14: warning: initialized field overwritten [-Woverride-init]
+       8 | #define NULL ((void *)0)
+         |              ^
+   arch/arm64/kvm/sys_regs.c:2234:49: note: in expansion of macro 'NULL'
+    2234 |           .access = access_pmu_evcntr, .reset = NULL },
+         |                                                 ^~~~
+   include/linux/stddef.h:8:14: note: (near initialization for 'sys_reg_descs[243].reset')
+       8 | #define NULL ((void *)0)
+         |              ^
+   arch/arm64/kvm/sys_regs.c:2234:49: note: in expansion of macro 'NULL'
+    2234 |           .access = access_pmu_evcntr, .reset = NULL },
+         |                                                 ^~~~
+   arch/arm64/kvm/sys_regs.c:1162:20: warning: initialized field overwritten [-Woverride-init]
+    1162 |           .reset = reset_pmevcntr, .get_user = get_pmu_evcntr,          \
+         |                    ^~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2330:9: note: in expansion of macro 'PMU_PMEVCNTR_EL0'
+    2330 |         PMU_PMEVCNTR_EL0(0),
+         |         ^~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1162:20: note: (near initialization for 'sys_reg_descs[327].reset')
+    1162 |           .reset = reset_pmevcntr, .get_user = get_pmu_evcntr,          \
+         |                    ^~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2330:9: note: in expansion of macro 'PMU_PMEVCNTR_EL0'
+    2330 |         PMU_PMEVCNTR_EL0(0),
+         |         ^~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1162:20: warning: initialized field overwritten [-Woverride-init]
+    1162 |           .reset = reset_pmevcntr, .get_user = get_pmu_evcntr,          \
+         |                    ^~~~~~~~~~~~~~
 
 
-vim +121 drivers/net/mctp/mctp-kcs.c
+vim +1110 arch/arm64/kvm/sys_regs.c
 
-    95	
-    96	static int mctp_kcs_validate_data(struct mctp_kcs *mkcs,
-    97					  struct mctp_kcs_header *hdr, int len)
-    98	{
-    99		struct net_device *ndev = mkcs->netdev;
-   100		struct mctp_kcs_trailer *tlr;
-   101		u8 pec;
-   102	
-   103		if (hdr->netfn_lun != MCTP_KCS_NETFN_LUN) {
-   104			dev_err(mkcs->client.dev->dev,
-   105				"%s: KCS binding header error! netfn_lun = 0x%02x, but should be 0x%02x",
-   106				__func__, hdr->netfn_lun, MCTP_KCS_NETFN_LUN);
-   107			ndev->stats.rx_dropped++;
-   108			return -EINVAL;
-   109		}
-   110		if (hdr->defining_body != DEFINING_BODY_DMTF_PRE_OS_WORKING_GROUP) {
-   111			dev_err(mkcs->client.dev->dev,
-   112				"%s: KCS binding header error! defining_body = 0x%02x, but should be 0x%02x",
-   113				__func__, hdr->defining_body,
-   114				DEFINING_BODY_DMTF_PRE_OS_WORKING_GROUP);
-   115			ndev->stats.rx_dropped++;
-   116			return -EINVAL;
-   117		}
-   118		if (hdr->len != (len - sizeof(struct mctp_kcs_header) -
-   119				 sizeof(struct mctp_kcs_trailer))) {
-   120			dev_err(mkcs->client.dev->dev,
- > 121				"%s: KCS binding header error! len = 0x%02x, but should be 0x%02x",
-   122				__func__, hdr->len,
-   123				(len - sizeof(struct mctp_kcs_header) -
-   124				 sizeof(struct mctp_kcs_trailer)));
-   125			ndev->stats.rx_length_errors++;
-   126			return -EINVAL;
-   127		}
-   128	
-   129		pec = generate_pec((u8 *)(hdr + 1), hdr->len);
-   130		tlr = (struct mctp_kcs_trailer *)((u8 *)(hdr + 1) + hdr->len);
-   131		if (pec != tlr->pec) {
-   132			dev_err(mkcs->client.dev->dev,
-   133				"%s: PEC error! Packet value=0x%02x, calculated value=0x%02x",
-   134				__func__, tlr->pec, pec);
-   135			ndev->stats.rx_crc_errors++;
-   136			return -EINVAL;
-   137		}
-   138		return 0;
-   139	}
-   140	
+  1090	
+  1091	static int set_pmcr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *r,
+  1092			    u64 val)
+  1093	{
+  1094		struct kvm *kvm = vcpu->kvm;
+  1095		u64 new_n, mutable_mask;
+  1096	
+  1097		mutex_lock(&kvm->arch.config_lock);
+  1098	
+  1099		/*
+  1100		 * Make PMCR immutable once the VM has started running, but do
+  1101		 * not return an error (-EBUSY) to meet the existing expectations.
+  1102		 */
+  1103		if (kvm_vm_has_ran_once(vcpu->kvm)) {
+  1104			mutex_unlock(&kvm->arch.config_lock);
+  1105			return 0;
+  1106		}
+  1107	
+  1108		new_n = (val >> ARMV8_PMU_PMCR_N_SHIFT) & ARMV8_PMU_PMCR_N_MASK;
+  1109		if (new_n != kvm->arch.pmcr_n) {
+> 1110			u8 pmcr_n_limit = kvm->arch.arm_pmu->num_events - 1;
+  1111	
+  1112			/*
+  1113			 * The vCPU can't have more counters than the PMU hardware
+  1114			 * implements. Ignore this error to maintain compatibility
+  1115			 * with the existing KVM behavior.
+  1116			 */
+  1117			if (new_n <= pmcr_n_limit)
+  1118				kvm->arch.pmcr_n = new_n;
+  1119		}
+  1120		mutex_unlock(&kvm->arch.config_lock);
+  1121	
+  1122		/*
+  1123		 * Ignore writes to RES0 bits, read only bits that are cleared on
+  1124		 * vCPU reset, and writable bits that KVM doesn't support yet.
+  1125		 * (i.e. only PMCR.N and bits [7:0] are mutable from userspace)
+  1126		 * The LP bit is RES0 when FEAT_PMUv3p5 is not supported on the vCPU.
+  1127		 * But, we leave the bit as it is here, as the vCPU's PMUver might
+  1128		 * be changed later (NOTE: the bit will be cleared on first vCPU run
+  1129		 * if necessary).
+  1130		 */
+  1131		mutable_mask = (ARMV8_PMU_PMCR_MASK |
+  1132				(ARMV8_PMU_PMCR_N_MASK << ARMV8_PMU_PMCR_N_SHIFT));
+  1133		val &= mutable_mask;
+  1134		val |= (__vcpu_sys_reg(vcpu, r->reg) & ~mutable_mask);
+  1135	
+  1136		/* The LC bit is RES1 when AArch32 is not supported */
+  1137		if (!kvm_supports_32bit_el0())
+  1138			val |= ARMV8_PMU_PMCR_LC;
+  1139	
+  1140		__vcpu_sys_reg(vcpu, r->reg) = val;
+  1141		return 0;
+  1142	}
+  1143	
 
 -- 
 0-DAY CI Kernel Test Service
