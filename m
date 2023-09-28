@@ -1,45 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D141134CDC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Sep 2023 10:31:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C3318622
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Sep 2023 11:42:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695897083; x=1727433083;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b3Xtw+ICEZYJPbeIS4LH2iZNvfVlli050cv1cck2ZsQ=;
-  b=YLfst5bqGp8MIuGy0Xh3MlIzwmXfuZ0xDU5PUHHJbeJcdS3ynpaeNXAk
-   yKbfXfuoI38vV9b8pGyjxML5o+SgGffruqEiTyqXPcFtwuqdg3KhccNBn
-   E0WSnH0eZaJxr5lwuzAGOyixZfCkpWB0rcPKmB18nYPzwiV0bAH3UwLeV
-   12frLQvJou4t1f38QzU6nko0At67C6RvLVI7Uw9SfJLhmDc5Ud4XCtVy8
-   s99fvPljIIEyuJG9vUb1Grt1UWBPBG5wuq1QaQv6TzgYIeW9b7p79/9eq
-   TgdGu7NbtycSGpT41fbBt9PfRTMA0m3M6GIZFiiDoZZdJxycChaoKZUIA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="372386815"
+  t=1695901332; x=1727437332;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fDPIHLcRgZN0dV5cFxZPZ18rZu5WNafEq2ZC+1rL2N0=;
+  b=VK9JSNLAWMr4Js8yikCInHbozYzUBzBJo3sNJoIk9sq3ly7PNITOKO8c
+   y0fwVGlBKkb/LnDADy9MrmBSHWNzeb0OCoxR/Iu5pPdk28ucnWZ7yJ0cO
+   NSyWgFFqKaoa+oTB0sXAB/53oKNrJnMEH94dLbLi3uBDyD44b4qVvMGIz
+   yE4vd/5DS7V4N0rBGDJsqbWXcjnWd95Lbl44XG8s+x1SomZ4k8hBKVJry
+   WZB5LWUwjs3L6HvK7xdxEeNuA/FQ7djwnaWVHJypZLRAMmFBFfdewiUAf
+   UX8u6xWJ7/GSGK1umIg1UjMAv0tpgYZd4Vury++J3xHEfykjlA5zSU0mq
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="372396044"
 X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; 
-   d="scan'208";a="372386815"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 03:31:23 -0700
+   d="scan'208";a="372396044"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 04:42:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="752920517"
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="815195646"
 X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; 
-   d="scan'208";a="752920517"
+   d="scan'208";a="815195646"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 28 Sep 2023 03:31:21 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 28 Sep 2023 04:42:08 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qloIh-0001MG-0I;
-	Thu, 28 Sep 2023 10:31:19 +0000
-Date: Thu, 28 Sep 2023 18:29:10 +0800
+	id 1qlpPC-0001PK-26;
+	Thu, 28 Sep 2023 11:42:06 +0000
+Date: Thu, 28 Sep 2023 19:41:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qi Yadong <yadong.qi@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
-	"Huang, Yang" <yang.huang@intel.com>,
-	Tomas Winkler <tomas.winkler@intel.com>
-Subject: [intel-lts:4.19/android_t 3105/30000]
- drivers/char/rpmb/mux/key.c:32:19: warning: 'get_abl_params_addr' defined
- but not used
-Message-ID: <202309281803.CWWdeHN9-lkp@intel.com>
+To: Wenchao Hao <haowenchao2@huawei.com>,
+	"James E . J . Bottomley" <jejb@linux.ibm.com>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	linux-scsi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	louhongxiang@huawei.com, Wenchao Hao <haowenchao2@huawei.com>
+Subject: Re: [PATCH v2 1/4] scsi: core: Add new helper to iterate all devices
+ of host
+Message-ID: <202309281916.qy89onYp-lkp@intel.com>
+References: <20230928073543.3496394-2-haowenchao2@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,80 +51,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230928073543.3496394-2-haowenchao2@huawei.com>
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
-head:   247bc655e03e4ac3632b21081ca56b813a644dcf
-commit: fced89f01cbd53f1af13b9219b0ad57d64225a3c [3105/30000] rpmb: mux: add key retrieval for RPMB multiplexor
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230928/202309281803.CWWdeHN9-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230928/202309281803.CWWdeHN9-lkp@intel.com/reproduce)
+Hi Wenchao,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on mkp-scsi/for-next]
+[also build test WARNING on jejb-scsi/for-next linus/master v6.6-rc3 next-20230928]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wenchao-Hao/scsi-core-Add-new-helper-to-iterate-all-devices-of-host/20230928-153648
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20230928073543.3496394-2-haowenchao2%40huawei.com
+patch subject: [PATCH v2 1/4] scsi: core: Add new helper to iterate all devices of host
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230928/202309281916.qy89onYp-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230928/202309281916.qy89onYp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309281803.CWWdeHN9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309281916.qy89onYp-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:22,
-                    from include/linux/module.h:13,
-                    from drivers/char/rpmb/mux/key.c:10:
-   include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1156:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
-    1156 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
-         |             ^
-   include/linux/mmzone.h:1147:27: note: 'mem_section' declared here
-    1147 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
-         |                           ^~~~~~~~~~~
-   drivers/char/rpmb/mux/key.c: At top level:
->> drivers/char/rpmb/mux/key.c:32:19: warning: 'get_abl_params_addr' defined but not used [-Wunused-function]
-      32 | static int __init get_abl_params_addr(char *str)
-         |                   ^~~~~~~~~~~~~~~~~~~
->> drivers/char/rpmb/mux/key.c:21:19: warning: 'get_sbl_params_addr' defined but not used [-Wunused-function]
-      21 | static int __init get_sbl_params_addr(char *str)
-         |                   ^~~~~~~~~~~~~~~~~~~
-   sh4-linux-ld: warning: drivers/char/rpmb/mux/.tmp_mc_key.o: missing .note.GNU-stack section implies executable stack
-   sh4-linux-ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+>> drivers/scsi/scsi.c:762: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * helper for shost_for_each_device, see that for documentation
 
 
-vim +/get_abl_params_addr +32 drivers/char/rpmb/mux/key.c
+vim +762 drivers/scsi/scsi.c
 
-     9	
-  > 10	#include <linux/module.h>
-    11	#include <linux/init.h>
-    12	#include <linux/kernel.h>
-    13	
-    14	#include "key.h"
-    15	#include "key_sbl.h"
-    16	#include "key_abl.h"
-    17	
-    18	static ulong sbl_params_addr;
-    19	static ulong abl_params_addr;
-    20	
-  > 21	static int __init get_sbl_params_addr(char *str)
-    22	{
-    23		if (kstrtoul(str, 16, &sbl_params_addr)) {
-    24			pr_err("Failed to parse ImageBootParamsAddr\n");
-    25			return -EINVAL;
-    26		}
-    27	
-    28		return 0;
-    29	}
-    30	__setup("ImageBootParamsAddr=", get_sbl_params_addr);
-    31	
-  > 32	static int __init get_abl_params_addr(char *str)
-    33	{
-    34		if (kstrtoul(str, 16, &abl_params_addr)) {
-    35			pr_err("Failed to parse dev_sec_info.param\n");
-    36			return -EINVAL;
-    37		}
-    38	
-    39		return 0;
-    40	}
-    41	__setup("dev_sec_info.param_addr=", get_abl_params_addr);
-    42	
+   760	
+   761	/**
+ > 762	 * helper for shost_for_each_device, see that for documentation
+   763	 * @skip_deleted: if true, sdev in progress of removing would be skipped
+   764	 */
+   765	struct scsi_device *__scsi_iterate_devices(struct Scsi_Host *shost,
+   766						   struct scsi_device *prev,
+   767						   bool skip_deleted)
+   768	{
+   769		struct list_head *list = (prev ? &prev->siblings : &shost->__devices);
+   770		struct scsi_device *next = NULL;
+   771		unsigned long flags;
+   772	
+   773		spin_lock_irqsave(shost->host_lock, flags);
+   774		while (list->next != &shost->__devices) {
+   775			next = list_entry(list->next, struct scsi_device, siblings);
+   776			/* skip devices that we can't get a reference to */
+   777			if (!__scsi_device_get(next, skip_deleted))
+   778				break;
+   779			next = NULL;
+   780			list = list->next;
+   781		}
+   782		spin_unlock_irqrestore(shost->host_lock, flags);
+   783	
+   784		if (prev)
+   785			scsi_device_put(prev);
+   786		return next;
+   787	}
+   788	EXPORT_SYMBOL(__scsi_iterate_devices);
+   789	
 
 -- 
 0-DAY CI Kernel Test Service
