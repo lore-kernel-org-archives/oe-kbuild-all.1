@@ -1,104 +1,103 @@
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6210915AE1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 10:37:16 +0000 (UTC)
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3ae450158ffso949807b6e.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 03:37:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9F2399
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 10:42:08 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6bc57401cb9so1786880a34.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 03:42:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695983835; x=1696588635;
+        d=1e100.net; s=20230601; t=1695984128; x=1696588928;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+1hsWY5JCWvz2xsWRCM+HzGyDcidNkVmlTTI/NR7R+0=;
-        b=nHNsuxwMGPf99FDJVQ9sS0H9SRhhYmge1b2jPaC5WENO00lQ7QsgEaGCQx6Xph0d8H
-         /3cd3FVUC9YwN1SdcDA0dHj6UpmJHWvYNog/UKFo+K0afKH8xC9H9OMZTuW7kPcv/vo3
-         XusQx1Tm2yV3hgbnyxz37vCsx59S60rJMFi386zXYfh+DC0q969hWqbQkqvFn90+8xC1
-         8R6ECii1AvtxC8ZyQclx3JvdmA1fPPKg7BtiQHtlX3lzqzNHRwg4PtBf36U76oyAsNs+
-         wopdAUJQb2UE9JlMTExN2+iGv2nnrqZGeobKMVixb9/BW0y+AZACf/bhifPlOABb5Dc/
-         xKRw==
-X-Gm-Message-State: AOJu0YwIRhyMT6ux0tIbzK/qfqv3cpb2wxH+kD/LmK8xEur94TSbZwxt
-	yhAGud70iYxS0goDq7Pq/2ATKPapneNQo/b6+wY=
-X-Google-Smtp-Source: AGHT+IFkdyx/QYd+Gh26sWMUYpZu8SsfK/oQaPVxBFOTvbXh6XghmsZnkkctRsN5CVbcEsH52Dm4ahxaV6gO17JbrMU=
-X-Received: by 2002:a05:6808:2123:b0:3a9:f25d:d917 with SMTP id
- r35-20020a056808212300b003a9f25dd917mr5371486oiw.4.1695983835330; Fri, 29 Sep
- 2023 03:37:15 -0700 (PDT)
+        bh=bcUuUTxHE+IHvmXlS2b4MsOM48ntcJUB+u6xduxAjxk=;
+        b=QZROwzfrAanc2C6/GHRmUuNwdNG1JpPndAr4RSrjBqfLKY427jgzIToAqAKHOnvcX1
+         S9X2oUr2kmoycYnJLdAp648hqc7TwoViiSVD+KRIBWGfOm+RWleeBAB/fy7gNbPGpVui
+         f4EZo3CHetV9FQ7PrIu5QVpO2+TlfnQwRLi2xLy0RlEgKOEZWPdwkWKrrRV/uxsh18iq
+         FK+HfZropTpMtZhuzSopjiaXNW655WHA7M8rvM9+hV1jmIdy9JmhGBJO8BG8mHf3ioKh
+         hRBndIsMPAdJ0y54zw3q7QyAJHZs+swRyMnziMhW6rUjjdH6tCG21avivnVRPvyYskx/
+         mE9g==
+X-Gm-Message-State: AOJu0YwkOPblNn/GrgU5aoRqSJe+0OYwcnJ4nBix/l5HEwq2kgVxdo+t
+	LDNZdYWl87sGKGFOVyKpjeoCvklZC5egp6t4nzI=
+X-Google-Smtp-Source: AGHT+IH2vK2rMsAQcRdorevpcmoViAnxxTToVLEq3vLvwTgXPtBXFnhaeTwdC9FjzGOFjrmTWlk6hcuYHOALG0Grj7k=
+X-Received: by 2002:a05:6808:2029:b0:3a9:e85d:b689 with SMTP id
+ q41-20020a056808202900b003a9e85db689mr4974355oiw.0.1695984127991; Fri, 29 Sep
+ 2023 03:42:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202309291214.Hjn3gJ94-lkp@intel.com>
-In-Reply-To: <202309291214.Hjn3gJ94-lkp@intel.com>
+References: <202309290642.18zicoLj-lkp@intel.com>
+In-Reply-To: <202309290642.18zicoLj-lkp@intel.com>
 From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 29 Sep 2023 12:37:03 +0200
-Message-ID: <CAJZ5v0gGissufTrvCa+z5i=kPMDM+-RKoQfOHW41zf7o2=z4SQ@mail.gmail.com>
-Subject: Re: [rafael-pm:bleeding-edge 48/94] drivers/thermal/amlogic_thermal.c:303:16:
- error: void value not ignored as it ought to be
+Date: Fri, 29 Sep 2023 12:41:56 +0200
+Message-ID: <CAJZ5v0gPjD-DiV6yM-vhrdQ-JJU097ErHZv4cAOVcuQMrEg0iw@mail.gmail.com>
+Subject: Re: [rafael-pm:bleeding-edge 86/94] drivers/acpi/utils.c:427:
+ warning: Function parameter or member 'list2' not described in 'acpi_handle_list_equal'
 To: kernel test robot <lkp@intel.com>
-Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org, devel@acpica.org, 
-	linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>, oe-kbuild-all@lists.linux.dev, 
+	linux-acpi@vger.kernel.org, devel@acpica.org, linux-pm@vger.kernel.org, 
+	Vicki Pfau <vi@endrift.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 29, 2023 at 6:21=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
+On Fri, Sep 29, 2023 at 12:26=E2=80=AFAM kernel test robot <lkp@intel.com> =
+wrote:
 >
 > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.g=
 it bleeding-edge
 > head:   2cff74feed4a2a3a1c220e0ee2838b85b08d4999
-> commit: 88af8b66ffedcad8c5a1522f6a9c02bf8129a951 [48/94] thermal: amlogic=
-: Convert to platform remove callback returning void
-> config: arm-randconfig-004-20230929 (https://download.01.org/0day-ci/arch=
-ive/20230929/202309291214.Hjn3gJ94-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+> commit: 2f5042ef239e43d2b02f7724714673e5e604bd6f [86/94] ACPI: utils: Dyn=
+amically determine acpi_handle_list size
+> config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/2=
+0230929/202309290642.18zicoLj-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 13.2.0
 > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20230929/202309291214.Hjn3gJ94-lkp@intel.com/reproduce)
+ve/20230929/202309290642.18zicoLj-lkp@intel.com/reproduce)
 >
 > If you fix the issue in a separate patch/commit (i.e. not just a new vers=
 ion of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309291214.Hjn3gJ94-lkp=
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309290642.18zicoLj-lkp=
 @intel.com/
 >
-> All errors (new ones prefixed by >>):
+> All warnings (new ones prefixed by >>):
 >
->    drivers/thermal/amlogic_thermal.c: In function 'amlogic_thermal_suspen=
-d':
-> >> drivers/thermal/amlogic_thermal.c:303:16: error: void value not ignore=
-d as it ought to be
->      303 |         return amlogic_thermal_disable(data);
->          |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >> drivers/acpi/utils.c:427: warning: Function parameter or member 'list2=
+' not described in 'acpi_handle_list_equal'
+> >> drivers/acpi/utils.c:427: warning: Excess function parameter 'List2' d=
+escription in 'acpi_handle_list_equal'
 
-amlogic_thermal_disable() should not be modified by this commit -
-fixed up in the tree.
+Typo in a kerneldoc comment - fixed up in the tree.
 
 Thanks!
 
+> vim +427 drivers/acpi/utils.c
 >
-> vim +303 drivers/thermal/amlogic_thermal.c
->
-> 421eda108e6c63a Guillaume La Roque 2019-10-04  298
-> 421eda108e6c63a Guillaume La Roque 2019-10-04  299  static int __maybe_un=
-used amlogic_thermal_suspend(struct device *dev)
-> 421eda108e6c63a Guillaume La Roque 2019-10-04  300  {
-> 421eda108e6c63a Guillaume La Roque 2019-10-04  301      struct amlogic_th=
-ermal *data =3D dev_get_drvdata(dev);
-> 421eda108e6c63a Guillaume La Roque 2019-10-04  302
-> 421eda108e6c63a Guillaume La Roque 2019-10-04 @303      return amlogic_th=
-ermal_disable(data);
-> 421eda108e6c63a Guillaume La Roque 2019-10-04  304  }
-> 421eda108e6c63a Guillaume La Roque 2019-10-04  305
->
-> :::::: The code at line 303 was first introduced by commit
-> :::::: 421eda108e6c63a72feb178c441bb769d4076836 thermal: amlogic: Add the=
-rmal driver to support G12 SoCs
->
-> :::::: TO: Guillaume La Roque <glaroque@baylibre.com>
-> :::::: CC: Daniel Lezcano <daniel.lezcano@linaro.org>
+>    416
+>    417  /**
+>    418   * acpi_handle_list_equal - Check if two ACPI handle lists are th=
+e same
+>    419   * @list1: First list to compare.
+>    420   * @List2: Second list to compare.
+>    421   *
+>    422   * Return true if the given ACPI handle lists are of the same siz=
+e and
+>    423   * contain the same ACPI handles in the same order.  Otherwise, r=
+eturn false.
+>    424   */
+>    425  bool acpi_handle_list_equal(struct acpi_handle_list *list1,
+>    426                              struct acpi_handle_list *list2)
+>  > 427  {
+>    428          return list1->count =3D=3D list2->count &&
+>    429                  !memcmp(list1->handles, list2->handles,
+>    430                          list1->count * sizeof(acpi_handle));
+>    431  }
+>    432  EXPORT_SYMBOL_GPL(acpi_handle_list_equal);
+>    433
 >
 > --
 > 0-DAY CI Kernel Test Service
