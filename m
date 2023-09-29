@@ -1,269 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 320564123A;
-	Fri, 29 Sep 2023 17:00:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696006826; x=1727542826;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vTPDHd04Yq+AmECJeKw05gjgTnYbHmBH7SKpEl716vQ=;
-  b=Tr+rbOdZW3ZGUA+T2fjmW94B0Siz6hMSATDhKMazWAoXBpub3h9NAnpq
-   Hcvy34HItkviUE6+x5BVjDTBrmHSYt6Hd+dh6C1lxnjMJEjwr6YA2WtiT
-   pigKiNG6XhYfKo/YCxUl0mNPTHQ0AP2qneYlU+xSMGq1Vm+gFJdPHj+2I
-   fA2O2MiyjC+yCfAn5OyK49FMOIa6i65tpsSyFNabJxJrmBs+vujN+MDtm
-   vLyGFlC9dSm0LwyLuwfmbuzXBfqyWC8necFnXoP4csYhjGjvmGpdD8tKf
-   v1d870Mb8ONDqp5GmuGDvRnbTcdq7h8F2ar+z2zzMEkUIR18zFoAIm4i2
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="385163688"
-X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="385163688"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 10:00:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="893478770"
-X-IronPort-AV: E=Sophos;i="6.03,188,1694761200"; 
-   d="scan'208";a="893478770"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 29 Sep 2023 09:59:09 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qmGqi-000353-17;
-	Fri, 29 Sep 2023 17:00:20 +0000
-Date: Sat, 30 Sep 2023 01:00:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rouven Czerwinski <r.czerwinski@pengutronix.de>,
-	Martin =?iso-8859-1?Q?Hundeb=F8ll?= <martin@geanix.com>,
-	=?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	JaimeLiao <jaimeliao.tw@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kernel@pengutronix.de,
-	Rouven Czerwinski <r.czerwinski@pengutronix.de>,
-	linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mtd: rawnand: check nand support for cache reads
-Message-ID: <202309300033.zf83jfBL-lkp@intel.com>
-References: <20230922100116.145090-1-r.czerwinski@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AF466663
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 17:49:46 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-690ba63891dso11420559b3a.2
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 10:49:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1696009786; x=1696614586; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Tb9SgE+PjQ/TMe+HxjM4ps88fibUn7Lz2P6WDbPV8zI=;
+        b=Zeew826Gkb0wdezWjnP50kqsaHebzR3J5io8Mdi7QZGzzSxk6QqhcSGE5z74+OxBH4
+         NWwU6Z7obJB/TpTzsVvsThhgenTVbI49DFUn086qUh8jvXfGGPIS5ChORid0MVaT75VY
+         +pCXkJGW4K9bzTcYo5DRMFgBtFTtQ9PNgS/7o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696009786; x=1696614586;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tb9SgE+PjQ/TMe+HxjM4ps88fibUn7Lz2P6WDbPV8zI=;
+        b=qNGR7LG3n5aZNZw4GZ9vBGgV03sqzJrWON+kwNOvbIiwJwt4qPnzlaJPsgwQgpV+aU
+         oA3ln0dD+I808abX8bxXrqn1E0Fhk3Pr9w7MSpn+3p7nPOEg9bXioeOKgBcTYQtq+i6F
+         zeyTlk62+vqnf4Md1IDHQGvRdfE16mXXcZo+UpS/4fyDAIWy2Qe7DmBRGf8zK5dRuzZK
+         xz0MJtPaD1o49H+QsCGYLlH+vphQF2tj3bQtxb7ucrjMhTVz75R7o4eFvZA0BfOCyiq6
+         lkOI4oEJhF4ApO9DzDzrCks10XEnriOpFei48+zVptbmsmfPoKtsr8gkRiLaTfQyQghn
+         Viaw==
+X-Gm-Message-State: AOJu0YykR3UxiZJtaxc5ECD8+LMdSPlT7gWlC79RXJG09AYiDI+ZjDaQ
+	qsYPLmwlRbHXprXmOm/0N3h19g==
+X-Google-Smtp-Source: AGHT+IGbn+3BNWCjTTuyxQLw8tWyj2VyJzXvlSaWY37xxjHAVT7ka+2tJOFCDs1ZyMD1Uu+LL3BKJg==
+X-Received: by 2002:a05:6a00:2e0e:b0:690:d718:8c6d with SMTP id fc14-20020a056a002e0e00b00690d7188c6dmr4660881pfb.15.1696009786482;
+        Fri, 29 Sep 2023 10:49:46 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id a17-20020aa780d1000000b00690d4464b94sm4430446pfn.7.2023.09.29.10.49.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Sep 2023 10:49:45 -0700 (PDT)
+Date: Fri, 29 Sep 2023 10:49:45 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, justinstitt@google.com
+Cc: kernel test robot <lkp@intel.com>, Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Re: drivers/md/dm-cache-metadata.c:1705:9: warning: 'strncpy'
+ specified bound 16 equals destination size
+Message-ID: <202309291040.F201590997@keescook>
+References: <202309280610.sLGSPkOG-lkp@intel.com>
+ <CANiq72=J=bO-Q0=gMDyiRgvbF_Vre39iqbEnaEeDho4Vo2ox6A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230922100116.145090-1-r.czerwinski@pengutronix.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANiq72=J=bO-Q0=gMDyiRgvbF_Vre39iqbEnaEeDho4Vo2ox6A@mail.gmail.com>
 
-Hi Rouven,
+On Thu, Sep 28, 2023 at 11:36:46AM +0200, Miguel Ojeda wrote:
+> On Thu, Sep 28, 2023 at 12:24 AM kernel test robot <lkp@intel.com> wrote:
+> >
+> >    In function 'write_hints',
+> >        inlined from 'dm_cache_write_hints' at drivers/md/dm-cache-metadata.c:1729:6:
+> > >> drivers/md/dm-cache-metadata.c:1705:9: warning: 'strncpy' specified bound 16 equals destination size [-Wstringop-truncation]
+> >     1705 |         strncpy(cmd->policy_name, policy_name, sizeof(cmd->policy_name));
+> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> This looks fine given the check above it. In any case, since it
+> appears the code wants to terminate the string, this should use
+> `strscpy*()`, right?
 
-kernel test robot noticed the following build warnings:
+I agree. I can't tell if _pad is needed though. I think struct
+dm_cache_metadata is only used internally? And I see at least the
+initial allocation is zeroed:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.6-rc3 next-20230929]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+        cmd = kzalloc(sizeof(*cmd), GFP_KERNEL);
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rouven-Czerwinski/mtd-rawnand-check-nand-support-for-cache-reads/20230922-180317
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230922100116.145090-1-r.czerwinski%40pengutronix.de
-patch subject: [PATCH] mtd: rawnand: check nand support for cache reads
-config: mips-qi_lb60_defconfig (https://download.01.org/0day-ci/archive/20230930/202309300033.zf83jfBL-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309300033.zf83jfBL-lkp@intel.com/reproduce)
+Regardless, for background,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309300033.zf83jfBL-lkp@intel.com/
+struct has:
+        char policy_name[CACHE_POLICY_NAME_SIZE];
 
-All warnings (new ones prefixed by >>):
+code does:
+        const char *policy_name = dm_cache_policy_get_name(policy);
 
->> drivers/mtd/nand/raw/nand_onfi.c:307:20: warning: expression result unused [-Wunused-value]
-     307 |                 chip->parameters.supports_read_cache;
-         |                 ~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~
-   1 warning generated.
---
->> drivers/mtd/nand/raw/nand_jedec.c:98:20: warning: expression result unused [-Wunused-value]
-      98 |                 chip->parameters.supports_read_cache;
-         |                 ~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+        if (!policy_name[0] ||
+            (strlen(policy_name) > sizeof(cmd->policy_name) - 1))
+                return -EINVAL;
+
+        strncpy(cmd->policy_name, policy_name, sizeof(cmd->policy_name));
 
 
-vim +307 drivers/mtd/nand/raw/nand_onfi.c
+Justin, can you add this to your queue (if it's not already there)?
 
-   140	
-   141	/*
-   142	 * Check if the NAND chip is ONFI compliant, returns 1 if it is, 0 otherwise.
-   143	 */
-   144	int nand_onfi_detect(struct nand_chip *chip)
-   145	{
-   146		struct nand_device *base = &chip->base;
-   147		struct mtd_info *mtd = nand_to_mtd(chip);
-   148		struct nand_memory_organization *memorg;
-   149		struct nand_onfi_params *p = NULL, *pbuf;
-   150		struct onfi_params *onfi;
-   151		bool use_datain = false;
-   152		int onfi_version = 0;
-   153		char id[4];
-   154		int i, ret, val;
-   155		u16 crc;
-   156	
-   157		memorg = nanddev_get_memorg(&chip->base);
-   158	
-   159		/* Try ONFI for unknown chip or LP */
-   160		ret = nand_readid_op(chip, 0x20, id, sizeof(id));
-   161		if (ret || strncmp(id, "ONFI", 4))
-   162			return 0;
-   163	
-   164		/* ONFI chip: allocate a buffer to hold its parameter page */
-   165		pbuf = kzalloc((sizeof(*pbuf) * ONFI_PARAM_PAGES), GFP_KERNEL);
-   166		if (!pbuf)
-   167			return -ENOMEM;
-   168	
-   169		if (!nand_has_exec_op(chip) || chip->controller->supported_op.data_only_read)
-   170			use_datain = true;
-   171	
-   172		for (i = 0; i < ONFI_PARAM_PAGES; i++) {
-   173			if (!i)
-   174				ret = nand_read_param_page_op(chip, 0, &pbuf[i],
-   175							      sizeof(*pbuf));
-   176			else if (use_datain)
-   177				ret = nand_read_data_op(chip, &pbuf[i], sizeof(*pbuf),
-   178							true, false);
-   179			else
-   180				ret = nand_change_read_column_op(chip, sizeof(*pbuf) * i,
-   181								 &pbuf[i], sizeof(*pbuf),
-   182								 true);
-   183			if (ret) {
-   184				ret = 0;
-   185				goto free_onfi_param_page;
-   186			}
-   187	
-   188			crc = onfi_crc16(ONFI_CRC_BASE, (u8 *)&pbuf[i], 254);
-   189			if (crc == le16_to_cpu(pbuf[i].crc)) {
-   190				p = &pbuf[i];
-   191				break;
-   192			}
-   193		}
-   194	
-   195		if (i == ONFI_PARAM_PAGES) {
-   196			const void *srcbufs[ONFI_PARAM_PAGES];
-   197			unsigned int j;
-   198	
-   199			for (j = 0; j < ONFI_PARAM_PAGES; j++)
-   200				srcbufs[j] = pbuf + j;
-   201	
-   202			pr_warn("Could not find a valid ONFI parameter page, trying bit-wise majority to recover it\n");
-   203			nand_bit_wise_majority(srcbufs, ONFI_PARAM_PAGES, pbuf,
-   204					       sizeof(*pbuf));
-   205	
-   206			crc = onfi_crc16(ONFI_CRC_BASE, (u8 *)pbuf, 254);
-   207			if (crc != le16_to_cpu(pbuf->crc)) {
-   208				pr_err("ONFI parameter recovery failed, aborting\n");
-   209				goto free_onfi_param_page;
-   210			}
-   211			p = pbuf;
-   212		}
-   213	
-   214		if (chip->manufacturer.desc && chip->manufacturer.desc->ops &&
-   215		    chip->manufacturer.desc->ops->fixup_onfi_param_page)
-   216			chip->manufacturer.desc->ops->fixup_onfi_param_page(chip, p);
-   217	
-   218		/* Check version */
-   219		val = le16_to_cpu(p->revision);
-   220		if (val & ONFI_VERSION_2_3)
-   221			onfi_version = 23;
-   222		else if (val & ONFI_VERSION_2_2)
-   223			onfi_version = 22;
-   224		else if (val & ONFI_VERSION_2_1)
-   225			onfi_version = 21;
-   226		else if (val & ONFI_VERSION_2_0)
-   227			onfi_version = 20;
-   228		else if (val & ONFI_VERSION_1_0)
-   229			onfi_version = 10;
-   230	
-   231		if (!onfi_version) {
-   232			pr_info("unsupported ONFI version: %d\n", val);
-   233			goto free_onfi_param_page;
-   234		}
-   235	
-   236		sanitize_string(p->manufacturer, sizeof(p->manufacturer));
-   237		sanitize_string(p->model, sizeof(p->model));
-   238		chip->parameters.model = kstrdup(p->model, GFP_KERNEL);
-   239		if (!chip->parameters.model) {
-   240			ret = -ENOMEM;
-   241			goto free_onfi_param_page;
-   242		}
-   243	
-   244		memorg->pagesize = le32_to_cpu(p->byte_per_page);
-   245		mtd->writesize = memorg->pagesize;
-   246	
-   247		/*
-   248		 * pages_per_block and blocks_per_lun may not be a power-of-2 size
-   249		 * (don't ask me who thought of this...). MTD assumes that these
-   250		 * dimensions will be power-of-2, so just truncate the remaining area.
-   251		 */
-   252		memorg->pages_per_eraseblock =
-   253				1 << (fls(le32_to_cpu(p->pages_per_block)) - 1);
-   254		mtd->erasesize = memorg->pages_per_eraseblock * memorg->pagesize;
-   255	
-   256		memorg->oobsize = le16_to_cpu(p->spare_bytes_per_page);
-   257		mtd->oobsize = memorg->oobsize;
-   258	
-   259		memorg->luns_per_target = p->lun_count;
-   260		memorg->planes_per_lun = 1 << p->interleaved_bits;
-   261	
-   262		/* See erasesize comment */
-   263		memorg->eraseblocks_per_lun =
-   264			1 << (fls(le32_to_cpu(p->blocks_per_lun)) - 1);
-   265		memorg->max_bad_eraseblocks_per_lun = le32_to_cpu(p->blocks_per_lun);
-   266		memorg->bits_per_cell = p->bits_per_cell;
-   267	
-   268		if (le16_to_cpu(p->features) & ONFI_FEATURE_16_BIT_BUS)
-   269			chip->options |= NAND_BUSWIDTH_16;
-   270	
-   271		if (p->ecc_bits != 0xff) {
-   272			struct nand_ecc_props requirements = {
-   273				.strength = p->ecc_bits,
-   274				.step_size = 512,
-   275			};
-   276	
-   277			nanddev_set_ecc_requirements(base, &requirements);
-   278		} else if (onfi_version >= 21 &&
-   279			(le16_to_cpu(p->features) & ONFI_FEATURE_EXT_PARAM_PAGE)) {
-   280	
-   281			/*
-   282			 * The nand_flash_detect_ext_param_page() uses the
-   283			 * Change Read Column command which maybe not supported
-   284			 * by the chip->legacy.cmdfunc. So try to update the
-   285			 * chip->legacy.cmdfunc now. We do not replace user supplied
-   286			 * command function.
-   287			 */
-   288			nand_legacy_adjust_cmdfunc(chip);
-   289	
-   290			/* The Extended Parameter Page is supported since ONFI 2.1. */
-   291			if (nand_flash_detect_ext_param_page(chip, p))
-   292				pr_warn("Failed to detect ONFI extended param page\n");
-   293		} else {
-   294			pr_warn("Could not retrieve ONFI ECC requirements\n");
-   295		}
-   296	
-   297		/* Save some parameters from the parameter page for future use */
-   298		if (le16_to_cpu(p->opt_cmd) & ONFI_OPT_CMD_SET_GET_FEATURES) {
-   299			chip->parameters.supports_set_get_features = true;
-   300			bitmap_set(chip->parameters.get_feature_list,
-   301				   ONFI_FEATURE_ADDR_TIMING_MODE, 1);
-   302			bitmap_set(chip->parameters.set_feature_list,
-   303				   ONFI_FEATURE_ADDR_TIMING_MODE, 1);
-   304		}
-   305	
-   306		if (le16_to_cpu(p->opt_cmd) & ONFI_OPT_CMD_READ_CACHE)
- > 307			chip->parameters.supports_read_cache;
+-Kees
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kees Cook
