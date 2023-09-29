@@ -1,46 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B6E3C37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA4B4B214
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 14:13:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1695996823; x=1727532823;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aMXsdsr4L/9LSO6HOpzmGrF7q5VEHJLkBv4ExYuIVdc=;
-  b=EgxbuQSBK+wglK+Y27aHecSPxADEQKydxpDLKCFs9wxw68AbFUi34Tx5
-   8DjdCW5YfwYpUzKn5I4OuJ/NR84vDYqHqFOFO1eb9HZ9dEX1jLweNUfT6
-   1e30YU9K68gM1oApQmCKYGeqUV+bHO36Wcgpf8m4c8nQhOlxihEdF/TKJ
-   h878WzIvZkjnF6EwWVEmcfinhszvAKwW68HoV58HII4G7s1xSPfHYEgem
-   MSKXfiSgGICsn+uUrZzdEVoReg38Sj41zps2DWrJ6bvw1E9GwMj+1ruaO
-   LCGFxZbnSvXORL1gu+it8LOGMiBAV/WboDkq5I04HLc/9DXhpBmTs7kOn
+  bh=ZKO2wNkNMnKO5ULaQ3Sf2g0GhAX+I0TkNIYOaz1dvck=;
+  b=cRa76baqy9BX7uGBeRhfxVxwnW52i1X0orVwTQZvdgxP4D1lP5Az4/eT
+   YXu0nSZ0j2SSrBs17gCVgFoR/60HXsmX3cfJ/D1wV4LKbiGGUFYWjMcbl
+   qv9KEatN09Ap4T0fRkYIfasMWFLgF/bgY8EIgwtf8lgBbt5+6fY9Kw41C
+   /dIj6ceco4ARKAWOjK4prV6qgKPdsS44D4/QFgWMn5mZbdWGVHnrJGzs7
+   Ad0T6jKYhdnLge6N8BgPZnrWZSXC5KrknG8FYpDFOCRjsmhYRHRdbU3dP
+   Z+Jydj3hCBpbDwLc7PDqWrKNnHQ5252LK9UESsS79S4Tv/IllPzcURGJo
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="367363098"
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="361682804"
 X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="367363098"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 07:13:43 -0700
+   d="scan'208";a="361682804"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 07:13:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="743451916"
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="840286367"
 X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="743451916"
+   d="scan'208";a="840286367"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 29 Sep 2023 07:13:39 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 29 Sep 2023 07:13:39 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qmEFN-0002vz-0C;
+	id 1qmEFN-0002vx-04;
 	Fri, 29 Sep 2023 14:13:37 +0000
 Date: Fri, 29 Sep 2023 22:13:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anirudha Sarangi <anirudha.sarangi@xilinx.com>
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>,
-	Mubin Usman Sayyed <mubin.usman.sayyed@xilinx.com>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
-Subject: [xilinx-xlnx:master 630/1123]
- drivers/irqchip/irq-imx-mu-msi.c:444:31: warning:
- 'imx_mu_msi_irqchip_match_table' defined but not used
-Message-ID: <202309292235.97EpVSBJ-lkp@intel.com>
+	Michal Simek <monstr@monstr.eu>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 894/1370]
+ drivers/spi/spi-zynqmp-gqspi.c:229:6: sparse: sparse: symbol
+ 'zynqmp_gqspi_update_stripe' was not declared. Should it be static?
+Message-ID: <202309292253.YHyTUAim-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,103 +48,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Xilinx/linux-xlnx master
-head:   cb1f2dbc7e487361688257fccf78bf3f3ce0e9ed
-commit: f0c00c48640d9c9fe887834dbb179941773d164a [630/1123] irqchip: xilinx: Add support to remove Xilinx INTC irqchip driver module
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20230929/202309292235.97EpVSBJ-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309292235.97EpVSBJ-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
+head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
+commit: b6d3f45bb9e69eb86a125a3ac6ebd60c14bc872c [894/1370] spi: spi-zynqmp-gqspi: Add parallel memories support in GQSPI driver
+config: i386-randconfig-061-20230929 (https://download.01.org/0day-ci/archive/20230929/202309292253.YHyTUAim-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309292253.YHyTUAim-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309292235.97EpVSBJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309292253.YHyTUAim-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   drivers/irqchip/irq-imx-mu-msi.c:448:61: error: macro "IRQCHIP_PLATFORM_DRIVER_END" passed 2 arguments, but takes just 1
-     448 | IRQCHIP_PLATFORM_DRIVER_END(imx_mu_msi, .pm = &imx_mu_pm_ops)
-         |                                                             ^
-   In file included from drivers/irqchip/irq-imx-mu-msi.c:15:
-   include/linux/irqchip.h:68: note: macro "IRQCHIP_PLATFORM_DRIVER_END" defined here
-      68 | #define IRQCHIP_PLATFORM_DRIVER_END(drv_name)                           \
-         | 
-   drivers/irqchip/irq-imx-mu-msi.c:448:1: error: 'IRQCHIP_PLATFORM_DRIVER_END' undeclared here (not in a function)
-     448 | IRQCHIP_PLATFORM_DRIVER_END(imx_mu_msi, .pm = &imx_mu_pm_ops)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/module.h:22,
-                    from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/acpi.h:15,
-                    from include/linux/irqchip.h:14:
-   include/linux/moduleparam.h:24:9: error: expected '}' before 'static'
-      24 |         static const char __UNIQUE_ID(name)[]                             \
-         |         ^~~~~~
-   include/linux/module.h:165:32: note: in expansion of macro '__MODULE_INFO'
-     165 | #define MODULE_INFO(tag, info) __MODULE_INFO(tag, tag, info)
-         |                                ^~~~~~~~~~~~~
-   include/linux/module.h:235:32: note: in expansion of macro 'MODULE_INFO'
-     235 | #define MODULE_AUTHOR(_author) MODULE_INFO(author, _author)
-         |                                ^~~~~~~~~~~
-   drivers/irqchip/irq-imx-mu-msi.c:451:1: note: in expansion of macro 'MODULE_AUTHOR'
-     451 | MODULE_AUTHOR("Frank Li <Frank.Li@nxp.com>");
-         | ^~~~~~~~~~~~~
-   include/linux/irqchip.h:45:69: note: to match this '{'
-      45 | static const struct of_device_id drv_name##_irqchip_match_table[] = {
-         |                                                                     ^
-   drivers/irqchip/irq-imx-mu-msi.c:444:1: note: in expansion of macro 'IRQCHIP_PLATFORM_DRIVER_BEGIN'
-     444 | IRQCHIP_PLATFORM_DRIVER_BEGIN(imx_mu_msi)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/irqchip/irq-imx-mu-msi.c:444:31: warning: 'imx_mu_msi_irqchip_match_table' defined but not used [-Wunused-const-variable=]
-     444 | IRQCHIP_PLATFORM_DRIVER_BEGIN(imx_mu_msi)
-         |                               ^~~~~~~~~~
-   include/linux/irqchip.h:45:34: note: in definition of macro 'IRQCHIP_PLATFORM_DRIVER_BEGIN'
-      45 | static const struct of_device_id drv_name##_irqchip_match_table[] = {
-         |                                  ^~~~~~~~
->> drivers/irqchip/irq-imx-mu-msi.c:421:32: warning: 'imx_mu_pm_ops' defined but not used [-Wunused-const-variable=]
-     421 | static const struct dev_pm_ops imx_mu_pm_ops = {
-         |                                ^~~~~~~~~~~~~
-
-
-vim +/imx_mu_msi_irqchip_match_table +444 drivers/irqchip/irq-imx-mu-msi.c
-
-70afdab904d2d1 Frank Li 2022-09-22  420  
-70afdab904d2d1 Frank Li 2022-09-22 @421  static const struct dev_pm_ops imx_mu_pm_ops = {
-70afdab904d2d1 Frank Li 2022-09-22  422  	SET_RUNTIME_PM_OPS(imx_mu_runtime_suspend,
-70afdab904d2d1 Frank Li 2022-09-22  423  			   imx_mu_runtime_resume, NULL)
-70afdab904d2d1 Frank Li 2022-09-22  424  };
-70afdab904d2d1 Frank Li 2022-09-22  425  
-70afdab904d2d1 Frank Li 2022-09-22  426  static int __init imx_mu_imx7ulp_of_init(struct device_node *dn,
-70afdab904d2d1 Frank Li 2022-09-22  427  					 struct device_node *parent)
-70afdab904d2d1 Frank Li 2022-09-22  428  {
-70afdab904d2d1 Frank Li 2022-09-22  429  	return imx_mu_of_init(dn, parent, &imx_mu_cfg_imx7ulp);
-70afdab904d2d1 Frank Li 2022-09-22  430  }
-70afdab904d2d1 Frank Li 2022-09-22  431  
-70afdab904d2d1 Frank Li 2022-09-22  432  static int __init imx_mu_imx6sx_of_init(struct device_node *dn,
-70afdab904d2d1 Frank Li 2022-09-22  433  					struct device_node *parent)
-70afdab904d2d1 Frank Li 2022-09-22  434  {
-70afdab904d2d1 Frank Li 2022-09-22  435  	return imx_mu_of_init(dn, parent, &imx_mu_cfg_imx6sx);
-70afdab904d2d1 Frank Li 2022-09-22  436  }
-70afdab904d2d1 Frank Li 2022-09-22  437  
-70afdab904d2d1 Frank Li 2022-09-22  438  static int __init imx_mu_imx8ulp_of_init(struct device_node *dn,
-70afdab904d2d1 Frank Li 2022-09-22  439  					 struct device_node *parent)
-70afdab904d2d1 Frank Li 2022-09-22  440  {
-70afdab904d2d1 Frank Li 2022-09-22  441  	return imx_mu_of_init(dn, parent, &imx_mu_cfg_imx8ulp);
-70afdab904d2d1 Frank Li 2022-09-22  442  }
-70afdab904d2d1 Frank Li 2022-09-22  443  
-70afdab904d2d1 Frank Li 2022-09-22 @444  IRQCHIP_PLATFORM_DRIVER_BEGIN(imx_mu_msi)
-70afdab904d2d1 Frank Li 2022-09-22  445  IRQCHIP_MATCH("fsl,imx7ulp-mu-msi", imx_mu_imx7ulp_of_init)
-70afdab904d2d1 Frank Li 2022-09-22  446  IRQCHIP_MATCH("fsl,imx6sx-mu-msi", imx_mu_imx6sx_of_init)
-70afdab904d2d1 Frank Li 2022-09-22  447  IRQCHIP_MATCH("fsl,imx8ulp-mu-msi", imx_mu_imx8ulp_of_init)
-70afdab904d2d1 Frank Li 2022-09-22  448  IRQCHIP_PLATFORM_DRIVER_END(imx_mu_msi, .pm = &imx_mu_pm_ops)
-70afdab904d2d1 Frank Li 2022-09-22  449  
-70afdab904d2d1 Frank Li 2022-09-22  450  
-
-:::::: The code at line 444 was first introduced by commit
-:::::: 70afdab904d2d1e68bffe75fe08e7e48e0b0ff8e irqchip: Add IMX MU MSI controller driver
-
-:::::: TO: Frank Li <Frank.Li@nxp.com>
-:::::: CC: Marc Zyngier <maz@kernel.org>
+sparse warnings: (new ones prefixed by >>)
+>> drivers/spi/spi-zynqmp-gqspi.c:229:6: sparse: sparse: symbol 'zynqmp_gqspi_update_stripe' was not declared. Should it be static?
 
 -- 
 0-DAY CI Kernel Test Service
