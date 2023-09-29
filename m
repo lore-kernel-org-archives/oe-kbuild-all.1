@@ -1,45 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ACADC13E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 10:09:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695982143; x=1727518143;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XOOlzTMWkA2nIkljCXhvc7BrAKh9+kCEPmvIkxRj8ik=;
-  b=NfOIlAv8Y0sq1Ep+t9lXGCC0shFYnDLGsHQNB59OYiIc2kaFv3N9jH4s
-   YzlUExuZ3W7pp7RFFhzvHoMFldeiSY5YbcUUqZhnqu77Qjb6g4sIjp45j
-   4t5REoQYXOWZw7N0e5l9Llttnr0nwZmBw2Lx0VU/O4j/TWr82KsLO33/1
-   2wKfbQG2ZZVneECqJXSwNJesACbc31s+DpwTrNIYZtd8EO0StSxYddXH6
-   9cbUbjIbkNbACtPtmXsgFB7wSYB3wRhlZD6ohuGtiCU52ZvHTYgDC9eMG
-   HXa3CdoCmk6WwS1HG0aXClOt/Reg/rU1apWOMM29tha/nvXJrb6cjuIcC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="372624268"
-X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="372624268"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 03:09:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="873634613"
-X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="873634613"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 29 Sep 2023 03:09:00 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qmAQb-0002jV-1u;
-	Fri, 29 Sep 2023 10:08:57 +0000
-Date: Fri, 29 Sep 2023 18:08:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pallav Joshi <pallav.joshi@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 89/1370]
- drivers/staging/uartlite-rs485/uartlite-rs485.c:32:33: error:
- 'CONFIG_SERIAL_UARTLITE_NR_UARTS' undeclared here (not in a function); did
- you mean 'CONFIG_SERIAL_UARTLITE_RS485'?
-Message-ID: <202309291814.4RH2zTt6-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ABE8747B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 10:26:05 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40566f8a093so108719555e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 03:26:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695983164; x=1696587964; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=TgAhQ7loPfu5pVSaMSiEnd8fpas0xpb8Yo7jiaQJmVA=;
+        b=Jre6xiawb0vbQVVoN3yeaLdiukGP256AOzU9AxiTIomPYWQChJmFQMB5pnOoA1hy1t
+         KXSGj4U8tVdzi5179ApQONzoIUXxIAy0kWmWyO0mHfeONHeQjsmI69lEmW3duAbSi+cQ
+         9kh86TjVL6DLCMH0uAqGVR8uTvpcuQ7bVY6EMwo1wRM1VQQ4jLcXxFafFUt0ppQ2cwPP
+         gaiQAekSqlsj2fvpCRXUzHZaNgAUUVAzY67LNa/HkuFtcb7W/iykSZhq7e+9RhiVhJvd
+         WaCGc2kRDnMekCNGq+qMbd79IrVHseMqHwLdj1xIV2LGy3IdsIV/oh88gT8QAcLZ3p4z
+         voDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695983164; x=1696587964;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TgAhQ7loPfu5pVSaMSiEnd8fpas0xpb8Yo7jiaQJmVA=;
+        b=AFP1MPxVtkj4Eo+gvQjcnEzGOA2Xcf+gnbOWJuWoSYYhAI7Y088suLMcyk6QFEZwCw
+         ZGSw90+k4zfvWFW/7ma3hSUs7aC6f2BcItSLr9bjmxriiKe2KjlEPIq54RhQln+uCMKz
+         I7byf69tjROLWZcL2egz1/lDbyssgjzHsGtUX5orZNSTuJwRKilYp4KDGnLgT0MuWQR/
+         n5fy+X7rcw6/t5laOAcdW4BMsXJwGMchxNyuIpBiMClSASOy7F0vO8ibVhBExKesfytA
+         nwe6cLmzbMS66pNzE0jbdnN1eNKyIdkC4+cyIWUrHns2ljLpcvPAp2T4hjJbHC7VcWhx
+         OiAw==
+X-Gm-Message-State: AOJu0YwRfe/PEBOGK4xc44A7hN9vMZ2PPU3oCdc9SIWz5jzX6KXTQYcf
+	2Iv/KOh44/jnqnIBAP+wI2k=
+X-Google-Smtp-Source: AGHT+IHhAh27jONKvyK71PYWJmsTs4FcnpqxjsLyNZieJqxZn6MmpYeU7rOHccciUvd2jSonE3W6SA==
+X-Received: by 2002:a05:600c:2146:b0:405:458d:d54 with SMTP id v6-20020a05600c214600b00405458d0d54mr3480855wml.33.1695983163869;
+        Fri, 29 Sep 2023 03:26:03 -0700 (PDT)
+Received: from Ansuel-xps. (93-34-89-13.ip49.fastwebnet.it. [93.34.89.13])
+        by smtp.gmail.com with ESMTPSA id 11-20020a05600c020b00b003fe2b081661sm1107623wmi.30.2023.09.29.03.26.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Sep 2023 03:26:03 -0700 (PDT)
+Message-ID: <6516a63b.050a0220.6ed0b.358d@mx.google.com>
+X-Google-Original-Message-ID: <ZRamOLghapRPf4T2@Ansuel-xps.>
+Date: Fri, 29 Sep 2023 12:26:00 +0200
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: Philip Li <philip.li@intel.com>
+Cc: kernel test robot <lkp@intel.com>, Andrew Lunn <andrew@lunn.ch>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: drivers/leds/trigger/ledtrig-netdev.c:120:34: warning: array
+ subscript 17 is above array bounds of 'char[16]'
+References: <202309192035.GTJEEbem-lkp@intel.com>
+ <6512163f.5d0a0220.e4212.8150@mx.google.com>
+ <ZRQ/xt1FFJ5k0G8w@rli9-mobl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,42 +57,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZRQ/xt1FFJ5k0G8w@rli9-mobl>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
-commit: 43c2da660f30855c2b1072e412a9ce4cf3a2dcc4 [89/1370] staging: uartlite-rs485: Initial commit to add drv
-config: i386-randconfig-061-20230929 (https://download.01.org/0day-ci/archive/20230929/202309291814.4RH2zTt6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309291814.4RH2zTt6-lkp@intel.com/reproduce)
+On Wed, Sep 27, 2023 at 10:44:22PM +0800, Philip Li wrote:
+> On Tue, Sep 26, 2023 at 01:22:35AM +0200, Christian Marangi wrote:
+> > On Tue, Sep 19, 2023 at 08:21:03PM +0800, kernel test robot wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > > head:   2cf0f715623872823a72e451243bbf555d10d032
+> > > commit: 28a6a2ef18ad840a390d519840c303b03040961c leds: trigger: netdev: refactor code setting device name
+> > > date:   4 months ago
+> > > config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230919/202309192035.GTJEEbem-lkp@intel.com/config)
+> > > compiler: loongarch64-linux-gcc (GCC) 13.2.0
+> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309192035.GTJEEbem-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202309192035.GTJEEbem-lkp@intel.com/
+> > > 
+> > > All warnings (new ones prefixed by >>):
+> > > 
+> > >    drivers/leds/trigger/ledtrig-netdev.c: In function 'set_device_name':
+> > > >> drivers/leds/trigger/ledtrig-netdev.c:120:34: warning: array subscript 17 is above array bounds of 'char[16]' [-Warray-bounds=]
+> > >      120 |         trigger_data->device_name[size] = 0;
+> > >          |         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+> > >    drivers/leds/trigger/ledtrig-netdev.c:48:14: note: while referencing 'device_name'
+> > >       48 |         char device_name[IFNAMSIZ];
+> > >          |              ^~~~~~~~~~~
+> > > >> drivers/leds/trigger/ledtrig-netdev.c:120:34: warning: array subscript 17 is above array bounds of 'char[16]' [-Warray-bounds=]
+> > >      120 |         trigger_data->device_name[size] = 0;
+> > >          |         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+> > >    drivers/leds/trigger/ledtrig-netdev.c:48:14: note: while referencing 'device_name'
+> > >       48 |         char device_name[IFNAMSIZ];
+> > >          |              ^~~~~~~~~~~
+> > > 
+> > > 
+> > > vim +120 drivers/leds/trigger/ledtrig-netdev.c
+> > > 
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  106  
+> > > 28a6a2ef18ad84 Andrew Lunn       2023-05-29  107  static int set_device_name(struct led_netdev_data *trigger_data,
+> > > 28a6a2ef18ad84 Andrew Lunn       2023-05-29  108  			   const char *name, size_t size)
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  109  {
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  110  	cancel_delayed_work_sync(&trigger_data->work);
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  111  
+> > > d1b9e1391ab2dc Christian Marangi 2023-04-19  112  	mutex_lock(&trigger_data->lock);
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  113  
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  114  	if (trigger_data->net_dev) {
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  115  		dev_put(trigger_data->net_dev);
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  116  		trigger_data->net_dev = NULL;
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  117  	}
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  118  
+> > > 28a6a2ef18ad84 Andrew Lunn       2023-05-29  119  	memcpy(trigger_data->device_name, name, size);
+> > > 909346433064b8 Rasmus Villemoes  2019-03-14 @120  	trigger_data->device_name[size] = 0;
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  121  	if (size > 0 && trigger_data->device_name[size - 1] == '\n')
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  122  		trigger_data->device_name[size - 1] = 0;
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  123  
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  124  	if (trigger_data->device_name[0] != 0)
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  125  		trigger_data->net_dev =
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  126  		    dev_get_by_name(&init_net, trigger_data->device_name);
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  127  
+> > > e2f24cb1b5daf9 Christian Marangi 2023-04-19  128  	trigger_data->carrier_link_up = false;
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  129  	if (trigger_data->net_dev != NULL)
+> > > e2f24cb1b5daf9 Christian Marangi 2023-04-19  130  		trigger_data->carrier_link_up = netif_carrier_ok(trigger_data->net_dev);
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  131  
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  132  	trigger_data->last_activity = 0;
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  133  
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  134  	set_baseline_state(trigger_data);
+> > > d1b9e1391ab2dc Christian Marangi 2023-04-19  135  	mutex_unlock(&trigger_data->lock);
+> > > 06f502f57d0d77 Ben Whitten       2017-12-10  136  
+> > > 28a6a2ef18ad84 Andrew Lunn       2023-05-29  137  	return 0;
+> > > 28a6a2ef18ad84 Andrew Lunn       2023-05-29  138  }
+> > > 28a6a2ef18ad84 Andrew Lunn       2023-05-29  139  
+> > > 
+> > > :::::: The code at line 120 was first introduced by commit
+> > > :::::: 909346433064b8d840dc82af26161926b8d37558 leds: trigger: netdev: use memcpy in device_name_store
+> > > 
+> > > :::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> > > :::::: CC: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> > > 
+> > > -- 
+> > > 0-DAY CI Kernel Test Service
+> > > https://github.com/intel/lkp-tests/wiki
+> > 
+> > Can't repro so I guess this was a false-positive that got fixed? (I used
+> > the repro commands and doesn't print any error)
+> 
+> Hi Ansuel, the issue requires to build with -Warray-bounds flag. We will fix
+> the reproduce steps in earliest time. Sorry for the inconvenience.
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309291814.4RH2zTt6-lkp@intel.com/
+Hi again, happy to help you further.
 
-All errors (new ones prefixed by >>):
+By adding the flag I still can't repro.
+I'm using this command.
+COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-13.2.0 ~/bin/make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/leds/trigger/  -Warray-bounds
 
->> drivers/staging/uartlite-rs485/uartlite-rs485.c:32:33: error: 'CONFIG_SERIAL_UARTLITE_NR_UARTS' undeclared here (not in a function); did you mean 'CONFIG_SERIAL_UARTLITE_RS485'?
-      32 | #define ULITE_NR_UARTS          CONFIG_SERIAL_UARTLITE_NR_UARTS
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/uartlite-rs485/uartlite-rs485.c:116:37: note: in expansion of macro 'ULITE_NR_UARTS'
-     116 | static struct uart_port ulite_ports[ULITE_NR_UARTS];
-         |                                     ^~~~~~~~~~~~~~
-   drivers/staging/uartlite-rs485/uartlite-rs485.c:116:25: warning: 'ulite_ports' defined but not used [-Wunused-variable]
-     116 | static struct uart_port ulite_ports[ULITE_NR_UARTS];
-         |                         ^~~~~~~~~~~
+Also on top of that I can see that only ledtrig-audio is compiled.
+From what I can see using olddefconfig won't actually use the config
+used by the bot.
 
+By manually adding the config of the bot to the build_dir ledtrig-netdev
+is correctly compiled and still no warning about this.
 
-vim +32 drivers/staging/uartlite-rs485/uartlite-rs485.c
-
-    27	
-    28	#define ULITE_NAME		"ttyULR"
-    29	#define ULITE_DRV_NAME		"uartlite_rs485"
-    30	#define ULITE_MAJOR		205
-    31	#define ULITE_MINOR		187
-  > 32	#define ULITE_NR_UARTS		CONFIG_SERIAL_UARTLITE_NR_UARTS
-    33	
+I'm here to any test needed to improve the repro instructions.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	Ansuel
