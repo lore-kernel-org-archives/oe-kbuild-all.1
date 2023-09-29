@@ -1,86 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE81510FA
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 01:03:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731A515CC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 01:03:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695949403; x=1727485403;
+  t=1695949407; x=1727485407;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=a84Xm1t5S0eMHszTgMVVDclwJcWutj1US17Ub2SfTwA=;
-  b=QqevpdY7tTNV6IMvnwEHZZ24TQXYwlxgKfh9tJIXx+uf6nh5LeOzYZZd
-   98f65KMJNfl+VIsdIkWi9oG92WmS456kRD6yaguf3xp33+ZRFpnSfcXyB
-   fCIAi2hpGI9VbJsE7PwwEblLTxq6yFLbeLooIhsftmOs02ZmudngpSCJa
-   11b6YDa6WA+DF3EgEDZiMStgRnVQnZvhEvM9fbYQZYwbMPFA9BmS3BX5j
-   BIbsDOkCMoKzxDyAtjOl8mCiOCOYE/GdDG3gCkb9Pu0Ev1h1uz9G6Yf9s
-   ULThWCsnDOIiOyTfsaaMSLBR9GiizfJ8SA0uXWb8iulK6Dnyfdko99rOT
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="361586801"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=N78cAAZkwSzZQ/y3pbMOcajxYV4P3x+HCUtYShyNIt4=;
+  b=buSvIA749JJfVFTaDXY2iVLrlJCRZv8D+CzzgzHZaVo3evjeTgJTxtxe
+   jLKlu+oiVHs2Vswyl6yhCAIVGGebufVFAQg9zBdK7zlia73sS2miki2Ha
+   ss4xA61DLihfB+uHpTs8snyP9W0mftY9JZ4Jis5F/ctr4NuV1GQQtCqHr
+   QjIPNDf5u9e0cEfKL9TsHttAWzhA7DVHIOo/pPJq5uRbAxPFKvoTRnOdQ
+   sV7dDISaok6E1qtIwrAJcIR2UhxxPI69JMV9vQYR3WKQaA8SBjm3XCjms
+   i2aGEMKpBvtZvdDgMZoTk450NQhz2oVYm1sJ7r4/LknpCcFRQm5kBey6T
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="413119754"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="361586801"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 18:03:22 -0700
+   d="scan'208";a="413119754"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 18:03:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="779123515"
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="865506909"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="779123515"
+   d="scan'208";a="865506909"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 28 Sep 2023 18:03:21 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 28 Sep 2023 18:03:21 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qm1uI-0002ED-0u;
+	id 1qm1uZ-0002EF-16;
 	Fri, 29 Sep 2023 01:03:19 +0000
-Date: Fri, 29 Sep 2023 09:02:13 +0800
+Date: Fri, 29 Sep 2023 09:02:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v8 2/5] media: platform: visconti: Add Toshiba Visconti
- Video Input Interface driver
-Message-ID: <202309290802.A6PrKMoh-lkp@intel.com>
-References: <20230925232806.950683-3-yuji2.ishikawa@toshiba.co.jp>
+To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>
+Cc: oe-kbuild-all@lists.linux.dev,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Atish Patra <atishp@rivosinc.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Evan Green <evan@rivosinc.com>,
+	=?iso-8859-1?Q?Bj=F6rn?= Topel <bjorn@rivosinc.com>,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Ron Minnich <rminnich@gmail.com>,
+	Daniel Maslowski <cyrevolt@googlemail.com>
+Subject: Re: [PATCH 6/7] riscv: report misaligned accesses emulation to
+ hwprobe
+Message-ID: <202309290842.Dk0K2nsp-lkp@intel.com>
+References: <20230926150316.1129648-7-cleger@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230925232806.950683-3-yuji2.ishikawa@toshiba.co.jp>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230926150316.1129648-7-cleger@rivosinc.com>
 
-Hi Yuji,
+Hi Clément,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v6.6-rc3]
-[cannot apply to next-20230928]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc3 next-20230928]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yuji-Ishikawa/dt-bindings-media-platform-visconti-Add-Toshiba-Visconti-Video-Input-Interface/20230926-073703
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230925232806.950683-3-yuji2.ishikawa%40toshiba.co.jp
-patch subject: [PATCH v8 2/5] media: platform: visconti: Add Toshiba Visconti Video Input Interface driver
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230929/202309290802.A6PrKMoh-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290802.A6PrKMoh-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Cl-ment-L-ger/riscv-remove-unused-functions-in-traps_misaligned-c/20230926-230654
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230926150316.1129648-7-cleger%40rivosinc.com
+patch subject: [PATCH 6/7] riscv: report misaligned accesses emulation to hwprobe
+config: riscv-randconfig-002-20230929 (https://download.01.org/0day-ci/archive/20230929/202309290842.Dk0K2nsp-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290842.Dk0K2nsp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309290802.A6PrKMoh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309290842.Dk0K2nsp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   m68k-linux-ld: drivers/media/platform/toshiba/visconti/viif_isp.o: in function `visconti_viif_isp_main_set_unit':
->> viif_isp.c:(.text+0x16e0): undefined reference to `__udivdi3'
-   m68k-linux-ld: drivers/media/platform/toshiba/visconti/viif_isp.o: in function `visconti_viif_isp_sub_set_unit':
-   viif_isp.c:(.text+0x17ce): undefined reference to `__udivdi3'
-   m68k-linux-ld: drivers/media/platform/toshiba/visconti/viif_csi2rx.o: in function `viif_csi2rx_start':
->> viif_csi2rx.c:(.text+0x7f2): undefined reference to `__divdi3'
+   arch/riscv/kernel/traps_misaligned.c: In function 'handle_misaligned_load':
+   arch/riscv/kernel/traps_misaligned.c:420:48: error: 'struct thread_struct' has no member named 'align_ctl'
+     420 |         if (user_mode(regs) && (current->thread.align_ctl & PR_UNALIGN_SIGBUS))
+         |                                                ^
+   arch/riscv/kernel/traps_misaligned.c: In function 'handle_misaligned_store':
+   arch/riscv/kernel/traps_misaligned.c:522:48: error: 'struct thread_struct' has no member named 'align_ctl'
+     522 |         if (user_mode(regs) && (current->thread.align_ctl & PR_UNALIGN_SIGBUS))
+         |                                                ^
+   arch/riscv/kernel/traps_misaligned.c: In function 'check_unaligned_access_emulated':
+>> arch/riscv/kernel/traps_misaligned.c:610:17: error: expected ':' or ')' before '_ASM_EXTABLE'
+     610 |                 _ASM_EXTABLE(1b, 2b)
+         |                 ^~~~~~~~~~~~
+>> arch/riscv/kernel/traps_misaligned.c:610:30: error: invalid suffix "b" on integer constant
+     610 |                 _ASM_EXTABLE(1b, 2b)
+         |                              ^~
+   arch/riscv/kernel/traps_misaligned.c:610:34: error: invalid suffix "b" on integer constant
+     610 |                 _ASM_EXTABLE(1b, 2b)
+         |                                  ^~
+>> arch/riscv/kernel/traps_misaligned.c:602:37: warning: unused variable 'tmp_var' [-Wunused-variable]
+     602 |         unsigned long emulated = 1, tmp_var;
+         |                                     ^~~~~~~
+
+
+vim +610 arch/riscv/kernel/traps_misaligned.c
+
+   599	
+   600	bool check_unaligned_access_emulated(int cpu)
+   601	{
+ > 602		unsigned long emulated = 1, tmp_var;
+   603	
+   604		/* Use a fixup to detect if misaligned access triggered an exception */
+   605		__asm__ __volatile__ (
+   606			"1:\n"
+   607			"	"REG_L" %[tmp], 1(%[ptr])\n"
+   608			"	li %[emulated], 0\n"
+   609			"2:\n"
+ > 610			_ASM_EXTABLE(1b, 2b)
+   611		: [emulated] "+r" (emulated), [tmp] "=r" (tmp_var)
+   612		: [ptr] "r" (&tmp_var)
+   613		: "memory");
+   614	
+   615		if (!emulated)
+   616			return false;
+   617	
+   618		per_cpu(misaligned_access_speed, cpu) =
+   619			RISCV_HWPROBE_MISALIGNED_EMULATED;
+   620	
+   621		return true;
+   622	}
+   623	
 
 -- 
 0-DAY CI Kernel Test Service
