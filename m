@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541AAF9E0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 08:20:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C40CA41
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 08:23:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695975633; x=1727511633;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3Sbjr4bWWU8vPLpeQtrtcmY71cQMw2ZI0PYPYGnshE8=;
-  b=nqpGBGthEJUXMHmSc7mgiJ4wzXLmWVMckZfrdRxZBBnWXJAFwAHmO7BC
-   xOM73pRf5GFpp9oHb+oRo4lCgHfeZ5DOV2uw7b8C9LXKdavMhVufd7bne
-   hJhuQvyxIBHn5z2X5hcFQsQnWzo5i35G89IKrRRGuf1PLW6dbLWKkqIjd
-   OUble+EbTECKr6i+2/0shmQ4WIdBRPp5YjMjGcI3Bq3Veq8ZCZypr8Z60
-   WdqicjmU7O8egOCDdaJHVI2Vsw1PWwsd3poiel8fdFiDgkoqMQtVcykGh
-   v4m/YlDBaZdV30E4uN2wwJi2QnaIv40pjI9U9DcnxNn3PYQo/+ldSQGGd
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="379521647"
+  t=1695975804; x=1727511804;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=p3SipwT639Y8mY/jFQS3cpM5duxGIySOgthVb4aBlBM=;
+  b=JWYiD+2aQxjEjxVgqM1lwxtDu2EIgb+3UMAF9pVNNOKUBgkUxdE048mm
+   2XOFuTKg3nfEktdeRHlKnj5yvc93e0YLpetS8M8BAEDxnANLKjc/dbpjp
+   hGgWe7BS8zvhRAMlEEHOrtm3aJCVCuNqYSwNgBYoBDTpdv3JnujjtlnIH
+   2Hv9zLMkZeiUVILgVqARSkUukdxVzpTqjeDIEusEf3jZ1ay9RXWw3L2Ez
+   urPwTnE+21HIJTFVSfGRjDyGnoSYwGXz4BcRKIAzW3HDHEi5cZiPLp8hP
+   vrMWXCSLluz8n3lkHbRdFwiFMVYdt3G+WhGRurB8Pio7zL1O2JEx6mgYS
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="468531630"
 X-IronPort-AV: E=Sophos;i="6.03,186,1694761200"; 
-   d="scan'208";a="379521647"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 00:30:40 -0700
+   d="scan'208";a="468531630"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 00:51:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="840199144"
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="923533641"
 X-IronPort-AV: E=Sophos;i="6.03,186,1694761200"; 
-   d="scan'208";a="840199144"
+   d="scan'208";a="923533641"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 29 Sep 2023 00:30:38 -0700
+  by orsmga005.jf.intel.com with ESMTP; 29 Sep 2023 00:51:38 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qm7xM-0002aX-17;
-	Fri, 29 Sep 2023 07:30:36 +0000
-Date: Fri, 29 Sep 2023 15:30:21 +0800
+	id 1qm8Hg-0002b3-26;
+	Fri, 29 Sep 2023 07:51:36 +0000
+Date: Fri, 29 Sep 2023 15:51:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org
+To: Thomas Gleixner <tglx@linutronix.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 3/3] KVM: x86/mmu: always take tdp_mmu_pages_lock
-Message-ID: <202309291557.Eq3JDvT6-lkp@intel.com>
-References: <20230928162959.1514661-4-pbonzini@redhat.com>
+Subject: [tglx-devel:x86/microcode 28/30]
+ arch/x86/kernel/cpu/microcode/core.c:488:17: error: implicit declaration of
+ function '__ucode_load_primary'; did you mean 'ucode_load_primary'?
+Message-ID: <202309291523.HYDiX8pC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,64 +46,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230928162959.1514661-4-pbonzini@redhat.com>
 
-Hi Paolo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on kvm/queue]
-[also build test WARNING on linus/master v6.6-rc3 next-20230929]
-[cannot apply to mst-vhost/linux-next kvm/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Bonzini/KVM-x86-mmu-remove-unnecessary-bool-shared-argument-from-functions/20230929-003259
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20230928162959.1514661-4-pbonzini%40redhat.com
-patch subject: [PATCH 3/3] KVM: x86/mmu: always take tdp_mmu_pages_lock
-config: x86_64-buildonly-randconfig-004-20230929 (https://download.01.org/0day-ci/archive/20230929/202309291557.Eq3JDvT6-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309291557.Eq3JDvT6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/microcode
+head:   0168d5c24d9566114647bf6377e65c52c2325e3c
+commit: 66cf86b60b5de0045433ed664dbe887486285b76 [28/30] x86/microcode: Handle "offline" CPUs correctly
+config: i386-randconfig-014-20230929 (https://download.01.org/0day-ci/archive/20230929/202309291523.HYDiX8pC-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309291523.HYDiX8pC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309291557.Eq3JDvT6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309291523.HYDiX8pC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/kvm/mmu/tdp_mmu.c:289: warning: Excess function parameter 'shared' description in 'tdp_mmu_unlink_sp'
+   arch/x86/kernel/cpu/microcode/core.c: In function 'ucode_load_secondary':
+   arch/x86/kernel/cpu/microcode/core.c:390:14: error: implicit declaration of function 'ucode_load_secondary_wait'; did you mean 'ucode_load_secondary'? [-Werror=implicit-function-declaration]
+     390 |         if (!ucode_load_secondary_wait(ctrl_cpu)) {
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |              ucode_load_secondary
+   arch/x86/kernel/cpu/microcode/core.c: In function 'ucode_load_primary':
+>> arch/x86/kernel/cpu/microcode/core.c:488:17: error: implicit declaration of function '__ucode_load_primary'; did you mean 'ucode_load_primary'? [-Werror=implicit-function-declaration]
+     488 |                 __ucode_load_primary(cpu);
+         |                 ^~~~~~~~~~~~~~~~~~~~
+         |                 ucode_load_primary
+   arch/x86/kernel/cpu/microcode/core.c: In function 'microcode_update_handler':
+>> arch/x86/kernel/cpu/microcode/core.c:516:17: error: implicit declaration of function 'load_primary'; did you mean 'ucode_load_primary'? [-Werror=implicit-function-declaration]
+     516 |                 load_primary(cpu);
+         |                 ^~~~~~~~~~~~
+         |                 ucode_load_primary
+   arch/x86/kernel/cpu/microcode/core.c:519:17: error: implicit declaration of function 'load_secondary'; did you mean 'load_secondary_wait'? [-Werror=implicit-function-declaration]
+     519 |                 load_secondary(cpu);
+         |                 ^~~~~~~~~~~~~~
+         |                 load_secondary_wait
+   arch/x86/kernel/cpu/microcode/core.c: In function 'load_late_stop_cpus':
+   arch/x86/kernel/cpu/microcode/core.c:585:33: error: 'load_cpus_stopped' undeclared (first use in this function); did you mean 'ucode_load_cpus_stopped'?
+     585 |         stop_machine_cpuslocked(load_cpus_stopped, NULL, cpu_online_mask);
+         |                                 ^~~~~~~~~~~~~~~~~
+         |                                 ucode_load_cpus_stopped
+   arch/x86/kernel/cpu/microcode/core.c:585:33: note: each undeclared identifier is reported only once for each function it appears in
+   arch/x86/kernel/cpu/microcode/core.c: At top level:
+   arch/x86/kernel/cpu/microcode/core.c:549:12: warning: 'ucode_load_cpus_stopped' defined but not used [-Wunused-function]
+     549 | static int ucode_load_cpus_stopped(void *unused)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/cpu/microcode/core.c:477:13: warning: 'ucode_load_primary' defined but not used [-Wunused-function]
+     477 | static void ucode_load_primary(unsigned int cpu)
+         |             ^~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/cpu/microcode/core.c:414:13: warning: '__load_primary' defined but not used [-Wunused-function]
+     414 | static void __load_primary(unsigned int cpu)
+         |             ^~~~~~~~~~~~~~
+   arch/x86/kernel/cpu/microcode/core.c:385:21: warning: 'ucode_load_secondary' defined but not used [-Wunused-function]
+     385 | static noinstr void ucode_load_secondary(unsigned int cpu)
+         |                     ^~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/cpu/microcode/core.c:358:21: warning: 'load_secondary_wait' defined but not used [-Wunused-function]
+     358 | static noinstr bool load_secondary_wait(unsigned int ctrl_cpu)
+         |                     ^~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +289 arch/x86/kvm/mmu/tdp_mmu.c
+vim +488 arch/x86/kernel/cpu/microcode/core.c
 
-43a063cab325ee7 Yosry Ahmed         2022-08-23  278  
-a9442f594147f95 Ben Gardon          2021-02-02  279  /**
-c298a30c2821cb0 David Matlack       2022-01-19  280   * tdp_mmu_unlink_sp() - Remove a shadow page from the list of used pages
-a9442f594147f95 Ben Gardon          2021-02-02  281   *
-a9442f594147f95 Ben Gardon          2021-02-02  282   * @kvm: kvm instance
-a9442f594147f95 Ben Gardon          2021-02-02  283   * @sp: the page to be removed
-9a77daacc87dee9 Ben Gardon          2021-02-02  284   * @shared: This operation may not be running under the exclusive use of
-9a77daacc87dee9 Ben Gardon          2021-02-02  285   *	    the MMU lock and the operation must synchronize with other
-9a77daacc87dee9 Ben Gardon          2021-02-02  286   *	    threads that might be adding or removing pages.
-a9442f594147f95 Ben Gardon          2021-02-02  287   */
-44f1ce87ebc1ca1 Paolo Bonzini       2023-09-28  288  static void tdp_mmu_unlink_sp(struct kvm *kvm, struct kvm_mmu_page *sp)
-a9442f594147f95 Ben Gardon          2021-02-02 @289  {
-44f1ce87ebc1ca1 Paolo Bonzini       2023-09-28  290  	lockdep_assert_held(&kvm->mmu_lock);
-44f1ce87ebc1ca1 Paolo Bonzini       2023-09-28  291  
-43a063cab325ee7 Yosry Ahmed         2022-08-23  292  	tdp_unaccount_mmu_page(kvm, sp);
-d25ceb9264364dc Sean Christopherson 2022-10-19  293  
-d25ceb9264364dc Sean Christopherson 2022-10-19  294  	if (!sp->nx_huge_page_disallowed)
-d25ceb9264364dc Sean Christopherson 2022-10-19  295  		return;
-d25ceb9264364dc Sean Christopherson 2022-10-19  296  
-9a77daacc87dee9 Ben Gardon          2021-02-02  297  	spin_lock(&kvm->arch.tdp_mmu_pages_lock);
-61f94478547bb4f Sean Christopherson 2022-10-19  298  	sp->nx_huge_page_disallowed = false;
-61f94478547bb4f Sean Christopherson 2022-10-19  299  	untrack_possible_nx_huge_page(kvm, sp);
-9a77daacc87dee9 Ben Gardon          2021-02-02  300  	spin_unlock(&kvm->arch.tdp_mmu_pages_lock);
-a9442f594147f95 Ben Gardon          2021-02-02  301  }
-a9442f594147f95 Ben Gardon          2021-02-02  302  
+   476	
+   477	static void ucode_load_primary(unsigned int cpu)
+   478	{
+   479		unsigned int nr_offl = cpumask_weight(&cpu_offline_mask);
+   480		bool proceed = true;
+   481	
+   482		/* Kick soft-offlined SMT siblings if required */
+   483		if (!cpu && nr_offl)
+   484			proceed = ucode_kick_offline_cpus(nr_offl);
+   485	
+   486		/* If the soft-offlined CPUs did not respond, abort */
+   487		if (proceed)
+ > 488			__ucode_load_primary(cpu);
+   489	
+   490		/* Unconditionally release soft-offlined SMT siblings if required */
+   491		if (!cpu && nr_offl)
+   492			ucode_release_offline_cpus();
+   493	}
+   494	
+   495	/*
+   496	 * Minimal stub rendevouz handler for soft-offlined CPUs which participate
+   497	 * in the NMI rendevouz to protect against a concurrent NMI on affected
+   498	 * CPUs.
+   499	 */
+   500	void noinstr microcode_offline_nmi_handler(void)
+   501	{
+   502		if (!raw_cpu_read(ucode_ctrl.nmi_enabled))
+   503			return;
+   504		raw_cpu_write(ucode_ctrl.nmi_enabled, false);
+   505		raw_cpu_write(ucode_ctrl.result, UCODE_OFFLINE);
+   506		raw_atomic_inc(&offline_in_nmi);
+   507		wait_for_ctrl();
+   508	}
+   509	
+   510	static noinstr bool microcode_update_handler(void)
+   511	{
+   512		unsigned int cpu = raw_smp_processor_id();
+   513	
+   514		if (raw_cpu_read(ucode_ctrl.ctrl_cpu) == cpu) {
+   515			instrumentation_begin();
+ > 516			load_primary(cpu);
+   517			instrumentation_end();
+   518		} else {
+   519			load_secondary(cpu);
+   520		}
+   521	
+   522		instrumentation_begin();
+   523		touch_nmi_watchdog();
+   524		instrumentation_end();
+   525		return true;
+   526	}
+   527	
 
 -- 
 0-DAY CI Kernel Test Service
