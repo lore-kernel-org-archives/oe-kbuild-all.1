@@ -1,43 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72602F9CC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 11:23:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770121864
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 11:54:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695986585; x=1727522585;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nL+qyYgPdeykobH4YE84t6T1IWyJGezQrclux2SUoqQ=;
-  b=DtyDkSNlVEqQIO7OikJiWCEg8HX1LpY69ngCib5VpyGZUAmlZLsS2Mck
-   6FAoLcTieYf/Bh75mKKtsEgW9x/5RbtH7xXovtcEj1XYlOpMR/Sl5Wjdf
-   EzJTMNv1xQ8jYj4G/kwMp6n+N13vees3piEb5Igt4mA63B6XdIi+75wVj
-   eYAOxKZ6N1cgu0ZPg0npYrDmsVFv4WtsaOo5K0YZoUBxHKcCk1Zk3L4p+
-   19FqAbDbHzWMoW9MvV7A7nPrbJA01aHFWjLs9lw1hnKhebf0mU8lqq+7N
-   8YDlLzopjvC82hYPoxLU4vHUjSvBWobsQE7ZYn/9DUgW0pGMX0fSA1+Cl
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="362523951"
+  t=1695988449; x=1727524449;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ISv2rSDawxjEuQmt6UgE2EEBy6745yQLVfXV6XeXgxA=;
+  b=Ip9WwZFaxVNPbNU6nlorzh4oaJhNoLDvJxyAF9bzEZbZZQZRw93IVEVa
+   6GZtMVGz9M/c3522VmX7ouwN2K7MSUM7baW+mGK1DgxsK0YlJuQgGbF2w
+   sJ7SB55IjWigz9Ilae/Z3krqpf7P/pL78mv9QeLo/sYXW8t4lw58nBrAU
+   7jyCmdvOyEjU5wGfFa1uXNFb7OnViswE9320OrERDVfEPS1Zu1u+KHdCl
+   eeWO1Np+quRzAZOJ/BQN5pN1WJvM9cOCpiNj3bWKC2/bcZYXAkA4wfofn
+   3qbOTQKDCqbFGk13TyAEsvA9m5h9ZfrWa0Arop3SM7nbT2+7T2xQ9nw/+
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="367338817"
 X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="362523951"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 04:23:04 -0700
+   d="scan'208";a="367338817"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 04:54:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="779244503"
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="749936816"
 X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="779244503"
+   d="scan'208";a="749936816"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 29 Sep 2023 04:23:02 -0700
+  by orsmga002.jf.intel.com with ESMTP; 29 Sep 2023 04:54:04 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qmBaG-0002nu-1a;
-	Fri, 29 Sep 2023 11:23:00 +0000
-Date: Fri, 29 Sep 2023 19:22:01 +0800
+	id 1qmC4H-0002oj-2X;
+	Fri, 29 Sep 2023 11:54:01 +0000
+Date: Fri, 29 Sep 2023 19:53:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wei Wang <wei.w.wang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:tdx-mig-wip 1/76] vmlinux.o: warning: objtool:
- __tdx_hypercall+0x10: call to tdcall_saved_ret.constprop.0() leaves
- .noinstr.text section
-Message-ID: <202309291917.RrMgh9pz-lkp@intel.com>
+To: Sarthak Garg <quic_sartgarg@quicinc.com>, adrian.hunter@intel.com,
+	ulf.hansson@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-mmc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	quic_rampraka@quicinc.com, quic_pragalla@quicinc.com,
+	quic_sayalil@quicinc.com, quic_nitirawa@quicinc.com,
+	quic_sachgupt@quicinc.com, quic_bhaskarv@quicinc.com,
+	quic_narepall@quicinc.com, Sarthak Garg <quic_sartgarg@quicinc.com>,
+	Veerabhadrarao Badiganti <quic_vbadigan@quicinc.com>
+Subject: Re: [PATCH V2 1/2] mmc: core: Add partial initialization support
+Message-ID: <202309291907.0fApmbb7-lkp@intel.com>
+References: <20230929102831.9702-2-quic_sartgarg@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,56 +53,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230929102831.9702-2-quic_sartgarg@quicinc.com>
 
-tree:   https://github.com/intel/tdx.git tdx-mig-wip
-head:   a1edcfad8edb83e0f7420f02074834c222669c71
-commit: 26848363c36b5fd73662fc4fe1dd34cc9f65b559 [1/76] x86/tdx: retry tdcalls on TDX_OPERAND_BUSY related errors
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230929/202309291917.RrMgh9pz-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309291917.RrMgh9pz-lkp@intel.com/reproduce)
+Hi Sarthak,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on ulf-hansson-mmc-mirror/next v6.6-rc3 next-20230929]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sarthak-Garg/mmc-core-Add-partial-initialization-support/20230929-183238
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230929102831.9702-2-quic_sartgarg%40quicinc.com
+patch subject: [PATCH V2 1/2] mmc: core: Add partial initialization support
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230929/202309291907.0fApmbb7-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309291907.0fApmbb7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309291917.RrMgh9pz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309291907.0fApmbb7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> vmlinux.o: warning: objtool: __tdx_hypercall+0x10: call to tdcall_saved_ret.constprop.0() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: tdx_vcpu_enter_exit+0x5b: call to __seamcall_saved_ret() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __halt+0x2c: call to __trace_tdx_hypercall() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: np_seamldr_launch+0x129: missing int3 after ret
+>> drivers/mmc/core/mmc.c:1975: warning: Function parameter or member 'host' not described in 'mmc_sleepawake'
 
 
-objdump-func vmlinux.o __tdx_hypercall:
-0000 0000000000000300 <__tdx_hypercall_failed>:
-0000      300:	f3 0f 1e fa          	endbr64
-0004      304:	90                   	nop
-0005      305:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	308: R_X86_64_32S	.rodata.str1.8+0x1960
-000c      30c:	e8 00 00 00 00       	call   311 <__tdx_hypercall_failed+0x11>	30d: R_X86_64_PLT32	panic-0x4
-0011      311:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
-001b      31b:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
-0025      325:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
-002f      32f:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
-0039      339:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
-0000 0000000000000380 <__tdx_hypercall>:
-0000      380:	f3 0f 1e fa          	endbr64
-0004      384:	53                   	push   %rbx
-0005      385:	48 89 fb             	mov    %rdi,%rbx
-0008      388:	48 c7 47 08 cc ff 00 00 	movq   $0xffcc,0x8(%rdi)
-0010      390:	e8 00 00 00 00       	call   395 <__tdx_hypercall+0x15>	391: R_X86_64_PC32	.text+0xae7c
-0015      395:	48 85 c0             	test   %rax,%rax
-0018      398:	75 0c                	jne    3a6 <__tdx_hypercall+0x26>
-001a      39a:	48 8b 43 50          	mov    0x50(%rbx),%rax
-001e      39e:	5b                   	pop    %rbx
-001f      39f:	31 ff                	xor    %edi,%edi
-0021      3a1:	e9 00 00 00 00       	jmp    3a6 <__tdx_hypercall+0x26>	3a2: R_X86_64_PLT32	__x86_return_thunk-0x4
-0026      3a6:	e8 00 00 00 00       	call   3ab <__tdx_hypercall+0x2b>	3a7: R_X86_64_PLT32	__tdx_hypercall_failed-0x4
-002b      3ab:	48 8b 43 50          	mov    0x50(%rbx),%rax
-002f      3af:	5b                   	pop    %rbx
-0030      3b0:	31 ff                	xor    %edi,%edi
-0032      3b2:	e9 00 00 00 00       	jmp    3b7 <__tdx_hypercall+0x37>	3b3: R_X86_64_PLT32	__x86_return_thunk-0x4
-0037      3b7:	66 0f 1f 84 00 00 00 00 00 	nopw   0x0(%rax,%rax,1)
+vim +1975 drivers/mmc/core/mmc.c
+
+8786b9922e6b87 Sarthak Garg    2023-09-29  1962  
+8786b9922e6b87 Sarthak Garg    2023-09-29  1963  /**
+8786b9922e6b87 Sarthak Garg    2023-09-29  1964   * mmc_sleepawake - function to sleep or awake the device
+8786b9922e6b87 Sarthak Garg    2023-09-29  1965   * @sleep: if true then sleep command is sent else awake
+8786b9922e6b87 Sarthak Garg    2023-09-29  1966   *
+8786b9922e6b87 Sarthak Garg    2023-09-29  1967   * This function first deselects the card and then sends the sleep command
+8786b9922e6b87 Sarthak Garg    2023-09-29  1968   * in case of sleep whereas in case of awake first awake command is send
+8786b9922e6b87 Sarthak Garg    2023-09-29  1969   * and then the card is selected.
+8786b9922e6b87 Sarthak Garg    2023-09-29  1970   *
+8786b9922e6b87 Sarthak Garg    2023-09-29  1971   * Returns 0 on success, non-zero value on failure
+8786b9922e6b87 Sarthak Garg    2023-09-29  1972   */
+8786b9922e6b87 Sarthak Garg    2023-09-29  1973  
+8786b9922e6b87 Sarthak Garg    2023-09-29  1974  static int mmc_sleepawake(struct mmc_host *host, bool sleep)
+07a682160866e3 Ulf Hansson     2013-04-19 @1975  {
+c7836d1593b87c Masahiro Yamada 2016-12-19  1976  	struct mmc_command cmd = {};
+07a682160866e3 Ulf Hansson     2013-04-19  1977  	struct mmc_card *card = host->card;
+cb962e04b04fb6 Ulf Hansson     2014-01-14  1978  	unsigned int timeout_ms = DIV_ROUND_UP(card->ext_csd.sa_timeout, 10000);
+e62f1e0b2384e2 Ulf Hansson     2021-05-04  1979  	bool use_r1b_resp;
+07a682160866e3 Ulf Hansson     2013-04-19  1980  	int err;
+07a682160866e3 Ulf Hansson     2013-04-19  1981  
+436f8daa6f5a29 Adrian Hunter   2015-05-07  1982  	/* Re-tuning can't be done once the card is deselected */
+436f8daa6f5a29 Adrian Hunter   2015-05-07  1983  	mmc_retune_hold(host);
+436f8daa6f5a29 Adrian Hunter   2015-05-07  1984  
+8786b9922e6b87 Sarthak Garg    2023-09-29  1985  	if (sleep) {
+07a682160866e3 Ulf Hansson     2013-04-19  1986  		err = mmc_deselect_cards(host);
+07a682160866e3 Ulf Hansson     2013-04-19  1987  		if (err)
+436f8daa6f5a29 Adrian Hunter   2015-05-07  1988  			goto out_release;
+8786b9922e6b87 Sarthak Garg    2023-09-29  1989  	}
+07a682160866e3 Ulf Hansson     2013-04-19  1990  
+07a682160866e3 Ulf Hansson     2013-04-19  1991  	cmd.opcode = MMC_SLEEP_AWAKE;
+07a682160866e3 Ulf Hansson     2013-04-19  1992  	cmd.arg = card->rca << 16;
+e62f1e0b2384e2 Ulf Hansson     2021-05-04  1993  	use_r1b_resp = mmc_prepare_busy_cmd(host, &cmd, timeout_ms);
+8786b9922e6b87 Sarthak Garg    2023-09-29  1994  	if (sleep)
+8786b9922e6b87 Sarthak Garg    2023-09-29  1995  		cmd.arg |= BIT(15);
+cb962e04b04fb6 Ulf Hansson     2014-01-14  1996  
+07a682160866e3 Ulf Hansson     2013-04-19  1997  	err = mmc_wait_for_cmd(host, &cmd, 0);
+07a682160866e3 Ulf Hansson     2013-04-19  1998  	if (err)
+436f8daa6f5a29 Adrian Hunter   2015-05-07  1999  		goto out_release;
+07a682160866e3 Ulf Hansson     2013-04-19  2000  
+07a682160866e3 Ulf Hansson     2013-04-19  2001  	/*
+6fa79651cc808f Ulf Hansson     2021-05-04  2002  	 * If the host does not wait while the card signals busy, then we can
+6fa79651cc808f Ulf Hansson     2021-05-04  2003  	 * try to poll, but only if the host supports HW polling, as the
+6fa79651cc808f Ulf Hansson     2021-05-04  2004  	 * SEND_STATUS cmd is not allowed. If we can't poll, then we simply need
+6fa79651cc808f Ulf Hansson     2021-05-04  2005  	 * to wait the sleep/awake timeout.
+07a682160866e3 Ulf Hansson     2013-04-19  2006  	 */
+6fa79651cc808f Ulf Hansson     2021-05-04  2007  	if (host->caps & MMC_CAP_WAIT_WHILE_BUSY && use_r1b_resp)
+6fa79651cc808f Ulf Hansson     2021-05-04  2008  		goto out_release;
+6fa79651cc808f Ulf Hansson     2021-05-04  2009  
+6fa79651cc808f Ulf Hansson     2021-05-04  2010  	if (!host->ops->card_busy) {
+cb962e04b04fb6 Ulf Hansson     2014-01-14  2011  		mmc_delay(timeout_ms);
+6fa79651cc808f Ulf Hansson     2021-05-04  2012  		goto out_release;
+6fa79651cc808f Ulf Hansson     2021-05-04  2013  	}
+6fa79651cc808f Ulf Hansson     2021-05-04  2014  
+1760fdb6fe9f79 Ulf Hansson     2022-03-04  2015  	err = __mmc_poll_for_busy(host, 0, timeout_ms, &mmc_sleep_busy_cb, host);
+07a682160866e3 Ulf Hansson     2013-04-19  2016  
+436f8daa6f5a29 Adrian Hunter   2015-05-07  2017  out_release:
+8786b9922e6b87 Sarthak Garg    2023-09-29  2018  	if (!sleep)
+8786b9922e6b87 Sarthak Garg    2023-09-29  2019  		err = mmc_select_card(card);
+8786b9922e6b87 Sarthak Garg    2023-09-29  2020  
+436f8daa6f5a29 Adrian Hunter   2015-05-07  2021  	mmc_retune_release(host);
+07a682160866e3 Ulf Hansson     2013-04-19  2022  	return err;
+07a682160866e3 Ulf Hansson     2013-04-19  2023  }
+07a682160866e3 Ulf Hansson     2013-04-19  2024  
 
 -- 
 0-DAY CI Kernel Test Service
