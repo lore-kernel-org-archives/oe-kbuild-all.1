@@ -1,67 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA4B4B214
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 14:13:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695996823; x=1727532823;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9165516C1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 14:34:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZKO2wNkNMnKO5ULaQ3Sf2g0GhAX+I0TkNIYOaz1dvck=;
-  b=cRa76baqy9BX7uGBeRhfxVxwnW52i1X0orVwTQZvdgxP4D1lP5Az4/eT
-   YXu0nSZ0j2SSrBs17gCVgFoR/60HXsmX3cfJ/D1wV4LKbiGGUFYWjMcbl
-   qv9KEatN09Ap4T0fRkYIfasMWFLgF/bgY8EIgwtf8lgBbt5+6fY9Kw41C
-   /dIj6ceco4ARKAWOjK4prV6qgKPdsS44D4/QFgWMn5mZbdWGVHnrJGzs7
-   Ad0T6jKYhdnLge6N8BgPZnrWZSXC5KrknG8FYpDFOCRjsmhYRHRdbU3dP
-   Z+Jydj3hCBpbDwLc7PDqWrKNnHQ5252LK9UESsS79S4Tv/IllPzcURGJo
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="361682804"
-X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="361682804"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 07:13:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="840286367"
-X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="840286367"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 29 Sep 2023 07:13:39 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qmEFN-0002vx-04;
-	Fri, 29 Sep 2023 14:13:37 +0000
-Date: Fri, 29 Sep 2023 22:13:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 894/1370]
- drivers/spi/spi-zynqmp-gqspi.c:229:6: sparse: sparse: symbol
- 'zynqmp_gqspi_update_stripe' was not declared. Should it be static?
-Message-ID: <202309292253.YHyTUAim-lkp@intel.com>
+  bh=mutlpFKb3gjRQb6viCRSAcgYwnxE9/jgT8FxPe/+DBo=;
+  b=oQbVR4tgRhvhR8LntVWA0lEVpuPe0HGTz6l4WgGoOCW4CgOQtc8AUp3j
+   u3eezdFGC0xMhjZU8WHkrfko1VfsDpyJdN7p3mceRDUFiiyqD6f4f9bH+
+   E9PbWeFFBLZxHSAvRWtZ1Y6cx8xG+VkyN68wYjAstA+sZK6A6mc803O+T
+   M=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.03,187,1694728800"; 
+   d="scan'208";a="67354079"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 16:33:20 +0200
+Date: Fri, 29 Sep 2023 16:33:20 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Qi Zheng <zhengqi.arch@bytedance.com>
+cc: Andrew Morton <akpm@linux-foundation.org>, 
+    Linux Memory Management List <linux-mm@kvack.org>, 
+    Muchun Song <songmuchun@bytedance.com>, oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 8008/8345] mm/shrinker.c:100:1-7: preceding lock
+ on line 83 (fwd)
+Message-ID: <alpine.DEB.2.22.394.2309291632020.3137@hadrien>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
-commit: b6d3f45bb9e69eb86a125a3ac6ebd60c14bc872c [894/1370] spi: spi-zynqmp-gqspi: Add parallel memories support in GQSPI driver
-config: i386-randconfig-061-20230929 (https://download.01.org/0day-ci/archive/20230929/202309292253.YHyTUAim-lkp@intel.com/config)
+Should shrinker_mutex be released on the error path?
+
+julia
+
+---------- Forwarded message ----------
+Date: Fri, 29 Sep 2023 21:31:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 8008/8345] mm/shrinker.c:100:1-7: preceding lock on
+    line 83
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Qi Zheng <zhengqi.arch@bytedance.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Muchun Song <songmuchun@bytedance.com>
+
+Hi Qi,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   df964ce9ef9fea10cf131bf6bad8658fde7956f6
+commit: 3b0ec351e30dfbe71675deb22da8a9fe1894c87f [8008/8345] mm: shrinker: convert shrinker_rwsem to mutex
+:::::: branch date: 9 hours ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-103-20230927 (https://download.01.org/0day-ci/archive/20230929/202309292114.VMjkyBBq-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309292253.YHyTUAim-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230929/202309292114.VMjkyBBq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309292253.YHyTUAim-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202309292114.VMjkyBBq-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/spi/spi-zynqmp-gqspi.c:229:6: sparse: sparse: symbol 'zynqmp_gqspi_update_stripe' was not declared. Should it be static?
+cocci warnings: (new ones prefixed by >>)
+>> mm/shrinker.c:100:1-7: preceding lock on line 83
+
+vim +100 mm/shrinker.c
+
+2babd0d6e9cfca Qi Zheng 2023-09-11   76
+2babd0d6e9cfca Qi Zheng 2023-09-11   77  int alloc_shrinker_info(struct mem_cgroup *memcg)
+2babd0d6e9cfca Qi Zheng 2023-09-11   78  {
+2babd0d6e9cfca Qi Zheng 2023-09-11   79  	struct shrinker_info *info;
+b6884b5f15cf5a Qi Zheng 2023-09-11   80  	int nid, ret = 0;
+b6884b5f15cf5a Qi Zheng 2023-09-11   81  	int array_size = 0;
+2babd0d6e9cfca Qi Zheng 2023-09-11   82
+3b0ec351e30dfb Qi Zheng 2023-09-11  @83  	mutex_lock(&shrinker_mutex);
+b6884b5f15cf5a Qi Zheng 2023-09-11   84  	array_size = shrinker_unit_size(shrinker_nr_max);
+2babd0d6e9cfca Qi Zheng 2023-09-11   85  	for_each_node(nid) {
+b6884b5f15cf5a Qi Zheng 2023-09-11   86  		info = kvzalloc_node(sizeof(*info) + array_size, GFP_KERNEL, nid);
+b6884b5f15cf5a Qi Zheng 2023-09-11   87  		if (!info)
+b6884b5f15cf5a Qi Zheng 2023-09-11   88  			goto err;
+2babd0d6e9cfca Qi Zheng 2023-09-11   89  		info->map_nr_max = shrinker_nr_max;
+b6884b5f15cf5a Qi Zheng 2023-09-11   90  		if (shrinker_unit_alloc(info, NULL, nid))
+b6884b5f15cf5a Qi Zheng 2023-09-11   91  			goto err;
+2babd0d6e9cfca Qi Zheng 2023-09-11   92  		rcu_assign_pointer(memcg->nodeinfo[nid]->shrinker_info, info);
+2babd0d6e9cfca Qi Zheng 2023-09-11   93  	}
+3b0ec351e30dfb Qi Zheng 2023-09-11   94  	mutex_unlock(&shrinker_mutex);
+2babd0d6e9cfca Qi Zheng 2023-09-11   95
+2babd0d6e9cfca Qi Zheng 2023-09-11   96  	return ret;
+b6884b5f15cf5a Qi Zheng 2023-09-11   97
+b6884b5f15cf5a Qi Zheng 2023-09-11   98  err:
+b6884b5f15cf5a Qi Zheng 2023-09-11   99  	free_shrinker_info(memcg);
+b6884b5f15cf5a Qi Zheng 2023-09-11 @100  	return -ENOMEM;
+2babd0d6e9cfca Qi Zheng 2023-09-11  101  }
+2babd0d6e9cfca Qi Zheng 2023-09-11  102
+
+:::::: The code at line 100 was first introduced by commit
+:::::: b6884b5f15cf5acf6886ec0704d799035477ad7e mm: shrinker: add a secondary array for shrinker_info::{map, nr_deferred}
+
+:::::: TO: Qi Zheng <zhengqi.arch@bytedance.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
