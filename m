@@ -1,141 +1,171 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731A515CC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 01:03:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19A210FA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 01:13:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695949407; x=1727485407;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=N78cAAZkwSzZQ/y3pbMOcajxYV4P3x+HCUtYShyNIt4=;
-  b=buSvIA749JJfVFTaDXY2iVLrlJCRZv8D+CzzgzHZaVo3evjeTgJTxtxe
-   jLKlu+oiVHs2Vswyl6yhCAIVGGebufVFAQg9zBdK7zlia73sS2miki2Ha
-   ss4xA61DLihfB+uHpTs8snyP9W0mftY9JZ4Jis5F/ctr4NuV1GQQtCqHr
-   QjIPNDf5u9e0cEfKL9TsHttAWzhA7DVHIOo/pPJq5uRbAxPFKvoTRnOdQ
-   sV7dDISaok6E1qtIwrAJcIR2UhxxPI69JMV9vQYR3WKQaA8SBjm3XCjms
-   i2aGEMKpBvtZvdDgMZoTk450NQhz2oVYm1sJ7r4/LknpCcFRQm5kBey6T
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="413119754"
+  t=1695950002; x=1727486002;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SjsJsE6v1sIygrHsgswgHjrk3X/373ayzmQsOCLEJDY=;
+  b=cJ4HbcBm7He7giPOmbnvbLh78MQrX5aaQfIASBGIqguDjhnBwo3IwG6i
+   dnhR75XbiXhdKml6bcrxW3RlHa+dOt8r67CE49CsW5WluIQZyCSqPIl53
+   Bb+cd6uFh59rssVs11xP84ScM9qFeWOJWYicAXdg/9TB5FkLP/43m7ZyE
+   gQau2c9FsRLK+a6zQ6bfnI7SScSYzIhtKIpDB8y4jSlSsJMOXAMOcCJQo
+   VPdRVwDPYNNqjs0u6nSoOdLf9Q6xYaUe3S9l4gyjuyYq9SJGYp9cNR3fj
+   HIDB8DiSFR2k0EOHOSMTY5shlltXTVbUHZZwmjGdom10Sy/0WvvdqJ9Ph
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="448708774"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="413119754"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 18:03:25 -0700
+   d="scan'208";a="448708774"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 18:13:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="865506909"
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="820049690"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="865506909"
+   d="scan'208";a="820049690"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 28 Sep 2023 18:03:21 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 28 Sep 2023 18:13:20 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qm1uZ-0002EF-16;
-	Fri, 29 Sep 2023 01:03:19 +0000
-Date: Fri, 29 Sep 2023 09:02:12 +0800
+	id 1qm24D-0002FJ-37;
+	Fri, 29 Sep 2023 01:13:17 +0000
+Date: Fri, 29 Sep 2023 09:12:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>
-Cc: oe-kbuild-all@lists.linux.dev,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Atish Patra <atishp@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Bj=F6rn?= Topel <bjorn@rivosinc.com>,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Ron Minnich <rminnich@gmail.com>,
-	Daniel Maslowski <cyrevolt@googlemail.com>
-Subject: Re: [PATCH 6/7] riscv: report misaligned accesses emulation to
- hwprobe
-Message-ID: <202309290842.Dk0K2nsp-lkp@intel.com>
-References: <20230926150316.1129648-7-cleger@rivosinc.com>
+To: Pallav Joshi <pallav.joshi@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 89/1370]
+ drivers/staging/uartlite-rs485/uartlite-rs485.c:116:25: warning:
+ 'ulite_ports' defined but not used
+Message-ID: <202309290924.iNeMPBJn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230926150316.1129648-7-cleger@rivosinc.com>
 
-Hi Clément,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.6-rc3 next-20230928]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cl-ment-L-ger/riscv-remove-unused-functions-in-traps_misaligned-c/20230926-230654
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230926150316.1129648-7-cleger%40rivosinc.com
-patch subject: [PATCH 6/7] riscv: report misaligned accesses emulation to hwprobe
-config: riscv-randconfig-002-20230929 (https://download.01.org/0day-ci/archive/20230929/202309290842.Dk0K2nsp-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290842.Dk0K2nsp-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
+head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
+commit: 43c2da660f30855c2b1072e412a9ce4cf3a2dcc4 [89/1370] staging: uartlite-rs485: Initial commit to add drv
+config: i386-randconfig-061-20230929 (https://download.01.org/0day-ci/archive/20230929/202309290924.iNeMPBJn-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290924.iNeMPBJn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309290842.Dk0K2nsp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309290924.iNeMPBJn-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/riscv/kernel/traps_misaligned.c: In function 'handle_misaligned_load':
-   arch/riscv/kernel/traps_misaligned.c:420:48: error: 'struct thread_struct' has no member named 'align_ctl'
-     420 |         if (user_mode(regs) && (current->thread.align_ctl & PR_UNALIGN_SIGBUS))
-         |                                                ^
-   arch/riscv/kernel/traps_misaligned.c: In function 'handle_misaligned_store':
-   arch/riscv/kernel/traps_misaligned.c:522:48: error: 'struct thread_struct' has no member named 'align_ctl'
-     522 |         if (user_mode(regs) && (current->thread.align_ctl & PR_UNALIGN_SIGBUS))
-         |                                                ^
-   arch/riscv/kernel/traps_misaligned.c: In function 'check_unaligned_access_emulated':
->> arch/riscv/kernel/traps_misaligned.c:610:17: error: expected ':' or ')' before '_ASM_EXTABLE'
-     610 |                 _ASM_EXTABLE(1b, 2b)
-         |                 ^~~~~~~~~~~~
->> arch/riscv/kernel/traps_misaligned.c:610:30: error: invalid suffix "b" on integer constant
-     610 |                 _ASM_EXTABLE(1b, 2b)
-         |                              ^~
-   arch/riscv/kernel/traps_misaligned.c:610:34: error: invalid suffix "b" on integer constant
-     610 |                 _ASM_EXTABLE(1b, 2b)
-         |                                  ^~
->> arch/riscv/kernel/traps_misaligned.c:602:37: warning: unused variable 'tmp_var' [-Wunused-variable]
-     602 |         unsigned long emulated = 1, tmp_var;
-         |                                     ^~~~~~~
+   drivers/staging/uartlite-rs485/uartlite-rs485.c:32:33: error: 'CONFIG_SERIAL_UARTLITE_NR_UARTS' undeclared here (not in a function); did you mean 'CONFIG_SERIAL_UARTLITE_RS485'?
+      32 | #define ULITE_NR_UARTS          CONFIG_SERIAL_UARTLITE_NR_UARTS
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/uartlite-rs485/uartlite-rs485.c:116:37: note: in expansion of macro 'ULITE_NR_UARTS'
+     116 | static struct uart_port ulite_ports[ULITE_NR_UARTS];
+         |                                     ^~~~~~~~~~~~~~
+>> drivers/staging/uartlite-rs485/uartlite-rs485.c:116:25: warning: 'ulite_ports' defined but not used [-Wunused-variable]
+     116 | static struct uart_port ulite_ports[ULITE_NR_UARTS];
+         |                         ^~~~~~~~~~~
 
 
-vim +610 arch/riscv/kernel/traps_misaligned.c
+vim +/ulite_ports +116 drivers/staging/uartlite-rs485/uartlite-rs485.c
 
-   599	
-   600	bool check_unaligned_access_emulated(int cpu)
-   601	{
- > 602		unsigned long emulated = 1, tmp_var;
-   603	
-   604		/* Use a fixup to detect if misaligned access triggered an exception */
-   605		__asm__ __volatile__ (
-   606			"1:\n"
-   607			"	"REG_L" %[tmp], 1(%[ptr])\n"
-   608			"	li %[emulated], 0\n"
-   609			"2:\n"
- > 610			_ASM_EXTABLE(1b, 2b)
-   611		: [emulated] "+r" (emulated), [tmp] "=r" (tmp_var)
-   612		: [ptr] "r" (&tmp_var)
-   613		: "memory");
-   614	
-   615		if (!emulated)
-   616			return false;
-   617	
-   618		per_cpu(misaligned_access_speed, cpu) =
-   619			RISCV_HWPROBE_MISALIGNED_EMULATED;
-   620	
-   621		return true;
-   622	}
-   623	
+    27	
+    28	#define ULITE_NAME		"ttyULR"
+    29	#define ULITE_DRV_NAME		"uartlite_rs485"
+    30	#define ULITE_MAJOR		205
+    31	#define ULITE_MINOR		187
+  > 32	#define ULITE_NR_UARTS		CONFIG_SERIAL_UARTLITE_NR_UARTS
+    33	
+    34	/* ---------------------------------------------------------------------
+    35	 * Register definitions
+    36	 *
+    37	 * For register details see datasheet:
+    38	 * https://www.xilinx.com/support/documentation/ip_documentation/opb_uartlite.pdf
+    39	 */
+    40	
+    41	#define ULITE_RX		0x00
+    42	#define ULITE_TX		0x04
+    43	#define ULITE_STATUS		0x08
+    44	#define ULITE_CONTROL		0x0c
+    45	
+    46	#define ULITE_REGION		16
+    47	
+    48	#define ULITE_STATUS_RXVALID	0x01
+    49	#define ULITE_STATUS_RXFULL	0x02
+    50	#define ULITE_STATUS_TXEMPTY	0x04
+    51	#define ULITE_STATUS_TXFULL	0x08
+    52	#define ULITE_STATUS_IE		0x10
+    53	#define ULITE_STATUS_OVERRUN	0x20
+    54	#define ULITE_STATUS_FRAME	0x40
+    55	#define ULITE_STATUS_PARITY	0x80
+    56	
+    57	#define ULITE_CONTROL_RST_TX	0x01
+    58	#define ULITE_CONTROL_RST_RX	0x02
+    59	#define ULITE_CONTROL_IE	0x10
+    60	#define UART_AUTOSUSPEND_TIMEOUT	3000	/* ms */
+    61	
+    62	struct uartlite_data {
+    63		const struct uartlite_reg_ops *reg_ops;
+    64		struct clk *clk;
+    65	};
+    66	
+    67	struct uartlite_reg_ops {
+    68		u32 (*in)(void __iomem *addr);
+    69		void (*out)(u32 val, void __iomem *addr);
+    70	};
+    71	
+    72	static u32 uartlite_inbe32(void __iomem *addr)
+    73	{
+    74		return ioread32be(addr);
+    75	}
+    76	
+    77	static void uartlite_outbe32(u32 val, void __iomem *addr)
+    78	{
+    79		iowrite32be(val, addr);
+    80	}
+    81	
+    82	static const struct uartlite_reg_ops uartlite_be = {
+    83		.in = uartlite_inbe32,
+    84		.out = uartlite_outbe32,
+    85	};
+    86	
+    87	static u32 uartlite_inle32(void __iomem *addr)
+    88	{
+    89		return ioread32(addr);
+    90	}
+    91	
+    92	static void uartlite_outle32(u32 val, void __iomem *addr)
+    93	{
+    94		iowrite32(val, addr);
+    95	}
+    96	
+    97	static const struct uartlite_reg_ops uartlite_le = {
+    98		.in = uartlite_inle32,
+    99		.out = uartlite_outle32,
+   100	};
+   101	
+   102	static inline u32 uart_in32(u32 offset, struct uart_port *port)
+   103	{
+   104		struct uartlite_data *pdata = port->private_data;
+   105	
+   106		return pdata->reg_ops->in(port->membase + offset);
+   107	}
+   108	
+   109	static inline void uart_out32(u32 val, u32 offset, struct uart_port *port)
+   110	{
+   111		struct uartlite_data *pdata = port->private_data;
+   112	
+   113		pdata->reg_ops->out(val, port->membase + offset);
+   114	}
+   115	
+ > 116	static struct uart_port ulite_ports[ULITE_NR_UARTS];
+   117	
 
 -- 
 0-DAY CI Kernel Test Service
