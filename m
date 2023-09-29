@@ -1,43 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E5941216
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 13:52:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B6E3C37
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 14:13:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695995560; x=1727531560;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xMAZJI/NpFNt0FZUnQl6CZ+hY2r9DBoITtN7wphELAY=;
-  b=NUD8zEM6Kfh9JCwOa+68y5oFPGuwBedcN7uW3hvf4jbe1PVJZpz+0rFH
-   vJqzM0j85Y7h27sE/0eoi/Qn+Q47z+xt3T9LUQRkrGobWgzP9EO81r+0S
-   +wG+wrruBa6SnuhaDyGNrul2xV5C3AOUgInnHoWHJ7qhT0iiq56SNHo6J
-   l3ohDCyV0E74TdYw7tCYxVnLuxAzKj1OHa/VPLVvKnIsLLyptcStE8ysR
-   9ebYwUresuSgikqPRj4BcETZhzpK3Oh3mfO2YgRDrEr934U3DhL13bo1s
-   0ogZkj4Gh4UVGbCqGP+aPqqB/oI3b6JtImyRUXdgFRuQBkxNHxQVko/GI
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="386166880"
+  t=1695996823; x=1727532823;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aMXsdsr4L/9LSO6HOpzmGrF7q5VEHJLkBv4ExYuIVdc=;
+  b=EgxbuQSBK+wglK+Y27aHecSPxADEQKydxpDLKCFs9wxw68AbFUi34Tx5
+   8DjdCW5YfwYpUzKn5I4OuJ/NR84vDYqHqFOFO1eb9HZ9dEX1jLweNUfT6
+   1e30YU9K68gM1oApQmCKYGeqUV+bHO36Wcgpf8m4c8nQhOlxihEdF/TKJ
+   h878WzIvZkjnF6EwWVEmcfinhszvAKwW68HoV58HII4G7s1xSPfHYEgem
+   MSKXfiSgGICsn+uUrZzdEVoReg38Sj41zps2DWrJ6bvw1E9GwMj+1ruaO
+   LCGFxZbnSvXORL1gu+it8LOGMiBAV/WboDkq5I04HLc/9DXhpBmTs7kOn
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="367363098"
 X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="386166880"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 06:52:39 -0700
+   d="scan'208";a="367363098"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 07:13:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="923596958"
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="743451916"
 X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="923596958"
+   d="scan'208";a="743451916"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 29 Sep 2023 06:52:38 -0700
+  by orsmga007.jf.intel.com with ESMTP; 29 Sep 2023 07:13:39 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qmDv2-0002ur-1W;
-	Fri, 29 Sep 2023 13:52:36 +0000
-Date: Fri, 29 Sep 2023 21:52:03 +0800
+	id 1qmEFN-0002vz-0C;
+	Fri, 29 Sep 2023 14:13:37 +0000
+Date: Fri, 29 Sep 2023 22:13:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 6/6] ASoC: Intel: avs: Drop superfluous stream decoupling
-Message-ID: <202309292121.5DdaNpLj-lkp@intel.com>
-References: <20230929112436.787058-7-amadeuszx.slawinski@linux.intel.com>
+To: Anirudha Sarangi <anirudha.sarangi@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>,
+	Mubin Usman Sayyed <mubin.usman.sayyed@xilinx.com>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
+Subject: [xilinx-xlnx:master 630/1123]
+ drivers/irqchip/irq-imx-mu-msi.c:444:31: warning:
+ 'imx_mu_msi_irqchip_match_table' defined but not used
+Message-ID: <202309292235.97EpVSBJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,80 +49,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230929112436.787058-7-amadeuszx.slawinski@linux.intel.com>
 
-Hi Amadeusz,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.6-rc3 next-20230929]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Amadeusz-S-awi-ski/ASoC-Intel-avs-Move-IPC-error-messages-one-level-down/20230929-192935
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20230929112436.787058-7-amadeuszx.slawinski%40linux.intel.com
-patch subject: [PATCH 6/6] ASoC: Intel: avs: Drop superfluous stream decoupling
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230929/202309292121.5DdaNpLj-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309292121.5DdaNpLj-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx master
+head:   cb1f2dbc7e487361688257fccf78bf3f3ce0e9ed
+commit: f0c00c48640d9c9fe887834dbb179941773d164a [630/1123] irqchip: xilinx: Add support to remove Xilinx INTC irqchip driver module
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20230929/202309292235.97EpVSBJ-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309292235.97EpVSBJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309292121.5DdaNpLj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309292235.97EpVSBJ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   sound/soc/intel/avs/pcm.c: In function 'avs_dai_fe_prepare':
->> sound/soc/intel/avs/pcm.c:606:26: warning: variable 'bus' set but not used [-Wunused-but-set-variable]
-     606 |         struct hdac_bus *bus;
-         |                          ^~~
+   drivers/irqchip/irq-imx-mu-msi.c:448:61: error: macro "IRQCHIP_PLATFORM_DRIVER_END" passed 2 arguments, but takes just 1
+     448 | IRQCHIP_PLATFORM_DRIVER_END(imx_mu_msi, .pm = &imx_mu_pm_ops)
+         |                                                             ^
+   In file included from drivers/irqchip/irq-imx-mu-msi.c:15:
+   include/linux/irqchip.h:68: note: macro "IRQCHIP_PLATFORM_DRIVER_END" defined here
+      68 | #define IRQCHIP_PLATFORM_DRIVER_END(drv_name)                           \
+         | 
+   drivers/irqchip/irq-imx-mu-msi.c:448:1: error: 'IRQCHIP_PLATFORM_DRIVER_END' undeclared here (not in a function)
+     448 | IRQCHIP_PLATFORM_DRIVER_END(imx_mu_msi, .pm = &imx_mu_pm_ops)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/module.h:22,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/acpi.h:15,
+                    from include/linux/irqchip.h:14:
+   include/linux/moduleparam.h:24:9: error: expected '}' before 'static'
+      24 |         static const char __UNIQUE_ID(name)[]                             \
+         |         ^~~~~~
+   include/linux/module.h:165:32: note: in expansion of macro '__MODULE_INFO'
+     165 | #define MODULE_INFO(tag, info) __MODULE_INFO(tag, tag, info)
+         |                                ^~~~~~~~~~~~~
+   include/linux/module.h:235:32: note: in expansion of macro 'MODULE_INFO'
+     235 | #define MODULE_AUTHOR(_author) MODULE_INFO(author, _author)
+         |                                ^~~~~~~~~~~
+   drivers/irqchip/irq-imx-mu-msi.c:451:1: note: in expansion of macro 'MODULE_AUTHOR'
+     451 | MODULE_AUTHOR("Frank Li <Frank.Li@nxp.com>");
+         | ^~~~~~~~~~~~~
+   include/linux/irqchip.h:45:69: note: to match this '{'
+      45 | static const struct of_device_id drv_name##_irqchip_match_table[] = {
+         |                                                                     ^
+   drivers/irqchip/irq-imx-mu-msi.c:444:1: note: in expansion of macro 'IRQCHIP_PLATFORM_DRIVER_BEGIN'
+     444 | IRQCHIP_PLATFORM_DRIVER_BEGIN(imx_mu_msi)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-imx-mu-msi.c:444:31: warning: 'imx_mu_msi_irqchip_match_table' defined but not used [-Wunused-const-variable=]
+     444 | IRQCHIP_PLATFORM_DRIVER_BEGIN(imx_mu_msi)
+         |                               ^~~~~~~~~~
+   include/linux/irqchip.h:45:34: note: in definition of macro 'IRQCHIP_PLATFORM_DRIVER_BEGIN'
+      45 | static const struct of_device_id drv_name##_irqchip_match_table[] = {
+         |                                  ^~~~~~~~
+>> drivers/irqchip/irq-imx-mu-msi.c:421:32: warning: 'imx_mu_pm_ops' defined but not used [-Wunused-const-variable=]
+     421 | static const struct dev_pm_ops imx_mu_pm_ops = {
+         |                                ^~~~~~~~~~~~~
 
 
-vim +/bus +606 sound/soc/intel/avs/pcm.c
+vim +/imx_mu_msi_irqchip_match_table +444 drivers/irqchip/irq-imx-mu-msi.c
 
-9114700b496c6c Cezary Rojewski 2022-05-16  599  
-9114700b496c6c Cezary Rojewski 2022-05-16  600  static int avs_dai_fe_prepare(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
-9114700b496c6c Cezary Rojewski 2022-05-16  601  {
-9114700b496c6c Cezary Rojewski 2022-05-16  602  	struct snd_pcm_runtime *runtime = substream->runtime;
-9114700b496c6c Cezary Rojewski 2022-05-16  603  	struct avs_dma_data *data;
-9114700b496c6c Cezary Rojewski 2022-05-16  604  	struct avs_dev *adev = to_avs_dev(dai->dev);
-9114700b496c6c Cezary Rojewski 2022-05-16  605  	struct hdac_ext_stream *host_stream;
-9114700b496c6c Cezary Rojewski 2022-05-16 @606  	struct hdac_bus *bus;
-9114700b496c6c Cezary Rojewski 2022-05-16  607  	unsigned int format_val;
-9114700b496c6c Cezary Rojewski 2022-05-16  608  	int ret;
-9114700b496c6c Cezary Rojewski 2022-05-16  609  
-9114700b496c6c Cezary Rojewski 2022-05-16  610  	data = snd_soc_dai_get_dma_data(dai, substream);
-9114700b496c6c Cezary Rojewski 2022-05-16  611  	host_stream = data->host_stream;
-9114700b496c6c Cezary Rojewski 2022-05-16  612  
-9114700b496c6c Cezary Rojewski 2022-05-16  613  	if (hdac_stream(host_stream)->prepared)
-9114700b496c6c Cezary Rojewski 2022-05-16  614  		return 0;
-9114700b496c6c Cezary Rojewski 2022-05-16  615  
-9114700b496c6c Cezary Rojewski 2022-05-16  616  	bus = hdac_stream(host_stream)->bus;
-9114700b496c6c Cezary Rojewski 2022-05-16  617  	snd_hdac_stream_reset(hdac_stream(host_stream));
-9114700b496c6c Cezary Rojewski 2022-05-16  618  
-9114700b496c6c Cezary Rojewski 2022-05-16  619  	format_val = snd_hdac_calc_stream_format(runtime->rate, runtime->channels, runtime->format,
-9114700b496c6c Cezary Rojewski 2022-05-16  620  						 runtime->sample_bits, 0);
-9114700b496c6c Cezary Rojewski 2022-05-16  621  
-9114700b496c6c Cezary Rojewski 2022-05-16  622  	ret = snd_hdac_stream_set_params(hdac_stream(host_stream), format_val);
-9114700b496c6c Cezary Rojewski 2022-05-16  623  	if (ret < 0)
-9114700b496c6c Cezary Rojewski 2022-05-16  624  		return ret;
-9114700b496c6c Cezary Rojewski 2022-05-16  625  
-9114700b496c6c Cezary Rojewski 2022-05-16  626  	ret = snd_hdac_stream_setup(hdac_stream(host_stream));
-9114700b496c6c Cezary Rojewski 2022-05-16  627  	if (ret < 0)
-9114700b496c6c Cezary Rojewski 2022-05-16  628  		return ret;
-9114700b496c6c Cezary Rojewski 2022-05-16  629  
-9114700b496c6c Cezary Rojewski 2022-05-16  630  	ret = avs_dai_prepare(adev, substream, dai);
-9114700b496c6c Cezary Rojewski 2022-05-16  631  	if (ret)
-9114700b496c6c Cezary Rojewski 2022-05-16  632  		return ret;
-9114700b496c6c Cezary Rojewski 2022-05-16  633  
-9114700b496c6c Cezary Rojewski 2022-05-16  634  	hdac_stream(host_stream)->prepared = true;
-9114700b496c6c Cezary Rojewski 2022-05-16  635  	return 0;
-9114700b496c6c Cezary Rojewski 2022-05-16  636  }
-9114700b496c6c Cezary Rojewski 2022-05-16  637  
+70afdab904d2d1 Frank Li 2022-09-22  420  
+70afdab904d2d1 Frank Li 2022-09-22 @421  static const struct dev_pm_ops imx_mu_pm_ops = {
+70afdab904d2d1 Frank Li 2022-09-22  422  	SET_RUNTIME_PM_OPS(imx_mu_runtime_suspend,
+70afdab904d2d1 Frank Li 2022-09-22  423  			   imx_mu_runtime_resume, NULL)
+70afdab904d2d1 Frank Li 2022-09-22  424  };
+70afdab904d2d1 Frank Li 2022-09-22  425  
+70afdab904d2d1 Frank Li 2022-09-22  426  static int __init imx_mu_imx7ulp_of_init(struct device_node *dn,
+70afdab904d2d1 Frank Li 2022-09-22  427  					 struct device_node *parent)
+70afdab904d2d1 Frank Li 2022-09-22  428  {
+70afdab904d2d1 Frank Li 2022-09-22  429  	return imx_mu_of_init(dn, parent, &imx_mu_cfg_imx7ulp);
+70afdab904d2d1 Frank Li 2022-09-22  430  }
+70afdab904d2d1 Frank Li 2022-09-22  431  
+70afdab904d2d1 Frank Li 2022-09-22  432  static int __init imx_mu_imx6sx_of_init(struct device_node *dn,
+70afdab904d2d1 Frank Li 2022-09-22  433  					struct device_node *parent)
+70afdab904d2d1 Frank Li 2022-09-22  434  {
+70afdab904d2d1 Frank Li 2022-09-22  435  	return imx_mu_of_init(dn, parent, &imx_mu_cfg_imx6sx);
+70afdab904d2d1 Frank Li 2022-09-22  436  }
+70afdab904d2d1 Frank Li 2022-09-22  437  
+70afdab904d2d1 Frank Li 2022-09-22  438  static int __init imx_mu_imx8ulp_of_init(struct device_node *dn,
+70afdab904d2d1 Frank Li 2022-09-22  439  					 struct device_node *parent)
+70afdab904d2d1 Frank Li 2022-09-22  440  {
+70afdab904d2d1 Frank Li 2022-09-22  441  	return imx_mu_of_init(dn, parent, &imx_mu_cfg_imx8ulp);
+70afdab904d2d1 Frank Li 2022-09-22  442  }
+70afdab904d2d1 Frank Li 2022-09-22  443  
+70afdab904d2d1 Frank Li 2022-09-22 @444  IRQCHIP_PLATFORM_DRIVER_BEGIN(imx_mu_msi)
+70afdab904d2d1 Frank Li 2022-09-22  445  IRQCHIP_MATCH("fsl,imx7ulp-mu-msi", imx_mu_imx7ulp_of_init)
+70afdab904d2d1 Frank Li 2022-09-22  446  IRQCHIP_MATCH("fsl,imx6sx-mu-msi", imx_mu_imx6sx_of_init)
+70afdab904d2d1 Frank Li 2022-09-22  447  IRQCHIP_MATCH("fsl,imx8ulp-mu-msi", imx_mu_imx8ulp_of_init)
+70afdab904d2d1 Frank Li 2022-09-22  448  IRQCHIP_PLATFORM_DRIVER_END(imx_mu_msi, .pm = &imx_mu_pm_ops)
+70afdab904d2d1 Frank Li 2022-09-22  449  
+70afdab904d2d1 Frank Li 2022-09-22  450  
+
+:::::: The code at line 444 was first introduced by commit
+:::::: 70afdab904d2d1e68bffe75fe08e7e48e0b0ff8e irqchip: Add IMX MU MSI controller driver
+
+:::::: TO: Frank Li <Frank.Li@nxp.com>
+:::::: CC: Marc Zyngier <maz@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
