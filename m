@@ -1,50 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770121864
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 11:54:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737F51864;
+	Fri, 29 Sep 2023 12:05:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695988449; x=1727524449;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ISv2rSDawxjEuQmt6UgE2EEBy6745yQLVfXV6XeXgxA=;
-  b=Ip9WwZFaxVNPbNU6nlorzh4oaJhNoLDvJxyAF9bzEZbZZQZRw93IVEVa
-   6GZtMVGz9M/c3522VmX7ouwN2K7MSUM7baW+mGK1DgxsK0YlJuQgGbF2w
-   sJ7SB55IjWigz9Ilae/Z3krqpf7P/pL78mv9QeLo/sYXW8t4lw58nBrAU
-   7jyCmdvOyEjU5wGfFa1uXNFb7OnViswE9320OrERDVfEPS1Zu1u+KHdCl
-   eeWO1Np+quRzAZOJ/BQN5pN1WJvM9cOCpiNj3bWKC2/bcZYXAkA4wfofn
-   3qbOTQKDCqbFGk13TyAEsvA9m5h9ZfrWa0Arop3SM7nbT2+7T2xQ9nw/+
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="367338817"
+  t=1695989107; x=1727525107;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=42GyzSR8W+aADKwaSxy3QS1f4ulSkvdTJ9ModGlGfZU=;
+  b=UsSSntCgX/D22i4tJpcy8vEqgL+n+KjEqFhfJtrRK2SKUmqmmXqriyDG
+   yYvl7slXfDTBuYfsH4Zzn3Nsu61FCP/nwlvaaT9Wlp0fV/fnvjAq/X2M5
+   x+vm3RCf1O945x4nHmgMwb9+cbxVTwIbrWyCZLBSBEJSdSf1ZnyfHsqmU
+   5TIZh8zeT1Ck+W670tng+SSMu5GDdEN1Q2BeSd+narpBkbCiPPW40tho2
+   e1M0bgiDi2Ex7ySem6ONmjmsr/akf+EkLw8dnXHKRO+q9y+VwqS448O2F
+   qMy6MlWqZypzNKOJxFoDJ4b8pei5Y7EGKKPBGjMULgCtnA1U8IbEjSjip
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="385099103"
 X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="367338817"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 04:54:08 -0700
+   d="scan'208";a="385099103"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 05:05:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="749936816"
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="820192782"
 X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="749936816"
+   d="scan'208";a="820192782"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 29 Sep 2023 04:54:04 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 29 Sep 2023 05:05:05 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qmC4H-0002oj-2X;
-	Fri, 29 Sep 2023 11:54:01 +0000
-Date: Fri, 29 Sep 2023 19:53:59 +0800
+	id 1qmCEx-0002pz-0g;
+	Fri, 29 Sep 2023 12:05:03 +0000
+Date: Fri, 29 Sep 2023 20:04:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sarthak Garg <quic_sartgarg@quicinc.com>, adrian.hunter@intel.com,
-	ulf.hansson@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-mmc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	quic_rampraka@quicinc.com, quic_pragalla@quicinc.com,
-	quic_sayalil@quicinc.com, quic_nitirawa@quicinc.com,
-	quic_sachgupt@quicinc.com, quic_bhaskarv@quicinc.com,
-	quic_narepall@quicinc.com, Sarthak Garg <quic_sartgarg@quicinc.com>,
-	Veerabhadrarao Badiganti <quic_vbadigan@quicinc.com>
-Subject: Re: [PATCH V2 1/2] mmc: core: Add partial initialization support
-Message-ID: <202309291907.0fApmbb7-lkp@intel.com>
-References: <20230929102831.9702-2-quic_sartgarg@quicinc.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:x86/microcode 28/30]
+ arch/x86/kernel/cpu/microcode/core.c:488:3: error: call to undeclared
+ function '__ucode_load_primary'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202309291918.X2pHUkHJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,101 +47,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230929102831.9702-2-quic_sartgarg@quicinc.com>
 
-Hi Sarthak,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on ulf-hansson-mmc-mirror/next v6.6-rc3 next-20230929]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sarthak-Garg/mmc-core-Add-partial-initialization-support/20230929-183238
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230929102831.9702-2-quic_sartgarg%40quicinc.com
-patch subject: [PATCH V2 1/2] mmc: core: Add partial initialization support
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230929/202309291907.0fApmbb7-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309291907.0fApmbb7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/microcode
+head:   0168d5c24d9566114647bf6377e65c52c2325e3c
+commit: 66cf86b60b5de0045433ed664dbe887486285b76 [28/30] x86/microcode: Handle "offline" CPUs correctly
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230929/202309291918.X2pHUkHJ-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309291918.X2pHUkHJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309291907.0fApmbb7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309291918.X2pHUkHJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/mmc/core/mmc.c:1975: warning: Function parameter or member 'host' not described in 'mmc_sleepawake'
+   arch/x86/kernel/cpu/microcode/core.c:390:7: error: call to undeclared function 'ucode_load_secondary_wait'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           if (!ucode_load_secondary_wait(ctrl_cpu)) {
+                ^
+   arch/x86/kernel/cpu/microcode/core.c:390:7: note: did you mean 'ucode_load_secondary'?
+   arch/x86/kernel/cpu/microcode/core.c:385:21: note: 'ucode_load_secondary' declared here
+   static noinstr void ucode_load_secondary(unsigned int cpu)
+                       ^
+>> arch/x86/kernel/cpu/microcode/core.c:488:3: error: call to undeclared function '__ucode_load_primary'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   __ucode_load_primary(cpu);
+                   ^
+   arch/x86/kernel/cpu/microcode/core.c:488:3: note: did you mean 'ucode_load_primary'?
+   arch/x86/kernel/cpu/microcode/core.c:477:13: note: 'ucode_load_primary' declared here
+   static void ucode_load_primary(unsigned int cpu)
+               ^
+>> arch/x86/kernel/cpu/microcode/core.c:516:3: error: call to undeclared function 'load_primary'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   load_primary(cpu);
+                   ^
+   arch/x86/kernel/cpu/microcode/core.c:516:3: note: did you mean '__load_primary'?
+   arch/x86/kernel/cpu/microcode/core.c:414:13: note: '__load_primary' declared here
+   static void __load_primary(unsigned int cpu)
+               ^
+   arch/x86/kernel/cpu/microcode/core.c:519:3: error: call to undeclared function 'load_secondary'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   load_secondary(cpu);
+                   ^
+   arch/x86/kernel/cpu/microcode/core.c:585:26: error: use of undeclared identifier 'load_cpus_stopped'
+           stop_machine_cpuslocked(load_cpus_stopped, NULL, cpu_online_mask);
+                                   ^
+   5 errors generated.
 
 
-vim +1975 drivers/mmc/core/mmc.c
+vim +/__ucode_load_primary +488 arch/x86/kernel/cpu/microcode/core.c
 
-8786b9922e6b87 Sarthak Garg    2023-09-29  1962  
-8786b9922e6b87 Sarthak Garg    2023-09-29  1963  /**
-8786b9922e6b87 Sarthak Garg    2023-09-29  1964   * mmc_sleepawake - function to sleep or awake the device
-8786b9922e6b87 Sarthak Garg    2023-09-29  1965   * @sleep: if true then sleep command is sent else awake
-8786b9922e6b87 Sarthak Garg    2023-09-29  1966   *
-8786b9922e6b87 Sarthak Garg    2023-09-29  1967   * This function first deselects the card and then sends the sleep command
-8786b9922e6b87 Sarthak Garg    2023-09-29  1968   * in case of sleep whereas in case of awake first awake command is send
-8786b9922e6b87 Sarthak Garg    2023-09-29  1969   * and then the card is selected.
-8786b9922e6b87 Sarthak Garg    2023-09-29  1970   *
-8786b9922e6b87 Sarthak Garg    2023-09-29  1971   * Returns 0 on success, non-zero value on failure
-8786b9922e6b87 Sarthak Garg    2023-09-29  1972   */
-8786b9922e6b87 Sarthak Garg    2023-09-29  1973  
-8786b9922e6b87 Sarthak Garg    2023-09-29  1974  static int mmc_sleepawake(struct mmc_host *host, bool sleep)
-07a682160866e3 Ulf Hansson     2013-04-19 @1975  {
-c7836d1593b87c Masahiro Yamada 2016-12-19  1976  	struct mmc_command cmd = {};
-07a682160866e3 Ulf Hansson     2013-04-19  1977  	struct mmc_card *card = host->card;
-cb962e04b04fb6 Ulf Hansson     2014-01-14  1978  	unsigned int timeout_ms = DIV_ROUND_UP(card->ext_csd.sa_timeout, 10000);
-e62f1e0b2384e2 Ulf Hansson     2021-05-04  1979  	bool use_r1b_resp;
-07a682160866e3 Ulf Hansson     2013-04-19  1980  	int err;
-07a682160866e3 Ulf Hansson     2013-04-19  1981  
-436f8daa6f5a29 Adrian Hunter   2015-05-07  1982  	/* Re-tuning can't be done once the card is deselected */
-436f8daa6f5a29 Adrian Hunter   2015-05-07  1983  	mmc_retune_hold(host);
-436f8daa6f5a29 Adrian Hunter   2015-05-07  1984  
-8786b9922e6b87 Sarthak Garg    2023-09-29  1985  	if (sleep) {
-07a682160866e3 Ulf Hansson     2013-04-19  1986  		err = mmc_deselect_cards(host);
-07a682160866e3 Ulf Hansson     2013-04-19  1987  		if (err)
-436f8daa6f5a29 Adrian Hunter   2015-05-07  1988  			goto out_release;
-8786b9922e6b87 Sarthak Garg    2023-09-29  1989  	}
-07a682160866e3 Ulf Hansson     2013-04-19  1990  
-07a682160866e3 Ulf Hansson     2013-04-19  1991  	cmd.opcode = MMC_SLEEP_AWAKE;
-07a682160866e3 Ulf Hansson     2013-04-19  1992  	cmd.arg = card->rca << 16;
-e62f1e0b2384e2 Ulf Hansson     2021-05-04  1993  	use_r1b_resp = mmc_prepare_busy_cmd(host, &cmd, timeout_ms);
-8786b9922e6b87 Sarthak Garg    2023-09-29  1994  	if (sleep)
-8786b9922e6b87 Sarthak Garg    2023-09-29  1995  		cmd.arg |= BIT(15);
-cb962e04b04fb6 Ulf Hansson     2014-01-14  1996  
-07a682160866e3 Ulf Hansson     2013-04-19  1997  	err = mmc_wait_for_cmd(host, &cmd, 0);
-07a682160866e3 Ulf Hansson     2013-04-19  1998  	if (err)
-436f8daa6f5a29 Adrian Hunter   2015-05-07  1999  		goto out_release;
-07a682160866e3 Ulf Hansson     2013-04-19  2000  
-07a682160866e3 Ulf Hansson     2013-04-19  2001  	/*
-6fa79651cc808f Ulf Hansson     2021-05-04  2002  	 * If the host does not wait while the card signals busy, then we can
-6fa79651cc808f Ulf Hansson     2021-05-04  2003  	 * try to poll, but only if the host supports HW polling, as the
-6fa79651cc808f Ulf Hansson     2021-05-04  2004  	 * SEND_STATUS cmd is not allowed. If we can't poll, then we simply need
-6fa79651cc808f Ulf Hansson     2021-05-04  2005  	 * to wait the sleep/awake timeout.
-07a682160866e3 Ulf Hansson     2013-04-19  2006  	 */
-6fa79651cc808f Ulf Hansson     2021-05-04  2007  	if (host->caps & MMC_CAP_WAIT_WHILE_BUSY && use_r1b_resp)
-6fa79651cc808f Ulf Hansson     2021-05-04  2008  		goto out_release;
-6fa79651cc808f Ulf Hansson     2021-05-04  2009  
-6fa79651cc808f Ulf Hansson     2021-05-04  2010  	if (!host->ops->card_busy) {
-cb962e04b04fb6 Ulf Hansson     2014-01-14  2011  		mmc_delay(timeout_ms);
-6fa79651cc808f Ulf Hansson     2021-05-04  2012  		goto out_release;
-6fa79651cc808f Ulf Hansson     2021-05-04  2013  	}
-6fa79651cc808f Ulf Hansson     2021-05-04  2014  
-1760fdb6fe9f79 Ulf Hansson     2022-03-04  2015  	err = __mmc_poll_for_busy(host, 0, timeout_ms, &mmc_sleep_busy_cb, host);
-07a682160866e3 Ulf Hansson     2013-04-19  2016  
-436f8daa6f5a29 Adrian Hunter   2015-05-07  2017  out_release:
-8786b9922e6b87 Sarthak Garg    2023-09-29  2018  	if (!sleep)
-8786b9922e6b87 Sarthak Garg    2023-09-29  2019  		err = mmc_select_card(card);
-8786b9922e6b87 Sarthak Garg    2023-09-29  2020  
-436f8daa6f5a29 Adrian Hunter   2015-05-07  2021  	mmc_retune_release(host);
-07a682160866e3 Ulf Hansson     2013-04-19  2022  	return err;
-07a682160866e3 Ulf Hansson     2013-04-19  2023  }
-07a682160866e3 Ulf Hansson     2013-04-19  2024  
+   476	
+   477	static void ucode_load_primary(unsigned int cpu)
+   478	{
+   479		unsigned int nr_offl = cpumask_weight(&cpu_offline_mask);
+   480		bool proceed = true;
+   481	
+   482		/* Kick soft-offlined SMT siblings if required */
+   483		if (!cpu && nr_offl)
+   484			proceed = ucode_kick_offline_cpus(nr_offl);
+   485	
+   486		/* If the soft-offlined CPUs did not respond, abort */
+   487		if (proceed)
+ > 488			__ucode_load_primary(cpu);
+   489	
+   490		/* Unconditionally release soft-offlined SMT siblings if required */
+   491		if (!cpu && nr_offl)
+   492			ucode_release_offline_cpus();
+   493	}
+   494	
+   495	/*
+   496	 * Minimal stub rendevouz handler for soft-offlined CPUs which participate
+   497	 * in the NMI rendevouz to protect against a concurrent NMI on affected
+   498	 * CPUs.
+   499	 */
+   500	void noinstr microcode_offline_nmi_handler(void)
+   501	{
+   502		if (!raw_cpu_read(ucode_ctrl.nmi_enabled))
+   503			return;
+   504		raw_cpu_write(ucode_ctrl.nmi_enabled, false);
+   505		raw_cpu_write(ucode_ctrl.result, UCODE_OFFLINE);
+   506		raw_atomic_inc(&offline_in_nmi);
+   507		wait_for_ctrl();
+   508	}
+   509	
+   510	static noinstr bool microcode_update_handler(void)
+   511	{
+   512		unsigned int cpu = raw_smp_processor_id();
+   513	
+   514		if (raw_cpu_read(ucode_ctrl.ctrl_cpu) == cpu) {
+   515			instrumentation_begin();
+ > 516			load_primary(cpu);
+   517			instrumentation_end();
+   518		} else {
+   519			load_secondary(cpu);
+   520		}
+   521	
+   522		instrumentation_begin();
+   523		touch_nmi_watchdog();
+   524		instrumentation_end();
+   525		return true;
+   526	}
+   527	
 
 -- 
 0-DAY CI Kernel Test Service
