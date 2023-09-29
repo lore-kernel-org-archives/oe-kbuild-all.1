@@ -1,260 +1,173 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2E61172A;
-	Fri, 29 Sep 2023 09:06:20 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C50B51F45E;
-	Fri, 29 Sep 2023 09:06:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1695978372; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vRsZf1pplGepqP9aipigqi9rZI39Tqxq9C+/yMVZbrk=;
-	b=F4hhoi9CadpF6CO33OymGXwS1dO61J1qkrtAcl+QHRUrBPNYNUM5CCDuPN6GocBAb3rEHA
-	bd4LpAvXiQQCuad4aDO2tclUBC9bj9wnvQ+JVnCL/9MY5bCizbxyar0Ip/y5tQHHnYx47t
-	VtrxXFJR40kfa7GRDcndS8Uo2bGTI6w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1695978372;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vRsZf1pplGepqP9aipigqi9rZI39Tqxq9C+/yMVZbrk=;
-	b=X1rfM2q+eXA8hBq8BhcB0A4dQbdESf1Wd6d5wrVAE83Rbmwh71t6CVORM+x8ynhbL53G72
-	YWjDxzjnKWpOhVDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 329AB13434;
-	Fri, 29 Sep 2023 09:06:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 2K8sCYSTFmXYfQAAMHmgww
-	(envelope-from <lhenriques@suse.de>); Fri, 29 Sep 2023 09:06:12 +0000
-Received: from localhost (brahms.olymp [local])
-	by brahms.olymp (OpenSMTPD) with ESMTPA id 7a904682;
-	Fri, 29 Sep 2023 09:06:09 +0000 (UTC)
-From: =?utf-8?Q?Lu=C3=ADs_Henriques?= <lhenriques@suse.de>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev,  lkp@intel.com,
-  oe-kbuild-all@lists.linux.dev,  linux-kernel@vger.kernel.org,  Ilya
- Dryomov <idryomov@gmail.com>,  Jeff Layton <jlayton@kernel.org>,  Xiubo Li
- <xiubli@redhat.com>,  Milind Changire <mchangir@redhat.com>
-Subject: Re: fs/ceph/crypto.c:465 ceph_fname_to_usr() warn: variable
- dereferenced before IS_ERR check 'dir' (see line 403)
-In-Reply-To: <b5a0acdb-9c25-46f3-aa44-ac57da8efeee@kadam.mountain> (Dan
-	Carpenter's message of "Thu, 28 Sep 2023 18:12:27 +0300")
-References: <b5a0acdb-9c25-46f3-aa44-ac57da8efeee@kadam.mountain>
-Date: Fri, 29 Sep 2023 10:06:09 +0100
-Message-ID: <87ttrdz6v2.fsf@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B5611730;
+	Fri, 29 Sep 2023 09:26:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695979560; x=1727515560;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hoFtFYr8nVjfiP00lJ+CM55JUKIUy7NFIEdFCPoS/2w=;
+  b=PoQcFFMJfUDjFwrG/UtfTX05zLQLK1G/rNjMEu6x4dNHLpO+uvNvYQ2g
+   o+CJkjb4knB2Qh5alp9+k37r3OZWOAKmVLjtUmb36OmZa/fvwtf9fOkxL
+   RhpgykktLNIepDDwdxcOkELxAqbtvR7G482zYRr0JxpSBnOP08GdO0k/x
+   BB6+EQbmkvwXFSsM6HhJTIEt2krbaoU5pipIC0q0wK8OnVhG9f+vcfFNs
+   4Gr4Sq0Y5CWJHhj6aZAjeXCMW2SLPcgoUp1nxDH6TMhtoJvuv+ZPrtC4W
+   9UfbJA3hKltRWVQaOZPLQSHQu7TB7p/wCK9ZgnPMIWe72ZScQaPhKBNGk
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="386128638"
+X-IronPort-AV: E=Sophos;i="6.03,186,1694761200"; 
+   d="scan'208";a="386128638"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 02:25:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="743404471"
+X-IronPort-AV: E=Sophos;i="6.03,186,1694761200"; 
+   d="scan'208";a="743404471"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 29 Sep 2023 02:25:50 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qm9kp-0002hh-17;
+	Fri, 29 Sep 2023 09:25:47 +0000
+Date: Fri, 29 Sep 2023 17:25:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:x86/microcode 26/30]
+ arch/x86/kernel/cpu/microcode/core.c:389:7: error: call to undeclared
+ function 'ucode_load_secondary_wait'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202309291747.IZt2BkKi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Dan,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/microcode
+head:   0168d5c24d9566114647bf6377e65c52c2325e3c
+commit: 798516f5cbaf888e972679feab8f19653603d44a [26/30] x86/microcode: Protect against instrumentation
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230929/202309291747.IZt2BkKi-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309291747.IZt2BkKi-lkp@intel.com/reproduce)
 
-Dan Carpenter <dan.carpenter@linaro.org> writes:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309291747.IZt2BkKi-lkp@intel.com/
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   633b47cb009d09dc8f4ba9cdb3a0ca138809c7c7
-> commit: dd66df0053ef84add5e684df517aa9b498342381 ceph: add support for en=
-crypted snapshot names
-> config: x86_64-randconfig-161-20230928 (https://download.01.org/0day-ci/a=
-rchive/20230928/202309282202.xZxGdvS3-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230928/202309282202=
-.xZxGdvS3-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202309282202.xZxGdvS3-lkp@intel.com/
->
-> smatch warnings:
-> fs/ceph/crypto.c:465 ceph_fname_to_usr() warn: variable dereferenced befo=
-re IS_ERR check 'dir' (see line 403)
+All errors (new ones prefixed by >>):
 
-I agree that this check here is indeed useless and the IS_ERR() here
-could/should be dropped.  In fact, function ceph_encode_encrypted_dname()
-has a similar structure and is not repeating this error check in the
-clean-up code.
-
-I'll send out a clean-up fix for this in a second (although I also don't
-think there's a real bug here).  Thank you for your report.
-
-Cheers,
---=20
-Lu=C3=ADs
+>> arch/x86/kernel/cpu/microcode/core.c:389:7: error: call to undeclared function 'ucode_load_secondary_wait'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           if (!ucode_load_secondary_wait(ctrl_cpu)) {
+                ^
+   arch/x86/kernel/cpu/microcode/core.c:389:7: note: did you mean 'ucode_load_secondary'?
+   arch/x86/kernel/cpu/microcode/core.c:384:21: note: 'ucode_load_secondary' declared here
+   static noinstr void ucode_load_secondary(unsigned int cpu)
+                       ^
+>> arch/x86/kernel/cpu/microcode/core.c:457:3: error: call to undeclared function 'load_secondary'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   load_secondary(cpu);
+                   ^
+   arch/x86/kernel/cpu/microcode/core.c:521:26: error: use of undeclared identifier 'load_cpus_stopped'
+           stop_machine_cpuslocked(load_cpus_stopped, NULL, cpu_online_mask);
+                                   ^
+   3 errors generated.
 
 
-> vim +/dir +465 fs/ceph/crypto.c
->
-> 457117f077c674 Jeff Layton    2021-03-26  380  int ceph_fname_to_usr(cons=
-t struct ceph_fname *fname, struct fscrypt_str *tname,
-> 457117f077c674 Jeff Layton    2021-03-26  381  		      struct fscrypt_str=
- *oname, bool *is_nokey)
-> 457117f077c674 Jeff Layton    2021-03-26  382  {
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  383  	struct inode *dir =
-=3D fname->dir;
-> 457117f077c674 Jeff Layton    2021-03-26  384  	struct fscrypt_str _tname=
- =3D FSTR_INIT(NULL, 0);
-> 457117f077c674 Jeff Layton    2021-03-26  385  	struct fscrypt_str iname;
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  386  	char *name =3D fname=
-->name;
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  387  	int name_len =3D fna=
-me->name_len;
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  388  	int ret;
-> 457117f077c674 Jeff Layton    2021-03-26  389=20=20
-> 457117f077c674 Jeff Layton    2021-03-26  390  	/* Sanity check that the =
-resulting name will fit in the buffer */
-> 457117f077c674 Jeff Layton    2021-03-26  391  	if (fname->name_len > NAM=
-E_MAX || fname->ctext_len > NAME_MAX)
-> 457117f077c674 Jeff Layton    2021-03-26  392  		return -EIO;
-> 457117f077c674 Jeff Layton    2021-03-26  393=20=20
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  394  	/* Handle the specia=
-l case of snapshot names that start with '_' */
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  395  	if ((ceph_snap(dir) =
-=3D=3D CEPH_SNAPDIR) && (name_len > 0) &&
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  396  	    (name[0] =3D=3D =
-'_')) {
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  397  		dir =3D parse_longn=
-ame(dir, name, &name_len);
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  398  		if (IS_ERR(dir))
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  399  			return PTR_ERR(dir=
-);
->
-> If dir is an error pointer, then we return directly.
->
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  400  		name++; /* skip ini=
-tial '_' */
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  401  	}
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  402=20=20
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25 @403  	if (!IS_ENCRYPTED(di=
-r)) {
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  404  		oname->name =3D fna=
-me->name;
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  405  		oname->len =3D fnam=
-e->name_len;
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  406  		ret =3D 0;
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  407  		goto out_inode;
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  408  	}
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  409=20=20
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  410  	ret =3D ceph_fscrypt=
-_prepare_readdir(dir);
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  411  	if (ret)
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  412  		goto out_inode;
-> 457117f077c674 Jeff Layton    2021-03-26  413=20=20
-> 457117f077c674 Jeff Layton    2021-03-26  414  	/*
-> 457117f077c674 Jeff Layton    2021-03-26  415  	 * Use the raw dentry nam=
-e as sent by the MDS instead of
-> 457117f077c674 Jeff Layton    2021-03-26  416  	 * generating a nokey nam=
-e via fscrypt.
-> 457117f077c674 Jeff Layton    2021-03-26  417  	 */
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  418  	if (!fscrypt_has_enc=
-ryption_key(dir)) {
-> af9ffa6df7e337 Xiubo Li       2022-03-14  419  		if (fname->no_copy)
-> af9ffa6df7e337 Xiubo Li       2022-03-14  420  			oname->name =3D fname->=
-name;
-> af9ffa6df7e337 Xiubo Li       2022-03-14  421  		else
-> 457117f077c674 Jeff Layton    2021-03-26  422  			memcpy(oname->name, fna=
-me->name, fname->name_len);
-> 457117f077c674 Jeff Layton    2021-03-26  423  		oname->len =3D fname->na=
-me_len;
-> 457117f077c674 Jeff Layton    2021-03-26  424  		if (is_nokey)
-> 457117f077c674 Jeff Layton    2021-03-26  425  			*is_nokey =3D true;
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  426  		ret =3D 0;
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  427  		goto out_inode;
-> 457117f077c674 Jeff Layton    2021-03-26  428  	}
-> 457117f077c674 Jeff Layton    2021-03-26  429=20=20
-> 457117f077c674 Jeff Layton    2021-03-26  430  	if (fname->ctext_len =3D=
-=3D 0) {
-> 457117f077c674 Jeff Layton    2021-03-26  431  		int declen;
-> 457117f077c674 Jeff Layton    2021-03-26  432=20=20
-> 457117f077c674 Jeff Layton    2021-03-26  433  		if (!tname) {
-> 457117f077c674 Jeff Layton    2021-03-26  434  			ret =3D fscrypt_fname_a=
-lloc_buffer(NAME_MAX, &_tname);
-> 457117f077c674 Jeff Layton    2021-03-26  435  			if (ret)
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  436  				goto out_inode;
-> 457117f077c674 Jeff Layton    2021-03-26  437  			tname =3D &_tname;
-> 457117f077c674 Jeff Layton    2021-03-26  438  		}
-> 457117f077c674 Jeff Layton    2021-03-26  439=20=20
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  440  		declen =3D ceph_bas=
-e64_decode(name, name_len, tname->name);
-> 457117f077c674 Jeff Layton    2021-03-26  441  		if (declen <=3D 0) {
-> 457117f077c674 Jeff Layton    2021-03-26  442  			ret =3D -EIO;
-> 457117f077c674 Jeff Layton    2021-03-26  443  			goto out;
-> 457117f077c674 Jeff Layton    2021-03-26  444  		}
-> 457117f077c674 Jeff Layton    2021-03-26  445  		iname.name =3D tname->na=
-me;
-> 457117f077c674 Jeff Layton    2021-03-26  446  		iname.len =3D declen;
-> 457117f077c674 Jeff Layton    2021-03-26  447  	} else {
-> 457117f077c674 Jeff Layton    2021-03-26  448  		iname.name =3D fname->ct=
-ext;
-> 457117f077c674 Jeff Layton    2021-03-26  449  		iname.len =3D fname->cte=
-xt_len;
-> 457117f077c674 Jeff Layton    2021-03-26  450  	}
-> 457117f077c674 Jeff Layton    2021-03-26  451=20=20
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  452  	ret =3D fscrypt_fnam=
-e_disk_to_usr(dir, 0, 0, &iname, oname);
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  453  	if (!ret && (dir !=
-=3D fname->dir)) {
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  454  		char tmp_buf[CEPH_B=
-ASE64_CHARS(NAME_MAX)];
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  455=20=20
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  456  		name_len =3D snprin=
-tf(tmp_buf, sizeof(tmp_buf), "_%.*s_%ld",
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  457  				    oname->len, o=
-name->name, dir->i_ino);
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  458  		memcpy(oname->name,=
- tmp_buf, name_len);
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  459  		oname->len =3D name=
-_len;
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  460  	}
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  461=20=20
-> 457117f077c674 Jeff Layton    2021-03-26  462  out:
-> 457117f077c674 Jeff Layton    2021-03-26  463  	fscrypt_fname_free_buffer=
-(&_tname);
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  464  out_inode:
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25 @465  	if ((dir !=3D fname-=
->dir) && !IS_ERR(dir)) {
->                                                                          =
-  ^^^^^^^^^^^^
-> Checking a second time, is harmless but annoys static analysis.  I think
-> if you have the cross function database then this warning is not
-> triggered because Smatch tries to not warn about unnecessary checks so
-> long as we are sure they are harmless.  Without the cross function
-> database we know that "dir" isn't an error pointer but it might still
-> be an invalid pointer.  I guess I could make this more strict to only
-> count dereferencing which are potentially error pointer dereferences
-> instead of just potentially invalid.  With the cross function database
-> we know that parse_longname() either returns valid or error pointers.
->
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  466  		if ((dir->i_state &=
- I_NEW))
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  467  			discard_new_inode(=
-dir);
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  468  		else
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  469  			iput(dir);
-> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  470  	}
-> 457117f077c674 Jeff Layton    2021-03-26  471  	return ret;
-> 457117f077c674 Jeff Layton    2021-03-26  472  }
->
-> --=20
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+vim +/ucode_load_secondary_wait +389 arch/x86/kernel/cpu/microcode/core.c
 
+   379	
+   380	/*
+   381	 * Protected against instrumentation up to the point where the primary
+   382	 * thread completed the update. See microcode_nmi_handler() for details.
+   383	 */
+   384	static noinstr void ucode_load_secondary(unsigned int cpu)
+   385	{
+   386		unsigned int ctrl_cpu = raw_cpu_read(ucode_ctrl.ctrl_cpu);
+   387		enum ucode_state ret;
+   388	
+ > 389		if (!ucode_load_secondary_wait(ctrl_cpu)) {
+   390			instrumentation_begin();
+   391			pr_err_once("Microcode load: %d CPUs timed out\n",
+   392				    atomic_read(&late_cpus_in) - 1);
+   393			instrumentation_end();
+   394			return;
+   395		}
+   396	
+   397		/* Primary thread completed. Allow to invoke instrumentable code */
+   398		instrumentation_begin();
+   399		/*
+   400		 * If the primary succeeded then invoke the apply() callback,
+   401		 * otherwise copy the state from the primary thread.
+   402		 */
+   403		if (this_cpu_read(ucode_ctrl.ctrl) == SCTRL_APPLY)
+   404			ret = microcode_ops->apply_microcode(cpu);
+   405		else
+   406			ret = per_cpu(ucode_ctrl.result, ctrl_cpu);
+   407	
+   408		this_cpu_write(ucode_ctrl.result, ret);
+   409		this_cpu_write(ucode_ctrl.ctrl, SCTRL_DONE);
+   410		instrumentation_end();
+   411	}
+   412	
+   413	static void load_primary(unsigned int cpu)
+   414	{
+   415		struct cpumask *secondaries = topology_sibling_cpumask(cpu);
+   416		enum sibling_ctrl ctrl;
+   417		enum ucode_state ret;
+   418		unsigned int sibling;
+   419	
+   420		/* Initial rendezvouz to ensure that all CPUs have arrived */
+   421		if (!wait_for_cpus(&late_cpus_in)) {
+   422			this_cpu_write(ucode_ctrl.result, UCODE_TIMEOUT);
+   423			pr_err_once("load: %d CPUs timed out\n", atomic_read(&late_cpus_in) - 1);
+   424			return;
+   425		}
+   426	
+   427		ret = microcode_ops->apply_microcode(cpu);
+   428		this_cpu_write(ucode_ctrl.result, ret);
+   429		this_cpu_write(ucode_ctrl.ctrl, SCTRL_DONE);
+   430	
+   431		/*
+   432		 * If the update was successful, let the siblings run the apply()
+   433		 * callback. If not, tell them it's done. This also covers the
+   434		 * case where the CPU has uniform loading at package or system
+   435		 * scope implemented but does not advertise it.
+   436		 */
+   437		if (ret == UCODE_UPDATED || ret == UCODE_OK)
+   438			ctrl = SCTRL_APPLY;
+   439		else
+   440			ctrl = SCTRL_DONE;
+   441	
+   442		for_each_cpu(sibling, secondaries) {
+   443			if (sibling != cpu)
+   444				per_cpu(ucode_ctrl.ctrl, sibling) = ctrl;
+   445		}
+   446	}
+   447	
+   448	static noinstr bool microcode_update_handler(void)
+   449	{
+   450		unsigned int cpu = raw_smp_processor_id();
+   451	
+   452		if (raw_cpu_read(ucode_ctrl.ctrl_cpu) == cpu) {
+   453			instrumentation_begin();
+   454			load_primary(cpu);
+   455			instrumentation_end();
+   456		} else {
+ > 457			load_secondary(cpu);
+   458		}
+   459	
+   460		instrumentation_begin();
+   461		touch_nmi_watchdog();
+   462		instrumentation_end();
+   463		return true;
+   464	}
+   465	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
