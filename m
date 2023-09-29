@@ -1,47 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C364347C1;
-	Fri, 29 Sep 2023 22:53:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09CDB47369
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 23:14:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696027989; x=1727563989;
+  t=1696029254; x=1727565254;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=UWpW4f6M5lGsdXQ4SGf5piIdx/q+WL7NVfd8n+JyAQQ=;
-  b=gulacuUitw/a87jGuOoR5DfSsuIR15eFIVVkKzJnEBBv+VYAJG5HKQXc
-   i1R1YEhwnYZ5/3BDDS2d3YqAjo3XUE32tB8n5adVHhGVi5YXl6FQfonEm
-   Gh1JcFTTxUX62d1XFOWSw2e5ylLY6tyRii43U9HW9lVxUuv5vuO5c1zK3
-   KUR1Tau87vk/z66YT2LueApWKlDd8//AqIvXodQEkGLCX4FqzfXPzDrLd
-   PYRQFDxq3yzqnVmMcsvAgHJEekikjZKq0Cm66zgl6cEbm+XSjOaH3H1xS
-   ioM9p58WuF9Kt/PNM8iDrJnogEx5O0HqAdmHb/Ibniuj3AWmAjDgQNMBg
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="386262908"
+  bh=GuguJlpMuR4ytblE3REIb1sY7chzBowLTZJy4y360dY=;
+  b=hvbMFtQzlxoIOS0RbvMN8xM/S0+FLtz+pMGxwORBYnj7Z8dhV6wcWkld
+   K7ZTQ8pkHYrrFMm/5AVIJaRi7gFYtLOD75u1mixiclNc7a8RyAUO+fWaZ
+   XrheVt15xKa9iIzby4ya8HulzVQ4ZDmyjo4njLRDqru0rBH+akw+ZwEcj
+   aemdxo5NDe4MfEXH4g8CXrJYW0hEcajM57pDAu8VVfrsbrIyXtDOWilho
+   lFk4+cb/D8Tikykh5wNzq707cLiD89Ea3QDpBtTw0p4+LDokxDJ2rxo9I
+   vV0rwB3fWZgV7P+5DFc0IS2Y255fQGg5SZKuFCAT7LDdwa3vBWb2gUWkX
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="379682267"
 X-IronPort-AV: E=Sophos;i="6.03,188,1694761200"; 
-   d="scan'208";a="386262908"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 15:53:07 -0700
+   d="scan'208";a="379682267"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 16:14:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="865867958"
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="785232918"
 X-IronPort-AV: E=Sophos;i="6.03,188,1694761200"; 
-   d="scan'208";a="865867958"
+   d="scan'208";a="785232918"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 29 Sep 2023 15:53:05 -0700
+  by orsmga001.jf.intel.com with ESMTP; 29 Sep 2023 16:14:06 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qmMM3-0003O4-0l;
-	Fri, 29 Sep 2023 22:53:03 +0000
-Date: Sat, 30 Sep 2023 06:52:32 +0800
+	id 1qmMgO-0003P5-0S;
+	Fri, 29 Sep 2023 23:14:04 +0000
+Date: Sat, 30 Sep 2023 07:13:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Florian Westphal <fw@strlen.de>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	steffen.klassert@secunet.com, herbert@gondor.apana.org.au,
-	Florian Westphal <fw@strlen.de>,
-	kernel test robot <oliver.sang@intel.com>
-Subject: Re: [PATCH ipsec-next v2 1/3] xfrm: pass struct net to
- xfrm_decode_session wrappers
-Message-ID: <202309300637.sTEZ8Sa9-lkp@intel.com>
-References: <20230929125848.5445-2-fw@strlen.de>
+To: Michael Kelley <mikelley@microsoft.com>, kys@microsoft.com,
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, hpa@zytor.com, luto@kernel.org,
+	peterz@infradead.org, thomas.lendacky@amd.com,
+	sathyanarayanan.kuppuswamy@linux.intel.com,
+	kirill.shutemov@linux.intel.com, seanjc@google.com,
+	rick.p.edgecombe@intel.com, linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org, x86@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, mikelley@microsoft.com
+Subject: Re: [PATCH 3/5] x86/mm: Mark CoCo VM pages not present while
+ changing encrypted state
+Message-ID: <202309300620.S7uwOfcg-lkp@intel.com>
+References: <1696011549-28036-4-git-send-email-mikelley@microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,226 +55,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230929125848.5445-2-fw@strlen.de>
+In-Reply-To: <1696011549-28036-4-git-send-email-mikelley@microsoft.com>
 
-Hi Florian,
+Hi Michael,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on klassert-ipsec-next/master]
-[also build test ERROR on klassert-ipsec/master netfilter-nf/main linus/master v6.6-rc3 next-20230929]
+[auto build test ERROR on tip/master]
+[also build test ERROR on tip/auto-latest linus/master v6.6-rc3 next-20230929]
+[cannot apply to tip/x86/mm tip/x86/core]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Westphal/xfrm-pass-struct-net-to-xfrm_decode_session-wrappers/20230929-210047
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
-patch link:    https://lore.kernel.org/r/20230929125848.5445-2-fw%40strlen.de
-patch subject: [PATCH ipsec-next v2 1/3] xfrm: pass struct net to xfrm_decode_session wrappers
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20230930/202309300637.sTEZ8Sa9-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309300637.sTEZ8Sa9-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Kelley/x86-coco-Use-slow_virt_to_phys-in-page-transition-hypervisor-callbacks/20230930-041800
+base:   tip/master
+patch link:    https://lore.kernel.org/r/1696011549-28036-4-git-send-email-mikelley%40microsoft.com
+patch subject: [PATCH 3/5] x86/mm: Mark CoCo VM pages not present while changing encrypted state
+config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20230930/202309300620.S7uwOfcg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309300620.S7uwOfcg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309300637.sTEZ8Sa9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309300620.S7uwOfcg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from net/ipv4/icmp.c:69:
-   In file included from include/linux/inet.h:42:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from net/ipv4/icmp.c:69:
-   In file included from include/linux/inet.h:42:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from net/ipv4/icmp.c:69:
-   In file included from include/linux/inet.h:42:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> net/ipv4/icmp.c:520:76: error: too many arguments to function call, expected 3, have 4
-     520 |         err = xfrm_decode_session_reverse(net, skb_in, flowi4_to_flowi(&fl4_dec), AF_INET);
-         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~                                         ^~~~~~~
-   include/linux/socket.h:192:18: note: expanded from macro 'AF_INET'
-     192 | #define AF_INET         2       /* Internet IP Protocol         */
-         |                         ^
-   include/net/xfrm.h:1299:19: note: 'xfrm_decode_session_reverse' declared here
-    1299 | static inline int xfrm_decode_session_reverse(struct sk_buff *skb,
-         |                   ^
-   12 warnings and 1 error generated.
+   arch/x86/mm/pat/set_memory.c: In function '__set_memory_enc_pgtable':
+>> arch/x86/mm/pat/set_memory.c:2200:16: error: implicit declaration of function 'set_memory_p'; did you mean 'set_memory_np'? [-Werror=implicit-function-declaration]
+    2200 |         return set_memory_p(&addr, numpages);
+         |                ^~~~~~~~~~~~
+         |                set_memory_np
+   cc1: some warnings being treated as errors
 
 
-vim +520 net/ipv4/icmp.c
+vim +2200 arch/x86/mm/pat/set_memory.c
 
-   475	
-   476	static struct rtable *icmp_route_lookup(struct net *net,
-   477						struct flowi4 *fl4,
-   478						struct sk_buff *skb_in,
-   479						const struct iphdr *iph,
-   480						__be32 saddr, u8 tos, u32 mark,
-   481						int type, int code,
-   482						struct icmp_bxm *param)
-   483	{
-   484		struct net_device *route_lookup_dev;
-   485		struct rtable *rt, *rt2;
-   486		struct flowi4 fl4_dec;
-   487		int err;
-   488	
-   489		memset(fl4, 0, sizeof(*fl4));
-   490		fl4->daddr = (param->replyopts.opt.opt.srr ?
-   491			      param->replyopts.opt.opt.faddr : iph->saddr);
-   492		fl4->saddr = saddr;
-   493		fl4->flowi4_mark = mark;
-   494		fl4->flowi4_uid = sock_net_uid(net, NULL);
-   495		fl4->flowi4_tos = RT_TOS(tos);
-   496		fl4->flowi4_proto = IPPROTO_ICMP;
-   497		fl4->fl4_icmp_type = type;
-   498		fl4->fl4_icmp_code = code;
-   499		route_lookup_dev = icmp_get_route_lookup_dev(skb_in);
-   500		fl4->flowi4_oif = l3mdev_master_ifindex(route_lookup_dev);
-   501	
-   502		security_skb_classify_flow(skb_in, flowi4_to_flowi_common(fl4));
-   503		rt = ip_route_output_key_hash(net, fl4, skb_in);
-   504		if (IS_ERR(rt))
-   505			return rt;
-   506	
-   507		/* No need to clone since we're just using its address. */
-   508		rt2 = rt;
-   509	
-   510		rt = (struct rtable *) xfrm_lookup(net, &rt->dst,
-   511						   flowi4_to_flowi(fl4), NULL, 0);
-   512		if (!IS_ERR(rt)) {
-   513			if (rt != rt2)
-   514				return rt;
-   515		} else if (PTR_ERR(rt) == -EPERM) {
-   516			rt = NULL;
-   517		} else
-   518			return rt;
-   519	
- > 520		err = xfrm_decode_session_reverse(net, skb_in, flowi4_to_flowi(&fl4_dec), AF_INET);
-   521		if (err)
-   522			goto relookup_failed;
-   523	
-   524		if (inet_addr_type_dev_table(net, route_lookup_dev,
-   525					     fl4_dec.saddr) == RTN_LOCAL) {
-   526			rt2 = __ip_route_output_key(net, &fl4_dec);
-   527			if (IS_ERR(rt2))
-   528				err = PTR_ERR(rt2);
-   529		} else {
-   530			struct flowi4 fl4_2 = {};
-   531			unsigned long orefdst;
-   532	
-   533			fl4_2.daddr = fl4_dec.saddr;
-   534			rt2 = ip_route_output_key(net, &fl4_2);
-   535			if (IS_ERR(rt2)) {
-   536				err = PTR_ERR(rt2);
-   537				goto relookup_failed;
-   538			}
-   539			/* Ugh! */
-   540			orefdst = skb_in->_skb_refdst; /* save old refdst */
-   541			skb_dst_set(skb_in, NULL);
-   542			err = ip_route_input(skb_in, fl4_dec.daddr, fl4_dec.saddr,
-   543					     RT_TOS(tos), rt2->dst.dev);
-   544	
-   545			dst_release(&rt2->dst);
-   546			rt2 = skb_rtable(skb_in);
-   547			skb_in->_skb_refdst = orefdst; /* restore old refdst */
-   548		}
-   549	
-   550		if (err)
-   551			goto relookup_failed;
-   552	
-   553		rt2 = (struct rtable *) xfrm_lookup(net, &rt2->dst,
-   554						    flowi4_to_flowi(&fl4_dec), NULL,
-   555						    XFRM_LOOKUP_ICMP);
-   556		if (!IS_ERR(rt2)) {
-   557			dst_release(&rt->dst);
-   558			memcpy(fl4, &fl4_dec, sizeof(*fl4));
-   559			rt = rt2;
-   560		} else if (PTR_ERR(rt2) == -EPERM) {
-   561			if (rt)
-   562				dst_release(&rt->dst);
-   563			return rt2;
-   564		} else {
-   565			err = PTR_ERR(rt2);
-   566			goto relookup_failed;
-   567		}
-   568		return rt;
-   569	
-   570	relookup_failed:
-   571		if (rt)
-   572			return rt;
-   573		return ERR_PTR(err);
-   574	}
-   575	
+  2132	
+  2133	/*
+  2134	 * __set_memory_enc_pgtable() is used for the hypervisors that get
+  2135	 * informed about "encryption" status via page tables.
+  2136	 */
+  2137	static int __set_memory_enc_pgtable(unsigned long addr, int numpages, bool enc)
+  2138	{
+  2139		pgprot_t empty = __pgprot(0);
+  2140		struct cpa_data cpa;
+  2141		int ret;
+  2142	
+  2143		/* Should not be working on unaligned addresses */
+  2144		if (WARN_ONCE(addr & ~PAGE_MASK, "misaligned address: %#lx\n", addr))
+  2145			addr &= PAGE_MASK;
+  2146	
+  2147		memset(&cpa, 0, sizeof(cpa));
+  2148		cpa.vaddr = &addr;
+  2149		cpa.numpages = numpages;
+  2150	
+  2151		/*
+  2152		 * The caller must ensure that the memory being transitioned between
+  2153		 * encrypted and decrypted is not being accessed.  But if
+  2154		 * load_unaligned_zeropad() touches the "next" page, it may generate a
+  2155		 * read access the caller has no control over. To ensure such accesses
+  2156		 * cause a normal page fault for the load_unaligned_zeropad() handler,
+  2157		 * mark the pages not present until the transition is complete.  We
+  2158		 * don't want a #VE or #VC fault due to a mismatch in the memory
+  2159		 * encryption status, since paravisor configurations can't cleanly do
+  2160		 * the load_unaligned_zeropad() handling in the paravisor.
+  2161		 *
+  2162		 * There's no requirement to do so, but for efficiency we can clear
+  2163		 * _PAGE_PRESENT and set/clr encryption attr as a single operation.
+  2164		 */
+  2165		cpa.mask_set = enc ? pgprot_encrypted(empty) : pgprot_decrypted(empty);
+  2166		cpa.mask_clr = enc ? pgprot_decrypted(__pgprot(_PAGE_PRESENT)) :
+  2167					pgprot_encrypted(__pgprot(_PAGE_PRESENT));
+  2168		cpa.pgd = init_mm.pgd;
+  2169	
+  2170		/* Must avoid aliasing mappings in the highmem code */
+  2171		kmap_flush_unused();
+  2172		vm_unmap_aliases();
+  2173	
+  2174		/* Flush the caches as needed before changing the encryption attr. */
+  2175		if (x86_platform.guest.enc_cache_flush_required())
+  2176			cpa_flush(&cpa, 1);
+  2177	
+  2178		ret = __change_page_attr_set_clr(&cpa, 1);
+  2179		if (ret)
+  2180			return ret;
+  2181	
+  2182		/*
+  2183		 * After clearing _PAGE_PRESENT and changing the encryption attribute,
+  2184		 * we need to flush TLBs to ensure no further accesses to the memory can
+  2185		 * be made with the old encryption attribute (but no need to flush caches
+  2186		 * again).  We could just use cpa_flush_all(), but in case TLB flushing
+  2187		 * gets optimized in the cpa_flush() path use the same logic as above.
+  2188		 */
+  2189		cpa_flush(&cpa, 0);
+  2190	
+  2191		/* Notify hypervisor that we have successfully set/clr encryption attr. */
+  2192		if (!x86_platform.guest.enc_status_change_finish(addr, numpages, enc))
+  2193			return -EIO;
+  2194	
+  2195		/*
+  2196		 * Now that the hypervisor is sync'ed with the page table changes
+  2197		 * made here, add back _PAGE_PRESENT. set_memory_p() does not flush
+  2198		 * the TLB.
+  2199		 */
+> 2200		return set_memory_p(&addr, numpages);
+  2201	}
+  2202	
 
 -- 
 0-DAY CI Kernel Test Service
