@@ -1,66 +1,49 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604908820
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 05:52:42 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id E74235C0DBB;
-	Fri, 29 Sep 2023 01:52:41 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Fri, 29 Sep 2023 01:52:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1695966761; x=1696053161; bh=XV
-	vqIfHPHtEcbdr5LfkG8vjFGIU6rfeQaDgYBi2Jgi8=; b=A6eKm/T5fF7OJUBJu8
-	uBDMUtuR2BXSND3tVu1sJ6ujOMZ/QOuK9blKH1wOsutFXX1KIk8S0Xb+lU4SQos8
-	G83j2HNkgxsdTTfV/pV0TgGb/F9pKwPQSVjf92ABtmioFTlhc2XBhlepo7zfEq2v
-	EzsqfnE8JzDgVvsDruH5HGDzTngOMLEF3NbZhayhHrBg2uCbaM7PwuUaiCCBVAR/
-	OLe68irW5mgumWIXqq/sO4FkjzXByaAY9AkgdaxBc9zbYxIZ3IQFP+pfUEJNkPwn
-	8A1ajkSsQj4893t5TVJCG68+DsSjRyXKI/S8kRD13c9YgsIiCcYKw0urwPQ5Xnxn
-	KTpg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1695966761; x=1696053161; bh=XVvqIfHPHtEcb
-	dr5LfkG8vjFGIU6rfeQaDgYBi2Jgi8=; b=QF7vgD4LMXp4C85ROdkiLktIjmG0w
-	Os6Iw5kex4POEDPPM4OSU2UopA+Lnl+//6yfEzPbwTASRx8WAA0M0D8gcSPPsoOx
-	4PVXvaFyqRDdF1XoJtwi9DKPae1srUnQICyEt1ps9bYQgx1eowlBmK6/1s2hMgA+
-	3sPoT+mxVng3J80HH/qZI+Cw4/1GOigZfqA8Dps6h+q1HpBzJVUWTQa58ELJXnwh
-	4RE8uAoPCblI2ZtfqYtWQn5Rb7J9nQq4SmdhK+Hh5WazRi5opOW8H/Ooyg/hUXQI
-	LPT/NdtlLb6f5seicv9rcjQER1EkEHcUeLDHIvD7lYDrBuaDqNtE3PXxQ==
-X-ME-Sender: <xms:KWYWZUylQppie6wVSZBpcbsaMFrmJruDdFkjNEsAgma62xhcWGql8Q>
-    <xme:KWYWZYTF6CBRwyKnFDtM-4nFRnP7R-1uXlp4EA2uH3kEQggfnhXqeCw3vonvBDiCF
-    haSyrACQpOLOA>
-X-ME-Received: <xmr:KWYWZWUJoak3__zdaYqtU3WiHmQbSh9qjGCQZdZLARzTVv-b-PYs-SMl2lr-AG5OXDiFeJySYJ5ZDiZfQSyrRZc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrtddugddutddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
-    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepheefle
-    ettdeihffhleeltdffffethedvffeglefgkeeiheeitdehheduveehheehnecuffhomhgr
-    ihhnpehurhhluggvfhgvnhhsvgdrtghomhdpkhgvrhhnvghlrdhorhhgnecuvehluhhsth
-    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghh
-    rdgtohhm
-X-ME-Proxy: <xmx:KWYWZSgqAWx3nWAGG7NcgBRYjnO0eG2nQE--blOzPL0hnS_Crd7IHw>
-    <xmx:KWYWZWCngtEekFYLlRm2ZGkmXRVgy9o3-6J85RTtMzJhyP_UViKx-w>
-    <xmx:KWYWZTIgaKRkABYp9eDi0i8R-3raV_Lhqpckq4fRyV_YnEWs9WI19A>
-    <xmx:KWYWZY31E8JHjaWUU1APyxeqbqc-D8ljyKHIR9aHt6gfTQXlDFFsHg>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 29 Sep 2023 01:52:40 -0400 (EDT)
-Date: Fri, 29 Sep 2023 07:52:38 +0200
-From: Greg KH <greg@kroah.com>
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-Cc: kernel test robot <lkp@intel.com>, stable@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 3/3] mmap: Add clarifying comment to vma_merge() code
-Message-ID: <2023092922-erupt-pope-aaa5@gregkh>
-References: <20230928171634.2245042-4-Liam.Howlett@oracle.com>
- <ZRW1MBvWCCFevIg1@f61ccfac960a>
- <20230928172639.hmnzdsk3y4snjkwe@revolver>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C9F8820;
+	Fri, 29 Sep 2023 05:57:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695967045; x=1727503045;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lbYZU107SZDbwYM7mZDJ+TNGKOOBd48lBvz6MLLS1r8=;
+  b=kDIhFZ3owVofbspVH+y5fOFDbuiO45qhHChyPbsHdBVCnUl9FfzG3zfy
+   VH7yL/ovX0v3f2uI0mwovnBW/rkurovcBrVChu4/EvjYTff2F8/pjMsVf
+   xU5THD0VFysCyq7ymwrGzRknHk37X/fujbOXixksdddSpHkpWfS4YcgSg
+   fPduS/0iD0C44bhucBZgF3s5XcDiSbinuOqurjrQ0zcsp8ge+vuWUYCdB
+   oWoCgnvVZQ5XpTBJnPPzk3PFMfeG+IVowBeDuGnvytFNYmKSmjb81aazm
+   8ekJFwEnCkjPmA81hUJdB4Y1lLWwvdz6RqMK+G94ugMO8CBMLd3ibUmHf
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="844804"
+X-IronPort-AV: E=Sophos;i="6.03,186,1694761200"; 
+   d="scan'208";a="844804"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 22:57:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="840178590"
+X-IronPort-AV: E=Sophos;i="6.03,186,1694761200"; 
+   d="scan'208";a="840178590"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 28 Sep 2023 22:57:20 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qm6V4-0002X7-1C;
+	Fri, 29 Sep 2023 05:57:18 +0000
+Date: Fri, 29 Sep 2023 13:57:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Morley <morleyd.kernel@gmail.com>,
+	David Miller <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, David Morley <morleyd@google.com>,
+	Neal Cardwell <ncardwell@google.com>,
+	Yuchung Cheng <ycheng@google.com>
+Subject: Re: [PATCH net-next 1/2] tcp: record last received ipv6 flowlabel
+Message-ID: <202309291312.vJyV8G9L-lkp@intel.com>
+References: <20230927182747.2005960-1-morleyd.kernel@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,27 +52,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230928172639.hmnzdsk3y4snjkwe@revolver>
+In-Reply-To: <20230927182747.2005960-1-morleyd.kernel@gmail.com>
 
-On Thu, Sep 28, 2023 at 01:26:39PM -0400, Liam R. Howlett wrote:
-> * kernel test robot <lkp@intel.com> [230928 13:18]:
-> > Hi,
-> > 
-> > Thanks for your patch.
-> > 
-> > FYI: kernel test robot notices the stable kernel rule is not satisfied.
-> > 
-> > The check is based on https://urldefense.com/v3/__https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html/*option-1__;Iw!!ACWV5N9M2RV99hQ!Oav0h0ZRmSJZ5mOjG5-prYR3nJYyas32Z8AfSgTboijdcVMSWzmyOVzI-s1RuIdzGakIiSzdg1vB$ 
-> > 
-> > Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-> > Subject: [PATCH v2 3/3] mmap: Add clarifying comment to vma_merge() code
-> > Link: https://urldefense.com/v3/__https://lore.kernel.org/stable/20230928171634.2245042-4-Liam.Howlett*40oracle.com__;JQ!!ACWV5N9M2RV99hQ!Oav0h0ZRmSJZ5mOjG5-prYR3nJYyas32Z8AfSgTboijdcVMSWzmyOVzI-s1RuIdzGakIiRhQUpN6$ 
-> 
-> Right, thanks.  This is part of the series but stable does not need to
-> backport this one.
-> 
-> Sorry for Cc'ing stable on the last patch of the series.
-> 
+Hi David,
 
-It's not an issue, I think the kernel test robot is a bit pedantic here,
-so no worries :)
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Morley/tcp-change-data-receiver-flowlabel-after-one-dup/20230928-022955
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230927182747.2005960-1-morleyd.kernel%40gmail.com
+patch subject: [PATCH net-next 1/2] tcp: record last received ipv6 flowlabel
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230929/202309291312.vJyV8G9L-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309291312.vJyV8G9L-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309291312.vJyV8G9L-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> net/dccp/timer.c:199:25: warning: comparison of distinct pointer types ('typeof (icsk->icsk_ack.ato << 1) *' (aka 'int *') and 'typeof (icsk->icsk_rto) *' (aka 'unsigned int *')) [-Wcompare-distinct-pointer-types]
+                           icsk->icsk_ack.ato = min(icsk->icsk_ack.ato << 1,
+                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:68:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:37:24: note: expanded from macro '__careful_cmp'
+           __builtin_choose_expr(__safe_cmp(x, y), \
+                                 ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:27:4: note: expanded from macro '__safe_cmp'
+                   (__typecheck(x, y) && __no_side_effects(x, y))
+                    ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:21:28: note: expanded from macro '__typecheck'
+           (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+                      ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   1 warning generated.
+
+
+vim +199 net/dccp/timer.c
+
+4ed800d02cfb63 Gerrit Renker 2006-11-13  168  
+4ed800d02cfb63 Gerrit Renker 2006-11-13  169  /* This is the same as tcp_delack_timer, sans prequeue & mem_reclaim stuff */
+59f379f9046a9e Kees Cook     2017-10-16  170  static void dccp_delack_timer(struct timer_list *t)
+4ed800d02cfb63 Gerrit Renker 2006-11-13  171  {
+59f379f9046a9e Kees Cook     2017-10-16  172  	struct inet_connection_sock *icsk =
+59f379f9046a9e Kees Cook     2017-10-16  173  			from_timer(icsk, t, icsk_delack_timer);
+59f379f9046a9e Kees Cook     2017-10-16  174  	struct sock *sk = &icsk->icsk_inet.sk;
+4ed800d02cfb63 Gerrit Renker 2006-11-13  175  
+4ed800d02cfb63 Gerrit Renker 2006-11-13  176  	bh_lock_sock(sk);
+4ed800d02cfb63 Gerrit Renker 2006-11-13  177  	if (sock_owned_by_user(sk)) {
+4ed800d02cfb63 Gerrit Renker 2006-11-13  178  		/* Try again later. */
+02a1d6e7a6bb02 Eric Dumazet  2016-04-27  179  		__NET_INC_STATS(sock_net(sk), LINUX_MIB_DELAYEDACKLOCKED);
+4ed800d02cfb63 Gerrit Renker 2006-11-13  180  		sk_reset_timer(sk, &icsk->icsk_delack_timer,
+4ed800d02cfb63 Gerrit Renker 2006-11-13  181  			       jiffies + TCP_DELACK_MIN);
+4ed800d02cfb63 Gerrit Renker 2006-11-13  182  		goto out;
+4ed800d02cfb63 Gerrit Renker 2006-11-13  183  	}
+4ed800d02cfb63 Gerrit Renker 2006-11-13  184  
+4ed800d02cfb63 Gerrit Renker 2006-11-13  185  	if (sk->sk_state == DCCP_CLOSED ||
+4ed800d02cfb63 Gerrit Renker 2006-11-13  186  	    !(icsk->icsk_ack.pending & ICSK_ACK_TIMER))
+4ed800d02cfb63 Gerrit Renker 2006-11-13  187  		goto out;
+4ed800d02cfb63 Gerrit Renker 2006-11-13  188  	if (time_after(icsk->icsk_ack.timeout, jiffies)) {
+4ed800d02cfb63 Gerrit Renker 2006-11-13  189  		sk_reset_timer(sk, &icsk->icsk_delack_timer,
+4ed800d02cfb63 Gerrit Renker 2006-11-13  190  			       icsk->icsk_ack.timeout);
+4ed800d02cfb63 Gerrit Renker 2006-11-13  191  		goto out;
+4ed800d02cfb63 Gerrit Renker 2006-11-13  192  	}
+4ed800d02cfb63 Gerrit Renker 2006-11-13  193  
+4ed800d02cfb63 Gerrit Renker 2006-11-13  194  	icsk->icsk_ack.pending &= ~ICSK_ACK_TIMER;
+4ed800d02cfb63 Gerrit Renker 2006-11-13  195  
+4ed800d02cfb63 Gerrit Renker 2006-11-13  196  	if (inet_csk_ack_scheduled(sk)) {
+31954cd8bb6670 Wei Wang      2019-01-25  197  		if (!inet_csk_in_pingpong_mode(sk)) {
+4ed800d02cfb63 Gerrit Renker 2006-11-13  198  			/* Delayed ACK missed: inflate ATO. */
+4ed800d02cfb63 Gerrit Renker 2006-11-13 @199  			icsk->icsk_ack.ato = min(icsk->icsk_ack.ato << 1,
+4ed800d02cfb63 Gerrit Renker 2006-11-13  200  						 icsk->icsk_rto);
+4ed800d02cfb63 Gerrit Renker 2006-11-13  201  		} else {
+4ed800d02cfb63 Gerrit Renker 2006-11-13  202  			/* Delayed ACK missed: leave pingpong mode and
+4ed800d02cfb63 Gerrit Renker 2006-11-13  203  			 * deflate ATO.
+4ed800d02cfb63 Gerrit Renker 2006-11-13  204  			 */
+31954cd8bb6670 Wei Wang      2019-01-25  205  			inet_csk_exit_pingpong_mode(sk);
+4ed800d02cfb63 Gerrit Renker 2006-11-13  206  			icsk->icsk_ack.ato = TCP_ATO_MIN;
+4ed800d02cfb63 Gerrit Renker 2006-11-13  207  		}
+4ed800d02cfb63 Gerrit Renker 2006-11-13  208  		dccp_send_ack(sk);
+02a1d6e7a6bb02 Eric Dumazet  2016-04-27  209  		__NET_INC_STATS(sock_net(sk), LINUX_MIB_DELAYEDACKS);
+4ed800d02cfb63 Gerrit Renker 2006-11-13  210  	}
+4ed800d02cfb63 Gerrit Renker 2006-11-13  211  out:
+4ed800d02cfb63 Gerrit Renker 2006-11-13  212  	bh_unlock_sock(sk);
+4ed800d02cfb63 Gerrit Renker 2006-11-13  213  	sock_put(sk);
+4ed800d02cfb63 Gerrit Renker 2006-11-13  214  }
+4ed800d02cfb63 Gerrit Renker 2006-11-13  215  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
