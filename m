@@ -1,158 +1,126 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 461494121A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 13:48:18 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qmDqb-0003x9-CW; Fri, 29 Sep 2023 15:48:01 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qmDqa-009pKl-AB; Fri, 29 Sep 2023 15:48:00 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qmDqa-005wF3-0o; Fri, 29 Sep 2023 15:48:00 +0200
-Date: Fri, 29 Sep 2023 15:47:57 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	linux-acpi@vger.kernel.org, devel@acpica.org,
-	linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: Re: [rafael-pm:bleeding-edge 48/94]
- drivers/thermal/amlogic_thermal.c:303:16: error: void value not ignored as
- it ought to be
-Message-ID: <20230929134757.5ztol37eqttvr4wo@pengutronix.de>
-References: <202309291214.Hjn3gJ94-lkp@intel.com>
- <CAJZ5v0gGissufTrvCa+z5i=kPMDM+-RKoQfOHW41zf7o2=z4SQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E5941216
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Sep 2023 13:52:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695995560; x=1727531560;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xMAZJI/NpFNt0FZUnQl6CZ+hY2r9DBoITtN7wphELAY=;
+  b=NUD8zEM6Kfh9JCwOa+68y5oFPGuwBedcN7uW3hvf4jbe1PVJZpz+0rFH
+   vJqzM0j85Y7h27sE/0eoi/Qn+Q47z+xt3T9LUQRkrGobWgzP9EO81r+0S
+   +wG+wrruBa6SnuhaDyGNrul2xV5C3AOUgInnHoWHJ7qhT0iiq56SNHo6J
+   l3ohDCyV0E74TdYw7tCYxVnLuxAzKj1OHa/VPLVvKnIsLLyptcStE8ysR
+   9ebYwUresuSgikqPRj4BcETZhzpK3Oh3mfO2YgRDrEr934U3DhL13bo1s
+   0ogZkj4Gh4UVGbCqGP+aPqqB/oI3b6JtImyRUXdgFRuQBkxNHxQVko/GI
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="386166880"
+X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
+   d="scan'208";a="386166880"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 06:52:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="923596958"
+X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
+   d="scan'208";a="923596958"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 29 Sep 2023 06:52:38 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qmDv2-0002ur-1W;
+	Fri, 29 Sep 2023 13:52:36 +0000
+Date: Fri, 29 Sep 2023 21:52:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 6/6] ASoC: Intel: avs: Drop superfluous stream decoupling
+Message-ID: <202309292121.5DdaNpLj-lkp@intel.com>
+References: <20230929112436.787058-7-amadeuszx.slawinski@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="h5m4qeuiyxuq2nm4"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJZ5v0gGissufTrvCa+z5i=kPMDM+-RKoQfOHW41zf7o2=z4SQ@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230929112436.787058-7-amadeuszx.slawinski@linux.intel.com>
+
+Hi Amadeusz,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.6-rc3 next-20230929]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Amadeusz-S-awi-ski/ASoC-Intel-avs-Move-IPC-error-messages-one-level-down/20230929-192935
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230929112436.787058-7-amadeuszx.slawinski%40linux.intel.com
+patch subject: [PATCH 6/6] ASoC: Intel: avs: Drop superfluous stream decoupling
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230929/202309292121.5DdaNpLj-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309292121.5DdaNpLj-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309292121.5DdaNpLj-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   sound/soc/intel/avs/pcm.c: In function 'avs_dai_fe_prepare':
+>> sound/soc/intel/avs/pcm.c:606:26: warning: variable 'bus' set but not used [-Wunused-but-set-variable]
+     606 |         struct hdac_bus *bus;
+         |                          ^~~
 
 
---h5m4qeuiyxuq2nm4
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+vim +/bus +606 sound/soc/intel/avs/pcm.c
 
-On Fri, Sep 29, 2023 at 12:37:03PM +0200, Rafael J. Wysocki wrote:
-> On Fri, Sep 29, 2023 at 6:21=E2=80=AFAM kernel test robot <lkp@intel.com>=
- wrote:
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm=
-=2Egit bleeding-edge
-> > head:   2cff74feed4a2a3a1c220e0ee2838b85b08d4999
-> > commit: 88af8b66ffedcad8c5a1522f6a9c02bf8129a951 [48/94] thermal: amlog=
-ic: Convert to platform remove callback returning void
-> > config: arm-randconfig-004-20230929 (https://download.01.org/0day-ci/ar=
-chive/20230929/202309291214.Hjn3gJ94-lkp@intel.com/config)
-> > compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20230929/202309291214.Hjn3gJ94-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202309291214.Hjn3gJ94-l=
-kp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    drivers/thermal/amlogic_thermal.c: In function 'amlogic_thermal_susp=
-end':
-> > >> drivers/thermal/amlogic_thermal.c:303:16: error: void value not igno=
-red as it ought to be
-> >      303 |         return amlogic_thermal_disable(data);
-> >          |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->=20
-> amlogic_thermal_disable() should not be modified by this commit -
-> fixed up in the tree.
+9114700b496c6c Cezary Rojewski 2022-05-16  599  
+9114700b496c6c Cezary Rojewski 2022-05-16  600  static int avs_dai_fe_prepare(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
+9114700b496c6c Cezary Rojewski 2022-05-16  601  {
+9114700b496c6c Cezary Rojewski 2022-05-16  602  	struct snd_pcm_runtime *runtime = substream->runtime;
+9114700b496c6c Cezary Rojewski 2022-05-16  603  	struct avs_dma_data *data;
+9114700b496c6c Cezary Rojewski 2022-05-16  604  	struct avs_dev *adev = to_avs_dev(dai->dev);
+9114700b496c6c Cezary Rojewski 2022-05-16  605  	struct hdac_ext_stream *host_stream;
+9114700b496c6c Cezary Rojewski 2022-05-16 @606  	struct hdac_bus *bus;
+9114700b496c6c Cezary Rojewski 2022-05-16  607  	unsigned int format_val;
+9114700b496c6c Cezary Rojewski 2022-05-16  608  	int ret;
+9114700b496c6c Cezary Rojewski 2022-05-16  609  
+9114700b496c6c Cezary Rojewski 2022-05-16  610  	data = snd_soc_dai_get_dma_data(dai, substream);
+9114700b496c6c Cezary Rojewski 2022-05-16  611  	host_stream = data->host_stream;
+9114700b496c6c Cezary Rojewski 2022-05-16  612  
+9114700b496c6c Cezary Rojewski 2022-05-16  613  	if (hdac_stream(host_stream)->prepared)
+9114700b496c6c Cezary Rojewski 2022-05-16  614  		return 0;
+9114700b496c6c Cezary Rojewski 2022-05-16  615  
+9114700b496c6c Cezary Rojewski 2022-05-16  616  	bus = hdac_stream(host_stream)->bus;
+9114700b496c6c Cezary Rojewski 2022-05-16  617  	snd_hdac_stream_reset(hdac_stream(host_stream));
+9114700b496c6c Cezary Rojewski 2022-05-16  618  
+9114700b496c6c Cezary Rojewski 2022-05-16  619  	format_val = snd_hdac_calc_stream_format(runtime->rate, runtime->channels, runtime->format,
+9114700b496c6c Cezary Rojewski 2022-05-16  620  						 runtime->sample_bits, 0);
+9114700b496c6c Cezary Rojewski 2022-05-16  621  
+9114700b496c6c Cezary Rojewski 2022-05-16  622  	ret = snd_hdac_stream_set_params(hdac_stream(host_stream), format_val);
+9114700b496c6c Cezary Rojewski 2022-05-16  623  	if (ret < 0)
+9114700b496c6c Cezary Rojewski 2022-05-16  624  		return ret;
+9114700b496c6c Cezary Rojewski 2022-05-16  625  
+9114700b496c6c Cezary Rojewski 2022-05-16  626  	ret = snd_hdac_stream_setup(hdac_stream(host_stream));
+9114700b496c6c Cezary Rojewski 2022-05-16  627  	if (ret < 0)
+9114700b496c6c Cezary Rojewski 2022-05-16  628  		return ret;
+9114700b496c6c Cezary Rojewski 2022-05-16  629  
+9114700b496c6c Cezary Rojewski 2022-05-16  630  	ret = avs_dai_prepare(adev, substream, dai);
+9114700b496c6c Cezary Rojewski 2022-05-16  631  	if (ret)
+9114700b496c6c Cezary Rojewski 2022-05-16  632  		return ret;
+9114700b496c6c Cezary Rojewski 2022-05-16  633  
+9114700b496c6c Cezary Rojewski 2022-05-16  634  	hdac_stream(host_stream)->prepared = true;
+9114700b496c6c Cezary Rojewski 2022-05-16  635  	return 0;
+9114700b496c6c Cezary Rojewski 2022-05-16  636  }
+9114700b496c6c Cezary Rojewski 2022-05-16  637  
 
-Thanks for choosing an option that hides that embarrassing build
-failure. :-)
-
-IMHO
-
-https://lore.kernel.org/all/20230929061305.2351953-1-u.kleine-koenig@pengut=
-ronix.de
-
-is the nicer fix because with that amlogic_thermal_remove() would ignore
-the return value of amlogic_thermal_disable(). On top of your current
-tree that would be:
-
-diff --git a/drivers/thermal/amlogic_thermal.c b/drivers/thermal/amlogic_th=
-ermal.c
-index 5877cde25b79..562f63b7bf27 100644
---- a/drivers/thermal/amlogic_thermal.c
-+++ b/drivers/thermal/amlogic_thermal.c
-@@ -167,13 +167,11 @@ static int amlogic_thermal_enable(struct amlogic_ther=
-mal *data)
- 	return 0;
- }
-=20
--static int amlogic_thermal_disable(struct amlogic_thermal *data)
-+static void amlogic_thermal_disable(struct amlogic_thermal *data)
- {
- 	regmap_update_bits(data->regmap, TSENSOR_CFG_REG1,
- 			   TSENSOR_CFG_REG1_ENABLE, 0);
- 	clk_disable_unprepare(data->clk);
--
--	return 0;
- }
-=20
- static int amlogic_thermal_get_temp(struct thermal_zone_device *tz, int *t=
-emp)
-@@ -302,7 +300,9 @@ static int __maybe_unused amlogic_thermal_suspend(struc=
-t device *dev)
- {
- 	struct amlogic_thermal *data =3D dev_get_drvdata(dev);
-=20
--	return amlogic_thermal_disable(data);
-+	amlogic_thermal_disable(data);
-+
-+	return 0;
- }
-=20
- static int __maybe_unused amlogic_thermal_resume(struct device *dev)
-
-But I won't argue further and consider the case closed.
-
-Thanks
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---h5m4qeuiyxuq2nm4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUW1YwACgkQj4D7WH0S
-/k5fBwf8DU6ytLGBe3UCbC4aCs+KSO9KKMjRB2/wRBIg/wcF8uSiGYXVEdxaqiTT
-OuDnFPRnlI0rxYff524ZBxgQCD8XFBR0qZYCs9Nd1aWYDfYNS3EDPxIJ7Zl1srjO
-OppgV0rQILZZ4I3+1WfxqaeQbdvQszrPIrdOS8gGdRvFkmxo/nMx9zrtDp7Xl0XO
-xeywc1J736A6+rSm7D56a7TzY/xwuqDT9f6IBqYskBCufGm3FEgbxjrV6hzXr4Bc
-7MNU1kNZivh7TPMweQSUrmzoZRECWLA5I8w2Gt6GwTFgpNsEEce+26Cjq2qTipUI
-vzeYqecdnuRzTESFNswd4PClJC0biA==
-=oV9Q
------END PGP SIGNATURE-----
-
---h5m4qeuiyxuq2nm4--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
