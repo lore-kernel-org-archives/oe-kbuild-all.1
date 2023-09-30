@@ -1,112 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639F9524E;
-	Sat, 30 Sep 2023 13:29:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 786BCC433C8;
-	Sat, 30 Sep 2023 13:29:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1696080572;
-	bh=i0Cj8+zi1/vHkGVilLWk62xFTOKNFQoM8Abg5edGgjc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=p94r9rVQFN59iFpiWFk/ENZwkqmWs6JRBQpTRt8RXhyJDU9eq8FlMSrDiKouQETgV
-	 cxBaBQnGh+LxbFWKKn5F+QdBNP866Cgt648s0IXD1+OiM9SwOzdgpLdGnYpA8mkng2
-	 EdJK1EhghA2oD4utaE28AgzOU2TM22OwlCUBqEK6eZqGHWtJpfbvuBB/XtilQWkzbq
-	 V3+euyGGhH/RPxXfl4xFnj0GYs+s97l9fGpmTKIFa5kyMSqhoxisD8F3nJlRsJLaWo
-	 gW93BzsnzvPQT85Udhr0/X5Rrw/rrksBBOgukJp7n8D0lWVhnaKt0bBiFy/FLzX32M
-	 hfOkUgGHj9mgA==
-Date: Sat, 30 Sep 2023 14:29:21 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Dumitru Ceclan <mitrutzceclan@gmail.com>, oe-kbuild-all@lists.linux.dev,
- linus.walleij@linaro.org, brgl@bgdev.pl, andy@kernel.org,
- linux-gpio@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, Rob
- Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Michael Walle <michael@walle.cc>, Andy
- Shevchenko <andy.shevchenko@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- ChiaEn Wu <chiaen_wu@richtek.com>, Niklas Schnelle
- <schnelle@linux.ibm.com>, Leonard =?UTF-8?B?R8O2aHJz?=
- <l.goehrs@pengutronix.de>, Mike Looijmans <mike.looijmans@topic.nl>, Haibo
- Chen <haibo.chen@nxp.com>, Hugo Villeneuve <hvilleneuve@dimonoff.com>,
- Ceclan Dumitru <dumitru.ceclan@analog.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] iio: adc: ad7173: add AD7173 driver
-Message-ID: <20230930142921.38006137@jic23-huawei>
-In-Reply-To: <202309290756.MgmIdaDl-lkp@intel.com>
-References: <20230928125443.615006-2-mitrutzceclan@gmail.com>
-	<202309290756.MgmIdaDl-lkp@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD89011727;
+	Sat, 30 Sep 2023 13:40:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696081259; x=1727617259;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+YW7QREcswaXbcYD3cS3q5e9xIzFH5ykJ5V/BWCj1qg=;
+  b=DsvmmWKhxp0uypD7EzCShjVf5EaoilAY/AUMP2l3+NzBoic60qngF4Ib
+   MAjekjVsbC954ptkYxcKrsJUx1kcFb0/K+vJzGfeTis7aM5l89jvhclrQ
+   uQS7fEdBB6KfFBkPGYO7NGekkRGpwuEAkJntMNhGHmr1GBSiIfcZ8xL1S
+   mX8mP8MIJEF9atbj9wiH2boLbEfMDDWyIR/YSAl6AD5+ApzoAc2pmlNPG
+   roib0bd/ggOC2MSlPDcDPZk9nYLWoW3nSr4eFnCkzZMpMpxV+ZrvuYKUi
+   lPUbGMd2EyZTAwOCt/ezSe2LHN13HEfjI/I08tmk1jOVWfNrSQpxXOlSE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="381325986"
+X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
+   d="scan'208";a="381325986"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 06:40:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="743695318"
+X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
+   d="scan'208";a="743695318"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 30 Sep 2023 06:40:56 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qmaDG-0004B7-0h;
+	Sat, 30 Sep 2023 13:40:54 +0000
+Date: Sat, 30 Sep 2023 21:40:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+	Arnd Bergmann <arnd@arndb.de>
+Subject: arch/powerpc/kernel/traps.c:1167:19: error: unused function
+ '__parse_fpscr'
+Message-ID: <202309302131.bsuutuxs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 29 Sep 2023 07:29:01 +0800
-kernel test robot <lkp@intel.com> wrote:
+Hi Christophe,
 
-> Hi Dumitru,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on jic23-iio/togreg]
-> [also build test WARNING on linus/master v6.6-rc3 next-20230928]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Dumitru-Ceclan/iio-adc-ad7173-add-AD7173-driver/20230928-205802
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-> patch link:    https://lore.kernel.org/r/20230928125443.615006-2-mitrutzceclan%40gmail.com
-> patch subject: [PATCH v2 2/2] iio: adc: ad7173: add AD7173 driver
-> config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230929/202309290756.MgmIdaDl-lkp@intel.com/config)
-> compiler: sparc64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290756.MgmIdaDl-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309290756.MgmIdaDl-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> drivers/iio/adc/ad7173.c:829:23: warning: initialization of 'long unsigned int' from 'const struct ad7173_device_info *' makes integer from pointer without a cast [-Wint-conversion]  
->      829 |         { "ad7172-2", &ad7173_device_info[ID_AD7172_2], },
->          |                       ^
->    drivers/iio/adc/ad7173.c:829:23: note: (near initialization for 'ad7173_id_table[0].driver_data')
->    drivers/iio/adc/ad7173.c:830:23: warning: initialization of 'long unsigned int' from 'const struct ad7173_device_info *' makes integer from pointer without a cast [-Wint-conversion]
->      830 |         { "ad7173-8", &ad7173_device_info[ID_AD7173_8], },
->          |                       ^
->    drivers/iio/adc/ad7173.c:830:23: note: (near initialization for 'ad7173_id_table[1].driver_data')
->    drivers/iio/adc/ad7173.c:831:23: warning: initialization of 'long unsigned int' from 'const struct ad7173_device_info *' makes integer from pointer without a cast [-Wint-conversion]
->      831 |         { "ad7175-2", &ad7173_device_info[ID_AD7175_2], },
->          |                       ^
->    drivers/iio/adc/ad7173.c:831:23: note: (near initialization for 'ad7173_id_table[2].driver_data')
->    drivers/iio/adc/ad7173.c:832:23: warning: initialization of 'long unsigned int' from 'const struct ad7173_device_info *' makes integer from pointer without a cast [-Wint-conversion]
->      832 |         { "ad7176-2", &ad7173_device_info[ID_AD7176_2], },
->          |                       ^
->    drivers/iio/adc/ad7173.c:832:23: note: (near initialization for 'ad7173_id_table[3].driver_data')
-> 
-> 
-> vim +829 drivers/iio/adc/ad7173.c
-> 
->    827	
->    828	static const struct spi_device_id ad7173_id_table[] = {
->  > 829		{ "ad7172-2", &ad7173_device_info[ID_AD7172_2], },  
->    830		{ "ad7173-8", &ad7173_device_info[ID_AD7173_8], },
->    831		{ "ad7175-2", &ad7173_device_info[ID_AD7175_2], },
->    832		{ "ad7176-2", &ad7173_device_info[ID_AD7176_2], },
-Cast these to kernel_ulong_t as done in similar drivers like the ad7192
+FYI, the error/warning still remains.
 
-Jonathan
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9f3ebbef746f89f860a90ced99a359202ea86fde
+commit: ca13c130a43fe3ab625d22ada0a61e5c0b612229 powerpc/4xx: Remove WatchdogHandler() to fix no previous prototype error
+date:   6 weeks ago
+config: powerpc-kilauea_defconfig (https://download.01.org/0day-ci/archive/20230930/202309302131.bsuutuxs-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309302131.bsuutuxs-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309302131.bsuutuxs-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> arch/powerpc/kernel/traps.c:1167:19: error: unused function '__parse_fpscr' [-Werror,-Wunused-function]
+    1167 | static inline int __parse_fpscr(unsigned long fpscr)
+         |                   ^
+   1 error generated.
 
 
->    833		{ },
->    834	};
->    835	MODULE_DEVICE_TABLE(spi, ad7173_id_table);
->    836	
-> 
+vim +/__parse_fpscr +1167 arch/powerpc/kernel/traps.c
 
+14cf11af6cf608 Paul Mackerras    2005-09-26  1166  
+5fad293bcbd48d Kumar Gala        2007-02-07 @1167  static inline int __parse_fpscr(unsigned long fpscr)
+dc1c1ca3dcd94c Stephen Rothwell  2005-10-01  1168  {
+aeb1c0f6ff18f5 Eric W. Biederman 2018-04-17  1169  	int ret = FPE_FLTUNK;
+dc1c1ca3dcd94c Stephen Rothwell  2005-10-01  1170  
+dc1c1ca3dcd94c Stephen Rothwell  2005-10-01  1171  	/* Invalid operation */
+dc1c1ca3dcd94c Stephen Rothwell  2005-10-01  1172  	if ((fpscr & FPSCR_VE) && (fpscr & FPSCR_VX))
+5fad293bcbd48d Kumar Gala        2007-02-07  1173  		ret = FPE_FLTINV;
+dc1c1ca3dcd94c Stephen Rothwell  2005-10-01  1174  
+dc1c1ca3dcd94c Stephen Rothwell  2005-10-01  1175  	/* Overflow */
+dc1c1ca3dcd94c Stephen Rothwell  2005-10-01  1176  	else if ((fpscr & FPSCR_OE) && (fpscr & FPSCR_OX))
+5fad293bcbd48d Kumar Gala        2007-02-07  1177  		ret = FPE_FLTOVF;
+dc1c1ca3dcd94c Stephen Rothwell  2005-10-01  1178  
+dc1c1ca3dcd94c Stephen Rothwell  2005-10-01  1179  	/* Underflow */
+dc1c1ca3dcd94c Stephen Rothwell  2005-10-01  1180  	else if ((fpscr & FPSCR_UE) && (fpscr & FPSCR_UX))
+5fad293bcbd48d Kumar Gala        2007-02-07  1181  		ret = FPE_FLTUND;
+dc1c1ca3dcd94c Stephen Rothwell  2005-10-01  1182  
+dc1c1ca3dcd94c Stephen Rothwell  2005-10-01  1183  	/* Divide by zero */
+dc1c1ca3dcd94c Stephen Rothwell  2005-10-01  1184  	else if ((fpscr & FPSCR_ZE) && (fpscr & FPSCR_ZX))
+5fad293bcbd48d Kumar Gala        2007-02-07  1185  		ret = FPE_FLTDIV;
+dc1c1ca3dcd94c Stephen Rothwell  2005-10-01  1186  
+dc1c1ca3dcd94c Stephen Rothwell  2005-10-01  1187  	/* Inexact result */
+dc1c1ca3dcd94c Stephen Rothwell  2005-10-01  1188  	else if ((fpscr & FPSCR_XE) && (fpscr & FPSCR_XX))
+5fad293bcbd48d Kumar Gala        2007-02-07  1189  		ret = FPE_FLTRES;
+5fad293bcbd48d Kumar Gala        2007-02-07  1190  
+5fad293bcbd48d Kumar Gala        2007-02-07  1191  	return ret;
+5fad293bcbd48d Kumar Gala        2007-02-07  1192  }
+5fad293bcbd48d Kumar Gala        2007-02-07  1193  
+
+:::::: The code at line 1167 was first introduced by commit
+:::::: 5fad293bcbd48d9a2370020cf60e4b4a42559b12 [POWERPC] Fixup error handling when emulating a floating point instruction
+
+:::::: TO: Kumar Gala <galak@kernel.crashing.org>
+:::::: CC: Kumar Gala <galak@kernel.crashing.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
