@@ -1,43 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E058F5A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Sep 2023 11:57:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AFFE8F5A;
+	Sat, 30 Sep 2023 11:57:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696075067; x=1727611067;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9ik6kacsrLQqvkjaxjhqV8nsfx6B3iSI8+TUlfKz+EA=;
-  b=l1rc2xAdoE4mjBm4pkAIjqmM5rTmFDjNNSDermZVpCF41n/8075M1NAL
-   6fXug/CVGBjuE5OEMRbHm8U9tpNpNPDlKedP6jRT3DuBp/kBiOIv1Cp8r
-   1eqhzP/r6aVPdJaKO92eG+KILUjpRABxYJ0bk3baVzWlTO6RF20Nl2dRZ
-   NJztMjWKwLR6d2NJHlVkGfvEr6VEZrxrxeeFR2Vvse10pZDYb7UAeS169
-   v310GkO6nLpg8KFFZZc6/LObP2eMyedOPrHkGtIPKsunulvc1Cp79EYLa
-   ly4+QNj/pJxkgGFwUR2vAwN3Te1a91T2IU4CZBzJ9PBK8rtr110Lwp+nQ
+  t=1696075069; x=1727611069;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PdU2bkeAHGUqnJlEXO1kGz3P3YD4ICw84B9+BzRlc2Q=;
+  b=DRkq3AHtIPBVWRIPo8sO0gskQZmq3yXyqAVLUCjhmgvS76EiMHIO+Qy3
+   FzPpGZbly1qSPiRa6+Wf3j06lvzmGuOnmJCFXlyOpZXKKQYf+oaA2uHb+
+   /+Ko4rBhlhd78ANOFxuLLtq4FKrvDNTX9uLwoPYNxx2mWNmr+iMgJKbuE
+   Ca8stiAAc8gGwZoD2NFsv3Vs0Tkx3lYv6GVwIESdP8K0KCoFi2nj7M9Ne
+   H2qc++ASHC6JUdhakjgh1kc5cnU6q/sZugP3o57eEy2oB2NsAvgEBZpzE
+   hkSH1SZ+HtTQ3evQ1Em1evkUh9bk609UpZAisKGubnyB5v5WmE5BzfQyK
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="1037358"
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="413343955"
 X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
-   d="scan'208";a="1037358"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 04:57:46 -0700
+   d="scan'208";a="413343955"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 04:57:48 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="785342863"
 X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
-   d="scan'208";a="1117913"
+   d="scan'208";a="785342863"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Sep 2023 04:57:45 -0700
+  by orsmga001.jf.intel.com with ESMTP; 30 Sep 2023 04:57:43 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qmYbN-00046j-2U;
+	id 1qmYbN-00046l-2a;
 	Sat, 30 Sep 2023 11:57:41 +0000
-Date: Sat, 30 Sep 2023 19:57:39 +0800
+Date: Sat, 30 Sep 2023 19:57:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 211/217] include/linux/kern_levels.h:5:25:
- warning: format '%zu' expects argument of type 'size_t', but argument 6 has
- type 'uint32_t' {aka 'unsigned int'}
-Message-ID: <202309301908.bFW8y2rp-lkp@intel.com>
+To: Joey Gouly <joey.gouly@arm.com>, linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, nd@arm.com, akpm@linux-foundation.org,
+	aneesh.kumar@linux.ibm.com, catalin.marinas@arm.com,
+	dave.hansen@linux.intel.com, joey.gouly@arm.com, maz@kernel.org,
+	oliver.upton@linux.dev, shuah@kernel.org, will@kernel.org,
+	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v1 09/20] arm64: define VM_PKEY_BIT* for arm64
+Message-ID: <202309301944.jGh1qzvm-lkp@intel.com>
+References: <20230927140123.5283-10-joey.gouly@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,81 +51,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230927140123.5283-10-joey.gouly@arm.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   0ae6faaa0d86e300a37b529cdb6a10250b93f993
-commit: a4438ed6b31a0bfa212c94419dc1c8eb5657a252 [211/217] CHROMIUM: msm: camera: icp: Avoid accessing frame process data in the kernel
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230930/202309301908.bFW8y2rp-lkp@intel.com/config)
+Hi Joey,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on linus/master v6.6-rc3 next-20230929]
+[cannot apply to akpm-mm/mm-everything kvmarm/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joey-Gouly/arm64-sysreg-add-system-register-POR_EL-0-1/20230927-221459
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20230927140123.5283-10-joey.gouly%40arm.com
+patch subject: [PATCH v1 09/20] arm64: define VM_PKEY_BIT* for arm64
+config: arm64-randconfig-001-20230930 (https://download.01.org/0day-ci/archive/20230930/202309301944.jGh1qzvm-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309301908.bFW8y2rp-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309301944.jGh1qzvm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309301908.bFW8y2rp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309301944.jGh1qzvm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/media/platform/camx/cam_icp/icp_hw/icp_hw_mgr/cam_icp_hw_mgr.c: In function 'cam_icp_mgr_process_direct_ack_msg':
-   drivers/media/platform/camx/cam_icp/icp_hw/icp_hw_mgr/cam_icp_hw_mgr.c:1850:17: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
-    1850 |                 if (ctx_data->state != CAM_ICP_CTX_STATE_FREE)
-         |                 ^~
-   In file included from drivers/media/platform/camx/cam_icp/icp_hw/icp_hw_mgr/cam_icp_hw_mgr.c:50:
-   drivers/media/platform/camx/cam_utils/cam_debug_util.h:155:9: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
-     155 |         cam_debug_log(__module, __func__, __LINE__, fmt, ##args)
-         |         ^~~~~~~~~~~~~
-   drivers/media/platform/camx/cam_icp/icp_hw/icp_hw_mgr/cam_icp_hw_mgr.c:1852:25: note: in expansion of macro 'CAM_DBG'
-    1852 |                         CAM_DBG(CAM_ICP, "received IPE/BPS\n"
-         |                         ^~~~~~~
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/arm64/include/asm/bug.h:26,
-                    from include/linux/bug.h:5,
-                    from arch/arm64/include/asm/cpufeature.h:20,
-                    from arch/arm64/include/asm/ptrace.h:11,
-                    from arch/arm64/include/asm/irqflags.h:10,
-                    from include/linux/irqflags.h:16,
-                    from include/linux/rcupdate.h:26,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/uaccess.h:8,
-                    from drivers/media/platform/camx/cam_icp/icp_hw/icp_hw_mgr/cam_icp_hw_mgr.c:14:
-   drivers/media/platform/camx/cam_icp/icp_hw/icp_hw_mgr/cam_icp_hw_mgr.c: In function 'cam_icp_util_dump_frame_data':
->> include/linux/kern_levels.h:5:25: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'uint32_t' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:429:25: note: in definition of macro 'printk_index_wrap'
-     429 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:510:9: note: in expansion of macro 'printk'
-     510 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
-      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:510:16: note: in expansion of macro 'KERN_WARNING'
-     510 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~~~~
-   drivers/media/platform/camx/cam_utils/cam_debug_util.h:99:9: note: in expansion of macro 'pr_warn'
-      99 |         pr_warn("CAM_WARN: %s: %s: %d " fmt "\n",                     \
-         |         ^~~~~~~
-   drivers/media/platform/camx/cam_icp/icp_hw/icp_hw_mgr/cam_icp_hw_mgr.c:5326:33: note: in expansion of macro 'CAM_WARN'
-    5326 |                                 CAM_WARN(CAM_ICP, "buf overshoot len %zu offset %zu",
-         |                                 ^~~~~~~~
+   In file included from fs/proc/meminfo.c:5:
+   arch/arm64/include/asm/mman.h: In function 'arch_calc_vm_prot_bits':
+>> include/linux/mm.h:346:25: error: 'VM_HIGH_ARCH_2' undeclared (first use in this function)
+     346 | # define VM_PKEY_BIT0   VM_HIGH_ARCH_2  /* A protection key is a 3-bit value on arm64 */
+         |                         ^~~~~~~~~~~~~~
+   arch/arm64/include/asm/mman.h:20:29: note: in expansion of macro 'VM_PKEY_BIT0'
+      20 |         ret |= pkey & 0x1 ? VM_PKEY_BIT0 : 0;
+         |                             ^~~~~~~~~~~~
+   include/linux/mm.h:346:25: note: each undeclared identifier is reported only once for each function it appears in
+     346 | # define VM_PKEY_BIT0   VM_HIGH_ARCH_2  /* A protection key is a 3-bit value on arm64 */
+         |                         ^~~~~~~~~~~~~~
+   arch/arm64/include/asm/mman.h:20:29: note: in expansion of macro 'VM_PKEY_BIT0'
+      20 |         ret |= pkey & 0x1 ? VM_PKEY_BIT0 : 0;
+         |                             ^~~~~~~~~~~~
+>> include/linux/mm.h:347:25: error: 'VM_HIGH_ARCH_3' undeclared (first use in this function)
+     347 | # define VM_PKEY_BIT1   VM_HIGH_ARCH_3
+         |                         ^~~~~~~~~~~~~~
+   arch/arm64/include/asm/mman.h:21:29: note: in expansion of macro 'VM_PKEY_BIT1'
+      21 |         ret |= pkey & 0x2 ? VM_PKEY_BIT1 : 0;
+         |                             ^~~~~~~~~~~~
+>> include/linux/mm.h:348:25: error: 'VM_HIGH_ARCH_4' undeclared (first use in this function)
+     348 | # define VM_PKEY_BIT2   VM_HIGH_ARCH_4
+         |                         ^~~~~~~~~~~~~~
+   arch/arm64/include/asm/mman.h:22:29: note: in expansion of macro 'VM_PKEY_BIT2'
+      22 |         ret |= pkey & 0x4 ? VM_PKEY_BIT2 : 0;
+         |                             ^~~~~~~~~~~~
 
 
-vim +5 include/linux/kern_levels.h
+vim +/VM_HIGH_ARCH_2 +346 include/linux/mm.h
 
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
-
-:::::: The code at line 5 was first introduced by commit
-:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
-
-:::::: TO: Joe Perches <joe@perches.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   343	
+   344	#if defined(CONFIG_ARM64)
+   345	# define VM_PKEY_SHIFT	VM_HIGH_ARCH_BIT_2
+ > 346	# define VM_PKEY_BIT0	VM_HIGH_ARCH_2	/* A protection key is a 3-bit value on arm64 */
+ > 347	# define VM_PKEY_BIT1	VM_HIGH_ARCH_3
+ > 348	# define VM_PKEY_BIT2	VM_HIGH_ARCH_4
+   349	# define VM_PKEY_BIT3	0
+   350	# define VM_PKEY_BIT4	0
+   351	#endif
+   352	
 
 -- 
 0-DAY CI Kernel Test Service
