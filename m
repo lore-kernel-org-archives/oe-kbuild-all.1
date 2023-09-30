@@ -1,106 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8645524E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Sep 2023 13:26:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696080418; x=1727616418;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oQvyzT10jwQT4+HmZaH69GGWFphLbpqpt8hXMeiiCMs=;
-  b=mAUiVmNVJdWVfURjj9qjI8h91ujk1O0RoAa/bXZcU6KthkA0jGGXOl5F
-   4rsBa8SwY/TX0gu6SBbN5ynhwtoF7/f6/z5Qw/fTQ5J47LaEuy+YqFJr6
-   u7n1bEo+HGNlErwoHPNG2sp3gTbD+R7SMF3C5H4BTKVVvWx0t+AfnveRB
-   Tdt+JorwwnSVyLSARGcrDndBhx5ryoctHmjag0PgGQcoGQpB1fKYvfQY9
-   ASAUcMQth/3h5iydygVAfqJYb6aVb1vjvj4ispUUKs4vdSU7+iGLbYT5f
-   3TguyKWlOgZmznyJpRbj0WzRa4mZ2qRAJ3K5zmPMPVfJo5bG0jVj+0obe
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="468724929"
-X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
-   d="scan'208";a="468724929"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 06:26:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
-   d="scan'208";a="1104310"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 30 Sep 2023 06:26:20 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qmZzh-0004AP-2U;
-	Sat, 30 Sep 2023 13:26:53 +0000
-Date: Sat, 30 Sep 2023 21:26:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arnd-playground:randconfig-6.7-next 179/306]
- arch/arm/mm/cache-l2x0.c:760:35: warning: 'l2c310_init_fns' defined but not
- used
-Message-ID: <202309302116.7bqoGPGj-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639F9524E;
+	Sat, 30 Sep 2023 13:29:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 786BCC433C8;
+	Sat, 30 Sep 2023 13:29:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1696080572;
+	bh=i0Cj8+zi1/vHkGVilLWk62xFTOKNFQoM8Abg5edGgjc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=p94r9rVQFN59iFpiWFk/ENZwkqmWs6JRBQpTRt8RXhyJDU9eq8FlMSrDiKouQETgV
+	 cxBaBQnGh+LxbFWKKn5F+QdBNP866Cgt648s0IXD1+OiM9SwOzdgpLdGnYpA8mkng2
+	 EdJK1EhghA2oD4utaE28AgzOU2TM22OwlCUBqEK6eZqGHWtJpfbvuBB/XtilQWkzbq
+	 V3+euyGGhH/RPxXfl4xFnj0GYs+s97l9fGpmTKIFa5kyMSqhoxisD8F3nJlRsJLaWo
+	 gW93BzsnzvPQT85Udhr0/X5Rrw/rrksBBOgukJp7n8D0lWVhnaKt0bBiFy/FLzX32M
+	 hfOkUgGHj9mgA==
+Date: Sat, 30 Sep 2023 14:29:21 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Dumitru Ceclan <mitrutzceclan@gmail.com>, oe-kbuild-all@lists.linux.dev,
+ linus.walleij@linaro.org, brgl@bgdev.pl, andy@kernel.org,
+ linux-gpio@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, Rob
+ Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Michael Walle <michael@walle.cc>, Andy
+ Shevchenko <andy.shevchenko@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ ChiaEn Wu <chiaen_wu@richtek.com>, Niklas Schnelle
+ <schnelle@linux.ibm.com>, Leonard =?UTF-8?B?R8O2aHJz?=
+ <l.goehrs@pengutronix.de>, Mike Looijmans <mike.looijmans@topic.nl>, Haibo
+ Chen <haibo.chen@nxp.com>, Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+ Ceclan Dumitru <dumitru.ceclan@analog.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] iio: adc: ad7173: add AD7173 driver
+Message-ID: <20230930142921.38006137@jic23-huawei>
+In-Reply-To: <202309290756.MgmIdaDl-lkp@intel.com>
+References: <20230928125443.615006-2-mitrutzceclan@gmail.com>
+	<202309290756.MgmIdaDl-lkp@intel.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git randconfig-6.7-next
-head:   a126cc9f2f87fe0931a7bf053665560587086082
-commit: 25c6968d01d7b142f241a1576e0fcdaa7018729f [179/306] ARM: remove unused l2x0_init()
-config: arm-randconfig-004-20230930 (https://download.01.org/0day-ci/archive/20230930/202309302116.7bqoGPGj-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309302116.7bqoGPGj-lkp@intel.com/reproduce)
+On Fri, 29 Sep 2023 07:29:01 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309302116.7bqoGPGj-lkp@intel.com/
+> Hi Dumitru,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on jic23-iio/togreg]
+> [also build test WARNING on linus/master v6.6-rc3 next-20230928]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Dumitru-Ceclan/iio-adc-ad7173-add-AD7173-driver/20230928-205802
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+> patch link:    https://lore.kernel.org/r/20230928125443.615006-2-mitrutzceclan%40gmail.com
+> patch subject: [PATCH v2 2/2] iio: adc: ad7173: add AD7173 driver
+> config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230929/202309290756.MgmIdaDl-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290756.MgmIdaDl-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309290756.MgmIdaDl-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> drivers/iio/adc/ad7173.c:829:23: warning: initialization of 'long unsigned int' from 'const struct ad7173_device_info *' makes integer from pointer without a cast [-Wint-conversion]  
+>      829 |         { "ad7172-2", &ad7173_device_info[ID_AD7172_2], },
+>          |                       ^
+>    drivers/iio/adc/ad7173.c:829:23: note: (near initialization for 'ad7173_id_table[0].driver_data')
+>    drivers/iio/adc/ad7173.c:830:23: warning: initialization of 'long unsigned int' from 'const struct ad7173_device_info *' makes integer from pointer without a cast [-Wint-conversion]
+>      830 |         { "ad7173-8", &ad7173_device_info[ID_AD7173_8], },
+>          |                       ^
+>    drivers/iio/adc/ad7173.c:830:23: note: (near initialization for 'ad7173_id_table[1].driver_data')
+>    drivers/iio/adc/ad7173.c:831:23: warning: initialization of 'long unsigned int' from 'const struct ad7173_device_info *' makes integer from pointer without a cast [-Wint-conversion]
+>      831 |         { "ad7175-2", &ad7173_device_info[ID_AD7175_2], },
+>          |                       ^
+>    drivers/iio/adc/ad7173.c:831:23: note: (near initialization for 'ad7173_id_table[2].driver_data')
+>    drivers/iio/adc/ad7173.c:832:23: warning: initialization of 'long unsigned int' from 'const struct ad7173_device_info *' makes integer from pointer without a cast [-Wint-conversion]
+>      832 |         { "ad7176-2", &ad7173_device_info[ID_AD7176_2], },
+>          |                       ^
+>    drivers/iio/adc/ad7173.c:832:23: note: (near initialization for 'ad7173_id_table[3].driver_data')
+> 
+> 
+> vim +829 drivers/iio/adc/ad7173.c
+> 
+>    827	
+>    828	static const struct spi_device_id ad7173_id_table[] = {
+>  > 829		{ "ad7172-2", &ad7173_device_info[ID_AD7172_2], },  
+>    830		{ "ad7173-8", &ad7173_device_info[ID_AD7173_8], },
+>    831		{ "ad7175-2", &ad7173_device_info[ID_AD7175_2], },
+>    832		{ "ad7176-2", &ad7173_device_info[ID_AD7176_2], },
+Cast these to kernel_ulong_t as done in similar drivers like the ad7192
 
-All warnings (new ones prefixed by >>):
-
->> arch/arm/mm/cache-l2x0.c:760:35: warning: 'l2c310_init_fns' defined but not used [-Wunused-const-variable=]
-     760 | static const struct l2c_init_data l2c310_init_fns __initconst = {
-         |                                   ^~~~~~~~~~~~~~~
->> arch/arm/mm/cache-l2x0.c:404:35: warning: 'l2c220_data' defined but not used [-Wunused-const-variable=]
-     404 | static const struct l2c_init_data l2c220_data = {
-         |                                   ^~~~~~~~~~~
->> arch/arm/mm/cache-l2x0.c:239:35: warning: 'l2c210_data' defined but not used [-Wunused-const-variable=]
-     239 | static const struct l2c_init_data l2c210_data __initconst = {
-         |                                   ^~~~~~~~~~~
+Jonathan
 
 
-vim +/l2c310_init_fns +760 arch/arm/mm/cache-l2x0.c
+>    833		{ },
+>    834	};
+>    835	MODULE_DEVICE_TABLE(spi, ad7173_id_table);
+>    836	
+> 
 
-e946a8cbe4a47a Russell King 2015-05-15  759  
-75461f5c8483be Russell King 2014-03-15 @760  static const struct l2c_init_data l2c310_init_fns __initconst = {
-051334bdc52523 Russell King 2014-03-15  761  	.type = "L2C-310",
-0493aef4da8231 Russell King 2014-03-15  762  	.way_size_0 = SZ_8K,
-75461f5c8483be Russell King 2014-03-15  763  	.num_lock = 8,
-4374d64933b1d0 Russell King 2014-03-19  764  	.enable = l2c310_enable,
-75461f5c8483be Russell King 2014-03-15  765  	.fixup = l2c310_fixup,
-09a5d180ed9d5a Russell King 2014-03-15  766  	.save = l2c310_save,
-6b49241ac25258 Tomasz Figa  2015-01-08  767  	.configure = l2c310_configure,
-e946a8cbe4a47a Russell King 2015-05-15  768  	.unlock = l2c310_unlock,
-75461f5c8483be Russell King 2014-03-15  769  	.outer_cache = {
-f777332ba7ae42 Russell King 2014-03-15  770  		.inv_range = l2c210_inv_range,
-f777332ba7ae42 Russell King 2014-03-15  771  		.clean_range = l2c210_clean_range,
-f777332ba7ae42 Russell King 2014-03-15  772  		.flush_range = l2c210_flush_range,
-f777332ba7ae42 Russell King 2014-03-15  773  		.flush_all = l2c210_flush_all,
-8ef418c7178fa6 Russell King 2014-03-18  774  		.disable = l2c310_disable,
-f777332ba7ae42 Russell King 2014-03-15  775  		.sync = l2c210_sync,
-09a5d180ed9d5a Russell King 2014-03-15  776  		.resume = l2c310_resume,
-75461f5c8483be Russell King 2014-03-15  777  	},
-75461f5c8483be Russell King 2014-03-15  778  };
-75461f5c8483be Russell King 2014-03-15  779  
-
-:::::: The code at line 760 was first introduced by commit
-:::::: 75461f5c8483bee543df30b288787fd3369312b8 ARM: l2c: implement fixups for L2 cache controller quirks/errata
-
-:::::: TO: Russell King <rmk+kernel@arm.linux.org.uk>
-:::::: CC: Russell King <rmk+kernel@arm.linux.org.uk>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
