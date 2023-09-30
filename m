@@ -1,44 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8048E7F7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Sep 2023 05:31:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E881FA8
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Sep 2023 05:43:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696051883; x=1727587883;
+  t=1696052586; x=1727588586;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=teTXffVzdT9cN/J4m8nipz8diUW6Ko96uUtAmk9hvEU=;
-  b=bnrqBPOqATjltueQZbn2G1pF6BMTSDCo4BUlU/+M1NVaZdHfzXfU2In1
-   giaFnL1FUyUO1jfp2OrQtD5ORsQRNEI5oEX7aMHE2Rx8Echz4obtCl6OK
-   nUeR4r29zfzz6iiz0LAUVAlYcvFDaJ08rZBD1l+mnW7Q8u9hGva27tAWx
-   jaaovo33E+dgub0U0PkPvBPcfew5AbyFlQR3UXP0nJ+ZKSksjq7XDsrR0
-   SqJ5H4g7LPRNbyvT0nQQuLBhRmEhMS3F8RSctrVCKnotMznu7M0LB3vPh
-   cgBAlqES0XUUQdJh6pY7wyIdHGEWYfk+B6+caeheOc2LOB5k6pDMmzvte
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="381304618"
+  bh=oWyORT5Thd4eslIduoEG3CNDDqDcBtJrnS7bLsC+/Wk=;
+  b=PRiKhKnv/i+IZIMAGccnY8+VRhP072G0+OnyLZVxZJw29A2NPrg4B5KA
+   9/DpTrIcH1liZvGLuEcIeJtJy6SEcTLN0DUa0nmL4/MO3Zptv6mvUPIxz
+   4Cz/druS6eMus5hlXSNi4NT4z96vGUS2DjT6VyOl/L0KjoFEF3pqP2AA8
+   iQrqMWGa9Qm3r0dtsSldEqnafPWC4fJJgFh1+fphPYheY5vd3pazq525A
+   /Yj9cL658DFNUWVS2vnPXfd8x06gUNnRWW+suxDv4+r1G34XHUpc4YKd0
+   yoLPQWu4MEio57bY8RMJOfwp/TGzHjT4hA2CB5LSPn6HqoVTsccyLLUTD
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="372780114"
 X-IronPort-AV: E=Sophos;i="6.03,189,1694761200"; 
-   d="scan'208";a="381304618"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 22:31:22 -0700
+   d="scan'208";a="372780114"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 22:43:05 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="865938604"
 X-IronPort-AV: E=Sophos;i="6.03,189,1694761200"; 
-   d="scan'208";a="1033650"
+   d="scan'208";a="865938604"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 29 Sep 2023 22:30:44 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 29 Sep 2023 22:43:02 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qmSZR-0003kS-06;
-	Sat, 30 Sep 2023 05:31:17 +0000
-Date: Sat, 30 Sep 2023 13:30:50 +0800
+	id 1qmSkO-0003kn-0p;
+	Sat, 30 Sep 2023 05:42:43 +0000
+Date: Sat, 30 Sep 2023 13:41:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aditya Kumar Singh <quic_adisi@quicinc.com>,
-	linux-wireless@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, johannes@sipsolutions.net,
-	Aditya Kumar Singh <quic_adisi@quicinc.com>
-Subject: Re: [PATCH v3 1/3] wifi: cfg80211: send link id in channel_switch ops
-Message-ID: <202309301330.rJAFl5og-lkp@intel.com>
-References: <20230926091648.17184-2-quic_adisi@quicinc.com>
+To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, suraj.kandpal@intel.com,
+	suijingfeng@loongson.cn, jani.nikula@intel.com,
+	Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
+	swati2.sharma@intel.com, mripard@kernel.org,
+	ankit.k.nautiyal@intel.com
+Subject: Re: [PATCH 2/8] drm/i915/display: Store compressed bpp in U6.4 format
+Message-ID: <202309301303.ujZmUWZH-lkp@intel.com>
+References: <20230929071322.945521-3-mitulkumar.ajitkumar.golani@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,78 +51,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230926091648.17184-2-quic_adisi@quicinc.com>
+In-Reply-To: <20230929071322.945521-3-mitulkumar.ajitkumar.golani@intel.com>
 
-Hi Aditya,
+Hi Mitul,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 5482c0a28b2634e7a7d8ddaca7feac183e74b528]
+[auto build test ERROR on drm-tip/drm-tip]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aditya-Kumar-Singh/wifi-cfg80211-send-link-id-in-channel_switch-ops/20230926-171918
-base:   5482c0a28b2634e7a7d8ddaca7feac183e74b528
-patch link:    https://lore.kernel.org/r/20230926091648.17184-2-quic_adisi%40quicinc.com
-patch subject: [PATCH v3 1/3] wifi: cfg80211: send link id in channel_switch ops
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230930/202309301330.rJAFl5og-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309301330.rJAFl5og-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mitul-Golani/drm-display-dp-Add-helper-function-to-get-DSC-bpp-precision/20230929-162949
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230929071322.945521-3-mitulkumar.ajitkumar.golani%40intel.com
+patch subject: [PATCH 2/8] drm/i915/display: Store compressed bpp in U6.4 format
+config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive/20230930/202309301303.ujZmUWZH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309301303.ujZmUWZH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309301330.rJAFl5og-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309301303.ujZmUWZH-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/wireless/quantenna/qtnfmac/cfg80211.c:1026:35: error: initialization of 'int (*)(struct wiphy *, struct net_device *, struct cfg80211_csa_settings *, unsigned int)' from incompatible pointer type 'int (*)(struct wiphy *, struct net_device *, struct cfg80211_csa_settings *)' [-Werror=incompatible-pointer-types]
-    1026 |         .channel_switch         = qtnf_channel_switch,
-         |                                   ^~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/quantenna/qtnfmac/cfg80211.c:1026:35: note: (near initialization for 'qtn_cfg80211_ops.channel_switch')
-   cc1: some warnings being treated as errors
+   drivers/gpu/drm/i915/display/intel_link_bw.c: In function 'intel_link_bw_reduce_bpp':
+>> drivers/gpu/drm/i915/display/intel_link_bw.c:71:52: error: 'struct <anonymous>' has no member named 'compressed_bpp'; did you mean 'compressed_bpp_x16'?
+      71 |                         link_bpp = crtc_state->dsc.compressed_bpp;
+         |                                                    ^~~~~~~~~~~~~~
+         |                                                    compressed_bpp_x16
 
 
-vim +1026 drivers/net/wireless/quantenna/qtnfmac/cfg80211.c
+vim +71 drivers/gpu/drm/i915/display/intel_link_bw.c
 
-28b9188483908b2 Sergey Matyukevich 2018-08-02  1000  
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1001  static struct cfg80211_ops qtn_cfg80211_ops = {
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1002  	.add_virtual_intf	= qtnf_add_virtual_intf,
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1003  	.change_virtual_intf	= qtnf_change_virtual_intf,
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1004  	.del_virtual_intf	= qtnf_del_virtual_intf,
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1005  	.start_ap		= qtnf_start_ap,
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1006  	.change_beacon		= qtnf_change_beacon,
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1007  	.stop_ap		= qtnf_stop_ap,
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1008  	.set_wiphy_params	= qtnf_set_wiphy_params,
-6cd536fe62ef58d Johannes Berg      2020-04-17  1009  	.update_mgmt_frame_registrations =
-6cd536fe62ef58d Johannes Berg      2020-04-17  1010  		qtnf_update_mgmt_frame_registrations,
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1011  	.mgmt_tx		= qtnf_mgmt_tx,
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1012  	.change_station		= qtnf_change_station,
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1013  	.del_station		= qtnf_del_station,
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1014  	.get_station		= qtnf_get_station,
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1015  	.dump_station		= qtnf_dump_station,
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1016  	.add_key		= qtnf_add_key,
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1017  	.del_key		= qtnf_del_key,
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1018  	.set_default_key	= qtnf_set_default_key,
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1019  	.set_default_mgmt_key	= qtnf_set_default_mgmt_key,
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1020  	.scan			= qtnf_scan,
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1021  	.connect		= qtnf_connect,
-47b08e75a669887 Sergey Matyukevich 2019-02-05  1022  	.external_auth		= qtnf_external_auth,
-7c04b43984a57bd Sergey Matyukevich 2017-07-28  1023  	.disconnect		= qtnf_disconnect,
-278944482b2970b Sergey Matyukevich 2017-07-28  1024  	.dump_survey		= qtnf_dump_survey,
-97883695d596e29 Sergey Matyukevich 2017-07-28  1025  	.get_channel		= qtnf_get_channel,
-b05ee456fd21d7b Igor Mitsyanko     2017-12-19 @1026  	.channel_switch		= qtnf_channel_switch,
-b05ee456fd21d7b Igor Mitsyanko     2017-12-19  1027  	.start_radar_detection	= qtnf_start_radar_detection,
-f1398fd2dd8c77b Vasily Ulyanov     2017-12-19  1028  	.set_mac_acl		= qtnf_set_mac_acl,
-4775ad06b56a151 Sergei Maksimenko  2018-05-31  1029  	.set_power_mgmt		= qtnf_set_power_mgmt,
-0756e913fc020ab Mikhail Karpenko   2019-11-13  1030  	.get_tx_power		= qtnf_get_tx_power,
-0756e913fc020ab Mikhail Karpenko   2019-11-13  1031  	.set_tx_power		= qtnf_set_tx_power,
-44d09764856f69d Sergey Matyukevich 2020-02-13  1032  	.update_owe_info	= qtnf_update_owe_info,
-28b9188483908b2 Sergey Matyukevich 2018-08-02  1033  #ifdef CONFIG_PM
-28b9188483908b2 Sergey Matyukevich 2018-08-02  1034  	.suspend		= qtnf_suspend,
-28b9188483908b2 Sergey Matyukevich 2018-08-02  1035  	.resume			= qtnf_resume,
-28b9188483908b2 Sergey Matyukevich 2018-08-02  1036  	.set_wakeup		= qtnf_set_wakeup,
-28b9188483908b2 Sergey Matyukevich 2018-08-02  1037  #endif
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1038  };
-98f44cb0655cbef Igor Mitsyanko     2017-05-11  1039  
+8ca0b875c08258 Imre Deak 2023-09-21  28  
+8ca0b875c08258 Imre Deak 2023-09-21  29  /**
+8ca0b875c08258 Imre Deak 2023-09-21  30   * intel_link_bw_reduce_bpp - reduce maximum link bpp for a selected pipe
+8ca0b875c08258 Imre Deak 2023-09-21  31   * @state: atomic state
+8ca0b875c08258 Imre Deak 2023-09-21  32   * @limits: link BW limits
+8ca0b875c08258 Imre Deak 2023-09-21  33   * @pipe_mask: mask of pipes to select from
+8ca0b875c08258 Imre Deak 2023-09-21  34   * @reason: explanation of why bpp reduction is needed
+8ca0b875c08258 Imre Deak 2023-09-21  35   *
+8ca0b875c08258 Imre Deak 2023-09-21  36   * Select the pipe from @pipe_mask with the biggest link bpp value and set the
+8ca0b875c08258 Imre Deak 2023-09-21  37   * maximum of link bpp in @limits below this value. Modeset the selected pipe,
+8ca0b875c08258 Imre Deak 2023-09-21  38   * so that its state will get recomputed.
+8ca0b875c08258 Imre Deak 2023-09-21  39   *
+8ca0b875c08258 Imre Deak 2023-09-21  40   * This function can be called to resolve a link's BW overallocation by reducing
+8ca0b875c08258 Imre Deak 2023-09-21  41   * the link bpp of one pipe on the link and hence reducing the total link BW.
+8ca0b875c08258 Imre Deak 2023-09-21  42   *
+8ca0b875c08258 Imre Deak 2023-09-21  43   * Returns
+8ca0b875c08258 Imre Deak 2023-09-21  44   *   - 0 in case of success
+8ca0b875c08258 Imre Deak 2023-09-21  45   *   - %-ENOSPC if no pipe can further reduce its link bpp
+8ca0b875c08258 Imre Deak 2023-09-21  46   *   - Other negative error, if modesetting the selected pipe failed
+8ca0b875c08258 Imre Deak 2023-09-21  47   */
+8ca0b875c08258 Imre Deak 2023-09-21  48  int intel_link_bw_reduce_bpp(struct intel_atomic_state *state,
+8ca0b875c08258 Imre Deak 2023-09-21  49  			     struct intel_link_bw_limits *limits,
+8ca0b875c08258 Imre Deak 2023-09-21  50  			     u8 pipe_mask,
+8ca0b875c08258 Imre Deak 2023-09-21  51  			     const char *reason)
+8ca0b875c08258 Imre Deak 2023-09-21  52  {
+8ca0b875c08258 Imre Deak 2023-09-21  53  	struct drm_i915_private *i915 = to_i915(state->base.dev);
+8ca0b875c08258 Imre Deak 2023-09-21  54  	enum pipe max_bpp_pipe = INVALID_PIPE;
+8ca0b875c08258 Imre Deak 2023-09-21  55  	struct intel_crtc *crtc;
+8ca0b875c08258 Imre Deak 2023-09-21  56  	int max_bpp = 0;
+8ca0b875c08258 Imre Deak 2023-09-21  57  
+8ca0b875c08258 Imre Deak 2023-09-21  58  	for_each_intel_crtc_in_pipe_mask(&i915->drm, crtc, pipe_mask) {
+8ca0b875c08258 Imre Deak 2023-09-21  59  		struct intel_crtc_state *crtc_state;
+8ca0b875c08258 Imre Deak 2023-09-21  60  		int link_bpp;
+8ca0b875c08258 Imre Deak 2023-09-21  61  
+8ca0b875c08258 Imre Deak 2023-09-21  62  		if (limits->bpp_limit_reached_pipes & BIT(crtc->pipe))
+8ca0b875c08258 Imre Deak 2023-09-21  63  			continue;
+8ca0b875c08258 Imre Deak 2023-09-21  64  
+8ca0b875c08258 Imre Deak 2023-09-21  65  		crtc_state = intel_atomic_get_crtc_state(&state->base,
+8ca0b875c08258 Imre Deak 2023-09-21  66  							 crtc);
+8ca0b875c08258 Imre Deak 2023-09-21  67  		if (IS_ERR(crtc_state))
+8ca0b875c08258 Imre Deak 2023-09-21  68  			return PTR_ERR(crtc_state);
+8ca0b875c08258 Imre Deak 2023-09-21  69  
+8ca0b875c08258 Imre Deak 2023-09-21  70  		if (crtc_state->dsc.compression_enable)
+8ca0b875c08258 Imre Deak 2023-09-21 @71  			link_bpp = crtc_state->dsc.compressed_bpp;
+8ca0b875c08258 Imre Deak 2023-09-21  72  		else
+8ca0b875c08258 Imre Deak 2023-09-21  73  			/*
+8ca0b875c08258 Imre Deak 2023-09-21  74  			 * TODO: for YUV420 the actual link bpp is only half
+8ca0b875c08258 Imre Deak 2023-09-21  75  			 * of the pipe bpp value. The MST encoder's BW allocation
+8ca0b875c08258 Imre Deak 2023-09-21  76  			 * is based on the pipe bpp value, set the actual link bpp
+8ca0b875c08258 Imre Deak 2023-09-21  77  			 * limit here once the MST BW allocation is fixed.
+8ca0b875c08258 Imre Deak 2023-09-21  78  			 */
+8ca0b875c08258 Imre Deak 2023-09-21  79  			link_bpp = crtc_state->pipe_bpp;
+8ca0b875c08258 Imre Deak 2023-09-21  80  
+8ca0b875c08258 Imre Deak 2023-09-21  81  		if (link_bpp > max_bpp) {
+8ca0b875c08258 Imre Deak 2023-09-21  82  			max_bpp = link_bpp;
+8ca0b875c08258 Imre Deak 2023-09-21  83  			max_bpp_pipe = crtc->pipe;
+8ca0b875c08258 Imre Deak 2023-09-21  84  		}
+8ca0b875c08258 Imre Deak 2023-09-21  85  	}
+8ca0b875c08258 Imre Deak 2023-09-21  86  
+8ca0b875c08258 Imre Deak 2023-09-21  87  	if (max_bpp_pipe == INVALID_PIPE)
+8ca0b875c08258 Imre Deak 2023-09-21  88  		return -ENOSPC;
+8ca0b875c08258 Imre Deak 2023-09-21  89  
+8ca0b875c08258 Imre Deak 2023-09-21  90  	limits->max_bpp_x16[max_bpp_pipe] = to_bpp_x16(max_bpp) - 1;
+8ca0b875c08258 Imre Deak 2023-09-21  91  
+8ca0b875c08258 Imre Deak 2023-09-21  92  	return intel_modeset_pipes_in_mask_early(state, reason,
+8ca0b875c08258 Imre Deak 2023-09-21  93  						 BIT(max_bpp_pipe));
+8ca0b875c08258 Imre Deak 2023-09-21  94  }
+8ca0b875c08258 Imre Deak 2023-09-21  95  
 
 -- 
 0-DAY CI Kernel Test Service
