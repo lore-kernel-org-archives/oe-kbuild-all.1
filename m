@@ -1,53 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D01193
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Sep 2023 00:15:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1217361
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Sep 2023 00:38:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696032916; x=1727568916;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6cS0OOOzJy+TWm+pONxiMK/YecABXrBmw59B3VTqqx4=;
-  b=AXlgPG24vMsT3zS7bcpNJI3kKp8Q2dC7VDUPQNYvHwUk+O6d0N+vcg0c
-   LVA+ETRpUrovKKPIlNOOB+E8qoERBP7n1GtFQgXKPQ49YtNXcEKF+y1w8
-   ZbYEPpeBtZFSGyHvq4OXNEyaqZJtVRn6BP/mFpyeyLC59Ci5wJgCvSPgk
-   edzObXBX9uMltWXlLhssV6BfSGbIAGCMeEoNNa3L+0S2gyfPZOlTi8Fsm
-   t7NsiJMZOEz0U/tCOtjQJ72+hRyl3LhVR3YeA/0syGXrfoevAKOYetHVb
-   iex+E4951Y08K1KjiVUC9MhMUIBZVHplrgDcnWv2veuLXPr7x6xUCwJHc
+  t=1696034302; x=1727570302;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6Q38Wimlu+91x4JNFLj39+P7AkbvCTGYjMjaW83FZb0=;
+  b=SFJrdTNMH4tO+kukkAe6ejvwcZkc/GDzMlC9O6VH810F4Zqx5pgUlM3k
+   nn7vBSYwbWh2fyDtNBFpmnssnMoJ3rZCdYhx26HKaEwJHBSIucfMdO3N6
+   P7Vzp5YXKsQWd4G0tg4YFmq2SaCabS1c0UcQ6jjU7SKTjYWkAgWkgqBII
+   0R3Bvh+gLyRctagfZYB922R804Kgeg5zJg55QACKr7JmpPrlgaIOIGqRk
+   BdmOQvoi/nwiuemZjyadypJMbdbz+iGZPmWGG45nX+KmtjvnP6B+WDrLZ
+   iDT6x2Mm6or3h84/q+n0YfLuiI7IeoKh0NSKi689PXmpZWw64HPyYsAvI
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="381286457"
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="385230902"
 X-IronPort-AV: E=Sophos;i="6.03,188,1694761200"; 
-   d="scan'208";a="381286457"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 17:15:12 -0700
+   d="scan'208";a="385230902"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 17:38:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="743585064"
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="873841641"
 X-IronPort-AV: E=Sophos;i="6.03,188,1694761200"; 
-   d="scan'208";a="743585064"
+   d="scan'208";a="873841641"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 29 Sep 2023 17:15:09 -0700
+  by orsmga004.jf.intel.com with ESMTP; 29 Sep 2023 17:38:20 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qmNdT-0003Sf-0H;
-	Sat, 30 Sep 2023 00:15:07 +0000
-Date: Sat, 30 Sep 2023 08:15:01 +0800
+	id 1qmNzu-0003Td-1M;
+	Sat, 30 Sep 2023 00:38:18 +0000
+Date: Sat, 30 Sep 2023 08:37:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Fabio Estevam <festevam@gmail.com>, martink@posteo.de,
-	Steve Longerbeam <slongerbeam@gmail.com>
-Subject: Re: [PATCH 5/7] media: bindings: ovti,ov5640: Fix handling of
- video-interface-device
-Message-ID: <202309300855.B0j1LqGe-lkp@intel.com>
-References: <20230929151825.6535-6-jacopo.mondi@ideasonboard.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.4 14383/28554] htmldocs:
+ ./include/kunit/test.h:174: warning: Function parameter or member 'debugfs'
+ not described in 'kunit_suite'
+Message-ID: <202309300823.pRigHnIW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,38 +46,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230929151825.6535-6-jacopo.mondi@ideasonboard.com>
 
-Hi Jacopo,
+Hi Alan,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on sailus-media-tree/streams linus/master v6.6-rc3 next-20230929]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jacopo-Mondi/media-bindings-hynix-hi846-Add-video-interface-device-properties/20230929-232019
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230929151825.6535-6-jacopo.mondi%40ideasonboard.com
-patch subject: [PATCH 5/7] media: bindings: ovti,ov5640: Fix handling of video-interface-device
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230930/202309300855.B0j1LqGe-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   a1b9dbe5628adf6bc61b5bb150dd2fb2b286fda0
+commit: f6651bd242ce4de8287e499e74e9f08e52faf0a8 [14383/28554] UPSTREAM: kunit: add debugfs /sys/kernel/debug/kunit/<suite>/results display
+reproduce: (https://download.01.org/0day-ci/archive/20230930/202309300823.pRigHnIW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309300855.B0j1LqGe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309300823.pRigHnIW-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml: 'unevaluatatedProperties' is not one of ['$id', '$schema', 'title', 'description', 'examples', 'required', 'allOf', 'anyOf', 'oneOf', 'definitions', '$defs', 'additionalProperties', 'dependencies', 'dependentRequired', 'dependentSchemas', 'patternProperties', 'properties', 'not', 'if', 'then', 'else', 'unevaluatedProperties', 'deprecated', 'maintainers', 'select', '$ref']
-   	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
->> Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml: 'oneOf' conditional failed, one must be fixed:
-   	'unevaluatedProperties' is a required property
-   	'additionalProperties' is a required property
-   	hint: Either unevaluatedProperties or additionalProperties must be present
-   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+All warnings (new ones prefixed by >>):
+
+>> ./include/kunit/test.h:174: warning: Function parameter or member 'debugfs' not described in 'kunit_suite'
+>> ./include/kunit/test.h:174: warning: Function parameter or member 'log' not described in 'kunit_suite'
+
+vim +174 ./include/kunit/test.h
+
+ff82dbcb3e2cc5 Brendan Higgins 2019-09-23 @174  
+
+:::::: The code at line 174 was first introduced by commit
+:::::: ff82dbcb3e2cc596f464302579fdf331f7422384 UPSTREAM: kunit: test: add KUnit test runner core
+
+:::::: TO: Brendan Higgins <brendanhiggins@google.com>
+:::::: CC: Alexander Potapenko <glider@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
