@@ -1,53 +1,26 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A2117EF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Sep 2023 06:55:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696056909; x=1727592909;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Er6kX/bTXC9VVyFrZm9L0oiXqmRdHvt1nCQhC2rSbxU=;
-  b=RtP+sph8ImJMuHCTLxk3OCyd0s3EXo7I0vLL4Ja7LbxHXHmTL8NGqzsJ
-   O25YHfvUIXu8sXBW5LJDrMDTWv3bTaNFWQdIje95QaRTMwlHlPRmxOkot
-   gbJMIio3RbMCzePWMOEnUPJlQ1cwW0pCb6Cf2MPwoQNITKduMZdb0lzH0
-   DWj95ytznfJ66q6FqK7ZWvRP34vkTBSFTg+/GpbF3kqJ8Tpho2mmmizw+
-   PpI8juG6QdNqbfTcYnxyoJ207+Ko1jhb/W9SjEGI6FDDTN9wCY30/3V9x
-   PEZqktMUdU4UngVJP5uNt16ndan5f8xWyzgWufu0yrfq/iDrTYC5rt9gZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="4000754"
-X-IronPort-AV: E=Sophos;i="6.03,189,1694761200"; 
-   d="scan'208";a="4000754"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 23:55:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,189,1694761200"; 
-   d="scan'208";a="1043767"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 29 Sep 2023 23:54:28 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qmTsU-0003oJ-0W;
-	Sat, 30 Sep 2023 06:55:02 +0000
-Date: Sat, 30 Sep 2023 14:54:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexandra Diupina <adiupina@astralinux.ru>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alexandra Diupina <adiupina@astralinux.ru>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-Subject: Re: [PATCH v2] drm: rcar-du: turn rcar_du_group_get() into void and
- remove its return value check
-Message-ID: <202309301402.uR7IRQVj-lkp@intel.com>
-References: <20230927104438.30628-1-adiupina@astralinux.ru>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A8617EF;
+	Sat, 30 Sep 2023 07:11:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4529CC433C8;
+	Sat, 30 Sep 2023 07:11:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1696057866;
+	bh=uitPAuLXQzhXilHTIpvqtk9kQIqduwY9RVC6sBsvOiw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RUE2Ph2o0i0DWgBaHgpxJw5JD3j1tE1JaRbXJ3o6FnUoG96xdEbbBAcSgCIzLwUmK
+	 zQWgogax/YpixWjH7OWsCZwdAfW548XE83Grji1FmUU4Jc/xm3aMFFrKoaDCgUwhFs
+	 YedG4T2n6FYTTtDevgZdb6dOpF+17u6aqrEam8C8=
+Date: Sat, 30 Sep 2023 09:11:04 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: vkoul@kernel.org, bhe@redhat.com, dmaengine@vger.kernel.org,
+	imx@lists.linux.dev, linux-kernel@vger.kernel.org, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, rafael@kernel.org
+Subject: Re: [PATCH 1/1] fs: debugfs: fix build error at powerpc platform
+Message-ID: <2023093029-chalice-violation-c349@gregkh>
+References: <20230929164920.314849-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,66 +29,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230927104438.30628-1-adiupina@astralinux.ru>
+In-Reply-To: <20230929164920.314849-1-Frank.Li@nxp.com>
 
-Hi Alexandra,
+On Fri, Sep 29, 2023 at 12:49:20PM -0400, Frank Li wrote:
+>    ld: fs/debugfs/file.o: in function `debugfs_print_regs':
+>    file.c:(.text+0x95a): undefined reference to `ioread64be'
+> >> ld: file.c:(.text+0x9dd): undefined reference to `ioread64'
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202309291322.3pZiyosI-lkp@intel.com/
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 
-kernel test robot noticed the following build errors:
+What commit id does this fix?
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.6-rc3 next-20230929]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> ---
+>  fs/debugfs/file.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
+> index 5b8d4fd7c747..b406283806d9 100644
+> --- a/fs/debugfs/file.c
+> +++ b/fs/debugfs/file.c
+> @@ -1179,7 +1179,7 @@ void debugfs_print_regs(struct seq_file *s, const struct debugfs_reg *regs,
+>  			seq_printf(s, "%s = 0x%04x\n", regs->name,
+>  				  b ? ioread16be(reg) : ioread16(reg));
+>  			break;
+> -#ifdef CONFIG_64BIT
+> +#if defined(ioread64) && defined (ioread64be)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexandra-Diupina/drm-rcar-du-turn-rcar_du_group_get-into-void-and-remove-its-return-value-check/20230927-184651
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230927104438.30628-1-adiupina%40astralinux.ru
-patch subject: [PATCH v2] drm: rcar-du: turn rcar_du_group_get() into void and remove its return value check
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230930/202309301402.uR7IRQVj-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309301402.uR7IRQVj-lkp@intel.com/reproduce)
+Are you sure this is equivalent?  What if these are functions?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309301402.uR7IRQVj-lkp@intel.com/
+thanks,
 
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c:203:6: error: conflicting types for 'rcar_du_group_get'; have 'void(struct rcar_du_group *)'
-     203 | void rcar_du_group_get(struct rcar_du_group *rgrp)
-         |      ^~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h:20,
-                    from drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c:29:
-   drivers/gpu/drm/renesas/rcar-du/rcar_du_group.h:57:5: note: previous declaration of 'rcar_du_group_get' with type 'int(struct rcar_du_group *)'
-      57 | int rcar_du_group_get(struct rcar_du_group *rgrp);
-         |     ^~~~~~~~~~~~~~~~~
-
-
-vim +203 drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-
-   194	
-   195	/*
-   196	 * rcar_du_group_get - Acquire a reference to the DU channels group
-   197	 *
-   198	 * Acquiring the first reference setups core registers. A reference must be held
-   199	 * before accessing any hardware registers.
-   200	 *
-   201	 * This function must be called with the DRM mode_config lock held.
-   202	 */
- > 203	void rcar_du_group_get(struct rcar_du_group *rgrp)
-   204	{
-   205		if (rgrp->use_count)
-   206			goto done;
-   207	
-   208		rcar_du_group_setup(rgrp);
-   209	
-   210	done:
-   211		rgrp->use_count++;
-   212	}
-   213	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+greg k-h
