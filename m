@@ -1,46 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B20A136A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Sep 2023 02:01:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A651388
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Sep 2023 03:02:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696039288; x=1727575288;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aTCsXnzCH7kSEdQCnLaePO/AJ6f1HT7gYkwyNZsTrLw=;
-  b=C1KTiJGskDK5ZCyLjPFSI527n+ghDmwDiuDdeT+XwqqGtJXhgXb0PMO+
-   Me+WZPDyIoZNJVtd8SIkbGT1LWVLkoRcmGN2tnM5+2kiLOrUy89m2xXS/
-   evqX5M2oQtSXUYhaqVI8wbX3c+iBM/I6mOQ1FMtgqEM6YDi5jvJZR/hUp
-   W7kcmdhJpfcVGigGwuWQ/KAXVsL3N8K10Lao3aXEQ6kotR6gUhK5GZCq2
-   HAxpi5pawSvFQK8HN03RLZ/mCmB10sKNwDmDuA7Vaqf1VPyqa6r0ZEoBL
-   +QFrsOUFMMm12Ra1yR2NCR5fSpchKrm74XYvcM8h+IC67MxrEMMhWDZXd
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="468694578"
+  t=1696042948; x=1727578948;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JlTqLvHg0+Zx+J9xQT+C5Q+ZYONuzsSFi4KbSg81u0E=;
+  b=oBzgXW6MhR6EEQLcRW0gBkVDjw+5AvqOwhCCIi9OI4RXS+Aei2U3/47R
+   fxhJkqy0PQ6FyVOieNCDKwa+YtAMkCMI9as5cF4hYJcdWnpBnjbp9YHxr
+   QefeGTOPp+I1GKoIhIsncQ0i+zc1d4hHbsxj8d5IRrc62GBaPQf/XeMpe
+   +Om1inGa/+9c1mP3J6kxeyB4l/wwXj7J97Km6KjQs6qB88QDVPVvl5TbJ
+   HJJrDO8E54ig3yqoboIhaIOM7YnTGROG7MMD697B/Sr45FBEx2Mn2WMH+
+   QJ3joiiY2MaK/A9yU2LmOI/FkNPS53QCNdHN46vLWdqvE/8C8SuB3enm1
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="385243654"
 X-IronPort-AV: E=Sophos;i="6.03,189,1694761200"; 
-   d="scan'208";a="468694578"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 19:01:25 -0700
+   d="scan'208";a="385243654"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 20:02:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="743598291"
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="815775968"
 X-IronPort-AV: E=Sophos;i="6.03,189,1694761200"; 
-   d="scan'208";a="743598291"
+   d="scan'208";a="815775968"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 29 Sep 2023 19:01:24 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 29 Sep 2023 20:02:26 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qmPIH-0003Yd-2T;
-	Sat, 30 Sep 2023 02:01:21 +0000
-Date: Sat, 30 Sep 2023 10:00:25 +0800
+	id 1qmQFM-0003cV-1y;
+	Sat, 30 Sep 2023 03:02:24 +0000
+Date: Sat, 30 Sep 2023 11:01:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Florian Westphal <fw@strlen.de>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, steffen.klassert@secunet.com,
-	herbert@gondor.apana.org.au, Florian Westphal <fw@strlen.de>,
-	kernel test robot <oliver.sang@intel.com>
-Subject: Re: [PATCH ipsec-next v2 1/3] xfrm: pass struct net to
- xfrm_decode_session wrappers
-Message-ID: <202309300951.j4h5KqUb-lkp@intel.com>
-References: <20230929125848.5445-2-fw@strlen.de>
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-tdx:guest-kexec 13/13]
+ arch/x86/kernel/acpi/madt_wakeup.c:149:2: error: 'smp_ops' undeclared
+Message-ID: <202309301018.JdWROPS5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,171 +45,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230929125848.5445-2-fw@strlen.de>
 
-Hi Florian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on klassert-ipsec-next/master]
-[also build test ERROR on klassert-ipsec/master netfilter-nf/main linus/master v6.6-rc3 next-20230929]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Westphal/xfrm-pass-struct-net-to-xfrm_decode_session-wrappers/20230929-210047
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
-patch link:    https://lore.kernel.org/r/20230929125848.5445-2-fw%40strlen.de
-patch subject: [PATCH ipsec-next v2 1/3] xfrm: pass struct net to xfrm_decode_session wrappers
-config: microblaze-defconfig (https://download.01.org/0day-ci/archive/20230930/202309300951.j4h5KqUb-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309300951.j4h5KqUb-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/tdx.git guest-kexec
+head:   34488d4fd2b299a51196e878575dd1e83cbbbc7f
+commit: 34488d4fd2b299a51196e878575dd1e83cbbbc7f [13/13] x86/acpi: Add support for CPU offlining for ACPI MADT wakeup method
+config: x86_64-buildonly-randconfig-006-20230930 (https://download.01.org/0day-ci/archive/20230930/202309301018.JdWROPS5-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309301018.JdWROPS5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309300951.j4h5KqUb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309301018.JdWROPS5-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/ipv4/icmp.c: In function 'icmp_route_lookup':
->> net/ipv4/icmp.c:520:43: error: passing argument 1 of 'xfrm_decode_session_reverse' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     520 |         err = xfrm_decode_session_reverse(net, skb_in, flowi4_to_flowi(&fl4_dec), AF_INET);
-         |                                           ^~~
-         |                                           |
-         |                                           struct net *
-   In file included from net/ipv4/icmp.c:91:
-   include/net/xfrm.h:1299:63: note: expected 'struct sk_buff *' but argument is of type 'struct net *'
-    1299 | static inline int xfrm_decode_session_reverse(struct sk_buff *skb,
-         |                                               ~~~~~~~~~~~~~~~~^~~
-   net/ipv4/icmp.c:520:48: error: passing argument 2 of 'xfrm_decode_session_reverse' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     520 |         err = xfrm_decode_session_reverse(net, skb_in, flowi4_to_flowi(&fl4_dec), AF_INET);
-         |                                                ^~~~~~
-         |                                                |
-         |                                                struct sk_buff *
-   include/net/xfrm.h:1300:61: note: expected 'struct flowi *' but argument is of type 'struct sk_buff *'
-    1300 |                                               struct flowi *fl,
-         |                                               ~~~~~~~~~~~~~~^~
-   net/ipv4/icmp.c:520:56: warning: passing argument 3 of 'xfrm_decode_session_reverse' makes integer from pointer without a cast [-Wint-conversion]
-     520 |         err = xfrm_decode_session_reverse(net, skb_in, flowi4_to_flowi(&fl4_dec), AF_INET);
-         |                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                        |
-         |                                                        struct flowi *
-   include/net/xfrm.h:1301:60: note: expected 'unsigned int' but argument is of type 'struct flowi *'
-    1301 |                                               unsigned int family)
-         |                                               ~~~~~~~~~~~~~^~~~~~
->> net/ipv4/icmp.c:520:15: error: too many arguments to function 'xfrm_decode_session_reverse'
-     520 |         err = xfrm_decode_session_reverse(net, skb_in, flowi4_to_flowi(&fl4_dec), AF_INET);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/xfrm.h:1299:19: note: declared here
-    1299 | static inline int xfrm_decode_session_reverse(struct sk_buff *skb,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   arch/x86/kernel/acpi/madt_wakeup.c: In function 'acpi_mp_setup_reset':
+>> arch/x86/kernel/acpi/madt_wakeup.c:149:2: error: 'smp_ops' undeclared (first use in this function)
+     149 |  smp_ops.play_dead = acpi_mp_play_dead;
+         |  ^~~~~~~
+   arch/x86/kernel/acpi/madt_wakeup.c:149:2: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/xfrm_decode_session_reverse +520 net/ipv4/icmp.c
+vim +/smp_ops +149 arch/x86/kernel/acpi/madt_wakeup.c
 
-   475	
-   476	static struct rtable *icmp_route_lookup(struct net *net,
-   477						struct flowi4 *fl4,
-   478						struct sk_buff *skb_in,
-   479						const struct iphdr *iph,
-   480						__be32 saddr, u8 tos, u32 mark,
-   481						int type, int code,
-   482						struct icmp_bxm *param)
-   483	{
-   484		struct net_device *route_lookup_dev;
-   485		struct rtable *rt, *rt2;
-   486		struct flowi4 fl4_dec;
-   487		int err;
-   488	
-   489		memset(fl4, 0, sizeof(*fl4));
-   490		fl4->daddr = (param->replyopts.opt.opt.srr ?
-   491			      param->replyopts.opt.opt.faddr : iph->saddr);
-   492		fl4->saddr = saddr;
-   493		fl4->flowi4_mark = mark;
-   494		fl4->flowi4_uid = sock_net_uid(net, NULL);
-   495		fl4->flowi4_tos = RT_TOS(tos);
-   496		fl4->flowi4_proto = IPPROTO_ICMP;
-   497		fl4->fl4_icmp_type = type;
-   498		fl4->fl4_icmp_code = code;
-   499		route_lookup_dev = icmp_get_route_lookup_dev(skb_in);
-   500		fl4->flowi4_oif = l3mdev_master_ifindex(route_lookup_dev);
-   501	
-   502		security_skb_classify_flow(skb_in, flowi4_to_flowi_common(fl4));
-   503		rt = ip_route_output_key_hash(net, fl4, skb_in);
-   504		if (IS_ERR(rt))
-   505			return rt;
-   506	
-   507		/* No need to clone since we're just using its address. */
-   508		rt2 = rt;
-   509	
-   510		rt = (struct rtable *) xfrm_lookup(net, &rt->dst,
-   511						   flowi4_to_flowi(fl4), NULL, 0);
-   512		if (!IS_ERR(rt)) {
-   513			if (rt != rt2)
-   514				return rt;
-   515		} else if (PTR_ERR(rt) == -EPERM) {
-   516			rt = NULL;
-   517		} else
-   518			return rt;
-   519	
- > 520		err = xfrm_decode_session_reverse(net, skb_in, flowi4_to_flowi(&fl4_dec), AF_INET);
-   521		if (err)
-   522			goto relookup_failed;
-   523	
-   524		if (inet_addr_type_dev_table(net, route_lookup_dev,
-   525					     fl4_dec.saddr) == RTN_LOCAL) {
-   526			rt2 = __ip_route_output_key(net, &fl4_dec);
-   527			if (IS_ERR(rt2))
-   528				err = PTR_ERR(rt2);
-   529		} else {
-   530			struct flowi4 fl4_2 = {};
-   531			unsigned long orefdst;
-   532	
-   533			fl4_2.daddr = fl4_dec.saddr;
-   534			rt2 = ip_route_output_key(net, &fl4_2);
-   535			if (IS_ERR(rt2)) {
-   536				err = PTR_ERR(rt2);
-   537				goto relookup_failed;
-   538			}
-   539			/* Ugh! */
-   540			orefdst = skb_in->_skb_refdst; /* save old refdst */
-   541			skb_dst_set(skb_in, NULL);
-   542			err = ip_route_input(skb_in, fl4_dec.daddr, fl4_dec.saddr,
-   543					     RT_TOS(tos), rt2->dst.dev);
-   544	
-   545			dst_release(&rt2->dst);
-   546			rt2 = skb_rtable(skb_in);
-   547			skb_in->_skb_refdst = orefdst; /* restore old refdst */
-   548		}
-   549	
-   550		if (err)
-   551			goto relookup_failed;
-   552	
-   553		rt2 = (struct rtable *) xfrm_lookup(net, &rt2->dst,
-   554						    flowi4_to_flowi(&fl4_dec), NULL,
-   555						    XFRM_LOOKUP_ICMP);
-   556		if (!IS_ERR(rt2)) {
-   557			dst_release(&rt->dst);
-   558			memcpy(fl4, &fl4_dec, sizeof(*fl4));
-   559			rt = rt2;
-   560		} else if (PTR_ERR(rt2) == -EPERM) {
-   561			if (rt)
-   562				dst_release(&rt->dst);
-   563			return rt2;
-   564		} else {
-   565			err = PTR_ERR(rt2);
-   566			goto relookup_failed;
-   567		}
-   568		return rt;
-   569	
-   570	relookup_failed:
-   571		if (rt)
-   572			return rt;
-   573		return ERR_PTR(err);
-   574	}
-   575	
+   120	
+   121	static int __init acpi_mp_setup_reset(u64 reset_vector)
+   122	{
+   123		pgd_t *pgd;
+   124		struct x86_mapping_info info = {
+   125			.alloc_pgt_page = alloc_pgt_page,
+   126			.page_flag      = __PAGE_KERNEL_LARGE_EXEC,
+   127			.kernpg_flag    = _KERNPG_TABLE_NOENC,
+   128		};
+   129	
+   130		pgd = alloc_pgt_page(NULL);
+   131	
+   132		for (int i = 0; i < nr_pfn_mapped; i++) {
+   133			unsigned long mstart, mend;
+   134			mstart = pfn_mapped[i].start << PAGE_SHIFT;
+   135			mend   = pfn_mapped[i].end << PAGE_SHIFT;
+   136			if (kernel_ident_mapping_init(&info, pgd, mstart, mend))
+   137				return -ENOMEM;
+   138		}
+   139	
+   140		if (kernel_ident_mapping_init(&info, pgd,
+   141					      PAGE_ALIGN_DOWN(reset_vector),
+   142					      PAGE_ALIGN(reset_vector + 1))) {
+   143			return -ENOMEM;
+   144		}
+   145	
+   146		if (init_transition_pgtable(pgd))
+   147			return -ENOMEM;
+   148	
+ > 149		smp_ops.play_dead = acpi_mp_play_dead;
+   150		smp_ops.cpu_die = acpi_mp_cpu_die;
+   151		smp_ops.stop_other_cpus = acpi_mp_stop_other_cpus;
+   152		smp_ops.crash_stop_other_cpus = acpi_mp_crash_stop_other_cpus;
+   153	
+   154		acpi_mp_reset_vector_paddr = reset_vector;
+   155		acpi_mp_pgd = __pa(pgd);
+   156	
+   157		return 0;
+   158	}
+   159	
 
 -- 
 0-DAY CI Kernel Test Service
