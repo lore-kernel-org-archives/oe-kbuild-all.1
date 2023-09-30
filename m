@@ -1,43 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D247CB654
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Sep 2023 12:24:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6395563A4;
+	Sat, 30 Sep 2023 13:07:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696076689; x=1727612689;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uW96s5L8RiauKFUZ5jFcHKpbcunluKFY8xwlzjCOiEY=;
-  b=LaFt3GUmw3RkNmjGhIXPjJqfPFdhsBxZKTMAEp1pXzUfPJNprK/mHBjq
-   s7+QJNKvwfWmnUFxDFK7n2gf+9sKoJr8ToFXlW+5Kx2XefT7SSRGXk+18
-   fz85BByQFvXj8l4JKK4cMvejqfdbi/DfpiGvm9mCl02yMIJL3v2TR6XnR
-   ZLokRlVQaBFUObO7EEa3q12xYsnZCxF+M029QqqC6NI3BM3iaZ+aywiI+
-   8P1SVRk7sLnIQxlSRrpAe13Ny2IQ7hb37zHlizQpPH4HaBkaP4VcSOdFj
-   nijMNDJc4Kd+WpJkYTgCHVdRtcP3wnswSYBIPveCoZc76lyfXJJO2nQUP
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="381322896"
+  t=1696079221; x=1727615221;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wfmlaQ/yZCImQAuL1Y8jKhC6VFeirk/jHwd2wi9Cg6c=;
+  b=T0pv6VfhObW2G/cGb9o4IXZVlPeilr7ROp7qgKSVvwi0WwBMixVqzEyw
+   FxL+mARVQ4TSqj8ahNkLbNcUxS12y9u/kltJBxuLp2VRIt8zu9UC53XfW
+   2NevbnMVXNvS28tcy2rEDEfD9F0GpChd+w9ahkiGIs1aW3ZTSjqrRqVWK
+   0qJMLeUDmwoGFAIMDaOpxfd3nokJ43vKuCrE+H4ZXM6OQIvlPNbI8C4pc
+   KjuGW6ta3Cx4blriHY52fHo12CdqJAt2Lv9w3j1TI/8UK+5lHjYWY+g6K
+   aMwV/xG13ZvYyXCsAaoJvuDJeNZIbwgGBqkcTwtXW8+x4LpnWe9oMEcZx
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="385269678"
 X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
-   d="scan'208";a="381322896"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 05:24:46 -0700
+   d="scan'208";a="385269678"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 06:06:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="840542078"
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="923829876"
 X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
-   d="scan'208";a="840542078"
+   d="scan'208";a="923829876"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 30 Sep 2023 05:24:45 -0700
+  by orsmga005.jf.intel.com with ESMTP; 30 Sep 2023 06:06:55 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qmZ1W-00048D-2u;
-	Sat, 30 Sep 2023 12:24:42 +0000
-Date: Sat, 30 Sep 2023 20:23:51 +0800
+	id 1qmZgL-00049f-0e;
+	Sat, 30 Sep 2023 13:06:53 +0000
+Date: Sat, 30 Sep 2023 21:05:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10 2/3]
- arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:60:22: warning: 'pkvm_ffa_id'
- defined but not used
-Message-ID: <202309302052.L64mYDVh-lkp@intel.com>
+To: Joey Gouly <joey.gouly@arm.com>, linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, nd@arm.com, akpm@linux-foundation.org,
+	aneesh.kumar@linux.ibm.com, catalin.marinas@arm.com,
+	dave.hansen@linux.intel.com, joey.gouly@arm.com, maz@kernel.org,
+	oliver.upton@linux.dev, shuah@kernel.org, will@kernel.org,
+	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v1 11/20] arm64: enable ARCH_HAS_PKEYS on arm64
+Message-ID: <202309302050.SO3QXUkm-lkp@intel.com>
+References: <20230927140123.5283-12-joey.gouly@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,192 +51,219 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230927140123.5283-12-joey.gouly@arm.com>
 
-tree:   https://android.googlesource.com/kernel/common android13-5.10
-head:   d677c31cb00abcb616376ca2a3bae754fb56493c
-commit: a0f22aaf985346fca36ce38c58dc7e4b77409884 [2/3] ANDROID: KVM: arm64: Flag pages needing poisoning in hyp_vmemmap
-config: arm64-randconfig-r016-20230905 (https://download.01.org/0day-ci/archive/20230930/202309302052.L64mYDVh-lkp@intel.com/config)
+Hi Joey,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on linus/master v6.6-rc3 next-20230929]
+[cannot apply to akpm-mm/mm-everything kvmarm/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joey-Gouly/arm64-sysreg-add-system-register-POR_EL-0-1/20230927-221459
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20230927140123.5283-12-joey.gouly%40arm.com
+patch subject: [PATCH v1 11/20] arm64: enable ARCH_HAS_PKEYS on arm64
+config: arm64-randconfig-001-20230930 (https://download.01.org/0day-ci/archive/20230930/202309302050.SO3QXUkm-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309302052.L64mYDVh-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309302050.SO3QXUkm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309302052.L64mYDVh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309302050.SO3QXUkm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/kvm/hyp/nvhe/mm.c:17:
->> arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:60:22: warning: 'pkvm_ffa_id' defined but not used [-Wunused-const-variable=]
-      60 | static const pkvm_id pkvm_ffa_id        = pkvm_hyp_id + 1; /* Secure world */
-         |                      ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:58:22: warning: 'pkvm_host_id' defined but not used [-Wunused-const-variable=]
-      58 | static const pkvm_id pkvm_host_id       = 0;
-         |                      ^~~~~~~~~~~~
---
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:391:43: warning: initialized field overwritten [-Woverride-init]
-     391 |         [ESR_ELx_EC_WFx]                = handle_pvm_entry_wfx,
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:391:43: note: (near initialization for 'entry_pvm_shadow_handlers[1]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:392:43: warning: initialized field overwritten [-Woverride-init]
-     392 |         [ESR_ELx_EC_HVC64]              = handle_pvm_entry_hvc64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:392:43: note: (near initialization for 'entry_pvm_shadow_handlers[22]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:393:43: warning: initialized field overwritten [-Woverride-init]
-     393 |         [ESR_ELx_EC_SYS64]              = handle_pvm_entry_sys64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:393:43: note: (near initialization for 'entry_pvm_shadow_handlers[24]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:394:43: warning: initialized field overwritten [-Woverride-init]
-     394 |         [ESR_ELx_EC_IABT_LOW]           = handle_pvm_entry_iabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:394:43: note: (near initialization for 'entry_pvm_shadow_handlers[32]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:395:43: warning: initialized field overwritten [-Woverride-init]
-     395 |         [ESR_ELx_EC_DABT_LOW]           = handle_pvm_entry_dabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:395:43: note: (near initialization for 'entry_pvm_shadow_handlers[36]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:400:43: warning: initialized field overwritten [-Woverride-init]
-     400 |         [ESR_ELx_EC_WFx]                = handle_pvm_exit_wfx,
-         |                                           ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:400:43: note: (near initialization for 'exit_pvm_shadow_handlers[1]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:401:43: warning: initialized field overwritten [-Woverride-init]
-     401 |         [ESR_ELx_EC_HVC64]              = handle_pvm_exit_hvc64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:401:43: note: (near initialization for 'exit_pvm_shadow_handlers[22]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:402:43: warning: initialized field overwritten [-Woverride-init]
-     402 |         [ESR_ELx_EC_SYS64]              = handle_pvm_exit_sys64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:402:43: note: (near initialization for 'exit_pvm_shadow_handlers[24]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:403:43: warning: initialized field overwritten [-Woverride-init]
-     403 |         [ESR_ELx_EC_IABT_LOW]           = handle_pvm_exit_iabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:403:43: note: (near initialization for 'exit_pvm_shadow_handlers[32]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:404:43: warning: initialized field overwritten [-Woverride-init]
-     404 |         [ESR_ELx_EC_DABT_LOW]           = handle_pvm_exit_dabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:404:43: note: (near initialization for 'exit_pvm_shadow_handlers[36]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:413:43: warning: initialized field overwritten [-Woverride-init]
-     413 |         [ESR_ELx_EC_IABT_LOW]           = handle_vm_exit_abt,
-         |                                           ^~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:413:43: note: (near initialization for 'exit_vm_shadow_handlers[32]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:414:43: warning: initialized field overwritten [-Woverride-init]
-     414 |         [ESR_ELx_EC_DABT_LOW]           = handle_vm_exit_abt,
-         |                                           ^~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:414:43: note: (near initialization for 'exit_vm_shadow_handlers[36]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:1073:6: warning: no previous prototype for 'handle_trap' [-Wmissing-prototypes]
-    1073 | void handle_trap(struct kvm_cpu_context *host_ctxt)
-         |      ^~~~~~~~~~~
-   In file included from arch/arm64/kvm/hyp/include/nvhe/iommu.h:8,
-                    from arch/arm64/kvm/hyp/nvhe/hyp-main.c:19:
->> arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:60:22: warning: 'pkvm_ffa_id' defined but not used [-Wunused-const-variable=]
-      60 | static const pkvm_id pkvm_ffa_id        = pkvm_hyp_id + 1; /* Secure world */
-         |                      ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:58:22: warning: 'pkvm_host_id' defined but not used [-Wunused-const-variable=]
-      58 | static const pkvm_id pkvm_host_id       = 0;
-         |                      ^~~~~~~~~~~~
---
-   arch/arm64/kvm/hyp/nvhe/switch.c:197:43: warning: initialized field overwritten [-Woverride-init]
-     197 |         [ESR_ELx_EC_CP15_32]            = kvm_hyp_handle_cp15_32,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:197:43: note: (near initialization for 'hyp_exit_handlers[3]')
-   arch/arm64/kvm/hyp/nvhe/switch.c:198:43: warning: initialized field overwritten [-Woverride-init]
-     198 |         [ESR_ELx_EC_SYS64]              = kvm_hyp_handle_sysreg,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:198:43: note: (near initialization for 'hyp_exit_handlers[24]')
-   arch/arm64/kvm/hyp/nvhe/switch.c:199:43: warning: initialized field overwritten [-Woverride-init]
-     199 |         [ESR_ELx_EC_SVE]                = kvm_hyp_handle_fpsimd,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:199:43: note: (near initialization for 'hyp_exit_handlers[25]')
-   arch/arm64/kvm/hyp/nvhe/switch.c:200:43: warning: initialized field overwritten [-Woverride-init]
-     200 |         [ESR_ELx_EC_FP_ASIMD]           = kvm_hyp_handle_fpsimd,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:200:43: note: (near initialization for 'hyp_exit_handlers[7]')
-   arch/arm64/kvm/hyp/nvhe/switch.c:201:43: warning: initialized field overwritten [-Woverride-init]
-     201 |         [ESR_ELx_EC_IABT_LOW]           = kvm_hyp_handle_iabt_low,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:201:43: note: (near initialization for 'hyp_exit_handlers[32]')
-   arch/arm64/kvm/hyp/nvhe/switch.c:202:43: warning: initialized field overwritten [-Woverride-init]
-     202 |         [ESR_ELx_EC_DABT_LOW]           = kvm_hyp_handle_dabt_low,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:202:43: note: (near initialization for 'hyp_exit_handlers[36]')
-   arch/arm64/kvm/hyp/nvhe/switch.c:203:43: warning: initialized field overwritten [-Woverride-init]
-     203 |         [ESR_ELx_EC_PAC]                = kvm_hyp_handle_ptrauth,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:203:43: note: (near initialization for 'hyp_exit_handlers[9]')
-   arch/arm64/kvm/hyp/nvhe/switch.c:208:43: warning: initialized field overwritten [-Woverride-init]
-     208 |         [ESR_ELx_EC_HVC64]              = kvm_handle_pvm_hvc64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:208:43: note: (near initialization for 'pvm_exit_handlers[22]')
-   arch/arm64/kvm/hyp/nvhe/switch.c:209:43: warning: initialized field overwritten [-Woverride-init]
-     209 |         [ESR_ELx_EC_SYS64]              = kvm_handle_pvm_sys64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:209:43: note: (near initialization for 'pvm_exit_handlers[24]')
-   arch/arm64/kvm/hyp/nvhe/switch.c:210:43: warning: initialized field overwritten [-Woverride-init]
-     210 |         [ESR_ELx_EC_SVE]                = kvm_handle_pvm_restricted,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:210:43: note: (near initialization for 'pvm_exit_handlers[25]')
-   arch/arm64/kvm/hyp/nvhe/switch.c:211:43: warning: initialized field overwritten [-Woverride-init]
-     211 |         [ESR_ELx_EC_FP_ASIMD]           = kvm_handle_pvm_fpsimd,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:211:43: note: (near initialization for 'pvm_exit_handlers[7]')
-   arch/arm64/kvm/hyp/nvhe/switch.c:212:43: warning: initialized field overwritten [-Woverride-init]
-     212 |         [ESR_ELx_EC_IABT_LOW]           = kvm_hyp_handle_iabt_low,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:212:43: note: (near initialization for 'pvm_exit_handlers[32]')
-   arch/arm64/kvm/hyp/nvhe/switch.c:213:43: warning: initialized field overwritten [-Woverride-init]
-     213 |         [ESR_ELx_EC_DABT_LOW]           = kvm_hyp_handle_dabt_low,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:213:43: note: (near initialization for 'pvm_exit_handlers[36]')
-   arch/arm64/kvm/hyp/nvhe/switch.c:214:43: warning: initialized field overwritten [-Woverride-init]
-     214 |         [ESR_ELx_EC_PAC]                = kvm_hyp_handle_ptrauth,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:214:43: note: (near initialization for 'pvm_exit_handlers[9]')
-   arch/arm64/kvm/hyp/nvhe/switch.c:349:17: warning: no previous prototype for 'hyp_panic' [-Wmissing-prototypes]
-     349 | void __noreturn hyp_panic(void)
-         |                 ^~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c:371:17: warning: no previous prototype for 'kvm_unexpected_el2_exception' [-Wmissing-prototypes]
-     371 | asmlinkage void kvm_unexpected_el2_exception(void)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/arm64/kvm/hyp/nvhe/switch.c:29:
->> arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:60:22: warning: 'pkvm_ffa_id' defined but not used [-Wunused-const-variable=]
-      60 | static const pkvm_id pkvm_ffa_id        = pkvm_hyp_id + 1; /* Secure world */
-         |                      ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:58:22: warning: 'pkvm_host_id' defined but not used [-Wunused-const-variable=]
-      58 | static const pkvm_id pkvm_host_id       = 0;
-         |                      ^~~~~~~~~~~~
---
-   In file included from arch/arm64/kvm/hyp/include/nvhe/iommu.h:8,
-                    from arch/arm64/kvm/hyp/nvhe/mem_protect.c:19:
->> arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:60:22: warning: 'pkvm_ffa_id' defined but not used [-Wunused-const-variable=]
-      60 | static const pkvm_id pkvm_ffa_id        = pkvm_hyp_id + 1; /* Secure world */
-         |                      ^~~~~~~~~~~
---
-   arch/arm64/kvm/hyp/nvhe/setup.c:294:17: warning: no previous prototype for '__pkvm_init_finalise' [-Wmissing-prototypes]
-     294 | void __noreturn __pkvm_init_finalise(void)
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   In file included from arch/arm64/kvm/hyp/include/nvhe/iommu.h:8,
-                    from arch/arm64/kvm/hyp/nvhe/setup.c:16:
->> arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:60:22: warning: 'pkvm_ffa_id' defined but not used [-Wunused-const-variable=]
-      60 | static const pkvm_id pkvm_ffa_id        = pkvm_hyp_id + 1; /* Secure world */
-         |                      ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:58:22: warning: 'pkvm_host_id' defined but not used [-Wunused-const-variable=]
-      58 | static const pkvm_id pkvm_host_id       = 0;
-         |                      ^~~~~~~~~~~~
+   In file included from arch/arm64/include/asm/hwcap.h:50,
+                    from arch/arm64/include/asm/cpufeature.h:12,
+                    from arch/arm64/include/asm/ptrace.h:11,
+                    from arch/arm64/include/asm/irqflags.h:10,
+                    from include/linux/irqflags.h:17,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from include/linux/pagewalk.h:5,
+                    from fs/proc/task_mmu.c:2:
+   fs/proc/task_mmu.c: In function 'show_smap_vma_flags':
+   include/linux/mm.h:346:25: error: 'VM_HIGH_ARCH_2' undeclared (first use in this function)
+     346 | # define VM_PKEY_BIT0   VM_HIGH_ARCH_2  /* A protection key is a 3-bit value on arm64 */
+         |                         ^~~~~~~~~~~~~~
+   include/linux/log2.h:158:30: note: in definition of macro 'ilog2'
+     158 |         __builtin_constant_p(n) ?       \
+         |                              ^
+   fs/proc/task_mmu.c:689:24: note: in expansion of macro 'VM_PKEY_BIT0'
+     689 |                 [ilog2(VM_PKEY_BIT0)]   = "",
+         |                        ^~~~~~~~~~~~
+   include/linux/mm.h:346:25: note: each undeclared identifier is reported only once for each function it appears in
+     346 | # define VM_PKEY_BIT0   VM_HIGH_ARCH_2  /* A protection key is a 3-bit value on arm64 */
+         |                         ^~~~~~~~~~~~~~
+   include/linux/log2.h:158:30: note: in definition of macro 'ilog2'
+     158 |         __builtin_constant_p(n) ?       \
+         |                              ^
+   fs/proc/task_mmu.c:689:24: note: in expansion of macro 'VM_PKEY_BIT0'
+     689 |                 [ilog2(VM_PKEY_BIT0)]   = "",
+         |                        ^~~~~~~~~~~~
+>> include/linux/log2.h:157:1: error: array index in initializer not of integer type
+     157 | ( \
+         | ^
+   fs/proc/task_mmu.c:689:18: note: in expansion of macro 'ilog2'
+     689 |                 [ilog2(VM_PKEY_BIT0)]   = "",
+         |                  ^~~~~
+   include/linux/log2.h:157:1: note: (near initialization for 'mnemonics')
+     157 | ( \
+         | ^
+   fs/proc/task_mmu.c:689:18: note: in expansion of macro 'ilog2'
+     689 |                 [ilog2(VM_PKEY_BIT0)]   = "",
+         |                  ^~~~~
+   include/linux/mm.h:347:25: error: 'VM_HIGH_ARCH_3' undeclared (first use in this function)
+     347 | # define VM_PKEY_BIT1   VM_HIGH_ARCH_3
+         |                         ^~~~~~~~~~~~~~
+   include/linux/log2.h:158:30: note: in definition of macro 'ilog2'
+     158 |         __builtin_constant_p(n) ?       \
+         |                              ^
+   fs/proc/task_mmu.c:690:24: note: in expansion of macro 'VM_PKEY_BIT1'
+     690 |                 [ilog2(VM_PKEY_BIT1)]   = "",
+         |                        ^~~~~~~~~~~~
+>> include/linux/log2.h:157:1: error: array index in initializer not of integer type
+     157 | ( \
+         | ^
+   fs/proc/task_mmu.c:690:18: note: in expansion of macro 'ilog2'
+     690 |                 [ilog2(VM_PKEY_BIT1)]   = "",
+         |                  ^~~~~
+   include/linux/log2.h:157:1: note: (near initialization for 'mnemonics')
+     157 | ( \
+         | ^
+   fs/proc/task_mmu.c:690:18: note: in expansion of macro 'ilog2'
+     690 |                 [ilog2(VM_PKEY_BIT1)]   = "",
+         |                  ^~~~~
+   include/linux/mm.h:348:25: error: 'VM_HIGH_ARCH_4' undeclared (first use in this function)
+     348 | # define VM_PKEY_BIT2   VM_HIGH_ARCH_4
+         |                         ^~~~~~~~~~~~~~
+   include/linux/log2.h:158:30: note: in definition of macro 'ilog2'
+     158 |         __builtin_constant_p(n) ?       \
+         |                              ^
+   fs/proc/task_mmu.c:691:24: note: in expansion of macro 'VM_PKEY_BIT2'
+     691 |                 [ilog2(VM_PKEY_BIT2)]   = "",
+         |                        ^~~~~~~~~~~~
+>> include/linux/log2.h:157:1: error: array index in initializer not of integer type
+     157 | ( \
+         | ^
+   fs/proc/task_mmu.c:691:18: note: in expansion of macro 'ilog2'
+     691 |                 [ilog2(VM_PKEY_BIT2)]   = "",
+         |                  ^~~~~
+   include/linux/log2.h:157:1: note: (near initialization for 'mnemonics')
+     157 | ( \
+         | ^
+   fs/proc/task_mmu.c:691:18: note: in expansion of macro 'ilog2'
+     691 |                 [ilog2(VM_PKEY_BIT2)]   = "",
+         |                  ^~~~~
 
 
-vim +/pkvm_ffa_id +60 arch/arm64/kvm/hyp/include/nvhe/mem_protect.h
+vim +157 include/linux/log2.h
 
-68bd98a28aa6223 Quentin Perret 2021-03-15  56  
-1edca0105976755 Quentin Perret 2021-10-26  57  typedef u32 pkvm_id;
-1edca0105976755 Quentin Perret 2021-10-26  58  static const pkvm_id pkvm_host_id	= 0;
-6dbd44ccf4c908f Quentin Perret 2021-10-26  59  static const pkvm_id pkvm_hyp_id	= (1 << 16);
-1adb45e30dc198b Andrew Walbran 2021-10-19 @60  static const pkvm_id pkvm_ffa_id	= pkvm_hyp_id + 1; /* Secure world */
-08d3caa584606f6 Quentin Perret 2021-08-09  61  
-
-:::::: The code at line 60 was first introduced by commit
-:::::: 1adb45e30dc198bbd4085566b04e08158686f93d ANDROID: BACKPORT: KVM: arm64: Add FF-A helpers to share/unshare memory with secure world
-
-:::::: TO: Andrew Walbran <qwandor@google.com>
-:::::: CC: Will Deacon <willdeacon@google.com>
+b311e921b385b5a Robert P. J. Day 2007-10-16   69  
+f0d1b0b30d250a0 David Howells    2006-12-08   70  /**
+dbef91ec5482239 Martin Wilck     2018-04-18   71   * const_ilog2 - log base 2 of 32-bit or a 64-bit constant unsigned value
+a1c4d24e02d093e Randy Dunlap     2017-09-30   72   * @n: parameter
+f0d1b0b30d250a0 David Howells    2006-12-08   73   *
+dbef91ec5482239 Martin Wilck     2018-04-18   74   * Use this where sparse expects a true constant expression, e.g. for array
+dbef91ec5482239 Martin Wilck     2018-04-18   75   * indices.
+f0d1b0b30d250a0 David Howells    2006-12-08   76   */
+dbef91ec5482239 Martin Wilck     2018-04-18   77  #define const_ilog2(n)				\
+f0d1b0b30d250a0 David Howells    2006-12-08   78  (						\
+f0d1b0b30d250a0 David Howells    2006-12-08   79  	__builtin_constant_p(n) ? (		\
+474c90156c8dcc2 Linus Torvalds   2017-03-02   80  		(n) < 2 ? 0 :			\
+f0d1b0b30d250a0 David Howells    2006-12-08   81  		(n) & (1ULL << 63) ? 63 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08   82  		(n) & (1ULL << 62) ? 62 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08   83  		(n) & (1ULL << 61) ? 61 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08   84  		(n) & (1ULL << 60) ? 60 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08   85  		(n) & (1ULL << 59) ? 59 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08   86  		(n) & (1ULL << 58) ? 58 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08   87  		(n) & (1ULL << 57) ? 57 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08   88  		(n) & (1ULL << 56) ? 56 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08   89  		(n) & (1ULL << 55) ? 55 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08   90  		(n) & (1ULL << 54) ? 54 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08   91  		(n) & (1ULL << 53) ? 53 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08   92  		(n) & (1ULL << 52) ? 52 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08   93  		(n) & (1ULL << 51) ? 51 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08   94  		(n) & (1ULL << 50) ? 50 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08   95  		(n) & (1ULL << 49) ? 49 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08   96  		(n) & (1ULL << 48) ? 48 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08   97  		(n) & (1ULL << 47) ? 47 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08   98  		(n) & (1ULL << 46) ? 46 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08   99  		(n) & (1ULL << 45) ? 45 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  100  		(n) & (1ULL << 44) ? 44 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  101  		(n) & (1ULL << 43) ? 43 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  102  		(n) & (1ULL << 42) ? 42 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  103  		(n) & (1ULL << 41) ? 41 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  104  		(n) & (1ULL << 40) ? 40 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  105  		(n) & (1ULL << 39) ? 39 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  106  		(n) & (1ULL << 38) ? 38 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  107  		(n) & (1ULL << 37) ? 37 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  108  		(n) & (1ULL << 36) ? 36 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  109  		(n) & (1ULL << 35) ? 35 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  110  		(n) & (1ULL << 34) ? 34 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  111  		(n) & (1ULL << 33) ? 33 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  112  		(n) & (1ULL << 32) ? 32 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  113  		(n) & (1ULL << 31) ? 31 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  114  		(n) & (1ULL << 30) ? 30 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  115  		(n) & (1ULL << 29) ? 29 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  116  		(n) & (1ULL << 28) ? 28 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  117  		(n) & (1ULL << 27) ? 27 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  118  		(n) & (1ULL << 26) ? 26 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  119  		(n) & (1ULL << 25) ? 25 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  120  		(n) & (1ULL << 24) ? 24 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  121  		(n) & (1ULL << 23) ? 23 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  122  		(n) & (1ULL << 22) ? 22 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  123  		(n) & (1ULL << 21) ? 21 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  124  		(n) & (1ULL << 20) ? 20 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  125  		(n) & (1ULL << 19) ? 19 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  126  		(n) & (1ULL << 18) ? 18 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  127  		(n) & (1ULL << 17) ? 17 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  128  		(n) & (1ULL << 16) ? 16 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  129  		(n) & (1ULL << 15) ? 15 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  130  		(n) & (1ULL << 14) ? 14 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  131  		(n) & (1ULL << 13) ? 13 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  132  		(n) & (1ULL << 12) ? 12 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  133  		(n) & (1ULL << 11) ? 11 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  134  		(n) & (1ULL << 10) ? 10 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  135  		(n) & (1ULL <<  9) ?  9 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  136  		(n) & (1ULL <<  8) ?  8 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  137  		(n) & (1ULL <<  7) ?  7 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  138  		(n) & (1ULL <<  6) ?  6 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  139  		(n) & (1ULL <<  5) ?  5 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  140  		(n) & (1ULL <<  4) ?  4 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  141  		(n) & (1ULL <<  3) ?  3 :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  142  		(n) & (1ULL <<  2) ?  2 :	\
+474c90156c8dcc2 Linus Torvalds   2017-03-02  143  		1) :				\
+dbef91ec5482239 Martin Wilck     2018-04-18  144  	-1)
+dbef91ec5482239 Martin Wilck     2018-04-18  145  
+dbef91ec5482239 Martin Wilck     2018-04-18  146  /**
+dbef91ec5482239 Martin Wilck     2018-04-18  147   * ilog2 - log base 2 of 32-bit or a 64-bit unsigned value
+dbef91ec5482239 Martin Wilck     2018-04-18  148   * @n: parameter
+dbef91ec5482239 Martin Wilck     2018-04-18  149   *
+dbef91ec5482239 Martin Wilck     2018-04-18  150   * constant-capable log of base 2 calculation
+dbef91ec5482239 Martin Wilck     2018-04-18  151   * - this can be used to initialise global variables from constant data, hence
+dbef91ec5482239 Martin Wilck     2018-04-18  152   * the massive ternary operator construction
+dbef91ec5482239 Martin Wilck     2018-04-18  153   *
+dbef91ec5482239 Martin Wilck     2018-04-18  154   * selects the appropriately-sized optimised version depending on sizeof(n)
+dbef91ec5482239 Martin Wilck     2018-04-18  155   */
+dbef91ec5482239 Martin Wilck     2018-04-18  156  #define ilog2(n) \
+dbef91ec5482239 Martin Wilck     2018-04-18 @157  ( \
+dbef91ec5482239 Martin Wilck     2018-04-18  158  	__builtin_constant_p(n) ?	\
+2f78788b55baa34 Jakub Jelinek    2020-12-15  159  	((n) < 2 ? 0 :			\
+2f78788b55baa34 Jakub Jelinek    2020-12-15  160  	 63 - __builtin_clzll(n)) :	\
+f0d1b0b30d250a0 David Howells    2006-12-08  161  	(sizeof(n) <= 4) ?		\
+f0d1b0b30d250a0 David Howells    2006-12-08  162  	__ilog2_u32(n) :		\
+f0d1b0b30d250a0 David Howells    2006-12-08  163  	__ilog2_u64(n)			\
+f0d1b0b30d250a0 David Howells    2006-12-08  164   )
+f0d1b0b30d250a0 David Howells    2006-12-08  165  
 
 -- 
 0-DAY CI Kernel Test Service
