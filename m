@@ -1,48 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64852441C
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 20:57:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD56F1803F
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 21:27:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696193867; x=1727729867;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=758DrSEcuFaG2JVSDrnKrxCHgbC5DHZC/ey5mhM5Dx0=;
-  b=H2OOruPZnha5kZzTjWSDW+Sww0gesDJ5HRLRSeCpJ5xjuNN6zCME5UPY
-   LbxgUlQt4JEm6o75jKa9u4/N5b4v1YfwBw+OC8PNAsHWAle2XiuF6HhXv
-   MVW4niMxRq4Jlxfufrjq+olMU/ANIa9/E41qjr+LKNUlrTNvcnYKbRqt1
-   BIeUcintNMIGdqd1ydQc1363DlaYZckHgmS/uvFqSCJnRQeEwxrrVJ9qJ
-   SqFG0EAZGcqWDBK067Swv7vFWp10W/+ZPFZs4XTsDMnGrhJVZoKYUFEdH
-   Pe9ikdSOxbrWQT1weQ9QsZsfLRiy6/20fNCuHEvd0WjIrg6ix4Dm2BoOt
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="372902412"
-X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
-   d="scan'208";a="372902412"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 13:57:46 -0700
+  t=1696195675; x=1727731675;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mRXUaTV4hKJaDr4/uvRfDe6kdxKVih5WMR5bO7GQdl8=;
+  b=nfLjAA569sB+JiAwOvlRJ3g8hV1SltMwSH7EPARoATE9ZmQrhwGUqAPs
+   nQ3gpA3JPWphz401F7UYjvWxcye1zfrHnvwQ0UIqV2x+Tl8L04gTlPKJS
+   MUCb8OX/hyYrbCJ9vfp63QJfKx5UshSWtEyMo7p/w0NooVvwc5oUsUa4T
+   6rG11cOPwxI0gZ0vyXZZBKWMxuTxlIXoMieyfd2uMb/YMXbHJj63jEXNt
+   m606oh1ZOVcGfy5IEMqrLz4HpyF9gQ086r3x9EysCGul/0hKhJufH4Py5
+   eFgOS79TzebdMUgugSAePp6nVIFSi0HfocBno73wlCTe21lHpoHcG9tJQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="4132528"
+X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; 
+   d="scan'208";a="4132528"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 14:27:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="785612314"
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="893971153"
 X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
-   d="scan'208";a="785612314"
+   d="scan'208";a="893971153"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 01 Oct 2023 13:57:43 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 01 Oct 2023 14:26:31 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qn3VT-0005Ow-0Z;
-	Sun, 01 Oct 2023 20:57:39 +0000
-Date: Mon, 2 Oct 2023 04:56:33 +0800
+	id 1qn3ye-0005Qn-2c;
+	Sun, 01 Oct 2023 21:27:48 +0000
+Date: Mon, 2 Oct 2023 05:27:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rohit Agarwal <quic_rohiagar@quicinc.com>, agross@kernel.org,
-	andersson@kernel.org, konrad.dybcio@linaro.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	dmitry.baryshkov@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Rohit Agarwal <quic_rohiagar@quicinc.com>
-Subject: Re: [PATCH v2 1/3] arm64: dts: qcom: Add interconnect nodes for SDX75
-Message-ID: <202310020405.aU033fMG-lkp@intel.com>
-References: <1695720564-2978-2-git-send-email-quic_rohiagar@quicinc.com>
+To: Appana Durga Kedareswara Rao <appana.durga.rao@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 630/1370]
+ drivers/dma/xilinx/axidmatest.c:339:54: warning: implicit conversion from
+ 'enum dma_transfer_direction' to 'enum dma_data_direction'
+Message-ID: <202310020539.ZhBmy9Qr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,48 +48,334 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1695720564-2978-2-git-send-email-quic_rohiagar@quicinc.com>
 
-Hi Rohit,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.6-rc3 next-20230929]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rohit-Agarwal/arm64-dts-qcom-Add-interconnect-nodes-for-SDX75/20230926-173336
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/1695720564-2978-2-git-send-email-quic_rohiagar%40quicinc.com
-patch subject: [PATCH v2 1/3] arm64: dts: qcom: Add interconnect nodes for SDX75
-config: arm64-randconfig-002-20230930 (https://download.01.org/0day-ci/archive/20231002/202310020405.aU033fMG-lkp@intel.com/config)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
+head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
+commit: ec37b560adcc9696ac0e50b1ade40cbfeb15d246 [630/1370] dmaengine: xilinx: Add axidmatest test client code
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231002/202310020539.ZhBmy9Qr-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310020405.aU033fMG-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310020539.ZhBmy9Qr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310020405.aU033fMG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310020539.ZhBmy9Qr-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/boot/dts/qcom/sdx75-idp.dts:9:
->> arch/arm64/boot/dts/qcom/sdx75.dtsi:11:10: fatal error: dt-bindings/interconnect/qcom,sdx75.h: No such file or directory
-      11 | #include <dt-bindings/interconnect/qcom,sdx75.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+   In file included from include/linux/dma/xilinx_dma.h:11,
+                    from drivers/dma/xilinx/axidmatest.c:24:
+   drivers/dma/xilinx/axidmatest.c: In function 'dmatest_slave_func':
+>> drivers/dma/xilinx/axidmatest.c:339:54: warning: implicit conversion from 'enum dma_transfer_direction' to 'enum dma_data_direction' [-Wenum-conversion]
+     339 |                                                      DMA_MEM_TO_DEV);
+         |                                                      ^~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:411:66: note: in definition of macro 'dma_map_single'
+     411 | #define dma_map_single(d, a, s, r) dma_map_single_attrs(d, a, s, r, 0)
+         |                                                                  ^
+   drivers/dma/xilinx/axidmatest.c:370:50: warning: implicit conversion from 'enum dma_transfer_direction' to 'enum dma_data_direction' [-Wenum-conversion]
+     370 |                                                  DMA_MEM_TO_DEV);
+         |                                                  ^~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:412:70: note: in definition of macro 'dma_unmap_single'
+     412 | #define dma_unmap_single(d, a, s, r) dma_unmap_single_attrs(d, a, s, r, 0)
+         |                                                                      ^
 
 
-vim +11 arch/arm64/boot/dts/qcom/sdx75.dtsi
+vim +339 drivers/dma/xilinx/axidmatest.c
 
-  > 11	#include <dt-bindings/interconnect/qcom,sdx75.h>
-    12	#include <dt-bindings/interrupt-controller/arm-gic.h>
-    13	#include <dt-bindings/power/qcom,rpmhpd.h>
-    14	#include <dt-bindings/power/qcom-rpmpd.h>
-    15	#include <dt-bindings/soc/qcom,rpmh-rsc.h>
-    16	
+   224	
+   225	/* Function for slave transfers
+   226	 * Each thread requires 2 channels, one for transmit, and one for receive
+   227	 */
+   228	static int dmatest_slave_func(void *data)
+   229	{
+   230		struct dmatest_slave_thread	*thread = data;
+   231		struct dma_chan *tx_chan;
+   232		struct dma_chan *rx_chan;
+   233		const char *thread_name;
+   234		unsigned int src_off, dst_off, len;
+   235		unsigned int error_count;
+   236		unsigned int failed_tests = 0;
+   237		unsigned int total_tests = 0;
+   238		dma_cookie_t tx_cookie;
+   239		dma_cookie_t rx_cookie;
+   240		enum dma_status status;
+   241		enum dma_ctrl_flags flags;
+   242		int ret;
+   243		int src_cnt;
+   244		int dst_cnt;
+   245		int bd_cnt = XILINX_DMATEST_BD_CNT;
+   246		int i;
+   247	
+   248		ktime_t	ktime, start, diff;
+   249		ktime_t	filltime = 0;
+   250		ktime_t	comparetime = 0;
+   251		s64 runtime = 0;
+   252		unsigned long long total_len = 0;
+   253		thread_name = current->comm;
+   254		ret = -ENOMEM;
+   255	
+   256	
+   257		/* Ensure that all previous reads are complete */
+   258		smp_rmb();
+   259		tx_chan = thread->tx_chan;
+   260		rx_chan = thread->rx_chan;
+   261		dst_cnt = bd_cnt;
+   262		src_cnt = bd_cnt;
+   263	
+   264		thread->srcs = kcalloc(src_cnt + 1, sizeof(u8 *), GFP_KERNEL);
+   265		if (!thread->srcs)
+   266			goto err_srcs;
+   267		for (i = 0; i < src_cnt; i++) {
+   268			thread->srcs[i] = kmalloc(test_buf_size, GFP_KERNEL);
+   269			if (!thread->srcs[i])
+   270				goto err_srcbuf;
+   271		}
+   272		thread->srcs[i] = NULL;
+   273	
+   274		thread->dsts = kcalloc(dst_cnt + 1, sizeof(u8 *), GFP_KERNEL);
+   275		if (!thread->dsts)
+   276			goto err_dsts;
+   277		for (i = 0; i < dst_cnt; i++) {
+   278			thread->dsts[i] = kmalloc(test_buf_size, GFP_KERNEL);
+   279			if (!thread->dsts[i])
+   280				goto err_dstbuf;
+   281		}
+   282		thread->dsts[i] = NULL;
+   283	
+   284		set_user_nice(current, 10);
+   285	
+   286		flags = DMA_CTRL_ACK | DMA_PREP_INTERRUPT;
+   287	
+   288		ktime = ktime_get();
+   289		while (!kthread_should_stop() &&
+   290		       !(iterations && total_tests >= iterations)) {
+   291			struct dma_device *tx_dev = tx_chan->device;
+   292			struct dma_device *rx_dev = rx_chan->device;
+   293			struct dma_async_tx_descriptor *txd = NULL;
+   294			struct dma_async_tx_descriptor *rxd = NULL;
+   295			dma_addr_t dma_srcs[XILINX_DMATEST_BD_CNT];
+   296			dma_addr_t dma_dsts[XILINX_DMATEST_BD_CNT];
+   297			struct completion rx_cmp;
+   298			struct completion tx_cmp;
+   299			unsigned long rx_tmo =
+   300					msecs_to_jiffies(300000); /* RX takes longer */
+   301			unsigned long tx_tmo = msecs_to_jiffies(30000);
+   302			u8 align = 0;
+   303			struct scatterlist tx_sg[XILINX_DMATEST_BD_CNT];
+   304			struct scatterlist rx_sg[XILINX_DMATEST_BD_CNT];
+   305	
+   306			total_tests++;
+   307	
+   308			/* honor larger alignment restrictions */
+   309			align = tx_dev->copy_align;
+   310			if (rx_dev->copy_align > align)
+   311				align = rx_dev->copy_align;
+   312	
+   313			if (1 << align > test_buf_size) {
+   314				pr_err("%u-byte buffer too small for %d-byte alignment\n",
+   315				       test_buf_size, 1 << align);
+   316				break;
+   317			}
+   318	
+   319			len = dmatest_random() % test_buf_size + 1;
+   320			len = (len >> align) << align;
+   321			if (!len)
+   322				len = 1 << align;
+   323			src_off = dmatest_random() % (test_buf_size - len + 1);
+   324			dst_off = dmatest_random() % (test_buf_size - len + 1);
+   325	
+   326			src_off = (src_off >> align) << align;
+   327			dst_off = (dst_off >> align) << align;
+   328	
+   329			start = ktime_get();
+   330			dmatest_init_srcs(thread->srcs, src_off, len);
+   331			dmatest_init_dsts(thread->dsts, dst_off, len);
+   332			diff = ktime_sub(ktime_get(), start);
+   333			filltime = ktime_add(filltime, diff);
+   334	
+   335			for (i = 0; i < src_cnt; i++) {
+   336				u8 *buf = thread->srcs[i] + src_off;
+   337	
+   338				dma_srcs[i] = dma_map_single(tx_dev->dev, buf, len,
+ > 339							     DMA_MEM_TO_DEV);
+   340			}
+   341	
+   342			for (i = 0; i < dst_cnt; i++) {
+   343				dma_dsts[i] = dma_map_single(rx_dev->dev,
+   344							     thread->dsts[i],
+   345							     test_buf_size,
+   346							     DMA_BIDIRECTIONAL);
+   347			}
+   348	
+   349			sg_init_table(tx_sg, bd_cnt);
+   350			sg_init_table(rx_sg, bd_cnt);
+   351	
+   352			for (i = 0; i < bd_cnt; i++) {
+   353				sg_dma_address(&tx_sg[i]) = dma_srcs[i];
+   354				sg_dma_address(&rx_sg[i]) = dma_dsts[i] + dst_off;
+   355	
+   356				sg_dma_len(&tx_sg[i]) = len;
+   357				sg_dma_len(&rx_sg[i]) = len;
+   358				total_len += len;
+   359			}
+   360	
+   361			rxd = rx_dev->device_prep_slave_sg(rx_chan, rx_sg, bd_cnt,
+   362					DMA_DEV_TO_MEM, flags, NULL);
+   363	
+   364			txd = tx_dev->device_prep_slave_sg(tx_chan, tx_sg, bd_cnt,
+   365					DMA_MEM_TO_DEV, flags, NULL);
+   366	
+   367			if (!rxd || !txd) {
+   368				for (i = 0; i < src_cnt; i++)
+   369					dma_unmap_single(tx_dev->dev, dma_srcs[i], len,
+   370							 DMA_MEM_TO_DEV);
+   371				for (i = 0; i < dst_cnt; i++)
+   372					dma_unmap_single(rx_dev->dev, dma_dsts[i],
+   373							 test_buf_size,
+   374							 DMA_BIDIRECTIONAL);
+   375				pr_warn("%s: #%u: prep error with src_off=0x%x ",
+   376					thread_name, total_tests - 1, src_off);
+   377				pr_warn("dst_off=0x%x len=0x%x\n",
+   378					dst_off, len);
+   379				msleep(100);
+   380				failed_tests++;
+   381				continue;
+   382			}
+   383	
+   384			init_completion(&rx_cmp);
+   385			rxd->callback = dmatest_slave_rx_callback;
+   386			rxd->callback_param = &rx_cmp;
+   387			rx_cookie = rxd->tx_submit(rxd);
+   388	
+   389			init_completion(&tx_cmp);
+   390			txd->callback = dmatest_slave_tx_callback;
+   391			txd->callback_param = &tx_cmp;
+   392			tx_cookie = txd->tx_submit(txd);
+   393	
+   394			if (dma_submit_error(rx_cookie) ||
+   395			    dma_submit_error(tx_cookie)) {
+   396				pr_warn("%s: #%u: submit error %d/%d with src_off=0x%x ",
+   397					thread_name, total_tests - 1,
+   398					rx_cookie, tx_cookie, src_off);
+   399				pr_warn("dst_off=0x%x len=0x%x\n",
+   400					dst_off, len);
+   401				msleep(100);
+   402				failed_tests++;
+   403				continue;
+   404			}
+   405			dma_async_issue_pending(rx_chan);
+   406			dma_async_issue_pending(tx_chan);
+   407	
+   408			tx_tmo = wait_for_completion_timeout(&tx_cmp, tx_tmo);
+   409	
+   410			status = dma_async_is_tx_complete(tx_chan, tx_cookie,
+   411							  NULL, NULL);
+   412	
+   413			if (tx_tmo == 0) {
+   414				pr_warn("%s: #%u: tx test timed out\n",
+   415					thread_name, total_tests - 1);
+   416				failed_tests++;
+   417				continue;
+   418			} else if (status != DMA_COMPLETE) {
+   419				pr_warn("%s: #%u: tx got completion callback, ",
+   420					thread_name, total_tests - 1);
+   421				pr_warn("but status is \'%s\'\n",
+   422					status == DMA_ERROR ? "error" :
+   423					"in progress");
+   424				failed_tests++;
+   425				continue;
+   426			}
+   427	
+   428			rx_tmo = wait_for_completion_timeout(&rx_cmp, rx_tmo);
+   429			status = dma_async_is_tx_complete(rx_chan, rx_cookie,
+   430							  NULL, NULL);
+   431	
+   432			if (rx_tmo == 0) {
+   433				pr_warn("%s: #%u: rx test timed out\n",
+   434					thread_name, total_tests - 1);
+   435				failed_tests++;
+   436				continue;
+   437			} else if (status != DMA_COMPLETE) {
+   438				pr_warn("%s: #%u: rx got completion callback, ",
+   439					thread_name, total_tests - 1);
+   440				pr_warn("but status is \'%s\'\n",
+   441					status == DMA_ERROR ? "error" :
+   442					"in progress");
+   443				failed_tests++;
+   444				continue;
+   445			}
+   446	
+   447			/* Unmap by myself */
+   448			for (i = 0; i < dst_cnt; i++)
+   449				dma_unmap_single(rx_dev->dev, dma_dsts[i],
+   450						 test_buf_size, DMA_BIDIRECTIONAL);
+   451	
+   452			error_count = 0;
+   453			start = ktime_get();
+   454			pr_debug("%s: verifying source buffer...\n", thread_name);
+   455			error_count += dmatest_verify(thread->srcs, 0, src_off,
+   456					0, PATTERN_SRC, true);
+   457			error_count += dmatest_verify(thread->srcs, src_off,
+   458					src_off + len, src_off,
+   459					PATTERN_SRC | PATTERN_COPY, true);
+   460			error_count += dmatest_verify(thread->srcs, src_off + len,
+   461					test_buf_size, src_off + len,
+   462					PATTERN_SRC, true);
+   463	
+   464			pr_debug("%s: verifying dest buffer...\n",
+   465				 thread->task->comm);
+   466			error_count += dmatest_verify(thread->dsts, 0, dst_off,
+   467					0, PATTERN_DST, false);
+   468			error_count += dmatest_verify(thread->dsts, dst_off,
+   469					dst_off + len, src_off,
+   470					PATTERN_SRC | PATTERN_COPY, false);
+   471			error_count += dmatest_verify(thread->dsts, dst_off + len,
+   472					test_buf_size, dst_off + len,
+   473					PATTERN_DST, false);
+   474			diff = ktime_sub(ktime_get(), start);
+   475			comparetime = ktime_add(comparetime, diff);
+   476	
+   477			if (error_count) {
+   478				pr_warn("%s: #%u: %u errors with ",
+   479					thread_name, total_tests - 1, error_count);
+   480				pr_warn("src_off=0x%x dst_off=0x%x len=0x%x\n",
+   481					src_off, dst_off, len);
+   482				failed_tests++;
+   483			} else {
+   484				pr_debug("%s: #%u: No errors with ",
+   485					 thread_name, total_tests - 1);
+   486				pr_debug("src_off=0x%x dst_off=0x%x len=0x%x\n",
+   487					 src_off, dst_off, len);
+   488			}
+   489		}
+   490	
+   491		ktime = ktime_sub(ktime_get(), ktime);
+   492		ktime = ktime_sub(ktime, comparetime);
+   493		ktime = ktime_sub(ktime, filltime);
+   494		runtime = ktime_to_us(ktime);
+   495	
+   496		ret = 0;
+   497		for (i = 0; thread->dsts[i]; i++)
+   498			kfree(thread->dsts[i]);
+   499	err_dstbuf:
+   500		kfree(thread->dsts);
+   501	err_dsts:
+   502		for (i = 0; thread->srcs[i]; i++)
+   503			kfree(thread->srcs[i]);
+   504	err_srcbuf:
+   505		kfree(thread->srcs);
+   506	err_srcs:
+   507		pr_notice("%s: terminating after %u tests, %u failures %llu iops %llu KB/s (status %d)\n",
+   508			  thread_name, total_tests, failed_tests,
+   509			  dmatest_persec(runtime, total_tests),
+   510			  dmatest_KBs(runtime, total_len), ret);
+   511	
+   512		thread->done = true;
+   513		wake_up(&thread_wait);
+   514	
+   515		return ret;
+   516	}
+   517	
 
 -- 
 0-DAY CI Kernel Test Service
