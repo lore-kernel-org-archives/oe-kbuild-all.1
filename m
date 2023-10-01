@@ -1,43 +1,39 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2492F32
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 10:27:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696156046; x=1727692046;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xwRWyaYbJGpTjfV8ibYj8dqq+eju5H0T0htguXiI9rc=;
-  b=LoBapHZhB441dUMcmKLoFLjkgshTaiQwf/v06TTjU/FHwn89bC3spuIN
-   NZqf0fvdSgPR2YGvEExlExmzS5C1V/ZMMvfjIy78uAzmN4mH2VP2fQn+s
-   lTkG2Q5XoQYDIBaxhwV41TAOkKyax/H0HWXKCQJYRPAXZqPYTjkKSQ/vV
-   G+7+r6M10FeYzGNtJ2d1u5E2wFPe8WSBGOSfhjPfrDL/QvAGoUQk34axT
-   refEbwstBTAVMGMZfIQb8w7MnK76Wfiq/SBgW3L1SQHFtWWdR7P/Gp6Tz
-   O5EcVZw8T27rI1crGYoVD84yKRcSC5hTzLUKPejDVYz7nYG/M3Pt2JcQ3
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="361892864"
-X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
-   d="scan'208";a="361892864"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 03:27:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="924020934"
-X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
-   d="scan'208";a="924020934"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 01 Oct 2023 03:27:23 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qmtfV-0004yb-0r;
-	Sun, 01 Oct 2023 10:27:21 +0000
-Date: Sun, 1 Oct 2023 18:26:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/140-pci 10/15]
- drivers/pci/controller/pcie-apple.c:468:40: error: implicit declaration of
- function 'FIELD_PREP'
-Message-ID: <202310011802.cL64lJDc-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF279466
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 11:22:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1696159372;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2PmJLGZGYM/2RvXfCM4a7iZd7KULTy8GDfhMPfgYLY8=;
+	b=ex1yB+qHk2/hfB3xTadxWYwdywavBjzXH5Wf8d/3MAzpNhTqLlSFILYF9oqNg7GwRv/drh
+	BzwHxNE3y3RMG2JZ96T9L1L241WSmiKw7S/QwpXwx6LhL1uehUzwZf9feXemrGAzqg39m4
+	NxJz9OUoSJ3RMkq2gTM1JdEJomrlHxw=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-678-3liq-1YMPcWNLKVRSl48gA-1; Sun, 01 Oct 2023 07:22:38 -0400
+X-MC-Unique: 3liq-1YMPcWNLKVRSl48gA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 763E73C02520;
+	Sun,  1 Oct 2023 11:22:37 +0000 (UTC)
+Received: from localhost (unknown [10.72.112.8])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F2FA493113;
+	Sun,  1 Oct 2023 11:22:36 +0000 (UTC)
+Date: Sun, 1 Oct 2023 19:22:33 +0800
+From: Baoquan He <bhe@redhat.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: vkoul@kernel.org, dmaengine@vger.kernel.org, gregkh@linuxfoundation.org,
+	arnd@arndb.de, imx@lists.linux.dev, linux-kernel@vger.kernel.org,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev, rafael@kernel.org
+Subject: Re: [PATCH 1/1] fs: debugfs: fix build error at powerpc platform
+Message-ID: <ZRlWeeq/AOjyTtnV@MiWiFi-R3L-srv>
+References: <20230929164920.314849-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,84 +42,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230929164920.314849-1-Frank.Li@nxp.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 
-tree:   https://github.com/AsahiLinux/linux bits/140-pci
-head:   07c5be0c765a02a50f5777ec7cb2e33c82d641c3
-commit: bc47733313473d25b60a7f875cf6f806d62a641d [10/15] PCIE: apple: Add T602x PCIe support
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231001/202310011802.cL64lJDc-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231001/202310011802.cL64lJDc-lkp@intel.com/reproduce)
+On 09/29/23 at 12:49pm, Frank Li wrote:
+>    ld: fs/debugfs/file.o: in function `debugfs_print_regs':
+>    file.c:(.text+0x95a): undefined reference to `ioread64be'
+> >> ld: file.c:(.text+0x9dd): undefined reference to `ioread64'
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310011802.cL64lJDc-lkp@intel.com/
+From your reproducer, on x86_64, GENERIC_IOMAP is selected. So the
+default version of ioread64 and ioread64be in asm-generic/io.h are
+bypassed. Except of those arch where ioread64 and ioread64be are
+implemented specifically like alpha, arm64, parisc, power, we may need
+include include/linux/io-64-nonatomic-hi-lo.h or
+include/linux/io-64-nonatomic-lo-hi.h to fix above linking issue?
 
-All errors (new ones prefixed by >>):
+From my side, below change can fix the issue. However, I am not quite
+sure which one is chosen between io-64-nonatomic-hi-lo.h and 
+io-64-nonatomic-hi-lo.h.
 
-   drivers/pci/controller/pcie-apple.c: In function 'apple_pcie_port_setup_irq':
->> drivers/pci/controller/pcie-apple.c:468:40: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-     468 |                         writel_relaxed(FIELD_PREP(PORT_MSIMAP_TARGET, i) |
-         |                                        ^~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/FIELD_PREP +468 drivers/pci/controller/pcie-apple.c
-
-   430	
-   431	static int apple_pcie_port_setup_irq(struct apple_pcie_port *port)
-   432	{
-   433		struct fwnode_handle *fwnode = &port->np->fwnode;
-   434		struct apple_pcie *pcie = port->pcie;
-   435		unsigned int irq;
-   436	
-   437		/* FIXME: consider moving each interrupt under each port */
-   438		irq = irq_of_parse_and_map(to_of_node(dev_fwnode(port->pcie->dev)),
-   439					   port->idx);
-   440		if (!irq)
-   441			return -ENXIO;
-   442	
-   443		port->domain = irq_domain_create_linear(fwnode, 32,
-   444							&apple_port_irq_domain_ops,
-   445							port);
-   446		if (!port->domain)
-   447			return -ENOMEM;
-   448	
-   449		/* Disable all interrupts */
-   450		writel_relaxed(~0, port->base + PORT_INTMSK);
-   451		writel_relaxed(~0, port->base + PORT_INTSTAT);
-   452		writel_relaxed(~0, port->base + PORT_LINKCMDSTS);
-   453	
-   454		irq_set_chained_handler_and_data(irq, apple_port_irq_handler, port);
-   455	
-   456		/* Configure MSI base address */
-   457		BUG_ON(upper_32_bits(DOORBELL_ADDR));
-   458		writel_relaxed(lower_32_bits(DOORBELL_ADDR),
-   459			       port->base + pcie->hw->port_msiaddr);
-   460		if (pcie->hw->port_msiaddr_hi)
-   461			writel_relaxed(0, port->base + pcie->hw->port_msiaddr_hi);
-   462	
-   463		/* Enable MSIs, shared between all ports */
-   464		if (pcie->hw->port_msimap) {
-   465			int i;
-   466	
-   467			for (i = 0; i < pcie->nvecs; i++) {
- > 468				writel_relaxed(FIELD_PREP(PORT_MSIMAP_TARGET, i) |
-   469					       PORT_MSIMAP_ENABLE,
-   470					       port->base + pcie->hw->port_msimap + 4 * i);
-   471			}
-   472	
-   473			writel_relaxed(PORT_MSICFG_EN, port->base + PORT_MSICFG);
-   474		} else {
-   475			writel_relaxed(0, port->base + PORT_MSIBASE);
-   476			writel_relaxed((ilog2(pcie->nvecs) << PORT_MSICFG_L2MSINUM_SHIFT) |
-   477				PORT_MSICFG_EN, port->base + PORT_MSICFG);
-   478		}
-   479	
-   480		return 0;
-   481	}
-   482	
-
+diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
+index 87b3753aa4b1..b433be134c67 100644
+--- a/fs/debugfs/file.c
++++ b/fs/debugfs/file.c
+@@ -15,6 +15,7 @@
+ #include <linux/pagemap.h>
+ #include <linux/debugfs.h>
+ #include <linux/io.h>
++#include <linux/io-64-nonatomic-hi-lo.h>
+ #include <linux/slab.h>
+ #include <linux/atomic.h>
+ #include <linux/device.h>
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.41.0
+
