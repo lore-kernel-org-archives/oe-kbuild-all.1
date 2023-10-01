@@ -1,92 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6185247
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 16:08:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A8EDC433C9;
-	Sun,  1 Oct 2023 16:08:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1696176512;
-	bh=GbFgxCDqh03tmoV705FRgBIZxu6VY78PDwxjs8VMDU4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Xq77eHJnRWVq3LYuJOeRLr4snmEZQZ86i294ssC9aTCyZz4t3Ca538GUO4Na0H5a9
-	 F971KkXPffH/pAdjfKT/qpGXUgyYcHlTdkSlXmxOH+GkRjL7O/bjhj4jLcSfO0Xuz5
-	 +xoGMz9jzne6xje4fVcfpEEX5ZGyFPg8MWuW8DbTDjILNOAk5mxx60nCwn7FUm5Yx6
-	 kLI4IEBbl9xKGRZ7UKgT4sbmsIaU/8TIj4HZ6Vt3hsTRtrh4wFxLKbc4JAYxGKLYUI
-	 hXePNuIN63VPX7cehQOYMwj+VInKS65himdfTcVDxeRJLxBzZIg7Z8rraAsR1ivIMY
-	 R6zgUCdOpBZcA==
-From: sj@kernel.org
-To: kernel test robot <lkp@intel.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [sj:damon/next 25/28] mm/damon/sysfs-schemes.c:1869:6: warning: no previous prototype for 'damos_sysfs_tried_regions_reset_update_status'
-Date: Sun,  1 Oct 2023 16:08:28 +0000
-Message-Id: <20231001160828.47310-1-sj@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <202310010851.UTmHwpyH-lkp@intel.com>
-References: 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FAE315488
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 16:28:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696177702; x=1727713702;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=z3LmYLHiVQAB7n3rcPvH/hmrYyZ01zrLbQR69f/25YE=;
+  b=BQQF7RE2Iyp/rL78QkZwPxMWRw/JCKaenDucFo70GaA26q4AgkAUyoxE
+   8rLArGBKkfAVGFMs3IQDMV9zY+xS5QHukHRFGb2e45WBQh2UDoRoG4Dpy
+   fLAICldqQbv+hCeAuAOTXbnQiqDU8KB74tbu+QfpyiNTTgBv8nSkHxRGz
+   huVSUhaa8UqOPC+hDRHpZfJ2W+j8XMHU1bptenrX5w2cdJoyrBgCMdtQO
+   jw4sslU27GLZ5I8vdxy1/1DEKlgueHXnk/w1ORU8WWPCviRpx7bqkCo1G
+   IKp4Dr+trSE+ep1oC77sGufxMO16d9GTI1229XgOcsFqYhCATnn8jHAKH
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="382446809"
+X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
+   d="scan'208";a="382446809"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 09:28:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
+   d="scan'208";a="1312113"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 01 Oct 2023 09:27:41 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qmzIn-0005Ej-0F;
+	Sun, 01 Oct 2023 16:28:17 +0000
+Date: Mon, 2 Oct 2023 00:28:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Rohan McLure <rmclure@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Michael Ellerman <mpe@ellerman.id.au>
+Subject: drivers/message/fusion/mptctl.c:1498:9: warning: 'strncpy' specified
+ bound 12 equals destination size
+Message-ID: <202310020020.1lO8acXY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi robot,
+Hi Rohan,
 
-On Sun, 1 Oct 2023 08:50:48 +0800 kernel test robot <lkp@intel.com> wrote:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-> head:   ee9e834252d5110f424abdef73f776cd4dc5ceae
-> commit: d3dfc5443e1f05dd03955ba5fe214812d0219395 [25/28] mm/damon/sysfs-schemes: update tried regions for only one apply interval
-> config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231001/202310010851.UTmHwpyH-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231001/202310010851.UTmHwpyH-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202310010851.UTmHwpyH-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    mm/damon/sysfs-schemes.c:127:60: error: field 'update_status' has incomplete type
->      127 |         enum damos_sysfs_tried_regions_reset_update_status update_status;
->          |                                                            ^~~~~~~~~~~~~
-> >> mm/damon/sysfs-schemes.c:1869:6: warning: no previous prototype for 'damos_sysfs_tried_regions_reset_update_status' [-Wmissing-prototypes]
->     1869 | void damos_sysfs_tried_regions_reset_update_status(struct damon_ctx *ctx)
->          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    mm/damon/sysfs-schemes.c: In function 'damos_sysfs_tried_regions_reset_update_status':
->    mm/damon/sysfs-schemes.c:1876:17: error: 'sysfs_Schemes' undeclared (first use in this function); did you mean 'sysfs_schemes'?
->     1876 |                 sysfs_Schemes->schemes_arr[i]->tried_regions->update_status =
->          |                 ^~~~~~~~~~~~~
->          |                 sysfs_schemes
->    mm/damon/sysfs-schemes.c:1876:17: note: each undeclared identifier is reported only once for each function it appears in
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e402b08634b398e9feb94902c7adcf05bb8ba47d
+commit: 6f0926c00565a91f3bd7ca1aa05db307daed5e0f powerpc/kcsan: Add KCSAN Support
+date:   8 months ago
+config: powerpc64-randconfig-003-20231001 (https://download.01.org/0day-ci/archive/20231002/202310020020.1lO8acXY-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310020020.1lO8acXY-lkp@intel.com/reproduce)
 
-Thank you for this report.  I made a fix for this as a followup commit[1].  I
-will squash the fix into the original broken commit and push by today.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310020020.1lO8acXY-lkp@intel.com/
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git/commit/?h=damon/next&id=ff3d1bf4122213fbcae73b075149e7cc3f5c0f34
+All warnings (new ones prefixed by >>):
+
+   In function 'mptctl_readtest',
+       inlined from '__mptctl_ioctl' at drivers/message/fusion/mptctl.c:659:10:
+>> drivers/message/fusion/mptctl.c:1498:9: warning: 'strncpy' specified bound 12 equals destination size [-Wstringop-truncation]
+    1498 |         strncpy (karg.product, ioc->prod_name, MPT_PRODUCT_LENGTH);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-Thanks,
-SJ
+vim +/strncpy +1498 drivers/message/fusion/mptctl.c
 
->
->
-> vim +/damos_sysfs_tried_regions_reset_update_status +1869 mm/damon/sysfs-schemes.c
->
->   1868
-> > 1869        void damos_sysfs_tried_regions_reset_update_status(struct damon_ctx *ctx)
->   1870        {
->   1871                struct damon_sysfs_schemes *sysfs_schemes =
->   1872                        damon_sysfs_schemes_for_damos_callback;
->   1873                int i;
->   1874
->   1875                for (i = 0; i < sysfs_schemes->nr; i++)
->   1876                        sysfs_Schemes->schemes_arr[i]->tried_regions->update_status =
->   1877                                damos_tried_region_update_idle;
->   1878        }
->   1879
->
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1463  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1464  /*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1465  /* MPT IOCTL Test function.
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1466   *
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1467   * Outputs:	None.
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1468   * Return:	0 if successful
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1469   *		-EFAULT if data unavailable
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1470   *		-ENODEV  if no such device/adapter
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1471   */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1472  static int
+28d76df18f0ad5 Dan Carpenter   2020-01-14  1473  mptctl_readtest (MPT_ADAPTER *ioc, unsigned long arg)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1474  {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1475  	struct mpt_ioctl_test __user *uarg = (void __user *) arg;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1476  	struct mpt_ioctl_test	 karg;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1477  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1478  	if (copy_from_user(&karg, uarg, sizeof(struct mpt_ioctl_test))) {
+29dd3609f2fc70 Eric Moore      2007-09-14  1479  		printk(KERN_ERR MYNAM "%s@%d::mptctl_readtest - "
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1480  			"Unable to read in mpt_ioctl_test struct @ %p\n",
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1481  				__FILE__, __LINE__, uarg);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1482  		return -EFAULT;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1483  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1484  
+09120a8cd38dbd Prakash, Sathya 2007-07-24  1485  	dctlprintk(ioc, printk(MYIOC_s_DEBUG_FMT "mptctl_readtest called.\n",
+09120a8cd38dbd Prakash, Sathya 2007-07-24  1486  	    ioc->name));
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1487  	/* Fill in the data and return the structure to the calling
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1488  	 * program
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1489  	 */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1490  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1491  #ifdef MFCNT
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1492  	karg.chip_type = ioc->mfcnt;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1493  #else
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1494  	karg.chip_type = ioc->pcidev->device;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1495  #endif
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1496  	strncpy (karg.name, ioc->name, MPT_MAX_NAME);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1497  	karg.name[MPT_MAX_NAME-1]='\0';
+^1da177e4c3f41 Linus Torvalds  2005-04-16 @1498  	strncpy (karg.product, ioc->prod_name, MPT_PRODUCT_LENGTH);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1499  	karg.product[MPT_PRODUCT_LENGTH-1]='\0';
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1500  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1501  	/* Copy the data from kernel memory to user memory
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1502  	 */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1503  	if (copy_to_user((char __user *)arg, &karg, sizeof(struct mpt_ioctl_test))) {
+29dd3609f2fc70 Eric Moore      2007-09-14  1504  		printk(MYIOC_s_ERR_FMT "%s@%d::mptctl_readtest - "
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1505  			"Unable to write out mpt_ioctl_test struct @ %p\n",
+29dd3609f2fc70 Eric Moore      2007-09-14  1506  			ioc->name, __FILE__, __LINE__, uarg);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1507  		return -EFAULT;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1508  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1509  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1510  	return 0;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1511  }
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1512  
+
+:::::: The code at line 1498 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
