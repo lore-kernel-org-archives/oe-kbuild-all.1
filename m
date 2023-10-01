@@ -1,46 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77372390
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 22:08:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90B4E14F73
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 22:20:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696198136; x=1727734136;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5O5dPKseRbZSXNfKQTc1ZI0pbIN7XFKfeK4/xDIE12s=;
-  b=fI1NVsjdPkO2svJGTEjAkTos8F3DDFAmJfhF5z19dYDQBiaKbwg5Q/Y8
-   uyB4fFhnTvyjujhlGRuH18NhbDeXcDLoa1HisYmyH7yjotaGb46YFZO1+
-   3/NfOfbEzgBIhLNVwE0eiUvU2CWyHFsUgONvfITjialDCAqcneaYv8JTh
-   n9C+VcuRfG7ayWdjGhpvNqaNUPfXGhzblfhAMGTBn+5f5VCTc/ftvAbDn
-   nslD6RvnZ5jLZ2ESZoBbtOGJftx/wuUrjUQ7sNu/vzr3/4oVGFND/wdJZ
-   Ap1Z22zwcMfdx/dD7Z3WJNmkJLePwMcp6WEClRPUdC0Y1p2ju8V5rZcye
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="381440936"
+  t=1696198821; x=1727734821;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tR8nljjphbzr5vayUCkhoRzJT+R8zpbXj5I1S4Qj+7s=;
+  b=jB9oK7kpfdnDA0YkkNh5sC8FMEiKWpAhAsWZj/SuQtg1FUmX43G7y2UQ
+   OJGT2iztmzP6fve/zaHZ03m6u8bdvLTWYtfF6UHoSrvQkx6GsOrYls2uA
+   lDVIlUehdmOgu2g0f3aw3ZC7QDakZG2e0QN2EqERhPynSEWmMdOEM5lTK
+   uayJp5Z1mbBrSwnmK0dxlu1mdkh0M59l8A6+Ts6yhtsrNBmLaFGALZou5
+   AUgtY6XKjR+UvU/FDp3Kb8ncqhvHGbKZ/JuF0F5uPBCRLP5Zwdadg6tWY
+   gaoxnsxD/ffVL0GWh9lmJOMlsbA8lwl4EPtE/8Aet6f/wX27pZwYQvny8
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="381441344"
 X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; 
-   d="scan'208";a="381440936"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 15:08:54 -0700
+   d="scan'208";a="381441344"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 15:20:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="866315738"
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="840824835"
 X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; 
-   d="scan'208";a="866315738"
+   d="scan'208";a="840824835"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 01 Oct 2023 15:08:52 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 01 Oct 2023 15:19:53 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qn4cM-0005SX-1U;
-	Sun, 01 Oct 2023 22:08:50 +0000
-Date: Mon, 2 Oct 2023 06:08:45 +0800
+	id 1qn4n0-0005TJ-38;
+	Sun, 01 Oct 2023 22:19:50 +0000
+Date: Mon, 2 Oct 2023 06:18:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>,
-	linux-usb@vger.kernel.org, Douglas Gilbert <dgilbert@interlog.com>
-Subject: Re: [PATCH v2] usb: pd: Exposing the Peak Current value of Fixed
- Supplies to user space
-Message-ID: <202310020520.759dWkR0-lkp@intel.com>
-References: <20230928105944.1718897-1-heikki.krogerus@linux.intel.com>
+To: Florian Westphal <fw@strlen.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [fwestphal-nf:nft_set_gc_query_08 2/9]
+ net/netfilter/nft_set_pipapo.c:1556: warning: Function parameter or member
+ 'set' not described in 'pipapo_gc'
+Message-ID: <202310020613.Ey8XWZP8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,198 +46,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230928105944.1718897-1-heikki.krogerus@linux.intel.com>
 
-Hi Heikki,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.6-rc3 next-20230929]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Heikki-Krogerus/usb-pd-Exposing-the-Peak-Current-value-of-Fixed-Supplies-to-user-space/20230928-190152
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230928105944.1718897-1-heikki.krogerus%40linux.intel.com
-patch subject: [PATCH v2] usb: pd: Exposing the Peak Current value of Fixed Supplies to user space
-reproduce: (https://download.01.org/0day-ci/archive/20231002/202310020520.759dWkR0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/fwestphal/nf.git nft_set_gc_query_08
+head:   a55eb7fa0cf0fd120ed2a36c12278b57f23e9c6c
+commit: fa0c5ad207acc0aaaf399f59b95919aa068dffc0 [2/9] netfilter: nf_tables: de-constify set commit ops function argument
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231002/202310020613.Ey8XWZP8-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310020613.Ey8XWZP8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310020520.759dWkR0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310020613.Ey8XWZP8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/ABI/testing/sysfs-class-usb_power_delivery:128: WARNING: Unexpected indentation.
->> Documentation/ABI/testing/sysfs-class-usb_power_delivery:128: WARNING: Block quote ends without a blank line; unexpected unindent.
->> Documentation/ABI/testing/sysfs-class-usb_power_delivery:128: WARNING: Definition list ends without a blank line; unexpected unindent.
->> Documentation/ABI/testing/sysfs-class-usb_power_delivery:128: WARNING: Malformed table.
->> Documentation/ABI/testing/sysfs-class-usb_power_delivery:1: WARNING: undefined label: abi_sys_class_usb_power_delivery_version (if the link has no caption the label must precede a section header)
->> Documentation/ABI/testing/sysfs-class-usb_power_delivery:1: WARNING: undefined label: abi_sys_class_usb_power_delivery_source_capabilities_position_variable_supply_maximum_current (if the link has no caption the label must precede a section header)
->> Documentation/ABI/testing/sysfs-class-usb_power_delivery:1: WARNING: undefined label: abi_sys_class_usb_power_delivery_source_capabilities_position_programmable_supply_pps_power_limited (if the link has no caption the label must precede a section header)
+>> net/netfilter/nft_set_pipapo.c:1556: warning: Function parameter or member 'set' not described in 'pipapo_gc'
+>> net/netfilter/nft_set_pipapo.c:1556: warning: Excess function parameter '_set' description in 'pipapo_gc'
 
-vim +128 Documentation/ABI/testing/sysfs-class-usb_power_delivery
 
-   > 1	What:		/sys/class/usb_power_delivery
-     2	Date:		May 2022
-     3	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-     4	Description:
-     5			Directory for USB Power Delivery devices.
-     6	
-     7	What:		/sys/class/usb_power_delivery/.../revision
-     8	Date:		May 2022
-     9	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-    10	Description:
-    11			File showing the USB Power Delivery Specification Revision used
-    12			in communication.
-    13	
-    14	What:		/sys/class/usb_power_delivery/.../version
-    15	Date:		May 2022
-    16	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-    17	Description:
-    18			This is an optional attribute file showing the version of the
-    19			specific revision of the USB Power Delivery Specification. In
-    20			most cases the specification version is not known and the file
-    21			is not available.
-    22	
-    23	What:		/sys/class/usb_power_delivery/.../source-capabilities
-    24	Date:		May 2022
-    25	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-    26	Description:
-    27			The source capabilities message "Source_Capabilities" contains a
-    28			set of Power Data Objects (PDO), each representing a type of
-    29			power supply. The order of the PDO objects is defined in the USB
-    30			Power Delivery Specification. Each PDO - power supply - will
-    31			have its own device, and the PDO device name will start with the
-    32			object position number as the first character followed by the
-    33			power supply type name (":" as delimiter).
-    34	
-    35				/sys/class/usb_power_delivery/.../source_capabilities/<position>:<type>
-    36	
-    37	What:		/sys/class/usb_power_delivery/.../sink-capabilities
-    38	Date:		May 2022
-    39	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-    40	Description:
-    41			The sink capability message "Sink_Capabilities" contains a set
-    42			of Power Data Objects (PDO) just like with source capabilities,
-    43			but instead of describing the power capabilities, these objects
-    44			describe the power requirements.
-    45	
-    46			The order of the objects in the sink capability message is the
-    47			same as with the source capabilities message.
-    48	
-    49	Fixed Supplies
-    50	
-    51	What:		/sys/class/usb_power_delivery/.../<capability>/<position>:fixed_supply
-    52	Date:		May 2022
-    53	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-    54	Description:
-    55			Devices containing the attributes (the bit fields) defined for
-    56			Fixed Supplies.
-    57	
-    58			The device "1:fixed_supply" is special. USB Power Delivery
-    59			Specification dictates that the first PDO (at object position
-    60			1), and the only mandatory PDO, is always the vSafe5V Fixed
-    61			Supply Object. vSafe5V Object has additional fields defined for
-    62			it that the other Fixed Supply Objects do not have and that are
-    63			related to the USB capabilities rather than power capabilities.
-    64	
-    65	What:		/sys/class/usb_power_delivery/.../<capability>/1:fixed_supply/dual_role_power
-    66	Date:		May 2022
-    67	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-    68	Description:
-    69			This file contains boolean value that tells does the device
-    70			support both source and sink power roles.
-    71	
-    72	What:		/sys/class/usb_power_delivery/.../source-capabilities/1:fixed_supply/usb_suspend_supported
-    73	Date:		May 2022
-    74	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-    75	Description:
-    76			This file shows the value of the USB Suspend Supported bit in
-    77			vSafe5V Fixed Supply Object. If the bit is set then the device
-    78			will follow the USB 2.0 and USB 3.2 rules for suspend and
-    79			resume.
-    80	
-    81	What:		/sys/class/usb_power_delivery/.../sink-capabilities/1:fixed_supply/higher_capability
-    82	Date:		February 2023
-    83	Contact:	Saranya Gopal <saranya.gopal@linux.intel.com>
-    84	Description:
-    85			This file shows the value of the Higher capability bit in
-    86			vsafe5V Fixed Supply Object. If the bit is set, then the sink
-    87			needs more than vsafe5V(eg. 12 V) to provide full functionality.
-    88			Valid values: 0, 1
-    89	
-    90	What:		/sys/class/usb_power_delivery/.../<capability>/1:fixed_supply/unconstrained_power
-    91	Date:		May 2022
-    92	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-    93	Description:
-    94			This file shows the value of the Unconstrained Power bit in
-    95			vSafe5V Fixed Supply Object. The bit is set when an external
-    96			source of power, powerful enough to power the entire system on
-    97			its own, is available for the device.
-    98	
-    99	What:		/sys/class/usb_power_delivery/.../<capability>/1:fixed_supply/usb_communication_capable
-   100	Date:		May 2022
-   101	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-   102	Description:
-   103			This file shows the value of the USB Communication Capable bit in
-   104			vSafe5V Fixed Supply Object.
-   105	
-   106	What:		/sys/class/usb_power_delivery/.../<capability>/1:fixed_supply/dual_role_data
-   107	Date:		May 2022
-   108	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-   109	Description:
-   110			This file shows the value of the Dual-Role Data bit in vSafe5V
-   111			Fixed Supply Object. Dual role data means ability act as both
-   112			USB host and USB device.
-   113	
-   114	What:		/sys/class/usb_power_delivery/.../<capability>/1:fixed_supply/unchunked_extended_messages_supported
-   115	Date:		May 2022
-   116	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-   117	Description:
-   118			This file shows the value of the Unchunked Extended Messages
-   119			Supported bit in vSafe5V Fixed Supply Object.
-   120	
-   121	What:		/sys/class/usb_power_delivery/.../<capability>/<position>:fixed_supply/voltage
-   122	Date:		May 2022
-   123	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-   124	Description:
-   125			The voltage the supply supports in millivolts.
-   126	
-   127	What:		/sys/class/usb_power_delivery/.../source-capabilities/<position>:fixed_supply/peak_current
- > 128	Date:		October 2023
-   129	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-   130	Description:
-   131			Fixed Power Source Peak Current Capability
-   132			(IOC: Negotiated current as defined in IEC 63002):
-   133			==  ===========================================================
-   134			0   Peak current equals IOC (default)
-   135			1   Overload Capabilities:
-   136			    1. Peak current equals 150% IOC for 1ms @ 5% duty cycle
-   137			       (low current equals 97% IOC for 19ms)
-   138			    2. Peak current equals 125% IOC for 2ms @ 10% duty cycle
-   139			       (low current equals 97% IOC for 18ms)
-   140			    3. Peak current equals 110% IOC for 10ms @ 50% duty cycle
-   141			       (low current equals 90% IOC for 10ms)
-   142			2   Overload Capabilities:
-   143			    1. Peak current equals 200% IOC for 1ms @ 5% duty cycle
-   144			       (low current equals 95% IOC for 19ms)
-   145			    2. Peak current equals 150% IOC for 2ms @ 10% duty cycle
-   146			       (low current equals 94% IOC for 18ms)
-   147			    3. Peak current equals 125% IOC for 10ms @ 50% duty cycle
-   148			       (low current equals 75% IOC for 10ms)
-   149			3   Overload Capabilities:
-   150			    1. Peak current equals 200% IOC for 1ms @ 5% duty cycle
-   151			       (low current equals 95% IOC for 19ms)
-   152			    2. Peak current equals 175% IOC for 2ms @ 10% duty cycle
-   153			       (low current equals 92% IOC for 18ms)
-   154			    3. Peak current equals 150% IOC for 10ms @ 50% duty cycle
-   155			       (low current equals 50% IOC for 10ms)
-   156			==  ===========================================================
-   157	
+vim +1556 net/netfilter/nft_set_pipapo.c
+
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1549  
+3c4287f62044a90 Stefano Brivio    2020-01-22  1550  /**
+3c4287f62044a90 Stefano Brivio    2020-01-22  1551   * pipapo_gc() - Drop expired entries from set, destroy start and end elements
+08713cb006b6f07 Florian Westphal  2023-08-10  1552   * @_set:	nftables API set representation
+3c4287f62044a90 Stefano Brivio    2020-01-22  1553   * @m:		Matching data
+3c4287f62044a90 Stefano Brivio    2020-01-22  1554   */
+fa0c5ad207acc0a Florian Westphal  2023-09-21  1555  static void pipapo_gc(struct nft_set *set, struct nft_pipapo_match *m)
+3c4287f62044a90 Stefano Brivio    2020-01-22 @1556  {
+3c4287f62044a90 Stefano Brivio    2020-01-22  1557  	struct nft_pipapo *priv = nft_set_priv(set);
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1558  	struct net *net = read_pnet(&set->net);
+3c4287f62044a90 Stefano Brivio    2020-01-22  1559  	int rules_f0, first_rule = 0;
+aaa31047a6d25da Pablo Neira Ayuso 2021-04-27  1560  	struct nft_pipapo_elem *e;
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1561  	struct nft_trans_gc *gc;
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1562  
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1563  	gc = nft_trans_gc_alloc(set, 0, GFP_KERNEL);
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1564  	if (!gc)
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1565  		return;
+3c4287f62044a90 Stefano Brivio    2020-01-22  1566  
+3c4287f62044a90 Stefano Brivio    2020-01-22  1567  	while ((rules_f0 = pipapo_rules_same_key(m->f, first_rule))) {
+3c4287f62044a90 Stefano Brivio    2020-01-22  1568  		union nft_pipapo_map_bucket rulemap[NFT_PIPAPO_MAX_FIELDS];
+3c4287f62044a90 Stefano Brivio    2020-01-22  1569  		struct nft_pipapo_field *f;
+3c4287f62044a90 Stefano Brivio    2020-01-22  1570  		int i, start, rules_fx;
+3c4287f62044a90 Stefano Brivio    2020-01-22  1571  
+3c4287f62044a90 Stefano Brivio    2020-01-22  1572  		start = first_rule;
+3c4287f62044a90 Stefano Brivio    2020-01-22  1573  		rules_fx = rules_f0;
+3c4287f62044a90 Stefano Brivio    2020-01-22  1574  
+3c4287f62044a90 Stefano Brivio    2020-01-22  1575  		nft_pipapo_for_each_field(f, i, m) {
+3c4287f62044a90 Stefano Brivio    2020-01-22  1576  			rulemap[i].to = start;
+3c4287f62044a90 Stefano Brivio    2020-01-22  1577  			rulemap[i].n = rules_fx;
+3c4287f62044a90 Stefano Brivio    2020-01-22  1578  
+3c4287f62044a90 Stefano Brivio    2020-01-22  1579  			if (i < m->field_count - 1) {
+3c4287f62044a90 Stefano Brivio    2020-01-22  1580  				rules_fx = f->mt[start].n;
+3c4287f62044a90 Stefano Brivio    2020-01-22  1581  				start = f->mt[start].to;
+3c4287f62044a90 Stefano Brivio    2020-01-22  1582  			}
+3c4287f62044a90 Stefano Brivio    2020-01-22  1583  		}
+3c4287f62044a90 Stefano Brivio    2020-01-22  1584  
+3c4287f62044a90 Stefano Brivio    2020-01-22  1585  		/* Pick the last field, and its last index */
+3c4287f62044a90 Stefano Brivio    2020-01-22  1586  		f--;
+3c4287f62044a90 Stefano Brivio    2020-01-22  1587  		i--;
+3c4287f62044a90 Stefano Brivio    2020-01-22  1588  		e = f->mt[rulemap[i].to].e;
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1589  
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1590  		/* synchronous gc never fails, there is no need to set on
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1591  		 * NFT_SET_ELEM_DEAD_BIT.
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1592  		 */
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1593  		if (nft_set_elem_expired(&e->ext)) {
+3c4287f62044a90 Stefano Brivio    2020-01-22  1594  			priv->dirty = true;
+3c4287f62044a90 Stefano Brivio    2020-01-22  1595  
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1596  			gc = nft_trans_gc_queue_sync(gc, GFP_ATOMIC);
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1597  			if (!gc)
+6d365eabce3c018 Pablo Neira Ayuso 2023-09-06  1598  				return;
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1599  
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1600  			nft_pipapo_gc_deactivate(net, set, e);
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1601  			pipapo_drop(m, rulemap);
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1602  			nft_trans_gc_elem_add(gc, e);
+3c4287f62044a90 Stefano Brivio    2020-01-22  1603  
+3c4287f62044a90 Stefano Brivio    2020-01-22  1604  			/* And check again current first rule, which is now the
+3c4287f62044a90 Stefano Brivio    2020-01-22  1605  			 * first we haven't checked.
+3c4287f62044a90 Stefano Brivio    2020-01-22  1606  			 */
+3c4287f62044a90 Stefano Brivio    2020-01-22  1607  		} else {
+3c4287f62044a90 Stefano Brivio    2020-01-22  1608  			first_rule += rules_f0;
+3c4287f62044a90 Stefano Brivio    2020-01-22  1609  		}
+3c4287f62044a90 Stefano Brivio    2020-01-22  1610  	}
+3c4287f62044a90 Stefano Brivio    2020-01-22  1611  
+4a9e12ea7e70223 Pablo Neira Ayuso 2023-09-06  1612  	gc = nft_trans_gc_catchall_sync(gc);
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1613  	if (gc) {
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1614  		nft_trans_gc_queue_sync_done(gc);
+3c4287f62044a90 Stefano Brivio    2020-01-22  1615  		priv->last_gc = jiffies;
+3c4287f62044a90 Stefano Brivio    2020-01-22  1616  	}
+f6c383b8c31a937 Pablo Neira Ayuso 2023-08-09  1617  }
+3c4287f62044a90 Stefano Brivio    2020-01-22  1618  
+
+:::::: The code at line 1556 was first introduced by commit
+:::::: 3c4287f62044a90e73a561aa05fc46e62da173da nf_tables: Add set type for arbitrary concatenation of ranges
+
+:::::: TO: Stefano Brivio <sbrivio@redhat.com>
+:::::: CC: Pablo Neira Ayuso <pablo@netfilter.org>
 
 -- 
 0-DAY CI Kernel Test Service
