@@ -1,39 +1,43 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF279466
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 11:22:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1696159372;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2PmJLGZGYM/2RvXfCM4a7iZd7KULTy8GDfhMPfgYLY8=;
-	b=ex1yB+qHk2/hfB3xTadxWYwdywavBjzXH5Wf8d/3MAzpNhTqLlSFILYF9oqNg7GwRv/drh
-	BzwHxNE3y3RMG2JZ96T9L1L241WSmiKw7S/QwpXwx6LhL1uehUzwZf9feXemrGAzqg39m4
-	NxJz9OUoSJ3RMkq2gTM1JdEJomrlHxw=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-678-3liq-1YMPcWNLKVRSl48gA-1; Sun, 01 Oct 2023 07:22:38 -0400
-X-MC-Unique: 3liq-1YMPcWNLKVRSl48gA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 763E73C02520;
-	Sun,  1 Oct 2023 11:22:37 +0000 (UTC)
-Received: from localhost (unknown [10.72.112.8])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F2FA493113;
-	Sun,  1 Oct 2023 11:22:36 +0000 (UTC)
-Date: Sun, 1 Oct 2023 19:22:33 +0800
-From: Baoquan He <bhe@redhat.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: vkoul@kernel.org, dmaengine@vger.kernel.org, gregkh@linuxfoundation.org,
-	arnd@arndb.de, imx@lists.linux.dev, linux-kernel@vger.kernel.org,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev, rafael@kernel.org
-Subject: Re: [PATCH 1/1] fs: debugfs: fix build error at powerpc platform
-Message-ID: <ZRlWeeq/AOjyTtnV@MiWiFi-R3L-srv>
-References: <20230929164920.314849-1-Frank.Li@nxp.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7406115AE;
+	Sun,  1 Oct 2023 12:40:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696164029; x=1727700029;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=w1oyWGF2X1k7tfm5oeD5bJinY9KGx1IzeyuYmZZyH4M=;
+  b=OLsCElY4swWZz4IBEqqguApPFhHRnqkNFcX2ILFGICANsqGLJCZCVwHn
+   6n9EQ1qlIwboqgGO7EbAYUA8lATyr+3ZQJ7dBDXvWoxv2b+ZM1UQCFwYF
+   v7QBjVFD1OqvQs7qg6sopyI7z0INEUViIJ9UXqvVHl7gyhIUznNf0FZG8
+   WV6eB/Le8DIZzPV6i3w5ucUSlSQBuXdKygfLeQRcS8J+4iO5IQjGKU3DI
+   +xyrvdWv6KT/qLb5/OAjPBIp3JDasuUXuWNOk9gFMyz+dVq/az1nYDTXW
+   4zbH2eixE4sK8UjLVIBl3DTA/VH2OTmTYe6jgi1SvZeaoe7AFPnBFUO7W
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="381402283"
+X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
+   d="scan'208";a="381402283"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 05:40:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="866231762"
+X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
+   d="scan'208";a="866231762"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 01 Oct 2023 05:40:27 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qmvkG-00052n-22;
+	Sun, 01 Oct 2023 12:40:24 +0000
+Date: Sun, 1 Oct 2023 20:40:04 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: ld.lld: error:
+ vmlinux.a(arch/hexagon/kernel/head.o):(.init.text+0xd4): relocation
+ R_HEX_B22_PCREL out of range: 2377144 is not in [-2097152, 2097151];
+ references __vmnewmap
+Message-ID: <202310012042.jafpp4kR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -42,37 +46,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230929164920.314849-1-Frank.Li@nxp.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 
-On 09/29/23 at 12:49pm, Frank Li wrote:
->    ld: fs/debugfs/file.o: in function `debugfs_print_regs':
->    file.c:(.text+0x95a): undefined reference to `ioread64be'
-> >> ld: file.c:(.text+0x9dd): undefined reference to `ioread64'
+CC: linux-kernel@vger.kernel.org
+TO: Masahiro Yamada <masahiroy@kernel.org>
+CC: Nicolas Schier <nicolas@fjasle.eu>
 
-From your reproducer, on x86_64, GENERIC_IOMAP is selected. So the
-default version of ioread64 and ioread64be in asm-generic/io.h are
-bypassed. Except of those arch where ioread64 and ioread64be are
-implemented specifically like alpha, arm64, parisc, power, we may need
-include include/linux/io-64-nonatomic-hi-lo.h or
-include/linux/io-64-nonatomic-lo-hi.h to fix above linking issue?
+Hi Masahiro,
 
-From my side, below change can fix the issue. However, I am not quite
-sure which one is chosen between io-64-nonatomic-hi-lo.h and 
-io-64-nonatomic-hi-lo.h.
+First bad commit (maybe != root cause):
 
-diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
-index 87b3753aa4b1..b433be134c67 100644
---- a/fs/debugfs/file.c
-+++ b/fs/debugfs/file.c
-@@ -15,6 +15,7 @@
- #include <linux/pagemap.h>
- #include <linux/debugfs.h>
- #include <linux/io.h>
-+#include <linux/io-64-nonatomic-hi-lo.h>
- #include <linux/slab.h>
- #include <linux/atomic.h>
- #include <linux/device.h>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e402b08634b398e9feb94902c7adcf05bb8ba47d
+commit: 3216484550610470013b7ce1c9ed272da0a74589 kbuild: use obj-y instead extra-y for objects placed at the head
+date:   12 months ago
+config: hexagon-randconfig-r005-20221010 (https://download.01.org/0day-ci/archive/20231001/202310012042.jafpp4kR-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231001/202310012042.jafpp4kR-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310012042.jafpp4kR-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: vmlinux.a(arch/hexagon/kernel/head.o):(.init.text+0xd4): relocation R_HEX_B22_PCREL out of range: 2377144 is not in [-2097152, 2097151]; references __vmnewmap
+   >>> defined in vmlinux.a(arch/hexagon/kernel/vm_ops.o)
+--
+>> ld.lld: error: vmlinux.a(arch/hexagon/kernel/head.o):(.init.text+0x12c): relocation R_HEX_B22_PCREL out of range: 2377016 is not in [-2097152, 2097151]; references __vmsetvec
+   >>> defined in vmlinux.a(arch/hexagon/kernel/vm_ops.o)
+--
+>> ld.lld: error: vmlinux.a(arch/hexagon/kernel/head.o):(.init.text+0x160): relocation R_HEX_B22_PCREL out of range: 2390800 is not in [-2097152, 2097151]; references memset
+   >>> defined in vmlinux.a(arch/hexagon/lib/memset.o)
+
 -- 
-2.41.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
