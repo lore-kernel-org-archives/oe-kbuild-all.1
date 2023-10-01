@@ -1,174 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED162561
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 14:44:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696171449; x=1727707449;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eaZ6EntjZndNXd4oKfdQ0McHn3ig2hRV/qhNZ2cj228=;
-  b=PKzuV8KYQ74I0pZl59PncDSnGTv4sVzjyLM9d/FjJyi02NkcAnE2VuX7
-   OgslZok12MS0MXyxkMk4A+HlnocuV/+GCQhOP6Xg/MxQ6LZoRR24P1Pev
-   fIRo18K04oBjIne4niWQRKPSeT8NRpe9Ic7UxboOWR+y73X/IA+cGuVVz
-   sVazSTmTwcxSvXjXOJsnhfkwLEl4D+4yUOcPiiTYu9/fyjialLHH5iOuq
-   aynHYy8WN+4T2gVu3Q3ZcCV47zuR3kLFQrtfAhA141rKHOa7tzGoTO8wu
-   t5AaaQNLWWMgb+QfYVFHm5b9X3VBiBLrXBKuxHF0v6LFohZ6VaWbdxRzz
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="361906866"
-X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
-   d="scan'208";a="361906866"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 07:44:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="840769901"
-X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
-   d="scan'208";a="840769901"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 01 Oct 2023 07:44:02 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qmxfo-00058N-1r;
-	Sun, 01 Oct 2023 14:43:57 +0000
-Date: Sun, 1 Oct 2023 22:43:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sean Young <sean@mess.org>, Thierry Reding <thierry.reding@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: oe-kbuild-all@lists.linux.dev, Sean Young <sean@mess.org>,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH 1/2] pwm: make it possible to apply pwm changes in atomic
- context
-Message-ID: <202310012229.ldJwkjOY-lkp@intel.com>
-References: <1bd5241d584ceb4d6b731c4dc3203fb9686ee1d1.1696156485.git.sean@mess.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5AE318AEE;
+	Sun,  1 Oct 2023 15:42:26 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.nyi.internal (Postfix) with ESMTP id 5A4695C2B27;
+	Sun,  1 Oct 2023 11:42:25 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Sun, 01 Oct 2023 11:42:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm1; t=1696174945; x=1696261345; bh=Eq
+	8X0eVmOz7DANbzW3I7LbcdIkb+KZjZmPd1QRhAKl4=; b=No4RpmE/rT30uObrTB
+	Z5Kz+b8yG8wWM/I7KM0kEarzqc5ZmukOUQ8uTwKhrtxt01nqaoc/RhbRmN9ZRjf/
+	OV9bgd0aSxfDQ5S75SAPQU0Fso/qtE8iPyzeyv6P7qi4rarAggr1Pw81TjsgnPFB
+	L42GeR09MzJPVAYFDnAKO4ZE4DO5FNoxOYaShPILm6KYWp7YB2Pj7MiZF/OkSgo/
+	+v2Jg1GGY7qZNJ92salcD5bWlGg1/neqiKWKRxmea9R/lOYuLi+IhiBn3yT2ifyq
+	zvrVwO+biU4rPSJqymXVPQfnj7SaL8WsvDxJSwSUVQPXsShpwwYVIFhcEuqrqRTX
+	ryBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1696174945; x=1696261345; bh=Eq8X0eVmOz7DA
+	NbzW3I7LbcdIkb+KZjZmPd1QRhAKl4=; b=LiMji9DSASPAO0yGheG4jb6R6dbi6
+	8X8Q0kSlSdrjmSntzrTWg134c+Q7e5njgfFgR2JTM8tw3rVJfVWRLHJVD92XMtQD
+	TXiYglk6E4YwHM4V/8IilOUhUtJIxYyeCdlfuaCtpAroVHJjdp3NxERZF1bJ81D5
+	vwJFiSKcKA2RgbsJZQR40AUEHMJ7rgEhceNjLc8oMRwkX30mn8bCUm3WMPPMQpbe
+	UslqFGE2PyE9RZv/Hb8pZdBtsUq8EqBi4bHzDmidrWFesls/j8MxVGK6xR1uhU7i
+	+I0NUliTpFss5ZYP8QH9v/pTvHW4Omt9wHdmXnLNEI+Z1xysaL+dEnU4Q==
+X-ME-Sender: <xms:YZMZZQLoU6HZhSGlsLzH40pNZvzHG0jyaHgv56pdsCWT2nJhZGAUVQ>
+    <xme:YZMZZQKx-fhS9xS8aCpVo3vooziIN0rO_e4duAvckoQSt7gPZkQY87Z_5O63sDRkt
+    HvAftj1iF1hXf-Ag6s>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvddvgddtudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:YZMZZQuCkDh5UWKjtkHUbxFoPc2UDMrrF1DfTg5yzGTbDLq_-OBrxA>
+    <xmx:YZMZZdasZJvbbWn2ZJCHE1Zz5kXRu5WumfLN7lN4ky4V9M-I_FWL2g>
+    <xmx:YZMZZXafscJUjEysevzVboTT9BC1LycgwaGSPN8EGjDYfNa7sVZv1A>
+    <xmx:YZMZZb5_GRKzOLFwcOQLN1wAXn5t6E7Ho-vXbnMFbfz-Zx1lbqRTAQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 1E12CB6008D; Sun,  1 Oct 2023 11:42:25 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-958-g1b1b911df8-fm-20230927.002-g1b1b911d
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1bd5241d584ceb4d6b731c4dc3203fb9686ee1d1.1696156485.git.sean@mess.org>
+Message-Id: <b795ed61-0174-487f-a263-8431e7c76af5@app.fastmail.com>
+In-Reply-To: <ZRlWeeq/AOjyTtnV@MiWiFi-R3L-srv>
+References: <20230929164920.314849-1-Frank.Li@nxp.com>
+ <ZRlWeeq/AOjyTtnV@MiWiFi-R3L-srv>
+Date: Sun, 01 Oct 2023 11:42:04 -0400
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Baoquan He" <bhe@redhat.com>, "Frank Li" <Frank.Li@nxp.com>
+Cc: "Vinod Koul" <vkoul@kernel.org>, dmaengine@vger.kernel.org,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, imx@lists.linux.dev,
+ linux-kernel@vger.kernel.org, "kernel test robot" <lkp@intel.com>,
+ oe-kbuild-all@lists.linux.dev, "Rafael J . Wysocki" <rafael@kernel.org>
+Subject: Re: [PATCH 1/1] fs: debugfs: fix build error at powerpc platform
+Content-Type: text/plain
 
-Hi Sean,
+On Sun, Oct 1, 2023, at 07:22, Baoquan He wrote:
+> On 09/29/23 at 12:49pm, Frank Li wrote:
+>>    ld: fs/debugfs/file.o: in function `debugfs_print_regs':
+>>    file.c:(.text+0x95a): undefined reference to `ioread64be'
+>> >> ld: file.c:(.text+0x9dd): undefined reference to `ioread64'
+>
+> From your reproducer, on x86_64, GENERIC_IOMAP is selected. So the
+> default version of ioread64 and ioread64be in asm-generic/io.h are
+> bypassed. Except of those arch where ioread64 and ioread64be are
+> implemented specifically like alpha, arm64, parisc, power, we may need
+> include include/linux/io-64-nonatomic-hi-lo.h or
+> include/linux/io-64-nonatomic-lo-hi.h to fix above linking issue?
+>
+> From my side, below change can fix the issue. However, I am not quite
+> sure which one is chosen between io-64-nonatomic-hi-lo.h and 
+> io-64-nonatomic-hi-lo.h.
 
-kernel test robot noticed the following build errors:
+It looks like the latest version of the patch only calls
+it for 64-bit targets, so this question should not come up.
 
-[auto build test ERROR on thierry-reding-pwm/for-next]
-[also build test ERROR on shawnguo/for-next atorgue-stm32/stm32-next media-tree/master linus/master v6.6-rc3 next-20230929]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On 32-bit targets, it is driver specific which one you need,
+so having it generic code would require passing a flag from
+a driver, but I think that adds more complexity than it help.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Young/media-pwm-ir-tx-trigger-edges-from-hrtimer-interrupt-context/20231001-194056
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git for-next
-patch link:    https://lore.kernel.org/r/1bd5241d584ceb4d6b731c4dc3203fb9686ee1d1.1696156485.git.sean%40mess.org
-patch subject: [PATCH 1/2] pwm: make it possible to apply pwm changes in atomic context
-config: arm-randconfig-002-20231001 (https://download.01.org/0day-ci/archive/20231001/202310012229.ldJwkjOY-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231001/202310012229.ldJwkjOY-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310012229.ldJwkjOY-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/cpumask.h:10,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13,
-                    from include/linux/i2c.h:13,
-                    from drivers/input/misc/da7280.c:12:
-   include/linux/pwm.h: In function 'pwm_apply_state':
->> include/linux/pwm.h:428:24: error: implicit declaration of function 'pwm_can_sleep'; did you mean 'cant_sleep'? [-Werror=implicit-function-declaration]
-     428 |         might_sleep_if(pwm_can_sleep(pwm));
-         |                        ^~~~~~~~~~~~~
-   include/linux/kernel.h:194:39: note: in definition of macro 'might_sleep_if'
-     194 | #define might_sleep_if(cond) do { if (cond) might_sleep(); } while (0)
-         |                                       ^~~~
-   In file included from drivers/input/misc/da7280.c:16:
-   include/linux/pwm.h: At top level:
->> include/linux/pwm.h:455:20: error: conflicting types for 'pwm_can_sleep'; have 'bool(struct pwm_device *)' {aka '_Bool(struct pwm_device *)'}
-     455 | static inline bool pwm_can_sleep(struct pwm_device *pwm)
-         |                    ^~~~~~~~~~~~~
-   include/linux/pwm.h:428:24: note: previous implicit declaration of 'pwm_can_sleep' with type 'int()'
-     428 |         might_sleep_if(pwm_can_sleep(pwm));
-         |                        ^~~~~~~~~~~~~
-   include/linux/kernel.h:194:39: note: in definition of macro 'might_sleep_if'
-     194 | #define might_sleep_if(cond) do { if (cond) might_sleep(); } while (0)
-         |                                       ^~~~
-   cc1: some warnings being treated as errors
-
-
-vim +428 include/linux/pwm.h
-
-   419	
-   420	struct pwm_device *devm_pwm_get(struct device *dev, const char *con_id);
-   421	struct pwm_device *devm_fwnode_pwm_get(struct device *dev,
-   422					       struct fwnode_handle *fwnode,
-   423					       const char *con_id);
-   424	#else
-   425	static inline int pwm_apply_state(struct pwm_device *pwm,
-   426					  const struct pwm_state *state)
-   427	{
- > 428		might_sleep_if(pwm_can_sleep(pwm));
-   429		return -ENOTSUPP;
-   430	}
-   431	
-   432	static inline int pwm_adjust_config(struct pwm_device *pwm)
-   433	{
-   434		return -ENOTSUPP;
-   435	}
-   436	
-   437	static inline int pwm_config(struct pwm_device *pwm, int duty_ns,
-   438				     int period_ns)
-   439	{
-   440		might_sleep_if(pwm_can_sleep(pwm));
-   441		return -EINVAL;
-   442	}
-   443	
-   444	static inline int pwm_enable(struct pwm_device *pwm)
-   445	{
-   446		might_sleep_if(pwm_can_sleep(pwm));
-   447		return -EINVAL;
-   448	}
-   449	
-   450	static inline void pwm_disable(struct pwm_device *pwm)
-   451	{
-   452		might_sleep_if(pwm_can_sleep(pwm));
-   453	}
-   454	
- > 455	static inline bool pwm_can_sleep(struct pwm_device *pwm)
-   456	{
-   457		return true;
-   458	}
-   459	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+     Arnd
