@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79AB639
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 06:48:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4540B1FD6
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 07:10:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696142933; x=1727678933;
+  t=1696144201; x=1727680201;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HJEFtAS1JG0J/slXCYtCyXdzBI9LWuNwCoU3G6RdhtI=;
-  b=TbGOekqnQoUk/NIfOAOUk1d3M0SYrZYNNo6M3DhvHlbF/Og/eHsPWWYC
-   A5Qxmpvrk848xpsACOPJnA1OP4TDUeGxfFGHsgd3rm9cTle1Vc0UbDU99
-   bDblZZpC5BN7uYszIwsAcc5NhG3JmVBtHBAB+Y5hOYdyME5TncnCPy7lE
-   GaEVauive6lfaKUW2UJz8wvyZhWBUsNrg8i2mQrZ3Z3Tp/1PyK+PxtDBU
-   rzgS2FYLOwtfVFd52LjP0oyJuKqL5WfPPpb3iE2nVDs8B45ve1JmPm7Ew
-   jLckbWcjIIzOjuduVwKlwMbjpjOYavBfUoqBUN7tWK4BDhZ1LV0s86ZY5
+  bh=O8LO/x9HI8vE7NlP7DwrbfUWGVenFX481uUfJVYURxQ=;
+  b=FTSgVAAIZZBBhTf9t1JEqtuQQUmRqPg8VszRoW5olTbeOvyojbPDcA1/
+   Z4FIbgaw+JxxVdSqvueNtY8R0Dbvw6w6tpRnVqAIXLu5RJ5TjfiDQ8QV0
+   hu8rmchn9nLOJ9CcYFWCnA6s0QP9lNh35KGUFZemnCEb0pvKBxdFa2ymV
+   XeIoQffdfipAuHrf+Erd9ybOy51edoxAeic1mzNF40MgtWvFKZvgVTk6q
+   RGQ4SZR8h8FAAnm3HFG09bUD1R8c34xJLnDOeWCUkubHp8St0sd9Q4Pqo
+   bdLjRBIqvop+HSztfHCykhr6/Zsido1WeifO6J0xwRvx9g0hxdnDuv4rk
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="379783304"
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="362764415"
 X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
-   d="scan'208";a="379783304"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 23:48:52 -0700
+   d="scan'208";a="362764415"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 00:10:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="840675546"
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="779655223"
 X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
-   d="scan'208";a="840675546"
+   d="scan'208";a="779655223"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 30 Sep 2023 23:48:51 -0700
+  by orsmga008.jf.intel.com with ESMTP; 01 Oct 2023 00:09:51 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qmqG1-0004rN-0N;
-	Sun, 01 Oct 2023 06:48:49 +0000
-Date: Sun, 1 Oct 2023 14:48:26 +0800
+	id 1qmqaL-0004rt-1T;
+	Sun, 01 Oct 2023 07:09:49 +0000
+Date: Sun, 1 Oct 2023 15:09:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 14514/30000]
- drivers/cpuidle/cpuidle.c:598:27: sparse: sparse: incorrect type in
- initializer (different address spaces)
-Message-ID: <202310011429.1wCzhzji-lkp@intel.com>
+To: WANG Xuerui <git@xen0n.name>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Huacai Chen <chenhuacai@kernel.org>
+Subject: include/linux/build_bug.h:16:51: error: bit-field '<anonymous>'
+ width not an integer constant
+Message-ID: <202310011507.dV9SV80o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,56 +47,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android-4.19-stable
-head:   4d08c0d1d18d85ca933dc3194519127515828746
-commit: 02f88aaaac53929e0cf4fe50f807cdea4b9e224d [14514/30000] ANDROID: GKI: Export symbols arm_cpuidle_suspend, cpuidle_dev and cpuidle_register_governor
-config: i386-randconfig-062-20231001 (https://download.01.org/0day-ci/archive/20231001/202310011429.1wCzhzji-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231001/202310011429.1wCzhzji-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e402b08634b398e9feb94902c7adcf05bb8ba47d
+commit: 3f301dc292eb122eff61b8b2906e519154b0327f LoongArch: Replace -ffreestanding with finer-grained -fno-builtin's
+date:   5 weeks ago
+config: loongarch-loongson3_defconfig (https://download.01.org/0day-ci/archive/20231001/202310011507.dV9SV80o-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231001/202310011507.dV9SV80o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310011429.1wCzhzji-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310011507.dV9SV80o-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/cpuidle/cpuidle.c:598:27: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct cpuidle_device * @@
-   drivers/cpuidle/cpuidle.c:598:27: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   drivers/cpuidle/cpuidle.c:598:27: sparse:     got struct cpuidle_device *
-   drivers/cpuidle/cpuidle.c:630:27: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct cpuidle_device * @@
-   drivers/cpuidle/cpuidle.c:630:27: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   drivers/cpuidle/cpuidle.c:630:27: sparse:     got struct cpuidle_device *
+All error/warnings (new ones prefixed by >>):
 
-vim +598 drivers/cpuidle/cpuidle.c
+   In file included from include/linux/percpu.h:13,
+                    from include/linux/context_tracking_state.h:5,
+                    from include/linux/hardirq.h:5,
+                    from include/linux/interrupt.h:11,
+                    from sound/pci/bt87x.c:11:
+   arch/loongarch/include/asm/percpu.h:20:4: error: #error compiler support for the model attribute is necessary when a recent assembler is used
+      20 | #  error compiler support for the model attribute is necessary when a recent assembler is used
+         |    ^~~~~
+   In file included from include/linux/init.h:5,
+                    from sound/pci/bt87x.c:10:
+>> include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:231:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     231 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:56:59: note: in expansion of macro '__must_be_array'
+      56 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:517:20: note: in expansion of macro 'ARRAY_SIZE'
+     517 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
+         |                    ^~~~~~~~~~
+   include/linux/moduleparam.h:501:9: note: in expansion of macro 'module_param_array_named'
+     501 |         module_param_array_named(name, name, type, nump, perm)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/pci/bt87x.c:33:1: note: in expansion of macro 'module_param_array'
+      33 | module_param_array(index, int, NULL, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+>> sound/pci/bt87x.c:27:12: warning: 'index' defined but not used [-Wunused-variable]
+      27 | static int index[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS - 1)] = -2}; /* Exclude the first card */
+         |            ^~~~~
+--
+   In file included from include/linux/irqflags.h:18,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from sound/usb/card.c:26:
+   arch/loongarch/include/asm/percpu.h:20:4: error: #error compiler support for the model attribute is necessary when a recent assembler is used
+      20 | #  error compiler support for the model attribute is necessary when a recent assembler is used
+         |    ^~~~~
+   In file included from include/linux/bits.h:21,
+                    from include/linux/bitops.h:6,
+                    from sound/usb/card.c:23:
+>> include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:231:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     231 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:56:59: note: in expansion of macro '__must_be_array'
+      56 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:517:20: note: in expansion of macro 'ARRAY_SIZE'
+     517 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
+         |                    ^~~~~~~~~~
+   include/linux/moduleparam.h:501:9: note: in expansion of macro 'module_param_array_named'
+     501 |         module_param_array_named(name, name, type, nump, perm)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/usb/card.c:81:1: note: in expansion of macro 'module_param_array'
+      81 | module_param_array(index, int, NULL, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+>> sound/usb/card.c:63:12: warning: 'index' defined but not used [-Wunused-variable]
+      63 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;      /* Index 0-MAX */
+         |            ^~~~~
 
-4f86d3a8e29720 Len Brown      2007-10-03  584  
-1c192d047a0ddc Daniel Lezcano 2013-04-23  585  /**
-4c637b2175a0dc Daniel Lezcano 2013-04-23  586   * cpuidle_unregister: unregister a driver and the devices. This function
-4c637b2175a0dc Daniel Lezcano 2013-04-23  587   * can be used only if the driver has been previously registered through
-4c637b2175a0dc Daniel Lezcano 2013-04-23  588   * the cpuidle_register function.
-4c637b2175a0dc Daniel Lezcano 2013-04-23  589   *
-4c637b2175a0dc Daniel Lezcano 2013-04-23  590   * @drv: a valid pointer to a struct cpuidle_driver
-4c637b2175a0dc Daniel Lezcano 2013-04-23  591   */
-4c637b2175a0dc Daniel Lezcano 2013-04-23  592  void cpuidle_unregister(struct cpuidle_driver *drv)
-4c637b2175a0dc Daniel Lezcano 2013-04-23  593  {
-4c637b2175a0dc Daniel Lezcano 2013-04-23  594  	int cpu;
-4c637b2175a0dc Daniel Lezcano 2013-04-23  595  	struct cpuidle_device *device;
-4c637b2175a0dc Daniel Lezcano 2013-04-23  596  
-82467a5a885ddd Daniel Lezcano 2013-06-07  597  	for_each_cpu(cpu, drv->cpumask) {
-4c637b2175a0dc Daniel Lezcano 2013-04-23 @598  		device = &per_cpu(cpuidle_dev, cpu);
-4c637b2175a0dc Daniel Lezcano 2013-04-23  599  		cpuidle_unregister_device(device);
-4c637b2175a0dc Daniel Lezcano 2013-04-23  600  	}
-4c637b2175a0dc Daniel Lezcano 2013-04-23  601  
-4c637b2175a0dc Daniel Lezcano 2013-04-23  602  	cpuidle_unregister_driver(drv);
-4c637b2175a0dc Daniel Lezcano 2013-04-23  603  }
-4c637b2175a0dc Daniel Lezcano 2013-04-23  604  EXPORT_SYMBOL_GPL(cpuidle_unregister);
-4c637b2175a0dc Daniel Lezcano 2013-04-23  605  
 
-:::::: The code at line 598 was first introduced by commit
-:::::: 4c637b2175a0dc65d533494225525c6c82d73293 cpuidle: make a single register function for all
+vim +16 include/linux/build_bug.h
 
-:::::: TO: Daniel Lezcano <daniel.lezcano@linaro.org>
-:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+bc6245e5efd70c Ian Abbott       2017-07-10   6  
+bc6245e5efd70c Ian Abbott       2017-07-10   7  #ifdef __CHECKER__
+bc6245e5efd70c Ian Abbott       2017-07-10   8  #define BUILD_BUG_ON_ZERO(e) (0)
+bc6245e5efd70c Ian Abbott       2017-07-10   9  #else /* __CHECKER__ */
+bc6245e5efd70c Ian Abbott       2017-07-10  10  /*
+bc6245e5efd70c Ian Abbott       2017-07-10  11   * Force a compilation error if condition is true, but also produce a
+8788994376d84d Rikard Falkeborn 2019-12-04  12   * result (of value 0 and type int), so the expression can be used
+bc6245e5efd70c Ian Abbott       2017-07-10  13   * e.g. in a structure initializer (or where-ever else comma expressions
+bc6245e5efd70c Ian Abbott       2017-07-10  14   * aren't permitted).
+bc6245e5efd70c Ian Abbott       2017-07-10  15   */
+8788994376d84d Rikard Falkeborn 2019-12-04 @16  #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+527edbc18a70e7 Masahiro Yamada  2019-01-03  17  #endif /* __CHECKER__ */
+527edbc18a70e7 Masahiro Yamada  2019-01-03  18  
+
+:::::: The code at line 16 was first introduced by commit
+:::::: 8788994376d84d627450fd0d67deb6a66ddf07d7 linux/build_bug.h: change type to int
+
+:::::: TO: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
