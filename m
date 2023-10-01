@@ -1,48 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A911237D;
-	Sun,  1 Oct 2023 01:44:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A0017E
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 02:36:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696124657; x=1727660657;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rufpvWuPso4MC3Gr1PDC2UlAGt/OUfuMBlXcYFtgG94=;
-  b=AlZAmNUvPyEsdURzY+tQbKq1YY1Zhuhfs7+vVon4tuVSiUnjOwlBHTJN
-   GjuM+N2ZfK6BjIT5JBE9VKLXGUgUb8xC5G2kNATNGtjw0wjQPYRAI2yX7
-   HigRunJAv/eTw5RFti1tH7knRCEq1LlbPUvz8ET88MiDjaaJ4oPfo8uVH
-   EaA2xrnqzvrQfSG1TpWcBMfyGK6xteCLtL2wS+VvXayWgSOWgT4LmGAQd
-   PMr8EHX9arkXx0m7k6/wpW5R/DtCdFhb7vcbZEVMVMqiK19ZhiIBJP2nL
-   9GQ7rOE61i9yflxKkldYM3/T9da2COip4iqqM3STyQL3eektDMmKQiwII
+  t=1696127792; x=1727663792;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=B11R/aQfRIBXj15gOjXsQrZVIWkmudcUdgZiApI+VwU=;
+  b=V2OF9L4bKSWI6qC5DkQFe+Hy4zURlCc9Dd0pIt6kGro2jlMA7Ic2SX0T
+   a3BQIpT5l2r/shPpDpZQIQM4ZH7900znqBFplt+GPyvt3Mi1zA454tG/I
+   /L1jXRi4Ut632+osPxXMT82izLs8oqw0l7raYna9SmQ66lnowNboN15XR
+   yN5bdyVAY2vbuARJ3H8Pf36ErZl96mCLRoxqDsP0e9LFOa69CwO2rnZzu
+   x59il6ce3VLaNDfwkuRXXj8P1ML2Xsa/vycg77DzIsWX91yVun9rcS6gB
+   dndaVbFSi/iApzM35F7DyzZpsw1nAfyIN2jAdKDKrLq8LpanedFlg4++i
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="362749424"
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="385318981"
 X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
-   d="scan'208";a="362749424"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 18:44:16 -0700
+   d="scan'208";a="385318981"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 19:36:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="726926433"
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="874039626"
 X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
-   d="scan'208";a="726926433"
+   d="scan'208";a="874039626"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 30 Sep 2023 18:44:12 -0700
+  by orsmga004.jf.intel.com with ESMTP; 30 Sep 2023 19:36:29 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qmlVA-0004eZ-2u;
-	Sun, 01 Oct 2023 01:44:09 +0000
-Date: Sun, 1 Oct 2023 09:43:41 +0800
+	id 1qmmJn-0004gP-0u;
+	Sun, 01 Oct 2023 02:36:27 +0000
+Date: Sun, 1 Oct 2023 10:35:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shiyang Ruan <ruansy.fnst@fujitsu.com>, linux-fsdevel@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-xfs@vger.kernel.org,
-	linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dan.j.williams@intel.com, willy@infradead.org, jack@suse.cz,
-	akpm@linux-foundation.org, djwong@kernel.org, mcgrof@kernel.org,
-	chandanbabu@kernel.org
-Subject: Re: [PATCH v15] mm, pmem, xfs: Introduce MF_MEM_PRE_REMOVE for unbind
-Message-ID: <202310010955.feI4HCwZ-lkp@intel.com>
-References: <20230928103227.250550-1-ruansy.fnst@fujitsu.com>
+To: "Christopher M. Riedl" <cmr@bluescreens.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Benjamin Gray <bgray@linux.ibm.com>
+Subject: include/linux/compiler_types.h:357:45: error: call to
+ '__compiletime_assert_185' declared with attribute error: BUILD_BUG failed
+Message-ID: <202310011034.1GinlGzM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,80 +47,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230928103227.250550-1-ruansy.fnst@fujitsu.com>
 
-Hi Shiyang,
-
-kernel test robot noticed the following build errors:
-
-
-
-url:    https://github.com/intel-lab-lkp/linux/commits/UPDATE-20230928-183310/Shiyang-Ruan/xfs-fix-the-calculation-for-end-and-length/20230629-161913
-base:   the 2th patch of https://lore.kernel.org/r/20230629081651.253626-3-ruansy.fnst%40fujitsu.com
-patch link:    https://lore.kernel.org/r/20230928103227.250550-1-ruansy.fnst%40fujitsu.com
-patch subject: [PATCH v15] mm, pmem, xfs: Introduce MF_MEM_PRE_REMOVE for unbind
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231001/202310010955.feI4HCwZ-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231001/202310010955.feI4HCwZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3b517966c5616ac011081153482a5ba0e91b17ff
+commit: c28c15b6d28a776538482101522cbcd9f906b15c powerpc/code-patching: Use temporary mm for Radix MMU
+date:   10 months ago
+config: powerpc-randconfig-r001-20211226 (https://download.01.org/0day-ci/archive/20231001/202310011034.1GinlGzM-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231001/202310011034.1GinlGzM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310010955.feI4HCwZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310011034.1GinlGzM-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/xfs/xfs_notify_failure.c:127:27: error: use of undeclared identifier 'FREEZE_HOLDER_KERNEL'
-           error = freeze_super(sb, FREEZE_HOLDER_KERNEL);
-                                    ^
-   fs/xfs/xfs_notify_failure.c:143:26: error: use of undeclared identifier 'FREEZE_HOLDER_KERNEL'
-                   error = thaw_super(sb, FREEZE_HOLDER_KERNEL);
-                                          ^
->> fs/xfs/xfs_notify_failure.c:153:17: error: use of undeclared identifier 'FREEZE_HOLDER_USERSPACE'
-           thaw_super(sb, FREEZE_HOLDER_USERSPACE);
-                          ^
-   3 errors generated.
+   In file included from <command-line>:
+   In function 'local_flush_tlb_page_psize',
+       inlined from '__do_patch_instruction_mm' at arch/powerpc/lib/code-patching.c:310:2,
+       inlined from 'do_patch_instruction' at arch/powerpc/lib/code-patching.c:355:9,
+       inlined from 'patch_instruction' at arch/powerpc/lib/code-patching.c:379:9:
+>> include/linux/compiler_types.h:357:45: error: call to '__compiletime_assert_185' declared with attribute error: BUILD_BUG failed
+     357 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:338:25: note: in definition of macro '__compiletime_assert'
+     338 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:357:9: note: in expansion of macro '_compiletime_assert'
+     357 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:59:21: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
+         |                     ^~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/book3s/32/tlbflush.h:83:9: note: in expansion of macro 'BUILD_BUG'
+      83 |         BUILD_BUG();
+         |         ^~~~~~~~~
 
 
-vim +/FREEZE_HOLDER_KERNEL +127 fs/xfs/xfs_notify_failure.c
+vim +/__compiletime_assert_185 +357 include/linux/compiler_types.h
 
-   119	
-   120	static int
-   121	xfs_dax_notify_failure_freeze(
-   122		struct xfs_mount	*mp)
-   123	{
-   124		struct super_block	*sb = mp->m_super;
-   125		int			error;
-   126	
- > 127		error = freeze_super(sb, FREEZE_HOLDER_KERNEL);
-   128		if (error)
-   129			xfs_emerg(mp, "already frozen by kernel, err=%d", error);
-   130	
-   131		return error;
-   132	}
-   133	
-   134	static void
-   135	xfs_dax_notify_failure_thaw(
-   136		struct xfs_mount	*mp,
-   137		bool			kernel_frozen)
-   138	{
-   139		struct super_block	*sb = mp->m_super;
-   140		int			error;
-   141	
-   142		if (kernel_frozen) {
-   143			error = thaw_super(sb, FREEZE_HOLDER_KERNEL);
-   144			if (error)
-   145				xfs_emerg(mp, "still frozen after notify failure, err=%d",
-   146					error);
-   147		}
-   148	
-   149		/*
-   150		 * Also thaw userspace call anyway because the device is about to be
-   151		 * removed immediately.
-   152		 */
- > 153		thaw_super(sb, FREEZE_HOLDER_USERSPACE);
-   154	}
-   155	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  343  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  344  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  345  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  346  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  347  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  348   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  349   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  350   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  351   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  352   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  353   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  354   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  355   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  356  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @357  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  358  
+
+:::::: The code at line 357 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
