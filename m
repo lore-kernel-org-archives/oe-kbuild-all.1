@@ -1,135 +1,95 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FCCA361
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 03:15:53 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-690d935dbc2so3423028b3a.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Sep 2023 20:15:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1696130152; x=1696734952; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8Z+g/FhlsBEqj0ssrxrGUZoJT4P358LfexzMwY5PQkk=;
-        b=YS8ctlusE2ZFHFRZYA8lgXBr5LBm4Dkwi87VeLZw5sWJjaEKPZcPGcLh3ATlShzt+2
-         Y54twaOpqYdBU6Jx3Z5YWTUEA45meyqVbBhW7Us/ND1JfnkezxKfpaYSFMNCuw/yU3ob
-         EFzQlsyA/Zr+16sk+ApRHuKIls2yjiVoqLLfsD9soQOXWbO5uFsat8RVOdcLaEGpQ8Z9
-         COgRbsGo970tdS6FLE9mBF0mIRjyX0iVT9S2Jn67BI0eGlNxyfqRA22bBYRnzfXFWOR+
-         fN6SOKCSs1xWqaYrho5Pst7usEnnl6eSB+TLYMhXD2JMyh1hsGTNou2xOXwYmGgwdBo8
-         MyEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696130152; x=1696734952;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8Z+g/FhlsBEqj0ssrxrGUZoJT4P358LfexzMwY5PQkk=;
-        b=O6OiwqmqIoMqo6gzfraypWP4+ZWod5rIacSyHltdhoiy8jjKm0/upGdRVDUKyLtv7O
-         J4/Xb47DnIxyCiR9SbD9JBeAD8fRhJ4pJKGdBCu2+eHWt7XvwafnrooLUBjJSGKkVz6j
-         87jyXlvH+nbPtGoEj2TrvBByPuys5A1BaBsoCbgJO6Sz3SI58idNSuqIXM5SZXSoFbCL
-         aGMf4dKHxHbJlIs5Gl5kIRpy1DevzDqEdiR0Lv1IpcHPfWmYK/iW9ak6vPegZLer4XpR
-         JMyxs55lfPf6JnMyWN+u7xGJKTtCn4gDWcX3watlT9z+3fd+dkoFuD1CEMqWD0r7OD/z
-         shqg==
-X-Gm-Message-State: AOJu0Yxk5TZczSrt14sEbABKK1eS3WrAXb+hhjSOHAdNE5xYsJRln927
-	eL2SLp97kyfnp61qzQneMPlhfw==
-X-Google-Smtp-Source: AGHT+IGurqhbCIPjsxXeILgMQH1jgLBUPTNbX2v4+oj78vQxmGTcAw0c/QFAKPtIPrt2YhUot7Nm1A==
-X-Received: by 2002:a05:6a00:4682:b0:68f:c8b3:3077 with SMTP id de2-20020a056a00468200b0068fc8b33077mr7939703pfb.1.1696130152436;
-        Sat, 30 Sep 2023 20:15:52 -0700 (PDT)
-Received: from [10.4.72.5] ([139.177.225.225])
-        by smtp.gmail.com with ESMTPSA id x26-20020aa784da000000b0068c0fcb40d3sm17287322pfn.211.2023.09.30.20.15.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 30 Sep 2023 20:15:52 -0700 (PDT)
-Message-ID: <07261663-9082-4ce2-b326-a23a94974a33@bytedance.com>
-Date: Sun, 1 Oct 2023 11:15:47 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83054361
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 03:21:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696130493; x=1727666493;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MAzDr/PAd9PjmA8o8q0jfbYm/Nzu+WQtJNlovd1GTvA=;
+  b=A6DBzAEluuyyVPlD+SEQHfVj+fDuCsIznX3O9dKcY483G5ge8keM23bz
+   doDfcWYc6L5oGt8sqQgyugH8dwdSBBhMtlod7Q2V/b6eXwO5VoP6vg0n4
+   DJidlXgayOSb1VuoeQgxataKH4/MpUH4v8MSOJ+V2HiDl00+300dNBhO7
+   2NkRA69EiHNG1F3RsoMqF7AaCL8yV87NkCnK+v4SFEBmrjvC/Q92YxUD5
+   h4+SGpAsf8snPBkKYU53k3EvMS0v7ZN0Op21JeRjXnQGc4NfgpXe/yVze
+   i0XXNqKZOd77O6WkeAtlEBMOK5UiEqYclxz6bQlpBuAdx1S8JYIyeDvPf
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="4065196"
+X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
+   d="scan'208";a="4065196"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 20:21:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="743802554"
+X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
+   d="scan'208";a="743802554"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 30 Sep 2023 20:21:30 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qmn1M-0004i3-1W;
+	Sun, 01 Oct 2023 03:21:28 +0000
+Date: Sun, 1 Oct 2023 11:20:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:bits/070-audio 9/38]
+ sound/soc/mediatek/mt8188/mt8188-mt6359.c:1014:27: error: initialization of
+ 'int (*)(struct snd_soc_card *)' from incompatible pointer type 'void
+ (*)(struct snd_soc_card *)'
+Message-ID: <202310011140.2LAnbrJQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.1
-Subject: Re: [PATCH] fixup: mm: shrinker: add a secondary array for
- shrinker_info::{map, nr_deferred}
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-References: <20230928141517.12164-1-zhengqi.arch@bytedance.com>
- <202310011038.Q1iDUi0v-lkp@intel.com>
-From: Qi Zheng <zhengqi.arch@bytedance.com>
-In-Reply-To: <202310011038.Q1iDUi0v-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+tree:   https://github.com/AsahiLinux/linux bits/070-audio
+head:   84126be72ac9e0b38c992e806417952deb3cd540
+commit: 25fb334d4b27e01a34b91dce341df1bd2827de91 [9/38] ASoC: card: Let 'fixup_controls' return errors
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231001/202310011140.2LAnbrJQ-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231001/202310011140.2LAnbrJQ-lkp@intel.com/reproduce)
 
-This patch will be folded into one patch with 
-https://lore.kernel.org/lkml/20230911094444.68966-41-zhengqi.arch@bytedance.com/, 
-not a separate patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310011140.2LAnbrJQ-lkp@intel.com/
 
-Thanks,
-Qi
+All errors (new ones prefixed by >>):
 
-On 2023/10/1 10:58, kernel test robot wrote:
-> Hi Qi,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on akpm-mm/mm-everything]
-> [also build test ERROR on next-20230929]
-> [cannot apply to linus/master v6.6-rc3]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/fixup-mm-shrinker-add-a-secondary-array-for-shrinker_info-map-nr_deferred/20230928-221637
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20230928141517.12164-1-zhengqi.arch%40bytedance.com
-> patch subject: [PATCH] fixup: mm: shrinker: add a secondary array for shrinker_info::{map, nr_deferred}
-> config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231001/202310011038.Q1iDUi0v-lkp@intel.com/config)
-> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231001/202310011038.Q1iDUi0v-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202310011038.Q1iDUi0v-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->>> mm/shrinker.c:99:12: error: use of undeclared identifier 'shrinker_rwsem'
->             up_write(&shrinker_rwsem);
->                       ^
->     1 error generated.
-> 
-> 
-> vim +/shrinker_rwsem +99 mm/shrinker.c
-> 
->      76	
->      77	int alloc_shrinker_info(struct mem_cgroup *memcg)
->      78	{
->      79		struct shrinker_info *info;
->      80		int nid, ret = 0;
->      81		int array_size = 0;
->      82	
->      83		mutex_lock(&shrinker_mutex);
->      84		array_size = shrinker_unit_size(shrinker_nr_max);
->      85		for_each_node(nid) {
->      86			info = kvzalloc_node(sizeof(*info) + array_size, GFP_KERNEL, nid);
->      87			if (!info)
->      88				goto err;
->      89			info->map_nr_max = shrinker_nr_max;
->      90			if (shrinker_unit_alloc(info, NULL, nid))
->      91				goto err;
->      92			rcu_assign_pointer(memcg->nodeinfo[nid]->shrinker_info, info);
->      93		}
->      94		mutex_unlock(&shrinker_mutex);
->      95	
->      96		return ret;
->      97	
->      98	err:
->    > 99		up_write(&shrinker_rwsem);
->     100		free_shrinker_info(memcg);
->     101		return -ENOMEM;
->     102	}
->     103	
-> 
+>> sound/soc/mediatek/mt8188/mt8188-mt6359.c:1014:27: error: initialization of 'int (*)(struct snd_soc_card *)' from incompatible pointer type 'void (*)(struct snd_soc_card *)' [-Werror=incompatible-pointer-types]
+    1014 |         .fixup_controls = mt8188_fixup_controls,
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt8188/mt8188-mt6359.c:1014:27: note: (near initialization for 'mt8188_mt6359_soc_card.fixup_controls')
+   cc1: some warnings being treated as errors
+
+
+vim +1014 sound/soc/mediatek/mt8188/mt8188-mt6359.c
+
+9f08dcbddeb307 Trevor Wu 2023-05-26  1005  
+96035d46d4b452 Trevor Wu 2023-01-16  1006  static struct snd_soc_card mt8188_mt6359_soc_card = {
+96035d46d4b452 Trevor Wu 2023-01-16  1007  	.owner = THIS_MODULE,
+96035d46d4b452 Trevor Wu 2023-01-16  1008  	.dai_link = mt8188_mt6359_dai_links,
+96035d46d4b452 Trevor Wu 2023-01-16  1009  	.num_links = ARRAY_SIZE(mt8188_mt6359_dai_links),
+96035d46d4b452 Trevor Wu 2023-01-16  1010  	.dapm_widgets = mt8188_mt6359_widgets,
+96035d46d4b452 Trevor Wu 2023-01-16  1011  	.num_dapm_widgets = ARRAY_SIZE(mt8188_mt6359_widgets),
+96035d46d4b452 Trevor Wu 2023-01-16  1012  	.controls = mt8188_mt6359_controls,
+96035d46d4b452 Trevor Wu 2023-01-16  1013  	.num_controls = ARRAY_SIZE(mt8188_mt6359_controls),
+9f08dcbddeb307 Trevor Wu 2023-05-26 @1014  	.fixup_controls = mt8188_fixup_controls,
+96035d46d4b452 Trevor Wu 2023-01-16  1015  };
+96035d46d4b452 Trevor Wu 2023-01-16  1016  
+
+:::::: The code at line 1014 was first introduced by commit
+:::::: 9f08dcbddeb307793bbfff036db213d2cdf03a50 ASoC: mediatek: mt8188-mt6359: support new board with nau88255
+
+:::::: TO: Trevor Wu <trevor.wu@mediatek.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
