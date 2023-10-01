@@ -1,48 +1,51 @@
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4733A659
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 17:27:16 +0000 (UTC)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-	id 6AC07100092; Sun,  1 Oct 2023 18:21:54 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1696180914; bh=fmmbBcKFOGuzoHOa2DXFF4bJYUXHzDbTMg4QwhNR9/g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lf5hY5+iOE0ePrLTAj1raG3VeaKenQpZ4y1toKOxf4a+wxUW/K6lyp1W5qX4czCeg
-	 2WUiacdaqdef9XjlBlvLraa6gYtvycdPM7oCM8j111y1mNHTmEapQsWz0cvEvfK+0f
-	 RCJk5Xhnd0ONZvBalMt7zuVja88EHL92lHsPCJcJM0C0xX9zXrPcGxZ2lU0Kyq37RB
-	 04rMcZCwhODjLsW7F1gBuIoeXzysulxOBxoEDbMNWcure0ghIvjMvKy3sJDvgFethQ
-	 2K63Mwb4NZVmLkj4oip8jxh5L5Yp1+9mDS9L9EjuAlJMX+5Onp7H8s4KyzKanFhjc5
-	 Ehed2s+3JgOlA==
-Date: Sun, 1 Oct 2023 18:21:54 +0100
-From: Sean Young <sean@mess.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH 1/2] pwm: make it possible to apply pwm changes in atomic
- context
-Message-ID: <ZRmqsl+ZyVEtlPbF@gofer.mess.org>
-References: <1bd5241d584ceb4d6b731c4dc3203fb9686ee1d1.1696156485.git.sean@mess.org>
- <202310012348.puyNjoMk-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D091803F
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 17:31:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696181489; x=1727717489;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9Rb1j6PSJ20d63qK+8n61to8JvN4zdm3zlDXM5j4fkc=;
+  b=MfoBCkEDSUQVEBd2eQyMq9cyS2AICun1jUkvQtzwoVlyn7XDe7ml2f6f
+   RB7Tkaa8zenEF8RP9DcikLHZwpxM/cys39pBjDIqle9mCja2xdcWq2PRk
+   YdY0QISHL0nt2yHGPX/FadkIaZaVjEeHvF1i2T+7lBU5R5Uv7RDVAaQHY
+   h0hLjKisAcs4LNRTHMk5UGzrfakOf+yefcwBjD47ow3NeHze1Et6goPyN
+   rMiOWsgzmRnGRZ3Tzq4L/fwEzQkkRJpBrCvYJ5cC8uhrNcO+hr4QKNViz
+   wOLBJpUNMeOKaioqGscMZi6FiGsAWAkIw/jl5FrKh98DcbPxdQbjQX3ny
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="446693986"
+X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
+   d="scan'208";a="446693986"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 10:31:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="893943728"
+X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
+   d="scan'208";a="893943728"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 01 Oct 2023 10:30:07 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qn0Hr-0005HV-2g;
+	Sun, 01 Oct 2023 17:31:23 +0000
+Date: Mon, 2 Oct 2023 01:30:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Joshua Hay <joshua.a.hay@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Alan Brady <alan.brady@intel.com>,
+	Madhu Chittim <madhu.chittim@intel.com>,
+	Phani Burra <phani.r.burra@intel.com>,
+	Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+Subject: [linux-next:master 4524/8790]
+ drivers/net/ethernet/intel/idpf/idpf_txrx.c:2909:undefined reference to
+ `tcp_gro_complete'
+Message-ID: <202310020136.RIwZa52o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,132 +54,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202310012348.puyNjoMk-lkp@intel.com>
 
-On Mon, Oct 02, 2023 at 12:07:58AM +0800, kernel test robot wrote:
-> Hi Sean,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on thierry-reding-pwm/for-next]
-> [also build test ERROR on shawnguo/for-next atorgue-stm32/stm32-next media-tree/master linus/master v6.6-rc3 next-20230929]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   df964ce9ef9fea10cf131bf6bad8658fde7956f6
+commit: a251eee62133774cf35ff829041377e721ef9c8c [4524/8790] idpf: add SRIOV support and other ndo_ops
+config: loongarch-randconfig-r023-20230605 (https://download.01.org/0day-ci/archive/20231002/202310020136.RIwZa52o-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310020136.RIwZa52o-lkp@intel.com/reproduce)
 
-There are indeed some configs in which there are build errors if
-CONFIG_PWM is disabled, I'll fix it in the next version.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310020136.RIwZa52o-lkp@intel.com/
 
-In the mean time it would be great to have some feedback on this patch,
-and see if there is any other rework needed.
+All errors (new ones prefixed by >>):
 
-Thanks
-Sean
+   loongarch64-linux-ld: drivers/net/ethernet/intel/idpf/idpf_txrx.o: in function `idpf_rx_rsc':
+>> drivers/net/ethernet/intel/idpf/idpf_txrx.c:2909:(.text+0x49cc): undefined reference to `tcp_gro_complete'
 
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Young/media-pwm-ir-tx-trigger-edges-from-hrtimer-interrupt-context/20231001-194056
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git for-next
-> patch link:    https://lore.kernel.org/r/1bd5241d584ceb4d6b731c4dc3203fb9686ee1d1.1696156485.git.sean%40mess.org
-> patch subject: [PATCH 1/2] pwm: make it possible to apply pwm changes in atomic context
-> config: i386-buildonly-randconfig-004-20231001 (https://download.01.org/0day-ci/archive/20231001/202310012348.puyNjoMk-lkp@intel.com/config)
-> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231001/202310012348.puyNjoMk-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202310012348.puyNjoMk-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from arch/x86/include/asm/percpu.h:27:0,
->                     from arch/x86/include/asm/current.h:10,
->                     from include/linux/sched.h:12,
->                     from include/linux/ratelimit.h:6,
->                     from include/linux/dev_printk.h:16,
->                     from include/linux/device.h:15,
->                     from include/linux/backlight.h:12,
->                     from drivers/video/fbdev/ssd1307fb.c:8:
->    include/linux/pwm.h: In function 'pwm_apply_state':
->    include/linux/pwm.h:428:17: error: implicit declaration of function 'pwm_can_sleep'; did you mean 'gpiod_cansleep'? [-Werror=implicit-function-declaration]
->      might_sleep_if(pwm_can_sleep(pwm));
->                     ^
->    include/linux/kernel.h:194:39: note: in definition of macro 'might_sleep_if'
->     #define might_sleep_if(cond) do { if (cond) might_sleep(); } while (0)
->                                           ^~~~
->    In file included from drivers/video/fbdev/ssd1307fb.c:16:0:
->    include/linux/pwm.h: At top level:
-> >> include/linux/pwm.h:455:20: error: conflicting types for 'pwm_can_sleep'
->     static inline bool pwm_can_sleep(struct pwm_device *pwm)
->                        ^~~~~~~~~~~~~
->    In file included from arch/x86/include/asm/percpu.h:27:0,
->                     from arch/x86/include/asm/current.h:10,
->                     from include/linux/sched.h:12,
->                     from include/linux/ratelimit.h:6,
->                     from include/linux/dev_printk.h:16,
->                     from include/linux/device.h:15,
->                     from include/linux/backlight.h:12,
->                     from drivers/video/fbdev/ssd1307fb.c:8:
->    include/linux/pwm.h:428:17: note: previous implicit declaration of 'pwm_can_sleep' was here
->      might_sleep_if(pwm_can_sleep(pwm));
->                     ^
->    include/linux/kernel.h:194:39: note: in definition of macro 'might_sleep_if'
->     #define might_sleep_if(cond) do { if (cond) might_sleep(); } while (0)
->                                           ^~~~
->    cc1: some warnings being treated as errors
-> --
->    In file included from arch/x86/include/asm/percpu.h:27:0,
->                     from arch/x86/include/asm/preempt.h:6,
->                     from include/linux/preempt.h:79,
->                     from include/linux/spinlock.h:56,
->                     from include/linux/mmzone.h:8,
->                     from include/linux/gfp.h:7,
->                     from include/linux/slab.h:16,
->                     from include/linux/resource_ext.h:11,
->                     from include/linux/acpi.h:13,
->                     from include/linux/i2c.h:13,
->                     from drivers/mfd/intel_soc_pmic_crc.c:11:
->    include/linux/pwm.h: In function 'pwm_apply_state':
->    include/linux/pwm.h:428:17: error: implicit declaration of function 'pwm_can_sleep'; did you mean 'cant_sleep'? [-Werror=implicit-function-declaration]
->      might_sleep_if(pwm_can_sleep(pwm));
->                     ^
->    include/linux/kernel.h:194:39: note: in definition of macro 'might_sleep_if'
->     #define might_sleep_if(cond) do { if (cond) might_sleep(); } while (0)
->                                           ^~~~
->    In file included from drivers/mfd/intel_soc_pmic_crc.c:18:0:
->    include/linux/pwm.h: At top level:
-> >> include/linux/pwm.h:455:20: error: conflicting types for 'pwm_can_sleep'
->     static inline bool pwm_can_sleep(struct pwm_device *pwm)
->                        ^~~~~~~~~~~~~
->    In file included from arch/x86/include/asm/percpu.h:27:0,
->                     from arch/x86/include/asm/preempt.h:6,
->                     from include/linux/preempt.h:79,
->                     from include/linux/spinlock.h:56,
->                     from include/linux/mmzone.h:8,
->                     from include/linux/gfp.h:7,
->                     from include/linux/slab.h:16,
->                     from include/linux/resource_ext.h:11,
->                     from include/linux/acpi.h:13,
->                     from include/linux/i2c.h:13,
->                     from drivers/mfd/intel_soc_pmic_crc.c:11:
->    include/linux/pwm.h:428:17: note: previous implicit declaration of 'pwm_can_sleep' was here
->      might_sleep_if(pwm_can_sleep(pwm));
->                     ^
->    include/linux/kernel.h:194:39: note: in definition of macro 'might_sleep_if'
->     #define might_sleep_if(cond) do { if (cond) might_sleep(); } while (0)
->                                           ^~~~
->    cc1: some warnings being treated as errors
-> 
-> 
-> vim +/pwm_can_sleep +455 include/linux/pwm.h
-> 
->    454	
->  > 455	static inline bool pwm_can_sleep(struct pwm_device *pwm)
->    456	{
->    457		return true;
->    458	}
->    459	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+
+vim +2909 drivers/net/ethernet/intel/idpf/idpf_txrx.c
+
+3a8845af66edb3 Alan Brady 2023-08-07  2845  
+3a8845af66edb3 Alan Brady 2023-08-07  2846  /**
+3a8845af66edb3 Alan Brady 2023-08-07  2847   * idpf_rx_rsc - Set the RSC fields in the skb
+3a8845af66edb3 Alan Brady 2023-08-07  2848   * @rxq : Rx descriptor ring packet is being transacted on
+3a8845af66edb3 Alan Brady 2023-08-07  2849   * @skb : pointer to current skb being populated
+3a8845af66edb3 Alan Brady 2023-08-07  2850   * @rx_desc: Receive descriptor
+3a8845af66edb3 Alan Brady 2023-08-07  2851   * @decoded: Decoded Rx packet type related fields
+3a8845af66edb3 Alan Brady 2023-08-07  2852   *
+3a8845af66edb3 Alan Brady 2023-08-07  2853   * Return 0 on success and error code on failure
+3a8845af66edb3 Alan Brady 2023-08-07  2854   *
+3a8845af66edb3 Alan Brady 2023-08-07  2855   * Populate the skb fields with the total number of RSC segments, RSC payload
+3a8845af66edb3 Alan Brady 2023-08-07  2856   * length and packet type.
+3a8845af66edb3 Alan Brady 2023-08-07  2857   */
+3a8845af66edb3 Alan Brady 2023-08-07  2858  static int idpf_rx_rsc(struct idpf_queue *rxq, struct sk_buff *skb,
+3a8845af66edb3 Alan Brady 2023-08-07  2859  		       struct virtchnl2_rx_flex_desc_adv_nic_3 *rx_desc,
+3a8845af66edb3 Alan Brady 2023-08-07  2860  		       struct idpf_rx_ptype_decoded *decoded)
+3a8845af66edb3 Alan Brady 2023-08-07  2861  {
+3a8845af66edb3 Alan Brady 2023-08-07  2862  	u16 rsc_segments, rsc_seg_len;
+3a8845af66edb3 Alan Brady 2023-08-07  2863  	bool ipv4, ipv6;
+3a8845af66edb3 Alan Brady 2023-08-07  2864  	int len;
+3a8845af66edb3 Alan Brady 2023-08-07  2865  
+3a8845af66edb3 Alan Brady 2023-08-07  2866  	if (unlikely(!decoded->outer_ip))
+3a8845af66edb3 Alan Brady 2023-08-07  2867  		return -EINVAL;
+3a8845af66edb3 Alan Brady 2023-08-07  2868  
+3a8845af66edb3 Alan Brady 2023-08-07  2869  	rsc_seg_len = le16_to_cpu(rx_desc->misc.rscseglen);
+3a8845af66edb3 Alan Brady 2023-08-07  2870  	if (unlikely(!rsc_seg_len))
+3a8845af66edb3 Alan Brady 2023-08-07  2871  		return -EINVAL;
+3a8845af66edb3 Alan Brady 2023-08-07  2872  
+3a8845af66edb3 Alan Brady 2023-08-07  2873  	ipv4 = IDPF_RX_PTYPE_TO_IPV(decoded, IDPF_RX_PTYPE_OUTER_IPV4);
+3a8845af66edb3 Alan Brady 2023-08-07  2874  	ipv6 = IDPF_RX_PTYPE_TO_IPV(decoded, IDPF_RX_PTYPE_OUTER_IPV6);
+3a8845af66edb3 Alan Brady 2023-08-07  2875  
+3a8845af66edb3 Alan Brady 2023-08-07  2876  	if (unlikely(!(ipv4 ^ ipv6)))
+3a8845af66edb3 Alan Brady 2023-08-07  2877  		return -EINVAL;
+3a8845af66edb3 Alan Brady 2023-08-07  2878  
+3a8845af66edb3 Alan Brady 2023-08-07  2879  	rsc_segments = DIV_ROUND_UP(skb->data_len, rsc_seg_len);
+3a8845af66edb3 Alan Brady 2023-08-07  2880  	if (unlikely(rsc_segments == 1))
+3a8845af66edb3 Alan Brady 2023-08-07  2881  		return 0;
+3a8845af66edb3 Alan Brady 2023-08-07  2882  
+3a8845af66edb3 Alan Brady 2023-08-07  2883  	NAPI_GRO_CB(skb)->count = rsc_segments;
+3a8845af66edb3 Alan Brady 2023-08-07  2884  	skb_shinfo(skb)->gso_size = rsc_seg_len;
+3a8845af66edb3 Alan Brady 2023-08-07  2885  
+3a8845af66edb3 Alan Brady 2023-08-07  2886  	skb_reset_network_header(skb);
+3a8845af66edb3 Alan Brady 2023-08-07  2887  	len = skb->len - skb_transport_offset(skb);
+3a8845af66edb3 Alan Brady 2023-08-07  2888  
+3a8845af66edb3 Alan Brady 2023-08-07  2889  	if (ipv4) {
+3a8845af66edb3 Alan Brady 2023-08-07  2890  		struct iphdr *ipv4h = ip_hdr(skb);
+3a8845af66edb3 Alan Brady 2023-08-07  2891  
+3a8845af66edb3 Alan Brady 2023-08-07  2892  		skb_shinfo(skb)->gso_type = SKB_GSO_TCPV4;
+3a8845af66edb3 Alan Brady 2023-08-07  2893  
+3a8845af66edb3 Alan Brady 2023-08-07  2894  		/* Reset and set transport header offset in skb */
+3a8845af66edb3 Alan Brady 2023-08-07  2895  		skb_set_transport_header(skb, sizeof(struct iphdr));
+3a8845af66edb3 Alan Brady 2023-08-07  2896  
+3a8845af66edb3 Alan Brady 2023-08-07  2897  		/* Compute the TCP pseudo header checksum*/
+3a8845af66edb3 Alan Brady 2023-08-07  2898  		tcp_hdr(skb)->check =
+3a8845af66edb3 Alan Brady 2023-08-07  2899  			~tcp_v4_check(len, ipv4h->saddr, ipv4h->daddr, 0);
+3a8845af66edb3 Alan Brady 2023-08-07  2900  	} else {
+3a8845af66edb3 Alan Brady 2023-08-07  2901  		struct ipv6hdr *ipv6h = ipv6_hdr(skb);
+3a8845af66edb3 Alan Brady 2023-08-07  2902  
+3a8845af66edb3 Alan Brady 2023-08-07  2903  		skb_shinfo(skb)->gso_type = SKB_GSO_TCPV6;
+3a8845af66edb3 Alan Brady 2023-08-07  2904  		skb_set_transport_header(skb, sizeof(struct ipv6hdr));
+3a8845af66edb3 Alan Brady 2023-08-07  2905  		tcp_hdr(skb)->check =
+3a8845af66edb3 Alan Brady 2023-08-07  2906  			~tcp_v6_check(len, &ipv6h->saddr, &ipv6h->daddr, 0);
+3a8845af66edb3 Alan Brady 2023-08-07  2907  	}
+3a8845af66edb3 Alan Brady 2023-08-07  2908  
+3a8845af66edb3 Alan Brady 2023-08-07 @2909  	tcp_gro_complete(skb);
+3a8845af66edb3 Alan Brady 2023-08-07  2910  
+3a8845af66edb3 Alan Brady 2023-08-07  2911  	u64_stats_update_begin(&rxq->stats_sync);
+3a8845af66edb3 Alan Brady 2023-08-07  2912  	u64_stats_inc(&rxq->q_stats.rx.rsc_pkts);
+3a8845af66edb3 Alan Brady 2023-08-07  2913  	u64_stats_update_end(&rxq->stats_sync);
+3a8845af66edb3 Alan Brady 2023-08-07  2914  
+3a8845af66edb3 Alan Brady 2023-08-07  2915  	return 0;
+3a8845af66edb3 Alan Brady 2023-08-07  2916  }
+3a8845af66edb3 Alan Brady 2023-08-07  2917  
+
+:::::: The code at line 2909 was first introduced by commit
+:::::: 3a8845af66edb340ba9210bb8a0da040c7d6e590 idpf: add RX splitq napi poll support
+
+:::::: TO: Alan Brady <alan.brady@intel.com>
+:::::: CC: Tony Nguyen <anthony.l.nguyen@intel.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
