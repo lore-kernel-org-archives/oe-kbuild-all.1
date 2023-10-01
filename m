@@ -1,44 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83054361
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 03:21:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22E6361;
+	Sun,  1 Oct 2023 03:41:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696130493; x=1727666493;
+  t=1696131693; x=1727667693;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MAzDr/PAd9PjmA8o8q0jfbYm/Nzu+WQtJNlovd1GTvA=;
-  b=A6DBzAEluuyyVPlD+SEQHfVj+fDuCsIznX3O9dKcY483G5ge8keM23bz
-   doDfcWYc6L5oGt8sqQgyugH8dwdSBBhMtlod7Q2V/b6eXwO5VoP6vg0n4
-   DJidlXgayOSb1VuoeQgxataKH4/MpUH4v8MSOJ+V2HiDl00+300dNBhO7
-   2NkRA69EiHNG1F3RsoMqF7AaCL8yV87NkCnK+v4SFEBmrjvC/Q92YxUD5
-   h4+SGpAsf8snPBkKYU53k3EvMS0v7ZN0Op21JeRjXnQGc4NfgpXe/yVze
-   i0XXNqKZOd77O6WkeAtlEBMOK5UiEqYclxz6bQlpBuAdx1S8JYIyeDvPf
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="4065196"
+  bh=LI+6UM5Tv0w36fWduzQn0s5tcys35ZDR2qir42AEbJE=;
+  b=T9k3ET1VoEXfGKK9xasf2GJxYtWy7rNFwiFO3iFANbi4OHGs1R0i8VTi
+   7uBsIEuzayyBbAv30YH2Q1K+8L6r0UXyU1Z6oOa5OvIMGDproDlfXZBc+
+   UqAYMyg5xCn8fyJbGtZiMZIdlbP/FtpBOT/xpFnQsG0tjKAZTDjGta83R
+   qTmD6CClJYLILRTnfE51fvpeluPcThIpbSa0tcgUVG1VrlWv9xUiEHJ9l
+   kbTfYcEFnMBwqV93IwLcnGFAp+eDkg5jBiumPitXFctRJW3FLP3gZ9f0S
+   UHcn0XPbAIv/Ou2JYcyk4GPZg2oAvqYNjkn9W79TZzm1FS6kWK9Du1O7R
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="446645790"
 X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
-   d="scan'208";a="4065196"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 20:21:32 -0700
+   d="scan'208";a="446645790"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 20:41:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="743802554"
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="753744301"
 X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
-   d="scan'208";a="743802554"
+   d="scan'208";a="753744301"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 30 Sep 2023 20:21:30 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 30 Sep 2023 20:41:31 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qmn1M-0004i3-1W;
-	Sun, 01 Oct 2023 03:21:28 +0000
-Date: Sun, 1 Oct 2023 11:20:30 +0800
+	id 1qmnKj-0004iz-0T;
+	Sun, 01 Oct 2023 03:41:29 +0000
+Date: Sun, 1 Oct 2023 11:41:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:bits/070-audio 9/38]
- sound/soc/mediatek/mt8188/mt8188-mt6359.c:1014:27: error: initialization of
- 'int (*)(struct snd_soc_card *)' from incompatible pointer type 'void
- (*)(struct snd_soc_card *)'
-Message-ID: <202310011140.2LAnbrJQ-lkp@intel.com>
+To: Sebastian Reichel <sre@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sre-misc:uti260b 4/24] drivers/media/i2c/gc0308.c:1261:27: warning:
+ unused variable 'gc0308_effects_menu'
+Message-ID: <202310011156.ycairb2f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,47 +46,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux bits/070-audio
-head:   84126be72ac9e0b38c992e806417952deb3cd540
-commit: 25fb334d4b27e01a34b91dce341df1bd2827de91 [9/38] ASoC: card: Let 'fixup_controls' return errors
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231001/202310011140.2LAnbrJQ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231001/202310011140.2LAnbrJQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-misc.git uti260b
+head:   4e145d94d9d20e457f5aa3d51e765f7b1dd78a22
+commit: 6c27014c45ea572d49dd42bb79b0ecb1fca39c33 [4/24] media: i2c: gc0308: new driver
+config: powerpc64-allyesconfig (https://download.01.org/0day-ci/archive/20231001/202310011156.ycairb2f-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231001/202310011156.ycairb2f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310011140.2LAnbrJQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310011156.ycairb2f-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> sound/soc/mediatek/mt8188/mt8188-mt6359.c:1014:27: error: initialization of 'int (*)(struct snd_soc_card *)' from incompatible pointer type 'void (*)(struct snd_soc_card *)' [-Werror=incompatible-pointer-types]
-    1014 |         .fixup_controls = mt8188_fixup_controls,
-         |                           ^~~~~~~~~~~~~~~~~~~~~
-   sound/soc/mediatek/mt8188/mt8188-mt6359.c:1014:27: note: (near initialization for 'mt8188_mt6359_soc_card.fixup_controls')
-   cc1: some warnings being treated as errors
+>> drivers/media/i2c/gc0308.c:1261:27: warning: unused variable 'gc0308_effects_menu' [-Wunused-const-variable]
+    1261 | static const char * const gc0308_effects_menu[] = {
+         |                           ^
+   1 warning generated.
 
 
-vim +1014 sound/soc/mediatek/mt8188/mt8188-mt6359.c
+vim +/gc0308_effects_menu +1261 drivers/media/i2c/gc0308.c
 
-9f08dcbddeb307 Trevor Wu 2023-05-26  1005  
-96035d46d4b452 Trevor Wu 2023-01-16  1006  static struct snd_soc_card mt8188_mt6359_soc_card = {
-96035d46d4b452 Trevor Wu 2023-01-16  1007  	.owner = THIS_MODULE,
-96035d46d4b452 Trevor Wu 2023-01-16  1008  	.dai_link = mt8188_mt6359_dai_links,
-96035d46d4b452 Trevor Wu 2023-01-16  1009  	.num_links = ARRAY_SIZE(mt8188_mt6359_dai_links),
-96035d46d4b452 Trevor Wu 2023-01-16  1010  	.dapm_widgets = mt8188_mt6359_widgets,
-96035d46d4b452 Trevor Wu 2023-01-16  1011  	.num_dapm_widgets = ARRAY_SIZE(mt8188_mt6359_widgets),
-96035d46d4b452 Trevor Wu 2023-01-16  1012  	.controls = mt8188_mt6359_controls,
-96035d46d4b452 Trevor Wu 2023-01-16  1013  	.num_controls = ARRAY_SIZE(mt8188_mt6359_controls),
-9f08dcbddeb307 Trevor Wu 2023-05-26 @1014  	.fixup_controls = mt8188_fixup_controls,
-96035d46d4b452 Trevor Wu 2023-01-16  1015  };
-96035d46d4b452 Trevor Wu 2023-01-16  1016  
-
-:::::: The code at line 1014 was first introduced by commit
-:::::: 9f08dcbddeb307793bbfff036db213d2cdf03a50 ASoC: mediatek: mt8188-mt6359: support new board with nau88255
-
-:::::: TO: Trevor Wu <trevor.wu@mediatek.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+  1260	
+> 1261	static const char * const gc0308_effects_menu[] = {
+  1262		"Normal", // V4L2_COLORFX_NONE = 0
+  1263		"Grayscale", // V4L2_COLORFX_BW = 1
+  1264		"Sepia", // V4L2_COLORFX_SEPIA = 2
+  1265		"Color Invert", // V4L2_COLORFX_NEGATIVE = 3
+  1266	};
+  1267	
 
 -- 
 0-DAY CI Kernel Test Service
