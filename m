@@ -1,44 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C5317E
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 00:08:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B7D18E;
+	Sun,  1 Oct 2023 00:08:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696118885; x=1727654885;
+  t=1696118887; x=1727654887;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iVIL1zSIBrkMRxQ+z3Akbkyw5DGNTM/4weSJUkd4SBI=;
-  b=BnmWGJ2/H3rH8p2M9rKl4yZbp/a7TkmHh4j0zm3+qz3O5iCMAxa3XaIa
-   mgaPVE+pbWH9p2EuTt9R9dAs1maCvzYxh51pvFXF22n8kmrEZxyijWyYq
-   B3m/8tfngzY+/YvMFF/qonWMJDCFLvYMVaFWEfSEC2eol6UGvtntyoSsk
-   LI/1PWy4MqeLAAWzJCP3jG6gb9L262nv2Elss17QPkLh49XO5Rw1oPrq6
-   Ajnwp4vMUcWARuyuI10abwW4x//IaBAhU+L99T7iDYcKftUWaf7YLFWVi
-   COgU4tdVq+fNKhieo3gKpmFpa8BATQ92e4kKHAiXyLjf6fS9xCRrAK4EF
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="382389758"
+  bh=M3PXI17An+e0kxHW7sxlHzj9blKu1QRTw0lZ0OM6YzI=;
+  b=TvM+R2jgKQc4NTDkSCWy/zkJRcRUnGp2tUKdkCUBuL2H+lof6Flhu7Hs
+   buf9UKoakSfUGUW1UZovPy9GUW9z7DYVJSF7YjG9w+fPb5GMvZd3ohZX2
+   PYvEeAhYISaS692UzJRSFOc11x3o7MsYfPOQEB+ANTyosAH/CPVF2sSOZ
+   F9JJuM2YAQqFL35AVtnnyjnb1pEEMg9TMDWsL+hG/GYOXN+dpbvmsI5/l
+   hjXxnV/49yhT/2jOD8Y0995R1/kRP+qKjw5xJV5Jx5zstT4NWp0HIeGz6
+   QVWso+2nsPQ+LqjLu3iAz6pJ8PsaAL25ITuvXfV37M9YGa1yk8+LISJXR
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="382389755"
 X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
-   d="scan'208";a="382389758"
+   d="scan'208";a="382389755"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 17:08:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="726913305"
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="726913306"
 X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
-   d="scan'208";a="726913305"
+   d="scan'208";a="726913306"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
   by orsmga006.jf.intel.com with ESMTP; 30 Sep 2023 17:08:02 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qmk07-0004az-2U;
+	id 1qmk07-0004b1-2e;
 	Sun, 01 Oct 2023 00:07:59 +0000
-Date: Sun, 1 Oct 2023 08:07:58 +0800
+Date: Sun, 1 Oct 2023 08:07:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Antipov <dmantipov@yandex.ru>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Kalle Valo <quic_kvalo@quicinc.com>
-Subject: include/linux/compiler_types.h:397:45: error: call to
- '__compiletime_assert_460' declared with attribute error: BUILD_BUG_ON
- failed: sizeof(vring->va[0]) != 32
-Message-ID: <202310010730.tcSX6KvJ-lkp@intel.com>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-unionfs@vger.kernel.org
+Subject: [mszeredi-vfs:statmount-v3 4/4] <stdin>:1576:2: warning: syscall
+ listmount not implemented
+Message-ID: <202310010835.jn5IpgV5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,88 +47,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3b517966c5616ac011081153482a5ba0e91b17ff
-commit: 1ad8237e971630c66a1a6194491e0837b64d00e0 wifi: wil6210: fix fortify warnings
-date:   9 weeks ago
-config: arm-buildonly-randconfig-r003-20220914 (https://download.01.org/0day-ci/archive/20231001/202310010730.tcSX6KvJ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231001/202310010730.tcSX6KvJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/vfs.git statmount-v3
+head:   5321994510f383b43dd2d49fcbdaedcf8cba1306
+commit: 5321994510f383b43dd2d49fcbdaedcf8cba1306 [4/4] add listmount(2) syscall
+config: mips-ath25_defconfig (https://download.01.org/0day-ci/archive/20231001/202310010835.jn5IpgV5-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231001/202310010835.jn5IpgV5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310010730.tcSX6KvJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310010835.jn5IpgV5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   drivers/net/wireless/ath/wil6210/txrx.c: In function 'wil_vring_alloc':
->> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_460' declared with attribute error: BUILD_BUG_ON failed: sizeof(vring->va[0]) != 32
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
-     378 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/wil6210/txrx.c:118:9: note: in expansion of macro 'BUILD_BUG_ON'
-     118 |         BUILD_BUG_ON(sizeof(vring->va[0]) != 32);
-         |         ^~~~~~~~~~~~
+   <stdin>:1573:2: warning: syscall statmount not implemented [-W#warnings]
+    1573 | #warning syscall statmount not implemented
+         |  ^
+>> <stdin>:1576:2: warning: syscall listmount not implemented [-W#warnings]
+    1576 | #warning syscall listmount not implemented
+         |  ^
+   2 warnings generated.
 --
-   In file included from <command-line>:
-   drivers/net/wireless/ath/wil6210/txrx_edma.c: In function 'wil_ring_alloc_desc_ring':
->> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_452' declared with attribute error: BUILD_BUG_ON failed: sizeof(ring->va[0]) != 32
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
-     378 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/wil6210/txrx_edma.c:381:9: note: in expansion of macro 'BUILD_BUG_ON'
-     381 |         BUILD_BUG_ON(sizeof(ring->va[0]) != 32);
-         |         ^~~~~~~~~~~~
-
-
-vim +/__compiletime_assert_460 +397 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  383  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  384  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  385  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  386  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  387  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  388   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  389   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  390   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  391   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  392   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  393   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  394   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  395   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  396  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @397  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  398  
-
-:::::: The code at line 397 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+   <stdin>:1573:2: warning: syscall statmount not implemented [-W#warnings]
+    1573 | #warning syscall statmount not implemented
+         |  ^
+>> <stdin>:1576:2: warning: syscall listmount not implemented [-W#warnings]
+    1576 | #warning syscall listmount not implemented
+         |  ^
+   2 warnings generated.
+--
+   <stdin>:1573:2: warning: syscall statmount not implemented [-W#warnings]
+    1573 | #warning syscall statmount not implemented
+         |  ^
+>> <stdin>:1576:2: warning: syscall listmount not implemented [-W#warnings]
+    1576 | #warning syscall listmount not implemented
+         |  ^
+   2 warnings generated.
 
 -- 
 0-DAY CI Kernel Test Service
