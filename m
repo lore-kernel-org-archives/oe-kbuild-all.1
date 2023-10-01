@@ -1,44 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2209CA59
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 09:56:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66749CA59
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 10:08:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696154174; x=1727690174;
+  t=1696154882; x=1727690882;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=m0daYXV47T8doXJuwoOCUCpyyfPQZs7Q9V9GlIl3EDE=;
-  b=cJYpHhty9A7oBNvEMBZOeRt+A1Wd+2E78Yh3a1bDJAHBpggBZKF/DRzQ
-   btSL+9fSuVE2hp3OTPIKS1KEJe5YhDeYQfpp5Fw02N8/SRkW6sM5lJieP
-   2tVqLA/NJzIWA+f/W2lAky9bAwtRURyHUQEQskcWsYbqhtpToINFo8rcY
-   OT6cpk0PI1iDGOPXPcUIXo+3+edX2IauGGf+ro6YXfjHFHaKKLTTZkbgb
-   6AzNP21hg/DFolHwRdme4nqEtIKM3py59flRNONMETbVJ8TswSE3388U7
-   PR/GYtJGBv7/jtbBFvst2IXcl1wi8oqEZOmccH1NcufRIRuVxlCk96pnH
+  bh=MyMaQ6ChrCDTHHiJO3QvgaQ/x0Uc+ByAZaSMKQ5gVW8=;
+  b=dKr8I2XHAMiv76Eo4CkVLbYApsp3xEY0ujskpiB/5gCUITl3OsB3oZc+
+   OOqWRs+PAXMOXmsaoUiQIW/CLOMoWVLrWWWTftYBrEkC/NfeG44wibvYM
+   U2glGUjj4dSo8gvPs3UasfVRSPbi7cbRh8O9yAPejduL5bT+lnHDbT7o+
+   MbFnreqQM/ON13nu7iK9qt1YcJr7P1f7DiafUktsQY6dvFVg6a53Vf5Xe
+   race4UVQ7xC0gM6cum72JknX0YHSy4MtUZIRvaTKcOBHGcv1pWG5JDLNq
+   NPz1F73INZGgQLeXUk2Ihv7MrkW+eQxKquXo3k47ONI65aa1CNIyR0v1A
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="449002677"
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="385342014"
 X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
-   d="scan'208";a="449002677"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 02:56:13 -0700
+   d="scan'208";a="385342014"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 03:08:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="874108355"
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="820621707"
 X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
-   d="scan'208";a="874108355"
+   d="scan'208";a="820621707"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 01 Oct 2023 02:56:12 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 01 Oct 2023 03:08:00 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qmtAw-0004xl-39;
-	Sun, 01 Oct 2023 09:56:10 +0000
-Date: Sun, 1 Oct 2023 17:55:45 +0800
+	id 1qmtMj-0004y1-1L;
+	Sun, 01 Oct 2023 10:07:57 +0000
+Date: Sun, 1 Oct 2023 18:06:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qi Zheng <zhengqi.arch@bytedance.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] fixup: mm: shrinker: add a secondary array for
- shrinker_info::{map, nr_deferred}
-Message-ID: <202310011757.pzM4y5pR-lkp@intel.com>
-References: <20230928141517.12164-1-zhengqi.arch@bytedance.com>
+To: Martynas Pumputis <m@lambda.lt>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Daniel Borkmann <daniel@iogearbox.net>,
+	netdev@vger.kernel.org, Martin KaFai Lau <martin.lau@linux.dev>,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	Martynas Pumputis <m@lambda.lt>
+Subject: Re: [PATCH bpf 1/2] bpf: Derive source IP addr via bpf_*_fib_lookup()
+Message-ID: <202310011747.2WjYkVa8-lkp@intel.com>
+References: <20230929150717.120463-2-m@lambda.lt>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,77 +49,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230928141517.12164-1-zhengqi.arch@bytedance.com>
+In-Reply-To: <20230929150717.120463-2-m@lambda.lt>
 
-Hi Qi,
+Hi Martynas,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on next-20230929]
-[cannot apply to linus/master v6.6-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on bpf/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/fixup-mm-shrinker-add-a-secondary-array-for-shrinker_info-map-nr_deferred/20230928-221637
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230928141517.12164-1-zhengqi.arch%40bytedance.com
-patch subject: [PATCH] fixup: mm: shrinker: add a secondary array for shrinker_info::{map, nr_deferred}
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20231001/202310011757.pzM4y5pR-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231001/202310011757.pzM4y5pR-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Martynas-Pumputis/bpf-Derive-source-IP-addr-via-bpf_-_fib_lookup/20230929-231536
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
+patch link:    https://lore.kernel.org/r/20230929150717.120463-2-m%40lambda.lt
+patch subject: [PATCH bpf 1/2] bpf: Derive source IP addr via bpf_*_fib_lookup()
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20231001/202310011747.2WjYkVa8-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231001/202310011747.2WjYkVa8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310011757.pzM4y5pR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310011747.2WjYkVa8-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from mm/shrinker.c:8:
-   mm/internal.h: In function 'shrinker_debugfs_name_alloc':
-   mm/internal.h:1223:9: warning: function 'shrinker_debugfs_name_alloc' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    1223 |         shrinker->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
-         |         ^~~~~~~~
-   mm/shrinker.c: In function 'alloc_shrinker_info':
->> mm/shrinker.c:99:19: error: 'shrinker_rwsem' undeclared (first use in this function); did you mean 'shrinker_mutex'?
-      99 |         up_write(&shrinker_rwsem);
-         |                   ^~~~~~~~~~~~~~
-         |                   shrinker_mutex
-   mm/shrinker.c:99:19: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +99 mm/shrinker.c
-
-    76	
-    77	int alloc_shrinker_info(struct mem_cgroup *memcg)
-    78	{
-    79		struct shrinker_info *info;
-    80		int nid, ret = 0;
-    81		int array_size = 0;
-    82	
-    83		mutex_lock(&shrinker_mutex);
-    84		array_size = shrinker_unit_size(shrinker_nr_max);
-    85		for_each_node(nid) {
-    86			info = kvzalloc_node(sizeof(*info) + array_size, GFP_KERNEL, nid);
-    87			if (!info)
-    88				goto err;
-    89			info->map_nr_max = shrinker_nr_max;
-    90			if (shrinker_unit_alloc(info, NULL, nid))
-    91				goto err;
-    92			rcu_assign_pointer(memcg->nodeinfo[nid]->shrinker_info, info);
-    93		}
-    94		mutex_unlock(&shrinker_mutex);
-    95	
-    96		return ret;
-    97	
-    98	err:
-  > 99		up_write(&shrinker_rwsem);
-   100		free_shrinker_info(memcg);
-   101		return -ENOMEM;
-   102	}
-   103	
+   csky-linux-ld: net/core/filter.o: in function `ip6_route_get_saddr.constprop.0':
+   filter.c:(.text+0x7594): undefined reference to `ipv6_dev_get_saddr'
+>> csky-linux-ld: filter.c:(.text+0x75c0): undefined reference to `ipv6_dev_get_saddr'
 
 -- 
 0-DAY CI Kernel Test Service
