@@ -1,45 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD56F1803F
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 21:27:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77372390
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Oct 2023 22:08:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696195675; x=1727731675;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mRXUaTV4hKJaDr4/uvRfDe6kdxKVih5WMR5bO7GQdl8=;
-  b=nfLjAA569sB+JiAwOvlRJ3g8hV1SltMwSH7EPARoATE9ZmQrhwGUqAPs
-   nQ3gpA3JPWphz401F7UYjvWxcye1zfrHnvwQ0UIqV2x+Tl8L04gTlPKJS
-   MUCb8OX/hyYrbCJ9vfp63QJfKx5UshSWtEyMo7p/w0NooVvwc5oUsUa4T
-   6rG11cOPwxI0gZ0vyXZZBKWMxuTxlIXoMieyfd2uMb/YMXbHJj63jEXNt
-   m606oh1ZOVcGfy5IEMqrLz4HpyF9gQ086r3x9EysCGul/0hKhJufH4Py5
-   eFgOS79TzebdMUgugSAePp6nVIFSi0HfocBno73wlCTe21lHpoHcG9tJQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="4132528"
+  t=1696198136; x=1727734136;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5O5dPKseRbZSXNfKQTc1ZI0pbIN7XFKfeK4/xDIE12s=;
+  b=fI1NVsjdPkO2svJGTEjAkTos8F3DDFAmJfhF5z19dYDQBiaKbwg5Q/Y8
+   uyB4fFhnTvyjujhlGRuH18NhbDeXcDLoa1HisYmyH7yjotaGb46YFZO1+
+   3/NfOfbEzgBIhLNVwE0eiUvU2CWyHFsUgONvfITjialDCAqcneaYv8JTh
+   n9C+VcuRfG7ayWdjGhpvNqaNUPfXGhzblfhAMGTBn+5f5VCTc/ftvAbDn
+   nslD6RvnZ5jLZ2ESZoBbtOGJftx/wuUrjUQ7sNu/vzr3/4oVGFND/wdJZ
+   Ap1Z22zwcMfdx/dD7Z3WJNmkJLePwMcp6WEClRPUdC0Y1p2ju8V5rZcye
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="381440936"
 X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; 
-   d="scan'208";a="4132528"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 14:27:52 -0700
+   d="scan'208";a="381440936"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 15:08:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="893971153"
-X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
-   d="scan'208";a="893971153"
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="866315738"
+X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; 
+   d="scan'208";a="866315738"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 01 Oct 2023 14:26:31 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 01 Oct 2023 15:08:52 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qn3ye-0005Qn-2c;
-	Sun, 01 Oct 2023 21:27:48 +0000
-Date: Mon, 2 Oct 2023 05:27:39 +0800
+	id 1qn4cM-0005SX-1U;
+	Sun, 01 Oct 2023 22:08:50 +0000
+Date: Mon, 2 Oct 2023 06:08:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Appana Durga Kedareswara Rao <appana.durga.rao@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 630/1370]
- drivers/dma/xilinx/axidmatest.c:339:54: warning: implicit conversion from
- 'enum dma_transfer_direction' to 'enum dma_data_direction'
-Message-ID: <202310020539.ZhBmy9Qr-lkp@intel.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>,
+	linux-usb@vger.kernel.org, Douglas Gilbert <dgilbert@interlog.com>
+Subject: Re: [PATCH v2] usb: pd: Exposing the Peak Current value of Fixed
+ Supplies to user space
+Message-ID: <202310020520.759dWkR0-lkp@intel.com>
+References: <20230928105944.1718897-1-heikki.krogerus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,334 +49,198 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230928105944.1718897-1-heikki.krogerus@linux.intel.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
-commit: ec37b560adcc9696ac0e50b1ade40cbfeb15d246 [630/1370] dmaengine: xilinx: Add axidmatest test client code
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231002/202310020539.ZhBmy9Qr-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310020539.ZhBmy9Qr-lkp@intel.com/reproduce)
+Hi Heikki,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.6-rc3 next-20230929]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Heikki-Krogerus/usb-pd-Exposing-the-Peak-Current-value-of-Fixed-Supplies-to-user-space/20230928-190152
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20230928105944.1718897-1-heikki.krogerus%40linux.intel.com
+patch subject: [PATCH v2] usb: pd: Exposing the Peak Current value of Fixed Supplies to user space
+reproduce: (https://download.01.org/0day-ci/archive/20231002/202310020520.759dWkR0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310020539.ZhBmy9Qr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310020520.759dWkR0-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/dma/xilinx_dma.h:11,
-                    from drivers/dma/xilinx/axidmatest.c:24:
-   drivers/dma/xilinx/axidmatest.c: In function 'dmatest_slave_func':
->> drivers/dma/xilinx/axidmatest.c:339:54: warning: implicit conversion from 'enum dma_transfer_direction' to 'enum dma_data_direction' [-Wenum-conversion]
-     339 |                                                      DMA_MEM_TO_DEV);
-         |                                                      ^~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:411:66: note: in definition of macro 'dma_map_single'
-     411 | #define dma_map_single(d, a, s, r) dma_map_single_attrs(d, a, s, r, 0)
-         |                                                                  ^
-   drivers/dma/xilinx/axidmatest.c:370:50: warning: implicit conversion from 'enum dma_transfer_direction' to 'enum dma_data_direction' [-Wenum-conversion]
-     370 |                                                  DMA_MEM_TO_DEV);
-         |                                                  ^~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:412:70: note: in definition of macro 'dma_unmap_single'
-     412 | #define dma_unmap_single(d, a, s, r) dma_unmap_single_attrs(d, a, s, r, 0)
-         |                                                                      ^
+>> Documentation/ABI/testing/sysfs-class-usb_power_delivery:128: WARNING: Unexpected indentation.
+>> Documentation/ABI/testing/sysfs-class-usb_power_delivery:128: WARNING: Block quote ends without a blank line; unexpected unindent.
+>> Documentation/ABI/testing/sysfs-class-usb_power_delivery:128: WARNING: Definition list ends without a blank line; unexpected unindent.
+>> Documentation/ABI/testing/sysfs-class-usb_power_delivery:128: WARNING: Malformed table.
+>> Documentation/ABI/testing/sysfs-class-usb_power_delivery:1: WARNING: undefined label: abi_sys_class_usb_power_delivery_version (if the link has no caption the label must precede a section header)
+>> Documentation/ABI/testing/sysfs-class-usb_power_delivery:1: WARNING: undefined label: abi_sys_class_usb_power_delivery_source_capabilities_position_variable_supply_maximum_current (if the link has no caption the label must precede a section header)
+>> Documentation/ABI/testing/sysfs-class-usb_power_delivery:1: WARNING: undefined label: abi_sys_class_usb_power_delivery_source_capabilities_position_programmable_supply_pps_power_limited (if the link has no caption the label must precede a section header)
 
+vim +128 Documentation/ABI/testing/sysfs-class-usb_power_delivery
 
-vim +339 drivers/dma/xilinx/axidmatest.c
-
-   224	
-   225	/* Function for slave transfers
-   226	 * Each thread requires 2 channels, one for transmit, and one for receive
-   227	 */
-   228	static int dmatest_slave_func(void *data)
-   229	{
-   230		struct dmatest_slave_thread	*thread = data;
-   231		struct dma_chan *tx_chan;
-   232		struct dma_chan *rx_chan;
-   233		const char *thread_name;
-   234		unsigned int src_off, dst_off, len;
-   235		unsigned int error_count;
-   236		unsigned int failed_tests = 0;
-   237		unsigned int total_tests = 0;
-   238		dma_cookie_t tx_cookie;
-   239		dma_cookie_t rx_cookie;
-   240		enum dma_status status;
-   241		enum dma_ctrl_flags flags;
-   242		int ret;
-   243		int src_cnt;
-   244		int dst_cnt;
-   245		int bd_cnt = XILINX_DMATEST_BD_CNT;
-   246		int i;
-   247	
-   248		ktime_t	ktime, start, diff;
-   249		ktime_t	filltime = 0;
-   250		ktime_t	comparetime = 0;
-   251		s64 runtime = 0;
-   252		unsigned long long total_len = 0;
-   253		thread_name = current->comm;
-   254		ret = -ENOMEM;
-   255	
-   256	
-   257		/* Ensure that all previous reads are complete */
-   258		smp_rmb();
-   259		tx_chan = thread->tx_chan;
-   260		rx_chan = thread->rx_chan;
-   261		dst_cnt = bd_cnt;
-   262		src_cnt = bd_cnt;
-   263	
-   264		thread->srcs = kcalloc(src_cnt + 1, sizeof(u8 *), GFP_KERNEL);
-   265		if (!thread->srcs)
-   266			goto err_srcs;
-   267		for (i = 0; i < src_cnt; i++) {
-   268			thread->srcs[i] = kmalloc(test_buf_size, GFP_KERNEL);
-   269			if (!thread->srcs[i])
-   270				goto err_srcbuf;
-   271		}
-   272		thread->srcs[i] = NULL;
-   273	
-   274		thread->dsts = kcalloc(dst_cnt + 1, sizeof(u8 *), GFP_KERNEL);
-   275		if (!thread->dsts)
-   276			goto err_dsts;
-   277		for (i = 0; i < dst_cnt; i++) {
-   278			thread->dsts[i] = kmalloc(test_buf_size, GFP_KERNEL);
-   279			if (!thread->dsts[i])
-   280				goto err_dstbuf;
-   281		}
-   282		thread->dsts[i] = NULL;
-   283	
-   284		set_user_nice(current, 10);
-   285	
-   286		flags = DMA_CTRL_ACK | DMA_PREP_INTERRUPT;
-   287	
-   288		ktime = ktime_get();
-   289		while (!kthread_should_stop() &&
-   290		       !(iterations && total_tests >= iterations)) {
-   291			struct dma_device *tx_dev = tx_chan->device;
-   292			struct dma_device *rx_dev = rx_chan->device;
-   293			struct dma_async_tx_descriptor *txd = NULL;
-   294			struct dma_async_tx_descriptor *rxd = NULL;
-   295			dma_addr_t dma_srcs[XILINX_DMATEST_BD_CNT];
-   296			dma_addr_t dma_dsts[XILINX_DMATEST_BD_CNT];
-   297			struct completion rx_cmp;
-   298			struct completion tx_cmp;
-   299			unsigned long rx_tmo =
-   300					msecs_to_jiffies(300000); /* RX takes longer */
-   301			unsigned long tx_tmo = msecs_to_jiffies(30000);
-   302			u8 align = 0;
-   303			struct scatterlist tx_sg[XILINX_DMATEST_BD_CNT];
-   304			struct scatterlist rx_sg[XILINX_DMATEST_BD_CNT];
-   305	
-   306			total_tests++;
-   307	
-   308			/* honor larger alignment restrictions */
-   309			align = tx_dev->copy_align;
-   310			if (rx_dev->copy_align > align)
-   311				align = rx_dev->copy_align;
-   312	
-   313			if (1 << align > test_buf_size) {
-   314				pr_err("%u-byte buffer too small for %d-byte alignment\n",
-   315				       test_buf_size, 1 << align);
-   316				break;
-   317			}
-   318	
-   319			len = dmatest_random() % test_buf_size + 1;
-   320			len = (len >> align) << align;
-   321			if (!len)
-   322				len = 1 << align;
-   323			src_off = dmatest_random() % (test_buf_size - len + 1);
-   324			dst_off = dmatest_random() % (test_buf_size - len + 1);
-   325	
-   326			src_off = (src_off >> align) << align;
-   327			dst_off = (dst_off >> align) << align;
-   328	
-   329			start = ktime_get();
-   330			dmatest_init_srcs(thread->srcs, src_off, len);
-   331			dmatest_init_dsts(thread->dsts, dst_off, len);
-   332			diff = ktime_sub(ktime_get(), start);
-   333			filltime = ktime_add(filltime, diff);
-   334	
-   335			for (i = 0; i < src_cnt; i++) {
-   336				u8 *buf = thread->srcs[i] + src_off;
-   337	
-   338				dma_srcs[i] = dma_map_single(tx_dev->dev, buf, len,
- > 339							     DMA_MEM_TO_DEV);
-   340			}
-   341	
-   342			for (i = 0; i < dst_cnt; i++) {
-   343				dma_dsts[i] = dma_map_single(rx_dev->dev,
-   344							     thread->dsts[i],
-   345							     test_buf_size,
-   346							     DMA_BIDIRECTIONAL);
-   347			}
-   348	
-   349			sg_init_table(tx_sg, bd_cnt);
-   350			sg_init_table(rx_sg, bd_cnt);
-   351	
-   352			for (i = 0; i < bd_cnt; i++) {
-   353				sg_dma_address(&tx_sg[i]) = dma_srcs[i];
-   354				sg_dma_address(&rx_sg[i]) = dma_dsts[i] + dst_off;
-   355	
-   356				sg_dma_len(&tx_sg[i]) = len;
-   357				sg_dma_len(&rx_sg[i]) = len;
-   358				total_len += len;
-   359			}
-   360	
-   361			rxd = rx_dev->device_prep_slave_sg(rx_chan, rx_sg, bd_cnt,
-   362					DMA_DEV_TO_MEM, flags, NULL);
-   363	
-   364			txd = tx_dev->device_prep_slave_sg(tx_chan, tx_sg, bd_cnt,
-   365					DMA_MEM_TO_DEV, flags, NULL);
-   366	
-   367			if (!rxd || !txd) {
-   368				for (i = 0; i < src_cnt; i++)
-   369					dma_unmap_single(tx_dev->dev, dma_srcs[i], len,
-   370							 DMA_MEM_TO_DEV);
-   371				for (i = 0; i < dst_cnt; i++)
-   372					dma_unmap_single(rx_dev->dev, dma_dsts[i],
-   373							 test_buf_size,
-   374							 DMA_BIDIRECTIONAL);
-   375				pr_warn("%s: #%u: prep error with src_off=0x%x ",
-   376					thread_name, total_tests - 1, src_off);
-   377				pr_warn("dst_off=0x%x len=0x%x\n",
-   378					dst_off, len);
-   379				msleep(100);
-   380				failed_tests++;
-   381				continue;
-   382			}
-   383	
-   384			init_completion(&rx_cmp);
-   385			rxd->callback = dmatest_slave_rx_callback;
-   386			rxd->callback_param = &rx_cmp;
-   387			rx_cookie = rxd->tx_submit(rxd);
-   388	
-   389			init_completion(&tx_cmp);
-   390			txd->callback = dmatest_slave_tx_callback;
-   391			txd->callback_param = &tx_cmp;
-   392			tx_cookie = txd->tx_submit(txd);
-   393	
-   394			if (dma_submit_error(rx_cookie) ||
-   395			    dma_submit_error(tx_cookie)) {
-   396				pr_warn("%s: #%u: submit error %d/%d with src_off=0x%x ",
-   397					thread_name, total_tests - 1,
-   398					rx_cookie, tx_cookie, src_off);
-   399				pr_warn("dst_off=0x%x len=0x%x\n",
-   400					dst_off, len);
-   401				msleep(100);
-   402				failed_tests++;
-   403				continue;
-   404			}
-   405			dma_async_issue_pending(rx_chan);
-   406			dma_async_issue_pending(tx_chan);
-   407	
-   408			tx_tmo = wait_for_completion_timeout(&tx_cmp, tx_tmo);
-   409	
-   410			status = dma_async_is_tx_complete(tx_chan, tx_cookie,
-   411							  NULL, NULL);
-   412	
-   413			if (tx_tmo == 0) {
-   414				pr_warn("%s: #%u: tx test timed out\n",
-   415					thread_name, total_tests - 1);
-   416				failed_tests++;
-   417				continue;
-   418			} else if (status != DMA_COMPLETE) {
-   419				pr_warn("%s: #%u: tx got completion callback, ",
-   420					thread_name, total_tests - 1);
-   421				pr_warn("but status is \'%s\'\n",
-   422					status == DMA_ERROR ? "error" :
-   423					"in progress");
-   424				failed_tests++;
-   425				continue;
-   426			}
-   427	
-   428			rx_tmo = wait_for_completion_timeout(&rx_cmp, rx_tmo);
-   429			status = dma_async_is_tx_complete(rx_chan, rx_cookie,
-   430							  NULL, NULL);
-   431	
-   432			if (rx_tmo == 0) {
-   433				pr_warn("%s: #%u: rx test timed out\n",
-   434					thread_name, total_tests - 1);
-   435				failed_tests++;
-   436				continue;
-   437			} else if (status != DMA_COMPLETE) {
-   438				pr_warn("%s: #%u: rx got completion callback, ",
-   439					thread_name, total_tests - 1);
-   440				pr_warn("but status is \'%s\'\n",
-   441					status == DMA_ERROR ? "error" :
-   442					"in progress");
-   443				failed_tests++;
-   444				continue;
-   445			}
-   446	
-   447			/* Unmap by myself */
-   448			for (i = 0; i < dst_cnt; i++)
-   449				dma_unmap_single(rx_dev->dev, dma_dsts[i],
-   450						 test_buf_size, DMA_BIDIRECTIONAL);
-   451	
-   452			error_count = 0;
-   453			start = ktime_get();
-   454			pr_debug("%s: verifying source buffer...\n", thread_name);
-   455			error_count += dmatest_verify(thread->srcs, 0, src_off,
-   456					0, PATTERN_SRC, true);
-   457			error_count += dmatest_verify(thread->srcs, src_off,
-   458					src_off + len, src_off,
-   459					PATTERN_SRC | PATTERN_COPY, true);
-   460			error_count += dmatest_verify(thread->srcs, src_off + len,
-   461					test_buf_size, src_off + len,
-   462					PATTERN_SRC, true);
-   463	
-   464			pr_debug("%s: verifying dest buffer...\n",
-   465				 thread->task->comm);
-   466			error_count += dmatest_verify(thread->dsts, 0, dst_off,
-   467					0, PATTERN_DST, false);
-   468			error_count += dmatest_verify(thread->dsts, dst_off,
-   469					dst_off + len, src_off,
-   470					PATTERN_SRC | PATTERN_COPY, false);
-   471			error_count += dmatest_verify(thread->dsts, dst_off + len,
-   472					test_buf_size, dst_off + len,
-   473					PATTERN_DST, false);
-   474			diff = ktime_sub(ktime_get(), start);
-   475			comparetime = ktime_add(comparetime, diff);
-   476	
-   477			if (error_count) {
-   478				pr_warn("%s: #%u: %u errors with ",
-   479					thread_name, total_tests - 1, error_count);
-   480				pr_warn("src_off=0x%x dst_off=0x%x len=0x%x\n",
-   481					src_off, dst_off, len);
-   482				failed_tests++;
-   483			} else {
-   484				pr_debug("%s: #%u: No errors with ",
-   485					 thread_name, total_tests - 1);
-   486				pr_debug("src_off=0x%x dst_off=0x%x len=0x%x\n",
-   487					 src_off, dst_off, len);
-   488			}
-   489		}
-   490	
-   491		ktime = ktime_sub(ktime_get(), ktime);
-   492		ktime = ktime_sub(ktime, comparetime);
-   493		ktime = ktime_sub(ktime, filltime);
-   494		runtime = ktime_to_us(ktime);
-   495	
-   496		ret = 0;
-   497		for (i = 0; thread->dsts[i]; i++)
-   498			kfree(thread->dsts[i]);
-   499	err_dstbuf:
-   500		kfree(thread->dsts);
-   501	err_dsts:
-   502		for (i = 0; thread->srcs[i]; i++)
-   503			kfree(thread->srcs[i]);
-   504	err_srcbuf:
-   505		kfree(thread->srcs);
-   506	err_srcs:
-   507		pr_notice("%s: terminating after %u tests, %u failures %llu iops %llu KB/s (status %d)\n",
-   508			  thread_name, total_tests, failed_tests,
-   509			  dmatest_persec(runtime, total_tests),
-   510			  dmatest_KBs(runtime, total_len), ret);
-   511	
-   512		thread->done = true;
-   513		wake_up(&thread_wait);
-   514	
-   515		return ret;
-   516	}
-   517	
+   > 1	What:		/sys/class/usb_power_delivery
+     2	Date:		May 2022
+     3	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+     4	Description:
+     5			Directory for USB Power Delivery devices.
+     6	
+     7	What:		/sys/class/usb_power_delivery/.../revision
+     8	Date:		May 2022
+     9	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+    10	Description:
+    11			File showing the USB Power Delivery Specification Revision used
+    12			in communication.
+    13	
+    14	What:		/sys/class/usb_power_delivery/.../version
+    15	Date:		May 2022
+    16	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+    17	Description:
+    18			This is an optional attribute file showing the version of the
+    19			specific revision of the USB Power Delivery Specification. In
+    20			most cases the specification version is not known and the file
+    21			is not available.
+    22	
+    23	What:		/sys/class/usb_power_delivery/.../source-capabilities
+    24	Date:		May 2022
+    25	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+    26	Description:
+    27			The source capabilities message "Source_Capabilities" contains a
+    28			set of Power Data Objects (PDO), each representing a type of
+    29			power supply. The order of the PDO objects is defined in the USB
+    30			Power Delivery Specification. Each PDO - power supply - will
+    31			have its own device, and the PDO device name will start with the
+    32			object position number as the first character followed by the
+    33			power supply type name (":" as delimiter).
+    34	
+    35				/sys/class/usb_power_delivery/.../source_capabilities/<position>:<type>
+    36	
+    37	What:		/sys/class/usb_power_delivery/.../sink-capabilities
+    38	Date:		May 2022
+    39	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+    40	Description:
+    41			The sink capability message "Sink_Capabilities" contains a set
+    42			of Power Data Objects (PDO) just like with source capabilities,
+    43			but instead of describing the power capabilities, these objects
+    44			describe the power requirements.
+    45	
+    46			The order of the objects in the sink capability message is the
+    47			same as with the source capabilities message.
+    48	
+    49	Fixed Supplies
+    50	
+    51	What:		/sys/class/usb_power_delivery/.../<capability>/<position>:fixed_supply
+    52	Date:		May 2022
+    53	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+    54	Description:
+    55			Devices containing the attributes (the bit fields) defined for
+    56			Fixed Supplies.
+    57	
+    58			The device "1:fixed_supply" is special. USB Power Delivery
+    59			Specification dictates that the first PDO (at object position
+    60			1), and the only mandatory PDO, is always the vSafe5V Fixed
+    61			Supply Object. vSafe5V Object has additional fields defined for
+    62			it that the other Fixed Supply Objects do not have and that are
+    63			related to the USB capabilities rather than power capabilities.
+    64	
+    65	What:		/sys/class/usb_power_delivery/.../<capability>/1:fixed_supply/dual_role_power
+    66	Date:		May 2022
+    67	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+    68	Description:
+    69			This file contains boolean value that tells does the device
+    70			support both source and sink power roles.
+    71	
+    72	What:		/sys/class/usb_power_delivery/.../source-capabilities/1:fixed_supply/usb_suspend_supported
+    73	Date:		May 2022
+    74	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+    75	Description:
+    76			This file shows the value of the USB Suspend Supported bit in
+    77			vSafe5V Fixed Supply Object. If the bit is set then the device
+    78			will follow the USB 2.0 and USB 3.2 rules for suspend and
+    79			resume.
+    80	
+    81	What:		/sys/class/usb_power_delivery/.../sink-capabilities/1:fixed_supply/higher_capability
+    82	Date:		February 2023
+    83	Contact:	Saranya Gopal <saranya.gopal@linux.intel.com>
+    84	Description:
+    85			This file shows the value of the Higher capability bit in
+    86			vsafe5V Fixed Supply Object. If the bit is set, then the sink
+    87			needs more than vsafe5V(eg. 12 V) to provide full functionality.
+    88			Valid values: 0, 1
+    89	
+    90	What:		/sys/class/usb_power_delivery/.../<capability>/1:fixed_supply/unconstrained_power
+    91	Date:		May 2022
+    92	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+    93	Description:
+    94			This file shows the value of the Unconstrained Power bit in
+    95			vSafe5V Fixed Supply Object. The bit is set when an external
+    96			source of power, powerful enough to power the entire system on
+    97			its own, is available for the device.
+    98	
+    99	What:		/sys/class/usb_power_delivery/.../<capability>/1:fixed_supply/usb_communication_capable
+   100	Date:		May 2022
+   101	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+   102	Description:
+   103			This file shows the value of the USB Communication Capable bit in
+   104			vSafe5V Fixed Supply Object.
+   105	
+   106	What:		/sys/class/usb_power_delivery/.../<capability>/1:fixed_supply/dual_role_data
+   107	Date:		May 2022
+   108	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+   109	Description:
+   110			This file shows the value of the Dual-Role Data bit in vSafe5V
+   111			Fixed Supply Object. Dual role data means ability act as both
+   112			USB host and USB device.
+   113	
+   114	What:		/sys/class/usb_power_delivery/.../<capability>/1:fixed_supply/unchunked_extended_messages_supported
+   115	Date:		May 2022
+   116	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+   117	Description:
+   118			This file shows the value of the Unchunked Extended Messages
+   119			Supported bit in vSafe5V Fixed Supply Object.
+   120	
+   121	What:		/sys/class/usb_power_delivery/.../<capability>/<position>:fixed_supply/voltage
+   122	Date:		May 2022
+   123	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+   124	Description:
+   125			The voltage the supply supports in millivolts.
+   126	
+   127	What:		/sys/class/usb_power_delivery/.../source-capabilities/<position>:fixed_supply/peak_current
+ > 128	Date:		October 2023
+   129	Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+   130	Description:
+   131			Fixed Power Source Peak Current Capability
+   132			(IOC: Negotiated current as defined in IEC 63002):
+   133			==  ===========================================================
+   134			0   Peak current equals IOC (default)
+   135			1   Overload Capabilities:
+   136			    1. Peak current equals 150% IOC for 1ms @ 5% duty cycle
+   137			       (low current equals 97% IOC for 19ms)
+   138			    2. Peak current equals 125% IOC for 2ms @ 10% duty cycle
+   139			       (low current equals 97% IOC for 18ms)
+   140			    3. Peak current equals 110% IOC for 10ms @ 50% duty cycle
+   141			       (low current equals 90% IOC for 10ms)
+   142			2   Overload Capabilities:
+   143			    1. Peak current equals 200% IOC for 1ms @ 5% duty cycle
+   144			       (low current equals 95% IOC for 19ms)
+   145			    2. Peak current equals 150% IOC for 2ms @ 10% duty cycle
+   146			       (low current equals 94% IOC for 18ms)
+   147			    3. Peak current equals 125% IOC for 10ms @ 50% duty cycle
+   148			       (low current equals 75% IOC for 10ms)
+   149			3   Overload Capabilities:
+   150			    1. Peak current equals 200% IOC for 1ms @ 5% duty cycle
+   151			       (low current equals 95% IOC for 19ms)
+   152			    2. Peak current equals 175% IOC for 2ms @ 10% duty cycle
+   153			       (low current equals 92% IOC for 18ms)
+   154			    3. Peak current equals 150% IOC for 10ms @ 50% duty cycle
+   155			       (low current equals 50% IOC for 10ms)
+   156			==  ===========================================================
+   157	
 
 -- 
 0-DAY CI Kernel Test Service
