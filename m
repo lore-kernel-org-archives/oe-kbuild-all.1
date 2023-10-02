@@ -1,44 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B93651
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 02:51:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53FBD7E3;
+	Mon,  2 Oct 2023 04:03:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696215079; x=1727751079;
+  t=1696219399; x=1727755399;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JuSG+olAAF7c1UNFpiXFiN2p7hbZjE7lqfGJ2jGCQIo=;
-  b=V5Q4Rhv8wMpkvsYF6agQT4ZBJa8d+YAic720lsHnYAL3i8CDVG79uRpm
-   HfYa8E3cXUAHRUDSEoPn1Z74zaHlKadbPzkLVRWZRwuuJ3Z0eh/yqzp0J
-   av0p0lNMcZ6QiedrSTDqUn+gPdiE0upM+JtzCEcQyAASIYG5F7GtqnsmE
-   E9t2XwZtMSfX6yS+WIlyRv04JVx/5eK024DHN6jQ5Q08J0wLzPCkzJgou
-   Jk/CBQPmZWsAFfXN7wG1wD6MageCkpalX6efTj7xPCOD1SwhGHrjk10nD
-   RRy1mX/k/B/M+2Uz38mUlq8fbFTHFtZOt/mk8rBPP4Z8zC1JtjnCKMYIH
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="446727059"
+  bh=hRObPB/cUflAKnLYnprq4mSDpV/9v/dozX2ZwQ4yL/0=;
+  b=UkGahkDJc3iceJ98Edkvfre5pGzsCYU8cXC0mS8sCJGn4NV1dswqr9La
+   D1ZaFKC2/h8tp400xXt8lbGjncM5mL0af30LpH3qXbG0xeigOU2pmTwMs
+   qw6E6VnB8FcoubZGcN1TJ1B8Sm7rnJb0bs/qkCyCHXnC6uP+vzfSfQk/K
+   9ymIpvUxYYqGaembN5NUC2YuH/58BtKP8nh4ikONyIenymlE+0iV8uwmR
+   k3VuGOZP4qwV3Jeh2RzgeU/H64UsDqNOXg5wtix1epNwApPQpkKAjJrpI
+   Zw4kt8xYsB6CAV5WuzZhgpVRHx8c6HodUgjdVINS8W7Ryp7c54xavLsC+
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="386451643"
 X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; 
-   d="scan'208";a="446727059"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 19:51:17 -0700
+   d="scan'208";a="386451643"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 21:03:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="779818589"
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="924151566"
 X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; 
-   d="scan'208";a="779818589"
+   d="scan'208";a="924151566"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 01 Oct 2023 19:51:15 -0700
+  by orsmga005.jf.intel.com with ESMTP; 01 Oct 2023 21:03:16 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qn91c-0005iA-1T;
-	Mon, 02 Oct 2023 02:51:12 +0000
-Date: Mon, 2 Oct 2023 10:50:27 +0800
+	id 1qnA9K-0005k5-0j;
+	Mon, 02 Oct 2023 04:03:14 +0000
+Date: Mon, 2 Oct 2023 12:03:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>,
-	Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/230-touchbar 1/8]
- drivers/gpu/drm/adp/adp_drv.c:220:19: warning: no previous prototype for
- 'adp_plane_new'
-Message-ID: <202310021001.vViF7VY6-lkp@intel.com>
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 898/1370]
+ drivers/mtd/spi-nor/core.c:1726:34: warning: variable 'offset' is
+ uninitialized when used here
+Message-ID: <202310021105.2DxpIQvB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,223 +48,294 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux bits/230-touchbar
-head:   2041fd353895c61408325b6315a71787e1e3689f
-commit: ffd89a23ebd1a87b511ce05c0c84c57346dabf9d [1/8] gpu: drm: adp: Add Apple Display Pipe driver
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231002/202310021001.vViF7VY6-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310021001.vViF7VY6-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
+head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
+commit: 5fee19c6329ff527e553bfb9b158869c482b1c27 [898/1370] mtd: spi-nor: Add EAR support
+config: arm-dove_defconfig (https://download.01.org/0day-ci/archive/20231002/202310021105.2DxpIQvB-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310021105.2DxpIQvB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310021001.vViF7VY6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310021105.2DxpIQvB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/adp/adp_drv.c:220:19: warning: no previous prototype for 'adp_plane_new' [-Wmissing-prototypes]
-     220 | struct adp_plane *adp_plane_new(struct adp_drv_private *adp, u8 id)
-         |                   ^~~~~~~~~~~~~
->> drivers/gpu/drm/adp/adp_drv.c:402:5: warning: no previous prototype for 'adp_detect_ctx' [-Wmissing-prototypes]
-     402 | int adp_detect_ctx(struct drm_connector *connector,
-         |     ^~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:593:5: warning: no previous prototype for function 'spi_nor_write_ear' [-Wmissing-prototypes]
+     593 | int spi_nor_write_ear(struct spi_nor *nor, u32 addr)
+         |     ^
+   drivers/mtd/spi-nor/core.c:593:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     593 | int spi_nor_write_ear(struct spi_nor *nor, u32 addr)
+         | ^
+         | static 
+>> drivers/mtd/spi-nor/core.c:1726:34: warning: variable 'offset' is uninitialized when used here [-Wuninitialized]
+    1726 |                                 ret = spi_nor_write_ear(nor, offset);
+         |                                                              ^~~~~~
+   drivers/mtd/spi-nor/core.c:1565:23: note: initialize the variable 'offset' to silence this warning
+    1565 |         u32 addr, len, offset, cur_cs_num = 0;
+         |                              ^
+         |                               = 0
+   2 warnings generated.
 
 
-vim +/adp_plane_new +220 drivers/gpu/drm/adp/adp_drv.c
+vim +/offset +1726 drivers/mtd/spi-nor/core.c
 
-   219	
- > 220	struct adp_plane *adp_plane_new(struct adp_drv_private *adp, u8 id)
-   221	{
-   222		struct drm_device *drm = &adp->drm;
-   223		struct adp_plane *plane;
-   224		enum drm_plane_type plane_type;
-   225	
-   226		plane_type = (id == 0) ? DRM_PLANE_TYPE_PRIMARY :
-   227			DRM_PLANE_TYPE_OVERLAY;
-   228	
-   229		plane = drmm_universal_plane_alloc(drm, struct adp_plane, base_plane,
-   230						   ALL_CRTCS, &adp_plane_funcs,
-   231						   plane_formats, ARRAY_SIZE(plane_formats),
-   232						   NULL, plane_type, "plane %d", id);
-   233		if (!plane) {
-   234			drm_err(drm, "failed to allocate plane");
-   235			return ERR_PTR(-ENOMEM);
-   236		}
-   237		plane->id = id;
-   238	
-   239		drm_plane_helper_add(&plane->base_plane, &adp_plane_helper_funcs);
-   240		return plane;
-   241	}
-   242	
-   243	static void adp_enable_vblank(struct adp_drv_private *adp)
-   244	{
-   245		u32 cur_ctrl;
-   246	
-   247		writel(ADP_INT_STATUS_INT_MASK, adp->fe + ADP_INT_STATUS);
-   248	
-   249		cur_ctrl = readl(adp->fe + ADP_CTRL);
-   250		writel(cur_ctrl | ADP_CTRL_VBLANK_ON, adp->fe + ADP_CTRL);
-   251	}
-   252	
-   253	static int adp_crtc_enable_vblank(struct drm_crtc *crtc)
-   254	{
-   255		struct drm_device *dev = crtc->dev;
-   256		struct adp_drv_private *adp = to_adp(dev);
-   257		adp_enable_vblank(adp);
-   258	
-   259		return 0;
-   260	}
-   261	
-   262	static void adp_disable_vblank(struct adp_drv_private *adp)
-   263	{
-   264		u32 cur_ctrl;
-   265	
-   266		cur_ctrl = readl(adp->fe + ADP_CTRL);
-   267		writel(cur_ctrl & ~ADP_CTRL_VBLANK_ON, adp->fe + ADP_CTRL);
-   268		writel(ADP_INT_STATUS_INT_MASK, adp->fe + ADP_INT_STATUS);
-   269	}
-   270	
-   271	static void adp_crtc_disable_vblank(struct drm_crtc *crtc)
-   272	{
-   273		struct drm_device *dev = crtc->dev;
-   274		struct adp_drv_private *adp = to_adp(dev);
-   275	
-   276		adp_disable_vblank(adp);
-   277	}
-   278	
-   279	
-   280	static void adp_crtc_atomic_enable(struct drm_crtc *crtc,
-   281					   struct drm_atomic_state *state)
-   282	{
-   283		struct adp_drv_private *adp = crtc_to_adp(crtc);
-   284		writel(0x1, adp->be + ADBE_BLEND_EN2);
-   285		writel(0x10, adp->be + ADBE_BLEND_EN1);
-   286		writel(0x1, adp->be + ADBE_BLEND_EN3);
-   287		writel(0x1, adp->be + ADBE_BLEND_BYPASS);
-   288		writel(0x1, adp->be + ADBE_BLEND_EN4);
-   289	}
-   290	
-   291	static void adp_crtc_atomic_disable(struct drm_crtc *crtc,
-   292					    struct drm_atomic_state *state)
-   293	{
-   294		struct adp_drv_private *adp = crtc_to_adp(crtc);
-   295		struct drm_crtc_state *old_state = drm_atomic_get_old_crtc_state(state, crtc);
-   296	
-   297		drm_atomic_helper_disable_planes_on_crtc(old_state, false);
-   298	
-   299		writel(0x0, adp->be + ADBE_BLEND_EN2);
-   300		writel(0x0, adp->be + ADBE_BLEND_EN1);
-   301		writel(0x0, adp->be + ADBE_BLEND_EN3);
-   302		writel(0x0, adp->be + ADBE_BLEND_BYPASS);
-   303		writel(0x0, adp->be + ADBE_BLEND_EN4);
-   304		drm_crtc_vblank_off(crtc);
-   305	}
-   306	
-   307	static void adp_crtc_atomic_flush(struct drm_crtc *crtc,
-   308					  struct drm_atomic_state *state)
-   309	{
-   310		u32 frame_num = 1;
-   311		struct adp_drv_private *adp = crtc_to_adp(crtc);
-   312		struct drm_crtc_state *new_state = drm_atomic_get_new_crtc_state(state, crtc);
-   313		u64 new_size = ALIGN(new_state->mode.hdisplay *
-   314				     new_state->mode.vdisplay * 4, PAGE_SIZE);
-   315	
-   316		if (new_size != adp->mask_buf_size) {
-   317			if (adp->mask_buf)
-   318				dma_free_coherent(crtc->dev->dev, adp->mask_buf_size,
-   319						  adp->mask_buf, adp->mask_iova);
-   320			adp->mask_buf = NULL;
-   321			if (new_size != 0) {
-   322				adp->mask_buf = dma_alloc_coherent(crtc->dev->dev, new_size,
-   323								   &adp->mask_iova, GFP_KERNEL);
-   324				memset(adp->mask_buf, 0xFF, new_size);
-   325				writel(adp->mask_iova, adp->be + ADBE_MASK_BUF);
-   326			}
-   327			adp->mask_buf_size = new_size;
-   328		}
-   329		writel(ADBE_FIFO_SYNC | frame_num, adp->be + ADBE_FIFO);
-   330		//FIXME: use adbe flush interrupt
-   331		spin_lock_irq(&crtc->dev->event_lock);
-   332		if (crtc->state->event) {
-   333			drm_crtc_vblank_get(crtc);
-   334			adp->event = crtc->state->event;
-   335		}
-   336		crtc->state->event = NULL;
-   337		spin_unlock_irq(&crtc->dev->event_lock);
-   338	}
-   339	
-   340	static const struct drm_crtc_funcs adp_crtc_funcs = {
-   341		.destroy = drm_crtc_cleanup,
-   342		.set_config = drm_atomic_helper_set_config,
-   343		.page_flip = drm_atomic_helper_page_flip,
-   344		.reset = drm_atomic_helper_crtc_reset,
-   345		.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
-   346		.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
-   347		.enable_vblank = adp_crtc_enable_vblank,
-   348		.disable_vblank = adp_crtc_disable_vblank,
-   349	};
-   350	
-   351	
-   352	static const struct drm_crtc_helper_funcs adp_crtc_helper_funcs = {
-   353		.atomic_enable = adp_crtc_atomic_enable,
-   354		.atomic_disable = adp_crtc_atomic_disable,
-   355		.atomic_flush = adp_crtc_atomic_flush,
-   356	};
-   357	
-   358	static int adp_setup_crtc(struct adp_drv_private *adp)
-   359	{
-   360		struct drm_device *drm = &adp->drm;
-   361		struct adp_plane *primary;
-   362		int ret;
-   363	
-   364		primary = adp_plane_new(adp, 0);
-   365		if (IS_ERR(primary))
-   366			return PTR_ERR(primary);
-   367	
-   368		ret = drm_crtc_init_with_planes(drm, &adp->crtc, &primary->base_plane,
-   369						NULL, &adp_crtc_funcs, NULL);
-   370		if (ret)
-   371			return ret;
-   372	
-   373		drm_crtc_helper_add(&adp->crtc, &adp_crtc_helper_funcs);
-   374		return 0;
-   375	}
-   376	
-   377	static int adp_get_modes(struct drm_connector *connector)
-   378	{
-   379		struct adp_drv_private *adp = conn_to_adp(connector);
-   380		struct drm_display_mode *mode;
-   381		u32 size;
-   382	
-   383		size = readl(adp->fe + ADP_SCREEN_SIZE);
-   384		mode = drm_mode_create(connector->dev);
-   385	
-   386		mode->vdisplay = size >> 16;
-   387		mode->hdisplay = size & 0xFFFF;
-   388		mode->hsync_start = mode->hdisplay + 8;
-   389		mode->hsync_end = mode->hsync_start + 80;
-   390		mode->htotal = mode->hsync_end + 40;
-   391		mode->vsync_start = mode->vdisplay + 1;
-   392		mode->vsync_end = mode->vsync_start + 15;
-   393		mode->vtotal = mode->vsync_end + 6;
-   394		mode->clock = (mode->vtotal * mode->htotal * 60) / 1000;
-   395		mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-   396		mode->flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC;
-   397		drm_mode_set_name(mode);
-   398		drm_mode_probed_add(connector, mode);
-   399		return 1;
-   400	}
-   401	
- > 402	int adp_detect_ctx(struct drm_connector *connector,
-   403			   struct drm_modeset_acquire_ctx *ctx,
-   404			   bool force) {
-   405		connector->display_info.non_desktop = true;
-   406		drm_object_property_set_value(&connector->base,
-   407					      connector->dev->mode_config.non_desktop_property,
-   408					      connector->display_info.non_desktop);
-   409		return connector_status_connected;
-   410	}
-   411	
+  1556	
+  1557	/*
+  1558	 * Erase an address range on the nor chip.  The address range may extend
+  1559	 * one or more erase sectors. Return an error if there is a problem erasing.
+  1560	 */
+  1561	static int spi_nor_erase(struct mtd_info *mtd, struct erase_info *instr)
+  1562	{
+  1563		struct spi_nor *nor = mtd_to_spi_nor(mtd);
+  1564		struct spi_nor_flash_parameter *params;
+  1565		u32 addr, len, offset, cur_cs_num = 0;
+  1566		uint32_t rem;
+  1567		int ret;
+  1568		u64 sz;
+  1569	
+  1570		dev_dbg(nor->dev, "at 0x%llx, len %lld\n", (long long)instr->addr,
+  1571				(long long)instr->len);
+  1572	
+  1573		params = spi_nor_get_params(nor, 0);
+  1574		sz = params->size;
+  1575	
+  1576		if (spi_nor_has_uniform_erase(nor)) {
+  1577			div_u64_rem(instr->len, mtd->erasesize, &rem);
+  1578			if (rem)
+  1579				return -EINVAL;
+  1580		}
+  1581	
+  1582		addr = instr->addr;
+  1583		len = instr->len;
+  1584	
+  1585		ret = spi_nor_lock_and_prep(nor);
+  1586		if (ret)
+  1587			return ret;
+  1588	
+  1589		if (!(nor->flags & SNOR_F_HAS_PARALLEL)) {
+  1590			/* whole-chip erase? */
+  1591			if (len == mtd->size && !(nor->flags & SNOR_F_NO_OP_CHIP_ERASE)) {
+  1592				unsigned long timeout;
+  1593	
+  1594				while ((cur_cs_num < SNOR_FLASH_CNT_MAX) && params) {
+  1595					nor->spimem->spi->cs_index_mask = 1 << cur_cs_num;
+  1596					ret = spi_nor_write_enable(nor);
+  1597					if (ret)
+  1598						goto erase_err;
+  1599	
+  1600					ret = spi_nor_erase_chip(nor);
+  1601					if (ret)
+  1602						goto erase_err;
+  1603	
+  1604					/*
+  1605					 * Scale the timeout linearly with the size of the flash, with
+  1606					 * a minimum calibrated to an old 2MB flash. We could try to
+  1607					 * pull these from CFI/SFDP, but these values should be good
+  1608					 * enough for now.
+  1609					 */
+  1610					timeout = max(CHIP_ERASE_2MB_READY_WAIT_JIFFIES,
+  1611						      CHIP_ERASE_2MB_READY_WAIT_JIFFIES *
+  1612						      (unsigned long)(params->size /
+  1613								      SZ_2M));
+  1614					ret = spi_nor_wait_till_ready_with_timeout(nor, timeout);
+  1615					if (ret)
+  1616						goto erase_err;
+  1617	
+  1618					cur_cs_num++;
+  1619					params = spi_nor_get_params(nor, cur_cs_num);
+  1620				}
+  1621	
+  1622			/* REVISIT in some cases we could speed up erasing large regions
+  1623			 * by using SPINOR_OP_SE instead of SPINOR_OP_BE_4K.  We may have set up
+  1624			 * to use "small sector erase", but that's not always optimal.
+  1625			 */
+  1626	
+  1627			/* "sector"-at-a-time erase */
+  1628			} else if (spi_nor_has_uniform_erase(nor)) {
+  1629				/* Determine the flash from which the operation need to start */
+  1630				while ((cur_cs_num < SNOR_FLASH_CNT_MAX) &&
+  1631				       (addr > sz - 1) && params) {
+  1632					cur_cs_num++;
+  1633					params = spi_nor_get_params(nor, cur_cs_num);
+  1634					sz += params->size;
+  1635				}
+  1636				while (len) {
+  1637					nor->spimem->spi->cs_index_mask = 1 << cur_cs_num;
+  1638					ret = spi_nor_write_enable(nor);
+  1639					if (ret)
+  1640						goto erase_err;
+  1641	
+  1642					offset = addr;
+  1643					if (nor->flags & SNOR_F_HAS_STACKED) {
+  1644						params = spi_nor_get_params(nor, cur_cs_num);
+  1645						offset -= (sz - params->size);
+  1646					}
+  1647	
+  1648					if (nor->addr_nbytes == 3) {
+  1649						/* Update Extended Address Register */
+  1650						ret = spi_nor_write_ear(nor, offset);
+  1651						if (ret)
+  1652							goto erase_err;
+  1653					}
+  1654					ret = spi_nor_wait_till_ready(nor);
+  1655					if (ret)
+  1656						goto erase_err;
+  1657	
+  1658					ret = spi_nor_write_enable(nor);
+  1659					if (ret)
+  1660						goto erase_err;
+  1661	
+  1662					ret = spi_nor_erase_sector(nor, offset);
+  1663					if (ret)
+  1664						goto erase_err;
+  1665	
+  1666					ret = spi_nor_wait_till_ready(nor);
+  1667					if (ret)
+  1668						goto erase_err;
+  1669	
+  1670					addr += mtd->erasesize;
+  1671					len -= mtd->erasesize;
+  1672	
+  1673					/*
+  1674					 * Flash cross over condition in stacked mode.
+  1675					 */
+  1676					if ((nor->flags & SNOR_F_HAS_STACKED) && (addr > sz - 1)) {
+  1677						cur_cs_num++;
+  1678						params = spi_nor_get_params(nor, cur_cs_num);
+  1679						sz += params->size;
+  1680					}
+  1681				}
+  1682	
+  1683			/* erase multiple sectors */
+  1684			} else {
+  1685				u64 erase_len = 0;
+  1686	
+  1687				/* Determine the flash from which the operation need to start */
+  1688				while ((cur_cs_num < SNOR_FLASH_CNT_MAX) &&
+  1689				       (addr > sz - 1) && params) {
+  1690					cur_cs_num++;
+  1691					params = spi_nor_get_params(nor, cur_cs_num);
+  1692					sz += params->size;
+  1693				}
+  1694				/* perform multi sector erase onec per Flash*/
+  1695				while (len) {
+  1696					erase_len = (len > (sz - addr)) ? (sz - addr) : len;
+  1697					offset = addr;
+  1698					nor->spimem->spi->cs_index_mask = 1 << cur_cs_num;
+  1699					if (nor->flags & SNOR_F_HAS_STACKED) {
+  1700						params = spi_nor_get_params(nor, cur_cs_num);
+  1701						offset -= (sz - params->size);
+  1702					}
+  1703					ret = spi_nor_erase_multi_sectors(nor, offset, erase_len);
+  1704					if (ret)
+  1705						goto erase_err;
+  1706					len -= erase_len;
+  1707					addr += erase_len;
+  1708					params = spi_nor_get_params(nor, cur_cs_num);
+  1709					sz += params->size;
+  1710				}
+  1711			}
+  1712		} else {
+  1713			nor->spimem->spi->cs_index_mask = SPI_NOR_ENABLE_MULTI_CS;
+  1714	
+  1715			/* whole-chip erase? */
+  1716			if (len == mtd->size && !(nor->flags &
+  1717						  SNOR_F_NO_OP_CHIP_ERASE)) {
+  1718				unsigned long timeout;
+  1719	
+  1720				ret = spi_nor_write_enable(nor);
+  1721				if (ret)
+  1722					goto erase_err;
+  1723	
+  1724				if (nor->addr_nbytes == 3) {
+  1725					/* Update Extended Address Register */
+> 1726					ret = spi_nor_write_ear(nor, offset);
+  1727					if (ret)
+  1728						goto erase_err;
+  1729				}
+  1730				ret = spi_nor_wait_till_ready(nor);
+  1731				if (ret)
+  1732					goto erase_err;
+  1733	
+  1734				ret = spi_nor_write_enable(nor);
+  1735				if (ret)
+  1736					goto erase_err;
+  1737	
+  1738				ret = spi_nor_erase_chip(nor);
+  1739				if (ret)
+  1740					goto erase_err;
+  1741	
+  1742				/*
+  1743				 * Scale the timeout linearly with the size of the flash, with
+  1744				 * a minimum calibrated to an old 2MB flash. We could try to
+  1745				 * pull these from CFI/SFDP, but these values should be good
+  1746				 * enough for now.
+  1747				 */
+  1748				timeout = max(CHIP_ERASE_2MB_READY_WAIT_JIFFIES,
+  1749					      CHIP_ERASE_2MB_READY_WAIT_JIFFIES *
+  1750					      (unsigned long)(mtd->size / SZ_2M));
+  1751				ret = spi_nor_wait_till_ready_with_timeout(nor, timeout);
+  1752				if (ret)
+  1753					goto erase_err;
+  1754	
+  1755			/* REVISIT in some cases we could speed up erasing large regions
+  1756			 * by using SPINOR_OP_SE instead of SPINOR_OP_BE_4K.  We may have set up
+  1757			 * to use "small sector erase", but that's not always optimal.
+  1758			 */
+  1759	
+  1760			/* "sector"-at-a-time erase */
+  1761			} else if (spi_nor_has_uniform_erase(nor)) {
+  1762				while (len) {
+  1763					ret = spi_nor_write_enable(nor);
+  1764					if (ret)
+  1765						goto erase_err;
+  1766	
+  1767					offset = addr / 2;
+  1768	
+  1769					if (nor->addr_nbytes == 3) {
+  1770						/* Update Extended Address Register */
+  1771						ret = spi_nor_write_ear(nor, offset);
+  1772						if (ret)
+  1773							goto erase_err;
+  1774					}
+  1775					ret = spi_nor_wait_till_ready(nor);
+  1776					if (ret)
+  1777						goto erase_err;
+  1778	
+  1779					ret = spi_nor_write_enable(nor);
+  1780					if (ret)
+  1781						goto erase_err;
+  1782	
+  1783					ret = spi_nor_erase_sector(nor, offset);
+  1784					if (ret)
+  1785						goto erase_err;
+  1786	
+  1787					ret = spi_nor_wait_till_ready(nor);
+  1788					if (ret)
+  1789						goto erase_err;
+  1790	
+  1791					addr += mtd->erasesize;
+  1792					len -= mtd->erasesize;
+  1793				}
+  1794	
+  1795			/* erase multiple sectors */
+  1796			} else {
+  1797				offset = addr / 2;
+  1798				ret = spi_nor_erase_multi_sectors(nor, offset, len);
+  1799				if (ret)
+  1800					goto erase_err;
+  1801			}
+  1802		}
+  1803		ret = spi_nor_write_disable(nor);
+  1804	
+  1805	erase_err:
+  1806		spi_nor_unlock_and_unprep(nor);
+  1807	
+  1808		return ret;
+  1809	}
+  1810	
 
 -- 
 0-DAY CI Kernel Test Service
