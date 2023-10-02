@@ -1,58 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2952139E
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 01:59:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B93651
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 02:51:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696211960; x=1727747960;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=W88JVX1gXyO0U29l0jTJHljfHkuQ/YgOQ/ZzLImDnS0=;
-  b=JWrSRyTFVMKYj2h9ngYh8VP7yH6+1FRIdSBaPR/JyvAFqeOXaJAcjsYj
-   0Hco4WacP35R6uzBO4dwiOgILt3zPSbVOUOM8P3MnNsu6DUVWoCAuObm2
-   fug0IX5kDtenzTAzYs8QlqXgEuZw3Jr3q0j2SAf03nL3+GhXqEQasblLv
-   9DxTCM6QHU9ZGhb/PXiRAKYiRL+3icgKpQQSLvYYWfgJbwa3jkY+vbR4R
-   6loyArad9Kp+y37gL7138zZFuvc0DKwtHFGs+2e88PfIJ089ZEWykkSc0
-   semR3AP1uLLzdBJz3I0O60XmUCpt/xBJSU2LEjUhAtgK2KOOLiEGumhqf
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="372920003"
+  t=1696215079; x=1727751079;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JuSG+olAAF7c1UNFpiXFiN2p7hbZjE7lqfGJ2jGCQIo=;
+  b=V5Q4Rhv8wMpkvsYF6agQT4ZBJa8d+YAic720lsHnYAL3i8CDVG79uRpm
+   HfYa8E3cXUAHRUDSEoPn1Z74zaHlKadbPzkLVRWZRwuuJ3Z0eh/yqzp0J
+   av0p0lNMcZ6QiedrSTDqUn+gPdiE0upM+JtzCEcQyAASIYG5F7GtqnsmE
+   E9t2XwZtMSfX6yS+WIlyRv04JVx/5eK024DHN6jQ5Q08J0wLzPCkzJgou
+   Jk/CBQPmZWsAFfXN7wG1wD6MageCkpalX6efTj7xPCOD1SwhGHrjk10nD
+   RRy1mX/k/B/M+2Uz38mUlq8fbFTHFtZOt/mk8rBPP4Z8zC1JtjnCKMYIH
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="446727059"
 X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; 
-   d="scan'208";a="372920003"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 18:59:19 -0700
+   d="scan'208";a="446727059"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 19:51:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="840862065"
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="779818589"
 X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; 
-   d="scan'208";a="840862065"
+   d="scan'208";a="779818589"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 01 Oct 2023 18:59:13 -0700
+  by orsmga008.jf.intel.com with ESMTP; 01 Oct 2023 19:51:15 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qn8DG-0005fl-1j;
-	Mon, 02 Oct 2023 01:59:10 +0000
-Date: Mon, 2 Oct 2023 09:58:33 +0800
+	id 1qn91c-0005iA-1T;
+	Mon, 02 Oct 2023 02:51:12 +0000
+Date: Mon, 2 Oct 2023 10:50:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
-	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, martin.petersen@oracle.com,
-	linux-scsi@vger.kernel.org, nitheshshetty@gmail.com,
-	anuj1072538@gmail.com, gost.dev@samsung.com, mcgrof@kernel.org,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Hannes Reinecke <hare@suse.de>, Anuj Gupta <anuj20.g@samsung.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v16 08/12] nvmet: add copy command support for bdev and
- file ns
-Message-ID: <202310020910.TaSOIepO-lkp@intel.com>
-References: <20230920080756.11919-9-nj.shetty@samsung.com>
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>,
+	Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/230-touchbar 1/8]
+ drivers/gpu/drm/adp/adp_drv.c:220:19: warning: no previous prototype for
+ 'adp_plane_new'
+Message-ID: <202310021001.vViF7VY6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,76 +47,224 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230920080756.11919-9-nj.shetty@samsung.com>
 
-Hi Nitesh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 7fc7222d9680366edeecc219c21ca96310bdbc10]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Introduce-queue-limits-and-sysfs-for-copy-offload-support/20230920-170132
-base:   7fc7222d9680366edeecc219c21ca96310bdbc10
-patch link:    https://lore.kernel.org/r/20230920080756.11919-9-nj.shetty%40samsung.com
-patch subject: [PATCH v16 08/12] nvmet: add copy command support for bdev and file ns
-config: i386-randconfig-061-20231002 (https://download.01.org/0day-ci/archive/20231002/202310020910.TaSOIepO-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310020910.TaSOIepO-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/230-touchbar
+head:   2041fd353895c61408325b6315a71787e1e3689f
+commit: ffd89a23ebd1a87b511ce05c0c84c57346dabf9d [1/8] gpu: drm: adp: Add Apple Display Pipe driver
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231002/202310021001.vViF7VY6-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310021001.vViF7VY6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310020910.TaSOIepO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310021001.vViF7VY6-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/nvme/target/io-cmd-bdev.c:498:30: sparse: sparse: restricted __le16 degrades to integer
->> drivers/nvme/target/io-cmd-bdev.c:514:41: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted blk_status_t [usertype] blk_sts @@     got int [assigned] [usertype] ret @@
-   drivers/nvme/target/io-cmd-bdev.c:514:41: sparse:     expected restricted blk_status_t [usertype] blk_sts
-   drivers/nvme/target/io-cmd-bdev.c:514:41: sparse:     got int [assigned] [usertype] ret
+All warnings (new ones prefixed by >>):
 
-vim +498 drivers/nvme/target/io-cmd-bdev.c
+>> drivers/gpu/drm/adp/adp_drv.c:220:19: warning: no previous prototype for 'adp_plane_new' [-Wmissing-prototypes]
+     220 | struct adp_plane *adp_plane_new(struct adp_drv_private *adp, u8 id)
+         |                   ^~~~~~~~~~~~~
+>> drivers/gpu/drm/adp/adp_drv.c:402:5: warning: no previous prototype for 'adp_detect_ctx' [-Wmissing-prototypes]
+     402 | int adp_detect_ctx(struct drm_connector *connector,
+         |     ^~~~~~~~~~~~~~
 
-   478	
-   479	/*
-   480	 * At present we handle only one range entry, since copy offload is aligned with
-   481	 * copy_file_range, only one entry is passed from block layer.
-   482	 */
-   483	static void nvmet_bdev_execute_copy(struct nvmet_req *rq)
-   484	{
-   485		struct nvme_copy_range range;
-   486		struct nvme_command *cmd = rq->cmd;
-   487		ssize_t ret;
-   488		off_t dst, src;
-   489	
-   490		u16 status;
-   491	
-   492		status = nvmet_copy_from_sgl(rq, 0, &range, sizeof(range));
-   493		if (status)
-   494			goto err_rq_complete;
-   495	
-   496		dst = le64_to_cpu(cmd->copy.sdlba) << rq->ns->blksize_shift;
-   497		src = le64_to_cpu(range.slba) << rq->ns->blksize_shift;
- > 498		rq->copy_len = (range.nlb + 1) << rq->ns->blksize_shift;
-   499	
-   500		if (bdev_max_copy_sectors(rq->ns->bdev)) {
-   501			ret = blkdev_copy_offload(rq->ns->bdev, dst, src, rq->copy_len,
-   502						  nvmet_bdev_copy_endio,
-   503						  (void *)rq, GFP_KERNEL);
-   504		} else {
-   505			ret = blkdev_copy_emulation(rq->ns->bdev, dst,
-   506						    rq->ns->bdev, src, rq->copy_len,
-   507						    nvmet_bdev_copy_endio,
-   508						    (void *)rq, GFP_KERNEL);
-   509		}
-   510		if (ret == -EIOCBQUEUED)
-   511			return;
-   512	
-   513		rq->cqe->result.u32 = cpu_to_le32(0);
- > 514		status = blk_to_nvme_status(rq, ret);
-   515	err_rq_complete:
-   516		nvmet_req_complete(rq, status);
-   517	}
-   518	
+
+vim +/adp_plane_new +220 drivers/gpu/drm/adp/adp_drv.c
+
+   219	
+ > 220	struct adp_plane *adp_plane_new(struct adp_drv_private *adp, u8 id)
+   221	{
+   222		struct drm_device *drm = &adp->drm;
+   223		struct adp_plane *plane;
+   224		enum drm_plane_type plane_type;
+   225	
+   226		plane_type = (id == 0) ? DRM_PLANE_TYPE_PRIMARY :
+   227			DRM_PLANE_TYPE_OVERLAY;
+   228	
+   229		plane = drmm_universal_plane_alloc(drm, struct adp_plane, base_plane,
+   230						   ALL_CRTCS, &adp_plane_funcs,
+   231						   plane_formats, ARRAY_SIZE(plane_formats),
+   232						   NULL, plane_type, "plane %d", id);
+   233		if (!plane) {
+   234			drm_err(drm, "failed to allocate plane");
+   235			return ERR_PTR(-ENOMEM);
+   236		}
+   237		plane->id = id;
+   238	
+   239		drm_plane_helper_add(&plane->base_plane, &adp_plane_helper_funcs);
+   240		return plane;
+   241	}
+   242	
+   243	static void adp_enable_vblank(struct adp_drv_private *adp)
+   244	{
+   245		u32 cur_ctrl;
+   246	
+   247		writel(ADP_INT_STATUS_INT_MASK, adp->fe + ADP_INT_STATUS);
+   248	
+   249		cur_ctrl = readl(adp->fe + ADP_CTRL);
+   250		writel(cur_ctrl | ADP_CTRL_VBLANK_ON, adp->fe + ADP_CTRL);
+   251	}
+   252	
+   253	static int adp_crtc_enable_vblank(struct drm_crtc *crtc)
+   254	{
+   255		struct drm_device *dev = crtc->dev;
+   256		struct adp_drv_private *adp = to_adp(dev);
+   257		adp_enable_vblank(adp);
+   258	
+   259		return 0;
+   260	}
+   261	
+   262	static void adp_disable_vblank(struct adp_drv_private *adp)
+   263	{
+   264		u32 cur_ctrl;
+   265	
+   266		cur_ctrl = readl(adp->fe + ADP_CTRL);
+   267		writel(cur_ctrl & ~ADP_CTRL_VBLANK_ON, adp->fe + ADP_CTRL);
+   268		writel(ADP_INT_STATUS_INT_MASK, adp->fe + ADP_INT_STATUS);
+   269	}
+   270	
+   271	static void adp_crtc_disable_vblank(struct drm_crtc *crtc)
+   272	{
+   273		struct drm_device *dev = crtc->dev;
+   274		struct adp_drv_private *adp = to_adp(dev);
+   275	
+   276		adp_disable_vblank(adp);
+   277	}
+   278	
+   279	
+   280	static void adp_crtc_atomic_enable(struct drm_crtc *crtc,
+   281					   struct drm_atomic_state *state)
+   282	{
+   283		struct adp_drv_private *adp = crtc_to_adp(crtc);
+   284		writel(0x1, adp->be + ADBE_BLEND_EN2);
+   285		writel(0x10, adp->be + ADBE_BLEND_EN1);
+   286		writel(0x1, adp->be + ADBE_BLEND_EN3);
+   287		writel(0x1, adp->be + ADBE_BLEND_BYPASS);
+   288		writel(0x1, adp->be + ADBE_BLEND_EN4);
+   289	}
+   290	
+   291	static void adp_crtc_atomic_disable(struct drm_crtc *crtc,
+   292					    struct drm_atomic_state *state)
+   293	{
+   294		struct adp_drv_private *adp = crtc_to_adp(crtc);
+   295		struct drm_crtc_state *old_state = drm_atomic_get_old_crtc_state(state, crtc);
+   296	
+   297		drm_atomic_helper_disable_planes_on_crtc(old_state, false);
+   298	
+   299		writel(0x0, adp->be + ADBE_BLEND_EN2);
+   300		writel(0x0, adp->be + ADBE_BLEND_EN1);
+   301		writel(0x0, adp->be + ADBE_BLEND_EN3);
+   302		writel(0x0, adp->be + ADBE_BLEND_BYPASS);
+   303		writel(0x0, adp->be + ADBE_BLEND_EN4);
+   304		drm_crtc_vblank_off(crtc);
+   305	}
+   306	
+   307	static void adp_crtc_atomic_flush(struct drm_crtc *crtc,
+   308					  struct drm_atomic_state *state)
+   309	{
+   310		u32 frame_num = 1;
+   311		struct adp_drv_private *adp = crtc_to_adp(crtc);
+   312		struct drm_crtc_state *new_state = drm_atomic_get_new_crtc_state(state, crtc);
+   313		u64 new_size = ALIGN(new_state->mode.hdisplay *
+   314				     new_state->mode.vdisplay * 4, PAGE_SIZE);
+   315	
+   316		if (new_size != adp->mask_buf_size) {
+   317			if (adp->mask_buf)
+   318				dma_free_coherent(crtc->dev->dev, adp->mask_buf_size,
+   319						  adp->mask_buf, adp->mask_iova);
+   320			adp->mask_buf = NULL;
+   321			if (new_size != 0) {
+   322				adp->mask_buf = dma_alloc_coherent(crtc->dev->dev, new_size,
+   323								   &adp->mask_iova, GFP_KERNEL);
+   324				memset(adp->mask_buf, 0xFF, new_size);
+   325				writel(adp->mask_iova, adp->be + ADBE_MASK_BUF);
+   326			}
+   327			adp->mask_buf_size = new_size;
+   328		}
+   329		writel(ADBE_FIFO_SYNC | frame_num, adp->be + ADBE_FIFO);
+   330		//FIXME: use adbe flush interrupt
+   331		spin_lock_irq(&crtc->dev->event_lock);
+   332		if (crtc->state->event) {
+   333			drm_crtc_vblank_get(crtc);
+   334			adp->event = crtc->state->event;
+   335		}
+   336		crtc->state->event = NULL;
+   337		spin_unlock_irq(&crtc->dev->event_lock);
+   338	}
+   339	
+   340	static const struct drm_crtc_funcs adp_crtc_funcs = {
+   341		.destroy = drm_crtc_cleanup,
+   342		.set_config = drm_atomic_helper_set_config,
+   343		.page_flip = drm_atomic_helper_page_flip,
+   344		.reset = drm_atomic_helper_crtc_reset,
+   345		.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
+   346		.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
+   347		.enable_vblank = adp_crtc_enable_vblank,
+   348		.disable_vblank = adp_crtc_disable_vblank,
+   349	};
+   350	
+   351	
+   352	static const struct drm_crtc_helper_funcs adp_crtc_helper_funcs = {
+   353		.atomic_enable = adp_crtc_atomic_enable,
+   354		.atomic_disable = adp_crtc_atomic_disable,
+   355		.atomic_flush = adp_crtc_atomic_flush,
+   356	};
+   357	
+   358	static int adp_setup_crtc(struct adp_drv_private *adp)
+   359	{
+   360		struct drm_device *drm = &adp->drm;
+   361		struct adp_plane *primary;
+   362		int ret;
+   363	
+   364		primary = adp_plane_new(adp, 0);
+   365		if (IS_ERR(primary))
+   366			return PTR_ERR(primary);
+   367	
+   368		ret = drm_crtc_init_with_planes(drm, &adp->crtc, &primary->base_plane,
+   369						NULL, &adp_crtc_funcs, NULL);
+   370		if (ret)
+   371			return ret;
+   372	
+   373		drm_crtc_helper_add(&adp->crtc, &adp_crtc_helper_funcs);
+   374		return 0;
+   375	}
+   376	
+   377	static int adp_get_modes(struct drm_connector *connector)
+   378	{
+   379		struct adp_drv_private *adp = conn_to_adp(connector);
+   380		struct drm_display_mode *mode;
+   381		u32 size;
+   382	
+   383		size = readl(adp->fe + ADP_SCREEN_SIZE);
+   384		mode = drm_mode_create(connector->dev);
+   385	
+   386		mode->vdisplay = size >> 16;
+   387		mode->hdisplay = size & 0xFFFF;
+   388		mode->hsync_start = mode->hdisplay + 8;
+   389		mode->hsync_end = mode->hsync_start + 80;
+   390		mode->htotal = mode->hsync_end + 40;
+   391		mode->vsync_start = mode->vdisplay + 1;
+   392		mode->vsync_end = mode->vsync_start + 15;
+   393		mode->vtotal = mode->vsync_end + 6;
+   394		mode->clock = (mode->vtotal * mode->htotal * 60) / 1000;
+   395		mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+   396		mode->flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC;
+   397		drm_mode_set_name(mode);
+   398		drm_mode_probed_add(connector, mode);
+   399		return 1;
+   400	}
+   401	
+ > 402	int adp_detect_ctx(struct drm_connector *connector,
+   403			   struct drm_modeset_acquire_ctx *ctx,
+   404			   bool force) {
+   405		connector->display_info.non_desktop = true;
+   406		drm_object_property_set_value(&connector->base,
+   407					      connector->dev->mode_config.non_desktop_property,
+   408					      connector->display_info.non_desktop);
+   409		return connector_status_connected;
+   410	}
+   411	
 
 -- 
 0-DAY CI Kernel Test Service
