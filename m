@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F4153EAEA
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 12:56:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8CC171A7
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 13:06:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696251418; x=1727787418;
+  t=1696252019; x=1727788019;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NEgtySKddol7hj/Vb2ZJLXQI+bWqCOfjDC/T42kb3c4=;
-  b=gxhNyn3c4pTg/erTLPxJL2cF4Pj4NXWie7pcVRqTYz+HOMfRsVCPFMLT
-   TVB5KLCMihOnBrJdemXnTUG5jqfCDrqGK1RW34Z+rXE73kCb6lKxEWNo+
-   p7vTbjMe+e5fX5SNpRM+ooKJHZv3SbGaOba8zR1auCsyEWnPH/YyhJap8
-   xDZgU1xBV9xR+yBKOVpOtlR5J3lg39mlbNg2XbY0X+pQnrxKs9GThzIO5
-   Coa6/LwUl0HtXccUd2tPMB3d+CH+GjngPLLLLyxYHBaq6hE4/B3uEfog5
-   KyKqukXrdezVSsC4nGlUmW5yBOjMOBOdfJJRldhyJ9vxW4wrv3PClZNiA
+  bh=AoDvSTG5hs2Ek+adqEq9LzCea8eprTdBWlBcNuBzIgg=;
+  b=nXhOCWidnCn7rNYiM9FlPcmDFPOvc7hdqiUnr/QWGndpJC2kqbS3nSsn
+   JiKhuhxKh+tAbIb7RCpEBJ4OGs++pxc4YvgzPBTkncocJimv3fpmJOEUl
+   ZxzYC4u4zrbzizuE5qrO3w0ffdS9kNOvcBu/Gi+h018NWk+lwOQ6zsqnu
+   eIJdVbFvbRT/Rd7a2Hkbi+7EZB8CX3XayuEpmMtHIm+90S2zAxP9Db31+
+   Nrry2rKOB6Cz650jZk+irX7El33OCCNp8TXm9zLvwglZX1yEygMLps1VU
+   oVjprknWWGQnV0CaY4nN/hiwKy6dn2zoAbxwzCbiSnM5bL8dih1RKECme
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="1217211"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="468913544"
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="1217211"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 05:56:58 -0700
+   d="scan'208";a="468913544"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 06:06:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="744106747"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="779924671"
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="744106747"
+   d="scan'208";a="779924671"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 02 Oct 2023 05:56:56 -0700
+  by orsmga008.jf.intel.com with ESMTP; 02 Oct 2023 06:06:56 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qnITl-00064T-2N;
-	Mon, 02 Oct 2023 12:56:53 +0000
-Date: Mon, 2 Oct 2023 20:56:07 +0800
+	id 1qnIdR-00064v-38;
+	Mon, 02 Oct 2023 13:06:53 +0000
+Date: Mon, 2 Oct 2023 21:06:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-lib 21/34] fs/netfs/crypto.c:89:1: warning: the
- frame size of 1040 bytes is larger than 1024 bytes
-Message-ID: <202310022029.TZTszK58-lkp@intel.com>
+To: Thierry Reding <treding@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Wolfram Sang <wsa-dev@sang-engineering.com>
+Subject: drivers/i2c/busses/i2c-tegra.c:297: warning: Function parameter or
+ member 'dma_dev' not described in 'tegra_i2c_dev'
+Message-ID: <202310022150.mWbrVt3z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,84 +47,107 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-lib
-head:   8b08a7e2d3217f7054808246fc559c867f54a524
-commit: bf516b221db7efc9fed8862b3ebba720c0ff9d79 [21/34] netfs: Perform content encryption
-config: arm-randconfig-004-20231002 (https://download.01.org/0day-ci/archive/20231002/202310022029.TZTszK58-lkp@intel.com/config)
+Hi Thierry,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8a749fd1a8720d4619c91c8b6e7528c0a355c0aa
+commit: cdbf26251d3b35c4ccaea0c3a6de4318f727d3d2 i2c: tegra: Allocate DMA memory for DMA engine
+date:   11 months ago
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20231002/202310022150.mWbrVt3z-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310022029.TZTszK58-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310022150.mWbrVt3z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310022029.TZTszK58-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310022150.mWbrVt3z-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/netfs/crypto.c: In function 'netfs_encrypt':
->> fs/netfs/crypto.c:89:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-      89 | }
-         | ^
+>> drivers/i2c/busses/i2c-tegra.c:297: warning: Function parameter or member 'dma_dev' not described in 'tegra_i2c_dev'
 
 
-vim +89 fs/netfs/crypto.c
+vim +297 drivers/i2c/busses/i2c-tegra.c
 
-    34	
-    35	/*
-    36	 * Prepare a write request for writing.  We encrypt in/into the bounce buffer.
-    37	 */
-    38	bool netfs_encrypt(struct netfs_io_request *wreq)
-    39	{
-    40		struct netfs_inode *ctx = netfs_inode(wreq->inode);
-    41		struct scatterlist source_sg[16], dest_sg[16];
-    42		unsigned int n_dest;
-    43		size_t n, chunk, bsize = 1UL << ctx->crypto_bshift;
-    44		loff_t pos;
-    45		int ret;
-    46	
-    47		_enter("");
-    48	
-    49		trace_netfs_rreq(wreq, netfs_rreq_trace_encrypt);
-    50	
-    51		pos = wreq->start;
-    52		n = wreq->len;
-    53		_debug("ENCRYPT %llx-%llx", pos, pos + n - 1);
-    54	
-    55		for (; n > 0; n -= chunk, pos += chunk) {
-    56			chunk = min(n, bsize);
-    57	
-    58			ret = netfs_iter_to_sglist(&wreq->io_iter, chunk,
-    59						   dest_sg, ARRAY_SIZE(dest_sg));
-    60			if (ret < 0)
-    61				goto error;
-    62			n_dest = ret;
-    63	
-    64			if (test_bit(NETFS_RREQ_CRYPT_IN_PLACE, &wreq->flags)) {
-    65				ret = ctx->ops->encrypt_block(wreq, pos, chunk,
-    66							      dest_sg, n_dest,
-    67							      dest_sg, n_dest);
-    68			} else {
-    69				ret = netfs_iter_to_sglist(&wreq->iter, chunk,
-    70							   source_sg, ARRAY_SIZE(source_sg));
-    71				if (ret < 0)
-    72					goto error;
-    73				ret = ctx->ops->encrypt_block(wreq, pos, chunk,
-    74							      source_sg, ret,
-    75							      dest_sg, n_dest);
-    76			}
-    77	
-    78			if (ret < 0)
-    79				goto error_failed;
-    80		}
-    81	
-    82		return true;
-    83	
-    84	error_failed:
-    85		trace_netfs_failure(wreq, NULL, ret, netfs_fail_encryption);
-    86	error:
-    87		wreq->error = ret;
-    88		return false;
-  > 89	}
+6ad068ed63100f Laxman Dewangan     2012-08-19  228  
+db811ca0f48578 Colin Cross         2011-02-20  229  /**
+c990bbafdb11c6 Thierry Reding      2018-12-17  230   * struct tegra_i2c_dev - per device I2C context
+db811ca0f48578 Colin Cross         2011-02-20  231   * @dev: device reference for power management
+c990bbafdb11c6 Thierry Reding      2018-12-17  232   * @hw: Tegra I2C HW feature
+c990bbafdb11c6 Thierry Reding      2018-12-17  233   * @adapter: core I2C layer adapter information
+c990bbafdb11c6 Thierry Reding      2018-12-17  234   * @div_clk: clock reference for div clock of I2C controller
+586a97d907ac34 Dmitry Osipenko     2020-09-30  235   * @clocks: array of I2C controller clocks
+586a97d907ac34 Dmitry Osipenko     2020-09-30  236   * @nclocks: number of clocks in the array
+0604ee4aefa20f Thierry Reding      2018-12-17  237   * @rst: reset control for the I2C controller
+db811ca0f48578 Colin Cross         2011-02-20  238   * @base: ioremapped registers cookie
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  239   * @base_phys: physical base address of the I2C controller
+c990bbafdb11c6 Thierry Reding      2018-12-17  240   * @cont_id: I2C controller ID, used for packet header
+c990bbafdb11c6 Thierry Reding      2018-12-17  241   * @irq: IRQ number of transfer complete interrupt
+c990bbafdb11c6 Thierry Reding      2018-12-17  242   * @is_dvc: identifies the DVC I2C controller, has a different register layout
+c73178b93754ed Thierry Reding      2019-06-07  243   * @is_vi: identifies the VI I2C controller, has a different register layout
+db811ca0f48578 Colin Cross         2011-02-20  244   * @msg_complete: transfer completion notifier
+db811ca0f48578 Colin Cross         2011-02-20  245   * @msg_err: error code for completed message
+db811ca0f48578 Colin Cross         2011-02-20  246   * @msg_buf: pointer to current message data
+db811ca0f48578 Colin Cross         2011-02-20  247   * @msg_buf_remaining: size of unsent data in the message buffer
+94a5573f0719cf Dmitry Osipenko     2020-09-30  248   * @msg_read: indicates that the transfer is a read access
+50665d58db052b Akhil R             2021-12-10  249   * @timings: i2c timings information like bus frequency
+a99042e7d9fb5c Dmitry Osipenko     2020-09-30  250   * @multimaster_mode: indicates that I2C controller is in multi-master mode
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  251   * @tx_dma_chan: DMA transmit channel
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  252   * @rx_dma_chan: DMA receive channel
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  253   * @dma_phys: handle to DMA resources
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  254   * @dma_buf: pointer to allocated DMA buffer
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  255   * @dma_buf_size: DMA buffer size
+a99042e7d9fb5c Dmitry Osipenko     2020-09-30  256   * @dma_mode: indicates active DMA transfer
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  257   * @dma_complete: DMA completion notifier
+a99042e7d9fb5c Dmitry Osipenko     2020-09-30  258   * @atomic_mode: indicates active atomic transfer
+db811ca0f48578 Colin Cross         2011-02-20  259   */
+db811ca0f48578 Colin Cross         2011-02-20  260  struct tegra_i2c_dev {
+db811ca0f48578 Colin Cross         2011-02-20  261  	struct device *dev;
+db811ca0f48578 Colin Cross         2011-02-20  262  	struct i2c_adapter adapter;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  263  
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  264  	const struct tegra_i2c_hw_feature *hw;
+dda9d6a8262cb1 Stephen Warren      2013-11-06  265  	struct reset_control *rst;
+f1c2ff98065dce Dmitry Osipenko     2020-09-30  266  	unsigned int cont_id;
+f1c2ff98065dce Dmitry Osipenko     2020-09-30  267  	unsigned int irq;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  268  
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  269  	phys_addr_t base_phys;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  270  	void __iomem *base;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  271  
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  272  	struct clk_bulk_data clocks[2];
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  273  	unsigned int nclocks;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  274  
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  275  	struct clk *div_clk;
+50665d58db052b Akhil R             2021-12-10  276  	struct i2c_timings timings;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  277  
+db811ca0f48578 Colin Cross         2011-02-20  278  	struct completion msg_complete;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  279  	size_t msg_buf_remaining;
+db811ca0f48578 Colin Cross         2011-02-20  280  	int msg_err;
+db811ca0f48578 Colin Cross         2011-02-20  281  	u8 *msg_buf;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  282  
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  283  	struct completion dma_complete;
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  284  	struct dma_chan *tx_dma_chan;
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  285  	struct dma_chan *rx_dma_chan;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  286  	unsigned int dma_buf_size;
+cdbf26251d3b35 Thierry Reding      2022-10-20  287  	struct device *dma_dev;
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  288  	dma_addr_t dma_phys;
+4be62340f3ce62 Dmitry Osipenko     2020-09-30  289  	void *dma_buf;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  290  
+a99042e7d9fb5c Dmitry Osipenko     2020-09-30  291  	bool multimaster_mode;
+a99042e7d9fb5c Dmitry Osipenko     2020-09-30  292  	bool atomic_mode;
+a99042e7d9fb5c Dmitry Osipenko     2020-09-30  293  	bool dma_mode;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  294  	bool msg_read;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  295  	bool is_dvc;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  296  	bool is_vi;
+db811ca0f48578 Colin Cross         2011-02-20 @297  };
+db811ca0f48578 Colin Cross         2011-02-20  298  
+
+:::::: The code at line 297 was first introduced by commit
+:::::: db811ca0f48578f9940f49f284ac81e336b264ad i2c: tegra: Add i2c support
+
+:::::: TO: Colin Cross <ccross@android.com>
+:::::: CC: Ben Dooks <ben-linux@fluff.org>
 
 -- 
 0-DAY CI Kernel Test Service
