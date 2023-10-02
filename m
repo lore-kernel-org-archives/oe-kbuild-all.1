@@ -1,44 +1,36 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143D3200AA
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 22:11:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696284668; x=1727820668;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jYohtFU8RES6+8ZDrhD4Nt//+Ysjkntuw6lqQGH9AXo=;
-  b=WuCfTg87TFDNwIliyKs/Um4I9VFLG1AKbW0dvu+M0ElUJ5CRM5F98xCG
-   SREybHpUsA/l8nuGGoKN+k62OFFOwBOOKrBjl/8Z8GBgjPR90Xetk4JLw
-   qCE/DkowXaGRea3PuLdg9BVuYSTltX2FTK9uZOZd3vMSufwJqjS8LDSE8
-   wMnGgv7rMp4VQIlUfi0ac9/JwEN/qTI3WIMtxLGeQ2VLMIOoX3MRHJ13A
-   OhPRv6WJiS4lZaT6V4JS3Jy6D67+/UBrP0f1cHY7aooSPJWpr9GJ60A3V
-   a2RllDipJfh0CONbIS3eGDajAsBqMnTqP7QJQLKZPqcKZtM2mQLfX7O6q
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="446911140"
-X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="446911140"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 15:10:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="785899065"
-X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="785899065"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 02 Oct 2023 15:10:50 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qnR7o-0006Pt-38;
-	Mon, 02 Oct 2023 22:10:48 +0000
-Date: Tue, 3 Oct 2023 06:10:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rajesh Gugulothu <gugulothu.rajesh@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>, linux-doc@vger.kernel.org
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 609/1370] spdxcheck:
- Documentation/devicetree/bindings/phy/xlnx,v-hmdi-phy1.yaml: 1:58 Invalid
- token: %YAML 1.2
-Message-ID: <202310030624.P3Upx2KM-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F711F170;
+	Mon,  2 Oct 2023 22:50:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04535C433C8;
+	Mon,  2 Oct 2023 22:50:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1696287051;
+	bh=EcTJa+PR680qpcWHsiMUeaqOdORB94EtacTE7leHuW4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a6XxXmRA0+dUcG7H509G8/9uBhjEXxmfyV2Dk4iQaPWMO7ZWyW8eLOTzD2kT+Okr/
+	 sGWS+kPe7FQCpR5zpIez6GqPPKtenghyybtzHt78rPpQt0e6+r0e0JUJO7AyezLfAK
+	 s23w5ZDnE49M5I23U0GVG4WXs2xNexBzh1aV0qtsuqriBtS0KCCvl2AB93bozUVPwZ
+	 Fy3zwa3qHro4ggbtFAC8lqkyZ0sMl3n2Y/GL4FPzTTRsHMS0JAAbjzq+YgyD5ACCgj
+	 SuEz1MLvphmPavk2qiir6nAwuagBo6+44PI92PkCBUoGuNxY2Zj8Pu2/2JMSJZzdvo
+	 pYbvpkenZoHdA==
+Date: Mon, 2 Oct 2023 15:50:48 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
+	kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com,
+	martin.petersen@oracle.com, djwong@kernel.org,
+	viro@zeniv.linux.org.uk, brauner@kernel.org,
+	chandan.babu@oracle.com, dchinner@redhat.com, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	tytso@mit.edu, jbongio@google.com, linux-api@vger.kernel.org
+Subject: Re: [PATCH 09/21] block: Add checks to merging of atomic writes
+Message-ID: <20231002225048.GA558147@dev-arch.thelio-3990X>
+References: <20230929102726.2985188-10-john.g.garry@oracle.com>
+ <202309302100.L6ynQWub-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,21 +39,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202309302100.L6ynQWub-lkp@intel.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
-commit: 814435980dbfe9ca5d9d7a2949f893ae2af26da1 [609/1370] dt: bindings: phy: Documentation for Xilinx HDMI PHY controller
-reproduce: (https://download.01.org/0day-ci/archive/20231003/202310030624.P3Upx2KM-lkp@intel.com/reproduce)
+On Sat, Sep 30, 2023 at 09:40:30PM +0800, kernel test robot wrote:
+> Hi John,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on xfs-linux/for-next]
+> [also build test ERROR on axboe-block/for-next mkp-scsi/for-next jejb-scsi/for-next linus/master v6.6-rc3 next-20230929]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/John-Garry/block-Add-atomic-write-operations-to-request_queue-limits/20230929-184542
+> base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
+> patch link:    https://lore.kernel.org/r/20230929102726.2985188-10-john.g.garry%40oracle.com
+> patch subject: [PATCH 09/21] block: Add checks to merging of atomic writes
+> config: mips-mtx1_defconfig (https://download.01.org/0day-ci/archive/20230930/202309302100.L6ynQWub-lkp@intel.com/config)
+> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309302100.L6ynQWub-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309302100.L6ynQWub-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> ld.lld: error: undefined symbol: __moddi3
+>    >>> referenced by blk-merge.c
+>    >>>               block/blk-merge.o:(ll_back_merge_fn) in archive vmlinux.a
+>    >>> referenced by blk-merge.c
+>    >>>               block/blk-merge.o:(ll_back_merge_fn) in archive vmlinux.a
+>    >>> referenced by blk-merge.c
+>    >>>               block/blk-merge.o:(bio_attempt_front_merge) in archive vmlinux.a
+>    >>> referenced 3 more times
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310030624.P3Upx2KM-lkp@intel.com/
+This does not appear to be clang specific, I can reproduce it with GCC
+12.3.0 and the same configuration target.
 
-dtcheck warnings: (new ones prefixed by >>)
-   drivers/cpufreq/amd-pstate-ut.c: 1:28 Invalid License ID: GPL-1.0-or-later
->> Documentation/devicetree/bindings/phy/xlnx,v-hmdi-phy1.yaml: 1:58 Invalid token: %YAML 1.2
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Nathan
