@@ -1,42 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3CF0A53
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 05:47:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E7EA53
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 05:48:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696225651; x=1727761651;
+  t=1696225711; x=1727761711;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3iJ9IhEU+dJFfSib5G6zxDoE9Bp+GIT/VAYZSUfC/YI=;
-  b=dTLSyKx8XAqdxs9g3BZh23kdMfPvOQcsBOxDypb1u/IByNW3G3F3onXH
-   jWZ16Zaj3y03FnmJfB8xhQCG2YOMa6KJyjvfOhDLlk9FZ60lGixC9RVvR
-   R6zdVq7NGIkajcLWhytUAH2EW67MhlTZh7G3eaXYMBnptIqrPnmMZRYiN
-   16AO4unr++c1jE1t437VeIQX12Tf/h5i/sSPGMkM5aa23LXxFNSV8a5KI
-   L+bOlFyDzmKusJUTichhEhSK3iNN1tZItI+MpAiDsCMOnVIsq9IwjU87V
-   O0NLE8Bv6zNL+w0Kq4bSQ+4+SbF04AeN1QmpoOAyJI4u2lCqaHNYlyYkB
+  bh=J300lc2/XlevYcthNDggpmKzApVBzf8LFhTwZPuoBYY=;
+  b=DbrBx/z44nGV0H1AWw4AYFnlWyMcr2mT3KsKPy9bam98zX83nSG96XpW
+   BGAx69etgy7DK9cj+BRFebVyoPH9pbgdfOwEsg/i38SGm6QKcR/5M+ljS
+   R93fsbE/J8efKKFKOtowMl4K1BFxewZ3U5vWwDq0DdbvBE1a2duBeGQP3
+   QMHLacQtETqPL7NkHa5YD9KjruwjRhhE2g+tze7JBE4D6bIKbMnM1UO2D
+   Liu35lMILkWk/gxlsbWB9De6OIAy28KqJHBpBT8vokZanfEeEv1BUXkt9
+   mF1SpXpJV24HK6EWnxe1xdKwQCDmerVfhfPuuzOnW1+mcpv5rvCaOeu4Z
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="449076057"
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="446742226"
 X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; 
-   d="scan'208";a="449076057"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 22:47:31 -0700
+   d="scan'208";a="446742226"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 22:48:30 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="1081546722"
 X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; 
-   d="scan'208";a="1421087"
+   d="scan'208";a="1081546722"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 01 Oct 2023 22:46:51 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 01 Oct 2023 22:48:29 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qnBmB-0005mz-1W;
-	Mon, 02 Oct 2023 05:47:27 +0000
-Date: Mon, 2 Oct 2023 13:47:26 +0800
+	id 1qnBn9-0005n7-1d;
+	Mon, 02 Oct 2023 05:48:27 +0000
+Date: Mon, 2 Oct 2023 13:47:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: AKASHI Takahiro <takahiro.akashi@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC 2/4] pinctrl: add pinctrl_gpio_get_config()
-Message-ID: <202310021320.gYfm1nLQ-lkp@intel.com>
-References: <20231002021602.260100-3-takahiro.akashi@linaro.org>
+To: Crescent CY Hsieh <crescentcy.hsieh@moxa.com>,
+	gregkh@linuxfoundation.org, jirislaby@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	Crescent CY Hsieh <crescentcy.hsieh@moxa.com>
+Subject: Re: [PATCH 4/4] tty: serial: 8250: Add support for MOXA PCIe boards
+ to switch interface between RS422/RS485
+Message-ID: <202310021306.ewtlC1QY-lkp@intel.com>
+References: <20231002015702.30509-5-crescentcy.hsieh@moxa.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,63 +50,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231002021602.260100-3-takahiro.akashi@linaro.org>
+In-Reply-To: <20231002015702.30509-5-crescentcy.hsieh@moxa.com>
 
-Hi AKASHI,
+Hi Crescent,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linusw-pinctrl/devel]
-[also build test ERROR on linusw-pinctrl/for-next brgl/gpio/for-next robh/for-next linus/master v6.6-rc4 next-20230929]
+[auto build test ERROR on tty/tty-testing]
+[also build test ERROR on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.6-rc4 next-20230929]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/AKASHI-Takahiro/pinctrl-define-PIN_CONFIG_INPUT/20231002-101835
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20231002021602.260100-3-takahiro.akashi%40linaro.org
-patch subject: [RFC 2/4] pinctrl: add pinctrl_gpio_get_config()
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20231002/202310021320.gYfm1nLQ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310021320.gYfm1nLQ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Crescent-CY-Hsieh/tty-serial-8250-Cleanup-MOXA-configurations-in-8250_pci-c/20231002-095945
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20231002015702.30509-5-crescentcy.hsieh%40moxa.com
+patch subject: [PATCH 4/4] tty: serial: 8250: Add support for MOXA PCIe boards to switch interface between RS422/RS485
+config: alpha-defconfig (https://download.01.org/0day-ci/archive/20231002/202310021306.ewtlC1QY-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310021306.ewtlC1QY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310021320.gYfm1nLQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310021306.ewtlC1QY-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/pinctrl/core.c: In function 'pinctrl_gpio_get_config':
->> drivers/pinctrl/core.c:941:15: error: implicit declaration of function 'pin_config_get_for_pin' [-Werror=implicit-function-declaration]
-     941 |         ret = pin_config_get_for_pin(pctldev, pin, config);
-         |               ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   drivers/tty/serial/8250/8250_pci.c: In function 'pci_moxa_setup':
+>> drivers/tty/serial/8250/8250_pci.c:2010:50: error: 'SER_RE422_ENABLED' undeclared (first use in this function); did you mean 'SER_RS422_ENABLED'?
+    2010 |                         port->port.rs485.flags = SER_RE422_ENABLED;
+         |                                                  ^~~~~~~~~~~~~~~~~
+         |                                                  SER_RS422_ENABLED
+   drivers/tty/serial/8250/8250_pci.c:2010:50: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/pin_config_get_for_pin +941 drivers/pinctrl/core.c
+vim +2010 drivers/tty/serial/8250/8250_pci.c
 
-   928	
-   929	int pinctrl_gpio_get_config(unsigned int gpio, unsigned long *config)
-   930	{
-   931		struct pinctrl_gpio_range *range;
-   932		struct pinctrl_dev *pctldev;
-   933		int ret, pin;
-   934	
-   935		ret = pinctrl_get_device_gpio_range(gpio, &pctldev, &range);
-   936		if (ret)
-   937			return ret;
-   938	
-   939		mutex_lock(&pctldev->mutex);
-   940		pin = gpio_to_pin(range, gpio);
- > 941		ret = pin_config_get_for_pin(pctldev, pin, config);
-   942		mutex_unlock(&pctldev->mutex);
-   943	
-   944		return ret;
-   945	}
-   946	EXPORT_SYMBOL_GPL(pinctrl_gpio_get_config);
-   947	
+  1990	
+  1991	static int pci_moxa_setup(struct serial_private *priv,
+  1992				  const struct pciserial_board *board,
+  1993				  struct uart_8250_port *port,
+  1994				  int idx)
+  1995	{
+  1996		struct pci_dev *dev = priv->dev;
+  1997		unsigned short device = dev->device;
+  1998		unsigned int bar = FL_GET_BASE(board->flags);
+  1999		int offset;
+  2000	
+  2001		/*
+  2002		 * For the device IDs of MOXA PCIe boards match the pattern 0x*3** and 0x*1**,
+  2003		 * these boards support switching interface between RS422/RS485 using TIOCSRS485.
+  2004		 */
+  2005		if ((device & 0x0F00) == 0x0100 || (device & 0x0F00) == 0x0300) {
+  2006			port->port.rs485_config = pci_moxa_rs485_config;
+  2007			port->port.rs485_supported = pci_moxa_rs485_supported;
+  2008	
+  2009			if ((device & 0x0F00) == 0x0300)
+> 2010				port->port.rs485.flags = SER_RE422_ENABLED;
+  2011		}
+  2012		if (board->num_ports == 4 && idx == 3)
+  2013			offset = 7 * board->uart_offset;
+  2014		else
+  2015			offset = idx * board->uart_offset;
+  2016	
+  2017		return setup_port(priv, port, bar, offset, 0);
+  2018	}
+  2019	
 
 -- 
 0-DAY CI Kernel Test Service
