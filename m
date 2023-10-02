@@ -1,44 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7662C2C0
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 09:33:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16792D505
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 10:04:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696239235; x=1727775235;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tXhzcRlDo1Bh8wR7BGX7MNKgGcZplPRkZEYCfRMpLBA=;
-  b=PGeXsoch7yLkkZWoR/OTO4nQZvP8v3/BJWvwxknVmItiLbe3tIXj+vUe
-   ZsPUXFRRgU1sxpkyb6+U0SNhkjK37FhC4RjhB6iI92w+Nj+bVh7Lq9xIX
-   9hKr0pPdMmqPQNMaF0yzdJXgEUZqG+6V1XSqtRPUvAggwBMLBbJods8r5
-   p/1chJ5fbW2OQgUMYE4hxAgl7LEsg2kWaofBJHMMeiE9VhS5h23FGft+r
-   sXfElLKn2VS3oESoFmHAqaRVFa27x0w3rk2tVlZRrFCht7fBciWC6wqeW
-   SJFvf9IZ3FWhjOpHXj+S02Baz1pzkPIJM/H+5nU+mfGgxL9Aj0RgrP1BE
+  t=1696241091; x=1727777091;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5D4U+LA+ZgnEx7OwERb3YlJnlwrY5TKHb6buSPufX1M=;
+  b=lrT8SxNw46pJOx0GYta+UX9m46iTl4V5Tpb6GQkLcy2r8tlWbT7MiZwv
+   o06ZO1ujS9zy6ougqo5cZwP2Jf/dilhto1U2Wb1/XvcTKPH/IarWwq3La
+   L4KOJGiVA8Zqtl6U4PMWwr73i2ZBihXIGA6zTbl9kB73/cTw1QW5Ezcx0
+   8DlEqzX3tDALIWGz/RREbQIECssqS3zHT5mcCkTRabZAbUrvgs394FkCZ
+   bzHlNh+myUUd5GwbIqy+QfeT7lXHl2WoaEfjjt9dVLkkif0Rt+qPiPrM5
+   JgEfnbA8flKFwczF05qt6GllWBzYdY9+c/+4810LNepGHwye0WGTL88jM
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="361987248"
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="381497173"
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="361987248"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 02:33:52 -0700
+   d="scan'208";a="381497173"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 03:04:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="997573352"
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="820843587"
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="997573352"
+   d="scan'208";a="820843587"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 02 Oct 2023 02:33:46 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 02 Oct 2023 03:04:45 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qnFJA-0005v7-08;
-	Mon, 02 Oct 2023 09:33:44 +0000
-Date: Mon, 2 Oct 2023 17:32:58 +0800
+	id 1qnFnA-0005w5-2B;
+	Mon, 02 Oct 2023 10:04:44 +0000
+Date: Mon, 2 Oct 2023 18:04:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tony Lindgren <tony@atomide.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: drivers/clocksource/timer-ti-dm.c:82: warning: Function parameter or
- member 'val' not described in 'dmtimer_write'
-Message-ID: <202310021747.wKAwfhnx-lkp@intel.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bastien Nocera <hadess@hadess.net>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Henrik Rydberg <rydberg@bitmath.org>,
+	Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v7 3/4] Input: goodix-berlin - add I2C support for Goodix
+ Berlin Touchscreen IC
+Message-ID: <202310021730.epucKAC1-lkp@intel.com>
+References: <20231002-topic-goodix-berlin-upstream-initial-v7-3-792fb91f5e88@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,64 +57,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231002-topic-goodix-berlin-upstream-initial-v7-3-792fb91f5e88@linaro.org>
 
-Hi Tony,
+Hi Neil,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8a749fd1a8720d4619c91c8b6e7528c0a355c0aa
-commit: 49cd16bb573e43dc2ee64d734b9b545475dbb35f clocksource/drivers/timer-ti-dm: Simplify register writes with dmtimer_write()
-date:   1 year ago
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20231002/202310021747.wKAwfhnx-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310021747.wKAwfhnx-lkp@intel.com/reproduce)
+[auto build test ERROR on 6465e260f48790807eef06b583b38ca9789b6072]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/dt-bindings-input-document-Goodix-Berlin-Touchscreen-IC/20231002-145648
+base:   6465e260f48790807eef06b583b38ca9789b6072
+patch link:    https://lore.kernel.org/r/20231002-topic-goodix-berlin-upstream-initial-v7-3-792fb91f5e88%40linaro.org
+patch subject: [PATCH v7 3/4] Input: goodix-berlin - add I2C support for Goodix Berlin Touchscreen IC
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20231002/202310021730.epucKAC1-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310021730.epucKAC1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310021747.wKAwfhnx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310021730.epucKAC1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/clocksource/timer-ti-dm.c:82: warning: Function parameter or member 'val' not described in 'dmtimer_write'
->> drivers/clocksource/timer-ti-dm.c:82: warning: Excess function parameter 'value' description in 'dmtimer_write'
+   drivers/input/touchscreen/goodix_berlin_core.c: In function 'goodix_berlin_checksum_valid':
+>> drivers/input/touchscreen/goodix_berlin_core.c:50:16: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+      50 |         return FIELD_GET(GOODIX_BERLIN_COOR_DATA_CHECKSUM_MASK, cal_checksum) == r_checksum;
+         |                ^~~~~~~~~
+   drivers/input/touchscreen/goodix_berlin_core.c: In function 'goodix_berlin_get_ic_info':
+>> drivers/input/touchscreen/goodix_berlin_core.c:284:1: warning: the frame size of 1140 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     284 | }
+         | ^
+   cc1: some warnings being treated as errors
 
 
-vim +82 drivers/clocksource/timer-ti-dm.c
+vim +/FIELD_GET +50 drivers/input/touchscreen/goodix_berlin_core.c
 
-41e79b1d458477 Tony Lindgren 2022-04-08  70  
-49cd16bb573e43 Tony Lindgren 2022-08-15  71  /**
-49cd16bb573e43 Tony Lindgren 2022-08-15  72   * dmtimer_write - write timer registers in posted and non-posted mode
-49cd16bb573e43 Tony Lindgren 2022-08-15  73   * @timer:      timer pointer over which write operation is to perform
-49cd16bb573e43 Tony Lindgren 2022-08-15  74   * @reg:        lowest byte holds the register offset
-49cd16bb573e43 Tony Lindgren 2022-08-15  75   * @value:      data to write into the register
-49cd16bb573e43 Tony Lindgren 2022-08-15  76   *
-49cd16bb573e43 Tony Lindgren 2022-08-15  77   * The posted mode bit is encoded in reg. Note that in posted mode, the write
-49cd16bb573e43 Tony Lindgren 2022-08-15  78   * pending bit must be checked. Otherwise a write on a register which has a
-49cd16bb573e43 Tony Lindgren 2022-08-15  79   * pending write will be lost.
-49cd16bb573e43 Tony Lindgren 2022-08-15  80   */
-49cd16bb573e43 Tony Lindgren 2022-08-15  81  static inline void dmtimer_write(struct omap_dm_timer *timer, u32 reg, u32 val)
-41e79b1d458477 Tony Lindgren 2022-04-08 @82  {
-49cd16bb573e43 Tony Lindgren 2022-08-15  83  	u16 wp, offset;
-49cd16bb573e43 Tony Lindgren 2022-08-15  84  
-49cd16bb573e43 Tony Lindgren 2022-08-15  85  	wp = reg >> WPSHIFT;
-49cd16bb573e43 Tony Lindgren 2022-08-15  86  	offset = reg & 0xff;
-49cd16bb573e43 Tony Lindgren 2022-08-15  87  
-49cd16bb573e43 Tony Lindgren 2022-08-15  88  	/* Wait for a possible write pending bit in posted mode */
-49cd16bb573e43 Tony Lindgren 2022-08-15  89  	if (wp && timer->posted)
-49cd16bb573e43 Tony Lindgren 2022-08-15  90  		while (readl_relaxed(timer->pend) & wp)
-41e79b1d458477 Tony Lindgren 2022-04-08  91  			cpu_relax();
-41e79b1d458477 Tony Lindgren 2022-04-08  92  
-49cd16bb573e43 Tony Lindgren 2022-08-15  93  	writel_relaxed(val, timer->func_base + offset);
-41e79b1d458477 Tony Lindgren 2022-04-08  94  }
-41e79b1d458477 Tony Lindgren 2022-04-08  95  
-
-:::::: The code at line 82 was first introduced by commit
-:::::: 41e79b1d458477212d0a880c87622bcaa69ab3ea clocksource/drivers/timer-ti-dm: Move inline functions to driver for am6
-
-:::::: TO: Tony Lindgren <tony@atomide.com>
-:::::: CC: Daniel Lezcano <daniel.lezcano@linaro.org>
+3fd649a6bbd95d Neil Armstrong 2023-10-02  15  
+3fd649a6bbd95d Neil Armstrong 2023-10-02  16  /*
+3fd649a6bbd95d Neil Armstrong 2023-10-02  17   * Goodix "Berlin" Touchscreen ID driver
+3fd649a6bbd95d Neil Armstrong 2023-10-02  18   *
+3fd649a6bbd95d Neil Armstrong 2023-10-02  19   * This driver is distinct from goodix.c since hardware interface
+3fd649a6bbd95d Neil Armstrong 2023-10-02  20   * is different enough to require a new driver.
+3fd649a6bbd95d Neil Armstrong 2023-10-02  21   * None of the register address or data structure are close enough
+3fd649a6bbd95d Neil Armstrong 2023-10-02  22   * to the previous generations.
+3fd649a6bbd95d Neil Armstrong 2023-10-02  23   *
+3fd649a6bbd95d Neil Armstrong 2023-10-02  24   * Currently only handles Multitouch events with already
+3fd649a6bbd95d Neil Armstrong 2023-10-02  25   * programmed firmware and "config" for "Revision D" Berlin IC.
+3fd649a6bbd95d Neil Armstrong 2023-10-02  26   *
+3fd649a6bbd95d Neil Armstrong 2023-10-02  27   * Support is missing for:
+3fd649a6bbd95d Neil Armstrong 2023-10-02  28   * - ESD Management
+3fd649a6bbd95d Neil Armstrong 2023-10-02  29   * - Firmware update/flashing
+3fd649a6bbd95d Neil Armstrong 2023-10-02  30   * - "Config" update/flashing
+3fd649a6bbd95d Neil Armstrong 2023-10-02  31   * - Stylus Events
+3fd649a6bbd95d Neil Armstrong 2023-10-02  32   * - Gesture Events
+3fd649a6bbd95d Neil Armstrong 2023-10-02  33   * - Support for older revisions (A & B)
+3fd649a6bbd95d Neil Armstrong 2023-10-02  34   */
+3fd649a6bbd95d Neil Armstrong 2023-10-02  35  
+3fd649a6bbd95d Neil Armstrong 2023-10-02  36  static bool goodix_berlin_checksum_valid(const u8 *data, int size)
+3fd649a6bbd95d Neil Armstrong 2023-10-02  37  {
+3fd649a6bbd95d Neil Armstrong 2023-10-02  38  	u32 cal_checksum = 0;
+3fd649a6bbd95d Neil Armstrong 2023-10-02  39  	u16 r_checksum;
+3fd649a6bbd95d Neil Armstrong 2023-10-02  40  	u32 i;
+3fd649a6bbd95d Neil Armstrong 2023-10-02  41  
+3fd649a6bbd95d Neil Armstrong 2023-10-02  42  	if (size < GOODIX_BERLIN_COOR_DATA_CHECKSUM_SIZE)
+3fd649a6bbd95d Neil Armstrong 2023-10-02  43  		return false;
+3fd649a6bbd95d Neil Armstrong 2023-10-02  44  
+3fd649a6bbd95d Neil Armstrong 2023-10-02  45  	for (i = 0; i < size - GOODIX_BERLIN_COOR_DATA_CHECKSUM_SIZE; i++)
+3fd649a6bbd95d Neil Armstrong 2023-10-02  46  		cal_checksum += data[i];
+3fd649a6bbd95d Neil Armstrong 2023-10-02  47  
+3fd649a6bbd95d Neil Armstrong 2023-10-02  48  	r_checksum = get_unaligned_le16(&data[i]);
+3fd649a6bbd95d Neil Armstrong 2023-10-02  49  
+3fd649a6bbd95d Neil Armstrong 2023-10-02 @50  	return FIELD_GET(GOODIX_BERLIN_COOR_DATA_CHECKSUM_MASK, cal_checksum) == r_checksum;
+3fd649a6bbd95d Neil Armstrong 2023-10-02  51  }
+3fd649a6bbd95d Neil Armstrong 2023-10-02  52  
 
 -- 
 0-DAY CI Kernel Test Service
