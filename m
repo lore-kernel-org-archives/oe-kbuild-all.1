@@ -1,50 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87AF41DDC3
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 21:29:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143D3200AA
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 22:11:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696282194; x=1727818194;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tQ0+nywVtg5+h0Tn/WFi+kvhkW9yeJ4ztgRkLq0F2Yw=;
-  b=NM0H9GMjZgdj5HFdYNPjCjvnz6evvVoXaA2xVsZUggeaH1Jtbpm0jP/v
-   Ak/tqRw7NQyJpxEhPHzKuPM8nViFnBfdkGr7BonluaEORTVd/OHq85HqG
-   jRTpDaGwYX2w3U7E2015vtNDyOz4GWzVEBTCNx7405IHxXxiei//xaXmH
-   aWDZBnehzVr3vi/3cPmndSfVx3Yd4i9zQljXIKDPAbGmGG77xnbToseqR
-   zLk9GxOU5pNdCf09kJ5Fz9pCc0hHqjCPDT69a3qmZWBPnZvUkjCG0cNHa
-   0HPaYpTKYBbCtri7S8NLMhMNYZ7asTe0q24ZqSHaXgiXAohMauGPiD/EH
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="4308303"
+  t=1696284668; x=1727820668;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jYohtFU8RES6+8ZDrhD4Nt//+Ysjkntuw6lqQGH9AXo=;
+  b=WuCfTg87TFDNwIliyKs/Um4I9VFLG1AKbW0dvu+M0ElUJ5CRM5F98xCG
+   SREybHpUsA/l8nuGGoKN+k62OFFOwBOOKrBjl/8Z8GBgjPR90Xetk4JLw
+   qCE/DkowXaGRea3PuLdg9BVuYSTltX2FTK9uZOZd3vMSufwJqjS8LDSE8
+   wMnGgv7rMp4VQIlUfi0ac9/JwEN/qTI3WIMtxLGeQ2VLMIOoX3MRHJ13A
+   OhPRv6WJiS4lZaT6V4JS3Jy6D67+/UBrP0f1cHY7aooSPJWpr9GJ60A3V
+   a2RllDipJfh0CONbIS3eGDajAsBqMnTqP7QJQLKZPqcKZtM2mQLfX7O6q
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="446911140"
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="4308303"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 14:29:53 -0700
+   d="scan'208";a="446911140"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 15:10:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="816441017"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="785899065"
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="816441017"
+   d="scan'208";a="785899065"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 02 Oct 2023 14:29:50 -0700
+  by orsmga001.jf.intel.com with ESMTP; 02 Oct 2023 15:10:50 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qnQU7-0006OX-3A;
-	Mon, 02 Oct 2023 21:29:47 +0000
-Date: Tue, 3 Oct 2023 05:29:43 +0800
+	id 1qnR7o-0006Pt-38;
+	Mon, 02 Oct 2023 22:10:48 +0000
+Date: Tue, 3 Oct 2023 06:10:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Marchevsky <davemarchevsky@fb.com>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@kernel.org>,
-	Kernel Team <kernel-team@fb.com>,
-	Dave Marchevsky <davemarchevsky@fb.com>,
-	Nathan Slingerland <slinger@meta.com>
-Subject: Re: [PATCH v4 bpf-next 2/3] bpf: Introduce task_vma open-coded
- iterator kfuncs
-Message-ID: <202310030525.R8YDHYsO-lkp@intel.com>
-References: <20231002195341.2940874-3-davemarchevsky@fb.com>
+To: Rajesh Gugulothu <gugulothu.rajesh@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>, linux-doc@vger.kernel.org
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 609/1370] spdxcheck:
+ Documentation/devicetree/bindings/phy/xlnx,v-hmdi-phy1.yaml: 1:58 Invalid
+ token: %YAML 1.2
+Message-ID: <202310030624.P3Upx2KM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,107 +47,20 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231002195341.2940874-3-davemarchevsky@fb.com>
 
-Hi Dave,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Marchevsky/bpf-Don-t-explicitly-emit-BTF-for-struct-btf_iter_num/20231003-035600
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231002195341.2940874-3-davemarchevsky%40fb.com
-patch subject: [PATCH v4 bpf-next 2/3] bpf: Introduce task_vma open-coded iterator kfuncs
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231003/202310030525.R8YDHYsO-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231003/202310030525.R8YDHYsO-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
+head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
+commit: 814435980dbfe9ca5d9d7a2949f893ae2af26da1 [609/1370] dt: bindings: phy: Documentation for Xilinx HDMI PHY controller
+reproduce: (https://download.01.org/0day-ci/archive/20231003/202310030624.P3Upx2KM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310030525.R8YDHYsO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310030624.P3Upx2KM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> kernel/bpf/task_iter.c:827:17: warning: no previous prototype for 'bpf_iter_task_vma_new' [-Wmissing-prototypes]
-     827 | __bpf_kfunc int bpf_iter_task_vma_new(struct bpf_iter_task_vma *it,
-         |                 ^~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/task_iter.c:871:36: warning: no previous prototype for 'bpf_iter_task_vma_next' [-Wmissing-prototypes]
-     871 | __bpf_kfunc struct vm_area_struct *bpf_iter_task_vma_next(struct bpf_iter_task_vma *it)
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/task_iter.c:880:18: warning: no previous prototype for 'bpf_iter_task_vma_destroy' [-Wmissing-prototypes]
-     880 | __bpf_kfunc void bpf_iter_task_vma_destroy(struct bpf_iter_task_vma *it)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/bpf_iter_task_vma_new +827 kernel/bpf/task_iter.c
-
-   826	
- > 827	__bpf_kfunc int bpf_iter_task_vma_new(struct bpf_iter_task_vma *it,
-   828					      struct task_struct *task, u64 addr)
-   829	{
-   830		struct bpf_iter_task_vma_kern *kit = (void *)it;
-   831		bool irq_work_busy = false;
-   832		int err;
-   833	
-   834		BUILD_BUG_ON(sizeof(struct bpf_iter_task_vma_kern) != sizeof(struct bpf_iter_task_vma));
-   835		BUILD_BUG_ON(__alignof__(struct bpf_iter_task_vma_kern) != __alignof__(struct bpf_iter_task_vma));
-   836	
-   837		/* is_iter_reg_valid_uninit guarantees that kit hasn't been initialized
-   838		 * before, so non-NULL kit->data doesn't point to previously
-   839		 * bpf_mem_alloc'd bpf_iter_task_vma_kern_data
-   840		 */
-   841		kit->data = bpf_mem_alloc(&bpf_global_ma, sizeof(struct bpf_iter_task_vma_kern_data));
-   842		if (!kit->data)
-   843			return -ENOMEM;
-   844	
-   845		kit->data->task = get_task_struct(task);
-   846		kit->data->mm = task->mm;
-   847		if (!kit->data->mm) {
-   848			err = -ENOENT;
-   849			goto err_cleanup_iter;
-   850		}
-   851	
-   852		/* kit->data->work == NULL is valid after bpf_mmap_unlock_get_irq_work */
-   853		irq_work_busy = bpf_mmap_unlock_get_irq_work(&kit->data->work);
-   854		if (irq_work_busy || !mmap_read_trylock(kit->data->mm)) {
-   855			err = -EBUSY;
-   856			goto err_cleanup_iter;
-   857		}
-   858	
-   859		vma_iter_init(&kit->data->vmi, kit->data->mm, addr);
-   860		return 0;
-   861	
-   862	err_cleanup_iter:
-   863		if (kit->data->task)
-   864			put_task_struct(kit->data->task);
-   865		bpf_mem_free(&bpf_global_ma, kit->data);
-   866		/* NULL kit->data signals failed bpf_iter_task_vma initialization */
-   867		kit->data = NULL;
-   868		return err;
-   869	}
-   870	
- > 871	__bpf_kfunc struct vm_area_struct *bpf_iter_task_vma_next(struct bpf_iter_task_vma *it)
-   872	{
-   873		struct bpf_iter_task_vma_kern *kit = (void *)it;
-   874	
-   875		if (!kit->data) /* bpf_iter_task_vma_new failed */
-   876			return NULL;
-   877		return vma_next(&kit->data->vmi);
-   878	}
-   879	
- > 880	__bpf_kfunc void bpf_iter_task_vma_destroy(struct bpf_iter_task_vma *it)
-   881	{
-   882		struct bpf_iter_task_vma_kern *kit = (void *)it;
-   883	
-   884		if (kit->data) {
-   885			bpf_mmap_unlock_mm(kit->data->work, kit->data->mm);
-   886			put_task_struct(kit->data->task);
-   887			bpf_mem_free(&bpf_global_ma, kit->data);
-   888		}
-   889	}
-   890	
+dtcheck warnings: (new ones prefixed by >>)
+   drivers/cpufreq/amd-pstate-ut.c: 1:28 Invalid License ID: GPL-1.0-or-later
+>> Documentation/devicetree/bindings/phy/xlnx,v-hmdi-phy1.yaml: 1:58 Invalid token: %YAML 1.2
 
 -- 
 0-DAY CI Kernel Test Service
