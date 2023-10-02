@@ -1,139 +1,110 @@
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03on2067.outbound.protection.outlook.com [40.107.105.67])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881A21FC6;
-	Mon,  2 Oct 2023 14:57:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AKlkUabgcq8GY3gjHDgxowAOwAHUVD+5pJa82TZhFskaSiFrG43QGsINVH1NEOE/xIzxQ4H9xfCqA5cRE+W8LZfohAjAfmkBhr98/c3Xilnx6f2BmFrmUttu4AMKVijxTtZx4+77s6Zo5mayYzRzPsOO12OtGeATJrperTYCf2hTjty0hNCWJb5csW7f9XsxcIBLYDjf6gOHP8chabZn0C1t0UKeJ7wI6DRX1EVZFuR3MOref4C9nlfbNQff0V1BVfpcmmIC0bvknh3vJFCQqeRA8L8SIU2ono6Ew50m4HIhwSgeAfWLMZsHoZ5Rs0TQCsJ4GMKEtXj05Pjo6EEv6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=agg4p5GigpgpJnC3NANg8pARD2qcBdhnIzE5/bQX57g=;
- b=gH8GTVbLhaXB4k5JiTB16DUoXtIADtUtpzHuAKE3Et3f368yJXgULv1DLBX5WvZJgfpsevEsuJOsFvce+v/JJmRA3TfCgfXoeaU1iCZWjF5dtX4lGRj0vFvihiMVn3BTXHZF0YRPV5tXDQx7/8y7j4+jGovzcmMWCfLVhUTpkRGXNnLtv0Ub0UrIadmtgs3IOPRFEKaHMYdvODi8pdrbz4dOsjTkfEAEjIr2LkeZvbHvs5orZVXthR+1kwQoTQWoPhNrhi6jtp3Pc7CO/Qo3dHBMI7lRlB1K/yjoo8yucyuCM1CefqMEBQuZBu303rbLSKolhDoYEx0SH31yyuD/eQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=agg4p5GigpgpJnC3NANg8pARD2qcBdhnIzE5/bQX57g=;
- b=GapmF/aS1DtzXGqijDe323F4zlQlL8yMtv34U8OrYz95CkwY1qKR6whp53XywDxhor4SwE+RMZzABvbUgpbgrzT85VJdOzdxyx4u605Nh9DwlPWYDBNtw8nZSjcFxgvs9AK23tZyu5dMkLxCLRyn4Wn6bgJ3yCaYqI5s1FZ2gG0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB4838.eurprd04.prod.outlook.com (2603:10a6:20b:4::16)
- by AM8PR04MB7986.eurprd04.prod.outlook.com (2603:10a6:20b:245::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Mon, 2 Oct
- 2023 14:57:53 +0000
-Received: from AM6PR04MB4838.eurprd04.prod.outlook.com
- ([fe80::1774:e25f:f99:aca2]) by AM6PR04MB4838.eurprd04.prod.outlook.com
- ([fe80::1774:e25f:f99:aca2%4]) with mapi id 15.20.6813.027; Mon, 2 Oct 2023
- 14:57:52 +0000
-From: Frank Li <Frank.Li@nxp.com>
-To: bhe@redhat.com
-Cc: Frank.Li@nxp.com,
-	arnd@arndb.de,
-	dmaengine@vger.kernel.org,
-	gregkh@linuxfoundation.org,
-	imx@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	rafael@kernel.org,
-	vkoul@kernel.org
-Subject: [PATCH v2 1/1] fs: debugfs: fix build error at powerpc platform
-Date: Mon,  2 Oct 2023 10:57:37 -0400
-Message-Id: <20231002145737.538934-1-Frank.Li@nxp.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0195.namprd13.prod.outlook.com
- (2603:10b6:a03:2c3::20) To AM6PR04MB4838.eurprd04.prod.outlook.com
- (2603:10a6:20b:4::16)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1611C1A721
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 15:20:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696260008; x=1727796008;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ViEnJFsAYC4Sd3hBb8pdkYegu06ey+mxuYeTKl37N9Y=;
+  b=B46kEGwGdwn2wiyot5IKtC6mmTsDY7H7WSqtCrqhuMAUQKxtaa1JDN1k
+   VwI5BgUYAOy0hA6rUDKuiexteLS1acS4kNOq2uKOo33oN6X5JXEafgIq2
+   m4b+/0ujnEfI5SB8wGBbFUXmh8nzoD4ob1QjxnCFJrWPEnUe1WUTXel5x
+   joy+0R4GohDcoQE1gqRIm/JDdotAZe/BYdlehWQ5TCiKuqDklBMPl+ysI
+   Os7KvBFyLYwxX1Pv+FI+TcU3rTenwbNHe2YcRwaT6WCxCIsoKIlJbDBIG
+   chKfkqwu/DuK1wKbwgg0CY7cLEnIHCb3Xs0sv6CFRrtN36YhJfZs29qE8
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="381549813"
+X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
+   d="scan'208";a="381549813"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 08:20:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="744142194"
+X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
+   d="scan'208";a="744142194"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 02 Oct 2023 08:20:02 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qnKiG-00069P-0q;
+	Mon, 02 Oct 2023 15:20:00 +0000
+Date: Mon, 2 Oct 2023 23:19:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rob Herring <robh@kernel.org>, linux-acpi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Hanjun Guo <guohanjun@huawei.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Russell King <linux@armlinux.org.uk>,
+	Frank Rowand <frowand.list@gmail.com>, Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH v2 2/2] amba: bus: Enable compile testing
+Message-ID: <202310022317.qmuYgpwj-lkp@intel.com>
+References: <20231002132635.2595382-2-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6PR04MB4838:EE_|AM8PR04MB7986:EE_
-X-MS-Office365-Filtering-Correlation-Id: d6bfdf01-00c5-4cfe-c8d4-08dbc357f400
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	HbXIUegZPy3wPr+SbMoybK5sT+yNimn4/F5JLehsfFptltuNrLIpumsuPTUDI9tYWJkzWXyRaf0efSQYg/PYRSGOrR3Bn5+fuHoAnYgVZTvIbQUoOWDmgJ7xS4QxOjKxCCTinN9GcwutzzUqYJHjdfh3UxYaVDW1QSl026H65J3nW6kaHtFL/YrP+JcQ5lm1ou0UP1rLuIRHRasYziqbQSjTnY6rJOA7qMkAgCVrPN34DhLaLKyccLn4DGdCgEHWGuopK+r28StCeM6IFRSuuotDBi9+l6TiJmPyoQD6beyQXk5qNrJhuuRIqtTUfSUtfWuTgS08WOsNmbLZ6B8HqSLfIpHRLgXpMWzsqvj669F0lA+ctudx14s/5KsS7O3SLEgz1OtUFLGPkguKm03CObXQn1dxkkqNKqupNwsBt2CL8dPbOGy7KqNQFNi3QUCEEUM4A8Lj0m/mHIuy5SmMkZHhamR7JLLiZ6hZxqVHXGtzKBP72h2UI3V7r2BWyBDszkrwPNba6PuQDK+Z9Em6CbkcOVPv7Y5sJgxw9CVemN64pqeKsWRAOdJ00qM68I4qET750LP5s9pkpWAqYqfjiujNHpJa4LTcTw8UfpZnBB0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB4838.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(366004)(136003)(39860400002)(396003)(230922051799003)(186009)(1800799009)(451199024)(64100799003)(2906002)(7416002)(4744005)(36756003)(86362001)(6512007)(38100700002)(316002)(1076003)(26005)(2616005)(478600001)(52116002)(41300700001)(6666004)(6916009)(4326008)(966005)(6486002)(6506007)(66476007)(38350700002)(8936002)(66946007)(8676002)(83380400001)(66556008)(5660300002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?YMwfuw8fsKFyVkG4Wwmb8e32SCVuntEWBCQxzhQnuJiw2EXDlAqP2YzCY2If?=
- =?us-ascii?Q?cPVpv4BOsaeGbG9Yvt5Xwj6/tSLsnQFz7nhTERzoX/f4dKzYQ20fFxhTJiYZ?=
- =?us-ascii?Q?Smo+sMP+ELovv6oNbtoETPrnpOh2BqXnHHIjAD0TO50BB6aOTvVma8A2Y0FK?=
- =?us-ascii?Q?qT/t98Zllpn++k/h1Vj/r7kAKv5EW4Gar19WI3afmWg8JUktH1BtQygeQV7R?=
- =?us-ascii?Q?Qo56CzyCLw6YpBAEXupQNFAr/SXyXkXtdBlJhZP7VSCMxgfGzwOoBbLoYPf7?=
- =?us-ascii?Q?AkwjEB53t9eK8WqqJBoKAFxvTwgpj6SU/DjR4eBSH3MNvSZui4B3bUbl0qkc?=
- =?us-ascii?Q?lsUZZaCMrPQkNN6y7USujAsgBV1s+jkWy9ZDqdTMrPlR5o4T4HNdtcf2YEKb?=
- =?us-ascii?Q?YlCPAPYwvAMR11xAGBfMvTn5IBogSXCT2tmt5BDohvWssxdMxUVnuG2NHdXb?=
- =?us-ascii?Q?EAAm6zXvMRHIo8xNEwUNJ9HaRqB93Gvtwfh9ay7KwvA8FkCNZIlYWf7aoeMU?=
- =?us-ascii?Q?jvEuaM0EANSVHPxltT6fSgZXznKRZxVoes679v3Ybhfi7mKE6Y3x4EMFfDtZ?=
- =?us-ascii?Q?YC2S2Nk1yyWVKWWeNJwSqAWvgpGh8BfQe7WDQUoaISOWFe8ThxqZ9/t6dWuq?=
- =?us-ascii?Q?6m0BzqWdJ0MJqb19NJRAHrIIKo3nBRI2Xi2uDhMdaqsDBlDmh8pvIypa+Edu?=
- =?us-ascii?Q?MlnmvUNqRTbg/9MLaEZjdswUEgMhtcaZX+qeHnSVB2ZrFe9+UEPdCqHTECWK?=
- =?us-ascii?Q?dgYc0yvAbSx559agq2BjDFnKRlBOtIuvCCrXUgbAX4bVeOX0FCqgTV6qjBgc?=
- =?us-ascii?Q?6KBrFOw1Cx0tNkqKwiNcKYLNBNrdOuYzdzdXfzV824eVoZvGPVQbGtv33ssC?=
- =?us-ascii?Q?EESLb0U024+oimKqtUOtDmfiTKqZJ/NQquj+91KmgXleYeC2QCad6zDsH0sK?=
- =?us-ascii?Q?GNMvf1LX3QVLmBNjjkLZNIrtPcS75/k8beeQcC+OKA/WpLTrsztU+nfY78PP?=
- =?us-ascii?Q?Xs5/fDZH+D+pOlJtfUeSsOrLFJFpzHRU3JUjbz37CE0o+Ym8EOkQaENVNfa4?=
- =?us-ascii?Q?RzV6sPRGMoFD46ZzmJu1NXizrCq/+0NgcpsRclMQJMo6S5XY2Ft5ll570ok3?=
- =?us-ascii?Q?AScsc2TfNq+kYogq+hABGF+SLEEy1xHbrQx3EJOvCtqdX+NdDgmkzKy4nBZR?=
- =?us-ascii?Q?AX935CIfdENCnblJasR1zn02ByE0x4bOQeOXMZ61y0hIFIqT6cUwrC4PT0G8?=
- =?us-ascii?Q?FlQUTtUbRgtYco5aooo0pWzyNGNH7/Kf1NXVGRPABMlXHUMAfmDYpNOWWWvn?=
- =?us-ascii?Q?dXpwRzAZL/MsHSwKBn4WlFMmOqatxNPl1GM9mkykAYVxZf1a1t9SUwqj9UDc?=
- =?us-ascii?Q?KjmdUf4vsnSEsQo7gsy/ST/XAlC01RBmry9EAQ5YXsHP9SOxSbPHVRP77QRF?=
- =?us-ascii?Q?ELXE4QYr1P3rFp64WG/J0HQbmeO3PxhwJCQw0wRpdzoCBDTzS0A9s0CmZZ8/?=
- =?us-ascii?Q?ar9LsqSgkRRccxOrenhwwa3ANp3V+aGtG4zrs+dXKW++9q4/Yqs5xXXCY4hh?=
- =?us-ascii?Q?HWwfrsSYEe+x56nEVq4=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d6bfdf01-00c5-4cfe-c8d4-08dbc357f400
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB4838.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2023 14:57:52.9151
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HbRXADmWevK3rNyi8cB/yFsSL01NMJDGpQ5kioKPRIWLDOzdUOEGGbwzQJV8cc/1haaIyrdfbFAIT1H09C6t4g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7986
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231002132635.2595382-2-andriy.shevchenko@linux.intel.com>
 
-   ld: fs/debugfs/file.o: in function `debugfs_print_regs':
-   file.c:(.text+0x95a): undefined reference to `ioread64be'
->> ld: file.c:(.text+0x9dd): undefined reference to `ioread64'
+Hi Andy,
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202309291322.3pZiyosI-lkp@intel.com/
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
----
+kernel test robot noticed the following build errors:
 
-Notes:
-    Change from v1 to v2
-    - fixed it by #include <linux/io-64-nonatomic-hi-lo.h>
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on robh/for-next soc/for-next linus/master v6.6-rc4 next-20230929]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
- fs/debugfs/file.c | 1 +
- 1 file changed, 1 insertion(+)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/amba-bus-Enable-compile-testing/20231002-213425
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20231002132635.2595382-2-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v2 2/2] amba: bus: Enable compile testing
+config: powerpc-randconfig-002-20231002 (attached as .config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310022317.qmuYgpwj-lkp@intel.com/reproduce)
 
-diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
-index 5b8d4fd7c747..ca6208c49339 100644
---- a/fs/debugfs/file.c
-+++ b/fs/debugfs/file.c
-@@ -15,6 +15,7 @@
- #include <linux/pagemap.h>
- #include <linux/debugfs.h>
- #include <linux/io.h>
-+#include <linux/io-64-nonatomic-hi-lo.h>
- #include <linux/slab.h>
- #include <linux/atomic.h>
- #include <linux/device.h>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310022317.qmuYgpwj-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/amba/Kconfig:4: syntax error
+   drivers/amba/Kconfig:3: invalid statement
+   make[3]: *** [scripts/kconfig/Makefile:77: oldconfig] Error 1 shuffle=3457451660
+   make[2]: *** [Makefile:697: oldconfig] Error 2 shuffle=3457451660
+   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=3457451660
+   make[1]: Target 'oldconfig' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2 shuffle=3457451660
+   make: Target 'oldconfig' not remade because of errors.
+--
+>> drivers/amba/Kconfig:4: syntax error
+   drivers/amba/Kconfig:3: invalid statement
+   make[3]: *** [scripts/kconfig/Makefile:77: olddefconfig] Error 1 shuffle=3457451660
+   make[2]: *** [Makefile:697: olddefconfig] Error 2 shuffle=3457451660
+   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=3457451660
+   make[1]: Target 'olddefconfig' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2 shuffle=3457451660
+   make: Target 'olddefconfig' not remade because of errors.
+
+
+vim +4 drivers/amba/Kconfig
+
+bd968d59ad1bf0 Thierry Reding 2014-07-29 @4  
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
