@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55532CA69
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 10:24:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734AEEAD4
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 11:42:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696242288; x=1727778288;
+  t=1696246973; x=1727782973;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZdCKscSqF5q2jG6/3MMBgpDg1VRd6fbXyMEO74FeRfc=;
-  b=UMjc+wPs3CeWTMsAf113WkpbyIWRACxifUtyKHVm0D4P68Z4EtUNyTrU
-   Ur4TySikoSIrWNJ+kA/18LxJU81aZQcsrtqpo+06Sm9hPUviSfRfMu+j9
-   MuvZ8fgLEzQX0Wul4oxOjJT4opO6kGs+PGF94Cfzx3ngTu2eghumfWA8A
-   d/3nzjBntuXKIovunxD1gvxDY1HElOr/gRjLNiJYoQRRDuheZaB6jN8q6
-   n0b5n0ihTOd1H+zcS1eFdSDzdTOPrMEOHDdWs/xFNLEgemwj4/0y1XFF3
-   +wC9C/FQe2ACfXaVGJnBJa0gfROve56raKxr9jMv+tWhLfbcFvuS+rBdS
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="372965534"
+  bh=m9mE8NH7u2Rse4DbyyyqUn4RrCYgKc6Jbl5K35i1so0=;
+  b=EnWLv4xM2127XEimj59PDBN+Dq41us1PE8gHZQfxvNnWxWEDraLbjYnm
+   KFUQhT6F4/gp+6sgU811UlSNg5FXovrcV2qZXzoNun/8XQTQlLNqatKyz
+   ksa3+kunWwiINmknb0edA4SImdWTAd0o4IcMHM3xRzShcvB3BPxBHSKOT
+   ePxPSY9/31JKV2LwNv/EzD7cXiqHW7+QOxFxJGYqW+jLgFvJymeIXxsEW
+   Tp8Ed6VS26NFNKAc12FGp6JKGOm40Ev3yBw0CVdUYJ1mSRuoGg6CSK1MP
+   lUtaOPcGVHjPIISmbQGPUuebmW4W2ivDOArZwkEOc5LXBUwUp4UQ8QqxK
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="379902239"
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="372965534"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 03:24:47 -0700
+   d="scan'208";a="379902239"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 04:42:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="754013903"
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="754013903"
+   d="scan'208";a="1508264"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 02 Oct 2023 03:24:47 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 02 Oct 2023 04:42:53 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qnG6X-0005wp-0V;
-	Mon, 02 Oct 2023 10:24:45 +0000
-Date: Mon, 2 Oct 2023 18:24:25 +0800
+	id 1qnHK4-00061X-0L;
+	Mon, 02 Oct 2023 11:42:48 +0000
+Date: Mon, 2 Oct 2023 19:42:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tomas Winkler <tomas.winkler@intel.com>
+To: Tony Lindgren <tony@atomide.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Alexander Usyskin <alexander.usyskin@intel.com>
-Subject: drivers/mtd/maps/vmu-flash.c:722:24: error: 'struct mtd_info' has no
- member named 'usecount'
-Message-ID: <202310021816.G41lF9xc-lkp@intel.com>
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Subject: drivers/clocksource/timer-ti-dm.c:947: warning: Function parameter
+ or member 'cookie' not described in 'omap_dm_timer_set_int_disable'
+Message-ID: <202310021902.Uqcr69hR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,119 +47,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Tony,
+
+FYI, the error/warning still remains.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   8a749fd1a8720d4619c91c8b6e7528c0a355c0aa
-commit: 19bfa9ebebb5ec0695def57eb1d80de7e9cab369 mtd: use refcount to prevent corruption
-date:   3 months ago
-config: sh-randconfig-c034-20221009 (https://download.01.org/0day-ci/archive/20231002/202310021816.G41lF9xc-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310021816.G41lF9xc-lkp@intel.com/reproduce)
+commit: a6e543f61531b63bfc8d43053c6ec6f65117f627 clocksource/drivers/timer-ti-dm: Move struct omap_dm_timer fields to driver
+date:   1 year ago
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20231002/202310021902.Uqcr69hR-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310021902.Uqcr69hR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310021816.G41lF9xc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310021902.Uqcr69hR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/mtd/maps/vmu-flash.c:12:
-   include/linux/maple.h:81:23: error: field 'dev' has incomplete type
-      81 |         struct device dev;
-         |                       ^~~
-   include/linux/maple.h:86:30: error: field 'drv' has incomplete type
-      86 |         struct device_driver drv;
-         |                              ^~~
-   drivers/mtd/maps/vmu-flash.c: In function 'vmu_can_unload':
->> drivers/mtd/maps/vmu-flash.c:722:24: error: 'struct mtd_info' has no member named 'usecount'
-     722 |                 if (mtd->usecount > 0)
-         |                        ^~
-   In file included from include/linux/init.h:5,
-                    from drivers/mtd/maps/vmu-flash.c:8:
-   drivers/mtd/maps/vmu-flash.c: In function 'probe_maple_vmu':
-   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
-     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/maple.h:100:25: note: in expansion of macro 'container_of'
-     100 | #define to_maple_dev(n) container_of(n, struct maple_device, dev)
-         |                         ^~~~~~~~~~~~
-   drivers/mtd/maps/vmu-flash.c:775:37: note: in expansion of macro 'to_maple_dev'
-     775 |         struct maple_device *mdev = to_maple_dev(dev);
-         |                                     ^~~~~~~~~~~~
-   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
-     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/maple.h:101:28: note: in expansion of macro 'container_of'
-     101 | #define to_maple_driver(n) container_of(n, struct maple_driver, drv)
-         |                            ^~~~~~~~~~~~
-   drivers/mtd/maps/vmu-flash.c:776:37: note: in expansion of macro 'to_maple_driver'
-     776 |         struct maple_driver *mdrv = to_maple_driver(dev->driver);
-         |                                     ^~~~~~~~~~~~~~~
-   drivers/mtd/maps/vmu-flash.c: In function 'remove_maple_vmu':
-   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
-     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/maple.h:100:25: note: in expansion of macro 'container_of'
-     100 | #define to_maple_dev(n) container_of(n, struct maple_device, dev)
-         |                         ^~~~~~~~~~~~
-   drivers/mtd/maps/vmu-flash.c:787:37: note: in expansion of macro 'to_maple_dev'
-     787 |         struct maple_device *mdev = to_maple_dev(dev);
-         |                                     ^~~~~~~~~~~~
+   drivers/clocksource/timer-ti-dm.c:191: warning: Function parameter or member 'val' not described in 'dmtimer_write'
+   drivers/clocksource/timer-ti-dm.c:191: warning: Excess function parameter 'value' description in 'dmtimer_write'
+>> drivers/clocksource/timer-ti-dm.c:947: warning: Function parameter or member 'cookie' not described in 'omap_dm_timer_set_int_disable'
+>> drivers/clocksource/timer-ti-dm.c:947: warning: Excess function parameter 'timer' description in 'omap_dm_timer_set_int_disable'
 
 
-vim +722 drivers/mtd/maps/vmu-flash.c
+vim +947 drivers/clocksource/timer-ti-dm.c
 
-47a72688fae729 Adrian McMenamin 2009-03-04  709  
-47a72688fae729 Adrian McMenamin 2009-03-04  710  /* Callback to handle eccentricities of both mtd subsystem
-47a72688fae729 Adrian McMenamin 2009-03-04  711   * and general flakyness of Dreamcast VMUs
-47a72688fae729 Adrian McMenamin 2009-03-04  712   */
-47a72688fae729 Adrian McMenamin 2009-03-04  713  static int vmu_can_unload(struct maple_device *mdev)
-47a72688fae729 Adrian McMenamin 2009-03-04  714  {
-47a72688fae729 Adrian McMenamin 2009-03-04  715  	struct memcard *card;
-47a72688fae729 Adrian McMenamin 2009-03-04  716  	int x;
-47a72688fae729 Adrian McMenamin 2009-03-04  717  	struct mtd_info *mtd;
-47a72688fae729 Adrian McMenamin 2009-03-04  718  
-47a72688fae729 Adrian McMenamin 2009-03-04  719  	card = maple_get_drvdata(mdev);
-47a72688fae729 Adrian McMenamin 2009-03-04  720  	for (x = 0; x < card->partitions; x++) {
-47a72688fae729 Adrian McMenamin 2009-03-04  721  		mtd = &((card->mtd)[x]);
-47a72688fae729 Adrian McMenamin 2009-03-04 @722  		if (mtd->usecount > 0)
-47a72688fae729 Adrian McMenamin 2009-03-04  723  			return 0;
-47a72688fae729 Adrian McMenamin 2009-03-04  724  	}
-47a72688fae729 Adrian McMenamin 2009-03-04  725  	return 1;
-47a72688fae729 Adrian McMenamin 2009-03-04  726  }
-47a72688fae729 Adrian McMenamin 2009-03-04  727  
+92105bb70634ab arch/arm/plat-omap/dmtimer.c      Tony Lindgren 2005-09-07  938  
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  939  /**
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  940   * omap_dm_timer_set_int_disable - disable timer interrupts
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  941   * @timer:	pointer to timer handle
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  942   * @mask:	bit mask of interrupts to be disabled
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  943   *
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  944   * Disables the specified timer interrupts for a timer.
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  945   */
+a6e543f61531b6 drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  946  static int omap_dm_timer_set_int_disable(struct omap_dm_timer *cookie, u32 mask)
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13 @947  {
+a6e543f61531b6 drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  948  	struct dmtimer *timer;
+bd351f1aee21ca drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  949  	struct device *dev;
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  950  	u32 l = mask;
+bd351f1aee21ca drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  951  	int rc;
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  952  
+a6e543f61531b6 drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  953  	timer = to_dmtimer(cookie);
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  954  	if (unlikely(!timer))
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  955  		return -EINVAL;
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  956  
+bd351f1aee21ca drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  957  	dev = &timer->pdev->dev;
+bd351f1aee21ca drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  958  	rc = pm_runtime_resume_and_get(dev);
+bd351f1aee21ca drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  959  	if (rc)
+bd351f1aee21ca drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  960  		return rc;
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  961  
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  962  	if (timer->revision == 1)
+f32bdac10cb5f4 drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  963  		l = dmtimer_read(timer, timer->irq_ena) & ~mask;
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  964  
+f32bdac10cb5f4 drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  965  	dmtimer_write(timer, timer->irq_dis, l);
+90c9aada19606a drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  966  	l = dmtimer_read(timer, OMAP_TIMER_WAKEUP_EN_REG) & ~mask;
+49cd16bb573e43 drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  967  	dmtimer_write(timer, OMAP_TIMER_WAKEUP_EN_REG, l);
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  968  
+bd351f1aee21ca drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  969  	pm_runtime_put_sync(dev);
+bd351f1aee21ca drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  970  
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  971  	return 0;
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  972  }
+4249d96ca35a76 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  973  
 
-:::::: The code at line 722 was first introduced by commit
-:::::: 47a72688fae7298e1ad5fdc9bff7e04b6a549620 mtd: flash mapping support for Dreamcast VMU.
+:::::: The code at line 947 was first introduced by commit
+:::::: 4249d96ca35a765c25a70b7d29df5b6d80987c7f ARM: OMAP: Add dmtimer interrupt disable function
 
-:::::: TO: Adrian McMenamin <adrian@newgolddream.dyndns.info>
-:::::: CC: Paul Mundt <lethal@linux-sh.org>
+:::::: TO: Jon Hunter <jon-hunter@ti.com>
+:::::: CC: Jon Hunter <jon-hunter@ti.com>
 
 -- 
 0-DAY CI Kernel Test Service
