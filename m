@@ -1,52 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1611C1A721
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 15:20:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D751BDDC;
+	Mon,  2 Oct 2023 15:20:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696260008; x=1727796008;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ViEnJFsAYC4Sd3hBb8pdkYegu06ey+mxuYeTKl37N9Y=;
-  b=B46kEGwGdwn2wiyot5IKtC6mmTsDY7H7WSqtCrqhuMAUQKxtaa1JDN1k
-   VwI5BgUYAOy0hA6rUDKuiexteLS1acS4kNOq2uKOo33oN6X5JXEafgIq2
-   m4b+/0ujnEfI5SB8wGBbFUXmh8nzoD4ob1QjxnCFJrWPEnUe1WUTXel5x
-   joy+0R4GohDcoQE1gqRIm/JDdotAZe/BYdlehWQ5TCiKuqDklBMPl+ysI
-   Os7KvBFyLYwxX1Pv+FI+TcU3rTenwbNHe2YcRwaT6WCxCIsoKIlJbDBIG
-   chKfkqwu/DuK1wKbwgg0CY7cLEnIHCb3Xs0sv6CFRrtN36YhJfZs29qE8
+  t=1696260027; x=1727796027;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KlsCi2P6EbATloKuzNprfWLLxWroXZS57++I5ObNBHc=;
+  b=ZNs/MJ0SfwFflWPkwmTDLWpqXyXlliq8ZhmPm4INtiiJiyQQfrokVI3m
+   r7hZaCaA0rmwuQB5FGjFXFif7T5Ra2IHQR0BidP5QO4snixf+ypp/ucrb
+   F0hHq7uHcU89B9NYFqkwwSQVfwqi3iuxL46pVhqFmfRLM7IT6z/u6Td8C
+   m6/0zwgANtVsKRu5tPFya4haWVysefnSkumfKYTRWRc+IcSolWittTthO
+   FPwT233RpM6FVf9Vm57iiPFa4vhRKAsjvaTUGfFkat+1nZmSjJZIsZqWQ
+   vBWmH6qxwGFoE1i/RLtPr6Si7Dnua4sj7rGJQBhEkjMLFEMcswtTU1Md9
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="381549813"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="362037519"
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="381549813"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 08:20:06 -0700
+   d="scan'208";a="362037519"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 08:20:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="744142194"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="785806162"
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="744142194"
+   d="scan'208";a="785806162"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 02 Oct 2023 08:20:02 -0700
+  by orsmga001.jf.intel.com with ESMTP; 02 Oct 2023 08:20:01 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qnKiG-00069P-0q;
+	id 1qnKiG-00069J-0V;
 	Mon, 02 Oct 2023 15:20:00 +0000
-Date: Mon, 2 Oct 2023 23:19:05 +0800
+Date: Mon, 2 Oct 2023 23:19:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rob Herring <robh@kernel.org>, linux-acpi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Hanjun Guo <guohanjun@huawei.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Russell King <linux@armlinux.org.uk>,
-	Frank Rowand <frowand.list@gmail.com>, Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v2 2/2] amba: bus: Enable compile testing
-Message-ID: <202310022317.qmuYgpwj-lkp@intel.com>
-References: <20231002132635.2595382-2-andriy.shevchenko@linux.intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-lib 25/34] fs/netfs/io.c:871:6: warning: variable
+ 'ret' is used uninitialized whenever 'if' condition is true
+Message-ID: <202310022348.lsNkvm7R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,55 +45,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231002132635.2595382-2-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on robh/for-next soc/for-next linus/master v6.6-rc4 next-20230929]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/amba-bus-Enable-compile-testing/20231002-213425
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20231002132635.2595382-2-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v2 2/2] amba: bus: Enable compile testing
-config: powerpc-randconfig-002-20231002 (attached as .config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310022317.qmuYgpwj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-lib
+head:   8b08a7e2d3217f7054808246fc559c867f54a524
+commit: 051a41b875d04f931d3416d7b15e4cd3f6ba4edb [25/34] netfs: Implement DIO write support
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231002/202310022348.lsNkvm7R-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310022348.lsNkvm7R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310022317.qmuYgpwj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310022348.lsNkvm7R-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/amba/Kconfig:4: syntax error
-   drivers/amba/Kconfig:3: invalid statement
-   make[3]: *** [scripts/kconfig/Makefile:77: oldconfig] Error 1 shuffle=3457451660
-   make[2]: *** [Makefile:697: oldconfig] Error 2 shuffle=3457451660
-   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=3457451660
-   make[1]: Target 'oldconfig' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2 shuffle=3457451660
-   make: Target 'oldconfig' not remade because of errors.
---
->> drivers/amba/Kconfig:4: syntax error
-   drivers/amba/Kconfig:3: invalid statement
-   make[3]: *** [scripts/kconfig/Makefile:77: olddefconfig] Error 1 shuffle=3457451660
-   make[2]: *** [Makefile:697: olddefconfig] Error 2 shuffle=3457451660
-   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=3457451660
-   make[1]: Target 'olddefconfig' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2 shuffle=3457451660
-   make: Target 'olddefconfig' not remade because of errors.
+>> fs/netfs/io.c:871:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (len2 && !netfs_rmw_read_one(rreq, start2, len2))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/netfs/io.c:898:9: note: uninitialized use occurs here
+           return ret;
+                  ^~~
+   fs/netfs/io.c:871:2: note: remove the 'if' if its condition is always false
+           if (len2 && !netfs_rmw_read_one(rreq, start2, len2))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/netfs/io.c:869:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (len1 && !netfs_rmw_read_one(rreq, start1, len1))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/netfs/io.c:898:9: note: uninitialized use occurs here
+           return ret;
+                  ^~~
+   fs/netfs/io.c:869:2: note: remove the 'if' if its condition is always false
+           if (len1 && !netfs_rmw_read_one(rreq, start1, len1))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/netfs/io.c:849:13: note: initialize the variable 'ret' to silence this warning
+           ssize_t ret;
+                      ^
+                       = 0
+   2 warnings generated.
 
 
-vim +4 drivers/amba/Kconfig
+vim +871 fs/netfs/io.c
 
-bd968d59ad1bf0 Thierry Reding 2014-07-29 @4  
+   837	
+   838	/*
+   839	 * Begin the process of reading in one or two chunks of data for use by
+   840	 * unbuffered write to perform an RMW cycle.  We don't read directly into the
+   841	 * write buffer as this may get called to redo the read in the case that a
+   842	 * conditional write fails due to conflicting 3rd-party modifications.
+   843	 */
+   844	ssize_t netfs_rmw_read(struct netfs_io_request *wreq, struct file *file,
+   845			       unsigned long long start1, size_t len1,
+   846			       unsigned long long start2, size_t len2)
+   847	{
+   848		struct netfs_io_request *rreq;
+   849		ssize_t ret;
+   850	
+   851		_enter("RMW:R=%x %llx-%llx %llx-%llx",
+   852		       rreq->debug_id, start1, start1 + len1 - 1, start2, start2 + len2 - 1);
+   853	
+   854		rreq = netfs_alloc_request(wreq->mapping, file,
+   855					   start1, start2 - start1 + len2, NETFS_RMW_READ);
+   856		if (IS_ERR(rreq))
+   857			return PTR_ERR(rreq);
+   858	
+   859		INIT_WORK(&rreq->work, netfs_rreq_work);
+   860	
+   861		rreq->iter = wreq->io_iter;
+   862		__set_bit(NETFS_RREQ_CRYPT_IN_PLACE, &rreq->flags);
+   863		__set_bit(NETFS_RREQ_USE_BOUNCE_BUFFER, &rreq->flags);
+   864	
+   865		/* Chop the reads into slices according to what the netfs wants and
+   866		 * submit each one.
+   867		 */
+   868		atomic_set(&rreq->nr_outstanding, 1);
+   869		if (len1 && !netfs_rmw_read_one(rreq, start1, len1))
+   870			goto out;
+ > 871		if (len2 && !netfs_rmw_read_one(rreq, start2, len2))
 
 -- 
 0-DAY CI Kernel Test Service
