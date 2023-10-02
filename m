@@ -1,50 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B4D63B
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 15:41:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3561B263
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 16:12:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696261268; x=1727797268;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SDh69gAchoeUmTBcUVCtw20M7uUtrPDrCXD7/sO8i4g=;
-  b=ISQPUMX2AoUaGoLcf7rEwNrk8NLRJwVztuQ9CiZ91PeWSbrlejwwdArF
-   AhJklZaquR4y1F/pgIOPiFbAs5i6o+vHoGyebhOBqEAT0uojZD9NpXf/9
-   mPfjC0WcngZuvTUjAvS209SkhKgMLlZgZVTElPdO6ErrSFepioioWQ44I
-   nVdwZwJeEACfLGySUxfsalxTSXlRzuM/Z+WBKw1/FCidy4Q7xv6AteJOv
-   xBl9b9hcDfIyGWSRr7tI2dIjUroNwBSxVCvK2HjT9g+8FIviU8NCA0geB
-   TuSbGht9U0izPV+MFT8gR/a5PJayoRYjibTen/UzE40Vp2qy7htMdNKV7
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="379950223"
+  t=1696263174; x=1727799174;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XYuJs1gYkKcrwM0wELXfJkO3MeL0WTXUO8h7dbadLuY=;
+  b=W91SQFRVsSZziSCBv2dkMlzvGhbzUCqTQu6nnll174UWRVEdWj38Hb8c
+   sXuNn2iuppkQ5H/cJw8yDNeR/Za0g68vCyFM2hmEYSbDJk3Oz8u8dVYrA
+   DHeL9dAcTk6KFjLpujb9tozcfXRMSpPIZrXx2oQfXEW+30ElddiMzTvYn
+   udRkHjQg4CeN0UrXllEjh95q1j089kDKAbAb2HAcLzYR/DrQgp2GLYweM
+   vOrLA2Mis0nRTWh3FyH+EGXRLptCYz5kmiUsmMUsDzr6OKAzlb7xOFgnG
+   tEh5exiDwl0rS9ZlfYFMV/lq2N9esTxdrXv/cabsXc5VyoI6YzZpNCUo0
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="381561967"
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="379950223"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 08:41:06 -0700
+   d="scan'208";a="381561967"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 09:11:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="727314202"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="750641991"
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="727314202"
+   d="scan'208";a="750641991"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 02 Oct 2023 08:41:02 -0700
+  by orsmga002.jf.intel.com with ESMTP; 02 Oct 2023 09:11:07 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qnL2a-0006A9-2D;
-	Mon, 02 Oct 2023 15:41:00 +0000
-Date: Mon, 2 Oct 2023 23:40:08 +0800
+	id 1qnLVg-0006BJ-2S;
+	Mon, 02 Oct 2023 16:11:04 +0000
+Date: Tue, 3 Oct 2023 00:10:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
-	matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
-	sarah.walker@imgtec.com, donald.robson@imgtec.com,
-	boris.brezillon@collabora.com, christian.koenig@amd.com,
-	faith@gfxstrand.net
-Cc: oe-kbuild-all@lists.linux.dev, nouveau@lists.freedesktop.org,
-	Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH drm-misc-next v5 4/6] drm/gpuvm: track/lock/validate
- external/evicted objects
-Message-ID: <202310022331.lPOA8kRt-lkp@intel.com>
-References: <20230928191624.13703-5-dakr@redhat.com>
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-tdx:guest-kexec 1/13] arch/x86/kernel/acpi/boot.c:1302:
+ undefined reference to `acpi_parse_mp_wake'
+Message-ID: <202310030025.Kn90vDBg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,111 +45,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230928191624.13703-5-dakr@redhat.com>
 
-Hi Danilo,
+Hi Kirill,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on a4ead6e37e3290cff399e2598d75e98777b69b37]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-gpuvm-add-common-dma-resv-per-struct-drm_gpuvm/20230929-031831
-base:   a4ead6e37e3290cff399e2598d75e98777b69b37
-patch link:    https://lore.kernel.org/r/20230928191624.13703-5-dakr%40redhat.com
-patch subject: [PATCH drm-misc-next v5 4/6] drm/gpuvm: track/lock/validate external/evicted objects
-reproduce: (https://download.01.org/0day-ci/archive/20231002/202310022331.lPOA8kRt-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/tdx.git guest-kexec
+head:   0f78bb55eb1bd3a27fafb5c404767c402a1cc37f
+commit: f931c67d1bfd1f30fa3491c7387d82dd1235ab73 [1/13] x86/acpi: Extract ACPI MADT wakeup code into a separate file
+config: x86_64-randconfig-005-20231002 (https://download.01.org/0day-ci/archive/20231003/202310030025.Kn90vDBg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231003/202310030025.Kn90vDBg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310022331.lPOA8kRt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310030025.Kn90vDBg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> ./include/drm/drm_gpuvm.h:563: warning: Function parameter or member 'vm_exec' not described in 'drm_gpuvm_exec_unlock'
->> ./include/drm/drm_gpuvm.h:563: warning: expecting prototype for drm_gpuvm_lock(). Prototype was for drm_gpuvm_exec_unlock() instead
->> ./include/drm/drm_gpuvm.h:601: warning: expecting prototype for drm_gpuvm_exec_resv_add_fence(). Prototype was for drm_gpuvm_exec_validate() instead
+   ld: vmlinux.o: in function `acpi_process_madt':
+>> arch/x86/kernel/acpi/boot.c:1302: undefined reference to `acpi_parse_mp_wake'
+>> ld: arch/x86/kernel/acpi/boot.c:1302: undefined reference to `acpi_parse_mp_wake'
 
-vim +563 ./include/drm/drm_gpuvm.h
 
-   527	
-   528	int drm_gpuvm_prepare_objects(struct drm_gpuvm *gpuvm,
-   529				      struct drm_exec *exec,
-   530				      unsigned int num_fences);
-   531	
-   532	int drm_gpuvm_prepare_range(struct drm_gpuvm *gpuvm,
-   533				    struct drm_exec *exec,
-   534				    u64 addr, u64 range,
-   535				    unsigned int num_fences);
-   536	
-   537	int drm_gpuvm_exec_lock(struct drm_gpuvm_exec *vm_exec,
-   538				unsigned int num_fences,
-   539				bool interruptible);
-   540	
-   541	int drm_gpuvm_exec_lock_array(struct drm_gpuvm_exec *vm_exec,
-   542				      struct drm_gem_object **objs,
-   543				      unsigned int num_objs,
-   544				      unsigned int num_fences,
-   545				      bool interruptible);
-   546	
-   547	int drm_gpuvm_exec_lock_range(struct drm_gpuvm_exec *vm_exec,
-   548				      u64 addr, u64 range,
-   549				      unsigned int num_fences,
-   550				      bool interruptible);
-   551	
-   552	/**
-   553	 * drm_gpuvm_lock() - lock all dma-resv of all assoiciated BOs
-   554	 * @gpuvm: the &drm_gpuvm
-   555	 *
-   556	 * Releases all dma-resv locks of all &drm_gem_objects previously acquired
-   557	 * through drm_gpuvm_lock() or its variants.
-   558	 *
-   559	 * Returns: 0 on success, negative error code on failure.
-   560	 */
-   561	static inline void
-   562	drm_gpuvm_exec_unlock(struct drm_gpuvm_exec *vm_exec)
- > 563	{
-   564		drm_exec_fini(&vm_exec->exec);
-   565	}
-   566	
-   567	int drm_gpuvm_validate(struct drm_gpuvm *gpuvm, struct drm_exec *exec);
-   568	void drm_gpuvm_resv_add_fence(struct drm_gpuvm *gpuvm,
-   569				      struct drm_exec *exec,
-   570				      struct dma_fence *fence,
-   571				      enum dma_resv_usage private_usage,
-   572				      enum dma_resv_usage extobj_usage);
-   573	
-   574	/**
-   575	 * drm_gpuvm_exec_resv_add_fence()
-   576	 * @vm_exec: the &drm_gpuvm_exec abstraction
-   577	 * @fence: fence to add
-   578	 * @private_usage: private dma-resv usage
-   579	 * @extobj_usage: extobj dma-resv usage
-   580	 *
-   581	 * See drm_gpuvm_resv_add_fence().
-   582	 */
-   583	static inline void
-   584	drm_gpuvm_exec_resv_add_fence(struct drm_gpuvm_exec *vm_exec,
-   585				      struct dma_fence *fence,
-   586				      enum dma_resv_usage private_usage,
-   587				      enum dma_resv_usage extobj_usage)
-   588	{
-   589		drm_gpuvm_resv_add_fence(vm_exec->vm, &vm_exec->exec, fence,
-   590					 private_usage, extobj_usage);
-   591	}
-   592	
-   593	/**
-   594	 * drm_gpuvm_exec_resv_add_fence()
-   595	 * @vm_exec: the &drm_gpuvm_exec abstraction
-   596	 *
-   597	 * See drm_gpuvm_validate().
-   598	 */
-   599	static inline int
-   600	drm_gpuvm_exec_validate(struct drm_gpuvm_exec *vm_exec)
- > 601	{
-   602		return drm_gpuvm_validate(vm_exec->vm, &vm_exec->exec);
-   603	}
-   604	
+vim +1302 arch/x86/kernel/acpi/boot.c
+
+cbf9bd603ab1fc4 arch/x86/kernel/acpi/boot.c  Yinghai Lu                 2008-02-19  1271  
+4be44fcd3bf648b arch/i386/kernel/acpi/boot.c Len Brown                  2005-08-05  1272  static void __init acpi_process_madt(void)
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1273  {
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1274  #ifdef CONFIG_X86_LOCAL_APIC
+7f8f97c3cc75d57 arch/i386/kernel/acpi/boot.c Len Brown                  2007-02-10  1275  	int error;
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1276  
+7f8f97c3cc75d57 arch/i386/kernel/acpi/boot.c Len Brown                  2007-02-10  1277  	if (!acpi_table_parse(ACPI_SIG_MADT, acpi_parse_madt)) {
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1278  
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1279  		/*
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1280  		 * Parse MADT LAPIC entries
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1281  		 */
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1282  		error = acpi_parse_madt_lapic_entries();
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1283  		if (!error) {
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1284  			acpi_lapic = 1;
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1285  
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1286  			/*
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1287  			 * Parse MADT IO-APIC entries
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1288  			 */
+5da2fd261934330 arch/x86/kernel/acpi/boot.c  Jiang Liu                  2014-11-02  1289  			mutex_lock(&acpi_ioapic_lock);
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1290  			error = acpi_parse_madt_ioapic_entries();
+5da2fd261934330 arch/x86/kernel/acpi/boot.c  Jiang Liu                  2014-11-02  1291  			mutex_unlock(&acpi_ioapic_lock);
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1292  			if (!error) {
+2f065aef17b8d50 arch/x86/kernel/acpi/boot.c  Jeremy Fitzhardinge        2010-06-24  1293  				acpi_set_irq_model_ioapic();
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1294  
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1295  				smp_found_config = 1;
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1296  			}
+f39642d0dbacded arch/x86/kernel/acpi/boot.c  Kuppuswamy Sathyanarayanan 2022-04-06  1297  
+f39642d0dbacded arch/x86/kernel/acpi/boot.c  Kuppuswamy Sathyanarayanan 2022-04-06  1298  #ifdef CONFIG_X86_64
+f39642d0dbacded arch/x86/kernel/acpi/boot.c  Kuppuswamy Sathyanarayanan 2022-04-06  1299  			/*
+f39642d0dbacded arch/x86/kernel/acpi/boot.c  Kuppuswamy Sathyanarayanan 2022-04-06  1300  			 * Parse MADT MP Wake entry.
+f39642d0dbacded arch/x86/kernel/acpi/boot.c  Kuppuswamy Sathyanarayanan 2022-04-06  1301  			 */
+f39642d0dbacded arch/x86/kernel/acpi/boot.c  Kuppuswamy Sathyanarayanan 2022-04-06 @1302  			acpi_table_parse_madt(ACPI_MADT_TYPE_MULTIPROC_WAKEUP,
+f39642d0dbacded arch/x86/kernel/acpi/boot.c  Kuppuswamy Sathyanarayanan 2022-04-06  1303  					      acpi_parse_mp_wake, 1);
+f39642d0dbacded arch/x86/kernel/acpi/boot.c  Kuppuswamy Sathyanarayanan 2022-04-06  1304  #endif
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1305  		}
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1306  		if (error == -EINVAL) {
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1307  			/*
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1308  			 * Dell Precision Workstation 410, 610 come here.
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1309  			 */
+14fad24d0520c65 arch/x86/kernel/acpi/boot.c  Heiner Kallweit            2021-05-13  1310  			pr_err("Invalid BIOS MADT, disabling ACPI\n");
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1311  			disable_acpi();
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1312  		}
+7b37b5fd9ba32c0 arch/x86/kernel/acpi/boot.c  Len Brown                  2008-12-23  1313  	} else {
+7b37b5fd9ba32c0 arch/x86/kernel/acpi/boot.c  Len Brown                  2008-12-23  1314  		/*
+7b37b5fd9ba32c0 arch/x86/kernel/acpi/boot.c  Len Brown                  2008-12-23  1315   		 * ACPI found no MADT, and so ACPI wants UP PIC mode.
+7b37b5fd9ba32c0 arch/x86/kernel/acpi/boot.c  Len Brown                  2008-12-23  1316   		 * In the event an MPS table was found, forget it.
+7b37b5fd9ba32c0 arch/x86/kernel/acpi/boot.c  Len Brown                  2008-12-23  1317   		 * Boot with "acpi=off" to use MPS on such a system.
+7b37b5fd9ba32c0 arch/x86/kernel/acpi/boot.c  Len Brown                  2008-12-23  1318   		 */
+7b37b5fd9ba32c0 arch/x86/kernel/acpi/boot.c  Len Brown                  2008-12-23  1319  		if (smp_found_config) {
+14fad24d0520c65 arch/x86/kernel/acpi/boot.c  Heiner Kallweit            2021-05-13  1320  			pr_warn("No APIC-table, disabling MPS\n");
+7b37b5fd9ba32c0 arch/x86/kernel/acpi/boot.c  Len Brown                  2008-12-23  1321  			smp_found_config = 0;
+7b37b5fd9ba32c0 arch/x86/kernel/acpi/boot.c  Len Brown                  2008-12-23  1322  		}
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1323  	}
+69b88afa8d114a4 arch/x86/kernel/acpi/boot.c  Yinghai Lu                 2008-12-05  1324  
+69b88afa8d114a4 arch/x86/kernel/acpi/boot.c  Yinghai Lu                 2008-12-05  1325  	/*
+69b88afa8d114a4 arch/x86/kernel/acpi/boot.c  Yinghai Lu                 2008-12-05  1326  	 * ACPI supports both logical (e.g. Hyper-Threading) and physical
+69b88afa8d114a4 arch/x86/kernel/acpi/boot.c  Yinghai Lu                 2008-12-05  1327  	 * processors, where MPS only supports physical.
+69b88afa8d114a4 arch/x86/kernel/acpi/boot.c  Yinghai Lu                 2008-12-05  1328  	 */
+69b88afa8d114a4 arch/x86/kernel/acpi/boot.c  Yinghai Lu                 2008-12-05  1329  	if (acpi_lapic && acpi_ioapic)
+14fad24d0520c65 arch/x86/kernel/acpi/boot.c  Heiner Kallweit            2021-05-13  1330  		pr_info("Using ACPI (MADT) for SMP configuration information\n");
+69b88afa8d114a4 arch/x86/kernel/acpi/boot.c  Yinghai Lu                 2008-12-05  1331  	else if (acpi_lapic)
+14fad24d0520c65 arch/x86/kernel/acpi/boot.c  Heiner Kallweit            2021-05-13  1332  		pr_info("Using ACPI for processor (LAPIC) configuration information\n");
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1333  #endif
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1334  	return;
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1335  }
+^1da177e4c3f415 arch/i386/kernel/acpi/boot.c Linus Torvalds             2005-04-16  1336  
+
+:::::: The code at line 1302 was first introduced by commit
+:::::: f39642d0dbacded8b4a816a9197a73efb74e5702 x86/acpi/x86/boot: Add multiprocessor wake-up support
+
+:::::: TO: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+:::::: CC: Dave Hansen <dave.hansen@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
