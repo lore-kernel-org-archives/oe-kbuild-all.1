@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA011C688
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 19:14:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B7F1F195
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 19:17:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696274050; x=1727810050;
+  t=1696274234; x=1727810234;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OYhWIZV5dcqxhSWwSk2pqHhvmosaEMoGO7V5+gGD9X0=;
-  b=cBar1M2F/LBnisq3fFME1xqPfkPnMG6O2pqncs1Bporkh2pytKzZtXHe
-   Y/neMtCR+pDchm2AjSJ+ixVOxs2mnsRqeN5sFNr5CS9MHyP3+l6euCvhT
-   24aVpXJMwv+adnRGap9eVtyIeSCWNvVBXi7szaiGuoR8H00viBo60RF5n
-   YYa103vs3c5ozzuu2il+hOWB7bsOLEtJmBRC2ZvpgU4bFmq58t6Q08x8q
-   S8dtEhiupno+LdMTe6w9APmiA3m72uC6WKTV30K7hE8RFCANR2fvxDTOp
-   RqSoH+P8TpKWCJKUEL2p1A1AzRgAUF63qw8ZsudyaqRbvfVygXTTaTc9F
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="362077320"
+  bh=xwzVT6Ey/AgCkrkZmaW/sHUTeqCsaV+z6w2ibZ/ittE=;
+  b=MRIXrBEddPls1EnlemTRPVx/c7ePAqa+IpU8wZSY7Di3ELHNeHUQSVec
+   ODsUU8gX+eBjAA8Sl1Z5x8F3ZaGF4CIARDuOaoO9vH5zxrdn/wzqCX4gf
+   XbXUSSQlztf7aYvxXY4Rz+E5zJRdfzVX9nX22Ri6kdgBqD8EXd/JsSMIZ
+   huNePYOVHO7wNffmsO0qDDtJaBcMgnwNS2B5rNXnfwDV521quibH4VmIv
+   xqEaW3PIajMyj8c+4WiaLZAzrt0pOE52CxwCYw9Ht+W4bq2cAXiKX/3qH
+   l/uKhI34kpP8ZiYLiW+9/X4+LIinB+QtvLr5IKe3gmC8iQFrcZ467t186
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="446866291"
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="362077320"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 11:24:22 -0700
+   d="scan'208";a="446866291"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 11:45:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="874440486"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="700429140"
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="874440486"
+   d="scan'208";a="700429140"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 02 Oct 2023 11:24:20 -0700
+  by orsmga003.jf.intel.com with ESMTP; 02 Oct 2023 11:45:29 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qnNac-0006Gn-0J;
-	Mon, 02 Oct 2023 18:24:18 +0000
-Date: Tue, 3 Oct 2023 02:24:16 +0800
+	id 1qnNv3-0006HJ-1W;
+	Mon, 02 Oct 2023 18:45:26 +0000
+Date: Tue, 3 Oct 2023 02:44:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Srinivas Neeli <srinivas.neeli@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS_2023.1_update 1/3]
- drivers/net/can/xilinx_can.c:220: warning: Function parameter or member
- 'rstc' not described in 'xcan_priv'
-Message-ID: <202310030255.j3BjPNEL-lkp@intel.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hare-scsi-devel:eh-rework.v5 34/40]
+ drivers/scsi/ibmvscsi/ibmvscsi.c:1739: warning: Function parameter or member
+ 'shost' not described in 'ibmvscsi_eh_host_reset_handler'
+Message-ID: <202310030202.Fd052ywX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,68 +47,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS_2023.1_update
-head:   496752408d031f93159fcf1aba2831c807a389a3
-commit: c7054aa2b0369686d20462e733cf2e84b2fc395b [1/3] can: xilinx_can: Add support for controller reset
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231003/202310030255.j3BjPNEL-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231003/202310030255.j3BjPNEL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git eh-rework.v5
+head:   2b7934b02ad769f5384351ef79c4d6b0cde694e3
+commit: ba9aa6b27826de8ba176e40f9db4e9b941fbe0e9 [34/40] scsi: Use Scsi_Host as argument for eh_host_reset_handler
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20231003/202310030202.Fd052ywX-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231003/202310030202.Fd052ywX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310030255.j3BjPNEL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310030202.Fd052ywX-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/can/xilinx_can.c:220: warning: Function parameter or member 'rstc' not described in 'xcan_priv'
+   drivers/scsi/ibmvscsi/ibmvscsi.c:1043: warning: Excess function parameter 'done' description in 'ibmvscsi_queuecommand_lck'
+>> drivers/scsi/ibmvscsi/ibmvscsi.c:1739: warning: Function parameter or member 'shost' not described in 'ibmvscsi_eh_host_reset_handler'
+>> drivers/scsi/ibmvscsi/ibmvscsi.c:1739: warning: Excess function parameter 'cmd' description in 'ibmvscsi_eh_host_reset_handler'
+--
+>> drivers/scsi/ibmvscsi/ibmvfc.c:2991: warning: Function parameter or member 'shost' not described in 'ibmvfc_eh_host_reset_handler'
+>> drivers/scsi/ibmvscsi/ibmvfc.c:2991: warning: Excess function parameter 'cmd' description in 'ibmvfc_eh_host_reset_handler'
 
 
-vim +220 drivers/net/can/xilinx_can.c
+vim +1739 drivers/scsi/ibmvscsi/ibmvscsi.c
 
-1598efe57b3e76 Anssi Hannula          2018-02-26  185  
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  186  /**
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  187   * struct xcan_priv - This definition define CAN driver instance
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  188   * @can:			CAN private data structure.
-620050d9c2be15 Anssi Hannula          2017-02-23  189   * @tx_lock:			Lock for synchronizing TX interrupt handling
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  190   * @tx_head:			Tx CAN packets ready to send on the queue
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  191   * @tx_tail:			Tx CAN packets successfully sended on the queue
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  192   * @tx_max:			Maximum number packets the driver can send
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  193   * @napi:			NAPI structure
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  194   * @read_reg:			For reading data from CAN registers
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  195   * @write_reg:			For writing data to CAN registers
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  196   * @dev:			Network device data structure
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  197   * @reg_base:			Ioremapped address to registers
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  198   * @irq_flags:			For request_irq()
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  199   * @bus_clk:			Pointer to struct clk
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  200   * @can_clk:			Pointer to struct clk
-1598efe57b3e76 Anssi Hannula          2018-02-26  201   * @devtype:			Device type specific constants
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  202   */
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  203  struct xcan_priv {
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  204  	struct can_priv can;
-b687a7792b9c28 Marc Kleine-Budde      2019-10-04  205  	spinlock_t tx_lock; /* Lock for synchronizing TX interrupt handling */
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  206  	unsigned int tx_head;
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  207  	unsigned int tx_tail;
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  208  	unsigned int tx_max;
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  209  	struct napi_struct napi;
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  210  	u32 (*read_reg)(const struct xcan_priv *priv, enum xcan_reg reg);
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  211  	void (*write_reg)(const struct xcan_priv *priv, enum xcan_reg reg,
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  212  			  u32 val);
-4716620d1b6291 Kedareswara rao Appana 2015-10-26  213  	struct device *dev;
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  214  	void __iomem *reg_base;
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  215  	unsigned long irq_flags;
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  216  	struct clk *bus_clk;
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  217  	struct clk *can_clk;
-1598efe57b3e76 Anssi Hannula          2018-02-26  218  	struct xcan_devtype_data devtype;
-c7054aa2b03696 Srinivas Neeli         2023-06-12  219  	struct reset_control *rstc;
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21 @220  };
-b1201e44f50b01 Kedareswara rao Appana 2014-05-21  221  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1733  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1734  /**
+3d0e91f7ace124 Brian King      2007-06-13  1735   * ibmvscsi_eh_host_reset_handler - Reset the connection to the server
+3d0e91f7ace124 Brian King      2007-06-13  1736   * @cmd:	struct scsi_cmnd having problems
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1737  */
+ba9aa6b27826de Hannes Reinecke 2023-10-02  1738  static int ibmvscsi_eh_host_reset_handler(struct Scsi_Host *shost)
+^1da177e4c3f41 Linus Torvalds  2005-04-16 @1739  {
+3d0e91f7ace124 Brian King      2007-06-13  1740  	unsigned long wait_switch = 0;
+ba9aa6b27826de Hannes Reinecke 2023-10-02  1741  	struct ibmvscsi_host_data *hostdata = shost_priv(shost);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1742  
+3d0e91f7ace124 Brian King      2007-06-13  1743  	dev_err(hostdata->dev, "Resetting connection due to error recovery\n");
+3d0e91f7ace124 Brian King      2007-06-13  1744  
+3d0e91f7ace124 Brian King      2007-06-13  1745  	ibmvscsi_reset_host(hostdata);
+3d0e91f7ace124 Brian King      2007-06-13  1746  
+3d0e91f7ace124 Brian King      2007-06-13  1747  	for (wait_switch = jiffies + (init_timeout * HZ);
+3d0e91f7ace124 Brian King      2007-06-13  1748  	     time_before(jiffies, wait_switch) &&
+3d0e91f7ace124 Brian King      2007-06-13  1749  		     atomic_read(&hostdata->request_limit) < 2;) {
+3d0e91f7ace124 Brian King      2007-06-13  1750  
+3d0e91f7ace124 Brian King      2007-06-13  1751  		msleep(10);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1752  	}
+3d0e91f7ace124 Brian King      2007-06-13  1753  
+3d0e91f7ace124 Brian King      2007-06-13  1754  	if (atomic_read(&hostdata->request_limit) <= 0)
+3d0e91f7ace124 Brian King      2007-06-13  1755  		return FAILED;
+3d0e91f7ace124 Brian King      2007-06-13  1756  
+3d0e91f7ace124 Brian King      2007-06-13  1757  	return SUCCESS;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1758  }
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1759  
 
-:::::: The code at line 220 was first introduced by commit
-:::::: b1201e44f50b017a4972a337058b36b40c90abca can: xilinx CAN controller support
+:::::: The code at line 1739 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Kedareswara rao Appana <appana.durga.rao@xilinx.com>
-:::::: CC: Marc Kleine-Budde <mkl@pengutronix.de>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
