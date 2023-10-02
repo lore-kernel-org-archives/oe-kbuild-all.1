@@ -1,46 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57FDF7E3
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 04:14:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A682B388
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 04:34:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696220060; x=1727756060;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+SbMEiP/nQq9jUEuPEvZs/+si7/UMTULLo1o542jqPM=;
-  b=SuXsp2WDlBbra+ztgpAZFQd/LHke78h4wit3mq7dSGhLwN8cs4NzYblP
-   waHfzaIlKK7f8FlCGvljRKKOZcJEV1WhcuHSbg5fYurTW7BBItAdpqilT
-   Pl2pgre5/7w64wCfvRJae01mT46+JyOC/dfr4+YmPsJsxLbZjFsCY24wG
-   hbYCn468xZyAcGPFfOUPtfXHKiIQ9j45RZGEgIXVJKnGsGP2JSEPhaWp4
-   5iuZQukwEvM5pWCq4j/TuTZR99xsegleYYzIZtl5Aq7hiCmD18XaSd4aH
-   mejLjifoXoI2zSk978KQ8M/L+j/8S0KR5kj41Qh1OdsxMnudeOhteKA/L
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="381463406"
+  t=1696221259; x=1727757259;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IN1P4XEG/33ojcCiylandiea7b3MLNFJc/TEYs1agHI=;
+  b=UbAJ9dTpINxd52NOh/yrfp1lW1sY5Q3h6giCaT6v9HekUtLstkjHmjV5
+   XgPXyI42qHPvu6qCkU2wYobF6T5aHW55Rbm7N9hmKvbaJUYfysVeEvv3W
+   ytWjnYojtemy2RVq3Q0MJZ3gQysq1HaxyfUMEkpdis9ysdA8HJiyqGM0g
+   o3/N+beDfj350RPOVo0DCYkgO7XDRejU4TxjdXg4s45aT9tKz34H/sTiT
+   1ZTUzrllfxzRXDjWe2g12u6i8YUBl2nWwv9e2ML86JaKtAwzgYovOEZ92
+   R1t0WDXd3chH8CRiq2VPJ2ADAQKOdY7b7LzwUyKimJtgNkw8CvTo3tNS1
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="446736124"
 X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; 
-   d="scan'208";a="381463406"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 21:14:19 -0700
+   d="scan'208";a="446736124"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 21:34:18 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="744025243"
 X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; 
-   d="scan'208";a="1407423"
+   d="scan'208";a="744025243"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 01 Oct 2023 21:13:37 -0700
+  by orsmga007.jf.intel.com with ESMTP; 01 Oct 2023 21:34:17 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qnAJy-0005ki-2q;
-	Mon, 02 Oct 2023 04:14:14 +0000
-Date: Mon, 2 Oct 2023 12:13:24 +0800
+	id 1qnAdL-0005l3-07;
+	Mon, 02 Oct 2023 04:34:15 +0000
+Date: Mon, 2 Oct 2023 12:33:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Crescent CY Hsieh <crescentcy.hsieh@moxa.com>,
-	gregkh@linuxfoundation.org, jirislaby@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	Crescent CY Hsieh <crescentcy.hsieh@moxa.com>
-Subject: Re: [PATCH 4/4] tty: serial: 8250: Add support for MOXA PCIe boards
- to switch interface between RS422/RS485
-Message-ID: <202310021202.xDwDImQv-lkp@intel.com>
-References: <20231002015702.30509-5-crescentcy.hsieh@moxa.com>
+To: Janne Grunau <j@jannau.net>
+Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:bits/230-touchbar 4/8]
+ drivers/gpu/drm/adp/adp_drv.c:83:5: warning: no previous prototype for
+ 'adp_open'
+Message-ID: <202310021214.o27jjtVz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,55 +46,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231002015702.30509-5-crescentcy.hsieh@moxa.com>
 
-Hi Crescent,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tty/tty-testing]
-[also build test ERROR on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.6-rc4 next-20230929]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Crescent-CY-Hsieh/tty-serial-8250-Cleanup-MOXA-configurations-in-8250_pci-c/20231002-095945
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20231002015702.30509-5-crescentcy.hsieh%40moxa.com
-patch subject: [PATCH 4/4] tty: serial: 8250: Add support for MOXA PCIe boards to switch interface between RS422/RS485
-config: sparc-allnoconfig (https://download.01.org/0day-ci/archive/20231002/202310021202.xDwDImQv-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310021202.xDwDImQv-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/230-touchbar
+head:   2041fd353895c61408325b6315a71787e1e3689f
+commit: 696123920dec3c0384595c0b95fa348a622a5d2e [4/8] gpu: drm: adp: Refuse X* as client in open()
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231002/202310021214.o27jjtVz-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310021214.o27jjtVz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310021202.xDwDImQv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310021214.o27jjtVz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/tty/serial/serial_core.c: In function 'uart_check_rs485_flags':
->> drivers/tty/serial/serial_core.c:1302:60: error: 'SER_RS422_ENALBED' undeclared (first use in this function); did you mean 'SER_RS422_ENABLED'?
-    1302 |                                  SER_RS485_TERMINATE_BUS | SER_RS422_ENALBED)
-         |                                                            ^~~~~~~~~~~~~~~~~
-   drivers/tty/serial/serial_core.c:1309:19: note: in expansion of macro 'SER_RS485_LEGACY_FLAGS'
-    1309 |         flags &= ~SER_RS485_LEGACY_FLAGS;
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/serial_core.c:1302:60: note: each undeclared identifier is reported only once for each function it appears in
-    1302 |                                  SER_RS485_TERMINATE_BUS | SER_RS422_ENALBED)
-         |                                                            ^~~~~~~~~~~~~~~~~
-   drivers/tty/serial/serial_core.c:1309:19: note: in expansion of macro 'SER_RS485_LEGACY_FLAGS'
-    1309 |         flags &= ~SER_RS485_LEGACY_FLAGS;
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/adp/adp_drv.c:83:5: warning: no previous prototype for 'adp_open' [-Wmissing-prototypes]
+      83 | int adp_open(struct inode *inode, struct file *filp)
+         |     ^~~~~~~~
+   drivers/gpu/drm/adp/adp_drv.c:253:19: warning: no previous prototype for 'adp_plane_new' [-Wmissing-prototypes]
+     253 | struct adp_plane *adp_plane_new(struct adp_drv_private *adp, u8 id)
+         |                   ^~~~~~~~~~~~~
+   drivers/gpu/drm/adp/adp_drv.c:435:5: warning: no previous prototype for 'adp_detect_ctx' [-Wmissing-prototypes]
+     435 | int adp_detect_ctx(struct drm_connector *connector,
+         |     ^~~~~~~~~~~~~~
 
 
-vim +1302 drivers/tty/serial/serial_core.c
+vim +/adp_open +83 drivers/gpu/drm/adp/adp_drv.c
 
-  1299	
-  1300	#define SER_RS485_LEGACY_FLAGS	(SER_RS485_ENABLED | SER_RS485_RTS_ON_SEND | \
-  1301					 SER_RS485_RTS_AFTER_SEND | SER_RS485_RX_DURING_TX | \
-> 1302					 SER_RS485_TERMINATE_BUS | SER_RS422_ENALBED)
-  1303	
+    82	
+  > 83	int adp_open(struct inode *inode, struct file *filp)
+    84	{
+    85		/*
+    86		 * The modesetting driver does not check the non-desktop connector
+    87		 * property and keeps the device open and locked. If the touchbar daemon
+    88		 * opens the device first modesetting breaks the whole X session.
+    89		 * Simply refuse to open the device for X11 server processes as
+    90		 * workaround.
+    91		 */
+    92		if (current->comm[0] == 'X')
+    93			return -EBUSY;
+    94	
+    95		return drm_open(inode, filp);
+    96	}
+    97	
 
 -- 
 0-DAY CI Kernel Test Service
