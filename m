@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E31388
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 05:37:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3CF0A53
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 05:47:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696225051; x=1727761051;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oyFNw4AXQQYXw3PNmo08Fr9Y1DJhjeZlFYLu8JVSOKI=;
-  b=g/3v28IN164/QPyCaJfLjH+QydOOQgTp15aBXYjKdXuTB6ox5IiY2qVY
-   lAFBOO+vICxUDdvXUoDLZHuAUSYjg1t3KCEb23NrAqfcuM0jIT1Gtdspp
-   5a5vYOERCTijFFWIIfAmgmhQYmiQ3fhPamjzLuPfTXtUVCiJb5L6BftaJ
-   3hbl40mq9oVTac86RW8OqWR7Nz8FhCsbQR1cFH7ERxSra6dNaXV2FtokR
-   NrU4uTlTZFUIU8Ywg14sv+o7X1EShiW8OE2OfhAfdE43E0JOT31oe90b3
-   EmP1i5IWqyxzomDfftux15lDoPcenI0BA1j+sOt1o5cfIE/bs7zxpnCs0
+  t=1696225651; x=1727761651;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3iJ9IhEU+dJFfSib5G6zxDoE9Bp+GIT/VAYZSUfC/YI=;
+  b=dTLSyKx8XAqdxs9g3BZh23kdMfPvOQcsBOxDypb1u/IByNW3G3F3onXH
+   jWZ16Zaj3y03FnmJfB8xhQCG2YOMa6KJyjvfOhDLlk9FZ60lGixC9RVvR
+   R6zdVq7NGIkajcLWhytUAH2EW67MhlTZh7G3eaXYMBnptIqrPnmMZRYiN
+   16AO4unr++c1jE1t437VeIQX12Tf/h5i/sSPGMkM5aa23LXxFNSV8a5KI
+   L+bOlFyDzmKusJUTichhEhSK3iNN1tZItI+MpAiDsCMOnVIsq9IwjU87V
+   O0NLE8Bv6zNL+w0Kq4bSQ+4+SbF04AeN1QmpoOAyJI4u2lCqaHNYlyYkB
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="468864489"
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="449076057"
 X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; 
-   d="scan'208";a="468864489"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 22:37:30 -0700
+   d="scan'208";a="449076057"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 22:47:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="997526353"
 X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; 
-   d="scan'208";a="997526353"
+   d="scan'208";a="1421087"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 01 Oct 2023 22:37:28 -0700
+  by orviesa001.jf.intel.com with ESMTP; 01 Oct 2023 22:46:51 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qnBcU-0005mS-2C;
-	Mon, 02 Oct 2023 05:37:26 +0000
-Date: Mon, 2 Oct 2023 13:37:10 +0800
+	id 1qnBmB-0005mz-1W;
+	Mon, 02 Oct 2023 05:47:27 +0000
+Date: Mon, 2 Oct 2023 13:47:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qin Jian <qinjian@cqplus1.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: drivers/pinctrl/sunplus/sppctl.c:176: warning: Function parameter or
- member 'pctl' not described in 'sppctl_func_set'
-Message-ID: <202310021357.ge6TB5iz-lkp@intel.com>
+To: AKASHI Takahiro <takahiro.akashi@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC 2/4] pinctrl: add pinctrl_gpio_get_config()
+Message-ID: <202310021320.gYfm1nLQ-lkp@intel.com>
+References: <20231002021602.260100-3-takahiro.akashi@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,206 +45,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231002021602.260100-3-takahiro.akashi@linaro.org>
 
-Hi Qin,
+Hi AKASHI,
 
-FYI, the error/warning still remains.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8a749fd1a8720d4619c91c8b6e7528c0a355c0aa
-commit: 0aa94eea8d955c82014e5368a843da93f1dc58f8 ARM: sunplus: Add initial support for Sunplus SP7021 SoC
-date:   1 year, 3 months ago
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20231002/202310021357.ge6TB5iz-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310021357.ge6TB5iz-lkp@intel.com/reproduce)
+[auto build test ERROR on linusw-pinctrl/devel]
+[also build test ERROR on linusw-pinctrl/for-next brgl/gpio/for-next robh/for-next linus/master v6.6-rc4 next-20230929]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/AKASHI-Takahiro/pinctrl-define-PIN_CONFIG_INPUT/20231002-101835
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20231002021602.260100-3-takahiro.akashi%40linaro.org
+patch subject: [RFC 2/4] pinctrl: add pinctrl_gpio_get_config()
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20231002/202310021320.gYfm1nLQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310021320.gYfm1nLQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310021357.ge6TB5iz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310021320.gYfm1nLQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/pinctrl/sunplus/sppctl.c:176: warning: Function parameter or member 'pctl' not described in 'sppctl_func_set'
->> drivers/pinctrl/sunplus/sppctl.c:176: warning: Function parameter or member 'func' not described in 'sppctl_func_set'
->> drivers/pinctrl/sunplus/sppctl.c:176: warning: Function parameter or member 'val' not described in 'sppctl_func_set'
->> drivers/pinctrl/sunplus/sppctl.c:229: warning: Function parameter or member 'pctl' not described in 'sppctl_gmx_set'
->> drivers/pinctrl/sunplus/sppctl.c:229: warning: Function parameter or member 'reg_off' not described in 'sppctl_gmx_set'
->> drivers/pinctrl/sunplus/sppctl.c:229: warning: Function parameter or member 'bit_off' not described in 'sppctl_gmx_set'
->> drivers/pinctrl/sunplus/sppctl.c:229: warning: Function parameter or member 'bit_sz' not described in 'sppctl_gmx_set'
->> drivers/pinctrl/sunplus/sppctl.c:229: warning: Function parameter or member 'val' not described in 'sppctl_gmx_set'
->> drivers/pinctrl/sunplus/sppctl.c:262: warning: Function parameter or member 'chip' not described in 'sppctl_first_get'
->> drivers/pinctrl/sunplus/sppctl.c:262: warning: Function parameter or member 'offset' not described in 'sppctl_first_get'
->> drivers/pinctrl/sunplus/sppctl.c:297: warning: Function parameter or member 'chip' not described in 'sppctl_master_get'
->> drivers/pinctrl/sunplus/sppctl.c:297: warning: Function parameter or member 'offset' not described in 'sppctl_master_get'
->> drivers/pinctrl/sunplus/sppctl.c:699: warning: Function parameter or member 'offset' not described in 'sppctl_fully_pinmux_conv'
+   drivers/pinctrl/core.c: In function 'pinctrl_gpio_get_config':
+>> drivers/pinctrl/core.c:941:15: error: implicit declaration of function 'pin_config_get_for_pin' [-Werror=implicit-function-declaration]
+     941 |         ret = pin_config_get_for_pin(pctldev, pin, config);
+         |               ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +176 drivers/pinctrl/sunplus/sppctl.c
+vim +/pin_config_get_for_pin +941 drivers/pinctrl/core.c
 
-aa74c44be19c8b Wells Lu 2022-01-16  149  
-aa74c44be19c8b Wells Lu 2022-01-16  150  /**
-aa74c44be19c8b Wells Lu 2022-01-16  151   * sppctl_func_set() - Set pin of fully-pinmux function.
-aa74c44be19c8b Wells Lu 2022-01-16  152   *
-aa74c44be19c8b Wells Lu 2022-01-16  153   * Mask-fields and control-fields of fully-pinmux function of SP7021 are
-aa74c44be19c8b Wells Lu 2022-01-16  154   * arranged as shown below:
-aa74c44be19c8b Wells Lu 2022-01-16  155   *
-aa74c44be19c8b Wells Lu 2022-01-16  156   *  func# | register |  mask-field  | control-field
-aa74c44be19c8b Wells Lu 2022-01-16  157   * -------+----------+--------------+---------------
-aa74c44be19c8b Wells Lu 2022-01-16  158   *    0   | base[0]  |  (22 : 16)   |   ( 6 : 0)
-aa74c44be19c8b Wells Lu 2022-01-16  159   *    1   | base[0]  |  (30 : 24)   |   (14 : 8)
-aa74c44be19c8b Wells Lu 2022-01-16  160   *    2   | base[1]  |  (22 : 16)   |   ( 6 : 0)
-aa74c44be19c8b Wells Lu 2022-01-16  161   *    3   | baeg[1]  |  (30 : 24)   |   (14 : 8)
-aa74c44be19c8b Wells Lu 2022-01-16  162   *    :   |    :     |      :       |       :
-aa74c44be19c8b Wells Lu 2022-01-16  163   *
-aa74c44be19c8b Wells Lu 2022-01-16  164   * where mask-fields are used to protect control-fields from write-in
-aa74c44be19c8b Wells Lu 2022-01-16  165   * accidentally. Set the corresponding bits in the mask-field before
-aa74c44be19c8b Wells Lu 2022-01-16  166   * you write a value into a control-field.
-aa74c44be19c8b Wells Lu 2022-01-16  167   *
-aa74c44be19c8b Wells Lu 2022-01-16  168   * Control-fields are used to set where the function pin is going to
-aa74c44be19c8b Wells Lu 2022-01-16  169   * be routed to.
-aa74c44be19c8b Wells Lu 2022-01-16  170   *
-aa74c44be19c8b Wells Lu 2022-01-16  171   * Note that mask-fields and control-fields of even number of 'func'
-aa74c44be19c8b Wells Lu 2022-01-16  172   * are located at bits (22:16) and (6:0), while odd number of 'func's
-aa74c44be19c8b Wells Lu 2022-01-16  173   * are located at bits (30:24) and (14:8).
-aa74c44be19c8b Wells Lu 2022-01-16  174   */
-aa74c44be19c8b Wells Lu 2022-01-16  175  static void sppctl_func_set(struct sppctl_pdata *pctl, u8 func, u8 val)
-aa74c44be19c8b Wells Lu 2022-01-16 @176  {
-aa74c44be19c8b Wells Lu 2022-01-16  177  	u32 reg, offset;
-aa74c44be19c8b Wells Lu 2022-01-16  178  
-aa74c44be19c8b Wells Lu 2022-01-16  179  	/*
-aa74c44be19c8b Wells Lu 2022-01-16  180  	 * Note that upper 16-bit word are mask-fields and lower 16-bit
-aa74c44be19c8b Wells Lu 2022-01-16  181  	 * word are the control-fields. Set corresponding bits in mask-
-aa74c44be19c8b Wells Lu 2022-01-16  182  	 * field before write to a control-field.
-aa74c44be19c8b Wells Lu 2022-01-16  183  	 */
-aa74c44be19c8b Wells Lu 2022-01-16  184  	reg = SPPCTL_FULLY_PINMUX_MASK_MASK | val;
-aa74c44be19c8b Wells Lu 2022-01-16  185  
-aa74c44be19c8b Wells Lu 2022-01-16  186  	/*
-aa74c44be19c8b Wells Lu 2022-01-16  187  	 * MUXF_L2SW_CLK_OUT is the first fully-pinmux pin
-aa74c44be19c8b Wells Lu 2022-01-16  188  	 * and its register offset is 0.
-aa74c44be19c8b Wells Lu 2022-01-16  189  	 */
-aa74c44be19c8b Wells Lu 2022-01-16  190  	func -= MUXF_L2SW_CLK_OUT;
-aa74c44be19c8b Wells Lu 2022-01-16  191  
-aa74c44be19c8b Wells Lu 2022-01-16  192  	/*
-aa74c44be19c8b Wells Lu 2022-01-16  193  	 * Check if 'func' is an odd number or not. Mask and control-
-aa74c44be19c8b Wells Lu 2022-01-16  194  	 * fields of odd number 'func' is located at upper portion of
-aa74c44be19c8b Wells Lu 2022-01-16  195  	 * a register. Extra shift is needed.
-aa74c44be19c8b Wells Lu 2022-01-16  196  	 */
-aa74c44be19c8b Wells Lu 2022-01-16  197  	if (func & BIT(0))
-aa74c44be19c8b Wells Lu 2022-01-16  198  		reg <<= SPPCTL_FULLY_PINMUX_UPPER_SHIFT;
-aa74c44be19c8b Wells Lu 2022-01-16  199  
-aa74c44be19c8b Wells Lu 2022-01-16  200  	/* Convert func# to register offset w.r.t. base register. */
-aa74c44be19c8b Wells Lu 2022-01-16  201  	offset = func * 2;
-aa74c44be19c8b Wells Lu 2022-01-16  202  	offset &= GENMASK(31, 2);
-aa74c44be19c8b Wells Lu 2022-01-16  203  
-aa74c44be19c8b Wells Lu 2022-01-16  204  	writel(reg, pctl->moon2_base + offset);
-aa74c44be19c8b Wells Lu 2022-01-16  205  }
-aa74c44be19c8b Wells Lu 2022-01-16  206  
-aa74c44be19c8b Wells Lu 2022-01-16  207  /**
-aa74c44be19c8b Wells Lu 2022-01-16  208   * sppctl_gmx_set() - Set pin of group-pinmux.
-aa74c44be19c8b Wells Lu 2022-01-16  209   *
-aa74c44be19c8b Wells Lu 2022-01-16  210   * Mask-fields and control-fields of group-pinmux function of SP7021 are
-aa74c44be19c8b Wells Lu 2022-01-16  211   * arranged as shown below:
-aa74c44be19c8b Wells Lu 2022-01-16  212   *
-aa74c44be19c8b Wells Lu 2022-01-16  213   *  register |  mask-fields | control-fields
-aa74c44be19c8b Wells Lu 2022-01-16  214   * ----------+--------------+----------------
-aa74c44be19c8b Wells Lu 2022-01-16  215   *  base[0]  |  (31 : 16)   |   (15 : 0)
-aa74c44be19c8b Wells Lu 2022-01-16  216   *  base[1]  |  (31 : 24)   |   (15 : 0)
-aa74c44be19c8b Wells Lu 2022-01-16  217   *  base[2]  |  (31 : 24)   |   (15 : 0)
-aa74c44be19c8b Wells Lu 2022-01-16  218   *     :     |      :       |       :
-aa74c44be19c8b Wells Lu 2022-01-16  219   *
-aa74c44be19c8b Wells Lu 2022-01-16  220   * where mask-fields are used to protect control-fields from write-in
-aa74c44be19c8b Wells Lu 2022-01-16  221   * accidentally. Set the corresponding bits in the mask-field before
-aa74c44be19c8b Wells Lu 2022-01-16  222   * you write a value into a control-field.
-aa74c44be19c8b Wells Lu 2022-01-16  223   *
-aa74c44be19c8b Wells Lu 2022-01-16  224   * Control-fields are used to set where the function pin is going to
-aa74c44be19c8b Wells Lu 2022-01-16  225   * be routed to. A control-field consists of one or more bits.
-aa74c44be19c8b Wells Lu 2022-01-16  226   */
-aa74c44be19c8b Wells Lu 2022-01-16  227  static void sppctl_gmx_set(struct sppctl_pdata *pctl, u8 reg_off, u8 bit_off, u8 bit_sz,
-aa74c44be19c8b Wells Lu 2022-01-16  228  			   u8 val)
-aa74c44be19c8b Wells Lu 2022-01-16 @229  {
-aa74c44be19c8b Wells Lu 2022-01-16  230  	u32 mask, reg;
-aa74c44be19c8b Wells Lu 2022-01-16  231  
-aa74c44be19c8b Wells Lu 2022-01-16  232  	/*
-aa74c44be19c8b Wells Lu 2022-01-16  233  	 * Note that upper 16-bit word are mask-fields and lower 16-bit
-aa74c44be19c8b Wells Lu 2022-01-16  234  	 * word are the control-fields. Set corresponding bits in mask-
-aa74c44be19c8b Wells Lu 2022-01-16  235  	 * field before write to a control-field.
-aa74c44be19c8b Wells Lu 2022-01-16  236  	 */
-aa74c44be19c8b Wells Lu 2022-01-16  237  	mask = GENMASK(bit_sz - 1, 0) << SPPCTL_MOON_REG_MASK_SHIFT;
-aa74c44be19c8b Wells Lu 2022-01-16  238  	reg = (mask | val) << bit_off;
-aa74c44be19c8b Wells Lu 2022-01-16  239  
-aa74c44be19c8b Wells Lu 2022-01-16  240  	writel(reg, pctl->moon1_base + reg_off * 4);
-aa74c44be19c8b Wells Lu 2022-01-16  241  }
-aa74c44be19c8b Wells Lu 2022-01-16  242  
-aa74c44be19c8b Wells Lu 2022-01-16  243  /**
-aa74c44be19c8b Wells Lu 2022-01-16  244   * sppctl_first_get() - get bit of FIRST register.
-aa74c44be19c8b Wells Lu 2022-01-16  245   *
-aa74c44be19c8b Wells Lu 2022-01-16  246   * There are 4 FIRST registers. Each has 32 control-bits.
-aa74c44be19c8b Wells Lu 2022-01-16  247   * Totally, there are 4 * 32 = 128 control-bits.
-aa74c44be19c8b Wells Lu 2022-01-16  248   * Control-bits are arranged as shown below:
-aa74c44be19c8b Wells Lu 2022-01-16  249   *
-aa74c44be19c8b Wells Lu 2022-01-16  250   *  registers | control-bits
-aa74c44be19c8b Wells Lu 2022-01-16  251   * -----------+--------------
-aa74c44be19c8b Wells Lu 2022-01-16  252   *  first[0]  |  (31 :  0)
-aa74c44be19c8b Wells Lu 2022-01-16  253   *  first[1]  |  (63 : 32)
-aa74c44be19c8b Wells Lu 2022-01-16  254   *  first[2]  |  (95 : 64)
-aa74c44be19c8b Wells Lu 2022-01-16  255   *  first[3]  | (127 : 96)
-aa74c44be19c8b Wells Lu 2022-01-16  256   *
-aa74c44be19c8b Wells Lu 2022-01-16  257   * Each control-bit sets type of a GPIO pin.
-aa74c44be19c8b Wells Lu 2022-01-16  258   *   0: a fully-pinmux pin
-aa74c44be19c8b Wells Lu 2022-01-16  259   *   1: a GPIO or IOP pin
-aa74c44be19c8b Wells Lu 2022-01-16  260   */
-aa74c44be19c8b Wells Lu 2022-01-16  261  static int sppctl_first_get(struct gpio_chip *chip, unsigned int offset)
-aa74c44be19c8b Wells Lu 2022-01-16 @262  {
-aa74c44be19c8b Wells Lu 2022-01-16  263  	struct sppctl_gpio_chip *spp_gchip = gpiochip_get_data(chip);
-aa74c44be19c8b Wells Lu 2022-01-16  264  	u32 reg_off, bit_off, reg;
-aa74c44be19c8b Wells Lu 2022-01-16  265  
-aa74c44be19c8b Wells Lu 2022-01-16  266  	bit_off = sppctl_get_reg_and_bit_offset(offset, &reg_off);
-aa74c44be19c8b Wells Lu 2022-01-16  267  	reg = sppctl_first_readl(spp_gchip, reg_off);
-aa74c44be19c8b Wells Lu 2022-01-16  268  
-aa74c44be19c8b Wells Lu 2022-01-16  269  	return (reg & BIT(bit_off)) ? 1 : 0;
-aa74c44be19c8b Wells Lu 2022-01-16  270  }
-aa74c44be19c8b Wells Lu 2022-01-16  271  
-aa74c44be19c8b Wells Lu 2022-01-16  272  /**
-aa74c44be19c8b Wells Lu 2022-01-16  273   * sppctl_master_get() - get bit of MASTER register.
-aa74c44be19c8b Wells Lu 2022-01-16  274   *
-aa74c44be19c8b Wells Lu 2022-01-16  275   * There are 8 MASTER registers. Each has 16 mask-bits and 16 control-bits.
-aa74c44be19c8b Wells Lu 2022-01-16  276   * Upper 16-bit of MASTER registers are mask-bits while lower 16-bit are
-aa74c44be19c8b Wells Lu 2022-01-16  277   * control-bits. Totally, there are 128 mask-bits and 128 control-bits.
-aa74c44be19c8b Wells Lu 2022-01-16  278   * They are arranged as shown below:
-aa74c44be19c8b Wells Lu 2022-01-16  279   *
-aa74c44be19c8b Wells Lu 2022-01-16  280   *  register  |  mask-bits  | control-bits
-aa74c44be19c8b Wells Lu 2022-01-16  281   * -----------+-------------+--------------
-aa74c44be19c8b Wells Lu 2022-01-16  282   *  master[0] |  (15 :   0) |  (15 :   0)
-aa74c44be19c8b Wells Lu 2022-01-16  283   *  master[1] |  (31 :  16) |  (31 :  16)
-aa74c44be19c8b Wells Lu 2022-01-16  284   *  master[2] |  (47 :  32) |  (47 :  32)
-aa74c44be19c8b Wells Lu 2022-01-16  285   *     :      |      :      |      :
-aa74c44be19c8b Wells Lu 2022-01-16  286   *  master[7] | (127 : 112) | (127 : 112)
-aa74c44be19c8b Wells Lu 2022-01-16  287   *
-aa74c44be19c8b Wells Lu 2022-01-16  288   * where mask-bits are used to protect control-bits from write-in
-aa74c44be19c8b Wells Lu 2022-01-16  289   * accidentally. Set the corresponding mask-bit before you write
-aa74c44be19c8b Wells Lu 2022-01-16  290   * a value into a control-bit.
-aa74c44be19c8b Wells Lu 2022-01-16  291   *
-aa74c44be19c8b Wells Lu 2022-01-16  292   * Each control-bit sets type of a GPIO pin when FIRST bit is 1.
-aa74c44be19c8b Wells Lu 2022-01-16  293   *   0: a IOP pin
-aa74c44be19c8b Wells Lu 2022-01-16  294   *   1: a GPIO pin
-aa74c44be19c8b Wells Lu 2022-01-16  295   */
-aa74c44be19c8b Wells Lu 2022-01-16  296  static int sppctl_master_get(struct gpio_chip *chip, unsigned int offset)
-aa74c44be19c8b Wells Lu 2022-01-16 @297  {
-aa74c44be19c8b Wells Lu 2022-01-16  298  	struct sppctl_gpio_chip *spp_gchip = gpiochip_get_data(chip);
-aa74c44be19c8b Wells Lu 2022-01-16  299  	u32 reg_off, bit_off, reg;
-aa74c44be19c8b Wells Lu 2022-01-16  300  
-aa74c44be19c8b Wells Lu 2022-01-16  301  	bit_off = sppctl_get_moon_reg_and_bit_offset(offset, &reg_off);
-aa74c44be19c8b Wells Lu 2022-01-16  302  	reg = sppctl_gpio_master_readl(spp_gchip, reg_off);
-aa74c44be19c8b Wells Lu 2022-01-16  303  	return (reg & BIT(bit_off)) ? 1 : 0;
-aa74c44be19c8b Wells Lu 2022-01-16  304  }
-aa74c44be19c8b Wells Lu 2022-01-16  305  
-
-:::::: The code at line 176 was first introduced by commit
-:::::: aa74c44be19c8b1de38d955c2c45c309991c805a pinctrl: Add driver for Sunplus SP7021
-
-:::::: TO: Wells Lu <wellslutw@gmail.com>
-:::::: CC: Linus Walleij <linus.walleij@linaro.org>
+   928	
+   929	int pinctrl_gpio_get_config(unsigned int gpio, unsigned long *config)
+   930	{
+   931		struct pinctrl_gpio_range *range;
+   932		struct pinctrl_dev *pctldev;
+   933		int ret, pin;
+   934	
+   935		ret = pinctrl_get_device_gpio_range(gpio, &pctldev, &range);
+   936		if (ret)
+   937			return ret;
+   938	
+   939		mutex_lock(&pctldev->mutex);
+   940		pin = gpio_to_pin(range, gpio);
+ > 941		ret = pin_config_get_for_pin(pctldev, pin, config);
+   942		mutex_unlock(&pctldev->mutex);
+   943	
+   944		return ret;
+   945	}
+   946	EXPORT_SYMBOL_GPL(pinctrl_gpio_get_config);
+   947	
 
 -- 
 0-DAY CI Kernel Test Service
