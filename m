@@ -1,49 +1,44 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD263CA68
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 10:09:19 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-9b1ebc80d0aso1957762566b.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 02 Oct 2023 03:09:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1696241358; x=1696846158; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LZL+wIOoKHC8FB8yMF4CXu0Kci6UDNY0J5F6ohmaWXg=;
-        b=SaqJ4i4uykEedJzVpGfbTO0n9EwwsemaGbn3kfj9E8F6h/8qz1lCHAx1E1mcmebRr2
-         IP8+wyJErG8uOCPYl8aTqtd6BoDD4ORmZG1/Myep+JLLwEmDX1caj/CucH9jiQLcE6FE
-         YCLgKYkK43RHO7R8uYQbhns4gZ5KlHDCvXkQE19gv+Sz1OdeAbS+ejIQZ+9ip3bwD+EV
-         8wjcY5tCvqyYdPmLXJVxfD54zX3Z1QkkKRd6bb3LlAWK6Q34ze6EttfGU8kcYVe5R2ev
-         Rf4/gRr9EdesucwL8Lk4pz3J09i4JDtoFyCuJRBQAh4UF8JDe0NMFH8NlvopI5fqbEZU
-         QUAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696241358; x=1696846158;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LZL+wIOoKHC8FB8yMF4CXu0Kci6UDNY0J5F6ohmaWXg=;
-        b=t1uLh9m2k4rwtdUnpLY86ltWNi8N81q0WdtDX0/RdtAl7wr/HfTkoRW2VEv26t3dus
-         5Hhm0cRhzqA0RP5Anqz7Ho04yxFdOaV7OsAca9/TI6MA5eNFXq7D/UH2+U0KBefYe/lJ
-         3Cou9Awn+hjux9N/AJXT+TFA4Mfyf/PpcCXJ0v8DXQtyYANRxQQhCwtKmJQpW4OZyzfv
-         5bjbAoNFjUzEbQuTr9hMomLE6PDtWIRgZow5hxbFpM5OPk4Yf6i6q8UBZ0uhvGcZ5a9p
-         aHC2vQhhdoxwRJrJPe6mmMT2GwY/8oY3C29DHxxC2CHD+Rn49EEQh/uf9b5g9pLax0RW
-         9MrQ==
-X-Gm-Message-State: AOJu0Yxv1OnJVRztTi+hfxjHUWfpQ+DMdAOeufVRzqjFpt7mHe+iQsoB
-	a9Cr9aY9BpflqfkiZB/UcW/vZg==
-X-Google-Smtp-Source: AGHT+IHlL+ImA/CPcxfarB+e/hgMgxqPtMsguUi/WKnO1uda4s+8JfbbeIvR1RsLLQK9w5Vk2LXZrw==
-X-Received: by 2002:a17:906:1d2:b0:9ad:ad5a:939b with SMTP id 18-20020a17090601d200b009adad5a939bmr9057275ejj.7.1696241357987;
-        Mon, 02 Oct 2023 03:09:17 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id z6-20020a1c4c06000000b00405959469afsm6888671wmf.3.2023.10.02.03.09.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Oct 2023 03:09:17 -0700 (PDT)
-Date: Mon, 2 Oct 2023 13:09:14 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Sagi Shahar <sagis@google.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Isaku Yamahata <isaku.yamahata@intel.com>
-Subject: [intel-tdx:kvm-upstream-next 244/321] arch/x86/kvm/x86.c:13864
- pre_move_enc_context_from() warn: missing error code 'ret'
-Message-ID: <2205ef3e-e70f-44a8-830f-f45a2c974554@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55532CA69
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Oct 2023 10:24:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696242288; x=1727778288;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZdCKscSqF5q2jG6/3MMBgpDg1VRd6fbXyMEO74FeRfc=;
+  b=UMjc+wPs3CeWTMsAf113WkpbyIWRACxifUtyKHVm0D4P68Z4EtUNyTrU
+   Ur4TySikoSIrWNJ+kA/18LxJU81aZQcsrtqpo+06Sm9hPUviSfRfMu+j9
+   MuvZ8fgLEzQX0Wul4oxOjJT4opO6kGs+PGF94Cfzx3ngTu2eghumfWA8A
+   d/3nzjBntuXKIovunxD1gvxDY1HElOr/gRjLNiJYoQRRDuheZaB6jN8q6
+   n0b5n0ihTOd1H+zcS1eFdSDzdTOPrMEOHDdWs/xFNLEgemwj4/0y1XFF3
+   +wC9C/FQe2ACfXaVGJnBJa0gfROve56raKxr9jMv+tWhLfbcFvuS+rBdS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="372965534"
+X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
+   d="scan'208";a="372965534"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 03:24:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="754013903"
+X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
+   d="scan'208";a="754013903"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 02 Oct 2023 03:24:47 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qnG6X-0005wp-0V;
+	Mon, 02 Oct 2023 10:24:45 +0000
+Date: Mon, 2 Oct 2023 18:24:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tomas Winkler <tomas.winkler@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Alexander Usyskin <alexander.usyskin@intel.com>
+Subject: drivers/mtd/maps/vmu-flash.c:722:24: error: 'struct mtd_info' has no
+ member named 'usecount'
+Message-ID: <202310021816.G41lF9xc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,77 +48,120 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-next
-head:   f879e04c0619fde5c8eecb51a64da52a5ad4908e
-commit: 659d9ec85eda12fe80f61b7373f1de7f56a1d5b9 [244/321] KVM: SEV: Refactor common code out of sev_vm_move_enc_context_from
-config: x86_64-randconfig-161-20230924 (https://download.01.org/0day-ci/archive/20231002/202310021558.Tt0c8dgU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231002/202310021558.Tt0c8dgU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8a749fd1a8720d4619c91c8b6e7528c0a355c0aa
+commit: 19bfa9ebebb5ec0695def57eb1d80de7e9cab369 mtd: use refcount to prevent corruption
+date:   3 months ago
+config: sh-randconfig-c034-20221009 (https://download.01.org/0day-ci/archive/20231002/202310021816.G41lF9xc-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310021816.G41lF9xc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202310021558.Tt0c8dgU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310021816.G41lF9xc-lkp@intel.com/
 
-New smatch warnings:
-arch/x86/kvm/x86.c:13864 pre_move_enc_context_from() warn: missing error code 'ret'
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-arch/x86/kvm/x86.c:7777 emulator_read_write() warn: missing error code? 'rc'
+   In file included from drivers/mtd/maps/vmu-flash.c:12:
+   include/linux/maple.h:81:23: error: field 'dev' has incomplete type
+      81 |         struct device dev;
+         |                       ^~~
+   include/linux/maple.h:86:30: error: field 'drv' has incomplete type
+      86 |         struct device_driver drv;
+         |                              ^~~
+   drivers/mtd/maps/vmu-flash.c: In function 'vmu_can_unload':
+>> drivers/mtd/maps/vmu-flash.c:722:24: error: 'struct mtd_info' has no member named 'usecount'
+     722 |                 if (mtd->usecount > 0)
+         |                        ^~
+   In file included from include/linux/init.h:5,
+                    from drivers/mtd/maps/vmu-flash.c:8:
+   drivers/mtd/maps/vmu-flash.c: In function 'probe_maple_vmu':
+   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
+     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/maple.h:100:25: note: in expansion of macro 'container_of'
+     100 | #define to_maple_dev(n) container_of(n, struct maple_device, dev)
+         |                         ^~~~~~~~~~~~
+   drivers/mtd/maps/vmu-flash.c:775:37: note: in expansion of macro 'to_maple_dev'
+     775 |         struct maple_device *mdev = to_maple_dev(dev);
+         |                                     ^~~~~~~~~~~~
+   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
+     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/maple.h:101:28: note: in expansion of macro 'container_of'
+     101 | #define to_maple_driver(n) container_of(n, struct maple_driver, drv)
+         |                            ^~~~~~~~~~~~
+   drivers/mtd/maps/vmu-flash.c:776:37: note: in expansion of macro 'to_maple_driver'
+     776 |         struct maple_driver *mdrv = to_maple_driver(dev->driver);
+         |                                     ^~~~~~~~~~~~~~~
+   drivers/mtd/maps/vmu-flash.c: In function 'remove_maple_vmu':
+   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
+     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/maple.h:100:25: note: in expansion of macro 'container_of'
+     100 | #define to_maple_dev(n) container_of(n, struct maple_device, dev)
+         |                         ^~~~~~~~~~~~
+   drivers/mtd/maps/vmu-flash.c:787:37: note: in expansion of macro 'to_maple_dev'
+     787 |         struct maple_device *mdev = to_maple_dev(dev);
+         |                                     ^~~~~~~~~~~~
 
-vim +/ret +13864 arch/x86/kvm/x86.c
 
-659d9ec85eda12 Sagi Shahar 2023-04-07  13840  int pre_move_enc_context_from(struct kvm *dst_kvm, struct kvm *src_kvm,
-659d9ec85eda12 Sagi Shahar 2023-04-07  13841  			      atomic_t *dst_migration_in_progress,
-659d9ec85eda12 Sagi Shahar 2023-04-07  13842  			      atomic_t *src_migration_in_progress)
-659d9ec85eda12 Sagi Shahar 2023-04-07  13843  {
-659d9ec85eda12 Sagi Shahar 2023-04-07  13844  	struct kvm_vcpu *src_vcpu;
-659d9ec85eda12 Sagi Shahar 2023-04-07  13845  	unsigned long i;
-659d9ec85eda12 Sagi Shahar 2023-04-07  13846  	int ret = -EINVAL;
-659d9ec85eda12 Sagi Shahar 2023-04-07  13847  
-659d9ec85eda12 Sagi Shahar 2023-04-07  13848  	ret = lock_two_vms_for_migration(dst_kvm, src_kvm,
-659d9ec85eda12 Sagi Shahar 2023-04-07  13849  					 dst_migration_in_progress,
-659d9ec85eda12 Sagi Shahar 2023-04-07  13850  					 src_migration_in_progress);
-659d9ec85eda12 Sagi Shahar 2023-04-07  13851  	if (ret)
-659d9ec85eda12 Sagi Shahar 2023-04-07  13852  		return ret;
-659d9ec85eda12 Sagi Shahar 2023-04-07  13853  
-659d9ec85eda12 Sagi Shahar 2023-04-07  13854  	ret = lock_vcpus_for_migration(dst_kvm, MIGRATION_TARGET);
-659d9ec85eda12 Sagi Shahar 2023-04-07  13855  	if (ret)
-659d9ec85eda12 Sagi Shahar 2023-04-07  13856  		goto unlock_vms;
-659d9ec85eda12 Sagi Shahar 2023-04-07  13857  
-659d9ec85eda12 Sagi Shahar 2023-04-07  13858  	ret = lock_vcpus_for_migration(src_kvm, MIGRATION_SOURCE);
-659d9ec85eda12 Sagi Shahar 2023-04-07  13859  	if (ret)
-659d9ec85eda12 Sagi Shahar 2023-04-07  13860  		goto unlock_dst_vcpu;
-659d9ec85eda12 Sagi Shahar 2023-04-07  13861  
-659d9ec85eda12 Sagi Shahar 2023-04-07  13862  	if (atomic_read(&dst_kvm->online_vcpus) !=
-659d9ec85eda12 Sagi Shahar 2023-04-07  13863  	    atomic_read(&src_kvm->online_vcpus))
-659d9ec85eda12 Sagi Shahar 2023-04-07 @13864  		goto unlock_dst_vcpu;
+vim +722 drivers/mtd/maps/vmu-flash.c
 
-Should these
+47a72688fae729 Adrian McMenamin 2009-03-04  709  
+47a72688fae729 Adrian McMenamin 2009-03-04  710  /* Callback to handle eccentricities of both mtd subsystem
+47a72688fae729 Adrian McMenamin 2009-03-04  711   * and general flakyness of Dreamcast VMUs
+47a72688fae729 Adrian McMenamin 2009-03-04  712   */
+47a72688fae729 Adrian McMenamin 2009-03-04  713  static int vmu_can_unload(struct maple_device *mdev)
+47a72688fae729 Adrian McMenamin 2009-03-04  714  {
+47a72688fae729 Adrian McMenamin 2009-03-04  715  	struct memcard *card;
+47a72688fae729 Adrian McMenamin 2009-03-04  716  	int x;
+47a72688fae729 Adrian McMenamin 2009-03-04  717  	struct mtd_info *mtd;
+47a72688fae729 Adrian McMenamin 2009-03-04  718  
+47a72688fae729 Adrian McMenamin 2009-03-04  719  	card = maple_get_drvdata(mdev);
+47a72688fae729 Adrian McMenamin 2009-03-04  720  	for (x = 0; x < card->partitions; x++) {
+47a72688fae729 Adrian McMenamin 2009-03-04  721  		mtd = &((card->mtd)[x]);
+47a72688fae729 Adrian McMenamin 2009-03-04 @722  		if (mtd->usecount > 0)
+47a72688fae729 Adrian McMenamin 2009-03-04  723  			return 0;
+47a72688fae729 Adrian McMenamin 2009-03-04  724  	}
+47a72688fae729 Adrian McMenamin 2009-03-04  725  	return 1;
+47a72688fae729 Adrian McMenamin 2009-03-04  726  }
+47a72688fae729 Adrian McMenamin 2009-03-04  727  
 
-659d9ec85eda12 Sagi Shahar 2023-04-07  13865  
-659d9ec85eda12 Sagi Shahar 2023-04-07  13866  	kvm_for_each_vcpu(i, src_vcpu, src_kvm) {
-659d9ec85eda12 Sagi Shahar 2023-04-07  13867  		if (!src_vcpu->arch.guest_state_protected)
-659d9ec85eda12 Sagi Shahar 2023-04-07  13868  			goto unlock_dst_vcpu;
+:::::: The code at line 722 was first introduced by commit
+:::::: 47a72688fae7298e1ad5fdc9bff7e04b6a549620 mtd: flash mapping support for Dreamcast VMU.
 
-be error paths?
-
-659d9ec85eda12 Sagi Shahar 2023-04-07  13869  	}
-659d9ec85eda12 Sagi Shahar 2023-04-07  13870  
-659d9ec85eda12 Sagi Shahar 2023-04-07  13871  	return 0;
-659d9ec85eda12 Sagi Shahar 2023-04-07  13872  
-659d9ec85eda12 Sagi Shahar 2023-04-07  13873  unlock_dst_vcpu:
-659d9ec85eda12 Sagi Shahar 2023-04-07  13874  	unlock_vcpus_for_migration(dst_kvm);
-659d9ec85eda12 Sagi Shahar 2023-04-07  13875  unlock_vms:
-659d9ec85eda12 Sagi Shahar 2023-04-07  13876  	unlock_two_vms_for_migration(dst_kvm, src_kvm,
-659d9ec85eda12 Sagi Shahar 2023-04-07  13877  				     dst_migration_in_progress,
-659d9ec85eda12 Sagi Shahar 2023-04-07  13878  				     src_migration_in_progress);
-659d9ec85eda12 Sagi Shahar 2023-04-07  13879  
-659d9ec85eda12 Sagi Shahar 2023-04-07  13880  	return ret;
-659d9ec85eda12 Sagi Shahar 2023-04-07  13881  }
+:::::: TO: Adrian McMenamin <adrian@newgolddream.dyndns.info>
+:::::: CC: Paul Mundt <lethal@linux-sh.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
