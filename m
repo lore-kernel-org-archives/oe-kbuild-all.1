@@ -1,51 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A622AF505
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Oct 2023 14:00:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85EB2E640;
+	Tue,  3 Oct 2023 14:22:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696341648; x=1727877648;
+  t=1696342943; x=1727878943;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=s30GRJRYo+hm6YhVGNnw6HtgOobxap3zx2uU/nc+4gs=;
-  b=KjxPr03NV52026kSpL9ax4zGErpjdIatIGUMoi32LSS24zHqhXTu4tYu
-   JFoGlo7taF323BJr/KwJRDsmK7SSCjY6xteL0LjeMZppByldQeeOi6ZAV
-   tfJq72by24BGcpjtDeIt65d8qv90s3TQBRMHvCw/BOvmwJ85frge8Ib25
-   Cmyh99aBc6AsIvgWi/dCHNlJMMYbTQGKEz4+W1dV2Oi71ZfURf6H6aumx
-   bL+pJoNRXXzktj9u4vX32LWXrYK/h1gzA+y9hSlL/HBVIEGd49h0wC0sK
-   9rx2pCP4zKkc2wljUBe1LGgD9zdCPYAjggHVskc+mDGa0oMoIY5dTlEyw
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="363143837"
+  bh=cjks6CkF+4bewzoomLbEOwdv2hYLwa0cZHBRPyA2qlk=;
+  b=Cn6+tXrhcr4Rh01hVJM3p6mPXtIiFhDRNG1+0xoHVAqEURBIseoVbjVW
+   E1Iljanns4mz/9S0D9NuZ48FeuVkNBb2ctZXqGRySw5Qpt+mjAc2p60wa
+   U1xRv4m0f06uhjn2czfjl7EeQjdCfgU4STg5ty8AcbTuEIMegDRudpRSN
+   Zs6TYUd8DJJqEerz6UN5gU33a4ttb3FzfIHLJhSW1VXzVxcujdNxB/yIV
+   t5Yx53tBg5tfb1IRE2AtMjK5frcN08h6O/iSW4aC9h+qviWMDIiKoDcHT
+   dIGXsmbl8MhTrspumbdA5Nf4wi1JECV+ka7V3B/OZNgEmavEkIz33fzTz
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="382794209"
 X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="363143837"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 07:00:18 -0700
+   d="scan'208";a="382794209"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 07:22:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="1082019676"
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="816701888"
 X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="1082019676"
+   d="scan'208";a="816701888"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 03 Oct 2023 07:00:13 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 03 Oct 2023 07:22:18 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qnfwZ-0007AW-0c;
-	Tue, 03 Oct 2023 14:00:11 +0000
-Date: Tue, 3 Oct 2023 21:59:32 +0800
+	id 1qngHu-0007B6-1v;
+	Tue, 03 Oct 2023 14:22:15 +0000
+Date: Tue, 3 Oct 2023 22:21:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matt Johnston <matt@codeconstruct.com.au>,
-	linux-i3c@lists.infradead.org, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
-	Jeremy Kerr <jk@codeconstruct.com.au>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+To: David Lechner <dlechner@baylibre.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-staging@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, David Lechner <david@lechnology.com>,
+	Jonathan Cameron <jic23@kernel.org>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [PATCH net-next v3 3/3] mctp i3c: MCTP I3C driver
-Message-ID: <202310032142.NaWYwlZc-lkp@intel.com>
-References: <20231003063624.126723-4-matt@codeconstruct.com.au>
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Axel Haslam <ahaslam@baylibre.com>,
+	Philip Molloy <pmolloy@baylibre.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 22/27] staging: iio: resolver: ad2s1210: convert LOS
+ threshold to event attr
+Message-ID: <202310032242.jYDq0057-lkp@intel.com>
+References: <20230929-ad2s1210-mainline-v3-22-fa4364281745@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,119 +56,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231003063624.126723-4-matt@codeconstruct.com.au>
+In-Reply-To: <20230929-ad2s1210-mainline-v3-22-fa4364281745@baylibre.com>
 
-Hi Matt,
+Hi David,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on net-next/main]
+[auto build test WARNING on 5e99f692d4e32e3250ab18d511894ca797407aec]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matt-Johnston/dt-bindings-i3c-Add-mctp-controller-property/20231003-144037
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20231003063624.126723-4-matt%40codeconstruct.com.au
-patch subject: [PATCH net-next v3 3/3] mctp i3c: MCTP I3C driver
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231003/202310032142.NaWYwlZc-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231003/202310032142.NaWYwlZc-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/dt-bindings-iio-resolver-add-devicetree-bindings-for-ad2s1210/20230930-014031
+base:   5e99f692d4e32e3250ab18d511894ca797407aec
+patch link:    https://lore.kernel.org/r/20230929-ad2s1210-mainline-v3-22-fa4364281745%40baylibre.com
+patch subject: [PATCH v3 22/27] staging: iio: resolver: ad2s1210: convert LOS threshold to event attr
+config: i386-randconfig-062-20231003 (https://download.01.org/0day-ci/archive/20231003/202310032242.jYDq0057-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231003/202310032242.jYDq0057-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310032142.NaWYwlZc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310032242.jYDq0057-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   drivers/net/mctp/mctp-i3c.c: In function 'mctp_i3c_read':
->> drivers/net/mctp/mctp-i3c.c:121:9: error: implicit declaration of function 'put_unaligned_be48' [-Werror=implicit-function-declaration]
-     121 |         put_unaligned_be48(mi->pid, ihdr->source);
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/net/mctp/mctp-i3c.c: In function 'mctp_i3c_xmit':
->> drivers/net/mctp/mctp-i3c.c:380:15: error: implicit declaration of function 'get_unaligned_be48'; did you mean 'get_unalign_ctl'? [-Werror=implicit-function-declaration]
-     380 |         pid = get_unaligned_be48(ihdr->dest);
-         |               ^~~~~~~~~~~~~~~~~~
-         |               get_unalign_ctl
-   cc1: some warnings being treated as errors
-
-
-vim +/put_unaligned_be48 +121 drivers/net/mctp/mctp-i3c.c
-
-    98	
-    99	static int mctp_i3c_read(struct mctp_i3c_device *mi)
-   100	{
-   101		struct i3c_priv_xfer xfer = { .rnw = 1, .len = mi->mrl };
-   102		struct net_device_stats *stats = &mi->mbus->ndev->stats;
-   103		struct mctp_i3c_internal_hdr *ihdr = NULL;
-   104		struct sk_buff *skb = NULL;
-   105		struct mctp_skb_cb *cb;
-   106		int net_status, rc;
-   107		u8 pec, addr;
-   108	
-   109		skb = netdev_alloc_skb(mi->mbus->ndev,
-   110				       mi->mrl + sizeof(struct mctp_i3c_internal_hdr));
-   111		if (!skb) {
-   112			stats->rx_dropped++;
-   113			rc = -ENOMEM;
-   114			goto err;
-   115		}
-   116	
-   117		skb->protocol = htons(ETH_P_MCTP);
-   118		/* Create a header for internal use */
-   119		skb_reset_mac_header(skb);
-   120		ihdr = skb_put(skb, sizeof(struct mctp_i3c_internal_hdr));
- > 121		put_unaligned_be48(mi->pid, ihdr->source);
-   122		put_unaligned_be48(mi->mbus->pid, ihdr->dest);
-   123		skb_pull(skb, sizeof(struct mctp_i3c_internal_hdr));
-   124	
-   125		xfer.data.in = skb_put(skb, mi->mrl);
-   126	
-   127		rc = i3c_device_do_priv_xfers(mi->i3c, &xfer, 1);
-   128		if (rc < 0)
-   129			goto err;
-   130	
-   131		if (WARN_ON_ONCE(xfer.len > mi->mrl)) {
-   132			/* Bad i3c bus driver */
-   133			rc = -EIO;
-   134			goto err;
-   135		}
-   136		if (xfer.len < MCTP_I3C_MINLEN) {
-   137			stats->rx_length_errors++;
-   138			rc = -EIO;
-   139			goto err;
-   140		}
-   141	
-   142		/* check PEC, including address byte */
-   143		addr = mi->addr << 1 | 1;
-   144		pec = i2c_smbus_pec(0, &addr, 1);
-   145		pec = i2c_smbus_pec(pec, xfer.data.in, xfer.len - 1);
-   146		if (pec != ((u8 *)xfer.data.in)[xfer.len - 1]) {
-   147			stats->rx_crc_errors++;
-   148			rc = -EINVAL;
-   149			goto err;
-   150		}
-   151	
-   152		/* Remove PEC */
-   153		skb_trim(skb, xfer.len - 1);
-   154	
-   155		cb = __mctp_cb(skb);
-   156		cb->halen = PID_SIZE;
-   157		put_unaligned_be48(mi->pid, cb->haddr);
-   158	
-   159		net_status = netif_rx(skb);
-   160	
-   161		if (net_status == NET_RX_SUCCESS) {
-   162			stats->rx_packets++;
-   163			stats->rx_bytes += xfer.len - 1;
-   164		} else {
-   165			stats->rx_dropped++;
-   166		}
-   167	
-   168		return 0;
-   169	err:
-   170		kfree_skb(skb);
-   171		return rc;
-   172	}
-   173	
+sparse warnings: (new ones prefixed by >>)
+   drivers/staging/iio/resolver/ad2s1210.c:896:1: sparse: sparse: symbol 'iio_const_attr_in_phase0_mag_value_available' was not declared. Should it be static?
+>> drivers/staging/iio/resolver/ad2s1210.c:901:1: sparse: sparse: symbol 'iio_const_attr_in_altvoltage0_thresh_falling_value_available' was not declared. Should it be static?
+   drivers/staging/iio/resolver/ad2s1210.c:902:1: sparse: sparse: symbol 'iio_dev_attr_in_angl1_thresh_rising_value_available' was not declared. Should it be static?
+   drivers/staging/iio/resolver/ad2s1210.c:903:1: sparse: sparse: symbol 'iio_dev_attr_in_angl1_thresh_rising_hysteresis_available' was not declared. Should it be static?
 
 -- 
 0-DAY CI Kernel Test Service
