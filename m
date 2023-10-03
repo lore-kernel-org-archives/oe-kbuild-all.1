@@ -1,317 +1,187 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2077.outbound.protection.outlook.com [40.107.22.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E2031A90
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Oct 2023 14:22:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696342945; x=1727878945;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4JLA6Gg82SIPmiuXZk90gyCKk8kVwcng8NbaMXoVZtE=;
-  b=lwhSxTBqtmH7mLh/P6zQZZzGJ6nlDyW0skgVwjVG0nlrMFC+KRAHoiR5
-   B9ElLWIQvRLSeOf6vFhTn+6METn7gnuLjFu5Wc4PE2BzPgrygHbatutNe
-   zJf5XQTdqTTrLz2g7LhOz0ewW05nj4hhL7yw46adALgPq2lY/8frwVLAR
-   S1gYdiP/F4DqGnnzrA56U6qiY/il1l0ia03+Mt4r62s/qo25pj4ZMYlop
-   w73OJpsKLKxtMMypC3bCSpABWUmm5MvMAXg2ieXfvT17J+wrURaSlAXe8
-   o/rrehWuUdi71DMrK8wjI3+f3+ZkNmSwF9Z/rEDuNN7rvGo6jn7VLfKAt
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="382794216"
-X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="382794216"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 07:22:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="816701903"
-X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="816701903"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 03 Oct 2023 07:22:20 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qngHx-0007BB-2R;
-	Tue, 03 Oct 2023 14:22:18 +0000
-Date: Tue, 3 Oct 2023 22:21:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>,
-	Manish Narani <manish.narani@xilinx.com>,
-	Piyush Mehta <piyush.mehta@amd.com>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 670/1370] htmldocs:
- ./drivers/usb/dwc3/core.h:1136: warning: bad line:                 a
- hibernation wakeup event
-Message-ID: <202310032245.Lph5Ppz6-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8194F31A6B;
+	Tue,  3 Oct 2023 14:52:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TNA9eJ9q7xCAk8tEoICl6Edzmgvo3MW/5WpmO8+/NVRugity7Cc5y8KorE4O7YOGT701+as0jIYRLj1RqoJvUeg5xLNpWDWYGt8W8R3VWY4t5i4eme68wFdtjwiB2RVcIlp9SBHYFtsivfn+iFAE6vKMBPNyq9nhHrPHogMiN4tZLYyfiLflseBKUCYKIm7mcwcus3+v3sZBLM3KY+hfh/XyH3enQnPa1hf7FLiZxzqJHJHOeEs5KYOrIZvwx+CQXr96S1/wUZMnPHOHfwXvCSGRss1VvTcfEu/HrGSG1I6je9cQnAwinuwwEkjMD5ecGq1zdj6bnIDMqBZEK9WRTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ztd2TlqL5MK6IbiPIib3jyaS/nQbB4fi+bTpNliK7Ls=;
+ b=SoBLGQvzFuQySGT5wD5LzrIblAKx90jxyp7J/fnXlflqV4mhkpOCPB/C1c7777YcDL+WSJbj4aOYhWLzEF7X3c760J8E2RV3QUPO4M2eWaTgQsIgyxf6BocjSEK8ttFy9JgnHifnAfu+UWRzVRHvNwo+IWEwFyolss59YH+WsoKlmaUuOd96Ezmwf0dTPkwTdo3YonMuP3E25KSSZhaw+/d1zFQ538eAFQzMMWC7vHxUnFXafk7mdo9BJ3vSefnQxVgPadPHZwkhJwI7Qqfe80YzYjeTOO86ckrN6CIwF+uNUYUtkQ+FTwMSdSdYuteZSK6B4zwcZsDGH9j8dKsCxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ztd2TlqL5MK6IbiPIib3jyaS/nQbB4fi+bTpNliK7Ls=;
+ b=ZWV9DtXXz8H9iQ8NvBoUAqi+TmjB5aimbvxUssYpTN7zGFtJVddNBWDOxFyf2uWprJrp9SYJL7Hob7sm4XFAghzrEuhjtfffVhty6sNVHczNCmtZhvdqQluN0U32TCmbJEvs8flA/4dOFQF0OW/LxUx9QetrW8FBo8zMhYrjzWk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB4838.eurprd04.prod.outlook.com (2603:10a6:20b:4::16)
+ by AS8PR04MB7526.eurprd04.prod.outlook.com (2603:10a6:20b:299::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.23; Tue, 3 Oct
+ 2023 14:52:29 +0000
+Received: from AM6PR04MB4838.eurprd04.prod.outlook.com
+ ([fe80::1774:e25f:f99:aca2]) by AM6PR04MB4838.eurprd04.prod.outlook.com
+ ([fe80::1774:e25f:f99:aca2%4]) with mapi id 15.20.6813.027; Tue, 3 Oct 2023
+ 14:52:29 +0000
+From: Frank Li <Frank.Li@nxp.com>
+To: arnd@arndb.de,
+	vkoul@kernel.org
+Cc: Frank.Li@nxp.com,
+	bhe@redhat.com,
+	dmaengine@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	imx@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	rafael@kernel.org
+Subject: [PATCH v6 0/3] dmaengine: fsl_edma: add trace and debugfs support
+Date: Tue,  3 Oct 2023 10:52:09 -0400
+Message-Id: <20231003145212.662955-1-Frank.Li@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR13CA0186.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c3::11) To AM6PR04MB4838.eurprd04.prod.outlook.com
+ (2603:10a6:20b:4::16)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6PR04MB4838:EE_|AS8PR04MB7526:EE_
+X-MS-Office365-Filtering-Correlation-Id: fcda9827-463e-475e-3ffb-08dbc4205dc7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	pivs+zKehkd1tzqGWbokws36NVLHUUDxwMv2wTxikmxd62NXH0oCOrdxc4qUrNZBmtfQBfa/qbrDgqSmg0TH/9eVfKKFrSUSX0pS4nJzPMaAImnHRziPZiZW2qDTL0xjirMcElN8rXc6DkSUMLh2yJRueOjL+1UMdK4BilomXZ7bfTtBU225MvA9a1OVWoNj1t6cDRzC0UHEU53mmZ6Y5jMawcf2uM80c9iGdZgyZoC3HBJr2PQeQXIVkykPgPyfljPszXdtx2AGgry5ZDaCuK5MLO3F3KCYuoWCHbunk1h1IXBaox2mS5Np8OP0Sfj3LwEsTb4VdAKY0Yx1OMoVegUqy9e6LqIsl5iHVud4xwmO6phqC9+/DhxwI20QCFUjiynhO+8wGxxoaIPv1eDgKgceAOuYu6MEhQq7ZMWbbnEX05gRh/SF58hylPfO9SzpOTn4VWUQaEApcstB7tum/lsiCwG14rS/l1TT6VhyM3lfmAYDAqG5jIUPEZ2EOia5na49Bf/fasdpMxbamMVH4bD2wh6fM/It/bawbGKCKrYUQ0DD5JTJJL/VnEsNf3Ln5LpO3RRhtvzieebkuaShPpkRurA1h7/y12qcYy4242Y=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB4838.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(136003)(366004)(39860400002)(376002)(230922051799003)(186009)(1800799009)(64100799003)(451199024)(36756003)(38350700002)(86362001)(8676002)(66476007)(2616005)(1076003)(41300700001)(52116002)(8936002)(4326008)(66556008)(5660300002)(7416002)(2906002)(6486002)(83380400001)(966005)(6666004)(478600001)(6506007)(6512007)(316002)(26005)(38100700002)(66946007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?481QoYSKVdnGpuPDP41PTKccTDWBnQvbE/OlgWGv5uK0iNZAl5PVjOL3fH35?=
+ =?us-ascii?Q?tw+bi70Fr88irkbefKQlIeaG10sxYBbnD9Xt+/jGl9ln3byd22S+3QTls+R4?=
+ =?us-ascii?Q?ZSqkoou9DE1kMkB8m6O1nsST8grALB2Cn/g+2AExXuOdaN4IiN2XAuJt1+Ie?=
+ =?us-ascii?Q?Fzf+cl8cEvlNhJ17QYEEEh9Vwc0ifXYYGA1l0otl8WySpLRebMvnuEAZpNR+?=
+ =?us-ascii?Q?n24yhDXooQ8f2q36JXe655qrjn+MRPObsWF+dZBmW5F2lJxOSvZ7PpI/v1vd?=
+ =?us-ascii?Q?Rc1vWnehPIwfFJd37070xCFJuZrIApeYjupxP8SsBQXu3PmOyZELTTcZ7yV6?=
+ =?us-ascii?Q?wZBmlCbkeV9xh4qPegKnHgaRtyhronj3Sa9K60TRWvHO/YQCpZW2m9dceUk3?=
+ =?us-ascii?Q?TgCzjBtMh8ktQQ7G5C2GwS5lpmYJN0M0sWNvGS6KxsGNe001GNSIDCjf1rPd?=
+ =?us-ascii?Q?FOBbfZ0iwSG+yCFHKFsMgqGOq3rGduik1masZM5XvNbJ3/+b874G+VmMtXTh?=
+ =?us-ascii?Q?QOW37eBa+EkYZ5FnJ1xoBjeVsxBgE88s0+PmgvUuLl1OwnHAGuzQgbaMsBRd?=
+ =?us-ascii?Q?LRn33/rwTOk1abHU11pD1/xSq7KJJTS+NuROpBrTp7OtlwrurdvxpxfgIzu2?=
+ =?us-ascii?Q?cTmTXbdyAM8LY1A51qo5Y3LAl8guedKZxZ9vhIUBkaTEpt6gN5jJwooWLDj6?=
+ =?us-ascii?Q?fLRrvv0CaCkllgX4VdeauzmQthCXXHynM8XvqC85uPQAeL3Ok8XD8UuAUujj?=
+ =?us-ascii?Q?NaQEIIoHFotl6UGoQUcAniC/EZ/hi4mhT3XkqsZymjf/GXbn0OINE30CtykQ?=
+ =?us-ascii?Q?JgQ7MyZOaRoijryr9GDmKcIKBwEjFG6mp1kL1qTyEmf1wE2sY6iRg9NLKZwS?=
+ =?us-ascii?Q?T/Yyo1hW+lbOLgZUVMbFspANkdWO+oDZZDqtf0Yk5O/gGDlV1g/PZHs3sMA2?=
+ =?us-ascii?Q?ON92Lh6BnErOkm4XIlJjuVOTanf3TBRXH6r/76c9ZLLERu11hQEhFQjOHLDk?=
+ =?us-ascii?Q?7yibBRBhsqWj3ALZ+yY5HuXjUCb7NECe+NHB8Mp6I3C87SHOvFBF7rjd1T1+?=
+ =?us-ascii?Q?BPM4rRefoQF4lmtrci5gC9VjUar95SIKSYHz2gm/J+tpsZ5OZzpeSZ1OwGt4?=
+ =?us-ascii?Q?xCuy1FFPVL3UOw2wRalvPUxJ2c7DMoqfU3RLKUZhIu8Z89v+tkvQhcGUd+wj?=
+ =?us-ascii?Q?sN1yoVWiO0QlPznXX6pUFxrao5G8mQJa8f8dMW/WeoqjI5i2KHCWZbVahAx5?=
+ =?us-ascii?Q?c38L2S9Xc8F3iRxAZSBTw9MPvJD5XtDWckTzdzpy2ZvWC6VY0A9GjqeAticR?=
+ =?us-ascii?Q?snjxF8YC4mVPyrtFtf7zPKLp1WOJBOlo3YTYCpnhIpsHETHRIYplmOW2BlTi?=
+ =?us-ascii?Q?csl8ZqZ48kjWPFsHh5Mbp5GnRkbnLl0LiuHnunHwwfCtH2rLGl0woW+zZN/Z?=
+ =?us-ascii?Q?Vur5Ugkna98Ci16TG/yI4CFT8EJlrqGEiKOyp+JxnbOIB/wou3xgeX2oFL0x?=
+ =?us-ascii?Q?2TjUl6JeULlwYA5cHEdx3rnO5eFnx0WO1FnLS84Ki9ztzP91woeIQJmHyC1g?=
+ =?us-ascii?Q?5YpSyG27u/Sok50w5obwoFpAhL3/yEKiw7h+okv9?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fcda9827-463e-475e-3ffb-08dbc4205dc7
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB4838.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2023 14:52:29.7382
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: trnig0xbYtnhn7mOLxAXAnQaAxG/5gzlxaKcDdN38IIRi83nb6kwNzFmAgDIclgKTUVZSNqLPIoSO2OKW6O9Tg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7526
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
-commit: cbd364755cd28447d078372bda5ab27896856c84 [670/1370] usb: dwc3: don't setup event buffers when operating in host mode
-reproduce: (https://download.01.org/0day-ci/archive/20231003/202310032245.Lph5Ppz6-lkp@intel.com/reproduce)
+Change from v5 to v6
+- Use case 0 and case sizeof(u32) instead of default
+
+Change from v4 to v5
+- There are still some discussion about 64bit register access.
+  Drop 64 register support and use sperate patch to enable 64bit register
+support in future.
+
+Change from v3 to v4
+- Fix build warning
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310032245.Lph5Ppz6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309210500.owiirl4c-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Change from v2 to v3
+- Fixed sparse build warning
+- improve debugfs_create_regset32 and use debugfs_create_regset() to dump
+  all registers
 
->> ./drivers/usb/dwc3/core.h:1136: warning: bad line:                 a hibernation wakeup event
->> ./drivers/usb/dwc3/core.h:1360: warning: Function parameter or member 'dwc3_pmu' not described in 'dwc3'
->> ./drivers/usb/dwc3/core.h:1360: warning: Function parameter or member 'mask_phy_rst' not described in 'dwc3'
+Change from v1 to v2
+- Fixed tcd trace issue, data need be saved firstly.
 
-vim +1136 ./drivers/usb/dwc3/core.h
+=== Trace ===
 
-   974	
-   975	/**
-   976	 * struct dwc3 - representation of our controller
-   977	 * @drd_work: workqueue used for role swapping
-   978	 * @ep0_trb: trb which is used for the ctrl_req
-   979	 * @bounce: address of bounce buffer
-   980	 * @scratchbuf: address of scratch buffer
-   981	 * @setup_buf: used while precessing STD USB requests
-   982	 * @ep0_trb_addr: dma address of @ep0_trb
-   983	 * @bounce_addr: dma address of @bounce
-   984	 * @ep0_usb_req: dummy req used while handling STD USB requests
-   985	 * @scratch_addr: dma address of scratchbuf
-   986	 * @ep0_in_setup: one control transfer is completed and enter setup phase
-   987	 * @lock: for synchronizing
-   988	 * @mutex: for mode switching
-   989	 * @dev: pointer to our struct device
-   990	 * @sysdev: pointer to the DMA-capable device
-   991	 * @xhci: pointer to our xHCI child
-   992	 * @xhci_resources: struct resources for our @xhci child
-   993	 * @ev_buf: struct dwc3_event_buffer pointer
-   994	 * @eps: endpoint array
-   995	 * @gadget: device side representation of the peripheral controller
-   996	 * @gadget_driver: pointer to the gadget driver
-   997	 * @bus_clk: clock for accessing the registers
-   998	 * @ref_clk: reference clock
-   999	 * @susp_clk: clock used when the SS phy is in low power (S3) state
-  1000	 * @reset: reset control
-  1001	 * @regs: base address for our registers
-  1002	 * @regs_size: address space size
-  1003	 * @fladj: frame length adjustment
-  1004	 * @ref_clk_per: reference clock period configuration
-  1005	 * @irq_gadget: peripheral controller's IRQ number
-  1006	 * @otg_irq: IRQ number for OTG IRQs
-  1007	 * @current_otg_role: current role of operation while using the OTG block
-  1008	 * @desired_otg_role: desired role of operation while using the OTG block
-  1009	 * @otg_restart_host: flag that OTG controller needs to restart host
-  1010	 * @nr_scratch: number of scratch buffers
-  1011	 * @u1u2: only used on revisions <1.83a for workaround
-  1012	 * @maximum_speed: maximum speed requested (mainly for testing purposes)
-  1013	 * @max_ssp_rate: SuperSpeed Plus maximum signaling rate and lane count
-  1014	 * @gadget_max_speed: maximum gadget speed requested
-  1015	 * @gadget_ssp_rate: Gadget driver's maximum supported SuperSpeed Plus signaling
-  1016	 *			rate and lane count.
-  1017	 * @ip: controller's ID
-  1018	 * @revision: controller's version of an IP
-  1019	 * @version_type: VERSIONTYPE register contents, a sub release of a revision
-  1020	 * @dr_mode: requested mode of operation
-  1021	 * @current_dr_role: current role of operation when in dual-role mode
-  1022	 * @desired_dr_role: desired role of operation when in dual-role mode
-  1023	 * @edev: extcon handle
-  1024	 * @edev_nb: extcon notifier
-  1025	 * @hsphy_mode: UTMI phy mode, one of following:
-  1026	 *		- USBPHY_INTERFACE_MODE_UTMI
-  1027	 *		- USBPHY_INTERFACE_MODE_UTMIW
-  1028	 * @role_sw: usb_role_switch handle
-  1029	 * @role_switch_default_mode: default operation mode of controller while
-  1030	 *			usb role is USB_ROLE_NONE.
-  1031	 * @usb_psy: pointer to power supply interface.
-  1032	 * @usb2_phy: pointer to USB2 PHY
-  1033	 * @usb3_phy: pointer to USB3 PHY
-  1034	 * @usb2_generic_phy: pointer to USB2 PHY
-  1035	 * @usb3_generic_phy: pointer to USB3 PHY
-  1036	 * @phys_ready: flag to indicate that PHYs are ready
-  1037	 * @ulpi: pointer to ulpi interface
-  1038	 * @ulpi_ready: flag to indicate that ULPI is initialized
-  1039	 * @u2sel: parameter from Set SEL request.
-  1040	 * @u2pel: parameter from Set SEL request.
-  1041	 * @u1sel: parameter from Set SEL request.
-  1042	 * @u1pel: parameter from Set SEL request.
-  1043	 * @num_eps: number of endpoints
-  1044	 * @ep0_next_event: hold the next expected event
-  1045	 * @ep0state: state of endpoint zero
-  1046	 * @link_state: link state
-  1047	 * @speed: device speed (super, high, full, low)
-  1048	 * @hwparams: copy of hwparams registers
-  1049	 * @regset: debugfs pointer to regdump file
-  1050	 * @dbg_lsp_select: current debug lsp mux register selection
-  1051	 * @test_mode: true when we're entering a USB test mode
-  1052	 * @test_mode_nr: test feature selector
-  1053	 * @lpm_nyet_threshold: LPM NYET response threshold
-  1054	 * @hird_threshold: HIRD threshold
-  1055	 * @rx_thr_num_pkt_prd: periodic ESS receive packet count
-  1056	 * @rx_max_burst_prd: max periodic ESS receive burst size
-  1057	 * @tx_thr_num_pkt_prd: periodic ESS transmit packet count
-  1058	 * @tx_max_burst_prd: max periodic ESS transmit burst size
-  1059	 * @tx_fifo_resize_max_num: max number of fifos allocated during txfifo resize
-  1060	 * @clear_stall_protocol: endpoint number that requires a delayed status phase
-  1061	 * @hsphy_interface: "utmi" or "ulpi"
-  1062	 * @connected: true when we're connected to a host, false otherwise
-  1063	 * @softconnect: true when gadget connect is called, false when disconnect runs
-  1064	 * @delayed_status: true when gadget driver asks for delayed status
-  1065	 * @ep0_bounced: true when we used bounce buffer
-  1066	 * @ep0_expect_in: true when we expect a DATA IN transfer
-  1067	 * @has_hibernation: true when dwc3 was configured with Hibernation
-  1068	 * @sysdev_is_parent: true when dwc3 device has a parent driver
-  1069	 * @has_lpm_erratum: true when core was configured with LPM Erratum. Note that
-  1070	 *			there's now way for software to detect this in runtime.
-  1071	 * @is_utmi_l1_suspend: the core asserts output signal
-  1072	 *	0	- utmi_sleep_n
-  1073	 *	1	- utmi_l1_suspend_n
-  1074	 * @is_fpga: true when we are using the FPGA board
-  1075	 * @pending_events: true when we have pending IRQs to be handled
-  1076	 * @do_fifo_resize: true when txfifo resizing is enabled for dwc3 endpoints
-  1077	 * @pullups_connected: true when Run/Stop bit is set
-  1078	 * @setup_packet_pending: true when there's a Setup Packet in FIFO. Workaround
-  1079	 * @three_stage_setup: set if we perform a three phase setup
-  1080	 * @dis_start_transfer_quirk: set if start_transfer failure SW workaround is
-  1081	 *			not needed for DWC_usb31 version 1.70a-ea06 and below
-  1082	 * @usb3_lpm_capable: set if hadrware supports Link Power Management
-  1083	 * @usb2_lpm_disable: set to disable usb2 lpm for host
-  1084	 * @usb2_gadget_lpm_disable: set to disable usb2 lpm for gadget
-  1085	 * @disable_scramble_quirk: set if we enable the disable scramble quirk
-  1086	 * @u2exit_lfps_quirk: set if we enable u2exit lfps quirk
-  1087	 * @u2ss_inp3_quirk: set if we enable P3 OK for U2/SS Inactive quirk
-  1088	 * @req_p1p2p3_quirk: set if we enable request p1p2p3 quirk
-  1089	 * @del_p1p2p3_quirk: set if we enable delay p1p2p3 quirk
-  1090	 * @del_phy_power_chg_quirk: set if we enable delay phy power change quirk
-  1091	 * @lfps_filter_quirk: set if we enable LFPS filter quirk
-  1092	 * @rx_detect_poll_quirk: set if we enable rx_detect to polling lfps quirk
-  1093	 * @dis_u3_susphy_quirk: set if we disable usb3 suspend phy
-  1094	 * @dis_u2_susphy_quirk: set if we disable usb2 suspend phy
-  1095	 * @dis_enblslpm_quirk: set if we clear enblslpm in GUSB2PHYCFG,
-  1096	 *                      disabling the suspend signal to the PHY.
-  1097	 * @dis_u1_entry_quirk: set if link entering into U1 state needs to be disabled.
-  1098	 * @dis_u2_entry_quirk: set if link entering into U2 state needs to be disabled.
-  1099	 * @dis_rxdet_inp3_quirk: set if we disable Rx.Detect in P3
-  1100	 * @async_callbacks: if set, indicate that async callbacks will be used.
-  1101	 *
-  1102	 * @dis_u2_freeclk_exists_quirk : set if we clear u2_freeclk_exists
-  1103	 *			in GUSB2PHYCFG, specify that USB2 PHY doesn't
-  1104	 *			provide a free-running PHY clock.
-  1105	 * @dis_del_phy_power_chg_quirk: set if we disable delay phy power
-  1106	 *			change quirk.
-  1107	 * @enable_guctl1_ipd_quirk: set if we enable quirk for reducing timing of inter
-  1108	 *			packet delay(ipd).
-  1109	 * @dis_tx_ipgap_linecheck_quirk: set if we disable u2mac linestate
-  1110	 *			check during HS transmit.
-  1111	 * @resume-hs-terminations: Set if we enable quirk for fixing improper crc
-  1112	 *			generation after resume from suspend.
-  1113	 * @parkmode_disable_ss_quirk: set if we need to disable all SuperSpeed
-  1114	 *			instances in park mode.
-  1115	 * @tx_de_emphasis_quirk: set if we enable Tx de-emphasis quirk
-  1116	 * @tx_de_emphasis: Tx de-emphasis value
-  1117	 *	0	- -6dB de-emphasis
-  1118	 *	1	- -3.5dB de-emphasis
-  1119	 *	2	- No de-emphasis
-  1120	 *	3	- Reserved
-  1121	 * @is_hibernated: true when dwc3 is hibernated; abort processing events
-  1122	 * @dis_metastability_quirk: set to disable metastability quirk.
-  1123	 * @dis_split_quirk: set to disable split boundary.
-  1124	 * @imod_interval: set the interrupt moderation interval in 250ns
-  1125	 *			increments or 0 to disable.
-  1126	 * @max_cfg_eps: current max number of IN eps used across all USB configs.
-  1127	 * @last_fifo_depth: last fifo depth used to determine next fifo ram start
-  1128	 *		     address.
-  1129	 * @num_ep_resized: carries the current number endpoints which have had its tx
-  1130	 *		    fifo resized.
-  1131	 * @is_d3: set if the controller is in d3 state
-  1132	 * @saved_regs: registers to be saved/restored during hibernation/wakeup events
-  1133	 * @irq_wakeup: wakeup IRQ number, triggered when host asks to wakeup from
-  1134	 *              hibernation
-  1135	 * @force_hiber_wake: flag set when the gadget driver is forcefully triggering
-> 1136			a hibernation wakeup event
-  1137	 */
-  1138	struct dwc3 {
-  1139		struct work_struct	drd_work;
-  1140		struct dwc3_trb		*ep0_trb;
-  1141		void			*bounce;
-  1142		void			*scratchbuf;
-  1143		u8			*setup_buf;
-  1144		dma_addr_t		ep0_trb_addr;
-  1145		dma_addr_t		bounce_addr;
-  1146		dma_addr_t		scratch_addr;
-  1147		struct dwc3_request	ep0_usb_req;
-  1148		struct completion	ep0_in_setup;
-  1149	
-  1150		/* device lock */
-  1151		spinlock_t		lock;
-  1152	
-  1153		/* mode switching lock */
-  1154		struct mutex		mutex;
-  1155	
-  1156		struct device		*dev;
-  1157		struct device		*sysdev;
-  1158	
-  1159		struct platform_device	*xhci;
-  1160		struct resource		xhci_resources[DWC3_XHCI_RESOURCES_NUM];
-  1161	
-  1162		struct dwc3_event_buffer *ev_buf;
-  1163		struct dwc3_ep		*eps[DWC3_ENDPOINTS_NUM];
-  1164	
-  1165		struct usb_gadget	*gadget;
-  1166		struct usb_gadget_driver *gadget_driver;
-  1167	
-  1168		struct clk		*bus_clk;
-  1169		struct clk		*ref_clk;
-  1170		struct clk		*susp_clk;
-  1171	
-  1172		struct reset_control	*reset;
-  1173	
-  1174		struct usb_phy		*usb2_phy;
-  1175		struct usb_phy		*usb3_phy;
-  1176	
-  1177		struct phy		*usb2_generic_phy;
-  1178		struct phy		*usb3_generic_phy;
-  1179	
-  1180		bool			phys_ready;
-  1181	
-  1182		struct ulpi		*ulpi;
-  1183		bool			ulpi_ready;
-  1184	
-  1185		void __iomem		*regs;
-  1186		size_t			regs_size;
-  1187	
-  1188		enum usb_dr_mode	dr_mode;
-  1189		u32			current_dr_role;
-  1190		u32			desired_dr_role;
-  1191		struct extcon_dev	*edev;
-  1192		struct notifier_block	edev_nb;
-  1193		enum usb_phy_interface	hsphy_mode;
-  1194		struct regulator	*dwc3_pmu;
-  1195		struct usb_role_switch	*role_sw;
-  1196		enum usb_dr_mode	role_switch_default_mode;
-  1197	
-  1198		struct power_supply	*usb_psy;
-  1199	
-  1200		u32			fladj;
-  1201		u32			ref_clk_per;
-  1202		u32			irq_gadget;
-  1203		u32			otg_irq;
-  1204		u32			current_otg_role;
-  1205		u32			desired_otg_role;
-  1206		bool			otg_restart_host;
-  1207		u32			nr_scratch;
-  1208		u32			u1u2;
-  1209		u32			maximum_speed;
-  1210		u32			gadget_max_speed;
-  1211		enum usb_ssp_rate	max_ssp_rate;
-  1212		enum usb_ssp_rate	gadget_ssp_rate;
-  1213	
-  1214		u32			ip;
-  1215	
+echo 1 >/sys/kernel/debug/tracing/tracing_on
+echo 1 >/sys/kernel/debug/tracing/events/fsl_edma/enable
+
+Run any dma test
+...
+
+cat /sys/kernel/debug/tracing/trace
+
+ uart_testapp_11-448     [000] d..1.    69.185019: edma_fill_tcd:
+==== TCD =====
+  saddr:  0x831ee020
+  soff:       0x8000
+  attr:       0xffff
+  nbytes: 0xfba40000
+  slast:  0x00000000
+  daddr:  0x8aaa4800
+  doff:       0x0001
+  citer:      0x0800
+  dlast:  0xfba40020
+  csr:        0x0052
+  biter:      0x0800
+
+ uart_testapp_11-448     [000] d..2.    69.185022: edma_writew: offset 0001803c: value 00000000
+ uart_testapp_11-448     [000] d..2.    69.185023: edma_writel: offset 00018020: value 4259001c
+ uart_testapp_11-448     [000] d..2.    69.185024: edma_writel: offset 00018030: value 8aaa4000
+
+=== DebugFS ===
+
+cat /sys/kernel/debug/dmaengine/42000000.dma-controller/42000000.dma-controller-CH00/ch_sbr
+0x00208003
+
+Frank Li (3):
+  debugfs_create_regset32() support 8/16 bit width registers
+  dmaengine: fsl-emda: add debugfs support
+  dmaengine: fsl-edma: add trace event support
+
+ drivers/dma/Makefile           |   7 +-
+ drivers/dma/fsl-edma-common.c  |   2 +
+ drivers/dma/fsl-edma-common.h  |  37 +++++-
+ drivers/dma/fsl-edma-debugfs.c | 200 +++++++++++++++++++++++++++++++++
+ drivers/dma/fsl-edma-main.c    |   2 +
+ drivers/dma/fsl-edma-trace.c   |   4 +
+ drivers/dma/fsl-edma-trace.h   | 134 ++++++++++++++++++++++
+ fs/debugfs/file.c              |  54 ++++++---
+ include/linux/debugfs.h        |  17 ++-
+ 9 files changed, 429 insertions(+), 28 deletions(-)
+ create mode 100644 drivers/dma/fsl-edma-debugfs.c
+ create mode 100644 drivers/dma/fsl-edma-trace.c
+ create mode 100644 drivers/dma/fsl-edma-trace.h
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
