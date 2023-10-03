@@ -1,47 +1,33 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8862336AF5
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Oct 2023 18:35:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696358125; x=1727894125;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=W1efFUb+6PT2mcTSVJjAVd93d/gbP7EU4t5/Y7eNlYo=;
-  b=amX5lHa9EN6ufnuEvwVe0jRyMvrotxOg1VtyqE9HHm/6Tc2OlFU445x1
-   LegIpRt7enCuarJZtkuT1hhl58MbsgtZdTmaMtHjQKZCP1DdZlj5ggxxM
-   g7/JvOLiAOD4CFQJOYV6Xx9UVRgy4QIFJwvDmXCVD4iSSBRKh519B2V8S
-   7qxsTWC9/FCTjWADfZn5/Q8shGUfH9VzkesKQdru1IJOpJW7mUsyKXtBn
-   Hzav6un5YTaV9FUHJGD2K2U8IoekCaBhQXlcmkyQSrENnVY88BN+oTl2M
-   nYT0sbfO6+QEZtOF6Kj+6dLEq3z5qU+9kgd3U/Nb2W8dY49F3aIelRhgy
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="362315128"
-X-IronPort-AV: E=Sophos;i="6.03,198,1694761200"; 
-   d="scan'208";a="362315128"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 11:35:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="816804585"
-X-IronPort-AV: E=Sophos;i="6.03,198,1694761200"; 
-   d="scan'208";a="816804585"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 03 Oct 2023 11:35:23 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qnkEp-0008K5-0l;
-	Tue, 03 Oct 2023 18:35:19 +0000
-Date: Wed, 4 Oct 2023 02:34:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH 30/36] pinctrl: remove old GPIO helpers
-Message-ID: <202310040236.w3AOZ94W-lkp@intel.com>
-References: <20231003145114.21637-31-brgl@bgdev.pl>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6493B2B7;
+	Tue,  3 Oct 2023 18:38:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F329C433C7;
+	Tue,  3 Oct 2023 18:38:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1696358301;
+	bh=w+hkcQonpgENNslO4mYy+3TWh2m51b6lpYuyG117pFg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nfpwablmI3E8fNBEMyFoBVQDb0Usvd4Yo9vw1jLsXSEOmu/8p4vOqD3IkgXjVmvvx
+	 APzJqXklp7L86yY6csj735WEcyNaGiyn1RiieSMa8pDeJIuiLL+TvgTfpk8lwDVlmp
+	 XQHPdG0Ka9CJEdJhVbUogBDViGuwklFE3P+apLHvuTX8Ed4SriC98QOB/WehrH7tDz
+	 o0HO8Hca2nw/rFniuwJYkyxg+hjLi8HkwqqnMr2qC3Pj6MWf2qwEZLN8nCrAptkdkF
+	 6LTARQsYCsZNKPIoPzaI3tu7D92soIxRTYqKNBcRf9zV7ejz54ul7s+cWT9B++mwYA
+	 jJzTJlpwpYgmA==
+Date: Tue, 3 Oct 2023 11:38:18 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: masahiroy@kernel.org, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, ndesaulniers@google.com,
+	keescook@chromium.org, samitolvanen@google.com, nicolas@fjasle.eu,
+	trix@redhat.com, linux-kbuild@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH] kbuild: Enable
+ -Wincompatible-function-pointer-types-strict in W=1
+Message-ID: <20231003183818.GA1211904@dev-arch.thelio-3990X>
+References: <20231002-enable-wincompatible-function-pointer-types-strict-w-1-v1-1-808ab955d42d@kernel.org>
+ <202310031340.v1vPh207-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,87 +36,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231003145114.21637-31-brgl@bgdev.pl>
+In-Reply-To: <202310031340.v1vPh207-lkp@intel.com>
 
-Hi Bartosz,
+On Tue, Oct 03, 2023 at 01:53:34PM +0800, kernel test robot wrote:
+> Hi Nathan,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on ce9ecca0238b140b88f43859b211c9fdfd8e5b70]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Nathan-Chancellor/kbuild-Enable-Wincompatible-function-pointer-types-strict-in-W-1/20231003-062107
+> base:   ce9ecca0238b140b88f43859b211c9fdfd8e5b70
+> patch link:    https://lore.kernel.org/r/20231002-enable-wincompatible-function-pointer-types-strict-w-1-v1-1-808ab955d42d%40kernel.org
+> patch subject: [PATCH] kbuild: Enable -Wincompatible-function-pointer-types-strict in W=1
+> config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231003/202310031340.v1vPh207-lkp@intel.com/config)
+> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231003/202310031340.v1vPh207-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202310031340.v1vPh207-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
 
-kernel test robot noticed the following build warnings:
+...
 
-[auto build test WARNING on linusw-pinctrl/devel]
-[also build test WARNING on linusw-pinctrl/for-next next-20231003]
-[cannot apply to brgl/gpio/for-next geert-renesas-drivers/renesas-pinctrl linus/master v6.6-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >> arch/um/drivers/net_kern.c:353:21: warning: incompatible function pointer types initializing 'netdev_tx_t (*)(struct sk_buff *, struct net_device *)' (aka 'enum netdev_tx (*)(struct sk_buff *, struct net_device *)') with an expression of type 'int (struct sk_buff *, struct net_device *)' [-Wincompatible-function-pointer-types-strict]
+>      353 |         .ndo_start_xmit         = uml_net_start_xmit,
+>          |                                   ^~~~~~~~~~~~~~~~~~
+>    13 warnings generated.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/pinctrl-remove-unneeded-extern-specifiers-from-consumer-h/20231003-225540
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20231003145114.21637-31-brgl%40bgdev.pl
-patch subject: [PATCH 30/36] pinctrl: remove old GPIO helpers
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231004/202310040236.w3AOZ94W-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231004/202310040236.w3AOZ94W-lkp@intel.com/reproduce)
+I have sent a patch to resolve this, thanks for the report!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310040236.w3AOZ94W-lkp@intel.com/
+https://lore.kernel.org/20231003-um-net-wifpts-v1-1-02888c634ee7@kernel.org/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/pinctrl/core.c:338: warning: Excess function parameter 'offset' description in 'pinctrl_ready_for_gpio_range'
-
-
-vim +338 drivers/pinctrl/core.c
-
-2744e8afb3b763 Linus Walleij       2011-05-02  321  
-51e13c2475913d Haojian Zhuang      2013-02-17  322  /**
-51e13c2475913d Haojian Zhuang      2013-02-17  323   * pinctrl_ready_for_gpio_range() - check if other GPIO pins of
-51e13c2475913d Haojian Zhuang      2013-02-17  324   * the same GPIO chip are in range
-4b4af250917e1a Bartosz Golaszewski 2023-10-03  325   * @gc: GPIO chip structure from the GPIO subsystem
-4b4af250917e1a Bartosz Golaszewski 2023-10-03  326   * @offset: hardware offset of the GPIO relative to the controller
-51e13c2475913d Haojian Zhuang      2013-02-17  327   *
-51e13c2475913d Haojian Zhuang      2013-02-17  328   * This function is complement of pinctrl_match_gpio_range(). If the return
-51e13c2475913d Haojian Zhuang      2013-02-17  329   * value of pinctrl_match_gpio_range() is NULL, this function could be used
-51e13c2475913d Haojian Zhuang      2013-02-17  330   * to check whether pinctrl device is ready or not. Maybe some GPIO pins
-51e13c2475913d Haojian Zhuang      2013-02-17  331   * of the same GPIO chip don't have back-end pinctrl interface.
-51e13c2475913d Haojian Zhuang      2013-02-17  332   * If the return value is true, it means that pinctrl device is ready & the
-51e13c2475913d Haojian Zhuang      2013-02-17  333   * certain GPIO pin doesn't have back-end pinctrl device. If the return value
-51e13c2475913d Haojian Zhuang      2013-02-17  334   * is false, it means that pinctrl device may not be ready.
-51e13c2475913d Haojian Zhuang      2013-02-17  335   */
-2afe8229687ec2 Haojian Zhuang      2013-03-28  336  #ifdef CONFIG_GPIOLIB
-4b4af250917e1a Bartosz Golaszewski 2023-10-03  337  static bool pinctrl_ready_for_gpio_range(struct gpio_chip *gc)
-51e13c2475913d Haojian Zhuang      2013-02-17 @338  {
-51e13c2475913d Haojian Zhuang      2013-02-17  339  	struct pinctrl_dev *pctldev;
-51e13c2475913d Haojian Zhuang      2013-02-17  340  	struct pinctrl_gpio_range *range = NULL;
-942cde724075f8 Tony Lindgren       2015-09-03  341  
-44d5f7bbead9e7 Linus Walleij       2013-05-16  342  	mutex_lock(&pinctrldev_list_mutex);
-44d5f7bbead9e7 Linus Walleij       2013-05-16  343  
-51e13c2475913d Haojian Zhuang      2013-02-17  344  	/* Loop over the pin controllers */
-51e13c2475913d Haojian Zhuang      2013-02-17  345  	list_for_each_entry(pctldev, &pinctrldev_list, node) {
-51e13c2475913d Haojian Zhuang      2013-02-17  346  		/* Loop over the ranges */
-5ffbe2e6138732 Axel Lin            2013-08-18  347  		mutex_lock(&pctldev->mutex);
-51e13c2475913d Haojian Zhuang      2013-02-17  348  		list_for_each_entry(range, &pctldev->gpio_ranges, node) {
-51e13c2475913d Haojian Zhuang      2013-02-17  349  			/* Check if any gpio range overlapped with gpio chip */
-4b4af250917e1a Bartosz Golaszewski 2023-10-03  350  			if (range->base + range->npins - 1 < gc->base ||
-4b4af250917e1a Bartosz Golaszewski 2023-10-03  351  			    range->base > gc->base + gc->ngpio - 1)
-51e13c2475913d Haojian Zhuang      2013-02-17  352  				continue;
-5ffbe2e6138732 Axel Lin            2013-08-18  353  			mutex_unlock(&pctldev->mutex);
-44d5f7bbead9e7 Linus Walleij       2013-05-16  354  			mutex_unlock(&pinctrldev_list_mutex);
-51e13c2475913d Haojian Zhuang      2013-02-17  355  			return true;
-51e13c2475913d Haojian Zhuang      2013-02-17  356  		}
-5ffbe2e6138732 Axel Lin            2013-08-18  357  		mutex_unlock(&pctldev->mutex);
-51e13c2475913d Haojian Zhuang      2013-02-17  358  	}
-44d5f7bbead9e7 Linus Walleij       2013-05-16  359  
-44d5f7bbead9e7 Linus Walleij       2013-05-16  360  	mutex_unlock(&pinctrldev_list_mutex);
-44d5f7bbead9e7 Linus Walleij       2013-05-16  361  
-51e13c2475913d Haojian Zhuang      2013-02-17  362  	return false;
-51e13c2475913d Haojian Zhuang      2013-02-17  363  }
-2afe8229687ec2 Haojian Zhuang      2013-03-28  364  #else
-4b4af250917e1a Bartosz Golaszewski 2023-10-03  365  static bool pinctrl_ready_for_gpio_range(struct gpio_chip *gc) { return true; }
-2afe8229687ec2 Haojian Zhuang      2013-03-28  366  #endif
-51e13c2475913d Haojian Zhuang      2013-02-17  367  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Nathan
