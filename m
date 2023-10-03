@@ -1,42 +1,32 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from out-202.mta0.migadu.com (out-202.mta0.migadu.com [91.218.175.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E37E3B797
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Oct 2023 18:45:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696358712; x=1727894712;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kwOfJwps6tmfT/K1t1rL2+IvQbmX3wwBs7PBiQtufJM=;
-  b=er2d4K9C8XQwCZhZJUT4jbgH1CFBhlrhN6nV0P9AOS8LtwRSpXnv0ovJ
-   JZHvV7QURfqIVH/ZsQsh+0aVTTgCSNTJDbD5xfOVomt9KIGJo83Zutwo8
-   gXGgNDj0OA5NiKT1Ha0YMmYG6YiwBJBerE3I2dAuKkPGI7dwN/tVC1EtZ
-   w63HE4chkHMSp2usbRXe+oMzfqFNKk7SZ9/gqxMnXsIxVuptjbeentZqh
-   +EBKKe4mJjcDvL+sVx4FeSmY2Dnj+2XZirfClCnNDtkVYv51DFqOeYH+K
-   aBA7iju8D182YHOl2ns05KGFILyGbzsyXyyUtPQh+9tipFAKkPIrRjZt9
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="381824195"
-X-IronPort-AV: E=Sophos;i="6.03,198,1694761200"; 
-   d="scan'208";a="381824195"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 11:45:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="821358616"
-X-IronPort-AV: E=Sophos;i="6.03,198,1694761200"; 
-   d="scan'208";a="821358616"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 03 Oct 2023 11:45:09 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qnkOK-0008P2-1G;
-	Tue, 03 Oct 2023 18:45:08 +0000
-Date: Wed, 4 Oct 2023 02:44:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-shrink-2e 33/37] lib/dynamic_debug.c:1408:6: sparse:
- sparse: symbol 'dd_store_range' was not declared. Should it be static?
-Message-ID: <202310040202.FqBTQrWj-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D4DDDC2
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Oct 2023 19:37:52 +0000 (UTC)
+Date: Tue, 3 Oct 2023 19:37:44 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1696361870;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YtXaNvHngFX0IzJjRWG18vIM/JoRqgDDYQKMe9T+5DM=;
+	b=iyACOp9wXrqlmaJgyYpxZku3S64gdoFa3AQZON6MwlcUh4giHAMLkJWkwc4d0/4/xDeyY8
+	ctsx/M45mK9XfRHdMHRZiIeOXw4UkvrIo8aUjf8NaFhgD/+VqkbvCyWqZx0Y3FaibNpdLF
+	s0t20gZh9R5Vfdg1SCxuU5KbGc86Gpc=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: kernel test robot <lkp@intel.com>
+Cc: kvmarm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kvm@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>, Will Deacon <will@kernel.org>,
+	Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [PATCH v10 10/12] KVM: arm64: Document vCPU feature selection
+ UAPIs
+Message-ID: <ZRxtiKlKHiCBBlZE@linux.dev>
+References: <20230920183310.1163034-11-oliver.upton@linux.dev>
+ <202309271037.rM4DMYYZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,22 +35,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202309271037.rM4DMYYZ-lkp@intel.com>
+X-Migadu-Flow: FLOW_OUT
 
-tree:   https://github.com/jimc/linux.git dd-shrink-2e
-head:   71a19a8b881bc14025717ba9993f8efcd5e6a44b
-commit: 06791193d7c8556038615b81aa9eedd940625a92 [33/37] dyndbg: add site_*() macros to avoid using _ddebug.site
-config: i386-randconfig-061-20231003 (https://download.01.org/0day-ci/archive/20231004/202310040202.FqBTQrWj-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231004/202310040202.FqBTQrWj-lkp@intel.com/reproduce)
+On Wed, Sep 27, 2023 at 10:45:34AM +0800, kernel test robot wrote:
+> Hi Oliver,
+> 
+> kernel test robot noticed the following build warnings:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310040202.FqBTQrWj-lkp@intel.com/
+Looks like I failed to include the diff that adds the labels I'm
+referencing, which is addressed with the following:
 
-sparse warnings: (new ones prefixed by >>)
->> lib/dynamic_debug.c:1408:6: sparse: sparse: symbol 'dd_store_range' was not declared. Should it be static?
 
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 8cd91bc550bc..6068b711cdb0 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -3370,6 +3370,8 @@ return indicates the attribute is implemented.  It does not necessarily
+ indicate that the attribute can be read or written in the device's
+ current state.  "addr" is ignored.
+ 
++.. _KVM_ARM_VCPU_INIT:
++
+ 4.82 KVM_ARM_VCPU_INIT
+ ----------------------
+ 
+@@ -6070,6 +6072,8 @@ writes to the CNTVCT_EL0 and CNTPCT_EL0 registers using the SET_ONE_REG
+ interface. No error will be returned, but the resulting offset will not be
+ applied.
+ 
++.. _KVM_ARM_GET_REG_WRITABLE_MASKS:
++
+ 4.139 KVM_ARM_GET_REG_WRITABLE_MASKS
+ -------------------------------------------
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Oliver
