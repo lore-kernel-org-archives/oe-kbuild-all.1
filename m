@@ -1,46 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8595C3C6AA
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Oct 2023 19:58:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F9C3CD09;
+	Tue,  3 Oct 2023 20:09:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696363119; x=1727899119;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uRC/5rq8/zj+sKstARXJNaD/aKan099FJ5iKvqARQjc=;
-  b=V9WLfRGN4+xVCrgkLwUbKVXDNDlrOAoDKZ3M7OAPhGut3OqoDeBScPZx
-   tMARagpR2/V7pkTukI6RGoe3fYuUJtRPAYPlC84jxwksw8HRF00E37LEL
-   FPOKxpTgIp7YptwaHMr3tlp4OuiF4dA5iQTpY3VahhoJKLR9zcEt9/psH
-   mJrSZl2JwQZcLsh9OEfpOM9z75ylNE4Fvm4sEHcnIBmDXys9cbz91p5CT
-   Px9zSCiyfOgjXtQV+WGHB9tJnoFfe916YO5aGVAIaj3TF9uO2WiwIaPwY
-   2FG4/sNZM8wvviy22I7Wb8u2NYB0glH+MpFx0tSSCLp18iA5LVyURSUf6
+  t=1696363751; x=1727899751;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=m1jzLPKVwohtVS0OdopZyn0iGeijh4uOxRMQpSXsukI=;
+  b=OL4v7ZHnqM2jcCNwXqroGe921w6x+WdJTD4WvPtfY8ZrXdyflfoXFQBQ
+   8HNkE4SMZx2EAMQzIoHYsuYVPeK26H5Pjaw7I/VTfSJXDpP4yIavEkHaF
+   eKcWzQ54Exo+VlSMWD+rn/z9Cibc74X0t1M7LtlXjs8+MJtpAeqfw3xQN
+   zpDkkQK3W2MRZhfGTfWky+GJLf1qNL9H7ck2bFM2u/MViC5a0glYlBcUN
+   a2YRxm9UY+sM0uudWQWQ2rGJvpYoudjRaVerxoB487lFk+9213WFfYLhn
+   Oy2p7/v6StF0SOOcRR8cRtP5KrXGoeO1IoK/jFghupLe4CmQrQ3yIdWin
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="413881731"
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="386840391"
 X-IronPort-AV: E=Sophos;i="6.03,198,1694761200"; 
-   d="scan'208";a="413881731"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 12:58:38 -0700
+   d="scan'208";a="386840391"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 13:09:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="1082142223"
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="841494545"
 X-IronPort-AV: E=Sophos;i="6.03,198,1694761200"; 
-   d="scan'208";a="1082142223"
+   d="scan'208";a="841494545"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 03 Oct 2023 12:58:37 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 03 Oct 2023 13:09:07 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qnlXO-0008on-0U;
-	Tue, 03 Oct 2023 19:58:34 +0000
-Date: Wed, 4 Oct 2023 03:57:29 +0800
+	id 1qnlhY-0008t2-0L;
+	Tue, 03 Oct 2023 20:09:04 +0000
+Date: Wed, 4 Oct 2023 04:08:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Srinivas Neeli <srinivas.neeli@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
-	linux-doc@vger.kernel.org
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 762/1370] htmldocs: Warning:
- Documentation/devicetree/bindings/net/xilinx_axienet.txt references a file
- that doesn't exist: Documentation/devicetree/bindings/net/xilinx_tsn.txt
-Message-ID: <202310040315.ammtzHVV-lkp@intel.com>
+To: David Lechner <dlechner@baylibre.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-staging@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, David Lechner <david@lechnology.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Axel Haslam <ahaslam@baylibre.com>,
+	Philip Molloy <pmolloy@baylibre.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 24/27] staging: iio: resolver: ad2s1210: convert DOS
+ mismatch threshold to event attr
+Message-ID: <202310040309.rX4s31l7-lkp@intel.com>
+References: <20230929-ad2s1210-mainline-v3-24-fa4364281745@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,20 +56,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230929-ad2s1210-mainline-v3-24-fa4364281745@baylibre.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
-commit: 7da30758791321c76827c0291adf3689e608dd2c [762/1370] dt-bindings: net: axienet: Add binding for 2.5G, 10G and usxgmii mac variants
-reproduce: (https://download.01.org/0day-ci/archive/20231004/202310040315.ammtzHVV-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 5e99f692d4e32e3250ab18d511894ca797407aec]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/dt-bindings-iio-resolver-add-devicetree-bindings-for-ad2s1210/20230930-014031
+base:   5e99f692d4e32e3250ab18d511894ca797407aec
+patch link:    https://lore.kernel.org/r/20230929-ad2s1210-mainline-v3-24-fa4364281745%40baylibre.com
+patch subject: [PATCH v3 24/27] staging: iio: resolver: ad2s1210: convert DOS mismatch threshold to event attr
+config: i386-randconfig-062-20231003 (https://download.01.org/0day-ci/archive/20231004/202310040309.rX4s31l7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231004/202310040309.rX4s31l7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310040315.ammtzHVV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310040309.rX4s31l7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> Warning: Documentation/devicetree/bindings/net/xilinx_axienet.txt references a file that doesn't exist: Documentation/devicetree/bindings/net/xilinx_tsn.txt
+sparse warnings: (new ones prefixed by >>)
+   drivers/staging/iio/resolver/ad2s1210.c:901:1: sparse: sparse: symbol 'iio_const_attr_in_phase0_mag_value_available' was not declared. Should it be static?
+   drivers/staging/iio/resolver/ad2s1210.c:906:1: sparse: sparse: symbol 'iio_const_attr_in_altvoltage0_thresh_falling_value_available' was not declared. Should it be static?
+   drivers/staging/iio/resolver/ad2s1210.c:907:1: sparse: sparse: symbol 'iio_const_attr_in_altvoltage0_thresh_rising_value_available' was not declared. Should it be static?
+>> drivers/staging/iio/resolver/ad2s1210.c:908:1: sparse: sparse: symbol 'iio_const_attr_in_altvoltage0_mag_value_available' was not declared. Should it be static?
+   drivers/staging/iio/resolver/ad2s1210.c:909:1: sparse: sparse: symbol 'iio_dev_attr_in_angl1_thresh_rising_value_available' was not declared. Should it be static?
+   drivers/staging/iio/resolver/ad2s1210.c:910:1: sparse: sparse: symbol 'iio_dev_attr_in_angl1_thresh_rising_hysteresis_available' was not declared. Should it be static?
 
 -- 
 0-DAY CI Kernel Test Service
