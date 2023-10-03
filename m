@@ -1,45 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B747DF505
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Oct 2023 13:39:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A622AF505
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Oct 2023 14:00:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696340355; x=1727876355;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3d1MLq266/R9YwYsqx83Hkdi/O/k5L+d39LmgvIbUZo=;
-  b=Edk4Im8N/o7pnQXQCYC2qZPm/XpsPJUY2sQeEGlijf8X1Vf3wUf3ZLH3
-   ubAwQmjcW500WhIs0EgQaiGGDITeuKQWZ+of997VcCBZDal7OH3Moq18I
-   6RpplRiDGwuPBIKlRWebkODIaTCL66chx02mCARVUF85qi42W2xvdhYMu
-   cEaqAwovCga31Pabv3DR1HDyrAEYDCxASUwF2+RRBgB1ZMxD9UDvQlkcf
-   WHOyTr8A5rqaRibH1JesKHmor7efV43QiSYYkKsl7miml3Ungj/NJQR7/
-   lFTh2ROn+h7LUF15P/XHKHkjQzLl4OVW6pGfr4GQr6f5PCI0JQniKQtsb
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="447033719"
+  t=1696341648; x=1727877648;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=s30GRJRYo+hm6YhVGNnw6HtgOobxap3zx2uU/nc+4gs=;
+  b=KjxPr03NV52026kSpL9ax4zGErpjdIatIGUMoi32LSS24zHqhXTu4tYu
+   JFoGlo7taF323BJr/KwJRDsmK7SSCjY6xteL0LjeMZppByldQeeOi6ZAV
+   tfJq72by24BGcpjtDeIt65d8qv90s3TQBRMHvCw/BOvmwJ85frge8Ib25
+   Cmyh99aBc6AsIvgWi/dCHNlJMMYbTQGKEz4+W1dV2Oi71ZfURf6H6aumx
+   bL+pJoNRXXzktj9u4vX32LWXrYK/h1gzA+y9hSlL/HBVIEGd49h0wC0sK
+   9rx2pCP4zKkc2wljUBe1LGgD9zdCPYAjggHVskc+mDGa0oMoIY5dTlEyw
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="363143837"
 X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="447033719"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 06:39:15 -0700
+   d="scan'208";a="363143837"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 07:00:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="998038585"
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="1082019676"
 X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="998038585"
+   d="scan'208";a="1082019676"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 03 Oct 2023 06:39:13 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 03 Oct 2023 07:00:13 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qnfcE-00079m-2H;
-	Tue, 03 Oct 2023 13:39:10 +0000
-Date: Tue, 3 Oct 2023 21:38:59 +0800
+	id 1qnfwZ-0007AW-0c;
+	Tue, 03 Oct 2023 14:00:11 +0000
+Date: Tue, 3 Oct 2023 21:59:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Lee, Chun-Yi" <jlee@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-Subject: [linux-next:master 9226/9381]
- include/net/bluetooth/bluetooth.h:364:16: warning: 'memcmp' specified bound
- 6 exceeds source size 0
-Message-ID: <202310032158.OvfQjd58-lkp@intel.com>
+To: Matt Johnston <matt@codeconstruct.com.au>,
+	linux-i3c@lists.infradead.org, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
+	Jeremy Kerr <jk@codeconstruct.com.au>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH net-next v3 3/3] mctp i3c: MCTP I3C driver
+Message-ID: <202310032142.NaWYwlZc-lkp@intel.com>
+References: <20231003063624.126723-4-matt@codeconstruct.com.au>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,53 +54,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231003063624.126723-4-matt@codeconstruct.com.au>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   c9f2baaa18b5ea8f006a2b3a616da9597c71d15e
-commit: d70e44fef8621aeae895e1cbc62059df9e31836b [9226/9381] Bluetooth: Reject connection with the device which has same BD_ADDR
-config: arm64-randconfig-r002-20230421 (https://download.01.org/0day-ci/archive/20231003/202310032158.OvfQjd58-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231003/202310032158.OvfQjd58-lkp@intel.com/reproduce)
+Hi Matt,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matt-Johnston/dt-bindings-i3c-Add-mctp-controller-property/20231003-144037
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20231003063624.126723-4-matt%40codeconstruct.com.au
+patch subject: [PATCH net-next v3 3/3] mctp i3c: MCTP I3C driver
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231003/202310032142.NaWYwlZc-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231003/202310032142.NaWYwlZc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310032158.OvfQjd58-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310032142.NaWYwlZc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   net/bluetooth/hci_event.c: In function 'hci_cc_read_class_of_dev':
-   net/bluetooth/hci_event.c:522:9: warning: 'memcpy' writing 3 bytes into a region of size 0 overflows the destination [-Wstringop-overflow=]
-     522 |         memcpy(hdev->dev_class, rp->dev_class, 3);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: note: destination object is likely at address zero
-   In file included from net/bluetooth/hci_event.c:30:
-   In function 'bacmp',
-       inlined from 'hci_conn_request_evt' at net/bluetooth/hci_event.c:3274:7:
->> include/net/bluetooth/bluetooth.h:364:16: warning: 'memcmp' specified bound 6 exceeds source size 0 [-Wstringop-overread]
-     364 |         return memcmp(ba1, ba2, sizeof(bdaddr_t));
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/mctp/mctp-i3c.c: In function 'mctp_i3c_read':
+>> drivers/net/mctp/mctp-i3c.c:121:9: error: implicit declaration of function 'put_unaligned_be48' [-Werror=implicit-function-declaration]
+     121 |         put_unaligned_be48(mi->pid, ihdr->source);
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/mctp/mctp-i3c.c: In function 'mctp_i3c_xmit':
+>> drivers/net/mctp/mctp-i3c.c:380:15: error: implicit declaration of function 'get_unaligned_be48'; did you mean 'get_unalign_ctl'? [-Werror=implicit-function-declaration]
+     380 |         pid = get_unaligned_be48(ihdr->dest);
+         |               ^~~~~~~~~~~~~~~~~~
+         |               get_unalign_ctl
+   cc1: some warnings being treated as errors
 
 
-vim +/memcmp +364 include/net/bluetooth/bluetooth.h
+vim +/put_unaligned_be48 +121 drivers/net/mctp/mctp-i3c.c
 
-^1da177e4c3f41 Linus Torvalds   2005-04-16  360  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  361  /* Copy, swap, convert BD Address */
-f53c20e93612f7 David Rheinsberg 2013-04-06  362  static inline int bacmp(const bdaddr_t *ba1, const bdaddr_t *ba2)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  363  {
-^1da177e4c3f41 Linus Torvalds   2005-04-16 @364  	return memcmp(ba1, ba2, sizeof(bdaddr_t));
-^1da177e4c3f41 Linus Torvalds   2005-04-16  365  }
-f53c20e93612f7 David Rheinsberg 2013-04-06  366  static inline void bacpy(bdaddr_t *dst, const bdaddr_t *src)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  367  {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  368  	memcpy(dst, src, sizeof(bdaddr_t));
-^1da177e4c3f41 Linus Torvalds   2005-04-16  369  }
-^1da177e4c3f41 Linus Torvalds   2005-04-16  370  
-
-:::::: The code at line 364 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+    98	
+    99	static int mctp_i3c_read(struct mctp_i3c_device *mi)
+   100	{
+   101		struct i3c_priv_xfer xfer = { .rnw = 1, .len = mi->mrl };
+   102		struct net_device_stats *stats = &mi->mbus->ndev->stats;
+   103		struct mctp_i3c_internal_hdr *ihdr = NULL;
+   104		struct sk_buff *skb = NULL;
+   105		struct mctp_skb_cb *cb;
+   106		int net_status, rc;
+   107		u8 pec, addr;
+   108	
+   109		skb = netdev_alloc_skb(mi->mbus->ndev,
+   110				       mi->mrl + sizeof(struct mctp_i3c_internal_hdr));
+   111		if (!skb) {
+   112			stats->rx_dropped++;
+   113			rc = -ENOMEM;
+   114			goto err;
+   115		}
+   116	
+   117		skb->protocol = htons(ETH_P_MCTP);
+   118		/* Create a header for internal use */
+   119		skb_reset_mac_header(skb);
+   120		ihdr = skb_put(skb, sizeof(struct mctp_i3c_internal_hdr));
+ > 121		put_unaligned_be48(mi->pid, ihdr->source);
+   122		put_unaligned_be48(mi->mbus->pid, ihdr->dest);
+   123		skb_pull(skb, sizeof(struct mctp_i3c_internal_hdr));
+   124	
+   125		xfer.data.in = skb_put(skb, mi->mrl);
+   126	
+   127		rc = i3c_device_do_priv_xfers(mi->i3c, &xfer, 1);
+   128		if (rc < 0)
+   129			goto err;
+   130	
+   131		if (WARN_ON_ONCE(xfer.len > mi->mrl)) {
+   132			/* Bad i3c bus driver */
+   133			rc = -EIO;
+   134			goto err;
+   135		}
+   136		if (xfer.len < MCTP_I3C_MINLEN) {
+   137			stats->rx_length_errors++;
+   138			rc = -EIO;
+   139			goto err;
+   140		}
+   141	
+   142		/* check PEC, including address byte */
+   143		addr = mi->addr << 1 | 1;
+   144		pec = i2c_smbus_pec(0, &addr, 1);
+   145		pec = i2c_smbus_pec(pec, xfer.data.in, xfer.len - 1);
+   146		if (pec != ((u8 *)xfer.data.in)[xfer.len - 1]) {
+   147			stats->rx_crc_errors++;
+   148			rc = -EINVAL;
+   149			goto err;
+   150		}
+   151	
+   152		/* Remove PEC */
+   153		skb_trim(skb, xfer.len - 1);
+   154	
+   155		cb = __mctp_cb(skb);
+   156		cb->halen = PID_SIZE;
+   157		put_unaligned_be48(mi->pid, cb->haddr);
+   158	
+   159		net_status = netif_rx(skb);
+   160	
+   161		if (net_status == NET_RX_SUCCESS) {
+   162			stats->rx_packets++;
+   163			stats->rx_bytes += xfer.len - 1;
+   164		} else {
+   165			stats->rx_dropped++;
+   166		}
+   167	
+   168		return 0;
+   169	err:
+   170		kfree_skb(skb);
+   171		return rc;
+   172	}
+   173	
 
 -- 
 0-DAY CI Kernel Test Service
