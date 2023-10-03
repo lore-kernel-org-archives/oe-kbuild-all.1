@@ -1,55 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5BE364;
-	Tue,  3 Oct 2023 02:52:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A2E7F4
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Oct 2023 03:36:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696301541; x=1727837541;
+  t=1696304177; x=1727840177;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=TkKvNoN2m3qKuguFoIpXxzhKimeY0bARgIpvKk9JdAA=;
-  b=e912WU0uBe7Wi/SHDhr2UBfLdD0Qbd3J9sxa8FuKt7MpLpD3+yI/VWGe
-   bqvEO5B9WVmC6tUbq7R0vk3eyn1mQZ0v+yNJvNNdeGijvYdDfpHB0UC1b
-   i0clwkHHLGSd+cr8lcQXS8sdqhuGlq86sUgjyRQM66PIMQoWWOrxhKYlr
-   BAvyzXxOnhSPzIfaaMeLlWwgdlSCHYd+gmy81MYiFtLa/D5yw8i81HbzY
-   CHMaezCRcP7JVe/cJfn4aEV2OKE+Qqk46Fq7kTk3JTx70xhBc63V8y1AE
-   4iVKQWnW93v+/5CFcKthGuZ+RuZuSvfcqBJEZFvq5JW+WxNTjg/dTEItF
+  bh=nCmiH57oZv9WAv0vgBGKqzAWdVJ+jN5ugCWsYTfPrz4=;
+  b=cyLwrgjPcTAyk7cXJv37t7gpZXC+PA81YwC27SitANK/0sktwg8rXm+C
+   VgcBLmy/EXaixuOIetCQvLP24WEUriaHnkRRyt7+1s4BalzZpZRiWSFpr
+   ujxt3jr4XoVK/T64+iiGbFsr9FIZjWvvNCSpEThnxhtoJJZ5yATsTMNZN
+   jfvVt4bFPc8ZuoTlJjvRT3oJHjWuy4DWv25dEQcVe60SAoChhQSctf5ES
+   Klcdy3264Sz/Q/dbaXZhElR+ff/zoUMVXDqVZDLqGof9Jhxy1Nu5mvouC
+   j2Lxv9QrGZUYektoqFDBEBsN7Zr7iTqQ4Bf/MUHXMWkpfHpnx2tsMJhtj
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="382693101"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="385607262"
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="382693101"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 19:52:20 -0700
+   d="scan'208";a="385607262"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 20:36:16 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="894330749"
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="1731264"
+   d="scan'208";a="894330749"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Oct 2023 19:52:16 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 02 Oct 2023 20:34:52 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qnVW8-0006gn-0P;
-	Tue, 03 Oct 2023 02:52:12 +0000
-Date: Tue, 3 Oct 2023 10:51:58 +0800
+	id 1qnWCj-0006iz-1N;
+	Tue, 03 Oct 2023 03:36:13 +0000
+Date: Tue, 3 Oct 2023 11:35:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nuno Das Neves <nunodasneves@linux.microsoft.com>,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-	x86@kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-arch@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, patches@lists.linux.dev,
-	mikelley@microsoft.com, kys@microsoft.com, wei.liu@kernel.org,
-	gregkh@linuxfoundation.org, haiyangz@microsoft.com,
-	decui@microsoft.com, apais@linux.microsoft.com,
-	Tianyu.Lan@microsoft.com, ssengar@linux.microsoft.com,
-	mukeshrathor@microsoft.com, stanislav.kinsburskiy@gmail.com,
-	jinankjain@linux.microsoft.com, vkuznets@redhat.com,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, will@kernel.org,
-	catalin.marinas@arm.com
-Subject: Re: [PATCH v4 07/15] Drivers: hv: Move hv_call_deposit_pages and
- hv_call_create_vp to common code
-Message-ID: <202310031047.K8WOyczC-lkp@intel.com>
-References: <1696010501-24584-8-git-send-email-nunodasneves@linux.microsoft.com>
+To: Gregory Price <gourry.memverge@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2 2/4] mm/mempolicy: Implement set_mempolicy2 and
+Message-ID: <202310031100.eM0lYYkL-lkp@intel.com>
+References: <20231003002156.740595-3-gregory.price@memverge.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,90 +46,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1696010501-24584-8-git-send-email-nunodasneves@linux.microsoft.com>
+In-Reply-To: <20231003002156.740595-3-gregory.price@memverge.com>
 
-Hi Nuno,
+Hi Gregory,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on arnd-asm-generic/master]
-[also build test ERROR on arm64/for-next/core linus/master v6.6-rc4 next-20230929]
-[cannot apply to tip/x86/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-Das-Neves/hyperv-tlfs-Change-shared-HV_REGISTER_-defines-to-HV_MSR_/20230930-041305
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
-patch link:    https://lore.kernel.org/r/1696010501-24584-8-git-send-email-nunodasneves%40linux.microsoft.com
-patch subject: [PATCH v4 07/15] Drivers: hv: Move hv_call_deposit_pages and hv_call_create_vp to common code
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231003/202310031047.K8WOyczC-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231003/202310031047.K8WOyczC-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-refactor-do_set_mempolicy-for-code-re-use/20231003-082354
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231003002156.740595-3-gregory.price%40memverge.com
+patch subject: [RFC PATCH v2 2/4] mm/mempolicy: Implement set_mempolicy2 and
+config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20231003/202310031100.eM0lYYkL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231003/202310031100.eM0lYYkL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310031047.K8WOyczC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310031100.eM0lYYkL-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/hv/hv_common.c: In function 'hv_call_create_vp':
->> drivers/hv/hv_common.c:596:29: error: 'hv_current_partition_id' undeclared (first use in this function); did you mean 'hv_get_partition_id'?
-     596 |         if (partition_id != hv_current_partition_id) {
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~
-         |                             hv_get_partition_id
-   drivers/hv/hv_common.c:596:29: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +596 drivers/hv/hv_common.c
-
-   587	
-   588	int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
-   589	{
-   590		struct hv_create_vp *input;
-   591		u64 status;
-   592		unsigned long irq_flags;
-   593		int ret = HV_STATUS_SUCCESS;
-   594	
-   595		/* Root VPs don't seem to need pages deposited */
- > 596		if (partition_id != hv_current_partition_id) {
-   597			/* The value 90 is empirically determined. It may change. */
-   598			ret = hv_call_deposit_pages(node, partition_id, 90);
-   599			if (ret)
-   600				return ret;
-   601		}
-   602	
-   603		do {
-   604			local_irq_save(irq_flags);
-   605	
-   606			input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-   607	
-   608			input->partition_id = partition_id;
-   609			input->vp_index = vp_index;
-   610			input->flags = flags;
-   611			input->subnode_type = HvSubnodeAny;
-   612			input->proximity_domain_info =
-   613				numa_node_to_proximity_domain_info(node);
-   614			status = hv_do_hypercall(HVCALL_CREATE_VP, input, NULL);
-   615			local_irq_restore(irq_flags);
-   616	
-   617			if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
-   618				if (!hv_result_success(status)) {
-   619					pr_err("%s: vcpu %u, lp %u, %s\n", __func__,
-   620					       vp_index, flags, hv_status_to_string(status));
-   621					ret = hv_status_to_errno(status);
-   622				}
-   623				break;
-   624			}
-   625			ret = hv_call_deposit_pages(node, partition_id, 1);
-   626	
-   627		} while (!ret);
-   628	
-   629		return ret;
-   630	}
-   631	EXPORT_SYMBOL_GPL(hv_call_create_vp);
-   632	
+>> ld: arch/x86/entry/syscall_32.o:(.rodata+0x718): undefined reference to `__ia32_sys_set_mempolicy2'
+>> ld: arch/x86/entry/syscall_32.o:(.rodata+0x71c): undefined reference to `__ia32_sys_get_mempolicy2'
 
 -- 
 0-DAY CI Kernel Test Service
