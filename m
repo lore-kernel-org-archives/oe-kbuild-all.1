@@ -1,43 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FDF364
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Oct 2023 02:42:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5BE364;
+	Tue,  3 Oct 2023 02:52:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696300937; x=1727836937;
+  t=1696301541; x=1727837541;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Rx2PKlX7ACEu2xwfkvmC8E/XlGbBe7/M5BOLK9eJCYw=;
-  b=jSpdoB0MNJGi6nVxzf4Yu5ad3NDg6vF+OLDgKphvSwwcrl69mUzXYVC/
-   TfCXWeU9djxqtX6hHUPmOYoXSUGqzKt6PJxjbL0Dsk85GpVLC0UP/URzq
-   XLBTgSQw4reYVnaVCC0er80SiV4mO8ZaMTowX3A/Y3uQic6wl3D+Ym/1Q
-   XV4mz4ffE1b/wljp1hbU7Y3SKsRQtiDQbagJWx3flzMJg0jwpxqAGikYT
-   jtOphC8OJak+BaYuToEk0VbciCSm3IadZuq054q5HJnBq3BP5cg5qdnS7
-   RC9Vb/zKYjhVRkvzii5ivBCvRp1vnidGG9f7QyqlzrP5ta/7u/SzJXlYT
+  bh=TkKvNoN2m3qKuguFoIpXxzhKimeY0bARgIpvKk9JdAA=;
+  b=e912WU0uBe7Wi/SHDhr2UBfLdD0Qbd3J9sxa8FuKt7MpLpD3+yI/VWGe
+   bqvEO5B9WVmC6tUbq7R0vk3eyn1mQZ0v+yNJvNNdeGijvYdDfpHB0UC1b
+   i0clwkHHLGSd+cr8lcQXS8sdqhuGlq86sUgjyRQM66PIMQoWWOrxhKYlr
+   BAvyzXxOnhSPzIfaaMeLlWwgdlSCHYd+gmy81MYiFtLa/D5yw8i81HbzY
+   CHMaezCRcP7JVe/cJfn4aEV2OKE+Qqk46Fq7kTk3JTx70xhBc63V8y1AE
+   4iVKQWnW93v+/5CFcKthGuZ+RuZuSvfcqBJEZFvq5JW+WxNTjg/dTEItF
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="363053537"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="382693101"
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="363053537"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 19:42:16 -0700
+   d="scan'208";a="382693101"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 19:52:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="754243444"
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="754243444"
+   d="scan'208";a="1731264"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 02 Oct 2023 19:42:14 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 02 Oct 2023 19:52:16 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qnVMR-0006gS-32;
-	Tue, 03 Oct 2023 02:42:11 +0000
-Date: Tue, 3 Oct 2023 10:41:27 +0800
+	id 1qnVW8-0006gn-0P;
+	Tue, 03 Oct 2023 02:52:12 +0000
+Date: Tue, 3 Oct 2023 10:51:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 2/4] mm/mempolicy: Implement set_mempolicy2 and
-Message-ID: <202310031019.osWNzNQD-lkp@intel.com>
-References: <20231003002156.740595-3-gregory.price@memverge.com>
+To: Nuno Das Neves <nunodasneves@linux.microsoft.com>,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+	x86@kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-arch@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, patches@lists.linux.dev,
+	mikelley@microsoft.com, kys@microsoft.com, wei.liu@kernel.org,
+	gregkh@linuxfoundation.org, haiyangz@microsoft.com,
+	decui@microsoft.com, apais@linux.microsoft.com,
+	Tianyu.Lan@microsoft.com, ssengar@linux.microsoft.com,
+	mukeshrathor@microsoft.com, stanislav.kinsburskiy@gmail.com,
+	jinankjain@linux.microsoft.com, vkuznets@redhat.com,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, hpa@zytor.com, will@kernel.org,
+	catalin.marinas@arm.com
+Subject: Re: [PATCH v4 07/15] Drivers: hv: Move hv_call_deposit_pages and
+ hv_call_create_vp to common code
+Message-ID: <202310031047.K8WOyczC-lkp@intel.com>
+References: <1696010501-24584-8-git-send-email-nunodasneves@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,449 +58,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231003002156.740595-3-gregory.price@memverge.com>
+In-Reply-To: <1696010501-24584-8-git-send-email-nunodasneves@linux.microsoft.com>
 
-Hi Gregory,
+Hi Nuno,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on akpm-mm/mm-everything]
+[auto build test ERROR on arnd-asm-generic/master]
+[also build test ERROR on arm64/for-next/core linus/master v6.6-rc4 next-20230929]
+[cannot apply to tip/x86/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-refactor-do_set_mempolicy-for-code-re-use/20231003-082354
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231003002156.740595-3-gregory.price%40memverge.com
-patch subject: [RFC PATCH v2 2/4] mm/mempolicy: Implement set_mempolicy2 and
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20231003/202310031019.osWNzNQD-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231003/202310031019.osWNzNQD-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-Das-Neves/hyperv-tlfs-Change-shared-HV_REGISTER_-defines-to-HV_MSR_/20230930-041305
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
+patch link:    https://lore.kernel.org/r/1696010501-24584-8-git-send-email-nunodasneves%40linux.microsoft.com
+patch subject: [PATCH v4 07/15] Drivers: hv: Move hv_call_deposit_pages and hv_call_create_vp to common code
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231003/202310031047.K8WOyczC-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231003/202310031047.K8WOyczC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310031019.osWNzNQD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310031047.K8WOyczC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/loongarch/include/uapi/asm/unistd.h:5,
-                    from arch/loongarch/include/asm/unistd.h:9,
-                    from arch/loongarch/include/asm/seccomp.h:6,
-                    from include/linux/seccomp.h:22,
-                    from include/linux/sched.h:22,
-                    from arch/loongarch/kernel/asm-offsets.c:8:
->> include/uapi/asm-generic/unistd.h:828: warning: "__NR_set_mempolicy" redefined
-     828 | #define __NR_set_mempolicy 454
-         | 
-   include/uapi/asm-generic/unistd.h:603: note: this is the location of the previous definition
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: warning: "__NR_set_mempolicy" redefined
-     830 | #define __NR_set_mempolicy 455
-         | 
-   include/uapi/asm-generic/unistd.h:828: note: this is the location of the previous definition
-     828 | #define __NR_set_mempolicy 454
-         | 
-   In file included from arch/loongarch/include/uapi/asm/unistd.h:5,
-                    from arch/loongarch/include/asm/unistd.h:9,
-                    from include/uapi/linux/unistd.h:8,
-                    from include/asm-generic/seccomp.h:11,
-                    from arch/loongarch/include/asm/seccomp.h:8:
-   include/uapi/asm-generic/unistd.h:603: warning: "__NR_set_mempolicy" redefined
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: note: this is the location of the previous definition
-     830 | #define __NR_set_mempolicy 455
-         | 
->> include/uapi/asm-generic/unistd.h:828: warning: "__NR_set_mempolicy" redefined
-     828 | #define __NR_set_mempolicy 454
-         | 
-   include/uapi/asm-generic/unistd.h:603: note: this is the location of the previous definition
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: warning: "__NR_set_mempolicy" redefined
-     830 | #define __NR_set_mempolicy 455
-         | 
-   include/uapi/asm-generic/unistd.h:828: note: this is the location of the previous definition
-     828 | #define __NR_set_mempolicy 454
-         | 
-   In file included from arch/loongarch/include/uapi/asm/unistd.h:5,
-                    from arch/loongarch/include/asm/unistd.h:9,
-                    from arch/loongarch/include/asm/vdso/gettimeofday.h:12,
-                    from include/vdso/datapage.h:137,
-                    from arch/loongarch/include/asm/vdso.h:12,
-                    from arch/loongarch/include/asm/elf.h:13,
-                    from include/linux/elf.h:6,
-                    from include/linux/module.h:19,
-                    from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/blk_types.h:11,
-                    from include/linux/writeback.h:13,
-                    from include/linux/memcontrol.h:22,
-                    from include/linux/swap.h:9,
-                    from include/linux/suspend.h:5,
-                    from arch/loongarch/kernel/asm-offsets.c:11:
-   include/uapi/asm-generic/unistd.h:603: warning: "__NR_set_mempolicy" redefined
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: note: this is the location of the previous definition
-     830 | #define __NR_set_mempolicy 455
-         | 
->> include/uapi/asm-generic/unistd.h:828: warning: "__NR_set_mempolicy" redefined
-     828 | #define __NR_set_mempolicy 454
-         | 
-   include/uapi/asm-generic/unistd.h:603: note: this is the location of the previous definition
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: warning: "__NR_set_mempolicy" redefined
-     830 | #define __NR_set_mempolicy 455
-         | 
-   include/uapi/asm-generic/unistd.h:828: note: this is the location of the previous definition
-     828 | #define __NR_set_mempolicy 454
-         | 
-   arch/loongarch/kernel/asm-offsets.c:17:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
-      17 | void output_ptreg_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:64:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
-      64 | void output_task_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:79:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
-      79 | void output_thread_info_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:95:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
-      95 | void output_thread_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:131:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
-     131 | void output_thread_fpu_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:172:6: warning: no previous prototype for 'output_thread_lbt_defines' [-Wmissing-prototypes]
-     172 | void output_thread_lbt_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:182:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
-     182 | void output_mm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:214:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
-     214 | void output_sc_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:222:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
-     222 | void output_signal_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:260:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
-     260 | void output_smpboot_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:270:6: warning: no previous prototype for 'output_pbe_defines' [-Wmissing-prototypes]
-     270 | void output_pbe_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:282:6: warning: no previous prototype for 'output_fgraph_ret_regs_defines' [-Wmissing-prototypes]
-     282 | void output_fgraph_ret_regs_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from arch/loongarch/include/uapi/asm/unistd.h:5,
-                    from arch/loongarch/include/asm/unistd.h:9,
-                    from <stdin>:2:
->> include/uapi/asm-generic/unistd.h:828: warning: "__NR_set_mempolicy" redefined
-     828 | #define __NR_set_mempolicy 454
-         | 
-   include/uapi/asm-generic/unistd.h:603: note: this is the location of the previous definition
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: warning: "__NR_set_mempolicy" redefined
-     830 | #define __NR_set_mempolicy 455
-         | 
-   include/uapi/asm-generic/unistd.h:828: note: this is the location of the previous definition
-     828 | #define __NR_set_mempolicy 454
-         | 
-   <stdin>:1573:2: warning: #warning syscall set_mempolicy2 not implemented [-Wcpp]
-   <stdin>:1576:2: warning: #warning syscall get_mempolicy2 not implemented [-Wcpp]
---
-   In file included from arch/loongarch/include/uapi/asm/unistd.h:5,
-                    from arch/loongarch/include/asm/unistd.h:9,
-                    from arch/loongarch/include/asm/seccomp.h:6,
-                    from include/linux/seccomp.h:22,
-                    from include/linux/sched.h:22,
-                    from include/linux/mm.h:28,
-                    from arch/loongarch/include/asm/vdso.h:10,
-                    from arch/loongarch/vdso/vgetcpu.c:6:
->> include/uapi/asm-generic/unistd.h:828: warning: "__NR_set_mempolicy" redefined
-     828 | #define __NR_set_mempolicy 454
-         | 
-   include/uapi/asm-generic/unistd.h:603: note: this is the location of the previous definition
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: warning: "__NR_set_mempolicy" redefined
-     830 | #define __NR_set_mempolicy 455
-         | 
-   include/uapi/asm-generic/unistd.h:828: note: this is the location of the previous definition
-     828 | #define __NR_set_mempolicy 454
-         | 
-   In file included from arch/loongarch/include/uapi/asm/unistd.h:5,
-                    from arch/loongarch/include/asm/unistd.h:9,
-                    from include/uapi/linux/unistd.h:8,
-                    from include/asm-generic/seccomp.h:11,
-                    from arch/loongarch/include/asm/seccomp.h:8:
-   include/uapi/asm-generic/unistd.h:603: warning: "__NR_set_mempolicy" redefined
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: note: this is the location of the previous definition
-     830 | #define __NR_set_mempolicy 455
-         | 
->> include/uapi/asm-generic/unistd.h:828: warning: "__NR_set_mempolicy" redefined
-     828 | #define __NR_set_mempolicy 454
-         | 
-   include/uapi/asm-generic/unistd.h:603: note: this is the location of the previous definition
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: warning: "__NR_set_mempolicy" redefined
-     830 | #define __NR_set_mempolicy 455
-         | 
-   include/uapi/asm-generic/unistd.h:828: note: this is the location of the previous definition
-     828 | #define __NR_set_mempolicy 454
-         | 
-   In file included from arch/loongarch/include/uapi/asm/unistd.h:5,
-                    from arch/loongarch/include/asm/unistd.h:9,
-                    from arch/loongarch/include/asm/vdso/gettimeofday.h:12,
-                    from include/vdso/datapage.h:137,
-                    from arch/loongarch/include/asm/vdso.h:12:
-   include/uapi/asm-generic/unistd.h:603: warning: "__NR_set_mempolicy" redefined
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: note: this is the location of the previous definition
-     830 | #define __NR_set_mempolicy 455
-         | 
->> include/uapi/asm-generic/unistd.h:828: warning: "__NR_set_mempolicy" redefined
-     828 | #define __NR_set_mempolicy 454
-         | 
-   include/uapi/asm-generic/unistd.h:603: note: this is the location of the previous definition
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: warning: "__NR_set_mempolicy" redefined
-     830 | #define __NR_set_mempolicy 455
-         | 
-   include/uapi/asm-generic/unistd.h:828: note: this is the location of the previous definition
-     828 | #define __NR_set_mempolicy 454
-         | 
---
-   In file included from arch/loongarch/include/uapi/asm/unistd.h:5,
-                    from arch/loongarch/vdso/sigreturn.S:11:
->> include/uapi/asm-generic/unistd.h:828: warning: "__NR_set_mempolicy" redefined
-     828 | #define __NR_set_mempolicy 454
-         | 
-   include/uapi/asm-generic/unistd.h:603: note: this is the location of the previous definition
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: warning: "__NR_set_mempolicy" redefined
-     830 | #define __NR_set_mempolicy 455
-         | 
-   include/uapi/asm-generic/unistd.h:828: note: this is the location of the previous definition
-     828 | #define __NR_set_mempolicy 454
-         | 
---
-   In file included from arch/loongarch/include/uapi/asm/unistd.h:5,
-                    from arch/loongarch/include/asm/unistd.h:9,
-                    from arch/loongarch/include/asm/seccomp.h:6,
-                    from include/linux/seccomp.h:22,
-                    from include/linux/sched.h:22,
-                    from include/linux/sched/mm.h:7,
-                    from include/linux/xarray.h:19,
-                    from include/linux/list_lru.h:14,
-                    from include/linux/fs.h:13,
-                    from include/linux/dax.h:5,
-                    from mm/filemap.c:15:
->> include/uapi/asm-generic/unistd.h:828: warning: "__NR_set_mempolicy" redefined
-     828 | #define __NR_set_mempolicy 454
-         | 
-   include/uapi/asm-generic/unistd.h:603: note: this is the location of the previous definition
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: warning: "__NR_set_mempolicy" redefined
-     830 | #define __NR_set_mempolicy 455
-         | 
-   include/uapi/asm-generic/unistd.h:828: note: this is the location of the previous definition
-     828 | #define __NR_set_mempolicy 454
-         | 
-   In file included from arch/loongarch/include/uapi/asm/unistd.h:5,
-                    from arch/loongarch/include/asm/unistd.h:9,
-                    from include/uapi/linux/unistd.h:8,
-                    from include/asm-generic/seccomp.h:11,
-                    from arch/loongarch/include/asm/seccomp.h:8:
-   include/uapi/asm-generic/unistd.h:603: warning: "__NR_set_mempolicy" redefined
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: note: this is the location of the previous definition
-     830 | #define __NR_set_mempolicy 455
-         | 
->> include/uapi/asm-generic/unistd.h:828: warning: "__NR_set_mempolicy" redefined
-     828 | #define __NR_set_mempolicy 454
-         | 
-   include/uapi/asm-generic/unistd.h:603: note: this is the location of the previous definition
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: warning: "__NR_set_mempolicy" redefined
-     830 | #define __NR_set_mempolicy 455
-         | 
-   include/uapi/asm-generic/unistd.h:828: note: this is the location of the previous definition
-     828 | #define __NR_set_mempolicy 454
-         | 
-   In file included from arch/loongarch/include/uapi/asm/unistd.h:5,
-                    from arch/loongarch/include/asm/unistd.h:9,
-                    from arch/loongarch/include/asm/vdso/gettimeofday.h:12,
-                    from include/vdso/datapage.h:137,
-                    from arch/loongarch/include/asm/vdso.h:12,
-                    from arch/loongarch/include/asm/elf.h:13,
-                    from include/linux/elf.h:6,
-                    from include/linux/module.h:19,
-                    from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/blk_types.h:11,
-                    from include/linux/writeback.h:13,
-                    from include/linux/memcontrol.h:22,
-                    from include/linux/swap.h:9,
-                    from mm/filemap.c:23:
-   include/uapi/asm-generic/unistd.h:603: warning: "__NR_set_mempolicy" redefined
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: note: this is the location of the previous definition
-     830 | #define __NR_set_mempolicy 455
-         | 
->> include/uapi/asm-generic/unistd.h:828: warning: "__NR_set_mempolicy" redefined
-     828 | #define __NR_set_mempolicy 454
-         | 
-   include/uapi/asm-generic/unistd.h:603: note: this is the location of the previous definition
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: warning: "__NR_set_mempolicy" redefined
-     830 | #define __NR_set_mempolicy 455
-         | 
-   include/uapi/asm-generic/unistd.h:828: note: this is the location of the previous definition
-     828 | #define __NR_set_mempolicy 454
-         | 
-   In file included from mm/filemap.c:50:
-   mm/internal.h: In function 'shrinker_debugfs_name_alloc':
-   mm/internal.h:1223:9: warning: function 'shrinker_debugfs_name_alloc' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    1223 |         shrinker->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
-         |         ^~~~~~~~
---
-   In file included from arch/loongarch/include/uapi/asm/unistd.h:5,
-                    from arch/loongarch/include/asm/unistd.h:9,
-                    from arch/loongarch/include/asm/seccomp.h:6,
-                    from include/linux/seccomp.h:22,
-                    from include/linux/sched.h:22,
-                    from include/linux/sched/mm.h:7,
-                    from include/linux/xarray.h:19,
-                    from include/linux/list_lru.h:14,
-                    from include/linux/fs.h:13,
-                    from mm/fadvise.c:13:
->> include/uapi/asm-generic/unistd.h:828: warning: "__NR_set_mempolicy" redefined
-     828 | #define __NR_set_mempolicy 454
-         | 
-   include/uapi/asm-generic/unistd.h:603: note: this is the location of the previous definition
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: warning: "__NR_set_mempolicy" redefined
-     830 | #define __NR_set_mempolicy 455
-         | 
-   include/uapi/asm-generic/unistd.h:828: note: this is the location of the previous definition
-     828 | #define __NR_set_mempolicy 454
-         | 
-   In file included from arch/loongarch/include/uapi/asm/unistd.h:5,
-                    from arch/loongarch/include/asm/unistd.h:9,
-                    from include/uapi/linux/unistd.h:8,
-                    from include/asm-generic/seccomp.h:11,
-                    from arch/loongarch/include/asm/seccomp.h:8:
-   include/uapi/asm-generic/unistd.h:603: warning: "__NR_set_mempolicy" redefined
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: note: this is the location of the previous definition
-     830 | #define __NR_set_mempolicy 455
-         | 
->> include/uapi/asm-generic/unistd.h:828: warning: "__NR_set_mempolicy" redefined
-     828 | #define __NR_set_mempolicy 454
-         | 
-   include/uapi/asm-generic/unistd.h:603: note: this is the location of the previous definition
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: warning: "__NR_set_mempolicy" redefined
-     830 | #define __NR_set_mempolicy 455
-         | 
-   include/uapi/asm-generic/unistd.h:828: note: this is the location of the previous definition
-     828 | #define __NR_set_mempolicy 454
-         | 
-   In file included from arch/loongarch/include/uapi/asm/unistd.h:5,
-                    from arch/loongarch/include/asm/unistd.h:9,
-                    from arch/loongarch/include/asm/vdso/gettimeofday.h:12,
-                    from include/vdso/datapage.h:137,
-                    from arch/loongarch/include/asm/vdso.h:12,
-                    from arch/loongarch/include/asm/elf.h:13,
-                    from include/linux/elf.h:6,
-                    from include/linux/module.h:19,
-                    from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/backing-dev.h:15,
-                    from mm/fadvise.c:16:
-   include/uapi/asm-generic/unistd.h:603: warning: "__NR_set_mempolicy" redefined
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: note: this is the location of the previous definition
-     830 | #define __NR_set_mempolicy 455
-         | 
->> include/uapi/asm-generic/unistd.h:828: warning: "__NR_set_mempolicy" redefined
-     828 | #define __NR_set_mempolicy 454
-         | 
-   include/uapi/asm-generic/unistd.h:603: note: this is the location of the previous definition
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: warning: "__NR_set_mempolicy" redefined
-     830 | #define __NR_set_mempolicy 455
-         | 
-   include/uapi/asm-generic/unistd.h:828: note: this is the location of the previous definition
-     828 | #define __NR_set_mempolicy 454
-         | 
-   In file included from mm/fadvise.c:19:
-   include/linux/syscalls.h:816:43: warning: 'struct mempolicy_args' declared inside parameter list will not be visible outside of this definition or declaration
-     816 | asmlinkage long sys_get_mempolicy2(struct mempolicy_args __user *args,
-         |                                           ^~~~~~~~~~~~~~
-   include/linux/syscalls.h:818:43: warning: 'struct mempolicy_args' declared inside parameter list will not be visible outside of this definition or declaration
-     818 | asmlinkage long sys_set_mempolicy2(struct mempolicy_args __user *args,
-         |                                           ^~~~~~~~~~~~~~
-   In file included from arch/loongarch/include/uapi/asm/unistd.h:5,
-                    from arch/loongarch/include/asm/unistd.h:9,
-                    from mm/fadvise.c:22:
-   include/uapi/asm-generic/unistd.h:603: warning: "__NR_set_mempolicy" redefined
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: note: this is the location of the previous definition
-     830 | #define __NR_set_mempolicy 455
-         | 
->> include/uapi/asm-generic/unistd.h:828: warning: "__NR_set_mempolicy" redefined
-     828 | #define __NR_set_mempolicy 454
-         | 
-   include/uapi/asm-generic/unistd.h:603: note: this is the location of the previous definition
-     603 | #define __NR_set_mempolicy 237
-         | 
-   include/uapi/asm-generic/unistd.h:830: warning: "__NR_set_mempolicy" redefined
-     830 | #define __NR_set_mempolicy 455
-         | 
-   include/uapi/asm-generic/unistd.h:828: note: this is the location of the previous definition
-     828 | #define __NR_set_mempolicy 454
-         | 
-   In file included from mm/fadvise.c:24:
-   mm/internal.h: In function 'shrinker_debugfs_name_alloc':
-   mm/internal.h:1223:9: warning: function 'shrinker_debugfs_name_alloc' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    1223 |         shrinker->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
-         |         ^~~~~~~~
-..
+   drivers/hv/hv_common.c: In function 'hv_call_create_vp':
+>> drivers/hv/hv_common.c:596:29: error: 'hv_current_partition_id' undeclared (first use in this function); did you mean 'hv_get_partition_id'?
+     596 |         if (partition_id != hv_current_partition_id) {
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~
+         |                             hv_get_partition_id
+   drivers/hv/hv_common.c:596:29: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/__NR_set_mempolicy +828 include/uapi/asm-generic/unistd.h
+vim +596 drivers/hv/hv_common.c
 
-   825	
-   826	/* CONFIG_MMU only */
-   827	#ifndef __ARCH_NOMMU
- > 828	#define __NR_set_mempolicy 454
-   829	__SYSCALL(__NR_set_mempolicy2, sys_set_mempolicy2)
-   830	#define __NR_set_mempolicy 455
-   831	__SYSCALL(__NR_get_mempolicy2, sys_get_mempolicy2)
-   832	#endif
-   833	
+   587	
+   588	int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
+   589	{
+   590		struct hv_create_vp *input;
+   591		u64 status;
+   592		unsigned long irq_flags;
+   593		int ret = HV_STATUS_SUCCESS;
+   594	
+   595		/* Root VPs don't seem to need pages deposited */
+ > 596		if (partition_id != hv_current_partition_id) {
+   597			/* The value 90 is empirically determined. It may change. */
+   598			ret = hv_call_deposit_pages(node, partition_id, 90);
+   599			if (ret)
+   600				return ret;
+   601		}
+   602	
+   603		do {
+   604			local_irq_save(irq_flags);
+   605	
+   606			input = *this_cpu_ptr(hyperv_pcpu_input_arg);
+   607	
+   608			input->partition_id = partition_id;
+   609			input->vp_index = vp_index;
+   610			input->flags = flags;
+   611			input->subnode_type = HvSubnodeAny;
+   612			input->proximity_domain_info =
+   613				numa_node_to_proximity_domain_info(node);
+   614			status = hv_do_hypercall(HVCALL_CREATE_VP, input, NULL);
+   615			local_irq_restore(irq_flags);
+   616	
+   617			if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
+   618				if (!hv_result_success(status)) {
+   619					pr_err("%s: vcpu %u, lp %u, %s\n", __func__,
+   620					       vp_index, flags, hv_status_to_string(status));
+   621					ret = hv_status_to_errno(status);
+   622				}
+   623				break;
+   624			}
+   625			ret = hv_call_deposit_pages(node, partition_id, 1);
+   626	
+   627		} while (!ret);
+   628	
+   629		return ret;
+   630	}
+   631	EXPORT_SYMBOL_GPL(hv_call_create_vp);
+   632	
 
 -- 
 0-DAY CI Kernel Test Service
