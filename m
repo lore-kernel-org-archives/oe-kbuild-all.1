@@ -1,48 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89561D28A
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Oct 2023 07:40:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11BE03FE4;
+	Tue,  3 Oct 2023 07:53:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696318852; x=1727854852;
+  t=1696319619; x=1727855619;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=oAHPwKBx2VXXhwErA1g4BrQu3mmm/TsAggXL8ezzFFM=;
-  b=kPasbqhgYFdiYPbhJSee95HEwFkfEp7+/bfDgc/j/KztMVRfr8bKJb2p
-   /18zFSH0ECL3NfIwFmxg7d0zLfG/1ihf1h9cVoPq2rW7ssyKkijFFd9q+
-   wVEuzdvurJfPgTs0gla4n0I8WGyH6L3GudL7Iut1ZdC3kYwYljUWm98q4
-   uTfIgGHq9n3/UKG6ZyRZ2OnCSCk7aEXzaS+vH7NrX7keLVtZRRaEDfVAp
-   PRbwYPmkUq0IFbR926LT1WIxchgKZS8UDRwwaJpI7JGcIrFM3sj9sYxvz
-   SCD9C4O4izA2vh5L9B2vuSqUPLBWRxeJkzcg80HSG7QECTacVywVPoo+U
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="446974835"
+  bh=cn4FFoJx/oeaBVpP42T/THT0z776pI2L6x7rZsA/yMk=;
+  b=d9JouVs60T/yVkck5vfaBOcbQdkx/wa/Vn4+nedhIVzzwam3KIkCX+2u
+   50vZ1CAU3tivVIn+gQhies9Uj0iGJ3Qpz5/iK1CZIqFaox/ALGonK7dj5
+   wydOR18nA3D7Q3Kv1mYVLZa0lNyyoEh+lL2MeKRn1q9Mu/oQjtRVLaKFS
+   UKTcVvcYYUa0D1q7TjOLfunIobmu6wnhWLPMutk6ZRmA8jB9cENLd97OS
+   QrUXMKYbM3SeLCwFBqAjr6Npf7dG7w6Chzwibfw6Kw3YwyhJa5iAqboIH
+   /geiTHyHUWS8SJ3RNdkiw+YTJ35UVHeQ2w97m3z8mXRp5XmVQEu+Ho75a
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="385639774"
 X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="446974835"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 00:40:51 -0700
+   d="scan'208";a="385639774"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 00:53:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="821140725"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="754323419"
 X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="821140725"
+   d="scan'208";a="754323419"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 03 Oct 2023 00:40:48 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 03 Oct 2023 00:52:57 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qna1O-0006tZ-25;
-	Tue, 03 Oct 2023 07:40:46 +0000
-Date: Tue, 3 Oct 2023 15:40:31 +0800
+	id 1qnaD7-0006tx-2G;
+	Tue, 03 Oct 2023 07:52:54 +0000
+Date: Tue, 3 Oct 2023 15:52:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ayush Singh <ayushdevel1325@gmail.com>, greybus-dev@lists.linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, Ayush Singh <ayushdevel1325@gmail.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	gregkh@linuxfoundation.org, vaishnav@beagleboard.org,
-	jkridner@beagleboard.org, nm@ti.com,
-	krzysztof.kozlowski+dt@linaro.org, johan@kernel.org,
-	elder@kernel.org
-Subject: Re: [PATCH v6 2/3] greybus: Add BeaglePlay Linux Driver
-Message-ID: <202310031521.Iq3S1RE9-lkp@intel.com>
-References: <20231002182454.211165-3-ayushdevel1325@gmail.com>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
+	Atish Patra <atishp@atishpatra.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	kasan-dev@googlegroups.com, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org, linux-efi@vger.kernel.org,
+	linux-mm@kvack.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: Re: [PATCH 2/5] mm: Introduce pudp/p4dp/pgdp_get() functions
+Message-ID: <202310031548.53wZmUUH-lkp@intel.com>
+References: <20231002151031.110551-3-alexghiti@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,75 +62,152 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231002182454.211165-3-ayushdevel1325@gmail.com>
+In-Reply-To: <20231002151031.110551-3-alexghiti@rivosinc.com>
 
-Hi Ayush,
+Hi Alexandre,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 6269320850097903b30be8f07a5c61d9f7592393]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc4 next-20231003]
+[cannot apply to efi/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ayush-Singh/dt-bindings-Add-beaglecc1352/20231003-031225
-base:   6269320850097903b30be8f07a5c61d9f7592393
-patch link:    https://lore.kernel.org/r/20231002182454.211165-3-ayushdevel1325%40gmail.com
-patch subject: [PATCH v6 2/3] greybus: Add BeaglePlay Linux Driver
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231003/202310031521.Iq3S1RE9-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231003/202310031521.Iq3S1RE9-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/riscv-Use-WRITE_ONCE-when-setting-page-table-entries/20231002-231725
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231002151031.110551-3-alexghiti%40rivosinc.com
+patch subject: [PATCH 2/5] mm: Introduce pudp/p4dp/pgdp_get() functions
+config: arm-moxart_defconfig (https://download.01.org/0day-ci/archive/20231003/202310031548.53wZmUUH-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231003/202310031548.53wZmUUH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310031521.Iq3S1RE9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310031548.53wZmUUH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/greybus/gb-beagleplay.c:45: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * BeaglePlay Greybus driver
-   drivers/greybus/gb-beagleplay.c:78: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Structure to represent part of HDCL frame payload data.
-   drivers/greybus/gb-beagleplay.c:107: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Consume HDLC Buffer. This function assumes that consumer lock has been acquired.
-   drivers/greybus/gb-beagleplay.c:127: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Queue HDLC data for sending. This function assumes that producer lock as been acquired.
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:29:
+>> include/linux/pgtable.h:310:29: error: function cannot return array type 'pgd_t' (aka 'unsigned int[2]')
+     310 | static inline pgd_t pgdp_get(pgd_t *pgdp)
+         |                             ^
+>> include/linux/pgtable.h:312:9: error: incompatible pointer to integer conversion returning 'const volatile pmdval_t *' (aka 'const volatile unsigned int *') from a function with result type 'int' [-Wint-conversion]
+     312 |         return READ_ONCE(*pgdp);
+         |                ^~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:47:28: note: expanded from macro 'READ_ONCE'
+      47 | #define READ_ONCE(x)                                                    \
+         |                                                                         ^
+      48 | ({                                                                      \
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      50 |         __READ_ONCE(x);                                                 \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      51 | })
+         | ~~
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1075:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:97:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      97 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1075:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:97:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      97 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1075:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:113:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     113 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1075:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:113:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     113 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1075:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1075:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1075:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:156:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     156 | _SIG_SET_BINOP(sigorsets, _sig_or)
 
 
-vim +45 drivers/greybus/gb-beagleplay.c
+vim +310 include/linux/pgtable.h
 
-    43	
-    44	/**
-  > 45	 * BeaglePlay Greybus driver
-    46	 *
-    47	 * @sd: underlying serdev device
-    48	 *
-    49	 * @gb_hd: greybus host device of this driver
-    50	 *
-    51	 * @tx_work: hdlc transmit work
-    52	 * @tx_producer_lock: hdlc transmit data producer lock. acquired when appending data to buffer.
-    53	 * @tx_consumer_lock: hdlc transmit data consumer lock. acquired when sending data over uart.
-    54	 * @tx_circ_buf: hdlc transmit circular buffer.
-    55	 * @tx_crc: hdlc transmit crc-ccitt fcs
-    56	 *
-    57	 * @rx_buffer_len: length of receive buffer filled.
-    58	 * @rx_buffer: hdlc frame receive buffer
-    59	 * @rx_in_esc: hdlc rx flag to indicate ESC frame
-    60	 */
-    61	struct gb_beagleplay {
-    62		struct serdev_device *sd;
-    63	
-    64		struct gb_host_device *gb_hd;
-    65	
-    66		struct work_struct tx_work;
-    67		spinlock_t tx_producer_lock;
-    68		spinlock_t tx_consumer_lock;
-    69		struct circ_buf tx_circ_buf;
-    70		u16 tx_crc;
-    71	
-    72		u16 rx_buffer_len;
-    73		bool rx_in_esc;
-    74		u8 rx_buffer[MAX_RX_HDLC];
-    75	};
-    76	
+   308	
+   309	#ifndef pgdp_get
+ > 310	static inline pgd_t pgdp_get(pgd_t *pgdp)
+   311	{
+ > 312		return READ_ONCE(*pgdp);
+   313	}
+   314	#endif
+   315	
 
 -- 
 0-DAY CI Kernel Test Service
