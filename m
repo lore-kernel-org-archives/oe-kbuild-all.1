@@ -1,57 +1,43 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D51DF6F
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 08:22:47 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40651a726acso17360915e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 04 Oct 2023 01:22:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1696407766; x=1697012566; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7lASRZKty5ExpIf8a7SkpCZKAXewoWwnd7oDE42K+tI=;
-        b=B8eHUdNEbHo8B04qsBGBrVczL1kcAD3VvgGRwiKWzGFKFrniEGtIiXUXx4rlFrO2qc
-         pP7SRZsAhSb7Ss1mH9r81xux+aNgWqK515569POMsixJ9xVmPV45kmGrimz7iATkXBXG
-         zQcD4/WLyCg2TxzT6Ebdd84Voo0QcRkK/xWLpInYPiN7x1wgqPBzbL0xBveFqjshPpiM
-         jQA1B5yYNgrIkxfPUbWhYyKe7ra4NAkEC5wkGyx1qJ4/lK33LnAYlOsKINHnEGX4TsUF
-         dbG8/CHPqY6x78LRwzZKmfd2mXLI7V7aoV72XV1bbuixA8zoaGIvZQvDuq215Qz1Sqxa
-         8PPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696407766; x=1697012566;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7lASRZKty5ExpIf8a7SkpCZKAXewoWwnd7oDE42K+tI=;
-        b=juG2WE4B5rpgBtIyb+U52dZK0uQjsli8t06dOcKpNeDrIiebPt1MV94HQtPdh7slje
-         QQHKniK8zOULHMuPyVmgRKe2zMo2Y7spdAhmxHFKAi9gVfYc0MtlEgsU4cxP542FOiuE
-         XHCXn7tKWDHeK5nQc2bQ1QdyBp2aLCrPSP3uZK9ardFXXruH+gXVdtDprNM4srHXWXMD
-         R+XFoMs0iZ9Acff3UlAt9EZxBTOd3GwHT8rwDzV/dA5y7BUFXA6hKzRQqdtPk9L03ZNh
-         /uvvyS7lVGFWdETNw38SFvkeQvP0b9c50pgmNC6Wwjgx6O15tTIX1JNFLQ/VzjcsHu4I
-         2UuA==
-X-Gm-Message-State: AOJu0YzQgg/SejUuTcLjqnLmQZYDO5Z+kEVDt4pjfQHLO/ncqhr6DGrO
-	arEgEq7w8Sm7QYf+KDr+S9Km1w==
-X-Google-Smtp-Source: AGHT+IFotsPOvnw4M9o3Z4Nbt8NwHjr923dBWIoUmKFWH9Seq4US3CR732X8UO2cZe90jcCzi/nZ2w==
-X-Received: by 2002:a1c:7910:0:b0:401:c0ef:c287 with SMTP id l16-20020a1c7910000000b00401c0efc287mr1875403wme.27.1696407766324;
-        Wed, 04 Oct 2023 01:22:46 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k10-20020a7bc40a000000b003fc06169ab3sm900469wmi.20.2023.10.04.01.22.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Oct 2023 01:22:45 -0700 (PDT)
-Date: Wed, 4 Oct 2023 11:22:43 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dan Williams <dan.j.williams@intel.com>,
-	linux-coco@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Borislav Petkov <bp@alien8.de>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Dionna Glaze <dionnaglaze@google.com>,
-	Brijesh Singh <brijesh.singh@amd.com>,
-	Jeremi Piotrowski <jpiotrowski@linux.microsoft.com>,
-	peterz@infradead.org, linux-kernel@vger.kernel.org, x86@kernel.org,
-	dave.hansen@linux.intel.com
-Subject: Re: [PATCH v4 5/6] virt: sevguest: Add TSM_REPORTS support for
- SNP_{GET, GET_EXT}_REPORT
-Message-ID: <6cc8a021-a32a-4732-b7a0-eb3a6dbb5ee2@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B9110953
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 09:49:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696412975; x=1727948975;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bTGmVaCbGUtsRlMooejy1mL6MHh5lsNVSpno5c9lUJU=;
+  b=FDiikSTG0uBLb6zGKOarnzWNbdlPeoGXLCptM/xGmWixdbj8Niws97pm
+   S4NqjA1qOq/UmjcbPo/dL1TIIyXdqDZkXFK9ks4ntB0YF2c4aiRgsT6s8
+   a4BQu8+H7Gbk6MlG94vqbDGPmdS5osIxGtRz7F6kn8jw6irh2xfAUJ2a2
+   RQ56PeN6Lc7RH1IFgno2nUlFU2A4gpzDGzWDPClUrqoZiS96AggD+a+i9
+   XDVSIyw0ROFd5TkKB5Mng+RV8fVPuOqiTbnlzJm0ZLEivnF8BNK5HvcQb
+   giQ+BXB0Et4bS779RNW9TA52d6Dglyo8NPp8B55IOVqv0myDuWHiCpS7/
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="386985557"
+X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
+   d="scan'208";a="386985557"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 02:48:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="701031860"
+X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
+   d="scan'208";a="701031860"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 04 Oct 2023 02:48:08 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qnyU9-000GUU-2E;
+	Wed, 04 Oct 2023 09:48:05 +0000
+Date: Wed, 4 Oct 2023 17:47:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 8396/9381] fs/file.c:875:22: sparse: sparse:
+ incorrect type in assignment (different address spaces)
+Message-ID: <202310041744.d34gIv9V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,135 +46,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <169570184829.596431.15991881056638719011.stgit@dwillia2-xfh.jf.intel.com>
 
-Hi Dan,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/virt-coco-Add-a-coco-Makefile-and-coco-Kconfig/20230926-121843
-base:   6465e260f48790807eef06b583b38ca9789b6072
-patch link:    https://lore.kernel.org/r/169570184829.596431.15991881056638719011.stgit%40dwillia2-xfh.jf.intel.com
-patch subject: [PATCH v4 5/6] virt: sevguest: Add TSM_REPORTS support for SNP_{GET, GET_EXT}_REPORT
-config: x86_64-randconfig-161-20231002 (https://download.01.org/0day-ci/archive/20231003/202310030341.zaOu0ew0-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   33b64befb1a28bca3f5a9ed9807d2f87e976c63a
+commit: af66b51563ad7e625602809a0f4c45154df063d1 [8396/9381] file: convert to SLAB_TYPESAFE_BY_RCU
+config: i386-randconfig-061-20231004 (https://download.01.org/0day-ci/archive/20231004/202310041744.d34gIv9V-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231003/202310030341.zaOu0ew0-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231004/202310041744.d34gIv9V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202310030341.zaOu0ew0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310041744.d34gIv9V-lkp@intel.com/
 
-smatch warnings:
-drivers/virt/coco/sev-guest/sev-guest.c:853 sev_report_new() error: uninitialized symbol 'certs_size'.
+sparse warnings: (new ones prefixed by >>)
+   fs/file.c:379:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **old_fds @@     got struct file [noderef] __rcu **fd @@
+   fs/file.c:379:17: sparse:     expected struct file **old_fds
+   fs/file.c:379:17: sparse:     got struct file [noderef] __rcu **fd
+   fs/file.c:380:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **new_fds @@     got struct file [noderef] __rcu **fd @@
+   fs/file.c:380:17: sparse:     expected struct file **new_fds
+   fs/file.c:380:17: sparse:     got struct file [noderef] __rcu **fd
+   fs/file.c:395:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/file.c:395:17: sparse:    struct file [noderef] __rcu *
+   fs/file.c:395:17: sparse:    struct file *
+   fs/file.c:430:54: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu *[assigned] __ret @@
+   fs/file.c:470:28: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fdtable [noderef] __rcu *fdt @@     got struct fdtable * @@
+   fs/file.c:646:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu * @@
+   fs/file.c:841:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu * @@
+>> fs/file.c:875:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file [noderef] __rcu *file @@     got struct file * @@
+>> fs/file.c:879:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct atomic_t [usertype] *v @@     got struct atomic_t [noderef] __rcu * @@
+>> fs/file.c:882:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file [noderef] __rcu *file_reloaded @@     got struct file * @@
+>> fs/file.c:906:32: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct file * @@     got struct file [noderef] __rcu *file_reloaded @@
+>> fs/file.c:908:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file * @@     got struct file [noderef] __rcu *file @@
+   fs/file.c:1200:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *tofree @@     got struct file [noderef] __rcu * @@
 
-vim +/certs_size +853 drivers/virt/coco/sev-guest/sev-guest.c
+vim +875 fs/file.c
 
-80013405d5b7c6 Dan Williams 2023-09-25  778  static int sev_report_new(struct tsm_report *report, void *data)
-80013405d5b7c6 Dan Williams 2023-09-25  779  {
-80013405d5b7c6 Dan Williams 2023-09-25  780  	static const struct snp_msg_cert_entry zero_ent = { 0 };
-80013405d5b7c6 Dan Williams 2023-09-25  781  	struct tsm_desc *desc = &report->desc;
-80013405d5b7c6 Dan Williams 2023-09-25  782  	struct snp_guest_dev *snp_dev = data;
-80013405d5b7c6 Dan Williams 2023-09-25  783  	struct snp_msg_report_resp_hdr hdr;
-80013405d5b7c6 Dan Williams 2023-09-25  784  	const int report_size = SZ_4K;
-80013405d5b7c6 Dan Williams 2023-09-25  785  	const int ext_size = SZ_16K;
-80013405d5b7c6 Dan Williams 2023-09-25  786  	int ret, size = report_size + ext_size;
-80013405d5b7c6 Dan Williams 2023-09-25  787  	int certs_size, cert_count, i, offset;
-80013405d5b7c6 Dan Williams 2023-09-25  788  	u8 *certs_address;
-80013405d5b7c6 Dan Williams 2023-09-25  789  
-80013405d5b7c6 Dan Williams 2023-09-25  790  	if (desc->inblob_len != 64)
-80013405d5b7c6 Dan Williams 2023-09-25  791  		return -EINVAL;
-80013405d5b7c6 Dan Williams 2023-09-25  792  
-80013405d5b7c6 Dan Williams 2023-09-25  793  	void *buf __free(kvfree) = kvzalloc(size, GFP_KERNEL);
-80013405d5b7c6 Dan Williams 2023-09-25  794  	if (!buf)
-80013405d5b7c6 Dan Williams 2023-09-25  795  		return -ENOMEM;
-80013405d5b7c6 Dan Williams 2023-09-25  796  
-80013405d5b7c6 Dan Williams 2023-09-25  797  	guard(mutex)(&snp_cmd_mutex);
-
-Hoho.  Need guard stuff and no warnings generated.  Perhaps I have added
-all the new unlock functions.  :)
-
-80013405d5b7c6 Dan Williams 2023-09-25  798  	certs_address = buf + report_size;
-80013405d5b7c6 Dan Williams 2023-09-25  799  	struct snp_ext_report_req ext_req = {
-80013405d5b7c6 Dan Williams 2023-09-25  800  		.data = { .vmpl = desc->privlevel },
-80013405d5b7c6 Dan Williams 2023-09-25  801  		.certs_address = (__u64)certs_address,
-80013405d5b7c6 Dan Williams 2023-09-25  802  		.certs_len = ext_size,
-80013405d5b7c6 Dan Williams 2023-09-25  803  	};
-80013405d5b7c6 Dan Williams 2023-09-25  804  	memcpy(&ext_req.data.user_data, desc->inblob, desc->inblob_len);
-80013405d5b7c6 Dan Williams 2023-09-25  805  
-80013405d5b7c6 Dan Williams 2023-09-25  806  	struct snp_guest_request_ioctl input = {
-80013405d5b7c6 Dan Williams 2023-09-25  807  		.msg_version = 1,
-80013405d5b7c6 Dan Williams 2023-09-25  808  		.req_data = (__u64)&ext_req,
-80013405d5b7c6 Dan Williams 2023-09-25  809  		.resp_data = (__u64)buf,
-80013405d5b7c6 Dan Williams 2023-09-25  810  	};
-80013405d5b7c6 Dan Williams 2023-09-25  811  	struct snp_req_resp io = {
-80013405d5b7c6 Dan Williams 2023-09-25  812  		.req_data = KERNEL_SOCKPTR(&ext_req),
-80013405d5b7c6 Dan Williams 2023-09-25  813  		.resp_data = KERNEL_SOCKPTR(buf),
-80013405d5b7c6 Dan Williams 2023-09-25  814  	};
-80013405d5b7c6 Dan Williams 2023-09-25  815  
-80013405d5b7c6 Dan Williams 2023-09-25  816  	ret = get_ext_report(snp_dev, &input, &io);
-80013405d5b7c6 Dan Williams 2023-09-25  817  
-80013405d5b7c6 Dan Williams 2023-09-25  818  	if (ret)
-80013405d5b7c6 Dan Williams 2023-09-25  819  		return ret;
-80013405d5b7c6 Dan Williams 2023-09-25  820  
-80013405d5b7c6 Dan Williams 2023-09-25  821  	memcpy(&hdr, buf, sizeof(hdr));
-80013405d5b7c6 Dan Williams 2023-09-25  822  	if (hdr.status == SNP_REPORT_INVALID_PARAM)
-80013405d5b7c6 Dan Williams 2023-09-25  823  		return -EINVAL;
-80013405d5b7c6 Dan Williams 2023-09-25  824  	if (hdr.status == SNP_REPORT_INVALID_KEY_SEL)
-80013405d5b7c6 Dan Williams 2023-09-25  825  		return -EINVAL;
-80013405d5b7c6 Dan Williams 2023-09-25  826  	if (hdr.status)
-80013405d5b7c6 Dan Williams 2023-09-25  827  		return -ENXIO;
-80013405d5b7c6 Dan Williams 2023-09-25  828  	if ((hdr.report_size + sizeof(hdr)) > report_size)
-80013405d5b7c6 Dan Williams 2023-09-25  829  		return -ENOMEM;
-80013405d5b7c6 Dan Williams 2023-09-25  830  
-80013405d5b7c6 Dan Williams 2023-09-25  831  	void *rbuf __free(kvfree) = kvzalloc(hdr.report_size, GFP_KERNEL);
-80013405d5b7c6 Dan Williams 2023-09-25  832  	if (!rbuf)
-80013405d5b7c6 Dan Williams 2023-09-25  833  		return -ENOMEM;
-80013405d5b7c6 Dan Williams 2023-09-25  834  
-80013405d5b7c6 Dan Williams 2023-09-25  835  	memcpy(rbuf, buf + sizeof(hdr), hdr.report_size);
-80013405d5b7c6 Dan Williams 2023-09-25  836  	report->outblob = no_free_ptr(rbuf);
-80013405d5b7c6 Dan Williams 2023-09-25  837  	report->outblob_len = hdr.report_size;
-80013405d5b7c6 Dan Williams 2023-09-25  838  
-80013405d5b7c6 Dan Williams 2023-09-25  839  	for (i = 0; i < ext_size / sizeof(struct snp_msg_cert_entry); i++) {
-80013405d5b7c6 Dan Williams 2023-09-25  840  		struct snp_msg_cert_entry *certs = buf + report_size;
-80013405d5b7c6 Dan Williams 2023-09-25  841  
-80013405d5b7c6 Dan Williams 2023-09-25  842  		if (memcmp(&certs[i], &zero_ent, sizeof(zero_ent)) == 0)
-80013405d5b7c6 Dan Williams 2023-09-25  843  			break;
-80013405d5b7c6 Dan Williams 2023-09-25  844  		certs_size += certs[i].length;
-
-certs_size needs to be initialized to zero.
-
-80013405d5b7c6 Dan Williams 2023-09-25  845  	}
-80013405d5b7c6 Dan Williams 2023-09-25  846  	cert_count = i;
-80013405d5b7c6 Dan Williams 2023-09-25  847  
-80013405d5b7c6 Dan Williams 2023-09-25  848  	/* No certs to report */
-80013405d5b7c6 Dan Williams 2023-09-25  849  	if (cert_count == 0)
-80013405d5b7c6 Dan Williams 2023-09-25  850  		return 0;
-80013405d5b7c6 Dan Williams 2023-09-25  851  
-80013405d5b7c6 Dan Williams 2023-09-25  852  	/* sanity check that the entire certs table with metadata fits */
-80013405d5b7c6 Dan Williams 2023-09-25 @853  	if ((cert_count + 1) * sizeof(zero_ent) + certs_size > ext_size)
-80013405d5b7c6 Dan Williams 2023-09-25  854  		return -ENXIO;
-80013405d5b7c6 Dan Williams 2023-09-25  855  
-80013405d5b7c6 Dan Williams 2023-09-25  856  	void *cbuf __free(kvfree) = kvzalloc(certs_size, GFP_KERNEL);
-80013405d5b7c6 Dan Williams 2023-09-25  857  	if (!cbuf)
-80013405d5b7c6 Dan Williams 2023-09-25  858  		return -ENOMEM;
-80013405d5b7c6 Dan Williams 2023-09-25  859  
-80013405d5b7c6 Dan Williams 2023-09-25  860  	/* Concatenate returned certs */
-80013405d5b7c6 Dan Williams 2023-09-25  861  	for (i = 0, offset = 0; i < cert_count; i++) {
-80013405d5b7c6 Dan Williams 2023-09-25  862  		struct snp_msg_cert_entry *certs = buf + report_size;
-80013405d5b7c6 Dan Williams 2023-09-25  863  
-80013405d5b7c6 Dan Williams 2023-09-25  864  		memcpy(cbuf + offset, certs_address + certs[i].offset, certs[i].length);
-80013405d5b7c6 Dan Williams 2023-09-25  865  		offset += certs[i].length;
-80013405d5b7c6 Dan Williams 2023-09-25  866  	}
-80013405d5b7c6 Dan Williams 2023-09-25  867  
-80013405d5b7c6 Dan Williams 2023-09-25  868  	report->certs = no_free_ptr(cbuf);
-80013405d5b7c6 Dan Williams 2023-09-25  869  	report->certs_len = certs_size;
-80013405d5b7c6 Dan Williams 2023-09-25  870  
-80013405d5b7c6 Dan Williams 2023-09-25  871  	return 0;
-80013405d5b7c6 Dan Williams 2023-09-25  872  }
+   855	
+   856	/**
+   857	 * get_file_rcu - try go get a reference to a file under rcu
+   858	 * @f: the file to get a reference on
+   859	 *
+   860	 * This function tries to get a reference on @f carefully verifying that
+   861	 * @f hasn't been reused.
+   862	 *
+   863	 * This function should rarely have to be used and only by users who
+   864	 * understand the implications of SLAB_TYPESAFE_BY_RCU. Try to avoid it.
+   865	 *
+   866	 * Return: Returns @f with the reference count increased or NULL.
+   867	 */
+   868	struct file *get_file_rcu(struct file __rcu **f)
+   869	{
+   870		for (;;) {
+   871			struct file __rcu *file;
+   872			struct file __rcu *file_reloaded;
+   873			struct file __rcu *file_reloaded_cmp;
+   874	
+ > 875			file = rcu_dereference_raw(*f);
+   876			if (!file)
+   877				return NULL;
+   878	
+ > 879			if (unlikely(!atomic_long_inc_not_zero(&file->f_count)))
+   880				continue;
+   881	
+ > 882			file_reloaded = rcu_dereference_raw(*f);
+   883	
+   884			/*
+   885			 * Ensure that all accesses have a dependency on the
+   886			 * load from rcu_dereference_raw() above so we get
+   887			 * correct ordering between reuse/allocation and the
+   888			 * pointer check below.
+   889			 */
+   890			file_reloaded_cmp = file_reloaded;
+   891			OPTIMIZER_HIDE_VAR(file_reloaded_cmp);
+   892	
+   893			/*
+   894			 * atomic_long_inc_not_zero() above provided a full
+   895			 * memory barrier when we acquired a reference.
+   896			 *
+   897			 * This is paired with the write barrier from assigning
+   898			 * to the __rcu protected file pointer so that if that
+   899			 * pointer still matches the current file, we know we
+   900			 * have successfully acquire a reference to it.
+   901			 *
+   902			 * If the pointers don't match the file has been
+   903			 * reallocated by SLAB_TYPESAFE_BY_RCU.
+   904			 */
+   905			if (file == file_reloaded_cmp)
+ > 906				return file_reloaded;
+   907	
+ > 908			fput(file);
+   909		}
+   910	}
+   911	EXPORT_SYMBOL_GPL(get_file_rcu);
+   912	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
