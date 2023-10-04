@@ -1,48 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E7518E16;
-	Wed,  4 Oct 2023 15:07:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D61BE107AE
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 15:48:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696432078; x=1727968078;
+  t=1696434504; x=1727970504;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l5H26bAxT5Z9FuNL/Ykcqi8Wgw4NFLEkGqbaN0gFGBo=;
-  b=OycHfe8WL7Jm97lk9FBX92yX/zDmpdk4H/mY2LRd/UdCtS/+LJOZzAyd
-   K4sLicSIwW1XRw88FqpeOdf63exdbMge5odXCekGolWmwsdE04GJU+vsq
-   V8Lia/QcTaOxw4qOvlDpFmm5zd3NM5fvWcZJSro4v3s/NCjTlcj2fcvwf
-   Zb9pI8ukBJVRmrjb6hLSLFb1OI18fdMrXRZRlFUfbX/75PfW9LbyywLh1
-   auOA4122KUOKlSvdlQQjWdTXEQH0+0jNu4sPuderEUXnMjcT8yGw78QeB
-   rIYElohfEsTVvzsdvnlFUmk4KV5fsv0xF+lY0IXeMwakzp4UFsOEM397X
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="362548441"
+  bh=L/UBjLA34d9r2VKMNipkmsJm69jz4a8dHi9E+0J6MNw=;
+  b=HWzwWEkayLefz0rMsBf0Lra2bD0VLuSFaywkeX5a8NB3m7nC/V1vfcVZ
+   11ZtaVOi++iddxUN/KYeVeDVK73fS9aWNaHV/rkbIJDoW2qBNQgCK0JfL
+   U9UGya6idOtSuPwVMdugE47y52hW3bm5qmmgeXFsCeQ1d3+97peeivnVW
+   zSqyiJASv4z/mnrSUdfxxOJndA/J6zfASmSnxISYbEuN9McIlvXTiHca6
+   jHwA0Sk5H9i3PxeksQ3RWgZ6eriYDh21jibcLLun0VaPoleImocikgiiW
+   7FC+WP1BA7EYSEEjP06EA19jkhAm3gWGwvTwF7rp4dXV5aRutJ3umhyfm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="363478714"
 X-IronPort-AV: E=Sophos;i="6.03,200,1694761200"; 
-   d="scan'208";a="362548441"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 08:05:19 -0700
+   d="scan'208";a="363478714"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 08:48:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="998495249"
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="751354329"
 X-IronPort-AV: E=Sophos;i="6.03,200,1694761200"; 
-   d="scan'208";a="998495249"
+   d="scan'208";a="751354329"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 04 Oct 2023 08:05:17 -0700
+  by orsmga002.jf.intel.com with ESMTP; 04 Oct 2023 08:48:21 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qo3R4-000KKC-2w;
-	Wed, 04 Oct 2023 15:05:14 +0000
-Date: Wed, 4 Oct 2023 23:05:10 +0800
+	id 1qo46U-000KMK-2u;
+	Wed, 04 Oct 2023 15:48:07 +0000
+Date: Wed, 4 Oct 2023 23:47:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [linux-next:master 4144/9570] /bin/bash: line 1: 83326 Segmentation
- fault      LLVM_OBJCOPY="llvm-objcopy" pahole -J --btf_gen_floats -j
- --lang_exclude=rust --skip_encoding_btf_inconsistent_proto
- --btf_gen_optimized --btf_base vmlinux
- drivers/power/supply/bq256xx_charger.ko
-Message-ID: <202310042342.Bv7kezcd-lkp@intel.com>
+To: Leon Romanovsky <leonro@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [leon-rdma:xfrm-next 18/20] net/xfrm/xfrm_state.c:1960:6: warning:
+ no previous prototype for 'xfrm_state_update_stats'
+Message-ID: <202310042352.ozP4fOkt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,21 +46,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   33b64befb1a28bca3f5a9ed9807d2f87e976c63a
-commit: f28992902b17245af042913d6cfd6a1cc100bcaf [4144/9570] power: supply: bq256xx: Use i2c_get_match_data()
-config: hexagon-randconfig-r003-20221116 (https://download.01.org/0day-ci/archive/20231004/202310042342.Bv7kezcd-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231004/202310042342.Bv7kezcd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git xfrm-next
+head:   51299d29ce09c08bb0752fe33874c428a825990d
+commit: 2e28542db8ba69b6b1ff049aec9e87580137ab06 [18/20] xfrm: get global statistics from the offloaded device
+config: alpha-defconfig (https://download.01.org/0day-ci/archive/20231004/202310042352.ozP4fOkt-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231004/202310042352.ozP4fOkt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310042342.Bv7kezcd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310042352.ozP4fOkt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> /bin/bash: line 1: 83326 Segmentation fault      LLVM_OBJCOPY="llvm-objcopy" pahole -J --btf_gen_floats -j --lang_exclude=rust --skip_encoding_btf_inconsistent_proto --btf_gen_optimized --btf_base vmlinux drivers/power/supply/bq256xx_charger.ko
+>> net/xfrm/xfrm_state.c:1960:6: warning: no previous prototype for 'xfrm_state_update_stats' [-Wmissing-prototypes]
+    1960 | void xfrm_state_update_stats(struct net *net)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/xfrm_state_update_stats +1960 net/xfrm/xfrm_state.c
+
+  1959	
+> 1960	void xfrm_state_update_stats(struct net *net)
+  1961	{
+  1962		struct xfrm_state *x;
+  1963		int i;
+  1964	
+  1965		spin_lock_bh(&net->xfrm.xfrm_state_lock);
+  1966		for (i = 0; i <= net->xfrm.state_hmask; i++) {
+  1967			hlist_for_each_entry(x, net->xfrm.state_bydst + i, bydst)
+  1968				xfrm_dev_state_update_stats(x);
+  1969		}
+  1970		spin_unlock_bh(&net->xfrm.xfrm_state_lock);
+  1971	}
+  1972	
 
 -- 
 0-DAY CI Kernel Test Service
