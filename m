@@ -1,76 +1,80 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F415D200C5
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 19:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Zuo7f+qc";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="EBGsWHaH"
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 176E321845;
-	Wed,  4 Oct 2023 19:12:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1696446767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hRQLiBtNKAdxOX0woIqr25tsRAJKLVu6fNF+IssOEQM=;
-	b=Zuo7f+qcI/6/V1K0iWiqx7mqDoeguA50gSgLwvc1rr845q63KG/TJlo/2wlYy37y2kiqBD
-	goYiYIkMDdZ8LFO6eG0BUv+Abv5jlJ2Qctqv6jYZlst1XRNGRKHNK0tKKafelMD3nfREIx
-	1nBhD61GFcQEWQQhhjGSswdUTILlve0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1696446767;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hRQLiBtNKAdxOX0woIqr25tsRAJKLVu6fNF+IssOEQM=;
-	b=EBGsWHaHvHndD245wZio1icsC1UboDtAj2YpDnBazpZkMjV7y5nbAZbITR7wEpEf/fIAtu
-	cA1Vha4hWVDtWAAA==
-Received: from pobox.suse.cz (pobox.suse.cz [10.100.2.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by relay2.suse.de (Postfix) with ESMTPS id 9840A2C142;
-	Wed,  4 Oct 2023 19:12:46 +0000 (UTC)
-Date: Wed, 4 Oct 2023 21:12:46 +0200 (CEST)
-From: Jiri Kosina <jkosina@suse.cz>
-To: kernel test robot <lkp@intel.com>
-cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
-    oe-kbuild-all@lists.linux.dev, 
-    Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [linux-next:master 693/8790] drivers/hid/hid-sony.c:2159:2-14:
- WARNING: NULL check before some freeing functions is not needed.
-In-Reply-To: <202310011609.2mhDG4jJ-lkp@intel.com>
-Message-ID: <nycvar.YFH.7.76.2310042112260.3534@cbobk.fhfr.pm>
-References: <202310011609.2mhDG4jJ-lkp@intel.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C8B219E9
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 19:24:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VU85aKMJ"
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696447443; x=1727983443;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PjfM31URntTXe/4sWxj6I9KrN0r+t6fNuz8aa4OEuHA=;
+  b=VU85aKMJJGKyTgoqJgRaDjmE1lFFsTE2zSi9eYCbt2bgL9cjRWxQIag3
+   WTfl07Z1bvizAmpVM6T5EPSvwZpHAzkOHV3J3CCYNfOo/0V9OYZO4Z/OY
+   h40HiLzChqDQhV2L1XKWbLO6P6aRcvM6vYJZh/JKDaeHY6ai9VaYAhazn
+   yZYjLSGHKD5xwWzZjpz0Y3Toq0+dH72Z6Oex3n7nhwOtZX+N+hq5s3NcN
+   +zs4w0/qcWyY+lHhqSl0Z3KDXvN/FNdrq35cCTVO1FthB/PYRNv9kdWXk
+   GR62FZ/SNpKrPRFEwi0cFl9ZjxS/IqRs42RTFeQJiJBWSeomYeQh0Q+e6
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="382144345"
+X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
+   d="scan'208";a="382144345"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 12:24:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="701278240"
+X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
+   d="scan'208";a="701278240"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 04 Oct 2023 12:23:59 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qo7TQ-000KXs-11;
+	Wed, 04 Oct 2023 19:23:56 +0000
+Date: Thu, 5 Oct 2023 03:23:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: John Garry <john.g.garry@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+Subject: [riteshharjani:xfs-atomic-write-v1 9/21] blk-merge.c:undefined
+ reference to `__aeabi_ldivmod'
+Message-ID: <202310050303.lTI9IG7v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, 1 Oct 2023, kernel test robot wrote:
+tree:   https://github.com/riteshharjani/linux xfs-atomic-write-v1
+head:   6e46c5eac75533f8ca2e7446bddedc9560a032fc
+commit: d510c9be9e4f296b8c570e740dbec8cff0d2a6a3 [9/21] block: Add checks to merging of atomic writes
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20231005/202310050303.lTI9IG7v-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310050303.lTI9IG7v-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   df964ce9ef9fea10cf131bf6bad8658fde7956f6
-> commit: e1cd4004cde7c9b694bbdd8def0e02288ee58c74 [693/8790] HID: sony: Fix a potential memory leak in sony_probe()
-> config: x86_64-randconfig-101-20231001 (https://download.01.org/0day-ci/archive/20231001/202310011609.2mhDG4jJ-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20231001/202310011609.2mhDG4jJ-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202310011609.2mhDG4jJ-lkp@intel.com/
-> 
-> cocci warnings: (new ones prefixed by >>)
-> >> drivers/hid/hid-sony.c:2159:2-14: WARNING: NULL check before some freeing functions is not needed.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310050303.lTI9IG7v-lkp@intel.com/
 
-Now fixed in hid.git#for-6.6/upstream-fixes with 287f69f3f9939.
+All errors (new ones prefixed by >>):
+
+   arm-linux-gnueabi-ld: block/blk-merge.o: in function `ll_back_merge_fn':
+>> blk-merge.c:(.text+0xbf2): undefined reference to `__aeabi_ldivmod'
+>> arm-linux-gnueabi-ld: blk-merge.c:(.text+0xc0a): undefined reference to `__aeabi_ldivmod'
+   arm-linux-gnueabi-ld: block/blk-merge.o: in function `attempt_merge':
+   blk-merge.c:(.text+0xe06): undefined reference to `__aeabi_ldivmod'
+   arm-linux-gnueabi-ld: blk-merge.c:(.text+0xe20): undefined reference to `__aeabi_ldivmod'
+   arm-linux-gnueabi-ld: block/blk-merge.o: in function `bio_attempt_front_merge':
+   blk-merge.c:(.text+0x10e6): undefined reference to `__aeabi_ldivmod'
+   arm-linux-gnueabi-ld: block/blk-merge.o:blk-merge.c:(.text+0x10fe): more undefined references to `__aeabi_ldivmod' follow
 
 -- 
-Jiri Kosina
-Director, SUSE Labs Core
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
