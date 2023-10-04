@@ -1,49 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5409C1D54A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 18:12:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B801D54A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 18:12:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696443123; x=1727979123;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Q5SYOhqLdxaR92zgm6FSzeZ8MvQQ9xSbq8CZ1FP69ks=;
-  b=XTV/8YxlTBNkvAqQm/3vlTxGBy6yD9yDZFWuMIOjdwnzE08Am5Scyhfi
-   Nt/oNT+bHffKyXaUqUj+NIKhqnAG3p0V9+4cWHPBWIz9nXfDDtom3NayD
-   qhcMzzqZ73USoAwFGjrli4JmBxh6YTLroXfaUzSYH10UVljhgC6z5pqZt
-   lOfBezEtA9WG1DXaOkjPHCRk4OnMNu2o539/Wfgbwz+o/o78Arkaztmro
-   xOdzIbpULeApWtmW1XtGoXh+SdkURGlAKkrpN+JsWlRgPPw26ge7ySpWy
-   e7cA4C8+R0RSsSDNsePfghk4dZFPWAZ0U2MDumNIVK8lS8lM9SvPtIDOM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="383162316"
+  t=1696443132; x=1727979132;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YtR4MmBXb8w8zv7F3c/OpISK7gtI0OoP0+GquwhA4M4=;
+  b=EA0cg4twYTMgxtjnJ6dl/75yowuOAG58aj6ayrLR8mJeP94mouohToJo
+   lrXutSUZKCUFUAF2Ngmbtt8EJOdKM7J/ToJCtGkxr+uw2EjE2HRHAlsu7
+   NZmpHWK/SSIRej2x48Q6a2si1IiLJbsiXExvIv1iaoWABtM3KNQoaovbS
+   /Edgx8UyaMCrm6BZNheDPJrEVDVHarEbH0Gldf6iyIxa3QLbTYVz0k5KL
+   H6i45FjLZh+e7Kl28b8BhkBIPvKZBDQPRLO26nsP7S/5gNyntGUB0dTS6
+   i5XdrPC0a1aNBXn74vchwpKjJ1h7OdGOoVikzxgLdELmmZgL4NX562oxa
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="414173421"
 X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
-   d="scan'208";a="383162316"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 11:11:59 -0700
+   d="scan'208";a="414173421"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 11:11:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="895085119"
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="701232230"
 X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
-   d="scan'208";a="895085119"
+   d="scan'208";a="701232230"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 04 Oct 2023 11:10:29 -0700
+  by orsmga003.jf.intel.com with ESMTP; 04 Oct 2023 11:11:56 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qo6Li-000KU9-0E;
+	id 1qo6Li-000KU4-02;
 	Wed, 04 Oct 2023 18:11:54 +0000
-Date: Thu, 5 Oct 2023 02:11:49 +0800
+Date: Thu, 5 Oct 2023 02:11:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: werneazc@gmail.com, jic23@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	lars@metafoo.de
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Andre Werner <andre.werner@systec-electronic.com>
-Subject: Re: [PATCH 2/2] iio: adc: ads7038: Add driver support for 12bit ADC
-Message-ID: <202310050120.yV1We3RG-lkp@intel.com>
-References: <20231004102330.3713-2-andre.werner@systec-electronic.com>
+To: John Garry <john.g.garry@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+Subject: [riteshharjani:xfs-atomic-write-v1 9/21] blk-merge.c:undefined
+ reference to `__moddi3'
+Message-ID: <202310050212.F8KZLnNe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,82 +48,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231004102330.3713-2-andre.werner@systec-electronic.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on robh/for-next linus/master v6.6-rc4 next-20231004]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/werneazc-gmail-com/iio-adc-ads7038-Add-driver-support-for-12bit-ADC/20231004-182531
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20231004102330.3713-2-andre.werner%40systec-electronic.com
-patch subject: [PATCH 2/2] iio: adc: ads7038: Add driver support for 12bit ADC
-config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20231005/202310050120.yV1We3RG-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310050120.yV1We3RG-lkp@intel.com/reproduce)
+tree:   https://github.com/riteshharjani/linux xfs-atomic-write-v1
+head:   6e46c5eac75533f8ca2e7446bddedc9560a032fc
+commit: d510c9be9e4f296b8c570e740dbec8cff0d2a6a3 [9/21] block: Add checks to merging of atomic writes
+config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20231005/202310050212.F8KZLnNe-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310050212.F8KZLnNe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310050120.yV1We3RG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310050212.F8KZLnNe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/iio/adc/ti-ads7038-core.c:46:5: warning: no previous prototype for 'ads7038_read_raw' [-Wmissing-prototypes]
-      46 | int ads7038_read_raw(struct iio_dev *indio_dev,
-         |     ^~~~~~~~~~~~~~~~
-
-
-vim +/ads7038_read_raw +46 drivers/iio/adc/ti-ads7038-core.c
-
-    45	
-  > 46	int ads7038_read_raw(struct iio_dev *indio_dev,
-    47			     struct iio_chan_spec const *chan,
-    48			     int *val, int *val2,
-    49			     long mask)
-    50	{
-    51		unsigned int ret;
-    52		struct ads7038_ch_meas_result tmp_val;
-    53		struct ads7038_data *const data = (struct ads7038_data *)iio_priv(indio_dev);
-    54		struct ads7038_info *const info = (struct ads7038_info *)data->info;
-    55	
-    56		ret = info->read_channel(indio_dev, chan->channel, &tmp_val);
-    57	
-    58		if (ret < 0) {
-    59			dev_err(&indio_dev->dev, "Read channel returned with error %d", ret);
-    60			return ret;
-    61		}
-    62	
-    63		switch (mask) {
-    64		case IIO_CHAN_INFO_RAW:
-    65			*val = tmp_val.raw;
-    66	
-    67			ret = IIO_VAL_INT;
-    68			break;
-    69		case IIO_CHAN_INFO_SCALE:
-    70			ret = regulator_get_voltage(data->reg);
-    71			if (ret < 0)
-    72				break;
-    73	
-    74			*val = ret / 1000;	/* uV -> mV */
-    75			*val2 = (1 << chan->scan_type.realbits) - 1;
-    76	
-    77			ret = IIO_VAL_FRACTIONAL;
-    78			break;
-    79		default:
-    80			ret = -EINVAL;
-    81			break;
-    82		}
-    83	
-    84		return ret;
-    85	}
-    86	
+   sh4-linux-ld: block/blk-merge.o: in function `ll_back_merge_fn':
+>> blk-merge.c:(.text+0x1000): undefined reference to `__moddi3'
+   sh4-linux-ld: block/blk-merge.o: in function `attempt_merge':
+   blk-merge.c:(.text+0x1298): undefined reference to `__moddi3'
+   sh4-linux-ld: block/blk-merge.o: in function `bio_attempt_front_merge':
+   blk-merge.c:(.text+0x1744): undefined reference to `__moddi3'
 
 -- 
 0-DAY CI Kernel Test Service
