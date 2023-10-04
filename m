@@ -1,49 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C0323753
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 21:20:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0F823763
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 21:31:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d/+xI4Kt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LL8uyKS9"
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696454408; x=1727990408;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KX2bHrJWPFoJkGP8/RmeXr5x3V/UWGg2el2X+PVVw50=;
-  b=d/+xI4KtwUk36S3+BaUIkEgaknFyRVpHK+HKT74uAhejjAWwHS9Jd74q
-   w1O2lpUhmkMGC3DdtLV/sipAIDjscXBwhrsu6kxv5iLlr0Ibfkywb7Ba1
-   /sAhzoGMQhchZY09nHConfeEkjHj09GK1Kb7SvalTZhshGGmyKGbgU6c7
-   HJL+HxGt9ldNmq2JuB4M+nKuy+hoaix8x4MNZqvuWpDWarqbmpRPZ7Rsf
-   Wz0L44ekeOnVjo2IB2xSzsWcQ1gD87+a/yGg3ANPqH6iWV3mkXJlSAdd5
-   ucZr4OOKxwIELC4GvVjfjm/tQFj2BbMtJr97VYOidHkmTFGFmj68TqTdD
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="386133747"
+  t=1696455084; x=1727991084;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=A4zJNo+dqQoagyuGCxpKGWzvlDLBvQ/U4Bkqm2D4npg=;
+  b=LL8uyKS9Y2QzjHqWMOTFp/nX9JXoLPCYZmCtp2lOmMCc551pW5VfdjEG
+   8tDFWqoVzDdOWyCbajCnqQgHdBuUaP53RpyUaDtytUdXKXAyMqgoXqSmI
+   WXS2+2DNv7qWCnARmbftogPY89RkIxAOzKXrwJ8m4zKeAovDWKRIQ9+f1
+   6tvpimZj5C33TAEHvVKU0Rdi0QuW7oLEtyM2TF0f7Fnfte3LBTiHwExru
+   UB0mhvF1p3Ki3hUElnRbxaX1Y+swQVc5N2UEDXjHd00NCP13HDIELwgQG
+   wFsSpz/uCVdghCVhNPDUd9Ss791I2uqXn7TYIPEaFMpwN2WUS5OkCZMsr
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="447497282"
 X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
-   d="scan'208";a="386133747"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 14:20:04 -0700
+   d="scan'208";a="447497282"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 14:31:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="821848339"
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="786688238"
 X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
-   d="scan'208";a="821848339"
+   d="scan'208";a="786688238"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 04 Oct 2023 14:20:02 -0700
+  by orsmga001.jf.intel.com with ESMTP; 04 Oct 2023 14:31:02 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qo9Hk-000Kcm-1v;
-	Wed, 04 Oct 2023 21:20:00 +0000
-Date: Thu, 5 Oct 2023 05:19:42 +0800
+	id 1qo9SO-000KdA-2N;
+	Wed, 04 Oct 2023 21:31:00 +0000
+Date: Thu, 5 Oct 2023 05:30:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	John Ogness <john.ogness@linutronix.de>
-Subject: [rt-devel:linux-6.6.y-rt-rebase 125/171] kernel/printk/nbcon.c:887:
- warning: Function parameter or member 'in_kthread' not described in
- 'nbcon_emit_next_record'
-Message-ID: <202310050536.rpuODK1m-lkp@intel.com>
+To: gregory.greenman@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 04/15] wifi: iwlwifi: mvm: rework debugfs handling
+Message-ID: <202310050508.l8wOPzgE-lkp@intel.com>
+References: <20231004123422.818810e242e6.I805a28f9fbef5c52a3a575d04e7a6a909ecf9078@changeid>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,138 +50,151 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231004123422.818810e242e6.I805a28f9fbef5c52a3a575d04e7a6a909ecf9078@changeid>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.6.y-rt-rebase
-head:   5280195b37c522a21e069a0f0623bb26edc52a77
-commit: ccd5ba7dfb4a7dff9abb8c5c87ea3daf783d46b9 [125/171] printk: nbcon: Introduce printer threads
-config: powerpc64-randconfig-003-20231005 (https://download.01.org/0day-ci/archive/20231005/202310050536.rpuODK1m-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310050536.rpuODK1m-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20231004]
+[also build test ERROR on v6.6-rc4]
+[cannot apply to linus/master v6.6-rc4 v6.6-rc3 v6.6-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/gregory-greenman-intel-com/wifi-iwlwifi-Extract-common-prph-mac-phy-regions-data-dump-logic/20231004-173940
+base:   next-20231004
+patch link:    https://lore.kernel.org/r/20231004123422.818810e242e6.I805a28f9fbef5c52a3a575d04e7a6a909ecf9078%40changeid
+patch subject: [PATCH 04/15] wifi: iwlwifi: mvm: rework debugfs handling
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231005/202310050508.l8wOPzgE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310050508.l8wOPzgE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310050536.rpuODK1m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310050508.l8wOPzgE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/printk/nbcon.c:887: warning: Function parameter or member 'in_kthread' not described in 'nbcon_emit_next_record'
+   drivers/net/wireless/intel/iwlwifi/mvm/mld-mac80211.c:1212:10: error: 'const struct ieee80211_ops' has no member named 'vif_add_debugfs'; did you mean 'link_add_debugfs'?
+    1212 |         .vif_add_debugfs = iwl_mvm_vif_add_debugfs,
+         |          ^~~~~~~~~~~~~~~
+         |          link_add_debugfs
+>> drivers/net/wireless/intel/iwlwifi/mvm/mld-mac80211.c:1212:28: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
+    1212 |         .vif_add_debugfs = iwl_mvm_vif_add_debugfs,
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/intel/iwlwifi/mvm/mld-mac80211.c:1212:28: note: (near initialization for 'iwl_mvm_mld_hw_ops')
+   drivers/net/wireless/intel/iwlwifi/mvm/mld-mac80211.c:1212:28: error: initialization of 'int (*)(struct ieee80211_hw *, struct ieee80211_low_level_stats *)' from incompatible pointer type 'void (*)(struct ieee80211_hw *, struct ieee80211_vif *)' [-Werror=incompatible-pointer-types]
+   drivers/net/wireless/intel/iwlwifi/mvm/mld-mac80211.c:1212:28: note: (near initialization for 'iwl_mvm_mld_hw_ops.get_stats')
+   cc1: some warnings being treated as errors
+--
+   drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:6312:10: error: 'const struct ieee80211_ops' has no member named 'vif_add_debugfs'; did you mean 'link_add_debugfs'?
+    6312 |         .vif_add_debugfs = iwl_mvm_vif_add_debugfs,
+         |          ^~~~~~~~~~~~~~~
+         |          link_add_debugfs
+>> drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:6312:28: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
+    6312 |         .vif_add_debugfs = iwl_mvm_vif_add_debugfs,
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:6312:28: note: (near initialization for 'iwl_mvm_hw_ops')
+   drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:6312:28: error: initialization of 'void (*)(struct ieee80211_hw *, struct ieee80211_vif *, struct cfg80211_chan_def *)' from incompatible pointer type 'void (*)(struct ieee80211_hw *, struct ieee80211_vif *)' [-Werror=incompatible-pointer-types]
+   drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:6312:28: note: (near initialization for 'iwl_mvm_hw_ops.channel_switch_beacon')
+   cc1: some warnings being treated as errors
 
 
-vim +887 kernel/printk/nbcon.c
+vim +1212 drivers/net/wireless/intel/iwlwifi/mvm/mld-mac80211.c
 
-1b1b37e586bc29 Thomas Gleixner 2023-09-16  869  
-58c773474719d2 Thomas Gleixner 2023-09-16  870  /**
-58c773474719d2 Thomas Gleixner 2023-09-16  871   * nbcon_emit_next_record - Emit a record in the acquired context
-58c773474719d2 Thomas Gleixner 2023-09-16  872   * @wctxt:	The write context that will be handed to the write function
-58c773474719d2 Thomas Gleixner 2023-09-16  873   *
-58c773474719d2 Thomas Gleixner 2023-09-16  874   * Return:	True if this context still owns the console. False if
-58c773474719d2 Thomas Gleixner 2023-09-16  875   *		ownership was handed over or taken.
-58c773474719d2 Thomas Gleixner 2023-09-16  876   *
-58c773474719d2 Thomas Gleixner 2023-09-16  877   * When this function returns false then the calling context no longer owns
-58c773474719d2 Thomas Gleixner 2023-09-16  878   * the console and is no longer allowed to go forward. In this case it must
-58c773474719d2 Thomas Gleixner 2023-09-16  879   * back out immediately and carefully. The buffer content is also no longer
-58c773474719d2 Thomas Gleixner 2023-09-16  880   * trusted since it no longer belongs to the calling context. If the caller
-58c773474719d2 Thomas Gleixner 2023-09-16  881   * wants to do more it must reacquire the console first.
-58c773474719d2 Thomas Gleixner 2023-09-16  882   *
-58c773474719d2 Thomas Gleixner 2023-09-16  883   * When true is returned, @wctxt->ctxt.backlog indicates whether there are
-58c773474719d2 Thomas Gleixner 2023-09-16  884   * still records pending in the ringbuffer,
-58c773474719d2 Thomas Gleixner 2023-09-16  885   */
-ccd5ba7dfb4a7d Thomas Gleixner 2023-09-22  886  static bool nbcon_emit_next_record(struct nbcon_write_context *wctxt, bool in_kthread)
-58c773474719d2 Thomas Gleixner 2023-09-16 @887  {
-58c773474719d2 Thomas Gleixner 2023-09-16  888  	struct nbcon_context *ctxt = &ACCESS_PRIVATE(wctxt, ctxt);
-58c773474719d2 Thomas Gleixner 2023-09-16  889  	struct console *con = ctxt->console;
-58c773474719d2 Thomas Gleixner 2023-09-16  890  	bool is_extended = console_srcu_read_flags(con) & CON_EXTENDED;
-58c773474719d2 Thomas Gleixner 2023-09-16  891  	struct printk_message pmsg = {
-58c773474719d2 Thomas Gleixner 2023-09-16  892  		.pbufs = ctxt->pbufs,
-58c773474719d2 Thomas Gleixner 2023-09-16  893  	};
-58c773474719d2 Thomas Gleixner 2023-09-16  894  	unsigned long con_dropped;
-58c773474719d2 Thomas Gleixner 2023-09-16  895  	struct nbcon_state cur;
-58c773474719d2 Thomas Gleixner 2023-09-16  896  	unsigned long dropped;
-58c773474719d2 Thomas Gleixner 2023-09-16  897  	bool done;
-58c773474719d2 Thomas Gleixner 2023-09-16  898  
-58c773474719d2 Thomas Gleixner 2023-09-16  899  	/*
-58c773474719d2 Thomas Gleixner 2023-09-16  900  	 * The printk buffers are filled within an unsafe section. This
-58c773474719d2 Thomas Gleixner 2023-09-16  901  	 * prevents NBCON_PRIO_NORMAL and NBCON_PRIO_EMERGENCY from
-58c773474719d2 Thomas Gleixner 2023-09-16  902  	 * clobbering each other.
-58c773474719d2 Thomas Gleixner 2023-09-16  903  	 */
-58c773474719d2 Thomas Gleixner 2023-09-16  904  
-58c773474719d2 Thomas Gleixner 2023-09-16  905  	if (!nbcon_context_enter_unsafe(ctxt))
-58c773474719d2 Thomas Gleixner 2023-09-16  906  		return false;
-58c773474719d2 Thomas Gleixner 2023-09-16  907  
-58c773474719d2 Thomas Gleixner 2023-09-16  908  	ctxt->backlog = printk_get_next_message(&pmsg, ctxt->seq, is_extended, true);
-58c773474719d2 Thomas Gleixner 2023-09-16  909  	if (!ctxt->backlog)
-58c773474719d2 Thomas Gleixner 2023-09-16  910  		return nbcon_context_exit_unsafe(ctxt);
-58c773474719d2 Thomas Gleixner 2023-09-16  911  
-58c773474719d2 Thomas Gleixner 2023-09-16  912  	/*
-58c773474719d2 Thomas Gleixner 2023-09-16  913  	 * @con->dropped is not protected in case of an unsafe hostile
-58c773474719d2 Thomas Gleixner 2023-09-16  914  	 * takeover. In that situation the update can be racy so
-58c773474719d2 Thomas Gleixner 2023-09-16  915  	 * annotate it accordingly.
-58c773474719d2 Thomas Gleixner 2023-09-16  916  	 */
-58c773474719d2 Thomas Gleixner 2023-09-16  917  	con_dropped = data_race(READ_ONCE(con->dropped));
-58c773474719d2 Thomas Gleixner 2023-09-16  918  
-58c773474719d2 Thomas Gleixner 2023-09-16  919  	dropped = con_dropped + pmsg.dropped;
-58c773474719d2 Thomas Gleixner 2023-09-16  920  	if (dropped && !is_extended)
-58c773474719d2 Thomas Gleixner 2023-09-16  921  		console_prepend_dropped(&pmsg, dropped);
-58c773474719d2 Thomas Gleixner 2023-09-16  922  
-58c773474719d2 Thomas Gleixner 2023-09-16  923  	if (!nbcon_context_exit_unsafe(ctxt))
-58c773474719d2 Thomas Gleixner 2023-09-16  924  		return false;
-58c773474719d2 Thomas Gleixner 2023-09-16  925  
-58c773474719d2 Thomas Gleixner 2023-09-16  926  	/* For skipped records just update seq/dropped in @con. */
-58c773474719d2 Thomas Gleixner 2023-09-16  927  	if (pmsg.outbuf_len == 0)
-58c773474719d2 Thomas Gleixner 2023-09-16  928  		goto update_con;
-58c773474719d2 Thomas Gleixner 2023-09-16  929  
-58c773474719d2 Thomas Gleixner 2023-09-16  930  	/* Initialize the write context for driver callbacks. */
-58c773474719d2 Thomas Gleixner 2023-09-16  931  	wctxt->outbuf = &pmsg.pbufs->outbuf[0];
-58c773474719d2 Thomas Gleixner 2023-09-16  932  	wctxt->len = pmsg.outbuf_len;
-58c773474719d2 Thomas Gleixner 2023-09-16  933  	nbcon_state_read(con, &cur);
-58c773474719d2 Thomas Gleixner 2023-09-16  934  	wctxt->unsafe_takeover = cur.unsafe_takeover;
-58c773474719d2 Thomas Gleixner 2023-09-16  935  
-ccd5ba7dfb4a7d Thomas Gleixner 2023-09-22  936  	if (!in_kthread && con->write_atomic) {
-58c773474719d2 Thomas Gleixner 2023-09-16  937  		done = con->write_atomic(con, wctxt);
-ccd5ba7dfb4a7d Thomas Gleixner 2023-09-22  938  	} else if (in_kthread && con->write_thread && con->kthread) {
-ccd5ba7dfb4a7d Thomas Gleixner 2023-09-22  939  		done = con->write_thread(con, wctxt);
-58c773474719d2 Thomas Gleixner 2023-09-16  940  	} else {
-58c773474719d2 Thomas Gleixner 2023-09-16  941  		nbcon_context_release(ctxt);
-58c773474719d2 Thomas Gleixner 2023-09-16  942  		WARN_ON_ONCE(1);
-58c773474719d2 Thomas Gleixner 2023-09-16  943  		done = false;
-58c773474719d2 Thomas Gleixner 2023-09-16  944  	}
-58c773474719d2 Thomas Gleixner 2023-09-16  945  
-58c773474719d2 Thomas Gleixner 2023-09-16  946  	/* If not done, the emit was aborted. */
-58c773474719d2 Thomas Gleixner 2023-09-16  947  	if (!done)
-58c773474719d2 Thomas Gleixner 2023-09-16  948  		return false;
-58c773474719d2 Thomas Gleixner 2023-09-16  949  
-58c773474719d2 Thomas Gleixner 2023-09-16  950  	/*
-58c773474719d2 Thomas Gleixner 2023-09-16  951  	 * Since any dropped message was successfully output, reset the
-58c773474719d2 Thomas Gleixner 2023-09-16  952  	 * dropped count for the console.
-58c773474719d2 Thomas Gleixner 2023-09-16  953  	 */
-58c773474719d2 Thomas Gleixner 2023-09-16  954  	dropped = 0;
-58c773474719d2 Thomas Gleixner 2023-09-16  955  update_con:
-58c773474719d2 Thomas Gleixner 2023-09-16  956  	/*
-58c773474719d2 Thomas Gleixner 2023-09-16  957  	 * The dropped count and the sequence number are updated within an
-58c773474719d2 Thomas Gleixner 2023-09-16  958  	 * unsafe section. This limits update races to the panic context and
-58c773474719d2 Thomas Gleixner 2023-09-16  959  	 * allows the panic context to win.
-58c773474719d2 Thomas Gleixner 2023-09-16  960  	 */
-58c773474719d2 Thomas Gleixner 2023-09-16  961  
-58c773474719d2 Thomas Gleixner 2023-09-16  962  	if (!nbcon_context_enter_unsafe(ctxt))
-58c773474719d2 Thomas Gleixner 2023-09-16  963  		return false;
-58c773474719d2 Thomas Gleixner 2023-09-16  964  
-58c773474719d2 Thomas Gleixner 2023-09-16  965  	if (dropped != con_dropped) {
-58c773474719d2 Thomas Gleixner 2023-09-16  966  		/* Counterpart to the READ_ONCE() above. */
-58c773474719d2 Thomas Gleixner 2023-09-16  967  		WRITE_ONCE(con->dropped, dropped);
-58c773474719d2 Thomas Gleixner 2023-09-16  968  	}
-58c773474719d2 Thomas Gleixner 2023-09-16  969  
-58c773474719d2 Thomas Gleixner 2023-09-16  970  	nbcon_seq_try_update(ctxt, pmsg.seq + 1);
-58c773474719d2 Thomas Gleixner 2023-09-16  971  
-58c773474719d2 Thomas Gleixner 2023-09-16  972  	return nbcon_context_exit_unsafe(ctxt);
-58c773474719d2 Thomas Gleixner 2023-09-16  973  }
-58c773474719d2 Thomas Gleixner 2023-09-16  974  
-
-:::::: The code at line 887 was first introduced by commit
-:::::: 58c773474719d2bf20be6ee277340ab748541b41 printk: nbcon: Add emit function and callback function for atomic printing
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+  1123	
+  1124	const struct ieee80211_ops iwl_mvm_mld_hw_ops = {
+  1125		.tx = iwl_mvm_mac_tx,
+  1126		.wake_tx_queue = iwl_mvm_mac_wake_tx_queue,
+  1127		.ampdu_action = iwl_mvm_mac_ampdu_action,
+  1128		.get_antenna = iwl_mvm_op_get_antenna,
+  1129		.set_antenna = iwl_mvm_op_set_antenna,
+  1130		.start = iwl_mvm_mac_start,
+  1131		.reconfig_complete = iwl_mvm_mac_reconfig_complete,
+  1132		.stop = iwl_mvm_mac_stop,
+  1133		.add_interface = iwl_mvm_mld_mac_add_interface,
+  1134		.remove_interface = iwl_mvm_mld_mac_remove_interface,
+  1135		.config = iwl_mvm_mac_config,
+  1136		.prepare_multicast = iwl_mvm_prepare_multicast,
+  1137		.configure_filter = iwl_mvm_configure_filter,
+  1138		.config_iface_filter = iwl_mvm_mld_config_iface_filter,
+  1139		.link_info_changed = iwl_mvm_mld_link_info_changed,
+  1140		.vif_cfg_changed = iwl_mvm_mld_vif_cfg_changed,
+  1141		.hw_scan = iwl_mvm_mac_hw_scan,
+  1142		.cancel_hw_scan = iwl_mvm_mac_cancel_hw_scan,
+  1143		.sta_pre_rcu_remove = iwl_mvm_sta_pre_rcu_remove,
+  1144		.sta_state = iwl_mvm_mld_mac_sta_state,
+  1145		.sta_notify = iwl_mvm_mac_sta_notify,
+  1146		.allow_buffered_frames = iwl_mvm_mac_allow_buffered_frames,
+  1147		.release_buffered_frames = iwl_mvm_mac_release_buffered_frames,
+  1148		.set_rts_threshold = iwl_mvm_mac_set_rts_threshold,
+  1149		.sta_rc_update = iwl_mvm_sta_rc_update,
+  1150		.conf_tx = iwl_mvm_mld_mac_conf_tx,
+  1151		.mgd_prepare_tx = iwl_mvm_mac_mgd_prepare_tx,
+  1152		.mgd_complete_tx = iwl_mvm_mac_mgd_complete_tx,
+  1153		.mgd_protect_tdls_discover = iwl_mvm_mac_mgd_protect_tdls_discover,
+  1154		.flush = iwl_mvm_mac_flush,
+  1155		.flush_sta = iwl_mvm_mac_flush_sta,
+  1156		.sched_scan_start = iwl_mvm_mac_sched_scan_start,
+  1157		.sched_scan_stop = iwl_mvm_mac_sched_scan_stop,
+  1158		.set_key = iwl_mvm_mac_set_key,
+  1159		.update_tkip_key = iwl_mvm_mac_update_tkip_key,
+  1160		.remain_on_channel = iwl_mvm_mld_roc,
+  1161		.cancel_remain_on_channel = iwl_mvm_cancel_roc,
+  1162		.add_chanctx = iwl_mvm_add_chanctx,
+  1163		.remove_chanctx = iwl_mvm_remove_chanctx,
+  1164		.change_chanctx = iwl_mvm_change_chanctx,
+  1165		.assign_vif_chanctx = iwl_mvm_mld_assign_vif_chanctx,
+  1166		.unassign_vif_chanctx = iwl_mvm_mld_unassign_vif_chanctx,
+  1167		.switch_vif_chanctx = iwl_mvm_mld_switch_vif_chanctx,
+  1168	
+  1169		.start_ap = iwl_mvm_mld_start_ap,
+  1170		.stop_ap = iwl_mvm_mld_stop_ap,
+  1171		.join_ibss = iwl_mvm_mld_start_ibss,
+  1172		.leave_ibss = iwl_mvm_mld_stop_ibss,
+  1173	
+  1174		.tx_last_beacon = iwl_mvm_tx_last_beacon,
+  1175	
+  1176		.set_tim = iwl_mvm_set_tim,
+  1177	
+  1178		.channel_switch = iwl_mvm_channel_switch,
+  1179		.pre_channel_switch = iwl_mvm_pre_channel_switch,
+  1180		.post_channel_switch = iwl_mvm_post_channel_switch,
+  1181		.abort_channel_switch = iwl_mvm_abort_channel_switch,
+  1182		.channel_switch_rx_beacon = iwl_mvm_channel_switch_rx_beacon,
+  1183	
+  1184		.tdls_channel_switch = iwl_mvm_tdls_channel_switch,
+  1185		.tdls_cancel_channel_switch = iwl_mvm_tdls_cancel_channel_switch,
+  1186		.tdls_recv_channel_switch = iwl_mvm_tdls_recv_channel_switch,
+  1187	
+  1188		.event_callback = iwl_mvm_mac_event_callback,
+  1189	
+  1190		.sync_rx_queues = iwl_mvm_sync_rx_queues,
+  1191	
+  1192		CFG80211_TESTMODE_CMD(iwl_mvm_mac_testmode_cmd)
+  1193	
+  1194	#ifdef CONFIG_PM_SLEEP
+  1195		/* look at d3.c */
+  1196		.suspend = iwl_mvm_suspend,
+  1197		.resume = iwl_mvm_resume,
+  1198		.set_wakeup = iwl_mvm_set_wakeup,
+  1199		.set_rekey_data = iwl_mvm_set_rekey_data,
+  1200	#if IS_ENABLED(CONFIG_IPV6)
+  1201		.ipv6_addr_change = iwl_mvm_ipv6_addr_change,
+  1202	#endif
+  1203		.set_default_unicast_key = iwl_mvm_set_default_unicast_key,
+  1204	#endif
+  1205		.get_survey = iwl_mvm_mac_get_survey,
+  1206		.sta_statistics = iwl_mvm_mac_sta_statistics,
+  1207		.get_ftm_responder_stats = iwl_mvm_mac_get_ftm_responder_stats,
+  1208		.start_pmsr = iwl_mvm_start_pmsr,
+  1209		.abort_pmsr = iwl_mvm_abort_pmsr,
+  1210	
+  1211	#ifdef CONFIG_IWLWIFI_DEBUGFS
+> 1212		.vif_add_debugfs = iwl_mvm_vif_add_debugfs,
 
 -- 
 0-DAY CI Kernel Test Service
