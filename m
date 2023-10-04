@@ -1,47 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96CD02376D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B3A24203
 	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 22:03:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CYw7Eac7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d8fKjFrZ"
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1696457016; x=1727993016;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CDGyaqlVECTyBCDYdXf8gVidfFcVeyIjlnEyHQIHx/g=;
-  b=CYw7Eac7ZijmqDUGjF8682lED+mPX9RnyPbUZ0QG2PCTKYM7uBiYpSuZ
-   KtwN+FHi0IFgyRvbxJ8CNL8yXlICWQx2fMpPW2OFKuDyqw0BFtM6bfz0D
-   JbTlRbcoRzBDrenJ4iUQw6T1D8NKb3QrHdT+rgCUcDAI/QoWPEv1ndtNd
-   wfDvi4dIBZIPbsOw1QEvKJgCtGzqvR0xN6MLl5OBIgxT/TEkUXfAlpA/n
-   resipqvwKzmGHlIuvKAVssyKx9bYQ83Ci7kxTVKA33my2jjer0U2gEkrN
-   /8BohKEuhwkhRIcyxMtcd3n4AY9bObIrXwa5q6L+Dlb7AlEyEXW5sa5gi
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sv/X7H2szwBnxMz6Tve4Pf4JohOTSLGbgZlNjApgW6M=;
+  b=d8fKjFrZbeyon9rv4Z1bEAV9zTsggzshG7ZPyRH8oLWE+jP+QlQFYNNF
+   Tzw8cP8yWIybkhtFBJ1MsbSoiQcU+IpGPt3Ec8r5MBNsd11g1NBFTwxRE
+   he5lmr0BruZmJLMY6ehgy0fCjg6YnO7zSRMglCJOURisEh2WUaFOXaYcO
+   Aia+v15EInKmheH6IYv+af8/n5O1gkY4U2bgWEjpOPuu7foZmhBKIwbOx
+   fKsfZEntmxctE93s0ehUkK0cPO5jn5tvRdfV8m6CMNzfM6AeHuC54/HU3
+   mJOPrJvIdm1v440nVFghobn5FlpvlfvmjkxCCxqO5oJTvtr/CNTeIzh2K
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="382192207"
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="368380942"
 X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
-   d="scan'208";a="382192207"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 15:03:34 -0700
+   d="scan'208";a="368380942"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 15:03:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="786694943"
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="817302109"
 X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
-   d="scan'208";a="786694943"
+   d="scan'208";a="817302109"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 04 Oct 2023 15:03:33 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 04 Oct 2023 15:03:33 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qo9xr-000Kem-1L;
+	id 1qo9xr-000Keu-1Y;
 	Wed, 04 Oct 2023 22:03:31 +0000
-Date: Thu, 5 Oct 2023 06:02:50 +0800
+Date: Thu, 5 Oct 2023 06:02:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mnyman-xhci:feature_interrupters 4/4]
- drivers/usb/host/xhci-sideband.c:74:1: warning: no previous prototype for
- '__xhci_sideband_remove_endpoint'
-Message-ID: <202310050520.n1A4950z-lkp@intel.com>
+To: Mukesh Ojha <quic_mojha@quicinc.com>, mcgrof@kernel.org,
+	russell.h.weight@intel.com, gregkh@linuxfoundation.org,
+	rafael@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mukesh Ojha <quic_mojha@quicinc.com>
+Subject: Re: [PATCH v2] firmware_loader: Abort new fw load request once
+ firmware core knows about reboot
+Message-ID: <202310050525.CcwD9rYd-lkp@intel.com>
+References: <1696431327-7369-1-git-send-email-quic_mojha@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,187 +54,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1696431327-7369-1-git-send-email-quic_mojha@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git feature_interrupters
-head:   bb0c831ce413e570838e479ef5603d0230418798
-commit: bb0c831ce413e570838e479ef5603d0230418798 [4/4] xhci: sideband: add initial api to register a sideband entity
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20231005/202310050520.n1A4950z-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310050520.n1A4950z-lkp@intel.com/reproduce)
+Hi Mukesh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on driver-core/driver-core-testing]
+[also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.6-rc4 next-20231004]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Ojha/firmware_loader-Abort-new-fw-load-request-once-firmware-core-knows-about-reboot/20231004-225910
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/1696431327-7369-1-git-send-email-quic_mojha%40quicinc.com
+patch subject: [PATCH v2] firmware_loader: Abort new fw load request once firmware core knows about reboot
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231005/202310050525.CcwD9rYd-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310050525.CcwD9rYd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310050520.n1A4950z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310050525.CcwD9rYd-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/usb/host/xhci-sideband.c:74:1: warning: no previous prototype for '__xhci_sideband_remove_endpoint' [-Wmissing-prototypes]
-      74 | __xhci_sideband_remove_endpoint(struct xhci_sideband *sb, struct xhci_virt_ep *ep)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/usb/host/xhci-sideband.c:189:1: warning: no previous prototype for 'xhci_sideband_endpoint_buffer' [-Wmissing-prototypes]
-     189 | xhci_sideband_endpoint_buffer(struct xhci_sideband *sb,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/usb/host/xhci-sideband.c:217:1: warning: no previous prototype for 'xhci_sideband_event_buffer' [-Wmissing-prototypes]
-     217 | xhci_sideband_event_buffer(struct xhci_sideband *sb)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/base/firmware_loader/fallback.h:9,
+                    from drivers/base/firmware_loader/fallback.c:11:
+   drivers/base/firmware_loader/sysfs.h:87:20: error: 'fw_load_abort' redeclared as different kind of symbol
+      87 | static inline void fw_load_abort(struct fw_sysfs *fw_sysfs)
+         |                    ^~~~~~~~~~~~~
+   In file included from drivers/base/firmware_loader/fallback.h:8:
+   drivers/base/firmware_loader/firmware.h:89:13: note: previous declaration of 'fw_load_abort' with type 'bool' {aka '_Bool'}
+      89 | extern bool fw_load_abort;
+         |             ^~~~~~~~~~~~~
+   drivers/base/firmware_loader/fallback.c: In function 'kill_pending_fw_fallback_reqs':
+   drivers/base/firmware_loader/fallback.c:62:31: error: lvalue required as left operand of assignment
+      62 |                 fw_load_abort = true;
+         |                               ^
+   drivers/base/firmware_loader/fallback.c: In function 'fw_load_sysfs_fallback':
+>> drivers/base/firmware_loader/fallback.c:93:13: warning: the address of 'fw_load_abort' will always evaluate as 'true' [-Waddress]
+      93 |         if (fw_load_abort || fw_state_is_aborted(fw_priv)) {
+         |             ^~~~~~~~~~~~~
 
 
-vim +/__xhci_sideband_remove_endpoint +74 drivers/usb/host/xhci-sideband.c
+vim +93 drivers/base/firmware_loader/fallback.c
 
-    72	
-    73	void
-  > 74	__xhci_sideband_remove_endpoint(struct xhci_sideband *sb, struct xhci_virt_ep *ep)
+    66	
+    67	/**
+    68	 * fw_load_sysfs_fallback() - load a firmware via the sysfs fallback mechanism
+    69	 * @fw_sysfs: firmware sysfs information for the firmware to load
+    70	 * @timeout: timeout to wait for the load
+    71	 *
+    72	 * In charge of constructing a sysfs fallback interface for firmware loading.
+    73	 **/
+    74	static int fw_load_sysfs_fallback(struct fw_sysfs *fw_sysfs, long timeout)
     75	{
-    76		ep->sideband = NULL;
-    77		sb->eps[ep->ep_index] = NULL;
-    78	}
+    76		int retval = 0;
+    77		struct device *f_dev = &fw_sysfs->dev;
+    78		struct fw_priv *fw_priv = fw_sysfs->fw_priv;
     79	
-    80	/* sideband api functions */
-    81	
-    82	/**
-    83	 * xhci_sideband_add_endpoint - add endpoint to sideband access list
-    84	 * @sb: sideband instance for this usb device
-    85	 * @host_ep: usb host endpoint
-    86	 *
-    87	 * Adds an endpoint to the list of sideband accessed endpoints for this usb
-    88	 * device.
-    89	 * After an endpoint is added the sideband client can get the endpoint transfer
-    90	 * ring buffer by calling xhci_sideband_endpoint_buffer()
-    91	 *
-    92	 * Return: 0 on success, negative error otherwise.
-    93	 */
-    94	int
-    95	xhci_sideband_add_endpoint(struct xhci_sideband *sb,
-    96				   struct usb_host_endpoint *host_ep)
-    97	{
-    98		struct xhci_virt_ep *ep;
-    99		unsigned int ep_index;
+    80		/* fall back on userspace loading */
+    81		if (!fw_priv->data)
+    82			fw_priv->is_paged_buf = true;
+    83	
+    84		dev_set_uevent_suppress(f_dev, true);
+    85	
+    86		retval = device_add(f_dev);
+    87		if (retval) {
+    88			dev_err(f_dev, "%s: device_register failed\n", __func__);
+    89			goto err_put_dev;
+    90		}
+    91	
+    92		mutex_lock(&fw_lock);
+  > 93		if (fw_load_abort || fw_state_is_aborted(fw_priv)) {
+    94			mutex_unlock(&fw_lock);
+    95			retval = -EINTR;
+    96			goto out;
+    97		}
+    98		list_add(&fw_priv->pending_list, &pending_fw_head);
+    99		mutex_unlock(&fw_lock);
    100	
-   101		ep_index = xhci_get_endpoint_index(&host_ep->desc);
-   102		ep = &sb->vdev->eps[ep_index];
-   103	
-   104		if (ep->ep_state & EP_HAS_STREAMS)
-   105			return -EINVAL;
-   106	
-   107		/*
-   108		 * Note, we don't know the DMA mask of the audio DSP device, if its
-   109		 * smaller than for xhci it won't be able to access the endpoint ring
-   110		 * buffer. This could be solved by not allowing the audio class driver
-   111		 * to add the endpoint the normal way, but instead offload it immediately,
-   112		 * and let this function add the endpoint and allocate the ring buffer
-   113		 * with the smallest common DMA mask
-   114		 */
-   115	
-   116		if (sb->eps[ep_index] || ep->sideband)
-   117			return -EBUSY;
-   118	
-   119		ep->sideband = sb;
-   120		sb->eps[ep_index] = ep;
-   121	
-   122		return 0;
-   123	}
-   124	
-   125	/**
-   126	 * xhci_sideband_remove_endpoint - remove endpoint from sideband access list
-   127	 * @sb: sideband instance for this usb device
-   128	 * @host_ep: usb host endpoint
-   129	 *
-   130	 * Removes an endpoint from the list of sideband accessed endpoints for this usb
-   131	 * device.
-   132	 * sideband client should no longer touch the endpoint transfer buffer after
-   133	 * calling this.
-   134	 *
-   135	 * Return: 0 on success, negative error otherwise.
-   136	 */
-   137	int
-   138	xhci_sideband_remove_endpoint(struct xhci_sideband *sb,
-   139				      struct usb_host_endpoint *host_ep)
-   140	{
-   141		struct xhci_virt_ep *ep;
-   142		unsigned int ep_index;
-   143	
-   144		ep_index = xhci_get_endpoint_index(&host_ep->desc);
-   145		ep = sb->eps[ep_index];
-   146	
-   147		if (!ep || !ep->sideband)
-   148			return -ENODEV;
-   149	
-   150		/*
-   151		 * FIXME, ring deq, enq and other info should be reset, flushed, zeroed,
-   152		 * or synced
-   153		 */
-   154	
-   155		__xhci_sideband_remove_endpoint(sb, ep);
-   156		return 0;
-   157	}
-   158	
-   159	int
-   160	xhci_sideband_stop_endpoint(struct xhci_sideband *sb,
-   161				    struct usb_host_endpoint *host_ep)
-   162	{
-   163		struct xhci_virt_ep *ep;
-   164		unsigned int ep_index;
-   165	
-   166		ep_index = xhci_get_endpoint_index(&host_ep->desc);
-   167		ep = sb->eps[ep_index];
-   168	
-   169		if (!ep || ep->sideband != sb)
-   170			return -EINVAL;
-   171	
-   172		return xhci_stop_endpoint_sync(sb->xhci, ep, 0);
-   173	}
-   174	
-   175	/**
-   176	 * xhci_sideband_endpoint_buffer - gets the endpoint transfer buffer address
-   177	 * @sb: sideband instance for this usb device
-   178	 * @host_ep: usb host endpoint
-   179	 *
-   180	 * Returns the address of the endpoint buffer where xHC controller reads queued
-   181	 * transfer TRBs from. This is the starting address of the ringbuffer where the
-   182	 * sidband cliend should write TRBs to.
-   183	 *
-   184	 * Caller needs to free the returned sg_table
-   185	 *
-   186	 * Return: struct sg_table * if successful. NULL otherwise.
-   187	 */
-   188	struct sg_table *
- > 189	xhci_sideband_endpoint_buffer(struct xhci_sideband *sb,
-   190				      struct usb_host_endpoint *host_ep)
-   191	{
-   192		struct xhci_virt_ep *ep;
-   193		unsigned int ep_index;
-   194	
-   195		ep_index = xhci_get_endpoint_index(&host_ep->desc);
-   196		ep = sb->eps[ep_index];
-   197	
-   198		if (!ep)
-   199			return NULL;
-   200	
-   201		return xhci_ring_to_sgtable(sb, ep->ring);
-   202	}
-   203	
-   204	/**
-   205	 * xhci_sideband_event_buffer - return the event buffer for this device
-   206	 * @sb: sideband instance for this usb device
-   207	 *
-   208	 * If a secondary xhci interupter is set up for this usb device then this
-   209	 * function returns the address of the event buffer where xHC writes
-   210	 * the transfer completion events.
-   211	 *
-   212	 * Caller needs to free the returned sg_table
-   213	 *
-   214	 * Return: struct sg_table * if successful. NULL otherwise.
-   215	 */
-   216	struct sg_table *
- > 217	xhci_sideband_event_buffer(struct xhci_sideband *sb)
-   218	{
-   219		if (!sb->ir)
-   220			return NULL;
-   221	
-   222		return xhci_ring_to_sgtable(sb, sb->ir->event_ring);
-   223	}
-   224	
+   101		if (fw_priv->opt_flags & FW_OPT_UEVENT) {
+   102			fw_priv->need_uevent = true;
+   103			dev_set_uevent_suppress(f_dev, false);
+   104			dev_dbg(f_dev, "firmware: requesting %s\n", fw_priv->fw_name);
+   105			kobject_uevent(&fw_sysfs->dev.kobj, KOBJ_ADD);
+   106		} else {
+   107			timeout = MAX_JIFFY_OFFSET;
+   108		}
+   109	
+   110		retval = fw_sysfs_wait_timeout(fw_priv, timeout);
+   111		if (retval < 0 && retval != -ENOENT) {
+   112			mutex_lock(&fw_lock);
+   113			fw_load_abort(fw_sysfs);
+   114			mutex_unlock(&fw_lock);
+   115		}
+   116	
+   117		if (fw_state_is_aborted(fw_priv)) {
+   118			if (retval == -ERESTARTSYS)
+   119				retval = -EINTR;
+   120		} else if (fw_priv->is_paged_buf && !fw_priv->data)
+   121			retval = -ENOMEM;
+   122	
+   123	out:
+   124		device_del(f_dev);
+   125	err_put_dev:
+   126		put_device(f_dev);
+   127		return retval;
+   128	}
+   129	
 
 -- 
 0-DAY CI Kernel Test Service
