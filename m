@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB7810F8
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 04:17:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4371C15
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 05:38:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696393031; x=1727929031;
+  t=1696397894; x=1727933894;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yB6TtLpXvKu8EF0B4m/dpQtc/4lR9xwPUvS2swdWKoA=;
-  b=BbVP2IRmQIQidwwhUliyYxDyfhM8O86be8AiO57OM8evxumRHbzs2N2s
-   sx8iEIf6Oo36+6JZTnvVCfdez84qClwJumc1SlbOkVPQ2j1R2QoDklAkr
-   jE4oVGTeQUgWfr3l5xSWLbXG4kC78npZz2j981rN1D782oEWStQknJm03
-   sAwAsp5HxigXbhR2ZO/8N7KdLBAQE6gi5mS61pwHSGidQlI0hyxGyJ5bD
-   lWzERUzeC/WSGXCLI0tebcneiFS0Hj5feYggayo3NNdoeP8gAkIlC3bLE
-   AIU+QuEP0j4LSLJYO7JC7j6IVwmu5rEQdwuZr5+A3o9DyT5NwSNUKyS6s
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="381915741"
+  bh=EWqCyEBx0sNk/JijGb4eoG1J5T9zofFIYrv37ggXMmQ=;
+  b=BJuNxBonxMzkObO32PI7ZIhlJUSIhZTQVMx18TvDXiXUkzftctbsToll
+   gU+sm62lYbO6dWs5UuIlvykSmByQk9sko+YEfgeGkCRIfwXwQZ5DEi9Kv
+   W8XL86bJP7T7OH1dnw8f2X7oJmvBzQfd1ygQVKtFDHd6N3UwR1ip6ZNY1
+   po+WE1mtBW8/YUaSa41xDWMJy5me6VpEc+Qzdq6J+GlYfvPMdGZ0cMACf
+   INq3vGiuyddQPKr1YKo1CFOYtZl9B1w9EAsBAaUN2lTngmFJmPAxVsSOo
+   3cQCoPCd4KbM3AHhRdVr69QkIICmwMKO8nsWV/yFRviIJhbFoTqZgrY7M
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="413983386"
 X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
-   d="scan'208";a="381915741"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 21:16:50 -0700
+   d="scan'208";a="413983386"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 22:38:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="786350756"
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="1082334045"
 X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
-   d="scan'208";a="786350756"
+   d="scan'208";a="1082334045"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 03 Oct 2023 21:16:50 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 03 Oct 2023 22:38:12 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qntJW-000BF4-1i;
-	Wed, 04 Oct 2023 04:16:46 +0000
-Date: Wed, 4 Oct 2023 12:15:51 +0800
+	id 1qnuaI-000Ccm-0w;
+	Wed, 04 Oct 2023 05:38:10 +0000
+Date: Wed, 4 Oct 2023 13:37:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jim Cromie <jim.cromie@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [jimc:dd-shrink-2e 37/37] lib/dynamic_debug.c:117:6: warning: no
- previous prototype for function 'ddebug_clear_prefix_cache'
-Message-ID: <202310041216.Krp9MLkF-lkp@intel.com>
+ previous declaration for 'ddebug_clear_prefix_cache'
+Message-ID: <202310041344.2EV38Ktw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,25 +49,20 @@ Content-Disposition: inline
 tree:   https://github.com/jimc/linux.git dd-shrink-2e
 head:   e29a79ca0888609c7442791bd8108f8323eded5f
 commit: e29a79ca0888609c7442791bd8108f8323eded5f [37/37] dyndbg: cache the dynamic prefixes per callsite
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231004/202310041216.Krp9MLkF-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231004/202310041216.Krp9MLkF-lkp@intel.com/reproduce)
+config: x86_64-randconfig-002-20231004 (https://download.01.org/0day-ci/archive/20231004/202310041344.2EV38Ktw-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231004/202310041344.2EV38Ktw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310041216.Krp9MLkF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310041344.2EV38Ktw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> lib/dynamic_debug.c:117:6: warning: no previous prototype for function 'ddebug_clear_prefix_cache' [-Wmissing-prototypes]
-   void ddebug_clear_prefix_cache(const struct _ddebug *dp)
-        ^
-   lib/dynamic_debug.c:117:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void ddebug_clear_prefix_cache(const struct _ddebug *dp)
-   ^
-   static 
-   1 warning generated.
+>> lib/dynamic_debug.c:117:6: warning: no previous declaration for 'ddebug_clear_prefix_cache' [-Wmissing-declarations]
+    void ddebug_clear_prefix_cache(const struct _ddebug *dp)
+         ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 vim +/ddebug_clear_prefix_cache +117 lib/dynamic_debug.c
