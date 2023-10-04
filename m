@@ -1,46 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF12C14AA5
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 22:55:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF05D1F61A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 23:06:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bBTy8hGo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bcWJeQbP"
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696460158; x=1727996158;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cuiFnkkxdOFiEQT7Ev2cQoAzXoY4o+NbVxWHdOX1fbY=;
-  b=bBTy8hGog8wC68jmLUnauRTi6GAwCUff6SVaInrQIfrYVOWVbt6EsWMt
-   ne8u/HiRMrbjNOGehcgZt7d3zEcnVpfFnI2ziDEMurmWQ4ozc7DRf4rfi
-   yR9KpXL8SQJW7Iw2fBXGf4kzr0Tuj+j4B3cuj4L0p6inzNHuVLI1HbqDR
-   kNbvB79QGXHueZ+9xKZH4Lu7BkKzuJiFOgQbIfdsbIFov1+VLCnF1p92y
-   KNYe9R+aIjQMv0xI1BcWy4rnn79oHB8XiJYKylNWHIfEIX1pJVZLsPnUR
-   Y+PC/nA+h+9zg3knW7RFopRnOyn5aOTOWrqz0DBURM0Tat61y8YeBFSDw
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="387200868"
+  t=1696460779; x=1727996779;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rU/Y7DSRWyAW4QLfPI60iKyOGFzRjME3dikwjTxWxTs=;
+  b=bcWJeQbPsB0HTnsR2V6kGH0dYXHDa+rMtaCudQUt/iAzhtKDyIEt9MvX
+   NAPzQ1w+pyjKGo5p6tDO0LSw3Q3X+DbffSAXlmHRizeJ9vVoRYOXI2UL4
+   olqsyck69tCw+94KlSPoYLfqrw4HZ+tG0m75jE/EbLAjRjuL59olH8Ad5
+   0VUS0H4EirDURslAavgZacymRuylZmjwI/zXBhTPNdkmJRfLG68mu7WjY
+   ZPwKjT1UypUFrSNXGQuLG5sqL81RpSF45TCLdYzkz0tnNWYBIss29Y408
+   qN4TqNzVacm4yoFnlHMwHj6ymj8NKn+eKBCfDvZZhIvh2ZQ7tgxaLzqbm
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="363610294"
 X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
-   d="scan'208";a="387200868"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 15:55:49 -0700
+   d="scan'208";a="363610294"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 16:06:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="1082713678"
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="786709522"
 X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
-   d="scan'208";a="1082713678"
+   d="scan'208";a="786709522"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 04 Oct 2023 15:55:47 -0700
+  by orsmga001.jf.intel.com with ESMTP; 04 Oct 2023 16:06:12 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qoAmO-000Ki8-29;
-	Wed, 04 Oct 2023 22:55:44 +0000
-Date: Thu, 5 Oct 2023 06:55:14 +0800
+	id 1qoAwU-000Kim-0c;
+	Wed, 04 Oct 2023 23:06:10 +0000
+Date: Thu, 5 Oct 2023 07:05:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [krzk-github:n/sound-name-prefix-widget 5/5]
- sound/soc/qcom/lpass.h:43:14: error: 'LPASS_CDC_DMA_RX0' undeclared
-Message-ID: <202310050601.kCCcyd5t-lkp@intel.com>
+To: Stanislav Fomichev <sdf@google.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ast@kernel.org, daniel@iogearbox.net,
+	andrii@kernel.org, martin.lau@linux.dev, song@kernel.org,
+	yhs@fb.com, john.fastabend@gmail.com, kpsingh@kernel.org,
+	sdf@google.com, haoluo@google.com, jolsa@kernel.org,
+	kuba@kernel.org, toke@kernel.org, willemb@google.com,
+	dsahern@kernel.org, magnus.karlsson@intel.com, bjorn@kernel.org,
+	maciej.fijalkowski@intel.com, hawk@kernel.org,
+	yoong.siang.song@intel.com, netdev@vger.kernel.org,
+	xdp-hints@xdp-project.net
+Subject: Re: [PATCH bpf-next v3 05/10] net: stmmac: Add Tx HWTS support to
+ XDP ZC
+Message-ID: <202310050607.UQ0bU3ct-lkp@intel.com>
+References: <20231003200522.1914523-6-sdf@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,84 +59,151 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231003200522.1914523-6-sdf@google.com>
 
-tree:   https://github.com/krzk/linux n/sound-name-prefix-widget
-head:   45ba8d7dfc402f1987b96f4753f22a283a2b529c
-commit: 45ba8d7dfc402f1987b96f4753f22a283a2b529c [5/5] ASoC: qcom: reduce number of binding headers includes
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20231005/202310050601.kCCcyd5t-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310050601.kCCcyd5t-lkp@intel.com/reproduce)
+Hi Stanislav,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Fomichev/xsk-Support-tx_metadata_len/20231004-040718
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20231003200522.1914523-6-sdf%40google.com
+patch subject: [PATCH bpf-next v3 05/10] net: stmmac: Add Tx HWTS support to XDP ZC
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20231005/202310050607.UQ0bU3ct-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310050607.UQ0bU3ct-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310050601.kCCcyd5t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310050607.UQ0bU3ct-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from sound/soc/qcom/lpass-ipq806x.c:21:
-   sound/soc/qcom/lpass.h: In function 'is_cdc_dma_port':
->> sound/soc/qcom/lpass.h:43:14: error: 'LPASS_CDC_DMA_RX0' undeclared (first use in this function)
-      43 |         case LPASS_CDC_DMA_RX0 ... LPASS_CDC_DMA_RX9:
-         |              ^~~~~~~~~~~~~~~~~
-   sound/soc/qcom/lpass.h:43:14: note: each undeclared identifier is reported only once for each function it appears in
->> sound/soc/qcom/lpass.h:43:36: error: 'LPASS_CDC_DMA_RX9' undeclared (first use in this function)
-      43 |         case LPASS_CDC_DMA_RX0 ... LPASS_CDC_DMA_RX9:
-         |                                    ^~~~~~~~~~~~~~~~~
->> sound/soc/qcom/lpass.h:44:14: error: 'LPASS_CDC_DMA_TX0' undeclared (first use in this function)
-      44 |         case LPASS_CDC_DMA_TX0 ... LPASS_CDC_DMA_TX8:
-         |              ^~~~~~~~~~~~~~~~~
->> sound/soc/qcom/lpass.h:44:36: error: 'LPASS_CDC_DMA_TX8' undeclared (first use in this function)
-      44 |         case LPASS_CDC_DMA_TX0 ... LPASS_CDC_DMA_TX8:
-         |                                    ^~~~~~~~~~~~~~~~~
->> sound/soc/qcom/lpass.h:45:14: error: 'LPASS_CDC_DMA_VA_TX0' undeclared (first use in this function)
-      45 |         case LPASS_CDC_DMA_VA_TX0 ... LPASS_CDC_DMA_VA_TX8:
-         |              ^~~~~~~~~~~~~~~~~~~~
->> sound/soc/qcom/lpass.h:45:39: error: 'LPASS_CDC_DMA_VA_TX8' undeclared (first use in this function)
-      45 |         case LPASS_CDC_DMA_VA_TX0 ... LPASS_CDC_DMA_VA_TX8:
-         |                                       ^~~~~~~~~~~~~~~~~~~~
-   sound/soc/qcom/lpass.h: In function 'is_rxtx_cdc_dma_port':
-   sound/soc/qcom/lpass.h:54:14: error: 'LPASS_CDC_DMA_RX0' undeclared (first use in this function)
-      54 |         case LPASS_CDC_DMA_RX0 ... LPASS_CDC_DMA_RX9:
-         |              ^~~~~~~~~~~~~~~~~
-   sound/soc/qcom/lpass.h:54:36: error: 'LPASS_CDC_DMA_RX9' undeclared (first use in this function)
-      54 |         case LPASS_CDC_DMA_RX0 ... LPASS_CDC_DMA_RX9:
-         |                                    ^~~~~~~~~~~~~~~~~
-   sound/soc/qcom/lpass.h:55:14: error: 'LPASS_CDC_DMA_TX0' undeclared (first use in this function)
-      55 |         case LPASS_CDC_DMA_TX0 ... LPASS_CDC_DMA_TX8:
-         |              ^~~~~~~~~~~~~~~~~
-   sound/soc/qcom/lpass.h:55:36: error: 'LPASS_CDC_DMA_TX8' undeclared (first use in this function)
-      55 |         case LPASS_CDC_DMA_TX0 ... LPASS_CDC_DMA_TX8:
-         |                                    ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c: In function 'stmmac_xdp_xmit_zc':
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2554:17: error: implicit declaration of function 'xsk_tx_metadata_to_compl'; did you mean 'xsk_tx_metadata_complete'? [-Werror=implicit-function-declaration]
+    2554 |                 xsk_tx_metadata_to_compl(meta, &tx_q->tx_skbuff_dma[entry].xsk_meta);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                 xsk_tx_metadata_complete
+   cc1: some warnings being treated as errors
 
 
-vim +/LPASS_CDC_DMA_RX0 +43 sound/soc/qcom/lpass.h
+vim +2554 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 
-7cb37b7bd0d3c9 V Sujith Kumar Reddy    2020-10-08  32  
-7cb37b7bd0d3c9 V Sujith Kumar Reddy    2020-10-08  33  #define QCOM_REGMAP_FIELD_ALLOC(d, m, f, mf)    \
-7cb37b7bd0d3c9 V Sujith Kumar Reddy    2020-10-08  34  	do { \
-7cb37b7bd0d3c9 V Sujith Kumar Reddy    2020-10-08  35  		mf = devm_regmap_field_alloc(d, m, f);     \
-7cb37b7bd0d3c9 V Sujith Kumar Reddy    2020-10-08  36  		if (IS_ERR(mf))                \
-7cb37b7bd0d3c9 V Sujith Kumar Reddy    2020-10-08  37  			return -EINVAL;         \
-7cb37b7bd0d3c9 V Sujith Kumar Reddy    2020-10-08  38  	} while (0)
-cd59f13823ae65 Kenneth Westfield       2015-03-03  39  
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24  40  static inline bool is_cdc_dma_port(int dai_id)
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24  41  {
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24  42  	switch (dai_id) {
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24 @43  	case LPASS_CDC_DMA_RX0 ... LPASS_CDC_DMA_RX9:
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24 @44  	case LPASS_CDC_DMA_TX0 ... LPASS_CDC_DMA_TX8:
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24 @45  	case LPASS_CDC_DMA_VA_TX0 ... LPASS_CDC_DMA_VA_TX8:
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24  46  		return true;
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24  47  	}
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24  48  	return false;
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24  49  }
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24  50  
-
-:::::: The code at line 43 was first introduced by commit
-:::::: dc8d9766bc03efee4d1b6dd912659858fdf981de ASoC: qcom: Add register definition for codec rddma and wrdma
-
-:::::: TO: Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+  2464	
+  2465	static bool stmmac_xdp_xmit_zc(struct stmmac_priv *priv, u32 queue, u32 budget)
+  2466	{
+  2467		struct netdev_queue *nq = netdev_get_tx_queue(priv->dev, queue);
+  2468		struct stmmac_tx_queue *tx_q = &priv->dma_conf.tx_queue[queue];
+  2469		struct stmmac_txq_stats *txq_stats = &priv->xstats.txq_stats[queue];
+  2470		struct xsk_buff_pool *pool = tx_q->xsk_pool;
+  2471		unsigned int entry = tx_q->cur_tx;
+  2472		struct dma_desc *tx_desc = NULL;
+  2473		struct xdp_desc xdp_desc;
+  2474		bool work_done = true;
+  2475		u32 tx_set_ic_bit = 0;
+  2476		unsigned long flags;
+  2477	
+  2478		/* Avoids TX time-out as we are sharing with slow path */
+  2479		txq_trans_cond_update(nq);
+  2480	
+  2481		budget = min(budget, stmmac_tx_avail(priv, queue));
+  2482	
+  2483		while (budget-- > 0) {
+  2484			struct stmmac_metadata_request meta_req;
+  2485			struct xsk_tx_metadata *meta = NULL;
+  2486			dma_addr_t dma_addr;
+  2487			bool set_ic;
+  2488	
+  2489			/* We are sharing with slow path and stop XSK TX desc submission when
+  2490			 * available TX ring is less than threshold.
+  2491			 */
+  2492			if (unlikely(stmmac_tx_avail(priv, queue) < STMMAC_TX_XSK_AVAIL) ||
+  2493			    !netif_carrier_ok(priv->dev)) {
+  2494				work_done = false;
+  2495				break;
+  2496			}
+  2497	
+  2498			if (!xsk_tx_peek_desc(pool, &xdp_desc))
+  2499				break;
+  2500	
+  2501			if (likely(priv->extend_desc))
+  2502				tx_desc = (struct dma_desc *)(tx_q->dma_etx + entry);
+  2503			else if (tx_q->tbs & STMMAC_TBS_AVAIL)
+  2504				tx_desc = &tx_q->dma_entx[entry].basic;
+  2505			else
+  2506				tx_desc = tx_q->dma_tx + entry;
+  2507	
+  2508			dma_addr = xsk_buff_raw_get_dma(pool, xdp_desc.addr);
+  2509			meta = xsk_buff_get_metadata(pool, xdp_desc.addr);
+  2510			xsk_buff_raw_dma_sync_for_device(pool, dma_addr, xdp_desc.len);
+  2511	
+  2512			tx_q->tx_skbuff_dma[entry].buf_type = STMMAC_TXBUF_T_XSK_TX;
+  2513	
+  2514			/* To return XDP buffer to XSK pool, we simple call
+  2515			 * xsk_tx_completed(), so we don't need to fill up
+  2516			 * 'buf' and 'xdpf'.
+  2517			 */
+  2518			tx_q->tx_skbuff_dma[entry].buf = 0;
+  2519			tx_q->xdpf[entry] = NULL;
+  2520	
+  2521			tx_q->tx_skbuff_dma[entry].map_as_page = false;
+  2522			tx_q->tx_skbuff_dma[entry].len = xdp_desc.len;
+  2523			tx_q->tx_skbuff_dma[entry].last_segment = true;
+  2524			tx_q->tx_skbuff_dma[entry].is_jumbo = false;
+  2525	
+  2526			stmmac_set_desc_addr(priv, tx_desc, dma_addr);
+  2527	
+  2528			tx_q->tx_count_frames++;
+  2529	
+  2530			if (!priv->tx_coal_frames[queue])
+  2531				set_ic = false;
+  2532			else if (tx_q->tx_count_frames % priv->tx_coal_frames[queue] == 0)
+  2533				set_ic = true;
+  2534			else
+  2535				set_ic = false;
+  2536	
+  2537			meta_req.priv = priv;
+  2538			meta_req.tx_desc = tx_desc;
+  2539			meta_req.set_ic = &set_ic;
+  2540			xsk_tx_metadata_request(meta, &stmmac_xsk_tx_metadata_ops, &meta_req);
+  2541	
+  2542			if (set_ic) {
+  2543				tx_q->tx_count_frames = 0;
+  2544				stmmac_set_tx_ic(priv, tx_desc);
+  2545				tx_set_ic_bit++;
+  2546			}
+  2547	
+  2548			stmmac_prepare_tx_desc(priv, tx_desc, 1, xdp_desc.len,
+  2549					       true, priv->mode, true, true,
+  2550					       xdp_desc.len);
+  2551	
+  2552			stmmac_enable_dma_transmission(priv, priv->ioaddr);
+  2553	
+> 2554			xsk_tx_metadata_to_compl(meta, &tx_q->tx_skbuff_dma[entry].xsk_meta);
+  2555	
+  2556			tx_q->cur_tx = STMMAC_GET_ENTRY(tx_q->cur_tx, priv->dma_conf.dma_tx_size);
+  2557			entry = tx_q->cur_tx;
+  2558		}
+  2559		flags = u64_stats_update_begin_irqsave(&txq_stats->syncp);
+  2560		txq_stats->tx_set_ic_bit += tx_set_ic_bit;
+  2561		u64_stats_update_end_irqrestore(&txq_stats->syncp, flags);
+  2562	
+  2563		if (tx_desc) {
+  2564			stmmac_flush_tx_descriptors(priv, queue);
+  2565			xsk_tx_release(pool);
+  2566		}
+  2567	
+  2568		/* Return true if all of the 3 conditions are met
+  2569		 *  a) TX Budget is still available
+  2570		 *  b) work_done = true when XSK TX desc peek is empty (no more
+  2571		 *     pending XSK TX for transmission)
+  2572		 */
+  2573		return !!budget && work_done;
+  2574	}
+  2575	
 
 -- 
 0-DAY CI Kernel Test Service
