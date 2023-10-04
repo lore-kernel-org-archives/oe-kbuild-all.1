@@ -1,50 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A9081D
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 01:48:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5BAA29
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 02:50:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696384096; x=1727920096;
+  t=1696387824; x=1727923824;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8hRoB7Ji9kQMjDy58VNJhecx+hI0XkSOAYoPGbCHTYs=;
-  b=fn0L7IhBYjOcnDfXi08P8ilE5ke8XuanZggl2rUDGZJdwrW2Q4AjuMXY
-   W+Ny03NUAeqIR1AR/yemnPQjzF/+j+wKB0IMrpd8HTE8WXyYIlHdTznKh
-   YRdavgVPeOqTYSeowzRjCK69yuiWQE45ZhN3JtTDGxDxaLjXsgn3yCJHy
-   h6/cnmNwXS3V0YYWD0gkfNS5mqaQ4fDNmkJqO6VionKGgUsTsQr3WFLpp
-   0x2xDxvSS8j4FAqOAGa4wEWSXyC8v+XMZhvHzPNupuW7TvaZyL8DiIY/H
-   dCJBwOQ4Zdk6/sWUX6pTrbBy9zG6C6DpV8FOdul0qLcjThU3+Saw/oFa1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="382930858"
+  bh=ClnmhsCaFZlRhEZGTnrJ+4K60cvJZGFBAonbTN8b/Ns=;
+  b=jEDcXDem2fc9k4aWDAfxF9P3DuztFzXGmwVZwKSWT6qL0VMTzGI+tSnO
+   SMAErWHAvLFDldDMSTr9OkvInxJWqANok0//ckYkN74nlhERvqLkp/yzZ
+   w1D4F8re634nG4iw2A/GOGVf4uMCZvsHJVjpzph94eSd7ph2q7Z8nG4bA
+   mwgRJ9RLwVIvhB/6fTO+MWSWGXT/ohGGWZgvc0QKGQDjAIafu40bSIFSb
+   raSUd1CYc46K6poDnxWOpRrB/2B2NJt9toVNvjOFnGV7eCx4S+86ZoYOy
+   N6Oa4WnAyrY6ejvLTKFmhfTkfMPoMC0ZSfSWHvEhqkxRxI1TRH68Yj1Jq
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="413955806"
 X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
-   d="scan'208";a="382930858"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 18:48:15 -0700
+   d="scan'208";a="413955806"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 19:50:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="727827146"
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="867135637"
 X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
-   d="scan'208";a="727827146"
+   d="scan'208";a="867135637"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 03 Oct 2023 18:48:12 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 03 Oct 2023 19:50:19 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qnqzi-000AGn-1X;
-	Wed, 04 Oct 2023 01:48:10 +0000
-Date: Wed, 4 Oct 2023 09:47:46 +0800
+	id 1qnrxp-000AOs-0N;
+	Wed, 04 Oct 2023 02:50:17 +0000
+Date: Wed, 4 Oct 2023 10:50:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Etienne Carriere <etienne.carriere@foss.st.com>,
-	linux-kernel@vger.kernel.org
+To: karelb@gimli.ms.mff.cuni.cz, Markuss Broks <markuss.broks@gmail.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	~postmarketos/upstreaming@lists.sr.ht
 Cc: oe-kbuild-all@lists.linux.dev,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Sumit Garg <sumit.garg@linaro.org>,
-	linux-arm-kernel@lists.infradead.org,
-	op-tee@lists.trustedfirmware.org,
-	Jerome Forissier <jerome.forissier@linaro.org>,
-	Etienne Carriere <etienne.carriere@foss.st.com>
-Subject: Re: [PATCH v10 1/4] tee: optee: system call property
-Message-ID: <202310040951.IEVtCbbL-lkp@intel.com>
-References: <20231003140637.31346-2-etienne.carriere@foss.st.com>
+	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+	Karel Balej <karelb@gimli.ms.mff.cuni.cz>
+Subject: Re: [PATCH v2 3/5] input/touchscreen: imagis: Add support for Imagis
+ IST3038B
+Message-ID: <202310041036.tddy1jGm-lkp@intel.com>
+References: <20231003133440.4696-4-karelb@gimli.ms.mff.cuni.cz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,89 +56,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231003140637.31346-2-etienne.carriere@foss.st.com>
+In-Reply-To: <20231003133440.4696-4-karelb@gimli.ms.mff.cuni.cz>
 
-Hi Etienne,
+Hi,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on soc/for-next]
-[also build test WARNING on linus/master v6.6-rc4 next-20231003]
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus robh/for-next linus/master v6.6-rc4 next-20231003]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Etienne-Carriere/tee-optee-system-call-property/20231003-220916
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20231003140637.31346-2-etienne.carriere%40foss.st.com
-patch subject: [PATCH v10 1/4] tee: optee: system call property
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20231004/202310040951.IEVtCbbL-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231004/202310040951.IEVtCbbL-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/karelb-gimli-ms-mff-cuni-cz/input-touchscreen-imagis-Correct-the-maximum-touch-area-value/20231003-213739
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20231003133440.4696-4-karelb%40gimli.ms.mff.cuni.cz
+patch subject: [PATCH v2 3/5] input/touchscreen: imagis: Add support for Imagis IST3038B
+config: x86_64-randconfig-004-20231004 (https://download.01.org/0day-ci/archive/20231004/202310041036.tddy1jGm-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231004/202310041036.tddy1jGm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310040951.IEVtCbbL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310041036.tddy1jGm-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/tee/optee/ffa_abi.c:618: warning: Function parameter or member 'system_thread' not described in 'optee_ffa_do_call_with_arg'
---
-   drivers/tee/optee/smc_abi.c:818: warning: Function parameter or member 'rpc_arg' not described in 'optee_handle_rpc'
->> drivers/tee/optee/smc_abi.c:890: warning: Function parameter or member 'system_thread' not described in 'optee_smc_do_call_with_arg'
+>> drivers/input/touchscreen/imagis.c:374:39: warning: 'imagis_3038c_data' defined but not used [-Wunused-const-variable=]
+     374 | static const struct imagis_properties imagis_3038c_data = {
+         |                                       ^~~~~~~~~~~~~~~~~
+>> drivers/input/touchscreen/imagis.c:366:39: warning: 'imagis_3038b_data' defined but not used [-Wunused-const-variable=]
+     366 | static const struct imagis_properties imagis_3038b_data = {
+         |                                       ^~~~~~~~~~~~~~~~~
 
 
-vim +618 drivers/tee/optee/ffa_abi.c
+vim +/imagis_3038c_data +374 drivers/input/touchscreen/imagis.c
 
-4615e5a34b95e0 Jens Wiklander   2021-07-21  602  
-4615e5a34b95e0 Jens Wiklander   2021-07-21  603  /**
-4615e5a34b95e0 Jens Wiklander   2021-07-21  604   * optee_ffa_do_call_with_arg() - Do a FF-A call to enter OP-TEE in secure world
-4615e5a34b95e0 Jens Wiklander   2021-07-21  605   * @ctx:	calling context
-4615e5a34b95e0 Jens Wiklander   2021-07-21  606   * @shm:	shared memory holding the message to pass to secure world
-5b4018b959149e Jens Wiklander   2022-01-25  607   * @offs:	offset of the message in @shm
-4615e5a34b95e0 Jens Wiklander   2021-07-21  608   *
-4615e5a34b95e0 Jens Wiklander   2021-07-21  609   * Does a FF-A call to OP-TEE in secure world and handles eventual resulting
-4615e5a34b95e0 Jens Wiklander   2021-07-21  610   * Remote Procedure Calls (RPC) from OP-TEE.
-4615e5a34b95e0 Jens Wiklander   2021-07-21  611   *
-4615e5a34b95e0 Jens Wiklander   2021-07-21  612   * Returns return code from FF-A, 0 is OK
-4615e5a34b95e0 Jens Wiklander   2021-07-21  613   */
-4615e5a34b95e0 Jens Wiklander   2021-07-21  614  
-4615e5a34b95e0 Jens Wiklander   2021-07-21  615  static int optee_ffa_do_call_with_arg(struct tee_context *ctx,
-8f8e909e5204c3 Etienne Carriere 2023-10-03  616  				      struct tee_shm *shm, u_int offs,
-8f8e909e5204c3 Etienne Carriere 2023-10-03  617  				      bool system_thread)
-4615e5a34b95e0 Jens Wiklander   2021-07-21 @618  {
-4615e5a34b95e0 Jens Wiklander   2021-07-21  619  	struct ffa_send_direct_data data = {
-4615e5a34b95e0 Jens Wiklander   2021-07-21  620  		.data0 = OPTEE_FFA_YIELDING_CALL_WITH_ARG,
-4615e5a34b95e0 Jens Wiklander   2021-07-21  621  		.data1 = (u32)shm->sec_world_id,
-4615e5a34b95e0 Jens Wiklander   2021-07-21  622  		.data2 = (u32)(shm->sec_world_id >> 32),
-5b4018b959149e Jens Wiklander   2022-01-25  623  		.data3 = offs,
-4615e5a34b95e0 Jens Wiklander   2021-07-21  624  	};
-4064c461148ab1 Jens Wiklander   2021-12-28  625  	struct optee_msg_arg *arg;
-4064c461148ab1 Jens Wiklander   2021-12-28  626  	unsigned int rpc_arg_offs;
-4064c461148ab1 Jens Wiklander   2021-12-28  627  	struct optee_msg_arg *rpc_arg;
-4064c461148ab1 Jens Wiklander   2021-12-28  628  
-a639b2b18a240d Jens Wiklander   2022-01-12  629  	/*
-a639b2b18a240d Jens Wiklander   2022-01-12  630  	 * The shared memory object has to start on a page when passed as
-a639b2b18a240d Jens Wiklander   2022-01-12  631  	 * an argument struct. This is also what the shm pool allocator
-a639b2b18a240d Jens Wiklander   2022-01-12  632  	 * returns, but check this before calling secure world to catch
-a639b2b18a240d Jens Wiklander   2022-01-12  633  	 * eventual errors early in case something changes.
-a639b2b18a240d Jens Wiklander   2022-01-12  634  	 */
-a639b2b18a240d Jens Wiklander   2022-01-12  635  	if (shm->offset)
-a639b2b18a240d Jens Wiklander   2022-01-12  636  		return -EINVAL;
-a639b2b18a240d Jens Wiklander   2022-01-12  637  
-5b4018b959149e Jens Wiklander   2022-01-25  638  	arg = tee_shm_get_va(shm, offs);
-4064c461148ab1 Jens Wiklander   2021-12-28  639  	if (IS_ERR(arg))
-4064c461148ab1 Jens Wiklander   2021-12-28  640  		return PTR_ERR(arg);
-4064c461148ab1 Jens Wiklander   2021-12-28  641  
-4064c461148ab1 Jens Wiklander   2021-12-28  642  	rpc_arg_offs = OPTEE_MSG_GET_ARG_SIZE(arg->num_params);
-5b4018b959149e Jens Wiklander   2022-01-25  643  	rpc_arg = tee_shm_get_va(shm, offs + rpc_arg_offs);
-4064c461148ab1 Jens Wiklander   2021-12-28  644  	if (IS_ERR(rpc_arg))
-4064c461148ab1 Jens Wiklander   2021-12-28  645  		return PTR_ERR(rpc_arg);
-4615e5a34b95e0 Jens Wiklander   2021-07-21  646  
-8f8e909e5204c3 Etienne Carriere 2023-10-03  647  	return optee_ffa_yielding_call(ctx, &data, rpc_arg, system_thread);
-4615e5a34b95e0 Jens Wiklander   2021-07-21  648  }
-4615e5a34b95e0 Jens Wiklander   2021-07-21  649  
+   365	
+ > 366	static const struct imagis_properties imagis_3038b_data = {
+   367		.interrupt_msg_cmd = IST3038B_REG_STATUS,
+   368		.touch_coord_cmd = IST3038B_REG_STATUS,
+   369		.whoami_cmd = IST3038B_REG_CHIPID,
+   370		.whoami_val = IST3038B_WHOAMI,
+   371		.protocol_b = true,
+   372	};
+   373	
+ > 374	static const struct imagis_properties imagis_3038c_data = {
+   375		.interrupt_msg_cmd = IST3038C_REG_INTR_MESSAGE,
+   376		.touch_coord_cmd = IST3038C_REG_TOUCH_COORD,
+   377		.whoami_cmd = IST3038C_REG_CHIPID,
+   378		.whoami_val = IST3038C_WHOAMI,
+   379	};
+   380	
 
 -- 
 0-DAY CI Kernel Test Service
