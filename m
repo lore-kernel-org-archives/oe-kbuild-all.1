@@ -1,50 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF6FECD
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 03:54:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB7810F8
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 04:17:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696391689; x=1727927689;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Gw6rYXRCbRUHGgK7+O+B6viSGlrOBMQMDtbB2BWw1wk=;
-  b=ASpgNDzWllzPRgSS5zJeuSy/c8PRVvlgyP0tqAfjs2xttjXmcpX/gYFf
-   kRnns823R8invzMUZ4DV8E6CDpRKmORQooNLUVFCuZHE7mGGqHuUPkeRJ
-   FCARNXnKpfqrstx1DnT3fEA2MGiLkH0Kj5weaYgPKdBPQuMZ0eFHDELYO
-   iKQ2E4lOOdWn+tgyFKbFxsZAeJnegd6iVHQDaf5mtMqz90nE9F4rIRxOA
-   h9cZqjK2pv6SJheVefbH5BfRunDK1+86HoRh8HZvf3OmHZIYw8v1YFzvH
-   DKwqdSZahy+VW5t4Yhpr+1p5IJGPY5XSb4Xv91tVZUECwAX75OBshVJCm
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="1646072"
+  t=1696393031; x=1727929031;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yB6TtLpXvKu8EF0B4m/dpQtc/4lR9xwPUvS2swdWKoA=;
+  b=BbVP2IRmQIQidwwhUliyYxDyfhM8O86be8AiO57OM8evxumRHbzs2N2s
+   sx8iEIf6Oo36+6JZTnvVCfdez84qClwJumc1SlbOkVPQ2j1R2QoDklAkr
+   jE4oVGTeQUgWfr3l5xSWLbXG4kC78npZz2j981rN1D782oEWStQknJm03
+   sAwAsp5HxigXbhR2ZO/8N7KdLBAQE6gi5mS61pwHSGidQlI0hyxGyJ5bD
+   lWzERUzeC/WSGXCLI0tebcneiFS0Hj5feYggayo3NNdoeP8gAkIlC3bLE
+   AIU+QuEP0j4LSLJYO7JC7j6IVwmu5rEQdwuZr5+A3o9DyT5NwSNUKyS6s
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="381915741"
 X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
-   d="scan'208";a="1646072"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 20:54:48 -0700
+   d="scan'208";a="381915741"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 21:16:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="754685025"
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="786350756"
 X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
-   d="scan'208";a="754685025"
+   d="scan'208";a="786350756"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 03 Oct 2023 20:54:45 -0700
+  by orsmga001.jf.intel.com with ESMTP; 03 Oct 2023 21:16:50 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qnsyB-000Aqe-2C;
-	Wed, 04 Oct 2023 03:54:43 +0000
-Date: Wed, 4 Oct 2023 11:54:10 +0800
+	id 1qntJW-000BF4-1i;
+	Wed, 04 Oct 2023 04:16:46 +0000
+Date: Wed, 4 Oct 2023 12:15:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	intel-gfx <intel-gfx@lists.freedesktop.org>,
-	Chris Wilson <chris.p.wilson@linux.intel.com>,
-	Andi Shyti <andi.shyti@linux.intel.com>,
-	dri-devel <dri-devel@lists.freedesktop.org>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH] dma-buf: Deny copy-on-writes mmaps
-Message-ID: <202310041156.Bi2Vshvb-lkp@intel.com>
-References: <20231003230332.513051-1-andi.shyti@linux.intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-shrink-2e 37/37] lib/dynamic_debug.c:117:6: warning: no
+ previous prototype for function 'ddebug_clear_prefix_cache'
+Message-ID: <202310041216.Krp9MLkF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,59 +45,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231003230332.513051-1-andi.shyti@linux.intel.com>
 
-Hi Andi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.6-rc4 next-20231003]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andi-Shyti/dma-buf-Deny-copy-on-writes-mmaps/20231004-070556
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231003230332.513051-1-andi.shyti%40linux.intel.com
-patch subject: [PATCH] dma-buf: Deny copy-on-writes mmaps
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20231004/202310041156.Bi2Vshvb-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231004/202310041156.Bi2Vshvb-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git dd-shrink-2e
+head:   e29a79ca0888609c7442791bd8108f8323eded5f
+commit: e29a79ca0888609c7442791bd8108f8323eded5f [37/37] dyndbg: cache the dynamic prefixes per callsite
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231004/202310041216.Krp9MLkF-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231004/202310041216.Krp9MLkF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310041156.Bi2Vshvb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310041216.Krp9MLkF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/dma-buf/dma-buf.c: In function 'dma_buf_get_unmapped_area':
->> drivers/dma-buf/dma-buf.c:142:27: error: 'struct mm_struct' has no member named 'get_unmapped_area'
-     142 |         return current->mm->get_unmapped_area(file, addr, len, pgoff, flags);
-         |                           ^~
-   drivers/dma-buf/dma-buf.c:143:1: error: control reaches end of non-void function [-Werror=return-type]
-     143 | }
-         | ^
-   cc1: some warnings being treated as errors
+>> lib/dynamic_debug.c:117:6: warning: no previous prototype for function 'ddebug_clear_prefix_cache' [-Wmissing-prototypes]
+   void ddebug_clear_prefix_cache(const struct _ddebug *dp)
+        ^
+   lib/dynamic_debug.c:117:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void ddebug_clear_prefix_cache(const struct _ddebug *dp)
+   ^
+   static 
+   1 warning generated.
 
 
-vim +142 drivers/dma-buf/dma-buf.c
+vim +/ddebug_clear_prefix_cache +117 lib/dynamic_debug.c
 
-   131	
-   132	static unsigned long
-   133	dma_buf_get_unmapped_area(struct file *file,
-   134				  unsigned long addr,
-   135				  unsigned long len,
-   136				  unsigned long pgoff,
-   137				  unsigned long flags)
-   138	{
-   139		if ((flags & MAP_TYPE) == MAP_PRIVATE)
-   140			return -EINVAL;
-   141	
- > 142		return current->mm->get_unmapped_area(file, addr, len, pgoff, flags);
-   143	}
-   144	
+   116	
+ > 117	void ddebug_clear_prefix_cache(const struct _ddebug *dp)
+   118	{
+   119		mtree_erase(&pr_prefixes, (unsigned long)dp);
+   120	}
+   121	
 
 -- 
 0-DAY CI Kernel Test Service
