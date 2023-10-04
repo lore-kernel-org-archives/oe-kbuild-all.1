@@ -1,53 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7BF9525E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 06:42:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696401759; x=1727937759;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fEbusEUadP7aAf4Qt7Tnn0hCBtGQxdtH+HZZwg9ht6Q=;
-  b=Bi08ZIEGRLDdiDLRZu9tNn2v2pphbOvTnvDDuxmiq+B6dG9bGMDEf6DP
-   r03QopO2z+0C/5UwgIYDaD9dNn/uoyDXLjkhrrKT9Sm0cal+u/adJAXcy
-   pDA3n3YIJ5SrctScZTuqFcM/OYVDUDq2gH5goHPYq1X9PUK5odaZrdmo+
-   KTtxVFIkEVO9WY3Td5H/rHctMc72PBRPoZL1VJIFDTRFDKFKYs/J/B7ka
-   QGNIHCXx/EsvTAiEjGwLz65iczNl9dwnhTakxLnA0b5YzyY5+abreYXg5
-   baS8x+fk9hsF437Sed4cKYdsN989hCw4SpWIHNyJg0mCzoNUcF5q28kFr
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="368134985"
-X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
-   d="scan'208";a="368134985"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 23:42:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="874976835"
-X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
-   d="scan'208";a="874976835"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 03 Oct 2023 23:42:35 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qnvab-000D9y-0c;
-	Wed, 04 Oct 2023 06:42:33 +0000
-Date: Wed, 4 Oct 2023 14:42:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: karelb@gimli.ms.mff.cuni.cz, Markuss Broks <markuss.broks@gmail.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	~postmarketos/upstreaming@lists.sr.ht
-Cc: oe-kbuild-all@lists.linux.dev,
-	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-	Karel Balej <karelb@gimli.ms.mff.cuni.cz>
-Subject: Re: [PATCH v2 5/5] input/touchscreen: imagis: add support for
- IST3032C
-Message-ID: <202310041406.DCcjrpLd-lkp@intel.com>
-References: <20231003133440.4696-6-karelb@gimli.ms.mff.cuni.cz>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D04D2E6
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 08:20:09 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3215f19a13aso1792920f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 04 Oct 2023 01:20:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1696407608; x=1697012408; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Z1FE66/eW+DC2Mgz/WgZHuGsRc1n/oZs4CygM2JDRZk=;
+        b=gW3lDnC9n6iQN0by20SzTE/bsABxfv7FedMt49kxuSRfCt6pkm5vr0uRPoadLwGVYk
+         QqsQHtjNNwsy0y42Q6fNSr/v+Q9Du6Ohupa044Ghc4fYCkF0O4OxSceSkm994dhsInfI
+         5GE6wO5EAkI9pCdHOfbsMaKPFEaX9jY0oEC8WODP6qntwjaEueW3kD45jLIUdbE5bbm7
+         vWD0+cJK/3knAMUMWTJeGn2/yFH1e/wJj5tl/cXvNc4KP4mk+5kgSgaDfW2Y+5eHDKTH
+         ByD9mNpsAXc+1G9hIvpExzSYmY50a2ND2Y4lkZrGlkSgwqkC3y6vaJNADifonYtsIxMQ
+         ycUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696407608; x=1697012408;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z1FE66/eW+DC2Mgz/WgZHuGsRc1n/oZs4CygM2JDRZk=;
+        b=wDEEebHTyzvQR3dRPVkDqsx5HL7yFwvxDdJx4I8OYM1i2N5vNPOHV6Zgxv/3x7aOVW
+         NRu47YvLRSAdeYkIJ1GRX3Tbng+Fgt/2dkGq/htjS0QuU3AWN1IzMNc1cwtYQxpA04R9
+         bdwIMRAeTBI515qFXqXWTBnv4d3FX62JdWUw3UC7wHOu/zNkxDQsrBRvpRovny9Qxo/c
+         A15X/da6HYIXdMNvNHODciXxHsHT0LMVBE8v8YrtfAW4wuks5dNwm3iBX8Hc7j8MDQO+
+         GXivkfPldyaFB3DHrIk0dxS91Snf5VZxr++jJ0MQVnnbsWyXMBBswyLOoMONqMeQrKe9
+         rwGw==
+X-Gm-Message-State: AOJu0YwjVct+668VQeuMvHPAIrcb3n5J9PQhYgfFKuWbmL238HhQ58Lv
+	6ZxNeXWxyI3qNbHWV7HEQbDo1Q==
+X-Google-Smtp-Source: AGHT+IFLBRPqkQWHipaGsTiCRc5ZBYE2RATtEZz+zndjucKgKUKjoymN6EAQlZfKYDbBzw8XsHkxXA==
+X-Received: by 2002:a5d:6986:0:b0:317:3d6c:5b27 with SMTP id g6-20020a5d6986000000b003173d6c5b27mr1420304wru.46.1696407607813;
+        Wed, 04 Oct 2023 01:20:07 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id f14-20020adff44e000000b0032318649b21sm3418462wrp.31.2023.10.04.01.20.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Oct 2023 01:20:07 -0700 (PDT)
+Date: Wed, 4 Oct 2023 11:20:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, David Lechner <dlechner@baylibre.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [jic23-iio:testing 140/154]
+ drivers/staging/iio/resolver/ad2s1210.c:560 ad2s1210_initial() warn:
+ inconsistent returns '&st->lock'.
+Message-ID: <021da855-7b41-4dbc-a1ac-71df9ac86d82@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,55 +53,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231003133440.4696-6-karelb@gimli.ms.mff.cuni.cz>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus robh/for-next linus/master v6.6-rc4 next-20231003]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/karelb-gimli-ms-mff-cuni-cz/input-touchscreen-imagis-Correct-the-maximum-touch-area-value/20231003-213739
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20231003133440.4696-6-karelb%40gimli.ms.mff.cuni.cz
-patch subject: [PATCH v2 5/5] input/touchscreen: imagis: add support for IST3032C
-config: x86_64-randconfig-004-20231004 (https://download.01.org/0day-ci/archive/20231004/202310041406.DCcjrpLd-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+head:   a533eeaef80e879b3ad1937eee7a43d1f9961c5d
+commit: 0d03d0e6584655a002c4e3aaae657b35f0900921 [140/154] staging: iio: resolver: ad2s1210: rework gpios
+config: x86_64-randconfig-161-20231002 (https://download.01.org/0day-ci/archive/20231003/202310030222.iokamE9T-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231004/202310041406.DCcjrpLd-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231003/202310030222.iokamE9T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310041406.DCcjrpLd-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202310030222.iokamE9T-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/staging/iio/resolver/ad2s1210.c:560 ad2s1210_initial() warn: inconsistent returns '&st->lock'.
 
-   drivers/input/touchscreen/imagis.c:383:39: warning: 'imagis_3038c_data' defined but not used [-Wunused-const-variable=]
-     383 | static const struct imagis_properties imagis_3038c_data = {
-         |                                       ^~~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/imagis.c:375:39: warning: 'imagis_3038b_data' defined but not used [-Wunused-const-variable=]
-     375 | static const struct imagis_properties imagis_3038b_data = {
-         |                                       ^~~~~~~~~~~~~~~~~
->> drivers/input/touchscreen/imagis.c:368:39: warning: 'imagis_3032c_data' defined but not used [-Wunused-const-variable=]
-     368 | static const struct imagis_properties imagis_3032c_data = {
-         |                                       ^~~~~~~~~~~~~~~~~
+vim +560 drivers/staging/iio/resolver/ad2s1210.c
 
+4ae1c61ff2ba4f Bill Pemberton   2012-11-19  534  static int ad2s1210_initial(struct ad2s1210_state *st)
+817e5c65c511d4 Graf Yang        2010-10-27  535  {
+817e5c65c511d4 Graf Yang        2010-10-27  536  	unsigned char data;
+817e5c65c511d4 Graf Yang        2010-10-27  537  	int ret;
+817e5c65c511d4 Graf Yang        2010-10-27  538  
+817e5c65c511d4 Graf Yang        2010-10-27  539  	mutex_lock(&st->lock);
+0d03d0e6584655 David Lechner    2023-09-29  540  	ret = ad2s1210_set_resolution_gpios(st, st->resolution);
+0d03d0e6584655 David Lechner    2023-09-29  541  	if (ret < 0)
+0d03d0e6584655 David Lechner    2023-09-29  542  		return ret;
 
-vim +/imagis_3032c_data +368 drivers/input/touchscreen/imagis.c
+goto error_ret;
 
-   367	
- > 368	static const struct imagis_properties imagis_3032c_data = {
-   369		.interrupt_msg_cmd = IST3038C_REG_INTR_MESSAGE,
-   370		.touch_coord_cmd = IST3038C_REG_TOUCH_COORD,
-   371		.whoami_cmd = IST3038C_REG_CHIPID,
-   372		.whoami_val = IST3032C_WHOAMI,
-   373	};
-   374	
+b19e9ad5e2cb91 Jonathan Cameron 2011-06-27  543  
+b3689e14415a87 David Lechner    2023-09-29  544  	/* Use default config register value plus resolution from devicetree. */
+b3689e14415a87 David Lechner    2023-09-29  545  	data = FIELD_PREP(AD2S1210_PHASE_LOCK_RANGE_44, 1);
+b3689e14415a87 David Lechner    2023-09-29  546  	data |= FIELD_PREP(AD2S1210_ENABLE_HYSTERESIS, 1);
+b3689e14415a87 David Lechner    2023-09-29  547  	data |= FIELD_PREP(AD2S1210_SET_ENRES, 0x3);
+b3689e14415a87 David Lechner    2023-09-29  548  	data |= FIELD_PREP(AD2S1210_SET_RES, (st->resolution - 10) >> 1);
+817e5c65c511d4 Graf Yang        2010-10-27  549  
+b3689e14415a87 David Lechner    2023-09-29  550  	ret = regmap_write(st->regmap, AD2S1210_REG_CONTROL, data);
+b3689e14415a87 David Lechner    2023-09-29  551  	if (ret < 0)
+817e5c65c511d4 Graf Yang        2010-10-27  552  		goto error_ret;
+817e5c65c511d4 Graf Yang        2010-10-27  553  
+b19e9ad5e2cb91 Jonathan Cameron 2011-06-27  554  	ret = ad2s1210_update_frequency_control_word(st);
+b19e9ad5e2cb91 Jonathan Cameron 2011-06-27  555  	if (ret < 0)
+b19e9ad5e2cb91 Jonathan Cameron 2011-06-27  556  		goto error_ret;
+b19e9ad5e2cb91 Jonathan Cameron 2011-06-27  557  	ret = ad2s1210_soft_reset(st);
+817e5c65c511d4 Graf Yang        2010-10-27  558  error_ret:
+817e5c65c511d4 Graf Yang        2010-10-27  559  	mutex_unlock(&st->lock);
+817e5c65c511d4 Graf Yang        2010-10-27 @560  	return ret;
+817e5c65c511d4 Graf Yang        2010-10-27  561  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
