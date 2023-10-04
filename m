@@ -1,47 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2337C2110B;
-	Wed,  4 Oct 2023 23:17:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20C026E02
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 23:17:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AXAez8SK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UZPVpPRL"
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696461442; x=1727997442;
+  t=1696461443; x=1727997443;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F73cxJ/jYb67+02dz2Y93Am2nBcNfKaTF89IH/YRBFU=;
-  b=AXAez8SKphr6LqGsF7uALq3p1NDms3g6ypJXyfx/0Kkx0E/89XWJG6RK
-   kJioIgEleHtSLY5QkAi+F43cxXN1mFDvxNkKnNyyhfS731H/eXbDfgeNj
-   q2roCpJSr9qjnzOXZHqZu7HUIoYfciAEoILcmO637Z4EaqsJTI+Fhcr/n
-   D7DhQCVZa4dNv0oHlpjPIW4INcLshRwFVXZRBQjjytxd9LVf1eVZBsPch
-   L37k1qOxvIWbk/vNDHp0h4kvt2ypahhz4C3dDe0RHDZrlC1PDZUVYLSKS
-   fGd2lIsPSaMXQJiEo4C05M9xjSxQYEls+ISzHzBJIZUsrAgBWit9oI65p
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="449823995"
+  bh=eRLOOD3IBkoDaoIvNdoryIpNSgz0fN9f44CtaFUY23Y=;
+  b=UZPVpPRLy9BZXWli40VayVpLglAHhCByPKxZ0cKRzWzmDtYmZkU22SMy
+   ztGvdZJmrK0xbJuHQFw5WNYN6rZ9y85gbjl3C8S+yOT8RVCSsEbtT8gm5
+   C32v+nmZW8bp908vZET9JsDkg/pND9EFw5DiJJ9tbgY0Fe0awl3zwXFOP
+   0KaJhZGOlL9c2Yu2HbbpytXpJaNrXV0tPNqHz4LkhskfZgKae81umm1sG
+   8d2bXJX9+2yFZIl/pBrvktoY8nRhww0LLCMuIj9u0GRUv0/puvWdiUiL6
+   r902EzgKdR8PcyuXFOAnNLX6Sk5fXY+5H+nwC7dvILaGojI68Koh6xi9e
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="449824001"
 X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
-   d="scan'208";a="449823995"
+   d="scan'208";a="449824001"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 16:17:21 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 16:17:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="998703414"
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="998703425"
 X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
-   d="scan'208";a="998703414"
+   d="scan'208";a="998703425"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 04 Oct 2023 16:17:19 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 04 Oct 2023 16:17:20 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qoB7C-000Kjg-0F;
-	Wed, 04 Oct 2023 23:17:14 +0000
-Date: Thu, 5 Oct 2023 07:16:24 +0800
+	id 1qoB7E-000Kji-2V;
+	Wed, 04 Oct 2023 23:17:17 +0000
+Date: Thu, 5 Oct 2023 07:16:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [mark:atomics/outlined 1/2]
- include/linux/atomic/atomic-outlined.h:15:1: warning: no previous prototype
- for function 'outlined_raw_atomic_read'
-Message-ID: <202310050757.Dg3brUIo-lkp@intel.com>
+To: "Lee, Chun-Yi" <jlee@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-bluetooth@vger.kernel.org,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+Subject: [bluetooth-next:master 19/23] include/linux/fortify-string.h:63:33:
+ warning: '__builtin_memcmp' specified bound 6 exceeds source size 0
+Message-ID: <202310050755.e0kabNON-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,464 +51,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git atomics/outlined
-head:   263c0a69d189a2d4b3c79cb731c51443c5e077e5
-commit: e0a77bfa63e7416d610769aa4ab62bc06993ce56 [1/2] HACK: add outlined atomics
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231005/202310050757.Dg3brUIo-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310050757.Dg3brUIo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+head:   6be21d9878685e926d8e21fbfd8be7d0b6b105e4
+commit: d70e44fef8621aeae895e1cbc62059df9e31836b [19/23] Bluetooth: Reject connection with the device which has same BD_ADDR
+config: arm-randconfig-001-20231005 (https://download.01.org/0day-ci/archive/20231005/202310050755.e0kabNON-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310050755.e0kabNON-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310050757.Dg3brUIo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310050755.e0kabNON-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from lib/atomic_outlined.c:6:
->> include/linux/atomic/atomic-outlined.h:15:1: warning: no previous prototype for function 'outlined_raw_atomic_read' [-Wmissing-prototypes]
-      15 | outlined_raw_atomic_read(const atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:14:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      14 | noinline noinstr int
-         |                  ^
-         |                  static 
->> include/linux/atomic/atomic-outlined.h:21:1: warning: no previous prototype for function 'outlined_raw_atomic_read_acquire' [-Wmissing-prototypes]
-      21 | outlined_raw_atomic_read_acquire(const atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:20:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      20 | noinline noinstr int
-         |                  ^
-         |                  static 
->> include/linux/atomic/atomic-outlined.h:27:1: warning: no previous prototype for function 'outlined_atomic_read' [-Wmissing-prototypes]
-      27 | outlined_atomic_read(const atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:26:10: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      26 | noinline int
-         |          ^
-         |          static 
->> include/linux/atomic/atomic-outlined.h:33:1: warning: no previous prototype for function 'outlined_atomic_read_acquire' [-Wmissing-prototypes]
-      33 | outlined_atomic_read_acquire(const atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:32:10: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      32 | noinline int
-         |          ^
-         |          static 
->> include/linux/atomic/atomic-outlined.h:39:1: warning: no previous prototype for function 'outlined_raw_atomic_set' [-Wmissing-prototypes]
-      39 | outlined_raw_atomic_set(atomic_t *v, int i)
-         | ^
-   include/linux/atomic/atomic-outlined.h:38:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      38 | noinline noinstr void
-         |                  ^
-         |                  static 
->> include/linux/atomic/atomic-outlined.h:45:1: warning: no previous prototype for function 'outlined_raw_atomic_set_release' [-Wmissing-prototypes]
-      45 | outlined_raw_atomic_set_release(atomic_t *v, int i)
-         | ^
-   include/linux/atomic/atomic-outlined.h:44:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      44 | noinline noinstr void
-         |                  ^
-         |                  static 
->> include/linux/atomic/atomic-outlined.h:51:1: warning: no previous prototype for function 'outlined_atomic_set' [-Wmissing-prototypes]
-      51 | outlined_atomic_set(atomic_t *v, int i)
-         | ^
-   include/linux/atomic/atomic-outlined.h:50:10: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      50 | noinline void
-         |          ^
-         |          static 
->> include/linux/atomic/atomic-outlined.h:57:1: warning: no previous prototype for function 'outlined_atomic_set_release' [-Wmissing-prototypes]
-      57 | outlined_atomic_set_release(atomic_t *v, int i)
-         | ^
-   include/linux/atomic/atomic-outlined.h:56:10: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      56 | noinline void
-         |          ^
-         |          static 
->> include/linux/atomic/atomic-outlined.h:63:1: warning: no previous prototype for function 'outlined_raw_atomic_add' [-Wmissing-prototypes]
-      63 | outlined_raw_atomic_add(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:62:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      62 | noinline noinstr void
-         |                  ^
-         |                  static 
->> include/linux/atomic/atomic-outlined.h:69:1: warning: no previous prototype for function 'outlined_raw_atomic_add_return' [-Wmissing-prototypes]
-      69 | outlined_raw_atomic_add_return(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:68:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      68 | noinline noinstr int
-         |                  ^
-         |                  static 
->> include/linux/atomic/atomic-outlined.h:75:1: warning: no previous prototype for function 'outlined_raw_atomic_add_return_acquire' [-Wmissing-prototypes]
-      75 | outlined_raw_atomic_add_return_acquire(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:74:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      74 | noinline noinstr int
-         |                  ^
-         |                  static 
->> include/linux/atomic/atomic-outlined.h:81:1: warning: no previous prototype for function 'outlined_raw_atomic_add_return_release' [-Wmissing-prototypes]
-      81 | outlined_raw_atomic_add_return_release(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:80:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      80 | noinline noinstr int
-         |                  ^
-         |                  static 
->> include/linux/atomic/atomic-outlined.h:87:1: warning: no previous prototype for function 'outlined_raw_atomic_add_return_relaxed' [-Wmissing-prototypes]
-      87 | outlined_raw_atomic_add_return_relaxed(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:86:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      86 | noinline noinstr int
-         |                  ^
-         |                  static 
->> include/linux/atomic/atomic-outlined.h:93:1: warning: no previous prototype for function 'outlined_raw_atomic_fetch_add' [-Wmissing-prototypes]
-      93 | outlined_raw_atomic_fetch_add(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:92:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      92 | noinline noinstr int
-         |                  ^
-         |                  static 
->> include/linux/atomic/atomic-outlined.h:99:1: warning: no previous prototype for function 'outlined_raw_atomic_fetch_add_acquire' [-Wmissing-prototypes]
-      99 | outlined_raw_atomic_fetch_add_acquire(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:98:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      98 | noinline noinstr int
-         |                  ^
-         |                  static 
->> include/linux/atomic/atomic-outlined.h:105:1: warning: no previous prototype for function 'outlined_raw_atomic_fetch_add_release' [-Wmissing-prototypes]
-     105 | outlined_raw_atomic_fetch_add_release(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:104:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     104 | noinline noinstr int
-         |                  ^
-         |                  static 
->> include/linux/atomic/atomic-outlined.h:111:1: warning: no previous prototype for function 'outlined_raw_atomic_fetch_add_relaxed' [-Wmissing-prototypes]
-     111 | outlined_raw_atomic_fetch_add_relaxed(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:110:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     110 | noinline noinstr int
-         |                  ^
-         |                  static 
->> include/linux/atomic/atomic-outlined.h:117:1: warning: no previous prototype for function 'outlined_atomic_add' [-Wmissing-prototypes]
-     117 | outlined_atomic_add(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:116:10: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     116 | noinline void
-         |          ^
-         |          static 
->> include/linux/atomic/atomic-outlined.h:123:1: warning: no previous prototype for function 'outlined_atomic_add_return' [-Wmissing-prototypes]
-     123 | outlined_atomic_add_return(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:122:10: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     122 | noinline int
-         |          ^
-         |          static 
->> include/linux/atomic/atomic-outlined.h:129:1: warning: no previous prototype for function 'outlined_atomic_add_return_acquire' [-Wmissing-prototypes]
-     129 | outlined_atomic_add_return_acquire(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:128:10: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     128 | noinline int
-         |          ^
-         |          static 
-   include/linux/atomic/atomic-outlined.h:135:1: warning: no previous prototype for function 'outlined_atomic_add_return_release' [-Wmissing-prototypes]
-     135 | outlined_atomic_add_return_release(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:134:10: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     134 | noinline int
-         |          ^
-         |          static 
-   include/linux/atomic/atomic-outlined.h:141:1: warning: no previous prototype for function 'outlined_atomic_add_return_relaxed' [-Wmissing-prototypes]
-     141 | outlined_atomic_add_return_relaxed(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:140:10: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     140 | noinline int
-         |          ^
-         |          static 
-   include/linux/atomic/atomic-outlined.h:147:1: warning: no previous prototype for function 'outlined_atomic_fetch_add' [-Wmissing-prototypes]
-     147 | outlined_atomic_fetch_add(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:146:10: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     146 | noinline int
-         |          ^
-         |          static 
-   include/linux/atomic/atomic-outlined.h:153:1: warning: no previous prototype for function 'outlined_atomic_fetch_add_acquire' [-Wmissing-prototypes]
-     153 | outlined_atomic_fetch_add_acquire(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:152:10: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     152 | noinline int
-         |          ^
-         |          static 
-   include/linux/atomic/atomic-outlined.h:159:1: warning: no previous prototype for function 'outlined_atomic_fetch_add_release' [-Wmissing-prototypes]
-     159 | outlined_atomic_fetch_add_release(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:158:10: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     158 | noinline int
-         |          ^
-         |          static 
-   include/linux/atomic/atomic-outlined.h:165:1: warning: no previous prototype for function 'outlined_atomic_fetch_add_relaxed' [-Wmissing-prototypes]
-     165 | outlined_atomic_fetch_add_relaxed(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:164:10: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     164 | noinline int
-         |          ^
-         |          static 
-   include/linux/atomic/atomic-outlined.h:171:1: warning: no previous prototype for function 'outlined_raw_atomic_sub' [-Wmissing-prototypes]
-     171 | outlined_raw_atomic_sub(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:170:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     170 | noinline noinstr void
-         |                  ^
-         |                  static 
-   include/linux/atomic/atomic-outlined.h:177:1: warning: no previous prototype for function 'outlined_raw_atomic_sub_return' [-Wmissing-prototypes]
-     177 | outlined_raw_atomic_sub_return(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:176:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     176 | noinline noinstr int
-         |                  ^
-         |                  static 
-   include/linux/atomic/atomic-outlined.h:183:1: warning: no previous prototype for function 'outlined_raw_atomic_sub_return_acquire' [-Wmissing-prototypes]
-     183 | outlined_raw_atomic_sub_return_acquire(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:182:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     182 | noinline noinstr int
-         |                  ^
-         |                  static 
-   include/linux/atomic/atomic-outlined.h:189:1: warning: no previous prototype for function 'outlined_raw_atomic_sub_return_release' [-Wmissing-prototypes]
-     189 | outlined_raw_atomic_sub_return_release(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:188:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     188 | noinline noinstr int
-         |                  ^
-         |                  static 
-   include/linux/atomic/atomic-outlined.h:195:1: warning: no previous prototype for function 'outlined_raw_atomic_sub_return_relaxed' [-Wmissing-prototypes]
-     195 | outlined_raw_atomic_sub_return_relaxed(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:194:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     194 | noinline noinstr int
-         |                  ^
-         |                  static 
-   include/linux/atomic/atomic-outlined.h:201:1: warning: no previous prototype for function 'outlined_raw_atomic_fetch_sub' [-Wmissing-prototypes]
-     201 | outlined_raw_atomic_fetch_sub(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:200:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     200 | noinline noinstr int
-         |                  ^
-         |                  static 
-   include/linux/atomic/atomic-outlined.h:207:1: warning: no previous prototype for function 'outlined_raw_atomic_fetch_sub_acquire' [-Wmissing-prototypes]
-     207 | outlined_raw_atomic_fetch_sub_acquire(int i, atomic_t *v)
-         | ^
-   include/linux/atomic/atomic-outlined.h:206:18: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     206 | noinline noinstr int
-         |                  ^
-         |                  static 
-   include/linux/atomic/atomic-outlined.h:213:1: warning: no previous prototype for function 'outlined_raw_atomic_fetch_sub_release' [-Wmissing-prototypes]
-     213 | outlined_raw_atomic_fetch_sub_release(int i, atomic_t *v)
-         | ^
+   In file included from include/linux/string.h:254,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/wait.h:9,
+                    from include/linux/poll.h:8,
+                    from include/net/bluetooth/bluetooth.h:29,
+                    from net/bluetooth/hci_event.c:30:
+   net/bluetooth/hci_event.c: In function 'hci_cc_read_class_of_dev':
+   include/linux/fortify-string.h:57:33: warning: '__builtin_memcpy' writing 3 bytes into a region of size 0 overflows the destination [-Wstringop-overflow=]
+      57 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:648:9: note: in expansion of macro '__underlying_memcpy'
+     648 |         __underlying_##op(p, q, __fortify_size);                        \
+         |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:693:26: note: in expansion of macro '__fortify_memcpy_chk'
+     693 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   net/bluetooth/hci_event.c:522:9: note: in expansion of macro 'memcpy'
+     522 |         memcpy(hdev->dev_class, rp->dev_class, 3);
+         |         ^~~~~~
+   cc1: note: destination object is likely at address zero
+   In function 'memcmp',
+       inlined from 'bacmp' at include/net/bluetooth/bluetooth.h:364:9,
+       inlined from 'hci_conn_request_evt' at net/bluetooth/hci_event.c:3274:7:
+>> include/linux/fortify-string.h:63:33: warning: '__builtin_memcmp' specified bound 6 exceeds source size 0 [-Wstringop-overread]
+      63 | #define __underlying_memcmp     __builtin_memcmp
+         |                                 ^
+   include/linux/fortify-string.h:728:16: note: in expansion of macro '__underlying_memcmp'
+     728 |         return __underlying_memcmp(p, q, size);
+         |                ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/outlined_raw_atomic_read +15 include/linux/atomic/atomic-outlined.h
+vim +/__builtin_memcmp +63 include/linux/fortify-string.h
 
-    13	
-    14	noinline noinstr int
-  > 15	outlined_raw_atomic_read(const atomic_t *v)
-    16	{
-    17		return raw_atomic_read(v);
-    18	}
-    19	
-    20	noinline noinstr int
-  > 21	outlined_raw_atomic_read_acquire(const atomic_t *v)
-    22	{
-    23		return raw_atomic_read_acquire(v);
-    24	}
-    25	
-    26	noinline int
-  > 27	outlined_atomic_read(const atomic_t *v)
-    28	{
-    29		return atomic_read(v);
-    30	}
-    31	
-    32	noinline int
-  > 33	outlined_atomic_read_acquire(const atomic_t *v)
-    34	{
-    35		return atomic_read_acquire(v);
-    36	}
-    37	
-    38	noinline noinstr void
-  > 39	outlined_raw_atomic_set(atomic_t *v, int i)
-    40	{
-    41		raw_atomic_set(v, i);
-    42	}
-    43	
-    44	noinline noinstr void
-  > 45	outlined_raw_atomic_set_release(atomic_t *v, int i)
-    46	{
-    47		raw_atomic_set_release(v, i);
-    48	}
-    49	
-    50	noinline void
-  > 51	outlined_atomic_set(atomic_t *v, int i)
-    52	{
-    53		atomic_set(v, i);
-    54	}
-    55	
-    56	noinline void
-  > 57	outlined_atomic_set_release(atomic_t *v, int i)
-    58	{
-    59		atomic_set_release(v, i);
-    60	}
-    61	
-    62	noinline noinstr void
-  > 63	outlined_raw_atomic_add(int i, atomic_t *v)
-    64	{
-    65		raw_atomic_add(i, v);
-    66	}
-    67	
-    68	noinline noinstr int
-  > 69	outlined_raw_atomic_add_return(int i, atomic_t *v)
-    70	{
-    71		return raw_atomic_add_return(i, v);
-    72	}
-    73	
-    74	noinline noinstr int
-  > 75	outlined_raw_atomic_add_return_acquire(int i, atomic_t *v)
-    76	{
-    77		return raw_atomic_add_return_acquire(i, v);
-    78	}
-    79	
-    80	noinline noinstr int
-  > 81	outlined_raw_atomic_add_return_release(int i, atomic_t *v)
-    82	{
-    83		return raw_atomic_add_return_release(i, v);
-    84	}
-    85	
-    86	noinline noinstr int
-  > 87	outlined_raw_atomic_add_return_relaxed(int i, atomic_t *v)
-    88	{
-    89		return raw_atomic_add_return_relaxed(i, v);
-    90	}
-    91	
-    92	noinline noinstr int
-  > 93	outlined_raw_atomic_fetch_add(int i, atomic_t *v)
-    94	{
-    95		return raw_atomic_fetch_add(i, v);
-    96	}
-    97	
-    98	noinline noinstr int
-  > 99	outlined_raw_atomic_fetch_add_acquire(int i, atomic_t *v)
-   100	{
-   101		return raw_atomic_fetch_add_acquire(i, v);
-   102	}
-   103	
-   104	noinline noinstr int
- > 105	outlined_raw_atomic_fetch_add_release(int i, atomic_t *v)
-   106	{
-   107		return raw_atomic_fetch_add_release(i, v);
-   108	}
-   109	
-   110	noinline noinstr int
- > 111	outlined_raw_atomic_fetch_add_relaxed(int i, atomic_t *v)
-   112	{
-   113		return raw_atomic_fetch_add_relaxed(i, v);
-   114	}
-   115	
-   116	noinline void
- > 117	outlined_atomic_add(int i, atomic_t *v)
-   118	{
-   119		atomic_add(i, v);
-   120	}
-   121	
-   122	noinline int
- > 123	outlined_atomic_add_return(int i, atomic_t *v)
-   124	{
-   125		return atomic_add_return(i, v);
-   126	}
-   127	
-   128	noinline int
- > 129	outlined_atomic_add_return_acquire(int i, atomic_t *v)
-   130	{
-   131		return atomic_add_return_acquire(i, v);
-   132	}
-   133	
-   134	noinline int
- > 135	outlined_atomic_add_return_release(int i, atomic_t *v)
-   136	{
-   137		return atomic_add_return_release(i, v);
-   138	}
-   139	
-   140	noinline int
- > 141	outlined_atomic_add_return_relaxed(int i, atomic_t *v)
-   142	{
-   143		return atomic_add_return_relaxed(i, v);
-   144	}
-   145	
-   146	noinline int
- > 147	outlined_atomic_fetch_add(int i, atomic_t *v)
-   148	{
-   149		return atomic_fetch_add(i, v);
-   150	}
-   151	
-   152	noinline int
- > 153	outlined_atomic_fetch_add_acquire(int i, atomic_t *v)
-   154	{
-   155		return atomic_fetch_add_acquire(i, v);
-   156	}
-   157	
-   158	noinline int
- > 159	outlined_atomic_fetch_add_release(int i, atomic_t *v)
-   160	{
-   161		return atomic_fetch_add_release(i, v);
-   162	}
-   163	
-   164	noinline int
- > 165	outlined_atomic_fetch_add_relaxed(int i, atomic_t *v)
-   166	{
-   167		return atomic_fetch_add_relaxed(i, v);
-   168	}
-   169	
-   170	noinline noinstr void
- > 171	outlined_raw_atomic_sub(int i, atomic_t *v)
-   172	{
-   173		raw_atomic_sub(i, v);
-   174	}
-   175	
-   176	noinline noinstr int
- > 177	outlined_raw_atomic_sub_return(int i, atomic_t *v)
-   178	{
-   179		return raw_atomic_sub_return(i, v);
-   180	}
-   181	
-   182	noinline noinstr int
- > 183	outlined_raw_atomic_sub_return_acquire(int i, atomic_t *v)
-   184	{
-   185		return raw_atomic_sub_return_acquire(i, v);
-   186	}
-   187	
-   188	noinline noinstr int
- > 189	outlined_raw_atomic_sub_return_release(int i, atomic_t *v)
-   190	{
-   191		return raw_atomic_sub_return_release(i, v);
-   192	}
-   193	
-   194	noinline noinstr int
- > 195	outlined_raw_atomic_sub_return_relaxed(int i, atomic_t *v)
-   196	{
-   197		return raw_atomic_sub_return_relaxed(i, v);
-   198	}
-   199	
-   200	noinline noinstr int
- > 201	outlined_raw_atomic_fetch_sub(int i, atomic_t *v)
-   202	{
-   203		return raw_atomic_fetch_sub(i, v);
-   204	}
-   205	
-   206	noinline noinstr int
- > 207	outlined_raw_atomic_fetch_sub_acquire(int i, atomic_t *v)
-   208	{
-   209		return raw_atomic_fetch_sub_acquire(i, v);
-   210	}
-   211	
-   212	noinline noinstr int
- > 213	outlined_raw_atomic_fetch_sub_release(int i, atomic_t *v)
-   214	{
-   215		return raw_atomic_fetch_sub_release(i, v);
-   216	}
-   217	
+78a498c3a227f2 Alexander Potapenko 2022-10-24  61  
+78a498c3a227f2 Alexander Potapenko 2022-10-24  62  #define __underlying_memchr	__builtin_memchr
+78a498c3a227f2 Alexander Potapenko 2022-10-24 @63  #define __underlying_memcmp	__builtin_memcmp
+a28a6e860c6cf2 Francis Laniel      2021-02-25  64  #define __underlying_strcat	__builtin_strcat
+a28a6e860c6cf2 Francis Laniel      2021-02-25  65  #define __underlying_strcpy	__builtin_strcpy
+a28a6e860c6cf2 Francis Laniel      2021-02-25  66  #define __underlying_strlen	__builtin_strlen
+a28a6e860c6cf2 Francis Laniel      2021-02-25  67  #define __underlying_strncat	__builtin_strncat
+a28a6e860c6cf2 Francis Laniel      2021-02-25  68  #define __underlying_strncpy	__builtin_strncpy
+a28a6e860c6cf2 Francis Laniel      2021-02-25  69  #endif
+a28a6e860c6cf2 Francis Laniel      2021-02-25  70  
+
+:::::: The code at line 63 was first introduced by commit
+:::::: 78a498c3a227f2ac773a8234b2ce092a4403f2c3 x86: fortify: kmsan: fix KMSAN fortify builds
+
+:::::: TO: Alexander Potapenko <glider@google.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
