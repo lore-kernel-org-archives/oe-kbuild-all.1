@@ -1,51 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE9D15B8;
-	Thu,  5 Oct 2023 02:19:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E10F137B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Oct 2023 02:25:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UzTJdmrm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mt0j3/tS"
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696472391; x=1728008391;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XlOnScdtAGDG7tWSy3Li0cvXQjsbEt3gzAVcHpkWsQM=;
-  b=UzTJdmrm0UyeYw8IL2T78kCL3SfIyq3kklLp3BLaK1wPgYjdVQ4NQW9b
-   tO4gKCZBTTdN290pcGHDj5nWel2ISj/B//O1wbMMr2d1sIuRBpSiDH9yj
-   JMw7kWqHHvL+bognIqhcu6O1Qqx1wseWYRT+IjnxuDrGzp/p8u+ekt82g
-   98aJ/A8J0mEyPJnuzLa2RPsZLhF4cF3r8AFpmeJO/beOIB5MYrtEPiOv9
-   RfsTBRDVkqKHh/tdErNsQ841QI9kbnoS1jU9hs4cj29vaXVhLUuX7lOKy
-   Rw9dxONGC7eNc1/WLVUH083fVzm5e4k9E8uH29Rh26D+5hSpIS/ca+Ing
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="373725720"
+  t=1696472740; x=1728008740;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dnJnX5hAff+ManegapEbrynGyUo4W6bZFDhKV/0ekJs=;
+  b=Mt0j3/tSAkpf+uksznZD+jugEA/nLnWSiX6UKcAniKhs2NzOwMFA4xC/
+   bhheyBYH1QpFj1QMlTYdQtcqC5RMkMMsLCVZI7n0sb2U95igAtte1GXzb
+   AVXl9Lc9G4f+GXmx89mY6sqcq7CtuM/dCAc9DpZAF61Ihi6n4GNeHD+Ja
+   eMJo9LW3w6V1H4VOyys3QyLjPIlaQQw+YsSN/VXavZYWDkQIuXWj4ojLc
+   sctY130Raoa0jqdcERbTDc+mv2pWn8yZoDJwDr+Bs5vX8R0wDX9iZ9BsR
+   YmhQxsjPSRGn4k+6SvIpWkjB0N5xJqSkAUpZAFxNPFSGYIkYfIKlGqO6z
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="387250967"
 X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
-   d="scan'208";a="373725720"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 19:15:39 -0700
+   d="scan'208";a="387250967"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 19:25:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="925409747"
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="786769385"
 X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
-   d="scan'208";a="925409747"
+   d="scan'208";a="786769385"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 04 Oct 2023 19:15:37 -0700
+  by orsmga001.jf.intel.com with ESMTP; 04 Oct 2023 19:25:38 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qoDtn-000KsK-16;
-	Thu, 05 Oct 2023 02:15:35 +0000
-Date: Thu, 5 Oct 2023 10:14:42 +0800
+	id 1qoE3T-000Ksm-22;
+	Thu, 05 Oct 2023 02:25:35 +0000
+Date: Thu, 5 Oct 2023 10:25:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mukesh Ojha <quic_mojha@quicinc.com>, mcgrof@kernel.org,
-	russell.h.weight@intel.com, gregkh@linuxfoundation.org,
-	rafael@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Mukesh Ojha <quic_mojha@quicinc.com>
-Subject: Re: [PATCH v2] firmware_loader: Abort new fw load request once
- firmware core knows about reboot
-Message-ID: <202310051011.PW217wHD-lkp@intel.com>
-References: <1696431327-7369-1-git-send-email-quic_mojha@quicinc.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:for-nicolin 70/77]
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3271:35: error: initialization
+ of 'struct iommu_domain * (*)(struct device *, struct mm_struct *)' from
+ incompatible pointer type 'struct iommu_domain * (*)(void)'
+Message-ID: <202310051053.XhCAKLkq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,120 +51,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1696431327-7369-1-git-send-email-quic_mojha@quicinc.com>
 
-Hi Mukesh,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on driver-core/driver-core-testing]
-[also build test ERROR on driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.6-rc4 next-20231004]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Ojha/firmware_loader-Abort-new-fw-load-request-once-firmware-core-knows-about-reboot/20231004-225910
-base:   driver-core/driver-core-testing
-patch link:    https://lore.kernel.org/r/1696431327-7369-1-git-send-email-quic_mojha%40quicinc.com
-patch subject: [PATCH v2] firmware_loader: Abort new fw load request once firmware core knows about reboot
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231005/202310051011.PW217wHD-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310051011.PW217wHD-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux for-nicolin
+head:   8dd48fa77a5ca024bb65d8e6c8314ce913765386
+commit: cb3febb63e999ddd4e972b313f3b8b2dba29528d [70/77] iommu: Add ops->domain_alloc_sva()
+config: arm64-randconfig-004-20231005 (https://download.01.org/0day-ci/archive/20231005/202310051053.XhCAKLkq-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310051053.XhCAKLkq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310051011.PW217wHD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310051053.XhCAKLkq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/base/firmware_loader/main.c:21:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/base/firmware_loader/main.c:21:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/base/firmware_loader/main.c:21:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from drivers/base/firmware_loader/main.c:45:
-   In file included from drivers/base/firmware_loader/fallback.h:9:
->> drivers/base/firmware_loader/sysfs.h:87:20: error: redefinition of 'fw_load_abort' as different kind of symbol
-      87 | static inline void fw_load_abort(struct fw_sysfs *fw_sysfs)
-         |                    ^
-   drivers/base/firmware_loader/firmware.h:89:13: note: previous definition is here
-      89 | extern bool fw_load_abort;
-         |             ^
-   12 warnings and 1 error generated.
+>> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3271:35: error: initialization of 'struct iommu_domain * (*)(struct device *, struct mm_struct *)' from incompatible pointer type 'struct iommu_domain * (*)(void)' [-Werror=incompatible-pointer-types]
+    3271 |         .domain_alloc_sva       = arm_smmu_sva_domain_alloc,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3271:35: note: (near initialization for 'arm_smmu_ops.domain_alloc_sva')
+   cc1: some warnings being treated as errors
 
 
-vim +/fw_load_abort +87 drivers/base/firmware_loader/sysfs.h
+vim +3271 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 
-e0c11a8b985137 Russ Weight 2022-04-21  86  
-e0c11a8b985137 Russ Weight 2022-04-21 @87  static inline void fw_load_abort(struct fw_sysfs *fw_sysfs)
-e0c11a8b985137 Russ Weight 2022-04-21  88  {
-e0c11a8b985137 Russ Weight 2022-04-21  89  	struct fw_priv *fw_priv = fw_sysfs->fw_priv;
-e0c11a8b985137 Russ Weight 2022-04-21  90  
-e0c11a8b985137 Russ Weight 2022-04-21  91  	__fw_load_abort(fw_priv);
-e0c11a8b985137 Russ Weight 2022-04-21  92  }
-e0c11a8b985137 Russ Weight 2022-04-21  93  
+  3265	
+  3266	static struct iommu_ops arm_smmu_ops = {
+  3267		.identity_domain	= &arm_smmu_identity_domain,
+  3268		.blocked_domain		= &arm_smmu_blocked_domain,
+  3269		.capable		= arm_smmu_capable,
+  3270		.domain_alloc_paging    = arm_smmu_domain_alloc_paging,
+> 3271		.domain_alloc_sva       = arm_smmu_sva_domain_alloc,
+  3272		.probe_device		= arm_smmu_probe_device,
+  3273		.release_device		= arm_smmu_release_device,
+  3274		.device_group		= arm_smmu_device_group,
+  3275		.of_xlate		= arm_smmu_of_xlate,
+  3276		.get_resv_regions	= arm_smmu_get_resv_regions,
+  3277		.remove_dev_pasid	= arm_smmu_remove_dev_pasid,
+  3278		.dev_enable_feat	= arm_smmu_dev_enable_feature,
+  3279		.dev_disable_feat	= arm_smmu_dev_disable_feature,
+  3280		.page_response		= arm_smmu_page_response,
+  3281		.def_domain_type	= arm_smmu_def_domain_type,
+  3282		.pgsize_bitmap		= -1UL, /* Restricted during device attach */
+  3283		.owner			= THIS_MODULE,
+  3284		.default_domain_ops = &(const struct iommu_domain_ops) {
+  3285			.attach_dev		= arm_smmu_attach_dev,
+  3286			.map_pages		= arm_smmu_map_pages,
+  3287			.unmap_pages		= arm_smmu_unmap_pages,
+  3288			.flush_iotlb_all	= arm_smmu_flush_iotlb_all,
+  3289			.iotlb_sync		= arm_smmu_iotlb_sync,
+  3290			.iova_to_phys		= arm_smmu_iova_to_phys,
+  3291			.enable_nesting		= arm_smmu_enable_nesting,
+  3292			.free			= arm_smmu_domain_free,
+  3293		}
+  3294	};
+  3295	
 
 -- 
 0-DAY CI Kernel Test Service
