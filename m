@@ -1,46 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7298638FA7;
-	Thu,  5 Oct 2023 17:25:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3916374FB
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Oct 2023 17:47:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f6Vr6+g3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Owds59HO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696526758; x=1728062758;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kglZjPxuViTUgQoFwPGmRoHSFQiERT7rEBpz866nROs=;
-  b=f6Vr6+g3I5C6E/2ioAbt3t7nEJ683k1mhcyQk/4J2oQ0UAfJrVrgsmWr
-   4UbIKxXbmpyAKJWASH4qEKukU8CwGNOoUl2NLeMmHdVwjceysjC2Q/8Mo
-   Ks0M3Sa+BMEb6i2EHSAPKccgmd6Lxhn4yHQeEpnuJ/hOZPPkiS8i+dDKY
-   mWXSMhbU/2iEeFNZX+MZ3YSEYMu86sJmqAbR6ZvVqMl1nxgWbY0UCB6MB
-   18bKRWwdkrRdsxHX3L5lnl36kugxtaWW3NWRjICVzggCVpzmE10nxsGLa
-   6WfqdTPKNU5S855Ekar2PMLjuSEAeGCHDLCOMinlyj2TNWBr2ou5cWOSZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="363844703"
+  t=1696528056; x=1728064056;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=m2KYgIJRlXqKxK7hnx7y4PECzNsQwX7LLE3ZQMk+OyI=;
+  b=Owds59HOIwsn26C5y+acD5+rqcfnqz0U/W9s3DCU9up2NOhquY0Ihckv
+   v7LKBeltlyak5w1SrUNR6XMxyoEdOk1r2JBqeNH5oHhM8aeAjhrb6dzZj
+   pzBwoOnbP18l2aoKliYsyYMtNWwUNwJcJEYYO3XtprDbcwKzIVGv+txUN
+   pawjaOon9JtAzEXNDFHj7bsW97XLj5omNKP2I2LDEv8CdSZc8Ra++T1qe
+   5ZQeZiOaNL/RUM08n4kB5g4rp6WWnZkcd9Dzdy60xRyRcukGNCLwpGDx+
+   Vs/NlpbR1RrvDXH/LUVQt2+KKleRbKsCmd+mlAhgfUHP9Umuq3on9YW1V
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="387444254"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="363844703"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 10:25:44 -0700
+   d="scan'208";a="387444254"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 10:47:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="875629951"
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="999034222"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="875629951"
+   d="scan'208";a="999034222"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 05 Oct 2023 10:25:43 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 05 Oct 2023 10:47:33 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qoS6W-000LiS-20;
-	Thu, 05 Oct 2023 17:25:40 +0000
-Date: Fri, 6 Oct 2023 01:25:01 +0800
+	id 1qoSRf-000Ljc-1n;
+	Thu, 05 Oct 2023 17:47:31 +0000
+Date: Fri, 6 Oct 2023 01:46:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Milan Broz <gmazyland@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [mbroz:opal-test 5/7] ./drivers/usb/storage/unusual-flags.c:4:5:
- warning: no previous prototype for function 'usb_stor_di2flags'
-Message-ID: <202310060145.BAybg1x2-lkp@intel.com>
+To: Sergey Khimich <serghox@gmail.com>, linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [PATCH] dmaengine: dw-axi-dmac: Add support DMAX_NUM_CHANNELS >
+ 16
+Message-ID: <202310060144.oLP6NoVL-lkp@intel.com>
+References: <20231005113638.2039726-1-serghox@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,30 +55,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231005113638.2039726-1-serghox@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mbroz/linux.git opal-test
-head:   8935a9b47f30e9af5eab5bc129f7b608da795ba9
-commit: 369143dbdedc7e16ddbeecfe95ad6579d805e8a2 [5/7] usb-storage,uas: use host helper to generate driver info
-config: arm-bcm2835_defconfig (https://download.01.org/0day-ci/archive/20231006/202310060145.BAybg1x2-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231006/202310060145.BAybg1x2-lkp@intel.com/reproduce)
+Hi Sergey,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on vkoul-dmaengine/next]
+[also build test WARNING on linus/master v6.6-rc4 next-20231005]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sergey-Khimich/dmaengine-dw-axi-dmac-Add-support-DMAX_NUM_CHANNELS-16/20231006-002509
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+patch link:    https://lore.kernel.org/r/20231005113638.2039726-1-serghox%40gmail.com
+patch subject: [PATCH] dmaengine: dw-axi-dmac: Add support DMAX_NUM_CHANNELS > 16
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231006/202310060144.oLP6NoVL-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231006/202310060144.oLP6NoVL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310060145.BAybg1x2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310060144.oLP6NoVL-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/usb/storage/usual-tables.c:18:
->> ./drivers/usb/storage/unusual-flags.c:4:5: warning: no previous prototype for function 'usb_stor_di2flags' [-Wmissing-prototypes]
-       4 | u64 usb_stor_di2flags(unsigned long idx)
-         |     ^
-   ./drivers/usb/storage/unusual-flags.c:4:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-       4 | u64 usb_stor_di2flags(unsigned long idx)
-         | ^
-         | static 
-   1 warning generated.
+   drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c: In function 'axi_chan_disable':
+>> drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:202:33: warning: left shift count >= width of type [-Wshift-count-overflow]
+     202 |                                 << (DMAC_CHAN_EN_SHIFT + DMAC_CHAN_BLOCK_SHIFT));
+         |                                 ^~
+   drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:204:33: warning: left shift count >= width of type [-Wshift-count-overflow]
+     204 |                                 << (DMAC_CHAN_EN2_WE_SHIFT + DMAC_CHAN_BLOCK_SHIFT);
+         |                                 ^~
+   drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c: In function 'axi_chan_enable':
+   drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:229:33: warning: left shift count >= width of type [-Wshift-count-overflow]
+     229 |                                 << (DMAC_CHAN_EN_SHIFT + DMAC_CHAN_BLOCK_SHIFT) |
+         |                                 ^~
+   drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:231:33: warning: left shift count >= width of type [-Wshift-count-overflow]
+     231 |                                 << (DMAC_CHAN_EN2_WE_SHIFT + DMAC_CHAN_BLOCK_SHIFT);
+         |                                 ^~
+   drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c: In function 'axi_chan_is_hw_enable':
+   drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:260:66: warning: left shift count >= width of type [-Wshift-count-overflow]
+     260 |                 return !!(val & ((BIT(chan->id) >> DMAC_CHAN_16) << DMAC_CHAN_BLOCK_SHIFT));
+         |                                                                  ^~
+   drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c: In function 'dma_chan_pause':
+   drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:1232:33: warning: left shift count >= width of type [-Wshift-count-overflow]
+    1232 |                                 << (DMAC_CHAN_SUSP2_SHIFT + DMAC_CHAN_BLOCK_SHIFT) |
+         |                                 ^~
+   drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:1234:33: warning: left shift count >= width of type [-Wshift-count-overflow]
+    1234 |                                 << (DMAC_CHAN_SUSP2_WE_SHIFT + DMAC_CHAN_BLOCK_SHIFT);
+         |                                 ^~
+   drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c: In function 'axi_chan_resume':
+   drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:1279:33: warning: left shift count >= width of type [-Wshift-count-overflow]
+    1279 |                                 << (DMAC_CHAN_SUSP2_SHIFT + DMAC_CHAN_BLOCK_SHIFT));
+         |                                 ^~
+   drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:1281:33: warning: left shift count >= width of type [-Wshift-count-overflow]
+    1281 |                                 << (DMAC_CHAN_SUSP2_WE_SHIFT + DMAC_CHAN_BLOCK_SHIFT));
+         |                                 ^~
+
+
+vim +202 drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
+
+   193	
+   194	static inline void axi_chan_disable(struct axi_dma_chan *chan)
+   195	{
+   196		u64 val;
+   197	
+   198		if (chan->chip->dw->hdata->nr_channels >= DMAC_CHAN_16) {
+   199			val = axi_dma_ioread64(chan->chip, DMAC_CHEN);
+   200			if (chan->id >= DMAC_CHAN_16) {
+   201				val &= ~((BIT(chan->id) >> DMAC_CHAN_16)
+ > 202					<< (DMAC_CHAN_EN_SHIFT + DMAC_CHAN_BLOCK_SHIFT));
+   203				val |=   (BIT(chan->id) >> DMAC_CHAN_16)
+   204					<< (DMAC_CHAN_EN2_WE_SHIFT + DMAC_CHAN_BLOCK_SHIFT);
+   205			} else {
+   206				val &= ~(BIT(chan->id) << DMAC_CHAN_EN_SHIFT);
+   207				val |=   BIT(chan->id) << DMAC_CHAN_EN2_WE_SHIFT;
+   208			}
+   209			axi_dma_iowrite64(chan->chip, DMAC_CHEN, val);
+   210		} else {
+   211			val = axi_dma_ioread32(chan->chip, DMAC_CHEN);
+   212			val &= ~(BIT(chan->id) << DMAC_CHAN_EN_SHIFT);
+   213			if (chan->chip->dw->hdata->reg_map_8_channels)
+   214				val |=   BIT(chan->id) << DMAC_CHAN_EN_WE_SHIFT;
+   215			else
+   216				val |=   BIT(chan->id) << DMAC_CHAN_EN2_WE_SHIFT;
+   217			axi_dma_iowrite32(chan->chip, DMAC_CHEN, (u32)val);
+   218		}
+   219	}
+   220	
 
 -- 
 0-DAY CI Kernel Test Service
