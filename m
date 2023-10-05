@@ -1,49 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6815434CE9
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Oct 2023 21:37:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139D75C96
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Oct 2023 23:00:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mErfrfBV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a8mLGKEJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696541837; x=1728077837;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RUUpuLhJ5XKZ1tuXjOeo39ERh3dlU7kmgjoWLsjBoRs=;
-  b=mErfrfBVHVKbmxh8WZZW4Zc3O3P7eQDgHPvYuSjdTrBXBJKqheByns3R
-   77Qcx/+aMWFRO7iLDWDg3O0RxDOg7IK5lmJ5q9wvpMbbuRjC96TBHj2MI
-   djfeao+do4sK3NpoR+Pc+vz8SaGE+0WlSWT3cIVFxzj/VcTAvYyLKX7wz
-   Rpur4ag0wBlbbbPhop4D9OVDzQV4Sejg/5ie+j1VQEtEFlkhmPtHYXDOf
-   5i8W3NNqawp9sWVG8+PoM+amQIuZB+WaDsB7IPvDkOST07oXtP8Nr0W87
-   VsONpBkhPYmxcJOYsB0pG9BkF1XabnTDuf+S2FUoRkuxh18Kq28qLrctt
+  t=1696546839; x=1728082839;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YSc5DqPuCbhoQCscHYL5riDMSg61/UNw+XjJOkVlsYk=;
+  b=a8mLGKEJ51hD846RNh6aQCZl88/jkjn6zG3+MI6iuzu+rNEh5Jwjj/9g
+   kj9UELc3qaHrZQ+O+cjEU5rfjAIkszGniD/tguKYNyb+2J2RlRjhol95T
+   L12Hpbq/VJxYaekrlRkknWlDR0KPamnm++1qPYulTw1GCMVWA9AXelRPX
+   6WJKJMata9Dbb0yRKBpXDtApwGJ17PX+DC751CyyvLR/Dp03W5e0v+iAU
+   LN9bzrQ2L3snEbMYFxal9ME5jlwfmYBvYS02YsdcIuq825Y4+KhjXfFLF
+   RsNMcs+6heyQ8ps1H6peTY5W2Opc6Nvq22pGY4mWgIRMmZlBLBzJuxrHH
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="363904859"
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="387516069"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="363904859"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 14:37:10 -0700
+   d="scan'208";a="387516069"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 16:00:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="817776212"
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="895648208"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="817776212"
+   d="scan'208";a="895648208"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 05 Oct 2023 14:37:08 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 05 Oct 2023 15:59:05 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qoW1q-000LvQ-15;
-	Thu, 05 Oct 2023 21:37:06 +0000
-Date: Fri, 6 Oct 2023 05:36:58 +0800
+	id 1qoXKb-000M09-0N;
+	Thu, 05 Oct 2023 23:00:33 +0000
+Date: Fri, 6 Oct 2023 07:00:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com
-Cc: oe-kbuild-all@lists.linux.dev, shr@devkernel.io,
-	akpm@linux-foundation.org, david@redhat.com, hannes@cmpxchg.org,
-	riel@surriel.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v1 2/4] mm/ksm: add sysfs knobs for advisor
-Message-ID: <202310060504.eMl8wb3o-lkp@intel.com>
-References: <20231004190249.829015-3-shr@devkernel.io>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org
+Subject: [rafael-pm:bleeding-edge 127/130]
+ drivers/thermal/gov_power_allocator.c:127:13: warning: unused variable 'ret'
+Message-ID: <202310060618.FJ4z229a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,33 +50,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231004190249.829015-3-shr@devkernel.io>
 
-Hi Stefan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 12d04a7bf0da67321229d2bc8b1a7074d65415a9]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Roesch/mm-ksm-add-ksm-advisor/20231005-030402
-base:   12d04a7bf0da67321229d2bc8b1a7074d65415a9
-patch link:    https://lore.kernel.org/r/20231004190249.829015-3-shr%40devkernel.io
-patch subject: [PATCH v1 2/4] mm/ksm: add sysfs knobs for advisor
-config: arm-randconfig-001-20231006 (https://download.01.org/0day-ci/archive/20231006/202310060504.eMl8wb3o-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231006/202310060504.eMl8wb3o-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   ef7625d78dd079600f642d5875c08e059b002b52
+commit: 9212159685caa222bbe01f9b4d49f6c1f9ddb11a [127/130] thermal: gov_power_allocator: Use trip pointers instead of trip indices
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20231006/202310060618.FJ4z229a-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231006/202310060618.FJ4z229a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310060504.eMl8wb3o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310060618.FJ4z229a-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: mm/ksm.o: in function `run_advisor':
->> ksm.c:(.text+0x21e8): undefined reference to `__aeabi_ldivmod'
->> arm-linux-gnueabi-ld: ksm.c:(.text+0x2290): undefined reference to `__aeabi_ldivmod'
-   arm-linux-gnueabi-ld: ksm.c:(.text+0x22cc): undefined reference to `__aeabi_ldivmod'
+   drivers/thermal/gov_power_allocator.c: In function 'estimate_pid_constants':
+>> drivers/thermal/gov_power_allocator.c:127:13: warning: unused variable 'ret' [-Wunused-variable]
+     127 |         int ret;
+         |             ^~~
+
+
+vim +/ret +127 drivers/thermal/gov_power_allocator.c
+
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  110  
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  111  /**
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  112   * estimate_pid_constants() - Estimate the constants for the PID controller
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  113   * @tz:		thermal zone for which to estimate the constants
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  114   * @sustainable_power:	sustainable power for the thermal zone
+9212159685caa2 drivers/thermal/gov_power_allocator.c Rafael J. Wysocki 2023-10-05  115   * @trip_switch_on:	trip point for the switch on temperature
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  116   * @control_temp:	target temperature for the power allocator governor
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  117   *
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  118   * This function is used to update the estimation of the PID
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  119   * controller constants in struct thermal_zone_parameters.
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  120   */
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  121  static void estimate_pid_constants(struct thermal_zone_device *tz,
+9212159685caa2 drivers/thermal/gov_power_allocator.c Rafael J. Wysocki 2023-10-05  122  				   u32 sustainable_power,
+9212159685caa2 drivers/thermal/gov_power_allocator.c Rafael J. Wysocki 2023-10-05  123  				   const struct thermal_trip *trip_switch_on,
+90a996544946d1 drivers/thermal/gov_power_allocator.c Lukasz Luba       2020-11-24  124  				   int control_temp)
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  125  {
+7f725a23f2b7bb drivers/thermal/gov_power_allocator.c Daniel Lezcano    2022-10-03  126  	u32 temperature_threshold = control_temp;
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14 @127  	int ret;
+e34a7233896928 drivers/thermal/gov_power_allocator.c Lukasz Luba       2020-11-24  128  	s32 k_i;
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  129  
+9212159685caa2 drivers/thermal/gov_power_allocator.c Rafael J. Wysocki 2023-10-05  130  	if (trip_switch_on)
+9212159685caa2 drivers/thermal/gov_power_allocator.c Rafael J. Wysocki 2023-10-05  131  		temperature_threshold -= trip_switch_on->temperature;
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  132  
+44241628bb207e drivers/thermal/power_allocator.c     Andrea Arcangeli  2015-10-01  133  	/*
+44241628bb207e drivers/thermal/power_allocator.c     Andrea Arcangeli  2015-10-01  134  	 * estimate_pid_constants() tries to find appropriate default
+44241628bb207e drivers/thermal/power_allocator.c     Andrea Arcangeli  2015-10-01  135  	 * values for thermal zones that don't provide them. If a
+44241628bb207e drivers/thermal/power_allocator.c     Andrea Arcangeli  2015-10-01  136  	 * system integrator has configured a thermal zone with two
+44241628bb207e drivers/thermal/power_allocator.c     Andrea Arcangeli  2015-10-01  137  	 * passive trip points at the same temperature, that person
+44241628bb207e drivers/thermal/power_allocator.c     Andrea Arcangeli  2015-10-01  138  	 * hasn't put any effort to set up the thermal zone properly
+44241628bb207e drivers/thermal/power_allocator.c     Andrea Arcangeli  2015-10-01  139  	 * so just give up.
+44241628bb207e drivers/thermal/power_allocator.c     Andrea Arcangeli  2015-10-01  140  	 */
+44241628bb207e drivers/thermal/power_allocator.c     Andrea Arcangeli  2015-10-01  141  	if (!temperature_threshold)
+44241628bb207e drivers/thermal/power_allocator.c     Andrea Arcangeli  2015-10-01  142  		return;
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  143  
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  144  	tz->tzp->k_po = int_to_frac(sustainable_power) /
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  145  		temperature_threshold;
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  146  
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  147  	tz->tzp->k_pu = int_to_frac(2 * sustainable_power) /
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  148  		temperature_threshold;
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  149  
+e34a7233896928 drivers/thermal/gov_power_allocator.c Lukasz Luba       2020-11-24  150  	k_i = tz->tzp->k_pu / 10;
+e34a7233896928 drivers/thermal/gov_power_allocator.c Lukasz Luba       2020-11-24  151  	tz->tzp->k_i = k_i > 0 ? k_i : 1;
+e34a7233896928 drivers/thermal/gov_power_allocator.c Lukasz Luba       2020-11-24  152  
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  153  	/*
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  154  	 * The default for k_d and integral_cutoff is 0, so we can
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  155  	 * leave them as they are.
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  156  	 */
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  157  }
+e055bb0f9a6e5c drivers/thermal/power_allocator.c     Javi Merino       2015-09-14  158  
+
+:::::: The code at line 127 was first introduced by commit
+:::::: e055bb0f9a6e5c09bedf41c2a5b881edbd7f2ed0 thermal: power_allocator: relax the requirement of a sustainable_power in tzp
+
+:::::: TO: Javi Merino <javi.merino@arm.com>
+:::::: CC: Eduardo Valentin <edubezval@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
