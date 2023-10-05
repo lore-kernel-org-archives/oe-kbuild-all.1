@@ -1,52 +1,62 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139DB7477
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Oct 2023 10:42:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 833967477;
+	Thu,  5 Oct 2023 10:43:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JwUDmOoQ"
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4064867903cso7487485e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 05 Oct 2023 03:42:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1696502558; x=1697107358; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6viQ4nNi76DGH1GcGEHqgLL/0BQ2sNQCZmI0533FXu4=;
-        b=JwUDmOoQ7yWEy+DtzZlXcbVr37ryqLvVhpJ55hpjiwB35plfAfpBubpOOypuL78jo9
-         /LVYM/giSKQ1Er/VV9w6EcHz2HhAD4JVurXp1Fb+Tc/6T9eISaHOh1ZzStbIqwxARLKw
-         Q+pvUtdrq1SlUt73C42fQmOKvgGbG+dPxy0Ha7y7yTV9plp+8Rl2uVpzvjanz+O1QKXc
-         7W1qSZ86LmeJRVW8FyoosfGfVlUbyDZOFQnnsSCjPsnrGzmp5GUME/EcBBJhy4sRzIeD
-         pA+D9gX3MbrF/iOQWwVtY1I+p7/EwBrMMhwDs7VAGBs9F5G/BY4AF5PDQAQDrT827u2t
-         cXQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696502558; x=1697107358;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6viQ4nNi76DGH1GcGEHqgLL/0BQ2sNQCZmI0533FXu4=;
-        b=NqeAVBJBcrnaQ6o9bMxJtni2OLgU2Kgf9W51FhsUs6G/gvC7tkg9s2y0o+ZjhSZ2mX
-         mBnx9hhs3w7LQhGlOFGfOT+4u7dc+OJRwlcZGPwedYjTL720odHQ6sJjMJwMqngSdTlT
-         FXDpjkjmaNro+iDLxwyJlDxvIcJ0O/oIV5ZMBb8dMVpgTfUIgKgFuBC1azYtnBEMnNZL
-         QEQlLw3R4g5nkJqzY1j19LneRqjgaRn2pu+lmEBLNvlBPetiD0owID2IRQ1phJJ7vl7V
-         Rt/ZIRkqpM/sGwn7wDIQyCfrrncfrgVMI7Jx0JPDRBr58EoZ9yku3kJ97wkU68RLoy30
-         3b6Q==
-X-Gm-Message-State: AOJu0YzHxKxQxlfj+TMB9xLepBETHGH5Ju+1jfNtMOTgsA1v8CChVNxi
-	xZeff79Wsb8U1C3K2d6RUipwZw==
-X-Google-Smtp-Source: AGHT+IGbf8oCWvx8IWfqWhLmw87Voc8kTfAQtw3d6cl+hTxntrz5X7HRmqihaXs+5KkQQYqdRU8VUA==
-X-Received: by 2002:a7b:cc8f:0:b0:406:4a32:52fc with SMTP id p15-20020a7bcc8f000000b004064a3252fcmr4676365wma.21.1696502558098;
-        Thu, 05 Oct 2023 03:42:38 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id ay20-20020a05600c1e1400b0040640073d25sm1237465wmb.16.2023.10.05.03.42.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Oct 2023 03:42:37 -0700 (PDT)
-Date: Thu, 5 Oct 2023 13:42:35 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, David Howells <dhowells@redhat.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:cifs-netfs 35/44] fs/netfs/direct_write.c:54
- netfs_alloc_buffer() error: uninitialized symbol 'ret'.
-Message-ID: <2d2355da-ccdf-43f5-a11b-d671f634e3d3@kadam.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WpIW4eUK"
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696502583; x=1728038583;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GqKe2kbO3tMy/0EgmQO31nknlkfPS8TEimBu+0qpdrE=;
+  b=WpIW4eUK7568iej4NZigY+kb5qu9yxzFLRWKKJL0/MGBKbKufXRw2jIc
+   bc1zz2rq/PcxweuEiwbBSloUqyxe9XoV+9nyrvZpbAiOxilTJpOcVi25e
+   bQ15vinj7we3CkM4Ib2EI5m6wiZPUM0kKnf7ePI2/vmNzqveFJeP6FahC
+   wCh5XQwGV/+kPnoGHH8rV8C4pcuiqU8nir6cq1LyS5oq6pEB+CZLfdirL
+   xghfOQUbG2uTsvGGgVrWNWMoICzUoW5EqiMLgMZvIId3Jx6oeq2OEekS+
+   8KDkUg5Y9L66gOE/d7p4vcOILZj4mtsaWinUzO4lmILbxkgpVsr+IhW6x
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="380743617"
+X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
+   d="scan'208";a="380743617"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 03:42:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="786921899"
+X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
+   d="scan'208";a="786921899"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 05 Oct 2023 03:42:54 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qoLoi-000LJS-2I;
+	Thu, 05 Oct 2023 10:42:52 +0000
+Date: Thu, 5 Oct 2023 18:42:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shenwei Wang <shenwei.wang@nxp.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com, imx@lists.linux.dev,
+	Shenwei Wang <shenwei.wang@nxp.com>,
+	Mario Castaneda <mario.ignacio.castaneda.lopez@nxp.com>
+Subject: Re: [PATCH net] net: stmmac: dwmac-imx: request high frequency mode
+Message-ID: <202310051811.Rltsgr8J-lkp@intel.com>
+References: <20231004195442.414766-1-shenwei.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,57 +65,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231004195442.414766-1-shenwei.wang@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git cifs-netfs
-head:   c535f8e2b3fd3f2da2d9e75c71e216c4c9ff72db
-commit: aa24264b7eba3e3adf3b47b3dedeb3730d5ccc42 [35/44] netfs: Implement unbuffered/DIO write support
-config: x86_64-randconfig-161-20231005 (https://download.01.org/0day-ci/archive/20231005/202310051502.Xl4aqWU3-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231005/202310051502.Xl4aqWU3-lkp@intel.com/reproduce)
+Hi Shenwei,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shenwei-Wang/net-stmmac-dwmac-imx-request-high-frequency-mode/20231005-035606
+base:   net/main
+patch link:    https://lore.kernel.org/r/20231004195442.414766-1-shenwei.wang%40nxp.com
+patch subject: [PATCH net] net: stmmac: dwmac-imx: request high frequency mode
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231005/202310051811.Rltsgr8J-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310051811.Rltsgr8J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202310051502.Xl4aqWU3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310051811.Rltsgr8J-lkp@intel.com/
 
-smatch warnings:
-fs/netfs/direct_write.c:54 netfs_alloc_buffer() error: uninitialized symbol 'ret'.
-fs/netfs/io.c:893 netfs_rmw_read() error: uninitialized symbol 'ret'.
+All errors (new ones prefixed by >>):
 
-vim +/ret +54 fs/netfs/direct_write.c
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c:9:10: fatal error: linux/busfreq-imx.h: No such file or directory
+       9 | #include <linux/busfreq-imx.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
-aa24264b7eba3e David Howells 2022-02-21  30  static int netfs_alloc_buffer(struct xarray *xa, pgoff_t index, unsigned int nr_pages)
-aa24264b7eba3e David Howells 2022-02-21  31  {
-aa24264b7eba3e David Howells 2022-02-21  32  	struct page *page;
-aa24264b7eba3e David Howells 2022-02-21  33  	unsigned int n;
-aa24264b7eba3e David Howells 2022-02-21  34  	int ret;
-aa24264b7eba3e David Howells 2022-02-21  35  	LIST_HEAD(list);
-aa24264b7eba3e David Howells 2022-02-21  36  
-aa24264b7eba3e David Howells 2022-02-21  37  	n = alloc_pages_bulk_list(GFP_NOIO, nr_pages, &list);
-aa24264b7eba3e David Howells 2022-02-21  38  	if (n < nr_pages) {
-aa24264b7eba3e David Howells 2022-02-21  39  		ret = -ENOMEM;
-aa24264b7eba3e David Howells 2022-02-21  40  	}
-aa24264b7eba3e David Howells 2022-02-21  41  
-aa24264b7eba3e David Howells 2022-02-21  42  	while ((page = list_first_entry_or_null(&list, struct page, lru))) {
-aa24264b7eba3e David Howells 2022-02-21  43  		list_del(&page->lru);
-aa24264b7eba3e David Howells 2022-02-21  44  		page->index = index;
-aa24264b7eba3e David Howells 2022-02-21  45  		ret = xa_insert(xa, index++, page, GFP_NOIO);
-aa24264b7eba3e David Howells 2022-02-21  46  		if (ret < 0)
-aa24264b7eba3e David Howells 2022-02-21  47  			break;
-aa24264b7eba3e David Howells 2022-02-21  48  	}
 
-ret not initialized for empty lists.
+vim +9 drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c
 
-aa24264b7eba3e David Howells 2022-02-21  49  
-aa24264b7eba3e David Howells 2022-02-21  50  	while ((page = list_first_entry_or_null(&list, struct page, lru))) {
-aa24264b7eba3e David Howells 2022-02-21  51  		list_del(&page->lru);
-aa24264b7eba3e David Howells 2022-02-21  52  		__free_page(page);
-aa24264b7eba3e David Howells 2022-02-21  53  	}
-aa24264b7eba3e David Howells 2022-02-21 @54  	return ret;
-aa24264b7eba3e David Howells 2022-02-21  55  }
+   > 9	#include <linux/busfreq-imx.h>
+    10	#include <linux/clk.h>
+    11	#include <linux/gpio/consumer.h>
+    12	#include <linux/kernel.h>
+    13	#include <linux/mfd/syscon.h>
+    14	#include <linux/module.h>
+    15	#include <linux/of.h>
+    16	#include <linux/of_net.h>
+    17	#include <linux/phy.h>
+    18	#include <linux/platform_device.h>
+    19	#include <linux/pm_wakeirq.h>
+    20	#include <linux/regmap.h>
+    21	#include <linux/slab.h>
+    22	#include <linux/stmmac.h>
+    23	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
