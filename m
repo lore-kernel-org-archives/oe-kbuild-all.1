@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D665690
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Oct 2023 09:17:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B00B10EF
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Oct 2023 10:10:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YzIoNFtz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SPudtPnb"
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696497445; x=1728033445;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=r6v4RpgPM/Y1p+6W3plmXO8YwUK3wJb0g/dQfpxNLYY=;
-  b=YzIoNFtzIHlcr+9Mo077XgmeBGg0KAvNSnKwfXRmzStbaMgtvzxAB62o
-   kF0QS86BXJmOLvLxkp0cLbql1Yxigbrk4COFZ6GJj7c87cagS3mObLPQo
-   KufOtrKd30aaUu79ddsYEoEf1afBTQjy8+OPLc/5u5G93IOR8TtOhwZI6
-   hL8Al+ZnD3R2l2LMP5RYvUjJ1mMm5+KF4SZucTCMn3wRmpmsO+4t8T4Nb
-   tl1W61yWPSfbZaNJI2F4VxXbjpHrpxwd9XcVxc0f5ESlTnE0bZmlvJ9nZ
-   kX0v2fmko2eZyATysyehPVsWmSqzesWM0Vi8YCi9sXDZ4nJCb+yIOnLuf
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="383353958"
+  t=1696500654; x=1728036654;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aAZxmqJE5oUIO7p0Zx5N0R4TKA5EF5mi0/16WIB/Cgg=;
+  b=SPudtPnbPyLpOhNJ6a1Doz5uSc6eidqlygJubxxKLqYAtsppe3UCbzi7
+   m5Zif+/x+jNLQWA3nZYwUrurVbDBwDH3J6Rb+B9gkuvEAj2gB0xH191dl
+   B5nW6KoCi03mXa6otNX5HR+8y2PfPO9SuiKkJfz7deEf5EuD2j3Tq0v5E
+   9LzUHER1OuzcLrSwxg70MCBwZS4HUhpOjDcHBeKz9Aae8gx4rHI8E5bzG
+   SzgSkRnD/udTBIqiL/dWOVxlNADap8C7tFm67Wu5IhdKNIitSclV8GJ9o
+   /DvE0rJhRdS5GJRCNmUsq4oMuIC8yij0z48Krja/x+wGB1cxCEjAkAYpx
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="363741494"
 X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
-   d="scan'208";a="383353958"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 02:17:24 -0700
+   d="scan'208";a="363741494"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 03:10:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="875498859"
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="701609571"
 X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
-   d="scan'208";a="875498859"
+   d="scan'208";a="701609571"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 05 Oct 2023 02:17:23 -0700
+  by orsmga003.jf.intel.com with ESMTP; 05 Oct 2023 03:10:51 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qoKTv-000LEi-0p;
-	Thu, 05 Oct 2023 09:17:19 +0000
-Date: Thu, 5 Oct 2023 17:17:15 +0800
+	id 1qoLJg-000LHm-0V;
+	Thu, 05 Oct 2023 10:10:48 +0000
+Date: Thu, 5 Oct 2023 18:10:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Garry <john.g.garry@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-Subject: [riteshharjani:xfs-atomic-write-v1 20/21]
- drivers/scsi/scsi_debug.c:4874: undefined reference to `__umoddi3'
-Message-ID: <202310051746.4AYc542i-lkp@intel.com>
+To: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v3 1/3] x86/boot/e820: Expose kexec range update,
+ remove and table update functions
+Message-ID: <202310051753.cGqR9NNP-lkp@intel.com>
+References: <169645819587.11424.5389114333710932782.stgit@skinsburskii.>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,97 +51,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <169645819587.11424.5389114333710932782.stgit@skinsburskii.>
 
-tree:   https://github.com/riteshharjani/linux xfs-atomic-write-v1
-head:   6e46c5eac75533f8ca2e7446bddedc9560a032fc
-commit: f1dbf32f10c097c2a0be71ca6c30d8884aaa64d8 [20/21] scsi: scsi_debug: Atomic write support
-config: i386-randconfig-001-20231005 (https://download.01.org/0day-ci/archive/20231005/202310051746.4AYc542i-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310051746.4AYc542i-lkp@intel.com/reproduce)
+Hi Stanislav,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/x86/core]
+[also build test WARNING on tip/master linus/master tip/auto-latest v6.6-rc4 next-20231005]
+[cannot apply to akpm-mm/mm-everything]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Kinsburskii/x86-boot-e820-Expose-kexec-range-update-remove-and-table-update-functions/20231005-062443
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/169645819587.11424.5389114333710932782.stgit%40skinsburskii.
+patch subject: [RFC PATCH v3 1/3] x86/boot/e820: Expose kexec range update, remove and table update functions
+config: i386-randconfig-003-20231005 (https://download.01.org/0day-ci/archive/20231005/202310051753.cGqR9NNP-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310051753.cGqR9NNP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310051746.4AYc542i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310051753.cGqR9NNP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: fs/xfs/xfs_iomap.o: in function `xfs_direct_write_iomap_begin':
-   fs/xfs/xfs_iomap.c:828: undefined reference to `__moddi3'
-   ld: fs/xfs/xfs_iomap.c:829: undefined reference to `__moddi3'
-   ld: fs/xfs/xfs_iomap.c:847: undefined reference to `__umoddi3'
-   ld: block/fops.o: in function `blkdev_atomic_write_valid':
-   block/fops.c:54: undefined reference to `__moddi3'
-   ld: block/fops.c:62: undefined reference to `__moddi3'
-   ld: block/blk-merge.o: in function `bio_straddles_atomic_write_boundary':
-   block/blk-merge.c:27: undefined reference to `__moddi3'
-   ld: block/blk-merge.c:28: undefined reference to `__moddi3'
-   ld: block/blk-merge.c:27: undefined reference to `__moddi3'
-   ld: block/blk-merge.o:block/blk-merge.c:28: more undefined references to `__moddi3' follow
-   ld: drivers/scsi/scsi_debug.o: in function `resp_atomic_write':
->> drivers/scsi/scsi_debug.c:4874: undefined reference to `__umoddi3'
+>> arch/x86/kernel/e820.c:540:12: warning: no previous declaration for '__e820__range_remove' [-Wmissing-declarations]
+    u64 __init __e820__range_remove(struct e820_table *table, u64 start, u64 size, enum e820_type old_type, bool check_type)
+               ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +4874 drivers/scsi/scsi_debug.c
+vim +/__e820__range_remove +540 arch/x86/kernel/e820.c
 
-  4853	
-  4854	static int resp_atomic_write(struct scsi_cmnd *scp,
-  4855				     struct sdebug_dev_info *devip)
-  4856	{
-  4857		struct sdeb_store_info *sip;
-  4858		u8 *cmd = scp->cmnd;
-  4859		u16 boundary, len;
-  4860		u64 lba;
-  4861		int ret;
-  4862	
-  4863		if (!scsi_debug_atomic_write()) {
-  4864			mk_sense_invalid_opcode(scp);
-  4865			return check_condition_result;
-  4866		}
-  4867	
-  4868		sip = devip2sip(devip, true);
-  4869	
-  4870		lba = get_unaligned_be64(cmd + 2);
-  4871		boundary = get_unaligned_be16(cmd + 10);
-  4872		len = get_unaligned_be16(cmd + 12);
-  4873	
-> 4874		if (sdebug_atomic_alignment_blks && lba % sdebug_atomic_alignment_blks) {
-  4875			/* Does not meet alignment requirement */
-  4876			mk_sense_buffer(scp, ILLEGAL_REQUEST, INVALID_FIELD_IN_CDB, 0);
-  4877			return check_condition_result;
-  4878		}
-  4879	
-  4880		if (sdebug_atomic_granularity_blks && len % sdebug_atomic_granularity_blks) {
-  4881			/* Does not meet alignment requirement */
-  4882			mk_sense_buffer(scp, ILLEGAL_REQUEST, INVALID_FIELD_IN_CDB, 0);
-  4883			return check_condition_result;
-  4884		}
-  4885	
-  4886		if (boundary > 0) {
-  4887			if (boundary > sdebug_atomic_max_boundary_blks) {
-  4888				mk_sense_invalid_fld(scp, SDEB_IN_CDB, 12, -1);
-  4889				return check_condition_result;
-  4890			}
-  4891	
-  4892			if (len > sdebug_atomic_max_size_with_boundary_blks) {
-  4893				mk_sense_invalid_fld(scp, SDEB_IN_CDB, 12, -1);
-  4894				return check_condition_result;
-  4895			}
-  4896		} else {
-  4897			if (len > sdebug_atomic_max_size_blks) {
-  4898				mk_sense_invalid_fld(scp, SDEB_IN_CDB, 12, -1);
-  4899				return check_condition_result;
-  4900			}
-  4901		}
-  4902	
-  4903		ret = do_device_access(sip, scp, 0, lba, len, true, true);
-  4904		if (unlikely(ret == -1))
-  4905			return DID_ERROR << 16;
-  4906		if (unlikely(ret != len * sdebug_sector_size))
-  4907			return DID_ERROR << 16;
-  4908		return 0;
-  4909	}
-  4910	
+   539	
+ > 540	u64 __init __e820__range_remove(struct e820_table *table, u64 start, u64 size, enum e820_type old_type, bool check_type)
+   541	{
+   542		int i;
+   543		u64 end;
+   544		u64 real_removed_size = 0;
+   545	
+   546		if (size > (ULLONG_MAX - start))
+   547			size = ULLONG_MAX - start;
+   548	
+   549		end = start + size;
+   550		printk(KERN_DEBUG "e820: remove [mem %#010Lx-%#010Lx] ", start, end - 1);
+   551		if (check_type)
+   552			e820_print_type(old_type);
+   553		pr_cont("\n");
+   554	
+   555		for (i = 0; i < table->nr_entries; i++) {
+   556			struct e820_entry *entry = &table->entries[i];
+   557			u64 final_start, final_end;
+   558			u64 entry_end;
+   559	
+   560			if (check_type && entry->type != old_type)
+   561				continue;
+   562	
+   563			entry_end = entry->addr + entry->size;
+   564	
+   565			/* Completely covered? */
+   566			if (entry->addr >= start && entry_end <= end) {
+   567				real_removed_size += entry->size;
+   568				memset(entry, 0, sizeof(*entry));
+   569				continue;
+   570			}
+   571	
+   572			/* Is the new range completely covered? */
+   573			if (entry->addr < start && entry_end > end) {
+   574				e820__range_add(end, entry_end - end, entry->type);
+   575				entry->size = start - entry->addr;
+   576				real_removed_size += size;
+   577				continue;
+   578			}
+   579	
+   580			/* Partially covered: */
+   581			final_start = max(start, entry->addr);
+   582			final_end = min(end, entry_end);
+   583			if (final_start >= final_end)
+   584				continue;
+   585	
+   586			real_removed_size += final_end - final_start;
+   587	
+   588			/*
+   589			 * Left range could be head or tail, so need to update
+   590			 * the size first:
+   591			 */
+   592			entry->size -= final_end - final_start;
+   593			if (entry->addr < final_start)
+   594				continue;
+   595	
+   596			entry->addr = final_end;
+   597		}
+   598		return real_removed_size;
+   599	}
+   600	
 
 -- 
 0-DAY CI Kernel Test Service
