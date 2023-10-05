@@ -1,48 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB5615C8
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Oct 2023 04:32:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70261FDB
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Oct 2023 05:33:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z4cbCdKP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DZE0uymk"
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696480367; x=1728016367;
+  t=1696484031; x=1728020031;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MltVwwS3wv5biDreOTrr1E2oCF2jmaTZo1/rNjvPfHA=;
-  b=Z4cbCdKPwuZSoOmCrr5HLJ46FMYLXBzhB8yYmhS/qapjX9ocwnZB7LXd
-   Syin5KiErJS6wVbV1KqmaItGTDRgN/lCWnqurs+3SHP7nW7bUXVdOvJBv
-   z8YbJ6DZe1PWutrhFe+3EcKFy9kEZnmzA5v0ea566woGIRH5ozpDS8Thi
-   uzgISFS3azrkoTBjQWQ3ztGGPpmdJRONQfMvxdIB89GsoVhqNUJeLcTJC
-   SQRSbeq3qpzkgybRDbb3/kr4/UhS3jUy0cTA2tR7UU0lFSZqe6HKM3Jj3
-   9T29YhdBxKrQuBK/qODnlWQTZL2qXR3+gcAZqo4R98xBSgILaaMzgI85y
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="373748162"
-X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
-   d="scan'208";a="373748162"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 21:32:46 -0700
+  bh=NAjaQ9z5BCrNVOxWXzpRnqpEJlU+vuDT36Q90x0aeOE=;
+  b=DZE0uymkKUAulbUnRA69hYuCCCBKz2CsdEm6yIigXNPAILuc4Bcuir/k
+   gjCjv+h2Uy8kew9XwlZPNpvEnwHfcQ8G+SHb62VTTP1EQ2SBU7JxjWTz7
+   ZUFB7PavBRJ6HRndE2nmCauNz8YUdQECEIy8GnZsiS/fpdR28zP/WnQTh
+   +QF5cwQgG3v9eUTZRjKJdAZLHSet4kJV7pPNUTZD3Ug1aI4VQOHwtLBWc
+   egOxtfGBFRRu6H9N+1TtMCiHkamyx+Ryph4BR7scGacNEsXCJSIa+dBor
+   GZ7t5+zM08GCCKF4zqXZ78Y9izp3H14IfyY6whCIeHmrRHDVzShoj3lyY
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="469677643"
+X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
+   d="scan'208";a="469677643"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 22:33:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="925444811"
-X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
-   d="scan'208";a="925444811"
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="728313957"
+X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
+   d="scan'208";a="728313957"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 04 Oct 2023 21:32:44 -0700
+  by orsmga006.jf.intel.com with ESMTP; 04 Oct 2023 22:33:48 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qoG2U-000L0e-2F;
-	Thu, 05 Oct 2023 04:32:42 +0000
-Date: Thu, 5 Oct 2023 12:31:44 +0800
+	id 1qoGzZ-000L40-2Z;
+	Thu, 05 Oct 2023 05:33:45 +0000
+Date: Thu, 5 Oct 2023 13:33:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Subject: [xilinx-xlnx:lkp_test 5/6]
- drivers/clk/xilinx/clk-xlnx-clock-wizard.c:197:22: warning: unused variable
- 'val'
-Message-ID: <202310051238.j6rtqqKZ-lkp@intel.com>
+To: Ranjan Kumar <ranjan.kumar@broadcom.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Sreekanth Reddy <sreekanth.reddy@broadcom.com>
+Subject: drivers/scsi/mpi3mr/mpi3mr_transport.c:2365
+ mpi3mr_report_tgtdev_to_sas_transport() warn: inconsistent indenting
+Message-ID: <202310051319.KRYast5J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,309 +52,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Xilinx/linux-xlnx lkp_test
-head:   d81a4120bd209b0103e37eae6f5cceada1eda492
-commit: cea76d3ad26cb5f9142426c9b22db5d348c45f2e [5/6] clocking-wizard: Add support for versal clocking wizard
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231005/202310051238.j6rtqqKZ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310051238.j6rtqqKZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3006adf3be79cde4d14b1800b963b82b6e5572e0
+commit: 8e45183978d64699df639e795235433a60f35047 scsi: mpi3mr: Bad drive in topology results kernel crash
+date:   7 months ago
+config: x86_64-randconfig-161-20231005 (https://download.01.org/0day-ci/archive/20231005/202310051319.KRYast5J-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20231005/202310051319.KRYast5J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310051238.j6rtqqKZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310051319.KRYast5J-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/scsi/mpi3mr/mpi3mr_transport.c:2365 mpi3mr_report_tgtdev_to_sas_transport() warn: inconsistent indenting
 
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c: In function 'clk_wzrd_recalc_rate_ver':
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:197:22: warning: unused variable 'val' [-Wunused-variable]
-     197 |         unsigned int val, vall, valh;
-         |                      ^~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c: In function 'clk_wzrd_recalc_rate':
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:222:33: warning: unused variable 'valh' [-Wunused-variable]
-     222 |         unsigned int val, vall, valh;
-         |                                 ^~~~
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:222:27: warning: unused variable 'vall' [-Wunused-variable]
-     222 |         unsigned int val, vall, valh;
-         |                           ^~~~
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:221:39: warning: unused variable 'all' [-Wunused-variable]
-     221 |         u32 div, p5en, edge, prediv2, all;
-         |                                       ^~~
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:221:30: warning: unused variable 'prediv2' [-Wunused-variable]
-     221 |         u32 div, p5en, edge, prediv2, all;
-         |                              ^~~~~~~
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:221:24: warning: unused variable 'edge' [-Wunused-variable]
-     221 |         u32 div, p5en, edge, prediv2, all;
-         |                        ^~~~
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:221:18: warning: unused variable 'p5en' [-Wunused-variable]
-     221 |         u32 div, p5en, edge, prediv2, all;
-         |                  ^~~~
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:221:13: warning: unused variable 'div' [-Wunused-variable]
-     221 |         u32 div, p5en, edge, prediv2, all;
-         |             ^~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c: In function 'clk_wzrd_dynamic_reconfig':
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:284:56: warning: unused variable 'regval1' [-Wunused-variable]
-     284 |         u32 value, regh, edged, p5en, p5fedge, regval, regval1;
-         |                                                        ^~~~~~~
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:284:48: warning: unused variable 'regval' [-Wunused-variable]
-     284 |         u32 value, regh, edged, p5en, p5fedge, regval, regval1;
-         |                                                ^~~~~~
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:284:39: warning: unused variable 'p5fedge' [-Wunused-variable]
-     284 |         u32 value, regh, edged, p5en, p5fedge, regval, regval1;
-         |                                       ^~~~~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:284:33: warning: unused variable 'p5en' [-Wunused-variable]
-     284 |         u32 value, regh, edged, p5en, p5fedge, regval, regval1;
-         |                                 ^~~~
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:284:26: warning: unused variable 'edged' [-Wunused-variable]
-     284 |         u32 value, regh, edged, p5en, p5fedge, regval, regval1;
-         |                          ^~~~~
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:284:20: warning: unused variable 'regh' [-Wunused-variable]
-     284 |         u32 value, regh, edged, p5en, p5fedge, regval, regval1;
-         |                    ^~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c: In function 'clk_wzrd_reconfig':
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:413:30: warning: unused variable 'f' [-Wunused-variable]
-     413 |         u32 reg, pre, value, f;
-         |                              ^
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:413:18: warning: unused variable 'pre' [-Wunused-variable]
-     413 |         u32 reg, pre, value, f;
-         |                  ^~~
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:413:13: warning: unused variable 'reg' [-Wunused-variable]
-     413 |         u32 reg, pre, value, f;
-         |             ^~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c: In function 'clk_wzrd_dynamic_ver_all_nolock':
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:438:30: warning: unused variable 'f' [-Wunused-variable]
-     438 |         u32 reg, pre, value, f;
-         |                              ^
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:438:18: warning: unused variable 'pre' [-Wunused-variable]
-     438 |         u32 reg, pre, value, f;
-         |                  ^~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:438:13: warning: unused variable 'reg' [-Wunused-variable]
-     438 |         u32 reg, pre, value, f;
-         |             ^~~
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:436:43: warning: unused variable 'clockout0_div' [-Wunused-variable]
-     436 |         unsigned long vco_freq, rate_div, clockout0_div;
-         |                                           ^~~~~~~~~~~~~
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:436:33: warning: unused variable 'rate_div' [-Wunused-variable]
-     436 |         unsigned long vco_freq, rate_div, clockout0_div;
-         |                                 ^~~~~~~~
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:436:23: warning: unused variable 'vco_freq' [-Wunused-variable]
-     436 |         unsigned long vco_freq, rate_div, clockout0_div;
-         |                       ^~~~~~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c: In function 'clk_wzrd_dynamic_all_nolock':
->> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:506:23: warning: unused variable 'value' [-Wunused-variable]
-     506 |         u32 reg, pre, value, f;
-         |                       ^~~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:502:60: warning: unused variable 'regval1' [-Wunused-variable]
-     502 |         u32 regh, edged, p5en, p5fedge, value2, m, regval, regval1;
-         |                                                            ^~~~~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:502:52: warning: unused variable 'regval' [-Wunused-variable]
-     502 |         u32 regh, edged, p5en, p5fedge, value2, m, regval, regval1;
-         |                                                    ^~~~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:502:49: warning: unused variable 'm' [-Wunused-variable]
-     502 |         u32 regh, edged, p5en, p5fedge, value2, m, regval, regval1;
-         |                                                 ^
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:502:41: warning: unused variable 'value2' [-Wunused-variable]
-     502 |         u32 regh, edged, p5en, p5fedge, value2, m, regval, regval1;
-         |                                         ^~~~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:502:32: warning: unused variable 'p5fedge' [-Wunused-variable]
-     502 |         u32 regh, edged, p5en, p5fedge, value2, m, regval, regval1;
-         |                                ^~~~~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:502:26: warning: unused variable 'p5en' [-Wunused-variable]
-     502 |         u32 regh, edged, p5en, p5fedge, value2, m, regval, regval1;
-         |                          ^~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:502:19: warning: unused variable 'edged' [-Wunused-variable]
-     502 |         u32 regh, edged, p5en, p5fedge, value2, m, regval, regval1;
-         |                   ^~~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:502:13: warning: unused variable 'regh' [-Wunused-variable]
-     502 |         u32 regh, edged, p5en, p5fedge, value2, m, regval, regval1;
-         |             ^~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c: In function 'clk_wzrd_recalc_rate_all':
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:572:64: warning: unused variable 'mult' [-Wunused-variable]
-     572 |         u32 edged, div2, p5en, edge, prediv2, all, regl, regh, mult;
-         |                                                                ^~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:572:58: warning: unused variable 'regh' [-Wunused-variable]
-     572 |         u32 edged, div2, p5en, edge, prediv2, all, regl, regh, mult;
-         |                                                          ^~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:572:52: warning: unused variable 'regl' [-Wunused-variable]
-     572 |         u32 edged, div2, p5en, edge, prediv2, all, regl, regh, mult;
-         |                                                    ^~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:572:47: warning: unused variable 'all' [-Wunused-variable]
-     572 |         u32 edged, div2, p5en, edge, prediv2, all, regl, regh, mult;
-         |                                               ^~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:572:38: warning: unused variable 'prediv2' [-Wunused-variable]
-     572 |         u32 edged, div2, p5en, edge, prediv2, all, regl, regh, mult;
-         |                                      ^~~~~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:572:32: warning: unused variable 'edge' [-Wunused-variable]
-     572 |         u32 edged, div2, p5en, edge, prediv2, all, regl, regh, mult;
-         |                                ^~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:572:26: warning: unused variable 'p5en' [-Wunused-variable]
-     572 |         u32 edged, div2, p5en, edge, prediv2, all, regl, regh, mult;
-         |                          ^~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:572:20: warning: unused variable 'div2' [-Wunused-variable]
-     572 |         u32 edged, div2, p5en, edge, prediv2, all, regl, regh, mult;
-         |                    ^~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:572:13: warning: unused variable 'edged' [-Wunused-variable]
-     572 |         u32 edged, div2, p5en, edge, prediv2, all, regl, regh, mult;
-         |             ^~~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c: In function 'clk_wzrd_recalc_rate_all_ver':
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:592:32: warning: unused variable 'f' [-Wunused-variable]
-     592 |         u32 m, d, o, div, reg, f;
-         |                                ^
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:592:19: warning: unused variable 'o' [-Wunused-variable]
-     592 |         u32 m, d, o, div, reg, f;
-         |                   ^
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:592:16: warning: unused variable 'd' [-Wunused-variable]
-     592 |         u32 m, d, o, div, reg, f;
-         |                ^
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:592:13: warning: unused variable 'm' [-Wunused-variable]
-     592 |         u32 m, d, o, div, reg, f;
-         |             ^
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c: In function 'clk_wzrd_probe':
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:929:36: warning: unused variable 'match' [-Wunused-variable]
-     929 |         const struct of_device_id *match;
-         |                                    ^~~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c: At top level:
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:686:29: warning: 'clk_wzrd_ver_div_all_ops' defined but not used [-Wunused-const-variable=]
-     686 | static const struct clk_ops clk_wzrd_ver_div_all_ops = {
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:680:29: warning: 'clk_wzrd_ver_divider_ops' defined but not used [-Wunused-const-variable=]
-     680 | static const struct clk_ops clk_wzrd_ver_divider_ops = {
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~
+Old smatch warnings:
+drivers/scsi/mpi3mr/mpi3mr_transport.c:2064 mpi3mr_expander_add() warn: returning -1 instead of -ENOMEM is sloppy
 
+vim +2365 drivers/scsi/mpi3mr/mpi3mr_transport.c
 
-vim +/val +197 drivers/clk/xilinx/clk-xlnx-clock-wizard.c
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2304  
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2305  /**
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2306   * mpi3mr_report_tgtdev_to_sas_transport - expose dev to SAS TL
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2307   * @mrioc: Adapter instance reference
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2308   * @tgtdev: Target device
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2309   *
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2310   * This function exposes the target device after
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2311   * preparing host_phy, setting up link rate etc.
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2312   *
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2313   * Return: 0 on success, non-zero for failure.
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2314   */
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2315  int mpi3mr_report_tgtdev_to_sas_transport(struct mpi3mr_ioc *mrioc,
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2316  	struct mpi3mr_tgt_dev *tgtdev)
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2317  {
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2318  	int retval = 0;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2319  	u8 link_rate, parent_phy_number;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2320  	u64 sas_address_parent, sas_address;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2321  	struct mpi3mr_hba_port *hba_port;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2322  	u8 port_id;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2323  
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2324  	if ((tgtdev->dev_type != MPI3_DEVICE_DEVFORM_SAS_SATA) ||
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2325  	    !mrioc->sas_transport_enabled)
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2326  		return -1;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2327  
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2328  	sas_address = tgtdev->dev_spec.sas_sata_inf.sas_address;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2329  	if (!mrioc->sas_hba.num_phys)
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2330  		mpi3mr_sas_host_add(mrioc);
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2331  	else
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2332  		mpi3mr_sas_host_refresh(mrioc);
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2333  
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2334  	if (mpi3mr_get_sas_address(mrioc, tgtdev->parent_handle,
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2335  	    &sas_address_parent) != 0) {
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2336  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2337  		    __FILE__, __LINE__, __func__);
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2338  		return -1;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2339  	}
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2340  	tgtdev->dev_spec.sas_sata_inf.sas_address_parent = sas_address_parent;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2341  
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2342  	parent_phy_number = tgtdev->dev_spec.sas_sata_inf.phy_id;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2343  	port_id = tgtdev->io_unit_port;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2344  
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2345  	hba_port = mpi3mr_get_hba_port_by_id(mrioc, port_id);
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2346  	if (!hba_port) {
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2347  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2348  		    __FILE__, __LINE__, __func__);
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2349  		return -1;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2350  	}
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2351  	tgtdev->dev_spec.sas_sata_inf.hba_port = hba_port;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2352  
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2353  	link_rate = mpi3mr_get_sas_negotiated_logical_linkrate(mrioc, tgtdev);
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2354  
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2355  	mpi3mr_update_links(mrioc, sas_address_parent, tgtdev->dev_handle,
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2356  	    parent_phy_number, link_rate, hba_port);
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2357  
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2358  	tgtdev->host_exposed = 1;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2359  	if (!mpi3mr_sas_port_add(mrioc, tgtdev->dev_handle,
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2360  	    sas_address_parent, hba_port)) {
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2361  		retval = -1;
+8e45183978d646 Ranjan Kumar    2023-02-28  2362  		} else if ((!tgtdev->starget) && (!mrioc->is_driver_loading)) {
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2363  			mpi3mr_sas_port_remove(mrioc, sas_address,
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2364  			    sas_address_parent, hba_port);
+7f56c791969e0c Sreekanth Reddy 2022-08-04 @2365  		retval = -1;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2366  	}
+8e45183978d646 Ranjan Kumar    2023-02-28  2367  	if (retval) {
+8e45183978d646 Ranjan Kumar    2023-02-28  2368  		tgtdev->dev_spec.sas_sata_inf.hba_port = NULL;
+8e45183978d646 Ranjan Kumar    2023-02-28  2369  		tgtdev->host_exposed = 0;
+8e45183978d646 Ranjan Kumar    2023-02-28  2370  	}
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2371  	return retval;
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2372  }
+7f56c791969e0c Sreekanth Reddy 2022-08-04  2373  
 
-   190	
-   191	static unsigned long clk_wzrd_recalc_rate_ver(struct clk_hw *hw,
-   192						      unsigned long parent_rate)
-   193	{
-   194		struct clk_wzrd_divider *divider = to_clk_wzrd_divider(hw);
-   195		void __iomem *div_addr = divider->base + divider->offset;
-   196		u32 div, p5en, edge, prediv2, all;
- > 197		unsigned int val, vall, valh;
-   198	
-   199		edge = !!(readl(div_addr) & WZRD_CLKFBOUT_EDGE);
-   200		p5en = !!(readl(div_addr) & WZRD_P5EN);
-   201		prediv2 = !!(readl(div_addr) & WZRD_CLKOUT0_PREDIV2);
-   202		vall = readl(div_addr + 4) & WZRD_CLKFBOUT_L_MASK;
-   203		valh = readl(div_addr + 4) >> WZRD_CLKFBOUT_H_SHIFT;
-   204		all = valh + vall + edge;
-   205		if (!all)
-   206			all = 1;
-   207	
-   208		if (prediv2)
-   209			div = 2 * all + prediv2 * p5en;
-   210		else
-   211			div = all;
-   212	
-   213		return DIV_ROUND_UP_ULL((u64)parent_rate, div);
-   214	}
-   215	
-   216	static unsigned long clk_wzrd_recalc_rate(struct clk_hw *hw,
-   217						  unsigned long parent_rate)
-   218	{
-   219		struct clk_wzrd_divider *divider = to_clk_wzrd_divider(hw);
-   220		void __iomem *div_addr = divider->base + divider->offset;
- > 221		u32 div, p5en, edge, prediv2, all;
- > 222		unsigned int val, vall, valh;
-   223	
-   224		val = readl(div_addr) >> divider->shift;
-   225		val &= div_mask(divider->width);
-   226	
-   227		return divider_recalc_rate(hw, parent_rate, val, divider->table,
-   228				divider->flags, divider->width);
-   229	}
-   230	
-   231	static int clk_wzrd_ver_dynamic_reconfig(struct clk_hw *hw, unsigned long rate,
-   232						 unsigned long parent_rate)
-   233	{
-   234		struct clk_wzrd_divider *divider = to_clk_wzrd_divider(hw);
-   235		void __iomem *div_addr = divider->base + divider->offset;
-   236		u32 value, regh, edged, p5en, p5fedge, regval, regval1;
-   237		unsigned long flags = 0;
-   238		int err;
-   239	
-   240		spin_lock_irqsave(divider->lock, flags);
-   241	
-   242		value = DIV_ROUND_CLOSEST(parent_rate, rate);
-   243	
-   244		regh = (value / 4);
-   245		regval1 = readl(div_addr);
-   246		regval1 |= WZRD_CLKFBOUT_PREDIV2;
-   247		regval1 = regval1 & ~(WZRD_CLKFBOUT_EDGE | WZRD_P5EN | WZRD_P5FEDGE);
-   248		if (value % 4 > 1) {
-   249			edged = 1;
-   250			regval1 |= (edged << WZRD_EDGE_SHIFT);
-   251		}
-   252		p5fedge = value % 2;
-   253		p5en = value % 2;
-   254		regval1 = regval1 | p5en << WZRD_P5EN_SHIFT | p5fedge << WZRD_P5FEDGE_SHIFT;
-   255		writel(regval1, div_addr);
-   256	
-   257		regval = regh | regh << WZRD_CLKFBOUT_H_SHIFT;
-   258		writel(regval, div_addr + 4);
-   259		/* Check status register */
-   260		err = readl_poll_timeout_atomic(divider->base + WZRD_DR_STATUS_REG_OFFSET,
-   261						value, value & WZRD_DR_LOCK_BIT_MASK,
-   262						WZRD_USEC_POLL, WZRD_TIMEOUT_POLL);
-   263		if (err)
-   264			goto err_reconfig;
-   265	
-   266		/* Initiate reconfiguration */
-   267		writel(WZRD_DR_BEGIN_DYNA_RECONF,
-   268		       divider->base + WZRD_DR_INIT_VERSAL_OFFSET);
-   269	
-   270		/* Check status register */
-   271		err = readl_poll_timeout_atomic(divider->base + WZRD_DR_STATUS_REG_OFFSET,
-   272						value, value & WZRD_DR_LOCK_BIT_MASK,
-   273						WZRD_USEC_POLL, WZRD_TIMEOUT_POLL);
-   274	err_reconfig:
-   275		spin_unlock_irqrestore(divider->lock, flags);
-   276		return err;
-   277	}
-   278	
-   279	static int clk_wzrd_dynamic_reconfig(struct clk_hw *hw, unsigned long rate,
-   280					     unsigned long parent_rate)
-   281	{
-   282		struct clk_wzrd_divider *divider = to_clk_wzrd_divider(hw);
-   283		void __iomem *div_addr = divider->base + divider->offset;
- > 284		u32 value, regh, edged, p5en, p5fedge, regval, regval1;
-   285		unsigned long flags = 0;
-   286		int err;
-   287	
-   288		spin_lock_irqsave(divider->lock, flags);
-   289	
-   290		value = DIV_ROUND_CLOSEST(parent_rate, rate);
-   291	
-   292		/* Cap the value to max */
-   293		min_t(u32, value, WZRD_DR_MAX_INT_DIV_VALUE);
-   294	
-   295		/* Set divisor and clear phase offset */
-   296		writel(value, div_addr);
-   297		writel(0x00, div_addr + WZRD_DR_DIV_TO_PHASE_OFFSET);
-   298	
-   299		/* Check status register */
-   300		err = readl_poll_timeout_atomic(divider->base + WZRD_DR_STATUS_REG_OFFSET,
-   301						value, value & WZRD_DR_LOCK_BIT_MASK,
-   302						WZRD_USEC_POLL, WZRD_TIMEOUT_POLL);
-   303		if (err)
-   304			goto err_reconfig;
-   305	
-   306		/* Initiate reconfiguration */
-   307		writel(WZRD_DR_BEGIN_DYNA_RECONF_5_2,
-   308		       divider->base + WZRD_DR_INIT_REG_OFFSET);
-   309		writel(WZRD_DR_BEGIN_DYNA_RECONF1_5_2,
-   310		       divider->base + WZRD_DR_INIT_REG_OFFSET);
-   311	
-   312		/* Check status register */
-   313		err = readl_poll_timeout_atomic(divider->base + WZRD_DR_STATUS_REG_OFFSET,
-   314						value, value & WZRD_DR_LOCK_BIT_MASK,
-   315						WZRD_USEC_POLL, WZRD_TIMEOUT_POLL);
-   316	err_reconfig:
-   317		spin_unlock_irqrestore(divider->lock, flags);
-   318		return err;
-   319	}
-   320	
+:::::: The code at line 2365 was first introduced by commit
+:::::: 7f56c791969e0c19b8b5ee12058b636bf173eb90 scsi: mpi3mr: Add SAS SATA end devices to STL
+
+:::::: TO: Sreekanth Reddy <sreekanth.reddy@broadcom.com>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
