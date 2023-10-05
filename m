@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444937F;
-	Thu,  5 Oct 2023 09:07:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D665690
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Oct 2023 09:17:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ap7cot3x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YzIoNFtz"
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696496854; x=1728032854;
+  t=1696497445; x=1728033445;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BURfMz7oDbbWaN1SO7w7ia/v46pQMbj/y1aw0QOHoBg=;
-  b=Ap7cot3x2b+hzytZSVTP0vF+nVJZS/LfCWoE17I9+AU3HUaVutOja4pq
-   OZctUKAOtlF+KnaM1G2NXbwMbdE0MKeBQQjXYAqUNp7PcYytoxHgpHYWP
-   Btu84+K3grlNuXxexTXhwP8EX7KD1zebJoKiv12y4L/zJ0N5b3ACLWbFI
-   ass1Wlc2UMjYhEhs0rkXSTruSinVdwjIXSwIrmXVK2Qk+6Kkgn3xH2CJU
-   ei2XhcFDT1E0mDxUB6eUA18uXMOo6blRcDeoDHbtii/v1rnhDYMCFGcQY
-   HULrScxUJoOoUiHUDuJoNYvunadaZLyUFzfeLimPMNY0BC5kNwEIwgeCC
+  bh=r6v4RpgPM/Y1p+6W3plmXO8YwUK3wJb0g/dQfpxNLYY=;
+  b=YzIoNFtzIHlcr+9Mo077XgmeBGg0KAvNSnKwfXRmzStbaMgtvzxAB62o
+   kF0QS86BXJmOLvLxkp0cLbql1Yxigbrk4COFZ6GJj7c87cagS3mObLPQo
+   KufOtrKd30aaUu79ddsYEoEf1afBTQjy8+OPLc/5u5G93IOR8TtOhwZI6
+   hL8Al+ZnD3R2l2LMP5RYvUjJ1mMm5+KF4SZucTCMn3wRmpmsO+4t8T4Nb
+   tl1W61yWPSfbZaNJI2F4VxXbjpHrpxwd9XcVxc0f5ESlTnE0bZmlvJ9nZ
+   kX0v2fmko2eZyATysyehPVsWmSqzesWM0Vi8YCi9sXDZ4nJCb+yIOnLuf
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="362813368"
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="383353958"
 X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
-   d="scan'208";a="362813368"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 02:07:23 -0700
+   d="scan'208";a="383353958"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 02:17:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="842309817"
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="875498859"
 X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
-   d="scan'208";a="842309817"
+   d="scan'208";a="875498859"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 05 Oct 2023 02:07:21 -0700
+  by orsmga004.jf.intel.com with ESMTP; 05 Oct 2023 02:17:23 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qoKKF-000LEO-05;
-	Thu, 05 Oct 2023 09:07:19 +0000
-Date: Thu, 5 Oct 2023 17:06:46 +0800
+	id 1qoKTv-000LEi-0p;
+	Thu, 05 Oct 2023 09:17:19 +0000
+Date: Thu, 5 Oct 2023 17:17:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [trace:trace/core 6/7] fs/tracefs/event_inode.c:909:6: warning: no
- previous prototype for function 'eventfs_remove_events_dir'
-Message-ID: <202310051743.y9EobbUr-lkp@intel.com>
+To: John Garry <john.g.garry@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+Subject: [riteshharjani:xfs-atomic-write-v1 20/21]
+ drivers/scsi/scsi_debug.c:4874: undefined reference to `__umoddi3'
+Message-ID: <202310051746.4AYc542i-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,55 +51,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace trace/core
-head:   f5d9e8e08f81c9e7c723de7abcce106808f0770c
-commit: 5790b1fb3d672d9a1fe3881a7181dfdbe741568f [6/7] eventfs: Remove eventfs_file and just use eventfs_inode
-config: arm-bcm2835_defconfig (https://download.01.org/0day-ci/archive/20231005/202310051743.y9EobbUr-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310051743.y9EobbUr-lkp@intel.com/reproduce)
+tree:   https://github.com/riteshharjani/linux xfs-atomic-write-v1
+head:   6e46c5eac75533f8ca2e7446bddedc9560a032fc
+commit: f1dbf32f10c097c2a0be71ca6c30d8884aaa64d8 [20/21] scsi: scsi_debug: Atomic write support
+config: i386-randconfig-001-20231005 (https://download.01.org/0day-ci/archive/20231005/202310051746.4AYc542i-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310051746.4AYc542i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310051743.y9EobbUr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310051746.4AYc542i-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/tracefs/event_inode.c:909:6: warning: no previous prototype for function 'eventfs_remove_events_dir' [-Wmissing-prototypes]
-     909 | void eventfs_remove_events_dir(struct dentry *dentry)
-         |      ^
-   fs/tracefs/event_inode.c:909:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     909 | void eventfs_remove_events_dir(struct dentry *dentry)
-         | ^
-         | static 
-   1 warning generated.
---
->> kernel/trace/trace_events.c:2285:5: warning: no previous prototype for function 'system_callback' [-Wmissing-prototypes]
-    2285 | int system_callback(const char *name, umode_t *mode, void **data,
-         |     ^
-   kernel/trace/trace_events.c:2285:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2285 | int system_callback(const char *name, umode_t *mode, void **data,
-         | ^
-         | static 
-   1 warning generated.
+   ld: fs/xfs/xfs_iomap.o: in function `xfs_direct_write_iomap_begin':
+   fs/xfs/xfs_iomap.c:828: undefined reference to `__moddi3'
+   ld: fs/xfs/xfs_iomap.c:829: undefined reference to `__moddi3'
+   ld: fs/xfs/xfs_iomap.c:847: undefined reference to `__umoddi3'
+   ld: block/fops.o: in function `blkdev_atomic_write_valid':
+   block/fops.c:54: undefined reference to `__moddi3'
+   ld: block/fops.c:62: undefined reference to `__moddi3'
+   ld: block/blk-merge.o: in function `bio_straddles_atomic_write_boundary':
+   block/blk-merge.c:27: undefined reference to `__moddi3'
+   ld: block/blk-merge.c:28: undefined reference to `__moddi3'
+   ld: block/blk-merge.c:27: undefined reference to `__moddi3'
+   ld: block/blk-merge.o:block/blk-merge.c:28: more undefined references to `__moddi3' follow
+   ld: drivers/scsi/scsi_debug.o: in function `resp_atomic_write':
+>> drivers/scsi/scsi_debug.c:4874: undefined reference to `__umoddi3'
 
 
-vim +/eventfs_remove_events_dir +909 fs/tracefs/event_inode.c
+vim +4874 drivers/scsi/scsi_debug.c
 
-5bdcd5f5331a27 Ajay Kaher 2023-07-28  902  
-5bdcd5f5331a27 Ajay Kaher 2023-07-28  903  /**
-5bdcd5f5331a27 Ajay Kaher 2023-07-28  904   * eventfs_remove_events_dir - remove eventfs dir or file from list
-5bdcd5f5331a27 Ajay Kaher 2023-07-28  905   * @dentry: events's dentry to be removed.
-5bdcd5f5331a27 Ajay Kaher 2023-07-28  906   *
-5bdcd5f5331a27 Ajay Kaher 2023-07-28  907   * This function remove events main directory
-5bdcd5f5331a27 Ajay Kaher 2023-07-28  908   */
-5bdcd5f5331a27 Ajay Kaher 2023-07-28 @909  void eventfs_remove_events_dir(struct dentry *dentry)
-
-:::::: The code at line 909 was first introduced by commit
-:::::: 5bdcd5f5331a276a3ddf1fba8605986d0d15298a eventfs: Implement removal of meta data from eventfs
-
-:::::: TO: Ajay Kaher <akaher@vmware.com>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+  4853	
+  4854	static int resp_atomic_write(struct scsi_cmnd *scp,
+  4855				     struct sdebug_dev_info *devip)
+  4856	{
+  4857		struct sdeb_store_info *sip;
+  4858		u8 *cmd = scp->cmnd;
+  4859		u16 boundary, len;
+  4860		u64 lba;
+  4861		int ret;
+  4862	
+  4863		if (!scsi_debug_atomic_write()) {
+  4864			mk_sense_invalid_opcode(scp);
+  4865			return check_condition_result;
+  4866		}
+  4867	
+  4868		sip = devip2sip(devip, true);
+  4869	
+  4870		lba = get_unaligned_be64(cmd + 2);
+  4871		boundary = get_unaligned_be16(cmd + 10);
+  4872		len = get_unaligned_be16(cmd + 12);
+  4873	
+> 4874		if (sdebug_atomic_alignment_blks && lba % sdebug_atomic_alignment_blks) {
+  4875			/* Does not meet alignment requirement */
+  4876			mk_sense_buffer(scp, ILLEGAL_REQUEST, INVALID_FIELD_IN_CDB, 0);
+  4877			return check_condition_result;
+  4878		}
+  4879	
+  4880		if (sdebug_atomic_granularity_blks && len % sdebug_atomic_granularity_blks) {
+  4881			/* Does not meet alignment requirement */
+  4882			mk_sense_buffer(scp, ILLEGAL_REQUEST, INVALID_FIELD_IN_CDB, 0);
+  4883			return check_condition_result;
+  4884		}
+  4885	
+  4886		if (boundary > 0) {
+  4887			if (boundary > sdebug_atomic_max_boundary_blks) {
+  4888				mk_sense_invalid_fld(scp, SDEB_IN_CDB, 12, -1);
+  4889				return check_condition_result;
+  4890			}
+  4891	
+  4892			if (len > sdebug_atomic_max_size_with_boundary_blks) {
+  4893				mk_sense_invalid_fld(scp, SDEB_IN_CDB, 12, -1);
+  4894				return check_condition_result;
+  4895			}
+  4896		} else {
+  4897			if (len > sdebug_atomic_max_size_blks) {
+  4898				mk_sense_invalid_fld(scp, SDEB_IN_CDB, 12, -1);
+  4899				return check_condition_result;
+  4900			}
+  4901		}
+  4902	
+  4903		ret = do_device_access(sip, scp, 0, lba, len, true, true);
+  4904		if (unlikely(ret == -1))
+  4905			return DID_ERROR << 16;
+  4906		if (unlikely(ret != len * sdebug_sector_size))
+  4907			return DID_ERROR << 16;
+  4908		return 0;
+  4909	}
+  4910	
 
 -- 
 0-DAY CI Kernel Test Service
