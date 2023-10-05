@@ -1,138 +1,153 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052B35398
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Oct 2023 07:52:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29FC063CD
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Oct 2023 08:25:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FtUffAtb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZloD5H7J"
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696492349; x=1728028349;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=bOIx5ZvNkmWlVrlxC5CEUCIBAFH5iBa1kgKwJPBRaeU=;
-  b=FtUffAtbgkzi5w+I6o35FzLKdehLWAkmVd4Twc48NQN111zaWDmvfP58
-   dXwqBXUM4q+bgyG8nIiRCYkQQd8V0FrQ/+Wp9oXCL9QHAMCembjswIxPW
-   xi7RETjJ/7qd/GCOxWFsCp/Ir8NbLb2+1uYY1+pskVJ09ekkRcwbivgYs
-   Cn8x6SIqiSn6tilVViqfZ61AOkxaZKBNyZ2xzKM4kPFNYk32CwnzvjDgi
-   3r+b4p/U2E54QyxgU2WqfFkwcrYMExuzio3xmk4VlkVbtCv4bQPm1qivX
-   motyNZLTcTWRHpcS2eXhh3UW8s5NBh0xSicXdI7iopInsjkucUA7x42WD
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="449924520"
+  t=1696494338; x=1728030338;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qKhLARZiUvJ+wpcP+I6HkxN/Ik9YTHL9KHhP3Epyxpo=;
+  b=ZloD5H7J+ottw+wLzbtTMei2hDAde/NFzBWc4+/WPwhPptnKMaoIMniA
+   TKk8lELJt0kd+9316kwwnyqFU9+dGNviqTmAHfAcZjk92dxQ0iCqdsJzk
+   kAiBz4eXcNNd72b2KGIOskq7Usl/q/IqbPjOvXivK2zeYfWP0nALvZ+Ni
+   TEn9D5cTEuGrg4j3RWZS0/8ns11QPdRT7f2YURmJGToI5rlF1M6FiqlSw
+   M8zAvmjA0YmgkVCkz1NuFDBrmC0pU9rIcgYglR29DvkI73i8lBDRrjDJW
+   GLvy/44/SbU8OPtigSfLLowyQPGI9POJxPDxna+cu7Ety/1whPHyA6217
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="447623876"
 X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
-   d="scan'208";a="449924520"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 00:52:28 -0700
+   d="scan'208";a="447623876"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 01:25:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="842295651"
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="817490701"
 X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
-   d="scan'208";a="842295651"
+   d="scan'208";a="817490701"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 05 Oct 2023 00:52:26 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 05 Oct 2023 01:25:35 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qoJ9k-000LBA-19;
-	Thu, 05 Oct 2023 07:52:24 +0000
-Date: Thu, 5 Oct 2023 15:51:35 +0800
+	id 1qoJfp-000LCA-0N;
+	Thu, 05 Oct 2023 08:25:33 +0000
+Date: Thu, 5 Oct 2023 16:24:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Deucher <alexander.deucher@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: [linux-next:master 9799/9984]
- drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c:274: warning: Function parameter or
- member 'gart_placement' not described in 'amdgpu_gmc_gart_location'
-Message-ID: <202310051547.40nm4Sif-lkp@intel.com>
+To: Fan Wu <wufan@linux.microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v11 04/19] ipe: add LSM hooks on execution and kernel
+ read
+Message-ID: <202310051601.vuZh1VMf-lkp@intel.com>
+References: <1696457386-3010-5-git-send-email-wufan@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1696457386-3010-5-git-send-email-wufan@linux.microsoft.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7d730f1bf6f39ece2d9f3ae682f12e5b593d534d
-commit: 917f91d8d8e866965f2193d7962e064a4d139d8d [9799/9984] drm/amdgpu/gmc: add a way to force a particular placement for GART
-config: i386-randconfig-s002-20211104 (https://download.01.org/0day-ci/archive/20231005/202310051547.40nm4Sif-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310051547.40nm4Sif-lkp@intel.com/reproduce)
+Hi Fan,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on device-mapper-dm/for-next]
+[also build test WARNING on axboe-block/for-next lwn/docs-next linus/master v6.6-rc4 next-20231005]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Fan-Wu/security-add-ipe-lsm/20231005-061243
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git for-next
+patch link:    https://lore.kernel.org/r/1696457386-3010-5-git-send-email-wufan%40linux.microsoft.com
+patch subject: [RFC PATCH v11 04/19] ipe: add LSM hooks on execution and kernel read
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20231005/202310051601.vuZh1VMf-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310051601.vuZh1VMf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310051547.40nm4Sif-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310051601.vuZh1VMf-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c:274: warning: Function parameter or member 'gart_placement' not described in 'amdgpu_gmc_gart_location'
+>> security/ipe/hooks.c:51: warning: Function parameter or member '__always_unused' not described in 'ipe_mmap_file'
+>> security/ipe/hooks.c:51: warning: Excess function parameter 'reqprot' description in 'ipe_mmap_file'
+>> security/ipe/hooks.c:79: warning: Function parameter or member '__always_unused' not described in 'ipe_file_mprotect'
+>> security/ipe/hooks.c:79: warning: Excess function parameter 'reqprot' description in 'ipe_file_mprotect'
 
 
-vim +274 drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+vim +51 security/ipe/hooks.c
 
-f527f310bb6aa9 Oak Zeng          2020-09-15  261  
-961c75cf203179 Christian König   2018-08-23  262  /**
-961c75cf203179 Christian König   2018-08-23  263   * amdgpu_gmc_gart_location - try to find GART location
-961c75cf203179 Christian König   2018-08-23  264   *
-53c9c89ac118c9 Rajneesh Bhardwaj 2020-04-05  265   * @adev: amdgpu device structure holding all necessary information
-53c9c89ac118c9 Rajneesh Bhardwaj 2020-04-05  266   * @mc: memory controller structure holding memory information
-961c75cf203179 Christian König   2018-08-23  267   *
-961c75cf203179 Christian König   2018-08-23  268   * Function will place try to place GART before or after VRAM.
-961c75cf203179 Christian König   2018-08-23  269   * If GART size is bigger than space left then we ajust GART size.
-961c75cf203179 Christian König   2018-08-23  270   * Thus function will never fails.
-961c75cf203179 Christian König   2018-08-23  271   */
-917f91d8d8e866 Alex Deucher      2023-09-14  272  void amdgpu_gmc_gart_location(struct amdgpu_device *adev, struct amdgpu_gmc *mc,
-917f91d8d8e866 Alex Deucher      2023-09-14  273  			      enum amdgpu_gart_placement gart_placement)
-961c75cf203179 Christian König   2018-08-23 @274  {
-ec210e3226dc0b Christian König   2018-08-24  275  	const uint64_t four_gb = 0x100000000ULL;
-961c75cf203179 Christian König   2018-08-23  276  	u64 size_af, size_bf;
-f2d9bbc9968997 Emily Deng        2018-10-10  277  	/*To avoid the hole, limit the max mc address to AMDGPU_GMC_HOLE_START*/
-f2d9bbc9968997 Emily Deng        2018-10-10  278  	u64 max_mc_address = min(adev->gmc.mc_mask, AMDGPU_GMC_HOLE_START - 1);
-961c75cf203179 Christian König   2018-08-23  279  
-0be655d1c6c6a9 Christian König   2018-08-23  280  	/* VCE doesn't like it when BOs cross a 4GB segment, so align
-0be655d1c6c6a9 Christian König   2018-08-23  281  	 * the GART base on a 4GB boundary as well.
-0be655d1c6c6a9 Christian König   2018-08-23  282  	 */
-6fdd68b14a943e Alex Deucher      2018-06-19  283  	size_bf = mc->fb_start;
-f2d9bbc9968997 Emily Deng        2018-10-10  284  	size_af = max_mc_address + 1 - ALIGN(mc->fb_end + 1, four_gb);
-0be655d1c6c6a9 Christian König   2018-08-23  285  
-0be655d1c6c6a9 Christian König   2018-08-23  286  	if (mc->gart_size > max(size_bf, size_af)) {
-961c75cf203179 Christian König   2018-08-23  287  		dev_warn(adev->dev, "limiting GART\n");
-0be655d1c6c6a9 Christian König   2018-08-23  288  		mc->gart_size = max(size_bf, size_af);
-961c75cf203179 Christian König   2018-08-23  289  	}
-0be655d1c6c6a9 Christian König   2018-08-23  290  
-917f91d8d8e866 Alex Deucher      2023-09-14  291  	switch (gart_placement) {
-917f91d8d8e866 Alex Deucher      2023-09-14  292  	case AMDGPU_GART_PLACEMENT_HIGH:
-917f91d8d8e866 Alex Deucher      2023-09-14  293  		mc->gart_start = max_mc_address - mc->gart_size + 1;
-917f91d8d8e866 Alex Deucher      2023-09-14  294  		break;
-917f91d8d8e866 Alex Deucher      2023-09-14  295  	case AMDGPU_GART_PLACEMENT_LOW:
-917f91d8d8e866 Alex Deucher      2023-09-14  296  		mc->gart_start = 0;
-917f91d8d8e866 Alex Deucher      2023-09-14  297  		break;
-917f91d8d8e866 Alex Deucher      2023-09-14  298  	case AMDGPU_GART_PLACEMENT_BEST_FIT:
-917f91d8d8e866 Alex Deucher      2023-09-14  299  	default:
-5f232bd79b2417 Christian König   2018-08-24  300  		if ((size_bf >= mc->gart_size && size_bf < size_af) ||
-5f232bd79b2417 Christian König   2018-08-24  301  		    (size_af < mc->gart_size))
-961c75cf203179 Christian König   2018-08-23  302  			mc->gart_start = 0;
-0be655d1c6c6a9 Christian König   2018-08-23  303  		else
-f2d9bbc9968997 Emily Deng        2018-10-10  304  			mc->gart_start = max_mc_address - mc->gart_size + 1;
-917f91d8d8e866 Alex Deucher      2023-09-14  305  		break;
-917f91d8d8e866 Alex Deucher      2023-09-14  306  	}
-ec210e3226dc0b Christian König   2018-08-24  307  
-feabaad8aae0f6 Christian König   2018-09-14  308  	mc->gart_start &= ~(four_gb - 1);
-961c75cf203179 Christian König   2018-08-23  309  	mc->gart_end = mc->gart_start + mc->gart_size - 1;
-961c75cf203179 Christian König   2018-08-23  310  	dev_info(adev->dev, "GART: %lluM 0x%016llX - 0x%016llX\n",
-961c75cf203179 Christian König   2018-08-23  311  			mc->gart_size >> 20, mc->gart_start, mc->gart_end);
-961c75cf203179 Christian König   2018-08-23  312  }
-d76364fc7fde36 Christian König   2018-08-24  313  
-
-:::::: The code at line 274 was first introduced by commit
-:::::: 961c75cf203179d0c546722290bf4b1147e5feb1 drm/amdgpu: move amdgpu_device_(vram|gtt)_location
-
-:::::: TO: Christian König <christian.koenig@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+    33	
+    34	/**
+    35	 * ipe_mmap_file - ipe security hook function for mmap check.
+    36	 * @f: File being mmap'd. Can be NULL in the case of anonymous memory.
+    37	 * @reqprot: The requested protection on the mmap, passed from usermode.
+    38	 * @prot: The effective protection on the mmap, resolved from reqprot and
+    39	 *	  system configuration.
+    40	 * @flags: Unused.
+    41	 *
+    42	 * This hook is called when a file is loaded through the mmap
+    43	 * family of system calls.
+    44	 *
+    45	 * Return:
+    46	 * * 0	- OK
+    47	 * * !0	- Error
+    48	 */
+    49	int ipe_mmap_file(struct file *f, unsigned long reqprot __always_unused,
+    50			  unsigned long prot, unsigned long flags)
+  > 51	{
+    52		struct ipe_eval_ctx ctx = IPE_EVAL_CTX_INIT;
+    53	
+    54		if (prot & PROT_EXEC) {
+    55			build_eval_ctx(&ctx, f, IPE_OP_EXEC);
+    56			return ipe_evaluate_event(&ctx);
+    57		}
+    58	
+    59		return 0;
+    60	}
+    61	
+    62	/**
+    63	 * ipe_file_mprotect - ipe security hook function for mprotect check.
+    64	 * @vma: Existing virtual memory area created by mmap or similar.
+    65	 * @reqprot: The requested protection on the mmap, passed from usermode.
+    66	 * @prot: The effective protection on the mmap, resolved from reqprot and
+    67	 *	  system configuration.
+    68	 *
+    69	 * This LSM hook is called when a mmap'd region of memory is changing
+    70	 * its protections via mprotect.
+    71	 *
+    72	 * Return:
+    73	 * * 0	- OK
+    74	 * * !0	- Error
+    75	 */
+    76	int ipe_file_mprotect(struct vm_area_struct *vma,
+    77			      unsigned long reqprot __always_unused,
+    78			      unsigned long prot)
+  > 79	{
+    80		struct ipe_eval_ctx ctx = IPE_EVAL_CTX_INIT;
+    81	
+    82		/* Already Executable */
+    83		if (vma->vm_flags & VM_EXEC)
+    84			return 0;
+    85	
+    86		if (prot & PROT_EXEC) {
+    87			build_eval_ctx(&ctx, vma->vm_file, IPE_OP_EXEC);
+    88			return ipe_evaluate_event(&ctx);
+    89		}
+    90	
+    91		return 0;
+    92	}
+    93	
 
 -- 
 0-DAY CI Kernel Test Service
