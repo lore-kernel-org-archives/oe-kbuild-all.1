@@ -1,56 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5F131A92
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Oct 2023 23:48:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6530F7F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Oct 2023 00:09:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="anDX1AdT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cbrtMiQa"
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696463310; x=1727999310;
+  t=1696464585; x=1728000585;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=sKOndc796+AQf4UbTaoyi0bTyHR1gldFNWtPzmX48ic=;
-  b=anDX1AdT28/+bMX3h5KVVDAHhzFbORVmGk9UTT/9qIMDHUHwqGDp5bPm
-   3wMOphHAA0v5PHrVwTtpG0OOWTsaRrbdBAmklM5zRxMUjm1RFK51LpEJe
-   PAymLU65wck4lyY1S16DBl9cjHe8SnejBiI8DL6zq12IkME/eAwFa86Ge
-   aO7O06aVzNNQ6Zt34iVIQ5bRujvCHVKfSDbzU9VZyqdcapngSkT59F6Hu
-   Vh5GsiJVOygq4bj1viqvgrZxhc4L1ejmCI05E8VycbaKCev8X0KQGlUW0
-   puAjnwQTapo7mLJNqMJJjByATMdQ+Kp/hBmKL8PJcfzy7i97zyiTE4U6T
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="414312040"
+  bh=vD9VEolBkptu3ld3JXFL+7vX77/UDE2BMoEaEvzGOjk=;
+  b=cbrtMiQalejOiuXysqp7G2hc5/BesTnJ1JLcLd3TuAHGU4ZuA2SM/app
+   +TIh33WOIpKYIU7Obw9TCPaVpnbTyppnZ2EXIgW4W+NCk/+ccFCBLulKH
+   bwnzvmRmC1E+VnQEJD4DojP2/1MCerk5DfsCNZHDCxK/vhmC7o89v9RRA
+   lkHwqnubIRQOvAHNr4nHO9bFRevCIp9iiL7kjrg49kBft6CLDjqGjwYx1
+   BM0rsVw2y76sUzWR6537S7oTr6GxFweiJyI0h01r+qX0A+xRSt93sVhi8
+   XVpXMWXQS4jr9hR7BcdTNZfSp+ONPbXvlhh/GXdiNXcXSGk12ffrfCrBv
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="383252184"
 X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
-   d="scan'208";a="414312040"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 16:48:30 -0700
+   d="scan'208";a="383252184"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 17:09:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="998710887"
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="875327203"
 X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
-   d="scan'208";a="998710887"
+   d="scan'208";a="875327203"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 04 Oct 2023 16:48:23 -0700
+  by orsmga004.jf.intel.com with ESMTP; 04 Oct 2023 17:09:39 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qoBbI-000Klg-2P;
-	Wed, 04 Oct 2023 23:48:20 +0000
-Date: Thu, 5 Oct 2023 07:47:48 +0800
+	id 1qoBvf-000Kn6-0S;
+	Thu, 05 Oct 2023 00:09:36 +0000
+Date: Thu, 5 Oct 2023 08:08:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stanislav Fomichev <sdf@google.com>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org, martin.lau@linux.dev, song@kernel.org,
-	yhs@fb.com, john.fastabend@gmail.com, kpsingh@kernel.org,
-	sdf@google.com, haoluo@google.com, jolsa@kernel.org,
-	kuba@kernel.org, toke@kernel.org, willemb@google.com,
-	dsahern@kernel.org, magnus.karlsson@intel.com, bjorn@kernel.org,
-	maciej.fijalkowski@intel.com, hawk@kernel.org,
-	yoong.siang.song@intel.com, netdev@vger.kernel.org,
-	xdp-hints@xdp-project.net, Saeed Mahameed <saeedm@nvidia.com>
-Subject: Re: [PATCH bpf-next v3 04/10] net/mlx5e: Implement AF_XDP TX
- timestamp and checksum offload
-Message-ID: <202310050738.ZFOKzSlA-lkp@intel.com>
-References: <20231003200522.1914523-5-sdf@google.com>
+To: Gregory CLEMENT <gregory.clement@bootlin.com>,
+	Paul Burton <paulburton@kernel.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-mips@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Vladimir Kondratiev <vladimir.kondratiev@intel.com>,
+	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Gregory CLEMENT <gregory.clement@bootlin.com>
+Subject: Re: [PATCH 10/11] MIPS: generic: Add support for Mobileye EyeQ5
+Message-ID: <202310050726.GDpZbMDO-lkp@intel.com>
+References: <20231004161038.2818327-11-gregory.clement@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,94 +61,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231003200522.1914523-5-sdf@google.com>
+In-Reply-To: <20231004161038.2818327-11-gregory.clement@bootlin.com>
 
-Hi Stanislav,
+Hi Gregory,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on bpf-next/master]
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on lee-mfd/for-mfd-next linus/master v6.6-rc4 next-20231004]
+[cannot apply to lee-mfd/for-mfd-fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Fomichev/xsk-Support-tx_metadata_len/20231004-040718
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231003200522.1914523-5-sdf%40google.com
-patch subject: [PATCH bpf-next v3 04/10] net/mlx5e: Implement AF_XDP TX timestamp and checksum offload
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20231005/202310050738.ZFOKzSlA-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310050738.ZFOKzSlA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-CLEMENT/MIPS-compressed-Use-correct-instruction-for-64-bit-code/20231005-001314
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20231004161038.2818327-11-gregory.clement%40bootlin.com
+patch subject: [PATCH 10/11] MIPS: generic: Add support for Mobileye EyeQ5
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20231005/202310050726.GDpZbMDO-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231005/202310050726.GDpZbMDO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310050738.ZFOKzSlA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310050726.GDpZbMDO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/mellanox/mlx5/core/en/xsk/tx.c: In function 'mlx5e_xsk_tx':
->> drivers/net/ethernet/mellanox/mlx5/core/en/xsk/tx.c:117:33: error: implicit declaration of function 'xsk_tx_metadata_to_compl'; did you mean 'xsk_tx_metadata_complete'? [-Werror=implicit-function-declaration]
-     117 |                                 xsk_tx_metadata_to_compl(meta, &compl);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                                 xsk_tx_metadata_complete
+   drivers/tty/serial/amba-pl011.c: In function 'pl011_sgbuf_init':
+>> drivers/tty/serial/amba-pl011.c:380:30: error: implicit declaration of function 'phys_to_page'; did you mean 'pfn_to_page'? [-Werror=implicit-function-declaration]
+     380 |         sg_set_page(&sg->sg, phys_to_page(dma_addr),
+         |                              ^~~~~~~~~~~~
+         |                              pfn_to_page
+>> drivers/tty/serial/amba-pl011.c:380:30: warning: passing argument 2 of 'sg_set_page' makes pointer from integer without a cast [-Wint-conversion]
+     380 |         sg_set_page(&sg->sg, phys_to_page(dma_addr),
+         |                              ^~~~~~~~~~~~~~~~~~~~~~
+         |                              |
+         |                              int
+   In file included from include/linux/kfifo.h:42,
+                    from include/linux/tty_port.h:5,
+                    from include/linux/tty.h:12,
+                    from drivers/tty/serial/amba-pl011.c:26:
+   include/linux/scatterlist.h:136:69: note: expected 'struct page *' but argument is of type 'int'
+     136 | static inline void sg_set_page(struct scatterlist *sg, struct page *page,
+         |                                                        ~~~~~~~~~~~~~^~~~
    cc1: some warnings being treated as errors
 
 
-vim +117 drivers/net/ethernet/mellanox/mlx5/core/en/xsk/tx.c
+vim +380 drivers/tty/serial/amba-pl011.c
 
-    63	
-    64	bool mlx5e_xsk_tx(struct mlx5e_xdpsq *sq, unsigned int budget)
-    65	{
-    66		struct xsk_buff_pool *pool = sq->xsk_pool;
-    67		struct xsk_tx_metadata *meta = NULL;
-    68		union mlx5e_xdp_info xdpi;
-    69		bool work_done = true;
-    70		bool flush = false;
-    71	
-    72		xdpi.mode = MLX5E_XDP_XMIT_MODE_XSK;
-    73	
-    74		for (; budget; budget--) {
-    75			int check_result = INDIRECT_CALL_2(sq->xmit_xdp_frame_check,
-    76							   mlx5e_xmit_xdp_frame_check_mpwqe,
-    77							   mlx5e_xmit_xdp_frame_check,
-    78							   sq);
-    79			struct mlx5e_xmit_data xdptxd = {};
-    80			struct xdp_desc desc;
-    81			bool ret;
-    82	
-    83			if (unlikely(check_result < 0)) {
-    84				work_done = false;
-    85				break;
-    86			}
-    87	
-    88			if (!xsk_tx_peek_desc(pool, &desc)) {
-    89				/* TX will get stuck until something wakes it up by
-    90				 * triggering NAPI. Currently it's expected that the
-    91				 * application calls sendto() if there are consumed, but
-    92				 * not completed frames.
-    93				 */
-    94				break;
-    95			}
-    96	
-    97			xdptxd.dma_addr = xsk_buff_raw_get_dma(pool, desc.addr);
-    98			xdptxd.data = xsk_buff_raw_get_data(pool, desc.addr);
-    99			xdptxd.len = desc.len;
-   100			meta = xsk_buff_get_metadata(pool, desc.addr);
-   101	
-   102			xsk_buff_raw_dma_sync_for_device(pool, xdptxd.dma_addr, xdptxd.len);
-   103	
-   104			ret = INDIRECT_CALL_2(sq->xmit_xdp_frame, mlx5e_xmit_xdp_frame_mpwqe,
-   105					      mlx5e_xmit_xdp_frame, sq, &xdptxd,
-   106					      check_result, meta);
-   107			if (unlikely(!ret)) {
-   108				if (sq->mpwqe.wqe)
-   109					mlx5e_xdp_mpwqe_complete(sq);
-   110	
-   111				mlx5e_xsk_tx_post_err(sq, &xdpi);
-   112			} else {
-   113				mlx5e_xdpi_fifo_push(&sq->db.xdpi_fifo, xdpi);
-   114				if (xp_tx_metadata_enabled(sq->xsk_pool)) {
-   115					struct xsk_tx_metadata_compl compl;
-   116	
- > 117					xsk_tx_metadata_to_compl(meta, &compl);
+68b65f7305e54b drivers/serial/amba-pl011.c     Russell King   2010-12-22  368  
+ead76f329f777c drivers/tty/serial/amba-pl011.c Linus Walleij  2011-02-24  369  static int pl011_sgbuf_init(struct dma_chan *chan, struct pl011_sgbuf *sg,
+ead76f329f777c drivers/tty/serial/amba-pl011.c Linus Walleij  2011-02-24  370  	enum dma_data_direction dir)
+ead76f329f777c drivers/tty/serial/amba-pl011.c Linus Walleij  2011-02-24  371  {
+cb06ff102e2d79 drivers/tty/serial/amba-pl011.c Chanho Min     2013-03-27  372  	dma_addr_t dma_addr;
+cb06ff102e2d79 drivers/tty/serial/amba-pl011.c Chanho Min     2013-03-27  373  
+cb06ff102e2d79 drivers/tty/serial/amba-pl011.c Chanho Min     2013-03-27  374  	sg->buf = dma_alloc_coherent(chan->device->dev,
+cb06ff102e2d79 drivers/tty/serial/amba-pl011.c Chanho Min     2013-03-27  375  		PL011_DMA_BUFFER_SIZE, &dma_addr, GFP_KERNEL);
+ead76f329f777c drivers/tty/serial/amba-pl011.c Linus Walleij  2011-02-24  376  	if (!sg->buf)
+ead76f329f777c drivers/tty/serial/amba-pl011.c Linus Walleij  2011-02-24  377  		return -ENOMEM;
+ead76f329f777c drivers/tty/serial/amba-pl011.c Linus Walleij  2011-02-24  378  
+cb06ff102e2d79 drivers/tty/serial/amba-pl011.c Chanho Min     2013-03-27  379  	sg_init_table(&sg->sg, 1);
+cb06ff102e2d79 drivers/tty/serial/amba-pl011.c Chanho Min     2013-03-27 @380  	sg_set_page(&sg->sg, phys_to_page(dma_addr),
+cb06ff102e2d79 drivers/tty/serial/amba-pl011.c Chanho Min     2013-03-27  381  		PL011_DMA_BUFFER_SIZE, offset_in_page(dma_addr));
+cb06ff102e2d79 drivers/tty/serial/amba-pl011.c Chanho Min     2013-03-27  382  	sg_dma_address(&sg->sg) = dma_addr;
+c64be9231e0893 drivers/tty/serial/amba-pl011.c Andrew Jackson 2014-11-07  383  	sg_dma_len(&sg->sg) = PL011_DMA_BUFFER_SIZE;
+ead76f329f777c drivers/tty/serial/amba-pl011.c Linus Walleij  2011-02-24  384  
+ead76f329f777c drivers/tty/serial/amba-pl011.c Linus Walleij  2011-02-24  385  	return 0;
+ead76f329f777c drivers/tty/serial/amba-pl011.c Linus Walleij  2011-02-24  386  }
+ead76f329f777c drivers/tty/serial/amba-pl011.c Linus Walleij  2011-02-24  387  
 
 -- 
 0-DAY CI Kernel Test Service
