@@ -1,59 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE033FDB
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Oct 2023 05:21:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472956D19
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Oct 2023 07:33:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ntsj7lgo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aVbkCwr+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696569691; x=1728105691;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kTezNlXjIvleKEn+KNJaXcoyrpYTmoUt9fJbdVMLQBs=;
-  b=ntsj7lgo+HfG2HpxwlEpfUeCq3nN7f4T0HHi+4KjHosA0/h2+rHKvwq7
-   nBma+j6DIhiRSzdNiCFktxvts4pwrAXFn7VYDtoDAC1s+pvIiDUvriLRA
-   IKzAzaQZc2qiOEZQ5dQXx9YdXrf33T61QKk0aZOrxmHyehXVMUBShyI7E
-   uUX3OXaI0+OOy/lz8mo9tPLaKpygFwvdwc3u7SKZ5W/axmmLuLQmKzmpC
-   ADbdoORl0TbArGAmEbpHX6XSbF1Dt6Rzq8tcyC9t0iGz78ZMWzCbSS7Wq
-   rflbOhPn6xA4GSwWw3kJlvKyKUIWNLUMkLRRjc4Pgbu/3/0R0ppn+Y9Wz
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="363958919"
+  t=1696577619; x=1728113619;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oUl+vwf7Z+/eSnCAGwBQq/dCQLu7m/mBTQwSatI7DEw=;
+  b=aVbkCwr+djWyccf4Je8f71qlywqMLF5SjRjNPIfOn05DJ0HK3JprgKpK
+   5/kmBpsZDNxAVNedjCeGLP7n8NCAoqrMWcmtCLKZ7hKyjTnA3z6aF0sRI
+   30UVuv0iaIBW3oRgcv6bYYu7scTKDyK/n6g0/HZY3XfASZVLTSoF8ZrRe
+   Kx/+htooWGzCUXAngt6Y/dZRjMYDB79KKzyj6xvaORMXTQa1xb4kdAprf
+   8zU2aZNSGovfy7th2h3RrZUZ/Ldfv7My6A5+qjYVbUG7yvSUGNeDzEahX
+   KvTS5XZ53VYy3t0+t+MCrP8lnMIeLIew4v/KPxoGjzAV+Mqy5kMU8CT4k
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="363055247"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="363958919"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 22:21:31 -0700
+   d="scan'208";a="363055247"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 00:33:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="787263452"
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="817926005"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="787263452"
+   d="scan'208";a="817926005"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 05 Oct 2023 22:21:25 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 06 Oct 2023 00:33:37 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qodH7-000MI2-2b;
-	Fri, 06 Oct 2023 05:21:22 +0000
-Date: Fri, 6 Oct 2023 13:20:32 +0800
+	id 1qofL4-000MNo-2U;
+	Fri, 06 Oct 2023 07:33:34 +0000
+Date: Fri, 6 Oct 2023 15:33:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Griffin <peter.griffin@linaro.org>, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, mturquette@baylibre.com,
-	conor+dt@kernel.org, sboyd@kernel.org, tomasz.figa@gmail.com,
-	s.nawrocki@samsung.com, linus.walleij@linaro.org,
-	wim@linux-watchdog.org, linux@roeck-us.net, catalin.marinas@arm.com,
-	will@kernel.org, arnd@arndb.de, olof@lixom.net,
-	cw00.choi@samsung.com
-Cc: oe-kbuild-all@lists.linux.dev, peter.griffin@linaro.org,
-	tudor.ambarus@linaro.org, andre.draszik@linaro.org,
-	semen.protsenko@linaro.org, soc@kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH 15/21] clk: google: gs101: Add support for CMU_MISC clock
- unit
-Message-ID: <202310061359.5WMm9C9Y-lkp@intel.com>
-References: <20231005155618.700312-16-peter.griffin@linaro.org>
+To: Kees Cook <keescook@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 9982/9984] ERROR: start_text address is
+ c000000000000800, should be c000000000000200
+Message-ID: <202310061532.jb7umkb1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,68 +50,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231005155618.700312-16-peter.griffin@linaro.org>
 
-Hi Peter,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on krzk/for-next]
-[also build test WARNING on robh/for-next linus/master v6.6-rc4 next-20231005]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Griffin/dt-bindings-interrupt-controller-Add-gs101-interrupt-controller/20231005-235922
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
-patch link:    https://lore.kernel.org/r/20231005155618.700312-16-peter.griffin%40linaro.org
-patch subject: [PATCH 15/21] clk: google: gs101: Add support for CMU_MISC clock unit
-config: nios2-allyesconfig (https://download.01.org/0day-ci/archive/20231006/202310061359.5WMm9C9Y-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231006/202310061359.5WMm9C9Y-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0f0fe5040de5e5fd9b040672e37725b046e312f0
+commit: cf10b86c9096df9fd9b424c08fcdb2e56e5b9a5e [9982/9984] Merge branch 'for-next/kspp' of git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git
+config: powerpc64-buildonly-randconfig-r005-20211221 (https://download.01.org/0day-ci/archive/20231006/202310061532.jb7umkb1-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231006/202310061532.jb7umkb1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310061359.5WMm9C9Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310061532.jb7umkb1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/clk/samsung/clk-gs101.c:17:
->> drivers/clk/samsung/clk-gs101.c:2087:7: warning: 'mout_misc_gic_p' defined but not used [-Wunused-const-variable=]
-    2087 | PNAME(mout_misc_gic_p)                  = { "oscclk", "dout_cmu_misc_sss" };
-         |       ^~~~~~~~~~~~~~~
-   drivers/clk/samsung/clk.h:226:44: note: in definition of macro 'PNAME'
-     226 | #define PNAME(x) static const char * const x[] __initconst
-         |                                            ^
-   drivers/clk/samsung/clk-gs101.c:937:7: warning: 'mout_cmu_g2d_p' defined but not used [-Wunused-const-variable=]
-     937 | PNAME(mout_cmu_g2d_p)           = { "dout_shared0_div3", "fout_shared3_pll",
-         |       ^~~~~~~~~~~~~~
-   drivers/clk/samsung/clk.h:226:44: note: in definition of macro 'PNAME'
-     226 | #define PNAME(x) static const char * const x[] __initconst
-         |                                            ^
-   drivers/clk/samsung/clk-gs101.c:890:7: warning: 'mout_cmu_boost_p' defined but not used [-Wunused-const-variable=]
-     890 | PNAME(mout_cmu_boost_p)         = { "dout_shared0_div4", "dout_shared1_div4",
-         |       ^~~~~~~~~~~~~~~~
-   drivers/clk/samsung/clk.h:226:44: note: in definition of macro 'PNAME'
-     226 | #define PNAME(x) static const char * const x[] __initconst
-         |                                            ^
-   drivers/clk/samsung/clk-gs101.c:811:7: warning: 'mout_cmu_pdp_vra_p' defined but not used [-Wunused-const-variable=]
-     811 | PNAME(mout_cmu_pdp_vra_p)       = { "fout_shared2_pll", "dout_shared0_div3",
-         |       ^~~~~~~~~~~~~~~~~~
-   drivers/clk/samsung/clk.h:226:44: note: in definition of macro 'PNAME'
-     226 | #define PNAME(x) static const char * const x[] __initconst
-         |                                            ^
-
-
-vim +/mout_misc_gic_p +2087 drivers/clk/samsung/clk-gs101.c
-
-  2083	
-  2084	/* List of parent clocks for Muxes in CMU_MISC */
-  2085	PNAME(mout_misc_bus_user_p)		= { "oscclk", "dout_cmu_misc_bus" };
-  2086	PNAME(mout_misc_sss_user_p)		= { "oscclk", "dout_cmu_misc_sss" };
-> 2087	PNAME(mout_misc_gic_p)			= { "oscclk", "dout_cmu_misc_sss" };
-  2088	
+>> ERROR: start_text address is c000000000000800, should be c000000000000200
+   ERROR: try to enable LD_HEAD_STUB_CATCH config option
+   ERROR: see comments in arch/powerpc/tools/head_check.sh
 
 -- 
 0-DAY CI Kernel Test Service
