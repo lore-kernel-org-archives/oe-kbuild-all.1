@@ -1,46 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D66185F
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Oct 2023 03:24:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC941855
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Oct 2023 04:17:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QdNA6PiI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NJsAcG6U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696562689; x=1728098689;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fK53IPTcx3Z0hWssRQvM7ALLazi2gNJOmVonCH0Q2P8=;
-  b=QdNA6PiIK0cJe1FJbK0JDHVTTY/nCuN2HY26l5Z4JA9GZ5euIcaKh58Z
-   QyuGh5yeySMRL+qyc+8Mcc/TvOsLQ3VY5w2rTH/mNfb/t0iENJdyzvueg
-   7nubFv1RVVz7/r3GM6sJ7drmzErKFQdWBKHw70IXhNZEvFS66TwHihyzV
-   Er+BOVC6mmOyTG3XrDKShjQJIe/3ai3LPhLzXiyiqVpxoZ0VhvqzwBcxl
-   cW/l6uELqbTTr3I3oJKrqC6d/kabGdRMl2XNFETDcOwoVkIZyn8rAk3Lt
-   QQ4mH791koV6+JO5hd7+CBV8xf+CyPzR42ShjVp60afWM2ReoJqfkD7Ex
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="374021723"
+  t=1696565824; x=1728101824;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+UzMQZ+ABsiq+qvcmT9/GjdcKv139ZXc6ACV/SBjYn4=;
+  b=NJsAcG6U0HibHibeod3BxZod0SYA4WIU57psfCJi/JtzRyblYET82j9X
+   aubo3ub/JxF4vj53Z4YAWEb6tKbegU4UTebjqBjpBwXKAty8QNEj6jXEj
+   NeF/bW2zsrd9zylT4rywEmqUKxylJojJ3kurF8bZpWVdDHBYL0Fzp1Oz3
+   szJvW5THjvTUOkkLD+/HGlSbmQSaDkbY/eLOwqNWGcqaEpdBFSvR8sdqh
+   +YKamJfTlaNCpqzzsFrIo37B6mMxnGuwTcZVTT/MIaTUNl/dN5wse4Yyj
+   igOaYVuBTqnxaGmixuobE59pju0RWqyJR304cs55ENmMORZyFXkt81dfw
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="414659054"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="374021723"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 20:24:40 -0700
+   d="scan'208";a="414659054"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 21:17:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="781488097"
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="701916250"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="781488097"
+   d="scan'208";a="701916250"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 05 Oct 2023 20:24:39 -0700
+  by orsmga003.jf.intel.com with ESMTP; 05 Oct 2023 21:16:54 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qobS8-000MD6-31;
-	Fri, 06 Oct 2023 03:24:36 +0000
-Date: Fri, 6 Oct 2023 11:24:06 +0800
+	id 1qocGi-000MEu-0v;
+	Fri, 06 Oct 2023 04:16:52 +0000
+Date: Fri, 6 Oct 2023 12:16:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 1/4] include/trace/stages/init.h:2:23:
- warning: 'str__compaction__trace_system_name' defined but not used
-Message-ID: <202310061143.5MzHksoE-lkp@intel.com>
+To: Peter Griffin <peter.griffin@linaro.org>, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, mturquette@baylibre.com,
+	conor+dt@kernel.org, sboyd@kernel.org, tomasz.figa@gmail.com,
+	s.nawrocki@samsung.com, linus.walleij@linaro.org,
+	wim@linux-watchdog.org, linux@roeck-us.net, catalin.marinas@arm.com,
+	will@kernel.org, arnd@arndb.de, olof@lixom.net,
+	cw00.choi@samsung.com
+Cc: oe-kbuild-all@lists.linux.dev, peter.griffin@linaro.org,
+	tudor.ambarus@linaro.org, andre.draszik@linaro.org,
+	semen.protsenko@linaro.org, soc@kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH 13/21] clk: samsung: clk-gs101: Add cmu_top registers,
+ plls, mux and gates
+Message-ID: <202310061231.Awh3otY7-lkp@intel.com>
+References: <20231005155618.700312-14-peter.griffin@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,139 +62,206 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231005155618.700312-14-peter.griffin@linaro.org>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   324c8522f9cd2966429f11325d5b4f25d435d272
-commit: 5c2855fbced4e4d18b8d050a3024c7fdbdba02ab [1/4] ANDROID: mm: Add vendor hook for compact pages work.
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20231006/202310061143.5MzHksoE-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231006/202310061143.5MzHksoE-lkp@intel.com/reproduce)
+Hi Peter,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on krzk/for-next]
+[also build test WARNING on robh/for-next linus/master v6.6-rc4 next-20231005]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Griffin/dt-bindings-interrupt-controller-Add-gs101-interrupt-controller/20231005-235922
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
+patch link:    https://lore.kernel.org/r/20231005155618.700312-14-peter.griffin%40linaro.org
+patch subject: [PATCH 13/21] clk: samsung: clk-gs101: Add cmu_top registers, plls, mux and gates
+config: nios2-allyesconfig (https://download.01.org/0day-ci/archive/20231006/202310061231.Awh3otY7-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231006/202310061231.Awh3otY7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310061143.5MzHksoE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310061231.Awh3otY7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/compaction.h:20,
-                    from drivers/android/vendor_hooks.c:70:
->> include/trace/stages/init.h:2:23: warning: 'str__compaction__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/regmap.h:24,
-                    from drivers/android/vendor_hooks.c:69:
-   include/trace/stages/init.h:2:23: warning: 'str__regmap__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/bl_hib.h:44,
-                    from drivers/android/vendor_hooks.c:68:
-   include/trace/stages/init.h:2:23: warning: 'str__bl_hib__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/psi.h:25,
-                    from drivers/android/vendor_hooks.c:67:
-   include/trace/stages/init.h:2:23: warning: 'str__psi__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/psci.h:25,
-                    from drivers/android/vendor_hooks.c:66:
-   include/trace/stages/init.h:2:23: warning: 'str__psci__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/signal.h:22,
-                    from drivers/android/vendor_hooks.c:65:
-   include/trace/stages/init.h:2:23: warning: 'str__signal__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
+   In file included from drivers/clk/samsung/clk-gs101.c:17:
+>> drivers/clk/samsung/clk-gs101.c:935:7: warning: 'mout_cmu_g2d_p' defined but not used [-Wunused-const-variable=]
+     935 | PNAME(mout_cmu_g2d_p)           = { "dout_shared0_div3", "fout_shared3_pll",
+         |       ^~~~~~~~~~~~~~
+   drivers/clk/samsung/clk.h:226:44: note: in definition of macro 'PNAME'
+     226 | #define PNAME(x) static const char * const x[] __initconst
+         |                                            ^
+>> drivers/clk/samsung/clk-gs101.c:888:7: warning: 'mout_cmu_boost_p' defined but not used [-Wunused-const-variable=]
+     888 | PNAME(mout_cmu_boost_p)         = { "dout_shared0_div4", "dout_shared1_div4",
+         |       ^~~~~~~~~~~~~~~~
+   drivers/clk/samsung/clk.h:226:44: note: in definition of macro 'PNAME'
+     226 | #define PNAME(x) static const char * const x[] __initconst
+         |                                            ^
+>> drivers/clk/samsung/clk-gs101.c:809:7: warning: 'mout_cmu_pdp_vra_p' defined but not used [-Wunused-const-variable=]
+     809 | PNAME(mout_cmu_pdp_vra_p)       = { "fout_shared2_pll", "dout_shared0_div3",
+         |       ^~~~~~~~~~~~~~~~~~
+   drivers/clk/samsung/clk.h:226:44: note: in definition of macro 'PNAME'
+     226 | #define PNAME(x) static const char * const x[] __initconst
+         |                                            ^
 
 
-vim +/str__compaction__trace_system_name +2 include/trace/stages/init.h
+vim +/mout_cmu_g2d_p +935 drivers/clk/samsung/clk-gs101.c
 
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+   790	
+   791	PNAME(mout_cmu_hsi2_ufs_embd_p)	= { "oscclk", "dout_shared0_div4",
+   792					    "dout_shared2_div2", "fout_spare_pll" };
+   793	
+   794	PNAME(mout_cmu_hsi2_mmc_card_p)	= { "fout_shared2_pll", "fout_shared3_pll",
+   795					    "dout_shared0_div4", "fout_spare_pll" };
+   796	
+   797	/* List of parent clocks for Muxes in CMU_TOP: for CMU_CSIS */
+   798	PNAME(mout_cmu_csis_bus_p)	= { "dout_shared0_div3", "fout_shared3_pll",
+   799					    "dout_shared1_div3", "dout_shared0_div4",
+   800					    "dout_shared1_div4", "dout_shared2_div2",
+   801					    "fout_spare_pll" };
+   802	
+   803	/* List of parent clocks for Muxes in CMU_TOP: for CMU_PDP */
+   804	PNAME(mout_cmu_pdp_bus_p)	= { "dout_shared0_div3", "fout_shared3_pll",
+   805					    "dout_shared1_div3", "dout_shared0_div4",
+   806					    "dout_shared1_div4", "dout_shared2_div2",
+   807					    "fout_spare_pll" };
+   808	
+ > 809	PNAME(mout_cmu_pdp_vra_p)	= { "fout_shared2_pll", "dout_shared0_div3",
+   810					    "fout_shared3_pll", "dout_shared1_div3",
+   811					    "dout_shared0_div4", "dout_shared1_div4",
+   812					    "fout_spare_pll" };
+   813	
+   814	/* List of parent clocks for Muxes in CMU_TOP: for CMU_IPP */
+   815	PNAME(mout_cmu_ipp_bus_p)	= { "dout_shared0_div3", "fout_shared3_pll",
+   816					    "dout_shared1_div3", "dout_shared0_div4",
+   817					    "dout_shared1_div4", "dout_shared2_div2",
+   818					    "fout_spare_pll" };
+   819	
+   820	/* List of parent clocks for Muxes in CMU_TOP: for CMU_G3AA */
+   821	PNAME(mout_cmu_g3aa_p)		= { "dout_shared0_div3", "fout_shared3_pll",
+   822					    "dout_shared1_div3", "dout_shared0_div4",
+   823					    "dout_shared1_div4", "dout_shared2_div2",
+   824					    "fout_spare_pll" };
+   825	
+   826	/* List of parent clocks for Muxes in CMU_TOP: for CMU_ITP */
+   827	PNAME(mout_cmu_itp_bus_p)	= { "dout_shared0_div3", "fout_shared3_pll",
+   828					    "dout_shared1_div3", "dout_shared0_div4",
+   829					    "dout_shared1_div4", "dout_shared2_div2",
+   830					    "fout_spare_pll" };
+   831	
+   832	/* List of parent clocks for Muxes in CMU_TOP: for CMU_DNS */
+   833	PNAME(mout_cmu_dns_bus_p)	= { "dout_shared0_div3", "fout_shared3_pll",
+   834					    "dout_shared1_div3", "dout_shared0_div4",
+   835					    "dout_shared1_div4", "dout_shared2_div2",
+   836					    "fout_spare_pll" };
+   837	
+   838	/* List of parent clocks for Muxes in CMU_TOP: for CMU_TNR */
+   839	PNAME(mout_cmu_tnr_bus_p)	= { "dout_shared0_div3", "fout_shared3_pll",
+   840					    "dout_shared1_div3", "dout_shared0_div4",
+   841					    "dout_shared1_div4", "dout_shared2_div2",
+   842					    "fout_spare_pll" };
+   843	
+   844	/* List of parent clocks for Muxes in CMU_TOP: for CMU_MCSC */
+   845	PNAME(mout_cmu_mcsc_itsc_p)	= { "dout_shared0_div3", "fout_shared3_pll",
+   846					    "dout_shared1_div3", "dout_shared0_div4",
+   847					    "dout_shared1_div4", "dout_shared2_div2",
+   848					    "fout_spare_pll" };
+   849	
+   850	PNAME(mout_cmu_mcsc_mcsc_p)	= { "dout_shared0_div3", "fout_shared3_pll",
+   851					    "dout_shared1_div3", "dout_shared0_div4",
+   852					    "dout_shared1_div4", "dout_shared2_div2",
+   853					    "fout_spare_pll" };
+   854	
+   855	/* List of parent clocks for Muxes in CMU_TOP: for CMU_GDC */
+   856	PNAME(mout_cmu_gdc_scsc_p)	= { "dout_shared0_div3", "fout_shared3_pll",
+   857					    "dout_shared1_div3", "dout_shared0_div4",
+   858					    "dout_shared1_div4", "dout_shared2_div2",
+   859					    "fout_spare_pll" };
+   860	
+   861	PNAME(mout_cmu_gdc_gdc0_p)	= { "dout_shared0_div3", "fout_shared3_pll",
+   862					    "dout_shared1_div3", "dout_shared0_div4",
+   863					    "dout_shared1_div4", "dout_shared2_div2",
+   864					    "fout_spare_pll" };
+   865	
+   866	PNAME(mout_cmu_gdc_gdc1_p)	= { "dout_shared0_div3", "fout_shared3_pll",
+   867					    "dout_shared1_div3", "dout_shared0_div4",
+   868					    "dout_shared1_div4", "dout_shared2_div2",
+   869					    "fout_spare_pll" };
+   870	
+   871	/* List of parent clocks for Muxes in CMU_TOP: for CMU_MFC */
+   872	PNAME(mout_cmu_mfc_mfc_p)	= { "dout_shared0_div3", "fout_shared3_pll",
+   873					    "dout_shared1_div3", "dout_shared0_div4",
+   874					    "dout_shared1_div4", "dout_shared2_div2",
+   875					    "fout_spare_pll" };
+   876	
+   877	/* List of parent clocks for Muxes in CMU_TOP: for DDRPHY0/1/2/3 */
+   878	
+   879	PNAME(mout_cmu_mif_switch_p)	= { "fout_shared0_pll", "fout_shared1_pll",
+   880					    "dout_shared0_div2", "dout_shared1_div2",
+   881					    "fout_shared2_pll", "dout_shared0_div3",
+   882					    "fout_shared3_pll", "fout_spare_pll" };
+   883	
+   884	/* List of parent clocks for Muxes in CMU_TOP: for CMU_MIF0/1/2/3 */
+   885	PNAME(mout_cmu_mif_busp_p)	= { "dout_shared0_div4", "dout_shared1_div4",
+   886					    "dout_shared0_div5", "fout_spare_pll" };
+   887	
+ > 888	PNAME(mout_cmu_boost_p)		= { "dout_shared0_div4", "dout_shared1_div4",
+   889					    "dout_shared2_div2", "dout_shared3_div2" };
+   890	
+   891	/* List of parent clocks for Muxes in CMU_TOP: for CMU_MISC */
+   892	PNAME(mout_cmu_misc_bus_p)	= { "dout_shared0_div4", "dout_shared2_div2",
+   893					    "dout_shared3_div2", "fout_spare_pll" };
+   894	PNAME(mout_cmu_misc_sss_p)	= { "dout_shared0_div4", "dout_shared2_div2",
+   895					    "dout_shared3_div2", "fout_spare_pll" };
+   896	
+   897	/* List of parent clocks for Muxes in CMU_TOP: for CMU_PERIC0 */
+   898	PNAME(mout_cmu_peric0_bus_p)	= { "dout_shared0_div4", "dout_shared2_div2",
+   899					    "dout_shared3_div2", "fout_spare_pll" };
+   900	PNAME(mout_cmu_peric0_ip_p)	= { "dout_shared0_div4", "dout_shared2_div2",
+   901					    "dout_shared3_div2", "fout_spare_pll" };
+   902	
+   903	/* List of parent clocks for Muxes in CMU_TOP: for CMU_PERIC1 */
+   904	PNAME(mout_cmu_peric1_bus_p)	= { "dout_shared0_div4", "dout_shared2_div2",
+   905					    "dout_shared3_div2", "fout_spare_pll" };
+   906	PNAME(mout_cmu_peric1_ip_p)	= { "dout_shared0_div4", "dout_shared2_div2",
+   907					    "dout_shared3_div2", "fout_spare_pll" };
+   908	
+   909	/* List of parent clocks for Muxes in CMU_TOP: for CMU_TPU */
+   910	PNAME(mout_cmu_tpu_tpu_p)	= { "dout_shared0_div2", "dout_shared1_div2",
+   911					    "fout_shared2_pll", "fout_shared3_pll",
+   912					    "dout_shared0_div3", "dout_shared1_div3",
+   913					    "dout_shared0_div4", "fout_spare_pll" };
+   914	
+   915	PNAME(mout_cmu_tpu_tpuctl_p)	= { "dout_shared0_div2", "dout_shared1_div2",
+   916					    "fout_shared2_pll", "fout_shared3_pll",
+   917					    "dout_shared0_div3", "dout_shared1_div3",
+   918					    "dout_shared0_div4", "fout_spare_pll" };
+   919	
+   920	PNAME(mout_cmu_tpu_bus_p)	= { "dout_shared0_div2", "dout_shared1_div2",
+   921					    "fout_shared2_pll", "fout_shared3_pll",
+   922					    "dout_shared0_div3", "dout_shared1_div3",
+   923					    "dout_shared0_div4", "fout_spare_pll" };
+   924	
+   925	PNAME(mout_cmu_tpu_uart_p)	= { "dout_shared0_div4", "dout_shared2_div2",
+   926					    "dout_shared3_div2", "fout_spare_pll" };
+   927	
+   928	/* List of parent clocks for Muxes in CMU_TOP: for CMU_BO */
+   929	PNAME(mout_cmu_bo_bus_p)	= { "fout_shared2_pll", "dout_shared0_div3",
+   930					    "fout_shared3_pll", "dout_shared1_div3",
+   931					    "dout_shared0_div4", "dout_shared1_div4",
+   932					    "fout_spare_pll" };
+   933	
+   934	/* List of parent clocks for Muxes in CMU_TOP: for CMU_G2D */
+ > 935	PNAME(mout_cmu_g2d_p)		= { "dout_shared0_div3", "fout_shared3_pll",
+   936					    "dout_shared1_div3", "dout_shared0_div4",
+   937					    "dout_shared1_div4", "dout_shared2_div2",
+   938					    "fout_spare_pll" };
+   939	
 
 -- 
 0-DAY CI Kernel Test Service
