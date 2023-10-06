@@ -1,67 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90DDC1F5FE
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Oct 2023 17:22:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD3931A6F;
+	Fri,  6 Oct 2023 17:44:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KDD7Dev/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bVPS2ODc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696612973; x=1728148973;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kjjkqAvDUUE79c02Z9GctG9biEdnrD/qQT+SEoiCCtc=;
-  b=KDD7Dev/bHh692P/iPigkfeXxqAfh2HbKIrXF10EOiJMiCtWARyVV/lJ
-   y803WcrIba2bnh/IYuUgmjRUgo0OTGMnCM8ZMS+GH+87qaViVL+xVv9Zr
-   NmZ6tyX9TSXQtU+AZTCXpayB1lu56nmvq9HDgaaY8n3MOK2jERxkINztd
-   Qh/OgAT1qI2NNN/pecS7N5uJgvj6+DTTwPZ2KoppETEPGmw9wmWSjcThd
-   /B0QEv20kvXdslIdf4tndBmnuWzzuTuRR+YL3CV4vqauLuWU1DSM5CQpb
-   kJYedKAd3DPVp6Uz7+x0wd/0QZKQpdmbgYHzKB+jtSKJWECvUu0YX8ccy
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="5348274"
+  t=1696614267; x=1728150267;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VhHENdpgY+sILTg2ivPgyRFZ3jNbhscJkyL8yBGyQjU=;
+  b=bVPS2ODcUx4nqbEKfsvQmzWjWfiXHh7vJPJHJbrRC+GNZrM6fvCA0MMQ
+   JpOblSOM2MHDSm6I8F8QwkuFJDkb4IoKpfPMp2ebDIOxBHKKzlC29VmMA
+   VLkIMEXyHT4HKUl1VFE6cItN4HbOSgRDIXOk0xhU+/JOHxDRNXjCpnK8r
+   WfluKQ0zv7KqItra81ZI5TYY3pPAfYDbdkPEK0+7YJQ78LjShPHl+OS/Q
+   SxzNIcM4IevJeWrqlpZPp3n4eg/s9i9aSLHA0I7+fLR4/mqJE7PmmN86t
+   OfQiIiDfOJFVDkKQXFMEA9R+RNYqmbkdanleePP3/gZ/9pOTqZOwftmbi
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="2399414"
 X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
-   d="scan'208";a="5348274"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 10:22:29 -0700
+   d="scan'208";a="2399414"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 10:44:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="755921845"
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="868417795"
 X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
-   d="scan'208";a="755921845"
+   d="scan'208";a="868417795"
 Received: from lkp-server01.sh.intel.com (HELO 8a3a91ad4240) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 06 Oct 2023 10:22:23 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 06 Oct 2023 10:44:25 -0700
 Received: from kbuild by 8a3a91ad4240 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qooWr-0003T1-2L;
-	Fri, 06 Oct 2023 17:22:21 +0000
-Date: Sat, 7 Oct 2023 01:21:41 +0800
+	id 1qoosA-0003U7-2k;
+	Fri, 06 Oct 2023 17:44:22 +0000
+Date: Sat, 7 Oct 2023 01:43:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Jakub Kicinski <kuba@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	bpf@vger.kernel.org,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Eric Dumazet <edumazet@google.com>, Hao Luo <haoluo@google.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	KP Singh <kpsingh@kernel.org>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Magnus Karlsson <magnus.karlsson@intel.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Paolo Abeni <pabeni@redhat.com>, Song Liu <song@kernel.org>,
-	Stanislav Fomichev <sdf@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Yonghong Song <yonghong.song@linux.dev>
-Subject: Re: [PATCH bpf-next v2] net: Add a warning if NAPI cb missed
- xdp_do_flush().
-Message-ID: <202310070134.JX5try68-lkp@intel.com>
-References: <20231006154933.mQgxQHHt@linutronix.de>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: arch/arm/mach-omap1/timer32k.c:186: warning: cannot understand
+ function prototype: 'struct timespec64 persistent_ts; '
+Message-ID: <202310070106.8QSyJOm3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,51 +50,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231006154933.mQgxQHHt@linutronix.de>
 
-Hi Sebastian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Andrzej-Siewior/net-Add-a-warning-if-NAPI-cb-missed-xdp_do_flush/20231006-235117
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231006154933.mQgxQHHt%40linutronix.de
-patch subject: [PATCH bpf-next v2] net: Add a warning if NAPI cb missed xdp_do_flush().
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231007/202310070134.JX5try68-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231007/202310070134.JX5try68-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   af95dc6fdc25e616051d0234aad638e15c02ec8f
+commit: d379e8899a8da1041c347ae5b792773c48a559a9 ARM: omap1: move 32k counter from plat-omap to mach-omap1
+date:   1 year, 6 months ago
+config: arm-omap1_defconfig (https://download.01.org/0day-ci/archive/20231007/202310070106.8QSyJOm3-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231007/202310070106.8QSyJOm3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310070134.JX5try68-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310070106.8QSyJOm3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/core/filter.c:4211:6: warning: no previous prototype for 'xdp_do_check_flushed' [-Wmissing-prototypes]
-    4211 | void xdp_do_check_flushed(struct napi_struct *napi)
-         |      ^~~~~~~~~~~~~~~~~~~~
+>> arch/arm/mach-omap1/timer32k.c:186: warning: cannot understand function prototype: 'struct timespec64 persistent_ts; '
+>> arch/arm/mach-omap1/timer32k.c:216: warning: Function parameter or member 'vbase' not described in 'omap_init_clocksource_32k'
+>> arch/arm/mach-omap1/timer32k.c:216: warning: Excess function parameter 'pbase' description in 'omap_init_clocksource_32k'
+>> arch/arm/mach-omap1/timer32k.c:216: warning: Excess function parameter 'size' description in 'omap_init_clocksource_32k'
 
 
-vim +/xdp_do_check_flushed +4211 net/core/filter.c
+vim +186 arch/arm/mach-omap1/timer32k.c
 
-  4209	
-  4210	#if defined(CONFIG_DEBUG_NET) && defined(CONFIG_BPF_SYSCALL)
-> 4211	void xdp_do_check_flushed(struct napi_struct *napi)
-  4212	{
-  4213		bool ret;
-  4214	
-  4215		ret = dev_check_flush();
-  4216		ret |= cpu_map_check_flush();
-  4217		ret |= xsk_map_check_flush();
-  4218	
-  4219		WARN_ONCE(ret, "Missing xdp_do_flush() invocation after NAPI by %ps\n",
-  4220			  napi->poll);
-  4221	}
-  4222	#endif
-  4223	
+   178	
+   179	/**
+   180	 * omap_read_persistent_clock64 -  Return time from a persistent clock.
+   181	 *
+   182	 * Reads the time from a source which isn't disabled during PM, the
+   183	 * 32k sync timer.  Convert the cycles elapsed since last read into
+   184	 * nsecs and adds to a monotonically increasing timespec64.
+   185	 */
+ > 186	static struct timespec64 persistent_ts;
+   187	static cycles_t cycles;
+   188	static unsigned int persistent_mult, persistent_shift;
+   189	
+   190	static void omap_read_persistent_clock64(struct timespec64 *ts)
+   191	{
+   192		unsigned long long nsecs;
+   193		cycles_t last_cycles;
+   194	
+   195		last_cycles = cycles;
+   196		cycles = sync32k_cnt_reg ? readl_relaxed(sync32k_cnt_reg) : 0;
+   197	
+   198		nsecs = clocksource_cyc2ns(cycles - last_cycles,
+   199						persistent_mult, persistent_shift);
+   200	
+   201		timespec64_add_ns(&persistent_ts, nsecs);
+   202	
+   203		*ts = persistent_ts;
+   204	}
+   205	
+   206	/**
+   207	 * omap_init_clocksource_32k - setup and register counter 32k as a
+   208	 * kernel clocksource
+   209	 * @pbase: base addr of counter_32k module
+   210	 * @size: size of counter_32k to map
+   211	 *
+   212	 * Returns 0 upon success or negative error code upon failure.
+   213	 *
+   214	 */
+   215	int __init omap_init_clocksource_32k(void __iomem *vbase)
+ > 216	{
+   217		int ret;
+   218	
+   219		/*
+   220		 * 32k sync Counter IP register offsets vary between the
+   221		 * highlander version and the legacy ones.
+   222		 * The 'SCHEME' bits(30-31) of the revision register is used
+   223		 * to identify the version.
+   224		 */
+   225		if (readl_relaxed(vbase + OMAP2_32KSYNCNT_REV_OFF) &
+   226							OMAP2_32KSYNCNT_REV_SCHEME)
+   227			sync32k_cnt_reg = vbase + OMAP2_32KSYNCNT_CR_OFF_HIGH;
+   228		else
+   229			sync32k_cnt_reg = vbase + OMAP2_32KSYNCNT_CR_OFF_LOW;
+   230	
+   231		/*
+   232		 * 120000 rough estimate from the calculations in
+   233		 * __clocksource_update_freq_scale.
+   234		 */
+   235		clocks_calc_mult_shift(&persistent_mult, &persistent_shift,
+   236				32768, NSEC_PER_SEC, 120000);
+   237	
+   238		ret = clocksource_mmio_init(sync32k_cnt_reg, "32k_counter", 32768,
+   239					250, 32, clocksource_mmio_readl_up);
+   240		if (ret) {
+   241			pr_err("32k_counter: can't register clocksource\n");
+   242			return ret;
+   243		}
+   244	
+   245		sched_clock_register(omap_32k_read_sched_clock, 32, 32768);
+   246		register_persistent_clock(omap_read_persistent_clock64);
+   247		pr_info("OMAP clocksource: 32k_counter at 32768 Hz\n");
+   248	
+   249		return 0;
+   250	}
+   251	
 
 -- 
 0-DAY CI Kernel Test Service
