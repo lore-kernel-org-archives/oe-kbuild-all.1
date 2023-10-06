@@ -1,47 +1,49 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E021CA93
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Oct 2023 12:44:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C231D69A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Oct 2023 12:44:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RWVoueBT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LRWrvh/e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696596272; x=1728132272;
+  t=1696596274; x=1728132274;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Rj6Gy2IM80chnB/F8xy0DphRpWJQdrqhTrPlUEw3JJk=;
-  b=RWVoueBTdVrDMIcEidRgzLXkaidWUnWp7puKfrkDLoO+B8MCDm5YaJj/
-   5jmKDntQ0kqEt2321brs4zJU62OQscOMLo8cs7JBM1N9LAzOD9oCCcMZe
-   aP7joaqiJr2HuszkAoPhbzTcsdellZUZNNWdw/ZPjgkZgD0sk6YFnI6Cp
-   nw2ZD/NzY0AT8zQYekdCDptyjZRHwF198mJo8aKBXM+p7F4s9WsMR2s79
-   TeU/Uiu3waeZtqIFJ58Iw3HxicRUk0NsQ/zpLjJ2VBsHmQJ4cSJLZJkr0
-   3ySauBQPVALrSaMrtJB5GH4G3Ck/umorawi/U4+u6C8w4SqzSXqkaVAcT
+  bh=KDV9Q7v6w7NxbZwSmJ1KGY0KMmrRQm4pceT0Mes1vok=;
+  b=LRWrvh/e89RuYE8jwNZIWGg4exVxhahefrLQ3Dt0PgNQ+d1SWd17CpbT
+   gNbETyxrm3/HGs4drKZAJoXXFbyQvxrKTaO0oDD+FSNDTtCt7A4jw8H38
+   82/R9HcNjJskY96QezRxyYMRYa6BiLw5Z4gk2+0MVDgjLAliYEFcav/R3
+   +Cy2xOfX3hEP2//FJGqXmSKaSCDjolYKgVGIyHXnBL29fhIdbE/WbdJdD
+   kZ2hycgndK8ff7/N2zIO1XrRlRZ71NCrnZ+NhXRqH6E/1lHJixtrw+21S
+   9KSPZd7/S01NpGLByu1hke2lwhVNSKNjJ5czvxBl/xdYXjhbDV3Cfh58s
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="381024892"
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="381024895"
 X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
-   d="scan'208";a="381024892"
+   d="scan'208";a="381024895"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
   by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 05:44:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="752181742"
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="752181743"
 X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
-   d="scan'208";a="752181742"
+   d="scan'208";a="752181743"
 Received: from lkp-server01.sh.intel.com (HELO 8a3a91ad4240) ([10.239.97.150])
   by orsmga002.jf.intel.com with ESMTP; 06 Oct 2023 05:44:29 -0700
 Received: from kbuild by 8a3a91ad4240 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qokBv-00005g-0m;
+	id 1qokBv-00005d-0c;
 	Fri, 06 Oct 2023 12:44:27 +0000
-Date: Fri, 6 Oct 2023 20:43:57 +0800
+Date: Fri, 6 Oct 2023 20:43:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Berlin <dberlin@dberlin.org>
-Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:wifi/bcm4388 130/130]
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:3450:13: sparse:
- sparse: restricted __le16 degrades to integer
-Message-ID: <202310062040.gUtVWuF3-lkp@intel.com>
+To: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Sekhar Nori <nsekhar@ti.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Subject: drivers/remoteproc/da8xx_remoteproc.c:80: warning: Function
+ parameter or member 'dsp_reset' not described in 'da8xx_rproc'
+Message-ID: <202310062044.AWGLMitV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,105 +53,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux wifi/bcm4388
-head:   55bd491c32939383169035a0f4dfd9f7ea9e4801
-commit: 55bd491c32939383169035a0f4dfd9f7ea9e4801 [130/130] Add support for 6G bands.
-config: i386-randconfig-062-20231006 (https://download.01.org/0day-ci/archive/20231006/202310062040.gUtVWuF3-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231006/202310062040.gUtVWuF3-lkp@intel.com/reproduce)
+Hi Bartosz,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b78b18fb8ee19f7a05f20c3abc865b3bfe182884
+commit: b2201ee554a5811f569f31280b0079e7d6177606 remoteproc/davinci: use the reset framework
+date:   5 years ago
+config: arm-randconfig-004-20230928 (https://download.01.org/0day-ci/archive/20231006/202310062044.AWGLMitV-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231006/202310062044.AWGLMitV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310062040.gUtVWuF3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310062044.AWGLMitV-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:3450:13: sparse: sparse: restricted __le16 degrades to integer
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:3452:18: sparse: sparse: restricted __le16 degrades to integer
+All warnings (new ones prefixed by >>):
 
-vim +3450 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
+>> drivers/remoteproc/da8xx_remoteproc.c:80: warning: Function parameter or member 'dsp_reset' not described in 'da8xx_rproc'
+   drivers/remoteproc/da8xx_remoteproc.c:89: warning: Function parameter or member 'irq' not described in 'handle_event'
+   drivers/remoteproc/da8xx_remoteproc.c:89: warning: Function parameter or member 'p' not described in 'handle_event'
+   drivers/remoteproc/da8xx_remoteproc.c:109: warning: Function parameter or member 'irq' not described in 'da8xx_rproc_callback'
+   drivers/remoteproc/da8xx_remoteproc.c:109: warning: Function parameter or member 'p' not described in 'da8xx_rproc_callback'
 
-  3421	
-  3422	static s32 brcmf_inform_single_bss(struct brcmf_cfg80211_info *cfg,
-  3423					   struct brcmf_bss_info_le *bi)
-  3424	{
-  3425		struct wiphy *wiphy = cfg_to_wiphy(cfg);
-  3426		struct brcmf_pub *drvr = cfg->pub;
-  3427		struct cfg80211_bss *bss;
-  3428		enum nl80211_band band;
-  3429		struct brcmu_chan ch;
-  3430		u16 channel;
-  3431		u32 freq;
-  3432		u16 notify_capability;
-  3433		u16 notify_interval;
-  3434		u8 *notify_ie;
-  3435		size_t notify_ielen;
-  3436		struct cfg80211_inform_bss bss_data = {};
-  3437	
-  3438		if (le32_to_cpu(bi->length) > WL_BSS_INFO_MAX) {
-  3439			bphy_err(drvr, "Bss info is larger than buffer. Discarding\n");
-  3440			return -EINVAL;
-  3441		}
-  3442	
-  3443		if (!bi->ctl_ch) {
-  3444			ch.chspec = le16_to_cpu(bi->chanspec);
-  3445			cfg->d11inf.decchspec(&ch);
-  3446			bi->ctl_ch = ch.control_ch_num;
-  3447		}
-  3448		channel = bi->ctl_ch;
-  3449	
-> 3450		if (CHSPEC_IS6G(bi->chanspec))
-  3451			band = NL80211_BAND_6GHZ;
-  3452		else if (CHSPEC_IS5G(bi->chanspec))
-  3453			band = NL80211_BAND_5GHZ;
-  3454		else
-  3455			band = NL80211_BAND_2GHZ;
-  3456	
-  3457		freq = ieee80211_channel_to_frequency(channel, band);
-  3458		if (!freq) {
-  3459			brcmf_err(
-  3460				"Invalid frequency %d returned for channel %d, band %d. chanspec was %04x\n",
-  3461				freq, channel, band, bi->chanspec);
-  3462	
-  3463			/* We ignore this BSS ID rather than try to continue on.
-  3464			   Otherwise we will cause an OOPs because our frequency is 0.
-  3465			   The main case this occurs is some new frequency band
-  3466			   we have not seen before, and if we return an error,
-  3467			   we will cause the scan to fail.  It seems better to 
-  3468			   report the error, skip this BSS, and move on.*/
-  3469			return 0;
-  3470		}
-  3471		bss_data.chan = ieee80211_get_channel(wiphy, freq);
-  3472		bss_data.scan_width = NL80211_BSS_CHAN_WIDTH_20;
-  3473		bss_data.boottime_ns = ktime_to_ns(ktime_get_boottime());
-  3474	
-  3475		notify_capability = le16_to_cpu(bi->capability);
-  3476		notify_interval = le16_to_cpu(bi->beacon_period);
-  3477		notify_ie = (u8 *)bi + le16_to_cpu(bi->ie_offset);
-  3478		notify_ielen = le32_to_cpu(bi->ie_length);
-  3479		bss_data.signal = (s16)le16_to_cpu(bi->RSSI) * 100;
-  3480	
-  3481		brcmf_dbg(CONN, "bssid: %pM\n", bi->BSSID);
-  3482		brcmf_dbg(CONN, "Channel: %d(%d)\n", channel, freq);
-  3483		brcmf_dbg(CONN, "Capability: %X\n", notify_capability);
-  3484		brcmf_dbg(CONN, "Beacon interval: %d\n", notify_interval);
-  3485		brcmf_dbg(CONN, "Signal: %d\n", bss_data.signal);
-  3486	
-  3487		bss = cfg80211_inform_bss_data(wiphy, &bss_data,
-  3488					       CFG80211_BSS_FTYPE_UNKNOWN,
-  3489					       (const u8 *)bi->BSSID,
-  3490					       0, notify_capability,
-  3491					       notify_interval, notify_ie,
-  3492					       notify_ielen, GFP_KERNEL);
-  3493	
-  3494		if (!bss)
-  3495			return -ENOMEM;
-  3496	
-  3497		cfg80211_put_bss(wiphy, bss);
-  3498	
-  3499		return 0;
-  3500	}
-  3501	
+
+vim +80 drivers/remoteproc/da8xx_remoteproc.c
+
+59b2355fc90e4a Suman Anna          2017-08-01  56  
+13be5432d8721d Robert Tivy         2013-04-09  57  /**
+13be5432d8721d Robert Tivy         2013-04-09  58   * struct da8xx_rproc - da8xx remote processor instance state
+13be5432d8721d Robert Tivy         2013-04-09  59   * @rproc: rproc handle
+59b2355fc90e4a Suman Anna          2017-08-01  60   * @mem: internal memory regions data
+59b2355fc90e4a Suman Anna          2017-08-01  61   * @num_mems: number of internal memory regions
+13be5432d8721d Robert Tivy         2013-04-09  62   * @dsp_clk: placeholder for platform's DSP clk
+13be5432d8721d Robert Tivy         2013-04-09  63   * @ack_fxn: chip-specific ack function for ack'ing irq
+13be5432d8721d Robert Tivy         2013-04-09  64   * @irq_data: ack_fxn function parameter
+13be5432d8721d Robert Tivy         2013-04-09  65   * @chipsig: virt ptr to DSP interrupt registers (CHIPSIG & CHIPSIG_CLR)
+13be5432d8721d Robert Tivy         2013-04-09  66   * @bootreg: virt ptr to DSP boot address register (HOST1CFG)
+13be5432d8721d Robert Tivy         2013-04-09  67   * @irq: irq # used by this instance
+13be5432d8721d Robert Tivy         2013-04-09  68   */
+13be5432d8721d Robert Tivy         2013-04-09  69  struct da8xx_rproc {
+13be5432d8721d Robert Tivy         2013-04-09  70  	struct rproc *rproc;
+59b2355fc90e4a Suman Anna          2017-08-01  71  	struct da8xx_rproc_mem *mem;
+59b2355fc90e4a Suman Anna          2017-08-01  72  	int num_mems;
+13be5432d8721d Robert Tivy         2013-04-09  73  	struct clk *dsp_clk;
+b2201ee554a581 Bartosz Golaszewski 2018-06-21  74  	struct reset_control *dsp_reset;
+13be5432d8721d Robert Tivy         2013-04-09  75  	void (*ack_fxn)(struct irq_data *data);
+13be5432d8721d Robert Tivy         2013-04-09  76  	struct irq_data *irq_data;
+13be5432d8721d Robert Tivy         2013-04-09  77  	void __iomem *chipsig;
+13be5432d8721d Robert Tivy         2013-04-09  78  	void __iomem *bootreg;
+13be5432d8721d Robert Tivy         2013-04-09  79  	int irq;
+13be5432d8721d Robert Tivy         2013-04-09 @80  };
+13be5432d8721d Robert Tivy         2013-04-09  81  
+
+:::::: The code at line 80 was first introduced by commit
+:::::: 13be5432d8721d89cadae105663761f45f427842 remoteproc/davinci: add a remoteproc driver for OMAP-L13x DSP
+
+:::::: TO: Robert Tivy <rtivy@ti.com>
+:::::: CC: Ohad Ben-Cohen <ohad@wizery.com>
 
 -- 
 0-DAY CI Kernel Test Service
