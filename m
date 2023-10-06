@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282F9139B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Oct 2023 02:04:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D66185F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Oct 2023 03:24:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lG6TAUrX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QdNA6PiI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696557871; x=1728093871;
+  t=1696562689; x=1728098689;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I4zHHtyfptc/wnmmbKchtGwMD+lDf7vkxa9q/YWufkQ=;
-  b=lG6TAUrXvCB+l0dmL7rPD2SUpxOaLkt2mpc1uA7Fa0oWKYA8xN+eJhwQ
-   /HUQDj/d+lgilmu4t7QnMn1GyKGNSxy/BISOAsp2+aXkf9SiI5bbV65mA
-   UdLdU8BUPc6prvxGnEqBUQb3aEvGdmzSWIEsJXo3+g3ApoZ9h5fhWcjRE
-   gWolkUPjpGhGhhw46m03znlQMmdKz6b/7Wy+b7+Xn/hZLIcksA+SSFtYp
-   steeGph0YMHhPQDzLd1xGsQOFHXPsYeUMZLQvffIUrBI97HJVxbEuWZaf
-   yQJSVffeLVwBx0T+mx6ljrpHSDVMqiTdeuuElOR+waI4RuloQ+ojbpxSs
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="414646297"
+  bh=fK53IPTcx3Z0hWssRQvM7ALLazi2gNJOmVonCH0Q2P8=;
+  b=QdNA6PiIK0cJe1FJbK0JDHVTTY/nCuN2HY26l5Z4JA9GZ5euIcaKh58Z
+   QyuGh5yeySMRL+qyc+8Mcc/TvOsLQ3VY5w2rTH/mNfb/t0iENJdyzvueg
+   7nubFv1RVVz7/r3GM6sJ7drmzErKFQdWBKHw70IXhNZEvFS66TwHihyzV
+   Er+BOVC6mmOyTG3XrDKShjQJIe/3ai3LPhLzXiyiqVpxoZ0VhvqzwBcxl
+   cW/l6uELqbTTr3I3oJKrqC6d/kabGdRMl2XNFETDcOwoVkIZyn8rAk3Lt
+   QQ4mH791koV6+JO5hd7+CBV8xf+CyPzR42ShjVp60afWM2ReoJqfkD7Ex
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="374021723"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="414646297"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 19:02:57 -0700
+   d="scan'208";a="374021723"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 20:24:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="752025783"
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="781488097"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="752025783"
+   d="scan'208";a="781488097"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 05 Oct 2023 19:02:18 -0700
+  by orsmga008.jf.intel.com with ESMTP; 05 Oct 2023 20:24:39 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qoaAS-000M8G-0V;
-	Fri, 06 Oct 2023 02:02:16 +0000
-Date: Fri, 6 Oct 2023 10:01:37 +0800
+	id 1qobS8-000MD6-31;
+	Fri, 06 Oct 2023 03:24:36 +0000
+Date: Fri, 6 Oct 2023 11:24:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pablo Neira Ayuso <pablo@netfilter.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [pablo-gtp:main 11/11] drivers/net/gtp.c:1145:13: warning: variable
- 'ret' set but not used
-Message-ID: <202310060925.xlvw7P2e-lkp@intel.com>
+Subject: [android-common:android14-6.1 1/4] include/trace/stages/init.h:2:23:
+ warning: 'str__compaction__trace_system_name' defined but not used
+Message-ID: <202310061143.5MzHksoE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,76 +50,138 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pablo/gtp.git main
-head:   16dab95598162f8369adcd63a29ea3cc9e5bbab1
-commit: 16dab95598162f8369adcd63a29ea3cc9e5bbab1 [11/11] gtp: support for IPv4-in-IPv6-GTP and IPv6-in-IPv4-GTP
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231006/202310060925.xlvw7P2e-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231006/202310060925.xlvw7P2e-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   324c8522f9cd2966429f11325d5b4f25d435d272
+commit: 5c2855fbced4e4d18b8d050a3024c7fdbdba02ab [1/4] ANDROID: mm: Add vendor hook for compact pages work.
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20231006/202310061143.5MzHksoE-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231006/202310061143.5MzHksoE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310060925.xlvw7P2e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310061143.5MzHksoE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/gtp.c: In function 'gtp_build_skb_ip4':
->> drivers/net/gtp.c:1145:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-    1145 |         int ret;
-         |             ^~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/compaction.h:20,
+                    from drivers/android/vendor_hooks.c:70:
+>> include/trace/stages/init.h:2:23: warning: 'str__compaction__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/regmap.h:24,
+                    from drivers/android/vendor_hooks.c:69:
+   include/trace/stages/init.h:2:23: warning: 'str__regmap__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/bl_hib.h:44,
+                    from drivers/android/vendor_hooks.c:68:
+   include/trace/stages/init.h:2:23: warning: 'str__bl_hib__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/psi.h:25,
+                    from drivers/android/vendor_hooks.c:67:
+   include/trace/stages/init.h:2:23: warning: 'str__psi__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/psci.h:25,
+                    from drivers/android/vendor_hooks.c:66:
+   include/trace/stages/init.h:2:23: warning: 'str__psci__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/signal.h:22,
+                    from drivers/android/vendor_hooks.c:65:
+   include/trace/stages/init.h:2:23: warning: 'str__signal__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
 
 
-vim +/ret +1145 drivers/net/gtp.c
+vim +/str__compaction__trace_system_name +2 include/trace/stages/init.h
 
-2a7e9618007872 Pablo Neira Ayuso 2023-10-04  1137  
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1138  static int gtp_build_skb_ip4(struct sk_buff *skb, struct net_device *dev,
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1139  			     struct gtp_pktinfo *pktinfo)
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1140  {
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1141  	struct gtp_dev *gtp = netdev_priv(dev);
-16dab95598162f Pablo Neira Ayuso 2023-10-05  1142  	struct net *net = gtp->net;
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1143  	struct pdp_ctx *pctx;
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1144  	struct iphdr *iph;
-131a295c85342b Pablo Neira Ayuso 2023-10-04 @1145  	int ret;
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1146  
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1147  	/* Read the IP destination address and resolve the PDP context.
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1148  	 * Prepend PDP header with TEI/TID from PDP ctx.
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1149  	 */
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1150  	iph = ip_hdr(skb);
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1151  	if (gtp->role == GTP_ROLE_SGSN)
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1152  		pctx = ipv4_pdp_find(gtp, iph->saddr);
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1153  	else
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1154  		pctx = ipv4_pdp_find(gtp, iph->daddr);
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1155  
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1156  	if (!pctx) {
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1157  		netdev_dbg(dev, "no PDP ctx found for %pI4, skip\n",
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1158  			   &iph->daddr);
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1159  		return -ENOENT;
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1160  	}
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1161  	netdev_dbg(dev, "found PDP context %p\n", pctx);
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1162  
-16dab95598162f Pablo Neira Ayuso 2023-10-05  1163  	switch (pctx->peer_af) {
-16dab95598162f Pablo Neira Ayuso 2023-10-05  1164  	case AF_INET:
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1165  		ret = __gtp_build_skb_ip4(skb, dev, pktinfo, pctx,
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1166  					  iph->tos, iph->frag_off);
-16dab95598162f Pablo Neira Ayuso 2023-10-05  1167  		break;
-16dab95598162f Pablo Neira Ayuso 2023-10-05  1168  	case AF_INET6:
-16dab95598162f Pablo Neira Ayuso 2023-10-05  1169  		ret = __gtp_build_skb_ip6(net, skb, dev, pktinfo, pctx, iph->tos);
-16dab95598162f Pablo Neira Ayuso 2023-10-05  1170  		break;
-16dab95598162f Pablo Neira Ayuso 2023-10-05  1171  	}
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1172  
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1173  	netdev_dbg(dev, "gtp -> IP src: %pI4 dst: %pI4\n",
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1174  		   &iph->saddr, &iph->daddr);
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1175  
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1176  	return 0;
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1177  }
-131a295c85342b Pablo Neira Ayuso 2023-10-04  1178  
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
 
-:::::: The code at line 1145 was first introduced by commit
-:::::: 131a295c85342beb299bbd4dcee11f732fa0d2c3 gtp: add helper function to build GTP packets from an IPv4 packet
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
 
-:::::: TO: Pablo Neira Ayuso <pablo@netfilter.org>
-:::::: CC: Pablo Neira Ayuso <pablo@netfilter.org>
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
