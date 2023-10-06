@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71254446D
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Oct 2023 20:31:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C77F328A7
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Oct 2023 20:42:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="INbprGF3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N1oTtnqW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696624293; x=1728160293;
+  t=1696624954; x=1728160954;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/J8gZ8L7hl3O6no8WeVh4EuERdE7tFbN+p1mX9+8Rcg=;
-  b=INbprGF3VJdmyhUBIRQo2xdveB1Xon97K0spgZeomN50CL5i3fhC/xke
-   FK0UxWI81peOxz/9f+azHVSdSCPxEXfQG/L8gpkjqNgI33LJw+AgkTTwV
-   JMSu5ptvDbGkSC1DQ4vnyWgb0CgsT2La6rZWgKhrViKZdiwAkaEc/geqe
-   /1F9tAr8VOK8G8fagjHP1kNDkd2J86r3DeVz0cW3GMlVhduTDYioyAoBb
-   1AqXOCkVIvjJjsTGW76rQyZAYnp634VMnrwUjcblWEmjrAx16eimhbZA2
-   /dTPeUM9+XbuoRxB8SXP9QXB7oJ1CH1uiGwrEADv+haN/oMLwbnG7kOt3
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="368904016"
+  bh=UViyi8XdqDaf4Zz+Enms3juwPuqKKxUUshyEiDhi8uk=;
+  b=N1oTtnqWOVkZe47tELFLx6J/EY8qGEUpPm2N/R9W14/aJvZpAQNrPMZp
+   QwhiQQ8qMjm48EV9P4NXQOXiPfKDrtnnbJ94Vc7mwQcnxvKg4kEdf69BT
+   rKAzuHSMwl+vciL8EFukm+JLXHDZX1FuNQiA1M6jTicATOTyGAgT7Sd0i
+   VDuXJpTpVLTzZTfh3IsCdF5hOxPlhPkO6jD6PAc/ox+aeVo/0gJ+3zcAK
+   P3NoyZa9xyWw1C/bLVGpL+NrNEM+SuJodnYfHUliIk33QM1bOfAQBxKTW
+   /NZx7qGgjVngLPJdBZLSvBzVTyESt6NvWt1iFlzF0Dv5LJJlYvbTmB60X
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="450325200"
 X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
-   d="scan'208";a="368904016"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 13:31:33 -0700
+   d="scan'208";a="450325200"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 13:42:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="787500392"
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="728982579"
 X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
-   d="scan'208";a="787500392"
+   d="scan'208";a="728982579"
 Received: from lkp-server01.sh.intel.com (HELO 8a3a91ad4240) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 06 Oct 2023 13:31:31 -0700
+  by orsmga006.jf.intel.com with ESMTP; 06 Oct 2023 13:42:32 -0700
 Received: from kbuild by 8a3a91ad4240 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qorTt-0003c9-1A;
-	Fri, 06 Oct 2023 20:31:29 +0000
-Date: Sat, 7 Oct 2023 04:31:10 +0800
+	id 1qoreX-0003d7-30;
+	Fri, 06 Oct 2023 20:42:29 +0000
+Date: Sat, 7 Oct 2023 04:41:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krzysztof Wilczynski <kw@linux.com>
+To: Randy Dunlap <rdunlap@infradead.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>, Rob Herring <robh@kernel.org>
-Subject: arch/mips/pci/fixup-lantiq.c:13:5: warning: no previous prototype
- for 'pcibios_plat_dev_init'
-Message-ID: <202310070445.tzRBNYRC-lkp@intel.com>
+	Michael Ellerman <mpe@ellerman.id.au>
+Subject: ERROR: start_text address is c000000000000900, should be
+ c000000000000200
+Message-ID: <202310070419.BcA2fDgk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,50 +51,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Randy,
+
+FYI, the error/warning still remains.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   af95dc6fdc25e616051d0234aad638e15c02ec8f
-commit: bbd8810d399812f2016713565e4d8ff8f1508aa6 PCI: Remove unused includes and superfluous struct declaration
-date:   3 years, 11 months ago
-config: mips-xway_defconfig (https://download.01.org/0day-ci/archive/20231007/202310070445.tzRBNYRC-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231007/202310070445.tzRBNYRC-lkp@intel.com/reproduce)
+commit: 47c258d71ebfc832a760a1dc6540cf3c33968023 powerpc/head_check: use stdout for error messages
+date:   2 years, 2 months ago
+config: powerpc64-buildonly-randconfig-r003-20211118 (https://download.01.org/0day-ci/archive/20231007/202310070419.BcA2fDgk-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231007/202310070419.BcA2fDgk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310070445.tzRBNYRC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310070419.BcA2fDgk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/mips/pci/fixup-lantiq.c:13:5: warning: no previous prototype for 'pcibios_plat_dev_init' [-Wmissing-prototypes]
-      13 | int pcibios_plat_dev_init(struct pci_dev *dev)
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> arch/mips/pci/fixup-lantiq.c:24:5: warning: no previous prototype for 'pcibios_map_irq' [-Wmissing-prototypes]
-      24 | int pcibios_map_irq(const struct pci_dev *dev, u8 slot, u8 pin)
-         |     ^~~~~~~~~~~~~~~
-
-
-vim +/pcibios_plat_dev_init +13 arch/mips/pci/fixup-lantiq.c
-
-57c8cb8f242988 John Crispin 2012-05-11  12  
-57c8cb8f242988 John Crispin 2012-05-11 @13  int pcibios_plat_dev_init(struct pci_dev *dev)
-57c8cb8f242988 John Crispin 2012-05-11  14  {
-57c8cb8f242988 John Crispin 2012-05-11  15  	if (ltq_pci_plat_arch_init)
-57c8cb8f242988 John Crispin 2012-05-11  16  		return ltq_pci_plat_arch_init(dev);
-57c8cb8f242988 John Crispin 2012-05-11  17  
-57c8cb8f242988 John Crispin 2012-05-11  18  	if (ltq_pci_plat_dev_init)
-57c8cb8f242988 John Crispin 2012-05-11  19  		return ltq_pci_plat_dev_init(dev);
-57c8cb8f242988 John Crispin 2012-05-11  20  
-57c8cb8f242988 John Crispin 2012-05-11  21  	return 0;
-57c8cb8f242988 John Crispin 2012-05-11  22  }
-57c8cb8f242988 John Crispin 2012-05-11  23  
-8eba3651f1dad4 Manuel Lauss 2017-09-12 @24  int pcibios_map_irq(const struct pci_dev *dev, u8 slot, u8 pin)
-
-:::::: The code at line 13 was first introduced by commit
-:::::: 57c8cb8f242988b8048a7058cd1edde025c6f232 MIPS: pci: convert lantiq driver to OF
-
-:::::: TO: John Crispin <blogic@openwrt.org>
-:::::: CC: Ralf Baechle <ralf@linux-mips.org>
+>> ERROR: start_text address is c000000000000900, should be c000000000000200
+   ERROR: try to enable LD_HEAD_STUB_CATCH config option
+   ERROR: see comments in arch/powerpc/tools/head_check.sh
 
 -- 
 0-DAY CI Kernel Test Service
