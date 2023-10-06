@@ -1,48 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF4E38FA6
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Oct 2023 21:03:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C9F042C13
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Oct 2023 21:24:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JJcP4u39"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lWAMJYJU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696626216; x=1728162216;
+  t=1696627477; x=1728163477;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=q1QngG2jO9MT/T7RrOarBCT5P84/egIQkYSkbYS960E=;
-  b=JJcP4u39BOWtSL399IeU7YbrjAQdcpUE7SAso/aaC+JLqla5rG5LMzIQ
-   Y35Sl/VV1l7V0Dha0TBXJ1rvdeV2AZ/s6QDJfOy7Ys3YcEuhyJZV7pvDA
-   96eru9k913KB1agUyGS0Zz84b73dliXCpNZufaGs2y2j4yAbsmQv2YY5D
-   L4dtC0xbabTbEErGPBQ0kGcE5Clk0OI65/oRyxDhAMiSvSv+CDZ8W5meM
-   8OnEt/CxaFgcwX87KsuavQ+4ujYxSVRGZ/pENsdHUM3miwrktXaeQLRv0
-   s+gBtX/hrVyqeZCQf19fiy/ZwjWRPy+RPcI7Z4Ye7XmWSizhz5iE2tgr5
+  bh=1Psy2C2aTvkgnSZqqjPhE9HbAlfK2qW6c1GRy7Acf/I=;
+  b=lWAMJYJU8FGYdm0yMsS1zu/3XUZL3SJsA7DccwMoo8S02TkPqhdLm0ju
+   IzQQxNpE8iRnZR3aviVMqr+JSKnqWKtNPk5BWosIHpt/prbkKTSAbE6//
+   z6+ZkX7m8GaezcSVWroXOagCesLtW6QEKjXv+gHXX7rosVuaGeCYI8PaU
+   znBaoC4EY27ZCG/h4F0ZZgMUKvP707ahE5sZ3vtQrbmxyydQ8SD5l6Kx2
+   fJL5bIdXMi34t+kZ4SKMe1ZgjV3CQVapslNyCcS8nbRFHTFwXbN+QRW95
+   fQx8OsYohe+x3b5Oj57Iz6rT1lKQgs/6USLLlgHP+bso6bNMLRwzmGuiu
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="382696571"
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="363184789"
 X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
-   d="scan'208";a="382696571"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 14:03:35 -0700
+   d="scan'208";a="363184789"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 14:24:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="926081568"
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="752306985"
 X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
-   d="scan'208";a="926081568"
+   d="scan'208";a="752306985"
 Received: from lkp-server01.sh.intel.com (HELO 8a3a91ad4240) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 06 Oct 2023 14:03:32 -0700
+  by orsmga002.jf.intel.com with ESMTP; 06 Oct 2023 14:24:33 -0700
 Received: from kbuild by 8a3a91ad4240 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qorys-0003eT-2I;
-	Fri, 06 Oct 2023 21:03:30 +0000
-Date: Sat, 7 Oct 2023 05:03:20 +0800
+	id 1qosJD-0003fA-0Y;
+	Fri, 06 Oct 2023 21:24:31 +0000
+Date: Sat, 7 Oct 2023 05:23:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
+To: Huacai Chen <chenhc@lemote.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Borislav Petkov <bp@suse.de>, Jamie Iles <jamie@nuviainc.com>,
-	Reinette Chatre <reinette.chatre@intel.com>
-Subject: arch/x86/kernel/cpu/resctrl/rdtgroup.c:1196: warning: Function
- parameter or member 'type' not described in '__rdtgroup_cbm_overlaps'
-Message-ID: <202310070434.mD8eRNAz-lkp@intel.com>
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Subject: arch/mips/kvm/mmu.c:701:29: warning: variable 'old_pte' set but not
+ used
+Message-ID: <202310070530.aARZCSfh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,97 +54,195 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   af95dc6fdc25e616051d0234aad638e15c02ec8f
-commit: fa8f711d2f14381d1a47420b6da94b62e6484c56 x86/resctrl: Pass configuration type to resctrl_arch_get_config()
-date:   2 years, 2 months ago
-config: x86_64-randconfig-003-20230909 (https://download.01.org/0day-ci/archive/20231007/202310070434.mD8eRNAz-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231007/202310070434.mD8eRNAz-lkp@intel.com/reproduce)
+commit: 0f78355c450835053fed85828c9d6526594c0921 KVM: MIPS: Enable KVM support for Loongson-3
+date:   3 years, 4 months ago
+config: mips-loongson3_defconfig (https://download.01.org/0day-ci/archive/20231007/202310070530.aARZCSfh-lkp@intel.com/config)
+compiler: mips64el-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231007/202310070530.aARZCSfh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310070434.mD8eRNAz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310070530.aARZCSfh-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:900: warning: Function parameter or member 'of' not described in 'rdt_bit_usage_show'
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:900: warning: Function parameter or member 'seq' not described in 'rdt_bit_usage_show'
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:900: warning: Function parameter or member 'v' not described in 'rdt_bit_usage_show'
->> arch/x86/kernel/cpu/resctrl/rdtgroup.c:1196: warning: Function parameter or member 'type' not described in '__rdtgroup_cbm_overlaps'
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:1279: warning: Function parameter or member 'rdtgrp' not described in 'rdtgroup_mode_test_exclusive'
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:1315: warning: Function parameter or member 'of' not described in 'rdtgroup_mode_write'
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:1315: warning: Function parameter or member 'buf' not described in 'rdtgroup_mode_write'
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:1315: warning: Function parameter or member 'nbytes' not described in 'rdtgroup_mode_write'
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:1315: warning: Function parameter or member 'off' not described in 'rdtgroup_mode_write'
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:1424: warning: Function parameter or member 'of' not described in 'rdtgroup_size_show'
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:1424: warning: Function parameter or member 's' not described in 'rdtgroup_size_show'
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:1424: warning: Function parameter or member 'v' not described in 'rdtgroup_size_show'
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/xarray.h:14,
+                    from include/linux/radix-tree.h:18,
+                    from include/linux/fs.h:15,
+                    from include/linux/highmem.h:5,
+                    from arch/mips/kvm/mmu.c:12:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1201:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
+    1201 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1187:27: note: 'mem_section' declared here
+    1187 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   arch/mips/kvm/mmu.c: In function 'kvm_mips_map_page':
+>> arch/mips/kvm/mmu.c:701:29: warning: variable 'old_pte' set but not used [-Wunused-but-set-variable]
+     701 |         pte_t *ptep, entry, old_pte;
+         |                             ^~~~~~~
+--
+   In file included from include/linux/topology.h:33,
+                    from include/linux/irq.h:19,
+                    from include/asm-generic/hardirq.h:13,
+                    from arch/mips/include/asm/hardirq.h:16,
+                    from include/linux/hardirq.h:10,
+                    from include/linux/kvm_host.h:7,
+                    from arch/mips/kvm/loongson_ipi.c:11:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1201:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
+    1201 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1187:27: note: 'mem_section' declared here
+    1187 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   arch/mips/kvm/loongson_ipi.c: At top level:
+>> arch/mips/kvm/loongson_ipi.c:190:6: warning: no previous prototype for 'kvm_init_loongson_ipi' [-Wmissing-prototypes]
+     190 | void kvm_init_loongson_ipi(struct kvm *kvm)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+--
+>> arch/mips/kvm/emulate.c:274: warning: Function parameter or member 'out' not described in 'kvm_get_badinstr'
+>> arch/mips/kvm/emulate.c:295: warning: Function parameter or member 'out' not described in 'kvm_get_badinstrp'
+>> arch/mips/kvm/emulate.c:328: warning: Function parameter or member 'vcpu' not described in 'kvm_mips_ktime_to_count'
+>> arch/mips/kvm/emulate.c:328: warning: Function parameter or member 'now' not described in 'kvm_mips_ktime_to_count'
+   arch/mips/kvm/emulate.c:2376: warning: Function parameter or member 'vcpu' not described in 'kvm_mips_guest_exception_base'
 
 
-vim +1196 arch/x86/kernel/cpu/resctrl/rdtgroup.c
+vim +/old_pte +701 arch/mips/kvm/mmu.c
 
-521348b011d64c arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-10-03  1172  
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1173  /**
-e5f3530c391105 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-10-03  1174   * __rdtgroup_cbm_overlaps - Does CBM for intended closid overlap with other
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1175   * @r: Resource to which domain instance @d belongs.
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1176   * @d: The domain instance for which @closid is being tested.
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1177   * @cbm: Capacity bitmask being tested.
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1178   * @closid: Intended closid for @cbm.
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1179   * @exclusive: Only check if overlaps with exclusive resource groups
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1180   *
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1181   * Checks if provided @cbm intended to be used for @closid on domain
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1182   * @d overlaps with any other closids or other hardware usage associated
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1183   * with this domain. If @exclusive is true then only overlaps with
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1184   * resource groups in exclusive mode will be considered. If @exclusive
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1185   * is false then overlaps with any resource group or hardware entities
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1186   * will be considered.
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1187   *
-49e00eee00612b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-10-04  1188   * @cbm is unsigned long, even if only 32 bits are used, to make the
-49e00eee00612b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-10-04  1189   * bitmap functions work correctly.
-49e00eee00612b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-10-04  1190   *
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1191   * Return: false if CBM does not overlap, true if it does.
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1192   */
-e5f3530c391105 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-10-03  1193  static bool __rdtgroup_cbm_overlaps(struct rdt_resource *r, struct rdt_domain *d,
-fa8f711d2f1438 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2021-07-28  1194  				    unsigned long cbm, int closid,
-fa8f711d2f1438 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2021-07-28  1195  				    enum resctrl_conf_type type, bool exclusive)
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22 @1196  {
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1197  	enum rdtgrp_mode mode;
-49e00eee00612b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-10-04  1198  	unsigned long ctrl_b;
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1199  	int i;
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1200  
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1201  	/* Check for any overlap with regions used by hardware directly */
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1202  	if (!exclusive) {
-49e00eee00612b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-10-04  1203  		ctrl_b = r->cache.shareable_bits;
-49e00eee00612b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-10-04  1204  		if (bitmap_intersects(&cbm, &ctrl_b, r->cache.cbm_len))
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1205  			return true;
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1206  	}
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1207  
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1208  	/* Check for overlap with other resource groups */
-f07e9d0250577a arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2021-07-28  1209  	for (i = 0; i < closids_supported(); i++) {
-fa8f711d2f1438 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2021-07-28  1210  		resctrl_arch_get_config(r, d, i, type, (u32 *)&ctrl_b);
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1211  		mode = rdtgroup_mode_by_closid(i);
-dfe9674b04ff6b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1212  		if (closid_allocated(i) && i != closid &&
-dfe9674b04ff6b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1213  		    mode != RDT_MODE_PSEUDO_LOCKSETUP) {
-49e00eee00612b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-10-04  1214  			if (bitmap_intersects(&cbm, &ctrl_b, r->cache.cbm_len)) {
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1215  				if (exclusive) {
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1216  					if (mode == RDT_MODE_EXCLUSIVE)
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1217  						return true;
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1218  					continue;
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1219  				}
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1220  				return true;
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1221  			}
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1222  		}
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1223  	}
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1224  
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1225  	return false;
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1226  }
-49f7b4efa1101b arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  1227  
+b5f1dd1ba4042bda James Hogan 2016-12-06  667  
+06c158c96ed8909a James Hogan 2015-05-01  668  /**
+06c158c96ed8909a James Hogan 2015-05-01  669   * kvm_mips_map_page() - Map a guest physical page.
+06c158c96ed8909a James Hogan 2015-05-01  670   * @vcpu:		VCPU pointer.
+06c158c96ed8909a James Hogan 2015-05-01  671   * @gpa:		Guest physical address of fault.
+577ed7f71e9c37a4 James Hogan 2015-05-01  672   * @write_fault:	Whether the fault was due to a write.
+06c158c96ed8909a James Hogan 2015-05-01  673   * @out_entry:		New PTE for @gpa (written on success unless NULL).
+06c158c96ed8909a James Hogan 2015-05-01  674   * @out_buddy:		New PTE for @gpa's buddy (written on success unless
+06c158c96ed8909a James Hogan 2015-05-01  675   *			NULL).
+06c158c96ed8909a James Hogan 2015-05-01  676   *
+06c158c96ed8909a James Hogan 2015-05-01  677   * Handle GPA faults by creating a new GPA mapping (or updating an existing
+06c158c96ed8909a James Hogan 2015-05-01  678   * one).
+06c158c96ed8909a James Hogan 2015-05-01  679   *
+411740f5422a960c James Hogan 2016-12-13  680   * This takes care of marking pages young or dirty (idle/dirty page tracking),
+411740f5422a960c James Hogan 2016-12-13  681   * asking KVM for the corresponding PFN, and creating a mapping in the GPA page
+411740f5422a960c James Hogan 2016-12-13  682   * tables. Derived mappings (GVA page tables and TLBs) must be handled by the
+411740f5422a960c James Hogan 2016-12-13  683   * caller.
+06c158c96ed8909a James Hogan 2015-05-01  684   *
+06c158c96ed8909a James Hogan 2015-05-01  685   * Returns:	0 on success, in which case the caller may use the @out_entry
+06c158c96ed8909a James Hogan 2015-05-01  686   *		and @out_buddy PTEs to update derived mappings and resume guest
+06c158c96ed8909a James Hogan 2015-05-01  687   *		execution.
+06c158c96ed8909a James Hogan 2015-05-01  688   *		-EFAULT if there is no memory region at @gpa or a write was
+06c158c96ed8909a James Hogan 2015-05-01  689   *		attempted to a read-only memory region. This is usually handled
+06c158c96ed8909a James Hogan 2015-05-01  690   *		as an MMIO access.
+06c158c96ed8909a James Hogan 2015-05-01  691   */
+06c158c96ed8909a James Hogan 2015-05-01  692  static int kvm_mips_map_page(struct kvm_vcpu *vcpu, unsigned long gpa,
+577ed7f71e9c37a4 James Hogan 2015-05-01  693  			     bool write_fault,
+06c158c96ed8909a James Hogan 2015-05-01  694  			     pte_t *out_entry, pte_t *out_buddy)
+06c158c96ed8909a James Hogan 2015-05-01  695  {
+06c158c96ed8909a James Hogan 2015-05-01  696  	struct kvm *kvm = vcpu->kvm;
+06c158c96ed8909a James Hogan 2015-05-01  697  	struct kvm_mmu_memory_cache *memcache = &vcpu->arch.mmu_page_cache;
+06c158c96ed8909a James Hogan 2015-05-01  698  	gfn_t gfn = gpa >> PAGE_SHIFT;
+06c158c96ed8909a James Hogan 2015-05-01  699  	int srcu_idx, err;
+06c158c96ed8909a James Hogan 2015-05-01  700  	kvm_pfn_t pfn;
+06c158c96ed8909a James Hogan 2015-05-01 @701  	pte_t *ptep, entry, old_pte;
+411740f5422a960c James Hogan 2016-12-13  702  	bool writeable;
+06c158c96ed8909a James Hogan 2015-05-01  703  	unsigned long prot_bits;
+411740f5422a960c James Hogan 2016-12-13  704  	unsigned long mmu_seq;
+403015b323a29747 James Hogan 2016-06-09  705  
+411740f5422a960c James Hogan 2016-12-13  706  	/* Try the fast path to handle old / clean pages */
+403015b323a29747 James Hogan 2016-06-09  707  	srcu_idx = srcu_read_lock(&kvm->srcu);
+b5f1dd1ba4042bda James Hogan 2016-12-06  708  	err = _kvm_mips_map_page_fast(vcpu, gpa, write_fault, out_entry,
+b5f1dd1ba4042bda James Hogan 2016-12-06  709  				      out_buddy);
+b5f1dd1ba4042bda James Hogan 2016-12-06  710  	if (!err)
+b5f1dd1ba4042bda James Hogan 2016-12-06  711  		goto out;
+06c158c96ed8909a James Hogan 2015-05-01  712  
+06c158c96ed8909a James Hogan 2015-05-01  713  	/* We need a minimum of cached pages ready for page table creation */
+06c158c96ed8909a James Hogan 2015-05-01  714  	err = mmu_topup_memory_cache(memcache, KVM_MMU_CACHE_MIN_PAGES,
+06c158c96ed8909a James Hogan 2015-05-01  715  				     KVM_NR_MEM_OBJS);
+06c158c96ed8909a James Hogan 2015-05-01  716  	if (err)
+06c158c96ed8909a James Hogan 2015-05-01  717  		goto out;
+06c158c96ed8909a James Hogan 2015-05-01  718  
+411740f5422a960c James Hogan 2016-12-13  719  retry:
+411740f5422a960c James Hogan 2016-12-13  720  	/*
+411740f5422a960c James Hogan 2016-12-13  721  	 * Used to check for invalidations in progress, of the pfn that is
+411740f5422a960c James Hogan 2016-12-13  722  	 * returned by pfn_to_pfn_prot below.
+411740f5422a960c James Hogan 2016-12-13  723  	 */
+411740f5422a960c James Hogan 2016-12-13  724  	mmu_seq = kvm->mmu_notifier_seq;
+411740f5422a960c James Hogan 2016-12-13  725  	/*
+411740f5422a960c James Hogan 2016-12-13  726  	 * Ensure the read of mmu_notifier_seq isn't reordered with PTE reads in
+411740f5422a960c James Hogan 2016-12-13  727  	 * gfn_to_pfn_prot() (which calls get_user_pages()), so that we don't
+411740f5422a960c James Hogan 2016-12-13  728  	 * risk the page we get a reference to getting unmapped before we have a
+411740f5422a960c James Hogan 2016-12-13  729  	 * chance to grab the mmu_lock without mmu_notifier_retry() noticing.
+411740f5422a960c James Hogan 2016-12-13  730  	 *
+411740f5422a960c James Hogan 2016-12-13  731  	 * This smp_rmb() pairs with the effective smp_wmb() of the combination
+411740f5422a960c James Hogan 2016-12-13  732  	 * of the pte_unmap_unlock() after the PTE is zapped, and the
+411740f5422a960c James Hogan 2016-12-13  733  	 * spin_lock() in kvm_mmu_notifier_invalidate_<page|range_end>() before
+411740f5422a960c James Hogan 2016-12-13  734  	 * mmu_notifier_seq is incremented.
+411740f5422a960c James Hogan 2016-12-13  735  	 */
+411740f5422a960c James Hogan 2016-12-13  736  	smp_rmb();
+403015b323a29747 James Hogan 2016-06-09  737  
+411740f5422a960c James Hogan 2016-12-13  738  	/* Slow path - ask KVM core whether we can access this GPA */
+411740f5422a960c James Hogan 2016-12-13  739  	pfn = gfn_to_pfn_prot(kvm, gfn, write_fault, &writeable);
+ba913e4f72fc9cfd James Hogan 2016-08-19  740  	if (is_error_noslot_pfn(pfn)) {
+403015b323a29747 James Hogan 2016-06-09  741  		err = -EFAULT;
+403015b323a29747 James Hogan 2016-06-09  742  		goto out;
+403015b323a29747 James Hogan 2016-06-09  743  	}
+403015b323a29747 James Hogan 2016-06-09  744  
+06c158c96ed8909a James Hogan 2015-05-01  745  	spin_lock(&kvm->mmu_lock);
+411740f5422a960c James Hogan 2016-12-13  746  	/* Check if an invalidation has taken place since we got pfn */
+411740f5422a960c James Hogan 2016-12-13  747  	if (mmu_notifier_retry(kvm, mmu_seq)) {
+411740f5422a960c James Hogan 2016-12-13  748  		/*
+411740f5422a960c James Hogan 2016-12-13  749  		 * This can happen when mappings are changed asynchronously, but
+411740f5422a960c James Hogan 2016-12-13  750  		 * also synchronously if a COW is triggered by
+411740f5422a960c James Hogan 2016-12-13  751  		 * gfn_to_pfn_prot().
+411740f5422a960c James Hogan 2016-12-13  752  		 */
+411740f5422a960c James Hogan 2016-12-13  753  		spin_unlock(&kvm->mmu_lock);
+411740f5422a960c James Hogan 2016-12-13  754  		kvm_release_pfn_clean(pfn);
+411740f5422a960c James Hogan 2016-12-13  755  		goto retry;
+411740f5422a960c James Hogan 2016-12-13  756  	}
+06c158c96ed8909a James Hogan 2015-05-01  757  
+b5f1dd1ba4042bda James Hogan 2016-12-06  758  	/* Ensure page tables are allocated */
+06c158c96ed8909a James Hogan 2015-05-01  759  	ptep = kvm_mips_pte_for_gpa(kvm, memcache, gpa);
+06c158c96ed8909a James Hogan 2015-05-01  760  
+b5f1dd1ba4042bda James Hogan 2016-12-06  761  	/* Set up the PTE */
+411740f5422a960c James Hogan 2016-12-13  762  	prot_bits = _PAGE_PRESENT | __READABLE | _page_cachable_default;
+411740f5422a960c James Hogan 2016-12-13  763  	if (writeable) {
+411740f5422a960c James Hogan 2016-12-13  764  		prot_bits |= _PAGE_WRITE;
+b5f1dd1ba4042bda James Hogan 2016-12-06  765  		if (write_fault) {
+b5f1dd1ba4042bda James Hogan 2016-12-06  766  			prot_bits |= __WRITEABLE;
+b5f1dd1ba4042bda James Hogan 2016-12-06  767  			mark_page_dirty(kvm, gfn);
+411740f5422a960c James Hogan 2016-12-13  768  			kvm_set_pfn_dirty(pfn);
+411740f5422a960c James Hogan 2016-12-13  769  		}
+b5f1dd1ba4042bda James Hogan 2016-12-06  770  	}
+06c158c96ed8909a James Hogan 2015-05-01  771  	entry = pfn_pte(pfn, __pgprot(prot_bits));
+06c158c96ed8909a James Hogan 2015-05-01  772  
+b5f1dd1ba4042bda James Hogan 2016-12-06  773  	/* Write the PTE */
+06c158c96ed8909a James Hogan 2015-05-01  774  	old_pte = *ptep;
+06c158c96ed8909a James Hogan 2015-05-01  775  	set_pte(ptep, entry);
+06c158c96ed8909a James Hogan 2015-05-01  776  
+06c158c96ed8909a James Hogan 2015-05-01  777  	err = 0;
+06c158c96ed8909a James Hogan 2015-05-01  778  	if (out_entry)
+06c158c96ed8909a James Hogan 2015-05-01  779  		*out_entry = *ptep;
+06c158c96ed8909a James Hogan 2015-05-01  780  	if (out_buddy)
+06c158c96ed8909a James Hogan 2015-05-01  781  		*out_buddy = *ptep_buddy(ptep);
+06c158c96ed8909a James Hogan 2015-05-01  782  
+06c158c96ed8909a James Hogan 2015-05-01  783  	spin_unlock(&kvm->mmu_lock);
+411740f5422a960c James Hogan 2016-12-13  784  	kvm_release_pfn_clean(pfn);
+411740f5422a960c James Hogan 2016-12-13  785  	kvm_set_pfn_accessed(pfn);
+403015b323a29747 James Hogan 2016-06-09  786  out:
+403015b323a29747 James Hogan 2016-06-09  787  	srcu_read_unlock(&kvm->srcu, srcu_idx);
+403015b323a29747 James Hogan 2016-06-09  788  	return err;
+403015b323a29747 James Hogan 2016-06-09  789  }
+403015b323a29747 James Hogan 2016-06-09  790  
 
-:::::: The code at line 1196 was first introduced by commit
-:::::: 49f7b4efa1101bbc143a960eff3a9c8f9d6f7358 x86/intel_rdt: Enable setting of exclusive mode
+:::::: The code at line 701 was first introduced by commit
+:::::: 06c158c96ed8909a1d8696d4f953ca8a9ef55574 KVM: MIPS/MMU: Convert guest physical map to page table
 
-:::::: TO: Reinette Chatre <reinette.chatre@intel.com>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+:::::: TO: James Hogan <james.hogan@imgtec.com>
+:::::: CC: James Hogan <james.hogan@imgtec.com>
 
 -- 
 0-DAY CI Kernel Test Service
