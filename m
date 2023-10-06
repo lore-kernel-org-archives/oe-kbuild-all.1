@@ -1,49 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE83F9DF
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Oct 2023 09:49:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F4114F74
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Oct 2023 10:11:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dDmFRkbU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iRl21t4L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696585752; x=1728121752;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pet488w0Y0Swdj6OCTro3BCzAVuAiviO6uPaN1rOXWY=;
-  b=dDmFRkbUUOC71jr6QZCZURfnJ5vwNWNZqA4Wo8a48gcw9g78AVraIcrx
-   A7sthe4d6S20Npn9oxD6GBBDP7Hoa19oRHUzmQVYoOxSjcTJbLWp1ixwO
-   ThuCYA6124K4lJ3VSzjUdaa4L/aK5VHLC2o41l88K/pYaFvCpxtRQqtzJ
-   aNONb2/M0PzukvJp0Fi05MWjH1ZRWO71smod+WL3P1IihqMvEJBPXM29y
-   L2BkMggsuMQWvvWgIUGyI1RqKtlWEH7HqJ8B3/DmkORsxuYTndIwaZZHE
-   BxxsI1/5dSyMaY+F/rQyBtmddsopkEJMfrV3twsRESIyp2q3ImGQn12XW
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="469989085"
+  t=1696587075; x=1728123075;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gWyN3EqzVzw4L7rRN5ptGG7jS2JKY4p4z/mDEUA73x4=;
+  b=iRl21t4L7jN2o/d4tdslj/CrflaU60++LO3+m0PAGGhSwjYhxn4fY/3F
+   s4AevS7646hbh5+2KoR91xH/c9x+/kU1KLkGbq8k/BsdkxS/8EQFF6Mvn
+   3q9ZPr7ASxh+JYnHsgwpnS5R8nU/mrXBKcRAvioIqpCTLREQuQ7BkoBNs
+   HZ2k6QqymPnvH/njymokjdlqGNhUSZtiv58HmRXcemxMG9jrvYhzdwAHw
+   /MXB/lK0Xo4/MBBcBfG0D2IeRhSoDupqdv9zFDkyLcr8nlDy9n1hH1Zmy
+   mgKRCNtV6IAm9yu97ebDskfeyanENGzqOaNBPW0h3vMbFedL/MFXfltRV
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="382589512"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="469989085"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 02:49:11 -0700
+   d="scan'208";a="382589512"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 03:11:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="822450220"
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="1083402019"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="822450220"
+   d="scan'208";a="1083402019"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 06 Oct 2023 02:49:09 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 06 Oct 2023 03:11:11 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qohSF-000MTw-1z;
-	Fri, 06 Oct 2023 09:49:07 +0000
-Date: Fri, 6 Oct 2023 17:48:43 +0800
+	id 1qohnZ-000MUi-1j;
+	Fri, 06 Oct 2023 10:11:09 +0000
+Date: Fri, 6 Oct 2023 18:10:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maxim Uvarov <maxim.uvarov@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Sumit Garg <sumit.garg@linaro.org>,
-	Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Subject: drivers/char/tpm/tpm_ftpm_tee.c:218: warning: Function parameter or
- member 'dev' not described in 'ftpm_tee_probe'
-Message-ID: <202310061753.IxfS0Pxh-lkp@intel.com>
+To: Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Davidlohr Bueso <dave@stgolabs.net>
+Subject: Re: [PATCH v3 07/10] cxl/memdev: Fix sanitize vs decoder setup
+ locking
+Message-ID: <202310061706.JTytkmZT-lkp@intel.com>
+References: <169657719974.1491153.15276451196916291864.stgit@dwillia2-xfh.jf.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,164 +51,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <169657719974.1491153.15276451196916291864.stgit@dwillia2-xfh.jf.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b78b18fb8ee19f7a05f20c3abc865b3bfe182884
-commit: 9f1944c23c8cb1c033b73de80cf6c612a2a80a2b tpm_ftpm_tee: register driver on TEE bus
-date:   3 years, 3 months ago
-config: arm64-randconfig-004-20230921 (https://download.01.org/0day-ci/archive/20231006/202310061753.IxfS0Pxh-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231006/202310061753.IxfS0Pxh-lkp@intel.com/reproduce)
+Hi Dan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 6465e260f48790807eef06b583b38ca9789b6072]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/cxl-pci-Remove-unnecessary-device-reference-management-in-sanitize-work/20231006-152823
+base:   6465e260f48790807eef06b583b38ca9789b6072
+patch link:    https://lore.kernel.org/r/169657719974.1491153.15276451196916291864.stgit%40dwillia2-xfh.jf.intel.com
+patch subject: [PATCH v3 07/10] cxl/memdev: Fix sanitize vs decoder setup locking
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20231006/202310061706.JTytkmZT-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231006/202310061706.JTytkmZT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310061753.IxfS0Pxh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310061706.JTytkmZT-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/char/tpm/tpm_ftpm_tee.c:218: warning: Function parameter or member 'dev' not described in 'ftpm_tee_probe'
->> drivers/char/tpm/tpm_ftpm_tee.c:218: warning: Excess function parameter 'pdev' description in 'ftpm_tee_probe'
->> drivers/char/tpm/tpm_ftpm_tee.c:314: warning: Function parameter or member 'dev' not described in 'ftpm_tee_remove'
->> drivers/char/tpm/tpm_ftpm_tee.c:314: warning: Excess function parameter 'pdev' description in 'ftpm_tee_remove'
+>> drivers/cxl/core/mbox.c:1190: warning: Function parameter or member 'cxlmd' not described in 'cxl_mem_sanitize'
+>> drivers/cxl/core/mbox.c:1190: warning: Excess function parameter 'mds' description in 'cxl_mem_sanitize'
 
 
-vim +218 drivers/char/tpm/tpm_ftpm_tee.c
+vim +1190 drivers/cxl/core/mbox.c
 
-09e574831b277a Sasha Levin    2019-07-05  209  
-09e574831b277a Sasha Levin    2019-07-05  210  /**
-1760eb689ed68c Pavel Tatashin 2019-12-04  211   * ftpm_tee_probe() - initialize the fTPM
-09e574831b277a Sasha Levin    2019-07-05  212   * @pdev: the platform_device description.
-09e574831b277a Sasha Levin    2019-07-05  213   *
-09e574831b277a Sasha Levin    2019-07-05  214   * Return:
-09e574831b277a Sasha Levin    2019-07-05  215   *	On success, 0. On failure, -errno.
-09e574831b277a Sasha Levin    2019-07-05  216   */
-9f1944c23c8cb1 Maxim Uvarov   2020-06-18  217  static int ftpm_tee_probe(struct device *dev)
-09e574831b277a Sasha Levin    2019-07-05 @218  {
-09e574831b277a Sasha Levin    2019-07-05  219  	int rc;
-09e574831b277a Sasha Levin    2019-07-05  220  	struct tpm_chip *chip;
-09e574831b277a Sasha Levin    2019-07-05  221  	struct ftpm_tee_private *pvt_data = NULL;
-09e574831b277a Sasha Levin    2019-07-05  222  	struct tee_ioctl_open_session_arg sess_arg;
-09e574831b277a Sasha Levin    2019-07-05  223  
-09e574831b277a Sasha Levin    2019-07-05  224  	pvt_data = devm_kzalloc(dev, sizeof(struct ftpm_tee_private),
-09e574831b277a Sasha Levin    2019-07-05  225  				GFP_KERNEL);
-09e574831b277a Sasha Levin    2019-07-05  226  	if (!pvt_data)
-09e574831b277a Sasha Levin    2019-07-05  227  		return -ENOMEM;
-09e574831b277a Sasha Levin    2019-07-05  228  
-09e574831b277a Sasha Levin    2019-07-05  229  	dev_set_drvdata(dev, pvt_data);
-09e574831b277a Sasha Levin    2019-07-05  230  
-09e574831b277a Sasha Levin    2019-07-05  231  	/* Open context with TEE driver */
-09e574831b277a Sasha Levin    2019-07-05  232  	pvt_data->ctx = tee_client_open_context(NULL, ftpm_tee_match, NULL,
-09e574831b277a Sasha Levin    2019-07-05  233  						NULL);
-09e574831b277a Sasha Levin    2019-07-05  234  	if (IS_ERR(pvt_data->ctx)) {
-09e574831b277a Sasha Levin    2019-07-05  235  		if (PTR_ERR(pvt_data->ctx) == -ENOENT)
-09e574831b277a Sasha Levin    2019-07-05  236  			return -EPROBE_DEFER;
-09e574831b277a Sasha Levin    2019-07-05  237  		dev_err(dev, "%s: tee_client_open_context failed\n", __func__);
-09e574831b277a Sasha Levin    2019-07-05  238  		return PTR_ERR(pvt_data->ctx);
-09e574831b277a Sasha Levin    2019-07-05  239  	}
-09e574831b277a Sasha Levin    2019-07-05  240  
-09e574831b277a Sasha Levin    2019-07-05  241  	/* Open a session with fTPM TA */
-09e574831b277a Sasha Levin    2019-07-05  242  	memset(&sess_arg, 0, sizeof(sess_arg));
-09e574831b277a Sasha Levin    2019-07-05  243  	memcpy(sess_arg.uuid, ftpm_ta_uuid.b, TEE_IOCTL_UUID_LEN);
-09e574831b277a Sasha Levin    2019-07-05  244  	sess_arg.clnt_login = TEE_IOCTL_LOGIN_PUBLIC;
-09e574831b277a Sasha Levin    2019-07-05  245  	sess_arg.num_params = 0;
-09e574831b277a Sasha Levin    2019-07-05  246  
-09e574831b277a Sasha Levin    2019-07-05  247  	rc = tee_client_open_session(pvt_data->ctx, &sess_arg, NULL);
-09e574831b277a Sasha Levin    2019-07-05  248  	if ((rc < 0) || (sess_arg.ret != 0)) {
-09e574831b277a Sasha Levin    2019-07-05  249  		dev_err(dev, "%s: tee_client_open_session failed, err=%x\n",
-09e574831b277a Sasha Levin    2019-07-05  250  			__func__, sess_arg.ret);
-09e574831b277a Sasha Levin    2019-07-05  251  		rc = -EINVAL;
-09e574831b277a Sasha Levin    2019-07-05  252  		goto out_tee_session;
-09e574831b277a Sasha Levin    2019-07-05  253  	}
-09e574831b277a Sasha Levin    2019-07-05  254  	pvt_data->session = sess_arg.session;
-09e574831b277a Sasha Levin    2019-07-05  255  
-09e574831b277a Sasha Levin    2019-07-05  256  	/* Allocate dynamic shared memory with fTPM TA */
-09e574831b277a Sasha Levin    2019-07-05  257  	pvt_data->shm = tee_shm_alloc(pvt_data->ctx,
-09e574831b277a Sasha Levin    2019-07-05  258  				      MAX_COMMAND_SIZE + MAX_RESPONSE_SIZE,
-09e574831b277a Sasha Levin    2019-07-05  259  				      TEE_SHM_MAPPED | TEE_SHM_DMA_BUF);
-09e574831b277a Sasha Levin    2019-07-05  260  	if (IS_ERR(pvt_data->shm)) {
-09e574831b277a Sasha Levin    2019-07-05  261  		dev_err(dev, "%s: tee_shm_alloc failed\n", __func__);
-09e574831b277a Sasha Levin    2019-07-05  262  		rc = -ENOMEM;
-09e574831b277a Sasha Levin    2019-07-05  263  		goto out_shm_alloc;
-09e574831b277a Sasha Levin    2019-07-05  264  	}
-09e574831b277a Sasha Levin    2019-07-05  265  
-09e574831b277a Sasha Levin    2019-07-05  266  	/* Allocate new struct tpm_chip instance */
-09e574831b277a Sasha Levin    2019-07-05  267  	chip = tpm_chip_alloc(dev, &ftpm_tee_tpm_ops);
-09e574831b277a Sasha Levin    2019-07-05  268  	if (IS_ERR(chip)) {
-09e574831b277a Sasha Levin    2019-07-05  269  		dev_err(dev, "%s: tpm_chip_alloc failed\n", __func__);
-09e574831b277a Sasha Levin    2019-07-05  270  		rc = PTR_ERR(chip);
-09e574831b277a Sasha Levin    2019-07-05  271  		goto out_chip_alloc;
-09e574831b277a Sasha Levin    2019-07-05  272  	}
-09e574831b277a Sasha Levin    2019-07-05  273  
-09e574831b277a Sasha Levin    2019-07-05  274  	pvt_data->chip = chip;
-09e574831b277a Sasha Levin    2019-07-05  275  	pvt_data->chip->flags |= TPM_CHIP_FLAG_TPM2;
-09e574831b277a Sasha Levin    2019-07-05  276  
-09e574831b277a Sasha Levin    2019-07-05  277  	/* Create a character device for the fTPM */
-09e574831b277a Sasha Levin    2019-07-05  278  	rc = tpm_chip_register(pvt_data->chip);
-09e574831b277a Sasha Levin    2019-07-05  279  	if (rc) {
-09e574831b277a Sasha Levin    2019-07-05  280  		dev_err(dev, "%s: tpm_chip_register failed with rc=%d\n",
-09e574831b277a Sasha Levin    2019-07-05  281  			__func__, rc);
-09e574831b277a Sasha Levin    2019-07-05  282  		goto out_chip;
-09e574831b277a Sasha Levin    2019-07-05  283  	}
-09e574831b277a Sasha Levin    2019-07-05  284  
-09e574831b277a Sasha Levin    2019-07-05  285  	return 0;
-09e574831b277a Sasha Levin    2019-07-05  286  
-09e574831b277a Sasha Levin    2019-07-05  287  out_chip:
-09e574831b277a Sasha Levin    2019-07-05  288  	put_device(&pvt_data->chip->dev);
-09e574831b277a Sasha Levin    2019-07-05  289  out_chip_alloc:
-09e574831b277a Sasha Levin    2019-07-05  290  	tee_shm_free(pvt_data->shm);
-09e574831b277a Sasha Levin    2019-07-05  291  out_shm_alloc:
-09e574831b277a Sasha Levin    2019-07-05  292  	tee_client_close_session(pvt_data->ctx, pvt_data->session);
-09e574831b277a Sasha Levin    2019-07-05  293  out_tee_session:
-09e574831b277a Sasha Levin    2019-07-05  294  	tee_client_close_context(pvt_data->ctx);
-09e574831b277a Sasha Levin    2019-07-05  295  
-09e574831b277a Sasha Levin    2019-07-05  296  	return rc;
-09e574831b277a Sasha Levin    2019-07-05  297  }
-09e574831b277a Sasha Levin    2019-07-05  298  
-9f1944c23c8cb1 Maxim Uvarov   2020-06-18  299  static int ftpm_plat_tee_probe(struct platform_device *pdev)
-9f1944c23c8cb1 Maxim Uvarov   2020-06-18  300  {
-9f1944c23c8cb1 Maxim Uvarov   2020-06-18  301  	struct device *dev = &pdev->dev;
-9f1944c23c8cb1 Maxim Uvarov   2020-06-18  302  
-9f1944c23c8cb1 Maxim Uvarov   2020-06-18  303  	return ftpm_tee_probe(dev);
-9f1944c23c8cb1 Maxim Uvarov   2020-06-18  304  }
-9f1944c23c8cb1 Maxim Uvarov   2020-06-18  305  
-09e574831b277a Sasha Levin    2019-07-05  306  /**
-1760eb689ed68c Pavel Tatashin 2019-12-04  307   * ftpm_tee_remove() - remove the TPM device
-09e574831b277a Sasha Levin    2019-07-05  308   * @pdev: the platform_device description.
-09e574831b277a Sasha Levin    2019-07-05  309   *
-09e574831b277a Sasha Levin    2019-07-05  310   * Return:
-09e574831b277a Sasha Levin    2019-07-05  311   *	0 always.
-09e574831b277a Sasha Levin    2019-07-05  312   */
-9f1944c23c8cb1 Maxim Uvarov   2020-06-18  313  static int ftpm_tee_remove(struct device *dev)
-09e574831b277a Sasha Levin    2019-07-05 @314  {
-9f1944c23c8cb1 Maxim Uvarov   2020-06-18  315  	struct ftpm_tee_private *pvt_data = dev_get_drvdata(dev);
-09e574831b277a Sasha Levin    2019-07-05  316  
-09e574831b277a Sasha Levin    2019-07-05  317  	/* Release the chip */
-09e574831b277a Sasha Levin    2019-07-05  318  	tpm_chip_unregister(pvt_data->chip);
-09e574831b277a Sasha Levin    2019-07-05  319  
-09e574831b277a Sasha Levin    2019-07-05  320  	/* frees chip */
-09e574831b277a Sasha Levin    2019-07-05  321  	put_device(&pvt_data->chip->dev);
-09e574831b277a Sasha Levin    2019-07-05  322  
-09e574831b277a Sasha Levin    2019-07-05  323  	/* Free the shared memory pool */
-09e574831b277a Sasha Levin    2019-07-05  324  	tee_shm_free(pvt_data->shm);
-09e574831b277a Sasha Levin    2019-07-05  325  
-09e574831b277a Sasha Levin    2019-07-05  326  	/* close the existing session with fTPM TA*/
-09e574831b277a Sasha Levin    2019-07-05  327  	tee_client_close_session(pvt_data->ctx, pvt_data->session);
-09e574831b277a Sasha Levin    2019-07-05  328  
-09e574831b277a Sasha Levin    2019-07-05  329  	/* close the context with TEE driver */
-09e574831b277a Sasha Levin    2019-07-05  330  	tee_client_close_context(pvt_data->ctx);
-09e574831b277a Sasha Levin    2019-07-05  331  
-09e574831b277a Sasha Levin    2019-07-05  332  	/* memory allocated with devm_kzalloc() is freed automatically */
-09e574831b277a Sasha Levin    2019-07-05  333  
-09e574831b277a Sasha Levin    2019-07-05  334  	return 0;
-09e574831b277a Sasha Levin    2019-07-05  335  }
-09e574831b277a Sasha Levin    2019-07-05  336  
-
-:::::: The code at line 218 was first introduced by commit
-:::::: 09e574831b277a3f77d78ceadd08a3859a84fdb3 tpm/tpm_ftpm_tee: A driver for firmware TPM running inside TEE
-
-:::::: TO: Sasha Levin <sashal@kernel.org>
-:::::: CC: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+  1173	
+  1174	
+  1175	/**
+  1176	 * cxl_mem_sanitize() - Send a sanitization command to the device.
+  1177	 * @mds: The device for the operation
+  1178	 * @cmd: The specific sanitization command opcode
+  1179	 *
+  1180	 * Return: 0 if the command was executed successfully, regardless of
+  1181	 * whether or not the actual security operation is done in the background,
+  1182	 * such as for the Sanitize case.
+  1183	 * Error return values can be the result of the mailbox command, -EINVAL
+  1184	 * when security requirements are not met or invalid contexts, or -EBUSY
+  1185	 * if the sanitize operation is already in flight.
+  1186	 *
+  1187	 * See CXL 3.0 @8.2.9.8.5.1 Sanitize and @8.2.9.8.5.2 Secure Erase.
+  1188	 */
+  1189	int cxl_mem_sanitize(struct cxl_memdev *cxlmd, u16 cmd)
+> 1190	{
+  1191		struct cxl_memdev_state *mds = to_cxl_memdev_state(cxlmd->cxlds);
+  1192		struct cxl_port  *endpoint;
+  1193		int rc;
+  1194	
+  1195		/* synchronize with cxl_mem_probe() and decoder write operations */
+  1196		device_lock(&cxlmd->dev);
+  1197		endpoint = cxlmd->endpoint;
+  1198		down_read(&cxl_region_rwsem);
+  1199		/*
+  1200		 * Require an endpoint to be safe otherwise the driver can not
+  1201		 * be sure that the device is unmapped.
+  1202		 */
+  1203		if (endpoint && endpoint->commit_end == -1)
+  1204			rc = __cxl_mem_sanitize(mds, cmd);
+  1205		else
+  1206			rc = -EBUSY;
+  1207		up_read(&cxl_region_rwsem);
+  1208		device_unlock(&cxlmd->dev);
+  1209	
+  1210		return rc;
+  1211	}
+  1212	
 
 -- 
 0-DAY CI Kernel Test Service
