@@ -1,47 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657C779C0
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Oct 2023 09:07:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE83F9DF
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Oct 2023 09:49:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mbDky0JP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dDmFRkbU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696583229; x=1728119229;
+  t=1696585752; x=1728121752;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=prZqFFmVUVj+/pUPQIpwn+PhH/vTZVYxBW8hET2SOXQ=;
-  b=mbDky0JPUbT8GXPSWNbpCNaqLdGdYMk9UW31IFBcP6LeFjdhXvN9iiT4
-   lgZtuA5ks6zSQgm/9BsMi7o3UBaQT/E+NlWTAMDaobL0H1IBIrH5VohZ7
-   XGeOn+PMiEwt7WH/GvcDdiqaupTwVJMJRWmfBpUlCADh7Kdwl9/vqya+L
-   Npi0znJWbZOybBu0eI9GYL4E8N5mG9NwpekIZkMIslr2NMuuv/K49gQx5
-   orbd5vK29DPiR85Cuq5pd65mYCRNZPMmVoT77QWphz18SlrCkRJUuTgW8
-   mjdmaomHghPe9FCLJ3sV75+vAfR3C2qg2uSXt6NUutnkRWmZAGEH/kgJC
+  bh=pet488w0Y0Swdj6OCTro3BCzAVuAiviO6uPaN1rOXWY=;
+  b=dDmFRkbUUOC71jr6QZCZURfnJ5vwNWNZqA4Wo8a48gcw9g78AVraIcrx
+   A7sthe4d6S20Npn9oxD6GBBDP7Hoa19oRHUzmQVYoOxSjcTJbLWp1ixwO
+   ThuCYA6124K4lJ3VSzjUdaa4L/aK5VHLC2o41l88K/pYaFvCpxtRQqtzJ
+   aNONb2/M0PzukvJp0Fi05MWjH1ZRWO71smod+WL3P1IihqMvEJBPXM29y
+   L2BkMggsuMQWvvWgIUGyI1RqKtlWEH7HqJ8B3/DmkORsxuYTndIwaZZHE
+   BxxsI1/5dSyMaY+F/rQyBtmddsopkEJMfrV3twsRESIyp2q3ImGQn12XW
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="2313572"
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="469989085"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="2313572"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 02:07:08 -0700
+   d="scan'208";a="469989085"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 02:49:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="787325919"
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="822450220"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="787325919"
+   d="scan'208";a="822450220"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 06 Oct 2023 02:07:07 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 06 Oct 2023 02:49:09 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qognX-000MRM-39;
-	Fri, 06 Oct 2023 09:07:03 +0000
-Date: Fri, 6 Oct 2023 17:06:40 +0800
+	id 1qohSF-000MTw-1z;
+	Fri, 06 Oct 2023 09:49:07 +0000
+Date: Fri, 6 Oct 2023 17:48:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Wiklander <jens.wiklander@linaro.org>
+To: Maxim Uvarov <maxim.uvarov@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Sumit Garg <sumit.garg@linaro.org>
-Subject: drivers/tee/optee/smc_abi.c:764: warning: Function parameter or
- member 'rpc_arg' not described in 'optee_handle_rpc'
-Message-ID: <202310061720.uZWZqosO-lkp@intel.com>
+	Jens Wiklander <jens.wiklander@linaro.org>,
+	Sumit Garg <sumit.garg@linaro.org>,
+	Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Subject: drivers/char/tpm/tpm_ftpm_tee.c:218: warning: Function parameter or
+ member 'dev' not described in 'ftpm_tee_probe'
+Message-ID: <202310061753.IxfS0Pxh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,107 +53,163 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Jens,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   b78b18fb8ee19f7a05f20c3abc865b3bfe182884
-commit: ed8faf6c8f8c1f7e9ee88342a915ce5f09ca9736 optee: add OPTEE_SMC_CALL_WITH_RPC_ARG and OPTEE_SMC_CALL_WITH_REGD_ARG
-date:   1 year, 6 months ago
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20231006/202310061720.uZWZqosO-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231006/202310061720.uZWZqosO-lkp@intel.com/reproduce)
+commit: 9f1944c23c8cb1c033b73de80cf6c612a2a80a2b tpm_ftpm_tee: register driver on TEE bus
+date:   3 years, 3 months ago
+config: arm64-randconfig-004-20230921 (https://download.01.org/0day-ci/archive/20231006/202310061753.IxfS0Pxh-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231006/202310061753.IxfS0Pxh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310061720.uZWZqosO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310061753.IxfS0Pxh-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/tee/optee/smc_abi.c:764: warning: Function parameter or member 'rpc_arg' not described in 'optee_handle_rpc'
+>> drivers/char/tpm/tpm_ftpm_tee.c:218: warning: Function parameter or member 'dev' not described in 'ftpm_tee_probe'
+>> drivers/char/tpm/tpm_ftpm_tee.c:218: warning: Excess function parameter 'pdev' description in 'ftpm_tee_probe'
+>> drivers/char/tpm/tpm_ftpm_tee.c:314: warning: Function parameter or member 'dev' not described in 'ftpm_tee_remove'
+>> drivers/char/tpm/tpm_ftpm_tee.c:314: warning: Excess function parameter 'pdev' description in 'ftpm_tee_remove'
 
 
-vim +764 drivers/tee/optee/smc_abi.c
+vim +218 drivers/char/tpm/tpm_ftpm_tee.c
 
-c51a564a5b4835 Jens Wiklander 2021-07-21  751  
-c51a564a5b4835 Jens Wiklander 2021-07-21  752  /**
-c51a564a5b4835 Jens Wiklander 2021-07-21  753   * optee_handle_rpc() - handle RPC from secure world
-c51a564a5b4835 Jens Wiklander 2021-07-21  754   * @ctx:	context doing the RPC
-c51a564a5b4835 Jens Wiklander 2021-07-21  755   * @param:	value of registers for the RPC
-c51a564a5b4835 Jens Wiklander 2021-07-21  756   * @call_ctx:	call context. Preserved during one OP-TEE invocation
-c51a564a5b4835 Jens Wiklander 2021-07-21  757   *
-c51a564a5b4835 Jens Wiklander 2021-07-21  758   * Result of RPC is written back into @param.
-c51a564a5b4835 Jens Wiklander 2021-07-21  759   */
-c51a564a5b4835 Jens Wiklander 2021-07-21  760  static void optee_handle_rpc(struct tee_context *ctx,
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  761  			     struct optee_msg_arg *rpc_arg,
-c51a564a5b4835 Jens Wiklander 2021-07-21  762  			     struct optee_rpc_param *param,
-c51a564a5b4835 Jens Wiklander 2021-07-21  763  			     struct optee_call_ctx *call_ctx)
-c51a564a5b4835 Jens Wiklander 2021-07-21 @764  {
-c51a564a5b4835 Jens Wiklander 2021-07-21  765  	struct tee_device *teedev = ctx->teedev;
-c51a564a5b4835 Jens Wiklander 2021-07-21  766  	struct optee *optee = tee_get_drvdata(teedev);
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  767  	struct optee_msg_arg *arg;
-c51a564a5b4835 Jens Wiklander 2021-07-21  768  	struct tee_shm *shm;
-c51a564a5b4835 Jens Wiklander 2021-07-21  769  	phys_addr_t pa;
-c51a564a5b4835 Jens Wiklander 2021-07-21  770  
-c51a564a5b4835 Jens Wiklander 2021-07-21  771  	switch (OPTEE_SMC_RETURN_GET_RPC_FUNC(param->a0)) {
-c51a564a5b4835 Jens Wiklander 2021-07-21  772  	case OPTEE_SMC_RPC_FUNC_ALLOC:
-5d41f1b3e32829 Jens Wiklander 2022-02-04  773  		shm = tee_shm_alloc_priv_buf(optee->ctx, param->a1);
-c51a564a5b4835 Jens Wiklander 2021-07-21  774  		if (!IS_ERR(shm) && !tee_shm_get_pa(shm, 0, &pa)) {
-c51a564a5b4835 Jens Wiklander 2021-07-21  775  			reg_pair_from_64(&param->a1, &param->a2, pa);
-c51a564a5b4835 Jens Wiklander 2021-07-21  776  			reg_pair_from_64(&param->a4, &param->a5,
-c51a564a5b4835 Jens Wiklander 2021-07-21  777  					 (unsigned long)shm);
-c51a564a5b4835 Jens Wiklander 2021-07-21  778  		} else {
-c51a564a5b4835 Jens Wiklander 2021-07-21  779  			param->a1 = 0;
-c51a564a5b4835 Jens Wiklander 2021-07-21  780  			param->a2 = 0;
-c51a564a5b4835 Jens Wiklander 2021-07-21  781  			param->a4 = 0;
-c51a564a5b4835 Jens Wiklander 2021-07-21  782  			param->a5 = 0;
-c51a564a5b4835 Jens Wiklander 2021-07-21  783  		}
-6add87fdae9bcb Xiaolei Wang   2021-12-06  784  		kmemleak_not_leak(shm);
-c51a564a5b4835 Jens Wiklander 2021-07-21  785  		break;
-c51a564a5b4835 Jens Wiklander 2021-07-21  786  	case OPTEE_SMC_RPC_FUNC_FREE:
-c51a564a5b4835 Jens Wiklander 2021-07-21  787  		shm = reg_pair_to_ptr(param->a1, param->a2);
-c51a564a5b4835 Jens Wiklander 2021-07-21  788  		tee_shm_free(shm);
-c51a564a5b4835 Jens Wiklander 2021-07-21  789  		break;
-c51a564a5b4835 Jens Wiklander 2021-07-21  790  	case OPTEE_SMC_RPC_FUNC_FOREIGN_INTR:
-c51a564a5b4835 Jens Wiklander 2021-07-21  791  		/*
-c51a564a5b4835 Jens Wiklander 2021-07-21  792  		 * A foreign interrupt was raised while secure world was
-c51a564a5b4835 Jens Wiklander 2021-07-21  793  		 * executing, since they are handled in Linux a dummy RPC is
-c51a564a5b4835 Jens Wiklander 2021-07-21  794  		 * performed to let Linux take the interrupt through the normal
-c51a564a5b4835 Jens Wiklander 2021-07-21  795  		 * vector.
-c51a564a5b4835 Jens Wiklander 2021-07-21  796  		 */
-c51a564a5b4835 Jens Wiklander 2021-07-21  797  		break;
-c51a564a5b4835 Jens Wiklander 2021-07-21  798  	case OPTEE_SMC_RPC_FUNC_CMD:
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  799  		if (rpc_arg) {
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  800  			arg = rpc_arg;
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  801  		} else {
-c51a564a5b4835 Jens Wiklander 2021-07-21  802  			shm = reg_pair_to_ptr(param->a1, param->a2);
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  803  			arg = tee_shm_get_va(shm, 0);
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  804  			if (IS_ERR(arg)) {
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  805  				pr_err("%s: tee_shm_get_va %p failed\n",
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  806  				       __func__, shm);
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  807  				break;
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  808  			}
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  809  		}
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  810  
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  811  		handle_rpc_func_cmd(ctx, optee, arg, call_ctx);
-c51a564a5b4835 Jens Wiklander 2021-07-21  812  		break;
-c51a564a5b4835 Jens Wiklander 2021-07-21  813  	default:
-c51a564a5b4835 Jens Wiklander 2021-07-21  814  		pr_warn("Unknown RPC func 0x%x\n",
-c51a564a5b4835 Jens Wiklander 2021-07-21  815  			(u32)OPTEE_SMC_RETURN_GET_RPC_FUNC(param->a0));
-c51a564a5b4835 Jens Wiklander 2021-07-21  816  		break;
-c51a564a5b4835 Jens Wiklander 2021-07-21  817  	}
-c51a564a5b4835 Jens Wiklander 2021-07-21  818  
-c51a564a5b4835 Jens Wiklander 2021-07-21  819  	param->a0 = OPTEE_SMC_CALL_RETURN_FROM_RPC;
-c51a564a5b4835 Jens Wiklander 2021-07-21  820  }
-c51a564a5b4835 Jens Wiklander 2021-07-21  821  
+09e574831b277a Sasha Levin    2019-07-05  209  
+09e574831b277a Sasha Levin    2019-07-05  210  /**
+1760eb689ed68c Pavel Tatashin 2019-12-04  211   * ftpm_tee_probe() - initialize the fTPM
+09e574831b277a Sasha Levin    2019-07-05  212   * @pdev: the platform_device description.
+09e574831b277a Sasha Levin    2019-07-05  213   *
+09e574831b277a Sasha Levin    2019-07-05  214   * Return:
+09e574831b277a Sasha Levin    2019-07-05  215   *	On success, 0. On failure, -errno.
+09e574831b277a Sasha Levin    2019-07-05  216   */
+9f1944c23c8cb1 Maxim Uvarov   2020-06-18  217  static int ftpm_tee_probe(struct device *dev)
+09e574831b277a Sasha Levin    2019-07-05 @218  {
+09e574831b277a Sasha Levin    2019-07-05  219  	int rc;
+09e574831b277a Sasha Levin    2019-07-05  220  	struct tpm_chip *chip;
+09e574831b277a Sasha Levin    2019-07-05  221  	struct ftpm_tee_private *pvt_data = NULL;
+09e574831b277a Sasha Levin    2019-07-05  222  	struct tee_ioctl_open_session_arg sess_arg;
+09e574831b277a Sasha Levin    2019-07-05  223  
+09e574831b277a Sasha Levin    2019-07-05  224  	pvt_data = devm_kzalloc(dev, sizeof(struct ftpm_tee_private),
+09e574831b277a Sasha Levin    2019-07-05  225  				GFP_KERNEL);
+09e574831b277a Sasha Levin    2019-07-05  226  	if (!pvt_data)
+09e574831b277a Sasha Levin    2019-07-05  227  		return -ENOMEM;
+09e574831b277a Sasha Levin    2019-07-05  228  
+09e574831b277a Sasha Levin    2019-07-05  229  	dev_set_drvdata(dev, pvt_data);
+09e574831b277a Sasha Levin    2019-07-05  230  
+09e574831b277a Sasha Levin    2019-07-05  231  	/* Open context with TEE driver */
+09e574831b277a Sasha Levin    2019-07-05  232  	pvt_data->ctx = tee_client_open_context(NULL, ftpm_tee_match, NULL,
+09e574831b277a Sasha Levin    2019-07-05  233  						NULL);
+09e574831b277a Sasha Levin    2019-07-05  234  	if (IS_ERR(pvt_data->ctx)) {
+09e574831b277a Sasha Levin    2019-07-05  235  		if (PTR_ERR(pvt_data->ctx) == -ENOENT)
+09e574831b277a Sasha Levin    2019-07-05  236  			return -EPROBE_DEFER;
+09e574831b277a Sasha Levin    2019-07-05  237  		dev_err(dev, "%s: tee_client_open_context failed\n", __func__);
+09e574831b277a Sasha Levin    2019-07-05  238  		return PTR_ERR(pvt_data->ctx);
+09e574831b277a Sasha Levin    2019-07-05  239  	}
+09e574831b277a Sasha Levin    2019-07-05  240  
+09e574831b277a Sasha Levin    2019-07-05  241  	/* Open a session with fTPM TA */
+09e574831b277a Sasha Levin    2019-07-05  242  	memset(&sess_arg, 0, sizeof(sess_arg));
+09e574831b277a Sasha Levin    2019-07-05  243  	memcpy(sess_arg.uuid, ftpm_ta_uuid.b, TEE_IOCTL_UUID_LEN);
+09e574831b277a Sasha Levin    2019-07-05  244  	sess_arg.clnt_login = TEE_IOCTL_LOGIN_PUBLIC;
+09e574831b277a Sasha Levin    2019-07-05  245  	sess_arg.num_params = 0;
+09e574831b277a Sasha Levin    2019-07-05  246  
+09e574831b277a Sasha Levin    2019-07-05  247  	rc = tee_client_open_session(pvt_data->ctx, &sess_arg, NULL);
+09e574831b277a Sasha Levin    2019-07-05  248  	if ((rc < 0) || (sess_arg.ret != 0)) {
+09e574831b277a Sasha Levin    2019-07-05  249  		dev_err(dev, "%s: tee_client_open_session failed, err=%x\n",
+09e574831b277a Sasha Levin    2019-07-05  250  			__func__, sess_arg.ret);
+09e574831b277a Sasha Levin    2019-07-05  251  		rc = -EINVAL;
+09e574831b277a Sasha Levin    2019-07-05  252  		goto out_tee_session;
+09e574831b277a Sasha Levin    2019-07-05  253  	}
+09e574831b277a Sasha Levin    2019-07-05  254  	pvt_data->session = sess_arg.session;
+09e574831b277a Sasha Levin    2019-07-05  255  
+09e574831b277a Sasha Levin    2019-07-05  256  	/* Allocate dynamic shared memory with fTPM TA */
+09e574831b277a Sasha Levin    2019-07-05  257  	pvt_data->shm = tee_shm_alloc(pvt_data->ctx,
+09e574831b277a Sasha Levin    2019-07-05  258  				      MAX_COMMAND_SIZE + MAX_RESPONSE_SIZE,
+09e574831b277a Sasha Levin    2019-07-05  259  				      TEE_SHM_MAPPED | TEE_SHM_DMA_BUF);
+09e574831b277a Sasha Levin    2019-07-05  260  	if (IS_ERR(pvt_data->shm)) {
+09e574831b277a Sasha Levin    2019-07-05  261  		dev_err(dev, "%s: tee_shm_alloc failed\n", __func__);
+09e574831b277a Sasha Levin    2019-07-05  262  		rc = -ENOMEM;
+09e574831b277a Sasha Levin    2019-07-05  263  		goto out_shm_alloc;
+09e574831b277a Sasha Levin    2019-07-05  264  	}
+09e574831b277a Sasha Levin    2019-07-05  265  
+09e574831b277a Sasha Levin    2019-07-05  266  	/* Allocate new struct tpm_chip instance */
+09e574831b277a Sasha Levin    2019-07-05  267  	chip = tpm_chip_alloc(dev, &ftpm_tee_tpm_ops);
+09e574831b277a Sasha Levin    2019-07-05  268  	if (IS_ERR(chip)) {
+09e574831b277a Sasha Levin    2019-07-05  269  		dev_err(dev, "%s: tpm_chip_alloc failed\n", __func__);
+09e574831b277a Sasha Levin    2019-07-05  270  		rc = PTR_ERR(chip);
+09e574831b277a Sasha Levin    2019-07-05  271  		goto out_chip_alloc;
+09e574831b277a Sasha Levin    2019-07-05  272  	}
+09e574831b277a Sasha Levin    2019-07-05  273  
+09e574831b277a Sasha Levin    2019-07-05  274  	pvt_data->chip = chip;
+09e574831b277a Sasha Levin    2019-07-05  275  	pvt_data->chip->flags |= TPM_CHIP_FLAG_TPM2;
+09e574831b277a Sasha Levin    2019-07-05  276  
+09e574831b277a Sasha Levin    2019-07-05  277  	/* Create a character device for the fTPM */
+09e574831b277a Sasha Levin    2019-07-05  278  	rc = tpm_chip_register(pvt_data->chip);
+09e574831b277a Sasha Levin    2019-07-05  279  	if (rc) {
+09e574831b277a Sasha Levin    2019-07-05  280  		dev_err(dev, "%s: tpm_chip_register failed with rc=%d\n",
+09e574831b277a Sasha Levin    2019-07-05  281  			__func__, rc);
+09e574831b277a Sasha Levin    2019-07-05  282  		goto out_chip;
+09e574831b277a Sasha Levin    2019-07-05  283  	}
+09e574831b277a Sasha Levin    2019-07-05  284  
+09e574831b277a Sasha Levin    2019-07-05  285  	return 0;
+09e574831b277a Sasha Levin    2019-07-05  286  
+09e574831b277a Sasha Levin    2019-07-05  287  out_chip:
+09e574831b277a Sasha Levin    2019-07-05  288  	put_device(&pvt_data->chip->dev);
+09e574831b277a Sasha Levin    2019-07-05  289  out_chip_alloc:
+09e574831b277a Sasha Levin    2019-07-05  290  	tee_shm_free(pvt_data->shm);
+09e574831b277a Sasha Levin    2019-07-05  291  out_shm_alloc:
+09e574831b277a Sasha Levin    2019-07-05  292  	tee_client_close_session(pvt_data->ctx, pvt_data->session);
+09e574831b277a Sasha Levin    2019-07-05  293  out_tee_session:
+09e574831b277a Sasha Levin    2019-07-05  294  	tee_client_close_context(pvt_data->ctx);
+09e574831b277a Sasha Levin    2019-07-05  295  
+09e574831b277a Sasha Levin    2019-07-05  296  	return rc;
+09e574831b277a Sasha Levin    2019-07-05  297  }
+09e574831b277a Sasha Levin    2019-07-05  298  
+9f1944c23c8cb1 Maxim Uvarov   2020-06-18  299  static int ftpm_plat_tee_probe(struct platform_device *pdev)
+9f1944c23c8cb1 Maxim Uvarov   2020-06-18  300  {
+9f1944c23c8cb1 Maxim Uvarov   2020-06-18  301  	struct device *dev = &pdev->dev;
+9f1944c23c8cb1 Maxim Uvarov   2020-06-18  302  
+9f1944c23c8cb1 Maxim Uvarov   2020-06-18  303  	return ftpm_tee_probe(dev);
+9f1944c23c8cb1 Maxim Uvarov   2020-06-18  304  }
+9f1944c23c8cb1 Maxim Uvarov   2020-06-18  305  
+09e574831b277a Sasha Levin    2019-07-05  306  /**
+1760eb689ed68c Pavel Tatashin 2019-12-04  307   * ftpm_tee_remove() - remove the TPM device
+09e574831b277a Sasha Levin    2019-07-05  308   * @pdev: the platform_device description.
+09e574831b277a Sasha Levin    2019-07-05  309   *
+09e574831b277a Sasha Levin    2019-07-05  310   * Return:
+09e574831b277a Sasha Levin    2019-07-05  311   *	0 always.
+09e574831b277a Sasha Levin    2019-07-05  312   */
+9f1944c23c8cb1 Maxim Uvarov   2020-06-18  313  static int ftpm_tee_remove(struct device *dev)
+09e574831b277a Sasha Levin    2019-07-05 @314  {
+9f1944c23c8cb1 Maxim Uvarov   2020-06-18  315  	struct ftpm_tee_private *pvt_data = dev_get_drvdata(dev);
+09e574831b277a Sasha Levin    2019-07-05  316  
+09e574831b277a Sasha Levin    2019-07-05  317  	/* Release the chip */
+09e574831b277a Sasha Levin    2019-07-05  318  	tpm_chip_unregister(pvt_data->chip);
+09e574831b277a Sasha Levin    2019-07-05  319  
+09e574831b277a Sasha Levin    2019-07-05  320  	/* frees chip */
+09e574831b277a Sasha Levin    2019-07-05  321  	put_device(&pvt_data->chip->dev);
+09e574831b277a Sasha Levin    2019-07-05  322  
+09e574831b277a Sasha Levin    2019-07-05  323  	/* Free the shared memory pool */
+09e574831b277a Sasha Levin    2019-07-05  324  	tee_shm_free(pvt_data->shm);
+09e574831b277a Sasha Levin    2019-07-05  325  
+09e574831b277a Sasha Levin    2019-07-05  326  	/* close the existing session with fTPM TA*/
+09e574831b277a Sasha Levin    2019-07-05  327  	tee_client_close_session(pvt_data->ctx, pvt_data->session);
+09e574831b277a Sasha Levin    2019-07-05  328  
+09e574831b277a Sasha Levin    2019-07-05  329  	/* close the context with TEE driver */
+09e574831b277a Sasha Levin    2019-07-05  330  	tee_client_close_context(pvt_data->ctx);
+09e574831b277a Sasha Levin    2019-07-05  331  
+09e574831b277a Sasha Levin    2019-07-05  332  	/* memory allocated with devm_kzalloc() is freed automatically */
+09e574831b277a Sasha Levin    2019-07-05  333  
+09e574831b277a Sasha Levin    2019-07-05  334  	return 0;
+09e574831b277a Sasha Levin    2019-07-05  335  }
+09e574831b277a Sasha Levin    2019-07-05  336  
 
-:::::: The code at line 764 was first introduced by commit
-:::::: c51a564a5b48355f30309b84cdffe3f96d1ae0d3 optee: isolate smc abi
+:::::: The code at line 218 was first introduced by commit
+:::::: 09e574831b277a3f77d78ceadd08a3859a84fdb3 tpm/tpm_ftpm_tee: A driver for firmware TPM running inside TEE
 
-:::::: TO: Jens Wiklander <jens.wiklander@linaro.org>
-:::::: CC: Jens Wiklander <jens.wiklander@linaro.org>
+:::::: TO: Sasha Levin <sashal@kernel.org>
+:::::: CC: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
