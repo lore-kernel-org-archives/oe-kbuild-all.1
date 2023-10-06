@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF9B34CCB
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Oct 2023 18:05:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4356F266D8
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Oct 2023 18:37:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bXIvrdGR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lq5ePQVy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696615529; x=1728151529;
+  t=1696617455; x=1728153455;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JGxeA53DeaKrWwQYPhwmExeafhmjcPav9jvfM8ZXgqg=;
-  b=bXIvrdGR/nom81Hyp3eo+ZMSg5x050KMpQ6oQqHk2ncQai4A+OLz1QYi
-   PFI5+peHFP6/KU/4gnuraJt03s3gFWn4jPJLkTvtWbx+ZYfFRP/vIPteB
-   KQP81S5PK7G2ppIf59PZt8gknkshvmMEgrGFMbnyzHm6KffKKRF5nJaZw
-   i796SnBfMJeCKr8RJ2qqr1LJeprgdxAwE9upM57c5wVi7eznOkcWK68jp
-   +WuMRTrUlM412HD9m33zpn3I7q4ZokaSfI+t0pylL20wnDzOPdGrTUcdn
-   0qnwTwkOPXKwwOcyY4iSIi1lEvYhMxVdDENcfVsscgjCBgT4s/wfYLO6W
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="364084257"
+  bh=juAVwpmbSCnH4n8AT3nzawWj6pKKq7PShinRiwRdK+Y=;
+  b=lq5ePQVyDSYRw1kRogUp1ZvqDjD+BuzhTlO/weLOBYZKONSEE+bNTP/r
+   TBHnVKjR/AcSnppM7o5rxoNUxJBivONWy7HRZ+uJfs9j1ZO/RhcNWwR5c
+   U9cB3J/gyBdl5NE+ZdPa5V6G24p8208WSEuu65c/dM0XJhjA6oNpxLwfg
+   dHT/vVyKkWWRPcyFeCNo3PYZinxG+2P/m2Qsd8GHk4RfTLRWO2q/4/LKK
+   RdbHBZbiXx8TbD/khvxSsT/OBnF7T4YPtZgPVD2Fu81AYaIInh5AEjwH0
+   WulTimvfw6d/J2Zb7b0lNJSbzfoyV+kusD7s4Ofx0a2oL0tIsRE/CQkgY
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="414804728"
 X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
-   d="scan'208";a="364084257"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 11:05:27 -0700
+   d="scan'208";a="414804728"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 11:37:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="876026412"
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="702133849"
 X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
-   d="scan'208";a="876026412"
+   d="scan'208";a="702133849"
 Received: from lkp-server01.sh.intel.com (HELO 8a3a91ad4240) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 06 Oct 2023 11:05:25 -0700
+  by orsmga003.jf.intel.com with ESMTP; 06 Oct 2023 11:37:27 -0700
 Received: from kbuild by 8a3a91ad4240 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qopCV-0003VF-1t;
-	Fri, 06 Oct 2023 18:05:23 +0000
-Date: Sat, 7 Oct 2023 02:04:48 +0800
+	id 1qophV-0003XN-0C;
+	Fri, 06 Oct 2023 18:37:25 +0000
+Date: Sat, 7 Oct 2023 02:37:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Paul Burton <paulburton@kernel.org>
-Subject: arch/mips/kernel/spram.c:194:6: warning: no previous prototype for
- 'spram_config'
-Message-ID: <202310070246.8CwDzTcs-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 41/43] drivers/misc/nxp-sr1xx.c:584:7:
+ error: incompatible pointer to integer conversion assigning to 'int' from
+ 'struct gpio_desc *'
+Message-ID: <202310070209.P0whOKYm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,130 +52,224 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   af95dc6fdc25e616051d0234aad638e15c02ec8f
-commit: 51522217f65f1f937f421d9f417cf0e714ef3c02 MIPS: Loongson64: Bump ISA level to MIPSR2
-date:   3 years, 8 months ago
-config: mips-loongson3_defconfig (https://download.01.org/0day-ci/archive/20231007/202310070246.8CwDzTcs-lkp@intel.com/config)
-compiler: mips64el-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231007/202310070246.8CwDzTcs-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   d4a6ffe460de3298061192eba1bc41124b37e86a
+commit: 30dee752600323ee56b4ba0c9504475fa7ab6849 [41/43] CHROMIUM: FROMLIST: misc: nxp-sr1xx: UWB driver for sr1xx
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20231007/202310070209.P0whOKYm-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231007/202310070209.P0whOKYm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310070246.8CwDzTcs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310070209.P0whOKYm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the chrome-os/chromeos-6.1 HEAD d4a6ffe460de3298061192eba1bc41124b37e86a builds fine.
+      It only hurts bisectability.
 
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/mm.h:10,
-                    from include/linux/pid_namespace.h:7,
-                    from include/linux/ptrace.h:10,
-                    from arch/mips/kernel/spram.c:8:
-   include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1255:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
-    1255 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
-         |             ^
-   include/linux/mmzone.h:1241:27: note: 'mem_section' declared here
-    1241 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
-         |                           ^~~~~~~~~~~
-   arch/mips/kernel/spram.c: At top level:
->> arch/mips/kernel/spram.c:194:6: warning: no previous prototype for 'spram_config' [-Wmissing-prototypes]
-     194 | void spram_config(void)
-         |      ^~~~~~~~~~~~
+All error/warnings (new ones prefixed by >>):
+
+>> drivers/misc/nxp-sr1xx.c:584:7: error: incompatible pointer to integer conversion assigning to 'int' from 'struct gpio_desc *' [-Wint-conversion]
+                   ret = gpiod_irq;
+                       ^ ~~~~~~~~~
+   drivers/misc/nxp-sr1xx.c:593:7: error: incompatible pointer to integer conversion assigning to 'int' from 'struct gpio_desc *' [-Wint-conversion]
+                   ret = gpiod_ce;
+                       ^ ~~~~~~~~
+   drivers/misc/nxp-sr1xx.c:602:7: error: incompatible pointer to integer conversion assigning to 'int' from 'struct gpio_desc *' [-Wint-conversion]
+                   ret = gpiod_ri;
+                       ^ ~~~~~~~~
+>> drivers/misc/nxp-sr1xx.c:695:5: warning: no previous prototype for function 'sr1xx_dev_suspend' [-Wmissing-prototypes]
+   int sr1xx_dev_suspend(struct device *dev)
+       ^
+   drivers/misc/nxp-sr1xx.c:695:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int sr1xx_dev_suspend(struct device *dev)
+   ^
+   static 
+>> drivers/misc/nxp-sr1xx.c:710:5: warning: no previous prototype for function 'sr1xx_dev_resume' [-Wmissing-prototypes]
+   int sr1xx_dev_resume(struct device *dev)
+       ^
+   drivers/misc/nxp-sr1xx.c:710:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int sr1xx_dev_resume(struct device *dev)
+   ^
+   static 
+   2 warnings and 3 errors generated.
 
 
-vim +/spram_config +194 arch/mips/kernel/spram.c
+vim +584 drivers/misc/nxp-sr1xx.c
 
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  112  
-078a55fc824c1633 Paul Gortmaker 2013-06-18  113  static void probe_spram(char *type,
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  114  	    unsigned int base,
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  115  	    unsigned int (*read)(unsigned int),
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  116  	    void (*write)(unsigned int, unsigned int))
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  117  {
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  118  	unsigned int firstsize = 0, lastsize = 0;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  119  	unsigned int firstpa = 0, lastpa = 0, pa = 0;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  120  	unsigned int offset = 0;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  121  	unsigned int size, tag0, tag1;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  122  	unsigned int enabled;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  123  	int i;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  124  
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  125  	/*
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  126  	 * The limit is arbitrary but avoids the loop running away if
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  127  	 * the SPRAM tags are implemented differently
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  128  	 */
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  129  
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  130  	for (i = 0; i < 8; i++) {
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  131  		tag0 = read(offset);
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  132  		tag1 = read(offset+SPRAM_TAG_STRIDE);
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  133  		pr_debug("DBG %s%d: tag0=%08x tag1=%08x\n",
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  134  			 type, i, tag0, tag1);
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  135  
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  136  		size = tag1 & SPRAM_TAG1_SIZE_MASK;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  137  
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  138  		if (size == 0)
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  139  			break;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  140  
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  141  		if (i != 0) {
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  142  			/* tags may repeat... */
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  143  			if ((pa == firstpa && size == firstsize) ||
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  144  			    (pa == lastpa && size == lastsize))
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  145  				break;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  146  		}
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  147  
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  148  		/* Align base with size */
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  149  		base = (base + size - 1) & ~(size-1);
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  150  
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  151  		/* reprogram the base address base address and enable */
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  152  		tag0 = (base & SPRAM_TAG0_PA_MASK) | SPRAM_TAG0_ENABLE;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  153  		write(offset, tag0);
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  154  
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  155  		base += size;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  156  
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  157  		/* reread the tag */
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  158  		tag0 = read(offset);
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  159  		pa = tag0 & SPRAM_TAG0_PA_MASK;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  160  		enabled = tag0 & SPRAM_TAG0_ENABLE;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  161  
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  162  		if (i == 0) {
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  163  			firstpa = pa;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  164  			firstsize = size;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  165  		}
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  166  
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  167  		lastpa = pa;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  168  		lastsize = size;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  169  
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  170  		if (strcmp(type, "DSPRAM") == 0) {
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  171  			unsigned int *vp = (unsigned int *)(CKSEG1 | pa);
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  172  			unsigned int v;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  173  #define TDAT	0x5a5aa5a5
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  174  			vp[0] = TDAT;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  175  			vp[1] = ~TDAT;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  176  
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  177  			mb();
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  178  
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  179  			v = vp[0];
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  180  			if (v != TDAT)
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  181  				printk(KERN_ERR "vp=%p wrote=%08x got=%08x\n",
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  182  				       vp, TDAT, v);
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  183  			v = vp[1];
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  184  			if (v != ~TDAT)
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  185  				printk(KERN_ERR "vp=%p wrote=%08x got=%08x\n",
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  186  				       vp+1, ~TDAT, v);
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  187  		}
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  188  
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  189  		pr_info("%s%d: PA=%08x,Size=%08x%s\n",
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  190  			type, i, pa, size, enabled ? ",enabled" : "");
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  191  		offset += 2 * SPRAM_TAG_STRIDE;
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  192  	}
-0b6d497fcbb72b35 Chris Dearman  2007-09-13  193  }
-078a55fc824c1633 Paul Gortmaker 2013-06-18 @194  void spram_config(void)
-
-:::::: The code at line 194 was first introduced by commit
-:::::: 078a55fc824c1633b3a507e4ad48b4637c1dfc18 MIPS: Delete __cpuinit/__CPUINIT usage from MIPS code
-
-:::::: TO: Paul Gortmaker <paul.gortmaker@windriver.com>
-:::::: CC: Paul Gortmaker <paul.gortmaker@windriver.com>
+   547	
+   548	static int sr1xx_probe(struct spi_device *spi)
+   549	{
+   550		int ret;
+   551		struct sr1xx_dev *sr1xx_dev = NULL;
+   552		unsigned int irq_flags;
+   553		struct gpio_desc *gpiod_irq;
+   554		struct gpio_desc *gpiod_ce;
+   555		struct gpio_desc *gpiod_ri;
+   556	
+   557		dev_info(&spi->dev, "%s chip select : %d , bus number = %d\n", __func__,
+   558			 spi->chip_select, spi->master->bus_num);
+   559	
+   560		sr1xx_dev = kzalloc(sizeof(*sr1xx_dev), GFP_KERNEL);
+   561		if (!sr1xx_dev) {
+   562			ret = -ENOMEM;
+   563			goto err_exit;
+   564		}
+   565	
+   566		spi->bits_per_word = 8;
+   567		spi->mode = SPI_MODE_0;
+   568		spi->max_speed_hz = SR1XX_SPI_CLOCK;
+   569		ret = spi_setup(spi);
+   570		if (ret < 0) {
+   571			dev_err(&spi->dev, "failed to do spi_setup()\n");
+   572			goto err_setup;
+   573		}
+   574	
+   575		sr1xx_dev->spi = spi;
+   576		sr1xx_dev->sr1xx_device.minor = MISC_DYNAMIC_MINOR;
+   577		sr1xx_dev->sr1xx_device.name = "sr1xx";
+   578		sr1xx_dev->sr1xx_device.fops = &sr1xx_dev_fops;
+   579		sr1xx_dev->sr1xx_device.parent = &spi->dev;
+   580	
+   581		gpiod_irq = devm_gpiod_get(&spi->dev, "nxp,sr1xx-irq", GPIOD_IN);
+   582		if (IS_ERR(gpiod_irq)) {
+   583			dev_err(&spi->dev, "failed to do fetch irq gpio desc\n");
+ > 584			ret = gpiod_irq;
+   585			goto err_setup;
+   586		} else {
+   587			sr1xx_dev->irq_gpio = desc_to_gpio(gpiod_irq);
+   588		}
+   589	
+   590		gpiod_ce = devm_gpiod_get(&spi->dev, "nxp,sr1xx-ce", GPIOD_OUT_LOW);
+   591		if (IS_ERR(gpiod_ce)) {
+   592			dev_err(&spi->dev, "failed to do fetch ce gpio desc\n");
+   593			ret = gpiod_ce;
+   594			goto err_setup;
+   595		} else {
+   596			sr1xx_dev->ce_gpio = desc_to_gpio(gpiod_ce);
+   597		}
+   598	
+   599		gpiod_ri = devm_gpiod_get(&spi->dev, "nxp,sr1xx-ri", GPIOD_OUT_LOW);
+   600		if (IS_ERR(gpiod_ri)) {
+   601			dev_err(&spi->dev, "failed to do fetch ri gpio desc\n");
+   602			ret = gpiod_ri;
+   603			goto err_setup;
+   604		} else {
+   605			sr1xx_dev->spi_handshake_gpio = desc_to_gpio(gpiod_ri);
+   606		}
+   607	
+   608		dev_set_drvdata(&spi->dev, sr1xx_dev);
+   609	
+   610		/* init mutex and queues */
+   611		init_waitqueue_head(&sr1xx_dev->read_wq);
+   612		mutex_init(&sr1xx_dev->sr1xx_access_lock);
+   613	
+   614		spin_lock_init(&sr1xx_dev->irq_enabled_lock);
+   615	
+   616		ret = misc_register(&sr1xx_dev->sr1xx_device);
+   617		if (ret < 0) {
+   618			dev_err(&spi->dev, "misc_register failed! %d\n", ret);
+   619			goto err_setup;
+   620		}
+   621	
+   622		sr1xx_dev->tx_buffer = kzalloc(SR1XX_TXBUF_SIZE, GFP_KERNEL);
+   623		sr1xx_dev->rx_buffer = kzalloc(SR1XX_RXBUF_SIZE, GFP_KERNEL);
+   624		if (!sr1xx_dev->tx_buffer) {
+   625			ret = -ENOMEM;
+   626			goto err_exit;
+   627		}
+   628		if (!sr1xx_dev->rx_buffer) {
+   629			ret = -ENOMEM;
+   630			goto err_exit;
+   631		}
+   632	
+   633		sr1xx_dev->spi->irq = gpio_to_irq(sr1xx_dev->irq_gpio);
+   634		if (sr1xx_dev->spi->irq < 0) {
+   635			dev_err(&spi->dev, "gpio_to_irq request failed gpio = 0x%x\n",
+   636				sr1xx_dev->irq_gpio);
+   637			goto err_exit;
+   638		}
+   639		/* request irq. The irq is set whenever the chip has data available
+   640		 * for reading. It is cleared when all data has been read.
+   641		 */
+   642		irq_flags = IRQ_TYPE_LEVEL_HIGH;
+   643		sr1xx_dev->irq_enabled = true;
+   644		sr1xx_dev->irq_received = false;
+   645	
+   646		ret = request_irq(sr1xx_dev->spi->irq, sr1xx_dev_irq_handler, irq_flags,
+   647				  sr1xx_dev->sr1xx_device.name, sr1xx_dev);
+   648		if (ret) {
+   649			dev_err(&spi->dev, "request_irq failed\n");
+   650			goto err_exit;
+   651		}
+   652		sr1xx_disable_irq(sr1xx_dev);
+   653		return 0;
+   654	err_exit:
+   655		if (sr1xx_dev) {
+   656			kfree(sr1xx_dev->tx_buffer);
+   657			kfree(sr1xx_dev->rx_buffer);
+   658			misc_deregister(&sr1xx_dev->sr1xx_device);
+   659		}
+   660	err_setup:
+   661		if (sr1xx_dev)
+   662			mutex_destroy(&sr1xx_dev->sr1xx_access_lock);
+   663		kfree(sr1xx_dev);
+   664		dev_err(&spi->dev, "ERROR: Exit : %s ret %d\n", __func__, ret);
+   665		return ret;
+   666	}
+   667	
+   668	static void sr1xx_remove(struct spi_device *spi)
+   669	{
+   670		struct sr1xx_dev *sr1xx_dev = sr1xx_get_data(spi);
+   671	
+   672		if (!sr1xx_dev) {
+   673			dev_err(&spi->dev, "sr1xx_dev is NULL\n");
+   674			return;
+   675		}
+   676		gpio_free(sr1xx_dev->ce_gpio);
+   677		mutex_destroy(&sr1xx_dev->sr1xx_access_lock);
+   678		free_irq(sr1xx_dev->spi->irq, sr1xx_dev);
+   679		gpio_free(sr1xx_dev->irq_gpio);
+   680		gpio_free(sr1xx_dev->spi_handshake_gpio);
+   681		misc_deregister(&sr1xx_dev->sr1xx_device);
+   682		if (sr1xx_dev) {
+   683			kfree(sr1xx_dev->tx_buffer);
+   684			kfree(sr1xx_dev->rx_buffer);
+   685			kfree(sr1xx_dev);
+   686		}
+   687	}
+   688	
+   689	/**
+   690	 * sr1xx_dev_suspend
+   691	 *
+   692	 * Executed before putting the system into a sleep state
+   693	 *
+   694	 */
+ > 695	int sr1xx_dev_suspend(struct device *dev)
+   696	{
+   697		struct sr1xx_dev *sr1xx_dev = dev_get_drvdata(dev);
+   698	
+   699		if (device_may_wakeup(dev))
+   700			disable_irq_wake(sr1xx_dev->spi->irq);
+   701		return 0;
+   702	}
+   703	
+   704	/**
+   705	 * sr1xx_dev_resume
+   706	 *
+   707	 * Executed after waking the system up from a sleep state
+   708	 *
+   709	 */
+ > 710	int sr1xx_dev_resume(struct device *dev)
+   711	{
+   712		struct sr1xx_dev *sr1xx_dev = dev_get_drvdata(dev);
+   713	
+   714		if (device_may_wakeup(dev))
+   715			enable_irq_wake(sr1xx_dev->spi->irq);
+   716	
+   717		return 0;
+   718	}
+   719	
 
 -- 
 0-DAY CI Kernel Test Service
