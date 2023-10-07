@@ -1,251 +1,196 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 239D6171C2
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Oct 2023 13:15:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0252D2134C;
+	Sat,  7 Oct 2023 14:09:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K+aJqbzr"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4064867903cso29689405e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 07 Oct 2023 06:15:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696684542; x=1697289342; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:subject:cc:to:from:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ZKBgn0nvuuvymZsKWtuHpV8zil9Djtki/7QOK92nu6A=;
-        b=K+aJqbzrtsNgl09sKCor2A+ehakIUIzWXKq7zUwr8Oe9CcHHoGvxJcw0jKJidC4lX4
-         54+vPUfaYDLl3xUNvN6y8a1rZijFD1yf+8HUVA71cTq+ZCO1i00Tetx1+jQArCuPGLcJ
-         WG6Gel9lzhXCoH/VZnPDVu83Lk3ekR7Gg5wgwNwSVQpUNC3E0JG7Zsoiu4bSa63jQMr0
-         doz7f4n8/f1PQFnjzoNXnBUJQuyShi8HCVagA0TS91q9VNsfykGBv6VCRttRM5t4mCZw
-         m/gpRpVTPTpcOXUl5lsXVOLY9VAtOhITrnkf4uawbUdsgPxSKIp8tzoM9s2+Y8VNGO1i
-         nPpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696684542; x=1697289342;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:subject:cc:to:from:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZKBgn0nvuuvymZsKWtuHpV8zil9Djtki/7QOK92nu6A=;
-        b=MG2WW9yRH4EYIGO6STrrmaltwxYh0+Oqr+Fidv8ScVYWWS/W4ysQOx3Q+TTOvSyKyF
-         Skv69q4ocitqRoLkoGdkEJzzu3WUQxjUVWov3W7Nq1zVDTHheE41fOtfOsAuVXsgJs2q
-         UHun5YQ55MG5XMj3mNPyveJL3eVA61Pk2TXS77ykYqUFwmljQFQfQMICMFrbuYeKUdfO
-         qXp3t38nHBoNwyPSeugUC6Q3FyzhvcSBp78aGHlasnm2tTu0lHCgzc2XXsYKaHq7I2rI
-         1hj7WJ4rosL4cO5iBwHL5Rm/e1fMVZC6mhZj0L6T4HzUUyscHMw/D+klnXmBcElmJCvD
-         KVSA==
-X-Gm-Message-State: AOJu0YzS834alsLL9b9z7IyX5zcaYm6AbUhIPs8WK9hvCGtK0MYNRN+B
-	hzS8abWIKleO99E6FC89XFI=
-X-Google-Smtp-Source: AGHT+IErO+MDH0rugoDbL1SCA0F2Gkm2C0hlv4v/qPFicZdj2gLucCSY8vDgFQr4bsAZmluZizlIKw==
-X-Received: by 2002:a05:600c:3657:b0:401:b0f2:88c1 with SMTP id y23-20020a05600c365700b00401b0f288c1mr10076380wmq.29.1696684541887;
-        Sat, 07 Oct 2023 06:15:41 -0700 (PDT)
-Received: from Ansuel-xps. (93-34-89-13.ip49.fastwebnet.it. [93.34.89.13])
-        by smtp.gmail.com with ESMTPSA id hn8-20020a05600ca38800b00405959bbf4fsm6170201wmb.19.2023.10.07.06.15.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Oct 2023 06:15:41 -0700 (PDT)
-Message-ID: <652159fd.050a0220.141f8.cba3@mx.google.com>
-X-Google-Original-Message-ID: <ZSFZ+3sJqYdEYhC/@Ansuel-xps.>
-Date: Sat, 7 Oct 2023 15:15:39 +0200
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: "Liu, Yujie" <yujie.liu@intel.com>
-Cc: "Li, Philip" <philip.li@intel.com>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	lkp <lkp@intel.com>, "andrew@lunn.ch" <andrew@lunn.ch>
-Subject: Re: drivers/leds/trigger/ledtrig-netdev.c:120:34: warning: array
- subscript 17 is above array bounds of 'char[16]'
-References: <202309192035.GTJEEbem-lkp@intel.com>
- <6512163f.5d0a0220.e4212.8150@mx.google.com>
- <ZRQ/xt1FFJ5k0G8w@rli9-mobl>
- <6516a63b.050a0220.6ed0b.358d@mx.google.com>
- <aef19b63cfd505a1527dae705bc222ba808623de.camel@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hsjqB18c"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696687746; x=1728223746;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vFXnH8usACxMwET+ea0JtQNom2jtP8MBfVrmKaT3krI=;
+  b=hsjqB18cCos14BdCTDlsbZuhQs5lAoSC7uaEHH3oNFyd0/5Q5CCdXCB/
+   BOSq5KrFhZF5Wtu2PK8y9CsR3g48KPTlyFwmq5sfdbVqU7mgds4r0dIpD
+   tHWb/GKjnYbjXhSnznrVBq+7o9YlRBUa5V5cpAFVBHFy+Dy9vajvVbq3R
+   GL5rXsr/JKYw9b7poIBjVbtT2eXziWv/zuokngz1Zf9/NN+4CxkNk8B2+
+   Z20PeyQWHSVbX7dUUa+jKO2rENhfgWgcK0GrCiNTCtpoi5Ku2R4NOZpgc
+   5rgtQaGLd70POqi7IVKgX+P1hKIFL63nmho13RqO0VgZVfTeWvIFiW7hB
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10856"; a="450419980"
+X-IronPort-AV: E=Sophos;i="6.03,206,1694761200"; 
+   d="scan'208";a="450419980"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2023 07:09:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10856"; a="702388542"
+X-IronPort-AV: E=Sophos;i="6.03,206,1694761200"; 
+   d="scan'208";a="702388542"
+Received: from lkp-server01.sh.intel.com (HELO 8a3a91ad4240) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 07 Oct 2023 07:09:03 -0700
+Received: from kbuild by 8a3a91ad4240 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qp7zI-0004R7-2g;
+	Sat, 07 Oct 2023 14:09:00 +0000
+Date: Sat, 7 Oct 2023 22:08:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-stable 175/204] mm/list_lru.c:98:7: error: call to
+ undeclared function 'list_lru_from_kmem'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202310072139.CXKkky51-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aef19b63cfd505a1527dae705bc222ba808623de.camel@intel.com>
 
-On Sat, Oct 07, 2023 at 07:17:16AM +0000, Liu, Yujie wrote:
-> On Fri, 2023-09-29 at 12:26 +0200, Christian Marangi wrote:
-> > On Wed, Sep 27, 2023 at 10:44:22PM +0800, Philip Li wrote:
-> > > On Tue, Sep 26, 2023 at 01:22:35AM +0200, Christian Marangi wrote:
-> > > > On Tue, Sep 19, 2023 at 08:21:03PM +0800, kernel test robot
-> > > > wrote:
-> > > > > tree:  
-> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> > > > >  master
-> > > > > head:   2cf0f715623872823a72e451243bbf555d10d032
-> > > > > commit: 28a6a2ef18ad840a390d519840c303b03040961c leds: trigger:
-> > > > > netdev: refactor code setting device name
-> > > > > date:   4 months ago
-> > > > > config: loongarch-allmodconfig
-> > > > > (https://download.01.org/0day-ci/archive/20230919/202309192035
-> > > > > .GTJEEbem-lkp@intel.com/config)
-> > > > > compiler: loongarch64-linux-gcc (GCC) 13.2.0
-> > > > > reproduce (this is a W=1 build):
-> > > > > (https://download.01.org/0day-ci/archive/20230919/202309192035
-> > > > > .GTJEEbem-lkp@intel.com/reproduce)
-> > > > > 
-> > > > > If you fix the issue in a separate patch/commit (i.e. not just
-> > > > > a new version of
-> > > > > the same patch/commit), kindly add following tags
-> > > > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > > > Closes:
-> > > > > > https://lore.kernel.org/oe-kbuild-all/202309192035.GTJEEbem-lkp@intel.com/
-> > > > > 
-> > > > > All warnings (new ones prefixed by >>):
-> > > > > 
-> > > > >    drivers/leds/trigger/ledtrig-netdev.c: In function
-> > > > > 'set_device_name':
-> > > > > > > drivers/leds/trigger/ledtrig-netdev.c:120:34: warning:
-> > > > > > > array subscript 17 is above array bounds of 'char[16]' [-
-> > > > > > > Warray-bounds=]
-> > > > >      120 |         trigger_data->device_name[size] = 0;
-> > > > >          |         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-> > > > >    drivers/leds/trigger/ledtrig-netdev.c:48:14: note: while
-> > > > > referencing 'device_name'
-> > > > >       48 |         char device_name[IFNAMSIZ];
-> > > > >          |              ^~~~~~~~~~~
-> > > > > > > drivers/leds/trigger/ledtrig-netdev.c:120:34: warning:
-> > > > > > > array subscript 17 is above array bounds of 'char[16]' [-
-> > > > > > > Warray-bounds=]
-> > > > >      120 |         trigger_data->device_name[size] = 0;
-> > > > >          |         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-> > > > >    drivers/leds/trigger/ledtrig-netdev.c:48:14: note: while
-> > > > > referencing 'device_name'
-> > > > >       48 |         char device_name[IFNAMSIZ];
-> > > > >          |              ^~~~~~~~~~~
-> > > > > 
-> > > > > 
-> > > > > vim +120 drivers/leds/trigger/ledtrig-netdev.c
-> > > > > 
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10  106  
-> > > > > 28a6a2ef18ad84 Andrew Lunn       2023-05-29  107  static int
-> > > > > set_device_name(struct led_netdev_data *trigger_data,
-> > > > > 28a6a2ef18ad84 Andrew Lunn       2023-05-29 
-> > > > > 108                           const char *name, size_t size)
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10  109  {
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10 
-> > > > > 110        cancel_delayed_work_sync(&trigger_data->work);
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10  111  
-> > > > > d1b9e1391ab2dc Christian Marangi 2023-04-19 
-> > > > > 112        mutex_lock(&trigger_data->lock);
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10  113  
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10  114        if
-> > > > > (trigger_data->net_dev) {
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10 
-> > > > > 115                dev_put(trigger_data->net_dev);
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10 
-> > > > > 116                trigger_data->net_dev = NULL;
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10  117        }
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10  118  
-> > > > > 28a6a2ef18ad84 Andrew Lunn       2023-05-29 
-> > > > > 119        memcpy(trigger_data->device_name, name, size);
-> > > > > 909346433064b8 Rasmus Villemoes  2019-03-14
-> > > > > @120        trigger_data->device_name[size] = 0;
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10  121        if
-> > > > > (size > 0 && trigger_data->device_name[size - 1] == '\n')
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10 
-> > > > > 122                trigger_data->device_name[size - 1] = 0;
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10  123  
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10  124        if
-> > > > > (trigger_data->device_name[0] != 0)
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10 
-> > > > > 125                trigger_data->net_dev =
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10 
-> > > > > 126                    dev_get_by_name(&init_net, trigger_data-
-> > > > > >device_name);
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10  127  
-> > > > > e2f24cb1b5daf9 Christian Marangi 2023-04-19 
-> > > > > 128        trigger_data->carrier_link_up = false;
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10  129        if
-> > > > > (trigger_data->net_dev != NULL)
-> > > > > e2f24cb1b5daf9 Christian Marangi 2023-04-19 
-> > > > > 130                trigger_data->carrier_link_up =
-> > > > > netif_carrier_ok(trigger_data->net_dev);
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10  131  
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10 
-> > > > > 132        trigger_data->last_activity = 0;
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10  133  
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10 
-> > > > > 134        set_baseline_state(trigger_data);
-> > > > > d1b9e1391ab2dc Christian Marangi 2023-04-19 
-> > > > > 135        mutex_unlock(&trigger_data->lock);
-> > > > > 06f502f57d0d77 Ben Whitten       2017-12-10  136  
-> > > > > 28a6a2ef18ad84 Andrew Lunn       2023-05-29  137        return
-> > > > > 0;
-> > > > > 28a6a2ef18ad84 Andrew Lunn       2023-05-29  138  }
-> > > > > 28a6a2ef18ad84 Andrew Lunn       2023-05-29  139  
-> > > > > 
-> > > > > :::::: The code at line 120 was first introduced by commit
-> > > > > :::::: 909346433064b8d840dc82af26161926b8d37558 leds: trigger:
-> > > > > netdev: use memcpy in device_name_store
-> > > > > 
-> > > > > :::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> > > > > :::::: CC: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> > > > > 
-> > > > > -- 
-> > > > > 0-DAY CI Kernel Test Service
-> > > > > https://github.com/intel/lkp-tests/wiki
-> > > > 
-> > > > Can't repro so I guess this was a false-positive that got fixed?
-> > > > (I used
-> > > > the repro commands and doesn't print any error)
-> > > 
-> > > Hi Ansuel, the issue requires to build with -Warray-bounds flag. We
-> > > will fix
-> > > the reproduce steps in earliest time. Sorry for the inconvenience.
-> > > 
-> > 
-> > Hi again, happy to help you further.
-> > 
-> > By adding the flag I still can't repro.
-> > I'm using this command.
-> > COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-13.2.0 ~/bin/make.cross
-> > W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/leds/trigger/ 
-> > -Warray-bounds
-> 
-> Hi Ansuel, we added some extra compiler flags recently but the repro
-> steps were not updated in time. Sorry for this.
-> 
-> Could you please have a try with the following command? (append
-> KCFLAGS="-Warray-bounds" at the end)
-> 
-> COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-13.2.0 ~/bin/make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/leds/trigger/ KCFLAGS="-Warray-bounds"
->
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-stable
+head:   2b76550922a81fd63e16b81b6b39f1eb19df52f0
+commit: a39744c1a652d8847098d9f1a022b50a9ceb3f10 [175/204] mm/list_lru: remove unused function
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231007/202310072139.CXKkky51-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231007/202310072139.CXKkky51-lkp@intel.com/reproduce)
 
-Can confirm this worked! (also sent patch upstream)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310072139.CXKkky51-lkp@intel.com/
 
-May I suggest some improvement to the repro script?
+All errors (new ones prefixed by >>):
 
-I would add some instruction on the cleanup... A simple rm -rf with all
-the toolchain and directory downloaded may be useful.
+   In file included from mm/list_lru.c:14:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from mm/list_lru.c:14:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from mm/list_lru.c:14:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> mm/list_lru.c:98:7: error: call to undeclared function 'list_lru_from_kmem'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      98 |                 l = list_lru_from_kmem(lru, nid, item, &memcg);
+         |                     ^
+>> mm/list_lru.c:98:5: error: incompatible integer to pointer conversion assigning to 'struct list_lru_one *' from 'int' [-Wint-conversion]
+      98 |                 l = list_lru_from_kmem(lru, nid, item, &memcg);
+         |                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/list_lru.c:121:7: error: call to undeclared function 'list_lru_from_kmem'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     121 |                 l = list_lru_from_kmem(lru, nid, item, NULL);
+         |                     ^
+   mm/list_lru.c:121:5: error: incompatible integer to pointer conversion assigning to 'struct list_lru_one *' from 'int' [-Wint-conversion]
+     121 |                 l = list_lru_from_kmem(lru, nid, item, NULL);
+         |                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   12 warnings and 4 errors generated.
 
-Also some reference on the config to download to exactly repro the
-error? If someone doesn't download the config from the mail, the default
-kernel config for the ARCH is used and the bug is not repro.
 
-I know these are all steps that a kernel dev should already know but
-since we are giving instructions, it might not be a bad idea to include
-every required step.
+vim +/list_lru_from_kmem +98 mm/list_lru.c
 
-> > Also on top of that I can see that only ledtrig-audio is compiled.
-> > From what I can see using olddefconfig won't actually use the config
-> > used by the bot.
-> 
-> The original config used by the bot can be obtained by:
-> 
-> $ wget
-> https://download.01.org/0day-ci/archive/20230919/202309192035.GTJEEbem-lkp@intel.com/config
-> -O build_dir/.config
-> 
-> "make olddefconfig" is for refreshing it to resolve potential config
-> dependencies.
-> 
+60d3fd32a7a9da Vladimir Davydov 2015-02-12   88  
+a38e40824844a5 Dave Chinner     2013-08-28   89  bool list_lru_add(struct list_lru *lru, struct list_head *item)
+a38e40824844a5 Dave Chinner     2013-08-28   90  {
+3b1d58a4c96799 Dave Chinner     2013-08-28   91  	int nid = page_to_nid(virt_to_page(item));
+3b1d58a4c96799 Dave Chinner     2013-08-28   92  	struct list_lru_node *nlru = &lru->node[nid];
+fae91d6d8be5e2 Kirill Tkhai     2018-08-17   93  	struct mem_cgroup *memcg;
+60d3fd32a7a9da Vladimir Davydov 2015-02-12   94  	struct list_lru_one *l;
+3b1d58a4c96799 Dave Chinner     2013-08-28   95  
+3b1d58a4c96799 Dave Chinner     2013-08-28   96  	spin_lock(&nlru->lock);
+a38e40824844a5 Dave Chinner     2013-08-28   97  	if (list_empty(item)) {
+6a6b7b77cc0fdc Muchun Song      2022-03-22  @98  		l = list_lru_from_kmem(lru, nid, item, &memcg);
+60d3fd32a7a9da Vladimir Davydov 2015-02-12   99  		list_add_tail(item, &l->list);
+fae91d6d8be5e2 Kirill Tkhai     2018-08-17  100  		/* Set shrinker bit if the first element was added */
+fae91d6d8be5e2 Kirill Tkhai     2018-08-17  101  		if (!l->nr_items++)
+2bfd36374edd9e Yang Shi         2021-05-04  102  			set_shrinker_bit(memcg, nid,
+fae91d6d8be5e2 Kirill Tkhai     2018-08-17  103  					 lru_shrinker_id(lru));
+2c80cd57c74339 Sahitya Tummala  2017-07-10  104  		nlru->nr_items++;
+3b1d58a4c96799 Dave Chinner     2013-08-28  105  		spin_unlock(&nlru->lock);
+a38e40824844a5 Dave Chinner     2013-08-28  106  		return true;
+a38e40824844a5 Dave Chinner     2013-08-28  107  	}
+3b1d58a4c96799 Dave Chinner     2013-08-28  108  	spin_unlock(&nlru->lock);
+a38e40824844a5 Dave Chinner     2013-08-28  109  	return false;
+a38e40824844a5 Dave Chinner     2013-08-28  110  }
+a38e40824844a5 Dave Chinner     2013-08-28  111  EXPORT_SYMBOL_GPL(list_lru_add);
+a38e40824844a5 Dave Chinner     2013-08-28  112  
+
+:::::: The code at line 98 was first introduced by commit
+:::::: 6a6b7b77cc0fdc13f50c66c219c8c05500a8dfce mm: list_lru: transpose the array of per-node per-memcg lru lists
+
+:::::: TO: Muchun Song <songmuchun@bytedance.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
-	Ansuel
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
