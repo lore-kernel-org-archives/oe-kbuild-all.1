@@ -1,55 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5771EFC04;
-	Sun,  8 Oct 2023 22:25:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5158C13
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Oct 2023 22:47:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AU2GoFws"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mww2qe/n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696803927; x=1728339927;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yPD6DsIdg9+uokcveGmkjl3wIt7hKAzaaoSXHfIFMT8=;
-  b=AU2GoFwsVRQ4jc41D/qBsOlQDuFenhqbFRFfhJWVAL2Rzn0xWPFNVwBr
-   1UlY//ZOqfdP20tTOiMB/rGumzS/JHldQwsCuhSeYWrOhfdJW7Ylx28O+
-   1PqbjxUDJRxxwEsraa2SRWHOXvUy2zT0JWIueh9NA8+tcU8yEPDkf4GhO
-   1Ax/kcwzf9KPn3bQ23rpynuA8Si7j7welqB1Wg84MldaqgjN6ykOL8BjZ
-   LM6ebnDcotuFKHuBwy6Ui/tZiktNZk9aoxxaRGb0sqTQYy4JGGAMQZ10w
-   PvZMpXXBmQ/qlDUAKdPXLpLhOIf+fJbIMtOTMOrFBQVhBf/YUloc2VKpy
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="387900176"
+  t=1696805247; x=1728341247;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8hClc2Q6g3lIEgRwQ4HBf+DSJjo6zwDqHAjoVj1jqTQ=;
+  b=mww2qe/nfc4LZbglPXL4BX860pNwm75tVPx+Qi6EOeOHMmnQzu2ebg1d
+   DC3QU78UHkS4AwWFFc8IC1oGAnYGoi14uuSLIwPzt+n5eiBO/ZXT3SbtY
+   3+UCIReedF1Ian41CC5Lun8z12t2ywGttv4TZqwqazwfUqnc5dXsW6hhJ
+   UouYlbcTa4uLvibJMDVM9/PI6fuYVH2lqp30j5w9i0I/TI0dRpuPPIXPQ
+   Yp4tSUeMOuuQQn7xHD9zptKGsexpJhjcdnx3kZ0uYBx9ldsDkUXRJAWgq
+   EZeJREE4R/DuBr0+/gvE7ceqgzE0UctO5ScLQZs0GzeMbcE4NrpPGwK94
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="470305077"
 X-IronPort-AV: E=Sophos;i="6.03,207,1694761200"; 
-   d="scan'208";a="387900176"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2023 15:25:26 -0700
+   d="scan'208";a="470305077"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2023 15:47:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="869025176"
+X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="782297348"
 X-IronPort-AV: E=Sophos;i="6.03,207,1694761200"; 
-   d="scan'208";a="869025176"
+   d="scan'208";a="782297348"
 Received: from lkp-server01.sh.intel.com (HELO 8a3a91ad4240) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 08 Oct 2023 15:25:21 -0700
+  by orsmga008.jf.intel.com with ESMTP; 08 Oct 2023 15:47:24 -0700
 Received: from kbuild by 8a3a91ad4240 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qpcD9-0005p2-1q;
-	Sun, 08 Oct 2023 22:25:19 +0000
-Date: Mon, 9 Oct 2023 06:25:00 +0800
+	id 1qpcYT-0005qZ-1w;
+	Sun, 08 Oct 2023 22:47:21 +0000
+Date: Mon, 9 Oct 2023 06:46:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tianyi Liu <i.pear@outlook.com>, seanjc@google.com, pbonzini@redhat.com,
-	peterz@infradead.org, mingo@redhat.com, acme@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	kvm@vger.kernel.org, x86@kernel.org, mark.rutland@arm.com,
-	alexander.shishkin@linux.intel.com, jolsa@kernel.org,
-	namhyung@kernel.org, irogers@google.com, adrian.hunter@intel.com,
-	Tianyi Liu <i.pear@outlook.com>
-Subject: Re: [PATCH v2 1/5] KVM: Add arch specific interfaces for sampling
- guest callchains
-Message-ID: <202310090652.6TMWiCuU-lkp@intel.com>
-References: <SY4P282MB10840154D4F09917D6528BC69DCFA@SY4P282MB1084.AUSP282.PROD.OUTLOOK.COM>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1174:29: error:
+ enumerator value for
+ 'i40e_static_assert_i40e_aqc_cloud_filters_element_data' is not an integer
+ constant
+Message-ID: <202310090627.VedlSXrL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,49 +51,349 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <SY4P282MB10840154D4F09917D6528BC69DCFA@SY4P282MB1084.AUSP282.PROD.OUTLOOK.COM>
 
-Hi Tianyi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 8a749fd1a8720d4619c91c8b6e7528c0a355c0aa]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tianyi-Liu/KVM-Add-arch-specific-interfaces-for-sampling-guest-callchains/20231008-230042
-base:   8a749fd1a8720d4619c91c8b6e7528c0a355c0aa
-patch link:    https://lore.kernel.org/r/SY4P282MB10840154D4F09917D6528BC69DCFA%40SY4P282MB1084.AUSP282.PROD.OUTLOOK.COM
-patch subject: [PATCH v2 1/5] KVM: Add arch specific interfaces for sampling guest callchains
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231009/202310090652.6TMWiCuU-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231009/202310090652.6TMWiCuU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   94f6f0550c625fab1f373bb86a6669b45e9748b3
+commit: 0361c7e504b1fa3c2901643088e2f29c0354ab31 ARM: ep93xx: multiplatform support
+date:   1 year, 6 months ago
+config: arm-randconfig-002-20231002 (https://download.01.org/0day-ci/archive/20231009/202310090627.VedlSXrL-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231009/202310090627.VedlSXrL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310090652.6TMWiCuU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310090627.VedlSXrL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> arch/x86/kvm/x86.c:12917:35: error: incompatible pointer to integer conversion passing 'void *' to parameter of type 'gva_t' (aka 'unsigned long') [-Wint-conversion]
-           return kvm_read_guest_virt(vcpu, addr, dest, length, &e) == X86EMUL_CONTINUE;
-                                            ^~~~
-   arch/x86/kvm/x86.c:7403:19: note: passing argument to parameter here
-   EXPORT_SYMBOL_GPL(kvm_read_guest_virt);
-                     ^
-   1 error generated.
+>> arch/arm/mm/copypage-v4wt.c:43:6: warning: no previous prototype for 'v4wt_copy_user_highpage' [-Wmissing-prototypes]
+      43 | void v4wt_copy_user_highpage(struct page *to, struct page *from,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm/mm/copypage-v4wt.c:60:6: warning: no previous prototype for 'v4wt_clear_user_highpage' [-Wmissing-prototypes]
+      60 | void v4wt_clear_user_highpage(struct page *page, unsigned long vaddr)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> arch/arm/mm/copypage-feroceon.c:65:6: warning: no previous prototype for 'feroceon_copy_user_highpage' [-Wmissing-prototypes]
+      65 | void feroceon_copy_user_highpage(struct page *to, struct page *from,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm/mm/copypage-feroceon.c:78:6: warning: no previous prototype for 'feroceon_clear_user_highpage' [-Wmissing-prototypes]
+      78 | void feroceon_clear_user_highpage(struct page *page, unsigned long vaddr)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/irqchip/irq-clps711x.c:215:13: warning: no previous prototype for 'clps711x_intc_init' [-Wmissing-prototypes]
+     215 | void __init clps711x_intc_init(phys_addr_t base, resource_size_t size)
+         |             ^~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/net/ethernet/intel/i40e/i40e_adminq.h:9,
+                    from drivers/net/ethernet/intel/i40e/i40e_type.h:10,
+                    from drivers/net/ethernet/intel/i40e/i40e_prototype.h:7,
+                    from drivers/net/ethernet/intel/i40e/i40e_nvm.c:4:
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:39: warning: division by zero [-Wdiv-by-zero]
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                       ^
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1174:1: note: in expansion of macro 'I40E_CHECK_STRUCT_LEN'
+    1174 | I40E_CHECK_STRUCT_LEN(0x40, i40e_aqc_cloud_filters_element_data);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1174:29: error: enumerator value for 'i40e_static_assert_i40e_aqc_cloud_filters_element_data' is not an integer constant
+    1174 | I40E_CHECK_STRUCT_LEN(0x40, i40e_aqc_cloud_filters_element_data);
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:56: note: in definition of macro 'I40E_CHECK_STRUCT_LEN'
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                        ^
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:39: warning: division by zero [-Wdiv-by-zero]
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                       ^
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1185:1: note: in expansion of macro 'I40E_CHECK_STRUCT_LEN'
+    1185 | I40E_CHECK_STRUCT_LEN(0x80, i40e_aqc_cloud_filters_element_bb);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1185:29: error: enumerator value for 'i40e_static_assert_i40e_aqc_cloud_filters_element_bb' is not an integer constant
+    1185 | I40E_CHECK_STRUCT_LEN(0x80, i40e_aqc_cloud_filters_element_bb);
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:56: note: in definition of macro 'I40E_CHECK_STRUCT_LEN'
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                        ^
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:39: warning: division by zero [-Wdiv-by-zero]
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                       ^
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1506:1: note: in expansion of macro 'I40E_CHECK_STRUCT_LEN'
+    1506 | I40E_CHECK_STRUCT_LEN(0x22, i40e_aqc_configure_partition_bw_data);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1506:29: error: enumerator value for 'i40e_static_assert_i40e_aqc_configure_partition_bw_data' is not an integer constant
+    1506 | I40E_CHECK_STRUCT_LEN(0x22, i40e_aqc_configure_partition_bw_data);
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:56: note: in definition of macro 'I40E_CHECK_STRUCT_LEN'
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                        ^
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:39: warning: division by zero [-Wdiv-by-zero]
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                       ^
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:306:41: note: in expansion of macro 'I40E_CHECK_STRUCT_LEN'
+     306 | #define I40E_CHECK_CMD_LENGTH(X)        I40E_CHECK_STRUCT_LEN(16, X)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1769:1: note: in expansion of macro 'I40E_CHECK_CMD_LENGTH'
+    1769 | I40E_CHECK_CMD_LENGTH(i40e_aqc_get_link_status);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1769:23: error: enumerator value for 'i40e_static_assert_i40e_aqc_get_link_status' is not an integer constant
+    1769 | I40E_CHECK_CMD_LENGTH(i40e_aqc_get_link_status);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:56: note: in definition of macro 'I40E_CHECK_STRUCT_LEN'
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                        ^
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1769:1: note: in expansion of macro 'I40E_CHECK_CMD_LENGTH'
+    1769 | I40E_CHECK_CMD_LENGTH(i40e_aqc_get_link_status);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:39: warning: division by zero [-Wdiv-by-zero]
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                       ^
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1908:1: note: in expansion of macro 'I40E_CHECK_STRUCT_LEN'
+    1908 | I40E_CHECK_STRUCT_LEN(0x6, i40e_aqc_nvm_config_data_feature);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1908:28: error: enumerator value for 'i40e_static_assert_i40e_aqc_nvm_config_data_feature' is not an integer constant
+    1908 | I40E_CHECK_STRUCT_LEN(0x6, i40e_aqc_nvm_config_data_feature);
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:56: note: in definition of macro 'I40E_CHECK_STRUCT_LEN'
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                        ^
+   In file included from drivers/net/ethernet/intel/i40e/i40e_prototype.h:9:
+>> include/linux/avf/virtchnl.h:160:43: warning: division by zero [-Wdiv-by-zero]
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                           ^
+   include/linux/avf/virtchnl.h:391:1: note: in expansion of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     391 | VIRTCHNL_CHECK_STRUCT_LEN(14, virtchnl_irq_map_info);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/avf/virtchnl.h:391:31: error: enumerator value for 'virtchnl_static_assert_virtchnl_irq_map_info' is not an integer constant
+     391 | VIRTCHNL_CHECK_STRUCT_LEN(14, virtchnl_irq_map_info);
+         |                               ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/avf/virtchnl.h:160:60: note: in definition of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                            ^
+>> include/linux/avf/virtchnl.h:160:43: warning: division by zero [-Wdiv-by-zero]
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                           ^
+   include/linux/avf/virtchnl.h:484:1: note: in expansion of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     484 | VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_vlan_filter_list);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/avf/virtchnl.h:484:30: error: enumerator value for 'virtchnl_static_assert_virtchnl_vlan_filter_list' is not an integer constant
+     484 | VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_vlan_filter_list);
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/avf/virtchnl.h:160:60: note: in definition of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                            ^
+>> include/linux/avf/virtchnl.h:160:43: warning: division by zero [-Wdiv-by-zero]
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                           ^
+   include/linux/avf/virtchnl.h:869:1: note: in expansion of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     869 | VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_rss_key);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/avf/virtchnl.h:869:30: error: enumerator value for 'virtchnl_static_assert_virtchnl_rss_key' is not an integer constant
+     869 | VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_rss_key);
+         |                              ^~~~~~~~~~~~~~~~
+   include/linux/avf/virtchnl.h:160:60: note: in definition of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                            ^
+>> include/linux/avf/virtchnl.h:160:43: warning: division by zero [-Wdiv-by-zero]
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                           ^
+   include/linux/avf/virtchnl.h:877:1: note: in expansion of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     877 | VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_rss_lut);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/avf/virtchnl.h:877:30: error: enumerator value for 'virtchnl_static_assert_virtchnl_rss_lut' is not an integer constant
+     877 | VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_rss_lut);
+         |                              ^~~~~~~~~~~~~~~~
+   include/linux/avf/virtchnl.h:160:60: note: in definition of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                            ^
+--
+   In file included from drivers/net/ethernet/intel/i40e/i40e_adminq.h:9,
+                    from drivers/net/ethernet/intel/i40e/i40e_type.h:10,
+                    from drivers/net/ethernet/intel/i40e/i40e.h:40,
+                    from drivers/net/ethernet/intel/i40e/i40e_main.c:12:
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:39: warning: division by zero [-Wdiv-by-zero]
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                       ^
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1174:1: note: in expansion of macro 'I40E_CHECK_STRUCT_LEN'
+    1174 | I40E_CHECK_STRUCT_LEN(0x40, i40e_aqc_cloud_filters_element_data);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1174:29: error: enumerator value for 'i40e_static_assert_i40e_aqc_cloud_filters_element_data' is not an integer constant
+    1174 | I40E_CHECK_STRUCT_LEN(0x40, i40e_aqc_cloud_filters_element_data);
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:56: note: in definition of macro 'I40E_CHECK_STRUCT_LEN'
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                        ^
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:39: warning: division by zero [-Wdiv-by-zero]
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                       ^
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1185:1: note: in expansion of macro 'I40E_CHECK_STRUCT_LEN'
+    1185 | I40E_CHECK_STRUCT_LEN(0x80, i40e_aqc_cloud_filters_element_bb);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1185:29: error: enumerator value for 'i40e_static_assert_i40e_aqc_cloud_filters_element_bb' is not an integer constant
+    1185 | I40E_CHECK_STRUCT_LEN(0x80, i40e_aqc_cloud_filters_element_bb);
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:56: note: in definition of macro 'I40E_CHECK_STRUCT_LEN'
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                        ^
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:39: warning: division by zero [-Wdiv-by-zero]
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                       ^
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1506:1: note: in expansion of macro 'I40E_CHECK_STRUCT_LEN'
+    1506 | I40E_CHECK_STRUCT_LEN(0x22, i40e_aqc_configure_partition_bw_data);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1506:29: error: enumerator value for 'i40e_static_assert_i40e_aqc_configure_partition_bw_data' is not an integer constant
+    1506 | I40E_CHECK_STRUCT_LEN(0x22, i40e_aqc_configure_partition_bw_data);
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:56: note: in definition of macro 'I40E_CHECK_STRUCT_LEN'
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                        ^
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:39: warning: division by zero [-Wdiv-by-zero]
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                       ^
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:306:41: note: in expansion of macro 'I40E_CHECK_STRUCT_LEN'
+     306 | #define I40E_CHECK_CMD_LENGTH(X)        I40E_CHECK_STRUCT_LEN(16, X)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1769:1: note: in expansion of macro 'I40E_CHECK_CMD_LENGTH'
+    1769 | I40E_CHECK_CMD_LENGTH(i40e_aqc_get_link_status);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1769:23: error: enumerator value for 'i40e_static_assert_i40e_aqc_get_link_status' is not an integer constant
+    1769 | I40E_CHECK_CMD_LENGTH(i40e_aqc_get_link_status);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:56: note: in definition of macro 'I40E_CHECK_STRUCT_LEN'
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                        ^
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1769:1: note: in expansion of macro 'I40E_CHECK_CMD_LENGTH'
+    1769 | I40E_CHECK_CMD_LENGTH(i40e_aqc_get_link_status);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:39: warning: division by zero [-Wdiv-by-zero]
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                       ^
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1908:1: note: in expansion of macro 'I40E_CHECK_STRUCT_LEN'
+    1908 | I40E_CHECK_STRUCT_LEN(0x6, i40e_aqc_nvm_config_data_feature);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1908:28: error: enumerator value for 'i40e_static_assert_i40e_aqc_nvm_config_data_feature' is not an integer constant
+    1908 | I40E_CHECK_STRUCT_LEN(0x6, i40e_aqc_nvm_config_data_feature);
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:56: note: in definition of macro 'I40E_CHECK_STRUCT_LEN'
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                        ^
+   In file included from drivers/net/ethernet/intel/i40e/i40e_prototype.h:9,
+                    from drivers/net/ethernet/intel/i40e/i40e.h:41:
+>> include/linux/avf/virtchnl.h:160:43: warning: division by zero [-Wdiv-by-zero]
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                           ^
+   include/linux/avf/virtchnl.h:391:1: note: in expansion of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     391 | VIRTCHNL_CHECK_STRUCT_LEN(14, virtchnl_irq_map_info);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/avf/virtchnl.h:391:31: error: enumerator value for 'virtchnl_static_assert_virtchnl_irq_map_info' is not an integer constant
+     391 | VIRTCHNL_CHECK_STRUCT_LEN(14, virtchnl_irq_map_info);
+         |                               ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/avf/virtchnl.h:160:60: note: in definition of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                            ^
+>> include/linux/avf/virtchnl.h:160:43: warning: division by zero [-Wdiv-by-zero]
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                           ^
+   include/linux/avf/virtchnl.h:484:1: note: in expansion of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     484 | VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_vlan_filter_list);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/avf/virtchnl.h:484:30: error: enumerator value for 'virtchnl_static_assert_virtchnl_vlan_filter_list' is not an integer constant
+     484 | VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_vlan_filter_list);
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/avf/virtchnl.h:160:60: note: in definition of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                            ^
+>> include/linux/avf/virtchnl.h:160:43: warning: division by zero [-Wdiv-by-zero]
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                           ^
+   include/linux/avf/virtchnl.h:869:1: note: in expansion of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     869 | VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_rss_key);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/avf/virtchnl.h:869:30: error: enumerator value for 'virtchnl_static_assert_virtchnl_rss_key' is not an integer constant
+     869 | VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_rss_key);
+         |                              ^~~~~~~~~~~~~~~~
+   include/linux/avf/virtchnl.h:160:60: note: in definition of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                            ^
+>> include/linux/avf/virtchnl.h:160:43: warning: division by zero [-Wdiv-by-zero]
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                           ^
+   include/linux/avf/virtchnl.h:877:1: note: in expansion of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     877 | VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_rss_lut);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/avf/virtchnl.h:877:30: error: enumerator value for 'virtchnl_static_assert_virtchnl_rss_lut' is not an integer constant
+     877 | VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_rss_lut);
+         |                              ^~~~~~~~~~~~~~~~
+   include/linux/avf/virtchnl.h:160:60: note: in definition of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                            ^
+   drivers/net/ethernet/intel/i40e/i40e_main.c:127:5: warning: conflicting types for 'i40e_allocate_dma_mem_d' due to enum/integer mismatch; have 'int(struct i40e_hw *, struct i40e_dma_mem *, u64,  u32)' {aka 'int(struct i40e_hw *, struct i40e_dma_mem *, long long unsigned int,  unsigned int)'} [-Wenum-int-mismatch]
+     127 | int i40e_allocate_dma_mem_d(struct i40e_hw *hw, struct i40e_dma_mem *mem,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/intel/i40e/i40e_type.h:8:
+   drivers/net/ethernet/intel/i40e/i40e_osdep.h:40:25: note: previous declaration of 'i40e_allocate_dma_mem_d' with type 'i40e_status(struct i40e_hw *, struct i40e_dma_mem *, u64,  u32)' {aka 'enum i40e_status_code(struct i40e_hw *, struct i40e_dma_mem *, long long unsigned int,  unsigned int)'}
+      40 |                         i40e_allocate_dma_mem_d(h, m, s, a)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_alloc.h:23:13: note: in expansion of macro 'i40e_allocate_dma_mem'
+      23 | i40e_status i40e_allocate_dma_mem(struct i40e_hw *hw,
+         |             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_main.c:146:5: warning: conflicting types for 'i40e_free_dma_mem_d' due to enum/integer mismatch; have 'int(struct i40e_hw *, struct i40e_dma_mem *)' [-Wenum-int-mismatch]
+     146 | int i40e_free_dma_mem_d(struct i40e_hw *hw, struct i40e_dma_mem *mem)
+         |     ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_osdep.h:41:33: note: previous declaration of 'i40e_free_dma_mem_d' with type 'i40e_status(struct i40e_hw *, struct i40e_dma_mem *)' {aka 'enum i40e_status_code(struct i40e_hw *, struct i40e_dma_mem *)'}
+      41 | #define i40e_free_dma_mem(h, m) i40e_free_dma_mem_d(h, m)
+         |                                 ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_alloc.h:27:13: note: in expansion of macro 'i40e_free_dma_mem'
+      27 | i40e_status i40e_free_dma_mem(struct i40e_hw *hw,
+         |             ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_main.c:164:5: warning: conflicting types for 'i40e_allocate_virt_mem_d' due to enum/integer mismatch; have 'int(struct i40e_hw *, struct i40e_virt_mem *, u32)' {aka 'int(struct i40e_hw *, struct i40e_virt_mem *, unsigned int)'} [-Wenum-int-mismatch]
+     164 | int i40e_allocate_virt_mem_d(struct i40e_hw *hw, struct i40e_virt_mem *mem,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_osdep.h:48:41: note: previous declaration of 'i40e_allocate_virt_mem_d' with type 'i40e_status(struct i40e_hw *, struct i40e_virt_mem *, u32)' {aka 'enum i40e_status_code(struct i40e_hw *, struct i40e_virt_mem *, unsigned int)'}
+      48 | #define i40e_allocate_virt_mem(h, m, s) i40e_allocate_virt_mem_d(h, m, s)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_alloc.h:29:13: note: in expansion of macro 'i40e_allocate_virt_mem'
+      29 | i40e_status i40e_allocate_virt_mem(struct i40e_hw *hw,
+         |             ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_main.c:181:5: warning: conflicting types for 'i40e_free_virt_mem_d' due to enum/integer mismatch; have 'int(struct i40e_hw *, struct i40e_virt_mem *)' [-Wenum-int-mismatch]
+     181 | int i40e_free_virt_mem_d(struct i40e_hw *hw, struct i40e_virt_mem *mem)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_osdep.h:49:34: note: previous declaration of 'i40e_free_virt_mem_d' with type 'i40e_status(struct i40e_hw *, struct i40e_virt_mem *)' {aka 'enum i40e_status_code(struct i40e_hw *, struct i40e_virt_mem *)'}
+      49 | #define i40e_free_virt_mem(h, m) i40e_free_virt_mem_d(h, m)
+         |                                  ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_alloc.h:32:13: note: in expansion of macro 'i40e_free_virt_mem'
+      32 | i40e_status i40e_free_virt_mem(struct i40e_hw *hw,
+         |             ^~~~~~~~~~~~~~~~~~
+--
+>> arch/arm/mach-orion5x/board-d2net.c:104:13: warning: no previous prototype for 'd2net_init' [-Wmissing-prototypes]
+     104 | void __init d2net_init(void)
+         |             ^~~~~~~~~~
+--
+>> arch/arm/mach-lpc32xx/serial.c:63:6: warning: no previous prototype for 'lpc32xx_loopback_set' [-Wmissing-prototypes]
+      63 | void lpc32xx_loopback_set(resource_size_t mapbase, int state)
+         |      ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +12917 arch/x86/kvm/x86.c
+vim +/i40e_static_assert_i40e_aqc_cloud_filters_element_data +1174 drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h
 
- 12911	
- 12912	bool kvm_arch_vcpu_read_virt(struct kvm_vcpu *vcpu, void *addr, void *dest, unsigned int length)
- 12913	{
- 12914		struct x86_exception e;
- 12915	
- 12916		/* Return true on success */
- 12917		return kvm_read_guest_virt(vcpu, addr, dest, length, &e) == X86EMUL_CONTINUE;
- 12918	}
- 12919	
+56a62fc8689509fb Jesse Brandeburg 2013-09-11  1173  
+2c0015238f7d357f Amritha Nambiar  2017-10-27 @1174  I40E_CHECK_STRUCT_LEN(0x40, i40e_aqc_cloud_filters_element_data);
+2c0015238f7d357f Amritha Nambiar  2017-10-27  1175  
+2c0015238f7d357f Amritha Nambiar  2017-10-27  1176  /* i40e_aqc_cloud_filters_element_bb is used when
+2c0015238f7d357f Amritha Nambiar  2017-10-27  1177   * I40E_AQC_CLOUD_CMD_BB flag is set.
+2c0015238f7d357f Amritha Nambiar  2017-10-27  1178   */
+2c0015238f7d357f Amritha Nambiar  2017-10-27  1179  struct i40e_aqc_cloud_filters_element_bb {
+2c0015238f7d357f Amritha Nambiar  2017-10-27  1180  	struct i40e_aqc_cloud_filters_element_data element;
+2c0015238f7d357f Amritha Nambiar  2017-10-27  1181  	u16     general_fields[32];
+2c0015238f7d357f Amritha Nambiar  2017-10-27  1182  #define I40E_AQC_ADD_CLOUD_FV_FLU_0X16_WORD0	15
+2c0015238f7d357f Amritha Nambiar  2017-10-27  1183  };
+2c0015238f7d357f Amritha Nambiar  2017-10-27  1184  
+2c0015238f7d357f Amritha Nambiar  2017-10-27 @1185  I40E_CHECK_STRUCT_LEN(0x80, i40e_aqc_cloud_filters_element_bb);
+2c0015238f7d357f Amritha Nambiar  2017-10-27  1186  
+
+:::::: The code at line 1174 was first introduced by commit
+:::::: 2c0015238f7d357f179249f101d6ed0327bc642a i40e: Admin queue definitions for cloud filters
+
+:::::: TO: Amritha Nambiar <amritha.nambiar@intel.com>
+:::::: CC: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
