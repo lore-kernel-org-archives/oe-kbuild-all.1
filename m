@@ -1,49 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69F4FBE0
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Oct 2023 16:19:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F6FC8E3
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Oct 2023 17:32:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZguLaW8Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="etyESvZy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696781948; x=1728317948;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KvZXZB3MAVxKu8w7Yn260PNj64/2cfuVWWPoVqrpC8Q=;
-  b=ZguLaW8YmA3/56XwZEV3iETrBDwVuftw2PcgB8bWSu42eTWdczARYwZ4
-   2b9R4nrZiKchhXHEbZcuoLVmK+6Itldzyixth3EFMGeL7LyJLXrOZjPVG
-   +ry+/Yau0dIrHMBOb1luAH9Nh12C+pBslKCDSOAm9weCViOldhd/2lgYe
-   P1QS//VED7nz2oQJztlOHmjDw3aISNKmGWSjqre5ZwWYdywd+3IXpw7d6
-   4XwwxusUD21Y8karMxuH82PAP7+Fc3tX0nDenMGoK9EZiZ41SrwA0Hy5W
-   LUWkZJIwjjFgewKyNyg5SL+oULZHWQ7mLbYZt0LNonxqiIZDM43MdLltq
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="364311512"
+  t=1696786329; x=1728322329;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ps9AFQz5Iev0TyMbhUhrypNWSa2cDtwwdFIllYEmqHQ=;
+  b=etyESvZyADbGdcvYIvwE3+tNKG79A8FaLQxAefsITa+yh3COiKkKPjdc
+   cSOgq8rEDaPal9bL1w3+AvBlG/ZL/uaZLK9IHO220j+EFXoJB7YQennhd
+   KQ5cloloqyPi9ATjUlWeTpUh+dxy0tY59rdPrl+ZMmamDFfRuQHYcyBjN
+   95Ur2E4b8J0C5EdYNXoZB+TTKaK5ZOxk4gyXAn2LqpxeImgZM4E8duKFO
+   7wqrL29XhC0t8wO9qSuP4btm9zIDavbAYCP1ufGQaEIclZMi1hE3umYG4
+   vOsT2fH7tp4Vbv5TEblmXsXnnv4Mc9qT572KzhnUzhrNjF7QtXqvF1i2c
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="363382218"
 X-IronPort-AV: E=Sophos;i="6.03,207,1694761200"; 
-   d="scan'208";a="364311512"
+   d="scan'208";a="363382218"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2023 09:19:07 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2023 10:32:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="746418678"
+X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="746429757"
 X-IronPort-AV: E=Sophos;i="6.03,207,1694761200"; 
-   d="scan'208";a="746418678"
+   d="scan'208";a="746429757"
 Received: from lkp-server01.sh.intel.com (HELO 8a3a91ad4240) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 08 Oct 2023 09:19:04 -0700
+  by orsmga007.jf.intel.com with ESMTP; 08 Oct 2023 10:32:06 -0700
 Received: from kbuild by 8a3a91ad4240 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qpWUg-0005YT-1i;
-	Sun, 08 Oct 2023 16:19:02 +0000
-Date: Mon, 9 Oct 2023 00:18:48 +0800
+	id 1qpXdM-0005bJ-1k;
+	Sun, 08 Oct 2023 17:32:04 +0000
+Date: Mon, 9 Oct 2023 01:31:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: "brookxu.cn" <brookxu.cn@gmail.com>, bsingharora@gmail.com,
-	juri.lelli@redhat.com, peterz@infradead.org,
-	vincent.guittot@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] delayacct: convert task->delays to a object
-Message-ID: <202310090033.4XQPktBr-lkp@intel.com>
-References: <531ddc82793a39f4c09316d701a4b1170bcad4ab.1696761522.git.chunguang.xu@shopee.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/639 474/24603]
+ drivers/media/platform/mxc/capture/mxc_vadc.c:800:12: warning: 'vadc_resume'
+ defined but not used
+Message-ID: <202310090150.170edNRj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,159 +50,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <531ddc82793a39f4c09316d701a4b1170bcad4ab.1696761522.git.chunguang.xu@shopee.com>
 
-Hi brookxu.cn,
+Hi Sandor,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on tip/sched/core]
-[also build test WARNING on linus/master v6.6-rc4 next-20231006]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/brookxu-cn/delayacct-introduce-delayacct_enabled-to-simplify-implement/20231008-185144
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/531ddc82793a39f4c09316d701a4b1170bcad4ab.1696761522.git.chunguang.xu%40shopee.com
-patch subject: [PATCH 2/3] delayacct: convert task->delays to a object
-config: x86_64-randconfig-002-20231008 (https://download.01.org/0day-ci/archive/20231009/202310090033.4XQPktBr-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231009/202310090033.4XQPktBr-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc pr/639
+head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
+commit: 46cb56a3f576432295951d076cf5e50cdf663978 [474/24603] media: v4l2: vadc: Enable vadc driver
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231009/202310090150.170edNRj-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231009/202310090150.170edNRj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310090033.4XQPktBr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310090150.170edNRj-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/include/asm/paravirt_types.h:19,
-                    from arch/x86/include/asm/ptrace.h:97,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from arch/x86/include/asm/timex.h:5,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from arch/x86/entry/vdso/vdso32/../vclock_gettime.c:11,
-                    from arch/x86/entry/vdso/vdso32/vclock_gettime.c:4:
-   arch/x86/include/asm/pgtable.h: In function 'pte_flags_pkey':
->> arch/x86/include/asm/pgtable_types.h:66:43: warning: left shift count >= width of type [-Wshift-count-overflow]
-      66 | #define _PAGE_PKEY_BIT0 (_AT(pteval_t, 1) << _PAGE_BIT_PKEY_BIT0)
-         |                                           ^~
-   arch/x86/include/asm/pgtable_types.h:77:26: note: in expansion of macro '_PAGE_PKEY_BIT0'
-      77 | #define _PAGE_PKEY_MASK (_PAGE_PKEY_BIT0 | \
-         |                          ^~~~~~~~~~~~~~~
-   arch/x86/include/asm/pgtable.h:1615:29: note: in expansion of macro '_PAGE_PKEY_MASK'
-    1615 |         return (pte_flags & _PAGE_PKEY_MASK) >> _PAGE_BIT_PKEY_BIT0;
-         |                             ^~~~~~~~~~~~~~~
-   arch/x86/include/asm/pgtable_types.h:67:43: warning: left shift count >= width of type [-Wshift-count-overflow]
-      67 | #define _PAGE_PKEY_BIT1 (_AT(pteval_t, 1) << _PAGE_BIT_PKEY_BIT1)
-         |                                           ^~
-   arch/x86/include/asm/pgtable_types.h:78:26: note: in expansion of macro '_PAGE_PKEY_BIT1'
-      78 |                          _PAGE_PKEY_BIT1 | \
-         |                          ^~~~~~~~~~~~~~~
-   arch/x86/include/asm/pgtable.h:1615:29: note: in expansion of macro '_PAGE_PKEY_MASK'
-    1615 |         return (pte_flags & _PAGE_PKEY_MASK) >> _PAGE_BIT_PKEY_BIT0;
-         |                             ^~~~~~~~~~~~~~~
-   arch/x86/include/asm/pgtable_types.h:68:43: warning: left shift count >= width of type [-Wshift-count-overflow]
-      68 | #define _PAGE_PKEY_BIT2 (_AT(pteval_t, 1) << _PAGE_BIT_PKEY_BIT2)
-         |                                           ^~
-   arch/x86/include/asm/pgtable_types.h:79:26: note: in expansion of macro '_PAGE_PKEY_BIT2'
-      79 |                          _PAGE_PKEY_BIT2 | \
-         |                          ^~~~~~~~~~~~~~~
-   arch/x86/include/asm/pgtable.h:1615:29: note: in expansion of macro '_PAGE_PKEY_MASK'
-    1615 |         return (pte_flags & _PAGE_PKEY_MASK) >> _PAGE_BIT_PKEY_BIT0;
-         |                             ^~~~~~~~~~~~~~~
-   arch/x86/include/asm/pgtable_types.h:69:43: warning: left shift count >= width of type [-Wshift-count-overflow]
-      69 | #define _PAGE_PKEY_BIT3 (_AT(pteval_t, 1) << _PAGE_BIT_PKEY_BIT3)
-         |                                           ^~
-   arch/x86/include/asm/pgtable_types.h:80:26: note: in expansion of macro '_PAGE_PKEY_BIT3'
-      80 |                          _PAGE_PKEY_BIT3)
-         |                          ^~~~~~~~~~~~~~~
-   arch/x86/include/asm/pgtable.h:1615:29: note: in expansion of macro '_PAGE_PKEY_MASK'
-    1615 |         return (pte_flags & _PAGE_PKEY_MASK) >> _PAGE_BIT_PKEY_BIT0;
-         |                             ^~~~~~~~~~~~~~~
-   In file included from include/linux/pgtable.h:6,
-                    from include/linux/kasan.h:33,
-                    from include/linux/slab.h:180,
-                    from include/linux/delayacct.h:62,
-                    from include/linux/sched.h:40,
-                    from include/linux/sched/mm.h:7,
-                    from include/linux/xarray.h:19,
-                    from include/linux/radix-tree.h:21,
-                    from include/linux/idr.h:15,
-                    from include/linux/kernfs.h:12,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/of.h:17,
-                    from include/linux/clocksource.h:19,
-                    from include/clocksource/hyperv_timer.h:16,
-                    from arch/x86/include/asm/vdso/gettimeofday.h:21,
-                    from include/vdso/datapage.h:137,
-                    from arch/x86/entry/vdso/vdso32/../../../../../lib/vdso/gettimeofday.c:5,
-                    from arch/x86/entry/vdso/vdso32/../vclock_gettime.c:15,
-                    from arch/x86/entry/vdso/vdso32/vclock_gettime.c:4:
->> arch/x86/include/asm/pgtable.h:1615:46: warning: right shift count >= width of type [-Wshift-count-overflow]
-    1615 |         return (pte_flags & _PAGE_PKEY_MASK) >> _PAGE_BIT_PKEY_BIT0;
-         |                                              ^~
-   In file included from include/linux/kasan.h:33,
-                    from include/linux/slab.h:180,
-                    from include/linux/delayacct.h:62,
-                    from include/linux/sched.h:40,
-                    from include/linux/sched/mm.h:7,
-                    from include/linux/xarray.h:19,
-                    from include/linux/radix-tree.h:21,
-                    from include/linux/idr.h:15,
-                    from include/linux/kernfs.h:12,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/of.h:17,
-                    from include/linux/clocksource.h:19,
-                    from include/clocksource/hyperv_timer.h:16,
-                    from arch/x86/include/asm/vdso/gettimeofday.h:21,
-                    from include/vdso/datapage.h:137,
-                    from arch/x86/entry/vdso/vdso32/../../../../../lib/vdso/gettimeofday.c:5,
-                    from arch/x86/entry/vdso/vdso32/../vclock_gettime.c:15,
-                    from arch/x86/entry/vdso/vdso32/vclock_gettime.c:4:
-   include/linux/pgtable.h: At top level:
-   include/linux/pgtable.h:1578:2: error: #error Missing MAX_POSSIBLE_PHYSMEM_BITS definition
-    1578 | #error Missing MAX_POSSIBLE_PHYSMEM_BITS definition
-         |  ^~~~~
+   drivers/media/platform/mxc/capture/mxc_vadc.c:582:10: error: 'const struct v4l2_subdev_video_ops' has no member named 's_parm'
+     582 |         .s_parm                = vadc_s_parm,
+         |          ^~~~~~
+   drivers/media/platform/mxc/capture/mxc_vadc.c:582:34: error: initialization of 'int (*)(struct v4l2_subdev *, v4l2_std_id *)' {aka 'int (*)(struct v4l2_subdev *, long long unsigned int *)'} from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_streamparm *)' [-Werror=incompatible-pointer-types]
+     582 |         .s_parm                = vadc_s_parm,
+         |                                  ^~~~~~~~~~~
+   drivers/media/platform/mxc/capture/mxc_vadc.c:582:34: note: (near initialization for 'vadc_video_ops.g_tvnorms')
+   drivers/media/platform/mxc/capture/mxc_vadc.c:588:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
+     588 |         .get_fmt               = vadc_get_fmt,
+         |                                  ^~~~~~~~~~~~
+   drivers/media/platform/mxc/capture/mxc_vadc.c:588:34: note: (near initialization for 'vadc_pad_ops.get_fmt')
+   drivers/media/platform/mxc/capture/mxc_vadc.c:589:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
+     589 |         .set_fmt               = vadc_set_fmt,
+         |                                  ^~~~~~~~~~~~
+   drivers/media/platform/mxc/capture/mxc_vadc.c:589:34: note: (near initialization for 'vadc_pad_ops.set_fmt')
+   drivers/media/platform/mxc/capture/mxc_vadc.c:590:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_mbus_code_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_mbus_code_enum *)' [-Werror=incompatible-pointer-types]
+     590 |         .enum_mbus_code        = vadc_enum_mbus_code,
+         |                                  ^~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mxc/capture/mxc_vadc.c:590:34: note: (near initialization for 'vadc_pad_ops.enum_mbus_code')
+   drivers/media/platform/mxc/capture/mxc_vadc.c:591:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_frame_size_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_frame_size_enum *)' [-Werror=incompatible-pointer-types]
+     591 |         .enum_frame_size       = vadc_enum_framesizes,
+         |                                  ^~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mxc/capture/mxc_vadc.c:591:34: note: (near initialization for 'vadc_pad_ops.enum_frame_size')
+   drivers/media/platform/mxc/capture/mxc_vadc.c:592:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_frame_interval_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_frame_interval_enum *)' [-Werror=incompatible-pointer-types]
+     592 |         .enum_frame_interval   = vadc_enum_frameintervals,
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mxc/capture/mxc_vadc.c:592:34: note: (near initialization for 'vadc_pad_ops.enum_frame_interval')
+>> drivers/media/platform/mxc/capture/mxc_vadc.c:800:12: warning: 'vadc_resume' defined but not used [-Wunused-function]
+     800 | static int vadc_resume(struct device *dev)
+         |            ^~~~~~~~~~~
+>> drivers/media/platform/mxc/capture/mxc_vadc.c:787:12: warning: 'vadc_suspend' defined but not used [-Wunused-function]
+     787 | static int vadc_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +66 arch/x86/include/asm/pgtable_types.h
+vim +/vadc_resume +800 drivers/media/platform/mxc/capture/mxc_vadc.c
 
-8d19c99faf6165 Jeremy Fitzhardinge 2009-02-08  48  
-8d19c99faf6165 Jeremy Fitzhardinge 2009-02-08  49  #define _PAGE_PRESENT	(_AT(pteval_t, 1) << _PAGE_BIT_PRESENT)
-8d19c99faf6165 Jeremy Fitzhardinge 2009-02-08  50  #define _PAGE_RW	(_AT(pteval_t, 1) << _PAGE_BIT_RW)
-8d19c99faf6165 Jeremy Fitzhardinge 2009-02-08  51  #define _PAGE_USER	(_AT(pteval_t, 1) << _PAGE_BIT_USER)
-8d19c99faf6165 Jeremy Fitzhardinge 2009-02-08  52  #define _PAGE_PWT	(_AT(pteval_t, 1) << _PAGE_BIT_PWT)
-8d19c99faf6165 Jeremy Fitzhardinge 2009-02-08  53  #define _PAGE_PCD	(_AT(pteval_t, 1) << _PAGE_BIT_PCD)
-8d19c99faf6165 Jeremy Fitzhardinge 2009-02-08  54  #define _PAGE_ACCESSED	(_AT(pteval_t, 1) << _PAGE_BIT_ACCESSED)
-8d19c99faf6165 Jeremy Fitzhardinge 2009-02-08  55  #define _PAGE_DIRTY	(_AT(pteval_t, 1) << _PAGE_BIT_DIRTY)
-8d19c99faf6165 Jeremy Fitzhardinge 2009-02-08  56  #define _PAGE_PSE	(_AT(pteval_t, 1) << _PAGE_BIT_PSE)
-8d19c99faf6165 Jeremy Fitzhardinge 2009-02-08  57  #define _PAGE_GLOBAL	(_AT(pteval_t, 1) << _PAGE_BIT_GLOBAL)
-c46a7c817e662a Mel Gorman          2014-06-04  58  #define _PAGE_SOFTW1	(_AT(pteval_t, 1) << _PAGE_BIT_SOFTW1)
-f955371ca9d398 David Vrabel        2014-01-07  59  #define _PAGE_SOFTW2	(_AT(pteval_t, 1) << _PAGE_BIT_SOFTW2)
-6c0df8689494e1 Joerg Roedel        2018-07-18  60  #define _PAGE_SOFTW3	(_AT(pteval_t, 1) << _PAGE_BIT_SOFTW3)
-8d19c99faf6165 Jeremy Fitzhardinge 2009-02-08  61  #define _PAGE_PAT	(_AT(pteval_t, 1) << _PAGE_BIT_PAT)
-8d19c99faf6165 Jeremy Fitzhardinge 2009-02-08  62  #define _PAGE_PAT_LARGE (_AT(pteval_t, 1) << _PAGE_BIT_PAT_LARGE)
-8d19c99faf6165 Jeremy Fitzhardinge 2009-02-08  63  #define _PAGE_SPECIAL	(_AT(pteval_t, 1) << _PAGE_BIT_SPECIAL)
-8d19c99faf6165 Jeremy Fitzhardinge 2009-02-08  64  #define _PAGE_CPA_TEST	(_AT(pteval_t, 1) << _PAGE_BIT_CPA_TEST)
-5c1d90f51027e1 Dave Hansen         2016-02-12  65  #ifdef CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
-5c1d90f51027e1 Dave Hansen         2016-02-12 @66  #define _PAGE_PKEY_BIT0	(_AT(pteval_t, 1) << _PAGE_BIT_PKEY_BIT0)
-5c1d90f51027e1 Dave Hansen         2016-02-12  67  #define _PAGE_PKEY_BIT1	(_AT(pteval_t, 1) << _PAGE_BIT_PKEY_BIT1)
-5c1d90f51027e1 Dave Hansen         2016-02-12  68  #define _PAGE_PKEY_BIT2	(_AT(pteval_t, 1) << _PAGE_BIT_PKEY_BIT2)
-5c1d90f51027e1 Dave Hansen         2016-02-12  69  #define _PAGE_PKEY_BIT3	(_AT(pteval_t, 1) << _PAGE_BIT_PKEY_BIT3)
-5c1d90f51027e1 Dave Hansen         2016-02-12  70  #else
-5c1d90f51027e1 Dave Hansen         2016-02-12  71  #define _PAGE_PKEY_BIT0	(_AT(pteval_t, 0))
-5c1d90f51027e1 Dave Hansen         2016-02-12  72  #define _PAGE_PKEY_BIT1	(_AT(pteval_t, 0))
-5c1d90f51027e1 Dave Hansen         2016-02-12  73  #define _PAGE_PKEY_BIT2	(_AT(pteval_t, 0))
-5c1d90f51027e1 Dave Hansen         2016-02-12  74  #define _PAGE_PKEY_BIT3	(_AT(pteval_t, 0))
-5c1d90f51027e1 Dave Hansen         2016-02-12  75  #endif
-8d19c99faf6165 Jeremy Fitzhardinge 2009-02-08  76  
+   786	
+ > 787	static int vadc_suspend(struct device *dev)
+   788	{
+   789		struct platform_device *pdev = to_platform_device(dev);
+   790		struct vadc_state *state = platform_get_drvdata(pdev);
+   791	
+   792		clk_disable(state->csi_clk);
+   793		clk_disable(state->vadc_clk);
+   794	
+   795		vadc_power_down(state);
+   796	
+   797		return 0;
+   798	}
+   799	
+ > 800	static int vadc_resume(struct device *dev)
+   801	{
+   802		struct platform_device *pdev = to_platform_device(dev);
+   803		struct vadc_state *state = platform_get_drvdata(pdev);
+   804	
+   805		clk_enable(state->csi_clk);
+   806		clk_enable(state->vadc_clk);
+   807	
+   808		vadc_init(state);
+   809		return 0;
+   810	}
+   811	
 
 -- 
 0-DAY CI Kernel Test Service
