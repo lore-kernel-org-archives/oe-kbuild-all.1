@@ -1,159 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from out-201.mta0.migadu.com (out-201.mta0.migadu.com [91.218.175.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854B963D5
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Oct 2023 12:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4BF418E05
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Oct 2023 13:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dhRPmYjD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696855033; x=1728391033;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Rw32ScfJPeLaNgNAcjsRTBfEMkPu9/ApTs6pmxzg8bI=;
-  b=dhRPmYjDj43O4ywCR4QUu1VAevDFJphpU+nH+zyhNIDTHf6popbJ+zRI
-   2m374XTKcDD8Exhx8TvT8GfFnhKGeGF+2T/2JKgNkNorddGw0Vt2RdQdp
-   Af5b9hMIis07Lh3XjuQhANy/NTDh2zEVu1mvY/VogJqM86BjdqCc9drEG
-   pl1E21PeZ+410UNNhkSh5KZWcWyIWfGhbK8osgQwwP74FsYc1fvnLkOS6
-   m0BNG9O0RGARlHLeFYuk2M6ZtmgV9wbuOwrTkt/0ghuevOfk0Hr0nJxWE
-   kdg2PQj1s0KC+h95886/aHcCKpEAHDc/BeyGpg3QnNwTORwFMHgaFxchD
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="450631020"
-X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
-   d="scan'208";a="450631020"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 05:37:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="753003189"
-X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
-   d="scan'208";a="753003189"
-Received: from lkp-server02.sh.intel.com (HELO 4ed589823ba4) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 09 Oct 2023 05:37:07 -0700
-Received: from kbuild by 4ed589823ba4 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qppVQ-0000Cu-2E;
-	Mon, 09 Oct 2023 12:37:04 +0000
-Date: Mon, 9 Oct 2023 20:36:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sandipan Das <sandipan.das@amd.com>, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, x86@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, peterz@infradead.org, mingo@redhat.com,
-	acme@kernel.org, mark.rutland@arm.com,
-	alexander.shishkin@linux.intel.com, jolsa@kernel.org,
-	namhyung@kernel.org, irogers@google.com, adrian.hunter@intel.com,
-	tglx@linutronix.de, bp@alien8.de, dave.hansen@linux.intel.com,
-	hpa@zytor.com, eranian@google.com, ananth.narayan@amd.com,
-	ravi.bangoria@amd.com, santosh.shukla@amd.com, sandipan.das@amd.com
-Subject: Re: [PATCH v2 2/6] perf/x86/amd/uncore: Move discovery and
- registration
-Message-ID: <202310092019.yMh3nlyD-lkp@intel.com>
-References: <e6c447e48872fcab8452e0dd81b1c9cb09f39eb4.1696425185.git.sandipan.das@amd.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vPHpxv+8"
+Message-ID: <c7ab6705-f00b-4357-f07c-ba3fc974380f@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1696858246;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=16/uUAhGpahyzbx7+ZzmRX3dC81/2ojrWsHiDspyJtU=;
+	b=vPHpxv+8/2vQYM1X8YVDyMqrcU7xhZ+oFy3ejUuV2xGVN4p5NEPwb9XKuk4WBUyc83TmNP
+	cgfixIJgsbPOaUx8OcXu8im+HBoGTMincou7Moz9fddyiLadcgTF+Q32pWAd/TDhlhYsIc
+	hCPiX35eJnBgCFkPC4cIEgFe8l96fz4=
+Date: Mon, 9 Oct 2023 21:30:36 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e6c447e48872fcab8452e0dd81b1c9cb09f39eb4.1696425185.git.sandipan.das@amd.com>
+Subject: Re: [PATCH 19/19] RDMA/siw: Introduce siw_destroy_cep_sock
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, bmt@zurich.ibm.com, jgg@ziepe.ca,
+ leon@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-rdma@vger.kernel.org
+References: <20231009071801.10210-20-guoqing.jiang@linux.dev>
+ <202310091735.oG7bTvLR-lkp@intel.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Guoqing Jiang <guoqing.jiang@linux.dev>
+In-Reply-To: <202310091735.oG7bTvLR-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Sandipan,
+Hi,
 
-kernel test robot noticed the following build warnings:
+On 10/9/23 17:54, kernel test robot wrote:
+> Hi Guoqing,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on rdma/for-next]
+> [also build test WARNING on linus/master v6.6-rc5 next-20231009]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Guoqing-Jiang/RDMA-siw-Introduce-siw_get_page/20231009-152705
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
+> patch link:    https://lore.kernel.org/r/20231009071801.10210-20-guoqing.jiang%40linux.dev
+> patch subject: [PATCH 19/19] RDMA/siw: Introduce siw_destroy_cep_sock
+> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231009/202310091735.oG7bTvLR-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231009/202310091735.oG7bTvLR-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202310091735.oG7bTvLR-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>     drivers/infiniband/sw/siw/siw_cm.c:360:6: warning: no previous prototype for 'siw_free_cm_id' [-Wmissing-prototypes]
+>       360 | void siw_free_cm_id(struct siw_cep *cep, bool put_cep)
+>           |      ^~~~~~~~~~~~~~
+>>> drivers/infiniband/sw/siw/siw_cm.c:371:6: warning: no previous prototype for 'siw_destroy_cep_sock' [-Wmissing-prototypes]
+>       371 | void siw_destroy_cep_sock(struct siw_cep *cep)
+>           |      ^~~~~~~~~~~~~~~~~~~~
+>
+>
+> vim +/siw_destroy_cep_sock +371 drivers/infiniband/sw/siw/siw_cm.c
 
-[auto build test WARNING on tip/perf/core]
-[also build test WARNING on perf-tools/perf-tools acme/perf/core linus/master v6.6-rc5 next-20231009]
-[cannot apply to perf-tools-next/perf-tools-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks for the test, I suppose add "static" at the beginning of the two 
+lines will resolve the warnings.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sandipan-Das/perf-x86-amd-uncore-Move-discovery-and-registration/20231006-005053
-base:   tip/perf/core
-patch link:    https://lore.kernel.org/r/e6c447e48872fcab8452e0dd81b1c9cb09f39eb4.1696425185.git.sandipan.das%40amd.com
-patch subject: [PATCH v2 2/6] perf/x86/amd/uncore: Move discovery and registration
-config: i386-randconfig-061-20231009 (https://download.01.org/0day-ci/archive/20231009/202310092019.yMh3nlyD-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231009/202310092019.yMh3nlyD-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310092019.yMh3nlyD-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/events/amd/uncore.c:601:10: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got union amd_uncore_info * @@
-   arch/x86/events/amd/uncore.c:601:10: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/x86/events/amd/uncore.c:601:10: sparse:     got union amd_uncore_info *
-   arch/x86/events/amd/uncore.c:730:10: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got union amd_uncore_info * @@
-   arch/x86/events/amd/uncore.c:730:10: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/x86/events/amd/uncore.c:730:10: sparse:     got union amd_uncore_info *
->> arch/x86/events/amd/uncore.c:847:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected union amd_uncore_info *[noderef] info @@     got union amd_uncore_info [noderef] __percpu * @@
-   arch/x86/events/amd/uncore.c:847:30: sparse:     expected union amd_uncore_info *[noderef] info
-   arch/x86/events/amd/uncore.c:847:30: sparse:     got union amd_uncore_info [noderef] __percpu *
->> arch/x86/events/amd/uncore.c:881:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *__pdata @@     got union amd_uncore_info *[noderef] info @@
-   arch/x86/events/amd/uncore.c:881:43: sparse:     expected void [noderef] __percpu *__pdata
-   arch/x86/events/amd/uncore.c:881:43: sparse:     got union amd_uncore_info *[noderef] info
-   arch/x86/events/amd/uncore.c:904:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *__pdata @@     got union amd_uncore_info *[noderef] info @@
-   arch/x86/events/amd/uncore.c:904:35: sparse:     expected void [noderef] __percpu *__pdata
-   arch/x86/events/amd/uncore.c:904:35: sparse:     got union amd_uncore_info *[noderef] info
-   arch/x86/events/amd/uncore.c:358:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got union amd_uncore_info * @@
-   arch/x86/events/amd/uncore.c:358:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/x86/events/amd/uncore.c:358:39: sparse:     got union amd_uncore_info *
->> arch/x86/events/amd/uncore.c:358:39: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:358:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got union amd_uncore_info * @@
-   arch/x86/events/amd/uncore.c:358:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/x86/events/amd/uncore.c:358:39: sparse:     got union amd_uncore_info *
->> arch/x86/events/amd/uncore.c:358:39: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:601:10: sparse: sparse: dereference of noderef expression
->> arch/x86/events/amd/uncore.c:593:31: sparse: sparse: invalid access past the end of 'info' (4 8)
-   arch/x86/events/amd/uncore.c:598:48: sparse: sparse: invalid access past the end of 'info' (4 8)
-   arch/x86/events/amd/uncore.c:365:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got union amd_uncore_info * @@
-   arch/x86/events/amd/uncore.c:365:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/x86/events/amd/uncore.c:365:39: sparse:     got union amd_uncore_info *
-   arch/x86/events/amd/uncore.c:365:39: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:730:10: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:724:31: sparse: sparse: invalid access past the end of 'info' (4 8)
-   arch/x86/events/amd/uncore.c:365:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got union amd_uncore_info * @@
-   arch/x86/events/amd/uncore.c:365:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/x86/events/amd/uncore.c:365:39: sparse:     got union amd_uncore_info *
-   arch/x86/events/amd/uncore.c:365:39: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:848:22: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:880:21: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:881:37: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:882:25: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:901:22: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:904:29: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:905:17: sparse: sparse: dereference of noderef expression
-
-vim +601 arch/x86/events/amd/uncore.c
-
-   582	
-   583	static
-   584	void amd_uncore_df_ctx_scan(struct amd_uncore *uncore, unsigned int cpu)
-   585	{
-   586		union cpuid_0x80000022_ebx ebx;
-   587		union amd_uncore_info info;
-   588	
-   589		if (!boot_cpu_has(X86_FEATURE_PERFCTR_NB))
-   590			return;
-   591	
-   592		info.split.aux_data = 0;
- > 593		info.split.num_pmcs = NUM_COUNTERS_NB;
-   594		info.split.cid = topology_die_id(cpu);
-   595	
-   596		if (pmu_version >= 2) {
-   597			ebx.full = cpuid_ebx(EXT_PERFMON_DEBUG_FEATURES);
-   598			info.split.num_pmcs = ebx.split.num_df_pmc;
-   599		}
-   600	
- > 601		*per_cpu_ptr(uncore->info, cpu) = info;
-   602	}
-   603	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Guoqing
