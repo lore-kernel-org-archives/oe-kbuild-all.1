@@ -1,48 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA57D347D0
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Oct 2023 18:09:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57B5347D0
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Oct 2023 18:09:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KaQolSet"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aCUFz7iA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696874987; x=1728410987;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=z63ykf3UE/XJLXyh9cwApZGQCVUhB4wn+YZPKmiZQEY=;
-  b=KaQolSetbhKnqQGTzaHXJIGehKaCH4vNgPdCMcW6sQTDhMrxWTpROXUf
-   H8rFdZNTdEwNLczRnyWmSHE9prK/59Cu2OHlvGg1SLHaQYTtCkxY55kl6
-   HsdqadXs80B0hP0EsqEr+N/wLrXepugTXM4AA/BddG1nJ8BTyqJUSIAbQ
-   AhKxmhWgoaWWxdGUYv/Y6KWKC0Osd22owN4h2i9GZPlCseSKduQ1nbp0G
-   cy4lO3zfgI0YkqqyqLnBeIlcJ/viOWuYDHdbrVcuOwrwnN8rN6ILJx4Se
-   iQNZ3HmP11pdWkEWMNShsmKXjtAXv2QCZWI5CzGZJ87TfbhdH961wnaqC
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="363564805"
+  t=1696874992; x=1728410992;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/zUQPgsdq9Q03zCoztXvzZL/JVdQym6JnfjBsoVrXsw=;
+  b=aCUFz7iATq6UO4fws8dYCBvcCt40UElRqRaQcj0LIyc5CqXSLkXFoMr1
+   WBV93sX3B4674qm+osRSEDF2+z67u/4zrAnYOrxZ22hQXprdfkownJ67U
+   PLuTJPx+1wVzgSoUkZnGz898daypUoZ+kR5aUYTBhDoebCKz1s+D3ed61
+   3BwCEFYtHfgu37NMwLEH6K5VOKsWiwmEssa5COGrr6/2JWl8UYC+MFLBv
+   6h8e0X1lyu6Rl1XXz/odEKp4V+LdLZz3mlsk3nPyAbBLffI/E2idapvDE
+   hZpN9aJ+h84ForqE4OBXAbkC+Xv86Hi5l1Ro4ynXw4/ZhMd8zXz/KdcpC
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="363564809"
 X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
-   d="scan'208";a="363564805"
+   d="scan'208";a="363564809"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 11:09:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="703003591"
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="703003593"
 X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
-   d="scan'208";a="703003591"
+   d="scan'208";a="703003593"
 Received: from lkp-server02.sh.intel.com (HELO 4ed589823ba4) ([10.239.97.151])
   by orsmga003.jf.intel.com with ESMTP; 09 Oct 2023 11:09:03 -0700
 Received: from kbuild by 4ed589823ba4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qpuge-0000UO-2z;
+	id 1qpuge-0000UQ-33;
 	Mon, 09 Oct 2023 18:09:00 +0000
 Date: Tue, 10 Oct 2023 02:08:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v1 2/3] mm/rmap: convert page_move_anon_rmap() to
- folio_move_anon_rmap()
-Message-ID: <202310100112.tFC44qk7-lkp@intel.com>
-References: <20231002142949.235104-3-david@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <christianvanbrauner@gmail.com>
+Subject: [brauner-vfs:vfs.misc 10/12] fs/file.c:922:24: sparse: sparse:
+ incorrect type in return expression (different address spaces)
+Message-ID: <202310100108.itAyBdia-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,61 +50,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231002142949.235104-3-david@redhat.com>
 
-Hi David,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Hildenbrand/mm-rmap-move-SetPageAnonExclusive-out-of-page_move_anon_rmap/20231002-223111
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231002142949.235104-3-david%40redhat.com
-patch subject: [PATCH v1 2/3] mm/rmap: convert page_move_anon_rmap() to folio_move_anon_rmap()
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231010/202310100112.tFC44qk7-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310100112.tFC44qk7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.misc
+head:   2c814c8fad597e079cf3e526bf9b7a2572da0091
+commit: f5dc7c8f516455fc4b88a36e4bfd9c45c5823404 [10/12] file: convert to SLAB_TYPESAFE_BY_RCU
+config: i386-randconfig-061-20231008 (https://download.01.org/0day-ci/archive/20231010/202310100108.itAyBdia-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310100108.itAyBdia-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310100112.tFC44qk7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310100108.itAyBdia-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/file.c:379:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **old_fds @@     got struct file [noderef] __rcu **fd @@
+   fs/file.c:379:17: sparse:     expected struct file **old_fds
+   fs/file.c:379:17: sparse:     got struct file [noderef] __rcu **fd
+   fs/file.c:380:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **new_fds @@     got struct file [noderef] __rcu **fd @@
+   fs/file.c:380:17: sparse:     expected struct file **new_fds
+   fs/file.c:380:17: sparse:     got struct file [noderef] __rcu **fd
+   fs/file.c:395:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/file.c:395:17: sparse:    struct file [noderef] __rcu *
+   fs/file.c:395:17: sparse:    struct file *
+   fs/file.c:430:54: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu *[assigned] __ret @@
+   fs/file.c:470:28: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fdtable [noderef] __rcu *fdt @@     got struct fdtable * @@
+   fs/file.c:646:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu * @@
+   fs/file.c:841:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu * @@
+   fs/file.c:862:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file [noderef] __rcu *file @@     got struct file * @@
+   fs/file.c:866:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct atomic_t [usertype] *v @@     got struct atomic_t [noderef] __rcu * @@
+   fs/file.c:869:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file [noderef] __rcu *file_reloaded @@     got struct file * @@
+   fs/file.c:892:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct file * @@     got struct file [noderef] __rcu *file_reloaded @@
+   fs/file.c:894:14: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file * @@     got struct file [noderef] __rcu *file @@
+   fs/file.c:915:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file [noderef] __rcu *file @@     got struct file * @@
+>> fs/file.c:922:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct file * @@     got struct file [noderef] __rcu *file @@
+   fs/file.c:1212:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *tofree @@     got struct file [noderef] __rcu * @@
 
->> mm/rmap.c:1153: warning: Function parameter or member 'folio' not described in 'folio_move_anon_rmap'
->> mm/rmap.c:1153: warning: Excess function parameter 'page' description in 'folio_move_anon_rmap'
+vim +922 fs/file.c
 
-
-vim +1153 mm/rmap.c
-
-cb67f4282bf969 Hugh Dickins            2022-11-02  1142  
-c44b674323f4a2 Rik van Riel            2010-03-05  1143  /**
-a75a22c73fad8b David Hildenbrand       2023-10-02  1144   * folio_move_anon_rmap - move a folio to our anon_vma
-a75a22c73fad8b David Hildenbrand       2023-10-02  1145   * @page:	The folio to move to our anon_vma
-a75a22c73fad8b David Hildenbrand       2023-10-02  1146   * @vma:	The vma the folio belongs to
-c44b674323f4a2 Rik van Riel            2010-03-05  1147   *
-a75a22c73fad8b David Hildenbrand       2023-10-02  1148   * When a folio belongs exclusively to one process after a COW event,
-a75a22c73fad8b David Hildenbrand       2023-10-02  1149   * that folio can be moved into the anon_vma that belongs to just that
-a75a22c73fad8b David Hildenbrand       2023-10-02  1150   * process, so the rmap code will not search the parent or sibling processes.
-c44b674323f4a2 Rik van Riel            2010-03-05  1151   */
-a75a22c73fad8b David Hildenbrand       2023-10-02  1152  void folio_move_anon_rmap(struct folio *folio, struct vm_area_struct *vma)
-c44b674323f4a2 Rik van Riel            2010-03-05 @1153  {
-595af4c9368aba Matthew Wilcox (Oracle  2022-09-02  1154) 	void *anon_vma = vma->anon_vma;
-5a49973d7143eb Hugh Dickins            2016-07-14  1155  
-595af4c9368aba Matthew Wilcox (Oracle  2022-09-02  1156) 	VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio);
-81d1b09c6be66a Sasha Levin             2014-10-09  1157  	VM_BUG_ON_VMA(!anon_vma, vma);
-c44b674323f4a2 Rik van Riel            2010-03-05  1158  
-595af4c9368aba Matthew Wilcox (Oracle  2022-09-02  1159) 	anon_vma += PAGE_MAPPING_ANON;
-414e2fb8ce5a99 Vladimir Davydov        2015-06-24  1160  	/*
-414e2fb8ce5a99 Vladimir Davydov        2015-06-24  1161  	 * Ensure that anon_vma and the PAGE_MAPPING_ANON bit are written
-b3ac04132c4b9b Matthew Wilcox (Oracle  2022-01-21  1162) 	 * simultaneously, so a concurrent reader (eg folio_referenced()'s
-b3ac04132c4b9b Matthew Wilcox (Oracle  2022-01-21  1163) 	 * folio_test_anon()) will not see one without the other.
-414e2fb8ce5a99 Vladimir Davydov        2015-06-24  1164  	 */
-595af4c9368aba Matthew Wilcox (Oracle  2022-09-02  1165) 	WRITE_ONCE(folio->mapping, anon_vma);
-c44b674323f4a2 Rik van Riel            2010-03-05  1166  }
-c44b674323f4a2 Rik van Riel            2010-03-05  1167  
+   897	
+   898	/**
+   899	 * get_file_rcu - try go get a reference to a file under rcu
+   900	 * @f: the file to get a reference on
+   901	 *
+   902	 * This function tries to get a reference on @f carefully verifying that
+   903	 * @f hasn't been reused.
+   904	 *
+   905	 * This function should rarely have to be used and only by users who
+   906	 * understand the implications of SLAB_TYPESAFE_BY_RCU. Try to avoid it.
+   907	 *
+   908	 * Return: Returns @f with the reference count increased or NULL.
+   909	 */
+   910	struct file *get_file_rcu(struct file __rcu **f)
+   911	{
+   912		for (;;) {
+   913			struct file __rcu *file;
+   914	
+   915			file = __get_file_rcu(f);
+   916			if (unlikely(!file))
+   917				return NULL;
+   918	
+   919			if (unlikely(IS_ERR(file)))
+   920				continue;
+   921	
+ > 922			return file;
+   923		}
+   924	}
+   925	EXPORT_SYMBOL_GPL(get_file_rcu);
+   926	
 
 -- 
 0-DAY CI Kernel Test Service
