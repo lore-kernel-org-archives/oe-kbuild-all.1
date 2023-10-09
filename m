@@ -1,151 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384951173D
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Oct 2023 23:18:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480F13B7A4;
+	Mon,  9 Oct 2023 23:56:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pty67IK+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696893505; x=1728429505;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dxuWgAq2AkUjFQTVKiCE9Z8FHUiUI+0Zlp6Qg8psI14=;
-  b=Pty67IK+qYYFHWbXR2iR4iubtI6/bHIILeio9SC7IlqtBTtv0ujS+uVn
-   agohhn3WILWVABkciF8JCuL02yqE+8IwKMt4yU53katg793pI0wKkfxa0
-   V4CXqWdXGe+Yns/XvsHV5a4uM8iUYVhmUdo8NbEnxWukhB4fHp7m+WR9d
-   SfLxL6kUlIdYt5lHV8HKvg56TsB6V9cXIkNBINWhxwiHqg0vRTJVjbAII
-   CNjHf7zGDYvd+tDO0tgzaLRoJIpYqEksGGEffwxQ5vgpSQjKoTVd2pRGS
-   vThHAyrfGRi90KjzRzMp+hbqdTfI9ztRHim4l/KS1fnUch0BoiWJyYOSr
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="470530086"
-X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; 
-   d="scan'208";a="470530086"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 16:18:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="1000419938"
-X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; 
-   d="scan'208";a="1000419938"
-Received: from lkp-server02.sh.intel.com (HELO 4ed589823ba4) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 09 Oct 2023 16:18:23 -0700
-Received: from kbuild by 4ed589823ba4 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qpzW0-0000o8-1l;
-	Mon, 09 Oct 2023 23:18:20 +0000
-Date: Tue, 10 Oct 2023 07:17:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 159/30000]
- drivers/misc/uid_sys_stats.c:610:37: warning: 'uid_procstat_fops' defined
- but not used
-Message-ID: <202310100746.J2gwk2uC-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ACfLtQq+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BB51C433C8;
+	Mon,  9 Oct 2023 23:56:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1696895811;
+	bh=gxlUrPC4yVKolLGJekFBRga1t6q6wtnBb7ZtUg+4hOA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ACfLtQq+JbMTveNv9Xrghw/S+sOWBkmP53d4gxLplvKUz8qAr71gcV9koD743T26w
+	 Km+WKju/gMYNmsb9fhRI8rHZ48Lrx7sjCxfWMX9FdctCg014nO8O2k0GEE/OA0zqnw
+	 ICoetq9jPErWASQoU71qpDijeBbHRhQUml9uZWSKRh6E6A/FooSC/k2fEFdTi7ggiE
+	 cFdREhfdZ1OxkMZhTcDq6J73Z+sAkSbDFSH5OcQHK3ls69jy2fEOBmst088zz5DGjY
+	 M8pkXOocV37zHM0Vkawwp9lnvLF2nn4IQ95jiJ7pwVEMEcakJ0Bou3EizZ6G4qqHyX
+	 uy8pZX/oRWK8A==
+From: SeongJae Park <sj@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [sj:damon/next 27/28] hppa-linux-ld: fs/xfs/xfs_trace.o(.text+0x42da0): cannot reach 0000a892_bpf_trace_run2+0, recompile with -ffunction-sections
+Date: Mon,  9 Oct 2023 23:56:49 +0000
+Message-Id: <20231009235650.9301-1-sj@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <202310090405.GXbIXpan-lkp@intel.com>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://android.googlesource.com/kernel/common android-4.19-stable
-head:   5759bbcc0d24a0f84f9021cf06f02a08c4e739fe
-commit: f4eeb5d6c6ab87a5ac3b571354560a2219944932 [159/30000] ANDROID: uid_cputime: add per-uid IO usage accounting
-config: arm64-randconfig-002-20231010 (https://download.01.org/0day-ci/archive/20231010/202310100746.J2gwk2uC-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310100746.J2gwk2uC-lkp@intel.com/reproduce)
+Hi Robot,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310100746.J2gwk2uC-lkp@intel.com/
+On Mon, 9 Oct 2023 04:40:31 +0800 kernel test robot <lkp@intel.com> wrote:
 
-All warnings (new ones prefixed by >>):
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+> head:   b51b81a2d623ddeda365270f24748bea23a93a2f
+> commit: 8a198cce537de4f58f1cd791cd05347320a025b3 [27/28] mm/damon/sysfs: avoid empty scheme tried regions for large apply interval
+> config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20231009/202310090405.GXbIXpan-lkp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231009/202310090405.GXbIXpan-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202310090405.GXbIXpan-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> hppa-linux-ld: fs/xfs/xfs_trace.o(.text+0x42da0): cannot reach 0000a892_bpf_trace_run2+0, recompile with -ffunction-sections
+>    hppa-linux-ld: fs/xfs/xfs_trace.o(.text+0x42da0): cannot handle R_PARISC_PCREL17F for bpf_trace_run2
+>    hppa-linux-ld: final link failed: bad value
 
->> drivers/misc/uid_sys_stats.c:610:37: warning: 'uid_procstat_fops' defined but not used [-Wunused-const-variable=]
-     610 | static const struct file_operations uid_procstat_fops = {
-         |                                     ^~~~~~~~~~~~~~~~~
->> drivers/misc/uid_sys_stats.c:553:37: warning: 'uid_io_fops' defined but not used [-Wunused-const-variable=]
-     553 | static const struct file_operations uid_io_fops = {
-         |                                     ^~~~~~~~~~~
-   drivers/misc/uid_sys_stats.c:439:37: warning: 'uid_remove_fops' defined but not used [-Wunused-const-variable=]
-     439 | static const struct file_operations uid_remove_fops = {
-         |                                     ^~~~~~~~~~~~~~~
->> drivers/misc/uid_sys_stats.c:383:37: warning: 'uid_cputime_fops' defined but not used [-Wunused-const-variable=]
-     383 | static const struct file_operations uid_cputime_fops = {
-         |                                     ^~~~~~~~~~~~~~~~
+Thank you for this report!  Nevertheless, I was unable to reproduce the issue.
+It indeed fails the build, but with a different error.  Also, I get the same
+error on the baseline of the tree, namely mm-unstable (specifically, commit
+e0b0922d61a8).
+
+    hppa-linux-ld: drivers/mtd/nand/raw/nand_base.o: in function `nand_do_write_ops':
+    (.text+0x4a24): undefined reference to `.L874'
+    make[3]: *** [/home/sjpark/linux/scripts/Makefile.vmlinux:36: vmlinux] Error 1
+    make[3]: Target '__default' not remade because of errors.
+    make[2]: *** [/home/sjpark/linux/Makefile:1165: vmlinux] Error 2
+    make[2]: Target '__all' not remade because of errors.
+    make[1]: *** [/home/sjpark/linux/Makefile:234: __sub-make] Error 2
+    make[1]: Target '__all' not remade because of errors.
+    make[1]: Leaving directory '/home/sjpark/linux.parisc.out'
+    make: *** [Makefile:234: __sub-make] Error 2
+    make: Target '__all' not remade because of errors.
+
+I'm also not sure how the commit you found could make such error, since the
+commit doesn't touch any of xfs code.
+
+    $ git log 8a198cce537de4f58f1cd791cd05347320a025b3 --stat -1
+    commit 8a198cce537de4f58f1cd791cd05347320a025b3
+    Author: SeongJae Park <sj@kernel.org>
+    Date:   Fri Oct 6 22:58:00 2023 +0000
+    
+        mm/damon/sysfs: avoid empty scheme tried regions for large apply interval
+    
+        Signed-off-by: SeongJae Park <sj@kernel.org>
+    
+     mm/damon/sysfs-common.h  |  2 ++
+     mm/damon/sysfs-schemes.c | 16 ++++++++++++++++
+     mm/damon/sysfs.c         | 25 +++++++++++++++++++++----
+     3 files changed, 39 insertions(+), 4 deletions(-)
+
+Anything I'm missing?  Or, could this report be mistakenly made?
 
 
-vim +/uid_procstat_fops +610 drivers/misc/uid_sys_stats.c
+Thanks,
+SJ
 
-   552	
- > 553	static const struct file_operations uid_io_fops = {
-   554		.open		= uid_io_open,
-   555		.read		= seq_read,
-   556		.llseek		= seq_lseek,
-   557		.release	= single_release,
-   558	};
-   559	
-   560	static int uid_procstat_open(struct inode *inode, struct file *file)
-   561	{
-   562		return single_open(file, NULL, NULL);
-   563	}
-   564	
-   565	static ssize_t uid_procstat_write(struct file *file,
-   566				const char __user *buffer, size_t count, loff_t *ppos)
-   567	{
-   568		struct uid_entry *uid_entry;
-   569		uid_t uid;
-   570		int argc, state;
-   571		char input[128];
-   572	
-   573		if (count >= sizeof(input))
-   574			return -EINVAL;
-   575	
-   576		if (copy_from_user(input, buffer, count))
-   577			return -EFAULT;
-   578	
-   579		input[count] = '\0';
-   580	
-   581		argc = sscanf(input, "%u %d", &uid, &state);
-   582		if (argc != 2)
-   583			return -EINVAL;
-   584	
-   585		if (state != UID_STATE_BACKGROUND && state != UID_STATE_FOREGROUND)
-   586			return -EINVAL;
-   587	
-   588		rt_mutex_lock(&uid_lock);
-   589	
-   590		uid_entry = find_or_register_uid(uid);
-   591		if (!uid_entry) {
-   592			rt_mutex_unlock(&uid_lock);
-   593			return -EINVAL;
-   594		}
-   595	
-   596		if (uid_entry->state == state) {
-   597			rt_mutex_unlock(&uid_lock);
-   598			return count;
-   599		}
-   600	
-   601		update_io_stats_uid_locked(uid_entry);
-   602	
-   603		uid_entry->state = state;
-   604	
-   605		rt_mutex_unlock(&uid_lock);
-   606	
-   607		return count;
-   608	}
-   609	
- > 610	static const struct file_operations uid_procstat_fops = {
-   611		.open		= uid_procstat_open,
-   612		.release	= single_release,
-   613		.write		= uid_procstat_write,
-   614	};
-   615	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
