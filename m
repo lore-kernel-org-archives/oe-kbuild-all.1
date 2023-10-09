@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7623C692;
-	Mon,  9 Oct 2023 20:09:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142B93FB2D
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Oct 2023 20:51:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W7jPWhwo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hyivWLEB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696882171; x=1728418171;
+  t=1696884708; x=1728420708;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gFZU68ukSvUhEtIuk8jbQqAGh86MGg4c+TGWUQ6eXaM=;
-  b=W7jPWhwog4WZefZRAzanK1HkINy2sjQNMVknCePCuJQqaokHOrRIhkpR
-   J47VUckBw9DtJ66Id1gdpLpNMpaXMcfkg5ETJROAyrD6KPKAx6sABeaNL
-   GD3HmrMyOAKOtSjR9Bfet3NbqQnyEcioBAJhXtRBEHzYMc70ljJM8SBbn
-   Sol7ogG/jG7v1H2nHG6gi3VqeWKCPJxLZu6gBAdwWeIlmWkeckkNRenmN
-   lmA4y0NW8XdtC7skrKjYP/oGMnCkf7insm+1nFQe0p8Ju+nToEvcqWH3i
-   pz083e9GDGjgosgJYZsN4sgh0Rou/hSXvbO0zmpB5xivJ20tbVdw4QU2U
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="2822488"
-X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
-   d="scan'208";a="2822488"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 13:07:43 -0700
+  bh=JS89xiOwVpMYKWfibYIVoPLZXuioTFFMh8StJJZxw4s=;
+  b=hyivWLEBdOmXG+7XzUoaoNjG3ijNeQ2a5e7I06T75wdil3cBaJnAJuSf
+   4EzG3dTJ2t0deKBxVIGGTVWNCOZqFhE/llWidd7XxVZHYZYwgxvTllWTA
+   Wid3An+EyFQ4vEz5ZRKln7+Xftz8jq8Zue8FFIPFLp05TFurQDo8INq9R
+   +8xif33+bfsYMuP/7WUfBHWuuyZZZAzWxVhNmmz2e0K43GKCSLZbrQx8z
+   UFtk7JpWYDpaeBHsjl/g8jLKrIwHKokZPH3XMdePswjp3ddahmLdmfvQk
+   aO8+xEWgHdowIj+adpqNgw4dr8fTgwe5sWsvLrsBLp8CiVAFgBsSpTSrZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="448438452"
+X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; 
+   d="scan'208";a="448438452"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 13:51:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="746799623"
-X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
-   d="scan'208";a="746799623"
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="729815818"
+X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; 
+   d="scan'208";a="729815818"
 Received: from lkp-server02.sh.intel.com (HELO 4ed589823ba4) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 09 Oct 2023 13:07:38 -0700
+  by orsmga006.jf.intel.com with ESMTP; 09 Oct 2023 13:51:46 -0700
 Received: from kbuild by 4ed589823ba4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qpwXR-0000cS-2p;
-	Mon, 09 Oct 2023 20:07:37 +0000
-Date: Tue, 10 Oct 2023 04:07:03 +0800
+	id 1qpxE7-0000fA-2T;
+	Mon, 09 Oct 2023 20:51:43 +0000
+Date: Tue, 10 Oct 2023 04:50:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata-fix 37/39]
- drivers/staging/media/tegra-video/vi.c:453:15: error: too few arguments to
- function call, expected 4, have 3
-Message-ID: <202310100428.9YKB4IiP-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-4.19-stable 2434/30000]
+ drivers/cpufreq/cpufreq_times.c:629:37: warning:
+ 'concurrent_policy_time_fops' defined but not used
+Message-ID: <202310100455.vCKBBRZk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,161 +51,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata-fix
-head:   56ea581e40d9aa9ffe425f4faa4b00ce389b9053
-commit: cb744839166872eaaa05370a305f7f77c9b29852 [37/39] media: v4l: subdev: Set sub-device active state earlier
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20231010/202310100428.9YKB4IiP-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310100428.9YKB4IiP-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-4.19-stable
+head:   5759bbcc0d24a0f84f9021cf06f02a08c4e739fe
+commit: e326ab09990544bbb1a59571995e272e7755e4b3 [2434/30000] ANDROID: cpufreq: times: add /proc/uid_concurrent_{active,policy}_time
+config: arm-randconfig-004-20231010 (https://download.01.org/0day-ci/archive/20231010/202310100455.vCKBBRZk-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310100455.vCKBBRZk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310100428.9YKB4IiP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310100455.vCKBBRZk-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/staging/media/tegra-video/vi.c:453:15: error: too few arguments to function call, expected 4, have 3
-     453 |         sd_state = __v4l2_subdev_state_alloc(subdev, "tegra:state->lock",
-         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~
-     454 |                                              &key);
-         |                                                  ^
-   include/media/v4l2-subdev.h:1347:27: note: '__v4l2_subdev_state_alloc' declared here
-    1347 | struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd,
-         |                           ^
-   1 error generated.
---
->> drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c:269:67: error: too few arguments to function call, expected 4, have 3
-     269 |         sd_state = __v4l2_subdev_state_alloc(sd, "rvin:state->lock", &key);
-         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~                             ^
-   include/media/v4l2-subdev.h:1347:27: note: '__v4l2_subdev_state_alloc' declared here
-    1347 | struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd,
-         |                           ^
-   1 error generated.
---
->> drivers/media/platform/st/stm32/stm32-dcmi.c:998:8: error: too few arguments to function call, expected 4, have 3
-     998 |         ret = v4l2_subdev_call_state_try(dcmi->source, pad, set_fmt, &format);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1887:46: note: expanded from macro 'v4l2_subdev_call_state_try'
-    1887 |                         __v4l2_subdev_state_alloc(sd, name, &__key);  \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~                 ^
-   include/media/v4l2-subdev.h:1347:27: note: '__v4l2_subdev_state_alloc' declared here
-    1347 | struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd,
-         |                           ^
-   drivers/media/platform/st/stm32/stm32-dcmi.c:1159:8: error: too few arguments to function call, expected 4, have 3
-    1159 |         ret = v4l2_subdev_call_state_try(dcmi->source, pad, set_fmt, &format);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1887:46: note: expanded from macro 'v4l2_subdev_call_state_try'
-    1887 |                         __v4l2_subdev_state_alloc(sd, name, &__key);  \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~                 ^
-   include/media/v4l2-subdev.h:1347:27: note: '__v4l2_subdev_state_alloc' declared here
-    1347 | struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd,
-         |                           ^
-   2 errors generated.
---
->> drivers/media/platform/renesas/vsp1/vsp1_entity.c:683:35: error: too few arguments to function call, expected 4, have 3
-     683 |         entity->config = __v4l2_subdev_state_alloc(&entity->subdev,
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~
-     684 |                                                    "vsp1:config->lock", &key);
-         |                                                                             ^
-   include/media/v4l2-subdev.h:1347:27: note: '__v4l2_subdev_state_alloc' declared here
-    1347 | struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd,
-         |                           ^
-   1 error generated.
+>> drivers/cpufreq/cpufreq_times.c:629:37: warning: 'concurrent_policy_time_fops' defined but not used [-Wunused-const-variable=]
+     629 | static const struct file_operations concurrent_policy_time_fops = {
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/cpufreq/cpufreq_times.c:610:37: warning: 'concurrent_active_time_fops' defined but not used [-Wunused-const-variable=]
+     610 | static const struct file_operations concurrent_active_time_fops = {
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/cpufreq/cpufreq_times.c:591:37: warning: 'uid_time_in_state_fops' defined but not used [-Wunused-const-variable=]
+     591 | static const struct file_operations uid_time_in_state_fops = {
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +453 drivers/staging/media/tegra-video/vi.c
+vim +/concurrent_policy_time_fops +629 drivers/cpufreq/cpufreq_times.c
 
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  424  
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  425  static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  426  				      struct v4l2_pix_format *pix)
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  427  {
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  428  	const struct tegra_video_format *fmtinfo;
-ed647ea668fb27 Tomi Valkeinen      2022-04-12  429  	static struct lock_class_key key;
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  430  	struct v4l2_subdev *subdev;
-ecefa105cc44ff Laurent Pinchart    2023-02-15  431  	struct v4l2_subdev_format fmt = {
-ecefa105cc44ff Laurent Pinchart    2023-02-15  432  		.which = V4L2_SUBDEV_FORMAT_TRY,
-ecefa105cc44ff Laurent Pinchart    2023-02-15  433  	};
-0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  434  	struct v4l2_subdev_state *sd_state;
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  435  	struct v4l2_subdev_frame_size_enum fse = {
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  436  		.which = V4L2_SUBDEV_FORMAT_TRY,
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  437  	};
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  438  	struct v4l2_subdev_selection sdsel = {
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  439  		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  440  		.target = V4L2_SEL_TGT_CROP_BOUNDS,
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  441  	};
-1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  442  	int ret;
-1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  443  
-1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  444  	subdev = tegra_channel_get_remote_source_subdev(chan);
-1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  445  	if (!subdev)
-1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  446  		return -ENODEV;
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  447  
-40aaab9d773b07 Tomi Valkeinen      2022-04-12  448  	/*
-40aaab9d773b07 Tomi Valkeinen      2022-04-12  449  	 * FIXME: Drop this call, drivers are not supposed to use
-40aaab9d773b07 Tomi Valkeinen      2022-04-12  450  	 * __v4l2_subdev_state_alloc().
-40aaab9d773b07 Tomi Valkeinen      2022-04-12  451  	 */
-ed647ea668fb27 Tomi Valkeinen      2022-04-12  452  	sd_state = __v4l2_subdev_state_alloc(subdev, "tegra:state->lock",
-ed647ea668fb27 Tomi Valkeinen      2022-04-12 @453  					     &key);
-ba7a93e507f883 Dan Carpenter       2021-06-22  454  	if (IS_ERR(sd_state))
-ba7a93e507f883 Dan Carpenter       2021-06-22  455  		return PTR_ERR(sd_state);
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  456  	/*
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  457  	 * Retrieve the format information and if requested format isn't
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  458  	 * supported, keep the current format.
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  459  	 */
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  460  	fmtinfo = tegra_get_format_by_fourcc(chan->vi, pix->pixelformat);
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  461  	if (!fmtinfo) {
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  462  		pix->pixelformat = chan->format.pixelformat;
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  463  		pix->colorspace = chan->format.colorspace;
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  464  		fmtinfo = tegra_get_format_by_fourcc(chan->vi,
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  465  						     pix->pixelformat);
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  466  	}
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  467  
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  468  	pix->field = V4L2_FIELD_NONE;
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  469  	fmt.pad = 0;
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  470  	v4l2_fill_mbus_format(&fmt.format, pix, fmtinfo->code);
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  471  
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  472  	/*
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  473  	 * Attempt to obtain the format size from subdev.
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  474  	 * If not available, try to get crop boundary from subdev.
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  475  	 */
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  476  	fse.code = fmtinfo->code;
-0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  477  	ret = v4l2_subdev_call(subdev, pad, enum_frame_size, sd_state, &fse);
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  478  	if (ret) {
-56f64b82356b74 Sowjanya Komatineni 2020-12-11  479  		if (!v4l2_subdev_has_op(subdev, pad, get_selection)) {
-0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  480  			sd_state->pads->try_crop.width = 0;
-0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  481  			sd_state->pads->try_crop.height = 0;
-56f64b82356b74 Sowjanya Komatineni 2020-12-11  482  		} else {
-56f64b82356b74 Sowjanya Komatineni 2020-12-11  483  			ret = v4l2_subdev_call(subdev, pad, get_selection,
-56f64b82356b74 Sowjanya Komatineni 2020-12-11  484  					       NULL, &sdsel);
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  485  			if (ret)
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  486  				return -EINVAL;
-56f64b82356b74 Sowjanya Komatineni 2020-12-11  487  
-0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  488  			sd_state->pads->try_crop.width = sdsel.r.width;
-0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  489  			sd_state->pads->try_crop.height = sdsel.r.height;
-56f64b82356b74 Sowjanya Komatineni 2020-12-11  490  		}
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  491  	} else {
-0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  492  		sd_state->pads->try_crop.width = fse.max_width;
-0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  493  		sd_state->pads->try_crop.height = fse.max_height;
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  494  	}
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  495  
-0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  496  	ret = v4l2_subdev_call(subdev, pad, set_fmt, sd_state, &fmt);
-1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  497  	if (ret < 0)
-1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  498  		return ret;
-1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  499  
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  500  	v4l2_fill_pix_format(pix, &fmt.format);
-1a3ea975d79418 Luca Ceresoli       2023-04-18  501  	chan->vi->ops->vi_fmt_align(pix, fmtinfo->bpp);
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  502  
-40aaab9d773b07 Tomi Valkeinen      2022-04-12  503  	__v4l2_subdev_state_free(sd_state);
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  504  
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  505  	return 0;
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  506  }
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  507  
-
-:::::: The code at line 453 was first introduced by commit
-:::::: ed647ea668fb27cd21408d5cb7cc7d4c30417332 media: subdev: add subdev state locking
-
-:::::: TO: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+   609	
+ > 610	static const struct file_operations concurrent_active_time_fops = {
+   611		.open		= concurrent_active_time_open,
+   612		.read		= seq_read,
+   613		.llseek		= seq_lseek,
+   614		.release	= seq_release,
+   615	};
+   616	
+   617	static const struct seq_operations concurrent_policy_time_seq_ops = {
+   618		.start = uid_seq_start,
+   619		.next = uid_seq_next,
+   620		.stop = uid_seq_stop,
+   621		.show = concurrent_policy_time_seq_show,
+   622	};
+   623	
+   624	static int concurrent_policy_time_open(struct inode *inode, struct file *file)
+   625	{
+   626		return seq_open(file, &concurrent_policy_time_seq_ops);
+   627	}
+   628	
+ > 629	static const struct file_operations concurrent_policy_time_fops = {
+   630		.open		= concurrent_policy_time_open,
+   631		.read		= seq_read,
+   632		.llseek		= seq_lseek,
+   633		.release	= seq_release,
+   634	};
+   635	
 
 -- 
 0-DAY CI Kernel Test Service
