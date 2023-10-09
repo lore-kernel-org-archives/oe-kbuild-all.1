@@ -1,78 +1,86 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AEE22C9C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Oct 2023 18:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB0BE37C8C
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Oct 2023 19:03:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="B6a71+pP"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=u7Mt6gxRcunuNffKT3Q+uY/sMVS+mgj8T6rNkHpVN0U=; b=B6a71+pPymETTBBzg4iZ67F34w
-	kgjcK8n/1bbbShUR185ZYH2FSKLFBrgnioL4Jnri7uH4aM7wnloORaCBf0oxfRc/1P6dTVXmVyzZ4
-	AGp6J7IYUq4LR4ZF/Fc9Haj4kyOmO+6vKwJ9kLJawBeIc7PgsfD3HU9zGqGWo/wChW6ZUywrWULt9
-	VamCHrLfegKISpPFNEfDF2ulecNLqoPETIle646qrjjZMMRAe2ZXPL6khRVs/pViv9WvkCh4uzIhB
-	vpvXL5NyJtpaQq1XkOP9kVa9BKLTp6MgxqrCMJdflx0iIwe3mG0FRYn7fI+XG72aEN5lbC6QuRuzF
-	aIgnJCbA==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qpv9j-00BPQm-1V;
-	Mon, 09 Oct 2023 18:39:03 +0000
-Message-ID: <3010dc8a-18a0-4f8e-9b9b-f5b16c7ff052@infradead.org>
-Date: Mon, 9 Oct 2023 11:39:02 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bFdyspy6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696878210; x=1728414210;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=o0TymFwR5qheiVXJ0UVQ5C+FPqwsgz6Z75ANDlhsz0A=;
+  b=bFdyspy66oh77IstiHLJxqdYzwCkbJZBUbo1Gv2Tsuf9xiPVAJYG4qOa
+   7gRF4UX6KQbmlvfC5JXW5TeA324eb0pIzyl4PMFn86LPd6HbaZzZLlgHE
+   4jJc/GSQ1cPnALitBwRKvaNsc8MvD8l2ZiP7hMBJylTp5VDAccv6wrJws
+   OHkH9K2rYxWXuNbEsIqfkmxvfON9VcrN54O60djAzQWHVNu3ndTQ5s/78
+   IwOYgkPjbQl1Mgvcry45vwRxKhYirm4HuItmwkqjfaRIwgc+cJgg085kH
+   DIu2cEs1JeT6JasaFyQ8NoIbRPsVAbJWz2Huv8SCJSG8aXptxJ5TtUP/v
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="363578246"
+X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
+   d="scan'208";a="363578246"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 12:03:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="782595236"
+X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
+   d="scan'208";a="782595236"
+Received: from lkp-server02.sh.intel.com (HELO 4ed589823ba4) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 09 Oct 2023 12:03:28 -0700
+Received: from kbuild by 4ed589823ba4 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qpvXK-0000Y2-0o;
+	Mon, 09 Oct 2023 19:03:26 +0000
+Date: Tue, 10 Oct 2023 03:02:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-4.19-stable 2430/30000]
+ drivers/cpufreq/cpufreq_times.c:400:37: warning: 'uid_time_in_state_fops'
+ defined but not used
+Message-ID: <202310100204.m3rFQupi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: kernel/fork.c:1134: warning: Function parameter or member 'mm'
- not described in 'set_mm_exe_file'
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>,
- Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <202310100237.RjecPfNo-lkp@intel.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <202310100237.RjecPfNo-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://android.googlesource.com/kernel/common android-4.19-stable
+head:   5759bbcc0d24a0f84f9021cf06f02a08c4e739fe
+commit: 6d2b4b4435deb19b2bc2d59fc7a1d825d588d7d0 [2430/30000] ANDROID: cpufreq: times: track per-uid time in state
+config: arm-randconfig-004-20231010 (https://download.01.org/0day-ci/archive/20231010/202310100204.m3rFQupi-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310100204.m3rFQupi-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310100204.m3rFQupi-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/cpufreq/cpufreq_times.c:400:37: warning: 'uid_time_in_state_fops' defined but not used [-Wunused-const-variable=]
+     400 | static const struct file_operations uid_time_in_state_fops = {
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~
 
 
+vim +/uid_time_in_state_fops +400 drivers/cpufreq/cpufreq_times.c
 
-On 10/9/23 11:30, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   94f6f0550c625fab1f373bb86a6669b45e9748b3
-> commit: b1fbfcb4a20949df08dd995927cdc5ad220c128d kbuild: make single target builds even faster
-> date:   3 years, 11 months ago
-> config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20231010/202310100237.RjecPfNo-lkp@intel.com/config)
-> compiler: or1k-linux-gcc (GCC) 12.3.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310100237.RjecPfNo-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202310100237.RjecPfNo-lkp@intel.com/
-> 
-
-Fixes for kernel/fork.c are here:
-  https://lore.kernel.org/all/20230824193644.3029141-1-willy@infradead.org/
-
-are should be in the docs-next tree (I guess).
-
-> All warnings (new ones prefixed by >>):
-> 
->>> kernel/fork.c:1134: warning: Function parameter or member 'mm' not described in 'set_mm_exe_file'
->>> kernel/fork.c:1134: warning: Function parameter or member 'new_exe_file' not described in 'set_mm_exe_file'
->>> kernel/fork.c:1158: warning: Function parameter or member 'mm' not described in 'get_mm_exe_file'
->>> kernel/fork.c:1178: warning: Function parameter or member 'task' not described in 'get_task_exe_file'
->>> kernel/fork.c:1203: warning: Function parameter or member 'task' not described in 'get_task_mm'
-> --
-
+   399	
+ > 400	static const struct file_operations uid_time_in_state_fops = {
+   401		.open		= uid_time_in_state_open,
+   402		.read		= seq_read,
+   403		.llseek		= seq_lseek,
+   404		.release	= seq_release,
+   405	};
+   406	
 
 -- 
-~Randy
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
