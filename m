@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41FB450FA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DBF9450CD
 	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 13:20:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iQqdUER0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JKQWcOC1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696944050; x=1728480050;
+  t=1696944051; x=1728480051;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kzUPTvijaLfUnTHW92pL1g64wei1q88HHzboUq/LrAY=;
-  b=iQqdUER0PDDtv9t3iv+6zhPXl6sDaBijR3TKyzpPtRNmMeTzY3Ffyyie
-   atm+eDRwmZC4fSVA/FVFLF4bFox8/WlieTsqDsaJX3ZVx33tN9U/EeuDF
-   VK8sOViOtFwpPKa/m7zSoQRq1fOfIqhTra5m60BVVoEkqxWCGGRv1oipt
-   8wHou9Wjl7f2eJIZefgyrcG+e8jaJT8gFcC/OrZkLXR2ttfwunId4HIG9
-   uP4rCafNKtbuMr4mZOGFuNJLUxBy5AxqY/ZSxww1e4gyFMxH/Y/ut+2xI
-   hY85q8/+Tws/7iZKd7CGMgK0i59gejHYkZO72kItcEI0MW7S9+qNR4iIl
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="450889463"
+  bh=iwIP1LLcwVVZLsKJb2a4PwYy3UYI7YTtkyq6Fy+GSU0=;
+  b=JKQWcOC185ZwW/R9W9ooMEuTV8wRttOBXbf3fp6pMcw/b1aIFH/cbY67
+   MVqO61zYU/B6/9bblL8L6vhWCh6aHx0U7uzQQLXXwxUFglj6nWGYXET+d
+   PecWaYdJnmhl6aZoI+D23Ayq/o26pkpXF5dbkyooKSrn64hZb+hHOxuU0
+   QSuELp7JkKXfp3hvkg5T2NA6ACgzjaEAMnuAZRW13KuU+u5fR9iJyX660
+   Ah8/SnttYsMbdPOtRnwSTvLY+e+YEiL0H3mp8Tvzq+gDVwakerxqO/gzf
+   s+TswQW+j1Qo6uz+PfxExCUJQ+GhJGy20i1n3CnzTB+s1MfInvWKWRKdv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="450889460"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="450889463"
+   d="scan'208";a="450889460"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
   by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 06:20:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="703308461"
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="703308463"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="703308461"
+   d="scan'208";a="703308463"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
   by orsmga003.jf.intel.com with ESMTP; 10 Oct 2023 06:20:38 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqCf5-0000TQ-2U;
+	id 1qqCf5-0000TO-2P;
 	Tue, 10 Oct 2023 13:20:35 +0000
-Date: Tue, 10 Oct 2023 21:20:27 +0800
+Date: Tue, 10 Oct 2023 21:20:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: Max Filippov <jcmvbkbc@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jcmvbkbc-xtensa:xtensa-6.6-rc5-esp32 32/38] checkpatch: WARNING:
+Subject: [jcmvbkbc-xtensa:xtensa-6.6-rc5-esp32 34/38] checkpatch: WARNING:
  else is not generally useful after a break or return
-Message-ID: <202310102107.fIQ0efzY-lkp@intel.com>
+Message-ID: <202310102147.hBd3jDDC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,13 +52,13 @@ Content-Disposition: inline
 
 tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.6-rc5-esp32
 head:   224f43124c24326eb21de553984a58d8528a48d0
-commit: 0f21bff6f6850fc24ee86b790d57139b1741fdb4 [32/38] xtensa: trax: add trax buffer dumping
-reproduce: (https://download.01.org/0day-ci/archive/20231010/202310102107.fIQ0efzY-lkp@intel.com/reproduce)
+commit: f6e71ac32ea63fd874e08ec741d09278e688c847 [34/38] WIP: tools/perf: make work on noMMU
+reproduce: (https://download.01.org/0day-ci/archive/20231010/202310102147.hBd3jDDC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310102107.fIQ0efzY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310102147.hBd3jDDC-lkp@intel.com/
 
 # many are suggestions rather than must-fix
 
@@ -1261,6 +1261,14 @@ WARNING:BRACES: braces {} are not necessary for single statement blocks
 +	if (pde) {
 +		proc_set_size(pde, trax_state.memsz * 4);
 +	}
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#32: FILE: kernel/events/core.c:6529:
++#if 0
+
+WARNING:UNSPECIFIED_INT: Prefer 'unsigned int' to bare use of 'unsigned'
+#108: FILE: kernel/events/core.c:6639:
++static unsigned perf_mmap_capabilities(struct file *file)
 
 -- 
 0-DAY CI Kernel Test Service
