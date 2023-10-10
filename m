@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3246A15AE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 03:48:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9384422
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 04:00:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IuZkaKoG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UPNekEOt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696909691; x=1728445691;
+  t=1696910411; x=1728446411;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pBFNP3wejjjLxKIpfgdSdfkKmPuGuV7dBtssoR7vlV4=;
-  b=IuZkaKoGB+XgNpuAqY8YH9dHV0E9SiU/j7w6X19yu0vX5nff6ZNJwiGp
-   g2KqmfaBnxS9jezc9trwrAk0z7HZ9bgncyDIZh4iAgmtNniXIPtdHp+DG
-   PklH+gg2qA6EPJqkOq3j6JnP9/95o06sWYpzYSkU5p7/Xk5gyisL3i43D
-   vZpMVFEUqWvyf+trtkIY7lpV2KFEAIsJD+Eu8DcvukPobP9fyCpApNIHN
-   Z8qliCf1Jje7qga/+Nivjy0z3Nc9rcrWwTwURK55LGx1pUMZh9GE7cwD9
-   cAvpSjb+KzWkoCZ10OJ7TQsqdz15Ce9JTS8qOGXK6IusU/acB+K75gdLK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="448495984"
+  bh=DgzO+u4WGwiRvLxRSLITareUxIsYEIKL3Td0ZlFfvTs=;
+  b=UPNekEOtJLmXZ96YO6ObPIg8421dM8lckyNHRUhoiN5Ma7FPGfhDN1gR
+   rATC68s2I0KB0JZ/XrdY4oDRgZPcKTVdUQDH4tuXGXqDPQI5lLCMdQtKd
+   5GcXJGf996FLUqosFI1DPv/zj32KN4bh3NtGjf2M9TH1X0Y8KQVOihliI
+   ATHMPYLmsdTxhaToSj4OGOSnX3AF75HOZr2ecSi+cOKqy/FrFE1sCOZ9N
+   zj2YeO2seb/n6jSag1j/oLqThG5syPMaE5L45y86aDYTeZZn6L1tStr/Q
+   RrHAU0cIJTanxKxRkvHUaLRxuo2eKgOdKn/As0BhwM6pEsKCVbb/yixsq
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="450799374"
 X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; 
-   d="scan'208";a="448495984"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 20:48:10 -0700
+   d="scan'208";a="450799374"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 21:00:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="877065415"
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="703159955"
 X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; 
-   d="scan'208";a="877065415"
+   d="scan'208";a="703159955"
 Received: from lkp-server02.sh.intel.com (HELO 4ed589823ba4) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 09 Oct 2023 20:48:09 -0700
+  by orsmga003.jf.intel.com with ESMTP; 09 Oct 2023 21:00:09 -0700
 Received: from kbuild by 4ed589823ba4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qq3j4-00013Y-2P;
-	Tue, 10 Oct 2023 03:48:06 +0000
-Date: Tue, 10 Oct 2023 11:47:54 +0800
+	id 1qq3uh-00014K-0y;
+	Tue, 10 Oct 2023 04:00:07 +0000
+Date: Tue, 10 Oct 2023 11:59:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 13479/30000]
- kernel/dma/removed.c:107:30: sparse: sparse: incorrect type in assignment
- (different address spaces)
-Message-ID: <202310101109.c7qv9VAw-lkp@intel.com>
+Subject: [android-common:android14-6.1 1/6] include/trace/hooks/bug.h:10:1:
+ sparse: sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202310101117.6pKwPONL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,237 +50,125 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android-4.19-stable
-head:   5759bbcc0d24a0f84f9021cf06f02a08c4e739fe
-commit: c9a574054dbbc299aac39781a1d19a36fe0bc35a [13479/30000] ANDROID: GKI: drivers: Add dma removed ops
-config: i386-randconfig-062-20231001 (https://download.01.org/0day-ci/archive/20231010/202310101109.c7qv9VAw-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310101109.c7qv9VAw-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   4fcc13c1ff378fbf84f3b57c3d670cf48cb4250f
+commit: e74b4da79162aaf5ad40d1df6200da47953d0ff1 [1/6] ANDROID: bug: add vendor hook for bug trap
+config: i386-randconfig-061-20231003 (https://download.01.org/0day-ci/archive/20231010/202310101117.6pKwPONL-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310101117.6pKwPONL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310101109.c7qv9VAw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310101117.6pKwPONL-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> kernel/dma/removed.c:107:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] <asn:2> *addr @@     got void * @@
-   kernel/dma/removed.c:107:30: sparse:     expected void [noderef] <asn:2> *addr
-   kernel/dma/removed.c:107:30: sparse:     got void *
->> kernel/dma/removed.c:119:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] <asn:2> *[assigned] addr @@     got void * @@
-   kernel/dma/removed.c:119:38: sparse:     expected void [noderef] <asn:2> *[assigned] addr
-   kernel/dma/removed.c:119:38: sparse:     got void *
->> kernel/dma/removed.c:127:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] <asn:2> *[assigned] addr @@
-   kernel/dma/removed.c:127:16: sparse:     expected void *
-   kernel/dma/removed.c:127:16: sparse:     got void [noderef] <asn:2> *[assigned] addr
->> kernel/dma/removed.c:71:6: sparse: sparse: symbol 'removed_alloc' was not declared. Should it be static?
->> kernel/dma/removed.c:131:5: sparse: sparse: symbol 'removed_mmap' was not declared. Should it be static?
->> kernel/dma/removed.c:146:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void *cpu_addr @@
-   kernel/dma/removed.c:146:25: sparse:     expected void volatile [noderef] <asn:2> *addr
-   kernel/dma/removed.c:146:25: sparse:     got void *cpu_addr
->> kernel/dma/removed.c:138:6: sparse: sparse: symbol 'removed_free' was not declared. Should it be static?
->> kernel/dma/removed.c:187:6: sparse: sparse: symbol 'removed_sync_single_for_device' was not declared. Should it be static?
->> kernel/dma/removed.c:193:6: sparse: sparse: symbol 'removed_sync_sg_for_cpu' was not declared. Should it be static?
->> kernel/dma/removed.c:199:6: sparse: sparse: symbol 'removed_sync_sg_for_device' was not declared. Should it be static?
->> kernel/dma/removed.c:213:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void *remapped_address @@
-   kernel/dma/removed.c:213:17: sparse:     expected void volatile [noderef] <asn:2> *addr
-   kernel/dma/removed.c:213:17: sparse:     got void *remapped_address
->> kernel/dma/removed.c:211:6: sparse: sparse: symbol 'removed_unremap' was not declared. Should it be static?
->> kernel/dma/removed.c:228:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *( *remap )( ... ) @@     got void [noderef] <asn:2> *( * )( ... ) @@
-   kernel/dma/removed.c:228:35: sparse:     expected void *( *remap )( ... )
-   kernel/dma/removed.c:228:35: sparse:     got void [noderef] <asn:2> *( * )( ... )
-   kernel/dma/removed.c:71:7: warning: no previous prototype for 'removed_alloc' [-Wmissing-prototypes]
-      71 | void *removed_alloc(struct device *dev, size_t size, dma_addr_t *handle,
-         |       ^~~~~~~~~~~~~
-   kernel/dma/removed.c:131:5: warning: no previous prototype for 'removed_mmap' [-Wmissing-prototypes]
-     131 | int removed_mmap(struct device *dev, struct vm_area_struct *vma,
-         |     ^~~~~~~~~~~~
-   kernel/dma/removed.c:138:6: warning: no previous prototype for 'removed_free' [-Wmissing-prototypes]
-     138 | void removed_free(struct device *dev, size_t size, void *cpu_addr,
-         |      ^~~~~~~~~~~~
-   kernel/dma/removed.c:187:6: warning: no previous prototype for 'removed_sync_single_for_device' [-Wmissing-prototypes]
-     187 | void removed_sync_single_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/removed.c:193:6: warning: no previous prototype for 'removed_sync_sg_for_cpu' [-Wmissing-prototypes]
-     193 | void removed_sync_sg_for_cpu(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/removed.c:199:6: warning: no previous prototype for 'removed_sync_sg_for_device' [-Wmissing-prototypes]
-     199 | void removed_sync_sg_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/removed.c:211:6: warning: no previous prototype for 'removed_unremap' [-Wmissing-prototypes]
-     211 | void removed_unremap(struct device *dev, void *remapped_address, size_t size)
-         |      ^~~~~~~~~~~~~~~
-   kernel/dma/removed.c:61:12: warning: 'dma_assign_removed_region' defined but not used [-Wunused-function]
-      61 | static int dma_assign_removed_region(struct device *dev,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/removed.c:33:12: warning: 'dma_init_removed_memory' defined but not used [-Wunused-function]
-      33 | static int dma_init_removed_memory(phys_addr_t phys_addr, size_t size,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/cpufreq.h):
+   include/trace/hooks/cpufreq.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/cpufreq.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cpufreq.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/cpufreq.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/cpufreq.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cpufreq.h:23:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/preemptirq.h):
+   include/trace/hooks/preemptirq.h:13:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:13:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:13:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/preemptirq.h:17:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:17:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:17:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/preemptirq.h:21:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:21:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:21:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/preemptirq.h:25:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:25:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:25:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/cgroup.h):
+   include/trace/hooks/cgroup.h:20:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/cgroup.h:20:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cgroup.h:20:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/cgroup.h:27:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/cgroup.h:27:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cgroup.h:27:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/cgroup.h:31:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/cgroup.h:31:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cgroup.h:31:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/iommu.h):
+   include/trace/hooks/iommu.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/iommu.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/iommu.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/iommu.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/iommu.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/iommu.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/iommu.h:34:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/iommu.h:34:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/iommu.h:34:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/iommu.h:38:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/iommu.h:38:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/iommu.h:38:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/vmscan.h):
+   include/trace/hooks/vmscan.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/vmscan.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/vmscan.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/avc.h):
+   include/trace/hooks/avc.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/avc.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/avc.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/avc.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/creds.h):
+   include/trace/hooks/creds.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/creds.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/creds.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:23:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/creds.h:27:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:27:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:27:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/module.h):
+   include/trace/hooks/module.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/module.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/module.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/module.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/selinux.h):
+   include/trace/hooks/selinux.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/selinux.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/selinux.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/gic_v3.h):
+   include/trace/hooks/gic_v3.h:20:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/gic_v3.h:20:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/gic_v3.h:20:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/bug.h):
+>> include/trace/hooks/bug.h:10:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/bug.h:10:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/bug.h:10:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
 
-vim +107 kernel/dma/removed.c
+vim +10 include/trace/hooks/bug.h
 
-    70	
-  > 71	void *removed_alloc(struct device *dev, size_t size, dma_addr_t *handle,
-    72			    gfp_t gfp, unsigned long attrs)
-    73	{
-    74		bool no_kernel_mapping = attrs & DMA_ATTR_NO_KERNEL_MAPPING;
-    75		bool skip_zeroing = attrs & DMA_ATTR_SKIP_ZEROING;
-    76		int pageno;
-    77		unsigned long order;
-    78		void __iomem *addr = NULL;
-    79		struct removed_region *dma_mem = dev->removed_mem;
-    80		int nbits;
-    81		unsigned int align;
-    82	
-    83		if (!gfpflags_allow_blocking(gfp))
-    84			return NULL;
-    85	
-    86		size = PAGE_ALIGN(size);
-    87		nbits = size >> PAGE_SHIFT;
-    88		order = get_order(size);
-    89	
-    90		if (order > get_order(SZ_1M))
-    91			order = get_order(SZ_1M);
-    92	
-    93		align = (1 << order) - 1;
-    94	
-    95	
-    96		mutex_lock(&dma_mem->lock);
-    97		pageno = bitmap_find_next_zero_area(dma_mem->bitmap, dma_mem->nr_pages,
-    98							0, nbits, align);
-    99	
-   100		if (pageno < dma_mem->nr_pages) {
-   101			phys_addr_t base = dma_mem->base + pageno * PAGE_SIZE;
-   102			*handle = base;
-   103	
-   104			bitmap_set(dma_mem->bitmap, pageno, nbits);
-   105	
-   106			if (no_kernel_mapping && skip_zeroing) {
- > 107				addr = (void *)NO_KERNEL_MAPPING_DUMMY;
-   108				goto out;
-   109			}
-   110	
-   111			addr = ioremap_wc(base, size);
-   112			if (WARN_ON(!addr)) {
-   113				bitmap_clear(dma_mem->bitmap, pageno, nbits);
-   114			} else {
-   115				if (!skip_zeroing)
-   116					memset_io(addr, 0, size);
-   117				if (no_kernel_mapping) {
-   118					iounmap(addr);
- > 119					addr = (void *)NO_KERNEL_MAPPING_DUMMY;
-   120				}
-   121				*handle = base;
-   122			}
-   123		}
-   124	
-   125	out:
-   126		mutex_unlock(&dma_mem->lock);
- > 127		return addr;
-   128	}
-   129	
-   130	
- > 131	int removed_mmap(struct device *dev, struct vm_area_struct *vma,
-   132			 void *cpu_addr, dma_addr_t dma_addr, size_t size,
-   133			 unsigned long attrs)
-   134	{
-   135		return -ENXIO;
-   136	}
-   137	
- > 138	void removed_free(struct device *dev, size_t size, void *cpu_addr,
-   139			  dma_addr_t handle, unsigned long attrs)
-   140	{
-   141		bool no_kernel_mapping = attrs & DMA_ATTR_NO_KERNEL_MAPPING;
-   142		struct removed_region *dma_mem = dev->removed_mem;
-   143	
-   144		size = PAGE_ALIGN(size);
-   145		if (!no_kernel_mapping)
- > 146			iounmap(cpu_addr);
-   147		mutex_lock(&dma_mem->lock);
-   148		bitmap_clear(dma_mem->bitmap, (handle - dma_mem->base) >> PAGE_SHIFT,
-   149					size >> PAGE_SHIFT);
-   150		mutex_unlock(&dma_mem->lock);
-   151	}
-   152	
-   153	static dma_addr_t removed_map_page(struct device *dev, struct page *page,
-   154				unsigned long offset, size_t size,
-   155				enum dma_data_direction dir,
-   156				unsigned long attrs)
-   157	{
-   158		return ~(dma_addr_t)0;
-   159	}
-   160	
-   161	static void removed_unmap_page(struct device *dev, dma_addr_t dma_handle,
-   162			size_t size, enum dma_data_direction dir,
-   163			unsigned long attrs)
-   164	{
-   165	}
-   166	
-   167	static int removed_map_sg(struct device *dev, struct scatterlist *sg,
-   168				int nents, enum dma_data_direction dir,
-   169				unsigned long attrs)
-   170	{
-   171		return 0;
-   172	}
-   173	
-   174	static void removed_unmap_sg(struct device *dev,
-   175				struct scatterlist *sg, int nents,
-   176				enum dma_data_direction dir,
-   177				unsigned long attrs)
-   178	{
-   179	}
-   180	
-   181	static void removed_sync_single_for_cpu(struct device *dev,
-   182				dma_addr_t dma_handle, size_t size,
-   183				enum dma_data_direction dir)
-   184	{
-   185	}
-   186	
- > 187	void removed_sync_single_for_device(struct device *dev,
-   188				dma_addr_t dma_handle, size_t size,
-   189				enum dma_data_direction dir)
-   190	{
-   191	}
-   192	
- > 193	void removed_sync_sg_for_cpu(struct device *dev,
-   194				struct scatterlist *sg, int nents,
-   195				enum dma_data_direction dir)
-   196	{
-   197	}
-   198	
- > 199	void removed_sync_sg_for_device(struct device *dev,
-   200				struct scatterlist *sg, int nents,
-   201				enum dma_data_direction dir)
-   202	{
-   203	}
-   204	
-   205	static void __iomem *removed_remap(struct device *dev, void *cpu_addr,
-   206				dma_addr_t handle, size_t size, unsigned long attrs)
-   207	{
-   208		return ioremap_wc(handle, size);
-   209	}
-   210	
- > 211	void removed_unremap(struct device *dev, void *remapped_address, size_t size)
-   212	{
- > 213		iounmap(remapped_address);
-   214	}
-   215	
-   216	const struct dma_map_ops removed_dma_ops = {
-   217		.alloc			= removed_alloc,
-   218		.free			= removed_free,
-   219		.mmap			= removed_mmap,
-   220		.map_page		= removed_map_page,
-   221		.unmap_page		= removed_unmap_page,
-   222		.map_sg			= removed_map_sg,
-   223		.unmap_sg		= removed_unmap_sg,
-   224		.sync_single_for_cpu	= removed_sync_single_for_cpu,
-   225		.sync_single_for_device	= removed_sync_single_for_device,
-   226		.sync_sg_for_cpu	= removed_sync_sg_for_cpu,
-   227		.sync_sg_for_device	= removed_sync_sg_for_device,
- > 228		.remap			= removed_remap,
-   229		.unremap		= removed_unremap,
-   230	};
-   231	EXPORT_SYMBOL(removed_dma_ops);
-   232	
+     9	
+  > 10	DECLARE_RESTRICTED_HOOK(android_rvh_report_bug,
+    11		TP_PROTO(const char *file, unsigned int line, unsigned long bugaddr),
+    12		TP_ARGS(file, line, bugaddr), 1);
+    13	
 
 -- 
 0-DAY CI Kernel Test Service
