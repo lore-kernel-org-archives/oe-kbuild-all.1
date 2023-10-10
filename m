@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5726171BC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 12:45:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4026F15EBC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 12:45:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MMH7C41T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="izWO3F1J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696941943; x=1728477943;
+  t=1696941951; x=1728477951;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NxYmXKcicBZAgmkg360vL1TN/FdJ6Iw9de6YSIoVrXA=;
-  b=MMH7C41TBdMHeMwe+0YuUeThsa1B6C9RIYm4ZG7lWPCdgJeXAQnMobmu
-   +9ssGu0r2xlmvJaUD2srTNsBdz7CiN9B1ZPMWN+F738hMHvnesQX3OR4d
-   Z7YnU7opLYlMrQNcFf7MURgLIdfIDRMENrgEPuC/Ecj2v2lsELoYpzRba
-   fj2iPCZMFh5oLanGw0ezuqmaA0Fn1zUI/FSp6tKRVF6NLKtOFd7uKpZ11
-   wXjib6DYwivI408RN6O0y+aytxJv9s5GtEUUXrErubxstiDj1Xf1v4hPZ
-   16gA9LkTkyiXG/rV6Q+N8GtapUOf4FH4VVPMrqQ5QvzkVTIAZGcfEDUJC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="450880045"
+  bh=f2KBsamKKNfjZxBLaAW1/3ZV0huVjMQZjrb61p9JkpQ=;
+  b=izWO3F1J9LjOxVB/KJm4RGoH6KY6FrHhGZ+2WQ5KgarIdtKv8DT3D6GT
+   gLApqsx0BOGrfEXBoRI4OiiLlukzzBqr/lpgHH27eGj1oXCrE9nQnQF95
+   l8/s2M8CesmiY8s8Bq2eeE5bW2UhrL6GXL7HZISQD5KpaQGnjRHbxAeBC
+   yhIuw700maGLtO6/eseIpifLt6/xDTrpM8U40j3i/6lJCeyw5bfr4ocLN
+   qNFleTt7Y2qAYNCeGQY79EbrTV4Gfk4Gu7IDroj1bSsi4UrGZv2yxn7Lx
+   ZsZgcN/9jBrOVeJ+kxxQXJdXZhiuHRMTv8JbhfrBcLx3Zxss1WwReQ7IX
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="5939657"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="450880045"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 05:45:38 -0700
+   d="scan'208";a="5939657"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 05:45:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="757100751"
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="788572393"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="757100751"
+   d="scan'208";a="788572393"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 10 Oct 2023 05:45:36 -0700
+  by orsmga001.jf.intel.com with ESMTP; 10 Oct 2023 05:45:37 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqC7C-0000QJ-2x;
+	id 1qqC7C-0000QB-2f;
 	Tue, 10 Oct 2023 12:45:34 +0000
-Date: Tue, 10 Oct 2023 20:44:54 +0800
+Date: Tue, 10 Oct 2023 20:44:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: Max Filippov <jcmvbkbc@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jcmvbkbc-xtensa:xtensa-6.6-rc5-esp32 19/38] checkpatch: WARNING:
+Subject: [jcmvbkbc-xtensa:xtensa-6.6-rc5-esp32 20/38] checkpatch: WARNING:
  else is not generally useful after a break or return
-Message-ID: <202310102013.nE9llpJU-lkp@intel.com>
+Message-ID: <202310102022.GSnv8eq9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,13 +52,13 @@ Content-Disposition: inline
 
 tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.6-rc5-esp32
 head:   224f43124c24326eb21de553984a58d8528a48d0
-commit: 4bbe55067a282a1a5f7f6021bd8175a9b233c82d [19/38] drivers/net/wireless/espressif/esp32-ng: initial import
-reproduce: (https://download.01.org/0day-ci/archive/20231010/202310102013.nE9llpJU-lkp@intel.com/reproduce)
+commit: 14b4b20934e740e96fc97ca029c12f8f8829b509 [20/38] esp_wifi: drop static esp_adapter and esp_get_adapter()
+reproduce: (https://download.01.org/0day-ci/archive/20231010/202310102022.GSnv8eq9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310102013.nE9llpJU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310102022.GSnv8eq9-lkp@intel.com/
 
 # many are suggestions rather than must-fix
 
