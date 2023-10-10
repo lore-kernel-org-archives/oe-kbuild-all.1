@@ -1,72 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06EEF1FCF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 08:47:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A41C115AC0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 09:02:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="enuPPFTc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KjdyJO0n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696927657; x=1728463657;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=ymKPyXX+MMt0rsb9c5uaVXqZCv5g6sfDzydyxvk28dg=;
-  b=enuPPFTcAxwyOa2Z1HziCSXnuMF3wNvzJEW5yf1WeVb0M0fSFPBVrYs8
-   QABQTurM+NlmvnSXe6AvYs/SZZCWhw9hyw719KKXPHk31ObQeHbkjXOVr
-   3ZEFB4wY5tuOpTEJkon2u7rA/10XXzjt3SWpB/yG3/b6kx0I1TqFJKsc9
-   7q3aqr9TUBsDdblld0gTqzRk7NiB7013hdVIXZNQQ0w9DnLRya1YMqSze
-   jYNMHly6tHIsKtU3aXfJhAxTt6cBk1ePYY3NfrI93OSyWTuP63dXl0nlL
-   MTTq9jPpunF9d4A4kXApF4pN/DWS2RHMM7bKIHJmpcHROpcB35loMio8a
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="387179405"
+  t=1696928527; x=1728464527;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=I/9cxbyllmC5lhJ4PMb+5NyqJcQQAvpFiREXgJ3Ybhk=;
+  b=KjdyJO0nFqGXgRU/D25fDFPKgbs0IVB+uM/xvCmAaCkWDG62Ag+fkVRC
+   virfpXnr5rpj4xAemmGsznbcS5q5Yh6EP1P6As0vIjY6W10nRugwXFs5T
+   Z9qYMhOJj2Ub0HhZ9AvpggAC6pO9WMR7xvRsJqk3Xzw4Dv18r4Q4Vyin0
+   50UmrUjSzvFPqquPY9LO6Ot6Y7NRBx+ftFwYmGFYVxYL8Z6odfDP2AlUP
+   FEeO/2InPUlASnjgeZ3toopwPDdvAzLWH7w8J4eh2Zu83m6CpYAmbQplA
+   PcUkjUiwfyB6PUiibT/U/QgIGbQQPwWNP3cugbaOzYNzRsNyKCrEf0cTc
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="364640363"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="387179405"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 01:47:36 -0700
+   d="scan'208";a="364640363"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 02:02:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="788506097"
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="757044502"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="788506097"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 10 Oct 2023 01:47:35 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qq8Op-0000Cy-0s;
-	Tue, 10 Oct 2023 08:47:31 +0000
-Date: Tue, 10 Oct 2023 16:47:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alain Volmat <alain.volmat@foss.st.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] i2c: stm32f7: Fix PEC handling in case of SMBUS
- transfers
-Message-ID: <ZSUPmZI4T8E8a/JF@7e1dc97a21a5>
+   d="scan'208";a="757044502"
+Received: from yujie-x299.sh.intel.com ([10.239.159.77])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 02:02:05 -0700
+From: Yujie Liu <yujie.liu@intel.com>
+To: LKP Developer <lkp-developer@eclists.intel.com>,
+	Philip Li <philip.li@intel.com>
+Cc: Yujie Liu <yujie.liu@intel.com>,
+	oe-kbuild-all@lists.linux.dev
+Subject: [PATCH kernel-tests 4/4] lib/checkpatch.sh: set finally_email_out to send out report
+Date: Tue, 10 Oct 2023 16:57:13 +0800
+Message-Id: <20231010085713.2187549-4-yujie.liu@intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231010085713.2187549-1-yujie.liu@intel.com>
+References: <20231010085713.2187549-1-yujie.liu@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 8bit
+
+== fix issue ==
+
+Subject: [0day-trouble-maker:qa-system-test-checkpatch-5cb27d30fc3a281e830a2099d520b469e2b82008
+ 1/1] checkpatch: WARNING: Symbolic permissions 'S_IRUGO | S_IWUSR' are not
+ preferred. Consider using octal permissions '0644'.
+Message-ID: <202310101418.7qw45u1I-lkp@intel.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="iI9uoeB3EPjtZ8AP"
 Content-Disposition: inline
-In-Reply-To: <20231010084455.1718830-1-alain.volmat@foss.st.com>
 
-Hi,
+CONFUSED
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Mariusz Bialonczyk <manio@skyboo.net>
 
-Thanks for your patch.
+Link: https://jira.devtools.intel.com/browse/ZDAYCI-18319
+Signed-off-by: Yujie Liu <yujie.liu@intel.com>
+---
+ lib/checkpatch.sh | 1 +
+ 1 file changed, 1 insertion(+)
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
-
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v2] i2c: stm32f7: Fix PEC handling in case of SMBUS transfers
-Link: https://lore.kernel.org/stable/20231010084455.1718830-1-alain.volmat%40foss.st.com
-
+diff --git a/lib/checkpatch.sh b/lib/checkpatch.sh
+index a2f3ad376..e490dfca3 100644
+--- a/lib/checkpatch.sh
++++ b/lib/checkpatch.sh
+@@ -44,6 +44,7 @@ email_checkpatch()
+ 
+ 	# MANUAL_CHECK=()
+ 	# set_manual_check "checkpatch"
++	local finally_email_out=1
+ 
+ 	local report_message_id="$(date +'%Y%m%d%H%S').$(mktemp --dry-run XXXXXXXX)-lkp@intel.com"
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-
+2.34.1
 
