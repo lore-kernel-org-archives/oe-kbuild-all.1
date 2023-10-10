@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7F718AF4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 11:17:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F1218AED
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 11:17:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G6tlX2C6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WYv8fxWH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696936677; x=1728472677;
+  t=1696936679; x=1728472679;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EkyWNHp1vT6Z/U7iZXwKcw5w3CgnGHncF0R2jGDNf+A=;
-  b=G6tlX2C6tzXCAK//+Ww9SRu5V5QvzuNx2yyZIutQSzGO+5lbJcvhEQ2W
-   XWOuzmB6w7bnxs0FgPCQtJTrHk/cUtHwamEX8BJsKADIZlhrasHd/gksf
-   hnl+qH2AQ7GDtEgn+YazrrOGMTRMR1AUzbfEB8Hxa4l8Ih++E0MSNBjdI
-   Ee5F/1Jhjo8i+U1zVbAgE/XjTpEabpd7ftJVbRgsAvq4FC5699oCNIyhi
-   6PD9Io8dXh5UkVg0IouiuHtOOFwF/Z9C/BFGdK64T27vPhIjeM+UXZcp3
-   6vPYFsrM1Mytl/79hZW63qk7lRxo5Whrj6m1iizSAFl+t2S3tE2BNRHE3
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="470632316"
+  bh=ym95X1Tjg2BaJQbZsvDu1zdQj0jihFatQU5SUoVgJXE=;
+  b=WYv8fxWHJZlQu4704C3kWBM3Jut3GPFIX0cRd9xHRbkSUh3i13qVjSo9
+   hXwOpcbnff6UyARUJEGgPccmDa0Py5/+HzEDfp4rHS4z07z216YwflmDI
+   lwxRkssJezN4eyTQJg1Y4Izsh3U3ZfliP+UZV7TgGIXT2iInWxjB/cuXE
+   uh/kQ9cYd8o0DhS5fZGpIxQjfvyso3lKYLfuNxNHa3H1Qz4wLBzBJK57N
+   widzFQIj0t9jCvvsdDk2Qungj0vQyEBwImGFRHFeKBH48ZUZbyl/AadhK
+   r4InZTrDhVn1VOpTVQs/YuceApsAb8t/4naQVQ0mTBxwW4gpTnpcLXk8E
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="363716112"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="470632316"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 04:17:56 -0700
+   d="scan'208";a="363716112"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 04:17:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="927102041"
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="1084736245"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="927102041"
+   d="scan'208";a="1084736245"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 10 Oct 2023 04:17:55 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 10 Oct 2023 04:17:58 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqAkI-0000JN-2l;
-	Tue, 10 Oct 2023 11:17:51 +0000
-Date: Tue, 10 Oct 2023 19:16:56 +0800
+	id 1qqAkL-0000JR-0G;
+	Tue, 10 Oct 2023 11:17:53 +0000
+Date: Tue, 10 Oct 2023 19:16:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: Olaf Hering <olaf@aepfle.de>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>
-Subject: arch/powerpc/include/asm/book3s/64/pgtable-64k.h:60:1: error: no
- return statement in function returning non-void
-Message-ID: <202310101939.1583QpNt-lkp@intel.com>
+Subject: fs/afs/dir.c:50:1: error: no return statement in function returning
+ non-void
+Message-ID: <202310101901.Q5SauZ72-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,64 +55,65 @@ tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git maste
 head:   94f6f0550c625fab1f373bb86a6669b45e9748b3
 commit: 172aad81a882443eefe1bd860c4eddc81b14dd5b kbuild: enforce -Werror=return-type
 date:   3 years ago
-config: powerpc64-randconfig-003-20231009 (https://download.01.org/0day-ci/archive/20231010/202310101939.1583QpNt-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310101939.1583QpNt-lkp@intel.com/reproduce)
+config: s390-randconfig-r033-20230512 (https://download.01.org/0day-ci/archive/20231010/202310101901.Q5SauZ72-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310101901.Q5SauZ72-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310101939.1583QpNt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310101901.Q5SauZ72-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/powerpc/include/asm/book3s/64/pgtable.h:302,
-                    from arch/powerpc/include/asm/book3s/64/mmu-hash.h:20,
-                    from arch/powerpc/include/asm/book3s/64/mmu.h:46,
-                    from arch/powerpc/include/asm/mmu.h:369,
-                    from arch/powerpc/include/asm/lppaca.h:46,
-                    from arch/powerpc/include/asm/paca.h:17,
-                    from arch/powerpc/include/asm/current.h:13,
-                    from include/linux/thread_info.h:21,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/powerpc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:51,
-                    from include/linux/ipc.h:5,
-                    from include/uapi/linux/sem.h:5,
-                    from include/linux/sem.h:5,
-                    from include/linux/compat.h:14,
-                    from arch/powerpc/kernel/asm-offsets.c:14:
-   arch/powerpc/include/asm/book3s/64/pgtable-64k.h: In function 'get_hugepd_cache_index':
->> arch/powerpc/include/asm/book3s/64/pgtable-64k.h:60:1: error: no return statement in function returning non-void [-Werror=return-type]
-      60 | }
+   fs/afs/dir.c: In function 'afs_dir_set_page_dirty':
+>> fs/afs/dir.c:50:1: error: no return statement in function returning non-void [-Werror=return-type]
+      50 | }
          | ^
    cc1: some warnings being treated as errors
-   make[2]: *** [scripts/Makefile.build:117: arch/powerpc/kernel/asm-offsets.s] Error 1 shuffle=1921690789
-   make[2]: Target '__build' not remade because of errors.
-   make[1]: *** [Makefile:1206: prepare0] Error 2 shuffle=1921690789
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:185: __sub-make] Error 2 shuffle=1921690789
-   make: Target 'prepare' not remade because of errors.
 
 
-vim +60 arch/powerpc/include/asm/book3s/64/pgtable-64k.h
+vim +50 fs/afs/dir.c
 
-a9252aaefe7e72 Aneesh Kumar K.V 2016-04-29  53  
-fadd03c615922d Aneesh Kumar K.V 2018-06-14  54  /*
-fadd03c615922d Aneesh Kumar K.V 2018-06-14  55   * This should never get called
-fadd03c615922d Aneesh Kumar K.V 2018-06-14  56   */
-fadd03c615922d Aneesh Kumar K.V 2018-06-14  57  static inline int get_hugepd_cache_index(int index)
-fadd03c615922d Aneesh Kumar K.V 2018-06-14  58  {
-fadd03c615922d Aneesh Kumar K.V 2018-06-14  59  	BUG();
-fadd03c615922d Aneesh Kumar K.V 2018-06-14 @60  }
-fadd03c615922d Aneesh Kumar K.V 2018-06-14  61  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  19  
+260a980317dac80 David Howells  2007-04-26  20  static struct dentry *afs_lookup(struct inode *dir, struct dentry *dentry,
+00cd8dd3bf95f2c Al Viro        2012-06-10  21  				 unsigned int flags);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  22  static int afs_dir_open(struct inode *inode, struct file *file);
+1bbae9f81860995 Al Viro        2013-05-22  23  static int afs_readdir(struct file *file, struct dir_context *ctx);
+0b728e1911cbe6e Al Viro        2012-06-10  24  static int afs_d_revalidate(struct dentry *dentry, unsigned int flags);
+fe15ce446beb3a3 Nick Piggin    2011-01-07  25  static int afs_d_delete(const struct dentry *dentry);
+79ddbfa500b37a9 David Howells  2019-04-25  26  static void afs_d_iput(struct dentry *dentry, struct inode *inode);
+5cf9dd55a0ec264 David Howells  2018-04-09  27  static int afs_lookup_one_filldir(struct dir_context *ctx, const char *name, int nlen,
+5cf9dd55a0ec264 David Howells  2018-04-09  28  				  loff_t fpos, u64 ino, unsigned dtype);
+ac7576f4b1da8c9 Miklos Szeredi 2014-10-30  29  static int afs_lookup_filldir(struct dir_context *ctx, const char *name, int nlen,
+afefdbb28a0a2af David Howells  2006-10-03  30  			      loff_t fpos, u64 ino, unsigned dtype);
+4acdaf27ebe2034 Al Viro        2011-07-26  31  static int afs_create(struct inode *dir, struct dentry *dentry, umode_t mode,
+ebfc3b49a7ac259 Al Viro        2012-06-10  32  		      bool excl);
+18bb1db3e7607e4 Al Viro        2011-07-26  33  static int afs_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode);
+260a980317dac80 David Howells  2007-04-26  34  static int afs_rmdir(struct inode *dir, struct dentry *dentry);
+260a980317dac80 David Howells  2007-04-26  35  static int afs_unlink(struct inode *dir, struct dentry *dentry);
+260a980317dac80 David Howells  2007-04-26  36  static int afs_link(struct dentry *from, struct inode *dir,
+260a980317dac80 David Howells  2007-04-26  37  		    struct dentry *dentry);
+260a980317dac80 David Howells  2007-04-26  38  static int afs_symlink(struct inode *dir, struct dentry *dentry,
+260a980317dac80 David Howells  2007-04-26  39  		       const char *content);
+260a980317dac80 David Howells  2007-04-26  40  static int afs_rename(struct inode *old_dir, struct dentry *old_dentry,
+1cd66c93ba8cdb8 Miklos Szeredi 2016-09-27  41  		      struct inode *new_dir, struct dentry *new_dentry,
+1cd66c93ba8cdb8 Miklos Szeredi 2016-09-27  42  		      unsigned int flags);
+f3ddee8dc4e2cff David Howells  2018-04-06  43  static int afs_dir_releasepage(struct page *page, gfp_t gfp_flags);
+f3ddee8dc4e2cff David Howells  2018-04-06  44  static void afs_dir_invalidatepage(struct page *page, unsigned int offset,
+f3ddee8dc4e2cff David Howells  2018-04-06  45  				   unsigned int length);
+f3ddee8dc4e2cff David Howells  2018-04-06  46  
+f3ddee8dc4e2cff David Howells  2018-04-06  47  static int afs_dir_set_page_dirty(struct page *page)
+f3ddee8dc4e2cff David Howells  2018-04-06  48  {
+f3ddee8dc4e2cff David Howells  2018-04-06  49  	BUG(); /* This should never happen. */
+f3ddee8dc4e2cff David Howells  2018-04-06 @50  }
+^1da177e4c3f415 Linus Torvalds 2005-04-16  51  
 
-:::::: The code at line 60 was first introduced by commit
-:::::: fadd03c615922d8521a2e76d4ba2335891cb2790 powerpc/mm/hash/4k: Free hugetlb page table caches correctly.
+:::::: The code at line 50 was first introduced by commit
+:::::: f3ddee8dc4e2cff37936afbeed2fdaa95b7fb7c6 afs: Fix directory handling
 
-:::::: TO: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+:::::: TO: David Howells <dhowells@redhat.com>
+:::::: CC: David Howells <dhowells@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
