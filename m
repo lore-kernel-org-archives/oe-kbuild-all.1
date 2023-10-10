@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E4C53D3A6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 13:10:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798AD1F170
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 13:20:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eHhjH66e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MW3Z1E8J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696943434; x=1728479434;
+  t=1696944041; x=1728480041;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xP8mi+ZbKVAOEATKctJSWmEGcwSNHyRd4m535IWziyI=;
-  b=eHhjH66e5a2H8ptFXPitR/0jlhex30OzlEcemPT++Qx7QPBf73t6Ynk1
-   0Xtn/Kd9NGY7GdSicr1QgPZwdqQnR2FWmKSA4VD7kbgR18xVK4PfhfKvj
-   N22FT5ytYiTQqz5oP1E2yJquSk8N0oQqZ3L471isAAylgQeVnzxy/Lvws
-   d4hRqLevszW/d2WXk9y4pvLWPYGJa8dFUyKNdg67I10liyPPwvYDSFWjB
-   HKqpPnjB7RECfV7dwLgl4EYPsoVjMW88tRSZNeWXDQLt/2yJqlUqAgLc4
-   pa0iJv09Ab/3E60UI7UsTgTDPm2eLyvyz0nMfM9Y3NDtmKAqMD6PfvCk3
+  bh=8DiVBYRs4lLDbXHdcReZto08Ei+6WBnHAJPQP9GzfHA=;
+  b=MW3Z1E8JFbd+oDRAS/8k8pwBR5Nsg1M1TUXx7VhH1gm8oag80miC7eTU
+   S0AOdqKUR9918AUxSdvPy1lS7ZACZmAgwltYl4V884Pt5iU8Su04VeQUM
+   yyETzM6TgGQ36E1vOx0mPXH7+uYEMOW9EWQBz7rWN1RIHJj+l3zqORxsQ
+   S+qB70BgsjSLFae5n4j6rni+6tqOrYw8mYFp3n6R5bLEawTi7uWHsCZsH
+   SbNHCr1ap+Hc1hXgOYTgLzyx/EdrdmySHmj1TSZZMXN38idLX9n9YdKwV
+   bx8c/dvn8PMtlqS/rixfx5MNNzmnI+XLAtShwH3IhMIJcNMnQdMLGjdl+
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="470651165"
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="450889453"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="470651165"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 06:08:25 -0700
+   d="scan'208";a="450889453"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 06:20:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="897186212"
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="703308459"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="897186212"
+   d="scan'208";a="703308459"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 10 Oct 2023 06:06:41 -0700
+  by orsmga003.jf.intel.com with ESMTP; 10 Oct 2023 06:20:38 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqCTE-0000SY-1E;
-	Tue, 10 Oct 2023 13:08:21 +0000
-Date: Tue, 10 Oct 2023 21:08:17 +0800
+	id 1qqCf5-0000TY-2m;
+	Tue, 10 Oct 2023 13:20:35 +0000
+Date: Tue, 10 Oct 2023 21:20:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: Max Filippov <jcmvbkbc@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jcmvbkbc-xtensa:xtensa-6.6-rc5-esp32 25/38] checkpatch: WARNING:
+Subject: [jcmvbkbc-xtensa:xtensa-6.6-rc5-esp32 31/38] checkpatch: WARNING:
  else is not generally useful after a break or return
-Message-ID: <202310102016.skOHo4vq-lkp@intel.com>
+Message-ID: <202310102146.0H5VQovC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,13 +52,13 @@ Content-Disposition: inline
 
 tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.6-rc5-esp32
 head:   224f43124c24326eb21de553984a58d8528a48d0
-commit: cc1d3771155dcc8243fdcad6f31585fa699f1f53 [25/38] esp_wifi: rearrange esp_get_packets
-reproduce: (https://download.01.org/0day-ci/archive/20231010/202310102016.skOHo4vq-lkp@intel.com/reproduce)
+commit: 8252afe4c361bc1fc7011825b45e3261d5ad0e84 [31/38] xtensa: add TRAX support
+reproduce: (https://download.01.org/0day-ci/archive/20231010/202310102146.0H5VQovC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310102016.skOHo4vq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310102146.0H5VQovC-lkp@intel.com/
 
 # many are suggestions rather than must-fix
 
@@ -1182,6 +1182,85 @@ WARNING:SUSPECT_CODE_INDENT: suspect code indent for conditional statements (8, 
 #43: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:750:
 +	while ((skb = adapter->if_ops->read(adapter)))
 +	       process_rx_packet(adapter, skb);
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#48: FILE: drivers/net/wireless/espressif/esp32-ng/esp_shmem.c:1:
++/*
+
+ERROR:OPEN_BRACE: open brace '{' following struct go on the same line
+#78: FILE: drivers/net/wireless/espressif/esp32-ng/esp_shmem.c:31:
++struct esp_wifi_shmem
++{
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#250: FILE: drivers/net/wireless/espressif/esp32-ng/esp_shmem.c:203:
++	if (esp_add_card(adapter)) {
++		pr_err("network iterface init failed\n");
++	}
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#731: FILE: arch/xtensa/platforms/esp32/include/platform/serial.h:1:
++// SPDX-License-Identifier: GPL-2.0-or-later
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#764: FILE: arch/xtensa/platforms/esp32/setup.c:20:
++#if 0
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#24: FILE: mm/nommu.c:1218:
++	if ((vma->vm_flags & VM_EXEC) && result >= 0x3d800000 && result < 0x3e000000) {
++		result += 0x43000000 - 0x3d800000;
++	}
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#47: FILE: arch/xtensa/include/asm/trax.h:1:
++#ifndef _XTENSA_TRAX_H
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#94: FILE: arch/xtensa/kernel/trax.c:1:
++#include <linux/errno.h>
+
+ERROR:SPACING: spaces required around that '>' (ctx:OxW)
+#205: FILE: arch/xtensa/kernel/trax.c:112:
++		for (i = 100; i --> 0; ) {
+ 		                  ^
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#360: FILE: arch/xtensa/kernel/trax.c:267:
++#if 0
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#551: FILE: arch/xtensa/kernel/trax.c:458:
++		if (j % 8 && n - i > 8 - j % 8) {
++			b |= ctx->packet_buffer[j / 8 + 1] << (8 - j % 8);
++		}
+
+WARNING:UNNECESSARY_ELSE: else is not generally useful after a break or return
+#602: FILE: arch/xtensa/kernel/trax.c:509:
++		return false;
++	} else {
+
+WARNING:SUSPECT_CODE_INDENT: suspect code indent for conditional statements (8, 12)
+#602: FILE: arch/xtensa/kernel/trax.c:509:
++	} else {
++	    if (ctx->msg_packet < trax_decode[ctx->msg.type].max_packets &&
+
+WARNING:SUSPECT_CODE_INDENT: suspect code indent for conditional statements (12, 20)
+#603: FILE: arch/xtensa/kernel/trax.c:510:
++	    if (ctx->msg_packet < trax_decode[ctx->msg.type].max_packets &&
+[...]
++		    ++ctx->msg_packet;
+
+WARNING:SUSPECT_CODE_INDENT: suspect code indent for conditional statements (12, 20)
+#607: FILE: arch/xtensa/kernel/trax.c:514:
++	    } else {
++		    ctx->msg.type = TRAX_MSG_TYPE_UNDEF;
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#912: FILE: arch/xtensa/kernel/trax.c:819:
++	if (pde) {
++		proc_set_size(pde, trax_state.memsz * 4);
++	}
 
 -- 
 0-DAY CI Kernel Test Service
