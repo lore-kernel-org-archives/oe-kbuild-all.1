@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F1218AED
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 11:17:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F8C19464
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 12:21:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WYv8fxWH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FPO4FdEZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696936679; x=1728472679;
+  t=1696940488; x=1728476488;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ym95X1Tjg2BaJQbZsvDu1zdQj0jihFatQU5SUoVgJXE=;
-  b=WYv8fxWHJZlQu4704C3kWBM3Jut3GPFIX0cRd9xHRbkSUh3i13qVjSo9
-   hXwOpcbnff6UyARUJEGgPccmDa0Py5/+HzEDfp4rHS4z07z216YwflmDI
-   lwxRkssJezN4eyTQJg1Y4Izsh3U3ZfliP+UZV7TgGIXT2iInWxjB/cuXE
-   uh/kQ9cYd8o0DhS5fZGpIxQjfvyso3lKYLfuNxNHa3H1Qz4wLBzBJK57N
-   widzFQIj0t9jCvvsdDk2Qungj0vQyEBwImGFRHFeKBH48ZUZbyl/AadhK
-   r4InZTrDhVn1VOpTVQs/YuceApsAb8t/4naQVQ0mTBxwW4gpTnpcLXk8E
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="363716112"
+  bh=PLMD3KV4fV+hMbeMp6bRXg3EEJciyyoeGIWdtQdVaSU=;
+  b=FPO4FdEZx6fCs5yF+qlkzeOGolz4iO1ekfpLISaycQVEVLzGEDZhh9DZ
+   k9XI9wxnIOYB6vP5MtbAWWd3aHiQ8c6+i0ZOhQaCtzPNUO6kC0IDuRtSa
+   cR69wEI7Nn+SB+LAMDiC9DxIVph2eJ6ugMG7ckaJQssAVQml6pSMvhR0y
+   DlheK16yluXuy1QCV8SjUofru3ih2v4cH2R4IcvHjt1mjRn67cz4oTkwr
+   n48Kx9bHW8ECbFt1emYG3Y99iVV3xOykea+j9Du0RKzHKww4gDPv6+4iO
+   JH8ap7NdMRQw2FFSN+HAr/GQ8p8QI73sJ1/eBEsscUXHr8gPrHjFUzWaV
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="364674773"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="363716112"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 04:17:58 -0700
+   d="scan'208";a="364674773"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 05:21:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="1084736245"
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="747056948"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="1084736245"
+   d="scan'208";a="747056948"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 10 Oct 2023 04:17:58 -0700
+  by orsmga007.jf.intel.com with ESMTP; 10 Oct 2023 05:21:04 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqAkL-0000JR-0G;
-	Tue, 10 Oct 2023 11:17:53 +0000
-Date: Tue, 10 Oct 2023 19:16:57 +0800
+	id 1qqBjS-0000OA-1L;
+	Tue, 10 Oct 2023 12:21:02 +0000
+Date: Tue, 10 Oct 2023 20:20:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Olaf Hering <olaf@aepfle.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: fs/afs/dir.c:50:1: error: no return statement in function returning
- non-void
-Message-ID: <202310101901.Q5SauZ72-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:upstream-f2fs-stable-linux-4.19.y 289/1172]
+ fs/crypto/hkdf.c:47:9: sparse: sparse: Variable length array is used.
+Message-ID: <202310102046.sXzDvJtJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,69 +50,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   94f6f0550c625fab1f373bb86a6669b45e9748b3
-commit: 172aad81a882443eefe1bd860c4eddc81b14dd5b kbuild: enforce -Werror=return-type
-date:   3 years ago
-config: s390-randconfig-r033-20230512 (https://download.01.org/0day-ci/archive/20231010/202310101901.Q5SauZ72-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310101901.Q5SauZ72-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common upstream-f2fs-stable-linux-4.19.y
+head:   b9aeb147225616494256fcf913c559afd4088a05
+commit: 6ad6af5912f72ad8c40baa072c3dabd321695dc1 [289/1172] fscrypt: add an HKDF-SHA512 implementation
+config: i386-randconfig-062-20231001 (https://download.01.org/0day-ci/archive/20231010/202310102046.sXzDvJtJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310102046.sXzDvJtJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310101901.Q5SauZ72-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310102046.sXzDvJtJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/crypto/hkdf.c:47:9: sparse: sparse: Variable length array is used.
+   fs/crypto/hkdf.c:120:9: sparse: sparse: Variable length array is used.
 
-   fs/afs/dir.c: In function 'afs_dir_set_page_dirty':
->> fs/afs/dir.c:50:1: error: no return statement in function returning non-void [-Werror=return-type]
-      50 | }
-         | ^
-   cc1: some warnings being treated as errors
+vim +47 fs/crypto/hkdf.c
 
-
-vim +50 fs/afs/dir.c
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  19  
-260a980317dac80 David Howells  2007-04-26  20  static struct dentry *afs_lookup(struct inode *dir, struct dentry *dentry,
-00cd8dd3bf95f2c Al Viro        2012-06-10  21  				 unsigned int flags);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  22  static int afs_dir_open(struct inode *inode, struct file *file);
-1bbae9f81860995 Al Viro        2013-05-22  23  static int afs_readdir(struct file *file, struct dir_context *ctx);
-0b728e1911cbe6e Al Viro        2012-06-10  24  static int afs_d_revalidate(struct dentry *dentry, unsigned int flags);
-fe15ce446beb3a3 Nick Piggin    2011-01-07  25  static int afs_d_delete(const struct dentry *dentry);
-79ddbfa500b37a9 David Howells  2019-04-25  26  static void afs_d_iput(struct dentry *dentry, struct inode *inode);
-5cf9dd55a0ec264 David Howells  2018-04-09  27  static int afs_lookup_one_filldir(struct dir_context *ctx, const char *name, int nlen,
-5cf9dd55a0ec264 David Howells  2018-04-09  28  				  loff_t fpos, u64 ino, unsigned dtype);
-ac7576f4b1da8c9 Miklos Szeredi 2014-10-30  29  static int afs_lookup_filldir(struct dir_context *ctx, const char *name, int nlen,
-afefdbb28a0a2af David Howells  2006-10-03  30  			      loff_t fpos, u64 ino, unsigned dtype);
-4acdaf27ebe2034 Al Viro        2011-07-26  31  static int afs_create(struct inode *dir, struct dentry *dentry, umode_t mode,
-ebfc3b49a7ac259 Al Viro        2012-06-10  32  		      bool excl);
-18bb1db3e7607e4 Al Viro        2011-07-26  33  static int afs_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode);
-260a980317dac80 David Howells  2007-04-26  34  static int afs_rmdir(struct inode *dir, struct dentry *dentry);
-260a980317dac80 David Howells  2007-04-26  35  static int afs_unlink(struct inode *dir, struct dentry *dentry);
-260a980317dac80 David Howells  2007-04-26  36  static int afs_link(struct dentry *from, struct inode *dir,
-260a980317dac80 David Howells  2007-04-26  37  		    struct dentry *dentry);
-260a980317dac80 David Howells  2007-04-26  38  static int afs_symlink(struct inode *dir, struct dentry *dentry,
-260a980317dac80 David Howells  2007-04-26  39  		       const char *content);
-260a980317dac80 David Howells  2007-04-26  40  static int afs_rename(struct inode *old_dir, struct dentry *old_dentry,
-1cd66c93ba8cdb8 Miklos Szeredi 2016-09-27  41  		      struct inode *new_dir, struct dentry *new_dentry,
-1cd66c93ba8cdb8 Miklos Szeredi 2016-09-27  42  		      unsigned int flags);
-f3ddee8dc4e2cff David Howells  2018-04-06  43  static int afs_dir_releasepage(struct page *page, gfp_t gfp_flags);
-f3ddee8dc4e2cff David Howells  2018-04-06  44  static void afs_dir_invalidatepage(struct page *page, unsigned int offset,
-f3ddee8dc4e2cff David Howells  2018-04-06  45  				   unsigned int length);
-f3ddee8dc4e2cff David Howells  2018-04-06  46  
-f3ddee8dc4e2cff David Howells  2018-04-06  47  static int afs_dir_set_page_dirty(struct page *page)
-f3ddee8dc4e2cff David Howells  2018-04-06  48  {
-f3ddee8dc4e2cff David Howells  2018-04-06  49  	BUG(); /* This should never happen. */
-f3ddee8dc4e2cff David Howells  2018-04-06 @50  }
-^1da177e4c3f415 Linus Torvalds 2005-04-16  51  
-
-:::::: The code at line 50 was first introduced by commit
-:::::: f3ddee8dc4e2cff37936afbeed2fdaa95b7fb7c6 afs: Fix directory handling
-
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: David Howells <dhowells@redhat.com>
+    25	
+    26	/*
+    27	 * HKDF consists of two steps:
+    28	 *
+    29	 * 1. HKDF-Extract: extract a pseudorandom key of length HKDF_HASHLEN bytes from
+    30	 *    the input keying material and optional salt.
+    31	 * 2. HKDF-Expand: expand the pseudorandom key into output keying material of
+    32	 *    any length, parameterized by an application-specific info string.
+    33	 *
+    34	 * HKDF-Extract can be skipped if the input is already a pseudorandom key of
+    35	 * length HKDF_HASHLEN bytes.  However, cipher modes other than AES-256-XTS take
+    36	 * shorter keys, and we don't want to force users of those modes to provide
+    37	 * unnecessarily long master keys.  Thus fscrypt still does HKDF-Extract.  No
+    38	 * salt is used, since fscrypt master keys should already be pseudorandom and
+    39	 * there's no way to persist a random salt per master key from kernel mode.
+    40	 */
+    41	
+    42	/* HKDF-Extract (RFC 5869 section 2.2), unsalted */
+    43	static int hkdf_extract(struct crypto_shash *hmac_tfm, const u8 *ikm,
+    44				unsigned int ikmlen, u8 prk[HKDF_HASHLEN])
+    45	{
+    46		static const u8 default_salt[HKDF_HASHLEN];
+  > 47		SHASH_DESC_ON_STACK(desc, hmac_tfm);
+    48		int err;
+    49	
+    50		err = crypto_shash_setkey(hmac_tfm, default_salt, HKDF_HASHLEN);
+    51		if (err)
+    52			return err;
+    53	
+    54		desc->tfm = hmac_tfm;
+    55		desc->flags = 0;
+    56		err = crypto_shash_digest(desc, ikm, ikmlen, prk);
+    57		shash_desc_zero(desc);
+    58		return err;
+    59	}
+    60	
 
 -- 
 0-DAY CI Kernel Test Service
