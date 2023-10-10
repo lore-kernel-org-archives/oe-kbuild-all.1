@@ -1,177 +1,247 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2A9EAF9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 09:18:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A9A1428F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 09:22:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cY320xts"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ljDfgEN6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696929535; x=1728465535;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=3XtdwgJEORNEicsB9UXn8d1xv0sJufJLbEvRiYLj3h8=;
-  b=cY320xtsm6Vxljva8JVyIHX5AakEAJ7NMV7fpAtHYB1ZzgB42QLJmrxn
-   1oHHvlk3VWKbw2TQuRzatGqyfh7THK8LDMbjQuWgmca8R9Rhc2nhYd4Jp
-   M7eLyfTIxZzbbXA0wnE9Kt7QyOPUJ+rl0xM+GmBPvoSDPnBfr/x3oTRaS
-   DP2Rya2cFXSgbSm0GSDGu873fBdMrjy3jkSbVSiQbE8agtNmcujc6dojw
-   BxApuNUHDpeIHEwZVhHqVZwX31+6uQ3ZhdB8ftSw70yp55jusSu7LabJt
-   Lj/YLeJfcEO5UtxHodrN+miUuP3uC125tFP1Zg7sp7DcBJdMCuQyWlVaF
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="450843805"
+  t=1696929754; x=1728465754;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YOulgYPt+9DF/7D1x0qPs8vFa4eGK7AtlzrbYpiCd9M=;
+  b=ljDfgEN6DZ+01vSgGvOwio7jnEpPwnvv0ZoPL6f70XGQvJH/c0jiPX+c
+   vNdXpQqw8xVyzF+sOuUJXlEs/b9ApBLDuS/8XV5zY1ADARLkGsVhEF3z8
+   pXadi5NwzsKqFXtbAaA+7Hj22QGd2SypDvqj//uCQSjlgDAM5iwIT+i9z
+   V/OHe4bN0vIGj+DTdpUjyppondNjeFSFYJhECOA4zYOFfOM5TqMnptQRd
+   htmqTBMAG5SVK6DnVhiv8MMQGkuit+d5tzDXlpt7NfpjMemZxMBQRvDrM
+   pHXyPTz0Qvlw3y5+uKqDQzReeXyhZOJgKaHbbXLXBHz0YG/PJAzLUeBrr
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="369414279"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="450843805"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 02:18:42 -0700
+   d="scan'208";a="369414279"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 02:22:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="869607193"
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="788512821"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="869607193"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Oct 2023 02:18:42 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Tue, 10 Oct 2023 02:18:41 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Tue, 10 Oct 2023 02:18:41 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Tue, 10 Oct 2023 02:18:41 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Tue, 10 Oct 2023 02:18:40 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BTTDo2DleqWbL5ztjuMkzds2gMHk9ZIBSHeSctFggLwb0maZ6vfBtOG8tWchtr5IOr9wIsghkjzq30jCVswaA9jGjgQEyCGcK+beRTIdw0XYpmCZZNS6IBx33tz4rcjnT7J6ESJt2yfM4oQq+Vum8POHclA2t+cZlPUxuAPgUuutNZ2FXAg76/FMsUe7WXcIQIaeN5WrMTtaVd8+56g/8vDtvjS43M5NOhAXRKz+WwXDxMCEs63wSigCkRTg7vc83LCygppttOcy0bN2Cd9sCizfFx8vfaNayHbiDrlAzGqpZhneqM3gLw1dV9ghRUNycBOcAEDztjcM77CnmGcFYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DZWyKMXWnUdC/bEg+yoC3OLxQvyAe84B3+BJgxHg9KQ=;
- b=BGGGEgUxvLAmTaqYKKI9wUV+iIzb7mmnP7lpYQ07ai5ZaRj3M5fyy8mf6mmGqT1OMDwqjDpSTWoIOPyqUse0rllTeNVtvdkIsuhs5riBDjqTPcNgaG2aIKq5wdhtRaufu4eekaH+5e8G/rdlaks4tF6ez4YWTPxykhXKMJcXAHVmRw3H4LjdW2EBFwckCDp6rRwIsIGFnMoDJeCvF1u0dZDchvD486k6KtiBPcLmea5NSpU34WP5pbqOrjtxNMPueDs5DgpMqMrP41XEjG42B7tVx7aB4KvWz2GEOpYRS4zkAuqLVI/6gI2NHYSacPYHmPpMBrwht0FYRGsIJikkQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
- by SN7PR11MB6897.namprd11.prod.outlook.com (2603:10b6:806:2a5::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.36; Tue, 10 Oct
- 2023 09:18:38 +0000
-Received: from BL0PR11MB2995.namprd11.prod.outlook.com
- ([fe80::f64:17c0:d3ab:196]) by BL0PR11MB2995.namprd11.prod.outlook.com
- ([fe80::f64:17c0:d3ab:196%6]) with mapi id 15.20.6863.032; Tue, 10 Oct 2023
- 09:18:38 +0000
-Date: Tue, 10 Oct 2023 17:18:30 +0800
-From: Philip Li <philip.li@intel.com>
-To: Yujie Liu <yujie.liu@intel.com>
-CC: LKP Developer <lkp-developer@eclists.intel.com>,
-	<oe-kbuild-all@lists.linux.dev>
-Subject: Re: [PATCH kernel-tests 4/4] lib/checkpatch.sh: set
- finally_email_out to send out report
-Message-ID: <ZSUW5rHnkFoJeLxl@rli9-mobl>
-References: <20231010085713.2187549-1-yujie.liu@intel.com>
- <20231010085713.2187549-4-yujie.liu@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20231010085713.2187549-4-yujie.liu@intel.com>
-X-ClientProxiedBy: SG2PR04CA0170.apcprd04.prod.outlook.com (2603:1096:4::32)
- To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
+   d="scan'208";a="788512821"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 10 Oct 2023 02:22:32 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qq8wg-0000EC-05;
+	Tue, 10 Oct 2023 09:22:30 +0000
+Date: Tue, 10 Oct 2023 17:21:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andreas Gruenbacher <agruenba@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, cluster-devel@redhat.com
+Subject: [gfs2:extents 14/14] fs/gfs2/extents.c:318: warning: Function
+ parameter or member 'ip' not described in 'find_extent'
+Message-ID: <202310101746.0Tygjkh3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR11MB2995:EE_|SN7PR11MB6897:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae83ec23-2052-4a96-9d6b-08dbc971e324
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WkkoIzH2ViTtDO3m1FxiDrN461Ovt7jIQqZsBO9IlNPcY6rq+2w3y52lVm3+5tp45tTPXqart2r81MzpdkvcGQ0M2cavaICFymYXwSOPGL9mi0hk02n/IVru37oChnWuxjtJWXjPBWvy9HSn9nh390v8fuNaIytDHN5mvMxWCTrve74DY/85lSvccvrhHKL8QTu/v8X3Q/12rT0b0o3asaZf/YYgtyvpd2hA7Gc3Te54IIA6wGIwvsGTM9l88+ylr+p0K6SFdP8u088XmbTHSpKHNxapMSuNiLKeroRQUnPgwTlgH/nWyj3r9rrx1Z+jxgrVzJSP1rMQX50KeVjExZc62BS0/heHgZPs9sCuQomfhy1NRbsZZlLD/iz1XoM/+ZL3gOQxG4BifiaFrS4DagkfLjXdS0+OKk4X7orZARpUR/MRCvH16r1Jr0iE4aOHSwV3Hhd+78FPg1fCSJemKGeM81ggKphcld+IUx/7q1OkDsEYFhQRs3ZCmx6+nIyei5kroIKDNPiQn73fjxZOwuPtbXxbLC3iidQpuAN+OrS58RbFNSbVSO1sqCTzZUVz
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(396003)(376002)(136003)(39860400002)(346002)(230922051799003)(186009)(451199024)(1800799009)(64100799003)(26005)(8936002)(6506007)(6512007)(8676002)(6666004)(478600001)(4326008)(83380400001)(2906002)(6862004)(66476007)(33716001)(66556008)(5660300002)(66946007)(6486002)(44832011)(316002)(966005)(6636002)(41300700001)(38100700002)(82960400001)(86362001)(9686003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tLIt+o2r/i74UoBA6dLpWufkcLgxNiBUwof5im41kuBOkNdh2SnnjdMyFk55?=
- =?us-ascii?Q?3p7cD7q4a0qMbILZT1pkx4xho6YSEYlEPCo42MjIQQOZQN6oO1gJWozeAKO8?=
- =?us-ascii?Q?Utzwc7CMxayZTgeZ4E+LEXx3HkhSP4cT18+xx7iADmcOnKOORKzCLxivX58r?=
- =?us-ascii?Q?NqXxd/oRbzcpetBCqejFgflGXQcDFG6CvLGSJsxyBMcbw2+6/yDZcOBLpC33?=
- =?us-ascii?Q?O9FIvs+NDdsuS1koxhq0WlEomLKHLiYVMNEiTFxrp5WTZMzfvYP5I4ysUM6i?=
- =?us-ascii?Q?vvXv9q7N3QXTzicx2KaSk2zr8Ry6ju7LsDUvxN3uJFFy3GQX6qoYNSCRqIEm?=
- =?us-ascii?Q?7RmDzqdX40ceCe+6wQjnc/kCnkKSeyGaWv0Zoc23aDEc6qP24L9Taic+h8Tm?=
- =?us-ascii?Q?/z1zRR+U8R62DA0L95Ed6NTId2ViE/JhG0UwewMkuJxkZGL2vi0yNhR4ywP8?=
- =?us-ascii?Q?TR9otdtUecYmGA4bQEaBJombxi+S0XlbpbLuWqis6+1fp8dF01dtmfOUk0GZ?=
- =?us-ascii?Q?w6sdV4g68cpCm/8NhzUJj1D/94Ze7DUdfOF3TXmyL6BL+V7tAOupUSlNbAmq?=
- =?us-ascii?Q?ArMCsCsqKpP/ahABYGHcF196SIkKp9BLhoQg24U6TeKUI3F9CuD0SME5vvEc?=
- =?us-ascii?Q?PbiVBuufXviIocSk4GuXq+EQeOab9T8skdvnDzoTeBYLnV+AhMLxXDHL62ou?=
- =?us-ascii?Q?p4dDEjkK2vuV+rZVMfJI7czlh8my6kjsayYtMVXX4DJytmIzQkh97bQ0sUM9?=
- =?us-ascii?Q?rWHCFBOXg8t8ZEmOFooFIUPlPcGwBSxPqU5mDtnuJ44ORrT2l+NHrml9AiHj?=
- =?us-ascii?Q?FMn7mbOsAN/HZt5t0Du1H7sUsXyPiiAYZ6DlvZoDrF1y+xshNk4AGZ4Vlye6?=
- =?us-ascii?Q?/dhpLhhWbMjsxmsH5wZPgJBvRgT6a1blmlTNH4HrFe/wCl9eX9mQduUV+kVd?=
- =?us-ascii?Q?EVkfC5pjJuFyC3fN6cJ4zhcgyKdB8184fFelXeXJmNB9Rk/WgWKCZv8QYzLW?=
- =?us-ascii?Q?LXxljD9uIkPJPAntwEY1+V36i5kgOc/Z4YXKddJlBK1/RlmsXgVZ7xk0HcVZ?=
- =?us-ascii?Q?A97qwCcvQZRlAYw7BsiD2CIkA9X5bIjJCMZSeP8C5ZJMLPUnHw6a5/ibRUnW?=
- =?us-ascii?Q?YOVVJzJPSB0Qe8TLVYYNPfwnv0QM7wBFP1KNESjCi3Sx7xf1wirrhf7ewOuk?=
- =?us-ascii?Q?u0oh1Km9vsEZXbHPAPLDH8+Ab9SJZTxEFpOVwQgBj4CPE/VrUY5TMv6Viw8S?=
- =?us-ascii?Q?Ju30F9VfRJ21ERq8cLgiWf6+Ucpg4q5wFXqP1OMiJ3D1odBfatjenVYb7mv2?=
- =?us-ascii?Q?L8pNH4ifzJPHSga21Sj7lz5ABAAoJnzxY5s3DKTVzK2r9DQJTAfJfvZA1Ohx?=
- =?us-ascii?Q?MlID9KP+i2d5ZcJYAtQ0EM/JJjQW3qFEVdP2afKLpgu8UwCUW7XuoraeCufa?=
- =?us-ascii?Q?WYVNF6qNHHWvW9dD7Fos6rADMYpCR2H7uVX9+5EBugKUJbFhacbnyBSIualL?=
- =?us-ascii?Q?QqChEJH1qct+1WYnza5eyq2qG1ilV1dB097NpHyfgJa4j2UiO4Qo0hWycUvv?=
- =?us-ascii?Q?Le6cnsge+QxMOkB8SB6ZNCBS+UJz1H3X2K9Ze9C5?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae83ec23-2052-4a96-9d6b-08dbc971e324
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 09:18:38.5542
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 30km5xYH/jMLvIqwzbdR3GLOnQxBozen32vAkP1G1DOVnoTNkJJVL756dLGEZ+y9VUsnnARwiRGuyrNBoqh2ag==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6897
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-applied 4
-On Tue, Oct 10, 2023 at 04:57:13PM +0800, Yujie Liu wrote:
-> == fix issue ==
-> 
-> Subject: [0day-trouble-maker:qa-system-test-checkpatch-5cb27d30fc3a281e830a2099d520b469e2b82008
->  1/1] checkpatch: WARNING: Symbolic permissions 'S_IRUGO | S_IWUSR' are not
->  preferred. Consider using octal permissions '0644'.
-> Message-ID: <202310101418.7qw45u1I-lkp@intel.com>
-> MIME-Version: 1.0
-> Content-Type: multipart/mixed; boundary="iI9uoeB3EPjtZ8AP"
-> Content-Disposition: inline
-> 
-> CONFUSED
-> BCC: lkp@intel.com
-> CC: oe-kbuild-all@lists.linux.dev
-> TO: Mariusz Bialonczyk <manio@skyboo.net>
-> 
-> Link: https://jira.devtools.intel.com/browse/ZDAYCI-18319
-> Signed-off-by: Yujie Liu <yujie.liu@intel.com>
-> ---
->  lib/checkpatch.sh | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/lib/checkpatch.sh b/lib/checkpatch.sh
-> index a2f3ad376..e490dfca3 100644
-> --- a/lib/checkpatch.sh
-> +++ b/lib/checkpatch.sh
-> @@ -44,6 +44,7 @@ email_checkpatch()
->  
->  	# MANUAL_CHECK=()
->  	# set_manual_check "checkpatch"
-> +	local finally_email_out=1
->  
->  	local report_message_id="$(date +'%Y%m%d%H%S').$(mktemp --dry-run XXXXXXXX)-lkp@intel.com"
->  
-> -- 
-> 2.34.1
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git extents
+head:   86474c69cac46872bd311318c02fb8e9e25abd10
+commit: 86474c69cac46872bd311318c02fb8e9e25abd10 [14/14] gfs2: Add some initial extents-based inode code
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231010/202310101746.0Tygjkh3-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310101746.0Tygjkh3-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310101746.0Tygjkh3-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> fs/gfs2/extents.c:318: warning: Function parameter or member 'ip' not described in 'find_extent'
+>> fs/gfs2/extents.c:318: warning: Function parameter or member 'block' not described in 'find_extent'
+>> fs/gfs2/extents.c:416: warning: Function parameter or member 'ip' not described in 'insert_extent'
+>> fs/gfs2/extents.c:416: warning: Function parameter or member 'path' not described in 'insert_extent'
+>> fs/gfs2/extents.c:416: warning: Function parameter or member 'new_ex' not described in 'insert_extent'
+
+
+vim +318 fs/gfs2/extents.c
+
+   306	
+   307	/**
+   308	 * find_extent - look up the path to an extent
+   309	 *
+   310	 * Upon success, a new path into the extent tree is returned.  In this path,
+   311	 * pc_ex of the last path component is NULL if the tree is empty, and
+   312	 * points to the closest extent starting before or at @block otherwise.
+   313	 *
+   314	 * Return: an ERR_PTR upon failure.
+   315	 */
+   316	static struct gfs2_extent_path *
+   317	find_extent(struct gfs2_inode *ip, u64 block)
+ > 318	{
+   319		struct gfs2_extent_path *path;
+   320		struct gfs2_extent_pc *pc, *last_pc;
+   321		u32 mtype = GFS2_METATYPE_XI;
+   322		int ret;
+   323	
+   324		if (!gfs2_has_extents(ip) || ip->i_height < 1)
+   325			return ERR_PTR(-EINVAL);
+   326	
+   327		path = kzalloc(sizeof(*path) + (ip->i_height - 1) * sizeof(*pc), GFP_NOFS);
+   328		if (!path)
+   329			return ERR_PTR(-ENOMEM);
+   330		path->p_height = ip->i_height;
+   331		pc = first_path_component(path);
+   332		last_pc = last_path_component(path);
+   333		ret = gfs2_meta_inode_buffer(ip, &pc->pc_bh);
+   334		if (ret)
+   335			goto fail;
+   336		ret = verify_inode(ip, pc->pc_bh);
+   337		if (ret)
+   338			goto fail;
+   339		pc->pc_eh = (void *)pc->pc_bh->b_data + sizeof(struct gfs2_dinode);
+   340		while (pc != last_pc) {
+   341			struct gfs2_extent_idx *ei;
+   342	
+   343			ei = search_index(pc->pc_eh, block);
+   344			if (!ei) {
+   345				ret = -EIO;
+   346				goto fail;
+   347			}
+   348			pc->pc_ei = ei;
+   349			pc--;
+   350			if (pc == last_pc)
+   351				mtype = GFS2_METATYPE_XL;
+   352			ret = gfs2_meta_buffer(ip, mtype, ei_leaf(ei), &pc->pc_bh);
+   353			if (ret)
+   354				goto fail;
+   355			ret = verify_block(mtype, pc->pc_bh);
+   356			if (ret)
+   357				goto fail;
+   358			pc->pc_eh = (void *)pc->pc_bh->b_data + sizeof(struct gfs2_meta_header);
+   359		}
+   360		last_pc->pc_ex = search_extent(last_pc->pc_eh, block);
+   361		return path;
+   362	
+   363	fail:
+   364		gfs2_free_ext_path(path);
+   365		return ERR_PTR(ret);
+   366	}
+   367	
+   368	static bool extent_includes(struct gfs2_extent *ex, u64 block)
+   369	{
+   370		u64 start = ex_start(ex);
+   371	
+   372		return block >= start && block < start + ex_len(ex);
+   373	}
+   374	
+   375	static bool
+   376	extents_can_be_merged(struct gfs2_extent *left, struct gfs2_extent *right)
+   377	{
+   378		u16 len = ex_len(left);
+   379	
+   380		if (ex_start(left) + len != ex_start(right))
+   381			return false;
+   382		if (ex_addr(left) + len != ex_addr(right))
+   383			return false;
+   384		if (left->ex_flags != right->ex_flags)
+   385			return false;
+   386		return true;
+   387	}
+   388	
+   389	static void
+   390	remove_extent_at(struct gfs2_extent *ex, struct gfs2_extent_header *eh)
+   391	{
+   392		struct gfs2_extent *last_ex = last_extent(eh);
+   393	
+   394		memmove(ex, ex + 1, (last_ex - ex) * sizeof(*ex));
+   395		memset(last_ex, 0, sizeof(*last_ex));
+   396		be16_add_cpu(&eh->eh_entries, -1);
+   397	}
+   398	
+   399	static void
+   400	insert_extent_at(struct gfs2_extent *ex, struct gfs2_extent_header *eh)
+   401	{
+   402		struct gfs2_extent *last_ex = last_extent(eh);
+   403	
+   404		memmove(ex + 1, ex, (last_ex - ex + 1) * sizeof(*ex));
+   405		be16_add_cpu(&eh->eh_entries, 1);
+   406	}
+   407	
+   408	/**
+   409	 * insert_extent - 
+   410	 *
+   411	 * non-overlapping
+   412	 */
+   413	static int
+   414	insert_extent(struct gfs2_inode *ip, struct gfs2_extent_path *path,
+   415		      struct gfs2_extent *new_ex)
+ > 416	{
+   417		struct gfs2_extent_pc *pc;
+   418		struct gfs2_extent *ex, *last_ex;
+   419		struct gfs2_extent_header *eh;
+   420	
+   421		if (path->p_height != 1)
+   422			return -EIO;
+   423	
+   424		pc = last_path_component(path);
+   425		eh = pc->pc_eh;
+   426		ex = pc->pc_ex;
+   427		last_ex = last_extent(eh);
+   428		if (!ex) {
+   429			/* empty tree */
+   430			BUG_ON(eh->eh_entries);
+   431			*first_extent(eh) = *new_ex;
+   432			eh->eh_entries = cpu_to_be16(1);
+   433			return 0;
+   434		}
+   435	
+   436		if (ex_start(ex) < ex_start(new_ex)) {
+   437			if (extents_can_be_merged(ex, new_ex)) {
+   438				/* append */
+   439				be16_add_cpu(&ex->ex_len, ex_len(new_ex));
+   440				goto merge_right;
+   441			}
+   442	
+   443			if (ex != last_ex && extents_can_be_merged(new_ex, ex + 1)) {
+   444				ex++;
+   445				goto prepend;
+   446			}
+   447			ex++;
+   448		} else {
+   449			if (extents_can_be_merged(new_ex, ex))
+   450				goto prepend;
+   451		}
+   452	
+   453		/* insert */
+   454		if (leaf_needs_splitting(path))
+   455			return -ENOSPC;
+   456		insert_extent_at(ex, eh);
+   457		*ex = *new_ex;
+   458		return 0;
+   459	
+   460	prepend:
+   461		ex->ex_start = new_ex->ex_start;
+   462		ex->ex_addr = new_ex->ex_addr;
+   463		be16_add_cpu(&ex->ex_len, ex_len(new_ex));
+   464		return 0;
+   465	
+   466	merge_right:
+   467		if (ex < last_ex && extents_can_be_merged(ex, ex + 1)) {
+   468			be16_add_cpu(&ex->ex_len, ex_len(ex + 1));
+   469			remove_extent_at(ex + 1, eh);
+   470		}
+   471		return 0;
+   472	}
+   473	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
