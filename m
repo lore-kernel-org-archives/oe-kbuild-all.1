@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20B3C450CD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61FF1F170
 	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 13:20:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/4lxa5R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TVvMV9hT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1696944046; x=1728480046;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=q8lTGwXdwmdpI8ZvK9WotnZSmmWVi91Vg+KvOvKDBIY=;
-  b=f/4lxa5RcMzzcP2l6bR6/IZTAAWuETtzPZ5iKghCh6fr7sMvpFOpVWc1
-   nXmuTJ7NcC0Kmm9baoIV06v77LrKP+9Koo96oDf64FtZRUONOPcFi6c7e
-   +eU/lIXAJ7gZCraojMjMcLhy3KlKKxeoJAgga35s0hy0NVffPcpNTxFyE
-   FHm92+ecIm52fOrhrRO1pqHEVDoNcxIN47DvOYl3fhwKdRmtbLw0yFa8n
-   e6z9jDvwLv9x6OouHN/jGYo4wo3qPwJz26+/RITKGRIO6RxZrCYr21ziu
-   26fn1gt9lvB2jyhWvVfS768h8HYOZ8PyPHeBQ9q9hA7FiqO4yS4UIhWkj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="450889458"
+  bh=csuRHstghlBcc+n/gOtX4Nq1HyKy8tpWei+MEwYcn0k=;
+  b=TVvMV9hTPqC8W2ecUZ5xTj7ocCq5xp712ciQ8pxahbnuBOrZs8khVUpP
+   KWSjmb0QL0P4xxO4hg5hyzyAL/7whtxG+XuK8hn+Hw9X0RRz2jPaQ0lX3
+   iMxnmTmacA8+bT9r5yoCZAk+4Wj+JYizjfy/AEdR5g9KIpHLZbD20wJHe
+   JOYOs3KQfXFl+TWxfLKdp2WJ95Gse5BkCuJKAuAtJTZFUbfNMVJvx0QGv
+   o1xvq/8rvZKrfMUWv4NTncP2imlnI7xryq4CFDV3ZwxYhzNNOUWP9H6O1
+   W1yarO65dNIaYGRatL9VSskjGIZJOmKfJ7yPcaFhpIyydCutwLTjkCGi0
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="450889455"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="450889458"
+   d="scan'208";a="450889455"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
   by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 06:20:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="703308464"
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="703308460"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="703308464"
+   d="scan'208";a="703308460"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
   by orsmga003.jf.intel.com with ESMTP; 10 Oct 2023 06:20:38 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqCf5-0000TS-2Z;
+	id 1qqCf5-0000TW-2h;
 	Tue, 10 Oct 2023 13:20:35 +0000
-Date: Tue, 10 Oct 2023 21:20:30 +0800
+Date: Tue, 10 Oct 2023 21:20:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: Max Filippov <jcmvbkbc@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jcmvbkbc-xtensa:xtensa-6.6-rc5-esp32 36/38] checkpatch: WARNING:
+Subject: [jcmvbkbc-xtensa:xtensa-6.6-rc5-esp32 33/38] checkpatch: WARNING:
  else is not generally useful after a break or return
-Message-ID: <202310102128.srdsQmfr-lkp@intel.com>
+Message-ID: <202310102100.bMPV1aSF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,19 +50,15 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Max,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
 tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.6-rc5-esp32
 head:   224f43124c24326eb21de553984a58d8528a48d0
-commit: 67b2cd0136dbc91f23d6e7852c019f4cd910e14a [36/38] xtensa: enable suspend support
-reproduce: (https://download.01.org/0day-ci/archive/20231010/202310102128.srdsQmfr-lkp@intel.com/reproduce)
+commit: fb7809bdb7754d0034ab2295d32e592c1c2b2e2d [33/38] WIP: perf: support mmapping event on noMMU
+reproduce: (https://download.01.org/0day-ci/archive/20231010/202310102100.bMPV1aSF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310102128.srdsQmfr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310102100.bMPV1aSF-lkp@intel.com/
 
 # many are suggestions rather than must-fix
 
