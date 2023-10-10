@@ -1,48 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC09F8F53
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 04:32:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35EFC7F0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 05:26:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JqqntiMR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LW9C8HjD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696912334; x=1728448334;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/w9BAwn3NCmh8N8MeNbabDNvXk01lr1cGtcZEmY4tG4=;
-  b=JqqntiMRkzVLfJOQ7cGQdTrFET18XjpPq6M1t7nTI7daaOe/iJKcr55p
-   rHOriZfw9wsXaanJw/H1dziNYNqQxwZjd8L49uPtd0xifbPKU6nxIu1D3
-   S70JzKO/T+edGPFjqHcN3MdH3QAaH+3uzb39xbGg5255N6P7BzBrNEjik
-   f+iXcW2RnFPgKckjXQTYXFQce4bRvdYCkfk6Uh8Ew553uF9j9TPa35ZiT
-   OJ7+durNR2JQ/LuTggfvxRWLRt9lkDDFtin6Otf0HQ83CzRCL0zclG1MN
-   2+WfTn3ITcGbMaVCuF6wF7bc3S2Gvf6Q5HxHXtnDNCwsH+ylT3BnnLX2A
+  t=1696915594; x=1728451594;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cy5DXnIpf0tHWEMaeypfLBIJZzEqeGHRGqT4Hxrw+5w=;
+  b=LW9C8HjDbK717vNUlVEMcl/2qAFyd6dXegUDxh4Sz1PZ7WsaRT7L+XFs
+   DPnrR/p2Oj3+Ufho1vFT63I7nkkSdAXyBOgJvS3FGzKbxG53tIKWu3gJl
+   sUuu2PTnzQ5r7JL6cqVs5vTAD/Et1ZlsLrcvryadxgkqNB4KCtu1qrb+U
+   6O05dA8zHZdDtwtliTzcYbyIzD2dEfwhlftgLEnTZsqR32tOaqN56me/O
+   7xiDcshIfGj21hZXxgYuAYQMKou3DpAxA8bL2nd2QVhD9kkyrpBIf5jlw
+   WlD1vIN5QqwY/F8bZRywftRzPKK2iyJh8sb/fBjEomuDVv97g+ZEJgMZ8
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="415305591"
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="374657177"
 X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; 
-   d="scan'208";a="415305591"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 21:32:13 -0700
+   d="scan'208";a="374657177"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 22:26:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="823629696"
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="897030343"
 X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; 
-   d="scan'208";a="823629696"
-Received: from lkp-server02.sh.intel.com (HELO 4ed589823ba4) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 09 Oct 2023 21:32:12 -0700
-Received: from kbuild by 4ed589823ba4 with local (Exim 4.96)
+   d="scan'208";a="897030343"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 09 Oct 2023 22:24:51 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qq4Pi-000176-0q;
-	Tue, 10 Oct 2023 04:32:10 +0000
-Date: Tue, 10 Oct 2023 12:31:32 +0800
+	id 1qq5GI-00001L-0s;
+	Tue, 10 Oct 2023 05:26:30 +0000
+Date: Tue, 10 Oct 2023 13:26:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 1/2] binfmt_misc, fork, proc: Introduce flag to
- expose the interpreted binary in procfs
-Message-ID: <202310101213.5jXkSFZh-lkp@intel.com>
-References: <20230907204256.3700336-2-gpiccoli@igalia.com>
+To: Meng Wei <wei.meng@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
+	Chang Ying <ying.chang@intel.com>
+Subject: [intel-lts:4.19/android_t 3113/30000]
+ drivers/media/media-device.c:928:57: sparse: sparse: incorrect type in
+ initializer (different base types)
+Message-ID: <202310101352.qzVNiBar-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,82 +51,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230907204256.3700336-2-gpiccoli@igalia.com>
 
-Hi Guilherme,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on pcmoore-audit/next linus/master v6.6-rc5]
-[cannot apply to kees/for-next/execve next-20231009]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Guilherme-G-Piccoli/binfmt_misc-fork-proc-Introduce-flag-to-expose-the-interpreted-binary-in-procfs/20230908-044529
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230907204256.3700336-2-gpiccoli%40igalia.com
-patch subject: [RFC PATCH 1/2] binfmt_misc, fork, proc: Introduce flag to expose the interpreted binary in procfs
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231010/202310101213.5jXkSFZh-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310101213.5jXkSFZh-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
+head:   247bc655e03e4ac3632b21081ca56b813a644dcf
+commit: cbe0196f2e61288e2916821cbeb3190f1c09da7e [3113/30000] media: Add request API
+config: x86_64-randconfig-122-20230910 (https://download.01.org/0day-ci/archive/20231010/202310101352.qzVNiBar-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310101352.qzVNiBar-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310101213.5jXkSFZh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310101352.qzVNiBar-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/media/media-device.c:928:57: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int poll_events @@     got restricted __poll_t @@
+   drivers/media/media-device.c:928:57: sparse:     expected unsigned int poll_events
+   drivers/media/media-device.c:928:57: sparse:     got restricted __poll_t
+>> drivers/media/media-device.c:1010:17: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t ( *poll )( ... ) @@     got unsigned int ( * )( ... ) @@
+   drivers/media/media-device.c:1010:17: sparse:     expected restricted __poll_t ( *poll )( ... )
+   drivers/media/media-device.c:1010:17: sparse:     got unsigned int ( * )( ... )
+   drivers/media/media-device.c:848:23: warning: cast between incompatible function types from 'long int (*)(struct media_device *, void *)' to 'long int (*)(struct media_device *, struct file *, void *)' [-Wcast-function-type]
+     848 |                 .fn = (long (*)(struct media_device *,                  9-      |                       ^
+   drivers/media/media-device.c:856:9: note: in expansion of macro 'MEDIA_IOC_ARG'
+     856 |         MEDIA_IOC_ARG(__cmd, func, fl, copy_arg_from_user, copy_arg_to_user)
+         |         ^~~~~~~~~~~~~
+   drivers/media/media-device.c:872:9: note: in expansion of macro 'MEDIA_IOC'
+     872 |         MEDIA_IOC(G_TOPOLOGY, media_device_get_topology, MEDIA_IOC_FL_GRAPH_MUTEX),
+         |         ^~~~~~~~~
+   drivers/media/media-device.c:848:23: warning: cast between incompatible function types from 'int (*)(struct media_device *, struct file *, struct media_event *)' to 'long int (*)(struct media_device *, struct file *, void *)' [-Wcast-function-type]
+     848 |                 .fn = (long (*)(struct media_device *,                  18-      |                       ^
+   drivers/media/media-device.c:856:9: note: in expansion of macro 'MEDIA_IOC_ARG'
+     856 |         MEDIA_IOC_ARG(__cmd, func, fl, copy_arg_from_user, copy_arg_to_user)
+         |         ^~~~~~~~~~~~~
+   drivers/media/media-device.c:874:9: note: in expansion of macro 'MEDIA_IOC'
+     874 |         MEDIA_IOC(DQEVENT, media_device_dqevent, 0),
+         |         ^~~~~~~~~
 
->> kernel/fork.c:641: warning: Function parameter or member 'mm' not described in '__get_mm_exe_or_interp_file'
->> kernel/fork.c:641: warning: Function parameter or member 'prefer_interp' not described in '__get_mm_exe_or_interp_file'
-   kernel/fork.c:1445: warning: Function parameter or member 'mm' not described in 'set_mm_exe_file'
-   kernel/fork.c:1445: warning: Function parameter or member 'new_exe_file' not described in 'set_mm_exe_file'
->> kernel/fork.c:1445: warning: Function parameter or member 'new_interpreted_file' not described in 'set_mm_exe_file'
-   kernel/fork.c:1498: warning: Function parameter or member 'mm' not described in 'replace_mm_exe_file'
-   kernel/fork.c:1498: warning: Function parameter or member 'new_exe_file' not described in 'replace_mm_exe_file'
-   kernel/fork.c:1551: warning: Function parameter or member 'task' not described in 'get_task_exe_file'
->> kernel/fork.c:1551: warning: Function parameter or member 'prefer_interpreted' not described in 'get_task_exe_file'
-   kernel/fork.c:1581: warning: Function parameter or member 'task' not described in 'get_task_mm'
-   kernel/fork.c:2156: warning: bad line: 
-   kernel/fork.c:2177: warning: Function parameter or member 'ret' not described in '__pidfd_prepare'
-   kernel/fork.c:2177: warning: Excess function parameter 'pidfd' description in '__pidfd_prepare'
-   kernel/fork.c:2226: warning: Function parameter or member 'ret' not described in 'pidfd_prepare'
-   kernel/fork.c:2226: warning: Excess function parameter 'pidfd' description in 'pidfd_prepare'
-   kernel/fork.c:3235: warning: expecting prototype for clone3(). Prototype was for sys_clone3() instead
+vim +928 drivers/media/media-device.c
 
-
-vim +641 kernel/fork.c
-
-^1da177e4c3f41 Linus Torvalds       2005-04-16  630  
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  631  /**
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  632   * __get_mm_exe_or_interp_file - helper that acquires a reference to the mm's
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  633   * executable file, or if prefer_interp is set, go with mm->interpreted_file
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  634   * instead.
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  635   *
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  636   * Returns %NULL if mm has no associated executable/interpreted file.
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  637   * User must release file via fput().
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  638   */
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  639  static inline struct file *__get_mm_exe_or_interp_file(struct mm_struct *mm,
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  640  						       bool prefer_interp)
-fe69d560b5bd9e David Hildenbrand    2021-04-23 @641  {
-fe69d560b5bd9e David Hildenbrand    2021-04-23  642  	struct file *exe_file;
-fe69d560b5bd9e David Hildenbrand    2021-04-23  643  
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  644  	rcu_read_lock();
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  645  
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  646  	if (unlikely(prefer_interp))
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  647  		exe_file = rcu_dereference(mm->interpreted_file);
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  648  	else
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  649  		exe_file = rcu_dereference(mm->exe_file);
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  650  
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  651  	if (exe_file && !get_file_rcu(exe_file))
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  652  		exe_file = NULL;
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  653  	rcu_read_unlock();
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  654  	return exe_file;
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  655  }
-b7ff0c42f1987b Guilherme G. Piccoli 2023-09-07  656  
+   922	
+   923	static unsigned int media_device_poll(struct file *filp,
+   924					      struct poll_table_struct *wait)
+   925	{
+   926		struct media_device_fh *fh = media_device_fh(filp);
+   927		struct media_device *mdev = fh->fh.devnode->media_dev;
+ > 928		unsigned int poll_events = poll_requested_events(wait);
+   929		int ret = 0;
+   930	
+   931		if (poll_events & (POLLIN | POLLOUT))
+   932			return POLLERR;
+   933	
+   934		if (poll_events & POLLPRI) {
+   935			unsigned long flags;
+   936			bool empty;
+   937	
+   938			spin_lock_irqsave(&mdev->req_lock, flags);
+   939			empty = list_empty(&fh->kevents.head);
+   940			spin_unlock_irqrestore(&mdev->req_lock, flags);
+   941	
+   942			if (empty)
+   943				poll_wait(filp, &fh->kevents.wait, wait);
+   944			else
+   945				ret |= POLLPRI;
+   946		}
+   947	
+   948		return ret;
+   949	}
+   950	
+   951	#ifdef CONFIG_COMPAT
+   952	
+   953	struct media_links_enum32 {
+   954		__u32 entity;
+   955		compat_uptr_t pads; /* struct media_pad_desc * */
+   956		compat_uptr_t links; /* struct media_link_desc * */
+   957		__u32 reserved[4];
+   958	};
+   959	
+   960	static long media_device_enum_links32(struct media_device *mdev,
+   961							struct file *filp,
+   962							struct media_links_enum32 __user *ulinks)
+   963	{
+   964		struct media_links_enum links;
+   965		compat_uptr_t pads_ptr, links_ptr;
+   966	
+   967		memset(&links, 0, sizeof(links));
+   968	
+   969		if (get_user(links.entity, &ulinks->entity)
+   970		    || get_user(pads_ptr, &ulinks->pads)
+   971		    || get_user(links_ptr, &ulinks->links))
+   972			return -EFAULT;
+   973	
+   974		links.pads = compat_ptr(pads_ptr);
+   975		links.links = compat_ptr(links_ptr);
+   976	
+   977		return media_device_enum_links(mdev, filp, &links);
+   978	}
+   979	
+   980	#define MEDIA_IOC_ENUM_LINKS32		_IOWR('|', 0x02, struct media_links_enum32)
+   981	
+   982	static long media_device_compat_ioctl(struct file *filp, unsigned int cmd,
+   983					      unsigned long arg)
+   984	{
+   985		struct media_devnode *devnode = media_devnode_data(filp);
+   986		struct media_device *dev = devnode->media_dev;
+   987		long ret;
+   988	
+   989		switch (cmd) {
+   990		case MEDIA_IOC_ENUM_LINKS32:
+   991			mutex_lock(&dev->graph_mutex);
+   992			ret = media_device_enum_links32(dev,
+   993					filp,
+   994					(struct media_links_enum32 __user *)arg);
+   995			mutex_unlock(&dev->graph_mutex);
+   996			break;
+   997	
+   998		default:
+   999			return media_device_ioctl(filp, cmd, arg);
+  1000		}
+  1001	
+  1002		return ret;
+  1003	}
+  1004	#endif /* CONFIG_COMPAT */
+  1005	
+  1006	static const struct media_file_operations media_device_fops = {
+  1007		.owner = THIS_MODULE,
+  1008		.open = media_device_open,
+  1009		.ioctl = media_device_ioctl,
+> 1010		.poll = media_device_poll,
+  1011	#ifdef CONFIG_COMPAT
+  1012		.compat_ioctl = media_device_compat_ioctl,
+  1013	#endif /* CONFIG_COMPAT */
+  1014		.release = media_device_close,
+  1015	};
+  1016	
 
 -- 
 0-DAY CI Kernel Test Service
