@@ -1,55 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C53E27442;
-	Tue, 10 Oct 2023 15:44:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2712744B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 16:07:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E3aXiYMF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OmPZjT/e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696952649; x=1728488649;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mQdAMHJSD9QeDBBfFFi7Ka2I3dLUue9yP6ms4QhM3Vc=;
-  b=E3aXiYMFMfgZMCN9LOOqwKYXoGuWvrYFH0WN1gnNzxz8s4Q8DpRJKPRj
-   dpsjjtsfn8rmZcpGiN73NFm93DfmocBh/trHY66yC4N4sgG9og1rINQ1y
-   ceGmNlx0Hp/C/c+6CrpDjjqbYqofMKGNv1Nx8CgsCfnnUA3zWdQGkKGey
-   CXPmp8awdvlIPQ2a/s7psNkbTeW1HVA8n4Nd+JCJRqD54yKNH8Ulk+Y47
-   BRKkbNvIRjj6xlL3eQS+Qhh5Zjtmt9HrENZl/4bEOb2cXxaLnOYyVQXe5
-   i2+GstNxVrqtMU+3vlfapPzTydDqbd44r/Sp3cQErtc06bRBDmyoCunuk
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="381685670"
+  t=1696954046; x=1728490046;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9Hn3QKVxb4sctB5kVFZ9VNmukxEB4LZt3lftgaj2lEk=;
+  b=OmPZjT/egBmG3g8UKEsU20H9zdDYnTMYqP1alIS/pvK1gCCwaaztl4n6
+   UrJLZ8F+G83PoLNL5CjtVDdeNOgLN8TSWzuldHlyJhPSPF0tR2cqVgnUh
+   21ICbpz32YxeznxIAjuwXDdOBe2TCXV/oBc0p2uLAUu3x0RWi0a4PH5NQ
+   IBxw9HcItDNsIDPylHYjuUubQ/Pu8reWjSOcD7uIUtNDAFqms4eZWgyII
+   H8kqKAqtOrEW2Ufq9/KdOi7FmrFoFR4hfCLbwqe5Wujg41yVHgsWogvUQ
+   SyHNq3XKh1XOPhdZlQPnd1uQn6PXg4Xh0ZPUsXmC3P5rPHYCAsAaqRYUC
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="374783184"
 X-IronPort-AV: E=Sophos;i="6.03,213,1694761200"; 
-   d="scan'208";a="381685670"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 08:44:08 -0700
+   d="scan'208";a="374783184"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 09:05:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="819284307"
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="869752929"
 X-IronPort-AV: E=Sophos;i="6.03,213,1694761200"; 
-   d="scan'208";a="819284307"
+   d="scan'208";a="869752929"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 10 Oct 2023 08:44:05 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 10 Oct 2023 09:05:35 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqEtP-0000gE-0o;
-	Tue, 10 Oct 2023 15:43:31 +0000
-Date: Tue, 10 Oct 2023 23:42:50 +0800
+	id 1qqFEj-0000jE-0e;
+	Tue, 10 Oct 2023 16:05:33 +0000
+Date: Wed, 11 Oct 2023 00:04:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krishna chaitanya chundru <quic_krichai@quicinc.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>
+To: Juergen Gross <jgross@suse.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, quic_vbadigan@quicinc.com,
-	quic_ramkri@quicinc.com, quic_nitegupt@quicinc.com,
-	quic_skananth@quicinc.com, quic_parass@quicinc.com,
-	Krishna chaitanya chundru <quic_krichai@quicinc.com>
-Subject: Re: [PATCH] bus: mhi: host: Add tracing support
-Message-ID: <202310102355.6SEa9YSi-lkp@intel.com>
-References: <20231005-ftrace_support-v1-1-23a2f394fa49@quicinc.com>
+	"Borislav Petkov (AMD)" <bp@alien8.de>
+Subject: arch/x86/kernel/cpu/mtrr/generic.c:259: warning: Function parameter
+ or member 'var' not described in 'mtrr_overwrite_state'
+Message-ID: <202310102349.gDBgWNwG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,237 +50,237 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231005-ftrace_support-v1-1-23a2f394fa49@quicinc.com>
 
-Hi Krishna,
+Hi Juergen,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 3006adf3be79cde4d14b1800b963b82b6e5572e0]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-chaitanya-chundru/bus-mhi-host-Add-tracing-support/20231005-231430
-base:   3006adf3be79cde4d14b1800b963b82b6e5572e0
-patch link:    https://lore.kernel.org/r/20231005-ftrace_support-v1-1-23a2f394fa49%40quicinc.com
-patch subject: [PATCH] bus: mhi: host: Add tracing support
-config: i386-randconfig-062-20231010 (https://download.01.org/0day-ci/archive/20231010/202310102355.6SEa9YSi-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310102355.6SEa9YSi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   94f6f0550c625fab1f373bb86a6669b45e9748b3
+commit: 29055dc74287467bd7a053d60b4afe753832960d x86/mtrr: Support setting MTRR state for software defined MTRRs
+date:   4 months ago
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231010/202310102349.gDBgWNwG-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310102349.gDBgWNwG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310102355.6SEa9YSi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310102349.gDBgWNwG-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/bus/mhi/host/main.c:835:56: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long [usertype] ptr @@     got restricted __le64 [usertype] ptr @@
-   drivers/bus/mhi/host/main.c:835:56: sparse:     expected unsigned long long [usertype] ptr
-   drivers/bus/mhi/host/main.c:835:56: sparse:     got restricted __le64 [usertype] ptr
->> drivers/bus/mhi/host/main.c:835:78: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected int dword0 @@     got restricted __le32 @@
-   drivers/bus/mhi/host/main.c:835:78: sparse:     expected int dword0
-   drivers/bus/mhi/host/main.c:835:78: sparse:     got restricted __le32
->> drivers/bus/mhi/host/main.c:836:63: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected int dword1 @@     got restricted __le32 @@
-   drivers/bus/mhi/host/main.c:836:63: sparse:     expected int dword1
-   drivers/bus/mhi/host/main.c:836:63: sparse:     got restricted __le32
-   drivers/bus/mhi/host/main.c:1004:85: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned long long [usertype] ptr @@     got restricted __le64 [usertype] ptr @@
-   drivers/bus/mhi/host/main.c:1004:85: sparse:     expected unsigned long long [usertype] ptr
-   drivers/bus/mhi/host/main.c:1004:85: sparse:     got restricted __le64 [usertype] ptr
-   drivers/bus/mhi/host/main.c:1005:66: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int dword0 @@     got restricted __le32 @@
-   drivers/bus/mhi/host/main.c:1005:66: sparse:     expected int dword0
-   drivers/bus/mhi/host/main.c:1005:66: sparse:     got restricted __le32
-   drivers/bus/mhi/host/main.c:1005:86: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected int dword1 @@     got restricted __le32 @@
-   drivers/bus/mhi/host/main.c:1005:86: sparse:     expected int dword1
-   drivers/bus/mhi/host/main.c:1005:86: sparse:     got restricted __le32
->> drivers/bus/mhi/host/main.c:1246:34: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned long long [usertype] tre_ptr @@     got restricted __le64 [usertype] ptr @@
-   drivers/bus/mhi/host/main.c:1246:34: sparse:     expected unsigned long long [usertype] tre_ptr
-   drivers/bus/mhi/host/main.c:1246:34: sparse:     got restricted __le64 [usertype] ptr
-   drivers/bus/mhi/host/main.c:1246:55: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected int dword0 @@     got restricted __le32 @@
-   drivers/bus/mhi/host/main.c:1246:55: sparse:     expected int dword0
-   drivers/bus/mhi/host/main.c:1246:55: sparse:     got restricted __le32
-   drivers/bus/mhi/host/main.c:1246:74: sparse: sparse: incorrect type in argument 6 (different base types) @@     expected int dword1 @@     got restricted __le32 @@
-   drivers/bus/mhi/host/main.c:1246:74: sparse:     expected int dword1
-   drivers/bus/mhi/host/main.c:1246:74: sparse:     got restricted __le32
->> drivers/bus/mhi/host/main.c:834:80: sparse: sparse: non size-preserving pointer to integer cast
-   drivers/bus/mhi/host/main.c:1245:75: sparse: sparse: non size-preserving pointer to integer cast
+All warnings (new ones prefixed by >>):
 
-vim +835 drivers/bus/mhi/host/main.c
+   arch/x86/kernel/cpu/mtrr/generic.c:125: warning: Function parameter or member 'start' not described in 'mtrr_type_lookup_fixed'
+   arch/x86/kernel/cpu/mtrr/generic.c:125: warning: Function parameter or member 'end' not described in 'mtrr_type_lookup_fixed'
+   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'start' not described in 'mtrr_type_lookup_variable'
+   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'end' not described in 'mtrr_type_lookup_variable'
+   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'partial_end' not described in 'mtrr_type_lookup_variable'
+   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'repeat' not described in 'mtrr_type_lookup_variable'
+   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'uniform' not described in 'mtrr_type_lookup_variable'
+>> arch/x86/kernel/cpu/mtrr/generic.c:259: warning: Function parameter or member 'var' not described in 'mtrr_overwrite_state'
+>> arch/x86/kernel/cpu/mtrr/generic.c:259: warning: Function parameter or member 'num_var' not described in 'mtrr_overwrite_state'
+>> arch/x86/kernel/cpu/mtrr/generic.c:259: warning: Function parameter or member 'def_type' not described in 'mtrr_overwrite_state'
+   arch/x86/kernel/cpu/mtrr/generic.c:316: warning: Function parameter or member 'start' not described in 'mtrr_type_lookup'
+   arch/x86/kernel/cpu/mtrr/generic.c:316: warning: Function parameter or member 'end' not described in 'mtrr_type_lookup'
+   arch/x86/kernel/cpu/mtrr/generic.c:316: warning: Function parameter or member 'uniform' not described in 'mtrr_type_lookup'
 
-   799	
-   800	int mhi_process_ctrl_ev_ring(struct mhi_controller *mhi_cntrl,
-   801				     struct mhi_event *mhi_event,
-   802				     u32 event_quota)
-   803	{
-   804		struct mhi_ring_element *dev_rp, *local_rp;
-   805		struct mhi_ring *ev_ring = &mhi_event->ring;
-   806		struct mhi_event_ctxt *er_ctxt =
-   807			&mhi_cntrl->mhi_ctxt->er_ctxt[mhi_event->er_index];
-   808		struct mhi_chan *mhi_chan;
-   809		struct device *dev = &mhi_cntrl->mhi_dev->dev;
-   810		u32 chan;
-   811		int count = 0;
-   812		dma_addr_t ptr = le64_to_cpu(er_ctxt->rp);
-   813	
-   814		/*
-   815		 * This is a quick check to avoid unnecessary event processing
-   816		 * in case MHI is already in error state, but it's still possible
-   817		 * to transition to error state while processing events
-   818		 */
-   819		if (unlikely(MHI_EVENT_ACCESS_INVALID(mhi_cntrl->pm_state)))
-   820			return -EIO;
-   821	
-   822		if (!is_valid_ring_ptr(ev_ring, ptr)) {
-   823			dev_err(&mhi_cntrl->mhi_dev->dev,
-   824				"Event ring rp points outside of the event ring\n");
-   825			return -EIO;
-   826		}
-   827	
-   828		dev_rp = mhi_to_virtual(ev_ring, ptr);
-   829		local_rp = ev_ring->rp;
-   830	
-   831		while (dev_rp != local_rp) {
-   832			enum mhi_pkt_type type = MHI_TRE_GET_EV_TYPE(local_rp);
-   833	
- > 834			trace_mhi_process_ctrl_ev_ring(mhi_cntrl->mhi_dev->name, (u64)(local_rp),
- > 835						       local_rp->ptr, local_rp->dword[0],
- > 836						       local_rp->dword[1],
-   837						       mhi_state_str(MHI_TRE_GET_EV_STATE(local_rp)));
-   838	
-   839			switch (type) {
-   840			case MHI_PKT_TYPE_BW_REQ_EVENT:
-   841			{
-   842				struct mhi_link_info *link_info;
-   843	
-   844				link_info = &mhi_cntrl->mhi_link_info;
-   845				write_lock_irq(&mhi_cntrl->pm_lock);
-   846				link_info->target_link_speed =
-   847					MHI_TRE_GET_EV_LINKSPEED(local_rp);
-   848				link_info->target_link_width =
-   849					MHI_TRE_GET_EV_LINKWIDTH(local_rp);
-   850				write_unlock_irq(&mhi_cntrl->pm_lock);
-   851				dev_dbg(dev, "Received BW_REQ event\n");
-   852				mhi_cntrl->status_cb(mhi_cntrl, MHI_CB_BW_REQ);
-   853				break;
-   854			}
-   855			case MHI_PKT_TYPE_STATE_CHANGE_EVENT:
-   856			{
-   857				enum mhi_state new_state;
-   858	
-   859				new_state = MHI_TRE_GET_EV_STATE(local_rp);
-   860	
-   861				dev_dbg(dev, "State change event to state: %s\n",
-   862					mhi_state_str(new_state));
-   863	
-   864				switch (new_state) {
-   865				case MHI_STATE_M0:
-   866					mhi_pm_m0_transition(mhi_cntrl);
-   867					break;
-   868				case MHI_STATE_M1:
-   869					mhi_pm_m1_transition(mhi_cntrl);
-   870					break;
-   871				case MHI_STATE_M3:
-   872					mhi_pm_m3_transition(mhi_cntrl);
-   873					break;
-   874				case MHI_STATE_SYS_ERR:
-   875				{
-   876					enum mhi_pm_state pm_state;
-   877	
-   878					dev_dbg(dev, "System error detected\n");
-   879					write_lock_irq(&mhi_cntrl->pm_lock);
-   880					pm_state = mhi_tryset_pm_state(mhi_cntrl,
-   881								MHI_PM_SYS_ERR_DETECT);
-   882					write_unlock_irq(&mhi_cntrl->pm_lock);
-   883					if (pm_state == MHI_PM_SYS_ERR_DETECT)
-   884						mhi_pm_sys_err_handler(mhi_cntrl);
-   885					break;
-   886				}
-   887				default:
-   888					dev_err(dev, "Invalid state: %s\n",
-   889						mhi_state_str(new_state));
-   890				}
-   891	
-   892				break;
-   893			}
-   894			case MHI_PKT_TYPE_CMD_COMPLETION_EVENT:
-   895				mhi_process_cmd_completion(mhi_cntrl, local_rp);
-   896				break;
-   897			case MHI_PKT_TYPE_EE_EVENT:
-   898			{
-   899				enum dev_st_transition st = DEV_ST_TRANSITION_MAX;
-   900				enum mhi_ee_type event = MHI_TRE_GET_EV_EXECENV(local_rp);
-   901	
-   902				dev_dbg(dev, "Received EE event: %s\n",
-   903					TO_MHI_EXEC_STR(event));
-   904				switch (event) {
-   905				case MHI_EE_SBL:
-   906					st = DEV_ST_TRANSITION_SBL;
-   907					break;
-   908				case MHI_EE_WFW:
-   909				case MHI_EE_AMSS:
-   910					st = DEV_ST_TRANSITION_MISSION_MODE;
-   911					break;
-   912				case MHI_EE_FP:
-   913					st = DEV_ST_TRANSITION_FP;
-   914					break;
-   915				case MHI_EE_RDDM:
-   916					mhi_cntrl->status_cb(mhi_cntrl, MHI_CB_EE_RDDM);
-   917					write_lock_irq(&mhi_cntrl->pm_lock);
-   918					mhi_cntrl->ee = event;
-   919					write_unlock_irq(&mhi_cntrl->pm_lock);
-   920					wake_up_all(&mhi_cntrl->state_event);
-   921					break;
-   922				default:
-   923					dev_err(dev,
-   924						"Unhandled EE event: 0x%x\n", type);
-   925				}
-   926				if (st != DEV_ST_TRANSITION_MAX)
-   927					mhi_queue_state_transition(mhi_cntrl, st);
-   928	
-   929				break;
-   930			}
-   931			case MHI_PKT_TYPE_TX_EVENT:
-   932				chan = MHI_TRE_GET_EV_CHID(local_rp);
-   933	
-   934				WARN_ON(chan >= mhi_cntrl->max_chan);
-   935	
-   936				/*
-   937				 * Only process the event ring elements whose channel
-   938				 * ID is within the maximum supported range.
-   939				 */
-   940				if (chan < mhi_cntrl->max_chan) {
-   941					mhi_chan = &mhi_cntrl->mhi_chan[chan];
-   942					if (!mhi_chan->configured)
-   943						break;
-   944					parse_xfer_event(mhi_cntrl, local_rp, mhi_chan);
-   945				}
-   946				break;
-   947			default:
-   948				dev_err(dev, "Unhandled event type: %d\n", type);
-   949				break;
-   950			}
-   951	
-   952			mhi_recycle_ev_ring_element(mhi_cntrl, ev_ring);
-   953			local_rp = ev_ring->rp;
-   954	
-   955			ptr = le64_to_cpu(er_ctxt->rp);
-   956			if (!is_valid_ring_ptr(ev_ring, ptr)) {
-   957				dev_err(&mhi_cntrl->mhi_dev->dev,
-   958					"Event ring rp points outside of the event ring\n");
-   959				return -EIO;
-   960			}
-   961	
-   962			dev_rp = mhi_to_virtual(ev_ring, ptr);
-   963			count++;
-   964		}
-   965	
-   966		read_lock_bh(&mhi_cntrl->pm_lock);
-   967	
-   968		/* Ring EV DB only if there is any pending element to process */
-   969		if (likely(MHI_DB_ACCESS_VALID(mhi_cntrl)) && count)
-   970			mhi_ring_er_db(mhi_event);
-   971		read_unlock_bh(&mhi_cntrl->pm_lock);
-   972	
-   973		return count;
-   974	}
-   975	
+
+vim +259 arch/x86/kernel/cpu/mtrr/generic.c
+
+   109	
+   110	/**
+   111	 * mtrr_type_lookup_fixed - look up memory type in MTRR fixed entries
+   112	 *
+   113	 * Return the MTRR fixed memory type of 'start'.
+   114	 *
+   115	 * MTRR fixed entries are divided into the following ways:
+   116	 *  0x00000 - 0x7FFFF : This range is divided into eight 64KB sub-ranges
+   117	 *  0x80000 - 0xBFFFF : This range is divided into sixteen 16KB sub-ranges
+   118	 *  0xC0000 - 0xFFFFF : This range is divided into sixty-four 4KB sub-ranges
+   119	 *
+   120	 * Return Values:
+   121	 * MTRR_TYPE_(type)  - Matched memory type
+   122	 * MTRR_TYPE_INVALID - Unmatched
+   123	 */
+   124	static u8 mtrr_type_lookup_fixed(u64 start, u64 end)
+ > 125	{
+   126		int idx;
+   127	
+   128		if (start >= 0x100000)
+   129			return MTRR_TYPE_INVALID;
+   130	
+   131		/* 0x0 - 0x7FFFF */
+   132		if (start < 0x80000) {
+   133			idx = 0;
+   134			idx += (start >> 16);
+   135			return mtrr_state.fixed_ranges[idx];
+   136		/* 0x80000 - 0xBFFFF */
+   137		} else if (start < 0xC0000) {
+   138			idx = 1 * 8;
+   139			idx += ((start - 0x80000) >> 14);
+   140			return mtrr_state.fixed_ranges[idx];
+   141		}
+   142	
+   143		/* 0xC0000 - 0xFFFFF */
+   144		idx = 3 * 8;
+   145		idx += ((start - 0xC0000) >> 12);
+   146		return mtrr_state.fixed_ranges[idx];
+   147	}
+   148	
+   149	/**
+   150	 * mtrr_type_lookup_variable - look up memory type in MTRR variable entries
+   151	 *
+   152	 * Return Value:
+   153	 * MTRR_TYPE_(type) - Matched memory type or default memory type (unmatched)
+   154	 *
+   155	 * Output Arguments:
+   156	 * repeat - Set to 1 when [start:end] spanned across MTRR range and type
+   157	 *	    returned corresponds only to [start:*partial_end].  Caller has
+   158	 *	    to lookup again for [*partial_end:end].
+   159	 *
+   160	 * uniform - Set to 1 when an MTRR covers the region uniformly, i.e. the
+   161	 *	     region is fully covered by a single MTRR entry or the default
+   162	 *	     type.
+   163	 */
+   164	static u8 mtrr_type_lookup_variable(u64 start, u64 end, u64 *partial_end,
+   165					    int *repeat, u8 *uniform)
+   166	{
+   167		int i;
+   168		u64 base, mask;
+   169		u8 prev_match, curr_match;
+   170	
+   171		*repeat = 0;
+   172		*uniform = 1;
+   173	
+   174		prev_match = MTRR_TYPE_INVALID;
+   175		for (i = 0; i < num_var_ranges; ++i) {
+   176			unsigned short start_state, end_state, inclusive;
+   177	
+   178			if (!(mtrr_state.var_ranges[i].mask_lo & MTRR_PHYSMASK_V))
+   179				continue;
+   180	
+   181			base = (((u64)mtrr_state.var_ranges[i].base_hi) << 32) +
+   182			       (mtrr_state.var_ranges[i].base_lo & PAGE_MASK);
+   183			mask = (((u64)mtrr_state.var_ranges[i].mask_hi) << 32) +
+   184			       (mtrr_state.var_ranges[i].mask_lo & PAGE_MASK);
+   185	
+   186			start_state = ((start & mask) == (base & mask));
+   187			end_state = ((end & mask) == (base & mask));
+   188			inclusive = ((start < base) && (end > base));
+   189	
+   190			if ((start_state != end_state) || inclusive) {
+   191				/*
+   192				 * We have start:end spanning across an MTRR.
+   193				 * We split the region into either
+   194				 *
+   195				 * - start_state:1
+   196				 * (start:mtrr_end)(mtrr_end:end)
+   197				 * - end_state:1
+   198				 * (start:mtrr_start)(mtrr_start:end)
+   199				 * - inclusive:1
+   200				 * (start:mtrr_start)(mtrr_start:mtrr_end)(mtrr_end:end)
+   201				 *
+   202				 * depending on kind of overlap.
+   203				 *
+   204				 * Return the type of the first region and a pointer
+   205				 * to the start of next region so that caller will be
+   206				 * advised to lookup again after having adjusted start
+   207				 * and end.
+   208				 *
+   209				 * Note: This way we handle overlaps with multiple
+   210				 * entries and the default type properly.
+   211				 */
+   212				if (start_state)
+   213					*partial_end = base + get_mtrr_size(mask);
+   214				else
+   215					*partial_end = base;
+   216	
+   217				if (unlikely(*partial_end <= start)) {
+   218					WARN_ON(1);
+   219					*partial_end = start + PAGE_SIZE;
+   220				}
+   221	
+   222				end = *partial_end - 1; /* end is inclusive */
+   223				*repeat = 1;
+   224				*uniform = 0;
+   225			}
+   226	
+   227			if ((start & mask) != (base & mask))
+   228				continue;
+   229	
+   230			curr_match = mtrr_state.var_ranges[i].base_lo & MTRR_PHYSBASE_TYPE;
+   231			if (prev_match == MTRR_TYPE_INVALID) {
+   232				prev_match = curr_match;
+   233				continue;
+   234			}
+   235	
+   236			*uniform = 0;
+   237			if (check_type_overlap(&prev_match, &curr_match))
+   238				return curr_match;
+   239		}
+   240	
+   241		if (prev_match != MTRR_TYPE_INVALID)
+   242			return prev_match;
+   243	
+   244		return mtrr_state.def_type;
+   245	}
+   246	
+   247	/**
+   248	 * mtrr_overwrite_state - set static MTRR state
+   249	 *
+   250	 * Used to set MTRR state via different means (e.g. with data obtained from
+   251	 * a hypervisor).
+   252	 * Is allowed only for special cases when running virtualized. Must be called
+   253	 * from the x86_init.hyper.init_platform() hook.  It can be called only once.
+   254	 * The MTRR state can't be changed afterwards.  To ensure that, X86_FEATURE_MTRR
+   255	 * is cleared.
+   256	 */
+   257	void mtrr_overwrite_state(struct mtrr_var_range *var, unsigned int num_var,
+   258				  mtrr_type def_type)
+ > 259	{
+   260		unsigned int i;
+   261	
+   262		/* Only allowed to be called once before mtrr_bp_init(). */
+   263		if (WARN_ON_ONCE(mtrr_state_set))
+   264			return;
+   265	
+   266		/* Only allowed when running virtualized. */
+   267		if (!cpu_feature_enabled(X86_FEATURE_HYPERVISOR))
+   268			return;
+   269	
+   270		/*
+   271		 * Only allowed for special virtualization cases:
+   272		 * - when running as Hyper-V, SEV-SNP guest using vTOM
+   273		 * - when running as Xen PV guest
+   274		 * - when running as SEV-SNP or TDX guest to avoid unnecessary
+   275		 *   VMM communication/Virtualization exceptions (#VC, #VE)
+   276		 */
+   277		if (!cc_platform_has(CC_ATTR_GUEST_SEV_SNP) &&
+   278		    !hv_is_isolation_supported() &&
+   279		    !cpu_feature_enabled(X86_FEATURE_XENPV) &&
+   280		    !cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
+   281			return;
+   282	
+   283		/* Disable MTRR in order to disable MTRR modifications. */
+   284		setup_clear_cpu_cap(X86_FEATURE_MTRR);
+   285	
+   286		if (var) {
+   287			if (num_var > MTRR_MAX_VAR_RANGES) {
+   288				pr_warn("Trying to overwrite MTRR state with %u variable entries\n",
+   289					num_var);
+   290				num_var = MTRR_MAX_VAR_RANGES;
+   291			}
+   292			for (i = 0; i < num_var; i++)
+   293				mtrr_state.var_ranges[i] = var[i];
+   294			num_var_ranges = num_var;
+   295		}
+   296	
+   297		mtrr_state.def_type = def_type;
+   298		mtrr_state.enabled |= MTRR_STATE_MTRR_ENABLED;
+   299	
+   300		mtrr_state_set = 1;
+   301	}
+   302	
 
 -- 
 0-DAY CI Kernel Test Service
