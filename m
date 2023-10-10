@@ -1,170 +1,1275 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E3447376
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 13:27:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C25D47363
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 13:31:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VCJj3Ul4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eXHLYau5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696944461; x=1728480461;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=YHBpDPUtbSCj60siWyyYsXxGeBoWvu1774yk8vm9fRk=;
-  b=VCJj3Ul4AcQBXec8ZSVanmQYFGCIkFDzpl1DXh/ZVRY+jyblHzsRor5X
-   Is+KBaFHodZmzVrExSlPTUwhhAXWF4xBVUnv573NansqWAYIobwUMWXRc
-   9pz48MF8mXbfHOYA8NYSZb4MOLoHtFHO3eoAwhTDpt5Qp8DC6QxxRmiNO
-   h+wT23cTRqNI6bMgI14/Km3E6yLSGC6nUnr14EDYDw2tlhbkA+1qVE0LS
-   XPS0fxZ3VXGVQAycbYmvehYRiFZczlOlmYDiblwAzFHqreT94sgCw8lLR
-   19rvFDiCjvLo2JkcP4PM5PM7AzbSmB2lyMRS3jXf6mCVSJ7uOs1IngEMT
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="387228752"
+  t=1696944678; x=1728480678;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=i8t4Cm04VovliFQsY4CAPztcs8jLklCJf2eMhal3OwI=;
+  b=eXHLYau5/c/rkBzvTom/Z5DdmtSKdPyhL7Jgw5ePKcgnTlRAVz3m9vpQ
+   kFSdBGtRm79eFiIb+12sM9WP+JKqg95tyc5aiCHOhHsAZloTGzVngSWjm
+   GFQJxrIUKlUr8nhITCRbQVxqhJxP6F823WZ6ZP5Fp5EC+FdwJzaA9Ax6R
+   b/I1DB2o+VRt4Otb5SHb/KHL4DnAPSyJ2idOm8bIPv/M825m1ePVB+pJE
+   KZ9eTDqdvR/bM0mmJhtqsuX0KAj/JsVc2GFEOf/VlJPHBp2uNJjTkacL5
+   Goz1LSuwH6PgEsm1hR8b4b2cK/rLpJJx8JgglIaSuz+H6W4w3+WFcRBcs
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="450891782"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="387228752"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 06:27:40 -0700
+   d="scan'208";a="450891782"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 06:31:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="877222562"
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="703310715"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="877222562"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by orsmga004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Oct 2023 06:27:40 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Tue, 10 Oct 2023 06:27:39 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Tue, 10 Oct 2023 06:27:39 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Tue, 10 Oct 2023 06:27:39 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Tue, 10 Oct 2023 06:27:38 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SVqqdOZT0x9idAWRftdv+eR7SPt0K/jws7VExRrS3tm1Zie/N3wPDh1FIVoPjq0jdzqcvmqauSNGrshHCpSan8dhzm4QmxMcl1bW1kWFPxf6YRjx2awQxdnnJZN8b3ZruyI47fOj6WvTfkLJxoL8DEuST6gYSzKyDhlK1DpdcOLZmBU834zdTP2+dPbRrouuPPz48DCgHpOO0bCBogLCVeMzngnSWI+RF2MYFipwnoBshmUSdD0uWhNWf5K7iKXDFq5GZMJWF2k9SJEzhWn8EJsYJvsosN1J7gzfLqW/cvkP2qdPwdiWNfF8CX3orVIotZXmY1Py/+A4rm3fSzEBRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y/XcMHxR/di2sq0aEA8D2/5kQQGPcg7mAac3sp9NWuQ=;
- b=cIrkZ9ZRkbP5xNvk6whU+bAobudI/01NkbO4yIKRzRzRgsdPd0M0uVVVj8f6B+7BIDdxwvgy5Iygng/9s0y+aFJ3AKMOGvB2lBo1182P3z5lwCaNsbMvDEAk3mmp2z4J6RqVM87mTMBxBuFXPsXPlJ7Ur/STWj0rvgd8GUfihCA6BpnGLpuBUgZtq7fgpjSLOjkoT7c78Rag0rTKjGuozDP7Vu3R02cHCORHMpwocvOMLhdN2o/qXA0dhhPuijwuxFVoimNWPDnddB7aFa6MZWdcnQRWszEzHxIe98xXLo2KF3AoDhxR1uMcZfiGfsQPvvqkaeYiaBXLtDMsOOmnrQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by LV3PR11MB8508.namprd11.prod.outlook.com (2603:10b6:408:1b4::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.37; Tue, 10 Oct
- 2023 13:27:37 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::d35:d16b:4ee3:77e5]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::d35:d16b:4ee3:77e5%7]) with mapi id 15.20.6863.032; Tue, 10 Oct 2023
- 13:27:36 +0000
-Date: Tue, 10 Oct 2023 21:22:44 +0800
-From: Yujie Liu <yujie.liu@intel.com>
+   d="scan'208";a="703310715"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 10 Oct 2023 06:31:15 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qqCpM-0000US-35;
+	Tue, 10 Oct 2023 13:31:12 +0000
+Date: Tue, 10 Oct 2023 21:31:07 +0800
+From: kernel test robot <lkp@intel.com>
 To: Max Filippov <jcmvbkbc@gmail.com>
-CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [jcmvbkbc-xtensa:xtensa-6.6-rc5-esp32 14/38] checkpatch:
- WARNING: else is not generally useful after a break or return
-Message-ID: <ZSVQJEEc8X7Kk1gd@yujie-X299>
-References: <202310102025.poxDODsH-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <202310102025.poxDODsH-lkp@intel.com>
-X-ClientProxiedBy: SI2PR01CA0053.apcprd01.prod.exchangelabs.com
- (2603:1096:4:193::7) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jcmvbkbc-xtensa:xtensa-6.6-rc5-esp32 37/38] checkpatch: WARNING:
+ else is not generally useful after a break or return
+Message-ID: <202310102138.nlKWHhEo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|LV3PR11MB8508:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0095319c-8d49-445d-6557-08dbc994ab1e
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XD7mdDOGuMUcOfm0r8SnlkZnj8XBNK0GAlvTMAjnIXPrraNbiF38j/c0W0rOPkXX4D36tMlI0fD23MqwCRVOCaF/pkgeqZL3R22kKfvMfDkAvS5CHbRhlIGm/8R+20woQIHQ69kUa78LYtUBxet0s1CSVppFLWPxeFtKaNkG9e8rqQiy+VUixzjztaN6vwbqJuzlslkfnaHYg3f6SiSniEf1V2ejLswXbNdMS0xG/IK9gTApC3ongNNW3tkVf+J55KaOHX4b8lbiHnUi9zpuDhrszXboEBZdXn2pBwpZ6cV7iqMo3L3BSb0sa65W5SeX5NUcdrO9C7uB1wIvEkcecjSuwsUMhT1OEWyhO7wq1TLysQRqqweIzP0s6zafvUn9TMeZ1tZ8pn4cQVZqFzSq+Qrp+QSYo2I6IxcGFnWtkYzAfqAOU8MU7d0yG9NBnlK+6sZlxOIuj6s9zMKApISAml5PnEcVWML+j72qB/NGwzbGurxGwic+pHpCb+uGorAd4jxAiMFQLOcn2N8/Ro28wKSQyz4qtUUdp+KGhtC9zfzqHpmgRtdeN+Ricj1faQdj/fpCJXBFFHz+5wRftMZEvcAPiohFG6Yv3jNsUELWWeTmKLBW8/JUC5gNHCFRyRHdMSe06qodTGyLZ38X/92/kA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(346002)(136003)(366004)(396003)(376002)(39860400002)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(6506007)(9686003)(6666004)(6512007)(38100700002)(86362001)(82960400001)(316002)(83380400001)(2906002)(966005)(6486002)(478600001)(41300700001)(44832011)(8676002)(66946007)(4326008)(8936002)(26005)(5660300002)(66476007)(66556008)(33716001)(6916009)(121003001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QrwSLIIsADdC59kwEuOqYjSlyrXbc+0DhfeLzv9PBokn4buiHeSf1D4zbDCF?=
- =?us-ascii?Q?A+Q0EcDGX4t4p9z6CQP6TtQLTydJFS3T2tk2pvZsE6SaaIF5KiIeHq6CDu8k?=
- =?us-ascii?Q?LZR+wwiBJAt+5OhmItxK1Gw/SARdsFK7jjxRlUZXWRrIAODw2v+eMDRM0gRA?=
- =?us-ascii?Q?CyrbBIOSTawdQIpjMvce/QKDuP+I5pyDKL3XhDDe5gwu9U+G9dHauiZdQzoH?=
- =?us-ascii?Q?ID8JS/FAiwedXF49kLGH8UFsCIB0Zv863DKkBwT3v7qQ1la0Z7segOmADWZ9?=
- =?us-ascii?Q?hswxTcL/xWryJRcOEzTYLAqvKuIQKoXIugaj/K6JC3T6pKwi27rYt8jHpUKO?=
- =?us-ascii?Q?M9XnghCOj8L9c5qClXsA04CSs3oKlkmCSnz3L6gW7kd+wlVGulOjq+yvTMLA?=
- =?us-ascii?Q?vqCrrN9YI7my96zR80yAmiLDWPizUO8mKnDJwNkxde49Ylkp9g8limYCR6F0?=
- =?us-ascii?Q?c9S8EiwMhi7dnLdstspgtAa1LzyHR4tE1gi8JGVscGQyb/diUVYB+jMDoS1Y?=
- =?us-ascii?Q?ivLZUH5y+7AC2JeTZYw5AMVpToxxIrPZTpCa08HuuMSM85ac7PckbQ4rxzZc?=
- =?us-ascii?Q?XT9POUIuhKzzf6fF9KBx4FJh7WekbTaxuRBCrInJFSapn6meOE+166yE2spu?=
- =?us-ascii?Q?AxBjuWGSae0k4UEKwTGYiiqFi9sOfgB6w7ALHZSv2BSYPNz46YG8zpo8m5li?=
- =?us-ascii?Q?olYMRVxoSG0YzntQvbouUoV3jJnemkn1ZN0j84Tp99yKYRVPpNXPwf1Xb02W?=
- =?us-ascii?Q?Ccu7u0JjCNXl8au9kG3x1oUUiyo7bkBrL/OO2OW5jopmtsbAeftLsIRJ45bP?=
- =?us-ascii?Q?eetV88LZcwd+f6s+TzSzlSKQ1Df75VOy7x6iJqLsIuhdJ/Ft7HfxnIqqcR1l?=
- =?us-ascii?Q?vk7+nIh0wYYg8PiF5LbcDQj3e8uvhNRDQcxQLl0LbV6/x+DgwLsSJoDVOrvh?=
- =?us-ascii?Q?qZ+x0sYAlSckHLVEskDpmRjf0+V6DppZ6szsHqqm+in6Z4JS6tb7tKMDzDOO?=
- =?us-ascii?Q?YRzrv1vIYbbQ5+Jixwx1QL3ZMNKlL1syhiFGHE2Vstptm8Qr/yCsJziArGOa?=
- =?us-ascii?Q?v5gRGiByjSavMtzeyOKHHsKYKgn6UvgoFnBOyN7tIFkMhTF1iCAxw8q0C61Y?=
- =?us-ascii?Q?daqW2AHCCS6vW9oYAZVLCy7c9Au/OIbU3DpLhhDZ5TQaIlr46ILeHpGVGDtN?=
- =?us-ascii?Q?xQIYdTnaJQiIkVejF8ilvF4X9PL/wSpr+gS+vA5R3wT2IIXtTi8CGaWt00La?=
- =?us-ascii?Q?s9F64J5je523ozZHVqfcZI8GqrfRhsnJqoRsj2b0ETFGDpeIgalQHm+qaWQ0?=
- =?us-ascii?Q?qxFWMdYmXsPSG8M0QDjHrxX+yVH8lqwhXoCe0apCb1/LX+FYmxEd7b4oBxCS?=
- =?us-ascii?Q?a++rZR6tGOMobMv6SvZRI3dsW0rYatjjYxL26xnfThS+ReZLwa9Qb1TzOvlB?=
- =?us-ascii?Q?fEplbjhiTqsKJQ+mW+ozVSGTREZNe1Zfjp5jA10Blfipc4TLNi5jq3plH9b3?=
- =?us-ascii?Q?EIdAuSXPYGl1MiNiNIMm4PtPi1hhsLkdw7CuLdQ+IkF+SYV9DkITzmBr/GA9?=
- =?us-ascii?Q?Wn5z/uf65RB0Te/GNQ0TCqPrsklcS7Qxqz0ZpHJO?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0095319c-8d49-445d-6557-08dbc994ab1e
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 13:27:36.7260
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LD60NkI19umRhSssb1w3H2xOn5oWMUgVLcll69/cLI+zPw0Xt87RCwXeNPpJaiF9v8P9XMTlLf8DylyKegdZeA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8508
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Sorry for making this noise. We made a mistake when refining the code of
-the bot. Please kindly ignore this mail and other similar ones. We've
-found the cause and fixed it just now.
+tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.6-rc5-esp32
+head:   224f43124c24326eb21de553984a58d8528a48d0
+commit: ce4838344b089339a8f31e78808551f7dee312f6 [37/38] WIP: esp32 acm: add system PM and wakeup support
+reproduce: (https://download.01.org/0day-ci/archive/20231010/202310102138.nlKWHhEo-lkp@intel.com/reproduce)
 
-Apologies for any disruption.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310102138.nlKWHhEo-lkp@intel.com/
 
-Best Regards,
-Yujie
+# many are suggestions rather than must-fix
 
-On Tue, Oct 10, 2023 at 08:31:46PM +0800, kernel test robot wrote:
-> tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.6-rc5-esp32
-> head:   224f43124c24326eb21de553984a58d8528a48d0
-> commit: 8264985b44b56ae0e4bc756d11424b7297ae34e2 [14/38] misc/esp32-ipc: introduce generic IPC for ESP32
-> reproduce: (https://download.01.org/0day-ci/archive/20231010/202310102025.poxDODsH-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202310102025.poxDODsH-lkp@intel.com/
-> 
-> # many are suggestions rather than must-fix
-> 
-> WARNING:UNNECESSARY_ELSE: else is not generally useful after a break or return
-> #161: FILE: drivers/misc/esp32-ipc.c:112:
-> +			break;
-> +		} else {
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+WARNING:UNNECESSARY_ELSE: else is not generally useful after a break or return
+#161: FILE: drivers/misc/esp32-ipc.c:112:
++			break;
++		} else {
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#340: FILE: drivers/mtd/chips/map_esp32.c:281:
++	while (esp32_ipc_tx(hw->ipc, hw->ipc_addr, NULL, NULL) != 0) {
++	}
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#163: FILE: drivers/net/wireless/espressif/esp32-ng/adapter.h:1:
++// Copyright 2015-2021 Espressif Systems (Shanghai) PTE LTD
+
+WARNING:BLOCK_COMMENT_STYLE: Block comments use a trailing */ on a separate line
+#195: FILE: drivers/net/wireless/espressif/esp32-ng/adapter.h:33:
++	 * this is required for hci_pkt_type */
+
+WARNING:NEW_TYPEDEFS: do not add new typedefs
+#249: FILE: drivers/net/wireless/espressif/esp32-ng/adapter.h:87:
++typedef enum {
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#493: FILE: drivers/net/wireless/espressif/esp32-ng/esp.h:1:
++// SPDX-License-Identifier: GPL-2.0-only
+
+WARNING:BLOCK_COMMENT_STYLE: Block comments use a trailing */ on a separate line
+#528: FILE: drivers/net/wireless/espressif/esp32-ng/esp.h:36:
++ * supported values of CONFIG_IDF_FIRMWARE_CHIP_ID are - */
+
+WARNING:BLOCK_COMMENT_STYLE: Block comments use a trailing */ on a separate line
+#574: FILE: drivers/net/wireless/espressif/esp32-ng/esp.h:82:
++	 * struct esp_sdio_context */
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#666: FILE: drivers/net/wireless/espressif/esp32-ng/esp_api.h:1:
++// SPDX-License-Identifier: GPL-2.0-only
+
+WARNING:SUSPECT_CODE_INDENT: suspect code indent for conditional statements (16, 20)
+#681: FILE: drivers/net/wireless/espressif/esp32-ng/esp_api.h:16:
++		if (!!(ret)) {                                        \
++		    esp_err("esp32: %s failure, ret: %d\n", #x, ret); \
+
+WARNING:BRACES: braces {} are not necessary for any arm of this statement
+#731: FILE: drivers/net/wireless/espressif/esp32-ng/esp_bt.c:18:
++	if (pkt_type == HCI_COMMAND_PKT) {
+[...]
++	} else if (pkt_type == HCI_ACLDATA_PKT) {
+[...]
++	} else if (pkt_type == HCI_SCODATA_PKT) {
+[...]
+
+WARNING:BRACES: braces {} are not necessary for any arm of this statement
+#747: FILE: drivers/net/wireless/espressif/esp32-ng/esp_bt.c:34:
++	if (pkt_type == HCI_EVENT_PKT) {
+[...]
++	} else if (pkt_type == HCI_ACLDATA_PKT) {
+[...]
++	} else if (pkt_type == HCI_SCODATA_PKT) {
+[...]
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#778: FILE: drivers/net/wireless/espressif/esp32-ng/esp_bt.c:65:
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 13, 0))
+
+WARNING:UNNECESSARY_ELSE: else is not generally useful after a break or return
+#859: FILE: drivers/net/wireless/espressif/esp32-ng/esp_bt.c:146:
++		return ret;
++	} else {
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#866: FILE: drivers/net/wireless/espressif/esp32-ng/esp_bt.c:153:
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 10, 0))
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#873: FILE: drivers/net/wireless/espressif/esp32-ng/esp_bt.c:160:
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 17, 0))
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#902: FILE: drivers/net/wireless/espressif/esp32-ng/esp_bt.c:189:
++	if (!adapter) {
++		return -EINVAL;
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#906: FILE: drivers/net/wireless/espressif/esp32-ng/esp_bt.c:193:
++	if (adapter->hcidev) {
++		return -EEXIST;
++	}
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#924: FILE: drivers/net/wireless/espressif/esp32-ng/esp_bt.c:211:
++    #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 7, 0))
+
+WARNING:BRACES: braces {} are not necessary for any arm of this statement
+#931: FILE: drivers/net/wireless/espressif/esp32-ng/esp_bt.c:218:
++		if (adapter->if_type == ESP_IF_TYPE_SDIO) {
+[...]
++		} else if (adapter->if_type == ESP_IF_TYPE_SPI) {
+[...]
++		} else {
+[...]
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#948: FILE: drivers/net/wireless/espressif/esp32-ng/esp_bt.c:235:
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 10, 0))
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#952: FILE: drivers/net/wireless/espressif/esp32-ng/esp_bt.c:239:
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 17, 0))
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#973: FILE: drivers/net/wireless/espressif/esp32-ng/esp_bt_api.h:1:
++// SPDX-License-Identifier: GPL-2.0-only
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#987: FILE: drivers/net/wireless/espressif/esp32-ng/esp_bt_api.h:15:
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 5, 0))
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#988: FILE: drivers/net/wireless/espressif/esp32-ng/esp_bt_api.h:16:
++	#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 34))
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#995: FILE: drivers/net/wireless/espressif/esp32-ng/esp_bt_api.h:23:
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 8, 0))
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#996: FILE: drivers/net/wireless/espressif/esp32-ng/esp_bt_api.h:24:
++	#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 34))
+
+WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+#1030: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:16:
++/**
++  * @brief WiFi PHY rate encodings
+
+WARNING:NEW_TYPEDEFS: do not add new typedefs
+#1033: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:19:
++typedef enum {
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#1139: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:125:
++	if (!strstr(netdev->name, "espsta")) {
++		return 0;
++	}
+
+WARNING:BLOCK_COMMENT_STYLE: Block comments use a trailing */ on a separate line
+#1213: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:199:
++	 * esp_nw_if_num, esp_wdev->adapter->priv[esp_nw_if_num]);*/
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#1255: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:241:
++#if 0
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#1295: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:281:
++#if 0
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#1375: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:361:
++	if (params->key_len == 0) {
++		return esp_cfg80211_del_key(wiphy, dev, ZERO_LINK_ID key_index, pairwise, mac_addr);
++	}
+
+WARNING:QUOTED_WHITESPACE_BEFORE_NEWLINE: unnecessary whitespace before a quoted newline
+#1536: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:522:
++		esp_info("%u invalid input %p %p \n", __LINE__, wiphy, wdev);
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#1548: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:534:
++        switch (type) {$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#1548: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:534:
++        switch (type) {$
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#1549: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:535:
++        case NL80211_TX_POWER_AUTOMATIC:$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#1549: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:535:
++        case NL80211_TX_POWER_AUTOMATIC:$
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#1550: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:536:
++                priv->tx_pwr_type = NL80211_TX_POWER_AUTOMATIC;$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#1550: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:536:
++                priv->tx_pwr_type = NL80211_TX_POWER_AUTOMATIC;$
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#1551: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:537:
++                priv->tx_pwr = mbm_to_esp_pwr(MAX_TX_POWER_MBM);$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#1551: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:537:
++                priv->tx_pwr = mbm_to_esp_pwr(MAX_TX_POWER_MBM);$
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#1552: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:538:
++                break;$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#1552: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:538:
++                break;$
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#1553: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:539:
++        case NL80211_TX_POWER_LIMITED:$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#1553: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:539:
++        case NL80211_TX_POWER_LIMITED:$
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#1554: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:540:
++                if (!is_txpwr_valid(mbm)) {$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#1554: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:540:
++                if (!is_txpwr_valid(mbm)) {$
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#1555: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:541:
++                        esp_warn("mbm:%d not support\n", mbm);$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#1555: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:541:
++                        esp_warn("mbm:%d not support\n", mbm);$
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#1557: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:543:
++                }$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#1557: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:543:
++                }$
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#1558: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:544:
++                priv->tx_pwr_type = NL80211_TX_POWER_LIMITED;$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#1558: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:544:
++                priv->tx_pwr_type = NL80211_TX_POWER_LIMITED;$
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#1559: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:545:
++                priv->tx_pwr = mbm_to_esp_pwr(mbm);$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#1559: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:545:
++                priv->tx_pwr = mbm_to_esp_pwr(mbm);$
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#1560: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:546:
++                break;$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#1560: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:546:
++                break;$
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#1561: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:547:
++        case NL80211_TX_POWER_FIXED:$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#1561: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:547:
++        case NL80211_TX_POWER_FIXED:$
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#1563: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:549:
++                break;$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#1563: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:549:
++                break;$
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#1564: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:550:
++        default:$
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#1565: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:551:
++                esp_warn("unknown type:%d\n", type);$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#1565: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:551:
++                esp_warn("unknown type:%d\n", type);$
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#1566: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:552:
++        }$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#1566: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:552:
++        }$
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#1596: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:582:
++#if 0
+
+WARNING:QUOTED_WHITESPACE_BEFORE_NEWLINE: unnecessary whitespace before a quoted newline
+#1633: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:619:
++		esp_info("%u esp_dev not initialized yet \n", __LINE__);
+
+WARNING:QUOTED_WHITESPACE_BEFORE_NEWLINE: unnecessary whitespace before a quoted newline
+#1639: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:625:
++		esp_info("%u esp_wifi_device not initialized yet \n", __LINE__);
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#1744: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.h:1:
++// SPDX-License-Identifier: GPL-2.0-only
+
+WARNING:AVOID_EXTERNS: externs should be avoided in .c files
+#1796: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:22:
++int internal_scan_request(struct esp_wifi_device *priv, char *ssid,
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#1822: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:48:
++	if (!cmd_node->cmd_skb) {
++		esp_err("No free cmd node skb found\n");
++	}
+
+WARNING:BLOCK_COMMENT_STYLE: Block comments use * on subsequent lines
+#2279: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:505:
++	/*if (!priv->scan_in_progress) {
++		return;
+
+WARNING:BLOCK_COMMENT_STYLE: Block comments use a trailing */ on a separate line
+#2280: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:506:
++	}*/
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#2329: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:555:
++#if 0
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#2369: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:595:
++#if 0
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#2526: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:752:
++#if 0
+
+WARNING:UNNECESSARY_ELSE: else is not generally useful after a break or return
+#2593: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:819:
++			break;
++		} else {
+
+WARNING:NEEDLESS_IF: kfree(NULL) is safe and this check is probably not required
+#2654: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:880:
++	if (priv->assoc_req_ie) {
++		kfree(priv->assoc_req_ie);
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#2724: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:950:
++#if 0
+
+WARNING:UNNECESSARY_ELSE: else is not generally useful after a break or return
+#2731: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:957:
++			break;
++		} else {
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#2759: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:985:
++#if 0
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#2814: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:1040:
++#if 0
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#2862: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:1088:
++#if 0
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#2864: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:1090:
++      __LINE__,$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#2865: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:1091:
++      key_index, pairwise, params->key_len, params->seq_len, params->mode, params->cipher);$
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#2873: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:1099:
++#if 0
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#2898: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:1124:
++#if 0
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#2930: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:1156:
++#if 0
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#2937: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:1163:
++#if 0
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#3045: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:1271:
++	if (ssid) {
++		memcpy(scan_req->ssid, ssid, MAX_SSID_LEN);
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#3105: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:1331:
++	if (request->ssids && request->ssids[0].ssid_len) {
++		memcpy(scan_req->ssid, request->ssids[0].ssid, MAX_SSID_LEN);
++	}
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#3109: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:1335:
++#if 0
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3116: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:1342:
++#if LINUX_VERSION_CODE > KERNEL_VERSION(4, 8, 0)
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3119: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:1345:
++#if LINUX_VERSION_CODE > KERNEL_VERSION(4, 7, 0)
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#3200: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:1426:
++	if (!adapter) {
++		return -EINVAL;
++	}
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#3377: FILE: drivers/net/wireless/espressif/esp32-ng/esp_cmd.h:1:
++// SPDX-License-Identifier: GPL-2.0-only
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#3437: FILE: drivers/net/wireless/espressif/esp32-ng/esp_if.h:1:
++// SPDX-License-Identifier: GPL-2.0-only
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#3466: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:1:
++// SPDX-License-Identifier: GPL-2.0-only
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3480: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:15:
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 13, 0))
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3488: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:23:
++#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 14, 0)
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3500: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:35:
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 14, 0))
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#3502: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:37:
++    int esp_cfg80211_mgmt_tx(struct wiphy *wiphy,                              \$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#3508: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:43:
++    int esp_cfg80211_mgmt_tx(struct wiphy *wiphy,                              \$
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3514: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:49:
++#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 17, 0)
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#3516: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:51:
++    alloc_netdev(size, name, setup)$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#3519: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:54:
++    alloc_netdev(size, name, type, setup)$
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3523: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:58:
++#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 18, 0)
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#3526: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:61:
++  cfg80211_inform_bss(wiphy, chan, bssid, tsf, \$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#3531: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:66:
++  cfg80211_inform_bss(wiphy, chan, CFG80211_BSS_FTYPE_UNKNOWN, bssid, tsf, \$
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3536: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:71:
++#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 18, 0)
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3552: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:87:
++#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 2, 0)
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#3554: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:89:
++    cfg80211_disconnected(dev, reason, ie, ie_len, gfp)$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#3558: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:93:
++      cfg80211_disconnected(dev, reason, ie, ie_len, locally_generated, gfp)$
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3561: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:96:
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 5, 0))
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3562: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:97:
++    #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 34))
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#3563: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:98:
++        #define hci_skb_pkt_type(skb) bt_cb((skb))->pkt_type$
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3569: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:104:
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 8, 0))
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3570: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:105:
++    #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 34))
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#3571: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:106:
++        #define HCI_PRIMARY HCI_BREDR$
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3578: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:113:
++#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 8, 0)
+
+WARNING:SUSPECT_CODE_INDENT: suspect code indent for conditional statements (8, 12)
+#3582: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:117:
++	if (PrIv->request) {                                                   \
++	    cfg80211_scan_done(PrIv->request, abort);                          \
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#3589: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:124:
++    } while (0);$
+
+WARNING:SUSPECT_CODE_INDENT: suspect code indent for conditional statements (8, 12)
+#3599: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:134:
++	if (PrIv->request) {                                                   \
++	    cfg80211_scan_done(PrIv->request, &info);                          \
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#3606: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:141:
++    } while (0);$
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3610: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:145:
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0))
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3616: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:151:
++#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 13, 0)
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3628: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:163:
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 17, 0))
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3632: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:167:
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 18, 0))
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3645: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:180:
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 0, 0))
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3657: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:192:
++	#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 0, 21))
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3666: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:201:
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 0))
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#3686: FILE: drivers/net/wireless/espressif/esp32-ng/esp_kernel_port.h:221:
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 15, 0))
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#3700: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:1:
++/*
+
+WARNING:SUSPECT_CODE_INDENT: suspect code indent for conditional statements (8, 8)
+#3727: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:28:
++	if (ret)						\
++	esp_err("CMD53 read/write error at %d\n", __LINE__);	\
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#3755: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:56:
++	if (!context) {
++		return;
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#3759: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:60:
++	if (int_status & ESP_SLAVE_RX_NEW_PACKET_INT) {
++		esp_process_new_packet_intr(context->adapter);
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#3770: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:71:
++	if (!func) {
++		return;
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#3779: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:80:
++	if (!context) {
++		return;
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#3785: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:86:
++	if (!int_status) {
++		return;
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#3814: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:115:
++	if (!val) {
++		return -ENOMEM;
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#3846: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:147:
++	if (!len) {
++		return -ENOMEM;
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#3874: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:175:
++	if (!len) {
++		return -ENOMEM;
++	}
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#3907: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:208:
++#if 0
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#3918: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:219:
++		if (!skb) {
++			break;
++		}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#3959: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:260:
++			if (context->adapter->hcidev) {
++				esp_deinit_bt(context->adapter);
++			}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#3985: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:286:
++	if (!val) {
++		return -ENOMEM;
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#4028: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:329:
++	if (!context) {
++		return -EINVAL;
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#4085: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:386:
++	if (len_from_slave > size) {
++		esp_info("Rx large packet: %d\n", len_from_slave);
++	}
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#4105: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:406:
++#if 0
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#4106: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:407:
++		if (!context->rx_byte_count) {
++			start_time = ktime_get_ns();
++		}
+
+WARNING:BLOCK_COMMENT_STYLE: Block comments use * on subsequent lines
+#4206: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:507:
++	/*If buffer needed are less than buffer available
++	  then only read for available buffer number from slave*/
+
+WARNING:BLOCK_COMMENT_STYLE: Block comments use a trailing */ on a separate line
+#4206: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:507:
++	  then only read for available buffer number from slave*/
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#4265: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:566:
++			if (!tx_skb) {
++				continue;
++			}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#4271: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:572:
++			if (!tx_skb) {
++				continue;
++			}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#4277: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:578:
++			if (!tx_skb) {
++				continue;
++			}
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#4282: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:583:
++#if 0
+
+WARNING:BLOCK_COMMENT_STYLE: Block comments use * on subsequent lines
+#4308: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:609:
++		/*If SDIO slave buffer is available to write then only write data
++		else wait till buffer is available*/
+
+WARNING:BLOCK_COMMENT_STYLE: Block comments use a trailing */ on a separate line
+#4308: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:609:
++		else wait till buffer is available*/
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#4371: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:672:
++	if (ret) {
++		return NULL;
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#4453: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:754:
++	if (func->num != 1) {
++		return -EINVAL;
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#4461: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:762:
++	if (!context) {
++		return -ENOMEM;
++	}
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#4520: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:821:
++#if 0
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#4541: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio.c:842:
++#if 0
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#4668: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio_api.c:1:
++/*
+
+WARNING:BRACES: braces {} are not necessary for any arm of this statement
+#4780: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio_api.c:113:
++	if (size <= 1) {
+[...]
++	} else {
+[...]
+
+WARNING:BRACES: braces {} are not necessary for any arm of this statement
+#4789: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio_api.c:122:
++	if (size <= 1) {
+[...]
++	} else {
+[...]
+
+WARNING:BRACES: braces {} are not necessary for any arm of this statement
+#4801: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio_api.c:134:
++	if (size <= 1) {
+[...]
++	} else {
+[...]
+
+WARNING:BRACES: braces {} are not necessary for any arm of this statement
+#4810: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio_api.c:143:
++	if (size <= 1) {
+[...]
++	} else {
+[...]
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#4823: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio_api.h:1:
++/*
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#4846: FILE: drivers/net/wireless/espressif/esp32-ng/esp_sdio_decl.h:1:
++/*
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#4940: FILE: drivers/net/wireless/espressif/esp32-ng/esp_spi.c:1:
++/*
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#5002: FILE: drivers/net/wireless/espressif/esp32-ng/esp_spi.c:63:
++ }$
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#5018: FILE: drivers/net/wireless/espressif/esp32-ng/esp_spi.c:79:
++	if (!data_path) {
++		return NULL;
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#5195: FILE: drivers/net/wireless/espressif/esp32-ng/esp_spi.c:256:
++		for (prio_q_idx = 0; prio_q_idx < MAX_PRIORITY_QUEUES; prio_q_idx++) {
++			skb_queue_purge(&spi_context.tx_q[prio_q_idx]);
++		}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#5218: FILE: drivers/net/wireless/espressif/esp32-ng/esp_spi.c:279:
++		for (prio_q_idx = 0; prio_q_idx < MAX_PRIORITY_QUEUES; prio_q_idx++) {
++			skb_queue_head_init(&spi_context.tx_q[prio_q_idx]);
++		}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#5223: FILE: drivers/net/wireless/espressif/esp32-ng/esp_spi.c:284:
++	if (esp_add_card(adapter)) {
++		esp_err("network iterface init failed\n");
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#5246: FILE: drivers/net/wireless/espressif/esp32-ng/esp_spi.c:307:
++	if (header->if_type >= ESP_MAX_IF) {
++		return -EINVAL;
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#5253: FILE: drivers/net/wireless/espressif/esp32-ng/esp_spi.c:314:
++	if (offset != sizeof(struct esp_payload_header)) {
++		return -EINVAL;
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#5258: FILE: drivers/net/wireless/espressif/esp32-ng/esp_spi.c:319:
++	if (!len) {
++		return -EINVAL;
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#5264: FILE: drivers/net/wireless/espressif/esp32-ng/esp_spi.c:325:
++	if (len > SPI_BUF_SIZE) {
++		return -EINVAL;
++	}
+
+WARNING:BLOCK_COMMENT_STYLE: Block comments use a trailing */ on a separate line
+#5338: FILE: drivers/net/wireless/espressif/esp32-ng/esp_spi.c:399:
++			 * */
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#5360: FILE: drivers/net/wireless/espressif/esp32-ng/esp_spi.c:421:
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 15, 0))
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#5361: FILE: drivers/net/wireless/espressif/esp32-ng/esp_spi.c:422:
++			if (hardware_type == ESP_FIRMWARE_CHIP_ESP32) {
++				trans.cs_change = 1;
++			}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#5374: FILE: drivers/net/wireless/espressif/esp32-ng/esp_spi.c:435:
++				if (process_rx_buf(rx_skb)) {
++					dev_kfree_skb(rx_skb);
++				}
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#5387: FILE: drivers/net/wireless/espressif/esp32-ng/esp_spi.c:448:
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 16, 0))
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#5396: FILE: drivers/net/wireless/espressif/esp32-ng/esp_spi.c:457:
++	if (!ctlr) {
++		return 0;
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#5423: FILE: drivers/net/wireless/espressif/esp32-ng/esp_spi.c:484:
++	if (dev) {
++		ctlr = container_of(dev, struct spi_controller, dev);
++	}
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#5643: FILE: drivers/net/wireless/espressif/esp32-ng/esp_spi.h:1:
++/*
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#5837: FILE: drivers/net/wireless/espressif/esp32-ng/esp_stats.c:151:
++		if (!ret) {
++			log_raw_tp_stats_timer_running = 0;
++		}
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#5893: FILE: drivers/net/wireless/espressif/esp32-ng/esp_stats.h:1:
++// SPDX-License-Identifier: GPL-2.0-only
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#5982: FILE: drivers/net/wireless/espressif/esp32-ng/esp_wpa_utils.c:52:
++#if 0
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#6000: FILE: drivers/net/wireless/espressif/esp32-ng/esp_wpa_utils.h:1:
++// SPDX-License-Identifier: GPL-2.0-only
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#6025: FILE: drivers/net/wireless/espressif/esp32-ng/esp_wpa_utils.h:26:
++    WIFI_WPA_ALG_NONE   = 0,$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#6026: FILE: drivers/net/wireless/espressif/esp32-ng/esp_wpa_utils.h:27:
++    WIFI_WPA_ALG_WEP40  = 1,$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#6027: FILE: drivers/net/wireless/espressif/esp32-ng/esp_wpa_utils.h:28:
++    WIFI_WPA_ALG_TKIP   = 2,$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#6028: FILE: drivers/net/wireless/espressif/esp32-ng/esp_wpa_utils.h:29:
++    WIFI_WPA_ALG_CCMP   = 3,$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#6029: FILE: drivers/net/wireless/espressif/esp32-ng/esp_wpa_utils.h:30:
++    WIFI_WAPI_ALG_SMS4  = 4,$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#6030: FILE: drivers/net/wireless/espressif/esp32-ng/esp_wpa_utils.h:31:
++    WIFI_WPA_ALG_WEP104 = 5,$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#6031: FILE: drivers/net/wireless/espressif/esp32-ng/esp_wpa_utils.h:32:
++    WIFI_WPA_ALG_WEP    = 6,$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#6032: FILE: drivers/net/wireless/espressif/esp32-ng/esp_wpa_utils.h:33:
++    WIFI_WPA_ALG_IGTK   = 7,$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#6033: FILE: drivers/net/wireless/espressif/esp32-ng/esp_wpa_utils.h:34:
++    WIFI_WPA_ALG_PMK    = 8,$
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#6034: FILE: drivers/net/wireless/espressif/esp32-ng/esp_wpa_utils.h:35:
++    WIFI_WPA_ALG_GCMP   = 9,$
+
+WARNING:AVOID_EXTERNS: externs should be avoided in .c files
+#6073: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:27:
++extern u8 ap_bssid[MAC_ADDR_LEN];
+
+WARNING:AVOID_EXTERNS: externs should be avoided in .c files
+#6074: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:28:
++extern volatile u8 host_sleep;
+
+WARNING:SYMBOLIC_PERMS: Symbolic permissions 'S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH' are not preferred. Consider using octal permissions '0644'.
+#6076: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:30:
++module_param(resetpin, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#6126: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:80:
++	if (host_sleep) {
++		return NETDEV_TX_BUSY;
++	}
+
+ERROR:OPEN_BRACE: that open brace { should be on the previous line
+#6280: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:234:
++	switch (reason)
++	{
+
+ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
+#6282: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:236:
++		case 1: esp_info("POWERON_RESET\n"); break;          /**<1, Vbat power on reset*/
+
+ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
+#6283: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:237:
++		case 3: esp_info("SW_RESET\n"); break;               /**<3, Software reset digital core*/
+
+ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
+#6284: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:238:
++		case 4: esp_info("OWDT_RESET\n"); break;             /**<4, Legacy watch dog reset digital core*/
+
+ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
+#6285: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:239:
++		case 5: esp_info("DEEPSLEEP_RESET\n"); break;        /**<5, Deep Sleep reset digital core*/
+
+ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
+#6286: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:240:
++		case 6: esp_info("SDIO_RESET\n"); break;             /**<6, Reset by SLC module, reset digital core*/
+
+ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
+#6287: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:241:
++		case 7: esp_info("TG0WDT_SYS_RESET\n"); break;       /**<7, Timer Group0 Watch dog reset digital core*/
+
+ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
+#6288: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:242:
++		case 8: esp_info("TG1WDT_SYS_RESET\n"); break;       /**<8, Timer Group1 Watch dog reset digital core*/
+
+ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
+#6289: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:243:
++		case 9: esp_info("RTCWDT_SYS_RESET\n"); break;       /**<9, RTC Watch dog Reset digital core*/
+
+ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
+#6290: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:244:
++		case 10: esp_info("INTRUSION_RESET\n"); break;       /**<10, Instrusion tested to reset CPU*/
+
+ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
+#6291: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:245:
++		case 11: esp_info("TGWDT_CPU_RESET\n"); break;       /**<11, Time Group reset CPU*/
+
+ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
+#6292: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:246:
++		case 12: esp_info("SW_CPU_RESET\n"); break;          /**<12, Software reset CPU*/
+
+ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
+#6293: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:247:
++		case 13: esp_info("RTCWDT_CPU_RESET\n"); break;      /**<13, RTC Watch dog Reset CPU*/
+
+ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
+#6294: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:248:
++		case 14: esp_info("EXT_CPU_RESET\n"); break;         /**<14, for APP CPU, reseted by PRO CPU*/
+
+ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
+#6295: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:249:
++		case 15: esp_info("RTCWDT_BROWN_OUT_RESET\n"); break;/**<15, Reset when the vdd voltage is not stable*/
+
+ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
+#6296: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:250:
++		case 16: esp_info("RTCWDT_RTC_RESET\n"); break;      /**<16, RTC Watch dog reset digital core and rtc module*/
+
+ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
+#6297: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:251:
++		default: esp_info("Unknown[%u]\n", reason); break;
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#6360: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:314:
++#if 0
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#6379: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:333:
++#if 0
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#6526: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:480:
++	if (!adapter) {
++		return 0;
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#6632: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:586:
++	if (payload_header->reserved2 == 0xFF) {
++		print_hex_dump(KERN_INFO, "Wake up packet: ", DUMP_PREFIX_ADDRESS, 16, 1, skb->data, len+offset, 1);
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#6673: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:627:
++			if (!IS_ALIGNED((unsigned long) eap_skb->data, SKB_DATA_ADDR_ALIGNMENT)) {
++				esp_info("%u eap skb unaligned\n", __LINE__);
++			}
+
+WARNING:CONSTANT_COMPARISON: Comparisons should place the constant on the right side of the test
+#6711: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:665:
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 13, 0))
+
+WARNING:SUSPECT_CODE_INDENT: suspect code indent for conditional statements (8, 24)
+#6731: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:685:
++	} else if (payload_header->if_type == ESP_TEST_IF) {
+[...]
++			update_test_raw_tp_rx_stats(len);
+
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
+#6749: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:703:
++    return 0;$
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#6757: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:711:
++	if (!netif_queue_stopped((const struct net_device *)priv->ndev)) {
++		netif_stop_queue(priv->ndev);
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#6767: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:721:
++	if (netif_queue_stopped((const struct net_device *)priv->ndev)) {
++		netif_wake_queue(priv->ndev);
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#6935: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:889:
++	if (ret != 0) {
++		deinit_adapter();
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#6948: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:902:
++	for (iface_idx = 0; iface_idx < ESP_MAX_INTERFACE; iface_idx++) {
++		cmd_deinit_interface(adapter.priv[iface_idx]);
++	}
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#6956: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:910:
++	if (resetpin != HOST_GPIO_PIN_INVALID) {
++		gpio_free(resetpin);
++	}
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#6974: FILE: drivers/net/wireless/espressif/esp32-ng/utils.h:1:
++// SPDX-License-Identifier: GPL-2.0-only
+
+ERROR:COMPLEX_MACRO: Macros with complex values should be enclosed in parentheses
+#6983: FILE: drivers/net/wireless/espressif/esp32-ng/utils.h:10:
++#define MAC2STR(a) (a)[0], (a)[1], (a)[2], (a)[3], (a)[4], (a)[5]
+
+ERROR:SPACING: space required before the open parenthesis '('
+#6992: FILE: drivers/net/wireless/espressif/esp32-ng/utils.h:19:
++#define esp_info(...) do {} while(0)
+
+ERROR:SPACING: space required before the open parenthesis '('
+#6998: FILE: drivers/net/wireless/espressif/esp32-ng/utils.h:25:
++#define esp_dbg(...) do {} while(0)
+
+WARNING:SUSPECT_CODE_INDENT: suspect code indent for conditional statements (8, 15)
+#43: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:750:
++	while ((skb = adapter->if_ops->read(adapter)))
++	       process_rx_packet(adapter, skb);
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#48: FILE: drivers/net/wireless/espressif/esp32-ng/esp_shmem.c:1:
++/*
+
+ERROR:OPEN_BRACE: open brace '{' following struct go on the same line
+#78: FILE: drivers/net/wireless/espressif/esp32-ng/esp_shmem.c:31:
++struct esp_wifi_shmem
++{
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#250: FILE: drivers/net/wireless/espressif/esp32-ng/esp_shmem.c:203:
++	if (esp_add_card(adapter)) {
++		pr_err("network iterface init failed\n");
++	}
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#731: FILE: arch/xtensa/platforms/esp32/include/platform/serial.h:1:
++// SPDX-License-Identifier: GPL-2.0-or-later
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#764: FILE: arch/xtensa/platforms/esp32/setup.c:20:
++#if 0
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#24: FILE: mm/nommu.c:1218:
++	if ((vma->vm_flags & VM_EXEC) && result >= 0x3d800000 && result < 0x3e000000) {
++		result += 0x43000000 - 0x3d800000;
++	}
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#47: FILE: arch/xtensa/include/asm/trax.h:1:
++#ifndef _XTENSA_TRAX_H
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#94: FILE: arch/xtensa/kernel/trax.c:1:
++#include <linux/errno.h>
+
+ERROR:SPACING: spaces required around that '>' (ctx:OxW)
+#205: FILE: arch/xtensa/kernel/trax.c:112:
++		for (i = 100; i --> 0; ) {
+ 		                  ^
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#360: FILE: arch/xtensa/kernel/trax.c:267:
++#if 0
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#551: FILE: arch/xtensa/kernel/trax.c:458:
++		if (j % 8 && n - i > 8 - j % 8) {
++			b |= ctx->packet_buffer[j / 8 + 1] << (8 - j % 8);
++		}
+
+WARNING:UNNECESSARY_ELSE: else is not generally useful after a break or return
+#602: FILE: arch/xtensa/kernel/trax.c:509:
++		return false;
++	} else {
+
+WARNING:SUSPECT_CODE_INDENT: suspect code indent for conditional statements (8, 12)
+#602: FILE: arch/xtensa/kernel/trax.c:509:
++	} else {
++	    if (ctx->msg_packet < trax_decode[ctx->msg.type].max_packets &&
+
+WARNING:SUSPECT_CODE_INDENT: suspect code indent for conditional statements (12, 20)
+#603: FILE: arch/xtensa/kernel/trax.c:510:
++	    if (ctx->msg_packet < trax_decode[ctx->msg.type].max_packets &&
+[...]
++		    ++ctx->msg_packet;
+
+WARNING:SUSPECT_CODE_INDENT: suspect code indent for conditional statements (12, 20)
+#607: FILE: arch/xtensa/kernel/trax.c:514:
++	    } else {
++		    ctx->msg.type = TRAX_MSG_TYPE_UNDEF;
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#912: FILE: arch/xtensa/kernel/trax.c:819:
++	if (pde) {
++		proc_set_size(pde, trax_state.memsz * 4);
++	}
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#32: FILE: kernel/events/core.c:6529:
++#if 0
+
+WARNING:UNSPECIFIED_INT: Prefer 'unsigned int' to bare use of 'unsigned'
+#108: FILE: kernel/events/core.c:6639:
++static unsigned perf_mmap_capabilities(struct file *file)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
