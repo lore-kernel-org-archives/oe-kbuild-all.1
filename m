@@ -1,111 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CEA71DFDB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 13:42:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DAB5C433C9;
-	Tue, 10 Oct 2023 13:42:02 +0000 (UTC)
-Date: Tue, 10 Oct 2023 09:43:23 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Jiri Olsa <jolsa@redhat.com>, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>
-Subject: Re: kernel/trace/ftrace.c:5675: warning: Function parameter or
- member 'ops' not described in 'ftrace_set_filter_ips'
-Message-ID: <20231010094323.52f8ed88@gandalf.local.home>
-In-Reply-To: <202310100857.YpF7BNZH-lkp@intel.com>
-References: <202310100857.YpF7BNZH-lkp@intel.com>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F961DFDA;
+	Tue, 10 Oct 2023 13:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TwvvVHb2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696945639; x=1728481639;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YpAggeSBtYgOtpoP02QjBaZNvhudqWNJONP0rNybQj8=;
+  b=TwvvVHb2+sddNDma8QFk7uilksvXGhesEDwNstraJYQ3mas2QNfAQHbs
+   +CKtbQlVZ6RmVfZfyodx0Jgw1SVJd4DnVdd5u7cENwCczAdqYpAbLD7U+
+   TpFt3YqIvXQnxazwcZKwOux+pPKFBzQOC3g27w2q4dU63/+hTk97rjKp6
+   dtsNZdlbqzZWjn/QyvN+7o3Cfj8IbbLSxEdqGhzXOz7ihn7wp8kb4/L8B
+   yYqDxM0iizcfFSo2LCaCrSPkyWAsRSwplx5zV26tR5xn3EqfGsWUUSUGH
+   tw2oRZjI3HhL4+KOjy0Ay7VKWRaYJgImPZk3IDxssHJsOjjr44oqYJuBF
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="363749138"
+X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
+   d="scan'208";a="363749138"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 06:47:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="1084794451"
+X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
+   d="scan'208";a="1084794451"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 10 Oct 2023 06:47:16 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qqD4r-0000VQ-2V;
+	Tue, 10 Oct 2023 13:47:13 +0000
+Date: Tue, 10 Oct 2023 21:46:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tiezhu Yang <yangtiezhu@loongson.cn>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Huacai Chen <chenhuacai@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, loongarch@lists.linux.dev,
+	linux-kernel@vger.kernel.org, loongson-kernel@lists.loongnix.cn
+Subject: Re: [PATCH v2 8/8] LoongArch: Add ORC unwinder support
+Message-ID: <202310102113.bw7w3ZVv-lkp@intel.com>
+References: <1696856590-30298-9-git-send-email-yangtiezhu@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1696856590-30298-9-git-send-email-yangtiezhu@loongson.cn>
 
-On Tue, 10 Oct 2023 08:41:44 +0800
-kernel test robot <lkp@intel.com> wrote:
+Hi Tiezhu,
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   94f6f0550c625fab1f373bb86a6669b45e9748b3
-> commit: 4f554e955614f19425cee86de4669351741a6280 ftrace: Add ftrace_set_filter_ips function
-> date:   1 year, 7 months ago
-> config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20231010/202310100857.YpF7BNZH-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310100857.YpF7BNZH-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202310100857.YpF7BNZH-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    kernel/trace/ftrace.c:5553: warning: Function parameter or member 'addr' not described in 'unregister_ftrace_direct_multi'
->    kernel/trace/ftrace.c:5656: warning: Function parameter or member 'ops' not described in 'ftrace_set_filter_ip'
->    kernel/trace/ftrace.c:5656: warning: Function parameter or member 'ip' not described in 'ftrace_set_filter_ip'
->    kernel/trace/ftrace.c:5656: warning: Function parameter or member 'remove' not described in 'ftrace_set_filter_ip'
->    kernel/trace/ftrace.c:5656: warning: Function parameter or member 'reset' not described in 'ftrace_set_filter_ip'
-> >> kernel/trace/ftrace.c:5675: warning: Function parameter or member 'ops' not described in 'ftrace_set_filter_ips'
-> >> kernel/trace/ftrace.c:5675: warning: Function parameter or member 'ips' not described in 'ftrace_set_filter_ips'
-> >> kernel/trace/ftrace.c:5675: warning: Function parameter or member 'cnt' not described in 'ftrace_set_filter_ips'
-> >> kernel/trace/ftrace.c:5675: warning: Function parameter or member 'remove' not described in 'ftrace_set_filter_ips'
-> >> kernel/trace/ftrace.c:5675: warning: Function parameter or member 'reset' not described in 'ftrace_set_filter_ips'  
->    kernel/trace/ftrace.c:5689: warning: Function parameter or member 'ops' not described in 'ftrace_ops_set_global_filter'
->    kernel/trace/ftrace.c:5717: warning: Function parameter or member 'ops' not described in 'ftrace_set_filter'
->    kernel/trace/ftrace.c:5717: warning: Function parameter or member 'buf' not described in 'ftrace_set_filter'
->    kernel/trace/ftrace.c:5717: warning: Function parameter or member 'len' not described in 'ftrace_set_filter'
->    kernel/trace/ftrace.c:5717: warning: Function parameter or member 'reset' not described in 'ftrace_set_filter'
->    kernel/trace/ftrace.c:5736: warning: Function parameter or member 'ops' not described in 'ftrace_set_notrace'
->    kernel/trace/ftrace.c:5736: warning: Function parameter or member 'buf' not described in 'ftrace_set_notrace'
->    kernel/trace/ftrace.c:5736: warning: Function parameter or member 'len' not described in 'ftrace_set_notrace'
->    kernel/trace/ftrace.c:5736: warning: Function parameter or member 'reset' not described in 'ftrace_set_notrace'
->    kernel/trace/ftrace.c:5751: warning: Function parameter or member 'buf' not described in 'ftrace_set_global_filter'
->    kernel/trace/ftrace.c:5751: warning: Function parameter or member 'len' not described in 'ftrace_set_global_filter'
->    kernel/trace/ftrace.c:5751: warning: Function parameter or member 'reset' not described in 'ftrace_set_global_filter'
->    kernel/trace/ftrace.c:5767: warning: Function parameter or member 'buf' not described in 'ftrace_set_global_notrace'
->    kernel/trace/ftrace.c:5767: warning: Function parameter or member 'len' not described in 'ftrace_set_global_notrace'
->    kernel/trace/ftrace.c:5767: warning: Function parameter or member 'reset' not described in 'ftrace_set_global_notrace'
->    kernel/trace/ftrace.c:7843: warning: Function parameter or member 'ops' not described in 'register_ftrace_function'
->    kernel/trace/ftrace.c:7865: warning: Function parameter or member 'ops' not described in 'unregister_ftrace_function'
-> 
-> 
-> vim +5675 kernel/trace/ftrace.c
-> 
->   5661	
->   5662	/**
->   5663	 * ftrace_set_filter_ips - set functions to filter on in ftrace by addresses
->   5664	 * @ops - the ops to set the filter with
->   5665	 * @ips - the array of addresses to add to or remove from the filter.
->   5666	 * @cnt - the number of addresses in @ips
->   5667	 * @remove - non zero to remove ips from the filter
->   5668	 * @reset - non zero to reset all filters before applying this filter.
+kernel test robot noticed the following build errors:
 
-I was confused by this warning, but it's because the above should be:
+[auto build test ERROR on masahiroy-kbuild/for-next]
+[also build test ERROR on masahiroy-kbuild/fixes linus/master v6.6-rc5 next-20231010]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
- * @param: description
+url:    https://github.com/intel-lab-lkp/linux/commits/Tiezhu-Yang/objtool-LoongArch-Enable-objtool-to-be-built/20231009-210700
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
+patch link:    https://lore.kernel.org/r/1696856590-30298-9-git-send-email-yangtiezhu%40loongson.cn
+patch subject: [PATCH v2 8/8] LoongArch: Add ORC unwinder support
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231010/202310102113.bw7w3ZVv-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310102113.bw7w3ZVv-lkp@intel.com/reproduce)
 
-and not
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310102113.bw7w3ZVv-lkp@intel.com/
 
- * @param - description.
+All errors (new ones prefixed by >>):
+
+   In file included from scripts/sorttable.c:201:
+>> scripts/sorttable.h:96:10: fatal error: 'asm/orc_types.h' file not found
+   #include <asm/orc_types.h>
+            ^~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
--- Steve
+vim +96 scripts/sorttable.h
 
->   5669	 *
->   5670	 * Filters denote which functions should be enabled when tracing is enabled
->   5671	 * If @ips array or any ip specified within is NULL , it fails to update filter.
->   5672	 */
->   5673	int ftrace_set_filter_ips(struct ftrace_ops *ops, unsigned long *ips,
->   5674				  unsigned int cnt, int remove, int reset)
-> > 5675	{  
->   5676		ftrace_ops_init(ops);
->   5677		return ftrace_set_addr(ops, ips, cnt, remove, reset, 1);
->   5678	}
->   5679	EXPORT_SYMBOL_GPL(ftrace_set_filter_ips);
->   5680	
-> 
+a79f248b9b309e scripts/sortextable.h David Daney 2012-04-19  93  
+57fa1899428538 scripts/sorttable.h   Shile Zhang 2019-12-04  94  #if defined(SORTTABLE_64) && defined(UNWINDER_ORC_ENABLED)
+57fa1899428538 scripts/sorttable.h   Shile Zhang 2019-12-04  95  /* ORC unwinder only support X86_64 */
+57fa1899428538 scripts/sorttable.h   Shile Zhang 2019-12-04 @96  #include <asm/orc_types.h>
+57fa1899428538 scripts/sorttable.h   Shile Zhang 2019-12-04  97  
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
