@@ -1,287 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2712744B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 16:07:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB0E2FE13
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 16:40:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OmPZjT/e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T2aYxoC/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696954046; x=1728490046;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9Hn3QKVxb4sctB5kVFZ9VNmukxEB4LZt3lftgaj2lEk=;
-  b=OmPZjT/egBmG3g8UKEsU20H9zdDYnTMYqP1alIS/pvK1gCCwaaztl4n6
-   UrJLZ8F+G83PoLNL5CjtVDdeNOgLN8TSWzuldHlyJhPSPF0tR2cqVgnUh
-   21ICbpz32YxeznxIAjuwXDdOBe2TCXV/oBc0p2uLAUu3x0RWi0a4PH5NQ
-   IBxw9HcItDNsIDPylHYjuUubQ/Pu8reWjSOcD7uIUtNDAFqms4eZWgyII
-   H8kqKAqtOrEW2Ufq9/KdOi7FmrFoFR4hfCLbwqe5Wujg41yVHgsWogvUQ
-   SyHNq3XKh1XOPhdZlQPnd1uQn6PXg4Xh0ZPUsXmC3P5rPHYCAsAaqRYUC
+  t=1696956045; x=1728492045;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=g0uHhLvAoz/2hE22EaSa6j1uwqlyHR3dqitcfXy6vn8=;
+  b=T2aYxoC/XdOcil3MeZNBtjHtm7heG/dEjvQuDXGssbgMjycU3HZ2ZgIM
+   khkh8t6eeNJ1DWC5QdiX53lJ2wYm2xNY2iEoihdL1msqcbGzFoQhPt2xi
+   z7VO7XEHaU+w0Q/GeeriZOtwakKtj7rAh2Lq2RsQpNY1bvRJPdrAYJ5Sd
+   jU0tJPey5ue9PpweGu7XCaJXFBgvQT/qQN583WXo71JZF3ZIQvYlI2Y3Q
+   Va93jYlVcaxyfVPqwQsW2vgiLsALbqdrx0s5IOLG1cOVm6Vkuww9G53s1
+   SDBWcKbyFxGmtPPTn7yKnftaagISERvF5BKNvxOLk2WRE6hqUpMtf4fno
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="374783184"
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="388317378"
 X-IronPort-AV: E=Sophos;i="6.03,213,1694761200"; 
-   d="scan'208";a="374783184"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 09:05:37 -0700
+   d="scan'208";a="388317378"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 09:40:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="869752929"
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="927220013"
 X-IronPort-AV: E=Sophos;i="6.03,213,1694761200"; 
-   d="scan'208";a="869752929"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 10 Oct 2023 09:05:35 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qqFEj-0000jE-0e;
-	Tue, 10 Oct 2023 16:05:33 +0000
-Date: Wed, 11 Oct 2023 00:04:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Juergen Gross <jgross@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Borislav Petkov (AMD)" <bp@alien8.de>
-Subject: arch/x86/kernel/cpu/mtrr/generic.c:259: warning: Function parameter
- or member 'var' not described in 'mtrr_overwrite_state'
-Message-ID: <202310102349.gDBgWNwG-lkp@intel.com>
+   d="scan'208";a="927220013"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by orsmga005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Oct 2023 09:40:44 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Tue, 10 Oct 2023 09:40:44 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Tue, 10 Oct 2023 09:40:43 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Tue, 10 Oct 2023 09:40:43 -0700
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.40) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Tue, 10 Oct 2023 09:40:43 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=duLHojLFtBSq1HP5G+TJqa06bYpTwFsKjxCuFRhPs1nmyIB7vmCwWcouGXPTNtU2wdKMmXN8G4ZHalzR495im5GkUNEX1j5gmbMiqJBbeXEOExi9Za3vCxaEejFArF+saSGmh/WSKWhMqWdp/sudlWt2k28YTYqbFAqaYLB0HF7Sd2Gws5zw93Qp99LoiWyupPsy0Fn00qykie67TQZCUXYjUvFjT68koA6vzVYQYxoVj3DBhaYk3LNWrnGceI3BH2U4p3Yc8jkqi/rqZhngXUrq2f5fr8LcAQLWUK+6DJn/eAoSyVUS7G21AglfBUm928/u32MH+YrsNI2pVqYeog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iyYW/PuDng/j1NypbN7zvFh++y3yMW2Yspa8AeSp2ZE=;
+ b=LN19AgWlyYALspxn8Z+10fhme2kw7Fw62ZE0ftSG7YABiIJsgjWUF/EZV38h3e8bBnMtHsS3C051qLryciIvAeUFn1vlnLpSEDHPHaAgi3o6gbYpvwjvd/mule/+Dq+6Tt7TkiXlVGOFStuURXXXuGKWAD2pLSVGtw/75l34hBiFqAU8z7V/QrWgeCbosHsEY/dP+LCEx29ZNB53BDfG55J+x7tlRRrllgSKYIvO+BB5GRJBC4CujIEn7VFBiIb33vAa9sIoIJUYllHmINKGoNRwSd1pQBage7M31tGOhOnWXLL5P9Vw1fXxj6d/TXg6radiScwT9fyVpxNJSHOUSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by DS0PR11MB8761.namprd11.prod.outlook.com (2603:10b6:8:1a1::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.38; Tue, 10 Oct
+ 2023 16:40:41 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::bd70:f215:4a97:c84e]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::bd70:f215:4a97:c84e%6]) with mapi id 15.20.6863.032; Tue, 10 Oct 2023
+ 16:40:41 +0000
+Message-ID: <360270f1-8bd8-40de-af54-5527fb1106c9@intel.com>
+Date: Tue, 10 Oct 2023 09:40:39 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: arch/x86/kernel/cpu/resctrl/rdtgroup.c:1196: warning: Function
+ parameter or member 'type' not described in '__rdtgroup_cbm_overlaps'
+Content-Language: en-US
+To: James Morse <james.morse@arm.com>, kernel test robot <lkp@intel.com>
+CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Borislav
+ Petkov" <bp@suse.de>, Jamie Iles <jamie@nuviainc.com>
+References: <202310070434.mD8eRNAz-lkp@intel.com>
+ <58306525-bd92-18d9-b25a-9c030518cfa6@arm.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <58306525-bd92-18d9-b25a-9c030518cfa6@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0277.namprd04.prod.outlook.com
+ (2603:10b6:303:89::12) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|DS0PR11MB8761:EE_
+X-MS-Office365-Filtering-Correlation-Id: fe7c129f-653f-4d53-2d53-08dbc9afa426
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BJ7qictyjE4H0lq0LpOyU0ajvY+yLW0DP/j7sB8CYxJrL5CaPQJ8LvtZMulI0cuffiKFUJFZMvE8lNmAOBjbD0fLQJwRki9BQwC6NIyB2aSVsgRLfdBmGFaITDcHqQ2j/pCgMAkfzmbBt2+aS7gm6KAzEjo0W0Emv4Hg94Dx9PsSxyisgZPAGJE3w/PhyY/ktZArC3/JqPAsaVceG74R5RjXxjZsjEAocg95rDxQ8KxdTGRP6y1V9zC7JMahk1f5KyAIpG0iKb/zFDmzretP1mSCtHBNtniBFeb15CqcMUjgVTzADqcxIH8yxUtPhkZ0YnZ2fmAQew5KLj+WtlOLP9+i3EkSTWz41oE845qHoORSASEItKNVHBbmTO8r/rXoN+s+GZzJDd3HKN8rkaW0X9XN4ZryChNaEkMpf03HV2VqKN7tyRNL9rF46q5+oGohYSLRqCGxsrOVGSbKzlbBn4TovlmkEfFF0kaY4HHf5dH2kIy7NsQtB2S7eUzSGKdg00vY/EVFavGoii3ipuK8l355BOVSQ1xMc6X3sJVLsmRaLKdoCyiYmcSK2Cu0Ftc4MB5MZlpQzdxtYbs1VnL/wj6Lz4b00GXlhtqWyq7FJL7BdIi1JuxvQGTH6TNzeokCLbuTqNmM9UGcwpTLtQNY+tYXT8MlzZS2piHTYAM7tWI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39860400002)(346002)(396003)(366004)(376002)(230922051799003)(64100799003)(1800799009)(186009)(451199024)(6512007)(53546011)(6506007)(2616005)(478600001)(966005)(6486002)(44832011)(26005)(83380400001)(2906002)(5660300002)(66476007)(66556008)(110136005)(54906003)(66946007)(8676002)(8936002)(6636002)(4326008)(316002)(41300700001)(82960400001)(36756003)(38100700002)(86362001)(31696002)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UUhac3REVjJPeGY1Y1ZwYkZoRm9MdStxWlVMLy9IaG1uQk1nVjg3TUREbUx5?=
+ =?utf-8?B?R0xXajVqU21HSWd2L2xwci9IdjRaREhLNTVaWVVsbjRscGYreWRsUW9zT2lY?=
+ =?utf-8?B?SFVubW8wdlBNYmRCdFJaTFFablE5UmFJRmFydXpUcTJJZE8wUzZUbnNUZVYw?=
+ =?utf-8?B?d2pqVDhpQ0lLYmFKcWd2RU8veHh0M1dFMGdPdEFFb21pNGFrdmU5R1hWOFJw?=
+ =?utf-8?B?Y3dQcExLV1JsN2hsT3p1VVBFbmhDTXZhNlpCcG9iVU03NEdqTWIrRVV1NVd4?=
+ =?utf-8?B?K2ZvSVBKcU9aY2k4YmFaUll0aTZ1RXFGVElGV2tZeWFvRTBieFhpRUwrVEFX?=
+ =?utf-8?B?cXJ0Qks0OXZJQlgrVVoxalcrWHJRUmhCMFNrTXBaMVJBOGs4NnRmSUhlYkJ6?=
+ =?utf-8?B?TjRHMENtcXJKRkFpUElMUnF2N3g4cEhWVFk5MnpobnNMT2xIbDFxSUZHNlRC?=
+ =?utf-8?B?SHRnaXFOTkhmQzNIVTcyRVR4SmtZTUE5c2wzdERuSVhubEhGbmR1dnd2djcv?=
+ =?utf-8?B?SEM0K2pidEx6cmkwb015dWwzb2MwanZweGdYcU14dSsvc2h0cXNyY2dCUHN4?=
+ =?utf-8?B?UWlMUzIybHhjbHpYZGtsOXcyQlVNR05uWEZnVTAyOTZSckNIQWgwQUQwUWhI?=
+ =?utf-8?B?TWRyZEtvYlByN3ZyMlRwSmhGYjBubnFmNit1T2FVcCtLVEJrQkVMTEh1TXoz?=
+ =?utf-8?B?RkpNdGRVTEQ3QlR4ckkvc0RuVjVEL05zY2R5bEZ5UHIzWDBzcDdVakxxeVh2?=
+ =?utf-8?B?V3kvb0w1SExhUEl5MjFqK054Mi9QbkI2Mml5OGZWL1d1MmI3ZjNxWU1oNjZF?=
+ =?utf-8?B?ZGQ3aGRYbXFvNytFM2xjQ0N5TnpXTHIxcVBYNG1PSU9BaUt1ZktpV2pZRjYw?=
+ =?utf-8?B?NEhoUzhFMzR3anRsQ0o5YTFYamR3RkQyMDFvVlQ5ZFdYdWVMaFpqZU1BS2p0?=
+ =?utf-8?B?RXBIRHFFMExudHp0VWlLNjc3UU9LdzEvaWJrU2JENC96RWdCUW4rbG13bjZG?=
+ =?utf-8?B?Si9OOStTSkovYUpjT2VPcHIyMVRQT0NKNEg1VjIySFJSRUVqVFQvTGpjRWNV?=
+ =?utf-8?B?WUwrc3ozS1gyWCtOWXVZZUpCSFBmVzNReFRBMysxazVqR3JmTEhHekJYMnFQ?=
+ =?utf-8?B?M2N2RXM5SmF3d0VQd0luSUF3V3FtZW9LeGZrdEFmaVlKbTlnZDdhTzBNTWF0?=
+ =?utf-8?B?R0ZhcWxVMEFFM2pZcVhUbmNCa05ucDEzSFNxMldRUWMxMWZFN0gyZS9BNFdr?=
+ =?utf-8?B?SmhRR1c4cm0zbHE1Q3ZDZUdxMEhIdDZ3T0MzOHVRSkJMdDU5VmdveTNNMGdt?=
+ =?utf-8?B?TkxJUkN3Z3dlbVV4MUxTdG1OMGxGcGc1cXFuM3JuQjVLOU55N0x3elhHdUE5?=
+ =?utf-8?B?YjVWWkpzbjJWUUN6T3lkeGVnVTlOQXVoUUxZYXFYNGN5aFB1QTN4QnJjd1Rs?=
+ =?utf-8?B?QWtNZS9jeElLYTZCOCtzNSs0aUFKVnROS29ETDFsK25Oa2xIRHF6L29nUk54?=
+ =?utf-8?B?L21uWHkxRjdQY2ZUcGk5bDl0clZpUTJWM2cwWjk5YVJCZVRWOVFnSVpyZE5D?=
+ =?utf-8?B?Z2VIZHcxSkxIaFltOWd5STNLRXM0Sm45SW5USkFmMk12ZVVBZlFJK2FLRUVB?=
+ =?utf-8?B?YllpVDAyU0psTzBLVlZ0Y1ZDeVdBcDl1c2hLdXRwNmc5ZGs4bUFocmkyeEQ1?=
+ =?utf-8?B?VjN6SG5qWVN0dkVWMWNFRFJ1WnpIazN0Mmd6QzhuUVAwRTJCWFVDSWF5UXQ2?=
+ =?utf-8?B?YnMxMnY5TVIrcmwvbndreWxNUEt5Y0lObE1kcmFuaTFlS3llKzVVdk8xZVAv?=
+ =?utf-8?B?ZUNpbkhNQnE5b3VZUjZaV3B3MGh2VE02NEFSWkx5aWh4bFd3cEs3ekNocUFz?=
+ =?utf-8?B?eVdNMDhqbDhnaDd2QnQ2UVd2VjE1dzdjVjlLMFNTZktZS3g3cmJrVnVHdjhi?=
+ =?utf-8?B?MmNmM0EvNk9IRW1hajg4aVJzRVVDRW9Sb0p4eFpJb1ZJbFJ2UC9GRWhCNEJM?=
+ =?utf-8?B?Smk4Zm9LTkl3YjFMYUIyUzRyZ2NIdDJmZml6VUxlZWh3ODhRKytzejFGaGNj?=
+ =?utf-8?B?V2NrQ1VXSFFFbGt5b1FOUFBySWVGLzc2OWpZaURuUTh0VWh6aktORjdaekw4?=
+ =?utf-8?B?SzlSb2t5cmJGSnN3RjFQczhaK0d1aENpa05ZQkcrTjZaTzdNNXplYWNYaEcw?=
+ =?utf-8?B?NXc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe7c129f-653f-4d53-2d53-08dbc9afa426
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 16:40:41.4989
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: R0awBkg6rfUpaapi62BeyVCVAWNEbF2/7duXawr5igPuBcniu+h59T1NXDaWPDStcvgBdZui391d83gw7wDjteRs72/kUTs8+h1TshmPEXE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8761
+X-OriginatorOrg: intel.com
 
-Hi Juergen,
+Hi James,
 
-FYI, the error/warning still remains.
+On 10/10/2023 8:25 AM, James Morse wrote:
+> 'lo,
+> 
+> On 06/10/2023 22:03, kernel test robot wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+>> head:   af95dc6fdc25e616051d0234aad638e15c02ec8f
+>> commit: fa8f711d2f14381d1a47420b6da94b62e6484c56 x86/resctrl: Pass configuration type to resctrl_arch_get_config()
+>> date:   2 years, 2 months ago
+> 
+> So, recently.
+> 
+> 
+>> config: x86_64-randconfig-003-20230909 (https://download.01.org/0day-ci/archive/20231007/202310070434.mD8eRNAz-lkp@intel.com/config)
+>> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231007/202310070434.mD8eRNAz-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202310070434.mD8eRNAz-lkp@intel.com/
+> 
+> I'll float a patch fixing all these - otherwise I get the blame for the whole lot when the
+> code gets moved!
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   94f6f0550c625fab1f373bb86a6669b45e9748b3
-commit: 29055dc74287467bd7a053d60b4afe753832960d x86/mtrr: Support setting MTRR state for software defined MTRRs
-date:   4 months ago
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231010/202310102349.gDBgWNwG-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310102349.gDBgWNwG-lkp@intel.com/reproduce)
+Cleaning this up is already in progress. A fix from Randy addressing a few of the warnings
+has already been merged into x86/urgent and Maciej has a patch ready addressing the rest that
+he will send upstream shortly.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310102349.gDBgWNwG-lkp@intel.com/
+Reinette
 
-All warnings (new ones prefixed by >>):
-
-   arch/x86/kernel/cpu/mtrr/generic.c:125: warning: Function parameter or member 'start' not described in 'mtrr_type_lookup_fixed'
-   arch/x86/kernel/cpu/mtrr/generic.c:125: warning: Function parameter or member 'end' not described in 'mtrr_type_lookup_fixed'
-   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'start' not described in 'mtrr_type_lookup_variable'
-   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'end' not described in 'mtrr_type_lookup_variable'
-   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'partial_end' not described in 'mtrr_type_lookup_variable'
-   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'repeat' not described in 'mtrr_type_lookup_variable'
-   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'uniform' not described in 'mtrr_type_lookup_variable'
->> arch/x86/kernel/cpu/mtrr/generic.c:259: warning: Function parameter or member 'var' not described in 'mtrr_overwrite_state'
->> arch/x86/kernel/cpu/mtrr/generic.c:259: warning: Function parameter or member 'num_var' not described in 'mtrr_overwrite_state'
->> arch/x86/kernel/cpu/mtrr/generic.c:259: warning: Function parameter or member 'def_type' not described in 'mtrr_overwrite_state'
-   arch/x86/kernel/cpu/mtrr/generic.c:316: warning: Function parameter or member 'start' not described in 'mtrr_type_lookup'
-   arch/x86/kernel/cpu/mtrr/generic.c:316: warning: Function parameter or member 'end' not described in 'mtrr_type_lookup'
-   arch/x86/kernel/cpu/mtrr/generic.c:316: warning: Function parameter or member 'uniform' not described in 'mtrr_type_lookup'
-
-
-vim +259 arch/x86/kernel/cpu/mtrr/generic.c
-
-   109	
-   110	/**
-   111	 * mtrr_type_lookup_fixed - look up memory type in MTRR fixed entries
-   112	 *
-   113	 * Return the MTRR fixed memory type of 'start'.
-   114	 *
-   115	 * MTRR fixed entries are divided into the following ways:
-   116	 *  0x00000 - 0x7FFFF : This range is divided into eight 64KB sub-ranges
-   117	 *  0x80000 - 0xBFFFF : This range is divided into sixteen 16KB sub-ranges
-   118	 *  0xC0000 - 0xFFFFF : This range is divided into sixty-four 4KB sub-ranges
-   119	 *
-   120	 * Return Values:
-   121	 * MTRR_TYPE_(type)  - Matched memory type
-   122	 * MTRR_TYPE_INVALID - Unmatched
-   123	 */
-   124	static u8 mtrr_type_lookup_fixed(u64 start, u64 end)
- > 125	{
-   126		int idx;
-   127	
-   128		if (start >= 0x100000)
-   129			return MTRR_TYPE_INVALID;
-   130	
-   131		/* 0x0 - 0x7FFFF */
-   132		if (start < 0x80000) {
-   133			idx = 0;
-   134			idx += (start >> 16);
-   135			return mtrr_state.fixed_ranges[idx];
-   136		/* 0x80000 - 0xBFFFF */
-   137		} else if (start < 0xC0000) {
-   138			idx = 1 * 8;
-   139			idx += ((start - 0x80000) >> 14);
-   140			return mtrr_state.fixed_ranges[idx];
-   141		}
-   142	
-   143		/* 0xC0000 - 0xFFFFF */
-   144		idx = 3 * 8;
-   145		idx += ((start - 0xC0000) >> 12);
-   146		return mtrr_state.fixed_ranges[idx];
-   147	}
-   148	
-   149	/**
-   150	 * mtrr_type_lookup_variable - look up memory type in MTRR variable entries
-   151	 *
-   152	 * Return Value:
-   153	 * MTRR_TYPE_(type) - Matched memory type or default memory type (unmatched)
-   154	 *
-   155	 * Output Arguments:
-   156	 * repeat - Set to 1 when [start:end] spanned across MTRR range and type
-   157	 *	    returned corresponds only to [start:*partial_end].  Caller has
-   158	 *	    to lookup again for [*partial_end:end].
-   159	 *
-   160	 * uniform - Set to 1 when an MTRR covers the region uniformly, i.e. the
-   161	 *	     region is fully covered by a single MTRR entry or the default
-   162	 *	     type.
-   163	 */
-   164	static u8 mtrr_type_lookup_variable(u64 start, u64 end, u64 *partial_end,
-   165					    int *repeat, u8 *uniform)
-   166	{
-   167		int i;
-   168		u64 base, mask;
-   169		u8 prev_match, curr_match;
-   170	
-   171		*repeat = 0;
-   172		*uniform = 1;
-   173	
-   174		prev_match = MTRR_TYPE_INVALID;
-   175		for (i = 0; i < num_var_ranges; ++i) {
-   176			unsigned short start_state, end_state, inclusive;
-   177	
-   178			if (!(mtrr_state.var_ranges[i].mask_lo & MTRR_PHYSMASK_V))
-   179				continue;
-   180	
-   181			base = (((u64)mtrr_state.var_ranges[i].base_hi) << 32) +
-   182			       (mtrr_state.var_ranges[i].base_lo & PAGE_MASK);
-   183			mask = (((u64)mtrr_state.var_ranges[i].mask_hi) << 32) +
-   184			       (mtrr_state.var_ranges[i].mask_lo & PAGE_MASK);
-   185	
-   186			start_state = ((start & mask) == (base & mask));
-   187			end_state = ((end & mask) == (base & mask));
-   188			inclusive = ((start < base) && (end > base));
-   189	
-   190			if ((start_state != end_state) || inclusive) {
-   191				/*
-   192				 * We have start:end spanning across an MTRR.
-   193				 * We split the region into either
-   194				 *
-   195				 * - start_state:1
-   196				 * (start:mtrr_end)(mtrr_end:end)
-   197				 * - end_state:1
-   198				 * (start:mtrr_start)(mtrr_start:end)
-   199				 * - inclusive:1
-   200				 * (start:mtrr_start)(mtrr_start:mtrr_end)(mtrr_end:end)
-   201				 *
-   202				 * depending on kind of overlap.
-   203				 *
-   204				 * Return the type of the first region and a pointer
-   205				 * to the start of next region so that caller will be
-   206				 * advised to lookup again after having adjusted start
-   207				 * and end.
-   208				 *
-   209				 * Note: This way we handle overlaps with multiple
-   210				 * entries and the default type properly.
-   211				 */
-   212				if (start_state)
-   213					*partial_end = base + get_mtrr_size(mask);
-   214				else
-   215					*partial_end = base;
-   216	
-   217				if (unlikely(*partial_end <= start)) {
-   218					WARN_ON(1);
-   219					*partial_end = start + PAGE_SIZE;
-   220				}
-   221	
-   222				end = *partial_end - 1; /* end is inclusive */
-   223				*repeat = 1;
-   224				*uniform = 0;
-   225			}
-   226	
-   227			if ((start & mask) != (base & mask))
-   228				continue;
-   229	
-   230			curr_match = mtrr_state.var_ranges[i].base_lo & MTRR_PHYSBASE_TYPE;
-   231			if (prev_match == MTRR_TYPE_INVALID) {
-   232				prev_match = curr_match;
-   233				continue;
-   234			}
-   235	
-   236			*uniform = 0;
-   237			if (check_type_overlap(&prev_match, &curr_match))
-   238				return curr_match;
-   239		}
-   240	
-   241		if (prev_match != MTRR_TYPE_INVALID)
-   242			return prev_match;
-   243	
-   244		return mtrr_state.def_type;
-   245	}
-   246	
-   247	/**
-   248	 * mtrr_overwrite_state - set static MTRR state
-   249	 *
-   250	 * Used to set MTRR state via different means (e.g. with data obtained from
-   251	 * a hypervisor).
-   252	 * Is allowed only for special cases when running virtualized. Must be called
-   253	 * from the x86_init.hyper.init_platform() hook.  It can be called only once.
-   254	 * The MTRR state can't be changed afterwards.  To ensure that, X86_FEATURE_MTRR
-   255	 * is cleared.
-   256	 */
-   257	void mtrr_overwrite_state(struct mtrr_var_range *var, unsigned int num_var,
-   258				  mtrr_type def_type)
- > 259	{
-   260		unsigned int i;
-   261	
-   262		/* Only allowed to be called once before mtrr_bp_init(). */
-   263		if (WARN_ON_ONCE(mtrr_state_set))
-   264			return;
-   265	
-   266		/* Only allowed when running virtualized. */
-   267		if (!cpu_feature_enabled(X86_FEATURE_HYPERVISOR))
-   268			return;
-   269	
-   270		/*
-   271		 * Only allowed for special virtualization cases:
-   272		 * - when running as Hyper-V, SEV-SNP guest using vTOM
-   273		 * - when running as Xen PV guest
-   274		 * - when running as SEV-SNP or TDX guest to avoid unnecessary
-   275		 *   VMM communication/Virtualization exceptions (#VC, #VE)
-   276		 */
-   277		if (!cc_platform_has(CC_ATTR_GUEST_SEV_SNP) &&
-   278		    !hv_is_isolation_supported() &&
-   279		    !cpu_feature_enabled(X86_FEATURE_XENPV) &&
-   280		    !cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-   281			return;
-   282	
-   283		/* Disable MTRR in order to disable MTRR modifications. */
-   284		setup_clear_cpu_cap(X86_FEATURE_MTRR);
-   285	
-   286		if (var) {
-   287			if (num_var > MTRR_MAX_VAR_RANGES) {
-   288				pr_warn("Trying to overwrite MTRR state with %u variable entries\n",
-   289					num_var);
-   290				num_var = MTRR_MAX_VAR_RANGES;
-   291			}
-   292			for (i = 0; i < num_var; i++)
-   293				mtrr_state.var_ranges[i] = var[i];
-   294			num_var_ranges = num_var;
-   295		}
-   296	
-   297		mtrr_state.def_type = def_type;
-   298		mtrr_state.enabled |= MTRR_STATE_MTRR_ENABLED;
-   299	
-   300		mtrr_state_set = 1;
-   301	}
-   302	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
