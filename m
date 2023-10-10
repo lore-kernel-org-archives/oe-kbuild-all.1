@@ -1,47 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A131630FAC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 19:03:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7278538BD0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 19:03:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YkMMv94D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eIQESRQK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696964587; x=1728500587;
+  t=1696964591; x=1728500591;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=beG+tL43G3JjMF4WhlVi7tr1UWfJrbj82vKnjqb8FZE=;
-  b=YkMMv94Dk4tRv7pQJW1LDYmgsUt9OFyFbNk21CxqlssXcSfDYUCL2bjR
-   BSfFn/7MNughaOwi5wH3hzr897vznlyB8BQEMpV3eVO2oDSdgA7qNbEV4
-   0SLjLiJOGN3TCXosZmdw3t7ZXBfaHw32TH71IrJn3IMWi2KavcgBPTp9F
-   O5wKxqAAzaXvs3T8YAK6Ll2r28iweqbXP7vTESj5xlNwTsAcKPTLjuz39
-   FpHK5kqVZqRCEqoFyIqR7VTx4lG9blhwNtkN7iP9nAxOwVjRFxS6zndIu
-   o88sLeSCfW/PBefbH1YM3e5EDTgNho76lk+TDVXRIsLrY3zN7A/0WQVit
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="387328687"
+  bh=g6ICwdHm2qLrdz71DY2dLOuCiuEY/QKetDo4YI9iKGs=;
+  b=eIQESRQKx3X3SW0VaVnrQVIzQX19pNP2UxUACtmAdkmD3eyy+iFKMJpG
+   hOHD6gqJZ23fxejCQp2OaGRfLMpeb51ypSnyDZf2xYBdehVP685jAIZ2W
+   3UPisqDr1xicHv08IgA8nIhH/kT4RKnJDghgfROGgjbVvEmgJfkSi0tJX
+   2bvLkQyEKWNMk5QgEzehaROI636wwqHYPpBU2z2wL4f/XEAZC66V//psV
+   2FvM5Tk/RZXSm27ZleoJPa68v/mJjAE6V9TZC/KFVZaGAXjPJ3Mi7D+fG
+   SGXXDVDEeg7EkD6YWg4VljIYhuWPZnmAlemFMvlMLkwv4PkMJ1stt70JV
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="387328690"
 X-IronPort-AV: E=Sophos;i="6.03,213,1694761200"; 
-   d="scan'208";a="387328687"
+   d="scan'208";a="387328690"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 12:03:06 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 12:03:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="703413384"
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="703413383"
 X-IronPort-AV: E=Sophos;i="6.03,213,1694761200"; 
-   d="scan'208";a="703413384"
+   d="scan'208";a="703413383"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
   by orsmga003.jf.intel.com with ESMTP; 10 Oct 2023 12:03:05 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqI0U-0000x8-37;
+	id 1qqI0U-0000x6-32;
 	Tue, 10 Oct 2023 19:03:02 +0000
-Date: Wed, 11 Oct 2023 03:03:00 +0800
+Date: Wed, 11 Oct 2023 03:02:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Filippov <jcmvbkbc@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jcmvbkbc-xtensa:xtensa-6.6-rc5-esp32 19/38]
- drivers/net/wireless/espressif/esp32-ng/esp_bt.c:14:6: warning: no previous
- prototype for 'esp_hci_update_tx_counter'
-Message-ID: <202310110220.QWfCsjZe-lkp@intel.com>
+To: Huacai Chen <chenhuacai@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	WANG Xuerui <git@xen0n.name>, Jianmin Lv <lvjianmin@loongson.cn>
+Subject: drivers/pci/controller/pcie-mediatek.c:400:40: sparse: sparse:
+ incorrect type in argument 1 (different address spaces)
+Message-ID: <202310110223.HPW666St-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,304 +51,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.6-rc5-esp32
-head:   224f43124c24326eb21de553984a58d8528a48d0
-commit: 4bbe55067a282a1a5f7f6021bd8175a9b233c82d [19/38] drivers/net/wireless/espressif/esp32-ng: initial import
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231011/202310110220.QWfCsjZe-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310110220.QWfCsjZe-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   94f6f0550c625fab1f373bb86a6669b45e9748b3
+commit: 57fc7323a8e7c2e7c1d5795ab63cb3ffea3cfdfb LoongArch: Add PCI controller support
+date:   1 year, 2 months ago
+config: loongarch-randconfig-r122-20230906 (https://download.01.org/0day-ci/archive/20231011/202310110223.HPW666St-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231011/202310110223.HPW666St-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310110220.QWfCsjZe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310110223.HPW666St-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/pci/controller/pcie-mediatek.c:400:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile *address @@     got void [noderef] __iomem * @@
+   drivers/pci/controller/pcie-mediatek.c:400:40: sparse:     expected void volatile *address
+   drivers/pci/controller/pcie-mediatek.c:400:40: sparse:     got void [noderef] __iomem *
+   drivers/pci/controller/pcie-mediatek.c:523:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile *address @@     got void [noderef] __iomem * @@
+   drivers/pci/controller/pcie-mediatek.c:523:44: sparse:     expected void volatile *address
+   drivers/pci/controller/pcie-mediatek.c:523:44: sparse:     got void [noderef] __iomem *
+--
+   drivers/uio/uio_aec.c:44:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *int_flag @@     got void * @@
+   drivers/uio/uio_aec.c:44:49: sparse:     expected void [noderef] __iomem *int_flag
+   drivers/uio/uio_aec.c:44:49: sparse:     got void *
+>> drivers/uio/uio_aec.c:50:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:50:49: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:50:49: sparse:     got void *
+   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:59:9: sparse:     got void *
+   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:59:9: sparse:     got void *
+   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:59:9: sparse:     got void *
+   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:59:9: sparse:     got void *
+   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:59:9: sparse:     got void *
+   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:59:9: sparse:     got void *
+   drivers/uio/uio_aec.c:88:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *priv @@     got void [noderef] __iomem * @@
+   drivers/uio/uio_aec.c:88:20: sparse:     expected void *priv
+   drivers/uio/uio_aec.c:88:20: sparse:     got void [noderef] __iomem *
+>> drivers/uio/uio_aec.c:104:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:104:42: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:104:42: sparse:     got void *
+   drivers/uio/uio_aec.c:105:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:105:43: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:105:43: sparse:     got void *
+   drivers/uio/uio_aec.c:106:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:106:34: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:106:34: sparse:     got void *
+   drivers/uio/uio_aec.c:115:31: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got void *priv @@
+   drivers/uio/uio_aec.c:115:31: sparse:     expected void [noderef] __iomem *
+   drivers/uio/uio_aec.c:115:31: sparse:     got void *priv
+   drivers/uio/uio_aec.c:128:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:128:42: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:128:42: sparse:     got void *
+   drivers/uio/uio_aec.c:129:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:129:43: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:129:43: sparse:     got void *
+   drivers/uio/uio_aec.c:131:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:131:28: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:131:28: sparse:     got void *
+   drivers/uio/uio_aec.c:136:31: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got void *priv @@
+   drivers/uio/uio_aec.c:136:31: sparse:     expected void [noderef] __iomem *
+   drivers/uio/uio_aec.c:136:31: sparse:     got void *priv
 
->> drivers/net/wireless/espressif/esp32-ng/esp_bt.c:14:6: warning: no previous prototype for 'esp_hci_update_tx_counter' [-Wmissing-prototypes]
-      14 | void esp_hci_update_tx_counter(struct hci_dev *hdev, u8 pkt_type, size_t len)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/espressif/esp32-ng/esp_bt.c:29:6: warning: no previous prototype for 'esp_hci_update_rx_counter' [-Wmissing-prototypes]
-      29 | void esp_hci_update_rx_counter(struct hci_dev *hdev, u8 pkt_type, size_t len)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/espressif/esp32-ng/esp_bt.c:167:5: warning: no previous prototype for 'esp_deinit_bt' [-Wmissing-prototypes]
-     167 | int esp_deinit_bt(struct esp_adapter *adapter)
-         |     ^~~~~~~~~~~~~
->> drivers/net/wireless/espressif/esp32-ng/esp_bt.c:184:5: warning: no previous prototype for 'esp_init_bt' [-Wmissing-prototypes]
-     184 | int esp_init_bt(struct esp_adapter *adapter)
-         |     ^~~~~~~~~~~
---
->> drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:414:22: warning: no previous prototype for 'prepare_command_request' [-Wmissing-prototypes]
-     414 | struct command_node *prepare_command_request(struct esp_adapter *adapter, u8 cmd_code, u16 len)
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/espressif/esp32-ng/esp_cmd.c: In function 'cmd_assoc_request':
->> drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:847:30: warning: variable 'bss' set but not used [-Wunused-but-set-variable]
-     847 |         struct cfg80211_bss *bss;
-         |                              ^~~
-   In file included from drivers/net/wireless/espressif/esp32-ng/esp.h:11,
-                    from drivers/net/wireless/espressif/esp32-ng/esp_cmd.h:11,
-                    from drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:9:
-   In function 'destroy_cmd_wq',
-       inlined from 'esp_commands_teardown' at drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:1448:2:
->> include/linux/workqueue.h:631:9: warning: call to '__warn_flushing_systemwide_wq' declared with attribute warning: Please avoid flushing system-wide workqueues. [-Wattribute-warning]
-     631 |         __warn_flushing_systemwide_wq();                                \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:408:17: note: in expansion of macro 'flush_scheduled_work'
-     408 |                 flush_scheduled_work();
-         |                 ^~~~~~~~~~~~~~~~~~~~
---
->> drivers/net/wireless/espressif/esp32-ng/esp_wpa_utils.c:34:5: warning: no previous prototype for 'wpa_cipher_key_len' [-Wmissing-prototypes]
-      34 | int wpa_cipher_key_len(int cipher)
-         |     ^~~~~~~~~~~~~~~~~~
---
->> drivers/net/wireless/espressif/esp32-ng/esp_stats.c:182:6: warning: no previous prototype for 'process_test_capabilities' [-Wmissing-prototypes]
-     182 | void process_test_capabilities(u8 cap)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/mm_types.h:19,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13,
-                    from include/linux/spi/spi.h:9,
-                    from drivers/net/wireless/espressif/esp32-ng/esp_spi.c:7:
-   drivers/net/wireless/espressif/esp32-ng/esp_spi.c: In function 'spi_exit':
->> include/linux/workqueue.h:631:9: warning: call to '__warn_flushing_systemwide_wq' declared with attribute warning: Please avoid flushing system-wide workqueues. [-Wattribute-warning]
-     631 |         __warn_flushing_systemwide_wq();                                \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/espressif/esp32-ng/esp_spi.c:645:17: note: in expansion of macro 'flush_scheduled_work'
-     645 |                 flush_scheduled_work();
-         |                 ^~~~~~~~~~~~~~~~~~~~
---
->> drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.c:16: warning: Cannot understand   * @brief WiFi PHY rate encodings
-    on line 16 - I thought it was a doc line
+vim +400 drivers/pci/controller/pcie-mediatek.c
 
+b099631df160ec6 drivers/pci/host/pcie-mediatek.c Ryder Lee     2017-08-10  393  
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  394  static void mtk_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
+43e6409db64ddab drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  395  {
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  396  	struct mtk_pcie_port *port = irq_data_get_irq_chip_data(data);
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  397  	phys_addr_t addr;
+43e6409db64ddab drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  398  
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  399  	/* MT2712/MT7622 only support 32-bit MSI addresses */
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04 @400  	addr = virt_to_phys(port->base + PCIE_MSI_VECTOR);
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  401  	msg->address_hi = 0;
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  402  	msg->address_lo = lower_32_bits(addr);
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  403  
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  404  	msg->data = data->hwirq;
+43e6409db64ddab drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  405  
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  406  	dev_dbg(port->pcie->dev, "msi#%d address_hi %#x address_lo %#x\n",
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  407  		(int)data->hwirq, msg->address_hi, msg->address_lo);
+43e6409db64ddab drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  408  }
+43e6409db64ddab drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  409  
 
-vim +/esp_hci_update_tx_counter +14 drivers/net/wireless/espressif/esp32-ng/esp_bt.c
+:::::: The code at line 400 was first introduced by commit
+:::::: 42fe2f91b4ebc07c815fb334ea1262e6dc23bf77 PCI: mediatek: Implement chained IRQ handling setup
 
-    13	
-  > 14	void esp_hci_update_tx_counter(struct hci_dev *hdev, u8 pkt_type, size_t len)
-    15	{
-    16		if (!hdev)
-    17			return;
-    18		if (pkt_type == HCI_COMMAND_PKT) {
-    19			hdev->stat.cmd_tx++;
-    20		} else if (pkt_type == HCI_ACLDATA_PKT) {
-    21			hdev->stat.acl_tx++;
-    22		} else if (pkt_type == HCI_SCODATA_PKT) {
-    23			hdev->stat.sco_tx++;
-    24		}
-    25	
-    26		hdev->stat.byte_tx += len;
-    27	}
-    28	
-  > 29	void esp_hci_update_rx_counter(struct hci_dev *hdev, u8 pkt_type, size_t len)
-    30	{
-    31		if (!hdev)
-    32			return;
-    33	
-    34		if (pkt_type == HCI_EVENT_PKT) {
-    35			hdev->stat.evt_rx++;
-    36		} else if (pkt_type == HCI_ACLDATA_PKT) {
-    37			hdev->stat.acl_rx++;
-    38		} else if (pkt_type == HCI_SCODATA_PKT) {
-    39			hdev->stat.sco_rx++;
-    40		}
-    41	
-    42		hdev->stat.byte_rx += len;
-    43	}
-    44	
-    45	static int esp_bt_open(struct hci_dev *hdev)
-    46	{
-    47		return 0;
-    48	}
-    49	
-    50	static int esp_bt_close(struct hci_dev *hdev)
-    51	{
-    52		return 0;
-    53	}
-    54	
-    55	static int esp_bt_flush(struct hci_dev *hdev)
-    56	{
-    57		return 0;
-    58	}
-    59	
-    60	static ESP_BT_SEND_FRAME_PROTOTYPE()
-    61	{
-    62		struct esp_payload_header *hdr;
-    63		size_t total_len, len = skb->len;
-    64		int ret = 0;
-    65	#if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 13, 0))
-    66		struct hci_dev *hdev = (struct hci_dev *)(skb->dev);
-    67	#endif
-    68		struct esp_adapter *adapter = hci_get_drvdata(hdev);
-    69		struct sk_buff *new_skb;
-    70		u8 pad_len = 0, realloc_skb = 0;
-    71		u8 *pos = NULL;
-    72		u8 pkt_type;
-    73	
-    74		if (!adapter) {
-    75			esp_err("Invalid args");
-    76			return -EINVAL;
-    77		}
-    78		//print_hex_dump(KERN_INFO, "bt_tx: ", DUMP_PREFIX_ADDRESS, 16, 1, skb->data, len, 1  );
-    79	
-    80		/* Create space for payload header */
-    81		pad_len = sizeof(struct esp_payload_header);
-    82		total_len = len + sizeof(struct esp_payload_header);
-    83	
-    84		/* Align buffer len */
-    85		pad_len += SKB_DATA_ADDR_ALIGNMENT - (total_len % SKB_DATA_ADDR_ALIGNMENT);
-    86	
-    87		pkt_type = hci_skb_pkt_type(skb);
-    88	
-    89		if (skb_headroom(skb) < pad_len) {
-    90			/* Headroom is not sufficient */
-    91			realloc_skb = 1;
-    92		}
-    93	
-    94		if (realloc_skb || !IS_ALIGNED((unsigned long) skb->data, SKB_DATA_ADDR_ALIGNMENT)) {
-    95			/* Realloc SKB */
-    96			if (skb_linearize(skb)) {
-    97				hdev->stat.err_tx++;
-    98				return -EINVAL;
-    99			}
-   100	
-   101			new_skb = esp_alloc_skb(skb->len + pad_len);
-   102	
-   103			if (!new_skb) {
-   104				esp_err("Failed to allocate SKB");
-   105				hdev->stat.err_tx++;
-   106				return -ENOMEM;
-   107			}
-   108	
-   109			pos = new_skb->data;
-   110	
-   111			pos += pad_len;
-   112	
-   113			/* Populate new SKB */
-   114			skb_copy_from_linear_data(skb, pos, skb->len);
-   115			skb_put(new_skb, skb->len);
-   116	
-   117			/* Replace old SKB */
-   118			dev_kfree_skb_any(skb);
-   119			skb = new_skb;
-   120		} else {
-   121			/* Realloc is not needed, Make space for interface header */
-   122			skb_push(skb, pad_len);
-   123		}
-   124	
-   125		hdr = (struct esp_payload_header *) skb->data;
-   126	
-   127		memset(hdr, 0, sizeof(struct esp_payload_header));
-   128	
-   129		hdr->if_type = ESP_HCI_IF;
-   130		hdr->if_num = 0;
-   131		hdr->len = cpu_to_le16(len);
-   132		hdr->offset = cpu_to_le16(pad_len);
-   133		pos = skb->data;
-   134	
-   135		/* set HCI packet type */
-   136		*(pos + pad_len - 1) = pkt_type;
-   137	
-   138		if (adapter->capabilities & ESP_CHECKSUM_ENABLED)
-   139			hdr->checksum = cpu_to_le16(compute_checksum(skb->data, (len + pad_len)));
-   140	
-   141		ret = esp_send_packet(adapter, skb);
-   142	
-   143		if (ret) {
-   144			hdev->stat.err_tx++;
-   145			return ret;
-   146		} else {
-   147			esp_hci_update_tx_counter(hdev, hdr->hci_pkt_type, skb->len);
-   148		}
-   149	
-   150		return 0;
-   151	}
-   152	
-   153	#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 10, 0))
-   154	static int esp_bt_setup(struct hci_dev *hdev)
-   155	{
-   156		return 0;
-   157	}
-   158	#endif
-   159	
-   160	#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 17, 0))
-   161	static int esp_bt_set_bdaddr(struct hci_dev *hdev, const bdaddr_t *bdaddr)
-   162	{
-   163		return 0;
-   164	}
-   165	#endif
-   166	
- > 167	int esp_deinit_bt(struct esp_adapter *adapter)
-   168	{
-   169		struct hci_dev *hdev = NULL;
-   170	
-   171		if (!adapter || !adapter->hcidev)
-   172			return 0;
-   173	
-   174		hdev = adapter->hcidev;
-   175	
-   176		hci_unregister_dev(hdev);
-   177		hci_free_dev(hdev);
-   178	
-   179		adapter->hcidev = NULL;
-   180	
-   181		return 0;
-   182	}
-   183	
- > 184	int esp_init_bt(struct esp_adapter *adapter)
-   185	{
-   186		int ret = 0;
-   187		struct hci_dev *hdev = NULL;
-   188	
-   189		if (!adapter) {
-   190			return -EINVAL;
-   191		}
-   192	
-   193		if (adapter->hcidev) {
-   194			return -EEXIST;
-   195		}
-   196	
-   197		hdev = hci_alloc_dev();
-   198	
-   199		if (!hdev) {
-   200			BT_ERR("Can not allocate HCI device");
-   201			return -ENOMEM;
-   202		}
-   203	
-   204		adapter->hcidev = hdev;
-   205		hci_set_drvdata(hdev, adapter);
-   206	
-   207		hdev->bus = INVALID_HDEV_BUS;
-   208	
-   209		if (adapter->if_type == ESP_IF_TYPE_SDIO)
-   210			hdev->bus   = HCI_SDIO;
-   211	    #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 7, 0))
-   212		else if (adapter->if_type == ESP_IF_TYPE_SPI)
-   213			hdev->bus   = HCI_SPI;
-   214	    #endif
-   215	
-   216		if (hdev->bus == INVALID_HDEV_BUS) {
-   217	
-   218			if (adapter->if_type == ESP_IF_TYPE_SDIO) {
-   219				esp_err("Kernel version does not support HCI over SDIO BUS\n");
-   220			} else if (adapter->if_type == ESP_IF_TYPE_SPI) {
-   221				esp_err("Kernel version does not support HCI over SPI BUS\n");
-   222			} else {
-   223				esp_err("HCI over expected BUS[%u] is not supported\n", adapter->if_type);
-   224			}
-   225			hci_free_dev(hdev);
-   226			adapter->hcidev = NULL;
-   227			return -EINVAL;
-   228		}
-   229	
-   230		hdev->open  = esp_bt_open;
-   231		hdev->close = esp_bt_close;
-   232		hdev->flush = esp_bt_flush;
-   233		hdev->send  = esp_bt_send_frame;
-   234	
+:::::: TO: Honghui Zhang <honghui.zhang@mediatek.com>
+:::::: CC: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
