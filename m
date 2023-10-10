@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA4120333
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 12:55:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B42D154BB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 13:09:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O8WwJd3G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QWMWiDzj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696942545; x=1728478545;
+  t=1696943372; x=1728479372;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yfXTuqZmctDDC7+qlO0hYo9CM8391MLaCcFyHo3jA3A=;
-  b=O8WwJd3GK2jhpbyXuMkUqYxKuv6WLQ2QXOwJDeMOaQxP7pmTaBW3UGEc
-   tF6J+C6adrGrXlOe2lBze2KcCpqR1o8cD/OybiGkzpxgYZAH+DhjYd1nS
-   L0GZw3v1K4ReTEwn1O9ULC/Ce2fMFfxg3MqQT1fJOeXXOIi61X+RXKO8r
-   RbA89p8aLZqWl6IrorskHFICSGxjlimstSzNm30Oy2f++W+cgXEwDXaXe
-   7/6L7RMsRflxNVv7g4IAY4EuzDAIfgSwO5E26VcR8ShhsuuEiUIx7+myy
-   S3w3ipLP2RCGtxd7Zd+EMaYJT3XI/snnOhg2OxdzN7XTBQkkYGgtGZ43b
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="363732047"
+  bh=HR/PlqrlazU+IrqlTy2RRL5jjxKswz77et5OsuFZEME=;
+  b=QWMWiDzjhczWOym4gr1poQnhqp9ave46pXXvNyG7rnA+zzHtWfwaqA1z
+   Yg267s5rzDf4+MxmGTuchuKaArb+5RrTDjQC59lJbo+lnrlisJ+4X8Y+E
+   QDm8PGLUs+PW0k7YgRTwCT3GAxlns2jtMDxZ5Qnv/ibvYXUJqUt4t0hSo
+   9T0Br+qFFd3XSRLH/hWPe4PsOYVJm1uJ/6wNfFeuSDSTSK/MSGhi73SZx
+   hEjWMgEWIdfQkAmFIqAuBjQ9En/xh7ny6f9j//6gSsF6fWizYlKZ6dB9k
+   wZNN9Pi/D2M0lMBAurQ/jzNF5r8ZMman85vBHVXK+E4hH+j5EocEzI3yX
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="388257103"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="363732047"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 05:55:39 -0700
+   d="scan'208";a="388257103"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 06:09:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="747066393"
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="782869476"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="747066393"
+   d="scan'208";a="782869476"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 10 Oct 2023 05:55:38 -0700
+  by orsmga008.jf.intel.com with ESMTP; 10 Oct 2023 06:09:29 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqCGu-0000Re-03;
-	Tue, 10 Oct 2023 12:55:36 +0000
-Date: Tue, 10 Oct 2023 20:55:25 +0800
+	id 1qqCUG-0000Si-07;
+	Tue, 10 Oct 2023 13:09:24 +0000
+Date: Tue, 10 Oct 2023 21:08:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: Max Filippov <jcmvbkbc@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jcmvbkbc-xtensa:xtensa-6.6-rc5-esp32 24/38] checkpatch: WARNING:
+Subject: [jcmvbkbc-xtensa:xtensa-6.6-rc5-esp32 28/38] checkpatch: WARNING:
  else is not generally useful after a break or return
-Message-ID: <202310102027.GFn34dzA-lkp@intel.com>
+Message-ID: <202310102155.HnE4JZ3O-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,13 +52,13 @@ Content-Disposition: inline
 
 tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.6-rc5-esp32
 head:   224f43124c24326eb21de553984a58d8528a48d0
-commit: 1874cfba243542e97843e28a5f362b9273528a08 [24/38] esp_wifi: make BT support separately configurable
-reproduce: (https://download.01.org/0day-ci/archive/20231010/202310102027.GFn34dzA-lkp@intel.com/reproduce)
+commit: 786585dea0811889f8db090c25eb335237503ab7 [28/38] WIP: xtensa: esp32: low level debug code
+reproduce: (https://download.01.org/0day-ci/archive/20231010/202310102155.HnE4JZ3O-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310102027.GFn34dzA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310102155.HnE4JZ3O-lkp@intel.com/
 
 # many are suggestions rather than must-fix
 
@@ -1177,6 +1177,34 @@ ERROR:SPACING: space required before the open parenthesis '('
 ERROR:SPACING: space required before the open parenthesis '('
 #6998: FILE: drivers/net/wireless/espressif/esp32-ng/utils.h:25:
 +#define esp_dbg(...) do {} while(0)
+
+WARNING:SUSPECT_CODE_INDENT: suspect code indent for conditional statements (8, 15)
+#43: FILE: drivers/net/wireless/espressif/esp32-ng/main.c:750:
++	while ((skb = adapter->if_ops->read(adapter)))
++	       process_rx_packet(adapter, skb);
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#48: FILE: drivers/net/wireless/espressif/esp32-ng/esp_shmem.c:1:
++/*
+
+ERROR:OPEN_BRACE: open brace '{' following struct go on the same line
+#78: FILE: drivers/net/wireless/espressif/esp32-ng/esp_shmem.c:31:
++struct esp_wifi_shmem
++{
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#250: FILE: drivers/net/wireless/espressif/esp32-ng/esp_shmem.c:203:
++	if (esp_add_card(adapter)) {
++		pr_err("network iterface init failed\n");
++	}
+
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#731: FILE: arch/xtensa/platforms/esp32/include/platform/serial.h:1:
++// SPDX-License-Identifier: GPL-2.0-or-later
+
+WARNING:IF_0: Consider removing the code enclosed by this #if 0 and its #endif
+#764: FILE: arch/xtensa/platforms/esp32/setup.c:20:
++#if 0
 
 -- 
 0-DAY CI Kernel Test Service
