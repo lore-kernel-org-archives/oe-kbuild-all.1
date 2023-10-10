@@ -1,52 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABB5946B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 09:43:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5FD28E2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Oct 2023 11:06:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W96m1l9n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XalSuLSC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696931034; x=1728467034;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ABVJ/HsrIXFckFMfaqVuY7HMZK5cmb/9vsBsVL3RHYs=;
-  b=W96m1l9n++shi4kt77FVrzChWWCbJlRDax8I1u+xHCEm/m+zzfDn21cu
-   P2AE7/tgLK4AGfoV0xX0Lqnzn0iDCMzz+NuUXltV+YuPLGic2yntU8lna
-   h0Vd54Xil3X8cZWRxFXsdOVEwdf9dMBf9GDKqCyfWzKTK5bhOy+XOLlDZ
-   Rj+GnhzW6I+0+WYK+iBPHTStE09V1URbTgV0ROpr1nncV9wLf3mf/X2sR
-   ysGu5gQsBW6giEqy0dY5YmoMVF/OGfgziGNlO2HCUceN32FJpcO4BAkD5
-   c4B/uqH7jxUxbsdUNrj/AUZxBijrZVOuPMdc8Jl0hoYACqvBWd7youvbm
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="388220619"
+  t=1696936001; x=1728472001;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aYNPXEXyl8RWhiSV0o9uJDzObOReC36Oqr08dOYNnjQ=;
+  b=XalSuLSCm6AzeljtSCggv8QSGmjGPsIGbNjfrjcHPh5kTtCkt1MzXt9j
+   Ry78mPGmtOnUv1I6NrlHCza23Qy/hDil7znDOgYzSlq6ypyjzdktYWbNT
+   kcI03aaCZRTDWOswxpOLmrzTycLhGCfBj2ykMuHuqHv4T3v9BfqyZWcij
+   PmIdKhDJm9fLQQRieJaBJqK1jiP3PpeHNp5yD7UC8/YkHZ7xs+ngAogws
+   QYo8QcGU0f4xYb2QbKLIFJsVek1HwLRdL9Bl5nOXSdb1byHrW8h1k0x3Q
+   1BVhR+Vz8/8siY5qbMfB4hw0U3qKXDP0bnjPPG/PbJY/w5QYNODBMBCCe
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="369430698"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="388220619"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 02:43:53 -0700
+   d="scan'208";a="369430698"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 04:06:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="730020342"
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="747037062"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="730020342"
+   d="scan'208";a="747037062"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 10 Oct 2023 02:43:32 -0700
+  by orsmga007.jf.intel.com with ESMTP; 10 Oct 2023 04:06:39 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qq9H0-0000Es-1F;
-	Tue, 10 Oct 2023 09:43:30 +0000
-Date: Tue, 10 Oct 2023 17:42:31 +0800
+	id 1qqAZQ-0000II-23;
+	Tue, 10 Oct 2023 11:06:36 +0000
+Date: Tue, 10 Oct 2023 19:06:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sumit Gupta <sumitg@nvidia.com>, rafael@kernel.org, rui.zhang@intel.com,
-	lenb@kernel.org, linux-acpi@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, treding@nvidia.com, jonathanh@nvidia.com,
-	bbasu@nvidia.com, sumitg@nvidia.com, sanjayc@nvidia.com,
-	ksitaraman@nvidia.com, srikars@nvidia.com, jbrasen@nvidia.com
-Subject: Re: [Patch v4 2/2] ACPI: processor: reduce CPUFREQ thermal reduction
- pctg for Tegra241
-Message-ID: <202310101725.z21V2yNG-lkp@intel.com>
-References: <20231009171839.12267-3-sumitg@nvidia.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 31/36]
+ drivers/media/i2c/ccs/ccs-core.c:2222:22: warning: unused variable 'i'
+Message-ID: <202310101832.SmsDPmoW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,66 +49,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231009171839.12267-3-sumitg@nvidia.com>
 
-Hi Sumit,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on next-20231010]
-[cannot apply to linus/master v6.6-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Gupta/ACPI-thermal-Add-Thermal-fast-Sampling-Period-_TFP-support/20231010-012229
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20231009171839.12267-3-sumitg%40nvidia.com
-patch subject: [Patch v4 2/2] ACPI: processor: reduce CPUFREQ thermal reduction pctg for Tegra241
-config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20231010/202310101725.z21V2yNG-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310101725.z21V2yNG-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   278fe7fc8a0bdc0cc01b934edf4e2193b0dc195e
+commit: f815633f0acd64a5a663a205f74db43d814c7a73 [31/36] media: ccs: Remove ccs_get_crop_compose helper
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20231010/202310101832.SmsDPmoW-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310101832.SmsDPmoW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310101725.z21V2yNG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310101832.SmsDPmoW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: kernel/sysctl.o: in function `acpi_thermal_cpufreq_pctg':
->> include/linux/acpi.h:1546: multiple definition of `acpi_thermal_cpufreq_pctg'; init/main.o:include/linux/acpi.h:1546: first defined here
-   ld: kernel/power/main.o: in function `acpi_thermal_cpufreq_pctg':
->> include/linux/acpi.h:1546: multiple definition of `acpi_thermal_cpufreq_pctg'; init/main.o:include/linux/acpi.h:1546: first defined here
-   ld: drivers/base/core.o: in function `acpi_thermal_cpufreq_pctg':
->> include/linux/acpi.h:1546: multiple definition of `acpi_thermal_cpufreq_pctg'; init/main.o:include/linux/acpi.h:1546: first defined here
-   ld: drivers/base/platform.o: in function `acpi_thermal_cpufreq_pctg':
->> include/linux/acpi.h:1546: multiple definition of `acpi_thermal_cpufreq_pctg'; init/main.o:include/linux/acpi.h:1546: first defined here
-   ld: drivers/base/cpu.o: in function `acpi_thermal_cpufreq_pctg':
->> include/linux/acpi.h:1546: multiple definition of `acpi_thermal_cpufreq_pctg'; init/main.o:include/linux/acpi.h:1546: first defined here
-   ld: drivers/base/property.o: in function `acpi_thermal_cpufreq_pctg':
->> include/linux/acpi.h:1546: multiple definition of `acpi_thermal_cpufreq_pctg'; init/main.o:include/linux/acpi.h:1546: first defined here
-   ld: drivers/base/cacheinfo.o: in function `acpi_thermal_cpufreq_pctg':
->> include/linux/acpi.h:1546: multiple definition of `acpi_thermal_cpufreq_pctg'; init/main.o:include/linux/acpi.h:1546: first defined here
-   ld: drivers/base/power/common.o: in function `acpi_thermal_cpufreq_pctg':
->> include/linux/acpi.h:1546: multiple definition of `acpi_thermal_cpufreq_pctg'; init/main.o:include/linux/acpi.h:1546: first defined here
-   ld: drivers/input/mouse/synaptics.o: in function `acpi_thermal_cpufreq_pctg':
->> include/linux/acpi.h:1546: multiple definition of `acpi_thermal_cpufreq_pctg'; init/main.o:include/linux/acpi.h:1546: first defined here
+   drivers/media/i2c/ccs/ccs-core.c: In function 'ccs_propagate':
+>> drivers/media/i2c/ccs/ccs-core.c:2222:22: warning: unused variable 'i' [-Wunused-variable]
+    2222 |         unsigned int i;
+         |                      ^
 
 
-vim +1546 include/linux/acpi.h
+vim +/i +2222 drivers/media/i2c/ccs/ccs-core.c
 
-  1541	
-  1542	#ifdef CONFIG_HAVE_ARM_SMCCC_DISCOVERY
-  1543	int acpi_thermal_cpufreq_pctg(void);
-  1544	#else
-  1545	inline int acpi_thermal_cpufreq_pctg(void)
-> 1546	{
-  1547		return 0;
-  1548	}
-  1549	#endif
-  1550	
+  2212	
+  2213	/* Changes require propagation only on sink pad. */
+  2214	static void ccs_propagate(struct v4l2_subdev *subdev,
+  2215				  struct v4l2_subdev_state *sd_state, int which,
+  2216				  int target)
+  2217	{
+  2218		struct ccs_sensor *sensor = to_ccs_sensor(subdev);
+  2219		struct ccs_subdev *ssd = to_ccs_subdev(subdev);
+  2220		struct v4l2_rect *comp, *crop;
+  2221		struct v4l2_mbus_framefmt *fmt;
+> 2222		unsigned int i;
+  2223	
+  2224		comp = v4l2_subdev_get_compose_ptr(subdev, sd_state,
+  2225						   ssd->sink_pad, CCS_STREAM_PIXEL);
+  2226		switch (target) {
+  2227		case V4L2_SEL_TGT_CROP:
+  2228			crop = v4l2_subdev_get_crop_ptr(subdev, sd_state, CCS_PAD_SINK,
+  2229							CCS_STREAM_PIXEL);
+  2230			comp->width = crop->width;
+  2231			comp->height = crop->height;
+  2232			if (which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+  2233				if (ssd == sensor->scaler) {
+  2234					sensor->scale_m = CCS_LIM(sensor, SCALER_N_MIN);
+  2235					sensor->scaling_mode =
+  2236						CCS_SCALING_MODE_NO_SCALING;
+  2237					sensor->scaler_sink = *comp;
+  2238				} else if (ssd == sensor->binner) {
+  2239					sensor->binning_horizontal = 1;
+  2240					sensor->binning_vertical = 1;
+  2241				}
+  2242			}
+  2243			fallthrough;
+  2244		case V4L2_SEL_TGT_COMPOSE:
+  2245			crop = v4l2_subdev_get_crop_ptr(subdev, sd_state, CCS_PAD_SRC,
+  2246							CCS_STREAM_PIXEL);
+  2247			*crop = *comp;
+  2248			fmt = v4l2_subdev_get_pad_format(subdev, sd_state, CCS_PAD_SRC);
+  2249			fmt->width = comp->width;
+  2250			fmt->height = comp->height;
+  2251			if (which == V4L2_SUBDEV_FORMAT_ACTIVE && ssd == sensor->src)
+  2252				sensor->src_src = *crop;
+  2253			break;
+  2254		default:
+  2255			WARN_ON_ONCE(1);
+  2256		}
+  2257	}
+  2258	
 
 -- 
 0-DAY CI Kernel Test Service
