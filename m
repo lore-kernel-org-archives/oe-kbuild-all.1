@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF10DD2E4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 05:19:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E008354F6;
+	Wed, 11 Oct 2023 05:29:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NzEVRbPb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W61BLZPA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697001550; x=1728537550;
+  t=1697002177; x=1728538177;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hzdCo8sHX9qUf50RkI8BlyG5RkgpZ0esSUnJCxZOo8M=;
-  b=NzEVRbPbeupcPnTJxZXQWvBlfjiCGLr8rwK1VliETdz5FUKUO2rr0uUg
-   JwnM7I8pw/mHw4FQQvEKUq1NsdBpBHhJ/OM68w1pohp10c7BeLUeo7WAG
-   tbCsKW6VeojtZYDRJcD1gFNliUR8WR2sq5YBztTjnvnBJFJw5QR0IObKU
-   WfmJKz+oXklZki86ohxOp1k4uapBq9zlAb0+zhjJ0+j1Ukgq/PMBTs0JI
-   SqD3VGcSAG3Bp8NiyMDyUJbSh4OBJ39hG8jwwQXnFOxfHgeniG3YxXgd1
-   ySgJdNoJMpCKqJl9aMCKG6rzcoWxpgAtWwm/sj+jTdVpe1BSpIoa4vOdd
+  bh=YURrV1LVeg7mxWgyKkM0Gtr7fzsqSyejUBzuq1IOZCc=;
+  b=W61BLZPA/kVKSLsDf73U9j8XdpyCnNtlAh/79hTLd156lb3aVJZqBHfN
+   /YbDizhICkNfkQ2xpO8h+WF4AozPGF0MAmMVuIAI1m0AUD7jd5J1CuvKu
+   RNbfAUcGZhBmtmk+1Nqy20vUaCQeYhK7OZmb0B7db0lRpxJ4qpjS+x/fj
+   AtbD06zYKss9cEpPsfxKLAOwQQYvcvUkqpSD276m0NNsqTrZd95xAGHsZ
+   NRvwDbC/GWpx6qkn8G6TcuagQmpWFvZiNi1l6S2E+WFznZiMLcEaZ+rI6
+   OSWJc/W2+XmblDZtflmzNteb0BSeefjTdDZPVdeWeH2VJNWeJ2GXFs1AW
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="451073675"
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="448784246"
 X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="451073675"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 22:19:09 -0700
+   d="scan'208";a="448784246"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 22:29:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="1000968416"
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="877533295"
 X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="1000968416"
+   d="scan'208";a="877533295"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 10 Oct 2023 22:19:08 -0700
+  by orsmga004.jf.intel.com with ESMTP; 10 Oct 2023 22:29:34 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqRcG-0001lp-1X;
-	Wed, 11 Oct 2023 05:18:50 +0000
-Date: Wed, 11 Oct 2023 13:18:08 +0800
+	id 1qqRmm-0001mD-1Y;
+	Wed, 11 Oct 2023 05:29:32 +0000
+Date: Wed, 11 Oct 2023 13:28:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <christian.brauner@ubuntu.com>
-Cc: oe-kbuild-all@lists.linux.dev, Kees Cook <keescook@chromium.org>,
-	Laurent Vivier <laurent@vivier.eu>
-Subject: [kees:for-next/execve 10/10] fs/binfmt_misc.c:91: warning: Function
- parameter or member 'misc' not described in 'search_binfmt_handler'
-Message-ID: <202310111341.87eYXHRy-lkp@intel.com>
+To: Max Filippov <jcmvbkbc@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jcmvbkbc-xtensa:xtensa-6.6-rc5-esp32 26/38]
+ drivers/misc/esp32-ipc.c:151:13: warning: cast to 'void *' from smaller
+ integer type 'u32' (aka 'unsigned int')
+Message-ID: <202310111342.MalKHKLx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,105 +51,201 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/execve
-head:   6f88724a1901ebcc039851aa2e001d11e33e841e
-commit: 6f88724a1901ebcc039851aa2e001d11e33e841e [10/10] binfmt_misc: enable sandboxed mounts
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231011/202310111341.87eYXHRy-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310111341.87eYXHRy-lkp@intel.com/reproduce)
+tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.6-rc5-esp32
+head:   c2191d1bd425905e3a6439c28449222848e9ecde
+commit: 1e4275e30ad53c59e06fa088bc651a8a9cb682b0 [26/38] esp_wifi: add IPC transport
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231011/202310111342.MalKHKLx-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310111342.MalKHKLx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310111341.87eYXHRy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310111342.MalKHKLx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/binfmt_misc.c:91: warning: Function parameter or member 'misc' not described in 'search_binfmt_handler'
->> fs/binfmt_misc.c:140: warning: Function parameter or member 'misc' not described in 'get_binfmt_handler'
->> fs/binfmt_misc.c:725: warning: Function parameter or member 'misc' not described in 'remove_binfmt_handler'
+   In file included from drivers/misc/esp32-ipc.c:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/misc/esp32-ipc.c:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/misc/esp32-ipc.c:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/misc/esp32-ipc.c:151:13: warning: cast to 'void *' from smaller integer type 'u32' (aka 'unsigned int') [-Wint-to-void-pointer-cast]
+     151 |         hw->hw_q = (void *)readl(p);
+         |                    ^~~~~~~~~~~~~~~~
+>> drivers/misc/esp32-ipc.c:228:34: warning: unused variable 'esp32_ipc_match' [-Wunused-const-variable]
+     228 | static const struct of_device_id esp32_ipc_match[] = {
+         |                                  ^
+   14 warnings generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ESP32_IPC
+   Depends on [n]: OF [=n] && HAS_IOMEM [=n]
+   Selected by [y]:
+   - ESP32_WIFI_SHMEM [=y] && NETDEVICES [=y] && WLAN [=y] && WLAN_VENDOR_ESPRESSIF [=y]
 
 
-vim +91 fs/binfmt_misc.c
+vim +151 drivers/misc/esp32-ipc.c
 
-bbaecc088245e8 Mike Frysinger    2014-10-13   79  
-16cc9f5f41ffb1 Christian Brauner 2021-10-28   80  /**
-16cc9f5f41ffb1 Christian Brauner 2021-10-28   81   * search_binfmt_handler - search for a binary handler for @bprm
-16cc9f5f41ffb1 Christian Brauner 2021-10-28   82   * @bprm: binary for which we are looking for a handler
-16cc9f5f41ffb1 Christian Brauner 2021-10-28   83   *
-16cc9f5f41ffb1 Christian Brauner 2021-10-28   84   * Search for a binary type handler for @bprm in the list of registered binary
-16cc9f5f41ffb1 Christian Brauner 2021-10-28   85   * type handlers.
-16cc9f5f41ffb1 Christian Brauner 2021-10-28   86   *
-16cc9f5f41ffb1 Christian Brauner 2021-10-28   87   * Return: binary type list entry on success, NULL on failure
-^1da177e4c3f41 Linus Torvalds    2005-04-16   88   */
-6f88724a1901eb Christian Brauner 2021-10-28   89  static Node *search_binfmt_handler(struct binfmt_misc *misc,
-6f88724a1901eb Christian Brauner 2021-10-28   90  				   struct linux_binprm *bprm)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  @91  {
-^1da177e4c3f41 Linus Torvalds    2005-04-16   92  	char *p = strrchr(bprm->interp, '.');
-16cc9f5f41ffb1 Christian Brauner 2021-10-28   93  	Node *e;
-^1da177e4c3f41 Linus Torvalds    2005-04-16   94  
-6b899c4e9a049d Mike Frysinger    2014-12-10   95  	/* Walk all the registered handlers. */
-6f88724a1901eb Christian Brauner 2021-10-28   96  	list_for_each_entry(e, &misc->entries, list) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16   97  		char *s;
-^1da177e4c3f41 Linus Torvalds    2005-04-16   98  		int j;
-^1da177e4c3f41 Linus Torvalds    2005-04-16   99  
-6b899c4e9a049d Mike Frysinger    2014-12-10  100  		/* Make sure this one is currently enabled. */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  101  		if (!test_bit(Enabled, &e->flags))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  102  			continue;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  103  
-6b899c4e9a049d Mike Frysinger    2014-12-10  104  		/* Do matching based on extension if applicable. */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  105  		if (!test_bit(Magic, &e->flags)) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  106  			if (p && !strcmp(e->magic, p + 1))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  107  				return e;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  108  			continue;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  109  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  110  
-6b899c4e9a049d Mike Frysinger    2014-12-10  111  		/* Do matching based on magic & mask. */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  112  		s = bprm->buf + e->offset;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  113  		if (e->mask) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  114  			for (j = 0; j < e->size; j++)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  115  				if ((*s++ ^ e->magic[j]) & e->mask[j])
-^1da177e4c3f41 Linus Torvalds    2005-04-16  116  					break;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  117  		} else {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  118  			for (j = 0; j < e->size; j++)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  119  				if ((*s++ ^ e->magic[j]))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  120  					break;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  121  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  122  		if (j == e->size)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  123  			return e;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  124  	}
-16cc9f5f41ffb1 Christian Brauner 2021-10-28  125  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  126  	return NULL;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  127  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  128  
-16cc9f5f41ffb1 Christian Brauner 2021-10-28  129  /**
-16cc9f5f41ffb1 Christian Brauner 2021-10-28  130   * get_binfmt_handler - try to find a binary type handler
-16cc9f5f41ffb1 Christian Brauner 2021-10-28  131   * @bprm: binary for which we are looking for a handler
-16cc9f5f41ffb1 Christian Brauner 2021-10-28  132   *
-16cc9f5f41ffb1 Christian Brauner 2021-10-28  133   * Try to find a binfmt handler for the binary type. If one is found take a
-16cc9f5f41ffb1 Christian Brauner 2021-10-28  134   * reference to protect against removal via bm_{entry,status}_write().
-16cc9f5f41ffb1 Christian Brauner 2021-10-28  135   *
-16cc9f5f41ffb1 Christian Brauner 2021-10-28  136   * Return: binary type list entry on success, NULL on failure
-16cc9f5f41ffb1 Christian Brauner 2021-10-28  137   */
-6f88724a1901eb Christian Brauner 2021-10-28  138  static Node *get_binfmt_handler(struct binfmt_misc *misc,
-6f88724a1901eb Christian Brauner 2021-10-28  139  				struct linux_binprm *bprm)
-16cc9f5f41ffb1 Christian Brauner 2021-10-28 @140  {
-16cc9f5f41ffb1 Christian Brauner 2021-10-28  141  	Node *e;
-16cc9f5f41ffb1 Christian Brauner 2021-10-28  142  
-6f88724a1901eb Christian Brauner 2021-10-28  143  	read_lock(&misc->entries_lock);
-6f88724a1901eb Christian Brauner 2021-10-28  144  	e = search_binfmt_handler(misc, bprm);
-16cc9f5f41ffb1 Christian Brauner 2021-10-28  145  	if (e)
-16cc9f5f41ffb1 Christian Brauner 2021-10-28  146  		refcount_inc(&e->users);
-6f88724a1901eb Christian Brauner 2021-10-28  147  	read_unlock(&misc->entries_lock);
-16cc9f5f41ffb1 Christian Brauner 2021-10-28  148  	return e;
-16cc9f5f41ffb1 Christian Brauner 2021-10-28  149  }
-16cc9f5f41ffb1 Christian Brauner 2021-10-28  150  
+8264985b44b56a Max Filippov 2023-08-11  143  
+8264985b44b56a Max Filippov 2023-08-11  144  static int init_hw(struct platform_device *pdev, struct esp32_ipc *hw)
+8264985b44b56a Max Filippov 2023-08-11  145  {
+8264985b44b56a Max Filippov 2023-08-11  146  	void __iomem *p;
+8264985b44b56a Max Filippov 2023-08-11  147  
+8264985b44b56a Max Filippov 2023-08-11  148  	p = devm_of_iomap(&pdev->dev, pdev->dev.of_node, 0, NULL);
+8264985b44b56a Max Filippov 2023-08-11  149  	if (IS_ERR(p))
+8264985b44b56a Max Filippov 2023-08-11  150  		return PTR_ERR(p);
+8264985b44b56a Max Filippov 2023-08-11 @151  	hw->hw_q = (void *)readl(p);
+8264985b44b56a Max Filippov 2023-08-11  152  	devm_iounmap(&pdev->dev, p);
+8264985b44b56a Max Filippov 2023-08-11  153  
+8264985b44b56a Max Filippov 2023-08-11  154  	hw->regs = devm_of_iomap(&pdev->dev, pdev->dev.of_node, 1, NULL);
+8264985b44b56a Max Filippov 2023-08-11  155  	if (IS_ERR(hw->regs))
+8264985b44b56a Max Filippov 2023-08-11  156  		return PTR_ERR(hw->regs);
+8264985b44b56a Max Filippov 2023-08-11  157  
+8264985b44b56a Max Filippov 2023-08-11  158  	dev_dbg(&pdev->dev, "%s: regs = %p, queues = %p\n",
+8264985b44b56a Max Filippov 2023-08-11  159  		__func__, hw->regs, hw->hw_q);
+8264985b44b56a Max Filippov 2023-08-11  160  	if (hw->hw_q) {
+8264985b44b56a Max Filippov 2023-08-11  161  		u32 i;
+8264985b44b56a Max Filippov 2023-08-11  162  
+8264985b44b56a Max Filippov 2023-08-11  163  		for (i = 0; i < 2; ++i) {
+8264985b44b56a Max Filippov 2023-08-11  164  			dev_dbg(&pdev->dev, "%s: queue %d: offset = %d, mask = %x\n",
+8264985b44b56a Max Filippov 2023-08-11  165  				__func__, i,
+8264985b44b56a Max Filippov 2023-08-11  166  				hw->hw_q[i].offset,
+8264985b44b56a Max Filippov 2023-08-11  167  				hw->hw_q[i].mask);
+8264985b44b56a Max Filippov 2023-08-11  168  		}
+8264985b44b56a Max Filippov 2023-08-11  169  	} else {
+8264985b44b56a Max Filippov 2023-08-11  170  		return -ENODEV;
+8264985b44b56a Max Filippov 2023-08-11  171  	}
+8264985b44b56a Max Filippov 2023-08-11  172  
+8264985b44b56a Max Filippov 2023-08-11  173  	hw->irq = platform_get_irq(pdev, 0);
+8264985b44b56a Max Filippov 2023-08-11  174  	if (hw->irq >= 0) {
+8264985b44b56a Max Filippov 2023-08-11  175  		int ret;
+8264985b44b56a Max Filippov 2023-08-11  176  
+8264985b44b56a Max Filippov 2023-08-11  177  		ret = devm_request_threaded_irq(&pdev->dev, hw->irq,
+8264985b44b56a Max Filippov 2023-08-11  178  						esp32_ipc_irq_handler,
+8264985b44b56a Max Filippov 2023-08-11  179  						esp32_ipc_thread_handler,
+8264985b44b56a Max Filippov 2023-08-11  180  						IRQF_SHARED, pdev->name, hw);
+8264985b44b56a Max Filippov 2023-08-11  181  		if (ret < 0) {
+8264985b44b56a Max Filippov 2023-08-11  182  			dev_err(&pdev->dev, "request_irq %d failed\n", hw->irq);
+8264985b44b56a Max Filippov 2023-08-11  183  			return ret;
+8264985b44b56a Max Filippov 2023-08-11  184  		}
+8264985b44b56a Max Filippov 2023-08-11  185  	} else {
+8264985b44b56a Max Filippov 2023-08-11  186  		dev_err(&pdev->dev, "missing IRQ property\n");
+8264985b44b56a Max Filippov 2023-08-11  187  		return -ENODEV;
+8264985b44b56a Max Filippov 2023-08-11  188  	}
+8264985b44b56a Max Filippov 2023-08-11  189  
+8264985b44b56a Max Filippov 2023-08-11  190  	return 0;
+8264985b44b56a Max Filippov 2023-08-11  191  }
+8264985b44b56a Max Filippov 2023-08-11  192  
+8264985b44b56a Max Filippov 2023-08-11  193  static int esp32_ipc_probe(struct platform_device *pdev)
+8264985b44b56a Max Filippov 2023-08-11  194  {
+8264985b44b56a Max Filippov 2023-08-11  195  	struct esp32_ipc *hw =
+8264985b44b56a Max Filippov 2023-08-11  196  		devm_kzalloc(&pdev->dev, sizeof(*hw), GFP_KERNEL);
+8264985b44b56a Max Filippov 2023-08-11  197  	int ret;
+8264985b44b56a Max Filippov 2023-08-11  198  
+8264985b44b56a Max Filippov 2023-08-11  199  	if (!hw)
+8264985b44b56a Max Filippov 2023-08-11  200  		return -ENOMEM;
+8264985b44b56a Max Filippov 2023-08-11  201  	platform_set_drvdata(pdev, hw);
+8264985b44b56a Max Filippov 2023-08-11  202  
+8264985b44b56a Max Filippov 2023-08-11  203  	spin_lock_init(&hw->lock);
+8264985b44b56a Max Filippov 2023-08-11  204  	ret = init_hw(pdev, hw);
+8264985b44b56a Max Filippov 2023-08-11  205  	if (ret < 0)
+8264985b44b56a Max Filippov 2023-08-11  206  		return ret;
+8264985b44b56a Max Filippov 2023-08-11  207  
+8264985b44b56a Max Filippov 2023-08-11  208  	hw->hw_q[ESP32_IPC_WRITE_HW_Q].read = 0;
+8264985b44b56a Max Filippov 2023-08-11  209  	hw->hw_q[ESP32_IPC_WRITE_HW_Q].write = 0;
+8264985b44b56a Max Filippov 2023-08-11  210  	wmb();
+8264985b44b56a Max Filippov 2023-08-11  211  	writel(1, hw->regs + ESP32_IPC_IRQ_TO_FW_REG);
+8264985b44b56a Max Filippov 2023-08-11  212  
+8264985b44b56a Max Filippov 2023-08-11  213  	ret = of_platform_populate(pdev->dev.of_node, NULL, NULL, &pdev->dev);
+8264985b44b56a Max Filippov 2023-08-11  214  	return ret;
+8264985b44b56a Max Filippov 2023-08-11  215  }
+8264985b44b56a Max Filippov 2023-08-11  216  
+8264985b44b56a Max Filippov 2023-08-11  217  static int esp32_ipc_remove(struct platform_device *pdev)
+8264985b44b56a Max Filippov 2023-08-11  218  {
+8264985b44b56a Max Filippov 2023-08-11  219  	struct esp32_ipc *hw = platform_get_drvdata(pdev);
+8264985b44b56a Max Filippov 2023-08-11  220  
+8264985b44b56a Max Filippov 2023-08-11  221  	if (!hw)
+8264985b44b56a Max Filippov 2023-08-11  222  		return 0;
+8264985b44b56a Max Filippov 2023-08-11  223  
+8264985b44b56a Max Filippov 2023-08-11  224  	disable_irq(hw->irq);
+8264985b44b56a Max Filippov 2023-08-11  225  	return 0;
+8264985b44b56a Max Filippov 2023-08-11  226  }
+8264985b44b56a Max Filippov 2023-08-11  227  
+8264985b44b56a Max Filippov 2023-08-11 @228  static const struct of_device_id esp32_ipc_match[] = {
+8264985b44b56a Max Filippov 2023-08-11  229  	{
+8264985b44b56a Max Filippov 2023-08-11  230  		.compatible = "esp,esp32-ipc",
+8264985b44b56a Max Filippov 2023-08-11  231  	}, {},
+8264985b44b56a Max Filippov 2023-08-11  232  };
+8264985b44b56a Max Filippov 2023-08-11  233  MODULE_DEVICE_TABLE(of, esp32_ipc_match);
+8264985b44b56a Max Filippov 2023-08-11  234  
 
-:::::: The code at line 91 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code at line 151 was first introduced by commit
+:::::: 8264985b44b56ae0e4bc756d11424b7297ae34e2 misc/esp32-ipc: introduce generic IPC for ESP32
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Max Filippov <jcmvbkbc@gmail.com>
+:::::: CC: Max Filippov <jcmvbkbc@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
