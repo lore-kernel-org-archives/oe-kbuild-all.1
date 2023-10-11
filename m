@@ -1,65 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 919F6FBE4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 06:03:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506CA17986
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 07:13:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j+/8psGT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697004193; x=1728540193;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+aFsqdT7zUgX/gFyU6EpDMlHC5OqVJQcUBakYkaTSE0=;
-  b=j+/8psGT3L3Sh/iQm8Kmrl5+Eohpl1+vvPoiA70y2LEJsEXcF+Azq53g
-   e2aBeii1g9XIM3sLBpshWPjtyRiTjpJ+sGYuUEID5nUvfUgDxijQtmx9o
-   41HnKEpKadAAOIamDf1qizV7/SOPVWw25WAOAWWiR7Ri0eHeLLj10848Y
-   qFKMyoHSyCPnENXgHhpjsiYT9qW62L35Un11bb3QFv56S8+nEGp6jb5r1
-   1m/RE1mG1IccvwFp0PbWmuKNt70wQjyBfUHZydgVhDu7qEeeKoUf2RUgb
-   V2MAjt/ICok66Y8JpZ0FqU9Bz7Xqdz54fo9khTjTuzHccecfJrB6ijiFx
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="363945678"
-X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="363945678"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 23:03:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="897506883"
-X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="897506883"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 10 Oct 2023 23:01:22 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qqSJE-0001nx-1H;
-	Wed, 11 Oct 2023 06:03:04 +0000
-Date: Wed, 11 Oct 2023 14:02:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ryan Roberts <ryan.roberts@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Yin Fengwei <fengwei.yin@intel.com>,
-	David Hildenbrand <david@redhat.com>, Yu Zhao <yuzhao@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Yang Shi <shy828301@gmail.com>,
-	"Huang, Ying" <ying.huang@intel.com>, Zi Yan <ziy@nvidia.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Itaru Kitayama <itaru.kitayama@gmail.com>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	John Hubbard <jhubbard@nvidia.com>,
-	David Rientjes <rientjes@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Hugh Dickins <hughd@google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Ryan Roberts <ryan.roberts@arm.com>, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v6 4/9] mm: thp: Introduce anon_orders and
- anon_always_mask sysfs files
-Message-ID: <202310111302.ahYvNKX4-lkp@intel.com>
-References: <20230929114421.3761121-5-ryan.roberts@arm.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PaeOEU2s"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4054496bde3so59960715e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 00:13:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697008425; x=1697613225; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ScPYujJrd0RiqEz8o3BO9MuSWljJLNx95KbRlurhiFs=;
+        b=PaeOEU2szRY4i+SuwL5y2TOwIk0rqheX9JSMcKeKIuw5IL3GJlGmbyoOdD1L9KWUbi
+         80J6kmWotA0C9+REPpz6W+uHeO5qT5oJLwAg7o7UCgW7qLrevIbqG70sUn+ymr41qKH8
+         D5BHTlvSSmZ/YUAfjpLbCHtelJpl95aMYsnHq/EvGrtj2HCRjced2E9GWy0tPy4VPkRg
+         9hUPVgqIl0XE0poGSXjtDVvOixo8AkVk0wpoF/cbiOTKmTX/9AIN7mbO6Im8kxGmXjwm
+         WXMtpsxe9xvHk5XsxdyUNsK4IkBCEUC4GystOYrVFiMdsJstygL4kEwC62wmevpyfF/W
+         1ZWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697008425; x=1697613225;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ScPYujJrd0RiqEz8o3BO9MuSWljJLNx95KbRlurhiFs=;
+        b=Nul9d+Zv76qAwBlzDO9eq3lOHozWp0bo1v4wtZyTlDTnta5fOrR54SYlssvdY0cRMu
+         XqVRgtj46jBlOHPdMYk98Celcmtxs/zTpA2u2ymBx7d0H3RW9FmZCKu0/dAIOjb0Vma9
+         cr5kqlc2oxyvfyD+W7bxuMsy62IN/992HRrbPzn5PemRI8Otaj40HxGeOhgg7W24KY74
+         A5qizTc0XrMo4GlkpKU6G7Tptsj90Qj2uW48EinY/lcimOLWgBl8yiB9rLMSScmSWPBy
+         eLraGfPSX6RlQe/DPPIV2b9GgWdfQVl5CYXV+5ikJgGwznpOhpNd7WXjwwH9kYDIRA7b
+         D06Q==
+X-Gm-Message-State: AOJu0YyFo4MtB6D7ClMfDhE5Y7FItM+QnEYzweH2FT5y/7QQfEWqwtfF
+	hQQ3KJOUtk/LfbQN24RjwQgyvA==
+X-Google-Smtp-Source: AGHT+IFF2ajkFXhMQg81VHg+VGGJDbFYh5KOKS2gwpGR4LKkFmbji3L54USmvFLuJWWvx5KV2b3Qbw==
+X-Received: by 2002:a7b:c40a:0:b0:401:23fc:1f92 with SMTP id k10-20020a7bc40a000000b0040123fc1f92mr18425710wmi.25.1697008425403;
+        Wed, 11 Oct 2023 00:13:45 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id p4-20020a05600c204400b00403b63e87f2sm15840040wmg.32.2023.10.11.00.13.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Oct 2023 00:13:44 -0700 (PDT)
+Date: Wed, 11 Oct 2023 10:13:42 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Bernd Schubert <bschubert@ddn.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v9 3/7] [RFC] Allow atomic_open() on positive dentry
+Message-ID: <1931d96b-c5ad-4d6f-8c01-3b1acb309bff@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,58 +55,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230929114421.3761121-5-ryan.roberts@arm.com>
+In-Reply-To: <20230920173445.3943581-4-bschubert@ddn.com>
 
-Hi Ryan,
+Hi Bernd,
 
-kernel test robot noticed the following build errors:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on arm64/for-next/core]
-[also build test ERROR on linus/master v6.6-rc5]
-[cannot apply to akpm-mm/mm-everything tj-cgroup/for-next next-20231010]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Roberts/mm-Allow-deferred-splitting-of-arbitrary-anon-large-folios/20230929-194541
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20230929114421.3761121-5-ryan.roberts%40arm.com
-patch subject: [PATCH v6 4/9] mm: thp: Introduce anon_orders and anon_always_mask sysfs files
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20231011/202310111302.ahYvNKX4-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310111302.ahYvNKX4-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bernd-Schubert/fuse-rename-fuse_create_open/20230921-013805
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/idmapping.git for-next
+patch link:    https://lore.kernel.org/r/20230920173445.3943581-4-bschubert%40ddn.com
+patch subject: [PATCH v9 3/7] [RFC] Allow atomic_open() on positive dentry
+config: i386-randconfig-141-20230927 (https://download.01.org/0day-ci/archive/20231011/202310111158.c6Ja8z2x-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20231011/202310111158.c6Ja8z2x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310111302.ahYvNKX4-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202310111158.c6Ja8z2x-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+fs/namei.c:3442 lookup_open() error: uninitialized symbol 'error'.
 
-   In file included from include/linux/bits.h:6,
-                    from include/linux/ratelimit_types.h:5,
-                    from include/linux/printk.h:9,
-                    from include/asm-generic/bug.h:22,
-                    from arch/powerpc/include/asm/bug.h:116,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from mm/huge_memory.c:8:
->> include/vdso/bits.h:7:33: error: initializer element is not constant
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                 ^
-   mm/huge_memory.c:73:47: note: in expansion of macro 'BIT'
-      73 | unsigned int huge_anon_orders __read_mostly = BIT(PMD_ORDER);
-         |                                               ^~~
+vim +/error +3442 fs/namei.c
 
+da5ebf5aa676c4 Al Viro           2020-01-09  3406  static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+d58ffd35c1e595 Miklos Szeredi    2012-06-05  3407  				  const struct open_flags *op,
+3ec2eef116e900 Al Viro           2018-06-08  3408  				  bool got_write)
+d58ffd35c1e595 Miklos Szeredi    2012-06-05  3409  {
+6c960e68aaed33 Christian Brauner 2023-01-13  3410  	struct mnt_idmap *idmap;
+d58ffd35c1e595 Miklos Szeredi    2012-06-05  3411  	struct dentry *dir = nd->path.dentry;
+54ef487241e863 Miklos Szeredi    2012-06-05  3412  	struct inode *dir_inode = dir->d_inode;
+1643b43fbd0524 Al Viro           2016-04-27  3413  	int open_flag = op->open_flag;
+d58ffd35c1e595 Miklos Szeredi    2012-06-05  3414  	struct dentry *dentry;
+1643b43fbd0524 Al Viro           2016-04-27  3415  	int error, create_error = 0;
+1643b43fbd0524 Al Viro           2016-04-27  3416  	umode_t mode = op->mode;
+6fbd07146d9923 Al Viro           2016-04-28  3417  	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
+d58ffd35c1e595 Miklos Szeredi    2012-06-05  3418  
+ce8644fcadc52d Al Viro           2016-04-26  3419  	if (unlikely(IS_DEADDIR(dir_inode)))
+da5ebf5aa676c4 Al Viro           2020-01-09  3420  		return ERR_PTR(-ENOENT);
+d58ffd35c1e595 Miklos Szeredi    2012-06-05  3421  
+73a09dd94377e4 Al Viro           2018-06-08  3422  	file->f_mode &= ~FMODE_CREATED;
+6fbd07146d9923 Al Viro           2016-04-28  3423  	dentry = d_lookup(dir, &nd->last);
+6fbd07146d9923 Al Viro           2016-04-28  3424  	for (;;) {
+6fbd07146d9923 Al Viro           2016-04-28  3425  		if (!dentry) {
+6fbd07146d9923 Al Viro           2016-04-28  3426  			dentry = d_alloc_parallel(dir, &nd->last, &wq);
+54ef487241e863 Miklos Szeredi    2012-06-05  3427  			if (IS_ERR(dentry))
+da5ebf5aa676c4 Al Viro           2020-01-09  3428  				return dentry;
+6fbd07146d9923 Al Viro           2016-04-28  3429  		}
+6fbd07146d9923 Al Viro           2016-04-28  3430  		if (d_in_lookup(dentry))
+6fbd07146d9923 Al Viro           2016-04-28  3431  			break;
 
-vim +7 include/vdso/bits.h
+error is not initialized if we hit this break on the first iteration
+through the loop
 
-3945ff37d2f48d Vincenzo Frascino 2020-03-20  6  
-3945ff37d2f48d Vincenzo Frascino 2020-03-20 @7  #define BIT(nr)			(UL(1) << (nr))
-cbdb1f163af2bb Andy Shevchenko   2022-11-28  8  #define BIT_ULL(nr)		(ULL(1) << (nr))
-3945ff37d2f48d Vincenzo Frascino 2020-03-20  9  
+54ef487241e863 Miklos Szeredi    2012-06-05  3432  
+6fbd07146d9923 Al Viro           2016-04-28  3433  		error = d_revalidate(dentry, nd->flags);
+6fbd07146d9923 Al Viro           2016-04-28  3434  		if (likely(error > 0))
+6fbd07146d9923 Al Viro           2016-04-28  3435  			break;
+6fbd07146d9923 Al Viro           2016-04-28  3436  		if (error)
+6fbd07146d9923 Al Viro           2016-04-28  3437  			goto out_dput;
+6fbd07146d9923 Al Viro           2016-04-28  3438  		d_invalidate(dentry);
+6fbd07146d9923 Al Viro           2016-04-28  3439  		dput(dentry);
+6fbd07146d9923 Al Viro           2016-04-28  3440  		dentry = NULL;
+6fbd07146d9923 Al Viro           2016-04-28  3441  	}
+0032f53f8fce4f Miklos Szeredi    2023-09-20 @3442  	if (dentry->d_inode && error != D_REVALIDATE_ATOMIC) {
+                                                                               ^^^^^
+Warning triggered here
+
+d18e9008c377dc Miklos Szeredi    2012-06-05  3443  		/* Cached positive dentry: will open in f_op->open */
+da5ebf5aa676c4 Al Viro           2020-01-09  3444  		return dentry;
+6c51e513a3aa49 Al Viro           2016-03-05  3445  	}
+d18e9008c377dc Miklos Szeredi    2012-06-05  3446  
+1643b43fbd0524 Al Viro           2016-04-27  3447  	/*
+1643b43fbd0524 Al Viro           2016-04-27  3448  	 * Checking write permission is tricky, bacuse we don't know if we are
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
