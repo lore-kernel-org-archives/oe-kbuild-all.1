@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D089312E6E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 19:19:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49746208C7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 19:51:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i9rtvJ2a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gdty3bJx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697051978; x=1728587978;
+  t=1697053915; x=1728589915;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fvjn6ecENDliaFxqsZg40COvYMU/Gmx35muNk1GuC1c=;
-  b=i9rtvJ2a98+VgtNXWFyratzaqeJ0Q6S4YD4oY0fc56+/NeiXE6X7chww
-   qQOdSAyYg9WeJy7vyG4ZSQwggT7Ub67u0I43yAFrPcIM3ovGf3MMgSbWA
-   N0LaEgx0Bmk3ZUOFENJ2JUQRiyqCtflhMFwmetgykRLYmooPOkAPrmNNm
-   dfXJfddI+xkcFxoCt4z2fyo3telFzXRimE2SN2bg4Z5yEac10PnOsfXwF
-   asnfMlpXDTHMT2rQG6Tmi5GX1yVniTrjvS7cn/94mACTnWSc4L6GFNxs8
-   T0fvbQ9HeFsRPNmK8ZdJO0JmYh/nE7oH14vEXzCC+pCsNTA4hQPW6DZVW
+  bh=K55L4tJbHN93cKRt7fHalGKnxFZ4BSmZmywuVimPaIs=;
+  b=gdty3bJxtI/pwssBfztdZwau4vBwQQIYQLJbj8/It/W+c1hhrFIThPaJ
+   A4NPbSoFbHkKA8I9NxH4WcCGrUS1n1sHa7iCu0pWtzUBTM0TK2l1zg0HK
+   poqS765NHTTGP6cc3e656ljRZmaDqJbAH/2elTClg7YrTpw91akZkt7Pj
+   EfVEYoyTtkeh94fbiY5g9hfoieRybfYSmT9/lUS3McGzX1jtUw0cgfQ7/
+   jSqy0F1GtSWmBYZGgew4ZcMbpPPoQobhJ4hkqYTiLCVhob2ryr9wOM02q
+   BozmPryKFs+FKSLcaoWyuGbTh2s5C8bFvrI0iNH2Ro122XuTEC24uJlUS
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="381990573"
-X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
-   d="scan'208";a="381990573"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 12:19:31 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="6310413"
+X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
+   d="scan'208";a="6310413"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 12:51:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="730608587"
-X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
-   d="scan'208";a="730608587"
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="870278523"
+X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
+   d="scan'208";a="870278523"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 11 Oct 2023 12:19:29 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 11 Oct 2023 12:51:48 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqejv-0002cV-0e;
-	Wed, 11 Oct 2023 19:19:27 +0000
-Date: Thu, 12 Oct 2023 03:19:21 +0800
+	id 1qqfFC-0002en-2K;
+	Wed, 11 Oct 2023 19:51:46 +0000
+Date: Thu, 12 Oct 2023 03:51:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mark:arm64/insn/rework 32/38] arch/arm64/net/bpf_jit.h:255:9:
- error: too few arguments to function 'aarch64_insn_gen_logical_shifted_reg'
-Message-ID: <202310120231.YtoOkLjQ-lkp@intel.com>
+To: Huacai Chen <chenhuacai@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	WANG Xuerui <git@xen0n.name>, Jianmin Lv <lvjianmin@loongson.cn>
+Subject: drivers/pci/controller/pcie-mediatek.c:400:40: sparse: sparse:
+ incorrect type in argument 1 (different address spaces)
+Message-ID: <202310120352.9mcOljlX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,425 +51,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/insn/rework
-head:   37bd99f160dd83ccdfd3f50c685259ae62a81e68
-commit: 678b3dc2a2b23346635ee5ddd7613df79a932f87 [32/38] WIP: arm64: insn: rework logical (shifted register)
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231012/202310120231.YtoOkLjQ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231012/202310120231.YtoOkLjQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1c8b86a3799f7e5be903c3f49fcdaee29fd385b5
+commit: 57fc7323a8e7c2e7c1d5795ab63cb3ffea3cfdfb LoongArch: Add PCI controller support
+date:   1 year, 2 months ago
+config: loongarch-randconfig-r122-20230906 (https://download.01.org/0day-ci/archive/20231012/202310120352.9mcOljlX-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231012/202310120352.9mcOljlX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310120231.YtoOkLjQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310120352.9mcOljlX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/pci/controller/pcie-mediatek.c:400:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile *address @@     got void [noderef] __iomem * @@
+   drivers/pci/controller/pcie-mediatek.c:400:40: sparse:     expected void volatile *address
+   drivers/pci/controller/pcie-mediatek.c:400:40: sparse:     got void [noderef] __iomem *
+   drivers/pci/controller/pcie-mediatek.c:523:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile *address @@     got void [noderef] __iomem * @@
+   drivers/pci/controller/pcie-mediatek.c:523:44: sparse:     expected void volatile *address
+   drivers/pci/controller/pcie-mediatek.c:523:44: sparse:     got void [noderef] __iomem *
+--
+   drivers/uio/uio_aec.c:44:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *int_flag @@     got void * @@
+   drivers/uio/uio_aec.c:44:49: sparse:     expected void [noderef] __iomem *int_flag
+   drivers/uio/uio_aec.c:44:49: sparse:     got void *
+>> drivers/uio/uio_aec.c:50:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:50:49: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:50:49: sparse:     got void *
+   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:59:9: sparse:     got void *
+   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:59:9: sparse:     got void *
+   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:59:9: sparse:     got void *
+   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:59:9: sparse:     got void *
+   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:59:9: sparse:     got void *
+   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:59:9: sparse:     got void *
+   drivers/uio/uio_aec.c:88:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *priv @@     got void [noderef] __iomem * @@
+   drivers/uio/uio_aec.c:88:20: sparse:     expected void *priv
+   drivers/uio/uio_aec.c:88:20: sparse:     got void [noderef] __iomem *
+>> drivers/uio/uio_aec.c:104:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:104:42: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:104:42: sparse:     got void *
+   drivers/uio/uio_aec.c:105:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:105:43: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:105:43: sparse:     got void *
+   drivers/uio/uio_aec.c:106:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:106:34: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:106:34: sparse:     got void *
+   drivers/uio/uio_aec.c:115:31: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got void *priv @@
+   drivers/uio/uio_aec.c:115:31: sparse:     expected void [noderef] __iomem *
+   drivers/uio/uio_aec.c:115:31: sparse:     got void *priv
+   drivers/uio/uio_aec.c:128:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:128:42: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:128:42: sparse:     got void *
+   drivers/uio/uio_aec.c:129:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:129:43: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:129:43: sparse:     got void *
+   drivers/uio/uio_aec.c:131:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:131:28: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:131:28: sparse:     got void *
+   drivers/uio/uio_aec.c:136:31: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got void *priv @@
+   drivers/uio/uio_aec.c:136:31: sparse:     expected void [noderef] __iomem *
+   drivers/uio/uio_aec.c:136:31: sparse:     got void *priv
 
-   In file included from arch/arm64/net/bpf_jit_comp.c:25:
-   arch/arm64/net/bpf_jit_comp.c: In function 'emit_lse_atomic':
-   arch/arm64/net/bpf_jit.h:256:34: warning: implicit conversion from 'enum aarch64_insn_logic_type' to 'enum aarch64_insn_variant' [-Wenum-conversion]
-     256 |                 A64_VARIANT(sf), AARCH64_INSN_LOGIC_##type)
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:266:9: note: in expansion of macro 'A64_LOGIC_SREG'
-     266 |         A64_LOGIC_SREG(sf, Rd, A64_ZR, Rm, ORN)
-         |         ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:471:22: note: in expansion of macro 'A64_MVN'
-     471 |                 emit(A64_MVN(isdw, tmp2, src), ctx);
-         |                      ^~~~~~~
->> arch/arm64/net/bpf_jit.h:255:9: error: too few arguments to function 'aarch64_insn_gen_logical_shifted_reg'
-     255 |         aarch64_insn_gen_logical_shifted_reg(Rd, Rn, Rm, 0, \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:266:9: note: in expansion of macro 'A64_LOGIC_SREG'
-     266 |         A64_LOGIC_SREG(sf, Rd, A64_ZR, Rm, ORN)
-         |         ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:471:22: note: in expansion of macro 'A64_MVN'
-     471 |                 emit(A64_MVN(isdw, tmp2, src), ctx);
-         |                      ^~~~~~~
-   In file included from arch/arm64/include/asm/debug-monitors.h:12,
-                    from arch/arm64/include/asm/uprobes.h:9,
-                    from include/linux/uprobes.h:49,
-                    from include/linux/mm_types.h:16,
-                    from include/linux/bpf.h:16,
-                    from arch/arm64/net/bpf_jit_comp.c:11:
-   arch/arm64/include/asm/insn.h:847:5: note: declared here
-     847 | u32 aarch64_insn_gen_logical_shifted_reg(enum aarch64_insn_register dst,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:256:34: warning: implicit conversion from 'enum aarch64_insn_logic_type' to 'enum aarch64_insn_variant' [-Wenum-conversion]
-     256 |                 A64_VARIANT(sf), AARCH64_INSN_LOGIC_##type)
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:266:9: note: in expansion of macro 'A64_LOGIC_SREG'
-     266 |         A64_LOGIC_SREG(sf, Rd, A64_ZR, Rm, ORN)
-         |         ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:485:22: note: in expansion of macro 'A64_MVN'
-     485 |                 emit(A64_MVN(isdw, tmp2, src), ctx);
-         |                      ^~~~~~~
->> arch/arm64/net/bpf_jit.h:255:9: error: too few arguments to function 'aarch64_insn_gen_logical_shifted_reg'
-     255 |         aarch64_insn_gen_logical_shifted_reg(Rd, Rn, Rm, 0, \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:266:9: note: in expansion of macro 'A64_LOGIC_SREG'
-     266 |         A64_LOGIC_SREG(sf, Rd, A64_ZR, Rm, ORN)
-         |         ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:485:22: note: in expansion of macro 'A64_MVN'
-     485 |                 emit(A64_MVN(isdw, tmp2, src), ctx);
-         |                      ^~~~~~~
-   arch/arm64/include/asm/insn.h:847:5: note: declared here
-     847 | u32 aarch64_insn_gen_logical_shifted_reg(enum aarch64_insn_register dst,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c: In function 'emit_ll_sc_atomic':
-   arch/arm64/net/bpf_jit.h:256:34: warning: implicit conversion from 'enum aarch64_insn_logic_type' to 'enum aarch64_insn_variant' [-Wenum-conversion]
-     256 |                 A64_VARIANT(sf), AARCH64_INSN_LOGIC_##type)
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:258:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     258 | #define A64_AND(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, AND)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:546:30: note: in expansion of macro 'A64_AND'
-     546 |                         emit(A64_AND(isdw, tmp2, tmp2, src), ctx);
-         |                              ^~~~~~~
->> arch/arm64/net/bpf_jit.h:255:9: error: too few arguments to function 'aarch64_insn_gen_logical_shifted_reg'
-     255 |         aarch64_insn_gen_logical_shifted_reg(Rd, Rn, Rm, 0, \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:258:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     258 | #define A64_AND(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, AND)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:546:30: note: in expansion of macro 'A64_AND'
-     546 |                         emit(A64_AND(isdw, tmp2, tmp2, src), ctx);
-         |                              ^~~~~~~
-   arch/arm64/include/asm/insn.h:847:5: note: declared here
-     847 | u32 aarch64_insn_gen_logical_shifted_reg(enum aarch64_insn_register dst,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:256:34: warning: implicit conversion from 'enum aarch64_insn_logic_type' to 'enum aarch64_insn_variant' [-Wenum-conversion]
-     256 |                 A64_VARIANT(sf), AARCH64_INSN_LOGIC_##type)
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:259:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     259 | #define A64_ORR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, ORR)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:548:30: note: in expansion of macro 'A64_ORR'
-     548 |                         emit(A64_ORR(isdw, tmp2, tmp2, src), ctx);
-         |                              ^~~~~~~
->> arch/arm64/net/bpf_jit.h:255:9: error: too few arguments to function 'aarch64_insn_gen_logical_shifted_reg'
-     255 |         aarch64_insn_gen_logical_shifted_reg(Rd, Rn, Rm, 0, \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:259:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     259 | #define A64_ORR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, ORR)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:548:30: note: in expansion of macro 'A64_ORR'
-     548 |                         emit(A64_ORR(isdw, tmp2, tmp2, src), ctx);
-         |                              ^~~~~~~
-   arch/arm64/include/asm/insn.h:847:5: note: declared here
-     847 | u32 aarch64_insn_gen_logical_shifted_reg(enum aarch64_insn_register dst,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:256:34: warning: implicit conversion from 'enum aarch64_insn_logic_type' to 'enum aarch64_insn_variant' [-Wenum-conversion]
-     256 |                 A64_VARIANT(sf), AARCH64_INSN_LOGIC_##type)
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:260:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     260 | #define A64_EOR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, EOR)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:550:30: note: in expansion of macro 'A64_EOR'
-     550 |                         emit(A64_EOR(isdw, tmp2, tmp2, src), ctx);
-         |                              ^~~~~~~
->> arch/arm64/net/bpf_jit.h:255:9: error: too few arguments to function 'aarch64_insn_gen_logical_shifted_reg'
-     255 |         aarch64_insn_gen_logical_shifted_reg(Rd, Rn, Rm, 0, \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:260:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     260 | #define A64_EOR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, EOR)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:550:30: note: in expansion of macro 'A64_EOR'
-     550 |                         emit(A64_EOR(isdw, tmp2, tmp2, src), ctx);
-         |                              ^~~~~~~
-   arch/arm64/include/asm/insn.h:847:5: note: declared here
-     847 | u32 aarch64_insn_gen_logical_shifted_reg(enum aarch64_insn_register dst,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:256:34: warning: implicit conversion from 'enum aarch64_insn_logic_type' to 'enum aarch64_insn_variant' [-Wenum-conversion]
-     256 |                 A64_VARIANT(sf), AARCH64_INSN_LOGIC_##type)
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:258:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     258 | #define A64_AND(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, AND)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:567:30: note: in expansion of macro 'A64_AND'
-     567 |                         emit(A64_AND(isdw, tmp2, src, ax), ctx);
-         |                              ^~~~~~~
->> arch/arm64/net/bpf_jit.h:255:9: error: too few arguments to function 'aarch64_insn_gen_logical_shifted_reg'
-     255 |         aarch64_insn_gen_logical_shifted_reg(Rd, Rn, Rm, 0, \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:258:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     258 | #define A64_AND(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, AND)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:567:30: note: in expansion of macro 'A64_AND'
-     567 |                         emit(A64_AND(isdw, tmp2, src, ax), ctx);
-         |                              ^~~~~~~
-   arch/arm64/include/asm/insn.h:847:5: note: declared here
-     847 | u32 aarch64_insn_gen_logical_shifted_reg(enum aarch64_insn_register dst,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:256:34: warning: implicit conversion from 'enum aarch64_insn_logic_type' to 'enum aarch64_insn_variant' [-Wenum-conversion]
-     256 |                 A64_VARIANT(sf), AARCH64_INSN_LOGIC_##type)
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:259:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     259 | #define A64_ORR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, ORR)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:569:30: note: in expansion of macro 'A64_ORR'
-     569 |                         emit(A64_ORR(isdw, tmp2, src, ax), ctx);
-         |                              ^~~~~~~
->> arch/arm64/net/bpf_jit.h:255:9: error: too few arguments to function 'aarch64_insn_gen_logical_shifted_reg'
-     255 |         aarch64_insn_gen_logical_shifted_reg(Rd, Rn, Rm, 0, \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:259:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     259 | #define A64_ORR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, ORR)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:569:30: note: in expansion of macro 'A64_ORR'
-     569 |                         emit(A64_ORR(isdw, tmp2, src, ax), ctx);
-         |                              ^~~~~~~
-   arch/arm64/include/asm/insn.h:847:5: note: declared here
-     847 | u32 aarch64_insn_gen_logical_shifted_reg(enum aarch64_insn_register dst,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:256:34: warning: implicit conversion from 'enum aarch64_insn_logic_type' to 'enum aarch64_insn_variant' [-Wenum-conversion]
-     256 |                 A64_VARIANT(sf), AARCH64_INSN_LOGIC_##type)
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:260:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     260 | #define A64_EOR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, EOR)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:571:30: note: in expansion of macro 'A64_EOR'
-     571 |                         emit(A64_EOR(isdw, tmp2, src, ax), ctx);
-         |                              ^~~~~~~
->> arch/arm64/net/bpf_jit.h:255:9: error: too few arguments to function 'aarch64_insn_gen_logical_shifted_reg'
-     255 |         aarch64_insn_gen_logical_shifted_reg(Rd, Rn, Rm, 0, \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:260:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     260 | #define A64_EOR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, EOR)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:571:30: note: in expansion of macro 'A64_EOR'
-     571 |                         emit(A64_EOR(isdw, tmp2, src, ax), ctx);
-         |                              ^~~~~~~
-   arch/arm64/include/asm/insn.h:847:5: note: declared here
-     847 | u32 aarch64_insn_gen_logical_shifted_reg(enum aarch64_insn_register dst,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:256:34: warning: implicit conversion from 'enum aarch64_insn_logic_type' to 'enum aarch64_insn_variant' [-Wenum-conversion]
-     256 |                 A64_VARIANT(sf), AARCH64_INSN_LOGIC_##type)
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:260:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     260 | #define A64_EOR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, EOR)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:592:22: note: in expansion of macro 'A64_EOR'
-     592 |                 emit(A64_EOR(isdw, tmp3, r0, tmp2), ctx);
-         |                      ^~~~~~~
->> arch/arm64/net/bpf_jit.h:255:9: error: too few arguments to function 'aarch64_insn_gen_logical_shifted_reg'
-     255 |         aarch64_insn_gen_logical_shifted_reg(Rd, Rn, Rm, 0, \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:260:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     260 | #define A64_EOR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, EOR)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:592:22: note: in expansion of macro 'A64_EOR'
-     592 |                 emit(A64_EOR(isdw, tmp3, r0, tmp2), ctx);
-         |                      ^~~~~~~
-   arch/arm64/include/asm/insn.h:847:5: note: declared here
-     847 | u32 aarch64_insn_gen_logical_shifted_reg(enum aarch64_insn_register dst,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c: In function 'build_insn':
-   arch/arm64/net/bpf_jit.h:256:34: warning: implicit conversion from 'enum aarch64_insn_logic_type' to 'enum aarch64_insn_variant' [-Wenum-conversion]
-     256 |                 A64_VARIANT(sf), AARCH64_INSN_LOGIC_##type)
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:258:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     258 | #define A64_AND(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, AND)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:815:22: note: in expansion of macro 'A64_AND'
-     815 |                 emit(A64_AND(is64, dst, dst, src), ctx);
-         |                      ^~~~~~~
->> arch/arm64/net/bpf_jit.h:255:9: error: too few arguments to function 'aarch64_insn_gen_logical_shifted_reg'
-     255 |         aarch64_insn_gen_logical_shifted_reg(Rd, Rn, Rm, 0, \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:258:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     258 | #define A64_AND(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, AND)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:815:22: note: in expansion of macro 'A64_AND'
-     815 |                 emit(A64_AND(is64, dst, dst, src), ctx);
-         |                      ^~~~~~~
-   arch/arm64/include/asm/insn.h:847:5: note: declared here
-     847 | u32 aarch64_insn_gen_logical_shifted_reg(enum aarch64_insn_register dst,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:256:34: warning: implicit conversion from 'enum aarch64_insn_logic_type' to 'enum aarch64_insn_variant' [-Wenum-conversion]
-     256 |                 A64_VARIANT(sf), AARCH64_INSN_LOGIC_##type)
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:259:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     259 | #define A64_ORR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, ORR)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:819:22: note: in expansion of macro 'A64_ORR'
-     819 |                 emit(A64_ORR(is64, dst, dst, src), ctx);
-         |                      ^~~~~~~
->> arch/arm64/net/bpf_jit.h:255:9: error: too few arguments to function 'aarch64_insn_gen_logical_shifted_reg'
-     255 |         aarch64_insn_gen_logical_shifted_reg(Rd, Rn, Rm, 0, \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:259:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     259 | #define A64_ORR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, ORR)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:819:22: note: in expansion of macro 'A64_ORR'
-     819 |                 emit(A64_ORR(is64, dst, dst, src), ctx);
-         |                      ^~~~~~~
-   arch/arm64/include/asm/insn.h:847:5: note: declared here
-     847 | u32 aarch64_insn_gen_logical_shifted_reg(enum aarch64_insn_register dst,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:256:34: warning: implicit conversion from 'enum aarch64_insn_logic_type' to 'enum aarch64_insn_variant' [-Wenum-conversion]
-     256 |                 A64_VARIANT(sf), AARCH64_INSN_LOGIC_##type)
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:260:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     260 | #define A64_EOR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, EOR)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:823:22: note: in expansion of macro 'A64_EOR'
-     823 |                 emit(A64_EOR(is64, dst, dst, src), ctx);
-         |                      ^~~~~~~
->> arch/arm64/net/bpf_jit.h:255:9: error: too few arguments to function 'aarch64_insn_gen_logical_shifted_reg'
-     255 |         aarch64_insn_gen_logical_shifted_reg(Rd, Rn, Rm, 0, \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:260:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     260 | #define A64_EOR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, EOR)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:823:22: note: in expansion of macro 'A64_EOR'
-     823 |                 emit(A64_EOR(is64, dst, dst, src), ctx);
-         |                      ^~~~~~~
-   arch/arm64/include/asm/insn.h:847:5: note: declared here
-     847 | u32 aarch64_insn_gen_logical_shifted_reg(enum aarch64_insn_register dst,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:256:34: warning: implicit conversion from 'enum aarch64_insn_logic_type' to 'enum aarch64_insn_variant' [-Wenum-conversion]
-     256 |                 A64_VARIANT(sf), AARCH64_INSN_LOGIC_##type)
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:258:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     258 | #define A64_AND(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, AND)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:937:30: note: in expansion of macro 'A64_AND'
-     937 |                         emit(A64_AND(is64, dst, dst, tmp), ctx);
-         |                              ^~~~~~~
->> arch/arm64/net/bpf_jit.h:255:9: error: too few arguments to function 'aarch64_insn_gen_logical_shifted_reg'
-     255 |         aarch64_insn_gen_logical_shifted_reg(Rd, Rn, Rm, 0, \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:258:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     258 | #define A64_AND(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, AND)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:937:30: note: in expansion of macro 'A64_AND'
-     937 |                         emit(A64_AND(is64, dst, dst, tmp), ctx);
-         |                              ^~~~~~~
-   arch/arm64/include/asm/insn.h:847:5: note: declared here
-     847 | u32 aarch64_insn_gen_logical_shifted_reg(enum aarch64_insn_register dst,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:256:34: warning: implicit conversion from 'enum aarch64_insn_logic_type' to 'enum aarch64_insn_variant' [-Wenum-conversion]
-     256 |                 A64_VARIANT(sf), AARCH64_INSN_LOGIC_##type)
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:259:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     259 | #define A64_ORR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, ORR)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:947:30: note: in expansion of macro 'A64_ORR'
-     947 |                         emit(A64_ORR(is64, dst, dst, tmp), ctx);
-         |                              ^~~~~~~
->> arch/arm64/net/bpf_jit.h:255:9: error: too few arguments to function 'aarch64_insn_gen_logical_shifted_reg'
-     255 |         aarch64_insn_gen_logical_shifted_reg(Rd, Rn, Rm, 0, \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:259:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     259 | #define A64_ORR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, ORR)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:947:30: note: in expansion of macro 'A64_ORR'
-     947 |                         emit(A64_ORR(is64, dst, dst, tmp), ctx);
-         |                              ^~~~~~~
-   arch/arm64/include/asm/insn.h:847:5: note: declared here
-     847 | u32 aarch64_insn_gen_logical_shifted_reg(enum aarch64_insn_register dst,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:256:34: warning: implicit conversion from 'enum aarch64_insn_logic_type' to 'enum aarch64_insn_variant' [-Wenum-conversion]
-     256 |                 A64_VARIANT(sf), AARCH64_INSN_LOGIC_##type)
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:260:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     260 | #define A64_EOR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, EOR)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:957:30: note: in expansion of macro 'A64_EOR'
-     957 |                         emit(A64_EOR(is64, dst, dst, tmp), ctx);
-         |                              ^~~~~~~
->> arch/arm64/net/bpf_jit.h:255:9: error: too few arguments to function 'aarch64_insn_gen_logical_shifted_reg'
-     255 |         aarch64_insn_gen_logical_shifted_reg(Rd, Rn, Rm, 0, \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:260:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     260 | #define A64_EOR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, EOR)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:957:30: note: in expansion of macro 'A64_EOR'
-     957 |                         emit(A64_EOR(is64, dst, dst, tmp), ctx);
-         |                              ^~~~~~~
-   arch/arm64/include/asm/insn.h:847:5: note: declared here
-     847 | u32 aarch64_insn_gen_logical_shifted_reg(enum aarch64_insn_register dst,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:256:34: warning: implicit conversion from 'enum aarch64_insn_logic_type' to 'enum aarch64_insn_variant' [-Wenum-conversion]
-     256 |                 A64_VARIANT(sf), AARCH64_INSN_LOGIC_##type)
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:261:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     261 | #define A64_ANDS(sf, Rd, Rn, Rm) A64_LOGIC_SREG(sf, Rd, Rn, Rm, AND_SETFLAGS)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:263:29: note: in expansion of macro 'A64_ANDS'
-     263 | #define A64_TST(sf, Rn, Rm) A64_ANDS(sf, A64_ZR, Rn, Rm)
-         |                             ^~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:1069:22: note: in expansion of macro 'A64_TST'
-    1069 |                 emit(A64_TST(is64, dst, src), ctx);
-         |                      ^~~~~~~
->> arch/arm64/net/bpf_jit.h:255:9: error: too few arguments to function 'aarch64_insn_gen_logical_shifted_reg'
-     255 |         aarch64_insn_gen_logical_shifted_reg(Rd, Rn, Rm, 0, \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:261:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     261 | #define A64_ANDS(sf, Rd, Rn, Rm) A64_LOGIC_SREG(sf, Rd, Rn, Rm, AND_SETFLAGS)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:263:29: note: in expansion of macro 'A64_ANDS'
-     263 | #define A64_TST(sf, Rn, Rm) A64_ANDS(sf, A64_ZR, Rn, Rm)
-         |                             ^~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:1069:22: note: in expansion of macro 'A64_TST'
-    1069 |                 emit(A64_TST(is64, dst, src), ctx);
-         |                      ^~~~~~~
-   arch/arm64/include/asm/insn.h:847:5: note: declared here
-     847 | u32 aarch64_insn_gen_logical_shifted_reg(enum aarch64_insn_register dst,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:256:34: warning: implicit conversion from 'enum aarch64_insn_logic_type' to 'enum aarch64_insn_variant' [-Wenum-conversion]
-     256 |                 A64_VARIANT(sf), AARCH64_INSN_LOGIC_##type)
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:261:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     261 | #define A64_ANDS(sf, Rd, Rn, Rm) A64_LOGIC_SREG(sf, Rd, Rn, Rm, AND_SETFLAGS)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:263:29: note: in expansion of macro 'A64_ANDS'
-     263 | #define A64_TST(sf, Rn, Rm) A64_ANDS(sf, A64_ZR, Rn, Rm)
-         |                             ^~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:1108:30: note: in expansion of macro 'A64_TST'
-    1108 |                         emit(A64_TST(is64, dst, tmp), ctx);
-         |                              ^~~~~~~
->> arch/arm64/net/bpf_jit.h:255:9: error: too few arguments to function 'aarch64_insn_gen_logical_shifted_reg'
-     255 |         aarch64_insn_gen_logical_shifted_reg(Rd, Rn, Rm, 0, \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:261:34: note: in expansion of macro 'A64_LOGIC_SREG'
-     261 | #define A64_ANDS(sf, Rd, Rn, Rm) A64_LOGIC_SREG(sf, Rd, Rn, Rm, AND_SETFLAGS)
-         |                                  ^~~~~~~~~~~~~~
-   arch/arm64/net/bpf_jit.h:263:29: note: in expansion of macro 'A64_ANDS'
-     263 | #define A64_TST(sf, Rn, Rm) A64_ANDS(sf, A64_ZR, Rn, Rm)
-         |                             ^~~~~~~~
-   arch/arm64/net/bpf_jit_comp.c:1108:30: note: in expansion of macro 'A64_TST'
-    1108 |                         emit(A64_TST(is64, dst, tmp), ctx);
-         |                              ^~~~~~~
-   arch/arm64/include/asm/insn.h:847:5: note: declared here
-     847 | u32 aarch64_insn_gen_logical_shifted_reg(enum aarch64_insn_register dst,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +400 drivers/pci/controller/pcie-mediatek.c
 
+b099631df160ec6 drivers/pci/host/pcie-mediatek.c Ryder Lee     2017-08-10  393  
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  394  static void mtk_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
+43e6409db64ddab drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  395  {
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  396  	struct mtk_pcie_port *port = irq_data_get_irq_chip_data(data);
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  397  	phys_addr_t addr;
+43e6409db64ddab drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  398  
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  399  	/* MT2712/MT7622 only support 32-bit MSI addresses */
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04 @400  	addr = virt_to_phys(port->base + PCIE_MSI_VECTOR);
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  401  	msg->address_hi = 0;
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  402  	msg->address_lo = lower_32_bits(addr);
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  403  
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  404  	msg->data = data->hwirq;
+43e6409db64ddab drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  405  
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  406  	dev_dbg(port->pcie->dev, "msi#%d address_hi %#x address_lo %#x\n",
+42fe2f91b4ebc07 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  407  		(int)data->hwirq, msg->address_hi, msg->address_lo);
+43e6409db64ddab drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  408  }
+43e6409db64ddab drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  409  
 
-vim +/aarch64_insn_gen_logical_shifted_reg +255 arch/arm64/net/bpf_jit.h
+:::::: The code at line 400 was first introduced by commit
+:::::: 42fe2f91b4ebc07c815fb334ea1262e6dc23bf77 PCI: mediatek: Implement chained IRQ handling setup
 
-e54bcde3d69d40 Zi Shen Lim 2014-08-26  252  
-e54bcde3d69d40 Zi Shen Lim 2014-08-26  253  /* Logical (shifted register) */
-e54bcde3d69d40 Zi Shen Lim 2014-08-26  254  #define A64_LOGIC_SREG(sf, Rd, Rn, Rm, type) \
-e54bcde3d69d40 Zi Shen Lim 2014-08-26 @255  	aarch64_insn_gen_logical_shifted_reg(Rd, Rn, Rm, 0, \
-e54bcde3d69d40 Zi Shen Lim 2014-08-26  256  		A64_VARIANT(sf), AARCH64_INSN_LOGIC_##type)
-e54bcde3d69d40 Zi Shen Lim 2014-08-26  257  /* Rd = Rn OP Rm */
-e54bcde3d69d40 Zi Shen Lim 2014-08-26  258  #define A64_AND(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, AND)
-e54bcde3d69d40 Zi Shen Lim 2014-08-26  259  #define A64_ORR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, ORR)
-e54bcde3d69d40 Zi Shen Lim 2014-08-26  260  #define A64_EOR(sf, Rd, Rn, Rm)  A64_LOGIC_SREG(sf, Rd, Rn, Rm, EOR)
-e54bcde3d69d40 Zi Shen Lim 2014-08-26  261  #define A64_ANDS(sf, Rd, Rn, Rm) A64_LOGIC_SREG(sf, Rd, Rn, Rm, AND_SETFLAGS)
-e54bcde3d69d40 Zi Shen Lim 2014-08-26  262  /* Rn & Rm; set condition flags */
-e54bcde3d69d40 Zi Shen Lim 2014-08-26  263  #define A64_TST(sf, Rn, Rm) A64_ANDS(sf, A64_ZR, Rn, Rm)
-1902472b4fa97d Hou Tao     2022-02-17  264  /* Rd = ~Rm (alias of ORN with A64_ZR as Rn) */
-1902472b4fa97d Hou Tao     2022-02-17  265  #define A64_MVN(sf, Rd, Rm)  \
-1902472b4fa97d Hou Tao     2022-02-17  266  	A64_LOGIC_SREG(sf, Rd, A64_ZR, Rm, ORN)
-e54bcde3d69d40 Zi Shen Lim 2014-08-26  267  
-
-:::::: The code at line 255 was first introduced by commit
-:::::: e54bcde3d69d40023ae77727213d14f920eb264a arm64: eBPF JIT compiler
-
-:::::: TO: Zi Shen Lim <zlim.lnx@gmail.com>
-:::::: CC: Will Deacon <will.deacon@arm.com>
+:::::: TO: Honghui Zhang <honghui.zhang@mediatek.com>
+:::::: CC: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
