@@ -1,61 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB3CCA64
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 07:37:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793BB199C9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 08:00:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HalXTC/I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y7mLLg1I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697009861; x=1728545861;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=i869bTlkDvlvhw+3PFO7u3lAm6RWC1HKuCi+xwZmGyQ=;
-  b=HalXTC/I/lQxSBXznY86pEDSj3L7Zan7drPpY22nq1GNij9oa4Pq935C
-   lpueqp+winZXQotAGp3T1uyu+73YpHdal7aj7YQ80WZuQL+rjSJ5g4X6G
-   aEAmLaRNkJGG87I2jKXAh/RNQemlH0T6E9lu36NbustB5HcvW4hRJSkWd
-   V4mryBBDzw3KlDuAfvCwNcEP+SBXEwN+imYfCCAUu8OuPXrdqn2c3qIlf
-   mcQt7Oi5LO0WPhZ6P3piavU9UTG81eQRCQqKQwQVot57C0mZiJjGOmQm5
-   t7+BNYIcXKlQoRqYIkscdQg1lBHA19XUKpBQfzWGwkKRMC36qrokeK0wB
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="3193851"
+  t=1697011256; x=1728547256;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cFSAtXo2c5uFO8rZF1ptbHHC65ADRzbScT8LWgffKi4=;
+  b=Y7mLLg1ICr93U7kHQVrQeCMamRWijXkrtA8DizTmUHtFFTV12GP/S5Jg
+   vNVAZc7dar0EBue1U5Fpge71B33tSF6dOQvgm5BG0Zupsiwew97vhKt+z
+   PoQfLd3uK5pDnslFrbRWjgA7Y14HZPbbp+dgjjTcrqjKKSUCaMm1plW2c
+   b7TCSdDTz5zNm64LCQHWzB91rUmFj/dRYXL4B1BRw6Zld016wp5Ockegf
+   OSNfrBY4DwlD0KKKnQkax1UK/PeJWYCffE5AKAmrUyLxB7jtjWp8mWqv+
+   NPbw4r0NBHpi2q0nuO3vg/q+wJTyJptxqKktAgmrmv8jJoFSyRPM49hS7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="374947455"
 X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="3193851"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 00:37:40 -0700
+   d="scan'208";a="374947455"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 01:00:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="877573199"
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="747360836"
 X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="877573199"
+   d="scan'208";a="747360836"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 11 Oct 2023 00:37:34 -0700
+  by orsmga007.jf.intel.com with ESMTP; 11 Oct 2023 01:00:53 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqTme-0001vq-1U;
-	Wed, 11 Oct 2023 07:37:32 +0000
-Date: Wed, 11 Oct 2023 15:37:21 +0800
+	id 1qqU9D-0001xh-27;
+	Wed, 11 Oct 2023 08:00:51 +0000
+Date: Wed, 11 Oct 2023 15:59:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maramaina Naresh <quic_mnaresh@quicinc.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	"James E.J. Bottomley" <jejb@linux.ibm.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alim Akhtar <alim.akhtar@samsung.com>,
-	Avri Altman <avri.altman@wdc.com>,
-	Bart Van Assche <bvanassche@acm.org>, linux-arm-msm@vger.kernel.org,
-	linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, quic_cang@quicinc.com,
-	quic_nguyenb@quicinc.com
-Subject: Re: [PATCH V1 1/4] dt-bindings: ufs: qcom: Add qos property
-Message-ID: <202310111509.fFHOVdaI-lkp@intel.com>
-References: <1696952947-18062-2-git-send-email-quic_mnaresh@quicinc.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 1/36]
+ drivers/staging/media/tegra-video/vi.c:452:20: error: too few arguments to
+ function '__v4l2_subdev_state_alloc'
+Message-ID: <202310111512.HGE16GfN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,303 +50,144 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1696952947-18062-2-git-send-email-quic_mnaresh@quicinc.com>
 
-Hi Maramaina,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mkp-scsi/for-next]
-[also build test WARNING on jejb-scsi/for-next robh/for-next linus/master v6.6-rc5 next-20231010]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maramaina-Naresh/dt-bindings-ufs-qcom-Add-qos-property/20231010-235602
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/1696952947-18062-2-git-send-email-quic_mnaresh%40quicinc.com
-patch subject: [PATCH V1 1/4] dt-bindings: ufs: qcom: Add qos property
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231011/202310111509.fFHOVdaI-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   278fe7fc8a0bdc0cc01b934edf4e2193b0dc195e
+commit: 089d1f64f9b8140ae312d7ff739af58040904ba3 [1/36] media: v4l: subdev: Set sub-device active state earlier
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20231011/202310111512.HGE16GfN-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310111512.HGE16GfN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310111509.fFHOVdaI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310111512.HGE16GfN-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/ufs/qcom,ufs.yaml:83:6: [warning] wrong indentation: expected 6 but found 5 (indentation)
-   Documentation/devicetree/bindings/ufs/qcom,ufs.yaml:85:6: [warning] wrong indentation: expected 6 but found 5 (indentation)
+All errors (new ones prefixed by >>):
+
+   drivers/staging/media/tegra-video/vi.c: In function '__tegra_channel_try_format':
+>> drivers/staging/media/tegra-video/vi.c:452:20: error: too few arguments to function '__v4l2_subdev_state_alloc'
+     452 |         sd_state = __v4l2_subdev_state_alloc(subdev, "tegra:state->lock",
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/media/v4l2-device.h:13,
+                    from drivers/staging/media/tegra-video/vi.h:19,
+                    from drivers/staging/media/tegra-video/vi.c:30:
+   include/media/v4l2-subdev.h:1347:27: note: declared here
+    1347 | struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
 --
->> Documentation/devicetree/bindings/ufs/qcom,ufs.yaml: properties:qos: 'anyOf' conditional failed, one must be fixed:
-   	'cpumask' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
-   	'type' was expected
-   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
->> Documentation/devicetree/bindings/ufs/qcom,ufs.yaml: properties:qos: 'anyOf' conditional failed, one must be fixed:
-   	'vote' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
-   	'type' was expected
-   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+   drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c: In function 'rvin_try_format':
+>> drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c:269:20: error: too few arguments to function '__v4l2_subdev_state_alloc'
+     269 |         sd_state = __v4l2_subdev_state_alloc(sd, "rvin:state->lock", &key);
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/media/v4l2-mc.h:15,
+                    from drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c:17:
+   include/media/v4l2-subdev.h:1347:27: note: declared here
+    1347 | struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/media/platform/renesas/vsp1/vsp1_entity.c: In function 'vsp1_entity_init':
+>> drivers/media/platform/renesas/vsp1/vsp1_entity.c:682:26: error: too few arguments to function '__v4l2_subdev_state_alloc'
+     682 |         entity->config = __v4l2_subdev_state_alloc(&entity->subdev,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/media/platform/renesas/vsp1/vsp1_entity.c:15:
+   include/media/v4l2-subdev.h:1347:27: note: declared here
+    1347 | struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-vim +83 Documentation/devicetree/bindings/ufs/qcom,ufs.yaml
 
-     8	
-     9	maintainers:
-    10	  - Bjorn Andersson <bjorn.andersson@linaro.org>
-    11	  - Andy Gross <agross@kernel.org>
-    12	
-    13	# Select only our matches, not all jedec,ufs-2.0
-    14	select:
-    15	  properties:
-    16	    compatible:
-    17	      contains:
-    18	        const: qcom,ufshc
-    19	  required:
-    20	    - compatible
-    21	
-    22	properties:
-    23	  compatible:
-    24	    items:
-    25	      - enum:
-    26	          - qcom,msm8994-ufshc
-    27	          - qcom,msm8996-ufshc
-    28	          - qcom,msm8998-ufshc
-    29	          - qcom,sa8775p-ufshc
-    30	          - qcom,sc8280xp-ufshc
-    31	          - qcom,sdm845-ufshc
-    32	          - qcom,sm6115-ufshc
-    33	          - qcom,sm6350-ufshc
-    34	          - qcom,sm8150-ufshc
-    35	          - qcom,sm8250-ufshc
-    36	          - qcom,sm8350-ufshc
-    37	          - qcom,sm8450-ufshc
-    38	          - qcom,sm8550-ufshc
-    39	      - const: qcom,ufshc
-    40	      - const: jedec,ufs-2.0
-    41	
-    42	  clocks:
-    43	    minItems: 8
-    44	    maxItems: 11
-    45	
-    46	  clock-names:
-    47	    minItems: 8
-    48	    maxItems: 11
-    49	
-    50	  dma-coherent: true
-    51	
-    52	  interconnects:
-    53	    minItems: 2
-    54	    maxItems: 2
-    55	
-    56	  interconnect-names:
-    57	    items:
-    58	      - const: ufs-ddr
-    59	      - const: cpu-ufs
-    60	
-    61	  iommus:
-    62	    minItems: 1
-    63	    maxItems: 2
-    64	
-    65	  phys:
-    66	    maxItems: 1
-    67	
-    68	  phy-names:
-    69	    items:
-    70	      - const: ufsphy
-    71	
-    72	  power-domains:
-    73	    maxItems: 1
-    74	
-    75	  qcom,ice:
-    76	    $ref: /schemas/types.yaml#/definitions/phandle
-    77	    description: phandle to the Inline Crypto Engine node
-    78	
-    79	  qos:
-    80	    minItems: 2
-    81	    maxItems: 2
-    82	    cpumask:
-  > 83	     description: list of CPUs under CPU group
-    84	    vote:
-    85	     description: vote value for QoS CPU group
-    86	
-    87	  reg:
-    88	    minItems: 1
-    89	    maxItems: 2
-    90	
-    91	  reg-names:
-    92	    items:
-    93	      - const: std
-    94	      - const: ice
-    95	
-    96	  required-opps:
-    97	    maxItems: 1
-    98	
-    99	  resets:
-   100	    maxItems: 1
-   101	
-   102	  '#reset-cells':
-   103	    const: 1
-   104	
-   105	  reset-names:
-   106	    items:
-   107	      - const: rst
-   108	
-   109	  reset-gpios:
-   110	    maxItems: 1
-   111	    description:
-   112	      GPIO connected to the RESET pin of the UFS memory device.
-   113	
-   114	required:
-   115	  - compatible
-   116	  - reg
-   117	
-   118	allOf:
-   119	  - $ref: ufs-common.yaml
-   120	
-   121	  - if:
-   122	      properties:
-   123	        compatible:
-   124	          contains:
-   125	            enum:
-   126	              - qcom,msm8998-ufshc
-   127	              - qcom,sa8775p-ufshc
-   128	              - qcom,sc8280xp-ufshc
-   129	              - qcom,sm8250-ufshc
-   130	              - qcom,sm8350-ufshc
-   131	              - qcom,sm8450-ufshc
-   132	              - qcom,sm8550-ufshc
-   133	    then:
-   134	      properties:
-   135	        clocks:
-   136	          minItems: 8
-   137	          maxItems: 8
-   138	        clock-names:
-   139	          items:
-   140	            - const: core_clk
-   141	            - const: bus_aggr_clk
-   142	            - const: iface_clk
-   143	            - const: core_clk_unipro
-   144	            - const: ref_clk
-   145	            - const: tx_lane0_sync_clk
-   146	            - const: rx_lane0_sync_clk
-   147	            - const: rx_lane1_sync_clk
-   148	        reg:
-   149	          minItems: 1
-   150	          maxItems: 1
-   151	        reg-names:
-   152	          maxItems: 1
-   153	
-   154	  - if:
-   155	      properties:
-   156	        compatible:
-   157	          contains:
-   158	            enum:
-   159	              - qcom,sdm845-ufshc
-   160	              - qcom,sm6350-ufshc
-   161	              - qcom,sm8150-ufshc
-   162	    then:
-   163	      properties:
-   164	        clocks:
-   165	          minItems: 9
-   166	          maxItems: 9
-   167	        clock-names:
-   168	          items:
-   169	            - const: core_clk
-   170	            - const: bus_aggr_clk
-   171	            - const: iface_clk
-   172	            - const: core_clk_unipro
-   173	            - const: ref_clk
-   174	            - const: tx_lane0_sync_clk
-   175	            - const: rx_lane0_sync_clk
-   176	            - const: rx_lane1_sync_clk
-   177	            - const: ice_core_clk
-   178	        reg:
-   179	          minItems: 2
-   180	          maxItems: 2
-   181	        reg-names:
-   182	          minItems: 2
-   183	      required:
-   184	        - reg-names
-   185	
-   186	  - if:
-   187	      properties:
-   188	        compatible:
-   189	          contains:
-   190	            enum:
-   191	              - qcom,msm8996-ufshc
-   192	    then:
-   193	      properties:
-   194	        clocks:
-   195	          minItems: 11
-   196	          maxItems: 11
-   197	        clock-names:
-   198	          items:
-   199	            - const: core_clk_src
-   200	            - const: core_clk
-   201	            - const: bus_clk
-   202	            - const: bus_aggr_clk
-   203	            - const: iface_clk
-   204	            - const: core_clk_unipro_src
-   205	            - const: core_clk_unipro
-   206	            - const: core_clk_ice
-   207	            - const: ref_clk
-   208	            - const: tx_lane0_sync_clk
-   209	            - const: rx_lane0_sync_clk
-   210	        reg:
-   211	          minItems: 1
-   212	          maxItems: 1
-   213	        reg-names:
-   214	          maxItems: 1
-   215	
-   216	  - if:
-   217	      properties:
-   218	        compatible:
-   219	          contains:
-   220	            enum:
-   221	              - qcom,sm6115-ufshc
-   222	    then:
-   223	      properties:
-   224	        clocks:
-   225	          minItems: 8
-   226	          maxItems: 8
-   227	        clock-names:
-   228	          items:
-   229	            - const: core_clk
-   230	            - const: bus_aggr_clk
-   231	            - const: iface_clk
-   232	            - const: core_clk_unipro
-   233	            - const: ref_clk
-   234	            - const: tx_lane0_sync_clk
-   235	            - const: rx_lane0_sync_clk
-   236	            - const: ice_core_clk
-   237	        reg:
-   238	          minItems: 2
-   239	          maxItems: 2
-   240	        reg-names:
-   241	          minItems: 2
-   242	      required:
-   243	        - reg-names
-   244	
-   245	    # TODO: define clock bindings for qcom,msm8994-ufshc
-   246	
-   247	  - if:
-   248	      required:
-   249	        - qcom,ice
-   250	    then:
-   251	      properties:
-   252	        reg:
-   253	          maxItems: 1
-   254	        clocks:
-   255	          minItems: 8
-   256	          maxItems: 8
-   257	    else:
-   258	      properties:
-   259	        reg:
-   260	          minItems: 1
-   261	          maxItems: 2
-   262	        clocks:
-   263	          minItems: 8
-   264	          maxItems: 11
-   265	
+vim +/__v4l2_subdev_state_alloc +452 drivers/staging/media/tegra-video/vi.c
+
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  424  
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  425  static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  426  				      struct v4l2_pix_format *pix)
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  427  {
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  428  	const struct tegra_video_format *fmtinfo;
+ed647ea668fb27 Tomi Valkeinen      2022-04-12  429  	static struct lock_class_key key;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  430  	struct v4l2_subdev *subdev;
+ecefa105cc44ff Laurent Pinchart    2023-02-15  431  	struct v4l2_subdev_format fmt = {
+ecefa105cc44ff Laurent Pinchart    2023-02-15  432  		.which = V4L2_SUBDEV_FORMAT_TRY,
+ecefa105cc44ff Laurent Pinchart    2023-02-15  433  	};
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  434  	struct v4l2_subdev_state *sd_state;
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  435  	struct v4l2_subdev_frame_size_enum fse = {
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  436  		.which = V4L2_SUBDEV_FORMAT_TRY,
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  437  	};
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  438  	struct v4l2_subdev_selection sdsel = {
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  439  		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  440  		.target = V4L2_SEL_TGT_CROP_BOUNDS,
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  441  	};
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  442  	int ret;
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  443  
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  444  	subdev = tegra_channel_get_remote_source_subdev(chan);
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  445  	if (!subdev)
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  446  		return -ENODEV;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  447  
+40aaab9d773b07 Tomi Valkeinen      2022-04-12  448  	/*
+40aaab9d773b07 Tomi Valkeinen      2022-04-12  449  	 * FIXME: Drop this call, drivers are not supposed to use
+40aaab9d773b07 Tomi Valkeinen      2022-04-12  450  	 * __v4l2_subdev_state_alloc().
+40aaab9d773b07 Tomi Valkeinen      2022-04-12  451  	 */
+ed647ea668fb27 Tomi Valkeinen      2022-04-12 @452  	sd_state = __v4l2_subdev_state_alloc(subdev, "tegra:state->lock",
+ed647ea668fb27 Tomi Valkeinen      2022-04-12  453  					     &key);
+ba7a93e507f883 Dan Carpenter       2021-06-22  454  	if (IS_ERR(sd_state))
+ba7a93e507f883 Dan Carpenter       2021-06-22  455  		return PTR_ERR(sd_state);
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  456  	/*
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  457  	 * Retrieve the format information and if requested format isn't
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  458  	 * supported, keep the current format.
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  459  	 */
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  460  	fmtinfo = tegra_get_format_by_fourcc(chan->vi, pix->pixelformat);
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  461  	if (!fmtinfo) {
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  462  		pix->pixelformat = chan->format.pixelformat;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  463  		pix->colorspace = chan->format.colorspace;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  464  		fmtinfo = tegra_get_format_by_fourcc(chan->vi,
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  465  						     pix->pixelformat);
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  466  	}
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  467  
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  468  	pix->field = V4L2_FIELD_NONE;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  469  	fmt.pad = 0;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  470  	v4l2_fill_mbus_format(&fmt.format, pix, fmtinfo->code);
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  471  
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  472  	/*
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  473  	 * Attempt to obtain the format size from subdev.
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  474  	 * If not available, try to get crop boundary from subdev.
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  475  	 */
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  476  	fse.code = fmtinfo->code;
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  477  	ret = v4l2_subdev_call(subdev, pad, enum_frame_size, sd_state, &fse);
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  478  	if (ret) {
+56f64b82356b74 Sowjanya Komatineni 2020-12-11  479  		if (!v4l2_subdev_has_op(subdev, pad, get_selection)) {
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  480  			sd_state->pads->try_crop.width = 0;
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  481  			sd_state->pads->try_crop.height = 0;
+56f64b82356b74 Sowjanya Komatineni 2020-12-11  482  		} else {
+56f64b82356b74 Sowjanya Komatineni 2020-12-11  483  			ret = v4l2_subdev_call(subdev, pad, get_selection,
+56f64b82356b74 Sowjanya Komatineni 2020-12-11  484  					       NULL, &sdsel);
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  485  			if (ret)
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  486  				return -EINVAL;
+56f64b82356b74 Sowjanya Komatineni 2020-12-11  487  
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  488  			sd_state->pads->try_crop.width = sdsel.r.width;
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  489  			sd_state->pads->try_crop.height = sdsel.r.height;
+56f64b82356b74 Sowjanya Komatineni 2020-12-11  490  		}
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  491  	} else {
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  492  		sd_state->pads->try_crop.width = fse.max_width;
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  493  		sd_state->pads->try_crop.height = fse.max_height;
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  494  	}
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  495  
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  496  	ret = v4l2_subdev_call(subdev, pad, set_fmt, sd_state, &fmt);
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  497  	if (ret < 0)
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  498  		return ret;
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  499  
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  500  	v4l2_fill_pix_format(pix, &fmt.format);
+1a3ea975d79418 Luca Ceresoli       2023-04-18  501  	chan->vi->ops->vi_fmt_align(pix, fmtinfo->bpp);
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  502  
+40aaab9d773b07 Tomi Valkeinen      2022-04-12  503  	__v4l2_subdev_state_free(sd_state);
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  504  
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  505  	return 0;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  506  }
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  507  
+
+:::::: The code at line 452 was first introduced by commit
+:::::: ed647ea668fb27cd21408d5cb7cc7d4c30417332 media: subdev: add subdev state locking
+
+:::::: TO: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
