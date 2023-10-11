@@ -1,57 +1,51 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2C514275
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 07:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A1718C13;
+	Wed, 11 Oct 2023 07:17:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f/IpqvHu"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-32d834ec222so510255f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 00:17:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697008643; x=1697613443; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ayhK5ZZITA9PWclc67B5lQjGuI1Rti5S1fpJxVmbBRY=;
-        b=f/IpqvHuiSWfC+bXLKvmnp4we5lF9Ns8NQH55oKGgEWp7ula72XYn5inxJKkg3NoYP
-         Wp+ftVRUjDw9iAqBcqpPqmyOsj/8TO0o+MZFY4PHpsKKixfHa96XvHIlz9k6M9wKTEBH
-         n69zv2esufy7Cl1QcVhfo/tHwuFYYcoFvFFVj/WxMcTPYVkxOzn24RNc+XwpmitpH9yA
-         pSjur/kiioYyzCaapcil/h267eboy+loaRmhuW+DhZCQsDFiSJvcEpqjVmTL6hQSXjMs
-         L1/anBmfmNNIVa5aUW3j1uOfex3G/4F0aHVwlqEbsQAKRqQD0EmR24LGrWviofyx2gQy
-         0M5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697008643; x=1697613443;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ayhK5ZZITA9PWclc67B5lQjGuI1Rti5S1fpJxVmbBRY=;
-        b=B+HbmZXk4xw8Osx6DxnD/10usOxHgXHvHvM66HX6PS8MN8fE7QWDaXKSP9lETTpd4N
-         EzSi2DQBa15GwA1Fz9QwphTsZ4z/vYeHvyxh52HL9qipPWgL1OGu1UBqMIq9XO0Q/2VM
-         izTtwgzGwtI8/F9qnjAY3nrPFNF/slFXZEE8ST/Ro6UjV9duWA4hxOP0Owjg8Vh0ciit
-         GWJAKpJX5aga43Z0yD3Fb+UiSul12/afxhnMGsFe7z9iMn/2I9tH4us5daDP5KN/HtNT
-         swMxVEY1dC3L3OOjjLshqFcE38aCcwsfw1eqrbEPr1J/qFA+Kfn+0poP0Pzt0fvZnx9B
-         RYtA==
-X-Gm-Message-State: AOJu0YzzBMAg7HEebndwdRiPtaQg0cJFIcCz0M/JJlSLkfsjZvNs8wmy
-	OVuegpdhVitNwpVOi/gCnhnPXg==
-X-Google-Smtp-Source: AGHT+IGSgMuPNZcSb/qoRef2LT95GhuxlKDkCfgKDCNsPI99qj2VC19cSkJtgFiebD0cnCw5aDp8BA==
-X-Received: by 2002:adf:ef91:0:b0:31f:f1f4:ca8b with SMTP id d17-20020adfef91000000b0031ff1f4ca8bmr16220473wro.40.1697008643069;
-        Wed, 11 Oct 2023 00:17:23 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id v26-20020a5d591a000000b0030ada01ca78sm14562733wrd.10.2023.10.11.00.17.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Oct 2023 00:17:22 -0700 (PDT)
-Date: Wed, 11 Oct 2023 10:17:20 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Bernd Schubert <bschubert@ddn.com>,
-	linux-fsdevel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	bernd.schubert@fastmail.fm, miklos@szeredi.hu, dsingh@ddn.com,
-	Bernd Schubert <bschubert@ddn.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH v9 4/7] vfs: Optimize atomic_open() on positive dentry
-Message-ID: <f1b371ce-9fa7-4d1c-bcad-968d1706ac99@kadam.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TNoW/9pZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697008656; x=1728544656;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BXg2wEQCreA5bYXJyzy3HRYJ0Jes4DTVCpbQGgIvo8w=;
+  b=TNoW/9pZI6wxJ4+E59pshqtWudaxIiXF6T4533d7l0VNuXfrAjpyUq6o
+   GrMFYX0mfQzJrA7GESKRxmfPbUh2Ngqc6rc6y0wdF/bk2rLqdi2Pxdnpg
+   UxWxMuwqbf18UL/Sx97wQBDHmcIn9WPN1MKuL02fzZQFXQ3FcrFxAVQL3
+   NOVaXtuRYunNCvDnBi2AiwLhFv5ob1LSR23t1wXSUTdPAq0W0DSauTRFV
+   DWtxmXBb7WWcmJFq6kBNnzRRT4bnvVnggiPQ6OdMqGYQ1NwOnMue91BPh
+   Hk6Q5EoRK9bhrm2J50MSLoRYHJG5/56a2lCIcNjCLvVQXykNDIx43OTWy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="3190306"
+X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
+   d="scan'208";a="3190306"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 00:17:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="747350894"
+X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
+   d="scan'208";a="747350894"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 11 Oct 2023 00:17:32 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qqTTF-0001u5-3B;
+	Wed, 11 Oct 2023 07:17:29 +0000
+Date: Wed, 11 Oct 2023 15:16:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hengqi Chen <hengqi.chen@gmail.com>, linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	keescook@chromium.org, ast@kernel.org, daniel@iogearbox.net,
+	andrii@kernel.org, luto@amacapital.net, wad@chromium.org,
+	alexyonghe@tencent.com, hengqi.chen@gmail.com
+Subject: Re: [PATCH 2/4] seccomp, bpf: Introduce SECCOMP_LOAD_FILTER operation
+Message-ID: <202310111556.DzEDzt3Z-lkp@intel.com>
+References: <20231009124046.74710-3-hengqi.chen@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,84 +54,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230920173445.3943581-5-bschubert@ddn.com>
+In-Reply-To: <20231009124046.74710-3-hengqi.chen@gmail.com>
 
-Hi Bernd,
+Hi Hengqi,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on kees/for-next/seccomp]
+[also build test ERROR on bpf-next/master bpf/master kees/for-next/pstore kees/for-next/kspp linus/master v6.6-rc5 next-20231010]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bernd-Schubert/fuse-rename-fuse_create_open/20230921-013805
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/idmapping.git for-next
-patch link:    https://lore.kernel.org/r/20230920173445.3943581-5-bschubert%40ddn.com
-patch subject: [PATCH v9 4/7] vfs: Optimize atomic_open() on positive dentry
-config: i386-randconfig-141-20230927 (https://download.01.org/0day-ci/archive/20231011/202310111259.WGjXat6p-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231011/202310111259.WGjXat6p-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hengqi-Chen/seccomp-Refactor-filter-copy-create-for-reuse/20231010-100354
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/seccomp
+patch link:    https://lore.kernel.org/r/20231009124046.74710-3-hengqi.chen%40gmail.com
+patch subject: [PATCH 2/4] seccomp, bpf: Introduce SECCOMP_LOAD_FILTER operation
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20231011/202310111556.DzEDzt3Z-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310111556.DzEDzt3Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202310111259.WGjXat6p-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310111556.DzEDzt3Z-lkp@intel.com/
 
-New smatch warnings:
-fs/namei.c:3418 atomic_revalidate_open() warn: variable dereferenced before check 'got_write' (see line 3414)
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-fs/namei.c:1573 lookup_dcache() warn: passing zero to 'ERR_PTR'
-fs/namei.c:1658 lookup_fast() warn: passing zero to 'ERR_PTR'
-fs/namei.c:2189 hash_name() error: uninitialized symbol 'bdata'.
-fs/namei.c:2600 __kern_path_locked() warn: inconsistent returns '&path->dentry->d_inode->i_rwsem'.
-fs/namei.c:3480 lookup_open() error: uninitialized symbol 'error'.
+   In file included from kernel/seccomp.c:29:
+   In file included from include/linux/syscalls.h:90:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from kernel/seccomp.c:29:
+   In file included from include/linux/syscalls.h:90:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from kernel/seccomp.c:29:
+   In file included from include/linux/syscalls.h:90:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> kernel/seccomp.c:2046:8: error: implicit declaration of function 'security_bpf_prog_alloc' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           ret = security_bpf_prog_alloc(prog->aux);
+                 ^
+   kernel/seccomp.c:2046:8: note: did you mean 'security_msg_msg_alloc'?
+   include/linux/security.h:1245:19: note: 'security_msg_msg_alloc' declared here
+   static inline int security_msg_msg_alloc(struct msg_msg *msg)
+                     ^
+>> kernel/seccomp.c:2056:8: error: implicit declaration of function 'bpf_prog_new_fd' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           ret = bpf_prog_new_fd(prog);
+                 ^
+   12 warnings and 2 errors generated.
 
-vim +/got_write +3418 fs/namei.c
 
-0bb53ce89df211 Bernd Schubert 2023-09-20  3391  static struct dentry *atomic_revalidate_open(struct dentry *dentry,
-0bb53ce89df211 Bernd Schubert 2023-09-20  3392  					     struct nameidata *nd,
-0bb53ce89df211 Bernd Schubert 2023-09-20  3393  					     struct file *file,
-0bb53ce89df211 Bernd Schubert 2023-09-20  3394  					     const struct open_flags *op,
-0bb53ce89df211 Bernd Schubert 2023-09-20  3395  					     bool *got_write)
-0bb53ce89df211 Bernd Schubert 2023-09-20  3396  {
-0bb53ce89df211 Bernd Schubert 2023-09-20  3397  	struct mnt_idmap *idmap;
-0bb53ce89df211 Bernd Schubert 2023-09-20  3398  	struct dentry *dir = nd->path.dentry;
-0bb53ce89df211 Bernd Schubert 2023-09-20  3399  	struct inode *dir_inode = dir->d_inode;
-0bb53ce89df211 Bernd Schubert 2023-09-20  3400  	int open_flag = op->open_flag;
-0bb53ce89df211 Bernd Schubert 2023-09-20  3401  	umode_t mode = op->mode;
-0bb53ce89df211 Bernd Schubert 2023-09-20  3402  
-0bb53ce89df211 Bernd Schubert 2023-09-20  3403  	if (unlikely(IS_DEADDIR(dir_inode)))
-0bb53ce89df211 Bernd Schubert 2023-09-20  3404  		return ERR_PTR(-ENOENT);
-0bb53ce89df211 Bernd Schubert 2023-09-20  3405  
-0bb53ce89df211 Bernd Schubert 2023-09-20  3406  	file->f_mode &= ~FMODE_CREATED;
-0bb53ce89df211 Bernd Schubert 2023-09-20  3407  
-0bb53ce89df211 Bernd Schubert 2023-09-20  3408  	if (unlikely(open_flag & O_CREAT)) {
-0bb53ce89df211 Bernd Schubert 2023-09-20  3409  		WARN_ON(1);
-0bb53ce89df211 Bernd Schubert 2023-09-20  3410  		return ERR_PTR(-EINVAL);
-0bb53ce89df211 Bernd Schubert 2023-09-20  3411  	}
-0bb53ce89df211 Bernd Schubert 2023-09-20  3412  
-0bb53ce89df211 Bernd Schubert 2023-09-20  3413  	if (open_flag & (O_TRUNC | O_WRONLY | O_RDWR))
-0bb53ce89df211 Bernd Schubert 2023-09-20 @3414  		*got_write = !mnt_want_write(nd->path.mnt);
+vim +/security_bpf_prog_alloc +2046 kernel/seccomp.c
 
-Dereferenced
-
-0bb53ce89df211 Bernd Schubert 2023-09-20  3415  	else
-0bb53ce89df211 Bernd Schubert 2023-09-20  3416  		*got_write = false;
-
-Here too.
-
-0bb53ce89df211 Bernd Schubert 2023-09-20  3417  
-0bb53ce89df211 Bernd Schubert 2023-09-20 @3418  	if (!got_write)
-
-Checked too late.  But I think maybe it was supposed to check
-if (!*got_write)?
-
-0bb53ce89df211 Bernd Schubert 2023-09-20  3419  		open_flag &= ~O_TRUNC;
-0bb53ce89df211 Bernd Schubert 2023-09-20  3420  
-0bb53ce89df211 Bernd Schubert 2023-09-20  3421  	inode_lock_shared(dir->d_inode);
-0bb53ce89df211 Bernd Schubert 2023-09-20  3422  	dentry = atomic_open(nd, dentry, file, open_flag, mode);
+  2031	
+  2032	static long seccomp_load_filter(const char __user *filter)
+  2033	{
+  2034		struct sock_fprog fprog;
+  2035		struct bpf_prog *prog;
+  2036		int ret;
+  2037	
+  2038		ret = seccomp_copy_user_filter(filter, &fprog);
+  2039		if (ret)
+  2040			return ret;
+  2041	
+  2042		ret = seccomp_prepare_prog(&prog, &fprog);
+  2043		if (ret)
+  2044			return ret;
+  2045	
+> 2046		ret = security_bpf_prog_alloc(prog->aux);
+  2047		if (ret) {
+  2048			bpf_prog_free(prog);
+  2049			return ret;
+  2050		}
+  2051	
+  2052		prog->aux->user = get_current_user();
+  2053		atomic64_set(&prog->aux->refcnt, 1);
+  2054		prog->type = BPF_PROG_TYPE_SECCOMP;
+  2055	
+> 2056		ret = bpf_prog_new_fd(prog);
+  2057		if (ret < 0)
+  2058			bpf_prog_put(prog);
+  2059		return ret;
+  2060	}
+  2061	#else
+  2062	static inline long seccomp_set_mode_filter(unsigned int flags,
+  2063						   const char __user *filter)
+  2064	{
+  2065		return -EINVAL;
+  2066	}
+  2067	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
