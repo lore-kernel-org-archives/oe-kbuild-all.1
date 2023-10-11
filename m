@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458722CA6;
-	Wed, 11 Oct 2023 13:42:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2101E200BC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 14:15:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="auYk2Z/N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AskAwZdt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697031767; x=1728567767;
+  t=1697033744; x=1728569744;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=7YfsHhsopKCCqEyes/Zq8paien7jAELVx6130kYHaq0=;
-  b=auYk2Z/NX3U1qGvG+HR+IS68IAOAG9+3F03wBJ8sDDj0Ss4P97BLFxPG
-   bPwRgK3ke0Ruo3gmOcUIuQO4CG1/TSp2ZFltGDMSrFrnEKxJeqmNDm53b
-   xN8E0smmM/nO/8jCBnsPwLJCy0/LllMkWoQd8gzp/zJSRkOVZrfgIwHTT
-   8thl1eamT6h8FMBHs5GGQgOBRwz1vh2JrxmmWCnBqEqPbtQAaNUFZIOw3
-   tqUSF9GheXxqnsOpF/xVrRvKOQd6SSXgYp+WSVQdY9bEBUUsRN7w7cCBY
-   VKIoNZJenM9UxuBGcoZxiJrxNPMQX5jPmT3PZSFGeQX8Ytb+21p+gA7Ys
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="448864024"
+  bh=DuNvaLmuSBpRQ/OE9jIM2FpK9gH/+55vqfRXvHb1aOE=;
+  b=AskAwZdtq5/CmLZ/XuVq/FRu0ZOq64Q1Nxhngbyq0xmKAInAUs9HBuIb
+   ANnlzBF6n7/L9mmzENSufNqumxjc8vD9ijm9G6nrh/ecgBDUs25M0c+RZ
+   gm3v+xjc1HH0s7U5X9fCOiyOwO8X7w9dD2bcFxi8n7ivwHWrlrw/CiSkR
+   z89hxlCG2QLmTM5M2eo/0XmlbSoGe9WsgBkB0FGHfA0Ws9GeATST7nEOZ
+   xhMckK1+J52QrM2EBMVbKUVyv2dnjYlD9/In0Pn7hXwYlq5grin+ecsSg
+   bp2t0IPOHH0y82TlO/iGw2m6obtYyrqFSyGbSL25jJsdGmz7o2QmB0XcK
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="364036250"
 X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
-   d="scan'208";a="448864024"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 06:42:46 -0700
+   d="scan'208";a="364036250"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 07:15:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="753823924"
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="877693397"
 X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
-   d="scan'208";a="753823924"
+   d="scan'208";a="877693397"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 11 Oct 2023 06:42:39 -0700
+  by orsmga004.jf.intel.com with ESMTP; 11 Oct 2023 07:15:37 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqZTq-0002Fv-2r;
-	Wed, 11 Oct 2023 13:42:32 +0000
-Date: Wed, 11 Oct 2023 21:42:13 +0800
+	id 1qqZzF-0002ID-2k;
+	Wed, 11 Oct 2023 14:15:15 +0000
+Date: Wed, 11 Oct 2023 22:13:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mrinmay Sarkar <quic_msarkar@quicinc.com>, agross@kernel.org,
-	andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, konrad.dybcio@linaro.org, mani@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, quic_shazhuss@quicinc.com,
-	quic_nitegupt@quicinc.com, quic_ramkri@quicinc.com,
-	quic_nayiluri@quicinc.com, dmitry.baryshkov@linaro.org,
-	robh@kernel.org, quic_krichai@quicinc.com,
-	quic_vbadigan@quicinc.com, quic_parass@quicinc.com,
-	Mrinmay Sarkar <quic_msarkar@quicinc.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>, linux-arm-msm@vger.kernel.org,
-	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
-	linux-phy@lists.infradead.org
-Subject: Re: [PATCH v2 3/4] PCI: epf-mhi: Add support for SA8775P
-Message-ID: <202310112157.VcDgcECw-lkp@intel.com>
-References: <1697023109-23671-4-git-send-email-quic_msarkar@quicinc.com>
+To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	virtualization@lists.linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>, netdev@vger.kernel.org,
+	bpf@vger.kernel.org
+Subject: Re: [PATCH vhost 01/22] virtio_ring: virtqueue_set_dma_premapped
+ support disable
+Message-ID: <202310112204.h03TUDpH-lkp@intel.com>
+References: <20231011092728.105904-2-xuanzhuo@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,50 +61,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1697023109-23671-4-git-send-email-quic_msarkar@quicinc.com>
+In-Reply-To: <20231011092728.105904-2-xuanzhuo@linux.alibaba.com>
 
-Hi Mrinmay,
+Hi Xuan,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus robh/for-next linus/master v6.6-rc5 next-20231011]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.6-rc5 next-20231011]
+[cannot apply to mst-vhost/linux-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mrinmay-Sarkar/dt-bindings-PCI-qcom-ep-Add-support-for-SA8775P-SoC/20231011-192329
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/1697023109-23671-4-git-send-email-quic_msarkar%40quicinc.com
-patch subject: [PATCH v2 3/4] PCI: epf-mhi: Add support for SA8775P
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231011/202310112157.VcDgcECw-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310112157.VcDgcECw-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/virtio_ring-virtqueue_set_dma_premapped-support-disable/20231011-180709
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231011092728.105904-2-xuanzhuo%40linux.alibaba.com
+patch subject: [PATCH vhost 01/22] virtio_ring: virtqueue_set_dma_premapped support disable
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231011/202310112204.h03TUDpH-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310112204.h03TUDpH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310112157.VcDgcECw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310112204.h03TUDpH-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/pci/endpoint/functions/pci-epf-mhi.c:126:23: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     126 |         .epf_header = &sa8775p_header,
-         |                       ^
+>> drivers/virtio/virtio_ring.c:2788: warning: Function parameter or member 'mode' not described in 'virtqueue_set_dma_premapped'
 
 
-vim +/const +126 drivers/pci/endpoint/functions/pci-epf-mhi.c
+vim +2788 drivers/virtio/virtio_ring.c
 
-   123	
-   124	static const struct pci_epf_mhi_ep_info sa8775p_info = {
-   125		.config = &mhi_v1_config,
- > 126		.epf_header = &sa8775p_header,
-   127		.bar_num = BAR_0,
-   128		.epf_flags = PCI_BASE_ADDRESS_MEM_TYPE_32,
-   129		.msi_count = 32,
-   130		.mru = 0x8000,
-   131	};
-   132	
+c790e8e1817f1a Xuan Zhuo 2022-08-01  2765  
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2766  /**
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2767   * virtqueue_set_dma_premapped - set the vring premapped mode
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2768   * @_vq: the struct virtqueue we're talking about.
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2769   *
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2770   * Enable the premapped mode of the vq.
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2771   *
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2772   * The vring in premapped mode does not do dma internally, so the driver must
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2773   * do dma mapping in advance. The driver must pass the dma_address through
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2774   * dma_address of scatterlist. When the driver got a used buffer from
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2775   * the vring, it has to unmap the dma address.
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2776   *
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2777   * This function must be called immediately after creating the vq, or after vq
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2778   * reset, and before adding any buffers to it.
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2779   *
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2780   * Caller must ensure we don't call this with other virtqueue operations
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2781   * at the same time (except where noted).
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2782   *
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2783   * Returns zero or a negative error.
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2784   * 0: success.
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2785   * -EINVAL: vring does not use the dma api, so we can not enable premapped mode.
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2786   */
+f8d1a236ad114f Xuan Zhuo 2023-10-11  2787  int virtqueue_set_dma_premapped(struct virtqueue *_vq, bool mode)
+8daafe9ebbd21a Xuan Zhuo 2023-08-10 @2788  {
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2789  	struct vring_virtqueue *vq = to_vvq(_vq);
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2790  	u32 num;
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2791  
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2792  	START_USE(vq);
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2793  
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2794  	num = vq->packed_ring ? vq->packed.vring.num : vq->split.vring.num;
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2795  
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2796  	if (num != vq->vq.num_free) {
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2797  		END_USE(vq);
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2798  		return -EINVAL;
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2799  	}
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2800  
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2801  	if (!vq->use_dma_api) {
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2802  		END_USE(vq);
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2803  		return -EINVAL;
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2804  	}
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2805  
+f8d1a236ad114f Xuan Zhuo 2023-10-11  2806  	if (mode) {
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2807  		vq->premapped = true;
+b319940f83c21b Xuan Zhuo 2023-08-10  2808  		vq->do_unmap = false;
+f8d1a236ad114f Xuan Zhuo 2023-10-11  2809  	} else {
+f8d1a236ad114f Xuan Zhuo 2023-10-11  2810  		vq->premapped = false;
+f8d1a236ad114f Xuan Zhuo 2023-10-11  2811  		vq->do_unmap = vq->use_dma_api;
+f8d1a236ad114f Xuan Zhuo 2023-10-11  2812  	}
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2813  
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2814  	END_USE(vq);
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2815  
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2816  	return 0;
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2817  }
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2818  EXPORT_SYMBOL_GPL(virtqueue_set_dma_premapped);
+8daafe9ebbd21a Xuan Zhuo 2023-08-10  2819  
 
 -- 
 0-DAY CI Kernel Test Service
