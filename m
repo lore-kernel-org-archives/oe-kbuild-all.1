@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF4639C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 22:37:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D3524A16
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 22:48:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QZiEeBg3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YppYA4DU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697063875; x=1728599875;
+  t=1697064535; x=1728600535;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cGWTBZ9fidJHXcSEV4W0TqfMLjPS7GTWzVr9j+CBHgo=;
-  b=QZiEeBg3fGg6sYSv18PRjcbaFKR3x2b5eyIxjzKaLp7PI7bTeo0y5Az4
-   DbsS0tpIloUZeNzN4TIc+KePxiOfSL7WbUtwccO+TPDgZZSNJmEs914KM
-   6ftgHZ00qzntDLaAd3IjeouU7WqP+zYNBBkzQYM7qg1+Yl5NCG+l7O/L3
-   P8eYAGwNys+ZT3HgdCREHFPaOIdXKKyLOzGYQGF4rstmBiD6LPOCXadcK
-   aqL5Ks1/l91sLJGTCzn7BOEVnoqYjXI2KCY4WwGIDRwOGmi/FUTzAWZlr
-   EcSbqKQA7PE0kr0lGBIAR4YjfTml2IsoG4/bFY9w82kM1c9Ow7pGqtbO4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="451274786"
+  bh=L2x5rQiQtIy/ec+OCgxqaM5fKFj6epXR6upHx+gE2Y0=;
+  b=YppYA4DUyQFJpKnz2vf9q9MJBqzvm/gZHxoq9CoHqutPkE2WA8GFYH7W
+   AVO62qhZpbqjRnokR4tm2qakA8BQ3sy5FCJ1/UShk+1kTMKzKKVEQa7Nt
+   gRjBtZ5xCq4zuSQJTRE5jKkaUKC2FJsz5v5MXpzHU0XeM44reJuHKUumq
+   X5Ki+njG7bkFXtq8jeTHfS7XwvckMRxvgfHPdt7MQq3AmlXumIxzdzyRv
+   vL4/Xx5pZd5ECK/u3641S7K/Tbq8r3BIt3CLuHf+Ua15XAR4XimvZkzpS
+   LH4uMblyVrQmTxyk7FrKOhSUBa9VThtIAPMIi9zwaBPDNBFKIjYD06rLR
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="3372098"
 X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
-   d="scan'208";a="451274786"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 15:37:51 -0700
+   d="scan'208";a="3372098"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 15:48:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="783430868"
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="844745058"
 X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
-   d="scan'208";a="783430868"
+   d="scan'208";a="844745058"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 11 Oct 2023 15:37:50 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 11 Oct 2023 15:48:50 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqhps-0002nW-05;
-	Wed, 11 Oct 2023 22:37:48 +0000
-Date: Thu, 12 Oct 2023 06:37:44 +0800
+	id 1qqi0W-0002oE-1I;
+	Wed, 11 Oct 2023 22:48:48 +0000
+Date: Thu, 12 Oct 2023 06:48:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 1934/24020]
- include/trace/hooks/preemptirq.h:28:1: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202310120600.FwAU5MvG-lkp@intel.com>
+Subject: [freescale-fslc:pr/642 189/30000]
+ drivers/usb/cdns3/./trace.h:258:19: warning: format '%llx' expects argument
+ of type 'long long unsigned int', but argument 6 has type 'dma_addr_t' {aka
+ 'unsigned int'}
+Message-ID: <202310120630.JDY7bfKw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,58 +52,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   082a5bf28b5fd8c6fe51fb60dddabf7d617b7914
-commit: 2e14f01dc4abfa95ab6192deea9b99c235f53ca3 [1934/24020] ANDROID: tracing: Add restricted vendor hooks for preemptirq events
-config: i386-randconfig-061-20230915 (https://download.01.org/0day-ci/archive/20231012/202310120600.FwAU5MvG-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231012/202310120600.FwAU5MvG-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc pr/642
+head:   c8b7cf62c7fea8456dec789d550b8006d73b8f04
+commit: b9fb0731451db7abb8c3d554d88b37cd07d107c3 [189/30000] MLK-18579-1 usb: cdns3: using upstream multiple TD driver
+config: arc-randconfig-001-20231011 (https://download.01.org/0day-ci/archive/20231012/202310120630.JDY7bfKw-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231012/202310120630.JDY7bfKw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310120600.FwAU5MvG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310120630.JDY7bfKw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/trace/trace_preemptirq.c: note: in included file:
->> include/trace/hooks/preemptirq.h:28:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:28:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:28:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
->> include/trace/hooks/preemptirq.h:28:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:28:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:28:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/preemptirq.h:24:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:24:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:24:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/preemptirq.h:24:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:24:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:24:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
->> include/trace/hooks/preemptirq.h:28:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:28:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:28:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
->> include/trace/hooks/preemptirq.h:28:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:28:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:28:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+All warnings (new ones prefixed by >>):
 
-vim +28 include/trace/hooks/preemptirq.h
+   In file included from include/trace/define_trace.h:102,
+                    from drivers/usb/cdns3/trace.h:446,
+                    from drivers/usb/cdns3/trace.c:11:
+   drivers/usb/cdns3/./trace.h: In function 'trace_raw_output_cdns3_log_aligned_request':
+>> drivers/usb/cdns3/./trace.h:258:19: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 6 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+     258 |         TP_printk("%s: req: %p, req buf %p, dma %08llx a_buf %p a_dma %08llx, size %d",
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:360:29: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     360 |         trace_seq_printf(s, print);                                     \
+         |                             ^~~~~
+   drivers/usb/cdns3/./trace.h:258:9: note: in expansion of macro 'TP_printk'
+     258 |         TP_printk("%s: req: %p, req buf %p, dma %08llx a_buf %p a_dma %08llx, size %d",
+         |         ^~~~~~~~~
+   In file included from include/trace/trace_events.h:394:
+   drivers/usb/cdns3/./trace.h:258:54: note: format string is defined here
+     258 |         TP_printk("%s: req: %p, req buf %p, dma %08llx a_buf %p a_dma %08llx, size %d",
+         |                                                 ~~~~~^
+         |                                                      |
+         |                                                      long long unsigned int
+         |                                                 %08x
+   drivers/usb/cdns3/./trace.h:258:19: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 8 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+     258 |         TP_printk("%s: req: %p, req buf %p, dma %08llx a_buf %p a_dma %08llx, size %d",
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:360:29: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     360 |         trace_seq_printf(s, print);                                     \
+         |                             ^~~~~
+   drivers/usb/cdns3/./trace.h:258:9: note: in expansion of macro 'TP_printk'
+     258 |         TP_printk("%s: req: %p, req buf %p, dma %08llx a_buf %p a_dma %08llx, size %d",
+         |         ^~~~~~~~~
+   drivers/usb/cdns3/./trace.h:258:76: note: format string is defined here
+     258 |         TP_printk("%s: req: %p, req buf %p, dma %08llx a_buf %p a_dma %08llx, size %d",
+         |                                                                       ~~~~~^
+         |                                                                            |
+         |                                                                            long long unsigned int
+         |                                                                       %08x
 
-    15	
-    16	DECLARE_RESTRICTED_HOOK(android_rvh_preempt_disable,
-    17		TP_PROTO(unsigned long ip, unsigned long parent_ip),
-    18		TP_ARGS(ip, parent_ip), 1);
-    19	
-    20	DECLARE_RESTRICTED_HOOK(android_rvh_preempt_enable,
-    21		TP_PROTO(unsigned long ip, unsigned long parent_ip),
-    22		TP_ARGS(ip, parent_ip), 1);
-    23	
-    24	DECLARE_RESTRICTED_HOOK(android_rvh_irqs_disable,
-    25		TP_PROTO(unsigned long ip, unsigned long parent_ip),
-    26		TP_ARGS(ip, parent_ip), 1);
-    27	
-  > 28	DECLARE_RESTRICTED_HOOK(android_rvh_irqs_enable,
-    29		TP_PROTO(unsigned long ip, unsigned long parent_ip),
-    30		TP_ARGS(ip, parent_ip), 1);
-    31	
+
+vim +258 drivers/usb/cdns3/./trace.h
+
+   236	
+   237	DECLARE_EVENT_CLASS(cdns3_log_aligned_request,
+   238		TP_PROTO(struct cdns3_request *priv_req),
+   239		TP_ARGS(priv_req),
+   240		TP_STRUCT__entry(
+   241			__string(name, priv_req->priv_ep->name)
+   242			__field(struct usb_request *, req)
+   243			__field(void *, buf)
+   244			__field(dma_addr_t, dma)
+   245			__field(void *, aligned_buf)
+   246			__field(dma_addr_t, aligned_dma)
+   247			__field(u32, aligned_buf_size)
+   248		),
+   249		TP_fast_assign(
+   250			__assign_str(name, priv_req->priv_ep->name);
+   251			__entry->req = &priv_req->request;
+   252			__entry->buf = priv_req->request.buf;
+   253			__entry->dma = priv_req->request.dma;
+   254			__entry->aligned_buf = priv_req->aligned_buf->buf;
+   255			__entry->aligned_dma = priv_req->aligned_buf->dma;
+   256			__entry->aligned_buf_size = priv_req->aligned_buf->size;
+   257		),
+ > 258		TP_printk("%s: req: %p, req buf %p, dma %08llx a_buf %p a_dma %08llx, size %d",
+   259			__get_str(name), __entry->req, __entry->buf, __entry->dma,
+   260			__entry->aligned_buf, __entry->aligned_dma,
+   261			__entry->aligned_buf_size
+   262		)
+   263	);
+   264	
 
 -- 
 0-DAY CI Kernel Test Service
