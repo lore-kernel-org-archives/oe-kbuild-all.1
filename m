@@ -1,52 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3DC14689
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 10:51:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B34BD10A34
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 11:01:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n3xJiIMK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="igbfSeQ/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697021507; x=1728557507;
+  t=1697022106; x=1728558106;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HzKy/wD6fRWSSHN2E6lVNwkcLE+uuPmcqXe5CRZ4jno=;
-  b=n3xJiIMKq6QtoXM5ZR6myB395QkmRlSuTRdQz2Be8wkjns6ueY7uv6eZ
-   HS+iKEIwgkN5YnlymACvw4zk1a+UtOje827WAoEo8vrMn/Lo1S+uRB8fv
-   tFjqXLRMuL69d2EClkrAdNmAEWIHYDDK6a5cUFDNoOx/52A9nWteMupsT
-   8NnsvkHPxGvZWcViqWS3f+S0UQE30RV5Xrg8U4+ntM+7bprQotPTwYRCI
-   mwSNHFp7ds5pG/8ImtUQihc+wx08PdrHejrLOjUJgVynPw3sacqW7d+M1
-   juBTrtqKxNkR0rsmLdj2n4/0Ib/bKA39/wNBfRGbRttshVzwcYATi9mw1
+  bh=FFVqrovjDvv5Jh/zjHox4ZbBkiWZwIlMQABP5KPnY+w=;
+  b=igbfSeQ/POtYXAIL6PT77+4AUwrb8Poxn3QlUlAkbVl6+9aOlBhlLNNP
+   auPmqYYwW9BF/+k6oRTtV7fd55HwmIkUDOnPZE51m8j5zvWB/kRbRv9N4
+   Kb+tsRJG5VwiUw16TWX2mb4n5k9juDnbS5Sda8Hbn6AvzESuxlXAatc5h
+   dXlHmsSgeLW6wgGhumWgDGcNusgqVcC2RNiwVd99mQVDQnY7TImjZve1u
+   rYeat9xo3gOG2fXwUjD5uEiHkHxBWe89XxS6w1sVDawwMl4owMUykLvoR
+   5CR8uU+dzlTeurRGuM6DSMA/MT6uDSCe1Djw3h7umL8HVDAFLjLSrv12E
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="387477532"
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="388502216"
 X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="387477532"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 03:51:46 -0700
+   d="scan'208";a="388502216"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 04:01:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="703687816"
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="783206041"
 X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="703687816"
+   d="scan'208";a="783206041"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 11 Oct 2023 03:51:43 -0700
+  by orsmga008.jf.intel.com with ESMTP; 11 Oct 2023 04:01:43 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqWoX-00027z-0I;
-	Wed, 11 Oct 2023 10:51:41 +0000
-Date: Wed, 11 Oct 2023 18:50:41 +0800
+	id 1qqWyD-00028X-1J;
+	Wed, 11 Oct 2023 11:01:41 +0000
+Date: Wed, 11 Oct 2023 19:01:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hardik Gajjar <hgajjar@de.adit-jv.com>, mathias.nyman@intel.com,
-	gregkh@linuxfoundation.org, stern@rowland.harvard.edu
-Cc: oe-kbuild-all@lists.linux.dev, yangyingliang@huawei.com,
-	jinpu.wang@ionos.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, erosca@de.adit-jv.com,
-	hgajjar@de.adit-jv.com
-Subject: Re: [PATCH v3] usb: core: hub: Add quirks for reducing device
- address timeout
-Message-ID: <202310111851.fB7Flvj5-lkp@intel.com>
-References: <20231011085011.89198-1-hgajjar@de.adit-jv.com>
+To: Joey Jiao <quic_jiangenj@quicinc.com>, linux-modules@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, quic_jiangenj@quicinc.com,
+	Luis Chamberlain <mcgrof@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] module: Add CONFIG_MODULE_LOAD_IN_SEQUENCE option
+Message-ID: <202310111840.ufGoxyfM-lkp@intel.com>
+References: <20231011074438.6098-1-quic_jiangenj@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,238 +51,491 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231011085011.89198-1-hgajjar@de.adit-jv.com>
+In-Reply-To: <20231011074438.6098-1-quic_jiangenj@quicinc.com>
 
-Hi Hardik,
+Hi Joey,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.6-rc5 next-20231011]
+[auto build test WARNING on mcgrof/modules-next]
+[also build test WARNING on linus/master v6.6-rc5 next-20231011]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hardik-Gajjar/usb-core-hub-Add-quirks-for-reducing-device-address-timeout/20231011-165246
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20231011085011.89198-1-hgajjar%40de.adit-jv.com
-patch subject: [PATCH v3] usb: core: hub: Add quirks for reducing device address timeout
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231011/202310111851.fB7Flvj5-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Joey-Jiao/module-Add-CONFIG_MODULE_LOAD_IN_SEQUENCE-option/20231011-154640
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git modules-next
+patch link:    https://lore.kernel.org/r/20231011074438.6098-1-quic_jiangenj%40quicinc.com
+patch subject: [PATCH v2] module: Add CONFIG_MODULE_LOAD_IN_SEQUENCE option
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231011/202310111840.ufGoxyfM-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310111851.fB7Flvj5-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310111840.ufGoxyfM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310111851.fB7Flvj5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310111840.ufGoxyfM-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/usb/host/xhci.c:1318: warning: Function parameter or member 'desc' not described in 'xhci_get_endpoint_index'
->> drivers/usb/host/xhci.c:4001: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * This function issues an Address Device command to assign a unique USB bus
+   kernel/module/main.c: In function 'do_init_module':
+   kernel/module/main.c:2627:12: error: invalid storage class for function 'may_init_module'
+    2627 | static int may_init_module(void)
+         |            ^~~~~~~~~~~~~~~
+   kernel/module/main.c:2636:13: error: invalid storage class for function 'finished_loading'
+    2636 | static bool finished_loading(const char *name)
+         |             ^~~~~~~~~~~~~~~~
+   kernel/module/main.c:2657:12: error: invalid storage class for function 'module_patient_check_exists'
+    2657 | static int module_patient_check_exists(const char *name,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/module/main.c:2701:12: error: invalid storage class for function 'add_unformed_module'
+    2701 | static int add_unformed_module(struct module *mod)
+         |            ^~~~~~~~~~~~~~~~~~~
+   kernel/module/main.c:2722:12: error: invalid storage class for function 'complete_formation'
+    2722 | static int complete_formation(struct module *mod, struct load_info *info)
+         |            ^~~~~~~~~~~~~~~~~~
+   kernel/module/main.c:2755:12: error: invalid storage class for function 'prepare_coming_module'
+    2755 | static int prepare_coming_module(struct module *mod)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+   kernel/module/main.c:2773:12: error: invalid storage class for function 'unknown_module_param_cb'
+    2773 | static int unknown_module_param_cb(char *param, char *val, const char *modname,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/module/main.c:2793:12: error: invalid storage class for function 'early_mod_check'
+    2793 | static int early_mod_check(struct load_info *info, int flags)
+         |            ^~~~~~~~~~~~~~~
+   kernel/module/main.c:2829:12: error: invalid storage class for function 'load_module'
+    2829 | static int load_module(struct load_info *info, const char __user *uargs,
+         |            ^~~~~~~~~~~
+   In file included from include/linux/compiler_types.h:125,
+                    from <command-line>:
+>> include/linux/compiler-gcc.h:132:33: warning: 'alias' attribute ignored [-Wattributes]
+     132 | #define __diag(s)               _Pragma(__diag_str(GCC diagnostic s))
+         |                                 ^~~~~~~
+   include/linux/compiler-gcc.h:135:33: note: in expansion of macro '__diag'
+     135 | #define __diag_GCC_8(s)         __diag(s)
+         |                                 ^~~~~~
+   include/linux/compiler-gcc.h:123:9: note: in expansion of macro '__diag_GCC_8'
+     123 |         __diag_GCC_ ## version(__diag_GCC_ ## severity s)
+         |         ^~~~~~~~~~~
+   include/linux/compiler_types.h:416:9: note: in expansion of macro '__diag_GCC'
+     416 |         __diag_ ## compiler(version, ignore, option)
+         |         ^~~~~~~
+   include/linux/syscalls.h:242:9: note: in expansion of macro '__diag_ignore'
+     242 |         __diag_ignore(GCC, 8, "-Wattribute-alias",                      \
+         |         ^~~~~~~~~~~~~
+   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3039:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    3039 | SYSCALL_DEFINE3(init_module, void __user *, umod,
+         | ^~~~~~~~~~~~~~~
+   In file included from kernel/module/main.c:26:
+   include/linux/syscalls.h:247:28: error: invalid storage class for function '__do_sys_init_module'
+     247 |         static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__));\
+         |                            ^~~~~~~~
+   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3039:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    3039 | SYSCALL_DEFINE3(init_module, void __user *, umod,
+         | ^~~~~~~~~~~~~~~
+   include/linux/syscalls.h:249:25: error: static declaration of '__se_sys_init_module' follows non-static declaration
+     249 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))  \
+         |                         ^~~~~~~~
+   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3039:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    3039 | SYSCALL_DEFINE3(init_module, void __user *, umod,
+         | ^~~~~~~~~~~~~~~
+   include/linux/syscalls.h:248:25: note: previous declaration of '__se_sys_init_module' with type 'long int(long int,  long int,  long int)'
+     248 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__)); \
+         |                         ^~~~~~~~
+   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3039:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    3039 | SYSCALL_DEFINE3(init_module, void __user *, umod,
+         | ^~~~~~~~~~~~~~~
+   kernel/module/main.c: In function '__se_sys_init_module':
+   include/linux/syscalls.h:251:28: error: implicit declaration of function '__do_sys_init_module'; did you mean '__se_sys_init_module'? [-Werror=implicit-function-declaration]
+     251 |                 long ret = __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS__));\
+         |                            ^~~~~~~~
+   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3039:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    3039 | SYSCALL_DEFINE3(init_module, void __user *, umod,
+         | ^~~~~~~~~~~~~~~
+   kernel/module/main.c: In function 'do_init_module':
+   include/linux/syscalls.h:257:28: error: invalid storage class for function '__do_sys_init_module'
+     257 |         static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))
+         |                            ^~~~~~~~
+   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3039:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    3039 | SYSCALL_DEFINE3(init_module, void __user *, umod,
+         | ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3073:13: error: invalid storage class for function 'idempotent'
+    3073 | static bool idempotent(struct idempotent *u, const void *cookie)
+         |             ^~~~~~~~~~
+   kernel/module/main.c:3104:12: error: invalid storage class for function 'idempotent_complete'
+    3104 | static int idempotent_complete(struct idempotent *u, int ret)
+         |            ^~~~~~~~~~~~~~~~~~~
+   kernel/module/main.c:3124:12: error: invalid storage class for function 'init_module_from_file'
+    3124 | static int init_module_from_file(struct file *f, const char __user * uargs, int flags)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+   kernel/module/main.c:3152:12: error: invalid storage class for function 'idempotent_init_module'
+    3152 | static int idempotent_init_module(struct file *f, const char __user * uargs, int flags)
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/compiler-gcc.h:132:33: warning: 'alias' attribute ignored [-Wattributes]
+     132 | #define __diag(s)               _Pragma(__diag_str(GCC diagnostic s))
+         |                                 ^~~~~~~
+   include/linux/compiler-gcc.h:135:33: note: in expansion of macro '__diag'
+     135 | #define __diag_GCC_8(s)         __diag(s)
+         |                                 ^~~~~~
+   include/linux/compiler-gcc.h:123:9: note: in expansion of macro '__diag_GCC_8'
+     123 |         __diag_GCC_ ## version(__diag_GCC_ ## severity s)
+         |         ^~~~~~~~~~~
+   include/linux/compiler_types.h:416:9: note: in expansion of macro '__diag_GCC'
+     416 |         __diag_ ## compiler(version, ignore, option)
+         |         ^~~~~~~
+   include/linux/syscalls.h:242:9: note: in expansion of macro '__diag_ignore'
+     242 |         __diag_ignore(GCC, 8, "-Wattribute-alias",                      \
+         |         ^~~~~~~~~~~~~
+   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3170:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    3170 | SYSCALL_DEFINE3(finit_module, int, fd, const char __user *, uargs, int, flags)
+         | ^~~~~~~~~~~~~~~
+   include/linux/syscalls.h:247:28: error: invalid storage class for function '__do_sys_finit_module'
+     247 |         static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__));\
+         |                            ^~~~~~~~
+   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3170:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    3170 | SYSCALL_DEFINE3(finit_module, int, fd, const char __user *, uargs, int, flags)
+         | ^~~~~~~~~~~~~~~
+   include/linux/syscalls.h:249:25: error: static declaration of '__se_sys_finit_module' follows non-static declaration
+     249 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))  \
+         |                         ^~~~~~~~
+   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3170:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    3170 | SYSCALL_DEFINE3(finit_module, int, fd, const char __user *, uargs, int, flags)
+         | ^~~~~~~~~~~~~~~
+   include/linux/syscalls.h:248:25: note: previous declaration of '__se_sys_finit_module' with type 'long int(long int,  long int,  long int)'
+     248 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__)); \
+         |                         ^~~~~~~~
+   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3170:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    3170 | SYSCALL_DEFINE3(finit_module, int, fd, const char __user *, uargs, int, flags)
+         | ^~~~~~~~~~~~~~~
+   kernel/module/main.c: In function '__se_sys_finit_module':
+   include/linux/syscalls.h:251:28: error: implicit declaration of function '__do_sys_finit_module'; did you mean '__do_sys_init_module'? [-Werror=implicit-function-declaration]
+     251 |                 long ret = __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS__));\
+         |                            ^~~~~~~~
+   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3170:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    3170 | SYSCALL_DEFINE3(finit_module, int, fd, const char __user *, uargs, int, flags)
+         | ^~~~~~~~~~~~~~~
+   kernel/module/main.c: In function 'do_init_module':
+   include/linux/syscalls.h:257:28: error: invalid storage class for function '__do_sys_finit_module'
+     257 |         static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))
+         |                            ^~~~~~~~
+   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3170:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    3170 | SYSCALL_DEFINE3(finit_module, int, fd, const char __user *, uargs, int, flags)
+         | ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3361:12: error: invalid storage class for function 'module_debugfs_init'
+    3361 | static int module_debugfs_init(void)
+         |            ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/printk.h:6,
+                    from include/asm-generic/bug.h:22,
+                    from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from arch/m68k/include/asm/irqflags.h:6,
+                    from include/linux/irqflags.h:17,
+                    from arch/m68k/include/asm/atomic.h:6,
+                    from include/linux/atomic.h:7,
+                    from include/linux/mm_types_task.h:13,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from include/linux/moduleloader.h:6,
+                    from kernel/module/main.c:12:
+   kernel/module/main.c:3366:13: error: initializer element is not constant
+    3366 | module_init(module_debugfs_init);
+         |             ^~~~~~~~~~~~~~~~~~~
+   include/linux/init.h:270:55: note: in definition of macro '____define_initcall'
+     270 |                 __attribute__((__section__(__sec))) = fn;
+         |                                                       ^~
+   include/linux/init.h:280:9: note: in expansion of macro '__unique_initcall'
+     280 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/init.h:282:35: note: in expansion of macro '___define_initcall'
+     282 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
+         |                                   ^~~~~~~~~~~~~~~~~~
+   include/linux/init.h:311:41: note: in expansion of macro '__define_initcall'
+     311 | #define device_initcall(fn)             __define_initcall(fn, 6)
+         |                                         ^~~~~~~~~~~~~~~~~
+   include/linux/init.h:316:24: note: in expansion of macro 'device_initcall'
+     316 | #define __initcall(fn) device_initcall(fn)
+         |                        ^~~~~~~~~~~~~~~
+   include/linux/module.h:88:25: note: in expansion of macro '__initcall'
+      88 | #define module_init(x)  __initcall(x);
+         |                         ^~~~~~~~~~
+   kernel/module/main.c:3366:1: note: in expansion of macro 'module_init'
+    3366 | module_init(module_debugfs_init);
+         | ^~~~~~~~~~~
+   kernel/module/main.c:3366:1: error: expected declaration or statement at end of input
+>> kernel/module/main.c:3359:16: warning: variable 'mod_debugfs_root' set but not used [-Wunused-but-set-variable]
+    3359 | struct dentry *mod_debugfs_root;
+         |                ^~~~~~~~~~~~~~~~
+   kernel/module/main.c: At top level:
+>> kernel/module/main.c:3336:6: warning: 'print_modules' defined but not used [-Wunused-function]
+    3336 | void print_modules(void)
+         |      ^~~~~~~~~~~~~
+>> kernel/module/main.c:3323:16: warning: '__module_text_address' defined but not used [-Wunused-function]
+    3323 | struct module *__module_text_address(unsigned long addr)
+         |                ^~~~~~~~~~~~~~~~~~~~~
+>> kernel/module/main.c:3305:6: warning: 'is_module_text_address' defined but not used [-Wunused-function]
+    3305 | bool is_module_text_address(unsigned long addr)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+>> kernel/module/main.c:3253:6: warning: 'is_module_address' defined but not used [-Wunused-function]
+    3253 | bool is_module_address(unsigned long addr)
+         |      ^~~~~~~~~~~~~~~~~
+>> kernel/module/main.c:3220:37: warning: 'search_module_extables' defined but not used [-Wunused-function]
+    3220 | const struct exception_table_entry *search_module_extables(unsigned long addr)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/syscalls.h:249:25: warning: '__se_sys_finit_module' defined but not used [-Wunused-function]
+     249 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))  \
+         |                         ^~~~~~~~
+   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3170:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    3170 | SYSCALL_DEFINE3(finit_module, int, fd, const char __user *, uargs, int, flags)
+         | ^~~~~~~~~~~~~~~
+>> include/linux/syscalls.h:249:25: warning: '__se_sys_init_module' defined but not used [-Wunused-function]
+     249 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))  \
+         |                         ^~~~~~~~
+   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3039:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    3039 | SYSCALL_DEFINE3(init_module, void __user *, umod,
+         | ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +4001 drivers/usb/host/xhci.c
+vim +/mod_debugfs_root +3359 kernel/module/main.c
 
-  3999	
-  4000	/**
-> 4001	 * This function issues an Address Device command to assign a unique USB bus
-  4002	 * address. Optionally, it sends a SetAddress request.
-  4003	 *
-  4004	 * @param hcd        USB host controller data structure.
-  4005	 * @param udev       USB device structure representing the connected device.
-  4006	 * @param setup      Enum specifying setup mode: address only or with context.
-  4007	 * @param timeout_ms Max wait time (ms) for the command operation to complete.
-  4008	 *
-  4009	 * @return           Integer status code: 0 on success, negative on error.
-  4010	 *
-  4011	 */
-  4012	static int xhci_setup_device(struct usb_hcd *hcd, struct usb_device *udev,
-  4013				     enum xhci_setup_dev setup, unsigned int timeout_ms)
-  4014	{
-  4015		const char *act = setup == SETUP_CONTEXT_ONLY ? "context" : "address";
-  4016		unsigned long flags;
-  4017		struct xhci_virt_device *virt_dev;
-  4018		int ret = 0;
-  4019		struct xhci_hcd *xhci = hcd_to_xhci(hcd);
-  4020		struct xhci_slot_ctx *slot_ctx;
-  4021		struct xhci_input_control_ctx *ctrl_ctx;
-  4022		u64 temp_64;
-  4023		struct xhci_command *command = NULL;
-  4024	
-  4025		mutex_lock(&xhci->mutex);
-  4026	
-  4027		if (xhci->xhc_state) {	/* dying, removing or halted */
-  4028			ret = -ESHUTDOWN;
-  4029			goto out;
-  4030		}
-  4031	
-  4032		if (!udev->slot_id) {
-  4033			xhci_dbg_trace(xhci, trace_xhci_dbg_address,
-  4034					"Bad Slot ID %d", udev->slot_id);
-  4035			ret = -EINVAL;
-  4036			goto out;
-  4037		}
-  4038	
-  4039		virt_dev = xhci->devs[udev->slot_id];
-  4040	
-  4041		if (WARN_ON(!virt_dev)) {
-  4042			/*
-  4043			 * In plug/unplug torture test with an NEC controller,
-  4044			 * a zero-dereference was observed once due to virt_dev = 0.
-  4045			 * Print useful debug rather than crash if it is observed again!
-  4046			 */
-  4047			xhci_warn(xhci, "Virt dev invalid for slot_id 0x%x!\n",
-  4048				udev->slot_id);
-  4049			ret = -EINVAL;
-  4050			goto out;
-  4051		}
-  4052		slot_ctx = xhci_get_slot_ctx(xhci, virt_dev->out_ctx);
-  4053		trace_xhci_setup_device_slot(slot_ctx);
-  4054	
-  4055		if (setup == SETUP_CONTEXT_ONLY) {
-  4056			if (GET_SLOT_STATE(le32_to_cpu(slot_ctx->dev_state)) ==
-  4057			    SLOT_STATE_DEFAULT) {
-  4058				xhci_dbg(xhci, "Slot already in default state\n");
-  4059				goto out;
-  4060			}
-  4061		}
-  4062	
-  4063		command = xhci_alloc_command(xhci, true, GFP_KERNEL);
-  4064		if (!command) {
-  4065			ret = -ENOMEM;
-  4066			goto out;
-  4067		}
-  4068	
-  4069		command->in_ctx = virt_dev->in_ctx;
-  4070		command->timeout_ms = timeout_ms;
-  4071	
-  4072		slot_ctx = xhci_get_slot_ctx(xhci, virt_dev->in_ctx);
-  4073		ctrl_ctx = xhci_get_input_control_ctx(virt_dev->in_ctx);
-  4074		if (!ctrl_ctx) {
-  4075			xhci_warn(xhci, "%s: Could not get input context, bad type.\n",
-  4076					__func__);
-  4077			ret = -EINVAL;
-  4078			goto out;
-  4079		}
-  4080		/*
-  4081		 * If this is the first Set Address since device plug-in or
-  4082		 * virt_device realloaction after a resume with an xHCI power loss,
-  4083		 * then set up the slot context.
-  4084		 */
-  4085		if (!slot_ctx->dev_info)
-  4086			xhci_setup_addressable_virt_dev(xhci, udev);
-  4087		/* Otherwise, update the control endpoint ring enqueue pointer. */
-  4088		else
-  4089			xhci_copy_ep0_dequeue_into_input_ctx(xhci, udev);
-  4090		ctrl_ctx->add_flags = cpu_to_le32(SLOT_FLAG | EP0_FLAG);
-  4091		ctrl_ctx->drop_flags = 0;
-  4092	
-  4093		trace_xhci_address_ctx(xhci, virt_dev->in_ctx,
-  4094					le32_to_cpu(slot_ctx->dev_info) >> 27);
-  4095	
-  4096		trace_xhci_address_ctrl_ctx(ctrl_ctx);
-  4097		spin_lock_irqsave(&xhci->lock, flags);
-  4098		trace_xhci_setup_device(virt_dev);
-  4099		ret = xhci_queue_address_device(xhci, command, virt_dev->in_ctx->dma,
-  4100						udev->slot_id, setup);
-  4101		if (ret) {
-  4102			spin_unlock_irqrestore(&xhci->lock, flags);
-  4103			xhci_dbg_trace(xhci, trace_xhci_dbg_address,
-  4104					"FIXME: allocate a command ring segment");
-  4105			goto out;
-  4106		}
-  4107		xhci_ring_cmd_db(xhci);
-  4108		spin_unlock_irqrestore(&xhci->lock, flags);
-  4109	
-  4110		/* ctrl tx can take up to 5 sec; XXX: need more time for xHC? */
-  4111		wait_for_completion(command->completion);
-  4112	
-  4113		/* FIXME: From section 4.3.4: "Software shall be responsible for timing
-  4114		 * the SetAddress() "recovery interval" required by USB and aborting the
-  4115		 * command on a timeout.
-  4116		 */
-  4117		switch (command->status) {
-  4118		case COMP_COMMAND_ABORTED:
-  4119		case COMP_COMMAND_RING_STOPPED:
-  4120			xhci_warn(xhci, "Timeout while waiting for setup device command\n");
-  4121			ret = -ETIME;
-  4122			break;
-  4123		case COMP_CONTEXT_STATE_ERROR:
-  4124		case COMP_SLOT_NOT_ENABLED_ERROR:
-  4125			xhci_err(xhci, "Setup ERROR: setup %s command for slot %d.\n",
-  4126				 act, udev->slot_id);
-  4127			ret = -EINVAL;
-  4128			break;
-  4129		case COMP_USB_TRANSACTION_ERROR:
-  4130			dev_warn(&udev->dev, "Device not responding to setup %s.\n", act);
-  4131	
-  4132			mutex_unlock(&xhci->mutex);
-  4133			ret = xhci_disable_slot(xhci, udev->slot_id);
-  4134			xhci_free_virt_device(xhci, udev->slot_id);
-  4135			if (!ret)
-  4136				xhci_alloc_dev(hcd, udev);
-  4137			kfree(command->completion);
-  4138			kfree(command);
-  4139			return -EPROTO;
-  4140		case COMP_INCOMPATIBLE_DEVICE_ERROR:
-  4141			dev_warn(&udev->dev,
-  4142				 "ERROR: Incompatible device for setup %s command\n", act);
-  4143			ret = -ENODEV;
-  4144			break;
-  4145		case COMP_SUCCESS:
-  4146			xhci_dbg_trace(xhci, trace_xhci_dbg_address,
-  4147				       "Successful setup %s command", act);
-  4148			break;
-  4149		default:
-  4150			xhci_err(xhci,
-  4151				 "ERROR: unexpected setup %s command completion code 0x%x.\n",
-  4152				 act, command->status);
-  4153			trace_xhci_address_ctx(xhci, virt_dev->out_ctx, 1);
-  4154			ret = -EINVAL;
-  4155			break;
-  4156		}
-  4157		if (ret)
-  4158			goto out;
-  4159		temp_64 = xhci_read_64(xhci, &xhci->op_regs->dcbaa_ptr);
-  4160		xhci_dbg_trace(xhci, trace_xhci_dbg_address,
-  4161				"Op regs DCBAA ptr = %#016llx", temp_64);
-  4162		xhci_dbg_trace(xhci, trace_xhci_dbg_address,
-  4163			"Slot ID %d dcbaa entry @%p = %#016llx",
-  4164			udev->slot_id,
-  4165			&xhci->dcbaa->dev_context_ptrs[udev->slot_id],
-  4166			(unsigned long long)
-  4167			le64_to_cpu(xhci->dcbaa->dev_context_ptrs[udev->slot_id]));
-  4168		xhci_dbg_trace(xhci, trace_xhci_dbg_address,
-  4169				"Output Context DMA address = %#08llx",
-  4170				(unsigned long long)virt_dev->out_ctx->dma);
-  4171		trace_xhci_address_ctx(xhci, virt_dev->in_ctx,
-  4172					le32_to_cpu(slot_ctx->dev_info) >> 27);
-  4173		/*
-  4174		 * USB core uses address 1 for the roothubs, so we add one to the
-  4175		 * address given back to us by the HC.
-  4176		 */
-  4177		trace_xhci_address_ctx(xhci, virt_dev->out_ctx,
-  4178					le32_to_cpu(slot_ctx->dev_info) >> 27);
-  4179		/* Zero the input context control for later use */
-  4180		ctrl_ctx->add_flags = 0;
-  4181		ctrl_ctx->drop_flags = 0;
-  4182		slot_ctx = xhci_get_slot_ctx(xhci, virt_dev->out_ctx);
-  4183		udev->devaddr = (u8)(le32_to_cpu(slot_ctx->dev_state) & DEV_ADDR_MASK);
-  4184	
-  4185		xhci_dbg_trace(xhci, trace_xhci_dbg_address,
-  4186			       "Internal device address = %d",
-  4187			       le32_to_cpu(slot_ctx->dev_state) & DEV_ADDR_MASK);
-  4188	out:
-  4189		mutex_unlock(&xhci->mutex);
-  4190		if (command) {
-  4191			kfree(command->completion);
-  4192			kfree(command);
-  4193		}
-  4194		return ret;
-  4195	}
-  4196	
+fa3ba2e81ea23416 kernel/module.c      Florin Malita    2006-10-11  3218  
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3219  /* Given an address, look for it in the module exception tables. */
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16 @3220  const struct exception_table_entry *search_module_extables(unsigned long addr)
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3221  {
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3222  	const struct exception_table_entry *e = NULL;
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3223  	struct module *mod;
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3224  
+24da1cbff9cfce50 kernel/module.c      Rusty Russell    2007-07-15  3225  	preempt_disable();
+5ff22646d246e23b kernel/module.c      Peter Zijlstra   2017-02-08  3226  	mod = __module_address(addr);
+5ff22646d246e23b kernel/module.c      Peter Zijlstra   2017-02-08  3227  	if (!mod)
+5ff22646d246e23b kernel/module.c      Peter Zijlstra   2017-02-08  3228  		goto out;
+5ff22646d246e23b kernel/module.c      Peter Zijlstra   2017-02-08  3229  
+5ff22646d246e23b kernel/module.c      Peter Zijlstra   2017-02-08  3230  	if (!mod->num_exentries)
+5ff22646d246e23b kernel/module.c      Peter Zijlstra   2017-02-08  3231  		goto out;
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3232  
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3233  	e = search_extable(mod->extable,
+a94c33dd1f677d16 kernel/module.c      Thomas Meyer     2017-07-10  3234  			   mod->num_exentries,
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3235  			   addr);
+5ff22646d246e23b kernel/module.c      Peter Zijlstra   2017-02-08  3236  out:
+24da1cbff9cfce50 kernel/module.c      Rusty Russell    2007-07-15  3237  	preempt_enable();
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3238  
+5ff22646d246e23b kernel/module.c      Peter Zijlstra   2017-02-08  3239  	/*
+5ff22646d246e23b kernel/module.c      Peter Zijlstra   2017-02-08  3240  	 * Now, if we found one, we are running inside it now, hence
+5ff22646d246e23b kernel/module.c      Peter Zijlstra   2017-02-08  3241  	 * we cannot unload the module, hence no refcnt needed.
+5ff22646d246e23b kernel/module.c      Peter Zijlstra   2017-02-08  3242  	 */
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3243  	return e;
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3244  }
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3245  
+2541743e99c301f9 kernel/module.c      Sergey Shtylyov  2020-11-04  3246  /**
+2541743e99c301f9 kernel/module.c      Sergey Shtylyov  2020-11-04  3247   * is_module_address() - is this address inside a module?
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3248   * @addr: the address to check.
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3249   *
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3250   * See is_module_text_address() if you simply want to see if the address
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3251   * is code (not data).
+4d435f9d8ff01ae7 kernel/module.c      Ingo Molnar      2006-07-03  3252   */
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31 @3253  bool is_module_address(unsigned long addr)
+4d435f9d8ff01ae7 kernel/module.c      Ingo Molnar      2006-07-03  3254  {
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3255  	bool ret;
+4d435f9d8ff01ae7 kernel/module.c      Ingo Molnar      2006-07-03  3256  
+24da1cbff9cfce50 kernel/module.c      Rusty Russell    2007-07-15  3257  	preempt_disable();
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3258  	ret = __module_address(addr) != NULL;
+24da1cbff9cfce50 kernel/module.c      Rusty Russell    2007-07-15  3259  	preempt_enable();
+4d435f9d8ff01ae7 kernel/module.c      Ingo Molnar      2006-07-03  3260  
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3261  	return ret;
+4d435f9d8ff01ae7 kernel/module.c      Ingo Molnar      2006-07-03  3262  }
+4d435f9d8ff01ae7 kernel/module.c      Ingo Molnar      2006-07-03  3263  
+2541743e99c301f9 kernel/module.c      Sergey Shtylyov  2020-11-04  3264  /**
+2541743e99c301f9 kernel/module.c      Sergey Shtylyov  2020-11-04  3265   * __module_address() - get the module which contains an address.
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3266   * @addr: the address.
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3267   *
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3268   * Must be called with preempt disabled or module mutex held so that
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3269   * module doesn't get freed during this.
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3270   */
+714f83d5d9f7c785 kernel/module.c      Linus Torvalds   2009-04-05  3271  struct module *__module_address(unsigned long addr)
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3272  {
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3273  	struct module *mod;
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3274  
+01dc0386efb76905 kernel/module/main.c Christophe Leroy 2022-02-23  3275  	if (addr >= mod_tree.addr_min && addr <= mod_tree.addr_max)
+ac3b432839234409 kernel/module/main.c Song Liu         2023-02-06  3276  		goto lookup;
+ac3b432839234409 kernel/module/main.c Song Liu         2023-02-06  3277  
+01dc0386efb76905 kernel/module/main.c Christophe Leroy 2022-02-23  3278  #ifdef CONFIG_ARCH_WANTS_MODULES_DATA_IN_VMALLOC
+ac3b432839234409 kernel/module/main.c Song Liu         2023-02-06  3279  	if (addr >= mod_tree.data_addr_min && addr <= mod_tree.data_addr_max)
+ac3b432839234409 kernel/module/main.c Song Liu         2023-02-06  3280  		goto lookup;
+01dc0386efb76905 kernel/module/main.c Christophe Leroy 2022-02-23  3281  #endif
+ac3b432839234409 kernel/module/main.c Song Liu         2023-02-06  3282  
+3a642e99babe0617 kernel/module.c      Rusty Russell    2008-07-22  3283  	return NULL;
+3a642e99babe0617 kernel/module.c      Rusty Russell    2008-07-22  3284  
+ac3b432839234409 kernel/module/main.c Song Liu         2023-02-06  3285  lookup:
+0be964be0d450842 kernel/module.c      Peter Zijlstra   2015-05-27  3286  	module_assert_mutex_or_preempt();
+0be964be0d450842 kernel/module.c      Peter Zijlstra   2015-05-27  3287  
+ac3b432839234409 kernel/module/main.c Song Liu         2023-02-06  3288  	mod = mod_find(addr, &mod_tree);
+93c2e105f6bcee23 kernel/module.c      Peter Zijlstra   2015-05-27  3289  	if (mod) {
+93c2e105f6bcee23 kernel/module.c      Peter Zijlstra   2015-05-27  3290  		BUG_ON(!within_module(addr, mod));
+0d21b0e3477395e7 kernel/module.c      Rusty Russell    2013-01-12  3291  		if (mod->state == MODULE_STATE_UNFORMED)
+93c2e105f6bcee23 kernel/module.c      Peter Zijlstra   2015-05-27  3292  			mod = NULL;
+0d21b0e3477395e7 kernel/module.c      Rusty Russell    2013-01-12  3293  	}
+93c2e105f6bcee23 kernel/module.c      Peter Zijlstra   2015-05-27  3294  	return mod;
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3295  }
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3296  
+2541743e99c301f9 kernel/module.c      Sergey Shtylyov  2020-11-04  3297  /**
+2541743e99c301f9 kernel/module.c      Sergey Shtylyov  2020-11-04  3298   * is_module_text_address() - is this address inside module code?
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3299   * @addr: the address to check.
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3300   *
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3301   * See is_module_address() if you simply want to see if the address is
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3302   * anywhere in a module.  See kernel_text_address() for testing if an
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3303   * address corresponds to kernel or module code.
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3304   */
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31 @3305  bool is_module_text_address(unsigned long addr)
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3306  {
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3307  	bool ret;
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3308  
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3309  	preempt_disable();
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3310  	ret = __module_text_address(addr) != NULL;
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3311  	preempt_enable();
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3312  
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3313  	return ret;
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3314  }
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3315  
+2541743e99c301f9 kernel/module.c      Sergey Shtylyov  2020-11-04  3316  /**
+2541743e99c301f9 kernel/module.c      Sergey Shtylyov  2020-11-04  3317   * __module_text_address() - get the module whose code contains an address.
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3318   * @addr: the address.
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3319   *
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3320   * Must be called with preempt disabled or module mutex held so that
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3321   * module doesn't get freed during this.
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3322   */
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31 @3323  struct module *__module_text_address(unsigned long addr)
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3324  {
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3325  	struct module *mod = __module_address(addr);
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3326  	if (mod) {
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3327  		/* Make sure it's within the text section. */
+ac3b432839234409 kernel/module/main.c Song Liu         2023-02-06  3328  		if (!within_module_mem_type(addr, mod, MOD_TEXT) &&
+ac3b432839234409 kernel/module/main.c Song Liu         2023-02-06  3329  		    !within_module_mem_type(addr, mod, MOD_INIT_TEXT))
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3330  			mod = NULL;
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3331  	}
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3332  	return mod;
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3333  }
+e610499e2656e619 kernel/module.c      Rusty Russell    2009-03-31  3334  
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3335  /* Don't grab lock, we're oopsing. */
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16 @3336  void print_modules(void)
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3337  {
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3338  	struct module *mod;
+7fd8329ba502ef76 kernel/module.c      Petr Mladek      2016-09-21  3339  	char buf[MODULE_FLAGS_BUF_SIZE];
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3340  
+b231125af7811a2f kernel/module.c      Linus Torvalds   2009-06-16  3341  	printk(KERN_DEFAULT "Modules linked in:");
+d72b37513cdfbd3f kernel/module.c      Andi Kleen       2008-08-30  3342  	/* Most callers should already have preempt disabled, but make sure */
+d72b37513cdfbd3f kernel/module.c      Andi Kleen       2008-08-30  3343  	preempt_disable();
+0d21b0e3477395e7 kernel/module.c      Rusty Russell    2013-01-12  3344  	list_for_each_entry_rcu(mod, &modules, list) {
+0d21b0e3477395e7 kernel/module.c      Rusty Russell    2013-01-12  3345  		if (mod->state == MODULE_STATE_UNFORMED)
+0d21b0e3477395e7 kernel/module.c      Rusty Russell    2013-01-12  3346  			continue;
+17dd25c29cda98c3 kernel/module/main.c Aaron Tomlin     2022-07-14  3347  		pr_cont(" %s%s", mod->name, module_flags(mod, buf, true));
+0d21b0e3477395e7 kernel/module.c      Rusty Russell    2013-01-12  3348  	}
+99bd9956551b27cb kernel/module/main.c Aaron Tomlin     2022-05-02  3349  
+99bd9956551b27cb kernel/module/main.c Aaron Tomlin     2022-05-02  3350  	print_unloaded_tainted_modules();
+d72b37513cdfbd3f kernel/module.c      Andi Kleen       2008-08-30  3351  	preempt_enable();
+6f1dae1d84b6d085 kernel/module/main.c Aaron Tomlin     2022-07-14  3352  	if (last_unloaded_module.name[0])
+6f1dae1d84b6d085 kernel/module/main.c Aaron Tomlin     2022-07-14  3353  		pr_cont(" [last unloaded: %s%s]", last_unloaded_module.name,
+6f1dae1d84b6d085 kernel/module/main.c Aaron Tomlin     2022-07-14  3354  			last_unloaded_module.taints);
+27bba4d6bb3779a6 kernel/module.c      Jiri Slaby       2014-02-03  3355  	pr_cont("\n");
+^1da177e4c3f4152 kernel/module.c      Linus Torvalds   2005-04-16  3356  }
+df3e764d8e5cd416 kernel/module/main.c Luis Chamberlain 2023-03-28  3357  
+df3e764d8e5cd416 kernel/module/main.c Luis Chamberlain 2023-03-28  3358  #ifdef CONFIG_MODULE_DEBUGFS
+df3e764d8e5cd416 kernel/module/main.c Luis Chamberlain 2023-03-28 @3359  struct dentry *mod_debugfs_root;
+df3e764d8e5cd416 kernel/module/main.c Luis Chamberlain 2023-03-28  3360  
+df3e764d8e5cd416 kernel/module/main.c Luis Chamberlain 2023-03-28  3361  static int module_debugfs_init(void)
+df3e764d8e5cd416 kernel/module/main.c Luis Chamberlain 2023-03-28  3362  {
+df3e764d8e5cd416 kernel/module/main.c Luis Chamberlain 2023-03-28  3363  	mod_debugfs_root = debugfs_create_dir("modules", NULL);
+df3e764d8e5cd416 kernel/module/main.c Luis Chamberlain 2023-03-28  3364  	return 0;
+df3e764d8e5cd416 kernel/module/main.c Luis Chamberlain 2023-03-28  3365  }
+df3e764d8e5cd416 kernel/module/main.c Luis Chamberlain 2023-03-28 @3366  module_init(module_debugfs_init);
 
 -- 
 0-DAY CI Kernel Test Service
