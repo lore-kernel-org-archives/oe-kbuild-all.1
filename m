@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41BE9199C9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 08:01:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8518019BB1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 08:11:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Habd1TBh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nd2s35nS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697011269; x=1728547269;
+  t=1697011896; x=1728547896;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=5HYR9EmDj0uEqC5cgJoVp4caOwW7LPtQN+7Ju70lz2Q=;
-  b=Habd1TBhr5wyKuUBkzeITO7sGbCqJVCRaspNZKz5/UUq7koFKAU72vgW
-   dvF/VXbAUDxxbMXbCAmpqdNkqbY5avRu2cdY2Apr/E+Q9eDtNwVgEMkgc
-   51N0dduUS6GLdqnrkYzKCxpM2JRjHeJXihI4Zjd6LXlhiy9Y7DhoIIJNA
-   /UzncHVcv4g9JDLH6LK2QJ1Z0Hf1uSm6xVpEQLGoKRoZI6CZG5iiNLqIF
-   NTc9VEb6hRACKBUrtUGIWIJm3dnz1Rt6AiABQ3aQUKaZaHr3mHHUOvoPw
-   OjDcSKBdSe7S4kmBhpS2219DmCsFOOxhm+856P2LajTtVhXM4jt4eIHR7
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="383468230"
+  bh=RLs8JGiHdPsYwk1ivdufPz009VL+3/QbEtoXwsYWMvE=;
+  b=Nd2s35nSBB0+hhYcL90Zd2+6tlyZaBnpyByNnlBsFCbi4O2V2vOrA0WC
+   RQM78MXLGHo7KyeS1B4HpxCMUWuZAj+0wHRNgbFYxYSibX8NY0+artWKa
+   3Vi5JVUqJhxZFXDaII+RwKlH+pBAppdHKZY6hyFUr41Zy7akWDiTzF/JD
+   bbeGUVRyPr0llgpcytM6SSS3d/tSeuE8uZ+hDqyRg6LgnUzFwKdTLGOzu
+   cE+V2OFil93fjg3l7JACMt+pNpJ7NRENtQeclVO9Bm1ndjeEKv2UgOEoE
+   gmObvx1GUeQY0kVs2pcS3QlZS6OlcXcsmCbC7NGqfWQXzuoTm+Mz9Xriu
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="384459592"
 X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="383468230"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 01:01:07 -0700
+   d="scan'208";a="384459592"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 01:11:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="819601967"
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="844465010"
 X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="819601967"
+   d="scan'208";a="844465010"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 11 Oct 2023 01:00:53 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 11 Oct 2023 01:11:21 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqU9D-0001xj-2D;
-	Wed, 11 Oct 2023 08:00:51 +0000
-Date: Wed, 11 Oct 2023 15:59:59 +0800
+	id 1qqUJL-0001yv-1d;
+	Wed, 11 Oct 2023 08:11:19 +0000
+Date: Wed, 11 Oct 2023 16:10:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: Shekhar Chauhan <shekhar.chauhan@intel.com>,
 	intel-gfx@lists.freedesktop.org
 Cc: oe-kbuild-all@lists.linux.dev, matthew.d.roper@intel.com
 Subject: Re: [Intel-gfx] [PATCH] drm/i915: Add new DG2 PCI IDs
-Message-ID: <202310111502.XJyXwhlX-lkp@intel.com>
+Message-ID: <202310111551.luEGQMMh-lkp@intel.com>
 References: <20231011045600.2710486-1-shekhar.chauhan@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,19 +63,25 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Shekhar-Chauhan/drm-i915-
 base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
 patch link:    https://lore.kernel.org/r/20231011045600.2710486-1-shekhar.chauhan%40intel.com
 patch subject: [Intel-gfx] [PATCH] drm/i915: Add new DG2 PCI IDs
-config: x86_64-randconfig-073-20231011 (https://download.01.org/0day-ci/archive/20231011/202310111502.XJyXwhlX-lkp@intel.com/config)
+config: i386-buildonly-randconfig-002-20231011 (https://download.01.org/0day-ci/archive/20231011/202310111551.luEGQMMh-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310111502.XJyXwhlX-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310111551.luEGQMMh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310111502.XJyXwhlX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310111551.luEGQMMh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/early-quirks.c:21:
->> include/drm/i915_pciids.h:695:2: error: expected ';' before 'extern'
+   In file included from drivers/gpu/drm/i915/i915_pci.c:27:
+>> include/drm/i915_pciids.h:695:2: error: expected ';' before 'enum'
+     695 | h
+         |  ^
+         |  ;
+--
+   In file included from drivers/gpu/drm/i915/display/intel_display_device.c:6:
+>> include/drm/i915_pciids.h:695:2: error: expected ';' before 'void'
      695 | h
          |  ^
          |  ;
