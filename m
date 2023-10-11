@@ -1,46 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED601F182
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 13:15:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458722CA6;
+	Wed, 11 Oct 2023 13:42:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cdlchRO9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="auYk2Z/N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697030135; x=1728566135;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Zq3CJhJQjMrxWDHEiIdMuOGv/aoTuUem72+4WmGtvzc=;
-  b=cdlchRO92r8EM6Q6ZB4ZcxFsmWV+jLLE2eaIPT6DxrK0+0aJCIeCGS5/
-   cs3D5NeFxiaPWeYI6wZBp8rUXHb7OyTyePPL6FYFLk7ku3fLpLFXqAnej
-   fqvqb/5kr+a1qY7xCU89TLuw6teRdVZ8WVMHod4l8FSdkhMefKIiisuFT
-   lrJRFjHAjMYTEjM0XauGnxl04pOajeyqLatf1D5WAvO74rMz7IQzyGZTn
-   KQl1nQXuTpoNiIoqdy1+soLHhf95dfBqu03Z5v34q5E+VN5Ae89nPonhR
-   QSicoYLkc6KVT/zjv5PUmzzh2reF1ga7ZOW/gjfp598lFV+lsYNg1jplQ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="364945054"
+  t=1697031767; x=1728567767;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7YfsHhsopKCCqEyes/Zq8paien7jAELVx6130kYHaq0=;
+  b=auYk2Z/NX3U1qGvG+HR+IS68IAOAG9+3F03wBJ8sDDj0Ss4P97BLFxPG
+   bPwRgK3ke0Ruo3gmOcUIuQO4CG1/TSp2ZFltGDMSrFrnEKxJeqmNDm53b
+   xN8E0smmM/nO/8jCBnsPwLJCy0/LllMkWoQd8gzp/zJSRkOVZrfgIwHTT
+   8thl1eamT6h8FMBHs5GGQgOBRwz1vh2JrxmmWCnBqEqPbtQAaNUFZIOw3
+   tqUSF9GheXxqnsOpF/xVrRvKOQd6SSXgYp+WSVQdY9bEBUUsRN7w7cCBY
+   VKIoNZJenM9UxuBGcoZxiJrxNPMQX5jPmT3PZSFGeQX8Ytb+21p+gA7Ys
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="448864024"
 X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
-   d="scan'208";a="364945054"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 06:15:34 -0700
+   d="scan'208";a="448864024"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 06:42:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="783235566"
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="753823924"
 X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
-   d="scan'208";a="783235566"
+   d="scan'208";a="753823924"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 11 Oct 2023 06:15:33 -0700
+  by orsmga002.jf.intel.com with ESMTP; 11 Oct 2023 06:42:39 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqZ3j-0002E9-0M;
-	Wed, 11 Oct 2023 13:15:31 +0000
-Date: Wed, 11 Oct 2023 21:14:31 +0800
+	id 1qqZTq-0002Fv-2r;
+	Wed, 11 Oct 2023 13:42:32 +0000
+Date: Wed, 11 Oct 2023 21:42:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:bakeathon 10/13] fs/xfs/xfs_iops.c:562:33: warning: unused
- variable 'ctime'
-Message-ID: <202310112104.mXxRmLH1-lkp@intel.com>
+To: Mrinmay Sarkar <quic_msarkar@quicinc.com>, agross@kernel.org,
+	andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, konrad.dybcio@linaro.org, mani@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, quic_shazhuss@quicinc.com,
+	quic_nitegupt@quicinc.com, quic_ramkri@quicinc.com,
+	quic_nayiluri@quicinc.com, dmitry.baryshkov@linaro.org,
+	robh@kernel.org, quic_krichai@quicinc.com,
+	quic_vbadigan@quicinc.com, quic_parass@quicinc.com,
+	Mrinmay Sarkar <quic_msarkar@quicinc.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>, linux-arm-msm@vger.kernel.org,
+	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
+	linux-phy@lists.infradead.org
+Subject: Re: [PATCH v2 3/4] PCI: epf-mhi: Add support for SA8775P
+Message-ID: <202310112157.VcDgcECw-lkp@intel.com>
+References: <1697023109-23671-4-git-send-email-quic_msarkar@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,109 +65,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1697023109-23671-4-git-send-email-quic_msarkar@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git bakeathon
-head:   fb68ac18df9442a3a064e632eff09cf184aacb23
-commit: c976d1f74f46996460393051a6d6744a20795886 [10/13] xfs: switch to multigrain timestamps
-config: arc-randconfig-001-20231011 (https://download.01.org/0day-ci/archive/20231011/202310112104.mXxRmLH1-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310112104.mXxRmLH1-lkp@intel.com/reproduce)
+Hi Mrinmay,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus robh/for-next linus/master v6.6-rc5 next-20231011]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mrinmay-Sarkar/dt-bindings-PCI-qcom-ep-Add-support-for-SA8775P-SoC/20231011-192329
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/1697023109-23671-4-git-send-email-quic_msarkar%40quicinc.com
+patch subject: [PATCH v2 3/4] PCI: epf-mhi: Add support for SA8775P
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231011/202310112157.VcDgcECw-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310112157.VcDgcECw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310112104.mXxRmLH1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310112157.VcDgcECw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/xfs/xfs_iops.c: In function 'xfs_vn_getattr':
->> fs/xfs/xfs_iops.c:562:33: warning: unused variable 'ctime' [-Wunused-variable]
-     562 |         struct timespec64       ctime;
-         |                                 ^~~~~
+>> drivers/pci/endpoint/functions/pci-epf-mhi.c:126:23: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     126 |         .epf_header = &sa8775p_header,
+         |                       ^
 
 
-vim +/ctime +562 fs/xfs/xfs_iops.c
+vim +/const +126 drivers/pci/endpoint/functions/pci-epf-mhi.c
 
-   548	
-   549	STATIC int
-   550	xfs_vn_getattr(
-   551		struct mnt_idmap	*idmap,
-   552		const struct path	*path,
-   553		struct kstat		*stat,
-   554		u32			request_mask,
-   555		unsigned int		query_flags)
-   556	{
-   557		struct inode		*inode = d_inode(path->dentry);
-   558		struct xfs_inode	*ip = XFS_I(inode);
-   559		struct xfs_mount	*mp = ip->i_mount;
-   560		vfsuid_t		vfsuid = i_uid_into_vfsuid(idmap, inode);
-   561		vfsgid_t		vfsgid = i_gid_into_vfsgid(idmap, inode);
- > 562		struct timespec64	ctime;
-   563	
-   564		trace_xfs_getattr(ip);
-   565	
-   566		if (xfs_is_shutdown(mp))
-   567			return -EIO;
-   568	
-   569		stat->size = XFS_ISIZE(ip);
-   570		stat->dev = inode->i_sb->s_dev;
-   571		stat->mode = inode->i_mode;
-   572		stat->nlink = inode->i_nlink;
-   573		stat->uid = vfsuid_into_kuid(vfsuid);
-   574		stat->gid = vfsgid_into_kgid(vfsgid);
-   575		stat->ino = ip->i_ino;
-   576		stat->atime = inode_get_atime(inode);
-   577		fill_mg_cmtime(stat, request_mask, inode);
-   578	
-   579		stat->blocks = XFS_FSB_TO_BB(mp, ip->i_nblocks + ip->i_delayed_blks);
-   580	
-   581		if (xfs_has_v3inodes(mp)) {
-   582			if (request_mask & STATX_BTIME) {
-   583				stat->result_mask |= STATX_BTIME;
-   584				stat->btime = ip->i_crtime;
-   585			}
-   586		}
-   587	
-   588		/*
-   589		 * Note: If you add another clause to set an attribute flag, please
-   590		 * update attributes_mask below.
-   591		 */
-   592		if (ip->i_diflags & XFS_DIFLAG_IMMUTABLE)
-   593			stat->attributes |= STATX_ATTR_IMMUTABLE;
-   594		if (ip->i_diflags & XFS_DIFLAG_APPEND)
-   595			stat->attributes |= STATX_ATTR_APPEND;
-   596		if (ip->i_diflags & XFS_DIFLAG_NODUMP)
-   597			stat->attributes |= STATX_ATTR_NODUMP;
-   598	
-   599		stat->attributes_mask |= (STATX_ATTR_IMMUTABLE |
-   600					  STATX_ATTR_APPEND |
-   601					  STATX_ATTR_NODUMP);
-   602	
-   603		switch (inode->i_mode & S_IFMT) {
-   604		case S_IFBLK:
-   605		case S_IFCHR:
-   606			stat->blksize = BLKDEV_IOSIZE;
-   607			stat->rdev = inode->i_rdev;
-   608			break;
-   609		case S_IFREG:
-   610			if (request_mask & STATX_DIOALIGN) {
-   611				struct xfs_buftarg	*target = xfs_inode_buftarg(ip);
-   612				struct block_device	*bdev = target->bt_bdev;
-   613	
-   614				stat->result_mask |= STATX_DIOALIGN;
-   615				stat->dio_mem_align = bdev_dma_alignment(bdev) + 1;
-   616				stat->dio_offset_align = bdev_logical_block_size(bdev);
-   617			}
-   618			fallthrough;
-   619		default:
-   620			stat->blksize = xfs_stat_blksize(ip);
-   621			stat->rdev = 0;
-   622			break;
-   623		}
-   624	
-   625		return 0;
-   626	}
-   627	
+   123	
+   124	static const struct pci_epf_mhi_ep_info sa8775p_info = {
+   125		.config = &mhi_v1_config,
+ > 126		.epf_header = &sa8775p_header,
+   127		.bar_num = BAR_0,
+   128		.epf_flags = PCI_BASE_ADDRESS_MEM_TYPE_32,
+   129		.msi_count = 32,
+   130		.mru = 0x8000,
+   131	};
+   132	
 
 -- 
 0-DAY CI Kernel Test Service
