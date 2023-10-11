@@ -1,58 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2101E200BC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 14:15:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41CCF2033B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 14:35:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AskAwZdt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ACZqLi8E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697033744; x=1728569744;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DuNvaLmuSBpRQ/OE9jIM2FpK9gH/+55vqfRXvHb1aOE=;
-  b=AskAwZdtq5/CmLZ/XuVq/FRu0ZOq64Q1Nxhngbyq0xmKAInAUs9HBuIb
-   ANnlzBF6n7/L9mmzENSufNqumxjc8vD9ijm9G6nrh/ecgBDUs25M0c+RZ
-   gm3v+xjc1HH0s7U5X9fCOiyOwO8X7w9dD2bcFxi8n7ivwHWrlrw/CiSkR
-   z89hxlCG2QLmTM5M2eo/0XmlbSoGe9WsgBkB0FGHfA0Ws9GeATST7nEOZ
-   xhMckK1+J52QrM2EBMVbKUVyv2dnjYlD9/In0Pn7hXwYlq5grin+ecsSg
-   bp2t0IPOHH0y82TlO/iGw2m6obtYyrqFSyGbSL25jJsdGmz7o2QmB0XcK
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="364036250"
+  t=1697034953; x=1728570953;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=a4oxUnRgLiqEDONL8F0gLhfWgrjAMm7eNzxgNAqLdn8=;
+  b=ACZqLi8EvOLT3pkD2sfR3Zkh9VUWCjuVKScVXFw2ZKcS7QJes41fxOT1
+   YAsxd0u3ZUGINq0c08Op6gZ3jPPLdiytdeDjzE5XhPFCFtz2w92JfpMQW
+   P1tB7M1+34hmB0tIOX8YB3jLPSeZoEkKs2O43qQPg2HQB0ZA5a1ZEDA71
+   fjEsPeR3jh/uFywQBbpQLsqGAUqjJAPm3/vD1AtPCgbx3FIFTL++kILp+
+   dKiloz5Vugzo5eF86S7fY90wt46uNxbxtBDa9Kmge7SNpJdtNYFOHo9gV
+   0PC7iYv8qhdniPIns3J/javXTENXKt/+/TZqpSXZBM1JwRM9xQkAcDNju
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="470940057"
 X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
-   d="scan'208";a="364036250"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 07:15:43 -0700
+   d="scan'208";a="470940057"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 07:35:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="877693397"
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="819736624"
 X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
-   d="scan'208";a="877693397"
+   d="scan'208";a="819736624"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 11 Oct 2023 07:15:37 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 11 Oct 2023 07:35:50 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqZzF-0002ID-2k;
-	Wed, 11 Oct 2023 14:15:15 +0000
-Date: Wed, 11 Oct 2023 22:13:17 +0800
+	id 1qqaJQ-0002K6-25;
+	Wed, 11 Oct 2023 14:35:48 +0000
+Date: Wed, 11 Oct 2023 22:35:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	virtualization@lists.linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>, netdev@vger.kernel.org,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH vhost 01/22] virtio_ring: virtqueue_set_dma_premapped
- support disable
-Message-ID: <202310112204.h03TUDpH-lkp@intel.com>
-References: <20231011092728.105904-2-xuanzhuo@linux.alibaba.com>
+To: Meng Wei <wei.meng@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
+	Chang Ying <ying.chang@intel.com>
+Subject: [intel-lts:4.19/android_t 3113/30000]
+ drivers/media/media-device.c:928:57: sparse: sparse: incorrect type in
+ initializer (different base types)
+Message-ID: <202310112237.z01OwNHf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,94 +51,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231011092728.105904-2-xuanzhuo@linux.alibaba.com>
 
-Hi Xuan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.6-rc5 next-20231011]
-[cannot apply to mst-vhost/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/virtio_ring-virtqueue_set_dma_premapped-support-disable/20231011-180709
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231011092728.105904-2-xuanzhuo%40linux.alibaba.com
-patch subject: [PATCH vhost 01/22] virtio_ring: virtqueue_set_dma_premapped support disable
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231011/202310112204.h03TUDpH-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310112204.h03TUDpH-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
+head:   247bc655e03e4ac3632b21081ca56b813a644dcf
+commit: cbe0196f2e61288e2916821cbeb3190f1c09da7e [3113/30000] media: Add request API
+config: x86_64-randconfig-122-20230910 (https://download.01.org/0day-ci/archive/20231011/202310112237.z01OwNHf-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310112237.z01OwNHf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310112204.h03TUDpH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310112237.z01OwNHf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/media/media-device.c:928:57: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int poll_events @@     got restricted __poll_t @@
+   drivers/media/media-device.c:928:57: sparse:     expected unsigned int poll_events
+   drivers/media/media-device.c:928:57: sparse:     got restricted __poll_t
+>> drivers/media/media-device.c:1010:17: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t ( *poll )( ... ) @@     got unsigned int ( * )( ... ) @@
+   drivers/media/media-device.c:1010:17: sparse:     expected restricted __poll_t ( *poll )( ... )
+   drivers/media/media-device.c:1010:17: sparse:     got unsigned int ( * )( ... )
+   drivers/media/media-device.c:848:23: warning: cast between incompatible function types from 'long int (*)(struct media_device *, void *)' to 'long int (*)(struct media_device *, struct file *, void *)' [-Wcast-function-type]
+     848 |                 .fn = (long (*)(struct media_device *,                  9-      |                       ^
+   drivers/media/media-device.c:856:9: note: in expansion of macro 'MEDIA_IOC_ARG'
+     856 |         MEDIA_IOC_ARG(__cmd, func, fl, copy_arg_from_user, copy_arg_to_user)
+         |         ^~~~~~~~~~~~~
+   drivers/media/media-device.c:872:9: note: in expansion of macro 'MEDIA_IOC'
+     872 |         MEDIA_IOC(G_TOPOLOGY, media_device_get_topology, MEDIA_IOC_FL_GRAPH_MUTEX),
+         |         ^~~~~~~~~
+   drivers/media/media-device.c:848:23: warning: cast between incompatible function types from 'int (*)(struct media_device *, struct file *, struct media_event *)' to 'long int (*)(struct media_device *, struct file *, void *)' [-Wcast-function-type]
+     848 |                 .fn = (long (*)(struct media_device *,                  18-      |                       ^
+   drivers/media/media-device.c:856:9: note: in expansion of macro 'MEDIA_IOC_ARG'
+     856 |         MEDIA_IOC_ARG(__cmd, func, fl, copy_arg_from_user, copy_arg_to_user)
+         |         ^~~~~~~~~~~~~
+   drivers/media/media-device.c:874:9: note: in expansion of macro 'MEDIA_IOC'
+     874 |         MEDIA_IOC(DQEVENT, media_device_dqevent, 0),
+         |         ^~~~~~~~~
 
->> drivers/virtio/virtio_ring.c:2788: warning: Function parameter or member 'mode' not described in 'virtqueue_set_dma_premapped'
+vim +928 drivers/media/media-device.c
 
-
-vim +2788 drivers/virtio/virtio_ring.c
-
-c790e8e1817f1a Xuan Zhuo 2022-08-01  2765  
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2766  /**
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2767   * virtqueue_set_dma_premapped - set the vring premapped mode
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2768   * @_vq: the struct virtqueue we're talking about.
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2769   *
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2770   * Enable the premapped mode of the vq.
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2771   *
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2772   * The vring in premapped mode does not do dma internally, so the driver must
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2773   * do dma mapping in advance. The driver must pass the dma_address through
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2774   * dma_address of scatterlist. When the driver got a used buffer from
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2775   * the vring, it has to unmap the dma address.
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2776   *
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2777   * This function must be called immediately after creating the vq, or after vq
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2778   * reset, and before adding any buffers to it.
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2779   *
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2780   * Caller must ensure we don't call this with other virtqueue operations
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2781   * at the same time (except where noted).
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2782   *
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2783   * Returns zero or a negative error.
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2784   * 0: success.
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2785   * -EINVAL: vring does not use the dma api, so we can not enable premapped mode.
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2786   */
-f8d1a236ad114f Xuan Zhuo 2023-10-11  2787  int virtqueue_set_dma_premapped(struct virtqueue *_vq, bool mode)
-8daafe9ebbd21a Xuan Zhuo 2023-08-10 @2788  {
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2789  	struct vring_virtqueue *vq = to_vvq(_vq);
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2790  	u32 num;
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2791  
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2792  	START_USE(vq);
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2793  
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2794  	num = vq->packed_ring ? vq->packed.vring.num : vq->split.vring.num;
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2795  
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2796  	if (num != vq->vq.num_free) {
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2797  		END_USE(vq);
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2798  		return -EINVAL;
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2799  	}
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2800  
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2801  	if (!vq->use_dma_api) {
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2802  		END_USE(vq);
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2803  		return -EINVAL;
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2804  	}
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2805  
-f8d1a236ad114f Xuan Zhuo 2023-10-11  2806  	if (mode) {
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2807  		vq->premapped = true;
-b319940f83c21b Xuan Zhuo 2023-08-10  2808  		vq->do_unmap = false;
-f8d1a236ad114f Xuan Zhuo 2023-10-11  2809  	} else {
-f8d1a236ad114f Xuan Zhuo 2023-10-11  2810  		vq->premapped = false;
-f8d1a236ad114f Xuan Zhuo 2023-10-11  2811  		vq->do_unmap = vq->use_dma_api;
-f8d1a236ad114f Xuan Zhuo 2023-10-11  2812  	}
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2813  
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2814  	END_USE(vq);
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2815  
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2816  	return 0;
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2817  }
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2818  EXPORT_SYMBOL_GPL(virtqueue_set_dma_premapped);
-8daafe9ebbd21a Xuan Zhuo 2023-08-10  2819  
+   922	
+   923	static unsigned int media_device_poll(struct file *filp,
+   924					      struct poll_table_struct *wait)
+   925	{
+   926		struct media_device_fh *fh = media_device_fh(filp);
+   927		struct media_device *mdev = fh->fh.devnode->media_dev;
+ > 928		unsigned int poll_events = poll_requested_events(wait);
+   929		int ret = 0;
+   930	
+   931		if (poll_events & (POLLIN | POLLOUT))
+   932			return POLLERR;
+   933	
+   934		if (poll_events & POLLPRI) {
+   935			unsigned long flags;
+   936			bool empty;
+   937	
+   938			spin_lock_irqsave(&mdev->req_lock, flags);
+   939			empty = list_empty(&fh->kevents.head);
+   940			spin_unlock_irqrestore(&mdev->req_lock, flags);
+   941	
+   942			if (empty)
+   943				poll_wait(filp, &fh->kevents.wait, wait);
+   944			else
+   945				ret |= POLLPRI;
+   946		}
+   947	
+   948		return ret;
+   949	}
+   950	
+   951	#ifdef CONFIG_COMPAT
+   952	
+   953	struct media_links_enum32 {
+   954		__u32 entity;
+   955		compat_uptr_t pads; /* struct media_pad_desc * */
+   956		compat_uptr_t links; /* struct media_link_desc * */
+   957		__u32 reserved[4];
+   958	};
+   959	
+   960	static long media_device_enum_links32(struct media_device *mdev,
+   961							struct file *filp,
+   962							struct media_links_enum32 __user *ulinks)
+   963	{
+   964		struct media_links_enum links;
+   965		compat_uptr_t pads_ptr, links_ptr;
+   966	
+   967		memset(&links, 0, sizeof(links));
+   968	
+   969		if (get_user(links.entity, &ulinks->entity)
+   970		    || get_user(pads_ptr, &ulinks->pads)
+   971		    || get_user(links_ptr, &ulinks->links))
+   972			return -EFAULT;
+   973	
+   974		links.pads = compat_ptr(pads_ptr);
+   975		links.links = compat_ptr(links_ptr);
+   976	
+   977		return media_device_enum_links(mdev, filp, &links);
+   978	}
+   979	
+   980	#define MEDIA_IOC_ENUM_LINKS32		_IOWR('|', 0x02, struct media_links_enum32)
+   981	
+   982	static long media_device_compat_ioctl(struct file *filp, unsigned int cmd,
+   983					      unsigned long arg)
+   984	{
+   985		struct media_devnode *devnode = media_devnode_data(filp);
+   986		struct media_device *dev = devnode->media_dev;
+   987		long ret;
+   988	
+   989		switch (cmd) {
+   990		case MEDIA_IOC_ENUM_LINKS32:
+   991			mutex_lock(&dev->graph_mutex);
+   992			ret = media_device_enum_links32(dev,
+   993					filp,
+   994					(struct media_links_enum32 __user *)arg);
+   995			mutex_unlock(&dev->graph_mutex);
+   996			break;
+   997	
+   998		default:
+   999			return media_device_ioctl(filp, cmd, arg);
+  1000		}
+  1001	
+  1002		return ret;
+  1003	}
+  1004	#endif /* CONFIG_COMPAT */
+  1005	
+  1006	static const struct media_file_operations media_device_fops = {
+  1007		.owner = THIS_MODULE,
+  1008		.open = media_device_open,
+  1009		.ioctl = media_device_ioctl,
+> 1010		.poll = media_device_poll,
+  1011	#ifdef CONFIG_COMPAT
+  1012		.compat_ioctl = media_device_compat_ioctl,
+  1013	#endif /* CONFIG_COMPAT */
+  1014		.release = media_device_close,
+  1015	};
+  1016	
 
 -- 
 0-DAY CI Kernel Test Service
