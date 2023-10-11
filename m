@@ -1,48 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41CCF2033B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 14:35:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD8D20334
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 14:36:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ACZqLi8E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FqqUeYLo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697034953; x=1728570953;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=a4oxUnRgLiqEDONL8F0gLhfWgrjAMm7eNzxgNAqLdn8=;
-  b=ACZqLi8EvOLT3pkD2sfR3Zkh9VUWCjuVKScVXFw2ZKcS7QJes41fxOT1
-   YAsxd0u3ZUGINq0c08Op6gZ3jPPLdiytdeDjzE5XhPFCFtz2w92JfpMQW
-   P1tB7M1+34hmB0tIOX8YB3jLPSeZoEkKs2O43qQPg2HQB0ZA5a1ZEDA71
-   fjEsPeR3jh/uFywQBbpQLsqGAUqjJAPm3/vD1AtPCgbx3FIFTL++kILp+
-   dKiloz5Vugzo5eF86S7fY90wt46uNxbxtBDa9Kmge7SNpJdtNYFOHo9gV
-   0PC7iYv8qhdniPIns3J/javXTENXKt/+/TZqpSXZBM1JwRM9xQkAcDNju
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="470940057"
+  t=1697034963; x=1728570963;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iMysvAu4HmtiroPGPpdiHPdQSFqPeu7h59Zw9qgde50=;
+  b=FqqUeYLoPVYlq3kHHSRA9rZIxGP5TcHBw58t61HD8izTUMgeycfi0wCE
+   waQXrOXCrzziXnpqGgtN7O06nGgpebgCSEA8bfkOdj9xiUuJ/ueCHMa3c
+   MEO8+OhPy+lnp2cFXyQDOaXvLn6VPzqDWvL5e8a7GhwrtitZm5t+4pR9x
+   +u0NyoS/REvbPUdi6jSmg9SdJQ3MCiSs5HQbEFnfZzcx6sbcJ1odAZYpu
+   xkXtw6hmykOY6ExA98e8PIHNrjuBAqRg2yfwQ+AUcooxHHU7Kx6XVrTuD
+   jZKc7VHAWwM/1pGFfe29jl4Ym4tKf0jFYsIH2m5pie6R3xdnqiyLKB6uH
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="383543389"
 X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
-   d="scan'208";a="470940057"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 07:35:52 -0700
+   d="scan'208";a="383543389"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 07:36:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="819736624"
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="757586628"
 X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
-   d="scan'208";a="819736624"
+   d="scan'208";a="757586628"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 11 Oct 2023 07:35:50 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 11 Oct 2023 07:35:52 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqaJQ-0002K6-25;
+	id 1qqaJQ-0002K3-21;
 	Wed, 11 Oct 2023 14:35:48 +0000
-Date: Wed, 11 Oct 2023 22:35:39 +0800
+Date: Wed, 11 Oct 2023 22:35:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Meng Wei <wei.meng@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
-	Chang Ying <ying.chang@intel.com>
-Subject: [intel-lts:4.19/android_t 3113/30000]
- drivers/media/media-device.c:928:57: sparse: sparse: incorrect type in
- initializer (different base types)
-Message-ID: <202310112237.z01OwNHf-lkp@intel.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>,
+	Woojung Huh <woojung.huh@microchip.com>,
+	UNGLinuxDriver@microchip.com, Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org, Russell King <linux@armlinux.org.uk>
+Subject: Re: [PATCH net-next v1 2/3] net: dsa: microchip: ksz8: Enable MIIM
+ PHY Control reg access
+Message-ID: <202310112224.iYgvjBUy-lkp@intel.com>
+References: <20231011123856.1443308-2-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,140 +61,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231011123856.1443308-2-o.rempel@pengutronix.de>
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
-head:   247bc655e03e4ac3632b21081ca56b813a644dcf
-commit: cbe0196f2e61288e2916821cbeb3190f1c09da7e [3113/30000] media: Add request API
-config: x86_64-randconfig-122-20230910 (https://download.01.org/0day-ci/archive/20231011/202310112237.z01OwNHf-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310112237.z01OwNHf-lkp@intel.com/reproduce)
+Hi Oleksij,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/net-dsa-microchip-ksz8-Enable-MIIM-PHY-Control-reg-access/20231011-204502
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20231011123856.1443308-2-o.rempel%40pengutronix.de
+patch subject: [PATCH net-next v1 2/3] net: dsa: microchip: ksz8: Enable MIIM PHY Control reg access
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231011/202310112224.iYgvjBUy-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310112224.iYgvjBUy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310112237.z01OwNHf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310112224.iYgvjBUy-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/media/media-device.c:928:57: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int poll_events @@     got restricted __poll_t @@
-   drivers/media/media-device.c:928:57: sparse:     expected unsigned int poll_events
-   drivers/media/media-device.c:928:57: sparse:     got restricted __poll_t
->> drivers/media/media-device.c:1010:17: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t ( *poll )( ... ) @@     got unsigned int ( * )( ... ) @@
-   drivers/media/media-device.c:1010:17: sparse:     expected restricted __poll_t ( *poll )( ... )
-   drivers/media/media-device.c:1010:17: sparse:     got unsigned int ( * )( ... )
-   drivers/media/media-device.c:848:23: warning: cast between incompatible function types from 'long int (*)(struct media_device *, void *)' to 'long int (*)(struct media_device *, struct file *, void *)' [-Wcast-function-type]
-     848 |                 .fn = (long (*)(struct media_device *,                  9-      |                       ^
-   drivers/media/media-device.c:856:9: note: in expansion of macro 'MEDIA_IOC_ARG'
-     856 |         MEDIA_IOC_ARG(__cmd, func, fl, copy_arg_from_user, copy_arg_to_user)
-         |         ^~~~~~~~~~~~~
-   drivers/media/media-device.c:872:9: note: in expansion of macro 'MEDIA_IOC'
-     872 |         MEDIA_IOC(G_TOPOLOGY, media_device_get_topology, MEDIA_IOC_FL_GRAPH_MUTEX),
-         |         ^~~~~~~~~
-   drivers/media/media-device.c:848:23: warning: cast between incompatible function types from 'int (*)(struct media_device *, struct file *, struct media_event *)' to 'long int (*)(struct media_device *, struct file *, void *)' [-Wcast-function-type]
-     848 |                 .fn = (long (*)(struct media_device *,                  18-      |                       ^
-   drivers/media/media-device.c:856:9: note: in expansion of macro 'MEDIA_IOC_ARG'
-     856 |         MEDIA_IOC_ARG(__cmd, func, fl, copy_arg_from_user, copy_arg_to_user)
-         |         ^~~~~~~~~~~~~
-   drivers/media/media-device.c:874:9: note: in expansion of macro 'MEDIA_IOC'
-     874 |         MEDIA_IOC(DQEVENT, media_device_dqevent, 0),
-         |         ^~~~~~~~~
+All warnings (new ones prefixed by >>):
 
-vim +928 drivers/media/media-device.c
+>> drivers/net/dsa/microchip/ksz8795.c:646: warning: Function parameter or member 'val' not described in 'ksz8_r_phy_ctrl'
 
-   922	
-   923	static unsigned int media_device_poll(struct file *filp,
-   924					      struct poll_table_struct *wait)
-   925	{
-   926		struct media_device_fh *fh = media_device_fh(filp);
-   927		struct media_device *mdev = fh->fh.devnode->media_dev;
- > 928		unsigned int poll_events = poll_requested_events(wait);
-   929		int ret = 0;
-   930	
-   931		if (poll_events & (POLLIN | POLLOUT))
-   932			return POLLERR;
-   933	
-   934		if (poll_events & POLLPRI) {
-   935			unsigned long flags;
-   936			bool empty;
-   937	
-   938			spin_lock_irqsave(&mdev->req_lock, flags);
-   939			empty = list_empty(&fh->kevents.head);
-   940			spin_unlock_irqrestore(&mdev->req_lock, flags);
-   941	
-   942			if (empty)
-   943				poll_wait(filp, &fh->kevents.wait, wait);
-   944			else
-   945				ret |= POLLPRI;
-   946		}
-   947	
-   948		return ret;
-   949	}
-   950	
-   951	#ifdef CONFIG_COMPAT
-   952	
-   953	struct media_links_enum32 {
-   954		__u32 entity;
-   955		compat_uptr_t pads; /* struct media_pad_desc * */
-   956		compat_uptr_t links; /* struct media_link_desc * */
-   957		__u32 reserved[4];
-   958	};
-   959	
-   960	static long media_device_enum_links32(struct media_device *mdev,
-   961							struct file *filp,
-   962							struct media_links_enum32 __user *ulinks)
-   963	{
-   964		struct media_links_enum links;
-   965		compat_uptr_t pads_ptr, links_ptr;
-   966	
-   967		memset(&links, 0, sizeof(links));
-   968	
-   969		if (get_user(links.entity, &ulinks->entity)
-   970		    || get_user(pads_ptr, &ulinks->pads)
-   971		    || get_user(links_ptr, &ulinks->links))
-   972			return -EFAULT;
-   973	
-   974		links.pads = compat_ptr(pads_ptr);
-   975		links.links = compat_ptr(links_ptr);
-   976	
-   977		return media_device_enum_links(mdev, filp, &links);
-   978	}
-   979	
-   980	#define MEDIA_IOC_ENUM_LINKS32		_IOWR('|', 0x02, struct media_links_enum32)
-   981	
-   982	static long media_device_compat_ioctl(struct file *filp, unsigned int cmd,
-   983					      unsigned long arg)
-   984	{
-   985		struct media_devnode *devnode = media_devnode_data(filp);
-   986		struct media_device *dev = devnode->media_dev;
-   987		long ret;
-   988	
-   989		switch (cmd) {
-   990		case MEDIA_IOC_ENUM_LINKS32:
-   991			mutex_lock(&dev->graph_mutex);
-   992			ret = media_device_enum_links32(dev,
-   993					filp,
-   994					(struct media_links_enum32 __user *)arg);
-   995			mutex_unlock(&dev->graph_mutex);
-   996			break;
-   997	
-   998		default:
-   999			return media_device_ioctl(filp, cmd, arg);
-  1000		}
-  1001	
-  1002		return ret;
-  1003	}
-  1004	#endif /* CONFIG_COMPAT */
-  1005	
-  1006	static const struct media_file_operations media_device_fops = {
-  1007		.owner = THIS_MODULE,
-  1008		.open = media_device_open,
-  1009		.ioctl = media_device_ioctl,
-> 1010		.poll = media_device_poll,
-  1011	#ifdef CONFIG_COMPAT
-  1012		.compat_ioctl = media_device_compat_ioctl,
-  1013	#endif /* CONFIG_COMPAT */
-  1014		.release = media_device_close,
-  1015	};
-  1016	
+
+vim +646 drivers/net/dsa/microchip/ksz8795.c
+
+   634	
+   635	/**
+   636	 * ksz8_r_phy_ctrl - Translates and reads from the SMI interface to a MIIM PHY
+   637	 *		     Control register (Reg. 31).
+   638	 * @dev: The KSZ device instance.
+   639	 * @port: The port number to be read.
+   640	 *
+   641	 * This function reads the SMI interface and translates the hardware register
+   642	 * bit values into their corresponding control settings for a MIIM PHY Control
+   643	 * register.
+   644	 */
+   645	static int ksz8_r_phy_ctrl(struct ksz_device *dev, int port, u16 *val)
+ > 646	{
+   647		const u16 *regs = dev->info->regs;
+   648		u8 reg_val;
+   649		int ret;
+   650	
+   651		*val = 0;
+   652	
+   653		ret = ksz_pread8(dev, port, regs[P_LINK_STATUS], &reg_val);
+   654		if (ret < 0)
+   655			return ret;
+   656	
+   657		if (reg_val & PORT_MDIX_STATUS)
+   658			*val |= KSZ886X_CTRL_MDIX_STAT;
+   659	
+   660		ret = ksz_pread8(dev, port, REG_PORT_LINK_MD_CTRL, &reg_val);
+   661		if (ret < 0)
+   662			return ret;
+   663	
+   664		if (reg_val & PORT_FORCE_LINK)
+   665			*val |= KSZ886X_CTRL_FORCE_LINK;
+   666	
+   667		if (reg_val & PORT_POWER_SAVING)
+   668			*val |= KSZ886X_CTRL_PWRSAVE;
+   669	
+   670		if (reg_val & PORT_PHY_REMOTE_LOOPBACK)
+   671			*val |= KSZ886X_CTRL_REMOTE_LOOPBACK;
+   672	
+   673		return 0;
+   674	}
+   675	
 
 -- 
 0-DAY CI Kernel Test Service
