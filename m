@@ -1,177 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B33C2031D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 15:42:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B886D505
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 15:46:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IOxyJcuR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697038923; x=1728574923;
-  h=message-id:date:subject:from:to:cc:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=vDEtE1N7r6p7oa8U4ZDw3PvVJMXu515IiXJGYSJZrAU=;
-  b=IOxyJcuR9UZ2LZEy+a5Vl5SoLwMypPfA68bzklcC6Mp4VySHiWah5Teb
-   yBF+Pti+cr/EukOYTiyfJd2TNml2bheUwaXcj0i94eMq3dFksmoX4LK0I
-   l1Sr6gLUcZnafYwF9zU5eHcwcH10uMld0Q8U4/0a+2XOfqK6P6J9uPGUI
-   rMmBUizD8kexaoVtWNQQNzYBDAe98oH5bXxqc0tsnwUVYtdXmhENFN9xW
-   YIhKqY6uTfESxo94CKs+FLRXI51yF/xLNobyoJ2NA221f+Y3YvZvYnfuX
-   Kp6QlnHUM1FCDInCXBy3Nkxwj89N3f8KyGqtAlT5zwTd30zMz/v1uLk23
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="415744051"
-X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
-   d="scan'208";a="415744051"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 08:41:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="703789487"
-X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
-   d="scan'208";a="703789487"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by orsmga003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 11 Oct 2023 08:41:07 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Wed, 11 Oct 2023 08:41:06 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Wed, 11 Oct 2023 08:41:06 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Wed, 11 Oct 2023 08:41:06 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Wed, 11 Oct 2023 08:41:06 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Be/Xl1iAe/xbqplfOhy50Rd4rnMkK9yWTauJfO94KWC1SR5HOrrHHNW8dbbLGUqtkA3bhAiT2KQdDkCyN61D0mflm/1OFW73LLKlSGyoFJt5bkTdd0yjFuu49i3YgGtmRVqKp8xzRgeM4YXMzVplHAkmwaQQN9cAAKYN8Uy5Hb3svNzpKcdyZPLxvxeMxhLwiGGizsU79o+nq6wh9Owor9aD3gBpG+EyggMruvsNFScUiSgvgC2FkNs2Ms9SNxId+pcY+cGg7mXjpChi+J36ZMC9mOM2U9ixy2irNC11YDMHA5TNYaAMxxBCCHvRlOpbFeqwMn9H6+G9GDpK9FLVMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gtHryYc9UNmxEJ6U3ELrSQ92pZPMnggl6wO6gkQaorI=;
- b=GsxG8otUDhReWGNdHeUftbkwYxq1zwtcQGzi+XTM/RUVac71M0yVn8t168r/TUT5599WnXiBmcZMiUpzsrZZUbmwJUDYgBWdm+zWtnUYZudd1+LyKtBf78p6BsjRgDx6Q9n8Ed5ycIuHV8RHgmLzNtJsBHnXatuaAEFexeV2EKFwRhGeXbwLMqG4DS8eIuUzWkkTC9O9ClX7LHn05EVZ0SyU9TSUt0GYIEhRwfme043B0C1VWkCmPIwkw0JzwML3cl7OGGb5LhVUxOZwSTl6inI1UUzTF/L2TI4cvSQ00lHJnr0UdXw+fDpHJczx0rACmas6XzwKjaUjjrlQIa/8Iw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by BL1PR11MB5351.namprd11.prod.outlook.com (2603:10b6:208:318::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.43; Wed, 11 Oct
- 2023 15:41:04 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::bd70:f215:4a97:c84e]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::bd70:f215:4a97:c84e%6]) with mapi id 15.20.6863.032; Wed, 11 Oct 2023
- 15:41:04 +0000
-Message-ID: <c1eb5dfe-2f0c-43a4-8cf5-3d09d4348a72@intel.com>
-Date: Wed, 11 Oct 2023 08:41:01 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: arch/x86/kernel/cpu/resctrl/rdtgroup.c:1196: warning: Function
- parameter or member 'type' not described in '__rdtgroup_cbm_overlaps'
-From: Reinette Chatre <reinette.chatre@intel.com>
-To: James Morse <james.morse@arm.com>, kernel test robot <lkp@intel.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Borislav
- Petkov" <bp@suse.de>, Jamie Iles <jamie@nuviainc.com>
-References: <202310070434.mD8eRNAz-lkp@intel.com>
- <58306525-bd92-18d9-b25a-9c030518cfa6@arm.com>
- <360270f1-8bd8-40de-af54-5527fb1106c9@intel.com>
-Content-Language: en-US
-In-Reply-To: <360270f1-8bd8-40de-af54-5527fb1106c9@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0002.namprd03.prod.outlook.com
- (2603:10b6:303:8f::7) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="a1mSJL2H"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-692c70bc440so5555929b3a.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 08:46:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1697039210; x=1697644010; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JbxtmhDXkXiJ4sJU2TYoCaOq9zTlJWtWH+ZOZQvS1JU=;
+        b=a1mSJL2HcJSpugMRJ3/hxOWamfEHfsUpucTqwD4XsgnLnYggh/I4KyXy66SPesqeAe
+         yajnTqGAQahGcJHyygb/RceAvCtoEn8B1DslYSU0rHbOOGBC9ndrWirIrSlElWKbcnKg
+         QmWz/iqrwS5hYG5kb1/tg1qV+U7GrRHpgiO2M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697039210; x=1697644010;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JbxtmhDXkXiJ4sJU2TYoCaOq9zTlJWtWH+ZOZQvS1JU=;
+        b=IDFGLpm9K3n3A3hvmKdYVFaWpWU2WQUWkdnzBAhrTsAS99Ts8SCkprpprMQxUdQAp7
+         wS1nb4JTuW2bH6s611OaqkY/tysJ44Yr+nRpllcZTohVDpbGnKKyza5ffaiGIGXc3pBv
+         v7G8oBxa1G8wEhg85a9GG1laRixWtdZDgoOOBD2O+LLfD3wAxZZLij4qkHMvbTrXBjOH
+         3th7czqPSZ1YEpeNTLGwSBZSnN4OFFBpdeLQCQ2CXPjw/n/xN4KoKbMq6aWLyLqPQujc
+         nOkd4d47D0ukSVsah7C/eFjTHSQCCJoZFnlUB7g0bZE7f8x/N0mvChdbsIJKGrcd8Vp/
+         70IQ==
+X-Gm-Message-State: AOJu0YzzkpLgZUb8A0Vhzs2NofV+/3Axdmxz8E2tKOyYlsP1/nn5hjBS
+	/fMYhvgx667lwGg7HsYpOj0yCg==
+X-Google-Smtp-Source: AGHT+IH+ZLM0BJMK+wYTr9dlhQtylXth0hkut/5yzq5PnuwEBb9jpsTx7WEWWwtdKSPzm6VCzJd6Ug==
+X-Received: by 2002:a17:90b:4c12:b0:274:8363:c679 with SMTP id na18-20020a17090b4c1200b002748363c679mr18919577pjb.19.1697039210345;
+        Wed, 11 Oct 2023 08:46:50 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id l7-20020a17090a850700b0027d0ebf7466sm59411pjn.21.2023.10.11.08.46.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Oct 2023 08:46:49 -0700 (PDT)
+Date: Wed, 11 Oct 2023 08:46:46 -0700
+From: Kees Cook <keescook@chromium.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Christian Brauner <christian.brauner@ubuntu.com>,
+	oe-kbuild-all@lists.linux.dev, Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [kees:for-next/execve 10/10] fs/binfmt_misc.c:91: warning:
+ Function parameter or member 'misc' not described in 'search_binfmt_handler'
+Message-ID: <202310110846.8A1CB98@keescook>
+References: <202310111341.87eYXHRy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|BL1PR11MB5351:EE_
-X-MS-Office365-Filtering-Correlation-Id: 99200f24-ef2c-4c63-496b-08dbca707a31
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VIxwja29tYuVLgFeezpXoTkxgR0Rg1xGr8TZhTlqs9q8asiJvnP6UJ0Bk2fAZgmT+Ozl2u331OAaALUQTRkBLFJEAUzyRNCDis24bf3U+ctsObutXySp3dcRNubgM1t4S/NiaTEk3SPbOQsn2WV3USvhUUFzq6anpPX1QXYk34obfY5lb6pnqywxf3sym6XX8UzM4eq5beg+RJ8A21DRHlqY77ThIf1gPRBo5xGV60OhVfXkBREujbasvEPpgMgYma2NWVPP0QLk7rB5qff9tczdEXVm1jW/NNp16eFkpvrYgWwu+jTE0TkaxN1yCm7HPY/acrpZ5alQBxim9MqZfOkyVcPEizPnJlMGyNR9QaHfoeT0FIyJZO1YGO1Pt5vJCy3AO5l9WUTMDxeIKieXw6uSKCyDtacCGcpueHTkefUozHNcU+J1IhEqBfgFuEPvNSiCa9fuDTkQrNxIf0LebxaEZswyOCGO7CSFHyDrDc0Oq68doSsOdOu6keyL0A2u5+YZX40CyuXaHXw1WtRBW5rPuIoDOLDNsitSrMCWP5gDqb8XPo8sEnhQ/PG+sbIcJQiW3VnyGxVqseYme9HIbqBK53HOUaGZXJ/z7/dfNz0Jpwm6EGc/TrlpGwRbuMFyePZUrCMDKSmylGs0oC+dlA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(376002)(39860400002)(396003)(366004)(230922051799003)(64100799003)(451199024)(186009)(1800799009)(26005)(478600001)(6486002)(966005)(2616005)(6506007)(53546011)(83380400001)(31696002)(86362001)(6666004)(36756003)(41300700001)(8936002)(8676002)(4326008)(6636002)(316002)(31686004)(54906003)(66946007)(110136005)(66556008)(66476007)(4744005)(2906002)(6512007)(38100700002)(44832011)(5660300002)(82960400001)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NmZsa1BVVFBYclJCc1dtWkpra2pUSTI2UDFuVEdtTXNBM2tnSW9YZ1ZLZ3FD?=
- =?utf-8?B?eDQ5U3NXaVNNei90bjZzSG1KUDJDZnVsdU95U1N4UXlUVkR5dEZIMzRMZkp2?=
- =?utf-8?B?am5HM0QyZUpNUEJVaHlXVXZrY3hVdzlyQWxJWnpvL2JNS3RsNm12VHo4QVRx?=
- =?utf-8?B?ejNVVGFUbjZIN2s2NDNmdUNIRUZES3BVT01sNGdmbEh3TG55UktBWXVWQmc0?=
- =?utf-8?B?NndqZWdzZE44L21tVi93WWlZMzN5cU1GUFhjS0g2SGJlcU9GUVBVelBVN0Fj?=
- =?utf-8?B?RFc5Z09KVVpWbExDYlVGMUFRTFpBM0hDSERqT2w1a1BLNlR2OGkwOVI0bXNL?=
- =?utf-8?B?aHZ5WHJFdndNMk9xT2pzQThTTjNvUGh5T0hyR3hYUnk5enF2WU1vK1RpMmhx?=
- =?utf-8?B?alplaUREK3FzOFViTW91aWJwQzlwNGdYbm8rTlgvN2xpM1loV1gydlFnQ3FQ?=
- =?utf-8?B?VDYvekxVV3Y3d0U5WlhFZHV2YklhZXVhTWlmVnJZZG9PL0k0THlBTCtaNzF5?=
- =?utf-8?B?aHpoTDhreTNJRk5uVDdlRTV1bFlBOGh6cDBlK0JkYWhadUN4WkYxbUg4TUl5?=
- =?utf-8?B?cXdJZnlMeldVZGVKcTNvQ2R1cW9DaEVQNUl4MFY4cU5FLytteTZIRStQcFlt?=
- =?utf-8?B?TFNRWDR6Mk9KMWhXOHRyK0RjNXRwWkdtM3pmMDcxaHo0c0R0b0lpTEFPUGkz?=
- =?utf-8?B?RmlDMzNMMzVQNTZseFZiK1FFbnU4VUdxQW5jQzVYdDlVL1NLa3ZiSTlxK0pV?=
- =?utf-8?B?MXNPRUs1VEQxLy9nNHczMzQ1TzNMZmx2TDU2SkFFNjh3dlZPNGk3eHBlVkFT?=
- =?utf-8?B?V3JKWHQ4N0dRR0tkZWNZcEIxQVRoSklNUzdIRzJEVzRBM1N0Q0lQZy8zemtG?=
- =?utf-8?B?N3VoSFdNbW5ZWTNsUUJYM2hrQlRXREhKZHFqZjJyQloxVWEwMmxTblgvbVNr?=
- =?utf-8?B?WmQ5ZGRwcWo0a0ZrU2cvQmNmTExKRzhjdDEvOU02QWwvbmF2OVBQQlA5ekpt?=
- =?utf-8?B?eVExdU4rejA3NHRGT052N3Z4Nm5OZ2M2T1Ywd1RPY20wclR3NmlKZy9pMHZF?=
- =?utf-8?B?QnlzeGlCMWpSbWJIQ3IrT3UyeDJjNjMxcjdMQkFRck1uR0pnUzhrNHdOYlYz?=
- =?utf-8?B?aWw1ZkcxVG83UFMrRnUreTR3ZUh2QUpqMWhzL2tLMG5obEk5Wit0cHBIOENk?=
- =?utf-8?B?VUhaQ0JTeDdpRXZkSjdnZCtabXl4MzFmdjhhZXNGdVcvdlk0ajF5Uld1b04r?=
- =?utf-8?B?SWM2U0RlVS9Cb3E5MXhLUWRxVW8rOTJ2SmxMUVpobVc3SGJLSmJOZ2dqbWk4?=
- =?utf-8?B?RmxERWZyM3UzVS9jUkJ0SjAvanZFaFl5RW9ZaGNyZ0RFNHdJeE8wSEpuWlJB?=
- =?utf-8?B?K3Y4KzNtNVpqWUdKQmRTamNROXlIcE5CYkYvRUgrMFc4QWplSS8xVkpLYmlx?=
- =?utf-8?B?eGg0ekFRZDBUd2hpQjJGeGR4eHhZTCtmWE9OOXRnNXlycW93bEN5V1dqMVVQ?=
- =?utf-8?B?c0xSQ3E5M3ZDUk16RHRXS0NXYWNNTjBhTnBVb1duL0RWSlRGMGY4VlF5Tmtr?=
- =?utf-8?B?MGozUVZCTFVMVGprSWFwdDFBOHNrN2ozdTJIemc1c2R5UmhGT2JtZEZVWU5B?=
- =?utf-8?B?dldiSDF3SnYzRVhxaUtDNlNXTExWOVZFRlJ3a3JtMGcvbkNTWmhXWEU1Ymdl?=
- =?utf-8?B?dFRGQ3lhb3I3LzZSNjlnNEtTL2h6dnpPTFhYTUlWSDZHMWFEZmxOejZrQ3Vx?=
- =?utf-8?B?dFlpd25NTHRLTkFZZjhoRExlNFY5d1NWRlQ0S0hGcG5RYVlndGtkb1A4TUR1?=
- =?utf-8?B?K3ViUVZ5SmFzNXlXa25aZmRtS1NYMHEvM2hWMXlqeEJ2VGZ4YjdXNGJXSDJD?=
- =?utf-8?B?L1VqTkIvZklRS0dyQTF0akNTeUNRTDdqQVBZWTEybFI5VFY5bERheXBaWjhk?=
- =?utf-8?B?SURNc3I3N3RmZnNLTDhlYlVXejVQWmNISEs5TGhIVlZDWTIyRGpEaVBDODNr?=
- =?utf-8?B?anFwaHUvVmozYUVQODNtZ1B6RXhxdGxKVWRpYmw5VDVvdjMrb2VJc3VEclhu?=
- =?utf-8?B?ZUh2UzNkTTVCN1E2dzJMZzB4N3FmV3VJeUJZMWZFRW1jSkVXdVpSZWpJOGJR?=
- =?utf-8?B?eWtLNWxFN3BWQ3FpZ2owQ0hSb2xCdjVLVVBCbTl1OEp3L1RvQ25uQk0vOHVt?=
- =?utf-8?B?Z2c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99200f24-ef2c-4c63-496b-08dbca707a31
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2023 15:41:03.9980
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7/zM2j4vu2ZqULDZhq0l/QgGS6j5NGIJqTU/ozywZgmNmNTdiwkv4kEiZ1P6Kx6EWK6fAFkaJSHpR7lTgE4R8q9HppPtEV+p/CHCMN5Z5qc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5351
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202310111341.87eYXHRy-lkp@intel.com>
 
-Hi James,
-
-On 10/10/2023 9:40 AM, Reinette Chatre wrote:
-> On 10/10/2023 8:25 AM, James Morse wrote:
->> On 06/10/2023 22:03, kernel test robot wrote:
-
-...
-
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes: https://lore.kernel.org/oe-kbuild-all/202310070434.mD8eRNAz-lkp@intel.com/
->>
->> I'll float a patch fixing all these - otherwise I get the blame for the whole lot when the
->> code gets moved!
+On Wed, Oct 11, 2023 at 01:18:08PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/execve
+> head:   6f88724a1901ebcc039851aa2e001d11e33e841e
+> commit: 6f88724a1901ebcc039851aa2e001d11e33e841e [10/10] binfmt_misc: enable sandboxed mounts
+> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231011/202310111341.87eYXHRy-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310111341.87eYXHRy-lkp@intel.com/reproduce)
 > 
-> Cleaning this up is already in progress. A fix from Randy addressing a few of the warnings
-> has already been merged into x86/urgent and Maciej has a patch ready addressing the rest that
-> he will send upstream shortly.
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202310111341.87eYXHRy-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> fs/binfmt_misc.c:91: warning: Function parameter or member 'misc' not described in 'search_binfmt_handler'
+> >> fs/binfmt_misc.c:140: warning: Function parameter or member 'misc' not described in 'get_binfmt_handler'
+> >> fs/binfmt_misc.c:725: warning: Function parameter or member 'misc' not described in 'remove_binfmt_handler'
 
-fyi ... Maciej's fix has just been merged to x86/cache.
+Thanks! I've squashed a fix for these into the first patch that does the
+"misc" refactoring.
 
-Reinette
+-Kees
+
+-- 
+Kees Cook
