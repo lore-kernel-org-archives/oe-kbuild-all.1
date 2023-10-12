@@ -1,46 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A067630D15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE5E30D19
 	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 16:00:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j7X7bb9c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GsvAzDsD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1697126429; x=1728662429;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NI6FgDQbI1s2r5T06l4HY+ahVXePDzuNdKeBud1qc7o=;
-  b=j7X7bb9ccs4V03g3mrrlqxDgFJSeWMxZUoBFoby0TTGraL7hD24xlK1t
-   /F2m9TPPS6FWKqMBHrO328A8ZuGiCkUSSY619R3eIJpzFhcuJz0yrkHbs
-   TGPn2hQnW7sEUqLmEv6A2Iiiati8g4+JsPSbujS9ivhk5WOWR+K7nt1ZP
-   tX6uoAIj48MDlnFvnyi8eetdu/hGSkBR/4yuKrijEA297CLS+onsEdUTi
-   7RlblvlSP00IaxqkKNDi3Z1MO6NffD56TLVACp8J0R34X+ekhPG+IaoVM
-   a6qwpHWXhhX7QXIKdTG1tPoZLqzmBr60PvqKs71B+G5MzyJmREFDxZuH1
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EE7Kfwc3/WWYxUhE2rGqG7qJTjcWD6ipSFp/QHSYaJ4=;
+  b=GsvAzDsD/3TWn1wLTtFQ7zF9G0UEe9LokTZNb7E3N19HdRWIl15DC8Hr
+   WeLMpCxaIhCpS5dZ4qlW/G5WTluiENmw9VtSfItp63Xb9976Ixpasypdh
+   FX/z+B3uOcNel9OAvs13PvqMm0bkBn0h8XRDzREfpAgJfjkeDk3D7q0zB
+   grXqd4SaFGmqCWUiZM608bPhQ123unF2nZbc7NbYsQSYc69xa1IBgRgbH
+   aVBNArna8VZwj/LH0Pm/pPPhbsKeVHSWk3+BR8cRiGOCyZWnJn9VTUoLF
+   ZwAf9H8g4/k1DGLzSRQjYz+Prz10di5ZlC+S7X+8kuG1G4t7gLjpt1Xxp
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="471214353"
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="365225232"
 X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="471214353"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 09:00:25 -0700
+   d="scan'208";a="365225232"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 09:00:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="928045572"
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="878157703"
 X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="928045572"
+   d="scan'208";a="878157703"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 12 Oct 2023 09:00:23 -0700
+  by orsmga004.jf.intel.com with ESMTP; 12 Oct 2023 09:00:24 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqy6n-0003b7-1x;
+	id 1qqy6n-0003bF-2E;
 	Thu, 12 Oct 2023 16:00:21 +0000
-Date: Thu, 12 Oct 2023 23:59:30 +0800
+Date: Thu, 12 Oct 2023 23:59:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-2.1.x-imx 9950/15768] arceb-elf-ld:
- i2c-flexio.c:undefined reference to `flexio_sw_reset'
-Message-ID: <202310122305.c2se7etU-lkp@intel.com>
+To: Yicong Yang <yangyicong@huawei.com>, catalin.marinas@arm.com,
+	will@kernel.org, sudeep.holla@arm.com,
+	linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, dietmar.eggemann@arm.com,
+	gregkh@linuxfoundation.org, rafael@kernel.org,
+	jonathan.cameron@huawei.com, prime.zeng@hisilicon.com,
+	linuxarm@huawei.com, yangyicong@hisilicon.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] arch_topology: Support SMT control on arm64
+Message-ID: <202310122334.Q66kv9Wm-lkp@intel.com>
+References: <20231010115335.13862-1-yangyicong@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,143 +56,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231010115335.13862-1-yangyicong@huawei.com>
 
-tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
-head:   3f41fbe42851375d3d5996e4bf9e9809e6c79517
-commit: 16b65085d4d93242942e510c861a445167acc4e6 [9950/15768] LF-8343-2: driver: i2c: buses: flexio: rework to use mfd
-config: arc-randconfig-001-20231012 (https://download.01.org/0day-ci/archive/20231012/202310122305.c2se7etU-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231012/202310122305.c2se7etU-lkp@intel.com/reproduce)
+Hi Yicong,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on arm64/for-next/core]
+[also build test WARNING on driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus soc/for-next linus/master v6.6-rc5 next-20231012]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yicong-Yang/arch_topology-Support-SMT-control-on-arm64/20231010-195926
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20231010115335.13862-1-yangyicong%40huawei.com
+patch subject: [PATCH v2] arch_topology: Support SMT control on arm64
+config: arm64-randconfig-004-20231012 (https://download.01.org/0day-ci/archive/20231012/202310122334.Q66kv9Wm-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231012/202310122334.Q66kv9Wm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310122305.c2se7etU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310122334.Q66kv9Wm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arceb-elf-ld: drivers/i2c/busses/i2c-flexio.o: in function `imx_flexio_init_hardware':
-   i2c-flexio.c:(.text+0x7a): undefined reference to `flexio_sw_reset'
->> arceb-elf-ld: i2c-flexio.c:(.text+0x7a): undefined reference to `flexio_sw_reset'
->> arceb-elf-ld: i2c-flexio.c:(.text+0x8e): undefined reference to `flexio_setup_shiftcfg'
->> arceb-elf-ld: i2c-flexio.c:(.text+0x8e): undefined reference to `flexio_setup_shiftcfg'
->> arceb-elf-ld: i2c-flexio.c:(.text+0xb4): undefined reference to `flexio_setup_shiftctl'
->> arceb-elf-ld: i2c-flexio.c:(.text+0xb4): undefined reference to `flexio_setup_shiftctl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xc8): undefined reference to `flexio_setup_shiftcfg'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xc8): undefined reference to `flexio_setup_shiftcfg'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xee): undefined reference to `flexio_setup_shiftctl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xee): undefined reference to `flexio_setup_shiftctl'
->> arceb-elf-ld: i2c-flexio.c:(.text+0x10e): undefined reference to `flexio_setup_timercfg'
->> arceb-elf-ld: i2c-flexio.c:(.text+0x10e): undefined reference to `flexio_setup_timercfg'
->> arceb-elf-ld: i2c-flexio.c:(.text+0x12e): undefined reference to `flexio_writel'
->> arceb-elf-ld: i2c-flexio.c:(.text+0x12e): undefined reference to `flexio_writel'
->> arceb-elf-ld: i2c-flexio.c:(.text+0x15a): undefined reference to `flexio_setup_timerctl'
->> arceb-elf-ld: i2c-flexio.c:(.text+0x15a): undefined reference to `flexio_setup_timerctl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x176): undefined reference to `flexio_setup_timercfg'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x176): undefined reference to `flexio_setup_timercfg'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x184): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x184): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x1b4): undefined reference to `flexio_setup_timerctl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x1b4): undefined reference to `flexio_setup_timerctl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x1c0): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x1c0): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x1ca): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x1ca): undefined reference to `flexio_writel'
->> arceb-elf-ld: i2c-flexio.c:(.text+0x1d0): undefined reference to `flexio_get_default_ctrl'
->> arceb-elf-ld: i2c-flexio.c:(.text+0x1d0): undefined reference to `flexio_get_default_ctrl'
->> arceb-elf-ld: i2c-flexio.c:(.text+0x1de): undefined reference to `flexio_setup_ctrl'
->> arceb-elf-ld: i2c-flexio.c:(.text+0x1de): undefined reference to `flexio_setup_ctrl'
-   arceb-elf-ld: drivers/i2c/busses/i2c-flexio.o: in function `imx_flexio_i2c_master_xfer':
-   i2c-flexio.c:(.text+0x448): undefined reference to `flexio_readl'
->> arceb-elf-ld: i2c-flexio.c:(.text+0x448): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x460): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x460): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x46a): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x46a): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x47a): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x47a): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x484): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x484): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x494): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x494): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x4bc): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x4bc): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x4c8): undefined reference to `flexio_writel'
-   arceb-elf-ld: drivers/i2c/busses/i2c-flexio.o:i2c-flexio.c:(.text+0x4c8): more undefined references to `flexio_writel' follow
-   arceb-elf-ld: drivers/i2c/busses/i2c-flexio.o: in function `imx_flexio_i2c_master_xfer':
-   i2c-flexio.c:(.text+0x4e8): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x4e8): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x536): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x536): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x544): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x544): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x54c): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x54c): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x55e): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x55e): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x5ce): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x5ce): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x5fe): undefined reference to `flexio_writel'
-   arceb-elf-ld: drivers/i2c/busses/i2c-flexio.o:i2c-flexio.c:(.text+0x5fe): more undefined references to `flexio_writel' follow
-   arceb-elf-ld: drivers/i2c/busses/i2c-flexio.o: in function `imx_flexio_i2c_isr':
-   i2c-flexio.c:(.text+0x792): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x792): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x7c0): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x7c0): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x7e6): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x7e6): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x824): undefined reference to `flexio_writel'
-   arceb-elf-ld: drivers/i2c/busses/i2c-flexio.o:i2c-flexio.c:(.text+0x824): more undefined references to `flexio_writel' follow
-   arceb-elf-ld: drivers/i2c/busses/i2c-flexio.o: in function `imx_flexio_i2c_isr':
-   i2c-flexio.c:(.text+0x86c): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x86c): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x87a): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x87a): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x886): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x886): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x8aa): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x8aa): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x8c0): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x8c0): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x8e8): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x8e8): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x906): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x906): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x916): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x916): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x92a): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x92a): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x938): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x938): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x958): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x958): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x97a): undefined reference to `flexio_writel'
-   arceb-elf-ld: drivers/i2c/busses/i2c-flexio.o:i2c-flexio.c:(.text+0x97a): more undefined references to `flexio_writel' follow
-   arceb-elf-ld: drivers/i2c/busses/i2c-flexio.o: in function `imx_flexio_i2c_isr':
-   i2c-flexio.c:(.text+0x9d8): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x9d8): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x9e8): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0x9e8): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xa22): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xa22): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xa2c): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xa2c): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xa7a): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xa7a): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xa88): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xa88): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xa92): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xa92): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xaa0): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xaa0): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xac4): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xac4): undefined reference to `flexio_readl'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xad4): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xad4): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xade): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xade): undefined reference to `flexio_writel'
-   arceb-elf-ld: i2c-flexio.c:(.text+0xaf2): undefined reference to `flexio_writel'
-   arceb-elf-ld: drivers/i2c/busses/i2c-flexio.o:i2c-flexio.c:(.text+0xaf2): more undefined references to `flexio_writel' follow
+   In file included from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from include/linux/resource_ext.h:11,
+                    from include/linux/acpi.h:13,
+                    from drivers/base/arch_topology.c:9:
+   In function 'bitmap_or',
+       inlined from 'cpumask_or' at include/linux/cpumask.h:582:2,
+       inlined from 'topology_smt_set_num_threads' at drivers/base/arch_topology.c:745:2:
+>> include/linux/bitmap.h:330:24: warning: 'to_visit' is used uninitialized [-Wuninitialized]
+     330 |                 *dst = *src1 | *src2;
+         |                        ^~~~~
+   drivers/base/arch_topology.c: In function 'topology_smt_set_num_threads':
+   drivers/base/arch_topology.c:738:23: note: 'to_visit' declared here
+     738 |         cpumask_var_t to_visit;
+         |                       ^~~~~~~~
+
+
+vim +/to_visit +330 include/linux/bitmap.h
+
+^1da177e4c3f41 Linus Torvalds   2005-04-16  325  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  326  static inline void bitmap_or(unsigned long *dst, const unsigned long *src1,
+2f9305eb31097f Rasmus Villemoes 2014-08-06  327  			const unsigned long *src2, unsigned int nbits)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  328  {
+4b0bc0bca83f3f Rusty Russell    2008-12-30  329  	if (small_const_nbits(nbits))
+^1da177e4c3f41 Linus Torvalds   2005-04-16 @330  		*dst = *src1 | *src2;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  331  	else
+^1da177e4c3f41 Linus Torvalds   2005-04-16  332  		__bitmap_or(dst, src1, src2, nbits);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  333  }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  334  
 
 -- 
 0-DAY CI Kernel Test Service
