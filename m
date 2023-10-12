@@ -1,71 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2C7266B8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 15:31:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67060273D9;
+	Thu, 12 Oct 2023 15:46:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gLkTmyCa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697124684; x=1728660684;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nEdVLRLqQq613YQsCfpq7i8a7CaghaZ2Trfoo+Y53dU=;
-  b=gLkTmyCa7O+sIh5M92y8mwm0T9QEdyWoT0Wv1O9GIjBuCXlhB8u5M7Wy
-   XOjc/bSW2G86ZwEyr9IX/VX6JiFRQY6MgGB/S/eWgqBHCvZaLxs0vS8QD
-   +C5S+6UYtJBBygJVB72TtF0jfAZdtRqwJm3ajw7DnZUi8gfelOa24USG9
-   CTBpeFvyGeRxG4la/YV0zbE4Vq51PuSe+8DeeRjMlAKksL5GGkppWLXhC
-   e0Z6VGVlo0EixPXw4n7xuKujCgCoKRURrkXz6/2CdARcFBR6nO8084q5g
-   3wQzHgxS5b2+OAmdV1HRWi+nZ62AWHiD8P+BYKtOYL3YBNHIg65YiFQD4
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="375307240"
-X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="375307240"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 08:31:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="878152318"
-X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="878152318"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 12 Oct 2023 08:31:23 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qqxei-0003ZV-2E;
-	Thu, 12 Oct 2023 15:31:20 +0000
-Date: Thu, 12 Oct 2023 23:31:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: John Watts <contact@jookia.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [broonie-ci:filedwL67x 39/103] checkpatch: WARNING: static const
- char * array should probably be static const char * const
-Message-ID: <202310122332.uLWYKwIY-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r5+vYEE0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A708C433C8;
+	Thu, 12 Oct 2023 15:46:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697125617;
+	bh=2oUTgdvvt7Npo39v41Ve6hpVDc/UAFCXJgxXHtGL9os=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=r5+vYEE0nMSitIyDBqywKADX9ktL9v/gC8/yTLYqZhdbbuByIi8DeVljHcgJzkVBp
+	 MLq+d7c+Mi3d17sACQ5ZXSETIdbkx8Fy5aON/DnTvq3vfdW2KpTJ9WgctcdzLW2GMa
+	 dhTPM1z6Mm802WKDrGc9UcdMsOqIdF+gwfrtOGrTCZK04SbKwIk7onAjm5AcK3LIfs
+	 0hPKUteGNAhLSLr3ZEzX4VqWTf3xFHv7i7x8gJNDjH84IC5+Aai1dfi2UEeqbtcl9f
+	 wixO8L2sP8xAssndt6xE9GCNxREKgFfoWZZDCz3cnMZHBHOxOgeYYMghDrUOkUv1R5
+	 8rcEIYTO5TbHQ==
+From: SeongJae Park <sj@kernel.org>
+To: Yujie Liu <yujie.liu@intel.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	kernel test robot <lkp@intel.com>,
+	damon@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [sj:damon/next 27/28] hppa-linux-ld: fs/xfs/xfs_trace.o(.text+0x42da0): cannot reach 0000a892_bpf_trace_run2+0, recompile with -ffunction-sections
+Date: Thu, 12 Oct 2023 15:46:56 +0000
+Message-Id: <20231012154656.32743-1-sj@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <ZSduHlPmRa4HIuTm@yujie-X299>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git filedwL67x
-head:   41cb1126bed152f7679417834ad7ea39f2252dfb
-commit: 00524a8415aa400567538c0e75a463d517cded7f [39/103] ASoC: wm8782: Constrain maximum audio rate at runtime
-reproduce: (https://download.01.org/0day-ci/archive/20231012/202310122332.uLWYKwIY-lkp@intel.com/reproduce)
+Hi Yujie,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310122332.uLWYKwIY-lkp@intel.com/
+On Thu, 12 Oct 2023 11:55:10 +0800 Yujie Liu <yujie.liu@intel.com> wrote:
 
-# many are suggestions rather than must-fix
+> Hi SJ,
+> 
+> On Mon, Oct 09, 2023 at 11:56:49PM +0000, SeongJae Park wrote:
+> > Hi Robot,
+> > 
+> > On Mon, 9 Oct 2023 04:40:31 +0800 kernel test robot <lkp@intel.com> wrote:
+> > 
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+> > > head:   b51b81a2d623ddeda365270f24748bea23a93a2f
+> > > commit: 8a198cce537de4f58f1cd791cd05347320a025b3 [27/28] mm/damon/sysfs: avoid empty scheme tried regions for large apply interval
+> > > config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20231009/202310090405.GXbIXpan-lkp@intel.com/config)
+> > > compiler: hppa-linux-gcc (GCC) 13.2.0
+> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231009/202310090405.GXbIXpan-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202310090405.GXbIXpan-lkp@intel.com/
+> > > 
+> > > All errors (new ones prefixed by >>):
+> > > 
+> > > >> hppa-linux-ld: fs/xfs/xfs_trace.o(.text+0x42da0): cannot reach 0000a892_bpf_trace_run2+0, recompile with -ffunction-sections
+> > >    hppa-linux-ld: fs/xfs/xfs_trace.o(.text+0x42da0): cannot handle R_PARISC_PCREL17F for bpf_trace_run2
+> > >    hppa-linux-ld: final link failed: bad value
+> > 
+> > Thank you for this report!  Nevertheless, I was unable to reproduce the issue.
+> > It indeed fails the build, but with a different error.  Also, I get the same
+> > error on the baseline of the tree, namely mm-unstable (specifically, commit
+> > e0b0922d61a8).
+> > 
+> >     hppa-linux-ld: drivers/mtd/nand/raw/nand_base.o: in function `nand_do_write_ops':
+> >     (.text+0x4a24): undefined reference to `.L874'
+> >     make[3]: *** [/home/sjpark/linux/scripts/Makefile.vmlinux:36: vmlinux] Error 1
+> >     make[3]: Target '__default' not remade because of errors.
+> >     make[2]: *** [/home/sjpark/linux/Makefile:1165: vmlinux] Error 2
+> >     make[2]: Target '__all' not remade because of errors.
+> >     make[1]: *** [/home/sjpark/linux/Makefile:234: __sub-make] Error 2
+> >     make[1]: Target '__all' not remade because of errors.
+> >     make[1]: Leaving directory '/home/sjpark/linux.parisc.out'
+> >     make: *** [Makefile:234: __sub-make] Error 2
+> >     make: Target '__all' not remade because of errors.
+> > 
+> > I'm also not sure how the commit you found could make such error, since the
+> > commit doesn't touch any of xfs code.
+> > 
+> >     $ git log 8a198cce537de4f58f1cd791cd05347320a025b3 --stat -1
+> >     commit 8a198cce537de4f58f1cd791cd05347320a025b3
+> >     Author: SeongJae Park <sj@kernel.org>
+> >     Date:   Fri Oct 6 22:58:00 2023 +0000
+> >     
+> >         mm/damon/sysfs: avoid empty scheme tried regions for large apply interval
+> >     
+> >         Signed-off-by: SeongJae Park <sj@kernel.org>
+> >     
+> >      mm/damon/sysfs-common.h  |  2 ++
+> >      mm/damon/sysfs-schemes.c | 16 ++++++++++++++++
+> >      mm/damon/sysfs.c         | 25 +++++++++++++++++++++----
+> >      3 files changed, 39 insertions(+), 4 deletions(-)
+> > 
+> > Anything I'm missing?  Or, could this report be mistakenly made?
+> 
+> Sorry this is a false positive report. We did some investigation and the
+> story is a bit complicated.
+> 
+> We set some extra flags during compiling, but sorry this is not
+> clearly mentioned in the report.
+> 
+> When no flag is set, we get the same error as you:
+> 
+> $ make W=1 --keep-going ARCH=parisc
+> hppa-linux-ld: drivers/mtd/nand/raw/nand_base.o: in function `nand_do_write_ops':
+> (.text+0x4a24): undefined reference to `.L874'
+> 
+> When the extra flags are set, the error is:
+> 
+> $ make W=1 --keep-going KBUILD_CFLAGS_KERNEL="-falign-functions=64" KBUILD_CFLAGS_MODULE="-DMODULE -falign-functions=64" ARCH=parisc
+> hppa-linux-ld: fs/xfs/xfs_trace.o(.text+0x42da0): cannot reach 0000a890_bpf_trace_run2+0, recompile with -ffunction-sections
+> hppa-linux-ld: fs/xfs/xfs_trace.o(.text+0x42da0): cannot handle R_PARISC_PCREL17F for bpf_trace_run2
+> hppa-linux-ld: final link failed: bad value
+> 
+> If we build on the parent of ("mm/damon/sysfs: avoid empty scheme
+> tried regions for large apply interval"), which is
+> ("mm/damon/sysfs-schemes: do not update tried regions more than one
+> DAMON snapshot"), the error is like:
+> 
+> $ make W=1 --keep-going KBUILD_CFLAGS_KERNEL="-falign-functions=64" KBUILD_CFLAGS_MODULE="-DMODULE -falign-functions=64" ARCH=parisc
+> hppa-linux-ld: fs/xfs/xfs_trace.o(.text+0x42da0): cannot reach 0000a88d_bpf_trace_run2+0, recompile with -ffunction-sections
+> hppa-linux-ld: fs/xfs/xfs_trace.o(.text+0x42da0): cannot handle R_PARISC_PCREL17F for bpf_trace_run2
+> hppa-linux-ld: final link failed: bad value
+> 
+> The hex in the function name changes. (0000a88d_bpf_trace_run2 ->
+> 0000a890_bpf_trace_run2), so the bot wrongly thinks that a new error
+> appears on the reported commit.
+> 
+> Not sure if the code layout has some minor changes when the alignment
+> flags are set, or if any problem at cross toolchain side.
 
-WARNING:STATIC_CONST_CHAR_ARRAY: static const char * array should probably be static const char * const
-#27: FILE: sound/soc/codecs/wm8782.c:27:
-+static const char *supply_names[] = {
+Interesting, thank you so much for sharing this deep and grateful investigation
+results!
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> Anyway, your patches are certainly not related to this error in xfs code.
+> We will update the bot's code to handle this case and similar ones.
+> Sorry for bothering you.
+
+No problem at all.  The bot's contribution is really grateful and very helpful.
+Without it, I don't think I can maintain DAMON.  So, never mind, and please
+continue this great work.
+
+
+Thanks,
+SJ
+
+> 
+> Best Regards,
+> Yujie
+> 
