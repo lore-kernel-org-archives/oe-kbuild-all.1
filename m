@@ -1,172 +1,218 @@
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2083.outbound.protection.outlook.com [40.107.100.83])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43806362
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 02:38:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D006A7F4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 03:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="gFMfYFtm"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XdDoSGyZ3MuKKg7M/TSpRoYEGKlyQqpm1McIomY30YzElj0QAt5vv+L3z0256lmyylX4737RQbJoSFbo3kXNbzxfoE3tmms+pu0gcMpM/+OjSONwxNb7y8MedVvWVhi/tcm4bwK3aiDMSsYJ3Z5Xf/ctretucm/ZgnaBLjdv4GcehHucr48KjUQaWdAcP0W6tX2EZenYedqJ/UqbkWwVXtrsX6zuMl3qwwxbh/p3ZozuXP3B9KkBIsQufaakxV2MzTMeBM1aVOP5KpLONdd+NNcH/moQ5/ivZd6dlKzZ9LaZyfgnpx7WaNTR7ZlNSbquk3BD+amxkjyfsFDPWRpWFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gmbxDagYZsOnYH/4+gpf1IpmItU4iw1GWz8j1jhL0KI=;
- b=K8UJ8pJThU822ebI7JYsHKRuSRgscdk7W7L/M/19N74OvNZYsoZ85SRhwmpNL9I+70JPAf3Lj5EZF03JkHNccSzQYiUDiyg/bW7feFfqiOd5VCcqBOGoQLBf9Dh8eZufRrJ351ik7dEz2rN3sDOklGV2Xhsj7OBY9k+Atd8rvEmOlJ4K3jhMd4Pwkq71Co9J24VjjsvzOeZdjUSf0t2kjo3iSfDS1LNp5bByJ8081zD9nzOF/gfFNqEFqKxK/noso0XfrM2Y4cSt4qhMSEuPuKS2ymrQzLy9IHmMVJd/u5PN4Pd/vYAFE6g92Zfuqm19MfZ85n46bQ03V8bpy3Js5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gmbxDagYZsOnYH/4+gpf1IpmItU4iw1GWz8j1jhL0KI=;
- b=gFMfYFtmLdL6iiVBjxA1Zc05OptSoogNlc3nc1ohc+MVW5pi4eMnHIgTkvM4XfqZZpj/guYLmCMSGrIi78oR8IhcuUMtwfyBi+AhXPbXwhlEp6DR1MfjD+m6NecYRkKhN9FpiS7xjejlx210QZmEQgXz2nk3yNjEzh8uhqZtTXv9aEYfuK9yZVYh7JtSkD3oskknxOnx9TXEUIcf+ZPybz2czYEloxPE+RK21A6F7F7QsdXjtJPy8MBw/JpI/SYhmp168Md3HPeokq1ToswLJnyW2e5HcWp0XvqlGT+WeGjBtwlk8Y6jzeewjX8mrOHXF7LxpxRQc0Z0pxfjtfZIUw==
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
- by PH8PR12MB7327.namprd12.prod.outlook.com (2603:10b6:510:215::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.42; Thu, 12 Oct
- 2023 02:38:49 +0000
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::74fa:9ccf:a8e4:2e79]) by LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::74fa:9ccf:a8e4:2e79%7]) with mapi id 15.20.6863.043; Thu, 12 Oct 2023
- 02:38:49 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Hannes Reinecke <hare@suse.de>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Keith
- Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, kernel test
- robot <lkp@intel.com>
-Subject: Re: [linux-nvme:nvme-6.7 2/19] s390-linux-ld: configfs.c:undefined
- reference to `nvme_auth_dhgroup_kpp'
-Thread-Topic: [linux-nvme:nvme-6.7 2/19] s390-linux-ld: configfs.c:undefined
- reference to `nvme_auth_dhgroup_kpp'
-Thread-Index: AQHZ/JhZTTPwy/fkOkWgOMr4hRCavLBFcUMA
-Date: Thu, 12 Oct 2023 02:38:49 +0000
-Message-ID: <edadc5d7-9eed-40d2-a8d3-39206e7e19bf@nvidia.com>
-References: <202310120733.TlPOVeJm-lkp@intel.com>
-In-Reply-To: <202310120733.TlPOVeJm-lkp@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|PH8PR12MB7327:EE_
-x-ms-office365-filtering-correlation-id: 17b02eb1-0861-4b14-1588-08dbcacc5d5b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- jPpIP5dgK0dixi18kSbcwo1XJXE5qNegRvGmWxiMMXw4W72++c0BSnN4k5rakUnggAZQTTqk40uRyJq47QRRyiy4gICUyYe8Arm65k66PlStjY2gQ0QiWfPNF7KrdT94mbZCp94EUgWNEkcRBvPijztdS649V1G3aq/xI4SZD8+X5vFzlF14TC2rFwJkItArDdIDZqolndDpyOP5FhkpPAiouUgzCipvSMiCHgRnf70jWLrczUO2WQeR0CVQSU+m8RaOHzeVP9WSOrbECWq/gQPapv6MHc34zObiEFW5At2CW0WiJEdKkRtxVrcCszJhJhS2erw0WXyLLrdkUSL/LZWh+A4UZfTMYslG2vp1vVv/O9AdfwybbF+nB+7MJMUmAGO8mBOMgN1kqv5BVZJmPdRfxKa63ECcTkvBURDF0K1WiGPzbDyg8J0fzkYJxvuqyfBS3wcFTgsTr2ZYF1bxY6RFWSmWPx3GpZ+xaLtjdA2nhSAUldI9DMZHYPfu8PAJwseLNPIvPT17mF/qDUJoIZy+u+ViqHPT8OW+1OTf3GFkfaMS+uin97O1XuKty7TiIKb8wOEwV/5Fr4KbsfPvVNDDbjCpD/1BByjqlE8lP65Wxywm4m4Jc5T5LFL8C/QdTdiWIoG+VgtZYtxUbg9ZoLxYPUrgPN/gWG8Dy0x4XMjvKDVtA0lYMwDoSAIgF8/dklF8vOEZiPQs8wy9kpBrKNvXlgmvNN9Lq5lPVm1uz18vmVFyyecQ2p26OJk08lq5
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(366004)(136003)(376002)(396003)(346002)(230922051799003)(186009)(1800799009)(64100799003)(451199024)(31686004)(478600001)(71200400001)(966005)(6486002)(6506007)(53546011)(5660300002)(4326008)(83380400001)(8936002)(2906002)(8676002)(2616005)(38070700005)(38100700002)(76116006)(66446008)(31696002)(66556008)(36756003)(316002)(66946007)(66476007)(86362001)(6916009)(91956017)(64756008)(54906003)(41300700001)(6512007)(26005)(122000001)(81973001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?ckhLQXlFcUhUMEZpZ3Y0UExKSFdVV2JnNzV2YVFrNWlIcVp6SUtmRCsyN0xJ?=
- =?utf-8?B?R0tJa2tQTGZYUWRseHNDbW1WUXBpeTVPa2ovSU13U0pRd25NMUErNlRHSFhu?=
- =?utf-8?B?NEczWitIS3VPaFhpb2xXTXNNdWtNcmorRVpvMjlaR3J0SHM1M2lwQWdhRkFQ?=
- =?utf-8?B?bmVUdXp4ZkhUeC9TR3k0b2lrb2xtcGx4TGMrWEZsbjQ0TllaMFlLTFJweCs3?=
- =?utf-8?B?Qjg5UWgzM0xkZWpmMWxXSVhSai9yY1FMWVNUWmh2Z1JHZXNtaUZTSmFVRWFx?=
- =?utf-8?B?djdsWTFUamxPYUpzNVZITkxMTG5lVlNjTUJJanp1RDUzbERNcUVuSkExTGFt?=
- =?utf-8?B?bXNsanJ2dSs3Z0FWYjVETklhck12TW5KWDVCQkhYTEFrQzNHNS96WHVrd2lT?=
- =?utf-8?B?VGlrRjlFNStXSjF3TFdRRXFmVE9jNUZ2Q0xmb3NRakVmV3FsZkd2YnJtNXhn?=
- =?utf-8?B?a09ta0dMRWwxeXlLeGdGRUtaR0Fqc21FRHNaaVpwR0tSYWpHTFozZ0RNUXlW?=
- =?utf-8?B?aytjNDdJZ2ZLa2RxMlErbURKaEhxWUxveVR1aW1tSHZBWUQzRDJCY3l4YVJR?=
- =?utf-8?B?Wm1UbEs2QlRneTJFMWhqRVUzbzU5RDlkYkFWeGpDcUw1c2hKVGRoa1FzMGtk?=
- =?utf-8?B?Q21Za1c1UWllNFdPKzdWTlcrc3FOQWNHamg0U1UxcWFEWVFKZWgzV3dPdmZy?=
- =?utf-8?B?b2dRV0dpTG1oVENBbFQ2UUtDaFUzaDhGR2ppZkFucC9sb3k4VE5EUGFVZkYy?=
- =?utf-8?B?eGFPWjNscWhJR0dVbkVZK0xMdTd5WUhmNmE4WGV1NW1UcUVBNDRsQmQ3Qngx?=
- =?utf-8?B?ZkZXMFBzZGNWT2M1dnA2Y3NDVm5HQXhQeFUyaGVTZ1NuNGJjUEFHcXEwbmdk?=
- =?utf-8?B?WTR2d2cwWGt6VGovV1hGRDFZV0NuTU54QUhPbjBCTDRQMEZ3ZzAvclV5dmJp?=
- =?utf-8?B?Z09XN1MrZ0V0c2FJV0gxTy9tSkRQTHRiRlBjTWs4cSszVDF4YS9lZU45Qlho?=
- =?utf-8?B?Nk9INHhZODNyaC8zUDFxRzdyQ3hQUGt4SVlIOWk1U1ZEZ3QrRWdINW9hYUxU?=
- =?utf-8?B?RWYrT3gwVTJCQ20rUm1hU0ZqWUM1WERRVEt4d2lxbHZGZGRYUnhCWkVSOWt2?=
- =?utf-8?B?SEFWMEpaU3RRalZPbm9Hb2VkdzNIemJCRS9TK252ZnNqZUFiL0Y4SW1WQTdW?=
- =?utf-8?B?T0RDdmt4VmpMQ3ZqWjhZYlhSc0FxU0piTFRwN0JrLyt5cDdCZ0I0Umg3T3dY?=
- =?utf-8?B?cTZDTit4anJ0RWxvVk04ZmlTcDBRR2Z5WGE0UnhYQUN1d3dvN3dDdkFlQ0Nn?=
- =?utf-8?B?M1VKbVorTHlIUUVBR3pXSVozUEczTExmTDFuanpGUTJvZVg4ZmJ4MXlSN25L?=
- =?utf-8?B?dmFhenNoelJ3bVQ4MWJMeHlWYUg2ZzNtWWdpc0x5YzBueCtxbUJMekJ6SXNO?=
- =?utf-8?B?RnpIN1F2L0dWcHVWVUtVamlXb2RoZmlvNW9KeWI1UWNFd1hlaERaUmhEMmY1?=
- =?utf-8?B?RmhtSmhBYlFjSHhnVG9iN29rSXBHZWJxVDkwZFA5STVzOHNuQTdtUHUrMERt?=
- =?utf-8?B?eXZkTDBtNHBqMmxyS3lNenJKR2Mvay80UVY0NnM5NEd1ckFPWGJ6MitzSllO?=
- =?utf-8?B?TEJ5S3pYSDhlcVRXVnlxOHl4VCtiWGR3LzVNditidmlidDJTTlhNQmpWcU0x?=
- =?utf-8?B?am84NStySERPblNEWUFGLzNJeUJrOEhiMUNwNHlBZlhnYTMveDBPMGJENGFP?=
- =?utf-8?B?ZCtPS2d5L1hkMTFvVDl6VmxHaGtLaENKQkhhQUs4dU4vM2dqUEIrZENVU3lM?=
- =?utf-8?B?TEQ3K3dyemZsdFdpdFI0YUhscXhXUi9UQzlzTDZTcEoza1dCUHU0TUhTd3Bx?=
- =?utf-8?B?eStHRFlXTHpyd3pFa3pxdzFwM1lNRTdmb1ptNTcrOWhka1ZOdHV4Vms2dUNI?=
- =?utf-8?B?ZCsya0xCTy9uVHlwdjhDb0c2N2FqL0xNbk1hZmpXYmRtMTZZdVI5MWdqRFNC?=
- =?utf-8?B?SUNRU3drazRWT08rdDhBYXlIY3dhcWR5dTVBb1pxeXEzN3dPWk1FWldLZnJh?=
- =?utf-8?B?d0NBOFpnOTZiZXg2eEMyczVVblBRMXNSSlFEVTZRYnJWamZvLzJIM2pwY1Vr?=
- =?utf-8?Q?aFhFCIoQ/3LorKa5YdUcjuxqQ?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <1B7FA5688186E44CB9E661FFD170414E@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YAm4ScNu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697079824; x=1728615824;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HH0ualjy39fsIMIquvcGnaq/Y7cG0JXnx/Hwmi26/7A=;
+  b=YAm4ScNuQfWlO5rbBw6oaVZZNi2eqfQb9miOfA9+EbbsJQIs/b2KWpKH
+   1O6FFb37x85gQ9KUfNSADThznyS+6InKRHcHnLKRSKeYGuFv7JH0ikWEK
+   CPXY+VMICfJDydVpNmQfWbiD1Y6MdpVRK0Cu/iLJ28iT2MK63mMCWrIUs
+   pzLNPgIWqUivTU4nm1VLdCSA82Uz6DGuZiefkj1HhAnYOUt5SFx071Bid
+   jm2TNmpb6Q/mFFbRb0nvgVer3R8heofUkNEZouc2Qlcv5UfoLQ/uXlYUc
+   4ZRRrwPIPZdOh4qdnrHUvz/XbXxDdqwkdGZPwT4poyjzlD5+0gr7mjiEv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="384673606"
+X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
+   d="scan'208";a="384673606"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 20:03:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="870390706"
+X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
+   d="scan'208";a="870390706"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 11 Oct 2023 20:03:42 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qqlzA-000345-0D;
+	Thu, 12 Oct 2023 03:03:40 +0000
+Date: Thu, 12 Oct 2023 11:03:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Qingqing Zhuo <Qingqing.Zhuo@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alex Deucher <alexander.deucher@amd.com>
+Subject: [linux-next:master 466/11428]
+ drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:292
+ dcn35_update_clocks() warn: inconsistent indenting
+Message-ID: <202310121157.aRky475m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17b02eb1-0861-4b14-1588-08dbcacc5d5b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Oct 2023 02:38:49.1419
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4iW0WIxsEweC0nAu5bAT2+MtOzf2nB9U6V4wgeIxPsN36vDdIvTlcEu+vaFOgaqdBjKHTbHFYfoi9BDbtsrVaA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7327
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-T24gMTAvMTEvMjMgMTY6MTEsIGtlcm5lbCB0ZXN0IHJvYm90IHdyb3RlOg0KPiB0cmVlOiAgIGdp
-dDovL2dpdC5pbmZyYWRlYWQub3JnL252bWUuZ2l0IG52bWUtNi43DQo+IGhlYWQ6ICAgNzA1MjVl
-NWQ4MmY2MjQwN2Q4NDM2YWEyYTZjMzM4NTgyOWFiNWEzZQ0KPiBjb21taXQ6IDlkNzdlYjUyNzc4
-NDk5YTk3Y2FiNjYyYWE5NmRlNGUyZTRmYTcyZDMgWzIvMTldIG52bWUta2V5cmluZzogcmVnaXN0
-ZXIgJy5udm1lJyBrZXlyaW5nDQo+IGNvbmZpZzogczM5MC1yYW5kY29uZmlnLTAwMi0yMDIzMTAx
-MiAoaHR0cHM6Ly9kb3dubG9hZC4wMS5vcmcvMGRheS1jaS9hcmNoaXZlLzIwMjMxMDEyLzIwMjMx
-MDEyMDczMy5UbFBPVmVKbS1sa3BAaW50ZWwuY29tL2NvbmZpZykNCj4gY29tcGlsZXI6IHMzOTAt
-bGludXgtZ2NjIChHQ0MpIDEzLjIuMA0KPiByZXByb2R1Y2UgKHRoaXMgaXMgYSBXPTEgYnVpbGQp
-OiAoaHR0cHM6Ly9kb3dubG9hZC4wMS5vcmcvMGRheS1jaS9hcmNoaXZlLzIwMjMxMDEyLzIwMjMx
-MDEyMDczMy5UbFBPVmVKbS1sa3BAaW50ZWwuY29tL3JlcHJvZHVjZSkNCj4NCj4gSWYgeW91IGZp
-eCB0aGUgaXNzdWUgaW4gYSBzZXBhcmF0ZSBwYXRjaC9jb21taXQgKGkuZS4gbm90IGp1c3QgYSBu
-ZXcgdmVyc2lvbiBvZg0KPiB0aGUgc2FtZSBwYXRjaC9jb21taXQpLCBraW5kbHkgYWRkIGZvbGxv
-d2luZyB0YWdzDQo+IHwgUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwu
-Y29tPg0KPiB8IENsb3NlczogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvb2Uta2J1aWxkLWFsbC8y
-MDIzMTAxMjA3MzMuVGxQT1ZlSm0tbGtwQGludGVsLmNvbS8NCj4NCj4gQWxsIGVycm9ycyAobmV3
-IG9uZXMgcHJlZml4ZWQgYnkgPj4pOg0KPg0KPiAgICAgczM5MC1saW51eC1sZDogZHJpdmVycy9u
-dm1lL3RhcmdldC9jb25maWdmcy5vOiBpbiBmdW5jdGlvbiBgbnZtZXRfaG9zdF9kaGNoYXBfZGhn
-cm91cF9zdG9yZSc6DQo+ICAgICBjb25maWdmcy5jOigudGV4dCsweDI0KTogdW5kZWZpbmVkIHJl
-ZmVyZW5jZSB0byBgbnZtZV9hdXRoX2RoZ3JvdXBfaWQnDQo+Pj4gczM5MC1saW51eC1sZDogY29u
-ZmlnZnMuYzooLnRleHQrMHg1MCk6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYG52bWVfYXV0aF9k
-aGdyb3VwX2twcCcNCj4NCg0KbW9zdCBvZiB0aGVzZSBmdW5jdGlvbnMgYXJlIGRlZmluZWQgaW4g
-dGhlIG52bWUvY29tbW9uL2F1dGguYyBbMV0uDQoNCmFuZCB1bmRlZmluZWQgcmVmIG1lYW5zIHBl
-cmhhcHMgbnZtZS1jb21tb24ua28gaXMgbm90IGxvYWRlZCBzaW5jZQ0KZXJyb3IgaXMgY29taW5n
-IGZyb20gdGFyZ2V0IHNpZGUgPw0KDQphbHNvLCBJIHdvbmRlciB3aHkgdGhpcyBpcyBub3QgZmFp
-bGluZyBvbiBteSBzZXR1cCBidXQgb25seSBvbiB0aGVzZSBhcmNocyA/DQoNCi1jaw0KDQpbMV0N
-CmRyaXZlcnMvbnZtZS9jb21tb24vYXV0aC5jOkVYUE9SVF9TWU1CT0xfR1BMKG52bWVfYXV0aF9k
-aGdyb3VwX2lkKTsNCmRyaXZlcnMvbnZtZS9jb21tb24vYXV0aC5jOkVYUE9SVF9TWU1CT0xfR1BM
-KG52bWVfYXV0aF9kaGdyb3VwX25hbWUpOw0KZHJpdmVycy9udm1lL2NvbW1vbi9hdXRoLmM6RVhQ
-T1JUX1NZTUJPTF9HUEwobnZtZV9hdXRoX2htYWNfbmFtZSk7DQpkcml2ZXJzL252bWUvY29tbW9u
-L2F1dGguYzpFWFBPUlRfU1lNQk9MX0dQTChudm1lX2F1dGhfaG1hY19pZCk7DQpkcml2ZXJzL252
-bWUvY29tbW9uL2F1dGguYzpFWFBPUlRfU1lNQk9MX0dQTChudm1lX2F1dGhfaG1hY19uYW1lKTsN
-CmRyaXZlcnMvbnZtZS9jb21tb24vYXV0aC5jOkVYUE9SVF9TWU1CT0xfR1BMKG52bWVfYXV0aF9k
-aGdyb3VwX25hbWUpOw0KZHJpdmVycy9udm1lL2NvbW1vbi9hdXRoLmM6RVhQT1JUX1NZTUJPTF9H
-UEwobnZtZV9hdXRoX2htYWNfaGFzaF9sZW4pOw0KZHJpdmVycy9udm1lL2NvbW1vbi9hdXRoLmM6
-RVhQT1JUX1NZTUJPTF9HUEwobnZtZV9hdXRoX2htYWNfaGFzaF9sZW4pOw0KZHJpdmVycy9udm1l
-L2NvbW1vbi9hdXRoLmM6RVhQT1JUX1NZTUJPTF9HUEwobnZtZV9hdXRoX2htYWNfbmFtZSk7DQpk
-cml2ZXJzL252bWUvY29tbW9uL2F1dGguYzpFWFBPUlRfU1lNQk9MX0dQTChudm1lX2F1dGhfZGhn
-cm91cF9rcHApOw0KZHJpdmVycy9udm1lL2NvbW1vbi9hdXRoLmM6RVhQT1JUX1NZTUJPTF9HUEwo
-bnZtZV9hdXRoX2htYWNfbmFtZSk7DQpkcml2ZXJzL252bWUvY29tbW9uL2F1dGguYzpFWFBPUlRf
-U1lNQk9MX0dQTChudm1lX2F1dGhfZnJlZV9rZXkpOw0KZHJpdmVycy9udm1lL2NvbW1vbi9hdXRo
-LmM6RVhQT1JUX1NZTUJPTF9HUEwobnZtZV9hdXRoX2V4dHJhY3Rfa2V5KTsNCmRyaXZlcnMvbnZt
-ZS9jb21tb24vYXV0aC5jOkVYUE9SVF9TWU1CT0xfR1BMKG52bWVfYXV0aF9obWFjX25hbWUpOw0K
-ZHJpdmVycy9udm1lL2NvbW1vbi9hdXRoLmM6RVhQT1JUX1NZTUJPTF9HUEwobnZtZV9hdXRoX2Zy
-ZWVfa2V5KTsNCmRyaXZlcnMvbnZtZS9jb21tb24vYXV0aC5jOkVYUE9SVF9TWU1CT0xfR1BMKG52
-bWVfYXV0aF9obWFjX25hbWUpOw0KZHJpdmVycy9udm1lL2NvbW1vbi9hdXRoLmM6RVhQT1JUX1NZ
-TUJPTF9HUEwobnZtZV9hdXRoX3RyYW5zZm9ybV9rZXkpOw0KZHJpdmVycy9udm1lL2NvbW1vbi9h
-dXRoLmM6RVhQT1JUX1NZTUJPTF9HUEwobnZtZV9hdXRoX2F1Z21lbnRlZF9jaGFsbGVuZ2UpOw0K
-DQo=
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2933a1156742d8c47550493a77af8e2d81cf3c84
+commit: 8774029f76b9806f2f3586bb0502408076767fd5 [466/11428] drm/amd/display: Add DCN35 CLK_MGR
+config: i386-randconfig-141-20230905 (https://download.01.org/0day-ci/archive/20231012/202310121157.aRky475m-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231012/202310121157.aRky475m-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310121157.aRky475m-lkp@intel.com/
+
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:292 dcn35_update_clocks() warn: inconsistent indenting
+drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:919 dcn35_clk_mgr_construct() warn: inconsistent indenting
+drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:980 dcn35_clk_mgr_construct() warn: variable dereferenced before check 'ctx->dc_bios' (see line 913)
+drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:980 dcn35_clk_mgr_construct() warn: variable dereferenced before check 'ctx->dc_bios->integrated_info' (see line 913)
+
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:921 dcn35_clk_mgr_construct() warn: inconsistent indenting
+
+vim +292 drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
+
+   213	
+   214	void dcn35_update_clocks(struct clk_mgr *clk_mgr_base,
+   215				struct dc_state *context,
+   216				bool safe_to_lower)
+   217	{
+   218		union dmub_rb_cmd cmd;
+   219		struct clk_mgr_internal *clk_mgr = TO_CLK_MGR_INTERNAL(clk_mgr_base);
+   220		struct dc_clocks *new_clocks = &context->bw_ctx.bw.dcn.clk;
+   221		struct dc *dc = clk_mgr_base->ctx->dc;
+   222		int display_count;
+   223		bool update_dppclk = false;
+   224		bool update_dispclk = false;
+   225		bool dpp_clock_lowered = false;
+   226	
+   227		if (dc->work_arounds.skip_clock_update)
+   228			return;
+   229	
+   230		/*
+   231		 * if it is safe to lower, but we are already in the lower state, we don't have to do anything
+   232		 * also if safe to lower is false, we just go in the higher state
+   233		 */
+   234		if (safe_to_lower) {
+   235			if (new_clocks->zstate_support != DCN_ZSTATE_SUPPORT_DISALLOW &&
+   236					new_clocks->zstate_support != clk_mgr_base->clks.zstate_support) {
+   237				dcn35_smu_set_zstate_support(clk_mgr, new_clocks->zstate_support);
+   238				dm_helpers_enable_periodic_detection(clk_mgr_base->ctx, true);
+   239				clk_mgr_base->clks.zstate_support = new_clocks->zstate_support;
+   240			}
+   241	
+   242			if (clk_mgr_base->clks.dtbclk_en && !new_clocks->dtbclk_en) {
+   243				dcn35_smu_set_dtbclk(clk_mgr, false);
+   244				clk_mgr_base->clks.dtbclk_en = new_clocks->dtbclk_en;
+   245			}
+   246			/* check that we're not already in lower */
+   247			if (clk_mgr_base->clks.pwr_state != DCN_PWR_STATE_LOW_POWER) {
+   248				display_count = dcn35_get_active_display_cnt_wa(dc, context);
+   249				/* if we can go lower, go lower */
+   250				if (display_count == 0)
+   251					clk_mgr_base->clks.pwr_state = DCN_PWR_STATE_LOW_POWER;
+   252			}
+   253		} else {
+   254			if (new_clocks->zstate_support == DCN_ZSTATE_SUPPORT_DISALLOW &&
+   255					new_clocks->zstate_support != clk_mgr_base->clks.zstate_support) {
+   256				dcn35_smu_set_zstate_support(clk_mgr, DCN_ZSTATE_SUPPORT_DISALLOW);
+   257				dm_helpers_enable_periodic_detection(clk_mgr_base->ctx, false);
+   258				clk_mgr_base->clks.zstate_support = new_clocks->zstate_support;
+   259			}
+   260	
+   261			if (!clk_mgr_base->clks.dtbclk_en && new_clocks->dtbclk_en) {
+   262				dcn35_smu_set_dtbclk(clk_mgr, true);
+   263				dcn35_update_clocks_update_dtb_dto(clk_mgr, context, clk_mgr_base->clks.ref_dtbclk_khz);
+   264				clk_mgr_base->clks.dtbclk_en = new_clocks->dtbclk_en;
+   265			}
+   266	
+   267			/* check that we're not already in D0 */
+   268			if (clk_mgr_base->clks.pwr_state != DCN_PWR_STATE_MISSION_MODE) {
+   269				union display_idle_optimization_u idle_info = { 0 };
+   270	
+   271				dcn35_smu_set_display_idle_optimization(clk_mgr, idle_info.data);
+   272				/* update power state */
+   273				clk_mgr_base->clks.pwr_state = DCN_PWR_STATE_MISSION_MODE;
+   274			}
+   275		}
+   276		if (dc->debug.force_min_dcfclk_mhz > 0)
+   277			new_clocks->dcfclk_khz = (new_clocks->dcfclk_khz > (dc->debug.force_min_dcfclk_mhz * 1000)) ?
+   278					new_clocks->dcfclk_khz : (dc->debug.force_min_dcfclk_mhz * 1000);
+   279	
+   280		if (should_set_clock(safe_to_lower, new_clocks->dcfclk_khz, clk_mgr_base->clks.dcfclk_khz)) {
+   281			clk_mgr_base->clks.dcfclk_khz = new_clocks->dcfclk_khz;
+   282			dcn35_smu_set_hard_min_dcfclk(clk_mgr, clk_mgr_base->clks.dcfclk_khz);
+   283		}
+   284	
+   285		if (should_set_clock(safe_to_lower,
+   286				new_clocks->dcfclk_deep_sleep_khz, clk_mgr_base->clks.dcfclk_deep_sleep_khz)) {
+   287			clk_mgr_base->clks.dcfclk_deep_sleep_khz = new_clocks->dcfclk_deep_sleep_khz;
+   288			dcn35_smu_set_min_deep_sleep_dcfclk(clk_mgr, clk_mgr_base->clks.dcfclk_deep_sleep_khz);
+   289		}
+   290	
+   291		// workaround: Limit dppclk to 100Mhz to avoid lower eDP panel switch to plus 4K monitor underflow.
+ > 292			if (new_clocks->dppclk_khz < 100000)
+   293				new_clocks->dppclk_khz = 100000;
+   294	
+   295		if (should_set_clock(safe_to_lower, new_clocks->dppclk_khz, clk_mgr->base.clks.dppclk_khz)) {
+   296			if (clk_mgr->base.clks.dppclk_khz > new_clocks->dppclk_khz)
+   297				dpp_clock_lowered = true;
+   298			clk_mgr_base->clks.dppclk_khz = new_clocks->dppclk_khz;
+   299			update_dppclk = true;
+   300		}
+   301	
+   302		if (should_set_clock(safe_to_lower, new_clocks->dispclk_khz, clk_mgr_base->clks.dispclk_khz)) {
+   303			dcn35_disable_otg_wa(clk_mgr_base, context, true);
+   304	
+   305			clk_mgr_base->clks.dispclk_khz = new_clocks->dispclk_khz;
+   306			dcn35_smu_set_dispclk(clk_mgr, clk_mgr_base->clks.dispclk_khz);
+   307			dcn35_disable_otg_wa(clk_mgr_base, context, false);
+   308	
+   309			update_dispclk = true;
+   310		}
+   311	
+   312		if (!new_clocks->dtbclk_en) {
+   313			new_clocks->ref_dtbclk_khz = 600000;
+   314		}
+   315	
+   316		/* clock limits are received with MHz precision, divide by 1000 to prevent setting clocks at every call */
+   317		if (!dc->debug.disable_dtb_ref_clk_switch &&
+   318				should_set_clock(safe_to_lower, new_clocks->ref_dtbclk_khz / 1000, clk_mgr_base->clks.ref_dtbclk_khz / 1000)) {
+   319			/* DCCG requires KHz precision for DTBCLK */
+   320			dcn35_smu_set_dtbclk(clk_mgr, true);
+   321	
+   322			dcn35_update_clocks_update_dtb_dto(clk_mgr, context, clk_mgr_base->clks.ref_dtbclk_khz);
+   323		}
+   324	
+   325		if (dpp_clock_lowered) {
+   326			// increase per DPP DTO before lowering global dppclk
+   327			dcn35_update_clocks_update_dpp_dto(clk_mgr, context, safe_to_lower);
+   328			dcn35_smu_set_dppclk(clk_mgr, clk_mgr_base->clks.dppclk_khz);
+   329		} else {
+   330			// increase global DPPCLK before lowering per DPP DTO
+   331			if (update_dppclk || update_dispclk)
+   332				dcn35_smu_set_dppclk(clk_mgr, clk_mgr_base->clks.dppclk_khz);
+   333			dcn35_update_clocks_update_dpp_dto(clk_mgr, context, safe_to_lower);
+   334		}
+   335	
+   336		// notify DMCUB of latest clocks
+   337		memset(&cmd, 0, sizeof(cmd));
+   338		cmd.notify_clocks.header.type = DMUB_CMD__CLK_MGR;
+   339		cmd.notify_clocks.header.sub_type = DMUB_CMD__CLK_MGR_NOTIFY_CLOCKS;
+   340		cmd.notify_clocks.clocks.dcfclk_khz = clk_mgr_base->clks.dcfclk_khz;
+   341		cmd.notify_clocks.clocks.dcfclk_deep_sleep_khz =
+   342			clk_mgr_base->clks.dcfclk_deep_sleep_khz;
+   343		cmd.notify_clocks.clocks.dispclk_khz = clk_mgr_base->clks.dispclk_khz;
+   344		cmd.notify_clocks.clocks.dppclk_khz = clk_mgr_base->clks.dppclk_khz;
+   345	
+   346		dm_execute_dmub_cmd(dc->ctx, &cmd, DM_DMUB_WAIT_TYPE_WAIT);
+   347	}
+   348	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
