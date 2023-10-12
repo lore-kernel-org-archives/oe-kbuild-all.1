@@ -1,46 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B545519B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 00:14:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077AC62B;
+	Thu, 12 Oct 2023 00:25:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hiTyGU3R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b55evIAZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697069686; x=1728605686;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zXOoLc9AZ0qnmPyDB7LLyjMHVBsX3N9t89RcbxYIdRs=;
-  b=hiTyGU3RzsYKpW1rqjVT9tuV+x0P+sTcC8gmkKyqD3Ncmi9ITehDHe7F
-   ix23e00PHyPz9Vkk1QPdcrJGZkvd79O2OnkYBFqBB9nxPQPWssieEr9BC
-   clHCqs3l1hoE3hHIZL0+3kpP2UjGnOqHkN6f0rf33WO4he5PSrPmPGZYU
-   K8KcZKp7jjlfdfw7sbBJcrnJQq+Qv4J4Bri3LIfaLTuTObqFFak4Viju0
-   l2fwAy5HJVA0KhZc6udGQxerJWSRD1gZOAzjGZWyHtpo8buo+c4pzRMnI
-   JVqZZrTcqfwo3xq1PndT5Gn+176VjiloffMNRA4pVnVNfoDloOy1N6LhV
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="451291984"
+  t=1697070300; x=1728606300;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0HUebaRBYhlIpKvGorr/6r29hcHREKHAHTKFVOf5rLI=;
+  b=b55evIAZffOTh/82gEeVkdJsufqwY4FV5kj2xK9J/FlaL9gRdsnQgLxP
+   7x0sUgF+K7iIkDn6nIyXbA72FsFPAPi/RvlLAX8qHwLMO3hYFbb71ufrA
+   yxMoqvl2d+S6nOqmXKoxG4Trvfty7jjiuplT0E7LoXfcH3DjuRx/gcCJ9
+   Ee72lD+Y9A896WoqDsfMAx9F3t8kbNrABM+6HjZNcsz4AdKw+x+3ycs57
+   8lkfg+MSNj7PGZDL6DADLBj5crEOtADpJwKxJ7cVGlK39g7jNlIxVQ6oX
+   QRxuBdocctb8ygjeDv2nRh0rnsYWXJVvoaOq7g0REFcMAkYow56uBscQG
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="375153891"
 X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
-   d="scan'208";a="451291984"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 17:14:45 -0700
+   d="scan'208";a="375153891"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 17:24:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="1001333223"
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="927767467"
 X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
-   d="scan'208";a="1001333223"
+   d="scan'208";a="927767467"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 11 Oct 2023 17:14:44 -0700
+  by orsmga005.jf.intel.com with ESMTP; 11 Oct 2023 17:24:46 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqjLd-0002t7-1x;
-	Thu, 12 Oct 2023 00:14:41 +0000
-Date: Thu, 12 Oct 2023 08:13:58 +0800
+	id 1qqjVL-0002tR-2C;
+	Thu, 12 Oct 2023 00:24:43 +0000
+Date: Thu, 12 Oct 2023 08:24:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:inode-refactor 37/269] checkpatch: WARNING: Missing or
- malformed SPDX-License-Identifier tag in line 1
-Message-ID: <202310120847.UmbY3t6U-lkp@intel.com>
+To: Jonathan Cavitt <jonathan.cavitt@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	andi.shyti@intel.com, jonathan.cavitt@intel.com,
+	saurabhg.gupta@intel.com, nirmoy.das@intel.com
+Subject: Re: [Intel-gfx] [PATCH dii-client 2/2] drm/i915: Use selective tlb
+ invalidations where supported
+Message-ID: <202310120817.oZ9qYP5h-lkp@intel.com>
+References: <20231010184423.2118908-4-jonathan.cavitt@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,22 +54,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231010184423.2118908-4-jonathan.cavitt@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git inode-refactor
-head:   5d7848682f41b20567e9d24b7c29a6d3964f0de6
-commit: 0ebdb58358ed06386f9b8e09c053063b1f6cb2ed [37/269] xfs: pull xfs_qm_dqiterate back into scrub
-reproduce: (https://download.01.org/0day-ci/archive/20231012/202310120847.UmbY3t6U-lkp@intel.com/reproduce)
+Hi Jonathan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-tip/drm-tip]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Cavitt/drm-i915-Use-selective-tlb-invalidations-where-supported/20231011-034501
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20231010184423.2118908-4-jonathan.cavitt%40intel.com
+patch subject: [Intel-gfx] [PATCH dii-client 2/2] drm/i915: Use selective tlb invalidations where supported
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231012/202310120817.oZ9qYP5h-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231012/202310120817.oZ9qYP5h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310120847.UmbY3t6U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310120817.oZ9qYP5h-lkp@intel.com/
 
-# many are suggestions rather than must-fix
+All errors (new ones prefixed by >>):
 
-WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
-#122: FILE: fs/xfs/scrub/quota.h:1:
-+// SPDX-License-Identifier: GPL-2.0-or-later
+>> drivers/gpu/drm/i915/i915_vma.c:1343:4: error: expected ')'
+                           u64 start, u64 size)
+                           ^
+   drivers/gpu/drm/i915/i915_vma.c:1342:24: note: to match this '('
+   void vma_invalidate_tlb(struct i915_address_space *vm, u32 *tlb
+                          ^
+>> drivers/gpu/drm/i915/i915_vma.c:1342:6: error: conflicting types for 'vma_invalidate_tlb'
+   void vma_invalidate_tlb(struct i915_address_space *vm, u32 *tlb
+        ^
+   drivers/gpu/drm/i915/i915_vma.h:263:6: note: previous declaration is here
+   void vma_invalidate_tlb(struct i915_address_space *vm, u32 *tlb,
+        ^
+>> drivers/gpu/drm/i915/i915_vma.c:1360:42: error: use of undeclared identifier 'start'; did you mean 'stac'?
+                   if (!intel_gt_invalidate_tlb_range(gt, start, size))
+                                                          ^~~~~
+                                                          stac
+   arch/x86/include/asm/smap.h:36:29: note: 'stac' declared here
+   static __always_inline void stac(void)
+                               ^
+>> drivers/gpu/drm/i915/i915_vma.c:1360:49: error: use of undeclared identifier 'size'; did you mean 'ksize'?
+                   if (!intel_gt_invalidate_tlb_range(gt, start, size))
+                                                                 ^~~~
+                                                                 ksize
+   include/linux/slab.h:245:8: note: 'ksize' declared here
+   size_t ksize(const void *objp);
+          ^
+   4 errors generated.
+
+
+vim +1343 drivers/gpu/drm/i915/i915_vma.c
+
+  1341	
+> 1342	void vma_invalidate_tlb(struct i915_address_space *vm, u32 *tlb
+> 1343				u64 start, u64 size)
+  1344	{
+  1345		struct intel_gt *gt;
+  1346		int id;
+  1347	
+  1348		if (!tlb)
+  1349			return;
+  1350	
+  1351		/*
+  1352		 * Before we release the pages that were bound by this vma, we
+  1353		 * must invalidate all the TLBs that may still have a reference
+  1354		 * back to our physical address. It only needs to be done once,
+  1355		 * so after updating the PTE to point away from the pages, record
+  1356		 * the most recent TLB invalidation seqno, and if we have not yet
+  1357		 * flushed the TLBs upon release, perform a full invalidation.
+  1358		 */
+  1359		for_each_gt(gt, vm->i915, id) {
+> 1360			if (!intel_gt_invalidate_tlb_range(gt, start, size))
+  1361				WRITE_ONCE(tlb[id],
+  1362					   intel_gt_next_invalidate_tlb_full(gt));
+  1363		}
+  1364	}
+  1365	
 
 -- 
 0-DAY CI Kernel Test Service
