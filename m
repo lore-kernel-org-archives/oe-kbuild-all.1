@@ -1,160 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67060273D9;
-	Thu, 12 Oct 2023 15:46:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F53127EC7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 16:00:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r5+vYEE0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A708C433C8;
-	Thu, 12 Oct 2023 15:46:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697125617;
-	bh=2oUTgdvvt7Npo39v41Ve6hpVDc/UAFCXJgxXHtGL9os=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=r5+vYEE0nMSitIyDBqywKADX9ktL9v/gC8/yTLYqZhdbbuByIi8DeVljHcgJzkVBp
-	 MLq+d7c+Mi3d17sACQ5ZXSETIdbkx8Fy5aON/DnTvq3vfdW2KpTJ9WgctcdzLW2GMa
-	 dhTPM1z6Mm802WKDrGc9UcdMsOqIdF+gwfrtOGrTCZK04SbKwIk7onAjm5AcK3LIfs
-	 0hPKUteGNAhLSLr3ZEzX4VqWTf3xFHv7i7x8gJNDjH84IC5+Aai1dfi2UEeqbtcl9f
-	 wixO8L2sP8xAssndt6xE9GCNxREKgFfoWZZDCz3cnMZHBHOxOgeYYMghDrUOkUv1R5
-	 8rcEIYTO5TbHQ==
-From: SeongJae Park <sj@kernel.org>
-To: Yujie Liu <yujie.liu@intel.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	kernel test robot <lkp@intel.com>,
-	damon@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [sj:damon/next 27/28] hppa-linux-ld: fs/xfs/xfs_trace.o(.text+0x42da0): cannot reach 0000a892_bpf_trace_run2+0, recompile with -ffunction-sections
-Date: Thu, 12 Oct 2023 15:46:56 +0000
-Message-Id: <20231012154656.32743-1-sj@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <ZSduHlPmRa4HIuTm@yujie-X299>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Scujd1Hl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697126426; x=1728662426;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ndbMtOP4IOrXkIlzfHhpNIaugusPfXi5enNfONe4yRM=;
+  b=Scujd1HlF3C1bCtUqeJDiyWvnj+2h0TUr39C8kmxwdUy8ZBNzlBeJL+G
+   8MP8bmZxWPl/QzcaUkPj0sUM4zsHAzMkqft+xFlJEOWOCjXN52FwCkJG5
+   NJoIORYiYPF0avV691n5Yyn3rwAda0yW/uTT3GwhjA7TacZsChpIR4o0e
+   pHiVMckd5JGMuUzWyW5Ede7OcaMFEk+x40IUSGaSpWvMNuO0zvLitegb7
+   bincycrdd5s3hWJNczgSk3HZlpp1K0IFkG6sLlxde1mzoXGjDGQDNuSLw
+   9BMEQmrIsD76gClRWgcDIc2RIMDb7mrQbMwo6RV0GMf6j1bd8m9pYWkaT
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="471214351"
+X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
+   d="scan'208";a="471214351"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 09:00:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="928045573"
+X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
+   d="scan'208";a="928045573"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 12 Oct 2023 09:00:23 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qqy6n-0003bA-26;
+	Thu, 12 Oct 2023 16:00:21 +0000
+Date: Thu, 12 Oct 2023 23:59:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-2.1.x-imx 553/15768]
+ drivers/clk/imx/clk-blk-ctrl.c:291:12: warning:
+ 'imx_blk_ctrl_runtime_resume' defined but not used
+Message-ID: <202310122348.9RY4Fxqx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Yujie,
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
+head:   3f41fbe42851375d3d5996e4bf9e9809e6c79517
+commit: 78668ad4d3771b2b0caca88d8bea83e4f438f8b5 [553/15768] clk: imx: Add blk_ctrl combo driver
+config: csky-randconfig-001-20231012 (https://download.01.org/0day-ci/archive/20231012/202310122348.9RY4Fxqx-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231012/202310122348.9RY4Fxqx-lkp@intel.com/reproduce)
 
-On Thu, 12 Oct 2023 11:55:10 +0800 Yujie Liu <yujie.liu@intel.com> wrote:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310122348.9RY4Fxqx-lkp@intel.com/
 
-> Hi SJ,
-> 
-> On Mon, Oct 09, 2023 at 11:56:49PM +0000, SeongJae Park wrote:
-> > Hi Robot,
-> > 
-> > On Mon, 9 Oct 2023 04:40:31 +0800 kernel test robot <lkp@intel.com> wrote:
-> > 
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-> > > head:   b51b81a2d623ddeda365270f24748bea23a93a2f
-> > > commit: 8a198cce537de4f58f1cd791cd05347320a025b3 [27/28] mm/damon/sysfs: avoid empty scheme tried regions for large apply interval
-> > > config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20231009/202310090405.GXbIXpan-lkp@intel.com/config)
-> > > compiler: hppa-linux-gcc (GCC) 13.2.0
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231009/202310090405.GXbIXpan-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202310090405.GXbIXpan-lkp@intel.com/
-> > > 
-> > > All errors (new ones prefixed by >>):
-> > > 
-> > > >> hppa-linux-ld: fs/xfs/xfs_trace.o(.text+0x42da0): cannot reach 0000a892_bpf_trace_run2+0, recompile with -ffunction-sections
-> > >    hppa-linux-ld: fs/xfs/xfs_trace.o(.text+0x42da0): cannot handle R_PARISC_PCREL17F for bpf_trace_run2
-> > >    hppa-linux-ld: final link failed: bad value
-> > 
-> > Thank you for this report!  Nevertheless, I was unable to reproduce the issue.
-> > It indeed fails the build, but with a different error.  Also, I get the same
-> > error on the baseline of the tree, namely mm-unstable (specifically, commit
-> > e0b0922d61a8).
-> > 
-> >     hppa-linux-ld: drivers/mtd/nand/raw/nand_base.o: in function `nand_do_write_ops':
-> >     (.text+0x4a24): undefined reference to `.L874'
-> >     make[3]: *** [/home/sjpark/linux/scripts/Makefile.vmlinux:36: vmlinux] Error 1
-> >     make[3]: Target '__default' not remade because of errors.
-> >     make[2]: *** [/home/sjpark/linux/Makefile:1165: vmlinux] Error 2
-> >     make[2]: Target '__all' not remade because of errors.
-> >     make[1]: *** [/home/sjpark/linux/Makefile:234: __sub-make] Error 2
-> >     make[1]: Target '__all' not remade because of errors.
-> >     make[1]: Leaving directory '/home/sjpark/linux.parisc.out'
-> >     make: *** [Makefile:234: __sub-make] Error 2
-> >     make: Target '__all' not remade because of errors.
-> > 
-> > I'm also not sure how the commit you found could make such error, since the
-> > commit doesn't touch any of xfs code.
-> > 
-> >     $ git log 8a198cce537de4f58f1cd791cd05347320a025b3 --stat -1
-> >     commit 8a198cce537de4f58f1cd791cd05347320a025b3
-> >     Author: SeongJae Park <sj@kernel.org>
-> >     Date:   Fri Oct 6 22:58:00 2023 +0000
-> >     
-> >         mm/damon/sysfs: avoid empty scheme tried regions for large apply interval
-> >     
-> >         Signed-off-by: SeongJae Park <sj@kernel.org>
-> >     
-> >      mm/damon/sysfs-common.h  |  2 ++
-> >      mm/damon/sysfs-schemes.c | 16 ++++++++++++++++
-> >      mm/damon/sysfs.c         | 25 +++++++++++++++++++++----
-> >      3 files changed, 39 insertions(+), 4 deletions(-)
-> > 
-> > Anything I'm missing?  Or, could this report be mistakenly made?
-> 
-> Sorry this is a false positive report. We did some investigation and the
-> story is a bit complicated.
-> 
-> We set some extra flags during compiling, but sorry this is not
-> clearly mentioned in the report.
-> 
-> When no flag is set, we get the same error as you:
-> 
-> $ make W=1 --keep-going ARCH=parisc
-> hppa-linux-ld: drivers/mtd/nand/raw/nand_base.o: in function `nand_do_write_ops':
-> (.text+0x4a24): undefined reference to `.L874'
-> 
-> When the extra flags are set, the error is:
-> 
-> $ make W=1 --keep-going KBUILD_CFLAGS_KERNEL="-falign-functions=64" KBUILD_CFLAGS_MODULE="-DMODULE -falign-functions=64" ARCH=parisc
-> hppa-linux-ld: fs/xfs/xfs_trace.o(.text+0x42da0): cannot reach 0000a890_bpf_trace_run2+0, recompile with -ffunction-sections
-> hppa-linux-ld: fs/xfs/xfs_trace.o(.text+0x42da0): cannot handle R_PARISC_PCREL17F for bpf_trace_run2
-> hppa-linux-ld: final link failed: bad value
-> 
-> If we build on the parent of ("mm/damon/sysfs: avoid empty scheme
-> tried regions for large apply interval"), which is
-> ("mm/damon/sysfs-schemes: do not update tried regions more than one
-> DAMON snapshot"), the error is like:
-> 
-> $ make W=1 --keep-going KBUILD_CFLAGS_KERNEL="-falign-functions=64" KBUILD_CFLAGS_MODULE="-DMODULE -falign-functions=64" ARCH=parisc
-> hppa-linux-ld: fs/xfs/xfs_trace.o(.text+0x42da0): cannot reach 0000a88d_bpf_trace_run2+0, recompile with -ffunction-sections
-> hppa-linux-ld: fs/xfs/xfs_trace.o(.text+0x42da0): cannot handle R_PARISC_PCREL17F for bpf_trace_run2
-> hppa-linux-ld: final link failed: bad value
-> 
-> The hex in the function name changes. (0000a88d_bpf_trace_run2 ->
-> 0000a890_bpf_trace_run2), so the bot wrongly thinks that a new error
-> appears on the reported commit.
-> 
-> Not sure if the code layout has some minor changes when the alignment
-> flags are set, or if any problem at cross toolchain side.
+All warnings (new ones prefixed by >>):
 
-Interesting, thank you so much for sharing this deep and grateful investigation
-results!
-
-> 
-> Anyway, your patches are certainly not related to this error in xfs code.
-> We will update the bot's code to handle this case and similar ones.
-> Sorry for bothering you.
-
-No problem at all.  The bot's contribution is really grateful and very helpful.
-Without it, I don't think I can maintain DAMON.  So, never mind, and please
-continue this great work.
+   drivers/clk/imx/clk-blk-ctrl.c: In function 'imx_blk_ctrl_register_one_clock':
+   drivers/clk/imx/clk-blk-ctrl.c:140:26: error: implicit declaration of function 'imx_dev_clk_hw_mux_flags'; did you mean 'imx_clk_hw_mux_flags'? [-Werror=implicit-function-declaration]
+     140 |                 clk_hw = imx_dev_clk_hw_mux_flags(dev, hw->name,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                          imx_clk_hw_mux_flags
+   drivers/clk/imx/clk-blk-ctrl.c:140:24: warning: assignment to 'struct clk_hw *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     140 |                 clk_hw = imx_dev_clk_hw_mux_flags(dev, hw->name,
+         |                        ^
+   drivers/clk/imx/clk-blk-ctrl.c:148:26: error: implicit declaration of function 'imx_dev_clk_hw_gate'; did you mean 'imx_clk_hw_gate'? [-Werror=implicit-function-declaration]
+     148 |                 clk_hw = imx_dev_clk_hw_gate(dev, hw->name, hw->parents,
+         |                          ^~~~~~~~~~~~~~~~~~~
+         |                          imx_clk_hw_gate
+   drivers/clk/imx/clk-blk-ctrl.c:148:24: warning: assignment to 'struct clk_hw *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     148 |                 clk_hw = imx_dev_clk_hw_gate(dev, hw->name, hw->parents,
+         |                        ^
+   drivers/clk/imx/clk-blk-ctrl.c:152:26: error: implicit declaration of function 'imx_dev_clk_hw_gate_shared'; did you mean 'imx_clk_hw_gate2_shared'? [-Werror=implicit-function-declaration]
+     152 |                 clk_hw = imx_dev_clk_hw_gate_shared(dev, hw->name,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                          imx_clk_hw_gate2_shared
+   drivers/clk/imx/clk-blk-ctrl.c:152:24: warning: assignment to 'struct clk_hw *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     152 |                 clk_hw = imx_dev_clk_hw_gate_shared(dev, hw->name,
+         |                        ^
+   drivers/clk/imx/clk-blk-ctrl.c: At top level:
+>> drivers/clk/imx/clk-blk-ctrl.c:291:12: warning: 'imx_blk_ctrl_runtime_resume' defined but not used [-Wunused-function]
+     291 | static int imx_blk_ctrl_runtime_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/clk/imx/clk-blk-ctrl.c:284:12: warning: 'imx_blk_ctrl_runtime_suspend' defined but not used [-Wunused-function]
+     284 | static int imx_blk_ctrl_runtime_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-Thanks,
-SJ
+vim +/imx_blk_ctrl_runtime_resume +291 drivers/clk/imx/clk-blk-ctrl.c
 
-> 
-> Best Regards,
-> Yujie
-> 
+   283	
+ > 284	static int imx_blk_ctrl_runtime_suspend(struct device *dev)
+   285	{
+   286		imx_blk_ctrl_read_write(dev, false);
+   287	
+   288		return 0;
+   289	}
+   290	
+ > 291	static int imx_blk_ctrl_runtime_resume(struct device *dev)
+   292	{
+   293		imx_blk_ctrl_read_write(dev, true);
+   294	
+   295		return 0;
+   296	}
+   297	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
