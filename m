@@ -1,24 +1,49 @@
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1597C63B3;
-	Thu, 12 Oct 2023 05:11:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
-	id 1qqnyj-006FFt-6s; Thu, 12 Oct 2023 13:11:22 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Thu, 12 Oct 2023 13:11:25 +0800
-Date: Thu, 12 Oct 2023 13:11:25 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Dan Carpenter <dan.carpenter@linaro.org>,
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [PATCH] crypto: lskcipher - Return EINVAL when ecb_name fails sanity
- checks
-Message-ID: <ZSd//fA00pk/XqBC@gondor.apana.org.au>
-References: <f9ae1fe1-5a78-442f-a3fb-3c01e6273d3f@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50DB628EF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 05:26:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jVR5fs+z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697088384; x=1728624384;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LeeXmusK+iW6I5sSe0haYdMvQit1ncmN9v4FBs+c+TE=;
+  b=jVR5fs+zvq4GI6wdsoz+hwc2xDtYLOsWoCDsfaZECh+4MH1RcWYcLbj7
+   +NMhHaRhEjfGOhB1sJdpSGdBER4MwBqh14oWtGg3CrYB3v+Pcn+mFXK00
+   j++9rPhxvBsvdxtiEk802Nc8WhX5nscT4WZgsVkQVvPyyZ4nWsk63Y0Fx
+   UofjOJuleK3ZktXYgx8pthCnVwyLe3c+P0K0SWg4eYc9MGztl0suI6W0c
+   nvotUykfZmAfsaAlq+ZGAwXXngBhRcL352/WC1Au9BCvlMgYpFwAVhSJx
+   rS1tX0Kfx604HimYBF/sqzluH5QJedTVs6UDmTeqnafXBifsgGkcCt47F
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="383703176"
+X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
+   d="scan'208";a="383703176"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 22:26:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="704022944"
+X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
+   d="scan'208";a="704022944"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 11 Oct 2023 22:26:21 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qqoDC-0003Dl-1h;
+	Thu, 12 Oct 2023 05:26:18 +0000
+Date: Thu, 12 Oct 2023 13:25:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: "David E. Box" <david.e.box@linux.intel.com>,
+	linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+	ilpo.jarvinen@linux.intel.com, rajvi.jingar@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH V3 03/16] platform/x86/intel/vsec: Use cleanup.h
+Message-ID: <202310121314.3Xpqom2w-lkp@intel.com>
+References: <20231012023840.3845703-4-david.e.box@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -27,37 +52,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f9ae1fe1-5a78-442f-a3fb-3c01e6273d3f@kadam.mountain>
+In-Reply-To: <20231012023840.3845703-4-david.e.box@linux.intel.com>
 
-On Wed, Oct 11, 2023 at 10:19:31AM +0300, Dan Carpenter wrote:
->
-> smatch warnings:
-> crypto/lskcipher.c:639 lskcipher_alloc_instance_simple() warn: passing zero to 'ERR_PTR'
+Hi David,
 
-Thanks for the report.  This patch should fix the problem:
+kernel test robot noticed the following build warnings:
 
----8<---
-Set the error value to -EINVAL instead of zero when the underlying
-name (within "ecb()") fails basic sanity checks.
+[auto build test WARNING on acce85a7dd28eac3858d44230f4c65985d0f271c]
 
-Fixes: 8aee5d4ebd11 ("crypto: lskcipher - Add compatibility wrapper around ECB")
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/r/202310111323.ZjK7bzjw-lkp@intel.com/
+url:    https://github.com/intel-lab-lkp/linux/commits/David-E-Box/platform-x86-intel-vsec-Move-structures-to-header/20231012-104217
+base:   acce85a7dd28eac3858d44230f4c65985d0f271c
+patch link:    https://lore.kernel.org/r/20231012023840.3845703-4-david.e.box%40linux.intel.com
+patch subject: [PATCH V3 03/16] platform/x86/intel/vsec: Use cleanup.h
+reproduce: (https://download.01.org/0day-ci/archive/20231012/202310121314.3Xpqom2w-lkp@intel.com/reproduce)
 
-diff --git a/crypto/lskcipher.c b/crypto/lskcipher.c
-index 9be3c04bc62a..cb6170ebcaa3 100644
---- a/crypto/lskcipher.c
-+++ b/crypto/lskcipher.c
-@@ -583,6 +583,7 @@ struct lskcipher_instance *lskcipher_alloc_instance_simple(
- 	if (ecb_name[0]) {
- 		int len;
- 
-+		err = -EINVAL;
- 		len = strscpy(ecb_name, &cipher_alg->co.base.cra_name[4],
- 			      sizeof(ecb_name));
- 		if (len < 2)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310121314.3Xpqom2w-lkp@intel.com/
+
+# many are suggestions rather than must-fix
+
+ERROR:SPACING: need consistent spacing around '*' (ctx:WxV)
+#31: FILE: drivers/platform/x86/intel/vsec.c:159:
++	struct intel_vsec_device __free(kfree) *intel_vsec_dev = NULL;
+ 	                                       ^
+
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
