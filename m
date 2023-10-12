@@ -1,143 +1,241 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 813E43A275
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 18:30:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-579de633419so15540477b3.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 11:30:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697135434; x=1697740234;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AEHqR4UxkTsP1urr02CWt8lk407VM070mNRCkBflvD4=;
-        b=a4wNU/hqvKmcUTAiI/CMWeeJFdkiWtJZVXu0s+Lpyqoro733M+JvMuM+YUUHpzKy1P
-         YgpqoAJT9t4njnErLPr05RrsC2V/Uu0lmoYvUF8ZinVFTBBR54BSTJ5FdZ6qQ3q1DkS3
-         5p7pnKN64T15od+Sud0L29D+mcxjMhyQ7L8OQAWT6WqEQsdesVyjEwavN+j1GiLVRpr1
-         rJKo+0aB9tBtmZwTRe8S/KpIHggcSbZc1RTUhvsxDWQiDRm8E7s/wLmc9h/l3CiexUgJ
-         B2SXhMkexBH0puG+qlMhvkDuR8XKT0mQQOX8AHl6/lR4KV4OyVh9ZEwYtgD4jbICtIUE
-         jvIQ==
-X-Gm-Message-State: AOJu0Yyd0LuH80Seq7fhV/s5VXPJonUiCPa5vT82iNJUf3PQ9hROs/Hx
-	RkBghpS+mwFHlW9vsDpFQ1hXmRr4wwU8EQ==
-X-Google-Smtp-Source: AGHT+IFoMFMvrVfCN61PvNaXyI8BSMPgBRjuNBAqEGhNh2okxixC2UGPv46WdeQlCwmQ8qn7kV4MKQ==
-X-Received: by 2002:a81:4854:0:b0:5a7:bf2b:dc27 with SMTP id v81-20020a814854000000b005a7bf2bdc27mr9600913ywa.14.1697135434173;
-        Thu, 12 Oct 2023 11:30:34 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
-        by smtp.gmail.com with ESMTPSA id c141-20020a814e93000000b005a206896d62sm128237ywb.111.2023.10.12.11.30.33
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Oct 2023 11:30:33 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-d9a518d66a1so1473471276.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 11:30:33 -0700 (PDT)
-X-Received: by 2002:a25:9386:0:b0:d9a:d90d:7b42 with SMTP id
- a6-20020a259386000000b00d9ad90d7b42mr1549312ybm.1.1697135433470; Thu, 12 Oct
- 2023 11:30:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B5437147
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 18:36:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FJF/cBPU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697135802; x=1728671802;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6wiLdHXcPfCAQWiMUzrSl2SEsXA6Klv0yLsHRhTSamc=;
+  b=FJF/cBPUqymS6thW9zTfJOKfjfAo2VXO6MVuE/8xFzfBKIeQaeOgk+Rx
+   d0vqa1XI36I+ght9UspYj0axqAmy4hHmRQDUAH2nknDQlAugDFkQTEUkQ
+   I6+TPcDsEPWBqHRS3stiHq1qUcjdyz+bzdgsnhGhkAZ+mNxI2luOrA7L8
+   RBeze89nuB0kZwWeEAwuxIDc3GKHhLvAU/uMi81tzjO1Sos8cBhPRgTxK
+   NG6kn1G4Sb1X4INn6M6z0eYfF73E4t7DzUXqxw8qoHnVhEXXj+EUR3W9b
+   SfWQQ0Qb2HiucRd4Wu/GXNH61wJl/QFUsY0ZaaFfju0Nd79ISLI4+pF+O
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="375358039"
+X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
+   d="scan'208";a="375358039"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 11:36:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="928101192"
+X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
+   d="scan'208";a="928101192"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 12 Oct 2023 11:36:39 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qr0Xs-0003k1-0m;
+	Thu, 12 Oct 2023 18:36:31 +0000
+Date: Fri, 13 Oct 2023 02:35:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Joey Jiao <quic_jiangenj@quicinc.com>, linux-modules@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, quic_jiangenj@quicinc.com,
+	Luis Chamberlain <mcgrof@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] module: Add CONFIG_MODULE_LOAD_IN_SEQUENCE option
+Message-ID: <202310130206.F778HuNp-lkp@intel.com>
+References: <20231011074438.6098-1-quic_jiangenj@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202309222350.hCUFrIQ1-lkp@intel.com> <CAMuHMdUn1n47=nV_WMe9Yx1aTzYgsDKoj_AuZUPoAH7gJpCuGw@mail.gmail.com>
- <ZSgbAoJ9Cd5f8hjm@yujie-X299>
-In-Reply-To: <ZSgbAoJ9Cd5f8hjm@yujie-X299>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 12 Oct 2023 20:30:20 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV3=X7ZRxyDNA3bvTcDXwkhh7K9dVo5YRrv9P4CNt1Vow@mail.gmail.com>
-Message-ID: <CAMuHMdV3=X7ZRxyDNA3bvTcDXwkhh7K9dVo5YRrv9P4CNt1Vow@mail.gmail.com>
-Subject: Re: {standard input}:1198: Error: value of ffffff6c too large for
- field of 1 byte at 00000533
-To: Yujie Liu <yujie.liu@intel.com>
-Cc: kernel test robot <lkp@intel.com>, Masahiro Yamada <masahiroy@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231011074438.6098-1-quic_jiangenj@quicinc.com>
 
-Hi Yujie,
+Hi Joey,
 
-On Thu, Oct 12, 2023 at 6:18=E2=80=AFPM Yujie Liu <yujie.liu@intel.com> wro=
-te:
-> On Mon, Sep 25, 2023 at 02:07:07PM +0200, Geert Uytterhoeven wrote:
-> > On Fri, Sep 22, 2023 at 5:23=E2=80=AFPM kernel test robot <lkp@intel.co=
-m> wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linu=
-x.git master
-> > > head:   27bbf45eae9ca98877a2d52a92a188147cd61b07
-> > > commit: 481461f5109919babbb393d6f68002936b8e2493 linux/export.h: make=
- <linux/export.h> independent of CONFIG_MODULES
-> > > date:   9 weeks ago
-> > > config: m68k-randconfig-r025-20230123 (https://download.01.org/0day-c=
-i/archive/20230922/202309222350.hCUFrIQ1-lkp@intel.com/config)
-> > > compiler: m68k-linux-gcc (GCC) 13.2.0
-> > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
-rchive/20230922/202309222350.hCUFrIQ1-lkp@intel.com/reproduce)
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202309222350.hCUFrIQ1=
--lkp@intel.com/
-> >
-> > Thanks for your report!
-> >
-> > > All errors (new ones prefixed by >>):
-> > >
-> > >    {standard input}: Assembler messages:
-> > >    {standard input}:1198: Error: value -148 out of range
-> > > >> {standard input}:1198: Error: value of ffffff6c too large for fiel=
-d of 1 byte at 00000533
-> >
-> > Do you have more context (e.g. which source file is being compiled)?
-> > Thanks!
->
-> Sorry for our late reply. It is sound/soc/codecs/tas2781-fmwlib.o that
-> is being compiled.
->
-> {standard input}: Assembler messages:
-> {standard input}:1198: Error: value -148 out of range
-> {standard input}:1198: Error: value of ffffff6c too large for field of 1 =
-byte at 00000533
-> make[6]: *** [scripts/Makefile.build:243: sound/soc/codecs/tas2781-fmwlib=
-.o] Error 1
->
-> We rechecked the bisection process and found that this was a false
-> positive report. The error also happens on the parent of this commit.
->
-> {standard input}: Assembler messages:
-> {standard input}:992: Error: value -148 out of range
-> {standard input}:992: Error: value of ffffff6c too large for field of 1 b=
-yte at 0000045f
-> make[6]: *** [scripts/Makefile.build:243: sound/soc/codecs/tas2781-fmwlib=
-.o] Error 1
->
-> The error message has some minor changes that our bot didn't recognize
-> that it is the same error on both commits. We will fix this soon. Sorry
-> for making the noise.
+kernel test robot noticed the following build warnings:
 
-Thanks for the information!
+[auto build test WARNING on mcgrof/modules-next]
+[also build test WARNING on linus/master v6.6-rc5 next-20231012]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-In the mean time, I found out which file was the culprit when someone
-posted a patch.
+url:    https://github.com/intel-lab-lkp/linux/commits/Joey-Jiao/module-Add-CONFIG_MODULE_LOAD_IN_SEQUENCE-option/20231011-154640
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git modules-next
+patch link:    https://lore.kernel.org/r/20231011074438.6098-1-quic_jiangenj%40quicinc.com
+patch subject: [PATCH v2] module: Add CONFIG_MODULE_LOAD_IN_SEQUENCE option
+config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20231013/202310130206.F778HuNp-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231013/202310130206.F778HuNp-lkp@intel.com/reproduce)
 
-The real issue seems to be a compile bug, though, cfr.
-https://lore.kernel.org/all/CAMuHMdXRGxnGpVHiB+Zvxq+G4K-BL8JsJGbG+7CNtJiqGw=
-HOsQ@mail.gmail.com
-https://lore.kernel.org/all/87v8bn3cae.fsf@igel.home
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310130206.F778HuNp-lkp@intel.com/
 
-Gr{oetje,eeting}s,
+All warnings (new ones prefixed by >>):
 
-                        Geert
+   kernel/module/main.c: In function 'do_init_module':
+   kernel/module/main.c:2627:12: error: invalid storage class for function 'may_init_module'
+    static int may_init_module(void)
+               ^~~~~~~~~~~~~~~
+   kernel/module/main.c:2636:13: error: invalid storage class for function 'finished_loading'
+    static bool finished_loading(const char *name)
+                ^~~~~~~~~~~~~~~~
+   kernel/module/main.c:2657:12: error: invalid storage class for function 'module_patient_check_exists'
+    static int module_patient_check_exists(const char *name,
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/module/main.c:2701:12: error: invalid storage class for function 'add_unformed_module'
+    static int add_unformed_module(struct module *mod)
+               ^~~~~~~~~~~~~~~~~~~
+   kernel/module/main.c:2722:12: error: invalid storage class for function 'complete_formation'
+    static int complete_formation(struct module *mod, struct load_info *info)
+               ^~~~~~~~~~~~~~~~~~
+   kernel/module/main.c:2755:12: error: invalid storage class for function 'prepare_coming_module'
+    static int prepare_coming_module(struct module *mod)
+               ^~~~~~~~~~~~~~~~~~~~~
+   kernel/module/main.c:2773:12: error: invalid storage class for function 'unknown_module_param_cb'
+    static int unknown_module_param_cb(char *param, char *val, const char *modname,
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/module/main.c:2793:12: error: invalid storage class for function 'early_mod_check'
+    static int early_mod_check(struct load_info *info, int flags)
+               ^~~~~~~~~~~~~~~
+   kernel/module/main.c:2829:12: error: invalid storage class for function 'load_module'
+    static int load_module(struct load_info *info, const char __user *uargs,
+               ^~~~~~~~~~~
+>> kernel/module/main.c:3039:1: warning: 'alias' attribute ignored [-Wattributes]
+    SYSCALL_DEFINE3(init_module, void __user *, umod,
+    ^~~~~~~~~~~~~~~
+   In file included from kernel/module/main.c:26:0:
+   include/linux/syscalls.h:247:21: error: invalid storage class for function '__do_sys_init_module'
+     static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__));\
+                        ^
+   include/linux/syscalls.h:230:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3039:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    SYSCALL_DEFINE3(init_module, void __user *, umod,
+    ^~~~~~~~~~~~~~~
+   include/linux/syscalls.h:249:18: error: static declaration of '__se_sys_init_module' follows non-static declaration
+     asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__)) \
+                     ^
+   include/linux/syscalls.h:230:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3039:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    SYSCALL_DEFINE3(init_module, void __user *, umod,
+    ^~~~~~~~~~~~~~~
+   include/linux/syscalls.h:248:18: note: previous declaration of '__se_sys_init_module' was here
+     asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__)); \
+                     ^
+   include/linux/syscalls.h:230:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3039:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    SYSCALL_DEFINE3(init_module, void __user *, umod,
+    ^~~~~~~~~~~~~~~
+   kernel/module/main.c: In function '__se_sys_init_module':
+   include/linux/syscalls.h:251:14: error: implicit declaration of function '__do_sys_init_module'; did you mean '__se_sys_init_module'? [-Werror=implicit-function-declaration]
+      long ret = __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS__));\
+                 ^
+   include/linux/syscalls.h:230:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3039:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    SYSCALL_DEFINE3(init_module, void __user *, umod,
+    ^~~~~~~~~~~~~~~
+   kernel/module/main.c: In function 'do_init_module':
+   include/linux/syscalls.h:257:21: error: invalid storage class for function '__do_sys_init_module'
+     static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))
+                        ^
+   include/linux/syscalls.h:230:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3039:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    SYSCALL_DEFINE3(init_module, void __user *, umod,
+    ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3073:13: error: invalid storage class for function 'idempotent'
+    static bool idempotent(struct idempotent *u, const void *cookie)
+                ^~~~~~~~~~
+   kernel/module/main.c:3104:12: error: invalid storage class for function 'idempotent_complete'
+    static int idempotent_complete(struct idempotent *u, int ret)
+               ^~~~~~~~~~~~~~~~~~~
+   kernel/module/main.c:3124:12: error: invalid storage class for function 'init_module_from_file'
+    static int init_module_from_file(struct file *f, const char __user * uargs, int flags)
+               ^~~~~~~~~~~~~~~~~~~~~
+   kernel/module/main.c:3152:12: error: invalid storage class for function 'idempotent_init_module'
+    static int idempotent_init_module(struct file *f, const char __user * uargs, int flags)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/module/main.c:3170:1: warning: 'alias' attribute ignored [-Wattributes]
+    SYSCALL_DEFINE3(finit_module, int, fd, const char __user *, uargs, int, flags)
+    ^~~~~~~~~~~~~~~
+   In file included from kernel/module/main.c:26:0:
+   include/linux/syscalls.h:247:21: error: invalid storage class for function '__do_sys_finit_module'
+     static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__));\
+                        ^
+   include/linux/syscalls.h:230:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   kernel/module/main.c:3170:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    SYSCALL_DEFINE3(finit_module, int, fd, const char __user *, uargs, int, flags)
+    ^~~~~~~~~~~~~~~
+   include/linux/syscalls.h:249:18: error: static declaration of '__se_sys_finit_module' follows non-static declaration
+     asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__)) \
+                     ^
+   include/linux/syscalls.h:230:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+vim +/alias +3039 kernel/module/main.c
+
+b99b87f70c7785 kernel/module.c      Peter Oberparleiter 2009-06-17  3038  
+17da2bd90abf42 kernel/module.c      Heiko Carstens      2009-01-14 @3039  SYSCALL_DEFINE3(init_module, void __user *, umod,
+17da2bd90abf42 kernel/module.c      Heiko Carstens      2009-01-14  3040  		unsigned long, len, const char __user *, uargs)
+^1da177e4c3f41 kernel/module.c      Linus Torvalds      2005-04-16  3041  {
+34e1169d996ab1 kernel/module.c      Kees Cook           2012-10-16  3042  	int err;
+34e1169d996ab1 kernel/module.c      Kees Cook           2012-10-16  3043  	struct load_info info = { };
+^1da177e4c3f41 kernel/module.c      Linus Torvalds      2005-04-16  3044  
+34e1169d996ab1 kernel/module.c      Kees Cook           2012-10-16  3045  	err = may_init_module();
+34e1169d996ab1 kernel/module.c      Kees Cook           2012-10-16  3046  	if (err)
+34e1169d996ab1 kernel/module.c      Kees Cook           2012-10-16  3047  		return err;
+^1da177e4c3f41 kernel/module.c      Linus Torvalds      2005-04-16  3048  
+34e1169d996ab1 kernel/module.c      Kees Cook           2012-10-16  3049  	pr_debug("init_module: umod=%p, len=%lu, uargs=%p\n",
+34e1169d996ab1 kernel/module.c      Kees Cook           2012-10-16  3050  	       umod, len, uargs);
+^1da177e4c3f41 kernel/module.c      Linus Torvalds      2005-04-16  3051  
+34e1169d996ab1 kernel/module.c      Kees Cook           2012-10-16  3052  	err = copy_module_from_user(umod, len, &info);
+df3e764d8e5cd4 kernel/module/main.c Luis Chamberlain    2023-03-28  3053  	if (err) {
+df3e764d8e5cd4 kernel/module/main.c Luis Chamberlain    2023-03-28  3054  		mod_stat_inc(&failed_kreads);
+df3e764d8e5cd4 kernel/module/main.c Luis Chamberlain    2023-03-28  3055  		mod_stat_add_long(len, &invalid_kread_bytes);
+34e1169d996ab1 kernel/module.c      Kees Cook           2012-10-16  3056  		return err;
+df3e764d8e5cd4 kernel/module/main.c Luis Chamberlain    2023-03-28  3057  	}
+^1da177e4c3f41 kernel/module.c      Linus Torvalds      2005-04-16  3058  
+2f3238aebedb24 kernel/module.c      Rusty Russell       2012-10-22  3059  	return load_module(&info, uargs, 0);
+e24e2e64c468c8 kernel/module.c      Alexey Dobriyan     2008-03-10  3060  }
+94462ad3b14739 kernel/module.c      Steven Rostedt      2010-11-29  3061  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
