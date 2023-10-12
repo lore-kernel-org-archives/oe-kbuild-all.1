@@ -1,101 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A27F17F5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 14:55:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1F5249F0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 14:55:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WV55SCMX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gGZw0KbY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697122518; x=1728658518;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4z4/63jzgJkGuRnSYRmo4elMG8TZBahQc/1WtNMEHbU=;
-  b=WV55SCMX8Nt+NogcSLJ19jj9oi7xRTmcc4er+o1/t0XT8yo8FXZ2f50L
-   yoFFH3jA/Z56kg6dT3EswLd5o8MfjqSMtmiOQdXQcdRAI1CHoYEZy0daf
-   9iO0ntBJg7Gh4Va/qRUIPeY1VtK1DcPj1S9amXiyqMsOqFLa7eKyUFC5F
-   KRWyPEYqjsVWftlBfOP07Nc4bVmKh2UKBjJ986k9KvQGKnZfnDpxzyonU
-   UOppNtMkY/TSEbZ1eyjRMIjzeNcWhPSrNDTIl4da5s32OxM0fHGyXgCdr
-   cQtg/i+GtpVl1yvmfr+TMULrKUhsMOR30oYSruj5x0cwNph/w6L1llW6d
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="375298770"
+  t=1697122520; x=1728658520;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=D6Z/7OuH6eEWJy7x6c15xSMxTQCda48ZaYiTnzVyKnM=;
+  b=gGZw0KbYWE0b3ryOcHgQ+YwGDy7h3Ov/364+K1T/TUuRG32TN+6Uqi3V
+   qD67OsUkw22rxkZQ6xtHE2KCjOBGlQF4RMn8dI0gu0EGqZxOKOi+12BQw
+   cJjF8m7Dli86EnH0ODS6XZbFDLrYycgLSTbdKes0Vky5xoq7E0tX+PVqz
+   Bb1XOZ0Caeumul+V+bfYG1M2urXzOLIqx6y7B9++rCnlxQUB1NMk2ETml
+   d/M2SKCD8Nl8QPyMyYqw3y1+vAXbKRLNa289hifJl6yBWhFOycsaSj/sO
+   ZX4TioUA9T0A16wrc3KLoKgsUEpLC1jkhXDx/Gk7W6zu7H2V6EoVx6woW
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="387786765"
 X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="375298770"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 07:55:17 -0700
+   d="scan'208";a="387786765"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 07:55:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="878140341"
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="898145277"
 X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="878140341"
+   d="scan'208";a="898145277"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 12 Oct 2023 07:55:16 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 12 Oct 2023 07:53:27 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqx5l-0003XV-1O;
+	id 1qqx5l-0003XT-1J;
 	Thu, 12 Oct 2023 14:55:13 +0000
-Date: Thu, 12 Oct 2023 22:54:36 +0800
+Date: Thu, 12 Oct 2023 22:54:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-2.1.x-imx 3816/15768]
- drivers/spi/spi-nxp-fspi.c:1340:26: error: 'nxp_fspi_pm_ops' undeclared here
- (not in a function); did you mean 'nxp_fspi_mem_ops'?
-Message-ID: <202310122252.6QTRzMH4-lkp@intel.com>
+To: Li zeming <zeming@nfschina.com>, tj@kernel.org, jiangshanlai@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Li zeming <zeming@nfschina.com>
+Subject: Re: [PATCH] kernel/workqueue: =?utf-8?Q?Re?=
+ =?utf-8?B?bW92ZSB1bm5lY2Vzc2FyeSDigJgw4oCZ?= values from hash
+Message-ID: <202310122250.6u2Qc26r-lkp@intel.com>
+References: <20230829181755.3204-1-zeming@nfschina.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230829181755.3204-1-zeming@nfschina.com>
 
-Hi Haibo,
+Hi Li,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
-head:   3f41fbe42851375d3d5996e4bf9e9809e6c79517
-commit: e0b338dc8b0a33b70718899aa798738d157d0259 [3816/15768] spi: spi-nxp-fspi: enable runtime pm for fspi
-config: loongarch-randconfig-002-20231012 (https://download.01.org/0day-ci/archive/20231012/202310122252.6QTRzMH4-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231012/202310122252.6QTRzMH4-lkp@intel.com/reproduce)
+[auto build test WARNING on tj-wq/for-next]
+[also build test WARNING on linus/master v6.6-rc5 next-20231012]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Li-zeming/kernel-workqueue-Remove-unnecessary-0-values-from-hash/20230828-095048
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-next
+patch link:    https://lore.kernel.org/r/20230829181755.3204-1-zeming%40nfschina.com
+patch subject: [PATCH] kernel/workqueue: Remove unnecessary ‘0’ values from hash
+config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20231012/202310122250.6u2Qc26r-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231012/202310122250.6u2Qc26r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310122252.6QTRzMH4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310122250.6u2Qc26r-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/spi/spi-nxp-fspi.c:1340:26: error: 'nxp_fspi_pm_ops' undeclared here (not in a function); did you mean 'nxp_fspi_mem_ops'?
-    1340 |                 .pm =   &nxp_fspi_pm_ops,
-         |                          ^~~~~~~~~~~~~~~
-         |                          nxp_fspi_mem_ops
+   kernel/workqueue.c: In function 'wqattrs_hash':
+>> kernel/workqueue.c:3777:7: warning: 'hash' is used uninitialized in this function [-Wuninitialized]
+     hash = jhash_1word(attrs->nice, hash);
+     ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1340 drivers/spi/spi-nxp-fspi.c
+vim +/hash +3777 kernel/workqueue.c
 
-55ab8487e01d18 kuldip dwivedi      2020-09-11  1334  
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1335  static struct platform_driver nxp_fspi_driver = {
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1336  	.driver = {
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1337  		.name	= "nxp-fspi",
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1338  		.of_match_table = nxp_fspi_dt_ids,
-55ab8487e01d18 kuldip dwivedi      2020-09-11  1339  		.acpi_match_table = ACPI_PTR(nxp_fspi_acpi_ids),
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15 @1340  		.pm =   &nxp_fspi_pm_ops,
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1341  	},
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1342  	.probe          = nxp_fspi_probe,
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1343  	.remove		= nxp_fspi_remove,
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1344  };
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1345  module_platform_driver(nxp_fspi_driver);
-a5356aef6a907c Yogesh Narayan Gaur 2019-01-15  1346  
-
-:::::: The code at line 1340 was first introduced by commit
-:::::: a5356aef6a907c2e2aed0caaa2b88b6021394471 spi: spi-mem: Add driver for NXP FlexSPI controller
-
-:::::: TO: Yogesh Narayan Gaur <yogeshnarayan.gaur@nxp.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+5de7a03cac1476 Tejun Heo           2023-08-07  3771  
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3772  /* hash value of the content of @attr */
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3773  static u32 wqattrs_hash(const struct workqueue_attrs *attrs)
+226223ab3c4118 Tejun Heo           2013-03-12  3774  {
+dd46423224bbdf Li zeming           2023-08-30  3775  	u32 hash;
+226223ab3c4118 Tejun Heo           2013-03-12  3776  
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02 @3777  	hash = jhash_1word(attrs->nice, hash);
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3778  	hash = jhash(cpumask_bits(attrs->cpumask),
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3779  		     BITS_TO_LONGS(nr_cpumask_bits) * sizeof(long), hash);
+9546b29e4a6ad6 Tejun Heo           2023-08-07  3780  	hash = jhash(cpumask_bits(attrs->__pod_cpumask),
+9546b29e4a6ad6 Tejun Heo           2023-08-07  3781  		     BITS_TO_LONGS(nr_cpumask_bits) * sizeof(long), hash);
+8639ecebc9b179 Tejun Heo           2023-08-07  3782  	hash = jhash_1word(attrs->affn_strict, hash);
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3783  	return hash;
+d55262c4d16475 Tejun Heo           2013-04-01  3784  }
+226223ab3c4118 Tejun Heo           2013-03-12  3785  
 
 -- 
 0-DAY CI Kernel Test Service
