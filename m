@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B164F658
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 01:49:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 341DB7E4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 02:11:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FyqMFtN1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PcOKhYjN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697075341; x=1728611341;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AnFM0Nt6QjVFLUDkrOwK6SIkr+ZKi9hX22kaiItO7K4=;
-  b=FyqMFtN1CJYULNJTn14UDutranttLEnWELEu4ckLN8CB6qOo8LgdJqOe
-   qFPWZ9OrOnlEZ5ce95xXTb840eGdNF3mwl3k2hRh6jL5AIQxI4AwkoBC1
-   bYyj651F33XaLraZv8ttohovC5orf9uzRCvdG3gxJwbA9lvLJkODTHqvR
-   oSi/PXi7VbZyOnIH7wZSpGBPsoOmm3CuI80y10nq6G8hQGeqfFIPKOaf4
-   ongShx3k9Q1pZMIdrRh43SgfDBnhfYz4s+nTgxwMeOZKXhjh0pNqDbhxp
-   by74J9+24ekfXVkmUcGh2L71nA7a7vkp0vFI+a0H9DMpMQQR2Dvxfr2qP
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="369880186"
+  t=1697076670; x=1728612670;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8vZCtKhzhum2O0NZ6DZnSLmbJKF0cnOrOudHn3DtrGc=;
+  b=PcOKhYjN+IuxrffWP2ktngs5nm8HzqY6XZAJEZGGTwXfBlTkXwWfoMR1
+   Gt7XdP8p10HD0WX+OHPGU+O+4uSDkkzvTEBdIlsPGHR3soEcph18ThRo8
+   Zj0YcoPLJi3fv/A5vQ5x2HE/l6WNISZMAMjIwdvuZ84UnyXQqPiVZjye2
+   X9/Fd/Pc7mn45ZCuvtod/9+s7a0FyOYDCO9T21q3VbjGMgPq3fU24L1nk
+   tqwLiSq9L7IS4KaTbHevsuExwI2MAHYBBLTRn+YSz6Bn9aOYCOSgK0wdg
+   nxA+0JyYByD6oo5ividNAYIlardxSPU49O5xFBjSwkBW01h5iNHPR2NdE
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="365087334"
 X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
-   d="scan'208";a="369880186"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 18:49:00 -0700
+   d="scan'208";a="365087334"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 19:11:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="870373069"
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="754061898"
 X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
-   d="scan'208";a="870373069"
+   d="scan'208";a="754061898"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 11 Oct 2023 18:48:59 -0700
+  by orsmga002.jf.intel.com with ESMTP; 11 Oct 2023 19:11:07 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqkor-000301-1U;
-	Thu, 12 Oct 2023 01:48:57 +0000
-Date: Thu, 12 Oct 2023 09:48:53 +0800
+	id 1qqlAH-00030n-1q;
+	Thu, 12 Oct 2023 02:11:05 +0000
+Date: Thu, 12 Oct 2023 10:10:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 2/3] mm/memory-tiers: Introduce sysfs for tier
- interleave weights
-Message-ID: <202310120945.5jljtMTt-lkp@intel.com>
-References: <20231009204259.875232-3-gregory.price@memverge.com>
+Subject: [android-common:android13-5.15 2449/24020]
+ kernel/tracepoint.c:662:27: sparse: sparse: incorrect type in assignment
+ (different address spaces)
+Message-ID: <202310121015.VkU9vjsH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,54 +50,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231009204259.875232-3-gregory.price@memverge.com>
 
-Hi Gregory,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on cxl/next cxl/pending v6.6-rc5]
-[cannot apply to akpm-mm/mm-everything next-20231011]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-memory-tiers-change-mutex-to-rw-semaphore/20231012-044511
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231009204259.875232-3-gregory.price%40memverge.com
-patch subject: [RFC PATCH v2 2/3] mm/memory-tiers: Introduce sysfs for tier interleave weights
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231012/202310120945.5jljtMTt-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231012/202310120945.5jljtMTt-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   082a5bf28b5fd8c6fe51fb60dddabf7d617b7914
+commit: e0cfc5fd8c9358c2d85fa65167794c2657f7656e [2449/24020] ANDROID: vendor_hooks: Allow multiple attachments to restricted hooks
+config: i386-randconfig-061-20230915 (https://download.01.org/0day-ci/archive/20231012/202310121015.VkU9vjsH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231012/202310121015.VkU9vjsH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310120945.5jljtMTt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310121015.VkU9vjsH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/tracepoint.c:662:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func [noderef] __rcu *funcs @@     got void * @@
+   kernel/tracepoint.c:662:27: sparse:     expected struct tracepoint_func [noderef] __rcu *funcs
+   kernel/tracepoint.c:662:27: sparse:     got void *
+>> kernel/tracepoint.c:671:25: sparse: sparse: cast removes address space '__rcu' of expression
+>> kernel/tracepoint.c:693:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct tracepoint_func *tp_funcs @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   kernel/tracepoint.c:693:38: sparse:     expected struct tracepoint_func *tp_funcs
+   kernel/tracepoint.c:693:38: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+>> kernel/tracepoint.c:668:31: sparse: sparse: dereference of noderef expression
+   kernel/tracepoint.c:670:42: sparse: sparse: dereference of noderef expression
 
-   In file included from mm/vmscan.c:46:
->> include/linux/memory-tiers.h:106:15: warning: no previous prototype for 'memtier_get_node_weight' [-Wmissing-prototypes]
-     106 | unsigned char memtier_get_node_weight(int from_node, int target_node,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/memory-tiers.h:112:14: warning: no previous prototype for 'memtier_get_total_weight' [-Wmissing-prototypes]
-     112 | unsigned int memtier_get_total_weight(int from_node, nodemask_t *pol_nodes)
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~
+vim +662 kernel/tracepoint.c
 
-
-vim +/memtier_get_node_weight +106 include/linux/memory-tiers.h
-
-   105	
- > 106	unsigned char memtier_get_node_weight(int from_node, int target_node,
-   107					      nodemask_t *pol_nodes)
-   108	{
-   109		return 0;
-   110	}
-   111	
- > 112	unsigned int memtier_get_total_weight(int from_node, nodemask_t *pol_nodes)
+   654	
+   655	#define ANDROID_RVH_NR_PROBES_MAX	2
+   656	static int rvh_func_add(struct tracepoint *tp, struct tracepoint_func *func)
+   657	{
+   658		int i;
+   659	
+   660		if (!static_key_enabled(&tp->key)) {
+   661			/* '+ 1' for the last NULL element */
+ > 662			tp->funcs = rvh_zalloc_funcs(ANDROID_RVH_NR_PROBES_MAX + 1);
+   663			if (!tp->funcs)
+   664				return ENOMEM;
+   665		}
+   666	
+   667		for (i = 0; i < ANDROID_RVH_NR_PROBES_MAX; i++) {
+ > 668			if (!tp->funcs[i].func) {
+   669				if (!static_key_enabled(&tp->key))
+   670					tp->funcs[i].data = func->data;
+ > 671				WRITE_ONCE(tp->funcs[i].func, func->func);
+   672	
+   673				return 0;
+   674			}
+   675		}
+   676	
+   677		return -EBUSY;
+   678	}
+   679	
+   680	static int android_rvh_add_func(struct tracepoint *tp, struct tracepoint_func *func)
+   681	{
+   682		int ret;
+   683	
+   684		if (tp->regfunc && !static_key_enabled(&tp->key)) {
+   685			ret = tp->regfunc();
+   686			if (ret < 0)
+   687				return ret;
+   688		}
+   689	
+   690		ret = rvh_func_add(tp, func);
+   691		if (ret)
+   692			return ret;
+ > 693		tracepoint_update_call(tp, tp->funcs, false);
+   694		static_key_enable(&tp->key);
+   695	
+   696		return 0;
+   697	}
+   698	
 
 -- 
 0-DAY CI Kernel Test Service
