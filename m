@@ -1,49 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E943F4CC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 21:57:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0743A405E3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 22:30:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZW2SedIg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BHcgpj4b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697147832; x=1728683832;
+  t=1697149834; x=1728685834;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1QEwFD7GH7lNa53xq9p8FhQpWCyKd3yYb+s/qeNhpVA=;
-  b=ZW2SedIgYytgHx4Ae2ntyZA3WD8MfQA1Bfa0yfWuWWlR58m3YD/KHz28
-   GrLMhE3w6XHaqgSfBrzpjzwkc4dl8wOwl+niJZH13tWvaShIEYFVRvr3g
-   x6cyPncUIoLOM7sjUs389oQ64A9A30c1qrIirO+M8EbhtZioPQ+VOICUn
-   L9/hafvYULwvprHFIawUBhJ6b4xI0uI+uyacoA8kXbZEwkSANBWzgcdri
-   ayNFZSC/L7BZUwch1fS3yGxDF0dcR8eTzJVzRv9GmCoIeMSiM34NkOjdV
-   UBxW2OK6+F08O6VguXltX8+Qcd2M6FbH4lEuCUXhqf0yoYoMWzyZjr2yU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="375401357"
+  bh=64fPfIBHHZe01c5/xq2nBP251D2kcsLLAxbsbVRSFBM=;
+  b=BHcgpj4breTbX5WCXDNxkrEO08AHsGxhLMKvKMyvlR13UxQrfzXtPWgX
+   Ny95RfJaVH8amu/EPrDk7z1/AAWNc6Hyv+e8kjZ1foATkSyM+DWiQaCt7
+   f48LRCuKy1Kxfi8RAH0EbAzryVoMH0x/AG/bmmhNImjx9MY7KpW9snq4o
+   1jSnzO50EgqIhGn1ge3N7Aw41T9nT6/Mhl6XwyxRo+8oCav/xVW6lW9KQ
+   JY4Qo0JFZnaNU6cnk0LfGqjuUu3jMXPMhGQxN9OIlVCbzG8TVFo6SYA3E
+   crkoP+zueWLf24SkHVMa2ETaDkLz4F9DoKqTN+tz7gsfpequsaxXwh9AL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="387906473"
 X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="375401357"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 14:56:54 -0700
+   d="scan'208";a="387906473"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 15:30:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="704352223"
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="789595079"
 X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="704352223"
+   d="scan'208";a="789595079"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 12 Oct 2023 14:56:52 -0700
+  by orsmga001.jf.intel.com with ESMTP; 12 Oct 2023 15:30:32 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qr3fm-0003vW-1h;
-	Thu, 12 Oct 2023 21:56:50 +0000
-Date: Fri, 13 Oct 2023 05:56:17 +0800
+	id 1qr4CL-0003xU-35;
+	Thu, 12 Oct 2023 22:30:29 +0000
+Date: Fri, 13 Oct 2023 06:29:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qingqing Zhuo <Qingqing.Zhuo@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Deucher <alexander.deucher@amd.com>
-Subject: [linux-next:master 448/11653]
- drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:292
- dcn35_update_clocks() warn: inconsistent indenting
-Message-ID: <202310130514.sHgTzh5P-lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-misc:dma-coherent-deps 2/13]
+ drivers/cache/ax45mp_cache.c:14:10: fatal error: asm/dma-noncoherent.h: No
+ such file or directory
+Message-ID: <202310130639.Ys1gH7dV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,165 +51,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f9a6bea131849702d591d18d5c8b8a0eda6f62b3
-commit: 8774029f76b9806f2f3586bb0502408076767fd5 [448/11653] drm/amd/display: Add DCN35 CLK_MGR
-config: i386-randconfig-141-20230905 (https://download.01.org/0day-ci/archive/20231013/202310130514.sHgTzh5P-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231013/202310130514.sHgTzh5P-lkp@intel.com/reproduce)
+Hi Christoph,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   git://git.infradead.org/users/hch/misc.git dma-coherent-deps
+head:   7f9c22ed4dd0f13a1a4e66779cf5affb54a8119f
+commit: c11dff3cdd0baa0c7801106b0ec477ccea3b16a4 [2/13] riscv: RISCV_NONSTANDARD_CACHE_OPS must not depend on RISCV_DMA_NONCOHERENT
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231013/202310130639.Ys1gH7dV-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231013/202310130639.Ys1gH7dV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310130514.sHgTzh5P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310130639.Ys1gH7dV-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:292 dcn35_update_clocks() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:919 dcn35_clk_mgr_construct() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:980 dcn35_clk_mgr_construct() warn: variable dereferenced before check 'ctx->dc_bios' (see line 913)
-drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:980 dcn35_clk_mgr_construct() warn: variable dereferenced before check 'ctx->dc_bios->integrated_info' (see line 913)
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:921 dcn35_clk_mgr_construct() warn: inconsistent indenting
+>> drivers/cache/ax45mp_cache.c:14:10: fatal error: asm/dma-noncoherent.h: No such file or directory
+      14 | #include <asm/dma-noncoherent.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
-vim +292 drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
 
-   213	
-   214	void dcn35_update_clocks(struct clk_mgr *clk_mgr_base,
-   215				struct dc_state *context,
-   216				bool safe_to_lower)
-   217	{
-   218		union dmub_rb_cmd cmd;
-   219		struct clk_mgr_internal *clk_mgr = TO_CLK_MGR_INTERNAL(clk_mgr_base);
-   220		struct dc_clocks *new_clocks = &context->bw_ctx.bw.dcn.clk;
-   221		struct dc *dc = clk_mgr_base->ctx->dc;
-   222		int display_count;
-   223		bool update_dppclk = false;
-   224		bool update_dispclk = false;
-   225		bool dpp_clock_lowered = false;
-   226	
-   227		if (dc->work_arounds.skip_clock_update)
-   228			return;
-   229	
-   230		/*
-   231		 * if it is safe to lower, but we are already in the lower state, we don't have to do anything
-   232		 * also if safe to lower is false, we just go in the higher state
-   233		 */
-   234		if (safe_to_lower) {
-   235			if (new_clocks->zstate_support != DCN_ZSTATE_SUPPORT_DISALLOW &&
-   236					new_clocks->zstate_support != clk_mgr_base->clks.zstate_support) {
-   237				dcn35_smu_set_zstate_support(clk_mgr, new_clocks->zstate_support);
-   238				dm_helpers_enable_periodic_detection(clk_mgr_base->ctx, true);
-   239				clk_mgr_base->clks.zstate_support = new_clocks->zstate_support;
-   240			}
-   241	
-   242			if (clk_mgr_base->clks.dtbclk_en && !new_clocks->dtbclk_en) {
-   243				dcn35_smu_set_dtbclk(clk_mgr, false);
-   244				clk_mgr_base->clks.dtbclk_en = new_clocks->dtbclk_en;
-   245			}
-   246			/* check that we're not already in lower */
-   247			if (clk_mgr_base->clks.pwr_state != DCN_PWR_STATE_LOW_POWER) {
-   248				display_count = dcn35_get_active_display_cnt_wa(dc, context);
-   249				/* if we can go lower, go lower */
-   250				if (display_count == 0)
-   251					clk_mgr_base->clks.pwr_state = DCN_PWR_STATE_LOW_POWER;
-   252			}
-   253		} else {
-   254			if (new_clocks->zstate_support == DCN_ZSTATE_SUPPORT_DISALLOW &&
-   255					new_clocks->zstate_support != clk_mgr_base->clks.zstate_support) {
-   256				dcn35_smu_set_zstate_support(clk_mgr, DCN_ZSTATE_SUPPORT_DISALLOW);
-   257				dm_helpers_enable_periodic_detection(clk_mgr_base->ctx, false);
-   258				clk_mgr_base->clks.zstate_support = new_clocks->zstate_support;
-   259			}
-   260	
-   261			if (!clk_mgr_base->clks.dtbclk_en && new_clocks->dtbclk_en) {
-   262				dcn35_smu_set_dtbclk(clk_mgr, true);
-   263				dcn35_update_clocks_update_dtb_dto(clk_mgr, context, clk_mgr_base->clks.ref_dtbclk_khz);
-   264				clk_mgr_base->clks.dtbclk_en = new_clocks->dtbclk_en;
-   265			}
-   266	
-   267			/* check that we're not already in D0 */
-   268			if (clk_mgr_base->clks.pwr_state != DCN_PWR_STATE_MISSION_MODE) {
-   269				union display_idle_optimization_u idle_info = { 0 };
-   270	
-   271				dcn35_smu_set_display_idle_optimization(clk_mgr, idle_info.data);
-   272				/* update power state */
-   273				clk_mgr_base->clks.pwr_state = DCN_PWR_STATE_MISSION_MODE;
-   274			}
-   275		}
-   276		if (dc->debug.force_min_dcfclk_mhz > 0)
-   277			new_clocks->dcfclk_khz = (new_clocks->dcfclk_khz > (dc->debug.force_min_dcfclk_mhz * 1000)) ?
-   278					new_clocks->dcfclk_khz : (dc->debug.force_min_dcfclk_mhz * 1000);
-   279	
-   280		if (should_set_clock(safe_to_lower, new_clocks->dcfclk_khz, clk_mgr_base->clks.dcfclk_khz)) {
-   281			clk_mgr_base->clks.dcfclk_khz = new_clocks->dcfclk_khz;
-   282			dcn35_smu_set_hard_min_dcfclk(clk_mgr, clk_mgr_base->clks.dcfclk_khz);
-   283		}
-   284	
-   285		if (should_set_clock(safe_to_lower,
-   286				new_clocks->dcfclk_deep_sleep_khz, clk_mgr_base->clks.dcfclk_deep_sleep_khz)) {
-   287			clk_mgr_base->clks.dcfclk_deep_sleep_khz = new_clocks->dcfclk_deep_sleep_khz;
-   288			dcn35_smu_set_min_deep_sleep_dcfclk(clk_mgr, clk_mgr_base->clks.dcfclk_deep_sleep_khz);
-   289		}
-   290	
-   291		// workaround: Limit dppclk to 100Mhz to avoid lower eDP panel switch to plus 4K monitor underflow.
- > 292			if (new_clocks->dppclk_khz < 100000)
-   293				new_clocks->dppclk_khz = 100000;
-   294	
-   295		if (should_set_clock(safe_to_lower, new_clocks->dppclk_khz, clk_mgr->base.clks.dppclk_khz)) {
-   296			if (clk_mgr->base.clks.dppclk_khz > new_clocks->dppclk_khz)
-   297				dpp_clock_lowered = true;
-   298			clk_mgr_base->clks.dppclk_khz = new_clocks->dppclk_khz;
-   299			update_dppclk = true;
-   300		}
-   301	
-   302		if (should_set_clock(safe_to_lower, new_clocks->dispclk_khz, clk_mgr_base->clks.dispclk_khz)) {
-   303			dcn35_disable_otg_wa(clk_mgr_base, context, true);
-   304	
-   305			clk_mgr_base->clks.dispclk_khz = new_clocks->dispclk_khz;
-   306			dcn35_smu_set_dispclk(clk_mgr, clk_mgr_base->clks.dispclk_khz);
-   307			dcn35_disable_otg_wa(clk_mgr_base, context, false);
-   308	
-   309			update_dispclk = true;
-   310		}
-   311	
-   312		if (!new_clocks->dtbclk_en) {
-   313			new_clocks->ref_dtbclk_khz = 600000;
-   314		}
-   315	
-   316		/* clock limits are received with MHz precision, divide by 1000 to prevent setting clocks at every call */
-   317		if (!dc->debug.disable_dtb_ref_clk_switch &&
-   318				should_set_clock(safe_to_lower, new_clocks->ref_dtbclk_khz / 1000, clk_mgr_base->clks.ref_dtbclk_khz / 1000)) {
-   319			/* DCCG requires KHz precision for DTBCLK */
-   320			dcn35_smu_set_dtbclk(clk_mgr, true);
-   321	
-   322			dcn35_update_clocks_update_dtb_dto(clk_mgr, context, clk_mgr_base->clks.ref_dtbclk_khz);
-   323		}
-   324	
-   325		if (dpp_clock_lowered) {
-   326			// increase per DPP DTO before lowering global dppclk
-   327			dcn35_update_clocks_update_dpp_dto(clk_mgr, context, safe_to_lower);
-   328			dcn35_smu_set_dppclk(clk_mgr, clk_mgr_base->clks.dppclk_khz);
-   329		} else {
-   330			// increase global DPPCLK before lowering per DPP DTO
-   331			if (update_dppclk || update_dispclk)
-   332				dcn35_smu_set_dppclk(clk_mgr, clk_mgr_base->clks.dppclk_khz);
-   333			dcn35_update_clocks_update_dpp_dto(clk_mgr, context, safe_to_lower);
-   334		}
-   335	
-   336		// notify DMCUB of latest clocks
-   337		memset(&cmd, 0, sizeof(cmd));
-   338		cmd.notify_clocks.header.type = DMUB_CMD__CLK_MGR;
-   339		cmd.notify_clocks.header.sub_type = DMUB_CMD__CLK_MGR_NOTIFY_CLOCKS;
-   340		cmd.notify_clocks.clocks.dcfclk_khz = clk_mgr_base->clks.dcfclk_khz;
-   341		cmd.notify_clocks.clocks.dcfclk_deep_sleep_khz =
-   342			clk_mgr_base->clks.dcfclk_deep_sleep_khz;
-   343		cmd.notify_clocks.clocks.dispclk_khz = clk_mgr_base->clks.dispclk_khz;
-   344		cmd.notify_clocks.clocks.dppclk_khz = clk_mgr_base->clks.dppclk_khz;
-   345	
-   346		dm_execute_dmub_cmd(dc->ctx, &cmd, DM_DMUB_WAIT_TYPE_WAIT);
-   347	}
-   348	
+vim +14 drivers/cache/ax45mp_cache.c
+
+d34599bcd2e4e9 Lad Prabhakar 2023-08-18  13  
+d34599bcd2e4e9 Lad Prabhakar 2023-08-18 @14  #include <asm/dma-noncoherent.h>
+d34599bcd2e4e9 Lad Prabhakar 2023-08-18  15  
+
+:::::: The code at line 14 was first introduced by commit
+:::::: d34599bcd2e4e93a28d5904bf94bc7dafc511f04 cache: Add L2 cache management for Andes AX45MP RISC-V core
+
+:::::: TO: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
