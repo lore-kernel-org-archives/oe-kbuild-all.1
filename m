@@ -1,51 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674FF809
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 06:21:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA22AD305
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 06:26:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G7ACERaT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697091660; x=1728627660;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=J1bZ8+h/DIJAKATih37V0J7o5Z2gXCEV6FgRc+AtIDI=;
-  b=G7ACERaTkwv0tLJo1SwCeUN6+AIOZDtirdHpRZAxagmEqZI4YQ7IJ8E9
-   4oYc036EGTMo5ObWTMRarB4r8ZjZxjOMbCp4CPUDL0Ae9Z/8SsKxJMCJX
-   dFMxYFoVt5xwwVYQy7BrLIJzZckFzXcd2UoWSE/KuFh1cNJL2Q+wfJ8LT
-   MpkLp/40XG81hF2D0f6qaecUELQXm0DVxqb2iT0Ecq0OljzkeZUKrXg1g
-   tlO9cvKed0bbXL9Hdu+vAaQGxoo4B6O1c5jbTFIrsgEy8kyqZjc3HjYzG
-   c+ZdzTdhX7NfbV42UL4q2bkZTaGh8jxvPz0QLw5ls3554kfoLF2EtHd/I
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="415893305"
-X-IronPort-AV: E=Sophos;i="6.03,218,1694761200"; 
-   d="scan'208";a="415893305"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 23:20:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="820014232"
-X-IronPort-AV: E=Sophos;i="6.03,218,1694761200"; 
-   d="scan'208";a="820014232"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 11 Oct 2023 23:20:56 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qqp42-0003GP-1c;
-	Thu, 12 Oct 2023 06:20:54 +0000
-Date: Thu, 12 Oct 2023 14:20:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, quic_ajitpals@quicinc.com,
-	quic_carlv@quicinc.com, quic_pkanojiy@quicinc.com,
-	stanislaw.gruszka@linux.intel.com, ogabbay@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/2] accel/qaic: Add support for periodic timesync
-Message-ID: <202310121429.uVQ0tmmi-lkp@intel.com>
-References: <20231006163210.21319-2-quic_jhugo@quicinc.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FrDhWsI9"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40651a726acso6387765e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Oct 2023 23:26:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697091983; x=1697696783; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vKEUhR0aHZbx7hGKisd7o9a7pG0ffuhwVSY+TfiquOc=;
+        b=FrDhWsI9MCfuXUrZ01gViXyRc1e/5n02DZcTpXXjw4G8Hw3D/KhNIO3HGlBX4dWujh
+         LBv12VgXXcbSwx6c6NiEmPntO+coEWDraNUG4Zaex1AkgUONqzJe/ujVIYSHPDDX1iQQ
+         CA4tKNkovzXibSAJ2f0W5kxdDTXpr3cXff77AZ89UHFUV6/gT1d2uUhZ1dQ7/ValJ+lk
+         IMFMAqorvQZP49UaKHbAhOchHrcYjtBFcM3OAoucR5saEi3jQVLr/4Zborr/As/RXOtG
+         0DNwAfa9hyGXCMzhQUQY+vQyMVTtlzH1blH5lOA7FSScLL80IQh0ixPnJFjOFaAh2xhv
+         kKMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697091983; x=1697696783;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vKEUhR0aHZbx7hGKisd7o9a7pG0ffuhwVSY+TfiquOc=;
+        b=NareMNNERJwdqW8sbvcKuxwczMjnmgtVitqRZwClHk9gQGG9Lt6sDUpFyAi3e3DXOM
+         1qdUXw7ubmEMOoXBCyt2/FtzcTsN03CRzn5ev6nTIAEvol/HGnS1jh15NjnEUlOJrInM
+         vaEBc+NEAspylLPe1aQyMCXhtA2IKdP1F0qfS2WxStKaAWEbQzIlf5h/O3fgtJs15ypr
+         uRZKRlgyubf5Z/zK1SbYNG6nEnmVD3fieijYQ2dfY9G83QsosD2F0C9DfY7CHHvhIWZP
+         ajoU/hP/xlVfEQ5zj3Rf9NTsm8i7FrESTG9l+8PQjL/TQ14GpUMYGhZ+gi30wuUCB9/a
+         lBNA==
+X-Gm-Message-State: AOJu0Yyx1b8wtfEHUCx7eLUq6tmNSvp4VDXJQGXPeJqfO53vd/BPFIr/
+	cXabq09BSfbBuHzZ6fc3tLI9iQ==
+X-Google-Smtp-Source: AGHT+IH2MmVmDPxOt5jV0FsJyhXS3HkCcEFtbp1UlMVpX0UIaDI0IW3dDweTZtSNoJzmqb+HohKIvA==
+X-Received: by 2002:a7b:c419:0:b0:3fe:d630:f568 with SMTP id k25-20020a7bc419000000b003fed630f568mr19914490wmi.39.1697091982515;
+        Wed, 11 Oct 2023 23:26:22 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id s17-20020a1cf211000000b00405623e0186sm20998303wmc.26.2023.10.11.23.26.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Oct 2023 23:26:22 -0700 (PDT)
+Date: Thu, 12 Oct 2023 09:26:19 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Wenjing Liu <wenjing.liu@amd.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Dillon Varone <dillon.varone@amd.com>
+Subject: [linux-next:master 420/11428]
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_hwseq.c:1756
+ dcn20_program_pipe() error: we previously assumed 'pipe_ctx->plane_state'
+ could be null (see line 1719)
+Message-ID: <33b49f99-dd85-4b01-a038-a52b102dd24d@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,82 +59,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231006163210.21319-2-quic_jhugo@quicinc.com>
 
-Hi Jeffrey,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on next-20231011]
-[cannot apply to linus/master v6.6-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeffrey-Hugo/accel-qaic-Add-support-for-periodic-timesync/20231007-003324
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231006163210.21319-2-quic_jhugo%40quicinc.com
-patch subject: [PATCH 1/2] accel/qaic: Add support for periodic timesync
-reproduce: (https://download.01.org/0day-ci/archive/20231012/202310121429.uVQ0tmmi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2933a1156742d8c47550493a77af8e2d81cf3c84
+commit: 15e6b396f5ac259126f2447fcd2279ed5d3dd14f [420/11428] drm/amd/display: update blank state on ODM changes
+config: i386-randconfig-141-20230905 (https://download.01.org/0day-ci/archive/20231012/202310120506.aBio3Ik1-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231012/202310120506.aBio3Ik1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310121429.uVQ0tmmi-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202310120506.aBio3Ik1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_hwseq.c:1756 dcn20_program_pipe() error: we previously assumed 'pipe_ctx->plane_state' could be null (see line 1719)
 
->> Documentation/accel/qaic/aic100.rst:227: WARNING: Unknown target name: "qaic_timesync".
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_hwseq.c:815 dcn20_enable_stream_timing() warn: variable dereferenced before check 'pipe_ctx->stream_res.tg' (see line 722)
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_hwseq.c:2016 dcn20_post_unlock_program_front_end() error: we previously assumed 'hwseq' could be null (see line 2010)
 
-vim +/qaic_timesync +227 Documentation/accel/qaic/aic100.rst
+vim +1756 drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_hwseq.c
 
-   187	
-   188	+----------------+---------+----------+----------------------------------------+
-   189	| Channel name   | IDs     | EEs      | Purpose                                |
-   190	+================+=========+==========+========================================+
-   191	| QAIC_LOOPBACK  | 0 & 1   | AMSS     | Any data sent to the device on this    |
-   192	|                |         |          | channel is sent back to the host.      |
-   193	+----------------+---------+----------+----------------------------------------+
-   194	| QAIC_SAHARA    | 2 & 3   | SBL      | Used by SBL to obtain the runtime      |
-   195	|                |         |          | firmware from the host.                |
-   196	+----------------+---------+----------+----------------------------------------+
-   197	| QAIC_DIAG      | 4 & 5   | AMSS     | Used to communicate with QSM via the   |
-   198	|                |         |          | DIAG protocol.                         |
-   199	+----------------+---------+----------+----------------------------------------+
-   200	| QAIC_SSR       | 6 & 7   | AMSS     | Used to notify the host of subsystem   |
-   201	|                |         |          | restart events, and to offload SSR     |
-   202	|                |         |          | crashdumps.                            |
-   203	+----------------+---------+----------+----------------------------------------+
-   204	| QAIC_QDSS      | 8 & 9   | AMSS     | Used for the Qualcomm Debug Subsystem. |
-   205	+----------------+---------+----------+----------------------------------------+
-   206	| QAIC_CONTROL   | 10 & 11 | AMSS     | Used for the Neural Network Control    |
-   207	|                |         |          | (NNC) protocol. This is the primary    |
-   208	|                |         |          | channel between host and QSM for       |
-   209	|                |         |          | managing workloads.                    |
-   210	+----------------+---------+----------+----------------------------------------+
-   211	| QAIC_LOGGING   | 12 & 13 | SBL      | Used by the SBL to send the bootlog to |
-   212	|                |         |          | the host.                              |
-   213	+----------------+---------+----------+----------------------------------------+
-   214	| QAIC_STATUS    | 14 & 15 | AMSS     | Used to notify the host of Reliability,|
-   215	|                |         |          | Accessibility, Serviceability (RAS)    |
-   216	|                |         |          | events.                                |
-   217	+----------------+---------+----------+----------------------------------------+
-   218	| QAIC_TELEMETRY | 16 & 17 | AMSS     | Used to get/set power/thermal/etc      |
-   219	|                |         |          | attributes.                            |
-   220	+----------------+---------+----------+----------------------------------------+
-   221	| QAIC_DEBUG     | 18 & 19 | AMSS     | Not used.                              |
-   222	+----------------+---------+----------+----------------------------------------+
-   223	| QAIC_TIMESYNC  | 20 & 21 | SBL/AMSS | Used to synchronize timestamps in the  |
-   224	|                |         |          | device side logs with the host time    |
-   225	|                |         |          | source.                                |
-   226	+----------------+---------+----------+----------------------------------------+
- > 227	| QAIC_TIMESYNC_ | 22 & 23 | AMSS     | Used to periodically synchronize       |
-   228	| PERIODIC       |         |          | timestamps in the device side logs with|
-   229	|                |         |          | the host time source.                  |
-   230	+----------------+---------+----------+----------------------------------------+
-   231	
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1706  static void dcn20_program_pipe(
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1707  		struct dc *dc,
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1708  		struct pipe_ctx *pipe_ctx,
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1709  		struct dc_state *context)
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1710  {
+f42ea55be11147 Anthony Koo         2019-11-05  1711  	struct dce_hwseq *hws = dc->hwseq;
+d3dfceb58de5f8 Aurabindo Pillai    2022-02-23  1712  
+15e6b396f5ac25 Wenjing Liu         2023-08-14  1713  	/* Only need to unblank on top pipe */
+15e6b396f5ac25 Wenjing Liu         2023-08-14  1714  	if (resource_is_pipe_type(pipe_ctx, OTG_MASTER)) {
+15e6b396f5ac25 Wenjing Liu         2023-08-14  1715  		if (pipe_ctx->update_flags.bits.enable ||
+15e6b396f5ac25 Wenjing Liu         2023-08-14  1716  				pipe_ctx->update_flags.bits.odm ||
+15e6b396f5ac25 Wenjing Liu         2023-08-14  1717  				pipe_ctx->stream->update_flags.bits.abm_level)
+15e6b396f5ac25 Wenjing Liu         2023-08-14  1718  			hws->funcs.blank_pixel_data(dc, pipe_ctx,
+15e6b396f5ac25 Wenjing Liu         2023-08-14 @1719  					!pipe_ctx->plane_state ||
+                                                                                         ^^^^^^^^^^^^^^^^^^^^^
+Can ->plane_state really be NULL?
+
+15e6b396f5ac25 Wenjing Liu         2023-08-14  1720  					!pipe_ctx->plane_state->visible);
+15e6b396f5ac25 Wenjing Liu         2023-08-14  1721  	}
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1722  
+a71e5529d26745 Aric Cyr            2020-12-10  1723  	/* Only update TG on top pipe */
+a71e5529d26745 Aric Cyr            2020-12-10  1724  	if (pipe_ctx->update_flags.bits.global_sync && !pipe_ctx->top_pipe
+a71e5529d26745 Aric Cyr            2020-12-10  1725  			&& !pipe_ctx->prev_odm_pipe) {
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1726  		pipe_ctx->stream_res.tg->funcs->program_global_sync(
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1727  				pipe_ctx->stream_res.tg,
+5842abd985b792 Wesley Chalmers     2022-11-09  1728  				calculate_vready_offset_for_group(pipe_ctx),
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1729  				pipe_ctx->pipe_dlg_param.vstartup_start,
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1730  				pipe_ctx->pipe_dlg_param.vupdate_offset,
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1731  				pipe_ctx->pipe_dlg_param.vupdate_width);
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1732  
+ac84304d68c4b3 Zhikai Zhai         2023-03-02  1733  		if (pipe_ctx->stream->mall_stream_config.type != SUBVP_PHANTOM)
+203ccaf586446b Haiyi Zhou          2022-10-20  1734  			pipe_ctx->stream_res.tg->funcs->wait_for_state(pipe_ctx->stream_res.tg, CRTC_STATE_VACTIVE);
+a71e5529d26745 Aric Cyr            2020-12-10  1735  
+a14e9e0292e299 Dmytro Laktyushkin  2019-08-26  1736  		pipe_ctx->stream_res.tg->funcs->set_vtg_params(
+a71e5529d26745 Aric Cyr            2020-12-10  1737  				pipe_ctx->stream_res.tg, &pipe_ctx->stream->timing, true);
+1caba4e83b9d8a Aric Cyr            2019-09-06  1738  
+f42ea55be11147 Anthony Koo         2019-11-05  1739  		if (hws->funcs.setup_vupdate_interrupt)
+f42ea55be11147 Anthony Koo         2019-11-05  1740  			hws->funcs.setup_vupdate_interrupt(dc, pipe_ctx);
+a14e9e0292e299 Dmytro Laktyushkin  2019-08-26  1741  	}
+a14e9e0292e299 Dmytro Laktyushkin  2019-08-26  1742  
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1743  	if (pipe_ctx->update_flags.bits.odm)
+f42ea55be11147 Anthony Koo         2019-11-05  1744  		hws->funcs.update_odm(dc, context, pipe_ctx);
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1745  
+868149c9a072cb Joshua Aberback     2020-03-30  1746  	if (pipe_ctx->update_flags.bits.enable) {
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1747  		dcn20_enable_plane(dc, pipe_ctx, context);
+868149c9a072cb Joshua Aberback     2020-03-30  1748  		if (dc->res_pool->hubbub->funcs->force_wm_propagate_to_pipes)
+868149c9a072cb Joshua Aberback     2020-03-30  1749  			dc->res_pool->hubbub->funcs->force_wm_propagate_to_pipes(dc->res_pool->hubbub);
+868149c9a072cb Joshua Aberback     2020-03-30  1750  	}
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1751  
+ba5a5371812e1f Nicholas Kazlauskas 2021-05-19  1752  	if (dc->res_pool->hubbub->funcs->program_det_size && pipe_ctx->update_flags.bits.det_size)
+ba5a5371812e1f Nicholas Kazlauskas 2021-05-19  1753  		dc->res_pool->hubbub->funcs->program_det_size(
+ba5a5371812e1f Nicholas Kazlauskas 2021-05-19  1754  			dc->res_pool->hubbub, pipe_ctx->plane_res.hubp->inst, pipe_ctx->det_buffer_size_kb);
+ba5a5371812e1f Nicholas Kazlauskas 2021-05-19  1755  
+747012382937e4 Dmytro Laktyushkin  2019-08-22 @1756  	if (pipe_ctx->update_flags.raw || pipe_ctx->plane_state->update_flags.raw || pipe_ctx->stream->update_flags.raw)
+                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^
+Unchecked dereference
+
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1757  		dcn20_update_dchubp_dpp(dc, pipe_ctx, context);
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1758  
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1759  	if (pipe_ctx->update_flags.bits.enable
+46250a0cba4ce9 Michael Strauss     2019-11-03  1760  			|| pipe_ctx->plane_state->update_flags.bits.hdr_mult)
+f42ea55be11147 Anthony Koo         2019-11-05  1761  		hws->funcs.set_hdr_multiplier(pipe_ctx);
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1762  
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1763  	if (pipe_ctx->update_flags.bits.enable ||
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
