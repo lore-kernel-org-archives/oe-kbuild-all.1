@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BAD328E16
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 19:50:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32403B7BD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 19:59:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C/avgVGA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aMuSfL2Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697140202; x=1728676202;
+  t=1697140771; x=1728676771;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=amM2WwJnvi8en0fmlC60YM6s+JIdnGfzbv1IrFyrLVo=;
-  b=C/avgVGAYh5svasQGGnK7z4iFwPQandnTL4ZimyJUl2UsEPw7l2dclJ2
-   qNCMXzR9CnyKzbtCKwxhnTwS9wGiQDy+woT06tyyRXAOuAA1oOW+tdJ8h
-   2WGiG9sLfKX5eJkZy7keP4SzBpOxbDG0Rccj0usJIaY1O1fXr7QlTgvkQ
-   h/H0hm7kXmo+g+NeptDvsuUndQMi9Cy/s7vtrjxDUShW0bUuCcbfMsFKg
-   KnLl7QJG9OgLhgjdT4CyYt51T/De5IxrOJsJ/rXnDan5SZVsoO9PZPQ/h
-   8HoEBPW6fAqGV1yD2W2mzMxLDeBF3NbfLoZZPlkW+anxCkcLvM/luH4Ub
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="451507923"
+  bh=YUflFmvVvRW2bi19utqTu4pR4W+IryQvLK21Jb3sYWk=;
+  b=aMuSfL2YWDgcYTt+ExAtq/X0XC+tewnYSMnJC0aKPfNS8vjSKy7uLTLD
+   F8xpLqLbr0Bq186BWyDncjKZVVVXaELOlrP0pVnfBhQmbXsh+pagK2DTf
+   nVHBt0sYYEvcIaiUdJ6c2fMEnsZoM8WU3FhYFTTZMIx6G2DE56fZM4OzO
+   g4llon7vn94UPaYACMDazWcOj35/iHYnVRJHDyRSdWclsKz0veYVvdiRK
+   t/4B+qL83puCIyEEBg9L4KUsFoME8FwWJ/zLooHjPjW7k3ZURFzWsrV7r
+   dkxxB1fQN4LZGUOrjLElGx8QHx9FF1YaDzRLwdlNLKi60VlbT13Icm9Mx
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="3617729"
 X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="451507923"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 12:50:01 -0700
+   d="scan'208";a="3617729"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 12:59:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="783837197"
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="898262169"
 X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="783837197"
+   d="scan'208";a="898262169"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 12 Oct 2023 12:50:00 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 12 Oct 2023 12:57:40 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qr1gc-0003o9-01;
-	Thu, 12 Oct 2023 19:49:45 +0000
-Date: Fri, 13 Oct 2023 03:48:34 +0800
+	id 1qr1qA-0003ol-1W;
+	Thu, 12 Oct 2023 19:59:26 +0000
+Date: Fri, 13 Oct 2023 03:59:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+To: Pankaj Raghav <p.raghav@samsung.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:sound/speaker-safety 160/196] checkpatch: WARNING:
- Missing a blank line after declarations
-Message-ID: <202310130326.AyGHlUiH-lkp@intel.com>
+Subject: [mcgrof-next:large-block-nobdev-20230822-minorder 12088/12102]
+ mm/filemap.c:1877 __filemap_get_folio() warn: inconsistent indenting
+Message-ID: <202310130342.POSVFE8f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,22 +50,156 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux sound/speaker-safety
-head:   899711ed1c90b438d31e322d1b0638b328435963
-commit: b62b5beefef4d23b04695f7a7f84ad601d4c31d6 [160/196] ASoC: apple: mca: Support capture on multiples BEs
-reproduce: (https://download.01.org/0day-ci/archive/20231013/202310130326.AyGHlUiH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git large-block-nobdev-20230822-minorder
+head:   8685ca5fce6fede915222ae35e0885eb9442d25e
+commit: 5f72bf46d09d734d5b4d55f18dc93b606c84279e [12088/12102] filemap: use minimum order while allocating folios
+config: x86_64-randconfig-161-20230823 (https://download.01.org/0day-ci/archive/20231013/202310130342.POSVFE8f-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231013/202310130342.POSVFE8f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310130326.AyGHlUiH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310130342.POSVFE8f-lkp@intel.com/
 
-# many are suggestions rather than must-fix
+smatch warnings:
+mm/filemap.c:1877 __filemap_get_folio() warn: inconsistent indenting
 
-WARNING:LINE_SPACING: Missing a blank line after declarations
-#42: FILE: sound/soc/apple/mca.c:272:
-+		int no = mca_dai_to_cluster(asoc_rtd_to_cpu(dpcm->be, 0))->no;
-+		mask |= 1 << no;
+vim +1877 mm/filemap.c
+
+  1856	
+  1857	/**
+  1858	 * __filemap_get_folio - Find and get a reference to a folio.
+  1859	 * @mapping: The address_space to search.
+  1860	 * @index: The page index.
+  1861	 * @fgp_flags: %FGP flags modify how the folio is returned.
+  1862	 * @gfp: Memory allocation flags to use if %FGP_CREAT is specified.
+  1863	 *
+  1864	 * Looks up the page cache entry at @mapping & @index.
+  1865	 *
+  1866	 * If %FGP_LOCK or %FGP_CREAT are specified then the function may sleep even
+  1867	 * if the %GFP flags specified for %FGP_CREAT are atomic.
+  1868	 *
+  1869	 * If this function returns a folio, it is returned with an increased refcount.
+  1870	 *
+  1871	 * Return: The found folio or an ERR_PTR() otherwise.
+  1872	 */
+  1873	struct folio *__filemap_get_folio(struct address_space *mapping, pgoff_t index,
+  1874			fgf_t fgp_flags, gfp_t gfp)
+  1875	{
+  1876		struct folio *folio;
+> 1877	       int min_order = mapping_min_folio_order(mapping);
+  1878	       int nr_of_pages = (1U << min_order);
+  1879	
+  1880	
+  1881	repeat:
+  1882		folio = filemap_get_entry(mapping, index);
+  1883		if (xa_is_value(folio))
+  1884			folio = NULL;
+  1885		if (!folio)
+  1886			goto no_page;
+  1887	
+  1888		if (fgp_flags & FGP_LOCK) {
+  1889			if (fgp_flags & FGP_NOWAIT) {
+  1890				if (!folio_trylock(folio)) {
+  1891					folio_put(folio);
+  1892					return ERR_PTR(-EAGAIN);
+  1893				}
+  1894			} else {
+  1895				folio_lock(folio);
+  1896			}
+  1897	
+  1898			/* Has the page been truncated? */
+  1899			if (unlikely(folio->mapping != mapping)) {
+  1900				folio_unlock(folio);
+  1901				folio_put(folio);
+  1902				goto repeat;
+  1903			}
+  1904			VM_BUG_ON_FOLIO(!folio_contains(folio, index), folio);
+  1905		}
+  1906	
+  1907		if (fgp_flags & FGP_ACCESSED)
+  1908			folio_mark_accessed(folio);
+  1909		else if (fgp_flags & FGP_WRITE) {
+  1910			/* Clear idle flag for buffer write */
+  1911			if (folio_test_idle(folio))
+  1912				folio_clear_idle(folio);
+  1913		}
+  1914	
+  1915		if (fgp_flags & FGP_STABLE)
+  1916			folio_wait_stable(folio);
+  1917	no_page:
+  1918		if (!folio && (fgp_flags & FGP_CREAT)) {
+  1919			unsigned order = FGF_GET_ORDER(fgp_flags);
+  1920			int err;
+  1921	
+  1922			if ((fgp_flags & FGP_WRITE) && mapping_can_writeback(mapping))
+  1923				gfp |= __GFP_WRITE;
+  1924			if (fgp_flags & FGP_NOFS)
+  1925				gfp &= ~__GFP_FS;
+  1926			if (fgp_flags & FGP_NOWAIT) {
+  1927				gfp &= ~GFP_KERNEL;
+  1928				gfp |= GFP_NOWAIT | __GFP_NOWARN;
+  1929			}
+  1930			if (WARN_ON_ONCE(!(fgp_flags & (FGP_LOCK | FGP_FOR_MMAP))))
+  1931				fgp_flags |= FGP_LOCK;
+  1932	
+  1933			if (!mapping_large_folio_support(mapping))
+  1934				order = 0;
+  1935			if (order > MAX_PAGECACHE_ORDER)
+  1936				order = MAX_PAGECACHE_ORDER;
+  1937	
+  1938			if (min_order)
+  1939				index = round_down(index, nr_of_pages);
+  1940			/* If we're not aligned, allocate a smaller folio */
+  1941			if (index & ((1UL << order) - 1))
+  1942				order = __ffs(index);
+  1943	
+  1944			do {
+  1945				gfp_t alloc_gfp = gfp;
+  1946	
+  1947				err = -ENOMEM;
+  1948				if (order == 1)
+  1949					order = 0;
+  1950				if (order > 0)
+  1951					alloc_gfp |= __GFP_NORETRY | __GFP_NOWARN;
+  1952	
+  1953				if (min_order && (order < min_order))
+  1954					BUG();
+  1955	
+  1956				folio = filemap_alloc_folio(alloc_gfp, order);
+  1957				if (!folio)
+  1958					continue;
+  1959	
+  1960				/* Init accessed so avoid atomic mark_page_accessed later */
+  1961				if (fgp_flags & FGP_ACCESSED)
+  1962					__folio_set_referenced(folio);
+  1963	
+  1964				err = filemap_add_folio(mapping, folio, index, gfp);
+  1965				if (!err)
+  1966					break;
+  1967				folio_put(folio);
+  1968				folio = NULL;
+  1969			} while (order-- > 0);
+  1970	
+  1971			if (err == -EEXIST)
+  1972				goto repeat;
+  1973			if (err)
+  1974				return ERR_PTR(err);
+  1975			/*
+  1976			 * filemap_add_folio locks the page, and for mmap
+  1977			 * we expect an unlocked page.
+  1978			 */
+  1979			if (folio && (fgp_flags & FGP_FOR_MMAP))
+  1980				folio_unlock(folio);
+  1981		}
+  1982	
+  1983		if (!folio)
+  1984			return ERR_PTR(-ENOENT);
+  1985		return folio;
+  1986	}
+  1987	EXPORT_SYMBOL(__filemap_get_folio);
+  1988	
 
 -- 
 0-DAY CI Kernel Test Service
