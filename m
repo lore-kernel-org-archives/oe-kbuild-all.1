@@ -1,46 +1,24 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE073C8CC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 05:04:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VtYxl+gd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697087087; x=1728623087;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=K0tKoGDNwjR/6HTNC4OExQZsIuCdCo+yuUHxL9nqra4=;
-  b=VtYxl+gdv/aCBHhmFTkL/KRw4rHKNdUQ1yPEPLnHanKQO8CYLjynpHVM
-   O6/Nh49VVVkrFR0xl7pgDRaRQGhoH7m/d+bGg4slp4kOawuR8+Iiorrgi
-   Syu7DweDDRYEUebPanB2ymbp1g+G3ydJ+k/Loq1BoM3P1UGfhhjHUUJkJ
-   aXVZ70H7QZY4TUs6emVae5rWHgVVtfKNXxdrA4X4kT/QBkzFAnjS8fveh
-   WA+rnJxt/ArIeo+BgcRp0iFBCTg9JVQ7pm526R7xNJmNHHrqY1qyTkgxc
-   q+oQg7vs6P/e916MaP4malSkGGqWhek0520Hl8hUr01m6QRLwaUNNXOjs
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="388694900"
-X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
-   d="scan'208";a="388694900"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 22:04:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="789246218"
-X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
-   d="scan'208";a="789246218"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 11 Oct 2023 22:04:44 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qqnsF-0003CS-26;
-	Thu, 12 Oct 2023 05:04:40 +0000
-Date: Thu, 12 Oct 2023 13:03:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/642 11914/30000] phy-fsl-imx8mq-usb.c:undefined
- reference to `power_supply_unreg_notifier'
-Message-ID: <202310121202.v3PrJUew-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1597C63B3;
+	Thu, 12 Oct 2023 05:11:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
+	id 1qqnyj-006FFt-6s; Thu, 12 Oct 2023 13:11:22 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Thu, 12 Oct 2023 13:11:25 +0800
+Date: Thu, 12 Oct 2023 13:11:25 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [PATCH] crypto: lskcipher - Return EINVAL when ecb_name fails sanity
+ checks
+Message-ID: <ZSd//fA00pk/XqBC@gondor.apana.org.au>
+References: <f9ae1fe1-5a78-442f-a3fb-3c01e6273d3f@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,47 +27,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <f9ae1fe1-5a78-442f-a3fb-3c01e6273d3f@kadam.mountain>
 
-tree:   https://github.com/Freescale/linux-fslc pr/642
-head:   c8b7cf62c7fea8456dec789d550b8006d73b8f04
-commit: 2f73efb5fc11c0ef40e7ae1532ccf442ac4cd2ff [11914/30000] MLK-24530 phy: freescale: imx8mq-usb: balance power supply use count
-config: arc-randconfig-002-20231012 (https://download.01.org/0day-ci/archive/20231012/202310121202.v3PrJUew-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231012/202310121202.v3PrJUew-lkp@intel.com/reproduce)
+On Wed, Oct 11, 2023 at 10:19:31AM +0300, Dan Carpenter wrote:
+>
+> smatch warnings:
+> crypto/lskcipher.c:639 lskcipher_alloc_instance_simple() warn: passing zero to 'ERR_PTR'
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310121202.v3PrJUew-lkp@intel.com/
+Thanks for the report.  This patch should fix the problem:
 
-All errors (new ones prefixed by >>):
+---8<---
+Set the error value to -EINVAL instead of zero when the underlying
+name (within "ecb()") fails basic sanity checks.
 
-   arc-elf-ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
-   arc-elf-ld: drivers/phy/freescale/phy-fsl-imx8mq-usb.o: in function `imx8mq_usb_phy_remove':
->> phy-fsl-imx8mq-usb.c:(.text+0x20): undefined reference to `power_supply_unreg_notifier'
->> arc-elf-ld: phy-fsl-imx8mq-usb.c:(.text+0x20): undefined reference to `power_supply_unreg_notifier'
-   arc-elf-ld: drivers/phy/freescale/phy-fsl-imx8mq-usb.o: in function `imx8mq_phy_usb_vbus_notify':
->> phy-fsl-imx8mq-usb.c:(.text+0x64): undefined reference to `power_supply_get_by_phandle'
->> arc-elf-ld: phy-fsl-imx8mq-usb.c:(.text+0x64): undefined reference to `power_supply_get_by_phandle'
->> arc-elf-ld: phy-fsl-imx8mq-usb.c:(.text+0x7e): undefined reference to `power_supply_put'
->> arc-elf-ld: phy-fsl-imx8mq-usb.c:(.text+0x7e): undefined reference to `power_supply_put'
-   arc-elf-ld: phy-fsl-imx8mq-usb.c:(.text+0x9a): undefined reference to `power_supply_get_property'
-   arc-elf-ld: phy-fsl-imx8mq-usb.c:(.text+0x9a): undefined reference to `power_supply_get_property'
-   arc-elf-ld: phy-fsl-imx8mq-usb.c:(.text+0xb0): undefined reference to `power_supply_put'
-   arc-elf-ld: phy-fsl-imx8mq-usb.c:(.text+0xb0): undefined reference to `power_supply_put'
-   arc-elf-ld: drivers/phy/freescale/phy-fsl-imx8mq-usb.o: in function `imx8mq_usb_phy_probe':
-   phy-fsl-imx8mq-usb.c:(.text+0x25c): undefined reference to `power_supply_reg_notifier'
-   arc-elf-ld: phy-fsl-imx8mq-usb.c:(.text+0x25c): undefined reference to `power_supply_reg_notifier'
-   arc-elf-ld: drivers/phy/freescale/phy-fsl-imx8mq-usb.o: in function `imx8mq_phy_charger_detect':
-   phy-fsl-imx8mq-usb.c:(.text+0x3f6): undefined reference to `power_supply_get_by_phandle'
-   arc-elf-ld: phy-fsl-imx8mq-usb.c:(.text+0x3f6): undefined reference to `power_supply_get_by_phandle'
-   arc-elf-ld: phy-fsl-imx8mq-usb.c:(.text+0x414): undefined reference to `power_supply_put'
-   arc-elf-ld: phy-fsl-imx8mq-usb.c:(.text+0x414): undefined reference to `power_supply_put'
-   arc-elf-ld: phy-fsl-imx8mq-usb.c:(.text+0x42e): undefined reference to `power_supply_get_property'
-   arc-elf-ld: phy-fsl-imx8mq-usb.c:(.text+0x42e): undefined reference to `power_supply_get_property'
-   arc-elf-ld: phy-fsl-imx8mq-usb.c:(.text+0x500): undefined reference to `power_supply_set_property'
-   arc-elf-ld: phy-fsl-imx8mq-usb.c:(.text+0x500): undefined reference to `power_supply_set_property'
+Fixes: 8aee5d4ebd11 ("crypto: lskcipher - Add compatibility wrapper around ECB")
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/r/202310111323.ZjK7bzjw-lkp@intel.com/
 
+diff --git a/crypto/lskcipher.c b/crypto/lskcipher.c
+index 9be3c04bc62a..cb6170ebcaa3 100644
+--- a/crypto/lskcipher.c
++++ b/crypto/lskcipher.c
+@@ -583,6 +583,7 @@ struct lskcipher_instance *lskcipher_alloc_instance_simple(
+ 	if (ecb_name[0]) {
+ 		int len;
+ 
++		err = -EINVAL;
+ 		len = strscpy(ecb_name, &cipher_alg->co.base.cra_name[4],
+ 			      sizeof(ecb_name));
+ 		if (len < 2)
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
