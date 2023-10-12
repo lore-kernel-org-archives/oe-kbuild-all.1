@@ -1,109 +1,146 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C32B134CB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Oct 2023 20:42:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52BE3B28F;
+	Thu, 12 Oct 2023 20:42:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k9ok1et6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IKXp4XNu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697143349; x=1728679349;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=GyslXrM6Dvsb0KYL0SNALa215blUsPll26fD93mja/s=;
-  b=k9ok1et6iXH7uUqfXfAstNrZ/a3JTOKbBPjOPDATAJZl6nDwsxxUaEZU
-   FrFQdOrhhs54shsyCBYHx5u2PAjjwQb/m/wBSDislN2UGytGWvaXHlpPJ
-   D5H5a8AA3MIQDrwEJ8xj3MCTzT2AL1w+ne8RvVkHvJzib/Jhx9vKjqgQn
-   ome65nOkBnuxztPxKvamt+d8SIdDXXdx0Im6yLouwITOwSHtl31kAV2zl
-   1UNH1lj3FXogggr0ZProkOBwV/Ke7ot1oYdY+uZv+lsI6vfwrXSbfQQHD
-   C5DGQtmazJcTam/OQvZcDshOjUtKeFwrfgsyGC27StHe8ruG8igSb9FSG
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="375385860"
+  t=1697143350; x=1728679350;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=grZVskJc6ajq0UaMPLY1+vxdNrKtPGrIR2HY2iTkC6c=;
+  b=IKXp4XNuWeFpYpxlEX2Ti0/z0o+KNShhvmMlWoYmXDGG4sGYjRVj3uVp
+   11Lg8JfbI8K/UZloqhBi/8ZCJ8DKVOtYEN3LDc3ZB116B8a6a9broZmIq
+   C4/CsofjlnUiHYcUTr4+y05hgjAa+BRnuZ8JjLBUkHrQL7hY3Mb9a47Wv
+   hrCxocvx9WxsvMwZ9K6Mw+u4bZeB1zsAxX8naNZ7+I7Zgm/A2qumzJBo8
+   pEbNlMYdcWsYn7zMKmpYXaovBmZNbTrTBjyTMHmGUz+vt7j/8mnQ+bd3Y
+   nG/6j82xfsUjOh32ryflJEzfCKDSo8WtTnZ8r67nxA8l5tquKaTs7r0t0
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="375385886"
 X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="375385860"
+   d="scan'208";a="375385886"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 13:42:07 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 13:42:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="824755409"
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="824755431"
 X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="824755409"
+   d="scan'208";a="824755431"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
   by fmsmga004.fm.intel.com with ESMTP; 12 Oct 2023 13:42:05 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qr2VP-0003rb-2J;
+	id 1qr2VP-0003rZ-2F;
 	Thu, 12 Oct 2023 20:42:03 +0000
-Date: Fri, 13 Oct 2023 04:41:30 +0800
+Date: Fri, 13 Oct 2023 04:41:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pwm@vger.kernel.org,
-	Thierry Reding <thierry.reding@gmail.com>
-Subject: [thierry-reding-pwm:for-next 10/36] drivers/pwm/pwm-samsung.c:92:
- warning: Function parameter or member 'channel' not described in
- 'samsung_pwm_chip'
-Message-ID: <202310130404.uQ33q5Dk-lkp@intel.com>
+To: Tianyi Liu <i.pear@outlook.com>, seanjc@google.com, pbonzini@redhat.com,
+	peterz@infradead.org, mingo@redhat.com, acme@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, kvm@vger.kernel.org,
+	x86@kernel.org, mark.rutland@arm.com,
+	alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+	namhyung@kernel.org, irogers@google.com, adrian.hunter@intel.com,
+	Tianyi Liu <i.pear@outlook.com>
+Subject: Re: [PATCH v2 4/5] perf kvm: Support sampling guest callchains
+Message-ID: <202310130419.cIkNaYZm-lkp@intel.com>
+References: <SY4P282MB108433024762F1F292D47C2A9DCFA@SY4P282MB1084.AUSP282.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <SY4P282MB108433024762F1F292D47C2A9DCFA@SY4P282MB1084.AUSP282.PROD.OUTLOOK.COM>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git for-next
-head:   b02229080a8e98c8f944ab1ce0d5df0f2a0e3644
-commit: 4c9548d24c0d4034f056e2c9f0e72599a382a846 [10/36] pwm: samsung: Put per-channel data into driver data
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231013/202310130404.uQ33q5Dk-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231013/202310130404.uQ33q5Dk-lkp@intel.com/reproduce)
+Hi Tianyi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8a749fd1a8720d4619c91c8b6e7528c0a355c0aa]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tianyi-Liu/KVM-Add-arch-specific-interfaces-for-sampling-guest-callchains/20231008-230042
+base:   8a749fd1a8720d4619c91c8b6e7528c0a355c0aa
+patch link:    https://lore.kernel.org/r/SY4P282MB108433024762F1F292D47C2A9DCFA%40SY4P282MB1084.AUSP282.PROD.OUTLOOK.COM
+patch subject: [PATCH v2 4/5] perf kvm: Support sampling guest callchains
+config: i386-randconfig-061-20231012 (https://download.01.org/0day-ci/archive/20231013/202310130419.cIkNaYZm-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231013/202310130419.cIkNaYZm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310130404.uQ33q5Dk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310130419.cIkNaYZm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/x86/events/core.c:2808:52: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void *addr @@     got struct stack_frame *const * @@
+   arch/x86/events/core.c:2808:52: sparse:     expected void *addr
+   arch/x86/events/core.c:2808:52: sparse:     got struct stack_frame *const *
+>> arch/x86/events/core.c:2811:52: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void *addr @@     got unsigned long const * @@
+   arch/x86/events/core.c:2811:52: sparse:     expected void *addr
+   arch/x86/events/core.c:2811:52: sparse:     got unsigned long const *
+>> arch/x86/events/core.c:2784:44: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void *addr @@     got unsigned int const * @@
+   arch/x86/events/core.c:2784:44: sparse:     expected void *addr
+   arch/x86/events/core.c:2784:44: sparse:     got unsigned int const *
+   arch/x86/events/core.c:2787:44: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void *addr @@     got unsigned int const * @@
+   arch/x86/events/core.c:2787:44: sparse:     expected void *addr
+   arch/x86/events/core.c:2787:44: sparse:     got unsigned int const *
 
->> drivers/pwm/pwm-samsung.c:92: warning: Function parameter or member 'channel' not described in 'samsung_pwm_chip'
+vim +2808 arch/x86/events/core.c
 
-
-vim +92 drivers/pwm/pwm-samsung.c
-
-11ad39ede24ee4 Tomasz Figa               2013-04-06  69  
-11ad39ede24ee4 Tomasz Figa               2013-04-06  70  /**
-11ad39ede24ee4 Tomasz Figa               2013-04-06  71   * struct samsung_pwm_chip - private data of PWM chip
-11ad39ede24ee4 Tomasz Figa               2013-04-06  72   * @chip:		generic PWM chip
-11ad39ede24ee4 Tomasz Figa               2013-04-06  73   * @variant:		local copy of hardware variant data
-11ad39ede24ee4 Tomasz Figa               2013-04-06  74   * @inverter_mask:	inverter status for all channels - one bit per channel
-08a4d8ec4262c6 Bartlomiej Zolnierkiewicz 2017-04-24  75   * @disabled_mask:	disabled status for all channels - one bit per channel
-11ad39ede24ee4 Tomasz Figa               2013-04-06  76   * @base:		base address of mapped PWM registers
-11ad39ede24ee4 Tomasz Figa               2013-04-06  77   * @base_clk:		base clock used to drive the timers
-11ad39ede24ee4 Tomasz Figa               2013-04-06  78   * @tclk0:		external clock 0 (can be ERR_PTR if not present)
-11ad39ede24ee4 Tomasz Figa               2013-04-06  79   * @tclk1:		external clock 1 (can be ERR_PTR if not present)
-11ad39ede24ee4 Tomasz Figa               2013-04-06  80   */
-11ad39ede24ee4 Tomasz Figa               2013-04-06  81  struct samsung_pwm_chip {
-11ad39ede24ee4 Tomasz Figa               2013-04-06  82  	struct pwm_chip chip;
-11ad39ede24ee4 Tomasz Figa               2013-04-06  83  	struct samsung_pwm_variant variant;
-11ad39ede24ee4 Tomasz Figa               2013-04-06  84  	u8 inverter_mask;
-08a4d8ec4262c6 Bartlomiej Zolnierkiewicz 2017-04-24  85  	u8 disabled_mask;
-11ad39ede24ee4 Tomasz Figa               2013-04-06  86  
-11ad39ede24ee4 Tomasz Figa               2013-04-06  87  	void __iomem *base;
-11ad39ede24ee4 Tomasz Figa               2013-04-06  88  	struct clk *base_clk;
-11ad39ede24ee4 Tomasz Figa               2013-04-06  89  	struct clk *tclk0;
-11ad39ede24ee4 Tomasz Figa               2013-04-06  90  	struct clk *tclk1;
-4c9548d24c0d40 Uwe Kleine-König          2023-07-05  91  	struct samsung_pwm_channel channel[SAMSUNG_PWM_NUM];
-11ad39ede24ee4 Tomasz Figa               2013-04-06 @92  };
-11ad39ede24ee4 Tomasz Figa               2013-04-06  93  
-
-:::::: The code at line 92 was first introduced by commit
-:::::: 11ad39ede24ee42909d58dc95031d96da46e33bd pwm: Add new pwm-samsung driver
-
-:::::: TO: Tomasz Figa <tomasz.figa@gmail.com>
-:::::: CC: Tomasz Figa <tomasz.figa@gmail.com>
+  2775	
+  2776	static inline void
+  2777	perf_callchain_guest32(struct perf_callchain_entry_ctx *entry)
+  2778	{
+  2779		struct stack_frame_ia32 frame;
+  2780		const struct stack_frame_ia32 *fp;
+  2781	
+  2782		fp = (void *)perf_guest_get_frame_pointer();
+  2783		while (fp && entry->nr < entry->max_stack) {
+> 2784			if (!perf_guest_read_virt(&fp->next_frame, &frame.next_frame,
+  2785				sizeof(frame.next_frame)))
+  2786				break;
+  2787			if (!perf_guest_read_virt(&fp->return_address, &frame.return_address,
+  2788				sizeof(frame.return_address)))
+  2789				break;
+  2790			perf_callchain_store(entry, frame.return_address);
+  2791			fp = (void *)frame.next_frame;
+  2792		}
+  2793	}
+  2794	
+  2795	void
+  2796	perf_callchain_guest(struct perf_callchain_entry_ctx *entry)
+  2797	{
+  2798		struct stack_frame frame;
+  2799		const struct stack_frame *fp;
+  2800		unsigned int guest_state;
+  2801	
+  2802		guest_state = perf_guest_state();
+  2803		perf_callchain_store(entry, perf_guest_get_ip());
+  2804	
+  2805		if (guest_state & PERF_GUEST_64BIT) {
+  2806			fp = (void *)perf_guest_get_frame_pointer();
+  2807			while (fp && entry->nr < entry->max_stack) {
+> 2808				if (!perf_guest_read_virt(&fp->next_frame, &frame.next_frame,
+  2809					sizeof(frame.next_frame)))
+  2810					break;
+> 2811				if (!perf_guest_read_virt(&fp->return_address, &frame.return_address,
+  2812					sizeof(frame.return_address)))
+  2813					break;
+  2814				perf_callchain_store(entry, frame.return_address);
+  2815				fp = (void *)frame.next_frame;
+  2816			}
+  2817		} else {
+  2818			perf_callchain_guest32(entry);
+  2819		}
+  2820	}
+  2821	
 
 -- 
 0-DAY CI Kernel Test Service
