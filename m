@@ -1,72 +1,110 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7DF200AB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 23:03:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from omf05.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id 49C3C1A049A;
-	Fri, 13 Oct 2023 18:14:51 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf05.hostedemail.com (Postfix) with ESMTPA id 356972000D;
-	Fri, 13 Oct 2023 18:14:48 +0000 (UTC)
-Message-ID: <8fe01b6d8c558f11fe51f9da5fbfea6708766096.camel@perches.com>
-Subject: Re: [PATCH V3 03/16] platform/x86/intel/vsec: Use cleanup.h
-From: Joe Perches <joe@perches.com>
-To: Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Andy
- Whitcroft <apw@canonical.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, LKML <linux-kernel@vger.kernel.org>, 
-	platform-driver-x86@vger.kernel.org, rajvi.jingar@linux.intel.com, 
-	oe-kbuild-all@lists.linux.dev, "David E. Box" <david.e.box@linux.intel.com>
-Date: Fri, 13 Oct 2023 11:14:47 -0700
-In-Reply-To: <b93a3e8-2d15-256a-4172-a22ef17dde9@linux.intel.com>
-References: <20231012023840.3845703-4-david.e.box@linux.intel.com>
-	 <202310121314.3Xpqom2w-lkp@intel.com>
-	 <6ed4cd5ae37a054d4780c8fa519dc83396b15c14.camel@linux.intel.com>
-	 <b93a3e8-2d15-256a-4172-a22ef17dde9@linux.intel.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898BB28697
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 23:15:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WGxCD0sm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697238924; x=1728774924;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=69A9STjnlVxwrX5obbrEykRYAyr1Jp0gIeS+4E3tZVM=;
+  b=WGxCD0sm4DJsTcQ3KO4ldP5PTkVoh+ioSk2yj8D1goe04cwBCI0t0gL6
+   xBTj0Kpf6rry7+c2QHyi0KsSbKVUChyjEpq263pKqm2dSp7PyqTYxumsn
+   jYVsd//GOeBrXzIUpUPvD9gD/ySSt5yUrxsFOqY7Abbw+7dvyKnDVqem8
+   paeS52D7D8R3Hcwbaa09VI+rJTk8omyIXf2gHpwHgcW3Gh3S0nkd8nr8q
+   E2/2PJOk++57IYqNT5RXS+sLoJnCn1wYl8rzmLmeF2rS1aN90rPkRvdPX
+   BPqVbrUQw0gzLCTsda3FJCzotKohhbAxT1b6QnHE3mxXinRY38gDLvYhQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="370352507"
+X-IronPort-AV: E=Sophos;i="6.03,223,1694761200"; 
+   d="scan'208";a="370352507"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 16:13:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="748527543"
+X-IronPort-AV: E=Sophos;i="6.03,223,1694761200"; 
+   d="scan'208";a="748527543"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 13 Oct 2023 16:13:14 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qrRLF-0005VD-1M;
+	Fri, 13 Oct 2023 23:13:13 +0000
+Date: Sat, 14 Oct 2023 07:13:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-2.1.x-imx 7608/15768]
+ drivers/staging/fsl_qbman/bman_config.c:155: warning: Function parameter or
+ member 'bm' not described in 'bm_err_isr_status_read'
+Message-ID: <202310140723.n0V1cqll-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Stat-Signature: o9zcgdw1y1fgp6xy6gb8fekmn1x9as14
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: 356972000D
-X-Spam-Status: No, score=-1.81
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX18nHPnJ1vURdIr6pxxE1KB9tF+YP2o1//s=
-X-HE-Tag: 1697220888-186884
-X-HE-Meta: U2FsdGVkX1/hWUvWt8vocjfvVrr5UnQAFVwrnmCEk+jm/esDnm+pfCGdCrUr/BcCexY6B0aXm/jP652/07TTyFbYRTv9qvgq6LrCL3hHnovO+6QXnaqgS3N4V91mfenpQNrEVFEmbKSo4NhPHz/byuazrDguvyhSPCsv/BjKNRITO0Ze2RCJilmsQND74dl26G3QyQnXY5MGVYW59IlWkW9m2mqNKp8gPsbmmTzl1J1GuFaOmNmADTujEjc4iLZzfffMHE2fet2guXsLJ762ZMeSwV8yq01wrVTYaGKcHPUQsW/jpAQy5YsDvCDSc4Tn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 2023-10-13 at 13:39 +0300, Ilpo J=E4rvinen wrote:
-> Hi,
->=20
-> I added checkpatch people, please check what looks a false positive below=
-.
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
+head:   3f41fbe42851375d3d5996e4bf9e9809e6c79517
+commit: cbe7fceb95a9bfb0770b58ff5f7c101abdf3106c [7608/15768] fsl_qbman: fix various errors when building with W=1
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20231014/202310140723.n0V1cqll-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310140723.n0V1cqll-lkp@intel.com/reproduce)
 
-Yeah, thanks I guess.
-The __free uses are very new.
-I'll play around with adding it to $Attributes
-and see what happens.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310140723.n0V1cqll-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/staging/fsl_qbman/bman_config.c:155: warning: Function parameter or member 'bm' not described in 'bm_err_isr_status_read'
+>> drivers/staging/fsl_qbman/bman_config.c:155: warning: expecting prototype for bm_err_isr_<reg>_<verb>(). Prototype was for bm_err_isr_status_read() instead
 
 
-> On Thu, 12 Oct 2023, David E. Box wrote:
-> > On Thu, 2023-10-12 at 13:25 +0800, kernel test robot wrote:
-> > > kernel test robot noticed the following build warnings:
-> > > # many are suggestions rather than must-fix
-[]
-> > > ERROR:SPACING: need consistent spacing around '*' (ctx:WxV)
-> > > #31: FILE: drivers/platform/x86/intel/vsec.c:159:
-> > > +=A0=A0=A0=A0=A0=A0=A0struct intel_vsec_device __free(kfree) *intel_v=
-sec_dev =3D NULL;
-> >=20
-> > These looks like false positives.
->=20
-> I agree. If I interpret the error message right checkpatch seems to think
-> that's a multiplication which is not the case here.
+vim +155 drivers/staging/fsl_qbman/bman_config.c
+
+4c43588a2cdb7e Madalin Bucur 2020-02-27  144  
+4c43588a2cdb7e Madalin Bucur 2020-02-27  145  /**
+4c43588a2cdb7e Madalin Bucur 2020-02-27  146   * bm_err_isr_<reg>_<verb> - Manipulate global interrupt registers
+4c43588a2cdb7e Madalin Bucur 2020-02-27  147   * @v: for accessors that write values, this is the 32-bit value
+4c43588a2cdb7e Madalin Bucur 2020-02-27  148   *
+4c43588a2cdb7e Madalin Bucur 2020-02-27  149   * Manipulates BMAN_ERR_ISR, BMAN_ERR_IER, BMAN_ERR_ISDR, BMAN_ERR_IIR. All
+4c43588a2cdb7e Madalin Bucur 2020-02-27  150   * manipulations except bm_err_isr_[un]inhibit() use 32-bit masks composed of
+4c43588a2cdb7e Madalin Bucur 2020-02-27  151   * the BM_EIRQ_*** definitions. Note that "bm_err_isr_enable_write" means
+4c43588a2cdb7e Madalin Bucur 2020-02-27  152   * "write the enable register" rather than "enable the write register"!
+4c43588a2cdb7e Madalin Bucur 2020-02-27  153   */
+4c43588a2cdb7e Madalin Bucur 2020-02-27  154  #define bm_err_isr_status_read(bm)	\
+4c43588a2cdb7e Madalin Bucur 2020-02-27 @155  		__bm_err_isr_read(bm, bm_isr_status)
+4c43588a2cdb7e Madalin Bucur 2020-02-27  156  #define bm_err_isr_status_clear(bm, m)	\
+4c43588a2cdb7e Madalin Bucur 2020-02-27  157  		__bm_err_isr_write(bm, bm_isr_status, m)
+4c43588a2cdb7e Madalin Bucur 2020-02-27  158  #define bm_err_isr_enable_read(bm)	\
+4c43588a2cdb7e Madalin Bucur 2020-02-27  159  		__bm_err_isr_read(bm, bm_isr_enable)
+4c43588a2cdb7e Madalin Bucur 2020-02-27  160  #define bm_err_isr_enable_write(bm, v)	\
+4c43588a2cdb7e Madalin Bucur 2020-02-27  161  		__bm_err_isr_write(bm, bm_isr_enable, v)
+4c43588a2cdb7e Madalin Bucur 2020-02-27  162  #define bm_err_isr_disable_read(bm)	\
+4c43588a2cdb7e Madalin Bucur 2020-02-27  163  		__bm_err_isr_read(bm, bm_isr_disable)
+4c43588a2cdb7e Madalin Bucur 2020-02-27  164  #define bm_err_isr_disable_write(bm, v)	\
+4c43588a2cdb7e Madalin Bucur 2020-02-27  165  		__bm_err_isr_write(bm, bm_isr_disable, v)
+4c43588a2cdb7e Madalin Bucur 2020-02-27  166  #define bm_err_isr_inhibit(bm)		\
+4c43588a2cdb7e Madalin Bucur 2020-02-27  167  		__bm_err_isr_write(bm, bm_isr_inhibit, 1)
+4c43588a2cdb7e Madalin Bucur 2020-02-27  168  #define bm_err_isr_uninhibit(bm)	\
+4c43588a2cdb7e Madalin Bucur 2020-02-27  169  		__bm_err_isr_write(bm, bm_isr_inhibit, 0)
+4c43588a2cdb7e Madalin Bucur 2020-02-27  170  
+
+:::::: The code at line 155 was first introduced by commit
+:::::: 4c43588a2cdb7e8b01447a8a1d523cc6886e0e4c staging/fsl_qbman: add LSDK-19.09-V4.14 SDK DPAA QBMan files
+
+:::::: TO: Madalin Bucur <madalin.bucur@oss.nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
