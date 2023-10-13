@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC1313AD6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 11:34:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A5210787
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 11:44:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NZfZjWRD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kRwvQiib"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697196873; x=1728732873;
+  t=1697197472; x=1728733472;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DxdmK/ffT4++Zn6tlU19+pb04zn9XA3oplXWVP9RfX0=;
-  b=NZfZjWRDGzaDBBYx9FTw62PFz+xSzw+Hknu74xXIA8Sr8dizQzdwY8p5
-   rOmsfW1ZFndeKiREt+fuOOSqTJrxVyoCw1h9wadz5uNaWjDam0jvX2/tg
-   wtOkW7O0s3wnbQknUBuSZ6CVdc+9K/eGVo7Oc9qAaw7P/pxRJPh7cqAfT
-   s0L9Q/KoSJ5jBgph401UlOACTv6zIDj+kmQElXtR2iNdEb0HTpd1wKiPX
-   4Oj5R64h8rnOPsGQgj10Ywt2+4+4NV0a+TLGfUY1nK82iH7YbAOfYVT7T
-   PrzwIl5gexrpkBdOX3UvDD9biPDCHPEoRViQO2ghv6W8Wste8RCwUTOZq
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="388013510"
+  bh=XfOUM+MtDKDqrVCEI+i+2WqC6htgxw4jKdM6LdjgS4E=;
+  b=kRwvQiibAOnYZVn81KthVQZxcd5Ee8DC1/PmZ+3F7TLSff7edsRj/8J8
+   60NrzRFiHD+RTZ8tJ17vBxYCs1MNDEjZYfujAxlwo9Wwz6AaPKZFmx0t4
+   lyDj/iNVDlzAPg6QXXM5jgFKU6FTv1mAcDwBxSRoTeqZ2EZ5WaOx3iqfk
+   O0QZyFDWBjmET6tLl/rYyCyZ1FQMwrEBfkJrQ/0fiO5QF8Pu7S07sOsWT
+   6N8USUpoQOLeGZrY/va7IIdKzbC4pjUkwhR0qtTY1+zuCvs4m/lleqUqP
+   aFzHBmEOx7zPf6M/me3gqmSAxNxReiQChN29TrWCTjGTp+KzUYeTHhLk/
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="382393006"
 X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; 
-   d="scan'208";a="388013510"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 04:34:32 -0700
+   d="scan'208";a="382393006"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 04:44:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="825026434"
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="1001920120"
 X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; 
-   d="scan'208";a="825026434"
+   d="scan'208";a="1001920120"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Oct 2023 04:34:30 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 13 Oct 2023 04:44:30 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qrGR2-0004gf-03;
-	Fri, 13 Oct 2023 11:34:28 +0000
-Date: Fri, 13 Oct 2023 19:33:28 +0800
+	id 1qrGai-0004h5-0l;
+	Fri, 13 Oct 2023 11:44:28 +0000
+Date: Fri, 13 Oct 2023 19:43:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/642 2280/30000] sound/soc/fsl/fsl_dsp.c:639:13:
- warning: 'dsp_load_firmware' defined but not used
-Message-ID: <202310131956.uSDVzkgk-lkp@intel.com>
+Subject: [freescale-fslc:6.1-2.1.x-imx 2861/15768]
+ drivers/firmware/imx/ele_mu.h:16:47: warning: format '%ld' expects argument
+ of type 'long int', but argument 6 has type 'size_t' {aka 'unsigned int'}
+Message-ID: <202310131915.SDoCbmWD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,122 +51,213 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc pr/642
-head:   c8b7cf62c7fea8456dec789d550b8006d73b8f04
-commit: 45efd194bfb758a98e1f3b64250fb019843b93ff [2280/30000] Merge branch 'audio/next' into next
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231013/202310131956.uSDVzkgk-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231013/202310131956.uSDVzkgk-lkp@intel.com/reproduce)
+Hi Pankaj,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
+head:   3f41fbe42851375d3d5996e4bf9e9809e6c79517
+commit: 0f48af6a075ccbe33eda05977a05995508e6d4a8 [2861/15768] LF-4776 sentnl-mu: added f_ops read-write & allcate IO buffer
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231013/202310131915.SDoCbmWD-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231013/202310131915.SDoCbmWD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310131956.uSDVzkgk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310131915.SDoCbmWD-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   sound/soc/fsl/fsl_dsp.c: In function 'fsl_dsp_client_register':
-   sound/soc/fsl/fsl_dsp.c:153:24: warning: variable 'dev' set but not used [-Wunused-but-set-variable]
-     153 |         struct device *dev;
-         |                        ^~~
-   sound/soc/fsl/fsl_dsp.c: At top level:
-   sound/soc/fsl/fsl_dsp.c:341:6: warning: no previous prototype for 'resource_release' [-Wmissing-prototypes]
-     341 | void resource_release(struct fsl_dsp *dsp_priv)
-         |      ^~~~~~~~~~~~~~~~
-   sound/soc/fsl/fsl_dsp.c:718:5: warning: no previous prototype for 'dsp_mu_init' [-Wmissing-prototypes]
-     718 | int dsp_mu_init(struct fsl_dsp *dsp_priv)
-         |     ^~~~~~~~~~~
->> sound/soc/fsl/fsl_dsp.c:639:13: warning: 'dsp_load_firmware' defined but not used [-Wunused-function]
-     639 | static void dsp_load_firmware(const struct firmware *fw, void *context)
-         |             ^~~~~~~~~~~~~~~~~
+   In file included from include/linux/printk.h:566,
+                    from include/asm-generic/bug.h:22,
+                    from arch/sh/include/asm/bug.h:112,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/current.h:5,
+                    from ./arch/sh/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/dma-mapping.h:7,
+                    from drivers/firmware/imx/ele_mu.c:8:
+   drivers/firmware/imx/ele_mu.c: In function 'ele_mu_fops_write':
+>> drivers/firmware/imx/ele_mu.h:16:47: warning: format '%ld' expects argument of type 'long int', but argument 6 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+      16 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                                               ^~~~~~
+   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
+     223 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
+     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
+     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:16:17: note: in expansion of macro 'dev_dbg'
+      16 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                 ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:35:9: note: in expansion of macro 'miscdev_dbg'
+      35 |         miscdev_dbg(&((p_devctx)->miscdev), fmt, ##va_args)
+         |         ^~~~~~~~~~~
+   drivers/firmware/imx/ele_mu.c:181:9: note: in expansion of macro 'devctx_dbg'
+     181 |         devctx_dbg(dev_ctx, "write from buf (%p)%ld, ppos=%lld\n", buf, size,
+         |         ^~~~~~~~~~
+   drivers/firmware/imx/ele_mu.h:30:47: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+      30 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                                               ^~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:30:17: note: in expansion of macro 'dev_err'
+      30 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                 ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:39:9: note: in expansion of macro 'miscdev_err'
+      39 |         miscdev_err((&(p_devctx)->miscdev), fmt, ##va_args)
+         |         ^~~~~~~~~~~
+   drivers/firmware/imx/ele_mu.c:193:17: note: in expansion of macro 'devctx_err'
+     193 |                 devctx_err(dev_ctx, "User buffer too small(%ld < %x)\n", size, 0x4);
+         |                 ^~~~~~~~~~
+   drivers/firmware/imx/ele_mu.h:30:47: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+      30 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                                               ^~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:30:17: note: in expansion of macro 'dev_err'
+      30 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                 ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:39:9: note: in expansion of macro 'miscdev_err'
+      39 |         miscdev_err((&(p_devctx)->miscdev), fmt, ##va_args)
+         |         ^~~~~~~~~~~
+   drivers/firmware/imx/ele_mu.c:201:17: note: in expansion of macro 'devctx_err'
+     201 |                 devctx_err(dev_ctx, "User buffer too big(%ld > %lu)\n", size,
+         |                 ^~~~~~~~~~
+>> drivers/firmware/imx/ele_mu.h:30:47: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'unsigned int' [-Wformat=]
+      30 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                                               ^~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:30:17: note: in expansion of macro 'dev_err'
+      30 |                 dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                 ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:39:9: note: in expansion of macro 'miscdev_err'
+      39 |         miscdev_err((&(p_devctx)->miscdev), fmt, ##va_args)
+         |         ^~~~~~~~~~~
+   drivers/firmware/imx/ele_mu.c:201:17: note: in expansion of macro 'devctx_err'
+     201 |                 devctx_err(dev_ctx, "User buffer too big(%ld > %lu)\n", size,
+         |                 ^~~~~~~~~~
+   drivers/firmware/imx/ele_mu.c: In function 'ele_mu_fops_read':
+>> drivers/firmware/imx/ele_mu.h:16:47: warning: format '%ld' expects argument of type 'long int', but argument 6 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+      16 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                                               ^~~~~~
+   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
+     223 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
+     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
+     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:16:17: note: in expansion of macro 'dev_dbg'
+      16 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                 ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:35:9: note: in expansion of macro 'miscdev_dbg'
+      35 |         miscdev_dbg(&((p_devctx)->miscdev), fmt, ##va_args)
+         |         ^~~~~~~~~~~
+   drivers/firmware/imx/ele_mu.c:286:9: note: in expansion of macro 'devctx_dbg'
+     286 |         devctx_dbg(dev_ctx, "read to buf %p(%ld), ppos=%lld\n", buf, size,
+         |         ^~~~~~~~~~
+   drivers/firmware/imx/ele_mu.h:16:47: warning: format '%ld' expects argument of type 'long int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+      16 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                                               ^~~~~~
+   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
+     223 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
+     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
+     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:16:17: note: in expansion of macro 'dev_dbg'
+      16 |                 dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+         |                 ^~~~~~~
+   drivers/firmware/imx/ele_mu.h:35:9: note: in expansion of macro 'miscdev_dbg'
+      35 |         miscdev_dbg(&((p_devctx)->miscdev), fmt, ##va_args)
+         |         ^~~~~~~~~~~
+   drivers/firmware/imx/ele_mu.c:313:17: note: in expansion of macro 'devctx_dbg'
+     313 |                 devctx_dbg(dev_ctx, "User buffer too small (%ld < %d)\n",
+         |                 ^~~~~~~~~~
 
 
-vim +/dsp_load_firmware +639 sound/soc/fsl/fsl_dsp.c
+vim +16 drivers/firmware/imx/ele_mu.h
 
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  638  
-6b7b1ae0ecddc2 sound/soc/fsl/fsl_dsp.c   Weiguang Kong 2018-04-18 @639  static void dsp_load_firmware(const struct firmware *fw, void *context)
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  640  {
-6b7b1ae0ecddc2 sound/soc/fsl/fsl_dsp.c   Weiguang Kong 2018-04-18  641  	struct fsl_dsp *dsp_priv = context;
-6b7b1ae0ecddc2 sound/soc/fsl/fsl_dsp.c   Weiguang Kong 2018-04-18  642  	struct device *dev = dsp_priv->dev;
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  643  	Elf32_Ehdr *ehdr; /* Elf header structure pointer */
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  644  	Elf32_Shdr *shdr; /* Section header structure pointer */
-c20260581b086b sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-10-19  645  	Elf32_Addr  sh_addr;
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  646  	unsigned char *strtab = 0; /* String table pointer */
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  647  	unsigned char *image; /* Binary image pointer */
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  648  	int i; /* Loop counter */
-62bd3cf2038786 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-08-09  649  	unsigned long addr;
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  650  
-62bd3cf2038786 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-08-09  651  	if (!fw) {
-62bd3cf2038786 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-08-09  652  		dev_info(dev, "external firmware not found\n");
-62bd3cf2038786 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-08-09  653  		return;
-62bd3cf2038786 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-08-09  654  	}
-62bd3cf2038786 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-08-09  655  
-62bd3cf2038786 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-08-09  656  	addr = (unsigned long)fw->data;
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  657  	ehdr = (Elf32_Ehdr *)addr;
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  658  
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  659  	/* Find the section header string table for output info */
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  660  	shdr = (Elf32_Shdr *)(addr + ehdr->e_shoff +
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  661  			(ehdr->e_shstrndx * sizeof(Elf32_Shdr)));
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  662  
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  663  	strtab = (unsigned char *)(addr + shdr->sh_offset);
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  664  
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  665  	/* Load each appropriate section */
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  666  	for (i = 0; i < ehdr->e_shnum; ++i) {
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  667  		shdr = (Elf32_Shdr *)(addr + ehdr->e_shoff +
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  668  				(i * sizeof(Elf32_Shdr)));
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  669  
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  670  		if (!(shdr->sh_flags & SHF_ALLOC) ||
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  671  			shdr->sh_addr == 0 || shdr->sh_size == 0)
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  672  			continue;
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  673  
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  674  		dev_dbg(dev, "%sing %s @ 0x%08lx (%ld bytes)\n",
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  675  			(shdr->sh_type == SHT_NOBITS) ? "Clear" : "Load",
-1ac4dce34cf996 sound/soc/fsl/fsl_dsp.c   Daniel Baluta 2018-11-13  676  			&strtab[shdr->sh_name], (unsigned long)shdr->sh_addr,
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  677  			(long)shdr->sh_size);
-f4fa46fed6abbe sound/soc/fsl/fsl_hifi4.c Weiguang Kong 2017-06-28  678  
-c20260581b086b sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-10-19  679  		sh_addr = shdr->sh_addr;
-c20260581b086b sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-10-19  680  
-a3101ecf1ae97c sound/soc/fsl/fsl_hifi4.c Weiguang Kong 2017-10-23  681  		if (shdr->sh_type == SHT_NOBITS) {
-6b7b1ae0ecddc2 sound/soc/fsl/fsl_dsp.c   Weiguang Kong 2018-04-18  682  			memset_dsp((void *)(dsp_priv->sdram_vir_addr +
-6b7b1ae0ecddc2 sound/soc/fsl/fsl_dsp.c   Weiguang Kong 2018-04-18  683  				(sh_addr - dsp_priv->sdram_phys_addr)),
-a3101ecf1ae97c sound/soc/fsl/fsl_hifi4.c Weiguang Kong 2017-10-23  684  				0,
-a3101ecf1ae97c sound/soc/fsl/fsl_hifi4.c Weiguang Kong 2017-10-23  685  				shdr->sh_size);
-a3101ecf1ae97c sound/soc/fsl/fsl_hifi4.c Weiguang Kong 2017-10-23  686  		} else {
-a3101ecf1ae97c sound/soc/fsl/fsl_hifi4.c Weiguang Kong 2017-10-23  687  			image = (unsigned char *)addr + shdr->sh_offset;
-f4fa46fed6abbe sound/soc/fsl/fsl_hifi4.c Weiguang Kong 2017-06-28  688  			if ((!strcmp(&strtab[shdr->sh_name], ".rodata")) ||
-f4fa46fed6abbe sound/soc/fsl/fsl_hifi4.c Weiguang Kong 2017-06-28  689  				(!strcmp(&strtab[shdr->sh_name], ".text"))   ||
-f4fa46fed6abbe sound/soc/fsl/fsl_hifi4.c Weiguang Kong 2017-06-28  690  				(!strcmp(&strtab[shdr->sh_name], ".data"))   ||
-f4fa46fed6abbe sound/soc/fsl/fsl_hifi4.c Weiguang Kong 2017-06-28  691  				(!strcmp(&strtab[shdr->sh_name], ".bss"))
-f4fa46fed6abbe sound/soc/fsl/fsl_hifi4.c Weiguang Kong 2017-06-28  692  			) {
-6b7b1ae0ecddc2 sound/soc/fsl/fsl_dsp.c   Weiguang Kong 2018-04-18  693  				memcpy_dsp((void *)(dsp_priv->sdram_vir_addr
-6b7b1ae0ecddc2 sound/soc/fsl/fsl_dsp.c   Weiguang Kong 2018-04-18  694  				  + (sh_addr - dsp_priv->sdram_phys_addr)),
-a3101ecf1ae97c sound/soc/fsl/fsl_hifi4.c Weiguang Kong 2017-10-23  695  				  (const void *)image,
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  696  				  shdr->sh_size);
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  697  			} else {
-8184e47416f8e5 sound/soc/fsl/fsl_dsp.c   Daniel Baluta 2018-05-23  698  				/* sh_addr is from DSP view, we need to
-8184e47416f8e5 sound/soc/fsl/fsl_dsp.c   Daniel Baluta 2018-05-23  699  				 * fixup addr because we load the firmware from
-8184e47416f8e5 sound/soc/fsl/fsl_dsp.c   Daniel Baluta 2018-05-23  700  				 * the ARM core side
-8184e47416f8e5 sound/soc/fsl/fsl_dsp.c   Daniel Baluta 2018-05-23  701  				 */
-8184e47416f8e5 sound/soc/fsl/fsl_dsp.c   Daniel Baluta 2018-05-23  702  				sh_addr -= dsp_priv->fixup_offset;
-8184e47416f8e5 sound/soc/fsl/fsl_dsp.c   Daniel Baluta 2018-05-23  703  
-6b7b1ae0ecddc2 sound/soc/fsl/fsl_dsp.c   Weiguang Kong 2018-04-18  704  				memcpy_dsp((void *)(dsp_priv->regs +
-6b7b1ae0ecddc2 sound/soc/fsl/fsl_dsp.c   Weiguang Kong 2018-04-18  705  						(sh_addr - dsp_priv->paddr)),
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  706  						(const void *)image,
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  707  						shdr->sh_size);
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  708  			}
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  709  		}
-a3101ecf1ae97c sound/soc/fsl/fsl_hifi4.c Weiguang Kong 2017-10-23  710  	}
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  711  
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  712  	/* start the core */
-6b7b1ae0ecddc2 sound/soc/fsl/fsl_dsp.c   Weiguang Kong 2018-04-18  713  	imx_sc_pm_cpu_start(dsp_priv->dsp_ipcHandle,
-6b7b1ae0ecddc2 sound/soc/fsl/fsl_dsp.c   Weiguang Kong 2018-04-18  714  					IMX_SC_R_DSP, true, dsp_priv->iram);
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  715  }
-4520379e9ce7b7 sound/soc/fsl/fsl_hifi4.c Shengjiu Wang 2017-06-01  716  
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  11  
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  12  /* macro to log operation of a misc device */
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  13  #define miscdev_dbg(p_miscdev, fmt, va_args...)                                \
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  14  	({                                                                     \
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  15  		struct miscdevice *_p_miscdev = p_miscdev;                     \
+e18e8a757c46a2 Pankaj Gupta 2021-11-18 @16  		dev_dbg((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  17  		##va_args);                                                    \
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  18  	})
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  19  
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  20  #define miscdev_info(p_miscdev, fmt, va_args...)                               \
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  21  	({                                                                     \
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  22  		struct miscdevice *_p_miscdev = p_miscdev;                     \
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  23  		dev_info((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name, \
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  24  		##va_args);                                                    \
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  25  	})
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  26  
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  27  #define miscdev_err(p_miscdev, fmt, va_args...)                                \
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  28  	({                                                                     \
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  29  		struct miscdevice *_p_miscdev = p_miscdev;                     \
+e18e8a757c46a2 Pankaj Gupta 2021-11-18 @30  		dev_err((_p_miscdev)->parent, "%s: " fmt, (_p_miscdev)->name,  \
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  31  		##va_args);                                                    \
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  32  	})
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  33  /* macro to log operation of a device context */
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  34  #define devctx_dbg(p_devctx, fmt, va_args...) \
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  35  	miscdev_dbg(&((p_devctx)->miscdev), fmt, ##va_args)
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  36  #define devctx_info(p_devctx, fmt, va_args...) \
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  37  	miscdev_info(&((p_devctx)->miscdev), fmt, ##va_args)
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  38  #define devctx_err(p_devctx, fmt, va_args...) \
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  39  	miscdev_err((&(p_devctx)->miscdev), fmt, ##va_args)
+e18e8a757c46a2 Pankaj Gupta 2021-11-18  40  
 
-:::::: The code at line 639 was first introduced by commit
-:::::: 6b7b1ae0ecddc26b44c1510370ed27511dbb1fdb MLK-17747: dsp: use the name of dsp instead of hifi
+:::::: The code at line 16 was first introduced by commit
+:::::: e18e8a757c46a2b3086ef6e8c1d126776e96f036 firmware: imx: added the character driver
 
-:::::: TO: Weiguang Kong <weiguang.kong@nxp.com>
+:::::: TO: Pankaj Gupta <pankaj.gupta@nxp.com>
 :::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
