@@ -1,47 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD02133D2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 06:07:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1325F7462
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 06:28:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c+GOSQvc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cCyMdfMf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697177240; x=1728713240;
+  t=1697178524; x=1728714524;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1vi4quYsicXTaHgXOQ/XmvJELhMxmbbQAstL6UvPsAM=;
-  b=c+GOSQvc7bcwWvM0S7EbtUjLcOyWIE2+HlL7aulkQ9jhcRnRm19TMT0a
-   ujKMNnQZL1drV1h7nhyzJ5aUi7nXekRHm2nN0nMeOcEVGPk4xhLEp/kt7
-   JaDKeu6go0efa2ANtuh0mCMyq0/8+CJ5tkJCPH3CqksJ27ynkuaw4Fv7k
-   NHXvcUNF8XcITFiF8730ZHUjhOMuqsIdtNO7WIHzFM5Jj4xIMt3jw8+DQ
-   lVE9o8P6Eeg2MuTpyhV7iRFT5S6/JAkdBu2ezfgMXm/yHy1jVtKbZuvva
-   Hf7PT/V2DcVpax+bvTNbGNwyNxf9ajQ5Hr1O9RU5ljpGl1/Ti0ZVNSFkX
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="365369261"
+  bh=kgeqXPj86kxHV3ppGtZ84+hdq0VkC7YTr4wYSYXajHM=;
+  b=cCyMdfMfWNYpnS/1CP7pnqTIw5Eqi/RbJIygsn0a2pt8JGHIHxVk9eNW
+   xZd07MCNTysvk3T8x83WB7hmPsc771UCGtP1skwarnXLGA5+kjv5Ft05Q
+   atRL/q0DYFViE1WxBpdTCYlCF0A0D8tooxBXQfMbMTrtA91PqW4hX/HnQ
+   Ir4WUc3UphnxGbOAkUuC+Z6TEpvEKZW1AoTh1b2b/2GW9zhYGGt9c2UzI
+   JSHeJurt7EA/H8Z10JGkun3qUfZZ9CkMULZUFkKfSil7EsEoVIr6jaIQH
+   7n+ruswG9dhhfcon/kdYkZoyJbG+IBi5crDXEdc1YBCWClCue1ePnmQLU
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="365371903"
 X-IronPort-AV: E=Sophos;i="6.03,221,1694761200"; 
-   d="scan'208";a="365369261"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 23:07:19 -0700
+   d="scan'208";a="365371903"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 23:28:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="704494292"
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="1086016271"
 X-IronPort-AV: E=Sophos;i="6.03,221,1694761200"; 
-   d="scan'208";a="704494292"
+   d="scan'208";a="1086016271"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 12 Oct 2023 23:07:18 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 12 Oct 2023 23:28:19 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qrBKO-0004On-0q;
-	Fri, 13 Oct 2023 06:07:16 +0000
-Date: Fri, 13 Oct 2023 14:07:05 +0800
+	id 1qrBej-0004Q3-1y;
+	Fri, 13 Oct 2023 06:28:17 +0000
+Date: Fri, 13 Oct 2023 14:27:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-2.1.x-imx 255/15768]
- drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1556:18: warning: variable
- 'len' set but not used
-Message-ID: <202310131457.hDH7SOB8-lkp@intel.com>
+Subject: [freescale-fslc:6.1-2.1.x-imx 4725/15768]
+ sound/soc/fsl/fsl-asoc-card.c:124: warning: Function parameter or member
+ 'card_type' not described in 'fsl_asoc_card_priv'
+Message-ID: <202310131457.Ixbv7Did-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,131 +51,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Guoniu.zhou,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
 tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
 head:   3f41fbe42851375d3d5996e4bf9e9809e6c79517
-commit: 196f8794fe335edc1fd97b5a0021bd46357d8878 [255/15768] LF-5810-03: media: csi2-sam: Kconfig: cleanup VIDEO_V4L2 due to community change
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231013/202310131457.hDH7SOB8-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231013/202310131457.hDH7SOB8-lkp@intel.com/reproduce)
+commit: 370dd28487b6791cd8d9feabd87ee77a7bcf4d7d [4725/15768] Merge remote-tracking branch 'origin/audio/esai' into audio/next
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231013/202310131457.Ixbv7Did-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231013/202310131457.Ixbv7Did-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310131457.hDH7SOB8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310131457.Ixbv7Did-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/staging/media/imx/imx8-mipi-csi2-sam.c: In function 'csis_get_remote_sensor_pad':
-   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:594:46: error: implicit declaration of function 'media_entity_remote_pad'; did you mean 'media_entity_remove_links'? [-Werror=implicit-function-declaration]
-     594 |                                 source_pad = media_entity_remote_pad(sink_pad);
-         |                                              ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                              media_entity_remove_links
-   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:594:44: warning: assignment to 'struct media_pad *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     594 |                                 source_pad = media_entity_remote_pad(sink_pad);
-         |                                            ^
-   drivers/staging/media/imx/imx8-mipi-csi2-sam.c: In function 'mipi_csis_imx8mn_parse_resets':
->> drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1556:18: warning: variable 'len' set but not used [-Wunused-but-set-variable]
-    1556 |         uint32_t len, rstc_num = 0;
-         |                  ^~~
-   drivers/staging/media/imx/imx8-mipi-csi2-sam.c: In function 'mipi_csis_probe':
-   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1900:29: warning: variable 'mipi_sd' set but not used [-Wunused-but-set-variable]
-    1900 |         struct v4l2_subdev *mipi_sd;
-         |                             ^~~~~~~
-   drivers/staging/media/imx/imx8-mipi-csi2-sam.c: In function 'csis_priv_ioctl':
-   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1358:17: warning: ignoring return value of 'copy_from_user' declared with attribute 'warn_unused_result' [-Wunused-result]
-    1358 |                 copy_from_user(arg, arg_user, sizeof(TYPE));\
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1393:17: note: in expansion of macro 'USER_TO_KERNEL'
-    1393 |                 USER_TO_KERNEL(struct csi_sam_format);
-         |                 ^~~~~~~~~~~~~~
-   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1358:17: warning: ignoring return value of 'copy_from_user' declared with attribute 'warn_unused_result' [-Wunused-result]
-    1358 |                 copy_from_user(arg, arg_user, sizeof(TYPE));\
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1398:17: note: in expansion of macro 'USER_TO_KERNEL'
-    1398 |                 USER_TO_KERNEL(bool);
-         |                 ^~~~~~~~~~~~~~
-   drivers/staging/media/imx/imx8-mipi-csi2-sam.c: At top level:
->> drivers/staging/media/imx/imx8-mipi-csi2-sam.c:2060:12: warning: 'mipi_csis_runtime_resume' defined but not used [-Wunused-function]
-    2060 | static int mipi_csis_runtime_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/staging/media/imx/imx8-mipi-csi2-sam.c:2046:12: warning: 'mipi_csis_runtime_suspend' defined but not used [-Wunused-function]
-    2046 | static int mipi_csis_runtime_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/staging/media/imx/imx8-mipi-csi2-sam.c:2033:12: warning: 'mipi_csis_system_resume' defined but not used [-Wunused-function]
-    2033 | static int mipi_csis_system_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/staging/media/imx/imx8-mipi-csi2-sam.c:2028:12: warning: 'mipi_csis_system_suspend' defined but not used [-Wunused-function]
-    2028 | static int mipi_csis_system_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> sound/soc/fsl/fsl-asoc-card.c:124: warning: Function parameter or member 'card_type' not described in 'fsl_asoc_card_priv'
+>> sound/soc/fsl/fsl-asoc-card.c:124: warning: Function parameter or member 'is_stream_tdm' not described in 'fsl_asoc_card_priv'
+>> sound/soc/fsl/fsl-asoc-card.c:124: warning: Function parameter or member 'is_codec_master' not described in 'fsl_asoc_card_priv'
+>> sound/soc/fsl/fsl-asoc-card.c:124: warning: Function parameter or member 'is_playback_only' not described in 'fsl_asoc_card_priv'
+>> sound/soc/fsl/fsl-asoc-card.c:124: warning: Function parameter or member 'is_capture_only' not described in 'fsl_asoc_card_priv'
 
 
-vim +/len +1556 drivers/staging/media/imx/imx8-mipi-csi2-sam.c
+vim +124 sound/soc/fsl/fsl-asoc-card.c
 
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1543  
-4d5e92874cef37 Guoniu.zhou 2020-08-21  1544  /*
-4d5e92874cef37 Guoniu.zhou 2020-08-21  1545   * IMX8MN platform data
-4d5e92874cef37 Guoniu.zhou 2020-08-21  1546   */
-4d5e92874cef37 Guoniu.zhou 2020-08-21  1547  static int mipi_csis_imx8mn_parse_resets(struct csi_state *state)
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1548  {
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1549  	int ret;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1550  	struct device *dev = state->dev;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1551  	struct device_node *np = dev->of_node;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1552  	struct device_node *parent, *child;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1553  	struct of_phandle_args args;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1554  	struct reset_control *rstc;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1555  	const char *compat;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25 @1556  	uint32_t len, rstc_num = 0;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1557  
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1558  	ret = of_parse_phandle_with_args(np, "resets", "#reset-cells",
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1559  					 0, &args);
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1560  	if (ret)
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1561  		return ret;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1562  
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1563  	parent = args.np;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1564  	for_each_child_of_node(parent, child) {
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1565  		compat = of_get_property(child, "compatible", NULL);
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1566  		if (!compat)
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1567  			continue;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1568  
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1569  		rstc = of_reset_control_array_get(child, false, false, true);
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1570  		if (IS_ERR(rstc))
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1571  			continue;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1572  
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1573  		len = strlen(compat);
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1574  		if (!of_compat_cmp("csi,soft-resetn", compat, len)) {
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1575  			state->soft_resetn = rstc;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1576  			rstc_num++;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1577  		} else if (!of_compat_cmp("csi,clk-enable", compat, len)) {
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1578  			state->clk_enable = rstc;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1579  			rstc_num++;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1580  		} else if (!of_compat_cmp("csi,mipi-reset", compat, len)) {
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1581  			state->mipi_reset = rstc;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1582  			rstc_num++;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1583  		} else {
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1584  			dev_warn(dev, "invalid csis reset node: %s\n", compat);
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1585  		}
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1586  	}
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1587  
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1588  	if (!rstc_num) {
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1589  		dev_err(dev, "no invalid reset control exists\n");
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1590  		return -EINVAL;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1591  	}
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1592  	of_node_put(parent);
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1593  
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1594  	return 0;
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1595  }
-d6d0fbf683aa60 Guoniu.zhou 2019-10-25  1596  
+708b4351f08c08 Nicolin Chen         2014-07-30   85  
+708b4351f08c08 Nicolin Chen         2014-07-30   86  /**
+31deacffcdba10 Pierre-Louis Bossart 2020-07-02   87   * struct fsl_asoc_card_priv - Freescale Generic ASOC card private data
+31deacffcdba10 Pierre-Louis Bossart 2020-07-02   88   * @dai_link: DAI link structure including normal one and DPCM link
+3b171194493c5f Shengjiu Wang        2020-07-15   89   * @hp_jack: Headphone Jack structure
+3b171194493c5f Shengjiu Wang        2020-07-15   90   * @mic_jack: Microphone Jack structure
+708b4351f08c08 Nicolin Chen         2014-07-30   91   * @pdev: platform device pointer
+708b4351f08c08 Nicolin Chen         2014-07-30   92   * @codec_priv: CODEC private data
+708b4351f08c08 Nicolin Chen         2014-07-30   93   * @cpu_priv: CPU private data
+708b4351f08c08 Nicolin Chen         2014-07-30   94   * @card: ASoC card structure
+f36e8edb95734c Shengjiu Wang        2020-08-03   95   * @streams: Mask of current active streams
+708b4351f08c08 Nicolin Chen         2014-07-30   96   * @sample_rate: Current sample rate
+708b4351f08c08 Nicolin Chen         2014-07-30   97   * @sample_format: Current sample format
+708b4351f08c08 Nicolin Chen         2014-07-30   98   * @asrc_rate: ASRC sample rate used by Back-Ends
+708b4351f08c08 Nicolin Chen         2014-07-30   99   * @asrc_format: ASRC sample format used by Back-Ends
+708b4351f08c08 Nicolin Chen         2014-07-30  100   * @dai_fmt: DAI format between CPU and CODEC
+708b4351f08c08 Nicolin Chen         2014-07-30  101   * @name: Card name
+708b4351f08c08 Nicolin Chen         2014-07-30  102   */
+708b4351f08c08 Nicolin Chen         2014-07-30  103  
+708b4351f08c08 Nicolin Chen         2014-07-30  104  struct fsl_asoc_card_priv {
+708b4351f08c08 Nicolin Chen         2014-07-30  105  	struct snd_soc_dai_link dai_link[3];
+3b171194493c5f Shengjiu Wang        2020-07-15  106  	struct asoc_simple_jack hp_jack;
+3b171194493c5f Shengjiu Wang        2020-07-15  107  	struct asoc_simple_jack mic_jack;
+708b4351f08c08 Nicolin Chen         2014-07-30  108  	struct platform_device *pdev;
+708b4351f08c08 Nicolin Chen         2014-07-30  109  	struct codec_priv codec_priv;
+708b4351f08c08 Nicolin Chen         2014-07-30  110  	struct cpu_priv cpu_priv;
+708b4351f08c08 Nicolin Chen         2014-07-30  111  	struct snd_soc_card card;
+f36e8edb95734c Shengjiu Wang        2020-08-03  112  	u8 streams;
+708b4351f08c08 Nicolin Chen         2014-07-30  113  	u32 sample_rate;
+fc734c244ab5ba Fabio Estevam        2018-02-11  114  	snd_pcm_format_t sample_format;
+708b4351f08c08 Nicolin Chen         2014-07-30  115  	u32 asrc_rate;
+fc734c244ab5ba Fabio Estevam        2018-02-11  116  	snd_pcm_format_t asrc_format;
+708b4351f08c08 Nicolin Chen         2014-07-30  117  	u32 dai_fmt;
+3f32e9bc370556 Shengjiu Wang        2020-06-02  118  	u32 card_type;
+3f32e9bc370556 Shengjiu Wang        2020-06-02  119  	bool is_stream_tdm[2];
+3f32e9bc370556 Shengjiu Wang        2020-06-02  120  	bool is_codec_master;
+3f32e9bc370556 Shengjiu Wang        2020-06-02  121  	bool is_playback_only;
+3f32e9bc370556 Shengjiu Wang        2020-06-02  122  	bool is_capture_only;
+708b4351f08c08 Nicolin Chen         2014-07-30  123  	char name[32];
+708b4351f08c08 Nicolin Chen         2014-07-30 @124  };
+708b4351f08c08 Nicolin Chen         2014-07-30  125  
 
-:::::: The code at line 1556 was first introduced by commit
-:::::: d6d0fbf683aa60f8d27adaab7b5e54343d90d6f6 staging: media: imx: add V4L2 subdev driver for MIPI CSI2 of Samsung
+:::::: The code at line 124 was first introduced by commit
+:::::: 708b4351f08c08ea93f773fb9197bdd3f3b08273 ASoC: fsl: Add Freescale Generic ASoC Sound Card with ASRC support
 
-:::::: TO: Guoniu.zhou <guoniu.zhou@nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+:::::: TO: Nicolin Chen <nicoleotsuka@gmail.com>
+:::::: CC: Mark Brown <broonie@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
