@@ -1,48 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB91224D0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 16:49:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE401BDE2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 17:13:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VCThgsjE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cwz6kCU3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697215796; x=1728751796;
+  t=1697217181; x=1728753181;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=v5nulNd0dHKa+/mWGEOmv+lCCsNWx4AtSUHoXWfaAFc=;
-  b=VCThgsjECdRfApZCOF2hFI6bGRaPdHmRTQwVuofKqXatOfNxXY9HAteH
-   72k7aX/e9PSvIq4ShysToI/H7nNmQSZici88lyGjSA6vnX27emka39UKq
-   /reSzk6T2w2dbmaSTBbweSv9K3U7UdfntQmeqe6Jol/n4Xuqfn/+gAOc+
-   nfkX+h+FghOw655H3YWkwArkLJMp9/fE8Q3SalAHqT6nDJGeRa6Yy4Jvp
-   z6QTzcst5c+ocMpems/sDJYK2Dt82irTo8fu25wncrS8+cIP9GQb/AQ7n
-   AmxqyTR8tE2W4IhUHAOuoPSfzRPGu3pkghebIKKuMHOnbHFMza1AKTunl
+  bh=oM/b9gG45M8snFBQUrMNnV1W55sjV3CxBtG6ScnzP+w=;
+  b=cwz6kCU3MymelvfRBjVU+5qH2fKR+PtcfDrll7nPJdJHLWdYAuJXPTj5
+   nNGWqnmiG3iLWtb2bEVO5uxQcpbBpBaX4GBtY8in8m6jMslW5Y2fdbxU/
+   St1aaZmCj0aNKPUcn+7ZPRsm4GImPVyvYwlcNAhPxocz3qnvBiN758P58
+   oCHkQM8Y6Cb4OYkNnjT+1jRqs15BjbuIAX8FuySU7RximZF5ReOhceL28
+   nEIKAW+smSe+9gI2uDMK/CduFe9jKhkt/FNALz2g8Zr2PS14OUhQUIdy4
+   X+jiz/laXZ7/jF8/+pY12QSsJbp3eGNHG5bSrAqlK9+CY4kcVysmxMhsa
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="375571672"
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="416274186"
 X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; 
-   d="scan'208";a="375571672"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 09:49:55 -0700
+   d="scan'208";a="416274186"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 10:13:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="748405896"
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="1086217698"
 X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; 
-   d="scan'208";a="748405896"
+   d="scan'208";a="1086217698"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 13 Oct 2023 09:49:53 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 13 Oct 2023 10:12:59 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qrLMG-00059h-0A;
-	Fri, 13 Oct 2023 16:49:52 +0000
-Date: Sat, 14 Oct 2023 00:49:30 +0800
+	id 1qrLiZ-0005BJ-0O;
+	Fri, 13 Oct 2023 17:12:55 +0000
+Date: Sat, 14 Oct 2023 01:11:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: Amir Goldstein <amir73il@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-2.1.x-imx 4300/15768]
- drivers/net/ethernet/freescale/fman/mac.c:358:22: warning: format '%llx'
- expects argument of type 'long long unsigned int', but argument 5 has type
- 'resource_size_t' {aka 'unsigned int'}
-Message-ID: <202310140007.7ZIyWL0N-lkp@intel.com>
+Subject: [amir73il:fuse-backing-fd 19/29] fs/internal.h:36:17: error: unknown
+ type name 'get_block_t'
+Message-ID: <202310140114.m20tQ2eq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,321 +50,495 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi AnjanaSuraj,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
-head:   3f41fbe42851375d3d5996e4bf9e9809e6c79517
-commit: 9eddcd885aeb305820f06e648271f50ceb6b1db3 [4300/15768] fsl/fman: add MAC ACPI support
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231014/202310140007.7ZIyWL0N-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310140007.7ZIyWL0N-lkp@intel.com/reproduce)
+tree:   https://github.com/amir73il/linux fuse-backing-fd
+head:   af314f8dfffbe0852967cf253beb94878c5d4846
+commit: 3cfa566dee03bea57e9fe2b763833c61d2ca96ef [19/29] fs: prepare for stackable filesystems backing file helpers
+config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20231014/202310140114.m20tQ2eq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310140114.m20tQ2eq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310140007.7ZIyWL0N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310140114.m20tQ2eq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the amir73il/fuse-backing-fd HEAD af314f8dfffbe0852967cf253beb94878c5d4846 builds fine.
+      It only hurts bisectability.
 
-   In file included from include/linux/printk.h:566,
-                    from include/asm-generic/bug.h:22,
-                    from arch/sh/include/asm/bug.h:112,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/current.h:5,
-                    from ./arch/sh/include/generated/asm/current.h:1,
-                    from include/linux/mutex.h:14,
-                    from include/linux/kernfs.h:11,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/of.h:17,
-                    from include/linux/irqdomain.h:35,
-                    from include/linux/acpi.h:13,
-                    from drivers/net/ethernet/freescale/fman/mac.c:9:
-   drivers/net/ethernet/freescale/fman/mac.c: In function 'acpi_mac_probe':
->> drivers/net/ethernet/freescale/fman/mac.c:358:22: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 5 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-     358 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
-     223 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
-     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
-     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+All error/warnings (new ones prefixed by >>):
+
+   In file included from fs/backing-file.c:8:
+>> include/linux/backing-file.h:15:45: warning: 'struct cred' declared inside parameter list will not be visible outside of this definition or declaration
+      15 |                                const struct cred *cred);
+         |                                             ^~~~
+   In file included from fs/backing-file.c:10:
+>> fs/internal.h:36:17: error: unknown type name 'get_block_t'
+      36 |                 get_block_t *get_block, const struct iomap *iomap);
+         |                 ^~~~~~~~~~~
+>> fs/internal.h:41:20: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'chrdev_init'
+      41 | extern void __init chrdev_init(void);
+         |                    ^~~~~~~~~~~
+>> fs/internal.h:54:44: warning: 'struct filename' declared inside parameter list will not be visible outside of this definition or declaration
+      54 | extern int filename_lookup(int dfd, struct filename *name, unsigned flags,
+         |                                            ^~~~~~~~
+   fs/internal.h:56:30: warning: 'struct filename' declared inside parameter list will not be visible outside of this definition or declaration
+      56 | int do_rmdir(int dfd, struct filename *name);
+         |                              ^~~~~~~~
+   fs/internal.h:57:33: warning: 'struct filename' declared inside parameter list will not be visible outside of this definition or declaration
+      57 | int do_unlinkat(int dfd, struct filename *name);
+         |                                 ^~~~~~~~
+   fs/internal.h:59:37: warning: 'struct filename' declared inside parameter list will not be visible outside of this definition or declaration
+      59 | int do_renameat2(int olddfd, struct filename *oldname, int newdfd,
+         |                                     ^~~~~~~~
+   fs/internal.h:61:32: warning: 'struct filename' declared inside parameter list will not be visible outside of this definition or declaration
+      61 | int do_mkdirat(int dfd, struct filename *name, umode_t mode);
+         |                                ^~~~~~~~
+   fs/internal.h:62:25: warning: 'struct filename' declared inside parameter list will not be visible outside of this definition or declaration
+      62 | int do_symlinkat(struct filename *from, int newdfd, struct filename *to);
+         |                         ^~~~~~~~
+   fs/internal.h:63:34: warning: 'struct filename' declared inside parameter list will not be visible outside of this definition or declaration
+      63 | int do_linkat(int olddfd, struct filename *old, int newdfd,
+         |                                  ^~~~~~~~
+>> fs/internal.h:74:20: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'mnt_init'
+      74 | extern void __init mnt_init(void);
+         |                    ^~~~~~~~
+>> fs/internal.h:94:55: warning: 'struct cred' declared inside parameter list will not be visible outside of this definition or declaration
+      94 | struct file *alloc_empty_file(int flags, const struct cred *cred);
+         |                                                       ^~~~
+   fs/internal.h:95:65: warning: 'struct cred' declared inside parameter list will not be visible outside of this definition or declaration
+      95 | struct file *alloc_empty_file_noaccount(int flags, const struct cred *cred);
+         |                                                                 ^~~~
+   fs/internal.h:96:63: warning: 'struct cred' declared inside parameter list will not be visible outside of this definition or declaration
+      96 | struct file *alloc_empty_backing_file(int flags, const struct cred *cred);
+         |                                                               ^~~~
+   fs/internal.h: In function 'file_put_write_access':
+>> fs/internal.h:101:9: error: implicit declaration of function 'put_write_access'; did you mean 'file_put_write_access'? [-Werror=implicit-function-declaration]
+     101 |         put_write_access(file->f_inode);
+         |         ^~~~~~~~~~~~~~~~
+         |         file_put_write_access
+>> fs/internal.h:101:30: error: invalid use of undefined type 'struct file'
+     101 |         put_write_access(file->f_inode);
+         |                              ^~
+>> fs/internal.h:102:9: error: implicit declaration of function 'mnt_put_write_access'; did you mean 'file_put_write_access'? [-Werror=implicit-function-declaration]
+     102 |         mnt_put_write_access(file->f_path.mnt);
+         |         ^~~~~~~~~~~~~~~~~~~~
+         |         file_put_write_access
+   fs/internal.h:102:34: error: invalid use of undefined type 'struct file'
+     102 |         mnt_put_write_access(file->f_path.mnt);
+         |                                  ^~
+   In file included from include/linux/file.h:9,
+                    from include/linux/backing-file.h:11:
+   fs/internal.h:103:26: error: invalid use of undefined type 'struct file'
+     103 |         if (unlikely(file->f_mode & FMODE_BACKING))
+         |                          ^~
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+>> fs/internal.h:103:37: error: 'FMODE_BACKING' undeclared (first use in this function)
+     103 |         if (unlikely(file->f_mode & FMODE_BACKING))
+         |                                     ^~~~~~~~~~~~~
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   fs/internal.h:103:37: note: each undeclared identifier is reported only once for each function it appears in
+     103 |         if (unlikely(file->f_mode & FMODE_BACKING))
+         |                                     ^~~~~~~~~~~~~
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+>> fs/internal.h:104:38: error: implicit declaration of function 'backing_file_user_path'; did you mean 'backing_file_open'? [-Werror=implicit-function-declaration]
+     104 |                 mnt_put_write_access(backing_file_user_path(file)->mnt);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
+         |                                      backing_file_open
+>> fs/internal.h:104:66: error: invalid type argument of '->' (have 'int')
+     104 |                 mnt_put_write_access(backing_file_user_path(file)->mnt);
+         |                                                                  ^~
+   fs/internal.h: In function 'put_file_access':
+   fs/internal.h:109:18: error: invalid use of undefined type 'struct file'
+     109 |         if ((file->f_mode & (FMODE_READ | FMODE_WRITE)) == FMODE_READ) {
+         |                  ^~
+>> fs/internal.h:109:30: error: 'FMODE_READ' undeclared (first use in this function)
+     109 |         if ((file->f_mode & (FMODE_READ | FMODE_WRITE)) == FMODE_READ) {
+         |                              ^~~~~~~~~~
+>> fs/internal.h:109:43: error: 'FMODE_WRITE' undeclared (first use in this function)
+     109 |         if ((file->f_mode & (FMODE_READ | FMODE_WRITE)) == FMODE_READ) {
+         |                                           ^~~~~~~~~~~
+>> fs/internal.h:110:17: error: implicit declaration of function 'i_readcount_dec' [-Werror=implicit-function-declaration]
+     110 |                 i_readcount_dec(file->f_inode);
+         |                 ^~~~~~~~~~~~~~~
+   fs/internal.h:110:37: error: invalid use of undefined type 'struct file'
+     110 |                 i_readcount_dec(file->f_inode);
+         |                                     ^~
+   fs/internal.h:111:24: error: invalid use of undefined type 'struct file'
+     111 |         } else if (file->f_mode & FMODE_WRITER) {
+         |                        ^~
+>> fs/internal.h:111:35: error: 'FMODE_WRITER' undeclared (first use in this function)
+     111 |         } else if (file->f_mode & FMODE_WRITER) {
+         |                                   ^~~~~~~~~~~~
+   In file included from <command-line>:
+   fs/internal.h: In function 'sb_start_ro_state_change':
+>> fs/internal.h:135:22: error: invalid use of undefined type 'struct super_block'
+     135 |         WRITE_ONCE(sb->s_readonly_remount, 1);
+         |                      ^~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
          |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/net/ethernet/freescale/fman/mac.c:358:9: note: in expansion of macro 'dev_dbg'
-     358 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
-         |         ^~~~~~~
-   drivers/net/ethernet/freescale/fman/mac.c:358:49: note: format string is defined here
-     358 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
-         |                                              ~~~^
-         |                                                 |
-         |                                                 long long unsigned int
-         |                                              %x
-   drivers/net/ethernet/freescale/fman/mac.c:358:22: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 6 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-     358 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
-     223 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
-     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
-     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/internal.h:135:9: note: in expansion of macro 'WRITE_ONCE'
+     135 |         WRITE_ONCE(sb->s_readonly_remount, 1);
+         |         ^~~~~~~~~~
+>> fs/internal.h:135:22: error: invalid use of undefined type 'struct super_block'
+     135 |         WRITE_ONCE(sb->s_readonly_remount, 1);
+         |                      ^~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
          |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/net/ethernet/freescale/fman/mac.c:358:9: note: in expansion of macro 'dev_dbg'
-     358 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/internal.h:135:9: note: in expansion of macro 'WRITE_ONCE'
+     135 |         WRITE_ONCE(sb->s_readonly_remount, 1);
+         |         ^~~~~~~~~~
+>> fs/internal.h:135:22: error: invalid use of undefined type 'struct super_block'
+     135 |         WRITE_ONCE(sb->s_readonly_remount, 1);
+         |                      ^~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/internal.h:135:9: note: in expansion of macro 'WRITE_ONCE'
+     135 |         WRITE_ONCE(sb->s_readonly_remount, 1);
+         |         ^~~~~~~~~~
+>> fs/internal.h:135:22: error: invalid use of undefined type 'struct super_block'
+     135 |         WRITE_ONCE(sb->s_readonly_remount, 1);
+         |                      ^~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/internal.h:135:9: note: in expansion of macro 'WRITE_ONCE'
+     135 |         WRITE_ONCE(sb->s_readonly_remount, 1);
+         |         ^~~~~~~~~~
+   fs/internal.h:135:22: error: invalid use of undefined type 'struct super_block'
+     135 |         WRITE_ONCE(sb->s_readonly_remount, 1);
+         |                      ^~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/internal.h:135:9: note: in expansion of macro 'WRITE_ONCE'
+     135 |         WRITE_ONCE(sb->s_readonly_remount, 1);
+         |         ^~~~~~~~~~
+   In file included from ./arch/x86/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:246:
+   fs/internal.h:135:22: error: invalid use of undefined type 'struct super_block'
+     135 |         WRITE_ONCE(sb->s_readonly_remount, 1);
+         |                      ^~
+   include/asm-generic/rwonce.h:55:27: note: in definition of macro '__WRITE_ONCE'
+      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
+         |                           ^
+   fs/internal.h:135:9: note: in expansion of macro 'WRITE_ONCE'
+     135 |         WRITE_ONCE(sb->s_readonly_remount, 1);
+         |         ^~~~~~~~~~
+   fs/internal.h:135:22: error: invalid use of undefined type 'struct super_block'
+     135 |         WRITE_ONCE(sb->s_readonly_remount, 1);
+         |                      ^~
+   include/asm-generic/rwonce.h:55:34: note: in definition of macro '__WRITE_ONCE'
+      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
+         |                                  ^
+   fs/internal.h:135:9: note: in expansion of macro 'WRITE_ONCE'
+     135 |         WRITE_ONCE(sb->s_readonly_remount, 1);
+         |         ^~~~~~~~~~
+   fs/internal.h:145:9: error: implicit declaration of function 'smp_wmb' [-Werror=implicit-function-declaration]
+     145 |         smp_wmb();
          |         ^~~~~~~
-   drivers/net/ethernet/freescale/fman/mac.c:358:61: note: format string is defined here
-     358 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
-         |                                                          ~~~^
-         |                                                             |
-         |                                                             long long unsigned int
-         |                                                          %x
+   fs/internal.h: In function 'sb_end_ro_state_change':
+   fs/internal.h:164:22: error: invalid use of undefined type 'struct super_block'
+     164 |         WRITE_ONCE(sb->s_readonly_remount, 0);
+         |                      ^~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/internal.h:164:9: note: in expansion of macro 'WRITE_ONCE'
+     164 |         WRITE_ONCE(sb->s_readonly_remount, 0);
+         |         ^~~~~~~~~~
+   fs/internal.h:164:22: error: invalid use of undefined type 'struct super_block'
+     164 |         WRITE_ONCE(sb->s_readonly_remount, 0);
+         |                      ^~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
 
 
-vim +358 drivers/net/ethernet/freescale/fman/mac.c
+vim +/get_block_t +36 fs/internal.h
 
-   279	
-   280	static int acpi_mac_probe(struct platform_device *pdev)
-   281	{
-   282		int			err, i, nph;
-   283		int (*init)(struct mac_device *mac_dev, struct device_node *mac_node,
-   284			    struct fman_mac_params *params);
-   285		struct device		*dev;
-   286		struct device_node	*mac_node;
-   287		struct mac_device	*mac_dev;
-   288		struct mac_priv_s	*priv;
-   289		u32			val;
-   290		u8			fman_id;
-   291		phy_interface_t		phy_if;
-   292		struct device		*fman_dev = NULL;
-   293		struct fwnode_handle	*fman_fwnode = NULL;
-   294		struct device		*fman_port_dev = NULL;
-   295		/* firmware node references */
-   296		struct fwnode_reference_args args;
-   297		struct fman_mac_params	 params;
-   298	
-   299		dev = &pdev->dev;
-   300	
-   301		mac_node = dev->of_node;
-   302		init = device_get_match_data(dev);
-   303	
-   304		mac_dev = devm_kzalloc(dev, sizeof(*mac_dev), GFP_KERNEL);
-   305		if (!mac_dev) {
-   306			err = -ENOMEM;
-   307			goto _return;
-   308		}
-   309		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-   310		if (!priv) {
-   311			err = -ENOMEM;
-   312			goto _return;
-   313		}
-   314	
-   315		/* Save private information */
-   316		mac_dev->priv = priv;
-   317		mac_dev->dev = dev;
-   318	
-   319		INIT_LIST_HEAD(&priv->mc_addr_list);
-   320	
-   321		/* Get the FM node */
-   322		fman_fwnode = fwnode_get_parent(dev->fwnode);
-   323		if (!fman_fwnode) {
-   324			err = -EINVAL;
-   325			dev_err(dev, "%s : fetch fman node failed\n", __func__);
-   326			goto _return;
-   327		}
-   328		if (fwnode_property_read_u32(fman_fwnode, "cell-index", &val)) {
-   329			err = -EINVAL;
-   330			goto _return;
-   331		}
-   332	
-   333		/* cell-index 0 => FMan id 1 */
-   334		fman_id = (u8)(val + 1);
-   335	
-   336		fman_dev = bus_find_device(&platform_bus_type, NULL, fman_fwnode,
-   337					   fwnode_match_devnode);
-   338		if (!fman_dev) {
-   339			dev_err(dev, "%s : bus_find_device failed\n", __func__);
-   340			err = -ENODEV;
-   341			goto _return;
-   342		}
-   343	
-   344		priv->fman = fman_bind(fman_dev);
-   345		if (!priv->fman) {
-   346			dev_err(dev, "%s : fman_bind failed\n", __func__);
-   347			err = -ENODEV;
-   348			goto _return;
-   349		}
-   350	
-   351		/* Get the address of the memory mapped registers */
-   352		mac_dev->res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-   353		if (!mac_dev->res) {
-   354			dev_err(dev, "%s: Can't get MAC memory resource\n",  __func__);
-   355			err = -EINVAL;
-   356			goto _return;
-   357		}
- > 358		dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
-   359			__func__, mac_dev->res->start, resource_size(mac_dev->res));
-   360	
-   361		mac_dev->vaddr = ioremap(mac_dev->res->start, resource_size(mac_dev->res));
-   362		if (!mac_dev->vaddr) {
-   363			dev_err(dev, "%s : ioremap() failed\n", __func__);
-   364			err = -EIO;
-   365			goto _return;
-   366		}
-   367	
-   368		if (!fwnode_device_is_available(dev->fwnode)) {
-   369			err = -ENODEV;
-   370			goto _return;
-   371		}
-   372	
-   373		/* Get the cell-index */
-   374		if (device_property_read_u32(dev, "cell-index", &val)) {
-   375			dev_err(dev, "%s : failed to read cell-index\n", __func__);
-   376			err = -EINVAL;
-   377			goto _return;
-   378		}
-   379		priv->cell_index = (u8)val;
-   380	
-   381		/* Get the MAC address */
-   382		device_get_mac_address(dev, mac_dev->addr);
-   383	
-   384		/* Get the port handles */
-   385		nph = device_property_count_u32(dev, "fsl,fman-ports");
-   386	
-   387		if (unlikely(nph < 0)) {
-   388			dev_err(dev, "%s : reading port count failed\n", __func__);
-   389			err = nph;
-   390			goto _return;
-   391		}
-   392	
-   393		if (nph != ARRAY_SIZE(mac_dev->port)) {
-   394			dev_err(dev, "Not supported number of fman-ports handles of mac node from DSD property\n");
-   395			err = -EINVAL;
-   396			goto _return;
-   397		}
-   398	
-   399		for (i = 0; i < ARRAY_SIZE(mac_dev->port); i++) {
-   400			/* Find the port node */
-   401			struct fwnode_handle *fw_node =
-   402				acpi_fwnode_handle(ACPI_COMPANION(dev));
-   403			err = acpi_node_get_property_reference(fw_node, "fsl,fman-ports",
-   404							       i, &args);
-   405			if (ACPI_FAILURE(err) ||
-   406			    !is_acpi_device_node(args.fwnode)) {
-   407				dev_err(dev, "%s : reading fsl,fman-ports handle failed\n",
-   408					__func__);
-   409				goto _return;
-   410			}
-   411	
-   412			/* Bind to a specific FMan Port */
-   413			fman_port_dev = bus_find_device(&platform_bus_type, NULL,
-   414							args.fwnode,
-   415							fwnode_match_devnode);
-   416			if (!fman_port_dev) {
-   417				dev_err(dev, "%s : bus_find_device failed\n", __func__);
-   418				err = -ENODEV;
-   419				goto _return;
-   420			}
-   421	
-   422			mac_dev->port[i] = fman_port_bind(fman_port_dev);
-   423		}
-   424	
-   425		/* Get the PHY connection type */
-   426		phy_if = fwnode_get_phy_mode(dev->fwnode);
-   427		if (phy_if < 0) {
-   428			dev_warn(dev, "fwnode_get_phy_mode failed. Defaulting to SGMII\n");
-   429			phy_if = PHY_INTERFACE_MODE_SGMII;
-   430		}
-   431		mac_dev->phy_if = phy_if;
-   432	
-   433		priv->speed		= phy2speed[mac_dev->phy_if];
-   434		params.max_speed	= priv->speed;
-   435		mac_dev->if_support	= DTSEC_SUPPORTED;
-   436		/* We don't support half-duplex in SGMII mode */
-   437		if (mac_dev->phy_if == PHY_INTERFACE_MODE_SGMII)
-   438			mac_dev->if_support &= ~(SUPPORTED_10baseT_Half |
-   439						 SUPPORTED_100baseT_Half);
-   440	
-   441		/* Gigabit support (no half-duplex) */
-   442		if (params.max_speed == 1000)
-   443			mac_dev->if_support |= SUPPORTED_1000baseT_Full;
-   444	
-   445		/* The 10G interface only supports one mode */
-   446		if (mac_dev->phy_if == PHY_INTERFACE_MODE_XGMII)
-   447			mac_dev->if_support = SUPPORTED_10000baseT_Full;
-   448	
-   449		/* Get the rest of the PHY information */
-   450		mac_dev->fwnode_phy =
-   451			fwnode_find_reference(dev->fwnode, "phy-handle", 0);
-   452		if (IS_ERR_OR_NULL(mac_dev->fwnode_phy) &&
-   453		    fwnode_property_present(dev->fwnode, "fixed-link")) {
-   454			dev_err(dev, "%s : No fixed-link phy support available.\n",
-   455				__func__);
-   456			goto _return;
-   457		}
-   458	
-   459		params.basex_if		= false;
-   460		params.mac_id		= priv->cell_index;
-   461		params.fm		= (void *)priv->fman;
-   462		params.exception_cb	= mac_exception;
-   463		params.event_cb		= mac_exception;
-   464	
-   465		err = init(mac_dev, mac_node, &params);
-   466		if (err < 0) {
-   467			dev_err(dev, "%s: mac_dev->init() = %d\n", __func__, err);
-   468			goto _return;
-   469		}
-   470	
-   471		/* pause frame autonegotiation enabled */
-   472		mac_dev->autoneg_pause = true;
-   473	
-   474		/* By intializing the values to false, force FMD to enable PAUSE frames
-   475		 * on RX and TX
-   476		 */
-   477		mac_dev->rx_pause_req = true;
-   478		mac_dev->tx_pause_req = true;
-   479		mac_dev->rx_pause_active = false;
-   480		mac_dev->tx_pause_active = false;
-   481		err = fman_set_mac_active_pause(mac_dev, true, true);
-   482		if (err < 0)
-   483			dev_err(dev, "%s : fman_set_mac_active_pause() = %d\n",
-   484				__func__, err);
-   485	
-   486		if (!is_zero_ether_addr(mac_dev->addr))
-   487			dev_info(dev, "FMan MAC address: %pM\n", mac_dev->addr);
-   488	
-   489		priv->eth_dev = dpaa_eth_add_device(fman_id, mac_dev);
-   490		if (IS_ERR(priv->eth_dev)) {
-   491			dev_err(dev, "%s : failed to add Ethernet platform device for MAC %d\n",
-   492				__func__, priv->cell_index);
-   493			priv->eth_dev = NULL;
-   494		}
-   495	
-   496		goto _return;
-   497	
-   498	_return:
-   499		return err;
-   500	}
-   501	
+7b0de42d7c5a47 David Howells           2006-08-29   31  
+4db96b71e3caea Akinobu Mita            2014-10-09   32  /*
+4db96b71e3caea Akinobu Mita            2014-10-09   33   * buffer.c
+4db96b71e3caea Akinobu Mita            2014-10-09   34   */
+d1bd0b4ebfe052 Matthew Wilcox (Oracle  2021-11-03   35) int __block_write_begin_int(struct folio *folio, loff_t pos, unsigned len,
+6d49cc8545e9e9 Christoph Hellwig       2021-08-10  @36  		get_block_t *get_block, const struct iomap *iomap);
+4db96b71e3caea Akinobu Mita            2014-10-09   37  
+07f3f05c1e3052 David Howells           2006-09-30   38  /*
+07f3f05c1e3052 David Howells           2006-09-30   39   * char_dev.c
+07f3f05c1e3052 David Howells           2006-09-30   40   */
+07f3f05c1e3052 David Howells           2006-09-30  @41  extern void __init chrdev_init(void);
+07f3f05c1e3052 David Howells           2006-09-30   42  
+9bc61ab18b1d41 David Howells           2018-11-04   43  /*
+9bc61ab18b1d41 David Howells           2018-11-04   44   * fs_context.c
+9bc61ab18b1d41 David Howells           2018-11-04   45   */
+ecdab150fddb42 David Howells           2018-11-01   46  extern const struct fs_context_operations legacy_fs_context_ops;
+9bc61ab18b1d41 David Howells           2018-11-04   47  extern int parse_monolithic_mount_data(struct fs_context *, void *);
+ecdab150fddb42 David Howells           2018-11-01   48  extern void vfs_clean_context(struct fs_context *fc);
+ecdab150fddb42 David Howells           2018-11-01   49  extern int finish_clean_context(struct fs_context *fc);
+9bc61ab18b1d41 David Howells           2018-11-04   50  
+0bdaea9017b9d2 David Howells           2012-06-25   51  /*
+0bdaea9017b9d2 David Howells           2012-06-25   52   * namei.c
+0bdaea9017b9d2 David Howells           2012-06-25   53   */
+31d921c7fb9691 David Howells           2018-11-01  @54  extern int filename_lookup(int dfd, struct filename *name, unsigned flags,
+31d921c7fb9691 David Howells           2018-11-01   55  			   struct path *path, struct path *root);
+45f30dab395730 Dmitry Kadashev         2021-07-08   56  int do_rmdir(int dfd, struct filename *name);
+45f30dab395730 Dmitry Kadashev         2021-07-08   57  int do_unlinkat(int dfd, struct filename *name);
+4609e1f18e19c3 Christian Brauner       2023-01-13   58  int may_linkat(struct mnt_idmap *idmap, const struct path *link);
+e886663cfd029b Jens Axboe              2020-09-26   59  int do_renameat2(int olddfd, struct filename *oldname, int newdfd,
+e886663cfd029b Jens Axboe              2020-09-26   60  		 struct filename *newname, unsigned int flags);
+45f30dab395730 Dmitry Kadashev         2021-07-08   61  int do_mkdirat(int dfd, struct filename *name, umode_t mode);
+7a8721f84fcb3b Dmitry Kadashev         2021-07-08   62  int do_symlinkat(struct filename *from, int newdfd, struct filename *to);
+cf30da90bc3a26 Dmitry Kadashev         2021-07-08   63  int do_linkat(int olddfd, struct filename *old, int newdfd,
+cf30da90bc3a26 Dmitry Kadashev         2021-07-08   64  			struct filename *new, int flags);
+0bdaea9017b9d2 David Howells           2012-06-25   65  
+07f3f05c1e3052 David Howells           2006-09-30   66  /*
+07f3f05c1e3052 David Howells           2006-09-30   67   * namespace.c
+07f3f05c1e3052 David Howells           2006-09-30   68   */
+ca71cf71eeda04 Al Viro                 2016-11-20   69  extern struct vfsmount *lookup_mnt(const struct path *);
+1e2d84644d1ce7 Al Viro                 2021-06-18   70  extern int finish_automount(struct vfsmount *, const struct path *);
+6d59e7f582ef1c Al Viro                 2008-03-22   71  
+4ed5e82fe77f41 Miklos Szeredi          2011-11-21   72  extern int sb_prepare_remount_readonly(struct super_block *);
+f03c65993b98ee Al Viro                 2011-01-14   73  
+6d59e7f582ef1c Al Viro                 2008-03-22  @74  extern void __init mnt_init(void);
+3e93cd671813e2 Al Viro                 2009-03-29   75  
+3e15dcf77b23b8 Amir Goldstein          2023-09-08   76  int mnt_get_write_access_file(struct file *file);
+3e15dcf77b23b8 Amir Goldstein          2023-09-08   77  void mnt_put_write_access_file(struct file *file);
+47cd813f298456 Al Viro                 2010-02-05   78  
+a07b20004793d8 Al Viro                 2018-11-05   79  extern void dissolve_on_fput(struct vfsmount *);
+a5f85d7834f7e1 Al Viro                 2022-03-01   80  extern bool may_mount(void);
+c60166f04283ff Christoph Hellwig       2020-07-21   81  
+c60166f04283ff Christoph Hellwig       2020-07-21   82  int path_mount(const char *dev_name, struct path *path,
+c60166f04283ff Christoph Hellwig       2020-07-21   83  		const char *type_page, unsigned long flags, void *data_page);
+09267defa36aaf Christoph Hellwig       2020-07-23   84  int path_umount(struct path *path, int flags);
+c60166f04283ff Christoph Hellwig       2020-07-21   85  
+3e93cd671813e2 Al Viro                 2009-03-29   86  /*
+3e93cd671813e2 Al Viro                 2009-03-29   87   * fs_struct.c
+3e93cd671813e2 Al Viro                 2009-03-29   88   */
+dcf787f39162ce Al Viro                 2013-03-01   89  extern void chroot_fs_refs(const struct path *, const struct path *);
+864d7c4c068f23 Nicholas Piggin         2009-04-26   90  
+864d7c4c068f23 Nicholas Piggin         2009-04-26   91  /*
+864d7c4c068f23 Nicholas Piggin         2009-04-26   92   * file_table.c
+864d7c4c068f23 Nicholas Piggin         2009-04-26   93   */
+62d53c4a1dfe34 Amir Goldstein          2023-06-15  @94  struct file *alloc_empty_file(int flags, const struct cred *cred);
+62d53c4a1dfe34 Amir Goldstein          2023-06-15   95  struct file *alloc_empty_file_noaccount(int flags, const struct cred *cred);
+62d53c4a1dfe34 Amir Goldstein          2023-06-15   96  struct file *alloc_empty_backing_file(int flags, const struct cred *cred);
+1cf2d167e7f661 Mateusz Guzik           2023-09-26   97  void release_empty_file(struct file *f);
+62c6943b4b1e81 Al Viro                 2009-05-07   98  
+90e168d5fa0185 Amir Goldstein          2023-10-09   99  static inline void file_put_write_access(struct file *file)
+90e168d5fa0185 Amir Goldstein          2023-10-09  100  {
+90e168d5fa0185 Amir Goldstein          2023-10-09 @101  	put_write_access(file->f_inode);
+90e168d5fa0185 Amir Goldstein          2023-10-09 @102  	mnt_put_write_access(file->f_path.mnt);
+90e168d5fa0185 Amir Goldstein          2023-10-09 @103  	if (unlikely(file->f_mode & FMODE_BACKING))
+6b9503cf48c98d Amir Goldstein          2023-10-09 @104  		mnt_put_write_access(backing_file_user_path(file)->mnt);
+90e168d5fa0185 Amir Goldstein          2023-10-09  105  }
+90e168d5fa0185 Amir Goldstein          2023-10-09  106  
+d6da19c9cace63 Amir Goldstein          2022-08-16  107  static inline void put_file_access(struct file *file)
+d6da19c9cace63 Amir Goldstein          2022-08-16  108  {
+d6da19c9cace63 Amir Goldstein          2022-08-16 @109  	if ((file->f_mode & (FMODE_READ | FMODE_WRITE)) == FMODE_READ) {
+d6da19c9cace63 Amir Goldstein          2022-08-16 @110  		i_readcount_dec(file->f_inode);
+d6da19c9cace63 Amir Goldstein          2022-08-16 @111  	} else if (file->f_mode & FMODE_WRITER) {
+90e168d5fa0185 Amir Goldstein          2023-10-09  112  		file_put_write_access(file);
+d6da19c9cace63 Amir Goldstein          2022-08-16  113  	}
+d6da19c9cace63 Amir Goldstein          2022-08-16  114  }
+d6da19c9cace63 Amir Goldstein          2022-08-16  115  
+62c6943b4b1e81 Al Viro                 2009-05-07  116  /*
+62c6943b4b1e81 Al Viro                 2009-05-07  117   * super.c
+62c6943b4b1e81 Al Viro                 2009-05-07  118   */
+8d0347f6c3a9d4 David Howells           2018-11-04  119  extern int reconfigure_super(struct fs_context *);
+d8ce82efdece37 Christian Brauner       2023-08-18  120  extern bool super_trylock_shared(struct super_block *sb);
+4e7b5671c6a883 Christoph Hellwig       2020-11-23  121  struct super_block *user_get_super(dev_t, bool excl);
+60b498852bf219 Christoph Hellwig       2020-11-16  122  void put_super(struct super_block *sb);
+20284ab7427ffa Al Viro                 2019-05-12  123  extern bool mount_capable(struct fs_context *);
+439bc39b3cf001 Christoph Hellwig       2023-01-25  124  int sb_init_dio_done_wq(struct super_block *sb);
+482928d59db668 Al Viro                 2009-12-19  125  
+d7439fb1f4338f Jan Kara                2023-06-20  126  /*
+d7439fb1f4338f Jan Kara                2023-06-20  127   * Prepare superblock for changing its read-only state (i.e., either remount
+d7439fb1f4338f Jan Kara                2023-06-20  128   * read-write superblock read-only or vice versa). After this function returns
+d7439fb1f4338f Jan Kara                2023-06-20  129   * mnt_is_readonly() will return true for any mount of the superblock if its
+d7439fb1f4338f Jan Kara                2023-06-20  130   * caller is able to observe any changes done by the remount. This holds until
+d7439fb1f4338f Jan Kara                2023-06-20  131   * sb_end_ro_state_change() is called.
+d7439fb1f4338f Jan Kara                2023-06-20  132   */
+d7439fb1f4338f Jan Kara                2023-06-20  133  static inline void sb_start_ro_state_change(struct super_block *sb)
+d7439fb1f4338f Jan Kara                2023-06-20  134  {
+d7439fb1f4338f Jan Kara                2023-06-20 @135  	WRITE_ONCE(sb->s_readonly_remount, 1);
+d7439fb1f4338f Jan Kara                2023-06-20  136  	/*
+d7439fb1f4338f Jan Kara                2023-06-20  137  	 * For RO->RW transition, the barrier pairs with the barrier in
+d7439fb1f4338f Jan Kara                2023-06-20  138  	 * mnt_is_readonly() making sure if mnt_is_readonly() sees SB_RDONLY
+d7439fb1f4338f Jan Kara                2023-06-20  139  	 * cleared, it will see s_readonly_remount set.
+d7439fb1f4338f Jan Kara                2023-06-20  140  	 * For RW->RO transition, the barrier pairs with the barrier in
+3e15dcf77b23b8 Amir Goldstein          2023-09-08  141  	 * mnt_get_write_access() before the mnt_is_readonly() check.
+3e15dcf77b23b8 Amir Goldstein          2023-09-08  142  	 * The barrier makes sure if mnt_get_write_access() sees MNT_WRITE_HOLD
+3e15dcf77b23b8 Amir Goldstein          2023-09-08  143  	 * already cleared, it will see s_readonly_remount set.
+d7439fb1f4338f Jan Kara                2023-06-20  144  	 */
+d7439fb1f4338f Jan Kara                2023-06-20 @145  	smp_wmb();
+d7439fb1f4338f Jan Kara                2023-06-20  146  }
+d7439fb1f4338f Jan Kara                2023-06-20  147  
+d7439fb1f4338f Jan Kara                2023-06-20  148  /*
+d7439fb1f4338f Jan Kara                2023-06-20  149   * Ends section changing read-only state of the superblock. After this function
+d7439fb1f4338f Jan Kara                2023-06-20  150   * returns if mnt_is_readonly() returns false, the caller will be able to
+d7439fb1f4338f Jan Kara                2023-06-20  151   * observe all the changes remount did to the superblock.
+d7439fb1f4338f Jan Kara                2023-06-20  152   */
+d7439fb1f4338f Jan Kara                2023-06-20  153  static inline void sb_end_ro_state_change(struct super_block *sb)
+d7439fb1f4338f Jan Kara                2023-06-20  154  {
+d7439fb1f4338f Jan Kara                2023-06-20  155  	/*
+d7439fb1f4338f Jan Kara                2023-06-20  156  	 * This barrier provides release semantics that pairs with
+d7439fb1f4338f Jan Kara                2023-06-20  157  	 * the smp_rmb() acquire semantics in mnt_is_readonly().
+d7439fb1f4338f Jan Kara                2023-06-20  158  	 * This barrier pair ensure that when mnt_is_readonly() sees
+d7439fb1f4338f Jan Kara                2023-06-20  159  	 * 0 for sb->s_readonly_remount, it will also see all the
+d7439fb1f4338f Jan Kara                2023-06-20  160  	 * preceding flag changes that were made during the RO state
+d7439fb1f4338f Jan Kara                2023-06-20  161  	 * change.
+d7439fb1f4338f Jan Kara                2023-06-20  162  	 */
+d7439fb1f4338f Jan Kara                2023-06-20  163  	smp_wmb();
+d7439fb1f4338f Jan Kara                2023-06-20  164  	WRITE_ONCE(sb->s_readonly_remount, 0);
+d7439fb1f4338f Jan Kara                2023-06-20  165  }
+d7439fb1f4338f Jan Kara                2023-06-20  166  
+482928d59db668 Al Viro                 2009-12-19  167  /*
+482928d59db668 Al Viro                 2009-12-19  168   * open.c
+482928d59db668 Al Viro                 2009-12-19  169   */
+47c805dc2d2dff Al Viro                 2011-02-23  170  struct open_flags {
+47c805dc2d2dff Al Viro                 2011-02-23  171  	int open_flag;
+a218d0fdc5f900 Al Viro                 2011-11-21  172  	umode_t mode;
+47c805dc2d2dff Al Viro                 2011-02-23  173  	int acc_mode;
+47c805dc2d2dff Al Viro                 2011-02-23  174  	int intent;
+f9652e10c12b43 Al Viro                 2013-06-11  175  	int lookup_flags;
+47c805dc2d2dff Al Viro                 2011-02-23  176  };
+669abf4e5539c8 Jeff Layton             2012-10-10  177  extern struct file *do_filp_open(int dfd, struct filename *pathname,
+f9652e10c12b43 Al Viro                 2013-06-11  178  		const struct open_flags *op);
+ffb37ca3bd16ce Al Viro                 2021-04-01  179  extern struct file *do_file_open_root(const struct path *,
+f9652e10c12b43 Al Viro                 2013-06-11  180  		const char *, const struct open_flags *);
+35cb6d54c1d5da Jens Axboe              2019-12-13  181  extern struct open_how build_open_how(int flags, umode_t mode);
+35cb6d54c1d5da Jens Axboe              2019-12-13  182  extern int build_open_flags(const struct open_how *how, struct open_flags *op);
+6319194ec57b04 Al Viro                 2022-05-12  183  extern struct file *__close_fd_get_file(unsigned int fd);
+a8dade34e3df58 Al Viro                 2010-10-24  184  
+411d9475cf901b Dominik Brodowski       2018-03-11  185  long do_sys_ftruncate(unsigned int fd, loff_t length, int small);
+1097742efc643f Christoph Hellwig       2020-07-22  186  int chmod_common(const struct path *path, umode_t mode);
+55731b3cda3a85 Dominik Brodowski       2018-03-11  187  int do_fchownat(int dfd, const char __user *filename, uid_t user, gid_t group,
+55731b3cda3a85 Dominik Brodowski       2018-03-11  188  		int flag);
+b873498f99c77e Christoph Hellwig       2020-07-22  189  int chown_common(const struct path *path, uid_t user, gid_t group);
+ae2bb293a3e8ad Al Viro                 2018-07-10  190  extern int vfs_open(const struct path *, struct file *);
+becfd1f3754479 Aneesh Kumar K.V        2011-01-29  191  
+a8dade34e3df58 Al Viro                 2010-10-24  192  /*
+a8dade34e3df58 Al Viro                 2010-10-24  193   * inode.c
+a8dade34e3df58 Al Viro                 2010-10-24  194   */
+503c358cf19258 Vladimir Davydov        2015-02-12  195  extern long prune_icache_sb(struct super_block *sb, struct shrink_control *sc);
+9452e93e6dae86 Christian Brauner       2023-01-13  196  int dentry_needs_remove_privs(struct mnt_idmap *, struct dentry *dentry);
+9452e93e6dae86 Christian Brauner       2023-01-13  197  bool in_group_or_capable(struct mnt_idmap *idmap,
+11c2a8700cdcab Christian Brauner       2022-10-17 @198  			 const struct inode *inode, vfsgid_t vfsgid);
+f23ce757185319 Jan Kara                2023-06-01  199  void lock_two_inodes(struct inode *inode1, struct inode *inode2,
+f23ce757185319 Jan Kara                2023-06-01  200  		     unsigned subclass1, unsigned subclass2);
+55fa6091d83160 Dave Chinner            2011-03-22  201  
+a66979abad090b Dave Chinner            2011-03-22  202  /*
+a66979abad090b Dave Chinner            2011-03-22  203   * fs-writeback.c
+a66979abad090b Dave Chinner            2011-03-22  204   */
+3942c07ccf98e6 Glauber Costa           2013-08-28  205  extern long get_nr_dirty_inodes(void);
+e127b9bccdb04e Christoph Hellwig       2023-08-11  206  void invalidate_inodes(struct super_block *sb);
+a4464dbc0ca6a3 Al Viro                 2011-07-07  207  
+a4464dbc0ca6a3 Al Viro                 2011-07-07  208  /*
+a4464dbc0ca6a3 Al Viro                 2011-07-07  209   * dcache.c
+a4464dbc0ca6a3 Al Viro                 2011-07-07  210   */
+eed810076685c7 Miklos Szeredi          2013-09-05  211  extern int d_set_mounted(struct dentry *dentry);
+503c358cf19258 Vladimir Davydov        2015-02-12  212  extern long prune_dcache_sb(struct super_block *sb, struct shrink_control *sc);
+ba65dc5ef16f82 Al Viro                 2016-06-10  213  extern struct dentry *d_alloc_cursor(struct dentry *);
+ab1152dd5650d3 Al Viro                 2019-03-15 @214  extern struct dentry * d_alloc_pseudo(struct super_block *, const struct qstr *);
+7e5f7bb08b8cef Al Viro                 2019-05-20  215  extern char *simple_dname(struct dentry *, char *, int);
+9bdebc2bd1c4ab Al Viro                 2019-06-29  216  extern void dput_to_list(struct dentry *, struct list_head *);
+9bdebc2bd1c4ab Al Viro                 2019-06-29  217  extern void shrink_dentry_list(struct list_head *);
+06ae43f34bcc07 Al Viro                 2013-03-20  218  
+
+:::::: The code at line 36 was first introduced by commit
+:::::: 6d49cc8545e9e9e9e5a14e75fd044f049bd6077e fs: mark the iomap argument to __block_write_begin_int const
+
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Darrick J. Wong <djwong@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
