@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C27360
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 00:25:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3FFDA29
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 00:35:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mW7VEzFB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pqvc+PFw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697156728; x=1728692728;
+  t=1697157328; x=1728693328;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fJtnCTgsWkmhyRWwOyCNowxbfyCNhAJQd1PKSpzXN80=;
-  b=mW7VEzFBKTU+kOrTEcsEuWqiem+lcSq/UenAWuGpQAC2PQUIjst7mKa1
-   XGvo/Z6bbj0887HJvl2i9Zxl1qD7x6u/wQhLRin7UHh1sFQmUOZAUOlMm
-   DsQr1WeKbezMGxNG3umP9C7xe8fBxh3hPtKHYJIimWIOXkLAgNNaQlnSm
-   YwAya+lgwH82qqNZMwXUnh8TUnbt8Zm1CWQ9AEl3gyh3HlcgqNqtnmU/h
-   sJe0XAUT5CWjRgxgvCX10/OQdSVnKgj1J3QmdGEBf6wyZrkuwId2ntT6i
-   YjqvvaHzeCHpKC7bsoyNxg1pt05Q8WpXERF+xRhKW85tVt/CXGT8nd0LW
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="449261381"
+  bh=N0A/ClbMkFlHRM2/53oqIcr4Wj9BdW/Z6WoJGbu5TqI=;
+  b=Pqvc+PFwoafIBBxYFr8TMJEsbryTfDzFjvHKdoYSSUkfDOBk432Rrbeb
+   mtPoH40ZjwPwAzY/ETljxIle+gCBKmfVM4f35XH98DXOLk616G+072vRW
+   nmo/u4GEukb0eP6vTNNW9XM8L89qXDPLe9A3bb4PG87fRrb8xWkpAT7kL
+   YsxuGQftR5DldTzbnhvHVoh1NVZ+Na0jUBQWuVJe5hhJyxmr0MczSsgkq
+   rC21oLtjzcVn04+nhyvJhRfp6aa6wGUaPGrbM1lnGWV6KloKGnxVlnbnX
+   l0lce4jxvL0K6FX+Z1neCUWYEUGa4Yva8wkTH6RCqowUD7zgNLZKJ2gg2
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="3664226"
 X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="449261381"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 17:25:19 -0700
+   d="scan'208";a="3664226"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 17:35:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="731126213"
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="878310056"
 X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="731126213"
+   d="scan'208";a="878310056"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 12 Oct 2023 17:25:18 -0700
+  by orsmga004.jf.intel.com with ESMTP; 12 Oct 2023 17:35:20 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qr5zQ-00047d-2A;
-	Fri, 13 Oct 2023 00:25:16 +0000
-Date: Fri, 13 Oct 2023 08:24:46 +0800
+	id 1qr697-00048f-1p;
+	Fri, 13 Oct 2023 00:35:17 +0000
+Date: Fri, 13 Oct 2023 08:35:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/642 2234/30000]
- drivers/gpu/drm/imx/imx-drm-core.c:216:46: warning: format '%ld' expects
- argument of type 'long int', but argument 3 has type 'unsigned int'
-Message-ID: <202310130859.nrQOPwU2-lkp@intel.com>
+Subject: [android-common:android14-6.1 3/4]
+ include/trace/hooks/audio_usboffload.h:19:1: sparse: sparse: incorrect type
+ in assignment (different address spaces)
+Message-ID: <202310130806.OCujYx4Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,99 +51,134 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc pr/642
-head:   c8b7cf62c7fea8456dec789d550b8006d73b8f04
-commit: 4b8a6afa4362a1c47510a7dafe4467d7a447bdf3 [2234/30000] Merge remote-tracking branch 'origin/display/lcdif' into display/next
-config: nios2-randconfig-002-20231013 (https://download.01.org/0day-ci/archive/20231013/202310130859.nrQOPwU2-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231013/202310130859.nrQOPwU2-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   acb072863888c916b539271c9a2c2e91fbfcceb6
+commit: c3007a323105c158a63a5924a9f8d0c84a478410 [3/4] ANDROID: sound: usb: Add vendor hooks for connect & disconnect
+config: i386-randconfig-061-20231003 (https://download.01.org/0day-ci/archive/20231013/202310130806.OCujYx4Z-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231013/202310130806.OCujYx4Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310130859.nrQOPwU2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310130806.OCujYx4Z-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   include/trace/hooks/cgroup.h:27:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cgroup.h:27:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/cgroup.h:31:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/cgroup.h:31:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cgroup.h:31:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/iommu.h):
+   include/trace/hooks/iommu.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/iommu.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/iommu.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/iommu.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/iommu.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/iommu.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/iommu.h:34:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/iommu.h:34:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/iommu.h:34:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/iommu.h:38:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/iommu.h:38:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/iommu.h:38:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/vmscan.h):
+   include/trace/hooks/vmscan.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/vmscan.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/vmscan.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/avc.h):
+   include/trace/hooks/avc.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/avc.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/avc.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/avc.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/creds.h):
+   include/trace/hooks/creds.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/creds.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/creds.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:23:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/creds.h:27:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:27:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:27:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/module.h):
+   include/trace/hooks/module.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/module.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/module.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/module.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/selinux.h):
+   include/trace/hooks/selinux.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/selinux.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/selinux.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/gic_v3.h):
+   include/trace/hooks/gic_v3.h:20:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/gic_v3.h:20:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/gic_v3.h:20:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/bug.h):
+   include/trace/hooks/bug.h:10:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/bug.h:10:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/bug.h:10:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/fault.h):
+   include/trace/hooks/fault.h:11:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/fault.h:11:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/fault.h:11:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/fault.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/fault.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/fault.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/fault.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/fault.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/fault.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/traps.h):
+   include/trace/hooks/traps.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/traps.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/traps.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/traps.h:17:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/traps.h:17:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/traps.h:17:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/traps.h:21:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/traps.h:21:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/traps.h:21:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/traps.h:25:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/traps.h:25:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/traps.h:25:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/traps.h:29:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/traps.h:29:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/traps.h:29:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/audio_usboffload.h):
+>> include/trace/hooks/audio_usboffload.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/audio_usboffload.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/audio_usboffload.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
 
-   In file included from drivers/gpu/drm/imx/imx-drm-core.c:9:
-   drivers/gpu/drm/imx/imx-drm-core.c: In function 'add_dpu_bliteng_components':
->> drivers/gpu/drm/imx/imx-drm-core.c:216:46: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'unsigned int' [-Wformat=]
-     216 |                                 dev_err(dev, "The number of found dpu is greater than max [%ld].\n",
-         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:1658:22: note: in definition of macro 'dev_fmt'
-    1658 | #define dev_fmt(fmt) fmt
-         |                      ^~~
-   drivers/gpu/drm/imx/imx-drm-core.c:216:33: note: in expansion of macro 'dev_err'
-     216 |                                 dev_err(dev, "The number of found dpu is greater than max [%ld].\n",
-         |                                 ^~~~~~~
-   drivers/gpu/drm/imx/imx-drm-core.c:216:94: note: format string is defined here
-     216 |                                 dev_err(dev, "The number of found dpu is greater than max [%ld].\n",
-         |                                                                                            ~~^
-         |                                                                                              |
-         |                                                                                              long int
-         |                                                                                            %d
+vim +19 include/trace/hooks/audio_usboffload.h
 
-
-vim +216 drivers/gpu/drm/imx/imx-drm-core.c
-
-34e715848907c8 Xianzhong 2019-08-14  182  
-34e715848907c8 Xianzhong 2019-08-14  183  static void add_dpu_bliteng_components(struct device *dev,
-34e715848907c8 Xianzhong 2019-08-14  184  				       struct component_match **matchptr)
-34e715848907c8 Xianzhong 2019-08-14  185  {
-34e715848907c8 Xianzhong 2019-08-14  186  	/*
-34e715848907c8 Xianzhong 2019-08-14  187  	 * As there may be two dpu bliteng device,
-34e715848907c8 Xianzhong 2019-08-14  188  	 * so need add something in compare data to distinguish.
-34e715848907c8 Xianzhong 2019-08-14  189  	 * Use its parent dpu's of_node as the data here.
-34e715848907c8 Xianzhong 2019-08-14  190  	 */
-34e715848907c8 Xianzhong 2019-08-14  191  	struct device_node *port, *parent;
-34e715848907c8 Xianzhong 2019-08-14  192  	/* assume max dpu number is 8 */
-34e715848907c8 Xianzhong 2019-08-14  193  	struct device_node *dpu[8];
-34e715848907c8 Xianzhong 2019-08-14  194  	int num_dpu = 0;
-34e715848907c8 Xianzhong 2019-08-14  195  	int i, j;
-34e715848907c8 Xianzhong 2019-08-14  196  	bool found = false;
-34e715848907c8 Xianzhong 2019-08-14  197  
-34e715848907c8 Xianzhong 2019-08-14  198  	for (i = 0; ; i++) {
-34e715848907c8 Xianzhong 2019-08-14  199  		port = of_parse_phandle(dev->of_node, "ports", i);
-34e715848907c8 Xianzhong 2019-08-14  200  		if (!port)
-34e715848907c8 Xianzhong 2019-08-14  201  			break;
-34e715848907c8 Xianzhong 2019-08-14  202  
-34e715848907c8 Xianzhong 2019-08-14  203  		parent = of_get_parent(port);
-34e715848907c8 Xianzhong 2019-08-14  204  
-34e715848907c8 Xianzhong 2019-08-14  205  		for (j = 0; j < num_dpu; j++) {
-34e715848907c8 Xianzhong 2019-08-14  206  			if (dpu[j] == parent) {
-34e715848907c8 Xianzhong 2019-08-14  207  				found = true;
-34e715848907c8 Xianzhong 2019-08-14  208  				break;
-34e715848907c8 Xianzhong 2019-08-14  209  			}
-34e715848907c8 Xianzhong 2019-08-14  210  		}
-34e715848907c8 Xianzhong 2019-08-14  211  
-34e715848907c8 Xianzhong 2019-08-14  212  		if (found) {
-34e715848907c8 Xianzhong 2019-08-14  213  			found = false;
-34e715848907c8 Xianzhong 2019-08-14  214  		} else {
-34e715848907c8 Xianzhong 2019-08-14  215  			if (num_dpu >= ARRAY_SIZE(dpu)) {
-34e715848907c8 Xianzhong 2019-08-14 @216  				dev_err(dev, "The number of found dpu is greater than max [%ld].\n",
-34e715848907c8 Xianzhong 2019-08-14  217  					ARRAY_SIZE(dpu));
-34e715848907c8 Xianzhong 2019-08-14  218  				of_node_put(parent);
-34e715848907c8 Xianzhong 2019-08-14  219  				of_node_put(port);
-34e715848907c8 Xianzhong 2019-08-14  220  				break;
-34e715848907c8 Xianzhong 2019-08-14  221  			}
-34e715848907c8 Xianzhong 2019-08-14  222  
-34e715848907c8 Xianzhong 2019-08-14  223  			dpu[num_dpu] = parent;
-34e715848907c8 Xianzhong 2019-08-14  224  			num_dpu++;
-34e715848907c8 Xianzhong 2019-08-14  225  
-34e715848907c8 Xianzhong 2019-08-14  226  			component_match_add(dev, matchptr, compare_of, parent);
-34e715848907c8 Xianzhong 2019-08-14  227  		}
-34e715848907c8 Xianzhong 2019-08-14  228  
-34e715848907c8 Xianzhong 2019-08-14  229  		of_node_put(parent);
-34e715848907c8 Xianzhong 2019-08-14  230  		of_node_put(port);
-34e715848907c8 Xianzhong 2019-08-14  231  	}
-34e715848907c8 Xianzhong 2019-08-14  232  }
-34e715848907c8 Xianzhong 2019-08-14  233  
-
-:::::: The code at line 216 was first introduced by commit
-:::::: 34e715848907c8fa32b6241536decb8d4d23a6eb MLK-15321-4 drm/imx: core: Add bliteng as component of imx-drm
-
-:::::: TO: Xianzhong <xianzhong.li@nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+    14	
+    15	DECLARE_HOOK(android_vh_audio_usb_offload_connect,
+    16		TP_PROTO(struct usb_interface *intf, struct snd_usb_audio *chip),
+    17		TP_ARGS(intf, chip));
+    18	
+  > 19	DECLARE_RESTRICTED_HOOK(android_rvh_audio_usb_offload_disconnect,
+    20		TP_PROTO(struct usb_interface *intf),
+    21		TP_ARGS(intf), 1);
+    22	
 
 -- 
 0-DAY CI Kernel Test Service
