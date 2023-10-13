@@ -1,53 +1,46 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9281107A4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 09:58:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335741095A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 10:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ay9PECxf"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40537481094so20526425e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 02:58:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697191084; x=1697795884; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1ocJBZLEi9wSRp8rh8uk67sPMdfWE3WWFx693+fh+hI=;
-        b=Ay9PECxfNha2Xlp1S4+hk4mdnoDoV27n/z7I9NVlAIa3DpIPPZEdDqp+UQq1qNcIqp
-         cQJy7RMvQmZk7Ffg+9wakbtFII/7sTF2gJEUhRiCkaeDroWwom2leUAGSrMjcOGQJzGj
-         Mn8BiAt486j5VPcHnsW1X9cwe9kpOqP0aTMXKVqtZyPT80zO9G5aHLxhzM2Hs8gf1DXd
-         1hR9+ANqRvpYkV8JtDGpBCWNHfnT11//n1HKoVlHHL3VamObVZmqQckBiAGmZj2YqwUT
-         6Q2OAMPnciZhyOV1XWlQre0i5a5apGp5OlesHNqWMKYtfrkfzAEordzCa46wSyHy93yh
-         TViw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697191084; x=1697795884;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1ocJBZLEi9wSRp8rh8uk67sPMdfWE3WWFx693+fh+hI=;
-        b=IKU6QWXWyI2wgRhdYAdvJ4/e3ZkGk0uT6Udu3YkW5C1zvZLhK+Ch6QdRHxFVaV2ISm
-         QvSZMmjbwykWgkEWCti6TMYBY0XfEtNJfzY0MSR7IJGG2Dp4VV/PJ69QFUenD9wLq9nT
-         495xFKPYPXKbUyn2IUHvpplBfJyLTSlEM/oQO4CezrVR6sXd4+p6pueiaBd2oxqxCeYV
-         /RrhZSVWmoygJQdc3lcoZN2bNSp1O14zg8O/QBensuqs769y1/4Ii3tc2vx6+zaT0eA0
-         HzJXElnoltSmfO5gXcDhlr2fY4KEVo6hX3OWocEWB6bH4oXngLBisDq7L2678cgEjpTQ
-         wjpw==
-X-Gm-Message-State: AOJu0YyxrAwvefal7N4hIwXGpw9uVRQKNw6xVCe6xO3Hm7MpRwlcGAK5
-	xPbHKdag9xax0mvq2h8ZT73cbQ==
-X-Google-Smtp-Source: AGHT+IGRLyIbOn2Y3t2dM0ZahoRGxdRGOL8osg/l6kwEUTXpflIhGwtDi3zcaF+cLb3S9+vp3FfXQw==
-X-Received: by 2002:adf:e19d:0:b0:32c:ea14:89e5 with SMTP id az29-20020adfe19d000000b0032cea1489e5mr11113769wrb.39.1697191084016;
-        Fri, 13 Oct 2023 02:58:04 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id w14-20020adfee4e000000b0032d2489a399sm2958801wro.49.2023.10.13.02.58.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Oct 2023 02:58:03 -0700 (PDT)
-Date: Fri, 13 Oct 2023 12:58:01 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Maxime Ripard <mripard@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC v2 11/37] drm/connector: hdmi: Add Infoframes
- generation
-Message-ID: <45d3c7ec-4a29-46b4-908c-fcca0e80e937@kadam.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KczTJzNs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697192067; x=1728728067;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=p9b2WOQtsPHs2P19GMcO+teov3DldBvH5IEpF3tD0WI=;
+  b=KczTJzNs8UlGUZsBrYnwwgLlYURUPVQNyfHaEgcTf/+YIp9EHWhOeJyG
+   zAii8weAUpCV+CDXJG/YYfX2wZkkZARVtJZV4W+/NRYdnrHwlFGoCngK2
+   hraTfkZNmcfbS2PAeUj2KTdsHXHTfOs1COzaPFoStBpXcsrqBnA8xS6Oc
+   jTJAAg+Hz8t+MdLXdKUxI9d5qA+Eb0+x4krpwsONHQv7BG1Iy1wDf6rbk
+   /yfhqMmdCY5peyXD82PzKMNUvYKbzP7scdJBK9WiPyTvo8lApI9UbpFXg
+   3rqi0J4hxHRBU8IE9DpUBokpKVxdiWTNPLaDw+Tw6hO0wLhoV23bi0z1r
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="416202063"
+X-IronPort-AV: E=Sophos;i="6.03,221,1694761200"; 
+   d="scan'208";a="416202063"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 03:14:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="754653479"
+X-IronPort-AV: E=Sophos;i="6.03,221,1694761200"; 
+   d="scan'208";a="754653479"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 13 Oct 2023 03:14:18 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qrFBQ-0004cb-1i;
+	Fri, 13 Oct 2023 10:14:16 +0000
+Date: Fri, 13 Oct 2023 18:13:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 868/23620] undefined reference to
+ `tty_port_tty_get'
+Message-ID: <202310131843.NmlKsNEY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,64 +49,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230920-kms-hdmi-connector-state-v2-11-17932daddd7d@kernel.org>
 
-Hi Maxime,
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-connector-Introduce-an-HDMI-connector/20230920-224045
-base:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-patch link:    https://lore.kernel.org/r/20230920-kms-hdmi-connector-state-v2-11-17932daddd7d%40kernel.org
-patch subject: [PATCH RFC v2 11/37] drm/connector: hdmi: Add Infoframes generation
-config: i386-randconfig-141-20230921 (https://download.01.org/0day-ci/archive/20231013/202310131716.jCWEzGsA-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231013/202310131716.jCWEzGsA-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   e2dadb5022c01186d167de5f89f821506f6a8cb6
+commit: 180e8150bde1627efa62910f16ff32d2e4fa85db [868/23620] ANDROID: GKI: build in HVC_DRIVER
+config: arm64-randconfig-001-20231010 (https://download.01.org/0day-ci/archive/20231013/202310131843.NmlKsNEY-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231013/202310131843.NmlKsNEY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202310131716.jCWEzGsA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310131843.NmlKsNEY-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/drm_atomic_state_helper.c:938 hdmi_generate_vendor_infoframe() warn: ignoring unreachable code.
+All errors (new ones prefixed by >>):
 
-vim +938 drivers/gpu/drm/drm_atomic_state_helper.c
+   aarch64-linux-ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_cleanup':
+   hvc_console.c:(.text+0x350): undefined reference to `tty_port_put'
+   hvc_console.c:(.text+0x350): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tty_port_put'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_set_winsz':
+   hvc_console.c:(.text+0x424): undefined reference to `tty_port_tty_get'
+   hvc_console.c:(.text+0x424): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tty_port_tty_get'
+   aarch64-linux-ld: hvc_console.c:(.text+0x46c): undefined reference to `tty_do_resize'
+   hvc_console.c:(.text+0x46c): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tty_do_resize'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_hangup':
+   hvc_console.c:(.text+0x5cc): undefined reference to `tty_port_tty_set'
+   hvc_console.c:(.text+0x5cc): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tty_port_tty_set'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_open':
+   hvc_console.c:(.text+0x6b0): undefined reference to `tty_port_tty_set'
+   hvc_console.c:(.text+0x6b0): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tty_port_tty_set'
+   aarch64-linux-ld: hvc_console.c:(.text+0x6f4): undefined reference to `tty_port_tty_set'
+   hvc_console.c:(.text+0x6f4): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tty_port_tty_set'
+   aarch64-linux-ld: hvc_console.c:(.text+0x708): undefined reference to `tty_port_put'
+   hvc_console.c:(.text+0x708): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tty_port_put'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_close':
+   hvc_console.c:(.text+0x794): undefined reference to `tty_hung_up_p'
+   hvc_console.c:(.text+0x794): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tty_hung_up_p'
+   aarch64-linux-ld: hvc_console.c:(.text+0x7ec): undefined reference to `tty_port_tty_set'
+   hvc_console.c:(.text+0x7ec): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tty_port_tty_set'
+   aarch64-linux-ld: hvc_console.c:(.text+0x87c): undefined reference to `tty_wait_until_sent'
+   hvc_console.c:(.text+0x87c): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tty_wait_until_sent'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_remove':
+>> (.text+0x8d8): undefined reference to `tty_port_tty_get'
+   (.text+0x8d8): additional relocation overflows omitted from the output
+>> aarch64-linux-ld: (.text+0x958): undefined reference to `tty_port_put'
+>> aarch64-linux-ld: (.text+0x964): undefined reference to `tty_vhangup'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_alloc':
+>> (.text+0xa10): undefined reference to `__tty_alloc_driver'
+>> aarch64-linux-ld: (.text+0xa44): undefined reference to `tty_std_termios'
+   aarch64-linux-ld: (.text+0xa54): undefined reference to `tty_std_termios'
+   aarch64-linux-ld: (.text+0xad0): undefined reference to `tty_set_operations'
+>> aarch64-linux-ld: (.text+0xb0c): undefined reference to `tty_register_driver'
+   aarch64-linux-ld: (.text+0xb50): undefined reference to `put_tty_driver'
+>> aarch64-linux-ld: (.text+0xbe4): undefined reference to `tty_port_init'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `__hvc_poll':
+   hvc_console.c:(.text+0xeb4): undefined reference to `tty_port_tty_get'
+   aarch64-linux-ld: hvc_console.c:(.text+0xf30): undefined reference to `tty_buffer_request_room'
+   aarch64-linux-ld: hvc_console.c:(.text+0xfac): undefined reference to `tty_hangup'
+   aarch64-linux-ld: hvc_console.c:(.text+0x10d8): undefined reference to `__tty_insert_flip_char'
+   aarch64-linux-ld: hvc_console.c:(.text+0x11ac): undefined reference to `tty_wakeup'
+   aarch64-linux-ld: hvc_console.c:(.text+0x11e0): undefined reference to `tty_flip_buffer_push'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_install':
+   hvc_console.c:(.text+0x1668): undefined reference to `tty_port_install'
+   aarch64-linux-ld: hvc_console.c:(.text+0x1678): undefined reference to `tty_port_put'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_instantiate':
+>> (.text+0x1c38): undefined reference to `tty_port_put'
 
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  921  static int hdmi_generate_vendor_infoframe(const struct drm_connector *connector,
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  922  					  struct drm_connector_state *state)
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  923  {
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  924  	const struct drm_display_mode *mode =
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  925  		connector_state_get_adjusted_mode(state);
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  926  	struct drm_connector_hdmi_infoframe *infoframe =
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  927  		&state->hdmi.infoframes.vendor;
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  928  	struct hdmi_vendor_infoframe *frame =
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  929  		&infoframe->data.vendor.hdmi;
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  930  	int ret;
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  931  
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  932  	ret = drm_hdmi_vendor_infoframe_from_display_mode(frame, connector, mode);
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  933  	if (ret == -EINVAL)
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  934  		return 0;
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  935  	else
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  936  		return ret;
-
-This was probably intended as:
-
-	if (ret) {
-		if (ret == -EINVAL)
-			return 0;
-		return ret;
-	}
-
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  937  
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20 @938  	infoframe->set = true;
-
-Unreachable.
-
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  939  
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  940  	return 0;
-ae7d8bc7dd1dbf Maxime Ripard 2023-09-20  941  }
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=m] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=m] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=m] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=m] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=m] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for HVC_DRIVER
+   Depends on [n]: TTY [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
