@@ -1,49 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1033C107A1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 08:47:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE82910944
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 08:50:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KssD9++9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697186827; x=1728722827;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qDWtZ1DGvddQkzij3TawQOdFmqL5e5L/chNdB/NZeVI=;
-  b=KssD9++9YPgqltQOUP+rO6ilNxnECDQ86y1ufVatcOJTZ+Lmkf2yDKgT
-   CmP1LDS946Mlh2CZ2r42wjJKIGscAF5w2rQRs46yFx1DVtdXCX+gp873k
-   5U4F5nf2V4qbIuIGKgkkHLBhPzhDP2IeqLwGtTonFCRh2xxXFoa6z99b0
-   4EZUxSRoTNwShmvbGZRLKFRqzC0IoqYIGQ0wpv96+k49mnu9LUO+eqWq8
-   HILqIpHFp9jNsOyAcJyUWGF1bHLUFgSWHZZ9piixd4XxNBSnFRRtuAca9
-   xYB8jNTAGfaI9534lFUeCm0HqISX6LpiuT3Yt8O3u7QX3xVrnYdU/e4PJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="387985636"
-X-IronPort-AV: E=Sophos;i="6.03,221,1694761200"; 
-   d="scan'208";a="387985636"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 01:46:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="928335356"
-X-IronPort-AV: E=Sophos;i="6.03,221,1694761200"; 
-   d="scan'208";a="928335356"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 13 Oct 2023 01:46:58 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qrDou-0004XH-0C;
-	Fri, 13 Oct 2023 08:46:56 +0000
-Date: Fri, 13 Oct 2023 16:46:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Qingqing Zhuo <Qingqing.Zhuo@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Deucher <alexander.deucher@amd.com>
-Subject: [linux-next:master 453/12130]
- drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn35/dcn35_fpu.c:260
- dcn35_update_bw_bounding_box_fpu() warn: inconsistent indenting
-Message-ID: <202310131636.TuqEyQOu-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kK/U+TH0"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-32799639a2aso1707389f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 01:50:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697187007; x=1697791807; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oRfUKpv/DBLLhqgF91vJ9c5yRbJ5jeBlC4lGHMsrSOk=;
+        b=kK/U+TH0XlPjnTx5yw924MDTIz9hF8pNoqNILgT6SN+yzD1frmKhypKclEQwzW+iZ6
+         FNmjQjT4iOFBq0n3W8NOpBOj2i9HkHyZRUf+qHAJDBZwZABS+bVS3AorRnCPU+wsSWkP
+         jbD6K7Cg6Jd9xOsbWkoavhAZMdQEw7qDT66/MFyueRmWrWQNNtx1zCIuOhsZjYC8h0ih
+         H1/N5MvRjd1PZzrWU9P418j45PYdjrFdZCYLXlHrCKFpFGSMfNjV/OkiVCUuM8BrtLYz
+         Lzg6/uuZqNSWXv/q8wgSh7t/D7gRBsoZhrafShLIvX8u//CHEGFJ6gvlYUDGTN/MWZYl
+         qprg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697187007; x=1697791807;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oRfUKpv/DBLLhqgF91vJ9c5yRbJ5jeBlC4lGHMsrSOk=;
+        b=In5SY5xnNr82I581ogX1UsVy9IR2cqrFM7+LaZYdvj8gOki2+WYBE3jbri0MO5Sc3j
+         3n4XF2W8G6NiMJwvs8R8aGiRWWd5LnPrKlySFBn6Wcja31u/V8DCeNyxv6WDKHdo9ccd
+         82ShCBr+C9TFeakoIXLwhQjtq6D9nSdw5CSCwWp5SGURramRIfy8UpLf+5ef8T4D4tcp
+         1kuD8KMy9cyN2RZjGPP4zvJ5tTPR9/uckNJTzRp6lB79xutK21yMKcoDU9YoSkaKZ81L
+         6Qqv4ZAeEab6Xi3w3BcLZFOakTN0ZsF+6DGEQr3M4XTHuTzALJed08+L6CNpRE1PfJj/
+         WGKA==
+X-Gm-Message-State: AOJu0YyCRP6YV2wBvCYAIUkXU2P0R8Apt9tsmqViAdHklmWcGI8K/yCP
+	IIlKcfFMOfwN1k5JL/l7wkc2pg==
+X-Google-Smtp-Source: AGHT+IEOMC+EI3xlIYQWQN8GijlT5dawWbmNOIldygcXlZcDXXIPgVq4wB5UX8eLVSbMvyQaiD8Vjw==
+X-Received: by 2002:a05:6000:228:b0:32d:56bd:1f5c with SMTP id l8-20020a056000022800b0032d56bd1f5cmr7734589wrz.71.1697187006813;
+        Fri, 13 Oct 2023 01:50:06 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id u18-20020adff892000000b00326b8a0e817sm773575wrp.84.2023.10.13.01.50.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Oct 2023 01:50:06 -0700 (PDT)
+Date: Fri, 13 Oct 2023 11:50:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Yi Liu <yi.l.liu@intel.com>,
+	Kevin Tian <kevin.tian@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [yiliu1765-iommufd:wip/iommufd_pasid-0829 3/95]
+ drivers/iommu/iommufd/main.c:259 iommufd_get_hw_info() warn: maybe return
+ -EFAULT instead of the bytes remaining?
+Message-ID: <b31e2759-f745-493f-9edc-500b237880b4@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,176 +58,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f9a6bea131849702d591d18d5c8b8a0eda6f62b3
-commit: 69cc1864c99a35ba4133877b3170b87e74cd0202 [453/12130] drm/amd/display: Add DCN35 DML
-config: i386-randconfig-141-20230905 (https://download.01.org/0day-ci/archive/20231013/202310131636.TuqEyQOu-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231013/202310131636.TuqEyQOu-lkp@intel.com/reproduce)
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_pasid-0829
+head:   39409b7fc57036afdb9ea1b641c827951ffbd32e
+commit: 69055cc0284095e68fd61f1705ef518ad731d120 [3/95] iommufd: Add IOMMU_GET_HW_INFO
+config: x86_64-randconfig-161-20230826 (https://download.01.org/0day-ci/archive/20231013/202310130916.94838ZMF-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20231013/202310130916.94838ZMF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310131636.TuqEyQOu-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202310130916.94838ZMF-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn35/dcn35_fpu.c:260 dcn35_update_bw_bounding_box_fpu() warn: inconsistent indenting
+smatch warnings:
+drivers/iommu/iommufd/main.c:259 iommufd_get_hw_info() warn: maybe return -EFAULT instead of the bytes remaining?
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn35/dcn35_fpu.c:351 dcn35_update_bw_bounding_box_fpu() warn: inconsistent indenting
+vim +259 drivers/iommu/iommufd/main.c
 
-vim +260 drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn35/dcn35_fpu.c
+69055cc0284095 Yi Liu 2023-01-12  220  static int iommufd_get_hw_info(struct iommufd_ucmd *ucmd)
+69055cc0284095 Yi Liu 2023-01-12  221  {
+69055cc0284095 Yi Liu 2023-01-12  222  	struct iommu_hw_info *cmd = ucmd->cmd;
+69055cc0284095 Yi Liu 2023-01-12  223  	unsigned int length = cmd->data_len;
+69055cc0284095 Yi Liu 2023-01-12  224  	struct iommufd_device *idev;
+69055cc0284095 Yi Liu 2023-01-12  225  	void __user *user_ptr;
+69055cc0284095 Yi Liu 2023-01-12  226  	u32 hw_info_type;
+69055cc0284095 Yi Liu 2023-01-12  227  	int rc = 0;
+69055cc0284095 Yi Liu 2023-01-12  228  
+69055cc0284095 Yi Liu 2023-01-12  229  	if (cmd->flags || cmd->__reserved || !cmd->data_len)
+69055cc0284095 Yi Liu 2023-01-12  230  		return -EOPNOTSUPP;
+69055cc0284095 Yi Liu 2023-01-12  231  
+69055cc0284095 Yi Liu 2023-01-12  232  	idev = iommufd_get_device(ucmd, cmd->dev_id);
+69055cc0284095 Yi Liu 2023-01-12  233  	if (IS_ERR(idev))
+69055cc0284095 Yi Liu 2023-01-12  234  		return PTR_ERR(idev);
+69055cc0284095 Yi Liu 2023-01-12  235  
+69055cc0284095 Yi Liu 2023-01-12  236  	user_ptr = u64_to_user_ptr(cmd->data_ptr);
+69055cc0284095 Yi Liu 2023-01-12  237  
+69055cc0284095 Yi Liu 2023-01-12  238  	rc = iommufd_fill_hw_info(idev->dev, user_ptr,
+69055cc0284095 Yi Liu 2023-01-12  239  				  &length, &hw_info_type);
+69055cc0284095 Yi Liu 2023-01-12  240  	if (rc)
+69055cc0284095 Yi Liu 2023-01-12  241  		goto err_put;
+69055cc0284095 Yi Liu 2023-01-12  242  
+69055cc0284095 Yi Liu 2023-01-12  243  	/*
+69055cc0284095 Yi Liu 2023-01-12  244  	 * Zero the trailing bytes if the user buffer is bigger than the
+69055cc0284095 Yi Liu 2023-01-12  245  	 * data size kernel actually has.
+69055cc0284095 Yi Liu 2023-01-12  246  	 */
+69055cc0284095 Yi Liu 2023-01-12  247  	if (length < cmd->data_len) {
+69055cc0284095 Yi Liu 2023-01-12  248  		rc = clear_user(user_ptr + length, cmd->data_len - length);
 
-   206	
-   207	void dcn35_patch_dpm_table(struct clk_bw_params *bw_params)
-   208	{
-   209		int i;
-   210		unsigned int max_dcfclk_mhz = 0, max_dispclk_mhz = 0, max_dppclk_mhz = 0,
-   211				max_phyclk_mhz = 0, max_dtbclk_mhz = 0, max_fclk_mhz = 0, max_uclk_mhz = 0;
-   212	
-   213		for (i = 0; i < MAX_NUM_DPM_LVL; i++) {
-   214			if (bw_params->clk_table.entries[i].dcfclk_mhz > max_dcfclk_mhz)
-   215				max_dcfclk_mhz = bw_params->clk_table.entries[i].dcfclk_mhz;
-   216			if (bw_params->clk_table.entries[i].fclk_mhz > max_fclk_mhz)
-   217				max_fclk_mhz = bw_params->clk_table.entries[i].fclk_mhz;
-   218			if (bw_params->clk_table.entries[i].memclk_mhz > max_uclk_mhz)
-   219				max_uclk_mhz = bw_params->clk_table.entries[i].memclk_mhz;
-   220			if (bw_params->clk_table.entries[i].dispclk_mhz > max_dispclk_mhz)
-   221				max_dispclk_mhz = bw_params->clk_table.entries[i].dispclk_mhz;
-   222			if (bw_params->clk_table.entries[i].dppclk_mhz > max_dppclk_mhz)
-   223				max_dppclk_mhz = bw_params->clk_table.entries[i].dppclk_mhz;
-   224			if (bw_params->clk_table.entries[i].phyclk_mhz > max_phyclk_mhz)
-   225				max_phyclk_mhz = bw_params->clk_table.entries[i].phyclk_mhz;
-   226			if (bw_params->clk_table.entries[i].dtbclk_mhz > max_dtbclk_mhz)
-   227				max_dtbclk_mhz = bw_params->clk_table.entries[i].dtbclk_mhz;
-   228		}
-   229	}
-   230	/*
-   231	 * dcn35_update_bw_bounding_box
-   232	 *
-   233	 * This would override some dcn3_5 ip_or_soc initial parameters hardcoded from
-   234	 * spreadsheet with actual values as per dGPU SKU:
-   235	 * - with passed few options from dc->config
-   236	 * - with dentist_vco_frequency from Clk Mgr (currently hardcoded, but might
-   237	 *   need to get it from PM FW)
-   238	 * - with passed latency values (passed in ns units) in dc-> bb override for
-   239	 *   debugging purposes
-   240	 * - with passed latencies from VBIOS (in 100_ns units) if available for
-   241	 *   certain dGPU SKU
-   242	 * - with number of DRAM channels from VBIOS (which differ for certain dGPU SKU
-   243	 *   of the same ASIC)
-   244	 * - clocks levels with passed clk_table entries from Clk Mgr as reported by PM
-   245	 *   FW for different clocks (which might differ for certain dGPU SKU of the
-   246	 *   same ASIC)
-   247	 */
-   248	void dcn35_update_bw_bounding_box_fpu(struct dc *dc,
-   249					      struct clk_bw_params *bw_params)
-   250	{
-   251		unsigned int i, closest_clk_lvl;
-   252		int j;
-   253		struct clk_limit_table *clk_table = &bw_params->clk_table;
-   254		struct _vcs_dpi_voltage_scaling_st *clock_limits =
-   255			dc->scratch.update_bw_bounding_box.clock_limits;
-   256		int max_dispclk_mhz = 0, max_dppclk_mhz = 0;
-   257	
-   258		dc_assert_fp_enabled();
-   259	
- > 260			dcn3_5_ip.max_num_otg =
-   261				dc->res_pool->res_cap->num_timing_generator;
-   262			dcn3_5_ip.max_num_dpp = dc->res_pool->pipe_count;
-   263			dcn3_5_soc.num_chans = bw_params->num_channels;
-   264	
-   265			ASSERT(clk_table->num_entries);
-   266	
-   267			/* Prepass to find max clocks independent of voltage level. */
-   268			for (i = 0; i < clk_table->num_entries; ++i) {
-   269				if (clk_table->entries[i].dispclk_mhz > max_dispclk_mhz)
-   270					max_dispclk_mhz = clk_table->entries[i].dispclk_mhz;
-   271				if (clk_table->entries[i].dppclk_mhz > max_dppclk_mhz)
-   272					max_dppclk_mhz = clk_table->entries[i].dppclk_mhz;
-   273			}
-   274	
-   275			for (i = 0; i < clk_table->num_entries; i++) {
-   276				/* loop backwards*/
-   277				for (closest_clk_lvl = 0, j = dcn3_5_soc.num_states - 1;
-   278				     j >= 0; j--) {
-   279					if (dcn3_5_soc.clock_limits[j].dcfclk_mhz <=
-   280					    clk_table->entries[i].dcfclk_mhz) {
-   281						closest_clk_lvl = j;
-   282						break;
-   283					}
-   284				}
-   285				if (clk_table->num_entries == 1) {
-   286					/*smu gives one DPM level, let's take the highest one*/
-   287					closest_clk_lvl = dcn3_5_soc.num_states - 1;
-   288				}
-   289	
-   290				clock_limits[i].state = i;
-   291	
-   292				/* Clocks dependent on voltage level. */
-   293				clock_limits[i].dcfclk_mhz = clk_table->entries[i].dcfclk_mhz;
-   294				if (clk_table->num_entries == 1 &&
-   295				    clock_limits[i].dcfclk_mhz <
-   296				    dcn3_5_soc.clock_limits[closest_clk_lvl].dcfclk_mhz) {
-   297					/*SMU fix not released yet*/
-   298					clock_limits[i].dcfclk_mhz =
-   299						dcn3_5_soc.clock_limits[closest_clk_lvl].dcfclk_mhz;
-   300				}
-   301	
-   302				clock_limits[i].fabricclk_mhz =
-   303					clk_table->entries[i].fclk_mhz;
-   304				clock_limits[i].socclk_mhz =
-   305					clk_table->entries[i].socclk_mhz;
-   306	
-   307				if (clk_table->entries[i].memclk_mhz &&
-   308				    clk_table->entries[i].wck_ratio)
-   309					clock_limits[i].dram_speed_mts =
-   310						clk_table->entries[i].memclk_mhz * 2 *
-   311						clk_table->entries[i].wck_ratio;
-   312	
-   313				/* Clocks independent of voltage level. */
-   314				clock_limits[i].dispclk_mhz = max_dispclk_mhz ?
-   315					max_dispclk_mhz :
-   316					dcn3_5_soc.clock_limits[closest_clk_lvl].dispclk_mhz;
-   317	
-   318				clock_limits[i].dppclk_mhz = max_dppclk_mhz ?
-   319					max_dppclk_mhz :
-   320					dcn3_5_soc.clock_limits[closest_clk_lvl].dppclk_mhz;
-   321	
-   322				clock_limits[i].dram_bw_per_chan_gbps =
-   323					dcn3_5_soc.clock_limits[closest_clk_lvl].dram_bw_per_chan_gbps;
-   324				clock_limits[i].dscclk_mhz =
-   325					dcn3_5_soc.clock_limits[closest_clk_lvl].dscclk_mhz;
-   326				clock_limits[i].dtbclk_mhz =
-   327					dcn3_5_soc.clock_limits[closest_clk_lvl].dtbclk_mhz;
-   328				clock_limits[i].phyclk_d18_mhz =
-   329					dcn3_5_soc.clock_limits[closest_clk_lvl].phyclk_d18_mhz;
-   330				clock_limits[i].phyclk_mhz =
-   331					dcn3_5_soc.clock_limits[closest_clk_lvl].phyclk_mhz;
-   332			}
-   333	
-   334			memcpy(dcn3_5_soc.clock_limits, clock_limits,
-   335			       sizeof(dcn3_5_soc.clock_limits));
-   336	
-   337			if (clk_table->num_entries)
-   338				dcn3_5_soc.num_states = clk_table->num_entries;
-   339	
-   340		if (max_dispclk_mhz) {
-   341			dcn3_5_soc.dispclk_dppclk_vco_speed_mhz = max_dispclk_mhz * 2;
-   342			dc->dml.soc.dispclk_dppclk_vco_speed_mhz = max_dispclk_mhz * 2;
-   343		}
-   344		if ((int)(dcn3_5_soc.dram_clock_change_latency_us * 1000)
-   345					!= dc->debug.dram_clock_change_latency_ns
-   346				&& dc->debug.dram_clock_change_latency_ns) {
-   347			dcn3_5_soc.dram_clock_change_latency_us =
-   348				dc->debug.dram_clock_change_latency_ns / 1000.0;
-   349		}
-   350		/*temp till dml2 fully work without dml1*/
-   351			dml_init_instance(&dc->dml, &dcn3_5_soc, &dcn3_5_ip,
-   352					  DML_PROJECT_DCN31);
-   353	}
-   354	
+clear_user() is like copy_to_user() and returns the number of bytes
+remaining.  It should be:
+
+		if (clear_user(user_ptr + length, cmd->data_len - length)) {
+			rc = -EFAULT;
+			goto err_put;
+		}
+
+69055cc0284095 Yi Liu 2023-01-12  249  		if (rc)
+69055cc0284095 Yi Liu 2023-01-12  250  			goto err_put;
+69055cc0284095 Yi Liu 2023-01-12  251  	}
+69055cc0284095 Yi Liu 2023-01-12  252  
+69055cc0284095 Yi Liu 2023-01-12  253  	cmd->data_len = length;
+69055cc0284095 Yi Liu 2023-01-12  254  	cmd->out_data_type = hw_info_type;
+69055cc0284095 Yi Liu 2023-01-12  255  	rc = iommufd_ucmd_respond(ucmd, sizeof(*cmd));
+69055cc0284095 Yi Liu 2023-01-12  256  
+69055cc0284095 Yi Liu 2023-01-12  257  err_put:
+69055cc0284095 Yi Liu 2023-01-12  258  	iommufd_put_object(&idev->obj);
+69055cc0284095 Yi Liu 2023-01-12 @259  	return rc;
+69055cc0284095 Yi Liu 2023-01-12  260  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
