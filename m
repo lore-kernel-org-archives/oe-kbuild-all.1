@@ -1,106 +1,194 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0337611199
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 10:39:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B4A63DC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 10:45:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RgKqENDr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RiVdD98n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697193591; x=1728729591;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=EdUkyxDquqHULFKo1sZtr/htjjNPhFh4HnnBYrB4zq0=;
-  b=RgKqENDrjNQ6YiG3Ug3iNPVPOu8eIv2/DiRGPLHt8OrqgdPb0YVVzoXz
-   ZBh1SwfnFuMG/cyMp9crdGDmODisXv5jST6suS8VM5W3h+61/L4Ay9hRV
-   EzBaD8FPZs4Yp/gcHwiO0OqMY7UYeVn6wtWsOX1hKqvdClA6tu+x4Si7q
-   /S0kwzqbSNAoIypwZup6s9HuW/kSqCvU2AAEjCcyzsYiI1vTFCiJ2FYsE
-   yMcBFrvH7/18IfePRV/nVS8kuh58xg+zuEV2r6HmuelwKmqQ6dhT6G1vQ
-   aewTDEKLvxNhmtbCrZeZBthJzGP2VGbu2Fcrk4mENRQM+kVWE2MPkZANb
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="388003211"
+  t=1697193913; x=1728729913;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HSl711bdOOEKLb67CqXybD88KH1PGSa66HEXzJJoOLc=;
+  b=RiVdD98np2I/nzb2Uaz4VnS/03ritNBgHFbDdaSnT9FDaCRrC9QNAF0D
+   tyypgU8L+pxPha0ZMAgdVirrdTpDQQTKTOh21xcaUa5cs2SkgVsB+LImd
+   S0T15MqBSnrRKIn3XRqxiY14f1IOE5SXIKt0VXqeW0otgqW5tulQ3qIqI
+   IZrHA4I4sMl4/hIE2KuXzdsBTinuWlp50FKatXi9aLRGIWeznOsi0UoKX
+   saRXmk1gGGrDt+qi/GGUSDDT1JfOsL5DI3OXRHBEc+5iBKRAqZg52yEV7
+   cr/DR5INQqsxgQM0zEPoCagZvWBjWkXA/YlHbtx5yoEQkunAEHE8mgh+G
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="375503487"
 X-IronPort-AV: E=Sophos;i="6.03,221,1694761200"; 
-   d="scan'208";a="388003211"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 03:39:50 -0700
+   d="scan'208";a="375503487"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 03:45:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="871022922"
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="731323642"
 X-IronPort-AV: E=Sophos;i="6.03,221,1694761200"; 
-   d="scan'208";a="871022922"
-Received: from ttmerile-mobl1.ger.corp.intel.com ([10.249.37.202])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 03:39:47 -0700
-Date: Fri, 13 Oct 2023 13:39:45 +0300 (EEST)
-From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
-    Dwaipayan Ray <dwaipayanray1@gmail.com>, 
-    Lukas Bulwahn <lukas.bulwahn@gmail.com>
-cc: kernel test robot <lkp@intel.com>, LKML <linux-kernel@vger.kernel.org>, 
-    platform-driver-x86@vger.kernel.org, rajvi.jingar@linux.intel.com, 
-    oe-kbuild-all@lists.linux.dev, 
-    "David E. Box" <david.e.box@linux.intel.com>
-Subject: Re: [PATCH V3 03/16] platform/x86/intel/vsec: Use cleanup.h
-In-Reply-To: <6ed4cd5ae37a054d4780c8fa519dc83396b15c14.camel@linux.intel.com>
-Message-ID: <b93a3e8-2d15-256a-4172-a22ef17dde9@linux.intel.com>
-References: <20231012023840.3845703-4-david.e.box@linux.intel.com>  <202310121314.3Xpqom2w-lkp@intel.com> <6ed4cd5ae37a054d4780c8fa519dc83396b15c14.camel@linux.intel.com>
+   d="scan'208";a="731323642"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 13 Oct 2023 03:45:11 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qrFfJ-0004dz-1K;
+	Fri, 13 Oct 2023 10:45:09 +0000
+Date: Fri, 13 Oct 2023 18:44:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/642 1577/30000]
+ drivers/input/touchscreen/focaltech_touch/focaltech_core.c:1328:12: warning:
+ 'fts_ts_resume' defined but not used
+Message-ID: <202310131802.cLKL0ZUv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1029817949-1697193589=:2026"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+tree:   https://github.com/Freescale/linux-fslc pr/642
+head:   c8b7cf62c7fea8456dec789d550b8006d73b8f04
+commit: b5805df1b1a6c25d66b734c9249ac30c5f419b9d [1577/30000] MLK-14392-1 input: touch: add focaltech touch screen support
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231013/202310131802.cLKL0ZUv-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231013/202310131802.cLKL0ZUv-lkp@intel.com/reproduce)
 
---8323329-1029817949-1697193589=:2026
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310131802.cLKL0ZUv-lkp@intel.com/
 
-Hi,
+All warnings (new ones prefixed by >>):
 
-I added checkpatch people, please check what looks a false positive below.
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/xarray.h:14,
+                    from include/linux/radix-tree.h:18,
+                    from include/linux/idr.h:15,
+                    from include/linux/kernfs.h:13,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/of.h:17,
+                    from include/linux/irqdomain.h:35,
+                    from include/linux/acpi.h:13,
+                    from include/linux/i2c.h:13,
+                    from drivers/input/touchscreen/focaltech_touch/focaltech_core.h:36,
+                    from drivers/input/touchscreen/focaltech_touch/focaltech_core.c:34:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1242:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
+    1242 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1228:27: note: 'mem_section' declared here
+    1228 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   drivers/input/touchscreen/focaltech_touch/focaltech_core.c: In function 'fts_parse_dt':
+   drivers/input/touchscreen/focaltech_touch/focaltech_core.c:970:31: warning: comparison of unsigned expression in '< 0' is always false [-Wtype-limits]
+     970 |         if (pdata->reset_gpio < 0)
+         |                               ^
+   drivers/input/touchscreen/focaltech_touch/focaltech_core.c:976:29: warning: comparison of unsigned expression in '< 0' is always false [-Wtype-limits]
+     976 |         if (pdata->irq_gpio < 0)
+         |                             ^
+   drivers/input/touchscreen/focaltech_touch/focaltech_core.c: At top level:
+>> drivers/input/touchscreen/focaltech_touch/focaltech_core.c:1328:12: warning: 'fts_ts_resume' defined but not used [-Wunused-function]
+    1328 | static int fts_ts_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~
+>> drivers/input/touchscreen/focaltech_touch/focaltech_core.c:1267:12: warning: 'fts_ts_suspend' defined but not used [-Wunused-function]
+    1267 | static int fts_ts_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~
 
-On Thu, 12 Oct 2023, David E. Box wrote:
 
-> On Thu, 2023-10-12 at 13:25 +0800, kernel test robot wrote:
-> > Hi David,
-> > 
-> > kernel test robot noticed the following build warnings:
-> > 
-> > [auto build test WARNING on acce85a7dd28eac3858d44230f4c65985d0f271c]
-> > 
-> > url:   
-> > https://github.com/intel-lab-lkp/linux/commits/David-E-Box/platform-x86-intel-vsec-Move-structures-to-header/20231012-104217
-> > base:   acce85a7dd28eac3858d44230f4c65985d0f271c
-> > patch link:   
-> > https://lore.kernel.org/r/20231012023840.3845703-4-david.e.box%40linux.intel.com
-> > patch subject: [PATCH V3 03/16] platform/x86/intel/vsec: Use cleanup.h
-> > reproduce:
-> > (https://download.01.org/0day-ci/archive/20231012/202310121314.3Xpqom2w-lkp@in
-> > tel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version
-> > of
-> > the same patch/commit), kindly add following tags
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Closes:
-> > > https://lore.kernel.org/oe-kbuild-all/202310121314.3Xpqom2w-lkp@intel.com/
-> > 
-> > # many are suggestions rather than must-fix
-> > 
-> > ERROR:SPACING: need consistent spacing around '*' (ctx:WxV)
-> > #31: FILE: drivers/platform/x86/intel/vsec.c:159:
-> > +       struct intel_vsec_device __free(kfree) *intel_vsec_dev = NULL;
-> 
-> These looks like false positives.
+vim +/fts_ts_resume +1328 drivers/input/touchscreen/focaltech_touch/focaltech_core.c
 
-I agree. If I interpret the error message right checkpatch seems to think
-that's a multiplication which is not the case here.
+  1259	
+  1260	/*****************************************************************************
+  1261	*  Name: fts_ts_suspend
+  1262	*  Brief:
+  1263	*  Input:
+  1264	*  Output:
+  1265	*  Return:
+  1266	*****************************************************************************/
+> 1267	static int fts_ts_suspend(struct device *dev)
+  1268	{
+  1269		struct fts_ts_data *data = dev_get_drvdata(dev);
+  1270		int retval = 0;
+  1271	
+  1272		FTS_FUNC_ENTER();
+  1273		if (data->suspended) {
+  1274			FTS_INFO("Already in suspend state");
+  1275			FTS_FUNC_EXIT();
+  1276			return -1;
+  1277		}
+  1278	
+  1279		fts_release_all_finger();
+  1280	
+  1281	#if FTS_GESTURE_EN
+  1282		retval = fts_gesture_suspend(data->client);
+  1283		if (retval == 0) {
+  1284			/* Enter into gesture mode(suspend) */
+  1285			retval = enable_irq_wake(fts_wq_data->client->irq);
+  1286			if (retval)
+  1287				FTS_ERROR("%s: set_irq_wake failed", __func__);
+  1288			data->suspended = true;
+  1289			FTS_FUNC_EXIT();
+  1290			return 0;
+  1291		}
+  1292	#endif
+  1293	
+  1294	#if FTS_PSENSOR_EN
+  1295		if (fts_sensor_suspend(data) != 0) {
+  1296			enable_irq_wake(data->client->irq);
+  1297			data->suspended = true;
+  1298			return 0;
+  1299		}
+  1300	#endif
+  1301	
+  1302	#if FTS_ESDCHECK_EN
+  1303		fts_esdcheck_suspend();
+  1304	#endif
+  1305	
+  1306		fts_irq_disable();
+  1307	
+  1308		/* TP enter sleep mode */
+  1309		retval =
+  1310		    fts_i2c_write_reg(data->client, FTS_REG_POWER_MODE,
+  1311				      FTS_REG_POWER_MODE_SLEEP_VALUE);
+  1312		if (retval < 0)
+  1313			FTS_ERROR("Set TP to sleep mode fail, ret=%d!", retval);
+  1314		data->suspended = true;
+  1315	
+  1316		FTS_FUNC_EXIT();
+  1317	
+  1318		return 0;
+  1319	}
+  1320	
+  1321	/*****************************************************************************
+  1322	*  Name: fts_ts_resume
+  1323	*  Brief:
+  1324	*  Input:
+  1325	*  Output:
+  1326	*  Return:
+  1327	*****************************************************************************/
+> 1328	static int fts_ts_resume(struct device *dev)
+  1329	{
+  1330		struct fts_ts_data *data = dev_get_drvdata(dev);
+  1331	
+  1332		FTS_FUNC_ENTER();
+  1333		if (!data->suspended) {
+  1334			FTS_DEBUG("Already in awake state");
+  1335			FTS_FUNC_EXIT();
+  1336			return -1;
+  1337		}
+  1338	
+  1339		if (!fts_chip_idc(data))
+  1340			fts_reset_proc(200);
+  1341	
+  1342		fts_tp_state_recovery(data->client);
+  1343	
 
 -- 
- i.
-
---8323329-1029817949-1697193589=:2026--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
