@@ -1,59 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F6C1BDC3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 15:43:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E8C01BDD0;
+	Fri, 13 Oct 2023 15:43:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nSXee22D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nUhJArcz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697211832; x=1728747832;
+  t=1697211833; x=1728747833;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=29s3G1E9QTs2ByafqFzcoETkhW2Zmk6RFxqLUJpfMg4=;
-  b=nSXee22DwG/hXZS82mu2mR2s8jD5nVzDLGztMHa2GzkciKIglmh/arQh
-   DAdVqHowsUq5zd2kELZe2yvLQMk2xMV0VCUxvG/MJFMWdfDofqODmxzvh
-   mT/acw52XYjYh7gpF6GCoiIY2mP0Xw0S1sWqWp54Dqrx6w8bLh5hIrB3W
-   poMXMP8iZsFtS7AR5VjwCYrfEO+kYoRGSs1H4IQPYbXnuW5L1lrXdqgux
-   M+0Vi44CXsY51PDbNxV/+xTwQtEbDgNI5GVAOgpvpNWNwISTqrTT44xXk
-   uo2Hq5qB7qju8hjGMyanEenMsomL8dsYDg0DegguCUswfH2bA/pwOGp+L
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="370274670"
+  bh=DzEEbiGTrFq9bOnUL3/9iUPblV7WbMl91Pg8leLraYQ=;
+  b=nUhJArczNXXwXiv66QmCeoBm4UKWH3RMi7e48HfkkI16C3lBo0YuR+I4
+   T8fftm0q61jJ0yjdAILd7blcBgqZ6rPTn4duspUw03uL37gcb4pArabQo
+   Diir7rJ73IV64T8Z52izdOLN6771o90r3NvOi+za9mGyrzynyYjZ3bjlP
+   IMtUbusYJTzu2kJhIZFuRsQVlbMWVqy2D+04lAVu2ukP0Kx9/3iow9U8h
+   zB6w5QYP4cMbguVs+w/2ymBb9t9N0e+AhNLMEJp4l3Y4SX1/7y+BIX07Z
+   SkXnV5uDTXP5TvwokWnHosAYsNpUlgzbfi8YEwcC5KdLyvYhXt5YUzPlM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="370274682"
 X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; 
-   d="scan'208";a="370274670"
+   d="scan'208";a="370274682"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
   by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 08:43:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="928461808"
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="928461804"
 X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; 
-   d="scan'208";a="928461808"
+   d="scan'208";a="928461804"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
   by orsmga005.jf.intel.com with ESMTP; 13 Oct 2023 08:43:44 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qrKKE-00052P-0v;
+	id 1qrKKE-00052X-1g;
 	Fri, 13 Oct 2023 15:43:42 +0000
-Date: Fri, 13 Oct 2023 23:43:17 +0800
+Date: Fri, 13 Oct 2023 23:43:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Graf <graf@amazon.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Olivia Mackall <olivia@selenic.com>,
-	Petre Eftime <petre.eftime@gmail.com>,
-	Erdem Meydanlli <meydanli@amazon.nl>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	"Michael S . Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Kyunghwan Kwon <k@mononn.com>
-Subject: Re: [PATCH v4 2/2] misc: Add Nitro Secure Module driver
-Message-ID: <202310132329.UIMS3J8a-lkp@intel.com>
-References: <20231009212053.2007-3-graf@amazon.com>
+To: Dave Marchevsky <davemarchevsky@fb.com>, bpf@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@kernel.org>,
+	Kernel Team <kernel-team@fb.com>,
+	Dave Marchevsky <davemarchevsky@fb.com>,
+	Nathan Slingerland <slinger@meta.com>
+Subject: Re: [PATCH v6 bpf-next 3/4] bpf: Introduce task_vma open-coded
+ iterator kfuncs
+Message-ID: <202310132300.wnnctWmF-lkp@intel.com>
+References: <20231010185944.3888849-4-davemarchevsky@fb.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,101 +58,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231009212053.2007-3-graf@amazon.com>
+In-Reply-To: <20231010185944.3888849-4-davemarchevsky@fb.com>
 
-Hi Alexander,
+Hi Dave,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on char-misc/char-misc-testing]
-[also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus soc/for-next linus/master v6.6-rc5 next-20231012]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Graf/Import-CBOR-library/20231010-052529
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20231009212053.2007-3-graf%40amazon.com
-patch subject: [PATCH v4 2/2] misc: Add Nitro Secure Module driver
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20231013/202310132329.UIMS3J8a-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231013/202310132329.UIMS3J8a-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Marchevsky/bpf-Don-t-explicitly-emit-BTF-for-struct-btf_iter_num/20231011-030202
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20231010185944.3888849-4-davemarchevsky%40fb.com
+patch subject: [PATCH v6 bpf-next 3/4] bpf: Introduce task_vma open-coded iterator kfuncs
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231013/202310132300.wnnctWmF-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231013/202310132300.wnnctWmF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310132329.UIMS3J8a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310132300.wnnctWmF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/ioctl.h:5,
-                    from arch/powerpc/include/uapi/asm/ioctl.h:12,
-                    from include/uapi/linux/ioctl.h:5,
-                    from include/uapi/linux/random.h:12,
-                    from include/linux/random.h:10,
-                    from include/linux/nodemask.h:97,
-                    from include/linux/list_lru.h:12,
-                    from include/linux/fs.h:13,
-                    from drivers/misc/nsm.c:23:
->> include/uapi/asm-generic/ioctl.h:70:9: error: initializer element is not constant
-      70 |         (((dir)  << _IOC_DIRSHIFT) | \
-         |         ^
-   include/uapi/asm-generic/ioctl.h:88:33: note: in expansion of macro '_IOC'
-      88 | #define _IOWR(type,nr,size)     _IOC(_IOC_READ|_IOC_WRITE,(type),(nr),(_IOC_TYPECHECK(size)))
-         |                                 ^~~~
-   include/uapi/linux/nsm.h:172:33: note: in expansion of macro '_IOWR'
-     172 | #define NSM_IOCTL_ATTESTATION   _IOWR(NSM_MAGIC, 0x6, union nsm_attestation)
-         |                                 ^~~~~
-   drivers/misc/nsm.c:1209:11: note: in expansion of macro 'NSM_IOCTL_ATTESTATION'
-    1209 |         { NSM_IOCTL_ATTESTATION, _fill_req_attestation, _parse_resp_attestation },
-         |           ^~~~~~~~~~~~~~~~~~~~~
-   include/uapi/asm-generic/ioctl.h:70:9: note: (near initialization for 'nsm_ioctls[6].cmd')
-      70 |         (((dir)  << _IOC_DIRSHIFT) | \
-         |         ^
-   include/uapi/asm-generic/ioctl.h:88:33: note: in expansion of macro '_IOC'
-      88 | #define _IOWR(type,nr,size)     _IOC(_IOC_READ|_IOC_WRITE,(type),(nr),(_IOC_TYPECHECK(size)))
-         |                                 ^~~~
-   include/uapi/linux/nsm.h:172:33: note: in expansion of macro '_IOWR'
-     172 | #define NSM_IOCTL_ATTESTATION   _IOWR(NSM_MAGIC, 0x6, union nsm_attestation)
-         |                                 ^~~~~
-   drivers/misc/nsm.c:1209:11: note: in expansion of macro 'NSM_IOCTL_ATTESTATION'
-    1209 |         { NSM_IOCTL_ATTESTATION, _fill_req_attestation, _parse_resp_attestation },
-         |           ^~~~~~~~~~~~~~~~~~~~~
->> include/uapi/asm-generic/ioctl.h:70:9: error: initializer element is not constant
-      70 |         (((dir)  << _IOC_DIRSHIFT) | \
-         |         ^
-   include/uapi/asm-generic/ioctl.h:88:33: note: in expansion of macro '_IOC'
-      88 | #define _IOWR(type,nr,size)     _IOC(_IOC_READ|_IOC_WRITE,(type),(nr),(_IOC_TYPECHECK(size)))
-         |                                 ^~~~
-   include/uapi/linux/nsm.h:186:33: note: in expansion of macro '_IOWR'
-     186 | #define NSM_IOCTL_RANDOM        _IOWR(NSM_MAGIC, 0x7, union nsm_get_random)
-         |                                 ^~~~~
-   drivers/misc/nsm.c:1210:11: note: in expansion of macro 'NSM_IOCTL_RANDOM'
-    1210 |         { NSM_IOCTL_RANDOM, _fill_req_get_random, _parse_resp_get_random },
-         |           ^~~~~~~~~~~~~~~~
-   include/uapi/asm-generic/ioctl.h:70:9: note: (near initialization for 'nsm_ioctls[7].cmd')
-      70 |         (((dir)  << _IOC_DIRSHIFT) | \
-         |         ^
-   include/uapi/asm-generic/ioctl.h:88:33: note: in expansion of macro '_IOC'
-      88 | #define _IOWR(type,nr,size)     _IOC(_IOC_READ|_IOC_WRITE,(type),(nr),(_IOC_TYPECHECK(size)))
-         |                                 ^~~~
-   include/uapi/linux/nsm.h:186:33: note: in expansion of macro '_IOWR'
-     186 | #define NSM_IOCTL_RANDOM        _IOWR(NSM_MAGIC, 0x7, union nsm_get_random)
-         |                                 ^~~~~
-   drivers/misc/nsm.c:1210:11: note: in expansion of macro 'NSM_IOCTL_RANDOM'
-    1210 |         { NSM_IOCTL_RANDOM, _fill_req_get_random, _parse_resp_get_random },
-         |           ^~~~~~~~~~~~~~~~
+>> kernel/bpf/task_iter.c:827:17: warning: no previous prototype for function 'bpf_iter_task_vma_new' [-Wmissing-prototypes]
+   __bpf_kfunc int bpf_iter_task_vma_new(struct bpf_iter_task_vma *it,
+                   ^
+   kernel/bpf/task_iter.c:827:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   __bpf_kfunc int bpf_iter_task_vma_new(struct bpf_iter_task_vma *it,
+               ^
+               static 
+>> kernel/bpf/task_iter.c:871:36: warning: no previous prototype for function 'bpf_iter_task_vma_next' [-Wmissing-prototypes]
+   __bpf_kfunc struct vm_area_struct *bpf_iter_task_vma_next(struct bpf_iter_task_vma *it)
+                                      ^
+   kernel/bpf/task_iter.c:871:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   __bpf_kfunc struct vm_area_struct *bpf_iter_task_vma_next(struct bpf_iter_task_vma *it)
+               ^
+               static 
+>> kernel/bpf/task_iter.c:880:18: warning: no previous prototype for function 'bpf_iter_task_vma_destroy' [-Wmissing-prototypes]
+   __bpf_kfunc void bpf_iter_task_vma_destroy(struct bpf_iter_task_vma *it)
+                    ^
+   kernel/bpf/task_iter.c:880:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   __bpf_kfunc void bpf_iter_task_vma_destroy(struct bpf_iter_task_vma *it)
+               ^
+               static 
+   3 warnings generated.
 
 
-vim +70 include/uapi/asm-generic/ioctl.h
+vim +/bpf_iter_task_vma_new +827 kernel/bpf/task_iter.c
 
-8a1ab3155c2ac7 David Howells 2012-10-04  68  
-8a1ab3155c2ac7 David Howells 2012-10-04  69  #define _IOC(dir,type,nr,size) \
-8a1ab3155c2ac7 David Howells 2012-10-04 @70  	(((dir)  << _IOC_DIRSHIFT) | \
-8a1ab3155c2ac7 David Howells 2012-10-04  71  	 ((type) << _IOC_TYPESHIFT) | \
-8a1ab3155c2ac7 David Howells 2012-10-04  72  	 ((nr)   << _IOC_NRSHIFT) | \
-8a1ab3155c2ac7 David Howells 2012-10-04  73  	 ((size) << _IOC_SIZESHIFT))
-8a1ab3155c2ac7 David Howells 2012-10-04  74  
+   826	
+ > 827	__bpf_kfunc int bpf_iter_task_vma_new(struct bpf_iter_task_vma *it,
+   828					      struct task_struct *task, u64 addr)
+   829	{
+   830		struct bpf_iter_task_vma_kern *kit = (void *)it;
+   831		bool irq_work_busy = false;
+   832		int err;
+   833	
+   834		BUILD_BUG_ON(sizeof(struct bpf_iter_task_vma_kern) != sizeof(struct bpf_iter_task_vma));
+   835		BUILD_BUG_ON(__alignof__(struct bpf_iter_task_vma_kern) != __alignof__(struct bpf_iter_task_vma));
+   836	
+   837		/* is_iter_reg_valid_uninit guarantees that kit hasn't been initialized
+   838		 * before, so non-NULL kit->data doesn't point to previously
+   839		 * bpf_mem_alloc'd bpf_iter_task_vma_kern_data
+   840		 */
+   841		kit->data = bpf_mem_alloc(&bpf_global_ma, sizeof(struct bpf_iter_task_vma_kern_data));
+   842		if (!kit->data)
+   843			return -ENOMEM;
+   844	
+   845		kit->data->task = get_task_struct(task);
+   846		kit->data->mm = task->mm;
+   847		if (!kit->data->mm) {
+   848			err = -ENOENT;
+   849			goto err_cleanup_iter;
+   850		}
+   851	
+   852		/* kit->data->work == NULL is valid after bpf_mmap_unlock_get_irq_work */
+   853		irq_work_busy = bpf_mmap_unlock_get_irq_work(&kit->data->work);
+   854		if (irq_work_busy || !mmap_read_trylock(kit->data->mm)) {
+   855			err = -EBUSY;
+   856			goto err_cleanup_iter;
+   857		}
+   858	
+   859		vma_iter_init(&kit->data->vmi, kit->data->mm, addr);
+   860		return 0;
+   861	
+   862	err_cleanup_iter:
+   863		if (kit->data->task)
+   864			put_task_struct(kit->data->task);
+   865		bpf_mem_free(&bpf_global_ma, kit->data);
+   866		/* NULL kit->data signals failed bpf_iter_task_vma initialization */
+   867		kit->data = NULL;
+   868		return err;
+   869	}
+   870	
+ > 871	__bpf_kfunc struct vm_area_struct *bpf_iter_task_vma_next(struct bpf_iter_task_vma *it)
+   872	{
+   873		struct bpf_iter_task_vma_kern *kit = (void *)it;
+   874	
+   875		if (!kit->data) /* bpf_iter_task_vma_new failed */
+   876			return NULL;
+   877		return vma_next(&kit->data->vmi);
+   878	}
+   879	
+ > 880	__bpf_kfunc void bpf_iter_task_vma_destroy(struct bpf_iter_task_vma *it)
+   881	{
+   882		struct bpf_iter_task_vma_kern *kit = (void *)it;
+   883	
+   884		if (kit->data) {
+   885			bpf_mmap_unlock_mm(kit->data->work, kit->data->mm);
+   886			put_task_struct(kit->data->task);
+   887			bpf_mem_free(&bpf_global_ma, kit->data);
+   888		}
+   889	}
+   890	
 
 -- 
 0-DAY CI Kernel Test Service
