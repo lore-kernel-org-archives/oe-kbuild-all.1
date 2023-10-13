@@ -1,47 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640AA224E4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 17:44:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514D5224CC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 17:44:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R1ULb4/e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EoZ5zC5W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697219045; x=1728755045;
+  t=1697219046; x=1728755046;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WXGHzyBXiLEwhPQv/vo981r5wkqKuRQqxul+VIZ8Ml8=;
-  b=R1ULb4/eC5mDJGL3Y4lfy4F8Ql2K6Nsr/BYWz/pbncuX0cyHUYoCj0lo
-   ifl4n8up8hDg/k3QpBpyETqI7mqY5sNjmEkNeuTxiL2998QQI5dCQhhvE
-   bwnChAmp1SDZppijDeOEUyhm92dKWAfCdd+6AFobWpzC4OhvfJW7BkaWg
-   UjDofAQRvmbxkRjQEc78PUs83/p1RlpefXCg22RUul64P1iGePwEC9DN/
-   CHUtBMwsjh8BFAq/0mDMVMqsZSE9rtgmUs6KeaGvJGHowDRKchjvg3873
-   eFicHKe9CbkQCr7/fE05vgkoHpuzveiS9kRY/zHa73vEXrENL81jB+o7G
+  bh=m848iwOf/svkfpNm2zSvDCh3UdDSCqiuwiTUE1sxKMg=;
+  b=EoZ5zC5WR+un75jL74ke2VZD0Dh2dQKDxTjtDeZRYyZVPalX+tCRq0Gi
+   5VBAQRaHr6xUQSNzllaZbl8g2v75TM4MGAIKCRDMt8jxOL2tFjXDMklwO
+   6wZuWw70L82rObqoq8Mb8+oNKCOHb1xYNqIStjVkmRx6FXQzwqJu5veMe
+   2YZHje71gRc058QXOrpAUyPfLXO0NfEzvyoPj4SIhP7mhNqov+c8+hpp6
+   rQTPXacExWMf3iSMqh+NqsyA2urgQv8ieSiU89fZmsiYFaxqma81nEJnm
+   e6yQShP/gP97sHbfSwCyaDo5GGdYRDnlIKTSkMKh9YgNOD9BQ/X0WG5f/
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="365492932"
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="365492935"
 X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; 
-   d="scan'208";a="365492932"
+   d="scan'208";a="365492935"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 10:44:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="898645060"
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="898645062"
 X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; 
-   d="scan'208";a="898645060"
+   d="scan'208";a="898645062"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
   by fmsmga001.fm.intel.com with ESMTP; 13 Oct 2023 10:42:09 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qrMCc-0005Cn-1D;
+	id 1qrMCc-0005Cp-1I;
 	Fri, 13 Oct 2023 17:43:58 +0000
 Date: Sat, 14 Oct 2023 01:43:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:for-kernelci 79/79] drivers/edac/armada_xp_edac.c:317:12:
- warning: assignment to 'const struct of_device_id *' from 'int' makes
- pointer from integer without a cast
-Message-ID: <202310140146.JeFRa9pY-lkp@intel.com>
+Subject: [freescale-fslc:6.1-2.1.x-imx 259/15768]
+ drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function
+ parameter or member 'csi_pclk' not described in 'csi_state'
+Message-ID: <202310140152.9al0oPdK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,167 +51,137 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
-head:   0b2090dc362011397fbf66150610f9fe2efbb881
-commit: 0b2090dc362011397fbf66150610f9fe2efbb881 [79/79] of: header cleanups
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20231014/202310140146.JeFRa9pY-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310140146.JeFRa9pY-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
+head:   3f41fbe42851375d3d5996e4bf9e9809e6c79517
+commit: 6d567ec4864b92b7ecf5ded76fe55c04f26ab4e7 [259/15768] LF-6810-03: media: Samsung CSI2: fix build error due to API renamed
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231014/202310140152.9al0oPdK-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310140152.9al0oPdK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310140146.JeFRa9pY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310140152.9al0oPdK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/edac/armada_xp_edac.c: In function 'axp_mc_check':
-   drivers/edac/armada_xp_edac.c:129:47: warning: variable 'cause_msg' set but not used [-Wunused-but-set-variable]
-     129 |         uint32_t cnt_sbe, cnt_dbe, cause_err, cause_msg;
-         |                                               ^~~~~~~~~
-   drivers/edac/armada_xp_edac.c:129:36: warning: variable 'cause_err' set but not used [-Wunused-but-set-variable]
-     129 |         uint32_t cnt_sbe, cnt_dbe, cause_err, cause_msg;
-         |                                    ^~~~~~~~~
-   drivers/edac/armada_xp_edac.c:128:26: warning: variable 'data_l' set but not used [-Wunused-but-set-variable]
-     128 |         uint32_t data_h, data_l, recv_ecc, calc_ecc, addr;
-         |                          ^~~~~~
-   drivers/edac/armada_xp_edac.c:128:18: warning: variable 'data_h' set but not used [-Wunused-but-set-variable]
-     128 |         uint32_t data_h, data_l, recv_ecc, calc_ecc, addr;
-         |                  ^~~~~~
-   drivers/edac/armada_xp_edac.c: In function 'axp_mc_probe':
-   drivers/edac/armada_xp_edac.c:317:14: error: implicit declaration of function 'of_match_device'; did you mean 'acpi_match_device'? [-Werror=implicit-function-declaration]
-     317 |         id = of_match_device(axp_mc_of_match, &pdev->dev);
-         |              ^~~~~~~~~~~~~~~
-         |              acpi_match_device
->> drivers/edac/armada_xp_edac.c:317:12: warning: assignment to 'const struct of_device_id *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     317 |         id = of_match_device(axp_mc_of_match, &pdev->dev);
-         |            ^
-   drivers/edac/armada_xp_edac.c:329:13: error: implicit declaration of function 'of_machine_is_compatible'; did you mean 'device_is_compatible'? [-Werror=implicit-function-declaration]
-     329 |         if (of_machine_is_compatible("marvell,armada380") ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
-         |             device_is_compatible
-   drivers/edac/armada_xp_edac.c: At top level:
-   drivers/edac/armada_xp_edac.c:370:35: error: implicit declaration of function 'of_match_ptr' [-Werror=implicit-function-declaration]
-     370 |                 .of_match_table = of_match_ptr(axp_mc_of_match),
-         |                                   ^~~~~~~~~~~~
->> drivers/edac/armada_xp_edac.c:370:35: warning: initialization of 'const struct of_device_id *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   drivers/edac/armada_xp_edac.c:370:35: note: (near initialization for 'axp_mc_driver.driver.of_match_table')
-   drivers/edac/armada_xp_edac.c:370:35: error: initializer element is not constant
-   drivers/edac/armada_xp_edac.c:370:35: note: (near initialization for 'axp_mc_driver.driver.of_match_table')
-   drivers/edac/armada_xp_edac.c: In function 'aurora_l2_probe':
-   drivers/edac/armada_xp_edac.c:535:12: warning: assignment to 'const struct of_device_id *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     535 |         id = of_match_device(aurora_l2_of_match, &pdev->dev);
-         |            ^
-   drivers/edac/armada_xp_edac.c: At top level:
-   drivers/edac/armada_xp_edac.c:587:35: warning: initialization of 'const struct of_device_id *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     587 |                 .of_match_table = of_match_ptr(aurora_l2_of_match),
-         |                                   ^~~~~~~~~~~~
-   drivers/edac/armada_xp_edac.c:587:35: note: (near initialization for 'aurora_l2_driver.driver.of_match_table')
-   drivers/edac/armada_xp_edac.c:587:35: error: initializer element is not constant
-   drivers/edac/armada_xp_edac.c:587:35: note: (near initialization for 'aurora_l2_driver.driver.of_match_table')
-   cc1: some warnings being treated as errors
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'dev' not described in 'csi_state'
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'v4l2_dev' not described in 'csi_state'
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'pads' not described in 'csi_state'
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'mipi_clk' not described in 'csi_state'
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'disp_axi' not described in 'csi_state'
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'disp_apb' not described in 'csi_state'
+>> drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'csi_pclk' not described in 'csi_state'
+>> drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'csi_aclk' not described in 'csi_state'
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'clk_frequency' not described in 'csi_state'
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'vchannel' not described in 'csi_state'
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'asd' not described in 'csi_state'
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'subdev_notifier' not described in 'csi_state'
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'async_subdevs' not described in 'csi_state'
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'hw_reset' not described in 'csi_state'
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'mipi_phy_regulator' not described in 'csi_state'
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'gasket' not described in 'csi_state'
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'mix_gpr' not described in 'csi_state'
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'soft_resetn' not described in 'csi_state'
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'clk_enable' not described in 'csi_state'
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'mipi_reset' not described in 'csi_state'
+>> drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'csi_rst_pclk' not described in 'csi_state'
+>> drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'csi_rst_aclk' not described in 'csi_state'
+>> drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'pdata' not described in 'csi_state'
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'hdr' not described in 'csi_state'
+>> drivers/staging/media/imx/imx8-mipi-csi2-sam.c:447: warning: Function parameter or member 'val' not described in 'csi_state'
 
 
-vim +317 drivers/edac/armada_xp_edac.c
+vim +447 drivers/staging/media/imx/imx8-mipi-csi2-sam.c
 
-7f6998a41257a8 Jan Luebbe         2019-07-12  282  
-7f6998a41257a8 Jan Luebbe         2019-07-12  283  static int axp_mc_probe(struct platform_device *pdev)
-7f6998a41257a8 Jan Luebbe         2019-07-12  284  {
-7f6998a41257a8 Jan Luebbe         2019-07-12  285  	struct axp_mc_drvdata *drvdata;
-7f6998a41257a8 Jan Luebbe         2019-07-12  286  	struct edac_mc_layer layers[1];
-7f6998a41257a8 Jan Luebbe         2019-07-12  287  	const struct of_device_id *id;
-7f6998a41257a8 Jan Luebbe         2019-07-12  288  	struct mem_ctl_info *mci;
-7f6998a41257a8 Jan Luebbe         2019-07-12  289  	void __iomem *base;
-7f6998a41257a8 Jan Luebbe         2019-07-12  290  	uint32_t config;
-7f6998a41257a8 Jan Luebbe         2019-07-12  291  
-2f58783c5d8882 Lv Ruyi            2022-04-21  292  	base = devm_platform_ioremap_resource(pdev, 0);
-7f6998a41257a8 Jan Luebbe         2019-07-12  293  	if (IS_ERR(base)) {
-7f6998a41257a8 Jan Luebbe         2019-07-12  294  		dev_err(&pdev->dev, "Unable to map regs\n");
-7f6998a41257a8 Jan Luebbe         2019-07-12  295  		return PTR_ERR(base);
-7f6998a41257a8 Jan Luebbe         2019-07-12  296  	}
-7f6998a41257a8 Jan Luebbe         2019-07-12  297  
-7f6998a41257a8 Jan Luebbe         2019-07-12  298  	config = readl(base + SDRAM_CONFIG_REG);
-7f6998a41257a8 Jan Luebbe         2019-07-12  299  	if (!(config & SDRAM_CONFIG_ECC_MASK)) {
-493362dd7b9fe2 Christophe JAILLET 2020-04-13  300  		dev_warn(&pdev->dev, "SDRAM ECC is not enabled\n");
-7f6998a41257a8 Jan Luebbe         2019-07-12  301  		return -EINVAL;
-7f6998a41257a8 Jan Luebbe         2019-07-12  302  	}
-7f6998a41257a8 Jan Luebbe         2019-07-12  303  
-7f6998a41257a8 Jan Luebbe         2019-07-12  304  	layers[0].type = EDAC_MC_LAYER_CHIP_SELECT;
-7f6998a41257a8 Jan Luebbe         2019-07-12  305  	layers[0].size = SDRAM_NUM_CS;
-7f6998a41257a8 Jan Luebbe         2019-07-12  306  	layers[0].is_virt_csrow = true;
-7f6998a41257a8 Jan Luebbe         2019-07-12  307  
-7f6998a41257a8 Jan Luebbe         2019-07-12  308  	mci = edac_mc_alloc(0, ARRAY_SIZE(layers), layers, sizeof(*drvdata));
-7f6998a41257a8 Jan Luebbe         2019-07-12  309  	if (!mci)
-7f6998a41257a8 Jan Luebbe         2019-07-12  310  		return -ENOMEM;
-7f6998a41257a8 Jan Luebbe         2019-07-12  311  
-7f6998a41257a8 Jan Luebbe         2019-07-12  312  	drvdata = mci->pvt_info;
-7f6998a41257a8 Jan Luebbe         2019-07-12  313  	drvdata->base = base;
-7f6998a41257a8 Jan Luebbe         2019-07-12  314  	mci->pdev = &pdev->dev;
-7f6998a41257a8 Jan Luebbe         2019-07-12  315  	platform_set_drvdata(pdev, mci);
-7f6998a41257a8 Jan Luebbe         2019-07-12  316  
-7f6998a41257a8 Jan Luebbe         2019-07-12 @317  	id = of_match_device(axp_mc_of_match, &pdev->dev);
-7f6998a41257a8 Jan Luebbe         2019-07-12  318  	mci->edac_check = axp_mc_check;
-7f6998a41257a8 Jan Luebbe         2019-07-12  319  	mci->mtype_cap = MEM_FLAG_DDR3;
-7f6998a41257a8 Jan Luebbe         2019-07-12  320  	mci->edac_cap = EDAC_FLAG_SECDED;
-7f6998a41257a8 Jan Luebbe         2019-07-12  321  	mci->mod_name = pdev->dev.driver->name;
-7f6998a41257a8 Jan Luebbe         2019-07-12  322  	mci->ctl_name = id ? id->compatible : "unknown";
-7f6998a41257a8 Jan Luebbe         2019-07-12  323  	mci->dev_name = dev_name(&pdev->dev);
-7f6998a41257a8 Jan Luebbe         2019-07-12  324  	mci->scrub_mode = SCRUB_NONE;
-7f6998a41257a8 Jan Luebbe         2019-07-12  325  
-7f6998a41257a8 Jan Luebbe         2019-07-12  326  	axp_mc_read_config(mci);
-7f6998a41257a8 Jan Luebbe         2019-07-12  327  
-23d103ae3e061b Chris Packham      2019-07-12  328  	/* These SoCs have a reduced width bus */
-23d103ae3e061b Chris Packham      2019-07-12  329  	if (of_machine_is_compatible("marvell,armada380") ||
-23d103ae3e061b Chris Packham      2019-07-12  330  	    of_machine_is_compatible("marvell,armadaxp-98dx3236"))
-23d103ae3e061b Chris Packham      2019-07-12  331  		drvdata->width /= 2;
-23d103ae3e061b Chris Packham      2019-07-12  332  
-7f6998a41257a8 Jan Luebbe         2019-07-12  333  	/* configure SBE threshold */
-7f6998a41257a8 Jan Luebbe         2019-07-12  334  	/* it seems that SBEs are not captured otherwise */
-7f6998a41257a8 Jan Luebbe         2019-07-12  335  	writel(1 << SDRAM_ERR_CTRL_THR_OFFSET, drvdata->base + SDRAM_ERR_CTRL_REG);
-7f6998a41257a8 Jan Luebbe         2019-07-12  336  
-7f6998a41257a8 Jan Luebbe         2019-07-12  337  	/* clear cause registers */
-7f6998a41257a8 Jan Luebbe         2019-07-12  338  	writel(~(SDRAM_ERR_CAUSE_DBE_MASK | SDRAM_ERR_CAUSE_SBE_MASK), drvdata->base + SDRAM_ERR_CAUSE_ERR_REG);
-7f6998a41257a8 Jan Luebbe         2019-07-12  339  	writel(~(SDRAM_ERR_CAUSE_DBE_MASK | SDRAM_ERR_CAUSE_SBE_MASK), drvdata->base + SDRAM_ERR_CAUSE_MSG_REG);
-7f6998a41257a8 Jan Luebbe         2019-07-12  340  
-7f6998a41257a8 Jan Luebbe         2019-07-12  341  	/* clear counter registers */
-7f6998a41257a8 Jan Luebbe         2019-07-12  342  	writel(0, drvdata->base + SDRAM_ERR_SBE_COUNT_REG);
-7f6998a41257a8 Jan Luebbe         2019-07-12  343  	writel(0, drvdata->base + SDRAM_ERR_DBE_COUNT_REG);
-7f6998a41257a8 Jan Luebbe         2019-07-12  344  
-7f6998a41257a8 Jan Luebbe         2019-07-12  345  	if (edac_mc_add_mc(mci)) {
-7f6998a41257a8 Jan Luebbe         2019-07-12  346  		edac_mc_free(mci);
-7f6998a41257a8 Jan Luebbe         2019-07-12  347  		return -EINVAL;
-7f6998a41257a8 Jan Luebbe         2019-07-12  348  	}
-7f6998a41257a8 Jan Luebbe         2019-07-12  349  	edac_op_state = EDAC_OPSTATE_POLL;
-7f6998a41257a8 Jan Luebbe         2019-07-12  350  
-7f6998a41257a8 Jan Luebbe         2019-07-12  351  	return 0;
-7f6998a41257a8 Jan Luebbe         2019-07-12  352  }
-7f6998a41257a8 Jan Luebbe         2019-07-12  353  
-7f6998a41257a8 Jan Luebbe         2019-07-12  354  static int axp_mc_remove(struct platform_device *pdev)
-7f6998a41257a8 Jan Luebbe         2019-07-12  355  {
-7f6998a41257a8 Jan Luebbe         2019-07-12  356  	struct mem_ctl_info *mci = platform_get_drvdata(pdev);
-7f6998a41257a8 Jan Luebbe         2019-07-12  357  
-7f6998a41257a8 Jan Luebbe         2019-07-12  358  	edac_mc_del_mc(&pdev->dev);
-7f6998a41257a8 Jan Luebbe         2019-07-12  359  	edac_mc_free(mci);
-7f6998a41257a8 Jan Luebbe         2019-07-12  360  	platform_set_drvdata(pdev, NULL);
-7f6998a41257a8 Jan Luebbe         2019-07-12  361  
-7f6998a41257a8 Jan Luebbe         2019-07-12  362  	return 0;
-7f6998a41257a8 Jan Luebbe         2019-07-12  363  }
-7f6998a41257a8 Jan Luebbe         2019-07-12  364  
-7f6998a41257a8 Jan Luebbe         2019-07-12  365  static struct platform_driver axp_mc_driver = {
-7f6998a41257a8 Jan Luebbe         2019-07-12  366  	.probe = axp_mc_probe,
-7f6998a41257a8 Jan Luebbe         2019-07-12  367  	.remove = axp_mc_remove,
-7f6998a41257a8 Jan Luebbe         2019-07-12  368  	.driver = {
-7f6998a41257a8 Jan Luebbe         2019-07-12  369  		.name = "armada_xp_mc_edac",
-7f6998a41257a8 Jan Luebbe         2019-07-12 @370  		.of_match_table = of_match_ptr(axp_mc_of_match),
-7f6998a41257a8 Jan Luebbe         2019-07-12  371  	},
-7f6998a41257a8 Jan Luebbe         2019-07-12  372  };
-7f6998a41257a8 Jan Luebbe         2019-07-12  373  
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  367  
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  368  /**
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  369   * struct csi_state - the driver's internal state data structure
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  370   * @lock: mutex serializing the subdev and power management operations,
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  371   *        protecting @format and @flags members
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  372   * @sd: v4l2_subdev associated with CSIS device instance
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  373   * @index: the hardware instance index
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  374   * @pdev: CSIS platform device
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  375   * @phy: pointer to the CSIS generic PHY
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  376   * @regs: mmaped I/O registers memory
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  377   * @supplies: CSIS regulator supplies
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  378   * @clock: CSIS clocks
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  379   * @irq: requested s5p-mipi-csis irq number
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  380   * @flags: the state variable for power and streaming control
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  381   * @clock_frequency: device bus clock frequency
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  382   * @hs_settle: HS-RX settle time
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  383   * @clk_settle: Clk settle time
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  384   * @num_lanes: number of MIPI-CSI data lanes used
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  385   * @max_num_lanes: maximum number of MIPI-CSI data lanes supported
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  386   * @wclk_ext: CSI wrapper clock: 0 - bus clock, 1 - external SCLK_CAM
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  387   * @csis_fmt: current CSIS pixel format
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  388   * @format: common media bus format for the source and sink pad
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  389   * @slock: spinlock protecting structure members below
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  390   * @pkt_buf: the frame embedded (non-image) data buffer
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  391   * @events: MIPI-CSIS event (error) counters
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  392   */
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  393  struct csi_state {
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  394  	struct v4l2_subdev	sd;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  395  	struct mutex lock;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  396  	struct device		*dev;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  397  	struct v4l2_device	v4l2_dev;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  398  
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  399  	struct media_pad pads[MIPI_CSIS_VCX_PADS_NUM];
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  400  
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  401  	u8 index;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  402  	struct platform_device *pdev;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  403  	struct phy *phy;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  404  	void __iomem *regs;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  405  	struct clk *mipi_clk;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  406  	struct clk *disp_axi;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  407  	struct clk *disp_apb;
+373f27d40275826 Guoniu.zhou 2020-08-21  408  	struct clk *csi_pclk;
+373f27d40275826 Guoniu.zhou 2020-08-21  409  	struct clk *csi_aclk;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  410  	int irq;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  411  	u32 flags;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  412  
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  413  	u32 clk_frequency;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  414  	u32 hs_settle;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  415  	u32 clk_settle;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  416  	u32 num_lanes;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  417  	u32 max_num_lanes;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  418  	u8 wclk_ext;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  419  
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  420  	u8 vchannel;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  421  	const struct csis_pix_format *csis_fmt;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  422  	struct v4l2_mbus_framefmt format;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  423  
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  424  	spinlock_t slock;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  425  	struct csis_pktbuf pkt_buf;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  426  	struct mipi_csis_event events[MIPI_CSIS_NUM_EVENTS];
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  427  
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  428  	struct v4l2_async_subdev    asd;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  429  	struct v4l2_async_notifier  subdev_notifier;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  430  	struct v4l2_async_subdev    *async_subdevs[2];
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  431  
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  432  	struct csis_hw_reset1 hw_reset;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  433  	struct regulator     *mipi_phy_regulator;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  434  
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  435  	struct regmap *gasket;
+2a3a46265af56f2 Guoniu.zhou 2020-09-18  436  	struct regmap *mix_gpr;
+2a3a46265af56f2 Guoniu.zhou 2020-09-18  437  
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  438  	struct reset_control *soft_resetn;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  439  	struct reset_control *clk_enable;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  440  	struct reset_control *mipi_reset;
+373f27d40275826 Guoniu.zhou 2020-08-21  441  	struct reset_control *csi_rst_pclk;
+373f27d40275826 Guoniu.zhou 2020-08-21  442  	struct reset_control *csi_rst_aclk;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  443  
+4d5e92874cef37a Guoniu.zhou 2020-08-21  444  	struct mipi_csis_pdata const *pdata;
+2a3a46265af56f2 Guoniu.zhou 2020-09-18  445  	bool hdr;
+09be5179f636b35 Alice Yuan  2022-02-21  446  	u32 val;
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25 @447  };
+d6d0fbf683aa60f Guoniu.zhou 2019-10-25  448  
 
-:::::: The code at line 317 was first introduced by commit
-:::::: 7f6998a41257a8930ee5b6866ba56a25230841ed ARM: 8888/1: EDAC: Add driver for the Marvell Armada XP SDRAM and L2 cache ECC
+:::::: The code at line 447 was first introduced by commit
+:::::: d6d0fbf683aa60f8d27adaab7b5e54343d90d6f6 staging: media: imx: add V4L2 subdev driver for MIPI CSI2 of Samsung
 
-:::::: TO: Jan Luebbe <jlu@pengutronix.de>
-:::::: CC: Russell King <rmk+kernel@armlinux.org.uk>
+:::::: TO: Guoniu.zhou <guoniu.zhou@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
