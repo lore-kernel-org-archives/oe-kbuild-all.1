@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F21224DE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 16:49:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB91224D0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 16:49:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XL+Vuzb9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VCThgsjE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1697215796; x=1728751796;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xriQrFI49Cdl4bJbaHD0cgbISVElP1bsopwhiLzsJ6I=;
-  b=XL+Vuzb98urdTKyZQ92jsJXtGqIOsc+NxxoF0ICJVK+uoqcCVV9K3fzY
-   tAg7wi0W5c5lMUUgPCKw5zkHnDo1wqRY1V0T6yCDzfuY13mGcJy/1VOIX
-   EsvT3MvHSn4XXKKbYGs9HqKOrbQS4S23vzLvcgFJMGets3EulEQ6vq08Y
-   8rrmD8WoyYujLZSHt/b7TZm9XQEnq6qoBsUxoD1mUyJNSPutNJfZvO/7O
-   ulghZQXqinwW0Pjq20ppqFgjRSh92+TuKjQ1iRTjIn+wdP/Fgwbkf+iUL
-   l+guPxmAZS+Qjnw1gyZYsyQH9w2IktQpMclVKhxD14LK0/t9FnKIOQr9Z
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="385060434"
+  bh=v5nulNd0dHKa+/mWGEOmv+lCCsNWx4AtSUHoXWfaAFc=;
+  b=VCThgsjECdRfApZCOF2hFI6bGRaPdHmRTQwVuofKqXatOfNxXY9HAteH
+   72k7aX/e9PSvIq4ShysToI/H7nNmQSZici88lyGjSA6vnX27emka39UKq
+   /reSzk6T2w2dbmaSTBbweSv9K3U7UdfntQmeqe6Jol/n4Xuqfn/+gAOc+
+   nfkX+h+FghOw655H3YWkwArkLJMp9/fE8Q3SalAHqT6nDJGeRa6Yy4Jvp
+   z6QTzcst5c+ocMpems/sDJYK2Dt82irTo8fu25wncrS8+cIP9GQb/AQ7n
+   AmxqyTR8tE2W4IhUHAOuoPSfzRPGu3pkghebIKKuMHOnbHFMza1AKTunl
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="375571672"
 X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; 
-   d="scan'208";a="385060434"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 09:49:55 -0700
+   d="scan'208";a="375571672"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 09:49:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="871152042"
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="748405896"
 X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; 
-   d="scan'208";a="871152042"
+   d="scan'208";a="748405896"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Oct 2023 09:49:54 -0700
+  by orsmga007.jf.intel.com with ESMTP; 13 Oct 2023 09:49:53 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qrLMG-00059j-0E;
+	id 1qrLMG-00059h-0A;
 	Fri, 13 Oct 2023 16:49:52 +0000
-Date: Sat, 14 Oct 2023 00:49:29 +0800
+Date: Sat, 14 Oct 2023 00:49:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/639 6094/24603]
- drivers/gpu/drm/imx/sec_mipi_dsim-imx.c:64:5: warning: "CONFIG_PM" is not
- defined, evaluates to 0
-Message-ID: <202310140028.1dwzG1zv-lkp@intel.com>
+Subject: [freescale-fslc:6.1-2.1.x-imx 4300/15768]
+ drivers/net/ethernet/freescale/fman/mac.c:358:22: warning: format '%llx'
+ expects argument of type 'long long unsigned int', but argument 5 has type
+ 'resource_size_t' {aka 'unsigned int'}
+Message-ID: <202310140007.7ZIyWL0N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,63 +52,321 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Dong,
+Hi AnjanaSuraj,
 
 FYI, the error/warning still remains.
 
-tree:   https://github.com/Freescale/linux-fslc pr/639
-head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
-commit: ba7179b2e4a0549e119cc83c5dfe5eb013cef3c2 [6094/24603] Merge remote-tracking branch 'origin/display/dsim' into display/next
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231014/202310140028.1dwzG1zv-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310140028.1dwzG1zv-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
+head:   3f41fbe42851375d3d5996e4bf9e9809e6c79517
+commit: 9eddcd885aeb305820f06e648271f50ceb6b1db3 [4300/15768] fsl/fman: add MAC ACPI support
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231014/202310140007.7ZIyWL0N-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310140007.7ZIyWL0N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310140028.1dwzG1zv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310140007.7ZIyWL0N-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/imx/sec_mipi_dsim-imx.c:64:5: warning: "CONFIG_PM" is not defined, evaluates to 0 [-Wundef]
-      64 | #if CONFIG_PM
-         |     ^~~~~~~~~
-   drivers/gpu/drm/imx/sec_mipi_dsim-imx.c: In function 'sec_dsim_of_parse_resets':
->> drivers/gpu/drm/imx/sec_mipi_dsim-imx.c:291:18: warning: variable 'len' set but not used [-Wunused-but-set-variable]
-     291 |         uint32_t len, rstc_num = 0;
-         |                  ^~~
-   drivers/gpu/drm/imx/sec_mipi_dsim-imx.c: At top level:
->> drivers/gpu/drm/imx/sec_mipi_dsim-imx.c:72:12: warning: 'imx_sec_dsim_runtime_resume' defined but not used [-Wunused-function]
-      72 | static int imx_sec_dsim_runtime_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/imx/sec_mipi_dsim-imx.c:68:12: warning: 'imx_sec_dsim_runtime_suspend' defined but not used [-Wunused-function]
-      68 | static int imx_sec_dsim_runtime_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/printk.h:566,
+                    from include/asm-generic/bug.h:22,
+                    from arch/sh/include/asm/bug.h:112,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/current.h:5,
+                    from ./arch/sh/include/generated/asm/current.h:1,
+                    from include/linux/mutex.h:14,
+                    from include/linux/kernfs.h:11,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/of.h:17,
+                    from include/linux/irqdomain.h:35,
+                    from include/linux/acpi.h:13,
+                    from drivers/net/ethernet/freescale/fman/mac.c:9:
+   drivers/net/ethernet/freescale/fman/mac.c: In function 'acpi_mac_probe':
+>> drivers/net/ethernet/freescale/fman/mac.c:358:22: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 5 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+     358 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
+     223 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
+     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
+     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/net/ethernet/freescale/fman/mac.c:358:9: note: in expansion of macro 'dev_dbg'
+     358 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
+         |         ^~~~~~~
+   drivers/net/ethernet/freescale/fman/mac.c:358:49: note: format string is defined here
+     358 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
+         |                                              ~~~^
+         |                                                 |
+         |                                                 long long unsigned int
+         |                                              %x
+   drivers/net/ethernet/freescale/fman/mac.c:358:22: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 6 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+     358 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
+     223 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
+     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
+     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/net/ethernet/freescale/fman/mac.c:358:9: note: in expansion of macro 'dev_dbg'
+     358 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
+         |         ^~~~~~~
+   drivers/net/ethernet/freescale/fman/mac.c:358:61: note: format string is defined here
+     358 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
+         |                                                          ~~~^
+         |                                                             |
+         |                                                             long long unsigned int
+         |                                                          %x
 
 
-vim +/CONFIG_PM +64 drivers/gpu/drm/imx/sec_mipi_dsim-imx.c
+vim +358 drivers/net/ethernet/freescale/fman/mac.c
 
-25799de94b286c Fancy Fang 2018-06-06  63  
-b5a7aa6c474c92 Fancy Fang 2018-07-02 @64  #if CONFIG_PM
-b5a7aa6c474c92 Fancy Fang 2018-07-02  65  static int imx_sec_dsim_runtime_suspend(struct device *dev);
-b5a7aa6c474c92 Fancy Fang 2018-07-02  66  static int imx_sec_dsim_runtime_resume(struct device *dev);
-b5a7aa6c474c92 Fancy Fang 2018-07-02  67  #else
-b5a7aa6c474c92 Fancy Fang 2018-07-02 @68  static int imx_sec_dsim_runtime_suspend(struct device *dev)
-b5a7aa6c474c92 Fancy Fang 2018-07-02  69  {
-b5a7aa6c474c92 Fancy Fang 2018-07-02  70  	return 0;
-b5a7aa6c474c92 Fancy Fang 2018-07-02  71  }
-b5a7aa6c474c92 Fancy Fang 2018-07-02 @72  static int imx_sec_dsim_runtime_resume(struct device *dev)
-b5a7aa6c474c92 Fancy Fang 2018-07-02  73  {
-b5a7aa6c474c92 Fancy Fang 2018-07-02  74  	return 0;
-b5a7aa6c474c92 Fancy Fang 2018-07-02  75  }
-b5a7aa6c474c92 Fancy Fang 2018-07-02  76  #endif
-b5a7aa6c474c92 Fancy Fang 2018-07-02  77  
-
-:::::: The code at line 64 was first introduced by commit
-:::::: b5a7aa6c474c926d8d7d919ebdb84ac3dfb328bd MLK-19017-6 drm/imx: add system pm support for SEC DSIM
-
-:::::: TO: Fancy Fang <chen.fang@nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+   279	
+   280	static int acpi_mac_probe(struct platform_device *pdev)
+   281	{
+   282		int			err, i, nph;
+   283		int (*init)(struct mac_device *mac_dev, struct device_node *mac_node,
+   284			    struct fman_mac_params *params);
+   285		struct device		*dev;
+   286		struct device_node	*mac_node;
+   287		struct mac_device	*mac_dev;
+   288		struct mac_priv_s	*priv;
+   289		u32			val;
+   290		u8			fman_id;
+   291		phy_interface_t		phy_if;
+   292		struct device		*fman_dev = NULL;
+   293		struct fwnode_handle	*fman_fwnode = NULL;
+   294		struct device		*fman_port_dev = NULL;
+   295		/* firmware node references */
+   296		struct fwnode_reference_args args;
+   297		struct fman_mac_params	 params;
+   298	
+   299		dev = &pdev->dev;
+   300	
+   301		mac_node = dev->of_node;
+   302		init = device_get_match_data(dev);
+   303	
+   304		mac_dev = devm_kzalloc(dev, sizeof(*mac_dev), GFP_KERNEL);
+   305		if (!mac_dev) {
+   306			err = -ENOMEM;
+   307			goto _return;
+   308		}
+   309		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+   310		if (!priv) {
+   311			err = -ENOMEM;
+   312			goto _return;
+   313		}
+   314	
+   315		/* Save private information */
+   316		mac_dev->priv = priv;
+   317		mac_dev->dev = dev;
+   318	
+   319		INIT_LIST_HEAD(&priv->mc_addr_list);
+   320	
+   321		/* Get the FM node */
+   322		fman_fwnode = fwnode_get_parent(dev->fwnode);
+   323		if (!fman_fwnode) {
+   324			err = -EINVAL;
+   325			dev_err(dev, "%s : fetch fman node failed\n", __func__);
+   326			goto _return;
+   327		}
+   328		if (fwnode_property_read_u32(fman_fwnode, "cell-index", &val)) {
+   329			err = -EINVAL;
+   330			goto _return;
+   331		}
+   332	
+   333		/* cell-index 0 => FMan id 1 */
+   334		fman_id = (u8)(val + 1);
+   335	
+   336		fman_dev = bus_find_device(&platform_bus_type, NULL, fman_fwnode,
+   337					   fwnode_match_devnode);
+   338		if (!fman_dev) {
+   339			dev_err(dev, "%s : bus_find_device failed\n", __func__);
+   340			err = -ENODEV;
+   341			goto _return;
+   342		}
+   343	
+   344		priv->fman = fman_bind(fman_dev);
+   345		if (!priv->fman) {
+   346			dev_err(dev, "%s : fman_bind failed\n", __func__);
+   347			err = -ENODEV;
+   348			goto _return;
+   349		}
+   350	
+   351		/* Get the address of the memory mapped registers */
+   352		mac_dev->res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+   353		if (!mac_dev->res) {
+   354			dev_err(dev, "%s: Can't get MAC memory resource\n",  __func__);
+   355			err = -EINVAL;
+   356			goto _return;
+   357		}
+ > 358		dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
+   359			__func__, mac_dev->res->start, resource_size(mac_dev->res));
+   360	
+   361		mac_dev->vaddr = ioremap(mac_dev->res->start, resource_size(mac_dev->res));
+   362		if (!mac_dev->vaddr) {
+   363			dev_err(dev, "%s : ioremap() failed\n", __func__);
+   364			err = -EIO;
+   365			goto _return;
+   366		}
+   367	
+   368		if (!fwnode_device_is_available(dev->fwnode)) {
+   369			err = -ENODEV;
+   370			goto _return;
+   371		}
+   372	
+   373		/* Get the cell-index */
+   374		if (device_property_read_u32(dev, "cell-index", &val)) {
+   375			dev_err(dev, "%s : failed to read cell-index\n", __func__);
+   376			err = -EINVAL;
+   377			goto _return;
+   378		}
+   379		priv->cell_index = (u8)val;
+   380	
+   381		/* Get the MAC address */
+   382		device_get_mac_address(dev, mac_dev->addr);
+   383	
+   384		/* Get the port handles */
+   385		nph = device_property_count_u32(dev, "fsl,fman-ports");
+   386	
+   387		if (unlikely(nph < 0)) {
+   388			dev_err(dev, "%s : reading port count failed\n", __func__);
+   389			err = nph;
+   390			goto _return;
+   391		}
+   392	
+   393		if (nph != ARRAY_SIZE(mac_dev->port)) {
+   394			dev_err(dev, "Not supported number of fman-ports handles of mac node from DSD property\n");
+   395			err = -EINVAL;
+   396			goto _return;
+   397		}
+   398	
+   399		for (i = 0; i < ARRAY_SIZE(mac_dev->port); i++) {
+   400			/* Find the port node */
+   401			struct fwnode_handle *fw_node =
+   402				acpi_fwnode_handle(ACPI_COMPANION(dev));
+   403			err = acpi_node_get_property_reference(fw_node, "fsl,fman-ports",
+   404							       i, &args);
+   405			if (ACPI_FAILURE(err) ||
+   406			    !is_acpi_device_node(args.fwnode)) {
+   407				dev_err(dev, "%s : reading fsl,fman-ports handle failed\n",
+   408					__func__);
+   409				goto _return;
+   410			}
+   411	
+   412			/* Bind to a specific FMan Port */
+   413			fman_port_dev = bus_find_device(&platform_bus_type, NULL,
+   414							args.fwnode,
+   415							fwnode_match_devnode);
+   416			if (!fman_port_dev) {
+   417				dev_err(dev, "%s : bus_find_device failed\n", __func__);
+   418				err = -ENODEV;
+   419				goto _return;
+   420			}
+   421	
+   422			mac_dev->port[i] = fman_port_bind(fman_port_dev);
+   423		}
+   424	
+   425		/* Get the PHY connection type */
+   426		phy_if = fwnode_get_phy_mode(dev->fwnode);
+   427		if (phy_if < 0) {
+   428			dev_warn(dev, "fwnode_get_phy_mode failed. Defaulting to SGMII\n");
+   429			phy_if = PHY_INTERFACE_MODE_SGMII;
+   430		}
+   431		mac_dev->phy_if = phy_if;
+   432	
+   433		priv->speed		= phy2speed[mac_dev->phy_if];
+   434		params.max_speed	= priv->speed;
+   435		mac_dev->if_support	= DTSEC_SUPPORTED;
+   436		/* We don't support half-duplex in SGMII mode */
+   437		if (mac_dev->phy_if == PHY_INTERFACE_MODE_SGMII)
+   438			mac_dev->if_support &= ~(SUPPORTED_10baseT_Half |
+   439						 SUPPORTED_100baseT_Half);
+   440	
+   441		/* Gigabit support (no half-duplex) */
+   442		if (params.max_speed == 1000)
+   443			mac_dev->if_support |= SUPPORTED_1000baseT_Full;
+   444	
+   445		/* The 10G interface only supports one mode */
+   446		if (mac_dev->phy_if == PHY_INTERFACE_MODE_XGMII)
+   447			mac_dev->if_support = SUPPORTED_10000baseT_Full;
+   448	
+   449		/* Get the rest of the PHY information */
+   450		mac_dev->fwnode_phy =
+   451			fwnode_find_reference(dev->fwnode, "phy-handle", 0);
+   452		if (IS_ERR_OR_NULL(mac_dev->fwnode_phy) &&
+   453		    fwnode_property_present(dev->fwnode, "fixed-link")) {
+   454			dev_err(dev, "%s : No fixed-link phy support available.\n",
+   455				__func__);
+   456			goto _return;
+   457		}
+   458	
+   459		params.basex_if		= false;
+   460		params.mac_id		= priv->cell_index;
+   461		params.fm		= (void *)priv->fman;
+   462		params.exception_cb	= mac_exception;
+   463		params.event_cb		= mac_exception;
+   464	
+   465		err = init(mac_dev, mac_node, &params);
+   466		if (err < 0) {
+   467			dev_err(dev, "%s: mac_dev->init() = %d\n", __func__, err);
+   468			goto _return;
+   469		}
+   470	
+   471		/* pause frame autonegotiation enabled */
+   472		mac_dev->autoneg_pause = true;
+   473	
+   474		/* By intializing the values to false, force FMD to enable PAUSE frames
+   475		 * on RX and TX
+   476		 */
+   477		mac_dev->rx_pause_req = true;
+   478		mac_dev->tx_pause_req = true;
+   479		mac_dev->rx_pause_active = false;
+   480		mac_dev->tx_pause_active = false;
+   481		err = fman_set_mac_active_pause(mac_dev, true, true);
+   482		if (err < 0)
+   483			dev_err(dev, "%s : fman_set_mac_active_pause() = %d\n",
+   484				__func__, err);
+   485	
+   486		if (!is_zero_ether_addr(mac_dev->addr))
+   487			dev_info(dev, "FMan MAC address: %pM\n", mac_dev->addr);
+   488	
+   489		priv->eth_dev = dpaa_eth_add_device(fman_id, mac_dev);
+   490		if (IS_ERR(priv->eth_dev)) {
+   491			dev_err(dev, "%s : failed to add Ethernet platform device for MAC %d\n",
+   492				__func__, priv->cell_index);
+   493			priv->eth_dev = NULL;
+   494		}
+   495	
+   496		goto _return;
+   497	
+   498	_return:
+   499		return err;
+   500	}
+   501	
 
 -- 
 0-DAY CI Kernel Test Service
