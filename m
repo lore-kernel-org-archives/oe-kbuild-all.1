@@ -1,133 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5D6101FD;
-	Fri, 13 Oct 2023 08:58:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5001110966
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 09:06:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bnhiK9dy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697187480; x=1728723480;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=zZjODe78uXPD2wdWqP1Zdxn3dzIaIyjNnZkUBkxvP8s=;
-  b=bnhiK9dyt4F63GlPZJ8YBfDBr8Mu9OtmmPns9cUvFB2+Gn6abAHpg/pL
-   2URthJ+dscV5EmH0BNdkFvvdF9EwXlEb4Hex+x0ud3dt2NQDnsaKk8TFJ
-   QDkg+os9Vq8JP6HnI/yyu43h+ZFfRtxhJJGo4Rsm2PE0gdJTmaMd3+8tv
-   R6nh2DwsMD2opPSF/HEwGlLpZGFXEFERYztrOiv62ZlxzbjtD0UFa+Wso
-   2EPHB1K67nOPoTjmXL0SKa5DFCZght370wGbFUUBmf1uxfFkayG+Pnmkz
-   QlF5wFJTFgR+LtntDlZm+ZCl27i23851hs1p927sV3/NjvGgwRgcML4iy
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="365397286"
-X-IronPort-AV: E=Sophos;i="6.03,221,1694761200"; 
-   d="scan'208";a="365397286"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 01:58:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="1086060795"
-X-IronPort-AV: E=Sophos;i="6.03,221,1694761200"; 
-   d="scan'208";a="1086060795"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 13 Oct 2023 01:57:58 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qrDzY-0004Y9-1S;
-	Fri, 13 Oct 2023 08:57:56 +0000
-Date: Fri, 13 Oct 2023 16:57:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-usb@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [usb:usb-next 70/83] drivers/usb/chipidea/ci_hdrc_usb2.c:41:34:
- warning: unused variable 'ci_hdrc_usb2_of_match'
-Message-ID: <202310131627.M43j234A-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ku9t+RU3"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-99357737980so306231766b.2
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 02:06:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697187985; x=1697792785; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ICdCbc96AfhpeUwF2FpVWUFYN0NDR/8vF+plEaKQfdg=;
+        b=ku9t+RU33/WYSEGdp5L2bLIsnH9KTyezYG4i2jXI5V0P/nswCS/rqZmSUvUQ75MinH
+         BQp6tq2Ku1fMeoLPXPbj1bKI3HD2obhEt49NPZFM1CkU0x5fOsI4M7BB56My+bN+92Rm
+         MVu8yPZXU2FIvCb/bNIg+7EnKttrdVx+/eHJjiXapSHYgkkypkinzm5PJSLbsITTw3Xg
+         iyE5s6jPpZjTpXGsENkfHILeud6Cbj+RfN4RdYhBmTX6D3+NtQ3kGFHyYPyAvZZvR6Ri
+         b0+E2wU4ORnfNqlfdHHglaBa3kqADyTz7pTNLTXmtBgDveqpcGXM4bfafiZqWWdWuQrc
+         rguw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697187985; x=1697792785;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ICdCbc96AfhpeUwF2FpVWUFYN0NDR/8vF+plEaKQfdg=;
+        b=EEjkQCrNSK+IV4etTfXhIOkgZ6vMxyYU7geghTj0SdeZqx9Gz6+AvV0N3Z4LEcLHe3
+         M7BPK+xl0aLOIxCccbQ3ExDLr9NZFIwTEowiEotORVrVBY5S4uc48cwuwL5n3aSV4DJY
+         /zkkJO89myPva0RxsmkBX53yi5s19ytVOE2wymQu6rcJi+UNHA7SWSgqiqytQYE2+kxe
+         Gm5fkbAyfCNyTMIAZFTILtaIsIDXo/WTCUiAKteQuE7ry7PdPRRTZa0EjPoIbfCOq7NC
+         t+JrazP7H4poH4YmXyRFTWcPWhpyzjElcvHIzjMv8elzstmuZDqF1kDH6qgDatzTEykW
+         vZ/w==
+X-Gm-Message-State: AOJu0Yzf5tTDIJ3d8qbVh9TAUYXS8gl1Qlp/L3i2fr3FpsBwjKVUqMQD
+	qusmTVsf9fcchGXIZYRym4AaOA==
+X-Google-Smtp-Source: AGHT+IGheZ3hBkvdUTSIt8pjKSA00ZURPxw9q0BWrE34pvKkMrrsnMhMvLBO30xGYqJtAPo5/PbM2g==
+X-Received: by 2002:a17:907:75f7:b0:9ae:658f:a80a with SMTP id jz23-20020a17090775f700b009ae658fa80amr22490267ejc.48.1697187985523;
+        Fri, 13 Oct 2023 02:06:25 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id a11-20020adff7cb000000b00326f0ca3566sm20231469wrq.50.2023.10.13.02.06.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Oct 2023 02:06:25 -0700 (PDT)
+Date: Fri, 13 Oct 2023 12:06:22 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Mike Kravetz <mike.kravetz@oracle.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Muchun Song <muchun.song@linux.dev>, linux-mm@kvack.org,
+	Sidhartha Kumar <sidhartha.kumar@oracle.com>
+Subject: Re: [PATCH 2/3] hugetlb: Remove a few calls to page_folio()
+Message-ID: <736ebb93-76d4-4096-8b73-657a9698e043@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230822162808.4131399-2-willy@infradead.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
-head:   1034cc423f1b4a7a9a56d310ca980fcd2753e11d
-commit: 14485de431b0a860d3a117fe518ce9ede8c76732 [70/83] usb: Use device_get_match_data()
-config: hexagon-buildonly-randconfig-r004-20220331 (https://download.01.org/0day-ci/archive/20231013/202310131627.M43j234A-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231013/202310131627.M43j234A-lkp@intel.com/reproduce)
+Hi Matthew,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/hugetlb-Remove-a-few-calls-to-page_folio/20230823-002932
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230822162808.4131399-2-willy%40infradead.org
+patch subject: [PATCH 2/3] hugetlb: Remove a few calls to page_folio()
+config: x86_64-randconfig-161-20230827 (https://download.01.org/0day-ci/archive/20231013/202310131039.ZgssYfIB-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231013/202310131039.ZgssYfIB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310131627.M43j234A-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202310131039.ZgssYfIB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+mm/hugetlb.c:2246 remove_pool_huge_page() error: uninitialized symbol 'folio'.
 
-   In file included from drivers/usb/chipidea/ci_hdrc_usb2.c:9:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/usb/chipidea/ci_hdrc_usb2.c:9:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/usb/chipidea/ci_hdrc_usb2.c:9:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/usb/chipidea/ci_hdrc_usb2.c:41:34: warning: unused variable 'ci_hdrc_usb2_of_match' [-Wunused-const-variable]
-   static const struct of_device_id ci_hdrc_usb2_of_match[] = {
-                                    ^
-   7 warnings generated.
+vim +/folio +2246 mm/hugetlb.c
 
+10c6ec49802b17 Mike Kravetz            2021-05-04  2224  static struct page *remove_pool_huge_page(struct hstate *h,
+10c6ec49802b17 Mike Kravetz            2021-05-04  2225  						nodemask_t *nodes_allowed,
+6ae11b278bca1c Lee Schermerhorn        2009-12-14  2226  						 bool acct_surplus)
+e8c5c8249878fb Lee Schermerhorn        2009-09-21  2227  {
+b2261026825ed3 Joonsoo Kim             2013-09-11  2228  	int nr_nodes, node;
+cfd5082b514765 Sidhartha Kumar         2022-11-29  2229  	struct folio *folio;
+e8c5c8249878fb Lee Schermerhorn        2009-09-21  2230  
+9487ca60fd7fa2 Mike Kravetz            2021-05-04  2231  	lockdep_assert_held(&hugetlb_lock);
+b2261026825ed3 Joonsoo Kim             2013-09-11  2232  	for_each_node_mask_to_free(h, nr_nodes, node, nodes_allowed) {
+685f345708096e Lee Schermerhorn        2009-09-21  2233  		/*
+685f345708096e Lee Schermerhorn        2009-09-21  2234  		 * If we're returning unused surplus pages, only examine
+685f345708096e Lee Schermerhorn        2009-09-21  2235  		 * nodes with surplus pages.
+685f345708096e Lee Schermerhorn        2009-09-21  2236  		 */
+b2261026825ed3 Joonsoo Kim             2013-09-11  2237  		if ((!acct_surplus || h->surplus_huge_pages_node[node]) &&
+b2261026825ed3 Joonsoo Kim             2013-09-11  2238  		    !list_empty(&h->hugepage_freelists[node])) {
+e601ce76a2aabd Matthew Wilcox (Oracle  2023-08-22  2239) 			folio = list_entry(h->hugepage_freelists[node].next,
+e601ce76a2aabd Matthew Wilcox (Oracle  2023-08-22  2240) 					  struct folio, lru);
+cfd5082b514765 Sidhartha Kumar         2022-11-29  2241  			remove_hugetlb_folio(h, folio, acct_surplus);
+9a76db09970938 Lee Schermerhorn        2009-12-14  2242  			break;
 
-vim +/ci_hdrc_usb2_of_match +41 drivers/usb/chipidea/ci_hdrc_usb2.c
+So we're always guaranteed to hit this break statement?
 
-1c16f63d1e6c94 Michał Mirosław 2020-04-04  40  
-84bc70f94d81f1 Nathan Sullivan 2015-08-31 @41  static const struct of_device_id ci_hdrc_usb2_of_match[] = {
-84bc70f94d81f1 Nathan Sullivan 2015-08-31  42  	{ .compatible = "chipidea,usb2" },
-84bc70f94d81f1 Nathan Sullivan 2015-08-31  43  	{ .compatible = "xlnx,zynq-usb-2.20a", .data = &ci_zynq_pdata },
-1c16f63d1e6c94 Michał Mirosław 2020-04-04  44  	{ .compatible = "lsi,zevio-usb", .data = &ci_zevio_pdata },
-84bc70f94d81f1 Nathan Sullivan 2015-08-31  45  	{ }
-84bc70f94d81f1 Nathan Sullivan 2015-08-31  46  };
-84bc70f94d81f1 Nathan Sullivan 2015-08-31  47  MODULE_DEVICE_TABLE(of, ci_hdrc_usb2_of_match);
-84bc70f94d81f1 Nathan Sullivan 2015-08-31  48  
-
-:::::: The code at line 41 was first introduced by commit
-:::::: 84bc70f94d81f1d3107dbcdafc1b193169e82131 usb: chipidea: add xilinx zynq platform data
-
-:::::: TO: Nathan Sullivan <nathan.sullivan@ni.com>
-:::::: CC: Peter Chen <peter.chen@freescale.com>
+e8c5c8249878fb Lee Schermerhorn        2009-09-21  2243  		}
+b2261026825ed3 Joonsoo Kim             2013-09-11  2244  	}
+e8c5c8249878fb Lee Schermerhorn        2009-09-21  2245  
+e601ce76a2aabd Matthew Wilcox (Oracle  2023-08-22 @2246) 	return &folio->page;
+e8c5c8249878fb Lee Schermerhorn        2009-09-21  2247  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
