@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C3714A90;
-	Fri, 13 Oct 2023 12:58:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C1515E9F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Oct 2023 13:40:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DTFu2oIU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ta5qgp6q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697201898; x=1728737898;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=D7wUDKUDIy2B4ZGCW26mPlGFE5VHnUCGaW4QKD2I7ok=;
-  b=DTFu2oIU1P2WziVVnfubvBrviHf72KmBH3fdRcPETo4OJWK9liNmLszB
-   TUFwD+MtxVGUQrhUi9M9f9DwABJWGJgXevNlvNhkWgDC/7D3fD2bi5UKo
-   Fltc75GVblWhiRSco0BNM8pU8N5YX9ddezfEV2GPdf3+58WjPBtu2lWLB
-   jKlMZvhGBSf5GYxaRHkml7LwbZxCSBFzR4a/Bb0CNXKMXAECumBWkEszO
-   y7Fm8os/WZCi7u2h5ILeIV0Y1Nf4FCrdzZ8+eOqsgjSgIwt9dzboF+4GX
-   YinS2mgsL5+ylDZQhILyGf1efLj1HVWmpu/x75lLKtR/TR30E9wdG6Hkf
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="370239420"
+  t=1697204419; x=1728740419;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pnPRL6P/SCVNEf/SXUbId9SiFUyF7UzUppdsqP/Qtig=;
+  b=Ta5qgp6qJIBCdfyxWaGS0YNRmYlbmDE1HvbKS2oxxIKgTruS2ENB5S/s
+   cf0FYjbSadYqmw2EaFg+dZHxIToLOvCQX4dc4NlY76H/mG9xTrpt6dNUi
+   x/My6rVC3SOAyGSeMy5NxE88hmz4jyR+3G3mQd/C/dzl28E+/KtHu/Hjh
+   lYtiL0uSnVH1Vn6RWXm7ObXku14Pojl0ANWZvVgwYz54ISt4zqyY6qlns
+   6iZNaPlqMi9Ofo1EXKmE0QPPPdvI2LyoMekmhZzapy6KAII1BowLsJm6J
+   U1UNvN0E3DBWMm7yZ1P2578DkkS3Dpu6ayMwDCg6fDIxsPqUzA2pPgxz+
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="416234304"
 X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; 
-   d="scan'208";a="370239420"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 05:58:15 -0700
+   d="scan'208";a="416234304"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 06:40:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="784149957"
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="731373787"
 X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; 
-   d="scan'208";a="784149957"
+   d="scan'208";a="731373787"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 13 Oct 2023 05:58:14 -0700
+  by orsmga006.jf.intel.com with ESMTP; 13 Oct 2023 06:40:18 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qrHk3-0004mn-2t;
-	Fri, 13 Oct 2023 12:58:11 +0000
-Date: Fri, 13 Oct 2023 20:58:01 +0800
+	id 1qrIOl-0004pD-2Y;
+	Fri, 13 Oct 2023 13:40:15 +0000
+Date: Fri, 13 Oct 2023 21:40:07 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function
- kallsyms_lookup_name: .text+0x7c): relocation R_RISCV_PCREL_HI20 out of
- range: -524527 is not in [-524288, 524287]; references
- kallsyms_seqs_of_names
-Message-ID: <202310132047.Z9Z33LIa-lkp@intel.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [isilence:zc/veth 5/5] checkpatch: WARNING: please, no space before
+ tabs
+Message-ID: <202310132107.tRdtBeGt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,32 +50,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-CC: linux-kernel@vger.kernel.org
-TO: Zhen Lei <thunder.leizhen@huawei.com>
-CC: Luis Chamberlain <mcgrof@kernel.org>
-
-Hi Zhen,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   10a6e5feccb877c3c75ad11d27942ad52c24815f
-commit: 60443c88f3a89fd303a9e8c0e84895910675c316 kallsyms: Improve the performance of kallsyms_lookup_name()
-date:   11 months ago
-config: riscv-randconfig-r021-20230908 (https://download.01.org/0day-ci/archive/20231013/202310132047.Z9Z33LIa-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231013/202310132047.Z9Z33LIa-lkp@intel.com/reproduce)
+tree:   https://github.com/isilence/linux zc/veth
+head:   87fa844d733887e3977174038f55c94d49f3995b
+commit: 87fa844d733887e3977174038f55c94d49f3995b [5/5] veth: zc_rx support
+reproduce: (https://download.01.org/0day-ci/archive/20231013/202310132107.tRdtBeGt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310132047.Z9Z33LIa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310132107.tRdtBeGt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+# many are suggestions rather than must-fix
 
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_name: .text+0x7c): relocation R_RISCV_PCREL_HI20 out of range: -524527 is not in [-524288, 524287]; references kallsyms_seqs_of_names
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
+WARNING:SPACE_BEFORE_TAB: please, no space before tabs
+#33: FILE: drivers/net/veth.c:81:
++^Ispinlock_t ^I^Izc_lock;$
+
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+#64: FILE: drivers/net/veth.c:393:
++		if (!nskb) {
++			goto drop;
++		}
+
+WARNING:SPACE_BEFORE_TAB: please, no space before tabs
+#233: FILE: io_uring/zc_rx.c:122:
++^I// ^I^I^I  DMA_BIDIRECTIONAL,$
+
+WARNING:SPACE_BEFORE_TAB: please, no space before tabs
+#234: FILE: io_uring/zc_rx.c:123:
++^I// ^I^I^I  DMA_ATTR_SKIP_CPU_SYNC);$
+
+WARNING:SPACE_BEFORE_TAB: please, no space before tabs
+#236: FILE: io_uring/zc_rx.c:125:
++^I// ^Iset_page_private(page, 0);$
+
+WARNING:SPACE_BEFORE_TAB: please, no space before tabs
+#237: FILE: io_uring/zc_rx.c:126:
++^I// ^IClearPagePrivate(page);$
+
+WARNING:SPACE_BEFORE_TAB: please, no space before tabs
+#238: FILE: io_uring/zc_rx.c:127:
++^I// ^Ireturn -ENOMEM;$
+
+WARNING:SPACE_BEFORE_TAB: please, no space before tabs
+#255: FILE: io_uring/zc_rx.c:147:
++^I// ^I^I     DMA_BIDIRECTIONAL,$
+
+WARNING:SPACE_BEFORE_TAB: please, no space before tabs
+#256: FILE: io_uring/zc_rx.c:148:
++^I// ^I^I     DMA_ATTR_SKIP_CPU_SYNC);$
 
 -- 
 0-DAY CI Kernel Test Service
