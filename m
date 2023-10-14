@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC0413AD5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Oct 2023 16:13:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E109215EAD
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Oct 2023 16:14:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DMqTKoLt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NqStQdz+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697300025; x=1728836025;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xLfeTQCQ7ajxjNnSRfaer1IfCFto5evvHy3co4Bzopo=;
-  b=DMqTKoLtC8nXf+ztctiQsrw0ZSRmUk4nEtKqReSvfkZ/BYT1FZX56U5l
-   Nhy7cCVE8R1t+k4H93/aYb8w3rL93XcnvyT1fZigDBPKlYT/oQ8mJ2u/2
-   vUzNlu4yj55l+Fh6nQcH05EtHspiYrvyrj/YeWRm2ScT7H8ujLq3QRPjz
-   exJVhIGFGiWjRmeWy/vQ/iiGRhQfdW43SqwmDW1ZxYc3HYVWWDuPeckOC
-   LEk8SCeaJJOlGB72Pm/fVSiCRQ/HEbuHccav7ikYvQfy0ymaYMCpGUGyX
-   kISMn67a856J9JbCRKTkasyd7wgu/mTCdXQRxG6SnVUv4Dz/GzQsXe7fm
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="389193956"
+  t=1697300099; x=1728836099;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=rmdZJdIF1k7k4OGzW6DC+1YTd8E4qxc6VzqfqP7upFk=;
+  b=NqStQdz+nNLr2tAyc+MSciXpIQ/1Ei/cBX+N0RIitN7aGufS9YDSxZPZ
+   6n6n1YB6iu6OdJ+u68/R8wgMPzLtX/qVjf3UzNoItcuXu2MpWJ8xQBWQs
+   5HgLxiPx840/gfe/TjfBnCJDDvDVjA1YoTyeuAjltRklHx4H+2zWMfOPP
+   5akmUFWk2blHLC7aBQqTWkcXkCUmhTauLH0WL+YopGy+GOGyoj7493ubm
+   u8GkX60xiayk4+p1tOtVJFYOYqqLi6TUXivehSYtgbWB5lhWQWoYu+OVG
+   y7NcNZ9FMNgFjkw/hPE47YTmEb2wZZM/foWeLVdrAuDbbWXN7mkbzDDep
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="384206341"
 X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="389193956"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 09:13:38 -0700
+   d="scan'208";a="384206341"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 09:14:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="758833720"
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="748705391"
 X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="758833720"
+   d="scan'208";a="748705391"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 14 Oct 2023 09:13:37 -0700
+  by orsmga007.jf.intel.com with ESMTP; 14 Oct 2023 09:14:55 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qrhGg-0006M0-1l;
-	Sat, 14 Oct 2023 16:13:34 +0000
-Date: Sun, 15 Oct 2023 00:13:28 +0800
+	id 1qrhHx-0006MF-1i
+	for oe-kbuild-all@lists.linux.dev;
+	Sat, 14 Oct 2023 16:14:53 +0000
+Date: Sun, 15 Oct 2023 00:13:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Josh Poimboeuf <jpoimboe@redhat.com>
-Subject: kernel/stacktrace.c:138: warning: Function parameter or member 'tsk'
- not described in 'stack_trace_save_tsk'
-Message-ID: <202310150022.FUVBk7ng-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:4.19/android_t 13367/30000] drivers/of/irq.c:284:73:
+ sparse: sparse: incorrect type in initializer (different base types)
+Message-ID: <202310150009.fIktcysF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,55 +50,151 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   727fb83765049981e342db4c5a8b51aca72201d8
-commit: 214d8ca6ee854f696f75e75511fe66b409e656db stacktrace: Provide common infrastructure
-date:   4 years, 6 months ago
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231015/202310150022.FUVBk7ng-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231015/202310150022.FUVBk7ng-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
+head:   247bc655e03e4ac3632b21081ca56b813a644dcf
+commit: a323430753b95d8ac29fc0b3c2502b50f6073737 [13367/30000] ANDROID: GKI: of: irq: add helper to remap interrupts to another irqdomain
+config: x86_64-randconfig-122-20230910 (https://download.01.org/0day-ci/archive/20231015/202310150009.fIktcysF-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231015/202310150009.fIktcysF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310150022.FUVBk7ng-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310150009.fIktcysF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/of/irq.c:284:73: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __be32 @@     got int @@
+   drivers/of/irq.c:284:73: sparse:     expected restricted __be32
+   drivers/of/irq.c:284:73: sparse:     got int
 
->> kernel/stacktrace.c:138: warning: Function parameter or member 'tsk' not described in 'stack_trace_save_tsk'
->> kernel/stacktrace.c:138: warning: Excess function parameter 'task' description in 'stack_trace_save_tsk'
+vim +284 drivers/of/irq.c
 
-
-vim +138 kernel/stacktrace.c
-
-   126	
-   127	/**
-   128	 * stack_trace_save_tsk - Save a task stack trace into a storage array
-   129	 * @task:	The task to examine
-   130	 * @store:	Pointer to storage array
-   131	 * @size:	Size of the storage array
-   132	 * @skipnr:	Number of entries to skip at the start of the stack trace
-   133	 *
-   134	 * Return: Number of trace entries stored.
-   135	 */
-   136	unsigned int stack_trace_save_tsk(struct task_struct *tsk, unsigned long *store,
-   137					  unsigned int size, unsigned int skipnr)
- > 138	{
-   139		stack_trace_consume_fn consume_entry = stack_trace_consume_entry_nosched;
-   140		struct stacktrace_cookie c = {
-   141			.store	= store,
-   142			.size	= size,
-   143			.skip	= skipnr + 1,
-   144		};
-   145	
-   146		if (!try_get_task_stack(tsk))
-   147			return 0;
-   148	
-   149		arch_stack_walk(consume_entry, &c, tsk, NULL);
-   150		put_task_stack(tsk);
-   151		return c.len;
-   152	}
-   153	
+   276	
+   277	int of_irq_domain_map(const struct irq_fwspec *in, struct irq_fwspec *out)
+   278	{
+   279		char *stem_name;
+   280		char *cells_name, *map_name = NULL, *mask_name = NULL;
+   281		char *pass_name = NULL;
+   282		struct device_node *cur, *new = NULL;
+   283		const __be32 *map, *mask, *pass;
+ > 284		static const __be32 dummy_mask[] = { [0 ... MAX_PHANDLE_ARGS] = ~0 };
+   285		static const __be32 dummy_pass[] = { [0 ... MAX_PHANDLE_ARGS] = 0 };
+   286		__be32 initial_match_array[MAX_PHANDLE_ARGS];
+   287		const __be32 *match_array = initial_match_array;
+   288		int i, ret, map_len, match;
+   289		u32 in_size, out_size;
+   290	
+   291		stem_name = "";
+   292		cells_name = "#interrupt-cells";
+   293	
+   294		ret = -ENOMEM;
+   295		map_name = kasprintf(GFP_KERNEL, "irqdomain%s-map", stem_name);
+   296		if (!map_name)
+   297			goto free;
+   298	
+   299		mask_name = kasprintf(GFP_KERNEL, "irqdomain%s-map-mask", stem_name);
+   300		if (!mask_name)
+   301			goto free;
+   302	
+   303		pass_name = kasprintf(GFP_KERNEL, "irqdomain%s-map-pass-thru", stem_name);
+   304		if (!pass_name)
+   305			goto free;
+   306	
+   307		/* Get the #interrupt-cells property */
+   308		cur = to_of_node(in->fwnode);
+   309		ret = of_property_read_u32(cur, cells_name, &in_size);
+   310		if (ret < 0)
+   311			goto put;
+   312	
+   313		/* Precalculate the match array - this simplifies match loop */
+   314		for (i = 0; i < in_size; i++)
+   315			initial_match_array[i] = cpu_to_be32(in->param[i]);
+   316	
+   317		ret = -EINVAL;
+   318		/* Get the irqdomain-map property */
+   319		map = of_get_property(cur, map_name, &map_len);
+   320		if (!map) {
+   321			ret = 0;
+   322			goto free;
+   323		}
+   324		map_len /= sizeof(u32);
+   325	
+   326		/* Get the irqdomain-map-mask property (optional) */
+   327		mask = of_get_property(cur, mask_name, NULL);
+   328		if (!mask)
+   329			mask = dummy_mask;
+   330		/* Iterate through irqdomain-map property */
+   331		match = 0;
+   332		while (map_len > (in_size + 1) && !match) {
+   333			/* Compare specifiers */
+   334			match = 1;
+   335			for (i = 0; i < in_size; i++, map_len--)
+   336				match &= !((match_array[i] ^ *map++) & mask[i]);
+   337	
+   338			of_node_put(new);
+   339			new = of_find_node_by_phandle(be32_to_cpup(map));
+   340			map++;
+   341			map_len--;
+   342	
+   343			/* Check if not found */
+   344			if (!new)
+   345				goto put;
+   346	
+   347			if (!of_device_is_available(new))
+   348				match = 0;
+   349	
+   350			ret = of_property_read_u32(new, cells_name, &out_size);
+   351			if (ret)
+   352				goto put;
+   353	
+   354			/* Check for malformed properties */
+   355			if (WARN_ON(out_size > MAX_PHANDLE_ARGS))
+   356				goto put;
+   357			if (map_len < out_size)
+   358				goto put;
+   359	
+   360			/* Move forward by new node's #interrupt-cells amount */
+   361			map += out_size;
+   362			map_len -= out_size;
+   363		}
+   364		if (match) {
+   365			/* Get the irqdomain-map-pass-thru property (optional) */
+   366			pass = of_get_property(cur, pass_name, NULL);
+   367			if (!pass)
+   368				pass = dummy_pass;
+   369	
+   370			/*
+   371			 * Successfully parsed a irqdomain-map translation; copy new
+   372			 * specifier into the out structure, keeping the
+   373			 * bits specified in irqdomain-map-pass-thru.
+   374			 */
+   375			match_array = map - out_size;
+   376			for (i = 0; i < out_size; i++) {
+   377				__be32 val = *(map - out_size + i);
+   378	
+   379				out->param[i] = in->param[i];
+   380				if (i < in_size) {
+   381					val &= ~pass[i];
+   382					val |= cpu_to_be32(out->param[i]) & pass[i];
+   383				}
+   384	
+   385				out->param[i] = be32_to_cpu(val);
+   386			}
+   387			out->param_count = in_size = out_size;
+   388			out->fwnode = of_node_to_fwnode(new);
+   389		}
+   390	put:
+   391		of_node_put(cur);
+   392		of_node_put(new);
+   393	free:
+   394		kfree(mask_name);
+   395		kfree(map_name);
+   396		kfree(pass_name);
+   397	
+   398		return ret;
+   399	}
+   400	EXPORT_SYMBOL(of_irq_domain_map);
+   401	
 
 -- 
 0-DAY CI Kernel Test Service
