@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571087E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Oct 2023 05:21:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6D57E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Oct 2023 05:32:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k6r3flwp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MXfLM70E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697260919; x=1728796919;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3XuCkWUrF7CEXtwLEePYx9D2wSfgUg5YhQ99tG6NrQU=;
-  b=k6r3flwpUZDkvw+7qIcoCUHMO2Y+UbNVAY+AUF5YPuYnfO0EKSg+ROPV
-   P/sZFkPlbfW/dFVtFSszdnjiGUOKKqMy8UzuZfjU/RzRs0J2gKVN9XCJk
-   fDrWLaftl1nkR4UKoAYxJLXdS3HL7pw0/O4bm6tbgXlzMTHBHnlpU/l5l
-   s4aSZ3xMOA63HYfzUhga8FxZFEOJYpLSyYyJ1dc2zmA9VTWjJ5PwOTYnd
-   COafY2hzLmNxEh+FPkLjwqOBKTV/jMQz9eLR70lc3siAYyz6j/GjbfeBi
-   huP4tIE35eRuyMAcGrFxBv+D0K9RYKHchP/cBwM8NgEBDN4IyL1N5dyA4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="365570065"
+  t=1697261578; x=1728797578;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DBBC/2rlh5kFBE4v03EUXAnX7VS89NNT1PD6/PGf60s=;
+  b=MXfLM70E9VljC6c6aiyrSR8rNmXRtCPpwplVLGOSQgz134sNeI5lb5LS
+   6jOkHBY93uXtle3YXNDgAkRoMFLHLEuFSOErCzNbMu+9wTQevS+ay0weE
+   kuvJKBI8IoGnnfTb9enfcrQRjZ5sHlmBFexIrIkxYQfQyr4exxGigIRKS
+   1w0HgbGA+uY0KLmpACZqHRW8WhhueY2ZoEeO5fmFU0qpLvmj29d+nCQDC
+   JjETdTyJ2sh8zEOejqHhWTQtUpGQW18opF2oDZGISkcUNOU/l/Xelhhce
+   Aygh3B0zvon5PGAJEo08dZjK5jL4TD40DeHivby18oJ4rojBS2fcnxt5V
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="388159161"
 X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="365570065"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 22:21:58 -0700
+   d="scan'208";a="388159161"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 22:32:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="878748250"
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="758725616"
 X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="878748250"
+   d="scan'208";a="758725616"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 13 Oct 2023 22:21:57 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 13 Oct 2023 22:32:56 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qrX62-0005jn-2P;
-	Sat, 14 Oct 2023 05:21:54 +0000
-Date: Sat, 14 Oct 2023 13:21:16 +0800
+	id 1qrXGg-0005jz-2k;
+	Sat, 14 Oct 2023 05:32:54 +0000
+Date: Sat, 14 Oct 2023 13:32:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 1/4] media: v4l: subdev: Set sub-device active state
- earlier
-Message-ID: <202310141312.treP0hPp-lkp@intel.com>
-References: <20231009220906.221303-2-sakari.ailus@linux.intel.com>
+Subject: [freescale-fslc:6.1-2.1.x-imx 4743/15768]
+ drivers/media/platform/mxc/capture/mxc_mipi_csi.c:294: warning: Function
+ parameter or member 'fwnode' not described in 'csi_state'
+Message-ID: <202310141339.pmzkixNP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,70 +50,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231009220906.221303-2-sakari.ailus@linux.intel.com>
 
-Hi Sakari,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linuxtv-media-stage/master]
-[also build test WARNING on linus/master v6.6-rc5 next-20231013]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-v4l-subdev-Set-sub-device-active-state-earlier/20231010-061025
-base:   https://git.linuxtv.org/media_stage.git master
-patch link:    https://lore.kernel.org/r/20231009220906.221303-2-sakari.ailus%40linux.intel.com
-patch subject: [PATCH v2 1/4] media: v4l: subdev: Set sub-device active state earlier
-reproduce: (https://download.01.org/0day-ci/archive/20231014/202310141312.treP0hPp-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
+head:   3f41fbe42851375d3d5996e4bf9e9809e6c79517
+commit: b3bbdb2a80a2895f190786815f3c3b9cf7123ee6 [4743/15768] Merge remote-tracking branch 'origin/capture/mxc' into capture/next
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231014/202310141339.pmzkixNP-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310141339.pmzkixNP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310141312.treP0hPp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310141339.pmzkixNP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> ./include/media/v4l2-subdev.h:1350: warning: Function parameter or member 'active' not described in '__v4l2_subdev_state_alloc'
+   drivers/media/platform/mxc/capture/mxc_mipi_csi.c:294: warning: Function parameter or member 'dev' not described in 'csi_state'
+   drivers/media/platform/mxc/capture/mxc_mipi_csi.c:294: warning: Function parameter or member 'mipi_sd' not described in 'csi_state'
+   drivers/media/platform/mxc/capture/mxc_mipi_csi.c:294: warning: Function parameter or member 'sensor_sd' not described in 'csi_state'
+   drivers/media/platform/mxc/capture/mxc_mipi_csi.c:294: warning: Function parameter or member 'v4l2_dev' not described in 'csi_state'
+   drivers/media/platform/mxc/capture/mxc_mipi_csi.c:294: warning: Function parameter or member 'mipi_clk' not described in 'csi_state'
+   drivers/media/platform/mxc/capture/mxc_mipi_csi.c:294: warning: Function parameter or member 'phy_clk' not described in 'csi_state'
+   drivers/media/platform/mxc/capture/mxc_mipi_csi.c:294: warning: Function parameter or member 'disp_axi' not described in 'csi_state'
+   drivers/media/platform/mxc/capture/mxc_mipi_csi.c:294: warning: Function parameter or member 'disp_apb' not described in 'csi_state'
+   drivers/media/platform/mxc/capture/mxc_mipi_csi.c:294: warning: Function parameter or member 'clk_frequency' not described in 'csi_state'
+>> drivers/media/platform/mxc/capture/mxc_mipi_csi.c:294: warning: Function parameter or member 'fwnode' not described in 'csi_state'
+   drivers/media/platform/mxc/capture/mxc_mipi_csi.c:294: warning: Function parameter or member 'subdev_notifier' not described in 'csi_state'
+   drivers/media/platform/mxc/capture/mxc_mipi_csi.c:294: warning: Function parameter or member 'hw_reset' not described in 'csi_state'
+   drivers/media/platform/mxc/capture/mxc_mipi_csi.c:294: warning: Function parameter or member 'mipi_phy_regulator' not described in 'csi_state'
 
-vim +1350 ./include/media/v4l2-subdev.h
 
-  1317	
-  1318	/**
-  1319	 * v4l2_subdev_has_pad_interdep - MC has_pad_interdep implementation for subdevs
-  1320	 *
-  1321	 * @entity: pointer to &struct media_entity
-  1322	 * @pad0: pad number for the first pad
-  1323	 * @pad1: pad number for the second pad
-  1324	 *
-  1325	 * This function is an implementation of the
-  1326	 * media_entity_operations.has_pad_interdep operation for subdevs that
-  1327	 * implement the multiplexed streams API (as indicated by the
-  1328	 * V4L2_SUBDEV_FL_STREAMS subdev flag).
-  1329	 *
-  1330	 * It considers two pads interdependent if there is an active route between pad0
-  1331	 * and pad1.
-  1332	 */
-  1333	bool v4l2_subdev_has_pad_interdep(struct media_entity *entity,
-  1334					  unsigned int pad0, unsigned int pad1);
-  1335	
-  1336	/**
-  1337	 * __v4l2_subdev_state_alloc - allocate v4l2_subdev_state
-  1338	 *
-  1339	 * @sd: pointer to &struct v4l2_subdev for which the state is being allocated.
-  1340	 * @lock_name: name of the state lock
-  1341	 * @key: lock_class_key for the lock
-  1342	 *
-  1343	 * Must call __v4l2_subdev_state_free() when state is no longer needed.
-  1344	 *
-  1345	 * Not to be called directly by the drivers.
-  1346	 */
-  1347	struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd,
-  1348							    const char *lock_name,
-  1349							    struct lock_class_key *key,
-> 1350							    bool active);
-  1351	
+vim +294 drivers/media/platform/mxc/capture/mxc_mipi_csi.c
+
+4399e4b7ed5e4e Robby Cai   2019-09-27  231  
+4399e4b7ed5e4e Robby Cai   2019-09-27  232  /**
+4399e4b7ed5e4e Robby Cai   2019-09-27  233   * struct csi_state - the driver's internal state data structure
+4399e4b7ed5e4e Robby Cai   2019-09-27  234   * @lock: mutex serializing the subdev and power management operations,
+4399e4b7ed5e4e Robby Cai   2019-09-27  235   *        protecting @format and @flags members
+4399e4b7ed5e4e Robby Cai   2019-09-27  236   * @sd: v4l2_subdev associated with CSIS device instance
+4399e4b7ed5e4e Robby Cai   2019-09-27  237   * @index: the hardware instance index
+4399e4b7ed5e4e Robby Cai   2019-09-27  238   * @pdev: CSIS platform device
+4399e4b7ed5e4e Robby Cai   2019-09-27  239   * @phy: pointer to the CSIS generic PHY
+4399e4b7ed5e4e Robby Cai   2019-09-27  240   * @regs: mmaped I/O registers memory
+4399e4b7ed5e4e Robby Cai   2019-09-27  241   * @supplies: CSIS regulator supplies
+4399e4b7ed5e4e Robby Cai   2019-09-27  242   * @clock: CSIS clocks
+4399e4b7ed5e4e Robby Cai   2019-09-27  243   * @irq: requested s5p-mipi-csis irq number
+4399e4b7ed5e4e Robby Cai   2019-09-27  244   * @flags: the state variable for power and streaming control
+4399e4b7ed5e4e Robby Cai   2019-09-27  245   * @clock_frequency: device bus clock frequency
+4399e4b7ed5e4e Robby Cai   2019-09-27  246   * @hs_settle: HS-RX settle time
+4399e4b7ed5e4e Robby Cai   2019-09-27  247   * @clk_settle: Clk settle time
+4399e4b7ed5e4e Robby Cai   2019-09-27  248   * @num_lanes: number of MIPI-CSI data lanes used
+4399e4b7ed5e4e Robby Cai   2019-09-27  249   * @max_num_lanes: maximum number of MIPI-CSI data lanes supported
+4399e4b7ed5e4e Robby Cai   2019-09-27  250   * @wclk_ext: CSI wrapper clock: 0 - bus clock, 1 - external SCLK_CAM
+4399e4b7ed5e4e Robby Cai   2019-09-27  251   * @csis_fmt: current CSIS pixel format
+4399e4b7ed5e4e Robby Cai   2019-09-27  252   * @format: common media bus format for the source and sink pad
+4399e4b7ed5e4e Robby Cai   2019-09-27  253   * @slock: spinlock protecting structure members below
+4399e4b7ed5e4e Robby Cai   2019-09-27  254   * @pkt_buf: the frame embedded (non-image) data buffer
+4399e4b7ed5e4e Robby Cai   2019-09-27  255   * @events: MIPI-CSIS event (error) counters
+4399e4b7ed5e4e Robby Cai   2019-09-27  256   */
+4399e4b7ed5e4e Robby Cai   2019-09-27  257  struct csi_state {
+4399e4b7ed5e4e Robby Cai   2019-09-27  258  	struct mutex lock;
+4399e4b7ed5e4e Robby Cai   2019-09-27  259  	struct device		*dev;
+4399e4b7ed5e4e Robby Cai   2019-09-27  260  	struct v4l2_subdev mipi_sd;
+4399e4b7ed5e4e Robby Cai   2019-09-27  261  	struct v4l2_subdev *sensor_sd;
+4399e4b7ed5e4e Robby Cai   2019-09-27  262  	struct v4l2_device	v4l2_dev;
+4399e4b7ed5e4e Robby Cai   2019-09-27  263  
+4399e4b7ed5e4e Robby Cai   2019-09-27  264  	u8 index;
+4399e4b7ed5e4e Robby Cai   2019-09-27  265  	struct platform_device *pdev;
+4399e4b7ed5e4e Robby Cai   2019-09-27  266  	struct phy *phy;
+4399e4b7ed5e4e Robby Cai   2019-09-27  267  	void __iomem *regs;
+4399e4b7ed5e4e Robby Cai   2019-09-27  268  	struct clk *mipi_clk;
+4399e4b7ed5e4e Robby Cai   2019-09-27  269  	struct clk *phy_clk;
+4399e4b7ed5e4e Robby Cai   2019-09-27  270  	struct clk *disp_axi;
+4399e4b7ed5e4e Robby Cai   2019-09-27  271  	struct clk *disp_apb;
+4399e4b7ed5e4e Robby Cai   2019-09-27  272  	int irq;
+4399e4b7ed5e4e Robby Cai   2019-09-27  273  	u32 flags;
+4399e4b7ed5e4e Robby Cai   2019-09-27  274  
+4399e4b7ed5e4e Robby Cai   2019-09-27  275  	u32 clk_frequency;
+4399e4b7ed5e4e Robby Cai   2019-09-27  276  	u32 hs_settle;
+4399e4b7ed5e4e Robby Cai   2019-09-27  277  	u32 clk_settle;
+4399e4b7ed5e4e Robby Cai   2019-09-27  278  	u32 num_lanes;
+4399e4b7ed5e4e Robby Cai   2019-09-27  279  	u32 max_num_lanes;
+4399e4b7ed5e4e Robby Cai   2019-09-27  280  	u8 wclk_ext;
+4399e4b7ed5e4e Robby Cai   2019-09-27  281  
+4399e4b7ed5e4e Robby Cai   2019-09-27  282  	const struct csis_pix_format *csis_fmt;
+4399e4b7ed5e4e Robby Cai   2019-09-27  283  	struct v4l2_mbus_framefmt format;
+4399e4b7ed5e4e Robby Cai   2019-09-27  284  
+4399e4b7ed5e4e Robby Cai   2019-09-27  285  	spinlock_t slock;
+4399e4b7ed5e4e Robby Cai   2019-09-27  286  	struct csis_pktbuf pkt_buf;
+4399e4b7ed5e4e Robby Cai   2019-09-27  287  	struct mipi_csis_event events[MIPI_CSIS_NUM_EVENTS];
+4399e4b7ed5e4e Robby Cai   2019-09-27  288  
+acc894f31bdbff Guoniu.zhou 2021-03-29  289  	struct fwnode_handle *fwnode;
+4399e4b7ed5e4e Robby Cai   2019-09-27  290  	struct v4l2_async_notifier  subdev_notifier;
+4399e4b7ed5e4e Robby Cai   2019-09-27  291  
+4399e4b7ed5e4e Robby Cai   2019-09-27  292  	struct csis_hw_reset hw_reset;
+4399e4b7ed5e4e Robby Cai   2019-09-27  293  	struct regulator     *mipi_phy_regulator;
+4399e4b7ed5e4e Robby Cai   2019-09-27 @294  };
+4399e4b7ed5e4e Robby Cai   2019-09-27  295  
+
+:::::: The code at line 294 was first introduced by commit
+:::::: 4399e4b7ed5e4e59c729e6fad98470977ccba862 media: mipi csi: add samsung's mipi csi support
+
+:::::: TO: Robby Cai <robby.cai@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
