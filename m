@@ -1,46 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC973250E5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E7126E27
 	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Oct 2023 23:51:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FtjpUVxO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GkArz0HQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1697327463; x=1728863463;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zJHtb6xjnMaQJ9ZKP7qNdaoISNem8IfvHyz9NgI3Y2s=;
-  b=FtjpUVxOzAQP4mekKH+sUNep0DxaK1NSDDVmI5GoZy94Y/5cP3JCqwIv
-   p3xNetYzMg8mn4AYGaVjukuKskcnAiFvQlPsAyFcVJS1Q0jFNLtOx6x3e
-   LTqd8dA9i4nQ0AVgJT8b+sgNgsqz1YC3NxFHmIXnK3gvkH0tpNmilBK5Y
-   sKXPuAkrAumvijT/F+wmRw9C/vzZ93tDPuXAxQ2IzieWs4MLRo3sa/bkb
-   q9brHNg4vclI3AACZSN1f56844ClcMpXs8ioLZceJBg8W4ri5v1BsR5eH
-   NuT+gaDmNQB4ydYn13r9JxDFmzyWXwfy1oE1t+UcfVDzy+rdaZc8KiZmy
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="375706668"
+  bh=Eh8vidpOhCkCtP0QuQH/A3GKISbB+M79zPlbPgsF31Q=;
+  b=GkArz0HQJWZ+lbS2yCB+4IVGZtmaOjJ2lgE4lHcmxmVib3Hz7Fe9ouww
+   wKxmeH0rFnG8urGIgfayfL4s4jSfDHdEYUI/0g4lh0El6xG6JKC4nQeZX
+   MGINaBKr8DaNmFutAR9d7B5ET70WyNYbFMcBJ/hQ9KxQNStoyLqkW6bjq
+   03/IgWv9FLafB4piBwo8sFSjW8yJQdLgTfF8cqKrpQAw48ky9xzzPGorq
+   k2GOjz3XPhHENYJqYQ8QtH8KaEa0na46YPS6Z9YRc/0TVbWjSmTEJSEzt
+   S1sspBMUUVHzmofC1H+dAjqS9JPKun3Tb0AmopxAy25F+s94paJhOvD24
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="375706665"
 X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
-   d="scan'208";a="375706668"
+   d="scan'208";a="375706665"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 16:51:00 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 16:50:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="928881429"
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="928881423"
 X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
-   d="scan'208";a="928881429"
+   d="scan'208";a="928881423"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
   by orsmga005.jf.intel.com with ESMTP; 14 Oct 2023 16:50:58 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qroPI-0006ot-1U;
+	id 1qroPI-0006or-1R;
 	Sat, 14 Oct 2023 23:50:56 +0000
-Date: Sun, 15 Oct 2023 07:50:11 +0800
+Date: Sun, 15 Oct 2023 07:50:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:wip/iommufd_nesting-10132023-yi 78/85]
- checkpatch: WARNING: quoted string split across lines
-Message-ID: <202310150750.2zCEukdU-lkp@intel.com>
+Subject: [freescale-fslc:6.1-2.1.x-imx 1393/15768]
+ drivers/gpu/drm/bridge/cadence/cdns-dp-core.c:259:6: warning: no previous
+ prototype for 'cdns_dp_handle_hpd_irq'
+Message-ID: <202310150749.t4S0WG7f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,27 +51,115 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_nesting-10132023-yi
-head:   3f226b487e64cd6f04258236e83eb403526d3d0a
-commit: e03c995af149b5bb7250999c8aada22586c298ff [78/85] iommufd: Handle unsafe interrupts in a separate function
-reproduce: (https://download.01.org/0day-ci/archive/20231015/202310150750.2zCEukdU-lkp@intel.com/reproduce)
+Hi Li,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
+head:   3f41fbe42851375d3d5996e4bf9e9809e6c79517
+commit: 925a91175b17d3848258235b30c9bc4a94b58f85 [1393/15768] drm/display: update header path and name
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231015/202310150749.t4S0WG7f-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231015/202310150749.t4S0WG7f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310150750.2zCEukdU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310150749.t4S0WG7f-lkp@intel.com/
 
-# many are suggestions rather than must-fix
+All warnings (new ones prefixed by >>):
 
-WARNING:SPLIT_STRING: quoted string split across lines
-#37: FILE: drivers/iommu/iommufd/device.c:162:
-+		"MSI interrupts are not secure, they cannot be isolated by the platform. "
-+		"Check that platform features like interrupt remapping are enabled. "
+>> drivers/gpu/drm/bridge/cadence/cdns-mhdp-common.c:155:5: warning: no previous prototype for 'mhdp_mailbox_read' [-Wmissing-prototypes]
+     155 | int mhdp_mailbox_read(struct cdns_mhdp_device *mhdp)
+         |     ^~~~~~~~~~~~~~~~~
+--
+>> drivers/gpu/drm/bridge/cadence/cdns-dp-core.c:259:6: warning: no previous prototype for 'cdns_dp_handle_hpd_irq' [-Wmissing-prototypes]
+     259 | void cdns_dp_handle_hpd_irq(struct cdns_mhdp_device *mhdp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/gpu/drm/bridge/cadence/cdns-mhdp-hdcp.c:157:5: warning: no previous prototype for 'cdns_mhdp_hdcp_tx_config' [-Wmissing-prototypes]
+     157 | int cdns_mhdp_hdcp_tx_config(struct cdns_mhdp_device *mhdp, u8 config)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/cadence/cdns-mhdp-hdcp.c:171:5: warning: no previous prototype for 'cdns_mhdp_hdcp2_tx_respond_km' [-Wmissing-prototypes]
+     171 | int cdns_mhdp_hdcp2_tx_respond_km(struct cdns_mhdp_device *mhdp,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/cadence/cdns-mhdp-hdcp.c:186:5: warning: no previous prototype for 'cdns_mhdp_hdcp_tx_status_req' [-Wmissing-prototypes]
+     186 | int cdns_mhdp_hdcp_tx_status_req(struct cdns_mhdp_device *mhdp,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/cadence/cdns-mhdp-hdcp.c:215:5: warning: no previous prototype for 'cdns_mhdp_hdcp2_tx_is_km_stored_req' [-Wmissing-prototypes]
+     215 | int cdns_mhdp_hdcp2_tx_is_km_stored_req(struct cdns_mhdp_device *mhdp, u8 *data, u16 len)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/cadence/cdns-mhdp-hdcp.c:241:5: warning: no previous prototype for 'cdns_mhdp_hdcp2_tx_store_km' [-Wmissing-prototypes]
+     241 | int cdns_mhdp_hdcp2_tx_store_km(struct cdns_mhdp_device *mhdp,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/cadence/cdns-mhdp-hdcp.c:267:5: warning: no previous prototype for 'cdns_mhdp_hdcp_tx_is_receiver_id_valid' [-Wmissing-prototypes]
+     267 | int cdns_mhdp_hdcp_tx_is_receiver_id_valid(struct cdns_mhdp_device *mhdp,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/cadence/cdns-mhdp-hdcp.c:321:5: warning: no previous prototype for 'cdns_mhdp_hdcp_tx_respond_receiver_id_valid' [-Wmissing-prototypes]
+     321 | int cdns_mhdp_hdcp_tx_respond_receiver_id_valid(
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/cadence/cdns-mhdp-hdcp.c:337:5: warning: no previous prototype for 'cdns_mhdp_hdcp_tx_reauth' [-Wmissing-prototypes]
+     337 | int cdns_mhdp_hdcp_tx_reauth(struct cdns_mhdp_device *mhdp, u8 msg)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c: In function 'cdns_hdcp_set_config':
+>> drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c:225:24: warning: variable 'retEvents' set but not used [-Wunused-but-set-variable]
+     225 |         u8 bus_config, retEvents;
+         |                        ^~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c: In function 'cdns_hdcp_check_receviers':
+>> drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c:331:20: warning: variable 'events' set but not used [-Wunused-but-set-variable]
+     331 |                 u8 events = 0;
+         |                    ^~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c: At top level:
+>> drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c:969:6: warning: no previous prototype for 'cnds_hdcp_create_device_files' [-Wmissing-prototypes]
+     969 | void cnds_hdcp_create_device_files(struct cdns_mhdp_device *mhdp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c:1018:6: warning: no previous prototype for 'cdns_hdcp_dump_pairing' [-Wmissing-prototypes]
+    1018 | void cdns_hdcp_dump_pairing(struct seq_file *s, void *data)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c:1066:5: warning: no previous prototype for 'cdns_hdcp_init' [-Wmissing-prototypes]
+    1066 | int cdns_hdcp_init(struct cdns_mhdp_device *mhdp, struct device_node *of_node)
+         |     ^~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c:1111:5: warning: no previous prototype for 'cdns_hdcp_enable' [-Wmissing-prototypes]
+    1111 | int cdns_hdcp_enable(struct cdns_mhdp_device *mhdp)
+         |     ^~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c:1137:5: warning: no previous prototype for 'cdns_hdcp_disable' [-Wmissing-prototypes]
+    1137 | int cdns_hdcp_disable(struct cdns_mhdp_device *mhdp)
+         |     ^~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/cadence/cdns-hdcp-common.c:1160:6: warning: no previous prototype for 'cdns_hdcp_atomic_check' [-Wmissing-prototypes]
+    1160 | void cdns_hdcp_atomic_check(struct drm_connector *connector,
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/gpu/drm/bridge/cadence/cdns-mhdp-cec.c:42: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * CEC Transceiver operation.
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp-cec.c:52: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * CEC Transceiver status.
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp-cec.c:62: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * CEC Receiver operation.
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp-cec.c:71: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Maximum number of Messages in the RX Buffers.
 
-WARNING:SPLIT_STRING: quoted string split across lines
-#38: FILE: drivers/iommu/iommufd/device.c:163:
-+		"Check that platform features like interrupt remapping are enabled. "
-+		"Use the \"allow_unsafe_interrupts\" module parameter to override\n");
+
+vim +/cdns_dp_handle_hpd_irq +259 drivers/gpu/drm/bridge/cadence/cdns-dp-core.c
+
+cd2d042a0ebc13 Sandor Yu    2020-04-20  258  
+7a11346434d495 Oliver Brown 2021-05-21 @259  void cdns_dp_handle_hpd_irq(struct cdns_mhdp_device *mhdp)
+7a11346434d495 Oliver Brown 2021-05-21  260  {
+7a11346434d495 Oliver Brown 2021-05-21  261  	u8 status[6];
+7a11346434d495 Oliver Brown 2021-05-21  262  
+7a11346434d495 Oliver Brown 2021-05-21  263  	mutex_lock(&mhdp->lock);
+7a11346434d495 Oliver Brown 2021-05-21  264  	cdns_mhdp_dpcd_read(mhdp, 0x200, &status[0], 6);
+7a11346434d495 Oliver Brown 2021-05-21  265  	DRM_DEBUG_DRIVER("DPCD HPD IRQ STATUS: %08x\n", status[1]);
+7a11346434d495 Oliver Brown 2021-05-21  266  	cdns_mhdp_dpcd_write(mhdp, 0x201, status[1]);
+7a11346434d495 Oliver Brown 2021-05-21  267  	mutex_unlock(&mhdp->lock);
+7a11346434d495 Oliver Brown 2021-05-21  268  }
+7a11346434d495 Oliver Brown 2021-05-21  269  
+
+:::::: The code at line 259 was first introduced by commit
+:::::: 7a11346434d4953350d5637cb5bdc9d5c0a49c4b MLK-25749-4: gpu: drm: bridge: cadence: Add Displayport IRQ handler
+
+:::::: TO: Oliver Brown <oliver.brown@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
