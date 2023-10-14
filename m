@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93ADE12B88
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Oct 2023 22:45:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D962628A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Oct 2023 22:45:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ANZN6o4x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JLG0dkVf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697323552; x=1728859552;
+  t=1697323553; x=1728859553;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QdpMlITS3vcut3fZrvnel6qQI40poujaSz1h/LBnr9s=;
-  b=ANZN6o4xRLuszBviczSyyMBNILztncXDEtReg34uUibziI+xRTq2gZ1z
-   CCa3Zdj340FtoGr/WF31+B5QW2ym6XY4FKF1HD6oOEAybGY/GzY2ivU81
-   /qf+LMsvWjMqn7WmsmGn+/uOIn1fbJqI68HzOd0D098Tt0L1x8G3EQ94M
-   4mK8RRPmaG283pxc4c1zsUtqWywCRf9UM3xpqNucky8wChCR9AHy1vl6l
-   II9obvrBCdmnWo0l0I4NmcMZKa8S5ouU3sp/+2A4L9TV/ZTT3uvfh3ejN
-   fjBrG7WcPbBY007/30k5tz7zf5YR6gY+UyhaSnIl/ObUI1Bkg7mn8s6TK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="389211005"
+  bh=hTtv7cQaNZwIYm7ZbJVqmYt+OWUnr8vqE9w7nzAvDn0=;
+  b=JLG0dkVfvz74t7AaB+RE2n6ppq0A10sx9Fb9Q77QvY1LcCFOFprCmLhV
+   oZd3YMgJz0jQZtsGI/zIa8TM5nalGV909D7S3xB5+tDcY1Pu6Pmic6dgR
+   3elwuK/HhqthcBCWqfhRcgvFnhoCPz2Jg4osX72KzlQhugGOGPUGqlKoW
+   cIz6hXrUQgis0zPYwdM7VaqZppWnDYjGRa7BlGIPrqrUMjYxeoMANQ9li
+   27j3x0TviPcYxdvEMzAbNx41UCkeRpCUTTwcjwz/F3fU0OWPPPpcmCT0c
+   uiS1QJCCfWYtXtKCHYkCXGhUzt8brDys5X4UF/HZ2iipQ7tZq3h/ULRW7
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="385191760"
 X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
-   d="scan'208";a="389211005"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 15:45:51 -0700
+   d="scan'208";a="385191760"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 15:45:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="871565774"
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="790300312"
 X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
-   d="scan'208";a="871565774"
+   d="scan'208";a="790300312"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 14 Oct 2023 15:45:50 -0700
+  by orsmga001.jf.intel.com with ESMTP; 14 Oct 2023 15:45:50 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qrnOG-0006lB-19;
+	id 1qrnOG-0006l9-14;
 	Sat, 14 Oct 2023 22:45:48 +0000
-Date: Sun, 15 Oct 2023 06:45:28 +0800
+Date: Sun, 15 Oct 2023 06:45:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuniyuki Iwashima <kuniyu@amazon.com>
+To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [horms-ipvs:main 2/13] checkpatch: WARNING: Possible repeated word:
- 'Google'
-Message-ID: <202310150648.Ih5Zi7RA-lkp@intel.com>
+Subject: [yiliu1765-iommufd:wip/iommufd_nesting-10132023-yi 58/85]
+ checkpatch: WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+Message-ID: <202310150644.xxkwQ6ZQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,21 +50,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git main
-head:   2d1c882d4434a27a026b98b602f232c7919849c5
-commit: 8702cf12e6ba91616a72d684e90357977972991b [2/13] tcp: Fix listen() warning with v4-mapped-v6 address.
-reproduce: (https://download.01.org/0day-ci/archive/20231015/202310150648.Ih5Zi7RA-lkp@intel.com/reproduce)
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_nesting-10132023-yi
+head:   3f226b487e64cd6f04258236e83eb403526d3d0a
+commit: d91730a7bd27f5f50439fd50cd05193c8417b8ee [58/85] iommu/arm-smmu-v3: Add arm_smmu_domain_alloc_user
+reproduce: (https://download.01.org/0day-ci/archive/20231015/202310150644.xxkwQ6ZQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310150648.Ih5Zi7RA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310150644.xxkwQ6ZQ-lkp@intel.com/
 
 # many are suggestions rather than must-fix
 
-WARNING:REPEATED_WORD: Possible repeated word: 'Google'
-#58: 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/04/2023
+WARNING:UNSPECIFIED_INT: Prefer 'unsigned int' to bare use of 'unsigned'
+#97: FILE: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:2925:
++__arm_smmu_domain_alloc(unsigned type,
+
+WARNING:UNSPECIFIED_INT: Prefer 'unsigned int' to bare use of 'unsigned'
+#143: FILE: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:2971:
++static struct iommu_domain *arm_smmu_domain_alloc(unsigned type)
+
+WARNING:UNSPECIFIED_INT: Prefer 'unsigned int' to bare use of 'unsigned'
+#156: FILE: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:2984:
++	unsigned type = IOMMU_DOMAIN_UNMANAGED;
 
 -- 
 0-DAY CI Kernel Test Service
