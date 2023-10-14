@@ -1,57 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237411852
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Oct 2023 04:16:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619E47E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Oct 2023 04:38:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tyw2t8sQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JmVSBBju"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697257014; x=1728793014;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3r/8q1XI29rdQEGxNz6p37DXj12l7HnDpzLdqMNJSFQ=;
-  b=Tyw2t8sQ8tcuRt0YBJ8S8uenTCaT53kNC+XoUIAilGkpGh9hrawjrc/n
-   LqqZKDGXSW07AQcZTjjk40E2iTLjhIxMYJbivmYrCvkL7CIi8lv17YGch
-   6YHivZttl6p118B/nhMzS5dClLjJr7NtkVpXvQRq114waFx6gqZlBlR3n
-   FdK2OE+QNu/Qkh+00meLqRmlSCF4wS3afU1tz4qUCSG61g3yzjRxzhgtD
-   YWwW/LtmwaTfnsxOvpNitUBviAxG+0IGQGyBb4in0S6gttTUw84Aj/Pr6
-   aZbCiCTsOeaq/C0OlwCFgxXByYr3RhpbVlYOEh5u+1VuTOgK3w/q80aWe
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="416363939"
+  t=1697258331; x=1728794331;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JxAEMgJEzwqmO5wX5fl1m4lHIULCvSrD5Hv6VoP+q4o=;
+  b=JmVSBBju7WUfeq1zn9n8r3myBqq4SPreBwssSUxYqz29ht8IDRFz7DxF
+   IYKv5swbP6AivVbAa9/a38TO4lOm8+Y6TEIupFkwXs3oFssBb5jFm8ete
+   7KfX9c2yL0x1EgNcn+sFFvrZGgoLAr40/B46oi8nSZxsXnuZm4QLWW/9p
+   vkL/VmAb6WD84iweXMwrdiqUZI9WWGYi6DQO78YM+fl7dst6mVRR4u7Lx
+   9XfNdG/DbRdwwOiRjxda7mpINP9QdP+BhYLOCnoz8YTastzxeurEmr9ef
+   nbXhfKSPQnz9HYPO16IBfwi6bmcsvO3dg7TBrufjsPuaLAt+hG3BMULVy
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="385143071"
 X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="416363939"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 21:16:52 -0700
+   d="scan'208";a="385143071"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 21:38:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="871354127"
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="731592986"
 X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="871354127"
+   d="scan'208";a="731592986"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Oct 2023 21:16:48 -0700
+  by orsmga006.jf.intel.com with ESMTP; 13 Oct 2023 21:38:49 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qrW50-0005ge-0O;
-	Sat, 14 Oct 2023 04:16:46 +0000
-Date: Sat, 14 Oct 2023 12:16:15 +0800
+	id 1qrWQI-0005hj-2J;
+	Sat, 14 Oct 2023 04:38:46 +0000
+Date: Sat, 14 Oct 2023 12:38:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, hdegoede@redhat.com,
-	markgross@kernel.org, ilpo.jarvinen@linux.intel.com,
-	basavaraj.natikar@amd.com, jikos@kernel.org,
-	benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
-	christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
-	daniel@ffwll.ch
-Cc: oe-kbuild-all@lists.linux.dev,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	amd-gfx@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, Patil.Reddy@amd.com,
-	linux-input@vger.kernel.org, mario.limonciello@amd.com
-Subject: Re: [PATCH v3 09/16] platform/x86/amd/pmf: Add facility to dump TA
- inputs
-Message-ID: <202310141247.22Coajca-lkp@intel.com>
-References: <20231010125917.138225-10-Shyam-sundar.S-k@amd.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/639 3235/24603]
+ drivers/i2c/busses/i2c-imx-lpi2c.c:671:12: warning: 'lpi2c_resume_noirq'
+ defined but not used
+Message-ID: <202310141246.9iYZKvsE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,125 +50,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231010125917.138225-10-Shyam-sundar.S-k@amd.com>
 
-Hi Shyam,
+Hi Fugang,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on hid/for-next]
-[also build test WARNING on drm-misc/drm-misc-next linus/master v6.6-rc5 next-20231013]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shyam-Sundar-S-K/platform-x86-amd-pmf-Add-PMF-TEE-interface/20231010-210347
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20231010125917.138225-10-Shyam-sundar.S-k%40amd.com
-patch subject: [PATCH v3 09/16] platform/x86/amd/pmf: Add facility to dump TA inputs
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231014/202310141247.22Coajca-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310141247.22Coajca-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc pr/639
+head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
+commit: 0158af3e517b96ef5a082edac1dbc11446d4a735 [3235/24603] MLK-16713 i2c: imx-lpi2c: add runtime pm support
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231014/202310141246.9iYZKvsE-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310141246.9iYZKvsE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310141247.22Coajca-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310141246.9iYZKvsE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/printk.h:564,
-                    from include/linux/kernel.h:30,
-                    from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/preempt.h:6,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13,
-                    from drivers/platform/x86/amd/pmf/pmf.h:14,
-                    from drivers/platform/x86/amd/pmf/sps.c:11:
-   drivers/platform/x86/amd/pmf/sps.c: In function 'amd_pmf_dump_sps_defaults':
-   drivers/platform/x86/amd/pmf/sps.c:50:65: error: implicit declaration of function 'source_as_str' [-Werror=implicit-function-declaration]
-      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
-         |                                                                 ^~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call'
-     269 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:579:9: note: in expansion of macro 'dynamic_pr_debug'
-     579 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/platform/x86/amd/pmf/sps.c:50:25: note: in expansion of macro 'pr_debug'
-      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
-         |                         ^~~~~~~~
->> drivers/platform/x86/amd/pmf/sps.c:50:34: warning: format '%s' expects argument of type 'char *', but argument 3 has type 'int' [-Wformat=]
-      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:345:21: note: in definition of macro 'pr_fmt'
-     345 | #define pr_fmt(fmt) fmt
-         |                     ^~~
-   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '__dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call'
-     269 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:579:9: note: in expansion of macro 'dynamic_pr_debug'
-     579 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/platform/x86/amd/pmf/sps.c:50:25: note: in expansion of macro 'pr_debug'
-      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
-         |                         ^~~~~~~~
-   drivers/platform/x86/amd/pmf/sps.c:50:47: note: format string is defined here
-      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
-         |                                              ~^
-         |                                               |
-         |                                               char *
-         |                                              %d
-   cc1: some warnings being treated as errors
+   drivers/i2c/busses/i2c-imx-lpi2c.c: In function 'lpi2c_runtime_suspend':
+   drivers/i2c/busses/i2c-imx-lpi2c.c:630:40: error: 'struct lpi2c_imx_struct' has no member named 'clk_ipg'
+     630 |         clk_disable_unprepare(lpi2c_imx->clk_ipg);
+         |                                        ^~
+   drivers/i2c/busses/i2c-imx-lpi2c.c:631:40: error: 'struct lpi2c_imx_struct' has no member named 'clk_per'
+     631 |         clk_disable_unprepare(lpi2c_imx->clk_per);
+         |                                        ^~
+   drivers/i2c/busses/i2c-imx-lpi2c.c: In function 'lpi2c_runtime_resume':
+   drivers/i2c/busses/i2c-imx-lpi2c.c:643:43: error: 'struct lpi2c_imx_struct' has no member named 'clk_per'
+     643 |         ret = clk_prepare_enable(lpi2c_imx->clk_per);
+         |                                           ^~
+   drivers/i2c/busses/i2c-imx-lpi2c.c:649:43: error: 'struct lpi2c_imx_struct' has no member named 'clk_ipg'
+     649 |         ret = clk_prepare_enable(lpi2c_imx->clk_ipg);
+         |                                           ^~
+   drivers/i2c/busses/i2c-imx-lpi2c.c:651:48: error: 'struct lpi2c_imx_struct' has no member named 'clk_per'
+     651 |                 clk_disable_unprepare(lpi2c_imx->clk_per);
+         |                                                ^~
+   drivers/i2c/busses/i2c-imx-lpi2c.c: At top level:
+>> drivers/i2c/busses/i2c-imx-lpi2c.c:671:12: warning: 'lpi2c_resume_noirq' defined but not used [-Wunused-function]
+     671 | static int lpi2c_resume_noirq(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~
+>> drivers/i2c/busses/i2c-imx-lpi2c.c:658:12: warning: 'lpi2c_suspend_noirq' defined but not used [-Wunused-function]
+     658 | static int lpi2c_suspend_noirq(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~
 
 
-vim +50 drivers/platform/x86/amd/pmf/sps.c
+vim +/lpi2c_resume_noirq +671 drivers/i2c/busses/i2c-imx-lpi2c.c
 
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  41  
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  42  static void amd_pmf_dump_sps_defaults(struct amd_pmf_static_slider_granular *data)
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  43  {
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  44  	int i, j;
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  45  
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  46  	pr_debug("Static Slider Data - BEGIN\n");
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  47  
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  48  	for (i = 0; i < POWER_SOURCE_MAX; i++) {
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  49  		for (j = 0; j < POWER_MODE_MAX; j++) {
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10 @50  			pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  51  			pr_debug("SPL: %u mW\n", data->prop[i][j].spl);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  52  			pr_debug("SPPT: %u mW\n", data->prop[i][j].sppt);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  53  			pr_debug("SPPT_ApuOnly: %u mW\n", data->prop[i][j].sppt_apu_only);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  54  			pr_debug("FPPT: %u mW\n", data->prop[i][j].fppt);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  55  			pr_debug("STTMinLimit: %u mW\n", data->prop[i][j].stt_min);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  56  			pr_debug("STT_SkinTempLimit_APU: %u C\n",
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  57  				 data->prop[i][j].stt_skin_temp[STT_TEMP_APU]);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  58  			pr_debug("STT_SkinTempLimit_HS2: %u C\n",
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  59  				 data->prop[i][j].stt_skin_temp[STT_TEMP_HS2]);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  60  		}
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  61  	}
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  62  
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  63  	pr_debug("Static Slider Data - END\n");
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  64  }
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  65  #else
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  66  static void amd_pmf_dump_sps_defaults(struct amd_pmf_static_slider_granular *data) {}
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  67  #endif
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  68  
+   657	
+ > 658	static int lpi2c_suspend_noirq(struct device *dev)
+   659	{
+   660		int ret;
+   661	
+   662		ret = pm_runtime_force_suspend(dev);
+   663		if (ret)
+   664			return ret;
+   665	
+   666		pinctrl_pm_select_sleep_state(dev);
+   667	
+   668		return 0;
+   669	}
+   670	
+ > 671	static int lpi2c_resume_noirq(struct device *dev)
+   672	{
+   673		return pm_runtime_force_resume(dev);
+   674	}
+   675	
 
 -- 
 0-DAY CI Kernel Test Service
