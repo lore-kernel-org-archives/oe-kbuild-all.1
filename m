@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1F76131
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Oct 2023 07:55:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1886567F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Oct 2023 08:07:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Aq1rbJcr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h8krmrFL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697270115; x=1728806115;
+  t=1697270832; x=1728806832;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8YWHVOvsPbuM+zEZJBov7YSi5f1XRkrm6Wmx+SLQpFs=;
-  b=Aq1rbJcrejMLEGBaIqfBlO5ubFVg4WjJgQasoJEW0QefTq2Skq2bbNv6
-   rdCb6cWepI27Tl55cFYBRnOmXDx5KvvFdoDGsOito/q3d4WLQLSns/Tj0
-   1tBG7I7//xR3iNaY9x8aQY+oI8hw6jkUUR5RAAt/NWTIOlNnmDYEEHwEl
-   1MmwIGMXI8hR1lepsLSY91IusHpEIhqJ79KiwV699aDBlE1aTtV4AfxJz
-   dAAT043ogYGgN5VIckYL6J1WZHUibeufKECInm2ElfN1AmNc6ajiyWzcu
-   sYF+ZaGflB70LQefS0SIh8XXczFSgvND4ALo4gSqIb1jtiPQhxIGtz2a4
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="365576881"
+  bh=yc4E7B2bCDgYvw/nt4sRLHVg0YT0QZHggaZ/AlbzxqU=;
+  b=h8krmrFLNwwuugQbboEI2Cj+cixgaaLjjrqIKEEl0RIuOzwWAsvNvm8L
+   9g8Hrz6FRv15YNVaFw8y2aRWZe3A8+hWrVFmCbFf0H+q8n6U2RpEECzLL
+   yarBiHZYdvtfmXjqDwgwIWWOIsoDoMHx0O52bc/UyFgBeTbsJEDcgDOmT
+   O7C1Hbj6mc1bvM48V7zWY2ef1CQ6uTYfeFBl18ae+xz2V6/YwwTau26Bm
+   L2qrnT2wxgxFdpeA9Paev6CcSrxx+2PgnidvCz0Dwdn0LIkLv3McUPE0C
+   D4eaZEpg49hL2L0Gr5wPpvJm56+3gSb7ajd+FubfSR+k6cwJeDw/HRLpN
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="384181240"
 X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="365576881"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 00:55:10 -0700
+   d="scan'208";a="384181240"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 01:07:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="898828466"
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="871395253"
 X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="898828466"
+   d="scan'208";a="871395253"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Oct 2023 00:53:17 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 14 Oct 2023 01:07:10 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qrZUJ-0005qF-2w;
-	Sat, 14 Oct 2023 07:55:07 +0000
-Date: Sat, 14 Oct 2023 15:54:38 +0800
+	id 1qrZfw-0005rP-1y;
+	Sat, 14 Oct 2023 08:07:08 +0000
+Date: Sat, 14 Oct 2023 16:06:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: Hector Martin <marcan@marcan.st>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/642 2336/30000] m68k-linux-gcc: error:
- unrecognized argument in option '-march=armv7-a'
-Message-ID: <202310141538.kN0274DZ-lkp@intel.com>
+Subject: [asahilinux:sound/speaker-safety 175/199]
+ sound/soc/apple/macaudio.c:1346:5: warning: no previous prototype for
+ 'macaudio_slk_get'
+Message-ID: <202310141616.Rxcx0Iep-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,32 +51,125 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc pr/642
-head:   c8b7cf62c7fea8456dec789d550b8006d73b8f04
-commit: b3d472cf0c23afeb4f383c8eb89345481d3a71b6 [2336/30000] Merge branch 'mxc/next' into next
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231014/202310141538.kN0274DZ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310141538.kN0274DZ-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux sound/speaker-safety
+head:   0c49093e19a678be51c7207bbf9da61b29173375
+commit: 1aeb9e0673cd84aaa56d56d2b552733ab191afd5 [175/199] macaudio: Add a getter for the interlock
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231014/202310141616.Rxcx0Iep-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310141616.Rxcx0Iep-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310141538.kN0274DZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310141616.Rxcx0Iep-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> m68k-linux-gcc: error: unrecognized argument in option '-march=armv7-a'
-   m68k-linux-gcc: note: valid arguments to '-march=' are: 68000 68010 68020 68030 68040 68060 cpu32 isaa isaaplus isab isac
->> m68k-linux-gcc: error: unrecognized argument in option '-mtune=cortex-a9'
-   m68k-linux-gcc: note: valid arguments to '-mtune=' are: 68000 68010 68020 68020-40 68020-60 68030 68040 68060 cfv1 cfv2 cfv3 cfv4 cfv4e cpu32
->> m68k-linux-gcc: error: unrecognized command-line option '-mfpu=neon'
->> m68k-linux-gcc: error: unrecognized command-line option '-mfloat-abi=softfp'
+   sound/soc/apple/macaudio.c:196:6: warning: no previous prototype for 'macaudio_vlimit_unlock' [-Wmissing-prototypes]
+     196 | void macaudio_vlimit_unlock(struct macaudio_snd_data *ma, bool unlock)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/apple/macaudio.c:218:6: warning: no previous prototype for 'macaudio_vlimit_update' [-Wmissing-prototypes]
+     218 | void macaudio_vlimit_update(struct macaudio_snd_data *ma)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/apple/macaudio.c:1279:5: warning: no previous prototype for 'macaudio_sss_info' [-Wmissing-prototypes]
+    1279 | int macaudio_sss_info(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_info *uinfo)
+         |     ^~~~~~~~~~~~~~~~~
+   sound/soc/apple/macaudio.c:1289:5: warning: no previous prototype for 'macaudio_sss_get' [-Wmissing-prototypes]
+    1289 | int macaudio_sss_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *uvalue)
+         |     ^~~~~~~~~~~~~~~~
+   sound/soc/apple/macaudio.c:1304:5: warning: no previous prototype for 'macaudio_slk_info' [-Wmissing-prototypes]
+    1304 | int macaudio_slk_info(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_info *uinfo)
+         |     ^~~~~~~~~~~~~~~~~
+   sound/soc/apple/macaudio.c:1314:5: warning: no previous prototype for 'macaudio_slk_put' [-Wmissing-prototypes]
+    1314 | int macaudio_slk_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *uvalue)
+         |     ^~~~~~~~~~~~~~~~
+>> sound/soc/apple/macaudio.c:1346:5: warning: no previous prototype for 'macaudio_slk_get' [-Wmissing-prototypes]
+    1346 | int macaudio_slk_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *uvalue)
+         |     ^~~~~~~~~~~~~~~~
+   sound/soc/apple/macaudio.c:1356:5: warning: no previous prototype for 'macaudio_slk_lock' [-Wmissing-prototypes]
+    1356 | int macaudio_slk_lock(struct snd_kcontrol *kcontrol, struct snd_ctl_file *owner)
+         |     ^~~~~~~~~~~~~~~~~
+   sound/soc/apple/macaudio.c:1375:6: warning: no previous prototype for 'macaudio_slk_unlock' [-Wmissing-prototypes]
+    1375 | void macaudio_slk_unlock(struct snd_kcontrol *kcontrol)
+         |      ^~~~~~~~~~~~~~~~~~~
 
 Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for NEED_MULTIPLE_NODES
-   Depends on [n]: DISCONTIGMEM [=n] || NUMA
-   Selected by [y]:
-   - SINGLE_MEMORY_CHUNK [=y] && MMU [=y]
+   WARNING: unmet direct dependencies detected for APPLE_ADMAC
+   Depends on [n]: DMADEVICES [=n] && (ARCH_APPLE || COMPILE_TEST [=y])
+   Selected by [m]:
+   - SND_SOC_APPLE_MACAUDIO [=m] && SOUND [=m] && !UML && SND [=m] && SND_SOC [=m] && (ARCH_APPLE || COMPILE_TEST [=y])
+
+
+vim +/macaudio_slk_get +1346 sound/soc/apple/macaudio.c
+
+  1288	
+> 1289	int macaudio_sss_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *uvalue)
+  1290	{
+  1291		struct snd_soc_card *card = snd_kcontrol_chip(kcontrol);
+  1292		struct macaudio_snd_data *ma = snd_soc_card_get_drvdata(card);
+  1293	
+  1294		/*
+  1295		 * TODO: Check if any locking is in order here. I would
+  1296		 * assume there is some ALSA-level lock, but DAPM implementations
+  1297		 * of kcontrol ops do explicit locking, so look into it.
+  1298		 */
+  1299		uvalue->value.integer.value[0] = ma->speaker_sample_rate;
+  1300	
+  1301		return 0;
+  1302	}
+  1303	
+  1304	int macaudio_slk_info(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_info *uinfo)
+  1305	{
+  1306		uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
+  1307		uinfo->count = 1;
+  1308		uinfo->value.integer.min = INT_MIN;
+  1309		uinfo->value.integer.max = INT_MAX;
+  1310	
+  1311		return 0;
+  1312	}
+  1313	
+  1314	int macaudio_slk_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *uvalue)
+  1315	{
+  1316		struct snd_soc_card *card = snd_kcontrol_chip(kcontrol);
+  1317		struct macaudio_snd_data *ma = snd_soc_card_get_drvdata(card);
+  1318	
+  1319		if (!ma->speaker_lock_owner)
+  1320			return -EPERM;
+  1321	
+  1322		if (uvalue->value.integer.value[0] != SPEAKER_MAGIC_VALUE)
+  1323			return -EINVAL;
+  1324	
+  1325		/* Serves as a notification that the lock was lost at some point */
+  1326		if (ma->speaker_volume_was_locked) {
+  1327			ma->speaker_volume_was_locked = false;
+  1328			return -ETIMEDOUT;
+  1329		}
+  1330	
+  1331		cancel_delayed_work(&ma->lock_timeout_work);
+  1332	
+  1333		ma->speaker_lock_remain = ms_to_ktime(SPEAKER_LOCK_TIMEOUT);
+  1334		ma->speaker_lock_timeout = ktime_add(ktime_get(), ma->speaker_lock_remain);
+  1335		macaudio_vlimit_update(ma);
+  1336	
+  1337		if (ma->speaker_lock_timeout_enabled) {
+  1338			dev_dbg(ma->card.dev, "Volume limit timeout ping: %ld us left\n",
+  1339				(long)ktime_to_us(ma->speaker_lock_remain));
+  1340			schedule_delayed_work(&ma->lock_timeout_work, usecs_to_jiffies(ktime_to_us(ma->speaker_lock_remain)));
+  1341		}
+  1342	
+  1343		return 0;
+  1344	}
+  1345	
+> 1346	int macaudio_slk_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *uvalue)
+  1347	{
+  1348		struct snd_soc_card *card = snd_kcontrol_chip(kcontrol);
+  1349		struct macaudio_snd_data *ma = snd_soc_card_get_drvdata(card);
+  1350	
+  1351		uvalue->value.integer.value[0] = ma->speaker_volume_unlocked ? 1 : 0;
+  1352	
+  1353		return 0;
+  1354	}
+  1355	
 
 -- 
 0-DAY CI Kernel Test Service
