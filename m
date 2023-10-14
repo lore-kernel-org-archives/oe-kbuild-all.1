@@ -1,48 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62D6171DA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Oct 2023 20:50:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 138F61BDE2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Oct 2023 21:11:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IHxgiPWS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sfwc8gSG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697316616; x=1728852616;
+  t=1697317878; x=1728853878;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3aufas40CzuTRD0vjKsW+LGHqHtLEDxwdjehnGlmdSI=;
-  b=IHxgiPWSh0+C6+2Oq1h667UQ4sCstDwzWIM4Qli7aoSNkyREUuTgv1j0
-   RMv5oHlCRMVvKkhKCrWKQVXzfuDBA+UFVdhmP8B8Tk39HrbTZUEPIO7rC
-   nACGgsnspptkBGtWz8xueZX7ug+8Q4wnFnrRKUjaIsSy7qsdmY6g5GZHC
-   hwPwa7bW60zQ0QU1Qv0Yru68dibEo1Xag5VgPYdvHgoFh88rVKQZ6xWfc
-   kcWQmIUlZSkn1mCy9/pbgQxPj4bNfYjvv1yMFJI8lDCVSaNU3CS/6Ldvv
-   WYLQ3GutE6s7cvw+GkYA43BjTXAWc0ES7KghbilIiWgjSm1csyQpFGyvI
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="364709718"
+  bh=e2Q7LCvqFOKiXXR++WZyZU4MTNTdViahj73tCSgYrPY=;
+  b=Sfwc8gSGfx/ZDtXwr/cW2RY7SCs4+itR0v3gomEesDSgHc3r/jj0voHU
+   IgDN3NzGeIkM9EjwW+NvqsmcAPJ1Rhxo5muEGAwf883aPlRYMf/cZa5CH
+   6pW9++YLq9kK03OmWIMtr7ECy5wCACNkVPeYI2M46ayCgJb6L26Rq1ZkN
+   DVkpINRnyoPBhb+6QkX+YK5JwE2WwiHonVGnX6D3w1UOfKAsOyQxL338S
+   cD1h3tId+e6xq6/mOWhe9Gfw2/HPcDmv6LiQ+VQk6nVEDT3J7rLCVjKKL
+   6nQXYYwE3c7eNwm3bsMIxF3SCWpx7BI0v1jM1pvIY81v+6Oqzaww9B1wb
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="382577748"
 X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="364709718"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 13:50:15 -0700
+   d="scan'208";a="382577748"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 14:11:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="748756383"
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="731764585"
 X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="748756383"
+   d="scan'208";a="731764585"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 14 Oct 2023 13:50:14 -0700
+  by orsmga006.jf.intel.com with ESMTP; 14 Oct 2023 14:11:15 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qrlaO-0006dJ-16;
-	Sat, 14 Oct 2023 20:50:12 +0000
-Date: Sun, 15 Oct 2023 04:49:38 +0800
+	id 1qrluj-0006fF-1F;
+	Sat, 14 Oct 2023 21:11:13 +0000
+Date: Sun, 15 Oct 2023 05:10:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: David Wei <davidhwei@meta.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-2.1.x-imx 1287/15768]
- drivers/gpu/drm/imx/dw_mipi_dsi-imx.c:615:24: error:
- 'dw_mipi_dsi_imx_pm_ops' undeclared here (not in a function); did you mean
- 'dw_mipi_dsi_imx_phy_ops'?
-Message-ID: <202310150439.04WmuEHX-lkp@intel.com>
+Subject: [isilence:zc/veth 1003/1018] arc-elf-ld: zc_rx.c:undefined reference
+ to `dev_get_by_index'
+Message-ID: <202310150509.MgvhX30W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,43 +50,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Liu,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
-head:   3f41fbe42851375d3d5996e4bf9e9809e6c79517
-commit: 850748892aef50b330e3177be5d6967ddc34e899 [1287/15768] LF-6251-2 drm/imx: Add i.MX93 Synopsys DesignWare MIPI DSI controller support
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231015/202310150439.04WmuEHX-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231015/202310150439.04WmuEHX-lkp@intel.com/reproduce)
+tree:   https://github.com/isilence/linux zc/veth
+head:   cff8a226d561bc0db814b65ca5d2c97894d4d1cd
+commit: b75dd3ad68b4b49f885a47a4e5d96bfe723bf8aa [1003/1018] io_uring: setup ZC for an RX queue when registering an ifq
+config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20231015/202310150509.MgvhX30W-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231015/202310150509.MgvhX30W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310150439.04WmuEHX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310150509.MgvhX30W-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/imx/dw_mipi_dsi-imx.c:615:24: error: 'dw_mipi_dsi_imx_pm_ops' undeclared here (not in a function); did you mean 'dw_mipi_dsi_imx_phy_ops'?
-     615 |                 .pm = &dw_mipi_dsi_imx_pm_ops,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~
-         |                        dw_mipi_dsi_imx_phy_ops
-
-
-vim +615 drivers/gpu/drm/imx/dw_mipi_dsi-imx.c
-
-   608	
-   609	struct platform_driver dw_mipi_dsi_imx_driver = {
-   610		.probe	= dw_mipi_dsi_imx_probe,
-   611		.remove	= dw_mipi_dsi_imx_remove,
-   612		.driver	= {
-   613			.of_match_table = dw_mipi_dsi_imx_dt_ids,
-   614			.name = "dw-mipi-dsi-imx",
- > 615			.pm = &dw_mipi_dsi_imx_pm_ops,
-   616		},
-   617	};
-   618	
+   arc-elf-ld: io_uring/zc_rx.o: in function `io_register_zc_rx_ifq':
+   zc_rx.c:(.text+0x1e6): undefined reference to `init_net'
+   arc-elf-ld: zc_rx.c:(.text+0x1e6): undefined reference to `init_net'
+>> arc-elf-ld: zc_rx.c:(.text+0x1ea): undefined reference to `dev_get_by_index'
+>> arc-elf-ld: zc_rx.c:(.text+0x1ea): undefined reference to `dev_get_by_index'
 
 -- 
 0-DAY CI Kernel Test Service
