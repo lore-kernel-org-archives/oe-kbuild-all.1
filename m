@@ -1,47 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C291CEADF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Oct 2023 11:53:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1EDF50E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Oct 2023 12:04:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RuA65Dr/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QthBm4C5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697284406; x=1728820406;
+  t=1697285068; x=1728821068;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nUaC0/8/vhW2vyX6wzxJhmMGRzXX/DNzaK6/QgK4zPU=;
-  b=RuA65Dr/YdxRny5llWAdgO605TeLHzOp5UmkNNbn73l5xJQzBClck8Rr
-   bx2I6OdS1d6VGadaKrCKPn6z4d+0EZY7tKBe5f3SKXSspB/CK9w14Dgrd
-   WWeKiC70rhml56z2evgqCDEGiwEr/5Bx6nWTE18+NvoiPxDWJXm5JG+tt
-   Bc5/fri9dHao/uAfcZ+0jrb6uwQ3olCJ1NWbw7e/PIsTpHP33DgPJJmtx
-   G914eYddgfMETzJfb3mD2o4eCsaubWF5e7K6l7Jxene0z/2MHC11IIsa4
-   73hz4dCsBPNjG0hflec816KPSbkh7J8DyH3ahKVBCSk2suC+PK/6xUajJ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="6883260"
+  bh=K1d/ZvTHcdcyLYqRAUn7wsaxxkEwItS7DQ1PDzyDOF8=;
+  b=QthBm4C5EatQ4RmRYClCIm2tlDkafnlqARNUkVfWPRY7GYTeuNryKqfU
+   UhO+W0+KOY6fY4aS8Ce24w9KspHv2Z2VUZ2qumHBjbQ1AvD+gXOF2wml6
+   OkfB0FF13IICyIY0zyrpcOuP3ziKcD3RoO9YuhNZQ84aq2NtukSe7bRFr
+   roBiJfg5XfAdEMJKP+pojoQ6agEU4R/ydWH2FVcNXZt4YbXqw372djdnk
+   mpchMcJ1gO4+AlnW3eifeoCwhjhh7vqioOnYqhFfSXrBwH+n1xkTu5XNh
+   5irQJqvtW9P4o9LtWzFkvlH7G8g8UnyL8+QpOmhzJ8kNa0yibIM2YmyNh
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="451803322"
 X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="6883260"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 04:53:25 -0700
+   d="scan'208";a="451803322"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 05:04:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="825360159"
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="820965091"
 X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="825360159"
+   d="scan'208";a="820965091"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 14 Oct 2023 04:53:25 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 14 Oct 2023 05:04:25 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qrdCs-00068T-26;
-	Sat, 14 Oct 2023 11:53:22 +0000
-Date: Sat, 14 Oct 2023 19:52:28 +0800
+	id 1qrdNX-00069L-26;
+	Sat, 14 Oct 2023 12:04:23 +0000
+Date: Sat, 14 Oct 2023 20:03:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/639 3290/24603]
- drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c:175:27: warning:
- 'synaptics_rmi4_suspend' used but never defined
-Message-ID: <202310141940.uBGkvVtK-lkp@intel.com>
+To: Paul Elder <paul.elder@ideasonboard.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [pinchartl:mtk/v6.6/pumpkin/camera 35/35] make[4]: *** No rule to
+ make target
+ 'arch/arm64/boot/dts/mediatek/mt8365-pumpkin-ethernet-usb-local-mac.dtb',
+ needed by 'arch/arm64/boot/dts/mediatek/'.
+Message-ID: <202310142012.uG86Bq5n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,51 +53,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Haibo,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/Freescale/linux-fslc pr/639
-head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
-commit: f3e023ffe1da7261a8aba45f085b43150d1f87c2 [3290/24603] MLK-17829 touchscreen: Add synaptics_dsx S3508 i2c touch driver
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231014/202310141940.uBGkvVtK-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310141940.uBGkvVtK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git mtk/v6.6/pumpkin/camera
+head:   bbd4f3babd279c09914cf0d0eaa9bd7f75a42c51
+commit: bbd4f3babd279c09914cf0d0eaa9bd7f75a42c51 [35/35] DNI: arm64: dts: mediatek: m8365-pumpkin: Add overlay for hardcoded eth
+config: arm64-randconfig-001-20231014 (https://download.01.org/0day-ci/archive/20231014/202310142012.uG86Bq5n-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310142012.uG86Bq5n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310141940.uBGkvVtK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310142012.uG86Bq5n-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c:792:5: warning: no previous prototype for 'tpd_i2c_read_data' [-Wmissing-prototypes]
-     792 | int tpd_i2c_read_data(struct synaptics_rmi4_data *rmi4_data, struct i2c_client *client,
-         |     ^~~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c:911:5: warning: no previous prototype for 'tpd_i2c_write_data' [-Wmissing-prototypes]
-     911 | int tpd_i2c_write_data(struct synaptics_rmi4_data *rmi4_data, struct i2c_client *client,
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c: In function 'synaptics_rmi4_probe':
-   drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c:3194:21: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-    3194 |         int retval, ret;
-         |                     ^~~
-   drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c: At top level:
->> drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c:175:27: warning: 'synaptics_rmi4_suspend' used but never defined
-     175 | static int __maybe_unused synaptics_rmi4_suspend(struct device *dev);
-         |                           ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c:177:27: warning: 'synaptics_rmi4_resume' used but never defined
-     177 | static int __maybe_unused synaptics_rmi4_resume(struct device *dev);
-         |                           ^~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/synaptics_rmi4_suspend +175 drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.c
-
-   173	
-   174	
- > 175	static int __maybe_unused synaptics_rmi4_suspend(struct device *dev);
-   176	
- > 177	static int __maybe_unused synaptics_rmi4_resume(struct device *dev);
-   178	
+>> make[4]: *** No rule to make target 'arch/arm64/boot/dts/mediatek/mt8365-pumpkin-ethernet-usb-local-mac.dtb', needed by 'arch/arm64/boot/dts/mediatek/'.
+   make[4]: Target 'arch/arm64/boot/dts/mediatek/' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
