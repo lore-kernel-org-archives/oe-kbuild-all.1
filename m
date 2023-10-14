@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882795690
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Oct 2023 07:55:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9A21877
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Oct 2023 07:55:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="naZucq+q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i+/Cd17z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697270112; x=1728806112;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UJUtZmvLHRrmr3qo5Rz9hWCxMTIUveosrXNaEqMH1js=;
-  b=naZucq+qlE9+L5N3AsVxKb4wq2E0HdORZrhDlTZ1Nf1CtvHck18yQ+i3
-   ah0o07ifFCpA4l2D4eKiyJYRosRtH4rfiKurRbq3rGj5sfBmvcPP+c7nh
-   r6VXuOuq0KVLMiRe+E/DzlVi5p/hCkAKcFGYxyt0tyPQsIisPlbV4dv09
-   0/fosF1/DrY7dn2pI1D4qwX7VOXLZpXwv7xR/dqiic1XOvHLnpvgfxaAd
-   +l64MaXK1tULjs51NtGNO8BdTeV+g4uU8how42KbwwCCkQczWl+6Zn5p9
-   WfsEIoZFU9b4jcq3P+07VivvS14MLom0G2KZuLW3XVIb0U/2dULAWok+K
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="471541113"
+  t=1697270111; x=1728806111;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2IDV9rbEHLCdb5fO366yW6Lnv+JZX5PVMSWOjzxVpj0=;
+  b=i+/Cd17zsDDC9EqfhLFY9/GQo6eRoc1WMwyOY/uR3fiOl4ZSF7kb/Z+M
+   q6/2cvfJDKuUMlvoKR2E1vSu6rCsl8+C4tRhlQwOmvsM1Io+y4MNrPUjq
+   5x/IQxbg+hqadRYfp6dN4zfZyexTeZTBQY9cHLgjYIqB5wRH75Ayy4ll6
+   Yk1chrnbu+Lyhs5zzqfiCk+fAvX1kMJG86X4A9oMuyaA02MIYCi+LkAd/
+   XzJ8TTScAzo4SdKmpEviZV3p7FY1g3MQ+S3nkwHvkwePGX6JgdjWYaczO
+   8CMoMA2FTgX31g2wnl19HTjDIfNfN2AZTAQFtOqL59HXkXa1dE2N1vFHg
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="365576879"
 X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="471541113"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 00:55:11 -0700
+   d="scan'208";a="365576879"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 00:55:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="731625423"
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="898828465"
 X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="731625423"
+   d="scan'208";a="898828465"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 14 Oct 2023 00:55:10 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 14 Oct 2023 00:53:17 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qrZUJ-0005qK-36;
-	Sat, 14 Oct 2023 07:55:07 +0000
-Date: Sat, 14 Oct 2023 15:54:37 +0800
+	id 1qrZUK-0005qQ-00;
+	Sat, 14 Oct 2023 07:55:08 +0000
+Date: Sat, 14 Oct 2023 15:54:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Casey Schaufler <casey@schaufler-ca.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [pcmoore-lsm:next-queue 11/18] checkpatch: WARNING: else is not
- generally useful after a break or return
-Message-ID: <202310141552.P7ptSUPL-lkp@intel.com>
+Subject: Re: [PATCH v2 37/62] treewide: rename pinctrl_gpio_request_new()
+Message-ID: <202310141539.aho35JHn-lkp@intel.com>
+References: <20231011120830.49324-38-brgl@bgdev.pl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,23 +50,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231011120830.49324-38-brgl@bgdev.pl>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/lsm.git next-queue
-head:   44cc05348273c0e26a9093fe5b882f3ab5203424
-commit: 357595fcb7c7dcd515c66e92813d53fc8074809a [11/18] LSM: syscalls for current process attributes
-reproduce: (https://download.01.org/0day-ci/archive/20231014/202310141552.P7ptSUPL-lkp@intel.com/reproduce)
+Hi Bartosz,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20231011]
+[cannot apply to linusw-pinctrl/devel linusw-pinctrl/for-next brgl/gpio/for-next geert-renesas-drivers/renesas-pinctrl v6.6-rc5 v6.6-rc4 v6.6-rc3 linus/master v6.6-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/pinctrl-remove-unneeded-extern-specifiers-from-consumer-h/20231011-202505
+base:   next-20231011
+patch link:    https://lore.kernel.org/r/20231011120830.49324-38-brgl%40bgdev.pl
+patch subject: [PATCH v2 37/62] treewide: rename pinctrl_gpio_request_new()
+config: um-randconfig-001-20231014 (https://download.01.org/0day-ci/archive/20231014/202310141539.aho35JHn-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310141539.aho35JHn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310141552.P7ptSUPL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310141539.aho35JHn-lkp@intel.com/
 
-# many are suggestions rather than must-fix
+All errors (new ones prefixed by >>):
 
-WARNING:UNNECESSARY_ELSE: else is not generally useful after a break or return
-#449: FILE: security/security.c:3917:
-+			return rc;
-+		else
+   In file included from drivers/gpio/gpiolib-cdev.c:22:
+   include/linux/pinctrl/consumer.h:76:1: error: conflicting types for 'pinctrl_gpio_can_use_line'
+      76 | pinctrl_gpio_can_use_line(struct gpio_chip *gc, unsigned int offset)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pinctrl/consumer.h:70:20: note: previous definition of 'pinctrl_gpio_can_use_line' was here
+      70 | static inline bool pinctrl_gpio_can_use_line(unsigned gpio)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/pinctrl/consumer.h:87:1: error: conflicting types for 'pinctrl_gpio_request'
+      87 | pinctrl_gpio_request(struct gpio_chip *gc, unsigned int offset)
+         | ^~~~~~~~~~~~~~~~~~~~
+   include/linux/pinctrl/consumer.h:81:19: note: previous definition of 'pinctrl_gpio_request' was here
+      81 | static inline int pinctrl_gpio_request(unsigned gpio)
+         |                   ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +/pinctrl_gpio_request +87 include/linux/pinctrl/consumer.h
+
+    85	
+    86	static inline int
+  > 87	pinctrl_gpio_request(struct gpio_chip *gc, unsigned int offset)
+    88	{
+    89		return 0;
+    90	}
+    91	
 
 -- 
 0-DAY CI Kernel Test Service
