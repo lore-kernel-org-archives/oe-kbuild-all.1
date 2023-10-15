@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2618B210A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Oct 2023 18:26:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD78333F7;
+	Sun, 15 Oct 2023 18:46:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BqrbQiQj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eg2O/L1k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697394404; x=1728930404;
+  t=1697395605; x=1728931605;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8UwJtXd/waB0mS5VNdl+b17FahHG8EiaRQI2tuOQ22Q=;
-  b=BqrbQiQjTQQ/hlHeSG/BB53BFMY1XJ28L3PtNoG0AqSH+xT1Se2Os32d
-   YP1v9ZR25aS8jdRg+UrsTVxbEovgPOaNw/DjIoMFT2Y2y1Q6xSZlKm+1H
-   HDKQsXpt5BKMltXoeBH8fSeOA7qsrMmSYo0twB5UdMPdzEzGGPXGBgtyW
-   BCdjwR8XwD1TwETvKRUgGW+9Gtef6BoevVy2juVjgWWpZ35Z1roAbJdTc
-   +pawdCJmos2joC4oQqsrKc7dYLvVhy0miEb76TxxNRloA7HJWeEir66yJ
-   q6H/JPFFP7/wAKF7V+Meztm581JKFbhRBXFcA7h4MncDrGKf5u1BTQ7LZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="375777294"
+  bh=c/xLclot+rmIzcziyES3L27a2w5oRShtDTGO8Lr6uWI=;
+  b=eg2O/L1kvwVst/N138l5ZnDbbL1+S5aTMxwN3WESBXqXIwm1SyNI8jFU
+   mwAzrKynBQU+LyCiRjSmpi0OZ25Iz/RPAGxNz9cIJZPw8/pVL57rg1L4H
+   tA2dt8zr1BQlDVHrJ2QRxRUeWpbW7bTIGTaZCJr3/xCjjSxlMIzyC26V+
+   7oR3CtmotDnhs+hB2BZE6Suk0xy0VrZh8ctjOO3bbQH/H/ZS696QQAwM7
+   I/F5EUONlh2rTy18hU/RmEFsVdchzItV+krg4AT7Xwr+qLwFEB3sGxdXp
+   5LNNoZcHpfMIXBtMwUrFXOJfLP0OKdsbvztJgWHj4NubJDcTYyTrSZ0Ym
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="416477779"
 X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
-   d="scan'208";a="375777294"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2023 11:26:43 -0700
+   d="scan'208";a="416477779"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2023 11:46:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="871807979"
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="755422806"
 X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
-   d="scan'208";a="871807979"
+   d="scan'208";a="755422806"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 15 Oct 2023 11:26:41 -0700
+  by orsmga002.jf.intel.com with ESMTP; 15 Oct 2023 11:46:42 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qs5p1-0007fz-2t;
-	Sun, 15 Oct 2023 18:26:39 +0000
-Date: Mon, 16 Oct 2023 02:25:48 +0800
+	id 1qs68O-0007h9-2B;
+	Sun, 15 Oct 2023 18:46:40 +0000
+Date: Mon, 16 Oct 2023 02:46:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-2.1.x-imx 4298/15768]
- drivers/net/ethernet/freescale/fman/fman.c:2694:46: warning: variable
- 'fw_fmnode' set but not used
-Message-ID: <202310160251.3Xfr53rb-lkp@intel.com>
+To: Asahi Lina <lina@asahilina.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:bits/240-isp 20/54]
+ drivers/media/platform/apple/isp/isp-fw.c:289:46: warning: shift count >=
+ width of type
+Message-ID: <202310160254.A0NwF0Oe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,175 +52,243 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
-head:   3f41fbe42851375d3d5996e4bf9e9809e6c79517
-commit: 706c8187d42bb7c8706d1d02bf7b811f4cca0819 [4298/15768] fsl/fman: add FMan ACPI support
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231016/202310160251.3Xfr53rb-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231016/202310160251.3Xfr53rb-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/240-isp
+head:   345b0eda7c39b11429a7f06e4c83618167aa2f40
+commit: b87aed78442345ce0de4a0d39f00d92eb5d41090 [20/54] media: apple: isp: Support >32bit VAs for t602x
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20231016/202310160254.A0NwF0Oe-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231016/202310160254.A0NwF0Oe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310160251.3Xfr53rb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310160254.A0NwF0Oe-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/freescale/fman/fman.c: In function 'read_acpi_node':
->> drivers/net/ethernet/freescale/fman/fman.c:2694:46: warning: variable 'fw_fmnode' set but not used [-Wunused-but-set-variable]
-    2694 |         struct fwnode_handle *fwnode_muram, *fw_fmnode;
-         |                                              ^~~~~~~~~
-   drivers/net/ethernet/freescale/fman/fman.c: At top level:
->> drivers/net/ethernet/freescale/fman/fman.c:3066:36: warning: 'acpi_fman_match' defined but not used [-Wunused-const-variable=]
-    3066 | static const struct acpi_device_id acpi_fman_match[] = {
-         |                                    ^~~~~~~~~~~~~~~
+   In file included from drivers/media/platform/apple/isp/isp-fw.c:7:
+   In file included from drivers/media/platform/apple/isp/isp-cmd.h:7:
+   In file included from drivers/media/platform/apple/isp/isp-drv.h:13:
+   In file included from include/media/v4l2-device.h:12:
+   In file included from include/media/media-device.h:16:
+   In file included from include/linux/pci.h:38:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/media/platform/apple/isp/isp-fw.c:7:
+   In file included from drivers/media/platform/apple/isp/isp-cmd.h:7:
+   In file included from drivers/media/platform/apple/isp/isp-drv.h:13:
+   In file included from include/media/v4l2-device.h:12:
+   In file included from include/media/media-device.h:16:
+   In file included from include/linux/pci.h:38:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/media/platform/apple/isp/isp-fw.c:7:
+   In file included from drivers/media/platform/apple/isp/isp-cmd.h:7:
+   In file included from drivers/media/platform/apple/isp/isp-drv.h:13:
+   In file included from include/media/v4l2-device.h:12:
+   In file included from include/media/media-device.h:16:
+   In file included from include/linux/pci.h:38:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   drivers/media/platform/apple/isp/isp-fw.c:215:5: warning: no previous prototype for function 'apple_isp_alloc_firmware_surface' [-Wmissing-prototypes]
+     215 | int apple_isp_alloc_firmware_surface(struct apple_isp *isp)
+         |     ^
+   drivers/media/platform/apple/isp/isp-fw.c:215:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     215 | int apple_isp_alloc_firmware_surface(struct apple_isp *isp)
+         | ^
+         | static 
+   drivers/media/platform/apple/isp/isp-fw.c:234:6: warning: no previous prototype for function 'apple_isp_free_firmware_surface' [-Wmissing-prototypes]
+     234 | void apple_isp_free_firmware_surface(struct apple_isp *isp)
+         |      ^
+   drivers/media/platform/apple/isp/isp-fw.c:234:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     234 | void apple_isp_free_firmware_surface(struct apple_isp *isp)
+         | ^
+         | static 
+>> drivers/media/platform/apple/isp/isp-fw.c:289:46: warning: shift count >= width of type [-Wshift-count-overflow]
+     289 |         isp_gpio_write32(isp, ISP_GPIO_1, args_iova >> 32);
+         |                                                     ^  ~~
+   drivers/media/platform/apple/isp/isp-fw.c:383:4: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
+     383 |                 isp_dbg(isp, "chan: %s type: %d src: %d num: %d iova: 0x%llx\n",
+         |                                                                         ~~~~
+         |                                                                         %x
+     384 |                         chan->name, chan->type, chan->src, chan->num,
+     385 |                         chan->iova);
+         |                         ^~~~~~~~~~
+   drivers/media/platform/apple/isp/isp-drv.h:237:47: note: expanded from macro 'isp_dbg'
+     237 |         dev_dbg((isp)->dev, "[%s] " fmt, __func__, ##__VA_ARGS__)
+         |                                     ~~~              ^~~~~~~~~~~
+   include/linux/dev_printk.h:155:39: note: expanded from macro 'dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                      ~~~     ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:272:19: note: expanded from macro 'dynamic_dev_dbg'
+     272 |                            dev, fmt, ##__VA_ARGS__)
+         |                                 ~~~    ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:59: note: expanded from macro '_dynamic_func_call'
+     248 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:246:65: note: expanded from macro '_dynamic_func_call_cls'
+     246 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:222:15: note: expanded from macro '__dynamic_func_call_cls'
+     222 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   drivers/media/platform/apple/isp/isp-fw.c:533:4: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
+     533 |                 isp_dbg(isp, "freeing iova: 0x%llx size: 0x%llx virt: %pS\n",
+         |                                               ~~~~
+         |                                               %x
+     534 |                         surf->iova, surf->size, (void *)surf->virt);
+         |                         ^~~~~~~~~~
+   drivers/media/platform/apple/isp/isp-drv.h:237:47: note: expanded from macro 'isp_dbg'
+     237 |         dev_dbg((isp)->dev, "[%s] " fmt, __func__, ##__VA_ARGS__)
+         |                                     ~~~              ^~~~~~~~~~~
+   include/linux/dev_printk.h:155:39: note: expanded from macro 'dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                      ~~~     ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:272:19: note: expanded from macro 'dynamic_dev_dbg'
+     272 |                            dev, fmt, ##__VA_ARGS__)
+         |                                 ~~~    ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:59: note: expanded from macro '_dynamic_func_call'
+     248 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:246:65: note: expanded from macro '_dynamic_func_call_cls'
+     246 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:222:15: note: expanded from macro '__dynamic_func_call_cls'
+     222 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   drivers/media/platform/apple/isp/isp-fw.c:600:5: warning: no previous prototype for function 'apple_isp_firmware_boot' [-Wmissing-prototypes]
+     600 | int apple_isp_firmware_boot(struct apple_isp *isp)
+         |     ^
+   drivers/media/platform/apple/isp/isp-fw.c:600:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     600 | int apple_isp_firmware_boot(struct apple_isp *isp)
+         | ^
+         | static 
+   drivers/media/platform/apple/isp/isp-fw.c:621:6: warning: no previous prototype for function 'apple_isp_firmware_shutdown' [-Wmissing-prototypes]
+     621 | void apple_isp_firmware_shutdown(struct apple_isp *isp)
+         |      ^
+   drivers/media/platform/apple/isp/isp-fw.c:621:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     621 | void apple_isp_firmware_shutdown(struct apple_isp *isp)
+         | ^
+         | static 
+   13 warnings generated.
 
 
-vim +/fw_fmnode +2694 drivers/net/ethernet/freescale/fman/fman.c
+vim +289 drivers/media/platform/apple/isp/isp-fw.c
 
-  2691	
-  2692	static struct fman *read_acpi_node(struct platform_device *pdev)
-  2693	{
-> 2694		struct fwnode_handle *fwnode_muram, *fw_fmnode;
-  2695		phys_addr_t phys_base_addr;
-  2696		phys_addr_t phys_end_addr;
-  2697		resource_size_t mem_size;
-  2698		struct resource *res;
-  2699		struct fman *fman;
-  2700		u32 val, range[2];
-  2701		u32 io_size = 0;
-  2702		const char *cp;
-  2703		int err, irq;
-  2704		u32 clk_rate;
-  2705	
-  2706		fman = kzalloc(sizeof(*fman), GFP_KERNEL);
-  2707		if (!fman)
-  2708			return ERR_PTR(-ENOMEM);
-  2709	
-  2710		fw_fmnode = fwnode_handle_get(pdev->dev.fwnode);
-  2711		err = fwnode_property_read_u32(pdev->dev.fwnode,
-  2712					       "cell-index", &val);
-  2713	
-  2714		if (err) {
-  2715			dev_err(&pdev->dev, "%s: failed to read cell-index\n",
-  2716				__func__);
-  2717			goto fman_free;
-  2718		}
-  2719		fman->dts_params.id = (u8)val;
-  2720	
-  2721		/* Get the FM interrupt */
-  2722		res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
-  2723		if (!res) {
-  2724			dev_err(&pdev->dev, "%s: Can't get FMan IRQ resource\n",
-  2725				__func__);
-  2726			err = -EINVAL;
-  2727			goto fman_free;
-  2728		}
-  2729		irq = res->start;
-  2730	
-  2731		/* Get the FM error interrupt */
-  2732		res = platform_get_resource(pdev, IORESOURCE_IRQ, 1);
-  2733		if (!res) {
-  2734			dev_err(&pdev->dev, "%s: Can't get FMan Error IRQ resource\n",
-  2735				__func__);
-  2736			err = -EINVAL;
-  2737			goto fman_free;
-  2738		}
-  2739		fman->dts_params.err_irq = res->start;
-  2740	
-  2741		/* Get the FM address */
-  2742		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-  2743		if (!res) {
-  2744			dev_err(&pdev->dev, "%s: Can't get FMan memory resource\n",
-  2745				__func__);
-  2746			err = -EINVAL;
-  2747			goto fman_free;
-  2748		}
-  2749	
-  2750		phys_base_addr = res->start;
-  2751		mem_size = resource_size(res);
-  2752	
-  2753		err = fwnode_property_read_u32(pdev->dev.fwnode,
-  2754					       "clock-frequency", &clk_rate);
-  2755		if (!clk_rate) {
-  2756			dev_err(&pdev->dev, "%s: Failed to determine FM%d clock rate\n",
-  2757				__func__, fman->dts_params.id);
-  2758			goto fman_free;
-  2759		}
-  2760		/* Rounding to MHz */
-  2761		fman->dts_params.clk_freq = DIV_ROUND_UP(clk_rate, 1000000);
-  2762	
-  2763		err = fwnode_property_read_u32_array(pdev->dev.fwnode,
-  2764						     "fsl,qman-channel-range",
-  2765						     &range[0], 2);
-  2766		if (err) {
-  2767			dev_err(&pdev->dev, "%s: failed to read fsl,qman-channel-range\n",
-  2768				__func__);
-  2769			goto fman_free;
-  2770		}
-  2771		fman->dts_params.qman_channel_base = range[0];
-  2772		fman->dts_params.num_of_qman_channels = range[1];
-  2773	
-  2774		/* Get the MURAM base address and size */
-  2775		device_for_each_child_node(&pdev->dev, fwnode_muram) {
-  2776			if (!fwnode_property_read_string(fwnode_muram,
-  2777							 "compatible", &cp)) {
-  2778				if (!strcmp(cp, "fsl,fman-muram")) {
-  2779					if (fwnode_property_present(fwnode_muram, "reg")) {
-  2780						fwnode_property_read_u32_array(fwnode_muram,
-  2781									       "reg",
-  2782									       &io_size,
-  2783									       1);
-  2784					}
-  2785					break;
-  2786				}
-  2787			}
-  2788		}
-  2789		fman->dts_params.muram_res.start = phys_base_addr;
-  2790		if (!io_size)
-  2791			phys_end_addr = phys_base_addr + MRM_SIZE - 1;
-  2792		else
-  2793			phys_end_addr = phys_base_addr + io_size - 1;
-  2794		fman->dts_params.muram_res.end   = phys_end_addr;
-  2795		fman->dts_params.muram_res.flags = IORESOURCE_MEM;
-  2796	
-  2797		err = devm_request_irq(&pdev->dev, irq, fman_irq, IRQF_SHARED,
-  2798				       "fman", fman);
-  2799		if (err < 0) {
-  2800			dev_err(&pdev->dev, "%s: irq %d allocation failed (error = %d)\n",
-  2801				__func__, irq, err);
-  2802			goto fman_free;
-  2803		}
-  2804	
-  2805		if (fman->dts_params.err_irq != 0) {
-  2806			err = devm_request_irq(&pdev->dev, fman->dts_params.err_irq,
-  2807					       fman_err_irq, IRQF_SHARED,
-  2808					       "fman-err", fman);
-  2809			if (err < 0) {
-  2810				dev_err(&pdev->dev, "%s: irq %d allocation failed (error = %d)\n",
-  2811					__func__, fman->dts_params.err_irq, err);
-  2812				goto fman_free;
-  2813			}
-  2814		}
-  2815	
-  2816		fman->dts_params.res = res;
-  2817		if (!fman->dts_params.res) {
-  2818			dev_err(&pdev->dev, "%s: platform_get_resource() failed\n",
-  2819				__func__);
-  2820			err = -EINVAL;
-  2821			goto fman_free;
-  2822		}
-  2823	
-  2824		fman->dts_params.base_addr =
-  2825			devm_ioremap(&pdev->dev, phys_base_addr, mem_size);
-  2826		if (!fman->dts_params.base_addr) {
-  2827			dev_err(&pdev->dev, "%s: devm_ioremap() failed\n", __func__);
-  2828			err = -ENOMEM;
-  2829			goto fman_free;
-  2830		}
-  2831	
-  2832		fman->dev = &pdev->dev;
-  2833	
+   244	
+   245	static int isp_firmware_boot_stage2(struct apple_isp *isp)
+   246	{
+   247		struct isp_firmware_bootargs args;
+   248		dma_addr_t args_iova;
+   249		int err, retries;
+   250	
+   251		u32 num_ipc_chans = isp_gpio_read32(isp, ISP_GPIO_0);
+   252		u32 args_offset = isp_gpio_read32(isp, ISP_GPIO_1);
+   253		u32 extra_size = isp_gpio_read32(isp, ISP_GPIO_3);
+   254		isp->num_ipc_chans = num_ipc_chans;
+   255	
+   256		if (!isp->num_ipc_chans) {
+   257			dev_err(isp->dev, "No IPC channels found\n");
+   258			return -ENODEV;
+   259		}
+   260	
+   261		if (isp->num_ipc_chans != 7)
+   262			dev_warn(isp->dev, "unexpected channel count (%d)\n",
+   263				 num_ipc_chans);
+   264	
+   265		isp->extra_surf = isp_alloc_surface_vmap(isp, extra_size);
+   266		if (!isp->extra_surf) {
+   267			isp_err(isp, "failed to alloc surface for extra heap\n");
+   268			return -ENOMEM;
+   269		}
+   270	
+   271		args_iova = isp->ipc_surf->iova + args_offset + 0x40;
+   272		isp->cmd_iova = args_iova + sizeof(args) + 0x40;
+   273	
+   274		memset(&args, 0, sizeof(args));
+   275		args.ipc_iova = isp->ipc_surf->iova;
+   276		args.ipc_size = isp->ipc_surf->size;
+   277		args.shared_base = isp->fw.heap_top & 0xffffffff;
+   278		args.shared_size = 0x10000000UL - args.shared_base;
+   279		args.extra_iova = isp->extra_surf->iova;
+   280		args.extra_size = isp->extra_surf->size;
+   281		args.platform_id = isp->hw->platform_id;
+   282		args.unk5 = 0x40;
+   283		args.unk7 = 0x1;
+   284		args.unk_iova1 = args_iova + sizeof(args) - 0xc;
+   285		args.unk9 = 0x3;
+   286		isp_iowrite(isp, args_iova, &args, sizeof(args));
+   287	
+   288		isp_gpio_write32(isp, ISP_GPIO_0, args_iova);
+ > 289		isp_gpio_write32(isp, ISP_GPIO_1, args_iova >> 32);
+   290		wmb();
+   291	
+   292		/* Wait for ISP_GPIO_7 to 0xf7fbdff9 -> 0x8042006 */
+   293		isp_gpio_write32(isp, ISP_GPIO_7, 0xf7fbdff9);
+   294	
+   295		for (retries = 0; retries < ISP_FIRMWARE_MAX_TRIES; retries++) {
+   296			u32 val = isp_gpio_read32(isp, ISP_GPIO_7);
+   297			if (val == 0x8042006) {
+   298				isp_dbg(isp,
+   299					"got second magic number (0x%x) from firmware\n",
+   300					val);
+   301				break;
+   302			}
+   303			mdelay(ISP_FIRMWARE_MDELAY);
+   304		}
+   305		if (retries >= ISP_FIRMWARE_MAX_TRIES) {
+   306			isp_err(isp,
+   307				"never received second magic number from firmware\n");
+   308			err = -ENODEV;
+   309			goto free_extra;
+   310		}
+   311	
+   312		return 0;
+   313	
+   314	free_extra:
+   315		isp_free_surface(isp, isp->extra_surf);
+   316		return err;
+   317	}
+   318	
 
 -- 
 0-DAY CI Kernel Test Service
