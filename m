@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6856317E1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Oct 2023 00:01:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A62C195
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Oct 2023 00:13:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aswtSfEk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z1BRKVF8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697328071; x=1728864071;
+  t=1697328791; x=1728864791;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P7fV0MW4XCx+ubjjyCr9ARAt84bD26Qk1CbvXhhAO2M=;
-  b=aswtSfEkwEE1M6J4bMjITPwImPfjBGqO50akdcSLdeLNJlkg/H/j+KCP
-   ++raz8JU4S7jA6AxAlXYp/h4X3MYzmVGg/q6cU54N9dtI1avIulQhmPzR
-   Ud8DGwzwqD84+QIvn9RHjY7AJHJe21dnGV2BGO69uodWCetFKkFFdH/gy
-   5vuooeOonx+3RwobSe7RqU8WOL8yuHKI7m5VmJxjlgXYZzA6xLlNBT6/1
-   e0ydO22XSSjRil7asmQtuUWsqkU1DG4PHectQoMIA4MjbWHlvhfOqB2V+
-   6M68B2uIkWzj4VqA5hqF83oHXRMvQKwWyHnkvkessVdxLuO/+Ir02ZoJ0
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="3965113"
+  bh=i8SY4ri4Jx7eahpoAdjcvx2Lc4gBQt9UJe8K1GVqj5s=;
+  b=Z1BRKVF8ulqz17oJZ8wbciUz59dhUBcZalCxJCgbvEPN49wXsinUOWQU
+   rfWCuAMYOIQHN85502Ek9mSXYsSiqQLrojyx25zVqFZhloNfE9IxvnxHp
+   44M1i1cb20KpMq4RCso06NFlm/ycpYxEEJBdkN0KrXXbmOzbbC7YZrSMA
+   iHWSukH5FG4wpR9CcST65EO4a8u82c11KHEHSFbOlJ8cF++RAigKNfHjk
+   gtRWDaEG+KHcis1OzSdN+qzxiA2tJuRcdltidylAoaUzTFp7x41SWFBYv
+   jeepYBdH51XFuY6VQwAbjyVGw+Jb/jsfyWIf+/5ypZ5XFOFziGY2a65pV
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="365618192"
 X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
-   d="scan'208";a="3965113"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 17:01:10 -0700
+   d="scan'208";a="365618192"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 17:13:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="871580277"
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="731805311"
 X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
-   d="scan'208";a="871580277"
+   d="scan'208";a="731805311"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 14 Oct 2023 17:01:07 -0700
+  by orsmga006.jf.intel.com with ESMTP; 14 Oct 2023 17:13:08 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qroZ7-0006pb-1K;
-	Sun, 15 Oct 2023 00:01:05 +0000
-Date: Sun, 15 Oct 2023 08:00:29 +0800
+	id 1qrokk-0006qf-16;
+	Sun, 15 Oct 2023 00:13:06 +0000
+Date: Sun, 15 Oct 2023 08:12:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 1148/25021]
- drivers/gpu/imx/dpu/dpu-prv.h:334:38: warning: 'dpu_pixel_format_matrix'
- defined but not used
-Message-ID: <202310150720.tzYlSBDN-lkp@intel.com>
+Subject: [freescale-fslc:pr/639 6206/24603]
+ drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1547:18: warning: variable
+ 'len' set but not used
+Message-ID: <202310150840.gK1YB7TK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,432 +51,173 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   3a95b5654979d1c2d61616bf60249ed3a98dcfbc
-commit: 78c9899a969db88efaa1e866c9430c6ad8a5c76e [1148/25021] gpu: imx: Add dpu common driver support
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20231015/202310150720.tzYlSBDN-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231015/202310150720.tzYlSBDN-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc pr/639
+head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
+commit: 6e93c0ab4bc6ae1ea6ea17c5a358da115ed5a441 [6206/24603] staging: media: imx8-mipi: remove obsolete modversions.h includes
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231015/202310150840.gK1YB7TK-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231015/202310150840.gK1YB7TK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310150720.tzYlSBDN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310150840.gK1YB7TK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/imx/dpu/dpu-common.c:29:
->> drivers/gpu/imx/dpu/dpu-prv.h:334:38: warning: 'dpu_pixel_format_matrix' defined but not used [-Wunused-const-variable=]
-     334 | static const struct dpu_pixel_format dpu_pixel_format_matrix[] = {
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from drivers/gpu/imx/dpu/dpu-constframe.c:22:
->> drivers/gpu/imx/dpu/dpu-prv.h:334:38: warning: 'dpu_pixel_format_matrix' defined but not used [-Wunused-const-variable=]
-     334 | static const struct dpu_pixel_format dpu_pixel_format_matrix[] = {
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:326:27: warning: 'vs_ids' defined but not used [-Wunused-const-variable=]
-     326 | static const unsigned int vs_ids[] = {4, 5, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:325:27: warning: 'tcon_ids' defined but not used [-Wunused-const-variable=]
-     325 | static const unsigned int tcon_ids[] = {0, 1};
-         |                           ^~~~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:324:27: warning: 'lb_ids' defined but not used [-Wunused-const-variable=]
-     324 | static const unsigned int lb_ids[] = {0, 1, 2, 3};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:323:27: warning: 'hs_ids' defined but not used [-Wunused-const-variable=]
-     323 | static const unsigned int hs_ids[] = {4, 5, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:322:27: warning: 'fw_ids' defined but not used [-Wunused-const-variable=]
-     322 | static const unsigned int fw_ids[] = {2};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:321:27: warning: 'fl_ids' defined but not used [-Wunused-const-variable=]
-     321 | static const unsigned int fl_ids[] = {0};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:320:27: warning: 'fg_ids' defined but not used [-Wunused-const-variable=]
-     320 | static const unsigned int fg_ids[] = {0, 1};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:319:27: warning: 'fe_ids' defined but not used [-Wunused-const-variable=]
-     319 | static const unsigned int fe_ids[] = {0, 1, 2, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:318:27: warning: 'fd_ids' defined but not used [-Wunused-const-variable=]
-     318 | static const unsigned int fd_ids[] = {0, 1};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:317:27: warning: 'ed_ids' defined but not used [-Wunused-const-variable=]
-     317 | static const unsigned int ed_ids[] = {0, 1, 4, 5};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:316:27: warning: 'dec_ids' defined but not used [-Wunused-const-variable=]
-     316 | static const unsigned int dec_ids[] = {0, 1};
-         |                           ^~~~~~~
---
-   In file included from drivers/gpu/imx/dpu/dpu-disengcfg.c:21:
->> drivers/gpu/imx/dpu/dpu-prv.h:334:38: warning: 'dpu_pixel_format_matrix' defined but not used [-Wunused-const-variable=]
-     334 | static const struct dpu_pixel_format dpu_pixel_format_matrix[] = {
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:326:27: warning: 'vs_ids' defined but not used [-Wunused-const-variable=]
-     326 | static const unsigned int vs_ids[] = {4, 5, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:325:27: warning: 'tcon_ids' defined but not used [-Wunused-const-variable=]
-     325 | static const unsigned int tcon_ids[] = {0, 1};
-         |                           ^~~~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:324:27: warning: 'lb_ids' defined but not used [-Wunused-const-variable=]
-     324 | static const unsigned int lb_ids[] = {0, 1, 2, 3};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:323:27: warning: 'hs_ids' defined but not used [-Wunused-const-variable=]
-     323 | static const unsigned int hs_ids[] = {4, 5, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:322:27: warning: 'fw_ids' defined but not used [-Wunused-const-variable=]
-     322 | static const unsigned int fw_ids[] = {2};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:321:27: warning: 'fl_ids' defined but not used [-Wunused-const-variable=]
-     321 | static const unsigned int fl_ids[] = {0};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:320:27: warning: 'fg_ids' defined but not used [-Wunused-const-variable=]
-     320 | static const unsigned int fg_ids[] = {0, 1};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:319:27: warning: 'fe_ids' defined but not used [-Wunused-const-variable=]
-     319 | static const unsigned int fe_ids[] = {0, 1, 2, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:318:27: warning: 'fd_ids' defined but not used [-Wunused-const-variable=]
-     318 | static const unsigned int fd_ids[] = {0, 1};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:315:27: warning: 'cf_ids' defined but not used [-Wunused-const-variable=]
-     315 | static const unsigned int cf_ids[] = {0, 1, 4, 5};
-         |                           ^~~~~~
---
-   drivers/gpu/imx/dpu/dpu-extdst.c:422:20: warning: no previous prototype for 'dpu_aux_ed_peek' [-Wmissing-prototypes]
-     422 | struct dpu_extdst *dpu_aux_ed_peek(struct dpu_extdst *ed)
-         |                    ^~~~~~~~~~~~~~~
-   In file included from drivers/gpu/imx/dpu/dpu-extdst.c:22:
->> drivers/gpu/imx/dpu/dpu-prv.h:334:38: warning: 'dpu_pixel_format_matrix' defined but not used [-Wunused-const-variable=]
-     334 | static const struct dpu_pixel_format dpu_pixel_format_matrix[] = {
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:326:27: warning: 'vs_ids' defined but not used [-Wunused-const-variable=]
-     326 | static const unsigned int vs_ids[] = {4, 5, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:325:27: warning: 'tcon_ids' defined but not used [-Wunused-const-variable=]
-     325 | static const unsigned int tcon_ids[] = {0, 1};
-         |                           ^~~~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:324:27: warning: 'lb_ids' defined but not used [-Wunused-const-variable=]
-     324 | static const unsigned int lb_ids[] = {0, 1, 2, 3};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:323:27: warning: 'hs_ids' defined but not used [-Wunused-const-variable=]
-     323 | static const unsigned int hs_ids[] = {4, 5, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:322:27: warning: 'fw_ids' defined but not used [-Wunused-const-variable=]
-     322 | static const unsigned int fw_ids[] = {2};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:321:27: warning: 'fl_ids' defined but not used [-Wunused-const-variable=]
-     321 | static const unsigned int fl_ids[] = {0};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:320:27: warning: 'fg_ids' defined but not used [-Wunused-const-variable=]
-     320 | static const unsigned int fg_ids[] = {0, 1};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:319:27: warning: 'fe_ids' defined but not used [-Wunused-const-variable=]
-     319 | static const unsigned int fe_ids[] = {0, 1, 2, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:318:27: warning: 'fd_ids' defined but not used [-Wunused-const-variable=]
-     318 | static const unsigned int fd_ids[] = {0, 1};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:316:27: warning: 'dec_ids' defined but not used [-Wunused-const-variable=]
-     316 | static const unsigned int dec_ids[] = {0, 1};
-         |                           ^~~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:315:27: warning: 'cf_ids' defined but not used [-Wunused-const-variable=]
-     315 | static const unsigned int cf_ids[] = {0, 1, 4, 5};
-         |                           ^~~~~~
---
-   drivers/gpu/imx/dpu/dpu-fetchdecode.c: In function 'fetchdecode_set_fmt':
-   drivers/gpu/imx/dpu/dpu-fetchdecode.c:164:53: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     164 |                 is_yuv422upsamplingmode_interpolate = true;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-   drivers/gpu/imx/dpu/dpu-fetchdecode.c:166:9: note: here
-     166 |         case DRM_FORMAT_NV12:
-         |         ^~~~
-   In file included from drivers/gpu/imx/dpu/dpu-fetchdecode.c:22:
-   drivers/gpu/imx/dpu/dpu-prv.h: At top level:
->> drivers/gpu/imx/dpu/dpu-prv.h:326:27: warning: 'vs_ids' defined but not used [-Wunused-const-variable=]
-     326 | static const unsigned int vs_ids[] = {4, 5, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:325:27: warning: 'tcon_ids' defined but not used [-Wunused-const-variable=]
-     325 | static const unsigned int tcon_ids[] = {0, 1};
-         |                           ^~~~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:324:27: warning: 'lb_ids' defined but not used [-Wunused-const-variable=]
-     324 | static const unsigned int lb_ids[] = {0, 1, 2, 3};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:323:27: warning: 'hs_ids' defined but not used [-Wunused-const-variable=]
-     323 | static const unsigned int hs_ids[] = {4, 5, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:322:27: warning: 'fw_ids' defined but not used [-Wunused-const-variable=]
-     322 | static const unsigned int fw_ids[] = {2};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:321:27: warning: 'fl_ids' defined but not used [-Wunused-const-variable=]
-     321 | static const unsigned int fl_ids[] = {0};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:320:27: warning: 'fg_ids' defined but not used [-Wunused-const-variable=]
-     320 | static const unsigned int fg_ids[] = {0, 1};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:319:27: warning: 'fe_ids' defined but not used [-Wunused-const-variable=]
-     319 | static const unsigned int fe_ids[] = {0, 1, 2, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:317:27: warning: 'ed_ids' defined but not used [-Wunused-const-variable=]
-     317 | static const unsigned int ed_ids[] = {0, 1, 4, 5};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:316:27: warning: 'dec_ids' defined but not used [-Wunused-const-variable=]
-     316 | static const unsigned int dec_ids[] = {0, 1};
-         |                           ^~~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:315:27: warning: 'cf_ids' defined but not used [-Wunused-const-variable=]
-     315 | static const unsigned int cf_ids[] = {0, 1, 4, 5};
-         |                           ^~~~~~
---
-   In file included from drivers/gpu/imx/dpu/dpu-fetcheco.c:21:
->> drivers/gpu/imx/dpu/dpu-prv.h:326:27: warning: 'vs_ids' defined but not used [-Wunused-const-variable=]
-     326 | static const unsigned int vs_ids[] = {4, 5, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:325:27: warning: 'tcon_ids' defined but not used [-Wunused-const-variable=]
-     325 | static const unsigned int tcon_ids[] = {0, 1};
-         |                           ^~~~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:324:27: warning: 'lb_ids' defined but not used [-Wunused-const-variable=]
-     324 | static const unsigned int lb_ids[] = {0, 1, 2, 3};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:323:27: warning: 'hs_ids' defined but not used [-Wunused-const-variable=]
-     323 | static const unsigned int hs_ids[] = {4, 5, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:322:27: warning: 'fw_ids' defined but not used [-Wunused-const-variable=]
-     322 | static const unsigned int fw_ids[] = {2};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:321:27: warning: 'fl_ids' defined but not used [-Wunused-const-variable=]
-     321 | static const unsigned int fl_ids[] = {0};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:320:27: warning: 'fg_ids' defined but not used [-Wunused-const-variable=]
-     320 | static const unsigned int fg_ids[] = {0, 1};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:318:27: warning: 'fd_ids' defined but not used [-Wunused-const-variable=]
-     318 | static const unsigned int fd_ids[] = {0, 1};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:317:27: warning: 'ed_ids' defined but not used [-Wunused-const-variable=]
-     317 | static const unsigned int ed_ids[] = {0, 1, 4, 5};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:316:27: warning: 'dec_ids' defined but not used [-Wunused-const-variable=]
-     316 | static const unsigned int dec_ids[] = {0, 1};
-         |                           ^~~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:315:27: warning: 'cf_ids' defined but not used [-Wunused-const-variable=]
-     315 | static const unsigned int cf_ids[] = {0, 1, 4, 5};
-         |                           ^~~~~~
---
-   In file included from drivers/gpu/imx/dpu/dpu-fetchlayer.c:22:
->> drivers/gpu/imx/dpu/dpu-prv.h:326:27: warning: 'vs_ids' defined but not used [-Wunused-const-variable=]
-     326 | static const unsigned int vs_ids[] = {4, 5, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:325:27: warning: 'tcon_ids' defined but not used [-Wunused-const-variable=]
-     325 | static const unsigned int tcon_ids[] = {0, 1};
-         |                           ^~~~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:324:27: warning: 'lb_ids' defined but not used [-Wunused-const-variable=]
-     324 | static const unsigned int lb_ids[] = {0, 1, 2, 3};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:323:27: warning: 'hs_ids' defined but not used [-Wunused-const-variable=]
-     323 | static const unsigned int hs_ids[] = {4, 5, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:322:27: warning: 'fw_ids' defined but not used [-Wunused-const-variable=]
-     322 | static const unsigned int fw_ids[] = {2};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:320:27: warning: 'fg_ids' defined but not used [-Wunused-const-variable=]
-     320 | static const unsigned int fg_ids[] = {0, 1};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:319:27: warning: 'fe_ids' defined but not used [-Wunused-const-variable=]
-     319 | static const unsigned int fe_ids[] = {0, 1, 2, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:318:27: warning: 'fd_ids' defined but not used [-Wunused-const-variable=]
-     318 | static const unsigned int fd_ids[] = {0, 1};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:317:27: warning: 'ed_ids' defined but not used [-Wunused-const-variable=]
-     317 | static const unsigned int ed_ids[] = {0, 1, 4, 5};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:316:27: warning: 'dec_ids' defined but not used [-Wunused-const-variable=]
-     316 | static const unsigned int dec_ids[] = {0, 1};
-         |                           ^~~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:315:27: warning: 'cf_ids' defined but not used [-Wunused-const-variable=]
-     315 | static const unsigned int cf_ids[] = {0, 1, 4, 5};
-         |                           ^~~~~~
---
-   In file included from drivers/gpu/imx/dpu/dpu-fetchwarp.c:21:
->> drivers/gpu/imx/dpu/dpu-prv.h:326:27: warning: 'vs_ids' defined but not used [-Wunused-const-variable=]
-     326 | static const unsigned int vs_ids[] = {4, 5, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:325:27: warning: 'tcon_ids' defined but not used [-Wunused-const-variable=]
-     325 | static const unsigned int tcon_ids[] = {0, 1};
-         |                           ^~~~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:324:27: warning: 'lb_ids' defined but not used [-Wunused-const-variable=]
-     324 | static const unsigned int lb_ids[] = {0, 1, 2, 3};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:323:27: warning: 'hs_ids' defined but not used [-Wunused-const-variable=]
-     323 | static const unsigned int hs_ids[] = {4, 5, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:321:27: warning: 'fl_ids' defined but not used [-Wunused-const-variable=]
-     321 | static const unsigned int fl_ids[] = {0};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:320:27: warning: 'fg_ids' defined but not used [-Wunused-const-variable=]
-     320 | static const unsigned int fg_ids[] = {0, 1};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:319:27: warning: 'fe_ids' defined but not used [-Wunused-const-variable=]
-     319 | static const unsigned int fe_ids[] = {0, 1, 2, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:318:27: warning: 'fd_ids' defined but not used [-Wunused-const-variable=]
-     318 | static const unsigned int fd_ids[] = {0, 1};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:317:27: warning: 'ed_ids' defined but not used [-Wunused-const-variable=]
-     317 | static const unsigned int ed_ids[] = {0, 1, 4, 5};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:316:27: warning: 'dec_ids' defined but not used [-Wunused-const-variable=]
-     316 | static const unsigned int dec_ids[] = {0, 1};
-         |                           ^~~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:315:27: warning: 'cf_ids' defined but not used [-Wunused-const-variable=]
-     315 | static const unsigned int cf_ids[] = {0, 1, 4, 5};
-         |                           ^~~~~~
---
-   In file included from drivers/gpu/imx/dpu/dpu-fetchunit.c:16:
->> drivers/gpu/imx/dpu/dpu-prv.h:334:38: warning: 'dpu_pixel_format_matrix' defined but not used [-Wunused-const-variable=]
-     334 | static const struct dpu_pixel_format dpu_pixel_format_matrix[] = {
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:326:27: warning: 'vs_ids' defined but not used [-Wunused-const-variable=]
-     326 | static const unsigned int vs_ids[] = {4, 5, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:325:27: warning: 'tcon_ids' defined but not used [-Wunused-const-variable=]
-     325 | static const unsigned int tcon_ids[] = {0, 1};
-         |                           ^~~~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:324:27: warning: 'lb_ids' defined but not used [-Wunused-const-variable=]
-     324 | static const unsigned int lb_ids[] = {0, 1, 2, 3};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:323:27: warning: 'hs_ids' defined but not used [-Wunused-const-variable=]
-     323 | static const unsigned int hs_ids[] = {4, 5, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:322:27: warning: 'fw_ids' defined but not used [-Wunused-const-variable=]
-     322 | static const unsigned int fw_ids[] = {2};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:321:27: warning: 'fl_ids' defined but not used [-Wunused-const-variable=]
-     321 | static const unsigned int fl_ids[] = {0};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:320:27: warning: 'fg_ids' defined but not used [-Wunused-const-variable=]
-     320 | static const unsigned int fg_ids[] = {0, 1};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:319:27: warning: 'fe_ids' defined but not used [-Wunused-const-variable=]
-     319 | static const unsigned int fe_ids[] = {0, 1, 2, 9};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:318:27: warning: 'fd_ids' defined but not used [-Wunused-const-variable=]
-     318 | static const unsigned int fd_ids[] = {0, 1};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:317:27: warning: 'ed_ids' defined but not used [-Wunused-const-variable=]
-     317 | static const unsigned int ed_ids[] = {0, 1, 4, 5};
-         |                           ^~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:316:27: warning: 'dec_ids' defined but not used [-Wunused-const-variable=]
-     316 | static const unsigned int dec_ids[] = {0, 1};
-         |                           ^~~~~~~
->> drivers/gpu/imx/dpu/dpu-prv.h:315:27: warning: 'cf_ids' defined but not used [-Wunused-const-variable=]
-     315 | static const unsigned int cf_ids[] = {0, 1, 4, 5};
-         |                           ^~~~~~
-..
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c: In function 'mipi_csis_imx8mn_parse_resets':
+>> drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1547:18: warning: variable 'len' set but not used [-Wunused-but-set-variable]
+    1547 |         uint32_t len, rstc_num = 0;
+         |                  ^~~
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c: In function 'mipi_csis_probe':
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1815:29: warning: variable 'mipi_sd' set but not used [-Wunused-but-set-variable]
+    1815 |         struct v4l2_subdev *mipi_sd;
+         |                             ^~~~~~~
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c: In function 'csis_priv_ioctl':
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1349:17: warning: ignoring return value of 'copy_from_user' declared with attribute 'warn_unused_result' [-Wunused-result]
+    1349 |                 copy_from_user(arg, arg_user, sizeof(TYPE));\
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1384:17: note: in expansion of macro 'USER_TO_KERNEL'
+    1384 |                 USER_TO_KERNEL(struct csi_sam_format);
+         |                 ^~~~~~~~~~~~~~
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1349:17: warning: ignoring return value of 'copy_from_user' declared with attribute 'warn_unused_result' [-Wunused-result]
+    1349 |                 copy_from_user(arg, arg_user, sizeof(TYPE));\
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1389:17: note: in expansion of macro 'USER_TO_KERNEL'
+    1389 |                 USER_TO_KERNEL(bool);
+         |                 ^~~~~~~~~~~~~~
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c: At top level:
+>> drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1974:12: warning: 'mipi_csis_runtime_resume' defined but not used [-Wunused-function]
+    1974 | static int mipi_csis_runtime_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1960:12: warning: 'mipi_csis_runtime_suspend' defined but not used [-Wunused-function]
+    1960 | static int mipi_csis_runtime_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1947:12: warning: 'mipi_csis_system_resume' defined but not used [-Wunused-function]
+    1947 | static int mipi_csis_system_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1942:12: warning: 'mipi_csis_system_suspend' defined but not used [-Wunused-function]
+    1942 | static int mipi_csis_system_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c: In function 'csis_priv_ioctl':
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1390:23: warning: using dangling pointer 'arg' to 'tmp' [-Wdangling-pointer=]
+    1390 |                 ret = csis_s_hdr(sd, *(bool *) arg);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1347:22: note: 'tmp' declared here
+    1347 |                 TYPE tmp; \
+         |                      ^~~
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1389:17: note: in expansion of macro 'USER_TO_KERNEL'
+    1389 |                 USER_TO_KERNEL(bool);
+         |                 ^~~~~~~~~~~~~~
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1385:23: warning: using dangling pointer 'arg' to 'tmp' [-Wdangling-pointer=]
+    1385 |                 ret = csis_s_fmt(sd, (struct csi_sam_format *)arg);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1347:22: note: 'tmp' declared here
+    1347 |                 TYPE tmp; \
+         |                      ^~~
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1384:17: note: in expansion of macro 'USER_TO_KERNEL'
+    1384 |                 USER_TO_KERNEL(struct csi_sam_format);
+         |                 ^~~~~~~~~~~~~~
+   In function 'csis_s_fmt',
+       inlined from 'csis_priv_ioctl' at drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1385:9:
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1286:20: warning: using a dangling pointer to 'tmp' [-Wdangling-pointer=]
+    1286 |         switch (fmt->format) {
+         |                 ~~~^~~~~~~~
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c: In function 'csis_priv_ioctl':
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1347:22: note: 'tmp' declared here
+    1347 |                 TYPE tmp; \
+         |                      ^~~
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1384:17: note: in expansion of macro 'USER_TO_KERNEL'
+    1384 |                 USER_TO_KERNEL(struct csi_sam_format);
+         |                 ^~~~~~~~~~~~~~
+   In function 'csis_s_fmt',
+       inlined from 'csis_priv_ioctl' at drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1385:9:
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1319:34: warning: dangling pointer to 'tmp' may be used [-Wdangling-pointer=]
+    1319 |         state->format.width = fmt->width;
+         |                               ~~~^~~~~~~
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c: In function 'csis_priv_ioctl':
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1347:22: note: 'tmp' declared here
+    1347 |                 TYPE tmp; \
+         |                      ^~~
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1384:17: note: in expansion of macro 'USER_TO_KERNEL'
+    1384 |                 USER_TO_KERNEL(struct csi_sam_format);
+         |                 ^~~~~~~~~~~~~~
+   In function 'csis_s_fmt',
+       inlined from 'csis_priv_ioctl' at drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1385:9:
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1320:35: warning: dangling pointer to 'tmp' may be used [-Wdangling-pointer=]
+    1320 |         state->format.height = fmt->height;
+         |                                ~~~^~~~~~~~
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c: In function 'csis_priv_ioctl':
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1347:22: note: 'tmp' declared here
+    1347 |                 TYPE tmp; \
+         |                      ^~~
+   drivers/staging/media/imx/imx8-mipi-csi2-sam.c:1384:17: note: in expansion of macro 'USER_TO_KERNEL'
+    1384 |                 USER_TO_KERNEL(struct csi_sam_format);
+         |                 ^~~~~~~~~~~~~~
 
 
-vim +/dpu_pixel_format_matrix +334 drivers/gpu/imx/dpu/dpu-prv.h
+vim +/len +1547 drivers/staging/media/imx/imx8-mipi-csi2-sam.c
 
-   314	
- > 315	static const unsigned int cf_ids[] = {0, 1, 4, 5};
- > 316	static const unsigned int dec_ids[] = {0, 1};
- > 317	static const unsigned int ed_ids[] = {0, 1, 4, 5};
- > 318	static const unsigned int fd_ids[] = {0, 1};
- > 319	static const unsigned int fe_ids[] = {0, 1, 2, 9};
- > 320	static const unsigned int fg_ids[] = {0, 1};
- > 321	static const unsigned int fl_ids[] = {0};
- > 322	static const unsigned int fw_ids[] = {2};
- > 323	static const unsigned int hs_ids[] = {4, 5, 9};
- > 324	static const unsigned int lb_ids[] = {0, 1, 2, 3};
- > 325	static const unsigned int tcon_ids[] = {0, 1};
- > 326	static const unsigned int vs_ids[] = {4, 5, 9};
-   327	
-   328	struct dpu_pixel_format {
-   329		u32 pixel_format;
-   330		u32 bits;
-   331		u32 shift;
-   332	};
-   333	
- > 334	static const struct dpu_pixel_format dpu_pixel_format_matrix[] = {
-   335		{
-   336			DRM_FORMAT_ARGB8888,
-   337			R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(8),
-   338			R_SHIFT(16) | G_SHIFT(8)  | B_SHIFT(0)  | A_SHIFT(24),
-   339		}, {
-   340			DRM_FORMAT_XRGB8888,
-   341			R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
-   342			R_SHIFT(16) | G_SHIFT(8)  | B_SHIFT(0)  | A_SHIFT(0),
-   343		}, {
-   344			DRM_FORMAT_ABGR8888,
-   345			R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(8),
-   346			R_SHIFT(0)  | G_SHIFT(8)  | B_SHIFT(16) | A_SHIFT(24),
-   347		}, {
-   348			DRM_FORMAT_XBGR8888,
-   349			R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
-   350			R_SHIFT(0)  | G_SHIFT(8)  | B_SHIFT(16) | A_SHIFT(0),
-   351		}, {
-   352			DRM_FORMAT_RGBA8888,
-   353			R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(8),
-   354			R_SHIFT(24) | G_SHIFT(16) | B_SHIFT(8)  | A_SHIFT(0),
-   355		}, {
-   356			DRM_FORMAT_RGBX8888,
-   357			R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
-   358			R_SHIFT(24) | G_SHIFT(16) | B_SHIFT(8)  | A_SHIFT(0),
-   359		}, {
-   360			DRM_FORMAT_BGRA8888,
-   361			R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(8),
-   362			R_SHIFT(8)  | G_SHIFT(16) | B_SHIFT(24) | A_SHIFT(0),
-   363		}, {
-   364			DRM_FORMAT_BGRX8888,
-   365			R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
-   366			R_SHIFT(8)  | G_SHIFT(16) | B_SHIFT(24) | A_SHIFT(0),
-   367		}, {
-   368			DRM_FORMAT_RGB888,
-   369			R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
-   370			R_SHIFT(16) | G_SHIFT(8)  | B_SHIFT(0)  | A_SHIFT(0),
-   371		}, {
-   372			DRM_FORMAT_BGR888,
-   373			R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
-   374			R_SHIFT(0)  | G_SHIFT(8)  | B_SHIFT(16) | A_SHIFT(0),
-   375		}, {
-   376			DRM_FORMAT_RGB565,
-   377			R_BITS(5)   | G_BITS(6)   | B_BITS(5)   | A_BITS(0),
-   378			R_SHIFT(11) | G_SHIFT(5)  | B_SHIFT(0)  | A_SHIFT(0),
-   379		}, {
-   380			DRM_FORMAT_YUYV,
-   381			Y_BITS(8)   | U_BITS(8)   | V_BITS(8)   | A_BITS(0),
-   382			Y_SHIFT(0)  | U_SHIFT(8)  | V_SHIFT(8)  | A_SHIFT(0),
-   383		}, {
-   384			DRM_FORMAT_UYVY,
-   385			Y_BITS(8)   | U_BITS(8)   | V_BITS(8)   | A_BITS(0),
-   386			Y_SHIFT(8)  | U_SHIFT(0)  | V_SHIFT(0)  | A_SHIFT(0),
-   387		}, {
-   388			DRM_FORMAT_NV12,
-   389			Y_BITS(8)   | U_BITS(8)   | V_BITS(8)   | A_BITS(0),
-   390			Y_SHIFT(0)  | U_SHIFT(0)  | V_SHIFT(8)  | A_SHIFT(0),
-   391		}, {
-   392			DRM_FORMAT_NV21,
-   393			Y_BITS(8)   | U_BITS(8)   | V_BITS(8)   | A_BITS(0),
-   394			Y_SHIFT(0)  | U_SHIFT(8)  | V_SHIFT(0)  | A_SHIFT(0),
-   395		}, {
-   396			DRM_FORMAT_NV16,
-   397			Y_BITS(8)   | U_BITS(8)   | V_BITS(8)   | A_BITS(0),
-   398			Y_SHIFT(0)  | U_SHIFT(0)  | V_SHIFT(8)  | A_SHIFT(0),
-   399		}, {
-   400			DRM_FORMAT_NV61,
-   401			Y_BITS(8)   | U_BITS(8)   | V_BITS(8)   | A_BITS(0),
-   402			Y_SHIFT(0)  | U_SHIFT(8)  | V_SHIFT(0)  | A_SHIFT(0),
-   403		}, {
-   404			DRM_FORMAT_NV24,
-   405			Y_BITS(8)   | U_BITS(8)   | V_BITS(8)   | A_BITS(0),
-   406			Y_SHIFT(0)  | U_SHIFT(0)  | V_SHIFT(8)  | A_SHIFT(0),
-   407		}, {
-   408			DRM_FORMAT_NV42,
-   409			Y_BITS(8)   | U_BITS(8)   | V_BITS(8)   | A_BITS(0),
-   410			Y_SHIFT(0)  | U_SHIFT(8)  | V_SHIFT(0)  | A_SHIFT(0),
-   411		},
-   412	};
-   413	
+346ee386e32f16 Guoniu.zhou 2019-10-25  1534  
+06b8d851396b68 Guoniu.zhou 2020-08-21  1535  /*
+06b8d851396b68 Guoniu.zhou 2020-08-21  1536   * IMX8MN platform data
+06b8d851396b68 Guoniu.zhou 2020-08-21  1537   */
+06b8d851396b68 Guoniu.zhou 2020-08-21  1538  static int mipi_csis_imx8mn_parse_resets(struct csi_state *state)
+346ee386e32f16 Guoniu.zhou 2019-10-25  1539  {
+346ee386e32f16 Guoniu.zhou 2019-10-25  1540  	int ret;
+346ee386e32f16 Guoniu.zhou 2019-10-25  1541  	struct device *dev = state->dev;
+346ee386e32f16 Guoniu.zhou 2019-10-25  1542  	struct device_node *np = dev->of_node;
+346ee386e32f16 Guoniu.zhou 2019-10-25  1543  	struct device_node *parent, *child;
+346ee386e32f16 Guoniu.zhou 2019-10-25  1544  	struct of_phandle_args args;
+346ee386e32f16 Guoniu.zhou 2019-10-25  1545  	struct reset_control *rstc;
+346ee386e32f16 Guoniu.zhou 2019-10-25  1546  	const char *compat;
+346ee386e32f16 Guoniu.zhou 2019-10-25 @1547  	uint32_t len, rstc_num = 0;
+346ee386e32f16 Guoniu.zhou 2019-10-25  1548  
+346ee386e32f16 Guoniu.zhou 2019-10-25  1549  	ret = of_parse_phandle_with_args(np, "resets", "#reset-cells",
+346ee386e32f16 Guoniu.zhou 2019-10-25  1550  					 0, &args);
+346ee386e32f16 Guoniu.zhou 2019-10-25  1551  	if (ret)
+346ee386e32f16 Guoniu.zhou 2019-10-25  1552  		return ret;
+346ee386e32f16 Guoniu.zhou 2019-10-25  1553  
+346ee386e32f16 Guoniu.zhou 2019-10-25  1554  	parent = args.np;
+346ee386e32f16 Guoniu.zhou 2019-10-25  1555  	for_each_child_of_node(parent, child) {
+346ee386e32f16 Guoniu.zhou 2019-10-25  1556  		compat = of_get_property(child, "compatible", NULL);
+346ee386e32f16 Guoniu.zhou 2019-10-25  1557  		if (!compat)
+346ee386e32f16 Guoniu.zhou 2019-10-25  1558  			continue;
+346ee386e32f16 Guoniu.zhou 2019-10-25  1559  
+346ee386e32f16 Guoniu.zhou 2019-10-25  1560  		rstc = of_reset_control_array_get(child, false, false, true);
+346ee386e32f16 Guoniu.zhou 2019-10-25  1561  		if (IS_ERR(rstc))
+346ee386e32f16 Guoniu.zhou 2019-10-25  1562  			continue;
+346ee386e32f16 Guoniu.zhou 2019-10-25  1563  
+346ee386e32f16 Guoniu.zhou 2019-10-25  1564  		len = strlen(compat);
+346ee386e32f16 Guoniu.zhou 2019-10-25  1565  		if (!of_compat_cmp("csi,soft-resetn", compat, len)) {
+346ee386e32f16 Guoniu.zhou 2019-10-25  1566  			state->soft_resetn = rstc;
+346ee386e32f16 Guoniu.zhou 2019-10-25  1567  			rstc_num++;
+346ee386e32f16 Guoniu.zhou 2019-10-25  1568  		} else if (!of_compat_cmp("csi,clk-enable", compat, len)) {
+346ee386e32f16 Guoniu.zhou 2019-10-25  1569  			state->clk_enable = rstc;
+346ee386e32f16 Guoniu.zhou 2019-10-25  1570  			rstc_num++;
+346ee386e32f16 Guoniu.zhou 2019-10-25  1571  		} else if (!of_compat_cmp("csi,mipi-reset", compat, len)) {
+346ee386e32f16 Guoniu.zhou 2019-10-25  1572  			state->mipi_reset = rstc;
+346ee386e32f16 Guoniu.zhou 2019-10-25  1573  			rstc_num++;
+346ee386e32f16 Guoniu.zhou 2019-10-25  1574  		} else {
+346ee386e32f16 Guoniu.zhou 2019-10-25  1575  			dev_warn(dev, "invalid csis reset node: %s\n", compat);
+346ee386e32f16 Guoniu.zhou 2019-10-25  1576  		}
+346ee386e32f16 Guoniu.zhou 2019-10-25  1577  	}
+346ee386e32f16 Guoniu.zhou 2019-10-25  1578  
+346ee386e32f16 Guoniu.zhou 2019-10-25  1579  	if (!rstc_num) {
+346ee386e32f16 Guoniu.zhou 2019-10-25  1580  		dev_err(dev, "no invalid reset control exists\n");
+346ee386e32f16 Guoniu.zhou 2019-10-25  1581  		return -EINVAL;
+346ee386e32f16 Guoniu.zhou 2019-10-25  1582  	}
+346ee386e32f16 Guoniu.zhou 2019-10-25  1583  	of_node_put(parent);
+346ee386e32f16 Guoniu.zhou 2019-10-25  1584  
+346ee386e32f16 Guoniu.zhou 2019-10-25  1585  	return 0;
+346ee386e32f16 Guoniu.zhou 2019-10-25  1586  }
+346ee386e32f16 Guoniu.zhou 2019-10-25  1587  
+
+:::::: The code at line 1547 was first introduced by commit
+:::::: 346ee386e32f16b271d03d6e8337c2246b4739e3 staging: media: imx: add V4L2 subdev driver for MIPI CSI2 of Samsung
+
+:::::: TO: Guoniu.zhou <guoniu.zhou@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
