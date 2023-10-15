@@ -1,46 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9BD2900
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Oct 2023 11:57:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF9F63AE
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Oct 2023 11:57:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bQp+f6rB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hJbH1ypE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697371062; x=1728907062;
+  t=1697371064; x=1728907064;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=x9MxdwtIRWZoQP3uuH/5apZvdHnT0MwfsVHhD4FZTI0=;
-  b=bQp+f6rBneuxli+mPs6iaWieg/zUXHb67DLE2bsAxmdH/NZSKuedHJYG
-   f5R4pfAnBAsSZH/7GBr01Kel1kGhzNbMJEE4PpKOKJll6a0BvBf1ha2Ik
-   MQvn26VSb/y7hK3EDXxiRCle6MsYEN/NscDUn+OjUKxwTJUpIzzhR1kXU
-   bTGvz3GVBNWH8wJxZspjb3Ye6MxcaNi80sqNoTlcjj7wpxkwe9khQ20pu
-   slmC6IY46LT23tl9YViMmUqyYxJciWyP1GKewA0xqpp9gfz0TInonCEUx
-   dl2IGP+Qd2lL8lRxKau3KZm7MSN27U4vHRx0fxYuUcAMTCt1+5swTkUaF
+  bh=ld1vCGZjpBmAn1+V/UBgR37oCrn6v5Wtdre2MEYGxQE=;
+  b=hJbH1ypExYVLScrYG4g0SNIG2dh8tvUOee/RIhUKFrQpF5G7Nt4M+SMG
+   B7ofmpxi1CedEMgA/wNcJOuw0pbH1q3HxI0LNGfnFhnAik/QLWRBNAxek
+   OYPUsDByyQq0AbFQVw1XPL9uXHn2bz45GkD5ZjotuEpcQBCtKEAyBdPb/
+   1/Il01JDxugL7LPDX+f9KjnIi6ifu7IY9ttgAIFaPmVIwuuAHh4YIm11h
+   C4Xj940XXfxVFa7dyX1/66PjcO2081IUSnSjnbL5OIkUZ9xaNTANSMqat
+   +XZPSkzNwNeqww2hJTbUmsWnz2iW2dnmZNMBeRd0Ld6Wc/P6C/XFJ6DZF
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="449577250"
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="449577253"
 X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
-   d="scan'208";a="449577250"
+   d="scan'208";a="449577253"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2023 04:57:40 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2023 04:57:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="790478502"
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="790478503"
 X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
-   d="scan'208";a="790478502"
+   d="scan'208";a="790478503"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
   by orsmga001.jf.intel.com with ESMTP; 15 Oct 2023 04:57:39 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qrzkX-0007Nt-1x;
+	id 1qrzkX-0007Nr-1s;
 	Sun, 15 Oct 2023 11:57:37 +0000
-Date: Sun, 15 Oct 2023 19:57:00 +0800
+Date: Sun, 15 Oct 2023 19:56:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/643 4631/15767]
- drivers/firmware/imx/ele_trng.c:91:5: error: redefinition of 'ele_trng_init'
-Message-ID: <202310151956.a2fiayzb-lkp@intel.com>
+Subject: [freescale-fslc:pr/643 7608/15767]
+ drivers/staging/fsl_qbman/qman_config.c:283: warning: Function parameter or
+ member 'qm' not described in 'qm_err_isr_status_read'
+Message-ID: <202310151913.gOXQqESM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,40 +51,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Gaurav,
-
-FYI, the error/warning still remains.
-
 tree:   https://github.com/Freescale/linux-fslc pr/643
 head:   1fef7a26b48f767bcda4f5147cea10e83903ecf6
-commit: 45df0f582836b4f75f20627d85dff2668bde0f17 [4631/15767] LF-7285: firmware: imx: ele: Add support for ELE HW Random Number Generator
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231015/202310151956.a2fiayzb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231015/202310151956.a2fiayzb-lkp@intel.com/reproduce)
+commit: cbe7fceb95a9bfb0770b58ff5f7c101abdf3106c [7608/15767] fsl_qbman: fix various errors when building with W=1
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20231015/202310151913.gOXQqESM-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231015/202310151913.gOXQqESM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310151956.a2fiayzb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310151913.gOXQqESM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/firmware/imx/ele_trng.c:44:5: warning: no previous prototype for 'ele_get_random' [-Wmissing-prototypes]
-      44 | int ele_get_random(struct hwrng *rng, void *data, size_t len, bool wait)
-         |     ^~~~~~~~~~~~~~
->> drivers/firmware/imx/ele_trng.c:91:5: error: redefinition of 'ele_trng_init'
-      91 | int ele_trng_init(struct device *dev)
-         |     ^~~~~~~~~~~~~
-   In file included from drivers/firmware/imx/ele_trng.c:13:
-   drivers/firmware/imx/ele_mu.h:146:19: note: previous definition of 'ele_trng_init' with type 'int(struct device *)'
-     146 | static inline int ele_trng_init(struct device *dev)
-         |                   ^~~~~~~~~~~~~
+>> drivers/staging/fsl_qbman/qman_config.c:283: warning: Function parameter or member 'qm' not described in 'qm_err_isr_status_read'
+>> drivers/staging/fsl_qbman/qman_config.c:283: warning: expecting prototype for qm_err_isr_<reg>_<verb>(). Prototype was for qm_err_isr_status_read() instead
 
 
-vim +/ele_trng_init +91 drivers/firmware/imx/ele_trng.c
+vim +283 drivers/staging/fsl_qbman/qman_config.c
 
-    90	
-  > 91	int ele_trng_init(struct device *dev)
+4c43588a2cdb7e Madalin Bucur 2020-02-27  272  
+4c43588a2cdb7e Madalin Bucur 2020-02-27  273  /**
+4c43588a2cdb7e Madalin Bucur 2020-02-27  274   * qm_err_isr_<reg>_<verb> - Manipulate global interrupt registers
+4c43588a2cdb7e Madalin Bucur 2020-02-27  275   * @v: for accessors that write values, this is the 32-bit value
+4c43588a2cdb7e Madalin Bucur 2020-02-27  276   *
+4c43588a2cdb7e Madalin Bucur 2020-02-27  277   * Manipulates QMAN_ERR_ISR, QMAN_ERR_IER, QMAN_ERR_ISDR, QMAN_ERR_IIR. All
+4c43588a2cdb7e Madalin Bucur 2020-02-27  278   * manipulations except qm_err_isr_[un]inhibit() use 32-bit masks composed of
+4c43588a2cdb7e Madalin Bucur 2020-02-27  279   * the QM_EIRQ_*** definitions. Note that "qm_err_isr_enable_write" means
+4c43588a2cdb7e Madalin Bucur 2020-02-27  280   * "write the enable register" rather than "enable the write register"!
+4c43588a2cdb7e Madalin Bucur 2020-02-27  281   */
+4c43588a2cdb7e Madalin Bucur 2020-02-27  282  #define qm_err_isr_status_read(qm)	\
+4c43588a2cdb7e Madalin Bucur 2020-02-27 @283  		__qm_err_isr_read(qm, qm_isr_status)
+4c43588a2cdb7e Madalin Bucur 2020-02-27  284  #define qm_err_isr_status_clear(qm, m)	\
+4c43588a2cdb7e Madalin Bucur 2020-02-27  285  		__qm_err_isr_write(qm, qm_isr_status, m)
+4c43588a2cdb7e Madalin Bucur 2020-02-27  286  #define qm_err_isr_enable_read(qm)	\
+4c43588a2cdb7e Madalin Bucur 2020-02-27  287  		__qm_err_isr_read(qm, qm_isr_enable)
+4c43588a2cdb7e Madalin Bucur 2020-02-27  288  #define qm_err_isr_enable_write(qm, v)	\
+4c43588a2cdb7e Madalin Bucur 2020-02-27  289  		__qm_err_isr_write(qm, qm_isr_enable, v)
+4c43588a2cdb7e Madalin Bucur 2020-02-27  290  #define qm_err_isr_disable_read(qm)	\
+4c43588a2cdb7e Madalin Bucur 2020-02-27  291  		__qm_err_isr_read(qm, qm_isr_disable)
+4c43588a2cdb7e Madalin Bucur 2020-02-27  292  #define qm_err_isr_disable_write(qm, v)	\
+4c43588a2cdb7e Madalin Bucur 2020-02-27  293  		__qm_err_isr_write(qm, qm_isr_disable, v)
+4c43588a2cdb7e Madalin Bucur 2020-02-27  294  #define qm_err_isr_inhibit(qm)		\
+4c43588a2cdb7e Madalin Bucur 2020-02-27  295  		__qm_err_isr_write(qm, qm_isr_inhibit, 1)
+4c43588a2cdb7e Madalin Bucur 2020-02-27  296  #define qm_err_isr_uninhibit(qm)	\
+4c43588a2cdb7e Madalin Bucur 2020-02-27  297  		__qm_err_isr_write(qm, qm_isr_inhibit, 0)
+4c43588a2cdb7e Madalin Bucur 2020-02-27  298  
+
+:::::: The code at line 283 was first introduced by commit
+:::::: 4c43588a2cdb7e8b01447a8a1d523cc6886e0e4c staging/fsl_qbman: add LSDK-19.09-V4.14 SDK DPAA QBMan files
+
+:::::: TO: Madalin Bucur <madalin.bucur@oss.nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
