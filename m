@@ -1,302 +1,78 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38EC6FA3
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Oct 2023 13:14:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43904EDB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Oct 2023 14:22:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="soUAZF6r"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID
-	:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID
-	:Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
-	Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
-	:List-Post:List-Owner:List-Archive;
-	bh=lphFVItBCZdxDfyZ+Gs+8bM3rP0WKqhaKl1S3iCm6Qw=; b=soUAZF6rPtbzLTY+03AkaHhjtS
-	yasYUZbp5fTatDF0fq5OH0GIr302Ih298R8Tn/sMZUHptJlqbBKMuiuPq5DjpNSg0SyNPoP3he26l
-	DllpWueerh+Kt42xQbOB87M1fZhQ1wweiGpV17UKhMZXg3/tN/NNTzjstuUQtBWfVV8YMidSiwH7O
-	nBMZZ8JeTDuAp+mVD1oSeKgTRI9B8CUIPaDtQo1FMPSQFs0sdBxvJl4HmHd2WngGmx8sIP6nmSTxz
-	ks7mQm+wKCrWgh4WIx6PlLlWOgPW7a2xdhZ2ACGx9rQEdyUOf7JYilhhv2MwzVcvC6NPrWl3vhhmC
-	hzTsCTBQ==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1qs0Z2-004hfx-0n;
-	Sun, 15 Oct 2023 12:49:48 +0000
-Date: Sun, 15 Oct 2023 12:49:48 +0000
-From: "Dr. David Alan Gilbert" <dave@treblig.org>
-To: kernel test robot <lkp@intel.com>, mpe@ellerman.id.au
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hjpDY6MA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697379776; x=1728915776;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8eS1IP7hwXL2PUtV+Q3mqUDh6yLjuckxtsjkyUmyrq4=;
+  b=hjpDY6MAUgjj8LF97DFx1stUDXsAGNcSra7mrX+oCVCJ+kh3OWnNXLZE
+   Rvj96Gh8YP9yUbrj34OgiQyiflyWstDQYxTd/DOexYiD4Bj+ehg7Y5apN
+   E0GJOy6gmaM+E0LlofqDfCI40XnyrFhuzJDiyCB2VpcTijExqUWQJbSGV
+   /YUaeac7NpPiSR2921hORNfpdFK/LfGLX3qjnS/ku5iu/z2SO+zo4yoPm
+   qXJz/TgijP7Ov3zzclFBqAxPrWhUoIeAs/HMiV2QCDMq4lF0Ywn/a2Wmr
+   L3O/t9riKb63IOMxgxNglTw/85xE3VusV5gydH45YFM9unOWyeiqwtQJC
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="375755712"
+X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
+   d="scan'208";a="375755712"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2023 07:22:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="821273007"
+X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
+   d="scan'208";a="821273007"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 15 Oct 2023 07:22:54 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qs215-0007TN-2c;
+	Sun, 15 Oct 2023 14:22:51 +0000
+Date: Sun, 15 Oct 2023 22:22:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [powerpc:next 11/12] checkpatch: WARNING: externs should be
- avoided in .c files
-Message-ID: <ZSvf7BIGsgBSrwdC@gallifrey>
-References: <202310152028.vHq3w3tc-lkp@intel.com>
+Subject: [freescale-fslc:pr/639 257/24603] make[5]: *** No rule to make
+ target 'sound/soc/sof/intel/snd-sof-intel-ipc.o', needed by
+ 'sound/soc/sof/intel/built-in.a'.
+Message-ID: <202310152213.tuGAoB0t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202310152028.vHq3w3tc-lkp@intel.com>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-12-amd64 (x86_64)
-X-Uptime: 12:47:58 up 29 days, 15:46,  1 user,  load average: 0.00, 0.00, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
 
-* kernel test robot (lkp@intel.com) wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-> head:   c7e0d9bb9154c6e6b2ac8746faba27b53393f25e
-> commit: 0ebc7feae79ac07772a20382eebd8c3503313714 [11/12] powerpc: Use shared font data
-> reproduce: (https://download.01.org/0day-ci/archive/20231015/202310152028.vHq3w3tc-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202310152028.vHq3w3tc-lkp@intel.com/
+Hi Daniel,
 
-Hmm, I don't think my patch has changed any of the lines in btext.c
-that it's moaning about.
+First bad commit (maybe != root cause):
 
-Dave
+tree:   https://github.com/Freescale/linux-fslc pr/639
+head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
+commit: 51b86bcaf08f3cd48122cdbee63e8f469dcb3e64 [257/24603] LF-3774-1 ASoC: sof: Make Intel IPC stream ops generic
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231015/202310152213.tuGAoB0t-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231015/202310152213.tuGAoB0t-lkp@intel.com/reproduce)
 
-> # many are suggestions rather than must-fix
-> 
-> WARNING:AVOID_EXTERNS: externs should be avoided in .c files
-> #1029: FILE: arch/powerpc/kernel/btext.c:47:
-> +extern void rmci_on(void);
-> 
-> WARNING:AVOID_EXTERNS: externs should be avoided in .c files
-> #1030: FILE: arch/powerpc/kernel/btext.c:48:
-> +extern void rmci_off(void);
-> 
-> ERROR:SPACING: space prohibited after that '*' (ctx:WxW)
-> #1133: FILE: arch/powerpc/kernel/btext.c:151:
-> +	size = dispDeviceRowBytes * dispDeviceRect[3] + offset
->  	                          ^
-> 
-> ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-> #1231: FILE: arch/powerpc/kernel/btext.c:249:
-> +static unsigned char * calc_base(int x, int y)
-> 
-> WARNING:SPACE_BEFORE_TAB: please, no space before tabs
-> #1276: FILE: arch/powerpc/kernel/btext.c:294:
-> +^Iunsigned long width ^I= ((dispDeviceRect[2] - dispDeviceRect[0]) *$
-> 
-> ERROR:SPACING: space required after that ',' (ctx:VxV)
-> #1278: FILE: arch/powerpc/kernel/btext.c:296:
-> +	int i,j;
->  	     ^
-> 
-> ERROR:OPEN_BRACE: that open brace { should be on the previous line
-> #1281: FILE: arch/powerpc/kernel/btext.c:299:
-> +	for (i=0; i<(dispDeviceRect[3] - dispDeviceRect[1]); i++)
-> +	{
-> 
-> ERROR:SPACING: spaces required around that '=' (ctx:VxV)
-> #1281: FILE: arch/powerpc/kernel/btext.c:299:
-> +	for (i=0; i<(dispDeviceRect[3] - dispDeviceRect[1]); i++)
->  	      ^
-> 
-> ERROR:SPACING: spaces required around that '<' (ctx:VxV)
-> #1281: FILE: arch/powerpc/kernel/btext.c:299:
-> +	for (i=0; i<(dispDeviceRect[3] - dispDeviceRect[1]); i++)
->  	           ^
-> 
-> WARNING:LINE_SPACING: Missing a blank line after declarations
-> #1284: FILE: arch/powerpc/kernel/btext.c:302:
-> +		unsigned int *ptr = base;
-> +		for(j=width; j; --j)
-> 
-> ERROR:SPACING: spaces required around that '=' (ctx:VxV)
-> #1284: FILE: arch/powerpc/kernel/btext.c:302:
-> +		for(j=width; j; --j)
->  		     ^
-> 
-> ERROR:SPACING: space required before the open parenthesis '('
-> #1284: FILE: arch/powerpc/kernel/btext.c:302:
-> +		for(j=width; j; --j)
-> 
-> WARNING:SPACE_BEFORE_TAB: please, no space before tabs
-> #1294: FILE: arch/powerpc/kernel/btext.c:312:
-> +^Iunsigned long width ^I= ((dispDeviceRect[2] - dispDeviceRect[0]) *$
-> 
-> ERROR:SPACING: space required after that ',' (ctx:VxV)
-> #1296: FILE: arch/powerpc/kernel/btext.c:314:
-> +	int i,j;
->  	     ^
-> 
-> ERROR:OPEN_BRACE: that open brace { should be on the previous line
-> #1298: FILE: arch/powerpc/kernel/btext.c:316:
-> +	for (i=0; i < (dispDeviceRect[3] - dispDeviceRect[1]); i++)
-> +	{
-> 
-> ERROR:SPACING: spaces required around that '=' (ctx:VxV)
-> #1298: FILE: arch/powerpc/kernel/btext.c:316:
-> +	for (i=0; i < (dispDeviceRect[3] - dispDeviceRect[1]); i++)
->  	      ^
-> 
-> WARNING:LINE_SPACING: Missing a blank line after declarations
-> #1301: FILE: arch/powerpc/kernel/btext.c:319:
-> +		unsigned int *ptr = base;
-> +		for(j = width; j > 0; j -= 8) {
-> 
-> ERROR:SPACING: space required before the open parenthesis '('
-> #1301: FILE: arch/powerpc/kernel/btext.c:319:
-> +		for(j = width; j > 0; j -= 8) {
-> 
-> WARNING:SPACE_BEFORE_TAB: please, no space before tabs
-> #1313: FILE: arch/powerpc/kernel/btext.c:331:
-> +^Iunsigned long width ^I= ((dispDeviceRect[2] - dispDeviceRect[0]) *$
-> 
-> ERROR:SPACING: space required after that ',' (ctx:VxV)
-> #1315: FILE: arch/powerpc/kernel/btext.c:333:
-> +	int i,j;
->  	     ^
-> 
-> ERROR:OPEN_BRACE: that open brace { should be on the previous line
-> #1317: FILE: arch/powerpc/kernel/btext.c:335:
-> +	for (i=0; i < 16; i++)
-> +	{
-> 
-> ERROR:SPACING: spaces required around that '=' (ctx:VxV)
-> #1317: FILE: arch/powerpc/kernel/btext.c:335:
-> +	for (i=0; i < 16; i++)
->  	      ^
-> 
-> WARNING:LINE_SPACING: Missing a blank line after declarations
-> #1320: FILE: arch/powerpc/kernel/btext.c:338:
-> +		unsigned int *ptr = base;
-> +		for(j = width; j > 0; j -= 8) {
-> 
-> ERROR:SPACING: space required before the open parenthesis '('
-> #1320: FILE: arch/powerpc/kernel/btext.c:338:
-> +		for(j = width; j > 0; j -= 8) {
-> 
-> WARNING:SPACE_BEFORE_TAB: please, no space before tabs
-> #1333: FILE: arch/powerpc/kernel/btext.c:351:
-> +^Iunsigned int *src     ^I= (unsigned int *)calc_base(0,16);$
-> 
-> ERROR:SPACING: space required after that ',' (ctx:VxV)
-> #1333: FILE: arch/powerpc/kernel/btext.c:351:
-> +	unsigned int *src     	= (unsigned int *)calc_base(0,16);
->  	                      	                             ^
-> 
-> WARNING:SPACE_BEFORE_TAB: please, no space before tabs
-> #1334: FILE: arch/powerpc/kernel/btext.c:352:
-> +^Iunsigned int *dst     ^I= (unsigned int *)calc_base(0,0);$
-> 
-> ERROR:SPACING: space required after that ',' (ctx:VxV)
-> #1334: FILE: arch/powerpc/kernel/btext.c:352:
-> +	unsigned int *dst     	= (unsigned int *)calc_base(0,0);
->  	                      	                             ^
-> 
-> WARNING:SPACE_BEFORE_TAB: please, no space before tabs
-> #1335: FILE: arch/powerpc/kernel/btext.c:353:
-> +^Iunsigned long width    ^I= ((dispDeviceRect[2] - dispDeviceRect[0]) *$
-> 
-> ERROR:SPACING: space required after that ',' (ctx:VxV)
-> #1337: FILE: arch/powerpc/kernel/btext.c:355:
-> +	int i,j;
->  	     ^
-> 
-> ERROR:OPEN_BRACE: that open brace { should be on the previous line
-> #1341: FILE: arch/powerpc/kernel/btext.c:359:
-> +	for (i=0; i<(dispDeviceRect[3] - dispDeviceRect[1] - 16); i++)
-> +	{
-> 
-> ERROR:SPACING: spaces required around that '=' (ctx:VxV)
-> #1341: FILE: arch/powerpc/kernel/btext.c:359:
-> +	for (i=0; i<(dispDeviceRect[3] - dispDeviceRect[1] - 16); i++)
->  	      ^
-> 
-> ERROR:SPACING: spaces required around that '<' (ctx:VxV)
-> #1341: FILE: arch/powerpc/kernel/btext.c:359:
-> +	for (i=0; i<(dispDeviceRect[3] - dispDeviceRect[1] - 16); i++)
->  	           ^
-> 
-> WARNING:LINE_SPACING: Missing a blank line after declarations
-> #1345: FILE: arch/powerpc/kernel/btext.c:363:
-> +		unsigned int *dst_ptr = dst;
-> +		for(j=width; j; --j)
-> 
-> ERROR:SPACING: spaces required around that '=' (ctx:VxV)
-> #1345: FILE: arch/powerpc/kernel/btext.c:363:
-> +		for(j=width; j; --j)
->  		     ^
-> 
-> ERROR:SPACING: space required before the open parenthesis '('
-> #1345: FILE: arch/powerpc/kernel/btext.c:363:
-> +		for(j=width; j; --j)
-> 
-> ERROR:OPEN_BRACE: that open brace { should be on the previous line
-> #1350: FILE: arch/powerpc/kernel/btext.c:368:
-> +	for (i=0; i<16; i++)
-> +	{
-> 
-> ERROR:SPACING: spaces required around that '=' (ctx:VxV)
-> #1350: FILE: arch/powerpc/kernel/btext.c:368:
-> +	for (i=0; i<16; i++)
->  	      ^
-> 
-> ERROR:SPACING: spaces required around that '<' (ctx:VxV)
-> #1350: FILE: arch/powerpc/kernel/btext.c:368:
-> +	for (i=0; i<16; i++)
->  	           ^
-> 
-> WARNING:LINE_SPACING: Missing a blank line after declarations
-> #1353: FILE: arch/powerpc/kernel/btext.c:371:
-> +		unsigned int *dst_ptr = dst;
-> +		for(j=width; j; --j)
-> 
-> ERROR:SPACING: spaces required around that '=' (ctx:VxV)
-> #1353: FILE: arch/powerpc/kernel/btext.c:371:
-> +		for(j=width; j; --j)
->  		     ^
-> 
-> ERROR:SPACING: space required before the open parenthesis '('
-> #1353: FILE: arch/powerpc/kernel/btext.c:371:
-> +		for(j=width; j; --j)
-> 
-> ERROR:OPEN_BRACE: that open brace { should be on the previous line
-> #1395: FILE: arch/powerpc/kernel/btext.c:413:
-> +	for (l = 0; l < 16; ++l)
-> +	{
-> 
-> ERROR:OPEN_BRACE: that open brace { should be on the previous line
-> #1417: FILE: arch/powerpc/kernel/btext.c:435:
-> +	for (l = 0; l < 16; ++l)
-> +	{
-> 
-> ERROR:OPEN_BRACE: that open brace { should be on the previous line
-> #1435: FILE: arch/powerpc/kernel/btext.c:453:
-> +	for (l = 0; l < 16; ++l)
-> +	{
-> 
-> ERROR:SPACING: space required before the open parenthesis '('
-> #1452: FILE: arch/powerpc/kernel/btext.c:470:
-> +	switch(dispDeviceDepth) {
-> 
-> ERROR:SPACING: space prohibited after that '&' (ctx:WxW)
-> #1483: FILE: arch/powerpc/kernel/btext.c:501:
-> +		g_loc_X = (g_loc_X & -8) + 8;
->  		                   ^
-> 
-> WARNING:BLOCK_COMMENT_STYLE: Block comments use * on subsequent lines
-> #1508: FILE: arch/powerpc/kernel/btext.c:526:
-> +	/* wrap around from bottom to top of screen so we don't
-> +	   waste time scrolling each line.  -- paulus. */
-> 
-> WARNING:BLOCK_COMMENT_STYLE: Block comments use a trailing */ on a separate line
-> #1508: FILE: arch/powerpc/kernel/btext.c:526:
-> +	   waste time scrolling each line.  -- paulus. */
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310152213.tuGAoB0t-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> make[5]: *** No rule to make target 'sound/soc/sof/intel/snd-sof-intel-ipc.o', needed by 'sound/soc/sof/intel/built-in.a'.
+   make[5]: *** [scripts/Makefile.build:277: sound/soc/sof/intel/pci-tng.o] Error 1
+   make[5]: Target '__build' not remade because of errors.
+
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
