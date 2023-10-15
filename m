@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE1B2F53
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Oct 2023 14:44:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B2A2F53
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Oct 2023 15:05:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GLaCkbYd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bf0X1+qx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697381050; x=1728917050;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M8jTDlQLOZ69/QqY8nWJiP8gcoHE0BC9aXH4Rxad06U=;
-  b=GLaCkbYd34lVaerbEKinQZ4qK6CkeaZMGo4ru4n2bCVOMR+KPhMNUSZj
-   be+YGgZGiRsWMQOsMRWtuH+2xWxnNVvqVk8S+fhmPqAZ+CIQMtVqxGjS7
-   2Rd2zBzZAEfxf6d4NJfn4LzXX4hjXXdcbIlZkBxuAmL6EjcaYP7Wf5ncs
-   F3D5tFtz+tg/wNCRrXPgjdeqDPhI4Gn8NOocQIZf5le29YJfyFZskAjIu
-   TSKJ7RuANJkdbnrEasmZUc5aXM53bgeriWLb6y6ex9nbVgW9UFf6GILV5
-   bSDcNmSgaWkIe67ZPXKhAch3BMWM0oVsqfHezsy2m3TXpJ7kRrvCBFy38
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="389253313"
+  t=1697382313; x=1728918313;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9EH7iuzOclOT3jc8//Jy/QNww4qiNPl6/LLoVKeUYC8=;
+  b=bf0X1+qxpoV0LfPxCeZn4A6k77hHQrEYmnQkmHDNDHEAlbcohbY0uzRT
+   ngTt4pbeoJav7SNaL3SOSzbeFGoC4MJSsLzKA4ofYKUHKZNtbrgoZvHUq
+   o8Z8+rt5ywyTY3ZThQo+ujXtqoHRcuNaUrOnBDX4Ur2CjQK3jOCSAsHEM
+   OaW6KDKI5f5eYZvGG8HTkOEH4WSTRZ0nplgXX8t7MLdHagREC2FL7H0BN
+   C578xtaFjxFFJ9O91TbFobKGw3hKRPDJOrCld85GIuF9HTMHUDKqLPd+C
+   Ih7KysbrP5sjbmkh2dg6st4+aMXRpf2/7qsT4qP51BcDUTUumtSzRc5vv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="4008707"
 X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
-   d="scan'208";a="389253313"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2023 07:44:08 -0700
+   d="scan'208";a="4008707"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2023 08:05:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="879135241"
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="899190248"
 X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
-   d="scan'208";a="879135241"
+   d="scan'208";a="899190248"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 15 Oct 2023 07:44:07 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 15 Oct 2023 08:03:14 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qs2LR-0007V1-0q;
-	Sun, 15 Oct 2023 14:43:54 +0000
-Date: Sun, 15 Oct 2023 22:43:37 +0800
+	id 1qs2g0-0007Vn-1i;
+	Sun, 15 Oct 2023 15:05:08 +0000
+Date: Sun, 15 Oct 2023 23:04:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/642 6623/30000]
- drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth.h:506:23: error: type
- qualifiers ignored on function return type
-Message-ID: <202310152204.uxCz8RVk-lkp@intel.com>
+Subject: Re: [RFC PATCH 3/7] net: sched: Add members to qdisc_skb_cb
+Message-ID: <202310152238.M5Ed14YC-lkp@intel.com>
+References: <20231008052101.144422-4-akihiko.odaki@daynix.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,80 +50,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231008052101.144422-4-akihiko.odaki@daynix.com>
 
-tree:   https://github.com/Freescale/linux-fslc pr/642
-head:   c8b7cf62c7fea8456dec789d550b8006d73b8f04
-commit: 7dcadb8d9273dd1ce30f55e8b4489f7c195d44c7 [6623/30000] fsl_qbman: Framework for enabling Link status notification
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20231015/202310152204.uxCz8RVk-lkp@intel.com/config)
+Hi Akihiko,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on shuah-kselftest/next]
+[also build test ERROR on shuah-kselftest/fixes mst-vhost/linux-next linus/master v6.6-rc5 next-20231013]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Akihiko-Odaki/net-skbuff-Add-tun_vnet_hash-flag/20231008-133245
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/20231008052101.144422-4-akihiko.odaki%40daynix.com
+patch subject: [RFC PATCH 3/7] net: sched: Add members to qdisc_skb_cb
+config: arm-footbridge_defconfig (https://download.01.org/0day-ci/archive/20231015/202310152238.M5Ed14YC-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231015/202310152204.uxCz8RVk-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231015/202310152238.M5Ed14YC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310152204.uxCz8RVk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310152238.M5Ed14YC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/fsl_usdpaa.h:17,
-                    from drivers/staging/fsl_qbman/dpa_sys.h:66,
-                    from drivers/staging/fsl_qbman/fsl_usdpaa.c:28:
-   include/linux/fsl_qman.h:415:1: error: alignment 1 of 'struct qm_eqcr_entry' is less than 8 [-Werror=packed-not-aligned]
-     415 | } __packed;
-         | ^
-   include/linux/fsl_qman.h:469:17: error: alignment 1 of 'struct <anonymous>' is less than 8 [-Werror=packed-not-aligned]
-     469 |                 } __packed ern;
-         |                 ^
-   include/linux/fsl_qman.h:468:38: error: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Werror=packed-not-aligned]
-     468 |                         struct qm_fd fd;
-         |                                      ^~
-   include/linux/fsl_qman.h:486:17: error: alignment 1 of 'struct <anonymous>' is less than 8 [-Werror=packed-not-aligned]
-     486 |                 } __packed dcern;
-         |                 ^
-   include/linux/fsl_qman.h:485:38: error: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Werror=packed-not-aligned]
-     485 |                         struct qm_fd fd;
-         |                                      ^~
-   include/linux/fsl_qman.h:1679:1: error: alignment 1 of 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' is less than 8 [-Werror=packed-not-aligned]
-    1679 | } __packed;
-         | ^
-   include/linux/fsl_qman.h:1677:22: error: 'fd' offset 14 in 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' isn't aligned to 8 [-Werror=packed-not-aligned]
-    1677 |         struct qm_fd fd;
-         |                      ^~
-   In file included from drivers/staging/fsl_qbman/fsl_usdpaa.c:31:
-   drivers/staging/fsl_qbman/qman_low.h: In function 'qm_shutdown_fq':
-   drivers/staging/fsl_qbman/qman_low.h:1291:29: error: variable 'dequeue_wq' set but not used [-Werror=unused-but-set-variable]
-    1291 |                         u16 dequeue_wq = 0;
-         |                             ^~~~~~~~~~
-   In file included from drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_common.h:40,
-                    from drivers/staging/fsl_qbman/fsl_usdpaa.c:38:
-   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth.h: At top level:
->> drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth.h:506:23: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
-     506 | static inline ssize_t __const __must_check __attribute__((nonnull))
-         |                       ^~~~~~~
-   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth.h:512:23: error: type qualifiers ignored on function return type [-Werror=ignored-qualifiers]
-     512 | static inline ssize_t __const __must_check __attribute__((nonnull))
-         |                       ^~~~~~~
-   drivers/staging/fsl_qbman/fsl_usdpaa.c:398:6: error: no previous prototype for 'dbci_portal' [-Werror=missing-prototypes]
-     398 | void dbci_portal(void *addr)
-         |      ^~~~~~~~~~~
-   cc1: all warnings being treated as errors
+   In file included from <command-line>:
+   net/core/dev.c: In function 'validate_xmit_skb':
+>> include/linux/compiler_types.h:425:45: error: call to '__compiletime_assert_713' declared with attribute error: BUILD_BUG_ON failed: sizeof(struct qdisc_skb_cb) > SKB_GSO_CB_OFFSET
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:406:25: note: in definition of macro '__compiletime_assert'
+     406 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   net/core/dev.c:3625:17: note: in expansion of macro 'BUILD_BUG_ON'
+    3625 |                 BUILD_BUG_ON(sizeof(struct qdisc_skb_cb) > SKB_GSO_CB_OFFSET);
+         |                 ^~~~~~~~~~~~
 
 
-vim +506 drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth.h
+vim +/__compiletime_assert_713 +425 include/linux/compiler_types.h
 
-7fab630ae39d23 Madalin Bucur 2017-05-10  505  
-7fab630ae39d23 Madalin Bucur 2017-05-10 @506  static inline ssize_t __const __must_check __attribute__((nonnull))
-7fab630ae39d23 Madalin Bucur 2017-05-10  507  dpa_fd_length(const struct qm_fd *fd)
-7fab630ae39d23 Madalin Bucur 2017-05-10  508  {
-7fab630ae39d23 Madalin Bucur 2017-05-10  509  	return fd->length20;
-7fab630ae39d23 Madalin Bucur 2017-05-10  510  }
-7fab630ae39d23 Madalin Bucur 2017-05-10  511  
-
-:::::: The code at line 506 was first introduced by commit
-:::::: 7fab630ae39d2305c71f6ae6311f240ff9348404 dpa: SDK DPAA 1.x Ethernet driver
-
-:::::: TO: Madalin Bucur <madalin.bucur@nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  411  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  412  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  413  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  414  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  415  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  416   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  417   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  418   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  419   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  420   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  421   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  422   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  423   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  424  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @425  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  426  
 
 -- 
 0-DAY CI Kernel Test Service
