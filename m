@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D681FAD
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Oct 2023 06:01:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7E31878
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Oct 2023 06:22:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kmzx/mmd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jlgp1Glk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697349700; x=1728885700;
+  t=1697350960; x=1728886960;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=czjvBVzxIHdsLbHze/VrN30K376cb5cAhB3JI9kwN7Q=;
-  b=Kmzx/mmdCpJssgwfWa339h36GBXUqXHxI6ad4lPJ95/OPdaRfr6E/m0q
-   HQpdwfCOrPvB1Tz9xb4ZJwqyFrVtcRX4qrSB1N2oYd+uHVdSb0XWRnuiW
-   a1gd0um0xGFQ+MGgIb9r3FbUngaStPW6spNrY8qzMoGSPxa8qMtRGxTwb
-   XO3tqzGplfvpSgw5l8b26mKAPKQeppZZDnFyZue9R0yD2r2zUQH2i3Hob
-   CKH/ZJbrhYtWEUoYY4timCGLMVz7uzi+/hbJgxLxWrAudxglUfgyooVAo
-   6RWN1fXHj61b26sB9Ger4bk/lINwNIWXR5yXPkievk0eKLrExiZobaywQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="385206310"
+  bh=R0Qx5QexDDBhXgiF4XhBlEJG14ILjgfxDL8qh8rORUc=;
+  b=jlgp1GlkuxyJWoarqqZ/vQLBJnCBVdUQwDqXbpmHS6NFSAY5pcckAnkq
+   UoSGIs6vjwGmrCOMg892xxhwsRyzwOkUOKBJnRMVGwiMJcG+u8UxVKqFf
+   COGtjqpHykqWfQC7zl+InBndOq0CwdbdBvIK0v8rsr80hswNaInqeoH/H
+   x+uAytEzDXyT668kh+mkF9AJp5BBYdKnSlYe4cIaL9+s9EIbhjar7J7zu
+   gaZpw49g9szwji2RhLjIaCUQXYbgeqASxIGHytFw0vyJHEZnW3c32bae8
+   35jFiffs2WkLYs9M00SAzBLzRLAWc/HoNT1XipRPZkMuAijSCV3aNZ5qT
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="388226655"
 X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
-   d="scan'208";a="385206310"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 23:01:38 -0700
+   d="scan'208";a="388226655"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 23:22:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="748871690"
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="790388631"
 X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
-   d="scan'208";a="748871690"
+   d="scan'208";a="790388631"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 14 Oct 2023 23:01:37 -0700
+  by orsmga001.jf.intel.com with ESMTP; 14 Oct 2023 23:22:38 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qruBz-00075P-10;
-	Sun, 15 Oct 2023 06:01:35 +0000
-Date: Sun, 15 Oct 2023 14:00:57 +0800
+	id 1qruWK-00077c-1c;
+	Sun, 15 Oct 2023 06:22:36 +0000
+Date: Sun, 15 Oct 2023 14:22:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-2.1.x-imx 4851/15768] csky-linux-gcc: error:
- unrecognized command-line option '-mtune=cortex-a9'
-Message-ID: <202310151346.yRwjfl8v-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:6.6-r3mini 4/18] checkpatch: WARNING: Missing
+ or malformed SPDX-License-Identifier tag in line 1
+Message-ID: <202310151405.FEhaUInB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,25 +50,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
-head:   3f41fbe42851375d3d5996e4bf9e9809e6c79517
-commit: 77225c634e06fdb5ae7fcd3d52cb5dd7d2996acb [4851/15768] Merge branch 'mxc/next' into next
-config: csky-allyesconfig (https://download.01.org/0day-ci/archive/20231015/202310151346.yRwjfl8v-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231015/202310151346.yRwjfl8v-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.6-r3mini
+head:   17d137ab830925bb82623f79f804856078677bdc
+commit: c88d1ac2b5ba4ddf4d342c2328aa437e8fe6c162 [4/18] add resets for mt7988
+reproduce: (https://download.01.org/0day-ci/archive/20231015/202310151405.FEhaUInB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310151346.yRwjfl8v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310151405.FEhaUInB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+# many are suggestions rather than must-fix
 
-   csky-linux-gcc: error: unrecognized argument in option '-march=armv7-a'
-   csky-linux-gcc: note: valid arguments to '-march=' are: ck801 ck802 ck803 ck807 ck810 ck860
-   csky-linux-gcc: error: unrecognized argument in option '-mfpu=neon'
-   csky-linux-gcc: note: valid arguments to '-mfpu=' are: auto fpv2 fpv2_divd fpv2_sf fpv3 fpv3_hf fpv3_hsf fpv3_sdf
->> csky-linux-gcc: error: unrecognized command-line option '-mtune=cortex-a9'
+WARNING:SPDX_LICENSE_TAG: Missing or malformed SPDX-License-Identifier tag in line 1
+#17: FILE: include/dt-bindings/reset/mediatek,mt7988-resets.h:1:
++/* TOPRGU resets */
 
 -- 
 0-DAY CI Kernel Test Service
