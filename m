@@ -1,88 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from smtp-out.kfki.hu (smtp-out.kfki.hu [148.6.0.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59E626E08
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Oct 2023 12:29:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VIoB6LrH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697459387; x=1728995387;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=X4iLosxWswCCbHcun/ld8yUky/U5sw9Wi6q5ArDk6cI=;
-  b=VIoB6LrHdLAW3gCGPLss7zUVMrsMmFyy0BldQAzi6tmGbv5kHK3N7ihI
-   eX4aSAyz1R/W83vhdXWuMAzh0Lco9KeK8b+3CdEian2EX95i2LFGRrSVr
-   MkEsEoDTm7KEI0/D8P0OzOA31YBFvN1B+XviiZMFx+0lZi9j51Ozz8JSk
-   JUwaRH/fdD5gzHbo/9QE0rD73T+XOuc1N47ZRoPZk3Cpz9AOfjYWowPw8
-   XW0ZIkd7STyATvsEu2NWORvg8KbIrzQbKkcVJdxJ5QHjG40HLcB7X5KZe
-   FEpzK+Y3gTPOQwDgJohwz7zOM1eRgxc0F83DVDtmOi2LvUnwc8Ag0Y9fN
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="385352626"
-X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
-   d="scan'208";a="385352626"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 05:29:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="785071563"
-X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
-   d="scan'208";a="785071563"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 16 Oct 2023 05:29:44 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qsMiu-0008Mp-30;
-	Mon, 16 Oct 2023 12:29:33 +0000
-Date: Mon, 16 Oct 2023 20:28:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yazen Ghannam <yazen.ghannam@amd.com>, bp@alien8.de,
-	linux-edac@vger.kernel.org, tony.luck@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	avadhut.naik@amd.com, john.allen@amd.com, william.roche@oracle.com,
-	Yazen Ghannam <yazen.ghannam@amd.com>
-Subject: Re: [PATCH v2 1/2] RAS: Introduce AMD Address Translation Library
-Message-ID: <202310162015.fuitGuiJ-lkp@intel.com>
-References: <20231005173526.42831-2-yazen.ghannam@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2262273F0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Oct 2023 13:02:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netfilter.org
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.kfki.hu (Postfix) with ESMTP id 6C1E8CC010E;
+	Mon, 16 Oct 2023 14:56:11 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at smtp2.kfki.hu
+Received: from smtp2.kfki.hu ([127.0.0.1])
+	by localhost (smtp2.kfki.hu [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP; Mon, 16 Oct 2023 14:56:09 +0200 (CEST)
+Received: from blackhole.kfki.hu (blackhole.szhk.kfki.hu [148.6.240.2])
+	by smtp2.kfki.hu (Postfix) with ESMTP id AE4D6CC010A;
+	Mon, 16 Oct 2023 14:56:06 +0200 (CEST)
+Received: by blackhole.kfki.hu (Postfix, from userid 1000)
+	id 8B45C3431A8; Mon, 16 Oct 2023 14:56:06 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by blackhole.kfki.hu (Postfix) with ESMTP id 89D09340D74;
+	Mon, 16 Oct 2023 14:56:06 +0200 (CEST)
+Date: Mon, 16 Oct 2023 14:56:06 +0200 (CEST)
+From: Jozsef Kadlecsik <kadlec@netfilter.org>
+To: xiaolinkui <xiaolinkui@126.com>
+cc: Pablo Neira Ayuso <pablo@netfilter.org>, Florian Westphal <fw@strlen.de>, 
+    David Miller <davem@davemloft.net>, edumazet@google.com, kuba@kernel.org, 
+    pabeni@redhat.com, justinstitt@google.com, kuniyu@amazon.com, 
+    oe-kbuild-all@lists.linux.dev, netfilter-devel@vger.kernel.org, 
+    coreteam@netfilter.org, netdev@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, Linkui Xiao <xiaolinkui@kylinos.cn>
+Subject: Re: [PATCH] netfilter: ipset: wait for xt_recseq on all cpus
+In-Reply-To: <202310161625.GDDBP8SZ-lkp@intel.com>
+Message-ID: <20ae91c-155-32c5-c388-9fdaea5b1eed@netfilter.org>
+References: <20231005115022.12902-1-xiaolinkui@126.com> <202310161625.GDDBP8SZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231005173526.42831-2-yazen.ghannam@amd.com>
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Yazen,
+Hello,
 
-kernel test robot noticed the following build errors:
+Besides the broken patch, the description simply cannot be true:
 
-[auto build test ERROR on ras/edac-for-next]
-[also build test ERROR on linus/master v6.6-rc6 next-20231016]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+"Before destroying the ipset, take a check on sequence to ensure that the 
+ip_set_test operation of this ipset has been completed."
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yazen-Ghannam/RAS-Introduce-AMD-Address-Translation-Library/20231006-014458
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
-patch link:    https://lore.kernel.org/r/20231005173526.42831-2-yazen.ghannam%40amd.com
-patch subject: [PATCH v2 1/2] RAS: Introduce AMD Address Translation Library
-config: i386-buildonly-randconfig-002-20231016 (https://download.01.org/0day-ci/archive/20231016/202310162015.fuitGuiJ-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231016/202310162015.fuitGuiJ-lkp@intel.com/reproduce)
+Set can only be destroyed when there is no iptables rule (match/target) 
+which refers to it. If this condition is not true, then the real reason 
+must be fixed.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310162015.fuitGuiJ-lkp@intel.com/
+How can one reproduce the issue?
 
-All errors (new ones prefixed by >>):
+Best regards,
+Jozsef
 
-   ld: drivers/ras/amd/atl/denormalize.o: in function `denormalize_address':
->> denormalize.c:(.text+0x84f): undefined reference to `__umoddi3'
+On Mon, 16 Oct 2023, kernel test robot wrote:
+
+> Hi xiaolinkui,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on netfilter-nf/main]
+> [also build test ERROR on nf-next/master horms-ipvs/master linus/master v6.6-rc6 next-20231016]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/xiaolinkui/netfilter-ipset-wait-for-xt_recseq-on-all-cpus/20231005-234042
+> base:   git://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
+> patch link:    https://lore.kernel.org/r/20231005115022.12902-1-xiaolinkui%40126.com
+> patch subject: [PATCH] netfilter: ipset: wait for xt_recseq on all cpus
+> config: x86_64-buildonly-randconfig-006-20231016 (https://download.01.org/0day-ci/archive/20231016/202310161625.GDDBP8SZ-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231016/202310161625.GDDBP8SZ-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202310161625.GDDBP8SZ-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    ld: vmlinux.o: in function `wait_xt_recseq':
+> >> ip_set_core.c:(.text+0x1c561ac): undefined reference to `xt_recseq'
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+E-mail  : kadlec@blackhole.kfki.hu, kadlecsik.jozsef@wigner.hu
+PGP key : https://wigner.hu/~kadlec/pgp_public_key.txt
+Address : Wigner Research Centre for Physics
+          H-1525 Budapest 114, POB. 49, Hungary
