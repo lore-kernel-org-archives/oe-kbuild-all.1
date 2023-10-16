@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B0B2347DD
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Oct 2023 19:45:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDAA9381B3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Oct 2023 20:37:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q+BMO5EO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NeJwvBL1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697485516; x=1729021516;
+  t=1697488652; x=1729024652;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+DmQd1exhKV527T50oQqMyR6jRWQGvuGUmW3Vi5C+30=;
-  b=Q+BMO5EORDksI6WekMGjUOb4mMuT4UtJy8Ov3XuA3Pv5++6L5d+11ZoC
-   HUNsZLR9ry+7MIbuUgQ28bMVKqWdlNxpegeqfAdNXJbxFJPGI+s9ez6P3
-   npBi2LSi/Q8b5mxCTgluvL71sQTB9Edl/rZyTODqiHbql5n3h/Y2UEjaS
-   u5R3hCHzl9d4u8+MRjdLoUgpP2PdM7ghFSIK7OjpFotmsvkFV623LkFHL
-   nSI23yxTuUJj/cI82YtdwXDwYkxhSj7SxR7BfaWvT89vzDO4oT+e9GPEe
-   75RYipQMrTU6qwUTE20TXm7ZBVIBVoSnDr486rpB6UQtd6v+6JjqGwMWH
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="384496108"
+  bh=HW12jXAtjBJoAOz878qx2DLGh/6f73mUA94ba0KTpKw=;
+  b=NeJwvBL1NmZIMRIQUeACDZTwfdBpUVTbTQYVil4PTYlZFVuV+yCt03Mf
+   R03Hsjy4qb4FSWmceesu2eY2PkjJSDQpMEYscsS0VrVBUBFdeSrhZz9kf
+   Q6CH78Fq5gQXbp5vM8MJhBnNkAJWTY47ksDpWKhXua4Q6/kEBWIZe2H15
+   fnq4CvAIQq/jkc8v9L086UjDvf8a2K4sS+LPdQOTWMRyJgS3c61AqQPAj
+   luK08ECH5MNyHtjqzOQp/fxKkkFeMO9TOOzOg8btYzMAtBlGlW5/h8MB2
+   2t0pK01HKGu9qYtCjtF/Lbv/w+vHimYX2TnUzPStzQ6RMqj3kVj6J7bz2
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="388494852"
 X-IronPort-AV: E=Sophos;i="6.03,230,1694761200"; 
-   d="scan'208";a="384496108"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 12:45:15 -0700
+   d="scan'208";a="388494852"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 13:37:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="749389103"
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="759526156"
 X-IronPort-AV: E=Sophos;i="6.03,230,1694761200"; 
-   d="scan'208";a="749389103"
+   d="scan'208";a="759526156"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 16 Oct 2023 12:45:14 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 16 Oct 2023 13:37:30 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qsTWa-0008d8-0W;
-	Mon, 16 Oct 2023 19:45:12 +0000
-Date: Tue, 17 Oct 2023 03:44:33 +0800
+	id 1qsULA-0008f1-1P;
+	Mon, 16 Oct 2023 20:37:28 +0000
+Date: Tue, 17 Oct 2023 04:37:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10 8/8] mm/page_alloc.c:6789:16: sparse:
- sparse: incorrect type in assignment (different address spaces)
-Message-ID: <202310170348.mAd1UCKv-lkp@intel.com>
+Subject: [freescale-fslc:6.1-2.1.x-imx 607/15768] dtbs_check:
+ Documentation/devicetree/bindings/clock/imx8ulp-clock.yaml:64:6: [warning]
+ wrong indentation: expected 4 but found 5 (indentation)
+Message-ID: <202310170431.jJl4uDs2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,47 +51,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android13-5.10
-head:   a2070840fa45c2e9da5e2a9aae79840f8158174a
-commit: 42596c7b41c85be2647f23da66cda4b0a0c242e1 [8/8] ANDROID: fix ABI breakage caused by per_cpu_pages
-config: i386-randconfig-063-20231016 (https://download.01.org/0day-ci/archive/20231017/202310170348.mAd1UCKv-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310170348.mAd1UCKv-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
+head:   3f41fbe42851375d3d5996e4bf9e9809e6c79517
+commit: 03a07c82a9d63a753359a7f32cd2146c0d632e61 [607/15768] MLK-25558-02 dt-bindings: clock: imx8ulp-clock: Add the #reset-cells property
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231017/202310170431.jJl4uDs2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310170348.mAd1UCKv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310170431.jJl4uDs2-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/page_alloc.c:6789:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct per_cpu_pageset_ext *ps_ext @@     got struct per_cpu_pageset_ext [noderef] __percpu * @@
-   mm/page_alloc.c:6789:16: sparse:     expected struct per_cpu_pageset_ext *ps_ext
-   mm/page_alloc.c:6789:16: sparse:     got struct per_cpu_pageset_ext [noderef] __percpu *
->> mm/page_alloc.c:6790:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct per_cpu_pageset [noderef] __percpu *pageset @@     got struct per_cpu_pageset * @@
-   mm/page_alloc.c:6790:23: sparse:     expected struct per_cpu_pageset [noderef] __percpu *pageset
-   mm/page_alloc.c:6790:23: sparse:     got struct per_cpu_pageset *
-   mm/page_alloc.c:3365:28: sparse: sparse: context imbalance in 'free_unref_page_commit' - unexpected unlock
-   mm/page_alloc.c:3687:20: sparse: sparse: context imbalance in '__rmqueue_pcplist' - wrong count at exit
-   mm/page_alloc.c: note: in included file (through include/linux/mm.h):
-   include/linux/gfp.h:369:27: sparse: sparse: restricted gfp_t degrades to integer
-   include/linux/gfp.h:369:27: sparse: sparse: restricted gfp_t degrades to integer
-   include/linux/gfp.h:369:27: sparse: sparse: restricted gfp_t degrades to integer
-   include/linux/gfp.h:369:27: sparse: sparse: restricted gfp_t degrades to integer
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/clock/imx8ulp-clock.yaml:64:6: [warning] wrong indentation: expected 4 but found 5 (indentation)
 
-vim +6789 mm/page_alloc.c
+vim +64 Documentation/devicetree/bindings/clock/imx8ulp-clock.yaml
 
-  6783	
-  6784	void __meminit setup_zone_pageset(struct zone *zone)
-  6785	{
-  6786		int cpu;
-  6787		struct per_cpu_pageset_ext *ps_ext;
-  6788	
-> 6789		ps_ext = alloc_percpu(struct per_cpu_pageset_ext);
-> 6790		zone->pageset = &ps_ext->pageset;
-  6791		for_each_possible_cpu(cpu)
-  6792			zone_pageset_init(zone, cpu);
-  6793	}
-  6794	
+     8	
+     9	maintainers:
+    10	  - Jacky Bai <ping.bai@nxp.com>
+    11	
+    12	description: |
+    13	  On i.MX8ULP, The clock sources generation, distribution and management is
+    14	  under the control of several CGCs & PCCs modules. The CGC modules generate
+    15	  and distribute clocks on the device. PCC modules control clock selection,
+    16	  optional division and clock gating mode for peripherals
+    17	
+    18	properties:
+    19	  compatible:
+    20	    enum:
+    21	      - fsl,imx8ulp-cgc1
+    22	      - fsl,imx8ulp-cgc2
+    23	      - fsl,imx8ulp-pcc3
+    24	      - fsl,imx8ulp-pcc4
+    25	      - fsl,imx8ulp-pcc5
+    26	
+    27	  reg:
+    28	    maxItems: 1
+    29	
+    30	  clocks:
+    31	    description:
+    32	      specify the external clocks used by the CGC module, the clocks
+    33	      are rosc, sosc, frosc, lposc
+    34	    maxItems: 4
+    35	
+    36	  clock-names:
+    37	    description:
+    38	      specify the external clocks names used by the CGC module. the valid
+    39	      clock names should rosc, sosc, frosc, lposc.
+    40	    maxItems: 4
+    41	
+    42	  '#clock-cells':
+    43	    const: 1
+    44	    description:
+    45	      The clock consumer should specify the desired clock by having the clock
+    46	      ID in its "clocks" phandle cell. See include/dt-bindings/clock/imx8ulp-clock.h
+    47	      for the full list of i.MX8ULP clock IDs.
+    48	
+    49	  '#reset-cells':
+    50	    const: 1
+    51	    description:
+    52	      The reset consumer should specify the desired clock by having the reset
+    53	      ID in its "resets" phandle cell. See include/dt-bindings/reset/imx8ulp-pcc-reset.h
+    54	      for the full list of i.MX8ULP reset IDs. Only PCC3, PCC4 and PCC5 should specify
+    55	      this property.
+    56	
+    57	required:
+    58	  - compatible
+    59	  - reg
+    60	  - '#clock-cells'
+    61	
+    62	if:
+    63	  properties:
+  > 64	     compatible:
+    65	       contains:
+    66	         enum:
+    67	           - fsl,imx8ulp-pcc3
+    68	           - fsl,imx8ulp-pcc4
+    69	           - fsl,imx8ulp-pcc5
+    70	then:
+    71	  required:
+    72	    - '#reset-cells'
+    73	
 
 -- 
 0-DAY CI Kernel Test Service
