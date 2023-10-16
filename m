@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07930347AA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Oct 2023 22:04:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7250A3AC1D;
+	Mon, 16 Oct 2023 22:36:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fCB+js/W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pg6mfAHO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697493875; x=1729029875;
+  t=1697495815; x=1729031815;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xwkULhVS/LXbN9tzu0ZY4V5P+H23XA7neUuVG1QXyds=;
-  b=fCB+js/WYMWZUME8kxUY+WPqLXSTZuZnN2KvbZITni4AIUvsuQbS1hC6
-   GPOZhd6pI6jrNXvC3QFH+ICqh3ssBjhTdj0+C/g88GIXLk2IbAGSFvsJb
-   pLorjBYDKfJxoZJHRm9p2luEjk1pyoqs/9Wsec1TNPuJNPFGkt9dhcNSC
-   m8sFGvq6JVl/+LX4sEroeZNKXIueoRU+8vgIJslqGwIZ4XZFyy2tPd8bJ
-   O57/Q3V3eMA+dkOxNEowSd/SlnDsT82r6Ult85Ty58u/7J70qbCHkXYfF
-   kIUtvtJwrJQ16JkMkOPO30eF7MmyNrDMrvp398/ZSJX0QrFQXLUZ8dZKl
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="365908284"
+  bh=CWqCyZzV0joUCz7OlSbGc9UpVA31Ozg8TMUsJ6VS1f0=;
+  b=Pg6mfAHODYjFss30l8KmlU20dY7fX6iV4lDSM4qoFYpk33WGr2IUfuFU
+   B5D5+fakU6IkROy3/oxHufim0BgwqNlQgKExYLGPMPm1AEE0QfVk8ThX3
+   tbUvMgyU7nzYeh83sbxuwqd8UMmGtCg81/18EJKhsQ/uBCs5+p7zpywjF
+   Xhl7XCzcCclqKDMAs1RUUviUHfhA45v1n7wUohsl2SAjpWg9xyxyaamu1
+   GaEJxTg8ifA6GjUdReaDVqYnWt4aTBf5353whl9eO4WfkpVoAfthQp0Pu
+   CqotPcNNvjrg+tmuNODXsFAv4A6e+G4FKjSK9ZIMfqipI8BIcE0HFjaZ1
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="385492513"
 X-IronPort-AV: E=Sophos;i="6.03,230,1694761200"; 
-   d="scan'208";a="365908284"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 15:04:34 -0700
+   d="scan'208";a="385492513"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 15:36:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="755845539"
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="1087250685"
 X-IronPort-AV: E=Sophos;i="6.03,230,1694761200"; 
-   d="scan'208";a="755845539"
+   d="scan'208";a="1087250685"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 16 Oct 2023 15:04:32 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 16 Oct 2023 15:36:51 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qsVhO-0008hb-0f;
-	Mon, 16 Oct 2023 22:04:30 +0000
-Date: Tue, 17 Oct 2023 06:04:19 +0800
+	id 1qsWCg-0008ix-26;
+	Mon, 16 Oct 2023 22:36:50 +0000
+Date: Tue, 17 Oct 2023 06:36:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ramji Jiyani <ramjiyani@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sudeep-holla:android13-5.15/ffa 2523/4062]
- kernel/gki_module.c:35:6: warning: no previous prototype for
- 'gki_is_module_protected_symbol'
-Message-ID: <202310170528.E7z4vtWl-lkp@intel.com>
+To: Rob Herring <robh@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 11468/12451]
+ drivers/net/ethernet/apm/xgene/xgene_enet_main.c:2004:34: warning: unused
+ variable 'xgene_enet_of_match'
+Message-ID: <202310170627.2Kvf6ZHY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,222 +52,101 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git android13-5.15/ffa
-head:   c6013f50f1ae0e42d14d51a06118779ead3047ef
-commit: f8bd6cf70dec3961c8b15b987866af33be2ce82b [2523/4062] ANDROID: GKI: Add module load time protected symbol lookup
-config: arm-randconfig-001-20231017 (https://download.01.org/0day-ci/archive/20231017/202310170528.E7z4vtWl-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310170528.E7z4vtWl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4d0515b235dec789578d135a5db586b25c5870cb
+commit: b0377116decdeecb8c6a928d59cd4bea00a4af6e [11468/12451] net: ethernet: Use device_get_match_data()
+config: hexagon-randconfig-r005-20221019 (https://download.01.org/0day-ci/archive/20231017/202310170627.2Kvf6ZHY-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310170627.2Kvf6ZHY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310170528.E7z4vtWl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310170627.2Kvf6ZHY-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_set_advertisement':
-   phylink.c:(.text+0x916): undefined reference to `mdiobus_read'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x92a): undefined reference to `mdiobus_write'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x94a): undefined reference to `mdiobus_read'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_an_restart':
-   phylink.c:(.text+0x978): undefined reference to `mdiobus_read'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_mii_emul_read':
-   phylink.c:(.text+0x9d4): undefined reference to `swphy_read_reg'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_mii_ioctl':
-   phylink.c:(.text+0xa08): undefined reference to `rtnl_is_locked'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0xa6a): undefined reference to `mdiobus_read'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_speed_down':
-   phylink.c:(.text+0xc30): undefined reference to `rtnl_is_locked'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_config':
-   phylink.c:(.text+0xcc4): undefined reference to `mdiobus_modify'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_major_config':
-   phylink.c:(.text+0xe40): undefined reference to `__dynamic_netdev_dbg'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0xe60): undefined reference to `netdev_printk'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_change_inband_advert':
-   phylink.c:(.text+0xf9c): undefined reference to `__dynamic_netdev_dbg'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_pauseparam':
-   phylink.c:(.text+0x102e): undefined reference to `rtnl_is_locked'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x108c): undefined reference to `linkmode_set_pause'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x10c6): undefined reference to `phy_set_asym_pause'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c45_pcs_get_state':
-   phylink.c:(.text+0x115a): undefined reference to `mdiobus_read'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_speed_up':
-   phylink.c:(.text+0x11ce): undefined reference to `rtnl_is_locked'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_stop':
-   phylink.c:(.text+0x1236): undefined reference to `rtnl_is_locked'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x1240): undefined reference to `phy_stop'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_suspend':
-   phylink.c:(.text+0x12dc): undefined reference to `rtnl_is_locked'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x1306): undefined reference to `netif_carrier_off'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_ksettings_set':
-   phylink.c:(.text+0x1382): undefined reference to `rtnl_is_locked'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x1392): undefined reference to `phy_ethtool_ksettings_set'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x14ae): undefined reference to `phy_lookup_setting'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x15aa): undefined reference to `netdev_printk'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_decode_c37_word':
-   phylink.c:(.text+0x1784): undefined reference to `linkmode_resolve_pause'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_get_state':
-   phylink.c:(.text+0x17d2): undefined reference to `mdiobus_read'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x17de): undefined reference to `mdiobus_read'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_phy_change':
-   phylink.c:(.text+0x19a0): undefined reference to `phy_get_pause'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x1a4a): undefined reference to `phy_speed_to_str'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x1a56): undefined reference to `phy_duplex_to_str'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x1abe): undefined reference to `phy_speed_to_str'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x1aca): undefined reference to `phy_duplex_to_str'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x1af8): undefined reference to `__dynamic_netdev_dbg'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_start':
-   phylink.c:(.text+0x1b2e): undefined reference to `rtnl_is_locked'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x1b48): undefined reference to `netif_carrier_off'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x1c7a): undefined reference to `netdev_printk'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_resume':
-   phylink.c:(.text+0x1cb2): undefined reference to `rtnl_is_locked'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_bringup_phy':
-   phylink.c:(.text+0x1fc8): undefined reference to `phy_support_asym_pause'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x203a): undefined reference to `phy_attached_info_irq'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x20ce): undefined reference to `phy_request_interrupt'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x2144): undefined reference to `__dynamic_netdev_dbg'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x2192): undefined reference to `netdev_printk'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x21b2): undefined reference to `netdev_printk'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_connect_phy':
-   phylink.c:(.text+0x223e): undefined reference to `phy_attach_direct'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x2290): undefined reference to `phy_detach'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_parse_mode':
-   phylink.c:(.text+0x2474): undefined reference to `netdev_printk'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x2480): undefined reference to `netdev_printk'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x248c): undefined reference to `netdev_printk'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_parse_fixedlink':
-   phylink.c:(.text+0x25d0): undefined reference to `phy_lookup_setting'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x2720): undefined reference to `netdev_printk'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x272c): undefined reference to `netdev_printk'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x2750): undefined reference to `netdev_printk'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_nway_reset':
-   phylink.c:(.text+0x293a): undefined reference to `rtnl_is_locked'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x2944): undefined reference to `phy_restart_aneg'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_link_down':
-   phylink.c:(.text+0x2ac): undefined reference to `netdev_printk'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_link_up':
-   phylink.c:(.text+0x3d0): undefined reference to `netdev_printk'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_disconnect_phy':
-   phylink.c:(.text+0x570): undefined reference to `phy_disconnect'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_get_wol':
-   phylink.c:(.text+0x5d4): undefined reference to `phy_ethtool_get_wol'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_wol':
-   phylink.c:(.text+0x636): undefined reference to `phy_ethtool_set_wol'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_get_eee_err':
-   phylink.c:(.text+0x7c2): undefined reference to `phy_get_eee_err'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_init_eee':
-   phylink.c:(.text+0x80c): undefined reference to `phy_init_eee'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_get_eee':
-   phylink.c:(.text+0x836): undefined reference to `phy_ethtool_get_eee'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_eee':
-   phylink.c:(.text+0x89a): undefined reference to `phy_ethtool_set_eee'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_an_restart':
-   phylink.c:(.text+0x9a2): undefined reference to `mdiobus_write'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_mii_ioctl':
->> phylink.c:(.text+0xa9a): undefined reference to `phy_mii_ioctl'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0xae4): undefined reference to `mdiobus_write'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_speed_down':
-   phylink.c:(.text+0xc5e): undefined reference to `phy_speed_down'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_major_config':
-   phylink.c:(.text+0xe54): undefined reference to `netdev_printk'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_speed_up':
-   phylink.c:(.text+0x11fa): undefined reference to `phy_speed_up'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_mac_change':
-   phylink.c:(.text+0x1962): undefined reference to `__dynamic_netdev_dbg'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_start':
-   phylink.c:(.text+0x1b80): undefined reference to `phy_start'
-   arm-linux-gnueabi-ld: drivers/power/supply/rt9455_charger.o: in function `rt9455_probe':
-   rt9455_charger.c:(.text+0xcc8): undefined reference to `devm_usb_get_phy'
-   arm-linux-gnueabi-ld: drivers/power/supply/bq25890_charger.o: in function `bq25890_probe':
-   bq25890_charger.c:(.text+0x7e8): undefined reference to `devm_usb_get_phy'
-   arm-linux-gnueabi-ld: drivers/android/android_debug_symbols.o:(.rodata+0x14): undefined reference to `__per_cpu_start'
-   arm-linux-gnueabi-ld: drivers/android/android_debug_symbols.o:(.rodata+0x1c): undefined reference to `__per_cpu_end'
->> arm-linux-gnueabi-ld: drivers/android/android_debug_symbols.o:(.rodata+0x74): undefined reference to `stack_guard_gap'
---
->> kernel/gki_module.c:35:6: warning: no previous prototype for 'gki_is_module_protected_symbol' [-Wmissing-prototypes]
-      35 | bool gki_is_module_protected_symbol(const char *name)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/gki_module.c:46:6: warning: no previous prototype for 'gki_is_module_exported_symbol' [-Wmissing-prototypes]
-      46 | bool gki_is_module_exported_symbol(const char *name)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_KMS_CMA_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_GEM_CMA_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   In file included from drivers/net/ethernet/apm/xgene/xgene_enet_main.c:11:
+   In file included from drivers/net/ethernet/apm/xgene/xgene_enet_main.h:15:
+   In file included from include/linux/efi.h:20:
+   In file included from include/linux/rtc.h:17:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/net/ethernet/apm/xgene/xgene_enet_main.c:11:
+   In file included from drivers/net/ethernet/apm/xgene/xgene_enet_main.h:15:
+   In file included from include/linux/efi.h:20:
+   In file included from include/linux/rtc.h:17:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/net/ethernet/apm/xgene/xgene_enet_main.c:11:
+   In file included from drivers/net/ethernet/apm/xgene/xgene_enet_main.h:15:
+   In file included from include/linux/efi.h:20:
+   In file included from include/linux/rtc.h:17:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/net/ethernet/apm/xgene/xgene_enet_main.c:2004:34: warning: unused variable 'xgene_enet_of_match' [-Wunused-const-variable]
+   static const struct of_device_id xgene_enet_of_match[] = {
+                                    ^
+   7 warnings generated.
 
 
-vim +/gki_is_module_protected_symbol +35 kernel/gki_module.c
+vim +/xgene_enet_of_match +2004 drivers/net/ethernet/apm/xgene/xgene_enet_main.c
 
-    29	
-    30	/**
-    31	 * gki_is_module_protected_symbol - Is a symbol protected from unsigned module?
-    32	 *
-    33	 * @name:	Symbol being checked against protection from unsigned module
-    34	 */
-  > 35	bool gki_is_module_protected_symbol(const char *name)
-    36	{
-    37		return bsearch(name, gki_protected_symbols, NO_OF_PROTECTED_SYMBOLS,
-    38			       MAX_PROTECTED_NAME_LEN, cmp_name) != NULL;
-    39	}
-    40	
-    41	/**
-    42	 * gki_is_module_exported_symbol - Is a symbol exported from a GKI module?
-    43	 *
-    44	 * @name:	Symbol being checked against exported symbols from GKI modules
-    45	 */
-  > 46	bool gki_is_module_exported_symbol(const char *name)
+1f3d62090d3ba4 Arnd Bergmann 2017-02-01  2003  
+1f3d62090d3ba4 Arnd Bergmann 2017-02-01 @2004  static const struct of_device_id xgene_enet_of_match[] = {
+1f3d62090d3ba4 Arnd Bergmann 2017-02-01  2005  	{.compatible = "apm,xgene-enet",    .data = (void *)XGENE_ENET1},
+1f3d62090d3ba4 Arnd Bergmann 2017-02-01  2006  	{.compatible = "apm,xgene1-sgenet", .data = (void *)XGENE_ENET1},
+1f3d62090d3ba4 Arnd Bergmann 2017-02-01  2007  	{.compatible = "apm,xgene1-xgenet", .data = (void *)XGENE_ENET1},
+1f3d62090d3ba4 Arnd Bergmann 2017-02-01  2008  	{.compatible = "apm,xgene2-sgenet", .data = (void *)XGENE_ENET2},
+1f3d62090d3ba4 Arnd Bergmann 2017-02-01  2009  	{.compatible = "apm,xgene2-xgenet", .data = (void *)XGENE_ENET2},
+1f3d62090d3ba4 Arnd Bergmann 2017-02-01  2010  	{},
+1f3d62090d3ba4 Arnd Bergmann 2017-02-01  2011  };
+1f3d62090d3ba4 Arnd Bergmann 2017-02-01  2012  
+
+:::::: The code at line 2004 was first introduced by commit
+:::::: 1f3d62090d3ba4d0c14e5271be87812fc577b197 xgene_enet: remove bogus forward declarations
+
+:::::: TO: Arnd Bergmann <arnd@arndb.de>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
