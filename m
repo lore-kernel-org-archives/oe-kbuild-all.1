@@ -1,104 +1,132 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C7779FD
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Oct 2023 05:35:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244B215491
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Oct 2023 07:16:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ISotFGLM"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4065f29e933so44815085e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Oct 2023 22:35:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697434556; x=1698039356; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kE63YcVyoiTF0pqB4vYi6Iwnwu4bq4BVz2G6qBjc2ik=;
-        b=ISotFGLMZpXcK4IYmkiFULy/gtS0fltLHmP6aATzTHV/q0hx/rSF+XakgQ908LDeTY
-         FThCFt02akrFwIuO01Dvh4kl9NBENpeyQfilSNMHIdhDMm62W7OBf7RaLPDGTTBBebUc
-         aiqnPwvB7CyJSdK8rEivmzaRU+OQpeU1/jK6mH4dncRAyOluYGzRqnZ3b6OvUS1MK4uZ
-         1ZVY1tQ332jbPqgutcttd6T7yWx7tbx/qWE0Smd2Paezv7ySQ+wO53Arpjp7Tnxh88qq
-         8zEIUY9cmfpzF4BYiOYG/ID6meyRG608uKeOfsE9sxa07wRXTYpTU3XcLJHdlu3orKJX
-         oVXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697434556; x=1698039356;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kE63YcVyoiTF0pqB4vYi6Iwnwu4bq4BVz2G6qBjc2ik=;
-        b=Z3I+F5REDk2en+NSMfGZ12rpcdLbQjrjtdmWrLC4F1aRsBNMhHBmaSRq96ix1n3Vpo
-         I3XIesbl7LkVE4XLw/sFmkeiMSNRa8MBSF72AMw4l44Ukb+vji1l76lSAIeBL3tmFggm
-         EqW0+fe+x0kJj7hO3vjGDzzkwPOpMcvGawMjcyoGs9G7odJ3lC7Cp5qZPw+75Nfm0cwI
-         exual90PFfVEpPhrRZmbXkrf4km/RDFGssja4qIKS8QLWzunv4Kwhn38nwPaODpC2J++
-         bXqsyjRQWZI2SbxUU5Sx8QU/TdvRleaPHTPpROCNmeeNgs5RaOnEGC95lKWrcV8GCfep
-         Q6lQ==
-X-Gm-Message-State: AOJu0YymJiicHEcUQCBBKHjLwehaT0y61CrcL0KTnohjiUYkBxNekz4b
-	IKFy0R0ixjOFjvheaYstfG0Amfrx50PBrH61/t8=
-X-Google-Smtp-Source: AGHT+IG+gfj7ziURHjAtkeG9LVfEFA01Y8RlWsKUArIc/ZSAOpI+GWqoXcIKybUrK0Y6yCVrrOCWkw==
-X-Received: by 2002:a05:6000:1e17:b0:32d:a98c:aa24 with SMTP id bj23-20020a0560001e1700b0032da98caa24mr3932028wrb.3.1697434555805;
-        Sun, 15 Oct 2023 22:35:55 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id bq1-20020a5d5a01000000b0031ad5fb5a0fsm633882wrb.58.2023.10.15.22.35.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Oct 2023 22:35:55 -0700 (PDT)
-Date: Mon, 16 Oct 2023 08:35:52 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Melanie Lobo <melanie.lobo@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	juha-pekka.heikkila@intel.com
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Support FP16 compressed formats on
- MTL
-Message-ID: <04067fb6-64ab-41c5-b063-f3912e880f44@kadam.mountain>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ah3ThXZn"
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 39G4qF6R113977;
+	Sun, 15 Oct 2023 23:52:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1697431935;
+	bh=rOD+UJEGwIXXuaIuWSogMg77uvD/bZ9SzQ1ieBYT5aY=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=ah3ThXZnuLIZXtl6Ux9ErqCUp4Gnr4UuxwMtq6sFujKq/F2LqT0RAHKGcnleJ/vD7
+	 jh7U1Nvf1Zd2RYYH7Hr0BlruT97NDtwcCwlbdg/gS9iK+kgoa+gqTOSn+Fs8FtJQJ3
+	 qJOtC/nHTqf1EAElpd5taDeByTyCFco64ZKMzymI=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 39G4qFds097458
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Sun, 15 Oct 2023 23:52:15 -0500
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sun, 15
+ Oct 2023 23:52:15 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Sun, 15 Oct 2023 23:52:15 -0500
+Received: from [10.249.135.225] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+	by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 39G4qDiZ028395;
+	Sun, 15 Oct 2023 23:52:14 -0500
+Message-ID: <ef283c6d-5074-8748-ea4b-7e85e3d6a833@ti.com>
+Date: Mon, 16 Oct 2023 10:22:12 +0530
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231011102356.22014-1-melanie.lobo@intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [EXTERNAL] Re: [PATCH] net: ti: icssg-prueth: Fix tx_total_bytes
+ count
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, MD Danish Anwar <danishanwar@ti.com>
+CC: <oe-kbuild-all@lists.linux.dev>
+References: <20231011063700.1824093-1-danishanwar@ti.com>
+ <202310142105.gb7k82oJ-lkp@intel.com>
+From: "Anwar, Md Danish" <a0501179@ti.com>
+In-Reply-To: <202310142105.gb7k82oJ-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Hi Melanie,
+On 10/14/2023 7:26 PM, kernel test robot wrote:
+> Hi MD,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on linus/master]
+> [also build test ERROR on v6.6-rc5 next-20231013]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/MD-Danish-Anwar/net-ti-icssg-prueth-Fix-tx_total_bytes-count/20231011-143912
+> base:   linus/master
+> patch link:    https://lore.kernel.org/r/20231011063700.1824093-1-danishanwar%40ti.com
+> patch subject: [PATCH] net: ti: icssg-prueth: Fix tx_total_bytes count
+> config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231014/202310142105.gb7k82oJ-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310142105.gb7k82oJ-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202310142105.gb7k82oJ-lkp@intel.com/
+> 
 
-kernel test robot noticed the following build warnings:
+I had already posted the fix for this in the next revision (v2) of the
+patch, even before this warning email was generated.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Melanie-Lobo/drm-i915-Support-FP16-compressed-formats-on-MTL/20231011-181214
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20231011102356.22014-1-melanie.lobo%40intel.com
-patch subject: [Intel-gfx] [PATCH] drm/i915: Support FP16 compressed formats on MTL
-config: x86_64-randconfig-161-20231015 (https://download.01.org/0day-ci/archive/20231015/202310150454.S9QF86bl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231015/202310150454.S9QF86bl-lkp@intel.com/reproduce)
+v2: https://lore.kernel.org/all/20231012064626.977466-1-danishanwar@ti.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202310150454.S9QF86bl-lkp@intel.com/
+> All errors (new ones prefixed by >>):
+> 
+>    drivers/net/ethernet/ti/icssg/icssg_stats.c: In function 'emac_update_hardware_stats':
+>>> drivers/net/ethernet/ti/icssg/icssg_stats.c:33:30: error: 'icssg_ethtool_stats' undeclared (first use in this function); did you mean 'icssg_ethtool_ops'?
+>       33 |                 if (!strncmp(icssg_ethtool_stats[i].name, "tx_good_frames", ETH_GSTRING_LEN))
+>          |                              ^~~~~~~~~~~~~~~~~~~
+>          |                              icssg_ethtool_ops
+>    drivers/net/ethernet/ti/icssg/icssg_stats.c:33:30: note: each undeclared identifier is reported only once for each function it appears in
+> 
+> 
+> vim +33 drivers/net/ethernet/ti/icssg/icssg_stats.c
+> 
+>     15	
+>     16	void emac_update_hardware_stats(struct prueth_emac *emac)
+>     17	{
+>     18		struct prueth *prueth = emac->prueth;
+>     19		int slice = prueth_emac_slice(emac);
+>     20		u32 base = stats_base[slice];
+>     21		u32 tx_pkt_cnt = 0;
+>     22		u32 val;
+>     23		int i;
+>     24	
 
-smatch warnings:
-drivers/gpu/drm/i915/display/skl_universal_plane.c:2126 gen12_plane_format_mod_supported() warn: ignoring unreachable code.
-
-vim +2126 drivers/gpu/drm/i915/display/skl_universal_plane.c
-
-46d12f911821f7 Dave Airlie           2021-02-05  2120  	case DRM_FORMAT_Y210:
-46d12f911821f7 Dave Airlie           2021-02-05  2121  	case DRM_FORMAT_Y212:
-46d12f911821f7 Dave Airlie           2021-02-05  2122  	case DRM_FORMAT_Y216:
-46d12f911821f7 Dave Airlie           2021-02-05  2123  	case DRM_FORMAT_XVYU12_16161616:
-46d12f911821f7 Dave Airlie           2021-02-05  2124  	case DRM_FORMAT_XVYU16161616:
-46d12f911821f7 Dave Airlie           2021-02-05  2125  		return true;
-46d12f911821f7 Dave Airlie           2021-02-05 @2126  		fallthrough;
-
-This fallthrough annotation is incorrect.
-
-46d12f911821f7 Dave Airlie           2021-02-05  2127  	default:
-46d12f911821f7 Dave Airlie           2021-02-05  2128  		return false;
-46d12f911821f7 Dave Airlie           2021-02-05  2129  	}
-46d12f911821f7 Dave Airlie           2021-02-05  2130  }
+>     25		for (i = 0; i < ARRAY_SIZE(icssg_all_stats); i++) {
+>     26			regmap_read(prueth->miig_rt,
+>     27				    base + icssg_all_stats[i].offset,
+>     28				    &val);
+>     29			regmap_write(prueth->miig_rt,
+>     30				     base + icssg_all_stats[i].offset,
+>     31				     val);
+>     32	
+>   > 33			if (!strncmp(icssg_ethtool_stats[i].name, "tx_good_frames", ETH_GSTRING_LEN))
+>     34				tx_pkt_cnt = val;
+>     35	
+>     36			emac->stats[i] += val;
+>     37			if (!strncmp(icssg_ethtool_stats[i].name, "tx_total_bytes", ETH_GSTRING_LEN))
+>     38				emac->stats[i] -= tx_pkt_cnt * 8;
+>     39		}
+>     40	}
+>     41	
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Thanks and Regards,
+Md Danish Anwar
