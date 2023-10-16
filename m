@@ -1,137 +1,117 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9AF187C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Oct 2023 04:48:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF466FA2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Oct 2023 04:56:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Gj0PT58J"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4064876e8b8so44701855e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Oct 2023 21:48:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Lgm0eBp3"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-98377c5d53eso618757166b.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Oct 2023 21:56:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697431699; x=1698036499; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Fu12J9912FJosRY3Zl1CINg2QwA6eXK65koDPwmykQo=;
-        b=Gj0PT58JQHFITfNlFssYYY1UHJwbARZqHU3AKf6If5EWjZpLOQ2RENl6EoVd4fjeYo
-         Gcko5e4qVMzOwDkMPM6VKS2XJD8NEZhBbKtUEadZe5JCcVFrUIplIHdg4Mdur+UpR+mX
-         GYnQsmlXgdx3x4Bj4naS2JgrjYm32QlKRWg7PCBdudaN6Q7wtPU+VkvdPfuqKSkeSpLI
-         6+t3iAPyKyzy7L+YXvZlmC5mBASO5FaeVfWENcde6WM+HFPDkdtdNHT8jCS4dQyGzGTt
-         91gaogG5G+BevvMFr6u8JaTzpBWS7mlWi3qTw/IziVowx2agiyc29pEEgZkBVIBiLilI
-         6jtQ==
+        d=linaro.org; s=google; t=1697432162; x=1698036962; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qJc90FRFU3fOsiAP8JukZC8xlwxkOrVqaLNoVS0Lq4M=;
+        b=Lgm0eBp3dKL8Nh95DcK2WrghqwufywgoDxYDP8XKLbCaXZvJ+cdvrXOR0o0ixw5uTX
+         8rUKl2o9N5FpF0NOeJ1JrzLglRCfTkDdR+w9qqvnhe2/vvBGuYh3n1r0xgoXGqpD6mO8
+         QkSgNNBUX4uSo7+1BA48joDIlghadeiTv75hAFQBTyyJLd9NQPpPT5YLsfYDMlXO6s47
+         NMPKZ3ZtlfICjtI0EYxafMA05VWed4HWYJXkwda1WW4vyU1rLhqxFXl+zjHpHHu7Z0LJ
+         J0uxuuLDFNcEitt5CCPxJexSgFFWYIwdjC9SjEmVIr4RWXZIj5B6aRiWLpG6yq/rH6eY
+         6xug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697431699; x=1698036499;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fu12J9912FJosRY3Zl1CINg2QwA6eXK65koDPwmykQo=;
-        b=oXXMKBiQ3JUQ8XeiQedH4FjsiVFrTG3qqYiGOiZgszTNAuRfh3Sf9b5/hH/JO+2a0T
-         /Pv4WwiO8cTV7uSudJgGvvuYRTHRVwCbIpO6k1dMUqAhqnEx7yn1yX3YJBRUR0VkkdKC
-         Yw2c2yapAV4y7noklxgbvI0sV7WXkm890qCtpl/3eFPTi8IcoRyx7XZ6RdtzxnllteJo
-         Ext+qG/11TTaEv7GQqaOHI3vTmb6N0YyjX2llHZqfEuT4KSnhXY38H6D4B8s6UAU9adC
-         1bymNJtOUdaw7sgrbp6IF5Xaw6YCk7u0gjkZcb1ibMOss5WLJkBSLOCkVpit1u3zIrdN
-         Z9Vg==
-X-Gm-Message-State: AOJu0YyaSEpSVqrfhzfUKtjJgVWbyxzriQLkVLa1EAeH3gdXUEiD70mf
-	RlR7jTrzt8d+7lVMotKeUxwFyQ==
-X-Google-Smtp-Source: AGHT+IG3p7meeO/kWEA1VjmPFec9oQBfNDo8wBqLNGqkXYCndDN+PPbRxosAI7/9pxtYl4R3ZaAQYg==
-X-Received: by 2002:a05:600c:2a4e:b0:405:7b92:4558 with SMTP id x14-20020a05600c2a4e00b004057b924558mr29005896wme.38.1697431698327;
-        Sun, 15 Oct 2023 21:48:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697432162; x=1698036962;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qJc90FRFU3fOsiAP8JukZC8xlwxkOrVqaLNoVS0Lq4M=;
+        b=iD2VyYF2s7IZjyrlnfeQwv4etX0fpQPfq6MqnDhDA/ASdqh6rQufO3bpwRc8DVCgmn
+         7ZcZzVWfr9N2wwp0IEbI46WkT1w5zx/FF9QOwYvty/NdPA/evWwQCMJRX8ZN02dhSCfe
+         Q6oWnltEmJDf3JNQS9xzj1tgt5INxddz16P60wSnuiZN5Tq0O6e1U+VIqBsODSpbaVF8
+         fk9EmC3EUVaOcxKWUv3elIjjYxQIKKWfW2EwiRkXcFoqh61Bn9wk/UadqHW6GkeJ3GzO
+         lk/Z6nqtPPX4owDfCNIey/JWjjeRGuCamaEUGHysTpBG75zARoczMW3Ervqa/UXETNN7
+         XK8A==
+X-Gm-Message-State: AOJu0YwEP0bPt4uQ9vJ+XofNTEKEICLG7F/xmkI8EcxCPtZUc/NfPCrE
+	1HARwvLn2A6mw4+R31ZsJCqistus57B3tOeb/fI=
+X-Google-Smtp-Source: AGHT+IGINi4RbUZA551UH4M/OGEIgiB22bM6ASrHKDQ1dD2i12AWj6YGtV7XQ76MxhpCgN4zCuhxbQ==
+X-Received: by 2002:a5d:5258:0:b0:32d:9701:90e5 with SMTP id k24-20020a5d5258000000b0032d970190e5mr7772173wrc.34.1697431781686;
+        Sun, 15 Oct 2023 21:49:41 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id n7-20020a05600c4f8700b00406408dc788sm6180389wmq.44.2023.10.15.21.48.17
+        by smtp.gmail.com with ESMTPSA id n6-20020adffe06000000b003140f47224csm26227635wrr.15.2023.10.15.21.49.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Oct 2023 21:48:17 -0700 (PDT)
-Date: Mon, 16 Oct 2023 07:48:15 +0300
+        Sun, 15 Oct 2023 21:49:41 -0700 (PDT)
+Date: Mon, 16 Oct 2023 07:49:38 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: oe-kbuild@lists.linux.dev, Daniel Berlin <dberlin@dberlin.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:bits/080-wifi 30/32]
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:3971
- brcmf_get_netinfo_array() error: uninitialized symbol 'netinfo'.
-Message-ID: <a8ee2d7b-91ad-4e59-9b99-4be87ed98e92@kadam.mountain>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:pr/208 1/1]
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:7455
+ brcmf_get_bwcap() warn: ignoring unreachable code.
+Message-ID: <80aba4c9-6677-485e-aa7f-8bc5cd672ede@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/AsahiLinux/linux bits/080-wifi
-head:   2fac67e22f6cf7c8b1261e1bc9a33de738859b89
-commit: 3952a7bc01860b0efa4efc162197fc0ddafe7187 [30/32] Finish 6G support by supporting new scan structures
-config: x86_64-randconfig-161-20231013 (https://download.01.org/0day-ci/archive/20231014/202310140546.cCy7xVip-lkp@intel.com/config)
+tree:   https://github.com/AsahiLinux/linux pr/208
+head:   f82c1849a64ad37b55d74b1cc4681e819c068b93
+commit: f82c1849a64ad37b55d74b1cc4681e819c068b93 [1/1] Fix invalid frequency issues and issues with HE supporting/only AP's
+config: x86_64-randconfig-161-20231013 (https://download.01.org/0day-ci/archive/20231014/202310140627.FEmReRFq-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231014/202310140546.cCy7xVip-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231014/202310140627.FEmReRFq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202310140546.cCy7xVip-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310140627.FEmReRFq-lkp@intel.com/
 
 New smatch warnings:
-drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:3971 brcmf_get_netinfo_array() error: uninitialized symbol 'netinfo'.
-drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:3995 brcmf_get_netinfo_v3_array() error: uninitialized symbol 'netinfo'.
+drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:7455 brcmf_get_bwcap() warn: ignoring unreachable code.
 
-vim +/netinfo +3971 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
+vim +7455 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
 
-53e3a80d80c80b Arend Van Spriel    2016-11-23  3948  static struct brcmf_pno_net_info_le *
-53e3a80d80c80b Arend Van Spriel    2016-11-23  3949  brcmf_get_netinfo_array(struct brcmf_pno_scanresults_le *pfn_v1)
-53e3a80d80c80b Arend Van Spriel    2016-11-23  3950  {
-53e3a80d80c80b Arend Van Spriel    2016-11-23  3951  	struct brcmf_pno_scanresults_v2_le *pfn_v2;
-53e3a80d80c80b Arend Van Spriel    2016-11-23  3952  	struct brcmf_pno_net_info_le *netinfo;
-53e3a80d80c80b Arend Van Spriel    2016-11-23  3953  
-53e3a80d80c80b Arend Van Spriel    2016-11-23  3954  	switch (pfn_v1->version) {
-53e3a80d80c80b Arend Van Spriel    2016-11-23  3955  	default:
-53e3a80d80c80b Arend Van Spriel    2016-11-23  3956  		WARN_ON(1);
-0bde10dc553d27 Gustavo A. R. Silva 2020-08-21  3957  		fallthrough;
-53e3a80d80c80b Arend Van Spriel    2016-11-23  3958  	case cpu_to_le32(1):
-53e3a80d80c80b Arend Van Spriel    2016-11-23  3959  		netinfo = (struct brcmf_pno_net_info_le *)(pfn_v1 + 1);
-53e3a80d80c80b Arend Van Spriel    2016-11-23  3960  		break;
-53e3a80d80c80b Arend Van Spriel    2016-11-23  3961  	case cpu_to_le32(2):
-53e3a80d80c80b Arend Van Spriel    2016-11-23  3962  		pfn_v2 = (struct brcmf_pno_scanresults_v2_le *)pfn_v1;
-53e3a80d80c80b Arend Van Spriel    2016-11-23  3963  		netinfo = (struct brcmf_pno_net_info_le *)(pfn_v2 + 1);
-53e3a80d80c80b Arend Van Spriel    2016-11-23  3964  		break;
-3952a7bc01860b Daniel Berlin       2023-10-05  3965  	case cpu_to_le32(3):
-3952a7bc01860b Daniel Berlin       2023-10-05  3966  		brcmf_err(
-3952a7bc01860b Daniel Berlin       2023-10-05  3967  			"This should use the brcmf_get_netinfo_v3_array function to retrieve the array\n");
+f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7440  static void brcmf_get_bwcap(struct brcmf_if *ifp, u32 bw_cap[], bool has_6g)
+2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7441  {
+16e64676839633 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Rafał Miłecki       2019-02-15  7442  	struct brcmf_pub *drvr = ifp->drvr;
+2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7443  	u32 band, mimo_bwcap;
+2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7444  	int err;
+2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7445  
+2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7446  	band = WLC_BAND_2G;
+2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7447  	err = brcmf_fil_iovar_int_get(ifp, "bw_cap", &band);
+2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7448  	if (!err) {
+57fbcce37be7c1 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Johannes Berg       2016-04-12  7449  		bw_cap[NL80211_BAND_2GHZ] = band;
+2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7450  		band = WLC_BAND_5G;
+2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7451  		err = brcmf_fil_iovar_int_get(ifp, "bw_cap", &band);
+2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7452  		if (!err) {
+57fbcce37be7c1 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Johannes Berg       2016-04-12  7453  			bw_cap[NL80211_BAND_5GHZ] = band;
+2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7454  			return;
+                                                                                                                                        ^^^^^^^
+Ancient return statement
 
-netinfo not set here.
+f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08 @7455  			if (!has_6g)
 
-3952a7bc01860b Daniel Berlin       2023-10-05  3968  		break;
-3952a7bc01860b Daniel Berlin       2023-10-05  3969  	}
-3952a7bc01860b Daniel Berlin       2023-10-05  3970  
-3952a7bc01860b Daniel Berlin       2023-10-05 @3971  	return netinfo;
-3952a7bc01860b Daniel Berlin       2023-10-05  3972  }
-3952a7bc01860b Daniel Berlin       2023-10-05  3973  
-3952a7bc01860b Daniel Berlin       2023-10-05  3974  static struct brcmf_pno_net_info_v3_le *
-3952a7bc01860b Daniel Berlin       2023-10-05  3975  brcmf_get_netinfo_v3_array(struct brcmf_pno_scanresults_le *pfn_v1)
-3952a7bc01860b Daniel Berlin       2023-10-05  3976  {
-3952a7bc01860b Daniel Berlin       2023-10-05  3977  	struct brcmf_pno_scanresults_v2_le *pfn_v2;
-3952a7bc01860b Daniel Berlin       2023-10-05  3978  	struct brcmf_pno_net_info_v3_le *netinfo;
-3952a7bc01860b Daniel Berlin       2023-10-05  3979  
-3952a7bc01860b Daniel Berlin       2023-10-05  3980  	switch (pfn_v1->version) {
-3952a7bc01860b Daniel Berlin       2023-10-05  3981  	default:
-3952a7bc01860b Daniel Berlin       2023-10-05  3982  		WARN_ON(1);
-3952a7bc01860b Daniel Berlin       2023-10-05  3983  		fallthrough;
-3952a7bc01860b Daniel Berlin       2023-10-05  3984  	case cpu_to_le32(1):
-3952a7bc01860b Daniel Berlin       2023-10-05  3985  	case cpu_to_le32(2):
-3952a7bc01860b Daniel Berlin       2023-10-05  3986  		brcmf_err(
-3952a7bc01860b Daniel Berlin       2023-10-05  3987  			"This should use the brcmf_get_netinfo_array function to retrieve the array\n");
+Unreachable new code
 
-Not set here.
-
-3952a7bc01860b Daniel Berlin       2023-10-05  3988  		break;
-3952a7bc01860b Daniel Berlin       2023-10-05  3989  	case cpu_to_le32(3):
-3952a7bc01860b Daniel Berlin       2023-10-05  3990  		pfn_v2 = (struct brcmf_pno_scanresults_v2_le *)pfn_v1;
-3952a7bc01860b Daniel Berlin       2023-10-05  3991  		netinfo = (struct brcmf_pno_net_info_v3_le *)(pfn_v2 + 1);
-3952a7bc01860b Daniel Berlin       2023-10-05  3992  		break;
-53e3a80d80c80b Arend Van Spriel    2016-11-23  3993  	}
-53e3a80d80c80b Arend Van Spriel    2016-11-23  3994  
-53e3a80d80c80b Arend Van Spriel    2016-11-23 @3995  	return netinfo;
-53e3a80d80c80b Arend Van Spriel    2016-11-23  3996  }
+f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7456  				return;
+f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7457  			band = WLC_BAND_6G;
+f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7458  			err = brcmf_fil_iovar_int_get(ifp, "bw_cap", &band);
+f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7459  			if (!err) {
+f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7460  				bw_cap[NL80211_BAND_6GHZ] = band;
+f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7461  				return;
+2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7462  			}
+f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7463  			return;
+f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7464  		}
+f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7465  
+2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7466  		WARN_ON(1);
+2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7467  		return;
 
 -- 
 0-DAY CI Kernel Test Service
