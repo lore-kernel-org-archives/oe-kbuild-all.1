@@ -1,45 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9547126E2B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Oct 2023 12:06:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59E626E08
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Oct 2023 12:29:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DZDMqfaR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VIoB6LrH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697458005; x=1728994005;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iaLw9V/paC39BFzC/jXtmVjtd8SsAHo5jtVunSFthbw=;
-  b=DZDMqfaRFpOS+VoOFQQiZgOvN7fMlFBtcSVVqY8RDZTBUU9Cqt4deTtT
-   lCSOwVwkzVpycXO3Fdq3iU3QbwWE2ZRD4VA3OAKxY34xJnEC7FrLrhX4s
-   ZFsLgk/smMjTjhq+Jwra+uKgJ/DR9WQJndO15N6+SfNloMOv2xqpskBBa
-   ughc29/v/C0MijqBQsecvqxzFS+2yo1bB2P3KX3THej1XWpsSKOzt4JO/
-   8JtpPVZOv197SuxG8Vtn2LHzg1la3vkD/hPuqRSz+08baqvr0P1Kk7vCI
-   3kQuyvm7dr1TDB0nzPhxGwj/aCIgS/b9tpDMaNT5XdhzXdxtPf9mjCfGQ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="416579906"
+  t=1697459387; x=1728995387;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=X4iLosxWswCCbHcun/ld8yUky/U5sw9Wi6q5ArDk6cI=;
+  b=VIoB6LrHdLAW3gCGPLss7zUVMrsMmFyy0BldQAzi6tmGbv5kHK3N7ihI
+   eX4aSAyz1R/W83vhdXWuMAzh0Lco9KeK8b+3CdEian2EX95i2LFGRrSVr
+   MkEsEoDTm7KEI0/D8P0OzOA31YBFvN1B+XviiZMFx+0lZi9j51Ozz8JSk
+   JUwaRH/fdD5gzHbo/9QE0rD73T+XOuc1N47ZRoPZk3Cpz9AOfjYWowPw8
+   XW0ZIkd7STyATvsEu2NWORvg8KbIrzQbKkcVJdxJ5QHjG40HLcB7X5KZe
+   FEpzK+Y3gTPOQwDgJohwz7zOM1eRgxc0F83DVDtmOi2LvUnwc8Ag0Y9fN
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="385352626"
 X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
-   d="scan'208";a="416579906"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 05:06:31 -0700
+   d="scan'208";a="385352626"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 05:29:46 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="785071563"
 X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
-   d="scan'208";a="3516375"
+   d="scan'208";a="785071563"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 16 Oct 2023 05:05:26 -0700
+  by orsmga008.jf.intel.com with ESMTP; 16 Oct 2023 05:29:44 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qsMMd-0008ML-39;
-	Mon, 16 Oct 2023 12:06:27 +0000
-Date: Mon, 16 Oct 2023 20:06:06 +0800
+	id 1qsMiu-0008Mp-30;
+	Mon, 16 Oct 2023 12:29:33 +0000
+Date: Mon, 16 Oct 2023 20:28:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [amir73il:backing_file 14/21] checkpatch: ERROR: Macros with complex
- values should be enclosed in parentheses
-Message-ID: <202310161909.hZLHvNaT-lkp@intel.com>
+To: Yazen Ghannam <yazen.ghannam@amd.com>, bp@alien8.de,
+	linux-edac@vger.kernel.org, tony.luck@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	avadhut.naik@amd.com, john.allen@amd.com, william.roche@oracle.com,
+	Yazen Ghannam <yazen.ghannam@amd.com>
+Subject: Re: [PATCH v2 1/2] RAS: Introduce AMD Address Translation Library
+Message-ID: <202310162015.fuitGuiJ-lkp@intel.com>
+References: <20231005173526.42831-2-yazen.ghannam@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,26 +53,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231005173526.42831-2-yazen.ghannam@amd.com>
 
-tree:   https://github.com/amir73il/linux backing_file
-head:   d25adf128a9821b19c3ee85d5a812cba70beed1c
-commit: a3ba0ba4040c5dec310c22b384005f08600364db [14/21] ovl: Support escaped overlay.* xattrs
-reproduce: (https://download.01.org/0day-ci/archive/20231016/202310161909.hZLHvNaT-lkp@intel.com/reproduce)
+Hi Yazen,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on ras/edac-for-next]
+[also build test ERROR on linus/master v6.6-rc6 next-20231016]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yazen-Ghannam/RAS-Introduce-AMD-Address-Translation-Library/20231006-014458
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
+patch link:    https://lore.kernel.org/r/20231005173526.42831-2-yazen.ghannam%40amd.com
+patch subject: [PATCH v2 1/2] RAS: Introduce AMD Address Translation Library
+config: i386-buildonly-randconfig-002-20231016 (https://download.01.org/0day-ci/archive/20231016/202310162015.fuitGuiJ-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231016/202310162015.fuitGuiJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310161909.hZLHvNaT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310162015.fuitGuiJ-lkp@intel.com/
 
-# many are suggestions rather than must-fix
+All errors (new ones prefixed by >>):
 
-ERROR:COMPLEX_MACRO: Macros with complex values should be enclosed in parentheses
-#46: FILE: fs/overlayfs/overlayfs.h:37:
-+#define OVL_XATTR_ESCAPE_TRUSTED_PREFIX OVL_XATTR_TRUSTED_PREFIX OVL_XATTR_ESCAPE_PREFIX
-
-ERROR:COMPLEX_MACRO: Macros with complex values should be enclosed in parentheses
-#48: FILE: fs/overlayfs/overlayfs.h:39:
-+#define OVL_XATTR_ESCAPE_USER_PREFIX OVL_XATTR_USER_PREFIX OVL_XATTR_ESCAPE_PREFIX
+   ld: drivers/ras/amd/atl/denormalize.o: in function `denormalize_address':
+>> denormalize.c:(.text+0x84f): undefined reference to `__umoddi3'
 
 -- 
 0-DAY CI Kernel Test Service
