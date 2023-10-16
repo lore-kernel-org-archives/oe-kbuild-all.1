@@ -1,47 +1,52 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162C91A27D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Oct 2023 08:52:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1DF1A284
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Oct 2023 08:52:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O0f/ATPR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EbXsN1rj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697446361; x=1728982361;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+Kiy6BxIz+DtLtRTv+tFWbyd0p8Zuqw5bUswBUX5tbw=;
-  b=O0f/ATPRg3NB9t0uxKuBCFskBNCMlbzgBTs/M016nlXgAdrzlnSPdThu
-   r/oYb0XaiJGgWeGVV9WZ4T2aB/Fl0sds/d23gRYASOFOfIayYS2rkah68
-   hGbXC5aCh4m0tFQhK19x/gcpMFn22V0pbGN6J6W+4+sJ1aWV/lhgvbohw
-   Zo4gv/fvGG6Bp/3czyx57hQujcsebnuRwcWXetz782ilbqsV0P0FU7BXS
-   dsAbe3BCLrCI1wpuUOJ3CjEeu8NmP8WvdIzOp5vYOMKrzsU1oG6Ffkgv4
-   Z8KZRyUmN2GtcNiHC2MdGKtrZX0sCSHSaeBfteLtbkndMtf6B5bOIH516
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="451960046"
+  t=1697446366; x=1728982366;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FDZL4OD787gS/ZZ371kxlpEGWk0Gv1OER30HjD5OdsE=;
+  b=EbXsN1rj0RhvksjgxCj/G9TrrB+6b4OMfIHaMi2U/6l2ADBr8nkeN8Fh
+   70XVdCB7f46fgx/PpXc5cY8DI311OX5zdcfCGnz0BUPYDBUeuTDxaXA+b
+   hNK7/de9xPlCKJPw+mBJr17OIhOf1axTna1AULuRxe9AnG1oKrV+AGRDN
+   q2i7XD41DpckJjSfyYkDa1PhYxCLG0rtecieWqfsIBlhpyypmh28hvsuU
+   /w83IxwH7AMPi1PpbwX2b824IOcrE76A3jg7T/VT0TtWy08GuH+a5Ix/w
+   ioLM5iEF1mQ4jVRk5W4m0hgRhuxIXCJA1mMoOZ+8zKo11OCk6A7kYUnk9
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="451960055"
 X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
-   d="scan'208";a="451960046"
+   d="scan'208";a="451960055"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 01:52:40 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 01:52:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="872013083"
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="872013091"
 X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
-   d="scan'208";a="872013083"
+   d="scan'208";a="872013091"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 16 Oct 2023 01:52:39 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 16 Oct 2023 01:52:42 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qsJKy-0008Fa-0q;
-	Mon, 16 Oct 2023 08:52:35 +0000
-Date: Mon, 16 Oct 2023 16:51:56 +0800
+	id 1qsJL3-0008Fd-0b;
+	Mon, 16 Oct 2023 08:52:37 +0000
+Date: Mon, 16 Oct 2023 16:51:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [pinchartl:mtk/v6.6/thp7312/fixups 5/5]
- drivers/media/i2c/thp7312.c:1836:20: sparse: sparse: symbol
- 'thp7312_fw_prepare' was not declared. Should it be static?
-Message-ID: <202310161640.k7xgqReZ-lkp@intel.com>
+To: xiaolinkui <xiaolinkui@126.com>, pablo@netfilter.org,
+	kadlec@netfilter.org, fw@strlen.de, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	justinstitt@google.com, kuniyu@amazon.com
+Cc: oe-kbuild-all@lists.linux.dev, netfilter-devel@vger.kernel.org,
+	coreteam@netfilter.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Linkui Xiao <xiaolinkui@kylinos.cn>
+Subject: Re: [PATCH] netfilter: ipset: wait for xt_recseq on all cpus
+Message-ID: <202310161625.GDDBP8SZ-lkp@intel.com>
+References: <20231005115022.12902-1-xiaolinkui@126.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,24 +55,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231005115022.12902-1-xiaolinkui@126.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git mtk/v6.6/thp7312/fixups
-head:   e16a701c1ccadbb92d46e6b9004d83f2ba14f3be
-commit: e16a701c1ccadbb92d46e6b9004d83f2ba14f3be [5/5] fixup! media: i2c: Add driver for THine THP7312
-config: x86_64-randconfig-121-20231016 (https://download.01.org/0day-ci/archive/20231016/202310161640.k7xgqReZ-lkp@intel.com/config)
+Hi xiaolinkui,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on netfilter-nf/main]
+[also build test ERROR on nf-next/master horms-ipvs/master linus/master v6.6-rc6 next-20231016]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/xiaolinkui/netfilter-ipset-wait-for-xt_recseq-on-all-cpus/20231005-234042
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
+patch link:    https://lore.kernel.org/r/20231005115022.12902-1-xiaolinkui%40126.com
+patch subject: [PATCH] netfilter: ipset: wait for xt_recseq on all cpus
+config: x86_64-buildonly-randconfig-006-20231016 (https://download.01.org/0day-ci/archive/20231016/202310161625.GDDBP8SZ-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231016/202310161640.k7xgqReZ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231016/202310161625.GDDBP8SZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310161640.k7xgqReZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310161625.GDDBP8SZ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/media/i2c/thp7312.c:1836:20: sparse: sparse: symbol 'thp7312_fw_prepare' was not declared. Should it be static?
->> drivers/media/i2c/thp7312.c:1872:20: sparse: sparse: symbol 'thp7312_fw_write' was not declared. Should it be static?
->> drivers/media/i2c/thp7312.c:1916:20: sparse: sparse: symbol 'thp7312_fw_poll_complete' was not declared. Should it be static?
->> drivers/media/i2c/thp7312.c:1927:6: sparse: sparse: symbol 'thp7312_fw_cancel' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
+
+   ld: vmlinux.o: in function `wait_xt_recseq':
+>> ip_set_core.c:(.text+0x1c561ac): undefined reference to `xt_recseq'
 
 -- 
 0-DAY CI Kernel Test Service
