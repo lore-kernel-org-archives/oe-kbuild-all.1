@@ -1,132 +1,113 @@
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244B215491
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Oct 2023 07:16:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C3216435
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Oct 2023 07:22:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ah3ThXZn"
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 39G4qF6R113977;
-	Sun, 15 Oct 2023 23:52:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1697431935;
-	bh=rOD+UJEGwIXXuaIuWSogMg77uvD/bZ9SzQ1ieBYT5aY=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=ah3ThXZnuLIZXtl6Ux9ErqCUp4Gnr4UuxwMtq6sFujKq/F2LqT0RAHKGcnleJ/vD7
-	 jh7U1Nvf1Zd2RYYH7Hr0BlruT97NDtwcCwlbdg/gS9iK+kgoa+gqTOSn+Fs8FtJQJ3
-	 qJOtC/nHTqf1EAElpd5taDeByTyCFco64ZKMzymI=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 39G4qFds097458
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sun, 15 Oct 2023 23:52:15 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sun, 15
- Oct 2023 23:52:15 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Sun, 15 Oct 2023 23:52:15 -0500
-Received: from [10.249.135.225] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
-	by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 39G4qDiZ028395;
-	Sun, 15 Oct 2023 23:52:14 -0500
-Message-ID: <ef283c6d-5074-8748-ea4b-7e85e3d6a833@ti.com>
-Date: Mon, 16 Oct 2023 10:22:12 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nUfVtOae"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697440939; x=1728976939;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9bCqgcQS98+RSDKqgCw3a4UGnjt3O3DqwS+VuIANuSc=;
+  b=nUfVtOae1cb0+OZpsuAoaprknK0W4k+r8PycZAMtUpn4cARv14lY2t+0
+   T+2eiWoiHeD5XzStI69+QEREt5vN3+GqcjwMUXa4RSFLeqXBQBAl1829e
+   wzPdXt4C91oxI8+wVT2CDcwLlwE3RauIaH1WciZTjsx3gXdIUeqBzFBAa
+   Hvuj6FIdFk2hdMUkm4voAd/VtgWYcffAAUSJ6VAePVdSODMjPqgucMruq
+   Ojr6NpgFDmU1IGbKfByMdQukwlrEJCw6TfXEivHElEy+sewHVJ6RYpF+6
+   0wxcb30X5euVUv0/Rc0acxVbUVU+07IpivAFSfKBcHDpMUno4uNsR1yOK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="382688257"
+X-IronPort-AV: E=Sophos;i="6.03,228,1694761200"; 
+   d="scan'208";a="382688257"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 00:22:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="846300423"
+X-IronPort-AV: E=Sophos;i="6.03,228,1694761200"; 
+   d="scan'208";a="846300423"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 16 Oct 2023 00:22:16 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qsHva-0008BX-0m;
+	Mon, 16 Oct 2023 07:22:14 +0000
+Date: Mon, 16 Oct 2023 15:22:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Praveen Teja Kundanala <praveen.teja.kundanala@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
+	linux-doc@vger.kernel.org
+Subject: [xilinx-xlnx:lkp_test 2/6] dtbs_check:
+ Documentation/devicetree/bindings/nvmem/xlnx,zynqmp-nvmem.yaml:18:11:
+ [error] string value is redundantly quoted with any quotes (quoted-strings)
+Message-ID: <202310161508.XIJVQFBf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [EXTERNAL] Re: [PATCH] net: ti: icssg-prueth: Fix tx_total_bytes
- count
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, MD Danish Anwar <danishanwar@ti.com>
-CC: <oe-kbuild-all@lists.linux.dev>
-References: <20231011063700.1824093-1-danishanwar@ti.com>
- <202310142105.gb7k82oJ-lkp@intel.com>
-From: "Anwar, Md Danish" <a0501179@ti.com>
-In-Reply-To: <202310142105.gb7k82oJ-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 10/14/2023 7:26 PM, kernel test robot wrote:
-> Hi MD,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v6.6-rc5 next-20231013]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/MD-Danish-Anwar/net-ti-icssg-prueth-Fix-tx_total_bytes-count/20231011-143912
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20231011063700.1824093-1-danishanwar%40ti.com
-> patch subject: [PATCH] net: ti: icssg-prueth: Fix tx_total_bytes count
-> config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231014/202310142105.gb7k82oJ-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310142105.gb7k82oJ-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202310142105.gb7k82oJ-lkp@intel.com/
-> 
+tree:   https://github.com/Xilinx/linux-xlnx lkp_test
+head:   63ccd3b5226a4629e08c5cdd2bbf6d536134b4d4
+commit: c31c5d3ee4c05b5fd8d98e60d20f1e30be1602f7 [2/6] dt-bindings: nvmem: Convert xlnx,zynqmp-nvmem.txt to yaml
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231016/202310161508.XIJVQFBf-lkp@intel.com/reproduce)
 
-I had already posted the fix for this in the next revision (v2) of the
-patch, even before this warning email was generated.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310161508.XIJVQFBf-lkp@intel.com/
 
-v2: https://lore.kernel.org/all/20231012064626.977466-1-danishanwar@ti.com/
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/nvmem/xlnx,zynqmp-nvmem.yaml:18:11: [error] string value is redundantly quoted with any quotes (quoted-strings)
 
-> All errors (new ones prefixed by >>):
-> 
->    drivers/net/ethernet/ti/icssg/icssg_stats.c: In function 'emac_update_hardware_stats':
->>> drivers/net/ethernet/ti/icssg/icssg_stats.c:33:30: error: 'icssg_ethtool_stats' undeclared (first use in this function); did you mean 'icssg_ethtool_ops'?
->       33 |                 if (!strncmp(icssg_ethtool_stats[i].name, "tx_good_frames", ETH_GSTRING_LEN))
->          |                              ^~~~~~~~~~~~~~~~~~~
->          |                              icssg_ethtool_ops
->    drivers/net/ethernet/ti/icssg/icssg_stats.c:33:30: note: each undeclared identifier is reported only once for each function it appears in
-> 
-> 
-> vim +33 drivers/net/ethernet/ti/icssg/icssg_stats.c
-> 
->     15	
->     16	void emac_update_hardware_stats(struct prueth_emac *emac)
->     17	{
->     18		struct prueth *prueth = emac->prueth;
->     19		int slice = prueth_emac_slice(emac);
->     20		u32 base = stats_base[slice];
->     21		u32 tx_pkt_cnt = 0;
->     22		u32 val;
->     23		int i;
->     24	
+vim +18 Documentation/devicetree/bindings/nvmem/xlnx,zynqmp-nvmem.yaml
 
->     25		for (i = 0; i < ARRAY_SIZE(icssg_all_stats); i++) {
->     26			regmap_read(prueth->miig_rt,
->     27				    base + icssg_all_stats[i].offset,
->     28				    &val);
->     29			regmap_write(prueth->miig_rt,
->     30				     base + icssg_all_stats[i].offset,
->     31				     val);
->     32	
->   > 33			if (!strncmp(icssg_ethtool_stats[i].name, "tx_good_frames", ETH_GSTRING_LEN))
->     34				tx_pkt_cnt = val;
->     35	
->     36			emac->stats[i] += val;
->     37			if (!strncmp(icssg_ethtool_stats[i].name, "tx_total_bytes", ETH_GSTRING_LEN))
->     38				emac->stats[i] -= tx_pkt_cnt * 8;
->     39		}
->     40	}
->     41	
-> 
+     8	
+     9	description: |
+    10	    The ZynqMP nvmem provides access to the hardware related data
+    11	    like soc revision, IDCODE... etc.
+    12	
+    13	maintainers:
+    14	  - Kalyani <kalyani.akula@amd.com>
+    15	  - Praveen <praveen.teja.kundanala@amd.com>
+    16	
+    17	allOf:
+  > 18	  - $ref: "nvmem.yaml#"
+    19	
+    20	properties:
+    21	  compatible:
+    22	    const: xlnx,zynqmp-nvmem-fw
+    23	
+    24	  '#address-cells':
+    25	    const: 1
+    26	
+    27	  '#size-cells':
+    28	    const: 1
+    29	
+    30	required:
+    31	  - compatible
+    32	
+    33	patternProperties:
+    34	  "^soc_revision@0$":
+    35	    type: object
+    36	    description:
+    37	      This node is used to read SOC version and IDCODE of ZynqMP. Read-only.
+    38	
+    39	    properties:
+    40	      reg:
+    41	        maxItems: 1
+    42	
+    43	    required:
+    44	      - reg
+    45	
 
 -- 
-Thanks and Regards,
-Md Danish Anwar
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
