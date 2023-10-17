@@ -1,152 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A1A3AC36
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 08:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E648C2CD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 08:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m/cwssQB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697530971; x=1729066971;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=u1oEUSaE6sBUllJMVGVzCdRl0KZ4kTsD6RtOAITU7JM=;
-  b=m/cwssQBWYe3gwbGnfDbE+QtwS75c37JpjwVJ4wmf9fJ/0NxHHcumX8r
-   8lLR7PNnSw9Uo8xurQceUPwLQhjdRBv6/BQkjkL/MTxE1HC3+1shnqp7N
-   +gZtsz5hOs9/x+F0mwQd6QfNlSf9LhJ1doXfh3w4eN8Hdl8SFkpkQO3qR
-   I2fhGFDdmGLILak0BouGC2n+hHI6lgLDKzT063BOpwGgq6Y4nsO671CNk
-   kWltKsn/hImX+04pdrsBxythwpooAP+iLbYszToTlEbrXiH4PksATyBKj
-   bQb1lZGUjUkFiGfDKWHDZBm8tOdC4ksAjFUNp3HoS7JCyOuKOgRUAkKNQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="389598078"
-X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
-   d="scan'208";a="389598078"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 01:22:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="899830496"
-X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
-   d="scan'208";a="899830496"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 17 Oct 2023 01:20:43 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qsfLd-0009LQ-25;
-	Tue, 17 Oct 2023 08:22:41 +0000
-Date: Tue, 17 Oct 2023 16:22:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, hverkuil@xs4all.nl,
-	laurent.pinchart@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
-	jacopo.mondi@ideasonboard.com, bingbu.cao@intel.com,
-	hongju.wang@intel.com
-Subject: Re: [PATCH 3/6] media: v4l: subdev: Rename sub-device state
- information access functions
-Message-ID: <202310171645.8Tac7Ez4-lkp@intel.com>
-References: <20231013104424.404768-4-sakari.ailus@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="YHCYpmn3";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="TxmfglWe"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 7BDC832009FB;
+	Tue, 17 Oct 2023 04:26:02 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 17 Oct 2023 04:26:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1697531162; x=1697617562; bh=i5
+	Q+rCjguNryD14hJ9ll0sA6V5cYR0bAWqCNpF3lLtk=; b=YHCYpmn3OdY9ztbXi8
+	clK+ainWXvQeqO7APN/kdEJx5iHDEVIsFNXWvpq8dZF7x9zpU/omGAd11grV3pVA
+	sFwMG7HIi1BczlfXhTgvn43PtHjBSFVmLyFi3ecskqa0pVWiPk9vdCluxOVj7wVq
+	pgVXA6fLnhcmm9Bll49nAHbXCHl1rLig5YzzFdXFsox2cLFCmA4GolZOJWt8YR+x
+	S5UrzLFWuqbkjRyysn3GQHyhvSulHznhxLIMZWZOe04oMDHK0BDX6KB/STt43M4W
+	DRvEJSavnFG+6b4ZJcenhUyyB9v9NIiSTL4jyOAY0KYItZo9GDHi1fDL4GII7h/T
+	+4BA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1697531162; x=1697617562; bh=i5Q+rCjguNryD
+	14hJ9ll0sA6V5cYR0bAWqCNpF3lLtk=; b=TxmfglWe2jigUm30lHduitCepm5Ij
+	E6AZUI03DgLKwF1fVW9arlMDNkcQlyPiNrirpnO0PdbMw3kbPEbd5/RlNk+1x6Pf
+	cdzKzXsVr5sWeOQ3X+dPWZp9QFaYaVZR0gwlhkXUjmFpb2yM0QHlb6AAutK5QumO
+	/Z5dTGvfa4pNglYOVbJE4dAsMHQmjEowIKB52KbModln1b83IAfTgXwb2k3RSMIJ
+	JvwzvmtAtFSNJ8q4F5ninAl49AqTjZIAdSZKLFpSxMidUgdS56n8/De7V31a9XbZ
+	li+ReHMx23hG3W9T0jVV9DR1a5ydvDsEBYdfGimmsh/ei6Mdwu2NitmBA==
+X-ME-Sender: <xms:GUUuZf2r2t2XWl8UfvjB5pjT2iNV_CPNBjjFTJVe6W344iP2lrAwnA>
+    <xme:GUUuZeGk0idgfzc6Lk28-wK93gNghLGnafyW_vcGkagSC7l4hwZmayul6WrtOVF-H
+    wsdfGY57lUYBeYX2gc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrjedvgddtvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeevhefhffdvfeejtdeufeevteekueelhfeuleejfffhvdfhhfevvdffkedtledv
+    leenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpddtuddrohhrghenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdr
+    uggv
+X-ME-Proxy: <xmx:GUUuZf6xnkl-z38V5DTY6rJItoeNSDyanfx5JzhpYOQT_ApNry5NDA>
+    <xmx:GUUuZU1ph4vCdl09u8re46Fz9pnmFefzMdWtL9h2MuPEfiTnnJE7Sw>
+    <xmx:GUUuZSHIgiYxUTHyQtoFzuJZ1YMYTpwrnbvshN39mxz2E-FiuBwrfQ>
+    <xmx:GkUuZeDq5ATtKXorBQDaXgQ31vd0VvrGXPT1NAwfOBOFnrX9idhNWQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id B9813B60089; Tue, 17 Oct 2023 04:26:01 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1019-ged83ad8595-fm-20231002.001-ged83ad85
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231013104424.404768-4-sakari.ailus@linux.intel.com>
+Message-Id: <a2a975ee-9398-45ba-859e-69212a076525@app.fastmail.com>
+In-Reply-To: <2023101722-outage-outward-a6d6@gregkh>
+References: <202310170938.xHIu2lFB-lkp@intel.com>
+ <2023101722-outage-outward-a6d6@gregkh>
+Date: Tue, 17 Oct 2023 10:25:41 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "kernel test robot" <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
+ "Ard Biesheuvel" <ardb@kernel.org>,
+ "Javier Martinez Canillas" <javierm@redhat.com>
+Subject: Re: [tty:tty-testing 22/24] earlycon.c:undefined reference to `screen_info'
+Content-Type: text/plain
 
-Hi Sakari,
+On Tue, Oct 17, 2023, at 10:18, Greg Kroah-Hartman wrote:
+> On Tue, Oct 17, 2023 at 09:44:58AM +0800, kernel test robot wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+>> head:   6271f1e8c4cb9a46273ae01ff9cb86a022063f75
+>> commit: 934d62223da320b3ec012c85b63a6c250f507096 [22/24] efi: move screen_info into efi init code
+>> config: loongarch-randconfig-002-20231017 (https://download.01.org/0day-ci/archive/20231017/202310170938.xHIu2lFB-lkp@intel.com/config)
+>> compiler: loongarch64-linux-gcc (GCC) 13.2.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310170938.xHIu2lFB-lkp@intel.com/reproduce)
+>> 
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202310170938.xHIu2lFB-lkp@intel.com/
+>
+> Arnd, I'll drop this commit from my tree now, if you want to fix it up
+> and resend just it, I'll be glad to apply it.
 
-kernel test robot noticed the following build warnings:
+Ok, I was about to send the fixup below, but I'll just send the
+combined patch instead then. I'm still looking at another build
+regression from the same series that I'll fix up as well.
 
-[auto build test WARNING on next-20231016]
-[also build test WARNING on linus/master v6.6-rc6]
-[cannot apply to media-tree/master rockchip/for-next sailus-media-tree/streams v6.6-rc6 v6.6-rc5 v6.6-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+    Arnd
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-v4l-subdev-Also-return-pads-array-information-on-stream-functions/20231017-120800
-base:   next-20231016
-patch link:    https://lore.kernel.org/r/20231013104424.404768-4-sakari.ailus%40linux.intel.com
-patch subject: [PATCH 3/6] media: v4l: subdev: Rename sub-device state information access functions
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231017/202310171645.8Tac7Ez4-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310171645.8Tac7Ez4-lkp@intel.com/reproduce)
+----
+From 8f8bebf0be1e61fdb38f73e71f05066caebf64e4 Mon Sep 17 00:00:00 2001
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Tue, 17 Oct 2023 08:11:35 +0200
+Subject: [PATCH] efi: move screen_info for loongarch as well
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310171645.8Tac7Ez4-lkp@intel.com/
+I had intended to move the screen_info definition next to the global
+init_screen_info() function that is shared between all architectures,
+but as it turns out, loongarch does not actually use this file and
+instead has its own copy and is now missing the structure:
 
-All warnings (new ones prefixed by >>):
+   loongarch64-linux-ld: arch/loongarch/kernel/efi.o: in function `efi_init':
+   efi.c:(.init.text+0x158): undefined reference to `screen_info'
 
-   drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c: In function 'mxc_isi_crossbar_gasket_enable':
-   drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c:61:15: error: implicit declaration of function 'v4l2_subdev_state_get_stream_format'; did you mean 'v4l2_subdev_state_get_opposite_stream_format'? [-Werror=implicit-function-declaration]
-      61 |         fmt = v4l2_subdev_state_get_stream_format(state, port, 0);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |               v4l2_subdev_state_get_opposite_stream_format
->> drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c:61:13: warning: assignment to 'const struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      61 |         fmt = v4l2_subdev_state_get_stream_format(state, port, 0);
-         |             ^
-   drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c: In function 'mxc_isi_crossbar_set_fmt':
->> drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c:284:18: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     284 |         sink_fmt = v4l2_subdev_state_get_stream_format(state, fmt->pad,
-         |                  ^
-   drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c:299:28: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     299 |                 source_fmt = v4l2_subdev_state_get_stream_format(state, route->source_pad,
-         |                            ^
-   cc1: some warnings being treated as errors
+Add another copy next to the loongarch specific function, the same
+way that x86 already has a special case for this.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202310171049.aNxOKhUY-lkp@intel.com/
+Closes: https://lore.kernel.org/oe-kbuild-all/202310170938.xHIu2lFB-lkp@intel.com/
+Fixes: 934d62223da320 ("efi: move screen_info into efi init code")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+
+diff --git a/arch/loongarch/kernel/efi.c b/arch/loongarch/kernel/efi.c
+index df7db34024e61..acb5d3385675c 100644
+--- a/arch/loongarch/kernel/efi.c
++++ b/arch/loongarch/kernel/efi.c
+@@ -68,6 +68,11 @@ void __init efi_runtime_init(void)
+ 
+ unsigned long __initdata screen_info_table = EFI_INVALID_TABLE_ADDR;
+ 
++#if defined(CONFIG_SYSFB) || defined(CONFIG_EFI_EARLYCON)
++struct screen_info screen_info __section(".data");
++EXPORT_SYMBOL_GPL(screen_info);
++#endif
++
+ static void __init init_screen_info(void)
+ {
+ 	struct screen_info *si;
 
 
-vim +61 drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-
-cf21f328fcafac Laurent Pinchart 2019-01-21  26  
-cf21f328fcafac Laurent Pinchart 2019-01-21  27  static int mxc_isi_crossbar_gasket_enable(struct mxc_isi_crossbar *xbar,
-cf21f328fcafac Laurent Pinchart 2019-01-21  28  					  struct v4l2_subdev_state *state,
-cf21f328fcafac Laurent Pinchart 2019-01-21  29  					  struct v4l2_subdev *remote_sd,
-cf21f328fcafac Laurent Pinchart 2019-01-21  30  					  u32 remote_pad, unsigned int port)
-cf21f328fcafac Laurent Pinchart 2019-01-21  31  {
-cf21f328fcafac Laurent Pinchart 2019-01-21  32  	struct mxc_isi_dev *isi = xbar->isi;
-f48498ad0a4106 Guoniu.zhou      2023-06-29  33  	const struct mxc_gasket_ops *gasket_ops = isi->pdata->gasket_ops;
-cf21f328fcafac Laurent Pinchart 2019-01-21  34  	const struct v4l2_mbus_framefmt *fmt;
-cf21f328fcafac Laurent Pinchart 2019-01-21  35  	struct v4l2_mbus_frame_desc fd;
-cf21f328fcafac Laurent Pinchart 2019-01-21  36  	int ret;
-cf21f328fcafac Laurent Pinchart 2019-01-21  37  
-f48498ad0a4106 Guoniu.zhou      2023-06-29  38  	if (!gasket_ops)
-cf21f328fcafac Laurent Pinchart 2019-01-21  39  		return 0;
-cf21f328fcafac Laurent Pinchart 2019-01-21  40  
-cf21f328fcafac Laurent Pinchart 2019-01-21  41  	/*
-cf21f328fcafac Laurent Pinchart 2019-01-21  42  	 * Configure and enable the gasket with the frame size and CSI-2 data
-cf21f328fcafac Laurent Pinchart 2019-01-21  43  	 * type. For YUV422 8-bit, enable dual component mode unconditionally,
-cf21f328fcafac Laurent Pinchart 2019-01-21  44  	 * to match the configuration of the CSIS.
-cf21f328fcafac Laurent Pinchart 2019-01-21  45  	 */
-cf21f328fcafac Laurent Pinchart 2019-01-21  46  
-cf21f328fcafac Laurent Pinchart 2019-01-21  47  	ret = v4l2_subdev_call(remote_sd, pad, get_frame_desc, remote_pad, &fd);
-cf21f328fcafac Laurent Pinchart 2019-01-21  48  	if (ret) {
-cf21f328fcafac Laurent Pinchart 2019-01-21  49  		dev_err(isi->dev,
-cf21f328fcafac Laurent Pinchart 2019-01-21  50  			"failed to get frame descriptor from '%s':%u: %d\n",
-cf21f328fcafac Laurent Pinchart 2019-01-21  51  			remote_sd->name, remote_pad, ret);
-cf21f328fcafac Laurent Pinchart 2019-01-21  52  		return ret;
-cf21f328fcafac Laurent Pinchart 2019-01-21  53  	}
-cf21f328fcafac Laurent Pinchart 2019-01-21  54  
-cf21f328fcafac Laurent Pinchart 2019-01-21  55  	if (fd.num_entries != 1) {
-cf21f328fcafac Laurent Pinchart 2019-01-21  56  		dev_err(isi->dev, "invalid frame descriptor for '%s':%u\n",
-cf21f328fcafac Laurent Pinchart 2019-01-21  57  			remote_sd->name, remote_pad);
-cf21f328fcafac Laurent Pinchart 2019-01-21  58  		return -EINVAL;
-cf21f328fcafac Laurent Pinchart 2019-01-21  59  	}
-cf21f328fcafac Laurent Pinchart 2019-01-21  60  
-cf21f328fcafac Laurent Pinchart 2019-01-21 @61  	fmt = v4l2_subdev_state_get_stream_format(state, port, 0);
-cf21f328fcafac Laurent Pinchart 2019-01-21  62  	if (!fmt)
-cf21f328fcafac Laurent Pinchart 2019-01-21  63  		return -EINVAL;
-cf21f328fcafac Laurent Pinchart 2019-01-21  64  
-f48498ad0a4106 Guoniu.zhou      2023-06-29  65  	gasket_ops->enable(isi, &fd, fmt, port);
-cf21f328fcafac Laurent Pinchart 2019-01-21  66  	return 0;
-cf21f328fcafac Laurent Pinchart 2019-01-21  67  }
-cf21f328fcafac Laurent Pinchart 2019-01-21  68  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
