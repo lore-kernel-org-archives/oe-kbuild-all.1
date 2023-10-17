@@ -1,125 +1,114 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57FE82D021
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 16:33:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92372D034
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 16:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="TSbHzaEs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=b0pWc1wISIKwaYr0AeIPUmnRuU1To0P4VSl9jMcXGY0=;
-  b=TSbHzaEsSdWM4AvoAvpTL/L8IHD6Y4oWmd/NNEcA+hMpTYMxIowXa6rd
-   FpjylXjr0LThE9xdzcpJW3IMoaHTF82a9o3p57mxWz1c+ftt1El6VtqBw
-   DIX6f2g8ZQYwYRU5TUV7wAE7ziPZUz6x/xwffGyoFfJi8QD9/qSINrCVF
-   E=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.03,232,1694728800"; 
-   d="scan'208";a="131743112"
-Received: from unknown (HELO hadrien) ([87.129.180.234])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 18:33:31 +0200
-Date: Tue, 17 Oct 2023 18:33:27 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Vishal Verma <vishal.l.verma@intel.com>, 
-    Dan Williams <dan.j.williams@intel.com>, oe-kbuild-all@lists.linux.dev
-Subject: [vishal:vv/kmem_memmap 9/10] mm/memory_hotplug.c:2222:47-53: ERROR:
- reference preceded by free on line 2227 (fwd)
-Message-ID: <50574151-4ff0-72fb-3f17-2e2ffc9efc2e@inria.fr>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GLz0zI1z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697560752; x=1729096752;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FXwIxIscyM1a6VelEVdI5M4ahsb2QmpdBTUOvPMqNG4=;
+  b=GLz0zI1zH5fVnenHabdVF07TlJqMI0D42lIdDN8HjFJhg9tC+hTje6UG
+   2rrxgJEOG7D6V2QAKJOkCgBOLcqcm0ojDLbgWpoBDFkGXpkD7fiqfiBS5
+   4UOYfeQnWUGWHherm3zmW2RHeA3ebUmJuJvOCy3YKg2mG+lno6AzGz2Nl
+   I2yw9XD0/Jv2fBce68nvPi7HGuwPb0B2ISPwPX2Y1yXYlvu1vfWg7yQf8
+   N4boDs5lPPCsleSq75CAh84XONy9ddpjWIBpqUcv6jV4sRbTtC7FGZ955
+   CJuufkKAyTugh78fuN5DhsYKciwSGC4x3oWYTRyWctMCpWSZwxDYWF6og
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="389693712"
+X-IronPort-AV: E=Sophos;i="6.03,232,1694761200"; 
+   d="scan'208";a="389693712"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 09:39:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="706068408"
+X-IronPort-AV: E=Sophos;i="6.03,232,1694761200"; 
+   d="scan'208";a="706068408"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 17 Oct 2023 09:39:10 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qsn64-0009ph-1Q;
+	Tue, 17 Oct 2023 16:39:08 +0000
+Date: Wed, 18 Oct 2023 00:39:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: madvenka@linux.microsoft.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v1 08/10] mm/prmem: Implement Persistent Ramdisk
+ instances.
+Message-ID: <202310180013.sbQM5SPM-lkp@intel.com>
+References: <20231016233215.13090-9-madvenka@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231016233215.13090-9-madvenka@linux.microsoft.com>
 
-Hello,
+Hi,
 
-On line 2222 there is a reference to altmap.  It is not clear to me that
-the variable altmap has been defined on the current iteration of the loop.
-If it comes from the previous iteration, it might have been freed.  Maybe
-there is an if or a return that is missing?
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-julia
+[auto build test WARNING on 2dde18cd1d8fac735875f2e4987f11817cc0bc2c]
 
----------- Forwarded message ----------
-Date: Wed, 18 Oct 2023 00:06:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [vishal:vv/kmem_memmap 9/10] mm/memory_hotplug.c:2222:47-53: ERROR:
-    reference preceded by free on line 2227
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Vishal Verma <vishal.l.verma@intel.com>
-CC: Dan Williams <dan.j.williams@intel.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vishal/linux.git vv/kmem_memmap
-head:   f5df6ac59f4892cfe6652e6ea6ed4a215c876167
-commit: 9ee1af799da9d50227164305de8427a973e6c9dc [9/10] mm/memory_hotplug: split memmap_on_memory requests across memblocks
-:::::: branch date: 11 hours ago
-:::::: commit date: 22 hours ago
-config: x86_64-randconfig-103-20231017 (https://download.01.org/0day-ci/archive/20231017/202310172338.PnRN2B8y-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231017/202310172338.PnRN2B8y-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/madvenka-linux-microsoft-com/mm-prmem-Allocate-memory-during-boot-for-storing-persistent-data/20231017-194340
+base:   2dde18cd1d8fac735875f2e4987f11817cc0bc2c
+patch link:    https://lore.kernel.org/r/20231016233215.13090-9-madvenka%40linux.microsoft.com
+patch subject: [RFC PATCH v1 08/10] mm/prmem: Implement Persistent Ramdisk instances.
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231018/202310180013.sbQM5SPM-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310180013.sbQM5SPM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202310172338.PnRN2B8y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310180013.sbQM5SPM-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> mm/memory_hotplug.c:2222:47-53: ERROR: reference preceded by free on line 2227
+All warnings (new ones prefixed by >>):
 
-vim +2222 mm/memory_hotplug.c
+>> drivers/block/brd.c:323:13: warning: no previous prototype for 'brd_parse' [-Wmissing-prototypes]
+     323 | void __init brd_parse(void)
+         |             ^~~~~~~~~
 
-60a5a19e7419ba0 Tang Chen         2013-02-22  2189
-9ee1af799da9d50 Vishal Verma      2023-08-01  2190  static void __ref remove_memory_blocks_and_altmaps(u64 start, u64 size)
-bbc76be67c2c0c1 Wen Congyang      2013-02-22  2191  {
-9ee1af799da9d50 Vishal Verma      2023-08-01  2192  	unsigned long memblock_size = memory_block_size_bytes();
-25b5b1a0646c3d3 Aneesh Kumar K.V  2023-08-08  2193  	struct vmem_altmap *altmap = NULL;
-9ee1af799da9d50 Vishal Verma      2023-08-01  2194  	struct memory_block *mem;
-9ee1af799da9d50 Vishal Verma      2023-08-01  2195  	u64 cur_start;
-9ee1af799da9d50 Vishal Verma      2023-08-01  2196  	int rc;
-6677e3eaf4d78ab Yasuaki Ishimatsu 2013-02-22  2197
-a08a2ae3461383c Oscar Salvador    2021-05-04  2198  	/*
-9ee1af799da9d50 Vishal Verma      2023-08-01  2199  	 * For memmap_on_memory, the altmaps could have been added on
-9ee1af799da9d50 Vishal Verma      2023-08-01  2200  	 * a per-memblock basis. Loop through the entire range if so,
-9ee1af799da9d50 Vishal Verma      2023-08-01  2201  	 * and remove each memblock and its altmap.
-a08a2ae3461383c Oscar Salvador    2021-05-04  2202  	 */
-9ee1af799da9d50 Vishal Verma      2023-08-01  2203  	for (cur_start = start; cur_start < start + size;
-9ee1af799da9d50 Vishal Verma      2023-08-01  2204  	     cur_start += memblock_size) {
-9ee1af799da9d50 Vishal Verma      2023-08-01  2205  		rc = walk_memory_blocks(cur_start, memblock_size, &mem,
-9ee1af799da9d50 Vishal Verma      2023-08-01  2206  					test_has_altmap_cb);
-25b5b1a0646c3d3 Aneesh Kumar K.V  2023-08-08  2207  		if (rc) {
-25b5b1a0646c3d3 Aneesh Kumar K.V  2023-08-08  2208  			altmap = mem->altmap;
-a08a2ae3461383c Oscar Salvador    2021-05-04  2209  			/*
-25b5b1a0646c3d3 Aneesh Kumar K.V  2023-08-08  2210  			 * Mark altmap NULL so that we can add a debug
-25b5b1a0646c3d3 Aneesh Kumar K.V  2023-08-08  2211  			 * check on memblock free.
-a08a2ae3461383c Oscar Salvador    2021-05-04  2212  			 */
-25b5b1a0646c3d3 Aneesh Kumar K.V  2023-08-08  2213  			mem->altmap = NULL;
-a08a2ae3461383c Oscar Salvador    2021-05-04  2214  		}
-4c4b7f9ba9486c5 David Hildenbrand 2019-07-18  2215
-f1037ec0cc8ac1a Dan Williams      2020-01-30  2216  		/*
-f1037ec0cc8ac1a Dan Williams      2020-01-30  2217  		 * Memory block device removal under the device_hotplug_lock is
-f1037ec0cc8ac1a Dan Williams      2020-01-30  2218  		 * a barrier against racing online attempts.
-f1037ec0cc8ac1a Dan Williams      2020-01-30  2219  		 */
-9ee1af799da9d50 Vishal Verma      2023-08-01  2220  		remove_memory_block_devices(cur_start, memblock_size);
-f1037ec0cc8ac1a Dan Williams      2020-01-30  2221
-9ee1af799da9d50 Vishal Verma      2023-08-01 @2222  		arch_remove_memory(cur_start, memblock_size, altmap);
-52219aeaf2dc6f7 David Hildenbrand 2020-06-04  2223
-25b5b1a0646c3d3 Aneesh Kumar K.V  2023-08-08  2224  		/* Verify that all vmemmap pages have actually been freed. */
-25b5b1a0646c3d3 Aneesh Kumar K.V  2023-08-08  2225  		if (altmap) {
-25b5b1a0646c3d3 Aneesh Kumar K.V  2023-08-08  2226  			WARN(altmap->alloc, "Altmap not fully unmapped");
-25b5b1a0646c3d3 Aneesh Kumar K.V  2023-08-08 @2227  			kfree(altmap);
-25b5b1a0646c3d3 Aneesh Kumar K.V  2023-08-08  2228  		}
-9ee1af799da9d50 Vishal Verma      2023-08-01  2229  	}
-9ee1af799da9d50 Vishal Verma      2023-08-01  2230  }
-9ee1af799da9d50 Vishal Verma      2023-08-01  2231
+
+vim +/brd_parse +323 drivers/block/brd.c
+
+   322	
+ > 323	void __init brd_parse(void)
+   324	{
+   325		unsigned long		size;
+   326		char			*cur, *tmp;
+   327		int			i = 0;
+   328	
+   329		if (!CONFIG_BLK_DEV_PRAM_MAX || !prd_sizes)
+   330			return;
+   331	
+   332		/* Parse persistent ram disk sizes. */
+   333		cur = prd_sizes;
+   334		do {
+   335			/* Get the size of a ramdisk. Sanity check it. */
+   336			size = memparse(cur, &tmp);
+   337			if (cur == tmp || !size) {
+   338				pr_warn("%s: Memory value expected\n", __func__);
+   339				return;
+   340			}
+   341			cur = tmp;
+   342	
+   343			/* Add the ramdisk size. */
+   344			prd_data[i++].size = size;
+   345	
+   346		} while (*cur++ == ',' && i < CONFIG_BLK_DEV_PRAM_MAX);
+   347	}
+   348	
 
 -- 
 0-DAY CI Kernel Test Service
