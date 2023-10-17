@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AE8882F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 03:12:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89D3F1FD5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 03:49:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TTYtknMg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="exZ+Yt6R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697512329; x=1729048329;
+  t=1697514582; x=1729050582;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hMp2rCZbMAQqG/1g+S3yx/d9BPMwFmOYP/ySJOKo4Tc=;
-  b=TTYtknMg6aCIxGwF/e6/ZwJq/zC2bHCVn/cnwutG2CBpWqJgQiKQPjLJ
-   JLfcLrsqH1UjBrvXgDg65LBKqiLT8Sa3YnKsH45ZvqfynjeebJVrhE2ES
-   M/QcYsa/XYkvTAmNL+vPHZQpfh1TaXCH2s5YMQf/nFdMn9GQzYx8JvvsT
-   qGmJafsqH3DcXYEbLggDqqKHOqVY0X9d7ciWbmj8iTveVMuRfo95Lw88o
-   Up8Yv2CxTkQrXmWDS6cMHkIiaJN6+Hv+VLp00azU8FGrciJnjgtMRlIkU
-   lIc3PzTqWgmf9gKnJEkh5iv8sKKuwyHLA5o9xqSOjxDDBQO4JCt5cGba2
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="389559849"
-X-IronPort-AV: E=Sophos;i="6.03,230,1694761200"; 
-   d="scan'208";a="389559849"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 20:12:08 -0700
+  bh=wlI3zKs2oU4s933zH5wncMw0tBDTCnVQTnLxeE6vOSw=;
+  b=exZ+Yt6RgYzxTUGht875m9TJwabnYZK7cXhTSuIt/pJHEQj2Dxltgci9
+   eTwCWUd2YnkyDUzEMIeNjYrMlWKyznTHXUA4X6Z3K89cxTfclFJgO6gtd
+   NIIv18ITqXst1kfl1pB5W7zPGUNHy2VC9V4mxePAyEXqOh+NT4UV1y477
+   JLjfkmn7tDudyoqBCT+90O2xWRA+G7IzJ+92B4rZfXKptlapVC00cdby/
+   3edTNguhLCC0i3mzojsWc2qBgn02+D+SeUNnTMhKgnrqd1TUfH3pFhBlj
+   3JsTujmsQNWWpZjjCzqjNhvoc6smLFT6Pkl3OkVy4AHVtsiOuVdzCiIrT
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="4296810"
+X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
+   d="scan'208";a="4296810"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 20:49:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="826266617"
-X-IronPort-AV: E=Sophos;i="6.03,230,1694761200"; 
-   d="scan'208";a="826266617"
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="755938825"
+X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
+   d="scan'208";a="755938825"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 16 Oct 2023 20:12:07 -0700
+  by orsmga002.jf.intel.com with ESMTP; 16 Oct 2023 20:49:21 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qsaV2-0008ui-37;
-	Tue, 17 Oct 2023 03:12:04 +0000
-Date: Tue, 17 Oct 2023 11:11:15 +0800
+	id 1qsb55-0008yB-0V;
+	Tue, 17 Oct 2023 03:49:19 +0000
+Date: Tue, 17 Oct 2023 11:48:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-2.1.x-imx 128/15768]
- sound/soc/fsl/fsl_xcvr.c:1367: undefined reference to `__udivdi3'
-Message-ID: <202310171152.woY2AXBB-lkp@intel.com>
+To: Ondrej Zary <linux@zary.sk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Subject: drivers/ata/pata_parport/bpck.c:66 bpck_read_regr() warn:
+ inconsistent indenting
+Message-ID: <202310171126.3ixnN84p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,129 +51,241 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
-head:   3f41fbe42851375d3d5996e4bf9e9809e6c79517
-commit: bfefa84dbee3dacc0f5f16a91aeed0e8517212e7 [128/15768] MLK-25951-2: ASoC: fsl_xcvr: Add soc data of i.MX93
-config: i386-randconfig-012-20231017 (https://download.01.org/0day-ci/archive/20231017/202310171152.woY2AXBB-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   58720809f52779dc0f08e53e54b014209d13eebb
+commit: 72f2b0b2185099dce354c805009f591dda3ab73d drivers/block: Move PARIDE protocol modules to drivers/ata/pata_parport
+date:   9 months ago
+config: x86_64-randconfig-161-20231017 (https://download.01.org/0day-ci/archive/20231017/202310171126.3ixnN84p-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310171152.woY2AXBB-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231017/202310171126.3ixnN84p-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310171152.woY2AXBB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310171126.3ixnN84p-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/ata/pata_parport/bpck.c:66 bpck_read_regr() warn: inconsistent indenting
+drivers/ata/pata_parport/bpck.c:160 bpck_read_block() warn: inconsistent indenting
+drivers/ata/pata_parport/bpck.c:210 bpck_probe_unit() warn: inconsistent indenting
+drivers/ata/pata_parport/bpck.c:230 bpck_connect() warn: inconsistent indenting
+drivers/ata/pata_parport/bpck.c:293 bpck_test_proto() warn: inconsistent indenting
 
-   ld: sound/soc/fsl/fsl_xcvr.o: in function `fsl_xcvr_runtime_resume':
->> sound/soc/fsl/fsl_xcvr.c:1367: undefined reference to `__udivdi3'
+Old smatch warnings:
+drivers/ata/pata_parport/bpck.c:161 bpck_read_block() warn: inconsistent indenting
+drivers/ata/pata_parport/bpck.c:233 bpck_connect() warn: inconsistent indenting
+drivers/ata/pata_parport/bpck.c:294 bpck_test_proto() warn: inconsistent indenting
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_I915_DEBUG_GEM
-   Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=y] && EXPERT [=y] && DRM_I915_WERROR [=n]
-   Selected by [y]:
-   - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && DRM_I915 [=y] && EXPERT [=y] && !COMPILE_TEST [=n]
+vim +66 drivers/ata/pata_parport/bpck.c
 
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   52  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   53  	r = regr + cont_map[cont];
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   54  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   55  	switch (pi->mode) {
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   56  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   57  	case 0: w0(r & 0xf); w0(r); t2(2); t2(4);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   58  	        l = r1();
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   59          	t2(4);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   60          	h = r1();
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   61          	return j44(l,h);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   62  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   63  	case 1: w0(r & 0xf); w0(r); t2(2);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   64  	        e2(); t2(0x20);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   65  		t2(4); h = r0();
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  @66  	        t2(1); t2(0x20);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   67  	        return h;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   68  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   69  	case 2:
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   70  	case 3:
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   71  	case 4: w0(r); w2(9); w2(0); w2(0x20);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   72  		h = r4();
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   73  		w2(0);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   74  		return h;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   75  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   76  	}
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   77  	return -1;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   78  }	
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   79  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   80  static void bpck_write_regr( PIA *pi, int cont, int regr, int val )
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   81  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   82  {	int	r;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   83  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   84          r = regr + cont_map[cont];
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   85  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   86  	switch (pi->mode) {
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   87  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   88  	case 0:
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   89  	case 1: w0(r);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   90  		t2(2);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   91  		w0(val);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   92  		o2(); t2(4); t2(1);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   93  		break;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   94  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   95  	case 2:
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   96  	case 3:
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   97  	case 4: w0(r); w2(9); w2(0);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   98  		w0(val); w2(1); w2(3); w2(0);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16   99  		break;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  100  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  101  	}
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  102  }
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  103  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  104  /* These macros access the bpck registers in native addressing */
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  105  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  106  #define WR(r,v)		bpck_write_regr(pi,2,r,v)
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  107  #define RR(r)		(bpck_read_regr(pi,2,r))
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  108  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  109  static void bpck_write_block( PIA *pi, char * buf, int count )
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  110  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  111  {	int i;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  112  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  113  	switch (pi->mode) {
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  114  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  115  	case 0: WR(4,0x40);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  116  		w0(0x40); t2(2); t2(1);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  117  		for (i=0;i<count;i++) { w0(buf[i]); t2(4); }
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  118  		WR(4,0);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  119  		break;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  120  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  121  	case 1: WR(4,0x50);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  122                  w0(0x40); t2(2); t2(1);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  123                  for (i=0;i<count;i++) { w0(buf[i]); t2(4); }
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  124                  WR(4,0x10);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  125  		break;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  126  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  127  	case 2: WR(4,0x48);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  128  		w0(0x40); w2(9); w2(0); w2(1);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  129  		for (i=0;i<count;i++) w4(buf[i]);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  130  		w2(0);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  131  		WR(4,8);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  132  		break;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  133  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  134          case 3: WR(4,0x48);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  135                  w0(0x40); w2(9); w2(0); w2(1);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  136                  for (i=0;i<count/2;i++) w4w(((u16 *)buf)[i]);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  137                  w2(0);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  138                  WR(4,8);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  139                  break;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  140   
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  141          case 4: WR(4,0x48);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  142                  w0(0x40); w2(9); w2(0); w2(1);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  143                  for (i=0;i<count/4;i++) w4l(((u32 *)buf)[i]);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  144                  w2(0);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  145                  WR(4,8);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  146                  break;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  147   	}
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  148  }
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  149  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  150  static void bpck_read_block( PIA *pi, char * buf, int count )
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  151  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  152  {	int i, l, h;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  153  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  154  	switch (pi->mode) {
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  155  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  156        	case 0: WR(4,0x40);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  157  		w0(0x40); t2(2);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  158  		for (i=0;i<count;i++) {
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  159  		    t2(4); l = r1();
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16 @160  		    t2(4); h = r1();
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  161  		    buf[i] = j44(l,h);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  162  		}
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  163  		WR(4,0);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  164  		break;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  165  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  166  	case 1: WR(4,0x50);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  167  		w0(0x40); t2(2); t2(0x20);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  168        	        for(i=0;i<count;i++) { t2(4); buf[i] = r0(); }
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  169  	        t2(1); t2(0x20);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  170  	        WR(4,0x10);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  171  		break;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  172  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  173  	case 2: WR(4,0x48);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  174  		w0(0x40); w2(9); w2(0); w2(0x20);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  175  		for (i=0;i<count;i++) buf[i] = r4();
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  176  		w2(0);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  177  		WR(4,8);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  178  		break;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  179  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  180          case 3: WR(4,0x48);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  181                  w0(0x40); w2(9); w2(0); w2(0x20);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  182                  for (i=0;i<count/2;i++) ((u16 *)buf)[i] = r4w();
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  183                  w2(0);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  184                  WR(4,8);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  185                  break;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  186  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  187          case 4: WR(4,0x48);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  188                  w0(0x40); w2(9); w2(0); w2(0x20);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  189                  for (i=0;i<count/4;i++) ((u32 *)buf)[i] = r4l();
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  190                  w2(0);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  191                  WR(4,8);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  192                  break;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  193  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  194  	}
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  195  }
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  196  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  197  static int bpck_probe_unit ( PIA *pi )
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  198  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  199  {	int o1, o0, f7, id;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  200  	int t, s;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  201  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  202  	id = pi->unit;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  203  	s = 0;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  204  	w2(4); w2(0xe); r2(); t2(2); 
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  205  	o1 = r1()&0xf8;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  206  	o0 = r0();
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  207  	w0(255-id); w2(4); w0(id);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  208  	t2(8); t2(8); t2(8);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  209  	t2(2); t = r1()&0xf8;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16 @210  	f7 = ((id % 8) == 7);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  211  	if ((f7) || (t != o1)) { t2(2); s = r1()&0xf8; }
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  212  	if ((t == o1) && ((!f7) || (s == o1)))  {
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  213  		w2(0x4c); w0(o0);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  214  		return 0;	
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  215  	}
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  216  	t2(8); w0(0); t2(2); w2(0x4c); w0(o0);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  217  	return 1;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  218  }
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  219  	
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  220  static void bpck_connect ( PIA *pi  )
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  221  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  222  {       pi->saved_r0 = r0();
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  223  	w0(0xff-pi->unit); w2(4); w0(pi->unit);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  224  	t2(8); t2(8); t2(8); 
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  225  	t2(2); t2(2);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  226  	
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  227  	switch (pi->mode) {
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  228  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  229  	case 0: t2(8); WR(4,0);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16 @230  		break;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  231  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  232  	case 1: t2(8); WR(4,0x10);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  233  		break;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  234  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  235  	case 2:
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  236          case 3:
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  237  	case 4: w2(0); WR(4,8);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  238  		break;
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  239  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  240  	}
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  241  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  242  	WR(5,8);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  243  
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  244  	if (pi->devtype == PI_PCD) {
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  245  		WR(0x46,0x10);		/* fiddle with ESS logic ??? */
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  246  		WR(0x4c,0x38);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  247  		WR(0x4d,0x88);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  248  		WR(0x46,0xa0);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  249  		WR(0x41,0);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  250  		WR(0x4e,8);
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  251  		}
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  252  }
+^1da177e4c3f41 drivers/block/paride/bpck.c Linus Torvalds 2005-04-16  253  
 
-vim +1367 sound/soc/fsl/fsl_xcvr.c
+:::::: The code at line 66 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-  1345	
-  1346	static __maybe_unused int fsl_xcvr_runtime_resume(struct device *dev)
-  1347	{
-  1348		struct fsl_xcvr *xcvr = dev_get_drvdata(dev);
-  1349		int ret;
-  1350		u64 rate, div;
-  1351	
-  1352		ret = reset_control_assert(xcvr->reset);
-  1353		if (ret < 0) {
-  1354			dev_err(dev, "Failed to assert M0+ reset: %d\n", ret);
-  1355			return ret;
-  1356		}
-  1357	
-  1358		ret = clk_prepare_enable(xcvr->ipg_clk);
-  1359		if (ret) {
-  1360			dev_err(dev, "failed to start IPG clock.\n");
-  1361			return ret;
-  1362		}
-  1363	
-  1364		/* set clk div for xcvr ip internal use */
-  1365		if (xcvr->soc_data->spdif_only) {
-  1366			rate = clk_get_rate(xcvr->ipg_clk);
-> 1367			div = rate / 1000000 - 1;
-  1368			ret = regmap_write(xcvr->regmap, FSL_XCVR_CLK_CTRL, div);
-  1369			if (ret < 0) {
-  1370				dev_err(dev, "Error while setting CLK_CTRL: %d\n", ret);
-  1371				return ret;
-  1372			}
-  1373		}
-  1374	
-  1375		ret = clk_prepare_enable(xcvr->pll_ipg_clk);
-  1376		if (ret) {
-  1377			dev_err(dev, "failed to start PLL IPG clock.\n");
-  1378			goto stop_ipg_clk;
-  1379		}
-  1380	
-  1381		ret = clk_prepare_enable(xcvr->phy_clk);
-  1382		if (ret) {
-  1383			dev_err(dev, "failed to start PHY clock: %d\n", ret);
-  1384			goto stop_pll_ipg_clk;
-  1385		}
-  1386	
-  1387		ret = clk_prepare_enable(xcvr->spba_clk);
-  1388		if (ret) {
-  1389			dev_err(dev, "failed to start SPBA clock.\n");
-  1390			goto stop_phy_clk;
-  1391		}
-  1392	
-  1393		regcache_cache_only(xcvr->regmap, false);
-  1394		regcache_mark_dirty(xcvr->regmap);
-  1395		ret = regcache_sync(xcvr->regmap);
-  1396	
-  1397		if (ret) {
-  1398			dev_err(dev, "failed to sync regcache.\n");
-  1399			goto stop_spba_clk;
-  1400		}
-  1401	
-  1402		if (xcvr->soc_data->spdif_only)
-  1403			return 0;
-  1404	
-  1405		ret = reset_control_deassert(xcvr->reset);
-  1406		if (ret) {
-  1407			dev_err(dev, "failed to deassert M0+ reset.\n");
-  1408			goto stop_spba_clk;
-  1409		}
-  1410	
-  1411		ret = fsl_xcvr_load_firmware(xcvr);
-  1412		if (ret) {
-  1413			dev_err(dev, "failed to load firmware.\n");
-  1414			goto stop_spba_clk;
-  1415		}
-  1416	
-  1417		/* Release M0+ reset */
-  1418		ret = regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_CTRL,
-  1419					 FSL_XCVR_EXT_CTRL_CORE_RESET, 0);
-  1420		if (ret < 0) {
-  1421			dev_err(dev, "M0+ core release failed: %d\n", ret);
-  1422			goto stop_spba_clk;
-  1423		}
-  1424	
-  1425		/* Let M0+ core complete firmware initialization */
-  1426		msleep(50);
-  1427	
-  1428		return 0;
-  1429	
-  1430	stop_spba_clk:
-  1431		clk_disable_unprepare(xcvr->spba_clk);
-  1432	stop_phy_clk:
-  1433		clk_disable_unprepare(xcvr->phy_clk);
-  1434	stop_pll_ipg_clk:
-  1435		clk_disable_unprepare(xcvr->pll_ipg_clk);
-  1436	stop_ipg_clk:
-  1437		clk_disable_unprepare(xcvr->ipg_clk);
-  1438	
-  1439		return ret;
-  1440	}
-  1441	
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
