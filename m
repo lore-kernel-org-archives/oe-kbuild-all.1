@@ -1,48 +1,54 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E24405F0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 09:50:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B823A405F5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 09:50:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GQpU1ltR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lMotbMjU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697536216; x=1729072216;
+  t=1697536217; x=1729072217;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gzg9rUEDHrh0VKFSRCceyNAKOB+feljgYedDGoK0V6A=;
-  b=GQpU1ltRS51dXbGLr72tcVneVoiNY1hOxCxLgK8L/l4eMDXK2Dpu087b
-   X0QWXqo1fIBcl8VkPuLSbUhdMXdESFESXf+WYswSf/3AJXjW2j69xx0j1
-   BOLPMIfR5pBSsc/fxNfIFxsOBsTPPEqM3W77et1ys3HRKAVidS226Om0E
-   x30I/biK9wLH4xhfLq2Xh6n1FYHZD1Z2eMLlQWqZ93tNPwsinvr5im/WA
-   e2xCk1nMK7vjOoBt0Dv0b78F0qLilug4qRkQXxF17GVR01DvHjkBcY/t7
-   Afq29EZ7IlPgqqKc0UszwVkTQU0AgJolT6anI2zjb2mLEOn8MjfVfxsCs
+  bh=nyyg0L8NonbYaXsBEp+WK/UQNHC0Bw/76oVgNS6I6s0=;
+  b=lMotbMjU2GNRLD3cW3noP2i9uOJy6UINDiHEkhNdkbWyq1UPKwwAo1Aa
+   dw7/Dw7LDvlMKM3EfmBcjNXlKhVWWBX31Jb6JYwcNJqtUpHMr62oUnT3n
+   lpBI8SD1XztQewlHUzsL1j1Yip2bpo0Xoq3FCecu98DqA2bnrCdHbPHbE
+   j4kiuQBeZy/X4dFtvVa08oCZjyr+EhiksTYW0436S5IlFnNlB0T7WAWQq
+   F9Ry1DIRwMriiRXWm/9bSsaIf/9/dDDOlFVvNDMMGdc1SwWCQ0KwaDf0J
+   fDjy3ZzgCpAIMJ2dm2tRU5o0gxlflQLiyU+JSjUPKPMWfQf8mksQ7mmfV
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="452221545"
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="452221553"
 X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
-   d="scan'208";a="452221545"
+   d="scan'208";a="452221553"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 02:50:15 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 02:50:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="872495229"
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="872495253"
 X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
-   d="scan'208";a="872495229"
+   d="scan'208";a="872495253"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
   by fmsmga002.fm.intel.com with ESMTP; 17 Oct 2023 02:50:14 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qsgiJ-0009RH-37;
+	id 1qsgiJ-0009RF-33;
 	Tue, 17 Oct 2023 09:50:11 +0000
-Date: Tue, 17 Oct 2023 17:49:37 +0800
+Date: Tue, 17 Oct 2023 17:49:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pablo Neira Ayuso <pablo@netfilter.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH nf-next,RFC] netfilter: nf_tables: shrink memory
- consumption of set elements
-Message-ID: <202310171720.CRpftrIM-lkp@intel.com>
-References: <20231013160924.119273-1-pablo@netfilter.org>
+To: Konrad Knitter <konrad.knitter@intel.com>,
+	intel-wired-lan@lists.osuosl.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	jdelvare@suse.com, linux@roeck-us.net,
+	Konrad Knitter <konrad.knitter@intel.com>,
+	Marcin Domagala <marcinx.domagala@intel.com>,
+	Eric Joyner <eric.joyner@intel.com>,
+	Marcin Szycik <marcin.szycik@linux.intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Subject: Re: [PATCH iwl-next v4] ice: read internal temperature sensor
+Message-ID: <202310171740.MOWYti1J-lkp@intel.com>
+References: <20231016102913.898932-1-konrad.knitter@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,63 +57,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231013160924.119273-1-pablo@netfilter.org>
+In-Reply-To: <20231016102913.898932-1-konrad.knitter@intel.com>
 
-Hi Pablo,
+Hi Konrad,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on netfilter-nf/main]
-[also build test WARNING on next-20231017]
-[cannot apply to linus/master v6.6-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on ac4dec3fd63c7da703c244698fc92efb411ff0d4]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pablo-Neira-Ayuso/netfilter-nf_tables-shrink-memory-consumption-of-set-elements/20231017-123501
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
-patch link:    https://lore.kernel.org/r/20231013160924.119273-1-pablo%40netfilter.org
-patch subject: [PATCH nf-next,RFC] netfilter: nf_tables: shrink memory consumption of set elements
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231017/202310171720.CRpftrIM-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310171720.CRpftrIM-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Knitter/ice-read-internal-temperature-sensor/20231017-142048
+base:   ac4dec3fd63c7da703c244698fc92efb411ff0d4
+patch link:    https://lore.kernel.org/r/20231016102913.898932-1-konrad.knitter%40intel.com
+patch subject: [PATCH iwl-next v4] ice: read internal temperature sensor
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231017/202310171740.MOWYti1J-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310171740.MOWYti1J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310171720.CRpftrIM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310171740.MOWYti1J-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/netfilter/nft_set_pipapo.c:1740: warning: Function parameter or member 'elem_priv' not described in 'nft_pipapo_activate'
->> net/netfilter/nft_set_pipapo.c:1740: warning: Excess function parameter 'elem' description in 'nft_pipapo_activate'
->> net/netfilter/nft_set_pipapo.c:1946: warning: Function parameter or member 'elem_priv' not described in 'nft_pipapo_remove'
->> net/netfilter/nft_set_pipapo.c:1946: warning: Excess function parameter 'elem' description in 'nft_pipapo_remove'
+>> drivers/net/ethernet/intel/ice/ice_common.c:5329: warning: Excess function parameter 'sensor' description in 'ice_aq_get_sensor_reading'
+>> drivers/net/ethernet/intel/ice/ice_common.c:5329: warning: Excess function parameter 'format' description in 'ice_aq_get_sensor_reading'
 
 
-vim +1740 net/netfilter/nft_set_pipapo.c
+vim +5329 drivers/net/ethernet/intel/ice/ice_common.c
 
-212ed75dc5fb9d Pablo Neira Ayuso 2023-06-07  1726  
-3c4287f62044a9 Stefano Brivio    2020-01-22  1727  /**
-3c4287f62044a9 Stefano Brivio    2020-01-22  1728   * nft_pipapo_activate() - Mark element reference as active given key, commit
-3c4287f62044a9 Stefano Brivio    2020-01-22  1729   * @net:	Network namespace
-3c4287f62044a9 Stefano Brivio    2020-01-22  1730   * @set:	nftables API set representation
-3c4287f62044a9 Stefano Brivio    2020-01-22  1731   * @elem:	nftables API element representation containing key data
-3c4287f62044a9 Stefano Brivio    2020-01-22  1732   *
-3c4287f62044a9 Stefano Brivio    2020-01-22  1733   * On insertion, elements are added to a copy of the matching data currently
-212ed75dc5fb9d Pablo Neira Ayuso 2023-06-07  1734   * in use for lookups, and not directly inserted into current lookup data. Both
-3c4287f62044a9 Stefano Brivio    2020-01-22  1735   * nft_pipapo_insert() and nft_pipapo_activate() are called once for each
-3c4287f62044a9 Stefano Brivio    2020-01-22  1736   * element, hence we can't purpose either one as a real commit operation.
-3c4287f62044a9 Stefano Brivio    2020-01-22  1737   */
-3c4287f62044a9 Stefano Brivio    2020-01-22  1738  static void nft_pipapo_activate(const struct net *net,
-dfe8f3c1db12ef Pablo Neira Ayuso 2023-10-13  1739  				const struct nft_set *set, void *elem_priv)
-3c4287f62044a9 Stefano Brivio    2020-01-22 @1740  {
-dfe8f3c1db12ef Pablo Neira Ayuso 2023-10-13  1741  	struct nft_pipapo_elem *e = elem_priv;
-3c4287f62044a9 Stefano Brivio    2020-01-22  1742  
-3c4287f62044a9 Stefano Brivio    2020-01-22  1743  	nft_set_elem_change_active(net, set, &e->ext);
-3c4287f62044a9 Stefano Brivio    2020-01-22  1744  }
-3c4287f62044a9 Stefano Brivio    2020-01-22  1745  
+  5317	
+  5318	/**
+  5319	 * ice_aq_get_sensor_reading
+  5320	 * @hw: pointer to the HW struct
+  5321	 * @sensor: sensor type
+  5322	 * @format: requested response format
+  5323	 * @data: pointer to data to be read from the sensor
+  5324	 *
+  5325	 * Get sensor reading (0x0632)
+  5326	 */
+  5327	int ice_aq_get_sensor_reading(struct ice_hw *hw,
+  5328				      struct ice_aqc_get_sensor_reading_resp *data)
+> 5329	{
+  5330		struct ice_aqc_get_sensor_reading *cmd;
+  5331		struct ice_aq_desc desc;
+  5332		int status;
+  5333	
+  5334		ice_fill_dflt_direct_cmd_desc(&desc, ice_aqc_opc_get_sensor_reading);
+  5335		cmd = &desc.params.get_sensor_reading;
+  5336	#define ICE_INTERNAL_TEMP_SENSOR_FORMAT	0
+  5337	#define ICE_INTERNAL_TEMP_SENSOR	0
+  5338		cmd->sensor = ICE_INTERNAL_TEMP_SENSOR;
+  5339		cmd->format = ICE_INTERNAL_TEMP_SENSOR_FORMAT;
+  5340	
+  5341		status = ice_aq_send_cmd(hw, &desc, NULL, 0, NULL);
+  5342		if (!status)
+  5343			memcpy(data, &desc.params.get_sensor_reading_resp,
+  5344			       sizeof(*data));
+  5345	
+  5346		return status;
+  5347	}
+  5348	
 
 -- 
 0-DAY CI Kernel Test Service
