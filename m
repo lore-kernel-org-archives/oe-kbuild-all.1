@@ -1,46 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 375C62EB14
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 21:28:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05EE430F4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 21:50:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n7w8fruz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="do79ADri"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697578082; x=1729114082;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fqDPYSBmH7aafgeacaq1FNvlyAYmK6SZpADh/QQ04vc=;
-  b=n7w8fruzf2CcYTcrlctTmjZdEZhUFbJ8yBCZLTCCwfQQVYwXDOJFHNFy
-   fn+bT+KVFsuGsoi4JRXdB+q5tMR7KvnW+XtBSdIH0WLn9yTSB7HvDTg7H
-   2KLoqFpKwH/cGrX/wbN3I73X/7jdY4Q/t7iPl7+TOjQpR5labrgnVdPzy
-   LGyw0G4Rz42WZ9r69dDJITaxMHHWBIElROgEHsy6sdx5+h6NRfs5Ecuso
-   ptiX9VPSKF2MaynyzvJh0K7EMF1J2vZiiq0JAkAZx5cTaGqsS2q2U1ht2
-   dREy7pggmXi5pGp/HVDxUPce5KeiyI0TEkpiQc0ZozDO8tv5iMOp2SGR7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="385718701"
+  t=1697579440; x=1729115440;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hUOW2jdFFCD231zLnFnj1kgtb5ru8K9Mpcdi+Gs/Tzs=;
+  b=do79ADritdICEsE/zrsj3/SJz+7ghQe/oKVJ1zlW9K614iB7fcK6dU9E
+   1v6tKMecoPAVBoQlyiB3RtOCMcFPff0OYlaZ3+aL+nYFaYhWFq5z88OIe
+   J8wDs5Z9aGfKVyyemp1LdOPpsxYiWuTXZmFzF1uOjDPwFyL0mf5tMO+uK
+   c2m1OHS7ox2ZUKvIbvWvOa6ZgUFgIDXHqBVoc3cR8ieQwIgDHehTVmteB
+   cL61F8pVFc3lARj9kDOmA3NnKX2GjpArwLrzCcA3whlEwEj8L3Z2L+ayv
+   5noeuBghlJi/XWN+gLiOjIXBtB79I3hQdniHpSN3mjTWOm69T6WPX8eLM
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="416985498"
 X-IronPort-AV: E=Sophos;i="6.03,233,1694761200"; 
-   d="scan'208";a="385718701"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 14:27:56 -0700
+   d="scan'208";a="416985498"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 14:50:39 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="872757749"
 X-IronPort-AV: E=Sophos;i="6.03,233,1694761200"; 
-   d="scan'208";a="4249454"
+   d="scan'208";a="872757749"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Oct 2023 14:28:01 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 17 Oct 2023 14:50:35 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qsrbV-000A6O-0m;
-	Tue, 17 Oct 2023 21:27:53 +0000
-Date: Wed, 18 Oct 2023 05:27:50 +0800
+	id 1qsrxQ-000A7r-2K;
+	Tue, 17 Oct 2023 21:50:32 +0000
+Date: Wed, 18 Oct 2023 05:49:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Abel Vesa <abel.vesa@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or
- member 'stale_en' not described in 'llcc_slice_config'
-Message-ID: <202310180505.S4iSIgx9-lkp@intel.com>
+To: dregan@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+	linux-mtd@lists.infradead.org, f.fainelli@gmail.com,
+	rafal@milecki.pl, joel.peshkin@broadcom.com,
+	computersforpeace@gmail.com, dan.beygelman@broadcom.com,
+	william.zhang@broadcom.com, frieder.schrempf@kontron.de,
+	linux-kernel@vger.kernel.org, vigneshr@ti.com, richard@nod.at,
+	bbrezillon@kernel.org, kdasu.kdev@gmail.com,
+	JaimeLiao <jaimeliao.tw@gmail.com>,
+	Arseniy Krasnov <AVKrasnov@sberdevices.ru>,
+	Adam Borowski <kilobyte@angband.pl>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 4/4] mtd: rawnand: brcmnand: exec_op implementation
+Message-ID: <202310180553.Zfa2ryoa-lkp@intel.com>
+References: <20231017201417.129872-4-dregan@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,93 +59,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231017201417.129872-4-dregan@broadcom.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   213f891525c222e8ed145ce1ce7ae1f47921cb9c
-commit: c72ca343f911c3ba1b10163399f891ddb86ad109 soc: qcom: llcc: Add v4.1 HW version support
-date:   11 months ago
-config: x86_64-buildonly-randconfig-r001-20230530 (https://download.01.org/0day-ci/archive/20231018/202310180505.S4iSIgx9-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310180505.S4iSIgx9-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on mtd/nand/next]
+[also build test WARNING on linus/master v6.6-rc6 next-20231017]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/dregan-broadcom-com/mtd-rawnand-NAND-controller-write-protect/20231018-042758
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
+patch link:    https://lore.kernel.org/r/20231017201417.129872-4-dregan%40broadcom.com
+patch subject: [PATCH v3 4/4] mtd: rawnand: brcmnand: exec_op implementation
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231018/202310180553.Zfa2ryoa-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310180553.Zfa2ryoa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310180505.S4iSIgx9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310180553.Zfa2ryoa-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'stale_en' not described in 'llcc_slice_config'
->> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'stale_cap_en' not described in 'llcc_slice_config'
->> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'mru_uncap_en' not described in 'llcc_slice_config'
->> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'mru_rollover' not described in 'llcc_slice_config'
->> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'alloc_oneway_en' not described in 'llcc_slice_config'
->> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'ovcap_en' not described in 'llcc_slice_config'
->> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'ovcap_prio' not described in 'llcc_slice_config'
->> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'vict_prio' not described in 'llcc_slice_config'
+>> drivers/mtd/nand/raw/brcmnand/brcmnand.c:2393:5: warning: no previous prototype for 'brcmnand_exec_op_is_status' [-Wmissing-prototypes]
+    2393 | int brcmnand_exec_op_is_status(const struct nand_operation *op)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/mtd/nand/raw/brcmnand/brcmnand.c:2404:5: warning: no previous prototype for 'brcmnand_exec_op_is_reset' [-Wmissing-prototypes]
+    2404 | int brcmnand_exec_op_is_reset(const struct nand_operation *op)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +121 drivers/soc/qcom/llcc-qcom.c
+vim +/brcmnand_exec_op_is_status +2393 drivers/mtd/nand/raw/brcmnand/brcmnand.c
 
-8008e7902f28eb Sai Prakash Ranjan    2022-01-28   70  
-99356b03b431f9 Vivek Gautam          2019-07-18   71  /**
-171c03171a4cdf Lee Jones             2020-11-03   72   * struct llcc_slice_config - Data associated with the llcc slice
-99356b03b431f9 Vivek Gautam          2019-07-18   73   * @usecase_id: Unique id for the client's use case
-99356b03b431f9 Vivek Gautam          2019-07-18   74   * @slice_id: llcc slice id for each client
-99356b03b431f9 Vivek Gautam          2019-07-18   75   * @max_cap: The maximum capacity of the cache slice provided in KB
-99356b03b431f9 Vivek Gautam          2019-07-18   76   * @priority: Priority of the client used to select victim line for replacement
-99356b03b431f9 Vivek Gautam          2019-07-18   77   * @fixed_size: Boolean indicating if the slice has a fixed capacity
-99356b03b431f9 Vivek Gautam          2019-07-18   78   * @bonus_ways: Bonus ways are additional ways to be used for any slice,
-99356b03b431f9 Vivek Gautam          2019-07-18   79   *		if client ends up using more than reserved cache ways. Bonus
-99356b03b431f9 Vivek Gautam          2019-07-18   80   *		ways are allocated only if they are not reserved for some
-99356b03b431f9 Vivek Gautam          2019-07-18   81   *		other client.
-99356b03b431f9 Vivek Gautam          2019-07-18   82   * @res_ways: Reserved ways for the cache slice, the reserved ways cannot
-99356b03b431f9 Vivek Gautam          2019-07-18   83   *		be used by any other client than the one its assigned to.
-99356b03b431f9 Vivek Gautam          2019-07-18   84   * @cache_mode: Each slice operates as a cache, this controls the mode of the
-99356b03b431f9 Vivek Gautam          2019-07-18   85   *             slice: normal or TCM(Tightly Coupled Memory)
-99356b03b431f9 Vivek Gautam          2019-07-18   86   * @probe_target_ways: Determines what ways to probe for access hit. When
-99356b03b431f9 Vivek Gautam          2019-07-18   87   *                    configured to 1 only bonus and reserved ways are probed.
-99356b03b431f9 Vivek Gautam          2019-07-18   88   *                    When configured to 0 all ways in llcc are probed.
-99356b03b431f9 Vivek Gautam          2019-07-18   89   * @dis_cap_alloc: Disable capacity based allocation for a client
-99356b03b431f9 Vivek Gautam          2019-07-18   90   * @retain_on_pc: If this bit is set and client has maintained active vote
-99356b03b431f9 Vivek Gautam          2019-07-18   91   *               then the ways assigned to this client are not flushed on power
-99356b03b431f9 Vivek Gautam          2019-07-18   92   *               collapse.
-99356b03b431f9 Vivek Gautam          2019-07-18   93   * @activate_on_init: Activate the slice immediately after it is programmed
-c4df37fe186de4 Manivannan Sadhasivam 2020-11-30   94   * @write_scid_en: Bit enables write cache support for a given scid.
-2b8175a1f10836 Sai Prakash Ranjan    2022-01-28   95   * @write_scid_cacheable_en: Enables write cache cacheable support for a
-2b8175a1f10836 Sai Prakash Ranjan    2022-01-28   96   *			     given scid (not supported on v2 or older hardware).
-99356b03b431f9 Vivek Gautam          2019-07-18   97   */
-99356b03b431f9 Vivek Gautam          2019-07-18   98  struct llcc_slice_config {
-99356b03b431f9 Vivek Gautam          2019-07-18   99  	u32 usecase_id;
-99356b03b431f9 Vivek Gautam          2019-07-18  100  	u32 slice_id;
-99356b03b431f9 Vivek Gautam          2019-07-18  101  	u32 max_cap;
-99356b03b431f9 Vivek Gautam          2019-07-18  102  	u32 priority;
-99356b03b431f9 Vivek Gautam          2019-07-18  103  	bool fixed_size;
-99356b03b431f9 Vivek Gautam          2019-07-18  104  	u32 bonus_ways;
-99356b03b431f9 Vivek Gautam          2019-07-18  105  	u32 res_ways;
-99356b03b431f9 Vivek Gautam          2019-07-18  106  	u32 cache_mode;
-99356b03b431f9 Vivek Gautam          2019-07-18  107  	u32 probe_target_ways;
-99356b03b431f9 Vivek Gautam          2019-07-18  108  	bool dis_cap_alloc;
-99356b03b431f9 Vivek Gautam          2019-07-18  109  	bool retain_on_pc;
-99356b03b431f9 Vivek Gautam          2019-07-18  110  	bool activate_on_init;
-c4df37fe186de4 Manivannan Sadhasivam 2020-11-30  111  	bool write_scid_en;
-2b8175a1f10836 Sai Prakash Ranjan    2022-01-28  112  	bool write_scid_cacheable_en;
-c72ca343f911c3 Abel Vesa             2022-11-16  113  	bool stale_en;
-c72ca343f911c3 Abel Vesa             2022-11-16  114  	bool stale_cap_en;
-c72ca343f911c3 Abel Vesa             2022-11-16  115  	bool mru_uncap_en;
-c72ca343f911c3 Abel Vesa             2022-11-16  116  	bool mru_rollover;
-c72ca343f911c3 Abel Vesa             2022-11-16  117  	bool alloc_oneway_en;
-c72ca343f911c3 Abel Vesa             2022-11-16  118  	bool ovcap_en;
-c72ca343f911c3 Abel Vesa             2022-11-16  119  	bool ovcap_prio;
-c72ca343f911c3 Abel Vesa             2022-11-16  120  	bool vict_prio;
-99356b03b431f9 Vivek Gautam          2019-07-18 @121  };
-99356b03b431f9 Vivek Gautam          2019-07-18  122  
-
-:::::: The code at line 121 was first introduced by commit
-:::::: 99356b03b431f9589bbaec2bc5bacceccb3dd99a soc: qcom: Make llcc-qcom a generic driver
-
-:::::: TO: Vivek Gautam <vivek.gautam@codeaurora.org>
-:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
+  2392	
+> 2393	int brcmnand_exec_op_is_status(const struct nand_operation *op)
+  2394	{
+  2395		if ((op->ninstrs == 2) &&
+  2396			(op->instrs[0].type == NAND_OP_CMD_INSTR) &&
+  2397			(op->instrs[0].ctx.cmd.opcode == NAND_CMD_STATUS) &&
+  2398			(op->instrs[1].type == NAND_OP_DATA_IN_INSTR))
+  2399			return 1;
+  2400	
+  2401		return 0;
+  2402	}
+  2403	
+> 2404	int brcmnand_exec_op_is_reset(const struct nand_operation *op)
+  2405	{
+  2406		if ((op->ninstrs == 1) &&
+  2407			(op->instrs[0].type == NAND_OP_CMD_INSTR) &&
+  2408			(op->instrs[0].ctx.cmd.opcode == NAND_CMD_RESET))
+  2409			return 1;
+  2410	
+  2411		return 0;
+  2412	}
+  2413	
 
 -- 
 0-DAY CI Kernel Test Service
