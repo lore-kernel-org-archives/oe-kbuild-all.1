@@ -1,46 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5EB2440D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 02:59:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DEF36FBC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 02:59:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OCXu+9Ke"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m1Tb8t2+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697511590; x=1729047590;
+  t=1697511593; x=1729047593;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=s/sfhtGoO4KxlkQ1AHNgt1Mjea4LMBP+q+rgAq4vifI=;
-  b=OCXu+9Ke0IwyvYB7leSSB17EQxMwCGDczTpo8lAWzx06dF5tP6P0I2vq
-   GmlTA6TSVwMEvl6jZZnXwxtw2RHzNejHp5xkiXj0VBJEZPdYVstlFvNLH
-   YAZoGiZvNRnsghC9LKJ9wSIrhsO/cV18dwGFQRQ8S3UUjTNpzVKiK7s1Z
-   kbBxCiYaGqLhZVAfeVlvIzEbqT8qNqaZzll6WZPz2jEj5TkmfiKqrR01A
-   myPZeUDGrpFQoHWQvaj37XJ/29A2MX+/FjtSTgMCdVNeNCDmZSBS/oq7Z
-   TFxwh9sHCCTxsck9FTnFnFOI2sN+o4t8nHPkGac6JmsLUMW66FAdSWmFs
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="7252116"
+  bh=AmfMhTo9RynZx1wSLsz1oLYkq65cA39gkWfkYPS8GmA=;
+  b=m1Tb8t2+pI+l9Qcu6gWHzl6Rtyt3J+j7+lMVF/MCSXTNO/TK2i+I3v1c
+   1AwDcYhb+Q4h9z8q39hS3sphLrBNat34/CMLB0jX8OTGIRyPs9ahZoiWT
+   eOGA4Uxy+CVEZprixzNpw6lMj9vyT6CdAvSVfgBit1WQ0d/hv8BSVVbbL
+   n5i2Jxr7pk1q50xGSzBGwt8vLOuMPCZGEvbaB5W/w5HCx+fQSRWn0feeT
+   DwMnYyiuzlu8eU/urecrObkN5WiOV4m0xD1jJJXf9SWY6AclGmuJVwrat
+   vvfLju3tX/7U8rRtlhw7YhLuxtYtko6U6wFiH3h0khNaTFtPw/qpJJ2Sj
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="7252120"
 X-IronPort-AV: E=Sophos;i="6.03,230,1694761200"; 
-   d="scan'208";a="7252116"
+   d="scan'208";a="7252120"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
   by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 19:59:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="821794626"
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="821794627"
 X-IronPort-AV: E=Sophos;i="6.03,230,1694761200"; 
-   d="scan'208";a="821794626"
+   d="scan'208";a="821794627"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
   by fmsmga008.fm.intel.com with ESMTP; 16 Oct 2023 19:59:47 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qsaJ7-0008tt-1b;
+	id 1qsaJ7-0008tv-1f;
 	Tue, 17 Oct 2023 02:59:45 +0000
-Date: Tue, 17 Oct 2023 10:58:57 +0800
+Date: Tue, 17 Oct 2023 10:58:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/x86/kernel/cpu/bugs.c:64:9: sparse: sparse: incorrect type in
- initializer (different address spaces)
-Message-ID: <202310171043.kUlpXIoN-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Javier Martinez Canillas <javierm@redhat.com>
+Subject: [tty:tty-testing 22/24] efi.c:undefined reference to `screen_info'
+Message-ID: <202310171049.aNxOKhUY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,49 +52,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   58720809f52779dc0f08e53e54b014209d13eebb
-commit: 481461f5109919babbb393d6f68002936b8e2493 linux/export.h: make <linux/export.h> independent of CONFIG_MODULES
-date:   3 months ago
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231017/202310171043.kUlpXIoN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310171043.kUlpXIoN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+head:   6271f1e8c4cb9a46273ae01ff9cb86a022063f75
+commit: 934d62223da320b3ec012c85b63a6c250f507096 [22/24] efi: move screen_info into efi init code
+config: loongarch-randconfig-001-20231017 (https://download.01.org/0day-ci/archive/20231017/202310171049.aNxOKhUY-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310171049.aNxOKhUY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310171043.kUlpXIoN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310171049.aNxOKhUY-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kernel/cpu/bugs.c:64:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long long * @@
-   arch/x86/kernel/cpu/bugs.c:64:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/x86/kernel/cpu/bugs.c:64:9: sparse:     got unsigned long long *
-   arch/x86/kernel/cpu/bugs.c:74:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long long * @@
-   arch/x86/kernel/cpu/bugs.c:74:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/x86/kernel/cpu/bugs.c:74:13: sparse:     got unsigned long long *
-   arch/x86/kernel/cpu/bugs.c:77:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long long * @@
-   arch/x86/kernel/cpu/bugs.c:77:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/x86/kernel/cpu/bugs.c:77:9: sparse:     got unsigned long long *
-   arch/x86/kernel/cpu/bugs.c:89:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long long * @@
-   arch/x86/kernel/cpu/bugs.c:89:16: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/x86/kernel/cpu/bugs.c:89:16: sparse:     got unsigned long long *
+All errors (new ones prefixed by >>):
 
-vim +64 arch/x86/kernel/cpu/bugs.c
-
-1b86883ccb8d5d Konrad Rzeszutek Wilk 2018-04-25  60  
-66065157420c5b Pawan Gupta           2022-11-30  61  /* Update SPEC_CTRL MSR and its cached copy unconditionally */
-66065157420c5b Pawan Gupta           2022-11-30  62  static void update_spec_ctrl(u64 val)
-66065157420c5b Pawan Gupta           2022-11-30  63  {
-66065157420c5b Pawan Gupta           2022-11-30 @64  	this_cpu_write(x86_spec_ctrl_current, val);
-66065157420c5b Pawan Gupta           2022-11-30  65  	wrmsrl(MSR_IA32_SPEC_CTRL, val);
-66065157420c5b Pawan Gupta           2022-11-30  66  }
-66065157420c5b Pawan Gupta           2022-11-30  67  
-
-:::::: The code at line 64 was first introduced by commit
-:::::: 66065157420c5b9b3f078f43d313c153e1ff7f83 x86/bugs: Make sure MSR_SPEC_CTRL is updated properly upon resume from S3
-
-:::::: TO: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   loongarch64-linux-ld: arch/loongarch/kernel/efi.o: in function `.L6':
+>> efi.c:(.init.text+0x1ac): undefined reference to `screen_info'
+>> loongarch64-linux-ld: efi.c:(.init.text+0x1b0): undefined reference to `screen_info'
+   loongarch64-linux-ld: drivers/firmware/sysfb.o: in function `.L2':
+>> sysfb.c:(.init.text+0x60): undefined reference to `screen_info'
+>> loongarch64-linux-ld: sysfb.c:(.init.text+0x68): undefined reference to `screen_info'
+   loongarch64-linux-ld: drivers/firmware/sysfb.o: in function `.L7':
+   sysfb.c:(.init.text+0x74): undefined reference to `screen_info'
+   loongarch64-linux-ld: drivers/firmware/sysfb.o:sysfb.c:(.init.text+0x78): more undefined references to `screen_info' follow
 
 -- 
 0-DAY CI Kernel Test Service
