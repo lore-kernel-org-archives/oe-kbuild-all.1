@@ -1,29 +1,55 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCAFA38FB8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 08:18:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4201D11CB6;
+	Tue, 17 Oct 2023 08:22:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kDnb4Ff8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7450C433C7;
-	Tue, 17 Oct 2023 08:18:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1697530729;
-	bh=acqlkjdBNTKMXpjASQiU4uaV/xt8NNpSCRDVAm1oAY8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kDnb4Ff8J+hlQnhISBee+1VWj6RBKnXqyK85dFyV4073220EHomOWx9EaXRmFX5e8
-	 OAOodXtgKbwhj8w5BUuW15JTxE/4CQX2Q/vDf0U2vNuQN2skSXoMep9r+9o0/RqjyA
-	 hofh3vXfh+CctNWLk9PBEacsCKpX38UgIHscCHRo=
-Date: Tue, 17 Oct 2023 10:18:46 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, oe-kbuild-all@lists.linux.dev,
-	linux-serial@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
-	Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [tty:tty-testing 22/24] earlycon.c:undefined reference to
- `screen_info'
-Message-ID: <2023101722-outage-outward-a6d6@gregkh>
-References: <202310170938.xHIu2lFB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VERU788P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697530968; x=1729066968;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=18C0RvA7Co1JNquL2AuXahyTLK/I1EcsLrFRsMv0xXw=;
+  b=VERU788PmM/RGtklGywkmGlZ9X/rGnxIjx/bBnIN4sBwHmzaOd1z3HlN
+   Komk68SM4cnE10cAENt7Lu45dEFIjIv8jPuID7gUDvwOqk04L1NJ5Si7z
+   L/7gC4nuXWN0SiSuedS0OU0jd5eemNaF+q7vFDFN5IxfKZj4tWEFSrgfv
+   8GO6sgz7TqCPL7uN0fmn3zIdBchDjiUOfd8d3XbdAMH1KdkmyRSOpM4hs
+   /A5IW1NHYPB+C1uMUhWpuA9zA6OOtfIbGqrtMeydohU8LwyrY1isW20Wu
+   Xhbxv034v51SgEwZf5uzD4rcz8XBp8qwdRXndTzxtPzdDC0jphhglSr7a
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="389598073"
+X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
+   d="scan'208";a="389598073"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 01:22:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="826348799"
+X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
+   d="scan'208";a="826348799"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 17 Oct 2023 01:22:43 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qsfLd-0009LV-2L;
+	Tue, 17 Oct 2023 08:22:41 +0000
+Date: Tue, 17 Oct 2023 16:21:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, quic_vbadigan@quicinc.com,
+	quic_ramkri@quicinc.com, quic_nitegupt@quicinc.com,
+	quic_skananth@quicinc.com, quic_parass@quicinc.com,
+	Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Subject: Re: [PATCH v2] bus: mhi: host: Add tracing support
+Message-ID: <202310171556.hmPBsvRX-lkp@intel.com>
+References: <20231013-ftrace_support-v2-1-6e893ce010b5@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -32,24 +58,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202310170938.xHIu2lFB-lkp@intel.com>
+In-Reply-To: <20231013-ftrace_support-v2-1-6e893ce010b5@quicinc.com>
 
-On Tue, Oct 17, 2023 at 09:44:58AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-> head:   6271f1e8c4cb9a46273ae01ff9cb86a022063f75
-> commit: 934d62223da320b3ec012c85b63a6c250f507096 [22/24] efi: move screen_info into efi init code
-> config: loongarch-randconfig-002-20231017 (https://download.01.org/0day-ci/archive/20231017/202310170938.xHIu2lFB-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310170938.xHIu2lFB-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202310170938.xHIu2lFB-lkp@intel.com/
+Hi Krishna,
 
-Arnd, I'll drop this commit from my tree now, if you want to fix it up
-and resend just it, I'll be glad to apply it.
+kernel test robot noticed the following build warnings:
 
-thanks,
+[auto build test WARNING on 3006adf3be79cde4d14b1800b963b82b6e5572e0]
 
-greg k-h
+url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-chaitanya-chundru/bus-mhi-host-Add-tracing-support/20231017-120241
+base:   3006adf3be79cde4d14b1800b963b82b6e5572e0
+patch link:    https://lore.kernel.org/r/20231013-ftrace_support-v2-1-6e893ce010b5%40quicinc.com
+patch subject: [PATCH v2] bus: mhi: host: Add tracing support
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231017/202310171556.hmPBsvRX-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310171556.hmPBsvRX-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310171556.hmPBsvRX-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/bus/mhi/host/main.c:249:12: warning: no previous prototype for 'mhi_to_physical' [-Wmissing-prototypes]
+     249 | dma_addr_t mhi_to_physical(struct mhi_ring *ring, void *addr)
+         |            ^~~~~~~~~~~~~~~
+
+
+vim +/mhi_to_physical +249 drivers/bus/mhi/host/main.c
+
+   248	
+ > 249	dma_addr_t mhi_to_physical(struct mhi_ring *ring, void *addr)
+   250	{
+   251		return (addr - ring->base) + ring->iommu_base;
+   252	}
+   253	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
