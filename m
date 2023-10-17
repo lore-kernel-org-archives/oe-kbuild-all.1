@@ -1,47 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45714430E6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 21:27:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 375C62EB14
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 21:28:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M7zEQAgG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n7w8fruz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697578079; x=1729114079;
+  t=1697578082; x=1729114082;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WGhyw6b5AaO5oRHf4oQq9HF58U/arpaEHDj9e0rkUaA=;
-  b=M7zEQAgGMUUAKW3GTYXNPIDPtNvVdpm0UGt4CKSxDEeWYPitP15s9lfv
-   us1Q11Bb57jbn7GNBdYAohOpEax0Vwe/JEF1G1yspZV80Hmk+arY0/Whu
-   forXqryqporH6qhG9qln4OB81P3ptZw74ZUxYOxOVj1aCslP9QF7XDx82
-   YlCI+sEsQJ8ti4tBcISUTet+iZ48JJY8F/Bfh7UE45soI5mw3rLWfEYGn
-   4qKtbQMUPWA+HSsg892p3DQPTHNFiWgPfNZtuaLRWog+L1cor6B1nyDVO
-   kDynNn/LLMDTy4ZCer3P2FjeB2wmfDJB4aLuvn9GsSSpbHH/tROCY+OeK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="385718704"
+  bh=fqDPYSBmH7aafgeacaq1FNvlyAYmK6SZpADh/QQ04vc=;
+  b=n7w8fruzf2CcYTcrlctTmjZdEZhUFbJ8yBCZLTCCwfQQVYwXDOJFHNFy
+   fn+bT+KVFsuGsoi4JRXdB+q5tMR7KvnW+XtBSdIH0WLn9yTSB7HvDTg7H
+   2KLoqFpKwH/cGrX/wbN3I73X/7jdY4Q/t7iPl7+TOjQpR5labrgnVdPzy
+   LGyw0G4Rz42WZ9r69dDJITaxMHHWBIElROgEHsy6sdx5+h6NRfs5Ecuso
+   ptiX9VPSKF2MaynyzvJh0K7EMF1J2vZiiq0JAkAZx5cTaGqsS2q2U1ht2
+   dREy7pggmXi5pGp/HVDxUPce5KeiyI0TEkpiQc0ZozDO8tv5iMOp2SGR7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="385718701"
 X-IronPort-AV: E=Sophos;i="6.03,233,1694761200"; 
-   d="scan'208";a="385718704"
+   d="scan'208";a="385718701"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 14:27:57 -0700
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 14:27:56 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,233,1694761200"; 
-   d="scan'208";a="4249453"
+   d="scan'208";a="4249454"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
   by fmviesa001.fm.intel.com with ESMTP; 17 Oct 2023 14:28:01 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qsrbV-000A6L-0e;
+	id 1qsrbV-000A6O-0m;
 	Tue, 17 Oct 2023 21:27:53 +0000
-Date: Wed, 18 Oct 2023 05:27:41 +0800
+Date: Wed, 18 Oct 2023 05:27:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bradley Grove <bgrove@attotech.com>
+To: Abel Vesa <abel.vesa@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Rob Crispo <rcrispo@attotech.com>
-Subject: drivers/scsi/mpt3sas/mpt3sas_base.c:5487: warning: Function
- parameter or member 'sas_addr' not described in 'mpt3sas_atto_get_sas_addr'
-Message-ID: <202310180526.lMLsejM1-lkp@intel.com>
+	Bjorn Andersson <andersson@kernel.org>
+Subject: drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or
+ member 'stale_en' not described in 'llcc_slice_config'
+Message-ID: <202310180505.S4iSIgx9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,70 +50,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Bradley,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   213f891525c222e8ed145ce1ce7ae1f47921cb9c
-commit: 91cf186aa1bfea06c7438b16eb40a612a4c3b87a scsi: mpt3sas: Add support for ATTO ExpressSAS H12xx GT devices
-date:   1 year, 2 months ago
-config: x86_64-randconfig-x063-20230716 (https://download.01.org/0day-ci/archive/20231018/202310180526.lMLsejM1-lkp@intel.com/config)
+commit: c72ca343f911c3ba1b10163399f891ddb86ad109 soc: qcom: llcc: Add v4.1 HW version support
+date:   11 months ago
+config: x86_64-buildonly-randconfig-r001-20230530 (https://download.01.org/0day-ci/archive/20231018/202310180505.S4iSIgx9-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310180526.lMLsejM1-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310180505.S4iSIgx9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310180526.lMLsejM1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310180505.S4iSIgx9-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/scsi/mpt3sas/mpt3sas_base.c:5487: warning: Function parameter or member 'sas_addr' not described in 'mpt3sas_atto_get_sas_addr'
+>> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'stale_en' not described in 'llcc_slice_config'
+>> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'stale_cap_en' not described in 'llcc_slice_config'
+>> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'mru_uncap_en' not described in 'llcc_slice_config'
+>> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'mru_rollover' not described in 'llcc_slice_config'
+>> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'alloc_oneway_en' not described in 'llcc_slice_config'
+>> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'ovcap_en' not described in 'llcc_slice_config'
+>> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'ovcap_prio' not described in 'llcc_slice_config'
+>> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'vict_prio' not described in 'llcc_slice_config'
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_I915_DEBUG_GEM
-   Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=y] && EXPERT [=y] && DRM_I915_WERROR [=n]
-   Selected by [y]:
-   - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && DRM_I915 [=y] && EXPERT [=y] && !COMPILE_TEST [=n]
 
+vim +121 drivers/soc/qcom/llcc-qcom.c
 
-vim +5487 drivers/scsi/mpt3sas/mpt3sas_base.c
+8008e7902f28eb Sai Prakash Ranjan    2022-01-28   70  
+99356b03b431f9 Vivek Gautam          2019-07-18   71  /**
+171c03171a4cdf Lee Jones             2020-11-03   72   * struct llcc_slice_config - Data associated with the llcc slice
+99356b03b431f9 Vivek Gautam          2019-07-18   73   * @usecase_id: Unique id for the client's use case
+99356b03b431f9 Vivek Gautam          2019-07-18   74   * @slice_id: llcc slice id for each client
+99356b03b431f9 Vivek Gautam          2019-07-18   75   * @max_cap: The maximum capacity of the cache slice provided in KB
+99356b03b431f9 Vivek Gautam          2019-07-18   76   * @priority: Priority of the client used to select victim line for replacement
+99356b03b431f9 Vivek Gautam          2019-07-18   77   * @fixed_size: Boolean indicating if the slice has a fixed capacity
+99356b03b431f9 Vivek Gautam          2019-07-18   78   * @bonus_ways: Bonus ways are additional ways to be used for any slice,
+99356b03b431f9 Vivek Gautam          2019-07-18   79   *		if client ends up using more than reserved cache ways. Bonus
+99356b03b431f9 Vivek Gautam          2019-07-18   80   *		ways are allocated only if they are not reserved for some
+99356b03b431f9 Vivek Gautam          2019-07-18   81   *		other client.
+99356b03b431f9 Vivek Gautam          2019-07-18   82   * @res_ways: Reserved ways for the cache slice, the reserved ways cannot
+99356b03b431f9 Vivek Gautam          2019-07-18   83   *		be used by any other client than the one its assigned to.
+99356b03b431f9 Vivek Gautam          2019-07-18   84   * @cache_mode: Each slice operates as a cache, this controls the mode of the
+99356b03b431f9 Vivek Gautam          2019-07-18   85   *             slice: normal or TCM(Tightly Coupled Memory)
+99356b03b431f9 Vivek Gautam          2019-07-18   86   * @probe_target_ways: Determines what ways to probe for access hit. When
+99356b03b431f9 Vivek Gautam          2019-07-18   87   *                    configured to 1 only bonus and reserved ways are probed.
+99356b03b431f9 Vivek Gautam          2019-07-18   88   *                    When configured to 0 all ways in llcc are probed.
+99356b03b431f9 Vivek Gautam          2019-07-18   89   * @dis_cap_alloc: Disable capacity based allocation for a client
+99356b03b431f9 Vivek Gautam          2019-07-18   90   * @retain_on_pc: If this bit is set and client has maintained active vote
+99356b03b431f9 Vivek Gautam          2019-07-18   91   *               then the ways assigned to this client are not flushed on power
+99356b03b431f9 Vivek Gautam          2019-07-18   92   *               collapse.
+99356b03b431f9 Vivek Gautam          2019-07-18   93   * @activate_on_init: Activate the slice immediately after it is programmed
+c4df37fe186de4 Manivannan Sadhasivam 2020-11-30   94   * @write_scid_en: Bit enables write cache support for a given scid.
+2b8175a1f10836 Sai Prakash Ranjan    2022-01-28   95   * @write_scid_cacheable_en: Enables write cache cacheable support for a
+2b8175a1f10836 Sai Prakash Ranjan    2022-01-28   96   *			     given scid (not supported on v2 or older hardware).
+99356b03b431f9 Vivek Gautam          2019-07-18   97   */
+99356b03b431f9 Vivek Gautam          2019-07-18   98  struct llcc_slice_config {
+99356b03b431f9 Vivek Gautam          2019-07-18   99  	u32 usecase_id;
+99356b03b431f9 Vivek Gautam          2019-07-18  100  	u32 slice_id;
+99356b03b431f9 Vivek Gautam          2019-07-18  101  	u32 max_cap;
+99356b03b431f9 Vivek Gautam          2019-07-18  102  	u32 priority;
+99356b03b431f9 Vivek Gautam          2019-07-18  103  	bool fixed_size;
+99356b03b431f9 Vivek Gautam          2019-07-18  104  	u32 bonus_ways;
+99356b03b431f9 Vivek Gautam          2019-07-18  105  	u32 res_ways;
+99356b03b431f9 Vivek Gautam          2019-07-18  106  	u32 cache_mode;
+99356b03b431f9 Vivek Gautam          2019-07-18  107  	u32 probe_target_ways;
+99356b03b431f9 Vivek Gautam          2019-07-18  108  	bool dis_cap_alloc;
+99356b03b431f9 Vivek Gautam          2019-07-18  109  	bool retain_on_pc;
+99356b03b431f9 Vivek Gautam          2019-07-18  110  	bool activate_on_init;
+c4df37fe186de4 Manivannan Sadhasivam 2020-11-30  111  	bool write_scid_en;
+2b8175a1f10836 Sai Prakash Ranjan    2022-01-28  112  	bool write_scid_cacheable_en;
+c72ca343f911c3 Abel Vesa             2022-11-16  113  	bool stale_en;
+c72ca343f911c3 Abel Vesa             2022-11-16  114  	bool stale_cap_en;
+c72ca343f911c3 Abel Vesa             2022-11-16  115  	bool mru_uncap_en;
+c72ca343f911c3 Abel Vesa             2022-11-16  116  	bool mru_rollover;
+c72ca343f911c3 Abel Vesa             2022-11-16  117  	bool alloc_oneway_en;
+c72ca343f911c3 Abel Vesa             2022-11-16  118  	bool ovcap_en;
+c72ca343f911c3 Abel Vesa             2022-11-16  119  	bool ovcap_prio;
+c72ca343f911c3 Abel Vesa             2022-11-16  120  	bool vict_prio;
+99356b03b431f9 Vivek Gautam          2019-07-18 @121  };
+99356b03b431f9 Vivek Gautam          2019-07-18  122  
 
-  5477	
-  5478	/**
-  5479	 * mpt3sas_atto_get_sas_addr - get the ATTO SAS address from mfg page 1
-  5480	 *
-  5481	 * @ioc : per adapter object
-  5482	 * @*sas_addr : return sas address
-  5483	 * Return: 0 for success, non-zero for failure.
-  5484	 */
-  5485	static int
-  5486	mpt3sas_atto_get_sas_addr(struct MPT3SAS_ADAPTER *ioc, union ATTO_SAS_ADDRESS *sas_addr)
-> 5487	{
-  5488		Mpi2ManufacturingPage1_t mfg_pg1;
-  5489		Mpi2ConfigReply_t mpi_reply;
-  5490		struct ATTO_SAS_NVRAM *nvram;
-  5491		int r;
-  5492		__be64 addr;
-  5493	
-  5494		r = mpt3sas_config_get_manufacturing_pg1(ioc, &mpi_reply, &mfg_pg1);
-  5495		if (r) {
-  5496			ioc_err(ioc, "Failed to read manufacturing page 1\n");
-  5497			return r;
-  5498		}
-  5499	
-  5500		/* validate nvram */
-  5501		nvram = (struct ATTO_SAS_NVRAM *) mfg_pg1.VPD;
-  5502		r = mpt3sas_atto_validate_nvram(ioc, nvram);
-  5503		if (r)
-  5504			return r;
-  5505	
-  5506		addr = *((__be64 *) nvram->SasAddr);
-  5507		sas_addr->q = cpu_to_le64(be64_to_cpu(addr));
-  5508		return r;
-  5509	}
-  5510	
+:::::: The code at line 121 was first introduced by commit
+:::::: 99356b03b431f9589bbaec2bc5bacceccb3dd99a soc: qcom: Make llcc-qcom a generic driver
+
+:::::: TO: Vivek Gautam <vivek.gautam@codeaurora.org>
+:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
