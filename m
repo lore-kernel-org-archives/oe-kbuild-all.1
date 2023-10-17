@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDF938DC7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 15:55:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D2A450F4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 15:55:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DF5QPtEJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MC3aDS/V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697558142; x=1729094142;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Mw59znxu3MEWeYoTxhq1GBdxbFDY/CI74H7al6iqB6I=;
-  b=DF5QPtEJ3MmMa5JwfL4na1QsuWDWTrxrPrd+GRi5R4yP7TwDcNbCWh3q
-   3dMyXgzxpD2C3z9elH4JDTGWp+CJH7e2BMBYn+pBGBLjZ0hik2idqBNgV
-   VuVs0bcjV5XBtljQioSoX2KTSYoRUYoYYgGJUN2fUvZDxf1qk+JL5GLtJ
-   2iIy1cDoqnsBqAEUtuYrzzq5CXVPDY6z3XYdhcuE+vr7ixn1pD5VIaKZA
-   g5/E8I1rX4I/e3uo3d1fQYj/1G4juhohtZzmhs/jyxhJeq4f2zvrkBCNN
-   ifXr6eAC3IWwNyHTWD3cE5/cSx7UtmSBJoVceLKQ3xhu3oFFgU9kJ0e6T
+  t=1697558144; x=1729094144;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TVrAL48KTX9rBZfj1PkgL6fDryDLInZzsTGIAr3R8kk=;
+  b=MC3aDS/VdMjvAiUPbbo9xXP6q61wMogNED1+dRhfZ3pQk67BDWWevWeH
+   pVlHtK7RclXc8UgafSQKFDF4Eg3ZGwNtMwbmeZ2KdA3JQt5ABcykgJu3W
+   kGgLt/9WTNYNSbkMrjOHvTvuDYvR4Yk90agwYAaTcdxwY1FFwX+Hd2Aut
+   /9bqiE32wPDe1B7i9S8peJ5emqAKQa0uvpb8KSc3PYD1ESiB+C5a6aaBL
+   apBKJZEbpc/S4AWXzWR1MtaZIlGaj+OwAXhL/pz2oDUVfjhOeM1DKcUem
+   PNl/wAv2SmNKBr48+2x6pw84U1CwHdZ59ivIQAXuW3FkyqdtKER7jV3i5
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="416895835"
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="385651911"
 X-IronPort-AV: E=Sophos;i="6.03,232,1694761200"; 
-   d="scan'208";a="416895835"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 08:55:41 -0700
+   d="scan'208";a="385651911"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 08:55:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="872620134"
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="791271125"
 X-IronPort-AV: E=Sophos;i="6.03,232,1694761200"; 
-   d="scan'208";a="872620134"
+   d="scan'208";a="791271125"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 17 Oct 2023 08:55:40 -0700
+  by orsmga001.jf.intel.com with ESMTP; 17 Oct 2023 08:55:40 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qsmPx-0009ll-2I;
+	id 1qsmPx-0009lj-2E;
 	Tue, 17 Oct 2023 15:55:37 +0000
-Date: Tue, 17 Oct 2023 23:55:12 +0800
+Date: Tue, 17 Oct 2023 23:55:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yafang Shao <laoar.shao@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH bpf-next v2 3/9] cgroup: Add a new helper for cgroup1
- hierarchy
-Message-ID: <202310172347.Jp1j3Umf-lkp@intel.com>
-References: <20231017124546.24608-4-laoar.shao@gmail.com>
+Subject: [android-common:android12-5.10 3/3] ld:
+ drivers/media/v4l2-core/v4l2-mem2mem.c:612: undefined reference to
+ `vb2_querybuf'
+Message-ID: <202310172310.eNhejMfg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,69 +50,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231017124546.24608-4-laoar.shao@gmail.com>
 
-Hi Yafang,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/cgroup-Make-operations-on-the-cgroup-root_list-RCU-safe/20231017-204729
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231017124546.24608-4-laoar.shao%40gmail.com
-patch subject: [RFC PATCH bpf-next v2 3/9] cgroup: Add a new helper for cgroup1 hierarchy
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231017/202310172347.Jp1j3Umf-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310172347.Jp1j3Umf-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   4865c22b178c08ce496a2d30e4202f1afc4ec349
+commit: 6def3a5ed8ee24465edf6b30cdbe4b27c6d4e1df [3/3] BACKPORT: media: v4l2-mem2mem: Apply DST_QUEUE_OFF_BASE on MMAP buffers across ioctls
+config: x86_64-randconfig-006-20231017 (https://download.01.org/0day-ci/archive/20231017/202310172310.eNhejMfg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310172310.eNhejMfg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310172347.Jp1j3Umf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310172310.eNhejMfg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/cgroup/cgroup-v1.c:1277: warning: expecting prototype for task_cgroup_id_within_hierarchy(). Prototype was for task_get_cgroup1_within_hierarchy() instead
+   ld: warning: drivers/of/unittest-data/testcases.dtb.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: drivers/of/unittest-data/testcases.dtb.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_poll':
+   drivers/media/v4l2-core/v4l2-mem2mem.c:953: undefined reference to `video_devdata'
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.c:964: undefined reference to `v4l2_event_pending'
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_ctx_release':
+   drivers/media/v4l2-core/v4l2-mem2mem.c:1236: undefined reference to `vb2_queue_release'
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.c:1237: undefined reference to `vb2_queue_release'
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_querybuf':
+   drivers/media/v4l2-core/v4l2-mem2mem.c:612: undefined reference to `vb2_querybuf'
+>> ld: drivers/media/v4l2-core/v4l2-mem2mem.c:612: undefined reference to `vb2_querybuf'
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_reqbufs':
+   drivers/media/v4l2-core/v4l2-mem2mem.c:578: undefined reference to `vb2_reqbufs'
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.c:578: undefined reference to `vb2_reqbufs'
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_dqbuf':
+   drivers/media/v4l2-core/v4l2-mem2mem.c:803: undefined reference to `vb2_dqbuf'
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.c:803: undefined reference to `vb2_dqbuf'
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_prepare_buf':
+   drivers/media/v4l2-core/v4l2-mem2mem.c:817: undefined reference to `video_devdata'
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.c:822: undefined reference to `vb2_prepare_buf'
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_streamoff':
+   drivers/media/v4l2-core/v4l2-mem2mem.c:880: undefined reference to `vb2_streamoff'
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_streamon':
+   drivers/media/v4l2-core/v4l2-mem2mem.c:860: undefined reference to `vb2_streamon'
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.c:860: undefined reference to `vb2_streamon'
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_qbuf':
+   drivers/media/v4l2-core/v4l2-mem2mem.c:760: undefined reference to `video_devdata'
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.c:772: undefined reference to `vb2_qbuf'
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_create_bufs':
+   drivers/media/v4l2-core/v4l2-mem2mem.c:839: undefined reference to `vb2_create_bufs'
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_expbuf':
+   drivers/media/v4l2-core/v4l2-mem2mem.c:849: undefined reference to `vb2_expbuf'
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.c:849: undefined reference to `vb2_expbuf'
+   ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_create_bufs':
+   drivers/media/v4l2-core/v4l2-mem2mem.c:839: undefined reference to `vb2_create_bufs'
+   ld: drivers/media/common/videobuf2/videobuf2-core.o: in function `vb2_core_streamon':
+   drivers/media/common/videobuf2/videobuf2-core.c:2066: undefined reference to `v4l_vb2q_enable_media_source'
 
-
-vim +1277 kernel/cgroup/cgroup-v1.c
-
-  1265	
-  1266	/**
-  1267	 * task_cgroup_id_within_hierarchy - Acquires the associated cgroup of a task
-  1268	 * within a specific cgroup1 hierarchy. The cgroup1 hierarchy is identified by
-  1269	 * its hierarchy ID.
-  1270	 * @tsk: The target task
-  1271	 * @hierarchy_id: The ID of a cgroup1 hierarchy
-  1272	 *
-  1273	 * On success, the cgroup is returned. On failure, ERR_PTR is returned.
-  1274	 * We limit it to cgroup1 only.
-  1275	 */
-  1276	struct cgroup *task_get_cgroup1_within_hierarchy(struct task_struct *tsk, int hierarchy_id)
-> 1277	{
-  1278		struct cgroup *cgrp = ERR_PTR(-ENOENT);
-  1279		struct cgroup_root *root;
-  1280	
-  1281		rcu_read_lock();
-  1282		list_for_each_entry(root, &cgroup_roots, root_list) {
-  1283			/* cgroup1 only*/
-  1284			if (root == &cgrp_dfl_root)
-  1285				continue;
-  1286			if (root->hierarchy_id != hierarchy_id)
-  1287				continue;
-  1288			spin_lock_irq(&css_set_lock);
-  1289			cgrp = task_cgroup_from_root(tsk, root);
-  1290			if (!cgrp || !cgroup_tryget(cgrp))
-  1291				cgrp = ERR_PTR(-ENOENT);
-  1292			spin_unlock_irq(&css_set_lock);
-  1293			break;
-  1294		}
-  1295		rcu_read_unlock();
-  1296		return cgrp;
-  1297	}
-  1298	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_KMS_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_GEM_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
 
 -- 
 0-DAY CI Kernel Test Service
