@@ -1,56 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05EE430F4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 21:50:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE60430F9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 22:00:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="do79ADri"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EIZnEjmh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697579440; x=1729115440;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hUOW2jdFFCD231zLnFnj1kgtb5ru8K9Mpcdi+Gs/Tzs=;
-  b=do79ADritdICEsE/zrsj3/SJz+7ghQe/oKVJ1zlW9K614iB7fcK6dU9E
-   1v6tKMecoPAVBoQlyiB3RtOCMcFPff0OYlaZ3+aL+nYFaYhWFq5z88OIe
-   J8wDs5Z9aGfKVyyemp1LdOPpsxYiWuTXZmFzF1uOjDPwFyL0mf5tMO+uK
-   c2m1OHS7ox2ZUKvIbvWvOa6ZgUFgIDXHqBVoc3cR8ieQwIgDHehTVmteB
-   cL61F8pVFc3lARj9kDOmA3NnKX2GjpArwLrzCcA3whlEwEj8L3Z2L+ayv
-   5noeuBghlJi/XWN+gLiOjIXBtB79I3hQdniHpSN3mjTWOm69T6WPX8eLM
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="416985498"
+  t=1697580038; x=1729116038;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aDDNFfFJ6wl7ZsDmG++0eUUqkRuBz3G5Ku9xK09UmIg=;
+  b=EIZnEjmhLjrc4QHu6bfvb3HvnJxYZrsvS2jHMiVHho527gfFy2JYcvdf
+   oBVjHQmsWBWek6+KDuMcMRAI+J5Mc7moJ4A/2yu3nbnQ+ZGj5ikWVI4bo
+   dLekrSWE2eztk4NSurarXTwDCfbQJE/2MeqaGv/XooA8Q0Omqttxv/zfK
+   D5Ij410TcLvX7rumppZfanT5C2IklJgjGVT4eUS2DA6RejpK8/bYrUpNq
+   WIezRZ8vLe+v5MGwB4Kl5WtB4GNTHNGXIH8lhxesgRA1/7Boj4UwEGgLH
+   3YtlMO2uVoR4bzlSRuh+VQDXDIIH3gaRrd+hApDM3HVofmacE9XB1QJL8
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="370951231"
 X-IronPort-AV: E=Sophos;i="6.03,233,1694761200"; 
-   d="scan'208";a="416985498"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 14:50:39 -0700
+   d="scan'208";a="370951231"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 15:00:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="872757749"
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="826620464"
 X-IronPort-AV: E=Sophos;i="6.03,233,1694761200"; 
-   d="scan'208";a="872757749"
+   d="scan'208";a="826620464"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 17 Oct 2023 14:50:35 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 17 Oct 2023 15:00:35 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qsrxQ-000A7r-2K;
-	Tue, 17 Oct 2023 21:50:32 +0000
-Date: Wed, 18 Oct 2023 05:49:42 +0800
+	id 1qss77-000A8R-02;
+	Tue, 17 Oct 2023 22:00:33 +0000
+Date: Wed, 18 Oct 2023 06:00:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: dregan@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
-	linux-mtd@lists.infradead.org, f.fainelli@gmail.com,
-	rafal@milecki.pl, joel.peshkin@broadcom.com,
-	computersforpeace@gmail.com, dan.beygelman@broadcom.com,
-	william.zhang@broadcom.com, frieder.schrempf@kontron.de,
-	linux-kernel@vger.kernel.org, vigneshr@ti.com, richard@nod.at,
-	bbrezillon@kernel.org, kdasu.kdev@gmail.com,
-	JaimeLiao <jaimeliao.tw@gmail.com>,
-	Arseniy Krasnov <AVKrasnov@sberdevices.ru>,
-	Adam Borowski <kilobyte@angband.pl>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 4/4] mtd: rawnand: brcmnand: exec_op implementation
-Message-ID: <202310180553.Zfa2ryoa-lkp@intel.com>
-References: <20231017201417.129872-4-dregan@broadcom.com>
+To: Kishon Vijay Abraham I <kishon@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Achal Verma <a-verma1@ti.com>
+Subject: [ti:ti-linux-6.1.y-wip 4/64]
+ drivers/pci/controller/dwc/pci-keystone.c:292:6: warning: no previous
+ declaration for 'ks_pcie_irq_eoi'
+Message-ID: <202310180542.8tUmvP1J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,65 +51,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231017201417.129872-4-dregan@broadcom.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mtd/nand/next]
-[also build test WARNING on linus/master v6.6-rc6 next-20231017]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/dregan-broadcom-com/mtd-rawnand-NAND-controller-write-protect/20231018-042758
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
-patch link:    https://lore.kernel.org/r/20231017201417.129872-4-dregan%40broadcom.com
-patch subject: [PATCH v3 4/4] mtd: rawnand: brcmnand: exec_op implementation
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231018/202310180553.Zfa2ryoa-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310180553.Zfa2ryoa-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.1.y-wip
+head:   935755bd826501606ac1e109d26cd5931a59145d
+commit: 6aed116cd98bebc49ae9b7b6df299ca7a4da91f8 [4/64] PCI: keystone: Convert to using hierarchy domain for legacy interrupts
+config: x86_64-buildonly-randconfig-006-20231018 (https://download.01.org/0day-ci/archive/20231018/202310180542.8tUmvP1J-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310180542.8tUmvP1J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310180553.Zfa2ryoa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310180542.8tUmvP1J-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/mtd/nand/raw/brcmnand/brcmnand.c:2393:5: warning: no previous prototype for 'brcmnand_exec_op_is_status' [-Wmissing-prototypes]
-    2393 | int brcmnand_exec_op_is_status(const struct nand_operation *op)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/mtd/nand/raw/brcmnand/brcmnand.c:2404:5: warning: no previous prototype for 'brcmnand_exec_op_is_reset' [-Wmissing-prototypes]
-    2404 | int brcmnand_exec_op_is_reset(const struct nand_operation *op)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pci/controller/dwc/pci-keystone.c:292:6: warning: no previous declaration for 'ks_pcie_irq_eoi' [-Wmissing-declarations]
+    void ks_pcie_irq_eoi(struct irq_data *data)
+         ^~~~~~~~~~~~~~~
+>> drivers/pci/controller/dwc/pci-keystone.c:301:6: warning: no previous declaration for 'ks_pcie_irq_enable' [-Wmissing-declarations]
+    void ks_pcie_irq_enable(struct irq_data *data)
+         ^~~~~~~~~~~~~~~~~~
+>> drivers/pci/controller/dwc/pci-keystone.c:310:6: warning: no previous declaration for 'ks_pcie_irq_disable' [-Wmissing-declarations]
+    void ks_pcie_irq_disable(struct irq_data *data)
+         ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/brcmnand_exec_op_is_status +2393 drivers/mtd/nand/raw/brcmnand/brcmnand.c
+vim +/ks_pcie_irq_eoi +292 drivers/pci/controller/dwc/pci-keystone.c
 
-  2392	
-> 2393	int brcmnand_exec_op_is_status(const struct nand_operation *op)
-  2394	{
-  2395		if ((op->ninstrs == 2) &&
-  2396			(op->instrs[0].type == NAND_OP_CMD_INSTR) &&
-  2397			(op->instrs[0].ctx.cmd.opcode == NAND_CMD_STATUS) &&
-  2398			(op->instrs[1].type == NAND_OP_DATA_IN_INSTR))
-  2399			return 1;
-  2400	
-  2401		return 0;
-  2402	}
-  2403	
-> 2404	int brcmnand_exec_op_is_reset(const struct nand_operation *op)
-  2405	{
-  2406		if ((op->ninstrs == 1) &&
-  2407			(op->instrs[0].type == NAND_OP_CMD_INSTR) &&
-  2408			(op->instrs[0].ctx.cmd.opcode == NAND_CMD_RESET))
-  2409			return 1;
-  2410	
-  2411		return 0;
-  2412	}
-  2413	
+   291	
+ > 292	void ks_pcie_irq_eoi(struct irq_data *data)
+   293	{
+   294		struct keystone_pcie *ks_pcie = irq_data_get_irq_chip_data(data);
+   295		irq_hw_number_t hwirq = data->hwirq;
+   296	
+   297		ks_pcie_app_writel(ks_pcie, IRQ_EOI, hwirq);
+   298		irq_chip_eoi_parent(data);
+   299	}
+   300	
+ > 301	void ks_pcie_irq_enable(struct irq_data *data)
+   302	{
+   303		struct keystone_pcie *ks_pcie = irq_data_get_irq_chip_data(data);
+   304		irq_hw_number_t hwirq = data->hwirq;
+   305	
+   306		ks_pcie_app_writel(ks_pcie, IRQ_ENABLE_SET(hwirq), INTx_EN);
+   307		irq_chip_enable_parent(data);
+   308	}
+   309	
+ > 310	void ks_pcie_irq_disable(struct irq_data *data)
+   311	{
+   312		struct keystone_pcie *ks_pcie = irq_data_get_irq_chip_data(data);
+   313		irq_hw_number_t hwirq = data->hwirq;
+   314	
+   315		ks_pcie_app_writel(ks_pcie, IRQ_ENABLE_CLR(hwirq), INTx_EN);
+   316		irq_chip_disable_parent(data);
+   317	}
+   318	
 
 -- 
 0-DAY CI Kernel Test Service
