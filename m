@@ -1,59 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ACDA3F4C4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 15:43:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B404449C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 15:44:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3uY9uEW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZrmHkS3Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697557424; x=1729093424;
+  t=1697557483; x=1729093483;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3zgnkPb30qFQTZnkkw9rToLJvEbV50eWvdkwGa4jPW4=;
-  b=T3uY9uEWfzyQmuhX2mlC0FdT2uRISIRlYZSK5l9ItiQc6yhefFM3K1zH
-   Aj9LWi/gkayZNzOtcruL3e3+VNylmLsUkC/OcAD5fUMlqZ2dcS83exnmX
-   PPdoLvY6/R96OSlr8ejH34Mh21JpePRpCvtZQCPMerBG+PJMtLimcDADp
-   YZmS/l+OXd3rOscC0oyFzuXNk/gxoN3SwMyIjAWwI9UlGvS8FbXXpr5Kn
-   7ItI3RLH47pn5nCTdWl7ozM4aehGN3tUl5rvbcdCSD3dgS2KCAFPXfAXB
-   dhgDeu1fwc7p/UjlZXnEkgm521spjgWZUligy+gf69Y06G7p4taAGGLFU
+  bh=XgkULBRZsTb/2jKvTsppmPErophz+plcbU7s38fli/I=;
+  b=ZrmHkS3YQz8bp9+LUV9Hypog6bWlCq4wOOZlaKcwSYSOwLDTDmM76XpL
+   OrMbRMLhMc8wgyCKMN+2giy12SJpNTrKuh7cUIPFaPtYul0SRUN77+IUq
+   Ny1uvzArsYAuGi2tu6A8ZYq0156rGL/tVpLBX0GRYd+QfQc9tn0h7Ierv
+   b6salh/6gDbXut/Ixk4BYsgujssIL29PPdU5MFV8r5+PMES+Mi0Dlo/5n
+   HM6XqkRvJWgadwFgMfJl6W+ykm5Yb8Rx7QfXTBzyIStJkLbgEbeXGGtns
+   HvgfA5Xit9DXs/x8BRVN32IzRH/GMkfg7bn03bkC/aSePbmG6ISmDLifH
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="388671426"
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="472035334"
 X-IronPort-AV: E=Sophos;i="6.03,232,1694761200"; 
-   d="scan'208";a="388671426"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 08:43:43 -0700
+   d="scan'208";a="472035334"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 08:44:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="929809702"
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="822023718"
 X-IronPort-AV: E=Sophos;i="6.03,232,1694761200"; 
-   d="scan'208";a="929809702"
+   d="scan'208";a="822023718"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 17 Oct 2023 08:43:39 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 17 Oct 2023 08:44:39 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qsmEL-0009kp-0l;
-	Tue, 17 Oct 2023 15:43:37 +0000
-Date: Tue, 17 Oct 2023 23:42:37 +0800
+	id 1qsmFJ-0009l1-13;
+	Tue, 17 Oct 2023 15:44:37 +0000
+Date: Tue, 17 Oct 2023 23:44:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 1/3] pinctrl: renesas: rzg2l: Include pinmap in
- RZG2L_GPIO_PORT_PACK() macro
-Message-ID: <202310172321.wccxqLkr-lkp@intel.com>
-References: <20231017104638.201260-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
+	netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, keescook@chromium.org,
+	brauner@kernel.org, lennart@poettering.net, kernel-team@meta.com,
+	sargun@sargun.me
+Subject: Re: [PATCH v8 bpf-next 11/18] bpf,lsm: add BPF token LSM hooks
+Message-ID: <202310172329.EQgtSkRh-lkp@intel.com>
+References: <20231016180220.3866105-12-andrii@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,377 +54,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231017104638.201260-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20231016180220.3866105-12-andrii@kernel.org>
 
-Hi Prabhakar,
+Hi Andrii,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on next-20231017]
-[cannot apply to geert-renesas-drivers/renesas-pinctrl geert-renesas-devel/next linusw-pinctrl/devel linusw-pinctrl/for-next v6.6-rc6 v6.6-rc5 v6.6-rc4 linus/master v6.6-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Prabhakar/pinctrl-renesas-rzg2l-Include-pinmap-in-RZG2L_GPIO_PORT_PACK-macro/20231017-184850
-base:   next-20231017
-patch link:    https://lore.kernel.org/r/20231017104638.201260-2-prabhakar.mahadev-lad.rj%40bp.renesas.com
-patch subject: [PATCH v2 1/3] pinctrl: renesas: rzg2l: Include pinmap in RZG2L_GPIO_PORT_PACK() macro
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231017/202310172321.wccxqLkr-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-align-CAP_NET_ADMIN-checks-with-bpf_capable-approach/20231017-152928
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20231016180220.3866105-12-andrii%40kernel.org
+patch subject: [PATCH v8 bpf-next 11/18] bpf,lsm: add BPF token LSM hooks
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231017/202310172329.EQgtSkRh-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310172321.wccxqLkr-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310172329.EQgtSkRh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310172321.wccxqLkr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310172329.EQgtSkRh-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/bits.h:6,
-                    from include/linux/bitops.h:6,
-                    from drivers/pinctrl/renesas/pinctrl-rzg2l.c:8:
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c: In function 'rzg2l_pinctrl_set_mux':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:99:58: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      99 | #define RZG2L_PIN_CFG_TO_PORT_OFFSET(cfg)       ((cfg) & RZG2L_SINGLE_PIN ? \
-         |                                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:292:27: note: in expansion of macro 'RZG2L_PIN_CFG_TO_PORT_OFFSET'
-     292 |                 u32 off = RZG2L_PIN_CFG_TO_PORT_OFFSET(*pin_data);
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c: In function 'rzg2l_validate_gpio_pin':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:99:58: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      99 | #define RZG2L_PIN_CFG_TO_PORT_OFFSET(cfg)       ((cfg) & RZG2L_SINGLE_PIN ? \
-         |                                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:544:19: note: in expansion of macro 'RZG2L_PIN_CFG_TO_PORT_OFFSET'
-     544 |         u32 off = RZG2L_PIN_CFG_TO_PORT_OFFSET(cfg);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:99:58: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      99 | #define RZG2L_PIN_CFG_TO_PORT_OFFSET(cfg)       ((cfg) & RZG2L_SINGLE_PIN ? \
-         |                                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:551:20: note: in expansion of macro 'RZG2L_PIN_CFG_TO_PORT_OFFSET'
-     551 |         if (off != RZG2L_PIN_CFG_TO_PORT_OFFSET(data))
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c: In function 'rzg2l_pinctrl_pinconf_get':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:99:58: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      99 | #define RZG2L_PIN_CFG_TO_PORT_OFFSET(cfg)       ((cfg) & RZG2L_SINGLE_PIN ? \
-         |                                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:757:15: note: in expansion of macro 'RZG2L_PIN_CFG_TO_PORT_OFFSET'
-     757 |         off = RZG2L_PIN_CFG_TO_PORT_OFFSET(*pin_data);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:759:25: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-     759 |         if (*pin_data & RZG2L_SINGLE_PIN) {
-         |                         ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c: In function 'rzg2l_pinctrl_pinconf_set':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:99:58: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      99 | #define RZG2L_PIN_CFG_TO_PORT_OFFSET(cfg)       ((cfg) & RZG2L_SINGLE_PIN ? \
-         |                                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:855:15: note: in expansion of macro 'RZG2L_PIN_CFG_TO_PORT_OFFSET'
-     855 |         off = RZG2L_PIN_CFG_TO_PORT_OFFSET(*pin_data);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:857:25: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-     857 |         if (*pin_data & RZG2L_SINGLE_PIN) {
-         |                         ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c: In function 'rzg2l_gpio_request':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:99:58: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      99 | #define RZG2L_PIN_CFG_TO_PORT_OFFSET(cfg)       ((cfg) & RZG2L_SINGLE_PIN ? \
-         |                                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1050:19: note: in expansion of macro 'RZG2L_PIN_CFG_TO_PORT_OFFSET'
-    1050 |         u32 off = RZG2L_PIN_CFG_TO_PORT_OFFSET(*pin_data);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c: In function 'rzg2l_gpio_set_direction':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:99:58: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      99 | #define RZG2L_PIN_CFG_TO_PORT_OFFSET(cfg)       ((cfg) & RZG2L_SINGLE_PIN ? \
-         |                                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1082:19: note: in expansion of macro 'RZG2L_PIN_CFG_TO_PORT_OFFSET'
-    1082 |         u32 off = RZG2L_PIN_CFG_TO_PORT_OFFSET(*pin_data);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c: In function 'rzg2l_gpio_get_direction':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:99:58: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      99 | #define RZG2L_PIN_CFG_TO_PORT_OFFSET(cfg)       ((cfg) & RZG2L_SINGLE_PIN ? \
-         |                                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1103:19: note: in expansion of macro 'RZG2L_PIN_CFG_TO_PORT_OFFSET'
-    1103 |         u32 off = RZG2L_PIN_CFG_TO_PORT_OFFSET(*pin_data);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c: In function 'rzg2l_gpio_set':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:99:58: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      99 | #define RZG2L_PIN_CFG_TO_PORT_OFFSET(cfg)       ((cfg) & RZG2L_SINGLE_PIN ? \
-         |                                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1134:19: note: in expansion of macro 'RZG2L_PIN_CFG_TO_PORT_OFFSET'
-    1134 |         u32 off = RZG2L_PIN_CFG_TO_PORT_OFFSET(*pin_data);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c: In function 'rzg2l_gpio_get':
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:99:58: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      99 | #define RZG2L_PIN_CFG_TO_PORT_OFFSET(cfg)       ((cfg) & RZG2L_SINGLE_PIN ? \
-         |                                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1167:19: note: in expansion of macro 'RZG2L_PIN_CFG_TO_PORT_OFFSET'
-    1167 |         u32 off = RZG2L_PIN_CFG_TO_PORT_OFFSET(*pin_data);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c: At top level:
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:94:42: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      94 | #define RZG2L_SINGLE_PIN_PACK(p, b, f)  (RZG2L_SINGLE_PIN | \
-         |                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1360:26: note: in expansion of macro 'RZG2L_SINGLE_PIN_PACK'
-    1360 |                 { "NMI", RZG2L_SINGLE_PIN_PACK(0x1, 0,
-         |                          ^~~~~~~~~~~~~~~~~~~~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:94:42: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      94 | #define RZG2L_SINGLE_PIN_PACK(p, b, f)  (RZG2L_SINGLE_PIN | \
-         |                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1362:32: note: in expansion of macro 'RZG2L_SINGLE_PIN_PACK'
-    1362 |                 { "TMS/SWDIO", RZG2L_SINGLE_PIN_PACK(0x2, 0,
-         |                                ^~~~~~~~~~~~~~~~~~~~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:94:42: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      94 | #define RZG2L_SINGLE_PIN_PACK(p, b, f)  (RZG2L_SINGLE_PIN | \
-         |                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1364:26: note: in expansion of macro 'RZG2L_SINGLE_PIN_PACK'
-    1364 |                 { "TDO", RZG2L_SINGLE_PIN_PACK(0x3, 0,
-         |                          ^~~~~~~~~~~~~~~~~~~~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:94:42: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      94 | #define RZG2L_SINGLE_PIN_PACK(p, b, f)  (RZG2L_SINGLE_PIN | \
-         |                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1366:33: note: in expansion of macro 'RZG2L_SINGLE_PIN_PACK'
-    1366 |                 { "AUDIO_CLK1", RZG2L_SINGLE_PIN_PACK(0x4, 0, PIN_CFG_IEN) },
-         |                                 ^~~~~~~~~~~~~~~~~~~~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:94:42: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      94 | #define RZG2L_SINGLE_PIN_PACK(p, b, f)  (RZG2L_SINGLE_PIN | \
-         |                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1367:33: note: in expansion of macro 'RZG2L_SINGLE_PIN_PACK'
-    1367 |                 { "AUDIO_CLK2", RZG2L_SINGLE_PIN_PACK(0x4, 1, PIN_CFG_IEN) },
-         |                                 ^~~~~~~~~~~~~~~~~~~~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:94:42: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      94 | #define RZG2L_SINGLE_PIN_PACK(p, b, f)  (RZG2L_SINGLE_PIN | \
-         |                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1368:30: note: in expansion of macro 'RZG2L_SINGLE_PIN_PACK'
-    1368 |                 { "SD0_CLK", RZG2L_SINGLE_PIN_PACK(0x6, 0,
-         |                              ^~~~~~~~~~~~~~~~~~~~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:94:42: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      94 | #define RZG2L_SINGLE_PIN_PACK(p, b, f)  (RZG2L_SINGLE_PIN | \
-         |                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1370:30: note: in expansion of macro 'RZG2L_SINGLE_PIN_PACK'
-    1370 |                 { "SD0_CMD", RZG2L_SINGLE_PIN_PACK(0x6, 1,
-         |                              ^~~~~~~~~~~~~~~~~~~~~
->> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:94:42: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      94 | #define RZG2L_SINGLE_PIN_PACK(p, b, f)  (RZG2L_SINGLE_PIN | \
-         |                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1372:31: note: in expansion of macro 'RZG2L_SINGLE_PIN_PACK'
-    1372 |                 { "SD0_RST#", RZG2L_SINGLE_PIN_PACK(0x6, 2,
-         |                               ^~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:94:42: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      94 | #define RZG2L_SINGLE_PIN_PACK(p, b, f)  (RZG2L_SINGLE_PIN | \
-         |                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1374:32: note: in expansion of macro 'RZG2L_SINGLE_PIN_PACK'
-    1374 |                 { "SD0_DATA0", RZG2L_SINGLE_PIN_PACK(0x7, 0,
-         |                                ^~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:94:42: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      94 | #define RZG2L_SINGLE_PIN_PACK(p, b, f)  (RZG2L_SINGLE_PIN | \
-         |                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1376:32: note: in expansion of macro 'RZG2L_SINGLE_PIN_PACK'
-    1376 |                 { "SD0_DATA1", RZG2L_SINGLE_PIN_PACK(0x7, 1,
-         |                                ^~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:94:42: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      94 | #define RZG2L_SINGLE_PIN_PACK(p, b, f)  (RZG2L_SINGLE_PIN | \
-         |                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1378:32: note: in expansion of macro 'RZG2L_SINGLE_PIN_PACK'
-    1378 |                 { "SD0_DATA2", RZG2L_SINGLE_PIN_PACK(0x7, 2,
-         |                                ^~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:94:42: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      94 | #define RZG2L_SINGLE_PIN_PACK(p, b, f)  (RZG2L_SINGLE_PIN | \
-         |                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1380:32: note: in expansion of macro 'RZG2L_SINGLE_PIN_PACK'
-    1380 |                 { "SD0_DATA3", RZG2L_SINGLE_PIN_PACK(0x7, 3,
-         |                                ^~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:94:42: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      94 | #define RZG2L_SINGLE_PIN_PACK(p, b, f)  (RZG2L_SINGLE_PIN | \
-         |                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1382:32: note: in expansion of macro 'RZG2L_SINGLE_PIN_PACK'
-    1382 |                 { "SD0_DATA4", RZG2L_SINGLE_PIN_PACK(0x7, 4,
-         |                                ^~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:94:42: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      94 | #define RZG2L_SINGLE_PIN_PACK(p, b, f)  (RZG2L_SINGLE_PIN | \
-         |                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1384:32: note: in expansion of macro 'RZG2L_SINGLE_PIN_PACK'
-    1384 |                 { "SD0_DATA5", RZG2L_SINGLE_PIN_PACK(0x7, 5,
-         |                                ^~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
-         |                                         ^~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:94:42: note: in expansion of macro 'RZG2L_SINGLE_PIN'
-      94 | #define RZG2L_SINGLE_PIN_PACK(p, b, f)  (RZG2L_SINGLE_PIN | \
-         |                                          ^~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:1386:32: note: in expansion of macro 'RZG2L_SINGLE_PIN_PACK'
-    1386 |                 { "SD0_DATA6", RZG2L_SINGLE_PIN_PACK(0x7, 6,
-         |                                ^~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:41: note: in expansion of macro 'BIT'
-      93 | #define RZG2L_SINGLE_PIN                BIT(63)
+   security/security.c:5182: warning: Function parameter or member 'map' not described in 'security_bpf_map_create'
+   security/security.c:5200: warning: Function parameter or member 'prog' not described in 'security_bpf_prog_load'
+>> security/security.c:5217: warning: Function parameter or member 'token' not described in 'security_bpf_token_create'
 
 
-vim +7 include/vdso/bits.h
+vim +5217 security/security.c
 
-3945ff37d2f48d Vincenzo Frascino 2020-03-20  6  
-3945ff37d2f48d Vincenzo Frascino 2020-03-20 @7  #define BIT(nr)			(UL(1) << (nr))
-cbdb1f163af2bb Andy Shevchenko   2022-11-28  8  #define BIT_ULL(nr)		(ULL(1) << (nr))
-3945ff37d2f48d Vincenzo Frascino 2020-03-20  9  
+  5168	
+  5169	/**
+  5170	 * security_bpf_map_create() - Check if BPF map creation is allowed
+  5171	 * @map BPF map object
+  5172	 * @attr: BPF syscall attributes used to create BPF map
+  5173	 * @token: BPF token used to grant user access
+  5174	 *
+  5175	 * Do a check when the kernel creates a new BPF map. This is also the
+  5176	 * point where LSM blob is allocated for LSMs that need them.
+  5177	 *
+  5178	 * Return: Returns 0 on success, error on failure.
+  5179	 */
+  5180	int security_bpf_map_create(struct bpf_map *map, union bpf_attr *attr,
+  5181				    struct bpf_token *token)
+> 5182	{
+  5183		return call_int_hook(bpf_map_create, 0, map, attr, token);
+  5184	}
+  5185	
+  5186	/**
+  5187	 * security_bpf_prog_load() - Check if loading of BPF program is allowed
+  5188	 * @prog BPF program object
+  5189	 * @attr: BPF syscall attributes used to create BPF program
+  5190	 * @token: BPF token used to grant user access to BPF subsystem
+  5191	 *
+  5192	 * Do a check when the kernel allocates BPF program object and is about to
+  5193	 * pass it to BPF verifier for additional correctness checks. This is also the
+  5194	 * point where LSM blob is allocated for LSMs that need them.
+  5195	 *
+  5196	 * Return: Returns 0 on success, error on failure.
+  5197	 */
+  5198	int security_bpf_prog_load(struct bpf_prog *prog, union bpf_attr *attr,
+  5199				   struct bpf_token *token)
+  5200	{
+  5201		return call_int_hook(bpf_prog_load, 0, prog, attr, token);
+  5202	}
+  5203	
+  5204	/**
+  5205	 * security_bpf_token_create() - Check if creating of BPF token is allowed
+  5206	 * @token BPF token object
+  5207	 * @attr: BPF syscall attributes used to create BPF token
+  5208	 * @path: path pointing to BPF FS mount point from which BPF token is created
+  5209	 *
+  5210	 * Do a check when the kernel instantiates a new BPF token object from BPF FS
+  5211	 * instance. This is also the point where LSM blob can be allocated for LSMs.
+  5212	 *
+  5213	 * Return: Returns 0 on success, error on failure.
+  5214	 */
+  5215	int security_bpf_token_create(struct bpf_token *token, union bpf_attr *attr,
+  5216				      struct path *path)
+> 5217	{
+  5218		return call_int_hook(bpf_token_create, 0, token, attr, path);
+  5219	}
+  5220	
 
 -- 
 0-DAY CI Kernel Test Service
