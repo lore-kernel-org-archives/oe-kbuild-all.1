@@ -1,124 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B823A405F5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 09:50:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E43405E7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 09:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lMotbMjU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697536217; x=1729072217;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nyyg0L8NonbYaXsBEp+WK/UQNHC0Bw/76oVgNS6I6s0=;
-  b=lMotbMjU2GNRLD3cW3noP2i9uOJy6UINDiHEkhNdkbWyq1UPKwwAo1Aa
-   dw7/Dw7LDvlMKM3EfmBcjNXlKhVWWBX31Jb6JYwcNJqtUpHMr62oUnT3n
-   lpBI8SD1XztQewlHUzsL1j1Yip2bpo0Xoq3FCecu98DqA2bnrCdHbPHbE
-   j4kiuQBeZy/X4dFtvVa08oCZjyr+EhiksTYW0436S5IlFnNlB0T7WAWQq
-   F9Ry1DIRwMriiRXWm/9bSsaIf/9/dDDOlFVvNDMMGdc1SwWCQ0KwaDf0J
-   fDjy3ZzgCpAIMJ2dm2tRU5o0gxlflQLiyU+JSjUPKPMWfQf8mksQ7mmfV
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="452221553"
-X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
-   d="scan'208";a="452221553"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 02:50:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="872495253"
-X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
-   d="scan'208";a="872495253"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 17 Oct 2023 02:50:14 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qsgiJ-0009RF-33;
-	Tue, 17 Oct 2023 09:50:11 +0000
-Date: Tue, 17 Oct 2023 17:49:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Konrad Knitter <konrad.knitter@intel.com>,
-	intel-wired-lan@lists.osuosl.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	jdelvare@suse.com, linux@roeck-us.net,
-	Konrad Knitter <konrad.knitter@intel.com>,
-	Marcin Domagala <marcinx.domagala@intel.com>,
-	Eric Joyner <eric.joyner@intel.com>,
-	Marcin Szycik <marcin.szycik@linux.intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Subject: Re: [PATCH iwl-next v4] ice: read internal temperature sensor
-Message-ID: <202310171740.MOWYti1J-lkp@intel.com>
-References: <20231016102913.898932-1-konrad.knitter@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JM532I5f"
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-d9beb863816so2082738276.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 02:56:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697536609; x=1698141409; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RsQBUaCDWRXo1NEiM2ZUMXn+uKhmAj4ciIck7rXNGwM=;
+        b=JM532I5fFMC41wUfL+t96hNxxaU6QOPkBlnexkg0vqoFU7X6E/c4tYWjtR9jEVT7fC
+         Jm5FOYqcB6D5BCVukOAgqQKneYWWlRcdiawSE1obnvK6EknZFiX/xCyPlbAdzMFv/j4H
+         JjbeihrqqQz/ArbH+r8udIAZn2BbjERyqbja0ijk1MjqWNMi4/AdImaxr77PFkR4JJqT
+         zTvs4bMNcs+fDPs9L5bKslppIDnJsNbTkpWDWwTsgonBWXYyP2TWP2EQRHZzZezVUY/C
+         mUebDZ0+qYFCg0HObwOsPaTd1qmt4c3AnlfzPzW6INeTqtAjM3HUg0WJVSAD6FN4/M3/
+         Sf3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697536609; x=1698141409;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RsQBUaCDWRXo1NEiM2ZUMXn+uKhmAj4ciIck7rXNGwM=;
+        b=GJJ+ZElPV8roLQ+p0Hzr9/c1UYO1LItAAcoLmCNMZeb0tmzJ0fJCQSerj+KW1rpGme
+         fWOHFWAPV9ScEyI+CGsMJJ1hD5uTfn/6yRYmXc1byrI/hHONqD0XQg8VYow1ALnWkc3n
+         3PZ/+DNZr6RpUw7RY6WuAfrOYqBuVCoXfhlWhV84nWMSJbMDp8xrks4f5gK/7OD+IgSy
+         HSOYjwJKQcL6S9tIbXUiq0zLWOkRS8FVYgy7lZQMGzrLW6LdLTbdIme2U7UxAJmfa9YZ
+         iZzN8YFoxk42uahxp9N10+NM2LynPt6Z1HnrV4K1bdQZcpPlP2tc9fpz7rKlWhYjcr8Y
+         1imA==
+X-Gm-Message-State: AOJu0Yyq5Pa49Zlux75Z+VkvdcuHSeB3eq0HeYGS15JzY6w3IImlkyyY
+	XH88DdHblV4xtoXP0WOBPJ1kObrycTQVtTutAh59KQ==
+X-Google-Smtp-Source: AGHT+IFNreO6zkjnJw2v1dMl2E4mYaK6Wcrz6mzJdv8q/8Q7dxAa2rrH4gBMyEHRMisY1f9m2eAp4OLXJYAdhHPL9vc=
+X-Received: by 2002:a25:8c8a:0:b0:d9b:76c3:4143 with SMTP id
+ m10-20020a258c8a000000b00d9b76c34143mr1554893ybl.6.1697536609481; Tue, 17 Oct
+ 2023 02:56:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231016102913.898932-1-konrad.knitter@intel.com>
+References: <202310162249.WBktvf2B-lkp@intel.com> <b318ff5f-7fbb-42d7-b871-dd0bbaaaa63a@baylibre.com>
+In-Reply-To: <b318ff5f-7fbb-42d7-b871-dd0bbaaaa63a@baylibre.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 17 Oct 2023 11:56:13 +0200
+Message-ID: <CAPDyKFpJ6apLwabXS++Jd9CB_Y=y1EDokpcY1TQZ1j12RY2SyA@mail.gmail.com>
+Subject: Re: [matthias-bgg:v6.6-next/dts64.2 7/19] arch/arm64/boot/dts/mediatek/mt8365.dtsi:12:10:
+ fatal error: dt-bindings/power/mediatek,mt8365-power.h: No such file or directory
+To: Matthias Brugger <matthias.bgg@gmail.com>, Alexandre Mergnat <amergnat@baylibre.com>
+Cc: kernel test robot <lkp@intel.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Konrad,
+Matthias, Alexandre
 
-kernel test robot noticed the following build warnings:
+On Mon, 16 Oct 2023 at 17:29, Alexandre Mergnat <amergnat@baylibre.com> wrote:
+>
+> Hi,
+>
+> The missing file has been applied into the Ulf Hansson next branch:
+> https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git/commit/?h=next&id=5a19210db6dc40ede6a12b62cad773640807745e
+>
+> How should we proceed ?
 
-[auto build test WARNING on ac4dec3fd63c7da703c244698fc92efb411ff0d4]
+I am sharing an immutable branch with DT doc/files updates for the
+pmdomain subsystem, which is available for soc maintainers to pull in
+to address issues like this.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Knitter/ice-read-internal-temperature-sensor/20231017-142048
-base:   ac4dec3fd63c7da703c244698fc92efb411ff0d4
-patch link:    https://lore.kernel.org/r/20231016102913.898932-1-konrad.knitter%40intel.com
-patch subject: [PATCH iwl-next v4] ice: read internal temperature sensor
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231017/202310171740.MOWYti1J-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310171740.MOWYti1J-lkp@intel.com/reproduce)
+For some reason I forgot to share the needed commit pointed out above,
+so I have taken care of that and fixed that now.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310171740.MOWYti1J-lkp@intel.com/
+Mattias - please pull in
+git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git genpd_dt to
+your tree/branch to resolve this.
 
-All warnings (new ones prefixed by >>):
+Kind regards
+Uffe
 
->> drivers/net/ethernet/intel/ice/ice_common.c:5329: warning: Excess function parameter 'sensor' description in 'ice_aq_get_sensor_reading'
->> drivers/net/ethernet/intel/ice/ice_common.c:5329: warning: Excess function parameter 'format' description in 'ice_aq_get_sensor_reading'
-
-
-vim +5329 drivers/net/ethernet/intel/ice/ice_common.c
-
-  5317	
-  5318	/**
-  5319	 * ice_aq_get_sensor_reading
-  5320	 * @hw: pointer to the HW struct
-  5321	 * @sensor: sensor type
-  5322	 * @format: requested response format
-  5323	 * @data: pointer to data to be read from the sensor
-  5324	 *
-  5325	 * Get sensor reading (0x0632)
-  5326	 */
-  5327	int ice_aq_get_sensor_reading(struct ice_hw *hw,
-  5328				      struct ice_aqc_get_sensor_reading_resp *data)
-> 5329	{
-  5330		struct ice_aqc_get_sensor_reading *cmd;
-  5331		struct ice_aq_desc desc;
-  5332		int status;
-  5333	
-  5334		ice_fill_dflt_direct_cmd_desc(&desc, ice_aqc_opc_get_sensor_reading);
-  5335		cmd = &desc.params.get_sensor_reading;
-  5336	#define ICE_INTERNAL_TEMP_SENSOR_FORMAT	0
-  5337	#define ICE_INTERNAL_TEMP_SENSOR	0
-  5338		cmd->sensor = ICE_INTERNAL_TEMP_SENSOR;
-  5339		cmd->format = ICE_INTERNAL_TEMP_SENSOR_FORMAT;
-  5340	
-  5341		status = ice_aq_send_cmd(hw, &desc, NULL, 0, NULL);
-  5342		if (!status)
-  5343			memcpy(data, &desc.params.get_sensor_reading_resp,
-  5344			       sizeof(*data));
-  5345	
-  5346		return status;
-  5347	}
-  5348	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> On 16/10/2023 16:15, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git v6.6-next/dts64.2
+> > head:   976868a021ee654f4cf6eb6a2f40f95c78c04093
+> > commit: 39da9a394be05ea5ab1e08131916354e176ddd7d [7/19] arm64: dts: mediatek: add power domain support for mt8365 SoC
+> > config: arm64-defconfig (https://download.01.org/0day-ci/archive/20231016/202310162249.WBktvf2B-lkp@intel.com/config)
+> > compiler: aarch64-linux-gcc (GCC) 13.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231016/202310162249.WBktvf2B-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202310162249.WBktvf2B-lkp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >     In file included from arch/arm64/boot/dts/mediatek/mt8365-evk.dts:14:
+> >>> arch/arm64/boot/dts/mediatek/mt8365.dtsi:12:10: fatal error: dt-bindings/power/mediatek,mt8365-power.h: No such file or directory
+> >        12 | #include <dt-bindings/power/mediatek,mt8365-power.h>
+> >           |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >     compilation terminated.
+> >
+> >
+> > vim +12 arch/arm64/boot/dts/mediatek/mt8365.dtsi
+> >
+> >    > 12       #include <dt-bindings/power/mediatek,mt8365-power.h>
+> >      13
+> >
+>
+> --
+> Regards,
+> Alexandre
