@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A361444498
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 16:17:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348BA5380
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 16:29:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mVJLV2rb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iJu11hJb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697559465; x=1729095465;
+  t=1697560146; x=1729096146;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OI4Y4FBCI42HaWrWaiGZFz0VSa9d1nn0gHE9Kz7xFOY=;
-  b=mVJLV2rbUdpMw0YUnioPKE3w8uMqUT/caf1F3O0dQgS8+RdMk6BIQbpu
-   UXUlIEZaxRIzlED/dXu673rc7xExs0aN948NRszwKDTep12XgzQdv3HeC
-   1yw1lFEsvYzJc2yQhzLQgkwc8P7UGciVCvxdGa3i4fQcuUbdArlpMM44+
-   SZnAIGl5a7q//3A1C9K156UUJHP5zyHuRVdaeW2h1pzKkoYV+grruHqO1
-   Eq6MPiCeMAp7XQAA6NXEgN/+zX0nobLx351bvWGTtlFbkgPQP3M9N809r
-   WToMmFd0tSao3ZqjHVo/iRSjgqOR34up94czRRKwU4f7RCv+wFw/kb/mZ
+  bh=fffv9JcX3HWOlgPXM1B5GKC1F9Z+fNY8JkgQux7Za6I=;
+  b=iJu11hJbyfpxl7jRXLtwP+4wVePLMYbXMLDnDumuiMVseC3YIt2t1ydG
+   wExTjzHn9me8WDIMO0lgfb9VZ8rCOjfMbDXdIiqscPj3qUOy/k4qyWKV4
+   7+XP7Yf0DshtZOfGapVh/ciDs4E54yJNJ+5VEb4h1ULV0t5n78nFrqbJ3
+   iM7UztHRxWwKzJnWeiUVcICk35Xa7aZk5go92a7Q0p3IBb6RBh4w76STZ
+   wBfw1cf6/lb7N2bLzKvFxIoDLpO2qBj2b+CtcNF+TMlOmcI0yRijFM2XU
+   YSgXbYLPdnTqwsXOPM8Hp4qUJBLqHHh+0KBCnOtNaaOCpr1USJaxQfFI/
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="472043942"
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="389691862"
 X-IronPort-AV: E=Sophos;i="6.03,232,1694761200"; 
-   d="scan'208";a="472043942"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 09:17:44 -0700
+   d="scan'208";a="389691862"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 09:29:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="756180676"
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="879867288"
 X-IronPort-AV: E=Sophos;i="6.03,232,1694761200"; 
-   d="scan'208";a="756180676"
+   d="scan'208";a="879867288"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 17 Oct 2023 09:17:42 -0700
+  by orsmga004.jf.intel.com with ESMTP; 17 Oct 2023 09:29:04 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qsmlI-0009nZ-1d;
-	Tue, 17 Oct 2023 16:17:40 +0000
-Date: Wed, 18 Oct 2023 00:16:48 +0800
+	id 1qsmwG-0009or-14;
+	Tue, 17 Oct 2023 16:29:01 +0000
+Date: Wed, 18 Oct 2023 00:28:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: Daniel Lezcano <daniel.lezcano@linexp.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: drivers/thermal/max77620_thermal.c:48: warning: Function parameter
  or member 'tz' not described in 'max77620_thermal_read_temp'
-Message-ID: <202310180055.CFOZ3gLO-lkp@intel.com>
+Message-ID: <202310180035.lUYXgBol-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,20 +52,20 @@ Content-Disposition: inline
 
 Hi Daniel,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+FYI, the error/warning still remains.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   213f891525c222e8ed145ce1ce7ae1f47921cb9c
-commit: ae11d6a87c3e742418baa591be1e719a95788059 thermal/drivers/maxim: Switch to new of API
+commit: f59ac19b7f44cab23df84810e2da5f57bdd3a7e7 thermal/of: Remove old OF code
 date:   1 year, 2 months ago
-config: x86_64-randconfig-003-20231014 (https://download.01.org/0day-ci/archive/20231018/202310180055.CFOZ3gLO-lkp@intel.com/config)
+config: x86_64-randconfig-r014-20230809 (https://download.01.org/0day-ci/archive/20231018/202310180035.lUYXgBol-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310180055.CFOZ3gLO-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310180035.lUYXgBol-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310180055.CFOZ3gLO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310180035.lUYXgBol-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
