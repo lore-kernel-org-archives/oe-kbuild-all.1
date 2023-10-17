@@ -1,53 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1B42E3F8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 20:34:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980932D7BE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 20:45:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BoPnK4d3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="baWkpBAb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697574878; x=1729110878;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gg02HXV/DM1Y3hQtypJQLDnLAQ1YO1LltY0joN3bM5c=;
-  b=BoPnK4d3Y9JYdCtAVXXQO0rBuUCHoI0Md22rKIsPxEr0YsNvyEUA52Hy
-   u9NfkcgVg5Dpy8t5OFV9DjOIPU5BiZFfX1iGOjDAWU6TeA13we3w/diyi
-   ILnNV0xCQxBEBZYYcsRUaFtJTJ4nahucXBhRinOg+I0p1nPbIvdGDhGjj
-   Kd2bQ8XRGjoQ06ACkR1uY8A8JAZ0ur+iHkSferlNqCdIoQ/2W8mMwx4q0
-   lDQ5mllq6MaqVbJz3/pou7MlBRLVFF7IkHi4pZNRZdE8syQ5XZkTJn6PD
-   33LGMmeChsa7PqvtCLoHYwagFCrm3jLsLLPKxQ30nmziNCGGtEBbWBl6Q
+  t=1697575535; x=1729111535;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FZMS0pN1yrRgl8foiqji3lWYHAc4O4dnZzf1MXtbGUk=;
+  b=baWkpBAbC9o5tCeCykAISldUeU8NvNEkWS6NH7uz+zEpQRnCokMQf9ay
+   wdVgTz4hPyrTkLCmeQHhzluRIdxzuvyL8ALVU0lJdtTp+jvt3tUChV1A9
+   RtikasF69eKmNwCqKbYJ59CBzfjZQviGZVDHrHKjfa/jwYo8DvlxTwKBw
+   gC2mW9GlS6Wdv56OpXGElEwq4b4u3/gDzPxiVhR+jzgidmIFGJe5B7wUX
+   AkPMSDStOv+MSaWfFBEjpxtVKhn+9NfTcLI7NyiunL8VR4+X5n+0aPeik
+   JkCdZOdaXylE4GOA5NT+/V0zXJPJ6vgKYaBWwhJlV1j0Do+X6csoIURNZ
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="366132716"
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="366134730"
 X-IronPort-AV: E=Sophos;i="6.03,233,1694761200"; 
-   d="scan'208";a="366132716"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 13:34:38 -0700
+   d="scan'208";a="366134730"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 13:45:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="846963335"
 X-IronPort-AV: E=Sophos;i="6.03,233,1694761200"; 
-   d="scan'208";a="846963335"
+   d="scan'208";a="4240116"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 17 Oct 2023 13:34:33 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 17 Oct 2023 13:45:39 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qsqlr-000A3X-1S;
-	Tue, 17 Oct 2023 20:34:31 +0000
-Date: Wed, 18 Oct 2023 04:33:40 +0800
+	id 1qsqwV-000A3z-2D;
+	Tue, 17 Oct 2023 20:45:31 +0000
+Date: Wed, 18 Oct 2023 04:44:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yishai Hadas <yishaih@nvidia.com>, alex.williamson@redhat.com,
-	mst@redhat.com, jasowang@redhat.com, jgg@nvidia.com
-Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
-	virtualization@lists.linux-foundation.org, parav@nvidia.com,
-	feliu@nvidia.com, jiri@nvidia.com, kevin.tian@intel.com,
-	joao.m.martins@oracle.com, si-wei.liu@oracle.com, leonro@nvidia.com,
-	yishaih@nvidia.com, maorg@nvidia.com
-Subject: Re: [PATCH V1 vfio 6/9] virtio-pci: Introduce APIs to execute legacy
- IO admin commands
-Message-ID: <202310180437.jo2csM6u-lkp@intel.com>
-References: <20231017134217.82497-7-yishaih@nvidia.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:xfs-merge-6.7 47/51] include/linux/huge_mm.h:191:31:
+ error: logical 'and' of mutually exclusive tests is always false
+Message-ID: <202310180455.TaX9RJSP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,259 +48,164 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231017134217.82497-7-yishaih@nvidia.com>
 
-Hi Yishai,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.6-rc6 next-20231017]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yishai-Hadas/virtio-pci-Fix-common-config-map-for-modern-device/20231017-214450
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231017134217.82497-7-yishaih%40nvidia.com
-patch subject: [PATCH V1 vfio 6/9] virtio-pci: Introduce APIs to execute legacy IO admin commands
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231018/202310180437.jo2csM6u-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310180437.jo2csM6u-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfs-merge-6.7
+head:   eee9645e1bf5f060c24ab0f52b2fc55a3ff68ec6
+commit: 5ae98786123bf094d32671f561362d74160288a5 [47/51] fs: turn on more warnings for the filesystem code we modify most
+config: arc-randconfig-001-20231018 (https://download.01.org/0day-ci/archive/20231018/202310180455.TaX9RJSP-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310180455.TaX9RJSP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310180437.jo2csM6u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310180455.TaX9RJSP-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/virtio/virtio_pci_modern.c:731:5: warning: no previous prototype for 'virtio_pci_admin_list_query' [-Wmissing-prototypes]
-     731 | int virtio_pci_admin_list_query(struct pci_dev *pdev, u8 *buf, int buf_size)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/virtio/virtio_pci_modern.c:758:5: warning: no previous prototype for 'virtio_pci_admin_list_use' [-Wmissing-prototypes]
-     758 | int virtio_pci_admin_list_use(struct pci_dev *pdev, u8 *buf, int buf_size)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/virtio/virtio_pci_modern.c:786:5: warning: no previous prototype for 'virtio_pci_admin_legacy_io_write' [-Wmissing-prototypes]
-     786 | int virtio_pci_admin_legacy_io_write(struct pci_dev *pdev, u16 opcode,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/virtio/virtio_pci_modern.c:831:5: warning: no previous prototype for 'virtio_pci_admin_legacy_io_read' [-Wmissing-prototypes]
-     831 | int virtio_pci_admin_legacy_io_read(struct pci_dev *pdev, u16 opcode,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/virtio/virtio_pci_modern.c:877:5: warning: no previous prototype for 'virtio_pci_admin_legacy_io_notify_info' [-Wmissing-prototypes]
-     877 | int virtio_pci_admin_legacy_io_notify_info(struct pci_dev *pdev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/mm.h:1075,
+                    from include/linux/scatterlist.h:8,
+                    from include/linux/dma-mapping.h:11,
+                    from include/linux/dma-map-ops.h:9,
+                    from mm/dmapool_test.c:2:
+   include/linux/huge_mm.h: In function 'is_swap_pmd':
+>> include/linux/huge_mm.h:191:31: error: logical 'and' of mutually exclusive tests is always false [-Werror=logical-op]
+     191 |         return !pmd_none(pmd) && !pmd_present(pmd);
+         |                               ^~
+   cc1: all warnings being treated as errors
+--
+   In file included from include/linux/mm.h:1075,
+                    from mm/memory.c:43:
+   include/linux/huge_mm.h: In function 'is_swap_pmd':
+>> include/linux/huge_mm.h:191:31: error: logical 'and' of mutually exclusive tests is always false [-Werror=logical-op]
+     191 |         return !pmd_none(pmd) && !pmd_present(pmd);
+         |                               ^~
+   during RTL pass: mach
+   mm/memory.c: In function 'handle_mm_fault':
+   mm/memory.c:5303:1: internal compiler error: in arc_ifcvt, at config/arc/arc.cc:9703
+    5303 | }
+         | ^
+   0x5b78c1 arc_ifcvt
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.cc:9703
+   0xe431b4 arc_reorg
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.cc:8552
+   0xaed299 execute
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/reorg.cc:3927
+   Please submit a full bug report, with preprocessed source (by using -freport-bug).
+   Please include the complete backtrace with any bug report.
+   See <https://gcc.gnu.org/bugs/> for instructions.
+--
+   In file included from include/linux/mm.h:1075,
+                    from include/linux/memcontrol.h:20,
+                    from include/linux/swap.h:9,
+                    from include/linux/shmem_fs.h:6,
+                    from mm/shmem_quota.c:32:
+   include/linux/huge_mm.h: In function 'is_swap_pmd':
+>> include/linux/huge_mm.h:191:31: error: logical 'and' of mutually exclusive tests is always false [-Werror=logical-op]
+     191 |         return !pmd_none(pmd) && !pmd_present(pmd);
+         |                               ^~
+   In function 'shmem_is_empty_dquot',
+       inlined from 'shmem_release_dquot' at mm/shmem_quota.c:296:6:
+   mm/shmem_quota.c:252:51: warning: 'bhardlimit' may be used uninitialized [-Wmaybe-uninitialized]
+     251 |                 (dquot->dq_dqb.dqb_curspace == 0 &&
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     252 |                  dquot->dq_dqb.dqb_curinodes == 0 &&
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+     253 |                  dquot->dq_dqb.dqb_bhardlimit == bhardlimit &&
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/shmem_quota.c: In function 'shmem_release_dquot':
+   mm/shmem_quota.c:239:17: note: 'bhardlimit' was declared here
+     239 |         qsize_t bhardlimit;
+         |                 ^~~~~~~~~~
+   In function 'shmem_is_empty_dquot',
+       inlined from 'shmem_release_dquot' at mm/shmem_quota.c:296:6:
+   mm/shmem_quota.c:253:61: warning: 'ihardlimit' may be used uninitialized [-Wmaybe-uninitialized]
+     251 |                 (dquot->dq_dqb.dqb_curspace == 0 &&
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~          
+     252 |                  dquot->dq_dqb.dqb_curinodes == 0 &&
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~         
+     253 |                  dquot->dq_dqb.dqb_bhardlimit == bhardlimit &&
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+     254 |                  dquot->dq_dqb.dqb_ihardlimit == ihardlimit))
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+   mm/shmem_quota.c: In function 'shmem_release_dquot':
+   mm/shmem_quota.c:240:17: note: 'ihardlimit' was declared here
+     240 |         qsize_t ihardlimit;
+         |                 ^~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+   In file included from include/linux/mm.h:1075,
+                    from mm/vmscan.c:15:
+   include/linux/huge_mm.h: In function 'is_swap_pmd':
+>> include/linux/huge_mm.h:191:31: error: logical 'and' of mutually exclusive tests is always false [-Werror=logical-op]
+     191 |         return !pmd_none(pmd) && !pmd_present(pmd);
+         |                               ^~
+   during RTL pass: mach
+   mm/vmscan.c: In function 'do_try_to_free_pages':
+   mm/vmscan.c:6910:1: internal compiler error: in arc_ifcvt, at config/arc/arc.cc:9703
+    6910 | }
+         | ^
+   0x5b78c1 arc_ifcvt
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.cc:9703
+   0xe431b4 arc_reorg
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.cc:8552
+   0xaed299 execute
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/reorg.cc:3927
+   Please submit a full bug report, with preprocessed source (by using -freport-bug).
+   Please include the complete backtrace with any bug report.
+   See <https://gcc.gnu.org/bugs/> for instructions.
+--
+   In file included from include/linux/mm.h:1075,
+                    from mm/gup.c:7:
+   include/linux/huge_mm.h: In function 'is_swap_pmd':
+>> include/linux/huge_mm.h:191:31: error: logical 'and' of mutually exclusive tests is always false [-Werror=logical-op]
+     191 |         return !pmd_none(pmd) && !pmd_present(pmd);
+         |                               ^~
+   mm/gup.c: In function 'fault_in_readable':
+   mm/gup.c:1990:9: warning: 'c' may be used uninitialized [-Wmaybe-uninitialized]
+    1990 |         (void)c;
+         |         ^~~~~~~
+   mm/gup.c:1970:23: note: 'c' declared here
+    1970 |         volatile char c;
+         |                       ^
+   cc1: all warnings being treated as errors
+--
+   In file included from include/linux/mm.h:1075,
+                    from mm/slub.c:13:
+   include/linux/huge_mm.h: In function 'is_swap_pmd':
+>> include/linux/huge_mm.h:191:31: error: logical 'and' of mutually exclusive tests is always false [-Werror=logical-op]
+     191 |         return !pmd_none(pmd) && !pmd_present(pmd);
+         |                               ^~
+   during RTL pass: mach
+   mm/slub.c: In function 'validate_store':
+   mm/slub.c:5786:1: internal compiler error: in arc_ifcvt, at config/arc/arc.cc:9703
+    5786 | }
+         | ^
+   0x5b78c1 arc_ifcvt
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.cc:9703
+   0xe431b4 arc_reorg
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.cc:8552
+   0xaed299 execute
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/reorg.cc:3927
+   Please submit a full bug report, with preprocessed source (by using -freport-bug).
+   Please include the complete backtrace with any bug report.
+   See <https://gcc.gnu.org/bugs/> for instructions.
 
 
-vim +/virtio_pci_admin_list_query +731 drivers/virtio/virtio_pci_modern.c
+vim +/and +191 include/linux/huge_mm.h
 
-   721	
-   722	/*
-   723	 * virtio_pci_admin_list_query - Provides to driver list of commands
-   724	 * supported for the PCI VF.
-   725	 * @dev: VF pci_dev
-   726	 * @buf: buffer to hold the returned list
-   727	 * @buf_size: size of the given buffer
-   728	 *
-   729	 * Returns 0 on success, or negative on failure.
-   730	 */
- > 731	int virtio_pci_admin_list_query(struct pci_dev *pdev, u8 *buf, int buf_size)
-   732	{
-   733		struct virtio_device *virtio_dev = virtio_pci_vf_get_pf_dev(pdev);
-   734		struct virtio_admin_cmd cmd = {};
-   735		struct scatterlist result_sg;
-   736	
-   737		if (!virtio_dev)
-   738			return -ENODEV;
-   739	
-   740		sg_init_one(&result_sg, buf, buf_size);
-   741		cmd.opcode = cpu_to_le16(VIRTIO_ADMIN_CMD_LIST_QUERY);
-   742		cmd.group_type = cpu_to_le16(VIRTIO_ADMIN_GROUP_TYPE_SRIOV);
-   743		cmd.result_sg = &result_sg;
-   744	
-   745		return vp_modern_admin_cmd_exec(virtio_dev, &cmd);
-   746	}
-   747	EXPORT_SYMBOL_GPL(virtio_pci_admin_list_query);
-   748	
-   749	/*
-   750	 * virtio_pci_admin_list_use - Provides to device list of commands
-   751	 * used for the PCI VF.
-   752	 * @dev: VF pci_dev
-   753	 * @buf: buffer which holds the list
-   754	 * @buf_size: size of the given buffer
-   755	 *
-   756	 * Returns 0 on success, or negative on failure.
-   757	 */
- > 758	int virtio_pci_admin_list_use(struct pci_dev *pdev, u8 *buf, int buf_size)
-   759	{
-   760		struct virtio_device *virtio_dev = virtio_pci_vf_get_pf_dev(pdev);
-   761		struct virtio_admin_cmd cmd = {};
-   762		struct scatterlist data_sg;
-   763	
-   764		if (!virtio_dev)
-   765			return -ENODEV;
-   766	
-   767		sg_init_one(&data_sg, buf, buf_size);
-   768		cmd.opcode = cpu_to_le16(VIRTIO_ADMIN_CMD_LIST_USE);
-   769		cmd.group_type = cpu_to_le16(VIRTIO_ADMIN_GROUP_TYPE_SRIOV);
-   770		cmd.data_sg = &data_sg;
-   771	
-   772		return vp_modern_admin_cmd_exec(virtio_dev, &cmd);
-   773	}
-   774	EXPORT_SYMBOL_GPL(virtio_pci_admin_list_use);
-   775	
-   776	/*
-   777	 * virtio_pci_admin_legacy_io_write - Write legacy registers of a member device
-   778	 * @dev: VF pci_dev
-   779	 * @opcode: op code of the io write command
-   780	 * @offset: starting byte offset within the registers to write to
-   781	 * @size: size of the data to write
-   782	 * @buf: buffer which holds the data
-   783	 *
-   784	 * Returns 0 on success, or negative on failure.
-   785	 */
- > 786	int virtio_pci_admin_legacy_io_write(struct pci_dev *pdev, u16 opcode,
-   787					     u8 offset, u8 size, u8 *buf)
-   788	{
-   789		struct virtio_device *virtio_dev = virtio_pci_vf_get_pf_dev(pdev);
-   790		struct virtio_admin_cmd_legacy_wr_data *data;
-   791		struct virtio_admin_cmd cmd = {};
-   792		struct scatterlist data_sg;
-   793		int vf_id;
-   794		int ret;
-   795	
-   796		if (!virtio_dev)
-   797			return -ENODEV;
-   798	
-   799		vf_id = pci_iov_vf_id(pdev);
-   800		if (vf_id < 0)
-   801			return vf_id;
-   802	
-   803		data = kzalloc(sizeof(*data) + size, GFP_KERNEL);
-   804		if (!data)
-   805			return -ENOMEM;
-   806	
-   807		data->offset = offset;
-   808		memcpy(data->registers, buf, size);
-   809		sg_init_one(&data_sg, data, sizeof(*data) + size);
-   810		cmd.opcode = cpu_to_le16(opcode);
-   811		cmd.group_type = cpu_to_le16(VIRTIO_ADMIN_GROUP_TYPE_SRIOV);
-   812		cmd.group_member_id = cpu_to_le64(vf_id + 1);
-   813		cmd.data_sg = &data_sg;
-   814		ret = vp_modern_admin_cmd_exec(virtio_dev, &cmd);
-   815	
-   816		kfree(data);
-   817		return ret;
-   818	}
-   819	EXPORT_SYMBOL_GPL(virtio_pci_admin_legacy_io_write);
-   820	
-   821	/*
-   822	 * virtio_pci_admin_legacy_io_read - Read legacy registers of a member device
-   823	 * @dev: VF pci_dev
-   824	 * @opcode: op code of the io read command
-   825	 * @offset: starting byte offset within the registers to read from
-   826	 * @size: size of the data to be read
-   827	 * @buf: buffer to hold the returned data
-   828	 *
-   829	 * Returns 0 on success, or negative on failure.
-   830	 */
- > 831	int virtio_pci_admin_legacy_io_read(struct pci_dev *pdev, u16 opcode,
-   832					    u8 offset, u8 size, u8 *buf)
-   833	{
-   834		struct virtio_device *virtio_dev = virtio_pci_vf_get_pf_dev(pdev);
-   835		struct virtio_admin_cmd_legacy_rd_data *data;
-   836		struct scatterlist data_sg, result_sg;
-   837		struct virtio_admin_cmd cmd = {};
-   838		int vf_id;
-   839		int ret;
-   840	
-   841		if (!virtio_dev)
-   842			return -ENODEV;
-   843	
-   844		vf_id = pci_iov_vf_id(pdev);
-   845		if (vf_id < 0)
-   846			return vf_id;
-   847	
-   848		data = kzalloc(sizeof(*data), GFP_KERNEL);
-   849		if (!data)
-   850			return -ENOMEM;
-   851	
-   852		data->offset = offset;
-   853		sg_init_one(&data_sg, data, sizeof(*data));
-   854		sg_init_one(&result_sg, buf, size);
-   855		cmd.opcode = cpu_to_le16(opcode);
-   856		cmd.group_type = cpu_to_le16(VIRTIO_ADMIN_GROUP_TYPE_SRIOV);
-   857		cmd.group_member_id = cpu_to_le64(vf_id + 1);
-   858		cmd.data_sg = &data_sg;
-   859		cmd.result_sg = &result_sg;
-   860		ret = vp_modern_admin_cmd_exec(virtio_dev, &cmd);
-   861	
-   862		kfree(data);
-   863		return ret;
-   864	}
-   865	EXPORT_SYMBOL_GPL(virtio_pci_admin_legacy_io_read);
-   866	
-   867	/*
-   868	 * virtio_pci_admin_legacy_io_notify_info - Read the queue notification
-   869	 * information for legacy interface
-   870	 * @dev: VF pci_dev
-   871	 * @req_bar_flags: requested bar flags
-   872	 * @bar: on output the BAR number of the member device
-   873	 * @bar_offset: on output the offset within bar
-   874	 *
-   875	 * Returns 0 on success, or negative on failure.
-   876	 */
- > 877	int virtio_pci_admin_legacy_io_notify_info(struct pci_dev *pdev,
-   878						   u8 req_bar_flags, u8 *bar,
-   879						   u64 *bar_offset)
-   880	{
-   881		struct virtio_device *virtio_dev = virtio_pci_vf_get_pf_dev(pdev);
-   882		struct virtio_admin_cmd_notify_info_result *result;
-   883		struct virtio_admin_cmd cmd = {};
-   884		struct scatterlist result_sg;
-   885		int vf_id;
-   886		int ret;
-   887	
-   888		if (!virtio_dev)
-   889			return -ENODEV;
-   890	
-   891		vf_id = pci_iov_vf_id(pdev);
-   892		if (vf_id < 0)
-   893			return vf_id;
-   894	
-   895		result = kzalloc(sizeof(*result), GFP_KERNEL);
-   896		if (!result)
-   897			return -ENOMEM;
-   898	
-   899		sg_init_one(&result_sg, result, sizeof(*result));
-   900		cmd.opcode = cpu_to_le16(VIRTIO_ADMIN_CMD_LEGACY_NOTIFY_INFO);
-   901		cmd.group_type = cpu_to_le16(VIRTIO_ADMIN_GROUP_TYPE_SRIOV);
-   902		cmd.group_member_id = cpu_to_le64(vf_id + 1);
-   903		cmd.result_sg = &result_sg;
-   904		ret = vp_modern_admin_cmd_exec(virtio_dev, &cmd);
-   905		if (!ret) {
-   906			struct virtio_admin_cmd_notify_info_data *entry;
-   907			int i;
-   908	
-   909			ret = -ENOENT;
-   910			for (i = 0; i < VIRTIO_ADMIN_CMD_MAX_NOTIFY_INFO; i++) {
-   911				entry = &result->entries[i];
-   912				if (entry->flags == VIRTIO_ADMIN_CMD_NOTIFY_INFO_FLAGS_END)
-   913					break;
-   914				if (entry->flags != req_bar_flags)
-   915					continue;
-   916				*bar = entry->bar;
-   917				*bar_offset = le64_to_cpu(entry->offset);
-   918				ret = 0;
-   919				break;
-   920			}
-   921		}
-   922	
-   923		kfree(result);
-   924		return ret;
-   925	}
-   926	EXPORT_SYMBOL_GPL(virtio_pci_admin_legacy_io_notify_info);
-   927	
+84c3fc4e9c563d Zi Yan 2017-09-08  188  
+84c3fc4e9c563d Zi Yan 2017-09-08  189  static inline int is_swap_pmd(pmd_t pmd)
+84c3fc4e9c563d Zi Yan 2017-09-08  190  {
+84c3fc4e9c563d Zi Yan 2017-09-08 @191  	return !pmd_none(pmd) && !pmd_present(pmd);
+84c3fc4e9c563d Zi Yan 2017-09-08  192  }
+84c3fc4e9c563d Zi Yan 2017-09-08  193  
+
+:::::: The code at line 191 was first introduced by commit
+:::::: 84c3fc4e9c563d8fb91cfdf5948da48fe1af34d3 mm: thp: check pmd migration entry in common path
+
+:::::: TO: Zi Yan <zi.yan@cs.rutgers.edu>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
