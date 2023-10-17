@@ -1,57 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7FDD182DC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 07:34:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C2F2182DC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 07:34:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lp/H8tvO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EDZmlhpq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697528066; x=1729064066;
+  t=1697528088; x=1729064088;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=e/PVemFSRf7jQJqLRTWI6D7+mX3GaDafbHIm6KGFToo=;
-  b=Lp/H8tvOsCwaMre6QY9FY34naoWtPslMCo38PK7tCgahILBLBRHcvWRJ
-   JbRBqIy4ot9KYK3Z4sKc3qQJDU50HEglLUZtLyCwA7lAdHcYlm944PVoz
-   GqdPf9/4otnXRDSe2wy9fnSDJ/cLAPjrJBVh0M+V9wFU5W5GnwxD5tWIp
-   pJ3Wx1pAJhn1WDfCCADvaIm6jz6jPsUjN0H2BW2FyACqeLAjgEhxpAi8Z
-   N3lgy5B9WDytDkK5VRRfQ/AJW8x+3u6szhbmiPjIt1aH5LUHIuc41RRZ6
-   7PyTM6Fp8Bp8orfNmvRRD5Yem1AjroO/yUJgmdgpq4I2PXjfX9W4ULDVg
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="471940492"
+  bh=NrnpqRuuSjP/EWsVL/hwgbB/HmTFSuGtI09GSFJa+Fg=;
+  b=EDZmlhpqWx4W3gjHD5xdYmjtTgHQJendTFMnJq2sfvf8rQZEEkVXy7eo
+   s10B+RrAp++8KWAEf/iV+1PlExNQZ8yx3Njxxvbyyik6GuI88TIHRkF9l
+   is1nYpxk0Tg1T6GYOVd1gTPCED7XA7UMXW0c5ans/65upl8OiSyFFtHfN
+   pDaBWXLj0neerVoqlD9u/Gug04v+SfSoI4RvlexskZPskpFl1+9XNu5TJ
+   YnBD7O1jbrZ/9PK+1p2C6u/HAfJGddvjzCPcRJDxAd4CthBjKsD4r8Mo7
+   HmxMBKXwWEcMMLIpw2YR30yxSZWdkNnv4kjLtLjGuX4UbQ5LUuqscvnYW
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="365072789"
 X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
-   d="scan'208";a="471940492"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 00:34:25 -0700
+   d="scan'208";a="365072789"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 00:34:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="1087401273"
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="1003259390"
 X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
-   d="scan'208";a="1087401273"
+   d="scan'208";a="1003259390"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 17 Oct 2023 00:34:21 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 17 Oct 2023 00:34:24 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qseao-0009GF-0B;
-	Tue, 17 Oct 2023 07:34:18 +0000
-Date: Tue, 17 Oct 2023 15:33:51 +0800
+	id 1qseaq-0009GH-0C;
+	Tue, 17 Oct 2023 07:34:20 +0000
+Date: Tue, 17 Oct 2023 15:33:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	willy@infradead.org, linux-kernel@vger.kernel.org,
-	ying.huang@intel.com, david@redhat.com, Zi Yan <ziy@nvidia.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH -next v2 17/19] mm: convert wp_page_reuse() and
- finish_mkwrite_fault() to take a folio
-Message-ID: <202310171537.XhmrkImn-lkp@intel.com>
-References: <20231013085603.1227349-18-wangkefeng.wang@huawei.com>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/2] thermal/core: Hardening the self-encapsulation
+Message-ID: <202310171543.Dc9OqudQ-lkp@intel.com>
+References: <20231012102700.2858952-1-daniel.lezcano@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,71 +50,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231013085603.1227349-18-wangkefeng.wang@huawei.com>
+In-Reply-To: <20231012102700.2858952-1-daniel.lezcano@linaro.org>
 
-Hi Kefeng,
+Hi Daniel,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on akpm-mm/mm-everything]
+[auto build test WARNING on v6.6-rc6]
+[also build test WARNING on linus/master next-20231016]
+[cannot apply to rafael-pm/thermal]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/mm_types-add-virtual-and-_last_cpupid-into-struct-folio/20231017-121040
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231013085603.1227349-18-wangkefeng.wang%40huawei.com
-patch subject: [PATCH -next v2 17/19] mm: convert wp_page_reuse() and finish_mkwrite_fault() to take a folio
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231017/202310171537.XhmrkImn-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Lezcano/thermal-core-Reorder-the-headers-inclusion/20231017-105029
+base:   v6.6-rc6
+patch link:    https://lore.kernel.org/r/20231012102700.2858952-1-daniel.lezcano%40linaro.org
+patch subject: [PATCH 1/2] thermal/core: Hardening the self-encapsulation
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231017/202310171543.Dc9OqudQ-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310171537.XhmrkImn-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310171543.Dc9OqudQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310171537.XhmrkImn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310171543.Dc9OqudQ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/memory.c:3276: warning: Function parameter or member 'folio' not described in 'finish_mkwrite_fault'
+   In file included from drivers/thermal/tegra/soctherm.c:36:
+>> drivers/thermal/tegra/../thermal_core.h:18:2: warning: #warning This header can only be included by the thermal core code [-Wcpp]
+      18 | #warning This header can only be included by the thermal core code
+         |  ^~~~~~~
 
 
-vim +3276 mm/memory.c
+vim +18 drivers/thermal/tegra/../thermal_core.h
 
-2f38ab2c3c7fef Shachar Raindel 2015-04-14  3258  
-66a6197c118540 Jan Kara        2016-12-14  3259  /**
-66a6197c118540 Jan Kara        2016-12-14  3260   * finish_mkwrite_fault - finish page fault for a shared mapping, making PTE
-66a6197c118540 Jan Kara        2016-12-14  3261   *			  writeable once the page is prepared
-66a6197c118540 Jan Kara        2016-12-14  3262   *
-66a6197c118540 Jan Kara        2016-12-14  3263   * @vmf: structure describing the fault
-66a6197c118540 Jan Kara        2016-12-14  3264   *
-66a6197c118540 Jan Kara        2016-12-14  3265   * This function handles all that is needed to finish a write page fault in a
-66a6197c118540 Jan Kara        2016-12-14  3266   * shared mapping due to PTE being read-only once the mapped page is prepared.
-a862f68a8b3600 Mike Rapoport   2019-03-05  3267   * It handles locking of PTE and modifying it.
-66a6197c118540 Jan Kara        2016-12-14  3268   *
-66a6197c118540 Jan Kara        2016-12-14  3269   * The function expects the page to be locked or other protection against
-66a6197c118540 Jan Kara        2016-12-14  3270   * concurrent faults / writeback (such as DAX radix tree locks).
-a862f68a8b3600 Mike Rapoport   2019-03-05  3271   *
-2797e79f1a491f Liu Xiang       2021-06-28  3272   * Return: %0 on success, %VM_FAULT_NOPAGE when PTE got changed before
-a862f68a8b3600 Mike Rapoport   2019-03-05  3273   * we acquired PTE lock.
-66a6197c118540 Jan Kara        2016-12-14  3274   */
-60fe935fc6b035 Kefeng Wang     2023-10-13  3275  static vm_fault_t finish_mkwrite_fault(struct vm_fault *vmf, struct folio *folio)
-66a6197c118540 Jan Kara        2016-12-14 @3276  {
-66a6197c118540 Jan Kara        2016-12-14  3277  	WARN_ON_ONCE(!(vmf->vma->vm_flags & VM_SHARED));
-66a6197c118540 Jan Kara        2016-12-14  3278  	vmf->pte = pte_offset_map_lock(vmf->vma->vm_mm, vmf->pmd, vmf->address,
-66a6197c118540 Jan Kara        2016-12-14  3279  				       &vmf->ptl);
-3db82b9374ca92 Hugh Dickins    2023-06-08  3280  	if (!vmf->pte)
-3db82b9374ca92 Hugh Dickins    2023-06-08  3281  		return VM_FAULT_NOPAGE;
-66a6197c118540 Jan Kara        2016-12-14  3282  	/*
-66a6197c118540 Jan Kara        2016-12-14  3283  	 * We might have raced with another page fault while we released the
-66a6197c118540 Jan Kara        2016-12-14  3284  	 * pte_offset_map_lock.
-66a6197c118540 Jan Kara        2016-12-14  3285  	 */
-c33c794828f212 Ryan Roberts    2023-06-12  3286  	if (!pte_same(ptep_get(vmf->pte), vmf->orig_pte)) {
-7df676974359f9 Bibo Mao        2020-05-27  3287  		update_mmu_tlb(vmf->vma, vmf->address, vmf->pte);
-66a6197c118540 Jan Kara        2016-12-14  3288  		pte_unmap_unlock(vmf->pte, vmf->ptl);
-a19e25536ed3a2 Jan Kara        2016-12-14  3289  		return VM_FAULT_NOPAGE;
-66a6197c118540 Jan Kara        2016-12-14  3290  	}
-60fe935fc6b035 Kefeng Wang     2023-10-13  3291  	wp_page_reuse(vmf, folio);
-a19e25536ed3a2 Jan Kara        2016-12-14  3292  	return 0;
-66a6197c118540 Jan Kara        2016-12-14  3293  }
-66a6197c118540 Jan Kara        2016-12-14  3294  
+    16	
+    17	#ifndef THERMAL_CORE_SUBSYS
+  > 18	#warning This header can only be included by the thermal core code
+    19	#endif
+    20	
 
 -- 
 0-DAY CI Kernel Test Service
