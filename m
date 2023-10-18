@@ -1,56 +1,46 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96BC635887
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 12:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF1635885
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 12:43:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L7fxtSMZ"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4079ed65582so14123635e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 05:41:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697632906; x=1698237706; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=y2szp5Fj2QNRIcOpX8Z4G3ZR7ob5z2gCp3MstY40MSc=;
-        b=L7fxtSMZaY9+xDzjV1NChEUlEUqZk65FYJA1g5kqOOwXOBAHzJAOR2iLlCiyl5O4/H
-         z8j/rcTG5dr60smNWgw/49+IbQdAkUGdqtwebSCSyzSkT8qL/ao4Mdn08E8ejAPvnBCy
-         T5TjmK+XNgUL3NyWPIAYjSnntaofvqMy6e76MGnkoBkOLP5l0GYoFVYEzz3RvfducNBZ
-         J/G6QazhhNHWNwxb8KbykVS4DAO7JCXN9itUb9VYTJdwG0ow2VCChLMaDz80Cwfwa3QI
-         S67NY9QWZYPuPCbJpijrh1vLvZn0CMn3y0KdgcHz2DE9tmpL66bYPsLxeO8ju6O5NrHa
-         gOaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697632906; x=1698237706;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y2szp5Fj2QNRIcOpX8Z4G3ZR7ob5z2gCp3MstY40MSc=;
-        b=F1XffMrPYN/2Gt2KAz4sLk41rHakWCOIRhddTtOEAt9JNL1j+F+6dKApEMkc76nbQ5
-         75f89TeFNRlMEn7S0HTOu7N9ajSNIawXDSNGrTZqDZug2awwRKyRX6BujSp96Q9BOCEA
-         kq1KI2teR4A59BHjz0WOErccXOS2DS57DkDmhla+aph/9DqPflq70n2rNSLN/AyP2yC3
-         aGFchafl3OdN3fhbhegvjvehDyaQuaArASLsn7kCAtJ1ZXHQJM4hc8GTCHI8NGdllVu0
-         Hwe+Asjc6Tuf8zci3k1qcyMZkn5Ic9UrkiBrTNQGdq+GYPeNW/7wut13V15K8GJYy0NW
-         3Jzw==
-X-Gm-Message-State: AOJu0YzdObz1NVeVYJOdMKVpjdx6HA77NkGdb9fTxN4W9U0VIFHCCh13
-	/ju9HZx3UWmSDaQd4RsUXY8GiQ==
-X-Google-Smtp-Source: AGHT+IHVq7toTQ4FhZEP+oO0P/ugSMWW94HHAgHGncmDP/rvLPBKxwBz6iwjK+XdxTS3kwkRb+QkEw==
-X-Received: by 2002:a05:600c:35c7:b0:408:3eaa:aea6 with SMTP id r7-20020a05600c35c700b004083eaaaea6mr941551wmq.7.1697632905686;
-        Wed, 18 Oct 2023 05:41:45 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id fc8-20020a05600c524800b0040535648639sm1604397wmb.36.2023.10.18.05.41.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Oct 2023 05:41:45 -0700 (PDT)
-Date: Wed, 18 Oct 2023 15:41:42 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [char-misc:char-misc-testing 21/23] drivers/parport/share.c:486
- parport_register_port() warn: '&tmp->full_list' not removed from list
-Message-ID: <fd867076-881f-4fde-9d17-4da3e7e661d2@kadam.mountain>
-References: <2171426a-1784-41e9-8614-2d3a7a602831@kadam.mountain>
- <ZS/R/H9JujiaJ0x2@smile.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MGFfrXU9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697633029; x=1729169029;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AQY77ZE55Kbb07Adt9Xoh6+wnGvaR2eyT0/9pKRK6o8=;
+  b=MGFfrXU9e/nkOJpYVaR2anbTAq/NMD5QTumuCy74G5xuAChP0Va/fVzG
+   8bCzCTjwVlauznmmLT2mX3OSvxPKVOzGu0N5VULcSvc2g+WY5K+JnHewv
+   l88Rd5Hfy9s3hR+CVay9K1Kt+r/gi/T8o4Pk/g4V3G/irHTHnnq6mklvC
+   IiwRvjpElmU4HfYr0ovigZ6aMRjP3GhZ2IkURtOUXI11HLLIdNegn41pD
+   bmhG6eE7Nwv4mPRkDXJsc10lR8DEE395/70F7ewcfNJAIeh28IqnIbYIR
+   6IN1Hh1VkWm2MmxfsS+VEQLnGE/bebOSoCtlziyjDK1eRI2HKdxgxUClS
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="366262170"
+X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
+   d="scan'208";a="366262170"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 05:43:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="822425794"
+X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
+   d="scan'208";a="822425794"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 18 Oct 2023 05:43:47 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qt5tp-0000Mo-2S;
+	Wed, 18 Oct 2023 12:43:45 +0000
+Date: Wed, 18 Oct 2023 20:43:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:exportfs_encode_fid 3/5] checkpatch: WARNING: Block
+ comments use * on subsequent lines
+Message-ID: <202310182052.D2PH6SUM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,17 +49,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZS/R/H9JujiaJ0x2@smile.fi.intel.com>
 
-On Wed, Oct 18, 2023 at 03:39:24PM +0300, Andy Shevchenko wrote:
-> > Old smatch warnings:
-> > drivers/parport/share.c:826 parport_register_dev_model() warn: possible memory leak of 'par_dev'
-> 
-> Means this was already be in the code?
+tree:   https://github.com/amir73il/linux exportfs_encode_fid
+head:   2b6115cf3826b929cad609ea8921eed15214763d
+commit: 43c1d95c7ac5219506ec3f5b8b45784adb0546a9 [3/5] exportfs: make ->encode_fh() a mandatory method for NFS export
+reproduce: (https://download.01.org/0day-ci/archive/20231018/202310182052.D2PH6SUM-lkp@intel.com/reproduce)
 
-Yep.  It's not related to your patch but when people are working on a
-file we like to push them to look at other stuff.  :P
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310182052.D2PH6SUM-lkp@intel.com/
 
-regards,
-dan carpenter
+# many are suggestions rather than must-fix
 
+WARNING:BLOCK_COMMENT_STYLE: Block comments use * on subsequent lines
+#285: FILE: fs/smb/client/export.c:47:
++/*	Following export operations are mandatory for NFS export support:
++	.fh_to_dentry = */
+
+WARNING:BLOCK_COMMENT_STYLE: Block comments use a trailing */ on a separate line
+#285: FILE: fs/smb/client/export.c:47:
++	.fh_to_dentry = */
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
