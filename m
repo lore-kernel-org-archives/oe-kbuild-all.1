@@ -1,52 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FD715AFE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 09:43:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6D1182C6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 09:57:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UQji0hUw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697622214; x=1729158214;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lUn6JpAPKKSIZ1ASBuCSirxJ4jfSQf5dEj038QniKAs=;
-  b=UQji0hUwtoFO3XYfaHWxjo2Y8wqWr5l3/Pl6X1+lRWPwzJXA9Gz9xqeo
-   xkePDN+ApDVabaSYH+IHWrj9kB2iWldO1RoftrGTYXG9VqEGc10nfvP5h
-   DtwpAAwZuTRU640BXTk4llyWVeqLAAUQMrbffCK/kymroa/68y8+CRrwI
-   PGrlWU1gf/YRh2tpMMylfFWFz2kusgJ+UpLS6eyh4WGBTsbXwBlCDHEBS
-   +T3FvijBMjDr6B2PDP+1hDP7PK+f09TtLgz8xGmrYowJhucQ64iEaxcgG
-   pbCOAQf5/osRhJj7ZOvdc8ytOXoB06d7iLSUJfpMMp1uvYlGyKfvt2gYd
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="371041686"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
-   d="scan'208";a="371041686"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 02:43:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="791560139"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
-   d="scan'208";a="791560139"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 18 Oct 2023 02:43:30 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qt35M-0000CS-0X;
-	Wed, 18 Oct 2023 09:43:28 +0000
-Date: Wed, 18 Oct 2023 17:43:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, robdclark@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, freedreno@lists.freedesktop.org,
-	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, sean@poorly.run,
-	Abaci Robot <abaci@linux.alibaba.com>, quic_abhinavk@quicinc.com,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
-	marijn.suijten@somainline.org
-Subject: Re: [PATCH] drm/msm/a6xx: Remove some unused functions
-Message-ID: <202310181742.3qvtq78e-lkp@intel.com>
-References: <20231012024421.102832-1-jiapeng.chong@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ipCsiJgN"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40806e4106dso9455755e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 02:57:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697623077; x=1698227877; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=U0FUoFjkwulGcN5Yd0QfauAPgIYEfCmr50tJH/PkM64=;
+        b=ipCsiJgNrQrbcQOQ+w7482pSHjMaM8ROmkHECqA45BnMcpCHrvi9v0uy36vhgNwI+U
+         sT10yFK0hygO08/rNJ1OJNWI+z29q0I+owcBImai4o1WoBNDOIMiiqhi7T2LeMyJSTQ0
+         I27kx3e7XFga2RraQmGQ09uNXOk/fKUAqxhyW9sg/4QmHsf+ZUmn5E5A0aMGaizgRj+p
+         cLAWAOPHxstkMmeiPhHFsyrTL6I9GRTci57FKvmMdlg3rfuTBKHvtYInS9ucPqKSbNjW
+         Gbgsh6QZoeVGHz4CxDz6tC5UzZgdRPWOEUtxMgeh9l532/2q6ZWi8BfYJvFpjuPICJmf
+         OBtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697623077; x=1698227877;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=U0FUoFjkwulGcN5Yd0QfauAPgIYEfCmr50tJH/PkM64=;
+        b=XRZPI+7QIC53P8mPu3JLA3ivcUNLDLU8VTRL2iEg5XSrJY/mpcJhTwfMS/Fc2Z/E0o
+         nfZv1HKxuiI24zsDnxib8/8n9DlkpsIr4ToyQaBH1TzwqjaTvwGixG7fGxa+OP90tjxw
+         cF8UmgGefgEmjT9Y829ISRAAaClPuZpOYnmnToyENnhbqjp57AHwNCqUK8bBjZxMvW2A
+         ZeinsMEasBnAxRolmHuob5bomjUF8mzJ+DdaSW+e/axAnw8aUDMOL/D1szR5fweElXyx
+         IkdAOqxCR6YOR4hsC6wzbzAknQ1pfq9v7CI9ZyXWb/AwZ1nDm0RToIqoz197wxyIXNvp
+         SHEg==
+X-Gm-Message-State: AOJu0YxQ4Ln8GepZ9xOmj0si7InOsOIHuUq5fYrTO0CDwdTVBtcZeO+L
+	RWYOva8nP0PWDPe99159qEs9+Q==
+X-Google-Smtp-Source: AGHT+IFJxpqoxxLsyl88u55j0gWXsPQanXw3Nd+LcqcruMjexj18xHda/GEXbK0Yxx6AXK0wLN/5MA==
+X-Received: by 2002:a05:600c:a39c:b0:407:4126:f71c with SMTP id hn28-20020a05600ca39c00b004074126f71cmr4272587wmb.6.1697623077252;
+        Wed, 18 Oct 2023 02:57:57 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id y34-20020a05600c342200b004063977eccesm1217568wmp.42.2023.10.18.02.57.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Oct 2023 02:57:56 -0700 (PDT)
+Date: Wed, 18 Oct 2023 12:57:52 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [char-misc:char-misc-testing 21/23] drivers/parport/share.c:486
+ parport_register_port() warn: '&tmp->full_list' not removed from list
+Message-ID: <2171426a-1784-41e9-8614-2d3a7a602831@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,67 +57,111 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231012024421.102832-1-jiapeng.chong@linux.alibaba.com>
 
-Hi Jiapeng,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20231016]
-[cannot apply to drm-misc/drm-misc-next v6.6-rc6 v6.6-rc5 v6.6-rc4 linus/master v6.6-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiapeng-Chong/drm-msm-a6xx-Remove-some-unused-functions/20231017-102229
-base:   next-20231016
-patch link:    https://lore.kernel.org/r/20231012024421.102832-1-jiapeng.chong%40linux.alibaba.com
-patch subject: [PATCH] drm/msm/a6xx: Remove some unused functions
-config: loongarch-randconfig-001-20231018 (https://download.01.org/0day-ci/archive/20231018/202310181742.3qvtq78e-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310181742.3qvtq78e-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git char-misc-testing
+head:   5ab2ef71d3e0a4b8e5839b1850ccdd236695e2e0
+commit: 6c9334e9230e552c795eebd34e6b208c6df693fe [21/23] parport: Use kasprintf() instead of fixed buffer formatting
+config: i386-randconfig-141-20231017 (https://download.01.org/0day-ci/archive/20231018/202310180809.hepZB9k6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231018/202310180809.hepZB9k6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310181742.3qvtq78e-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202310180809.hepZB9k6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/parport/share.c:486 parport_register_port() warn: '&tmp->full_list' not removed from list
 
-   In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:8:
->> drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h:348:18: warning: 'a7xx_gbif_registers' defined but not used [-Wunused-const-variable=]
-     348 | static const u32 a7xx_gbif_registers[] = {
-         |                  ^~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h:341:18: warning: 'a7xx_ahb_registers' defined but not used [-Wunused-const-variable=]
-     341 | static const u32 a7xx_ahb_registers[] = {
-         |                  ^~~~~~~~~~~~~~~~~~
+Old smatch warnings:
+drivers/parport/share.c:826 parport_register_dev_model() warn: possible memory leak of 'par_dev'
 
+vim +486 drivers/parport/share.c
 
-vim +/a7xx_gbif_registers +348 drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+^1da177e4c3f41 Linus Torvalds      2005-04-16  434  struct parport *parport_register_port(unsigned long base, int irq, int dma,
+^1da177e4c3f41 Linus Torvalds      2005-04-16  435  				      struct parport_operations *ops)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  436  {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  437  	struct list_head *l;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  438  	struct parport *tmp;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  439  	int num;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  440  	int device;
+6fa45a22689722 Sudip Mukherjee     2015-05-20  441  	int ret;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  442  
+c32df4e182e5bf Alexandru Gheorghiu 2013-07-03  443  	tmp = kzalloc(sizeof(struct parport), GFP_KERNEL);
+47ec57ec0e5283 Sudip Mukherjee     2015-10-28  444  	if (!tmp)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  445  		return NULL;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  446  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  447  	/* Init our structure */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  448  	tmp->base = base;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  449  	tmp->irq = irq;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  450  	tmp->dma = dma;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  451  	tmp->muxport = tmp->daisy = tmp->muxsel = -1;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  452  	tmp->modes = 0;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  453  	INIT_LIST_HEAD(&tmp->list);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  454  	tmp->devices = tmp->cad = NULL;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  455  	tmp->flags = 0;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  456  	tmp->ops = ops;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  457  	tmp->physport = tmp;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  458  	memset(tmp->probe_info, 0, 5 * sizeof(struct parport_device_info));
+^1da177e4c3f41 Linus Torvalds      2005-04-16  459  	rwlock_init(&tmp->cad_lock);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  460  	spin_lock_init(&tmp->waitlist_lock);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  461  	spin_lock_init(&tmp->pardevice_lock);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  462  	tmp->ieee1284.mode = IEEE1284_MODE_COMPAT;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  463  	tmp->ieee1284.phase = IEEE1284_PH_FWD_IDLE;
+a529f1505b6fac Thomas Gleixner     2010-09-07  464  	sema_init(&tmp->ieee1284.irq, 0);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  465  	tmp->spintime = parport_default_spintime;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  466  	atomic_set(&tmp->ref_count, 1);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  467  	INIT_LIST_HEAD(&tmp->full_list);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  468  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  469  	/* Search for the lowest free parport number. */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  470  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  471  	spin_lock(&full_list_lock);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  472  	for (l = all_ports.next, num = 0; l != &all_ports; l = l->next, num++) {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  473  		struct parport *p = list_entry(l, struct parport, full_list);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  474  		if (p->number != num)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  475  			break;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  476  	}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  477  	tmp->portnum = tmp->number = num;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  478  	list_add_tail(&tmp->full_list, l);
 
-1707add815519d Jordan Crouse  2018-11-02  334  
-a5ab31767c7782 Sharat Masetty 2019-12-03  335  static const struct a6xx_registers a6xx_vbif_reglist =
-a5ab31767c7782 Sharat Masetty 2019-12-03  336  			REGS(a6xx_vbif_registers, 0, 0);
-a5ab31767c7782 Sharat Masetty 2019-12-03  337  
-a5ab31767c7782 Sharat Masetty 2019-12-03  338  static const struct a6xx_registers a6xx_gbif_reglist =
-a5ab31767c7782 Sharat Masetty 2019-12-03  339  			REGS(a6xx_gbif_registers, 0, 0);
-a5ab31767c7782 Sharat Masetty 2019-12-03  340  
-e997ae5f45caf7 Konrad Dybcio  2023-09-25 @341  static const u32 a7xx_ahb_registers[] = {
-e997ae5f45caf7 Konrad Dybcio  2023-09-25  342  	/* RBBM_STATUS */
-e997ae5f45caf7 Konrad Dybcio  2023-09-25  343  	0x210, 0x210,
-e997ae5f45caf7 Konrad Dybcio  2023-09-25  344  	/* RBBM_STATUS2-3 */
-e997ae5f45caf7 Konrad Dybcio  2023-09-25  345  	0x212, 0x213,
-e997ae5f45caf7 Konrad Dybcio  2023-09-25  346  };
-e997ae5f45caf7 Konrad Dybcio  2023-09-25  347  
-e997ae5f45caf7 Konrad Dybcio  2023-09-25 @348  static const u32 a7xx_gbif_registers[] = {
-e997ae5f45caf7 Konrad Dybcio  2023-09-25  349  	0x3c00, 0x3c0b,
-e997ae5f45caf7 Konrad Dybcio  2023-09-25  350  	0x3c40, 0x3c42,
-e997ae5f45caf7 Konrad Dybcio  2023-09-25  351  	0x3c45, 0x3c47,
-e997ae5f45caf7 Konrad Dybcio  2023-09-25  352  	0x3c49, 0x3c4a,
-e997ae5f45caf7 Konrad Dybcio  2023-09-25  353  	0x3cc0, 0x3cd1,
-e997ae5f45caf7 Konrad Dybcio  2023-09-25  354  };
-e997ae5f45caf7 Konrad Dybcio  2023-09-25  355  
+tmp gets added to the all_ports list here
+
+^1da177e4c3f41 Linus Torvalds      2005-04-16  479  	spin_unlock(&full_list_lock);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  480  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  481  	/*
+^1da177e4c3f41 Linus Torvalds      2005-04-16  482  	 * Now that the portnum is known finish doing the Init.
+^1da177e4c3f41 Linus Torvalds      2005-04-16  483  	 */
+6c9334e9230e55 Andy Shevchenko     2023-10-16  484  	tmp->name = kasprintf(GFP_KERNEL, "parport%d", tmp->portnum);
+6c9334e9230e55 Andy Shevchenko     2023-10-16  485  	if (!tmp->name) {
+6c9334e9230e55 Andy Shevchenko     2023-10-16 @486  		kfree(tmp);
+
+This kfree will lead to a use after free.  Also tmp is such a terribly
+confusing name for something that isn't temporary at all.
+
+6c9334e9230e55 Andy Shevchenko     2023-10-16  487  		return NULL;
+6c9334e9230e55 Andy Shevchenko     2023-10-16  488  	}
+6c9334e9230e55 Andy Shevchenko     2023-10-16  489  	dev_set_name(&tmp->bus_dev, tmp->name);
+6fa45a22689722 Sudip Mukherjee     2015-05-20  490  	tmp->bus_dev.bus = &parport_bus_type;
+6fa45a22689722 Sudip Mukherjee     2015-05-20  491  	tmp->bus_dev.release = free_port;
+6fa45a22689722 Sudip Mukherjee     2015-05-20  492  	tmp->bus_dev.type = &parport_device_type;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  493  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  494  	for (device = 0; device < 5; device++)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  495  		/* assume the worst */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  496  		tmp->probe_info[device].class = PARPORT_CLASS_LEGACY;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  497  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  498  	tmp->waithead = tmp->waittail = NULL;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  499  
+6fa45a22689722 Sudip Mukherjee     2015-05-20  500  	ret = device_register(&tmp->bus_dev);
+6fa45a22689722 Sudip Mukherjee     2015-05-20  501  	if (ret) {
+6fa45a22689722 Sudip Mukherjee     2015-05-20  502  		put_device(&tmp->bus_dev);
+6fa45a22689722 Sudip Mukherjee     2015-05-20  503  		return NULL;
+6fa45a22689722 Sudip Mukherjee     2015-05-20  504  	}
+6fa45a22689722 Sudip Mukherjee     2015-05-20  505  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  506  	return tmp;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  507  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
