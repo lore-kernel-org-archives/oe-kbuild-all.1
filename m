@@ -1,47 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909823FB33;
-	Wed, 18 Oct 2023 18:15:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897493FE56
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 18:15:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MlaSSzhm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b4u5L91N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697652916; x=1729188916;
+  t=1697652917; x=1729188917;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zDMsKs9SB3qXaVR+h19Rc8V0I8Of2Jc9y3YvXK27VTU=;
-  b=MlaSSzhm5/R+DkN5Ye/bi1TS0vIbO+x6WaWA42UNzgH0QJVzsJ3zhLtK
-   3SG0QKM+whS/8iTQeJGPp56kiPI6AJWGoIA6mG1JR/xQVqAl0h/NVgI+5
-   Y5SDoemfF7kjY5SjvWrowAWAmjzOr0Nr1vOE9+mpwugpsiabKsO9Hg0sg
-   jGiJd2pZWPOcouVg3cngfwNTPL4Ctw7iQpIbpY/GUH6L+uUHQqbptLFGW
-   uPneZlW3v6hLlXyrXwRqb2IlAw1Lf1779MF+FaYkoKWxXrQW64PCNL5EP
-   kr2Bh2IrHFQbEQE4GUWL/xKeBLaISg6Rez83S09rJJRCEFsHp54SFWCME
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="472307350"
+  bh=hQq0l31cVSpt36W0Sk4OcipFEQ/Bp0ciy/hKPPMnXQc=;
+  b=b4u5L91NAOiKkHz6BIc5vzvnervbxW+VoKOzA6MmxHO+4OXFXT1yH+bA
+   d+TWfWVMl0Htr42aY0iLcKDlp0Yhvn3d+0vvlKZ8y8CpDzHv/N929mzGl
+   qirTj1J3AiLBu299F2wn6NVeAuloNaUcv0EfDJp0I7skp4s6kfQ7kg1b5
+   lkRq/813LpVfRrWaZ2GF+oFLaz4RLYbV3tEbejwArSVTBGTrOKzYAv3Gq
+   RHzljJCctCSZ/Fx5nqRTZlBJfq99VpRn9ETyKEjo3RvWSzq6ZUUzZr5Y2
+   xZK/IWg7gFbAW5GU67nOj+NiL0OICkEPUu+eYJBfko//5KrOBb4hZEnLi
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="371137631"
 X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="472307350"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 11:15:15 -0700
+   d="scan'208";a="371137631"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 11:15:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="733266191"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="1003902442"
 X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="733266191"
+   d="scan'208";a="1003902442"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 18 Oct 2023 11:15:13 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 18 Oct 2023 11:15:13 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtB4Z-0000oS-2W;
+	id 1qtB4Z-0000oV-2d;
 	Wed, 18 Oct 2023 18:15:11 +0000
-Date: Thu, 19 Oct 2023 02:14:57 +0800
+Date: Thu, 19 Oct 2023 02:14:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v3 20/35] drivers/mfd: sm501 add some properties.
-Message-ID: <202310190212.fwQ0lh1o-lkp@intel.com>
-References: <b1bedaea12693d256b2513f72bd39630a69d188a.1697199949.git.ysato@users.sourceforge.jp>
+To: Caleb Connolly <caleb.connolly@linaro.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Vincent Huang <vincent.huang@tw.synaptics.com>
+Cc: oe-kbuild-all@lists.linux.dev, methanal <baclofen@tuta.io>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+	Caleb Connolly <caleb.connolly@linaro.org>
+Subject: Re: [PATCH v2 7/7] Input: synaptics-rmi4 - support fallback values
+ for PDT descriptor bytes
+Message-ID: <202310190215.hvnjZ9RG-lkp@intel.com>
+References: <20230929-caleb-rmi4-quirks-v2-7-b227ac498d88@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,109 +56,190 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b1bedaea12693d256b2513f72bd39630a69d188a.1697199949.git.ysato@users.sourceforge.jp>
+In-Reply-To: <20230929-caleb-rmi4-quirks-v2-7-b227ac498d88@linaro.org>
 
-Hi Yoshinori,
+Hi Caleb,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tip/irq/core]
-[also build test ERROR on robh/for-next pci/next pci/for-linus linus/master v6.6-rc6 next-20231018]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc6 next-20231018]
+[cannot apply to dtor-input/next dtor-input/for-linus]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yoshinori-Sato/arch-sh-boot-compressed-head_32-S-passing-FDT-address-to-initialize-function/20231017-170254
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/b1bedaea12693d256b2513f72bd39630a69d188a.1697199949.git.ysato%40users.sourceforge.jp
-patch subject: [RFC PATCH v3 20/35] drivers/mfd: sm501 add some properties.
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231019/202310190212.fwQ0lh1o-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310190212.fwQ0lh1o-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Caleb-Connolly/Input-synaptics-rmi4-handle-duplicate-unknown-PDT-entries/20231017-132844
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230929-caleb-rmi4-quirks-v2-7-b227ac498d88%40linaro.org
+patch subject: [PATCH v2 7/7] Input: synaptics-rmi4 - support fallback values for PDT descriptor bytes
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20231019/202310190215.hvnjZ9RG-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310190215.hvnjZ9RG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310190212.fwQ0lh1o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310190215.hvnjZ9RG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/mfd/sm501.c:1517:9: error: call to undeclared function 'sm501_parse_dt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   ret = sm501_parse_dt(sm, dev->dev.of_node);
-                         ^
-   1 error generated.
+   drivers/input/rmi4/rmi_driver.c: In function 'rmi_driver_probe':
+>> drivers/input/rmi4/rmi_driver.c:1223:46: error: passing argument 1 of 'rmi_driver_of_probe' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    1223 |                 retval = rmi_driver_of_probe(rmi_dev, pdata);
+         |                                              ^~~~~~~
+         |                                              |
+         |                                              struct rmi_device *
+   drivers/input/rmi4/rmi_driver.c:1101:54: note: expected 'struct device *' but argument is of type 'struct rmi_device *'
+    1101 | static inline int rmi_driver_of_probe(struct device *dev,
+         |                                       ~~~~~~~~~~~~~~~^~~
+   cc1: some warnings being treated as errors
 
 
-vim +/sm501_parse_dt +1517 drivers/mfd/sm501.c
+vim +/rmi_driver_of_probe +1223 drivers/input/rmi4/rmi_driver.c
 
-  1479	
-  1480	static int sm501_plat_probe(struct platform_device *dev)
-  1481	{
-  1482		struct sm501_devdata *sm;
-  1483		int ret;
-  1484	
-  1485		sm = kzalloc(sizeof(*sm), GFP_KERNEL);
-  1486		if (!sm) {
-  1487			ret = -ENOMEM;
-  1488			goto err1;
-  1489		}
-  1490	
-  1491		sm->dev = &dev->dev;
-  1492		sm->pdev_id = dev->id;
-  1493		sm->platdata = dev_get_platdata(&dev->dev);
-  1494	
-  1495		ret = platform_get_irq(dev, 0);
-  1496		if (ret < 0)
-  1497			goto err_res;
-  1498		sm->irq = ret;
-  1499	
-  1500		sm->io_res = platform_get_resource(dev, IORESOURCE_MEM, 1);
-  1501		sm->mem_res = platform_get_resource(dev, IORESOURCE_MEM, 0);
-  1502		if (!sm->io_res || !sm->mem_res) {
-  1503			dev_err(&dev->dev, "failed to get IO resource\n");
-  1504			ret = -ENOENT;
-  1505			goto err_res;
-  1506		}
-  1507	
-  1508		sm->regs_claim = request_mem_region(sm->io_res->start,
-  1509						    0x100, "sm501");
-  1510		if (!sm->regs_claim) {
-  1511			dev_err(&dev->dev, "cannot claim registers\n");
-  1512			ret = -EBUSY;
-  1513			goto err_res;
-  1514		}
-  1515	
-  1516		if (IS_ENABLED(CONFIG_OF) && dev->dev.of_node) {
-> 1517			ret = sm501_parse_dt(sm, dev->dev.of_node);
-  1518			if (ret)
-  1519				goto err_res;
-  1520		}
-  1521	
-  1522		platform_set_drvdata(dev, sm);
-  1523	
-  1524		sm->regs = ioremap(sm->io_res->start, resource_size(sm->io_res));
-  1525		if (!sm->regs) {
-  1526			dev_err(&dev->dev, "cannot remap registers\n");
-  1527			ret = -EIO;
-  1528			goto err_claim;
-  1529		}
-  1530	
-  1531		ret = sm501_init_dev(sm);
-  1532		if (ret)
-  1533			goto err_unmap;
-  1534	
-  1535		return 0;
-  1536	
-  1537	 err_unmap:
-  1538		iounmap(sm->regs);
-  1539	 err_claim:
-  1540		release_mem_region(sm->io_res->start, 0x100);
-  1541	 err_res:
-  1542		kfree(sm);
-  1543	 err1:
-  1544		return ret;
-  1545	
+  1199	
+  1200	static int rmi_driver_probe(struct device *dev)
+  1201	{
+  1202		struct rmi_driver *rmi_driver;
+  1203		struct rmi_driver_data *data;
+  1204		struct rmi_device_platform_data *pdata;
+  1205		struct rmi_device *rmi_dev;
+  1206		int retval;
+  1207	
+  1208		rmi_dbg(RMI_DEBUG_CORE, dev, "%s: Starting probe.\n",
+  1209				__func__);
+  1210	
+  1211		if (!rmi_is_physical_device(dev)) {
+  1212			rmi_dbg(RMI_DEBUG_CORE, dev, "Not a physical device.\n");
+  1213			return -ENODEV;
+  1214		}
+  1215	
+  1216		rmi_dev = to_rmi_device(dev);
+  1217		rmi_driver = to_rmi_driver(dev->driver);
+  1218		rmi_dev->driver = rmi_driver;
+  1219	
+  1220		pdata = rmi_get_platform_data(rmi_dev);
+  1221	
+  1222		if (rmi_dev->xport->dev->of_node) {
+> 1223			retval = rmi_driver_of_probe(rmi_dev, pdata);
+  1224			if (retval)
+  1225				return retval;
+  1226		}
+  1227	
+  1228		data = devm_kzalloc(dev, sizeof(struct rmi_driver_data), GFP_KERNEL);
+  1229		if (!data)
+  1230			return -ENOMEM;
+  1231	
+  1232		INIT_LIST_HEAD(&data->function_list);
+  1233		data->rmi_dev = rmi_dev;
+  1234		dev_set_drvdata(&rmi_dev->dev, data);
+  1235	
+  1236		/*
+  1237		 * Right before a warm boot, the sensor might be in some unusual state,
+  1238		 * such as F54 diagnostics, or F34 bootloader mode after a firmware
+  1239		 * or configuration update.  In order to clear the sensor to a known
+  1240		 * state and/or apply any updates, we issue a initial reset to clear any
+  1241		 * previous settings and force it into normal operation.
+  1242		 *
+  1243		 * We have to do this before actually building the PDT because
+  1244		 * the reflash updates (if any) might cause various registers to move
+  1245		 * around.
+  1246		 *
+  1247		 * For a number of reasons, this initial reset may fail to return
+  1248		 * within the specified time, but we'll still be able to bring up the
+  1249		 * driver normally after that failure.  This occurs most commonly in
+  1250		 * a cold boot situation (where then firmware takes longer to come up
+  1251		 * than from a warm boot) and the reset_delay_ms in the platform data
+  1252		 * has been set too short to accommodate that.  Since the sensor will
+  1253		 * eventually come up and be usable, we don't want to just fail here
+  1254		 * and leave the customer's device unusable.  So we warn them, and
+  1255		 * continue processing.
+  1256		 */
+  1257		retval = rmi_scan_pdt(rmi_dev, NULL, rmi_initial_reset);
+  1258		if (retval < 0)
+  1259			dev_warn(dev, "RMI initial reset failed! Continuing in spite of this.\n");
+  1260	
+  1261		retval = rmi_read(rmi_dev, PDT_PROPERTIES_LOCATION, &data->pdt_props);
+  1262		if (retval < 0) {
+  1263			/*
+  1264			 * we'll print out a warning and continue since
+  1265			 * failure to get the PDT properties is not a cause to fail
+  1266			 */
+  1267			dev_warn(dev, "Could not read PDT properties from %#06x (code %d). Assuming 0x00.\n",
+  1268				 PDT_PROPERTIES_LOCATION, retval);
+  1269		}
+  1270	
+  1271		mutex_init(&data->irq_mutex);
+  1272		mutex_init(&data->enabled_mutex);
+  1273	
+  1274		retval = rmi_probe_interrupts(data);
+  1275		if (retval)
+  1276			goto err;
+  1277	
+  1278		if (rmi_dev->xport->input) {
+  1279			/*
+  1280			 * The transport driver already has an input device.
+  1281			 * In some cases it is preferable to reuse the transport
+  1282			 * devices input device instead of creating a new one here.
+  1283			 * One example is some HID touchpads report "pass-through"
+  1284			 * button events are not reported by rmi registers.
+  1285			 */
+  1286			data->input = rmi_dev->xport->input;
+  1287		} else {
+  1288			data->input = devm_input_allocate_device(dev);
+  1289			if (!data->input) {
+  1290				dev_err(dev, "%s: Failed to allocate input device.\n",
+  1291					__func__);
+  1292				retval = -ENOMEM;
+  1293				goto err;
+  1294			}
+  1295			rmi_driver_set_input_params(rmi_dev, data->input);
+  1296			data->input->phys = devm_kasprintf(dev, GFP_KERNEL,
+  1297							"%s/input0", dev_name(dev));
+  1298		}
+  1299	
+  1300		retval = rmi_init_functions(data);
+  1301		if (retval)
+  1302			goto err;
+  1303	
+  1304		retval = rmi_f34_create_sysfs(rmi_dev);
+  1305		if (retval)
+  1306			goto err;
+  1307	
+  1308		if (data->input) {
+  1309			rmi_driver_set_input_name(rmi_dev, data->input);
+  1310			if (!rmi_dev->xport->input) {
+  1311				retval = input_register_device(data->input);
+  1312				if (retval) {
+  1313					dev_err(dev, "%s: Failed to register input device.\n",
+  1314						__func__);
+  1315					goto err_destroy_functions;
+  1316				}
+  1317			}
+  1318		}
+  1319	
+  1320		retval = rmi_irq_init(rmi_dev);
+  1321		if (retval < 0)
+  1322			goto err_destroy_functions;
+  1323	
+  1324		if (data->f01_container->dev.driver) {
+  1325			/* Driver already bound, so enable ATTN now. */
+  1326			retval = rmi_enable_sensor(rmi_dev);
+  1327			if (retval)
+  1328				goto err_disable_irq;
+  1329		}
+  1330	
+  1331		return 0;
+  1332	
+  1333	err_disable_irq:
+  1334		rmi_disable_irq(rmi_dev, false);
+  1335	err_destroy_functions:
+  1336		rmi_free_function_list(rmi_dev);
+  1337	err:
+  1338		return retval;
+  1339	}
+  1340	
 
 -- 
 0-DAY CI Kernel Test Service
