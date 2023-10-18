@@ -1,46 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752983E016
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 20:44:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270004292A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 21:19:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h4pvIAm0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b9xA82Eq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697661865; x=1729197865;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zMlWZwSeVtwG/TX6KWjzLRprp2oTRjLNzUAJHt+cz7o=;
-  b=h4pvIAm0r4+hZbJLcq65uPNG7Y3LD6FTOfwA6s8pLO9GGm+k76emLqGL
-   4QvtW2uzY5E3K0nsCjtkzvHeS8Y6T+10SG0XH5uZI2dXpam0XNSrqzZDK
-   VEBjetJ7VhN7mcyFTPtQ/Qqo/zBTSQWGAdsCXdobFfpVlo4vEIxo4gpGM
-   YYIX2wJqnZ1OuA3WLJF1OuI2RCF/VT8DhVV8hIIT/mKO1rCSubBOXurVZ
-   BIQShovAL5ek49REwSke4ySxCYYb8J3kOxcn98Vnragv1TCf1M6I+w/B0
-   97ih3SNxVpAWesmq8Qrt20fMX460UbNr1PN0fml5lQOqgBm9Cr4BpxS5W
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="417217156"
-X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="417217156"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 13:44:24 -0700
+  t=1697663997; x=1729199997;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NIu9z+tFwfzAtcAyz0GEBJOPGiC9oJKOaIE8fTDqMVE=;
+  b=b9xA82EqKOXvy8OmG1j8PperUGbNkURCwc5VCt4Rgy2OxvBylFeG5XLo
+   b+7ciyi3n8KaT5R6Q9GKxsoxfKNIa5QlTYJtRDv5r6cw9ooaFwyTpdKIa
+   rLeMv0c882yLS2adydOmvG+C81WfUn5bZ4o5gNje/qUXKYBIkT8YcvTbE
+   /wDu6z42y94wi3GeD3hSavrLwEBvCxbYkHbBwzAuibEtiILoXR4rp5ghK
+   nxB167ZeBjK8/lVHLMrmvpNkTSi8jcqrY52ptpBrAaQKONjTunfFdYtF6
+   UGc3RJRu7IvZvkVXJNvSTn09OpuuXowSx9/WZSD/oom6pAL9+IK8YLZV1
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="7665631"
+X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
+   d="scan'208";a="7665631"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 14:15:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="760368467"
-X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="760368467"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="827072602"
+X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
+   d="scan'208";a="827072602"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Oct 2023 13:44:23 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 18 Oct 2023 14:15:25 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtDOv-00011O-28;
-	Wed, 18 Oct 2023 20:44:21 +0000
-Date: Thu, 19 Oct 2023 04:44:11 +0800
+	id 1qtDsx-00014C-1U;
+	Wed, 18 Oct 2023 21:15:23 +0000
+Date: Thu, 19 Oct 2023 05:14:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [amir73il:inode_fsid 3/8] checkpatch: WARNING: Block comments use *
- on subsequent lines
-Message-ID: <202310190451.Mf2VRApA-lkp@intel.com>
+To: Marco Pagani <marpagan@redhat.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, Marco Pagani <marpagan@redhat.com>,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kunit: run test suites only after module initialization
+ completes
+Message-ID: <202310190514.uKp3bS5Q-lkp@intel.com>
+References: <20231016203548.21993-1-marpagan@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,27 +57,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231016203548.21993-1-marpagan@redhat.com>
 
-tree:   https://github.com/amir73il/linux inode_fsid
-head:   125e2fa4561ca29a94753d1292e8dda0d89e2b6d
-commit: 0b60953cbe5df7160758e98b5efa063567550475 [3/8] exportfs: make ->encode_fh() a mandatory method for NFS export
-reproduce: (https://download.01.org/0day-ci/archive/20231019/202310190451.Mf2VRApA-lkp@intel.com/reproduce)
+Hi Marco,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc6 next-20231018]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Pagani/kunit-run-test-suites-only-after-module-initialization-completes/20231017-161611
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231016203548.21993-1-marpagan%40redhat.com
+patch subject: [PATCH] kunit: run test suites only after module initialization completes
+config: arm-randconfig-004-20231019 (https://download.01.org/0day-ci/archive/20231019/202310190514.uKp3bS5Q-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310190514.uKp3bS5Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310190451.Mf2VRApA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310190514.uKp3bS5Q-lkp@intel.com/
 
-# many are suggestions rather than must-fix
+All errors (new ones prefixed by >>):
 
-WARNING:BLOCK_COMMENT_STYLE: Block comments use * on subsequent lines
-#287: FILE: fs/smb/client/export.c:47:
-+/*	Following export operations are mandatory for NFS export support:
-+	.fh_to_dentry = */
+   In file included from arch/arm/include/asm/page.h:188,
+                    from arch/arm/include/asm/thread_info.h:14,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arm/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/kref.h:16,
+                    from include/kunit/test.h:22,
+                    from include/kunit/resource.h:12,
+                    from lib/kunit/test.c:9:
+   lib/kunit/test.c: In function 'kunit_module_exit':
+>> arch/arm/include/asm/memory.h:391:116: error: 'high_memory' undeclared (first use in this function)
+     391 | #define virt_addr_valid(kaddr)  (((unsigned long)(kaddr) >= PAGE_OFFSET && (unsigned long)(kaddr) < (unsigned long)high_memory) \
+         |                                                                                                                    ^~~~~~~~~~~
+   lib/kunit/test.c:772:34: note: in expansion of macro 'virt_addr_valid'
+     772 |         if (!suite_set.start || !virt_addr_valid(suite_set.start))
+         |                                  ^~~~~~~~~~~~~~~
+   arch/arm/include/asm/memory.h:391:116: note: each undeclared identifier is reported only once for each function it appears in
+     391 | #define virt_addr_valid(kaddr)  (((unsigned long)(kaddr) >= PAGE_OFFSET && (unsigned long)(kaddr) < (unsigned long)high_memory) \
+         |                                                                                                                    ^~~~~~~~~~~
+   lib/kunit/test.c:772:34: note: in expansion of macro 'virt_addr_valid'
+     772 |         if (!suite_set.start || !virt_addr_valid(suite_set.start))
+         |                                  ^~~~~~~~~~~~~~~
 
-WARNING:BLOCK_COMMENT_STYLE: Block comments use a trailing */ on a separate line
-#287: FILE: fs/smb/client/export.c:47:
-+	.fh_to_dentry = */
+
+vim +/high_memory +391 arch/arm/include/asm/memory.h
+
+05944d74bc28ff include/asm-arm/memory.h      Russell King   2006-11-30  389  
+e26a9e00afc482 arch/arm/include/asm/memory.h Russell King   2014-03-25  390  #define virt_to_page(kaddr)	pfn_to_page(virt_to_pfn(kaddr))
+efea3403d4b7c6 arch/arm/include/asm/memory.h Laura Abbott   2013-12-21 @391  #define virt_addr_valid(kaddr)	(((unsigned long)(kaddr) >= PAGE_OFFSET && (unsigned long)(kaddr) < (unsigned long)high_memory) \
+e26a9e00afc482 arch/arm/include/asm/memory.h Russell King   2014-03-25  392  					&& pfn_valid(virt_to_pfn(kaddr)))
+^1da177e4c3f41 include/asm-arm/memory.h      Linus Torvalds 2005-04-16  393  
 
 -- 
 0-DAY CI Kernel Test Service
