@@ -1,54 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4018737155;
-	Wed, 18 Oct 2023 22:17:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61D939844
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 22:38:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z8uUmIvi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JaJ8qBgY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697667453; x=1729203453;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Z3IIJfbvuEma13Urz3y6LBWe3hMdSfJB7K0I1h7YR0E=;
-  b=Z8uUmIviQSSMFh95oYHXDi03MrVEoeVGjyAEADwcmLWe0Vh/6TZamhrJ
-   57eQqTa6nrSNnvJ/BrV10odqmdoNRpajs+ax5MWjpCDJjNixBnrOT3HrF
-   fkvfNbumUC6TfNgu0cVb372Pgx6pEpTFhJh+elYDoJVQkjrkaN6U36pEX
-   b/gcp1R06pyuuPCcZFPUSHnDz6L6iC6AY9Lcoba5ncLXV0EXHtCToDnr6
-   PNkoaj/mcUrV/MG8rTl9IyG3XUQaphPQzHOPTv9IATvj7mouc9ePhSBZ0
-   pKcNM9K3iEFp1c9cIGs3evsPsKosorYPNFmgNsqeiAnJpiP+LDgVJDAt6
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="388987169"
+  t=1697668713; x=1729204713;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IfwLp6f5MP6u116zuCLs8spdeGVUnCgOWxIuKuxigEk=;
+  b=JaJ8qBgYa1Fa7uLZPm2vhbmvpAC22U+rijbsV3odkcHjHgXxp1vIPjJI
+   cam7coVhjUVW7/XgD0QF6+DiJQsLFyv69v5sa+lRWpDcA/+GPgoVLIum/
+   RdeKhg5G60WcbEOnqtzWdDg2EjbvwsL3dU333DFAnaEmeAU7dh2GT1m88
+   RSDdXdxHENB18+r3v8y1ym1aShHFX6958TEn4xxAXhzcdXgHRaMhgfyVo
+   804dqWdLRh4/WHH7COogmGz59cf5IxSfOjCXdWJHUqvF9LRIdTbllruVt
+   TOJs6kj+LRlKz3TGmVexKeuLZgH0NvZq6+y+V/ZvgnCWU+jqlwY3nfBuV
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="4723675"
 X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="388987169"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 15:17:32 -0700
+   d="scan'208";a="4723675"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 15:38:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="827090382"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="930368956"
 X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="827090382"
+   d="scan'208";a="930368956"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 18 Oct 2023 15:17:29 -0700
+  by orsmga005.jf.intel.com with ESMTP; 18 Oct 2023 15:38:30 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtEr1-00019g-20;
-	Wed, 18 Oct 2023 22:17:27 +0000
-Date: Thu, 19 Oct 2023 06:17:17 +0800
+	id 1qtFBM-0001BI-2U;
+	Wed, 18 Oct 2023 22:38:28 +0000
+Date: Thu, 19 Oct 2023 06:38:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Caleb Connolly <caleb.connolly@linaro.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Vincent Huang <vincent.huang@tw.synaptics.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	methanal <baclofen@tuta.io>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
-	~postmarketos/upstreaming@lists.sr.ht,
-	Caleb Connolly <caleb.connolly@linaro.org>
-Subject: Re: [PATCH v2 7/7] Input: synaptics-rmi4 - support fallback values
- for PDT descriptor bytes
-Message-ID: <202310190640.pxJQCbWc-lkp@intel.com>
-References: <20230929-caleb-rmi4-quirks-v2-7-b227ac498d88@linaro.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hverkuil-media-tree:extron 183/183]
+ drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1540:49:
+ warning: '*15LCEC' directive output may be truncated writing 7 bytes into a
+ region of size between 4 and 13
+Message-ID: <202310190654.eUxisZRP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,187 +51,250 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230929-caleb-rmi4-quirks-v2-7-b227ac498d88@linaro.org>
 
-Hi Caleb,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.6-rc6 next-20231018]
-[cannot apply to dtor-input/next dtor-input/for-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Caleb-Connolly/Input-synaptics-rmi4-handle-duplicate-unknown-PDT-entries/20231017-132844
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230929-caleb-rmi4-quirks-v2-7-b227ac498d88%40linaro.org
-patch subject: [PATCH v2 7/7] Input: synaptics-rmi4 - support fallback values for PDT descriptor bytes
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231019/202310190640.pxJQCbWc-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310190640.pxJQCbWc-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/hverkuil/media_tree.git extron
+head:   7aeed1084a569d544f6ece3814376ad01d8e91d0
+commit: 7aeed1084a569d544f6ece3814376ad01d8e91d0 [183/183] cec/extron-da-hd-4k-plus: add the Extron DA HD 4K Plus CEC driver
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20231019/202310190654.eUxisZRP-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310190654.eUxisZRP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310190640.pxJQCbWc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310190654.eUxisZRP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/input/rmi4/rmi_driver.c:1223:32: error: incompatible pointer types passing 'struct rmi_device *' to parameter of type 'struct device *' [-Werror,-Wincompatible-pointer-types]
-                   retval = rmi_driver_of_probe(rmi_dev, pdata);
-                                                ^~~~~~~
-   drivers/input/rmi4/rmi_driver.c:1101:54: note: passing argument to parameter 'dev' here
-   static inline int rmi_driver_of_probe(struct device *dev,
-                                                        ^
-   1 error generated.
+   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c: In function 'extron_setup':
+>> drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1540:49: warning: '*15LCEC' directive output may be truncated writing 7 bytes into a region of size between 4 and 13 [-Wformat-truncation=]
+    1540 |                 snprintf(cmd, sizeof(cmd), "WO%u*15LCEC", p + 1);
+         |                                                 ^~~~~~~
+   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1540:17: note: 'snprintf' output between 11 and 20 bytes into a destination of size 16
+    1540 |                 snprintf(cmd, sizeof(cmd), "WO%u*15LCEC", p + 1);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1541:54: warning: '*15' directive output may be truncated writing 3 bytes into a region of size between 1 and 10 [-Wformat-truncation=]
+    1541 |                 snprintf(resp, sizeof(resp), "LcecO%u*15", p + 1);
+         |                                                      ^~~
+   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1541:17: note: 'snprintf' output between 10 and 19 bytes into a destination of size 16
+    1541 |                 snprintf(resp, sizeof(resp), "LcecO%u*15", p + 1);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1223 drivers/input/rmi4/rmi_driver.c
+vim +1540 drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
 
-  1199	
-  1200	static int rmi_driver_probe(struct device *dev)
-  1201	{
-  1202		struct rmi_driver *rmi_driver;
-  1203		struct rmi_driver_data *data;
-  1204		struct rmi_device_platform_data *pdata;
-  1205		struct rmi_device *rmi_dev;
-  1206		int retval;
-  1207	
-  1208		rmi_dbg(RMI_DEBUG_CORE, dev, "%s: Starting probe.\n",
-  1209				__func__);
-  1210	
-  1211		if (!rmi_is_physical_device(dev)) {
-  1212			rmi_dbg(RMI_DEBUG_CORE, dev, "Not a physical device.\n");
-  1213			return -ENODEV;
-  1214		}
-  1215	
-  1216		rmi_dev = to_rmi_device(dev);
-  1217		rmi_driver = to_rmi_driver(dev->driver);
-  1218		rmi_dev->driver = rmi_driver;
-  1219	
-  1220		pdata = rmi_get_platform_data(rmi_dev);
-  1221	
-  1222		if (rmi_dev->xport->dev->of_node) {
-> 1223			retval = rmi_driver_of_probe(rmi_dev, pdata);
-  1224			if (retval)
-  1225				return retval;
-  1226		}
-  1227	
-  1228		data = devm_kzalloc(dev, sizeof(struct rmi_driver_data), GFP_KERNEL);
-  1229		if (!data)
-  1230			return -ENOMEM;
-  1231	
-  1232		INIT_LIST_HEAD(&data->function_list);
-  1233		data->rmi_dev = rmi_dev;
-  1234		dev_set_drvdata(&rmi_dev->dev, data);
-  1235	
-  1236		/*
-  1237		 * Right before a warm boot, the sensor might be in some unusual state,
-  1238		 * such as F54 diagnostics, or F34 bootloader mode after a firmware
-  1239		 * or configuration update.  In order to clear the sensor to a known
-  1240		 * state and/or apply any updates, we issue a initial reset to clear any
-  1241		 * previous settings and force it into normal operation.
-  1242		 *
-  1243		 * We have to do this before actually building the PDT because
-  1244		 * the reflash updates (if any) might cause various registers to move
-  1245		 * around.
-  1246		 *
-  1247		 * For a number of reasons, this initial reset may fail to return
-  1248		 * within the specified time, but we'll still be able to bring up the
-  1249		 * driver normally after that failure.  This occurs most commonly in
-  1250		 * a cold boot situation (where then firmware takes longer to come up
-  1251		 * than from a warm boot) and the reset_delay_ms in the platform data
-  1252		 * has been set too short to accommodate that.  Since the sensor will
-  1253		 * eventually come up and be usable, we don't want to just fail here
-  1254		 * and leave the customer's device unusable.  So we warn them, and
-  1255		 * continue processing.
-  1256		 */
-  1257		retval = rmi_scan_pdt(rmi_dev, NULL, rmi_initial_reset);
-  1258		if (retval < 0)
-  1259			dev_warn(dev, "RMI initial reset failed! Continuing in spite of this.\n");
-  1260	
-  1261		retval = rmi_read(rmi_dev, PDT_PROPERTIES_LOCATION, &data->pdt_props);
-  1262		if (retval < 0) {
-  1263			/*
-  1264			 * we'll print out a warning and continue since
-  1265			 * failure to get the PDT properties is not a cause to fail
-  1266			 */
-  1267			dev_warn(dev, "Could not read PDT properties from %#06x (code %d). Assuming 0x00.\n",
-  1268				 PDT_PROPERTIES_LOCATION, retval);
-  1269		}
-  1270	
-  1271		mutex_init(&data->irq_mutex);
-  1272		mutex_init(&data->enabled_mutex);
-  1273	
-  1274		retval = rmi_probe_interrupts(data);
-  1275		if (retval)
-  1276			goto err;
-  1277	
-  1278		if (rmi_dev->xport->input) {
-  1279			/*
-  1280			 * The transport driver already has an input device.
-  1281			 * In some cases it is preferable to reuse the transport
-  1282			 * devices input device instead of creating a new one here.
-  1283			 * One example is some HID touchpads report "pass-through"
-  1284			 * button events are not reported by rmi registers.
-  1285			 */
-  1286			data->input = rmi_dev->xport->input;
-  1287		} else {
-  1288			data->input = devm_input_allocate_device(dev);
-  1289			if (!data->input) {
-  1290				dev_err(dev, "%s: Failed to allocate input device.\n",
-  1291					__func__);
-  1292				retval = -ENOMEM;
-  1293				goto err;
-  1294			}
-  1295			rmi_driver_set_input_params(rmi_dev, data->input);
-  1296			data->input->phys = devm_kasprintf(dev, GFP_KERNEL,
-  1297							"%s/input0", dev_name(dev));
-  1298		}
-  1299	
-  1300		retval = rmi_init_functions(data);
-  1301		if (retval)
-  1302			goto err;
-  1303	
-  1304		retval = rmi_f34_create_sysfs(rmi_dev);
-  1305		if (retval)
-  1306			goto err;
-  1307	
-  1308		if (data->input) {
-  1309			rmi_driver_set_input_name(rmi_dev, data->input);
-  1310			if (!rmi_dev->xport->input) {
-  1311				retval = input_register_device(data->input);
-  1312				if (retval) {
-  1313					dev_err(dev, "%s: Failed to register input device.\n",
-  1314						__func__);
-  1315					goto err_destroy_functions;
-  1316				}
-  1317			}
-  1318		}
-  1319	
-  1320		retval = rmi_irq_init(rmi_dev);
-  1321		if (retval < 0)
-  1322			goto err_destroy_functions;
-  1323	
-  1324		if (data->f01_container->dev.driver) {
-  1325			/* Driver already bound, so enable ATTN now. */
-  1326			retval = rmi_enable_sensor(rmi_dev);
-  1327			if (retval)
-  1328				goto err_disable_irq;
-  1329		}
-  1330	
-  1331		return 0;
-  1332	
-  1333	err_disable_irq:
-  1334		rmi_disable_irq(rmi_dev, false);
-  1335	err_destroy_functions:
-  1336		rmi_free_function_list(rmi_dev);
-  1337	err:
-  1338		return retval;
-  1339	}
-  1340	
+  1372	
+  1373	static int extron_setup(struct extron *extron)
+  1374	{
+  1375		struct serio *serio = extron->serio;
+  1376		struct extron_port *port;
+  1377		u8 *data = extron->data;
+  1378		unsigned int p;
+  1379		unsigned int major, minor;
+  1380		int err;
+  1381	
+  1382		/* Obtain unit part number */
+  1383		err = extron_send_and_wait(extron, NULL, "N", "Pno");
+  1384		if (err)
+  1385			return err;
+  1386		dev_info(extron->dev, "Unit part number: %s\n", data + 3);
+  1387		if (strcmp(data + 3, "60-1607-01") &&
+  1388		    strcmp(data + 3, "60-1608-01") &&
+  1389		    strcmp(data + 3, "60-1609-01")) {
+  1390			dev_err(extron->dev, "Unsupported model\n");
+  1391			return -ENODEV;
+  1392		}
+  1393		/* Up to 6 output ports and one input port */
+  1394		extron->num_out_ports = 2 * (data[9] - '6');
+  1395		extron->splitter.num_out_ports = extron->num_out_ports;
+  1396		extron->splitter.ports = extron->splitter_ports;
+  1397		extron->splitter.dev = extron->dev;
+  1398		extron->num_in_ports = 1;
+  1399		extron->num_ports = extron->num_out_ports + extron->num_in_ports;
+  1400		dev_info(extron->dev, "Unit output ports: %d\n", extron->num_out_ports);
+  1401		dev_info(extron->dev, "Unit input ports: %d\n", extron->num_in_ports);
+  1402	
+  1403		err = extron_send_and_wait(extron, NULL, "W CN", "Ipn ");
+  1404		if (err)
+  1405			return err;
+  1406		dev_info(extron->dev, "Unit name: %s\n", data + 4);
+  1407		strscpy(extron->unit_name, data + 4, sizeof(extron->unit_name));
+  1408	
+  1409		err = extron_send_and_wait(extron, NULL, "*Q", "Bld");
+  1410		if (err)
+  1411			return err;
+  1412		dev_info(extron->dev, "Unit FW Version: %s\n", data + 3);
+  1413		strscpy(extron->unit_fw_version, data + 3,
+  1414			sizeof(extron->unit_fw_version));
+  1415		if (sscanf(data + 3, "%u.%u.", &major, &minor) < 2 ||
+  1416		    major < 1 || minor < 2) {
+  1417			dev_err(extron->dev,
+  1418				"Unsupported FW version (only 1.02 or up is supported)\n");
+  1419			return -ENODEV;
+  1420		}
+  1421	
+  1422		err = extron_send_and_wait(extron, NULL, "2i", "Inf02*");
+  1423		if (err)
+  1424			return err;
+  1425		dev_info(extron->dev, "Unit Type: %s\n", data + 6);
+  1426		strscpy(extron->unit_type, data + 6, sizeof(extron->unit_type));
+  1427	
+  1428		err = extron_send_and_wait(extron, NULL, "39Q", "Ver39*");
+  1429		if (err)
+  1430			return err;
+  1431		dev_info(extron->dev, "CEC Engine Version: %s\n", data + 6);
+  1432		strscpy(extron->unit_cec_engine_version, data + 6,
+  1433			sizeof(extron->unit_cec_engine_version));
+  1434	
+  1435		/* Disable CEC */
+  1436		err = extron_send_and_wait(extron, NULL, "WI1*0CCEC", "CcecI1*");
+  1437		if (err)
+  1438			return err;
+  1439		err = extron_send_and_wait(extron, NULL, "WO0*CCEC", "CcecO0");
+  1440		if (err)
+  1441			return err;
+  1442	
+  1443		extron->hpd_never_low = hpd_never_low;
+  1444	
+  1445		/* Pull input port HPD low if all output ports also have a low HPD */
+  1446		if (hpd_never_low) {
+  1447			dev_info(extron->dev, "Always keep input HPD high\n");
+  1448		} else {
+  1449			dev_info(extron->dev, "Pull input HPD low if all output HPDs are low\n");
+  1450			extron_send_and_wait(extron, NULL, "W1ihpd", "Ihpd1");
+  1451		}
+  1452	
+  1453		for (p = 0; p < extron->num_ports; p++) {
+  1454			u32 caps = CEC_CAP_DEFAULTS | CEC_CAP_MONITOR_ALL;
+  1455	
+  1456			if (vendor_id)
+  1457				caps &= ~CEC_CAP_LOG_ADDRS;
+  1458			port = kzalloc(sizeof(*port), GFP_KERNEL);
+  1459			if (!port) {
+  1460				err = -ENOMEM;
+  1461				goto free_ports;
+  1462			}
+  1463			INIT_WORK(&port->irq_work, extron_irq_work_handler);
+  1464			spin_lock_init(&port->msg_lock);
+  1465			port->extron = extron;
+  1466			port->is_input = p >= extron->num_out_ports;
+  1467			port->direction = port->is_input ? 'I' : 'O';
+  1468			port->port.port = 1 + (port->is_input ? p - extron->num_out_ports : p);
+  1469			port->port.splitter = &extron->splitter;
+  1470			port->phys_addr = CEC_PHYS_ADDR_INVALID;
+  1471			snprintf(port->name, sizeof(port->name), "%s-%s-%u",
+  1472				 dev_name(&serio->dev), port->is_input ? "in" : "out",
+  1473				 port->port.port);
+  1474	
+  1475			port->dev = extron->dev;
+  1476			port->adap = cec_allocate_adapter(&extron_cec_adap_ops, port,
+  1477							  port->name, caps, 1);
+  1478	
+  1479			port->adap->xfer_timeout_ms = EXTRON_TIMEOUT_SECS * 1000;
+  1480			port->port.adap = port->adap;
+  1481			mutex_init(&port->video_lock);
+  1482			port->vdev = extron_videodev;
+  1483			port->vdev.lock = &port->video_lock;
+  1484			port->vdev.v4l2_dev = &extron->v4l2_dev;
+  1485			port->vdev.ctrl_handler = &port->hdl;
+  1486			port->vdev.device_caps = V4L2_CAP_EDID;
+  1487			video_set_drvdata(&port->vdev, port);
+  1488	
+  1489			v4l2_ctrl_handler_init(&port->hdl, 2);
+  1490	
+  1491			if (port->is_input) {
+  1492				port->vdev.vfl_dir = VFL_DIR_RX;
+  1493				port->ctrl_rx_power_present =
+  1494					v4l2_ctrl_new_std(&port->hdl, NULL,
+  1495							  V4L2_CID_DV_RX_POWER_PRESENT,
+  1496							  0, 1, 0, 0);
+  1497				port->has_edid = true;
+  1498			} else {
+  1499				port->vdev.vfl_dir = VFL_DIR_TX;
+  1500				port->ctrl_tx_hotplug =
+  1501					v4l2_ctrl_new_std(&port->hdl, NULL,
+  1502							  V4L2_CID_DV_TX_HOTPLUG,
+  1503							  0, 1, 0, 0);
+  1504				port->ctrl_tx_edid_present =
+  1505					v4l2_ctrl_new_std(&port->hdl, NULL,
+  1506							  V4L2_CID_DV_TX_EDID_PRESENT,
+  1507							  0, 1, 0, 0);
+  1508			}
+  1509	
+  1510			extron->ports[p] = port;
+  1511			extron->splitter_ports[p] = &port->port;
+  1512			err = PTR_ERR_OR_ZERO(port->adap);
+  1513			if (err < 0)
+  1514				goto free_ports;
+  1515			err = port->hdl.error;
+  1516			if (err < 0)
+  1517				goto free_ports;
+  1518			if (port->is_input && manufacturer_name[0])
+  1519				extron_write_edid(port, hdmi_edid, 2);
+  1520		}
+  1521	
+  1522		/* Enable CEC (manual mode, i.e. controlled by the driver) */
+  1523		err = extron_send_and_wait(extron, NULL, "WI1*20CCEC", "CcecI1*");
+  1524		if (err)
+  1525			goto free_ports;
+  1526	
+  1527		err = extron_send_and_wait(extron, NULL, "WO20*CCEC", "CcecO20");
+  1528		if (err)
+  1529			goto free_ports;
+  1530	
+  1531		/* Set logical addresses to 15 */
+  1532		err = extron_send_and_wait(extron, NULL, "WI1*15LCEC", "LcecI1*15");
+  1533		if (err)
+  1534			goto free_ports;
+  1535	
+  1536		for (p = 0; p < extron->num_out_ports; p++) {
+  1537			char cmd[16];
+  1538			char resp[16];
+  1539	
+> 1540			snprintf(cmd, sizeof(cmd), "WO%u*15LCEC", p + 1);
+> 1541			snprintf(resp, sizeof(resp), "LcecO%u*15", p + 1);
+  1542			err = extron_send_and_wait(extron, extron->ports[p], cmd, resp);
+  1543			if (err)
+  1544				goto free_ports;
+  1545		}
+  1546	
+  1547		/*
+  1548		 * The Extron is now ready for operation. Specifically it is now
+  1549		 * possible to retrieve EDIDs.
+  1550		 */
+  1551		extron->is_ready = true;
+  1552	
+  1553		/* Query HDCP and Signal states, used to update the initial state */
+  1554		err = extron_send_and_wait(extron, NULL, "WHDCP", "Hdcp");
+  1555		if (err)
+  1556			goto free_ports;
+  1557	
+  1558		err = extron_send_and_wait(extron, NULL, "WLS", "Sig");
+  1559		if (err)
+  1560			goto free_ports;
+  1561	
+  1562		return 0;
+  1563	
+  1564	free_ports:
+  1565		while (p--) {
+  1566			struct extron_port *port = extron->ports[p];
+  1567	
+  1568			if (!port)
+  1569				continue;
+  1570			port->disconnected = true;
+  1571			cancel_work_sync(&port->irq_work);
+  1572			cec_delete_adapter(port->adap);
+  1573			v4l2_ctrl_handler_free(&port->hdl);
+  1574			mutex_destroy(&port->video_lock);
+  1575			extron->ports[p] = NULL;
+  1576			kfree(port);
+  1577		}
+  1578		extron->num_ports = 0;
+  1579		extron->num_in_ports = 0;
+  1580		extron->num_out_ports = 0;
+  1581		return err;
+  1582	}
+  1583	
 
 -- 
 0-DAY CI Kernel Test Service
