@@ -1,55 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B77335AC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 12:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AD31335A0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 12:12:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E75TH8/2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697630804; x=1729166804;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=q+nnOY7IvRpFCS1NWBO5SpAnZIFhC2wHTQDQJgbL9UI=;
-  b=E75TH8/2t9TMD1FxayQRdR8Fr8JrgxzNZ+mey/3Ifxf4V61FXem1/jep
-   KrlLFsdOpTXUfNOixikWgawCse6rAXGkNt7lNz3TuSldmkQCp2sDxW54a
-   ndHN61GK4a5QQ4Dli/iB4tXzUu7/VF/HOL/tWH/4peP3+U/X2rQG41l7P
-   f00z32L+FDbdNA1BiC5XHjBZp7lTTlofrNfQSt+GejEYQZ6suNCYL1PIs
-   qkr9Zctzajw0dweDCn8KeFN36BIOejBfd+Dy3oOnoEVTd6Z/Aubj9GXkf
-   6LUPH1QFqZci5OJvqPmRkASREN+1K0+4bDwPIbEyoVkreU7NBkKlFtHJk
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="365346949"
-X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="365346949"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 05:06:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="756569106"
-X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="756569106"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 18 Oct 2023 05:06:40 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qt5Jt-0000K7-2W;
-	Wed, 18 Oct 2023 12:06:37 +0000
-Date: Wed, 18 Oct 2023 20:06:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chester Lin <clin@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Matthew Nunez <matthew.nunez@nxp.com>,
-	Phu Luu An <phu.luuan@nxp.com>,
-	Stefan-Gabriel Mirea <stefan-gabriel.mirea@nxp.com>,
-	Larisa Grigore <larisa.grigore@nxp.com>,
-	Ghennadi Procopciuc <Ghennadi.Procopciuc@oss.nxp.com>,
-	Andrei Stefanescu <andrei.stefanescu@nxp.com>,
-	Radu Pirea <radu-nicolae.pirea@nxp.com>
-Subject: drivers/pinctrl/nxp/pinctrl-s32cc.c:830:62: warning: '%u' directive
- output may be truncated writing between 1 and 10 bytes into a region of size
- 5
-Message-ID: <202310181926.olw9ysCc-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cp58hdKR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1697631158;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PE/mHe/CAbrLfzX0O2jV2/dAhOsU7rUS7AFT41iKams=;
+	b=cp58hdKRZ0zrkoNJs4+tVgaAzAbhZfYe0iUaUafEZ37tWrQ8RneGLeHBeNPLn8JIRe+Tcu
+	wcljtWcrXWZ3rU+DLxrgbo3GhFbLO8efHel2uiyx8Knd7br9adq2Wycvqez/NgiluyBAtp
+	q+w3qxpCuFfDZegyHgGCINRnin6CCl4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-383-yQuChPbGOM6sbMwZL2EhpA-1; Wed, 18 Oct 2023 08:12:34 -0400
+X-MC-Unique: yQuChPbGOM6sbMwZL2EhpA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4660688B7A7;
+	Wed, 18 Oct 2023 12:12:34 +0000 (UTC)
+Received: from localhost (unknown [10.72.112.83])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8ECD720268CB;
+	Wed, 18 Oct 2023 12:12:33 +0000 (UTC)
+Date: Wed, 18 Oct 2023 20:12:30 +0800
+From: Baoquan He <bhe@redhat.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Lorenzo Stoakes <lstoakes@gmail.com>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm'
+ could be null (see line 3667)
+Message-ID: <ZS/LrhcxcMOgiiX5@MiWiFi-R3L-srv>
+References: <f82be227-bfde-439a-b339-1b4ee370d59a@kadam.mountain>
+ <ZS+dSd9Z6/2wU0Eg@MiWiFi-R3L-srv>
+ <89caf59a-d3b9-409d-b1ae-9e370cb9ee7d@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,119 +51,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <89caf59a-d3b9-409d-b1ae-9e370cb9ee7d@kadam.mountain>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.4
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   06dc10eae55b5ceabfef287a7e5f16ceea204aa0
-commit: fd84aaa8173d3ff86f8df2009921336a1ea53a8a pinctrl: add NXP S32 SoC family support
-date:   8 months ago
-config: arm64-randconfig-002-20230923 (https://download.01.org/0day-ci/archive/20231018/202310181926.olw9ysCc-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310181926.olw9ysCc-lkp@intel.com/reproduce)
+Hi Dan,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310181926.olw9ysCc-lkp@intel.com/
+On 10/18/23 at 01:32pm, Dan Carpenter wrote:
+> On Wed, Oct 18, 2023 at 04:54:33PM +0800, Baoquan He wrote:
+> > Hi,
+> > 
+> > On 10/17/23 at 05:26pm, Dan Carpenter wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > > head:   213f891525c222e8ed145ce1ce7ae1f47921cb9c
+> > > commit: 4c91c07c93bbbdd7f2d9de2beb7ee5c2a48ad8e7 mm: vmalloc: convert vread() to vread_iter()
+> > > config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231017/202310171600.WCrsOwFj-lkp@intel.com/config)
+> > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > > reproduce: (https://download.01.org/0day-ci/archive/20231017/202310171600.WCrsOwFj-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > > | Closes: https://lore.kernel.org/r/202310171600.WCrsOwFj-lkp@intel.com/
+> > > 
+> > > smatch warnings:
+> > > mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm' could be null (see line 3667)
+> > 
+> > I see the code deficit, while the reproduce link seems to be unavilable.
+> > Could you double check the link and provide a good one so that I can
+> > verify the code fix?
+> 
+> Here's a link.  :)
+> 
+> https://repo.or.cz/smatch.git/blob/HEAD:/Documentation/smatch.txt
+> 
+> Just build it and run:
+> 
+> ~/smatch/smatch_scripts/kchecker drivers/whatever/file.c
 
-All warnings (new ones prefixed by >>):
+I don't know smatch and lkp well, and have no idea on how to use above
+smatch.txt to build the target file.c. I meant in this lkp report, the
+config file is available, however, the reproduce file is empty. Could
+you help add an available reproduce file link? or give a little more
+detail guiding me how to make use of above smatch file to build .c file?
+Thanks a lot in advance.
 
-   drivers/pinctrl/nxp/pinctrl-s32cc.c: In function 's32_pinctrl_probe_dt':
->> drivers/pinctrl/nxp/pinctrl-s32cc.c:830:62: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 5 [-Wformat-truncation=]
-     830 |                          sizeof(ipctl->regions[i].name), "map%u", i);
-         |                                                              ^~
-   drivers/pinctrl/nxp/pinctrl-s32cc.c:830:58: note: directive argument in the range [0, 4294967294]
-     830 |                          sizeof(ipctl->regions[i].name), "map%u", i);
-         |                                                          ^~~~~~~
-   drivers/pinctrl/nxp/pinctrl-s32cc.c:829:17: note: 'snprintf' output between 5 and 14 bytes into a destination of size 8
-     829 |                 snprintf(ipctl->regions[i].name,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     830 |                          sizeof(ipctl->regions[i].name), "map%u", i);
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231017/202310171600.WCrsOwFj-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20231017/202310171600.WCrsOwFj-lkp@intel.com/reproduce)
 
+Thanks
+Baoquan
 
-vim +830 drivers/pinctrl/nxp/pinctrl-s32cc.c
-
-   796	
-   797	static int s32_pinctrl_probe_dt(struct platform_device *pdev,
-   798					struct s32_pinctrl *ipctl)
-   799	{
-   800		struct s32_pinctrl_soc_info *info = ipctl->info;
-   801		struct device_node *np = pdev->dev.of_node;
-   802		struct device_node *child;
-   803		struct resource *res;
-   804		struct regmap *map;
-   805		void __iomem *base;
-   806		int mem_regions = info->mem_regions;
-   807		u32 nfuncs = 0;
-   808		u32 i = 0;
-   809	
-   810		if (!np)
-   811			return -ENODEV;
-   812	
-   813		if (mem_regions == 0) {
-   814			dev_err(&pdev->dev, "mem_regions is 0\n");
-   815			return -EINVAL;
-   816		}
-   817	
-   818		ipctl->regions = devm_kzalloc(&pdev->dev,
-   819					      mem_regions * sizeof(*(ipctl->regions)),
-   820					      GFP_KERNEL);
-   821		if (!ipctl->regions)
-   822			return -ENOMEM;
-   823	
-   824		for (i = 0; i < mem_regions; ++i) {
-   825			base = devm_platform_get_and_ioremap_resource(pdev, i, &res);
-   826			if (IS_ERR(base))
-   827				return PTR_ERR(base);
-   828	
-   829			snprintf(ipctl->regions[i].name,
- > 830				 sizeof(ipctl->regions[i].name), "map%u", i);
-   831	
-   832			s32_regmap_config.name = ipctl->regions[i].name;
-   833			s32_regmap_config.max_register = resource_size(res) -
-   834							 s32_regmap_config.reg_stride;
-   835	
-   836			map = devm_regmap_init_mmio(&pdev->dev, base,
-   837							&s32_regmap_config);
-   838			if (IS_ERR(map)) {
-   839				dev_err(&pdev->dev, "Failed to init regmap[%u]\n", i);
-   840				return PTR_ERR(map);
-   841			}
-   842	
-   843			ipctl->regions[i].map = map;
-   844			ipctl->regions[i].pin_range = &info->mem_pin_ranges[i];
-   845		}
-   846	
-   847		nfuncs = of_get_child_count(np);
-   848		if (nfuncs <= 0) {
-   849			dev_err(&pdev->dev, "no functions defined\n");
-   850			return -EINVAL;
-   851		}
-   852	
-   853		info->nfunctions = nfuncs;
-   854		info->functions = devm_kzalloc(&pdev->dev,
-   855					       nfuncs * sizeof(struct s32_pmx_func),
-   856					       GFP_KERNEL);
-   857		if (!info->functions)
-   858			return -ENOMEM;
-   859	
-   860		info->ngroups = 0;
-   861		for_each_child_of_node(np, child)
-   862			info->ngroups += of_get_child_count(child);
-   863		info->groups = devm_kzalloc(&pdev->dev,
-   864					    info->ngroups * sizeof(struct s32_pin_group),
-   865					    GFP_KERNEL);
-   866		if (!info->groups)
-   867			return -ENOMEM;
-   868	
-   869		i = 0;
-   870		for_each_child_of_node(np, child)
-   871			s32_pinctrl_parse_functions(child, info, i++);
-   872	
-   873		return 0;
-   874	}
-   875	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
