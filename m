@@ -1,50 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B4034CDF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 12:32:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66945347C6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 12:33:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0nCYnP5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P041RLRm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697632370; x=1729168370;
+  t=1697632431; x=1729168431;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=p1I1hBsZX/DQygdcRiZq5uN7j+ERHCkcuI4n04NmK9c=;
-  b=K0nCYnP5NSRPBkL21uQhH/VzDJmtUogm1wrUMF7ONevvInf05scGinF1
-   nAy18Rw4AsFAOwtBQNGrhHqxei/cU0e954Ju6bYDTfqGUVXvvl4zn03am
-   L1DF3/uuk75dXEmWkGzoEYZbENbNNPXT/5wSY3GAcDfOtpZE5c9Rma6gl
-   JUwKvcJu9tBerPEJi4iBhPy1Ih1VfYMUJznhEFxQgdL6kbQzCcNPOSSPK
-   fHU2pKN84teIqaNVs/VBJRXDn88SVFo+WV3Hc3EjvZuqY4yu92sSNrDsH
-   PMCjBhWlDbJursRuFJYGtTUefFdscO9Zd+jXVCN8qFiJUHS9YHeuvA6CR
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="376374351"
+  bh=5ohpHPCuV3zTimpRAZZruIryiZ6eKvWd8i3PcWsvwzU=;
+  b=P041RLRmm5oOo2P5Yc4gnt51mMfJw3nS0eH65T2h9l5X3yM5KkGnIFS7
+   VaeS7hnh2wueXRZqrLggplmzH0QuSItwCkFaCi+aFGruUAGTOM1o3WGlH
+   LqBl9V/VDEuNGt7BbTiRSCYDWkY/uS1pLSm5S0a0H139vEQ+EdwFW0epj
+   c9yYGrcsvw+40kva52m7QaIsW3bLjkcd8xTT5ZITEVEI18A+7E9CvXMAg
+   PlHV8xQg/ODEzrNxqqyO/QbDFK2ADPPYJVrQEXnoe4bbueoU4oJiTH00w
+   ctBJcppxj+BWB1pnEnM5297c/9gjZJGtEZwvMJMJEwD683WFZB3cdUtk9
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="452471742"
 X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="376374351"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 05:32:49 -0700
+   d="scan'208";a="452471742"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 05:33:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="750079116"
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="873012990"
 X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="750079116"
+   d="scan'208";a="873012990"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 18 Oct 2023 05:32:47 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 18 Oct 2023 05:33:47 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qt5jB-0000M0-1C;
-	Wed, 18 Oct 2023 12:32:45 +0000
-Date: Wed, 18 Oct 2023 20:32:44 +0800
+	id 1qt5k9-0000MI-1k;
+	Wed, 18 Oct 2023 12:33:45 +0000
+Date: Wed, 18 Oct 2023 20:32:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ashish Mhetre <amhetre@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Thierry Reding <treding@nvidia.com>
-Subject: drivers/memory/tegra/tegra186.c:74:49: warning: '%u' directive
- output may be truncated writing between 1 and 10 bytes into a region of size
- 6
-Message-ID: <202310182004.0XOYolzI-lkp@intel.com>
+To: Subhajit Paul <subhajit_paul@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Siddharth Vadapalli <s-vadapalli@ti.com>
+Subject: [ti:ti-rt-linux-6.1.y-cicd 149/382]
+ drivers/rpmsg-kdrv/rpmsg_kdrv.c:228:24: warning: array subscript <unknown>
+ is outside array bounds of 'u8[0]' {aka 'unsigned char[]'}
+Message-ID: <202310182013.pA0QOotV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,78 +52,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   06dc10eae55b5ceabfef287a7e5f16ceea204aa0
-commit: a7cffa11fa9232eabf0c4f441dc53002978ab526 memory: tegra: Add memory controller channels support
-date:   1 year, 5 months ago
-config: arm64-randconfig-r036-20230512 (https://download.01.org/0day-ci/archive/20231018/202310182004.0XOYolzI-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310182004.0XOYolzI-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   16d0a659489f8743de04200269719b4b1813a280
+commit: 1054df2805fd51d2e675274233c95f986023be2c [149/382] rpmsg-kdrv: Add support for device virtualization
+config: sh-defconfig (https://download.01.org/0day-ci/archive/20231018/202310182013.pA0QOotV-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310182013.pA0QOotV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310182004.0XOYolzI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310182013.pA0QOotV-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/memory/tegra/tegra186.c: In function 'tegra186_mc_probe':
->> drivers/memory/tegra/tegra186.c:74:49: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 6 [-Wformat-truncation=]
-      74 |                 snprintf(name, sizeof(name), "ch%u", i);
-         |                                                 ^~
-   drivers/memory/tegra/tegra186.c:74:46: note: directive argument in the range [0, 4294967294]
-      74 |                 snprintf(name, sizeof(name), "ch%u", i);
-         |                                              ^~~~~~
-   drivers/memory/tegra/tegra186.c:74:17: note: 'snprintf' output between 4 and 13 bytes into a destination of size 8
-      74 |                 snprintf(name, sizeof(name), "ch%u", i);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rpmsg-kdrv/rpmsg_kdrv.c:134:12: warning: 'rpmsg_kdrv_disconnect' defined but not used [-Wunused-function]
+     134 | static int rpmsg_kdrv_disconnect(struct rpmsg_device *rpdev, struct rpmsg_kdrv_device *kddev)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/rpmsg-kdrv/rpmsg_kdrv.c:115:12: warning: 'rpmsg_kdrv_connect' defined but not used [-Wunused-function]
+     115 | static int rpmsg_kdrv_connect(struct rpmsg_device *rpdev, struct rpmsg_kdrv_device *kddev)
+         |            ^~~~~~~~~~~~~~~~~~
+   drivers/rpmsg-kdrv/rpmsg_kdrv.c:58:12: warning: 'rpmsg_kdrv_match_name' defined but not used [-Wunused-function]
+      58 | static int rpmsg_kdrv_match_name(struct device *dev, const void *data)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/rpmsg-kdrv/rpmsg_kdrv.c: In function 'rpmsg_kdrv_get_devices_cb':
+>> drivers/rpmsg-kdrv/rpmsg_kdrv.c:228:24: warning: array subscript <unknown> is outside array bounds of 'u8[0]' {aka 'unsigned char[]'} [-Warray-bounds=]
+     228 |                        &info_resp->device_data[dev->device_data_offset],
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/rpmsg-kdrv/rpmsg_kdrv.c:13:
+   drivers/rpmsg-kdrv/shared/rpmsg-kdrv-transport.h:60:12: note: while referencing 'device_data'
+      60 |         u8 device_data[0];
+         |            ^~~~~~~~~~~
 
 
-vim +74 drivers/memory/tegra/tegra186.c
+vim +228 drivers/rpmsg-kdrv/rpmsg_kdrv.c
 
-    48	
-    49	static int tegra186_mc_probe(struct tegra_mc *mc)
-    50	{
-    51		struct platform_device *pdev = to_platform_device(mc->dev);
-    52		unsigned int i;
-    53		char name[8];
-    54		int err;
-    55	
-    56		mc->bcast_ch_regs = devm_platform_ioremap_resource_byname(pdev, "broadcast");
-    57		if (IS_ERR(mc->bcast_ch_regs)) {
-    58			if (PTR_ERR(mc->bcast_ch_regs) == -EINVAL) {
-    59				dev_warn(&pdev->dev,
-    60					 "Broadcast channel is missing, please update your device-tree\n");
-    61				mc->bcast_ch_regs = NULL;
-    62				goto populate;
-    63			}
-    64	
-    65			return PTR_ERR(mc->bcast_ch_regs);
-    66		}
-    67	
-    68		mc->ch_regs = devm_kcalloc(mc->dev, mc->soc->num_channels, sizeof(*mc->ch_regs),
-    69					   GFP_KERNEL);
-    70		if (!mc->ch_regs)
-    71			return -ENOMEM;
-    72	
-    73		for (i = 0; i < mc->soc->num_channels; i++) {
-  > 74			snprintf(name, sizeof(name), "ch%u", i);
-    75	
-    76			mc->ch_regs[i] = devm_platform_ioremap_resource_byname(pdev, name);
-    77			if (IS_ERR(mc->ch_regs[i]))
-    78				return PTR_ERR(mc->ch_regs[i]);
-    79		}
-    80	
-    81	populate:
-    82		err = of_platform_populate(mc->dev->of_node, NULL, NULL, mc->dev);
-    83		if (err < 0)
-    84			return err;
-    85	
-    86		tegra186_mc_program_sid(mc);
-    87	
-    88		return 0;
-    89	}
-    90	
+   200	
+   201	static int rpmsg_kdrv_get_devices_cb(void *cb_data, void *req, int req_sz, void *resp, int resp_sz)
+   202	{
+   203		int i, cnt;
+   204		struct rpmsg_device *rpdev = cb_data;
+   205		struct rpmsg_kdrv_priv *priv = dev_get_drvdata(&rpdev->dev);
+   206		struct rpmsg_kdrv_init_dev_info_response *info_resp = resp;
+   207		struct rpmsg_kdrv_init_device_info *dev;
+   208		int ret = 0;
+   209	
+   210		if (info_resp->header.message_type != RPMSG_KDRV_TP_INIT_DEV_INFO_RESPONSE) {
+   211			dev_err(&rpdev->dev, "%s: wrong response type\n", __func__);
+   212			ret = -EINVAL;
+   213			goto out;
+   214		}
+   215	
+   216		for (i = 0; i < info_resp->num_devices; i++) {
+   217			dev = &info_resp->devices[i];
+   218			cnt = priv->num_raw_devices;
+   219	
+   220			priv->raw_device_data_size[cnt] = dev->device_data_len;
+   221			priv->raw_device_data[cnt] = devm_kzalloc(&rpdev->dev, dev->device_data_len,
+   222								  GFP_KERNEL);
+   223			if (!priv->raw_device_data[cnt]) {
+   224				ret = -ENOMEM;
+   225				goto out;
+   226			}
+   227			memcpy(priv->raw_device_data[cnt],
+ > 228			       &info_resp->device_data[dev->device_data_offset],
+   229			       dev->device_data_len);
+   230			memcpy(&priv->raw_devices[cnt], dev, sizeof(*dev));
+   231			priv->num_raw_devices++;
+   232	
+   233			dev_dbg(&rpdev->dev, "new device: %s\n", dev->device_name);
+   234		}
+   235	
+   236		for (i = 0; i < priv->num_raw_devices; i++)
+   237			rpmsg_kdrv_device_create(rpdev, i);
+   238	
+   239	out:
+   240		devm_kfree(&rpdev->dev, req);
+   241		return ret;
+   242	}
+   243	
 
 -- 
 0-DAY CI Kernel Test Service
