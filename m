@@ -1,54 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63609C2FD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 07:07:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8361AC2FD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 07:08:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bghpq5Eb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XJlxsWhx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697612846; x=1729148846;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ewKdnUXiJmyWfBcgIVxSzjv6q3oMQteZNTKn7FQdho8=;
-  b=bghpq5EbLePv/TruLsidxa7J7IH6nJoEi9ACoDTcf84UVeB2YASYfbft
-   l1BfF96jVY92Z77DjqvXVKpyEYPe3IWJbGgxSJ6Wv8L+ssVbydyq/8lMd
-   cLtHkuc/SIwIyKgKhYnFZkjzNlmPGBp0fVAEPyMhJBpP1gUCwBixjB2lb
-   sD0vrsqfqS9BPZVfOYT5aEPngYldXSgdKpel1a4K9TzSPxpaZkoLKowgb
-   gEfdKMLqUz2IpbFB7ik/33vz7w8ch9bBEYIoheL6DLHO6vTEVnyu4LAx1
-   ZRyhrhb5p/LlkyOoCPC09Kf1pMlu9A9JWex8datN+4n+WVHwvOcCX7wvS
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="384835623"
+  t=1697612903; x=1729148903;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DTY6PWxcfVC2rkBDHEWr5aG26LW/dArxwsZFJzhB4a4=;
+  b=XJlxsWhxvVMBcpgHp2fO2/M5i1Fr0wDZ2oCCORslGoZc/Cb8rj+5ao4U
+   HbNUfh89QoYqVwPa3NrBZW2uQjubwryz8wO34wOQKnjZWsk/tvkvWd93v
+   tlCoF/sz66ucfSljSVX42WqjuvFaEKzFX3SZnA9N3pCLQextke0LVeDxz
+   /1CFS8lPwgCZT2myi6GrKoCAqSogql+VbjQD7WU2DlAgaXeHvxnfNw6w8
+   e3CAuH8j4P1q2cKfe2vk9a4fVPHnEGNsizphrNWg0uls8rULRs0Q9ywzx
+   b3z4tFUljoNs9SLX/OzMWt5SCfj/rqo51+YV8MDKY1dQ2rBcMBzRDOOjx
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="452426776"
 X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
-   d="scan'208";a="384835623"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 00:07:25 -0700
+   d="scan'208";a="452426776"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 00:08:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="706317395"
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="826757512"
 X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
-   d="scan'208";a="706317395"
+   d="scan'208";a="826757512"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 18 Oct 2023 00:07:21 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 18 Oct 2023 00:08:22 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qt0eF-00002s-1Y;
-	Wed, 18 Oct 2023 07:07:19 +0000
-Date: Wed, 18 Oct 2023 15:06:37 +0800
+	id 1qt0fD-00003A-28;
+	Wed, 18 Oct 2023 07:08:19 +0000
+Date: Wed, 18 Oct 2023 15:07:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marco Pagani <marpagan@redhat.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, Marco Pagani <marpagan@redhat.com>,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kunit: run test suites only after module initialization
- completes
-Message-ID: <202310181220.us7Bvp16-lkp@intel.com>
-References: <20231016203548.21993-1-marpagan@redhat.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/642 1570/30000]
+ drivers/input/touchscreen/elan_ts.c:438:32: warning: 'elan_dev_pm_ops'
+ defined but not used
+Message-ID: <202310181427.gc0SyJIO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,64 +50,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231016203548.21993-1-marpagan@redhat.com>
 
-Hi Marco,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.6-rc6 next-20231017]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Pagani/kunit-run-test-suites-only-after-module-initialization-completes/20231017-161611
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231016203548.21993-1-marpagan%40redhat.com
-patch subject: [PATCH] kunit: run test suites only after module initialization completes
-config: csky-randconfig-002-20231018 (https://download.01.org/0day-ci/archive/20231018/202310181220.us7Bvp16-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310181220.us7Bvp16-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc pr/642
+head:   c8b7cf62c7fea8456dec789d550b8006d73b8f04
+commit: b96148101fe98f235abc2577b8a3054e753381fb [1570/30000] MLK-10142-1 touchscreen: elan: add elan touch screen driver support
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231018/202310181427.gc0SyJIO-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310181427.gc0SyJIO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310181220.us7Bvp16-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310181427.gc0SyJIO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/csky/include/asm/thread_info.h:9,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/csky/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/kref.h:16,
-                    from include/kunit/test.h:22,
-                    from include/kunit/resource.h:12,
-                    from lib/kunit/test.c:9:
-   lib/kunit/test.c: In function 'kunit_module_exit':
->> arch/csky/include/asm/page.h:38:43: error: 'high_memory' undeclared (first use in this function)
-      38 |                         (void *)(kaddr) < high_memory)
-         |                                           ^~~~~~~~~~~
-   lib/kunit/test.c:772:34: note: in expansion of macro 'virt_addr_valid'
-     772 |         if (!suite_set.start || !virt_addr_valid(suite_set.start))
-         |                                  ^~~~~~~~~~~~~~~
-   arch/csky/include/asm/page.h:38:43: note: each undeclared identifier is reported only once for each function it appears in
-      38 |                         (void *)(kaddr) < high_memory)
-         |                                           ^~~~~~~~~~~
-   lib/kunit/test.c:772:34: note: in expansion of macro 'virt_addr_valid'
-     772 |         if (!suite_set.start || !virt_addr_valid(suite_set.start))
-         |                                  ^~~~~~~~~~~~~~~
+>> drivers/input/touchscreen/elan_ts.c:438:32: warning: 'elan_dev_pm_ops' defined but not used [-Wunused-const-variable=]
+     438 | static const struct dev_pm_ops elan_dev_pm_ops = {
+         |                                ^~~~~~~~~~~~~~~
 
 
-vim +/high_memory +38 arch/csky/include/asm/page.h
+vim +/elan_dev_pm_ops +438 drivers/input/touchscreen/elan_ts.c
 
-013de2d6671d89 Guo Ren 2018-09-05  36  
-013de2d6671d89 Guo Ren 2018-09-05  37  #define virt_addr_valid(kaddr)  ((void *)(kaddr) >= (void *)PAGE_OFFSET && \
-013de2d6671d89 Guo Ren 2018-09-05 @38  			(void *)(kaddr) < high_memory)
-013de2d6671d89 Guo Ren 2018-09-05  39  
+   437	
+ > 438	static const struct dev_pm_ops elan_dev_pm_ops = {
+   439		.suspend = elan_suspend,
+   440		.resume  = elan_resume,
+   441	};
+   442	
 
 -- 
 0-DAY CI Kernel Test Service
