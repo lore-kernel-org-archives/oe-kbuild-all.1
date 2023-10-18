@@ -1,47 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BAA711C80
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 14:54:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8DF34CD6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 14:54:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aSncOV6g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QdpdrhZ1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697640844; x=1729176844;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9Sni5U9nDecmeEr5SY/entlU+eYXiEVtqt0mhlI97ak=;
-  b=aSncOV6gQVVAy3O10b2zE0KDpJ+I2rEmXpt8WPrbcnlz0oXNZLGluK87
-   +NzP/6AcTz3n3rccBvDYfPzefFCMRmr7xjtiBVlU3YsVoIAcY6lRuFG+W
-   F0ZhE8RxWMn7gaucQ9UrTMsHpUbIGr1rsOXXNx7loFWjKL8b4S8n1ubmp
-   rYc+hNSM3eGYc6zlSAETe7Hn69KklqAU6/f38fSLXWCGg55wfBy6ppeyn
-   9w2gQ+6ByGE41Hlp1x4ztTc3LKM6dc/JQu4W5VJNvEcbp2/hQeGH7CgAQ
-   tBXfjuMUK4VSXgFY7OC1lbT6PA7GPUBZFMoJXR5KQ1YChH3C2RogbeYem
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="472255002"
+  t=1697640847; x=1729176847;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ch037SdgEfWW6A5AilP30fpS6HMwXYGXqO9W83Cx+yc=;
+  b=QdpdrhZ1iOtKmkAj6eJn4s4qNZo6bVjdKh6NpSH4HLv4GuccOEYTPHSQ
+   MxUdAhDsUcA/iggwdy+cBoFY+Q9q27/22pZ7axtYfbe5KcG5Wa06KCZex
+   WQaU6CYl+U2qqtu+MWM8OnlR2HNRfQNqnGJ9w0/qGHv9DryKR/eqelmkp
+   nvSriJxKMOeONuwkSweRFIZHnJ7as6loSXYMzK5zICQpi/S7hW0oru5zS
+   zSHvi0mUCxWBstP7aymKjasNa0YFnDp3qce0NtgVX1sWVuG/FIuip1awn
+   36fo6V7Y4T6DIVlToxVG6Of0VuNi+oKLzsH0VkKfZNygoYB0aTxm87JTJ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="472255005"
 X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="472255002"
+   d="scan'208";a="472255005"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
   by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 07:54:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="785954089"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="785954091"
 X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="785954089"
+   d="scan'208";a="785954091"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
   by orsmga008.jf.intel.com with ESMTP; 18 Oct 2023 07:54:02 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qt7vr-0000Xq-2I;
+	id 1qt7vr-0000Xo-2E;
 	Wed, 18 Oct 2023 14:53:59 +0000
-Date: Wed, 18 Oct 2023 22:53:00 +0800
+Date: Wed, 18 Oct 2023 22:53:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v3 20/35] drivers/mfd: sm501 add some properties.
-Message-ID: <202310182206.9B3CbS2u-lkp@intel.com>
-References: <b1bedaea12693d256b2513f72bd39630a69d188a.1697199949.git.ysato@users.sourceforge.jp>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/net/ethernet/ti/netcp_core.c:1594:47: warning: '%s'
+ directive output may be truncated writing up to 15 bytes into a region of
+ size 8
+Message-ID: <202310182209.afvozfWB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,110 +50,185 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b1bedaea12693d256b2513f72bd39630a69d188a.1697199949.git.ysato@users.sourceforge.jp>
 
-Hi Yoshinori,
+Hi Arnd,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on tip/irq/core]
-[also build test ERROR on robh/for-next pci/next pci/for-linus linus/master v6.6-rc6 next-20231018]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yoshinori-Sato/arch-sh-boot-compressed-head_32-S-passing-FDT-address-to-initialize-function/20231017-170254
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/b1bedaea12693d256b2513f72bd39630a69d188a.1697199949.git.ysato%40users.sourceforge.jp
-patch subject: [RFC PATCH v3 20/35] drivers/mfd: sm501 add some properties.
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20231018/202310182206.9B3CbS2u-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310182206.9B3CbS2u-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   06dc10eae55b5ceabfef287a7e5f16ceea204aa0
+commit: 09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8 ARM: dove: multiplatform support
+date:   1 year, 6 months ago
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20231018/202310182209.afvozfWB-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310182209.afvozfWB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310182206.9B3CbS2u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310182209.afvozfWB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/mfd/sm501.c: In function 'sm501_plat_probe':
->> drivers/mfd/sm501.c:1517:23: error: implicit declaration of function 'sm501_parse_dt' [-Werror=implicit-function-declaration]
-    1517 |                 ret = sm501_parse_dt(sm, dev->dev.of_node);
-         |                       ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   drivers/net/ethernet/ti/netcp_core.c: In function 'netcp_setup_navigator_resources':
+>> drivers/net/ethernet/ti/netcp_core.c:1594:47: warning: '%s' directive output may be truncated writing up to 15 bytes into a region of size 8 [-Wformat-truncation=]
+    1594 |         snprintf(name, sizeof(name), "rx-pool-%s", ndev->name);
+         |                                               ^~
+   drivers/net/ethernet/ti/netcp_core.c:1594:9: note: 'snprintf' output between 9 and 24 bytes into a destination of size 16
+    1594 |         snprintf(name, sizeof(name), "rx-pool-%s", ndev->name);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/ti/netcp_core.c:1603:47: warning: '%s' directive output may be truncated writing up to 15 bytes into a region of size 8 [-Wformat-truncation=]
+    1603 |         snprintf(name, sizeof(name), "tx-pool-%s", ndev->name);
+         |                                               ^~
+   drivers/net/ethernet/ti/netcp_core.c:1603:9: note: 'snprintf' output between 9 and 24 bytes into a destination of size 16
+    1603 |         snprintf(name, sizeof(name), "tx-pool-%s", ndev->name);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/ti/netcp_core.c:1613:48: warning: '%s' directive output may be truncated writing up to 15 bytes into a region of size 7 [-Wformat-truncation=]
+    1613 |         snprintf(name, sizeof(name), "tx-compl-%s", ndev->name);
+         |                                                ^~
+   drivers/net/ethernet/ti/netcp_core.c:1613:9: note: 'snprintf' output between 10 and 25 bytes into a destination of size 16
+    1613 |         snprintf(name, sizeof(name), "tx-compl-%s", ndev->name);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/ti/netcp_core.c:1633:48: warning: '%s' directive output may be truncated writing up to 15 bytes into a region of size 7 [-Wformat-truncation=]
+    1633 |         snprintf(name, sizeof(name), "rx-compl-%s", ndev->name);
+         |                                                ^~
+   drivers/net/ethernet/ti/netcp_core.c:1633:9: note: 'snprintf' output between 10 and 25 bytes into a destination of size 16
+    1633 |         snprintf(name, sizeof(name), "rx-compl-%s", ndev->name);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/ti/netcp_core.c:1655:54: warning: '%s' directive output may be truncated writing up to 15 bytes into a region of size 9 [-Wformat-truncation=]
+    1655 |                 snprintf(name, sizeof(name), "rx-fdq-%s-%d", ndev->name, i);
+         |                                                      ^~
+   drivers/net/ethernet/ti/netcp_core.c:1655:46: note: directive argument in the range [0, 3]
+    1655 |                 snprintf(name, sizeof(name), "rx-fdq-%s-%d", ndev->name, i);
+         |                                              ^~~~~~~~~~~~~~
+   drivers/net/ethernet/ti/netcp_core.c:1655:17: note: 'snprintf' output between 10 and 25 bytes into a destination of size 16
+    1655 |                 snprintf(name, sizeof(name), "rx-fdq-%s-%d", ndev->name, i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/sm501_parse_dt +1517 drivers/mfd/sm501.c
+vim +1594 drivers/net/ethernet/ti/netcp_core.c
 
-  1479	
-  1480	static int sm501_plat_probe(struct platform_device *dev)
-  1481	{
-  1482		struct sm501_devdata *sm;
-  1483		int ret;
-  1484	
-  1485		sm = kzalloc(sizeof(*sm), GFP_KERNEL);
-  1486		if (!sm) {
-  1487			ret = -ENOMEM;
-  1488			goto err1;
-  1489		}
-  1490	
-  1491		sm->dev = &dev->dev;
-  1492		sm->pdev_id = dev->id;
-  1493		sm->platdata = dev_get_platdata(&dev->dev);
-  1494	
-  1495		ret = platform_get_irq(dev, 0);
-  1496		if (ret < 0)
-  1497			goto err_res;
-  1498		sm->irq = ret;
-  1499	
-  1500		sm->io_res = platform_get_resource(dev, IORESOURCE_MEM, 1);
-  1501		sm->mem_res = platform_get_resource(dev, IORESOURCE_MEM, 0);
-  1502		if (!sm->io_res || !sm->mem_res) {
-  1503			dev_err(&dev->dev, "failed to get IO resource\n");
-  1504			ret = -ENOENT;
-  1505			goto err_res;
-  1506		}
-  1507	
-  1508		sm->regs_claim = request_mem_region(sm->io_res->start,
-  1509						    0x100, "sm501");
-  1510		if (!sm->regs_claim) {
-  1511			dev_err(&dev->dev, "cannot claim registers\n");
-  1512			ret = -EBUSY;
-  1513			goto err_res;
-  1514		}
-  1515	
-  1516		if (IS_ENABLED(CONFIG_OF) && dev->dev.of_node) {
-> 1517			ret = sm501_parse_dt(sm, dev->dev.of_node);
-  1518			if (ret)
-  1519				goto err_res;
-  1520		}
-  1521	
-  1522		platform_set_drvdata(dev, sm);
-  1523	
-  1524		sm->regs = ioremap(sm->io_res->start, resource_size(sm->io_res));
-  1525		if (!sm->regs) {
-  1526			dev_err(&dev->dev, "cannot remap registers\n");
-  1527			ret = -EIO;
-  1528			goto err_claim;
-  1529		}
-  1530	
-  1531		ret = sm501_init_dev(sm);
-  1532		if (ret)
-  1533			goto err_unmap;
-  1534	
-  1535		return 0;
-  1536	
-  1537	 err_unmap:
-  1538		iounmap(sm->regs);
-  1539	 err_claim:
-  1540		release_mem_region(sm->io_res->start, 0x100);
-  1541	 err_res:
-  1542		kfree(sm);
-  1543	 err1:
-  1544		return ret;
-  1545	
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1582  
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1583  static int netcp_setup_navigator_resources(struct net_device *ndev)
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1584  {
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1585  	struct netcp_intf *netcp = netdev_priv(ndev);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1586  	struct knav_queue_notify_config notify_cfg;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1587  	struct knav_dma_cfg config;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1588  	u32 last_fdq = 0;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1589  	u8 name[16];
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1590  	int ret;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1591  	int i;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1592  
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1593  	/* Create Rx/Tx descriptor pools */
+84640e27f23041 Karicheri, Muralidharan 2015-01-15 @1594  	snprintf(name, sizeof(name), "rx-pool-%s", ndev->name);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1595  	netcp->rx_pool = knav_pool_create(name, netcp->rx_pool_size,
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1596  						netcp->rx_pool_region_id);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1597  	if (IS_ERR_OR_NULL(netcp->rx_pool)) {
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1598  		dev_err(netcp->ndev_dev, "Couldn't create rx pool\n");
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1599  		ret = PTR_ERR(netcp->rx_pool);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1600  		goto fail;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1601  	}
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1602  
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1603  	snprintf(name, sizeof(name), "tx-pool-%s", ndev->name);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1604  	netcp->tx_pool = knav_pool_create(name, netcp->tx_pool_size,
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1605  						netcp->tx_pool_region_id);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1606  	if (IS_ERR_OR_NULL(netcp->tx_pool)) {
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1607  		dev_err(netcp->ndev_dev, "Couldn't create tx pool\n");
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1608  		ret = PTR_ERR(netcp->tx_pool);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1609  		goto fail;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1610  	}
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1611  
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1612  	/* open Tx completion queue */
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1613  	snprintf(name, sizeof(name), "tx-compl-%s", ndev->name);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1614  	netcp->tx_compl_q = knav_queue_open(name, netcp->tx_compl_qid, 0);
+d01eb808c7b8bf Julia Lawall            2016-11-16  1615  	if (IS_ERR(netcp->tx_compl_q)) {
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1616  		ret = PTR_ERR(netcp->tx_compl_q);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1617  		goto fail;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1618  	}
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1619  	netcp->tx_compl_qid = knav_queue_get_id(netcp->tx_compl_q);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1620  
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1621  	/* Set notification for Tx completion */
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1622  	notify_cfg.fn = netcp_tx_notify;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1623  	notify_cfg.fn_arg = netcp;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1624  	ret = knav_queue_device_control(netcp->tx_compl_q,
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1625  					KNAV_QUEUE_SET_NOTIFIER,
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1626  					(unsigned long)&notify_cfg);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1627  	if (ret)
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1628  		goto fail;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1629  
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1630  	knav_queue_disable_notify(netcp->tx_compl_q);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1631  
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1632  	/* open Rx completion queue */
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1633  	snprintf(name, sizeof(name), "rx-compl-%s", ndev->name);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1634  	netcp->rx_queue = knav_queue_open(name, netcp->rx_queue_id, 0);
+d01eb808c7b8bf Julia Lawall            2016-11-16  1635  	if (IS_ERR(netcp->rx_queue)) {
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1636  		ret = PTR_ERR(netcp->rx_queue);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1637  		goto fail;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1638  	}
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1639  	netcp->rx_queue_id = knav_queue_get_id(netcp->rx_queue);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1640  
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1641  	/* Set notification for Rx completion */
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1642  	notify_cfg.fn = netcp_rx_notify;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1643  	notify_cfg.fn_arg = netcp;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1644  	ret = knav_queue_device_control(netcp->rx_queue,
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1645  					KNAV_QUEUE_SET_NOTIFIER,
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1646  					(unsigned long)&notify_cfg);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1647  	if (ret)
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1648  		goto fail;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1649  
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1650  	knav_queue_disable_notify(netcp->rx_queue);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1651  
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1652  	/* open Rx FDQs */
+866b8b18e380f8 WingMan Kwok            2015-08-04  1653  	for (i = 0; i < KNAV_DMA_FDQ_PER_CHAN && netcp->rx_queue_depths[i];
+866b8b18e380f8 WingMan Kwok            2015-08-04  1654  	     ++i) {
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1655  		snprintf(name, sizeof(name), "rx-fdq-%s-%d", ndev->name, i);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1656  		netcp->rx_fdq[i] = knav_queue_open(name, KNAV_QUEUE_GP, 0);
+d01eb808c7b8bf Julia Lawall            2016-11-16  1657  		if (IS_ERR(netcp->rx_fdq[i])) {
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1658  			ret = PTR_ERR(netcp->rx_fdq[i]);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1659  			goto fail;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1660  		}
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1661  	}
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1662  
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1663  	memset(&config, 0, sizeof(config));
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1664  	config.direction		= DMA_DEV_TO_MEM;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1665  	config.u.rx.einfo_present	= true;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1666  	config.u.rx.psinfo_present	= true;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1667  	config.u.rx.err_mode		= DMA_DROP;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1668  	config.u.rx.desc_type		= DMA_DESC_HOST;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1669  	config.u.rx.psinfo_at_sop	= false;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1670  	config.u.rx.sop_offset		= NETCP_SOP_OFFSET;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1671  	config.u.rx.dst_q		= netcp->rx_queue_id;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1672  	config.u.rx.thresh		= DMA_THRESH_NONE;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1673  
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1674  	for (i = 0; i < KNAV_DMA_FDQ_PER_CHAN; ++i) {
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1675  		if (netcp->rx_fdq[i])
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1676  			last_fdq = knav_queue_get_id(netcp->rx_fdq[i]);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1677  		config.u.rx.fdq[i] = last_fdq;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1678  	}
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1679  
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1680  	netcp->rx_channel = knav_dma_open_channel(netcp->netcp_device->device,
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1681  					netcp->dma_chan_name, &config);
+5b6cb43b4d625b Ivan Khoronzhuk         2017-05-10  1682  	if (IS_ERR(netcp->rx_channel)) {
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1683  		dev_err(netcp->ndev_dev, "failed opening rx chan(%s\n",
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1684  			netcp->dma_chan_name);
+5b6cb43b4d625b Ivan Khoronzhuk         2017-05-10  1685  		ret = PTR_ERR(netcp->rx_channel);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1686  		goto fail;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1687  	}
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1688  
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1689  	dev_dbg(netcp->ndev_dev, "opened RX channel: %p\n", netcp->rx_channel);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1690  	return 0;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1691  
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1692  fail:
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1693  	netcp_free_navigator_resources(netcp);
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1694  	return ret;
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1695  }
+84640e27f23041 Karicheri, Muralidharan 2015-01-15  1696  
+
+:::::: The code at line 1594 was first introduced by commit
+:::::: 84640e27f23041d474c31d3362c3e2185ad68ec2 net: netcp: Add Keystone NetCP core ethernet driver
+
+:::::: TO: Karicheri, Muralidharan <m-karicheri2@ti.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
