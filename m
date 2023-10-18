@@ -1,123 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C865F3B296
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 15:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847FE31A86;
+	Wed, 18 Oct 2023 15:52:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eXV2+k3y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697643906; x=1729179906;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MP10YohGiPP+OhqmtVYeRkq3ED2HUZXN0Rbya0uXRZY=;
-  b=eXV2+k3yNcQcBYygavRyPZOPzn6zpxoR5g9BX9BJm0sy/nd/EXCBi910
-   PZu9zbBaRK8GPNABi+5Ez+BTg33B0OO1YxBzQDzGz2fhdZyTQeX+8N3po
-   ENEo70U90r1TYQaC37liUGNs3vp1mWR4DKsBf92vTOAe9PwACVRWTmnR6
-   nGaws2ZUKgq/pamaqaIYPMGLNIxtsCh0C4H66HjbGhEu8irgZD/wDmhdi
-   5ISY4np1Eio02HqQR19AQeQpm15dSCzo0Jc48JhWgMfG2Yqy9mV0rpBUp
-   iHem+0ITzhj0rmgfXGsbeTgYfaJMmFmEtuHp2JyPopDcvXmgTUwqsH+2e
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="383263397"
-X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="383263397"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 08:45:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="4587033"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Oct 2023 08:45:08 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qt8jF-0000bQ-2A;
-	Wed, 18 Oct 2023 15:45:01 +0000
-Date: Wed, 18 Oct 2023 23:44:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sunil V L <sunilvl@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: drivers/net/wireless/intel/iwlwifi/fw/acpi.c:1190:25: warning: '%s'
- directive argument is null
-Message-ID: <202310182347.zS9BxqD4-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="DDurZJ/t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3CE7C433C8;
+	Wed, 18 Oct 2023 15:52:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1697644370;
+	bh=b8LsAR2QdX3IC2gaSa678S7SamLDd+g6f++6ZqtXOmU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DDurZJ/tH9/Dcq2NUUAnR7bwtgDl5thIrctfw+s4q4F7B9z+LCEL9V4leztRfz6Oy
+	 QN+ti9o7Lk4il2Xp2hnzjsN60DUZJkyYwxwhGWgCcp/J6tv9XrZpdoii3QHMM6q8IS
+	 FBIF1WP+glbZTrUhUIkqwPEPvI4kpzhkxsSOShA4=
+Date: Wed, 18 Oct 2023 08:52:48 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Baoquan He <bhe@redhat.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, Philip Li
+ <philip.li@intel.com>, oe-kbuild@lists.linux.dev, Lorenzo Stoakes
+ <lstoakes@gmail.com>, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Linux Memory Management List
+ <linux-mm@kvack.org>
+Subject: Re: mm/vmalloc.c:3689 vread_iter() error: we previously assumed
+ 'vm' could be null (see line 3667)
+Message-Id: <20231018085248.6f3f36101cbdfe0990c8b467@linux-foundation.org>
+In-Reply-To: <ZS/2k6DIMd0tZRgK@MiWiFi-R3L-srv>
+References: <f82be227-bfde-439a-b339-1b4ee370d59a@kadam.mountain>
+	<ZS+dSd9Z6/2wU0Eg@MiWiFi-R3L-srv>
+	<89caf59a-d3b9-409d-b1ae-9e370cb9ee7d@kadam.mountain>
+	<ZS/LrhcxcMOgiiX5@MiWiFi-R3L-srv>
+	<ZS/TVMT9ed7OdyNy@rli9-mobl>
+	<ZS/2k6DIMd0tZRgK@MiWiFi-R3L-srv>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   06dc10eae55b5ceabfef287a7e5f16ceea204aa0
-commit: a91a9ffbd3a55a0ae1bb75e2b6e85b2a03f64e8f RISC-V: Add support to build the ACPI core
-date:   5 months ago
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20231018/202310182347.zS9BxqD4-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310182347.zS9BxqD4-lkp@intel.com/reproduce)
+On Wed, 18 Oct 2023 23:15:31 +0800 Baoquan He <bhe@redhat.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310182347.zS9BxqD4-lkp@intel.com/
+> From: Baoquan He <bhe@redhat.com>
+> Date: Wed, 18 Oct 2023 22:50:14 +0800
+> Subject: [PATCH] mm/vmalloc: fix the unchecked dereference warning in vread_iter()
+> Content-type: text/plain
+> 
+> LKP reported smatch warning as below:
+> 
+> ===================
+> smatch warnings:
+> mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm' could be null (see line 3667)
+> ......
+> 06c8994626d1b7  @3667 size = vm ? get_vm_area_size(vm) : va_size(va);
+> ......
+> 06c8994626d1b7  @3689 else if (!(vm->flags & VM_IOREMAP))
+>                                  ^^^^^^^^^
+> Unchecked dereference
+> =====================
+> 
+> So add checking on whether 'vm' is not null when dereferencing it in
+> vread_iter(). This mutes smatch complaint.
+> 
+> ...
+>
+> --- a/mm/vmalloc.c
+> +++ b/mm/vmalloc.c
+> @@ -3813,7 +3813,7 @@ long vread_iter(struct iov_iter *iter, const char *addr, size_t count)
+>  
+>  		if (flags & VMAP_RAM)
+>  			copied = vmap_ram_vread_iter(iter, addr, n, flags);
+> -		else if (!(vm->flags & VM_IOREMAP))
+> +		else if (!(vm && (vm->flags & VM_IOREMAP)))
+>  			copied = aligned_vread_iter(iter, addr, n);
+>  		else /* IOREMAP area is treated as memory hole */
+>  			copied = zero_iter(iter, n);
 
-All warnings (new ones prefixed by >>):
+So is this not a real runtime bug?  We're only doing this to suppress a
+smatch warning?
 
-   In file included from drivers/net/wireless/intel/iwlwifi/fw/acpi.c:9:
-   drivers/net/wireless/intel/iwlwifi/fw/acpi.c: In function 'iwl_acpi_is_ppag_approved':
->> drivers/net/wireless/intel/iwlwifi/fw/acpi.c:1190:25: warning: '%s' directive argument is null [-Wformat-overflow=]
-    1190 |                         "System vendor '%s' is not in the approved list, disabling PPAG.\n",
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlwifi/iwl-debug.h:91:56: note: in definition of macro '__IWL_DEBUG_DEV'
-      91 |                 __iwl_dbg(dev, level, limit, __func__, fmt, ##args);    \
-         |                                                        ^~~
-   drivers/net/wireless/intel/iwlwifi/iwl-debug.h:209:41: note: in expansion of macro 'IWL_DEBUG'
-     209 | #define IWL_DEBUG_RADIO(p, f, a...)     IWL_DEBUG(p, IWL_DL_RADIO, f, ## a)
-         |                                         ^~~~~~~~~
-   drivers/net/wireless/intel/iwlwifi/fw/acpi.c:1189:17: note: in expansion of macro 'IWL_DEBUG_RADIO'
-    1189 |                 IWL_DEBUG_RADIO(fwrt,
-         |                 ^~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlwifi/fw/acpi.c:1190:41: note: format string is defined here
-    1190 |                         "System vendor '%s' is not in the approved list, disabling PPAG.\n",
-         |                                         ^~
---
-   In file included from drivers/net/wireless/intel/iwlwifi/mvm/../iwl-trans.h:15,
-                    from drivers/net/wireless/intel/iwlwifi/mvm/fw.c:11:
-   drivers/net/wireless/intel/iwlwifi/mvm/fw.c: In function 'iwl_mvm_tas_init':
->> drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1167:33: warning: '%s' directive argument is null [-Wformat-overflow=]
-    1167 |                                 "System vendor '%s' is not in the approved list, disabling TAS in US and Canada.\n",
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlwifi/mvm/../iwl-debug.h:91:56: note: in definition of macro '__IWL_DEBUG_DEV'
-      91 |                 __iwl_dbg(dev, level, limit, __func__, fmt, ##args);    \
-         |                                                        ^~~
-   drivers/net/wireless/intel/iwlwifi/mvm/../iwl-debug.h:209:41: note: in expansion of macro 'IWL_DEBUG'
-     209 | #define IWL_DEBUG_RADIO(p, f, a...)     IWL_DEBUG(p, IWL_DL_RADIO, f, ## a)
-         |                                         ^~~~~~~~~
-   drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1166:17: note: in expansion of macro 'IWL_DEBUG_RADIO'
-    1166 |                 IWL_DEBUG_RADIO(mvm,
-         |                 ^~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1167:49: note: format string is defined here
-    1167 |                                 "System vendor '%s' is not in the approved list, disabling TAS in US and Canada.\n",
-         |                                                 ^~
-
-
-vim +1190 drivers/net/wireless/intel/iwlwifi/fw/acpi.c
-
-e8e10a37c51c08 Matt Chen 2022-03-04  1187  
-e8e10a37c51c08 Matt Chen 2022-03-04  1188  	if (!dmi_check_system(dmi_ppag_approved_list)) {
-e8e10a37c51c08 Matt Chen 2022-03-04  1189  		IWL_DEBUG_RADIO(fwrt,
-e8e10a37c51c08 Matt Chen 2022-03-04 @1190  			"System vendor '%s' is not in the approved list, disabling PPAG.\n",
-
-:::::: The code at line 1190 was first introduced by commit
-:::::: e8e10a37c51c08b99d272b2e1b3ef70fcd38f9e8 iwlwifi: acpi: move ppag code from mvm to fw/acpi
-
-:::::: TO: Matt Chen <matt.chen@intel.com>
-:::::: CC: Luca Coelho <luciano.coelho@intel.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+If so, can we please include a description of *why* this wasn't a bug? 
+What conditions ensure that vm!=NULL at this point?
