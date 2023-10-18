@@ -1,45 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B4F200DE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 12:17:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044CB34CD7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 12:32:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tkv++MTY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NHtCPWfP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697631462; x=1729167462;
+  t=1697632369; x=1729168369;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dHkoLIfxnYUWY2Iox3++2sra/kbJ6jFmxl4MQYmTP6k=;
-  b=Tkv++MTYugSwgmtCJ9Gyxc023dJ2Opp0ICYml0KD5jI/JsWu1M+3ZDHa
-   ha6Hszh2QdjGzomIEcP1rUJQLxEANmYDxQHyZgpVgUkGMmr52cCVKOJG/
-   INxOCxjuC/Xs2WDuujFK0oHup15lORbho5HI3B4Fj6VJghWdJfGob7rR+
-   4+Hq737YFS81UgElBYx3twMlqzk32Vf92IIx+mH2n86463SzXNC1f97rZ
-   dADdrO26KVDzeymJPFOND1nNkQeKW24V27RPtBw8Fy7DDXUZxb5momSUA
-   hKxYmvJ+wSVQWokfZnkHIQgXsF0FQU0mOdAxJmpPnsqN4xhcbTB7mU/gJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="7550790"
+  bh=edlUW0k4bBSUPRTq7qVPc2VBSGIswnTNFih/PLx/tSI=;
+  b=NHtCPWfP+8JuawuSmOUsMKzMn/lPpnbVFH96X9Snnazsca4M+NaBW0UU
+   DvK36Oo5xawq3kjHWHFrEwQqzub2ncLv0niGf6Fxr5Q2yiNlieTK5UiGc
+   p1ATD+D/Vle5H1hUItssCZQwQNFrs/IZaMxKHZ6+4ZJnVLTIzkc5L/qoH
+   NEdhLVDfGFcPIBfLwb5hQ6jP8N0FL6WUmUyJY7eGIGs00aWWq38eu5lo1
+   V4IweImoGJjFQyg4EeFheHverSR9eMtlcsOdXrp6TO6QZoBZSohM1xVPI
+   fXe53SxVufg+SD5fuvQVZijGkV0eaOxwTXePYscUXebRi8FIuTKGYcwp7
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="366260739"
 X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="7550790"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 05:17:41 -0700
+   d="scan'208";a="366260739"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 05:32:49 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="822424248"
 X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="4520992"
+   d="scan'208";a="822424248"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Oct 2023 05:17:44 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 18 Oct 2023 05:32:47 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qt5UY-0000Kq-0d;
-	Wed, 18 Oct 2023 12:17:38 +0000
-Date: Wed, 18 Oct 2023 20:16:49 +0800
+	id 1qt5jB-0000M4-1T;
+	Wed, 18 Oct 2023 12:32:45 +0000
+Date: Wed, 18 Oct 2023 20:32:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/arm/kernel/hibernate.c:29:40: warning: array subscript -1 is
- outside array bounds of 'const void[2147483647]'
-Message-ID: <202310182007.8ziiRe0j-lkp@intel.com>
+To: Jiri Pirko <jiri@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ido Schimmel <idosch@nvidia.com>
+Subject: drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:776:9: warning:
+ '.bin' directive output may be truncated writing 4 bytes into a region of
+ size between 3 and 11
+Message-ID: <202310182014.0kOuH8vx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,53 +54,46 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   06dc10eae55b5ceabfef287a7e5f16ceea204aa0
-commit: a9ff6961601d9aa0c42b6eb7d850371f31b1f5e6 ARM: mm: Make virt_to_pfn() a static inline
-date:   5 months ago
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20231018/202310182007.8ziiRe0j-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310182007.8ziiRe0j-lkp@intel.com/reproduce)
+commit: b217127e5e4ee0ecfce7c5f84cfe082238123bda mlxsw: core_linecards: Add line card objects and implement provisioning
+date:   1 year, 6 months ago
+config: riscv-randconfig-r001-20230902 (https://download.01.org/0day-ci/archive/20231018/202310182014.0kOuH8vx-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310182014.0kOuH8vx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310182007.8ziiRe0j-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310182014.0kOuH8vx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/arm/kernel/hibernate.c: In function 'pfn_is_nosave':
->> arch/arm/kernel/hibernate.c:29:40: warning: array subscript -1 is outside array bounds of 'const void[2147483647]' [-Warray-bounds=]
-      29 |         unsigned long nosave_end_pfn = virt_to_pfn(&__nosave_end - 1);
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/arm/include/asm/sections.h:5,
-                    from include/linux/interrupt.h:21,
-                    from include/linux/kernel_stat.h:9,
-                    from include/linux/cgroup.h:26,
-                    from include/linux/memcontrol.h:13,
-                    from include/linux/swap.h:9,
-                    from include/linux/suspend.h:5,
-                    from arch/arm/kernel/hibernate.c:18:
-   include/asm-generic/sections.h:59:45: note: at offset -1 into object '__nosave_end' of size [0, 2147483647]
-      59 | extern __visible const void __nosave_begin, __nosave_end;
-         |                                             ^~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c: In function 'mlxsw_linecard_types_init.isra':
+>> drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:776:9: warning: '.bin' directive output may be truncated writing 4 bytes into a region of size between 3 and 11 [-Wformat-truncation=]
+     776 |         "mellanox/lc_ini_bundle_%u_%u.bin"
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:790:24: note: in expansion of macro 'MLXSW_LINECARDS_INI_BUNDLE_FILENAME_FMT'
+     790 |                        MLXSW_LINECARDS_INI_BUNDLE_FILENAME_FMT,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:776:38: note: format string is defined here
+     776 |         "mellanox/lc_ini_bundle_%u_%u.bin"
+         |                                      ^~~~
+   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:789:15: note: 'snprintf' output between 31 and 39 bytes into a destination of size 37
+     789 |         err = snprintf(filename, sizeof(filename),
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     790 |                        MLXSW_LINECARDS_INI_BUNDLE_FILENAME_FMT,
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     791 |                        rev->minor, rev->subminor);
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +29 arch/arm/kernel/hibernate.c
+vim +776 drivers/net/ethernet/mellanox/mlxsw/core_linecards.c
 
-603fb42a66499a Sebastian Capella 2014-03-25  25  
-603fb42a66499a Sebastian Capella 2014-03-25  26  int pfn_is_nosave(unsigned long pfn)
-603fb42a66499a Sebastian Capella 2014-03-25  27  {
-603fb42a66499a Sebastian Capella 2014-03-25  28  	unsigned long nosave_begin_pfn = virt_to_pfn(&__nosave_begin);
-603fb42a66499a Sebastian Capella 2014-03-25 @29  	unsigned long nosave_end_pfn = virt_to_pfn(&__nosave_end - 1);
-603fb42a66499a Sebastian Capella 2014-03-25  30  
-603fb42a66499a Sebastian Capella 2014-03-25  31  	return (pfn >= nosave_begin_pfn) && (pfn <= nosave_end_pfn);
-603fb42a66499a Sebastian Capella 2014-03-25  32  }
-603fb42a66499a Sebastian Capella 2014-03-25  33  
-
-:::::: The code at line 29 was first introduced by commit
-:::::: 603fb42a66499ab353466c7afa3d38beea20a8a9 ARM: 8011/1: ARM hibernation / suspend-to-disk
-
-:::::: TO: Sebastian Capella <sebastian.capella@linaro.org>
-:::::: CC: Russell King <rmk+kernel@arm.linux.org.uk>
+   774	
+   775	#define MLXSW_LINECARDS_INI_BUNDLE_FILENAME_FMT \
+ > 776		"mellanox/lc_ini_bundle_%u_%u.bin"
+   777	#define MLXSW_LINECARDS_INI_BUNDLE_FILENAME_LEN \
+   778		(sizeof(MLXSW_LINECARDS_INI_BUNDLE_FILENAME_FMT) + 4)
+   779	
 
 -- 
 0-DAY CI Kernel Test Service
