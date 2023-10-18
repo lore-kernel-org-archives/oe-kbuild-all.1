@@ -1,47 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA778C0C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 16:46:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC94374F3
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 16:57:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V8mH+o6Y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697647593; x=1729183593;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uzAvuhQz15sWanIarI6Rmy71ywkLXN7KF/vTrky9N98=;
-  b=V8mH+o6Y8tbSsEW4RIX1zFWA9QRUSKYq6/Jw40FawPsBXZ6C3ZHi3ibG
-   n4AQ+VdzpjUjh/Q2IAjtifzxbCYyjIrory5uZMY9LGZf7n8kgSeQvJJaI
-   Fi9AEIs9XKZ+qmDU8XH6idKL9lJeBVtpQDB20dCoVCmkKJxhEo1i7sfuU
-   zQIG1K+zsN3CzCDa53Bc3j0bjwcljNWrSQvp7VZkSRgeC8Aem5PPwhdwA
-   9V1agquYSHHZs6dvK1Ee/F4HR1ZTENsWC+TI2tlGjKxiO087UiUb2+THX
-   suZT2PdU4Rp460KTBkOmfVH2DUKJkkzwgP7eQ49BT6NwsbLuheodg7J7/
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="384934185"
-X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="384934185"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 09:46:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="785994668"
-X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="785994668"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 18 Oct 2023 09:46:10 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qt9gN-0000hI-22;
-	Wed, 18 Oct 2023 16:46:07 +0000
-Date: Thu, 19 Oct 2023 00:45:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-kiwi-5.4 5610/28069]
- kernel/power/wakeup_reason.c:199:6: warning: no previous prototype for
- function '__log_abort_or_abnormal_wake'
-Message-ID: <202310190046.ElHMomC3-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kj9HegR6"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40790b0a224so17351445e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 09:57:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697648227; x=1698253027; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HYmsSISabCHstva6nGawNe+Di4bmrOcot5BGgorDSxY=;
+        b=kj9HegR66TMZr3X8EG8QpqlxavfryCvkC/g/JBj9F0isAGQqwHHAkk1vWBjPKJB0FG
+         eBvkSeoIZzUbGyIi93n//c/llEYYqpRRuD5lKS755u2B2J1+sBtvX8XfQDDlYXhlOfLD
+         AUlPwuAcOHfqsTUgzE5HYhSMacDTDHN1D0/jFezoHybCDe2XjoocUUUW0WRF4R1CoM9y
+         nznW29Q21Aw3j9nV4bBowbjJtkBd5+euabf/XHN4e8CdTE/uKgK0w/UMJcd/QzTPDPy2
+         S+YajvYUoH5HLD/+LYD1a0sV2e3BkAfxOVjD0pDKlUhoMuG5Ijgo3M2rCtentc5AMsdM
+         v83g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697648227; x=1698253027;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HYmsSISabCHstva6nGawNe+Di4bmrOcot5BGgorDSxY=;
+        b=mVEwzqjdBdAgcfJZSkUzrwMpF5XPpP6Vjd49rmleID+b3vE32yVM1tFd2DO/BY9oQi
+         Akw6+hm7Pi/R0wAIu6Q4vO5qt+ptH4VQJVtt3oL9la4WoA/2Udz/nRygrjCPeEITyYgt
+         kzkttevKuXDoC7KLtlj2PTQqCIpzKWBJRmNu3kdZclatL4GObDpWBKs/wPnQD5+N7E9u
+         dlNLKltXKqqZbJkWvFcIJT0p12tWKtAOWlEJ8ygmUz10Xu2Z14Rt23Z/cZ1p2GCzFejF
+         koRbw6lpQdRl+3ywRhL8/5Z1lR7OUb1iu4EUmANwbxQC1H/L6doWF0VS/NhOlBJf1DUR
+         hrCA==
+X-Gm-Message-State: AOJu0YzKKY1/xtvNTr/NnFGmwd8qtMnPzmaLGAT78U0i100CbQJMUjKk
+	4Ljwh3+tb4KmHkMmzQGz+j5xjQ68Skt40u4Kc5g=
+X-Google-Smtp-Source: AGHT+IFZa2wA2CIROTWJeB6fsyTJmkUokbQ7GdV+6ursfwa9CrMwVReyAdVgxJm0LX783pQDf7YK4g==
+X-Received: by 2002:a5d:55d1:0:b0:32d:a0ab:9bae with SMTP id i17-20020a5d55d1000000b0032da0ab9baemr4486184wrw.57.1697648226822;
+        Wed, 18 Oct 2023 09:57:06 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id l16-20020adfe590000000b0032da46648dasm2521880wrm.8.2023.10.18.09.57.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Oct 2023 09:57:06 -0700 (PDT)
+Date: Wed, 18 Oct 2023 19:57:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [char-misc:char-misc-testing 21/23] drivers/parport/share.c:486
+ parport_register_port() warn: '&tmp->full_list' not removed from list
+Message-ID: <1eb66e9a-8c68-4a56-8239-82c74849cfc7@kadam.mountain>
+References: <2171426a-1784-41e9-8614-2d3a7a602831@kadam.mountain>
+ <ZS/R/H9JujiaJ0x2@smile.fi.intel.com>
+ <ZS/35oVuyZxqueBH@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,62 +60,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZS/35oVuyZxqueBH@smile.fi.intel.com>
 
-tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
-head:   61c44cc986d6ba814dd251a7cf634f972668d4ca
-commit: 189ced91cd7b0e440b0be876406fd36313a11c3f [5610/28069] ANDROID: power: wakeup_reason: wake reason enhancements
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231019/202310190046.ElHMomC3-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310190046.ElHMomC3-lkp@intel.com/reproduce)
+On Wed, Oct 18, 2023 at 06:21:10PM +0300, Andy Shevchenko wrote:
+> On Wed, Oct 18, 2023 at 03:39:24PM +0300, Andy Shevchenko wrote:
+> > On Wed, Oct 18, 2023 at 12:57:52PM +0300, Dan Carpenter wrote:
+> 
+> ...
+> 
+> > > Old smatch warnings:
+> > > drivers/parport/share.c:826 parport_register_dev_model() warn: possible memory leak of 'par_dev'
+> > 
+> > Means this was already be in the code?
+> 
+> How is it not a false positive?
+> 
+> devmodel is false (so kfree _is_ called) until we get device_register() called.
+> After that it's done via put_device() in both possible error cases.
+> 
+> What did I miss?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310190046.ElHMomC3-lkp@intel.com/
+Oh, yeah.  You're right.  (I hadn't looked at the code before, I only
+see what's in the email and hit the forward button).  This check is
+normally super reliable but also useless because it missing 95% of
+leaks.
 
-All warnings (new ones prefixed by >>):
+I suspect it will be complicated to silence this false positive.
 
-   clang-16: warning: argument unused during compilation: '-mno-global-merge' [-Wunused-command-line-argument]
->> kernel/power/wakeup_reason.c:199:6: warning: no previous prototype for function '__log_abort_or_abnormal_wake' [-Wmissing-prototypes]
-   void __log_abort_or_abnormal_wake(bool abort, const char *fmt, va_list args)
-        ^
-   kernel/power/wakeup_reason.c:199:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __log_abort_or_abnormal_wake(bool abort, const char *fmt, va_list args)
-   ^
-   static 
-   kernel/power/wakeup_reason.c:378:12: warning: no previous prototype for function 'wakeup_reason_init' [-Wmissing-prototypes]
-   int __init wakeup_reason_init(void)
-              ^
-   kernel/power/wakeup_reason.c:378:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int __init wakeup_reason_init(void)
-   ^
-   static 
-   2 warnings generated.
+regards,
+dan carpenter
 
-
-vim +/__log_abort_or_abnormal_wake +199 kernel/power/wakeup_reason.c
-
-   198	
- > 199	void __log_abort_or_abnormal_wake(bool abort, const char *fmt, va_list args)
-   200	{
-   201		unsigned long flags;
-   202	
-   203		spin_lock_irqsave(&wakeup_reason_lock, flags);
-   204	
-   205		/* Suspend abort or abnormal wake reason has already been logged. */
-   206		if (suspend_abort || abnormal_wake) {
-   207			spin_unlock_irqrestore(&wakeup_reason_lock, flags);
-   208			return;
-   209		}
-   210	
-   211		suspend_abort = abort;
-   212		abnormal_wake = !abort;
-   213		vsnprintf(non_irq_wake_reason, MAX_SUSPEND_ABORT_LEN, fmt, args);
-   214	
-   215		spin_unlock_irqrestore(&wakeup_reason_lock, flags);
-   216	}
-   217	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
