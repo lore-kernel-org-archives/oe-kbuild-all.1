@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B552439843
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 23:10:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA1518E0B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 23:30:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZixBq141"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BY4MkwOQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697670637; x=1729206637;
+  t=1697671835; x=1729207835;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b8VJ5n9UD4w2IQp5EIwOQaCh+fiy8q+6NE9cSUXO8W4=;
-  b=ZixBq1412QPFtq6CGmOVLL7CnSF3laxwoIIKs7EoDZQXqn3sOB0x2hMN
-   qGSxw8KSr+E11LjuIXs9agdUjxRJAPvJ6DSX55098bSJvUEvtf2FcVwlf
-   G/fi900Vw07xE5QBSXmlyxUFDeoWMPITyAsarHPMBEzqK+Exp93cBNZvB
-   nzk0XjDz8XD0XNNSmXzK81gecBaTPkYSCR1VxpDmHFUAw74wh6JIO2mls
-   aMgiUfe4tjSEY/QND1qqEKFa8c51Xn1DSyReG9w8dXTxzXyPu0Hzodbxy
-   DTG3nNKt8sfD9VTtLTig1jgz2RQ2H5wCKl2CUW/dGxTWmkFEUhaUB+fXL
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="365485272"
+  bh=XYmTFSuYLOrfa5SSs65gm16cQyePHty0bHzTVLsfZXY=;
+  b=BY4MkwOQoBQqC/aKTBp49HqcF3W06XySGIDLY/NWy5fOV4zIwbRtJbAw
+   En5kOPFM2t542ZWuqAvXjAqng7CrGhWMcmaIIWI9UMkQkB7+cT0xs9wVR
+   vpvzKD4AnQTip3bnXiJfcSCXf1T+wc5plwYt0RG58QK6+qK1gFGx9eWqU
+   I/TUshakrb38/qk+tRmwOiBTumbd7q9f2Ny9vQCzTe6uAZzqv/542eP0K
+   eyQMjs9zz14njBd0fzw5qp4yEgqbwqdoFOG74/ZxnFrwcbI09aCIUgrAH
+   +Osu0WKPLj10D5UAeWzF4eCifWbgMqgHiBYcruBKzehLLP/uEen1Ai9tl
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="4730908"
 X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="365485272"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 16:10:33 -0700
+   d="scan'208";a="4730908"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 16:30:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="786125786"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="822621143"
 X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="786125786"
+   d="scan'208";a="822621143"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 18 Oct 2023 16:10:32 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 18 Oct 2023 16:30:33 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtFgM-0001DQ-0A;
-	Wed, 18 Oct 2023 23:10:30 +0000
-Date: Thu, 19 Oct 2023 07:09:33 +0800
+	id 1qtFzi-0001Eu-2v;
+	Wed, 18 Oct 2023 23:30:30 +0000
+Date: Thu, 19 Oct 2023 07:30:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.4 18399/29114]
- drivers/media/usb/cx231xx/cx231xx-dvb.c:224:49: warning: array subscript i
- is outside array bounds of 'struct usb_iso_packet_descriptor[0]'
-Message-ID: <202310190758.yVF6T8g6-lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: arch/powerpc/platforms/pseries/lpar.c:2032:36: error: '%ld'
+ directive writing between 1 and 20 bytes into a region of size 12
+Message-ID: <202310190736.sgDpsRRj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,191 +50,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-5.4
-head:   8e02ba97da24649878c11c18a20e36128a029d16
-commit: fed071635e828e2d67ec736d8857f803dacd68b4 [18399/29114] ANDROID: GKI: usb: move KABI_RESERVED up
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231019/202310190758.yVF6T8g6-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310190758.yVF6T8g6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   dd72f9c7e512da377074d47d990564959b772643
+commit: 33e67710beda78aed38a2fe10be6088d4aeb1c53 cpumask: switch for_each_cpu{,_not} to use for_each_bit()
+date:   1 year, 1 month ago
+config: powerpc64-randconfig-r003-20220418 (https://download.01.org/0day-ci/archive/20231019/202310190736.sgDpsRRj-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310190736.sgDpsRRj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310190758.yVF6T8g6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310190736.sgDpsRRj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/media/usb/cx231xx/cx231xx-dvb.c: In function 'dvb_isoc_copy':
->> drivers/media/usb/cx231xx/cx231xx-dvb.c:224:49: warning: array subscript i is outside array bounds of 'struct usb_iso_packet_descriptor[0]' [-Warray-bounds=]
-     224 |                 int status = urb->iso_frame_desc[i].status;
-         |                              ~~~~~~~~~~~~~~~~~~~^~~
-   In file included from drivers/media/usb/cx231xx/cx231xx.h:19,
-                    from drivers/media/usb/cx231xx/cx231xx-dvb.c:10:
-   include/linux/usb.h:1617:42: note: while referencing 'iso_frame_desc'
-    1617 |         struct usb_iso_packet_descriptor iso_frame_desc[0];
-         |                                          ^~~~~~~~~~~~~~
-   drivers/media/usb/cx231xx/cx231xx-dvb.c:228:48: warning: array subscript i is outside array bounds of 'struct usb_iso_packet_descriptor[0]' [-Warray-bounds=]
-     228 |                         if (urb->iso_frame_desc[i].status != -EPROTO)
-         |                             ~~~~~~~~~~~~~~~~~~~^~~
-   include/linux/usb.h:1617:42: note: while referencing 'iso_frame_desc'
-    1617 |         struct usb_iso_packet_descriptor iso_frame_desc[0];
-         |                                          ^~~~~~~~~~~~~~
-   drivers/media/usb/cx231xx/cx231xx-dvb.c:234:52: warning: array subscript i is outside array bounds of 'struct usb_iso_packet_descriptor[0]' [-Warray-bounds=]
-     234 |                                 urb->iso_frame_desc[i].offset,
-         |                                 ~~~~~~~~~~~~~~~~~~~^~~
-   include/linux/usb.h:1617:42: note: while referencing 'iso_frame_desc'
-    1617 |         struct usb_iso_packet_descriptor iso_frame_desc[0];
-         |                                          ^~~~~~~~~~~~~~
-   drivers/media/usb/cx231xx/cx231xx-dvb.c:235:52: warning: array subscript i is outside array bounds of 'struct usb_iso_packet_descriptor[0]' [-Warray-bounds=]
-     235 |                                 urb->iso_frame_desc[i].actual_length);
-         |                                 ~~~~~~~~~~~~~~~~~~~^~~
-   include/linux/usb.h:1617:42: note: while referencing 'iso_frame_desc'
-    1617 |         struct usb_iso_packet_descriptor iso_frame_desc[0];
-         |                                          ^~~~~~~~~~~~~~
+   arch/powerpc/platforms/pseries/lpar.c: In function '__machine_initcall_pseries_vpa_debugfs_init':
+>> arch/powerpc/platforms/pseries/lpar.c:2032:36: error: '%ld' directive writing between 1 and 20 bytes into a region of size 12 [-Werror=format-overflow=]
+    2032 |                 sprintf(name, "cpu-%ld", i);
+         |                                    ^~~
+   In function 'vpa_debugfs_init',
+       inlined from '__machine_initcall_pseries_vpa_debugfs_init' at arch/powerpc/platforms/pseries/lpar.c:2038:1:
+   arch/powerpc/platforms/pseries/lpar.c:2032:31: note: directive argument in the range [-9223372036854775808, 4294967294]
+    2032 |                 sprintf(name, "cpu-%ld", i);
+         |                               ^~~~~~~~~
+   arch/powerpc/platforms/pseries/lpar.c:2032:17: note: 'sprintf' output between 6 and 25 bytes into a destination of size 16
+    2032 |                 sprintf(name, "cpu-%ld", i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 --
-   drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c: In function 'ttusb_iso_irq':
->> drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:773:49: warning: array subscript i is outside array bounds of 'struct usb_iso_packet_descriptor[0]' [-Warray-bounds=]
-     773 |                         d = &urb->iso_frame_desc[i];
-         |                              ~~~~~~~~~~~~~~~~~~~^~~
-   In file included from drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:13:
-   include/linux/usb.h:1617:42: note: while referencing 'iso_frame_desc'
-    1617 |         struct usb_iso_packet_descriptor iso_frame_desc[0];
-         |                                          ^~~~~~~~~~~~~~
->> drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:773:49: warning: array subscript i is outside array bounds of 'struct usb_iso_packet_descriptor[0]' [-Warray-bounds=]
-     773 |                         d = &urb->iso_frame_desc[i];
-         |                              ~~~~~~~~~~~~~~~~~~~^~~
-   include/linux/usb.h:1617:42: note: while referencing 'iso_frame_desc'
-    1617 |         struct usb_iso_packet_descriptor iso_frame_desc[0];
-         |                                          ^~~~~~~~~~~~~~
->> drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:773:49: warning: array subscript i is outside array bounds of 'struct usb_iso_packet_descriptor[0]' [-Warray-bounds=]
-     773 |                         d = &urb->iso_frame_desc[i];
-         |                              ~~~~~~~~~~~~~~~~~~~^~~
-   include/linux/usb.h:1617:42: note: while referencing 'iso_frame_desc'
-    1617 |         struct usb_iso_packet_descriptor iso_frame_desc[0];
-         |                                          ^~~~~~~~~~~~~~
->> drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:773:49: warning: array subscript i is outside array bounds of 'struct usb_iso_packet_descriptor[0]' [-Warray-bounds=]
-     773 |                         d = &urb->iso_frame_desc[i];
-         |                              ~~~~~~~~~~~~~~~~~~~^~~
-   include/linux/usb.h:1617:42: note: while referencing 'iso_frame_desc'
-    1617 |         struct usb_iso_packet_descriptor iso_frame_desc[0];
-         |                                          ^~~~~~~~~~~~~~
-   In function 'ttusb_start_iso_xfer',
-       inlined from 'ttusb_start_feed' at drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:936:3:
->> drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:858:44: warning: array subscript 0 is outside array bounds of 'struct usb_iso_packet_descriptor[0]' [-Warray-bounds=]
-     858 |                         urb->iso_frame_desc[j].offset = frame_offset;
-         |                         ~~~~~~~~~~~~~~~~~~~^~~
-   include/linux/usb.h: In function 'ttusb_start_feed':
-   include/linux/usb.h:1617:42: note: while referencing 'iso_frame_desc'
-    1617 |         struct usb_iso_packet_descriptor iso_frame_desc[0];
-         |                                          ^~~~~~~~~~~~~~
-   In function 'ttusb_start_iso_xfer',
-       inlined from 'ttusb_start_feed' at drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:936:3:
-   drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:859:44: warning: array subscript 0 is outside array bounds of 'struct usb_iso_packet_descriptor[0]' [-Warray-bounds=]
-     859 |                         urb->iso_frame_desc[j].length = ISO_FRAME_SIZE;
-         |                         ~~~~~~~~~~~~~~~~~~~^~~
-   include/linux/usb.h: In function 'ttusb_start_feed':
-   include/linux/usb.h:1617:42: note: while referencing 'iso_frame_desc'
-    1617 |         struct usb_iso_packet_descriptor iso_frame_desc[0];
-         |                                          ^~~~~~~~~~~~~~
-   In function 'ttusb_start_iso_xfer',
-       inlined from 'ttusb_start_feed' at drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:936:3:
-   drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:858:44: warning: array subscript 1 is outside array bounds of 'struct usb_iso_packet_descriptor[0]' [-Warray-bounds=]
-     858 |                         urb->iso_frame_desc[j].offset = frame_offset;
-         |                         ~~~~~~~~~~~~~~~~~~~^~~
-   include/linux/usb.h: In function 'ttusb_start_feed':
-   include/linux/usb.h:1617:42: note: while referencing 'iso_frame_desc'
-    1617 |         struct usb_iso_packet_descriptor iso_frame_desc[0];
-         |                                          ^~~~~~~~~~~~~~
-   In function 'ttusb_start_iso_xfer',
-       inlined from 'ttusb_start_feed' at drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:936:3:
-   drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:859:44: warning: array subscript 1 is outside array bounds of 'struct usb_iso_packet_descriptor[0]' [-Warray-bounds=]
-     859 |                         urb->iso_frame_desc[j].length = ISO_FRAME_SIZE;
-         |                         ~~~~~~~~~~~~~~~~~~~^~~
-   include/linux/usb.h: In function 'ttusb_start_feed':
-   include/linux/usb.h:1617:42: note: while referencing 'iso_frame_desc'
-    1617 |         struct usb_iso_packet_descriptor iso_frame_desc[0];
-         |                                          ^~~~~~~~~~~~~~
-   In function 'ttusb_start_iso_xfer',
-       inlined from 'ttusb_start_feed' at drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:936:3:
-   drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:858:44: warning: array subscript 2 is outside array bounds of 'struct usb_iso_packet_descriptor[0]' [-Warray-bounds=]
-     858 |                         urb->iso_frame_desc[j].offset = frame_offset;
-         |                         ~~~~~~~~~~~~~~~~~~~^~~
-   include/linux/usb.h: In function 'ttusb_start_feed':
-   include/linux/usb.h:1617:42: note: while referencing 'iso_frame_desc'
-    1617 |         struct usb_iso_packet_descriptor iso_frame_desc[0];
-         |                                          ^~~~~~~~~~~~~~
-   In function 'ttusb_start_iso_xfer',
-       inlined from 'ttusb_start_feed' at drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:936:3:
-   drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:859:44: warning: array subscript 2 is outside array bounds of 'struct usb_iso_packet_descriptor[0]' [-Warray-bounds=]
-     859 |                         urb->iso_frame_desc[j].length = ISO_FRAME_SIZE;
-         |                         ~~~~~~~~~~~~~~~~~~~^~~
-   include/linux/usb.h: In function 'ttusb_start_feed':
-   include/linux/usb.h:1617:42: note: while referencing 'iso_frame_desc'
-    1617 |         struct usb_iso_packet_descriptor iso_frame_desc[0];
-         |                                          ^~~~~~~~~~~~~~
-   In function 'ttusb_start_iso_xfer',
-       inlined from 'ttusb_start_feed' at drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:936:3:
-   drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:858:44: warning: array subscript 3 is outside array bounds of 'struct usb_iso_packet_descriptor[0]' [-Warray-bounds=]
-     858 |                         urb->iso_frame_desc[j].offset = frame_offset;
-         |                         ~~~~~~~~~~~~~~~~~~~^~~
-   include/linux/usb.h: In function 'ttusb_start_feed':
-   include/linux/usb.h:1617:42: note: while referencing 'iso_frame_desc'
-    1617 |         struct usb_iso_packet_descriptor iso_frame_desc[0];
-         |                                          ^~~~~~~~~~~~~~
-   In function 'ttusb_start_iso_xfer',
-       inlined from 'ttusb_start_feed' at drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:936:3:
-   drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:859:44: warning: array subscript 3 is outside array bounds of 'struct usb_iso_packet_descriptor[0]' [-Warray-bounds=]
-     859 |                         urb->iso_frame_desc[j].length = ISO_FRAME_SIZE;
-         |                         ~~~~~~~~~~~~~~~~~~~^~~
-   include/linux/usb.h: In function 'ttusb_start_feed':
-   include/linux/usb.h:1617:42: note: while referencing 'iso_frame_desc'
-    1617 |         struct usb_iso_packet_descriptor iso_frame_desc[0];
-         |                                          ^~~~~~~~~~~~~~
+   arch/powerpc/sysdev/xive/common.c: In function 'xive_core_debug_init':
+>> arch/powerpc/sysdev/xive/common.c:1845:50: error: '%ld' directive output may be truncated writing between 1 and 20 bytes into a region of size 13 [-Werror=format-truncation=]
+    1845 |                 snprintf(name, sizeof(name), "cpu%ld", cpu);
+         |                                                  ^~~
+   In function 'xive_core_debugfs_create',
+       inlined from 'xive_core_debug_init' at arch/powerpc/sysdev/xive/common.c:1861:3:
+   arch/powerpc/sysdev/xive/common.c:1845:46: note: directive argument in the range [-9223372036854775808, 4294967294]
+    1845 |                 snprintf(name, sizeof(name), "cpu%ld", cpu);
+         |                                              ^~~~~~~~
+   arch/powerpc/sysdev/xive/common.c:1845:17: note: 'snprintf' output between 5 and 24 bytes into a destination of size 16
+    1845 |                 snprintf(name, sizeof(name), "cpu%ld", cpu);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +224 drivers/media/usb/cx231xx/cx231xx-dvb.c
+vim +2032 arch/powerpc/platforms/pseries/lpar.c
 
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  206  
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  207  static inline int dvb_isoc_copy(struct cx231xx *dev, struct urb *urb)
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  208  {
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  209  	int i;
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  210  
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  211  	if (!dev)
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  212  		return 0;
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  213  
-990862a2f02429 drivers/media/video/cx231xx/cx231xx-dvb.c Mauro Carvalho Chehab 2012-01-10  214  	if (dev->state & DEV_DISCONNECTED)
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  215  		return 0;
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  216  
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  217  	if (urb->status < 0) {
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  218  		print_err_status(dev, -1, urb->status);
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  219  		if (urb->status == -ENOENT)
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  220  			return 0;
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  221  	}
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  222  
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  223  	for (i = 0; i < urb->number_of_packets; i++) {
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03 @224  		int status = urb->iso_frame_desc[i].status;
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  225  
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  226  		if (status < 0) {
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  227  			print_err_status(dev, i, status);
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  228  			if (urb->iso_frame_desc[i].status != -EPROTO)
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  229  				continue;
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  230  		}
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  231  
-64fbf444552606 drivers/media/video/cx231xx/cx231xx-dvb.c Palash Bandyopadhyay  2010-07-06  232  		dvb_dmx_swfilter(&dev->dvb->demux,
-64fbf444552606 drivers/media/video/cx231xx/cx231xx-dvb.c Palash Bandyopadhyay  2010-07-06  233  				 urb->transfer_buffer +
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  234  				urb->iso_frame_desc[i].offset,
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  235  				urb->iso_frame_desc[i].actual_length);
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  236  	}
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  237  
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  238  	return 0;
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  239  }
-e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-dvb.c Sri Deevi             2009-03-03  240  
+c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2018  
+c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2019  static int __init vpa_debugfs_init(void)
+c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2020  {
+c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2021  	char name[16];
+c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2022  	long i;
+11dd34f3eae5a4 YueHaibing       2019-02-18  2023  	struct dentry *vpa_dir;
+c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2024  
+c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2025  	if (!firmware_has_feature(FW_FEATURE_SPLPAR))
+c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2026  		return 0;
+c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2027  
+dbf77fed8b302e Aneesh Kumar K.V 2021-08-12  2028  	vpa_dir = debugfs_create_dir("vpa", arch_debugfs_dir);
+c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2029  
+c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2030  	/* set up the per-cpu vpa file*/
+c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2031  	for_each_possible_cpu(i) {
+c6c26fb55e8e4b Aravinda Prasad  2018-10-16 @2032  		sprintf(name, "cpu-%ld", i);
 
-:::::: The code at line 224 was first introduced by commit
-:::::: e0d3bafd02586cfde286c320f56906fd9fa8d256 V4L/DVB (10954): Add cx231xx USB driver
+:::::: The code at line 2032 was first introduced by commit
+:::::: c6c26fb55e8e4b3fc376be5611685990a17de27a powerpc/pseries: Export raw per-CPU VPA data via debugfs
 
-:::::: TO: Sri Deevi <Srinivasa.Deevi@conexant.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
+:::::: TO: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 -- 
 0-DAY CI Kernel Test Service
