@@ -1,112 +1,133 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F03535898
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 13:27:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BA018636
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 13:27:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ilI0LXj6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gJoudrfy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697635673; x=1729171673;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8eHOVMQ26xD5k8y4u1jDSNvLzf5deQiOt2FKz+nrKTI=;
-  b=ilI0LXj6eBW8WzRok9kdy2BTtNfTfceA8opbnvUMtRlX1A7e7CQfNvgV
-   E9psT+ULXRltoWiv0WFc5Pns3ZrE91kgiQc9h7JzanoMZ3ic1hi140akU
-   HPEGogYzTVc7H2Z2fC06IsyPyNsRv0ubr9U4Te/CHefB/ltEjaw7tkkZk
-   xRUsV3VL/pvz0S3rkfAFOkgCI19boyWS3FfRoe7wipWQQ03FLLoQ1AFgv
-   weCt3QeotZ8Q8ndeR7Z1e2aPTu9vlT6vwmqfhIBqOK9EYexKqzRW16cRa
-   z0gXgF0Jvk89qel24biyh9nLB1qURjFqpjx/QAf5AfJmXZ4duW6GIdWpk
+  t=1697635674; x=1729171674;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=jWE9LqZwlxBknmsbqjvsaewYAymHDx6S2uw5KhF4qDc=;
+  b=gJoudrfyrzxvDZsLWVKrbvneXJHtMvQTvNIihUEYqCdV3lDWp4zHixp6
+   6M7gstxcyjUwbpeV6pFcYoXg9OQwEII3KXEED6nmNPgRgXbxxCxhdL/I1
+   IghPp8FpPCXS2I3Wcl7tQwhSMwviWT9PtZspViLq8ufDB8gUFSbJiEEz1
+   Yw8P/nVN1OgPUGYsPMkvQTjBodasQHHpfPfQDV5a/5AQIjT5wxF7nawSN
+   UrnQkP7BW9hL3wCChPxy54qpC/CXxJBzq92myAvfiEonEKs2qnTNhSpTy
+   a07lgzihWq9cBYxwWI4hAaOf5py3KDaoYX4S/P7jcmPaZsiajbtOd6dAR
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="417125400"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="417125401"
 X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="417125400"
+   d="scan'208";a="417125401"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
   by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 06:27:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="1003810879"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="1003810878"
 X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="1003810879"
+   d="scan'208";a="1003810878"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
   by fmsmga006.fm.intel.com with ESMTP; 18 Oct 2023 06:27:51 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qt6aT-0000Py-0f;
+	id 1qt6aT-0000Pu-0R;
 	Wed, 18 Oct 2023 13:27:49 +0000
 Date: Wed, 18 Oct 2023 21:27:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michael =?iso-8859-1?Q?Wei=DF?= <michael.weiss@aisec.fraunhofer.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 10/14] lsm: Add security_sb_alloc_userns() hook
-Message-ID: <202310182138.Y603GU6U-lkp@intel.com>
-References: <20231018105033.13669-11-michael.weiss@aisec.fraunhofer.de>
+To: Danilo Krummrich <dakr@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Dave Airlie <airlied@redhat.com>
+Subject: drivers/gpu/drm/nouveau/nouveau_gem.c:195:16: warning: array
+ subscript 0 is outside array bounds of 'struct nouveau_vmm[0]'
+Message-ID: <202310182119.dZjSbqjD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20231018105033.13669-11-michael.weiss@aisec.fraunhofer.de>
+Content-Transfer-Encoding: 8bit
 
-Hi Michael,
+Hi Danilo,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 58720809f52779dc0f08e53e54b014209d13eebb]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Wei/device_cgroup-Implement-devcgroup-hooks-as-lsm-security-hooks/20231018-185850
-base:   58720809f52779dc0f08e53e54b014209d13eebb
-patch link:    https://lore.kernel.org/r/20231018105033.13669-11-michael.weiss%40aisec.fraunhofer.de
-patch subject: [RFC PATCH v2 10/14] lsm: Add security_sb_alloc_userns() hook
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231018/202310182138.Y603GU6U-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310182138.Y603GU6U-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   06dc10eae55b5ceabfef287a7e5f16ceea204aa0
+commit: b88baab828713ce0b49b185444b2ee83bed373a8 drm/nouveau: implement new VM_BIND uAPI
+date:   3 months ago
+config: arm64-randconfig-004-20231018 (https://download.01.org/0day-ci/archive/20231018/202310182119.dZjSbqjD-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310182119.dZjSbqjD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310182138.Y603GU6U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310182119.dZjSbqjD-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> security/security.c:4077: warning: Function parameter or member 'sb' not described in 'security_sb_alloc_userns'
-   1 warnings as Errors
+   drivers/gpu/drm/nouveau/nouveau_gem.c: In function 'nouveau_gem_object_close':
+>> drivers/gpu/drm/nouveau/nouveau_gem.c:195:16: warning: array subscript 0 is outside array bounds of 'struct nouveau_vmm[0]' [-Warray-bounds=]
+     195 |         if (vmm->vmm.object.oclass < NVIF_CLASS_VMM_NV50)
+         |                ^~
+   cc1: note: source object is likely at address zero
+>> drivers/gpu/drm/nouveau/nouveau_gem.c:195:16: warning: array subscript 0 is outside array bounds of 'struct nouveau_vmm[0]' [-Warray-bounds=]
+   cc1: note: source object is likely at address zero
+>> drivers/gpu/drm/nouveau/nouveau_gem.c:195:16: warning: array subscript 0 is outside array bounds of 'struct nouveau_vmm[0]' [-Warray-bounds=]
+   cc1: note: source object is likely at address zero
+   cc1: note: source object is likely at address zero
 
 
-vim +4077 security/security.c
+vim +195 drivers/gpu/drm/nouveau/nouveau_gem.c
 
-  4067	
-  4068	/**
-  4069	 * security_sb_alloc_userns() - Grand access to device nodes on sb in userns
-  4070	 *
-  4071	 * If device access is provided elsewere, this hook will grand access to device nodes
-  4072	 * on the allocated sb for unprivileged user namespaces.
-  4073	 *
-  4074	 * Return: Returns 0 on success, error on failure.
-  4075	 */
-  4076	int security_sb_alloc_userns(struct super_block *sb)
-> 4077	{
-  4078		int thisrc;
-  4079		int rc = LSM_RET_DEFAULT(sb_alloc_userns);
-  4080		struct security_hook_list *hp;
-  4081	
-  4082		hlist_for_each_entry(hp, &security_hook_heads.sb_alloc_userns, list) {
-  4083			thisrc = hp->hook.sb_alloc_userns(sb);
-  4084			if (thisrc != LSM_RET_DEFAULT(sb_alloc_userns)) {
-  4085				rc = thisrc;
-  4086				if (thisrc != 0)
-  4087					break;
-  4088			}
-  4089		}
-  4090		return rc;
-  4091	}
-  4092	EXPORT_SYMBOL(security_sb_alloc_userns);
-  4093	
+c4c7044ffc1ba9 Ben Skeggs       2013-05-07  183  
+639212d0115726 Ben Skeggs       2011-06-03  184  void
+639212d0115726 Ben Skeggs       2011-06-03  185  nouveau_gem_object_close(struct drm_gem_object *gem, struct drm_file *file_priv)
+639212d0115726 Ben Skeggs       2011-06-03  186  {
+ebb945a94bba2c Ben Skeggs       2012-07-20  187  	struct nouveau_cli *cli = nouveau_cli(file_priv);
+2fd3db6f145705 Ben Skeggs       2011-06-07  188  	struct nouveau_bo *nvbo = nouveau_gem_object(gem);
+5cc8d536c21a17 Ben Skeggs       2014-12-11  189  	struct nouveau_drm *drm = nouveau_bdev(nvbo->bo.bdev);
+5cc8d536c21a17 Ben Skeggs       2014-12-11  190  	struct device *dev = drm->dev->dev;
+7b05a7c0c9ca6e Danilo Krummrich 2023-08-04  191  	struct nouveau_vmm *vmm = nouveau_cli_vmm(cli);
+24e8375b1bfdf7 Ben Skeggs       2017-11-01  192  	struct nouveau_vma *vma;
+2fd3db6f145705 Ben Skeggs       2011-06-07  193  	int ret;
+639212d0115726 Ben Skeggs       2011-06-03  194  
+bfe91afaca5925 Ben Skeggs       2019-02-19 @195  	if (vmm->vmm.object.oclass < NVIF_CLASS_VMM_NV50)
+639212d0115726 Ben Skeggs       2011-06-03  196  		return;
+2fd3db6f145705 Ben Skeggs       2011-06-07  197  
+b88baab828713c Danilo Krummrich 2023-08-04  198  	if (nouveau_cli_uvmm(cli))
+b88baab828713c Danilo Krummrich 2023-08-04  199  		return;
+b88baab828713c Danilo Krummrich 2023-08-04  200  
+dfd5e50ea43ca4 Christian König  2016-04-06  201  	ret = ttm_bo_reserve(&nvbo->bo, false, false, NULL);
+2fd3db6f145705 Ben Skeggs       2011-06-07  202  	if (ret)
+2fd3db6f145705 Ben Skeggs       2011-06-07  203  		return;
+2fd3db6f145705 Ben Skeggs       2011-06-07  204  
+bfe91afaca5925 Ben Skeggs       2019-02-19  205  	vma = nouveau_vma_find(nvbo, vmm);
+2fd3db6f145705 Ben Skeggs       2011-06-07  206  	if (vma) {
+24e8375b1bfdf7 Ben Skeggs       2017-11-01  207  		if (--vma->refs == 0) {
+5cc8d536c21a17 Ben Skeggs       2014-12-11  208  			ret = pm_runtime_get_sync(dev);
+5cc8d536c21a17 Ben Skeggs       2014-12-11  209  			if (!WARN_ON(ret < 0 && ret != -EACCES)) {
+c4c7044ffc1ba9 Ben Skeggs       2013-05-07  210  				nouveau_gem_object_unmap(nvbo, vma);
+5cc8d536c21a17 Ben Skeggs       2014-12-11  211  				pm_runtime_mark_last_busy(dev);
+5cc8d536c21a17 Ben Skeggs       2014-12-11  212  			}
+d3faddc7dcd326 Dinghao Liu      2020-05-20  213  			pm_runtime_put_autosuspend(dev);
+5cc8d536c21a17 Ben Skeggs       2014-12-11  214  		}
+2fd3db6f145705 Ben Skeggs       2011-06-07  215  	}
+2fd3db6f145705 Ben Skeggs       2011-06-07  216  	ttm_bo_unreserve(&nvbo->bo);
+639212d0115726 Ben Skeggs       2011-06-03  217  }
+639212d0115726 Ben Skeggs       2011-06-03  218  
+
+:::::: The code at line 195 was first introduced by commit
+:::::: bfe91afaca59251fbf5d62143fdd8f740b551302 drm/nouveau: prepare for enabling svm with existing userspace interfaces
+
+:::::: TO: Ben Skeggs <bskeggs@redhat.com>
+:::::: CC: Ben Skeggs <bskeggs@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
