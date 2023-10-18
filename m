@@ -1,54 +1,57 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6D1182C6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 09:57:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0B71171D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 10:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ipCsiJgN"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40806e4106dso9455755e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 02:57:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697623077; x=1698227877; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=U0FUoFjkwulGcN5Yd0QfauAPgIYEfCmr50tJH/PkM64=;
-        b=ipCsiJgNrQrbcQOQ+w7482pSHjMaM8ROmkHECqA45BnMcpCHrvi9v0uy36vhgNwI+U
-         sT10yFK0hygO08/rNJ1OJNWI+z29q0I+owcBImai4o1WoBNDOIMiiqhi7T2LeMyJSTQ0
-         I27kx3e7XFga2RraQmGQ09uNXOk/fKUAqxhyW9sg/4QmHsf+ZUmn5E5A0aMGaizgRj+p
-         cLAWAOPHxstkMmeiPhHFsyrTL6I9GRTci57FKvmMdlg3rfuTBKHvtYInS9ucPqKSbNjW
-         Gbgsh6QZoeVGHz4CxDz6tC5UzZgdRPWOEUtxMgeh9l532/2q6ZWi8BfYJvFpjuPICJmf
-         OBtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697623077; x=1698227877;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=U0FUoFjkwulGcN5Yd0QfauAPgIYEfCmr50tJH/PkM64=;
-        b=XRZPI+7QIC53P8mPu3JLA3ivcUNLDLU8VTRL2iEg5XSrJY/mpcJhTwfMS/Fc2Z/E0o
-         nfZv1HKxuiI24zsDnxib8/8n9DlkpsIr4ToyQaBH1TzwqjaTvwGixG7fGxa+OP90tjxw
-         cF8UmgGefgEmjT9Y829ISRAAaClPuZpOYnmnToyENnhbqjp57AHwNCqUK8bBjZxMvW2A
-         ZeinsMEasBnAxRolmHuob5bomjUF8mzJ+DdaSW+e/axAnw8aUDMOL/D1szR5fweElXyx
-         IkdAOqxCR6YOR4hsC6wzbzAknQ1pfq9v7CI9ZyXWb/AwZ1nDm0RToIqoz197wxyIXNvp
-         SHEg==
-X-Gm-Message-State: AOJu0YxQ4Ln8GepZ9xOmj0si7InOsOIHuUq5fYrTO0CDwdTVBtcZeO+L
-	RWYOva8nP0PWDPe99159qEs9+Q==
-X-Google-Smtp-Source: AGHT+IFJxpqoxxLsyl88u55j0gWXsPQanXw3Nd+LcqcruMjexj18xHda/GEXbK0Yxx6AXK0wLN/5MA==
-X-Received: by 2002:a05:600c:a39c:b0:407:4126:f71c with SMTP id hn28-20020a05600ca39c00b004074126f71cmr4272587wmb.6.1697623077252;
-        Wed, 18 Oct 2023 02:57:57 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id y34-20020a05600c342200b004063977eccesm1217568wmp.42.2023.10.18.02.57.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Oct 2023 02:57:56 -0700 (PDT)
-Date: Wed, 18 Oct 2023 12:57:52 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [char-misc:char-misc-testing 21/23] drivers/parport/share.c:486
- parport_register_port() warn: '&tmp->full_list' not removed from list
-Message-ID: <2171426a-1784-41e9-8614-2d3a7a602831@kadam.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZC67/UyL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697624079; x=1729160079;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gGMq4a5qiZYUn9Oln+qtDvu7lzpJ8vcxRcIG4w8ru0o=;
+  b=ZC67/UyLHxyshVEVrPwOrrE6FbYhKzZBvc/XOmgrVRHK409lN2OLT6LB
+   w9Hu1H4ibucLIBIKhTKBKN+SNIUrDVrqabo9NZmTgSgrV47XL8emr9b02
+   unwrlUTbSEAWEBs7G5v/nD1t8nW4xyI2Q/VPsU5UWW880wvqST4wbomDt
+   b9b/3I49IkCRU9ctwRJdfMwS/cU6WAsxQQzPzyth+dhl/i3aUnkmdEQQq
+   gUTX5yMiHwwn1Q+dXpl8OVFJk+cMqw57c1ZECoPJuhqXmJMdIZUePE30j
+   +yJucrTPJh9V9cyIxNDQqX1ejkGs05UdWGqtJeMvg4uVQCbGFBaQoTono
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="4579140"
+X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
+   d="scan'208";a="4579140"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 03:14:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="760171482"
+X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
+   d="scan'208";a="760171482"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 18 Oct 2023 03:14:33 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qt3ZO-0000Ds-37;
+	Wed, 18 Oct 2023 10:14:30 +0000
+Date: Wed, 18 Oct 2023 18:14:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tylor Yang <tylor_yang@himax.corp-partner.google.com>,
+	dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	jikos@kernel.org, benjamin.tissoires@redhat.com,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	poyuan_chang@himax.corp-partner.google.com, jingyliang@chromium.org,
+	hbarnor@chromium.org, wuxy23@lenovo.com, luolm1@lenovo.com,
+	poyu_hung@himax.corp-partner.google.com,
+	Tylor Yang <tylor_yang@himax.corp-partner.google.com>
+Subject: Re: [PATCH v3 2/4] HID: touchscreen: Add initial support for Himax
+ HID-over-SPI
+Message-ID: <202310181806.Ne95k5nt-lkp@intel.com>
+References: <20231017091900.801989-3-tylor_yang@himax.corp-partner.google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,111 +60,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231017091900.801989-3-tylor_yang@himax.corp-partner.google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git char-misc-testing
-head:   5ab2ef71d3e0a4b8e5839b1850ccdd236695e2e0
-commit: 6c9334e9230e552c795eebd34e6b208c6df693fe [21/23] parport: Use kasprintf() instead of fixed buffer formatting
-config: i386-randconfig-141-20231017 (https://download.01.org/0day-ci/archive/20231018/202310180809.hepZB9k6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231018/202310180809.hepZB9k6-lkp@intel.com/reproduce)
+Hi Tylor,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on dtor-input/next dtor-input/for-linus robh/for-next linus/master v6.6-rc6 next-20231018]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tylor-Yang/dt-bindings-input-Introduce-Himax-HID-over-SPI-device/20231017-172156
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20231017091900.801989-3-tylor_yang%40himax.corp-partner.google.com
+patch subject: [PATCH v3 2/4] HID: touchscreen: Add initial support for Himax HID-over-SPI
+reproduce: (https://download.01.org/0day-ci/archive/20231018/202310181806.Ne95k5nt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202310180809.hepZB9k6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310181806.Ne95k5nt-lkp@intel.com/
 
-New smatch warnings:
-drivers/parport/share.c:486 parport_register_port() warn: '&tmp->full_list' not removed from list
-
-Old smatch warnings:
-drivers/parport/share.c:826 parport_register_dev_model() warn: possible memory leak of 'par_dev'
-
-vim +486 drivers/parport/share.c
-
-^1da177e4c3f41 Linus Torvalds      2005-04-16  434  struct parport *parport_register_port(unsigned long base, int irq, int dma,
-^1da177e4c3f41 Linus Torvalds      2005-04-16  435  				      struct parport_operations *ops)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  436  {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  437  	struct list_head *l;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  438  	struct parport *tmp;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  439  	int num;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  440  	int device;
-6fa45a22689722 Sudip Mukherjee     2015-05-20  441  	int ret;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  442  
-c32df4e182e5bf Alexandru Gheorghiu 2013-07-03  443  	tmp = kzalloc(sizeof(struct parport), GFP_KERNEL);
-47ec57ec0e5283 Sudip Mukherjee     2015-10-28  444  	if (!tmp)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  445  		return NULL;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  446  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  447  	/* Init our structure */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  448  	tmp->base = base;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  449  	tmp->irq = irq;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  450  	tmp->dma = dma;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  451  	tmp->muxport = tmp->daisy = tmp->muxsel = -1;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  452  	tmp->modes = 0;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  453  	INIT_LIST_HEAD(&tmp->list);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  454  	tmp->devices = tmp->cad = NULL;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  455  	tmp->flags = 0;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  456  	tmp->ops = ops;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  457  	tmp->physport = tmp;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  458  	memset(tmp->probe_info, 0, 5 * sizeof(struct parport_device_info));
-^1da177e4c3f41 Linus Torvalds      2005-04-16  459  	rwlock_init(&tmp->cad_lock);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  460  	spin_lock_init(&tmp->waitlist_lock);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  461  	spin_lock_init(&tmp->pardevice_lock);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  462  	tmp->ieee1284.mode = IEEE1284_MODE_COMPAT;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  463  	tmp->ieee1284.phase = IEEE1284_PH_FWD_IDLE;
-a529f1505b6fac Thomas Gleixner     2010-09-07  464  	sema_init(&tmp->ieee1284.irq, 0);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  465  	tmp->spintime = parport_default_spintime;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  466  	atomic_set(&tmp->ref_count, 1);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  467  	INIT_LIST_HEAD(&tmp->full_list);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  468  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  469  	/* Search for the lowest free parport number. */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  470  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  471  	spin_lock(&full_list_lock);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  472  	for (l = all_ports.next, num = 0; l != &all_ports; l = l->next, num++) {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  473  		struct parport *p = list_entry(l, struct parport, full_list);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  474  		if (p->number != num)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  475  			break;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  476  	}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  477  	tmp->portnum = tmp->number = num;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  478  	list_add_tail(&tmp->full_list, l);
-
-tmp gets added to the all_ports list here
-
-^1da177e4c3f41 Linus Torvalds      2005-04-16  479  	spin_unlock(&full_list_lock);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  480  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  481  	/*
-^1da177e4c3f41 Linus Torvalds      2005-04-16  482  	 * Now that the portnum is known finish doing the Init.
-^1da177e4c3f41 Linus Torvalds      2005-04-16  483  	 */
-6c9334e9230e55 Andy Shevchenko     2023-10-16  484  	tmp->name = kasprintf(GFP_KERNEL, "parport%d", tmp->portnum);
-6c9334e9230e55 Andy Shevchenko     2023-10-16  485  	if (!tmp->name) {
-6c9334e9230e55 Andy Shevchenko     2023-10-16 @486  		kfree(tmp);
-
-This kfree will lead to a use after free.  Also tmp is such a terribly
-confusing name for something that isn't temporary at all.
-
-6c9334e9230e55 Andy Shevchenko     2023-10-16  487  		return NULL;
-6c9334e9230e55 Andy Shevchenko     2023-10-16  488  	}
-6c9334e9230e55 Andy Shevchenko     2023-10-16  489  	dev_set_name(&tmp->bus_dev, tmp->name);
-6fa45a22689722 Sudip Mukherjee     2015-05-20  490  	tmp->bus_dev.bus = &parport_bus_type;
-6fa45a22689722 Sudip Mukherjee     2015-05-20  491  	tmp->bus_dev.release = free_port;
-6fa45a22689722 Sudip Mukherjee     2015-05-20  492  	tmp->bus_dev.type = &parport_device_type;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  493  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  494  	for (device = 0; device < 5; device++)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  495  		/* assume the worst */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  496  		tmp->probe_info[device].class = PARPORT_CLASS_LEGACY;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  497  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  498  	tmp->waithead = tmp->waittail = NULL;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  499  
-6fa45a22689722 Sudip Mukherjee     2015-05-20  500  	ret = device_register(&tmp->bus_dev);
-6fa45a22689722 Sudip Mukherjee     2015-05-20  501  	if (ret) {
-6fa45a22689722 Sudip Mukherjee     2015-05-20  502  		put_device(&tmp->bus_dev);
-6fa45a22689722 Sudip Mukherjee     2015-05-20  503  		return NULL;
-6fa45a22689722 Sudip Mukherjee     2015-05-20  504  	}
-6fa45a22689722 Sudip Mukherjee     2015-05-20  505  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  506  	return tmp;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  507  }
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wrestrict -Warray-bounds -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wundef -funsigned-char -Wenum-conversion -Werror=return-type W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+>> ./drivers/hid/hx-hid/hx_core.h: 25 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
