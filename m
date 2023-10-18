@@ -1,46 +1,27 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D80F14F8F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 08:54:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ejlXNxvl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1697619285;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pp5sXxU1MFlNUtAtVI0C/KnM/d5Lryu4hPhDsWo2s0M=;
-	b=ejlXNxvlofCDsTNhLFKdiccb+PjbhMDaKfgxNSfMtns86GGA/h1czmkVFCiJt1dnEpEDFC
-	Bk7cqTBo6DEbgrYah/gxVt/iwvOriLgqnoHq67QZDqfmM49AyBK8bYwLKFq8eLP09BCCRq
-	gt/9oHRRDF1sVU/YIDZgwGMV4/z1IB0=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-467-qrWKnXEXPOmIyykWECAa-Q-1; Wed, 18 Oct 2023 04:54:38 -0400
-X-MC-Unique: qrWKnXEXPOmIyykWECAa-Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F6CA3826D3D;
-	Wed, 18 Oct 2023 08:54:38 +0000 (UTC)
-Received: from localhost (unknown [10.72.112.83])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 073D7909;
-	Wed, 18 Oct 2023 08:54:36 +0000 (UTC)
-Date: Wed, 18 Oct 2023 16:54:33 +0800
-From: Baoquan He <bhe@redhat.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Lorenzo Stoakes <lstoakes@gmail.com>,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm'
- could be null (see line 3667)
-Message-ID: <ZS+dSd9Z6/2wU0Eg@MiWiFi-R3L-srv>
-References: <f82be227-bfde-439a-b339-1b4ee370d59a@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADAB15E8B;
+	Wed, 18 Oct 2023 09:36:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82AC6C433C7;
+	Wed, 18 Oct 2023 09:36:37 +0000 (UTC)
+Date: Wed, 18 Oct 2023 10:36:35 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Ryan Roberts <ryan.roberts@arm.com>
+Cc: kernel test robot <lkp@intel.com>, Will Deacon <will@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Peter Collingbourne <pcc@google.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] arm64/mm: Hoist synchronization out of set_ptes() loop
+Message-ID: <ZS-nI79Aqm1UdQ6z@arm.com>
+References: <20231005140730.2191134-1-ryan.roberts@arm.com>
+ <202310140531.BQQwt3NQ-lkp@intel.com>
+ <ZS147N1JKyUvaHyJ@arm.com>
+ <b463b420-c2be-49c5-bed6-0ff896851adb@arm.com>
+ <ZS6EvMiJ0QF5INkv@arm.com>
+ <1634d3e0-ac13-4f08-97e3-9b04a9202431@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,139 +30,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f82be227-bfde-439a-b339-1b4ee370d59a@kadam.mountain>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
+In-Reply-To: <1634d3e0-ac13-4f08-97e3-9b04a9202431@arm.com>
 
-Hi,
+On Wed, Oct 18, 2023 at 09:21:02AM +0100, Ryan Roberts wrote:
+> On 17/10/2023 13:57, Catalin Marinas wrote:
+> > On Tue, Oct 17, 2023 at 08:36:43AM +0100, Ryan Roberts wrote:
+> >> On 16/10/2023 18:54, Catalin Marinas wrote:
+> >>> On Sat, Oct 14, 2023 at 05:15:51AM +0800, kernel test robot wrote:
+> >>>> kernel test robot noticed the following build warnings:
+> >>>>
+> >>>> [auto build test WARNING on arm64/for-next/core]
+> >>>> [also build test WARNING on arm-perf/for-next/perf arm/for-next kvmarm/next soc/for-next linus/master v6.6-rc5 next-20231013]
+> >>>> [cannot apply to arm/fixes]
+> >>>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> >>>> And when submitting patch, we suggest to use '--base' as documented in
+> >>>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >>>>
+> >>>> url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Roberts/arm64-mm-Hoist-synchronization-out-of-set_ptes-loop/20231005-231636
+> >>>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+> >>>> patch link:    https://lore.kernel.org/r/20231005140730.2191134-1-ryan.roberts%40arm.com
+> >>>> patch subject: [PATCH v2] arm64/mm: Hoist synchronization out of set_ptes() loop
+> >>>> config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231014/202310140531.BQQwt3NQ-lkp@intel.com/config)
+> >>>> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> >>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231014/202310140531.BQQwt3NQ-lkp@intel.com/reproduce)
+> >>>>
+> >>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> >>>> the same patch/commit), kindly add following tags
+> >>>> | Reported-by: kernel test robot <lkp@intel.com>
+> >>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202310140531.BQQwt3NQ-lkp@intel.com/
+> >>>>
+> >>>> All warnings (new ones prefixed by >>):
+> >>>>
+> >>>>    In file included from net/ipv4/route.c:66:
+> >>>>    In file included from include/linux/mm.h:29:
+> >>>>    In file included from include/linux/pgtable.h:6:
+> >>>>>> arch/arm64/include/asm/pgtable.h:344:65: warning: parameter 'addr' set but not used [-Wunused-but-set-parameter]
+> >>>>      344 | static inline void set_ptes(struct mm_struct *mm, unsigned long addr,
+> >>>>          |                                                                 ^
+> >>>>    1 warning generated.
+> >>>
+> >>> Thanks for the report. I think something like below will do (I'll test
+> >>> and commit as a separate patch, it's not something that Ryan's patch
+> >>> introduces):
+> >>
+> >> I was actually just trying to repro this and was planning to send out a v3 of my
+> >> patch. But if you are happy to handle it as you suggest, then I guess you don't
+> >> need anything further from me?
+> > 
+> > If you feel like testing, please give this a go ;)
+> 
+> Compile tested and observed that warning is gone with your change. Also ran mm
+> selftests and all looks good. So:
+> 
+> Tested-by: Ryan Roberts <ryan.roberts@arm.com>
 
-On 10/17/23 at 05:26pm, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   213f891525c222e8ed145ce1ce7ae1f47921cb9c
-> commit: 4c91c07c93bbbdd7f2d9de2beb7ee5c2a48ad8e7 mm: vmalloc: convert vread() to vread_iter()
-> config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231017/202310171600.WCrsOwFj-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20231017/202310171600.WCrsOwFj-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202310171600.WCrsOwFj-lkp@intel.com/
-> 
-> smatch warnings:
-> mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm' could be null (see line 3667)
+Thanks. I'll push this patch on top of yours.
 
-I see the code deficit, while the reproduce link seems to be unavilable.
-Could you double check the link and provide a good one so that I can
-verify the code fix?
-
-Thanks
-Baoquan
-
-> 
-> vim +/vm +3689 mm/vmalloc.c
-> 
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3619  long vread_iter(struct iov_iter *iter, const char *addr, size_t count)
-> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3620  {
-> e81ce85f960c2e Joonsoo Kim             2013-04-29  3621  	struct vmap_area *va;
-> e81ce85f960c2e Joonsoo Kim             2013-04-29  3622  	struct vm_struct *vm;
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3623  	char *vaddr;
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3624  	size_t n, size, flags, remains;
-> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3625  
-> 4aff1dc4fb3a5a Andrey Konovalov        2022-03-24  3626  	addr = kasan_reset_tag(addr);
-> 4aff1dc4fb3a5a Andrey Konovalov        2022-03-24  3627  
-> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3628  	/* Don't allow overflow */
-> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3629  	if ((unsigned long) addr + count < count)
-> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3630  		count = -(unsigned long) addr;
-> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3631  
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3632  	remains = count;
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3633  
-> e81ce85f960c2e Joonsoo Kim             2013-04-29  3634  	spin_lock(&vmap_area_lock);
-> f181234a5a21fd Chen Wandun             2021-09-02  3635  	va = find_vmap_area_exceed_addr((unsigned long)addr);
-> f608788cd2d6ca Serapheim Dimitropoulos 2021-04-29  3636  	if (!va)
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3637  		goto finished_zero;
-> f181234a5a21fd Chen Wandun             2021-09-02  3638  
-> f181234a5a21fd Chen Wandun             2021-09-02  3639  	/* no intersects with alive vmap_area */
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3640  	if ((unsigned long)addr + remains <= va->va_start)
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3641  		goto finished_zero;
-> f181234a5a21fd Chen Wandun             2021-09-02  3642  
-> f608788cd2d6ca Serapheim Dimitropoulos 2021-04-29  3643  	list_for_each_entry_from(va, &vmap_area_list, list) {
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3644  		size_t copied;
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3645  
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3646  		if (remains == 0)
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3647  			goto finished;
-> e81ce85f960c2e Joonsoo Kim             2013-04-29  3648  
-> 06c8994626d1b7 Baoquan He              2023-02-06  3649  		vm = va->vm;
-> 06c8994626d1b7 Baoquan He              2023-02-06  3650  		flags = va->flags & VMAP_FLAGS_MASK;
-> 06c8994626d1b7 Baoquan He              2023-02-06  3651  		/*
-> 06c8994626d1b7 Baoquan He              2023-02-06  3652  		 * VMAP_BLOCK indicates a sub-type of vm_map_ram area, need
-> 06c8994626d1b7 Baoquan He              2023-02-06  3653  		 * be set together with VMAP_RAM.
-> 06c8994626d1b7 Baoquan He              2023-02-06  3654  		 */
-> 06c8994626d1b7 Baoquan He              2023-02-06  3655  		WARN_ON(flags == VMAP_BLOCK);
-> 06c8994626d1b7 Baoquan He              2023-02-06  3656  
-> 06c8994626d1b7 Baoquan He              2023-02-06  3657  		if (!vm && !flags)
-> 
-> NULL check
-> 
-> e81ce85f960c2e Joonsoo Kim             2013-04-29  3658  			continue;
-> e81ce85f960c2e Joonsoo Kim             2013-04-29  3659  
-> 30a7a9b17c4b03 Baoquan He              2023-02-06  3660  		if (vm && (vm->flags & VM_UNINITIALIZED))
-> 30a7a9b17c4b03 Baoquan He              2023-02-06  3661  			continue;
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3662  
-> 30a7a9b17c4b03 Baoquan He              2023-02-06  3663  		/* Pair with smp_wmb() in clear_vm_uninitialized_flag() */
-> 30a7a9b17c4b03 Baoquan He              2023-02-06  3664  		smp_rmb();
-> 30a7a9b17c4b03 Baoquan He              2023-02-06  3665  
-> 06c8994626d1b7 Baoquan He              2023-02-06  3666  		vaddr = (char *) va->va_start;
-> 06c8994626d1b7 Baoquan He              2023-02-06 @3667  		size = vm ? get_vm_area_size(vm) : va_size(va);
-> 06c8994626d1b7 Baoquan He              2023-02-06  3668  
-> 06c8994626d1b7 Baoquan He              2023-02-06  3669  		if (addr >= vaddr + size)
-> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3670  			continue;
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3671  
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3672  		if (addr < vaddr) {
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3673  			size_t to_zero = min_t(size_t, vaddr - addr, remains);
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3674  			size_t zeroed = zero_iter(iter, to_zero);
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3675  
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3676  			addr += zeroed;
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3677  			remains -= zeroed;
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3678  
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3679  			if (remains == 0 || zeroed != to_zero)
-> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3680  				goto finished;
-> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3681  		}
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3682  
-> 06c8994626d1b7 Baoquan He              2023-02-06  3683  		n = vaddr + size - addr;
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3684  		if (n > remains)
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3685  			n = remains;
-> 06c8994626d1b7 Baoquan He              2023-02-06  3686  
-> 06c8994626d1b7 Baoquan He              2023-02-06  3687  		if (flags & VMAP_RAM)
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3688  			copied = vmap_ram_vread_iter(iter, addr, n, flags);
-> 06c8994626d1b7 Baoquan He              2023-02-06 @3689  		else if (!(vm->flags & VM_IOREMAP))
->                                                                                    ^^^^^^^^^
-> Unchecked dereference
-> 
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3690  			copied = aligned_vread_iter(iter, addr, n);
-> d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3691  		else /* IOREMAP area is treated as memory hole */
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3692  			copied = zero_iter(iter, n);
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3693  
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3694  		addr += copied;
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3695  		remains -= copied;
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3696  
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3697  		if (copied != n)
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3698  			goto finished;
-> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3699  	}
-> d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3700  
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3701  finished_zero:
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3702  	spin_unlock(&vmap_area_lock);
-> d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3703  	/* zero-fill memory holes */
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3704  	return count - remains + zero_iter(iter, remains);
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3705  finished:
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3706  	/* Nothing remains, or We couldn't copy/zero everything. */
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3707  	spin_unlock(&vmap_area_lock);
-> d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3708  
-> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3709  	return count - remains;
-> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3710  }
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
-
+-- 
+Catalin
