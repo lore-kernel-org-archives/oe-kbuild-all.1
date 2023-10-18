@@ -1,62 +1,62 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4095E4421
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 03:34:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 730554421
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 03:35:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eW5AFQXU"
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-66d0ceba445so36622296d6.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 20:34:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fNVkgaNu"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-66d36b2a247so25611486d6.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Oct 2023 20:35:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697600077; x=1698204877; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1697600106; x=1698204906; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/s99dRmEkXItCh+Koy2QP6BRT09ftvt7c4bW5g6ZI6E=;
-        b=eW5AFQXU2oPzD7y0G3aX1I9gQwHzAdqfWRgTgOANorxgUPQg895s1nmrmP2QdZW8Q5
-         I7Rvk9CBAPb42f1OTzur7uoolOVKNvm89KdVfCHric1rThIOs6maNIIFyXmsW/sT7Phg
-         wc9aniEIONylK/z/nZY3792X6/wL214fSiqQ1Peban60DouNmA33az+lio1UYWhFblox
-         ksrV4Q0+m+FNDetYsAgIsUch8O0MjaTupn/KT9Ywa2Y9xCRx80dvlmA4tJqfyRK07WkP
-         9WaCiILYJ2xcDovxqBCRJ/B7OMD6axWwhKUBNyNQ8aUABLuFNXUQOXfYSj5T3aLwLp/D
-         Kwng==
+        bh=OlRJJxSu1LGInmy2HPt56o1oSYVwjnM18gxy0xfZ/y0=;
+        b=fNVkgaNu3eDzA1SLHHj3TQogOSudf7FUv78xGLIBKob9okUHTlv+zL+M0D2id5GIiG
+         15UpTIHlE2VAAJEO2MiINgKm4OX3LwHZrWuDxqDIXy7JT8sULVOsN2dc9t5vJNXKK3K1
+         Qa8cjCcfi3ZQHXGhXPcpRiTOBJb2/Dumq5L8uq/mikrYo/WNMAHywVu6xLSrce8dgAHz
+         +xlvS+vY3Hb473s2tmMbow+fgvsPOuDtai5BunmY1q0rc5pDroV4/bt2fZQmPSTaIrpL
+         OjJR0Nf3m2rCiqY8u7cU0TeTHCBvrl9AT2JIqJPH4Dq7fy61aXZ6nPVdvtop5aQ6u9AE
+         mP3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697600077; x=1698204877;
+        d=1e100.net; s=20230601; t=1697600106; x=1698204906;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/s99dRmEkXItCh+Koy2QP6BRT09ftvt7c4bW5g6ZI6E=;
-        b=Db81xUAYiUF4b+vA9J/IG6pFZdeUuFZ8G/5iTwEaz/leyc/TgfMhBbFfTu89FqLMYh
-         0rpKvpL7IrI2om40r7jwNgeNLhOyuo3kuKBysoM27K0xWEoYBCVqNLkmCWcq0jjDJvID
-         Sq7S7diSD6neLpA04aLlLUfGpSAJDldZaVsbR8BgqUbNKaymsnr13FxyjPIDbaxUDECw
-         rJZRwPw4wA+rvgc/df+G4v9cztfHwmpd8X0D2xmqkES3VifRUTTCNII7TBx+EzkIAxx3
-         WuCsswuc+DdbO19VSm55UnnKXbwI0MV7UUQqPbBvb2N6aJw1VgLdbICVB6M3+K2AZP8S
-         R81g==
-X-Gm-Message-State: AOJu0YxeoF1FH2o5JZCK/6aZ7s/pu0jK53lgDzEnJO2WoQrp28Cu5+rb
-	qvSkSkXQxrlfcDYVHVHfdnqmweGHH3ZBE6TOcFo=
-X-Google-Smtp-Source: AGHT+IForvT30WJved7eGm71SxTF6TSYNHgTuUW0Us/GTGMVdWeFR0Xj65VA8s/HDbSF+vOkNJ3kMr40J8r/DcqyiTk=
-X-Received: by 2002:ad4:5dc6:0:b0:66d:3e2b:bf0a with SMTP id
- m6-20020ad45dc6000000b0066d3e2bbf0amr4620985qvh.20.1697600077015; Tue, 17 Oct
- 2023 20:34:37 -0700 (PDT)
+        bh=OlRJJxSu1LGInmy2HPt56o1oSYVwjnM18gxy0xfZ/y0=;
+        b=GI0ao/suANvOXwp4B5LsdgI1NxbGdjnvtFiAT9PSPfISrb/TgOuxB1mMmqYRrPgxbM
+         oGE6EU79QOT7uabMZibz6xKI1Z3HiR3eOXw/uTxRXZFTT+LEP5WWJwcmdmzXID9qwPiV
+         dBihiWU9HKoFGq5U7xjDMDql9UZhbixLvVR7AmEQ1lPsjYBt+y3LqKi0Y1QIVTblChl+
+         cygXcFheG5dGdyeZtymDWPoMD+CFhX9G9+o+86RCprpKPdKXbhbpn093q8tPcoqbjNCD
+         IYDWncYk+F1pkiE1DV5Jg44iEo4EkqLb2eQz+gCQ1z4HJGfUanai5GCpgbiiJLNYuN7E
+         5q2A==
+X-Gm-Message-State: AOJu0Yx0bVsXDTXiG7vrUvtcDp7EBff5HxnB8UJd8XUD/7Odf0Didfyk
+	HaLKV/0uFpKDc/w1E9O0l+CMNXe3925mDGhl2F5v2j9W7obZNg==
+X-Google-Smtp-Source: AGHT+IEGVJYLpqD0BdQPOQdhz0Ar69zI2z4oaUteivzfcbdZ6KYP652fPp6JhJsDFmnTcaAS52liZYeY3BjyLD2a4QQ=
+X-Received: by 2002:a05:6214:e85:b0:66d:626b:26ed with SMTP id
+ hf5-20020a0562140e8500b0066d626b26edmr4409123qvb.21.1697600106324; Tue, 17
+ Oct 2023 20:35:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231017124546.24608-4-laoar.shao@gmail.com> <202310172347.Jp1j3Umf-lkp@intel.com>
-In-Reply-To: <202310172347.Jp1j3Umf-lkp@intel.com>
+References: <20231017124546.24608-5-laoar.shao@gmail.com> <202310180043.9mRP2HUf-lkp@intel.com>
+In-Reply-To: <202310180043.9mRP2HUf-lkp@intel.com>
 From: Yafang Shao <laoar.shao@gmail.com>
-Date: Wed, 18 Oct 2023 11:34:01 +0800
-Message-ID: <CALOAHbCeQREHPpt5oNa1RgNOK+LEO_c2A4JYAo8+op_j_=TjUQ@mail.gmail.com>
-Subject: Re: [RFC PATCH bpf-next v2 3/9] cgroup: Add a new helper for cgroup1 hierarchy
+Date: Wed, 18 Oct 2023 11:34:30 +0800
+Message-ID: <CALOAHbC=EfUYE+1wSw4sOv+avWWDcY=8jAOqov=NqnQT-FQe+g@mail.gmail.com>
+Subject: Re: [RFC PATCH bpf-next v2 4/9] bpf: Add a new kfunc for cgroup1 hierarchy
 To: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 17, 2023 at 11:55=E2=80=AFPM kernel test robot <lkp@intel.com> =
+On Wed, Oct 18, 2023 at 12:39=E2=80=AFAM kernel test robot <lkp@intel.com> =
 wrote:
 >
 > Hi Yafang,
@@ -70,70 +70,58 @@ wrote:
 -Make-operations-on-the-cgroup-root_list-RCU-safe/20231017-204729
 > base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
 master
-> patch link:    https://lore.kernel.org/r/20231017124546.24608-4-laoar.sha=
+> patch link:    https://lore.kernel.org/r/20231017124546.24608-5-laoar.sha=
 o%40gmail.com
-> patch subject: [RFC PATCH bpf-next v2 3/9] cgroup: Add a new helper for c=
-group1 hierarchy
+> patch subject: [RFC PATCH bpf-next v2 4/9] bpf: Add a new kfunc for cgrou=
+p1 hierarchy
 > config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/202310=
-17/202310172347.Jp1j3Umf-lkp@intel.com/config)
+18/202310180043.9mRP2HUf-lkp@intel.com/config)
 > compiler: m68k-linux-gcc (GCC) 13.2.0
 > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20231017/202310172347.Jp1j3Umf-lkp@intel.com/reproduce)
+ve/20231018/202310180043.9mRP2HUf-lkp@intel.com/reproduce)
 >
 > If you fix the issue in a separate patch/commit (i.e. not just a new vers=
 ion of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202310172347.Jp1j3Umf-lkp=
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202310180043.9mRP2HUf-lkp=
 @intel.com/
 >
 > All warnings (new ones prefixed by >>):
 >
-> >> kernel/cgroup/cgroup-v1.c:1277: warning: expecting prototype for task_=
-cgroup_id_within_hierarchy(). Prototype was for task_get_cgroup1_within_hie=
-rarchy() instead
+> >> kernel/bpf/helpers.c:2232: warning: expecting prototype for bpf_task_g=
+et_cgroup_within_hierarchy(). Prototype was for bpf_task_get_cgroup1_within=
+_hierarchy() instead
 >
 >
-> vim +1277 kernel/cgroup/cgroup-v1.c
+> vim +2232 kernel/bpf/helpers.c
 >
->   1265
->   1266  /**
->   1267   * task_cgroup_id_within_hierarchy - Acquires the associated cgro=
-up of a task
->   1268   * within a specific cgroup1 hierarchy. The cgroup1 hierarchy is =
-identified by
->   1269   * its hierarchy ID.
->   1270   * @tsk: The target task
->   1271   * @hierarchy_id: The ID of a cgroup1 hierarchy
->   1272   *
->   1273   * On success, the cgroup is returned. On failure, ERR_PTR is ret=
-urned.
->   1274   * We limit it to cgroup1 only.
->   1275   */
->   1276  struct cgroup *task_get_cgroup1_within_hierarchy(struct task_stru=
-ct *tsk, int hierarchy_id)
-> > 1277  {
->   1278          struct cgroup *cgrp =3D ERR_PTR(-ENOENT);
->   1279          struct cgroup_root *root;
->   1280
->   1281          rcu_read_lock();
->   1282          list_for_each_entry(root, &cgroup_roots, root_list) {
->   1283                  /* cgroup1 only*/
->   1284                  if (root =3D=3D &cgrp_dfl_root)
->   1285                          continue;
->   1286                  if (root->hierarchy_id !=3D hierarchy_id)
->   1287                          continue;
->   1288                  spin_lock_irq(&css_set_lock);
->   1289                  cgrp =3D task_cgroup_from_root(tsk, root);
->   1290                  if (!cgrp || !cgroup_tryget(cgrp))
->   1291                          cgrp =3D ERR_PTR(-ENOENT);
->   1292                  spin_unlock_irq(&css_set_lock);
->   1293                  break;
->   1294          }
->   1295          rcu_read_unlock();
->   1296          return cgrp;
->   1297  }
->   1298
+>   2220
+>   2221  /**
+>   2222   * bpf_task_get_cgroup_within_hierarchy - Acquires the associated=
+ cgroup of
+>   2223   * a task within a specific cgroup1 hierarchy. The cgroup1 hierar=
+chy is
+>   2224   * identified by its hierarchy ID.
+>   2225   * @task: The target task
+>   2226   * @hierarchy_id: The ID of a cgroup1 hierarchy
+>   2227   *
+>   2228   * On success, the cgroup is returen. On failure, NULL is returne=
+d.
+>   2229   */
+>   2230  __bpf_kfunc struct cgroup *
+>   2231  bpf_task_get_cgroup1_within_hierarchy(struct task_struct *task, i=
+nt hierarchy_id)
+> > 2232  {
+>   2233          struct cgroup *cgrp =3D task_get_cgroup1_within_hierarchy=
+(task, hierarchy_id);
+>   2234
+>   2235          if (IS_ERR(cgrp))
+>   2236                  return NULL;
+>   2237          return cgrp;
+>   2238  }
+>   2239  #endif /* CONFIG_CGROUPS */
+>   2240
 >
 > --
 > 0-DAY CI Kernel Test Service
@@ -141,7 +129,6 @@ ct *tsk, int hierarchy_id)
 
 Thanks for your report.
 will correct it.
-
 
 --=20
 Regards
