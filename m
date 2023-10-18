@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A1D15AD8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 14:43:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BAA711C80
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 14:54:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CYrAt0dC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aSncOV6g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697640192; x=1729176192;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yoJo13RpBAeatS9kkeJh7GeTlTUj6M7Uj92Bdcw3oU8=;
-  b=CYrAt0dCc3NuIC9Ig+GYyQj2m6R8TSwLaiSVIruNpC/MR3zzbAfeuiG4
-   CsYc1XkeoxIU9xaZpiYzRkmvWic9U4AIHKVe04H6d1tCIv2OcDINd3rPJ
-   Ek3URgxozmmpm0EJoKLwpOQ5vRoXNsrCs6xpD+DvCyyXuzlMT0dmRX1NN
-   6+98USkjp8ovsCDRixw85Lb61LbBttxE/jJ1vuGL1vw3UIKvUA7AXltI8
-   qHuSw6sKtkcwvkWH0x1hbeYTxBuMvwA7uOIBPx0ZQnfSiVPSMvUcysXC2
-   eYdfhYrznHjFw5B/LFVmAJwgwqWSVecXNDTLP6mhSTnqtdprdV7crCW3B
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="389903819"
+  t=1697640844; x=1729176844;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9Sni5U9nDecmeEr5SY/entlU+eYXiEVtqt0mhlI97ak=;
+  b=aSncOV6gQVVAy3O10b2zE0KDpJ+I2rEmXpt8WPrbcnlz0oXNZLGluK87
+   +NzP/6AcTz3n3rccBvDYfPzefFCMRmr7xjtiBVlU3YsVoIAcY6lRuFG+W
+   F0ZhE8RxWMn7gaucQ9UrTMsHpUbIGr1rsOXXNx7loFWjKL8b4S8n1ubmp
+   rYc+hNSM3eGYc6zlSAETe7Hn69KklqAU6/f38fSLXWCGg55wfBy6ppeyn
+   9w2gQ+6ByGE41Hlp1x4ztTc3LKM6dc/JQu4W5VJNvEcbp2/hQeGH7CgAQ
+   tBXfjuMUK4VSXgFY7OC1lbT6PA7GPUBZFMoJXR5KQ1YChH3C2RogbeYem
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="472255002"
 X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="389903819"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 07:43:04 -0700
+   d="scan'208";a="472255002"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 07:54:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="706475267"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="785954089"
 X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="706475267"
+   d="scan'208";a="785954089"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 18 Oct 2023 07:43:01 -0700
+  by orsmga008.jf.intel.com with ESMTP; 18 Oct 2023 07:54:02 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qt7lC-0000WY-3D;
-	Wed, 18 Oct 2023 14:42:58 +0000
-Date: Wed, 18 Oct 2023 22:42:10 +0800
+	id 1qt7vr-0000Xq-2I;
+	Wed, 18 Oct 2023 14:53:59 +0000
+Date: Wed, 18 Oct 2023 22:53:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Darren Etheridge <detheridge@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Praneeth Bajjuri <praneeth@ti.com>
-Subject: [ti:ti-rt-linux-6.1.y-cicd 62/70] include/linux/completion.h:86:17:
- warning: array subscript 'struct completion[0]' is partly outside array
- bounds of 'unsigned char[4]'
-Message-ID: <202310182231.Red84pg1-lkp@intel.com>
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v3 20/35] drivers/mfd: sm501 add some properties.
+Message-ID: <202310182206.9B3CbS2u-lkp@intel.com>
+References: <b1bedaea12693d256b2513f72bd39630a69d188a.1697199949.git.ysato@users.sourceforge.jp>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,330 +50,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <b1bedaea12693d256b2513f72bd39630a69d188a.1697199949.git.ysato@users.sourceforge.jp>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
-head:   16d0a659489f8743de04200269719b4b1813a280
-commit: 3b23f836c2ec0541aea62823eeed7f2bbe88dc43 [62/70] media: platform: img: add the vxe-vxd driver into the build infra
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231018/202310182231.Red84pg1-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310182231.Red84pg1-lkp@intel.com/reproduce)
+Hi Yoshinori,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/irq/core]
+[also build test ERROR on robh/for-next pci/next pci/for-linus linus/master v6.6-rc6 next-20231018]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yoshinori-Sato/arch-sh-boot-compressed-head_32-S-passing-FDT-address-to-initialize-function/20231017-170254
+base:   tip/irq/core
+patch link:    https://lore.kernel.org/r/b1bedaea12693d256b2513f72bd39630a69d188a.1697199949.git.ysato%40users.sourceforge.jp
+patch subject: [RFC PATCH v3 20/35] drivers/mfd: sm501 add some properties.
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20231018/202310182206.9B3CbS2u-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310182206.9B3CbS2u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310182231.Red84pg1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310182206.9B3CbS2u-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/media/platform/img/vxe-vxd/decoder/vxd_core.c: In function 'stream_worker':
-   drivers/media/platform/img/vxe-vxd/decoder/vxd_core.c:550:25: warning: variable 'vxd' set but not used [-Wunused-but-set-variable]
-     550 |         struct vxd_dev *vxd = NULL;
-         |                         ^~~
-   In file included from include/linux/mm_types.h:14,
-                    from include/linux/mmzone.h:21,
-                    from include/linux/gfp.h:7,
-                    from include/linux/firmware.h:7,
-                    from drivers/media/platform/img/vxe-vxd/decoder/vxd_core.c:16:
-   In function 'init_completion',
-       inlined from 'vxd_prepare_fw' at drivers/media/platform/img/vxe-vxd/decoder/vxd_core.c:1389:2:
->> include/linux/completion.h:86:17: warning: array subscript 'struct completion[0]' is partly outside array bounds of 'unsigned char[4]' [-Warray-bounds=]
-      86 |         x->done = 0;
-         |         ~~~~~~~~^~~
-   In file included from drivers/media/platform/img/vxe-vxd/decoder/vxd_core.c:18:
-   In function 'kmalloc',
-       inlined from 'vxd_prepare_fw' at drivers/media/platform/img/vxe-vxd/decoder/vxd_core.c:1384:31:
-   include/linux/slab.h:553:24: note: object of size 4 allocated by 'kmalloc_trace'
-     553 |                 return kmalloc_trace(
-         |                        ^~~~~~~~~~~~~~
-     554 |                                 kmalloc_caches[kmalloc_type(flags)][index],
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     555 |                                 flags, size);
-         |                                 ~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/decoder/vxd_core.c: In function 'vxd_send_msg':
->> drivers/media/platform/img/vxe-vxd/decoder/vxd_core.c:1460:25: warning: array subscript 1 is outside array bounds of 'unsigned int[0]' [-Warray-bounds=]
-    1460 |         if (msg->payload[VXD_PTD_MSG_OFFSET] != 0) {
-         |             ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/media/platform/img/vxe-vxd/decoder/vxd_pvdec_priv.h:22,
-                    from drivers/media/platform/img/vxe-vxd/decoder/vxd_core.c:33:
-   drivers/media/platform/img/vxe-vxd/decoder/vxd_dec.h:90:22: note: while referencing 'payload'
-      90 |         unsigned int payload[0];
-         |                      ^~~~~~~
-   drivers/media/platform/img/vxe-vxd/decoder/vxd_core.c:1496:26: warning: array subscript 1 is outside array bounds of 'unsigned int[0]' [-Warray-bounds=]
-    1496 |         item->msg.payload[VXD_PTD_MSG_OFFSET] = stream->ptd;
-         |         ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/decoder/vxd_dec.h:90:22: note: while referencing 'payload'
-      90 |         unsigned int payload[0];
-         |                      ^~~~~~~
---
-   drivers/media/platform/img/vxe-vxd/decoder/hevc_secure_parser.c: In function 'bspp_hevc_parse_vps':
-   drivers/media/platform/img/vxe-vxd/decoder/hevc_secure_parser.c:594:1: warning: the frame size of 1180 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     594 | }
-         | ^
-   In function 'HEVC_SWSR_UE',
-       inlined from 'bspp_hevc_parse_shortterm_refpicset.constprop' at drivers/media/platform/img/vxe-vxd/decoder/hevc_secure_parser.c:2186:3:
->> drivers/media/platform/img/vxe-vxd/decoder/hevc_secure_parser.c:55:16: warning: array subscript 'unsigned int[0]' is partly outside array bounds of 'unsigned char[1]' [-Warray-bounds=]
-      55 |         *where = swsr_read_unsigned_expgoulomb(swsr_ctx);
-         |         ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/decoder/hevc_secure_parser.c: In function 'bspp_hevc_parse_shortterm_refpicset.constprop':
-   drivers/media/platform/img/vxe-vxd/decoder/hevc_secure_parser.c:2178:31: note: object 'num_negative_pics' of size 1
-    2178 |                 unsigned char num_negative_pics = 0;
-         |                               ^~~~~~~~~~~~~~~~~
-   In function 'HEVC_SWSR_UE',
-       inlined from 'bspp_hevc_parse_shortterm_refpicset.constprop' at drivers/media/platform/img/vxe-vxd/decoder/hevc_secure_parser.c:2191:3:
->> drivers/media/platform/img/vxe-vxd/decoder/hevc_secure_parser.c:55:16: warning: array subscript 'unsigned int[0]' is partly outside array bounds of 'unsigned char[1]' [-Warray-bounds=]
-      55 |         *where = swsr_read_unsigned_expgoulomb(swsr_ctx);
-         |         ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/decoder/hevc_secure_parser.c: In function 'bspp_hevc_parse_shortterm_refpicset.constprop':
-   drivers/media/platform/img/vxe-vxd/decoder/hevc_secure_parser.c:2179:31: note: object 'num_positive_pics' of size 1
-    2179 |                 unsigned char num_positive_pics = 0;
-         |                               ^~~~~~~~~~~~~~~~~
---
-   In file included from drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:31:
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_color_formats.h:18:6: warning: no previous prototype for 'plane_size' [-Wmissing-prototypes]
-      18 | void plane_size(enum img_format color_format, unsigned int stride,
-         |      ^~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:448:5: warning: no previous prototype for 'topaz_process_message' [-Wmissing-prototypes]
-     448 | int topaz_process_message(struct topaz_stream_context *str_ctx, struct mtx_tohost_msg tohost_msg)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:706:6: warning: no previous prototype for 'handle_encoder_firmware_response' [-Wmissing-prototypes]
-     706 | void handle_encoder_firmware_response(struct img_writeback_msg *wb_msg, void *priv)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:2463:15: warning: no previous prototype for 'topaz_validate_params' [-Wmissing-prototypes]
-    2463 | unsigned char topaz_validate_params(struct img_video_params *video_params,
-         |               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:2767:14: warning: no previous prototype for 'topaz_insert_command' [-Wmissing-prototypes]
-    2767 | unsigned int topaz_insert_command(struct img_enc_context *enc_ctx,
-         |              ^~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:2786:14: warning: no previous prototype for 'topaz_insert_command_with_sync' [-Wmissing-prototypes]
-    2786 | unsigned int topaz_insert_command_with_sync(struct img_enc_context *enc_ctx,
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:2810:14: warning: no previous prototype for 'topaz_insert_mem_command' [-Wmissing-prototypes]
-    2810 | unsigned int topaz_insert_mem_command(struct img_enc_context *enc_ctx,
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:2831:14: warning: no previous prototype for 'topaz_insert_mem_command_with_sync' [-Wmissing-prototypes]
-    2831 | unsigned int topaz_insert_mem_command_with_sync(struct img_enc_context *enc_ctx,
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:2947:6: warning: no previous prototype for 'topaz_set_pipe_usage' [-Wmissing-prototypes]
-    2947 | void topaz_set_pipe_usage(unsigned char pipe, unsigned char val)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c: In function 'topaz_video_destroy_context':
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:3115:17: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
-    3115 |                 if (topaz_mmu_stream_free(str_ctx->mmu_ctx,
-         |                 ^~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:3119:25: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
-    3119 |                         kfree(video->coded_package[i]->header_buffer);
-         |                         ^~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c: In function 'topaz_send_source_frame':
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:3390:22: warning: variable 'halfway_bu' set but not used [-Wunused-but-set-variable]
-    3390 |         unsigned int halfway_bu;
-         |                      ^~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c: In function 'topaz_allocate_coded_package.isra':
->> drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1734:28: warning: array subscript 'struct coded_package_host[0]' is partly outside array bounds of 'unsigned char[4]' [-Warray-bounds=]
-    1734 |         this_package->busy = 0;
-         |         ~~~~~~~~~~~~~~~~~~~^~~
-   In file included from drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:16:
-   In function 'kmalloc',
-       inlined from 'kzalloc' at include/linux/slab.h:689:9,
-       inlined from 'topaz_allocate_coded_package.isra' at drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1727:13:
-   include/linux/slab.h:553:24: note: object of size 4 allocated by 'kmalloc_trace'
-     553 |                 return kmalloc_trace(
-         |                        ^~~~~~~~~~~~~~
-     554 |                                 kmalloc_caches[kmalloc_type(flags)][index],
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     555 |                                 flags, size);
-         |                                 ~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c: In function 'topaz_allocate_coded_package.isra':
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1736:41: warning: array subscript 'struct coded_package_host[0]' is partly outside array bounds of 'unsigned char[4]' [-Warray-bounds=]
-    1736 |         this_package->num_coded_buffers = 1;
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   In function 'kmalloc',
-       inlined from 'kzalloc' at include/linux/slab.h:689:9,
-       inlined from 'topaz_allocate_coded_package.isra' at drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1727:13:
-   include/linux/slab.h:553:24: note: object of size 4 allocated by 'kmalloc_trace'
-     553 |                 return kmalloc_trace(
-         |                        ^~~~~~~~~~~~~~
-     554 |                                 kmalloc_caches[kmalloc_type(flags)][index],
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     555 |                                 flags, size);
-         |                                 ~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c: In function 'topaz_allocate_coded_package.isra':
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1739:55: warning: array subscript 'struct coded_package_host[0]' is partly outside array bounds of 'unsigned char[4]' [-Warray-bounds=]
-    1739 |         this_package->mtx_info.code_package_fw_buffer =
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
-    1740 |                 kzalloc(sizeof(struct img_buffer), GFP_KERNEL);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In function 'kmalloc',
-       inlined from 'kzalloc' at include/linux/slab.h:689:9,
-       inlined from 'topaz_allocate_coded_package.isra' at drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1727:13:
-   include/linux/slab.h:553:24: note: object of size 4 allocated by 'kmalloc_trace'
-     553 |                 return kmalloc_trace(
-         |                        ^~~~~~~~~~~~~~
-     554 |                                 kmalloc_caches[kmalloc_type(flags)][index],
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     555 |                                 flags, size);
-         |                                 ~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c: In function 'topaz_allocate_coded_package.isra':
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1746:37: warning: array subscript 'struct coded_package_host[0]' is partly outside array bounds of 'unsigned char[4]' [-Warray-bounds=]
-    1746 |         this_package->header_buffer = kzalloc(sizeof(*this_package->header_buffer), GFP_KERNEL);
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In function 'kmalloc',
-       inlined from 'kzalloc' at include/linux/slab.h:689:9,
-       inlined from 'topaz_allocate_coded_package.isra' at drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1727:13:
-   include/linux/slab.h:553:24: note: object of size 4 allocated by 'kmalloc_trace'
-     553 |                 return kmalloc_trace(
-         |                        ^~~~~~~~~~~~~~
-     554 |                                 kmalloc_caches[kmalloc_type(flags)][index],
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     555 |                                 flags, size);
-         |                                 ~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c: In function 'topaz_allocate_coded_package.isra':
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1759:41: warning: array subscript 'struct coded_package_host[0]' is partly outside array bounds of 'unsigned char[4]' [-Warray-bounds=]
-    1759 |                  &this_package->mtx_info.code_package_fw_buffer->mem_info))
-         |                   ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-   In function 'kmalloc',
-       inlined from 'kzalloc' at include/linux/slab.h:689:9,
-       inlined from 'topaz_allocate_coded_package.isra' at drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1727:13:
-   include/linux/slab.h:553:24: note: object of size 4 allocated by 'kmalloc_trace'
-     553 |                 return kmalloc_trace(
-         |                        ^~~~~~~~~~~~~~
-     554 |                                 kmalloc_caches[kmalloc_type(flags)][index],
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     555 |                                 flags, size);
-         |                                 ~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c: In function 'topaz_allocate_coded_package.isra':
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1767:35: warning: array subscript 'struct coded_package_host[0]' is partly outside array bounds of 'unsigned char[4]' [-Warray-bounds=]
-    1767 |                  64, &this_package->header_buffer->mem_info))
-         |                       ~~~~~~~~~~~~^~~~~~~~~~~~~~~
-   In function 'kmalloc',
-       inlined from 'kzalloc' at include/linux/slab.h:689:9,
-       inlined from 'topaz_allocate_coded_package.isra' at drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1727:13:
-   include/linux/slab.h:553:24: note: object of size 4 allocated by 'kmalloc_trace'
-     553 |                 return kmalloc_trace(
-         |                        ^~~~~~~~~~~~~~
-     554 |                                 kmalloc_caches[kmalloc_type(flags)][index],
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     555 |                                 flags, size);
-         |                                 ~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c: In function 'topaz_allocate_coded_package.isra':
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1770:21: warning: array subscript 'struct coded_package_host[0]' is partly outside array bounds of 'unsigned char[4]' [-Warray-bounds=]
-    1770 |         this_package->header_buffer->size =
-         |         ~~~~~~~~~~~~^~~~~~~~~~~~~~~
-   In function 'kmalloc',
-       inlined from 'kzalloc' at include/linux/slab.h:689:9,
-       inlined from 'topaz_allocate_coded_package.isra' at drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1727:13:
-   include/linux/slab.h:553:24: note: object of size 4 allocated by 'kmalloc_trace'
-     553 |                 return kmalloc_trace(
-         |                        ^~~~~~~~~~~~~~
-     554 |                                 kmalloc_caches[kmalloc_type(flags)][index],
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     555 |                                 flags, size);
-         |                                 ~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c: In function 'topaz_allocate_coded_package.isra':
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1782:35: warning: array subscript 'struct coded_package_host[0]' is partly outside array bounds of 'unsigned char[4]' [-Warray-bounds=]
-    1782 |         if (this_package->mtx_info.code_package_fw_buffer) {
-         |             ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-   In function 'kmalloc',
-       inlined from 'kzalloc' at include/linux/slab.h:689:9,
-       inlined from 'topaz_allocate_coded_package.isra' at drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1727:13:
-   include/linux/slab.h:553:24: note: object of size 4 allocated by 'kmalloc_trace'
-     553 |                 return kmalloc_trace(
-         |                        ^~~~~~~~~~~~~~
-     554 |                                 kmalloc_caches[kmalloc_type(flags)][index],
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     555 |                                 flags, size);
-         |                                 ~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c: In function 'topaz_allocate_coded_package.isra':
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1788:45: warning: array subscript 'struct coded_package_host[0]' is partly outside array bounds of 'unsigned char[4]' [-Warray-bounds=]
-    1788 |                 kfree(this_package->mtx_info.code_package_fw_buffer);
-         |                       ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-   In function 'kmalloc',
-       inlined from 'kzalloc' at include/linux/slab.h:689:9,
-       inlined from 'topaz_allocate_coded_package.isra' at drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1727:13:
-   include/linux/slab.h:553:24: note: object of size 4 allocated by 'kmalloc_trace'
-     553 |                 return kmalloc_trace(
-         |                        ^~~~~~~~~~~~~~
-     554 |                                 kmalloc_caches[kmalloc_type(flags)][index],
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     555 |                                 flags, size);
-         |                                 ~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c: In function 'topaz_allocate_coded_package.isra':
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1789:63: warning: array subscript 'struct coded_package_host[0]' is partly outside array bounds of 'unsigned char[4]' [-Warray-bounds=]
-    1789 |                 this_package->mtx_info.code_package_fw_buffer = NULL;
-   In function 'kmalloc',
-       inlined from 'kzalloc' at include/linux/slab.h:689:9,
-       inlined from 'topaz_allocate_coded_package.isra' at drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1727:13:
-   include/linux/slab.h:553:24: note: object of size 4 allocated by 'kmalloc_trace'
-     553 |                 return kmalloc_trace(
-         |                        ^~~~~~~~~~~~~~
-     554 |                                 kmalloc_caches[kmalloc_type(flags)][index],
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     555 |                                 flags, size);
-         |                                 ~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c: In function 'topaz_allocate_coded_package.isra':
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1792:27: warning: array subscript 'struct coded_package_host[0]' is partly outside array bounds of 'unsigned char[4]' [-Warray-bounds=]
-    1792 |         kfree(this_package->header_buffer);
-         |               ~~~~~~~~~~~~^~~~~~~~~~~~~~~
-   In function 'kmalloc',
-       inlined from 'kzalloc' at include/linux/slab.h:689:9,
-       inlined from 'topaz_allocate_coded_package.isra' at drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1727:13:
-   include/linux/slab.h:553:24: note: object of size 4 allocated by 'kmalloc_trace'
-     553 |                 return kmalloc_trace(
-         |                        ^~~~~~~~~~~~~~
-     554 |                                 kmalloc_caches[kmalloc_type(flags)][index],
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     555 |                                 flags, size);
-         |                                 ~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c: In function 'topaz_allocate_coded_package.isra':
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1793:37: warning: array subscript 'struct coded_package_host[0]' is partly outside array bounds of 'unsigned char[4]' [-Warray-bounds=]
-    1793 |         this_package->header_buffer = NULL;
-   In function 'kmalloc',
-       inlined from 'kzalloc' at include/linux/slab.h:689:9,
-       inlined from 'topaz_allocate_coded_package.isra' at drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1727:13:
-   include/linux/slab.h:553:24: note: object of size 4 allocated by 'kmalloc_trace'
-     553 |                 return kmalloc_trace(
-         |                        ^~~~~~~~~~~~~~
-     554 |                                 kmalloc_caches[kmalloc_type(flags)][index],
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     555 |                                 flags, size);
-         |                                 ~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c: In function 'topaz_allocate_coded_package.isra':
->> drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1736:41: warning: writing 2 bytes into a region of size 0 [-Wstringop-overflow=]
-    1736 |         this_package->num_coded_buffers = 1;
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   In function 'kmalloc',
-       inlined from 'kzalloc' at include/linux/slab.h:689:9,
-       inlined from 'topaz_allocate_coded_package.isra' at drivers/media/platform/img/vxe-vxd/encoder/topaz_api.c:1727:13:
-   include/linux/slab.h:553:24: note: at offset 16 into destination object of size 4 allocated by 'kmalloc_trace'
-     553 |                 return kmalloc_trace(
-         |                        ^~~~~~~~~~~~~~
-     554 |                                 kmalloc_caches[kmalloc_type(flags)][index],
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     555 |                                 flags, size);
-         |                                 ~~~~~~~~~~~~
+   drivers/mfd/sm501.c: In function 'sm501_plat_probe':
+>> drivers/mfd/sm501.c:1517:23: error: implicit declaration of function 'sm501_parse_dt' [-Werror=implicit-function-declaration]
+    1517 |                 ret = sm501_parse_dt(sm, dev->dev.of_node);
+         |                       ^~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +86 include/linux/completion.h
+vim +/sm501_parse_dt +1517 drivers/mfd/sm501.c
 
-8b3db9c542e18b Ingo Molnar           2006-07-03  76  
-65eb3dc609dec1 Kevin Diggs           2008-08-26  77  /**
-ee2f154a598e96 Randy Dunlap          2010-10-26  78   * init_completion - Initialize a dynamically allocated completion
-c32f74ab287299 Wolfram Sang          2013-11-14  79   * @x:  pointer to completion structure that is to be initialized
-65eb3dc609dec1 Kevin Diggs           2008-08-26  80   *
-65eb3dc609dec1 Kevin Diggs           2008-08-26  81   * This inline function will initialize a dynamically created completion
-65eb3dc609dec1 Kevin Diggs           2008-08-26  82   * structure.
-65eb3dc609dec1 Kevin Diggs           2008-08-26  83   */
-b6498aad59b091 Mauro Carvalho Chehab 2020-12-01  84  static inline void init_completion(struct completion *x)
-^1da177e4c3f41 Linus Torvalds        2005-04-16  85  {
-^1da177e4c3f41 Linus Torvalds        2005-04-16 @86  	x->done = 0;
-a5c6234e10280b Thomas Gleixner       2020-03-21  87  	init_swait_queue_head(&x->wait);
-^1da177e4c3f41 Linus Torvalds        2005-04-16  88  }
-^1da177e4c3f41 Linus Torvalds        2005-04-16  89  
-
-:::::: The code at line 86 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+  1479	
+  1480	static int sm501_plat_probe(struct platform_device *dev)
+  1481	{
+  1482		struct sm501_devdata *sm;
+  1483		int ret;
+  1484	
+  1485		sm = kzalloc(sizeof(*sm), GFP_KERNEL);
+  1486		if (!sm) {
+  1487			ret = -ENOMEM;
+  1488			goto err1;
+  1489		}
+  1490	
+  1491		sm->dev = &dev->dev;
+  1492		sm->pdev_id = dev->id;
+  1493		sm->platdata = dev_get_platdata(&dev->dev);
+  1494	
+  1495		ret = platform_get_irq(dev, 0);
+  1496		if (ret < 0)
+  1497			goto err_res;
+  1498		sm->irq = ret;
+  1499	
+  1500		sm->io_res = platform_get_resource(dev, IORESOURCE_MEM, 1);
+  1501		sm->mem_res = platform_get_resource(dev, IORESOURCE_MEM, 0);
+  1502		if (!sm->io_res || !sm->mem_res) {
+  1503			dev_err(&dev->dev, "failed to get IO resource\n");
+  1504			ret = -ENOENT;
+  1505			goto err_res;
+  1506		}
+  1507	
+  1508		sm->regs_claim = request_mem_region(sm->io_res->start,
+  1509						    0x100, "sm501");
+  1510		if (!sm->regs_claim) {
+  1511			dev_err(&dev->dev, "cannot claim registers\n");
+  1512			ret = -EBUSY;
+  1513			goto err_res;
+  1514		}
+  1515	
+  1516		if (IS_ENABLED(CONFIG_OF) && dev->dev.of_node) {
+> 1517			ret = sm501_parse_dt(sm, dev->dev.of_node);
+  1518			if (ret)
+  1519				goto err_res;
+  1520		}
+  1521	
+  1522		platform_set_drvdata(dev, sm);
+  1523	
+  1524		sm->regs = ioremap(sm->io_res->start, resource_size(sm->io_res));
+  1525		if (!sm->regs) {
+  1526			dev_err(&dev->dev, "cannot remap registers\n");
+  1527			ret = -EIO;
+  1528			goto err_claim;
+  1529		}
+  1530	
+  1531		ret = sm501_init_dev(sm);
+  1532		if (ret)
+  1533			goto err_unmap;
+  1534	
+  1535		return 0;
+  1536	
+  1537	 err_unmap:
+  1538		iounmap(sm->regs);
+  1539	 err_claim:
+  1540		release_mem_region(sm->io_res->start, 0x100);
+  1541	 err_res:
+  1542		kfree(sm);
+  1543	 err1:
+  1544		return ret;
+  1545	
 
 -- 
 0-DAY CI Kernel Test Service
