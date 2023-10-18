@@ -1,235 +1,253 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8DF34CD6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 14:54:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF3E37CA4;
+	Wed, 18 Oct 2023 15:11:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QdpdrhZ1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697640847; x=1729176847;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ch037SdgEfWW6A5AilP30fpS6HMwXYGXqO9W83Cx+yc=;
-  b=QdpdrhZ1iOtKmkAj6eJn4s4qNZo6bVjdKh6NpSH4HLv4GuccOEYTPHSQ
-   MxUdAhDsUcA/iggwdy+cBoFY+Q9q27/22pZ7axtYfbe5KcG5Wa06KCZex
-   WQaU6CYl+U2qqtu+MWM8OnlR2HNRfQNqnGJ9w0/qGHv9DryKR/eqelmkp
-   nvSriJxKMOeONuwkSweRFIZHnJ7as6loSXYMzK5zICQpi/S7hW0oru5zS
-   zSHvi0mUCxWBstP7aymKjasNa0YFnDp3qce0NtgVX1sWVuG/FIuip1awn
-   36fo6V7Y4T6DIVlToxVG6Of0VuNi+oKLzsH0VkKfZNygoYB0aTxm87JTJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="472255005"
-X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="472255005"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 07:54:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="785954091"
-X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="785954091"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 18 Oct 2023 07:54:02 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qt7vr-0000Xo-2E;
-	Wed, 18 Oct 2023 14:53:59 +0000
-Date: Wed, 18 Oct 2023 22:53:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/net/ethernet/ti/netcp_core.c:1594:47: warning: '%s'
- directive output may be truncated writing up to 15 bytes into a region of
- size 8
-Message-ID: <202310182209.afvozfWB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D9u2P+Ie"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFE3BC433C8;
+	Wed, 18 Oct 2023 15:11:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697641881;
+	bh=t4tXL0Adgab+7/6pwQR6SO/7Tzc1LZ1Z+r/uoKttlg4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=D9u2P+Ieca9LBIZSIBtAFH34jR/TC+qLjrLOlif7N0M6gMOjLHeXyoojzaOhXIVlg
+	 23W/HrzJ9rC8JV7UEgofYEOr4wy+xuFJ11rOmI6tii2rc+sRpOI8xuXFUYAmAZXKJ4
+	 S3NoseUDTPSvVgNOQRmDuNnNtE0QxlXGL5AXEAW94B5Y0j3XPyENbhDknUOs9S3CFm
+	 c3QuV0clBw19JS5Di2BuANIkNh2238NKCOpo9VoNKkC/D8Qg5hUwNIpqAN/92amsnK
+	 TO8vWliVJJk9CYhhVZKSKWSnLDmEWEipeJgjUQJgyslXeSEApXmEQQ71q5DAOz+O9e
+	 +zgl8+1A7UL5Q==
+Message-ID: <f5ce51a4-d47d-4074-9498-8632b09791e6@kernel.org>
+Date: Thu, 19 Oct 2023 00:11:14 +0900
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 16/26] PM / devfreq: rockchip-dfi: Add perf support
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ linux-rockchip@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ Heiko Stuebner <heiko@sntech.de>, Kyungmin Park <kyungmin.park@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>, Will Deacon <will@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, kernel@pengutronix.de,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Vincent Legoll <vincent.legoll@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ devicetree@vger.kernel.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>
+References: <20231018061714.3553817-17-s.hauer@pengutronix.de>
+ <202310181557.GIXGL21M-lkp@intel.com>
+From: Chanwoo Choi <chanwoo@kernel.org>
+In-Reply-To: <202310181557.GIXGL21M-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Arnd,
+Hi Sascha, 
 
-First bad commit (maybe != root cause):
+Could you plesae fix the following kernel build report?
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   06dc10eae55b5ceabfef287a7e5f16ceea204aa0
-commit: 09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8 ARM: dove: multiplatform support
-date:   1 year, 6 months ago
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20231018/202310182209.afvozfWB-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310182209.afvozfWB-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310182209.afvozfWB-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/net/ethernet/ti/netcp_core.c: In function 'netcp_setup_navigator_resources':
->> drivers/net/ethernet/ti/netcp_core.c:1594:47: warning: '%s' directive output may be truncated writing up to 15 bytes into a region of size 8 [-Wformat-truncation=]
-    1594 |         snprintf(name, sizeof(name), "rx-pool-%s", ndev->name);
-         |                                               ^~
-   drivers/net/ethernet/ti/netcp_core.c:1594:9: note: 'snprintf' output between 9 and 24 bytes into a destination of size 16
-    1594 |         snprintf(name, sizeof(name), "rx-pool-%s", ndev->name);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/ti/netcp_core.c:1603:47: warning: '%s' directive output may be truncated writing up to 15 bytes into a region of size 8 [-Wformat-truncation=]
-    1603 |         snprintf(name, sizeof(name), "tx-pool-%s", ndev->name);
-         |                                               ^~
-   drivers/net/ethernet/ti/netcp_core.c:1603:9: note: 'snprintf' output between 9 and 24 bytes into a destination of size 16
-    1603 |         snprintf(name, sizeof(name), "tx-pool-%s", ndev->name);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/ti/netcp_core.c:1613:48: warning: '%s' directive output may be truncated writing up to 15 bytes into a region of size 7 [-Wformat-truncation=]
-    1613 |         snprintf(name, sizeof(name), "tx-compl-%s", ndev->name);
-         |                                                ^~
-   drivers/net/ethernet/ti/netcp_core.c:1613:9: note: 'snprintf' output between 10 and 25 bytes into a destination of size 16
-    1613 |         snprintf(name, sizeof(name), "tx-compl-%s", ndev->name);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/ti/netcp_core.c:1633:48: warning: '%s' directive output may be truncated writing up to 15 bytes into a region of size 7 [-Wformat-truncation=]
-    1633 |         snprintf(name, sizeof(name), "rx-compl-%s", ndev->name);
-         |                                                ^~
-   drivers/net/ethernet/ti/netcp_core.c:1633:9: note: 'snprintf' output between 10 and 25 bytes into a destination of size 16
-    1633 |         snprintf(name, sizeof(name), "rx-compl-%s", ndev->name);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/ti/netcp_core.c:1655:54: warning: '%s' directive output may be truncated writing up to 15 bytes into a region of size 9 [-Wformat-truncation=]
-    1655 |                 snprintf(name, sizeof(name), "rx-fdq-%s-%d", ndev->name, i);
-         |                                                      ^~
-   drivers/net/ethernet/ti/netcp_core.c:1655:46: note: directive argument in the range [0, 3]
-    1655 |                 snprintf(name, sizeof(name), "rx-fdq-%s-%d", ndev->name, i);
-         |                                              ^~~~~~~~~~~~~~
-   drivers/net/ethernet/ti/netcp_core.c:1655:17: note: 'snprintf' output between 10 and 25 bytes into a destination of size 16
-    1655 |                 snprintf(name, sizeof(name), "rx-fdq-%s-%d", ndev->name, i);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +1594 drivers/net/ethernet/ti/netcp_core.c
-
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1582  
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1583  static int netcp_setup_navigator_resources(struct net_device *ndev)
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1584  {
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1585  	struct netcp_intf *netcp = netdev_priv(ndev);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1586  	struct knav_queue_notify_config notify_cfg;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1587  	struct knav_dma_cfg config;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1588  	u32 last_fdq = 0;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1589  	u8 name[16];
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1590  	int ret;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1591  	int i;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1592  
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1593  	/* Create Rx/Tx descriptor pools */
-84640e27f23041 Karicheri, Muralidharan 2015-01-15 @1594  	snprintf(name, sizeof(name), "rx-pool-%s", ndev->name);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1595  	netcp->rx_pool = knav_pool_create(name, netcp->rx_pool_size,
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1596  						netcp->rx_pool_region_id);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1597  	if (IS_ERR_OR_NULL(netcp->rx_pool)) {
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1598  		dev_err(netcp->ndev_dev, "Couldn't create rx pool\n");
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1599  		ret = PTR_ERR(netcp->rx_pool);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1600  		goto fail;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1601  	}
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1602  
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1603  	snprintf(name, sizeof(name), "tx-pool-%s", ndev->name);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1604  	netcp->tx_pool = knav_pool_create(name, netcp->tx_pool_size,
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1605  						netcp->tx_pool_region_id);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1606  	if (IS_ERR_OR_NULL(netcp->tx_pool)) {
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1607  		dev_err(netcp->ndev_dev, "Couldn't create tx pool\n");
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1608  		ret = PTR_ERR(netcp->tx_pool);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1609  		goto fail;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1610  	}
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1611  
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1612  	/* open Tx completion queue */
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1613  	snprintf(name, sizeof(name), "tx-compl-%s", ndev->name);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1614  	netcp->tx_compl_q = knav_queue_open(name, netcp->tx_compl_qid, 0);
-d01eb808c7b8bf Julia Lawall            2016-11-16  1615  	if (IS_ERR(netcp->tx_compl_q)) {
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1616  		ret = PTR_ERR(netcp->tx_compl_q);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1617  		goto fail;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1618  	}
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1619  	netcp->tx_compl_qid = knav_queue_get_id(netcp->tx_compl_q);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1620  
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1621  	/* Set notification for Tx completion */
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1622  	notify_cfg.fn = netcp_tx_notify;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1623  	notify_cfg.fn_arg = netcp;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1624  	ret = knav_queue_device_control(netcp->tx_compl_q,
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1625  					KNAV_QUEUE_SET_NOTIFIER,
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1626  					(unsigned long)&notify_cfg);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1627  	if (ret)
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1628  		goto fail;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1629  
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1630  	knav_queue_disable_notify(netcp->tx_compl_q);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1631  
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1632  	/* open Rx completion queue */
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1633  	snprintf(name, sizeof(name), "rx-compl-%s", ndev->name);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1634  	netcp->rx_queue = knav_queue_open(name, netcp->rx_queue_id, 0);
-d01eb808c7b8bf Julia Lawall            2016-11-16  1635  	if (IS_ERR(netcp->rx_queue)) {
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1636  		ret = PTR_ERR(netcp->rx_queue);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1637  		goto fail;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1638  	}
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1639  	netcp->rx_queue_id = knav_queue_get_id(netcp->rx_queue);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1640  
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1641  	/* Set notification for Rx completion */
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1642  	notify_cfg.fn = netcp_rx_notify;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1643  	notify_cfg.fn_arg = netcp;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1644  	ret = knav_queue_device_control(netcp->rx_queue,
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1645  					KNAV_QUEUE_SET_NOTIFIER,
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1646  					(unsigned long)&notify_cfg);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1647  	if (ret)
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1648  		goto fail;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1649  
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1650  	knav_queue_disable_notify(netcp->rx_queue);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1651  
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1652  	/* open Rx FDQs */
-866b8b18e380f8 WingMan Kwok            2015-08-04  1653  	for (i = 0; i < KNAV_DMA_FDQ_PER_CHAN && netcp->rx_queue_depths[i];
-866b8b18e380f8 WingMan Kwok            2015-08-04  1654  	     ++i) {
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1655  		snprintf(name, sizeof(name), "rx-fdq-%s-%d", ndev->name, i);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1656  		netcp->rx_fdq[i] = knav_queue_open(name, KNAV_QUEUE_GP, 0);
-d01eb808c7b8bf Julia Lawall            2016-11-16  1657  		if (IS_ERR(netcp->rx_fdq[i])) {
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1658  			ret = PTR_ERR(netcp->rx_fdq[i]);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1659  			goto fail;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1660  		}
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1661  	}
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1662  
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1663  	memset(&config, 0, sizeof(config));
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1664  	config.direction		= DMA_DEV_TO_MEM;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1665  	config.u.rx.einfo_present	= true;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1666  	config.u.rx.psinfo_present	= true;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1667  	config.u.rx.err_mode		= DMA_DROP;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1668  	config.u.rx.desc_type		= DMA_DESC_HOST;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1669  	config.u.rx.psinfo_at_sop	= false;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1670  	config.u.rx.sop_offset		= NETCP_SOP_OFFSET;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1671  	config.u.rx.dst_q		= netcp->rx_queue_id;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1672  	config.u.rx.thresh		= DMA_THRESH_NONE;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1673  
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1674  	for (i = 0; i < KNAV_DMA_FDQ_PER_CHAN; ++i) {
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1675  		if (netcp->rx_fdq[i])
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1676  			last_fdq = knav_queue_get_id(netcp->rx_fdq[i]);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1677  		config.u.rx.fdq[i] = last_fdq;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1678  	}
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1679  
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1680  	netcp->rx_channel = knav_dma_open_channel(netcp->netcp_device->device,
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1681  					netcp->dma_chan_name, &config);
-5b6cb43b4d625b Ivan Khoronzhuk         2017-05-10  1682  	if (IS_ERR(netcp->rx_channel)) {
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1683  		dev_err(netcp->ndev_dev, "failed opening rx chan(%s\n",
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1684  			netcp->dma_chan_name);
-5b6cb43b4d625b Ivan Khoronzhuk         2017-05-10  1685  		ret = PTR_ERR(netcp->rx_channel);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1686  		goto fail;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1687  	}
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1688  
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1689  	dev_dbg(netcp->ndev_dev, "opened RX channel: %p\n", netcp->rx_channel);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1690  	return 0;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1691  
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1692  fail:
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1693  	netcp_free_navigator_resources(netcp);
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1694  	return ret;
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1695  }
-84640e27f23041 Karicheri, Muralidharan 2015-01-15  1696  
-
-:::::: The code at line 1594 was first introduced by commit
-:::::: 84640e27f23041d474c31d3362c3e2185ad68ec2 net: netcp: Add Keystone NetCP core ethernet driver
-
-:::::: TO: Karicheri, Muralidharan <m-karicheri2@ti.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+On 23. 10. 18. 16:58, kernel test robot wrote:
+> Hi Sascha,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on linus/master]
+> [also build test WARNING on v6.6-rc6]
+> [cannot apply to next-20231018]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Sascha-Hauer/PM-devfreq-rockchip-dfi-Make-pmu-regmap-mandatory/20231018-142228
+> base:   linus/master
+> patch link:    https://lore.kernel.org/r/20231018061714.3553817-17-s.hauer%40pengutronix.de
+> patch subject: [PATCH v8 16/26] PM / devfreq: rockchip-dfi: Add perf support
+> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231018/202310181557.GIXGL21M-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310181557.GIXGL21M-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202310181557.GIXGL21M-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> drivers/devfreq/event/rockchip-dfi.c:203:13: warning: 'rockchip_ddr_perf_counters_add' defined but not used [-Wunused-function]
+>      203 | static void rockchip_ddr_perf_counters_add(struct rockchip_dfi *dfi,
+>          |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> --
+>>> drivers/devfreq/event/rockchip-dfi.c:79: warning: Function parameter or member 'write_access' not described in 'dmc_count_channel'
+> 
+> 
+> vim +/rockchip_ddr_perf_counters_add +203 drivers/devfreq/event/rockchip-dfi.c
+> 
+>     66	
+>     67	/**
+>     68	 * struct dmc_count_channel - structure to hold counter values from the DDR controller
+>     69	 * @access:       Number of read and write accesses
+>     70	 * @clock_cycles: DDR clock cycles
+>     71	 * @read_access:  number of read accesses
+>     72	 * @write_acccess: number of write accesses
+>     73	 */
+>     74	struct dmc_count_channel {
+>     75		u64 access;
+>     76		u64 clock_cycles;
+>     77		u64 read_access;
+>     78		u64 write_access;
+>   > 79	};
+>     80	
+>     81	struct dmc_count {
+>     82		struct dmc_count_channel c[DMC_MAX_CHANNELS];
+>     83	};
+>     84	
+>     85	/*
+>     86	 * The dfi controller can monitor DDR load. It has an upper and lower threshold
+>     87	 * for the operating points. Whenever the usage leaves these bounds an event is
+>     88	 * generated to indicate the DDR frequency should be changed.
+>     89	 */
+>     90	struct rockchip_dfi {
+>     91		struct devfreq_event_dev *edev;
+>     92		struct devfreq_event_desc desc;
+>     93		struct dmc_count last_event_count;
+>     94	
+>     95		struct dmc_count last_perf_count;
+>     96		struct dmc_count total_count;
+>     97		seqlock_t count_seqlock; /* protects last_perf_count and total_count */
+>     98	
+>     99		struct device *dev;
+>    100		void __iomem *regs;
+>    101		struct regmap *regmap_pmu;
+>    102		struct clk *clk;
+>    103		int usecount;
+>    104		struct mutex mutex;
+>    105		u32 ddr_type;
+>    106		unsigned int channel_mask;
+>    107		unsigned int max_channels;
+>    108		enum cpuhp_state cpuhp_state;
+>    109		struct hlist_node node;
+>    110		struct pmu pmu;
+>    111		struct hrtimer timer;
+>    112		unsigned int cpu;
+>    113		int active_events;
+>    114		int burst_len;
+>    115		int buswidth[DMC_MAX_CHANNELS];
+>    116	};
+>    117	
+>    118	static int rockchip_dfi_enable(struct rockchip_dfi *dfi)
+>    119	{
+>    120		void __iomem *dfi_regs = dfi->regs;
+>    121		int ret = 0;
+>    122	
+>    123		mutex_lock(&dfi->mutex);
+>    124	
+>    125		dfi->usecount++;
+>    126		if (dfi->usecount > 1)
+>    127			goto out;
+>    128	
+>    129		ret = clk_prepare_enable(dfi->clk);
+>    130		if (ret) {
+>    131			dev_err(&dfi->edev->dev, "failed to enable dfi clk: %d\n", ret);
+>    132			goto out;
+>    133		}
+>    134	
+>    135		/* clear DDRMON_CTRL setting */
+>    136		writel_relaxed(HIWORD_UPDATE(0, DDRMON_CTRL_TIMER_CNT_EN | DDRMON_CTRL_SOFTWARE_EN |
+>    137			       DDRMON_CTRL_HARDWARE_EN), dfi_regs + DDRMON_CTRL);
+>    138	
+>    139		/* set ddr type to dfi */
+>    140		switch (dfi->ddr_type) {
+>    141		case ROCKCHIP_DDRTYPE_LPDDR2:
+>    142		case ROCKCHIP_DDRTYPE_LPDDR3:
+>    143			writel_relaxed(HIWORD_UPDATE(DDRMON_CTRL_LPDDR23, DDRMON_CTRL_DDR_TYPE_MASK),
+>    144				       dfi_regs + DDRMON_CTRL);
+>    145			break;
+>    146		case ROCKCHIP_DDRTYPE_LPDDR4:
+>    147		case ROCKCHIP_DDRTYPE_LPDDR4X:
+>    148			writel_relaxed(HIWORD_UPDATE(DDRMON_CTRL_LPDDR4, DDRMON_CTRL_DDR_TYPE_MASK),
+>    149				       dfi_regs + DDRMON_CTRL);
+>    150			break;
+>    151		default:
+>    152			break;
+>    153		}
+>    154	
+>    155		/* enable count, use software mode */
+>    156		writel_relaxed(HIWORD_UPDATE(DDRMON_CTRL_SOFTWARE_EN, DDRMON_CTRL_SOFTWARE_EN),
+>    157			       dfi_regs + DDRMON_CTRL);
+>    158	out:
+>    159		mutex_unlock(&dfi->mutex);
+>    160	
+>    161		return ret;
+>    162	}
+>    163	
+>    164	static void rockchip_dfi_disable(struct rockchip_dfi *dfi)
+>    165	{
+>    166		void __iomem *dfi_regs = dfi->regs;
+>    167	
+>    168		mutex_lock(&dfi->mutex);
+>    169	
+>    170		dfi->usecount--;
+>    171	
+>    172		WARN_ON_ONCE(dfi->usecount < 0);
+>    173	
+>    174		if (dfi->usecount > 0)
+>    175			goto out;
+>    176	
+>    177		writel_relaxed(HIWORD_UPDATE(0, DDRMON_CTRL_SOFTWARE_EN),
+>    178			       dfi_regs + DDRMON_CTRL);
+>    179		clk_disable_unprepare(dfi->clk);
+>    180	out:
+>    181		mutex_unlock(&dfi->mutex);
+>    182	}
+>    183	
+>    184	static void rockchip_dfi_read_counters(struct rockchip_dfi *dfi, struct dmc_count *res)
+>    185	{
+>    186		u32 i;
+>    187		void __iomem *dfi_regs = dfi->regs;
+>    188	
+>    189		for (i = 0; i < dfi->max_channels; i++) {
+>    190			if (!(dfi->channel_mask & BIT(i)))
+>    191				continue;
+>    192			res->c[i].read_access = readl_relaxed(dfi_regs +
+>    193					DDRMON_CH0_RD_NUM + i * 20);
+>    194			res->c[i].write_access = readl_relaxed(dfi_regs +
+>    195					DDRMON_CH0_WR_NUM + i * 20);
+>    196			res->c[i].access = readl_relaxed(dfi_regs +
+>    197					DDRMON_CH0_DFI_ACCESS_NUM + i * 20);
+>    198			res->c[i].clock_cycles = readl_relaxed(dfi_regs +
+>    199					DDRMON_CH0_COUNT_NUM + i * 20);
+>    200		}
+>    201	}
+>    202	
+>  > 203	static void rockchip_ddr_perf_counters_add(struct rockchip_dfi *dfi,
+>    204						   const struct dmc_count *now,
+>    205						   struct dmc_count *res)
+>    206	{
+>    207		const struct dmc_count *last = &dfi->last_perf_count;
+>    208		int i;
+>    209	
+>    210		for (i = 0; i < dfi->max_channels; i++) {
+>    211			res->c[i].read_access = dfi->total_count.c[i].read_access +
+>    212				(u32)(now->c[i].read_access - last->c[i].read_access);
+>    213			res->c[i].write_access = dfi->total_count.c[i].write_access +
+>    214				(u32)(now->c[i].write_access - last->c[i].write_access);
+>    215			res->c[i].access = dfi->total_count.c[i].access +
+>    216				(u32)(now->c[i].access - last->c[i].access);
+>    217			res->c[i].clock_cycles = dfi->total_count.c[i].clock_cycles +
+>    218				(u32)(now->c[i].clock_cycles - last->c[i].clock_cycles);
+>    219		}
+>    220	}
+>    221	
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best Regards,
+Samsung Electronics
+Chanwoo Choi
+
