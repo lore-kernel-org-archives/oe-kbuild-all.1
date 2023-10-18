@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EAE81F188
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 16:25:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE89F37C9C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 16:36:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KhopQ3Jz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OK2/XCBs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697646310; x=1729182310;
+  t=1697646971; x=1729182971;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LTaD1a7qsCERlvZZ2FDv6BVyrI5/qaIFdMINk4FCDO8=;
-  b=KhopQ3Jz7f7ZzPF/Nn3q49NfYGf34p9cGOSSu68oBoCWNQxbXCYjDNLJ
-   43N2Eypj+lMCwjoxPwQiE8SRdrI1lR7r1YUIaeONQ/nfhxzLKGh4iZIsO
-   1cs8Ot8hZJUm8jKLP5Dc1d7Fx7O8uUJY6xaiHeOV75XxJkaZWQIFk3id5
-   /nMs5DTu+t2MKfcDkZifb0XeltRCRso9+cCiGkC4+ewBKoPXIN9HceyJ6
-   1KNZ5RjG6RRohZ072mBaesqWS8lHLa7/Ntx2W+l7oodxkjLHXltI/VV8k
-   HG1f34WUq51Ou40kcx8fNqyySO6kO7ATD1RcA98tArtlowE4TudPbTt8n
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="365401116"
+  bh=myYEaznZDa8M7/kIcYwYERR1aDc4LOnvBlyNueoUOXg=;
+  b=OK2/XCBsLlTOvLWDs0DRvFmwsRy6sACJe7rjnkt6/qBdVJ6Ua1+Ibig6
+   0Mt/tlTCdcjXZFqOK43k6/OlNXE9UXj1mjl0mmYQzumtJowD7O5Elh1GP
+   59JRCIHhsTufH/O0EjO4y63isZkfQH8QPUXJPrG3MnFa+gLKSQPwF3+wC
+   IGyodefRl8SM17pVfdcUgTgGoGgFlEdOPN9OcnA2FIbgXZYmSUh7bLBqx
+   66DzgPxISAmnyloDX5J3YvJUAkNVu7aX4E4i32nBkIfAi91sZNK1e3R8D
+   VW86xBCSr7GQoRYGYBptZclVA0nVYfT6CYkvo3cteY2HjBe1AsBUv6ctC
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="450274206"
 X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="365401116"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 09:25:09 -0700
+   d="scan'208";a="450274206"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 09:35:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="706515685"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="750155300"
 X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="706515685"
+   d="scan'208";a="750155300"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 18 Oct 2023 09:25:07 -0700
+  by orsmga007.jf.intel.com with ESMTP; 18 Oct 2023 09:35:09 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qt9M0-0000ew-2T;
-	Wed, 18 Oct 2023 16:25:04 +0000
-Date: Thu, 19 Oct 2023 00:24:18 +0800
+	id 1qt9Vj-0000gK-0F;
+	Wed, 18 Oct 2023 16:35:07 +0000
+Date: Thu, 19 Oct 2023 00:34:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: Jeff LaBundy <jeff@labundy.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Peter Zijlstra <peterz@infradead.org>
-Subject: kernel/sched/fair.c:939:34: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202310190027.YzS5EYN2-lkp@intel.com>
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: drivers/input/misc/iqs626a.c:780:61: warning: '%d' directive output
+ may be truncated writing between 1 and 10 bytes into a region of size 2
+Message-ID: <202310190041.28bxUK0W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,93 +53,201 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   06dc10eae55b5ceabfef287a7e5f16ceea204aa0
-commit: 904cbab71dda1689d41a240541179f21ff433c40 sched: Make const-safe
-date:   10 months ago
-config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231019/202310190027.YzS5EYN2-lkp@intel.com/config)
+commit: 4d3d2694e168c542b088eef5059d31498f679020 Input: iqs626a - drop unused device node references
+date:   9 months ago
+config: x86_64-randconfig-r015-20230901 (https://download.01.org/0day-ci/archive/20231019/202310190041.28bxUK0W-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310190027.YzS5EYN2-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310190041.28bxUK0W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310190027.YzS5EYN2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310190041.28bxUK0W-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/sched/fair.c:939:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity const *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:939:34: sparse:     expected struct sched_entity const *se
-   kernel/sched/fair.c:939:34: sparse:     got struct sched_entity [noderef] __rcu *
-   kernel/sched/fair.c:7698:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:7698:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:7698:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:7996:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:7996:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:7996:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:6039:35: sparse: sparse: marked inline, but without a definition
-   kernel/sched/fair.c: note: in included file:
-   kernel/sched/sched.h:2232:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2232:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2232:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2074:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2074:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct *
---
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/rt.c:961:70: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/rt.c:961:70: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/rt.c:961:70: sparse:    struct task_struct *
-   kernel/sched/rt.c:1047:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:1047:38: sparse:     expected struct task_struct *curr
-   kernel/sched/rt.c:1047:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:1592:31: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:1592:31: sparse:     expected struct task_struct *p
-   kernel/sched/rt.c:1592:31: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/build_policy.c: note: in included file:
->> kernel/sched/deadline.c:1954:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:1954:42: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:1954:42: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:1182:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:1182:23: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:1182:23: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:1309:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:1309:38: sparse:     expected struct task_struct *curr
-   kernel/sched/deadline.c:1309:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:2645:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/deadline.c:2645:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:2645:22: sparse:    struct task_struct *
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/sched.h:2074:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2074:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2074:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2074:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2074:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2074:25: sparse:    struct task_struct *
+All warnings (new ones prefixed by >>):
 
-vim +939 kernel/sched/fair.c
+   drivers/input/misc/iqs626a.c: In function 'iqs626_parse_trackpad':
+>> drivers/input/misc/iqs626a.c:780:61: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
+     780 |                 snprintf(tc_name, sizeof(tc_name), "channel-%d", i);
+         |                                                             ^~
+   drivers/input/misc/iqs626a.c:780:52: note: directive argument in the range [0, 2147483646]
+     780 |                 snprintf(tc_name, sizeof(tc_name), "channel-%d", i);
+         |                                                    ^~~~~~~~~~~~
+   drivers/input/misc/iqs626a.c:780:17: note: 'snprintf' output between 10 and 19 bytes into a destination of size 10
+     780 |                 snprintf(tc_name, sizeof(tc_name), "channel-%d", i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-bf0f6f24a1ece8 kernel/sched_fair.c Ingo Molnar       2007-07-09  936  
-6e998916dfe327 kernel/sched/fair.c Stanislaw Gruszka 2014-11-12  937  static void update_curr_fair(struct rq *rq)
-6e998916dfe327 kernel/sched/fair.c Stanislaw Gruszka 2014-11-12  938  {
-6e998916dfe327 kernel/sched/fair.c Stanislaw Gruszka 2014-11-12 @939  	update_curr(cfs_rq_of(&rq->curr->se));
-6e998916dfe327 kernel/sched/fair.c Stanislaw Gruszka 2014-11-12  940  }
-6e998916dfe327 kernel/sched/fair.c Stanislaw Gruszka 2014-11-12  941  
 
-:::::: The code at line 939 was first introduced by commit
-:::::: 6e998916dfe327e785e7c2447959b2c1a3ea4930 sched/cputime: Fix clock_nanosleep()/clock_gettime() inconsistency
+vim +780 drivers/input/misc/iqs626a.c
 
-:::::: TO: Stanislaw Gruszka <sgruszka@redhat.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+   712	
+   713	static int iqs626_parse_trackpad(struct iqs626_private *iqs626,
+   714					 struct fwnode_handle *ch_node,
+   715					 enum iqs626_ch_id ch_id)
+   716	{
+   717		struct iqs626_sys_reg *sys_reg = &iqs626->sys_reg;
+   718		struct i2c_client *client = iqs626->client;
+   719		u8 *hyst = &sys_reg->tp_grp_reg.hyst;
+   720		int error, count, i;
+   721		unsigned int val;
+   722	
+   723		if (!fwnode_property_read_u32(ch_node, "azoteq,lta-update", &val)) {
+   724			if (val > IQS626_MISC_A_TPx_LTA_UPDATE_MAX) {
+   725				dev_err(&client->dev,
+   726					"Invalid %s channel update rate: %u\n",
+   727					fwnode_get_name(ch_node), val);
+   728				return -EINVAL;
+   729			}
+   730	
+   731			sys_reg->misc_a &= ~IQS626_MISC_A_TPx_LTA_UPDATE_MASK;
+   732			sys_reg->misc_a |= (val << IQS626_MISC_A_TPx_LTA_UPDATE_SHIFT);
+   733		}
+   734	
+   735		if (!fwnode_property_read_u32(ch_node, "azoteq,filt-str-trackpad",
+   736					      &val)) {
+   737			if (val > IQS626_FILT_STR_MAX) {
+   738				dev_err(&client->dev,
+   739					"Invalid %s channel filter strength: %u\n",
+   740					fwnode_get_name(ch_node), val);
+   741				return -EINVAL;
+   742			}
+   743	
+   744			sys_reg->misc_b &= ~IQS626_MISC_B_FILT_STR_TPx;
+   745			sys_reg->misc_b |= val;
+   746		}
+   747	
+   748		if (!fwnode_property_read_u32(ch_node, "azoteq,filt-str-np-cnt",
+   749					      &val)) {
+   750			if (val > IQS626_FILT_STR_MAX) {
+   751				dev_err(&client->dev,
+   752					"Invalid %s channel filter strength: %u\n",
+   753					fwnode_get_name(ch_node), val);
+   754				return -EINVAL;
+   755			}
+   756	
+   757			*hyst &= ~IQS626_FILT_STR_NP_TPx_MASK;
+   758			*hyst |= (val << IQS626_FILT_STR_NP_TPx_SHIFT);
+   759		}
+   760	
+   761		if (!fwnode_property_read_u32(ch_node, "azoteq,filt-str-lp-cnt",
+   762					      &val)) {
+   763			if (val > IQS626_FILT_STR_MAX) {
+   764				dev_err(&client->dev,
+   765					"Invalid %s channel filter strength: %u\n",
+   766					fwnode_get_name(ch_node), val);
+   767				return -EINVAL;
+   768			}
+   769	
+   770			*hyst &= ~IQS626_FILT_STR_LP_TPx_MASK;
+   771			*hyst |= (val << IQS626_FILT_STR_LP_TPx_SHIFT);
+   772		}
+   773	
+   774		for (i = 0; i < iqs626_channels[ch_id].num_ch; i++) {
+   775			u8 *ati_base = &sys_reg->tp_grp_reg.ch_reg_tp[i].ati_base;
+   776			u8 *thresh = &sys_reg->tp_grp_reg.ch_reg_tp[i].thresh;
+   777			struct fwnode_handle *tc_node;
+   778			char tc_name[10];
+   779	
+ > 780			snprintf(tc_name, sizeof(tc_name), "channel-%d", i);
+   781	
+   782			tc_node = fwnode_get_named_child_node(ch_node, tc_name);
+   783			if (!tc_node)
+   784				continue;
+   785	
+   786			if (!fwnode_property_read_u32(tc_node, "azoteq,ati-base",
+   787						      &val)) {
+   788				if (val < IQS626_TPx_ATI_BASE_MIN ||
+   789				    val > IQS626_TPx_ATI_BASE_MAX) {
+   790					dev_err(&client->dev,
+   791						"Invalid %s %s ATI base: %u\n",
+   792						fwnode_get_name(ch_node), tc_name, val);
+   793					fwnode_handle_put(tc_node);
+   794					return -EINVAL;
+   795				}
+   796	
+   797				*ati_base = val - IQS626_TPx_ATI_BASE_MIN;
+   798			}
+   799	
+   800			if (!fwnode_property_read_u32(tc_node, "azoteq,thresh",
+   801						      &val)) {
+   802				if (val > IQS626_CHx_THRESH_MAX) {
+   803					dev_err(&client->dev,
+   804						"Invalid %s %s threshold: %u\n",
+   805						fwnode_get_name(ch_node), tc_name, val);
+   806					fwnode_handle_put(tc_node);
+   807					return -EINVAL;
+   808				}
+   809	
+   810				*thresh = val;
+   811			}
+   812	
+   813			fwnode_handle_put(tc_node);
+   814		}
+   815	
+   816		if (!fwnode_property_present(ch_node, "linux,keycodes"))
+   817			return 0;
+   818	
+   819		count = fwnode_property_count_u32(ch_node, "linux,keycodes");
+   820		if (count > IQS626_NUM_GESTURES) {
+   821			dev_err(&client->dev, "Too many keycodes present\n");
+   822			return -EINVAL;
+   823		} else if (count < 0) {
+   824			dev_err(&client->dev, "Failed to count keycodes: %d\n", count);
+   825			return count;
+   826		}
+   827	
+   828		error = fwnode_property_read_u32_array(ch_node, "linux,keycodes",
+   829						       iqs626->tp_code, count);
+   830		if (error) {
+   831			dev_err(&client->dev, "Failed to read keycodes: %d\n", error);
+   832			return error;
+   833		}
+   834	
+   835		sys_reg->misc_b &= ~IQS626_MISC_B_TPx_SWIPE;
+   836		if (fwnode_property_present(ch_node, "azoteq,gesture-swipe"))
+   837			sys_reg->misc_b |= IQS626_MISC_B_TPx_SWIPE;
+   838	
+   839		if (!fwnode_property_read_u32(ch_node, "azoteq,timeout-tap-ms",
+   840					      &val)) {
+   841			if (val > IQS626_TIMEOUT_TAP_MS_MAX) {
+   842				dev_err(&client->dev,
+   843					"Invalid %s channel timeout: %u\n",
+   844					fwnode_get_name(ch_node), val);
+   845				return -EINVAL;
+   846			}
+   847	
+   848			sys_reg->timeout_tap = val / 16;
+   849		}
+   850	
+   851		if (!fwnode_property_read_u32(ch_node, "azoteq,timeout-swipe-ms",
+   852					      &val)) {
+   853			if (val > IQS626_TIMEOUT_SWIPE_MS_MAX) {
+   854				dev_err(&client->dev,
+   855					"Invalid %s channel timeout: %u\n",
+   856					fwnode_get_name(ch_node), val);
+   857				return -EINVAL;
+   858			}
+   859	
+   860			sys_reg->timeout_swipe = val / 16;
+   861		}
+   862	
+   863		if (!fwnode_property_read_u32(ch_node, "azoteq,thresh-swipe",
+   864					      &val)) {
+   865			if (val > IQS626_THRESH_SWIPE_MAX) {
+   866				dev_err(&client->dev,
+   867					"Invalid %s channel threshold: %u\n",
+   868					fwnode_get_name(ch_node), val);
+   869				return -EINVAL;
+   870			}
+   871	
+   872			sys_reg->thresh_swipe = val;
+   873		}
+   874	
+   875		sys_reg->event_mask &= ~IQS626_EVENT_MASK_GESTURE;
+   876	
+   877		return 0;
+   878	}
+   879	
 
 -- 
 0-DAY CI Kernel Test Service
