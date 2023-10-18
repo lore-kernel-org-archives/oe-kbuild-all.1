@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0B71171D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 10:14:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A3121945A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 10:32:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZC67/UyL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697624079; x=1729160079;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gGMq4a5qiZYUn9Oln+qtDvu7lzpJ8vcxRcIG4w8ru0o=;
-  b=ZC67/UyLHxyshVEVrPwOrrE6FbYhKzZBvc/XOmgrVRHK409lN2OLT6LB
-   w9Hu1H4ibucLIBIKhTKBKN+SNIUrDVrqabo9NZmTgSgrV47XL8emr9b02
-   unwrlUTbSEAWEBs7G5v/nD1t8nW4xyI2Q/VPsU5UWW880wvqST4wbomDt
-   b9b/3I49IkCRU9ctwRJdfMwS/cU6WAsxQQzPzyth+dhl/i3aUnkmdEQQq
-   gUTX5yMiHwwn1Q+dXpl8OVFJk+cMqw57c1ZECoPJuhqXmJMdIZUePE30j
-   +yJucrTPJh9V9cyIxNDQqX1ejkGs05UdWGqtJeMvg4uVQCbGFBaQoTono
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="4579140"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
-   d="scan'208";a="4579140"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 03:14:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="760171482"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
-   d="scan'208";a="760171482"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Oct 2023 03:14:33 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qt3ZO-0000Ds-37;
-	Wed, 18 Oct 2023 10:14:30 +0000
-Date: Wed, 18 Oct 2023 18:14:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tylor Yang <tylor_yang@himax.corp-partner.google.com>,
-	dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jikos@kernel.org, benjamin.tissoires@redhat.com,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	poyuan_chang@himax.corp-partner.google.com, jingyliang@chromium.org,
-	hbarnor@chromium.org, wuxy23@lenovo.com, luolm1@lenovo.com,
-	poyu_hung@himax.corp-partner.google.com,
-	Tylor Yang <tylor_yang@himax.corp-partner.google.com>
-Subject: Re: [PATCH v3 2/4] HID: touchscreen: Add initial support for Himax
- HID-over-SPI
-Message-ID: <202310181806.Ne95k5nt-lkp@intel.com>
-References: <20231017091900.801989-3-tylor_yang@himax.corp-partner.google.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gEM27ser"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4083740f92dso9536485e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 03:32:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697625146; x=1698229946; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VsiPnpSACr9B+lnlwbErKj29RaM0XAz/xPYHLf8w0YA=;
+        b=gEM27serOAK82h1Z03m+SoUJLyY44zh3X5EQK5/UsGeSZgIhv0rt75kOJOTMgCWyA6
+         gms0bAxADy5qQ8U3TZyPu20tvvCtohugzvpLQwcew5xVlyT0hla52i+h+moTcgrJV7yK
+         IRG91mQuK1iE8wmknxg3ELPosewk1J3nE92iprH2bxTFSdiWZY5vCY5tw1nQLqIEXayM
+         ztChmW/sulkNFF7yeeDUEYN/fIQDqemAKd859WwbTUoKGWPLtM8G2+C3ZrrP6xBAddV8
+         izSvPirz1QrHZ7tn+1Uq4lr1nment+QjL4sI1iuUFZQQsTI5V1oQCyE6MHdNhwJE/6WE
+         Ga0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697625146; x=1698229946;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VsiPnpSACr9B+lnlwbErKj29RaM0XAz/xPYHLf8w0YA=;
+        b=rI5q990qpJCn4eQ8gYrgLYFmHHZiBMVf1pf+jFqoRKpT2H1XcL/ovdBuP9wcKFniIX
+         f7Y3Z/FpAtqp2OZaSOG/piU8GpOcqz7sZv1tjHfDnO/+P8t96LsRAouTqCK2kZojvtUM
+         VWsv5//yjJFaZipEGR3tISIZw0er/hibH3KzEghv+2l9Wfm/yILqn8408WiZcERJEvcN
+         Hly7ZOUOJEB+YzsGuDK4DyINT2K2tXR894MlV5eTxuwdyEp0A5UkfENbZlmYhbv8mLr8
+         wdjRYUIX0NqwLaFHjAWYmkwcN97/9An+y+flK3fpx3u5C2lCbq4tZFviXiM4R4DB8TsG
+         R9/A==
+X-Gm-Message-State: AOJu0YyNfm7KF6aeE3fkv+fJnvUyOZEWRBvIuKP8xEux1KkDk8H/fDb9
+	jXYiQrT9hkNoAttzmyHztBRq5Q==
+X-Google-Smtp-Source: AGHT+IHcrwjdRkE5UPJdS7rOGC82f4RgDgBOYpmwPQMMUj4HIKQ5pdH5V2CaRMgoGmuCxZRJQM7h5w==
+X-Received: by 2002:adf:fd50:0:b0:32d:87c8:b548 with SMTP id h16-20020adffd50000000b0032d87c8b548mr4100977wrs.21.1697625146265;
+        Wed, 18 Oct 2023 03:32:26 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id y18-20020a5d4712000000b0031984b370f2sm1798863wrq.47.2023.10.18.03.32.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Oct 2023 03:32:25 -0700 (PDT)
+Date: Wed, 18 Oct 2023 13:32:21 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Baoquan He <bhe@redhat.com>
+Cc: oe-kbuild@lists.linux.dev, Lorenzo Stoakes <lstoakes@gmail.com>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm'
+ could be null (see line 3667)
+Message-ID: <89caf59a-d3b9-409d-b1ae-9e370cb9ee7d@kadam.mountain>
+References: <f82be227-bfde-439a-b339-1b4ee370d59a@kadam.mountain>
+ <ZS+dSd9Z6/2wU0Eg@MiWiFi-R3L-srv>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,51 +62,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231017091900.801989-3-tylor_yang@himax.corp-partner.google.com>
+In-Reply-To: <ZS+dSd9Z6/2wU0Eg@MiWiFi-R3L-srv>
 
-Hi Tylor,
+On Wed, Oct 18, 2023 at 04:54:33PM +0800, Baoquan He wrote:
+> Hi,
+> 
+> On 10/17/23 at 05:26pm, Dan Carpenter wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   213f891525c222e8ed145ce1ce7ae1f47921cb9c
+> > commit: 4c91c07c93bbbdd7f2d9de2beb7ee5c2a48ad8e7 mm: vmalloc: convert vread() to vread_iter()
+> > config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231017/202310171600.WCrsOwFj-lkp@intel.com/config)
+> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > reproduce: (https://download.01.org/0day-ci/archive/20231017/202310171600.WCrsOwFj-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202310171600.WCrsOwFj-lkp@intel.com/
+> > 
+> > smatch warnings:
+> > mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm' could be null (see line 3667)
+> 
+> I see the code deficit, while the reproduce link seems to be unavilable.
+> Could you double check the link and provide a good one so that I can
+> verify the code fix?
 
-kernel test robot noticed the following build warnings:
+Here's a link.  :)
 
-[auto build test WARNING on hid/for-next]
-[also build test WARNING on dtor-input/next dtor-input/for-linus robh/for-next linus/master v6.6-rc6 next-20231018]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+https://repo.or.cz/smatch.git/blob/HEAD:/Documentation/smatch.txt
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tylor-Yang/dt-bindings-input-Introduce-Himax-HID-over-SPI-device/20231017-172156
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20231017091900.801989-3-tylor_yang%40himax.corp-partner.google.com
-patch subject: [PATCH v3 2/4] HID: touchscreen: Add initial support for Himax HID-over-SPI
-reproduce: (https://download.01.org/0day-ci/archive/20231018/202310181806.Ne95k5nt-lkp@intel.com/reproduce)
+Just build it and run:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310181806.Ne95k5nt-lkp@intel.com/
+~/smatch/smatch_scripts/kchecker drivers/whatever/file.c
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wrestrict -Warray-bounds -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wundef -funsigned-char -Wenum-conversion -Werror=return-type W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
->> ./drivers/hid/hx-hid/hx_core.h: 25 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+regards,
+dan carpenter
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
