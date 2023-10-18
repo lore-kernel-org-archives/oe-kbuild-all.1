@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 401B03FB0C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 17:44:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 123CC3C072
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 17:54:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GRlo7Rrp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mvoO/1/m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697651055; x=1729187055;
+  t=1697651655; x=1729187655;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MmaQ0OkQBNshCxSmfvzXH8wBQtSkrdJFsv8v+kH8Qyc=;
-  b=GRlo7RrpPuyGtsZCR2y8XQg50dHvrTl5LPWpTFB5pszZ6snuB+eP508q
-   MvfyE30unu7OsS37KAyEFFfM/fnbn24b4YNOqZVb49djBtPFfDrYPesxS
-   U6e/p47EeRz5A+bRvxdK0t5PvTkt+SulIodI26t4zVambqGA2ZjnEt2sD
-   wROZ0IQaUv6s8sEzo/BvrpgXRmI0H99EdjHWns7emLLknjURauqDtz6zT
-   nFUaZGIjqxhcYILaTpAS9J5Xqjg9TQNgOV+fShwhErV+RyBKCdyLijgxb
-   FgzNIM3P/KTcyK3wkKjIvc45X260SrVVgkYoxacPBJnZVVkj2OAMb5UNZ
+  bh=AbPcyIFcKNxY0ZuCLP8EGhniUBsTKqvdY/GGR8MIpas=;
+  b=mvoO/1/mny1/76K+XfhdHf1zxUX69YirMb+xohFVlw2hbIz1WPczACP2
+   4G+iHS/05oQOh0NQOCZq9+xg15PW/V8BSBrV+AetJ2Nj7J6n6TaJosOTi
+   elsDN94dPjgYnXbA27angRkSWZmYcL0ozFmFWsIjD1p7j2NBwG1Pc9/5U
+   kjrGdg018Ro/cLdxc9r1ka4ItVtm5bYV/dR0YcxF/APO+hyzn7exxR2NP
+   7DrSYtFYefw1ORTBrNKoqDiUQW4xtI0wj33JXdjlFInh1+hjiaU6g8rZh
+   mdY2ZpeXXzmYdvj6voAbaxviFTcA53gbYJy0G3BOcSvqhStJaD1zz29VY
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="472300420"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="450296218"
 X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="472300420"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 10:44:14 -0700
+   d="scan'208";a="450296218"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 10:54:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="873118681"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="880319677"
 X-IronPort-AV: E=Sophos;i="6.03,235,1694761200"; 
-   d="scan'208";a="873118681"
+   d="scan'208";a="880319677"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 18 Oct 2023 10:44:12 -0700
+  by orsmga004.jf.intel.com with ESMTP; 18 Oct 2023 10:54:13 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtAaY-0000lo-18;
-	Wed, 18 Oct 2023 17:44:10 +0000
-Date: Thu, 19 Oct 2023 01:43:18 +0800
+	id 1qtAkE-0000mk-2w;
+	Wed, 18 Oct 2023 17:54:10 +0000
+Date: Thu, 19 Oct 2023 01:53:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kmo@daterainc.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 3892/13299] fs/bcachefs/snapshot.h:36:21:
- warning: array subscript <unknown> is outside array bounds of 'struct
- snapshot_t[0]'
-Message-ID: <202310190116.5JjceoZJ-lkp@intel.com>
+To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jfern:sched/ilb-no-needs-kick 1/2]
+ arch/arc/include/asm/cmpxchg.h:44:20: error: invalid type argument of unary
+ '*' (have 'int')
+Message-ID: <202310190109.q9Lbm0jO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,350 +51,290 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2dac75696c6da3c848daa118a729827541c89d33
-commit: 68d1c81e582aac9ad93ff6c663a0b5af7c5777b2 [3892/13299] bcachefs: Split out snapshot.c
-config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20231019/202310190116.5JjceoZJ-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310190116.5JjceoZJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git sched/ilb-no-needs-kick
+head:   742880248d6c4270f61e4fc73d27d65928cc4309
+commit: 5998b4cd054c0ec4118e60b050b7796fe821ef79 [1/2] sched/nohz: Update nohz.next_balance directly without IPIs
+config: arc-randconfig-002-20231019 (https://download.01.org/0day-ci/archive/20231019/202310190109.q9Lbm0jO-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310190109.q9Lbm0jO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310190116.5JjceoZJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310190109.q9Lbm0jO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/bcachefs/bcachefs_format.h:868:14: warning: 'INODE_STR_HASH_OFFSET' defined but not used [-Wunused-const-variable=]
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
-     101 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:868:1: note: in expansion of macro 'LE32_BITMASK'
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:678:14: warning: 'BTREE_PTR_RANGE_UPDATED_MAX' defined but not used [-Wunused-const-variable=]
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:103:25: note: in definition of macro 'LE_BITMASK'
-     103 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:678:1: note: in expansion of macro 'LE16_BITMASK'
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:678:14: warning: 'BTREE_PTR_RANGE_UPDATED_BITS' defined but not used [-Wunused-const-variable=]
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:102:25: note: in definition of macro 'LE_BITMASK'
-     102 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:678:1: note: in expansion of macro 'LE16_BITMASK'
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:678:14: warning: 'BTREE_PTR_RANGE_UPDATED_OFFSET' defined but not used [-Wunused-const-variable=]
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
-     101 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:678:1: note: in expansion of macro 'LE16_BITMASK'
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         | ^~~~~~~~~~~~
-   In file included from fs/bcachefs/btree_trans_commit.c:9:
-   In function 'want_new_bset',
-       inlined from 'bch2_btree_node_prep_for_write' at fs/bcachefs/btree_trans_commit.c:77:6:
-   fs/bcachefs/btree_update_interior.h:274:50: warning: array subscript 0 is outside array bounds of 'struct bkey_packed[0]' [-Warray-bounds=]
-     274 |                 __bch_btree_u64s_remaining(c, b, &bne->keys.start[0]);
-         |                                                  ^~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h: In function 'bch2_btree_node_prep_for_write':
-   fs/bcachefs/bcachefs_format.h:2297:36: note: while referencing 'start'
-    2297 |                 struct bkey_packed start[0];
-         |                                    ^~~~~
-   In file included from include/linux/build_bug.h:5,
-                    from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/backing-dev-defs.h:5,
-                    from fs/bcachefs/bcachefs.h:186:
-   fs/bcachefs/btree_trans_commit.c: In function 'bch2_trans_commit_write_locked.isra':
-   fs/bcachefs/btree_trans_commit.c:703:35: warning: array subscript 0 is outside array bounds of 'struct bkey_i[0]' [-Warray-bounds=]
-     703 |                         bkey_copy(&entry->start[0], &wb->k);
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   fs/bcachefs/util.h:28:33: note: in expansion of macro 'BUG_ON'
-      28 | #define EBUG_ON(cond)           BUG_ON(cond)
-         |                                 ^~~~~~
-   fs/bcachefs/bkey.h:101:9: note: in expansion of macro 'EBUG_ON'
-     101 |         EBUG_ON((u64 *) (_dst) > (u64 *) (_src) &&              \
-         |         ^~~~~~~
-   fs/bcachefs/btree_trans_commit.c:703:25: note: in expansion of macro 'bkey_copy'
-     703 |                         bkey_copy(&entry->start[0], &wb->k);
-         |                         ^~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1542:33: note: while referencing 'start'
-    1542 |                 struct bkey_i   start[0];
-         |                                 ^~~~~
-   fs/bcachefs/btree_trans_commit.c:687:33: warning: array subscript 0 is outside array bounds of 'struct bkey_i[0]' [-Warray-bounds=]
-     687 |                                 bkey_reassemble(&entry->start[0],
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     688 |                                                 (struct bkey_s_c) { &i->old_k, i->old_v });
-         |                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1542:33: note: while referencing 'start'
-    1542 |                 struct bkey_i   start[0];
-         |                                 ^~~~~
-   fs/bcachefs/btree_trans_commit.c:695:35: warning: array subscript 0 is outside array bounds of 'struct bkey_i[0]' [-Warray-bounds=]
-     695 |                         bkey_copy(&entry->start[0], i->k);
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   fs/bcachefs/util.h:28:33: note: in expansion of macro 'BUG_ON'
-      28 | #define EBUG_ON(cond)           BUG_ON(cond)
-         |                                 ^~~~~~
-   fs/bcachefs/bkey.h:101:9: note: in expansion of macro 'EBUG_ON'
-     101 |         EBUG_ON((u64 *) (_dst) > (u64 *) (_src) &&              \
-         |         ^~~~~~~
-   fs/bcachefs/btree_trans_commit.c:695:25: note: in expansion of macro 'bkey_copy'
-     695 |                         bkey_copy(&entry->start[0], i->k);
-         |                         ^~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1542:33: note: while referencing 'start'
-    1542 |                 struct bkey_i   start[0];
-         |                                 ^~~~~
-   In file included from fs/bcachefs/btree_trans_commit.c:17:
-   In function '__snapshot_t',
-       inlined from 'snapshot_t' at fs/bcachefs/snapshot.h:41:9,
-       inlined from 'bch2_snapshot_is_internal_node' at fs/bcachefs/snapshot.h:142:6,
-       inlined from 'btree_insert_entry_checks' at fs/bcachefs/btree_trans_commit.c:268:2,
-       inlined from 'do_bch2_trans_commit.isra' at fs/bcachefs/btree_trans_commit.c:831:3:
->> fs/bcachefs/snapshot.h:36:21: warning: array subscript <unknown> is outside array bounds of 'struct snapshot_t[0]' [-Warray-bounds=]
-      36 |         return &t->s[U32_MAX - id];
-         |                 ~~~~^~~~~~~~~~~~~~
-   In file included from fs/bcachefs/bcachefs.h:419:
-   fs/bcachefs/subvolume_types.h: In function 'do_bch2_trans_commit.isra':
-   fs/bcachefs/subvolume_types.h:23:33: note: while referencing 's'
-      23 |         struct snapshot_t       s[0];
-         |                                 ^
---
-   fs/bcachefs/bcachefs_format.h:870:1: note: in expansion of macro 'LE32_BITMASK'
-     870 | LE32_BITMASK(INODE_NEW_VARINT,  struct bch_inode, bi_flags, 31, 32);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:869:14: warning: 'INODE_NR_FIELDS_MAX' defined but not used [-Wunused-const-variable=]
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         |              ^~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:103:25: note: in definition of macro 'LE_BITMASK'
-     103 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:869:1: note: in expansion of macro 'LE32_BITMASK'
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:869:14: warning: 'INODE_NR_FIELDS_BITS' defined but not used [-Wunused-const-variable=]
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         |              ^~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:102:25: note: in definition of macro 'LE_BITMASK'
-     102 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:869:1: note: in expansion of macro 'LE32_BITMASK'
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:869:14: warning: 'INODE_NR_FIELDS_OFFSET' defined but not used [-Wunused-const-variable=]
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         |              ^~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
-     101 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:869:1: note: in expansion of macro 'LE32_BITMASK'
-     869 | LE32_BITMASK(INODE_NR_FIELDS,   struct bch_inode, bi_flags, 24, 31);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:868:14: warning: 'INODE_STR_HASH_MAX' defined but not used [-Wunused-const-variable=]
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:103:25: note: in definition of macro 'LE_BITMASK'
-     103 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:868:1: note: in expansion of macro 'LE32_BITMASK'
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:868:14: warning: 'INODE_STR_HASH_BITS' defined but not used [-Wunused-const-variable=]
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:102:25: note: in definition of macro 'LE_BITMASK'
-     102 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:868:1: note: in expansion of macro 'LE32_BITMASK'
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:868:14: warning: 'INODE_STR_HASH_OFFSET' defined but not used [-Wunused-const-variable=]
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
-     101 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:868:1: note: in expansion of macro 'LE32_BITMASK'
-     868 | LE32_BITMASK(INODE_STR_HASH,    struct bch_inode, bi_flags, 20, 24);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:678:14: warning: 'BTREE_PTR_RANGE_UPDATED_MAX' defined but not used [-Wunused-const-variable=]
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:103:25: note: in definition of macro 'LE_BITMASK'
-     103 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:678:1: note: in expansion of macro 'LE16_BITMASK'
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:678:14: warning: 'BTREE_PTR_RANGE_UPDATED_BITS' defined but not used [-Wunused-const-variable=]
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:102:25: note: in definition of macro 'LE_BITMASK'
-     102 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:678:1: note: in expansion of macro 'LE16_BITMASK'
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:678:14: warning: 'BTREE_PTR_RANGE_UPDATED_OFFSET' defined but not used [-Wunused-const-variable=]
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:101:25: note: in definition of macro 'LE_BITMASK'
-     101 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:678:1: note: in expansion of macro 'LE16_BITMASK'
-     678 | LE16_BITMASK(BTREE_PTR_RANGE_UPDATED,   struct bch_btree_ptr_v2, flags, 0, 1);
-         | ^~~~~~~~~~~~
-   In file included from fs/bcachefs/btree_update.c:14:
-   In function '__snapshot_t',
-       inlined from 'snapshot_t' at fs/bcachefs/snapshot.h:41:9:
-   fs/bcachefs/snapshot.h:36:16: warning: array subscript <unknown> is outside array bounds of 'struct snapshot_t[0]' [-Warray-bounds=]
-      36 |         return &t->s[U32_MAX - id];
-         |                ^~~~~~~~~~~~~~~~~~~
-   In file included from fs/bcachefs/bcachefs.h:419:
-   fs/bcachefs/subvolume_types.h: In function 'snapshot_t':
-   fs/bcachefs/subvolume_types.h:23:33: note: while referencing 's'
-      23 |         struct snapshot_t       s[0];
-         |                                 ^
-   In function '__snapshot_t',
-       inlined from 'snapshot_t' at fs/bcachefs/snapshot.h:41:9,
-       inlined from '__bch2_snapshot_parent' at fs/bcachefs/snapshot.h:70:15,
-       inlined from 'bch2_snapshot_parent' at fs/bcachefs/snapshot.h:87:7,
-       inlined from 'need_whiteout_for_snapshot' at fs/bcachefs/btree_update.c:140:7:
->> fs/bcachefs/snapshot.h:36:21: warning: array subscript <unknown> is outside array bounds of 'struct snapshot_t[0]' [-Warray-bounds=]
-      36 |         return &t->s[U32_MAX - id];
-         |                 ~~~~^~~~~~~~~~~~~~
-   fs/bcachefs/subvolume_types.h: In function 'need_whiteout_for_snapshot':
-   fs/bcachefs/subvolume_types.h:23:33: note: while referencing 's'
-      23 |         struct snapshot_t       s[0];
-         |                                 ^
-   In function '__snapshot_t',
-       inlined from 'snapshot_t' at fs/bcachefs/snapshot.h:41:9,
-       inlined from '__bch2_snapshot_parent' at fs/bcachefs/snapshot.h:73:6,
-       inlined from 'bch2_snapshot_parent' at fs/bcachefs/snapshot.h:87:7,
-       inlined from 'need_whiteout_for_snapshot' at fs/bcachefs/btree_update.c:140:7:
->> fs/bcachefs/snapshot.h:36:21: warning: array subscript <unknown> is outside array bounds of 'struct snapshot_t[0]' [-Warray-bounds=]
-      36 |         return &t->s[U32_MAX - id];
-         |                 ~~~~^~~~~~~~~~~~~~
-   fs/bcachefs/subvolume_types.h: In function 'need_whiteout_for_snapshot':
-   fs/bcachefs/subvolume_types.h:23:33: note: while referencing 's'
-      23 |         struct snapshot_t       s[0];
-         |                                 ^
-   In function '__snapshot_t',
-       inlined from 'snapshot_t' at fs/bcachefs/snapshot.h:41:9,
-       inlined from '__bch2_snapshot_parent' at fs/bcachefs/snapshot.h:73:34,
-       inlined from 'bch2_snapshot_parent' at fs/bcachefs/snapshot.h:87:7,
-       inlined from 'need_whiteout_for_snapshot' at fs/bcachefs/btree_update.c:140:7:
->> fs/bcachefs/snapshot.h:36:21: warning: array subscript <unknown> is outside array bounds of 'struct snapshot_t[0]' [-Warray-bounds=]
-      36 |         return &t->s[U32_MAX - id];
-         |                 ~~~~^~~~~~~~~~~~~~
-   fs/bcachefs/subvolume_types.h: In function 'need_whiteout_for_snapshot':
-   fs/bcachefs/subvolume_types.h:23:33: note: while referencing 's'
-      23 |         struct snapshot_t       s[0];
-         |                                 ^
-   In function '__snapshot_t',
-       inlined from 'snapshot_t' at fs/bcachefs/snapshot.h:41:9,
-       inlined from 'bch2_snapshot_is_internal_node' at fs/bcachefs/snapshot.h:142:6,
-       inlined from 'bch2_snapshot_is_leaf' at fs/bcachefs/snapshot.h:151:10,
-       inlined from 'check_pos_snapshot_overwritten' at fs/bcachefs/btree_update.c:70:6,
-       inlined from 'extent_back_merge' at fs/bcachefs/btree_update.c:117:10:
->> fs/bcachefs/snapshot.h:36:21: warning: array subscript <unknown> is outside array bounds of 'struct snapshot_t[0]' [-Warray-bounds=]
-      36 |         return &t->s[U32_MAX - id];
-         |                 ~~~~^~~~~~~~~~~~~~
-   fs/bcachefs/subvolume_types.h: In function 'extent_back_merge':
-   fs/bcachefs/subvolume_types.h:23:33: note: while referencing 's'
-      23 |         struct snapshot_t       s[0];
-         |                                 ^
-   In function '__snapshot_t',
-       inlined from 'snapshot_t' at fs/bcachefs/snapshot.h:41:9,
-       inlined from 'bch2_snapshot_is_internal_node' at fs/bcachefs/snapshot.h:142:6,
-       inlined from 'bch2_snapshot_is_leaf' at fs/bcachefs/snapshot.h:151:10,
-       inlined from 'check_pos_snapshot_overwritten' at fs/bcachefs/btree_update.c:70:6,
-       inlined from 'extent_back_merge' at fs/bcachefs/btree_update.c:118:3:
->> fs/bcachefs/snapshot.h:36:21: warning: array subscript <unknown> is outside array bounds of 'struct snapshot_t[0]' [-Warray-bounds=]
-      36 |         return &t->s[U32_MAX - id];
-         |                 ~~~~^~~~~~~~~~~~~~
-   fs/bcachefs/subvolume_types.h: In function 'extent_back_merge':
-   fs/bcachefs/subvolume_types.h:23:33: note: while referencing 's'
-      23 |         struct snapshot_t       s[0];
-         |                                 ^
-   In function '__snapshot_t',
-       inlined from 'snapshot_t' at fs/bcachefs/snapshot.h:41:9,
-       inlined from 'bch2_snapshot_is_internal_node' at fs/bcachefs/snapshot.h:142:6,
-       inlined from 'bch2_snapshot_is_leaf' at fs/bcachefs/snapshot.h:151:10,
-       inlined from 'check_pos_snapshot_overwritten' at fs/bcachefs/btree_update.c:70:6,
-       inlined from 'extent_front_merge' at fs/bcachefs/btree_update.c:94:10:
->> fs/bcachefs/snapshot.h:36:21: warning: array subscript <unknown> is outside array bounds of 'struct snapshot_t[0]' [-Warray-bounds=]
-      36 |         return &t->s[U32_MAX - id];
-         |                 ~~~~^~~~~~~~~~~~~~
-   fs/bcachefs/subvolume_types.h: In function 'extent_front_merge':
-   fs/bcachefs/subvolume_types.h:23:33: note: while referencing 's'
-      23 |         struct snapshot_t       s[0];
-         |                                 ^
-   In function '__snapshot_t',
-       inlined from 'snapshot_t' at fs/bcachefs/snapshot.h:41:9,
-       inlined from 'bch2_snapshot_is_internal_node' at fs/bcachefs/snapshot.h:142:6,
-       inlined from 'bch2_snapshot_is_leaf' at fs/bcachefs/snapshot.h:151:10,
-       inlined from 'check_pos_snapshot_overwritten' at fs/bcachefs/btree_update.c:70:6,
-       inlined from 'extent_front_merge' at fs/bcachefs/btree_update.c:95:3:
->> fs/bcachefs/snapshot.h:36:21: warning: array subscript <unknown> is outside array bounds of 'struct snapshot_t[0]' [-Warray-bounds=]
-      36 |         return &t->s[U32_MAX - id];
-         |                 ~~~~^~~~~~~~~~~~~~
-   fs/bcachefs/subvolume_types.h: In function 'extent_front_merge':
-   fs/bcachefs/subvolume_types.h:23:33: note: while referencing 's'
-      23 |         struct snapshot_t       s[0];
-         |                                 ^
-   In function '__snapshot_t',
-       inlined from 'snapshot_t' at fs/bcachefs/snapshot.h:41:9,
-       inlined from 'bch2_snapshot_has_children' at fs/bcachefs/snapshot.h:196:6,
-       inlined from '__bch2_insert_snapshot_whiteouts' at fs/bcachefs/btree_update.c:174:7:
->> fs/bcachefs/snapshot.h:36:21: warning: array subscript <unknown> is outside array bounds of 'struct snapshot_t[0]' [-Warray-bounds=]
-      36 |         return &t->s[U32_MAX - id];
-         |                 ~~~~^~~~~~~~~~~~~~
-   fs/bcachefs/subvolume_types.h: In function '__bch2_insert_snapshot_whiteouts':
-   fs/bcachefs/subvolume_types.h:23:33: note: while referencing 's'
-      23 |         struct snapshot_t       s[0];
-         |                                 ^
-   In function '__snapshot_t',
-       inlined from 'snapshot_t' at fs/bcachefs/snapshot.h:41:9,
-       inlined from 'bch2_snapshot_has_children' at fs/bcachefs/snapshot.h:196:6,
-       inlined from '__bch2_insert_snapshot_whiteouts' at fs/bcachefs/btree_update.c:174:7:
->> fs/bcachefs/snapshot.h:36:21: warning: array subscript <unknown> is outside array bounds of 'struct snapshot_t[0]' [-Warray-bounds=]
-      36 |         return &t->s[U32_MAX - id];
-         |                 ~~~~^~~~~~~~~~~~~~
-   fs/bcachefs/subvolume_types.h: In function '__bch2_insert_snapshot_whiteouts':
-   fs/bcachefs/subvolume_types.h:23:33: note: while referencing 's'
-      23 |         struct snapshot_t       s[0];
-         |                                 ^
-..
+   In file included from <command-line>:
+   kernel/sched/fair.c: In function 'update_nohz_next_balance':
+   kernel/sched/fair.c:11303:47: error: 'nohz' undeclared (first use in this function)
+   11303 |                 nohz_next_balance = READ_ONCE(nohz.next_balance);
+         |                                               ^~~~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:11303:37: note: in expansion of macro 'READ_ONCE'
+   11303 |                 nohz_next_balance = READ_ONCE(nohz.next_balance);
+         |                                     ^~~~~~~~~
+   kernel/sched/fair.c:11303:47: note: each undeclared identifier is reported only once for each function it appears in
+   11303 |                 nohz_next_balance = READ_ONCE(nohz.next_balance);
+         |                                               ^~~~
+   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
+     405 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:11303:37: note: in expansion of macro 'READ_ONCE'
+   11303 |                 nohz_next_balance = READ_ONCE(nohz.next_balance);
+         |                                     ^~~~~~~~~
+   In file included from include/linux/atomic.h:82,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/arc/include/asm/bitops.h:188,
+                    from include/linux/bitops.h:68,
+                    from include/linux/kernel.h:22,
+                    from include/linux/cpumask.h:10,
+                    from include/linux/energy_model.h:4,
+                    from kernel/sched/fair.c:23:
+   include/linux/atomic/atomic-instrumented.h:4836:55: error: invalid type argument of unary '*' (have 'int')
+    4836 |         instrument_atomic_read_write(__ai_ptr, sizeof(*__ai_ptr)); \
+         |                                                       ^~~~~~~~~
+   kernel/sched/fair.c:11307:18: note: in expansion of macro 'try_cmpxchg'
+   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
+         |                  ^~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4836:38: warning: passing argument 1 of 'instrument_atomic_read_write' makes pointer from integer without a cast [-Wint-conversion]
+    4836 |         instrument_atomic_read_write(__ai_ptr, sizeof(*__ai_ptr)); \
+         |                                      ^~~~~~~~
+         |                                      |
+         |                                      int
+   kernel/sched/fair.c:11307:18: note: in expansion of macro 'try_cmpxchg'
+   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
+         |                  ^~~~~~~~~~~
+   In file included from include/linux/atomic/atomic-instrumented.h:17:
+   include/linux/instrumented.h:94:79: note: expected 'const volatile void *' but argument is of type 'int'
+      94 | static __always_inline void instrument_atomic_read_write(const volatile void *v, size_t size)
+         |                                                          ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from include/linux/atomic.h:80:
+   include/linux/atomic/atomic-arch-fallback.h:191:16: error: invalid type argument of unary '*' (have 'int')
+     191 |         typeof(*(_ptr)) *___op = (_oldp), ___o = *___op, ___r; \
+         |                ^~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4838:9: note: in expansion of macro 'raw_try_cmpxchg'
+    4838 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:11307:18: note: in expansion of macro 'try_cmpxchg'
+   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
+         |                  ^~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:191:34: error: initialization of 'int *' from incompatible pointer type 'long unsigned int *' [-Werror=incompatible-pointer-types]
+     191 |         typeof(*(_ptr)) *___op = (_oldp), ___o = *___op, ___r; \
+         |                                  ^
+   include/linux/atomic/atomic-instrumented.h:4838:9: note: in expansion of macro 'raw_try_cmpxchg'
+    4838 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:11307:18: note: in expansion of macro 'try_cmpxchg'
+   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
+         |                  ^~~~~~~~~~~
+   In file included from arch/arc/include/asm/atomic.h:13,
+                    from include/linux/atomic.h:7:
+>> arch/arc/include/asm/cmpxchg.h:44:20: error: invalid type argument of unary '*' (have 'int')
+      44 |         __typeof__(*(ptr)) _o_ = (old);                                 \
+         |                    ^~~~~~
+   include/linux/atomic.h:73:16: note: in expansion of macro 'arch_cmpxchg_relaxed'
+      73 |         typeof(op##_relaxed(args)) __ret;                               \
+         |                ^~
+   include/linux/atomic/atomic-arch-fallback.h:58:9: note: in expansion of macro '__atomic_op_fence'
+      58 |         __atomic_op_fence(arch_cmpxchg, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
+     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
+         |                ^~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4838:9: note: in expansion of macro 'raw_try_cmpxchg'
+    4838 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:11307:18: note: in expansion of macro 'try_cmpxchg'
+   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
+         |                  ^~~~~~~~~~~
+   arch/arc/include/asm/cmpxchg.h:45:20: error: invalid type argument of unary '*' (have 'int')
+      45 |         __typeof__(*(ptr)) _n_ = (new);                                 \
+         |                    ^~~~~~
+   include/linux/atomic.h:73:16: note: in expansion of macro 'arch_cmpxchg_relaxed'
+      73 |         typeof(op##_relaxed(args)) __ret;                               \
+         |                ^~
+   include/linux/atomic/atomic-arch-fallback.h:58:9: note: in expansion of macro '__atomic_op_fence'
+      58 |         __atomic_op_fence(arch_cmpxchg, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
+     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
+         |                ^~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4838:9: note: in expansion of macro 'raw_try_cmpxchg'
+    4838 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:11307:18: note: in expansion of macro 'try_cmpxchg'
+   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
+         |                  ^~~~~~~~~~~
+   arch/arc/include/asm/cmpxchg.h:46:20: error: invalid type argument of unary '*' (have 'int')
+      46 |         __typeof__(*(ptr)) _prev_;                                      \
+         |                    ^~~~~~
+   include/linux/atomic.h:73:16: note: in expansion of macro 'arch_cmpxchg_relaxed'
+      73 |         typeof(op##_relaxed(args)) __ret;                               \
+         |                ^~
+   include/linux/atomic/atomic-arch-fallback.h:58:9: note: in expansion of macro '__atomic_op_fence'
+      58 |         __atomic_op_fence(arch_cmpxchg, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
+     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
+         |                ^~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4838:9: note: in expansion of macro 'raw_try_cmpxchg'
+    4838 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:11307:18: note: in expansion of macro 'try_cmpxchg'
+   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
+         |                  ^~~~~~~~~~~
+   arch/arc/include/asm/cmpxchg.h:23:20: error: invalid type argument of unary '*' (have 'int')
+      23 |         __typeof__(*(ptr)) _prev;                                       \
+         |                    ^~~~~~
+   arch/arc/include/asm/cmpxchg.h:50:26: note: in expansion of macro '__cmpxchg'
+      50 |                 _prev_ = __cmpxchg(_p_, _o_, _n_);                      \
+         |                          ^~~~~~~~~
+   include/linux/atomic.h:73:16: note: in expansion of macro 'arch_cmpxchg_relaxed'
+      73 |         typeof(op##_relaxed(args)) __ret;                               \
+         |                ^~
+   include/linux/atomic/atomic-arch-fallback.h:58:9: note: in expansion of macro '__atomic_op_fence'
+      58 |         __atomic_op_fence(arch_cmpxchg, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
+     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
+         |                ^~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4838:9: note: in expansion of macro 'raw_try_cmpxchg'
+    4838 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:11307:18: note: in expansion of macro 'try_cmpxchg'
+   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
+         |                  ^~~~~~~~~~~
+>> arch/arc/include/asm/cmpxchg.h:44:20: error: invalid type argument of unary '*' (have 'int')
+      44 |         __typeof__(*(ptr)) _o_ = (old);                                 \
+         |                    ^~~~~~
+   include/linux/atomic.h:75:17: note: in expansion of macro 'arch_cmpxchg_relaxed'
+      75 |         __ret = op##_relaxed(args);                                     \
+         |                 ^~
+   include/linux/atomic/atomic-arch-fallback.h:58:9: note: in expansion of macro '__atomic_op_fence'
+      58 |         __atomic_op_fence(arch_cmpxchg, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
+     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
+         |                ^~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4838:9: note: in expansion of macro 'raw_try_cmpxchg'
+    4838 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:11307:18: note: in expansion of macro 'try_cmpxchg'
+   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
+         |                  ^~~~~~~~~~~
+   arch/arc/include/asm/cmpxchg.h:45:20: error: invalid type argument of unary '*' (have 'int')
+      45 |         __typeof__(*(ptr)) _n_ = (new);                                 \
+         |                    ^~~~~~
+   include/linux/atomic.h:75:17: note: in expansion of macro 'arch_cmpxchg_relaxed'
+      75 |         __ret = op##_relaxed(args);                                     \
+         |                 ^~
+   include/linux/atomic/atomic-arch-fallback.h:58:9: note: in expansion of macro '__atomic_op_fence'
+      58 |         __atomic_op_fence(arch_cmpxchg, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
+     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
+         |                ^~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4838:9: note: in expansion of macro 'raw_try_cmpxchg'
+    4838 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:11307:18: note: in expansion of macro 'try_cmpxchg'
+   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
+         |                  ^~~~~~~~~~~
+   arch/arc/include/asm/cmpxchg.h:46:20: error: invalid type argument of unary '*' (have 'int')
+      46 |         __typeof__(*(ptr)) _prev_;                                      \
+         |                    ^~~~~~
+   include/linux/atomic.h:75:17: note: in expansion of macro 'arch_cmpxchg_relaxed'
+      75 |         __ret = op##_relaxed(args);                                     \
+         |                 ^~
+   include/linux/atomic/atomic-arch-fallback.h:58:9: note: in expansion of macro '__atomic_op_fence'
+      58 |         __atomic_op_fence(arch_cmpxchg, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
+     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
+         |                ^~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4838:9: note: in expansion of macro 'raw_try_cmpxchg'
+    4838 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:11307:18: note: in expansion of macro 'try_cmpxchg'
+   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
+         |                  ^~~~~~~~~~~
+   arch/arc/include/asm/cmpxchg.h:23:20: error: invalid type argument of unary '*' (have 'int')
+      23 |         __typeof__(*(ptr)) _prev;                                       \
+         |                    ^~~~~~
+   arch/arc/include/asm/cmpxchg.h:50:26: note: in expansion of macro '__cmpxchg'
+      50 |                 _prev_ = __cmpxchg(_p_, _o_, _n_);                      \
+         |                          ^~~~~~~~~
+   include/linux/atomic.h:75:17: note: in expansion of macro 'arch_cmpxchg_relaxed'
+      75 |         __ret = op##_relaxed(args);                                     \
+         |                 ^~
+   include/linux/atomic/atomic-arch-fallback.h:58:9: note: in expansion of macro '__atomic_op_fence'
+      58 |         __atomic_op_fence(arch_cmpxchg, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
+     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
+         |                ^~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4838:9: note: in expansion of macro 'raw_try_cmpxchg'
+    4838 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~
+   kernel/sched/fair.c:11307:18: note: in expansion of macro 'try_cmpxchg'
+   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
+         |                  ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +36 fs/bcachefs/snapshot.h
+vim +44 arch/arc/include/asm/cmpxchg.h
 
-    33	
-    34	static inline struct snapshot_t *__snapshot_t(struct snapshot_table *t, u32 id)
-    35	{
-  > 36		return &t->s[U32_MAX - id];
-    37	}
-    38	
-    39	static inline const struct snapshot_t *snapshot_t(struct bch_fs *c, u32 id)
-    40	{
-  > 41		return __snapshot_t(rcu_dereference(c->snapshots), id);
-    42	}
-    43	
+14e968bad788de Vineet Gupta 2013-01-18  40  
+ddc348c44d82d0 Vineet Gupta 2020-05-09  41  #define arch_cmpxchg_relaxed(ptr, old, new)				\
+e188f3330a13df Vineet Gupta 2020-05-06  42  ({									\
+e188f3330a13df Vineet Gupta 2020-05-06  43  	__typeof__(ptr) _p_ = (ptr);					\
+e188f3330a13df Vineet Gupta 2020-05-06 @44  	__typeof__(*(ptr)) _o_ = (old);					\
+e188f3330a13df Vineet Gupta 2020-05-06  45  	__typeof__(*(ptr)) _n_ = (new);					\
+e188f3330a13df Vineet Gupta 2020-05-06  46  	__typeof__(*(ptr)) _prev_;					\
+e188f3330a13df Vineet Gupta 2020-05-06  47  									\
+e188f3330a13df Vineet Gupta 2020-05-06  48  	switch(sizeof((_p_))) {						\
+e188f3330a13df Vineet Gupta 2020-05-06  49  	case 4:								\
+e188f3330a13df Vineet Gupta 2020-05-06  50  		_prev_ = __cmpxchg(_p_, _o_, _n_);			\
+e188f3330a13df Vineet Gupta 2020-05-06  51  		break;							\
+e188f3330a13df Vineet Gupta 2020-05-06  52  	default:							\
+e188f3330a13df Vineet Gupta 2020-05-06  53  		BUILD_BUG();						\
+e188f3330a13df Vineet Gupta 2020-05-06  54  	}								\
+e188f3330a13df Vineet Gupta 2020-05-06  55  	_prev_;								\
+e188f3330a13df Vineet Gupta 2020-05-06  56  })
+14e968bad788de Vineet Gupta 2013-01-18  57  
+
+:::::: The code at line 44 was first introduced by commit
+:::::: e188f3330a13df904d77003846eafd3edf99009d ARC: cmpxchg/xchg: rewrite as macros to make type safe
+
+:::::: TO: Vineet Gupta <vgupta@kernel.org>
+:::::: CC: Vineet Gupta <vgupta@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
