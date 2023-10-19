@@ -1,57 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E4D063CF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 06:48:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KeNc1rLq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697698083; x=1729234083;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=z+EclUDtcGVM7gLY01jKF5MJX5Gbyzk5nQ7IfqgLxdY=;
-  b=KeNc1rLq052sCqYqW6HJNOsRmcUankkzmq7UbKco18XdAb6iaGydYIr7
-   YHveMt2h0IU7RXbV3AnOQiUHVGAxqsGNPe/YKIQJXTDlZHK9ANz/ic4Al
-   bVEQvncx20ag7HEGYbl+b2Qy2yddKZv8hc+6D0KjX0SX1mwwOobGopabj
-   EdKmIlyrWHNGMHXj9vE2vSz+oJqljR8RdZusVL/0TGddfUbYFalEqPtDj
-   PG/XsANj4ZqISzBUW3ReDY8bXlinsqbQI97nEM3cPuyrZAuyndVMdpu87
-   Q2zRIA6nMmeqdrDbSvj/ufqyh5iwATl3AfJflxHkxv7EyyNfRGYxK0r5C
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="366426328"
-X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="366426328"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 23:48:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="847571625"
-X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="847571625"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 18 Oct 2023 23:47:57 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qtMoz-0001la-1Z;
-	Thu, 19 Oct 2023 06:47:53 +0000
-Date: Thu, 19 Oct 2023 14:47:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tylor Yang <tylor_yang@himax.corp-partner.google.com>,
-	dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jikos@kernel.org, benjamin.tissoires@redhat.com,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	poyuan_chang@himax.corp-partner.google.com, jingyliang@chromium.org,
-	hbarnor@chromium.org, wuxy23@lenovo.com, luolm1@lenovo.com,
-	poyu_hung@himax.corp-partner.google.com,
-	Tylor Yang <tylor_yang@himax.corp-partner.google.com>
-Subject: Re: [PATCH v3 4/4] HID: touchscreen: Add initial support for Himax
- HID-over-SPI
-Message-ID: <202310191454.v9qp5FPx-lkp@intel.com>
-References: <20231017091900.801989-5-tylor_yang@himax.corp-partner.google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318F046684
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 06:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <sha@pengutronix.de>)
+	id 1qtMtZ-0008N8-0Z; Thu, 19 Oct 2023 08:52:37 +0200
+Received: from [2a0a:edc0:2:b01:1d::c0] (helo=ptx.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <sha@pengutronix.de>)
+	id 1qtMtX-002jMJ-SI; Thu, 19 Oct 2023 08:52:35 +0200
+Received: from sha by ptx.whiteo.stw.pengutronix.de with local (Exim 4.92)
+	(envelope-from <sha@pengutronix.de>)
+	id 1qtMtX-00FE1j-Nd; Thu, 19 Oct 2023 08:52:35 +0200
+Date: Thu, 19 Oct 2023 08:52:35 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Chanwoo Choi <chanwoo@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, linux-rockchip@lists.infradead.org,
+	oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	Heiko Stuebner <heiko@sntech.de>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	kernel@pengutronix.de,
+	Michael Riesch <michael.riesch@wolfvision.net>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Vincent Legoll <vincent.legoll@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: Re: [PATCH v8 16/26] PM / devfreq: rockchip-dfi: Add perf support
+Message-ID: <20231019065235.GL3359458@pengutronix.de>
+References: <20231018061714.3553817-17-s.hauer@pengutronix.de>
+ <202310181557.GIXGL21M-lkp@intel.com>
+ <f5ce51a4-d47d-4074-9498-8632b09791e6@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,114 +50,235 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231017091900.801989-5-tylor_yang@himax.corp-partner.google.com>
+In-Reply-To: <f5ce51a4-d47d-4074-9498-8632b09791e6@kernel.org>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
 
-Hi Tylor,
+Hi Chanwoo,
 
-kernel test robot noticed the following build errors:
+On Thu, Oct 19, 2023 at 12:11:14AM +0900, Chanwoo Choi wrote:
+> Hi Sascha, 
+> 
+> Could you plesae fix the following kernel build report?
 
-[auto build test ERROR on hid/for-next]
-[also build test ERROR on dtor-input/next dtor-input/for-linus robh/for-next linus/master v6.6-rc6 next-20231018]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Just did that as a reply to the original patch. I moved
+rockchip_ddr_perf_counters_add() inside the #ifdef CONFIG_PERF_EVENTS
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tylor-Yang/dt-bindings-input-Introduce-Himax-HID-over-SPI-device/20231017-172156
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20231017091900.801989-5-tylor_yang%40himax.corp-partner.google.com
-patch subject: [PATCH v3 4/4] HID: touchscreen: Add initial support for Himax HID-over-SPI
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20231019/202310191454.v9qp5FPx-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310191454.v9qp5FPx-lkp@intel.com/reproduce)
+Thanks for reviewing this series and for bringing it forward.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310191454.v9qp5FPx-lkp@intel.com/
+Sascha
 
-All errors (new ones prefixed by >>):
-
-   drivers/hid/hx-hid/hx_core.c: In function 'himax_boot_upgrade':
-   drivers/hid/hx-hid/hx_core.c:701:14: warning: variable 'fw_load_status' set but not used [-Wunused-but-set-variable]
-     701 |         bool fw_load_status = false;
-         |              ^~~~~~~~~~~~~~
-   drivers/hid/hx-hid/hx_core.c: At top level:
-   drivers/hid/hx-hid/hx_core.c:831:6: warning: no previous prototype for 'hx_hid_update' [-Wmissing-prototypes]
-     831 | void hx_hid_update(struct work_struct *work)
-         |      ^~~~~~~~~~~~~
-   drivers/hid/hx-hid/hx_core.c:890:6: warning: no previous prototype for 'himax_report_data_deinit' [-Wmissing-prototypes]
-     890 | void himax_report_data_deinit(struct himax_ts_data *ts)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hx-hid/hx_core.c:940:5: warning: no previous prototype for 'himax_chip_suspend' [-Wmissing-prototypes]
-     940 | int himax_chip_suspend(struct himax_ts_data *ts)
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/hid/hx-hid/hx_core.c: In function 'himax_chip_suspend':
-   drivers/hid/hx-hid/hx_core.c:942:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     942 |         int ret = 0;
-         |             ^~~
-   drivers/hid/hx-hid/hx_core.c: At top level:
-   drivers/hid/hx-hid/hx_core.c:983:5: warning: no previous prototype for 'himax_chip_resume' [-Wmissing-prototypes]
-     983 | int himax_chip_resume(struct himax_ts_data *ts)
-         |     ^~~~~~~~~~~~~~~~~
-   drivers/hid/hx-hid/hx_core.c: In function 'himax_resume':
->> drivers/hid/hx-hid/hx_core.c:1047:21: error: too few arguments to function 'himax_chip_init'
-    1047 |                 if (himax_chip_init())
-         |                     ^~~~~~~~~~~~~~~
-   In file included from drivers/hid/hx-hid/hx_ic_core.h:6,
-                    from drivers/hid/hx-hid/hx_core.c:16:
-   drivers/hid/hx-hid/hx_core.h:485:5: note: declared here
-     485 | int himax_chip_init(struct himax_ts_data *ts);
-         |     ^~~~~~~~~~~~~~~
-   drivers/hid/hx-hid/hx_core.c: At top level:
-   drivers/hid/hx-hid/hx_core.c:1212:6: warning: no previous prototype for 'himax_chip_deinit' [-Wmissing-prototypes]
-    1212 | void himax_chip_deinit(struct himax_ts_data *ts)
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/hid/hx-hid/hx_core.c: In function 'himax_platform_init':
-   drivers/hid/hx-hid/hx_core.c:1271:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
-    1271 |         int err = PROBE_FAIL;
-         |             ^~~
-   drivers/hid/hx-hid/hx_core.c: At top level:
-   drivers/hid/hx-hid/hx_core.c:1353:5: warning: no previous prototype for 'himax_spi_drv_probe' [-Wmissing-prototypes]
-    1353 | int himax_spi_drv_probe(struct spi_device *spi)
-         |     ^~~~~~~~~~~~~~~~~~~
-
-
-vim +/himax_chip_init +1047 drivers/hid/hx-hid/hx_core.c
-
-66a3d0692ad03f Tylor Yang 2023-10-17  1034  
-66a3d0692ad03f Tylor Yang 2023-10-17  1035  int himax_resume(struct device *dev)
-66a3d0692ad03f Tylor Yang 2023-10-17  1036  {
-66a3d0692ad03f Tylor Yang 2023-10-17  1037  	int ret = 0;
-66a3d0692ad03f Tylor Yang 2023-10-17  1038  	struct himax_ts_data *ts = dev_get_drvdata(dev);
-66a3d0692ad03f Tylor Yang 2023-10-17  1039  
-66a3d0692ad03f Tylor Yang 2023-10-17  1040  	I("enter");
-66a3d0692ad03f Tylor Yang 2023-10-17  1041  	/*
-66a3d0692ad03f Tylor Yang 2023-10-17  1042  	 *	wait until device resume for TDDI
-66a3d0692ad03f Tylor Yang 2023-10-17  1043  	 *	TDDI: Touch and display Driver IC
-66a3d0692ad03f Tylor Yang 2023-10-17  1044  	 */
-66a3d0692ad03f Tylor Yang 2023-10-17  1045  	if (!ts->initialized) {
-66a3d0692ad03f Tylor Yang 2023-10-17  1046  #if !defined(CONFIG_FB)
-66a3d0692ad03f Tylor Yang 2023-10-17 @1047  		if (himax_chip_init())
-66a3d0692ad03f Tylor Yang 2023-10-17  1048  			return -ECANCELED;
-66a3d0692ad03f Tylor Yang 2023-10-17  1049  #else
-66a3d0692ad03f Tylor Yang 2023-10-17  1050  		E("init not ready, skip!");
-66a3d0692ad03f Tylor Yang 2023-10-17  1051  		return -ECANCELED;
-66a3d0692ad03f Tylor Yang 2023-10-17  1052  #endif
-66a3d0692ad03f Tylor Yang 2023-10-17  1053  	}
-66a3d0692ad03f Tylor Yang 2023-10-17  1054  	ret = himax_chip_resume(ts);
-66a3d0692ad03f Tylor Yang 2023-10-17  1055  	if (ret < 0) {
-66a3d0692ad03f Tylor Yang 2023-10-17  1056  		E("resume failed!");
-66a3d0692ad03f Tylor Yang 2023-10-17  1057  		I("retry resume");
-66a3d0692ad03f Tylor Yang 2023-10-17  1058  		schedule_delayed_work(&ts->work_resume_delayed_work,
-66a3d0692ad03f Tylor Yang 2023-10-17  1059  				      msecs_to_jiffies(ts->pdata->ic_resume_delay));
-66a3d0692ad03f Tylor Yang 2023-10-17  1060  		// I("try int rescue");
-66a3d0692ad03f Tylor Yang 2023-10-17  1061  		// himax_int_enable(ts, 1);
-66a3d0692ad03f Tylor Yang 2023-10-17  1062  	}
-66a3d0692ad03f Tylor Yang 2023-10-17  1063  
-66a3d0692ad03f Tylor Yang 2023-10-17  1064  	return ret;
-66a3d0692ad03f Tylor Yang 2023-10-17  1065  }
-66a3d0692ad03f Tylor Yang 2023-10-17  1066  
+> 
+> On 23. 10. 18. 16:58, kernel test robot wrote:
+> > Hi Sascha,
+> > 
+> > kernel test robot noticed the following build warnings:
+> > 
+> > [auto build test WARNING on linus/master]
+> > [also build test WARNING on v6.6-rc6]
+> > [cannot apply to next-20231018]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Sascha-Hauer/PM-devfreq-rockchip-dfi-Make-pmu-regmap-mandatory/20231018-142228
+> > base:   linus/master
+> > patch link:    https://lore.kernel.org/r/20231018061714.3553817-17-s.hauer%40pengutronix.de
+> > patch subject: [PATCH v8 16/26] PM / devfreq: rockchip-dfi: Add perf support
+> > config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231018/202310181557.GIXGL21M-lkp@intel.com/config)
+> > compiler: m68k-linux-gcc (GCC) 13.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310181557.GIXGL21M-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202310181557.GIXGL21M-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> >>> drivers/devfreq/event/rockchip-dfi.c:203:13: warning: 'rockchip_ddr_perf_counters_add' defined but not used [-Wunused-function]
+> >      203 | static void rockchip_ddr_perf_counters_add(struct rockchip_dfi *dfi,
+> >          |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > --
+> >>> drivers/devfreq/event/rockchip-dfi.c:79: warning: Function parameter or member 'write_access' not described in 'dmc_count_channel'
+> > 
+> > 
+> > vim +/rockchip_ddr_perf_counters_add +203 drivers/devfreq/event/rockchip-dfi.c
+> > 
+> >     66	
+> >     67	/**
+> >     68	 * struct dmc_count_channel - structure to hold counter values from the DDR controller
+> >     69	 * @access:       Number of read and write accesses
+> >     70	 * @clock_cycles: DDR clock cycles
+> >     71	 * @read_access:  number of read accesses
+> >     72	 * @write_acccess: number of write accesses
+> >     73	 */
+> >     74	struct dmc_count_channel {
+> >     75		u64 access;
+> >     76		u64 clock_cycles;
+> >     77		u64 read_access;
+> >     78		u64 write_access;
+> >   > 79	};
+> >     80	
+> >     81	struct dmc_count {
+> >     82		struct dmc_count_channel c[DMC_MAX_CHANNELS];
+> >     83	};
+> >     84	
+> >     85	/*
+> >     86	 * The dfi controller can monitor DDR load. It has an upper and lower threshold
+> >     87	 * for the operating points. Whenever the usage leaves these bounds an event is
+> >     88	 * generated to indicate the DDR frequency should be changed.
+> >     89	 */
+> >     90	struct rockchip_dfi {
+> >     91		struct devfreq_event_dev *edev;
+> >     92		struct devfreq_event_desc desc;
+> >     93		struct dmc_count last_event_count;
+> >     94	
+> >     95		struct dmc_count last_perf_count;
+> >     96		struct dmc_count total_count;
+> >     97		seqlock_t count_seqlock; /* protects last_perf_count and total_count */
+> >     98	
+> >     99		struct device *dev;
+> >    100		void __iomem *regs;
+> >    101		struct regmap *regmap_pmu;
+> >    102		struct clk *clk;
+> >    103		int usecount;
+> >    104		struct mutex mutex;
+> >    105		u32 ddr_type;
+> >    106		unsigned int channel_mask;
+> >    107		unsigned int max_channels;
+> >    108		enum cpuhp_state cpuhp_state;
+> >    109		struct hlist_node node;
+> >    110		struct pmu pmu;
+> >    111		struct hrtimer timer;
+> >    112		unsigned int cpu;
+> >    113		int active_events;
+> >    114		int burst_len;
+> >    115		int buswidth[DMC_MAX_CHANNELS];
+> >    116	};
+> >    117	
+> >    118	static int rockchip_dfi_enable(struct rockchip_dfi *dfi)
+> >    119	{
+> >    120		void __iomem *dfi_regs = dfi->regs;
+> >    121		int ret = 0;
+> >    122	
+> >    123		mutex_lock(&dfi->mutex);
+> >    124	
+> >    125		dfi->usecount++;
+> >    126		if (dfi->usecount > 1)
+> >    127			goto out;
+> >    128	
+> >    129		ret = clk_prepare_enable(dfi->clk);
+> >    130		if (ret) {
+> >    131			dev_err(&dfi->edev->dev, "failed to enable dfi clk: %d\n", ret);
+> >    132			goto out;
+> >    133		}
+> >    134	
+> >    135		/* clear DDRMON_CTRL setting */
+> >    136		writel_relaxed(HIWORD_UPDATE(0, DDRMON_CTRL_TIMER_CNT_EN | DDRMON_CTRL_SOFTWARE_EN |
+> >    137			       DDRMON_CTRL_HARDWARE_EN), dfi_regs + DDRMON_CTRL);
+> >    138	
+> >    139		/* set ddr type to dfi */
+> >    140		switch (dfi->ddr_type) {
+> >    141		case ROCKCHIP_DDRTYPE_LPDDR2:
+> >    142		case ROCKCHIP_DDRTYPE_LPDDR3:
+> >    143			writel_relaxed(HIWORD_UPDATE(DDRMON_CTRL_LPDDR23, DDRMON_CTRL_DDR_TYPE_MASK),
+> >    144				       dfi_regs + DDRMON_CTRL);
+> >    145			break;
+> >    146		case ROCKCHIP_DDRTYPE_LPDDR4:
+> >    147		case ROCKCHIP_DDRTYPE_LPDDR4X:
+> >    148			writel_relaxed(HIWORD_UPDATE(DDRMON_CTRL_LPDDR4, DDRMON_CTRL_DDR_TYPE_MASK),
+> >    149				       dfi_regs + DDRMON_CTRL);
+> >    150			break;
+> >    151		default:
+> >    152			break;
+> >    153		}
+> >    154	
+> >    155		/* enable count, use software mode */
+> >    156		writel_relaxed(HIWORD_UPDATE(DDRMON_CTRL_SOFTWARE_EN, DDRMON_CTRL_SOFTWARE_EN),
+> >    157			       dfi_regs + DDRMON_CTRL);
+> >    158	out:
+> >    159		mutex_unlock(&dfi->mutex);
+> >    160	
+> >    161		return ret;
+> >    162	}
+> >    163	
+> >    164	static void rockchip_dfi_disable(struct rockchip_dfi *dfi)
+> >    165	{
+> >    166		void __iomem *dfi_regs = dfi->regs;
+> >    167	
+> >    168		mutex_lock(&dfi->mutex);
+> >    169	
+> >    170		dfi->usecount--;
+> >    171	
+> >    172		WARN_ON_ONCE(dfi->usecount < 0);
+> >    173	
+> >    174		if (dfi->usecount > 0)
+> >    175			goto out;
+> >    176	
+> >    177		writel_relaxed(HIWORD_UPDATE(0, DDRMON_CTRL_SOFTWARE_EN),
+> >    178			       dfi_regs + DDRMON_CTRL);
+> >    179		clk_disable_unprepare(dfi->clk);
+> >    180	out:
+> >    181		mutex_unlock(&dfi->mutex);
+> >    182	}
+> >    183	
+> >    184	static void rockchip_dfi_read_counters(struct rockchip_dfi *dfi, struct dmc_count *res)
+> >    185	{
+> >    186		u32 i;
+> >    187		void __iomem *dfi_regs = dfi->regs;
+> >    188	
+> >    189		for (i = 0; i < dfi->max_channels; i++) {
+> >    190			if (!(dfi->channel_mask & BIT(i)))
+> >    191				continue;
+> >    192			res->c[i].read_access = readl_relaxed(dfi_regs +
+> >    193					DDRMON_CH0_RD_NUM + i * 20);
+> >    194			res->c[i].write_access = readl_relaxed(dfi_regs +
+> >    195					DDRMON_CH0_WR_NUM + i * 20);
+> >    196			res->c[i].access = readl_relaxed(dfi_regs +
+> >    197					DDRMON_CH0_DFI_ACCESS_NUM + i * 20);
+> >    198			res->c[i].clock_cycles = readl_relaxed(dfi_regs +
+> >    199					DDRMON_CH0_COUNT_NUM + i * 20);
+> >    200		}
+> >    201	}
+> >    202	
+> >  > 203	static void rockchip_ddr_perf_counters_add(struct rockchip_dfi *dfi,
+> >    204						   const struct dmc_count *now,
+> >    205						   struct dmc_count *res)
+> >    206	{
+> >    207		const struct dmc_count *last = &dfi->last_perf_count;
+> >    208		int i;
+> >    209	
+> >    210		for (i = 0; i < dfi->max_channels; i++) {
+> >    211			res->c[i].read_access = dfi->total_count.c[i].read_access +
+> >    212				(u32)(now->c[i].read_access - last->c[i].read_access);
+> >    213			res->c[i].write_access = dfi->total_count.c[i].write_access +
+> >    214				(u32)(now->c[i].write_access - last->c[i].write_access);
+> >    215			res->c[i].access = dfi->total_count.c[i].access +
+> >    216				(u32)(now->c[i].access - last->c[i].access);
+> >    217			res->c[i].clock_cycles = dfi->total_count.c[i].clock_cycles +
+> >    218				(u32)(now->c[i].clock_cycles - last->c[i].clock_cycles);
+> >    219		}
+> >    220	}
+> >    221	
+> > 
+> 
+> -- 
+> Best Regards,
+> Samsung Electronics
+> Chanwoo Choi
+> 
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
