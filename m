@@ -1,226 +1,366 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB219354F2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 21:49:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7582F8F54
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 21:55:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h6Kos0Rv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697752173; x=1729288173;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FQauk2a2kZupu9YaGbPDwsxrvgGCJGrPWeSr6iXguy8=;
-  b=h6Kos0RvGCiBWn4ym74Z4zOHCVaaJuKUj0V+UP5yU8A7TzXffs+XPV66
-   W5LHpfI0FsEASVGQRVDzt0HDFPkAKfSWgbDtrxXKufWhQvF7mGoEp/xIV
-   5auC3MnAalIZ515MixM23Ip6pM27zQUvNV3latudVFYEgAvJfufh6aKpk
-   rFbwcdF6P4XN+6N6d1FWz259F4TsDb84ViRO8qMpDVbhqHLrdsYQpA/Qf
-   l1HRgMgyJT0orVWbeNLraixmpzGXf7ZRXCm8hSzqxxjAPRYNwPRcOVKkq
-   vkWiCjsOh6BL9Cuv4i4T0r8KSG84NKW9wCAkZGPNnwzlPaN7h5MIZw9FO
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="383591379"
-X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="383591379"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 14:49:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="900908409"
-X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="900908409"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 19 Oct 2023 14:47:24 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qtatV-0002d4-2O;
-	Thu, 19 Oct 2023 21:49:29 +0000
-Date: Fri, 20 Oct 2023 05:49:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chuck Lever <cel@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC 3/9] dma-debug: Add dma_debug_ helpers for mapping
- bio_vec arrays
-Message-ID: <202310200500.S3lG80My-lkp@intel.com>
-References: <169772915215.5232.10127407258544978465.stgit@klimt.1015granger.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="H+EDH/sj"
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3b2f5aed39cso141661b6e.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 14:55:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1697752546; x=1698357346; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5x7fNAgUclW/dZ4C+FeTd/4bXpjT6wASJvd5Y6Sz4mA=;
+        b=H+EDH/sjNf+L9rvfWGnL+BpGULT3u1B34wZ9/QvuPbvhLL4y8CMpLTZ5szr0qBcowR
+         RvKn4z2zwrlEiwADBZgD4RjRXvphc1EMdqbyTalu+KAXFXYwkjqGwqmcmsfmXvr9F7BD
+         a3NQOBF+xrcRWHXD6Sf0j+UHnwWMZ5V/T7aadt1cqHgKvBdkgS5trUkna+k8BDzajdao
+         dhZqaKNU106C23UUkDLRVOmAS6+JHi7rTce1kFWgwwt7fUJ3JyzytZdDP5pRZtRmN1bP
+         poX4IRQFEdvS7eMI8KmctWArd1rgJbA6RIIWpjjOvwJ9CIIMsg5RClaSjQ6lRM6G5YTG
+         fIww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697752546; x=1698357346;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5x7fNAgUclW/dZ4C+FeTd/4bXpjT6wASJvd5Y6Sz4mA=;
+        b=wln4KVyr3V5lnZhTfUpCDkbIwD+lMc5G85DVUbuMHSZVWbhE9wdvuJtmK/Jd1Z27sQ
+         vnJ7v2E4oJdvhpYLtZ00WJtUxMqEJe+VNgKN52S+3bb6Ret4/SkW5Xcn648srAVSO7/I
+         WNPVElYgtsK4ks4ce1LqwHtha/Vp1QcSikJKo1WY3jLZERPV48WJelGCz4UrffE6sCxJ
+         OQ6DS5JF1FCueWODu5dSwLy0WUgyyTGtj2XMmwYdiIkVkD0MZpwrvHY9bvfuFLcue4Rl
+         wGf94pRF7NermN3UIV3MDWhqWmzFrMFNJCruSURyG/pa6y3UhuhOHvqrRt9Go59Ipjln
+         6SMA==
+X-Gm-Message-State: AOJu0YzatiPPvXpN8gwK144xhTZAc4E4DlxUEvfnY+aIbHu9qXHGoI87
+	OTlSYv/91TgyLAxkbOLcOyLCBj1sm3pt7yqYlxQm9Q==
+X-Google-Smtp-Source: AGHT+IGYe5PPblYRslLf/6Giq5qmRtofbqAqD6yTJcwBO8AmHbJNL6wScpZJknUFQpZpPCr8BQbJVOqomYJTWvZPT7g=
+X-Received: by 2002:aca:d0d:0:b0:3b2:e649:b5fb with SMTP id
+ 13-20020aca0d0d000000b003b2e649b5fbmr95719oin.15.1697752546123; Thu, 19 Oct
+ 2023 14:55:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <169772915215.5232.10127407258544978465.stgit@klimt.1015granger.net>
+References: <20231009064230.2952396-3-surenb@google.com> <202310180338.zTpcYECK-lkp@intel.com>
+In-Reply-To: <202310180338.zTpcYECK-lkp@intel.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Thu, 19 Oct 2023 14:55:31 -0700
+Message-ID: <CAJuCfpGJqzuJqfH42=f5LXxkf4uCNmUUh2zXyzodczP29O6_hQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] userfaultfd: UFFDIO_MOVE uABI
+To: kernel test robot <lkp@intel.com>
+Cc: akpm@linux-foundation.org, oe-kbuild-all@lists.linux.dev, 
+	viro@zeniv.linux.org.uk, brauner@kernel.org, shuah@kernel.org, 
+	aarcange@redhat.com, lokeshgidra@google.com, peterx@redhat.com, 
+	david@redhat.com, hughd@google.com, mhocko@suse.com, axelrasmussen@google.com, 
+	rppt@kernel.org, willy@infradead.org, Liam.Howlett@oracle.com, 
+	jannh@google.com, zhangpeng362@huawei.com, bgeffon@google.com, 
+	kaleshsingh@google.com, ngeoffray@google.com, jdduke@google.com, 
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Chuck,
+On Tue, Oct 17, 2023 at 12:40=E2=80=AFPM kernel test robot <lkp@intel.com> =
+wrote:
+>
+> Hi Suren,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on akpm-mm/mm-everything]
+> [also build test WARNING on next-20231017]
+> [cannot apply to linus/master v6.6-rc6]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan=
+/mm-rmap-support-move-to-different-root-anon_vma-in-folio_move_anon_rmap/20=
+231009-144552
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-ev=
+erything
+> patch link:    https://lore.kernel.org/r/20231009064230.2952396-3-surenb%=
+40google.com
+> patch subject: [PATCH v3 2/3] userfaultfd: UFFDIO_MOVE uABI
+> config: i386-randconfig-141-20231017 (https://download.01.org/0day-ci/arc=
+hive/20231018/202310180338.zTpcYECK-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20231018/202310180338=
+.zTpcYECK-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202310180338.zTpcYECK-lkp=
+@intel.com/
+>
+> smatch warnings:
+> mm/userfaultfd.c:1380 remap_pages() warn: unsigned 'src_start + len - src=
+_addr' is never less than zero.
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+Hmm. I think this warning is correct only when
+CONFIG_TRANSPARENT_HUGEPAGE=3Dn. I guess I'll have to add an "ifdef
+CONFIG_TRANSPARENT_HUGEPAGE" here after all, which lets us move these
+checks before locking PTL.
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on rdma/for-next linus/master v6.6-rc6 next-20231019]
-[cannot apply to joro-iommu/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/dma-debug-Fix-a-typo-in-a-debugging-eye-catcher/20231020-032859
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/169772915215.5232.10127407258544978465.stgit%40klimt.1015granger.net
-patch subject: [PATCH RFC 3/9] dma-debug: Add dma_debug_ helpers for mapping bio_vec arrays
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231020/202310200500.S3lG80My-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310200500.S3lG80My-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310200500.S3lG80My-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   kernel/dma/debug.c: In function 'check_bv_segment':
-   kernel/dma/debug.c:1204:15: error: 'struct bio_vec' has no member named 'length'
-    1204 |         if (bv->length > max_seg)
-         |               ^~
-   In file included from arch/alpha/include/asm/bug.h:23,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/current.h:6,
-                    from ./arch/alpha/include/generated/asm/current.h:1,
-                    from include/linux/sched.h:12,
-                    from include/linux/sched/task_stack.h:9,
-                    from kernel/dma/debug.c:10:
-   kernel/dma/debug.c:1206:30: error: 'struct bio_vec' has no member named 'length'
-    1206 |                            bv->length, max_seg);
-         |                              ^~
-   include/asm-generic/bug.h:99:62: note: in definition of macro '__WARN_printf'
-      99 |                 warn_slowpath_fmt(__FILE__, __LINE__, taint, arg);      \
-         |                                                              ^~~
-   kernel/dma/debug.c:224:25: note: in expansion of macro 'WARN'
-     224 |                         WARN(1, pr_fmt("%s %s: ") format,               \
-         |                         ^~~~
-   kernel/dma/debug.c:1205:17: note: in expansion of macro 'err_printk'
-    1205 |                 err_printk(dev, NULL, "mapping bv entry longer than device claims to support [len=%u] [max=%u]\n",
-         |                 ^~~~~~~~~~
-   kernel/dma/debug.c: In function 'debug_dma_map_bvecs':
-   kernel/dma/debug.c:1377:38: error: implicit declaration of function 'bv_page'; did you mean 'sg_page'? [-Werror=implicit-function-declaration]
-    1377 |                 check_for_stack(dev, bv_page(bv), bv->offset);
-         |                                      ^~~~~~~
-         |                                      sg_page
-   kernel/dma/debug.c:1377:55: error: 'struct bio_vec' has no member named 'offset'; did you mean 'bv_offset'?
-    1377 |                 check_for_stack(dev, bv_page(bv), bv->offset);
-         |                                                       ^~~~~~
-         |                                                       bv_offset
-   kernel/dma/debug.c:1377:38: warning: passing argument 2 of 'check_for_stack' makes pointer from integer without a cast [-Wint-conversion]
-    1377 |                 check_for_stack(dev, bv_page(bv), bv->offset);
-         |                                      ^~~~~~~~~~~
-         |                                      |
-         |                                      int
-   kernel/dma/debug.c:1059:42: note: expected 'struct page *' but argument is of type 'int'
-    1059 |                             struct page *page, size_t offset)
-         |                             ~~~~~~~~~~~~~^~~~
-   kernel/dma/debug.c:1378:34: warning: passing argument 1 of 'PageHighMem' makes pointer from integer without a cast [-Wint-conversion]
-    1378 |                 if (!PageHighMem(bv_page(bv)))
-         |                                  ^~~~~~~~~~~
-         |                                  |
-         |                                  int
-   In file included from include/linux/mmzone.h:23,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from include/linux/scatterlist.h:8,
-                    from kernel/dma/debug.c:11:
-   include/linux/page-flags.h:437:50: note: expected 'const struct page *' but argument is of type 'int'
-     437 | static inline int Page##uname(const struct page *page) { return 0; }
-         |                               ~~~~~~~~~~~~~~~~~~~^~~~
-   include/linux/page-flags.h:461:38: note: in expansion of macro 'TESTPAGEFLAG_FALSE'
-     461 | #define PAGEFLAG_FALSE(uname, lname) TESTPAGEFLAG_FALSE(uname, lname)   \
-         |                                      ^~~~~~~~~~~~~~~~~~
-   include/linux/page-flags.h:531:1: note: in expansion of macro 'PAGEFLAG_FALSE'
-     531 | PAGEFLAG_FALSE(HighMem, highmem)
-         | ^~~~~~~~~~~~~~
-   kernel/dma/debug.c:1379:68: error: 'struct bio_vec' has no member named 'length'
-    1379 |                         check_for_illegal_area(dev, bv_virt(bv), bv->length);
-         |                                                                    ^~
-   In file included from arch/alpha/include/asm/page.h:89,
-                    from include/linux/shm.h:6,
-                    from include/linux/sched.h:16:
->> include/asm-generic/memory_model.h:46:35: warning: initialization of 'const struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      46 | ({      const struct page *__pg = (pg);                         \
-         |                                   ^
-   include/asm-generic/memory_model.h:64:21: note: in expansion of macro '__page_to_pfn'
-      64 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   kernel/dma/debug.c:1391:41: note: in expansion of macro 'page_to_pfn'
-    1391 |                 entry->pfn            = page_to_pfn(bv_page(bv));
-         |                                         ^~~~~~~~~~~
-   kernel/dma/debug.c:1392:45: error: 'struct bio_vec' has no member named 'offset'; did you mean 'bv_offset'?
-    1392 |                 entry->offset         = bv->offset;
-         |                                             ^~~~~~
-         |                                             bv_offset
-   kernel/dma/debug.c: In function 'debug_dma_unmap_bvecs':
-   kernel/dma/debug.c:1464:25: error: 'nents' undeclared (first use in this function); did you mean 'net'?
-    1464 |         for (i = 0; i < nents; i++) {
-         |                         ^~~~~
-         |                         net
-   kernel/dma/debug.c:1464:25: note: each undeclared identifier is reported only once for each function it appears in
->> include/asm-generic/memory_model.h:46:35: warning: initialization of 'const struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      46 | ({      const struct page *__pg = (pg);                         \
-         |                                   ^
-   include/asm-generic/memory_model.h:64:21: note: in expansion of macro '__page_to_pfn'
-      64 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   kernel/dma/debug.c:1469:43: note: in expansion of macro 'page_to_pfn'
-    1469 |                         .pfn            = page_to_pfn(bv_page(bv)),
-         |                                           ^~~~~~~~~~~
-   include/asm-generic/memory_model.h:46:35: note: (near initialization for 'ref')
-      46 | ({      const struct page *__pg = (pg);                         \
-         |                                   ^
-   include/asm-generic/memory_model.h:64:21: note: in expansion of macro '__page_to_pfn'
-      64 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   kernel/dma/debug.c:1469:43: note: in expansion of macro 'page_to_pfn'
-    1469 |                         .pfn            = page_to_pfn(bv_page(bv)),
-         |                                           ^~~~~~~~~~~
-   kernel/dma/debug.c:1470:47: error: 'struct bio_vec' has no member named 'offset'; did you mean 'bv_offset'?
-    1470 |                         .offset         = bv->offset,
-         |                                               ^~~~~~
-         |                                               bv_offset
-   kernel/dma/debug.c: In function 'debug_dma_sync_bvecs_for_cpu':
-   kernel/dma/debug.c:1700:25: error: 'nents' undeclared (first use in this function); did you mean 'net'?
-    1700 |         for (i = 0; i < nents; i++) {
-         |                         ^~~~~
-         |                         net
-   kernel/dma/debug.c:1695:25: warning: unused variable 'bv' [-Wunused-variable]
-    1695 |         struct bio_vec *bv;
-         |                         ^~
-   kernel/dma/debug.c: In function 'debug_dma_sync_bvecs_for_device':
-   kernel/dma/debug.c:1732:25: error: 'nents' undeclared (first use in this function); did you mean 'net'?
-    1732 |         for (i = 0; i < nents; i++) {
-         |                         ^~~~~
-         |                         net
-   kernel/dma/debug.c:1727:25: warning: unused variable 'bv' [-Wunused-variable]
-    1727 |         struct bio_vec *bv;
-         |                         ^~
-   cc1: some warnings being treated as errors
-
-
-vim +46 include/asm-generic/memory_model.h
-
-8f6aac419bd590 Christoph Lameter 2007-10-16  39  
-a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  40  #elif defined(CONFIG_SPARSEMEM)
-a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  41  /*
-1a49123b343461 Zhang Yanfei      2013-10-03  42   * Note: section's mem_map is encoded to reflect its start_pfn.
-a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  43   * section[i].section_mem_map == mem_map's address - start_pfn;
-a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  44   */
-67de648211fa04 Andy Whitcroft    2006-06-23  45  #define __page_to_pfn(pg)					\
-aa462abe8aaf21 Ian Campbell      2011-08-17 @46  ({	const struct page *__pg = (pg);				\
-a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  47  	int __sec = page_to_section(__pg);			\
-f05b6284ee5d3b Randy Dunlap      2007-02-10  48  	(unsigned long)(__pg - __section_mem_map_addr(__nr_to_section(__sec)));	\
-a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  49  })
-a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  50  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> vim +1380 mm/userfaultfd.c
+>
+>   1195
+>   1196  /**
+>   1197   * remap_pages - remap arbitrary anonymous pages of an existing v=
+ma
+>   1198   * @dst_start: start of the destination virtual memory range
+>   1199   * @src_start: start of the source virtual memory range
+>   1200   * @len: length of the virtual memory range
+>   1201   *
+>   1202   * remap_pages() remaps arbitrary anonymous pages atomically in z=
+ero
+>   1203   * copy. It only works on non shared anonymous pages because thos=
+e can
+>   1204   * be relocated without generating non linear anon_vmas in the rm=
+ap
+>   1205   * code.
+>   1206   *
+>   1207   * It provides a zero copy mechanism to handle userspace page fau=
+lts.
+>   1208   * The source vma pages should have mapcount =3D=3D 1, which can =
+be
+>   1209   * enforced by using madvise(MADV_DONTFORK) on src vma.
+>   1210   *
+>   1211   * The thread receiving the page during the userland page fault
+>   1212   * will receive the faulting page in the source vma through the n=
+etwork,
+>   1213   * storage or any other I/O device (MADV_DONTFORK in the source v=
+ma
+>   1214   * avoids remap_pages() to fail with -EBUSY if the process forks =
+before
+>   1215   * remap_pages() is called), then it will call remap_pages() to m=
+ap the
+>   1216   * page in the faulting address in the destination vma.
+>   1217   *
+>   1218   * This userfaultfd command works purely via pagetables, so it's =
+the
+>   1219   * most efficient way to move physical non shared anonymous pages
+>   1220   * across different virtual addresses. Unlike mremap()/mmap()/mun=
+map()
+>   1221   * it does not create any new vmas. The mapping in the destinatio=
+n
+>   1222   * address is atomic.
+>   1223   *
+>   1224   * It only works if the vma protection bits are identical from th=
+e
+>   1225   * source and destination vma.
+>   1226   *
+>   1227   * It can remap non shared anonymous pages within the same vma to=
+o.
+>   1228   *
+>   1229   * If the source virtual memory range has any unmapped holes, or =
+if
+>   1230   * the destination virtual memory range is not a whole unmapped h=
+ole,
+>   1231   * remap_pages() will fail respectively with -ENOENT or -EEXIST. =
+This
+>   1232   * provides a very strict behavior to avoid any chance of memory
+>   1233   * corruption going unnoticed if there are userland race conditio=
+ns.
+>   1234   * Only one thread should resolve the userland page fault at any =
+given
+>   1235   * time for any given faulting address. This means that if two th=
+reads
+>   1236   * try to both call remap_pages() on the same destination address=
+ at the
+>   1237   * same time, the second thread will get an explicit error from t=
+his
+>   1238   * command.
+>   1239   *
+>   1240   * The command retval will return "len" is successful. The comman=
+d
+>   1241   * however can be interrupted by fatal signals or errors. If
+>   1242   * interrupted it will return the number of bytes successfully
+>   1243   * remapped before the interruption if any, or the negative error=
+ if
+>   1244   * none. It will never return zero. Either it will return an erro=
+r or
+>   1245   * an amount of bytes successfully moved. If the retval reports a
+>   1246   * "short" remap, the remap_pages() command should be repeated by
+>   1247   * userland with src+retval, dst+reval, len-retval if it wants to=
+ know
+>   1248   * about the error that interrupted it.
+>   1249   *
+>   1250   * The UFFDIO_MOVE_MODE_ALLOW_SRC_HOLES flag can be specified to
+>   1251   * prevent -ENOENT errors to materialize if there are holes in th=
+e
+>   1252   * source virtual range that is being remapped. The holes will be
+>   1253   * accounted as successfully remapped in the retval of the
+>   1254   * command. This is mostly useful to remap hugepage naturally ali=
+gned
+>   1255   * virtual regions without knowing if there are transparent hugep=
+age
+>   1256   * in the regions or not, but preventing the risk of having to sp=
+lit
+>   1257   * the hugepmd during the remap.
+>   1258   *
+>   1259   * If there's any rmap walk that is taking the anon_vma locks wit=
+hout
+>   1260   * first obtaining the folio lock (the only current instance is
+>   1261   * folio_referenced), they will have to verify if the folio->mapp=
+ing
+>   1262   * has changed after taking the anon_vma lock. If it changed they
+>   1263   * should release the lock and retry obtaining a new anon_vma, be=
+cause
+>   1264   * it means the anon_vma was changed by remap_pages() before the =
+lock
+>   1265   * could be obtained. This is the only additional complexity adde=
+d to
+>   1266   * the rmap code to provide this anonymous page remapping functio=
+nality.
+>   1267   */
+>   1268  ssize_t remap_pages(struct mm_struct *dst_mm, struct mm_struct *s=
+rc_mm,
+>   1269                      unsigned long dst_start, unsigned long src_st=
+art,
+>   1270                      unsigned long len, __u64 mode)
+>   1271  {
+>   1272          struct vm_area_struct *src_vma, *dst_vma;
+>   1273          unsigned long src_addr, dst_addr;
+>   1274          pmd_t *src_pmd, *dst_pmd;
+>   1275          long err =3D -EINVAL;
+>   1276          ssize_t moved =3D 0;
+>   1277
+>   1278          /*
+>   1279           * Sanitize the command parameters:
+>   1280           */
+>   1281          BUG_ON(src_start & ~PAGE_MASK);
+>   1282          BUG_ON(dst_start & ~PAGE_MASK);
+>   1283          BUG_ON(len & ~PAGE_MASK);
+>   1284
+>   1285          /* Does the address range wrap, or is the span zero-sized=
+? */
+>   1286          BUG_ON(src_start + len <=3D src_start);
+>   1287          BUG_ON(dst_start + len <=3D dst_start);
+>   1288
+>   1289          /*
+>   1290           * Because these are read sempahores there's no risk of l=
+ock
+>   1291           * inversion.
+>   1292           */
+>   1293          mmap_read_lock(dst_mm);
+>   1294          if (dst_mm !=3D src_mm)
+>   1295                  mmap_read_lock(src_mm);
+>   1296
+>   1297          /*
+>   1298           * Make sure the vma is not shared, that the src and dst =
+remap
+>   1299           * ranges are both valid and fully within a single existi=
+ng
+>   1300           * vma.
+>   1301           */
+>   1302          src_vma =3D find_vma(src_mm, src_start);
+>   1303          if (!src_vma || (src_vma->vm_flags & VM_SHARED))
+>   1304                  goto out;
+>   1305          if (src_start < src_vma->vm_start ||
+>   1306              src_start + len > src_vma->vm_end)
+>   1307                  goto out;
+>   1308
+>   1309          dst_vma =3D find_vma(dst_mm, dst_start);
+>   1310          if (!dst_vma || (dst_vma->vm_flags & VM_SHARED))
+>   1311                  goto out;
+>   1312          if (dst_start < dst_vma->vm_start ||
+>   1313              dst_start + len > dst_vma->vm_end)
+>   1314                  goto out;
+>   1315
+>   1316          err =3D validate_remap_areas(src_vma, dst_vma);
+>   1317          if (err)
+>   1318                  goto out;
+>   1319
+>   1320          for (src_addr =3D src_start, dst_addr =3D dst_start;
+>   1321               src_addr < src_start + len;) {
+>   1322                  spinlock_t *ptl;
+>   1323                  pmd_t dst_pmdval;
+>   1324                  unsigned long step_size;
+>   1325
+>   1326                  BUG_ON(dst_addr >=3D dst_start + len);
+>   1327                  /*
+>   1328                   * Below works because anonymous area would not h=
+ave a
+>   1329                   * transparent huge PUD. If file-backed support i=
+s added,
+>   1330                   * that case would need to be handled here.
+>   1331                   */
+>   1332                  src_pmd =3D mm_find_pmd(src_mm, src_addr);
+>   1333                  if (unlikely(!src_pmd)) {
+>   1334                          if (!(mode & UFFDIO_MOVE_MODE_ALLOW_SRC_H=
+OLES)) {
+>   1335                                  err =3D -ENOENT;
+>   1336                                  break;
+>   1337                          }
+>   1338                          src_pmd =3D mm_alloc_pmd(src_mm, src_addr=
+);
+>   1339                          if (unlikely(!src_pmd)) {
+>   1340                                  err =3D -ENOMEM;
+>   1341                                  break;
+>   1342                          }
+>   1343                  }
+>   1344                  dst_pmd =3D mm_alloc_pmd(dst_mm, dst_addr);
+>   1345                  if (unlikely(!dst_pmd)) {
+>   1346                          err =3D -ENOMEM;
+>   1347                          break;
+>   1348                  }
+>   1349
+>   1350                  dst_pmdval =3D pmdp_get_lockless(dst_pmd);
+>   1351                  /*
+>   1352                   * If the dst_pmd is mapped as THP don't override=
+ it and just
+>   1353                   * be strict. If dst_pmd changes into TPH after t=
+his check, the
+>   1354                   * remap_pages_huge_pmd() will detect the change =
+and retry
+>   1355                   * while remap_pages_pte() will detect the change=
+ and fail.
+>   1356                   */
+>   1357                  if (unlikely(pmd_trans_huge(dst_pmdval))) {
+>   1358                          err =3D -EEXIST;
+>   1359                          break;
+>   1360                  }
+>   1361
+>   1362                  ptl =3D pmd_trans_huge_lock(src_pmd, src_vma);
+>   1363                  if (ptl) {
+>   1364                          if (pmd_devmap(*src_pmd)) {
+>   1365                                  spin_unlock(ptl);
+>   1366                                  err =3D -ENOENT;
+>   1367                                  break;
+>   1368                          }
+>   1369
+>   1370                          /*
+>   1371                           * Check if we can move the pmd without
+>   1372                           * splitting it. First check the address
+>   1373                           * alignment to be the same in src/dst.  =
+These
+>   1374                           * checks don't actually need the PT lock=
+ but
+>   1375                           * it's good to do it here to optimize th=
+is
+>   1376                           * block away at build time if
+>   1377                           * CONFIG_TRANSPARENT_HUGEPAGE is not set=
+.
+>   1378                           */
+>   1379                          if ((src_addr & ~HPAGE_PMD_MASK) || (dst_=
+addr & ~HPAGE_PMD_MASK) ||
+> > 1380                              src_start + len - src_addr < HPAGE_PM=
+D_SIZE || !pmd_none(dst_pmdval)) {
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
+> --
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to kernel-team+unsubscribe@android.com.
+>
