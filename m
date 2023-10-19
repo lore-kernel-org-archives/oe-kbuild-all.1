@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DDF18B0C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 10:32:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB61218C07
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 11:04:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A/4FlHAn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gAXAG7y+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697711570; x=1729247570;
+  t=1697713451; x=1729249451;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DM5pQ+yB9jwVco7qqPy4+zt7Xm0+ymh72AKCR6YqKuk=;
-  b=A/4FlHAnZSEs3bqSnF8xvPScIP8r/6/Jpzg3AFyuVMkW0wSRkgx2NDi5
-   FSjlw2w8iX/MDG9Xf9Y9+aFGXDPcZCfbWqEyMn5sOtgokFnA/7laolGHZ
-   v3mhMWJQdATqwr9Y/CySKySBi5Zy3t3g1QpbcF7HtxU1/Xa/QTjnLEsWn
-   hxILy4nZ9KFUA6fcYV9WYLJbxwNtx5UKw1rYIvOkiRrVDb+kKBiGh3U05
-   keElG2CJM30IYSY44vhxtPJ0SxI0WuGLz2mssVhtI8viuTjx8lE1k/ARF
-   7tN9CfKUEJ40jY+XsFYUgu3MDKxXza8Krk9GceT5ZQdV3Gr7l0ir0sQ33
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="365571822"
+  bh=tZ40e8/k6Io2bkBbR4h9rYHtBWtmYdSzzrDX8FsdrY0=;
+  b=gAXAG7y+WLVW+90QD+xIgEZ6dOr124qIkyPNZNQiSzI6DTpyYKyHP+f9
+   fUAynZyPVNp+mVuGNwBB8btz3GiWhfAmsxJ39BceA0QiEeiupN4uk9/TH
+   Oylix2xn16f8PdWaaknv1evPLvjeeRpbbCtg41nozwPSY9e0d8aL6Si35
+   HFNEfkAHQWWPK62dc8Nqf8shRmUkVsRpF18jF4yx2mxbzkjw2lbRiHhEW
+   XFLpQml0T1uF9o1lEnH6/7J8eeYTrU9FpscXj+eU5MDROelIYkyCErzmS
+   IxHHlpd+pnzs6BwRC/kzoWFk/VBm/tRNakbqZ7g7cLeVybw/Sh3caiMg+
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="472455962"
 X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
-   d="scan'208";a="365571822"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 03:32:09 -0700
+   d="scan'208";a="472455962"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 04:04:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="791954547"
 X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
-   d="scan'208";a="791954547"
+   d="scan'208";a="4715339"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 19 Oct 2023 03:32:07 -0700
+  by orviesa001.jf.intel.com with ESMTP; 19 Oct 2023 04:02:58 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtQJw-00021I-2W;
-	Thu, 19 Oct 2023 10:32:04 +0000
-Date: Thu, 19 Oct 2023 18:31:45 +0800
+	id 1qtQov-00022c-1Y;
+	Thu, 19 Oct 2023 11:04:05 +0000
+Date: Thu, 19 Oct 2023 19:03:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: zouxiaoh <xiaohong.zou@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, renjiaox <jiaojiaox.ren@intel.com>
-Subject: [intel-lts:5.15/linux 22/38] drivers/media/i2c/d4xx.c:1779:26:
- warning: array subscript 1000 is outside array bounds of 'unsigned char[0]'
-Message-ID: <202310191821.OHU8oten-lkp@intel.com>
+To: Kai Huang <kai.huang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-tdx:host-upstream-wip 21/24] drivers/acpi/sleep.c:600:22:
+ error: 'acpi_suspend_lowlevel' undeclared; did you mean
+ 'acpi_set_suspend_lowlevel'?
+Message-ID: <202310191952.Xz7DriHh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,196 +50,128 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.15/linux
-head:   c1f04fe08dbdb93b88865ffa356aa27c49b58d07
-commit: cfb5743695d51c3d275a3646d140336c6e515358 [22/38] media: intel-ipu6: implement new vc solution
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20231019/202310191821.OHU8oten-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310191821.OHU8oten-lkp@intel.com/reproduce)
+Hi Kai,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://github.com/intel/tdx.git host-upstream-wip
+head:   4a933b5b72651711967d2a5b3cfeca8d19cc9935
+commit: d7d589a0625432361e8b952682ee2177d0dad677 [21/24] x86/acpi: Add a helper to override ACPI lowlevel suspend function
+config: x86_64-randconfig-002-20231019 (https://download.01.org/0day-ci/archive/20231019/202310191952.Xz7DriHh-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310191952.Xz7DriHh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310191821.OHU8oten-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310191952.Xz7DriHh-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/media/i2c/d4xx.c:2344:17: warning: initialized field overwritten [-Woverride-init]
-    2344 |         .step = 1,
-         |                 ^
-   drivers/media/i2c/d4xx.c:2344:17: note: (near initialization for 'ds5_ctrl_erb.step')
-   drivers/media/i2c/d4xx.c:2358:17: warning: initialized field overwritten [-Woverride-init]
-    2358 |         .step = 1,
-         |                 ^
-   drivers/media/i2c/d4xx.c:2358:17: note: (near initialization for 'ds5_ctrl_ewb.step')
-   drivers/media/i2c/d4xx.c:2372:17: warning: initialized field overwritten [-Woverride-init]
-    2372 |         .step = 1,
-         |                 ^
-   drivers/media/i2c/d4xx.c:2372:17: note: (near initialization for 'ds5_ctrl_hwmc.step')
-   drivers/media/i2c/d4xx.c: In function 'ds5_sensor_init':
-   drivers/media/i2c/d4xx.c:2524:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-    2524 |         struct d4xx_pdata *dpdata = c->dev.platform_data;
-         |         ^~~~~~
-   drivers/media/i2c/d4xx.c: In function 'ds5_mux_set_fmt':
-   drivers/media/i2c/d4xx.c:2806:21: warning: unused variable 'state' [-Wunused-variable]
-    2806 |         struct ds5 *state = container_of(sd, struct ds5, mux.sd.subdev);
-         |                     ^~~~~
-   drivers/media/i2c/d4xx.c: In function 'ds5_mux_s_stream':
-   drivers/media/i2c/d4xx.c:3052:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-    3052 |         u16 err_status;
-         |         ^~~
-   drivers/media/i2c/d4xx.c:3056:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-    3056 |         u16 tmp;
-         |         ^~~
-   drivers/media/i2c/d4xx.c:2938:53: warning: variable 'stream_id' set but not used [-Wunused-but-set-variable]
-    2938 |         u16 config_status_base, stream_status_base, stream_id;
-         |                                                     ^~~~~~~~~
-   drivers/media/i2c/d4xx.c:2935:102: warning: unused variable 's_stream' [-Wunused-variable]
-    2935 |         u16 streaming_depth, streaming_rgb, streaming_y8, rate, depth_status, rgb_status, y8_status, s_stream;
-         |                                                                                                      ^~~~~~~~
-   drivers/media/i2c/d4xx.c: In function 'ds5_mux_s_stream_vc':
-   drivers/media/i2c/d4xx.c:3211:13: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-    3211 |             u16 err_status;
-         |             ^~~
-   drivers/media/i2c/d4xx.c:3215:5: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-    3215 |     u16 tmp;
-         |     ^~~
-   drivers/media/i2c/d4xx.c:3086:53: warning: variable 'stream_id' set but not used [-Wunused-but-set-variable]
-    3086 |         u16 config_status_base, stream_status_base, stream_id;
-         |                                                     ^~~~~~~~~
-   drivers/media/i2c/d4xx.c:3083:102: warning: unused variable 's_stream' [-Wunused-variable]
-    3083 |         u16 streaming_depth, streaming_rgb, streaming_y8, rate, depth_status, rgb_status, y8_status, s_stream;
-         |                                                                                                      ^~~~~~~~
-   drivers/media/i2c/d4xx.c: In function 'ds5_des_register':
-   drivers/media/i2c/d4xx.c:3353:1: warning: label 'e_sd' defined but not used [-Wunused-label]
-    3353 | e_sd:
-         | ^~~~
-   drivers/media/i2c/d4xx.c:3332:30: warning: unused variable 'entity' [-Wunused-variable]
-    3332 |         struct media_entity *entity = &des->sd.entity;
-         |                              ^~~~~~
-   drivers/media/i2c/d4xx.c: In function 'ds5_mux_init':
-   drivers/media/i2c/d4xx.c:3531:1: warning: label 'e_entity' defined but not used [-Wunused-label]
-    3531 | e_entity:
-         | ^~~~~~~~
-   drivers/media/i2c/d4xx.c: In function 'ds5_parse_cam':
-   drivers/media/i2c/d4xx.c:3674:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-    3674 |         int ret;
-         |         ^~~
-   drivers/media/i2c/d4xx.c: In function 'device_write':
-   drivers/media/i2c/d4xx.c:3865:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    3865 |                 if (ret < 0) {
-         |                    ^
-   drivers/media/i2c/d4xx.c:3870:9: note: here
-    3870 |         case DS5_DFU_RECOVERY:
-         |         ^~~~
-   drivers/media/i2c/d4xx.c:3877:43: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    3877 |                 state->dfu_dev.init_v4l_f = 1;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/media/i2c/d4xx.c:3880:9: note: here
-    3880 |         case DS5_DFU_IN_PROGRESS: {
-         |         ^~~~
-   drivers/media/i2c/d4xx.c: At top level:
-   drivers/media/i2c/d4xx.c:3455:12: warning: 'ds5_des_init' defined but not used [-Wunused-function]
-    3455 | static int ds5_des_init(struct i2c_client *c, struct ds5 *state)
-         |            ^~~~~~~~~~~~
-   drivers/media/i2c/d4xx.c:3329:12: warning: 'ds5_des_register' defined but not used [-Wunused-function]
-    3329 | static int ds5_des_register(struct ds5 *state, struct ds5_des *des)
-         |            ^~~~~~~~~~~~~~~~
-   drivers/media/i2c/d4xx.c:1233:12: warning: 'ds5_configure' defined but not used [-Wunused-function]
-    1233 | static int ds5_configure(struct ds5 *state)
-         |            ^~~~~~~~~~~~~
-   drivers/media/i2c/d4xx.c:797:36: warning: 'ds5_size_w10' defined but not used [-Wunused-const-variable=]
-     797 | static const struct ds5_resolution ds5_size_w10 = {
-         |                                    ^~~~~~~~~~~~
-   drivers/media/i2c/d4xx.c:627:18: warning: 'ds5_framerate_25' defined but not used [-Wunused-const-variable=]
-     627 | static const u16 ds5_framerate_25 = 25;
-         |                  ^~~~~~~~~~~~~~~~
-   drivers/media/i2c/d4xx.c:611:18: warning: 'ds5_default_framerate' defined but not used [-Wunused-const-variable=]
-     611 | static const u16 ds5_default_framerate = 30;
-         |                  ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/d4xx.c: In function 'ds5_send_hwmc':
->> drivers/media/i2c/d4xx.c:1779:26: warning: array subscript 1000 is outside array bounds of 'unsigned char[0]' [-Warray-bounds=]
-    1779 |                 cmd->Data[1000] = (unsigned char)((*dataLen) & 0x00FF);
-         |                 ~~~~~~~~~^~~~~~
-   drivers/media/i2c/d4xx.c:222:23: note: while referencing 'Data'
-     222 |         unsigned char Data[0];
-         |                       ^~~~
-   drivers/media/i2c/d4xx.c:1780:26: warning: array subscript 1001 is outside array bounds of 'unsigned char[0]' [-Warray-bounds=]
-    1780 |                 cmd->Data[1001] = (unsigned char)(((*dataLen) & 0xFF00) >> 8);
-         |                 ~~~~~~~~~^~~~~~
-   drivers/media/i2c/d4xx.c:222:23: note: while referencing 'Data'
-     222 |         unsigned char Data[0];
-         |                       ^~~~
-   drivers/media/i2c/d4xx.c: In function 'device_read':
-   drivers/media/i2c/d4xx.c:3841:43: warning: '%x' directive writing between 1 and 4 bytes into a region of size 1 [-Wformat-overflow=]
-    3841 |         sprintf(msg, "DFU info: \tver: (0x%x)\n", fw_ver);
-         |                                           ^~
-   drivers/media/i2c/d4xx.c:3841:22: note: directive argument in the range [0, 65535]
-    3841 |         sprintf(msg, "DFU info: \tver: (0x%x)\n", fw_ver);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/d4xx.c:3841:9: note: 'sprintf' output between 23 and 26 bytes into a destination of size 20
-    3841 |         sprintf(msg, "DFU info: \tver: (0x%x)\n", fw_ver);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for INTEL_PMC_CORE
-   Depends on [n]: X86 && X86_PLATFORM_DEVICES [=n] && PCI [=y] && ACPI
-   Selected by [m]:
-   - DWMAC_INTEL_PLAT [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_STMICRO [=y] && STMMAC_PLATFORM [=m] && OF [=y] && COMMON_CLK [=y] && STMMAC_ETH [=m]
+   drivers/acpi/sleep.c: In function 'acpi_suspend_enter':
+>> drivers/acpi/sleep.c:600:22: error: 'acpi_suspend_lowlevel' undeclared (first use in this function); did you mean 'acpi_set_suspend_lowlevel'?
+     600 |                 if (!acpi_suspend_lowlevel)
+         |                      ^~~~~~~~~~~~~~~~~~~~~
+         |                      acpi_set_suspend_lowlevel
+   drivers/acpi/sleep.c:600:22: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/acpi/sleep.c:602:25: error: implicit declaration of function 'acpi_suspend_lowlevel'; did you mean 'acpi_set_suspend_lowlevel'? [-Werror=implicit-function-declaration]
+     602 |                 error = acpi_suspend_lowlevel();
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+         |                         acpi_set_suspend_lowlevel
+   cc1: some warnings being treated as errors
 
 
-vim +1779 drivers/media/i2c/d4xx.c
+vim +600 drivers/acpi/sleep.c
 
-  1736	
-  1737	static int ds5_send_hwmc(struct ds5 *state, u16 cmdLen, struct hwm_cmd *cmd,
-  1738				 bool isRead, u16 *dataLen)
-  1739	{
-  1740		int ret = 0;
-  1741		u16 status = 2;
-  1742		int retries = 20;
-  1743		int errorCode;
-  1744	
-  1745		dev_info(&state->client->dev,
-  1746			"%s(): HWMC header: 0x%x, magic: 0x%x, opcode: 0x%x, param1: %d, param2: %d, param3: %d, param4: %d\n",
-  1747			__func__,
-  1748			cmd->header, cmd->magic_word, cmd->opcode, cmd->param1, cmd->param2, cmd->param3, cmd->param4);
-  1749	
-  1750		ds5_raw_write_with_check(state, 0x4900, cmd, cmdLen);
-  1751	
-  1752		ds5_write_with_check(state, 0x490C, 0x01); /* execute cmd */
-  1753		do {
-  1754			if (retries != 5)
-  1755				msleep_range(50);
-  1756			ret = ds5_read(state, 0x4904, &status);
-  1757		} while (retries-- && status != 0);
-  1758	
-  1759		if (ret || status != 0) {
-  1760			ds5_raw_read(state, 0x4900, &errorCode, 4);
-  1761			dev_err(&state->client->dev, "%s(): HWMC failed, ret: %d, status: %x, error code: %d\n",
-  1762						__func__, ret, status, errorCode);
-  1763			ret = -EAGAIN;
-  1764		}
-  1765	
-  1766		if (isRead) {
-  1767			if (*dataLen == 0) {
-  1768				ret = regmap_raw_read(state->regmap, 0x4908, dataLen, sizeof(u16));
-  1769				if (ret)
-  1770					return -EAGAIN;
-  1771			}
-  1772	
-  1773			dev_err(&state->client->dev, "%s(): HWMC read len: %d\n",
-  1774						__func__, *dataLen);
-  1775			// First 4 bytes of cmd->Data after read will include opcode
-  1776			ds5_raw_read_with_check(state, 0x4900, cmd->Data, *dataLen);
-  1777	
-  1778			/*This is neede for libreealsense, to align there code with UVC*/
-> 1779			cmd->Data[1000] = (unsigned char)((*dataLen) & 0x00FF);
-  1780			cmd->Data[1001] = (unsigned char)(((*dataLen) & 0xFF00) >> 8);
-  1781		}
-  1782	
-  1783		return 0;
-  1784	}
-  1785	
+e9b3aba887f47f drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-17  577  
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  578  /**
+2c6e33c366bff2 drivers/acpi/sleep/main.c Len Brown             2008-04-23  579   *	acpi_suspend_enter - Actually enter a sleep state.
+e9b3aba887f47f drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-17  580   *	@pm_state: ignored
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  581   *
+50ad147aa09c82 drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-24  582   *	Flush caches and go to sleep. For STR we have to call arch-specific
+50ad147aa09c82 drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-24  583   *	assembly, which in turn call acpi_enter_sleep_state().
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  584   *	It's unfortunate, but it works. Please fix if you're feeling frisky.
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  585   */
+2c6e33c366bff2 drivers/acpi/sleep/main.c Len Brown             2008-04-23  586  static int acpi_suspend_enter(suspend_state_t pm_state)
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  587  {
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  588  	acpi_status status = AE_OK;
+e9b3aba887f47f drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-17  589  	u32 acpi_state = acpi_target_sleep_state;
+979f11b060c0b3 drivers/acpi/sleep.c      Rafael J. Wysocki     2011-02-08  590  	int error;
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  591  
+bb3632c6101b2f drivers/acpi/sleep.c      Todd E Brandt         2014-06-06  592  	trace_suspend_resume(TPS("acpi_suspend"), acpi_state, true);
+e9b3aba887f47f drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-17  593  	switch (acpi_state) {
+e9b3aba887f47f drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-17  594  	case ACPI_STATE_S1:
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  595  		barrier();
+3f6f49c7854c92 drivers/acpi/sleep.c      Len Brown             2012-07-26  596  		status = acpi_enter_sleep_state(acpi_state);
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  597  		break;
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  598  
+e9b3aba887f47f drivers/acpi/sleep/main.c Rafael J. Wysocki     2007-07-17  599  	case ACPI_STATE_S3:
+d6a77ead21b69c drivers/acpi/sleep.c      Konrad Rzeszutek Wilk 2013-05-14 @600  		if (!acpi_suspend_lowlevel)
+d6a77ead21b69c drivers/acpi/sleep.c      Konrad Rzeszutek Wilk 2013-05-14  601  			return -ENOSYS;
+f1a2003e22f6b5 drivers/acpi/sleep.c      Rafael J. Wysocki     2011-02-08 @602  		error = acpi_suspend_lowlevel();
+979f11b060c0b3 drivers/acpi/sleep.c      Rafael J. Wysocki     2011-02-08  603  		if (error)
+979f11b060c0b3 drivers/acpi/sleep.c      Rafael J. Wysocki     2011-02-08  604  			return error;
+f5ee87df7a4dab drivers/acpi/sleep.c      Hanjun Guo            2021-06-02  605  		pr_info("Low-level resume complete\n");
+ef25ba04760159 drivers/acpi/sleep.c      Rafael J. Wysocki     2015-10-07  606  		pm_set_resume_via_firmware();
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  607  		break;
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  608  	}
+bb3632c6101b2f drivers/acpi/sleep.c      Todd E Brandt         2014-06-06  609  	trace_suspend_resume(TPS("acpi_suspend"), acpi_state, false);
+872d83d00f6702 drivers/acpi/sleep/main.c Arnaud Patard         2006-04-27  610  
+b6dacf63e9fb2e drivers/acpi/sleep.c      Matthew Garrett       2010-05-11  611  	/* This violates the spec but is required for bug compatibility. */
+50ffba1bd3120b drivers/acpi/sleep.c      Bob Moore             2009-02-23  612  	acpi_write_bit_register(ACPI_BITREG_SCI_ENABLE, 1);
+65df78473ffbf3 drivers/acpi/sleep/main.c Rafael J. Wysocki     2008-11-26  613  
+3f6f49c7854c92 drivers/acpi/sleep.c      Len Brown             2012-07-26  614  	/* Reprogram control registers */
+3f6f49c7854c92 drivers/acpi/sleep.c      Len Brown             2012-07-26  615  	acpi_leave_sleep_state_prep(acpi_state);
+c95d47a868f35c drivers/acpi/sleep/main.c Rafael J. Wysocki     2008-01-08  616  
+23b168d425ca0c drivers/acpi/sleep/main.c Pavel Machek          2008-02-05  617  	/* ACPI 3.0 specs (P62) says that it's the responsibility
+872d83d00f6702 drivers/acpi/sleep/main.c Arnaud Patard         2006-04-27  618  	 * of the OSPM to clear the status bit [ implying that the
+872d83d00f6702 drivers/acpi/sleep/main.c Arnaud Patard         2006-04-27  619  	 * POWER_BUTTON event should not reach userspace ]
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  620  	 *
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  621  	 * However, we do generate a small hint for userspace in the form of
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  622  	 * a wakeup event. We flag this condition for now and generate the
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  623  	 * event later, as we're currently too early in resume to be able to
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  624  	 * generate wakeup events.
+872d83d00f6702 drivers/acpi/sleep/main.c Arnaud Patard         2006-04-27  625  	 */
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  626  	if (ACPI_SUCCESS(status) && (acpi_state == ACPI_STATE_S3)) {
+51468a9d3a8024 drivers/acpi/sleep.c      Al Stone              2013-11-20  627  		acpi_event_status pwr_btn_status = ACPI_EVENT_FLAG_DISABLED;
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  628  
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  629  		acpi_get_event_status(ACPI_EVENT_POWER_BUTTON, &pwr_btn_status);
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  630  
+18864cc4892d20 drivers/acpi/sleep.c      Lv Zheng              2016-08-04  631  		if (pwr_btn_status & ACPI_EVENT_FLAG_STATUS_SET) {
+872d83d00f6702 drivers/acpi/sleep/main.c Arnaud Patard         2006-04-27  632  			acpi_clear_event(ACPI_EVENT_POWER_BUTTON);
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  633  			/* Flag for later */
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  634  			pwr_btn_event_pending = true;
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  635  		}
+c10d7a13846bff drivers/acpi/sleep.c      Daniel Drake          2012-05-10  636  	}
+872d83d00f6702 drivers/acpi/sleep/main.c Arnaud Patard         2006-04-27  637  
+a3627f67b1d5dd drivers/acpi/sleep/main.c Shaohua Li            2007-06-20  638  	/*
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  639  	 * Disable all GPE and clear their status bits before interrupts are
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  640  	 * enabled. Some GPEs (like wakeup GPEs) have no handlers and this can
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  641  	 * prevent them from producing spurious interrups.
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  642  	 *
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  643  	 * acpi_leave_sleep_state() will reenable specific GPEs later.
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  644  	 *
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  645  	 * Because this code runs on one CPU with disabled interrupts (all of
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  646  	 * the other CPUs are offline at this time), it need not acquire any
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  647  	 * sleeping locks which may trigger an implicit preemption point even
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  648  	 * if there is no contention, so avoid doing that by using a low-level
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  649  	 * library routine here.
+a3627f67b1d5dd drivers/acpi/sleep/main.c Shaohua Li            2007-06-20  650  	 */
+22db06337f590d drivers/acpi/sleep.c      Rafael J. Wysocki     2023-06-14  651  	acpi_hw_disable_all_gpes();
+d5a64513c6a171 drivers/acpi/sleep.c      Rafael J. Wysocki     2010-04-09  652  	/* Allow EC transactions to happen. */
+c2b46d679b30c5 drivers/acpi/sleep.c      Lv Zheng              2016-08-03  653  	acpi_ec_unblock_transactions();
+a3627f67b1d5dd drivers/acpi/sleep/main.c Shaohua Li            2007-06-20  654  
+2a6b69765ad794 drivers/acpi/sleep.c      Matthew Garrett       2010-05-28  655  	suspend_nvs_restore();
+2a6b69765ad794 drivers/acpi/sleep.c      Matthew Garrett       2010-05-28  656  
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  657  	return ACPI_SUCCESS(status) ? 0 : -EFAULT;
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  658  }
+^1da177e4c3f41 drivers/acpi/sleep/main.c Linus Torvalds        2005-04-16  659  
+
+:::::: The code at line 600 was first introduced by commit
+:::::: d6a77ead21b69c395ca6d09a066ededfac601bcc x86 / ACPI / sleep: Provide registration for acpi_suspend_lowlevel.
+
+:::::: TO: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
