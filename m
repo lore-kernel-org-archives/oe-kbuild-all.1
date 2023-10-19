@@ -1,52 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A513E000
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 20:32:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1D0208B8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 20:54:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TlHRTyqc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OC2oE6L3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697747552; x=1729283552;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OSAcALiopd2/KG7f+4neIMz5XaB38UH5mNVjgH1UBNY=;
-  b=TlHRTyqcq6mO0wrRGR6bDidxdaQg7FhT9uMQ9vJ93xpVOF3QWWbs5qDD
-   Wt2b9T3vhn1x3acerxcjoaX8ls6P59HGtVwwXPFjfHB+iVh/VePj193Ic
-   qENgSH+urelXZ+ViYFdSome0pLfDmfoPZm8rzv7X//Y05vcIXfa3jE8uv
-   GO/TSo5unsgZsEI4P7jYJTliFVlaiwy2yzDB0GRw0lGZfm+aqxLt4GT9+
-   9qHCShelVBHMuPTcQW61ODFNEeb3oa5rD7qqzU2NsUR4Pg3YmUFMTQlDk
-   KWSyxrq0uqmbkqLhxJj1Mwt39/4z1h0xIbTkPGSW/QymLRiqOUA1Fnu2J
+  t=1697748873; x=1729284873;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Up9u6kqath4IN4sOz2KOqEBzCO1cvT+/95yte1nqXcA=;
+  b=OC2oE6L3gn3GZqKJQ+AYT6Bptuivu36kGM9yferm2VkyQuBk2UIpGjb6
+   59vfpZ8g7UQeyoZWjkcd1/V0ZgyVOT/Txc4vfOlWnI+Anroshz/AaHmWi
+   K+4N3s25Iasepsh6PyFCTwvASy5aUgJ0KPxpyTqLr34ikK/y2XnJyqd4z
+   g55m05kyFLxVfiNZn62k98oe554slnGDFMMGSeIh1gGuHrdqmjF3IImFN
+   qX/MCMHT7Wwj2G96QpBTdUkt9TaMC6fGa7gimlH09gP0C/sfBDeVo3ajl
+   QMuUtm4jhK7q9jCzXF7rtqPsKJB5ZOsZQ72rU/BJknLwgTb1xnHcuJo0e
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="366595948"
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="4974246"
 X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="366595948"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 13:32:32 -0700
+   d="scan'208";a="4974246"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 13:54:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="827476366"
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="822978412"
 X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="827476366"
+   d="scan'208";a="822978412"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Oct 2023 13:32:29 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 19 Oct 2023 13:54:30 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtZgx-0002ZV-0f;
-	Thu, 19 Oct 2023 20:32:27 +0000
-Date: Fri, 20 Oct 2023 04:32:09 +0800
+	id 1qta2G-0002ac-0Z;
+	Thu, 19 Oct 2023 20:54:28 +0000
+Date: Fri, 20 Oct 2023 04:54:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Avichal Rakesh <arakesh@google.com>, dan.scally@ideasonboard.com,
-	gregkh@linuxfoundation.org, laurent.pinchart@ideasonboard.com,
-	m.grzeschik@pengutronix.de
-Cc: oe-kbuild-all@lists.linux.dev, etalvala@google.com,
-	jchowdhary@google.com, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH v6 4/4] usb: gadget: uvc: Fix use-after-free for inflight
- usb_requests
-Message-ID: <202310200457.GwPPFuHX-lkp@intel.com>
-References: <20231019185319.2714000-5-arakesh@google.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hare-scsi-devel:eh-rework.v6 22/26]
+ drivers/scsi/scsi_error.c:1277:6: warning: no previous declaration for
+ '__scsi_eh_finish_cmd'
+Message-ID: <202310200425.uz5gvV0U-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,65 +50,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231019185319.2714000-5-arakesh@google.com>
 
-Hi Avichal,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.6-rc6 next-20231019]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Avichal-Rakesh/usb-gadget-uvc-prevent-use-of-disabled-endpoint/20231020-025512
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20231019185319.2714000-5-arakesh%40google.com
-patch subject: [PATCH v6 4/4] usb: gadget: uvc: Fix use-after-free for inflight usb_requests
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231020/202310200457.GwPPFuHX-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310200457.GwPPFuHX-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git eh-rework.v6
+head:   1e93963cdc1f4d2671b12c37a09b861f40313768
+commit: 043bb4700d22ea8d579b0e8e24e7fee68e4a11ca [22/26] scsi: set host byte after EH completed
+config: i386-buildonly-randconfig-001-20231020 (https://download.01.org/0day-ci/archive/20231020/202310200425.uz5gvV0U-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310200425.uz5gvV0U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310200457.GwPPFuHX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310200425.uz5gvV0U-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/usb/gadget/function/uvc_video.c:231: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Must be called with req_lock held as it modifies the list ureq is held in
+>> drivers/scsi/scsi_error.c:1277:6: warning: no previous declaration for '__scsi_eh_finish_cmd' [-Wmissing-declarations]
+    void __scsi_eh_finish_cmd(struct scsi_cmnd *scmd, struct list_head *done_q,
+         ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +231 drivers/usb/gadget/function/uvc_video.c
+vim +/__scsi_eh_finish_cmd +1277 drivers/scsi/scsi_error.c
 
-   225	
-   226	/* --------------------------------------------------------------------------
-   227	 * Request handling
-   228	 */
-   229	
-   230	/**
- > 231	 * Must be called with req_lock held as it modifies the list ureq is held in
-   232	 */
-   233	static void
-   234	uvc_video_free_request(struct uvc_request *ureq, struct usb_ep *ep)
-   235	{
-   236		sg_free_table(&ureq->sgt);
-   237		if (ureq->req && ep) {
-   238			usb_ep_free_request(ep, ureq->req);
-   239			ureq->req = NULL;
-   240		}
-   241	
-   242		kfree(ureq->req_buffer);
-   243		ureq->req_buffer = NULL;
-   244	
-   245		if (!list_empty(&ureq->list))
-   246			list_del_init(&ureq->list);
-   247	
-   248		kfree(ureq);
-   249	}
-   250	
+  1263	
+  1264	/**
+  1265	 * __scsi_eh_finish_cmd - Handle a cmd that eh is finished with.
+  1266	 * @scmd:	Original SCSI cmd that eh has finished.
+  1267	 * @done_q:	Queue for processed commands.
+  1268	 * @host_byte:	Host byte of the command status to be set
+  1269	 *
+  1270	 * Notes:
+  1271	 *    We don't want to use the normal command completion while we are are
+  1272	 *    still handling errors - it may cause other commands to be queued,
+  1273	 *    and that would disturb what we are doing.  Thus we really want to
+  1274	 *    keep a list of pending commands for final completion, and once we
+  1275	 *    are ready to leave error handling we handle completion for real.
+  1276	 */
+> 1277	void __scsi_eh_finish_cmd(struct scsi_cmnd *scmd, struct list_head *done_q,
+  1278				int host_byte)
+  1279	{
+  1280		if (host_byte)
+  1281			set_host_byte(scmd, host_byte);
+  1282		list_move_tail(&scmd->eh_entry, done_q);
+  1283	}
+  1284	
 
 -- 
 0-DAY CI Kernel Test Service
