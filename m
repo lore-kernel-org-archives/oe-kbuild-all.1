@@ -1,47 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9894168DB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 10:04:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1324F19442
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 10:32:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OmrOo8bi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MjJ15nkd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697709846; x=1729245846;
+  t=1697711568; x=1729247568;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DiJ9aEbuO+BiTGnKCMTcov+ou8yOqZWmMYvZGWVaTkY=;
-  b=OmrOo8biPC0+mG+Cuga7xkR3VU3mMfdgtF6g/CoognlRUP4eN+RNFiO1
-   dl7sQgI7eyy1Bm0yDXQtKk0AfknWVMYkfxh50muVfBoO/L+Y/iUd0CpCD
-   BqBgha1x0wwgqZcIYcj/hl2ONrv/JMleRTQ89mbOt58UYBPJew01JAcbo
-   iSDJN+TOwpZr0jPPLAAi1V/KrUkIB0hRtpJb56rG1Df6QZnAnGWsgynIR
-   a1+qqSUccmt09zmZIU9sjXsgJzcyigEkF6h22HBXp7TRUe8OgYJTvvwag
-   fs9t2q0e5WHX8XmNaQevtKaimzVz4nygF5JXhnH1Xt3L1OMG/Se4F4wsV
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="365567379"
-X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="365567379"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 03:04:05 -0700
+  bh=WUYVtfhpHcqOb/ROewefpYGYuHxMLA4P77VPHllnjlU=;
+  b=MjJ15nkdEOJw1PO3PX3vTPnnuKmpytD54NyQb9CRkXGy6caTsWtuC5+Q
+   8SCEEFjliBGzSPYTjwMeglwFkOh+Rl678I1TpKXHHaJ/BK+9PlP8wovNG
+   jaGAURK183/tRzRSY0zxj32v2+4PL149uwEo1e0gs6pSG52Z0mAgX4mNe
+   QJ+42ptChJQGYAbcrXk46EvL1zpoP71kXwTEXbtA5guHGahISSOPu9nsS
+   wnAnqXwnudVfBC+bzKBgHpv45cp7b424xfzZdh8p3YEaza/ylrNYZUKSZ
+   JVikGH7ggOUZNo7Jcih40f5CKyl8iNB/ZygpjJu+ds5MhQyAk5oPI7z4Z
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="365571814"
+X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
+   d="scan'208";a="365571814"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 03:32:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="900686216"
-X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="900686216"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="791954514"
+X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
+   d="scan'208";a="791954514"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 19 Oct 2023 03:01:57 -0700
+  by orsmga001.jf.intel.com with ESMTP; 19 Oct 2023 03:32:07 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtPso-0001x0-06;
-	Thu, 19 Oct 2023 10:04:02 +0000
-Date: Thu, 19 Oct 2023 18:03:52 +0800
+	id 1qtQJw-00021G-2Q;
+	Thu, 19 Oct 2023 10:32:04 +0000
+Date: Thu, 19 Oct 2023 18:31:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
+To: Valentin Caron <valentin.caron@foss.st.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>
-Subject: arch/powerpc/kernel/pci_of_scan.c:61: warning: Function parameter or
- member 'ss' not described in 'OF_PCI_ADDR0_SPACE'
-Message-ID: <202310191708.97T9IVGD-lkp@intel.com>
+	Mark Brown <broonie@kernel.org>
+Subject: drivers/spi/spi-stm32.c:1808:17: warning: array subscript 0 is
+ outside array bounds of 'const bool[0]' {aka 'const _Bool[]'}
+Message-ID: <202310191831.MLwx1c6x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,72 +53,208 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   dd72f9c7e512da377074d47d990564959b772643
-commit: bc605cd79edb68131d3be5b00b949aa312277d39 powerpc/of/pci: Rewrite pci_parse_of_flags
-date:   4 years, 2 months ago
-config: powerpc-tqm8555_defconfig (https://download.01.org/0day-ci/archive/20231019/202310191708.97T9IVGD-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310191708.97T9IVGD-lkp@intel.com/reproduce)
+commit: fee681646fc831b154619ac0261afedcc7e671e7 spi: stm32: disable device mode with st,stm32f4-spi compatible
+date:   3 months ago
+config: parisc-randconfig-r013-20220830 (https://download.01.org/0day-ci/archive/20231019/202310191831.MLwx1c6x-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310191831.MLwx1c6x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310191708.97T9IVGD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310191831.MLwx1c6x-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/powerpc/kernel/pci_of_scan.c:23: warning: Function parameter or member 'np' not described in 'get_int_prop'
-   arch/powerpc/kernel/pci_of_scan.c:23: warning: Function parameter or member 'name' not described in 'get_int_prop'
-   arch/powerpc/kernel/pci_of_scan.c:23: warning: Function parameter or member 'def' not described in 'get_int_prop'
->> arch/powerpc/kernel/pci_of_scan.c:61: warning: Function parameter or member 'ss' not described in 'OF_PCI_ADDR0_SPACE'
-   arch/powerpc/kernel/pci_of_scan.c:61: warning: Excess function parameter 'addr0' description in 'OF_PCI_ADDR0_SPACE'
-   arch/powerpc/kernel/pci_of_scan.c:61: warning: Excess function parameter 'bridge' description in 'OF_PCI_ADDR0_SPACE'
+   drivers/spi/spi-stm32.c: In function 'stm32_spi_probe':
+>> drivers/spi/spi-stm32.c:1808:17: warning: array subscript 0 is outside array bounds of 'const bool[0]' {aka 'const _Bool[]'} [-Warray-bounds=]
+    1808 |         if (!cfg->has_device_mode && device_mode) {
+         |              ~~~^~~~~~~~~~~~~~~~~
+   cc1: note: source object is likely at address zero
 
 
-vim +61 arch/powerpc/kernel/pci_of_scan.c
+vim +1808 drivers/spi/spi-stm32.c
 
-    32	
-    33	/**
-    34	 * pci_parse_of_flags - Parse the flags cell of a device tree PCI address
-    35	 * @addr0: value of 1st cell of a device tree PCI address.
-    36	 * @bridge: Set this flag if the address is from a bridge 'ranges' property
-    37	 *
-    38	 * PCI Bus Binding to IEEE Std 1275-1994
-    39	 *
-    40	 * Bit#            33222222 22221111 11111100 00000000
-    41	 *                 10987654 32109876 54321098 76543210
-    42	 * phys.hi cell:   npt000ss bbbbbbbb dddddfff rrrrrrrr
-    43	 * phys.mid cell:  hhhhhhhh hhhhhhhh hhhhhhhh hhhhhhhh
-    44	 * phys.lo cell:   llllllll llllllll llllllll llllllll
-    45	 *
-    46	 * where:
-    47	 * n        is 0 if the address is relocatable, 1 otherwise
-    48	 * p        is 1 if the addressable region is "prefetchable", 0 otherwise
-    49	 * t        is 1 if the address is aliased (for non-relocatable I/O),
-    50	 *          below 1 MB (for Memory),or below 64 KB (for relocatable I/O).
-    51	 * ss       is the space code, denoting the address space:
-    52	 *              00 denotes Configuration Space
-    53	 *              01 denotes I/O Space
-    54	 *              10 denotes 32-bit-address Memory Space
-    55	 *              11 denotes 64-bit-address Memory Space
-    56	 * bbbbbbbb is the 8-bit Bus Number
-    57	 * ddddd    is the 5-bit Device Number
-    58	 * fff      is the 3-bit Function Number
-    59	 * rrrrrrrr is the 8-bit Register Number
-    60	 */
-  > 61	#define OF_PCI_ADDR0_SPACE(ss)		(((ss)&3)<<24)
-    62	#define OF_PCI_ADDR0_SPACE_CFG		OF_PCI_ADDR0_SPACE(0)
-    63	#define OF_PCI_ADDR0_SPACE_IO		OF_PCI_ADDR0_SPACE(1)
-    64	#define OF_PCI_ADDR0_SPACE_MMIO32	OF_PCI_ADDR0_SPACE(2)
-    65	#define OF_PCI_ADDR0_SPACE_MMIO64	OF_PCI_ADDR0_SPACE(3)
-    66	#define OF_PCI_ADDR0_SPACE_MASK		OF_PCI_ADDR0_SPACE(3)
-    67	#define OF_PCI_ADDR0_RELOC		(1UL<<31)
-    68	#define OF_PCI_ADDR0_PREFETCH		(1UL<<30)
-    69	#define OF_PCI_ADDR0_ALIAS		(1UL<<29)
-    70	#define OF_PCI_ADDR0_BUS		0x00FF0000UL
-    71	#define OF_PCI_ADDR0_DEV		0x0000F800UL
-    72	#define OF_PCI_ADDR0_FN			0x00000700UL
-    73	#define OF_PCI_ADDR0_BARREG		0x000000FFUL
-    74	
+  1795	
+  1796	static int stm32_spi_probe(struct platform_device *pdev)
+  1797	{
+  1798		struct spi_controller *ctrl;
+  1799		struct stm32_spi *spi;
+  1800		struct resource *res;
+  1801		struct reset_control *rst;
+  1802		struct device_node *np = pdev->dev.of_node;
+  1803		bool device_mode;
+  1804		int ret;
+  1805		const struct stm32_spi_cfg *cfg = of_device_get_match_data(&pdev->dev);
+  1806	
+  1807		device_mode = of_property_read_bool(np, "spi-slave");
+> 1808		if (!cfg->has_device_mode && device_mode) {
+  1809			dev_err(&pdev->dev, "spi-slave not supported\n");
+  1810			return -EPERM;
+  1811		}
+  1812	
+  1813		if (device_mode)
+  1814			ctrl = devm_spi_alloc_slave(&pdev->dev, sizeof(struct stm32_spi));
+  1815		else
+  1816			ctrl = devm_spi_alloc_master(&pdev->dev, sizeof(struct stm32_spi));
+  1817		if (!ctrl) {
+  1818			dev_err(&pdev->dev, "spi controller allocation failed\n");
+  1819			return -ENOMEM;
+  1820		}
+  1821		platform_set_drvdata(pdev, ctrl);
+  1822	
+  1823		spi = spi_controller_get_devdata(ctrl);
+  1824		spi->dev = &pdev->dev;
+  1825		spi->ctrl = ctrl;
+  1826		spi->device_mode = device_mode;
+  1827		spin_lock_init(&spi->lock);
+  1828	
+  1829		spi->cfg = cfg;
+  1830	
+  1831		spi->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+  1832		if (IS_ERR(spi->base))
+  1833			return PTR_ERR(spi->base);
+  1834	
+  1835		spi->phys_addr = (dma_addr_t)res->start;
+  1836	
+  1837		spi->irq = platform_get_irq(pdev, 0);
+  1838		if (spi->irq <= 0)
+  1839			return dev_err_probe(&pdev->dev, spi->irq,
+  1840					     "failed to get irq\n");
+  1841	
+  1842		ret = devm_request_threaded_irq(&pdev->dev, spi->irq,
+  1843						spi->cfg->irq_handler_event,
+  1844						spi->cfg->irq_handler_thread,
+  1845						IRQF_ONESHOT, pdev->name, ctrl);
+  1846		if (ret) {
+  1847			dev_err(&pdev->dev, "irq%d request failed: %d\n", spi->irq,
+  1848				ret);
+  1849			return ret;
+  1850		}
+  1851	
+  1852		spi->clk = devm_clk_get(&pdev->dev, NULL);
+  1853		if (IS_ERR(spi->clk)) {
+  1854			ret = PTR_ERR(spi->clk);
+  1855			dev_err(&pdev->dev, "clk get failed: %d\n", ret);
+  1856			return ret;
+  1857		}
+  1858	
+  1859		ret = clk_prepare_enable(spi->clk);
+  1860		if (ret) {
+  1861			dev_err(&pdev->dev, "clk enable failed: %d\n", ret);
+  1862			return ret;
+  1863		}
+  1864		spi->clk_rate = clk_get_rate(spi->clk);
+  1865		if (!spi->clk_rate) {
+  1866			dev_err(&pdev->dev, "clk rate = 0\n");
+  1867			ret = -EINVAL;
+  1868			goto err_clk_disable;
+  1869		}
+  1870	
+  1871		rst = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
+  1872		if (rst) {
+  1873			if (IS_ERR(rst)) {
+  1874				ret = dev_err_probe(&pdev->dev, PTR_ERR(rst),
+  1875						    "failed to get reset\n");
+  1876				goto err_clk_disable;
+  1877			}
+  1878	
+  1879			reset_control_assert(rst);
+  1880			udelay(2);
+  1881			reset_control_deassert(rst);
+  1882		}
+  1883	
+  1884		if (spi->cfg->has_fifo)
+  1885			spi->fifo_size = spi->cfg->get_fifo_size(spi);
+  1886	
+  1887		ret = spi->cfg->config(spi);
+  1888		if (ret) {
+  1889			dev_err(&pdev->dev, "controller configuration failed: %d\n",
+  1890				ret);
+  1891			goto err_clk_disable;
+  1892		}
+  1893	
+  1894		ctrl->dev.of_node = pdev->dev.of_node;
+  1895		ctrl->auto_runtime_pm = true;
+  1896		ctrl->bus_num = pdev->id;
+  1897		ctrl->mode_bits = SPI_CPHA | SPI_CPOL | SPI_CS_HIGH | SPI_LSB_FIRST |
+  1898				  SPI_3WIRE;
+  1899		ctrl->bits_per_word_mask = spi->cfg->get_bpw_mask(spi);
+  1900		ctrl->max_speed_hz = spi->clk_rate / spi->cfg->baud_rate_div_min;
+  1901		ctrl->min_speed_hz = spi->clk_rate / spi->cfg->baud_rate_div_max;
+  1902		ctrl->use_gpio_descriptors = true;
+  1903		ctrl->prepare_message = stm32_spi_prepare_msg;
+  1904		ctrl->transfer_one = stm32_spi_transfer_one;
+  1905		ctrl->unprepare_message = stm32_spi_unprepare_msg;
+  1906		ctrl->flags = spi->cfg->flags;
+  1907		if (STM32_SPI_DEVICE_MODE(spi))
+  1908			ctrl->slave_abort = stm32h7_spi_device_abort;
+  1909	
+  1910		spi->dma_tx = dma_request_chan(spi->dev, "tx");
+  1911		if (IS_ERR(spi->dma_tx)) {
+  1912			ret = PTR_ERR(spi->dma_tx);
+  1913			spi->dma_tx = NULL;
+  1914			if (ret == -EPROBE_DEFER)
+  1915				goto err_clk_disable;
+  1916	
+  1917			dev_warn(&pdev->dev, "failed to request tx dma channel\n");
+  1918		} else {
+  1919			ctrl->dma_tx = spi->dma_tx;
+  1920		}
+  1921	
+  1922		spi->dma_rx = dma_request_chan(spi->dev, "rx");
+  1923		if (IS_ERR(spi->dma_rx)) {
+  1924			ret = PTR_ERR(spi->dma_rx);
+  1925			spi->dma_rx = NULL;
+  1926			if (ret == -EPROBE_DEFER)
+  1927				goto err_dma_release;
+  1928	
+  1929			dev_warn(&pdev->dev, "failed to request rx dma channel\n");
+  1930		} else {
+  1931			ctrl->dma_rx = spi->dma_rx;
+  1932		}
+  1933	
+  1934		if (spi->dma_tx || spi->dma_rx)
+  1935			ctrl->can_dma = stm32_spi_can_dma;
+  1936	
+  1937		pm_runtime_set_autosuspend_delay(&pdev->dev,
+  1938						 STM32_SPI_AUTOSUSPEND_DELAY);
+  1939		pm_runtime_use_autosuspend(&pdev->dev);
+  1940		pm_runtime_set_active(&pdev->dev);
+  1941		pm_runtime_get_noresume(&pdev->dev);
+  1942		pm_runtime_enable(&pdev->dev);
+  1943	
+  1944		ret = spi_register_controller(ctrl);
+  1945		if (ret) {
+  1946			dev_err(&pdev->dev, "spi controller registration failed: %d\n",
+  1947				ret);
+  1948			goto err_pm_disable;
+  1949		}
+  1950	
+  1951		pm_runtime_mark_last_busy(&pdev->dev);
+  1952		pm_runtime_put_autosuspend(&pdev->dev);
+  1953	
+  1954		dev_info(&pdev->dev, "driver initialized (%s mode)\n",
+  1955			 STM32_SPI_MASTER_MODE(spi) ? "master" : "device");
+  1956	
+  1957		return 0;
+  1958	
+  1959	err_pm_disable:
+  1960		pm_runtime_disable(&pdev->dev);
+  1961		pm_runtime_put_noidle(&pdev->dev);
+  1962		pm_runtime_set_suspended(&pdev->dev);
+  1963		pm_runtime_dont_use_autosuspend(&pdev->dev);
+  1964	err_dma_release:
+  1965		if (spi->dma_tx)
+  1966			dma_release_channel(spi->dma_tx);
+  1967		if (spi->dma_rx)
+  1968			dma_release_channel(spi->dma_rx);
+  1969	err_clk_disable:
+  1970		clk_disable_unprepare(spi->clk);
+  1971	
+  1972		return ret;
+  1973	}
+  1974	
 
 -- 
 0-DAY CI Kernel Test Service
