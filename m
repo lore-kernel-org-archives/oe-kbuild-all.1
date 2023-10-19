@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310EF46669
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 04:24:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4849A55;
+	Thu, 19 Oct 2023 04:57:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fLA8xzv6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P065AZ+h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697689490; x=1729225490;
+  t=1697691472; x=1729227472;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=utPm2c11fvcJ1ZMQz6MxcL9O91Okyj2CZKpeAAKGjb4=;
-  b=fLA8xzv6j6NJAQvZTM/WoKQph6ZS3FXV6t0DHRAksW2ieAyDCNs5g+cM
-   j8Qoo0uKHf1xzkhv9u6C8BjdQUnnfvJ+E/FTpCEISVHOyR7tdvt0VVDKh
-   Wf9D/6Wgkz4Wfyrpg1JYlX5rERKiyagFTqWvPiaLktzeqESX/ea9Gza8j
-   IutNsV4Xx1GNRRtHOHZzRSXNYLyr64BqePdIHDVR3InHdQptO6322f821
-   hJX6KsoCb7K1St4ISJn727wx1R8t4cRMssvg3D+MnQUmdGKFzo4XV3iX4
-   0Y29Ey7ga+Dn3UuqqQZs+H5v1CNy8gikE3l/D7b+BOm/im4LLUEhTgVfr
+  bh=Ux2UBrmaO4aBdjzEUNYXa5A1buzRwAplwG9Bno7s2SM=;
+  b=P065AZ+htzMKx7nKYB+SsojOUYOy9OXw9+nRvmT/jmaganipf1zg5IMF
+   pU7/uFT/XxqFom6KDSWEsYVCSjoJCRcuZsr0lKVv6Gmd/7fCj6z8tsLcc
+   vLT0pNFZ3hKD7cvjDVljbI7G+wfFBrGi6rD0MqP5wcS+VX7wlrBxJWSKc
+   Bip3POCnBu6pKpSb3JYY5C0dKV5pmT97B08otYfwj7TJ4E1CiyWvZSfEW
+   jGVyFni1MFuSxnlgtwFz82G/9n8Om9vgLdP988inginwhlE6ziWLu1AWW
+   J2x7hSU74aoFCBOzC2IYvqjzUBONtgvENOmbHhW3tv0LqIdBux0lCor1N
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="417282239"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="4764271"
 X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="417282239"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 21:24:48 -0700
+   d="scan'208";a="4764271"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 21:57:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="873308429"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="847536491"
 X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="873308429"
+   d="scan'208";a="847536491"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 18 Oct 2023 21:24:47 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 18 Oct 2023 21:57:49 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtKaT-0001b2-1m;
-	Thu, 19 Oct 2023 04:24:45 +0000
-Date: Thu, 19 Oct 2023 12:24:11 +0800
+	id 1qtL6R-0001da-0p;
+	Thu, 19 Oct 2023 04:57:47 +0000
+Date: Thu, 19 Oct 2023 12:56:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: "zhaoyang.huang" <zhaoyang.huang@unisoc.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC PATCH 1/1] mm: only use old generation and stable tier for
  madv_pageout
-Message-ID: <202310191208.kuNmoYUs-lkp@intel.com>
+Message-ID: <202310191251.5rT7xgZU-lkp@intel.com>
 References: <20231013113028.2720996-1-zhaoyang.huang@unisoc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,39 +64,105 @@ url:    https://github.com/intel-lab-lkp/linux/commits/zhaoyang-huang/mm-only-us
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20231013113028.2720996-1-zhaoyang.huang%40unisoc.com
 patch subject: [RFC PATCH 1/1] mm: only use old generation and stable tier for madv_pageout
-config: um-defconfig (https://download.01.org/0day-ci/archive/20231019/202310191208.kuNmoYUs-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310191208.kuNmoYUs-lkp@intel.com/reproduce)
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231019/202310191251.5rT7xgZU-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310191251.5rT7xgZU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310191208.kuNmoYUs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310191251.5rT7xgZU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/madvise.c: In function 'madvise_cold_or_pageout_pte_range':
->> mm/madvise.c:449:35: error: implicit declaration of function 'folio_lru_gen'; did you mean 'folio_lruvec'? [-Werror=implicit-function-declaration]
+   In file included from mm/madvise.c:10:
+   In file included from include/linux/pagemap.h:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from mm/madvise.c:10:
+   In file included from include/linux/pagemap.h:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from mm/madvise.c:10:
+   In file included from include/linux/pagemap.h:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> mm/madvise.c:449:14: error: call to undeclared function 'folio_lru_gen'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      449 |                         int gen = folio_lru_gen(folio);
-         |                                   ^~~~~~~~~~~~~
-         |                                   folio_lruvec
->> mm/madvise.c:452:36: error: implicit declaration of function 'folio_lru_refs'; did you mean 'folio_put_refs'? [-Werror=implicit-function-declaration]
+         |                                   ^
+>> mm/madvise.c:452:15: error: call to undeclared function 'folio_lru_refs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      452 |                         int refs = folio_lru_refs(folio);
-         |                                    ^~~~~~~~~~~~~~
-         |                                    folio_put_refs
->> mm/madvise.c:453:36: error: implicit declaration of function 'lru_tier_from_refs' [-Werror=implicit-function-declaration]
+         |                                    ^
+>> mm/madvise.c:453:15: error: call to undeclared function 'lru_tier_from_refs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      453 |                         int tier = lru_tier_from_refs(refs);
-         |                                    ^~~~~~~~~~~~~~~~~~
->> mm/madvise.c:456:35: error: implicit declaration of function 'lru_gen_from_seq' [-Werror=implicit-function-declaration]
+         |                                    ^
+>> mm/madvise.c:456:14: error: call to undeclared function 'lru_gen_from_seq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      456 |                         if (gen > lru_gen_from_seq(lruvec->lrugen.min_seq[type]) + 1
-         |                                   ^~~~~~~~~~~~~~~~
->> mm/madvise.c:456:58: error: 'struct lruvec' has no member named 'lrugen'
+         |                                   ^
+>> mm/madvise.c:456:39: error: no member named 'lrugen' in 'struct lruvec'
      456 |                         if (gen > lru_gen_from_seq(lruvec->lrugen.min_seq[type]) + 1
-         |                                                          ^~
-   cc1: some warnings being treated as errors
+         |                                                    ~~~~~~  ^
+   12 warnings and 5 errors generated.
 
 
-vim +449 mm/madvise.c
+vim +/folio_lru_gen +449 mm/madvise.c
 
    323	
    324	static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
