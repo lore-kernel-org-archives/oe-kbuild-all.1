@@ -1,49 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4578F64
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 07:09:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4459346684
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 07:18:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GJ3LzduV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X0PxQZvx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697699340; x=1729235340;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hyVNic0tqttX+00AlOGc3CyTTc3XI7khC0QmRX6dD7o=;
-  b=GJ3LzduViRcoJVfUETY8PEYkv5cy+itqu8Cul526qllV/fhN4Kd+LHwf
-   eISKm5SI3SZir5x0hilWuvG5EwXAfjmWw3+ixh//NwO5T1ena6Z5ld7Kt
-   CvBKcdka8QZJOiSficvbgYPBoCo4c/zaU1DB6E8q18Bg+kjN8po0HlUdP
-   ur+8XWIMgtUdIzd7J3j6T9w4A2vGhZiF16uNFPHatduW8gntfS3uYaK3I
-   UaJPCR+5vF7hAouj0T8LoL5B7FOG2RuMPUBUjp/tWTNQC1sLsasW9eHQM
-   JZqZrSG8RKjGQ4FWNGj7UwSJP8RUULShdP5si/FuzjMPi1NqwpCMGF8oE
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="450409120"
+  t=1697699939; x=1729235939;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZTod0+J3ULg0nD/QvgkhMmp+S43LSOt0yS8P01Uetps=;
+  b=X0PxQZvxJATKjQjsbmd2+pOzBB/tVIcpBcX+wJZ2sM8hZCSoBI714uVj
+   G4nR7kF6gfQVwi5tGV66XOnIDCEJGqyUQEuKT5kgUrRu8nKIAW2ikH0SN
+   +/I+Md2MsVMgpMhLisEdt0aTScypFkjIHXo2eaiOr98nslqs5FcZDx5QJ
+   eRaqZAwkyJzhjmZGKnSmBScfDmQ2wKd/ZeGV+GuSqQ8d433zL/f3vIkhb
+   Qrm42HdAF6WNnuaLiOGIc7B8BfbToXWwQqfvOrR+vufBj2cRnZ+AvhLjp
+   eETQrxBuNflb8UJQGyWMy+iu8Q8rp2pjs538gYaHydghqCZkpeQFUDJWz
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="389050063"
 X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="450409120"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 00:08:59 -0700
+   d="scan'208";a="389050063"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 00:18:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="791899818"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="930503355"
 X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="791899818"
+   d="scan'208";a="930503355"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 19 Oct 2023 00:08:57 -0700
+  by orsmga005.jf.intel.com with ESMTP; 19 Oct 2023 00:18:57 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtN9J-0001mK-35;
-	Thu, 19 Oct 2023 07:08:53 +0000
-Date: Thu, 19 Oct 2023 15:08:05 +0800
+	id 1qtNJ0-0001nQ-27;
+	Thu, 19 Oct 2023 07:18:54 +0000
+Date: Thu, 19 Oct 2023 15:18:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
-	ast@kernel.org, daniel@iogearbox.net, martin.lau@kernel.org
+To: Hans Verkuil <hverkuil@xs4all.nl>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 bpf-next 7/7] selftests/bpf: BPF register range bounds
- tester
-Message-ID: <202310191409.pIIb2buD-lkp@intel.com>
-References: <20231019042405.2971130-8-andrii@kernel.org>
+Subject: [hverkuil-media-tree:hdmi-dbg 11/33]
+ drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1163:25:
+ error: '%s' directive output may be truncated writing up to 31 bytes into a
+ region of size 26
+Message-ID: <202310191557.63Tg1UP7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,314 +51,247 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231019042405.2971130-8-andrii@kernel.org>
 
-Hi Andrii,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-improve-JEQ-JNE-branch-taken-logic/20231019-122550
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231019042405.2971130-8-andrii%40kernel.org
-patch subject: [PATCH v2 bpf-next 7/7] selftests/bpf: BPF register range bounds tester
-reproduce: (https://download.01.org/0day-ci/archive/20231019/202310191409.pIIb2buD-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/hverkuil/media_tree.git hdmi-dbg
+head:   99c0aa87508f07fc523d9e841b6bd981fd702b83
+commit: 1eb159538ab221d1ffb1002a0cf8585906e75ca0 [11/33] cec/extron-da-hd-4k-plus: add the Extron DA HD 4K Plus CEC driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231019/202310191557.63Tg1UP7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310191557.63Tg1UP7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310191409.pIIb2buD-lkp@intel.com/
-
-# many are suggestions rather than must-fix
-
-WARNING:NEW_TYPEDEFS: do not add new typedefs
-#169: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:21:
-+typedef unsigned long long ___u64;
-
-WARNING:NEW_TYPEDEFS: do not add new typedefs
-#170: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:22:
-+typedef unsigned int ___u32;
-
-WARNING:NEW_TYPEDEFS: do not add new typedefs
-#171: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:23:
-+typedef long long ___s64;
-
-WARNING:NEW_TYPEDEFS: do not add new typedefs
-#172: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:24:
-+typedef int ___s32;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#215: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:67:
-+	case U64: return (u64)x < (u64)y ? (u64)x : (u64)y;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#216: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:68:
-+	case U32: return (u32)x < (u32)y ? (u32)x : (u32)y;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#217: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:69:
-+	case S64: return (s64)x < (s64)y ? (s64)x : (s64)y;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#218: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:70:
-+	case S32: return (s32)x < (s32)y ? (s32)x : (s32)y;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#219: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:71:
-+	default: printf("min_t!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'min_t', this function's name, in a string
-#219: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:71:
-+	default: printf("min_t!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#226: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:78:
-+	case U64: return (u64)x > (u64)y ? (u64)x : (u64)y;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#227: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:79:
-+	case U32: return (u32)x > (u32)y ? (u32)x : (u32)y;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#228: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:80:
-+	case S64: return (s64)x > (s64)y ? (s64)x : (s64)y;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#229: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:81:
-+	case S32: return (s32)x > (s32)y ? (u32)(s32)x : (u32)(s32)y;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#230: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:82:
-+	default: printf("max_t!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'max_t', this function's name, in a string
-#230: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:82:
-+	default: printf("max_t!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#241: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:93:
-+	default: printf("t_str!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 't_str', this function's name, in a string
-#241: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:93:
-+	default: printf("t_str!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#252: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:104:
-+	default: printf("t_is_32!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 't_is_32', this function's name, in a string
-#252: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:104:
-+	default: printf("t_is_32!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#263: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:115:
-+	default: printf("t_signed!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 't_signed', this function's name, in a string
-#263: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:115:
-+	default: printf("t_signed!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#274: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:126:
-+	default: printf("t_unsigned!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 't_unsigned', this function's name, in a string
-#274: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:126:
-+	default: printf("t_unsigned!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#285: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:137:
-+	default: printf("num_is_small!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'num_is_small', this function's name, in a string
-#285: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:137:
-+	default: printf("num_is_small!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#299: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:151:
-+		default: printf("snprintf_num!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'snprintf_num', this function's name, in a string
-#299: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:151:
-+		default: printf("snprintf_num!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#339: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:191:
-+		default: printf("snprintf_num!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'snprintf_num', this function's name, in a string
-#339: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:191:
-+		default: printf("snprintf_num!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#386: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:238:
-+	default: printf("unkn_subreg!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'unkn_subreg', this function's name, in a string
-#386: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:238:
-+	default: printf("unkn_subreg!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#397: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:249:
-+	default: printf("range!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'range', this function's name, in a string
-#397: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:249:
-+	default: printf("range!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#454: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:306:
-+	default: printf("range_cast_u64!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'range_cast_u64', this function's name, in a string
-#454: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:306:
-+	default: printf("range_cast_u64!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#476: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:328:
-+	default: printf("range_cast_s64!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'range_cast_s64', this function's name, in a string
-#476: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:328:
-+	default: printf("range_cast_s64!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#493: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:345:
-+	default: printf("range_cast_u32!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'range_cast_u32', this function's name, in a string
-#493: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:345:
-+	default: printf("range_cast_u32!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#510: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:362:
-+	default: printf("range_cast_s32!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'range_cast_s32', this function's name, in a string
-#510: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:362:
-+	default: printf("range_cast_s32!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#526: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:378:
-+	default: printf("range_cast!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'range_cast', this function's name, in a string
-#526: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:378:
-+	default: printf("range_cast!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#537: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:389:
-+	default: printf("is_valid_num!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'is_valid_num', this function's name, in a string
-#537: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:389:
-+	default: printf("is_valid_num!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#551: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:403:
-+	default: printf("is_valid_range!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'is_valid_range', this function's name, in a string
-#551: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:403:
-+	default: printf("is_valid_range!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#606: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:458:
-+	default: printf("complement_op!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'complement_op', this function's name, in a string
-#606: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:458:
-+	default: printf("complement_op!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#619: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:471:
-+	default: printf("op_str!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'op_str', this function's name, in a string
-#619: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:471:
-+	default: printf("op_str!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#638: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:490:
-+	default: printf("range_canbe op %d\n", op); exit(1);					\
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#643: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:495:
-+	case U64: { range_canbe(u64); }
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#644: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:496:
-+	case U32: { range_canbe(u32); }
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#645: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:497:
-+	case S64: { range_canbe(s64); }
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#646: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:498:
-+	case S32: { range_canbe(s32); }
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#647: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:499:
-+	default: printf("range_canbe!\n"); exit(1);
-
-WARNING:LINE_SPACING: Missing a blank line after declarations
-#933: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:785:
-+	struct bpf_insn insns[64];
-+	LIBBPF_OPTS(bpf_prog_load_opts, opts,
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#1014: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:866:
-+	case OP_LT: op_code = spec.compare_signed ? BPF_JSLT : BPF_JLT; break;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#1015: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:867:
-+	case OP_LE: op_code = spec.compare_signed ? BPF_JSLE : BPF_JLE; break;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#1016: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:868:
-+	case OP_GT: op_code = spec.compare_signed ? BPF_JSGT : BPF_JGT; break;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#1017: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:869:
-+	case OP_GE: op_code = spec.compare_signed ? BPF_JSGE : BPF_JGE; break;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#1018: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:870:
-+	case OP_EQ: op_code = BPF_JEQ; break;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#1019: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:871:
-+	case OP_NE: op_code = BPF_JNE; break;
-
-WARNING:BRACES: braces {} are not necessary for single statement blocks
-#1153: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:1005:
-+		for (t = MIN_T; t <= MAX_T; t++) {
-+			reg->r[t] = range(t, sval, sval);
-+		}
-
-WARNING:BRACES: braces {} are not necessary for single statement blocks
-#1559: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:1411:
-+		for (j = 0; j < ARRAY_SIZE(lower_seeds); j++) {
-+			uvals[cnt++] = (((u64)upper_seeds[i]) << 32) | lower_seeds[j];
-+		}
-
-ERROR:OPEN_BRACE: that open brace { should be on the previous line
-#1566: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:1418:
-+	for (i = 1, j = 0; i < cnt; i++)
-+	{
-
-WARNING:SUSPECT_CODE_INDENT: suspect code indent for conditional statements (8, 8)
-#1665: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:1517:
-+	for (i = 0; i < val_cnt; i++)
-+	for (j = 0; j < range_cnt; j++)
-
-WARNING:SUSPECT_CODE_INDENT: suspect code indent for conditional statements (8, 8)
-#1666: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:1518:
-+	for (j = 0; j < range_cnt; j++)
-+	for (cond_t = MIN_T; cond_t <= MAX_T; cond_t++) {
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310191557.63Tg1UP7-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c: In function 'extron_querycap':
+>> drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1163:25: error: '%s' directive output may be truncated writing up to 31 bytes into a region of size 26 [-Werror=format-truncation=]
+    1163 |                  "serio:%s", port->name);
+         |                         ^~
+   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1162:9: note: 'snprintf' output between 7 and 38 bytes into a destination of size 32
+    1162 |         snprintf(cap->bus_info, sizeof(cap->bus_info),
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1163 |                  "serio:%s", port->name);
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c: In function 'extron_cec_adap_log_addr':
+>> drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:986:49: error: 'snprintf' output may be truncated before the last format character [-Werror=format-truncation=]
+     986 |         snprintf(cmd, sizeof(cmd), "W%c%u*%uLCEC",
+         |                                                 ^
+   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:986:9: note: 'snprintf' output between 10 and 21 bytes into a destination of size 11
+     986 |         snprintf(cmd, sizeof(cmd), "W%c%u*%uLCEC",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     987 |                  port->direction, port->port.port, la);
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c: In function 'extron_setup':
+>> drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1512:49: error: '*15LCEC' directive output may be truncated writing 7 bytes into a region of size between 4 and 13 [-Werror=format-truncation=]
+    1512 |                 snprintf(cmd, sizeof(cmd), "WO%u*15LCEC", p + 1);
+         |                                                 ^~~~~~~
+   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1512:17: note: 'snprintf' output between 11 and 20 bytes into a destination of size 16
+    1512 |                 snprintf(cmd, sizeof(cmd), "WO%u*15LCEC", p + 1);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1513:54: error: '*15' directive output may be truncated writing 3 bytes into a region of size between 1 and 10 [-Werror=format-truncation=]
+    1513 |                 snprintf(resp, sizeof(resp), "LcecO%u*15", p + 1);
+         |                                                      ^~~
+   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1513:17: note: 'snprintf' output between 10 and 19 bytes into a destination of size 16
+    1513 |                 snprintf(resp, sizeof(resp), "LcecO%u*15", p + 1);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+
+
+vim +1163 drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+
+   977	
+   978	static int extron_cec_adap_log_addr(struct cec_adapter *adap, u8 log_addr)
+   979	{
+   980		struct extron_port *port = cec_get_drvdata(adap);
+   981		char cmd[11];
+   982		char resp[17];
+   983		u8 la = log_addr == CEC_LOG_ADDR_INVALID ? 15 : log_addr;
+   984		int err;
+   985	
+ > 986		snprintf(cmd, sizeof(cmd), "W%c%u*%uLCEC",
+   987			 port->direction, port->port.port, la);
+   988		snprintf(resp, sizeof(resp), "Lcec%c%u*%u",
+   989			 port->direction, port->port.port, la);
+   990		err = extron_send_and_wait(port->extron, port, cmd, resp);
+   991		return log_addr != CEC_LOG_ADDR_INVALID && err ? err : 0;
+   992	}
+   993	
+   994	static int extron_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
+   995					    u32 signal_free_time, struct cec_msg *msg)
+   996	{
+   997		struct extron_port *port = cec_get_drvdata(adap);
+   998		char buf[CEC_MAX_MSG_SIZE * 3 + 1];
+   999		char cmd[CEC_MAX_MSG_SIZE * 3 + 13];
+  1000		unsigned int i;
+  1001	
+  1002		buf[0] = 0;
+  1003		for (i = 0; i < msg->len - 1; i++)
+  1004			sprintf(buf + i * 3, "%%%02X", msg->msg[i + 1]);
+  1005		snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
+  1006			 port->direction, port->port.port,
+  1007			 cec_msg_initiator(msg), cec_msg_destination(msg), buf);
+  1008		return extron_send_and_wait(port->extron, port, cmd, NULL);
+  1009	}
+  1010	
+  1011	static void extron_cec_adap_configured(struct cec_adapter *adap, bool configured)
+  1012	{
+  1013		struct extron_port *port = cec_get_drvdata(adap);
+  1014	
+  1015		if (debug)
+  1016			dev_info(port->extron->dev, "%sconfigured port %d (%s)\n",
+  1017				 configured ? "" : "un", port->port.port,
+  1018				 port->extron->splitter.is_standby ? "Off" : "On");
+  1019		if (!port->is_input)
+  1020			cec_splitter_configured_output(&port->port, configured);
+  1021	}
+  1022	
+  1023	static int extron_received(struct cec_adapter *adap, struct cec_msg *msg)
+  1024	{
+  1025		struct extron_port *port = cec_get_drvdata(adap);
+  1026	
+  1027		if (!vendor_id)
+  1028			return -ENOMSG;
+  1029		if (port->is_input)
+  1030			return cec_splitter_received_input(&port->port, msg);
+  1031		return cec_splitter_received_output(&port->port, msg,
+  1032						    port->extron->ports[port->extron->num_out_ports]->adap);
+  1033	}
+  1034	
+  1035	#define log_printf(adap, file, fmt, arg...) \
+  1036		do { \
+  1037			if (file) \
+  1038				seq_printf((file), fmt, ## arg); \
+  1039			else \
+  1040				pr_info("cec-%s: " fmt, (adap)->name, ## arg);	\
+  1041		} while (0)
+  1042	
+  1043	static const char * const pwr_state[] = {
+  1044		"on",
+  1045		"standby",
+  1046		"to on",
+  1047		"to standby",
+  1048	};
+  1049	
+  1050	static void extron_adap_status_port(struct extron_port *port, struct seq_file *file)
+  1051	{
+  1052		struct cec_adapter *adap = port->adap;
+  1053	
+  1054		if (port->disconnected) {
+  1055			log_printf(adap, file,
+  1056				   "\tport %u: disconnected\n", port->port.port);
+  1057			return;
+  1058		}
+  1059		if (port->is_input)
+  1060			log_printf(adap, file,
+  1061				   "\tport %u: %s signal, %s edid, %s 4kp30, %s 4kp60, %sQS/%sQY, is %s\n",
+  1062				   port->port.port,
+  1063				   port->has_signal ? "has" : "no",
+  1064				   port->has_edid ? "has" : "no",
+  1065				   port->has_4kp30 ? "has" : "no",
+  1066				   port->has_4kp60 ? "has" : "no",
+  1067				   port->has_qs ? "" : "no ",
+  1068				   port->has_qy ? "" : "no ",
+  1069				   !port->port.adap->is_configured ? "not configured" :
+  1070					pwr_state[port->extron->splitter.is_standby]);
+  1071		else
+  1072			log_printf(adap, file,
+  1073				   "\tport %u: %s sink, %s signal, %s edid, %s 4kp30, %s 4kp60, %sQS/%sQY, is %sactive source, is %s\n",
+  1074				   port->port.port,
+  1075				   port->port.found_sink ? "found" : "no",
+  1076				   port->has_signal ? "has" : "no",
+  1077				   port->has_edid ? "has" : "no",
+  1078				   port->has_4kp30 ? "has" : "no",
+  1079				   port->has_4kp60 ? "has" : "no",
+  1080				   port->has_qs ? "" : "no ",
+  1081				   port->has_qy ? "" : "no ",
+  1082				   port->port.is_active_source ? "" : "not ",
+  1083				   !port->port.adap->is_configured ? "not configured" :
+  1084				   pwr_state[port->port.power_status & 3]);
+  1085		if (port->port.out_give_device_power_status_seq)
+  1086			log_printf(adap, file,
+  1087				   "\tport %u: querying power status (%u, %lldms)\n",
+  1088				   port->port.port,
+  1089				   port->port.out_give_device_power_status_seq & ~(1 << 31),
+  1090				   ktime_ms_delta(ktime_get(),
+  1091						  port->port.out_give_device_power_status_ts));
+  1092		if (port->port.out_request_current_latency_seq)
+  1093			log_printf(adap, file,
+  1094				   "\tport %u: querying latency (%u, %lldms)\n",
+  1095				   port->port.port,
+  1096				   port->port.out_request_current_latency_seq & ~(1 << 31),
+  1097				   ktime_ms_delta(ktime_get(),
+  1098						  port->port.out_request_current_latency_ts));
+  1099	}
+  1100	
+  1101	static void extron_adap_status(struct cec_adapter *adap, struct seq_file *file)
+  1102	{
+  1103		struct extron_port *port = cec_get_drvdata(adap);
+  1104		struct extron *extron = port->extron;
+  1105		unsigned int i;
+  1106	
+  1107		log_printf(adap, file, "name: %s type: %s\n",
+  1108			   extron->unit_name, extron->unit_type);
+  1109		log_printf(adap, file, "model: 60-160%c-01 (1 input, %u outputs)\n",
+  1110			   '6' + extron->num_out_ports / 2, extron->num_out_ports);
+  1111		log_printf(adap, file, "firmware version: %s CEC engine version: %s\n",
+  1112			   extron->unit_fw_version, extron->unit_cec_engine_version);
+  1113		if (extron->hpd_never_low)
+  1114			log_printf(adap, file, "always keep input HPD high\n");
+  1115		else
+  1116			log_printf(adap, file,
+  1117				   "pull input HPD low if all output HPDs are low\n");
+  1118		if (vendor_id)
+  1119			log_printf(adap, file,
+  1120				   "splitter vendor ID: 0x%06x\n", vendor_id);
+  1121		if (manufacturer_name[0])
+  1122			log_printf(adap, file, "splitter manufacturer name: %s\n",
+  1123				   manufacturer_name);
+  1124		log_printf(adap, file, "splitter power status: %s\n",
+  1125			   pwr_state[extron->splitter.is_standby]);
+  1126		log_printf(adap, file, "%s port: %d (%s)\n",
+  1127			   port->is_input ? "input" : "output",
+  1128			   port->port.port, port->name);
+  1129		log_printf(adap, file, "splitter input port:\n");
+  1130		extron_adap_status_port(extron->ports[extron->num_out_ports], file);
+  1131	
+  1132		log_printf(adap, file, "splitter output ports:\n");
+  1133		for (i = 0; i < extron->num_out_ports; i++)
+  1134			extron_adap_status_port(extron->ports[i], file);
+  1135	
+  1136		if (!port->has_edid || !port->read_edid)
+  1137			return;
+  1138	
+  1139		for (i = 0; i < port->edid_blocks * 128; i += 16) {
+  1140			if (i % 128 == 0)
+  1141				log_printf(adap, file, "\n");
+  1142			log_printf(adap, file, "EDID: %*ph\n", 16, port->edid + i);
+  1143		}
+  1144	}
+  1145	
+  1146	static const struct cec_adap_ops extron_cec_adap_ops = {
+  1147		.adap_enable = extron_cec_adap_enable,
+  1148		.adap_log_addr = extron_cec_adap_log_addr,
+  1149		.adap_transmit = extron_cec_adap_transmit,
+  1150		.adap_configured = extron_cec_adap_configured,
+  1151		.adap_status = extron_adap_status,
+  1152		.received = extron_received,
+  1153	};
+  1154	
+  1155	static int extron_querycap(struct file *file, void *priv,
+  1156				   struct v4l2_capability *cap)
+  1157	{
+  1158		struct extron_port *port = video_drvdata(file);
+  1159	
+  1160		strscpy(cap->driver, "extron-da-hd-4k-plus-cec", sizeof(cap->driver));
+  1161		strscpy(cap->card, cap->driver, sizeof(cap->card));
+  1162		snprintf(cap->bus_info, sizeof(cap->bus_info),
+> 1163			 "serio:%s", port->name);
+  1164		return 0;
+  1165	}
+  1166	
 
 -- 
 0-DAY CI Kernel Test Service
