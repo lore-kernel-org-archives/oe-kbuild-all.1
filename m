@@ -1,146 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D137A1804D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 12:50:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31BD225C2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 12:52:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jl609dh4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697719813; x=1729255813;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+wB86GoqdauFfotmqJEugQ98KtnM4Buboa+WlRVu+L4=;
-  b=jl609dh4hLrgX58WXqccASOFuTR4XuR//Sl5QedvgXJv7iC0uClhECik
-   y+w1DTQ0Oer4MkcR1lpTd7//fMx28qlUUcF/7xpfVW0bFXXKypXAmicqD
-   90RQNJGyySyXRaDnD6wIErGhx53Fv2ARm9cwImQW9sVhZVL5BdakH8Pkx
-   5tU67HAk6l2KYm+O/bwbPl/5YXY/3M5WMqsTJ/peYTecP+z/yAFPJqmdG
-   osQ2KS9uZKCTb+fiF5p2rNSqUu46t+9gVLd9XE8JybPcbHL5KW483CUhm
-   IkYffPNkGDEtbSTVZgvAew37ZaKJPPLzlwddFOFFIVlqLiUM2KmslVJQ+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="452709302"
-X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
-   d="scan'208";a="452709302"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 05:50:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="757010036"
-X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
-   d="scan'208";a="757010036"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 19 Oct 2023 05:50:10 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qtSTY-00027G-0t;
-	Thu, 19 Oct 2023 12:50:08 +0000
-Date: Thu, 19 Oct 2023 20:49:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Etienne Carriere <etienne.carriere@foss.st.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Sumit Garg <sumit.garg@linaro.org>,
-	linux-arm-kernel@lists.infradead.org,
-	op-tee@lists.trustedfirmware.org,
-	Jerome Forissier <jerome.forissier@linaro.org>,
-	Etienne Carriere <etienne.carriere@foss.st.com>
-Subject: Re: [PATCH v11 1/4] tee: optee: system call property
-Message-ID: <202310192021.fvb6JDOY-lkp@intel.com>
-References: <20231016090428.1369071-2-etienne.carriere@foss.st.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Hgp67Ae3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1697719965;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ohIrkU1MoOHwDd3T0XO8iBUZPEwFVjNbUng/BW5LueQ=;
+	b=Hgp67Ae30p7K5LI+tQ6LMoDBM2vSdyqQPOMPachOL4xNDONVEKLV1x0tpQ23AnS4340JCI
+	mYSjfm2mqnDJ9H49Pc1UhynopPGW4x1oaSkvecRGsG4vp+CEkt+msG6LubaXSzU7HVV87B
+	Ty6tr5stCQoUgN6t0wSvPzrZh11+axY=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-180-R2tt9PTIOuqSLRbcT2YNdA-1; Thu, 19 Oct 2023 08:52:42 -0400
+X-MC-Unique: R2tt9PTIOuqSLRbcT2YNdA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DE8743C100A4;
+	Thu, 19 Oct 2023 12:52:41 +0000 (UTC)
+Received: from [192.168.37.1] (unknown [10.22.48.7])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D73B9492BEF;
+	Thu, 19 Oct 2023 12:52:40 +0000 (UTC)
+From: Benjamin Coddington <bcodding@redhat.com>
+To: kernel test robot <lkp@intel.com>
+Cc: trond.myklebust@hammerspace.com, anna@kernel.org,
+ oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org
+Subject: Re: [PATCH 2/2] NFSv4: Allow per-mount tuning of READDIR attrs
+Date: Thu, 19 Oct 2023 08:52:39 -0400
+Message-ID: <4DAD36B1-71D1-486A-8BC2-C3E447D8AB00@redhat.com>
+In-Reply-To: <202310191902.6BOby9rI-lkp@intel.com>
+References: <bd900de1d19bc56e6df5b44379f373617acc894e.1697577945.git.bcodding@redhat.com>
+ <202310191902.6BOby9rI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231016090428.1369071-2-etienne.carriere@foss.st.com>
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
 
-Hi Etienne,
+On 19 Oct 2023, at 8:06, kernel test robot wrote:
 
-kernel test robot noticed the following build warnings:
+> Hi Benjamin,
+>
+> kernel test robot noticed the following build errors:
 
-[auto build test WARNING on soc/for-next]
-[also build test WARNING on linus/master v6.6-rc6 next-20231019]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks robot.   I need to drop the sysfs code without CONFIG_NFS_V4.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Etienne-Carriere/tee-optee-system-call-property/20231017-135906
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20231016090428.1369071-2-etienne.carriere%40foss.st.com
-patch subject: [PATCH v11 1/4] tee: optee: system call property
-config: arm64-randconfig-001-20231019 (https://download.01.org/0day-ci/archive/20231019/202310192021.fvb6JDOY-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310192021.fvb6JDOY-lkp@intel.com/reproduce)
+I will send another version.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310192021.fvb6JDOY-lkp@intel.com/
+Ben
 
-All warnings (new ones prefixed by >>):
-
->> drivers/tee/optee/ffa_abi.c:618: warning: Function parameter or member 'system_thread' not described in 'optee_ffa_do_call_with_arg'
---
-   drivers/tee/optee/smc_abi.c:818: warning: Function parameter or member 'rpc_arg' not described in 'optee_handle_rpc'
->> drivers/tee/optee/smc_abi.c:890: warning: Function parameter or member 'system_thread' not described in 'optee_smc_do_call_with_arg'
-
-
-vim +618 drivers/tee/optee/ffa_abi.c
-
-4615e5a34b95e0 Jens Wiklander   2021-07-21  602  
-4615e5a34b95e0 Jens Wiklander   2021-07-21  603  /**
-4615e5a34b95e0 Jens Wiklander   2021-07-21  604   * optee_ffa_do_call_with_arg() - Do a FF-A call to enter OP-TEE in secure world
-4615e5a34b95e0 Jens Wiklander   2021-07-21  605   * @ctx:	calling context
-4615e5a34b95e0 Jens Wiklander   2021-07-21  606   * @shm:	shared memory holding the message to pass to secure world
-5b4018b959149e Jens Wiklander   2022-01-25  607   * @offs:	offset of the message in @shm
-4615e5a34b95e0 Jens Wiklander   2021-07-21  608   *
-4615e5a34b95e0 Jens Wiklander   2021-07-21  609   * Does a FF-A call to OP-TEE in secure world and handles eventual resulting
-4615e5a34b95e0 Jens Wiklander   2021-07-21  610   * Remote Procedure Calls (RPC) from OP-TEE.
-4615e5a34b95e0 Jens Wiklander   2021-07-21  611   *
-4615e5a34b95e0 Jens Wiklander   2021-07-21  612   * Returns return code from FF-A, 0 is OK
-4615e5a34b95e0 Jens Wiklander   2021-07-21  613   */
-4615e5a34b95e0 Jens Wiklander   2021-07-21  614  
-4615e5a34b95e0 Jens Wiklander   2021-07-21  615  static int optee_ffa_do_call_with_arg(struct tee_context *ctx,
-9f34a9d2a70d79 Etienne Carriere 2023-10-16  616  				      struct tee_shm *shm, u_int offs,
-9f34a9d2a70d79 Etienne Carriere 2023-10-16  617  				      bool system_thread)
-4615e5a34b95e0 Jens Wiklander   2021-07-21 @618  {
-4615e5a34b95e0 Jens Wiklander   2021-07-21  619  	struct ffa_send_direct_data data = {
-4615e5a34b95e0 Jens Wiklander   2021-07-21  620  		.data0 = OPTEE_FFA_YIELDING_CALL_WITH_ARG,
-4615e5a34b95e0 Jens Wiklander   2021-07-21  621  		.data1 = (u32)shm->sec_world_id,
-4615e5a34b95e0 Jens Wiklander   2021-07-21  622  		.data2 = (u32)(shm->sec_world_id >> 32),
-5b4018b959149e Jens Wiklander   2022-01-25  623  		.data3 = offs,
-4615e5a34b95e0 Jens Wiklander   2021-07-21  624  	};
-4064c461148ab1 Jens Wiklander   2021-12-28  625  	struct optee_msg_arg *arg;
-4064c461148ab1 Jens Wiklander   2021-12-28  626  	unsigned int rpc_arg_offs;
-4064c461148ab1 Jens Wiklander   2021-12-28  627  	struct optee_msg_arg *rpc_arg;
-4064c461148ab1 Jens Wiklander   2021-12-28  628  
-a639b2b18a240d Jens Wiklander   2022-01-12  629  	/*
-a639b2b18a240d Jens Wiklander   2022-01-12  630  	 * The shared memory object has to start on a page when passed as
-a639b2b18a240d Jens Wiklander   2022-01-12  631  	 * an argument struct. This is also what the shm pool allocator
-a639b2b18a240d Jens Wiklander   2022-01-12  632  	 * returns, but check this before calling secure world to catch
-a639b2b18a240d Jens Wiklander   2022-01-12  633  	 * eventual errors early in case something changes.
-a639b2b18a240d Jens Wiklander   2022-01-12  634  	 */
-a639b2b18a240d Jens Wiklander   2022-01-12  635  	if (shm->offset)
-a639b2b18a240d Jens Wiklander   2022-01-12  636  		return -EINVAL;
-a639b2b18a240d Jens Wiklander   2022-01-12  637  
-5b4018b959149e Jens Wiklander   2022-01-25  638  	arg = tee_shm_get_va(shm, offs);
-4064c461148ab1 Jens Wiklander   2021-12-28  639  	if (IS_ERR(arg))
-4064c461148ab1 Jens Wiklander   2021-12-28  640  		return PTR_ERR(arg);
-4064c461148ab1 Jens Wiklander   2021-12-28  641  
-4064c461148ab1 Jens Wiklander   2021-12-28  642  	rpc_arg_offs = OPTEE_MSG_GET_ARG_SIZE(arg->num_params);
-5b4018b959149e Jens Wiklander   2022-01-25  643  	rpc_arg = tee_shm_get_va(shm, offs + rpc_arg_offs);
-4064c461148ab1 Jens Wiklander   2021-12-28  644  	if (IS_ERR(rpc_arg))
-4064c461148ab1 Jens Wiklander   2021-12-28  645  		return PTR_ERR(rpc_arg);
-4615e5a34b95e0 Jens Wiklander   2021-07-21  646  
-9f34a9d2a70d79 Etienne Carriere 2023-10-16  647  	return optee_ffa_yielding_call(ctx, &data, rpc_arg, system_thread);
-4615e5a34b95e0 Jens Wiklander   2021-07-21  648  }
-4615e5a34b95e0 Jens Wiklander   2021-07-21  649  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
