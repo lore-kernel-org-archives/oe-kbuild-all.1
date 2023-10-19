@@ -1,51 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332187F0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 02:23:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB973808
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 02:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k3rOHgk6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697682225; x=1729218225;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gX5iJ38ZQvf5cWeS4R0xMfAt/hXJIpQcACVP6RF0PXs=;
-  b=k3rOHgk63hVrjGWB/A4EJVTIpcfxMyneEj0Os1Uo+vscVr4BegrOAx5X
-   UfiU+xv4JRKQ80cDa4Hgj3A2p1bbwHSFWIZm52ik0avqQjyBHctHSB2SW
-   w8JFiyGzBBcMm8jRBleQvF5vrsanigLH5boQnOAJq+3V9Q83D0jERJ/BK
-   m0fea2lVKYlMwXl5d6uqI7aHFUE9A8KWcgGrS4jTXXF/ibeWz9sPW+9w6
-   AB1tnGbDysua7PkoXnZ4/9Gx8eykNCGD0L1LBwf60KT6Dsavu0oLnEA5G
-   SYRHhKO6tv+JcHh8zKTxAH9jLWD5wsumPrMtFV1srZVx8WDswwciZxLhP
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="417268319"
-X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="417268319"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 19:23:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="4782300"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Oct 2023 19:23:44 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qtIhH-0001Ry-0I;
-	Thu, 19 Oct 2023 02:23:39 +0000
-Date: Thu, 19 Oct 2023 10:23:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: "David E. Box" <david.e.box@linux.intel.com>,
-	linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-	dave.hansen@linux.intel.com, arnd@arndb.de, peterz@infradead.org,
-	aleksander.lobakin@intel.com, ilpo.jarvinen@linux.intel.com,
-	rajvi.jingar@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH V4 10/17] linux/io.h: iounmap/ioport_unmap cleanup.h
- support
-Message-ID: <202310191053.t22G0O9p-lkp@intel.com>
-References: <20231018231624.1044633-11-david.e.box@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QwItNz3R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1697682512;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U3e/R8h8CUl6Qt8HzoNg568ab2TdGmvLJ3uBUWajvX8=;
+	b=QwItNz3RakzvaWt1AwSLGsq6K37izQx3CHpNro2xoBj/LrlAzOrI9gcShmVrfOVydKc/ff
+	CC0fQuOoroFxvLyI3MpsEyhRUsJeLM+vb9D4odKfj8A5ef+9XUSvYnR4pn0tCIPQ54nfWK
+	desrPpuAXhhi0S/Y3f5cfc8dtzkZPLc=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-544-Xqo4N_V8NMSwLG0l_9noLA-1; Wed, 18 Oct 2023 22:28:27 -0400
+X-MC-Unique: Xqo4N_V8NMSwLG0l_9noLA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7FC7D29AA383;
+	Thu, 19 Oct 2023 02:28:26 +0000 (UTC)
+Received: from localhost (unknown [10.72.112.51])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B79DB503B;
+	Thu, 19 Oct 2023 02:28:25 +0000 (UTC)
+Date: Thu, 19 Oct 2023 10:28:21 +0800
+From: Baoquan He <bhe@redhat.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	Philip Li <philip.li@intel.com>, oe-kbuild@lists.linux.dev,
+	Lorenzo Stoakes <lstoakes@gmail.com>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm'
+ could be null (see line 3667)
+Message-ID: <ZTCURc8ZQE+KrTvS@MiWiFi-R3L-srv>
+References: <f82be227-bfde-439a-b339-1b4ee370d59a@kadam.mountain>
+ <ZS+dSd9Z6/2wU0Eg@MiWiFi-R3L-srv>
+ <89caf59a-d3b9-409d-b1ae-9e370cb9ee7d@kadam.mountain>
+ <ZS/LrhcxcMOgiiX5@MiWiFi-R3L-srv>
+ <ZS/TVMT9ed7OdyNy@rli9-mobl>
+ <ZS/2k6DIMd0tZRgK@MiWiFi-R3L-srv>
+ <20231018085248.6f3f36101cbdfe0990c8b467@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,288 +55,131 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231018231624.1044633-11-david.e.box@linux.intel.com>
+In-Reply-To: <20231018085248.6f3f36101cbdfe0990c8b467@linux-foundation.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
 
-Hi David,
+On 10/18/23 at 08:52am, Andrew Morton wrote:
+> On Wed, 18 Oct 2023 23:15:31 +0800 Baoquan He <bhe@redhat.com> wrote:
+> 
+> > From: Baoquan He <bhe@redhat.com>
+> > Date: Wed, 18 Oct 2023 22:50:14 +0800
+> > Subject: [PATCH] mm/vmalloc: fix the unchecked dereference warning in vread_iter()
+> > Content-type: text/plain
+> > 
+> > LKP reported smatch warning as below:
+> > 
+> > ===================
+> > smatch warnings:
+> > mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm' could be null (see line 3667)
+> > ......
+> > 06c8994626d1b7  @3667 size = vm ? get_vm_area_size(vm) : va_size(va);
+> > ......
+> > 06c8994626d1b7  @3689 else if (!(vm->flags & VM_IOREMAP))
+> >                                  ^^^^^^^^^
+> > Unchecked dereference
+> > =====================
+> > 
+> > So add checking on whether 'vm' is not null when dereferencing it in
+> > vread_iter(). This mutes smatch complaint.
+> > 
+> > ...
+> >
+> > --- a/mm/vmalloc.c
+> > +++ b/mm/vmalloc.c
+> > @@ -3813,7 +3813,7 @@ long vread_iter(struct iov_iter *iter, const char *addr, size_t count)
+> >  
+> >  		if (flags & VMAP_RAM)
+> >  			copied = vmap_ram_vread_iter(iter, addr, n, flags);
+> > -		else if (!(vm->flags & VM_IOREMAP))
+> > +		else if (!(vm && (vm->flags & VM_IOREMAP)))
+> >  			copied = aligned_vread_iter(iter, addr, n);
+> >  		else /* IOREMAP area is treated as memory hole */
+> >  			copied = zero_iter(iter, n);
+> 
+> So is this not a real runtime bug?  We're only doing this to suppress a
+> smatch warning?
+> 
+> If so, can we please include a description of *why* this wasn't a bug? 
+> What conditions ensure that vm!=NULL at this point?
 
-kernel test robot noticed the following build errors:
+I think this is not a real runtime bug. The only chance it can hapen is
+when (flags == VMAP_BLOCK) is true. That has been warned and could never
+happen. I updated patch log and paste v2 here. 
 
-[auto build test ERROR on 3f720b21ec5af466e50e99dc517af267b67d248c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-E-Box/platform-x86-intel-vsec-Move-structures-to-header/20231019-071914
-base:   3f720b21ec5af466e50e99dc517af267b67d248c
-patch link:    https://lore.kernel.org/r/20231018231624.1044633-11-david.e.box%40linux.intel.com
-patch subject: [PATCH V4 10/17] linux/io.h: iounmap/ioport_unmap cleanup.h support
-config: um-defconfig (https://download.01.org/0day-ci/archive/20231019/202310191053.t22G0O9p-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310191053.t22G0O9p-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310191053.t22G0O9p-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/preempt.h:11,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/kref.h:16,
-                    from include/linux/mm_types.h:8,
-                    from include/linux/buildid.h:5,
-                    from include/linux/module.h:14,
-                    from init/main.c:17:
-   include/linux/io.h: In function '__free_ioport_unmap':
->> include/linux/io.h:25:43: error: implicit declaration of function 'ioport_unmap' [-Werror=implicit-function-declaration]
-      25 | DEFINE_FREE(ioport_unmap, void __iomem *, ioport_unmap(_T));
-         |                                           ^~~~~~~~~~~~
-   include/linux/cleanup.h:38:78: note: in definition of macro 'DEFINE_FREE'
-      38 |         static inline void __free_##_name(void *p) { _type _T = *(_type *)p; _free; }
-         |                                                                              ^~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/irqflags.h:16,
-                    from include/linux/rcupdate.h:26,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from arch/x86/um/syscalls_64.c:8:
-   include/linux/io.h: In function '__free_ioport_unmap':
->> include/linux/io.h:25:43: error: implicit declaration of function 'ioport_unmap' [-Werror=implicit-function-declaration]
-      25 | DEFINE_FREE(ioport_unmap, void __iomem *, ioport_unmap(_T));
-         |                                           ^~~~~~~~~~~~
-   include/linux/cleanup.h:38:78: note: in definition of macro 'DEFINE_FREE'
-      38 |         static inline void __free_##_name(void *p) { _type _T = *(_type *)p; _free; }
-         |                                                                              ^~~~~
-   arch/x86/um/syscalls_64.c: At top level:
-   arch/x86/um/syscalls_64.c:84:6: warning: no previous prototype for 'arch_switch_to' [-Wmissing-prototypes]
-      84 | void arch_switch_to(struct task_struct *to)
-         |      ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/preempt.h:11,
-                    from include/linux/percpu.h:6,
-                    from include/linux/context_tracking_state.h:5,
-                    from include/linux/hardirq.h:5,
-                    from include/linux/interrupt.h:11,
-                    from kernel/panic.c:14:
-   include/linux/io.h: In function '__free_ioport_unmap':
->> include/linux/io.h:25:43: error: implicit declaration of function 'ioport_unmap' [-Werror=implicit-function-declaration]
-      25 | DEFINE_FREE(ioport_unmap, void __iomem *, ioport_unmap(_T));
-         |                                           ^~~~~~~~~~~~
-   include/linux/cleanup.h:38:78: note: in definition of macro 'DEFINE_FREE'
-      38 |         static inline void __free_##_name(void *p) { _type _T = *(_type *)p; _free; }
-         |                                                                              ^~~~~
-   kernel/panic.c: In function '__warn':
-   kernel/panic.c:666:17: warning: function '__warn' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     666 |                 vprintk(args->fmt, args->args);
-         |                 ^~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/irqflags.h:16,
-                    from include/linux/rcupdate.h:26,
-                    from include/linux/rcuwait.h:5,
-                    from include/linux/irq_work.h:6,
-                    from kernel/irq_work.c:12:
-   include/linux/io.h: In function '__free_ioport_unmap':
->> include/linux/io.h:25:43: error: implicit declaration of function 'ioport_unmap' [-Werror=implicit-function-declaration]
-      25 | DEFINE_FREE(ioport_unmap, void __iomem *, ioport_unmap(_T));
-         |                                           ^~~~~~~~~~~~
-   include/linux/cleanup.h:38:78: note: in definition of macro 'DEFINE_FREE'
-      38 |         static inline void __free_##_name(void *p) { _type _T = *(_type *)p; _free; }
-         |                                                                              ^~~~~
-   kernel/irq_work.c: At top level:
-   kernel/irq_work.c:72:13: warning: no previous prototype for 'arch_irq_work_raise' [-Wmissing-prototypes]
-      72 | void __weak arch_irq_work_raise(void)
-         |             ^~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/preempt.h:11,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/kref.h:16,
-                    from include/linux/mm_types.h:8,
-                    from include/linux/buildid.h:5,
-                    from include/linux/module.h:14,
-                    from arch/um/kernel/mem.c:7:
-   include/linux/io.h: In function '__free_ioport_unmap':
->> include/linux/io.h:25:43: error: implicit declaration of function 'ioport_unmap' [-Werror=implicit-function-declaration]
-      25 | DEFINE_FREE(ioport_unmap, void __iomem *, ioport_unmap(_T));
-         |                                           ^~~~~~~~~~~~
-   include/linux/cleanup.h:38:78: note: in definition of macro 'DEFINE_FREE'
-      38 |         static inline void __free_##_name(void *p) { _type _T = *(_type *)p; _free; }
-         |                                                                              ^~~~~
-   arch/um/kernel/mem.c: At top level:
-   arch/um/kernel/mem.c:202:8: warning: no previous prototype for 'pgd_alloc' [-Wmissing-prototypes]
-     202 | pgd_t *pgd_alloc(struct mm_struct *mm)
-         |        ^~~~~~~~~
-   arch/um/kernel/mem.c:215:7: warning: no previous prototype for 'uml_kmalloc' [-Wmissing-prototypes]
-     215 | void *uml_kmalloc(int size, int flags)
-         |       ^~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/preempt.h:11,
-                    from include/linux/percpu.h:6,
-                    from include/linux/context_tracking_state.h:5,
-                    from include/linux/hardirq.h:5,
-                    from arch/um/kernel/process.c:11:
-   include/linux/io.h: In function '__free_ioport_unmap':
->> include/linux/io.h:25:43: error: implicit declaration of function 'ioport_unmap' [-Werror=implicit-function-declaration]
-      25 | DEFINE_FREE(ioport_unmap, void __iomem *, ioport_unmap(_T));
-         |                                           ^~~~~~~~~~~~
-   include/linux/cleanup.h:38:78: note: in definition of macro 'DEFINE_FREE'
-      38 |         static inline void __free_##_name(void *p) { _type _T = *(_type *)p; _free; }
-         |                                                                              ^~~~~
-   arch/um/kernel/process.c: At top level:
-   arch/um/kernel/process.c:51:5: warning: no previous prototype for 'pid_to_processor_id' [-Wmissing-prototypes]
-      51 | int pid_to_processor_id(int pid)
-         |     ^~~~~~~~~~~~~~~~~~~
-   arch/um/kernel/process.c:87:7: warning: no previous prototype for '__switch_to' [-Wmissing-prototypes]
-      87 | void *__switch_to(struct task_struct *from, struct task_struct *to)
-         |       ^~~~~~~~~~~
-   arch/um/kernel/process.c: In function 'new_thread_handler':
-   arch/um/kernel/process.c:122:28: warning: variable 'n' set but not used [-Wunused-but-set-variable]
-     122 |         int (*fn)(void *), n;
-         |                            ^
-   arch/um/kernel/process.c: At top level:
-   arch/um/kernel/process.c:140:6: warning: no previous prototype for 'fork_handler' [-Wmissing-prototypes]
-     140 | void fork_handler(void)
-         |      ^~~~~~~~~~~~
-   arch/um/kernel/process.c:217:6: warning: no previous prototype for 'arch_cpu_idle' [-Wmissing-prototypes]
-     217 | void arch_cpu_idle(void)
-         |      ^~~~~~~~~~~~~
-   arch/um/kernel/process.c:253:5: warning: no previous prototype for 'copy_to_user_proc' [-Wmissing-prototypes]
-     253 | int copy_to_user_proc(void __user *to, void *from, int size)
-         |     ^~~~~~~~~~~~~~~~~
-   arch/um/kernel/process.c:263:5: warning: no previous prototype for 'clear_user_proc' [-Wmissing-prototypes]
-     263 | int clear_user_proc(void __user *buf, int size)
-         |     ^~~~~~~~~~~~~~~
-   arch/um/kernel/process.c:271:6: warning: no previous prototype for 'set_using_sysemu' [-Wmissing-prototypes]
-     271 | void set_using_sysemu(int value)
-         |      ^~~~~~~~~~~~~~~~
-   arch/um/kernel/process.c:278:5: warning: no previous prototype for 'get_using_sysemu' [-Wmissing-prototypes]
-     278 | int get_using_sysemu(void)
-         |     ^~~~~~~~~~~~~~~~
-   arch/um/kernel/process.c:316:12: warning: no previous prototype for 'make_proc_sysemu' [-Wmissing-prototypes]
-     316 | int __init make_proc_sysemu(void)
-         |            ^~~~~~~~~~~~~~~~
-   arch/um/kernel/process.c:356:15: warning: no previous prototype for 'arch_align_stack' [-Wmissing-prototypes]
-     356 | unsigned long arch_align_stack(unsigned long sp)
-         |               ^~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/irqflags.h:16,
-                    from include/linux/rcupdate.h:26,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from arch/um/kernel/um_arch.c:6:
-   include/linux/io.h: In function '__free_ioport_unmap':
->> include/linux/io.h:25:43: error: implicit declaration of function 'ioport_unmap' [-Werror=implicit-function-declaration]
-      25 | DEFINE_FREE(ioport_unmap, void __iomem *, ioport_unmap(_T));
-         |                                           ^~~~~~~~~~~~
-   include/linux/cleanup.h:38:78: note: in definition of macro 'DEFINE_FREE'
-      38 |         static inline void __free_##_name(void *p) { _type _T = *(_type *)p; _free; }
-         |                                                                              ^~~~~
-   arch/um/kernel/um_arch.c: At top level:
-   arch/um/kernel/um_arch.c:408:19: warning: no previous prototype for 'read_initrd' [-Wmissing-prototypes]
-     408 | int __init __weak read_initrd(void)
-         |                   ^~~~~~~~~~~
-   arch/um/kernel/um_arch.c:461:7: warning: no previous prototype for 'text_poke' [-Wmissing-prototypes]
-     461 | void *text_poke(void *addr, const void *opcode, size_t len)
-         |       ^~~~~~~~~
-   arch/um/kernel/um_arch.c:473:6: warning: no previous prototype for 'text_poke_sync' [-Wmissing-prototypes]
-     473 | void text_poke_sync(void)
-         |      ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/mutex.h:22,
-                    from include/linux/notifier.h:14,
-                    from include/linux/clk.h:14,
-                    from lib/vsprintf.c:22:
-   include/linux/io.h: In function '__free_ioport_unmap':
->> include/linux/io.h:25:43: error: implicit declaration of function 'ioport_unmap' [-Werror=implicit-function-declaration]
-      25 | DEFINE_FREE(ioport_unmap, void __iomem *, ioport_unmap(_T));
-         |                                           ^~~~~~~~~~~~
-   include/linux/cleanup.h:38:78: note: in definition of macro 'DEFINE_FREE'
-      38 |         static inline void __free_##_name(void *p) { _type _T = *(_type *)p; _free; }
-         |                                                                              ^~~~~
-   lib/vsprintf.c: In function 'va_format':
-   lib/vsprintf.c:1682:9: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    1682 |         buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
-         |         ^~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/preempt.h:11,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/debugobjects.h:6,
-                    from include/linux/timer.h:8,
-                    from include/linux/netdevice.h:24,
-                    from arch/um/os-Linux/drivers/ethertap_kern.c:10:
-   include/linux/io.h: In function '__free_ioport_unmap':
->> include/linux/io.h:25:43: error: implicit declaration of function 'ioport_unmap' [-Werror=implicit-function-declaration]
-      25 | DEFINE_FREE(ioport_unmap, void __iomem *, ioport_unmap(_T));
-         |                                           ^~~~~~~~~~~~
-   include/linux/cleanup.h:38:78: note: in definition of macro 'DEFINE_FREE'
-      38 |         static inline void __free_##_name(void *p) { _type _T = *(_type *)p; _free; }
-         |                                                                              ^~~~~
-   arch/um/os-Linux/drivers/ethertap_kern.c: At top level:
-   arch/um/os-Linux/drivers/ethertap_kern.c:66:5: warning: no previous prototype for 'ethertap_setup' [-Wmissing-prototypes]
-      66 | int ethertap_setup(char *str, char **mac_out, void *data)
-         |     ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/preempt.h:11,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/debugobjects.h:6,
-                    from include/linux/timer.h:8,
-                    from include/linux/netdevice.h:24,
-                    from arch/um/os-Linux/drivers/tuntap_kern.c:6:
-   include/linux/io.h: In function '__free_ioport_unmap':
->> include/linux/io.h:25:43: error: implicit declaration of function 'ioport_unmap' [-Werror=implicit-function-declaration]
-      25 | DEFINE_FREE(ioport_unmap, void __iomem *, ioport_unmap(_T));
-         |                                           ^~~~~~~~~~~~
-   include/linux/cleanup.h:38:78: note: in definition of macro 'DEFINE_FREE'
-      38 |         static inline void __free_##_name(void *p) { _type _T = *(_type *)p; _free; }
-         |                                                                              ^~~~~
-   arch/um/os-Linux/drivers/tuntap_kern.c: At top level:
-   arch/um/os-Linux/drivers/tuntap_kern.c:56:5: warning: no previous prototype for 'tuntap_setup' [-Wmissing-prototypes]
-      56 | int tuntap_setup(char *str, char **mac_out, void *data)
-         |     ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/preempt.h:11,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/kref.h:16,
-                    from include/linux/mm_types.h:8,
-                    from include/linux/buildid.h:5,
-                    from include/linux/module.h:14,
-                    from net/ipv4/route.c:63:
-   include/linux/io.h: In function '__free_ioport_unmap':
->> include/linux/io.h:25:43: error: implicit declaration of function 'ioport_unmap' [-Werror=implicit-function-declaration]
-      25 | DEFINE_FREE(ioport_unmap, void __iomem *, ioport_unmap(_T));
-         |                                           ^~~~~~~~~~~~
-   include/linux/cleanup.h:38:78: note: in definition of macro 'DEFINE_FREE'
-      38 |         static inline void __free_##_name(void *p) { _type _T = *(_type *)p; _free; }
-         |                                                                              ^~~~~
-   net/ipv4/route.c: In function 'ip_rt_send_redirect':
-   net/ipv4/route.c:880:13: warning: variable 'log_martians' set but not used [-Wunused-but-set-variable]
-     880 |         int log_martians;
-         |             ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-..
+                /*
+                 * VMAP_BLOCK indicates a sub-type of vm_map_ram area, need
+                 * be set together with VMAP_RAM.
+                 */
+                WARN_ON(flags == VMAP_BLOCK);
+ 
+                if (!vm && !flags)
+                        continue;
 
 
-vim +/ioport_unmap +25 include/linux/io.h
+From 89cc02302766ab7a67cc668390c24079b4a9406b Mon Sep 17 00:00:00 2001
+From: Baoquan He <bhe@redhat.com>
+Date: Wed, 18 Oct 2023 22:50:14 +0800
+Subject: [PATCH v2] mm/vmalloc: fix the unchecked dereference warning in vread_iter()
+Content-type: text/plain
 
-    23	
-    24	DEFINE_FREE(iounmap, void __iomem *, iounmap(_T));
-  > 25	DEFINE_FREE(ioport_unmap, void __iomem *, ioport_unmap(_T));
-    26	
+LKP reported smatch warning as below:
 
+===================
+smatch warnings:
+mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm' could be null (see line 3667)
+......
+06c8994626d1b7  @3667 size = vm ? get_vm_area_size(vm) : va_size(va);
+......
+06c8994626d1b7  @3689 else if (!(vm->flags & VM_IOREMAP))
+                                 ^^^^^^^^^
+Unchecked dereference
+=====================
+
+This is not a real-time bug because the possible null 'vm' in the pointed
+place could only happen when flags == VMAP_BLOCK. However, the case
+'flags == VMAP_BLOCK' should never happen and has been detected with WARN_ON.
+Please check vm_map_ram() implementation and the earlier checking in
+vread_iter() at below:
+
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~
+                /*
+                 * VMAP_BLOCK indicates a sub-type of vm_map_ram area, need
+                 * be set together with VMAP_RAM.
+                 */
+                WARN_ON(flags == VMAP_BLOCK);
+
+                if (!vm && !flags)
+                        continue;
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+So add checking on whether 'vm' could be null when dereferencing it in
+vread_iter(). This mutes smatch complaint.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/r/202310171600.WCrsOwFj-lkp@intel.com/
+Signed-off-by: Baoquan He <bhe@redhat.com>
+---
+v1->v2:
+- Update patch log to state that it's not a realtime bug as Andrew
+  suggested.
+
+ mm/vmalloc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index aad48ed8d86b..2cc992392db7 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -3813,7 +3813,7 @@ long vread_iter(struct iov_iter *iter, const char *addr, size_t count)
+ 
+ 		if (flags & VMAP_RAM)
+ 			copied = vmap_ram_vread_iter(iter, addr, n, flags);
+-		else if (!(vm->flags & VM_IOREMAP))
++		else if (!(vm && (vm->flags & VM_IOREMAP)))
+ 			copied = aligned_vread_iter(iter, addr, n);
+ 		else /* IOREMAP area is treated as memory hole */
+ 			copied = zero_iter(iter, n);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.41.0
+
