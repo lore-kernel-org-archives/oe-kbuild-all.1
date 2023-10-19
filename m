@@ -1,47 +1,49 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E610714F90
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 09:54:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3722D14F90;
+	Thu, 19 Oct 2023 09:54:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G4TbwX1W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ROHja2ae"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697709248; x=1729245248;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eWMuEnIoaq2jvsNHZnZBW3L1ASqmPmObE//wk/vcSe0=;
-  b=G4TbwX1WCJaV6y0aErQODXBFnPepEtKp7m81BPkimd7g8TLAYnxEXkEo
-   kS19rTyF1Z95U37QR3R71lqd1++BOLLNBu5x1pC9WK3DUfirmaE/WI1Z5
-   PdzhHfDZ3EMPoNEDSLRxBqixo7SM2buX4X6iicM6zuNV4lRVYb03hmQgE
-   +tcs0KfNOMsqYSfChx0fE8H0ROKZHYlrYfXmBdHnixLp4yVmeapdvtsU1
-   4qBidO3pkMYAyMlfs4cXz2IVcwFOveNW1w2mkpN7Gj8KCsAJwrO9h2J6+
-   7Lf7h0Wkprf62FlSg0ukAdqxo/yn/JWl+XbNZiBL2DY9YypgnUxL0UNev
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="365565815"
+  t=1697709252; x=1729245252;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DpWoKFS1wco1iGTyAsYaK+amZcKbFRnsbYOwb1MRs9M=;
+  b=ROHja2aeh4isGBY/TWjLxJSyALGoV9R86Ha4y2nRR0sBndBk9aLojZBI
+   hjsaW5mKa2Ti8YBPJ5nwuRfXtBq7gJ8BZH6+vRGfSLajYUPrnqZGsK2SB
+   EB5ZUCyYUvGJQdIGKdupjEmVlMjH8UVsaXCTc22RvYcB9Cib7kindo13r
+   euL2rwTaScvICdg7my7DP4u0WBdjRLHuvwcsfVTz/ZimRZueIOsBnBL/T
+   r+2G/YHOHddKi8nltBOZe/RxeV+Mce0nM5JBX3m4aKZa4l4PnHWtRsqO8
+   vNfuEF9/WVUiYwJJfqxSRDObhoWWzKdp8rp9nLIsy65jcVPo6dff63iiL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="365565816"
 X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="365565815"
+   d="scan'208";a="365565816"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 02:54:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="900681482"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="900681484"
 X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="900681482"
+   d="scan'208";a="900681484"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
   by fmsmga001.fm.intel.com with ESMTP; 19 Oct 2023 02:51:57 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtPj7-0001we-2P;
+	id 1qtPj7-0001wc-2L;
 	Thu, 19 Oct 2023 09:54:01 +0000
-Date: Thu, 19 Oct 2023 17:53:11 +0800
+Date: Thu, 19 Oct 2023 17:53:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jfern:sched/ilb-no-needs-kick 1/3]
- arch/mips/include/asm/cmpxchg.h:179:27: warning: passing argument 1 of
- '__cmpxchg' makes pointer from integer without a cast
-Message-ID: <202310191735.mbmfxRrW-lkp@intel.com>
+To: KaiLong Wang <wangkailong@jari.cn>, mark@fasheh.com, jlbec@evilplan.org,
+	akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, ocfs2-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ocfs2/dlm: Clean up errors in dlmdomain.c
+Message-ID: <202310191736.myy5k3i6-lkp@intel.com>
+References: <62e91e34.969.18b27f9ec40.Coremail.wangkailong@jari.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,176 +52,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <62e91e34.969.18b27f9ec40.Coremail.wangkailong@jari.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git sched/ilb-no-needs-kick
-head:   6a27fea4c21f111a2cb84908a209092104ed18fa
-commit: 52bc56376f3116e32c1cd4f9e00b9fff380ec0c3 [1/3] sched/nohz: Update nohz.next_balance directly without IPIs (v2)
-config: mips-xway_defconfig (https://download.01.org/0day-ci/archive/20231019/202310191735.mbmfxRrW-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310191735.mbmfxRrW-lkp@intel.com/reproduce)
+Hi KaiLong,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.6-rc6 next-20231019]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/KaiLong-Wang/ocfs2-dlm-Clean-up-errors-in-dlmdomain-c/20231017-115916
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/62e91e34.969.18b27f9ec40.Coremail.wangkailong%40jari.cn
+patch subject: [PATCH] ocfs2/dlm: Clean up errors in dlmdomain.c
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231019/202310191736.myy5k3i6-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310191736.myy5k3i6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310191735.mbmfxRrW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310191736.myy5k3i6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
-         |                  ^~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:191:34: error: initialization of 'int *' from incompatible pointer type 'long unsigned int *' [-Werror=incompatible-pointer-types]
-     191 |         typeof(*(_ptr)) *___op = (_oldp), ___o = *___op, ___r; \
-         |                                  ^
-   include/linux/atomic/atomic-instrumented.h:4838:9: note: in expansion of macro 'raw_try_cmpxchg'
-    4838 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~
-   kernel/sched/fair.c:11307:18: note: in expansion of macro 'try_cmpxchg'
-   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
-         |                  ^~~~~~~~~~~
-   In file included from arch/mips/include/asm/atomic.h:23,
-                    from include/linux/atomic.h:7:
-   arch/mips/include/asm/cmpxchg.h:186:20: error: invalid type argument of unary '*' (have 'int')
-     186 |         __typeof__(*(ptr)) __res;                                       \
-         |                    ^~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
-     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
-         |                ^~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4838:9: note: in expansion of macro 'raw_try_cmpxchg'
-    4838 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~
-   kernel/sched/fair.c:11307:18: note: in expansion of macro 'try_cmpxchg'
-   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
-         |                  ^~~~~~~~~~~
-   arch/mips/include/asm/cmpxchg.h:178:22: error: invalid type argument of unary '*' (have 'int')
-     178 |         ((__typeof__(*(ptr)))                                           \
-         |                      ^~~~~~
-   arch/mips/include/asm/cmpxchg.h:196:17: note: in expansion of macro 'arch_cmpxchg_local'
-     196 |         __res = arch_cmpxchg_local((ptr), (old), (new));                \
-         |                 ^~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
-     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
-         |                ^~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4838:9: note: in expansion of macro 'raw_try_cmpxchg'
-    4838 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~
-   kernel/sched/fair.c:11307:18: note: in expansion of macro 'try_cmpxchg'
-   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
-         |                  ^~~~~~~~~~~
-   arch/mips/include/asm/cmpxchg.h:180:54: error: invalid type argument of unary '*' (have 'int')
-     180 |                           (unsigned long)(__typeof__(*(ptr)))(old),     \
-         |                                                      ^~~~~~
-   arch/mips/include/asm/cmpxchg.h:196:17: note: in expansion of macro 'arch_cmpxchg_local'
-     196 |         __res = arch_cmpxchg_local((ptr), (old), (new));                \
-         |                 ^~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
-     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
-         |                ^~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4838:9: note: in expansion of macro 'raw_try_cmpxchg'
-    4838 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~
-   kernel/sched/fair.c:11307:18: note: in expansion of macro 'try_cmpxchg'
-   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
-         |                  ^~~~~~~~~~~
-   arch/mips/include/asm/cmpxchg.h:181:54: error: invalid type argument of unary '*' (have 'int')
-     181 |                           (unsigned long)(__typeof__(*(ptr)))(new),     \
-         |                                                      ^~~~~~
-   arch/mips/include/asm/cmpxchg.h:196:17: note: in expansion of macro 'arch_cmpxchg_local'
-     196 |         __res = arch_cmpxchg_local((ptr), (old), (new));                \
-         |                 ^~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
-     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
-         |                ^~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4838:9: note: in expansion of macro 'raw_try_cmpxchg'
-    4838 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~
-   kernel/sched/fair.c:11307:18: note: in expansion of macro 'try_cmpxchg'
-   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
-         |                  ^~~~~~~~~~~
-   arch/mips/include/asm/cmpxchg.h:182:34: error: invalid type argument of unary '*' (have 'int')
-     182 |                           sizeof(*(ptr))))
-         |                                  ^~~~~~
-   arch/mips/include/asm/cmpxchg.h:196:17: note: in expansion of macro 'arch_cmpxchg_local'
-     196 |         __res = arch_cmpxchg_local((ptr), (old), (new));                \
-         |                 ^~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
-     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
-         |                ^~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4838:9: note: in expansion of macro 'raw_try_cmpxchg'
-    4838 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~
-   kernel/sched/fair.c:11307:18: note: in expansion of macro 'try_cmpxchg'
-   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
-         |                  ^~~~~~~~~~~
->> arch/mips/include/asm/cmpxchg.h:179:27: warning: passing argument 1 of '__cmpxchg' makes pointer from integer without a cast [-Wint-conversion]
-     179 |                 __cmpxchg((ptr),                                        \
-         |                           ^~~~~
-         |                           |
-         |                           int
-   arch/mips/include/asm/cmpxchg.h:196:17: note: in expansion of macro 'arch_cmpxchg_local'
-     196 |         __res = arch_cmpxchg_local((ptr), (old), (new));                \
-         |                 ^~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
-     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
-         |                ^~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4838:9: note: in expansion of macro 'raw_try_cmpxchg'
-    4838 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~
-   kernel/sched/fair.c:11307:18: note: in expansion of macro 'try_cmpxchg'
-   11307 |         } while(!try_cmpxchg(&nohz.next_balance, &nohz_next_balance,
-         |                  ^~~~~~~~~~~
-   arch/mips/include/asm/cmpxchg.h:152:40: note: expected 'volatile void *' but argument is of type 'int'
-     152 | unsigned long __cmpxchg(volatile void *ptr, unsigned long old,
-         |                         ~~~~~~~~~~~~~~~^~~
-   kernel/sched/fair.c: At top level:
-   kernel/sched/fair.c:12831:6: warning: no previous prototype for 'free_fair_sched_group' [-Wmissing-prototypes]
-   12831 | void free_fair_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:12833:5: warning: no previous prototype for 'alloc_fair_sched_group' [-Wmissing-prototypes]
-   12833 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:12838:6: warning: no previous prototype for 'online_fair_sched_group' [-Wmissing-prototypes]
-   12838 | void online_fair_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:12840:6: warning: no previous prototype for 'unregister_fair_sched_group' [-Wmissing-prototypes]
-   12840 | void unregister_fair_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   fs/ocfs2/dlm/dlmdomain.c: In function 'dlm_alloc_pagevec':
+   fs/ocfs2/dlm/dlmdomain.c:78:9: warning: this 'for' clause does not guard... [-Wmisleading-indentation]
+      78 |         for (i = 0; i < pages; i++)
+         |         ^~~
+   fs/ocfs2/dlm/dlmdomain.c:80:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'for'
+      80 |                 if (!(vec[i]))
+         |                 ^~
+   fs/ocfs2/dlm/dlmdomain.c: In function 'dlm_alloc_pagevec.constprop':
+>> fs/ocfs2/dlm/dlmdomain.c:80:26: warning: array subscript 32 is outside array bounds of 'void[128]' [-Warray-bounds=]
+      80 |                 if (!(vec[i]))
+         |                      ~~~~^~~~
+   In file included from fs/ocfs2/dlm/dlmdomain.c:12:
+   In function 'kmalloc',
+       inlined from 'kmalloc_array' at include/linux/slab.h:635:10,
+       inlined from 'dlm_alloc_pagevec.constprop' at fs/ocfs2/dlm/dlmdomain.c:72:15:
+   include/linux/slab.h:599:24: note: at offset 128 into object of size 128 allocated by 'kmalloc_trace'
+     599 |                 return kmalloc_trace(
+         |                        ^~~~~~~~~~~~~~
+     600 |                                 kmalloc_caches[kmalloc_type(flags, _RET_IP_)][index],
+         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     601 |                                 flags, size);
+         |                                 ~~~~~~~~~~~~
 
 
-vim +/__cmpxchg +179 arch/mips/include/asm/cmpxchg.h
+vim +80 fs/ocfs2/dlm/dlmdomain.c
 
-8263db4d776844 Paul Burton  2017-06-09  176  
-c7b5fd6faa1dc6 Mark Rutland 2021-05-25  177  #define arch_cmpxchg_local(ptr, old, new)				\
-8263db4d776844 Paul Burton  2017-06-09  178  	((__typeof__(*(ptr)))						\
-8263db4d776844 Paul Burton  2017-06-09 @179  		__cmpxchg((ptr),					\
-8263db4d776844 Paul Burton  2017-06-09  180  			  (unsigned long)(__typeof__(*(ptr)))(old),	\
-8263db4d776844 Paul Burton  2017-06-09  181  			  (unsigned long)(__typeof__(*(ptr)))(new),	\
-8263db4d776844 Paul Burton  2017-06-09  182  			  sizeof(*(ptr))))
-8263db4d776844 Paul Burton  2017-06-09  183  
-
-:::::: The code at line 179 was first introduced by commit
-:::::: 8263db4d7768448cb06adbbdd14c613a1ea09830 MIPS: cmpxchg: Implement __cmpxchg() as a function
-
-:::::: TO: Paul Burton <paul.burton@imgtec.com>
-:::::: CC: Ralf Baechle <ralf@linux-mips.org>
+    69	
+    70	static void **dlm_alloc_pagevec(int pages)
+    71	{
+    72		void **vec = kmalloc_array(pages, sizeof(void *), GFP_KERNEL);
+    73		int i;
+    74	
+    75		if (!vec)
+    76			return NULL;
+    77	
+    78		for (i = 0; i < pages; i++)
+    79			vec[i] = (void *)__get_free_page(GFP_KERNEL);
+  > 80			if (!(vec[i]))
+    81				goto out_free;
+    82	
+    83		mlog(0, "Allocated DLM hash pagevec; %d pages (%lu expected), %lu buckets per page\n",
+    84		     pages, (unsigned long)DLM_HASH_PAGES,
+    85		     (unsigned long)DLM_BUCKETS_PER_PAGE);
+    86		return vec;
+    87	out_free:
+    88		dlm_free_pagevec(vec, i);
+    89		return NULL;
+    90	}
+    91	
 
 -- 
 0-DAY CI Kernel Test Service
