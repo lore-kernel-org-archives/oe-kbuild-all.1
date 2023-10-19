@@ -1,48 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF5919440
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 23:23:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2DD450D9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 23:44:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cdPgjKv9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cp0fWF2K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697757817; x=1729293817;
+  t=1697759077; x=1729295077;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rKQ5yE8TuY6zKrse41m44t5g4NIEJIfLSgs8jCyZ3PA=;
-  b=cdPgjKv9/ADK4epC3S06vk3YNbkJBO6xqr7Dm8UGdiUfby60OOZUh63l
-   6pTA8azx87VTaun84F8JcPKg/26fHOzht+uR+p82qOTlL39ZbAgVyKjkH
-   lqRfFZ50zgIXAAyx+FwjCY6mh6Q9/ePm81Vm+R7ZNJhKavJvPvmJ+Lh8/
-   fldSrPvd1kX1eJphmQwxaNl9WOp0UWiLGzxLA0YVJOcuMwjrtntFfYZ6n
-   KXtnHVLgt4Ca2/B1CANgH337eE8zY29NhilzS4FPbzMVybyOtAjNxgQQV
-   7Je2V9ynC18b/NajHfP9Jd+AFP4CJXVXGUC8rEA0wG4Glg76rAySerFfR
+  bh=FI7/i+hUGA4wnGSKjXuSotmFKv24eoBkB67qIDv2jkM=;
+  b=Cp0fWF2KURIBNcmkO7jKkIbZqLGK+oZwqtsE4t788LxHKU3ZMF3seMGl
+   JdjXf4UqiMG+JRaI2630XftknXBr88AW+w7/OxH4cRIKZY+pN5rZs+UHT
+   mDkPtRF2+FUNd37E/9SqYpnqngNEIweBbWmDxhHcnFv7YvixQTT5kAq0X
+   t1Uqp1v6+kZIiD8+yKYax5i39eysGtI90AlskzvkMWqchgGsoucM3a94T
+   xa2HXSFYcz3qzi8ilayymMEiGFvwA9qhlKCAZOr++QejdQqcXIQGoipzP
+   foWd6adbYJWPTLMeOM3kXhGWO65hZLEBY069DjqY5ki8Bb8//HGndS+ve
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="450615133"
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="390276313"
 X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="450615133"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 16:23:36 -0700
+   d="scan'208";a="390276313"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 16:44:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="827530162"
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="757250416"
 X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="827530162"
+   d="scan'208";a="757250416"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Oct 2023 16:23:35 -0700
+  by orsmga002.jf.intel.com with ESMTP; 19 Oct 2023 16:44:35 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtcMW-0002i8-2A;
-	Thu, 19 Oct 2023 23:23:32 +0000
-Date: Fri, 20 Oct 2023 07:23:27 +0800
+	id 1qtcgq-0002ii-3A;
+	Thu, 19 Oct 2023 23:44:32 +0000
+Date: Fri, 20 Oct 2023 07:44:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>
-Subject: sound/usb/mixer_scarlett_gen2.c:3135:48: error: ' Volume Control
- Playback Enum' directive output may be truncated writing 29 bytes into a
- region of size between 25 and 33
-Message-ID: <202310200711.olDz9VTe-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/010-soc 5/14] drivers/soc/apple/mailbox.c:151:24:
+ error: implicit declaration of function 'FIELD_PREP'
+Message-ID: <202310200739.MecFsbcj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,145 +50,180 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ce55c22ec8b223a90ff3e084d842f73cfba35588
-commit: c27cd083cfb9d392f304657ed00fcde1136704e7 Compiler attributes: GCC cold function alignment workarounds
-date:   9 months ago
-config: x86_64-sof-customedconfig-memory-debug-defconfig (https://download.01.org/0day-ci/archive/20231020/202310200711.olDz9VTe-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310200711.olDz9VTe-lkp@intel.com/reproduce)
+Hi Hector,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/AsahiLinux/linux bits/010-soc
+head:   abc064b291ae70bd89dd4b95a587bd87c8b86585
+commit: b7bac953131b5769237f66dd4eec916a2b486c05 [5/14] soc: apple: mailbox: Add ASC/M3 mailbox driver
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20231020/202310200739.MecFsbcj-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310200739.MecFsbcj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310200711.olDz9VTe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310200739.MecFsbcj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sound/usb/mixer_scarlett_gen2.c: In function 'snd_scarlett_gen2_init':
->> sound/usb/mixer_scarlett_gen2.c:3135:48: error: ' Volume Control Playback Enum' directive output may be truncated writing 29 bytes into a region of size between 25 and 33 [-Werror=format-truncation=]
-    3135 |                                  "Line Out %02d Volume Control Playback Enum",
-         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/usb/mixer_scarlett_gen2.c:3134:25: note: 'snprintf' output between 41 and 49 bytes into a destination of size 44
-    3134 |                         snprintf(s, sizeof(s),
-         |                         ^~~~~~~~~~~~~~~~~~~~~~
-    3135 |                                  "Line Out %02d Volume Control Playback Enum",
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    3136 |                                  i + 1);
-         |                                  ~~~~~~
-   sound/usb/mixer_scarlett_gen2.c:3175:54: error: '%s' directive output may be truncated writing 6 bytes into a region of size between 2 and 10 [-Werror=format-truncation=]
-    3175 |         const char *fmt2 = "Line In %d-%d %s Capture %s";
-         |                                                      ^~
-   ......
-    3222 |                                  "Phantom Power", "Switch");
-         |                                                   ~~~~~~~~
-   sound/usb/mixer_scarlett_gen2.c:3221:25: note: 'snprintf' output between 41 and 49 bytes into a destination of size 44
-    3221 |                         snprintf(s, sizeof(s), fmt2, from, to,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    3222 |                                  "Phantom Power", "Switch");
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+   In file included from include/linux/byteorder/little_endian.h:5,
+                    from arch/riscv/include/uapi/asm/byteorder.h:10,
+                    from include/asm-generic/qrwlock_types.h:6,
+                    from ./arch/riscv/include/generated/asm/qrwlock_types.h:1,
+                    from include/asm-generic/spinlock_types.h:13,
+                    from ./arch/riscv/include/generated/asm/spinlock_types.h:1,
+                    from include/linux/spinlock_types_raw.h:7,
+                    from include/linux/ratelimit_types.h:7,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:22,
+                    from arch/riscv/include/asm/bug.h:83,
+                    from include/linux/bug.h:5,
+                    from arch/riscv/include/asm/current.h:13,
+                    from include/linux/sched.h:12,
+                    from include/linux/delay.h:23,
+                    from drivers/soc/apple/mailbox.c:19:
+   drivers/soc/apple/mailbox.c: In function 'apple_mbox_send':
+>> drivers/soc/apple/mailbox.c:151:24: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+     151 |         writeq_relaxed(FIELD_PREP(APPLE_MBOX_MSG1_MSG, msg.msg1),
+         |                        ^~~~~~~~~~
+   include/uapi/linux/byteorder/little_endian.h:32:51: note: in definition of macro '__cpu_to_le64'
+      32 | #define __cpu_to_le64(x) ((__force __le64)(__u64)(x))
+         |                                                   ^
+   arch/riscv/include/asm/mmio.h:124:48: note: in expansion of macro 'writeq_cpu'
+     124 | #define writeq_relaxed(v, c)    ({ __io_rbw(); writeq_cpu((v), (c)); __io_raw(); })
+         |                                                ^~~~~~~~~~
+   drivers/soc/apple/mailbox.c:151:9: note: in expansion of macro 'writeq_relaxed'
+     151 |         writeq_relaxed(FIELD_PREP(APPLE_MBOX_MSG1_MSG, msg.msg1),
+         |         ^~~~~~~~~~~~~~
+   drivers/soc/apple/mailbox.c: In function 'apple_mbox_poll_locked':
+>> drivers/soc/apple/mailbox.c:188:28: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+     188 |                 msg.msg1 = FIELD_GET(
+         |                            ^~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +3135 sound/usb/mixer_scarlett_gen2.c
+vim +/FIELD_PREP +151 drivers/soc/apple/mailbox.c
 
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3075  
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3076  static int scarlett2_add_line_out_ctls(struct usb_mixer_interface *mixer)
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3077  {
-e46f2195c86b00 Geoffrey D. Bennett 2021-06-21  3078  	struct scarlett2_data *private = mixer->private_data;
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3079  	const struct scarlett2_device_info *info = private->info;
-e2cc91ac8f4e1b Geoffrey D. Bennett 2021-06-22  3080  	const int (*port_count)[SCARLETT2_PORT_DIRNS] = info->port_count;
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3081  	int num_line_out =
-e2cc91ac8f4e1b Geoffrey D. Bennett 2021-06-22  3082  		port_count[SCARLETT2_PORT_TYPE_ANALOGUE][SCARLETT2_PORT_OUT];
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3083  	int err, i;
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3084  	char s[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3085  
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3086  	/* Add R/O HW volume control */
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3087  	if (info->line_out_hw_vol) {
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3088  		snprintf(s, sizeof(s), "Master HW Playback Volume");
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3089  		err = scarlett2_add_new_ctl(mixer,
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3090  					    &scarlett2_master_volume_ctl,
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3091  					    0, 1, s, &private->master_vol_ctl);
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3092  		if (err < 0)
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3093  			return err;
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3094  	}
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3095  
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3096  	/* Add volume controls */
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3097  	for (i = 0; i < num_line_out; i++) {
-9cfe1276a6736f Geoffrey D. Bennett 2021-06-23  3098  		int index = line_out_remap(private, i);
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3099  
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3100  		/* Fader */
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3101  		if (info->line_out_descrs[i])
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3102  			snprintf(s, sizeof(s),
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3103  				 "Line %02d (%s) Playback Volume",
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3104  				 i + 1, info->line_out_descrs[i]);
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3105  		else
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3106  			snprintf(s, sizeof(s),
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3107  				 "Line %02d Playback Volume",
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3108  				 i + 1);
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3109  		err = scarlett2_add_new_ctl(mixer,
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3110  					    &scarlett2_line_out_volume_ctl,
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3111  					    i, 1, s, &private->vol_ctls[i]);
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3112  		if (err < 0)
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3113  			return err;
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3114  
-0c88f9db1910ff Geoffrey D. Bennett 2021-06-22  3115  		/* Mute Switch */
-0c88f9db1910ff Geoffrey D. Bennett 2021-06-22  3116  		snprintf(s, sizeof(s),
-0c88f9db1910ff Geoffrey D. Bennett 2021-06-22  3117  			 "Line %02d Mute Playback Switch",
-0c88f9db1910ff Geoffrey D. Bennett 2021-06-22  3118  			 i + 1);
-0c88f9db1910ff Geoffrey D. Bennett 2021-06-22  3119  		err = scarlett2_add_new_ctl(mixer,
-0c88f9db1910ff Geoffrey D. Bennett 2021-06-22  3120  					    &scarlett2_mute_ctl,
-0c88f9db1910ff Geoffrey D. Bennett 2021-06-22  3121  					    i, 1, s,
-0c88f9db1910ff Geoffrey D. Bennett 2021-06-22  3122  					    &private->mute_ctls[i]);
-0c88f9db1910ff Geoffrey D. Bennett 2021-06-22  3123  		if (err < 0)
-0c88f9db1910ff Geoffrey D. Bennett 2021-06-22  3124  			return err;
-0c88f9db1910ff Geoffrey D. Bennett 2021-06-22  3125  
-0c88f9db1910ff Geoffrey D. Bennett 2021-06-22  3126  		/* Make the fader and mute controls read-only if the
-0c88f9db1910ff Geoffrey D. Bennett 2021-06-22  3127  		 * SW/HW switch is set to HW
-0c88f9db1910ff Geoffrey D. Bennett 2021-06-22  3128  		 */
-9cfe1276a6736f Geoffrey D. Bennett 2021-06-23  3129  		if (private->vol_sw_hw_switch[index])
-06250c89d47cef Geoffrey D. Bennett 2021-06-22  3130  			scarlett2_vol_ctl_set_writable(mixer, i, 0);
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3131  
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3132  		/* SW/HW Switch */
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3133  		if (info->line_out_hw_vol) {
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3134  			snprintf(s, sizeof(s),
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29 @3135  				 "Line Out %02d Volume Control Playback Enum",
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3136  				 i + 1);
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3137  			err = scarlett2_add_new_ctl(mixer,
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3138  						    &scarlett2_sw_hw_enum_ctl,
-f02da6534810ac Geoffrey D. Bennett 2021-06-23  3139  						    i, 1, s,
-f02da6534810ac Geoffrey D. Bennett 2021-06-23  3140  						    &private->sw_hw_ctls[i]);
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3141  			if (err < 0)
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3142  				return err;
-e914d8432cb4b9 Geoffrey D. Bennett 2021-06-23  3143  
-e914d8432cb4b9 Geoffrey D. Bennett 2021-06-23  3144  			/* Make the switch read-only if the line is
-e914d8432cb4b9 Geoffrey D. Bennett 2021-06-23  3145  			 * involved in speaker switching
-e914d8432cb4b9 Geoffrey D. Bennett 2021-06-23  3146  			 */
-e914d8432cb4b9 Geoffrey D. Bennett 2021-06-23  3147  			if (private->speaker_switching_switch && i < 4)
-e914d8432cb4b9 Geoffrey D. Bennett 2021-06-23  3148  				scarlett2_sw_hw_ctl_ro(private, i);
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3149  		}
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3150  	}
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3151  
-dbd82c0550633c Geoffrey D. Bennett 2021-06-21  3152  	/* Add dim/mute controls */
-03bdbcf08a8cb7 Geoffrey D. Bennett 2021-06-21  3153  	if (info->line_out_hw_vol)
-dbd82c0550633c Geoffrey D. Bennett 2021-06-21  3154  		for (i = 0; i < SCARLETT2_DIM_MUTE_COUNT; i++) {
-03bdbcf08a8cb7 Geoffrey D. Bennett 2021-06-21  3155  			err = scarlett2_add_new_ctl(
-dbd82c0550633c Geoffrey D. Bennett 2021-06-21  3156  				mixer, &scarlett2_dim_mute_ctl,
-dbd82c0550633c Geoffrey D. Bennett 2021-06-21  3157  				i, 1, scarlett2_dim_mute_names[i],
-dbd82c0550633c Geoffrey D. Bennett 2021-06-21  3158  				&private->dim_mute_ctls[i]);
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3159  			if (err < 0)
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3160  				return err;
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3161  		}
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3162  
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3163  	return 0;
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3164  }
-9e4d5c1be21f0c Geoffrey D. Bennett 2019-07-29  3165  
-
-:::::: The code at line 3135 was first introduced by commit
-:::::: 9e4d5c1be21f0c00e747e92186784f3298309b3e ALSA: usb-audio: Scarlett Gen 2 mixer interface
-
-:::::: TO: Geoffrey D. Bennett <g@b4.vu>
-:::::: CC: Takashi Iwai <tiwai@suse.de>
+    95	
+    96	int apple_mbox_send(struct apple_mbox *mbox, const struct apple_mbox_msg msg,
+    97			    bool atomic)
+    98	{
+    99		unsigned long flags;
+   100		int ret;
+   101		u32 mbox_ctrl;
+   102		long t;
+   103	
+   104		spin_lock_irqsave(&mbox->tx_lock, flags);
+   105		mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->a2i_control);
+   106	
+   107		while (mbox_ctrl & mbox->hw->control_full) {
+   108			if (atomic) {
+   109				ret = readl_poll_timeout_atomic(
+   110					mbox->regs + mbox->hw->a2i_control, mbox_ctrl,
+   111					!(mbox_ctrl & mbox->hw->control_full), 100,
+   112					APPLE_MBOX_TX_TIMEOUT * 1000);
+   113	
+   114				if (ret) {
+   115					spin_unlock_irqrestore(&mbox->tx_lock, flags);
+   116					return ret;
+   117				}
+   118	
+   119				break;
+   120			}
+   121			/*
+   122			 * The interrupt is level triggered and will keep firing as long as the
+   123			 * FIFO is empty. It will also keep firing if the FIFO was empty
+   124			 * at any point in the past until it has been acknowledged at the
+   125			 * mailbox level. By acknowledging it here we can ensure that we will
+   126			 * only get the interrupt once the FIFO has been cleared again.
+   127			 * If the FIFO is already empty before the ack it will fire again
+   128			 * immediately after the ack.
+   129			 */
+   130			if (mbox->hw->has_irq_controls) {
+   131				writel_relaxed(mbox->hw->irq_bit_send_empty,
+   132					       mbox->regs + mbox->hw->irq_ack);
+   133			}
+   134			enable_irq(mbox->irq_send_empty);
+   135			reinit_completion(&mbox->tx_empty);
+   136			spin_unlock_irqrestore(&mbox->tx_lock, flags);
+   137	
+   138			t = wait_for_completion_interruptible_timeout(
+   139				&mbox->tx_empty,
+   140				msecs_to_jiffies(APPLE_MBOX_TX_TIMEOUT));
+   141			if (t < 0)
+   142				return t;
+   143			else if (t == 0)
+   144				return -ETIMEDOUT;
+   145	
+   146			spin_lock_irqsave(&mbox->tx_lock, flags);
+   147			mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->a2i_control);
+   148		}
+   149	
+   150		writeq_relaxed(msg.msg0, mbox->regs + mbox->hw->a2i_send0);
+ > 151		writeq_relaxed(FIELD_PREP(APPLE_MBOX_MSG1_MSG, msg.msg1),
+   152			       mbox->regs + mbox->hw->a2i_send1);
+   153	
+   154		spin_unlock_irqrestore(&mbox->tx_lock, flags);
+   155	
+   156		return 0;
+   157	}
+   158	EXPORT_SYMBOL(apple_mbox_send);
+   159	
+   160	static irqreturn_t apple_mbox_send_empty_irq(int irq, void *data)
+   161	{
+   162		struct apple_mbox *mbox = data;
+   163	
+   164		/*
+   165		 * We don't need to acknowledge the interrupt at the mailbox level
+   166		 * here even if supported by the hardware. It will keep firing but that
+   167		 * doesn't matter since it's disabled at the main interrupt controller.
+   168		 * apple_mbox_send will acknowledge it before enabling
+   169		 * it at the main controller again.
+   170		 */
+   171		spin_lock(&mbox->tx_lock);
+   172		disable_irq_nosync(mbox->irq_send_empty);
+   173		complete(&mbox->tx_empty);
+   174		spin_unlock(&mbox->tx_lock);
+   175	
+   176		return IRQ_HANDLED;
+   177	}
+   178	
+   179	static int apple_mbox_poll_locked(struct apple_mbox *mbox)
+   180	{
+   181		struct apple_mbox_msg msg;
+   182		int ret = 0;
+   183	
+   184		u32 mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->i2a_control);
+   185	
+   186		while (!(mbox_ctrl & mbox->hw->control_empty)) {
+   187			msg.msg0 = readq_relaxed(mbox->regs + mbox->hw->i2a_recv0);
+ > 188			msg.msg1 = FIELD_GET(
+   189				APPLE_MBOX_MSG1_MSG,
+   190				readq_relaxed(mbox->regs + mbox->hw->i2a_recv1));
+   191	
+   192			mbox->rx(mbox, msg, mbox->cookie);
+   193			ret++;
+   194			mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->i2a_control);
+   195		}
+   196	
+   197		/*
+   198		 * The interrupt will keep firing even if there are no more messages
+   199		 * unless we also acknowledge it at the mailbox level here.
+   200		 * There's no race if a message comes in between the check in the while
+   201		 * loop above and the ack below: If a new messages arrives inbetween
+   202		 * those two the interrupt will just fire again immediately after the
+   203		 * ack since it's level triggered.
+   204		 */
+   205		if (mbox->hw->has_irq_controls) {
+   206			writel_relaxed(mbox->hw->irq_bit_recv_not_empty,
+   207				       mbox->regs + mbox->hw->irq_ack);
+   208		}
+   209	
+   210		return ret;
+   211	}
+   212	
 
 -- 
 0-DAY CI Kernel Test Service
