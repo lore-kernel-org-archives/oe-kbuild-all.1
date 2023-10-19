@@ -1,48 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1DC1525F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 05:08:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 320A34666B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 05:18:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i4Hfb2Dc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XvLgu39V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697692132; x=1729228132;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gziTHjwqV3QCw2NE0vt9SOwL1XAfyFYPhv2V+qjhags=;
-  b=i4Hfb2DcMVr1mu5CkSakNSF40V3qz9uYVX4vlwSMtNvayO1HF5y8gET0
-   mBxdErJYFssJ2w7bk9RrLoK92DAf0gzKePVfwi1X4QCtj1i3bc+oNvc3k
-   4HFyUjTk68YNdxk7lFD9A21zavZf8TZA3aTcE8ynFgchmEm38RFUWpPzL
-   gIC2foZXH6fkMXlnfO9G60ki6kQPQ49n7wPJfkmpwT4szJxkLGvmqbP1w
-   XYvEXr6pntEa1PmpBibC1bqBorPVE0w4vjPiBFyivDomNCDK6Z8svhzK7
-   G95YKTktbK63sXOXtQnlKpr6DPOGCvL6bVqupiTINDjr4ia+Ix0DDzIq4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="390051112"
+  t=1697692734; x=1729228734;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4tfSi/T4VJvhJ/85obP0QG0Ut4JUkF78KROB9ye20UM=;
+  b=XvLgu39VDhgwRg5xje99DjDfSl7ggw4e5PenEEv+v/7DTVOnFq/ncGnh
+   mIpSgxyWU8QdOT4bYE1pqfuN51gcTyD9JS4otB4xhRYgw7S9OTDTCBeGB
+   2Yo4hmc0djTESUwcyaCtSTNrTeNNW7Kqvk7edupJK00S2aotP7GD17WXZ
+   6JN8Ubs/C5mk5PFUpDvbBCBVOyz1OyeQdFuYKxRNE6tNIjAM8w53dt1Tk
+   2ofyAVj2KJY8KZ3kSs+I2tNUKJckAizGuVer7ZXPYvB60/JxnV5vRbYvd
+   mA05Hfaq0lF6eyZ5MQ8p61ZI5tp3oRiQwC5UzCnZkJc+i/HlAiYUFuuUU
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="450396006"
 X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="390051112"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 22:08:51 -0700
+   d="scan'208";a="450396006"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 22:18:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="760504123"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="1004095964"
 X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="760504123"
+   d="scan'208";a="1004095964"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Oct 2023 22:08:50 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 18 Oct 2023 22:18:51 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtLH5-0001ee-2g;
-	Thu, 19 Oct 2023 05:08:47 +0000
-Date: Thu, 19 Oct 2023 13:07:52 +0800
+	id 1qtLQn-0001fe-1L;
+	Thu, 19 Oct 2023 05:18:49 +0000
+Date: Thu, 19 Oct 2023 13:18:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shay Drory <shayd@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Moshe Shemesh <moshe@nvidia.com>
-Subject: include/linux/bitops.h:52:11: warning: array subscript 0 is outside
- array bounds of 'long unsigned int[0]'
-Message-ID: <202310191307.RwgNqy0s-lkp@intel.com>
+To: Amritha Nambiar <amritha.nambiar@intel.com>, netdev@vger.kernel.org,
+	kuba@kernel.org, pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, sridhar.samudrala@intel.com,
+	amritha.nambiar@intel.com
+Subject: Re: [net-next PATCH v5 03/10] ice: Add support in the driver for
+ associating queue with napi
+Message-ID: <202310191339.JfORBqdK-lkp@intel.com>
+References: <169767397753.6692.15797121214738496388.stgit@anambiarhost.jf.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,84 +53,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <169767397753.6692.15797121214738496388.stgit@anambiarhost.jf.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dd72f9c7e512da377074d47d990564959b772643
-commit: b90ebfc018b087ba1e4981b298b58733236ff296 net/mlx5: Allocate command stats with xarray
-date:   3 months ago
-config: parisc-randconfig-r006-20230313 (https://download.01.org/0day-ci/archive/20231019/202310191307.RwgNqy0s-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310191307.RwgNqy0s-lkp@intel.com/reproduce)
+Hi Amritha,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Amritha-Nambiar/netdev-genl-spec-Extend-netdev-netlink-spec-in-YAML-for-queue/20231019-082941
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/169767397753.6692.15797121214738496388.stgit%40anambiarhost.jf.intel.com
+patch subject: [net-next PATCH v5 03/10] ice: Add support in the driver for associating queue with napi
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231019/202310191339.JfORBqdK-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310191339.JfORBqdK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310191307.RwgNqy0s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310191339.JfORBqdK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:22,
-                    from arch/parisc/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/parisc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from include/linux/highmem.h:5,
-                    from drivers/net/ethernet/mellanox/mlx5/core/main.c:33:
-   drivers/net/ethernet/mellanox/mlx5/core/main.c: In function 'mlx5_vf_get_core_dev':
->> include/linux/bitops.h:52:11: warning: array subscript 0 is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
-      52 |           __builtin_constant_p(*(const unsigned long *)(addr))) ?       \
-         |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitops.h:61:41: note: in expansion of macro 'bitop'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                         ^~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/main.c:2256:14: note: in expansion of macro 'test_bit'
-    2256 |         if (!test_bit(MLX5_INTERFACE_STATE_UP, &mdev->intf_state)) {
-         |              ^~~~~~~~
-   cc1: note: source object is likely at address zero
-   In file included from include/linux/bitops.h:34:
-   In function 'generic_test_bit',
-       inlined from 'mlx5_vf_get_core_dev' at drivers/net/ethernet/mellanox/mlx5/core/main.c:2256:7:
->> include/asm-generic/bitops/generic-non-atomic.h:128:27: warning: array subscript 0 is outside array bounds of 'long unsigned int[0]' [-Warray-bounds=]
-     128 |         return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
-         |                       ~~~~^~~~~~~~~~~~~~
-   In function 'mlx5_vf_get_core_dev':
-   cc1: note: source object is likely at address zero
+>> drivers/net/ethernet/intel/ice/ice_lib.c:2943:6: warning: no previous prototype for 'ice_queue_set_napi' [-Wmissing-prototypes]
+    2943 | void ice_queue_set_napi(unsigned int queue_index, enum netdev_queue_type type,
+         |      ^~~~~~~~~~~~~~~~~~
 
 
-vim +52 include/linux/bitops.h
+vim +/ice_queue_set_napi +2943 drivers/net/ethernet/intel/ice/ice_lib.c
 
-0e862838f29014 Alexander Lobakin 2022-06-24  35  
-b03fc1173c0c2b Alexander Lobakin 2022-06-24  36  /*
-b03fc1173c0c2b Alexander Lobakin 2022-06-24  37   * Many architecture-specific non-atomic bitops contain inline asm code and due
-b03fc1173c0c2b Alexander Lobakin 2022-06-24  38   * to that the compiler can't optimize them to compile-time expressions or
-b03fc1173c0c2b Alexander Lobakin 2022-06-24  39   * constants. In contrary, generic_*() helpers are defined in pure C and
-b03fc1173c0c2b Alexander Lobakin 2022-06-24  40   * compilers optimize them just well.
-b03fc1173c0c2b Alexander Lobakin 2022-06-24  41   * Therefore, to make `unsigned long foo = 0; __set_bit(BAR, &foo)` effectively
-b03fc1173c0c2b Alexander Lobakin 2022-06-24  42   * equal to `unsigned long foo = BIT(BAR)`, pick the generic C alternative when
-b03fc1173c0c2b Alexander Lobakin 2022-06-24  43   * the arguments can be resolved at compile time. That expression itself is a
-b03fc1173c0c2b Alexander Lobakin 2022-06-24  44   * constant and doesn't bring any functional changes to the rest of cases.
-b03fc1173c0c2b Alexander Lobakin 2022-06-24  45   * The casts to `uintptr_t` are needed to mitigate `-Waddress` warnings when
-b03fc1173c0c2b Alexander Lobakin 2022-06-24  46   * passing a bitmap from .bss or .data (-> `!!addr` is always true).
-b03fc1173c0c2b Alexander Lobakin 2022-06-24  47   */
-e69eb9c460f128 Alexander Lobakin 2022-06-24  48  #define bitop(op, nr, addr)						\
-b03fc1173c0c2b Alexander Lobakin 2022-06-24  49  	((__builtin_constant_p(nr) &&					\
-b03fc1173c0c2b Alexander Lobakin 2022-06-24  50  	  __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) &&	\
-b03fc1173c0c2b Alexander Lobakin 2022-06-24  51  	  (uintptr_t)(addr) != (uintptr_t)NULL &&			\
-b03fc1173c0c2b Alexander Lobakin 2022-06-24 @52  	  __builtin_constant_p(*(const unsigned long *)(addr))) ?	\
-b03fc1173c0c2b Alexander Lobakin 2022-06-24  53  	 const##op(nr, addr) : op(nr, addr))
-e69eb9c460f128 Alexander Lobakin 2022-06-24  54  
-
-:::::: The code at line 52 was first introduced by commit
-:::::: b03fc1173c0c2bb8fad61902a862985cecdc4b1b bitops: let optimize out non-atomic bitops on compile-time constants
-
-:::::: TO: Alexander Lobakin <alexandr.lobakin@intel.com>
-:::::: CC: Yury Norov <yury.norov@gmail.com>
+  2933	
+  2934	/**
+  2935	 * ice_queue_set_napi - Set the napi instance for the queue
+  2936	 * @queue_index: Index of queue
+  2937	 * @type: queue type as RX or TX
+  2938	 * @napi: NAPI context
+  2939	 * @locked: is the rtnl_lock already held
+  2940	 *
+  2941	 * Set the napi instance for the queue
+  2942	 */
+> 2943	void ice_queue_set_napi(unsigned int queue_index, enum netdev_queue_type type,
+  2944				struct napi_struct *napi, bool locked)
+  2945	{
+  2946		if (locked)
+  2947			__netif_queue_set_napi(queue_index, type, napi);
+  2948		else
+  2949			netif_queue_set_napi(queue_index, type, napi);
+  2950	}
+  2951	
 
 -- 
 0-DAY CI Kernel Test Service
