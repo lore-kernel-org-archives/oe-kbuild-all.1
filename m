@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB635DDA6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 13:26:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741A6DDA6;
+	Thu, 19 Oct 2023 13:27:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iHanU0SN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AiNUoXeR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697721965; x=1729257965;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=efPmX5A8B5ZfWF3vAqZbcwFs2e935indB1OtsnCxIco=;
-  b=iHanU0SNB1LLhMgmEvmkOqHyGaWkEHgFItVoPFijWNYMUVNmB3WhOzMr
-   Fd7gXpYJVqXcueR6XyxGs6tEidAJAkyEvBgCqQVTs8uDpwU2hs6ZrvCup
-   cpkvqHeKNae2rYeRrUxAd9FVNhNWtxngzJPKJYNasRWTptz5W0OGPWgkO
-   fKMKRgNWL3U247Ry/gtarxe4z/zO4w1Ezlpchs1yfJVW90jMeqgPW57Ac
-   rvziS/crg0XsoxiWtKVfAafGxQsVHY1d73woxkfLnUDsNgqvMWr6cRNrn
-   4fBakzfbP9VWtMcDzisc2pmg4Yjhq1LlPClxGa4LrchZL0+6skm1WWv6d
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="450471237"
+  t=1697722033; x=1729258033;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7DF7vbTp51Vvi+2dJZngP2aeBjjWnnyYff3z00X0ayE=;
+  b=AiNUoXeR8PZVftUDRWczoTb903wlC8j4dcXPjMS2sv22Ef4+Q24Y/NE8
+   bo/p8UJ+UaykILcpQc0lSJWNg5fKRjPG8kEXDeUA02M+5+WykgM6IlrhF
+   XYbm/tF8lqDlPD8Eq9lTp10n9nOY860zR2omsJdfGbfvQ4+rCXqkC6pjB
+   0sNGFeg/M6YE4LNkuyBLD0HQIWSkXh89y08OEapUka+27ppk9q4+TM8w3
+   5fv6BRQ7P6+XmD2S5HDlxzIMLNUTu6HxSEzAo3eLaN+YLYp4WhItb2Mkx
+   JWqjpI0uXIRZDzggViJM+qv99aUEvb4n7U91etDQiWIfIm0kKxJltbUsh
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="417362242"
 X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
-   d="scan'208";a="450471237"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 06:22:13 -0700
+   d="scan'208";a="417362242"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 06:27:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="792000256"
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="1088356965"
 X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
-   d="scan'208";a="792000256"
+   d="scan'208";a="1088356965"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 19 Oct 2023 06:22:11 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 19 Oct 2023 06:27:11 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtSyX-00028h-0s;
-	Thu, 19 Oct 2023 13:22:09 +0000
-Date: Thu, 19 Oct 2023 21:21:24 +0800
+	id 1qtT3N-000290-1K;
+	Thu, 19 Oct 2023 13:27:09 +0000
+Date: Thu, 19 Oct 2023 21:26:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Edward Cree <ecree.xilinx@gmail.com>
-Subject: include/linux/netlink.h:116:13: warning: 'sfc: Unsupported: only
- suppo...' directive output truncated writing 104 bytes into a region of size
- 80
-Message-ID: <202310192117.YEwbmOWC-lkp@intel.com>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2 5/7] tun: Support BPF_PROG_TYPE_VNET_HASH
+Message-ID: <202310192157.RxEbw0oj-lkp@intel.com>
+References: <20231015141644.260646-6-akihiko.odaki@daynix.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,158 +50,160 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231015141644.260646-6-akihiko.odaki@daynix.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dd72f9c7e512da377074d47d990564959b772643
-commit: 66f728872636e1167aedc5a18be6760083911900 sfc: add decrement ttl by offloading set ipv4 ttl actions
-date:   8 weeks ago
-config: x86_64-randconfig-x013-20230730 (https://download.01.org/0day-ci/archive/20231019/202310192117.YEwbmOWC-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310192117.YEwbmOWC-lkp@intel.com/reproduce)
+Hi Akihiko,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+[also build test ERROR on bpf/master mst-vhost/linux-next linus/master v6.6-rc6]
+[cannot apply to next-20231019]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Akihiko-Odaki/bpf-Introduce-BPF_PROG_TYPE_VNET_HASH/20231017-132222
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20231015141644.260646-6-akihiko.odaki%40daynix.com
+patch subject: [RFC PATCH v2 5/7] tun: Support BPF_PROG_TYPE_VNET_HASH
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231019/202310192157.RxEbw0oj-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310192157.RxEbw0oj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310192117.YEwbmOWC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310192157.RxEbw0oj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/uapi/linux/neighbour.h:6,
-                    from include/linux/netdevice.h:45,
-                    from include/net/sch_generic.h:5,
-                    from include/net/pkt_cls.h:7,
-                    from drivers/net/ethernet/sfc/tc.c:12:
-   drivers/net/ethernet/sfc/tc.c: In function 'efx_tc_mangle':
->> include/linux/netlink.h:116:13: warning: 'sfc: Unsupported: only suppo...' directive output truncated writing 104 bytes into a region of size 80 [-Wformat-truncation=]
-     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
-         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:1155:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-    1155 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:13: note: directive argument in the range [0, 254]
-     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
-         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:1155:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-    1155 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:13: note: 'snprintf' output between 107 and 110 bytes into a destination of size 80
-     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
-         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:1155:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-    1155 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c: In function 'efx_tc_flower_record_encap_match':
-   include/linux/netlink.h:116:13: warning: ' conflicts with existing pse...' directive output truncated writing 53 bytes into a region of size between 28 and 33 [-Wformat-truncation=]
-     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
-         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:632:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-     632 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:13: note: directive argument in the range [0, 65535]
-     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
-         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:632:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-     632 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:13: note: 'snprintf' output between 102 and 112 bytes into a destination of size 80
-     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
-         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:632:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-     632 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:13: warning: ' conflicts with existing pse...' directive output truncated writing 57 bytes into a region of size 39 [-Wformat-truncation=]
-     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
-         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:625:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-     625 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:13: note: directive argument in the range [0, 255]
-     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
-         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:625:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-     625 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:13: note: 'snprintf' output 103 bytes into a destination of size 80
-     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
-         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:625:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-     625 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/tun.c:44:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/net/tun.c:44:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/net/tun.c:44:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/net/tun.c:564:10: error: call to undeclared function 'skb_ext_add'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     564 |                         ext = skb_ext_add(skb, SKB_EXT_TUN_VNET_HASH);
+         |                               ^
+>> drivers/net/tun.c:564:27: error: use of undeclared identifier 'SKB_EXT_TUN_VNET_HASH'
+     564 |                         ext = skb_ext_add(skb, SKB_EXT_TUN_VNET_HASH);
+         |                                                ^
+>> drivers/net/tun.c:2152:18: error: call to undeclared function 'skb_ext_find'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2152 |                         vnet_hash_p = skb_ext_find(skb, SKB_EXT_TUN_VNET_HASH);
+         |                                       ^
+   drivers/net/tun.c:2152:36: error: use of undeclared identifier 'SKB_EXT_TUN_VNET_HASH'
+    2152 |                         vnet_hash_p = skb_ext_find(skb, SKB_EXT_TUN_VNET_HASH);
+         |                                                         ^
+   12 warnings and 4 errors generated.
 
 
-vim +116 include/linux/netlink.h
+vim +/skb_ext_add +564 drivers/net/tun.c
 
-2d4bc93368f5a0 Johannes Berg 2017-04-12  107  
-51c352bdbcd23d Edward Cree   2022-10-18  108  /* We splice fmt with %s at each end even in the snprintf so that both calls
-51c352bdbcd23d Edward Cree   2022-10-18  109   * can use the same string constant, avoiding its duplication in .ro
-51c352bdbcd23d Edward Cree   2022-10-18  110   */
-51c352bdbcd23d Edward Cree   2022-10-18  111  #define NL_SET_ERR_MSG_FMT(extack, fmt, args...) do {			       \
-51c352bdbcd23d Edward Cree   2022-10-18  112  	struct netlink_ext_ack *__extack = (extack);			       \
-51c352bdbcd23d Edward Cree   2022-10-18  113  									       \
-51c352bdbcd23d Edward Cree   2022-10-18  114  	if (!__extack)							       \
-51c352bdbcd23d Edward Cree   2022-10-18  115  		break;							       \
-51c352bdbcd23d Edward Cree   2022-10-18 @116  	if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,	       \
-51c352bdbcd23d Edward Cree   2022-10-18  117  		     "%s" fmt "%s", "", ##args, "") >=			       \
-51c352bdbcd23d Edward Cree   2022-10-18  118  	    NETLINK_MAX_FMTMSG_LEN)					       \
-51c352bdbcd23d Edward Cree   2022-10-18  119  		net_warn_ratelimited("%s" fmt "%s", "truncated extack: ",      \
-51c352bdbcd23d Edward Cree   2022-10-18  120  				     ##args, "\n");			       \
-51c352bdbcd23d Edward Cree   2022-10-18  121  									       \
-51c352bdbcd23d Edward Cree   2022-10-18  122  	do_trace_netlink_extack(__extack->_msg_buf);			       \
-51c352bdbcd23d Edward Cree   2022-10-18  123  									       \
-51c352bdbcd23d Edward Cree   2022-10-18  124  	__extack->_msg = __extack->_msg_buf;				       \
-51c352bdbcd23d Edward Cree   2022-10-18  125  } while (0)
-51c352bdbcd23d Edward Cree   2022-10-18  126  
-
-:::::: The code at line 116 was first introduced by commit
-:::::: 51c352bdbcd23d7ce46b06c1e64c82754dc44044 netlink: add support for formatted extack messages
-
-:::::: TO: Edward Cree <ecree.xilinx@gmail.com>
-:::::: CC: Jakub Kicinski <kuba@kernel.org>
+   543	
+   544	static u16 tun_ebpf_select_queue(struct tun_struct *tun, struct sk_buff *skb)
+   545	{
+   546		struct bpf_skb_vnet_hash_end *cb = (struct bpf_skb_vnet_hash_end *)skb->cb;
+   547		struct tun_vnet_hash *ext;
+   548		struct tun_prog *prog;
+   549		u32 numqueues;
+   550		u16 queue = 0;
+   551	
+   552		BUILD_BUG_ON(sizeof(*cb) > sizeof(skb->cb));
+   553	
+   554		numqueues = READ_ONCE(tun->numqueues);
+   555		if (!numqueues)
+   556			return 0;
+   557	
+   558		prog = rcu_dereference(tun->steering_prog);
+   559		if (prog) {
+   560			if (prog->prog->type == BPF_PROG_TYPE_VNET_HASH) {
+   561				memset(skb->cb, 0, sizeof(*cb) - sizeof(struct qdisc_skb_cb));
+   562				bpf_prog_run_clear_cb(prog->prog, skb);
+   563	
+ > 564				ext = skb_ext_add(skb, SKB_EXT_TUN_VNET_HASH);
+   565				if (ext) {
+   566					ext->value = cb->hash_value;
+   567					ext->report = cb->hash_report;
+   568				}
+   569	
+   570				queue = cb->rss_queue;
+   571			} else {
+   572				queue = bpf_prog_run_clear_cb(prog->prog, skb);
+   573			}
+   574		}
+   575	
+   576		return queue % numqueues;
+   577	}
+   578	
 
 -- 
 0-DAY CI Kernel Test Service
