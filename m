@@ -1,134 +1,98 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6BC22135A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 12:28:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A76225B1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 12:30:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FyVL85J4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1697718499;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XEW0SGr4MbR9CQVpzv4tkcFfYyLm9TH0drmlL9slatc=;
-	b=FyVL85J49cQ/BvI+S4I2SqpUBzu2qThPUGtRQXga9Isnv5Bc+hm6CJ2OzlfuLh/vXPCRUc
-	oyui4PXN52xd+agVBdwTh/fIHkaOq9YoM7RwXe8jBK/PSiVJsWBQWI0sx5JaGkTl1nfv2v
-	TVhbymZr4QVcjpPRyPpl7fMIqlltW5c=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-653-IBtB04JKNFqOpxZBdc7DSg-1; Thu, 19 Oct 2023 08:28:18 -0400
-X-MC-Unique: IBtB04JKNFqOpxZBdc7DSg-1
-Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-5a81cd8d267so101227277b3.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 05:28:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697718497; x=1698323297;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XEW0SGr4MbR9CQVpzv4tkcFfYyLm9TH0drmlL9slatc=;
-        b=vRYh0z9SEDix60BMZAmAK8pbpbU35pftXJj78kL07P6e74u9VarOaFmY/ZJp5TbSOv
-         JtZPYUMDmsLFoNkIgoJ/OBpqHJTSghYjW9HkCSOA7Y4hUYMF8Pvnj2Ut4/3T/dCYn29A
-         za6IEaVkgq9/bqdlwMXx0zj9JbNyCbDlrUQYz3xiRd7gfTgBzCGTVUD6DgCCjuQPHppt
-         zw4z7ZfxORAU6jYs2rIVpBhq9xi5AnoPtP21u2dGoWOUUxi3iqbtdwBqOONnObKe6SGx
-         Gt9/iPHSE6+LGNXeQso7TzOmwFF5HbwM83Y382bWa6GyplBoimUwFmQLsIkLvSHANwVf
-         J36A==
-X-Gm-Message-State: AOJu0Yy5f91MGbPzHebPcRvk7Rr1Fk724vBJ8I7mB3OqgIydND1pLOGa
-	iyVGhFUUoTknvHwWHIp+MprYxPUICoeJsOfnsRCSYASPVwkNwCIDL2TrqjdtbGfPlIqDb1N/4ih
-	Kf77yrfR5NA3RBH3gMWDnf3msdg==
-X-Received: by 2002:a25:9802:0:b0:d9a:4fa0:dca9 with SMTP id a2-20020a259802000000b00d9a4fa0dca9mr1959647ybo.25.1697718497667;
-        Thu, 19 Oct 2023 05:28:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFsBhf8CkOk5LzOFaZntyg+KF/j0oUcdZXQZzrNvkHBmp4jM6uNdGp07fJUfPbFCGQ8CVNaTw==
-X-Received: by 2002:a25:9802:0:b0:d9a:4fa0:dca9 with SMTP id a2-20020a259802000000b00d9a4fa0dca9mr1959632ybo.25.1697718497403;
-        Thu, 19 Oct 2023 05:28:17 -0700 (PDT)
-Received: from [192.168.1.165] (cpc76484-cwma10-2-0-cust967.7-3.cable.virginm.net. [82.31.203.200])
-        by smtp.gmail.com with ESMTPSA id e13-20020ad450cd000000b0065cffe12ae9sm740160qvq.36.2023.10.19.05.28.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Oct 2023 05:28:16 -0700 (PDT)
-Message-ID: <be0ce0c5-5278-4d29-94d2-e5ce26e8e3b5@redhat.com>
-Date: Thu, 19 Oct 2023 13:28:13 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3206+dO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697718643; x=1729254643;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ysn72zKm2ezAHbajP0v8uJnorqnslZz4UU5r/q9XCA8=;
+  b=T3206+dOzMqmzi5yvr8CAR5VUJpgINyZAjcBfC95FMdr82tMiDNJ/284
+   qoCaviEHKOc64erTsV3P4DabLFkEiOmXUYA3oarDkMAJnPhtFRuZuMpUL
+   7RsX0WAdFgFHYkD3oIkd5MwkfTfkzghfDNSnp5tQe1GzYJtNmIbMPl5s5
+   1D7jCrpCaIM1uuVpkIRB4aj+dkk1Xx59I+HA9K5OQf+4xaAXWukqAxNE8
+   asOTENGn3FWUT1TmVUR7UGZ1HWK4ktgxiu+AfDQFiZQPp785+jflnxAcs
+   Hs4UYI1OC+gYuoVgM79TaD9DRLnIC1fkPuQPm3tP6M7coWUAFXe7MjBgP
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="472468899"
+X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
+   d="scan'208";a="472468899"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 05:30:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="760625283"
+X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
+   d="scan'208";a="760625283"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 19 Oct 2023 05:30:09 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qtSAB-00026E-2A;
+	Thu, 19 Oct 2023 12:30:07 +0000
+Date: Thu, 19 Oct 2023 20:29:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stephan Gerhold <stephan.gerhold@kernkonzept.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: drivers/thermal/qcom/tsens-v0_1.c:296:31: warning: 'ops_v0_1'
+ defined but not used
+Message-ID: <202310192004.IHu0auyN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Cluster-devel] [gfs2:extents 14/14] fs/gfs2/extents.c:123:23-27:
- WARNING use flexible-array member instead
- (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
- (fwd)
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: oe-kbuild-all@lists.linux.dev, gfs2@lists.linux.dev,
- Andreas Gruenbacher <agruenba@redhat.com>
-References: <a8791f89-ed7b-1649-3b53-72349899c5d@inria.fr>
-From: Andrew Price <anprice@redhat.com>
-In-Reply-To: <a8791f89-ed7b-1649-3b53-72349899c5d@inria.fr>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 19/10/2023 06:27, Julia Lawall wrote:
-> 
-> 
-> ---------- Forwarded message ----------
-> Date: Thu, 19 Oct 2023 05:56:44 +0800
-> From: kernel test robot <lkp@intel.com>
-> To: oe-kbuild@lists.linux.dev
-> Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-> Subject: [gfs2:extents 14/14] fs/gfs2/extents.c:123:23-27: WARNING use
->      flexible-array member instead
->      (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-
->      and-one-element-arrays)
-> 
-> BCC: lkp@intel.com
-> CC: oe-kbuild-all@lists.linux.dev
-> CC: cluster-devel@redhat.com
+Hi Stephan,
 
-The lkp-tests contact info is out of date. I've opened a PR to fix it at 
-https://github.com/intel/lkp-tests/pull/319 but it should probably use 
-the latest MAINTAINERS file always. CCing the new gfs2 list.
+FYI, the error/warning still remains.
 
-Thanks,
-Andy
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   dd72f9c7e512da377074d47d990564959b772643
+commit: 6812d1dfbca99cd5032683354bf50e0002b2aa02 thermal/drivers/qcom/tsens-v0_1: Fix mdm9607 slope values
+date:   4 months ago
+config: x86_64-buildonly-randconfig-006-20230906 (https://download.01.org/0day-ci/archive/20231019/202310192004.IHu0auyN-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310192004.IHu0auyN-lkp@intel.com/reproduce)
 
-> TO: Andreas Gruenbacher <agruenba@redhat.com>
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git extents
-> head:   86474c69cac46872bd311318c02fb8e9e25abd10
-> commit: 86474c69cac46872bd311318c02fb8e9e25abd10 [14/14] gfs2: Add some initial extents-based inode code
-> :::::: branch date: 9 days ago
-> :::::: commit date: 9 days ago
-> config: x86_64-randconfig-101-20231018 (https://download.01.org/0day-ci/archive/20231019/202310190541.0impmnL4-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20231019/202310190541.0impmnL4-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-> | Closes: https://lore.kernel.org/r/202310190541.0impmnL4-lkp@intel.com/
-> 
-> cocci warnings: (new ones prefixed by >>)
->>> fs/gfs2/extents.c:123:23-27: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> 
-> vim +123 fs/gfs2/extents.c
-> 
-> 86474c69cac468 Andreas Gruenbacher 2021-03-25  115
-> 86474c69cac468 Andreas Gruenbacher 2021-03-25  116  /*
-> 86474c69cac468 Andreas Gruenbacher 2021-03-25  117   * The path components in struct gfs2_extent_path are stored in "reverse"
-> 86474c69cac468 Andreas Gruenbacher 2021-03-25  118   * order: the leaf is stored first, and when the tree grows at the root,
-> 86474c69cac468 Andreas Gruenbacher 2021-03-25  119   * this happens at the end of the array.
-> 86474c69cac468 Andreas Gruenbacher 2021-03-25  120   */
-> 86474c69cac468 Andreas Gruenbacher 2021-03-25  121  struct gfs2_extent_path {
-> 86474c69cac468 Andreas Gruenbacher 2021-03-25  122  	unsigned int p_height;
-> 86474c69cac468 Andreas Gruenbacher 2021-03-25 @123  	struct gfs2_extent_pc p_pc[1];
-> 86474c69cac468 Andreas Gruenbacher 2021-03-25  124  };
-> 86474c69cac468 Andreas Gruenbacher 2021-03-25  125
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310192004.IHu0auyN-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+>> drivers/thermal/qcom/tsens-v0_1.c:296:31: warning: 'ops_v0_1' defined but not used [-Wunused-const-variable=]
+     296 | static const struct tsens_ops ops_v0_1 = {
+         |                               ^~~~~~~~
+
+
+vim +/ops_v0_1 +296 drivers/thermal/qcom/tsens-v0_1.c
+
+c19970548edc359 Amit Kucheria    2019-03-20  295  
+51d78b8b1beba24 Dmitry Baryshkov 2023-01-01 @296  static const struct tsens_ops ops_v0_1 = {
+51d78b8b1beba24 Dmitry Baryshkov 2023-01-01  297  	.init		= init_common,
+51d78b8b1beba24 Dmitry Baryshkov 2023-01-01  298  	.calibrate	= tsens_calibrate_common,
+51d78b8b1beba24 Dmitry Baryshkov 2023-01-01  299  	.get_temp	= get_temp_common,
+51d78b8b1beba24 Dmitry Baryshkov 2023-01-01  300  };
+51d78b8b1beba24 Dmitry Baryshkov 2023-01-01  301  
+
+:::::: The code at line 296 was first introduced by commit
+:::::: 51d78b8b1beba247e1e4314420d98acb0732c4b7 thermal/drivers/tsens: Drop single-cell code for mdm9607
+
+:::::: TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+:::::: CC: Daniel Lezcano <daniel.lezcano@linaro.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
