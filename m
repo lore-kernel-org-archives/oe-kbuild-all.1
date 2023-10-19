@@ -1,65 +1,47 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E02D20FD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 05:41:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A8B20FD;
+	Thu, 19 Oct 2023 05:44:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o1QpQrPQ"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5079eed8bfbso7859285e87.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 22:41:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697694063; x=1698298863; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=j7kAytioghDE6xyX4BghBa8cMFVr3L8tOR2ZoNefZ9k=;
-        b=o1QpQrPQwsHpjUsfYPWL9jjCG5EAMqX8MEzjalyvBAdITYB6IOfpzem6vzWy5Gl/Dl
-         G3iD2h8vxxHmOz88vobQ86Y86H1s6kB40LhcCa7AM7SZwQGh0cc9KTWM9Df+DVzACXeV
-         l2KzJpVCgD2OP0YgOu7ysG3ST30XshOO1ayHdCKr0yWVwzF02yOfxAiD6Z6WAQygKwOy
-         jznmLwIsn5q6RMx/n6/6x2Bof+TIpsFm4cGdh0vJ5cp6+U+cWUh2n1sK42yqaD46eiTX
-         ilUC2oHsmKb944AR8817Pd2MqMQjrzrY9nbxo21kMa6hgIHjddryC6X4rX+qdi/mUoYa
-         I+Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697694063; x=1698298863;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j7kAytioghDE6xyX4BghBa8cMFVr3L8tOR2ZoNefZ9k=;
-        b=GWVrYDDPZvsAiHpEIGlbr0RxSRCbLflkLuIXn6gpoOpwmJG5EVKRdcC/KTiPpbAwcH
-         +L9gAI62uuFHWdvxdaAwbXoT419bPX4x9Ef44Q6olskawjMcO2W+o3sLC9J0dVPjLzId
-         dP1RWL4w+YxD/6YS7LIoakfFSAPhgMvj9SdOSYQ8FVRs/89OtfHKi98XJWQzYjFAJSui
-         qBFe3+z1HfmHbdDnAmiG3abAkb5zq3U6eWbPwY2sh6uhPVaRL3aZuOnGr4WJ79xh08wp
-         bxs0+ScI1CqbYTSTjHLcEz5D7E2lDdujGvqO6HER1I7A4LqQL+IUOS1OYm4yLQa/ECKU
-         9taA==
-X-Gm-Message-State: AOJu0YzS80C9hL22kO8Tui3jxztwCACE57BnhP9s2aKFJOPkJvsCzVc6
-	XJEfLavyX9qz8a77XFDpj0ESag==
-X-Google-Smtp-Source: AGHT+IG5EtVlCxnFhKx6/IWeIkVIlcJyQiopIMW7380LSHeSu/QzSQA6+QwuSQOi3ZAsfzcZcIDbKg==
-X-Received: by 2002:a19:5011:0:b0:503:388f:30a3 with SMTP id e17-20020a195011000000b00503388f30a3mr677846lfb.26.1697694063124;
-        Wed, 18 Oct 2023 22:41:03 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id i6-20020adfe486000000b0032415213a6fsm3580699wrm.87.2023.10.18.22.41.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Oct 2023 22:41:02 -0700 (PDT)
-Date: Thu, 19 Oct 2023 08:40:59 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Baoquan He <bhe@redhat.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Philip Li <philip.li@intel.com>, oe-kbuild@lists.linux.dev,
-	Lorenzo Stoakes <lstoakes@gmail.com>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm'
- could be null (see line 3667)
-Message-ID: <0eddb8b4-47a1-4d94-ae44-707addae77c8@kadam.mountain>
-References: <f82be227-bfde-439a-b339-1b4ee370d59a@kadam.mountain>
- <ZS+dSd9Z6/2wU0Eg@MiWiFi-R3L-srv>
- <89caf59a-d3b9-409d-b1ae-9e370cb9ee7d@kadam.mountain>
- <ZS/LrhcxcMOgiiX5@MiWiFi-R3L-srv>
- <ZS/TVMT9ed7OdyNy@rli9-mobl>
- <ZS/2k6DIMd0tZRgK@MiWiFi-R3L-srv>
- <20231018085248.6f3f36101cbdfe0990c8b467@linux-foundation.org>
- <ZTCURc8ZQE+KrTvS@MiWiFi-R3L-srv>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JNmgHZfk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697694297; x=1729230297;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WW2XN/8T4dUfviq+J47JnlHi4/WTNMvqDbRUo25KYzM=;
+  b=JNmgHZfktLpWSGJ8G65sv/s+AF0ht4pUTLDnr6MDANNg0kc+COxT9oxt
+   uG9Kiiu+rjHnNJDmUW3fzzu2BYCmaeVjN0ET6sfcnZiBnAHYRwOGf1KBR
+   WWAJsb1EU+Q31cYOLfh5o2ZkJzdzL+i6La+0jZKZq3ZUV1b6Rp34KMPkH
+   LmDTslQ2m7Uzmg6Fcz2IQsI5Pn4gzyw5ThSEWWwS+k1JcOTwUZ1aVk7Un
+   IsB/MyIQdm5doLTmBsRkVEWPgQADk7VjeguIXrM89PsGBQUZgTfkW1bjX
+   NvoFp3/H/QocMYUynFjwAoxUYlt9XV2taBumZLhsZMoGQDTZEFKNfUfrC
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="7730807"
+X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
+   d="scan'208";a="7730807"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 22:44:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="760510434"
+X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
+   d="scan'208";a="760510434"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 18 Oct 2023 22:44:53 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qtLpz-0001i3-0R;
+	Thu, 19 Oct 2023 05:44:51 +0000
+Date: Thu, 19 Oct 2023 13:44:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [hare-scsi-devel:eh-rework.v6 22/26]
+ drivers/scsi/scsi_error.c:1277:6: warning: no previous prototype for
+ function '__scsi_eh_finish_cmd'
+Message-ID: <202310191300.pgpCJnlj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,87 +50,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZTCURc8ZQE+KrTvS@MiWiFi-R3L-srv>
 
-On Thu, Oct 19, 2023 at 10:28:21AM +0800, Baoquan He wrote:
-> On 10/18/23 at 08:52am, Andrew Morton wrote:
-> > On Wed, 18 Oct 2023 23:15:31 +0800 Baoquan He <bhe@redhat.com> wrote:
-> > 
-> > > From: Baoquan He <bhe@redhat.com>
-> > > Date: Wed, 18 Oct 2023 22:50:14 +0800
-> > > Subject: [PATCH] mm/vmalloc: fix the unchecked dereference warning in vread_iter()
-> > > Content-type: text/plain
-> > > 
-> > > LKP reported smatch warning as below:
-> > > 
-> > > ===================
-> > > smatch warnings:
-> > > mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm' could be null (see line 3667)
-> > > ......
-> > > 06c8994626d1b7  @3667 size = vm ? get_vm_area_size(vm) : va_size(va);
-> > > ......
-> > > 06c8994626d1b7  @3689 else if (!(vm->flags & VM_IOREMAP))
-> > >                                  ^^^^^^^^^
-> > > Unchecked dereference
-> > > =====================
-> > > 
-> > > So add checking on whether 'vm' is not null when dereferencing it in
-> > > vread_iter(). This mutes smatch complaint.
-> > > 
-> > > ...
-> > >
-> > > --- a/mm/vmalloc.c
-> > > +++ b/mm/vmalloc.c
-> > > @@ -3813,7 +3813,7 @@ long vread_iter(struct iov_iter *iter, const char *addr, size_t count)
-> > >  
-> > >  		if (flags & VMAP_RAM)
-> > >  			copied = vmap_ram_vread_iter(iter, addr, n, flags);
-> > > -		else if (!(vm->flags & VM_IOREMAP))
-> > > +		else if (!(vm && (vm->flags & VM_IOREMAP)))
-> > >  			copied = aligned_vread_iter(iter, addr, n);
-> > >  		else /* IOREMAP area is treated as memory hole */
-> > >  			copied = zero_iter(iter, n);
-> > 
-> > So is this not a real runtime bug?  We're only doing this to suppress a
-> > smatch warning?
-> > 
-> > If so, can we please include a description of *why* this wasn't a bug? 
-> > What conditions ensure that vm!=NULL at this point?
-> 
-> I think this is not a real runtime bug. The only chance it can hapen is
-> when (flags == VMAP_BLOCK) is true. That has been warned and could never
-> happen. I updated patch log and paste v2 here. 
-> 
->                 /*
->                  * VMAP_BLOCK indicates a sub-type of vm_map_ram area, need
->                  * be set together with VMAP_RAM.
->                  */
->                 WARN_ON(flags == VMAP_BLOCK);
->  
->                 if (!vm && !flags)
->                         continue;
-> 
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git eh-rework.v6
+head:   1e93963cdc1f4d2671b12c37a09b861f40313768
+commit: 043bb4700d22ea8d579b0e8e24e7fee68e4a11ca [22/26] scsi: set host byte after EH completed
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231019/202310191300.pgpCJnlj-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310191300.pgpCJnlj-lkp@intel.com/reproduce)
 
-Thanks.  If you want you could just ignore the warning.  It's a one time
-warning so we won't send the mail again and if people have questions
-about it, they can just look it up on lore.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310191300.pgpCJnlj-lkp@intel.com/
 
-The truth is when I was reviewing this code the first time I got mixed
-up between flags and vm->flags so that's part of why I reported it.
+All warnings (new ones prefixed by >>):
 
-Smatch ignores the WARN_ON().  Historically WARN_ON() has been useless
-for indicating whether something can happen or not.  These days,
-WARN_ON() is treated as a syzkaller bug so we prefer pr_warn() if
-something can actually happen.  We still see a lot of WARN_ON()s
-happening in real life so I'm not eager to make Smatch treat them like a
-BUG_ON().
-
-Also, sadly, even if we changed the WARN_ON() to a BUG_ON() it still
-wouldn't silence the warning because Smatch is not quite clever enough
-to parse that.
-
-regards,
-dan carpenter
+>> drivers/scsi/scsi_error.c:1277:6: warning: no previous prototype for function '__scsi_eh_finish_cmd' [-Wmissing-prototypes]
+   void __scsi_eh_finish_cmd(struct scsi_cmnd *scmd, struct list_head *done_q,
+        ^
+   drivers/scsi/scsi_error.c:1277:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void __scsi_eh_finish_cmd(struct scsi_cmnd *scmd, struct list_head *done_q,
+   ^
+   static 
+   1 warning generated.
 
 
+vim +/__scsi_eh_finish_cmd +1277 drivers/scsi/scsi_error.c
+
+  1263	
+  1264	/**
+  1265	 * __scsi_eh_finish_cmd - Handle a cmd that eh is finished with.
+  1266	 * @scmd:	Original SCSI cmd that eh has finished.
+  1267	 * @done_q:	Queue for processed commands.
+  1268	 * @host_byte:	Host byte of the command status to be set
+  1269	 *
+  1270	 * Notes:
+  1271	 *    We don't want to use the normal command completion while we are are
+  1272	 *    still handling errors - it may cause other commands to be queued,
+  1273	 *    and that would disturb what we are doing.  Thus we really want to
+  1274	 *    keep a list of pending commands for final completion, and once we
+  1275	 *    are ready to leave error handling we handle completion for real.
+  1276	 */
+> 1277	void __scsi_eh_finish_cmd(struct scsi_cmnd *scmd, struct list_head *done_q,
+  1278				int host_byte)
+  1279	{
+  1280		if (host_byte)
+  1281			set_host_byte(scmd, host_byte);
+  1282		list_move_tail(&scmd->eh_entry, done_q);
+  1283	}
+  1284	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
