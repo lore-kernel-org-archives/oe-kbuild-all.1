@@ -1,47 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1324F19442
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 10:32:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DDF18B0C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 10:32:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MjJ15nkd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A/4FlHAn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697711568; x=1729247568;
+  t=1697711570; x=1729247570;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WUYVtfhpHcqOb/ROewefpYGYuHxMLA4P77VPHllnjlU=;
-  b=MjJ15nkdEOJw1PO3PX3vTPnnuKmpytD54NyQb9CRkXGy6caTsWtuC5+Q
-   8SCEEFjliBGzSPYTjwMeglwFkOh+Rl678I1TpKXHHaJ/BK+9PlP8wovNG
-   jaGAURK183/tRzRSY0zxj32v2+4PL149uwEo1e0gs6pSG52Z0mAgX4mNe
-   QJ+42ptChJQGYAbcrXk46EvL1zpoP71kXwTEXbtA5guHGahISSOPu9nsS
-   wnAnqXwnudVfBC+bzKBgHpv45cp7b424xfzZdh8p3YEaza/ylrNYZUKSZ
-   JVikGH7ggOUZNo7Jcih40f5CKyl8iNB/ZygpjJu+ds5MhQyAk5oPI7z4Z
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="365571814"
+  bh=DM5pQ+yB9jwVco7qqPy4+zt7Xm0+ymh72AKCR6YqKuk=;
+  b=A/4FlHAnZSEs3bqSnF8xvPScIP8r/6/Jpzg3AFyuVMkW0wSRkgx2NDi5
+   FSjlw2w8iX/MDG9Xf9Y9+aFGXDPcZCfbWqEyMn5sOtgokFnA/7laolGHZ
+   v3mhMWJQdATqwr9Y/CySKySBi5Zy3t3g1QpbcF7HtxU1/Xa/QTjnLEsWn
+   hxILy4nZ9KFUA6fcYV9WYLJbxwNtx5UKw1rYIvOkiRrVDb+kKBiGh3U05
+   keElG2CJM30IYSY44vhxtPJ0SxI0WuGLz2mssVhtI8viuTjx8lE1k/ARF
+   7tN9CfKUEJ40jY+XsFYUgu3MDKxXza8Krk9GceT5ZQdV3Gr7l0ir0sQ33
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="365571822"
 X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
-   d="scan'208";a="365571814"
+   d="scan'208";a="365571822"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 03:32:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="791954514"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="791954547"
 X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
-   d="scan'208";a="791954514"
+   d="scan'208";a="791954547"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
   by orsmga001.jf.intel.com with ESMTP; 19 Oct 2023 03:32:07 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtQJw-00021G-2Q;
+	id 1qtQJw-00021I-2W;
 	Thu, 19 Oct 2023 10:32:04 +0000
-Date: Thu, 19 Oct 2023 18:31:57 +0800
+Date: Thu, 19 Oct 2023 18:31:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Valentin Caron <valentin.caron@foss.st.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>
-Subject: drivers/spi/spi-stm32.c:1808:17: warning: array subscript 0 is
- outside array bounds of 'const bool[0]' {aka 'const _Bool[]'}
-Message-ID: <202310191831.MLwx1c6x-lkp@intel.com>
+To: zouxiaoh <xiaohong.zou@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, renjiaox <jiaojiaox.ren@intel.com>
+Subject: [intel-lts:5.15/linux 22/38] drivers/media/i2c/d4xx.c:1779:26:
+ warning: array subscript 1000 is outside array bounds of 'unsigned char[0]'
+Message-ID: <202310191821.OHU8oten-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,210 +50,196 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dd72f9c7e512da377074d47d990564959b772643
-commit: fee681646fc831b154619ac0261afedcc7e671e7 spi: stm32: disable device mode with st,stm32f4-spi compatible
-date:   3 months ago
-config: parisc-randconfig-r013-20220830 (https://download.01.org/0day-ci/archive/20231019/202310191831.MLwx1c6x-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310191831.MLwx1c6x-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 5.15/linux
+head:   c1f04fe08dbdb93b88865ffa356aa27c49b58d07
+commit: cfb5743695d51c3d275a3646d140336c6e515358 [22/38] media: intel-ipu6: implement new vc solution
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20231019/202310191821.OHU8oten-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310191821.OHU8oten-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310191831.MLwx1c6x-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310191821.OHU8oten-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/spi/spi-stm32.c: In function 'stm32_spi_probe':
->> drivers/spi/spi-stm32.c:1808:17: warning: array subscript 0 is outside array bounds of 'const bool[0]' {aka 'const _Bool[]'} [-Warray-bounds=]
-    1808 |         if (!cfg->has_device_mode && device_mode) {
-         |              ~~~^~~~~~~~~~~~~~~~~
-   cc1: note: source object is likely at address zero
+   drivers/media/i2c/d4xx.c:2344:17: warning: initialized field overwritten [-Woverride-init]
+    2344 |         .step = 1,
+         |                 ^
+   drivers/media/i2c/d4xx.c:2344:17: note: (near initialization for 'ds5_ctrl_erb.step')
+   drivers/media/i2c/d4xx.c:2358:17: warning: initialized field overwritten [-Woverride-init]
+    2358 |         .step = 1,
+         |                 ^
+   drivers/media/i2c/d4xx.c:2358:17: note: (near initialization for 'ds5_ctrl_ewb.step')
+   drivers/media/i2c/d4xx.c:2372:17: warning: initialized field overwritten [-Woverride-init]
+    2372 |         .step = 1,
+         |                 ^
+   drivers/media/i2c/d4xx.c:2372:17: note: (near initialization for 'ds5_ctrl_hwmc.step')
+   drivers/media/i2c/d4xx.c: In function 'ds5_sensor_init':
+   drivers/media/i2c/d4xx.c:2524:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+    2524 |         struct d4xx_pdata *dpdata = c->dev.platform_data;
+         |         ^~~~~~
+   drivers/media/i2c/d4xx.c: In function 'ds5_mux_set_fmt':
+   drivers/media/i2c/d4xx.c:2806:21: warning: unused variable 'state' [-Wunused-variable]
+    2806 |         struct ds5 *state = container_of(sd, struct ds5, mux.sd.subdev);
+         |                     ^~~~~
+   drivers/media/i2c/d4xx.c: In function 'ds5_mux_s_stream':
+   drivers/media/i2c/d4xx.c:3052:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+    3052 |         u16 err_status;
+         |         ^~~
+   drivers/media/i2c/d4xx.c:3056:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+    3056 |         u16 tmp;
+         |         ^~~
+   drivers/media/i2c/d4xx.c:2938:53: warning: variable 'stream_id' set but not used [-Wunused-but-set-variable]
+    2938 |         u16 config_status_base, stream_status_base, stream_id;
+         |                                                     ^~~~~~~~~
+   drivers/media/i2c/d4xx.c:2935:102: warning: unused variable 's_stream' [-Wunused-variable]
+    2935 |         u16 streaming_depth, streaming_rgb, streaming_y8, rate, depth_status, rgb_status, y8_status, s_stream;
+         |                                                                                                      ^~~~~~~~
+   drivers/media/i2c/d4xx.c: In function 'ds5_mux_s_stream_vc':
+   drivers/media/i2c/d4xx.c:3211:13: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+    3211 |             u16 err_status;
+         |             ^~~
+   drivers/media/i2c/d4xx.c:3215:5: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+    3215 |     u16 tmp;
+         |     ^~~
+   drivers/media/i2c/d4xx.c:3086:53: warning: variable 'stream_id' set but not used [-Wunused-but-set-variable]
+    3086 |         u16 config_status_base, stream_status_base, stream_id;
+         |                                                     ^~~~~~~~~
+   drivers/media/i2c/d4xx.c:3083:102: warning: unused variable 's_stream' [-Wunused-variable]
+    3083 |         u16 streaming_depth, streaming_rgb, streaming_y8, rate, depth_status, rgb_status, y8_status, s_stream;
+         |                                                                                                      ^~~~~~~~
+   drivers/media/i2c/d4xx.c: In function 'ds5_des_register':
+   drivers/media/i2c/d4xx.c:3353:1: warning: label 'e_sd' defined but not used [-Wunused-label]
+    3353 | e_sd:
+         | ^~~~
+   drivers/media/i2c/d4xx.c:3332:30: warning: unused variable 'entity' [-Wunused-variable]
+    3332 |         struct media_entity *entity = &des->sd.entity;
+         |                              ^~~~~~
+   drivers/media/i2c/d4xx.c: In function 'ds5_mux_init':
+   drivers/media/i2c/d4xx.c:3531:1: warning: label 'e_entity' defined but not used [-Wunused-label]
+    3531 | e_entity:
+         | ^~~~~~~~
+   drivers/media/i2c/d4xx.c: In function 'ds5_parse_cam':
+   drivers/media/i2c/d4xx.c:3674:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+    3674 |         int ret;
+         |         ^~~
+   drivers/media/i2c/d4xx.c: In function 'device_write':
+   drivers/media/i2c/d4xx.c:3865:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
+    3865 |                 if (ret < 0) {
+         |                    ^
+   drivers/media/i2c/d4xx.c:3870:9: note: here
+    3870 |         case DS5_DFU_RECOVERY:
+         |         ^~~~
+   drivers/media/i2c/d4xx.c:3877:43: warning: this statement may fall through [-Wimplicit-fallthrough=]
+    3877 |                 state->dfu_dev.init_v4l_f = 1;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+   drivers/media/i2c/d4xx.c:3880:9: note: here
+    3880 |         case DS5_DFU_IN_PROGRESS: {
+         |         ^~~~
+   drivers/media/i2c/d4xx.c: At top level:
+   drivers/media/i2c/d4xx.c:3455:12: warning: 'ds5_des_init' defined but not used [-Wunused-function]
+    3455 | static int ds5_des_init(struct i2c_client *c, struct ds5 *state)
+         |            ^~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c:3329:12: warning: 'ds5_des_register' defined but not used [-Wunused-function]
+    3329 | static int ds5_des_register(struct ds5 *state, struct ds5_des *des)
+         |            ^~~~~~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c:1233:12: warning: 'ds5_configure' defined but not used [-Wunused-function]
+    1233 | static int ds5_configure(struct ds5 *state)
+         |            ^~~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c:797:36: warning: 'ds5_size_w10' defined but not used [-Wunused-const-variable=]
+     797 | static const struct ds5_resolution ds5_size_w10 = {
+         |                                    ^~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c:627:18: warning: 'ds5_framerate_25' defined but not used [-Wunused-const-variable=]
+     627 | static const u16 ds5_framerate_25 = 25;
+         |                  ^~~~~~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c:611:18: warning: 'ds5_default_framerate' defined but not used [-Wunused-const-variable=]
+     611 | static const u16 ds5_default_framerate = 30;
+         |                  ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c: In function 'ds5_send_hwmc':
+>> drivers/media/i2c/d4xx.c:1779:26: warning: array subscript 1000 is outside array bounds of 'unsigned char[0]' [-Warray-bounds=]
+    1779 |                 cmd->Data[1000] = (unsigned char)((*dataLen) & 0x00FF);
+         |                 ~~~~~~~~~^~~~~~
+   drivers/media/i2c/d4xx.c:222:23: note: while referencing 'Data'
+     222 |         unsigned char Data[0];
+         |                       ^~~~
+   drivers/media/i2c/d4xx.c:1780:26: warning: array subscript 1001 is outside array bounds of 'unsigned char[0]' [-Warray-bounds=]
+    1780 |                 cmd->Data[1001] = (unsigned char)(((*dataLen) & 0xFF00) >> 8);
+         |                 ~~~~~~~~~^~~~~~
+   drivers/media/i2c/d4xx.c:222:23: note: while referencing 'Data'
+     222 |         unsigned char Data[0];
+         |                       ^~~~
+   drivers/media/i2c/d4xx.c: In function 'device_read':
+   drivers/media/i2c/d4xx.c:3841:43: warning: '%x' directive writing between 1 and 4 bytes into a region of size 1 [-Wformat-overflow=]
+    3841 |         sprintf(msg, "DFU info: \tver: (0x%x)\n", fw_ver);
+         |                                           ^~
+   drivers/media/i2c/d4xx.c:3841:22: note: directive argument in the range [0, 65535]
+    3841 |         sprintf(msg, "DFU info: \tver: (0x%x)\n", fw_ver);
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c:3841:9: note: 'sprintf' output between 23 and 26 bytes into a destination of size 20
+    3841 |         sprintf(msg, "DFU info: \tver: (0x%x)\n", fw_ver);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INTEL_PMC_CORE
+   Depends on [n]: X86 && X86_PLATFORM_DEVICES [=n] && PCI [=y] && ACPI
+   Selected by [m]:
+   - DWMAC_INTEL_PLAT [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_STMICRO [=y] && STMMAC_PLATFORM [=m] && OF [=y] && COMMON_CLK [=y] && STMMAC_ETH [=m]
 
 
-vim +1808 drivers/spi/spi-stm32.c
+vim +1779 drivers/media/i2c/d4xx.c
 
-  1795	
-  1796	static int stm32_spi_probe(struct platform_device *pdev)
-  1797	{
-  1798		struct spi_controller *ctrl;
-  1799		struct stm32_spi *spi;
-  1800		struct resource *res;
-  1801		struct reset_control *rst;
-  1802		struct device_node *np = pdev->dev.of_node;
-  1803		bool device_mode;
-  1804		int ret;
-  1805		const struct stm32_spi_cfg *cfg = of_device_get_match_data(&pdev->dev);
-  1806	
-  1807		device_mode = of_property_read_bool(np, "spi-slave");
-> 1808		if (!cfg->has_device_mode && device_mode) {
-  1809			dev_err(&pdev->dev, "spi-slave not supported\n");
-  1810			return -EPERM;
-  1811		}
-  1812	
-  1813		if (device_mode)
-  1814			ctrl = devm_spi_alloc_slave(&pdev->dev, sizeof(struct stm32_spi));
-  1815		else
-  1816			ctrl = devm_spi_alloc_master(&pdev->dev, sizeof(struct stm32_spi));
-  1817		if (!ctrl) {
-  1818			dev_err(&pdev->dev, "spi controller allocation failed\n");
-  1819			return -ENOMEM;
-  1820		}
-  1821		platform_set_drvdata(pdev, ctrl);
-  1822	
-  1823		spi = spi_controller_get_devdata(ctrl);
-  1824		spi->dev = &pdev->dev;
-  1825		spi->ctrl = ctrl;
-  1826		spi->device_mode = device_mode;
-  1827		spin_lock_init(&spi->lock);
-  1828	
-  1829		spi->cfg = cfg;
-  1830	
-  1831		spi->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-  1832		if (IS_ERR(spi->base))
-  1833			return PTR_ERR(spi->base);
-  1834	
-  1835		spi->phys_addr = (dma_addr_t)res->start;
-  1836	
-  1837		spi->irq = platform_get_irq(pdev, 0);
-  1838		if (spi->irq <= 0)
-  1839			return dev_err_probe(&pdev->dev, spi->irq,
-  1840					     "failed to get irq\n");
-  1841	
-  1842		ret = devm_request_threaded_irq(&pdev->dev, spi->irq,
-  1843						spi->cfg->irq_handler_event,
-  1844						spi->cfg->irq_handler_thread,
-  1845						IRQF_ONESHOT, pdev->name, ctrl);
-  1846		if (ret) {
-  1847			dev_err(&pdev->dev, "irq%d request failed: %d\n", spi->irq,
-  1848				ret);
-  1849			return ret;
-  1850		}
-  1851	
-  1852		spi->clk = devm_clk_get(&pdev->dev, NULL);
-  1853		if (IS_ERR(spi->clk)) {
-  1854			ret = PTR_ERR(spi->clk);
-  1855			dev_err(&pdev->dev, "clk get failed: %d\n", ret);
-  1856			return ret;
-  1857		}
-  1858	
-  1859		ret = clk_prepare_enable(spi->clk);
-  1860		if (ret) {
-  1861			dev_err(&pdev->dev, "clk enable failed: %d\n", ret);
-  1862			return ret;
-  1863		}
-  1864		spi->clk_rate = clk_get_rate(spi->clk);
-  1865		if (!spi->clk_rate) {
-  1866			dev_err(&pdev->dev, "clk rate = 0\n");
-  1867			ret = -EINVAL;
-  1868			goto err_clk_disable;
-  1869		}
-  1870	
-  1871		rst = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
-  1872		if (rst) {
-  1873			if (IS_ERR(rst)) {
-  1874				ret = dev_err_probe(&pdev->dev, PTR_ERR(rst),
-  1875						    "failed to get reset\n");
-  1876				goto err_clk_disable;
-  1877			}
-  1878	
-  1879			reset_control_assert(rst);
-  1880			udelay(2);
-  1881			reset_control_deassert(rst);
-  1882		}
-  1883	
-  1884		if (spi->cfg->has_fifo)
-  1885			spi->fifo_size = spi->cfg->get_fifo_size(spi);
-  1886	
-  1887		ret = spi->cfg->config(spi);
-  1888		if (ret) {
-  1889			dev_err(&pdev->dev, "controller configuration failed: %d\n",
-  1890				ret);
-  1891			goto err_clk_disable;
-  1892		}
-  1893	
-  1894		ctrl->dev.of_node = pdev->dev.of_node;
-  1895		ctrl->auto_runtime_pm = true;
-  1896		ctrl->bus_num = pdev->id;
-  1897		ctrl->mode_bits = SPI_CPHA | SPI_CPOL | SPI_CS_HIGH | SPI_LSB_FIRST |
-  1898				  SPI_3WIRE;
-  1899		ctrl->bits_per_word_mask = spi->cfg->get_bpw_mask(spi);
-  1900		ctrl->max_speed_hz = spi->clk_rate / spi->cfg->baud_rate_div_min;
-  1901		ctrl->min_speed_hz = spi->clk_rate / spi->cfg->baud_rate_div_max;
-  1902		ctrl->use_gpio_descriptors = true;
-  1903		ctrl->prepare_message = stm32_spi_prepare_msg;
-  1904		ctrl->transfer_one = stm32_spi_transfer_one;
-  1905		ctrl->unprepare_message = stm32_spi_unprepare_msg;
-  1906		ctrl->flags = spi->cfg->flags;
-  1907		if (STM32_SPI_DEVICE_MODE(spi))
-  1908			ctrl->slave_abort = stm32h7_spi_device_abort;
-  1909	
-  1910		spi->dma_tx = dma_request_chan(spi->dev, "tx");
-  1911		if (IS_ERR(spi->dma_tx)) {
-  1912			ret = PTR_ERR(spi->dma_tx);
-  1913			spi->dma_tx = NULL;
-  1914			if (ret == -EPROBE_DEFER)
-  1915				goto err_clk_disable;
-  1916	
-  1917			dev_warn(&pdev->dev, "failed to request tx dma channel\n");
-  1918		} else {
-  1919			ctrl->dma_tx = spi->dma_tx;
-  1920		}
-  1921	
-  1922		spi->dma_rx = dma_request_chan(spi->dev, "rx");
-  1923		if (IS_ERR(spi->dma_rx)) {
-  1924			ret = PTR_ERR(spi->dma_rx);
-  1925			spi->dma_rx = NULL;
-  1926			if (ret == -EPROBE_DEFER)
-  1927				goto err_dma_release;
-  1928	
-  1929			dev_warn(&pdev->dev, "failed to request rx dma channel\n");
-  1930		} else {
-  1931			ctrl->dma_rx = spi->dma_rx;
-  1932		}
-  1933	
-  1934		if (spi->dma_tx || spi->dma_rx)
-  1935			ctrl->can_dma = stm32_spi_can_dma;
-  1936	
-  1937		pm_runtime_set_autosuspend_delay(&pdev->dev,
-  1938						 STM32_SPI_AUTOSUSPEND_DELAY);
-  1939		pm_runtime_use_autosuspend(&pdev->dev);
-  1940		pm_runtime_set_active(&pdev->dev);
-  1941		pm_runtime_get_noresume(&pdev->dev);
-  1942		pm_runtime_enable(&pdev->dev);
-  1943	
-  1944		ret = spi_register_controller(ctrl);
-  1945		if (ret) {
-  1946			dev_err(&pdev->dev, "spi controller registration failed: %d\n",
-  1947				ret);
-  1948			goto err_pm_disable;
-  1949		}
-  1950	
-  1951		pm_runtime_mark_last_busy(&pdev->dev);
-  1952		pm_runtime_put_autosuspend(&pdev->dev);
-  1953	
-  1954		dev_info(&pdev->dev, "driver initialized (%s mode)\n",
-  1955			 STM32_SPI_MASTER_MODE(spi) ? "master" : "device");
-  1956	
-  1957		return 0;
-  1958	
-  1959	err_pm_disable:
-  1960		pm_runtime_disable(&pdev->dev);
-  1961		pm_runtime_put_noidle(&pdev->dev);
-  1962		pm_runtime_set_suspended(&pdev->dev);
-  1963		pm_runtime_dont_use_autosuspend(&pdev->dev);
-  1964	err_dma_release:
-  1965		if (spi->dma_tx)
-  1966			dma_release_channel(spi->dma_tx);
-  1967		if (spi->dma_rx)
-  1968			dma_release_channel(spi->dma_rx);
-  1969	err_clk_disable:
-  1970		clk_disable_unprepare(spi->clk);
-  1971	
-  1972		return ret;
-  1973	}
-  1974	
+  1736	
+  1737	static int ds5_send_hwmc(struct ds5 *state, u16 cmdLen, struct hwm_cmd *cmd,
+  1738				 bool isRead, u16 *dataLen)
+  1739	{
+  1740		int ret = 0;
+  1741		u16 status = 2;
+  1742		int retries = 20;
+  1743		int errorCode;
+  1744	
+  1745		dev_info(&state->client->dev,
+  1746			"%s(): HWMC header: 0x%x, magic: 0x%x, opcode: 0x%x, param1: %d, param2: %d, param3: %d, param4: %d\n",
+  1747			__func__,
+  1748			cmd->header, cmd->magic_word, cmd->opcode, cmd->param1, cmd->param2, cmd->param3, cmd->param4);
+  1749	
+  1750		ds5_raw_write_with_check(state, 0x4900, cmd, cmdLen);
+  1751	
+  1752		ds5_write_with_check(state, 0x490C, 0x01); /* execute cmd */
+  1753		do {
+  1754			if (retries != 5)
+  1755				msleep_range(50);
+  1756			ret = ds5_read(state, 0x4904, &status);
+  1757		} while (retries-- && status != 0);
+  1758	
+  1759		if (ret || status != 0) {
+  1760			ds5_raw_read(state, 0x4900, &errorCode, 4);
+  1761			dev_err(&state->client->dev, "%s(): HWMC failed, ret: %d, status: %x, error code: %d\n",
+  1762						__func__, ret, status, errorCode);
+  1763			ret = -EAGAIN;
+  1764		}
+  1765	
+  1766		if (isRead) {
+  1767			if (*dataLen == 0) {
+  1768				ret = regmap_raw_read(state->regmap, 0x4908, dataLen, sizeof(u16));
+  1769				if (ret)
+  1770					return -EAGAIN;
+  1771			}
+  1772	
+  1773			dev_err(&state->client->dev, "%s(): HWMC read len: %d\n",
+  1774						__func__, *dataLen);
+  1775			// First 4 bytes of cmd->Data after read will include opcode
+  1776			ds5_raw_read_with_check(state, 0x4900, cmd->Data, *dataLen);
+  1777	
+  1778			/*This is neede for libreealsense, to align there code with UVC*/
+> 1779			cmd->Data[1000] = (unsigned char)((*dataLen) & 0x00FF);
+  1780			cmd->Data[1001] = (unsigned char)(((*dataLen) & 0xFF00) >> 8);
+  1781		}
+  1782	
+  1783		return 0;
+  1784	}
+  1785	
 
 -- 
 0-DAY CI Kernel Test Service
