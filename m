@@ -1,48 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7C02744F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 13:22:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB635DDA6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 13:26:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n0M7G26K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iHanU0SN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697721736; x=1729257736;
+  t=1697721965; x=1729257965;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yWDIqJK0v1ukKdDSKR/LKTqW+D7+ixLXAy7UhGpSXzM=;
-  b=n0M7G26Kb0kPWOQVrUVmdZKMGeNTSrktDLXmQLWNVENREFyQ7P9yyn1T
-   CaTbvb1Cm4bqzGO/jmzXyO/BNV7TPUW8XaB6qeMa9c9lhiIGQjqdFjFJG
-   GYeuKNbHXCy5RT9M9pAO6Mi6+MeOb2UW4pRB45mVeemNsfylWfMISFt4G
-   LH0DYlwIeEiNmT8VINQ89mS3GTh/7jKwLP+qwq8u0ZNLM/4iCMncU5ya4
-   Heexz1QtTg0If3hDvJu9mVurYuXxLnixi2sDKds6WaGGwclIT4XA8V5Ol
-   +Z2aDa/6e3fcndYDaqUd34ku6BQsI2QwYygutKJP7Uge6TtBS8VcT4SUY
+  bh=efPmX5A8B5ZfWF3vAqZbcwFs2e935indB1OtsnCxIco=;
+  b=iHanU0SNB1LLhMgmEvmkOqHyGaWkEHgFItVoPFijWNYMUVNmB3WhOzMr
+   Fd7gXpYJVqXcueR6XyxGs6tEidAJAkyEvBgCqQVTs8uDpwU2hs6ZrvCup
+   cpkvqHeKNae2rYeRrUxAd9FVNhNWtxngzJPKJYNasRWTptz5W0OGPWgkO
+   fKMKRgNWL3U247Ry/gtarxe4z/zO4w1Ezlpchs1yfJVW90jMeqgPW57Ac
+   rvziS/crg0XsoxiWtKVfAafGxQsVHY1d73woxkfLnUDsNgqvMWr6cRNrn
+   4fBakzfbP9VWtMcDzisc2pmg4Yjhq1LlPClxGa4LrchZL0+6skm1WWv6d
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="385124546"
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="450471237"
 X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
-   d="scan'208";a="385124546"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 06:22:13 -0700
+   d="scan'208";a="450471237"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 06:22:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="757028508"
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="792000256"
 X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
-   d="scan'208";a="757028508"
+   d="scan'208";a="792000256"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 19 Oct 2023 06:22:11 -0700
+  by orsmga001.jf.intel.com with ESMTP; 19 Oct 2023 06:22:11 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtSyX-00028n-11;
+	id 1qtSyX-00028h-0s;
 	Thu, 19 Oct 2023 13:22:09 +0000
-Date: Thu, 19 Oct 2023 21:21:23 +0800
+Date: Thu, 19 Oct 2023 21:21:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: zouxiaoh <xiaohong.zou@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Ranjan Dutta <ranjan.dutta@intel.com>,
-	Chen Meng J <meng.j.chen@intel.com>
-Subject: [intel-lts:5.15/linux 46/67] drivers/media/i2c/d4xx.c:4579:57:
- warning: '%x' directive output may be truncated writing between 1 and 4
- bytes into a region of size 1
-Message-ID: <202310192118.tZcVZgch-lkp@intel.com>
+To: Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Edward Cree <ecree.xilinx@gmail.com>
+Subject: include/linux/netlink.h:116:13: warning: 'sfc: Unsupported: only
+ suppo...' directive output truncated writing 104 bytes into a region of size
+ 80
+Message-ID: <202310192117.YEwbmOWC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,148 +52,157 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.15/linux
-head:   c1f04fe08dbdb93b88865ffa356aa27c49b58d07
-commit: fce663db7ccc271a565fc391ca6f38bbe2e16085 [46/67] media: d4xx: rename d4xx.h to d4xx_pdata.h
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20231019/202310192118.tZcVZgch-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310192118.tZcVZgch-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   dd72f9c7e512da377074d47d990564959b772643
+commit: 66f728872636e1167aedc5a18be6760083911900 sfc: add decrement ttl by offloading set ipv4 ttl actions
+date:   8 weeks ago
+config: x86_64-randconfig-x013-20230730 (https://download.01.org/0day-ci/archive/20231019/202310192117.YEwbmOWC-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310192117.YEwbmOWC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310192118.tZcVZgch-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310192117.YEwbmOWC-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/media/i2c/d4xx.c:2918:17: warning: initialized field overwritten [-Woverride-init]
-    2918 |         .step = 1,
-         |                 ^
-   drivers/media/i2c/d4xx.c:2918:17: note: (near initialization for 'ds5_ctrl_erb.step')
-   drivers/media/i2c/d4xx.c:2932:17: warning: initialized field overwritten [-Woverride-init]
-    2932 |         .step = 1,
-         |                 ^
-   drivers/media/i2c/d4xx.c:2932:17: note: (near initialization for 'ds5_ctrl_ewb.step')
-   drivers/media/i2c/d4xx.c:2946:17: warning: initialized field overwritten [-Woverride-init]
-    2946 |         .step = 1,
-         |                 ^
-   drivers/media/i2c/d4xx.c:2946:17: note: (near initialization for 'ds5_ctrl_hwmc.step')
-   drivers/media/i2c/d4xx.c: In function 'ds5_mux_s_stream':
-   drivers/media/i2c/d4xx.c:3657:53: warning: variable 'stream_id' set but not used [-Wunused-but-set-variable]
-    3657 |         u16 config_status_base, stream_status_base, stream_id;
-         |                                                     ^~~~~~~~~
-   drivers/media/i2c/d4xx.c: In function 'ds5_mux_s_stream_vc':
-   drivers/media/i2c/d4xx.c:3798:53: warning: variable 'stream_id' set but not used [-Wunused-but-set-variable]
-    3798 |         u16 config_status_base, stream_status_base, stream_id;
-         |                                                     ^~~~~~~~~
-   drivers/media/i2c/d4xx.c: In function 'ds5_hw_init':
-   drivers/media/i2c/d4xx.c:4146:29: warning: unused variable 'sd' [-Wunused-variable]
-    4146 |         struct v4l2_subdev *sd = &state->mux.sd.subdev;
-         |                             ^~
-   drivers/media/i2c/d4xx.c: In function 'ds5_dfu_device_open':
-   drivers/media/i2c/d4xx.c:4681:29: warning: unused variable 'parent' [-Wunused-variable]
-    4681 |         struct i2c_adapter *parent = i2c_parent_is_i2c_adapter(
-         |                             ^~~~~~
-   drivers/media/i2c/d4xx.c: In function 'ds5_i2c_addr_setting':
-   drivers/media/i2c/d4xx.c:5049:12: warning: unused variable 'val' [-Wunused-variable]
-    5049 |         u8 val;
-         |            ^~~
-   drivers/media/i2c/d4xx.c: In function 'ds5_dfu_device_write':
-   drivers/media/i2c/d4xx.c:4604:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    4604 |                 if (ret < 0) {
-         |                    ^
-   drivers/media/i2c/d4xx.c:4610:9: note: here
-    4610 |         case DS5_DFU_RECOVERY:
-         |         ^~~~
-   drivers/media/i2c/d4xx.c:4618:43: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    4618 |                 state->dfu_dev.init_v4l_f = 1;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/media/i2c/d4xx.c:4621:9: note: here
-    4621 |         case DS5_DFU_IN_PROGRESS: {
-         |         ^~~~
-   drivers/media/i2c/d4xx.c: At top level:
-   drivers/media/i2c/d4xx.c:1021:13: warning: 'ds5_set_state_last_set' defined but not used [-Wunused-function]
-    1021 | static void ds5_set_state_last_set(struct ds5 *state)
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/d4xx.c:867:36: warning: 'ds5_size_w10' defined but not used [-Wunused-const-variable=]
-     867 | static const struct ds5_resolution ds5_size_w10 = {
-         |                                    ^~~~~~~~~~~~
-   drivers/media/i2c/d4xx.c:697:18: warning: 'ds5_framerate_25' defined but not used [-Wunused-const-variable=]
-     697 | static const u16 ds5_framerate_25 = 25;
-         |                  ^~~~~~~~~~~~~~~~
-   drivers/media/i2c/d4xx.c:681:18: warning: 'ds5_default_framerate' defined but not used [-Wunused-const-variable=]
-     681 | static const u16 ds5_default_framerate = 30;
-         |                  ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/d4xx.c:533:12: warning: 'ds5_write_8' defined but not used [-Wunused-function]
-     533 | static int ds5_write_8(struct ds5 *state, u16 reg, u8 val)
-         |            ^~~~~~~~~~~
-   drivers/media/i2c/d4xx.c: In function 'ds5_dfu_device_read':
->> drivers/media/i2c/d4xx.c:4579:57: warning: '%x' directive output may be truncated writing between 1 and 4 bytes into a region of size 1 [-Wformat-truncation=]
-    4579 |         snprintf(msg, sizeof(msg), "DFU info: \tver: (0x%x)\n", fw_ver);
-         |                                                         ^~
-   drivers/media/i2c/d4xx.c:4579:36: note: directive argument in the range [0, 65535]
-    4579 |         snprintf(msg, sizeof(msg), "DFU info: \tver: (0x%x)\n", fw_ver);
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/d4xx.c:4579:9: note: 'snprintf' output between 23 and 26 bytes into a destination of size 20
-    4579 |         snprintf(msg, sizeof(msg), "DFU info: \tver: (0x%x)\n", fw_ver);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/d4xx.c: In function 'ds5_send_hwmc':
-   drivers/media/i2c/d4xx.c:1986:26: warning: array subscript 1000 is outside array bounds of 'unsigned char[0]' [-Warray-bounds=]
-    1986 |                 cmd->Data[1000] = (unsigned char)((*dataLen) & 0x00FF);
-         |                 ~~~~~~~~~^~~~~~
-   drivers/media/i2c/d4xx.c:228:23: note: while referencing 'Data'
-     228 |         unsigned char Data[0];
-         |                       ^~~~
-   drivers/media/i2c/d4xx.c:1987:26: warning: array subscript 1001 is outside array bounds of 'unsigned char[0]' [-Warray-bounds=]
-    1987 |                 cmd->Data[1001] = (unsigned char)(((*dataLen) & 0xFF00) >> 8);
-         |                 ~~~~~~~~~^~~~~~
-   drivers/media/i2c/d4xx.c:228:23: note: while referencing 'Data'
-     228 |         unsigned char Data[0];
-         |                       ^~~~
+   In file included from include/uapi/linux/neighbour.h:6,
+                    from include/linux/netdevice.h:45,
+                    from include/net/sch_generic.h:5,
+                    from include/net/pkt_cls.h:7,
+                    from drivers/net/ethernet/sfc/tc.c:12:
+   drivers/net/ethernet/sfc/tc.c: In function 'efx_tc_mangle':
+>> include/linux/netlink.h:116:13: warning: 'sfc: Unsupported: only suppo...' directive output truncated writing 104 bytes into a region of size 80 [-Wformat-truncation=]
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:1155:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+    1155 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:13: note: directive argument in the range [0, 254]
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:1155:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+    1155 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:13: note: 'snprintf' output between 107 and 110 bytes into a destination of size 80
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:1155:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+    1155 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c: In function 'efx_tc_flower_record_encap_match':
+   include/linux/netlink.h:116:13: warning: ' conflicts with existing pse...' directive output truncated writing 53 bytes into a region of size between 28 and 33 [-Wformat-truncation=]
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:632:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+     632 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:13: note: directive argument in the range [0, 65535]
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:632:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+     632 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:13: note: 'snprintf' output between 102 and 112 bytes into a destination of size 80
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:632:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+     632 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:13: warning: ' conflicts with existing pse...' directive output truncated writing 57 bytes into a region of size 39 [-Wformat-truncation=]
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:625:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+     625 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:13: note: directive argument in the range [0, 255]
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:625:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+     625 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:13: note: 'snprintf' output 103 bytes into a destination of size 80
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:625:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+     625 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for INTEL_PMC_CORE
-   Depends on [n]: X86 && X86_PLATFORM_DEVICES [=n] && PCI [=y] && ACPI
-   Selected by [m]:
-   - DWMAC_INTEL_PLAT [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_STMICRO [=y] && STMMAC_PLATFORM [=m] && OF [=y] && COMMON_CLK [=y] && STMMAC_ETH [=m]
 
+vim +116 include/linux/netlink.h
 
-vim +4579 drivers/media/i2c/d4xx.c
+2d4bc93368f5a0 Johannes Berg 2017-04-12  107  
+51c352bdbcd23d Edward Cree   2022-10-18  108  /* We splice fmt with %s at each end even in the snprintf so that both calls
+51c352bdbcd23d Edward Cree   2022-10-18  109   * can use the same string constant, avoiding its duplication in .ro
+51c352bdbcd23d Edward Cree   2022-10-18  110   */
+51c352bdbcd23d Edward Cree   2022-10-18  111  #define NL_SET_ERR_MSG_FMT(extack, fmt, args...) do {			       \
+51c352bdbcd23d Edward Cree   2022-10-18  112  	struct netlink_ext_ack *__extack = (extack);			       \
+51c352bdbcd23d Edward Cree   2022-10-18  113  									       \
+51c352bdbcd23d Edward Cree   2022-10-18  114  	if (!__extack)							       \
+51c352bdbcd23d Edward Cree   2022-10-18  115  		break;							       \
+51c352bdbcd23d Edward Cree   2022-10-18 @116  	if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,	       \
+51c352bdbcd23d Edward Cree   2022-10-18  117  		     "%s" fmt "%s", "", ##args, "") >=			       \
+51c352bdbcd23d Edward Cree   2022-10-18  118  	    NETLINK_MAX_FMTMSG_LEN)					       \
+51c352bdbcd23d Edward Cree   2022-10-18  119  		net_warn_ratelimited("%s" fmt "%s", "truncated extack: ",      \
+51c352bdbcd23d Edward Cree   2022-10-18  120  				     ##args, "\n");			       \
+51c352bdbcd23d Edward Cree   2022-10-18  121  									       \
+51c352bdbcd23d Edward Cree   2022-10-18  122  	do_trace_netlink_extack(__extack->_msg_buf);			       \
+51c352bdbcd23d Edward Cree   2022-10-18  123  									       \
+51c352bdbcd23d Edward Cree   2022-10-18  124  	__extack->_msg = __extack->_msg_buf;				       \
+51c352bdbcd23d Edward Cree   2022-10-18  125  } while (0)
+51c352bdbcd23d Edward Cree   2022-10-18  126  
 
-cfb5743695d51c3 zouxiaoh 2022-11-28  4564  
-cfb5743695d51c3 zouxiaoh 2022-11-28  4565  /* When a process reads from our device, this gets called. */
-db4067cbf480f22 zouxiaoh 2023-03-22  4566  static ssize_t ds5_dfu_device_read(struct file *flip,
-db4067cbf480f22 zouxiaoh 2023-03-22  4567  		char __user *buffer, size_t len, loff_t *offset)
-cfb5743695d51c3 zouxiaoh 2022-11-28  4568  {
-cfb5743695d51c3 zouxiaoh 2022-11-28  4569  	struct ds5 *state = flip->private_data;
-cfb5743695d51c3 zouxiaoh 2022-11-28  4570  	u16 fw_ver;
-cfb5743695d51c3 zouxiaoh 2022-11-28  4571  	char msg[20];
-cfb5743695d51c3 zouxiaoh 2022-11-28  4572  	int ret = 0;
-cfb5743695d51c3 zouxiaoh 2022-11-28  4573  
-cfb5743695d51c3 zouxiaoh 2022-11-28  4574  	if (mutex_lock_interruptible(&state->lock))
-cfb5743695d51c3 zouxiaoh 2022-11-28  4575  		return -ERESTARTSYS;
-cfb5743695d51c3 zouxiaoh 2022-11-28  4576  	ret = ds5_read(state, DS5_FW_VERSION, &fw_ver);
-cfb5743695d51c3 zouxiaoh 2022-11-28  4577  	if (ret < 0)
-cfb5743695d51c3 zouxiaoh 2022-11-28  4578  		goto e_dfu_read_failed;
-db4067cbf480f22 zouxiaoh 2023-03-22 @4579  	snprintf(msg, sizeof(msg), "DFU info: \tver: (0x%x)\n", fw_ver);
-cfb5743695d51c3 zouxiaoh 2022-11-28  4580  	if (copy_to_user(buffer, msg, strlen(msg)))
-cfb5743695d51c3 zouxiaoh 2022-11-28  4581  		ret = -EFAULT;
-cfb5743695d51c3 zouxiaoh 2022-11-28  4582  	else {
-cfb5743695d51c3 zouxiaoh 2022-11-28  4583  		state->dfu_dev.msg_write_once = ~state->dfu_dev.msg_write_once;
-cfb5743695d51c3 zouxiaoh 2022-11-28  4584  		ret = strlen(msg) & state->dfu_dev.msg_write_once;
-cfb5743695d51c3 zouxiaoh 2022-11-28  4585  	}
-cfb5743695d51c3 zouxiaoh 2022-11-28  4586  
-cfb5743695d51c3 zouxiaoh 2022-11-28  4587  e_dfu_read_failed:
-cfb5743695d51c3 zouxiaoh 2022-11-28  4588  	mutex_unlock(&state->lock);
-cfb5743695d51c3 zouxiaoh 2022-11-28  4589  	return ret;
-cfb5743695d51c3 zouxiaoh 2022-11-28  4590  };
-cfb5743695d51c3 zouxiaoh 2022-11-28  4591  
+:::::: The code at line 116 was first introduced by commit
+:::::: 51c352bdbcd23d7ce46b06c1e64c82754dc44044 netlink: add support for formatted extack messages
 
-:::::: The code at line 4579 was first introduced by commit
-:::::: db4067cbf480f22e8b0b0ef4467bb6e69e65250e media: i2c: d4xx: Update to match RealSense latest code.
-
-:::::: TO: zouxiaoh <xiaohong.zou@intel.com>
-:::::: CC: Ranjan Dutta <ranjan.dutta@intel.com>
+:::::: TO: Edward Cree <ecree.xilinx@gmail.com>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
