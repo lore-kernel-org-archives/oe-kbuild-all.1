@@ -1,46 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA1518E0B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 23:30:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84BB9361
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 00:11:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BY4MkwOQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P7cOSq46"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697671835; x=1729207835;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XYmTFSuYLOrfa5SSs65gm16cQyePHty0bHzTVLsfZXY=;
-  b=BY4MkwOQoBQqC/aKTBp49HqcF3W06XySGIDLY/NWy5fOV4zIwbRtJbAw
-   En5kOPFM2t542ZWuqAvXjAqng7CrGhWMcmaIIWI9UMkQkB7+cT0xs9wVR
-   vpvzKD4AnQTip3bnXiJfcSCXf1T+wc5plwYt0RG58QK6+qK1gFGx9eWqU
-   I/TUshakrb38/qk+tRmwOiBTumbd7q9f2Ny9vQCzTe6uAZzqv/542eP0K
-   eyQMjs9zz14njBd0fzw5qp4yEgqbwqdoFOG74/ZxnFrwcbI09aCIUgrAH
-   +Osu0WKPLj10D5UAeWzF4eCifWbgMqgHiBYcruBKzehLLP/uEen1Ai9tl
+  t=1697674300; x=1729210300;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lfHfhXx4PmjARlwECHoOSOd7MwM+0A7zoQb6TM0qST4=;
+  b=P7cOSq46U9jQDcDzdAkjTM6PMs6iCttj9igkzFFwKEtvMNGj/LIyHRlr
+   dCtEfjxoK/yV2N9ZEdVybZFbVt1Fjhr0cKHffQgSWDaR89ojhAchEnJ5B
+   uV8KGoTgSlgYNPMqTL00HV41TZlE4GGi5yUWzr6sE9XblHiZtXepPOqNx
+   1+BLaJMLr32Fmuu9qhphYMD2BaR3GjYWfverSRUylCu4AWX+iIcjnTPAm
+   49IlBrIoBSd4BD1wHVWJfaU2QmADZ8z/4qzGaRKTXAbk2PNG5PCDlJxoK
+   82FVx9vL9JQdnvko5hdxEwM1cRijzY4UoQ9Eo4vad2Jn+0+Wd1nRBBY1D
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="4730908"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="389002346"
 X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="4730908"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 16:30:34 -0700
+   d="scan'208";a="389002346"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 17:11:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="822621143"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="756799691"
 X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="822621143"
+   d="scan'208";a="756799691"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 18 Oct 2023 16:30:33 -0700
+  by orsmga002.jf.intel.com with ESMTP; 18 Oct 2023 17:11:36 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtFzi-0001Eu-2v;
-	Wed, 18 Oct 2023 23:30:30 +0000
-Date: Thu, 19 Oct 2023 07:30:10 +0800
+	id 1qtGdR-0001JG-2c;
+	Thu, 19 Oct 2023 00:11:33 +0000
+Date: Thu, 19 Oct 2023 08:10:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/powerpc/platforms/pseries/lpar.c:2032:36: error: '%ld'
- directive writing between 1 and 20 bytes into a region of size 12
-Message-ID: <202310190736.sgDpsRRj-lkp@intel.com>
+To: Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Anshul Dalal <anshulusr@gmail.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 2/2] input: joystick: driver for Adafruit Seesaw
+ Gamepad
+Message-ID: <202310190852.BCw4Ry7D-lkp@intel.com>
+References: <20231017034356.1436677-2-anshulusr@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,74 +60,130 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231017034356.1436677-2-anshulusr@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dd72f9c7e512da377074d47d990564959b772643
-commit: 33e67710beda78aed38a2fe10be6088d4aeb1c53 cpumask: switch for_each_cpu{,_not} to use for_each_bit()
-date:   1 year, 1 month ago
-config: powerpc64-randconfig-r003-20220418 (https://download.01.org/0day-ci/archive/20231019/202310190736.sgDpsRRj-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310190736.sgDpsRRj-lkp@intel.com/reproduce)
+Hi Anshul,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.6-rc6 next-20231018]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anshul-Dalal/input-joystick-driver-for-Adafruit-Seesaw-Gamepad/20231017-160635
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20231017034356.1436677-2-anshulusr%40gmail.com
+patch subject: [PATCH v5 2/2] input: joystick: driver for Adafruit Seesaw Gamepad
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231019/202310190852.BCw4Ry7D-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310190852.BCw4Ry7D-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310190736.sgDpsRRj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310190852.BCw4Ry7D-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/powerpc/platforms/pseries/lpar.c: In function '__machine_initcall_pseries_vpa_debugfs_init':
->> arch/powerpc/platforms/pseries/lpar.c:2032:36: error: '%ld' directive writing between 1 and 20 bytes into a region of size 12 [-Werror=format-overflow=]
-    2032 |                 sprintf(name, "cpu-%ld", i);
-         |                                    ^~~
-   In function 'vpa_debugfs_init',
-       inlined from '__machine_initcall_pseries_vpa_debugfs_init' at arch/powerpc/platforms/pseries/lpar.c:2038:1:
-   arch/powerpc/platforms/pseries/lpar.c:2032:31: note: directive argument in the range [-9223372036854775808, 4294967294]
-    2032 |                 sprintf(name, "cpu-%ld", i);
-         |                               ^~~~~~~~~
-   arch/powerpc/platforms/pseries/lpar.c:2032:17: note: 'sprintf' output between 6 and 25 bytes into a destination of size 16
-    2032 |                 sprintf(name, "cpu-%ld", i);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
-   arch/powerpc/sysdev/xive/common.c: In function 'xive_core_debug_init':
->> arch/powerpc/sysdev/xive/common.c:1845:50: error: '%ld' directive output may be truncated writing between 1 and 20 bytes into a region of size 13 [-Werror=format-truncation=]
-    1845 |                 snprintf(name, sizeof(name), "cpu%ld", cpu);
-         |                                                  ^~~
-   In function 'xive_core_debugfs_create',
-       inlined from 'xive_core_debug_init' at arch/powerpc/sysdev/xive/common.c:1861:3:
-   arch/powerpc/sysdev/xive/common.c:1845:46: note: directive argument in the range [-9223372036854775808, 4294967294]
-    1845 |                 snprintf(name, sizeof(name), "cpu%ld", cpu);
-         |                                              ^~~~~~~~
-   arch/powerpc/sysdev/xive/common.c:1845:17: note: 'snprintf' output between 5 and 24 bytes into a destination of size 16
-    1845 |                 snprintf(name, sizeof(name), "cpu%ld", cpu);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+   In file included from include/linux/thread_info.h:27,
+                    from arch/sparc/include/asm/current.h:15,
+                    from include/linux/sched.h:12,
+                    from include/linux/delay.h:23,
+                    from drivers/input/joystick/adafruit-seesaw.c:17:
+   drivers/input/joystick/adafruit-seesaw.c: In function 'seesaw_read_data':
+>> include/linux/bitops.h:52:11: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'u32[1]' {aka 'unsigned int[1]'} [-Warray-bounds=]
+      52 |           __builtin_constant_p(*(const unsigned long *)(addr))) ?       \
+         |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:61:41: note: in expansion of macro 'bitop'
+      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+         |                                         ^~~~~
+   drivers/input/joystick/adafruit-seesaw.c:89:27: note: in expansion of macro 'test_bit'
+      89 |         data->button_a = !test_bit(BUTTON_A, (long *)&result);
+         |                           ^~~~~~~~
+   drivers/input/joystick/adafruit-seesaw.c:87:13: note: object 'result' of size 4
+      87 |         u32 result = get_unaligned_be32(&read_buf);
+         |             ^~~~~~
+   In file included from include/linux/bitops.h:34:
+   In function 'generic_test_bit',
+       inlined from 'seesaw_read_data' at drivers/input/joystick/adafruit-seesaw.c:89:20:
+>> include/asm-generic/bitops/generic-non-atomic.h:128:27: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'u32[1]' {aka 'unsigned int[1]'} [-Warray-bounds=]
+     128 |         return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
+         |                       ~~~~^~~~~~~~~~~~~~
+   drivers/input/joystick/adafruit-seesaw.c: In function 'seesaw_read_data':
+   drivers/input/joystick/adafruit-seesaw.c:87:13: note: object 'result' of size 4
+      87 |         u32 result = get_unaligned_be32(&read_buf);
+         |             ^~~~~~
+   In function 'generic_test_bit',
+       inlined from 'seesaw_read_data' at drivers/input/joystick/adafruit-seesaw.c:90:20:
+>> include/asm-generic/bitops/generic-non-atomic.h:128:27: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'u32[1]' {aka 'unsigned int[1]'} [-Warray-bounds=]
+     128 |         return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
+         |                       ~~~~^~~~~~~~~~~~~~
+   drivers/input/joystick/adafruit-seesaw.c: In function 'seesaw_read_data':
+   drivers/input/joystick/adafruit-seesaw.c:87:13: note: object 'result' of size 4
+      87 |         u32 result = get_unaligned_be32(&read_buf);
+         |             ^~~~~~
+   In function 'generic_test_bit',
+       inlined from 'seesaw_read_data' at drivers/input/joystick/adafruit-seesaw.c:91:20:
+>> include/asm-generic/bitops/generic-non-atomic.h:128:27: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'u32[1]' {aka 'unsigned int[1]'} [-Warray-bounds=]
+     128 |         return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
+         |                       ~~~~^~~~~~~~~~~~~~
+   drivers/input/joystick/adafruit-seesaw.c: In function 'seesaw_read_data':
+   drivers/input/joystick/adafruit-seesaw.c:87:13: note: object 'result' of size 4
+      87 |         u32 result = get_unaligned_be32(&read_buf);
+         |             ^~~~~~
+   In function 'generic_test_bit',
+       inlined from 'seesaw_read_data' at drivers/input/joystick/adafruit-seesaw.c:92:20:
+>> include/asm-generic/bitops/generic-non-atomic.h:128:27: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'u32[1]' {aka 'unsigned int[1]'} [-Warray-bounds=]
+     128 |         return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
+         |                       ~~~~^~~~~~~~~~~~~~
+   drivers/input/joystick/adafruit-seesaw.c: In function 'seesaw_read_data':
+   drivers/input/joystick/adafruit-seesaw.c:87:13: note: object 'result' of size 4
+      87 |         u32 result = get_unaligned_be32(&read_buf);
+         |             ^~~~~~
+   In function 'generic_test_bit',
+       inlined from 'seesaw_read_data' at drivers/input/joystick/adafruit-seesaw.c:93:24:
+>> include/asm-generic/bitops/generic-non-atomic.h:128:27: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'u32[1]' {aka 'unsigned int[1]'} [-Warray-bounds=]
+     128 |         return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
+         |                       ~~~~^~~~~~~~~~~~~~
+   drivers/input/joystick/adafruit-seesaw.c: In function 'seesaw_read_data':
+   drivers/input/joystick/adafruit-seesaw.c:87:13: note: object 'result' of size 4
+      87 |         u32 result = get_unaligned_be32(&read_buf);
+         |             ^~~~~~
+   In function 'generic_test_bit',
+       inlined from 'seesaw_read_data' at drivers/input/joystick/adafruit-seesaw.c:94:25:
+>> include/asm-generic/bitops/generic-non-atomic.h:128:27: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'u32[1]' {aka 'unsigned int[1]'} [-Warray-bounds=]
+     128 |         return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
+         |                       ~~~~^~~~~~~~~~~~~~
+   drivers/input/joystick/adafruit-seesaw.c: In function 'seesaw_read_data':
+   drivers/input/joystick/adafruit-seesaw.c:87:13: note: object 'result' of size 4
+      87 |         u32 result = get_unaligned_be32(&read_buf);
+         |             ^~~~~~
 
 
-vim +2032 arch/powerpc/platforms/pseries/lpar.c
+vim +52 include/linux/bitops.h
 
-c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2018  
-c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2019  static int __init vpa_debugfs_init(void)
-c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2020  {
-c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2021  	char name[16];
-c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2022  	long i;
-11dd34f3eae5a4 YueHaibing       2019-02-18  2023  	struct dentry *vpa_dir;
-c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2024  
-c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2025  	if (!firmware_has_feature(FW_FEATURE_SPLPAR))
-c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2026  		return 0;
-c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2027  
-dbf77fed8b302e Aneesh Kumar K.V 2021-08-12  2028  	vpa_dir = debugfs_create_dir("vpa", arch_debugfs_dir);
-c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2029  
-c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2030  	/* set up the per-cpu vpa file*/
-c6c26fb55e8e4b Aravinda Prasad  2018-10-16  2031  	for_each_possible_cpu(i) {
-c6c26fb55e8e4b Aravinda Prasad  2018-10-16 @2032  		sprintf(name, "cpu-%ld", i);
-
-:::::: The code at line 2032 was first introduced by commit
-:::::: c6c26fb55e8e4b3fc376be5611685990a17de27a powerpc/pseries: Export raw per-CPU VPA data via debugfs
-
-:::::: TO: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+0e862838f29014 Alexander Lobakin 2022-06-24  35  
+b03fc1173c0c2b Alexander Lobakin 2022-06-24  36  /*
+b03fc1173c0c2b Alexander Lobakin 2022-06-24  37   * Many architecture-specific non-atomic bitops contain inline asm code and due
+b03fc1173c0c2b Alexander Lobakin 2022-06-24  38   * to that the compiler can't optimize them to compile-time expressions or
+b03fc1173c0c2b Alexander Lobakin 2022-06-24  39   * constants. In contrary, generic_*() helpers are defined in pure C and
+b03fc1173c0c2b Alexander Lobakin 2022-06-24  40   * compilers optimize them just well.
+b03fc1173c0c2b Alexander Lobakin 2022-06-24  41   * Therefore, to make `unsigned long foo = 0; __set_bit(BAR, &foo)` effectively
+b03fc1173c0c2b Alexander Lobakin 2022-06-24  42   * equal to `unsigned long foo = BIT(BAR)`, pick the generic C alternative when
+b03fc1173c0c2b Alexander Lobakin 2022-06-24  43   * the arguments can be resolved at compile time. That expression itself is a
+b03fc1173c0c2b Alexander Lobakin 2022-06-24  44   * constant and doesn't bring any functional changes to the rest of cases.
+b03fc1173c0c2b Alexander Lobakin 2022-06-24  45   * The casts to `uintptr_t` are needed to mitigate `-Waddress` warnings when
+b03fc1173c0c2b Alexander Lobakin 2022-06-24  46   * passing a bitmap from .bss or .data (-> `!!addr` is always true).
+b03fc1173c0c2b Alexander Lobakin 2022-06-24  47   */
+e69eb9c460f128 Alexander Lobakin 2022-06-24  48  #define bitop(op, nr, addr)						\
+b03fc1173c0c2b Alexander Lobakin 2022-06-24  49  	((__builtin_constant_p(nr) &&					\
+b03fc1173c0c2b Alexander Lobakin 2022-06-24  50  	  __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) &&	\
+b03fc1173c0c2b Alexander Lobakin 2022-06-24  51  	  (uintptr_t)(addr) != (uintptr_t)NULL &&			\
+b03fc1173c0c2b Alexander Lobakin 2022-06-24 @52  	  __builtin_constant_p(*(const unsigned long *)(addr))) ?	\
+b03fc1173c0c2b Alexander Lobakin 2022-06-24  53  	 const##op(nr, addr) : op(nr, addr))
+e69eb9c460f128 Alexander Lobakin 2022-06-24  54  
 
 -- 
 0-DAY CI Kernel Test Service
