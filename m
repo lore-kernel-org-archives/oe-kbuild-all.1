@@ -1,48 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1D817C2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 05:34:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E02D20FD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 05:41:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n2vkBgrx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697693695; x=1729229695;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j/QOEn48eWnyDqQXpzhGrBqLpy61zi9uI3SGgy9JUGE=;
-  b=n2vkBgrxlSgEoDKaUaUrcZ02iZhUlOYa+BoVX1BmoRJxjaoe5sqB4g6M
-   MwPD0pTmGF30bhL9LZfio1RT6kRClZEoD2RBcIkWlJ4oMVyf3p5gGbEA3
-   UCSgNuBveoZ/KE8KFcs3SK118FQog4DePoXNLbNbWw1YsKxlvogt71yaM
-   rdvHn5SwUrzmI3681833ZaY4Xac0bmgblanXTV1Ci0V+BOmweeOnXA8kD
-   VA51QtnLdz6JRz86Dzvi689ZIcFVhEx/BSaMKQMk0Snk2BpfHOiOs5kIn
-   yUoFe0zNhZHwyd+1RDTfuTRVF6o5HABw3xRjmhVMvySlaoZ9lEkZuGeyx
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="371241454"
-X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="371241454"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 22:34:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="880512820"
-X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="880512820"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 18 Oct 2023 22:34:52 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qtLgI-0001gu-11;
-	Thu, 19 Oct 2023 05:34:50 +0000
-Date: Thu, 19 Oct 2023 13:34:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Shai Malin <smalin@marvell.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Prabhakar Kushwaha <pkushwaha@marvell.com>,
-	Ariel Elior <aelior@marvell.com>
-Subject: drivers/net/ethernet/qlogic/qede/qede_ethtool.c:631:37: warning:
- 'snprintf' output may be truncated before the last format character
-Message-ID: <202310191331.IGbTQDtZ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o1QpQrPQ"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5079eed8bfbso7859285e87.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 22:41:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697694063; x=1698298863; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=j7kAytioghDE6xyX4BghBa8cMFVr3L8tOR2ZoNefZ9k=;
+        b=o1QpQrPQwsHpjUsfYPWL9jjCG5EAMqX8MEzjalyvBAdITYB6IOfpzem6vzWy5Gl/Dl
+         G3iD2h8vxxHmOz88vobQ86Y86H1s6kB40LhcCa7AM7SZwQGh0cc9KTWM9Df+DVzACXeV
+         l2KzJpVCgD2OP0YgOu7ysG3ST30XshOO1ayHdCKr0yWVwzF02yOfxAiD6Z6WAQygKwOy
+         jznmLwIsn5q6RMx/n6/6x2Bof+TIpsFm4cGdh0vJ5cp6+U+cWUh2n1sK42yqaD46eiTX
+         ilUC2oHsmKb944AR8817Pd2MqMQjrzrY9nbxo21kMa6hgIHjddryC6X4rX+qdi/mUoYa
+         I+Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697694063; x=1698298863;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j7kAytioghDE6xyX4BghBa8cMFVr3L8tOR2ZoNefZ9k=;
+        b=GWVrYDDPZvsAiHpEIGlbr0RxSRCbLflkLuIXn6gpoOpwmJG5EVKRdcC/KTiPpbAwcH
+         +L9gAI62uuFHWdvxdaAwbXoT419bPX4x9Ef44Q6olskawjMcO2W+o3sLC9J0dVPjLzId
+         dP1RWL4w+YxD/6YS7LIoakfFSAPhgMvj9SdOSYQ8FVRs/89OtfHKi98XJWQzYjFAJSui
+         qBFe3+z1HfmHbdDnAmiG3abAkb5zq3U6eWbPwY2sh6uhPVaRL3aZuOnGr4WJ79xh08wp
+         bxs0+ScI1CqbYTSTjHLcEz5D7E2lDdujGvqO6HER1I7A4LqQL+IUOS1OYm4yLQa/ECKU
+         9taA==
+X-Gm-Message-State: AOJu0YzS80C9hL22kO8Tui3jxztwCACE57BnhP9s2aKFJOPkJvsCzVc6
+	XJEfLavyX9qz8a77XFDpj0ESag==
+X-Google-Smtp-Source: AGHT+IG5EtVlCxnFhKx6/IWeIkVIlcJyQiopIMW7380LSHeSu/QzSQA6+QwuSQOi3ZAsfzcZcIDbKg==
+X-Received: by 2002:a19:5011:0:b0:503:388f:30a3 with SMTP id e17-20020a195011000000b00503388f30a3mr677846lfb.26.1697694063124;
+        Wed, 18 Oct 2023 22:41:03 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id i6-20020adfe486000000b0032415213a6fsm3580699wrm.87.2023.10.18.22.41.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Oct 2023 22:41:02 -0700 (PDT)
+Date: Thu, 19 Oct 2023 08:40:59 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Baoquan He <bhe@redhat.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Philip Li <philip.li@intel.com>, oe-kbuild@lists.linux.dev,
+	Lorenzo Stoakes <lstoakes@gmail.com>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm'
+ could be null (see line 3667)
+Message-ID: <0eddb8b4-47a1-4d94-ae44-707addae77c8@kadam.mountain>
+References: <f82be227-bfde-439a-b339-1b4ee370d59a@kadam.mountain>
+ <ZS+dSd9Z6/2wU0Eg@MiWiFi-R3L-srv>
+ <89caf59a-d3b9-409d-b1ae-9e370cb9ee7d@kadam.mountain>
+ <ZS/LrhcxcMOgiiX5@MiWiFi-R3L-srv>
+ <ZS/TVMT9ed7OdyNy@rli9-mobl>
+ <ZS/2k6DIMd0tZRgK@MiWiFi-R3L-srv>
+ <20231018085248.6f3f36101cbdfe0990c8b467@linux-foundation.org>
+ <ZTCURc8ZQE+KrTvS@MiWiFi-R3L-srv>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,100 +68,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZTCURc8ZQE+KrTvS@MiWiFi-R3L-srv>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dd72f9c7e512da377074d47d990564959b772643
-commit: 88ea96f8c14e39f7ee397b815de622ea5e1481ab qede: Remove the qede module version
-date:   2 years, 3 months ago
-config: sparc64-allyesconfig (https://download.01.org/0day-ci/archive/20231019/202310191331.IGbTQDtZ-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310191331.IGbTQDtZ-lkp@intel.com/reproduce)
+On Thu, Oct 19, 2023 at 10:28:21AM +0800, Baoquan He wrote:
+> On 10/18/23 at 08:52am, Andrew Morton wrote:
+> > On Wed, 18 Oct 2023 23:15:31 +0800 Baoquan He <bhe@redhat.com> wrote:
+> > 
+> > > From: Baoquan He <bhe@redhat.com>
+> > > Date: Wed, 18 Oct 2023 22:50:14 +0800
+> > > Subject: [PATCH] mm/vmalloc: fix the unchecked dereference warning in vread_iter()
+> > > Content-type: text/plain
+> > > 
+> > > LKP reported smatch warning as below:
+> > > 
+> > > ===================
+> > > smatch warnings:
+> > > mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm' could be null (see line 3667)
+> > > ......
+> > > 06c8994626d1b7  @3667 size = vm ? get_vm_area_size(vm) : va_size(va);
+> > > ......
+> > > 06c8994626d1b7  @3689 else if (!(vm->flags & VM_IOREMAP))
+> > >                                  ^^^^^^^^^
+> > > Unchecked dereference
+> > > =====================
+> > > 
+> > > So add checking on whether 'vm' is not null when dereferencing it in
+> > > vread_iter(). This mutes smatch complaint.
+> > > 
+> > > ...
+> > >
+> > > --- a/mm/vmalloc.c
+> > > +++ b/mm/vmalloc.c
+> > > @@ -3813,7 +3813,7 @@ long vread_iter(struct iov_iter *iter, const char *addr, size_t count)
+> > >  
+> > >  		if (flags & VMAP_RAM)
+> > >  			copied = vmap_ram_vread_iter(iter, addr, n, flags);
+> > > -		else if (!(vm->flags & VM_IOREMAP))
+> > > +		else if (!(vm && (vm->flags & VM_IOREMAP)))
+> > >  			copied = aligned_vread_iter(iter, addr, n);
+> > >  		else /* IOREMAP area is treated as memory hole */
+> > >  			copied = zero_iter(iter, n);
+> > 
+> > So is this not a real runtime bug?  We're only doing this to suppress a
+> > smatch warning?
+> > 
+> > If so, can we please include a description of *why* this wasn't a bug? 
+> > What conditions ensure that vm!=NULL at this point?
+> 
+> I think this is not a real runtime bug. The only chance it can hapen is
+> when (flags == VMAP_BLOCK) is true. That has been warned and could never
+> happen. I updated patch log and paste v2 here. 
+> 
+>                 /*
+>                  * VMAP_BLOCK indicates a sub-type of vm_map_ram area, need
+>                  * be set together with VMAP_RAM.
+>                  */
+>                 WARN_ON(flags == VMAP_BLOCK);
+>  
+>                 if (!vm && !flags)
+>                         continue;
+> 
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310191331.IGbTQDtZ-lkp@intel.com/
+Thanks.  If you want you could just ignore the warning.  It's a one time
+warning so we won't send the mail again and if people have questions
+about it, they can just look it up on lore.
 
-All warnings (new ones prefixed by >>):
+The truth is when I was reviewing this code the first time I got mixed
+up between flags and vm->flags so that's part of why I reported it.
 
-   drivers/net/ethernet/qlogic/qede/qede_ethtool.c: In function 'qede_get_drvinfo':
->> drivers/net/ethernet/qlogic/qede/qede_ethtool.c:631:37: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
-     631 |                          "[storm %s]", storm);
-         |                                     ^
-   drivers/net/ethernet/qlogic/qede/qede_ethtool.c:630:17: note: 'snprintf' output between 9 and 33 bytes into a destination of size 32
-     630 |                 snprintf(info->version, sizeof(info->version),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     631 |                          "[storm %s]", storm);
-         |                          ~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qede/qede_ethtool.c:648:31: warning: '%s' directive output may be truncated writing up to 31 bytes into a region of size 28 [-Wformat-truncation=]
-     648 |                          "mfw %s", mfw);
-         |                               ^~   ~~~
-   drivers/net/ethernet/qlogic/qede/qede_ethtool.c:647:17: note: 'snprintf' output between 5 and 36 bytes into a destination of size 32
-     647 |                 snprintf(info->fw_version, sizeof(info->fw_version),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     648 |                          "mfw %s", mfw);
-         |                          ~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qede/qede_ethtool.c:645:31: warning: '%s' directive output may be truncated writing up to 31 bytes into a region of size 28 [-Wformat-truncation=]
-     645 |                          "mbi %s [mfw %s]", mbi, mfw);
-         |                               ^~            ~~~
-   drivers/net/ethernet/qlogic/qede/qede_ethtool.c:644:17: note: 'snprintf' output between 12 and 74 bytes into a destination of size 32
-     644 |                 snprintf(info->fw_version, sizeof(info->fw_version),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     645 |                          "mbi %s [mfw %s]", mbi, mfw);
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Smatch ignores the WARN_ON().  Historically WARN_ON() has been useless
+for indicating whether something can happen or not.  These days,
+WARN_ON() is treated as a syzkaller bug so we prefer pr_warn() if
+something can actually happen.  We still see a lot of WARN_ON()s
+happening in real life so I'm not eager to make Smatch treat them like a
+BUG_ON().
+
+Also, sadly, even if we changed the WARN_ON() to a BUG_ON() it still
+wouldn't silence the warning because Smatch is not quite clever enough
+to parse that.
+
+regards,
+dan carpenter
 
 
-vim +/snprintf +631 drivers/net/ethernet/qlogic/qede/qede_ethtool.c
-
-   606	
-   607	static void qede_get_drvinfo(struct net_device *ndev,
-   608				     struct ethtool_drvinfo *info)
-   609	{
-   610		char mfw[ETHTOOL_FWVERS_LEN], storm[ETHTOOL_FWVERS_LEN];
-   611		struct qede_dev *edev = netdev_priv(ndev);
-   612		char mbi[ETHTOOL_FWVERS_LEN];
-   613	
-   614		strlcpy(info->driver, "qede", sizeof(info->driver));
-   615	
-   616		snprintf(storm, ETHTOOL_FWVERS_LEN, "%d.%d.%d.%d",
-   617			 edev->dev_info.common.fw_major,
-   618			 edev->dev_info.common.fw_minor,
-   619			 edev->dev_info.common.fw_rev,
-   620			 edev->dev_info.common.fw_eng);
-   621	
-   622		snprintf(mfw, ETHTOOL_FWVERS_LEN, "%d.%d.%d.%d",
-   623			 (edev->dev_info.common.mfw_rev >> 24) & 0xFF,
-   624			 (edev->dev_info.common.mfw_rev >> 16) & 0xFF,
-   625			 (edev->dev_info.common.mfw_rev >> 8) & 0xFF,
-   626			 edev->dev_info.common.mfw_rev & 0xFF);
-   627	
-   628		if ((strlen(storm) + strlen("[storm]")) <
-   629		    sizeof(info->version))
-   630			snprintf(info->version, sizeof(info->version),
- > 631				 "[storm %s]", storm);
-   632		else
-   633			snprintf(info->version, sizeof(info->version),
-   634				 "%s", storm);
-   635	
-   636		if (edev->dev_info.common.mbi_version) {
-   637			snprintf(mbi, ETHTOOL_FWVERS_LEN, "%d.%d.%d",
-   638				 (edev->dev_info.common.mbi_version &
-   639				  QED_MBI_VERSION_2_MASK) >> QED_MBI_VERSION_2_OFFSET,
-   640				 (edev->dev_info.common.mbi_version &
-   641				  QED_MBI_VERSION_1_MASK) >> QED_MBI_VERSION_1_OFFSET,
-   642				 (edev->dev_info.common.mbi_version &
-   643				  QED_MBI_VERSION_0_MASK) >> QED_MBI_VERSION_0_OFFSET);
-   644			snprintf(info->fw_version, sizeof(info->fw_version),
-   645				 "mbi %s [mfw %s]", mbi, mfw);
-   646		} else {
-   647			snprintf(info->fw_version, sizeof(info->fw_version),
-   648				 "mfw %s", mfw);
-   649		}
-   650	
-   651		strlcpy(info->bus_info, pci_name(edev->pdev), sizeof(info->bus_info));
-   652	}
-   653	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
