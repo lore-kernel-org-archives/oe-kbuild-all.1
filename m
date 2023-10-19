@@ -1,185 +1,85 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB973808
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 02:28:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F9818E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 02:55:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QwItNz3R"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1697682512;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U3e/R8h8CUl6Qt8HzoNg568ab2TdGmvLJ3uBUWajvX8=;
-	b=QwItNz3RakzvaWt1AwSLGsq6K37izQx3CHpNro2xoBj/LrlAzOrI9gcShmVrfOVydKc/ff
-	CC0fQuOoroFxvLyI3MpsEyhRUsJeLM+vb9D4odKfj8A5ef+9XUSvYnR4pn0tCIPQ54nfWK
-	desrPpuAXhhi0S/Y3f5cfc8dtzkZPLc=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-544-Xqo4N_V8NMSwLG0l_9noLA-1; Wed, 18 Oct 2023 22:28:27 -0400
-X-MC-Unique: Xqo4N_V8NMSwLG0l_9noLA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7FC7D29AA383;
-	Thu, 19 Oct 2023 02:28:26 +0000 (UTC)
-Received: from localhost (unknown [10.72.112.51])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B79DB503B;
-	Thu, 19 Oct 2023 02:28:25 +0000 (UTC)
-Date: Thu, 19 Oct 2023 10:28:21 +0800
-From: Baoquan He <bhe@redhat.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	Philip Li <philip.li@intel.com>, oe-kbuild@lists.linux.dev,
-	Lorenzo Stoakes <lstoakes@gmail.com>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm'
- could be null (see line 3667)
-Message-ID: <ZTCURc8ZQE+KrTvS@MiWiFi-R3L-srv>
-References: <f82be227-bfde-439a-b339-1b4ee370d59a@kadam.mountain>
- <ZS+dSd9Z6/2wU0Eg@MiWiFi-R3L-srv>
- <89caf59a-d3b9-409d-b1ae-9e370cb9ee7d@kadam.mountain>
- <ZS/LrhcxcMOgiiX5@MiWiFi-R3L-srv>
- <ZS/TVMT9ed7OdyNy@rli9-mobl>
- <ZS/2k6DIMd0tZRgK@MiWiFi-R3L-srv>
- <20231018085248.6f3f36101cbdfe0990c8b467@linux-foundation.org>
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="dKTSbkdU"
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-57bc2c2f13dso4224817eaf.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Oct 2023 19:55:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1697684146; x=1698288946; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vjvl1fV//Z3DAmMVM5mc7jqsIEKxC7jjiLUBClRZgVQ=;
+        b=dKTSbkdUUs1Vca9aP1v8+OSOitUT/cpE7uD59ZUHk40hTU/X9o2EpyQJ9q240L+xmG
+         RWgLOz5J7IkcdaN8zoymrX0qVPPWbnFNI918RU5Ds55qjLtATzWc0eoETgQtbn6L3HN+
+         BgepG8ukCQu00EkFSyn+U6+DGneVkT7VkMEoQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697684146; x=1698288946;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vjvl1fV//Z3DAmMVM5mc7jqsIEKxC7jjiLUBClRZgVQ=;
+        b=K4Claib0Yoql1L53BoCmwLHT/TF1q2y5VVIhYUEbIK2MLR5cZdXWNoss6z+TsKSJYa
+         ICTd0Sx2pKJh+P6Nzu+Y0RWcdVm6GdjFPmbOmX1j2hy4wx607xyTg7JL+dwhw9kiFTq7
+         wtaJCTSZr9d2QGZjAB7+AeUHZjv+MWAYEi4I6qbwAWSCRGHU4GY/mbzdMH9Snhxrk1Un
+         669ghrVSyGU7yVDdSHv2WgfbwNCDF7iflOoQpBKDLJuRx7l3uuSw9tMmcupPkOGsQImS
+         Z5U/sNcjDtrbLGIR5JaNn4dZN/lIO/T/Ll75ExXopC2Fa7wngqQ+8jv5gHtZUCHy+6MP
+         478Q==
+X-Gm-Message-State: AOJu0Yxml+EWGyHYl5/G+2ezh45xYRYyR+oghu+Zg/Akmvf8iL3O6fdU
+	NRd1mdPaueNL8qqbkKabH4A5SsxvrmOG9WG4iavkXA==
+X-Google-Smtp-Source: AGHT+IFSkiTIzKucqYACIEkT1mbAUXytYZj44oycOpJPUGvjGXMmZVMQgQTHi/yOZZAqD34ul6HEhfGp9OoQYF0aJOo=
+X-Received: by 2002:a4a:bb83:0:b0:581:eef8:131f with SMTP id
+ h3-20020a4abb83000000b00581eef8131fmr1111415oop.1.1697684146435; Wed, 18 Oct
+ 2023 19:55:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231018085248.6f3f36101cbdfe0990c8b467@linux-foundation.org>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
+References: <20231017201417.129872-4-dregan@broadcom.com> <202310180553.Zfa2ryoa-lkp@intel.com>
+In-Reply-To: <202310180553.Zfa2ryoa-lkp@intel.com>
+From: David Regan <dregan@broadcom.com>
+Date: Wed, 18 Oct 2023 19:55:35 -0700
+Message-ID: <CAA_RMS4PGTA3nr_AXxZ8+dT+DQpW-_siQTxCeKaZvFe5FzP9qA@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] mtd: rawnand: brcmnand: exec_op implementation
+To: kernel test robot <lkp@intel.com>
+Cc: David Regan <dregan@broadcom.com>, bcm-kernel-feedback-list@broadcom.com, 
+	linux-mtd@lists.infradead.org, f.fainelli@gmail.com, rafal@milecki.pl, 
+	Joel Peshkin <joel.peshkin@broadcom.com>, computersforpeace@gmail.com, 
+	Dan Beygelman <dan.beygelman@broadcom.com>, William Zhang <william.zhang@broadcom.com>, 
+	frieder.schrempf@kontron.de, linux-kernel@vger.kernel.org, vigneshr@ti.com, 
+	richard@nod.at, bbrezillon@kernel.org, kdasu.kdev@gmail.com, 
+	JaimeLiao <jaimeliao.tw@gmail.com>, Arseniy Krasnov <AVKrasnov@sberdevices.ru>, 
+	Adam Borowski <kilobyte@angband.pl>, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/18/23 at 08:52am, Andrew Morton wrote:
-> On Wed, 18 Oct 2023 23:15:31 +0800 Baoquan He <bhe@redhat.com> wrote:
-> 
-> > From: Baoquan He <bhe@redhat.com>
-> > Date: Wed, 18 Oct 2023 22:50:14 +0800
-> > Subject: [PATCH] mm/vmalloc: fix the unchecked dereference warning in vread_iter()
-> > Content-type: text/plain
-> > 
-> > LKP reported smatch warning as below:
-> > 
-> > ===================
-> > smatch warnings:
-> > mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm' could be null (see line 3667)
-> > ......
-> > 06c8994626d1b7  @3667 size = vm ? get_vm_area_size(vm) : va_size(va);
-> > ......
-> > 06c8994626d1b7  @3689 else if (!(vm->flags & VM_IOREMAP))
-> >                                  ^^^^^^^^^
-> > Unchecked dereference
-> > =====================
-> > 
-> > So add checking on whether 'vm' is not null when dereferencing it in
-> > vread_iter(). This mutes smatch complaint.
-> > 
-> > ...
-> >
-> > --- a/mm/vmalloc.c
-> > +++ b/mm/vmalloc.c
-> > @@ -3813,7 +3813,7 @@ long vread_iter(struct iov_iter *iter, const char *addr, size_t count)
-> >  
-> >  		if (flags & VMAP_RAM)
-> >  			copied = vmap_ram_vread_iter(iter, addr, n, flags);
-> > -		else if (!(vm->flags & VM_IOREMAP))
-> > +		else if (!(vm && (vm->flags & VM_IOREMAP)))
-> >  			copied = aligned_vread_iter(iter, addr, n);
-> >  		else /* IOREMAP area is treated as memory hole */
-> >  			copied = zero_iter(iter, n);
-> 
-> So is this not a real runtime bug?  We're only doing this to suppress a
-> smatch warning?
-> 
-> If so, can we please include a description of *why* this wasn't a bug? 
-> What conditions ensure that vm!=NULL at this point?
+Will make helper functions static
 
-I think this is not a real runtime bug. The only chance it can hapen is
-when (flags == VMAP_BLOCK) is true. That has been warned and could never
-happen. I updated patch log and paste v2 here. 
-
-                /*
-                 * VMAP_BLOCK indicates a sub-type of vm_map_ram area, need
-                 * be set together with VMAP_RAM.
-                 */
-                WARN_ON(flags == VMAP_BLOCK);
- 
-                if (!vm && !flags)
-                        continue;
+On Tue, Oct 17, 2023 at 2:50=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi,
+>
+> kernel test robot noticed the following build warnings:
+>
+...
+>
+> >> drivers/mtd/nand/raw/brcmnand/brcmnand.c:2393:5: warning: no previous =
+prototype for 'brcmnand_exec_op_is_status' [-Wmissing-prototypes]
+>     2393 | int brcmnand_exec_op_is_status(const struct nand_operation *op=
+)
+>          |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+> >> drivers/mtd/nand/raw/brcmnand/brcmnand.c:2404:5: warning: no previous =
+prototype for 'brcmnand_exec_op_is_reset' [-Wmissing-prototypes]
+>     2404 | int brcmnand_exec_op_is_reset(const struct nand_operation *op)
+>          |     ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-From 89cc02302766ab7a67cc668390c24079b4a9406b Mon Sep 17 00:00:00 2001
-From: Baoquan He <bhe@redhat.com>
-Date: Wed, 18 Oct 2023 22:50:14 +0800
-Subject: [PATCH v2] mm/vmalloc: fix the unchecked dereference warning in vread_iter()
-Content-type: text/plain
-
-LKP reported smatch warning as below:
-
-===================
-smatch warnings:
-mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm' could be null (see line 3667)
-......
-06c8994626d1b7  @3667 size = vm ? get_vm_area_size(vm) : va_size(va);
-......
-06c8994626d1b7  @3689 else if (!(vm->flags & VM_IOREMAP))
-                                 ^^^^^^^^^
-Unchecked dereference
-=====================
-
-This is not a real-time bug because the possible null 'vm' in the pointed
-place could only happen when flags == VMAP_BLOCK. However, the case
-'flags == VMAP_BLOCK' should never happen and has been detected with WARN_ON.
-Please check vm_map_ram() implementation and the earlier checking in
-vread_iter() at below:
-
-                ~~~~~~~~~~~~~~~~~~~~~~~~~~
-                /*
-                 * VMAP_BLOCK indicates a sub-type of vm_map_ram area, need
-                 * be set together with VMAP_RAM.
-                 */
-                WARN_ON(flags == VMAP_BLOCK);
-
-                if (!vm && !flags)
-                        continue;
-                ~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-So add checking on whether 'vm' could be null when dereferencing it in
-vread_iter(). This mutes smatch complaint.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/r/202310171600.WCrsOwFj-lkp@intel.com/
-Signed-off-by: Baoquan He <bhe@redhat.com>
----
-v1->v2:
-- Update patch log to state that it's not a realtime bug as Andrew
-  suggested.
-
- mm/vmalloc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index aad48ed8d86b..2cc992392db7 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -3813,7 +3813,7 @@ long vread_iter(struct iov_iter *iter, const char *addr, size_t count)
- 
- 		if (flags & VMAP_RAM)
- 			copied = vmap_ram_vread_iter(iter, addr, n, flags);
--		else if (!(vm->flags & VM_IOREMAP))
-+		else if (!(vm && (vm->flags & VM_IOREMAP)))
- 			copied = aligned_vread_iter(iter, addr, n);
- 		else /* IOREMAP area is treated as memory hole */
- 			copied = zero_iter(iter, n);
--- 
-2.41.0
-
+...
