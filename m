@@ -1,108 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29352A41
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 05:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y4lwqo3b"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697778592; x=1729314592;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fsYuVo1jOzDbYYHCpCuSRULH/+HrOeGybJYahRCEjsc=;
-  b=Y4lwqo3bxGAeRJuunWJHflMX98ZlKziwWBTDMEYL0ecO+gUtLwp3/7xN
-   +6wV35/Oz+T74XBWKijLG2/i3EYgOAG7081gRXmkMUb4vVmuznIbH0E0/
-   fku28Kry4xAK8wnJpp8siYGrne8FeNZX1/LomtEhH9M7Ndk4SzVPFpSHf
-   crpv2qIcuDcRolV2vMVYoz2K+aGrbtKkLdsiL/5p18Rv3u/N7fIp888Hj
-   qRcBhKr8AVkW3NhtFcxRktxenaT9ZjoLa1TOY2sEwsOCQj+aEoYOyWuih
-   zLHJhNHSpjEuptJNQ1i6qKtBsBiHjR0wt1Ze1zeedylob5vn1RFo/Ggel
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="390312943"
-X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="390312943"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 22:09:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="827610607"
-X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="827610607"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Oct 2023 22:09:49 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qthla-00033N-37;
-	Fri, 20 Oct 2023 05:09:46 +0000
-Date: Fri, 20 Oct 2023 13:09:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Soumya Negi <soumya.negi97@gmail.com>,
-	Martyn Welch <martyn@welchs.me.uk>,
-	Manohar Vanga <manohar.vanga@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	julia.lawall@inria.fr, Andi Shyti <andi.shyti@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 1/5] staging: vme_user: Replace printk() with dev_*()
-Message-ID: <202310201236.d4IEfmLQ-lkp@intel.com>
-References: <a36a0b839f9c21efe1f2df6f9272ae882fd04fb8.1697763267.git.soumya.negi97@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02AE9470
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 05:40:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-27d5fe999caso384235a91.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 22:40:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697780442; x=1698385242;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qjfQX/pwpr+oppLKOPOhk/9biL82OZa0ePqZEoQXKSc=;
+        b=Il9ElPl6lCvSHW9Tn+cpGplRWeJUdclYUqOXIrpGPsUnZtIRe2ihp86PURm/4HjbqX
+         zpO2iRBQdTgggh+HY7v2YzyjV84XHYL4BaoIuPKDfafBHfyKnKojc+JXj8KjOQbWw75h
+         ZpPfbAQBPKj25pRLD3dSAv21aNka98UAvn1PDfSutyg19KbL4Kn4R+F9WTfDmuf6Pj5g
+         f8KAOMC6jfHnM/Zg6zfPH2HBOQpLxk+0GyR0gpz5a3gpuTbxxgCHJasLfWfaTuHG95kC
+         Cf0LEbmtn6UEyrOUtHoq8QJdRDwYSdUqbD1PgTQdHjMmng0Z39wSJdxXgFH5gunBrSGo
+         IPPw==
+X-Gm-Message-State: AOJu0Ywblp0yjDnSNmKUF8OD4iKAtI69uwYRmww9uULYGEUjIXwbWkOE
+	rlJO1BuD7YgXJ1agJOHDYjxUIHLj6qcIttjcasI=
+X-Google-Smtp-Source: AGHT+IHE0A9qTEGPi+9UD7nWvOGVy1HeYSmEiDejI/VMRIG458U0FW71nwPO1YaJMg7AuMzAwkqRVxSf2qsG45zjKY0=
+X-Received: by 2002:a17:90a:1c3:b0:27d:546d:f4a5 with SMTP id
+ 3-20020a17090a01c300b0027d546df4a5mr822414pjd.43.1697780442052; Thu, 19 Oct
+ 2023 22:40:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a36a0b839f9c21efe1f2df6f9272ae882fd04fb8.1697763267.git.soumya.negi97@gmail.com>
+References: <202310110451.rvdUZJEY-lkp@intel.com> <20231010234247.71604-1-namhyung@kernel.org>
+ <CAP-5=fVpgYJMTgRjQc6zoMYjNkm7T0TSBPXLgz_VWuzwRo_ktg@mail.gmail.com>
+In-Reply-To: <CAP-5=fVpgYJMTgRjQc6zoMYjNkm7T0TSBPXLgz_VWuzwRo_ktg@mail.gmail.com>
+From: Namhyung Kim <namhyung@kernel.org>
+Date: Thu, 19 Oct 2023 22:40:30 -0700
+Message-ID: <CAM9d7ci1NMVsF7T5RsveJ3wXAimMWW4dfkf3hM6tvVc1e1AxAA@mail.gmail.com>
+Subject: Re: [PATCH] perf tools: Do not ignore the default vmlinux.h
+To: Ian Rogers <irogers@google.com>
+Cc: Arnaldo Carvalho de Melo <acme@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Adrian Hunter <adrian.hunter@intel.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Ingo Molnar <mingo@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	linux-perf-users@vger.kernel.org, kernel test robot <lkp@intel.com>, 
+	oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Soumya,
+On Tue, Oct 10, 2023 at 6:36=E2=80=AFPM Ian Rogers <irogers@google.com> wro=
+te:
+>
+> On Tue, Oct 10, 2023 at 4:42=E2=80=AFPM Namhyung Kim <namhyung@kernel.org=
+> wrote:
+> >
+> > The recent change made it possible to generate vmlinux.h from BTF and
+> > to ignore the file.  But we also have a minimal vmlinux.h that will be
+> > used by default.  It should not be ignored by GIT.
+> >
+> > Fixes: b7a2d774c9c5 ("perf build: Add ability to build with a generated=
+ vmlinux.h")
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202310110451.rvdUZJEY-lkp=
+@intel.com/
+> > Signed-off-by: Namhyung Kim <namhyung@kernel.org>
+>
+> Reviewed-by: Ian Rogers <irogers@google.com>
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Soumya-Negi/staging-vme_user-Replace-printk-with-dev_/20231020-095619
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/a36a0b839f9c21efe1f2df6f9272ae882fd04fb8.1697763267.git.soumya.negi97%40gmail.com
-patch subject: [PATCH v3 1/5] staging: vme_user: Replace printk() with dev_*()
-reproduce: (https://download.01.org/0day-ci/archive/20231020/202310201236.d4IEfmLQ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310201236.d4IEfmLQ-lkp@intel.com/
-
-# many are suggestions rather than must-fix
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'vme_slave_get', this function's name, in a string
-#118: FILE: drivers/staging/vme_user/vme.c:425:
-+		dev_err(bridge->parent, "vme_slave_get not supported\n");
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'vme_master_set', this function's name, in a string
-#191: FILE: drivers/staging/vme_user/vme.c:577:
-+		dev_warn(bridge->parent, "vme_master_set not supported\n");
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'vme_lm_set', this function's name, in a string
-#583: FILE: drivers/staging/vme_user/vme.c:1577:
-+		dev_err(bridge->parent, "vme_lm_set not supported\n");
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'vme_lm_get', this function's name, in a string
-#600: FILE: drivers/staging/vme_user/vme.c:1613:
-+		dev_err(bridge->parent, "vme_lm_get not supported\n");
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'vme_lm_attach', this function's name, in a string
-#617: FILE: drivers/staging/vme_user/vme.c:1650:
-+		dev_err(bridge->parent, "vme_lm_attach not supported\n");
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'vme_lm_detach', this function's name, in a string
-#634: FILE: drivers/staging/vme_user/vme.c:1683:
-+		dev_err(bridge->parent, "vme_lm_detach not supported\n");
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'vme_slot_num', this function's name, in a string
-#662: FILE: drivers/staging/vme_user/vme.c:1751:
-+		dev_warn(bridge->parent, "vme_slot_num not supported\n");
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Applied to perf-tools-next, thanks!
