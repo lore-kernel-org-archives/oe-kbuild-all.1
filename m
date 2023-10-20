@@ -1,45 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B4FCA75
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 11:30:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9661619BA6;
+	Fri, 20 Oct 2023 12:03:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ig6OtTtP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oEREyZY7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697801408; x=1729337408;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ujDJGqBMHC6BnUAx0rbVKyHyfSKrdlukXoGBGCJFJJs=;
-  b=ig6OtTtPrSZjqhTSnIQRGpaSVkAbT1bDOIcWbhtU6MgiXk54lr1A61he
-   qwXYXfc34JrjyLMza6cVso0rPMNHlQVdcR4IUBeNcnr+xNpjoU4EqKpsD
-   pJjU2Cy94jSN6p4GfbBWkZ9KpzBkx/3RvHqR/F5B2P3nwyM/cGsSYDP6H
-   rnGYiFg+zn9oSR6+qAQv6KZwik5NdLESFtY4RXPXi1qV0J/G6KCxxj4WX
-   Jh8XOEcVd4/q8bpUtn1aMtZ+xuBq7BHEWJvWr9GdKlSZYhfH2D9jOCO6p
-   cis0HFTh7IbgIanIsZ+QXhHGHsL1Q6QzsZ5ijnA06+/rge8GS2/zY7N2S
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="371553328"
+  t=1697803391; x=1729339391;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=a0cCePIIEGKptYoyh7Pp+IV6nY/vFaOdAf4qBUS5Nws=;
+  b=oEREyZY7TT0rSKTajf4gbz050HzsGx2dXVkc6Ens+kWtvdk0HD8iu+a1
+   XqSpS5GXdpuKAd9Q2c8LLy162ZmlatQWpmjX1nXSFy6u12wUuTTvwHggT
+   04DRMQCs3td3OAxmWbfJwS9BYHJdXeUGYMzo5zzTeU9+NwMiDJF0Ded3J
+   urmw8KdVYe9zLDDNHdwxiZQPSqLXh2Z+HhEZEXBW73F+Jmf98CjE+B5oR
+   T49fxsTPtH6vEshn4a2as5wo0TXM/vxEtMKGWzctThXxxk11GUmW7xiQd
+   uQJEYa4mC9SYCxi4yrtw66uklmNJhKg6fcaFZWswYMW2zSbMc5QpjDspd
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="452962002"
 X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="371553328"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 04:30:07 -0700
+   d="scan'208";a="452962002"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 05:03:10 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="901123585"
 X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="5090593"
+   d="scan'208";a="901123585"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 20 Oct 2023 04:28:56 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 20 Oct 2023 05:00:58 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtnhc-0003SY-19;
-	Fri, 20 Oct 2023 11:30:04 +0000
-Date: Fri, 20 Oct 2023 19:29:26 +0800
+	id 1qtoDZ-0003Uk-22;
+	Fri, 20 Oct 2023 12:03:05 +0000
+Date: Fri, 20 Oct 2023 20:02:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Wei <davidhwei@meta.com>
-Cc: oe-kbuild-all@lists.linux.dev, Pavel Begunkov <asml.silence@gmail.com>
-Subject: [isilence:zc/rx_copy_fallback 4/19] zc_rx.c:undefined reference to
- `dev_get_by_index'
-Message-ID: <202310201949.CH1cN4Rv-lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:TTY LAYER AND SERIAL DRIVERS" <linux-serial@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, alexandre.belloni@bootlin.com,
+	conor.culhane@silvaco.com, imx@lists.linux.dev, joe@perches.com,
+	linux-i3c@lists.infradead.org, miquel.raynal@bootlin.com
+Subject: Re: [PATCH 1/1] tty: i3c: add tty over i3c master support
+Message-ID: <202310201933.9lZn2Ebl-lkp@intel.com>
+References: <20231018211111.3437929-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,24 +56,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231018211111.3437929-1-Frank.Li@nxp.com>
 
-tree:   https://github.com/isilence/linux zc/rx_copy_fallback
-head:   0a9519b651f43b22e1f6eef1e800cdb204290e4e
-commit: 313630ba4b08b92ab6f4d01ca11e9b31be426453 [4/19] io_uring: setup ZC for an RX queue when registering an ifq
-config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20231020/202310201949.CH1cN4Rv-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310201949.CH1cN4Rv-lkp@intel.com/reproduce)
+Hi Frank,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on tty/tty-next tty/tty-linus linus/master v6.6-rc6 next-20231019]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/tty-i3c-add-tty-over-i3c-master-support/20231019-051407
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20231018211111.3437929-1-Frank.Li%40nxp.com
+patch subject: [PATCH 1/1] tty: i3c: add tty over i3c master support
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231020/202310201933.9lZn2Ebl-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310201933.9lZn2Ebl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310201949.CH1cN4Rv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310201933.9lZn2Ebl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sh4-linux-ld: io_uring/zc_rx.o: in function `io_register_zc_rx_ifq':
->> zc_rx.c:(.text+0x210): undefined reference to `dev_get_by_index'
-   sh4-linux-ld: zc_rx.c:(.text+0x214): undefined reference to `init_net'
+   drivers/tty/i3c_tty.c: In function 'tty_i3c_rxwork':
+   drivers/tty/i3c_tty.c:265:26: error: 'struct i3c_priv_xfer' has no member named 'actual_len'
+     265 |                 if (xfers.actual_len) {
+         |                          ^
+   drivers/tty/i3c_tty.c:266:82: error: 'struct i3c_priv_xfer' has no member named 'actual_len'
+     266 |                         tty_insert_flip_string(&sport->port, sport->buffer, xfers.actual_len);
+         |                                                                                  ^
+   drivers/tty/i3c_tty.c:271:25: error: implicit declaration of function 'i3c_device_getstatus_format1' [-Werror=implicit-function-declaration]
+     271 |                         i3c_device_getstatus_format1(sport->i3cdev, &status);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/i3c_tty.c: At top level:
+>> drivers/tty/i3c_tty.c:400:6: warning: no previous prototype for 'i3c_remove' [-Wmissing-prototypes]
+     400 | void i3c_remove(struct i3c_device *dev)
+         |      ^~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/i3c_remove +400 drivers/tty/i3c_tty.c
+
+   399	
+ > 400	void i3c_remove(struct i3c_device *dev)
+   401	{
+   402		struct ttyi3c_port *sport = dev_get_drvdata(&dev->dev);
+   403	
+   404		tty_port_unregister_device(&sport->port, i3c_tty_driver, sport->minor);
+   405		cancel_work_sync(&sport->txwork);
+   406		destroy_workqueue(sport->workqueue);
+   407	}
+   408	
 
 -- 
 0-DAY CI Kernel Test Service
