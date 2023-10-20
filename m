@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9B0369
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 00:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843C7375
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 00:21:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LJhyPxux"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697761004; x=1729297004;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BqX6CmbZGsKDvvqm0PW9nz8RCwYq9ztprkqxDl3ZOck=;
-  b=LJhyPxuxztWMU4N4fFVzKQQT97LJfdhAgDFjAnq5xwy+e7XE0kJnE4BZ
-   Lluna8QPyda37PE2IpiVB6UeN1PlJCGvte1mrY42xDHodSpVCT2q880PL
-   JnUY63ZYhMECDI5TA7lRnWUkdIweBD2T+78KHNXk4cywUGwRownkHrCAT
-   jvgCVtoxvy8xD9mJdmuTynTRKnUZxoqnnail3C7UFaO589i3AW+0/R6En
-   6Ij/wMxhVUL0NPgULX49jxOvzZAN0z/tiqlPLBmRuOOuqRhXTPi2svPgY
-   PB3QueYOlDQ6Bo5SZxHIggtTjVK/EnhcSDprPzzAI44jXrYPzJbDBAtdy
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="389260744"
-X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="389260744"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 17:16:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="847897226"
-X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="847897226"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 19 Oct 2023 17:16:36 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qtdBq-0002lg-27;
-	Fri, 20 Oct 2023 00:16:34 +0000
-Date: Fri, 20 Oct 2023 08:15:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>, Neil Brown <neilb@suse.de>,
-	Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	Anna Schumaker <anna@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH -next v2] sunrpc: Use no_printk() in dfprintk*() dummies
-Message-ID: <202310200734.I6x6UCe1-lkp@intel.com>
-References: <a93de2e8afa826745746b00fc5f64e513df5d52f.1697104757.git.geert+renesas@glider.be>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="U8m5Mlus"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1697761295;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8O1DQaljt+H62I0tLGc0kqUm5sOIzb3IYEn38CgT4Vc=;
+	b=U8m5Mluseg7woVYfNNzXYDubTzJnAdd8r3jd66itHKH6xiMSdi3OtEE9/eUufar8MqqPrU
+	Gs0SbJ44Qruk+VpCKn/U38eluYMUbiXb2Vx7INOIat8m0Eg+Xeb2amN/IkOM1Vxivxkv5E
+	ORyQHUG4GQMs4KhrHPrzldjhKKn1Pww=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-9-bzvGtZerN-G9XP76KmwirQ-1; Thu, 19 Oct 2023 20:21:32 -0400
+X-MC-Unique: bzvGtZerN-G9XP76KmwirQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 33D3E87A9FD;
+	Fri, 20 Oct 2023 00:21:31 +0000 (UTC)
+Received: from localhost (unknown [10.72.112.38])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4AC74111D794;
+	Fri, 20 Oct 2023 00:21:29 +0000 (UTC)
+Date: Fri, 20 Oct 2023 08:21:26 +0800
+From: Baoquan He <bhe@redhat.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	Philip Li <philip.li@intel.com>, oe-kbuild@lists.linux.dev,
+	Lorenzo Stoakes <lstoakes@gmail.com>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm'
+ could be null (see line 3667)
+Message-ID: <ZTHIBjMAsKxE4EbK@MiWiFi-R3L-srv>
+References: <f82be227-bfde-439a-b339-1b4ee370d59a@kadam.mountain>
+ <ZS+dSd9Z6/2wU0Eg@MiWiFi-R3L-srv>
+ <89caf59a-d3b9-409d-b1ae-9e370cb9ee7d@kadam.mountain>
+ <ZS/LrhcxcMOgiiX5@MiWiFi-R3L-srv>
+ <ZS/TVMT9ed7OdyNy@rli9-mobl>
+ <ZS/2k6DIMd0tZRgK@MiWiFi-R3L-srv>
+ <20231018085248.6f3f36101cbdfe0990c8b467@linux-foundation.org>
+ <ZTCURc8ZQE+KrTvS@MiWiFi-R3L-srv>
+ <20231019095030.7a1f3c93bc18511f52524aa8@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,95 +57,17 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a93de2e8afa826745746b00fc5f64e513df5d52f.1697104757.git.geert+renesas@glider.be>
+In-Reply-To: <20231019095030.7a1f3c93bc18511f52524aa8@linux-foundation.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
 
-Hi Geert,
+On 10/19/23 at 09:50am, Andrew Morton wrote:
+> On Thu, 19 Oct 2023 10:28:21 +0800 Baoquan He <bhe@redhat.com> wrote:
+> 
+> > I think this is not a real runtime bug. The only chance it can hapen is
+> > when (flags == VMAP_BLOCK) is true. That has been warned and could never
+> > happen. I updated patch log and paste v2 here. 
+> 
+> Thanks, I updated the changelog in-place.
 
-kernel test robot noticed the following build errors:
+Thanks, Andrew.
 
-[auto build test ERROR on next-20231016]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Geert-Uytterhoeven/sunrpc-Use-no_printk-in-dfprintk-dummies/20231017-104813
-base:   next-20231016
-patch link:    https://lore.kernel.org/r/a93de2e8afa826745746b00fc5f64e513df5d52f.1697104757.git.geert%2Brenesas%40glider.be
-patch subject: [PATCH -next v2] sunrpc: Use no_printk() in dfprintk*() dummies
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20231020/202310200734.I6x6UCe1-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310200734.I6x6UCe1-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310200734.I6x6UCe1-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/kernel.h:31,
-                    from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/current.h:10,
-                    from include/linux/sched.h:12,
-                    from include/linux/sunrpc/svcauth_gss.h:12,
-                    from fs/nfsd/nfsfh.c:13:
-   fs/nfsd/nfsfh.c: In function 'nfsd_setuser_and_check_port':
->> fs/nfsd/nfsfh.c:111:47: error: 'buf' undeclared (first use in this function)
-     111 |                         svc_print_addr(rqstp, buf, sizeof(buf)));
-         |                                               ^~~
-   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
-     129 |                 printk(fmt, ##__VA_ARGS__);             \
-         |                 ^~~~~~
-   include/linux/sunrpc/debug.h:70:41: note: in expansion of macro 'no_printk'
-      70 | # define dfprintk(fac, fmt, ...)        no_printk(fmt, ##__VA_ARGS__)
-         |                                         ^~~~~~~~~
-   include/linux/sunrpc/debug.h:25:9: note: in expansion of macro 'dfprintk'
-      25 |         dfprintk(FACILITY, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~
-   fs/nfsd/nfsfh.c:110:17: note: in expansion of macro 'dprintk'
-     110 |                 dprintk("nfsd: request from insecure port %s!\n",
-         |                 ^~~~~~~
-   fs/nfsd/nfsfh.c:111:47: note: each undeclared identifier is reported only once for each function it appears in
-     111 |                         svc_print_addr(rqstp, buf, sizeof(buf)));
-         |                                               ^~~
-   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
-     129 |                 printk(fmt, ##__VA_ARGS__);             \
-         |                 ^~~~~~
-   include/linux/sunrpc/debug.h:70:41: note: in expansion of macro 'no_printk'
-      70 | # define dfprintk(fac, fmt, ...)        no_printk(fmt, ##__VA_ARGS__)
-         |                                         ^~~~~~~~~
-   include/linux/sunrpc/debug.h:25:9: note: in expansion of macro 'dfprintk'
-      25 |         dfprintk(FACILITY, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~
-   fs/nfsd/nfsfh.c:110:17: note: in expansion of macro 'dprintk'
-     110 |                 dprintk("nfsd: request from insecure port %s!\n",
-         |                 ^~~~~~~
-
-
-vim +/buf +111 fs/nfsd/nfsfh.c
-
-9d7ed1355db5b0 J. Bruce Fields 2018-03-08  101  
-6fa02839bf9412 J. Bruce Fields 2007-11-12  102  static __be32 nfsd_setuser_and_check_port(struct svc_rqst *rqstp,
-6fa02839bf9412 J. Bruce Fields 2007-11-12  103  					  struct svc_export *exp)
-6fa02839bf9412 J. Bruce Fields 2007-11-12  104  {
-12045a6ee9908b J. Bruce Fields 2009-12-08  105  	int flags = nfsexp_flags(rqstp, exp);
-12045a6ee9908b J. Bruce Fields 2009-12-08  106  
-6fa02839bf9412 J. Bruce Fields 2007-11-12  107  	/* Check if the request originated from a secure port. */
-9d7ed1355db5b0 J. Bruce Fields 2018-03-08  108  	if (!nfsd_originating_port_ok(rqstp, flags)) {
-5216a8e70e25b0 Pavel Emelyanov 2008-02-21  109  		RPC_IFDEBUG(char buf[RPC_MAX_ADDRBUFLEN]);
-a48fd0f9f77b6e Kinglong Mee    2014-05-29  110  		dprintk("nfsd: request from insecure port %s!\n",
-6fa02839bf9412 J. Bruce Fields 2007-11-12 @111  		        svc_print_addr(rqstp, buf, sizeof(buf)));
-6fa02839bf9412 J. Bruce Fields 2007-11-12  112  		return nfserr_perm;
-6fa02839bf9412 J. Bruce Fields 2007-11-12  113  	}
-6fa02839bf9412 J. Bruce Fields 2007-11-12  114  
-6fa02839bf9412 J. Bruce Fields 2007-11-12  115  	/* Set user creds for this exportpoint */
-6fa02839bf9412 J. Bruce Fields 2007-11-12  116  	return nfserrno(nfsd_setuser(rqstp, exp));
-6fa02839bf9412 J. Bruce Fields 2007-11-12  117  }
-6fa02839bf9412 J. Bruce Fields 2007-11-12  118  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
