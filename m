@@ -1,47 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC9238F88
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 23:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B0F2FAF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 00:04:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lXezILVz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697759077; x=1729295077;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Jq3D1po5zahYlQJvSXGClNzZXS0SMfmW4UtR6Umm3MU=;
-  b=lXezILVzWq30PZen4TQr5EzyDJDXcVMEo4MCrG2SJWOvMJIgNQgKGL/p
-   ftyNZHmtgLM8IPZ2ecwXyqe62oywBiRyHchWBsIideRrZtR2JHdcYKaWH
-   6mMwjsCj4crj99BQJA5V5pol4SMPJ63ZYXcm8Sen6BWwOzJmhQqijNYl3
-   2qzDOBd/gYWao289P9HfeEJb1IdwlbAn407+PP4c0+NcXUSBjWImEKLok
-   DHrZNG7y2YsTCmR6xcZu6zgVCUImamnYj2D5LTU4Bf8lMSEFviDW6uLQh
-   JdalLm2/QTZazPSWKortF3DReSQHj3whBNGWeg41A+zqBzp2UqUymbgLX
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="450617370"
-X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="450617370"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 16:44:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="827534960"
-X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="827534960"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Oct 2023 16:44:35 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qtcgq-0002ig-35;
-	Thu, 19 Oct 2023 23:44:32 +0000
-Date: Fri, 20 Oct 2023 07:44:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v11 07/16] drm/mediatek: aal: Use bitfield macros
-Message-ID: <202310200732.gAEt1QI3-lkp@intel.com>
-References: <20231012095736.100784-8-angelogioacchino.delregno@collabora.com>
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="KLlqzg9G"
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-d84f18e908aso280362276.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 17:04:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1697760273; x=1698365073; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RZE3cc6e0ypcAqaFcINIc2gZj+EhE8lhjLqWQSkY/ho=;
+        b=KLlqzg9G/wcXF+7yTDq0vfV+ZKTfs1VzBiUk2WEct43Db0nFHL9ACtmX1UnupWm1vR
+         XGUUDhoLm4hLxY/SnPgE1PS11OycQQU3sEPKKvyTfatC7gRAImsDSmGhq45HNLY0wr2j
+         4ZGJ+Cu1K0LkPpy5pE4aeUk2HH4HLzBK5lNdrDAaYw1JDnd9Z24eKSH5kqwRjLedO82t
+         7pl0gGEWEgOnkaXMAifPNOb7BVQmKbvrSXMIx/FsvZ/OrE5R709QFe2ymRAYM2BxcFAN
+         8oKOmI2UNw0YgDmWqpGLRk3w6Lmwxa1v7koo8SnYVvj0cqjsIvWedca4Dlwk/lhzqzO/
+         cR9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697760273; x=1698365073;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RZE3cc6e0ypcAqaFcINIc2gZj+EhE8lhjLqWQSkY/ho=;
+        b=dXpN62X6RXmbL5kWvuYYPeFOmL4hL1kfYwGHyNdcwzOjT7TzZ8OdlHjzrKFM0FfUmY
+         ZBEUaqJCZ4DLRJ9sVl9kwsVyHq2/FZnpT9P6UlDDH7DyY3UZ4Qr1cbwwwykq0xpFLMgR
+         dNFYgNY/oMSn5o97sUgEV9O4KjX5zHzDoErf5ZLAnV8aS2j6Il8AlzpcqUDxXqZZDemq
+         xFH3brXrm7aS5US6tpcTjTTO0WXgYoEft41Ip/VV1bPDjalD3t5F5uxcSMptIIRWFslW
+         hEOHNyZ4n9ro156vhkSK4VYIiA97Wop5+o7MZYxGz1p5xvFmxYBIIt3dDFYL9+INGo8y
+         lvWg==
+X-Gm-Message-State: AOJu0YzuSwlNZ7TIxyLY7hMpTY6Yhhm/whH9uyBhgcMDVjqb5dIVpxPI
+	0qmIU3zMj31q/LGqEisc7MZXSA==
+X-Google-Smtp-Source: AGHT+IH+iL5kcJERANbI1DhlZ2XbKBVAv5uNec+m11U5QkIoDBYLOjxKEvLjBXzzp8CGx/TuA7DQig==
+X-Received: by 2002:a25:d650:0:b0:d9b:e407:663f with SMTP id n77-20020a25d650000000b00d9be407663fmr366426ybg.15.1697760273484;
+        Thu, 19 Oct 2023 17:04:33 -0700 (PDT)
+Received: from ziepe.ca ([12.22.141.131])
+        by smtp.gmail.com with ESMTPSA id p85-20020a254258000000b00d7e339ada01sm173990yba.20.2023.10.19.17.04.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Oct 2023 17:04:32 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1qtd0A-003Fme-A9;
+	Thu, 19 Oct 2023 21:04:30 -0300
+Date: Thu, 19 Oct 2023 21:04:30 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Bob Pearson <rpearsonhpe@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: drivers/infiniband/sw/rxe/rxe_mr.c:106:9: warning: array
+ subscript 0 is outside array bounds of 'struct sg_table[0]'
+Message-ID: <20231020000430.GE691768@ziepe.ca>
+References: <202310192300.lurP44yG-lkp@intel.com>
+ <57edd968-91d7-41f9-8a29-e86d8f583efa@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,58 +63,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231012095736.100784-8-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <57edd968-91d7-41f9-8a29-e86d8f583efa@gmail.com>
 
-Hi AngeloGioacchino,
+On Thu, Oct 19, 2023 at 11:22:00AM -0500, Bob Pearson wrote:
+> On 10/19/23 10:33, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   dd72f9c7e512da377074d47d990564959b772643
+> > commit: 592627ccbdff0ec6fff00fc761142a76db750dd4 RDMA/rxe: Replace rxe_map and rxe_phys_buf by xarray
+> > date:   9 months ago
+> > config: sparc-randconfig-c023-20211015 (https://download.01.org/0day-ci/archive/20231019/202310192300.lurP44yG-lkp@intel.com/config)
+> > compiler: sparc64-linux-gcc (GCC) 13.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310192300.lurP44yG-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202310192300.lurP44yG-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> >    drivers/infiniband/sw/rxe/rxe_mr.c: In function 'rxe_mr_fill_pages_from_sgt.constprop':
+> >>> drivers/infiniband/sw/rxe/rxe_mr.c:106:9: warning: array subscript 0 is outside array bounds of 'struct sg_table[0]' [-Warray-bounds=]
+> >      106 |         __sg_page_iter_start(&sg_iter, sgt->sgl, sgt->orig_nents, 0);
+> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >    cc1: note: source object is likely at address zero
+> >>> drivers/infiniband/sw/rxe/rxe_mr.c:106:9: warning: array subscript 0 is outside array bounds of 'struct sg_table[0]' [-Warray-bounds=]
+> >    cc1: note: source object is likely at address zero
+> > 
+> > 
+> > vim +106 drivers/infiniband/sw/rxe/rxe_mr.c
+> > 
+> >     98	
+> >     99	static int rxe_mr_fill_pages_from_sgt(struct rxe_mr *mr, struct sg_table *sgt)
+> >    100	{
+> >    101		XA_STATE(xas, &mr->page_list, 0);
+> >    102		struct sg_page_iter sg_iter;
+> >    103		struct page *page;
+> >    104		bool persistent = !!(mr->access & IB_ACCESS_FLUSH_PERSISTENT);
+> >    105	
+> >  > 106		__sg_page_iter_start(&sg_iter, sgt->sgl, sgt->orig_nents, 0);
+> >    107		if (!__sg_page_iter_next(&sg_iter))
+> >    108			return 0;
+> >    109	
+> >    110		do {
+> >    111			xas_lock(&xas);
+> >    112			while (true) {
+> >    113				page = sg_page_iter_page(&sg_iter);
+> >    114	
+> >    115				if (persistent && !is_pmem_page(page)) {
+> >    116					rxe_dbg_mr(mr, "Page can't be persistent\n");
+> >    117					xas_set_err(&xas, -EINVAL);
+> >    118					break;
+> >    119				}
+> >    120	
+> >    121				xas_store(&xas, page);
+> >    122				if (xas_error(&xas))
+> >    123					break;
+> >    124				xas_next(&xas);
+> >    125				if (!__sg_page_iter_next(&sg_iter))
+> >    126					break;
+> >    127			}
+> >    128			xas_unlock(&xas);
+> >    129		} while (xas_nomem(&xas, GFP_KERNEL));
+> >    130	
+> >    131		return xas_error(&xas);
+> >    132	}
+> >    133	
+> > 
+> 
+> Jason,
+> 
+> Can you make sense out of this? The marked line (was 106, now 101)
+> seems completely innocuous.
 
-kernel test robot noticed the following build errors:
+I think this is the key:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.6-rc6 next-20231019]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >    cc1: note: source object is likely at address zero
 
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/drm-mediatek-gamma-Adjust-mtk_drm_gamma_set_common-parameters/20231017-104553
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231012095736.100784-8-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH v11 07/16] drm/mediatek: aal: Use bitfield macros
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20231020/202310200732.gAEt1QI3-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310200732.gAEt1QI3-lkp@intel.com/reproduce)
+So something is wrong with the call chain passing sgt into this
+function, at least the compiler thinks it is an empty allocation.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310200732.gAEt1QI3-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/mediatek/mtk_disp_aal.c: In function 'mtk_aal_config':
->> drivers/gpu/drm/mediatek/mtk_disp_aal.c:58:14: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-      58 |         sz = FIELD_PREP(DISP_AAL_SIZE_HSIZE, w);
-         |              ^~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/FIELD_PREP +58 drivers/gpu/drm/mediatek/mtk_disp_aal.c
-
-    50	
-    51	void mtk_aal_config(struct device *dev, unsigned int w,
-    52				   unsigned int h, unsigned int vrefresh,
-    53				   unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
-    54	{
-    55		struct mtk_disp_aal *aal = dev_get_drvdata(dev);
-    56		u32 sz;
-    57	
-  > 58		sz = FIELD_PREP(DISP_AAL_SIZE_HSIZE, w);
-    59		sz |= FIELD_PREP(DISP_AAL_SIZE_VSIZE, h);
-    60	
-    61		mtk_ddp_write(cmdq_pkt, sz, &aal->cmdq_reg, aal->regs, DISP_AAL_SIZE);
-    62		mtk_ddp_write(cmdq_pkt, sz, &aal->cmdq_reg, aal->regs, DISP_AAL_OUTPUT_SIZE);
-    63	}
-    64	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jason
