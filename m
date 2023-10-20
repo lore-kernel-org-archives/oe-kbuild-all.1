@@ -1,48 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEEDE20E0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 01:19:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60A5398;
+	Fri, 20 Oct 2023 01:40:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hlpmqosU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N9tsfyW3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697764781; x=1729300781;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CmFVwUTvBnYaiZx2ABGaVnH9SFpqUC8skty/RBgHOOE=;
-  b=hlpmqosU3ysJJGFbZs30WEGGeALLAsHTgQWMa6klFDxpbzosoDkHs5Yl
-   ljuNyVchzXrHc7Pe9x4h0O6VZHhCphYXGBNVYY6hlskJDw1yuBMmsWFSe
-   EFiWML3ZN87t872rYMeL0qWykN5o9Ro6MTeya5bZvQKXB1AnmEGSmr8ko
-   YgkeKflbeAMFYj6pPGAi8kEr3WSH60dHF1gYmkqzUOGZKY0j5ienwn7+8
-   khUXNBlq+aLFaLxyOmmdmyg5cqMq+pnbi9CqgiVIonDIsShvMgSLnZSYT
-   2rrgqzMUEIO4arHQ+tCVEa7GNHYseoIZNn/Hqw7u2WWMqPq8rwJfcpFov
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="385284700"
+  t=1697766044; x=1729302044;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UBcNQvxkTEiXwcSho1CR+VNvdSGqKOWhVmYFDSRz1yk=;
+  b=N9tsfyW3YA6IXbD694rIefn5tlz+OAnaM/95MWEg7mgYHkfSN8bVhM6A
+   xaKuTephrKquIoezsVUCH9Y0CtvmMVvKmcAqp0OWOnreH7Aj6HwCx7H81
+   yVlqnyfO+ln47I9TTiuUoEUpwi8ShLWOws87SaixU2L3dgH3r4Idcobzq
+   eCMBRO0+Ski9rE0RMvPQYC3SzYS7oZOVqTMat+u0SWk31WLyuVX/+sTnn
+   9kiPOp6hz8/O60g0wPkmykCornY6VZp9fApBJYXcSzNLK1O5ogTaBJb/v
+   ArDe59BSZJ7lYBJ9coZTayedIzEGGSddEJMekmwL+6EJFc734gx1NwSXQ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="389272341"
 X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="385284700"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 18:19:40 -0700
+   d="scan'208";a="389272341"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 18:40:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="1004439269"
 X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="1004439269"
+   d="scan'208";a="5221860"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 19 Oct 2023 18:19:39 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 19 Oct 2023 18:40:42 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qteAr-0002p0-2X;
-	Fri, 20 Oct 2023 01:19:37 +0000
-Date: Fri, 20 Oct 2023 09:19:22 +0800
+	id 1qteVC-0002q6-0w;
+	Fri, 20 Oct 2023 01:40:38 +0000
+Date: Fri, 20 Oct 2023 09:40:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.10 17/17] kernel/trace/trace_events.c:1782:41:
- warning: format specifies type 'unsigned long' but the argument has type
- 'unsigned int'
-Message-ID: <202310200943.8NQOb2yZ-lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>, Neil Brown <neilb@suse.de>,
+	Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	Anna Schumaker <anna@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH -next v2] sunrpc: Use no_printk() in dfprintk*() dummies
+Message-ID: <202310200948.TK9Y6iGy-lkp@intel.com>
+References: <a93de2e8afa826745746b00fc5f64e513df5d52f.1697104757.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,57 +57,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <a93de2e8afa826745746b00fc5f64e513df5d52f.1697104757.git.geert+renesas@glider.be>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.10
-head:   a4cbe70420c545a192b2c214efe1ba0f174d84f4
-commit: a4cbe70420c545a192b2c214efe1ba0f174d84f4 [17/17] CHROMIUM: Support ARC atrace from container
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231020/202310200943.8NQOb2yZ-lkp@intel.com/config)
+Hi Geert,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20231016]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Geert-Uytterhoeven/sunrpc-Use-no_printk-in-dfprintk-dummies/20231017-104813
+base:   next-20231016
+patch link:    https://lore.kernel.org/r/a93de2e8afa826745746b00fc5f64e513df5d52f.1697104757.git.geert%2Brenesas%40glider.be
+patch subject: [PATCH -next v2] sunrpc: Use no_printk() in dfprintk*() dummies
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231020/202310200948.TK9Y6iGy-lkp@intel.com/config)
 compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310200943.8NQOb2yZ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310200948.TK9Y6iGy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310200943.8NQOb2yZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310200948.TK9Y6iGy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   clang-16: warning: argument unused during compilation: '-mno-global-merge' [-Wunused-command-line-argument]
-   In file included from kernel/trace/trace_events.c:27:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:10:
-   In file included from include/linux/perf_event.h:49:
-   In file included from include/linux/ftrace.h:21:
-   arch/x86/include/asm/ftrace.h:7:3: error: Compiler does not support fentry?
-   # error Compiler does not support fentry?
-     ^
->> kernel/trace/trace_events.c:1782:41: warning: format specifies type 'unsigned long' but the argument has type 'unsigned int' [-Wformat]
-                   snprintf(buf, sizeof(buf), "pid:%lu", tr->filtered_ns->ns.inum);
-                                                   ~~~   ^~~~~~~~~~~~~~~~~~~~~~~~
-                                                   %u
-   1 warning and 1 error generated.
+>> fs/nfsd/nfsfh.c:111:45: error: use of undeclared identifier 'buf'
+                           svc_print_addr(rqstp, buf, sizeof(buf)));
+                                                             ^
+   fs/nfsd/nfsfh.c:111:33: error: use of undeclared identifier 'buf'
+                           svc_print_addr(rqstp, buf, sizeof(buf)));
+                                                 ^
+   2 errors generated.
 
 
-vim +1782 kernel/trace/trace_events.c
+vim +/buf +111 fs/nfsd/nfsfh.c
 
-  1772	
-  1773	static ssize_t
-  1774	ftrace_set_trace_pidns_read(struct file *filp, char __user *ubuf, size_t cnt,
-  1775			  loff_t *ppos)
-  1776	{
-  1777		struct trace_array *tr = filp->private_data;
-  1778		char buf[32];
-  1779	
-  1780		mutex_lock(&event_mutex);
-  1781		if (tr->filtered_ns)
-> 1782			snprintf(buf, sizeof(buf), "pid:%lu", tr->filtered_ns->ns.inum);
-  1783		else
-  1784			strcpy(buf, "not set");
-  1785		mutex_unlock(&event_mutex);
-  1786	
-  1787		return simple_read_from_buffer(ubuf, cnt, ppos, buf, strlen(buf));
-  1788	}
-  1789	
+9d7ed1355db5b00 J. Bruce Fields 2018-03-08  101  
+6fa02839bf9412e J. Bruce Fields 2007-11-12  102  static __be32 nfsd_setuser_and_check_port(struct svc_rqst *rqstp,
+6fa02839bf9412e J. Bruce Fields 2007-11-12  103  					  struct svc_export *exp)
+6fa02839bf9412e J. Bruce Fields 2007-11-12  104  {
+12045a6ee9908b3 J. Bruce Fields 2009-12-08  105  	int flags = nfsexp_flags(rqstp, exp);
+12045a6ee9908b3 J. Bruce Fields 2009-12-08  106  
+6fa02839bf9412e J. Bruce Fields 2007-11-12  107  	/* Check if the request originated from a secure port. */
+9d7ed1355db5b00 J. Bruce Fields 2018-03-08  108  	if (!nfsd_originating_port_ok(rqstp, flags)) {
+5216a8e70e25b01 Pavel Emelyanov 2008-02-21  109  		RPC_IFDEBUG(char buf[RPC_MAX_ADDRBUFLEN]);
+a48fd0f9f77b6e1 Kinglong Mee    2014-05-29  110  		dprintk("nfsd: request from insecure port %s!\n",
+6fa02839bf9412e J. Bruce Fields 2007-11-12 @111  		        svc_print_addr(rqstp, buf, sizeof(buf)));
+6fa02839bf9412e J. Bruce Fields 2007-11-12  112  		return nfserr_perm;
+6fa02839bf9412e J. Bruce Fields 2007-11-12  113  	}
+6fa02839bf9412e J. Bruce Fields 2007-11-12  114  
+6fa02839bf9412e J. Bruce Fields 2007-11-12  115  	/* Set user creds for this exportpoint */
+6fa02839bf9412e J. Bruce Fields 2007-11-12  116  	return nfserrno(nfsd_setuser(rqstp, exp));
+6fa02839bf9412e J. Bruce Fields 2007-11-12  117  }
+6fa02839bf9412e J. Bruce Fields 2007-11-12  118  
 
 -- 
 0-DAY CI Kernel Test Service
