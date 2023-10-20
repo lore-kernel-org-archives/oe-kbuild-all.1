@@ -1,49 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CBB1775C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 10:47:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C0F18C24
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 11:19:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z55CFuLA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="av0YaIoc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697798826; x=1729334826;
+  t=1697800747; x=1729336747;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RxYUZ2PpfO+CDNDoisSuR+YpWUzJvJJvGtNgwVx+uTM=;
-  b=Z55CFuLAPXaNyUoSZz7Ww7oU8a/9zZ6EGqjHsQXCVLCJEEe4A8z/CfpS
-   A5sHQLFh8HFPpP0azn01cSKFN08Cx+CXnGrH/A/oEWVtiCeLncHfdDGst
-   0omu1Bk+AGmhhnrM0U07aZHGO1VhDsPACdggjrDyZrSRhjqYfLdgED1fV
-   ANoqAwIGlQgbKzy2m4k9EbqY5LOYZ32LvfgZrlNedK8QDHvrbZvwpvSO2
-   VkodFJyBetoA4D0XCC7WMHuCpLvYjdqMWxoESjeWruCK+TlL4OHo4y4oo
-   SSSWIxh8NW4kyX18mru1nX0FQmc774G66ElIRwisil2n38mNQ2sMIGs3b
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="383689104"
+  bh=otx+Zz/LY19UTVsVa3Npz5zr1ue4E3U/OyiF31M7JVo=;
+  b=av0YaIoc3UAjTZ+G4CR1WcFjAWgG4zbhafVMbTE36kQswZ8r4tWzJSlQ
+   6bMqQSiLuL/NqVn74BmuWekBbbWv7RJtVcVH+JqyvycyV8TmwGPuNf34O
+   d0grfbOqgVAO2znKcQqBS3jbtppLJKgmQ0TImeriUK9AjyVt9hcZDUK+V
+   bPu4ETezPPqpE6Dknd7BWogq6lphqg/AJBjwT2WKJq4DiTlY+wmNKEWFP
+   ZTgzhVUbjUdDHZM4oHR7v/bEIvWwqfLozjc9+2BGGkEjHNF/+h+0yIH6d
+   z5TUBXKso7kJDl6rvsO4VkKvyNlg1SxIHs3xbFdwM0EEBZVyDSO+OvwRV
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="385354704"
 X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="383689104"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 03:47:05 -0700
+   d="scan'208";a="385354704"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 04:19:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="827699001"
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="873877190"
 X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="827699001"
+   d="scan'208";a="873877190"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 20 Oct 2023 03:47:04 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 20 Oct 2023 04:19:05 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtn1x-0003PC-35;
-	Fri, 20 Oct 2023 10:47:01 +0000
-Date: Fri, 20 Oct 2023 18:46:47 +0800
+	id 1qtnWx-0003RW-2b;
+	Fri, 20 Oct 2023 11:19:03 +0000
+Date: Fri, 20 Oct 2023 19:18:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Edward Cree <ecree.xilinx@gmail.com>
-Subject: include/linux/netlink.h:116:6: warning: 'sfc: Unsupported: only
- support mangle ipv4.ttl when we have an exact match on ttl, mask used for
- match (' directive output truncated writing 104 bytes into a region of size
- 80
-Message-ID: <202310201835.EOKa6EBx-lkp@intel.com>
+To: Georgia Garcia <georgia.garcia@canonical.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	John Johansen <john.johansen@canonical.com>
+Subject: [linux-next:master 10379/13906] security/apparmor/lsm.c:651:5:
+ warning: no previous declaration for 'apparmor_uring_override_creds'
+Message-ID: <202310201911.QT2YAa39-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,157 +52,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ce55c22ec8b223a90ff3e084d842f73cfba35588
-commit: 66f728872636e1167aedc5a18be6760083911900 sfc: add decrement ttl by offloading set ipv4 ttl actions
-date:   8 weeks ago
-config: x86_64-randconfig-016-20231007 (https://download.01.org/0day-ci/archive/20231020/202310201835.EOKa6EBx-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2030579113a1b1b5bfd7ff24c0852847836d8fd1
+commit: c4371d90633b73cf6e86aff43ff2b5d95ad2b9eb [10379/13906] apparmor: add io_uring mediation
+config: x86_64-randconfig-072-20231020 (https://download.01.org/0day-ci/archive/20231020/202310201911.QT2YAa39-lkp@intel.com/config)
 compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310201835.EOKa6EBx-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310201911.QT2YAa39-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310201835.EOKa6EBx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310201911.QT2YAa39-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/uapi/linux/neighbour.h:6:0,
-                    from include/linux/netdevice.h:45,
-                    from include/net/sch_generic.h:5,
-                    from include/net/pkt_cls.h:7,
-                    from drivers/net/ethernet/sfc/tc.c:12:
-   drivers/net/ethernet/sfc/tc.c: In function 'efx_tc_mangle.isra.17':
->> include/linux/netlink.h:116:6: warning: 'sfc: Unsupported: only support mangle ipv4.ttl when we have an exact match on ttl, mask used for match (' directive output truncated writing 104 bytes into a region of size 80 [-Wformat-truncation=]
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:1155:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:6: note: directive argument in the range [0, 254]
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:1155:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:6: note: 'snprintf' output between 107 and 110 bytes into a destination of size 80
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:1155:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c: In function 'efx_tc_flower_record_encap_match':
-   include/linux/netlink.h:116:6: warning: ' conflicts with existing pseudo(MASK) entry for TOS mask ' directive output truncated writing 57 bytes into a region of size between 33 and 39 [-Wformat-truncation=]
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:625:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:6: note: directive argument in the range [0, 2147483647]
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:625:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:6: note: 'snprintf' output between 103 and 115 bytes into a destination of size 80
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:625:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:6: warning: ' conflicts with existing pseudo(MASK) entry for mask ' directive output truncated writing 53 bytes into a region of size between 24 and 33 [-Wformat-truncation=]
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:632:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:6: note: directive argument in the range [0, 2147483647]
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:632:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:6: note: 'snprintf' output between 102 and 120 bytes into a destination of size 80
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:632:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
+>> security/apparmor/lsm.c:651:5: warning: no previous declaration for 'apparmor_uring_override_creds' [-Wmissing-declarations]
+    int apparmor_uring_override_creds(const struct cred *new)
+        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> security/apparmor/lsm.c:675:5: warning: no previous declaration for 'apparmor_uring_sqpoll' [-Wmissing-declarations]
+    int apparmor_uring_sqpoll(void)
+        ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +116 include/linux/netlink.h
+vim +/apparmor_uring_override_creds +651 security/apparmor/lsm.c
 
-2d4bc93368f5a0 Johannes Berg 2017-04-12  107  
-51c352bdbcd23d Edward Cree   2022-10-18  108  /* We splice fmt with %s at each end even in the snprintf so that both calls
-51c352bdbcd23d Edward Cree   2022-10-18  109   * can use the same string constant, avoiding its duplication in .ro
-51c352bdbcd23d Edward Cree   2022-10-18  110   */
-51c352bdbcd23d Edward Cree   2022-10-18  111  #define NL_SET_ERR_MSG_FMT(extack, fmt, args...) do {			       \
-51c352bdbcd23d Edward Cree   2022-10-18  112  	struct netlink_ext_ack *__extack = (extack);			       \
-51c352bdbcd23d Edward Cree   2022-10-18  113  									       \
-51c352bdbcd23d Edward Cree   2022-10-18  114  	if (!__extack)							       \
-51c352bdbcd23d Edward Cree   2022-10-18  115  		break;							       \
-51c352bdbcd23d Edward Cree   2022-10-18 @116  	if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,	       \
-51c352bdbcd23d Edward Cree   2022-10-18  117  		     "%s" fmt "%s", "", ##args, "") >=			       \
-51c352bdbcd23d Edward Cree   2022-10-18  118  	    NETLINK_MAX_FMTMSG_LEN)					       \
-51c352bdbcd23d Edward Cree   2022-10-18  119  		net_warn_ratelimited("%s" fmt "%s", "truncated extack: ",      \
-51c352bdbcd23d Edward Cree   2022-10-18  120  				     ##args, "\n");			       \
-51c352bdbcd23d Edward Cree   2022-10-18  121  									       \
-51c352bdbcd23d Edward Cree   2022-10-18  122  	do_trace_netlink_extack(__extack->_msg_buf);			       \
-51c352bdbcd23d Edward Cree   2022-10-18  123  									       \
-51c352bdbcd23d Edward Cree   2022-10-18  124  	__extack->_msg = __extack->_msg_buf;				       \
-51c352bdbcd23d Edward Cree   2022-10-18  125  } while (0)
-51c352bdbcd23d Edward Cree   2022-10-18  126  
-
-:::::: The code at line 116 was first introduced by commit
-:::::: 51c352bdbcd23d7ce46b06c1e64c82754dc44044 netlink: add support for formatted extack messages
-
-:::::: TO: Edward Cree <ecree.xilinx@gmail.com>
-:::::: CC: Jakub Kicinski <kuba@kernel.org>
+   643	
+   644	/**
+   645	 * apparmor_uring_override_creds - check the requested cred override
+   646	 * @new: the target creds
+   647	 *
+   648	 * Check to see if the current task is allowed to override it's credentials
+   649	 * to service an io_uring operation.
+   650	 */
+ > 651	int apparmor_uring_override_creds(const struct cred *new)
+   652	{
+   653		struct aa_profile *profile;
+   654		struct aa_label *label;
+   655		int error;
+   656		DEFINE_AUDIT_DATA(ad, LSM_AUDIT_DATA_NONE, AA_CLASS_IO_URING,
+   657				  OP_URING_OVERRIDE);
+   658	
+   659		ad.uring.target = cred_label(new);
+   660		label = __begin_current_label_crit_section();
+   661		error = fn_for_each(label, profile,
+   662				profile_uring(profile, AA_MAY_OVERRIDE_CRED,
+   663					      cred_label(new), CAP_SYS_ADMIN, &ad));
+   664		__end_current_label_crit_section(label);
+   665	
+   666		return error;
+   667	}
+   668	
+   669	/**
+   670	 * apparmor_uring_sqpoll - check if a io_uring polling thread can be created
+   671	 *
+   672	 * Check to see if the current task is allowed to create a new io_uring
+   673	 * kernel polling thread.
+   674	 */
+ > 675	int apparmor_uring_sqpoll(void)
+   676	{
+   677		struct aa_profile *profile;
+   678		struct aa_label *label;
+   679		int error;
+   680		DEFINE_AUDIT_DATA(ad, LSM_AUDIT_DATA_NONE, AA_CLASS_IO_URING,
+   681				  OP_URING_SQPOLL);
+   682	
+   683		label = __begin_current_label_crit_section();
+   684		error = fn_for_each(label, profile,
+   685				profile_uring(profile, AA_MAY_CREATE_SQPOLL,
+   686					      NULL, CAP_SYS_ADMIN, &ad));
+   687		__end_current_label_crit_section(label);
+   688	
+   689		return error;
+   690	}
+   691	#endif /* CONFIG_IO_URING */
+   692	
 
 -- 
 0-DAY CI Kernel Test Service
