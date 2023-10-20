@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA3F1801
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 02:02:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A0F647
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 02:03:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HmD7MwzV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lhYJTiHT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697767363; x=1729303363;
+  t=1697767384; x=1729303384;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=x3k4e0zIpp+ryV0cRa/ZdvQExIPH6NiSsVXGH2z4P/E=;
-  b=HmD7MwzVHx3VKO52wZQltARRiIRnyurAbysQMLTWew2UmZoOYMksGGjO
-   o9DJtReB3ofaQZZ2Lf17oxtw9L5D3FcvQBby6vudrzYAJzj3EA8Kd9PHF
-   PR1v8ApY674G9KXETn+/7fGfx5are37XM4SHkw5Ycw5+5VOuqeR3zQT4N
-   UM5v+u1x90aGpud+PNpR0WpzGy3PE0lmmYd4Eg1XMiJE/exClA/bMypRG
-   nl/IGHNpPGe48NW9LUE2G6jx36J6p5lofLvbZv/NBxSfp4dxGGmgUCiVZ
-   QgqiKPWd8/FfKUssRCfn1alkjQBGE2J/pICjEjBgTu8di7LxbGrpLCzye
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="450640304"
+  bh=XIvutPSGn0Es/HXfmWR46UGGmV2mZUmVOEeJB/9aZIo=;
+  b=lhYJTiHTSGjaArlG4Dix0DHHBjscOBtDdisODwBWBY9cf+nnbB4epSwL
+   QPAgSwvwJgX+xAHa+/GKy/VSTdYcIvL+7ASgyB8DnRJzbPSeyd+4pKKNE
+   kbalL1ZVbBKwjH2wouRiwDeofO+s4Cc7xBw/NNg+nddF+49eX9B+y7W+H
+   7oVUH1YbqCTnqB+PzMoMbarYLHnzy2ejWTBzWZD96C5gd1IQevxwiitBQ
+   yiNayjRZGPmDxYf0ETRROGgA31+st/1Q03pqTxmrc6si9v50qVblru7iQ
+   rdiEdmwlELvCmv//LQlTPp/y8Cx0kvInth5zIySA+aLJwEEyS4R6TdIET
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="383626518"
 X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="450640304"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 19:02:42 -0700
+   d="scan'208";a="383626518"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 19:02:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="1088581953"
 X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="1088581953"
+   d="scan'208";a="5226358"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 19 Oct 2023 19:02:40 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 19 Oct 2023 19:02:42 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qteqU-0002qk-2W;
+	id 1qteqU-0002qn-2p;
 	Fri, 20 Oct 2023 02:02:38 +0000
-Date: Fri, 20 Oct 2023 10:02:16 +0800
+Date: Fri, 20 Oct 2023 10:02:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Parav Pandit <parav@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>
-Subject: drivers/net/virtio_net.c:3613:50: error: 'sprintf' may write a
- terminating nul past the end of the destination
-Message-ID: <202310200915.jiQ2UbTn-lkp@intel.com>
+To: Pranavi Somisetty <pranavi.somisetty@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, Michal Simek <monstr@monstr.eu>,
+	Harini Katakam <harini.katakam@xilinx.com>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
+Subject: [pinchartl-media:muxed/2022.2/base 490/740]
+ drivers/staging/xilinx-tsn/xilinx_tsn_tadma.c:284:47: warning: 'sprintf' may
+ write a terminating nul past the end of the destination
+Message-ID: <202310200916.v1650Vqb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,133 +52,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ce55c22ec8b223a90ff3e084d842f73cfba35588
-commit: d0671115869d19ec76d658c4bf86d3211a8ea121 virtio-net: Reduce debug name field size to 16 bytes
-date:   9 months ago
-config: x86_64-sof-customedconfig-memory-debug-defconfig (https://download.01.org/0day-ci/archive/20231020/202310200915.jiQ2UbTn-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310200915.jiQ2UbTn-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/pinchartl/media.git muxed/2022.2/base
+head:   e26621179c3b1834a1bb17e9a38e47238ac63bf5
+commit: 01fee54ce6a611d5d65a5fc081dad522a0376f95 [490/740] net: xilinx: Move Xilinx TSN to staging
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20231020/202310200916.v1650Vqb-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310200916.v1650Vqb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310200915.jiQ2UbTn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310200916.v1650Vqb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/virtio_net.c: In function 'virtnet_find_vqs':
->> drivers/net/virtio_net.c:3613:50: error: 'sprintf' may write a terminating nul past the end of the destination [-Werror=format-overflow=]
-    3613 |                 sprintf(vi->rq[i].name, "input.%d", i);
-         |                                                  ^
-   drivers/net/virtio_net.c:3613:17: note: 'sprintf' output between 8 and 17 bytes into a destination of size 16
-    3613 |                 sprintf(vi->rq[i].name, "input.%d", i);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/virtio_net.c:3614:49: error: '%d' directive writing between 1 and 10 bytes into a region of size 9 [-Werror=format-overflow=]
-    3614 |                 sprintf(vi->sq[i].name, "output.%d", i);
-         |                                                 ^~
-   drivers/net/virtio_net.c:3614:41: note: directive argument in the range [0, 2147483646]
-    3614 |                 sprintf(vi->sq[i].name, "output.%d", i);
-         |                                         ^~~~~~~~~~~
-   drivers/net/virtio_net.c:3614:17: note: 'sprintf' output between 9 and 18 bytes into a destination of size 16
-    3614 |                 sprintf(vi->sq[i].name, "output.%d", i);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+   drivers/staging/xilinx-tsn/xilinx_tsn_tadma.c: In function 'axienet_tadma_open':
+>> drivers/staging/xilinx-tsn/xilinx_tsn_tadma.c:284:47: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
+     284 |                 sprintf(irq_name, "%s_tadma_tx", ndev->name);
+         |                                               ^
+   drivers/staging/xilinx-tsn/xilinx_tsn_tadma.c:284:17: note: 'sprintf' output between 10 and 25 bytes into a destination of size 24
+     284 |                 sprintf(irq_name, "%s_tadma_tx", ndev->name);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/sprintf +3613 drivers/net/virtio_net.c
+vim +/sprintf +284 drivers/staging/xilinx-tsn/xilinx_tsn_tadma.c
 
-d85b758f72b05a Michael S. Tsirkin 2017-03-09  3568  
-986a4f4d452dec Jason Wang         2012-12-07  3569  static int virtnet_find_vqs(struct virtnet_info *vi)
-3f9c10b0d478a3 Amit Shah          2011-12-22  3570  {
-986a4f4d452dec Jason Wang         2012-12-07  3571  	vq_callback_t **callbacks;
-986a4f4d452dec Jason Wang         2012-12-07  3572  	struct virtqueue **vqs;
-986a4f4d452dec Jason Wang         2012-12-07  3573  	int ret = -ENOMEM;
-986a4f4d452dec Jason Wang         2012-12-07  3574  	int i, total_vqs;
-986a4f4d452dec Jason Wang         2012-12-07  3575  	const char **names;
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3576  	bool *ctx;
-986a4f4d452dec Jason Wang         2012-12-07  3577  
-986a4f4d452dec Jason Wang         2012-12-07  3578  	/* We expect 1 RX virtqueue followed by 1 TX virtqueue, followed by
-986a4f4d452dec Jason Wang         2012-12-07  3579  	 * possible N-1 RX/TX queue pairs used in multiqueue mode, followed by
-986a4f4d452dec Jason Wang         2012-12-07  3580  	 * possible control vq.
-986a4f4d452dec Jason Wang         2012-12-07  3581  	 */
-986a4f4d452dec Jason Wang         2012-12-07  3582  	total_vqs = vi->max_queue_pairs * 2 +
-986a4f4d452dec Jason Wang         2012-12-07  3583  		    virtio_has_feature(vi->vdev, VIRTIO_NET_F_CTRL_VQ);
-986a4f4d452dec Jason Wang         2012-12-07  3584  
-986a4f4d452dec Jason Wang         2012-12-07  3585  	/* Allocate space for find_vqs parameters */
-6396bb221514d2 Kees Cook          2018-06-12  3586  	vqs = kcalloc(total_vqs, sizeof(*vqs), GFP_KERNEL);
-986a4f4d452dec Jason Wang         2012-12-07  3587  	if (!vqs)
-986a4f4d452dec Jason Wang         2012-12-07  3588  		goto err_vq;
-6da2ec56059c3c Kees Cook          2018-06-12  3589  	callbacks = kmalloc_array(total_vqs, sizeof(*callbacks), GFP_KERNEL);
-986a4f4d452dec Jason Wang         2012-12-07  3590  	if (!callbacks)
-986a4f4d452dec Jason Wang         2012-12-07  3591  		goto err_callback;
-6da2ec56059c3c Kees Cook          2018-06-12  3592  	names = kmalloc_array(total_vqs, sizeof(*names), GFP_KERNEL);
-986a4f4d452dec Jason Wang         2012-12-07  3593  	if (!names)
-986a4f4d452dec Jason Wang         2012-12-07  3594  		goto err_names;
-192f68cf35f5ee Jason Wang         2017-07-19  3595  	if (!vi->big_packets || vi->mergeable_rx_bufs) {
-6396bb221514d2 Kees Cook          2018-06-12  3596  		ctx = kcalloc(total_vqs, sizeof(*ctx), GFP_KERNEL);
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3597  		if (!ctx)
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3598  			goto err_ctx;
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3599  	} else {
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3600  		ctx = NULL;
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3601  	}
-986a4f4d452dec Jason Wang         2012-12-07  3602  
-986a4f4d452dec Jason Wang         2012-12-07  3603  	/* Parameters for control virtqueue, if any */
-986a4f4d452dec Jason Wang         2012-12-07  3604  	if (vi->has_cvq) {
-986a4f4d452dec Jason Wang         2012-12-07  3605  		callbacks[total_vqs - 1] = NULL;
-986a4f4d452dec Jason Wang         2012-12-07  3606  		names[total_vqs - 1] = "control";
-986a4f4d452dec Jason Wang         2012-12-07  3607  	}
-986a4f4d452dec Jason Wang         2012-12-07  3608  
-986a4f4d452dec Jason Wang         2012-12-07  3609  	/* Allocate/initialize parameters for send/receive virtqueues */
-986a4f4d452dec Jason Wang         2012-12-07  3610  	for (i = 0; i < vi->max_queue_pairs; i++) {
-986a4f4d452dec Jason Wang         2012-12-07  3611  		callbacks[rxq2vq(i)] = skb_recv_done;
-986a4f4d452dec Jason Wang         2012-12-07  3612  		callbacks[txq2vq(i)] = skb_xmit_done;
-986a4f4d452dec Jason Wang         2012-12-07 @3613  		sprintf(vi->rq[i].name, "input.%d", i);
-986a4f4d452dec Jason Wang         2012-12-07 @3614  		sprintf(vi->sq[i].name, "output.%d", i);
-986a4f4d452dec Jason Wang         2012-12-07  3615  		names[rxq2vq(i)] = vi->rq[i].name;
-986a4f4d452dec Jason Wang         2012-12-07  3616  		names[txq2vq(i)] = vi->sq[i].name;
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3617  		if (ctx)
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3618  			ctx[rxq2vq(i)] = true;
-986a4f4d452dec Jason Wang         2012-12-07  3619  	}
-986a4f4d452dec Jason Wang         2012-12-07  3620  
-2e9ca760c289e1 Michael S. Tsirkin 2022-08-16  3621  	ret = virtio_find_vqs_ctx(vi->vdev, total_vqs, vqs, callbacks,
-2e9ca760c289e1 Michael S. Tsirkin 2022-08-16  3622  				  names, ctx, NULL);
-986a4f4d452dec Jason Wang         2012-12-07  3623  	if (ret)
-986a4f4d452dec Jason Wang         2012-12-07  3624  		goto err_find;
-3f9c10b0d478a3 Amit Shah          2011-12-22  3625  
-986a4f4d452dec Jason Wang         2012-12-07  3626  	if (vi->has_cvq) {
-986a4f4d452dec Jason Wang         2012-12-07  3627  		vi->cvq = vqs[total_vqs - 1];
-986a4f4d452dec Jason Wang         2012-12-07  3628  		if (virtio_has_feature(vi->vdev, VIRTIO_NET_F_CTRL_VLAN))
-f646968f8f7c62 Patrick McHardy    2013-04-19  3629  			vi->dev->features |= NETIF_F_HW_VLAN_CTAG_FILTER;
-986a4f4d452dec Jason Wang         2012-12-07  3630  	}
-3f9c10b0d478a3 Amit Shah          2011-12-22  3631  
-986a4f4d452dec Jason Wang         2012-12-07  3632  	for (i = 0; i < vi->max_queue_pairs; i++) {
-986a4f4d452dec Jason Wang         2012-12-07  3633  		vi->rq[i].vq = vqs[rxq2vq(i)];
-d85b758f72b05a Michael S. Tsirkin 2017-03-09  3634  		vi->rq[i].min_buf_len = mergeable_min_buf_len(vi, vi->rq[i].vq);
-986a4f4d452dec Jason Wang         2012-12-07  3635  		vi->sq[i].vq = vqs[txq2vq(i)];
-986a4f4d452dec Jason Wang         2012-12-07  3636  	}
-3f9c10b0d478a3 Amit Shah          2011-12-22  3637  
-2fa3c8a8b23041 Tonghao Zhang      2018-05-31  3638  	/* run here: ret == 0. */
-3f9c10b0d478a3 Amit Shah          2011-12-22  3639  
-3f9c10b0d478a3 Amit Shah          2011-12-22  3640  
-986a4f4d452dec Jason Wang         2012-12-07  3641  err_find:
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3642  	kfree(ctx);
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3643  err_ctx:
-986a4f4d452dec Jason Wang         2012-12-07  3644  	kfree(names);
-986a4f4d452dec Jason Wang         2012-12-07  3645  err_names:
-986a4f4d452dec Jason Wang         2012-12-07  3646  	kfree(callbacks);
-986a4f4d452dec Jason Wang         2012-12-07  3647  err_callback:
-986a4f4d452dec Jason Wang         2012-12-07  3648  	kfree(vqs);
-986a4f4d452dec Jason Wang         2012-12-07  3649  err_vq:
-986a4f4d452dec Jason Wang         2012-12-07  3650  	return ret;
-3f9c10b0d478a3 Amit Shah          2011-12-22  3651  }
-986a4f4d452dec Jason Wang         2012-12-07  3652  
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  274  
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  275  int axienet_tadma_open(struct net_device *ndev)
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  276  {
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  277  	struct axienet_local *lp = netdev_priv(ndev);
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  278  	u32 cr;
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  279  	u8 i = 0;
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  280  	int ret;
+8334a26b2731a0 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  281  	static char irq_name[24];
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  282  
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  283  	if (lp->tadma_irq) {
+8334a26b2731a0 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04 @284  		sprintf(irq_name, "%s_tadma_tx", ndev->name);
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  285  		ret = request_irq(lp->tadma_irq, tadma_irq, IRQF_SHARED,
+8334a26b2731a0 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  286  				  irq_name, ndev);
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  287  		if (ret)
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  288  			return ret;
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  289  	}
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  290  	pr_debug("%s TADMA irq %d\n", __func__, lp->tadma_irq);
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  291  
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  292  	/* enable all interrupts */
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  293  	tadma_iow(lp, XTADMA_INT_EN_OFFSET, XTADMA_FFI_INT_EN |
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  294  		  XTADMA_IE_INT_EN);
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  295  
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  296  	tadma_sfm_init(ndev);
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  297  	tadma_sfm_hash_init(ndev);
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  298  	cr = XTADMA_CFG_DONE;
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  299  	tadma_iow(lp, XTADMA_CR_OFFSET, cr);
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  300  
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  301  	lp->tx_bd = kmalloc_array(lp->num_streams, sizeof(struct axitadma_bd *),
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  302  				  GFP_KERNEL);
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  303  	if (!lp->tx_bd)
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  304  		ret = -ENOMEM;
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  305  
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  306  	for (i = 0; i < lp->num_streams ; i++) {
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  307  		lp->tx_bd_head[i] = 0;
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  308  		lp->tx_bd_tail[i] = 0;
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  309  		lp->tx_bd_rd[i] = 0;
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  310  		lp->tx_bd[i] = kmalloc_array(lp->num_tadma_buffers,
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  311  					     sizeof(*lp->tx_bd[i]), GFP_KERNEL);
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  312  		if (!lp->tx_bd[i])
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  313  			return -ENOMEM;
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  314  	}
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  315  
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  316  	return ret;
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  317  }
+356b1ffdf37c11 drivers/net/ethernet/xilinx/xilinx_tsn_tadma.c Pranavi Somisetty 2022-04-04  318  
 
-:::::: The code at line 3613 was first introduced by commit
-:::::: 986a4f4d452dec004697f667439d27c3fda9c928 virtio_net: multiqueue support
+:::::: The code at line 284 was first introduced by commit
+:::::: 8334a26b2731a0e0fe14d245ae2d4fbd5a65cfcb net: xilinx: Change irq name with details
 
-:::::: TO: Jason Wang <jasowang@redhat.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+:::::: TO: Pranavi Somisetty <pranavi.somisetty@xilinx.com>
+:::::: CC: Michal Simek <michal.simek@xilinx.com>
 
 -- 
 0-DAY CI Kernel Test Service
