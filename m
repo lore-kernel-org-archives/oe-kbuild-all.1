@@ -1,60 +1,47 @@
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B0F2FAF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 00:04:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DFB369
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 00:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="KLlqzg9G"
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-d84f18e908aso280362276.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Oct 2023 17:04:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1697760273; x=1698365073; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RZE3cc6e0ypcAqaFcINIc2gZj+EhE8lhjLqWQSkY/ho=;
-        b=KLlqzg9G/wcXF+7yTDq0vfV+ZKTfs1VzBiUk2WEct43Db0nFHL9ACtmX1UnupWm1vR
-         XGUUDhoLm4hLxY/SnPgE1PS11OycQQU3sEPKKvyTfatC7gRAImsDSmGhq45HNLY0wr2j
-         4ZGJ+Cu1K0LkPpy5pE4aeUk2HH4HLzBK5lNdrDAaYw1JDnd9Z24eKSH5kqwRjLedO82t
-         7pl0gGEWEgOnkaXMAifPNOb7BVQmKbvrSXMIx/FsvZ/OrE5R709QFe2ymRAYM2BxcFAN
-         8oKOmI2UNw0YgDmWqpGLRk3w6Lmwxa1v7koo8SnYVvj0cqjsIvWedca4Dlwk/lhzqzO/
-         cR9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697760273; x=1698365073;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RZE3cc6e0ypcAqaFcINIc2gZj+EhE8lhjLqWQSkY/ho=;
-        b=dXpN62X6RXmbL5kWvuYYPeFOmL4hL1kfYwGHyNdcwzOjT7TzZ8OdlHjzrKFM0FfUmY
-         ZBEUaqJCZ4DLRJ9sVl9kwsVyHq2/FZnpT9P6UlDDH7DyY3UZ4Qr1cbwwwykq0xpFLMgR
-         dNFYgNY/oMSn5o97sUgEV9O4KjX5zHzDoErf5ZLAnV8aS2j6Il8AlzpcqUDxXqZZDemq
-         xFH3brXrm7aS5US6tpcTjTTO0WXgYoEft41Ip/VV1bPDjalD3t5F5uxcSMptIIRWFslW
-         hEOHNyZ4n9ro156vhkSK4VYIiA97Wop5+o7MZYxGz1p5xvFmxYBIIt3dDFYL9+INGo8y
-         lvWg==
-X-Gm-Message-State: AOJu0YzuSwlNZ7TIxyLY7hMpTY6Yhhm/whH9uyBhgcMDVjqb5dIVpxPI
-	0qmIU3zMj31q/LGqEisc7MZXSA==
-X-Google-Smtp-Source: AGHT+IH+iL5kcJERANbI1DhlZ2XbKBVAv5uNec+m11U5QkIoDBYLOjxKEvLjBXzzp8CGx/TuA7DQig==
-X-Received: by 2002:a25:d650:0:b0:d9b:e407:663f with SMTP id n77-20020a25d650000000b00d9be407663fmr366426ybg.15.1697760273484;
-        Thu, 19 Oct 2023 17:04:33 -0700 (PDT)
-Received: from ziepe.ca ([12.22.141.131])
-        by smtp.gmail.com with ESMTPSA id p85-20020a254258000000b00d7e339ada01sm173990yba.20.2023.10.19.17.04.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Oct 2023 17:04:32 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1qtd0A-003Fme-A9;
-	Thu, 19 Oct 2023 21:04:30 -0300
-Date: Thu, 19 Oct 2023 21:04:30 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Bob Pearson <rpearsonhpe@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: drivers/infiniband/sw/rxe/rxe_mr.c:106:9: warning: array
- subscript 0 is outside array bounds of 'struct sg_table[0]'
-Message-ID: <20231020000430.GE691768@ziepe.ca>
-References: <202310192300.lurP44yG-lkp@intel.com>
- <57edd968-91d7-41f9-8a29-e86d8f583efa@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TaRvDi/L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697760998; x=1729296998;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PiOWWAb+9+MPFfy9VOXpdVcn2EbEZJK/SuN5C8CalgE=;
+  b=TaRvDi/LN1z33szSMBBoAXJSURRNChPAcgT3WHsseC0NyRpiMY2IoOrn
+   swtrsgmDww+HS5lqM3hE6RVX7YaY7RyjHl/OAcG1bel32vUIaOIHOabio
+   g8SIbU3uKl9aFpESv+/59H528Tp+2zOkFygcAMwFPcXa1vK84K1g5FJNZ
+   FDiHV68vOcfJH3s7/Dw1jv+9oEcMtdhym9Jb1JlguHY9R5UcXbeT1UFZC
+   sKNjvf+pP94I5qSini4kEmEMSs8gTdoXqgESHzLwg6Nkj6/ufS16TpoKt
+   L3kbjB+D3sYfAFmFfO/kw7lsuB3/3hrxU3j9GMKA0VP7vkxEZ1XCR/6Tf
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="389260741"
+X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
+   d="scan'208";a="389260741"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 17:16:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="847897224"
+X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
+   d="scan'208";a="847897224"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 19 Oct 2023 17:16:36 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qtdBq-0002le-23;
+	Fri, 20 Oct 2023 00:16:34 +0000
+Date: Fri, 20 Oct 2023 08:15:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2 14/17] drm/plane: Add COLOR PIPELINE property
+Message-ID: <202310200805.Auf2m41s-lkp@intel.com>
+References: <20231019212133.245155-15-harry.wentland@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,84 +50,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <57edd968-91d7-41f9-8a29-e86d8f583efa@gmail.com>
+In-Reply-To: <20231019212133.245155-15-harry.wentland@amd.com>
 
-On Thu, Oct 19, 2023 at 11:22:00AM -0500, Bob Pearson wrote:
-> On 10/19/23 10:33, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   dd72f9c7e512da377074d47d990564959b772643
-> > commit: 592627ccbdff0ec6fff00fc761142a76db750dd4 RDMA/rxe: Replace rxe_map and rxe_phys_buf by xarray
-> > date:   9 months ago
-> > config: sparc-randconfig-c023-20211015 (https://download.01.org/0day-ci/archive/20231019/202310192300.lurP44yG-lkp@intel.com/config)
-> > compiler: sparc64-linux-gcc (GCC) 13.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231019/202310192300.lurP44yG-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202310192300.lurP44yG-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> >    drivers/infiniband/sw/rxe/rxe_mr.c: In function 'rxe_mr_fill_pages_from_sgt.constprop':
-> >>> drivers/infiniband/sw/rxe/rxe_mr.c:106:9: warning: array subscript 0 is outside array bounds of 'struct sg_table[0]' [-Warray-bounds=]
-> >      106 |         __sg_page_iter_start(&sg_iter, sgt->sgl, sgt->orig_nents, 0);
-> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >    cc1: note: source object is likely at address zero
-> >>> drivers/infiniband/sw/rxe/rxe_mr.c:106:9: warning: array subscript 0 is outside array bounds of 'struct sg_table[0]' [-Warray-bounds=]
-> >    cc1: note: source object is likely at address zero
-> > 
-> > 
-> > vim +106 drivers/infiniband/sw/rxe/rxe_mr.c
-> > 
-> >     98	
-> >     99	static int rxe_mr_fill_pages_from_sgt(struct rxe_mr *mr, struct sg_table *sgt)
-> >    100	{
-> >    101		XA_STATE(xas, &mr->page_list, 0);
-> >    102		struct sg_page_iter sg_iter;
-> >    103		struct page *page;
-> >    104		bool persistent = !!(mr->access & IB_ACCESS_FLUSH_PERSISTENT);
-> >    105	
-> >  > 106		__sg_page_iter_start(&sg_iter, sgt->sgl, sgt->orig_nents, 0);
-> >    107		if (!__sg_page_iter_next(&sg_iter))
-> >    108			return 0;
-> >    109	
-> >    110		do {
-> >    111			xas_lock(&xas);
-> >    112			while (true) {
-> >    113				page = sg_page_iter_page(&sg_iter);
-> >    114	
-> >    115				if (persistent && !is_pmem_page(page)) {
-> >    116					rxe_dbg_mr(mr, "Page can't be persistent\n");
-> >    117					xas_set_err(&xas, -EINVAL);
-> >    118					break;
-> >    119				}
-> >    120	
-> >    121				xas_store(&xas, page);
-> >    122				if (xas_error(&xas))
-> >    123					break;
-> >    124				xas_next(&xas);
-> >    125				if (!__sg_page_iter_next(&sg_iter))
-> >    126					break;
-> >    127			}
-> >    128			xas_unlock(&xas);
-> >    129		} while (xas_nomem(&xas, GFP_KERNEL));
-> >    130	
-> >    131		return xas_error(&xas);
-> >    132	}
-> >    133	
-> > 
-> 
-> Jason,
-> 
-> Can you make sense out of this? The marked line (was 106, now 101)
-> seems completely innocuous.
+Hi Harry,
 
-I think this is the key:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-> >    cc1: note: source object is likely at address zero
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.6-rc6 next-20231019]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-So something is wrong with the call chain passing sgt into this
-function, at least the compiler thinks it is an empty allocation.
+url:    https://github.com/intel-lab-lkp/linux/commits/Harry-Wentland/drm-atomic-Allow-get_value-for-immutable-properties-on-atomic-drivers/20231020-052542
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231019212133.245155-15-harry.wentland%40amd.com
+patch subject: [RFC PATCH v2 14/17] drm/plane: Add COLOR PIPELINE property
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231020/202310200805.Auf2m41s-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310200805.Auf2m41s-lkp@intel.com/reproduce)
 
-Jason
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310200805.Auf2m41s-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/drm_atomic.c:1496:1: warning: no previous prototype for 'drm_atomic_add_affected_colorops' [-Wmissing-prototypes]
+    1496 | drm_atomic_add_affected_colorops(struct drm_atomic_state *state,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/drm_atomic_add_affected_colorops +1496 drivers/gpu/drm/drm_atomic.c
+
+  1474	
+  1475	/**
+  1476	 * drm_atomic_add_affected_colorops - add colorops for plane
+  1477	 * @state: atomic state
+  1478	 * @plane: DRM plane
+  1479	 *
+  1480	 * This function walks the current configuration and adds all colorops
+  1481	 * currently used by @plane to the atomic configuration @state. This is useful
+  1482	 * when an atomic commit also needs to check all currently enabled colorop on
+  1483	 * @plane, e.g. when changing the mode. It's also useful when re-enabling a plane
+  1484	 * to avoid special code to force-enable all colorops.
+  1485	 *
+  1486	 * Since acquiring a colorop state will always also acquire the w/w mutex of the
+  1487	 * current plane for that colorop (if there is any) adding all the colorop states for
+  1488	 * a plane will not reduce parallelism of atomic updates.
+  1489	 *
+  1490	 * Returns:
+  1491	 * 0 on success or can fail with -EDEADLK or -ENOMEM. When the error is EDEADLK
+  1492	 * then the w/w mutex code has detected a deadlock and the entire atomic
+  1493	 * sequence must be restarted. All other errors are fatal.
+  1494	 */
+  1495	int
+> 1496	drm_atomic_add_affected_colorops(struct drm_atomic_state *state,
+  1497					 struct drm_plane *plane)
+  1498	{
+  1499		struct drm_colorop *colorop;
+  1500		struct drm_colorop_state *colorop_state;
+  1501	
+  1502		WARN_ON(!drm_atomic_get_new_plane_state(state, plane));
+  1503	
+  1504		drm_dbg_atomic(plane->dev,
+  1505			       "Adding all current colorops for [plane:%d:%s] to %p\n",
+  1506			       plane->base.id, plane->name, state);
+  1507	
+  1508		drm_for_each_colorop(colorop, plane->dev) {
+  1509			if (colorop->plane != plane)
+  1510				continue;
+  1511	
+  1512			colorop_state = drm_atomic_get_colorop_state(state, colorop);
+  1513			if (IS_ERR(colorop_state))
+  1514				return PTR_ERR(colorop_state);
+  1515		}
+  1516	
+  1517		return 0;
+  1518	}
+  1519	EXPORT_SYMBOL(drm_atomic_add_affected_colorops);
+  1520	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
