@@ -1,57 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5D3321AD;
-	Fri, 20 Oct 2023 22:05:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C621D354FE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 22:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YaavavBn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09317C433C7;
-	Fri, 20 Oct 2023 22:05:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697839558;
-	bh=y2bK7Rld1GZZCtSFjbtlqtGNkpjPpl8o4DNjguzr4B8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=YaavavBncXq7wevwgeAJO1GhimQe1EOmyLMvmZScW1QA2GQyHN+n/1pkf4mE84i1o
-	 9Fv6s/3hw2c8RLw47ICeptfdTSDA5V7AFgnITJioLkqIF+zZZV21qBKxmAtXBOI5nS
-	 JDGlTWVwqIw+mgbEoDbqVeD8W7DE3ua0BCERMVWY9ZSPLI/yiQs1etNZoSm2jj50Hs
-	 N92SUW/52jRHQw3F4ly4TzLlRli14Ol6Ege3OVLgp0qaVMdgd6ykx/uL3KNSdm5skJ
-	 mYr1h2kleZt+f0Iu0edLEUIQtk+8x8/dSjXg4v9tF4LzaHrowO9fZ/mlDCgI7XtwL5
-	 IAs7Aqcolu7CQ==
-Date: Fri, 20 Oct 2023 15:05:57 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: "Nambiar, Amritha" <amritha.nambiar@intel.com>,
- <oe-kbuild-all@lists.linux.dev>
-Cc: kernel test robot <lkp@intel.com>, <netdev@vger.kernel.org>,
- <pabeni@redhat.com>
-Subject: Re: [net-next PATCH v5 01/10] netdev-genl: spec: Extend netdev
- netlink spec in YAML for queue
-Message-ID: <20231020150557.00af950d@kernel.org>
-In-Reply-To: <b499663e-1982-4043-9242-39a661009c71@intel.com>
-References: <169767396671.6692.9945461089943525792.stgit@anambiarhost.jf.intel.com>
-	<202310190900.9Dzgkbev-lkp@intel.com>
-	<b499663e-1982-4043-9242-39a661009c71@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bepYZ+Im"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697841097; x=1729377097;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ktERwyBLEExIXBgzNyFt6G5y7R4k1hF6zHPNDQ9AZUk=;
+  b=bepYZ+Imf3XuESnYZhB6IrI4JuKukMh5pyZAfQn0685vnrglvQ5exsd5
+   qNOjRm/WVrstzSS6+2vWACJWOD+4Gc6zoNfaYaNuYODId7KRxWzwNktEE
+   +Pc2RMUDoB5Jus7NjtOVn+XKzCWjEejlewObaRXPP1r1IUwJqSZIGt8dR
+   CtsDvjNJ54tXY9E1UWbOi1U6YHhscNnyXsnuOmNyaAJucSqSXADnXa6ZP
+   Axs+5RkwZFbRmr+wVyRee67lLDeUfN5mnlvwJt0LwR0EvOekhgjX3QrMO
+   1oNq+1CRc1Q49rIFfqDnX6DKj+XvtWFBFM6uBFxOgZqGmv/h1mJxAbkm6
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="450813635"
+X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
+   d="scan'208";a="450813635"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 15:31:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="827864456"
+X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
+   d="scan'208";a="827864456"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 20 Oct 2023 15:31:32 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qty1i-000438-1S;
+	Fri, 20 Oct 2023 22:31:30 +0000
+Date: Sat, 21 Oct 2023 06:30:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chancel Liu <chancel.liu@nxp.com>, lgirdwood@gmail.com,
+	broonie@kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+	festevam@gmail.com, linux-imx@nxp.com, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Cc: oe-kbuild-all@lists.linux.dev, Chancel Liu <chancel.liu@nxp.com>
+Subject: Re: [PATCH v2 1/3] arm64: dts: imx93: Add audio device nodes
+Message-ID: <202310210636.dtEPMrF8-lkp@intel.com>
+References: <20231010133838.799714-2-chancel.liu@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231010133838.799714-2-chancel.liu@nxp.com>
 
-On Fri, 20 Oct 2023 13:26:38 -0700 Nambiar, Amritha wrote:
-> > WARNING:SPACING: space prohibited between function name and open parenthesis '('
-> > #547: FILE: tools/net/ynl/generated/netdev-user.h:181:
-> > +	struct netdev_queue_get_rsp obj __attribute__ ((aligned (8)));
-> 
-> Looks like the series is in "Changes Requested" state following these 
-> warnings. Is there any recommendation for warnings on generated code? I 
-> see similar issues on existing code in the generated file.
+Hi Chancel,
 
-Yes, ignore this one. I'll post a change to the codegen.
-The warning on patch 3 is legit, right?
+kernel test robot noticed the following build errors:
 
-kernel test bot folks, please be careful with the checkpatch warnings.
-Some of them are bogus. TBH I'm not sure how much value running
-checkpatch in the bot adds. It's really trivial to run for the
-maintainers when applying patches.
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on broonie-sound/for-next linus/master v6.6-rc6 next-20231020]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chancel-Liu/arm64-dts-imx93-Add-audio-device-nodes/20231010-214443
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20231010133838.799714-2-chancel.liu%40nxp.com
+patch subject: [PATCH v2 1/3] arm64: dts: imx93: Add audio device nodes
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20231021/202310210636.dtEPMrF8-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310210636.dtEPMrF8-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310210636.dtEPMrF8-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> ERROR: Input tree has errors, aborting (use -f to force output)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
