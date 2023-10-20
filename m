@@ -1,53 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9661619BA6;
-	Fri, 20 Oct 2023 12:03:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5206199DB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 12:13:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oEREyZY7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hbQ2z2Ms"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697803391; x=1729339391;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=a0cCePIIEGKptYoyh7Pp+IV6nY/vFaOdAf4qBUS5Nws=;
-  b=oEREyZY7TT0rSKTajf4gbz050HzsGx2dXVkc6Ens+kWtvdk0HD8iu+a1
-   XqSpS5GXdpuKAd9Q2c8LLy162ZmlatQWpmjX1nXSFy6u12wUuTTvwHggT
-   04DRMQCs3td3OAxmWbfJwS9BYHJdXeUGYMzo5zzTeU9+NwMiDJF0Ded3J
-   urmw8KdVYe9zLDDNHdwxiZQPSqLXh2Z+HhEZEXBW73F+Jmf98CjE+B5oR
-   T49fxsTPtH6vEshn4a2as5wo0TXM/vxEtMKGWzctThXxxk11GUmW7xiQd
-   uQJEYa4mC9SYCxi4yrtw66uklmNJhKg6fcaFZWswYMW2zSbMc5QpjDspd
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="452962002"
+  t=1697803992; x=1729339992;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jWC9rM/d7DgKr4Vpb0qsu6d1/CVWNKN9sg7SrFwBic4=;
+  b=hbQ2z2Msl533W1p18PxoG/yAoixndYziaEGwMlx9sLJlq0eBWctSW0yv
+   yvgzVCosAOWTQC4OxxMp2bO4Lw2Pz27NHkiSM8XoTc2gVyMwLFD7zzPbd
+   Q8svmcIRpLE2G9VrdFLNU+FE0paGLOx6ja4R8E47cPsZaeWDXtCxBXsDo
+   OInf8e5v5cZoj5Qp1XAqXe1JIRBPZSSV7brcoQ4StMpHJ13DCY0gSC90P
+   z2TJWj8w4tmKIQtKAsCfmOF2FQi/x3P312FyxnRMTOEBZWAtgUzSmFSY0
+   cz7gYQYDDfFtdE0RLtfv1fieQb/+8pxRPp3mRCgF0QwSky07dVrlu5BLI
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="472706904"
 X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="452962002"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 05:03:10 -0700
+   d="scan'208";a="472706904"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 05:13:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="901123585"
 X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="901123585"
+   d="scan'208";a="5368152"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 20 Oct 2023 05:00:58 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 20 Oct 2023 05:13:10 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtoDZ-0003Uk-22;
-	Fri, 20 Oct 2023 12:03:05 +0000
-Date: Fri, 20 Oct 2023 20:02:20 +0800
+	id 1qtoNF-0003VJ-2s;
+	Fri, 20 Oct 2023 12:13:05 +0000
+Date: Fri, 20 Oct 2023 20:12:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:TTY LAYER AND SERIAL DRIVERS" <linux-serial@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, alexandre.belloni@bootlin.com,
-	conor.culhane@silvaco.com, imx@lists.linux.dev, joe@perches.com,
-	linux-i3c@lists.infradead.org, miquel.raynal@bootlin.com
-Subject: Re: [PATCH 1/1] tty: i3c: add tty over i3c master support
-Message-ID: <202310201933.9lZn2Ebl-lkp@intel.com>
-References: <20231018211111.3437929-1-Frank.Li@nxp.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [isilence:zc/veth2 5/16] zc_rx.c:undefined reference to
+ `sock_from_file'
+Message-ID: <202310202007.amd4KiqY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,62 +48,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231018211111.3437929-1-Frank.Li@nxp.com>
 
-Hi Frank,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on tty/tty-next tty/tty-linus linus/master v6.6-rc6 next-20231019]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/tty-i3c-add-tty-over-i3c-master-support/20231019-051407
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20231018211111.3437929-1-Frank.Li%40nxp.com
-patch subject: [PATCH 1/1] tty: i3c: add tty over i3c master support
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231020/202310201933.9lZn2Ebl-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310201933.9lZn2Ebl-lkp@intel.com/reproduce)
+tree:   https://github.com/isilence/linux zc/veth2
+head:   731b7375c43d08e971bcafcd9e90c1c0c8250678
+commit: b06b27da70e0a9337f9c071c621ff091ad565cd5 [5/16] io_uring: implement zc rx socket registration
+config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20231020/202310202007.amd4KiqY-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310202007.amd4KiqY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310201933.9lZn2Ebl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310202007.amd4KiqY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/tty/i3c_tty.c: In function 'tty_i3c_rxwork':
-   drivers/tty/i3c_tty.c:265:26: error: 'struct i3c_priv_xfer' has no member named 'actual_len'
-     265 |                 if (xfers.actual_len) {
-         |                          ^
-   drivers/tty/i3c_tty.c:266:82: error: 'struct i3c_priv_xfer' has no member named 'actual_len'
-     266 |                         tty_insert_flip_string(&sport->port, sport->buffer, xfers.actual_len);
-         |                                                                                  ^
-   drivers/tty/i3c_tty.c:271:25: error: implicit declaration of function 'i3c_device_getstatus_format1' [-Werror=implicit-function-declaration]
-     271 |                         i3c_device_getstatus_format1(sport->i3cdev, &status);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/i3c_tty.c: At top level:
->> drivers/tty/i3c_tty.c:400:6: warning: no previous prototype for 'i3c_remove' [-Wmissing-prototypes]
-     400 | void i3c_remove(struct i3c_device *dev)
-         |      ^~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/i3c_remove +400 drivers/tty/i3c_tty.c
-
-   399	
- > 400	void i3c_remove(struct i3c_device *dev)
-   401	{
-   402		struct ttyi3c_port *sport = dev_get_drvdata(&dev->dev);
-   403	
-   404		tty_port_unregister_device(&sport->port, i3c_tty_driver, sport->minor);
-   405		cancel_work_sync(&sport->txwork);
-   406		destroy_workqueue(sport->workqueue);
-   407	}
-   408	
+   sh4-linux-ld: io_uring/zc_rx.o: in function `io_register_zc_rx_ifq':
+   zc_rx.c:(.text+0x210): undefined reference to `dev_get_by_index'
+   sh4-linux-ld: zc_rx.c:(.text+0x214): undefined reference to `init_net'
+   sh4-linux-ld: io_uring/zc_rx.o: in function `io_register_zc_rx_sock':
+>> zc_rx.c:(.text+0x348): undefined reference to `sock_from_file'
+>> sh4-linux-ld: zc_rx.c:(.text+0x34c): undefined reference to `lock_sock_nested'
+   sh4-linux-ld: zc_rx.c:(.text+0x350): undefined reference to `release_sock'
 
 -- 
 0-DAY CI Kernel Test Service
