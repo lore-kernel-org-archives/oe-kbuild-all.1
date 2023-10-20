@@ -1,49 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA962225A5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 19:04:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A6F1802E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 19:14:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kr6oQdpm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m0t8mbvR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697828668; x=1729364668;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6MbEquER8lLneC8IK9Z5H+C1y5sXQVl2UVd1wlni4XI=;
-  b=kr6oQdpmpBLDOnqvYcnRXbdsOA5pkteqLGhLsadlRF1bUXYzOyz4q5d7
-   Nasv8jSxC9nhmehDX8jRmzfQSHJybZP8IKECnMQbieTqcSiYvC5IfBf6k
-   aFOOVi5AhQYYCN9/95c8D1z8PfUaBqBE81j/A3njp89lHwVOL8zOXxhbd
-   OAtMU1aqBojBa1B5afjkkZtCAyuUnfyVdRlVMuBUCcD+wPIkOErEUlRlM
-   wpP5pVbhklYhx7xHxttXtw48P07vEYp7l+l7irvs0HWyGoeIiVeyRCO5e
-   2/i3EIgbz0ho5mtjdLnBRzSMKlGtfHuoKl+18r1nTt1yNmshk7egz2b9w
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="472782072"
+  t=1697829268; x=1729365268;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=68PVms9UhNT3JXzvyKN/TKG+5jEEnsh6KF+Gkr3kbl0=;
+  b=m0t8mbvRLmeiRpICPifx1TxHrqINjMGhlgqz1TYPTiZFoHlsEj1i3lKO
+   XkwEHFqHmV/12tqWRsjpC5WfmYk2iFTD7eiwl/zMDsuXXMy7WJojsEteC
+   dQG63gYa5lZ7xK305XpzcIctZCwVDj0xLc/SHPUsTdvnmTVxcQZvffE95
+   WpNektIXOS8GXi5X7tx1bYa5ugdbm40wMrW23RROf4xYf6l4aFiaZ+yfi
+   AXs2P0PrhBmOS2cjQ0wOEHfOUzg5kmQZDMnAAlbCT1NCXjUCf7Lgkg6N9
+   WREekTMAn29BiyYvx5Nk3QHYwRp47PrEI0mTzt2E70oSGkYMOoGZW9YDi
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="417691553"
 X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
-   d="scan'208";a="472782072"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 12:04:27 -0700
+   d="scan'208";a="417691553"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 12:14:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="734052024"
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="751028517"
 X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
-   d="scan'208";a="734052024"
+   d="scan'208";a="751028517"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 20 Oct 2023 12:04:26 -0700
+  by orsmga007.jf.intel.com with ESMTP; 20 Oct 2023 12:14:26 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtunH-0003tW-2z;
-	Fri, 20 Oct 2023 19:04:23 +0000
-Date: Sat, 21 Oct 2023 03:03:31 +0800
+	id 1qtuwy-0003ti-0y;
+	Fri, 20 Oct 2023 19:14:24 +0000
+Date: Sat, 21 Oct 2023 03:14:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maximilian Luz <luzmaximilian@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Johan Hovold <johan+linaro@kernel.org>
-Subject: [linux-next:master 1481/13906] drivers/firmware/qcom_scm.c:1621:34:
- warning: 'qcom_scm_qseecom_allowlist' defined but not used
-Message-ID: <202310210234.ArlqNeKe-lkp@intel.com>
+To: Robin Murphy <robin.murphy@arm.com>, will@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/3] perf/arm-cmn: Rework DTC counters (again)
+Message-ID: <202310210209.L96I9l6g-lkp@intel.com>
+References: <5f6ade76b47f033836d7a36c03555da896dfb4a3.1697824215.git.robin.murphy@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,44 +50,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <5f6ade76b47f033836d7a36c03555da896dfb4a3.1697824215.git.robin.murphy@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2030579113a1b1b5bfd7ff24c0852847836d8fd1
-commit: 00b1248606ba3979ccae30ed11df8cdc1a84245a [1481/13906] firmware: qcom_scm: Add support for Qualcomm Secure Execution Environment SCM interface
-config: i386-buildonly-randconfig-001-20231021 (https://download.01.org/0day-ci/archive/20231021/202310210234.ArlqNeKe-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310210234.ArlqNeKe-lkp@intel.com/reproduce)
+Hi Robin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on soc/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Robin-Murphy/perf-arm-cmn-Fix-DTC-domain-detection/20231021-015305
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/5f6ade76b47f033836d7a36c03555da896dfb4a3.1697824215.git.robin.murphy%40arm.com
+patch subject: [PATCH 2/3] perf/arm-cmn: Rework DTC counters (again)
+reproduce: (https://download.01.org/0day-ci/archive/20231021/202310210209.L96I9l6g-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310210234.ArlqNeKe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310210209.L96I9l6g-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+# many are suggestions rather than must-fix
 
->> drivers/firmware/qcom_scm.c:1621:34: warning: 'qcom_scm_qseecom_allowlist' defined but not used [-Wunused-const-variable=]
-    1621 | static const struct of_device_id qcom_scm_qseecom_allowlist[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ERROR:COMPLEX_MACRO: Macros with complex values should be enclosed in parentheses
+#80: FILE: drivers/perf/arm-cmn.c:600:
++#define for_each_hw_dtc_idx(hw, i, idx) \
++	for (int i = 0, idx; i < CMN_MAX_DTCS; i++) if ((idx = hw->dtc_idx[i]) >= 0)
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for VIDEO_OV7670
-   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && VIDEO_CAMERA_SENSOR [=n]
-   Selected by [y]:
-   - VIDEO_VIA_CAMERA [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && FB_VIA [=y] && VIDEO_DEV [=y]
-
-
-vim +/qcom_scm_qseecom_allowlist +1621 drivers/firmware/qcom_scm.c
-
-  1616	
-  1617	/*
-  1618	 * We do not yet support re-entrant calls via the qseecom interface. To prevent
-  1619	 + any potential issues with this, only allow validated machines for now.
-  1620	 */
-> 1621	static const struct of_device_id qcom_scm_qseecom_allowlist[] = {
-  1622		{ .compatible = "lenovo,thinkpad-x13s", },
-  1623		{ }
-  1624	};
-  1625	
+ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
+#81: FILE: drivers/perf/arm-cmn.c:601:
++	for (int i = 0, idx; i < CMN_MAX_DTCS; i++) if ((idx = hw->dtc_idx[i]) >= 0)
 
 -- 
 0-DAY CI Kernel Test Service
