@@ -1,49 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B782A5D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 03:28:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CFA15BD;
+	Fri, 20 Oct 2023 03:28:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MRBOG2lH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y1U54+UP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697772528; x=1729308528;
+  t=1697772530; x=1729308530;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=fu7Lt8Vgm8tObZDSKfLgvO5U/SK/p9vLWjgWEj36vpU=;
-  b=MRBOG2lHOfsuU+PSPwAP9sBfkGo7a8jNTXB2Pid+5wkvXacOMw2KwPoT
-   EMlj/DRwsiC3qyvK5WfGJ9h8P14NRdxdCUeeKfnDFQPEBZA+uo3KTQEKm
-   hwEjQPJj4EXJDAigzFCFYGiHuy/l/y1RsMLRmKbaXZHYDOutF9QHxPGPV
-   Q2MkMsyTT1oDRqbClE4yrEWCZRMSLgmlD05LIhxG9wN8ua8gzuvx1jNue
-   d2kokdbzeHof9FhfgSKGAiN1bMnYh74JOVJS3E3Cre9luDTfzFVYUjYGq
-   FTfuw7JPHzlkqS3AFLRatJ43MOozWK6N24iC/C8oVem7eRUgnkEImSql2
+  bh=HZK8XcaOMRdSa1/Hskxmw3lliswKEoaXNG7FZIK02ng=;
+  b=Y1U54+UP+Tu9a3PteLI2SgzRodUmNTco5iE5cPmTLK09aLtoM5KyBK9C
+   cjFjGSQG44AU8Mjxr8OoLlkWomIcVi/ugKZOlDug6ixq1gwNNUyPkbk+e
+   TSbYJIcEKK9xA897kZMOUvkwPgHPvo69mDknLMo59DPgIsjkXSVzfMCI4
+   3xuqQcRPAV3AywNMgW79ExiDzjJbBVSTPW9M72+kaYHFVgm1ebHQaYAid
+   +ZX8c7R67tcWXYbP8I7Q4vhUgtj7Oy5Z5DwtLTo93UipXcJ3DjMTgB3b9
+   WfIQNZnAg4IJ8zZlpuEJ0/MvBqnp3gPPVBjLWu2TU3pHtr5Ioe5blO9Pf
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="472645891"
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="472645901"
 X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="472645891"
+   d="scan'208";a="472645901"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 20:28:47 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 20:28:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="827592030"
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="827592029"
 X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="827592030"
+   d="scan'208";a="827592029"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Oct 2023 20:28:45 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 19 Oct 2023 20:28:44 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtgBm-0002w0-2e;
+	id 1qtgBm-0002vy-2Z;
 	Fri, 20 Oct 2023 03:28:42 +0000
-Date: Fri, 20 Oct 2023 11:27:47 +0800
+Date: Fri, 20 Oct 2023 11:27:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
-	ast@kernel.org, daniel@iogearbox.net, martin.lau@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 bpf-next 7/7] selftests/bpf: BPF register range bounds
- tester
-Message-ID: <202310201121.PIqR9OmB-lkp@intel.com>
-References: <20231019235305.656855-8-andrii@kernel.org>
+To: Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, quic_vbadigan@quicinc.com,
+	quic_ramkri@quicinc.com, quic_nitegupt@quicinc.com,
+	quic_skananth@quicinc.com, quic_parass@quicinc.com,
+	Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Subject: Re: [PATCH v2] bus: mhi: host: Add tracing support
+Message-ID: <202310201110.S903HmeD-lkp@intel.com>
+References: <20231013-ftrace_support-v2-1-6e893ce010b5@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,309 +58,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231019235305.656855-8-andrii@kernel.org>
+In-Reply-To: <20231013-ftrace_support-v2-1-6e893ce010b5@quicinc.com>
 
-Hi Andrii,
+Hi Krishna,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test WARNING on 3006adf3be79cde4d14b1800b963b82b6e5572e0]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-improve-JEQ-JNE-branch-taken-logic/20231020-075514
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231019235305.656855-8-andrii%40kernel.org
-patch subject: [PATCH v3 bpf-next 7/7] selftests/bpf: BPF register range bounds tester
-reproduce: (https://download.01.org/0day-ci/archive/20231020/202310201121.PIqR9OmB-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-chaitanya-chundru/bus-mhi-host-Add-tracing-support/20231017-120241
+base:   3006adf3be79cde4d14b1800b963b82b6e5572e0
+patch link:    https://lore.kernel.org/r/20231013-ftrace_support-v2-1-6e893ce010b5%40quicinc.com
+patch subject: [PATCH v2] bus: mhi: host: Add tracing support
+config: i386-randconfig-002-20231020 (https://download.01.org/0day-ci/archive/20231020/202310201110.S903HmeD-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310201110.S903HmeD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310201121.PIqR9OmB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310201110.S903HmeD-lkp@intel.com/
 
-# many are suggestions rather than must-fix
+All warnings (new ones prefixed by >>):
 
-WARNING:NEW_TYPEDEFS: do not add new typedefs
-#168: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:21:
-+typedef unsigned long long ___u64;
+>> drivers/bus/mhi/host/main.c:249:12: warning: no previous declaration for 'mhi_to_physical' [-Wmissing-declarations]
+    dma_addr_t mhi_to_physical(struct mhi_ring *ring, void *addr)
+               ^~~~~~~~~~~~~~~
 
-WARNING:NEW_TYPEDEFS: do not add new typedefs
-#169: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:22:
-+typedef unsigned int ___u32;
 
-WARNING:NEW_TYPEDEFS: do not add new typedefs
-#170: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:23:
-+typedef long long ___s64;
+vim +/mhi_to_physical +249 drivers/bus/mhi/host/main.c
 
-WARNING:NEW_TYPEDEFS: do not add new typedefs
-#171: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:24:
-+typedef int ___s32;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#214: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:67:
-+	case U64: return (u64)x < (u64)y ? (u64)x : (u64)y;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#215: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:68:
-+	case U32: return (u32)x < (u32)y ? (u32)x : (u32)y;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#216: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:69:
-+	case S64: return (s64)x < (s64)y ? (s64)x : (s64)y;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#217: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:70:
-+	case S32: return (s32)x < (s32)y ? (s32)x : (s32)y;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#218: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:71:
-+	default: printf("min_t!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'min_t', this function's name, in a string
-#218: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:71:
-+	default: printf("min_t!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#225: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:78:
-+	case U64: return (u64)x > (u64)y ? (u64)x : (u64)y;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#226: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:79:
-+	case U32: return (u32)x > (u32)y ? (u32)x : (u32)y;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#227: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:80:
-+	case S64: return (s64)x > (s64)y ? (s64)x : (s64)y;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#228: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:81:
-+	case S32: return (s32)x > (s32)y ? (u32)(s32)x : (u32)(s32)y;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#229: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:82:
-+	default: printf("max_t!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'max_t', this function's name, in a string
-#229: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:82:
-+	default: printf("max_t!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#240: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:93:
-+	default: printf("t_str!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 't_str', this function's name, in a string
-#240: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:93:
-+	default: printf("t_str!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#251: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:104:
-+	default: printf("t_is_32!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 't_is_32', this function's name, in a string
-#251: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:104:
-+	default: printf("t_is_32!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#262: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:115:
-+	default: printf("t_signed!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 't_signed', this function's name, in a string
-#262: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:115:
-+	default: printf("t_signed!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#273: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:126:
-+	default: printf("t_unsigned!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 't_unsigned', this function's name, in a string
-#273: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:126:
-+	default: printf("t_unsigned!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#284: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:137:
-+	default: printf("num_is_small!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'num_is_small', this function's name, in a string
-#284: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:137:
-+	default: printf("num_is_small!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#298: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:151:
-+		default: printf("snprintf_num!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'snprintf_num', this function's name, in a string
-#298: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:151:
-+		default: printf("snprintf_num!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#338: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:191:
-+		default: printf("snprintf_num!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'snprintf_num', this function's name, in a string
-#338: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:191:
-+		default: printf("snprintf_num!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#385: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:238:
-+	default: printf("unkn_subreg!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'unkn_subreg', this function's name, in a string
-#385: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:238:
-+	default: printf("unkn_subreg!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#396: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:249:
-+	default: printf("range!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'range', this function's name, in a string
-#396: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:249:
-+	default: printf("range!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#453: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:306:
-+	default: printf("range_cast_u64!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'range_cast_u64', this function's name, in a string
-#453: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:306:
-+	default: printf("range_cast_u64!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#475: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:328:
-+	default: printf("range_cast_s64!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'range_cast_s64', this function's name, in a string
-#475: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:328:
-+	default: printf("range_cast_s64!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#492: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:345:
-+	default: printf("range_cast_u32!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'range_cast_u32', this function's name, in a string
-#492: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:345:
-+	default: printf("range_cast_u32!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#509: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:362:
-+	default: printf("range_cast_s32!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'range_cast_s32', this function's name, in a string
-#509: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:362:
-+	default: printf("range_cast_s32!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#525: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:378:
-+	default: printf("range_cast!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'range_cast', this function's name, in a string
-#525: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:378:
-+	default: printf("range_cast!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#536: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:389:
-+	default: printf("is_valid_num!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'is_valid_num', this function's name, in a string
-#536: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:389:
-+	default: printf("is_valid_num!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#550: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:403:
-+	default: printf("is_valid_range!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'is_valid_range', this function's name, in a string
-#550: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:403:
-+	default: printf("is_valid_range!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#605: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:458:
-+	default: printf("complement_op!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'complement_op', this function's name, in a string
-#605: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:458:
-+	default: printf("complement_op!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#618: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:471:
-+	default: printf("op_str!\n"); exit(1);
-
-WARNING:EMBEDDED_FUNCTION_NAME: Prefer using '"%s...", __func__' to using 'op_str', this function's name, in a string
-#618: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:471:
-+	default: printf("op_str!\n"); exit(1);
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#637: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:490:
-+	default: printf("range_canbe op %d\n", op); exit(1);					\
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#642: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:495:
-+	case U64: { range_canbe(u64); }
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#643: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:496:
-+	case U32: { range_canbe(u32); }
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#644: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:497:
-+	case S64: { range_canbe(s64); }
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#645: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:498:
-+	case S32: { range_canbe(s32); }
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#646: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:499:
-+	default: printf("range_canbe!\n"); exit(1);
-
-WARNING:LINE_SPACING: Missing a blank line after declarations
-#932: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:785:
-+	struct bpf_insn insns[64];
-+	LIBBPF_OPTS(bpf_prog_load_opts, opts,
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#1013: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:866:
-+	case OP_LT: op_code = spec.compare_signed ? BPF_JSLT : BPF_JLT; break;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#1014: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:867:
-+	case OP_LE: op_code = spec.compare_signed ? BPF_JSLE : BPF_JLE; break;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#1015: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:868:
-+	case OP_GT: op_code = spec.compare_signed ? BPF_JSGT : BPF_JGT; break;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#1016: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:869:
-+	case OP_GE: op_code = spec.compare_signed ? BPF_JSGE : BPF_JGE; break;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#1017: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:870:
-+	case OP_EQ: op_code = BPF_JEQ; break;
-
-ERROR:TRAILING_STATEMENTS: trailing statements should be on next line
-#1018: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:871:
-+	case OP_NE: op_code = BPF_JNE; break;
-
-WARNING:BRACES: braces {} are not necessary for single statement blocks
-#1152: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:1005:
-+		for (t = MIN_T; t <= MAX_T; t++) {
-+			reg->r[t] = range(t, sval, sval);
-+		}
-
-WARNING:BRACES: braces {} are not necessary for single statement blocks
-#1558: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:1411:
-+		for (j = 0; j < ARRAY_SIZE(lower_seeds); j++) {
-+			uvals[cnt++] = (((u64)upper_seeds[i]) << 32) | lower_seeds[j];
-+		}
-
-WARNING:SUSPECT_CODE_INDENT: suspect code indent for conditional statements (8, 8)
-#1663: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:1516:
-+	for (i = 0; i < val_cnt; i++)
-+	for (j = 0; j < range_cnt; j++)
-
-WARNING:SUSPECT_CODE_INDENT: suspect code indent for conditional statements (8, 8)
-#1664: FILE: tools/testing/selftests/bpf/prog_tests/reg_bounds.c:1517:
-+	for (j = 0; j < range_cnt; j++)
-+	for (cond_t = MIN_T; cond_t <= MAX_T; cond_t++) {
+   248	
+ > 249	dma_addr_t mhi_to_physical(struct mhi_ring *ring, void *addr)
+   250	{
+   251		return (addr - ring->base) + ring->iommu_base;
+   252	}
+   253	
 
 -- 
 0-DAY CI Kernel Test Service
