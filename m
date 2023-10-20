@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A921C38
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 04:19:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1D11C38
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Oct 2023 04:20:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AVIeI3bB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="knRzhMMq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697775589; x=1729311589;
+  t=1697775649; x=1729311649;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F+rUsMakuWyR5yPUym+VRFP9bXTFdVA49zMioQX1TRQ=;
-  b=AVIeI3bBi9Kzos3F3LdtTKNvcJDpibPXeI5fx82FMnmH2qcHB0itfgiz
-   sIvovw0SXkVTFz3xCkQzT+SPKIHbnT2ai7JKZImUmDGXBgsuHRXgBW5e3
-   +voP7bctsUlBk53IvSdOSv4rTvFp0S3lVGYfSOtLfkwycErrJa6SB63Bi
-   6vWelp+HJ+7aTfDUoh+Twubdbx1nonX1S8lJpa74XHKyp8OMXhXJwUyvZ
-   2MNrBlRe0UV9WdoPMZ+938muKovaDiZdfRHZLy3wyZd6Fw4FXadBOIfr1
-   H+4HaFdRuCJ3bqqmD3qS2k8wfwx9lkTzEss1Jq3La4f34QCL811DT51fg
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="386242723"
+  bh=/MuPTWTDJjI9bEhpVpfFj87rsZoRyQT3f+YYJhkxhYA=;
+  b=knRzhMMqmax1SapwiQBeN0ubQElHVP5LiszZrs8KnRteuPePVWtR4WvV
+   5iRMwiWiqR78V7OTakvr7JAgs+ixs2/89cGxf7ZReuKA5PpPYqiCZHaq3
+   weZg8WKbd8eNRjHDjtn6d4Fffx99vJcy0QdygATM/hg0XwFsI3hho4YNc
+   4EOexm2UIC5aRQ3mAYzJ5XCr/fnM/6fjQxflkeFucIq7BYms1Inmbf+R7
+   SM8N2lApL+1IlZvJQ4ftYRHk7wFGQoQfwzpAmP94DaXheom56kn1Nr67w
+   zpTSD0ayHKBVjXJ3XqYu2szwI5XfNj2uc54CXpiu7xPNFQHayNs/p8eh/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="472651381"
 X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="386242723"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 21:19:48 -0700
+   d="scan'208";a="472651381"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 21:20:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="827600337"
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="823097249"
 X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="827600337"
+   d="scan'208";a="823097249"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Oct 2023 21:19:47 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 19 Oct 2023 21:20:47 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qtgzB-0002zg-07;
-	Fri, 20 Oct 2023 04:19:45 +0000
-Date: Fri, 20 Oct 2023 12:18:59 +0800
+	id 1qth09-0002zm-0D;
+	Fri, 20 Oct 2023 04:20:45 +0000
+Date: Fri, 20 Oct 2023 12:20:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Wei <davidhwei@meta.com>
-Cc: oe-kbuild-all@lists.linux.dev, Pavel Begunkov <asml.silence@gmail.com>
-Subject: [isilence:zc/veth2 14/16] io_uring/zc_rx.c:644:9: warning: format
- '%lu' expects argument of type 'long unsigned int', but argument 4 has type
- 'size_t {aka unsigned int}'
-Message-ID: <202310201228.dMoBeQiV-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/642 2696/30000] versioncheck:
+ ./net/tsn/genl_tsn.c: 11 linux/version.h not needed.
+Message-ID: <202310201255.MLvUOVZ7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,128 +50,125 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/isilence/linux zc/veth2
-head:   731b7375c43d08e971bcafcd9e90c1c0c8250678
-commit: 1e65d03befc872b1f243c468fd33761c1a5d253f [14/16] make it work
-config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20231020/202310201228.dMoBeQiV-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310201228.dMoBeQiV-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc pr/642
+head:   c8b7cf62c7fea8456dec789d550b8006d73b8f04
+commit: 6a49b2da83eacdfd002a584637e143c53cea1eda [2696/30000] net:tsn: netlink interface for APP layer to config TSN capability hardware ports
+reproduce: (https://download.01.org/0day-ci/archive/20231020/202310201255.MLvUOVZ7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310201228.dMoBeQiV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310201255.MLvUOVZ7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   io_uring/zc_rx.c: In function 'is_zc_rx_page':
-   io_uring/zc_rx.c:62:51: warning: right shift count >= width of type [-Wshift-count-overflow]
-     return PagePrivate(page) && ((page_private(page) >> 48) == 0xface);
-                                                      ^~
-   io_uring/zc_rx.c: At top level:
-   io_uring/zc_rx.c:186:5: warning: no previous declaration for 'io_zc_rx_create_pool' [-Wmissing-declarations]
-    int io_zc_rx_create_pool(struct io_ring_ctx *ctx,
-        ^~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/kernel.h:30:0,
-                    from io_uring/zc_rx.c:2:
-   io_uring/zc_rx.c: In function 'zc_rx_recv_skb':
->> io_uring/zc_rx.c:644:9: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t {aka unsigned int}' [-Wformat=]
-     printk("----- zc_rx_recv_skb: start=%d, offset=%d, len=%lu, nr_frags=%d\n", start, offset, len, skb_shinfo(skb)->nr_frags);
-            ^
-   include/linux/printk.h:427:11: note: in definition of macro 'printk_index_wrap'
-      _p_func(_fmt, ##__VA_ARGS__);    \
-              ^~~~
-   io_uring/zc_rx.c:644:2: note: in expansion of macro 'printk'
-     printk("----- zc_rx_recv_skb: start=%d, offset=%d, len=%lu, nr_frags=%d\n", start, offset, len, skb_shinfo(skb)->nr_frags);
-     ^~~~~~
-
-
-vim +644 io_uring/zc_rx.c
-
-   623	
-   624	static int
-   625	zc_rx_recv_skb(read_descriptor_t *desc, struct sk_buff *skb,
-   626		       unsigned int offset, size_t len)
-   627	{
-   628		struct io_zc_rx_ifq *ifq;
-   629		struct sk_buff *frag_iter;
-   630		unsigned start, start_off;
-   631		int i, copy, end, off;
-   632		int ret = 0;
-   633	
-   634		ifq = io_zc_rx_ifq_skb(skb);
-   635		if (!ifq) {
-   636			pr_debug("non zerocopy pages are not supported\n");
-   637			return -EFAULT;
-   638		}
-   639		start = skb_headlen(skb);
-   640		start_off = offset;
-   641	
-   642		// TODO: copy payload in skb linear data */
-   643		WARN_ON(offset < start);
- > 644		printk("----- zc_rx_recv_skb: start=%d, offset=%d, len=%lu, nr_frags=%d\n", start, offset, len, skb_shinfo(skb)->nr_frags);
-   645	
-   646		// TODO: make sure theres at least nr_frags entries in cq ring
-   647		for (i = 0; i < skb_shinfo(skb)->nr_frags; i++) {
-   648			const skb_frag_t *frag;
-   649	
-   650			WARN_ON(start > offset + len);
-   651	
-   652			frag = &skb_shinfo(skb)->frags[i];
-   653			end = start + skb_frag_size(frag);
-   654			printk("----- zc_rx_recv_skb: skb frag size=%d, end=%d\n", skb_frag_size(frag), end);
-   655	
-   656			if (offset < end) {
-   657				copy = end - offset;
-   658				if (copy > len)
-   659					copy = len;
-   660	
-   661				off = offset - start;
-   662				ret = zc_rx_recv_frag(ifq, frag, off, copy);
-   663				if (ret < 0) {
-   664					printk("----- zc_rx_recv_skb: recv_frag err=%d\n", ret);
-   665					goto out;
-   666				}
-   667	
-   668				offset += ret;
-   669				len -= ret;
-   670				if (len == 0 || ret != copy)
-   671					goto out;
-   672			}
-   673			start = end;
-   674		}
-   675	
-   676		skb_walk_frags(skb, frag_iter) {
-   677			WARN_ON(start > offset + len);
-   678	
-   679			end = start + frag_iter->len;
-   680			if (offset < end) {
-   681				copy = end - offset;
-   682				if (copy > len)
-   683					copy = len;
-   684	
-   685				off = offset - start;
-   686				ret = zc_rx_recv_skb(desc, frag_iter, off, copy);
-   687				if (ret < 0)
-   688					goto out;
-   689	
-   690				offset += ret;
-   691				len -= ret;
-   692				if (len == 0 || ret != copy)
-   693					goto out;
-   694			}
-   695			start = end;
-   696		}
-   697	
-   698	out:
-   699		printk("----- zc_rx_recv_skb: updating tail, tail=%u, cached_tail=%u\n", ifq->ring->cq.tail, ifq->cached_cq_tail);
-   700		smp_store_release(&ifq->ring->cq.tail, ifq->cached_cq_tail);
-   701		if (offset == start_off)
-   702			return ret;
-   703		printk("----- zc_rx_recv_skb: out, offset=%d, start_off=%d\n", offset, start_off);
-   704		return offset - start_off;
-   705	}
-   706	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wrestrict -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wundef -funsigned-char -Wenum-conversion -Werror=return-type W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 24 linux/version.h not needed.
+   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
+   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
+   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
+   ./arch/csky/include/asm/uaccess.h: 16 linux/version.h not needed.
+   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
+   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
+   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
+   ./arch/s390/include/asm/setup.h: 170: need linux/version.h
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 28 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 54 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 15 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 58 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
+   ./drivers/hv/hv.c: 16 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
+   ./drivers/input/touchscreen/focaltech_touch/focaltech_core.h: 56 linux/version.h not needed.
+   ./drivers/input/touchscreen/vtl/vtl_ts.c: 20 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 7 linux/version.h not needed.
+   ./drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware.c: 17712: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel_video_memory.c: 4743: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dma.c: 605: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dmabuf.c: 552: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_gfp.c: 1389: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_reserved_mem.c: 544: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_user_memory.c: 876: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/freescale/gc_hal_kernel_allocator_cma.c: 611: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.c: 260: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.h: 608: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debug.h: 176: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_device.c: 2314: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_driver.c: 1462: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_drm.c: 858: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_iommu.c: 236: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_os.c: 7494: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.c: 378: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.h: 151: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/default/gc_hal_kernel_platform_default.c: 450: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c: 1838: need linux/version.h
+   ./drivers/mxc/hantro/hantrodec.c: 41 linux/version.h not needed.
+   ./drivers/mxc/hantro_845/hantrodec_845s.c: 40 linux/version.h not needed.
+   ./drivers/mxc/vpu_malone/vpu_b0.c: 6693: need linux/version.h
+   ./drivers/mxc/vpu_malone/vpu_b0.h: 23 linux/version.h not needed.
+   ./drivers/mxc/vpu_malone/vpu_mu.h: 23 linux/version.h not needed.
+   ./drivers/mxc/vpu_malone/vpu_pm.h: 23 linux/version.h not needed.
+   ./drivers/mxc/vpu_windsor/vpu_encoder_mu.h: 23 linux/version.h not needed.
+   ./drivers/mxc/vpu_windsor/vpu_encoder_pm.h: 23 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
+   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: 39 linux/version.h not needed.
+   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm_port.c: 40 linux/version.h not needed.
+   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c: 40 linux/version.h not needed.
+   ./drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_sysfs.h: 37 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
+   ./drivers/net/wireless/ath/ath9k/ath9k_pci_owl_loader.c: 15 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
+   ./drivers/staging/fsl_ppfe/pfe_eth.c: 13 linux/version.h not needed.
+   ./drivers/staging/fsl_ppfe/pfe_hif_lib.c: 7 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
+>> ./net/tsn/genl_tsn.c: 11 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 29 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
