@@ -1,51 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846D3DDB7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 06:46:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B1B1871
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 07:18:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QPYdctJk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O5+faUG9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697870817; x=1729406817;
+  t=1697872737; x=1729408737;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=BMmN8PvjKtY+UEnVZR8hGDWrMHsSetH3EUV6qoiVuI4=;
-  b=QPYdctJkr+z+QcfIMCUpYxThkA/tydg8yySDcRA43njTG7LzI9c20fIw
-   Eml957bJIkdlWPqPZlERULnywLL2gCiJ7k/Wes111IcEiT/LZyTcoyR8m
-   hRvqs862GbEqVooojGQC4/Q2vk4q875jNmdW+0g46AgCRKh5m7vbEUT41
-   VCaNMqAshr96QGpllKSBPft8fCNyEPuswd6vPriBuHyBrTuOLW3RKOZ9O
-   HHWVxt2R3XyzLn7E3xbAiktDDFuWF6q1VZDcwAbZxKYSQApXU90x/j4U4
-   v0Hm/arcohQ397MIlbC/IufqKAdetKIdWb07rPbcFY0zq057xOyGaFY6H
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="385506390"
+  bh=Ah+bXAJFUEcd6L5HFwP6a8QnBUn9AeWMNqFjoxkUaLo=;
+  b=O5+faUG9YBA0id7hqQzA+4Xyx05WpJSWJzHPzMNP+deF8LAcw6Fi6nHG
+   /hj5ZH7uzXYI5W99JIUWR4EasQsAUF9pFpgAHoy1UGpZ1340kch3lhgRe
+   1AX/LE73ehLxp0s63P8COn5MDLSaTZctw6wOIGfT5wPV/lThtADatD8Dl
+   z7VTwUUPaPfhnmwJegZRCwSgS3S46X4ZRfTBE4c/t6hA9lubXIf6LOppP
+   QJXiPUMP/1PYkdJsPIyVG44wkQ8WSWqw9VWVEa8fbPjT4vpliN9seZmk1
+   +fgx7+X9Zn8FVYXiROfPgp9S9+4l3JTHGs4Bp2qtmcBW3Gj13c97QZk+R
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="365951543"
 X-IronPort-AV: E=Sophos;i="6.03,240,1694761200"; 
-   d="scan'208";a="385506390"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 23:46:56 -0700
+   d="scan'208";a="365951543"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 00:18:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="901328780"
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="823474086"
 X-IronPort-AV: E=Sophos;i="6.03,240,1694761200"; 
-   d="scan'208";a="901328780"
+   d="scan'208";a="823474086"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 20 Oct 2023 23:44:42 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 21 Oct 2023 00:18:55 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qu5l5-0004X8-2h;
-	Sat, 21 Oct 2023 06:46:51 +0000
-Date: Sat, 21 Oct 2023 14:46:18 +0800
+	id 1qu6G5-0004Yc-0J;
+	Sat, 21 Oct 2023 07:18:53 +0000
+Date: Sat, 21 Oct 2023 15:18:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Srujana Challa <schalla@marvell.com>, herbert@gondor.apana.org.au,
-	davem@davemloft.net
-Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
-	bbrezillon@kernel.org, arno@natisbad.org, kuba@kernel.org,
-	ndabilpuram@marvell.com, schalla@marvell.com
-Subject: Re: [PATCH 03/10] crypto: octeontx2: add devlink option to set
- max_rxc_icb_cnt
-Message-ID: <202310211411.QqrLly6F-lkp@intel.com>
-References: <20231016064934.1913964-4-schalla@marvell.com>
+To: Eduard Zingerman <eddyz87@gmail.com>, bpf@vger.kernel.org,
+	ast@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH bpf-next 2/5] selftests/bpf: tests with delayed
+ read/precision makrs in loop body
+Message-ID: <202310211550.rwJNwBh8-lkp@intel.com>
+References: <20231021005939.1041-3-eddyz87@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,56 +52,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231016064934.1913964-4-schalla@marvell.com>
+In-Reply-To: <20231021005939.1041-3-eddyz87@gmail.com>
 
-Hi Srujana,
+Hi Eduard,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on herbert-cryptodev-2.6/master]
-[also build test ERROR on herbert-crypto-2.6/master linus/master v6.6-rc6 next-20231020]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Srujana-Challa/crypto-octeontx2-remove-CPT-block-reset/20231017-141612
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20231016064934.1913964-4-schalla%40marvell.com
-patch subject: [PATCH 03/10] crypto: octeontx2: add devlink option to set max_rxc_icb_cnt
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20231021/202310211411.QqrLly6F-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310211411.QqrLly6F-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Eduard-Zingerman/bpf-exact-states-comparison-for-iterator-convergence-checks/20231021-090213
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20231021005939.1041-3-eddyz87%40gmail.com
+patch subject: [PATCH bpf-next 2/5] selftests/bpf: tests with delayed read/precision makrs in loop body
+reproduce: (https://download.01.org/0day-ci/archive/20231021/202310211550.rwJNwBh8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310211411.QqrLly6F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310211550.rwJNwBh8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+# many are suggestions rather than must-fix
 
-   drivers/net/ethernet/marvell/octeontx2/af/rvu_cpt.c: In function 'rvu_cpt_init':
->> drivers/net/ethernet/marvell/octeontx2/af/rvu_cpt.c:1222:36: error: implicit declaration of function 'is_cn10ka_a0'; did you mean 'is_cnf10ka_a0'? [-Werror=implicit-function-declaration]
-    1222 |             (!is_rvu_otx2(rvu) && !is_cn10ka_a0(rvu) && !is_cn10ka_a1(rvu))) {
-         |                                    ^~~~~~~~~~~~
-         |                                    is_cnf10ka_a0
->> drivers/net/ethernet/marvell/octeontx2/af/rvu_cpt.c:1222:58: error: implicit declaration of function 'is_cn10ka_a1'; did you mean 'is_cnf10ka_a0'? [-Werror=implicit-function-declaration]
-    1222 |             (!is_rvu_otx2(rvu) && !is_cn10ka_a0(rvu) && !is_cn10ka_a1(rvu))) {
-         |                                                          ^~~~~~~~~~~~
-         |                                                          is_cnf10ka_a0
-   cc1: some warnings being treated as errors
+WARNING:SPLIT_STRING: quoted string split across lines
+#82: FILE: tools/testing/selftests/bpf/progs/iters.c:767:
++	"1:"
++		"r1 = r10;"
 
+WARNING:SPLIT_STRING: quoted string split across lines
+#91: FILE: tools/testing/selftests/bpf/progs/iters.c:776:
++	"3:"
++		"r1 = r7;"
 
-vim +1222 drivers/net/ethernet/marvell/octeontx2/af/rvu_cpt.c
+WARNING:SPLIT_STRING: quoted string split across lines
+#97: FILE: tools/testing/selftests/bpf/progs/iters.c:782:
++	"2:"
++		"r1 = r10;"
 
-  1214	
-  1215	int rvu_cpt_init(struct rvu *rvu)
-  1216	{
-  1217		u64 reg_val;
-  1218	
-  1219		/* Retrieve CPT PF number */
-  1220		rvu->cpt_pf_num = get_cpt_pf_num(rvu);
-  1221		if (is_block_implemented(rvu->hw, BLKADDR_CPT0) &&
-> 1222		    (!is_rvu_otx2(rvu) && !is_cn10ka_a0(rvu) && !is_cn10ka_a1(rvu))) {
+WARNING:SPLIT_STRING: quoted string split across lines
+#159: FILE: tools/testing/selftests/bpf/progs/iters.c:844:
++	"1:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#169: FILE: tools/testing/selftests/bpf/progs/iters.c:854:
++	"3:"
++		"r0 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#176: FILE: tools/testing/selftests/bpf/progs/iters.c:861:
++	"2:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#252: FILE: tools/testing/selftests/bpf/progs/iters.c:937:
++	"j_loop_%=:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#264: FILE: tools/testing/selftests/bpf/progs/iters.c:949:
++	"i_loop_%=:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#269: FILE: tools/testing/selftests/bpf/progs/iters.c:954:
++	"check_one_r6_%=:"
++		"if r6 != 1 goto check_zero_r6_%=;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#274: FILE: tools/testing/selftests/bpf/progs/iters.c:959:
++	"check_zero_r6_%=:"
++		"if r6 != 0 goto i_loop_%=;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#280: FILE: tools/testing/selftests/bpf/progs/iters.c:965:
++	"check_one_r7_%=:"
++		"if r7 != 1 goto i_loop_%=;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#294: FILE: tools/testing/selftests/bpf/progs/iters.c:979:
++	"i_loop_end_%=:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#302: FILE: tools/testing/selftests/bpf/progs/iters.c:987:
++	"j_loop_end_%=:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#346: FILE: tools/testing/selftests/bpf/progs/iters.c:1031:
++	"loop_%=:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#359: FILE: tools/testing/selftests/bpf/progs/iters.c:1044:
++	"loop_end_%=:"
++		"r1 = r10;"
+
+WARNING:REPEATED_WORD: Possible repeated word: 'to'
+#404: FILE: tools/testing/selftests/bpf/progs/iters.c:1089:
++	 * to to avoid comparing current state with too many explored
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#427: FILE: tools/testing/selftests/bpf/progs/iters.c:1112:
++	"loop_%=:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#462: FILE: tools/testing/selftests/bpf/progs/iters.c:1147:
++	"loop_end_%=:"
++		"r1 = r10;"
 
 -- 
 0-DAY CI Kernel Test Service
