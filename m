@@ -1,46 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C22A1658
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 01:26:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C697ED
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 01:37:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GwLAl24f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a443FZ4x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697851602; x=1729387602;
+  t=1697852263; x=1729388263;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y9YCYIX46vvptVOHzvkNeBcUEKkgJYkFSI3xxPUZVM4=;
-  b=GwLAl24f73RtnsKOX1BJz9/YgNQCD9m2cXk4F1K5fM02LRME4YGyaxXg
-   rzUqwvdNhZQO6zaeoUgESJB4GM6E2uLdsCiR5wK16PHNdQxS0RMCXel2h
-   /GPK8Hr36oS7/UzrZGfRZZDJOs86RSU7jglW57IMQuvIjxtIVQ+CdNbVH
-   e8lFhNoYhhOPd7rurN0ncUGOZznO7SYkgd2nMRGuvrpKN1CgiaJtQ87gR
-   1ye79iTGV4J5oXSUrDwSL0uSbDC1zLzcn7IuxiQQcJc0l9GLIjrzGTGh1
-   K/lCko4ba4E/4/VNPBZiAeudgOD+iSDi2IqMRNllH4eYU3ceQC5Mzb20b
+  bh=+h3+d+Dlzlsstx0pnPkLYsUuRxpihJq1fVW/Lam14ZA=;
+  b=a443FZ4xrXlMGeVWQUbKRiIplnA3i5T4A0xjIsVgwz5+Dm5qokBVg1v3
+   QLh/WLuouQivM/peKFHswEC3otiH3xR0wLWreI1Kz0YVEQvO2nAD3A0Pk
+   2jVnBVK7ggMv2pqqynz86LXchaeHwjrXFHVX1hopgo6Xshqir8WufUdpN
+   Yq9viqL5rfEDFlsKlaiPyEBL5cSycd5QpI6Xnh3cpUb9QkhNXdZaFLTm0
+   IcBWvFvZEJfnhbOMe2fQWfjWKZxeRjf4MrTnXZF6aJACzsZeacPyzGSLX
+   /ZWvnYu+YRBN7q/OXs8NUBos9s2ixT4r7MGtgx8azpudt7o+qy2PAoyDh
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="472825096"
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="371670517"
 X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
-   d="scan'208";a="472825096"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 18:26:41 -0700
+   d="scan'208";a="371670517"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 18:37:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="757628146"
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="874090973"
 X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
-   d="scan'208";a="757628146"
+   d="scan'208";a="874090973"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 20 Oct 2023 18:26:40 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 20 Oct 2023 18:37:40 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qu0lC-0004E4-0I;
-	Sat, 21 Oct 2023 01:26:38 +0000
-Date: Sat, 21 Oct 2023 09:25:48 +0800
+	id 1qu0vq-0004Eg-1F;
+	Sat, 21 Oct 2023 01:37:38 +0000
+Date: Sat, 21 Oct 2023 09:36:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:mgtime 4/10] kernel/time/timekeeping.c:64:23: sparse:
- sparse: symbol 'mg_fine_ts' was not declared. Should it be static?
-Message-ID: <202310210915.at3COghM-lkp@intel.com>
+To: Andreas Gruenbacher <agruen@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>
+Subject: drivers/block/drbd/drbd_bitmap.c:1222: warning: Function parameter
+ or member 'peer_device' not described in 'drbd_bm_read'
+Message-ID: <202310210909.ph7EhYFZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,21 +52,107 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git mgtime
-head:   b9269c207dabe042a3f9aab433213c70f8f25445
-commit: 2043eb793448f54c9784813c785c27589ad2c4d3 [4/10] timekeeping: add new debugfs file to count multigrain timestamps
-config: i386-randconfig-062-20231021 (https://download.01.org/0day-ci/archive/20231021/202310210915.at3COghM-lkp@intel.com/config)
+Hi Andreas,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9c5d00cb7b6bbc5a7965d9ab7d223b5402d1f02c
+commit: 8164dd6c8ae158ec0740bf37f0f14645a1fb5355 drbd: Add peer device parameter to whole-bitmap I/O handlers
+date:   7 months ago
+config: x86_64-randconfig-r015-20230828 (https://download.01.org/0day-ci/archive/20231021/202310210909.ph7EhYFZ-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310210915.at3COghM-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310210909.ph7EhYFZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310210915.at3COghM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310210909.ph7EhYFZ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/time/timekeeping.c:64:23: sparse: sparse: symbol 'mg_fine_ts' was not declared. Should it be static?
->> kernel/time/timekeeping.c:65:23: sparse: sparse: symbol 'mg_coarse_ts' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
+
+>> drivers/block/drbd/drbd_bitmap.c:1222: warning: Function parameter or member 'peer_device' not described in 'drbd_bm_read'
+>> drivers/block/drbd/drbd_bitmap.c:1234: warning: Function parameter or member 'peer_device' not described in 'drbd_bm_write'
+>> drivers/block/drbd/drbd_bitmap.c:1246: warning: Function parameter or member 'peer_device' not described in 'drbd_bm_write_all'
+>> drivers/block/drbd/drbd_bitmap.c:1273: warning: Function parameter or member 'peer_device' not described in 'drbd_bm_write_copy_pages'
+--
+>> drivers/block/drbd/drbd_main.c:3415: warning: Function parameter or member 'peer_device' not described in 'drbd_bmio_set_n_write'
+>> drivers/block/drbd/drbd_main.c:3441: warning: Function parameter or member 'peer_device' not described in 'drbd_bmio_clear_n_write'
+>> drivers/block/drbd/drbd_main.c:3502: warning: Function parameter or member 'peer_device' not described in 'drbd_queue_bitmap_io'
+>> drivers/block/drbd/drbd_main.c:3544: warning: Function parameter or member 'peer_device' not described in 'drbd_bitmap_io'
+
+
+vim +1222 drivers/block/drbd/drbd_bitmap.c
+
+b411b3637fa71f Philipp Reisner     2009-09-25  1214  
+b411b3637fa71f Philipp Reisner     2009-09-25  1215  /**
+b411b3637fa71f Philipp Reisner     2009-09-25  1216   * drbd_bm_read() - Read the whole bitmap from its on disk location.
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  1217   * @device:	DRBD device.
+b411b3637fa71f Philipp Reisner     2009-09-25  1218   */
+8164dd6c8ae158 Andreas Gruenbacher 2023-03-30  1219  int drbd_bm_read(struct drbd_device *device,
+8164dd6c8ae158 Andreas Gruenbacher 2023-03-30  1220  		 struct drbd_peer_device *peer_device) __must_hold(local)
+8164dd6c8ae158 Andreas Gruenbacher 2023-03-30  1221  
+b411b3637fa71f Philipp Reisner     2009-09-25 @1222  {
+4ce4926683b820 Lars Ellenberg      2014-05-06  1223  	return bm_rw(device, BM_AIO_READ, 0);
+b411b3637fa71f Philipp Reisner     2009-09-25  1224  }
+b411b3637fa71f Philipp Reisner     2009-09-25  1225  
+b411b3637fa71f Philipp Reisner     2009-09-25  1226  /**
+b411b3637fa71f Philipp Reisner     2009-09-25  1227   * drbd_bm_write() - Write the whole bitmap to its on disk location.
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  1228   * @device:	DRBD device.
+19f843aa08e2d8 Lars Ellenberg      2010-12-15  1229   *
+19f843aa08e2d8 Lars Ellenberg      2010-12-15  1230   * Will only write pages that have changed since last IO.
+b411b3637fa71f Philipp Reisner     2009-09-25  1231   */
+8164dd6c8ae158 Andreas Gruenbacher 2023-03-30  1232  int drbd_bm_write(struct drbd_device *device,
+8164dd6c8ae158 Andreas Gruenbacher 2023-03-30  1233  		 struct drbd_peer_device *peer_device) __must_hold(local)
+b411b3637fa71f Philipp Reisner     2009-09-25 @1234  {
+4ce4926683b820 Lars Ellenberg      2014-05-06  1235  	return bm_rw(device, 0, 0);
+b411b3637fa71f Philipp Reisner     2009-09-25  1236  }
+b411b3637fa71f Philipp Reisner     2009-09-25  1237  
+d1aa4d04da8de5 Philipp Reisner     2012-08-08  1238  /**
+d1aa4d04da8de5 Philipp Reisner     2012-08-08  1239   * drbd_bm_write_all() - Write the whole bitmap to its on disk location.
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  1240   * @device:	DRBD device.
+d1aa4d04da8de5 Philipp Reisner     2012-08-08  1241   *
+d1aa4d04da8de5 Philipp Reisner     2012-08-08  1242   * Will write all pages.
+d1aa4d04da8de5 Philipp Reisner     2012-08-08  1243   */
+8164dd6c8ae158 Andreas Gruenbacher 2023-03-30  1244  int drbd_bm_write_all(struct drbd_device *device,
+8164dd6c8ae158 Andreas Gruenbacher 2023-03-30  1245  		struct drbd_peer_device *peer_device) __must_hold(local)
+d1aa4d04da8de5 Philipp Reisner     2012-08-08 @1246  {
+4ce4926683b820 Lars Ellenberg      2014-05-06  1247  	return bm_rw(device, BM_AIO_WRITE_ALL_PAGES, 0);
+d1aa4d04da8de5 Philipp Reisner     2012-08-08  1248  }
+d1aa4d04da8de5 Philipp Reisner     2012-08-08  1249  
+c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1250  /**
+c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1251   * drbd_bm_write_lazy() - Write bitmap pages 0 to @upper_idx-1, if they have changed.
+c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1252   * @device:	DRBD device.
+c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1253   * @upper_idx:	0: write all changed pages; +ve: page index to stop scanning for changed pages
+c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1254   */
+c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1255  int drbd_bm_write_lazy(struct drbd_device *device, unsigned upper_idx) __must_hold(local)
+c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1256  {
+c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1257  	return bm_rw(device, BM_AIO_COPY_PAGES, upper_idx);
+c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1258  }
+c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1259  
+0e8488ade26b4b Lars Ellenberg      2012-04-25  1260  /**
+0e8488ade26b4b Lars Ellenberg      2012-04-25  1261   * drbd_bm_write_copy_pages() - Write the whole bitmap to its on disk location.
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  1262   * @device:	DRBD device.
+0e8488ade26b4b Lars Ellenberg      2012-04-25  1263   *
+0e8488ade26b4b Lars Ellenberg      2012-04-25  1264   * Will only write pages that have changed since last IO.
+0e8488ade26b4b Lars Ellenberg      2012-04-25  1265   * In contrast to drbd_bm_write(), this will copy the bitmap pages
+0e8488ade26b4b Lars Ellenberg      2012-04-25  1266   * to temporary writeout pages. It is intended to trigger a full write-out
+0e8488ade26b4b Lars Ellenberg      2012-04-25  1267   * while still allowing the bitmap to change, for example if a resync or online
+0e8488ade26b4b Lars Ellenberg      2012-04-25  1268   * verify is aborted due to a failed peer disk, while local IO continues, or
+0e8488ade26b4b Lars Ellenberg      2012-04-25  1269   * pending resync acks are still being processed.
+0e8488ade26b4b Lars Ellenberg      2012-04-25  1270   */
+8164dd6c8ae158 Andreas Gruenbacher 2023-03-30  1271  int drbd_bm_write_copy_pages(struct drbd_device *device,
+8164dd6c8ae158 Andreas Gruenbacher 2023-03-30  1272  		struct drbd_peer_device *peer_device) __must_hold(local)
+0e8488ade26b4b Lars Ellenberg      2012-04-25 @1273  {
+4ce4926683b820 Lars Ellenberg      2014-05-06  1274  	return bm_rw(device, BM_AIO_COPY_PAGES, 0);
+19f843aa08e2d8 Lars Ellenberg      2010-12-15  1275  }
+19f843aa08e2d8 Lars Ellenberg      2010-12-15  1276  
+
+:::::: The code at line 1222 was first introduced by commit
+:::::: b411b3637fa71fce9cf2acf0639009500f5892fe The DRBD driver
+
+:::::: TO: Philipp Reisner <philipp.reisner@linbit.com>
+:::::: CC: Jens Axboe <jens.axboe@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
