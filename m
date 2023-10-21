@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D575B5251
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 14:15:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A49363C1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 14:56:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kOi/Qpi5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bs41pJLh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697897711; x=1729433711;
+  t=1697900183; x=1729436183;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J9WFiVd6hDbeXrw1bT6TOGKWOG7XBxIUW1EdLDkXGN4=;
-  b=kOi/Qpi5jrk1Izv2qVoWkgi8qmnKBD59lpJGEXQn5ja1xWIKoam3Zngh
-   25GGzH8B1Dt3zEAgApYyhZYF7SrF46P0Vj4aG0BdMUnQsP5Ii/HzEvaoA
-   H2G9zwHyNYlm0iyAoc0UQsgyLwUwhar6F4F/Dv/S58Tj3KbheoT65Ir0/
-   OmH2GQpFLHMLdRe2bh5RYMsvj+MUMypNtpVhvKl6+DYhvBc7hH1H6r8It
-   saj0FATwONrGklAT0Sx6z8xIm6AGVvKUuxiX8H+/9MRtXvUqmvPxLywhH
-   4ELH/aAjXq4SnXlpSvISz8BqkzFyxGy0IQrd5/4H/UV5NuoY9s6LgEmO5
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="383838722"
+  bh=XNlHn0TrnWnoV48FEHQsbPFnqO5ka4JuG7RVTMqSxeM=;
+  b=Bs41pJLhbaq1IkSfl+aVieB6gAGyoSU4xelKg9mjoPUTlC+pF0r+42HC
+   RJoIP8SZQSf9ShCbNIe5L7tE57p5wAysN7ocQDiYlMQZRsS5v9chFLvlo
+   ziZH2Dlo8ajglIfcgMoMZERRc0tPivp3uOIKuk0RS2tRxIqBVssHT9fZq
+   SDhf3/1/fOYTsENjmUXn1Gv9yv3eaAF31KYpdjAMGJeqavrFQWg4WyDff
+   +1Kps8p1D8VBuUVRfAaasSPZyijmyDwunGWyd+d9nb+imFAGMP77JNIDe
+   AhRZuPB1bTF+EWIm3dD3c5sTS5ZHcZR+0Z3rhLCW3uK3jDsXvMnWyWY9W
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="472860084"
 X-IronPort-AV: E=Sophos;i="6.03,241,1694761200"; 
-   d="scan'208";a="383838722"
+   d="scan'208";a="472860084"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 07:15:11 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 07:56:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="874213236"
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="874218845"
 X-IronPort-AV: E=Sophos;i="6.03,241,1694761200"; 
-   d="scan'208";a="874213236"
+   d="scan'208";a="874218845"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 21 Oct 2023 07:15:09 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 21 Oct 2023 07:56:11 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1quCkt-0004uQ-0O;
-	Sat, 21 Oct 2023 14:15:07 +0000
-Date: Sat, 21 Oct 2023 22:15:04 +0800
+	id 1quDOb-0004wt-12;
+	Sat, 21 Oct 2023 14:56:09 +0000
+Date: Sat, 21 Oct 2023 22:56:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/acpi/sleep.c:1208: warning: Function parameter or member
- 'stage' not described in 'acpi_hibernation_begin_old'
-Message-ID: <202310212220.81UIgoDf-lkp@intel.com>
+To: Janne Grunau <j@jannau.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:sound/speaker-safety 21/209] checkpatch: WARNING: Block
+ comments should align the * on each line
+Message-ID: <202310212253.FwjuB2UZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,70 +50,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9c5d00cb7b6bbc5a7965d9ab7d223b5402d1f02c
-commit: bb1869012d7b78d1474808cb4c8bd8b272645876 ACPI: PM: Call pm_set_suspend_via_firmware() during hibernation
-date:   4 years, 5 months ago
-config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231021/202310212220.81UIgoDf-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310212220.81UIgoDf-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux sound/speaker-safety
+head:   37f4315008c663a55629554adcfcae4e5d88fdc7
+commit: e0861b512d7e5cb7441ea92e5063376370585224 [21/209] arm64: dts: apple: j31[46]: Add keyboard nodes
+reproduce: (https://download.01.org/0day-ci/archive/20231021/202310212253.FwjuB2UZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310212220.81UIgoDf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310212253.FwjuB2UZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+# many are suggestions rather than must-fix
 
-   drivers/acpi/sleep.c:516: warning: Function parameter or member 'acpi_state' not described in 'acpi_pm_start'
-   drivers/acpi/sleep.c:555: warning: Function parameter or member 'pm_state' not described in 'acpi_suspend_begin'
-   drivers/acpi/sleep.c:682: warning: Function parameter or member 'pm_state' not described in 'acpi_suspend_begin_old'
->> drivers/acpi/sleep.c:1208: warning: Function parameter or member 'stage' not described in 'acpi_hibernation_begin_old'
-
-
-vim +1208 drivers/acpi/sleep.c
-
-caea99ef339af8e drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-01-08  1200  
-d8f3de0d2412bb9 drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-06-12  1201  /**
-d8f3de0d2412bb9 drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-06-12  1202   *	acpi_hibernation_begin_old - Set the target system sleep state to
-d8f3de0d2412bb9 drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-06-12  1203   *		ACPI_STATE_S4 and execute the _PTS control method.  This
-d8f3de0d2412bb9 drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-06-12  1204   *		function is used if the pre-ACPI 2.0 suspend ordering has been
-d8f3de0d2412bb9 drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-06-12  1205   *		requested.
-d8f3de0d2412bb9 drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-06-12  1206   */
-bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1207  static int acpi_hibernation_begin_old(pm_message_t stage)
-a634cc10164d1c2 drivers/acpi/sleep/main.c Rafael J. Wysocki 2007-07-19 @1208  {
-e49f711cc8f3bf8 drivers/acpi/sleep/main.c Zhao Yakui        2008-08-12  1209  	int error;
-e49f711cc8f3bf8 drivers/acpi/sleep/main.c Zhao Yakui        2008-08-12  1210  	/*
-e49f711cc8f3bf8 drivers/acpi/sleep/main.c Zhao Yakui        2008-08-12  1211  	 * The _TTS object should always be evaluated before the _PTS object.
-e49f711cc8f3bf8 drivers/acpi/sleep/main.c Zhao Yakui        2008-08-12  1212  	 * When the old_suspended_ordering is true, the _PTS object is
-e49f711cc8f3bf8 drivers/acpi/sleep/main.c Zhao Yakui        2008-08-12  1213  	 * evaluated in the acpi_sleep_prepare.
-e49f711cc8f3bf8 drivers/acpi/sleep/main.c Zhao Yakui        2008-08-12  1214  	 */
-e49f711cc8f3bf8 drivers/acpi/sleep/main.c Zhao Yakui        2008-08-12  1215  	acpi_sleep_tts_switch(ACPI_STATE_S4);
-e49f711cc8f3bf8 drivers/acpi/sleep/main.c Zhao Yakui        2008-08-12  1216  
-e49f711cc8f3bf8 drivers/acpi/sleep/main.c Zhao Yakui        2008-08-12  1217  	error = acpi_sleep_prepare(ACPI_STATE_S4);
-bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1218  	if (error)
-bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1219  		return error;
-a634cc10164d1c2 drivers/acpi/sleep/main.c Rafael J. Wysocki 2007-07-19  1220  
-bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1221  	if (!nvs_nosave) {
-dd4c4f17d722ffe drivers/acpi/sleep.c      Matthew Garrett   2010-05-28  1222  		error = suspend_nvs_alloc();
-bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1223  		if (error)
-bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1224  			return error;
-bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1225  	}
-bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1226  
-bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1227  	if (stage.event == PM_EVENT_HIBERNATE)
-bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1228  		pm_set_suspend_via_firmware();
-bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1229  
-d8f3de0d2412bb9 drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-06-12  1230  	acpi_target_sleep_state = ACPI_STATE_S4;
-ad07277e82dedab drivers/acpi/sleep.c      Rafael J. Wysocki 2013-08-20  1231  	acpi_scan_lock_acquire();
-bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1232  	return 0;
-3f4b0ef7f2899c9 drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-10-26  1233  }
-3f4b0ef7f2899c9 drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-10-26  1234  
-
-:::::: The code at line 1208 was first introduced by commit
-:::::: a634cc10164d1c229fbeca33923e6a0ed939e894 swsusp: introduce restore platform operations
-
-:::::: TO: Rafael J. Wysocki <rjw@sisk.pl>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+#34: FILE: arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:121:
++		 * best guess is they are cumulative.
++		*/
 
 -- 
 0-DAY CI Kernel Test Service
