@@ -1,169 +1,220 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9AC7EA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 01:53:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6DBA32;
+	Sat, 21 Oct 2023 02:28:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cCqUZ7Mb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GB0huT1v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697853195; x=1729389195;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=kaX2Pj6pnLClKFSPxXe/5EaCOpMZTFVKjUdpElcTOgY=;
-  b=cCqUZ7MbAY2qedZ858aURV+yXEddNc+nL5BygyFa0Jdt9J4MKy4q9ZYt
-   cIA8k8ZYPE3nSv/8fIy8wyvxfSvSaarjzoBsSjNLULD11T2kSGxlJGOUo
-   0J7/tfPjcWKIU5vK19LKQDOJra5mTKKKEtT1RRsCuLYBW7RYlKsg8Fd3H
-   sMMI86FtInA+sJEKIImVebcJUWgVGN/Au4UKwaea9MwO1x1M5+ccYY3Ko
-   cYPQJK01S2HJxKAZqkDmWGxz5c0ndecovxAXuq19sY9sRwnPw9zBth3g/
-   U0UQCVbsa1tNKrEMPb8XJD1CG6boNvyJtByX5X6MNgDe6l+QfCZmdJQtD
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="385493075"
+  t=1697855325; x=1729391325;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=V2N8FCbnpATNLD5IQsLXnVyPaQW5ZV+iV8Hc1wgFzxk=;
+  b=GB0huT1vpiQbaHnpY/ZQhRu59yb2v00wA+yx/M3opjt4iiWiD+aUdzJm
+   3Jp6MTipbT1XplbAptEUsrZPS8aC9Me22DcmlwbQACkCUdgSGsdDeStXl
+   R4DU34SL6yNmXAXROhAShkG/YPAz8+rcbOWoJI35E9G3XBr2HMNFqQzXM
+   p5b8C+iUnCE6fi7V6JvYZOxgrOSQWzuKa/vTCQAe+qQD6kuao1q8RLSs9
+   cjjiZZpdb6iGpXL7+3WQfxaG8zqlcRlt7n8Q60WoS5MmlmsabJiu7WqYe
+   CybWgWgLCiXs0TEmka37dRqi8EPZ5S6XusbnPp4S/ZHCjN9ao1tSwfDXo
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="389456320"
 X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
-   d="scan'208";a="385493075"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 18:53:14 -0700
+   d="scan'208";a="389456320"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 19:28:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="881231303"
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="901295475"
 X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
-   d="scan'208";a="881231303"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orsmga004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 20 Oct 2023 18:53:14 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Fri, 20 Oct 2023 18:53:14 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Fri, 20 Oct 2023 18:53:14 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Fri, 20 Oct 2023 18:53:14 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mzmIDfyOgsjGoXNCzWov6HipM5ioLZXg/MflgBvUzKQE6npUVu9KvqgoBfyRprhngUYTGdqUn9jOADxIifMT+k7UESK0iYuX8ZIN0EmZl3ScA95pfGlf0r5ihWhMm/+46x87b/u1bNSStOKes014UxYN6ZzGVOzAqnoPWTm+bnat9PosA+DY7UCR2jqbvnhetzpRvVVpSYL0X7gXBXh5fkBSw229ie+KAHfNNyc2zarEu4pN1PTMAlKTLBHsZPHbGdprAFiqpKx1WemLfMVwtiby+WsORWDB+hZ92AuKfYth0nLFlOaD6kmRdUl7KlGvsVlsp23ExLWoIx3scfmReQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3xEucHUnJ2Xc0MpjFW30+000eLDu2ITzaXNJovOzvBk=;
- b=bhq5IklNZBWhaE8RG0Ysb2PQR7XNOmiX7MU/BxBzYclieqlxDPU/T9JiUhR1ILLZi9tYowXRr3dCf2FqoG375NnJsld0zilKrsLarQxL4a5CpnigY43vAMTSzZBohJY9ZB9V4lUwTKPtUemPIy0anAzhOxgmKOLTlwSmrlu4Sln+BjBjsdSIWQCyvfxYoPQhK/TjKm1djOBw1ftKSUgFXlGm7W15KhF5N/hv6l+0eoFnrcsdPy/Q5JQNUX7HbtieNM/sKvKHzXvcqighBc6PTOgmLpPu4d/KYYhWc/tdDWmFnO+RcMsKRwHv0jAgyeAj57XkdTrn56u/pdKNtY/QHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
- by CH3PR11MB8494.namprd11.prod.outlook.com (2603:10b6:610:1ae::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.46; Sat, 21 Oct
- 2023 01:53:12 +0000
-Received: from BL0PR11MB2995.namprd11.prod.outlook.com
- ([fe80::f64:17c0:d3ab:196]) by BL0PR11MB2995.namprd11.prod.outlook.com
- ([fe80::f64:17c0:d3ab:196%7]) with mapi id 15.20.6907.022; Sat, 21 Oct 2023
- 01:53:12 +0000
-Date: Sat, 21 Oct 2023 09:53:03 +0800
-From: Philip Li <philip.li@intel.com>
-To: Jakub Kicinski <kuba@kernel.org>
-CC: "Nambiar, Amritha" <amritha.nambiar@intel.com>,
-	<oe-kbuild-all@lists.linux.dev>, kernel test robot <lkp@intel.com>,
-	<netdev@vger.kernel.org>, <pabeni@redhat.com>
-Subject: Re: [net-next PATCH v5 01/10] netdev-genl: spec: Extend netdev
- netlink spec in YAML for queue
-Message-ID: <ZTMu/3okW8ZVKYHM@rli9-mobl>
-References: <169767396671.6692.9945461089943525792.stgit@anambiarhost.jf.intel.com>
- <202310190900.9Dzgkbev-lkp@intel.com>
- <b499663e-1982-4043-9242-39a661009c71@intel.com>
- <20231020150557.00af950d@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20231020150557.00af950d@kernel.org>
-X-ClientProxiedBy: SG2PR04CA0172.apcprd04.prod.outlook.com (2603:1096:4::34)
- To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
+   d="scan'208";a="901295475"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 20 Oct 2023 19:26:31 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qu1jE-0004HO-0I;
+	Sat, 21 Oct 2023 02:28:40 +0000
+Date: Sat, 21 Oct 2023 10:28:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chuyi Zhou <zhouchuyi@bytedance.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: [linux-next:master 13777/13906] kernel/bpf/task_iter.c:919:7: error:
+ use of undeclared identifier 'CSS_TASK_ITER_PROCS'
+Message-ID: <202310211011.pTzXR2o9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR11MB2995:EE_|CH3PR11MB8494:EE_
-X-MS-Office365-Filtering-Correlation-Id: ee4b4815-0166-4504-2ae4-08dbd1d87b1d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rlKhzvGqf7Fe0url92B1ZmbUkTLdDTFgPQZnjjm4FLkOEeKw5Ugk6i+jpj0JoqjdBmPqCq6dl579SRGGLr78boH9IGxzWWfPEYr3wwF7WIx4cXQX4WCuUh0fDNJTTNuvz+eyIkKRyCPA88JmNH0ZCgpwgyQoUU8sN/i9RVDOTVIomVsOkzNuGqUg5tLybK2/tvBJ2y2+W7fucR5/jCMg53sCI6uRXw0OKT24oAxXbOLsHSCXlHlUyLmnM7GSVXHEhF7P7NSE28cj8uUrU/OnjucgvKVv3iCJ/MKVZOAGGIG5nkF9DIyH2df4GrNBoc++lDu4XRNGlOnv4ieaTc7U1+BiCOnoIHyJfiTGM4Xf8XQdgaSlsyNXgxRCyYP2C3QeET2UHTJQFPfqM4GTz5eoIBxYZe17STaO5Bkt+gGldYWriEO2wPGv7H/Ll1/GI5xOCdEcU9K8v3bo0g28GEaWUQJhW3rGhsHJBXwqM03Ixtspx3UcCAOr5fTC2isk+fzVY+tqbUSTXzAsxMTuwbqhCon4vBFrL8ajw1jJIjZUbPds6auCL8r9jDrnoap5bnzL
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(39860400002)(346002)(136003)(366004)(396003)(376002)(230922051799003)(1800799009)(451199024)(64100799003)(186009)(6506007)(66556008)(9686003)(26005)(6666004)(8676002)(6512007)(83380400001)(5660300002)(44832011)(2906002)(8936002)(4326008)(33716001)(41300700001)(6486002)(54906003)(478600001)(66476007)(316002)(82960400001)(6916009)(38100700002)(66946007)(86362001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?10ITcCpUhnl3+S41tvYgeYVDfsAr03V4XV4+mj1vM+EwJLUtoajqcdTVpJDG?=
- =?us-ascii?Q?/SwIRXAfexL1WPZHY2Pd/IwhrXh2EkyqyLl56eEXbFHUGloakHGhOS9QBH4n?=
- =?us-ascii?Q?+4D+LZxakqMFQ7f2j2VW11oTpB7AqgbFSahT2rjD0KI5rQg+UfM2H1ftLMmY?=
- =?us-ascii?Q?927f5f4FMfdOusTd29Fv/QH/dyT/WllRx8phliDH6JiAEc/DnAHjiJrhd4fM?=
- =?us-ascii?Q?bNiSlQ4yKzq6Tx54q/GmrU0CoNwcNNLwobKZYAIfbIoeb1QIOZcjx5I+2CoL?=
- =?us-ascii?Q?fdXGHLLX6YCQ6aefYatkb/I6LFAylRSYx97h+COqQ954JuKRLxlMD2WrXdZT?=
- =?us-ascii?Q?bdKO7lvbA9JWRX0z/8irvd48PPkYh/wpC6kmVw+DaQGlzCmHSiEeLKH3uUOm?=
- =?us-ascii?Q?Y0M/wD4KbjF3bFDLqc3nW2NQKr8PI1GXSdbNmSC6iXEyBo/ZnXQXMlshMORs?=
- =?us-ascii?Q?DQRNhOwVYSGDM+em4tP3MEbi+TiKBc4ufUDjiaxLjQzxrGQ9UY77UOKrSs55?=
- =?us-ascii?Q?g//p2AtqdAorefgpnRFi5Sr2trWSw/RLXkY/CNG5L1iUuzj07bWQFQIa1b0d?=
- =?us-ascii?Q?meWR/oZCK+QYCoSid6erxjrIImxpOGTvOD2DVJH0BIhtpClHO/0lb+P2RgHO?=
- =?us-ascii?Q?jG9bQedvwENmNkOCjOBo3dNghJDJ8kMUf5IOJeUggyK3u/mh9GsN+WHBqWR4?=
- =?us-ascii?Q?BwwUe1pSwA5m4MiMNlU6t9ng0Fb+WYbxwNJeNBJ9ey0f72chkxPfN8BuQ0GM?=
- =?us-ascii?Q?zDDsW47jTJPkNMHvuevzaHnAtHwLNg90tPMQY/EDKqXK5FrD+nPMenlYL8mD?=
- =?us-ascii?Q?DGKG2Yi17QQ9aFTKfwD+lGTwEh2Mrq3fQWbC3gKBLjjSRo/N7UjrfXHya5uZ?=
- =?us-ascii?Q?88rTIlKrQSIaol7xpMuvEu+l5gWRsQSV8CmbxgZroMJZnxgINM9H2I7megcw?=
- =?us-ascii?Q?v4Mmhy70Vkj20/1YWVZtR52EFfrj8QUckM1VJXikEjSSlC0IGY+cxO0vL7Fe?=
- =?us-ascii?Q?un0S/ISRNVU4ZT6w5rvDLV8eHvqzSk7Ky3SaNe0rVe9IaiPfQEYrnH4DknlL?=
- =?us-ascii?Q?gJ00jTLQ/frQC1UIM8O+nNX7O+a062XiM8Vu54tLaMHqc3M9/0VUGpUhBWRJ?=
- =?us-ascii?Q?P2tVq8zm17EfbUMRq48Mn7s4aIyLrh/iD972WOk5prlz5+9BcZttuGircH3W?=
- =?us-ascii?Q?epO8jXOOZNuP0vN1TeLDFEo7i0bNASZ1nUqqWBUfcu7PSBRQmhJua3TKDTTt?=
- =?us-ascii?Q?5B9z3IyU/kmnijtsp87Fs/771IBlxykAl+ZRVBHZm233BX9a01iyCNkmWEPk?=
- =?us-ascii?Q?vr/lu5MlKB/Q+9DAsHzBVPwX5cLN6LVVIIzSRA610Rzej/B4k0tQ3ri1cH+Y?=
- =?us-ascii?Q?IhYowYg/LizybX/R3MA0f+3XjwqqyiE4YSvXbQb/sKV1fm2hYkJjc0AWYdIC?=
- =?us-ascii?Q?z8mfQsJjjKjeddmckEySPv7+VkOUfoeQ9HC+b+tx6Jmx9FF+WNM+zjq/YFpp?=
- =?us-ascii?Q?E/CJ6qQ5znTfWFFrRaHR4uKcnqfa5wBvIvn3cD8BKAcZ78kLPRJuSRl3SqcV?=
- =?us-ascii?Q?NmDIbbC8vF+UYWfJiiDXfFAlEnk+Y4SBSKONU8DY?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ee4b4815-0166-4504-2ae4-08dbd1d87b1d
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2023 01:53:11.5351
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wBCh2E3cK5eWY1sAkW8T0PqV5dRRtEwjt+r6tsownnLg81//jWQByhPShDq8OtfFr24DtZ/L4l/cyHDt09wrZg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8494
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Oct 20, 2023 at 03:05:57PM -0700, Jakub Kicinski wrote:
-> On Fri, 20 Oct 2023 13:26:38 -0700 Nambiar, Amritha wrote:
-> > > WARNING:SPACING: space prohibited between function name and open parenthesis '('
-> > > #547: FILE: tools/net/ynl/generated/netdev-user.h:181:
-> > > +	struct netdev_queue_get_rsp obj __attribute__ ((aligned (8)));
-> > 
-> > Looks like the series is in "Changes Requested" state following these 
-> > warnings. Is there any recommendation for warnings on generated code? I 
-> > see similar issues on existing code in the generated file.
-> 
-> Yes, ignore this one. I'll post a change to the codegen.
-> The warning on patch 3 is legit, right?
-> 
-> kernel test bot folks, please be careful with the checkpatch warnings.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2030579113a1b1b5bfd7ff24c0852847836d8fd1
+commit: 9c66dc94b62aef23300f05f63404afb8990920b4 [13777/13906] bpf: Introduce css_task open-coded iterator kfuncs
+config: hexagon-randconfig-r003-20230725 (https://download.01.org/0day-ci/archive/20231021/202310211011.pTzXR2o9-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310211011.pTzXR2o9-lkp@intel.com/reproduce)
 
-Thanks Jakub, we will be very careful and continuously monitor the
-reports and feedbacks to filter unnecessary warnings/errors from
-checkpatch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310211011.pTzXR2o9-lkp@intel.com/
 
-> Some of them are bogus. TBH I'm not sure how much value running
-> checkpatch in the bot adds. It's really trivial to run for the
+All errors (new ones prefixed by >>):
 
-It is found there're quite some checkpatch related fix commits on
-mainline. Thus the bot wants to extend the coverage and do shift
-left testing on developer repos and mailing list patches.
+   In file included from kernel/bpf/task_iter.c:9:
+   In file included from include/linux/filter.h:9:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from kernel/bpf/task_iter.c:9:
+   In file included from include/linux/filter.h:9:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from kernel/bpf/task_iter.c:9:
+   In file included from include/linux/filter.h:9:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> kernel/bpf/task_iter.c:919:7: error: use of undeclared identifier 'CSS_TASK_ITER_PROCS'
+           case CSS_TASK_ITER_PROCS | CSS_TASK_ITER_THREADED:
+                ^
+>> kernel/bpf/task_iter.c:919:29: error: use of undeclared identifier 'CSS_TASK_ITER_THREADED'
+           case CSS_TASK_ITER_PROCS | CSS_TASK_ITER_THREADED:
+                                      ^
+   kernel/bpf/task_iter.c:920:7: error: use of undeclared identifier 'CSS_TASK_ITER_PROCS'
+           case CSS_TASK_ITER_PROCS:
+                ^
+>> kernel/bpf/task_iter.c:927:46: error: invalid application of 'sizeof' to an incomplete type 'struct css_task_iter'
+           kit->css_it = bpf_mem_alloc(&bpf_global_ma, sizeof(struct css_task_iter));
+                                                       ^     ~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/task_iter.c:902:9: note: forward declaration of 'struct css_task_iter'
+           struct css_task_iter *css_it;
+                  ^
+>> kernel/bpf/task_iter.c:930:2: error: call to undeclared function 'css_task_iter_start'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           css_task_iter_start(css, flags, kit->css_it);
+           ^
+   kernel/bpf/task_iter.c:930:2: note: did you mean '__sg_page_iter_start'?
+   include/linux/scatterlist.h:573:6: note: '__sg_page_iter_start' declared here
+   void __sg_page_iter_start(struct sg_page_iter *piter,
+        ^
+>> kernel/bpf/task_iter.c:940:9: error: call to undeclared function 'css_task_iter_next'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           return css_task_iter_next(kit->css_it);
+                  ^
+>> kernel/bpf/task_iter.c:940:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct task_struct *' [-Wint-conversion]
+           return css_task_iter_next(kit->css_it);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/task_iter.c:949:2: error: call to undeclared function 'css_task_iter_end'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           css_task_iter_end(kit->css_it);
+           ^
+   6 warnings and 8 errors generated.
 
-But as you mentioned above, we will take furture care to the output
-of checkpatch to be conservative for the reporting.
 
-> maintainers when applying patches.
-> 
+vim +/CSS_TASK_ITER_PROCS +919 kernel/bpf/task_iter.c
+
+   904	
+   905	__diag_push();
+   906	__diag_ignore_all("-Wmissing-prototypes",
+   907			  "Global functions as their definitions will be in vmlinux BTF");
+   908	
+   909	__bpf_kfunc int bpf_iter_css_task_new(struct bpf_iter_css_task *it,
+   910			struct cgroup_subsys_state *css, unsigned int flags)
+   911	{
+   912		struct bpf_iter_css_task_kern *kit = (void *)it;
+   913	
+   914		BUILD_BUG_ON(sizeof(struct bpf_iter_css_task_kern) != sizeof(struct bpf_iter_css_task));
+   915		BUILD_BUG_ON(__alignof__(struct bpf_iter_css_task_kern) !=
+   916						__alignof__(struct bpf_iter_css_task));
+   917		kit->css_it = NULL;
+   918		switch (flags) {
+ > 919		case CSS_TASK_ITER_PROCS | CSS_TASK_ITER_THREADED:
+ > 920		case CSS_TASK_ITER_PROCS:
+   921		case 0:
+   922			break;
+   923		default:
+   924			return -EINVAL;
+   925		}
+   926	
+ > 927		kit->css_it = bpf_mem_alloc(&bpf_global_ma, sizeof(struct css_task_iter));
+   928		if (!kit->css_it)
+   929			return -ENOMEM;
+ > 930		css_task_iter_start(css, flags, kit->css_it);
+   931		return 0;
+   932	}
+   933	
+   934	__bpf_kfunc struct task_struct *bpf_iter_css_task_next(struct bpf_iter_css_task *it)
+   935	{
+   936		struct bpf_iter_css_task_kern *kit = (void *)it;
+   937	
+   938		if (!kit->css_it)
+   939			return NULL;
+ > 940		return css_task_iter_next(kit->css_it);
+   941	}
+   942	
+   943	__bpf_kfunc void bpf_iter_css_task_destroy(struct bpf_iter_css_task *it)
+   944	{
+   945		struct bpf_iter_css_task_kern *kit = (void *)it;
+   946	
+   947		if (!kit->css_it)
+   948			return;
+ > 949		css_task_iter_end(kit->css_it);
+   950		bpf_mem_free(&bpf_global_ma, kit->css_it);
+   951	}
+   952	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
