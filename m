@@ -1,48 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6BD817
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 04:14:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF86ED0;
+	Sat, 21 Oct 2023 04:14:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aXuKczsD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VmnVttWu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697861689; x=1729397689;
+  t=1697861692; x=1729397692;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=QAeNQiVTZQsFEUlE9Zj9jq2+a1kUDkeF+tGuMpSqlXU=;
-  b=aXuKczsDIUyjouD41sUz/fIvK98NYksdac0Bo1s7YnqsKHg+w2eARYdC
-   KfSmTcAEoZAeTDyEyYJ+VTsZNd6tVPcRpG05xyX6I9sIKgsXR5F1Ql4HP
-   bOJgo1jNYGpeL7i0beKR033mpyxXNrPqdyY7/96skIU6iHbCq8n/XGu8D
-   2mvSboJMpg8pBIRtRUrZW4oU1uRgVeN/y9FFYi0yAol5Y67fwhRjcJq61
-   pISzkJ6mXXe3lwWh4dwhm70bGtMviG0RzC44puZH/akLIOBMXyMUfxj+U
-   XtdzSjypdU69VbTgcymL2vz6vozig7ZAP9L/iV6JG6vymGFtYNm7Cks1C
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="385499902"
+  bh=yGJG+6qAzzVRzGGWJgcbiHpYkynrB6R5ZiQ88Hw8RPc=;
+  b=VmnVttWuotMPbC+JtnmPtPgI40awYHNwhzxTyE3ZHs14MT8cUYTFrkvC
+   k09DUAkG6lsb5Omp73eRM5NkUwQKW44ZJmqpeyznMnnRQuDOFgPVifF6v
+   ICThDJ8blvCxuRu733WJ20VAMfZnwchcrgJVKELClddWRGTsiA+6n2QOt
+   1sYjJ5Xhfi/EN7lthAGVPn8pw04dKoFYir6xJT7Ttnc//UHe30KU+wOsX
+   waGscW10IttlMVMU8XjJlJ2uFCRTwjLKhlo+KEBFNowqVVHUygxV7uZzM
+   vGrsqottS5YyhAvPGJ5agPaIuExI6GEX5Il+lLfOoJuvOjcy5csNA7eVm
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="385499905"
 X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
-   d="scan'208";a="385499902"
+   d="scan'208";a="385499905"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 21:14:48 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 21:14:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="823453370"
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="823453372"
 X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
-   d="scan'208";a="823453370"
+   d="scan'208";a="823453372"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 20 Oct 2023 21:14:47 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 20 Oct 2023 21:14:48 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qu3Nt-0004Os-27;
+	id 1qu3Nt-0004Ov-2D;
 	Sat, 21 Oct 2023 04:14:45 +0000
-Date: Sat, 21 Oct 2023 12:13:49 +0800
+Date: Sat, 21 Oct 2023 12:13:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 07/17] drm/colorop: Introduce new drm_colorop mode
- object
-Message-ID: <202310211231.WlOSaCad-lkp@intel.com>
-References: <20231019212133.245155-8-harry.wentland@amd.com>
+To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, axboe@kernel.dk,
+	hch@lst.de, joshi.k@samsung.com, martin.petersen@oracle.com,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 1/4] block: bio-integrity: add support for user buffers
+Message-ID: <202310211209.gA0mAZaz-lkp@intel.com>
+References: <20231018151843.3542335-2-kbusch@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,146 +53,214 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231019212133.245155-8-harry.wentland@amd.com>
+In-Reply-To: <20231018151843.3542335-2-kbusch@meta.com>
 
-Hi Harry,
+Hi Keith,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.6-rc6 next-20231020]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc6 next-20231020]
+[cannot apply to axboe-block/for-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Harry-Wentland/drm-atomic-Allow-get_value-for-immutable-properties-on-atomic-drivers/20231020-052542
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231019212133.245155-8-harry.wentland%40amd.com
-patch subject: [RFC PATCH v2 07/17] drm/colorop: Introduce new drm_colorop mode object
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231021/202310211231.WlOSaCad-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310211231.WlOSaCad-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/block-bio-integrity-add-support-for-user-buffers/20231018-232704
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231018151843.3542335-2-kbusch%40meta.com
+patch subject: [PATCH 1/4] block: bio-integrity: add support for user buffers
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231021/202310211209.gA0mAZaz-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310211209.gA0mAZaz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310211231.WlOSaCad-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310211209.gA0mAZaz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/drm_colorop.c:59:6: warning: no previous prototype for '__drm_atomic_helper_colorop_duplicate_state' [-Wmissing-prototypes]
-      59 | void __drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/drm_colorop.c:95:6: warning: no previous prototype for '__drm_colorop_destroy_state' [-Wmissing-prototypes]
-      95 | void __drm_colorop_destroy_state(struct drm_colorop_state *state)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/drm_colorop.c:108:6: warning: no previous prototype for 'drm_colorop_destroy_state' [-Wmissing-prototypes]
-     108 | void drm_colorop_destroy_state(struct drm_colorop *colorop,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/drm_colorop.c:123:6: warning: no previous prototype for '__drm_colorop_state_reset' [-Wmissing-prototypes]
-     123 | void __drm_colorop_state_reset(struct drm_colorop_state *colorop_state,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/drm_colorop.c:142:6: warning: no previous prototype for '__drm_colorop_reset' [-Wmissing-prototypes]
-     142 | void __drm_colorop_reset(struct drm_colorop *colorop,
-         |      ^~~~~~~~~~~~~~~~~~~
+   In file included from init/main.c:21:
+   In file included from include/linux/syscalls.h:90:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from init/main.c:21:
+   In file included from include/linux/syscalls.h:90:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from init/main.c:21:
+   In file included from include/linux/syscalls.h:90:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   In file included from init/main.c:85:
+   In file included from include/linux/blkdev.h:17:
+>> include/linux/bio.h:797:16: error: expected ';' after return statement
+     797 |         return -EINVAL
+         |                       ^
+         |                       ;
+   12 warnings and 1 error generated.
+--
+   In file included from mm/swapfile.c:9:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from mm/swapfile.c:9:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from mm/swapfile.c:9:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   In file included from mm/swapfile.c:9:
+   In file included from include/linux/blkdev.h:17:
+>> include/linux/bio.h:797:16: error: expected ';' after return statement
+     797 |         return -EINVAL
+         |                       ^
+         |                       ;
+   In file included from mm/swapfile.c:14:
+   include/linux/mman.h:158:9: warning: division by zero is undefined [-Wdivision-by-zero]
+     158 |                _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:136:21: note: expanded from macro '_calc_vm_trans'
+     136 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
+         |                     ^ ~~~~~~~~~~~~~~~~~
+   13 warnings and 1 error generated.
 
 
-vim +/__drm_atomic_helper_colorop_duplicate_state +59 drivers/gpu/drm/drm_colorop.c
+vim +797 include/linux/bio.h
 
-    58	
-  > 59	void __drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop,
-    60							 struct drm_colorop_state *state)
-    61	{
-    62		memcpy(state, colorop->state, sizeof(*state));
-    63	}
-    64	
-    65	struct drm_colorop_state *
-    66	drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop)
-    67	{
-    68		struct drm_colorop_state *state;
-    69	
-    70		if (WARN_ON(!colorop->state))
-    71			return NULL;
-    72	
-    73		state = kmalloc(sizeof(*state), GFP_KERNEL);
-    74		if (state)
-    75			__drm_atomic_helper_colorop_duplicate_state(colorop, state);
-    76	
-    77		return state;
-    78	}
-    79	
-    80	
-    81	void drm_colorop_atomic_destroy_state(struct drm_colorop *colorop,
-    82					      struct drm_colorop_state *state)
-    83	{
-    84		kfree(state);
-    85	}
-    86	
-    87	/**
-    88	 * __drm_colorop_destroy_state - release colorop state
-    89	 * @state: colorop state object to release
-    90	 *
-    91	 * Releases all resources stored in the colorop state without actually freeing
-    92	 * the memory of the colorop state. This is useful for drivers that subclass the
-    93	 * colorop state.
-    94	 */
-  > 95	void __drm_colorop_destroy_state(struct drm_colorop_state *state)
-    96	{
-    97		/* TODO might need this later */
-    98	}
-    99	
-   100	/**
-   101	 * drm_colorop_destroy_state - default state destroy hook
-   102	 * @colorop: drm colorop
-   103	 * @state: colorop state object to release
-   104	 *
-   105	 * Default colorop state destroy hook for drivers which don't have their own
-   106	 * subclassed colorop state structure.
-   107	 */
- > 108	void drm_colorop_destroy_state(struct drm_colorop *colorop,
-   109						   struct drm_colorop_state *state)
-   110	{
-   111		kfree(state);
-   112	}
-   113	EXPORT_SYMBOL(drm_colorop_destroy_state);
-   114	
-   115	/**
-   116	 * __drm_colorop_state_reset - resets colorop state to default values
-   117	 * @colorop_state: atomic colorop state, must not be NULL
-   118	 * @colorop: colorop object, must not be NULL
-   119	 *
-   120	 * Initializes the newly allocated @colorop_state with default
-   121	 * values. This is useful for drivers that subclass the CRTC state.
-   122	 */
- > 123	void __drm_colorop_state_reset(struct drm_colorop_state *colorop_state,
-   124						   struct drm_colorop *colorop)
-   125	{
-   126		colorop_state->colorop = colorop;
-   127	}
-   128	EXPORT_SYMBOL(__drm_colorop_state_reset);
-   129	
-   130	/**
-   131	 * __drm_colorop_reset - reset state on colorop
-   132	 * @colorop: drm colorop
-   133	 * @colorop_state: colorop state to assign
-   134	 *
-   135	 * Initializes the newly allocated @colorop_state and assigns it to
-   136	 * the &drm_crtc->state pointer of @colorop, usually required when
-   137	 * initializing the drivers or when called from the &drm_colorop_funcs.reset
-   138	 * hook.
-   139	 *
-   140	 * This is useful for drivers that subclass the colorop state.
-   141	 */
- > 142	void __drm_colorop_reset(struct drm_colorop *colorop,
-   143					     struct drm_colorop_state *colorop_state)
-   144	{
-   145		if (colorop_state)
-   146			__drm_colorop_state_reset(colorop_state, colorop);
-   147	
-   148		colorop->state = colorop_state;
-   149	}
-   150	
+   793	
+   794	static inline int bio_integrity_map_user(struct bio *bio, void __user *ubuf,
+   795						 unsigned int len, u32 seed, u32 maxvecs)
+   796	{
+ > 797		return -EINVAL
+   798	}
+   799	
 
 -- 
 0-DAY CI Kernel Test Service
