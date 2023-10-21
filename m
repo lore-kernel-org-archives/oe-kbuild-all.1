@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5713EA3;
-	Sat, 21 Oct 2023 03:42:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8750BA4C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 03:53:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OYJNHGdj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V6Z/Cj2w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697859768; x=1729395768;
+  t=1697860430; x=1729396430;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8PNS9IwLu/TMYdHnEZRKjglbKlVyBvxRYtzA2v+FvTs=;
-  b=OYJNHGdjDY2uQiHI8RUMRE96033TPKS43bG7HrdlZVc9Uj9Khx8+0xOQ
-   BZBHufg2v1/Y1BFIZ2thkU3zva7Ayd4Q1YfRRyaMiBhrDCOPfy3Rj2jrp
-   IRaC9TcKyHfJrVQMnmUKEglAfBIYeDoTO5feQho+bLYhhLFyx7SbMoBae
-   L9ZZrb43oORBr1QsxXchuLO1Pk+CCyDAe9d2pImo1orAS1r2/XQu9rRbG
-   1agwxgzBq/BZzMHPuGfr7pUE0T493Shm9rQfQp8iETqrS8xPsRzHdMmuK
-   LEFGnjNg9nURigYqH4S5tp657aQpt1+yk97N3pQ1hJjxTE/Q9+ra7q6r1
+  bh=KSNO7vOH2xYOL/+j22XGMf283vnlJoT1CRb7A5owLFQ=;
+  b=V6Z/Cj2wJai/JzMkPhAAuC79d9PyGhI8LsQmTw0p7DpXiJEzmc41zIp2
+   5U+PH5xGG/aVe5vSmtKWR46VOyxcqfVRXXD0jdnwc593zg2TnQ+RXocUx
+   N36r/IpIXgogOWsBF65kcx1tD3EhXJVYqCs8JDsCnQ34d0AABf//0Fo8C
+   OCZ2QsRq7CFpCwbta544yVufhXQLjx9MINlBhqYmqkeRPtOO4xYh6rz03
+   0Gp4u7K20Y2sNZylS9DIpBH+WH6qbX6XTe5VUsw+c8LdKqAe9xDxxei3f
+   ihf4DyOdM4XUomFOIMUqARN9EbDhGpCbzXrU9RabnM0eu2v4eBAjRfqPU
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="371676307"
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="366836729"
 X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
-   d="scan'208";a="371676307"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 20:42:48 -0700
+   d="scan'208";a="366836729"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 20:53:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="881243647"
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="823451798"
 X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
-   d="scan'208";a="881243647"
+   d="scan'208";a="823451798"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 20 Oct 2023 20:42:45 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 20 Oct 2023 20:53:47 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qu2st-0004LK-1q;
-	Sat, 21 Oct 2023 03:42:43 +0000
-Date: Sat, 21 Oct 2023 11:42:31 +0800
+	id 1qu33Y-0004Na-2Z;
+	Sat, 21 Oct 2023 03:53:44 +0000
+Date: Sat, 21 Oct 2023 11:53:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	mhi@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: Re: [PATCH] bus: mhi: ep: Add support for interrupt moderation timer
-Message-ID: <202310211125.dCDfH087-lkp@intel.com>
-References: <20231019080911.57938-1-manivannan.sadhasivam@linaro.org>
+To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, axboe@kernel.dk, hch@lst.de,
+	joshi.k@samsung.com, martin.petersen@oracle.com,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 1/4] block: bio-integrity: add support for user buffers
+Message-ID: <202310211117.qmDPOVfI-lkp@intel.com>
+References: <20231018151843.3542335-2-kbusch@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,112 +53,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231019080911.57938-1-manivannan.sadhasivam@linaro.org>
+In-Reply-To: <20231018151843.3542335-2-kbusch@meta.com>
 
-Hi Manivannan,
+Hi Keith,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on mani-mhi/mhi-next]
-[also build test ERROR on linus/master v6.6-rc6 next-20231020]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc6 next-20231020]
+[cannot apply to axboe-block/for-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam/bus-mhi-ep-Add-support-for-interrupt-moderation-timer/20231019-161023
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-patch link:    https://lore.kernel.org/r/20231019080911.57938-1-manivannan.sadhasivam%40linaro.org
-patch subject: [PATCH] bus: mhi: ep: Add support for interrupt moderation timer
-config: x86_64-buildonly-randconfig-003-20231021 (https://download.01.org/0day-ci/archive/20231021/202310211125.dCDfH087-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310211125.dCDfH087-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/block-bio-integrity-add-support-for-user-buffers/20231018-232704
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231018151843.3542335-2-kbusch%40meta.com
+patch subject: [PATCH 1/4] block: bio-integrity: add support for user buffers
+config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20231021/202310211117.qmDPOVfI-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310211117.qmDPOVfI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310211125.dCDfH087-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310211117.qmDPOVfI-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/bus/mhi/ep/main.c: In function 'mhi_ep_send_event':
->> drivers/bus/mhi/ep/main.c:71:52: error: 'struct mhi_ep_ring' has no member named 'intmod_work'; did you mean 'intmodt_work'?
-      71 |                         cancel_delayed_work(&ring->intmod_work);
-         |                                                    ^~~~~~~~~~~
-         |                                                    intmodt_work
-   drivers/bus/mhi/ep/main.c:76:46: error: 'struct mhi_ep_ring' has no member named 'intmod_work'; did you mean 'intmodt_work'?
-      76 |                 schedule_delayed_work(&ring->intmod_work, msecs_to_jiffies(ring->intmodt));
-         |                                              ^~~~~~~~~~~
-         |                                              intmodt_work
+   In file included from include/linux/blkdev.h:17:0,
+                    from init/main.c:85:
+   include/linux/bio.h: In function 'bio_integrity_map_user':
+>> include/linux/bio.h:798:1: error: expected ';' before '}' token
+    }
+    ^
+--
+   In file included from include/linux/blkdev.h:17:0,
+                    from lib/vsprintf.c:47:
+   include/linux/bio.h: In function 'bio_integrity_map_user':
+>> include/linux/bio.h:798:1: error: expected ';' before '}' token
+    }
+    ^
+   lib/vsprintf.c: In function 'va_format':
+   lib/vsprintf.c:1682:2: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
+     ^~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for VIDEO_OV7670
-   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && VIDEO_CAMERA_SENSOR [=n]
-   Selected by [y]:
-   - VIDEO_CAFE_CCIC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && PCI [=y] && I2C [=y] && VIDEO_DEV [=y] && COMMON_CLK [=y]
 
+vim +798 include/linux/bio.h
 
-vim +71 drivers/bus/mhi/ep/main.c
-
-    27	
-    28	static int mhi_ep_send_event(struct mhi_ep_cntrl *mhi_cntrl, u32 ring_idx,
-    29				     struct mhi_ring_element *el, bool bei)
-    30	{
-    31		struct device *dev = &mhi_cntrl->mhi_dev->dev;
-    32		union mhi_ep_ring_ctx *ctx;
-    33		struct mhi_ep_ring *ring;
-    34		int ret;
-    35	
-    36		mutex_lock(&mhi_cntrl->event_lock);
-    37		ring = &mhi_cntrl->mhi_event[ring_idx].ring;
-    38		ctx = (union mhi_ep_ring_ctx *)&mhi_cntrl->ev_ctx_cache[ring_idx];
-    39		if (!ring->started) {
-    40			ret = mhi_ep_ring_start(mhi_cntrl, ring, ctx);
-    41			if (ret) {
-    42				dev_err(dev, "Error starting event ring (%u)\n", ring_idx);
-    43				goto err_unlock;
-    44			}
-    45		}
-    46	
-    47		/* Add element to the event ring */
-    48		ret = mhi_ep_ring_add_element(ring, el);
-    49		if (ret) {
-    50			dev_err(dev, "Error adding element to event ring (%u)\n", ring_idx);
-    51			goto err_unlock;
-    52		}
-    53	
-    54		mutex_unlock(&mhi_cntrl->event_lock);
-    55	
-    56		/*
-    57		 * As per the MHI specification, section 4.3, Interrupt moderation:
-    58		 *
-    59		 * 1. If BEI flag is not set, cancel any pending intmodt work if started
-    60		 * for the event ring and raise IRQ immediately.
-    61		 *
-    62		 * 2. If both BEI and intmodt are set, and if no IRQ is pending for the
-    63		 * same event ring, start the IRQ delayed work as per the value of
-    64		 * intmodt. If previous IRQ is pending, then do nothing as the pending
-    65		 * IRQ is enough for the host to process the current event ring element.
-    66		 *
-    67		 * 3. If BEI is set and intmodt is not set, no need to raise IRQ.
-    68		 */
-    69		if (!bei) {
-    70			if (READ_ONCE(ring->irq_pending))
-  > 71				cancel_delayed_work(&ring->intmod_work);
-    72	
-    73			mhi_cntrl->raise_irq(mhi_cntrl, ring->irq_vector);
-    74		} else if (ring->intmodt && !READ_ONCE(ring->irq_pending)) {
-    75			WRITE_ONCE(ring->irq_pending, true);
-    76			schedule_delayed_work(&ring->intmod_work, msecs_to_jiffies(ring->intmodt));
-    77		}
-    78	
-    79		return 0;
-    80	
-    81	err_unlock:
-    82		mutex_unlock(&mhi_cntrl->event_lock);
-    83	
-    84		return ret;
-    85	}
-    86	
+   793	
+   794	static inline int bio_integrity_map_user(struct bio *bio, void __user *ubuf,
+   795						 unsigned int len, u32 seed, u32 maxvecs)
+   796	{
+   797		return -EINVAL
+ > 798	}
+   799	
 
 -- 
 0-DAY CI Kernel Test Service
