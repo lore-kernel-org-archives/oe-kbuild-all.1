@@ -1,46 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C752D292
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 22:29:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9546563C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 22:30:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wap5pjbO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WF75q6vO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697927368; x=1729463368;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=usAeQk5fHXw7mos+VP941V8p/TlDfRRhdbF7LLpOjww=;
-  b=Wap5pjbO+XyUgqI9Bdrq5edj0QZiP0HZx8S+2xKU5JDdTQpzQl7BP5t+
-   /p5RRenhw2JmwQaZBi63KXU4doRH/o1FmIfZN835aNbS1GPh4F2SfNs3k
-   pQ24k9hNfNWb8hhJDxSob7/UcAMXBF7rBhwdQPl6DTmwEXl76dZLKowtr
-   nVBxQov5zkNlcmFDtiTF2/bRSoHypR0slpmGiuq/KNDgl2NKhCxRowIpU
-   8YVl57ZZg+Msi1BI5sGj341iap6ui7VWUti7v9sjANHvwDMBsaoUhkFYt
-   oQC2AWS70BzOp1ch1+NOvyqMkSKrdde6CnO+jRCXSCPhPWfTCawH8aOWC
+  t=1697927430; x=1729463430;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=djejmMFC3O0wM8gMlGV7yHwjbMvqe1uwT0DwjkNsLLw=;
+  b=WF75q6vOeBeTw8qslox0Lr4cLekuomQe0IrIyQKZ0HDTcQSdznCQPadG
+   cySMzl9f8etxy1/ne5ZeX+Jq4qGTeuPz31ruffceBbRQCfnQWnOBSZZtI
+   HNlwVfx8weUcFQIXrTLQl8iqk4TEWkJB/6VLaqjzOHyLrGNAGxsMpSd8e
+   wjaY2Wm3/41cJNDH6jNFxLmcPYzr4HYr/CfA0wwOaDrb+ScVYEjiwAu75
+   evWi2Y+2u6yGHIQP4+H/JyQ6CtDAxXiIUrI+2Dh7k4hzedj5cxSHAQxym
+   APaB7aEL16Hf+C6W427EclWGQR0tBOjACnJVcjeICgun91W7nIKgr51IE
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="386484518"
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="8224075"
 X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
-   d="scan'208";a="386484518"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 15:29:28 -0700
+   d="scan'208";a="8224075"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 15:30:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="734295896"
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="881385640"
 X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
-   d="scan'208";a="734295896"
+   d="scan'208";a="881385640"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 21 Oct 2023 15:29:26 -0700
+  by orsmga004.jf.intel.com with ESMTP; 21 Oct 2023 15:30:26 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1quKTE-0005Hu-0k;
-	Sat, 21 Oct 2023 22:29:24 +0000
-Date: Sun, 22 Oct 2023 06:29:11 +0800
+	id 1quKUC-0005Hy-0o;
+	Sat, 21 Oct 2023 22:30:24 +0000
+Date: Sun, 22 Oct 2023 06:29:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/net/ethernet/mellanox/mlx5/core/en/qos.c:364:40: sparse:
- sparse: incorrect type in initializer (different address spaces)
-Message-ID: <202310220647.PkybxdJH-lkp@intel.com>
+To: Ekansh Gupta <quic_ekangupt@quicinc.com>,
+	srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Ekansh Gupta <quic_ekangupt@quicinc.com>,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/5] misc: fastrpc: Add fastrpc multimode invoke
+ request support
+Message-ID: <202310220610.KdxUvBUu-lkp@intel.com>
+References: <1697612560-9726-2-git-send-email-quic_ekangupt@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,47 +53,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1697612560-9726-2-git-send-email-quic_ekangupt@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   45d3291c5201fced351e62d714e2912400cc7f4d
-commit: d636fc5dd692c8f4e00ae6e0359c0eceeb5d9bdb net: sched: add rcu annotations around qdisc->qdisc_sleeping
-date:   5 months ago
-config: i386-randconfig-063-20231022 (https://download.01.org/0day-ci/archive/20231022/202310220647.PkybxdJH-lkp@intel.com/config)
+Hi Ekansh,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on char-misc/char-misc-testing]
+[also build test ERROR on char-misc/char-misc-next linus/master v6.6-rc6]
+[cannot apply to char-misc/char-misc-linus next-20231020]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ekansh-Gupta/misc-fastrpc-Add-fastrpc-multimode-invoke-request-support/20231018-150423
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/1697612560-9726-2-git-send-email-quic_ekangupt%40quicinc.com
+patch subject: [PATCH v5 1/5] misc: fastrpc: Add fastrpc multimode invoke request support
+config: i386-randconfig-011-20231022 (https://download.01.org/0day-ci/archive/20231022/202310220610.KdxUvBUu-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231022/202310220647.PkybxdJH-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231022/202310220610.KdxUvBUu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310220647.PkybxdJH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310220610.KdxUvBUu-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/mellanox/mlx5/core/en/qos.c:364:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct Qdisc *qdisc @@     got struct Qdisc [noderef] __rcu *qdisc_sleeping @@
-   drivers/net/ethernet/mellanox/mlx5/core/en/qos.c:364:40: sparse:     expected struct Qdisc *qdisc
-   drivers/net/ethernet/mellanox/mlx5/core/en/qos.c:364:40: sparse:     got struct Qdisc [noderef] __rcu *qdisc_sleeping
+All errors (new ones prefixed by >>):
 
-vim +364 drivers/net/ethernet/mellanox/mlx5/core/en/qos.c
-
-214baf22870cfa Maxim Mikityanskiy 2021-01-19  360  
-462b0059993696 Moshe Tal          2022-05-02  361  void mlx5e_reset_qdisc(struct net_device *dev, u16 qid)
-214baf22870cfa Maxim Mikityanskiy 2021-01-19  362  {
-214baf22870cfa Maxim Mikityanskiy 2021-01-19  363  	struct netdev_queue *dev_queue = netdev_get_tx_queue(dev, qid);
-214baf22870cfa Maxim Mikityanskiy 2021-01-19 @364  	struct Qdisc *qdisc = dev_queue->qdisc_sleeping;
-214baf22870cfa Maxim Mikityanskiy 2021-01-19  365  
-214baf22870cfa Maxim Mikityanskiy 2021-01-19  366  	if (!qdisc)
-214baf22870cfa Maxim Mikityanskiy 2021-01-19  367  		return;
-214baf22870cfa Maxim Mikityanskiy 2021-01-19  368  
-214baf22870cfa Maxim Mikityanskiy 2021-01-19  369  	spin_lock_bh(qdisc_lock(qdisc));
-214baf22870cfa Maxim Mikityanskiy 2021-01-19  370  	qdisc_reset(qdisc);
-214baf22870cfa Maxim Mikityanskiy 2021-01-19  371  	spin_unlock_bh(qdisc_lock(qdisc));
-214baf22870cfa Maxim Mikityanskiy 2021-01-19  372  }
-214baf22870cfa Maxim Mikityanskiy 2021-01-19  373  
-
-:::::: The code at line 364 was first introduced by commit
-:::::: 214baf22870cfa437522f3bd4fbae56338674b04 net/mlx5e: Support HTB offload
-
-:::::: TO: Maxim Mikityanskiy <maximmi@mellanox.com>
-:::::: CC: Jakub Kicinski <kuba@kernel.org>
+   In file included from <command-line>:
+>> ./usr/include/misc/fastrpc.h:89:33: error: C++ style comments are not allowed in ISO C90
+      89 |         __u32 reserved[8];      // keeping reserved bits for new requirements
+         |                                 ^
+   ./usr/include/misc/fastrpc.h:89:33: note: (this will be reported only once per input file)
 
 -- 
 0-DAY CI Kernel Test Service
