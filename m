@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C942BC8F3
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 13:32:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D575B5251
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 14:15:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VuIIz/9u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kOi/Qpi5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697895131; x=1729431131;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xZpBEDOeinxW1pmcneqNSl3MNK0jkLebIluRpqEtjU0=;
-  b=VuIIz/9u0WNtTkVaMVhq+UAN5vLiDTlmvHLFEcSZVXwYzq8FzT+pDciJ
-   YwQzHMZyeUCZAHTRXPXG+sB4DKLzy15fAVGcz2V+r5WImpEh2TyAv2daX
-   IZkUfpqUBGJEeOoV8EE4Qs7T+NA5cBf6kPEUNaEghDC7j7RU8MIGZlAff
-   Xz09KdI9ZIa6TjnlshAHsDmLbNvXEF1a/yj3DZAYcynNP2BdEekoVSTwj
-   HsY8D/A2vKAlhMbj3EsdkP8qoPxPFaH9qon7kBpioNJA2Rch8u6OxS82u
-   u4vm9HFXltNZ6KsmWo3tO1tC8CndQRs3/cMqqMww+lNuq9oxuwBU+WoIF
+  t=1697897711; x=1729433711;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=J9WFiVd6hDbeXrw1bT6TOGKWOG7XBxIUW1EdLDkXGN4=;
+  b=kOi/Qpi5jrk1Izv2qVoWkgi8qmnKBD59lpJGEXQn5ja1xWIKoam3Zngh
+   25GGzH8B1Dt3zEAgApYyhZYF7SrF46P0Vj4aG0BdMUnQsP5Ii/HzEvaoA
+   H2G9zwHyNYlm0iyAoc0UQsgyLwUwhar6F4F/Dv/S58Tj3KbheoT65Ir0/
+   OmH2GQpFLHMLdRe2bh5RYMsvj+MUMypNtpVhvKl6+DYhvBc7hH1H6r8It
+   saj0FATwONrGklAT0Sx6z8xIm6AGVvKUuxiX8H+/9MRtXvUqmvPxLywhH
+   4ELH/aAjXq4SnXlpSvISz8BqkzFyxGy0IQrd5/4H/UV5NuoY9s6LgEmO5
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="377010207"
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="383838722"
 X-IronPort-AV: E=Sophos;i="6.03,241,1694761200"; 
-   d="scan'208";a="377010207"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 06:32:10 -0700
+   d="scan'208";a="383838722"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 07:15:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="823527494"
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="874213236"
 X-IronPort-AV: E=Sophos;i="6.03,241,1694761200"; 
-   d="scan'208";a="823527494"
+   d="scan'208";a="874213236"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 21 Oct 2023 06:32:09 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 21 Oct 2023 07:15:09 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1quC5G-0004sw-0S;
-	Sat, 21 Oct 2023 13:32:06 +0000
-Date: Sat, 21 Oct 2023 21:31:42 +0800
+	id 1quCkt-0004uQ-0O;
+	Sat, 21 Oct 2023 14:15:07 +0000
+Date: Sat, 21 Oct 2023 22:15:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v13 08/18] scsi: sd: Add a unit test for sd_cmp_sector()
-Message-ID: <202310212107.7k5Ge7Z1-lkp@intel.com>
-References: <20231018175602.2148415-9-bvanassche@acm.org>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/acpi/sleep.c:1208: warning: Function parameter or member
+ 'stage' not described in 'acpi_hibernation_begin_old'
+Message-ID: <202310212220.81UIgoDf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,136 +49,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231018175602.2148415-9-bvanassche@acm.org>
 
-Hi Bart,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on axboe-block/for-next]
-[also build test ERROR on linus/master v6.6-rc6 next-20231020]
-[cannot apply to jejb-scsi/for-next mkp-scsi/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bart-Van-Assche/block-Introduce-more-member-variables-related-to-zone-write-locking/20231019-020007
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20231018175602.2148415-9-bvanassche%40acm.org
-patch subject: [PATCH v13 08/18] scsi: sd: Add a unit test for sd_cmp_sector()
-config: loongarch-randconfig-001-20231021 (https://download.01.org/0day-ci/archive/20231021/202310212107.7k5Ge7Z1-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310212107.7k5Ge7Z1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9c5d00cb7b6bbc5a7965d9ab7d223b5402d1f02c
+commit: bb1869012d7b78d1474808cb4c8bd8b272645876 ACPI: PM: Call pm_set_suspend_via_firmware() during hibernation
+date:   4 years, 5 months ago
+config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231021/202310212220.81UIgoDf-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310212220.81UIgoDf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310212107.7k5Ge7Z1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310212220.81UIgoDf-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-twinhan-dtv-cab-ci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-vega-s9x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-m1f.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-s350.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-tv-pvr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videostrong-kii-pro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-wetek-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-wetek-play2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-winfast.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-winfast-usbii-deluxe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-x96max.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-xbox-360.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-xbox-dvd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-zx-irdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/radio/si470x/radio-si470x-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/libnvdimm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_pmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_btt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_virtio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/atm/nicstar.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/atm/iphase.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/atm/suni.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/atm/eni.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/act_gate.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_hfsc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_plug.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_skbprio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_cbs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_etf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_route.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_basic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_cmp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_nbyte.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_meta.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_conntrack_netlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_conntrack_broadcast.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ovf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
->> ERROR: modpost: "scsi_call_prepare_resubmit" [drivers/scsi/sd_mod.ko] was exported without definition
-WARNING: modpost: "sd_cmp_sector" [drivers/scsi/sd_test.ko] undefined!
+   drivers/acpi/sleep.c:516: warning: Function parameter or member 'acpi_state' not described in 'acpi_pm_start'
+   drivers/acpi/sleep.c:555: warning: Function parameter or member 'pm_state' not described in 'acpi_suspend_begin'
+   drivers/acpi/sleep.c:682: warning: Function parameter or member 'pm_state' not described in 'acpi_suspend_begin_old'
+>> drivers/acpi/sleep.c:1208: warning: Function parameter or member 'stage' not described in 'acpi_hibernation_begin_old'
+
+
+vim +1208 drivers/acpi/sleep.c
+
+caea99ef339af8e drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-01-08  1200  
+d8f3de0d2412bb9 drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-06-12  1201  /**
+d8f3de0d2412bb9 drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-06-12  1202   *	acpi_hibernation_begin_old - Set the target system sleep state to
+d8f3de0d2412bb9 drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-06-12  1203   *		ACPI_STATE_S4 and execute the _PTS control method.  This
+d8f3de0d2412bb9 drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-06-12  1204   *		function is used if the pre-ACPI 2.0 suspend ordering has been
+d8f3de0d2412bb9 drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-06-12  1205   *		requested.
+d8f3de0d2412bb9 drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-06-12  1206   */
+bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1207  static int acpi_hibernation_begin_old(pm_message_t stage)
+a634cc10164d1c2 drivers/acpi/sleep/main.c Rafael J. Wysocki 2007-07-19 @1208  {
+e49f711cc8f3bf8 drivers/acpi/sleep/main.c Zhao Yakui        2008-08-12  1209  	int error;
+e49f711cc8f3bf8 drivers/acpi/sleep/main.c Zhao Yakui        2008-08-12  1210  	/*
+e49f711cc8f3bf8 drivers/acpi/sleep/main.c Zhao Yakui        2008-08-12  1211  	 * The _TTS object should always be evaluated before the _PTS object.
+e49f711cc8f3bf8 drivers/acpi/sleep/main.c Zhao Yakui        2008-08-12  1212  	 * When the old_suspended_ordering is true, the _PTS object is
+e49f711cc8f3bf8 drivers/acpi/sleep/main.c Zhao Yakui        2008-08-12  1213  	 * evaluated in the acpi_sleep_prepare.
+e49f711cc8f3bf8 drivers/acpi/sleep/main.c Zhao Yakui        2008-08-12  1214  	 */
+e49f711cc8f3bf8 drivers/acpi/sleep/main.c Zhao Yakui        2008-08-12  1215  	acpi_sleep_tts_switch(ACPI_STATE_S4);
+e49f711cc8f3bf8 drivers/acpi/sleep/main.c Zhao Yakui        2008-08-12  1216  
+e49f711cc8f3bf8 drivers/acpi/sleep/main.c Zhao Yakui        2008-08-12  1217  	error = acpi_sleep_prepare(ACPI_STATE_S4);
+bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1218  	if (error)
+bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1219  		return error;
+a634cc10164d1c2 drivers/acpi/sleep/main.c Rafael J. Wysocki 2007-07-19  1220  
+bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1221  	if (!nvs_nosave) {
+dd4c4f17d722ffe drivers/acpi/sleep.c      Matthew Garrett   2010-05-28  1222  		error = suspend_nvs_alloc();
+bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1223  		if (error)
+bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1224  			return error;
+bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1225  	}
+bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1226  
+bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1227  	if (stage.event == PM_EVENT_HIBERNATE)
+bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1228  		pm_set_suspend_via_firmware();
+bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1229  
+d8f3de0d2412bb9 drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-06-12  1230  	acpi_target_sleep_state = ACPI_STATE_S4;
+ad07277e82dedab drivers/acpi/sleep.c      Rafael J. Wysocki 2013-08-20  1231  	acpi_scan_lock_acquire();
+bb1869012d7b78d drivers/acpi/sleep.c      Rafael J. Wysocki 2019-05-16  1232  	return 0;
+3f4b0ef7f2899c9 drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-10-26  1233  }
+3f4b0ef7f2899c9 drivers/acpi/sleep/main.c Rafael J. Wysocki 2008-10-26  1234  
+
+:::::: The code at line 1208 was first introduced by commit
+:::::: a634cc10164d1c229fbeca33923e6a0ed939e894 swsusp: introduce restore platform operations
+
+:::::: TO: Rafael J. Wysocki <rjw@sisk.pl>
+:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
