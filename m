@@ -1,125 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEADF10FE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 05:38:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846D3DDB7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 06:46:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O54gcbd1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QPYdctJk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697866733; x=1729402733;
+  t=1697870817; x=1729406817;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=x4G75Z4XrdMB5SOSKkuUdZ9XeRLHd/MDaN0kZrCVtzg=;
-  b=O54gcbd1+CXhOmLzJwyz7/xKEVWV8fnVMWWY5QP52KDw2zX+YIf4i3XH
-   FGuWoQbzTCiRHsKXgOf5eGOyum4fY6NX0P4cXwz7wQ0BJwjACcgQVuPpO
-   UYd9CyDMkYtZaxMCs7clPcMrLS+VWh2p3VvxwmId98t3WvfdGxjISN+aG
-   Ln1aTY6yWUunF70doGHRdaaU51LQFbY0EBLocuhhnAvkFBpbFJQ2517ZT
-   ehBGcdnC7EyjKpv40NjWG7ZpIz1QrotHX8fF3Fu+Y8EKnVHcxcjwuq3rH
-   BNO+/fe5RpH68y93+qfoalixcizvFQhJ56LeKuh4oaUx4C78S4M0R9h65
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="472835742"
+   mime-version:in-reply-to;
+  bh=BMmN8PvjKtY+UEnVZR8hGDWrMHsSetH3EUV6qoiVuI4=;
+  b=QPYdctJkr+z+QcfIMCUpYxThkA/tydg8yySDcRA43njTG7LzI9c20fIw
+   Eml957bJIkdlWPqPZlERULnywLL2gCiJ7k/Wes111IcEiT/LZyTcoyR8m
+   hRvqs862GbEqVooojGQC4/Q2vk4q875jNmdW+0g46AgCRKh5m7vbEUT41
+   VCaNMqAshr96QGpllKSBPft8fCNyEPuswd6vPriBuHyBrTuOLW3RKOZ9O
+   HHWVxt2R3XyzLn7E3xbAiktDDFuWF6q1VZDcwAbZxKYSQApXU90x/j4U4
+   v0Hm/arcohQ397MIlbC/IufqKAdetKIdWb07rPbcFY0zq057xOyGaFY6H
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="385506390"
 X-IronPort-AV: E=Sophos;i="6.03,240,1694761200"; 
-   d="scan'208";a="472835742"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 22:38:51 -0700
+   d="scan'208";a="385506390"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 23:46:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="786983065"
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="901328780"
 X-IronPort-AV: E=Sophos;i="6.03,240,1694761200"; 
-   d="scan'208";a="786983065"
+   d="scan'208";a="901328780"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 20 Oct 2023 22:38:50 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 20 Oct 2023 23:44:42 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qu4hE-0004TE-1f;
-	Sat, 21 Oct 2023 05:38:48 +0000
-Date: Sat, 21 Oct 2023 13:38:29 +0800
+	id 1qu5l5-0004X8-2h;
+	Sat, 21 Oct 2023 06:46:51 +0000
+Date: Sat, 21 Oct 2023 14:46:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michael =?iso-8859-1?Q?Wei=DF?= <michael.weiss@aisec.fraunhofer.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 11/14] vfs: Wire up security hooks for lsm-based
- device guard in userns
-Message-ID: <202310211311.u3FknXEW-lkp@intel.com>
-References: <20231018105033.13669-12-michael.weiss@aisec.fraunhofer.de>
+To: Srujana Challa <schalla@marvell.com>, herbert@gondor.apana.org.au,
+	davem@davemloft.net
+Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
+	bbrezillon@kernel.org, arno@natisbad.org, kuba@kernel.org,
+	ndabilpuram@marvell.com, schalla@marvell.com
+Subject: Re: [PATCH 03/10] crypto: octeontx2: add devlink option to set
+ max_rxc_icb_cnt
+Message-ID: <202310211411.QqrLly6F-lkp@intel.com>
+References: <20231016064934.1913964-4-schalla@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231018105033.13669-12-michael.weiss@aisec.fraunhofer.de>
+In-Reply-To: <20231016064934.1913964-4-schalla@marvell.com>
 
-Hi Michael,
+Hi Srujana,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 58720809f52779dc0f08e53e54b014209d13eebb]
+[auto build test ERROR on herbert-cryptodev-2.6/master]
+[also build test ERROR on herbert-crypto-2.6/master linus/master v6.6-rc6 next-20231020]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Wei/device_cgroup-Implement-devcgroup-hooks-as-lsm-security-hooks/20231018-185850
-base:   58720809f52779dc0f08e53e54b014209d13eebb
-patch link:    https://lore.kernel.org/r/20231018105033.13669-12-michael.weiss%40aisec.fraunhofer.de
-patch subject: [RFC PATCH v2 11/14] vfs: Wire up security hooks for lsm-based device guard in userns
-config: arc-randconfig-001-20231021 (https://download.01.org/0day-ci/archive/20231021/202310211311.u3FknXEW-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310211311.u3FknXEW-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Srujana-Challa/crypto-octeontx2-remove-CPT-block-reset/20231017-141612
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20231016064934.1913964-4-schalla%40marvell.com
+patch subject: [PATCH 03/10] crypto: octeontx2: add devlink option to set max_rxc_icb_cnt
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20231021/202310211411.QqrLly6F-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310211411.QqrLly6F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310211311.u3FknXEW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310211411.QqrLly6F-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from fs/namei.c:29:
-   include/linux/security.h:1409:1: error: expected identifier or '(' before '{' token
-    1409 | {
-         | ^
->> include/linux/security.h:1406:19: warning: 'security_inode_mknod_nscap' used but never defined
-    1406 | static inline int security_inode_mknod_nscap(struct inode *dir,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/af/rvu_cpt.c: In function 'rvu_cpt_init':
+>> drivers/net/ethernet/marvell/octeontx2/af/rvu_cpt.c:1222:36: error: implicit declaration of function 'is_cn10ka_a0'; did you mean 'is_cnf10ka_a0'? [-Werror=implicit-function-declaration]
+    1222 |             (!is_rvu_otx2(rvu) && !is_cn10ka_a0(rvu) && !is_cn10ka_a1(rvu))) {
+         |                                    ^~~~~~~~~~~~
+         |                                    is_cnf10ka_a0
+>> drivers/net/ethernet/marvell/octeontx2/af/rvu_cpt.c:1222:58: error: implicit declaration of function 'is_cn10ka_a1'; did you mean 'is_cnf10ka_a0'? [-Werror=implicit-function-declaration]
+    1222 |             (!is_rvu_otx2(rvu) && !is_cn10ka_a0(rvu) && !is_cn10ka_a1(rvu))) {
+         |                                                          ^~~~~~~~~~~~
+         |                                                          is_cnf10ka_a0
+   cc1: some warnings being treated as errors
 
 
-vim +/security_inode_mknod_nscap +1406 include/linux/security.h
+vim +1222 drivers/net/ethernet/marvell/octeontx2/af/rvu_cpt.c
 
-6f3be9f562e302 Andreas Gruenbacher 2015-12-24  1385  
-1ee65e37e904b9 David P. Quigley    2009-09-03  1386  static inline int security_inode_notifysecctx(struct inode *inode, void *ctx, u32 ctxlen)
-1ee65e37e904b9 David P. Quigley    2009-09-03  1387  {
-1ee65e37e904b9 David P. Quigley    2009-09-03  1388  	return -EOPNOTSUPP;
-1ee65e37e904b9 David P. Quigley    2009-09-03  1389  }
-1ee65e37e904b9 David P. Quigley    2009-09-03  1390  static inline int security_inode_setsecctx(struct dentry *dentry, void *ctx, u32 ctxlen)
-1ee65e37e904b9 David P. Quigley    2009-09-03  1391  {
-1ee65e37e904b9 David P. Quigley    2009-09-03  1392  	return -EOPNOTSUPP;
-1ee65e37e904b9 David P. Quigley    2009-09-03  1393  }
-1ee65e37e904b9 David P. Quigley    2009-09-03  1394  static inline int security_inode_getsecctx(struct inode *inode, void **ctx, u32 *ctxlen)
-1ee65e37e904b9 David P. Quigley    2009-09-03  1395  {
-1ee65e37e904b9 David P. Quigley    2009-09-03  1396  	return -EOPNOTSUPP;
-1ee65e37e904b9 David P. Quigley    2009-09-03  1397  }
-9e47d31d6a57b5 Matthew Garrett     2019-08-19  1398  static inline int security_locked_down(enum lockdown_reason what)
-9e47d31d6a57b5 Matthew Garrett     2019-08-19  1399  {
-9e47d31d6a57b5 Matthew Garrett     2019-08-19  1400  	return 0;
-9e47d31d6a57b5 Matthew Garrett     2019-08-19  1401  }
-88f39109e4a2d2 Michael Weiß        2023-10-18  1402  static inline int security_dev_permission(umode_t mode, dev_t dev, int mask)
-88f39109e4a2d2 Michael Weiß        2023-10-18  1403  {
-88f39109e4a2d2 Michael Weiß        2023-10-18  1404  	return 0;
-88f39109e4a2d2 Michael Weiß        2023-10-18  1405  }
-86e1c59e2b6a4a Michael Weiß        2023-10-18 @1406  static inline int security_inode_mknod_nscap(struct inode *dir,
-86e1c59e2b6a4a Michael Weiß        2023-10-18  1407  					     struct dentry *dentry,
-86e1c59e2b6a4a Michael Weiß        2023-10-18  1408  					     umode_t mode, dev_t dev);
-86e1c59e2b6a4a Michael Weiß        2023-10-18  1409  {
-86e1c59e2b6a4a Michael Weiß        2023-10-18  1410  	return -EPERM;
-86e1c59e2b6a4a Michael Weiß        2023-10-18  1411  }
-4763b8302ad269 Michael Weiß        2023-10-18  1412  static inline int security_sb_alloc_userns(struct super_block *sb)
-4763b8302ad269 Michael Weiß        2023-10-18  1413  {
-4763b8302ad269 Michael Weiß        2023-10-18  1414  	return -EPERM;
-4763b8302ad269 Michael Weiß        2023-10-18  1415  }
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1416  #endif	/* CONFIG_SECURITY */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1417  
+  1214	
+  1215	int rvu_cpt_init(struct rvu *rvu)
+  1216	{
+  1217		u64 reg_val;
+  1218	
+  1219		/* Retrieve CPT PF number */
+  1220		rvu->cpt_pf_num = get_cpt_pf_num(rvu);
+  1221		if (is_block_implemented(rvu->hw, BLKADDR_CPT0) &&
+> 1222		    (!is_rvu_otx2(rvu) && !is_cn10ka_a0(rvu) && !is_cn10ka_a1(rvu))) {
 
 -- 
 0-DAY CI Kernel Test Service
