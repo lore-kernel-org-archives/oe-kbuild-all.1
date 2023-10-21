@@ -1,54 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D8512E42
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 14:56:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1837D51D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 15:23:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O3mHVUpk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mF0bxQWh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697900191; x=1729436191;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mZbYrMuL0Hg/WJ42cgIbcLp2WjDVIiKbUXUWZ6rKagQ=;
-  b=O3mHVUpkB99OoMcJGjYFcznHLdVc0XwSewG6IITvdqSwP6pPOrxL0Lmf
-   mlmOsYl9FbUG+uPVKwUnK+tGunoMXGrRgTBjqJB6eLwE2KMu3spHunuqL
-   GX/s7aSNb4yoV6V/hWnuMb4gZfYMWvWWdtnncdBtXhUsAFGm23pVFvb8u
-   YltfWYY/TXm8y3VW+HrYF25igHM7Lq4yDr9D7a1ti5D1A7fNN00dizqqr
-   bJZvkse7VnxK4xnEF0iKAU4HgcWsjWpzzV85j/JHUR54ld5Fj2nOpry5O
-   /EEeX8Q5yAdKVhUHsTimC3KV3Nzbhj0RxP9jljiMfQMy0i/J3ZjKtInl9
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="472860089"
+  t=1697901793; x=1729437793;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=T2cQcj0T9iVfWMdZVPZO+y9Av9U6qK1r/Co/eCB9Wc4=;
+  b=mF0bxQWhcN0/eke+UMW6Kt1S/ajSmAXGx/UTFPuH44vh1JEEsyaSctbg
+   Y6/XWA2g9nk1iD1HY5RS9xu12zvjleWK7T5jSOoB2h8gJeDiIUvxbWUVL
+   wuhfn60sZHpO6YdDcIDCLd0Xj3dilQzlhDUmesyV6HI0eBuhMnX8NEUtg
+   UDYS7aa6HkGx60lxO/pkL+Rw6CgHNFrEOKAy14GTFg0pCJ/dBwl0HWNHk
+   iBzx//UanHIiZfizAes983n4IMO0dXKNG/DfJ5PUgNThlbAiTl7rza/UN
+   d+/Mu6gmaP3rd+/xtExgeI2HDif7b87CgpPRZkBIaHgxSqIsd5uIPEMY1
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="390526000"
 X-IronPort-AV: E=Sophos;i="6.03,241,1694761200"; 
-   d="scan'208";a="472860089"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 07:56:14 -0700
+   d="scan'208";a="390526000"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 08:23:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="874218846"
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="787071849"
 X-IronPort-AV: E=Sophos;i="6.03,241,1694761200"; 
-   d="scan'208";a="874218846"
+   d="scan'208";a="787071849"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 21 Oct 2023 07:56:11 -0700
+  by orsmga008.jf.intel.com with ESMTP; 21 Oct 2023 08:23:12 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1quDOb-0004ww-18;
-	Sat, 21 Oct 2023 14:56:09 +0000
-Date: Sat, 21 Oct 2023 22:56:04 +0800
+	id 1quDoj-0004xW-2l;
+	Sat, 21 Oct 2023 15:23:09 +0000
+Date: Sat, 21 Oct 2023 23:22:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Ogletree <james.ogletree@opensource.cirrus.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	James Ogletree <james.ogletree@cirrus.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
-	Fred Treven <fred.treven@cirrus.com>,
-	Ben Bright <ben.bright@cirrus.com>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 3/4] mfd: cs40l50: Add support for CS40L50 core driver
-Message-ID: <202310212247.exrCjFhj-lkp@intel.com>
-References: <20231018175726.3879955-4-james.ogletree@opensource.cirrus.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:sound/speaker-safety 82/209] checkpatch: WARNING: Block
+ comments should align the * on each line
+Message-ID: <202310212302.bLZAAMGM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,44 +49,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231018175726.3879955-4-james.ogletree@opensource.cirrus.com>
 
-Hi James,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on dtor-input/next]
-[also build test ERROR on dtor-input/for-linus lee-mfd/for-mfd-next robh/for-next linus/master lee-mfd/for-mfd-fixes v6.6-rc6 next-20231020]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Ogletree/dt-bindings-input-cirrus-cs40l50-Add-initial-DT-binding/20231019-015950
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20231018175726.3879955-4-james.ogletree%40opensource.cirrus.com
-patch subject: [PATCH v4 3/4] mfd: cs40l50: Add support for CS40L50 core driver
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20231021/202310212247.exrCjFhj-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310212247.exrCjFhj-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux sound/speaker-safety
+head:   37f4315008c663a55629554adcfcae4e5d88fdc7
+commit: 3aa7598fb35898e04336c9860fd87bf7e54771fc [82/209] arm64: dts: apple: Add j180d (Mac Pro 2023) device tree
+reproduce: (https://download.01.org/0day-ci/archive/20231021/202310212302.bLZAAMGM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310212247.exrCjFhj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310212302.bLZAAMGM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+# many are suggestions rather than must-fix
 
->> drivers/mfd/cs40l50-spi.c:9:10: fatal error: linux/input/cs40l50.h: No such file or directory
-       9 | #include <linux/input/cs40l50.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
-
-
-vim +9 drivers/mfd/cs40l50-spi.c
-
-   > 9	#include <linux/input/cs40l50.h>
-    10	#include <linux/mfd/spi.h>
-    11	
+WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+#523: FILE: arch/arm64/boot/dts/apple/t6022-j180d.dts:506:
++			/*
++			* DANGER ZONE: You can blow your speakers!
 
 -- 
 0-DAY CI Kernel Test Service
