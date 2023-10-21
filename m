@@ -1,159 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C697ED
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 01:37:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9AC7EA
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 01:53:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a443FZ4x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cCqUZ7Mb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697852263; x=1729388263;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+h3+d+Dlzlsstx0pnPkLYsUuRxpihJq1fVW/Lam14ZA=;
-  b=a443FZ4xrXlMGeVWQUbKRiIplnA3i5T4A0xjIsVgwz5+Dm5qokBVg1v3
-   QLh/WLuouQivM/peKFHswEC3otiH3xR0wLWreI1Kz0YVEQvO2nAD3A0Pk
-   2jVnBVK7ggMv2pqqynz86LXchaeHwjrXFHVX1hopgo6Xshqir8WufUdpN
-   Yq9viqL5rfEDFlsKlaiPyEBL5cSycd5QpI6Xnh3cpUb9QkhNXdZaFLTm0
-   IcBWvFvZEJfnhbOMe2fQWfjWKZxeRjf4MrTnXZF6aJACzsZeacPyzGSLX
-   /ZWvnYu+YRBN7q/OXs8NUBos9s2ixT4r7MGtgx8azpudt7o+qy2PAoyDh
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="371670517"
+  t=1697853195; x=1729389195;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=kaX2Pj6pnLClKFSPxXe/5EaCOpMZTFVKjUdpElcTOgY=;
+  b=cCqUZ7MbAY2qedZ858aURV+yXEddNc+nL5BygyFa0Jdt9J4MKy4q9ZYt
+   cIA8k8ZYPE3nSv/8fIy8wyvxfSvSaarjzoBsSjNLULD11T2kSGxlJGOUo
+   0J7/tfPjcWKIU5vK19LKQDOJra5mTKKKEtT1RRsCuLYBW7RYlKsg8Fd3H
+   sMMI86FtInA+sJEKIImVebcJUWgVGN/Au4UKwaea9MwO1x1M5+ccYY3Ko
+   cYPQJK01S2HJxKAZqkDmWGxz5c0ndecovxAXuq19sY9sRwnPw9zBth3g/
+   U0UQCVbsa1tNKrEMPb8XJD1CG6boNvyJtByX5X6MNgDe6l+QfCZmdJQtD
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="385493075"
 X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
-   d="scan'208";a="371670517"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 18:37:42 -0700
+   d="scan'208";a="385493075"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 18:53:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="874090973"
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="881231303"
 X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
-   d="scan'208";a="874090973"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 20 Oct 2023 18:37:40 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qu0vq-0004Eg-1F;
-	Sat, 21 Oct 2023 01:37:38 +0000
-Date: Sat, 21 Oct 2023 09:36:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andreas Gruenbacher <agruen@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>
-Subject: drivers/block/drbd/drbd_bitmap.c:1222: warning: Function parameter
- or member 'peer_device' not described in 'drbd_bm_read'
-Message-ID: <202310210909.ph7EhYFZ-lkp@intel.com>
+   d="scan'208";a="881231303"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orsmga004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 20 Oct 2023 18:53:14 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Fri, 20 Oct 2023 18:53:14 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Fri, 20 Oct 2023 18:53:14 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Fri, 20 Oct 2023 18:53:14 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mzmIDfyOgsjGoXNCzWov6HipM5ioLZXg/MflgBvUzKQE6npUVu9KvqgoBfyRprhngUYTGdqUn9jOADxIifMT+k7UESK0iYuX8ZIN0EmZl3ScA95pfGlf0r5ihWhMm/+46x87b/u1bNSStOKes014UxYN6ZzGVOzAqnoPWTm+bnat9PosA+DY7UCR2jqbvnhetzpRvVVpSYL0X7gXBXh5fkBSw229ie+KAHfNNyc2zarEu4pN1PTMAlKTLBHsZPHbGdprAFiqpKx1WemLfMVwtiby+WsORWDB+hZ92AuKfYth0nLFlOaD6kmRdUl7KlGvsVlsp23ExLWoIx3scfmReQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3xEucHUnJ2Xc0MpjFW30+000eLDu2ITzaXNJovOzvBk=;
+ b=bhq5IklNZBWhaE8RG0Ysb2PQR7XNOmiX7MU/BxBzYclieqlxDPU/T9JiUhR1ILLZi9tYowXRr3dCf2FqoG375NnJsld0zilKrsLarQxL4a5CpnigY43vAMTSzZBohJY9ZB9V4lUwTKPtUemPIy0anAzhOxgmKOLTlwSmrlu4Sln+BjBjsdSIWQCyvfxYoPQhK/TjKm1djOBw1ftKSUgFXlGm7W15KhF5N/hv6l+0eoFnrcsdPy/Q5JQNUX7HbtieNM/sKvKHzXvcqighBc6PTOgmLpPu4d/KYYhWc/tdDWmFnO+RcMsKRwHv0jAgyeAj57XkdTrn56u/pdKNtY/QHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
+ by CH3PR11MB8494.namprd11.prod.outlook.com (2603:10b6:610:1ae::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.46; Sat, 21 Oct
+ 2023 01:53:12 +0000
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::f64:17c0:d3ab:196]) by BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::f64:17c0:d3ab:196%7]) with mapi id 15.20.6907.022; Sat, 21 Oct 2023
+ 01:53:12 +0000
+Date: Sat, 21 Oct 2023 09:53:03 +0800
+From: Philip Li <philip.li@intel.com>
+To: Jakub Kicinski <kuba@kernel.org>
+CC: "Nambiar, Amritha" <amritha.nambiar@intel.com>,
+	<oe-kbuild-all@lists.linux.dev>, kernel test robot <lkp@intel.com>,
+	<netdev@vger.kernel.org>, <pabeni@redhat.com>
+Subject: Re: [net-next PATCH v5 01/10] netdev-genl: spec: Extend netdev
+ netlink spec in YAML for queue
+Message-ID: <ZTMu/3okW8ZVKYHM@rli9-mobl>
+References: <169767396671.6692.9945461089943525792.stgit@anambiarhost.jf.intel.com>
+ <202310190900.9Dzgkbev-lkp@intel.com>
+ <b499663e-1982-4043-9242-39a661009c71@intel.com>
+ <20231020150557.00af950d@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20231020150557.00af950d@kernel.org>
+X-ClientProxiedBy: SG2PR04CA0172.apcprd04.prod.outlook.com (2603:1096:4::34)
+ To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR11MB2995:EE_|CH3PR11MB8494:EE_
+X-MS-Office365-Filtering-Correlation-Id: ee4b4815-0166-4504-2ae4-08dbd1d87b1d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rlKhzvGqf7Fe0url92B1ZmbUkTLdDTFgPQZnjjm4FLkOEeKw5Ugk6i+jpj0JoqjdBmPqCq6dl579SRGGLr78boH9IGxzWWfPEYr3wwF7WIx4cXQX4WCuUh0fDNJTTNuvz+eyIkKRyCPA88JmNH0ZCgpwgyQoUU8sN/i9RVDOTVIomVsOkzNuGqUg5tLybK2/tvBJ2y2+W7fucR5/jCMg53sCI6uRXw0OKT24oAxXbOLsHSCXlHlUyLmnM7GSVXHEhF7P7NSE28cj8uUrU/OnjucgvKVv3iCJ/MKVZOAGGIG5nkF9DIyH2df4GrNBoc++lDu4XRNGlOnv4ieaTc7U1+BiCOnoIHyJfiTGM4Xf8XQdgaSlsyNXgxRCyYP2C3QeET2UHTJQFPfqM4GTz5eoIBxYZe17STaO5Bkt+gGldYWriEO2wPGv7H/Ll1/GI5xOCdEcU9K8v3bo0g28GEaWUQJhW3rGhsHJBXwqM03Ixtspx3UcCAOr5fTC2isk+fzVY+tqbUSTXzAsxMTuwbqhCon4vBFrL8ajw1jJIjZUbPds6auCL8r9jDrnoap5bnzL
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(39860400002)(346002)(136003)(366004)(396003)(376002)(230922051799003)(1800799009)(451199024)(64100799003)(186009)(6506007)(66556008)(9686003)(26005)(6666004)(8676002)(6512007)(83380400001)(5660300002)(44832011)(2906002)(8936002)(4326008)(33716001)(41300700001)(6486002)(54906003)(478600001)(66476007)(316002)(82960400001)(6916009)(38100700002)(66946007)(86362001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?10ITcCpUhnl3+S41tvYgeYVDfsAr03V4XV4+mj1vM+EwJLUtoajqcdTVpJDG?=
+ =?us-ascii?Q?/SwIRXAfexL1WPZHY2Pd/IwhrXh2EkyqyLl56eEXbFHUGloakHGhOS9QBH4n?=
+ =?us-ascii?Q?+4D+LZxakqMFQ7f2j2VW11oTpB7AqgbFSahT2rjD0KI5rQg+UfM2H1ftLMmY?=
+ =?us-ascii?Q?927f5f4FMfdOusTd29Fv/QH/dyT/WllRx8phliDH6JiAEc/DnAHjiJrhd4fM?=
+ =?us-ascii?Q?bNiSlQ4yKzq6Tx54q/GmrU0CoNwcNNLwobKZYAIfbIoeb1QIOZcjx5I+2CoL?=
+ =?us-ascii?Q?fdXGHLLX6YCQ6aefYatkb/I6LFAylRSYx97h+COqQ954JuKRLxlMD2WrXdZT?=
+ =?us-ascii?Q?bdKO7lvbA9JWRX0z/8irvd48PPkYh/wpC6kmVw+DaQGlzCmHSiEeLKH3uUOm?=
+ =?us-ascii?Q?Y0M/wD4KbjF3bFDLqc3nW2NQKr8PI1GXSdbNmSC6iXEyBo/ZnXQXMlshMORs?=
+ =?us-ascii?Q?DQRNhOwVYSGDM+em4tP3MEbi+TiKBc4ufUDjiaxLjQzxrGQ9UY77UOKrSs55?=
+ =?us-ascii?Q?g//p2AtqdAorefgpnRFi5Sr2trWSw/RLXkY/CNG5L1iUuzj07bWQFQIa1b0d?=
+ =?us-ascii?Q?meWR/oZCK+QYCoSid6erxjrIImxpOGTvOD2DVJH0BIhtpClHO/0lb+P2RgHO?=
+ =?us-ascii?Q?jG9bQedvwENmNkOCjOBo3dNghJDJ8kMUf5IOJeUggyK3u/mh9GsN+WHBqWR4?=
+ =?us-ascii?Q?BwwUe1pSwA5m4MiMNlU6t9ng0Fb+WYbxwNJeNBJ9ey0f72chkxPfN8BuQ0GM?=
+ =?us-ascii?Q?zDDsW47jTJPkNMHvuevzaHnAtHwLNg90tPMQY/EDKqXK5FrD+nPMenlYL8mD?=
+ =?us-ascii?Q?DGKG2Yi17QQ9aFTKfwD+lGTwEh2Mrq3fQWbC3gKBLjjSRo/N7UjrfXHya5uZ?=
+ =?us-ascii?Q?88rTIlKrQSIaol7xpMuvEu+l5gWRsQSV8CmbxgZroMJZnxgINM9H2I7megcw?=
+ =?us-ascii?Q?v4Mmhy70Vkj20/1YWVZtR52EFfrj8QUckM1VJXikEjSSlC0IGY+cxO0vL7Fe?=
+ =?us-ascii?Q?un0S/ISRNVU4ZT6w5rvDLV8eHvqzSk7Ky3SaNe0rVe9IaiPfQEYrnH4DknlL?=
+ =?us-ascii?Q?gJ00jTLQ/frQC1UIM8O+nNX7O+a062XiM8Vu54tLaMHqc3M9/0VUGpUhBWRJ?=
+ =?us-ascii?Q?P2tVq8zm17EfbUMRq48Mn7s4aIyLrh/iD972WOk5prlz5+9BcZttuGircH3W?=
+ =?us-ascii?Q?epO8jXOOZNuP0vN1TeLDFEo7i0bNASZ1nUqqWBUfcu7PSBRQmhJua3TKDTTt?=
+ =?us-ascii?Q?5B9z3IyU/kmnijtsp87Fs/771IBlxykAl+ZRVBHZm233BX9a01iyCNkmWEPk?=
+ =?us-ascii?Q?vr/lu5MlKB/Q+9DAsHzBVPwX5cLN6LVVIIzSRA610Rzej/B4k0tQ3ri1cH+Y?=
+ =?us-ascii?Q?IhYowYg/LizybX/R3MA0f+3XjwqqyiE4YSvXbQb/sKV1fm2hYkJjc0AWYdIC?=
+ =?us-ascii?Q?z8mfQsJjjKjeddmckEySPv7+VkOUfoeQ9HC+b+tx6Jmx9FF+WNM+zjq/YFpp?=
+ =?us-ascii?Q?E/CJ6qQ5znTfWFFrRaHR4uKcnqfa5wBvIvn3cD8BKAcZ78kLPRJuSRl3SqcV?=
+ =?us-ascii?Q?NmDIbbC8vF+UYWfJiiDXfFAlEnk+Y4SBSKONU8DY?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee4b4815-0166-4504-2ae4-08dbd1d87b1d
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2023 01:53:11.5351
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wBCh2E3cK5eWY1sAkW8T0PqV5dRRtEwjt+r6tsownnLg81//jWQByhPShDq8OtfFr24DtZ/L4l/cyHDt09wrZg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8494
+X-OriginatorOrg: intel.com
 
-Hi Andreas,
+On Fri, Oct 20, 2023 at 03:05:57PM -0700, Jakub Kicinski wrote:
+> On Fri, 20 Oct 2023 13:26:38 -0700 Nambiar, Amritha wrote:
+> > > WARNING:SPACING: space prohibited between function name and open parenthesis '('
+> > > #547: FILE: tools/net/ynl/generated/netdev-user.h:181:
+> > > +	struct netdev_queue_get_rsp obj __attribute__ ((aligned (8)));
+> > 
+> > Looks like the series is in "Changes Requested" state following these 
+> > warnings. Is there any recommendation for warnings on generated code? I 
+> > see similar issues on existing code in the generated file.
+> 
+> Yes, ignore this one. I'll post a change to the codegen.
+> The warning on patch 3 is legit, right?
+> 
+> kernel test bot folks, please be careful with the checkpatch warnings.
 
-FYI, the error/warning still remains.
+Thanks Jakub, we will be very careful and continuously monitor the
+reports and feedbacks to filter unnecessary warnings/errors from
+checkpatch.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9c5d00cb7b6bbc5a7965d9ab7d223b5402d1f02c
-commit: 8164dd6c8ae158ec0740bf37f0f14645a1fb5355 drbd: Add peer device parameter to whole-bitmap I/O handlers
-date:   7 months ago
-config: x86_64-randconfig-r015-20230828 (https://download.01.org/0day-ci/archive/20231021/202310210909.ph7EhYFZ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310210909.ph7EhYFZ-lkp@intel.com/reproduce)
+> Some of them are bogus. TBH I'm not sure how much value running
+> checkpatch in the bot adds. It's really trivial to run for the
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310210909.ph7EhYFZ-lkp@intel.com/
+It is found there're quite some checkpatch related fix commits on
+mainline. Thus the bot wants to extend the coverage and do shift
+left testing on developer repos and mailing list patches.
 
-All warnings (new ones prefixed by >>):
+But as you mentioned above, we will take furture care to the output
+of checkpatch to be conservative for the reporting.
 
->> drivers/block/drbd/drbd_bitmap.c:1222: warning: Function parameter or member 'peer_device' not described in 'drbd_bm_read'
->> drivers/block/drbd/drbd_bitmap.c:1234: warning: Function parameter or member 'peer_device' not described in 'drbd_bm_write'
->> drivers/block/drbd/drbd_bitmap.c:1246: warning: Function parameter or member 'peer_device' not described in 'drbd_bm_write_all'
->> drivers/block/drbd/drbd_bitmap.c:1273: warning: Function parameter or member 'peer_device' not described in 'drbd_bm_write_copy_pages'
---
->> drivers/block/drbd/drbd_main.c:3415: warning: Function parameter or member 'peer_device' not described in 'drbd_bmio_set_n_write'
->> drivers/block/drbd/drbd_main.c:3441: warning: Function parameter or member 'peer_device' not described in 'drbd_bmio_clear_n_write'
->> drivers/block/drbd/drbd_main.c:3502: warning: Function parameter or member 'peer_device' not described in 'drbd_queue_bitmap_io'
->> drivers/block/drbd/drbd_main.c:3544: warning: Function parameter or member 'peer_device' not described in 'drbd_bitmap_io'
-
-
-vim +1222 drivers/block/drbd/drbd_bitmap.c
-
-b411b3637fa71f Philipp Reisner     2009-09-25  1214  
-b411b3637fa71f Philipp Reisner     2009-09-25  1215  /**
-b411b3637fa71f Philipp Reisner     2009-09-25  1216   * drbd_bm_read() - Read the whole bitmap from its on disk location.
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  1217   * @device:	DRBD device.
-b411b3637fa71f Philipp Reisner     2009-09-25  1218   */
-8164dd6c8ae158 Andreas Gruenbacher 2023-03-30  1219  int drbd_bm_read(struct drbd_device *device,
-8164dd6c8ae158 Andreas Gruenbacher 2023-03-30  1220  		 struct drbd_peer_device *peer_device) __must_hold(local)
-8164dd6c8ae158 Andreas Gruenbacher 2023-03-30  1221  
-b411b3637fa71f Philipp Reisner     2009-09-25 @1222  {
-4ce4926683b820 Lars Ellenberg      2014-05-06  1223  	return bm_rw(device, BM_AIO_READ, 0);
-b411b3637fa71f Philipp Reisner     2009-09-25  1224  }
-b411b3637fa71f Philipp Reisner     2009-09-25  1225  
-b411b3637fa71f Philipp Reisner     2009-09-25  1226  /**
-b411b3637fa71f Philipp Reisner     2009-09-25  1227   * drbd_bm_write() - Write the whole bitmap to its on disk location.
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  1228   * @device:	DRBD device.
-19f843aa08e2d8 Lars Ellenberg      2010-12-15  1229   *
-19f843aa08e2d8 Lars Ellenberg      2010-12-15  1230   * Will only write pages that have changed since last IO.
-b411b3637fa71f Philipp Reisner     2009-09-25  1231   */
-8164dd6c8ae158 Andreas Gruenbacher 2023-03-30  1232  int drbd_bm_write(struct drbd_device *device,
-8164dd6c8ae158 Andreas Gruenbacher 2023-03-30  1233  		 struct drbd_peer_device *peer_device) __must_hold(local)
-b411b3637fa71f Philipp Reisner     2009-09-25 @1234  {
-4ce4926683b820 Lars Ellenberg      2014-05-06  1235  	return bm_rw(device, 0, 0);
-b411b3637fa71f Philipp Reisner     2009-09-25  1236  }
-b411b3637fa71f Philipp Reisner     2009-09-25  1237  
-d1aa4d04da8de5 Philipp Reisner     2012-08-08  1238  /**
-d1aa4d04da8de5 Philipp Reisner     2012-08-08  1239   * drbd_bm_write_all() - Write the whole bitmap to its on disk location.
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  1240   * @device:	DRBD device.
-d1aa4d04da8de5 Philipp Reisner     2012-08-08  1241   *
-d1aa4d04da8de5 Philipp Reisner     2012-08-08  1242   * Will write all pages.
-d1aa4d04da8de5 Philipp Reisner     2012-08-08  1243   */
-8164dd6c8ae158 Andreas Gruenbacher 2023-03-30  1244  int drbd_bm_write_all(struct drbd_device *device,
-8164dd6c8ae158 Andreas Gruenbacher 2023-03-30  1245  		struct drbd_peer_device *peer_device) __must_hold(local)
-d1aa4d04da8de5 Philipp Reisner     2012-08-08 @1246  {
-4ce4926683b820 Lars Ellenberg      2014-05-06  1247  	return bm_rw(device, BM_AIO_WRITE_ALL_PAGES, 0);
-d1aa4d04da8de5 Philipp Reisner     2012-08-08  1248  }
-d1aa4d04da8de5 Philipp Reisner     2012-08-08  1249  
-c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1250  /**
-c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1251   * drbd_bm_write_lazy() - Write bitmap pages 0 to @upper_idx-1, if they have changed.
-c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1252   * @device:	DRBD device.
-c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1253   * @upper_idx:	0: write all changed pages; +ve: page index to stop scanning for changed pages
-c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1254   */
-c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1255  int drbd_bm_write_lazy(struct drbd_device *device, unsigned upper_idx) __must_hold(local)
-c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1256  {
-c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1257  	return bm_rw(device, BM_AIO_COPY_PAGES, upper_idx);
-c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1258  }
-c7a58db4e9dc52 Lars Ellenberg      2013-12-20  1259  
-0e8488ade26b4b Lars Ellenberg      2012-04-25  1260  /**
-0e8488ade26b4b Lars Ellenberg      2012-04-25  1261   * drbd_bm_write_copy_pages() - Write the whole bitmap to its on disk location.
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  1262   * @device:	DRBD device.
-0e8488ade26b4b Lars Ellenberg      2012-04-25  1263   *
-0e8488ade26b4b Lars Ellenberg      2012-04-25  1264   * Will only write pages that have changed since last IO.
-0e8488ade26b4b Lars Ellenberg      2012-04-25  1265   * In contrast to drbd_bm_write(), this will copy the bitmap pages
-0e8488ade26b4b Lars Ellenberg      2012-04-25  1266   * to temporary writeout pages. It is intended to trigger a full write-out
-0e8488ade26b4b Lars Ellenberg      2012-04-25  1267   * while still allowing the bitmap to change, for example if a resync or online
-0e8488ade26b4b Lars Ellenberg      2012-04-25  1268   * verify is aborted due to a failed peer disk, while local IO continues, or
-0e8488ade26b4b Lars Ellenberg      2012-04-25  1269   * pending resync acks are still being processed.
-0e8488ade26b4b Lars Ellenberg      2012-04-25  1270   */
-8164dd6c8ae158 Andreas Gruenbacher 2023-03-30  1271  int drbd_bm_write_copy_pages(struct drbd_device *device,
-8164dd6c8ae158 Andreas Gruenbacher 2023-03-30  1272  		struct drbd_peer_device *peer_device) __must_hold(local)
-0e8488ade26b4b Lars Ellenberg      2012-04-25 @1273  {
-4ce4926683b820 Lars Ellenberg      2014-05-06  1274  	return bm_rw(device, BM_AIO_COPY_PAGES, 0);
-19f843aa08e2d8 Lars Ellenberg      2010-12-15  1275  }
-19f843aa08e2d8 Lars Ellenberg      2010-12-15  1276  
-
-:::::: The code at line 1222 was first introduced by commit
-:::::: b411b3637fa71fce9cf2acf0639009500f5892fe The DRBD driver
-
-:::::: TO: Philipp Reisner <philipp.reisner@linbit.com>
-:::::: CC: Jens Axboe <jens.axboe@oracle.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> maintainers when applying patches.
+> 
