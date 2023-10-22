@@ -1,48 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D097663CE
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Oct 2023 23:22:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B4110F3
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Oct 2023 23:43:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FFCZ0AIr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aFp1xyZL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698016940; x=1729552940;
+  t=1698018204; x=1729554204;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=wIh60cYBGlcyhIPx8Rb2DUHiTOMsIGjty4AQPZH14cg=;
-  b=FFCZ0AIrY5BcvXSlZGcWz4kN0Xw+4ip2qg1IetVUXfgXPV0TOzm8LrO5
-   wuRzvcUY7xo4IistgFeNF9E3Hx/mKJ33O5Z/QCboqF+AoFvIdSaEk5NTG
-   CWkXy9rFN0SRGR2aO8oyzuavJxQ2hzHShWiGZVUqVweBVjfgybytVvtlo
-   g0/+afMDiH/88v8VdCXQL23LkQENvWbwVGXGuy/Sid1W2h0WHpuCEx7d/
-   U9xrpbCNuEMiBsUJBnYbKzswacSq0HZ4tL8yjoiXxendmq4+GetHHWWxL
-   +/Om/HfLdsU3q9Ldo+458HG2KWDm03CFmZ+/qKFBsgeJBFa61xPwHZygi
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="385618857"
+  bh=DyT6PnTT/oc9Q+V3yg1tRUU7lgRIJofWae5O90LzgAc=;
+  b=aFp1xyZLao0mkFy9fEW5lNfOlKzNYWa9vL7s0L29MbxeBpdfGeE1Uurs
+   cHoqaUoZI3gfZmsKypIQDe865ZxbEC0+rt61L+mKVuxpoW5jRmT1vrqEM
+   k+FHKIGTZWk07kFpPDbqJlaRdK7As26MpwLmjC09s5fmooabRxLLp4DvO
+   /dyni3mz8L6w37IjLjaWf17o6P9ZDZlR59XY8vq9QKxz8zDbVhR9ZcwRh
+   X7Mocck26LftqBN6HztShnk28GUqtfnMnHui/1XrHPTnuZnm05JpwWHnx
+   75CXswnqIHwXZgW9tRLAFteuyGGQbW8yji8Ho1HcG2/Jln5LS5vr25o+y
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="5361562"
 X-IronPort-AV: E=Sophos;i="6.03,244,1694761200"; 
-   d="scan'208";a="385618857"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2023 16:22:19 -0700
+   d="scan'208";a="5361562"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2023 16:43:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="881573846"
 X-IronPort-AV: E=Sophos;i="6.03,244,1694761200"; 
-   d="scan'208";a="881573846"
+   d="scan'208";a="5618519"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 22 Oct 2023 16:22:18 -0700
+  by orviesa001.jf.intel.com with ESMTP; 22 Oct 2023 16:42:06 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1quhlw-0006MS-1Z;
-	Sun, 22 Oct 2023 23:22:16 +0000
-Date: Mon, 23 Oct 2023 07:21:44 +0800
+	id 1qui6I-0006NC-0W;
+	Sun, 22 Oct 2023 23:43:18 +0000
+Date: Mon, 23 Oct 2023 07:42:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC v1 2/4] PCI: Add support for drivers to decide bridge D3
- policy
-Message-ID: <202310230613.iTTZYZrC-lkp@intel.com>
-References: <20231009225653.36030-3-mario.limonciello@amd.com>
+To: Hengqi Chen <hengqi.chen@gmail.com>, linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, keescook@chromium.org, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org, luto@amacapital.net,
+	wad@chromium.org, alexyonghe@tencent.com, hengqi.chen@gmail.com
+Subject: Re: [PATCH v2 2/5] seccomp, bpf: Introduce SECCOMP_LOAD_FILTER
+ operation
+Message-ID: <202310230704.Uif0R7cz-lkp@intel.com>
+References: <20231015232953.84836-3-hengqi.chen@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,34 +53,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231009225653.36030-3-mario.limonciello@amd.com>
+In-Reply-To: <20231015232953.84836-3-hengqi.chen@gmail.com>
 
-Hi Mario,
+Hi Hengqi,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus rafael-pm/linux-next linus/master v6.6-rc6 next-20231020]
+[auto build test ERROR on kees/for-next/seccomp]
+[also build test ERROR on bpf-next/master bpf/master linus/master v6.6-rc6 next-20231020]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/ACPI-x86-s2idle-Export-symbol-for-fetching-constraints-for-module-use/20231010-065942
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20231009225653.36030-3-mario.limonciello%40amd.com
-patch subject: [RFC v1 2/4] PCI: Add support for drivers to decide bridge D3 policy
-config: x86_64-randconfig-103-20231023 (https://download.01.org/0day-ci/archive/20231023/202310230613.iTTZYZrC-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231023/202310230613.iTTZYZrC-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hengqi-Chen/seccomp-Refactor-filter-copy-create-for-reuse/20231017-134654
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/seccomp
+patch link:    https://lore.kernel.org/r/20231015232953.84836-3-hengqi.chen%40gmail.com
+patch subject: [PATCH v2 2/5] seccomp, bpf: Introduce SECCOMP_LOAD_FILTER operation
+config: sh-shx3_defconfig (https://download.01.org/0day-ci/archive/20231023/202310230704.Uif0R7cz-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231023/202310230704.Uif0R7cz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310230613.iTTZYZrC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310230704.Uif0R7cz-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/pci/pci.c:3202:2-3: Unneeded semicolon
+All errors (new ones prefixed by >>):
+
+   kernel/seccomp.c: In function 'seccomp_load_filter':
+>> kernel/seccomp.c:2052:15: error: implicit declaration of function 'security_bpf_prog_alloc'; did you mean 'security_msg_msg_alloc'? [-Werror=implicit-function-declaration]
+    2052 |         ret = security_bpf_prog_alloc(prog->aux);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~
+         |               security_msg_msg_alloc
+>> kernel/seccomp.c:2062:15: error: implicit declaration of function 'bpf_prog_new_fd'; did you mean 'bpf_prog_get_ok'? [-Werror=implicit-function-declaration]
+    2062 |         ret = bpf_prog_new_fd(prog);
+         |               ^~~~~~~~~~~~~~~
+         |               bpf_prog_get_ok
+   cc1: some warnings being treated as errors
+
+
+vim +2052 kernel/seccomp.c
+
+  2037	
+  2038	static long seccomp_load_filter(const char __user *filter)
+  2039	{
+  2040		struct sock_fprog fprog;
+  2041		struct bpf_prog *prog;
+  2042		int ret;
+  2043	
+  2044		ret = seccomp_copy_user_filter(filter, &fprog);
+  2045		if (ret)
+  2046			return ret;
+  2047	
+  2048		ret = seccomp_prepare_prog(&prog, &fprog);
+  2049		if (ret)
+  2050			return ret;
+  2051	
+> 2052		ret = security_bpf_prog_alloc(prog->aux);
+  2053		if (ret) {
+  2054			bpf_prog_free(prog);
+  2055			return ret;
+  2056		}
+  2057	
+  2058		prog->aux->user = get_current_user();
+  2059		atomic64_set(&prog->aux->refcnt, 1);
+  2060		prog->type = BPF_PROG_TYPE_SECCOMP;
+  2061	
+> 2062		ret = bpf_prog_new_fd(prog);
+  2063		if (ret < 0)
+  2064			bpf_prog_put(prog);
+  2065	
+  2066		return ret;
+  2067	}
+  2068	#else
+  2069	static inline long seccomp_set_mode_filter(unsigned int flags,
+  2070						   const char __user *filter)
+  2071	{
+  2072		return -EINVAL;
+  2073	}
+  2074	
 
 -- 
 0-DAY CI Kernel Test Service
