@@ -1,126 +1,213 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65611429C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Oct 2023 23:55:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF5F360
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Oct 2023 00:06:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nm5MU4Lx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fnHtn2IE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697932540; x=1729468540;
+  t=1697933194; x=1729469194;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=14/ngXnade/NJsLUk5wX9HBENWxj2wB/+XO3Lt6T00k=;
-  b=nm5MU4Lxga+K3C+RWgBmkbcer6p/wPe0apOu26M1XmolVurLXGonWsgN
-   xBB0UnINcvwFVDtr0uJ6bMtqS7A7ZEFN+EMfQe6CAhpKFf/Y03QNTtfL0
-   Y25alho8kwc4K+k1O9+3c7zWpGOsRj/C9VrFtj8GpzjDlHbztBhOXFDhU
-   EU/k798V65/aWbp8unqCyiW5cNp1mO52U9NplDgbo7VlmopeDn1KIOrx0
-   SQ6N4jWoUsPMbs1H+vASPBkDWXNXY7pOZExSVy3L3s0wmhIqncOLqYjTy
-   Wy/L0o1fgVjsXC+lGECyqQ/YpG8i5l0S9dlsm2tGL5OAoAo3XXaZuiXFU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="472887227"
+   mime-version:in-reply-to;
+  bh=5slDFKjnZMNBBD6pzBcV++erWDTTcH+cYmpMZIKXiBk=;
+  b=fnHtn2IEXFLG2KcX6SymHto2Pm3CmvcjXd2biyiKd9xEYyHJM8L9jPaR
+   idCFTgm55d5FSbbv8hEUGSGenRArLvT2vxsGChCYziAYW2eUIEmJmUOq4
+   ilSm7R2bpdO45lbr9M8N9hO9XBPJzVIR4gZEHAAW+cF0BLKpdR4P0563A
+   8uTygXa4bsrCmoX1MYeA/tCycBcrYWe+2jsG/bTCCSwxPg44JWvVCWzSY
+   htvGQB0DmVucPy4ot31DoxP8TDcRv+HquffOviFexgP1IrkUoDaM3HjIt
+   hMkhRdJBBH9u26mT61kQKJ94FDKNBbZrYYdlBkZK86kIOGJfMoAQZEeKP
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="385554284"
 X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
-   d="scan'208";a="472887227"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 16:55:39 -0700
+   d="scan'208";a="385554284"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 17:06:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="751278907"
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="761388238"
 X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
-   d="scan'208";a="751278907"
+   d="scan'208";a="761388238"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 21 Oct 2023 16:55:32 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 21 Oct 2023 17:06:31 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1quLoX-0005Oc-30;
-	Sat, 21 Oct 2023 23:55:29 +0000
-Date: Sun, 22 Oct 2023 07:55:19 +0800
+	id 1quLzC-0005PY-1J;
+	Sun, 22 Oct 2023 00:06:30 +0000
+Date: Sun, 22 Oct 2023 08:05:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-	linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Gross <markgross@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] pwm: make it possible to apply pwm changes in
- atomic context
-Message-ID: <202310220706.HH9RMDHJ-lkp@intel.com>
-References: <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC 1/2] arm: perf: Remove PMU locking
+Message-ID: <202310220734.qqOiDabZ-lkp@intel.com>
+References: <20231016052431.1390269-2-anshuman.khandual@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
+In-Reply-To: <20231016052431.1390269-2-anshuman.khandual@arm.com>
 
-Hi Sean,
+Hi Anshuman,
 
-kernel test robot noticed the following build errors:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v6.6-rc6]
-[cannot apply to thierry-reding-pwm/for-next dtor-input/next dtor-input/for-linus next-20231020]
+[auto build test WARNING on perf-tools-next/perf-tools-next]
+[also build test WARNING on tip/perf/core perf-tools/perf-tools linus/master acme/perf/core v6.6-rc6 next-20231020]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Young/pwm-make-it-possible-to-apply-pwm-changes-in-atomic-context/20231017-173221
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean%40mess.org
-patch subject: [PATCH v3 1/3] pwm: make it possible to apply pwm changes in atomic context
-config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20231022/202310220706.HH9RMDHJ-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231022/202310220706.HH9RMDHJ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/arm-perf-Remove-PMU-locking/20231017-142418
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
+patch link:    https://lore.kernel.org/r/20231016052431.1390269-2-anshuman.khandual%40arm.com
+patch subject: [RFC 1/2] arm: perf: Remove PMU locking
+config: arm-spitz_defconfig (https://download.01.org/0day-ci/archive/20231022/202310220734.qqOiDabZ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231022/202310220734.qqOiDabZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310220706.HH9RMDHJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310220734.qqOiDabZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/media/rc/ir-rx51.c: In function 'ir_rx51_on':
->> drivers/media/rc/ir-rx51.c:37:9: error: implicit declaration of function 'pwm_apply_state'; did you mean 'pwm_apply_args'? [-Werror=implicit-function-declaration]
-      37 |         pwm_apply_state(ir_rx51->pwm, &ir_rx51->state);
-         |         ^~~~~~~~~~~~~~~
-         |         pwm_apply_args
-   cc1: some warnings being treated as errors
+   arch/arm/kernel/perf_event_xscale.c:61:51: warning: initialized field overwritten [-Woverride-init]
+      61 |         [PERF_COUNT_HW_CPU_CYCLES]              = XSCALE_PERFCTR_CCNT,
+         |                                                   ^~~~~~~~~~~~~~~~~~~
+   arch/arm/kernel/perf_event_xscale.c:61:51: note: (near initialization for 'xscale_perf_map[0]')
+   arch/arm/kernel/perf_event_xscale.c:62:51: warning: initialized field overwritten [-Woverride-init]
+      62 |         [PERF_COUNT_HW_INSTRUCTIONS]            = XSCALE_PERFCTR_INSTRUCTION,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/kernel/perf_event_xscale.c:62:51: note: (near initialization for 'xscale_perf_map[1]')
+   arch/arm/kernel/perf_event_xscale.c:63:51: warning: initialized field overwritten [-Woverride-init]
+      63 |         [PERF_COUNT_HW_BRANCH_INSTRUCTIONS]     = XSCALE_PERFCTR_BRANCH,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm/kernel/perf_event_xscale.c:63:51: note: (near initialization for 'xscale_perf_map[4]')
+   arch/arm/kernel/perf_event_xscale.c:64:51: warning: initialized field overwritten [-Woverride-init]
+      64 |         [PERF_COUNT_HW_BRANCH_MISSES]           = XSCALE_PERFCTR_BRANCH_MISS,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/kernel/perf_event_xscale.c:64:51: note: (near initialization for 'xscale_perf_map[5]')
+   arch/arm/kernel/perf_event_xscale.c:65:51: warning: initialized field overwritten [-Woverride-init]
+      65 |         [PERF_COUNT_HW_STALLED_CYCLES_FRONTEND] = XSCALE_PERFCTR_ICACHE_NO_DELIVER,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/kernel/perf_event_xscale.c:65:51: note: (near initialization for 'xscale_perf_map[7]')
+   arch/arm/kernel/perf_event_xscale.c:73:51: warning: initialized field overwritten [-Woverride-init]
+      73 |         [C(L1D)][C(OP_READ)][C(RESULT_ACCESS)]  = XSCALE_PERFCTR_DCACHE_ACCESS,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/kernel/perf_event_xscale.c:73:51: note: (near initialization for 'xscale_perf_cache_map[0][0][0]')
+   arch/arm/kernel/perf_event_xscale.c:74:51: warning: initialized field overwritten [-Woverride-init]
+      74 |         [C(L1D)][C(OP_READ)][C(RESULT_MISS)]    = XSCALE_PERFCTR_DCACHE_MISS,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/kernel/perf_event_xscale.c:74:51: note: (near initialization for 'xscale_perf_cache_map[0][0][1]')
+   arch/arm/kernel/perf_event_xscale.c:75:51: warning: initialized field overwritten [-Woverride-init]
+      75 |         [C(L1D)][C(OP_WRITE)][C(RESULT_ACCESS)] = XSCALE_PERFCTR_DCACHE_ACCESS,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/kernel/perf_event_xscale.c:75:51: note: (near initialization for 'xscale_perf_cache_map[0][1][0]')
+   arch/arm/kernel/perf_event_xscale.c:76:51: warning: initialized field overwritten [-Woverride-init]
+      76 |         [C(L1D)][C(OP_WRITE)][C(RESULT_MISS)]   = XSCALE_PERFCTR_DCACHE_MISS,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/kernel/perf_event_xscale.c:76:51: note: (near initialization for 'xscale_perf_cache_map[0][1][1]')
+   arch/arm/kernel/perf_event_xscale.c:78:51: warning: initialized field overwritten [-Woverride-init]
+      78 |         [C(L1I)][C(OP_READ)][C(RESULT_MISS)]    = XSCALE_PERFCTR_ICACHE_MISS,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/kernel/perf_event_xscale.c:78:51: note: (near initialization for 'xscale_perf_cache_map[1][0][1]')
+   arch/arm/kernel/perf_event_xscale.c:80:51: warning: initialized field overwritten [-Woverride-init]
+      80 |         [C(DTLB)][C(OP_READ)][C(RESULT_MISS)]   = XSCALE_PERFCTR_DTLB_MISS,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/kernel/perf_event_xscale.c:80:51: note: (near initialization for 'xscale_perf_cache_map[3][0][1]')
+   arch/arm/kernel/perf_event_xscale.c:81:51: warning: initialized field overwritten [-Woverride-init]
+      81 |         [C(DTLB)][C(OP_WRITE)][C(RESULT_MISS)]  = XSCALE_PERFCTR_DTLB_MISS,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/kernel/perf_event_xscale.c:81:51: note: (near initialization for 'xscale_perf_cache_map[3][1][1]')
+   arch/arm/kernel/perf_event_xscale.c:83:51: warning: initialized field overwritten [-Woverride-init]
+      83 |         [C(ITLB)][C(OP_READ)][C(RESULT_MISS)]   = XSCALE_PERFCTR_ITLB_MISS,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/kernel/perf_event_xscale.c:83:51: note: (near initialization for 'xscale_perf_cache_map[4][0][1]')
+   arch/arm/kernel/perf_event_xscale.c:84:51: warning: initialized field overwritten [-Woverride-init]
+      84 |         [C(ITLB)][C(OP_WRITE)][C(RESULT_MISS)]  = XSCALE_PERFCTR_ITLB_MISS,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/kernel/perf_event_xscale.c:84:51: note: (near initialization for 'xscale_perf_cache_map[4][1][1]')
+   arch/arm/kernel/perf_event_xscale.c: In function 'xscale1pmu_enable_event':
+>> arch/arm/kernel/perf_event_xscale.c:209:31: warning: unused variable 'events' [-Wunused-variable]
+     209 |         struct pmu_hw_events *events = this_cpu_ptr(cpu_pmu->hw_events);
+         |                               ^~~~~~
+   arch/arm/kernel/perf_event_xscale.c: In function 'xscale1pmu_disable_event':
+   arch/arm/kernel/perf_event_xscale.c:243:31: warning: unused variable 'events' [-Wunused-variable]
+     243 |         struct pmu_hw_events *events = this_cpu_ptr(cpu_pmu->hw_events);
+         |                               ^~~~~~
+   arch/arm/kernel/perf_event_xscale.c: In function 'xscale1pmu_start':
+   arch/arm/kernel/perf_event_xscale.c:300:31: warning: unused variable 'events' [-Wunused-variable]
+     300 |         struct pmu_hw_events *events = this_cpu_ptr(cpu_pmu->hw_events);
+         |                               ^~~~~~
+   arch/arm/kernel/perf_event_xscale.c: In function 'xscale1pmu_stop':
+   arch/arm/kernel/perf_event_xscale.c:310:31: warning: unused variable 'events' [-Wunused-variable]
+     310 |         struct pmu_hw_events *events = this_cpu_ptr(cpu_pmu->hw_events);
+         |                               ^~~~~~
+   arch/arm/kernel/perf_event_xscale.c: In function 'xscale2pmu_enable_event':
+   arch/arm/kernel/perf_event_xscale.c:547:31: warning: unused variable 'events' [-Wunused-variable]
+     547 |         struct pmu_hw_events *events = this_cpu_ptr(cpu_pmu->hw_events);
+         |                               ^~~~~~
+   arch/arm/kernel/perf_event_xscale.c: In function 'xscale2pmu_disable_event':
+   arch/arm/kernel/perf_event_xscale.c:591:31: warning: unused variable 'events' [-Wunused-variable]
+     591 |         struct pmu_hw_events *events = this_cpu_ptr(cpu_pmu->hw_events);
+         |                               ^~~~~~
+>> arch/arm/kernel/perf_event_xscale.c:588:23: warning: unused variable 'flags' [-Wunused-variable]
+     588 |         unsigned long flags, ien, evtsel, of_flags;
+         |                       ^~~~~
+   arch/arm/kernel/perf_event_xscale.c: In function 'xscale2pmu_start':
+   arch/arm/kernel/perf_event_xscale.c:655:31: warning: unused variable 'events' [-Wunused-variable]
+     655 |         struct pmu_hw_events *events = this_cpu_ptr(cpu_pmu->hw_events);
+         |                               ^~~~~~
+   arch/arm/kernel/perf_event_xscale.c: In function 'xscale2pmu_stop':
+   arch/arm/kernel/perf_event_xscale.c:665:31: warning: unused variable 'events' [-Wunused-variable]
+     665 |         struct pmu_hw_events *events = this_cpu_ptr(cpu_pmu->hw_events);
+         |                               ^~~~~~
 
 
-vim +37 drivers/media/rc/ir-rx51.c
+vim +/events +209 arch/arm/kernel/perf_event_xscale.c
 
-c332e8472d7db6 Timo Kokkonen 2012-08-10  33  
-a92def1becf33e Sean Young    2016-12-19  34  static inline void ir_rx51_on(struct ir_rx51 *ir_rx51)
-c332e8472d7db6 Timo Kokkonen 2012-08-10  35  {
-99076cd117c4cb Maíra Canal   2021-11-04  36  	ir_rx51->state.enabled = true;
-99076cd117c4cb Maíra Canal   2021-11-04 @37  	pwm_apply_state(ir_rx51->pwm, &ir_rx51->state);
-c332e8472d7db6 Timo Kokkonen 2012-08-10  38  }
-c332e8472d7db6 Timo Kokkonen 2012-08-10  39  
+43eab87828fee6 Will Deacon       2010-11-13  203  
+ed6f2a522398c2 Sudeep Holla      2012-07-30  204  static void xscale1pmu_enable_event(struct perf_event *event)
+43eab87828fee6 Will Deacon       2010-11-13  205  {
+a03e5d1ee878e9 Anshuman Khandual 2023-10-16  206  	unsigned long val, mask, evt;
+ed6f2a522398c2 Sudeep Holla      2012-07-30  207  	struct arm_pmu *cpu_pmu = to_arm_pmu(event->pmu);
+ed6f2a522398c2 Sudeep Holla      2012-07-30  208  	struct hw_perf_event *hwc = &event->hw;
+11679250860700 Mark Rutland      2014-05-13 @209  	struct pmu_hw_events *events = this_cpu_ptr(cpu_pmu->hw_events);
+ed6f2a522398c2 Sudeep Holla      2012-07-30  210  	int idx = hwc->idx;
+43eab87828fee6 Will Deacon       2010-11-13  211  
+43eab87828fee6 Will Deacon       2010-11-13  212  	switch (idx) {
+43eab87828fee6 Will Deacon       2010-11-13  213  	case XSCALE_CYCLE_COUNTER:
+43eab87828fee6 Will Deacon       2010-11-13  214  		mask = 0;
+43eab87828fee6 Will Deacon       2010-11-13  215  		evt = XSCALE1_CCOUNT_INT_EN;
+43eab87828fee6 Will Deacon       2010-11-13  216  		break;
+43eab87828fee6 Will Deacon       2010-11-13  217  	case XSCALE_COUNTER0:
+43eab87828fee6 Will Deacon       2010-11-13  218  		mask = XSCALE1_COUNT0_EVT_MASK;
+43eab87828fee6 Will Deacon       2010-11-13  219  		evt = (hwc->config_base << XSCALE1_COUNT0_EVT_SHFT) |
+43eab87828fee6 Will Deacon       2010-11-13  220  			XSCALE1_COUNT0_INT_EN;
+43eab87828fee6 Will Deacon       2010-11-13  221  		break;
+43eab87828fee6 Will Deacon       2010-11-13  222  	case XSCALE_COUNTER1:
+43eab87828fee6 Will Deacon       2010-11-13  223  		mask = XSCALE1_COUNT1_EVT_MASK;
+43eab87828fee6 Will Deacon       2010-11-13  224  		evt = (hwc->config_base << XSCALE1_COUNT1_EVT_SHFT) |
+43eab87828fee6 Will Deacon       2010-11-13  225  			XSCALE1_COUNT1_INT_EN;
+43eab87828fee6 Will Deacon       2010-11-13  226  		break;
+43eab87828fee6 Will Deacon       2010-11-13  227  	default:
+43eab87828fee6 Will Deacon       2010-11-13  228  		WARN_ONCE(1, "invalid counter number (%d)\n", idx);
+43eab87828fee6 Will Deacon       2010-11-13  229  		return;
+43eab87828fee6 Will Deacon       2010-11-13  230  	}
+43eab87828fee6 Will Deacon       2010-11-13  231  
+43eab87828fee6 Will Deacon       2010-11-13  232  	val = xscale1pmu_read_pmnc();
+43eab87828fee6 Will Deacon       2010-11-13  233  	val &= ~mask;
+43eab87828fee6 Will Deacon       2010-11-13  234  	val |= evt;
+43eab87828fee6 Will Deacon       2010-11-13  235  	xscale1pmu_write_pmnc(val);
+43eab87828fee6 Will Deacon       2010-11-13  236  }
+43eab87828fee6 Will Deacon       2010-11-13  237  
 
 -- 
 0-DAY CI Kernel Test Service
