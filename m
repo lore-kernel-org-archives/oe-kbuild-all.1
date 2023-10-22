@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5DE1107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B1010F8
 	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Oct 2023 05:31:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DrOyOIpV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="irpf0n/+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1697952711; x=1729488711;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yItrDf461ntVlZAP9UUgMK0a5hWjKHsrcy/6sWP+vSI=;
-  b=DrOyOIpV8oasnXP8cSTEoRPBEw3Mxlk0ngglur1moC6PDon3Z6mtlcLD
-   JFeWv9QS7sRTbZ6Trb9jYlbNxTFy+a586nsa/G4IM9X0bFpUexbNHH3wm
-   QYv0+nU9AiwKW+0Hc/iL/DWR1FpwCP7x5SwE2t7ccVo1ualvaNpvmi2FO
-   myJ3KB68a3PhMOmIYLqKxOBjA/E988ceBom4vs1oGA53oCBBSRGOMZ0/B
-   ORIcnwDjMOOdl02cDO3WUhCRTth8E6aKYu6Wr92DWoIzRlqW/1kr5FfJM
-   jW23HE7vcdKWzAtr6PH7+Gtrtaoxjt2BoO31tZ+TRW0+iWrW8fF8iShkQ
+  bh=ttYagIQhKb4DS736w/Lt7gVHL8+L8klwYwujPCyZEDg=;
+  b=irpf0n/+ighieKbqDjLSgsCi6PIlL+cHBn3fNmQRPxSTvrH6Zq9ZDE0q
+   TDT7jzbu29Nk198sjb3AXVLrYis3hN9pDiZBk5o3MHtf4BQq88ZQpUGlm
+   bAL/+NPMcnGsgAwWuzHaJj6qs2KG3KvqMpoa952QlMunBq5WSbxzibKLs
+   k0GFMSYqLa8BxrRS52fvAYCCragjuQ0S219WgI9vCvc5bOCzI8LBPQeB4
+   gc3oc7JGJf7j62SxyeQb0mjAsJLW0paHrr6V8lXwOQADW0UrX73XFUbgU
+   9kNlQhB3TptDC0koXMynl3ZySXXlEUWGz8ivyRqJgIxaAf1lm9YrmRZj/
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="390568045"
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="390568050"
 X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
-   d="scan'208";a="390568045"
+   d="scan'208";a="390568050"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 22:31:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="881438340"
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="881438344"
 X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
-   d="scan'208";a="881438340"
+   d="scan'208";a="881438344"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
   by orsmga004.jf.intel.com with ESMTP; 21 Oct 2023 22:31:43 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1quR3s-0005d0-34;
+	id 1quR3s-0005cw-2x;
 	Sun, 22 Oct 2023 05:31:40 +0000
-Date: Sun, 22 Oct 2023 13:31:05 +0800
+Date: Sun, 22 Oct 2023 13:31:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jordan Niethe <jniethe5@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [powerpc:topic/ppc-kvm 5/12] checkpatch: ERROR: Macros with complex
+Subject: [powerpc:topic/ppc-kvm 10/12] checkpatch: ERROR: Macros with complex
  values should be enclosed in parentheses
-Message-ID: <202310221301.bPaA3wyI-lkp@intel.com>
+Message-ID: <202310221309.g2AcKzqx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,23 +52,84 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git topic/ppc-kvm
 head:   b7bce570430e42229fb63f775fcbb10f38b83c71
-commit: c8ae9b3c6e7f22a4b71e42edb0fc3942aa7a7c42 [5/12] KVM: PPC: Use accessors for VCORE registers
-reproduce: (https://download.01.org/0day-ci/archive/20231022/202310221301.bPaA3wyI-lkp@intel.com/reproduce)
+commit: 19d31c5f115754c369c0995df47479c384757f82 [10/12] KVM: PPC: Add support for nestedv2 guests
+reproduce: (https://download.01.org/0day-ci/archive/20231022/202310221309.g2AcKzqx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310221301.bPaA3wyI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310221309.g2AcKzqx-lkp@intel.com/
 
 # many are suggestions rather than must-fix
 
 ERROR:COMPLEX_MACRO: Macros with complex values should be enclosed in parentheses
-#37: FILE: arch/powerpc/include/asm/kvm_book3s.h:493:
-+#define KVMPPC_BOOK3S_VCORE_ACCESSOR_GET(reg, size)			\
-+static inline u##size kvmppc_get_##reg(struct kvm_vcpu *vcpu)		\
-+{									\
-+	return vcpu->arch.vcore->reg;					\
-+}
+#496: FILE: arch/powerpc/include/asm/kvm_book3s.h:556:
++#define KVMPPC_BOOK3S_VCPU_ACCESSOR_GET(reg, size, iden)		\
+ static inline u##size kvmppc_get_##reg(struct kvm_vcpu *vcpu)		\
+ {									\
++	WARN_ON(kvmhv_nestedv2_cached_reload(vcpu, iden) < 0);		\
+ 	return vcpu->arch.reg;						\
+ }
+
+ERROR:COMPLEX_MACRO: Macros with complex values should be enclosed in parentheses
+#545: FILE: arch/powerpc/include/asm/kvm_book3s.h:590:
++#define KVMPPC_BOOK3S_VCORE_ACCESSOR(reg, size, iden)			\
++	KVMPPC_BOOK3S_VCORE_ACCESSOR_SET(reg, size, iden)		\
++	KVMPPC_BOOK3S_VCORE_ACCESSOR_GET(reg, size, iden)		\
+ 
+
+ERROR:COMPLEX_MACRO: Macros with complex values should be enclosed in parentheses
+#688: FILE: arch/powerpc/include/asm/kvm_ppc.h:978:
++#define KVMPPC_VCPU_SHARED_REGS_ACCESSOR_GET(reg, size, iden)		\
+ static inline u##size kvmppc_get_##reg(struct kvm_vcpu *vcpu)		\
+ {									\
++	if (iden)							\
++		WARN_ON(kvmhv_nestedv2_cached_reload(vcpu, iden) < 0);	\
+ 	if (kvmppc_shared_big_endian(vcpu))				\
+ 	       return be##size##_to_cpu(vcpu->arch.shared->reg);	\
+ 	else								\
+ 	       return le##size##_to_cpu(vcpu->arch.shared->reg);	\
+ }									\
+ 
+
+ERROR:COMPLEX_MACRO: Macros with complex values should be enclosed in parentheses
+#715: FILE: arch/powerpc/include/asm/kvm_ppc.h:1001:
++#define KVMPPC_VCPU_SHARED_REGS_ACCESSOR(reg, size, iden)		\
++	KVMPPC_VCPU_SHARED_REGS_ACCESSOR_GET(reg, size, iden)		\
++	KVMPPC_VCPU_SHARED_REGS_ACCESSOR_SET(reg, size, iden)		\
+ 
+
+ERROR:COMPLEX_MACRO: Macros with complex values should be enclosed in parentheses
+#1358: FILE: arch/powerpc/kvm/book3s_hv.h:75:
++#define KVMPPC_BOOK3S_HV_VCPU_ACCESSOR_GET(reg, size, iden)		\
+ static inline u##size kvmppc_get_##reg ##_hv(struct kvm_vcpu *vcpu)	\
+ {									\
++	kvmhv_nestedv2_cached_reload(vcpu, iden);			\
+ 	return vcpu->arch.reg;						\
+ }
+
+ERROR:COMPLEX_MACRO: Macros with complex values should be enclosed in parentheses
+#1368: FILE: arch/powerpc/kvm/book3s_hv.h:82:
++#define KVMPPC_BOOK3S_HV_VCPU_ACCESSOR(reg, size, iden)			\
++	KVMPPC_BOOK3S_HV_VCPU_ACCESSOR_SET(reg, size, iden)		\
++	KVMPPC_BOOK3S_HV_VCPU_ACCESSOR_GET(reg, size, iden)		\
+ 
+
+ERROR:COMPLEX_MACRO: Macros with complex values should be enclosed in parentheses
+#1381: FILE: arch/powerpc/kvm/book3s_hv.h:93:
++#define KVMPPC_BOOK3S_HV_VCPU_ARRAY_ACCESSOR_GET(reg, size, iden)	\
+ static inline u##size kvmppc_get_##reg ##_hv(struct kvm_vcpu *vcpu, int i)	\
+ {									\
++	WARN_ON(kvmhv_nestedv2_cached_reload(vcpu, iden(i)) < 0);	\
+ 	return vcpu->arch.reg[i];					\
+ }
+
+ERROR:COMPLEX_MACRO: Macros with complex values should be enclosed in parentheses
+#1417: FILE: arch/powerpc/kvm/book3s_hv.h:100:
++#define KVMPPC_BOOK3S_HV_VCPU_ARRAY_ACCESSOR(reg, size, iden)		\
++	KVMPPC_BOOK3S_HV_VCPU_ARRAY_ACCESSOR_SET(reg, size, iden)	\
++	KVMPPC_BOOK3S_HV_VCPU_ARRAY_ACCESSOR_GET(reg, size, iden)	\
++
 
 -- 
 0-DAY CI Kernel Test Service
