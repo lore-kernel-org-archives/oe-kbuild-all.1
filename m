@@ -1,51 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F085698
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Oct 2023 11:27:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F8E17C1;
+	Sun, 22 Oct 2023 11:52:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fZo8JbaU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ju3y4L6G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697974077; x=1729510077;
+  t=1697975523; x=1729511523;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6LYTmI1wbNQ70SyfglzIU7ph91hc4WxWBq9ywCAt/1I=;
-  b=fZo8JbaUg+VvkNKwjjr96PwMOPHCGIWIYwGVnDJztFMrf6C9SCs1Qmzk
-   KiDXjWS9Iz+/1nI/t0NV6VXkPpW4V79hGyZ4s64RXVKUy/f59jHcSZz84
-   lYwU/YvoIwDerV+0TCKXqzlvx+WWiW3JEUSCymTx5OoALbM+DQebGt2WX
-   AhSyiPPzn9eB+kFNAfutNy22ISF+HMZWfeIerDyd8gQRrh45MVmeY7Ndm
-   vd0bRugscK0dTjzlt/WJGfvW38/QVkDEatNC3KPOV5gKYggFeXSxYb2hK
-   GzYJ8rngWz9FR7xjdg0HNf4xwTJgg5ENCfCprPb4i3TBVNxZbnl0vyN3c
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="417827857"
+  bh=BdVZ+C8tN+qekt7Hl3QUHfu9nPna5/5VggjFolJCjy8=;
+  b=ju3y4L6G09EkvKA16evJJyzNsnOJ3zlaZlsbwBr8eqcYXjneYwECWgne
+   1K9P3a7Igj3HrZCCu2GV0WUgnal2dLjKBzQIK8EdPgLrc3umLeDPhWycR
+   ju/vaXFgl0xYRcNRFmpu5ldPjkviirXYD/snxYwh4SsK27Rd8tB/BD6RB
+   grq7YHVJXFqJW3LFAOX96ymKD9oU3yzeRhzEZfVd4/6G0WqQB340URCoZ
+   z7CpJP5VJLZ1O/mbBxReuUxlCrk97IQkfcBNgLcciXUr1JkezjbMEtYIY
+   ES3l2nQrEwQHLlVbZESuhBJSHgz7IeTcV3BI8PNZIWla9JyHNT1gNFNex
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="385578980"
 X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
-   d="scan'208";a="417827857"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2023 04:27:56 -0700
+   d="scan'208";a="385578980"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2023 04:52:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="707658950"
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="792851290"
 X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
-   d="scan'208";a="707658950"
+   d="scan'208";a="792851290"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 22 Oct 2023 04:27:53 -0700
+  by orsmga001.jf.intel.com with ESMTP; 22 Oct 2023 04:51:54 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1quWcZ-0005ui-1N;
-	Sun, 22 Oct 2023 11:27:51 +0000
-Date: Sun, 22 Oct 2023 19:27:41 +0800
+	id 1quWzo-0005vq-0d;
+	Sun, 22 Oct 2023 11:51:52 +0000
+Date: Sun, 22 Oct 2023 19:51:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Saeed Mahameed <saeed@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Jiri Pirko <jiri@nvidia.com>,
-	Saeed Mahameed <saeedm@nvidia.com>
-Subject: Re: [PATCH 3/5] misc: mlx5ctl: Add info ioctl
-Message-ID: <202310221931.r1vsjtys-lkp@intel.com>
-References: <20231018081941.475277-4-saeed@kernel.org>
+To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>, dm-devel@lists.linux.dev,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, martin.petersen@oracle.com,
+	linux-scsi@vger.kernel.org, nitheshshetty@gmail.com,
+	anuj1072538@gmail.com, gost.dev@samsung.com, mcgrof@kernel.org,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Hannes Reinecke <hare@suse.de>, Anuj Gupta <anuj20.g@samsung.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v17 08/12] nvmet: add copy command support for bdev and
+ file ns
+Message-ID: <202310221915.PYH9XadG-lkp@intel.com>
+References: <20231019110147.31672-9-nj.shetty@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,51 +65,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231018081941.475277-4-saeed@kernel.org>
+In-Reply-To: <20231019110147.31672-9-nj.shetty@samsung.com>
 
-Hi Saeed,
+Hi Nitesh,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on char-misc/char-misc-testing]
-[also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus soc/for-next rdma/for-next linus/master v6.6-rc6]
-[cannot apply to next-20231020]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 213f891525c222e8ed145ce1ce7ae1f47921cb9c]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Saeed-Mahameed/mlx5-Add-aux-dev-for-ctl-interface/20231018-162610
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20231018081941.475277-4-saeed%40kernel.org
-patch subject: [PATCH 3/5] misc: mlx5ctl: Add info ioctl
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20231022/202310221931.r1vsjtys-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231022/202310221931.r1vsjtys-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Introduce-queue-limits-and-sysfs-for-copy-offload-support/20231019-200658
+base:   213f891525c222e8ed145ce1ce7ae1f47921cb9c
+patch link:    https://lore.kernel.org/r/20231019110147.31672-9-nj.shetty%40samsung.com
+patch subject: [PATCH v17 08/12] nvmet: add copy command support for bdev and file ns
+config: i386-randconfig-062-20231022 (https://download.01.org/0day-ci/archive/20231022/202310221915.PYH9XadG-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231022/202310221915.PYH9XadG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310221931.r1vsjtys-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310221915.PYH9XadG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/nvme/target/io-cmd-bdev.c:498:30: sparse: sparse: restricted __le16 degrades to integer
 
->> drivers/misc/mlx5ctl/main.c:276:27: error: initialization of 'long int (*)(struct file *, unsigned int,  long unsigned int)' from incompatible pointer type 'ssize_t (*)(struct file *, unsigned int,  long unsigned int)' {aka 'int (*)(struct file *, unsigned int,  long unsigned int)'} [-Werror=incompatible-pointer-types]
-     276 |         .unlocked_ioctl = mlx5ctl_ioctl,
-         |                           ^~~~~~~~~~~~~
-   drivers/misc/mlx5ctl/main.c:276:27: note: (near initialization for 'mlx5ctl_fops.unlocked_ioctl')
-   cc1: some warnings being treated as errors
+vim +498 drivers/nvme/target/io-cmd-bdev.c
 
-
-vim +276 drivers/misc/mlx5ctl/main.c
-
-   271	
-   272	static const struct file_operations mlx5ctl_fops = {
-   273		.owner = THIS_MODULE,
-   274		.open = mlx5ctl_open,
-   275		.release = mlx5ctl_release,
- > 276		.unlocked_ioctl = mlx5ctl_ioctl,
-   277	};
-   278	
+   478	
+   479	/*
+   480	 * At present we handle only one range entry, since copy offload is aligned with
+   481	 * copy_file_range, only one entry is passed from block layer.
+   482	 */
+   483	static void nvmet_bdev_execute_copy(struct nvmet_req *rq)
+   484	{
+   485		struct nvme_copy_range range;
+   486		struct nvme_command *cmd = rq->cmd;
+   487		ssize_t ret;
+   488		off_t dst, src;
+   489	
+   490		u16 status;
+   491	
+   492		status = nvmet_copy_from_sgl(rq, 0, &range, sizeof(range));
+   493		if (status)
+   494			goto err_rq_complete;
+   495	
+   496		dst = le64_to_cpu(cmd->copy.sdlba) << rq->ns->blksize_shift;
+   497		src = le64_to_cpu(range.slba) << rq->ns->blksize_shift;
+ > 498		rq->copy_len = (range.nlb + 1) << rq->ns->blksize_shift;
+   499	
+   500		if (bdev_max_copy_sectors(rq->ns->bdev)) {
+   501			ret = blkdev_copy_offload(rq->ns->bdev, dst, src, rq->copy_len,
+   502						  nvmet_bdev_copy_endio,
+   503						  (void *)rq, GFP_KERNEL);
+   504		} else {
+   505			ret = blkdev_copy_emulation(rq->ns->bdev, dst,
+   506						    rq->ns->bdev, src, rq->copy_len,
+   507						    nvmet_bdev_copy_endio,
+   508						    (void *)rq, GFP_KERNEL);
+   509		}
+   510		if (ret == -EIOCBQUEUED)
+   511			return;
+   512	
+   513		rq->cqe->result.u32 = cpu_to_le32(0);
+   514		status = errno_to_nvme_status(rq, ret);
+   515	err_rq_complete:
+   516		nvmet_req_complete(rq, status);
+   517	}
+   518	
 
 -- 
 0-DAY CI Kernel Test Service
