@@ -1,46 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2254EEBF
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Oct 2023 03:53:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69F87FC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Oct 2023 04:14:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hl7trjFY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="asp0dDtM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697946822; x=1729482822;
+  t=1697948082; x=1729484082;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RPhbzAwRgrPc/3HzjAp6F2ibLeGf4IleK22XAbfJG6k=;
-  b=Hl7trjFY1blfZhFS+Y5uz9IaGzQKomOl0R/DJgGJbdYh0h+nVD/rBk85
-   qqSVi8nPii9bg4CX+H1yYij6zK9cQb1Pn5bgOm6qXIVF8bylwnhB544lE
-   fy45OPT3xKMh4gOWC1gnV8eeGTFSeF7xVemUhpoflVoqHs/CRP9wPNvw5
-   ivAQs9veYHQiw7SsCUkmn5AQ7+QGLbONOfFadTGDuqIx5t/dpk2SqS3T8
-   j5DVLb1cKmPfWe1S615yH8XTNHYHtL1WJAuVg7KgGRbDYC5U8+Mmt6xEW
-   SLKspeI0gTqMnbQEkHJuD6P4EC6zUPUPpY0EBSMLoA9cq3bgBnttopbgZ
+  bh=Juxu9lM3kgqyeVEqGEGIZQ/g7mR/7BF+NaMTc65B+nw=;
+  b=asp0dDtMFn2hAXvZHHviSWI3kWBcc8Yi9X4nv+OU/cEYXbKYHY90mkC1
+   1yrwzrLUCMnio9kTNjXVJx4738WhbMHlXx07I9CzDfnBkd6bh3cbLAOsV
+   z2qmUyw/b2Wx3KPuROmHd+1127n3TeJcS23dKXkEFtcerUzIUUK0536Iv
+   jl3DaF5kMIcWgZDeqyZlamFJeixSRcPibelHU6QrdnfQ6jvJF7gcXId+r
+   oQtekoshmz81m3eBTve8Yc4Br6HeuLVihPffgL7XHjBNtWaA+mRX4JM+K
+   5YG/XHrfOnK4Otry4F123KozzC7Y5UdNyxBFiK4Xi9ZRc9omVp+GzgO2N
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="377054461"
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="450899938"
 X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
-   d="scan'208";a="377054461"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 20:53:41 -0700
+   d="scan'208";a="450899938"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 21:14:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="757827478"
 X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
-   d="scan'208";a="757827478"
+   d="scan'208";a="5731120"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 21 Oct 2023 20:53:40 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 21 Oct 2023 21:14:38 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1quPX0-0005YE-0T;
-	Sun, 22 Oct 2023 03:53:38 +0000
-Date: Sun, 22 Oct 2023 11:53:05 +0800
+	id 1quPrK-0005Z0-2W;
+	Sun, 22 Oct 2023 04:14:38 +0000
+Date: Sun, 22 Oct 2023 12:13:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Dr. David Alan Gilbert" <linux@treblig.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linuxppc:next 11/13] checkpatch: WARNING: externs should be avoided
+Subject: [powerpc:next 11/13] checkpatch: WARNING: externs should be avoided
  in .c files
-Message-ID: <202310221142.7Oq1eCuB-lkp@intel.com>
+Message-ID: <202310221243.ViwNQK3O-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,15 +49,15 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/linuxppc/linux next
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
 head:   1c7b4bc375c2a235e3dcb53c46111883df838e42
 commit: 0ebc7feae79ac07772a20382eebd8c3503313714 [11/13] powerpc: Use shared font data
-reproduce: (https://download.01.org/0day-ci/archive/20231022/202310221142.7Oq1eCuB-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231022/202310221243.ViwNQK3O-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310221142.7Oq1eCuB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310221243.ViwNQK3O-lkp@intel.com/
 
 # many are suggestions rather than must-fix
 
