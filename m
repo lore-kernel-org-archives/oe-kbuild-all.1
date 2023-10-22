@@ -1,51 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F73C36A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Oct 2023 04:57:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD2610F8
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Oct 2023 05:31:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eg+Jl20s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ij8z9L0m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697950666; x=1729486666;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=J4r5qgzhbH7bz03iXKn+50K03N+gw6/ZpdVJMMpGSL0=;
-  b=Eg+Jl20sr0v1b15vNZyMiIni89blW2GrKjYi5WNUXgl4Sw7ha7ro6Mn8
-   AzwxCgPvfJyFRmVOi76sYf9ja3oK0L8LMc0+ZjaDRnJmDNJLhd0OlYZgN
-   KdDncwmYHPZ3dez4DYkuryQxZrK3C6k6e13BBUuMZzS4jkZfaYg6sS7kn
-   eu7Uxii+7IP2t0soOdgoYOA7f3aMyMTdT2sZQlJHk89D6zvOaSVpjznm7
-   sXdFnGhThgNTnZeTMojYikdEt5+L3/zLlX0AbEJfsdkMkm4xlYB0B9xpg
-   EZ/4B68QsZb2sOYdKWmUMlcqZm6zl0QG4zU08DvZ0LETeK1rTln/m02m4
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="389533313"
+  t=1697952705; x=1729488705;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VkzQJ15CD2+6Tr1ST8WzaDfM8ikB74XxAaVpRxNa6xg=;
+  b=ij8z9L0mOqwYmQsGPQwaztwtT/08EsB4FWkiU9TpsWy8tIq8zfr1XAvU
+   vXscdMxnKCPlvKgQqlbJRQQx4WlF9AOC5RiahdWyGbuc2SOe6iQGLWOaU
+   sezkkwfsrfdiW+XtOvBvntC7UbDdDoj7h8DwSwu7aUtBuGrHOPM7GiCLh
+   OIakmLIS8ArnqkcpJciWev5FmLadKC+guXfomi3BM99aXCMOr51bR3MRg
+   j5oXc6uxg3qaxIBGfwi3IihEYSToItD6FdK1BB7MsXqVKrhloP5isBRBC
+   nY1715aGxbJ/3XLyOtAdIPl+8Pvrp3TDZC2Y4ZGDEf+x0OHJAdeQxAHD+
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="390568047"
 X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
-   d="scan'208";a="389533313"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 21:57:45 -0700
+   d="scan'208";a="390568047"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 22:31:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="1004971636"
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="881438341"
 X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
-   d="scan'208";a="1004971636"
+   d="scan'208";a="881438341"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 21 Oct 2023 21:57:42 -0700
+  by orsmga004.jf.intel.com with ESMTP; 21 Oct 2023 22:31:43 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1quQWx-0005bG-2w;
-	Sun, 22 Oct 2023 04:57:39 +0000
-Date: Sun, 22 Oct 2023 12:57:32 +0800
+	id 1quR3s-0005d2-37;
+	Sun, 22 Oct 2023 05:31:40 +0000
+Date: Sun, 22 Oct 2023 13:31:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raju Rangoju <Raju.Rangoju@amd.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, Shyam-sundar.S-k@amd.com,
-	Raju Rangoju <Raju.Rangoju@amd.com>,
-	Sudheesh Mavila <sudheesh.mavila@amd.com>
-Subject: Re: [PATCH net-next 2/2] amd-xgbe: Add support for AMD Crater
- ethernet device
-Message-ID: <202310221212.UV7uO9yX-lkp@intel.com>
-References: <20231018144450.2061125-3-Raju.Rangoju@amd.com>
+To: Jordan Niethe <jniethe5@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [powerpc:topic/ppc-kvm 4/12] checkpatch: ERROR: Macros with complex
+ values should be enclosed in parentheses
+Message-ID: <202310221349.4dijqgdK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,57 +49,26 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231018144450.2061125-3-Raju.Rangoju@amd.com>
 
-Hi Raju,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Raju-Rangoju/amd-xgbe-add-support-for-new-pci-device-id-0x1641/20231018-224804
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20231018144450.2061125-3-Raju.Rangoju%40amd.com
-patch subject: [PATCH net-next 2/2] amd-xgbe: Add support for AMD Crater ethernet device
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231022/202310221212.UV7uO9yX-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231022/202310221212.UV7uO9yX-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git topic/ppc-kvm
+head:   b7bce570430e42229fb63f775fcbb10f38b83c71
+commit: 7028ac8d174f28220f0e2de0cb3346cd3c31976d [4/12] KVM: PPC: Use accessors for VCPU registers
+reproduce: (https://download.01.org/0day-ci/archive/20231022/202310221349.4dijqgdK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310221212.UV7uO9yX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310221349.4dijqgdK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+# many are suggestions rather than must-fix
 
-   In file included from drivers/net/ethernet/amd/xgbe/xgbe-main.c:125:
->> drivers/net/ethernet/amd/xgbe/xgbe.h:136:10: fatal error: asm/amd_nb.h: No such file or directory
-     136 | #include <asm/amd_nb.h>
-         |          ^~~~~~~~~~~~~~
-   compilation terminated.
-
-
-vim +136 drivers/net/ethernet/amd/xgbe/xgbe.h
-
-   119	
-   120	#include <linux/dma-mapping.h>
-   121	#include <linux/netdevice.h>
-   122	#include <linux/workqueue.h>
-   123	#include <linux/phy.h>
-   124	#include <linux/if_vlan.h>
-   125	#include <linux/bitops.h>
-   126	#include <linux/ptp_clock_kernel.h>
-   127	#include <linux/timecounter.h>
-   128	#include <linux/net_tstamp.h>
-   129	#include <net/dcbnl.h>
-   130	#include <linux/completion.h>
-   131	#include <linux/cpumask.h>
-   132	#include <linux/interrupt.h>
-   133	#include <linux/dcache.h>
-   134	#include <linux/ethtool.h>
-   135	#include <linux/list.h>
- > 136	#include <asm/amd_nb.h>
-   137	
+ERROR:COMPLEX_MACRO: Macros with complex values should be enclosed in parentheses
+#39: FILE: arch/powerpc/include/asm/kvm_book3s.h:468:
++#define KVMPPC_BOOK3S_VCPU_ACCESSOR_GET(reg, size)			\
++static inline u##size kvmppc_get_##reg(struct kvm_vcpu *vcpu)		\
++{									\
++	return vcpu->arch.reg;						\
++}
 
 -- 
 0-DAY CI Kernel Test Service
