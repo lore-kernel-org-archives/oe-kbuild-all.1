@@ -1,51 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632A811CBB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Oct 2023 10:35:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BEE714A97
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Oct 2023 11:18:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n3yviCV/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GI6D9slB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698057349; x=1729593349;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hcyNvUgQiaQ72XY6XCfmfDq1LmiwOA/3EPhPZPeidk8=;
-  b=n3yviCV/S6HkEzA1a5rmMju0LQTx3gIXviXzqDa1I+fP8SI8yU+eKIUw
-   4Bpwdqy5p+baM+0TJSsRr8/3bCTW74E/aDM/3lssDU/dBCApa0uj84CgK
-   povR6+319XZJtUCX9TK6TgfeggvA9aTxSTPAbfMJdCVQGcS87XFjjxsN0
-   Jzs6FwQswzrXFEc9RoDPLn3wYS3T4UbB/VAZzIhEPKitXyqJKjjrnQ33y
-   e+wjEfGQoqxnnV0iUpdiaVb5wY70yc//h9HWg+gkcBj7AaW80LDWMd1dc
-   SoSDrmuSfw6d7qba/FOgzM5NNDE/kawML231HDMUn9kHGrHalAps+/mOs
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="453280622"
+  t=1698059930; x=1729595930;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KA9DNhcrTvsUHxf9h4KBPhbHw/uFNLpx4j6sIg1FsC8=;
+  b=GI6D9slBK1Q8Vs1mULFT0NzatDyiK7WCGDfQm55w3xf5T0JsjdTaE6WL
+   dE/SoxSEPkroO3NmD+xFrMNrE8t/OLT2w7tWMcM2kdy2Shdt380E8HJ+E
+   vqaPsogZNpBc5iZae79pzn+EUL90rEqT/p8paqN8c1T11vfJzG8Rhc75q
+   YsYHzlMuv8IMOwI2btDSDG0Ko7CyE+umaamaW9B5kAfgqv8VLIcVwjzgj
+   RCvIz4T63Tuqd+qtqUDm25rmj0WIistI3L+lROMt+1mRZtafII2VQoT0T
+   yFb29yzsPFXmSJVsUDjMf/pEMYnNZtuMcfk/ypE8F1aSLgDdB3y9bkCdB
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="453288118"
 X-IronPort-AV: E=Sophos;i="6.03,244,1694761200"; 
-   d="scan'208";a="453280622"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 03:35:48 -0700
+   d="scan'208";a="453288118"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 04:18:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="793083978"
+X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="874676670"
 X-IronPort-AV: E=Sophos;i="6.03,244,1694761200"; 
-   d="scan'208";a="793083978"
+   d="scan'208";a="874676670"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 23 Oct 2023 03:35:47 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 23 Oct 2023 04:18:47 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qusHg-0006or-2Y;
-	Mon, 23 Oct 2023 10:35:44 +0000
-Date: Mon, 23 Oct 2023 18:35:05 +0800
+	id 1qusxJ-0006pz-1s;
+	Mon, 23 Oct 2023 11:18:45 +0000
+Date: Mon, 23 Oct 2023 19:18:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Hilliard <james.hilliard1@gmail.com>, linux-input@vger.kernel.org
+To: Joao Martins <joao.m.martins@oracle.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	James Hilliard <james.hilliard1@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: cyttsp5 - improve error handling and remove regmap
-Message-ID: <202310231838.JHHtGKmB-lkp@intel.com>
-References: <20231023085234.105572-1-james.hilliard1@gmail.com>
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>
+Subject: [linux-next:master 11306/14422] hw_pagetable.c:undefined reference
+ to `__udivdi3'
+Message-ID: <202310231933.c8k54ybn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,78 +51,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231023085234.105572-1-james.hilliard1@gmail.com>
 
-Hi James,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.6-rc7 next-20231023]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Hilliard/Input-cyttsp5-improve-error-handling-and-remove-regmap/20231023-165327
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20231023085234.105572-1-james.hilliard1%40gmail.com
-patch subject: [PATCH] Input: cyttsp5 - improve error handling and remove regmap
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231023/202310231838.JHHtGKmB-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231023/202310231838.JHHtGKmB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e8361b005d7c92997d12f2b85a9e4a525738bd9d
+commit: 1337d793ea254e9b6e79568e1dd063c6ed8c2741 [11306/14422] iommufd: Add IOMMU_HWPT_GET_DIRTY_BITMAP
+config: xtensa-randconfig-r003-20230213 (https://download.01.org/0day-ci/archive/20231023/202310231933.c8k54ybn-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231023/202310231933.c8k54ybn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310231838.JHHtGKmB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310231933.c8k54ybn-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/input/touchscreen/cyttsp5.c: In function 'cyttsp5_get_hid_descriptor':
->> drivers/input/touchscreen/cyttsp5.c:684:22: warning: unused variable 'reg' [-Wunused-variable]
-     684 |         unsigned int reg = HID_DESC_REG;
-         |                      ^~~
-
-
-vim +/reg +684 drivers/input/touchscreen/cyttsp5.c
-
-   677	
-   678	static int cyttsp5_get_hid_descriptor(struct cyttsp5 *ts,
-   679					      struct cyttsp5_hid_desc *desc)
-   680	{
-   681		struct device *dev = ts->dev;
-   682		u8 cmd[2] = { 0 };
-   683		int rc;
- > 684		unsigned int reg = HID_DESC_REG;
-   685	
-   686		put_unaligned_le16(HID_DESC_REG, cmd);
-   687	
-   688		rc = cyttsp5_write(ts, HID_DESC_REG, cmd, 2);
-   689		if (rc) {
-   690			dev_err(dev, "Failed to get HID descriptor, rc=%d\n", rc);
-   691			return rc;
-   692		}
-   693	
-   694		rc = wait_for_completion_interruptible_timeout(&ts->cmd_done,
-   695				msecs_to_jiffies(CY_HID_GET_HID_DESCRIPTOR_TIMEOUT_MS));
-   696		if (rc <= 0) {
-   697			dev_err(ts->dev, "HID get descriptor timed out\n");
-   698			rc = -ETIMEDOUT;
-   699			return rc;
-   700		}
-   701	
-   702		memcpy(desc, ts->response_buf, sizeof(*desc));
-   703	
-   704		/* Check HID descriptor length and version */
-   705		if (le16_to_cpu(desc->hid_desc_len) != sizeof(*desc) ||
-   706		    le16_to_cpu(desc->bcd_version) != HID_VERSION) {
-   707			dev_err(dev, "Unsupported HID version\n");
-   708			return -ENODEV;
-   709		}
-   710	
-   711		return 0;
-   712	}
-   713	
+   xtensa-linux-ld: drivers/iommu/iommufd/hw_pagetable.o: in function `iommufd_hwpt_alloc':
+>> hw_pagetable.c:(.text+0x440): undefined reference to `__udivdi3'
+>> xtensa-linux-ld: hw_pagetable.c:(.text+0x468): undefined reference to `__udivdi3'
 
 -- 
 0-DAY CI Kernel Test Service
