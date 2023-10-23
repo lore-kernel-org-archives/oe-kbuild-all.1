@@ -1,58 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32F0110B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Oct 2023 03:24:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7AC79F9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Oct 2023 07:39:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QoV+b182"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bW0p45/z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698031471; x=1729567471;
+  t=1698046783; x=1729582783;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=WG7qKWGw/AVDVBViDrvNqZrBZW+aiYkM5T/NGemPMbg=;
-  b=QoV+b182rC+OmkkAKAojHH+iXNdfZXsKyVQPGhsB7FLo8O7Arpz8M0r0
-   zlReltiMGvowFVpvPwJ3aoerNXf5oE9CR9nb/k3Esl/Ieuj4nQgemDVow
-   vOj1n23AmUEWn7m35EICeIVN5yxp4I04WeFl/nwoCQw9Gj4p3lOd2DiM2
-   /ibj65z3OSCvcAhL5lHFuuG/mbawk9yP5eTC9NnQFVGgZ3Su+gGRovnmG
-   Ym9dNfK2IUBF4VVvz66+zTHqgkYbKiOJgLbazWvfjWK49/tx/ORZkMzUb
-   S7rcoooLPrxZux+Tln23/B1xZHTll/RVkAzzFAdiHELvfLBzy+2Yaymw6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="472971055"
+  bh=3KzCNJMYoOaiHwa16bbgjru9Az1At4IZu3EItaUyIXs=;
+  b=bW0p45/zMCLWv2Mtgpo5Qz5OZnPFhIhlAIHqgedmWTbZoPTUZUEoqyYJ
+   rposXOtqTvVGcaLqlfagFV9wZrWl/9DL6bx2YfDcEMwnQXrjKXBP/uV5J
+   U5h9KdB51mW8RD3AU9824TLZ+mY11uSnxxSNKjZ7qw47MUcCJdRJ+FRZD
+   VEwPVorAvnNSz5gRnH8PAxVZIow0CjCEXzM0HvK3wVk8DR6bu7YvSCSUh
+   YIdPe+7TdgOdm5aCEjQbOew3Cpd7zlmCjTBANdZKEfjJ18VxXtB/Ihdzt
+   +8LMTphlBI2AYOJpF0QxfltslBNrEn6iyzZiGkNl6wBD6/uHZSom2s8Ak
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="473000434"
 X-IronPort-AV: E=Sophos;i="6.03,244,1694761200"; 
-   d="scan'208";a="472971055"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2023 20:24:30 -0700
+   d="scan'208";a="473000434"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 00:39:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="1005169869"
+X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="848716020"
 X-IronPort-AV: E=Sophos;i="6.03,244,1694761200"; 
-   d="scan'208";a="1005169869"
+   d="scan'208";a="848716020"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 22 Oct 2023 20:24:27 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 23 Oct 2023 00:39:41 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qulYH-0006WL-0R;
-	Mon, 23 Oct 2023 03:24:25 +0000
-Date: Mon, 23 Oct 2023 11:24:19 +0800
+	id 1qupXH-0006hF-0t;
+	Mon, 23 Oct 2023 07:39:39 +0000
+Date: Mon, 23 Oct 2023 15:39:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bastien Nocera <hadess@hadess.net>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Henrik Rydberg <rydberg@bitmath.org>,
-	Jeff LaBundy <jeff@labundy.com>, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v9 3/4] Input: goodix-berlin - add I2C support for Goodix
- Berlin Touchscreen IC
-Message-ID: <202310231123.eHyxswnW-lkp@intel.com>
-References: <20231021-topic-goodix-berlin-upstream-initial-v9-3-13fb4e887156@linaro.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v5 1/5] ASoC: makes CPU/Codec channel connection map more
+ generic
+Message-ID: <202310231510.72ksmNgV-lkp@intel.com>
+References: <8734y1lx3m.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,89 +51,133 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231021-topic-goodix-berlin-upstream-initial-v9-3-13fb4e887156@linaro.org>
+In-Reply-To: <8734y1lx3m.wl-kuninori.morimoto.gx@renesas.com>
 
-Hi Neil,
+Hi Kuninori,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 2030579113a1b1b5bfd7ff24c0852847836d8fd1]
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on next-20231020]
+[cannot apply to linus/master v6.6-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/dt-bindings-input-document-Goodix-Berlin-Touchscreen-IC/20231021-191942
-base:   2030579113a1b1b5bfd7ff24c0852847836d8fd1
-patch link:    https://lore.kernel.org/r/20231021-topic-goodix-berlin-upstream-initial-v9-3-13fb4e887156%40linaro.org
-patch subject: [PATCH v9 3/4] Input: goodix-berlin - add I2C support for Goodix Berlin Touchscreen IC
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20231023/202310231123.eHyxswnW-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231023/202310231123.eHyxswnW-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuninori-Morimoto/ASoC-makes-CPU-Codec-channel-connection-map-more-generic/20231023-133933
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/8734y1lx3m.wl-kuninori.morimoto.gx%40renesas.com
+patch subject: [PATCH v5 1/5] ASoC: makes CPU/Codec channel connection map more generic
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231023/202310231510.72ksmNgV-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231023/202310231510.72ksmNgV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310231123.eHyxswnW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310231510.72ksmNgV-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/input/touchscreen/goodix_berlin_core.c: In function 'goodix_berlin_get_ic_info':
->> drivers/input/touchscreen/goodix_berlin_core.c:285:1: warning: the frame size of 1148 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     285 | }
-         | ^
+   sound/soc/soc-core.c: In function 'snd_soc_compensate_channel_connection_map':
+>> sound/soc/soc-core.c:1050:16: warning: variable 'max' set but not used [-Wunused-but-set-variable]
+    1050 |         int i, max;
+         |                ^~~
 
 
-vim +285 drivers/input/touchscreen/goodix_berlin_core.c
+vim +/max +1050 sound/soc/soc-core.c
 
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  235  
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  236  static int goodix_berlin_get_ic_info(struct goodix_berlin_core *cd)
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  237  {
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  238  	u8 afe_data[GOODIX_BERLIN_IC_INFO_MAX_LEN];
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  239  	__le16 length_raw;
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  240  	u16 length;
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  241  	int error;
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  242  
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  243  	error = regmap_raw_read(cd->regmap, GOODIX_BERLIN_IC_INFO_ADDR,
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  244  				&length_raw, sizeof(length_raw));
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  245  	if (error) {
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  246  		dev_info(cd->dev, "failed get ic info length, %d\n", error);
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  247  		return error;
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  248  	}
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  249  
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  250  	length = le16_to_cpu(length_raw);
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  251  	if (length >= GOODIX_BERLIN_IC_INFO_MAX_LEN) {
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  252  		dev_info(cd->dev, "invalid ic info length %d\n", length);
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  253  		return -EINVAL;
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  254  	}
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  255  
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  256  	error = regmap_raw_read(cd->regmap, GOODIX_BERLIN_IC_INFO_ADDR,
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  257  				afe_data, length);
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  258  	if (error) {
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  259  		dev_info(cd->dev, "failed get ic info data, %d\n", error);
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  260  		return error;
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  261  	}
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  262  
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  263  	/* check whether the data is valid (ex. bus default values) */
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  264  	if (goodix_berlin_is_dummy_data(cd, (const uint8_t *)afe_data, length)) {
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  265  		dev_err(cd->dev, "fw info data invalid\n");
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  266  		return -EINVAL;
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  267  	}
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  268  
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  269  	if (!goodix_berlin_checksum_valid((const uint8_t *)afe_data, length)) {
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  270  		dev_info(cd->dev, "fw info checksum error\n");
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  271  		return -EINVAL;
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  272  	}
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  273  
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  274  	error = goodix_berlin_convert_ic_info(cd, afe_data, length);
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  275  	if (error)
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  276  		return error;
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  277  
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  278  	/* check some key info */
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  279  	if (!cd->touch_data_addr) {
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  280  		dev_err(cd->dev, "touch_data_addr is null\n");
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  281  		return -EINVAL;
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  282  	}
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  283  
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  284  	return 0;
-7aae63b22cf7e9 Neil Armstrong 2023-10-21 @285  }
-7aae63b22cf7e9 Neil Armstrong 2023-10-21  286  
+  1017	
+  1018	#define MAX_DEFAULT_CH_MAP_SIZE 7
+  1019	static struct snd_soc_dai_link_ch_map default_ch_map_sync[MAX_DEFAULT_CH_MAP_SIZE] = {
+  1020		{ .cpu = 0, .codec = 0 },
+  1021		{ .cpu = 1, .codec = 1 },
+  1022		{ .cpu = 2, .codec = 2 },
+  1023		{ .cpu = 3, .codec = 3 },
+  1024		{ .cpu = 4, .codec = 4 },
+  1025		{ .cpu = 5, .codec = 5 },
+  1026		{ .cpu = 6, .codec = 6 },
+  1027	};
+  1028	static struct snd_soc_dai_link_ch_map default_ch_map_1cpu[MAX_DEFAULT_CH_MAP_SIZE] = {
+  1029		{ .cpu = 0, .codec = 0 },
+  1030		{ .cpu = 0, .codec = 1 },
+  1031		{ .cpu = 0, .codec = 2 },
+  1032		{ .cpu = 0, .codec = 3 },
+  1033		{ .cpu = 0, .codec = 4 },
+  1034		{ .cpu = 0, .codec = 5 },
+  1035		{ .cpu = 0, .codec = 6 },
+  1036	};
+  1037	static struct snd_soc_dai_link_ch_map default_ch_map_1codec[MAX_DEFAULT_CH_MAP_SIZE] = {
+  1038		{ .cpu = 0, .codec = 0 },
+  1039		{ .cpu = 1, .codec = 0 },
+  1040		{ .cpu = 2, .codec = 0 },
+  1041		{ .cpu = 3, .codec = 0 },
+  1042		{ .cpu = 4, .codec = 0 },
+  1043		{ .cpu = 5, .codec = 0 },
+  1044		{ .cpu = 6, .codec = 0 },
+  1045	};
+  1046	static int snd_soc_compensate_channel_connection_map(struct snd_soc_card *card,
+  1047							     struct snd_soc_dai_link *dai_link)
+  1048	{
+  1049		struct snd_soc_dai_link_ch_map *ch_maps;
+> 1050		int i, max;
+  1051	
+  1052		/*
+  1053		 * dai_link->ch_maps indicates how CPU/Codec are connected.
+  1054		 * It will be a map seen from a larger number of DAI.
+  1055		 * see
+  1056		 *	soc.h :: [dai_link->ch_maps Image sample]
+  1057		 */
+  1058	
+  1059		/* it should have ch_maps if connection was N:M */
+  1060		if (dai_link->num_cpus > 1 && dai_link->num_codecs > 1 &&
+  1061		    dai_link->num_cpus != dai_link->num_codecs && !dai_link->ch_maps) {
+  1062			dev_err(card->dev, "need to have ch_maps when N:M connction (%s)",
+  1063				dai_link->name);
+  1064			return -EINVAL;
+  1065		}
+  1066	
+  1067		/* do nothing if it has own maps */
+  1068		if (dai_link->ch_maps)
+  1069			goto sanity_check;
+  1070	
+  1071		/* check default map size */
+  1072		if (dai_link->num_cpus   > MAX_DEFAULT_CH_MAP_SIZE ||
+  1073		    dai_link->num_codecs > MAX_DEFAULT_CH_MAP_SIZE) {
+  1074			dev_err(card->dev, "soc-core.c needs update default_connection_maps");
+  1075			return -EINVAL;
+  1076		}
+  1077	
+  1078		/* Compensate missing map for ... */
+  1079		if (dai_link->num_cpus == dai_link->num_codecs)
+  1080			dai_link->ch_maps = default_ch_map_sync;	/* for 1:1 or N:N */
+  1081		else if (dai_link->num_cpus <  dai_link->num_codecs)
+  1082			dai_link->ch_maps = default_ch_map_1cpu;	/* for 1:N */
+  1083		else
+  1084			dai_link->ch_maps = default_ch_map_1codec;	/* for N:1 */
+  1085	
+  1086	sanity_check:
+  1087		max = min(dai_link->num_cpus, dai_link->num_codecs);
+  1088	
+  1089		dev_dbg(card->dev, "dai_link %s\n", dai_link->stream_name);
+  1090		for_each_link_ch_maps(dai_link, i, ch_maps) {
+  1091			if ((ch_maps->cpu   >= dai_link->num_cpus) ||
+  1092			    (ch_maps->codec >= dai_link->num_codecs)) {
+  1093				dev_err(card->dev,
+  1094					"unexpected dai_link->ch_maps[%d] index (cpu(%d/%d) codec(%d/%d))",
+  1095					i,
+  1096					ch_maps->cpu,	dai_link->num_cpus,
+  1097					ch_maps->codec,	dai_link->num_codecs);
+  1098				return -EINVAL;
+  1099			}
+  1100	
+  1101			dev_dbg(card->dev, "  [%d] cpu%d <-> codec%d\n",
+  1102				i, ch_maps->cpu, ch_maps->codec);
+  1103		}
+  1104	
+  1105		return 0;
+  1106	}
+  1107	
 
 -- 
 0-DAY CI Kernel Test Service
