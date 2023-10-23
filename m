@@ -1,48 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D204371
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Oct 2023 03:24:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32F0110B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Oct 2023 03:24:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bbMcNWJ2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QoV+b182"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698031470; x=1729567470;
+  t=1698031471; x=1729567471;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=40azN6Oncc+Kef3wP13L+JbowD85+ev0nBrItz9EPio=;
-  b=bbMcNWJ2ZJvwQ8ww+fKs/jDjsy5bt4AhlaJ0WoZPbIX8F7fl38Gb/Oj4
-   /bjZ6GBizBUU0Ig/I8eoDGQ8Ne0drTvm5H2cT2DJOF4OVcNzFvTGdlEfp
-   WzoXJlH+QJiqVjhssvAsKLItxQjpCDZa2ArKVkX3yyV1jgqDe14qsIE5A
-   1WtyqSh8u0+g+1hJRIXv0PgL/rH/SRcmOJn/hNtf9ear37H1LDSAuHdWf
-   GZFqZVKFdTWi6AfonrzDaK+rWxsk1I24mkcdvDLopNz4b9zAbSgwVWbyi
-   t26tQ0SfpkYXRHcVyxSW3fON/kysIMRD5D/wRJvpOyZKb0sc+Ys7cibw2
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="417890017"
+  bh=WG7qKWGw/AVDVBViDrvNqZrBZW+aiYkM5T/NGemPMbg=;
+  b=QoV+b182rC+OmkkAKAojHH+iXNdfZXsKyVQPGhsB7FLo8O7Arpz8M0r0
+   zlReltiMGvowFVpvPwJ3aoerNXf5oE9CR9nb/k3Esl/Ieuj4nQgemDVow
+   vOj1n23AmUEWn7m35EICeIVN5yxp4I04WeFl/nwoCQw9Gj4p3lOd2DiM2
+   /ibj65z3OSCvcAhL5lHFuuG/mbawk9yP5eTC9NnQFVGgZ3Su+gGRovnmG
+   Ym9dNfK2IUBF4VVvz66+zTHqgkYbKiOJgLbazWvfjWK49/tx/ORZkMzUb
+   S7rcoooLPrxZux+Tln23/B1xZHTll/RVkAzzFAdiHELvfLBzy+2Yaymw6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="472971055"
 X-IronPort-AV: E=Sophos;i="6.03,244,1694761200"; 
-   d="scan'208";a="417890017"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2023 20:24:28 -0700
+   d="scan'208";a="472971055"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2023 20:24:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="792985660"
+X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="1005169869"
 X-IronPort-AV: E=Sophos;i="6.03,244,1694761200"; 
-   d="scan'208";a="792985660"
+   d="scan'208";a="1005169869"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 22 Oct 2023 20:24:27 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 22 Oct 2023 20:24:27 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qulYH-0006WP-0d;
+	id 1qulYH-0006WL-0R;
 	Mon, 23 Oct 2023 03:24:25 +0000
-Date: Mon, 23 Oct 2023 11:24:20 +0800
+Date: Mon, 23 Oct 2023 11:24:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yu Kuai <yukuai1@huaweicloud.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC v2 8/8] blk-mq-tag: allow shared queue/hctx to get
- more driver tags
-Message-ID: <202310231109.iysoP8pc-lkp@intel.com>
-References: <20231021154806.4019417-9-yukuai1@huaweicloud.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bastien Nocera <hadess@hadess.net>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Henrik Rydberg <rydberg@bitmath.org>,
+	Jeff LaBundy <jeff@labundy.com>, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v9 3/4] Input: goodix-berlin - add I2C support for Goodix
+ Berlin Touchscreen IC
+Message-ID: <202310231123.eHyxswnW-lkp@intel.com>
+References: <20231021-topic-goodix-berlin-upstream-initial-v9-3-13fb4e887156@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,37 +61,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231021154806.4019417-9-yukuai1@huaweicloud.com>
+In-Reply-To: <20231021-topic-goodix-berlin-upstream-initial-v9-3-13fb4e887156@linaro.org>
 
-Hi Yu,
+Hi Neil,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on axboe-block/for-next]
-[also build test ERROR on next-20231020]
-[cannot apply to hch-configfs/for-next linus/master v6.6-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 2030579113a1b1b5bfd7ff24c0852847836d8fd1]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/blk-mq-factor-out-a-structure-from-blk_mq_tags/20231021-155339
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20231021154806.4019417-9-yukuai1%40huaweicloud.com
-patch subject: [PATCH RFC v2 8/8] blk-mq-tag: allow shared queue/hctx to get more driver tags
-config: sh-defconfig (https://download.01.org/0day-ci/archive/20231023/202310231109.iysoP8pc-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/dt-bindings-input-document-Goodix-Berlin-Touchscreen-IC/20231021-191942
+base:   2030579113a1b1b5bfd7ff24c0852847836d8fd1
+patch link:    https://lore.kernel.org/r/20231021-topic-goodix-berlin-upstream-initial-v9-3-13fb4e887156%40linaro.org
+patch subject: [PATCH v9 3/4] Input: goodix-berlin - add I2C support for Goodix Berlin Touchscreen IC
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20231023/202310231123.eHyxswnW-lkp@intel.com/config)
 compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231023/202310231109.iysoP8pc-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231023/202310231123.eHyxswnW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310231109.iysoP8pc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310231123.eHyxswnW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sh4-linux-ld: block/blk-mq-tag.o: in function `__blk_mq_driver_tag_busy':
->> blk-mq-tag.c:(.text+0xa74): undefined reference to `__cmpxchg_called_with_bad_pointer'
+   drivers/input/touchscreen/goodix_berlin_core.c: In function 'goodix_berlin_get_ic_info':
+>> drivers/input/touchscreen/goodix_berlin_core.c:285:1: warning: the frame size of 1148 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     285 | }
+         | ^
+
+
+vim +285 drivers/input/touchscreen/goodix_berlin_core.c
+
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  235  
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  236  static int goodix_berlin_get_ic_info(struct goodix_berlin_core *cd)
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  237  {
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  238  	u8 afe_data[GOODIX_BERLIN_IC_INFO_MAX_LEN];
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  239  	__le16 length_raw;
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  240  	u16 length;
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  241  	int error;
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  242  
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  243  	error = regmap_raw_read(cd->regmap, GOODIX_BERLIN_IC_INFO_ADDR,
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  244  				&length_raw, sizeof(length_raw));
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  245  	if (error) {
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  246  		dev_info(cd->dev, "failed get ic info length, %d\n", error);
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  247  		return error;
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  248  	}
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  249  
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  250  	length = le16_to_cpu(length_raw);
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  251  	if (length >= GOODIX_BERLIN_IC_INFO_MAX_LEN) {
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  252  		dev_info(cd->dev, "invalid ic info length %d\n", length);
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  253  		return -EINVAL;
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  254  	}
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  255  
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  256  	error = regmap_raw_read(cd->regmap, GOODIX_BERLIN_IC_INFO_ADDR,
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  257  				afe_data, length);
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  258  	if (error) {
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  259  		dev_info(cd->dev, "failed get ic info data, %d\n", error);
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  260  		return error;
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  261  	}
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  262  
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  263  	/* check whether the data is valid (ex. bus default values) */
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  264  	if (goodix_berlin_is_dummy_data(cd, (const uint8_t *)afe_data, length)) {
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  265  		dev_err(cd->dev, "fw info data invalid\n");
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  266  		return -EINVAL;
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  267  	}
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  268  
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  269  	if (!goodix_berlin_checksum_valid((const uint8_t *)afe_data, length)) {
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  270  		dev_info(cd->dev, "fw info checksum error\n");
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  271  		return -EINVAL;
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  272  	}
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  273  
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  274  	error = goodix_berlin_convert_ic_info(cd, afe_data, length);
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  275  	if (error)
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  276  		return error;
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  277  
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  278  	/* check some key info */
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  279  	if (!cd->touch_data_addr) {
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  280  		dev_err(cd->dev, "touch_data_addr is null\n");
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  281  		return -EINVAL;
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  282  	}
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  283  
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  284  	return 0;
+7aae63b22cf7e9 Neil Armstrong 2023-10-21 @285  }
+7aae63b22cf7e9 Neil Armstrong 2023-10-21  286  
 
 -- 
 0-DAY CI Kernel Test Service
