@@ -1,57 +1,47 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073F81FDF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 10:46:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E371224FE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 12:01:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CfMJ1bln"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40839652b97so33786655e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 03:46:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698144398; x=1698749198; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0SpGzt5EPQBKeC5ysJFqlAOyND1HqZsJcmX27vUekos=;
-        b=CfMJ1blnBKGMO1s2EdSvcmW62NiZitUrzZ9nEW/fjZxIsnE2UAvIv+dNr5q8HkW5GJ
-         7ZooMRa41xX95hs1Tbr36SvwaCisOJf8WXyHNvgb2uk82E68Z05p1W7LEWOt1wSGA5BZ
-         1wDn5h/S3FM/sRYocKZQc5rDi3anoWjw8h5mFiWJkoQI/qSYHBtQgmMqtjECg04SttlC
-         6AOM89SNqZHprwoJsB26lD2uUohu2UlVWBJ8FVnKeR6w6SdtfridwthqrBRhnOQMAIis
-         xFzZbpay8G+ns+oKmqC9ni1dgWVqnH1R7DqDPWq42D31Plwckr7hmS8GjYAXlqDpH+2G
-         NC6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698144398; x=1698749198;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0SpGzt5EPQBKeC5ysJFqlAOyND1HqZsJcmX27vUekos=;
-        b=gIaCGwvkZhQSVUM7azisNUuwdgK6/4jaOL0EPQVMcBmqIlOZLNAS0VJEi7qGUSo1BD
-         h4EzNwWfrTI+jAPrLKjikmuvtwMOwHZmbhYoM0yMZzwaVzvCMW3BlzcqctMyT1FyFl8z
-         abrIE86OpeoaKSqYL49F24KSwJhR4IAFxBC1n55g9HFYYByMi5nWAuG4AtE9HseltpHu
-         bICDPAlvVmLd87Er+KtWmO2VjE/FoypvKUfJqKwfKN3R2OJrN9hFX9RHl1ijJlVrGcRk
-         DKonnru/wadnWS4N5wFOATQVUGXNl9Nunwh7rk/ZYNOW51vmBvySVfruxN/6nNynw5XD
-         cRAQ==
-X-Gm-Message-State: AOJu0Yw3G5qJf9JKrN4fy7HLaRz9rj4bnIbUjBwijb/y1AEml5pGtwJ6
-	JKSdF8PUksUaQ4PNacjaS+NMKw==
-X-Google-Smtp-Source: AGHT+IFal9H1jvC4Q3PK0I2LyrVEO/TLp7BWA+0hdBEGG9xbWftlWywwFOwOKjSW9JtgKcK+ozdIAQ==
-X-Received: by 2002:a05:600c:19d1:b0:405:3955:5881 with SMTP id u17-20020a05600c19d100b0040539555881mr9060319wmq.36.1698144397131;
-        Tue, 24 Oct 2023 03:46:37 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id e23-20020adf9bd7000000b0032d893d8dc8sm9757680wrc.2.2023.10.24.03.46.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Oct 2023 03:46:36 -0700 (PDT)
-Date: Tue, 24 Oct 2023 13:46:33 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Manas Ghandat <ghandatmanas@gmail.com>,
-	dave.kleikamp@oracle.com, shaggy@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Manas Ghandat <ghandatmanas@gmail.com>,
-	Linux-kernel-mentees@lists.linuxfoundation.org,
-	jfs-discussion@lists.sourceforge.net, linux-kernel@vger.kernel.org,
-	syzbot+9924e2a08d9ba0fd4ce2@syzkaller.appspotmail.com
-Subject: Re: [PATCH] jfs: fix slab-out-of-bounds Read in dtSearch
-Message-ID: <f5a9e854-5b6c-49bd-9888-525906665966@kadam.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VU983Ulu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698148912; x=1729684912;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CmKA1g7S4EEDmTCv5Uwep01I1kZ/xpUY00fU6HxxbQ8=;
+  b=VU983Ulu9HZyR1WhMEX0PRGECnjlMvbKoRwBvsqAEB5Y7pFRj0dOhgTz
+   rwlR6fk3vAC5HieXyVG2ZouJyBkZgD4uw2GTyMGdpQy9CByXrJvQtMr79
+   /oIJ12pJBRFld1NIZkDe/AZad/j3tp33M0GF6pJVQjnVLmaqwyCqFqwUI
+   J1VSdeDUStqDbD9omACI2Nkzr9sXsfKVYig821vKaYsIa0s8FwetOlpa7
+   wxAXGdN1VrBayVaV9Zt5ALSa0zErpc2JGU/WVzHfuwrJQIeqC4n8KUZRQ
+   AVGZ/m+s1YQVkZTtdnDZahIm6Vkgs0aBbYVRl62sRTsZW2fjKxL191Xz+
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="384239638"
+X-IronPort-AV: E=Sophos;i="6.03,247,1694761200"; 
+   d="scan'208";a="384239638"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 05:00:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="1005635661"
+X-IronPort-AV: E=Sophos;i="6.03,247,1694761200"; 
+   d="scan'208";a="1005635661"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 24 Oct 2023 05:00:57 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qvG5f-0007qb-1b;
+	Tue, 24 Oct 2023 12:00:55 +0000
+Date: Tue, 24 Oct 2023 20:00:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Richard Weinberger <richard@nod.at>
+Subject: fs/ubifs/replay.c:71: warning: Function parameter or member 'hash'
+ not described in 'replay_entry'
+Message-ID: <202310241921.eZLWvBcv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,121 +50,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231016171130.15952-1-ghandatmanas@gmail.com>
 
-Hi Manas,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Manas-Ghandat/jfs-fix-slab-out-of-bounds-Read-in-dtSearch/20231017-152500
-base:   https://github.com/kleikamp/linux-shaggy jfs-next
-patch link:    https://lore.kernel.org/r/20231016171130.15952-1-ghandatmanas%40gmail.com
-patch subject: [PATCH] jfs: fix slab-out-of-bounds Read in dtSearch
-config: i386-randconfig-141-20231022 (https://download.01.org/0day-ci/archive/20231024/202310241724.Ed02yUz9-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d88520ad73b79e71e3ddf08de335b8520ae41c5c
+commit: 16a26b20d2afd0cf063816725b45b12e78d5bb31 ubifs: authentication: Add hashes to index nodes
+date:   5 years ago
+config: x86_64-randconfig-x012-20230629 (https://download.01.org/0day-ci/archive/20231024/202310241921.eZLWvBcv-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231024/202310241724.Ed02yUz9-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231024/202310241921.eZLWvBcv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202310241724.Ed02yUz9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310241921.eZLWvBcv-lkp@intel.com/
 
-smatch warnings:
-fs/jfs/jfs_dtree.c:636 dtSearch() warn: impossible condition '(stbl[index] > 128) => ((-128)-127 > 128)'
+All warnings (new ones prefixed by >>):
 
-vim +636 fs/jfs/jfs_dtree.c
+>> fs/ubifs/replay.c:71: warning: Function parameter or member 'hash' not described in 'replay_entry'
+>> fs/ubifs/replay.c:359: warning: Function parameter or member 'hash' not described in 'insert_node'
+>> fs/ubifs/replay.c:408: warning: Function parameter or member 'hash' not described in 'insert_dent'
+   fs/ubifs/replay.c:792: warning: Excess function parameter 'ref_lnum' description in 'validate_ref'
+   fs/ubifs/replay.c:792: warning: Excess function parameter 'ref_offs' description in 'validate_ref'
+   fs/ubifs/replay.o: warning: objtool: ubifs_validate_entry()+0x225: sibling call from callable instruction with modified stack frame
+   fs/ubifs/replay.o: warning: objtool: replay_bud()+0x4e0: sibling call from callable instruction with modified stack frame
 
-^1da177e4c3f41 Linus Torvalds   2005-04-16  567  int dtSearch(struct inode *ip, struct component_name * key, ino_t * data,
-^1da177e4c3f41 Linus Torvalds   2005-04-16  568  	     struct btstack * btstack, int flag)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  569  {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  570  	int rc = 0;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  571  	int cmp = 1;		/* init for empty page */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  572  	s64 bn;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  573  	struct metapage *mp;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  574  	dtpage_t *p;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  575  	s8 *stbl;
-                                                        ^^^^^^^^
 
-^1da177e4c3f41 Linus Torvalds   2005-04-16  576  	int base, index, lim;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  577  	struct btframe *btsp;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  578  	pxd_t *pxd;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  579  	int psize = 288;	/* initial in-line directory */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  580  	ino_t inumber;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  581  	struct component_name ciKey;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  582  	struct super_block *sb = ip->i_sb;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  583  
-6da2ec56059c3c Kees Cook        2018-06-12  584  	ciKey.name = kmalloc_array(JFS_NAME_MAX + 1, sizeof(wchar_t),
-6da2ec56059c3c Kees Cook        2018-06-12  585  				   GFP_NOFS);
-09aaa749f637b1 Joe Perches      2007-11-13  586  	if (!ciKey.name) {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  587  		rc = -ENOMEM;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  588  		goto dtSearch_Exit2;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  589  	}
-^1da177e4c3f41 Linus Torvalds   2005-04-16  590  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  591  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  592  	/* uppercase search key for c-i directory */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  593  	UniStrcpy(ciKey.name, key->name);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  594  	ciKey.namlen = key->namlen;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  595  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  596  	/* only uppercase if case-insensitive support is on */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  597  	if ((JFS_SBI(sb)->mntflag & JFS_OS2) == JFS_OS2) {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  598  		ciToUpper(&ciKey);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  599  	}
-^1da177e4c3f41 Linus Torvalds   2005-04-16  600  	BT_CLR(btstack);	/* reset stack */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  601  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  602  	/* init level count for max pages to split */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  603  	btstack->nsplit = 1;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  604  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  605  	/*
-^1da177e4c3f41 Linus Torvalds   2005-04-16  606  	 *	search down tree from root:
-^1da177e4c3f41 Linus Torvalds   2005-04-16  607  	 *
-^1da177e4c3f41 Linus Torvalds   2005-04-16  608  	 * between two consecutive entries of <Ki, Pi> and <Kj, Pj> of
-^1da177e4c3f41 Linus Torvalds   2005-04-16  609  	 * internal page, child page Pi contains entry with k, Ki <= K < Kj.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  610  	 *
-^1da177e4c3f41 Linus Torvalds   2005-04-16  611  	 * if entry with search key K is not found
-^1da177e4c3f41 Linus Torvalds   2005-04-16  612  	 * internal page search find the entry with largest key Ki
-^1da177e4c3f41 Linus Torvalds   2005-04-16  613  	 * less than K which point to the child page to search;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  614  	 * leaf page search find the entry with smallest key Kj
-^1da177e4c3f41 Linus Torvalds   2005-04-16  615  	 * greater than K so that the returned index is the position of
-^1da177e4c3f41 Linus Torvalds   2005-04-16  616  	 * the entry to be shifted right for insertion of new entry.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  617  	 * for empty tree, search key is greater than any key of the tree.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  618  	 *
-^1da177e4c3f41 Linus Torvalds   2005-04-16  619  	 * by convention, root bn = 0.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  620  	 */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  621  	for (bn = 0;;) {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  622  		/* get/pin the page to search */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  623  		DT_GETPAGE(ip, bn, mp, psize, p, rc);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  624  		if (rc)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  625  			goto dtSearch_Exit1;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  626  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  627  		/* get sorted entry table of the page */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  628  		stbl = DT_GETSTBL(p);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  629  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  630  		/*
-^1da177e4c3f41 Linus Torvalds   2005-04-16  631  		 * binary search with search key K on the current page.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  632  		 */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  633  		for (base = 0, lim = p->header.nextindex; lim; lim >>= 1) {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  634  			index = base + (lim >> 1);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  635  
-7812e358b5edde Manas Ghandat    2023-10-16 @636  			if (stbl[index] > 128 || stbl[index] < 0)
+vim +71 fs/ubifs/replay.c
 
-If it's stbl is an s8 so it can't be > 128.
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  37  
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  38  /**
+debf12d54182b3 Artem Bityutskiy   2011-05-15  39   * struct replay_entry - replay list entry.
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  40   * @lnum: logical eraseblock number of the node
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  41   * @offs: node offset
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  42   * @len: node length
+074bcb9b5ce698 Artem Bityutskiy   2011-05-15  43   * @deletion: non-zero if this entry corresponds to a node deletion
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  44   * @sqnum: node sequence number
+debf12d54182b3 Artem Bityutskiy   2011-05-15  45   * @list: links the replay list
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  46   * @key: node key
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  47   * @nm: directory entry name
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  48   * @old_size: truncation old size
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  49   * @new_size: truncation new size
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  50   *
+debf12d54182b3 Artem Bityutskiy   2011-05-15  51   * The replay process first scans all buds and builds the replay list, then
+debf12d54182b3 Artem Bityutskiy   2011-05-15  52   * sorts the replay list in nodes sequence number order, and then inserts all
+debf12d54182b3 Artem Bityutskiy   2011-05-15  53   * the replay entries to the TNC.
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  54   */
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  55  struct replay_entry {
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  56  	int lnum;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  57  	int offs;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  58  	int len;
+16a26b20d2afd0 Sascha Hauer       2018-09-07  59  	u8 hash[UBIFS_HASH_ARR_SZ];
+074bcb9b5ce698 Artem Bityutskiy   2011-05-15  60  	unsigned int deletion:1;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  61  	unsigned long long sqnum;
+debf12d54182b3 Artem Bityutskiy   2011-05-15  62  	struct list_head list;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  63  	union ubifs_key key;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  64  	union {
+f4f61d2cc6d878 Richard Weinberger 2016-11-11  65  		struct fscrypt_name nm;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  66  		struct {
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  67  			loff_t old_size;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  68  			loff_t new_size;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  69  		};
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  70  	};
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14 @71  };
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  72  
 
-7812e358b5edde Manas Ghandat    2023-10-16  637  				goto out;
-7812e358b5edde Manas Ghandat    2023-10-16  638  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  639  			if (p->header.flag & BT_LEAF) {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  640  				/* uppercase leaf name to compare */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  641  				cmp =
-^1da177e4c3f41 Linus Torvalds   2005-04-16  642  				    ciCompare(&ciKey, p, stbl[index],
-^1da177e4c3f41 Linus Torvalds   2005-04-16  643  					      JFS_SBI(sb)->mntflag);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  644  			} else {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  645  				/* router key is in uppercase */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  646  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  647  				cmp = dtCompare(&ciKey, p, stbl[index]);
+:::::: The code at line 71 was first introduced by commit
+:::::: 1e51764a3c2ac05a23a22b2a95ddee4d9bffb16d UBIFS: add new flash file system
+
+:::::: TO: Artem Bityutskiy <Artem.Bityutskiy@nokia.com>
+:::::: CC: Artem Bityutskiy <Artem.Bityutskiy@nokia.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
