@@ -1,82 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB0F7273D7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 12:34:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9972B2033F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 12:54:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NLRI2rOJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698150899; x=1729686899;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YXEgxfClpxoOTrTLJ2mMCyIwfrxA1zy8MWow44XXHBs=;
-  b=NLRI2rOJFace9Ak0gX9u7cYWEzdplvpB+4vI3sv3IA7neMFGUDqrcidq
-   WypSOmXN7S+QOKZbT8XHliLe+BMfDNec6yCRS9RlxQ438a8GtUhi95vPW
-   ItlBJLIhF2K5ad6n7D3vVgDd8Ovk/g1tCRekcCxqhT9aZvuTOGQa0pCqD
-   sTypqEBgf1uS2uG/f1LaAe3lVlIIhhoYufANVF5cfj8aNRKV5k/0LK1aB
-   cFuvsxFg8kXHs9/rRNy86XReoXMR/H5ecf3x2XoVQLAenVs1SLNWje0v1
-   adD+YEF3TEPwY3utXOz0/Gp5UiNVUaZhSchEUDrGAKfKpkqC0WQKYLK0r
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="389893310"
-X-IronPort-AV: E=Sophos;i="6.03,247,1694761200"; 
-   d="scan'208";a="389893310"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 05:34:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="762085738"
-X-IronPort-AV: E=Sophos;i="6.03,247,1694761200"; 
-   d="scan'208";a="762085738"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 24 Oct 2023 05:34:58 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qvGca-0007rl-0W;
-	Tue, 24 Oct 2023 12:34:56 +0000
-Date: Tue, 24 Oct 2023 20:34:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-gfx] [PATCH 08/29] drm/dp: Add helpers to calculate the
- link BW overhead
-Message-ID: <202310242019.Hp2KseM1-lkp@intel.com>
-References: <20231024010925.3949910-9-imre.deak@intel.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="lYkxEI4C"
+Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id E885A66003B9;
+	Tue, 24 Oct 2023 13:54:04 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1698152046;
+	bh=30GeLd+/BNw/VWWpJ6tw1gWYkGVvRGD6lV8iB1Kqkic=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lYkxEI4CR2UI+yG3HOoAKQ8MwtopJ+Y/pXgHRgO96AY5Fk46Lfvh6ivTak0huR3+l
+	 XTB7wdQv+d1rPe4nFmXlVNXZo0OrwR6p/3/RwRTBDzhnVmXiSwzrNTouAXj4ChHe3Q
+	 JC9WxZOuD4h6Odqg66mHS+QUbvtSS2jLewkx+SJSpizuvq/qd9dmXAa6Zk84aIQRC3
+	 iax22zdwRKX6+q916NyQFG+LT51C3gn2uxqUwXu4mix9GeqzHGL92LVK74ldAmejlb
+	 yFZvVwuSp2VxV+pe5bWyQb2+XPsXoBeCPOxK+RpObYnuRS6/o4ceOI7ajTcmisW2eH
+	 Mkdz22SqbJQkA==
+Date: Tue, 24 Oct 2023 08:54:01 -0400
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Balsam CHIHI <bchihi@baylibre.com>, oe-kbuild-all@lists.linux.dev,
+	Bernhard =?utf-8?Q?Rosenkr=C3=A4nzer?= <bero@baylibre.com>,
+	Alexandre Mergnat <amergnat@baylibre.com>,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [mediatek:v6.7-tmp/dts64 5/6] Error:
+ arch/arm64/boot/dts/mediatek/mt8192.dtsi:1939.33-34 syntax error
+Message-ID: <ffc5e943-cd36-4802-a4e0-451a06cd22d9@notapiano>
+References: <202310241605.K0DBxIoK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20231024010925.3949910-9-imre.deak@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202310241605.K0DBxIoK-lkp@intel.com>
 
-Hi Imre,
+On Tue, Oct 24, 2023 at 04:18:07PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mediatek/linux.git v6.7-tmp/dts64
+> head:   54ca4e2e3324018d6235eba0d83953a957dbd489
+> commit: a471c48abce023f2808e8c5fd3993ec7712f276d [5/6] arm64: dts: mediatek: mt8192: Add thermal nodes and thermal zones
+> config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231024/202310241605.K0DBxIoK-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231024/202310241605.K0DBxIoK-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202310241605.K0DBxIoK-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> Error: arch/arm64/boot/dts/mediatek/mt8192.dtsi:1939.33-34 syntax error
+>    FATAL ERROR: Unable to parse input tree
 
-kernel test robot noticed the following build errors:
+The DT patch depends on definitions from patch 1 [1], which was merged
+through the thermal tree.
 
-[auto build test ERROR on drm-tip/drm-tip]
+[1] https://lore.kernel.org/all/20231017190545.157282-2-bero@baylibre.com/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Imre-Deak/drm-dp_mst-Fix-fractional-DSC-bpp-handling/20231024-091920
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20231024010925.3949910-9-imre.deak%40intel.com
-patch subject: [Intel-gfx] [PATCH 08/29] drm/dp: Add helpers to calculate the link BW overhead
-config: x86_64-buildonly-randconfig-003-20231024 (https://download.01.org/0day-ci/archive/20231024/202310242019.Hp2KseM1-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231024/202310242019.Hp2KseM1-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310242019.Hp2KseM1-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ld: drivers/gpu/drm/display/drm_dp_mst_topology.o: in function `drm_dp_calc_pbn_mode':
->> drm_dp_mst_topology.c:(.text+0x1403): undefined reference to `drm_dp_bw_overhead'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Nícolas
