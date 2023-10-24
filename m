@@ -1,46 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC1F27EDD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 17:19:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D382510F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 18:44:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SooRPfoO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LLrskUYK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698167956; x=1729703956;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9q9MqQCpY1SI/fshWhM8ElAKetUkv/hlS9/YBah97Lk=;
-  b=SooRPfoOUio9VP2f2EAAjYmC0YWwJJr8YS0ke6fc6Qj+xNwVu8hAd36S
-   ILf51gdr3el9kMPcC6lVVHTZKilPq5dw/0JtGZKtX+31VwJRF96pY6oE5
-   WKJ7BphnXvUlEuMso9eR6uDHfw6Jx5ywC5YFXEWlHgK3G1enW0GoLrua+
-   v8gYvxiCaGDA9SbZEVgVj7bC7BcPc6veJ8jkcYDbHuulXIrW0qoJTPVlU
-   Mg7Rq9jMa7yCqgn5CqN4VtAmpW/PY0l9gckat7sgbidZhgQkqToF9BZ4o
-   lH2RyIIyU7ZDb7SZ1D2gX0kD7HOyXU+89B1cob40+iZrbNgMpjQbYM/t4
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="390992510"
+  t=1698173062; x=1729709062;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0agB9+eKx+cq1VNd6N/1YyY/E3g2/msA0IL4s2WLDmQ=;
+  b=LLrskUYKrWUVTxt1MySGDRQrj9LFlcTAZU6lElrUaViwwn9lOl5Fkuv1
+   iBTztGyfqO7bBQT7t61DJBtIk8fC25TzGqzoDNP5xgvrZGwidLmgSd0+T
+   s5bbjfMKUVIwsYbdEHmceWFknXY7SWO/46QyWCDG3XSYoT0zm2uJm83D/
+   cBS6UuOn+rEMF2rHF1cFmHDdfMyjcRTeVLLt6YbtCu2dRhttPZ81rfhGd
+   wzden5GL2o9af2FeZw28sXV/8pp0yplTM57j0yo0qziMhQ7BOEMzId18a
+   M4wGf3em3FrYahB4dmEK2fG5U/JKf/NNsxte7nEGUbXrCmyFsRqoi3DC5
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="389993642"
 X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
-   d="scan'208";a="390992510"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 10:19:15 -0700
+   d="scan'208";a="389993642"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 11:44:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="932105588"
 X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
-   d="scan'208";a="932105588"
+   d="scan'208";a="6558968"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 24 Oct 2023 10:19:14 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 24 Oct 2023 11:44:12 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qvL3f-00084f-1A;
-	Tue, 24 Oct 2023 17:19:11 +0000
-Date: Wed, 25 Oct 2023 01:18:38 +0800
+	id 1qvMO0-0008AF-2R;
+	Tue, 24 Oct 2023 18:44:16 +0000
+Date: Wed, 25 Oct 2023 02:43:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [amir73il:inode_fsid 3/12] include/linux/stddef.h:8:16: error:
- expected identifier or '(' before 'void'
-Message-ID: <202310250143.oFxE3z1I-lkp@intel.com>
+To: Daniel =?iso-8859-1?Q?Gr=F6ber?= <dxld@darkboxed.org>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	wireguard@lists.zx2c4.com, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Daniel =?iso-8859-1?Q?Gr=F6ber?= <dxld@darkboxed.org>
+Subject: Re: [PATCH] wireguard: Add netlink attrs for binding to address and
+ netdev
+Message-ID: <202310250256.kXWoLwJm-lkp@intel.com>
+References: <20231023160006.85992-1-dxld@darkboxed.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,227 +56,151 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231023160006.85992-1-dxld@darkboxed.org>
 
-tree:   https://github.com/amir73il/linux inode_fsid
-head:   0917c5542e97586eb18ddc0f0b93c9415c350e5a
-commit: 5008f2e7542492c2c9eec90587ca1358c6e52dd8 [3/12] exportfs: make ->encode_fh() a mandatory method for NFS export
-config: xtensa-randconfig-001-20231024 (https://download.01.org/0day-ci/archive/20231025/202310250143.oFxE3z1I-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310250143.oFxE3z1I-lkp@intel.com/reproduce)
+Hi Daniel,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc7 next-20231024]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Gr-ber/wireguard-Add-netlink-attrs-for-binding-to-address-and-netdev/20231024-000158
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231023160006.85992-1-dxld%40darkboxed.org
+patch subject: [PATCH] wireguard: Add netlink attrs for binding to address and netdev
+config: um-randconfig-002-20231024 (https://download.01.org/0day-ci/archive/20231025/202310250256.kXWoLwJm-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310250256.kXWoLwJm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310250143.oFxE3z1I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310250256.kXWoLwJm-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/exportfs.h:5,
-                    from fs/exportfs/expfs.c:12:
->> include/linux/stddef.h:8:16: error: expected identifier or '(' before 'void'
-       8 | #define NULL ((void *)0)
-         |                ^~~~
-   include/linux/exportfs.h:286:33: note: in expansion of macro 'NULL'
-     286 | #define generic_encode_ino32_fh NULL
-         |                                 ^~~~
-   fs/exportfs/expfs.c:357:5: note: in expansion of macro 'generic_encode_ino32_fh'
-     357 | int generic_encode_ino32_fh(struct inode *inode, __u32 *fh, int *max_len,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/stddef.h:8:23: error: expected ')' before numeric constant
-       8 | #define NULL ((void *)0)
-         |                       ^
-   include/linux/exportfs.h:286:33: note: in expansion of macro 'NULL'
-     286 | #define generic_encode_ino32_fh NULL
-         |                                 ^~~~
-   fs/exportfs/expfs.c:357:5: note: in expansion of macro 'generic_encode_ino32_fh'
-     357 | int generic_encode_ino32_fh(struct inode *inode, __u32 *fh, int *max_len,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/linkage.h:7,
-                    from include/linux/fs.h:5,
-                    from fs/exportfs/expfs.c:13:
->> include/linux/stddef.h:8:16: error: expected identifier or '(' before 'void'
-       8 | #define NULL ((void *)0)
-         |                ^~~~
-   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
-      74 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   fs/exportfs/expfs.c:384:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/exportfs.h:286:33: note: in expansion of macro 'NULL'
-     286 | #define generic_encode_ino32_fh NULL
-         |                                 ^~~~
-   fs/exportfs/expfs.c:384:19: note: in expansion of macro 'generic_encode_ino32_fh'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/stddef.h:8:23: error: expected ')' before numeric constant
-       8 | #define NULL ((void *)0)
-         |                       ^
-   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
-      74 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   fs/exportfs/expfs.c:384:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/exportfs.h:286:33: note: in expansion of macro 'NULL'
-     286 | #define generic_encode_ino32_fh NULL
-         |                                 ^~~~
-   fs/exportfs/expfs.c:384:19: note: in expansion of macro 'generic_encode_ino32_fh'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from <command-line>:
->> include/linux/compiler.h:215:37: error: pasting "__addressable_" and "(" does not give a valid preprocessing token
-     215 |                 __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)&sym;
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-      74 | #define ___PASTE(a,b) a##b
-         |                       ^
-   include/linux/compiler.h:215:29: note: in expansion of macro '__PASTE'
-     215 |                 __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)&sym;
-         |                             ^~~~~~~
-   include/linux/compiler.h:217:9: note: in expansion of macro '___ADDRESSABLE'
-     217 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
-         |         ^~~~~~~~~~~~~~
-   include/linux/export.h:75:9: note: in expansion of macro '__ADDRESSABLE'
-      75 |         __ADDRESSABLE(sym)                                      \
-         |         ^~~~~~~~~~~~~
-   include/linux/export.h:83:41: note: in expansion of macro '__EXPORT_SYMBOL'
-      83 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
-         |                                         ^~~~~~~~~~~~~~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   fs/exportfs/expfs.c:384:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         | ^~~~~~~~~~~~~~~~~
->> include/linux/stddef.h:8:15: error: expected declaration specifiers or '...' before '(' token
-       8 | #define NULL ((void *)0)
-         |               ^
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-      74 | #define ___PASTE(a,b) a##b
-         |                       ^
-   include/linux/compiler-gcc.h:42:29: note: in expansion of macro '__PASTE'
-      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^~~~~~~
-   include/linux/compiler_types.h:75:22: note: in expansion of macro '___PASTE'
-      75 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler-gcc.h:42:37: note: in expansion of macro '__PASTE'
-      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                     ^~~~~~~
-   include/linux/compiler.h:215:17: note: in expansion of macro '__UNIQUE_ID'
-     215 |                 __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)&sym;
-         |                 ^~~~~~~~~~~
-   include/linux/compiler_types.h:75:22: note: in expansion of macro '___PASTE'
-      75 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:215:29: note: in expansion of macro '__PASTE'
-     215 |                 __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)&sym;
-         |                             ^~~~~~~
-   include/linux/compiler.h:217:9: note: in expansion of macro '___ADDRESSABLE'
-     217 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
-         |         ^~~~~~~~~~~~~~
-   include/linux/export.h:75:9: note: in expansion of macro '__ADDRESSABLE'
-      75 |         __ADDRESSABLE(sym)                                      \
-         |         ^~~~~~~~~~~~~
-   include/linux/export.h:83:41: note: in expansion of macro '__EXPORT_SYMBOL'
-      83 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
-         |                                         ^~~~~~~~~~~~~~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   fs/exportfs/expfs.c:384:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/exportfs.h:286:33: note: in expansion of macro 'NULL'
-     286 | #define generic_encode_ino32_fh NULL
-         |                                 ^~~~
-   fs/exportfs/expfs.c:384:19: note: in expansion of macro 'generic_encode_ino32_fh'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/stddef.h:8:24: error: pasting ")" and "222" does not give a valid preprocessing token
-       8 | #define NULL ((void *)0)
-         |                        ^
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-      74 | #define ___PASTE(a,b) a##b
-         |                       ^
-   include/linux/compiler-gcc.h:42:29: note: in expansion of macro '__PASTE'
-      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^~~~~~~
-   include/linux/compiler_types.h:75:22: note: in expansion of macro '___PASTE'
-      75 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler-gcc.h:42:37: note: in expansion of macro '__PASTE'
-      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                     ^~~~~~~
-   include/linux/compiler.h:215:17: note: in expansion of macro '__UNIQUE_ID'
-     215 |                 __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)&sym;
-         |                 ^~~~~~~~~~~
-   include/linux/compiler_types.h:75:22: note: in expansion of macro '___PASTE'
-      75 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:215:29: note: in expansion of macro '__PASTE'
-     215 |                 __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)&sym;
-         |                             ^~~~~~~
-   include/linux/compiler.h:217:9: note: in expansion of macro '___ADDRESSABLE'
-     217 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
-         |         ^~~~~~~~~~~~~~
-   include/linux/export.h:75:9: note: in expansion of macro '__ADDRESSABLE'
-      75 |         __ADDRESSABLE(sym)                                      \
-         |         ^~~~~~~~~~~~~
-   include/linux/export.h:83:41: note: in expansion of macro '__EXPORT_SYMBOL'
-      83 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
-         |                                         ^~~~~~~~~~~~~~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   fs/exportfs/expfs.c:384:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/exportfs.h:286:33: note: in expansion of macro 'NULL'
-     286 | #define generic_encode_ino32_fh NULL
-         |                                 ^~~~
-   fs/exportfs/expfs.c:384:19: note: in expansion of macro 'generic_encode_ino32_fh'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/export.h:47:9: error: pasting "__export_symbol_" and "(" does not give a valid preprocessing token
-      47 |         __export_symbol_##sym:                  ASM_NL  \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/export.h:76:25: note: in expansion of macro '___EXPORT_SYMBOL'
-      76 |         asm(__stringify(___EXPORT_SYMBOL(sym, license, ns)))
-         |                         ^~~~~~~~~~~~~~~~
-   include/linux/export.h:83:41: note: in expansion of macro '__EXPORT_SYMBOL'
-      83 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
-         |                                         ^~~~~~~~~~~~~~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   fs/exportfs/expfs.c:384:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         | ^~~~~~~~~~~~~~~~~
+   drivers/net/wireguard/netlink.c: In function 'wg_get_device_dump':
+>> drivers/net/wireguard/netlink.c:247:52: error: 'struct udp_port_cfg' has no member named 'local_ip6'; did you mean 'local_ip'?
+     247 |                                      &wg->port_cfg.local_ip6))
+         |                                                    ^~~~~~~~~
+         |                                                    local_ip
+   drivers/net/wireguard/netlink.c: In function 'set_port_cfg':
+   drivers/net/wireguard/netlink.c:348:34: error: 'struct udp_port_cfg' has no member named 'local_ip6'; did you mean 'local_ip'?
+     348 |                         port_cfg.local_ip6 = u_addr->addr6;
+         |                                  ^~~~~~~~~
+         |                                  local_ip
 
 
-vim +8 include/linux/stddef.h
+vim +247 drivers/net/wireguard/netlink.c
 
-^1da177e4c3f41 Linus Torvalds   2005-04-16  6  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  7  #undef NULL
-^1da177e4c3f41 Linus Torvalds   2005-04-16 @8  #define NULL ((void *)0)
-6e218287432472 Richard Knutsson 2006-09-30  9  
-
-:::::: The code at line 8 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+   211	
+   212	static int wg_get_device_dump(struct sk_buff *skb, struct netlink_callback *cb)
+   213	{
+   214		struct wg_peer *peer, *next_peer_cursor;
+   215		struct dump_ctx *ctx = DUMP_CTX(cb);
+   216		struct wg_device *wg = ctx->wg;
+   217		struct nlattr *peers_nest;
+   218		int ret = -EMSGSIZE;
+   219		bool done = true;
+   220		void *hdr;
+   221	
+   222		rtnl_lock();
+   223		mutex_lock(&wg->device_update_lock);
+   224		cb->seq = wg->device_update_gen;
+   225		next_peer_cursor = ctx->next_peer;
+   226	
+   227		hdr = genlmsg_put(skb, NETLINK_CB(cb->skb).portid, cb->nlh->nlmsg_seq,
+   228				  &genl_family, NLM_F_MULTI, WG_CMD_GET_DEVICE);
+   229		if (!hdr)
+   230			goto out;
+   231		genl_dump_check_consistent(cb, hdr);
+   232	
+   233		if (!ctx->next_peer) {
+   234			if (nla_put_u16(skb, WGDEVICE_A_LISTEN_PORT,
+   235					ntohs(wg->port_cfg.local_udp_port)) ||
+   236			    nla_put_u32(skb, WGDEVICE_A_LISTEN_IFINDEX, wg->port_cfg.bind_ifindex) ||
+   237			    nla_put_u32(skb, WGDEVICE_A_FWMARK, wg->fwmark) ||
+   238			    nla_put_u32(skb, WGDEVICE_A_IFINDEX, wg->dev->ifindex) ||
+   239			    nla_put_string(skb, WGDEVICE_A_IFNAME, wg->dev->name))
+   240				goto out;
+   241		        if (wg->port_cfg.family == AF_INET &&
+   242			    nla_put_in_addr(skb, WGDEVICE_A_LISTEN_ADDR,
+   243					    wg->port_cfg.local_ip.s_addr))
+   244					goto out;
+   245		        if (wg->port_cfg.family == AF_INET6 &&
+   246			    nla_put_in6_addr(skb, WGDEVICE_A_LISTEN_ADDR,
+ > 247					     &wg->port_cfg.local_ip6))
+   248					goto out;
+   249	
+   250			down_read(&wg->static_identity.lock);
+   251			if (wg->static_identity.has_identity) {
+   252				if (nla_put(skb, WGDEVICE_A_PRIVATE_KEY,
+   253					    NOISE_PUBLIC_KEY_LEN,
+   254					    wg->static_identity.static_private) ||
+   255				    nla_put(skb, WGDEVICE_A_PUBLIC_KEY,
+   256					    NOISE_PUBLIC_KEY_LEN,
+   257					    wg->static_identity.static_public)) {
+   258					up_read(&wg->static_identity.lock);
+   259					goto out;
+   260				}
+   261			}
+   262			up_read(&wg->static_identity.lock);
+   263		}
+   264	
+   265		peers_nest = nla_nest_start(skb, WGDEVICE_A_PEERS);
+   266		if (!peers_nest)
+   267			goto out;
+   268		ret = 0;
+   269		/* If the last cursor was removed via list_del_init in peer_remove, then
+   270		 * we just treat this the same as there being no more peers left. The
+   271		 * reason is that seq_nr should indicate to userspace that this isn't a
+   272		 * coherent dump anyway, so they'll try again.
+   273		 */
+   274		if (list_empty(&wg->peer_list) ||
+   275		    (ctx->next_peer && list_empty(&ctx->next_peer->peer_list))) {
+   276			nla_nest_cancel(skb, peers_nest);
+   277			goto out;
+   278		}
+   279		lockdep_assert_held(&wg->device_update_lock);
+   280		peer = list_prepare_entry(ctx->next_peer, &wg->peer_list, peer_list);
+   281		list_for_each_entry_continue(peer, &wg->peer_list, peer_list) {
+   282			if (get_peer(peer, skb, ctx)) {
+   283				done = false;
+   284				break;
+   285			}
+   286			next_peer_cursor = peer;
+   287		}
+   288		nla_nest_end(skb, peers_nest);
+   289	
+   290	out:
+   291		if (!ret && !done && next_peer_cursor)
+   292			wg_peer_get(next_peer_cursor);
+   293		wg_peer_put(ctx->next_peer);
+   294		mutex_unlock(&wg->device_update_lock);
+   295		rtnl_unlock();
+   296	
+   297		if (ret) {
+   298			genlmsg_cancel(skb, hdr);
+   299			return ret;
+   300		}
+   301		genlmsg_end(skb, hdr);
+   302		if (done) {
+   303			ctx->next_peer = NULL;
+   304			return 0;
+   305		}
+   306		ctx->next_peer = next_peer_cursor;
+   307		return skb->len;
+   308	
+   309		/* At this point, we can't really deal ourselves with safely zeroing out
+   310		 * the private key material after usage. This will need an additional API
+   311		 * in the kernel for marking skbs as zero_on_free.
+   312		 */
+   313	}
+   314	
 
 -- 
 0-DAY CI Kernel Test Service
