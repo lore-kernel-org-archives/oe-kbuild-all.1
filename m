@@ -1,48 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E83C6566A;
-	Tue, 24 Oct 2023 01:22:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC32F63DD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 01:43:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ci3WbMjP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q9PgbuHM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698110558; x=1729646558;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nDTslLenkizcRrHJKivdjS1LbaTiffk2Cypje6raSv4=;
-  b=Ci3WbMjPeQkAG/mwfn00aQwoVAe3hGEuvrjcvHbNKGfN+gsHveFbzlhv
-   34N5rY/aPVt5KmoffaY7bxnDcOjr15sWPRbMfAHqTstn18IJtIzIOUUYe
-   ckG38eDnqVlCKwrDQG2mvD2B151w5y840TmiZULvlGKKjw+lcTyPscI0V
-   GhDU+bLJxFMLbaNddgDmyrmLcK6X5ZM4yb9490ySi0H3UNt5Y/MPW+mfh
-   NjHK/G+oo1zjZ7z76dtkhVNDXShY1i/ETWimx3pW4MwGdGSIi7EsdQxuG
-   /q7lUuGVeC7HJu7q8bGJEshosWEXpWaH/qZbUahcS3/xFLjRJ3FJa6SqZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="366306519"
+  t=1698111816; x=1729647816;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KVoj2Om8bCNOUEAaS1cea1Kwc+yI3yTZ1goF/EnPb10=;
+  b=Q9PgbuHMzMK+X+ORuvf3YEptE+CxQT5SCfrcVz/vOUiKUE0NU1OsT1id
+   hPBYSrTFbulsMRBig6riOn3JiWpO0C9UPltb6UNKb+OOZpSYe0LhNl53M
+   zPWSRRIBGUA5H2flO0s7Cx5D0DAy/1mb8AIQGYtLq3pvCTLCAKY53rBmS
+   6ffkuYKdNGdosfFjwm3oTne8ZzmLyWyOVAjp1GtAgWIQdzYwVRqcShRet
+   ktLl1gsbtNLGEuDpzK5oDi6lGOgy9dOEVoRo/qpw7JSTkdk0JcM1XIomF
+   lkjvMyx0tihZH1sc69Q5x/h5duFnkHRIOxxLCsox+mdRwjRtBXe4aD6Ef
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="418090189"
 X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
-   d="scan'208";a="366306519"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 18:22:34 -0700
+   d="scan'208";a="418090189"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 18:43:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="1005511042"
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="881962230"
 X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
-   d="scan'208";a="1005511042"
+   d="scan'208";a="881962230"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 23 Oct 2023 18:22:33 -0700
+  by orsmga004.jf.intel.com with ESMTP; 23 Oct 2023 18:43:34 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qv67r-0007RR-12;
-	Tue, 24 Oct 2023 01:22:31 +0000
-Date: Tue, 24 Oct 2023 09:21:44 +0800
+	id 1qv6SB-0007SZ-2z;
+	Tue, 24 Oct 2023 01:43:31 +0000
+Date: Tue, 24 Oct 2023 09:43:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"Paul E. McKenney" <paulmck@kernel.org>
-Subject: [paulmck-rcu:mmap_sem.2023.10.18a 31/31] ld.lld: error: undefined
- symbol: __bad_udelay
-Message-ID: <202310240930.H14JVILQ-lkp@intel.com>
+To: Eduard Zingerman <eddyz87@gmail.com>, bpf@vger.kernel.org,
+	ast@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH bpf-next v3 4/7] selftests/bpf: tests with delayed
+ read/precision makrs in loop body
+Message-ID: <202310240902.mvutnvcZ-lkp@intel.com>
+References: <20231024000917.12153-5-eddyz87@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,24 +52,125 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231024000917.12153-5-eddyz87@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git mmap_sem.2023.10.18a
-head:   4015256f2bc734d4175381762282784597f41cfa
-commit: 4015256f2bc734d4175381762282784597f41cfa [31/31] EXP TESTING: introduce delay between getting a VMA and using it in show_map
-config: arm-ixp4xx_defconfig (https://download.01.org/0day-ci/archive/20231024/202310240930.H14JVILQ-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231024/202310240930.H14JVILQ-lkp@intel.com/reproduce)
+Hi Eduard,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eduard-Zingerman/bpf-move-explored_state-closer-to-the-beginning-of-verifier-c/20231024-081049
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20231024000917.12153-5-eddyz87%40gmail.com
+patch subject: [PATCH bpf-next v3 4/7] selftests/bpf: tests with delayed read/precision makrs in loop body
+reproduce: (https://download.01.org/0day-ci/archive/20231024/202310240902.mvutnvcZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310240930.H14JVILQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310240902.mvutnvcZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+# many are suggestions rather than must-fix
 
->> ld.lld: error: undefined symbol: __bad_udelay
-   >>> referenced by task_mmu.c
-   >>>               fs/proc/task_mmu.o:(show_map) in archive vmlinux.a
+WARNING:SPLIT_STRING: quoted string split across lines
+#82: FILE: tools/testing/selftests/bpf/progs/iters.c:767:
++	"1:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#91: FILE: tools/testing/selftests/bpf/progs/iters.c:776:
++	"3:"
++		"r1 = r7;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#97: FILE: tools/testing/selftests/bpf/progs/iters.c:782:
++	"2:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#159: FILE: tools/testing/selftests/bpf/progs/iters.c:844:
++	"1:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#169: FILE: tools/testing/selftests/bpf/progs/iters.c:854:
++	"3:"
++		"r0 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#176: FILE: tools/testing/selftests/bpf/progs/iters.c:861:
++	"2:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#252: FILE: tools/testing/selftests/bpf/progs/iters.c:937:
++	"j_loop_%=:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#264: FILE: tools/testing/selftests/bpf/progs/iters.c:949:
++	"i_loop_%=:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#269: FILE: tools/testing/selftests/bpf/progs/iters.c:954:
++	"check_one_r6_%=:"
++		"if r6 != 1 goto check_zero_r6_%=;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#274: FILE: tools/testing/selftests/bpf/progs/iters.c:959:
++	"check_zero_r6_%=:"
++		"if r6 != 0 goto i_loop_%=;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#280: FILE: tools/testing/selftests/bpf/progs/iters.c:965:
++	"check_one_r7_%=:"
++		"if r7 != 1 goto i_loop_%=;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#294: FILE: tools/testing/selftests/bpf/progs/iters.c:979:
++	"i_loop_end_%=:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#302: FILE: tools/testing/selftests/bpf/progs/iters.c:987:
++	"j_loop_end_%=:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#346: FILE: tools/testing/selftests/bpf/progs/iters.c:1031:
++	"loop_%=:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#359: FILE: tools/testing/selftests/bpf/progs/iters.c:1044:
++	"loop_end_%=:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#400: FILE: tools/testing/selftests/bpf/progs/iters.c:1085:
++	"loop_%=:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#409: FILE: tools/testing/selftests/bpf/progs/iters.c:1094:
++	"loop_end_%=:"
++		"r1 = r10;"
+
+WARNING:REPEATED_WORD: Possible repeated word: 'to'
+#454: FILE: tools/testing/selftests/bpf/progs/iters.c:1139:
++	 * to to avoid comparing current state with too many explored
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#476: FILE: tools/testing/selftests/bpf/progs/iters.c:1161:
++	"loop_%=:"
++		"r1 = r10;"
+
+WARNING:SPLIT_STRING: quoted string split across lines
+#537: FILE: tools/testing/selftests/bpf/progs/iters.c:1222:
++	"loop_end_%=:"
++		"r1 = r10;"
 
 -- 
 0-DAY CI Kernel Test Service
