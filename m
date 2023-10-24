@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A5E1B283
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 22:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F8C2B756
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 23:09:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LW2LIf47"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698187242; x=1729723242;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=q3Ok4428bbOveyJ+wKgLVB2cJLfK2vPLdI3UCmvgUhM=;
-  b=LW2LIf47xjdnjJxltR9qRLplq+rbXeuUq8Nw2jIyi7ndbK9R7nFagfcQ
-   i38BQhHKIUm5BwfUfnKBCOEUoeZ4SIU3YXexhX+KqyCi7lSlFULFDaxXd
-   9sID/SR4KtTzBJCYXaF/eZpZw4PxxekV/bWjWAco1o+Ldja3tJrkPk6BP
-   SiaWJC8pBiHttpaIfY7TyZQZmTzDloVAQ8W/8JPUn5ndN+aFrxJ3SlqLz
-   YPQeZUppZHoJImBUH1wGlJdM3Yh79/rdh/sTVY5R8TK/gVqUOSq5jI6mI
-   QsLuWG8zyqMtdr+PoiNT5I+WIxhKOCdyJurjrgaN5apfBioTlP2Mc/qqN
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="366537255"
-X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
-   d="scan'208";a="366537255"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 15:40:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="932184988"
-X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
-   d="scan'208";a="932184988"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 24 Oct 2023 15:40:33 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qvQ4c-0008MX-2D;
-	Tue, 24 Oct 2023 22:40:30 +0000
-Date: Wed, 25 Oct 2023 06:40:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, kent.overstreet@linux.dev,
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
-	roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
-	willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net,
-	void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
-	ldufour@linux.ibm.com, catalin.marinas@arm.com, will@kernel.org,
-	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
-	masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org,
-	tj@kernel.org
-Subject: Re: [PATCH v2 24/39] mm/slab: enable slab allocation tagging for
- kmalloc and friends
-Message-ID: <202310250626.vQee6gZh-lkp@intel.com>
-References: <20231024134637.3120277-25-surenb@google.com>
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="QiFGDAbQ"
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-581b6b93bd1so2918369eaf.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 16:09:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1698188956; x=1698793756; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0siPgI8LR7VRXz+41IZBvL9RtyJx4xQS8xBV0BH+ukI=;
+        b=QiFGDAbQzzjIEaAJ+15OcT34DPW794YvnnPPTngNNvRoEjzuH94jo+jJmz3sbOl6HV
+         ayhezf4iAF9UDKYimWcnmKxoncmrYtGz1RhJC5ivB7tB73PY+dNB45pJG5VBGXUt6zkf
+         hw+nEOy68aJuVglc6F5PQR3cnZwNDglhlY1m38pcr3IDXC0YaMqM/QWhpiZapI/fKb4T
+         FP9UX1JbbgZ8yVJFQO4JkDg/b0zdFaBikyLx+4/FrgOgxk7HFvWUVt4BSuqp0CkwMDeJ
+         lPP49pEgS9g8kSt+cHWXDLePqO90rYfEpFaXv27GkvMY2KcLr6EB5D0DB/E1o31NgDyf
+         7oNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698188956; x=1698793756;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0siPgI8LR7VRXz+41IZBvL9RtyJx4xQS8xBV0BH+ukI=;
+        b=qREqgki6Z3stVrUoX6ff3n8LhF3sqDkkXGrwgWS9py+KJFANHodbotreZI3WXOILvt
+         OfVDYQPfrNJ91iFyeYK7/ZyqEJwNwDYNYRmU5M7nB4rvDZyG4dDOQJsnu+xVRkjYfEmV
+         1wd6JKk7GsBJsjQWMvnYrT4LSTBVi50D32U6x2R1MReSFSDvZstuwNKL1xkEvOWNt3ZQ
+         XBBeo36ipn9DWnIVNAaBc0PqZBYPcPTId2MysX2z3szIouTX1byhlaFGO6YhOUGilGq3
+         Mh8btoV+9s76gB2JIswhZ5YbsaTzrA/EpAd1DoAS8kQTp/62+CBeVarbOcnHZPxlWg7Y
+         ubgQ==
+X-Gm-Message-State: AOJu0YzpXSN3TnITXKnS8x7k7Ezg2ZqyUGvqYR+vw1gGjZRnz1jQNG15
+	oyn3ZaIuK7DrQqcOZfn+qfRIRAlg4Oacbx89Mao=
+X-Google-Smtp-Source: AGHT+IHztkvC2r7oEw2SKjAYFX1HuTwSeL3HpB6c8WZff7ql18+EFwphRduVa+Av8g/ijeOIM+FMGA==
+X-Received: by 2002:a4a:ee19:0:b0:586:881d:ea25 with SMTP id bd25-20020a4aee19000000b00586881dea25mr1636114oob.6.1698188956370;
+        Tue, 24 Oct 2023 16:09:16 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-26-201.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.26.201])
+        by smtp.gmail.com with ESMTPSA id p6-20020a056830338600b006c4edf462d7sm2053790ott.43.2023.10.24.16.09.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Oct 2023 16:09:15 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1qvQWP-004TSm-TT;
+	Tue, 24 Oct 2023 20:09:13 -0300
+Date: Tue, 24 Oct 2023 20:09:13 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>,
+	Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [jgg-iommufd:for-next 36/39]
+ drivers/iommu/iommufd/hw_pagetable.c:101: warning: Function parameter or
+ member 'user_data' not described in 'iommufd_hwpt_paging_alloc'
+Message-ID: <20231024230913.GN691768@ziepe.ca>
+References: <202310250418.NmeDHFgw-lkp@intel.com>
+ <ZTgosVlGp/H/k6pd@Asurada-Nvidia>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,71 +64,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231024134637.3120277-25-surenb@google.com>
+In-Reply-To: <ZTgosVlGp/H/k6pd@Asurada-Nvidia>
 
-Hi Suren,
+On Tue, Oct 24, 2023 at 01:27:29PM -0700, Nicolin Chen wrote:
+> I think we forgot to add this:
+> 
+> ----------------------------------
+> diff --git a/drivers/iommu/iommufd/hw_pagetable.c b/drivers/iommu/iommufd/hw_pagetable.c
+> index 6e11693617a0..358708973cd7 100644
+> --- a/drivers/iommu/iommufd/hw_pagetable.c
+> +++ b/drivers/iommu/iommufd/hw_pagetable.c
+> @@ -84,6 +84,7 @@ iommufd_hwpt_paging_enforce_cc(struct iommufd_hwpt_paging *hwpt_paging)
+>   * @idev: Device to get an iommu_domain for
+>   * @flags: Flags from userspace
+>   * @immediate_attach: True if idev should be attached to the hwpt
+> + * @user_data: Optional user_data pointer
+>   *
+>   * Allocate a new iommu_domain and return it as a hw_pagetable. The HWPT
+>   * will be linked to the given ioas and upon return the underlying iommu_domain
+> ----------------------------------
 
-kernel test robot noticed the following build warnings:
+Okay I fixed it
 
-[auto build test WARNING on vbabka-slab/for-next]
-[also build test WARNING on kees/for-next/hardening linus/master v6.6-rc7]
-[cannot apply to akpm-mm/mm-everything next-20231024]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan/lib-string_helpers-Add-flags-param-to-string_get_size/20231024-215116
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git for-next
-patch link:    https://lore.kernel.org/r/20231024134637.3120277-25-surenb%40google.com
-patch subject: [PATCH v2 24/39] mm/slab: enable slab allocation tagging for kmalloc and friends
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231025/202310250626.vQee6gZh-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310250626.vQee6gZh-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310250626.vQee6gZh-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> mm/slab_common.c:1488: warning: expecting prototype for krealloc(). Prototype was for krealloc_noprof() instead
-
-
-vim +1488 mm/slab_common.c
-
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1473  
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1474  /**
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1475   * krealloc - reallocate memory. The contents will remain unchanged.
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1476   * @p: object to reallocate memory for.
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1477   * @new_size: how many bytes of memory are required.
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1478   * @flags: the type of memory to allocate.
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1479   *
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1480   * The contents of the object pointed to are preserved up to the
-15d5de496bebfd Bartosz Golaszewski 2020-12-14  1481   * lesser of the new and old sizes (__GFP_ZERO flag is effectively ignored).
-15d5de496bebfd Bartosz Golaszewski 2020-12-14  1482   * If @p is %NULL, krealloc() behaves exactly like kmalloc().  If @new_size
-15d5de496bebfd Bartosz Golaszewski 2020-12-14  1483   * is 0 and @p is not a %NULL pointer, the object pointed to is freed.
-a862f68a8b3600 Mike Rapoport       2019-03-05  1484   *
-a862f68a8b3600 Mike Rapoport       2019-03-05  1485   * Return: pointer to the allocated memory or %NULL in case of error
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1486   */
-8f61679532ae15 Suren Baghdasaryan  2023-10-24  1487  void *krealloc_noprof(const void *p, size_t new_size, gfp_t flags)
-928cec9cd6db53 Andrey Ryabinin     2014-08-06 @1488  {
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1489  	void *ret;
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1490  
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1491  	if (unlikely(!new_size)) {
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1492  		kfree(p);
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1493  		return ZERO_SIZE_PTR;
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1494  	}
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1495  
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1496  	ret = __do_krealloc(p, new_size, flags);
-772a2fa50ffb2f Andrey Konovalov    2018-12-28  1497  	if (ret && kasan_reset_tag(p) != kasan_reset_tag(ret))
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1498  		kfree(p);
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1499  
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1500  	return ret;
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1501  }
-8f61679532ae15 Suren Baghdasaryan  2023-10-24  1502  EXPORT_SYMBOL(krealloc_noprof);
-928cec9cd6db53 Andrey Ryabinin     2014-08-06  1503  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Jason
