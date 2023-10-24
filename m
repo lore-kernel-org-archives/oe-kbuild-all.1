@@ -1,49 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EDEF2B761;
-	Tue, 24 Oct 2023 16:58:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7301E24212
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 17:08:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TBDVSbRv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cHJrV+7+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698166695; x=1729702695;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1EwDa7coesaBPjJOS2L3hsnRGJdfNvpca2VWPqT6cSE=;
-  b=TBDVSbRvfRR/ld2o77FSFYAyhEX3iZl+Ei6VRmgGX442rMf8T5d6ElXk
-   0WL0f1e4Kuamd5LbW254AA+lpdoH/MiI3uhNspYiMzEa2l7O7xStTHczF
-   84BH+8lF7MpEUxC6IPtr3F3eloj5YXRsaJ0XEU0Atr4jHxfjeTQUjlYz8
-   mKAtjGK0MjZ6xyYcYcaE5b6GpvulnGGihTrxe+GUfXOq8si65WjcYb3UR
-   ofS6wF7ef5yoEhCTGdyuo0NZXFwzVMGkME+Xy5dVplIDocxuCh7dRF746
-   ShFotgnN/9AhvI9/B1dM1xnfKFLnTBJ7/y40vOc/OzSZ24+TtAB8LQptb
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="366456350"
+  t=1698167295; x=1729703295;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sM6+O0fzhiFyTcyu7JWPedeSbTHayWTeM/XS3k819T8=;
+  b=cHJrV+7+fK4E9GTYkaHcq0bA/T3UWEZhMPNXFOm+x2Ps+Iee7M6DpNQz
+   uAq4bTVkfuFOC4zIp+HC38kE2rY4+b3EWK/OPHAK2kcYsqKDYMep2THmh
+   cRUbyqlvcrCFHc0YOTHM9qBYBnQHNkRLwNfPf1CTwpk9cXdRw68kPX3Zt
+   smF1Jvnxnz1ewwqQoK+a+jUD8vZ+UcLToAKrUURv9qwwd1IbrFTmmc71V
+   a0Ssrx2+07+kdm/ohGPiKM5bj0vYZziDwXi2EvZYUAvvjDMEonxu0ZcDM
+   80T9PsVuA6C1Ppmyl2ZEgqP4s+nH4kvaT0XbnfvYtYdLUqK43Jmg3A72A
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="453588211"
 X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
-   d="scan'208";a="366456350"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 09:58:14 -0700
+   d="scan'208";a="453588211"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 10:08:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="787847844"
 X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
-   d="scan'208";a="787847844"
+   d="scan'208";a="6242168"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 24 Oct 2023 09:58:12 -0700
+  by orviesa001.jf.intel.com with ESMTP; 24 Oct 2023 10:06:55 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qvKjK-00083h-0x;
-	Tue, 24 Oct 2023 16:58:10 +0000
-Date: Wed, 25 Oct 2023 00:57:12 +0800
+	id 1qvKt0-00084B-2u;
+	Tue, 24 Oct 2023 17:08:10 +0000
+Date: Wed, 25 Oct 2023 01:08:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: greearb@candelatech.com, linux-wireless@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ben Greear <greearb@candelatech.com>
-Subject: Re: [PATCH v2] wifi: mac80211: ethtool: use best available link for
- default stats.
-Message-ID: <202310250024.SZSqLsNe-lkp@intel.com>
-References: <20231020152353.3705759-1-greearb@candelatech.com>
+To: Raju Rangoju <Raju.Rangoju@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>
+Subject: {standard input}:1101: Error: value of fffffbf6 too large for field
+ of 1 byte at 00000412
+Message-ID: <202310250050.3uYduLnl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,97 +49,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231020152353.3705759-1-greearb@candelatech.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main linus/master v6.6-rc7 next-20231024]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/greearb-candelatech-com/wifi-mac80211-ethtool-use-best-available-link-for-default-stats/20231020-232523
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20231020152353.3705759-1-greearb%40candelatech.com
-patch subject: [PATCH v2] wifi: mac80211: ethtool: use best available link for default stats.
-config: mips-bmips_stb_defconfig (https://download.01.org/0day-ci/archive/20231025/202310250024.SZSqLsNe-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310250024.SZSqLsNe-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d88520ad73b79e71e3ddf08de335b8520ae41c5c
+commit: 07445f3c7ca1cfe490353be52bda91d9e6745ef4 amd-xgbe: Add support for 10 Mbps speed
+date:   10 months ago
+config: arc-randconfig-r001-20221214 (https://download.01.org/0day-ci/archive/20231025/202310250050.3uYduLnl-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310250050.3uYduLnl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310250024.SZSqLsNe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310250050.3uYduLnl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/mac80211/link.c:143:7: warning: variable 'sta1' is uninitialized when used here [-Wuninitialized]
-     143 |                 if (sta1->sta_state > best_sta->sta_state) {
-         |                     ^~~~
-   net/mac80211/link.c:131:24: note: initialize the variable 'sta1' to silence this warning
-     131 |                 struct sta_info *sta1;
-         |                                      ^
-         |                                       = NULL
-   1 warning generated.
-
-
-vim +/sta1 +143 net/mac80211/link.c
-
-   117	
-   118	/* For cases where we need a link for stats and such, and just want
-   119	 * a 'good' one.
-   120	 */
-   121	struct sta_info *
-   122	ieee80211_find_best_sta_link(struct ieee80211_sub_if_data *sdata,
-   123				     struct ieee80211_link_data **link)
-   124	{
-   125		struct ieee80211_link_data *best_link = NULL;
-   126		struct sta_info *best_sta = NULL;
-   127		int i;
-   128	
-   129		for (i = 0; i < IEEE80211_MLD_MAX_NUM_LINKS; i++) {
-   130			struct ieee80211_link_data *link1;
-   131			struct sta_info *sta1;
-   132			bool sta1_better = false;
-   133	
-   134			link1 = sdata_dereference(sdata->link[i], sdata);
-   135			if (!link1)
-   136				continue;
-   137			if (!best_link) {
-   138				best_link = link1;
-   139				best_sta = sta_info_get_bss(sdata, best_link->u.mgd.bssid);
-   140				continue;
-   141			}
-   142			/* we have two potential best links, find one we like best. */
- > 143			if (sta1->sta_state > best_sta->sta_state) {
-   144				sta1_better = true;
-   145			} else if (sta1->sta_state == best_sta->sta_state) {
-   146				u32 freq_best = 0;
-   147				u32 freq1 = 0;
-   148	
-   149				if (best_link->conf->chandef.chan)
-   150					freq_best = best_link->conf->chandef.chan->center_freq;
-   151				if (link1->conf->chandef.chan)
-   152					freq1 = link1->conf->chandef.chan->center_freq;
-   153				if (freq1 > freq_best)
-   154					sta1_better = true;
-   155			}
-   156	
-   157			if (sta1_better) {
-   158				best_sta = sta1;
-   159				best_link = link1;
-   160			}
-   161		}
-   162	
-   163		*link = best_link;
-   164		if (best_link)
-   165			return sta_info_get_bss(sdata, best_link->u.mgd.bssid);
-   166		return sta_info_get_bss(sdata, sdata->deflink.u.mgd.bssid);
-   167	}
-   168	
+   during RTL pass: final
+   drivers/net/ethernet/amd/xgbe/xgbe-mdio.c: In function 'xgbe_change_mode':
+   drivers/net/ethernet/amd/xgbe/xgbe-mdio.c:339:1: internal compiler error: in arc_ccfsm_record_condition, at config/arc/arc.cc:5521
+     339 | }
+         | ^
+   0x5b785d arc_ccfsm_record_condition(rtx_def*, bool, rtx_insn*, arc_ccfsm*)
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.cc:5521
+   0x11def27 output_183
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.md:4843
+   0x82d6e9 final_scan_insn_1
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/final.cc:2774
+   0x82db3b final_scan_insn(rtx_insn*, _IO_FILE*, int, int, int*)
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/final.cc:2887
+   0x82ddc5 final_1
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/final.cc:1979
+   0x82e5e2 rest_of_handle_final
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/final.cc:4240
+   0x82e5e2 execute
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/final.cc:4318
+   Please submit a full bug report, with preprocessed source (by using -freport-bug).
+   Please include the complete backtrace with any bug report.
+   See <https://gcc.gnu.org/bugs/> for instructions.
+   {standard input}: Assembler messages:
+   {standard input}: Error: open CFI at the end of file; missing .cfi_endproc directive
+>> {standard input}:1101: Error: value of fffffbf6 too large for field of 1 byte at 00000412
 
 -- 
 0-DAY CI Kernel Test Service
