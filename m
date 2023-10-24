@@ -1,47 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7278917FF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 06:33:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6967712B9D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 07:11:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PhjP7/h5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698129225; x=1729665225;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lHBo/YOLVBOlKGm0t320LhcbXlD/ELkWc+JSwI+6Lcw=;
-  b=PhjP7/h5ptg4x10g2bF9dXWxR1QGzHQZpLUcgmCXoFfCadlRX2hEqqXL
-   +TxojJp7+C5tiH0/qMXZ29aYPRvL3yYWYhQF/7WCC4tmwxDL3QAxmQB42
-   jrjkRFmfoTe8DQeayKi8BYMAFKpoUEKDfGC78aN/+RXqII+lp5djLc4HX
-   1tbFtNQqo83dtBbP8xWYs29wPtHt+O7PUh3nLcotUP115ASw/JPTmVil2
-   Z5txCUC6tsEsGUmRVGcKJWyFfRowM+v/l50CNx3gIvbITupsggxhwivTk
-   2/6+9ROciGEerSzTYSDNtdszZh1XtDwoAbNUr12qN2nzKqWWsx1PM4jwt
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="385890769"
-X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
-   d="scan'208";a="385890769"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 23:33:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
-   d="scan'208";a="6062372"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 23 Oct 2023 23:32:26 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qvAyz-0007dp-0P;
-	Tue, 24 Oct 2023 06:33:41 +0000
-Date: Tue, 24 Oct 2023 14:32:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Song Liu <song@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4 bpf-next 5/9] bpf, fsverity: Add kfunc
- bpf_get_fsverity_digest
-Message-ID: <202310241417.syn0z1ns-lkp@intel.com>
-References: <20231023224100.2573116-6-song@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rYl0Rcda"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2c503dbe50dso63792021fa.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 00:11:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698131492; x=1698736292; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RzPKTIMRHpKvzKLVJ+54o1Xr908wt85KHRoRpuUteu8=;
+        b=rYl0RcdaChBpzzfQmtSpt44je2wtoasSbIkevVVuc1c+UDK1FxVIcGbTFikPhUqUB3
+         JAulBSGwrLkk0mLS1pudcFO51GvXRGFgBVYf/DNyJo7byIPhr92N8WsLnRMlWxD8xRer
+         Hf1Pyr9v7kBuuJZCwKnxa/jmbXpaMaPTpXoxb3yoIlaPLS5ZDHFSRfpUODXVrsIocr4x
+         yD+sJlvPAwKuaQsQfOanwaPfpd2WQx4p08yqyjIU2XiisWadvmxs4118byM3+L5hyHEu
+         YHnqONExF+uWyE9WAzrCjM4gTO4hwS9SOXw7BkxXd1+LabPAk06uBwojZkK/ez0njsBF
+         0FyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698131492; x=1698736292;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RzPKTIMRHpKvzKLVJ+54o1Xr908wt85KHRoRpuUteu8=;
+        b=Fb1Dnh+IieqZVoObrw4Ik2pXeiA6HXDP/zzGSymSJSeckGvaAn40q/zjhFgl0RmH/m
+         T/xY1hctG4gYkp6FoAwbkg23uCWSG1sqlbXeVIwhn1V1vnQgyjZvXkWUMnAm4gMg9ywA
+         tOBjRJZ6e2MNPN8o4hKSJ26Rb+iAbWARN4azSQrchchjLrxGe1spmJSABxKKqkfRhUfj
+         P4LBREwfMmzoQnc82I2t3Eg05qPUm89gkRFS9ygklYS3sBfc4m9nn2wEDTaUUR4XWzRX
+         VS75XYHC4BtTw14JMEkIZ0geZ7C3GA8SVbn0D9FthM3smdxdYOHKjM4FeejiJ1uHfywp
+         bhxQ==
+X-Gm-Message-State: AOJu0YwKfv8SP70D36yd+s2NTOetDUoUGRpsddUNJubqxveNQL1xm/AL
+	14Nz8LQwrVMQZXnvTzkxS84Z5Q==
+X-Google-Smtp-Source: AGHT+IEOLm6bDOnxKrH+RuTGlEg1h/YTehZwg+JzooCp/KI/JGztHcMSsPMz/5+Im16ysGl6NGXUtQ==
+X-Received: by 2002:a2e:3c03:0:b0:2c5:2357:be98 with SMTP id j3-20020a2e3c03000000b002c52357be98mr8082742lja.44.1698131492432;
+        Tue, 24 Oct 2023 00:11:32 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id l21-20020a056000023500b003198a9d758dsm9346924wrz.78.2023.10.24.00.11.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Oct 2023 00:11:32 -0700 (PDT)
+Date: Tue, 24 Oct 2023 10:11:28 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Amir Goldstein <amir73il@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:fuse-backing-fd 25/29] fs/fuse/passthrough.c:204
+ fuse_passthrough_setup() error: uninitialized symbol 'fb'.
+Message-ID: <beeab035-1c63-4f30-9d74-52af747b7905@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,49 +55,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231023224100.2573116-6-song@kernel.org>
 
-Hi Song,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Song-Liu/bpf-Expose-bpf_dynptr_slice-kfuncs-for-in-kernel-use/20231024-064323
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231023224100.2573116-6-song%40kernel.org
-patch subject: [PATCH v4 bpf-next 5/9] bpf, fsverity: Add kfunc bpf_get_fsverity_digest
-config: parisc-randconfig-002-20231024 (https://download.01.org/0day-ci/archive/20231024/202310241417.syn0z1ns-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231024/202310241417.syn0z1ns-lkp@intel.com/reproduce)
+tree:   https://github.com/amir73il/linux fuse-backing-fd
+head:   c4564efb86b4d078be40ef2bc3c09eacece9d05e
+commit: cf5bd4ebed653b0e21f85958466f41fd6c869710 [25/29] fuse: implement ioctls to manage backing files
+config: x86_64-randconfig-161-20231022 (https://download.01.org/0day-ci/archive/20231022/202310220943.UJd8HSEP-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20231022/202310220943.UJd8HSEP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310241417.syn0z1ns-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202310220943.UJd8HSEP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+fs/fuse/passthrough.c:204 fuse_passthrough_setup() error: uninitialized symbol 'fb'.
 
-   In file included from fs/verity/verify.c:8:
-   fs/verity/fsverity_private.h: In function 'fsverity_init_bpf':
->> fs/verity/fsverity_private.h:155:1: error: no return statement in function returning non-void [-Werror=return-type]
-     155 | }
-         | ^
-   cc1: some warnings being treated as errors
+vim +/fb +204 fs/fuse/passthrough.c
 
+cf5bd4ebed653b Amir Goldstein 2023-09-11  169  void fuse_passthrough_setup(struct file *file, int backing_id)
+cf5bd4ebed653b Amir Goldstein 2023-09-11  170  {
+cf5bd4ebed653b Amir Goldstein 2023-09-11  171  	struct fuse_file *ff = file->private_data;
+cf5bd4ebed653b Amir Goldstein 2023-09-11  172  	struct fuse_conn *fc = ff->fm->fc;
+cf5bd4ebed653b Amir Goldstein 2023-09-11  173  	struct fuse_backing *fb;
+cf5bd4ebed653b Amir Goldstein 2023-09-11  174  	struct file *backing_file;
+cf5bd4ebed653b Amir Goldstein 2023-09-11  175  	int err;
+cf5bd4ebed653b Amir Goldstein 2023-09-11  176  
+cf5bd4ebed653b Amir Goldstein 2023-09-11  177  	err = -EINVAL;
+cf5bd4ebed653b Amir Goldstein 2023-09-11  178  	if (backing_id <= 0)
+cf5bd4ebed653b Amir Goldstein 2023-09-11  179  		goto out;
 
-vim +155 fs/verity/fsverity_private.h
+fb not initialized on this path
 
-   149	
-   150	#ifdef CONFIG_BPF_SYSCALL
-   151	int __init fsverity_init_bpf(void);
-   152	#else
-   153	static inline int fsverity_init_bpf(void)
-   154	{
- > 155	}
-   156	#endif
-   157	
+cf5bd4ebed653b Amir Goldstein 2023-09-11  180  
+cf5bd4ebed653b Amir Goldstein 2023-09-11  181  	rcu_read_lock();
+cf5bd4ebed653b Amir Goldstein 2023-09-11  182  	fb = idr_find(&fc->backing_files_map, backing_id);
+cf5bd4ebed653b Amir Goldstein 2023-09-11  183  	fb = fuse_backing_get(fb);
+cf5bd4ebed653b Amir Goldstein 2023-09-11  184  	rcu_read_unlock();
+cf5bd4ebed653b Amir Goldstein 2023-09-11  185  
+cf5bd4ebed653b Amir Goldstein 2023-09-11  186  	err = -ENOENT;
+cf5bd4ebed653b Amir Goldstein 2023-09-11  187  	if (!fb)
+cf5bd4ebed653b Amir Goldstein 2023-09-11  188  		goto out;
+cf5bd4ebed653b Amir Goldstein 2023-09-11  189  
+cf5bd4ebed653b Amir Goldstein 2023-09-11  190  	/* Allocate backing file per fuse file to store fuse path */
+cf5bd4ebed653b Amir Goldstein 2023-09-11  191  	backing_file = backing_file_open(&file->f_path, file->f_flags,
+cf5bd4ebed653b Amir Goldstein 2023-09-11  192  					 &fb->file->f_path, fb->cred);
+cf5bd4ebed653b Amir Goldstein 2023-09-11  193  	err = PTR_ERR(backing_file);
+cf5bd4ebed653b Amir Goldstein 2023-09-11  194  	if (IS_ERR(backing_file))
+cf5bd4ebed653b Amir Goldstein 2023-09-11  195  		goto out;
+cf5bd4ebed653b Amir Goldstein 2023-09-11  196  
+cf5bd4ebed653b Amir Goldstein 2023-09-11  197  	err = 0;
+cf5bd4ebed653b Amir Goldstein 2023-09-11  198  	ff->passthrough = backing_file;
+cf5bd4ebed653b Amir Goldstein 2023-09-11  199  	ff->cred = get_cred(fb->cred);
+cf5bd4ebed653b Amir Goldstein 2023-09-11  200  out:
+cf5bd4ebed653b Amir Goldstein 2023-09-11  201  	pr_debug("%s: backing_id=%d, fb=0x%p, backing_file=0x%p, err=%i\n", __func__,
+cf5bd4ebed653b Amir Goldstein 2023-09-11  202  		 backing_id, fb, ff->passthrough, err);
+                                                                     ^^
+Uninitialized
+
+cf5bd4ebed653b Amir Goldstein 2023-09-11  203  
+cf5bd4ebed653b Amir Goldstein 2023-09-11 @204  	fuse_backing_put(fb);
+cf5bd4ebed653b Amir Goldstein 2023-09-11  205  	if (!ff->passthrough)
+cf5bd4ebed653b Amir Goldstein 2023-09-11  206  		ff->open_flags &= ~FOPEN_PASSTHROUGH;
+cf5bd4ebed653b Amir Goldstein 2023-09-11  207  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
