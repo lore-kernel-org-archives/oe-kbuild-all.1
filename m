@@ -1,135 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A8837C98
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 15:56:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EAF7374D6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 15:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="koeL6VnG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698162974; x=1729698974;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SddTswXNy85QoKJZdafbQk9nSfChueXqS/eU+G7CMYg=;
-  b=koeL6VnGVGJKMm0OZoKUANAQAtyXmNPmeVBL333MTn7PKsKdezKzflx6
-   PffPi4bDwB/pV3+9SlP/LlDdTxBdS9+hHIld92T37DDTv1WOAKOElxcVO
-   Nc+IvFHWx1xknjlumgNufiFkY0I/Nakl4/TW2RS/kDw3weY1t1Ddq1f8i
-   aV1bZ0zLIROX+kSHF7Az3+gnIEBM6TuJizN8ahYQ/o/GktRwpmoZGWSOx
-   rzRJ8cFfN3yaFTZZTZGgsS815HD1b+k3+QSlY0kQkM35LtuqaaqeXQgWJ
-   kMdeBAH4ZpyeCd3r5i8dJUTXo7es/j6G4pQyS/oF2sQMR831RQbDBZiVH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="5719681"
-X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
-   d="scan'208";a="5719681"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 08:56:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="758510350"
-X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
-   d="scan'208";a="758510350"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 24 Oct 2023 08:56:07 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qvJlF-0007yD-1U;
-	Tue, 24 Oct 2023 15:56:05 +0000
-Date: Tue, 24 Oct 2023 23:55:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Romain Gantois <romain.gantois@bootlin.com>, davem@davemloft.net,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Romain Gantois <romain.gantois@bootlin.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, thomas.petazzoni@bootlin.com,
-	Andrew Lunn <andrew@lunn.ch>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	linux-arm-kernel@lists.infradead.org,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Luka Perkov <luka.perkov@sartura.hr>,
-	Robert Marko <robert.marko@sartura.hr>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@somainline.org>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next 3/5] net: ipqess: introduce the Qualcomm IPQESS
- driver
-Message-ID: <202310242300.y8Z3ImgQ-lkp@intel.com>
-References: <20231023155013.512999-4-romain.gantois@bootlin.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DfQxdFNH"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5a7fb84f6ceso44914237b3.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 08:56:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1698162993; x=1698767793; darn=lists.linux.dev;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rjxp8+OshJaX6HTmER4qwOWebSL28uCYwZrUG7M1dI0=;
+        b=DfQxdFNHcFW8N6bV+xxPSgaND8BRe2u75F58hGlZPCbP49GfoGmox3o/qw6tKCwIVH
+         2+H43OEENqc5tB+BeGCQHpTNfWv1jQSflIFzLrHCCU3T3wf8+rfz+JE44X1Tlc6lOzkq
+         ZgPdofSabSAApQJ2gs2Wbp95t1kuShP11MSnncMObYypAAp6f0nQ2jXDPsicst3wTX9c
+         d1IvzxsJPFNtzITOeq59Xc25vxpk3UtPaHdMrFwgllSHKq0oMj0/db+CHqpmLWZUMJkG
+         FgOn9KL1DvuRFt5jy8QZBlnfnbKOlX8VjCDqJX9yhqLA+ZvEbyOCIBYw55sophdqYNaR
+         hprg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698162993; x=1698767793;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rjxp8+OshJaX6HTmER4qwOWebSL28uCYwZrUG7M1dI0=;
+        b=vB9oHmWY9y7vzkuuPuQItPECWPYofQZ2syQVze8DEFH6j4fCryZ/KPCbw5PEGPxN7x
+         kzOqcItCQw6v8G2gjkrhdOSuJfwTSuk8yVZn+JyP7mCxFGUemnPsGFE4hTNrrJlqK3ki
+         yEfLj8N8rXLeHGajDCOtRTLLPoyVj+zia2/FoojVXPWy5VLXVxoD956oPdoVzGpf8pY0
+         TAQSI7zAsMTKci+UOemCvabuwgUN0/OkOhOjmrtsxJrthB4r+ebiI49pccATfXt+Y+Ua
+         B87V+jYaYh2xHSURZNm1oL9C4SzSpsqTfdmUmay++pquQmStGqHrlKTBMPKWrLicWK4V
+         PATg==
+X-Gm-Message-State: AOJu0YwHHYkPJqPFgDrNR8JyTwNdNO6sF1Mpi0Dx9s6ABC60mjk/VYPT
+	7XwpXtmpqZj1Mj2Jk0f6XUtM8g==
+X-Google-Smtp-Source: AGHT+IGIID9UC2iGLP/x4qScEs2HOJYndJ88tB5gJ7g8+EATt+2WBgfMeGi7aFr2+0fEWl2TZbouVw==
+X-Received: by 2002:a0d:fd06:0:b0:5a2:15bc:b32c with SMTP id n6-20020a0dfd06000000b005a215bcb32cmr11823780ywf.42.1698162992889;
+        Tue, 24 Oct 2023 08:56:32 -0700 (PDT)
+Received: from ripple.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id n192-20020a0dcbc9000000b0059f8120ee4dsm4176106ywd.30.2023.10.24.08.56.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Oct 2023 08:56:32 -0700 (PDT)
+Date: Tue, 24 Oct 2023 08:56:20 -0700 (PDT)
+From: Hugh Dickins <hughd@google.com>
+X-X-Sender: hugh@ripple.attlocal.net
+To: kernel test robot <lkp@intel.com>
+cc: Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+    oe-kbuild-all@lists.linux.dev, 
+    Linux Memory Management List <linux-mm@kvack.org>, 
+    Johannes Weiner <hannes@cmpxchg.org>, 
+    domenico cerasuolo <mimmocerasuolo@gmail.com>, 
+    Andi Kleen <ak@linux.intel.com>, 
+    Christoph Lameter <cl@linux-foundation.org>, 
+    Matthew Wilcox <willy@infradead.org>, 
+    Mike Kravetz <mike.kravetz@oracle.com>, 
+    David Hildenbrand <david@redhat.com>, 
+    Suren Baghdasaryan <surenb@google.com>, Yang Shi <shy828301@gmail.com>, 
+    Sidhartha Kumar <sidhartha.kumar@oracle.com>, 
+    Vishal Moola <vishal.moola@gmamil.com>, 
+    Kefeng Wang <wangkefeng.wang@huawei.com>, 
+    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tejun Heo <tj@kernel.org>, 
+    Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>, 
+    "Huang, Ying" <ying.huang@intel.com>, Nhat Pham <nphamcs@gmail.com>, 
+    Yosry Ahmed <yosryahmed@google.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mempolicy: alloc_pages_mpol() for NUMA policy without
+ vma: fix
+In-Reply-To: <202310241551.uY40myKo-lkp@intel.com>
+Message-ID: <38fa4314-3fc7-4e16-fc9d-2773d36a31b1@google.com>
+References: <00dc4f56-e623-7c85-29ea-4211e93063f6@google.com> <202310241551.uY40myKo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231023155013.512999-4-romain.gantois@bootlin.com>
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Romain,
+On Tue, 24 Oct 2023, kernel test robot wrote:
 
-kernel test robot noticed the following build warnings:
+> Hi Hugh,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> 
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/UPDATE-20231024-144517/Hugh-Dickins/hugetlbfs-drop-shared-NUMA-mempolicy-pretence/20231003-173301
+> base:   the 10th patch of https://lore.kernel.org/r/74e34633-6060-f5e3-aee-7040d43f2e93%40google.com
+> patch link:    https://lore.kernel.org/r/00dc4f56-e623-7c85-29ea-4211e93063f6%40google.com
+> patch subject: [PATCH] mempolicy: alloc_pages_mpol() for NUMA policy without vma: fix
+> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231024/202310241551.uY40myKo-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231024/202310241551.uY40myKo-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202310241551.uY40myKo-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from mm/zswap.c:41:
+>    mm/internal.h: In function 'shrinker_debugfs_name_alloc':
+>    mm/internal.h:1232:9: warning: function 'shrinker_debugfs_name_alloc' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+>     1232 |         shrinker->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
+>          |         ^~~~~~~~
+>    mm/zswap.c: In function 'zswap_writeback_entry':
+>    mm/zswap.c:1322:16: error: implicit declaration of function 'get_task_policy'; did you mean 'get_vma_policy'? [-Werror=implicit-function-declaration]
+>     1322 |         mpol = get_task_policy(current);
+>          |                ^~~~~~~~~~~~~~~
+>          |                get_vma_policy
+> >> mm/zswap.c:1322:14: warning: assignment to 'struct mempolicy *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>     1322 |         mpol = get_task_policy(current);
+>          |              ^
+>    cc1: some warnings being treated as errors
 
-[auto build test WARNING on net-next/main]
+Gaah, thanks for that, I never built it without CONFIG_NUMA=y:
+v2 patch with a get_task_policy() without CONFIG_NUMA coming up,
+built this time.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Romain-Gantois/net-dt-bindings-Introduce-the-Qualcomm-IPQESS-Ethernet-switch/20231023-235323
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20231023155013.512999-4-romain.gantois%40bootlin.com
-patch subject: [PATCH net-next 3/5] net: ipqess: introduce the Qualcomm IPQESS driver
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20231024/202310242300.y8Z3ImgQ-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231024/202310242300.y8Z3ImgQ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310242300.y8Z3ImgQ-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/net/ethernet/qualcomm/ipqess/ipqess_edma.c: In function 'ipqess_edma_rx_buf_prepare':
->> drivers/net/ethernet/qualcomm/ipqess/ipqess_edma.c:156:25: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     156 |                         (struct ipqess_edma_rx_desc *)buf->dma;
-         |                         ^
-
-
-vim +156 drivers/net/ethernet/qualcomm/ipqess/ipqess_edma.c
-
-   139	
-   140	static int ipqess_edma_rx_buf_prepare(struct ipqess_edma_buf *buf,
-   141					      struct ipqess_edma_rx_ring *rx_ring)
-   142	{
-   143		memset(buf->skb->data, 0, sizeof(struct ipqess_edma_rx_desc));
-   144	
-   145		buf->dma = dma_map_single(rx_ring->ppdev, buf->skb->data,
-   146					  IPQESS_EDMA_RX_HEAD_BUFF_SIZE,
-   147					  DMA_FROM_DEVICE);
-   148		if (dma_mapping_error(rx_ring->ppdev, buf->dma)) {
-   149			dev_kfree_skb_any(buf->skb);
-   150			buf->skb = NULL;
-   151			return -EFAULT;
-   152		}
-   153	
-   154		buf->length = IPQESS_EDMA_RX_HEAD_BUFF_SIZE;
-   155		rx_ring->hw_desc[rx_ring->head] =
- > 156				(struct ipqess_edma_rx_desc *)buf->dma;
-   157		rx_ring->head = (rx_ring->head + 1) % IPQESS_EDMA_RX_RING_SIZE;
-   158	
-   159		ipqess_edma_m32(rx_ring->edma, IPQESS_EDMA_RFD_PROD_IDX_BITS,
-   160				(rx_ring->head + IPQESS_EDMA_RX_RING_SIZE - 1)
-   161				% IPQESS_EDMA_RX_RING_SIZE,
-   162				IPQESS_EDMA_REG_RFD_IDX_Q(rx_ring->idx));
-   163	
-   164		return 0;
-   165	}
-   166	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Hugh
