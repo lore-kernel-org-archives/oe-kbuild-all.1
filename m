@@ -1,50 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22A2125CA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 08:29:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073F81FDF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 10:46:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QosEEBvW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698136191; x=1729672191;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SLV6MhARR8RYVfBb9XtjSPFc4jJNGlR8zXTP1/dsuaU=;
-  b=QosEEBvWeX+uHA2dduVImBNwQMs91V/rwCp/qAGJbCiPODLDaUd6Yggu
-   vE+ekNJoWOS3yOaXFBrG9ftA6oB9cjoY8cIGtfnEvYpXTig1AY+5XAZSq
-   j44/RoE93shNENYg3ufxYVeBVE/bh3qr2Fv6M9z0tK96XrLWp5pgQ2Cmo
-   3RhBYsaCQ7brOpODsNEaByEM1GZTVYQZlfKYwxslfZEeY2ydoFukBwn5X
-   gm7eRcXytP8SDl9xKgQeDSRiwzvl0rwxfSpcZOw15LXLkrH7KYbaq/rnp
-   wV8Pbky9M+FYF8Wm0SgjMfqDM+L6WMLUUQJTJUqawtbEMjHLE4xzL7nVO
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="451242116"
-X-IronPort-AV: E=Sophos;i="6.03,247,1694761200"; 
-   d="scan'208";a="451242116"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 01:29:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="824218290"
-X-IronPort-AV: E=Sophos;i="6.03,247,1694761200"; 
-   d="scan'208";a="824218290"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 24 Oct 2023 01:29:46 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qvCnI-0007ib-0t;
-	Tue, 24 Oct 2023 08:29:44 +0000
-Date: Tue, 24 Oct 2023 16:28:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alan Maguire <alan.maguire@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: /bin/bash: line 1: 32974 Segmentation fault
-      LLVM_OBJCOPY="sh4-linux-objcopy" pahole -J --btf_gen_floats -j
- --lang_exclude=rust --skip_encoding_btf_inconsistent_proto
- --btf_gen_optimized --btf_base vmlinux
- drivers/gpu/drm/logicvc/logicvc-drm.ko
-Message-ID: <202310241657.tRyhymM6-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CfMJ1bln"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40839652b97so33786655e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 03:46:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698144398; x=1698749198; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0SpGzt5EPQBKeC5ysJFqlAOyND1HqZsJcmX27vUekos=;
+        b=CfMJ1blnBKGMO1s2EdSvcmW62NiZitUrzZ9nEW/fjZxIsnE2UAvIv+dNr5q8HkW5GJ
+         7ZooMRa41xX95hs1Tbr36SvwaCisOJf8WXyHNvgb2uk82E68Z05p1W7LEWOt1wSGA5BZ
+         1wDn5h/S3FM/sRYocKZQc5rDi3anoWjw8h5mFiWJkoQI/qSYHBtQgmMqtjECg04SttlC
+         6AOM89SNqZHprwoJsB26lD2uUohu2UlVWBJ8FVnKeR6w6SdtfridwthqrBRhnOQMAIis
+         xFzZbpay8G+ns+oKmqC9ni1dgWVqnH1R7DqDPWq42D31Plwckr7hmS8GjYAXlqDpH+2G
+         NC6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698144398; x=1698749198;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0SpGzt5EPQBKeC5ysJFqlAOyND1HqZsJcmX27vUekos=;
+        b=gIaCGwvkZhQSVUM7azisNUuwdgK6/4jaOL0EPQVMcBmqIlOZLNAS0VJEi7qGUSo1BD
+         h4EzNwWfrTI+jAPrLKjikmuvtwMOwHZmbhYoM0yMZzwaVzvCMW3BlzcqctMyT1FyFl8z
+         abrIE86OpeoaKSqYL49F24KSwJhR4IAFxBC1n55g9HFYYByMi5nWAuG4AtE9HseltpHu
+         bICDPAlvVmLd87Er+KtWmO2VjE/FoypvKUfJqKwfKN3R2OJrN9hFX9RHl1ijJlVrGcRk
+         DKonnru/wadnWS4N5wFOATQVUGXNl9Nunwh7rk/ZYNOW51vmBvySVfruxN/6nNynw5XD
+         cRAQ==
+X-Gm-Message-State: AOJu0Yw3G5qJf9JKrN4fy7HLaRz9rj4bnIbUjBwijb/y1AEml5pGtwJ6
+	JKSdF8PUksUaQ4PNacjaS+NMKw==
+X-Google-Smtp-Source: AGHT+IFal9H1jvC4Q3PK0I2LyrVEO/TLp7BWA+0hdBEGG9xbWftlWywwFOwOKjSW9JtgKcK+ozdIAQ==
+X-Received: by 2002:a05:600c:19d1:b0:405:3955:5881 with SMTP id u17-20020a05600c19d100b0040539555881mr9060319wmq.36.1698144397131;
+        Tue, 24 Oct 2023 03:46:37 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id e23-20020adf9bd7000000b0032d893d8dc8sm9757680wrc.2.2023.10.24.03.46.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Oct 2023 03:46:36 -0700 (PDT)
+Date: Tue, 24 Oct 2023 13:46:33 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Manas Ghandat <ghandatmanas@gmail.com>,
+	dave.kleikamp@oracle.com, shaggy@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Manas Ghandat <ghandatmanas@gmail.com>,
+	Linux-kernel-mentees@lists.linuxfoundation.org,
+	jfs-discussion@lists.sourceforge.net, linux-kernel@vger.kernel.org,
+	syzbot+9924e2a08d9ba0fd4ce2@syzkaller.appspotmail.com
+Subject: Re: [PATCH] jfs: fix slab-out-of-bounds Read in dtSearch
+Message-ID: <f5a9e854-5b6c-49bd-9888-525906665966@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,124 +60,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231016171130.15952-1-ghandatmanas@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d88520ad73b79e71e3ddf08de335b8520ae41c5c
-commit: 7b99f75942da332e3f4f865e55a10fec95a30d4f bpf: Add --skip_encoding_btf_inconsistent_proto, --btf_gen_optimized to pahole flags for v1.25
-date:   6 months ago
-config: sh-randconfig-r081-20230703 (https://download.01.org/0day-ci/archive/20231024/202310241657.tRyhymM6-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231024/202310241657.tRyhymM6-lkp@intel.com/reproduce)
+Hi Manas,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Manas-Ghandat/jfs-fix-slab-out-of-bounds-Read-in-dtSearch/20231017-152500
+base:   https://github.com/kleikamp/linux-shaggy jfs-next
+patch link:    https://lore.kernel.org/r/20231016171130.15952-1-ghandatmanas%40gmail.com
+patch subject: [PATCH] jfs: fix slab-out-of-bounds Read in dtSearch
+config: i386-randconfig-141-20231022 (https://download.01.org/0day-ci/archive/20231024/202310241724.Ed02yUz9-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231024/202310241724.Ed02yUz9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310241657.tRyhymM6-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202310241724.Ed02yUz9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+fs/jfs/jfs_dtree.c:636 dtSearch() warn: impossible condition '(stbl[index] > 128) => ((-128)-127 > 128)'
 
-   namespace__recode_dwarf_types: couldn't find 0x2baa7 type for 0x26afb (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2b740 type for 0x26b08 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bb03 type for 0x26b22 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bc0b type for 0x26b49 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bbf0 type for 0x26b70 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2604d type for 0x26c82 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2604d type for 0x26d0e (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2e02d type for 0x26e21 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2c783 type for 0x26e27 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2c1cb type for 0x26e35 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2dd64 type for 0x26e43 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2df67 type for 0x26ea5 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x28ebf type for 0x26eb3 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2dfca type for 0x26ec1 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2e05f type for 0x26eed (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2ce34 type for 0x26f0b (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2ce34 type for 0x26f1a (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bcc9 type for 0x27064 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bcc9 type for 0x27072 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bce3 type for 0x27080 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bcf8 type for 0x2708e (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bd1c type for 0x2709c (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bb8e type for 0x270aa (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bd36 type for 0x270b8 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bd55 type for 0x270c6 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bd6a type for 0x270d4 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bb8e type for 0x270e2 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bb8e type for 0x270f0 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bd93 type for 0x270fe (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bda8 type for 0x2710c (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bdc2 type for 0x2711a (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bc62 type for 0x274b8 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bc8c type for 0x274cc (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bc92 type for 0x274da (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bc67 type for 0x274e8 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2b71d type for 0x2750a (member)!
-   namespace__recode_dwarf_types: couldn't find 0x27aa0 type for 0x27a42 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x27ab7 type for 0x27a5c (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2e02d type for 0x26e21 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2c783 type for 0x26e27 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2c1cb type for 0x26e35 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2dd64 type for 0x26e43 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2df67 type for 0x26ea5 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x28ebf type for 0x26eb3 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2dfca type for 0x26ec1 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2e05f type for 0x26eed (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2ce34 type for 0x26f0b (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2ce34 type for 0x26f1a (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bcc9 type for 0x27064 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bcc9 type for 0x27072 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bce3 type for 0x27080 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bcf8 type for 0x2708e (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bd1c type for 0x2709c (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bb8e type for 0x270aa (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bd36 type for 0x270b8 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bd55 type for 0x270c6 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bd6a type for 0x270d4 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bb8e type for 0x270e2 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bb8e type for 0x270f0 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bd93 type for 0x270fe (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bda8 type for 0x2710c (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bdc2 type for 0x2711a (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bc62 type for 0x274b8 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bc8c type for 0x274cc (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bc92 type for 0x274da (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bc67 type for 0x274e8 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2b71d type for 0x2750a (member)!
-   namespace__recode_dwarf_types: couldn't find 0x27aa0 type for 0x27a42 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x27ab7 type for 0x27a5c (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2e02d type for 0x26e21 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2c783 type for 0x26e27 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2c1cb type for 0x26e35 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2dd64 type for 0x26e43 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2df67 type for 0x26ea5 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x28ebf type for 0x26eb3 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2dfca type for 0x26ec1 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2e05f type for 0x26eed (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2ce34 type for 0x26f0b (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2ce34 type for 0x26f1a (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bcc9 type for 0x27064 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bcc9 type for 0x27072 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bce3 type for 0x27080 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bcf8 type for 0x2708e (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bd1c type for 0x2709c (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bb8e type for 0x270aa (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bd36 type for 0x270b8 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bd55 type for 0x270c6 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bd6a type for 0x270d4 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bb8e type for 0x270e2 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bb8e type for 0x270f0 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bd93 type for 0x270fe (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bda8 type for 0x2710c (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bdc2 type for 0x2711a (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bc62 type for 0x274b8 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bc8c type for 0x274cc (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bc92 type for 0x274da (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2bc67 type for 0x274e8 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x2b71d type for 0x2750a (member)!
-   namespace__recode_dwarf_types: couldn't find 0x27aa0 type for 0x27a42 (member)!
-   namespace__recode_dwarf_types: couldn't find 0x27ab7 type for 0x27a5c (member)!
->> /bin/bash: line 1: 32974 Segmentation fault      LLVM_OBJCOPY="sh4-linux-objcopy" pahole -J --btf_gen_floats -j --lang_exclude=rust --skip_encoding_btf_inconsistent_proto --btf_gen_optimized --btf_base vmlinux drivers/gpu/drm/logicvc/logicvc-drm.ko
+vim +636 fs/jfs/jfs_dtree.c
+
+^1da177e4c3f41 Linus Torvalds   2005-04-16  567  int dtSearch(struct inode *ip, struct component_name * key, ino_t * data,
+^1da177e4c3f41 Linus Torvalds   2005-04-16  568  	     struct btstack * btstack, int flag)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  569  {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  570  	int rc = 0;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  571  	int cmp = 1;		/* init for empty page */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  572  	s64 bn;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  573  	struct metapage *mp;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  574  	dtpage_t *p;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  575  	s8 *stbl;
+                                                        ^^^^^^^^
+
+^1da177e4c3f41 Linus Torvalds   2005-04-16  576  	int base, index, lim;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  577  	struct btframe *btsp;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  578  	pxd_t *pxd;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  579  	int psize = 288;	/* initial in-line directory */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  580  	ino_t inumber;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  581  	struct component_name ciKey;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  582  	struct super_block *sb = ip->i_sb;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  583  
+6da2ec56059c3c Kees Cook        2018-06-12  584  	ciKey.name = kmalloc_array(JFS_NAME_MAX + 1, sizeof(wchar_t),
+6da2ec56059c3c Kees Cook        2018-06-12  585  				   GFP_NOFS);
+09aaa749f637b1 Joe Perches      2007-11-13  586  	if (!ciKey.name) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  587  		rc = -ENOMEM;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  588  		goto dtSearch_Exit2;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  589  	}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  590  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  591  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  592  	/* uppercase search key for c-i directory */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  593  	UniStrcpy(ciKey.name, key->name);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  594  	ciKey.namlen = key->namlen;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  595  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  596  	/* only uppercase if case-insensitive support is on */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  597  	if ((JFS_SBI(sb)->mntflag & JFS_OS2) == JFS_OS2) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  598  		ciToUpper(&ciKey);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  599  	}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  600  	BT_CLR(btstack);	/* reset stack */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  601  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  602  	/* init level count for max pages to split */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  603  	btstack->nsplit = 1;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  604  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  605  	/*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  606  	 *	search down tree from root:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  607  	 *
+^1da177e4c3f41 Linus Torvalds   2005-04-16  608  	 * between two consecutive entries of <Ki, Pi> and <Kj, Pj> of
+^1da177e4c3f41 Linus Torvalds   2005-04-16  609  	 * internal page, child page Pi contains entry with k, Ki <= K < Kj.
+^1da177e4c3f41 Linus Torvalds   2005-04-16  610  	 *
+^1da177e4c3f41 Linus Torvalds   2005-04-16  611  	 * if entry with search key K is not found
+^1da177e4c3f41 Linus Torvalds   2005-04-16  612  	 * internal page search find the entry with largest key Ki
+^1da177e4c3f41 Linus Torvalds   2005-04-16  613  	 * less than K which point to the child page to search;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  614  	 * leaf page search find the entry with smallest key Kj
+^1da177e4c3f41 Linus Torvalds   2005-04-16  615  	 * greater than K so that the returned index is the position of
+^1da177e4c3f41 Linus Torvalds   2005-04-16  616  	 * the entry to be shifted right for insertion of new entry.
+^1da177e4c3f41 Linus Torvalds   2005-04-16  617  	 * for empty tree, search key is greater than any key of the tree.
+^1da177e4c3f41 Linus Torvalds   2005-04-16  618  	 *
+^1da177e4c3f41 Linus Torvalds   2005-04-16  619  	 * by convention, root bn = 0.
+^1da177e4c3f41 Linus Torvalds   2005-04-16  620  	 */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  621  	for (bn = 0;;) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  622  		/* get/pin the page to search */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  623  		DT_GETPAGE(ip, bn, mp, psize, p, rc);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  624  		if (rc)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  625  			goto dtSearch_Exit1;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  626  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  627  		/* get sorted entry table of the page */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  628  		stbl = DT_GETSTBL(p);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  629  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  630  		/*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  631  		 * binary search with search key K on the current page.
+^1da177e4c3f41 Linus Torvalds   2005-04-16  632  		 */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  633  		for (base = 0, lim = p->header.nextindex; lim; lim >>= 1) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  634  			index = base + (lim >> 1);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  635  
+7812e358b5edde Manas Ghandat    2023-10-16 @636  			if (stbl[index] > 128 || stbl[index] < 0)
+
+If it's stbl is an s8 so it can't be > 128.
+
+7812e358b5edde Manas Ghandat    2023-10-16  637  				goto out;
+7812e358b5edde Manas Ghandat    2023-10-16  638  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  639  			if (p->header.flag & BT_LEAF) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  640  				/* uppercase leaf name to compare */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  641  				cmp =
+^1da177e4c3f41 Linus Torvalds   2005-04-16  642  				    ciCompare(&ciKey, p, stbl[index],
+^1da177e4c3f41 Linus Torvalds   2005-04-16  643  					      JFS_SBI(sb)->mntflag);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  644  			} else {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  645  				/* router key is in uppercase */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  646  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  647  				cmp = dtCompare(&ciKey, p, stbl[index]);
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
