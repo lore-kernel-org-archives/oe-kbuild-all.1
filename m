@@ -1,53 +1,51 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D382510F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 18:44:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7DDB2511B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 18:44:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LLrskUYK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d0wnjo5w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698173062; x=1729709062;
+  t=1698173065; x=1729709065;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0agB9+eKx+cq1VNd6N/1YyY/E3g2/msA0IL4s2WLDmQ=;
-  b=LLrskUYKrWUVTxt1MySGDRQrj9LFlcTAZU6lElrUaViwwn9lOl5Fkuv1
-   iBTztGyfqO7bBQT7t61DJBtIk8fC25TzGqzoDNP5xgvrZGwidLmgSd0+T
-   s5bbjfMKUVIwsYbdEHmceWFknXY7SWO/46QyWCDG3XSYoT0zm2uJm83D/
-   cBS6UuOn+rEMF2rHF1cFmHDdfMyjcRTeVLLt6YbtCu2dRhttPZ81rfhGd
-   wzden5GL2o9af2FeZw28sXV/8pp0yplTM57j0yo0qziMhQ7BOEMzId18a
-   M4wGf3em3FrYahB4dmEK2fG5U/JKf/NNsxte7nEGUbXrCmyFsRqoi3DC5
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="389993642"
+  bh=yXiUqDTjJlLIfMRjPSDr+1lzyNKgBoHGKVQdpfNmqY8=;
+  b=d0wnjo5wD7taaVhPKJghhcTkejfR7/nwyNhqWihIiWiM1y0OviBpZ0AH
+   aYUXPTy+ktBToqLX/CRkggYTo40M9p+mhMC39QaH4kErsDsE0C1M/i4f1
+   TPe23m9LN2S4GK6bFAD7AsUCfKfA4U8AN2H143DXx72Fe+6cP3jg3guoT
+   TP01coOahOl5kXd1QBnG2vYh1v4jIyT4Fy/psGv3EQ34q91XWR9luLYtm
+   zXjyXyqKVz2K4t4E5GzuGztJM5jHNPOLBLWuV06Kl+BitxTu83/W1J9s1
+   SazFVWSPjksF7rEeR31v62xquoZruQBrStO0Xs09RgOw3SM+KT/FxKXLm
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="389993633"
 X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
-   d="scan'208";a="389993642"
+   d="scan'208";a="389993633"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 11:44:21 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
-   d="scan'208";a="6558968"
+   d="scan'208";a="6558967"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 24 Oct 2023 11:44:12 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qvMO0-0008AF-2R;
+	id 1qvMO0-0008AD-2M;
 	Tue, 24 Oct 2023 18:44:16 +0000
-Date: Wed, 25 Oct 2023 02:43:26 +0800
+Date: Wed, 25 Oct 2023 02:43:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel =?iso-8859-1?Q?Gr=F6ber?= <dxld@darkboxed.org>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	wireguard@lists.zx2c4.com, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Daniel =?iso-8859-1?Q?Gr=F6ber?= <dxld@darkboxed.org>
-Subject: Re: [PATCH] wireguard: Add netlink attrs for binding to address and
- netdev
-Message-ID: <202310250256.kXWoLwJm-lkp@intel.com>
-References: <20231023160006.85992-1-dxld@darkboxed.org>
+To: Guo Mengqi <guomengqi3@huawei.com>, vkoul@kernel.org,
+	dmaengine@vger.kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, xuqiang36@huawei.com,
+	chenweilong@huawei.com, guomengqi3@huawei.com
+Subject: Re: [PATCH v5 1/2] dmaengine: Add HiSilicon Ascend SDMA engine
+ support
+Message-ID: <202310250208.jwwNXco0-lkp@intel.com>
+References: <20231021093454.39822-2-guomengqi3@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,151 +54,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231023160006.85992-1-dxld@darkboxed.org>
+In-Reply-To: <20231021093454.39822-2-guomengqi3@huawei.com>
 
-Hi Daniel,
+Hi Guo,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.6-rc7 next-20231024]
+[auto build test WARNING on vkoul-dmaengine/next]
+[also build test WARNING on linus/master v6.6-rc7 next-20231024]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Gr-ber/wireguard-Add-netlink-attrs-for-binding-to-address-and-netdev/20231024-000158
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231023160006.85992-1-dxld%40darkboxed.org
-patch subject: [PATCH] wireguard: Add netlink attrs for binding to address and netdev
-config: um-randconfig-002-20231024 (https://download.01.org/0day-ci/archive/20231025/202310250256.kXWoLwJm-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310250256.kXWoLwJm-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Guo-Mengqi/dmaengine-Add-HiSilicon-Ascend-SDMA-engine-support/20231021-174034
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+patch link:    https://lore.kernel.org/r/20231021093454.39822-2-guomengqi3%40huawei.com
+patch subject: [PATCH v5 1/2] dmaengine: Add HiSilicon Ascend SDMA engine support
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20231025/202310250208.jwwNXco0-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310250208.jwwNXco0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310250256.kXWoLwJm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310250208.jwwNXco0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/wireguard/netlink.c: In function 'wg_get_device_dump':
->> drivers/net/wireguard/netlink.c:247:52: error: 'struct udp_port_cfg' has no member named 'local_ip6'; did you mean 'local_ip'?
-     247 |                                      &wg->port_cfg.local_ip6))
-         |                                                    ^~~~~~~~~
-         |                                                    local_ip
-   drivers/net/wireguard/netlink.c: In function 'set_port_cfg':
-   drivers/net/wireguard/netlink.c:348:34: error: 'struct udp_port_cfg' has no member named 'local_ip6'; did you mean 'local_ip'?
-     348 |                         port_cfg.local_ip6 = u_addr->addr6;
-         |                                  ^~~~~~~~~
-         |                                  local_ip
+   In file included from arch/openrisc/include/asm/mmu_context.h:18,
+                    from include/linux/mmu_context.h:5,
+                    from drivers/iommu/iommu-sva.c:5:
+>> include/asm-generic/mm_hooks.h:10:40: warning: 'struct mm_struct' declared inside parameter list will not be visible outside of this definition or declaration
+      10 | static inline int arch_dup_mmap(struct mm_struct *oldmm,
+         |                                        ^~~~~~~~~
+   include/asm-generic/mm_hooks.h:16:42: warning: 'struct mm_struct' declared inside parameter list will not be visible outside of this definition or declaration
+      16 | static inline void arch_exit_mmap(struct mm_struct *mm)
+         |                                          ^~~~~~~~~
+   include/asm-generic/mm_hooks.h:20:38: warning: 'struct mm_struct' declared inside parameter list will not be visible outside of this definition or declaration
+      20 | static inline void arch_unmap(struct mm_struct *mm,
+         |                                      ^~~~~~~~~
+   include/asm-generic/mm_hooks.h:25:15: error: unknown type name 'bool'
+      25 | static inline bool arch_vma_access_permitted(struct vm_area_struct *vma,
+         |               ^~~~
+   include/asm-generic/mm_hooks.h:26:17: error: unknown type name 'bool'
+      26 |                 bool write, bool execute, bool foreign)
+         |                 ^~~~
+   include/asm-generic/mm_hooks.h:1:1: note: 'bool' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+     +++ |+#include <stdbool.h>
+       1 | /* SPDX-License-Identifier: GPL-2.0 */
+   include/asm-generic/mm_hooks.h:26:29: error: unknown type name 'bool'
+      26 |                 bool write, bool execute, bool foreign)
+         |                             ^~~~
+   include/asm-generic/mm_hooks.h:26:29: note: 'bool' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+   include/asm-generic/mm_hooks.h:26:43: error: unknown type name 'bool'
+      26 |                 bool write, bool execute, bool foreign)
+         |                                           ^~~~
+   include/asm-generic/mm_hooks.h:26:43: note: 'bool' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+>> arch/openrisc/include/asm/mmu_context.h:21:61: warning: 'struct mm_struct' declared inside parameter list will not be visible outside of this definition or declaration
+      21 | extern int init_new_context(struct task_struct *tsk, struct mm_struct *mm);
+         |                                                             ^~~~~~~~~
+>> arch/openrisc/include/asm/mmu_context.h:21:36: warning: 'struct task_struct' declared inside parameter list will not be visible outside of this definition or declaration
+      21 | extern int init_new_context(struct task_struct *tsk, struct mm_struct *mm);
+         |                                    ^~~~~~~~~~~
+   arch/openrisc/include/asm/mmu_context.h:23:36: warning: 'struct mm_struct' declared inside parameter list will not be visible outside of this definition or declaration
+      23 | extern void destroy_context(struct mm_struct *mm);
+         |                                    ^~~~~~~~~
+   arch/openrisc/include/asm/mmu_context.h:25:30: warning: 'struct task_struct' declared inside parameter list will not be visible outside of this definition or declaration
+      25 |                       struct task_struct *tsk);
+         |                              ^~~~~~~~~~~
+   arch/openrisc/include/asm/mmu_context.h:24:30: warning: 'struct mm_struct' declared inside parameter list will not be visible outside of this definition or declaration
+      24 | extern void switch_mm(struct mm_struct *prev, struct mm_struct *next,
+         |                              ^~~~~~~~~
+   arch/openrisc/include/asm/mmu_context.h:33:17: error: unknown type name 'pgd_t'
+      33 | extern volatile pgd_t *current_pgd[]; /* defined in arch/openrisc/mm/fault.c */
+         |                 ^~~~~
+   include/linux/mmu_context.h:39:15: error: unknown type name 'bool'
+      39 | static inline bool arch_pgtable_dma_compat(struct mm_struct *mm)
+         |               ^~~~
+   include/linux/mmu_context.h: In function 'arch_pgtable_dma_compat':
+   include/linux/mmu_context.h:41:16: error: 'true' undeclared (first use in this function)
+      41 |         return true;
+         |                ^~~~
+   include/linux/mmu_context.h:7:1: note: 'true' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+       6 | #include <asm/mmu.h>
+     +++ |+#include <stdbool.h>
+       7 | 
+   include/linux/mmu_context.h:41:16: note: each undeclared identifier is reported only once for each function it appears in
+      41 |         return true;
+         |                ^~~~
+   include/linux/mmu_context.h:42:1: error: control reaches end of non-void function [-Werror=return-type]
+      42 | }
+         | ^
+   cc1: some warnings being treated as errors
 
 
-vim +247 drivers/net/wireguard/netlink.c
+vim +10 include/asm-generic/mm_hooks.h
 
-   211	
-   212	static int wg_get_device_dump(struct sk_buff *skb, struct netlink_callback *cb)
-   213	{
-   214		struct wg_peer *peer, *next_peer_cursor;
-   215		struct dump_ctx *ctx = DUMP_CTX(cb);
-   216		struct wg_device *wg = ctx->wg;
-   217		struct nlattr *peers_nest;
-   218		int ret = -EMSGSIZE;
-   219		bool done = true;
-   220		void *hdr;
-   221	
-   222		rtnl_lock();
-   223		mutex_lock(&wg->device_update_lock);
-   224		cb->seq = wg->device_update_gen;
-   225		next_peer_cursor = ctx->next_peer;
-   226	
-   227		hdr = genlmsg_put(skb, NETLINK_CB(cb->skb).portid, cb->nlh->nlmsg_seq,
-   228				  &genl_family, NLM_F_MULTI, WG_CMD_GET_DEVICE);
-   229		if (!hdr)
-   230			goto out;
-   231		genl_dump_check_consistent(cb, hdr);
-   232	
-   233		if (!ctx->next_peer) {
-   234			if (nla_put_u16(skb, WGDEVICE_A_LISTEN_PORT,
-   235					ntohs(wg->port_cfg.local_udp_port)) ||
-   236			    nla_put_u32(skb, WGDEVICE_A_LISTEN_IFINDEX, wg->port_cfg.bind_ifindex) ||
-   237			    nla_put_u32(skb, WGDEVICE_A_FWMARK, wg->fwmark) ||
-   238			    nla_put_u32(skb, WGDEVICE_A_IFINDEX, wg->dev->ifindex) ||
-   239			    nla_put_string(skb, WGDEVICE_A_IFNAME, wg->dev->name))
-   240				goto out;
-   241		        if (wg->port_cfg.family == AF_INET &&
-   242			    nla_put_in_addr(skb, WGDEVICE_A_LISTEN_ADDR,
-   243					    wg->port_cfg.local_ip.s_addr))
-   244					goto out;
-   245		        if (wg->port_cfg.family == AF_INET6 &&
-   246			    nla_put_in6_addr(skb, WGDEVICE_A_LISTEN_ADDR,
- > 247					     &wg->port_cfg.local_ip6))
-   248					goto out;
-   249	
-   250			down_read(&wg->static_identity.lock);
-   251			if (wg->static_identity.has_identity) {
-   252				if (nla_put(skb, WGDEVICE_A_PRIVATE_KEY,
-   253					    NOISE_PUBLIC_KEY_LEN,
-   254					    wg->static_identity.static_private) ||
-   255				    nla_put(skb, WGDEVICE_A_PUBLIC_KEY,
-   256					    NOISE_PUBLIC_KEY_LEN,
-   257					    wg->static_identity.static_public)) {
-   258					up_read(&wg->static_identity.lock);
-   259					goto out;
-   260				}
-   261			}
-   262			up_read(&wg->static_identity.lock);
-   263		}
-   264	
-   265		peers_nest = nla_nest_start(skb, WGDEVICE_A_PEERS);
-   266		if (!peers_nest)
-   267			goto out;
-   268		ret = 0;
-   269		/* If the last cursor was removed via list_del_init in peer_remove, then
-   270		 * we just treat this the same as there being no more peers left. The
-   271		 * reason is that seq_nr should indicate to userspace that this isn't a
-   272		 * coherent dump anyway, so they'll try again.
-   273		 */
-   274		if (list_empty(&wg->peer_list) ||
-   275		    (ctx->next_peer && list_empty(&ctx->next_peer->peer_list))) {
-   276			nla_nest_cancel(skb, peers_nest);
-   277			goto out;
-   278		}
-   279		lockdep_assert_held(&wg->device_update_lock);
-   280		peer = list_prepare_entry(ctx->next_peer, &wg->peer_list, peer_list);
-   281		list_for_each_entry_continue(peer, &wg->peer_list, peer_list) {
-   282			if (get_peer(peer, skb, ctx)) {
-   283				done = false;
-   284				break;
-   285			}
-   286			next_peer_cursor = peer;
-   287		}
-   288		nla_nest_end(skb, peers_nest);
-   289	
-   290	out:
-   291		if (!ret && !done && next_peer_cursor)
-   292			wg_peer_get(next_peer_cursor);
-   293		wg_peer_put(ctx->next_peer);
-   294		mutex_unlock(&wg->device_update_lock);
-   295		rtnl_unlock();
-   296	
-   297		if (ret) {
-   298			genlmsg_cancel(skb, hdr);
-   299			return ret;
-   300		}
-   301		genlmsg_end(skb, hdr);
-   302		if (done) {
-   303			ctx->next_peer = NULL;
-   304			return 0;
-   305		}
-   306		ctx->next_peer = next_peer_cursor;
-   307		return skb->len;
-   308	
-   309		/* At this point, we can't really deal ourselves with safely zeroing out
-   310		 * the private key material after usage. This will need an additional API
-   311		 * in the kernel for marking skbs as zero_on_free.
-   312		 */
-   313	}
-   314	
+d6dd61c831226f Jeremy Fitzhardinge 2007-05-02   9  
+c10e83f598d080 Thomas Gleixner     2017-12-14 @10  static inline int arch_dup_mmap(struct mm_struct *oldmm,
+d6dd61c831226f Jeremy Fitzhardinge 2007-05-02  11  				struct mm_struct *mm)
+d6dd61c831226f Jeremy Fitzhardinge 2007-05-02  12  {
+c10e83f598d080 Thomas Gleixner     2017-12-14  13  	return 0;
+d6dd61c831226f Jeremy Fitzhardinge 2007-05-02  14  }
+d6dd61c831226f Jeremy Fitzhardinge 2007-05-02  15  
 
 -- 
 0-DAY CI Kernel Test Service
