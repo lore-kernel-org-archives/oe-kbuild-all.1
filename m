@@ -1,51 +1,35 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from out-210.mta0.migadu.com (out-210.mta0.migadu.com [91.218.175.210])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7DDB2511B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 18:44:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17613B78C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 18:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d0wnjo5w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698173065; x=1729709065;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yXiUqDTjJlLIfMRjPSDr+1lzyNKgBoHGKVQdpfNmqY8=;
-  b=d0wnjo5wD7taaVhPKJghhcTkejfR7/nwyNhqWihIiWiM1y0OviBpZ0AH
-   aYUXPTy+ktBToqLX/CRkggYTo40M9p+mhMC39QaH4kErsDsE0C1M/i4f1
-   TPe23m9LN2S4GK6bFAD7AsUCfKfA4U8AN2H143DXx72Fe+6cP3jg3guoT
-   TP01coOahOl5kXd1QBnG2vYh1v4jIyT4Fy/psGv3EQ34q91XWR9luLYtm
-   zXjyXyqKVz2K4t4E5GzuGztJM5jHNPOLBLWuV06Kl+BitxTu83/W1J9s1
-   SazFVWSPjksF7rEeR31v62xquoZruQBrStO0Xs09RgOw3SM+KT/FxKXLm
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="389993633"
-X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
-   d="scan'208";a="389993633"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 11:44:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
-   d="scan'208";a="6558967"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 24 Oct 2023 11:44:12 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qvMO0-0008AD-2M;
-	Tue, 24 Oct 2023 18:44:16 +0000
-Date: Wed, 25 Oct 2023 02:43:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Guo Mengqi <guomengqi3@huawei.com>, vkoul@kernel.org,
-	dmaengine@vger.kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, xuqiang36@huawei.com,
-	chenweilong@huawei.com, guomengqi3@huawei.com
-Subject: Re: [PATCH v5 1/2] dmaengine: Add HiSilicon Ascend SDMA engine
- support
-Message-ID: <202310250208.jwwNXco0-lkp@intel.com>
-References: <20231021093454.39822-2-guomengqi3@huawei.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pLAV7sRo"
+Date: Tue, 24 Oct 2023 18:58:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1698173919;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9MztIQI/YLVWMEXXDAj+/H0pEuWc97y2iGY8jdy0ciM=;
+	b=pLAV7sRoKcajp/XZTIagaih6Vt8c40syBTGAKFteCTnSo51X6vgfM8hzaqALwNz+Vk20nV
+	vJAIZWqlyVz9ioD98yIAPVyVFhgwmCOgrUgYy8qVReoVJnvOhZVqHJS/w4dqCiUhdlozke
+	drH/8KpKB0mRjxRmVVL3dk/Z5UXi7/4=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: kernel test robot <lkp@intel.com>
+Cc: kvmarm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kvm@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>
+Subject: Re: [PATCH v3 1/2] KVM: arm64: Make PMEVTYPER<n>_EL0.NSH RES0 if EL2
+ isn't advertised
+Message-ID: <ZTgT287FMQl0aXye@linux.dev>
+References: <20231019185618.3442949-2-oliver.upton@linux.dev>
+ <202310241025.FmLnpSTG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,110 +38,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231021093454.39822-2-guomengqi3@huawei.com>
+In-Reply-To: <202310241025.FmLnpSTG-lkp@intel.com>
+X-Migadu-Flow: FLOW_OUT
 
-Hi Guo,
+On Tue, Oct 24, 2023 at 10:47:58AM +0800, kernel test robot wrote:
+> Hi Oliver,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on 6465e260f48790807eef06b583b38ca9789b6072]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Oliver-Upton/KVM-arm64-Make-PMEVTYPER-n-_EL0-NSH-RES0-if-EL2-isn-t-advertised/20231020-025836
+> base:   6465e260f48790807eef06b583b38ca9789b6072
+> patch link:    https://lore.kernel.org/r/20231019185618.3442949-2-oliver.upton%40linux.dev
+> patch subject: [PATCH v3 1/2] KVM: arm64: Make PMEVTYPER<n>_EL0.NSH RES0 if EL2 isn't advertised
+> config: arm64-randconfig-004-20231023 (https://download.01.org/0day-ci/archive/20231024/202310241025.FmLnpSTG-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231024/202310241025.FmLnpSTG-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202310241025.FmLnpSTG-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    arch/arm64/kvm/sys_regs.c: In function 'reset_pmevtyper':
+> >> arch/arm64/kvm/sys_regs.c:754:41: error: too many arguments to function 'kvm_pmu_evtyper_mask'
 
-kernel test robot noticed the following build warnings:
+Ah, the prototype for !CONFIG_HW_PERF_EVENTS is wrong. I'll squash this
+in:
 
-[auto build test WARNING on vkoul-dmaengine/next]
-[also build test WARNING on linus/master v6.6-rc7 next-20231024]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Guo-Mengqi/dmaengine-Add-HiSilicon-Ascend-SDMA-engine-support/20231021-174034
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-patch link:    https://lore.kernel.org/r/20231021093454.39822-2-guomengqi3%40huawei.com
-patch subject: [PATCH v5 1/2] dmaengine: Add HiSilicon Ascend SDMA engine support
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20231025/202310250208.jwwNXco0-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310250208.jwwNXco0-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310250208.jwwNXco0-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from arch/openrisc/include/asm/mmu_context.h:18,
-                    from include/linux/mmu_context.h:5,
-                    from drivers/iommu/iommu-sva.c:5:
->> include/asm-generic/mm_hooks.h:10:40: warning: 'struct mm_struct' declared inside parameter list will not be visible outside of this definition or declaration
-      10 | static inline int arch_dup_mmap(struct mm_struct *oldmm,
-         |                                        ^~~~~~~~~
-   include/asm-generic/mm_hooks.h:16:42: warning: 'struct mm_struct' declared inside parameter list will not be visible outside of this definition or declaration
-      16 | static inline void arch_exit_mmap(struct mm_struct *mm)
-         |                                          ^~~~~~~~~
-   include/asm-generic/mm_hooks.h:20:38: warning: 'struct mm_struct' declared inside parameter list will not be visible outside of this definition or declaration
-      20 | static inline void arch_unmap(struct mm_struct *mm,
-         |                                      ^~~~~~~~~
-   include/asm-generic/mm_hooks.h:25:15: error: unknown type name 'bool'
-      25 | static inline bool arch_vma_access_permitted(struct vm_area_struct *vma,
-         |               ^~~~
-   include/asm-generic/mm_hooks.h:26:17: error: unknown type name 'bool'
-      26 |                 bool write, bool execute, bool foreign)
-         |                 ^~~~
-   include/asm-generic/mm_hooks.h:1:1: note: 'bool' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
-     +++ |+#include <stdbool.h>
-       1 | /* SPDX-License-Identifier: GPL-2.0 */
-   include/asm-generic/mm_hooks.h:26:29: error: unknown type name 'bool'
-      26 |                 bool write, bool execute, bool foreign)
-         |                             ^~~~
-   include/asm-generic/mm_hooks.h:26:29: note: 'bool' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
-   include/asm-generic/mm_hooks.h:26:43: error: unknown type name 'bool'
-      26 |                 bool write, bool execute, bool foreign)
-         |                                           ^~~~
-   include/asm-generic/mm_hooks.h:26:43: note: 'bool' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
->> arch/openrisc/include/asm/mmu_context.h:21:61: warning: 'struct mm_struct' declared inside parameter list will not be visible outside of this definition or declaration
-      21 | extern int init_new_context(struct task_struct *tsk, struct mm_struct *mm);
-         |                                                             ^~~~~~~~~
->> arch/openrisc/include/asm/mmu_context.h:21:36: warning: 'struct task_struct' declared inside parameter list will not be visible outside of this definition or declaration
-      21 | extern int init_new_context(struct task_struct *tsk, struct mm_struct *mm);
-         |                                    ^~~~~~~~~~~
-   arch/openrisc/include/asm/mmu_context.h:23:36: warning: 'struct mm_struct' declared inside parameter list will not be visible outside of this definition or declaration
-      23 | extern void destroy_context(struct mm_struct *mm);
-         |                                    ^~~~~~~~~
-   arch/openrisc/include/asm/mmu_context.h:25:30: warning: 'struct task_struct' declared inside parameter list will not be visible outside of this definition or declaration
-      25 |                       struct task_struct *tsk);
-         |                              ^~~~~~~~~~~
-   arch/openrisc/include/asm/mmu_context.h:24:30: warning: 'struct mm_struct' declared inside parameter list will not be visible outside of this definition or declaration
-      24 | extern void switch_mm(struct mm_struct *prev, struct mm_struct *next,
-         |                              ^~~~~~~~~
-   arch/openrisc/include/asm/mmu_context.h:33:17: error: unknown type name 'pgd_t'
-      33 | extern volatile pgd_t *current_pgd[]; /* defined in arch/openrisc/mm/fault.c */
-         |                 ^~~~~
-   include/linux/mmu_context.h:39:15: error: unknown type name 'bool'
-      39 | static inline bool arch_pgtable_dma_compat(struct mm_struct *mm)
-         |               ^~~~
-   include/linux/mmu_context.h: In function 'arch_pgtable_dma_compat':
-   include/linux/mmu_context.h:41:16: error: 'true' undeclared (first use in this function)
-      41 |         return true;
-         |                ^~~~
-   include/linux/mmu_context.h:7:1: note: 'true' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
-       6 | #include <asm/mmu.h>
-     +++ |+#include <stdbool.h>
-       7 | 
-   include/linux/mmu_context.h:41:16: note: each undeclared identifier is reported only once for each function it appears in
-      41 |         return true;
-         |                ^~~~
-   include/linux/mmu_context.h:42:1: error: control reaches end of non-void function [-Werror=return-type]
-      42 | }
-         | ^
-   cc1: some warnings being treated as errors
-
-
-vim +10 include/asm-generic/mm_hooks.h
-
-d6dd61c831226f Jeremy Fitzhardinge 2007-05-02   9  
-c10e83f598d080 Thomas Gleixner     2017-12-14 @10  static inline int arch_dup_mmap(struct mm_struct *oldmm,
-d6dd61c831226f Jeremy Fitzhardinge 2007-05-02  11  				struct mm_struct *mm)
-d6dd61c831226f Jeremy Fitzhardinge 2007-05-02  12  {
-c10e83f598d080 Thomas Gleixner     2017-12-14  13  	return 0;
-d6dd61c831226f Jeremy Fitzhardinge 2007-05-02  14  }
-d6dd61c831226f Jeremy Fitzhardinge 2007-05-02  15  
+diff --git a/include/kvm/arm_pmu.h b/include/kvm/arm_pmu.h
+index e0bcf447a2ab..fd0aa8105a5b 100644
+--- a/include/kvm/arm_pmu.h
++++ b/include/kvm/arm_pmu.h
+@@ -173,7 +173,7 @@ static inline u8 kvm_arm_pmu_get_pmuver_limit(void)
+ {
+ 	return 0;
+ }
+-static inline u64 kvm_pmu_evtyper_mask(void)
++static inline u64 kvm_pmu_evtyper_mask(struct kvm *kvm)
+ {
+ 	return 0;
+ }
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Oliver
