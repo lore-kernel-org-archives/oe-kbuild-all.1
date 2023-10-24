@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A1921378;
-	Tue, 24 Oct 2023 13:44:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5339F1BDD1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 14:31:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IIKiXeOy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OKoxQUhG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698155066; x=1729691066;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D+zq5i7oXV9GIgVjOh2+d3R+3GpyVVxZ8aarU5qe8bA=;
-  b=IIKiXeOyPPCdmd8FH/qss7NCdN4QvEtd3vP3S2TX2jwWRXNO7nWdwSdc
-   8slY4n/HZ2wgXjoVulKMsMd4Pk9NPofSFGIQNGvSuX7nSam9hefpK4iXm
-   MxhN15nWIZIEWw4r1L/Nsus0/5uQ7T32gBx8DbgRGM8n/2VQscm8aWa4s
-   k+g9tgshuFpuWflpaMJSMCstJCMcAYLrkwTvQGKswtNNsRM7dHNogP8Q/
-   WumZgVIOhTcvhSdOnd0NGG/LdAiH3Hg2aid1Hhiwhmj51a8Vk6ZConT9h
-   ExcrD0OwfkmY3y+xx+BD3TS7P4bn5K83soyIpdko19MmslQjkNU/1vjFC
+  t=1698157865; x=1729693865;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=39vAf8PWjqNIZEtnm4xaq8lxjzgNPzK1IvVAa7kyMaQ=;
+  b=OKoxQUhGSsf2BOMNdnWOIu7SGDIAuT+9uAYTU2QErxwDJRH5VRFm0Zqb
+   hlx5xqC8zSbNZMeuc0Y2lR07rEaxqiUVT3vvoymeq0aMLrv8cyYY4ysO9
+   gnjoOn/+BD+vUB8ke4dv85yzIW5A0Cal5j0V8IWwED4fW3ozb6TDu7M/7
+   3nNTvSypFu3WlPzZIEmWF9ZBstBGJR83X8z01eZsUJ8K1mQqU/SbSqHMu
+   OrrTQdhR8T//bw0AZp6JkCZb5rfGVQh2TGNdDWW7kSbvmIU1LsesjJaV+
+   7ghYXDZnSg2/OG4TvH6ghwd1uEOt2PhPkmWuMS5oW+uwwdy7z/9WDhGnv
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="453524493"
-X-IronPort-AV: E=Sophos;i="6.03,247,1694761200"; 
-   d="scan'208";a="453524493"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 06:39:02 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="377442032"
+X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
+   d="scan'208";a="377442032"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 07:31:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,247,1694761200"; 
-   d="scan'208";a="6176840"
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="824303900"
+X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
+   d="scan'208";a="824303900"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 24 Oct 2023 06:37:43 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 24 Oct 2023 07:31:03 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qvHcY-0007tx-2A;
-	Tue, 24 Oct 2023 13:38:58 +0000
-Date: Tue, 24 Oct 2023 21:38:02 +0800
+	id 1qvIQv-0007vp-0P;
+	Tue, 24 Oct 2023 14:31:01 +0000
+Date: Tue, 24 Oct 2023 22:30:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andreas Gruenbacher <agruenba@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	gfs2@lists.linux.dev
-Subject: [gfs2:for-next 14/21] fs/gfs2/bmap.c:893:9: warning: variable 'ret'
- is used uninitialized whenever 'if' condition is false
-Message-ID: <202310242105.0fHmealv-lkp@intel.com>
+To: chengming.zhou@linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v3 6/7] slub: Delay freezing of partial slabs
+Message-ID: <202310242209.VBW1Fewa-lkp@intel.com>
+References: <20231024093345.3676493-7-chengming.zhou@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,251 +50,283 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231024093345.3676493-7-chengming.zhou@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git for-next
-head:   ec6e8472a6a78f4c630fb45a07a354bbfbeb5660
-commit: 2cd225820b919acde16729f05f9f8841de682eef [14/21] gfs2: Initialize metapaths outside of __gfs2_iomap_get
-config: hexagon-randconfig-r033-20220828 (https://download.01.org/0day-ci/archive/20231024/202310242105.0fHmealv-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231024/202310242105.0fHmealv-lkp@intel.com/reproduce)
+Hi,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on vbabka-slab/for-next]
+[also build test ERROR on linus/master v6.6-rc7 next-20231024]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/chengming-zhou-linux-dev/slub-Keep-track-of-whether-slub-is-on-the-per-node-partial-list/20231024-173519
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git for-next
+patch link:    https://lore.kernel.org/r/20231024093345.3676493-7-chengming.zhou%40linux.dev
+patch subject: [RFC PATCH v3 6/7] slub: Delay freezing of partial slabs
+config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20231024/202310242209.VBW1Fewa-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231024/202310242209.VBW1Fewa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310242105.0fHmealv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310242209.VBW1Fewa-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from fs/gfs2/bmap.c:9:
-   In file included from include/linux/buffer_head.h:12:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from fs/gfs2/bmap.c:9:
-   In file included from include/linux/buffer_head.h:12:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from fs/gfs2/bmap.c:9:
-   In file included from include/linux/buffer_head.h:12:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> fs/gfs2/bmap.c:893:9: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-                                   if (flags & IOMAP_REPORT) {
-                                       ^~~~~~~~~~~~~~~~~~~~
-   fs/gfs2/bmap.c:950:9: note: uninitialized use occurs here
-           return ret;
-                  ^~~
-   fs/gfs2/bmap.c:893:5: note: remove the 'if' if its condition is always true
-                                   if (flags & IOMAP_REPORT) {
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/gfs2/bmap.c:892:8: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-                           if (pos >= size) {
-                               ^~~~~~~~~~~
-   fs/gfs2/bmap.c:950:9: note: uninitialized use occurs here
-           return ret;
-                  ^~~
-   fs/gfs2/bmap.c:892:4: note: remove the 'if' if its condition is always true
-                           if (pos >= size) {
-                           ^~~~~~~~~~~~~~~~~
-   fs/gfs2/bmap.c:888:8: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-                           if (pos + length > max_size)
-                               ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/gfs2/bmap.c:950:9: note: uninitialized use occurs here
-           return ret;
-                  ^~~
-   fs/gfs2/bmap.c:888:4: note: remove the 'if' if its condition is always true
-                           if (pos + length > max_size)
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/gfs2/bmap.c:871:9: note: initialize the variable 'ret' to silence this warning
-           int ret;
-                  ^
-                   = 0
-   9 warnings generated.
+   mm/slub.c: In function '___slab_alloc':
+>> mm/slub.c:3177:29: error: 'struct slab' has no member named 'next'
+    3177 |                         slab->next = NULL;
+         |                             ^~
+>> mm/slub.c:3178:25: error: implicit declaration of function '__unfreeze_partials'; did you mean 'unfreeze_partials'? [-Werror=implicit-function-declaration]
+    3178 |                         __unfreeze_partials(s, slab);
+         |                         ^~~~~~~~~~~~~~~~~~~
+         |                         unfreeze_partials
+   cc1: some warnings being treated as errors
 
 
-vim +893 fs/gfs2/bmap.c
+vim +3177 mm/slub.c
 
-7ee66c03e40a57 Christoph Hellwig   2018-06-01  849  
-3974320ca6aa68 Bob Peterson        2017-02-16  850  /**
-54992257fe4bb9 Andreas Gruenbacher 2021-03-27  851   * __gfs2_iomap_get - Map blocks from an inode to disk blocks
-3974320ca6aa68 Bob Peterson        2017-02-16  852   * @inode: The inode
-3974320ca6aa68 Bob Peterson        2017-02-16  853   * @pos: Starting position in bytes
-3974320ca6aa68 Bob Peterson        2017-02-16  854   * @length: Length to map, in bytes
-3974320ca6aa68 Bob Peterson        2017-02-16  855   * @flags: iomap flags
-3974320ca6aa68 Bob Peterson        2017-02-16  856   * @iomap: The iomap structure
-628e366df11c0a Andreas Gruenbacher 2018-06-04  857   * @mp: The metapath
-3974320ca6aa68 Bob Peterson        2017-02-16  858   *
-3974320ca6aa68 Bob Peterson        2017-02-16  859   * Returns: errno
-3974320ca6aa68 Bob Peterson        2017-02-16  860   */
-54992257fe4bb9 Andreas Gruenbacher 2021-03-27  861  static int __gfs2_iomap_get(struct inode *inode, loff_t pos, loff_t length,
-628e366df11c0a Andreas Gruenbacher 2018-06-04  862  			    unsigned flags, struct iomap *iomap,
-628e366df11c0a Andreas Gruenbacher 2018-06-04  863  			    struct metapath *mp)
-b3b94faa5fe596 David Teigland      2006-01-16  864  {
-feaa7bba026c18 Steven Whitehouse   2006-06-14  865  	struct gfs2_inode *ip = GFS2_I(inode);
-feaa7bba026c18 Steven Whitehouse   2006-06-14  866  	struct gfs2_sbd *sdp = GFS2_SB(inode);
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  867  	loff_t size = i_size_read(inode);
-9b8c81d1de4994 Steven Whitehouse   2008-02-22  868  	__be64 *ptr;
-3974320ca6aa68 Bob Peterson        2017-02-16  869  	sector_t lblock;
-628e366df11c0a Andreas Gruenbacher 2018-06-04  870  	sector_t lblock_stop;
-628e366df11c0a Andreas Gruenbacher 2018-06-04  871  	int ret;
-9b8c81d1de4994 Steven Whitehouse   2008-02-22  872  	int eob;
-628e366df11c0a Andreas Gruenbacher 2018-06-04  873  	u64 len;
-2cd225820b919a Andreas Gruenbacher 2023-10-20  874  	struct buffer_head *bh;
-9b8c81d1de4994 Steven Whitehouse   2008-02-22  875  	u8 height;
-7276b3b0c77101 Steven Whitehouse   2006-09-21  876  
-628e366df11c0a Andreas Gruenbacher 2018-06-04  877  	if (!length)
-628e366df11c0a Andreas Gruenbacher 2018-06-04  878  		return -EINVAL;
-b3b94faa5fe596 David Teigland      2006-01-16  879  
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  880  	down_read(&ip->i_rw_mutex);
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  881  
-49edd5bf429c40 Andreas Gruenbacher 2018-02-06  882  	if (gfs2_is_stuffed(ip)) {
-2cd225820b919a Andreas Gruenbacher 2023-10-20  883  		struct buffer_head *dibh = metapath_dibh(mp);
-2cd225820b919a Andreas Gruenbacher 2023-10-20  884  
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  885  		if (flags & IOMAP_WRITE) {
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  886  			loff_t max_size = gfs2_max_stuffed_size(ip);
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  887  
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  888  			if (pos + length > max_size)
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  889  				goto unstuff;
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  890  			iomap->length = max_size;
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  891  		} else {
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  892  			if (pos >= size) {
-49edd5bf429c40 Andreas Gruenbacher 2018-02-06 @893  				if (flags & IOMAP_REPORT) {
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  894  					ret = -ENOENT;
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  895  					goto unlock;
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  896  				} else {
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  897  					iomap->offset = pos;
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  898  					iomap->length = length;
-566a2ab3c9005f Andreas Gruenbacher 2020-04-20  899  					goto hole_found;
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  900  				}
-3974320ca6aa68 Bob Peterson        2017-02-16  901  			}
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  902  			iomap->length = size;
-49edd5bf429c40 Andreas Gruenbacher 2018-02-06  903  		}
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  904  		iomap->addr = (ip->i_no_addr << inode->i_blkbits) +
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  905  			      sizeof(struct gfs2_dinode);
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  906  		iomap->type = IOMAP_INLINE;
-64bc06bb32ee9c Andreas Gruenbacher 2018-06-24  907  		iomap->inline_data = dibh->b_data + sizeof(struct gfs2_dinode);
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  908  		goto out;
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  909  	}
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  910  
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  911  unstuff:
-3974320ca6aa68 Bob Peterson        2017-02-16  912  	lblock = pos >> inode->i_blkbits;
-3974320ca6aa68 Bob Peterson        2017-02-16  913  	iomap->offset = lblock << inode->i_blkbits;
-628e366df11c0a Andreas Gruenbacher 2018-06-04  914  	lblock_stop = (pos + length - 1) >> inode->i_blkbits;
-628e366df11c0a Andreas Gruenbacher 2018-06-04  915  	len = lblock_stop - lblock + 1;
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  916  	iomap->length = len << inode->i_blkbits;
-20cdc1931ee8e0 Andreas Gruenbacher 2017-09-22  917  
-9b8c81d1de4994 Steven Whitehouse   2008-02-22  918  	height = ip->i_height;
-9a38662ba4e268 Andreas Gruenbacher 2018-04-16  919  	while ((lblock + 1) * sdp->sd_sb.sb_bsize > sdp->sd_heightsize[height])
-ecc30c79157103 Steven Whitehouse   2008-01-28  920  		height++;
-628e366df11c0a Andreas Gruenbacher 2018-06-04  921  	find_metapath(sdp, lblock, mp, height);
-9b8c81d1de4994 Steven Whitehouse   2008-02-22  922  	if (height > ip->i_height || gfs2_is_stuffed(ip))
-9b8c81d1de4994 Steven Whitehouse   2008-02-22  923  		goto do_alloc;
-3974320ca6aa68 Bob Peterson        2017-02-16  924  
-628e366df11c0a Andreas Gruenbacher 2018-06-04  925  	ret = lookup_metapath(ip, mp);
-e8b43fe0c1e035 Andreas Gruenbacher 2017-12-08  926  	if (ret)
-628e366df11c0a Andreas Gruenbacher 2018-06-04  927  		goto unlock;
-3974320ca6aa68 Bob Peterson        2017-02-16  928  
-628e366df11c0a Andreas Gruenbacher 2018-06-04  929  	if (mp->mp_aheight != ip->i_height)
-9b8c81d1de4994 Steven Whitehouse   2008-02-22  930  		goto do_alloc;
-3974320ca6aa68 Bob Peterson        2017-02-16  931  
-628e366df11c0a Andreas Gruenbacher 2018-06-04  932  	ptr = metapointer(ip->i_height - 1, mp);
-9b8c81d1de4994 Steven Whitehouse   2008-02-22  933  	if (*ptr == 0)
-9b8c81d1de4994 Steven Whitehouse   2008-02-22  934  		goto do_alloc;
-3974320ca6aa68 Bob Peterson        2017-02-16  935  
-628e366df11c0a Andreas Gruenbacher 2018-06-04  936  	bh = mp->mp_bh[ip->i_height - 1];
-b4bf3d5c37d404 Andreas Gruenbacher 2023-09-14  937  	len = gfs2_extent_length(bh, ptr, &eob);
-3974320ca6aa68 Bob Peterson        2017-02-16  938  
-628e366df11c0a Andreas Gruenbacher 2018-06-04  939  	iomap->addr = be64_to_cpu(*ptr) << inode->i_blkbits;
-628e366df11c0a Andreas Gruenbacher 2018-06-04  940  	iomap->length = len << inode->i_blkbits;
-628e366df11c0a Andreas Gruenbacher 2018-06-04  941  	iomap->type = IOMAP_MAPPED;
-0ed91eca1130e6 Andreas Gruenbacher 2018-07-25  942  	iomap->flags |= IOMAP_F_MERGED;
-9b8c81d1de4994 Steven Whitehouse   2008-02-22  943  	if (eob)
-7ee66c03e40a57 Christoph Hellwig   2018-06-01  944  		iomap->flags |= IOMAP_F_GFS2_BOUNDARY;
-3974320ca6aa68 Bob Peterson        2017-02-16  945  
-3974320ca6aa68 Bob Peterson        2017-02-16  946  out:
-628e366df11c0a Andreas Gruenbacher 2018-06-04  947  	iomap->bdev = inode->i_sb->s_bdev;
-628e366df11c0a Andreas Gruenbacher 2018-06-04  948  unlock:
-628e366df11c0a Andreas Gruenbacher 2018-06-04  949  	up_read(&ip->i_rw_mutex);
-9b8c81d1de4994 Steven Whitehouse   2008-02-22  950  	return ret;
-9b8c81d1de4994 Steven Whitehouse   2008-02-22  951  
-9b8c81d1de4994 Steven Whitehouse   2008-02-22  952  do_alloc:
-628e366df11c0a Andreas Gruenbacher 2018-06-04  953  	if (flags & IOMAP_REPORT) {
-49edd5bf429c40 Andreas Gruenbacher 2018-02-06  954  		if (pos >= size)
-3974320ca6aa68 Bob Peterson        2017-02-16  955  			ret = -ENOENT;
-628e366df11c0a Andreas Gruenbacher 2018-06-04  956  		else if (height == ip->i_height)
-628e366df11c0a Andreas Gruenbacher 2018-06-04  957  			ret = gfs2_hole_size(inode, lblock, len, mp, iomap);
-49edd5bf429c40 Andreas Gruenbacher 2018-02-06  958  		else
-f3506eee81d1f7 Andreas Gruenbacher 2021-11-06  959  			iomap->length = size - iomap->offset;
-64bc06bb32ee9c Andreas Gruenbacher 2018-06-24  960  	} else if (flags & IOMAP_WRITE) {
-64bc06bb32ee9c Andreas Gruenbacher 2018-06-24  961  		u64 alloc_size;
-64bc06bb32ee9c Andreas Gruenbacher 2018-06-24  962  
-967bcc91b04493 Andreas Gruenbacher 2018-06-19  963  		if (flags & IOMAP_DIRECT)
-967bcc91b04493 Andreas Gruenbacher 2018-06-19  964  			goto out;  /* (see gfs2_file_direct_write) */
-967bcc91b04493 Andreas Gruenbacher 2018-06-19  965  
-64bc06bb32ee9c Andreas Gruenbacher 2018-06-24  966  		len = gfs2_alloc_size(inode, mp, len);
-64bc06bb32ee9c Andreas Gruenbacher 2018-06-24  967  		alloc_size = len << inode->i_blkbits;
-64bc06bb32ee9c Andreas Gruenbacher 2018-06-24  968  		if (alloc_size < iomap->length)
-64bc06bb32ee9c Andreas Gruenbacher 2018-06-24  969  			iomap->length = alloc_size;
-64bc06bb32ee9c Andreas Gruenbacher 2018-06-24  970  	} else {
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  971  		if (pos < size && height == ip->i_height)
-d505a96a3b16f4 Andreas Gruenbacher 2018-06-24  972  			ret = gfs2_hole_size(inode, lblock, len, mp, iomap);
-3974320ca6aa68 Bob Peterson        2017-02-16  973  	}
-566a2ab3c9005f Andreas Gruenbacher 2020-04-20  974  hole_found:
-566a2ab3c9005f Andreas Gruenbacher 2020-04-20  975  	iomap->addr = IOMAP_NULL_ADDR;
-566a2ab3c9005f Andreas Gruenbacher 2020-04-20  976  	iomap->type = IOMAP_HOLE;
-628e366df11c0a Andreas Gruenbacher 2018-06-04  977  	goto out;
-628e366df11c0a Andreas Gruenbacher 2018-06-04  978  }
-628e366df11c0a Andreas Gruenbacher 2018-06-04  979  
-
-:::::: The code at line 893 was first introduced by commit
-:::::: 49edd5bf429c405b3a7f75503845d9f66a47dd4b gfs2: Fixes to "Implement iomap for block_map"
-
-:::::: TO: Andreas Gruenbacher <agruenba@redhat.com>
-:::::: CC: Bob Peterson <rpeterso@redhat.com>
+  3040	
+  3041	/*
+  3042	 * Slow path. The lockless freelist is empty or we need to perform
+  3043	 * debugging duties.
+  3044	 *
+  3045	 * Processing is still very fast if new objects have been freed to the
+  3046	 * regular freelist. In that case we simply take over the regular freelist
+  3047	 * as the lockless freelist and zap the regular freelist.
+  3048	 *
+  3049	 * If that is not working then we fall back to the partial lists. We take the
+  3050	 * first element of the freelist as the object to allocate now and move the
+  3051	 * rest of the freelist to the lockless freelist.
+  3052	 *
+  3053	 * And if we were unable to get a new slab from the partial slab lists then
+  3054	 * we need to allocate a new slab. This is the slowest path since it involves
+  3055	 * a call to the page allocator and the setup of a new slab.
+  3056	 *
+  3057	 * Version of __slab_alloc to use when we know that preemption is
+  3058	 * already disabled (which is the case for bulk allocation).
+  3059	 */
+  3060	static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+  3061				  unsigned long addr, struct kmem_cache_cpu *c, unsigned int orig_size)
+  3062	{
+  3063		void *freelist;
+  3064		struct slab *slab;
+  3065		unsigned long flags;
+  3066		struct partial_context pc;
+  3067	
+  3068		stat(s, ALLOC_SLOWPATH);
+  3069	
+  3070	reread_slab:
+  3071	
+  3072		slab = READ_ONCE(c->slab);
+  3073		if (!slab) {
+  3074			/*
+  3075			 * if the node is not online or has no normal memory, just
+  3076			 * ignore the node constraint
+  3077			 */
+  3078			if (unlikely(node != NUMA_NO_NODE &&
+  3079				     !node_isset(node, slab_nodes)))
+  3080				node = NUMA_NO_NODE;
+  3081			goto new_slab;
+  3082		}
+  3083	
+  3084		if (unlikely(!node_match(slab, node))) {
+  3085			/*
+  3086			 * same as above but node_match() being false already
+  3087			 * implies node != NUMA_NO_NODE
+  3088			 */
+  3089			if (!node_isset(node, slab_nodes)) {
+  3090				node = NUMA_NO_NODE;
+  3091			} else {
+  3092				stat(s, ALLOC_NODE_MISMATCH);
+  3093				goto deactivate_slab;
+  3094			}
+  3095		}
+  3096	
+  3097		/*
+  3098		 * By rights, we should be searching for a slab page that was
+  3099		 * PFMEMALLOC but right now, we are losing the pfmemalloc
+  3100		 * information when the page leaves the per-cpu allocator
+  3101		 */
+  3102		if (unlikely(!pfmemalloc_match(slab, gfpflags)))
+  3103			goto deactivate_slab;
+  3104	
+  3105		/* must check again c->slab in case we got preempted and it changed */
+  3106		local_lock_irqsave(&s->cpu_slab->lock, flags);
+  3107		if (unlikely(slab != c->slab)) {
+  3108			local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+  3109			goto reread_slab;
+  3110		}
+  3111		freelist = c->freelist;
+  3112		if (freelist)
+  3113			goto load_freelist;
+  3114	
+  3115		freelist = get_freelist(s, slab);
+  3116	
+  3117		if (!freelist) {
+  3118			c->slab = NULL;
+  3119			c->tid = next_tid(c->tid);
+  3120			local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+  3121			stat(s, DEACTIVATE_BYPASS);
+  3122			goto new_slab;
+  3123		}
+  3124	
+  3125		stat(s, ALLOC_REFILL);
+  3126	
+  3127	load_freelist:
+  3128	
+  3129		lockdep_assert_held(this_cpu_ptr(&s->cpu_slab->lock));
+  3130	
+  3131		/*
+  3132		 * freelist is pointing to the list of objects to be used.
+  3133		 * slab is pointing to the slab from which the objects are obtained.
+  3134		 * That slab must be frozen for per cpu allocations to work.
+  3135		 */
+  3136		VM_BUG_ON(!c->slab->frozen);
+  3137		c->freelist = get_freepointer(s, freelist);
+  3138		c->tid = next_tid(c->tid);
+  3139		local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+  3140		return freelist;
+  3141	
+  3142	deactivate_slab:
+  3143	
+  3144		local_lock_irqsave(&s->cpu_slab->lock, flags);
+  3145		if (slab != c->slab) {
+  3146			local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+  3147			goto reread_slab;
+  3148		}
+  3149		freelist = c->freelist;
+  3150		c->slab = NULL;
+  3151		c->freelist = NULL;
+  3152		c->tid = next_tid(c->tid);
+  3153		local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+  3154		deactivate_slab(s, slab, freelist);
+  3155	
+  3156	new_slab:
+  3157	
+  3158		while (slub_percpu_partial(c)) {
+  3159			local_lock_irqsave(&s->cpu_slab->lock, flags);
+  3160			if (unlikely(c->slab)) {
+  3161				local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+  3162				goto reread_slab;
+  3163			}
+  3164			if (unlikely(!slub_percpu_partial(c))) {
+  3165				local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+  3166				/* we were preempted and partial list got empty */
+  3167				goto new_objects;
+  3168			}
+  3169	
+  3170			slab = slub_percpu_partial(c);
+  3171			slub_set_percpu_partial(c, slab);
+  3172			local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+  3173			stat(s, CPU_PARTIAL_ALLOC);
+  3174	
+  3175			if (unlikely(!node_match(slab, node) ||
+  3176				     !pfmemalloc_match(slab, gfpflags))) {
+> 3177				slab->next = NULL;
+> 3178				__unfreeze_partials(s, slab);
+  3179				continue;
+  3180			}
+  3181	
+  3182			freelist = freeze_slab(s, slab);
+  3183			goto retry_load_slab;
+  3184		}
+  3185	
+  3186	new_objects:
+  3187	
+  3188		pc.flags = gfpflags;
+  3189		pc.orig_size = orig_size;
+  3190		slab = get_partial(s, node, &pc);
+  3191		if (slab) {
+  3192			if (kmem_cache_debug(s)) {
+  3193				freelist = pc.object;
+  3194				/*
+  3195				 * For debug caches here we had to go through
+  3196				 * alloc_single_from_partial() so just store the
+  3197				 * tracking info and return the object.
+  3198				 */
+  3199				if (s->flags & SLAB_STORE_USER)
+  3200					set_track(s, freelist, TRACK_ALLOC, addr);
+  3201	
+  3202				return freelist;
+  3203			}
+  3204	
+  3205			freelist = freeze_slab(s, slab);
+  3206			goto retry_load_slab;
+  3207		}
+  3208	
+  3209		slub_put_cpu_ptr(s->cpu_slab);
+  3210		slab = new_slab(s, gfpflags, node);
+  3211		c = slub_get_cpu_ptr(s->cpu_slab);
+  3212	
+  3213		if (unlikely(!slab)) {
+  3214			slab_out_of_memory(s, gfpflags, node);
+  3215			return NULL;
+  3216		}
+  3217	
+  3218		stat(s, ALLOC_SLAB);
+  3219	
+  3220		if (kmem_cache_debug(s)) {
+  3221			freelist = alloc_single_from_new_slab(s, slab, orig_size);
+  3222	
+  3223			if (unlikely(!freelist))
+  3224				goto new_objects;
+  3225	
+  3226			if (s->flags & SLAB_STORE_USER)
+  3227				set_track(s, freelist, TRACK_ALLOC, addr);
+  3228	
+  3229			return freelist;
+  3230		}
+  3231	
+  3232		/*
+  3233		 * No other reference to the slab yet so we can
+  3234		 * muck around with it freely without cmpxchg
+  3235		 */
+  3236		freelist = slab->freelist;
+  3237		slab->freelist = NULL;
+  3238		slab->inuse = slab->objects;
+  3239		slab->frozen = 1;
+  3240	
+  3241		inc_slabs_node(s, slab_nid(slab), slab->objects);
+  3242	
+  3243		if (unlikely(!pfmemalloc_match(slab, gfpflags))) {
+  3244			/*
+  3245			 * For !pfmemalloc_match() case we don't load freelist so that
+  3246			 * we don't make further mismatched allocations easier.
+  3247			 */
+  3248			deactivate_slab(s, slab, get_freepointer(s, freelist));
+  3249			return freelist;
+  3250		}
+  3251	
+  3252	retry_load_slab:
+  3253	
+  3254		local_lock_irqsave(&s->cpu_slab->lock, flags);
+  3255		if (unlikely(c->slab)) {
+  3256			void *flush_freelist = c->freelist;
+  3257			struct slab *flush_slab = c->slab;
+  3258	
+  3259			c->slab = NULL;
+  3260			c->freelist = NULL;
+  3261			c->tid = next_tid(c->tid);
+  3262	
+  3263			local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+  3264	
+  3265			deactivate_slab(s, flush_slab, flush_freelist);
+  3266	
+  3267			stat(s, CPUSLAB_FLUSH);
+  3268	
+  3269			goto retry_load_slab;
+  3270		}
+  3271		c->slab = slab;
+  3272	
+  3273		goto load_freelist;
+  3274	}
+  3275	
 
 -- 
 0-DAY CI Kernel Test Service
