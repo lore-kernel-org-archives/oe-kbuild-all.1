@@ -1,49 +1,52 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC32F63DD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 01:43:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062A66AB8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 01:43:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q9PgbuHM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GR3BRNyJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698111816; x=1729647816;
+  t=1698111818; x=1729647818;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=KVoj2Om8bCNOUEAaS1cea1Kwc+yI3yTZ1goF/EnPb10=;
-  b=Q9PgbuHMzMK+X+ORuvf3YEptE+CxQT5SCfrcVz/vOUiKUE0NU1OsT1id
-   hPBYSrTFbulsMRBig6riOn3JiWpO0C9UPltb6UNKb+OOZpSYe0LhNl53M
-   zPWSRRIBGUA5H2flO0s7Cx5D0DAy/1mb8AIQGYtLq3pvCTLCAKY53rBmS
-   6ffkuYKdNGdosfFjwm3oTne8ZzmLyWyOVAjp1GtAgWIQdzYwVRqcShRet
-   ktLl1gsbtNLGEuDpzK5oDi6lGOgy9dOEVoRo/qpw7JSTkdk0JcM1XIomF
-   lkjvMyx0tihZH1sc69Q5x/h5duFnkHRIOxxLCsox+mdRwjRtBXe4aD6Ef
+  bh=+a8x9//eDnTZ0uv/y2OFEgBp4LBdVfbA8+3cn1ODI/c=;
+  b=GR3BRNyJspV3TVQNkRXaiZ8/jMVdiUej6AqW3TX3qNJXenWg1yUk7vb+
+   cmJjM+IXfV5kpblMs7XCYbWmqekmMLlOsC8OgvjRZPWv31pdH2akI+F8N
+   jfNpLVLZaAbcZ3YkpMCrqq7Ye/o1FuU/uHF9sT+9tTAyJTFA4JvssZTCY
+   GAOQycG9KuFrlnumhEgZB85T9yFkZ56owy4HR6+0hzBJvIlvrgkIC6XYA
+   /RyCZE5mpMVf35Crpp2vcErzyw0djDrpozyWxZ5WFqjwcpB4v9pXPS6nI
+   hXm27pnYIvjQLppIgj82c8oq4TNCiwVAZNwnnJHZuBgyZEXWFXUi4cgSl
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="418090189"
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="418090193"
 X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
-   d="scan'208";a="418090189"
+   d="scan'208";a="418090193"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 18:43:35 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 18:43:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="881962230"
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="881962239"
 X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
-   d="scan'208";a="881962230"
+   d="scan'208";a="881962239"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
   by orsmga004.jf.intel.com with ESMTP; 23 Oct 2023 18:43:34 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qv6SB-0007SZ-2z;
+	id 1qv6SB-0007SX-2s;
 	Tue, 24 Oct 2023 01:43:31 +0000
-Date: Tue, 24 Oct 2023 09:43:19 +0800
+Date: Tue, 24 Oct 2023 09:43:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eduard Zingerman <eddyz87@gmail.com>, bpf@vger.kernel.org,
-	ast@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH bpf-next v3 4/7] selftests/bpf: tests with delayed
- read/precision makrs in loop body
-Message-ID: <202310240902.mvutnvcZ-lkp@intel.com>
-References: <20231024000917.12153-5-eddyz87@gmail.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, hverkuil@xs4all.nl,
+	laurent.pinchart@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
+	jacopo.mondi@ideasonboard.com, bingbu.cao@intel.com,
+	hongju.wang@intel.com
+Subject: Re: [PATCH v2 4/6] media: v4l: subdev: Make stream argument optional
+ in state access functions
+Message-ID: <202310240911.7Doj3ImH-lkp@intel.com>
+References: <20231023123308.782592-5-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,125 +55,220 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231024000917.12153-5-eddyz87@gmail.com>
+In-Reply-To: <20231023123308.782592-5-sakari.ailus@linux.intel.com>
 
-Hi Eduard,
+Hi Sakari,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on rockchip/for-next linus/master v6.6-rc7 next-20231023]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eduard-Zingerman/bpf-move-explored_state-closer-to-the-beginning-of-verifier-c/20231024-081049
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231024000917.12153-5-eddyz87%40gmail.com
-patch subject: [PATCH bpf-next v3 4/7] selftests/bpf: tests with delayed read/precision makrs in loop body
-reproduce: (https://download.01.org/0day-ci/archive/20231024/202310240902.mvutnvcZ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-v4l-subdev-Also-return-pads-array-information-on-stream-functions/20231023-203626
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20231023123308.782592-5-sakari.ailus%40linux.intel.com
+patch subject: [PATCH v2 4/6] media: v4l: subdev: Make stream argument optional in state access functions
+config: i386-buildonly-randconfig-001-20231024 (https://download.01.org/0day-ci/archive/20231024/202310240911.7Doj3ImH-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231024/202310240911.7Doj3ImH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310240902.mvutnvcZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310240911.7Doj3ImH-lkp@intel.com/
 
-# many are suggestions rather than must-fix
+All errors (new ones prefixed by >>):
 
-WARNING:SPLIT_STRING: quoted string split across lines
-#82: FILE: tools/testing/selftests/bpf/progs/iters.c:767:
-+	"1:"
-+		"r1 = r10;"
+   In file included from include/media/v4l2-device.h:13:0,
+                    from drivers/media/v4l2-core/v4l2-subdev.c:24:
+   drivers/media/v4l2-core/v4l2-subdev.c: In function 'check_state':
+>> include/media/v4l2-subdev.h:1555:9: error: implicit declaration of function '__v4l2_subdev_state_get_format___VA_OPT__'; did you mean '__v4l2_subdev_state_get_format_'? [-Werror=implicit-function-declaration]
+            __v4l2_subdev_state_get_format_ ## __VA_OPT__(stream) \
+            ^
+   drivers/media/v4l2-core/v4l2-subdev.c:180:8: note: in expansion of macro 'v4l2_subdev_state_get_format'
+      if (!v4l2_subdev_state_get_format(state, pad, stream))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/media/v4l2-subdev.h:1556:21: error: expected ')' before '__VA_OPT__'
+            (state, pad __VA_OPT__(,) __VA_ARGS__)
+                        ^
+   drivers/media/v4l2-core/v4l2-subdev.c:180:8: note: in expansion of macro 'v4l2_subdev_state_get_format'
+      if (!v4l2_subdev_state_get_format(state, pad, stream))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/media/v4l2-subdev.h:1555:9: error: called object is not a function or function pointer
+            __v4l2_subdev_state_get_format_ ## __VA_OPT__(stream) \
+            ^
+   drivers/media/v4l2-core/v4l2-subdev.c:180:8: note: in expansion of macro 'v4l2_subdev_state_get_format'
+      if (!v4l2_subdev_state_get_format(state, pad, stream))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/v4l2-core/v4l2-subdev.c: In function 'v4l2_subdev_get_fmt':
+>> include/media/v4l2-subdev.h:1555:55: error: 'stream' undeclared (first use in this function); did you mean 'strim'?
+            __v4l2_subdev_state_get_format_ ## __VA_OPT__(stream) \
+                                                          ^
+   drivers/media/v4l2-core/v4l2-subdev.c:1581:8: note: in expansion of macro 'v4l2_subdev_state_get_format'
+     fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1555:55: note: each undeclared identifier is reported only once for each function it appears in
+            __v4l2_subdev_state_get_format_ ## __VA_OPT__(stream) \
+                                                          ^
+   drivers/media/v4l2-core/v4l2-subdev.c:1581:8: note: in expansion of macro 'v4l2_subdev_state_get_format'
+     fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/media/v4l2-subdev.h:1556:21: error: expected ')' before '__VA_OPT__'
+            (state, pad __VA_OPT__(,) __VA_ARGS__)
+                        ^
+   drivers/media/v4l2-core/v4l2-subdev.c:1581:8: note: in expansion of macro 'v4l2_subdev_state_get_format'
+     fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/include/asm/bug.h:87:0,
+                    from include/linux/bug.h:5,
+                    from include/linux/jump_label.h:256,
+                    from include/linux/static_key.h:1,
+                    from arch/x86/include/asm/nospec-branch.h:6,
+                    from arch/x86/include/asm/irqflags.h:9,
+                    from include/linux/irqflags.h:17,
+                    from include/linux/rcupdate.h:26,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/leds.h:12,
+                    from drivers/media/v4l2-core/v4l2-subdev.c:13:
+   drivers/media/v4l2-core/v4l2-subdev.c: In function '__v4l2_subdev_state_get_format':
+   drivers/media/v4l2-core/v4l2-subdev.c:1685:27: error: 'struct v4l2_subdev_state' has no member named 'sd'
+      if (WARN_ON(pad >= state->sd->entity.num_pads))
+                              ^
+   include/asm-generic/bug.h:168:25: note: in definition of macro 'WARN_ON'
+     int __ret_warn_on = !!(condition);    \
+                            ^~~~~~~~~
+   drivers/media/v4l2-core/v4l2-subdev.c: In function '__v4l2_subdev_state_get_crop':
+   drivers/media/v4l2-core/v4l2-subdev.c:1719:27: error: 'struct v4l2_subdev_state' has no member named 'sd'
+      if (WARN_ON(pad >= state->sd->entity.num_pads))
+                              ^
+   include/asm-generic/bug.h:168:25: note: in definition of macro 'WARN_ON'
+     int __ret_warn_on = !!(condition);    \
+                            ^~~~~~~~~
+   drivers/media/v4l2-core/v4l2-subdev.c: In function '__v4l2_subdev_state_get_compose':
+   drivers/media/v4l2-core/v4l2-subdev.c:1753:27: error: 'struct v4l2_subdev_state' has no member named 'sd'
+      if (WARN_ON(pad >= state->sd->entity.num_pads))
+                              ^
+   include/asm-generic/bug.h:168:25: note: in definition of macro 'WARN_ON'
+     int __ret_warn_on = !!(condition);    \
+                            ^~~~~~~~~
+   In file included from include/media/v4l2-device.h:13:0,
+                    from drivers/media/v4l2-core/v4l2-subdev.c:24:
+   drivers/media/v4l2-core/v4l2-subdev.c: In function 'v4l2_subdev_state_get_opposite_stream_format':
+>> include/media/v4l2-subdev.h:1556:21: error: expected ')' before '__VA_OPT__'
+            (state, pad __VA_OPT__(,) __VA_ARGS__)
+                        ^
+   drivers/media/v4l2-core/v4l2-subdev.c:1817:9: note: in expansion of macro 'v4l2_subdev_state_get_format'
+     return v4l2_subdev_state_get_format(state, other_pad, other_stream);
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/media/v4l2-subdev.h:1555:9: error: called object is not a function or function pointer
+            __v4l2_subdev_state_get_format_ ## __VA_OPT__(stream) \
+            ^
+   drivers/media/v4l2-core/v4l2-subdev.c:1817:9: note: in expansion of macro 'v4l2_subdev_state_get_format'
+     return v4l2_subdev_state_get_format(state, other_pad, other_stream);
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/v4l2-core/v4l2-subdev.c:1818:1: error: control reaches end of non-void function [-Werror=return-type]
+    }
+    ^
+   cc1: some warnings being treated as errors
 
-WARNING:SPLIT_STRING: quoted string split across lines
-#91: FILE: tools/testing/selftests/bpf/progs/iters.c:776:
-+	"3:"
-+		"r1 = r7;"
 
-WARNING:SPLIT_STRING: quoted string split across lines
-#97: FILE: tools/testing/selftests/bpf/progs/iters.c:782:
-+	"2:"
-+		"r1 = r10;"
+vim +1555 include/media/v4l2-subdev.h
 
-WARNING:SPLIT_STRING: quoted string split across lines
-#159: FILE: tools/testing/selftests/bpf/progs/iters.c:844:
-+	"1:"
-+		"r1 = r10;"
-
-WARNING:SPLIT_STRING: quoted string split across lines
-#169: FILE: tools/testing/selftests/bpf/progs/iters.c:854:
-+	"3:"
-+		"r0 = r10;"
-
-WARNING:SPLIT_STRING: quoted string split across lines
-#176: FILE: tools/testing/selftests/bpf/progs/iters.c:861:
-+	"2:"
-+		"r1 = r10;"
-
-WARNING:SPLIT_STRING: quoted string split across lines
-#252: FILE: tools/testing/selftests/bpf/progs/iters.c:937:
-+	"j_loop_%=:"
-+		"r1 = r10;"
-
-WARNING:SPLIT_STRING: quoted string split across lines
-#264: FILE: tools/testing/selftests/bpf/progs/iters.c:949:
-+	"i_loop_%=:"
-+		"r1 = r10;"
-
-WARNING:SPLIT_STRING: quoted string split across lines
-#269: FILE: tools/testing/selftests/bpf/progs/iters.c:954:
-+	"check_one_r6_%=:"
-+		"if r6 != 1 goto check_zero_r6_%=;"
-
-WARNING:SPLIT_STRING: quoted string split across lines
-#274: FILE: tools/testing/selftests/bpf/progs/iters.c:959:
-+	"check_zero_r6_%=:"
-+		"if r6 != 0 goto i_loop_%=;"
-
-WARNING:SPLIT_STRING: quoted string split across lines
-#280: FILE: tools/testing/selftests/bpf/progs/iters.c:965:
-+	"check_one_r7_%=:"
-+		"if r7 != 1 goto i_loop_%=;"
-
-WARNING:SPLIT_STRING: quoted string split across lines
-#294: FILE: tools/testing/selftests/bpf/progs/iters.c:979:
-+	"i_loop_end_%=:"
-+		"r1 = r10;"
-
-WARNING:SPLIT_STRING: quoted string split across lines
-#302: FILE: tools/testing/selftests/bpf/progs/iters.c:987:
-+	"j_loop_end_%=:"
-+		"r1 = r10;"
-
-WARNING:SPLIT_STRING: quoted string split across lines
-#346: FILE: tools/testing/selftests/bpf/progs/iters.c:1031:
-+	"loop_%=:"
-+		"r1 = r10;"
-
-WARNING:SPLIT_STRING: quoted string split across lines
-#359: FILE: tools/testing/selftests/bpf/progs/iters.c:1044:
-+	"loop_end_%=:"
-+		"r1 = r10;"
-
-WARNING:SPLIT_STRING: quoted string split across lines
-#400: FILE: tools/testing/selftests/bpf/progs/iters.c:1085:
-+	"loop_%=:"
-+		"r1 = r10;"
-
-WARNING:SPLIT_STRING: quoted string split across lines
-#409: FILE: tools/testing/selftests/bpf/progs/iters.c:1094:
-+	"loop_end_%=:"
-+		"r1 = r10;"
-
-WARNING:REPEATED_WORD: Possible repeated word: 'to'
-#454: FILE: tools/testing/selftests/bpf/progs/iters.c:1139:
-+	 * to to avoid comparing current state with too many explored
-
-WARNING:SPLIT_STRING: quoted string split across lines
-#476: FILE: tools/testing/selftests/bpf/progs/iters.c:1161:
-+	"loop_%=:"
-+		"r1 = r10;"
-
-WARNING:SPLIT_STRING: quoted string split across lines
-#537: FILE: tools/testing/selftests/bpf/progs/iters.c:1222:
-+	"loop_end_%=:"
-+		"r1 = r10;"
+  1479	
+  1480	/**
+  1481	 * v4l2_subdev_get_fmt() - Fill format based on state
+  1482	 * @sd: subdevice
+  1483	 * @state: subdevice state
+  1484	 * @format: pointer to &struct v4l2_subdev_format
+  1485	 *
+  1486	 * Fill @format->format field based on the information in the @format struct.
+  1487	 *
+  1488	 * This function can be used by the subdev drivers which support active state to
+  1489	 * implement v4l2_subdev_pad_ops.get_fmt if the subdev driver does not need to
+  1490	 * do anything special in their get_fmt op.
+  1491	 *
+  1492	 * Returns 0 on success, error value otherwise.
+  1493	 */
+  1494	int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+  1495				struct v4l2_subdev_format *format);
+  1496	
+  1497	/**
+  1498	 * v4l2_subdev_set_routing() - Set given routing to subdev state
+  1499	 * @sd: The subdevice
+  1500	 * @state: The subdevice state
+  1501	 * @routing: Routing that will be copied to subdev state
+  1502	 *
+  1503	 * This will release old routing table (if any) from the state, allocate
+  1504	 * enough space for the given routing, and copy the routing.
+  1505	 *
+  1506	 * This can be used from the subdev driver's set_routing op, after validating
+  1507	 * the routing.
+  1508	 */
+  1509	int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
+  1510				    struct v4l2_subdev_state *state,
+  1511				    const struct v4l2_subdev_krouting *routing);
+  1512	
+  1513	struct v4l2_subdev_route *
+  1514	__v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
+  1515					struct v4l2_subdev_route *route);
+  1516	
+  1517	/**
+  1518	 * for_each_active_route - iterate on all active routes of a routing table
+  1519	 * @routing: The routing table
+  1520	 * @route: The route iterator
+  1521	 */
+  1522	#define for_each_active_route(routing, route) \
+  1523		for ((route) = NULL;                  \
+  1524		     ((route) = __v4l2_subdev_next_active_route((routing), (route)));)
+  1525	
+  1526	/**
+  1527	 * v4l2_subdev_set_routing_with_fmt() - Set given routing and format to subdev
+  1528	 *					state
+  1529	 * @sd: The subdevice
+  1530	 * @state: The subdevice state
+  1531	 * @routing: Routing that will be copied to subdev state
+  1532	 * @fmt: Format used to initialize all the streams
+  1533	 *
+  1534	 * This is the same as v4l2_subdev_set_routing, but additionally initializes
+  1535	 * all the streams using the given format.
+  1536	 */
+  1537	int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+  1538					     struct v4l2_subdev_state *state,
+  1539					     const struct v4l2_subdev_krouting *routing,
+  1540					     const struct v4l2_mbus_framefmt *fmt);
+  1541	
+  1542	/**
+  1543	 * v4l2_subdev_state_get_format() - Get pointer to a stream format
+  1544	 * @state: subdevice state
+  1545	 * @pad: pad id
+  1546	 * @stream: stream id (optional argument)
+  1547	 *
+  1548	 * This returns a pointer to &struct v4l2_mbus_framefmt for the given pad +
+  1549	 * stream in the subdev state.
+  1550	 *
+  1551	 * For stream-unaware drivers the format for the corresponding pad is returned.
+  1552	 * If the pad does not exist, NULL is returned.
+  1553	 */
+  1554	#define v4l2_subdev_state_get_format(state, pad, ...)         \
+> 1555	        __v4l2_subdev_state_get_format_ ## __VA_OPT__(stream) \
+> 1556	        (state, pad __VA_OPT__(,) __VA_ARGS__)
+  1557	#define __v4l2_subdev_state_get_format_(state, pad)     \
+  1558	        __v4l2_subdev_state_get_format(state, pad, 0)
+  1559	#define __v4l2_subdev_state_get_format_stream(state, pad, stream)	\
+  1560	        __v4l2_subdev_state_get_format(state, pad, stream)
+  1561	struct v4l2_mbus_framefmt *
+  1562	__v4l2_subdev_state_get_format(struct v4l2_subdev_state *state,
+  1563				       unsigned int pad, u32 stream);
+  1564	
 
 -- 
 0-DAY CI Kernel Test Service
