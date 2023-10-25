@@ -1,52 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159DF2D62F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Oct 2023 17:47:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4582AB41
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Oct 2023 18:49:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cAf7mHYK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NDGhkT52"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698256031; x=1729792031;
+  t=1698259766; x=1729795766;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=y51ew40oLjwa3836YhR+S3DSxiZGQ240PtjmogMYv8s=;
-  b=cAf7mHYKTfu+ZBqa/ipE2E48e+yFyY3ce3p3jX+zS5xSz3PaQgxmRtTT
-   BnDgTNQTOD0bMXH8vRJXsamRqKKvnzKutcnaH479I2i0PTFJ85/jcfIk8
-   +m6L3PayoFKUPLhB3/hZ0+rJYTVZbEfuGgjN8ZtsR/lmKY0oTsSbb23b8
-   h4Gh6Or4/LUfnWfQFBvT4PsgYZzkgLfyA+Yx8V4N814K/UVbUlW8vybn4
-   5tRAhidR5pgGMnZqNwxPoIGgztEQCzT++i6eC7+q142wXkGswJYjZc6eE
-   elFbeGQVTJf1rnpVoICIh/4ya5a3fzQ8HRHP/1H0edkYzB4xGPL3PBDYJ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="386247415"
+  bh=A920Hyiiee/QDSjMBa5FulAMIKTEKe/GTe44BYBFeTI=;
+  b=NDGhkT52j8iLfwJejYhbPm6CNovN1emb7B8RLa8qJUWVGiye6+G0Y+ue
+   X14TXM7S2jPbiMa4XQgchGcgxhdvZg/61/ehqdKnnswN7XF6ZfMC3fj18
+   sVEhcbZkVyOkdGPJSVt57inA/+sNxIKuz038zRufNcfHFSSJ7m6Z09Zln
+   k49hAtf7FoVJkot+dQjOt3Jbdo6I3ucazt9TcwRdw4yGakteB2hqnEzPq
+   tOrgdHxEw0tX7KxCtmYLgmMq7fvuFtyNxHCJpdO4SErtMiaOKVTqURfyw
+   pcn5okmP1+3UP44J8J0XmB2LPE2ujlz/TljahxzNSDfD8KUbajubu4Usv
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="377742732"
 X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="386247415"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 10:46:24 -0700
+   d="scan'208";a="377742732"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 11:49:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="793909382"
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="708785677"
 X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="793909382"
+   d="scan'208";a="708785677"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 25 Oct 2023 10:46:21 -0700
+  by orsmga003.jf.intel.com with ESMTP; 25 Oct 2023 11:49:23 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qvhxS-00094f-2p;
-	Wed, 25 Oct 2023 17:46:18 +0000
-Date: Thu, 26 Oct 2023 01:46:03 +0800
+	id 1qviwT-00096q-1N;
+	Wed, 25 Oct 2023 18:49:21 +0000
+Date: Thu, 26 Oct 2023 02:48:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kaiwei Liu <kaiwei.liu@unisoc.com>, Vinod Koul <vkoul@kernel.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kaiwei liu <liukaiwei086@gmail.com>,
-	Wenming Wu <wenming.wu@unisoc.com>
-Subject: Re: [PATCH 1/3] dmaengine: sprd: support dma device suspend/resume
-Message-ID: <202310260136.yDATuOfv-lkp@intel.com>
-References: <20231025120500.8914-1-kaiwei.liu@unisoc.com>
+To: Jakub Sitnicki <jakub@cloudflare.com>,
+	Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel-team@cloudflare.com, Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Subject: Re: [PATCH] genirq: Own affinity hint
+Message-ID: <202310260237.0IF4S81f-lkp@intel.com>
+References: <20231025141517.375378-1-jakub@cloudflare.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,71 +52,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231025120500.8914-1-kaiwei.liu@unisoc.com>
+In-Reply-To: <20231025141517.375378-1-jakub@cloudflare.com>
 
-Hi Kaiwei,
+Hi Jakub,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on vkoul-dmaengine/next]
+[auto build test WARNING on tip/irq/core]
 [also build test WARNING on linus/master v6.6-rc7 next-20231025]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kaiwei-Liu/dmaengine-sprd-delete-enable-opreation-in-probe/20231025-201524
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-patch link:    https://lore.kernel.org/r/20231025120500.8914-1-kaiwei.liu%40unisoc.com
-patch subject: [PATCH 1/3] dmaengine: sprd: support dma device suspend/resume
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231026/202310260136.yDATuOfv-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310260136.yDATuOfv-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jakub-Sitnicki/genirq-Own-affinity-hint/20231026-001606
+base:   tip/irq/core
+patch link:    https://lore.kernel.org/r/20231025141517.375378-1-jakub%40cloudflare.com
+patch subject: [PATCH] genirq: Own affinity hint
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231026/202310260237.0IF4S81f-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310260237.0IF4S81f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310260136.yDATuOfv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310260237.0IF4S81f-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/dma/sprd-dma.c: In function 'sprd_dma_suspend_noirq':
-   drivers/dma/sprd-dma.c:1296:38: error: 'struct dev_pm_info' has no member named 'usage_count'
-    1296 |             (atomic_read(&(dev->power.usage_count)) > 1))
-         |                                      ^
-   drivers/dma/sprd-dma.c: In function 'sprd_dma_resume_early':
-   drivers/dma/sprd-dma.c:1305:38: error: 'struct dev_pm_info' has no member named 'usage_count'
-    1305 |             (atomic_read(&(dev->power.usage_count)) > 1))
-         |                                      ^
-   drivers/dma/sprd-dma.c: At top level:
->> drivers/dma/sprd-dma.c:1302:12: warning: 'sprd_dma_resume_early' defined but not used [-Wunused-function]
-    1302 | static int sprd_dma_resume_early(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~
->> drivers/dma/sprd-dma.c:1293:12: warning: 'sprd_dma_suspend_noirq' defined but not used [-Wunused-function]
-    1293 | static int sprd_dma_suspend_noirq(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/irq/irqdesc.c: In function 'alloc_masks':
+>> kernel/irq/irqdesc.c:79:1: warning: label 'err_effective_affinity' defined but not used [-Wunused-label]
+      79 | err_effective_affinity:
+         | ^~~~~~~~~~~~~~~~~~~~~~
+>> kernel/irq/irqdesc.c:75:1: warning: label 'err_pending_mask' defined but not used [-Wunused-label]
+      75 | err_pending_mask:
+         | ^~~~~~~~~~~~~~~~
 
 
-vim +/sprd_dma_resume_early +1302 drivers/dma/sprd-dma.c
+vim +/err_effective_affinity +79 kernel/irq/irqdesc.c
 
-  1292	
-> 1293	static int sprd_dma_suspend_noirq(struct device *dev)
-  1294	{
-  1295		if ((pm_runtime_status_suspended(dev)) ||
-  1296		    (atomic_read(&(dev->power.usage_count)) > 1))
-  1297			return 0;
-  1298	
-  1299		return sprd_dma_runtime_suspend(dev);
-  1300	}
-  1301	
-> 1302	static int sprd_dma_resume_early(struct device *dev)
-  1303	{
-  1304		if ((pm_runtime_status_suspended(dev)) ||
-  1305		    (atomic_read(&(dev->power.usage_count)) > 1))
-  1306			return 0;
-  1307	
-  1308		return sprd_dma_runtime_resume(dev);
-  1309	}
-  1310	
+    68	
+    69	#ifdef CONFIG_GENERIC_PENDING_IRQ
+    70		if (!zalloc_cpumask_var_node(&desc->pending_mask, GFP_KERNEL, node))
+    71			goto err_pending_mask;
+    72	#endif
+    73		return 0;
+    74	
+  > 75	err_pending_mask:
+    76	#ifdef CONFIG_GENERIC_IRQ_EFFECTIVE_AFF_MASK
+    77		free_cpumask_var(desc->irq_common_data.effective_affinity);
+    78	#endif
+  > 79	err_effective_affinity:
+    80		free_cpumask_var(desc->irq_common_data.affinity_hint);
+    81	err_affinity_hint:
+    82		free_cpumask_var(desc->irq_common_data.affinity);
+    83	err_affinity:
+    84		return -ENOMEM;
+    85	}
+    86	
 
 -- 
 0-DAY CI Kernel Test Service
