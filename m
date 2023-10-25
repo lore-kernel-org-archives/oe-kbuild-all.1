@@ -1,105 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2084.outbound.protection.outlook.com [40.107.237.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B37553AE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Oct 2023 06:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A812CF516
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Oct 2023 06:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ldsF5KJq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698214253; x=1729750253;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Q1g8aG1cn0v6RCAl+cNobKy+1JOcUwy9Jh1l0S6+jL8=;
-  b=ldsF5KJqPB69m7HErf2iBfb1PMRou5KYaAzndFLZbPkEWSMfdMnM5Ypw
-   TutJBn4t84UqK5gYvsn97rBuYo3vUxfFcnxqh/rbQ595FFRwEr7vqMid0
-   F7Vul02QrygaZXlcvA08o/eA+u/HV/IpxyWznjcQrBZbNoq0+k9MtKgYh
-   puCaTd8/2jE++ey0BMyzxysKG7hxkW/cikSD0LNFGWJAyRCVzvENNdBEg
-   ObtiySEirq/oNYOgVZaE6LCF6bcxOplWMDdw18BiHrBR84K7XeP33gte6
-   ZcnU6tx/uMQhSgtn97cH2sx0dpT18PdbpMTfNhgyAa1WdsXFiX1zl1cFi
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="386131922"
-X-IronPort-AV: E=Sophos;i="6.03,249,1694761200"; 
-   d="scan'208";a="386131922"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 23:10:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="758763462"
-X-IronPort-AV: E=Sophos;i="6.03,249,1694761200"; 
-   d="scan'208";a="758763462"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 24 Oct 2023 23:10:51 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qvX6O-0008fh-2Z;
-	Wed, 25 Oct 2023 06:10:48 +0000
-Date: Wed, 25 Oct 2023 14:10:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:find_and_clear_tmp 45/47]
- drivers/net/ethernet/mellanox/mlxsw/core_acl_flex_keys.c:170:13: warning:
- unused variable 'j'
-Message-ID: <202310251417.qeEukVzo-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="U0U2Iv3v"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VjBTFHQfJhHAVdrId30EW4jzxzl46BrU4+V5twBnIkFZtVrAjOMMK9MpSiGD1wIddsm5glYoeAmk9g4uNJmF9jAq+/Y309StOv9cF21iFT6o0TGYboopPEaZaQj9VFCPFJYULpNeqqfFv1YjnTRYy30xBi5k/OX9n1esu0y0U8mf2fhrnyHnj7WWYwNn7griT6LU2hETxCYptDZ9KW7XkKO2RiV8YJsVi5YpNG5swTxjWGHHMH91aWigoIyXU9u/EMYSHq/es2b1POd3SddFbjD/0xgTHbmXbao/5X7N12u+97QB4qFVNUcmbX8uiGc6Sr4lfrBEfrm4JplvmGT9Vg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VE1iH8+0eX0qSCncco6jXdOI6KaClAUpdkKps8bITVE=;
+ b=csZ3C0Z1p8rmfsX9xb1DIk5yF+yKoNaled0Q195OohSme6Mnni81NuHhEhuuuycEke60zkmxZLtK5Zjcwfh2TdgF5LonE4qviXA2LJLgeFwtDUe4vHza5SO+bcPSC3pXbH/DkhAJi7s/9+ADsCVdRbDej2eCuXarR0NiDegaeRnBKZJc5udvmw7e+ytBHGqwmo0c9GtLUU2ZwA1SMkkm7CzVTA1dBiHy8XLg2dvRKHDT0TFS0xiKvqUOXdZul4kl4yc60ubOFpzM806WB2HgybnYpNw8dWTW4O0/nNg68yqNBS7Imqg316HCLgHU+74xQXrVsIL8fxqulEjqoG8NaQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VE1iH8+0eX0qSCncco6jXdOI6KaClAUpdkKps8bITVE=;
+ b=U0U2Iv3vwp5+aQeI+5BYYoeyuAlLF+muE8y6uuB22bR/1/dvtTMXmff0vCz12xi6fz9lhwerP708d8LAP1XQyeqNF0z2kEmlzxKCdg7C72O2jWSAOVTVA2qilucktM5PmayyS+grinqerruF1R9hB465/QlcACB7TKGTelrhvuA2EwdkgSwyQnOGUEsc/vefxSG/Rlmhd08tZa4PXPMkYruIjkhwBhrtyhJsudwQetUlE+kOz6f+FoVyjiJpCDeSWFldD1VBN+UG2QAc1opNA051aMfJrkun5Z8Q4r8GESU2jOmCDbLBj112cMqx/jIdzu0mErfyx4RQ2STMtdgH2g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MW4PR12MB7432.namprd12.prod.outlook.com (2603:10b6:303:22d::9)
+ by IA1PR12MB6484.namprd12.prod.outlook.com (2603:10b6:208:3a7::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.24; Wed, 25 Oct
+ 2023 06:24:59 +0000
+Received: from MW4PR12MB7432.namprd12.prod.outlook.com
+ ([fe80::9511:61f5:8e32:b30f]) by MW4PR12MB7432.namprd12.prod.outlook.com
+ ([fe80::9511:61f5:8e32:b30f%4]) with mapi id 15.20.6907.032; Wed, 25 Oct 2023
+ 06:24:59 +0000
+Message-ID: <a97fb789-ce3f-44bc-ab0c-797d18cd2cc3@nvidia.com>
+Date: Wed, 25 Oct 2023 11:54:54 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: drivers/memory/tegra/tegra186.c:74:49: warning: '%u' directive
+ output may be truncated writing between 1 and 10 bytes into a region of size
+ 6
+To: Krzysztof Kozlowski <krzk@kernel.org>, kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Thierry Reding <treding@nvidia.com>
+References: <202310182004.0XOYolzI-lkp@intel.com>
+ <1046b929-8eb6-43bc-9660-a5a1a43916d8@kernel.org>
+Content-Language: en-US
+From: Ashish Mhetre <amhetre@nvidia.com>
+In-Reply-To: <1046b929-8eb6-43bc-9660-a5a1a43916d8@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN0PR01CA0043.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:49::20) To MW4PR12MB7432.namprd12.prod.outlook.com
+ (2603:10b6:303:22d::9)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR12MB7432:EE_|IA1PR12MB6484:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0663280f-0ef1-486c-4b80-08dbd5231cb1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	11hhaWX7b/1NkW37xo16kWIrdHdz3q0SrIHmlThpyi/TyhJiXvyaSq85IT9kHtrs5JDavEgRnN58Zo5s20LXaGmmXLsjZEjzqfZdgOyiFYV8DYlkLBH7f5CAnI3BmR90+5PltaW7NJ6PJjUUVsIJF2X1upMbBAgj5EijsEzKSFR+oB1PqLHWwu+sNhO+uN8ZFH/TXX9350scGmftIWQ5mdqo3gFUBehifIbSERxiH7Eukwbl48n9OdLNeWlNYBShuxsmr/OUgQXEmafZCT/6YpGHkazOQGn/Bq8KuYwfqllezQvnOIHjxsd56O3tjOiZwOKwaw2acNZQx47GP+yE761PLMpbfBeIMhtMPhUE+aSSyYG9T7LPTxVK5IIO6Aws26oHaPkC5bQ//tmYSpYDGnEuPsuSzxvVhbOBjdsMnDT9VwQ/+EEuDv07gfl1caqW3mVQlikF6nFCgbQVynFPvWN8xhMryhQUB+rdfTZoOx2jXrQzwTfy/uyT7L4lmp2i5BrTOAxCko93OD0yuI8Ewweeq0xbdg8efNFYWQcVIGcpZESjYH1WxK2DaRftljh9wUfHBnOIxMIAkV35zIbuHxRbcbLsvZzzFxNj52+yYFJ+rZOoO4OQILyZZlKbMQjzapkni7WzL8BJvYeR3cIgNHbR3DKbEQxlO+r7LdiHlshrcgDN4533OQ2BYDjev8/a
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR12MB7432.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(376002)(39860400002)(396003)(366004)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(66946007)(66476007)(54906003)(66556008)(316002)(6666004)(53546011)(110136005)(966005)(6486002)(83380400001)(6506007)(6512007)(478600001)(36756003)(4326008)(38100700002)(86362001)(2906002)(8936002)(41300700001)(31686004)(26005)(107886003)(2616005)(31696002)(8676002)(5660300002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?em5vTjh0akYydm1RRm83enpxRkkzNmZRZ3hoRDdUV2Q4Z2llbk40T3hHUDNq?=
+ =?utf-8?B?d1lMeEU5alVhN3Z5Z3MzOStuMWVpSUxUQXRLMzFORjZYUnBCYk1OVzh5eW55?=
+ =?utf-8?B?Wkl0VWc2UFBqWDRlMTd0N3FVa2V5Mmd6azlQTyt5aEUxL1RlR3RUaWx0MHFl?=
+ =?utf-8?B?dXNkQ2VLM0tlVFhka1lYN0lXYzJvU01jNk9nM1FaclpVMExlMFJtdTZUS3ln?=
+ =?utf-8?B?MFBudmJjQ3hJUVc3eGFLTXVoOWlPRHRKdlF4SHE1YTlzRnNuT3JCU251SkxH?=
+ =?utf-8?B?OTVZV05SNUVjL2pMaXcyOThMOTBMSFR1ZFdTSHZCbWNrYXR0T2JlbXBzckM1?=
+ =?utf-8?B?RjhYLzEvUjJ4T3pvOFpkaHFNN0crWHZEcFd2RmJ6eURXcjRVQ1gzNUU1eDNj?=
+ =?utf-8?B?RnFrZVcxMjYxN3NtWFdPcUVid0Z1VVVvRXBHNVMwcUVZeXE2VU1FR0c0WEdM?=
+ =?utf-8?B?ZEtMOU1FMnZOalhDMEsrZHVMNFdwMGppZFpWOUxqdjl6Q0hHZ1hTSWFjOGlX?=
+ =?utf-8?B?Zy9wOU1INTBmY3J6YjVLZHFxSXExSFZhRzRvZDh4UklPbVNiOG1BSldpbDRM?=
+ =?utf-8?B?dElIU0k1bTdYN2hKTHdBelloTlFkZzczYTJ1RlZDNFdndFltbTB4REtEZlYy?=
+ =?utf-8?B?Y0RzWFlxYXBxMEpzWDlkVGRqckVFS0ZpSEFNS3M1SkJURWpLYzUzSFdHMjU3?=
+ =?utf-8?B?bnZCVzQzWWFsU21WYzZHekhBamxtaVlxZzhXWlBOS25oNlZNT3QxVjNydk5h?=
+ =?utf-8?B?NU9GaDRTUUN4ZUVWL0UxQU41RDFwY055RE9Nb1hQT2FRdlEydm9SR3crSWRU?=
+ =?utf-8?B?QjBpdk82VHlsTlJZUitGbzhqUmpvckRodk0vdXNmT3JsTUhzVG5RNXA1WGFy?=
+ =?utf-8?B?RnpKemphaDlSaEtlNGpmQ09pZW05VjlwNE5YdEMrS21GTGpacHVwWEdVOGtq?=
+ =?utf-8?B?Zk1jcDMrK09JNFZKRnVoZHF2ZDRaanpDbkkrcFRFbE5IMkphR3JiTzA5L3JL?=
+ =?utf-8?B?Ri9JVXFPcnAycDZHN1AyOWxtRlprRG1WVXgzRDdhVnVIbS9XMzZBZnRYaUU2?=
+ =?utf-8?B?STM3QmFoM0ZZYjEzU25zbnYrT2w2bmlaYkVHdHZrajJEeWNWaGIrN1FoeHdp?=
+ =?utf-8?B?VGhoM0JheTZsUXA0UHZ6enBvOVVBdXBtYjZiQ0hHNlh1Tlp6N3M0dWRiR0pq?=
+ =?utf-8?B?SWVRQmRUbnFudmJQK0gzOFdlVVVmVUhqNzJLTjN2VG1hUGtBcjBZL0IzZDI1?=
+ =?utf-8?B?MzFBWmVNalAxMkFEYVhNUzl5SzRqVnd2ZHlMb0JIeFpNekRkZGhuOGl2bVFM?=
+ =?utf-8?B?d28zcWVrb1k4VXJUb1Y4RCtZTm9YRlJtS2V3VmRoK1RTQjZyMTczT2xiWXJ6?=
+ =?utf-8?B?WEhEY2VOaFAwSEQzd0pwbHhZSnp6ejMveFNRc0lVRzJMZmM4WGl1bnFMNzZF?=
+ =?utf-8?B?RlhMNGR3Z0QyRkZ5Q3V4M1lSUEJ0MmZVYjNVZVM0bVNrNWhIaFhHL1VuVS83?=
+ =?utf-8?B?bTc2UWxDd1U2RU9QQVZCUmVNd3NiUS9vcTRUQnF4SHJRYklmWlJJdUxuMXpO?=
+ =?utf-8?B?STZ5SVZXOG43L0ZVanQwUlNVVnFCVW05N1FNc2tNY3BObG56MWdwc1BvWlNk?=
+ =?utf-8?B?TDNtb0lmM2JQQ3hNTXpjdDFOL3RXMi9yS3AweWIvTlQwQkJJRjRLK05HQ29w?=
+ =?utf-8?B?Ry8rNUhDSlROZkNjOGtnYjV0WWRrM3o3WGJ6UldzZjBESXgvNE91VFJqZHBB?=
+ =?utf-8?B?SXRkTFlnbEJoSVNiQ2F3WVNLVEJpbHYrUGlUdGlLZDVCejlBUmhWVWNjckRk?=
+ =?utf-8?B?UmRVL1dkYzdzYk92RnJqcWpLT0ZhYXJYYTlxNWhqb1M1MlhxRUhCV2ZWdG9x?=
+ =?utf-8?B?RldDWEt1Yitid3RpYmZRc0N6SGhnNzNQL3llSVhUK21qdDJpVHRvaGQ3NUVR?=
+ =?utf-8?B?dEVyOVY3SFVvaXFDVUN4VHhyNksxQTRsTkQzYXFrTElFQlV6OUQ4MEYyeVhO?=
+ =?utf-8?B?OW9mNmNZNmFRT3g0UkpFOHZKa3FMZ25Sdk5LdmNBV3JObXhpcnQ0U1BtWEJr?=
+ =?utf-8?B?Q1FON3NwT3hCRVI1aUR1ZXpIT1l0azJ1L0czcVRlVnBpNE4yeVBoS3A1M2p0?=
+ =?utf-8?Q?PWbMc7d3von3s9Dszk1zr3P0T?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0663280f-0ef1-486c-4b80-08dbd5231cb1
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB7432.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2023 06:24:58.8240
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5zv7aBe8gUtm/PnQOAvIyUa/G7JKEIHTJ5vplhbNcYHJE0LvxGrJBSzFKORkjSlCTzIK7IU8TqMlddCt9EDumg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6484
 
-tree:   https://github.com/norov/linux find_and_clear_tmp
-head:   8ff28bdbe8eb42074ec3920a5b1d49e18332aad1
-commit: 17ab5a18f5479659fa82ebf9d6f63730a29ac986 [45/47] mellanox
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231025/202310251417.qeEukVzo-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310251417.qeEukVzo-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310251417.qeEukVzo-lkp@intel.com/
+On 10/19/2023 7:06 PM, Krzysztof Kozlowski wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> On 18/10/2023 14:32, kernel test robot wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+>> head:   06dc10eae55b5ceabfef287a7e5f16ceea204aa0
+>> commit: a7cffa11fa9232eabf0c4f441dc53002978ab526 memory: tegra: Add memory controller channels support
+>> date:   1 year, 5 months ago
+>> config: arm64-randconfig-r036-20230512 (https://download.01.org/0day-ci/archive/20231018/202310182004.0XOYolzI-lkp@intel.com/config)
+>> compiler: aarch64-linux-gcc (GCC) 11.3.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310182004.0XOYolzI-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202310182004.0XOYolzI-lkp@intel.com/
+>>
+>> All warnings (new ones prefixed by >>):
+> Ashish,
+>
+> Are you planning to respond to this?
+>
+> Best regards,
+> Krzysztof
 
-All warnings (new ones prefixed by >>):
+Hi Krzysztof,
 
-   drivers/net/ethernet/mellanox/mlxsw/core_acl_flex_keys.c: In function 'mlxsw_afk_picker_subtract_hits':
->> drivers/net/ethernet/mellanox/mlxsw/core_acl_flex_keys.c:170:13: warning: unused variable 'j' [-Wunused-variable]
-     170 |         int j;
-         |             ^
+The value of mc->soc->num_channels is not more that 16. The number of
+characters written in 'name' variable won't be more than 4 which is less
+than buffer size of 8 bytes. So, can we ignore this warning?
+If not, then I can fix this with a patch to check the return value of
+snprintf and compare that with size of buffer 'name'. Something like:
 
+-               snprintf(name, sizeof(name), "ch%u", i);
++               int n = snprintf(name, sizeof(name), "ch%u", i);
++
++               if (n < 0) {
++                       dev_err(&pdev->dev, "snprintf failed\n");
++                       return -EFAULT;
++               }
++               if ((size_t)n > sizeof(name)) {
++                       dev_err(&pdev->dev, "snprintf output is 
+truncated\n");
++                       return -EFAULT;
++               }
 
-vim +/j +170 drivers/net/ethernet/mellanox/mlxsw/core_acl_flex_keys.c
+Thanks,
 
-3f1a84e6962c7f Jiri Pirko   2017-02-03  163  
-3f1a84e6962c7f Jiri Pirko   2017-02-03  164  static void mlxsw_afk_picker_subtract_hits(struct mlxsw_afk *mlxsw_afk,
-3f1a84e6962c7f Jiri Pirko   2017-02-03  165  					   struct mlxsw_afk_picker *picker,
-3f1a84e6962c7f Jiri Pirko   2017-02-03  166  					   int block_index)
-3f1a84e6962c7f Jiri Pirko   2017-02-03  167  {
-3f1a84e6962c7f Jiri Pirko   2017-02-03  168  	DECLARE_BITMAP(hits_element, MLXSW_AFK_ELEMENT_MAX);
-3f1a84e6962c7f Jiri Pirko   2017-02-03  169  	int i;
-3f1a84e6962c7f Jiri Pirko   2017-02-03 @170  	int j;
-3f1a84e6962c7f Jiri Pirko   2017-02-03  171  
-9add5f1954e979 Ido Schimmel 2020-12-06  172  	memcpy(&hits_element, &picker[block_index].element,
-3f1a84e6962c7f Jiri Pirko   2017-02-03  173  	       sizeof(hits_element));
-3f1a84e6962c7f Jiri Pirko   2017-02-03  174  
-3f1a84e6962c7f Jiri Pirko   2017-02-03  175  	for (i = 0; i < mlxsw_afk->blocks_count; i++) {
-17ab5a18f54796 Yury Norov   2023-10-20  176  		picker[i].total -= bitmap_weight_and(picker[i].element, hits_element,
-17ab5a18f54796 Yury Norov   2023-10-20  177  							MLXSW_AFK_ELEMENT_MAX);
-17ab5a18f54796 Yury Norov   2023-10-20  178  		bitmap_andnot(picker[i].element, picker[i].element, hits_element,
-17ab5a18f54796 Yury Norov   2023-10-20  179  				MLXSW_AFK_ELEMENT_MAX);
-3f1a84e6962c7f Jiri Pirko   2017-02-03  180  	}
-3f1a84e6962c7f Jiri Pirko   2017-02-03  181  }
-3f1a84e6962c7f Jiri Pirko   2017-02-03  182  
+Ashish Mhetre
 
-:::::: The code at line 170 was first introduced by commit
-:::::: 3f1a84e6962c7fd0703b9bb5db0355d1c28b201a mlxsw: core: Introduce flexible keys support
-
-:::::: TO: Jiri Pirko <jiri@mellanox.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
