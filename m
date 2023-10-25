@@ -1,47 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C547480F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Oct 2023 04:44:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 236A61C04
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Oct 2023 04:45:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HFcNT82k"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698209090; x=1729745090;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1SYQSH9UKl7+I8MKsrIPK/Ch6S/tK0aTZ1/CB7YwypI=;
-  b=HFcNT82kLokc/aoCILOWKLlWd6pyj84vSEEuvvOV6J7bt5nPmn3ZITTn
-   kwCISD3jLLQ6Wj87w7piDwP5nwC9Miumlkox0Xqn9QpUVewjiHi7Y8CMj
-   75ooLX83NIcaPvs1SAe70DrL2xx6TPZoSFgqvdfytlzLzK1VPGLEIWmKr
-   HMMX271Ic8QrbozoCjOUjbFfIpPzrUBQEyGDPeQv3UcS24IrQAFzGZclA
-   p3Tdm/MteZ6pL++kiYTR412Nh31gVVGomtKm63MaCnRCKRnj5F/JI6Khi
-   w1VtpZlx7A+4JFPFauxzCHtBc0wpBssvIBRsPpzfaIJYDFL8fp1eSnCs6
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="451461150"
-X-IronPort-AV: E=Sophos;i="6.03,249,1694761200"; 
-   d="scan'208";a="451461150"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 21:44:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="758741374"
-X-IronPort-AV: E=Sophos;i="6.03,249,1694761200"; 
-   d="scan'208";a="758741374"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 24 Oct 2023 21:44:48 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qvVl8-0008cb-0d;
-	Wed, 25 Oct 2023 04:44:46 +0000
-Date: Wed, 25 Oct 2023 12:43:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.6-dango 7031/7095]
- drivers/mtd/nand/spi/core.c:979:5: warning: no previous declaration for
- 'spinand_cal_read'
-Message-ID: <202310251218.uHYMFj3z-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fY+mrSR8"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40906fc54fdso18461115e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Oct 2023 21:45:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698209109; x=1698813909; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=C2eQlkrHXsb01SkD0r5lPH6teOpnFeXQ1oyHS+DlKI4=;
+        b=fY+mrSR8p1VUj3eXHVG7GqZUP5ZYUW70yFoy/Kg9Z9ipXnkOME7ywURE35ytwtcNFX
+         Tsc5sEqGLgrO5pp78qAW4DNOLdHhuTWhiKzbjcCnkMwYD4QEoWEIWYa8/pbebkG3ZHAQ
+         VJ6jyYSOMm/mkGlygmEakxyPqBST2ZIF1PpUfeyEqDaJcEsdjxHHTb3+3dMcsrnHZDbf
+         PyWfZB97JE/B7ghrEOzW1eRDU67Emwiq+QPY+I+OfqGAcrkmV+aEq/BGyNeO3SgH2+EU
+         qRuuncBwM2yaLhclfK6HpOK3usGu32+z3GQwCo8J/i5vbojgwBNdiWMYLPpEuayeZoLM
+         HGaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698209109; x=1698813909;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=C2eQlkrHXsb01SkD0r5lPH6teOpnFeXQ1oyHS+DlKI4=;
+        b=alvtodhPoEgmT3E1HmIUDBRI7hg9SgznLVBeNXiLMOcETRENGzvug6sjDEKAK+MQmH
+         lLhvD8iDwU7VgYEXFKVf8dvaAxIWA0yN1h3/Hpo4JU/bnR5OJusEZDRbf4TwniIHu3IX
+         2hq+oYJZZriE83Tcwk2oZFS6wy5KfJECSHvT7btR+tPgkz4EPsVaZ4xByHO8G8Qfu8fr
+         I/OAuhBPqy/j551mrtEUXzx3S5VmmVoeLWdRW97HwUU8JN91KKuJasgYtt7FibXzLTd9
+         //oE5Zyg4nNBGH/baWCpfhwor/9zO+dlyKhb1WJfKjz3Z+VB+s+Q7Zb1EaBhGSGxeB+H
+         RcxQ==
+X-Gm-Message-State: AOJu0YwsobQKZJxGurpWYRRXXab09QbZGf8SI3BIVspWcC6DxyySnmhq
+	ah65rdffAyAfHXGO4yp/HDD/wA==
+X-Google-Smtp-Source: AGHT+IH5u+VrhTrLq4ZQUG00msn+IStTkp3E/NHGTSlHLwWSz3OReR5BpJ0FFZ2Ie1ciq6NwvNCJcA==
+X-Received: by 2002:a05:600c:1ca6:b0:408:386b:1916 with SMTP id k38-20020a05600c1ca600b00408386b1916mr10835678wms.8.1698209109293;
+        Tue, 24 Oct 2023 21:45:09 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id x10-20020a05600c21ca00b003feea62440bsm13254454wmj.43.2023.10.24.21.45.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Oct 2023 21:45:08 -0700 (PDT)
+Date: Wed, 25 Oct 2023 07:45:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Nitesh Shetty <nj.shetty@samsung.com>,
+	Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	dm-devel@lists.linux.dev, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+	nitheshshetty@gmail.com, anuj1072538@gmail.com,
+	gost.dev@samsung.com, mcgrof@kernel.org,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Hannes Reinecke <hare@suse.de>, Anuj Gupta <anuj20.g@samsung.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v17 03/12] block: add copy offload support
+Message-ID: <4c126ecc-ac29-46a5-8cd2-1149d37886c7@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,93 +70,133 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231019110147.31672-4-nj.shetty@samsung.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.6-dango
-head:   7c273a7526ad5e3284b1763207b1d8d6178d9ca4
-commit: e8053513c51df65611d3654a449fa15561cbe7b7 [7031/7095] drivers: mtd: spinand: Add calibration support for spinand
-config: x86_64-randconfig-003-20231025 (https://download.01.org/0day-ci/archive/20231025/202310251218.uHYMFj3z-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310251218.uHYMFj3z-lkp@intel.com/reproduce)
+Hi Nitesh,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Introduce-queue-limits-and-sysfs-for-copy-offload-support/20231019-200658
+base:   213f891525c222e8ed145ce1ce7ae1f47921cb9c
+patch link:    https://lore.kernel.org/r/20231019110147.31672-4-nj.shetty%40samsung.com
+patch subject: [PATCH v17 03/12] block: add copy offload support
+config: i386-randconfig-141-20231022 (https://download.01.org/0day-ci/archive/20231025/202310251059.GiTmwLYx-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231025/202310251059.GiTmwLYx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310251218.uHYMFj3z-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202310251059.GiTmwLYx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+block/blk-lib.c:248 blkdev_copy_offload() warn: use 'gfp' here instead of GFP_KERNEL?
 
->> drivers/mtd/nand/spi/core.c:979:5: warning: no previous declaration for 'spinand_cal_read' [-Wmissing-declarations]
-    int spinand_cal_read(void *priv, u32 *addr, int addrlen, u8 *buf, int readlen) {
-        ^~~~~~~~~~~~~~~~
-   drivers/mtd/nand/spi/core.c: In function 'spinand_cal_read':
-   drivers/mtd/nand/spi/core.c:1020:30: warning: passing argument 2 of 'spinand_wait' makes integer from pointer without a cast [-Wint-conversion]
-     ret = spinand_wait(spinand, &status);
-                                 ^
-   drivers/mtd/nand/spi/core.c:499:12: note: expected 'long unsigned int' but argument is of type 'u8 * {aka unsigned char *}'
-    static int spinand_wait(struct spinand_device *spinand,
-               ^~~~~~~~~~~~
-   drivers/mtd/nand/spi/core.c:1020:8: error: too few arguments to function 'spinand_wait'
-     ret = spinand_wait(spinand, &status);
-           ^~~~~~~~~~~~
-   drivers/mtd/nand/spi/core.c:499:12: note: declared here
-    static int spinand_wait(struct spinand_device *spinand,
-               ^~~~~~~~~~~~
+Old smatch warnings:
+block/blk-lib.c:264 blkdev_copy_offload() warn: use 'gfp' here instead of GFP_KERNEL?
 
+vim +/gfp +248 block/blk-lib.c
 
-vim +/spinand_cal_read +979 drivers/mtd/nand/spi/core.c
+391929a15e2c18 Nitesh Shetty 2023-10-19  228  ssize_t blkdev_copy_offload(struct block_device *bdev, loff_t pos_in,
+391929a15e2c18 Nitesh Shetty 2023-10-19  229  			    loff_t pos_out, size_t len,
+391929a15e2c18 Nitesh Shetty 2023-10-19  230  			    void (*endio)(void *, int, ssize_t),
+391929a15e2c18 Nitesh Shetty 2023-10-19  231  			    void *private, gfp_t gfp)
+391929a15e2c18 Nitesh Shetty 2023-10-19  232  {
+391929a15e2c18 Nitesh Shetty 2023-10-19  233  	struct blkdev_copy_io *cio;
+391929a15e2c18 Nitesh Shetty 2023-10-19  234  	struct blkdev_copy_offload_io *offload_io;
+391929a15e2c18 Nitesh Shetty 2023-10-19  235  	struct bio *src_bio, *dst_bio;
+391929a15e2c18 Nitesh Shetty 2023-10-19  236  	size_t rem, chunk;
+391929a15e2c18 Nitesh Shetty 2023-10-19  237  	size_t max_copy_bytes = bdev_max_copy_sectors(bdev) << SECTOR_SHIFT;
+391929a15e2c18 Nitesh Shetty 2023-10-19  238  	ssize_t ret;
+391929a15e2c18 Nitesh Shetty 2023-10-19  239  	struct blk_plug plug;
+391929a15e2c18 Nitesh Shetty 2023-10-19  240  
+391929a15e2c18 Nitesh Shetty 2023-10-19  241  	if (!max_copy_bytes)
+391929a15e2c18 Nitesh Shetty 2023-10-19  242  		return -EOPNOTSUPP;
+391929a15e2c18 Nitesh Shetty 2023-10-19  243  
+391929a15e2c18 Nitesh Shetty 2023-10-19  244  	ret = blkdev_copy_sanity_check(bdev, pos_in, bdev, pos_out, len);
+391929a15e2c18 Nitesh Shetty 2023-10-19  245  	if (ret)
+391929a15e2c18 Nitesh Shetty 2023-10-19  246  		return ret;
+391929a15e2c18 Nitesh Shetty 2023-10-19  247  
+391929a15e2c18 Nitesh Shetty 2023-10-19 @248  	cio = kzalloc(sizeof(*cio), GFP_KERNEL);
 
-   978	
- > 979	int spinand_cal_read(void *priv, u32 *addr, int addrlen, u8 *buf, int readlen) {
-   980		struct spinand_device *spinand = (struct spinand_device *)priv;
-   981		struct device *dev = &spinand->spimem->spi->dev;
-   982		struct spi_mem_op op = SPINAND_PAGE_READ_FROM_CACHE_OP(false, 0, 1, buf, readlen);
-   983		struct nand_pos pos;
-   984		struct nand_page_io_req req;
-   985		u8 status;
-   986		int ret;
-   987	
-   988		if(addrlen != sizeof(struct nand_addr)/sizeof(unsigned int)) {
-   989			dev_err(dev, "Must provide correct addr(length) for spinand calibration\n");
-   990			return -EINVAL;
-   991		}
-   992	
-   993		ret = spinand_reset_op(spinand);
-   994		if (ret)
-   995			return ret;
-   996	
-   997		/* We should store our golden data in first target because
-   998		 * we can't switch target at this moment.
-   999		 */
-  1000		pos = (struct nand_pos){
-  1001			.target = 0,
-  1002			.lun = *addr,
-  1003			.plane = *(addr+1),
-  1004			.eraseblock = *(addr+2),
-  1005			.page = *(addr+3),
-  1006		};
-  1007	
-  1008		req = (struct nand_page_io_req){
-  1009			.pos = pos,
-  1010			.dataoffs = *(addr+4),
-  1011			.datalen = readlen,
-  1012			.databuf.in = buf,
-  1013			.mode = MTD_OPS_AUTO_OOB,
-  1014		};
-  1015	
-  1016		ret = spinand_load_page_op(spinand, &req);
-  1017		if (ret)
-  1018			return ret;
-  1019	
-  1020		ret = spinand_wait(spinand, &status);
-  1021		if (ret < 0)
-  1022			return ret;
-  1023	
-  1024		ret = spi_mem_exec_op(spinand->spimem, &op);
-  1025	
-  1026		return 0;
-  1027	}
-  1028	
+Should this be: cio = kzalloc(sizeof(*cio), gfp);?  It's not totally
+clear from the context honestly.  (I haven't looked at the code outside
+what is in this automated email).
+
+391929a15e2c18 Nitesh Shetty 2023-10-19  249  	if (!cio)
+391929a15e2c18 Nitesh Shetty 2023-10-19  250  		return -ENOMEM;
+391929a15e2c18 Nitesh Shetty 2023-10-19  251  	atomic_set(&cio->refcount, 1);
+391929a15e2c18 Nitesh Shetty 2023-10-19  252  	cio->waiter = current;
+391929a15e2c18 Nitesh Shetty 2023-10-19  253  	cio->endio = endio;
+391929a15e2c18 Nitesh Shetty 2023-10-19  254  	cio->private = private;
+391929a15e2c18 Nitesh Shetty 2023-10-19  255  
+391929a15e2c18 Nitesh Shetty 2023-10-19  256  	/*
+391929a15e2c18 Nitesh Shetty 2023-10-19  257  	 * If there is a error, copied will be set to least successfully
+391929a15e2c18 Nitesh Shetty 2023-10-19  258  	 * completed copied length
+391929a15e2c18 Nitesh Shetty 2023-10-19  259  	 */
+391929a15e2c18 Nitesh Shetty 2023-10-19  260  	cio->copied = len;
+391929a15e2c18 Nitesh Shetty 2023-10-19  261  	for (rem = len; rem > 0; rem -= chunk) {
+391929a15e2c18 Nitesh Shetty 2023-10-19  262  		chunk = min(rem, max_copy_bytes);
+391929a15e2c18 Nitesh Shetty 2023-10-19  263  
+391929a15e2c18 Nitesh Shetty 2023-10-19  264  		offload_io = kzalloc(sizeof(*offload_io), GFP_KERNEL);
+391929a15e2c18 Nitesh Shetty 2023-10-19  265  		if (!offload_io)
+391929a15e2c18 Nitesh Shetty 2023-10-19  266  			goto err_free_cio;
+391929a15e2c18 Nitesh Shetty 2023-10-19  267  		offload_io->cio = cio;
+391929a15e2c18 Nitesh Shetty 2023-10-19  268  		/*
+391929a15e2c18 Nitesh Shetty 2023-10-19  269  		 * For partial completion, we use offload_io->offset to truncate
+391929a15e2c18 Nitesh Shetty 2023-10-19  270  		 * successful copy length
+391929a15e2c18 Nitesh Shetty 2023-10-19  271  		 */
+391929a15e2c18 Nitesh Shetty 2023-10-19  272  		offload_io->offset = len - rem;
+391929a15e2c18 Nitesh Shetty 2023-10-19  273  
+391929a15e2c18 Nitesh Shetty 2023-10-19  274  		src_bio = bio_alloc(bdev, 0, REQ_OP_COPY_SRC, gfp);
+391929a15e2c18 Nitesh Shetty 2023-10-19  275  		if (!src_bio)
+391929a15e2c18 Nitesh Shetty 2023-10-19  276  			goto err_free_offload_io;
+391929a15e2c18 Nitesh Shetty 2023-10-19  277  		src_bio->bi_iter.bi_size = chunk;
+391929a15e2c18 Nitesh Shetty 2023-10-19  278  		src_bio->bi_iter.bi_sector = pos_in >> SECTOR_SHIFT;
+391929a15e2c18 Nitesh Shetty 2023-10-19  279  
+391929a15e2c18 Nitesh Shetty 2023-10-19  280  		blk_start_plug(&plug);
+391929a15e2c18 Nitesh Shetty 2023-10-19  281  		dst_bio = blk_next_bio(src_bio, bdev, 0, REQ_OP_COPY_DST, gfp);
+391929a15e2c18 Nitesh Shetty 2023-10-19  282  		if (!dst_bio)
+391929a15e2c18 Nitesh Shetty 2023-10-19  283  			goto err_free_src_bio;
+391929a15e2c18 Nitesh Shetty 2023-10-19  284  		dst_bio->bi_iter.bi_size = chunk;
+391929a15e2c18 Nitesh Shetty 2023-10-19  285  		dst_bio->bi_iter.bi_sector = pos_out >> SECTOR_SHIFT;
+391929a15e2c18 Nitesh Shetty 2023-10-19  286  		dst_bio->bi_end_io = blkdev_copy_offload_dst_endio;
+391929a15e2c18 Nitesh Shetty 2023-10-19  287  		dst_bio->bi_private = offload_io;
+391929a15e2c18 Nitesh Shetty 2023-10-19  288  
+391929a15e2c18 Nitesh Shetty 2023-10-19  289  		atomic_inc(&cio->refcount);
+391929a15e2c18 Nitesh Shetty 2023-10-19  290  		submit_bio(dst_bio);
+391929a15e2c18 Nitesh Shetty 2023-10-19  291  		blk_finish_plug(&plug);
+391929a15e2c18 Nitesh Shetty 2023-10-19  292  		pos_in += chunk;
+391929a15e2c18 Nitesh Shetty 2023-10-19  293  		pos_out += chunk;
+391929a15e2c18 Nitesh Shetty 2023-10-19  294  	}
+391929a15e2c18 Nitesh Shetty 2023-10-19  295  
+391929a15e2c18 Nitesh Shetty 2023-10-19  296  	if (atomic_dec_and_test(&cio->refcount))
+391929a15e2c18 Nitesh Shetty 2023-10-19  297  		blkdev_copy_endio(cio);
+391929a15e2c18 Nitesh Shetty 2023-10-19  298  	if (endio)
+391929a15e2c18 Nitesh Shetty 2023-10-19  299  		return -EIOCBQUEUED;
+391929a15e2c18 Nitesh Shetty 2023-10-19  300  
+391929a15e2c18 Nitesh Shetty 2023-10-19  301  	return blkdev_copy_wait_for_completion_io(cio);
+391929a15e2c18 Nitesh Shetty 2023-10-19  302  
+391929a15e2c18 Nitesh Shetty 2023-10-19  303  err_free_src_bio:
+391929a15e2c18 Nitesh Shetty 2023-10-19  304  	bio_put(src_bio);
+391929a15e2c18 Nitesh Shetty 2023-10-19  305  err_free_offload_io:
+391929a15e2c18 Nitesh Shetty 2023-10-19  306  	kfree(offload_io);
+391929a15e2c18 Nitesh Shetty 2023-10-19  307  err_free_cio:
+391929a15e2c18 Nitesh Shetty 2023-10-19  308  	cio->copied = min_t(ssize_t, cio->copied, (len - rem));
+391929a15e2c18 Nitesh Shetty 2023-10-19  309  	cio->status = -ENOMEM;
+391929a15e2c18 Nitesh Shetty 2023-10-19  310  	if (rem == len) {
+391929a15e2c18 Nitesh Shetty 2023-10-19  311  		ret = cio->status;
+391929a15e2c18 Nitesh Shetty 2023-10-19  312  		kfree(cio);
+391929a15e2c18 Nitesh Shetty 2023-10-19  313  		return ret;
+391929a15e2c18 Nitesh Shetty 2023-10-19  314  	}
+391929a15e2c18 Nitesh Shetty 2023-10-19  315  	if (cio->endio)
+391929a15e2c18 Nitesh Shetty 2023-10-19  316  		return cio->status;
+391929a15e2c18 Nitesh Shetty 2023-10-19  317  
+391929a15e2c18 Nitesh Shetty 2023-10-19  318  	return blkdev_copy_wait_for_completion_io(cio);
+391929a15e2c18 Nitesh Shetty 2023-10-19  319  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
