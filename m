@@ -1,49 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A2F2D60B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Oct 2023 07:14:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9196F1F612;
+	Wed, 25 Oct 2023 08:59:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="klZDyWiV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JCnzyk3h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698218049; x=1729754049;
+  t=1698224347; x=1729760347;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=18OQWr5rn8zjjo2XiXNBvJKf7wmbWd0oFN7N1KUrmsY=;
-  b=klZDyWiVTwj4xcu0/eji55CP6k3fkV+tOceNCxP9zqYRH7fXXNbsDP+0
-   bbUVM/TSf1P2XPaiqeLHYDAzoBi5Aeo558aU7y6hCFD59Yx5nDW6jo4C3
-   f/IHWlEEd0Zojc1CcG4zJeYZVw/Y5LgTm7AMmVaI3GIy9kxt/xEcLYj7k
-   VNomECXksequU8afojaymMM7k0vtHNqGjcMytn/T8AFhFmZa62usGOKty
-   7sTHeG99soUx8O84YrMgGit9ctE6evhHTLBWL0azCw8T98PqZSrnxQB/q
-   6HJJxtxrXs3grC5ErwWasJJAUslunlkFVum7Rnue907gsuuMxKxl2JAx7
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="5866850"
-X-IronPort-AV: E=Sophos;i="6.03,249,1694761200"; 
-   d="scan'208";a="5866850"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 00:14:09 -0700
+  bh=c5Xrd1zs1O8boNPXHoyXHq6njyNJdxPVi6zrAKd0MTI=;
+  b=JCnzyk3hRR3/ddtFWZIMoSB/AK1mRu5QxzfriQDcCMtQhmiJIorJyJqG
+   5mffOGlOX5vRweUvVeav0WEO7QKwZJnJEo+UW78uAurkv3Q41NxT6ppej
+   L4suSuNCSKACM+T0hNseRKa59KCRlrZEpzjNGolR8Za+ToiKIMaUKZbt8
+   opxNoyjzsfL1gB7vLheIRwUdIeBhzHbZekcgJPff5G/34Qp5sej36Voji
+   tuspWwfarg0WJ/5T8zzUh9V1SdIGjstswc5nSzWL378FnLGpDhwYusWQf
+   XMHQfKppiLIravYycnMsIOExs2zWEEIc51tpZZmPKnRHFC74MSpsrVahJ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="8825520"
+X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
+   d="scan'208";a="8825520"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 01:59:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="1090119991"
-X-IronPort-AV: E=Sophos;i="6.03,249,1694761200"; 
-   d="scan'208";a="1090119991"
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="762390070"
+X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
+   d="scan'208";a="762390070"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 25 Oct 2023 00:13:54 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 25 Oct 2023 01:58:58 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qvY5P-0008i1-2v;
-	Wed, 25 Oct 2023 07:13:51 +0000
-Date: Wed, 25 Oct 2023 15:13:20 +0800
+	id 1qvZj6-0008lq-1s;
+	Wed, 25 Oct 2023 08:58:56 +0000
+Date: Wed, 25 Oct 2023 16:58:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-2.1.x-imx 183/15770]
- sound/soc/sof/amd/acp-common.c:78:35: error: initialization of 'int
- (*)(struct snd_sof_dev *, struct snd_sof_pcm_stream *, void *, size_t)' {aka
- 'int (*)(struct snd_sof_dev *, struct snd_sof_pcm_stream *, void *, unsigned
- int)'} from incompatible pointer ...
-Message-ID: <202310251507.EwvvYSds-lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [bvanassche:block-for-next 2/2] block/bfq-iosched.c:5838:8: error:
+ must use 'enum' tag to refer to type 'ioprio_prio_class'
+Message-ID: <202310251600.7K5lN9p5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,101 +50,167 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Daniel,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
-head:   742924a05c8a6349d6d1fe67010a3c5ed54df884
-commit: a5cbb6f360195a5df5a00c415160d0458ed7a0ca [183/15770] ASoC: SOF: Refactor ipc_msg_data to prepare for compress API
-config: powerpc-randconfig-002-20231025 (https://download.01.org/0day-ci/archive/20231025/202310251507.EwvvYSds-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310251507.EwvvYSds-lkp@intel.com/reproduce)
+tree:   https://github.com/bvanassche/linux block-for-next
+head:   3b3855ed6aff9f5ad440102a6df1c5e582cbdc6a
+commit: 3b3855ed6aff9f5ad440102a6df1c5e582cbdc6a [2/2] block: Introduce an enumeration type for the I/O priority classes
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231025/202310251600.7K5lN9p5-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310251600.7K5lN9p5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310251507.EwvvYSds-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310251600.7K5lN9p5-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> sound/soc/sof/amd/acp-common.c:78:35: error: initialization of 'int (*)(struct snd_sof_dev *, struct snd_sof_pcm_stream *, void *, size_t)' {aka 'int (*)(struct snd_sof_dev *, struct snd_sof_pcm_stream *, void *, unsigned int)'} from incompatible pointer type 'int (*)(struct snd_sof_dev *, struct snd_pcm_substream *, void *, size_t)' {aka 'int (*)(struct snd_sof_dev *, struct snd_pcm_substream *, void *, unsigned int)'} [-Werror=incompatible-pointer-types]
-      78 |         .ipc_msg_data           = acp_sof_ipc_msg_data,
-         |                                   ^~~~~~~~~~~~~~~~~~~~
-   sound/soc/sof/amd/acp-common.c:78:35: note: (near initialization for 'sof_acp_common_ops.ipc_msg_data')
-   cc1: some warnings being treated as errors
---
->> sound/soc/sof/intel/hda-common-ops.c:40:27: error: initialization of 'int (*)(struct snd_sof_dev *, struct snd_sof_pcm_stream *, void *, size_t)' {aka 'int (*)(struct snd_sof_dev *, struct snd_sof_pcm_stream *, void *, unsigned int)'} from incompatible pointer type 'int (*)(struct snd_sof_dev *, struct snd_pcm_substream *, void *, size_t)' {aka 'int (*)(struct snd_sof_dev *, struct snd_pcm_substream *, void *, unsigned int)'} [-Werror=incompatible-pointer-types]
-      40 |         .ipc_msg_data   = hda_ipc_msg_data,
-         |                           ^~~~~~~~~~~~~~~~
-   sound/soc/sof/intel/hda-common-ops.c:40:27: note: (near initialization for 'sof_hda_common_ops.ipc_msg_data')
-   cc1: some warnings being treated as errors
+   In file included from block/bfq-iosched.c:118:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from block/bfq-iosched.c:118:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from block/bfq-iosched.c:118:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> block/bfq-iosched.c:5838:8: error: must use 'enum' tag to refer to type 'ioprio_prio_class'
+    5838 |         const ioprio_prio_class ioprio_class = IOPRIO_PRIO_CLASS(bic->ioprio);
+         |               ^
+         |               enum 
+   12 warnings and 1 error generated.
 
 
-vim +78 sound/soc/sof/amd/acp-common.c
+vim +5838 block/bfq-iosched.c
 
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   53  
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   54  /* AMD Common DSP ops */
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   55  struct snd_sof_dsp_ops sof_acp_common_ops = {
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   56  	/* probe and remove */
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   57  	.probe			= amd_sof_acp_probe,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   58  	.remove			= amd_sof_acp_remove,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   59  
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   60  	/* Register IO */
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   61  	.write			= sof_io_write,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   62  	.read			= sof_io_read,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   63  
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   64  	/* Block IO */
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   65  	.block_read		= acp_dsp_block_read,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   66  	.block_write		= acp_dsp_block_write,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   67  
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   68  	/*Firmware loading */
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   69  	.load_firmware		= snd_sof_load_firmware_memcpy,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   70  	.pre_fw_run		= acp_dsp_pre_fw_run,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   71  	.get_bar_index		= acp_get_bar_index,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   72  
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   73  	/* DSP core boot */
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   74  	.run			= acp_sof_dsp_run,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   75  
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   76  	/*IPC */
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   77  	.send_msg		= acp_sof_ipc_send_msg,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13  @78  	.ipc_msg_data		= acp_sof_ipc_msg_data,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   79  	.get_mailbox_offset	= acp_sof_ipc_get_mailbox_offset,
-40d3c041e2f871 V sujith kumar Reddy 2022-09-13   80  	.get_window_offset      = acp_sof_ipc_get_window_offset,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   81  	.irq_thread		= acp_sof_ipc_irq_thread,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   82  
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   83  	/* stream callbacks */
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   84  	.pcm_open		= acp_pcm_open,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   85  	.pcm_close		= acp_pcm_close,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   86  	.pcm_hw_params		= acp_pcm_hw_params,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   87  
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   88  	.hw_info		= SNDRV_PCM_INFO_MMAP |
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   89  				  SNDRV_PCM_INFO_MMAP_VALID |
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   90  				  SNDRV_PCM_INFO_INTERLEAVED |
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   91  				  SNDRV_PCM_INFO_PAUSE |
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   92  				  SNDRV_PCM_INFO_NO_PERIOD_WAKEUP,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   93  
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   94  	/* Machine driver callbacks */
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   95  	.machine_select		= amd_sof_machine_select,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   96  	.machine_register	= sof_machine_register,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   97  	.machine_unregister	= sof_machine_unregister,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   98  
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13   99  	/* Trace Logger */
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13  100  	.trace_init		= acp_sof_trace_init,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13  101  	.trace_release		= acp_sof_trace_release,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13  102  
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13  103  	/* PM */
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13  104  	.suspend                = amd_sof_acp_suspend,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13  105  	.resume                 = amd_sof_acp_resume,
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13  106  };
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13  107  EXPORT_SYMBOL_NS(sof_acp_common_ops, SND_SOC_SOF_AMD_COMMON);
-4da6b033f5454c Ajit Kumar Pandey    2022-09-13  108  
-
-:::::: The code at line 78 was first introduced by commit
-:::::: 4da6b033f5454ccbac2d5795d7edfb3f2a777104 ASoC: SOF: amd: Make ACP core code generic for newer SOC transition
-
-:::::: TO: Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+  5830	
+  5831	
+  5832	static struct bfq_queue *bfq_get_queue(struct bfq_data *bfqd,
+  5833					       struct bio *bio, bool is_sync,
+  5834					       struct bfq_io_cq *bic,
+  5835					       bool respawn)
+  5836	{
+  5837		const int ioprio = IOPRIO_PRIO_LEVEL(bic->ioprio);
+> 5838		const ioprio_prio_class ioprio_class = IOPRIO_PRIO_CLASS(bic->ioprio);
+  5839		struct bfq_queue **async_bfqq = NULL;
+  5840		struct bfq_queue *bfqq;
+  5841		struct bfq_group *bfqg;
+  5842	
+  5843		bfqg = bfq_bio_bfqg(bfqd, bio);
+  5844		if (!is_sync) {
+  5845			async_bfqq = bfq_async_queue_prio(bfqd, bfqg, ioprio_class,
+  5846							  ioprio,
+  5847							  bfq_actuator_index(bfqd, bio));
+  5848			bfqq = *async_bfqq;
+  5849			if (bfqq)
+  5850				goto out;
+  5851		}
+  5852	
+  5853		bfqq = kmem_cache_alloc_node(bfq_pool,
+  5854					     GFP_NOWAIT | __GFP_ZERO | __GFP_NOWARN,
+  5855					     bfqd->queue->node);
+  5856	
+  5857		if (bfqq) {
+  5858			bfq_init_bfqq(bfqd, bfqq, bic, current->pid,
+  5859				      is_sync, bfq_actuator_index(bfqd, bio));
+  5860			bfq_init_entity(&bfqq->entity, bfqg);
+  5861			bfq_log_bfqq(bfqd, bfqq, "allocated");
+  5862		} else {
+  5863			bfqq = &bfqd->oom_bfqq;
+  5864			bfq_log_bfqq(bfqd, bfqq, "using oom bfqq");
+  5865			goto out;
+  5866		}
+  5867	
+  5868		/*
+  5869		 * Pin the queue now that it's allocated, scheduler exit will
+  5870		 * prune it.
+  5871		 */
+  5872		if (async_bfqq) {
+  5873			bfqq->ref++; /*
+  5874				      * Extra group reference, w.r.t. sync
+  5875				      * queue. This extra reference is removed
+  5876				      * only if bfqq->bfqg disappears, to
+  5877				      * guarantee that this queue is not freed
+  5878				      * until its group goes away.
+  5879				      */
+  5880			bfq_log_bfqq(bfqd, bfqq, "get_queue, bfqq not in async: %p, %d",
+  5881				     bfqq, bfqq->ref);
+  5882			*async_bfqq = bfqq;
+  5883		}
+  5884	
+  5885	out:
+  5886		bfqq->ref++; /* get a process reference to this queue */
+  5887	
+  5888		if (bfqq != &bfqd->oom_bfqq && is_sync && !respawn)
+  5889			bfqq = bfq_do_or_sched_stable_merge(bfqd, bfqq, bic);
+  5890		return bfqq;
+  5891	}
+  5892	
 
 -- 
 0-DAY CI Kernel Test Service
