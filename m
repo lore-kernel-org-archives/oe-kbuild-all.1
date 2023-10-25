@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C197328CF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Oct 2023 20:24:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F61E3418A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Oct 2023 20:35:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nhE+s2Eq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UdwAp3hB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698265477; x=1729801477;
+  t=1698266139; x=1729802139;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=50lezsTRWeiGgEyhKRXuHIogiDsiRE3P10D8lqfp2PY=;
-  b=nhE+s2Eq4aT5KOCxKsjCksy9I7wNOAlbpYwNqqAQxwRHQLWmZ5LFfwHA
-   0RCUn9vJ6Q0X6SDrELmC3v1Xe5/KXQj9CmlyRmGBofh6UQ8OQDckTxLtb
-   /2xN64C7EIPEEl+XGWytaiph308T88Kdlw7x/kDtnMnAiJAxO3DPxRIpt
-   6Hy29gz47T0rODxDTzxoIQq6JTlESOaXLy5NFgdH3mLjyqVinVHRjAchq
-   8AffGSKSq3A3v114A9sUF7nFAH7zO+pN3flGoHIPmr6hCBxvVdE9aci7T
-   xaDeeFfWQ0NQmNGFGlo2tQxsuo86buAR5ihYwMm2QgsvVmSd77ldhtUFz
+  bh=o1yuSRsgQc+sPh946y487tolXIujCnSoSyc/S22vVb8=;
+  b=UdwAp3hBmiuImjD4wgrDWTnKyHqDmcqnjtaHtkIvEe/tAAhF1RZweM9B
+   nIbiBIIQtNyHSjHvYtXI+y2wQ3i/XYjvxD0+MGlSXHegda4FShoZp/wZO
+   bgiDeCIxU+7Ziqfwo5fsetUucaa+vEQvVpwdUdLbMf1JW/1fHFyk7Yggh
+   szMz/lZ9U60U7G1l4MjD0xQDU5vKCnK6pDQGc941+jbyCH8o8769q2eqL
+   ddZolwyKItCxxZPcOiAxcToIaDlVKbekKq0jKSisGh6qA2jWwRnszMfyO
+   HcLiSTWFQjorGy1er8NHSgc0SQA5KhaIXg9fy2Yv7/3KQj/I4hFf0oKSz
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="367605639"
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="8949857"
 X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="367605639"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 13:24:36 -0700
+   d="scan'208";a="8949857"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 13:35:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="882566190"
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="762579376"
 X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="882566190"
+   d="scan'208";a="762579376"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 25 Oct 2023 13:24:34 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 25 Oct 2023 13:35:34 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qvkQa-0009Aw-06;
-	Wed, 25 Oct 2023 20:24:32 +0000
-Date: Thu, 26 Oct 2023 04:24:00 +0800
+	id 1qvkbE-0009BS-19;
+	Wed, 25 Oct 2023 20:35:32 +0000
+Date: Thu, 26 Oct 2023 04:34:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [srini-nvmem:for-next 1/1] drivers/mtd/mtdcore.c:548:29: warning:
- unused variable 'node'
-Message-ID: <202310260402.NPx7gZH3-lkp@intel.com>
+To: Marek Vasut <marex@denx.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Stephen Boyd <sboyd@kernel.org>
+Subject: drivers/clk/clk-si521xx.c:318:26: warning: '%d' directive output may
+ be truncated writing between 1 and 10 bytes into a region of size 2
+Message-ID: <202310260412.AGASjFN4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,66 +51,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/srini/nvmem.git for-next
-head:   ca7384334d9bf741e2768d60887924671c4d9a7f
-commit: ca7384334d9bf741e2768d60887924671c4d9a7f [1/1] Revert "nvmem: add new config option"
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231026/202310260402.NPx7gZH3-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310260402.NPx7gZH3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   611da07b89fdd53f140d7b33013f255bf0ed8f34
+commit: edc12763a3a29836b23c4fc97a1207baea1d11e8 clk: si521xx: Clock driver for Skyworks Si521xx I2C PCIe clock generators
+date:   7 months ago
+config: x86_64-buildonly-randconfig-004-20231026 (https://download.01.org/0day-ci/archive/20231026/202310260412.AGASjFN4-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310260412.AGASjFN4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310260402.NPx7gZH3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310260412.AGASjFN4-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/mtd/mtdcore.c: In function 'mtd_nvmem_add':
->> drivers/mtd/mtdcore.c:548:29: warning: unused variable 'node' [-Wunused-variable]
-     548 |         struct device_node *node = mtd_get_of_node(mtd);
-         |                             ^~~~
+   drivers/clk/clk-si521xx.c: In function 'si521xx_probe':
+>> drivers/clk/clk-si521xx.c:318:26: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
+      snprintf(name, 6, "DIFF%d", i);
+                             ^~
+   drivers/clk/clk-si521xx.c:318:21: note: directive argument in the range [0, 2147483647]
+      snprintf(name, 6, "DIFF%d", i);
+                        ^~~~~~~~
+   drivers/clk/clk-si521xx.c:318:3: note: 'snprintf' output between 6 and 15 bytes into a destination of size 6
+      snprintf(name, 6, "DIFF%d", i);
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/node +548 drivers/mtd/mtdcore.c
+vim +318 drivers/clk/clk-si521xx.c
 
-c4dfa25ab307a2 Alban Bedel        2018-11-13  545  
-c4dfa25ab307a2 Alban Bedel        2018-11-13  546  static int mtd_nvmem_add(struct mtd_info *mtd)
-c4dfa25ab307a2 Alban Bedel        2018-11-13  547  {
-658c4448bbbf02 Christian Marangi  2021-03-12 @548  	struct device_node *node = mtd_get_of_node(mtd);
-c4dfa25ab307a2 Alban Bedel        2018-11-13  549  	struct nvmem_config config = {};
-c4dfa25ab307a2 Alban Bedel        2018-11-13  550  
-75f32f4b9d5263 Miquel Raynal      2023-03-07  551  	config.id = NVMEM_DEVID_NONE;
-c4dfa25ab307a2 Alban Bedel        2018-11-13  552  	config.dev = &mtd->dev;
-7b01b7239d0dc9 Ricardo Ribalda    2020-04-30  553  	config.name = dev_name(&mtd->dev);
-c4dfa25ab307a2 Alban Bedel        2018-11-13  554  	config.owner = THIS_MODULE;
-c4dfa25ab307a2 Alban Bedel        2018-11-13  555  	config.reg_read = mtd_nvmem_reg_read;
-c4dfa25ab307a2 Alban Bedel        2018-11-13  556  	config.size = mtd->size;
-c4dfa25ab307a2 Alban Bedel        2018-11-13  557  	config.word_size = 1;
-c4dfa25ab307a2 Alban Bedel        2018-11-13  558  	config.stride = 1;
-c4dfa25ab307a2 Alban Bedel        2018-11-13  559  	config.read_only = true;
-c4dfa25ab307a2 Alban Bedel        2018-11-13  560  	config.root_only = true;
-6c7621890995d0 Christophe Kerello 2022-02-20  561  	config.ignore_wp = true;
-c4dfa25ab307a2 Alban Bedel        2018-11-13  562  	config.priv = mtd;
-c4dfa25ab307a2 Alban Bedel        2018-11-13  563  
-c4dfa25ab307a2 Alban Bedel        2018-11-13  564  	mtd->nvmem = nvmem_register(&config);
-c4dfa25ab307a2 Alban Bedel        2018-11-13  565  	if (IS_ERR(mtd->nvmem)) {
-c4dfa25ab307a2 Alban Bedel        2018-11-13  566  		/* Just ignore if there is no NVMEM support in the kernel */
-5cab06156aade1 Miquel Raynal      2023-03-07  567  		if (PTR_ERR(mtd->nvmem) == -EOPNOTSUPP)
-c4dfa25ab307a2 Alban Bedel        2018-11-13  568  			mtd->nvmem = NULL;
-5cab06156aade1 Miquel Raynal      2023-03-07  569  		else
-5cab06156aade1 Miquel Raynal      2023-03-07  570  			return dev_err_probe(&mtd->dev, PTR_ERR(mtd->nvmem),
-5cab06156aade1 Miquel Raynal      2023-03-07  571  					     "Failed to register NVMEM device\n");
-c4dfa25ab307a2 Alban Bedel        2018-11-13  572  	}
-c4dfa25ab307a2 Alban Bedel        2018-11-13  573  
-c4dfa25ab307a2 Alban Bedel        2018-11-13  574  	return 0;
-c4dfa25ab307a2 Alban Bedel        2018-11-13  575  }
-c4dfa25ab307a2 Alban Bedel        2018-11-13  576  
-
-:::::: The code at line 548 was first introduced by commit
-:::::: 658c4448bbbf02a143abf1b89d09a3337ebd3ba6 mtd: core: add nvmem-cells compatible to parse mtd as nvmem cells
-
-:::::: TO: Ansuel Smith <ansuelsmth@gmail.com>
-:::::: CC: Miquel Raynal <miquel.raynal@bootlin.com>
+   279	
+   280	static int si521xx_probe(struct i2c_client *client)
+   281	{
+   282		const u16 chip_info = (u16)(uintptr_t)device_get_match_data(&client->dev);
+   283		const struct clk_parent_data clk_parent_data = { .index = 0 };
+   284		struct si521xx *si;
+   285		unsigned char name[6] = "DIFF0";
+   286		struct clk_init_data init = {};
+   287		int i, ret;
+   288	
+   289		if (!chip_info)
+   290			return -EINVAL;
+   291	
+   292		si = devm_kzalloc(&client->dev, sizeof(*si), GFP_KERNEL);
+   293		if (!si)
+   294			return -ENOMEM;
+   295	
+   296		i2c_set_clientdata(client, si);
+   297		si->client = client;
+   298	
+   299		/* Fetch common configuration from DT (if specified) */
+   300		ret = si521xx_get_common_config(si);
+   301		if (ret)
+   302			return ret;
+   303	
+   304		si->regmap = devm_regmap_init(&client->dev, NULL, client,
+   305					      &si521xx_regmap_config);
+   306		if (IS_ERR(si->regmap))
+   307			return dev_err_probe(&client->dev, PTR_ERR(si->regmap),
+   308					     "Failed to allocate register map\n");
+   309	
+   310		/* Always read back 1 Byte via I2C */
+   311		ret = regmap_write(si->regmap, SI521XX_REG_BC, 1);
+   312		if (ret < 0)
+   313			return ret;
+   314	
+   315		/* Register clock */
+   316		for (i = 0; i < hweight16(chip_info); i++) {
+   317			memset(&init, 0, sizeof(init));
+ > 318			snprintf(name, 6, "DIFF%d", i);
+   319			init.name = name;
+   320			init.ops = &si521xx_diff_clk_ops;
+   321			init.parent_data = &clk_parent_data;
+   322			init.num_parents = 1;
+   323			init.flags = CLK_SET_RATE_PARENT;
+   324	
+   325			si->clk_dif[i].hw.init = &init;
+   326			si->clk_dif[i].si = si;
+   327	
+   328			si521xx_diff_idx_to_reg_bit(chip_info, i, &si->clk_dif[i]);
+   329	
+   330			ret = devm_clk_hw_register(&client->dev, &si->clk_dif[i].hw);
+   331			if (ret)
+   332				return ret;
+   333		}
+   334	
+   335		ret = devm_of_clk_add_hw_provider(&client->dev, si521xx_of_clk_get, si);
+   336		if (!ret)
+   337			si521xx_update_config(si);
+   338	
+   339		return ret;
+   340	}
+   341	
 
 -- 
 0-DAY CI Kernel Test Service
