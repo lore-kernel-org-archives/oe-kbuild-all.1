@@ -1,177 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7614115491
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Oct 2023 10:53:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC911CFAD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Oct 2023 12:06:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DfwYjkIZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698231188; x=1729767188;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=m/Y0aFVGcqZhvuRZA6upPo6yyOECscOmEoJCrsx/B18=;
-  b=DfwYjkIZcHgd+CRtR5o4tE/++wcGOw1zWBLfAHA4X2aXrGMsH3ncqC1c
-   jvT0Q//u14Ygl2KEjwmOnuxPyu/z4S1iT/pTibeYCs3jK3f2Suvac9Dh5
-   8mQ1od2p9Tgdr4sRjtTWE8+ks76O7O0sq33QPR3EKFKd4en+IjYPLOa9g
-   7AmXnJXanrJipB0xvIE+diOnU8NxTZ/NruqpKomxhb5AHhQImnmmTPPby
-   bxU4zmH6Ikp76mdFfZ/bM/dN9tYQLNwWv3bbPcBBvtxErbX08x5Iq0biM
-   B3A8xsMX+1kbQ2918+pSD4pMSs2r77U5t6tZYJAuMjYYMeEah386Ljhn2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="390136004"
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="390136004"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 03:53:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="52501"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 25 Oct 2023 03:52:29 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qvbVV-0008pp-1a;
-	Wed, 25 Oct 2023 10:53:01 +0000
-Date: Wed, 25 Oct 2023 18:52:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Karan Tilak Kumar <kartilak@cisco.com>, sebaddel@cisco.com
-Cc: oe-kbuild-all@lists.linux.dev, arulponn@cisco.com, djhawar@cisco.com,
-	gcboffa@cisco.com, mkai2@cisco.com, satishkh@cisco.com,
-	jejb@linux.ibm.com, martin.petersen@oracle.com,
-	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Karan Tilak Kumar <kartilak@cisco.com>
-Subject: Re: [PATCH 07/13] scsi: fnic: Modify ISRs to support multiqueue(MQ)
-Message-ID: <202310251847.4T8BVZAZ-lkp@intel.com>
-References: <20231020190629.338623-8-kartilak@cisco.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r4ApbjCx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE10AC433C8;
+	Wed, 25 Oct 2023 12:06:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1698235578;
+	bh=zcZPrfZh3HclWke3xhgc6Q8KSv7CH/ZwpdZTXPlmCp8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=r4ApbjCxuFrpyzSamdI2Xb7rCYBgYUo7IGlvkC2cDYUNEdYboUlxBWTgm3eP1TVRg
+	 YOjnFIeiBBFqhct0D0wGdV1MLN2oZnlRlLPJQxCD0NFULl3MEcsbTuWyPMiphYchDG
+	 eyWkouWxRlgYEfOZiASjR9LBMDbOXQM5LD//CT2mj6+PuUNgmV/cWgHbCsTRxRFxxa
+	 CRaWeaqkAG5lP0vXBeQeTrfDGJF/0Cz6LWlF5TqkvVJP/smd/xOPy1MZ0rvqztSDzd
+	 chjRElDs/RtmoFWLJdqeTRt9XHpWZmMnE2TbsYQ6GivUyuYln9lfhR+A+nlf8VRqYX
+	 nDsUgJGHNmEIg==
+Message-ID: <6a17e9a4-b256-4994-825d-ef62c310c937@kernel.org>
+Date: Wed, 25 Oct 2023 14:06:14 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231020190629.338623-8-kartilak@cisco.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [mediatek:v6.7-tmp/dts64 5/6] Error:
+ arch/arm64/boot/dts/mediatek/mt8192.dtsi:1939.33-34 syntax error
+Content-Language: en-US
+To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
+Cc: Balsam CHIHI <bchihi@baylibre.com>, oe-kbuild-all@lists.linux.dev,
+ =?UTF-8?Q?Bernhard_Rosenkr=C3=A4nzer?= <bero@baylibre.com>,
+ Alexandre Mergnat <amergnat@baylibre.com>, kernel test robot <lkp@intel.com>
+References: <202310241605.K0DBxIoK-lkp@intel.com>
+ <ffc5e943-cd36-4802-a4e0-451a06cd22d9@notapiano>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@kernel.org>
+In-Reply-To: <ffc5e943-cd36-4802-a4e0-451a06cd22d9@notapiano>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Karan,
+Il 24/10/23 14:54, Nícolas F. R. A. Prado ha scritto:
+> On Tue, Oct 24, 2023 at 04:18:07PM +0800, kernel test robot wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mediatek/linux.git v6.7-tmp/dts64
+>> head:   54ca4e2e3324018d6235eba0d83953a957dbd489
+>> commit: a471c48abce023f2808e8c5fd3993ec7712f276d [5/6] arm64: dts: mediatek: mt8192: Add thermal nodes and thermal zones
+>> config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231024/202310241605.K0DBxIoK-lkp@intel.com/config)
+>> compiler: aarch64-linux-gcc (GCC) 13.2.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231024/202310241605.K0DBxIoK-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202310241605.K0DBxIoK-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>>> Error: arch/arm64/boot/dts/mediatek/mt8192.dtsi:1939.33-34 syntax error
+>>     FATAL ERROR: Unable to parse input tree
+> 
+> The DT patch depends on definitions from patch 1 [1], which was merged
+> through the thermal tree.
+> 
+> [1] https://lore.kernel.org/all/20231017190545.157282-2-bero@baylibre.com/
+> 
+> Thanks,
+> Nícolas
 
-kernel test robot noticed the following build warnings:
+Thanks for clarifying that.
 
-[auto build test WARNING on mkp-scsi/for-next]
-[also build test WARNING on jejb-scsi/for-next next-20231025]
-[cannot apply to linus/master v6.6-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Karan-Tilak-Kumar/scsi-fnic-Modify-definitions-to-sync-with-VIC-firmware/20231021-031259
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20231020190629.338623-8-kartilak%40cisco.com
-patch subject: [PATCH 07/13] scsi: fnic: Modify ISRs to support multiqueue(MQ)
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231025/202310251847.4T8BVZAZ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310251847.4T8BVZAZ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310251847.4T8BVZAZ-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/scsi/fnic/fnic_isr.c:242:5: warning: no previous prototype for 'fnic_set_intr_mode_msix' [-Wmissing-prototypes]
-     242 | int fnic_set_intr_mode_msix(struct fnic *fnic)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
+Regards,
+Angelo
 
 
-vim +/fnic_set_intr_mode_msix +242 drivers/scsi/fnic/fnic_isr.c
-
-   241	
- > 242	int fnic_set_intr_mode_msix(struct fnic *fnic)
-   243	{
-   244		unsigned int n = ARRAY_SIZE(fnic->rq);
-   245		unsigned int m = ARRAY_SIZE(fnic->wq);
-   246		unsigned int o = ARRAY_SIZE(fnic->hw_copy_wq);
-   247		unsigned int min_irqs = n + m + 1 + 1; /*rq, raw wq, wq, err*/
-   248	
-   249		/*
-   250		 * We need n RQs, m WQs, o Copy WQs, n+m+o CQs, and n+m+o+1 INTRs
-   251		 * (last INTR is used for WQ/RQ errors and notification area)
-   252		 */
-   253		FNIC_ISR_DBG(KERN_INFO, fnic->lport->host,
-   254			"fnic<%d>: %s: %d: rq-array size: %d wq-array size: %d copy-wq array size: %d\n",
-   255			fnic->fnic_num, __func__, __LINE__, n, m, o);
-   256		FNIC_ISR_DBG(KERN_INFO, fnic->lport->host,
-   257			"fnic<%d>: %s: %d: rq_count: %d raw_wq_count: %d wq_copy_count: %d cq_count: %d\n",
-   258			fnic->fnic_num, __func__, __LINE__, fnic->rq_count, fnic->raw_wq_count,
-   259			fnic->wq_copy_count, fnic->cq_count);
-   260	
-   261		if (fnic->rq_count <= n && fnic->raw_wq_count <= m &&
-   262			fnic->wq_copy_count <= o) {
-   263			int vec_count = 0;
-   264			int vecs = fnic->rq_count + fnic->raw_wq_count + fnic->wq_copy_count + 1;
-   265	
-   266			vec_count = pci_alloc_irq_vectors(fnic->pdev, min_irqs, vecs,
-   267						PCI_IRQ_MSIX | PCI_IRQ_AFFINITY);
-   268			FNIC_ISR_DBG(KERN_INFO, fnic->lport->host,
-   269						"fnic<%d>: %s: %d: allocated %d MSI-X vectors\n",
-   270						fnic->fnic_num, __func__, __LINE__, vec_count);
-   271	
-   272			if (vec_count > 0) {
-   273				if (vec_count < vecs) {
-   274					FNIC_ISR_DBG(KERN_ERR, fnic->lport->host,
-   275					"fnic<%d>: %s: %d: interrupts number mismatch: vec_count: %d vecs: %d\n",
-   276					fnic->fnic_num, __func__, __LINE__, vec_count, vecs);
-   277					if (vec_count < min_irqs) {
-   278						FNIC_ISR_DBG(KERN_ERR, fnic->lport->host,
-   279									"fnic<%d>: %s: %d: no interrupts for copy wq\n",
-   280									fnic->fnic_num, __func__, __LINE__);
-   281						return 1;
-   282					}
-   283				}
-   284	
-   285				fnic->rq_count = n;
-   286				fnic->raw_wq_count = m;
-   287				fnic->cpy_wq_base = fnic->rq_count + fnic->raw_wq_count;
-   288				fnic->wq_copy_count = vec_count - n - m - 1;
-   289				fnic->wq_count = fnic->raw_wq_count + fnic->wq_copy_count;
-   290				if (fnic->cq_count != vec_count - 1) {
-   291					FNIC_ISR_DBG(KERN_ERR, fnic->lport->host,
-   292					"fnic<%d>: %s: %d: CQ count: %d does not match MSI-X vector count: %d\n",
-   293					fnic->fnic_num, __func__, __LINE__, fnic->cq_count, vec_count);
-   294					fnic->cq_count = vec_count - 1;
-   295				}
-   296				fnic->intr_count = vec_count;
-   297				fnic->err_intr_offset = fnic->rq_count + fnic->wq_count;
-   298	
-   299				FNIC_ISR_DBG(KERN_INFO, fnic->lport->host,
-   300					"fnic<%d>: %s: %d: rq_count: %d raw_wq_count: %d cpy_wq_base: %d\n",
-   301					fnic->fnic_num, __func__, __LINE__, fnic->rq_count,
-   302					fnic->raw_wq_count, fnic->cpy_wq_base);
-   303	
-   304				FNIC_ISR_DBG(KERN_INFO, fnic->lport->host,
-   305					"fnic<%d>: %s: %d: wq_copy_count: %d wq_count: %d cq_count: %d\n",
-   306					fnic->fnic_num, __func__, __LINE__, fnic->wq_copy_count,
-   307					fnic->wq_count, fnic->cq_count);
-   308	
-   309				FNIC_ISR_DBG(KERN_INFO, fnic->lport->host,
-   310					"fnic<%d>: %s: %d: intr_count: %d err_intr_offset: %u",
-   311					fnic->fnic_num, __func__, __LINE__, fnic->intr_count,
-   312					fnic->err_intr_offset);
-   313	
-   314				vnic_dev_set_intr_mode(fnic->vdev, VNIC_DEV_INTR_MODE_MSIX);
-   315				FNIC_ISR_DBG(KERN_INFO, fnic->lport->host,
-   316						"fnic<%d>: %s: %d: fnic using MSI-X\n", fnic->fnic_num,
-   317						__func__, __LINE__);
-   318				return 0;
-   319			}
-   320		}
-   321		return 1;
-   322	} //fnic_set_intr_mode_msix
-   323	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
