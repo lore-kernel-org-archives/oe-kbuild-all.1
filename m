@@ -1,123 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B087711732
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Oct 2023 06:00:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4133F53AE;
+	Wed, 25 Oct 2023 06:09:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jM/Jqk3y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698213609; x=1729749609;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YChxQiLMiAbqx2jED7wzxjA10nt5snZ5/Ivp/EhE/Dw=;
-  b=jM/Jqk3y2NRSBgsdDiGd0mxQas19NaZzhsquti6XCAIVu09Z0uqSJ7OB
-   y+VmY07qGSvaoTxGXnVDG2CO8Ik7RgirzO6orajj4pt6MiB52rZk+OMb5
-   E1dNez05fuK95CxZK+bsm59K4WcZXiz/JnLgdb7DbfV0qodYZWI63gr+s
-   R0S5Od0dZd6QKjUd4/1TV9RxoE0k6zY9ZvgS9udQNtDqIbKqBo5jXTZFz
-   c/m+A7XM2TWRlD+5zqoeSYh35E22QA+UU+B5/F3BNVFGK/hNkpGruZFe9
-   Z9iOwcmYFt3uiBS7GCfpnn66aZCtqdhzy5BihH9zvn/NlnlWbZIK1VIxs
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="5857913"
-X-IronPort-AV: E=Sophos;i="6.03,249,1694761200"; 
-   d="scan'208";a="5857913"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 22:59:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="902452210"
-X-IronPort-AV: E=Sophos;i="6.03,249,1694761200"; 
-   d="scan'208";a="902452210"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 24 Oct 2023 22:57:28 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qvWvk-0008fJ-14;
-	Wed, 25 Oct 2023 05:59:48 +0000
-Date: Wed, 25 Oct 2023 13:59:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:find_and_clear_tmp 27/47]
- arch/powerpc/platforms/pasemi/dma_lib.c:105:20: warning: variable 'limit'
- set but not used
-Message-ID: <202310251355.ESgXuO9q-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iLSINCz9"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1c9fa869a63so34567105ad.0;
+        Tue, 24 Oct 2023 23:09:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698214154; x=1698818954; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DOzMC9JnINWc5MYbwZ7TC8/K6W3nb2Ih949g1iEUhFo=;
+        b=iLSINCz9YJekSJtMQCS4YBQwsCngXWVokaiyPxsBfIsUjZyj9MkEBVLsHMGMct+jWE
+         TCLE50Y6xTdmJfOq/rmUteWC5+kl6u0m+meX/JrOpNDDR6f8gVU9StXsCHjP0ub8ZClz
+         rsDiQEcicfC+jqgoItNaEdnpBuRV8ZtoGLM7pszMJthA9cXx7j1hbcN923ZF9qeuJ/W8
+         NT/bvdpMFJD1VrSjJcRyOOb7exniRNk0Oh6oEc14nd2m8j2mGX910uEUoYcMa3hPBbAf
+         BHaxIH6Mtiwtos8jLWejPOaEX0Lwz+HGoBRFkk07BShEkx2R1j2ydUFsE+Rs2hpNi80x
+         iEjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698214154; x=1698818954;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DOzMC9JnINWc5MYbwZ7TC8/K6W3nb2Ih949g1iEUhFo=;
+        b=vGnWZUUIQLZvJvzAqKZYZgU8fK58iEYc3x3LenZYb+wfi4pM15vV51KXwf99AH4LKj
+         tX7qiLZxLCDjPn1I5jSkvtsOM36wBndCCh6JfnA5Ml2U2LsRRxmtajvZJHa/1gnOLSm+
+         aUhaJ+icRfRK0PJ9UMqMRA43ofN/eczw6nVoly9Xgc3eqHcnBZcAn6Hhc70UrlWiY9SR
+         DoWR8yk74m9qlM5f0u7Mpvj2GZKTICbWuzML+A8YviXtR6MmWje01RDvuobUU3vJp8Ms
+         XNJ+Fb9GnSTQdF+oe9RKSvV61yNRuWvj5V1vKRY1zKH4/11HUu0En6T0Ic1I8lHSwacL
+         T/LQ==
+X-Gm-Message-State: AOJu0YwAZTu9BM6LHwkmsuXRyiXv/s4/I8k6z/dz6dhJuYfstq+wTyeN
+	GA2oVa5Sh1xwk3jpdXkYuds=
+X-Google-Smtp-Source: AGHT+IEaeAcoCGe4BhTpz5eV1Ol/6pw+vtWHIt90lHzvDh2Llq6p722EYAJEY6FXVXxugtYLDKt2Kw==
+X-Received: by 2002:a17:902:c404:b0:1c7:8345:f377 with SMTP id k4-20020a170902c40400b001c78345f377mr15172079plk.29.1698214154398;
+        Tue, 24 Oct 2023 23:09:14 -0700 (PDT)
+Received: from manas-VirtualBox.iitr.ac.in ([103.37.201.173])
+        by smtp.gmail.com with ESMTPSA id x4-20020a170902ea8400b001c723d6c410sm8380067plb.16.2023.10.24.23.09.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Oct 2023 23:09:14 -0700 (PDT)
+From: Manas Ghandat <ghandatmanas@gmail.com>
+To: dan.carpenter@linaro.org,
+	dave.kleikamp@oracle.com,
+	shaggy@kernel.org
+Cc: Manas Ghandat <ghandatmanas@gmail.com>,
+	Linux-kernel-mentees@lists.linuxfoundation.org,
+	jfs-discussion@lists.sourceforge.net,
+	linux-kernel@vger.kernel.org,
+	lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	oe-kbuild@lists.linux.dev
+Subject: [PATCH-v2] jfs: fix slab-out-of-bounds Read in dtSearch
+Date: Wed, 25 Oct 2023 11:39:07 +0530
+Message-Id: <20231025060907.115675-1-ghandatmanas@gmail.com>
+X-Mailer: git-send-email 2.37.2
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/norov/linux find_and_clear_tmp
-head:   8ff28bdbe8eb42074ec3920a5b1d49e18332aad1
-commit: fa98624ff045979d246c0f0fc554c92178345c5f [27/47] powerpc: fix opencoded find_and_{set,clear}_bit()
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20231025/202310251355.ESgXuO9q-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310251355.ESgXuO9q-lkp@intel.com/reproduce)
+Currently while searching for current page in the sorted entry table
+of the page there is a out of bound access. Added a bound check to fix
+the error.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310251355.ESgXuO9q-lkp@intel.com/
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/r/202310241724.Ed02yUz9-lkp@intel.com/
+Signed-off-by: Manas Ghandat <ghandatmanas@gmail.com>
+---
+V1 -> V2 : Removed redundant check on stbl
 
-All warnings (new ones prefixed by >>):
+ fs/jfs/jfs_dtree.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-   arch/powerpc/platforms/pasemi/dma_lib.c: In function 'pasemi_alloc_tx_chan':
-   arch/powerpc/platforms/pasemi/dma_lib.c:122:66: error: expected ';' before 'return'
-     122 |         bit = find_and_clear_next_bit(txch_free, MAX_TXCH, start)
-         |                                                                  ^
-         |                                                                  ;
-     123 |         return bit < limit ? bit : -ENOSPC;
-         |         ~~~~~~                                                    
->> arch/powerpc/platforms/pasemi/dma_lib.c:105:20: warning: variable 'limit' set but not used [-Wunused-but-set-variable]
-     105 |         int start, limit;
-         |                    ^~~~~
->> arch/powerpc/platforms/pasemi/dma_lib.c:104:13: warning: variable 'bit' set but not used [-Wunused-but-set-variable]
-     104 |         int bit;
-         |             ^~~
-   arch/powerpc/platforms/pasemi/dma_lib.c:124:1: error: no return statement in function returning non-void [-Werror=return-type]
-     124 | }
-         | ^
-   cc1: some warnings being treated as errors
-
-
-vim +/limit +105 arch/powerpc/platforms/pasemi/dma_lib.c
-
-8ee9d85779356c Olof Johansson 2007-11-28  101  
-8ee9d85779356c Olof Johansson 2007-11-28  102  static int pasemi_alloc_tx_chan(enum pasemi_dmachan_type type)
-8ee9d85779356c Olof Johansson 2007-11-28  103  {
-8ee9d85779356c Olof Johansson 2007-11-28 @104  	int bit;
-8ee9d85779356c Olof Johansson 2007-11-28 @105  	int start, limit;
-8ee9d85779356c Olof Johansson 2007-11-28  106  
-8ee9d85779356c Olof Johansson 2007-11-28  107  	switch (type & (TXCHAN_EVT0|TXCHAN_EVT1)) {
-8ee9d85779356c Olof Johansson 2007-11-28  108  	case TXCHAN_EVT0:
-8ee9d85779356c Olof Johansson 2007-11-28  109  		start = 0;
-8ee9d85779356c Olof Johansson 2007-11-28  110  		limit = 10;
-8ee9d85779356c Olof Johansson 2007-11-28  111  		break;
-8ee9d85779356c Olof Johansson 2007-11-28  112  	case TXCHAN_EVT1:
-8ee9d85779356c Olof Johansson 2007-11-28  113  		start = 10;
-8ee9d85779356c Olof Johansson 2007-11-28  114  		limit = MAX_TXCH;
-8ee9d85779356c Olof Johansson 2007-11-28  115  		break;
-8ee9d85779356c Olof Johansson 2007-11-28  116  	default:
-8ee9d85779356c Olof Johansson 2007-11-28  117  		start = 0;
-8ee9d85779356c Olof Johansson 2007-11-28  118  		limit = MAX_TXCH;
-8ee9d85779356c Olof Johansson 2007-11-28  119  		break;
-8ee9d85779356c Olof Johansson 2007-11-28  120  	}
-fa98624ff04597 Yury Norov     2023-10-21  121  
-fa98624ff04597 Yury Norov     2023-10-21 @122  	bit = find_and_clear_next_bit(txch_free, MAX_TXCH, start)
-fa98624ff04597 Yury Norov     2023-10-21  123  	return bit < limit ? bit : -ENOSPC;
-8ee9d85779356c Olof Johansson 2007-11-28  124  }
-8ee9d85779356c Olof Johansson 2007-11-28  125  
-
-:::::: The code at line 105 was first introduced by commit
-:::::: 8ee9d85779356c1dc2ba87aca27fbf9414f2d82b pasemi: DMA engine management library
-
-:::::: TO: Olof Johansson <olof@lixom.net>
-:::::: CC: David S. Miller <davem@davemloft.net>
-
+diff --git a/fs/jfs/jfs_dtree.c b/fs/jfs/jfs_dtree.c
+index 92b7c533407c..cf67d32d5b7f 100644
+--- a/fs/jfs/jfs_dtree.c
++++ b/fs/jfs/jfs_dtree.c
+@@ -633,6 +633,9 @@ int dtSearch(struct inode *ip, struct component_name * key, ino_t * data,
+ 		for (base = 0, lim = p->header.nextindex; lim; lim >>= 1) {
+ 			index = base + (lim >> 1);
+ 
++			if (stbl[index] < 0)
++				goto out;
++
+ 			if (p->header.flag & BT_LEAF) {
+ 				/* uppercase leaf name to compare */
+ 				cmp =
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.37.2
+
