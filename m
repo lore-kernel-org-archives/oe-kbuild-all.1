@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9196F1F612;
-	Wed, 25 Oct 2023 08:59:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9447250E8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Oct 2023 10:13:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JCnzyk3h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="McfUIi8N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698224347; x=1729760347;
+  t=1698228783; x=1729764783;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c5Xrd1zs1O8boNPXHoyXHq6njyNJdxPVi6zrAKd0MTI=;
-  b=JCnzyk3hRR3/ddtFWZIMoSB/AK1mRu5QxzfriQDcCMtQhmiJIorJyJqG
-   5mffOGlOX5vRweUvVeav0WEO7QKwZJnJEo+UW78uAurkv3Q41NxT6ppej
-   L4suSuNCSKACM+T0hNseRKa59KCRlrZEpzjNGolR8Za+ToiKIMaUKZbt8
-   opxNoyjzsfL1gB7vLheIRwUdIeBhzHbZekcgJPff5G/34Qp5sej36Voji
-   tuspWwfarg0WJ/5T8zzUh9V1SdIGjstswc5nSzWL378FnLGpDhwYusWQf
-   XMHQfKppiLIravYycnMsIOExs2zWEEIc51tpZZmPKnRHFC74MSpsrVahJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="8825520"
+  bh=h0UyDKoZ/eJJrrnYYUi4H4asKBwlPW4FsjWIGdpYyto=;
+  b=McfUIi8NzRGgXgOeh1p8dloGc6/41LYdC4DPlWu1yHshl6849vfK1s/d
+   PkAc7GlNVOYbMnuqPegok2Yo0d8xcrUbA86Zz+Hli7HWId7qVtAjHTRvO
+   OHdCjR68+Db0eKUU5HhiDyHRQG9XFu0oDjxYB7SRaJVo+jN+NLbD2zdGs
+   9AXMgKngP+WcOeVqUL4fmHr5sw+VlM+Ff7ZghlvZrS2xeSpqixMqfF8WX
+   B5lSkX0HySxhV2lDHtRoc76TmGhWO9ZpzZalpHHVaXwNq0OWwZPmeOxz+
+   DqJwAj+s4umMyc+0c+/gsa/NSige6dwYTpR9XFe8Ap1JcWcNAeJIv85NY
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="377643172"
 X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="8825520"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 01:59:00 -0700
+   d="scan'208";a="377643172"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 03:13:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="762390070"
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="875447258"
 X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="762390070"
+   d="scan'208";a="875447258"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 25 Oct 2023 01:58:58 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 25 Oct 2023 03:13:01 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qvZj6-0008lq-1s;
-	Wed, 25 Oct 2023 08:58:56 +0000
-Date: Wed, 25 Oct 2023 16:58:53 +0800
+	id 1qvasl-0008oh-0v;
+	Wed, 25 Oct 2023 10:12:59 +0000
+Date: Wed, 25 Oct 2023 18:12:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:block-for-next 2/2] block/bfq-iosched.c:5838:8: error:
- must use 'enum' tag to refer to type 'ioprio_prio_class'
-Message-ID: <202310251600.7K5lN9p5-lkp@intel.com>
+To: Navneet Singh <navneet.singh@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ira Weiny <ira.weiny@intel.com>
+Subject: [weiny2:dcd-v3-2023-10-24 6/27] drivers/cxl/core/mbox.c:1238:54:
+ warning: '%d' directive output may be truncated writing between 1 and 11
+ bytes into a region of size 5
+Message-ID: <202310251714.Ga6ad2kG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,167 +51,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/bvanassche/linux block-for-next
-head:   3b3855ed6aff9f5ad440102a6df1c5e582cbdc6a
-commit: 3b3855ed6aff9f5ad440102a6df1c5e582cbdc6a [2/2] block: Introduce an enumeration type for the I/O priority classes
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231025/202310251600.7K5lN9p5-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310251600.7K5lN9p5-lkp@intel.com/reproduce)
+tree:   https://github.com/weiny2/linux-kernel.git dcd-v3-2023-10-24
+head:   1d3abb0480b0b8503b82e5f02ef95da8b182ba71
+commit: 2c30a29c2ac598f2f3dc37f00afffad32d2dc9e4 [6/27] cxl/mem: Read dynamic capacity configuration from the device
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231025/202310251714.Ga6ad2kG-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310251714.Ga6ad2kG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310251600.7K5lN9p5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310251714.Ga6ad2kG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from block/bfq-iosched.c:118:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from block/bfq-iosched.c:118:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from block/bfq-iosched.c:118:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> block/bfq-iosched.c:5838:8: error: must use 'enum' tag to refer to type 'ioprio_prio_class'
-    5838 |         const ioprio_prio_class ioprio_class = IOPRIO_PRIO_CLASS(bic->ioprio);
-         |               ^
-         |               enum 
-   12 warnings and 1 error generated.
+   drivers/cxl/core/mbox.c: In function 'cxl_dc_save_region_info':
+>> drivers/cxl/core/mbox.c:1238:54: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 5 [-Wformat-truncation=]
+    1238 |         snprintf(dcr->name, CXL_DC_REGION_STRLEN, "dc%d", index);
+         |                                                      ^~
+   drivers/cxl/core/mbox.c:1238:51: note: directive argument in the range [-2147483647, 255]
+    1238 |         snprintf(dcr->name, CXL_DC_REGION_STRLEN, "dc%d", index);
+         |                                                   ^~~~~~
+   drivers/cxl/core/mbox.c:1238:9: note: 'snprintf' output between 4 and 14 bytes into a destination of size 7
+    1238 |         snprintf(dcr->name, CXL_DC_REGION_STRLEN, "dc%d", index);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +5838 block/bfq-iosched.c
+vim +1238 drivers/cxl/core/mbox.c
 
-  5830	
-  5831	
-  5832	static struct bfq_queue *bfq_get_queue(struct bfq_data *bfqd,
-  5833					       struct bio *bio, bool is_sync,
-  5834					       struct bfq_io_cq *bic,
-  5835					       bool respawn)
-  5836	{
-  5837		const int ioprio = IOPRIO_PRIO_LEVEL(bic->ioprio);
-> 5838		const ioprio_prio_class ioprio_class = IOPRIO_PRIO_CLASS(bic->ioprio);
-  5839		struct bfq_queue **async_bfqq = NULL;
-  5840		struct bfq_queue *bfqq;
-  5841		struct bfq_group *bfqg;
-  5842	
-  5843		bfqg = bfq_bio_bfqg(bfqd, bio);
-  5844		if (!is_sync) {
-  5845			async_bfqq = bfq_async_queue_prio(bfqd, bfqg, ioprio_class,
-  5846							  ioprio,
-  5847							  bfq_actuator_index(bfqd, bio));
-  5848			bfqq = *async_bfqq;
-  5849			if (bfqq)
-  5850				goto out;
-  5851		}
-  5852	
-  5853		bfqq = kmem_cache_alloc_node(bfq_pool,
-  5854					     GFP_NOWAIT | __GFP_ZERO | __GFP_NOWARN,
-  5855					     bfqd->queue->node);
-  5856	
-  5857		if (bfqq) {
-  5858			bfq_init_bfqq(bfqd, bfqq, bic, current->pid,
-  5859				      is_sync, bfq_actuator_index(bfqd, bio));
-  5860			bfq_init_entity(&bfqq->entity, bfqg);
-  5861			bfq_log_bfqq(bfqd, bfqq, "allocated");
-  5862		} else {
-  5863			bfqq = &bfqd->oom_bfqq;
-  5864			bfq_log_bfqq(bfqd, bfqq, "using oom bfqq");
-  5865			goto out;
-  5866		}
-  5867	
-  5868		/*
-  5869		 * Pin the queue now that it's allocated, scheduler exit will
-  5870		 * prune it.
-  5871		 */
-  5872		if (async_bfqq) {
-  5873			bfqq->ref++; /*
-  5874				      * Extra group reference, w.r.t. sync
-  5875				      * queue. This extra reference is removed
-  5876				      * only if bfqq->bfqg disappears, to
-  5877				      * guarantee that this queue is not freed
-  5878				      * until its group goes away.
-  5879				      */
-  5880			bfq_log_bfqq(bfqd, bfqq, "get_queue, bfqq not in async: %p, %d",
-  5881				     bfqq, bfqq->ref);
-  5882			*async_bfqq = bfqq;
-  5883		}
-  5884	
-  5885	out:
-  5886		bfqq->ref++; /* get a process reference to this queue */
-  5887	
-  5888		if (bfqq != &bfqd->oom_bfqq && is_sync && !respawn)
-  5889			bfqq = bfq_do_or_sched_stable_merge(bfqd, bfqq, bic);
-  5890		return bfqq;
-  5891	}
-  5892	
+  1224	
+  1225	static int cxl_dc_save_region_info(struct cxl_memdev_state *mds, int index,
+  1226					   struct cxl_dc_region_config *region_config)
+  1227	{
+  1228		struct cxl_dc_region_info *dcr = &mds->dc_region[index];
+  1229		struct device *dev = mds->cxlds.dev;
+  1230	
+  1231		dcr->base = le64_to_cpu(region_config->region_base);
+  1232		dcr->decode_len = le64_to_cpu(region_config->region_decode_length);
+  1233		dcr->decode_len *= CXL_CAPACITY_MULTIPLIER;
+  1234		dcr->len = le64_to_cpu(region_config->region_length);
+  1235		dcr->blk_size = le64_to_cpu(region_config->region_block_size);
+  1236		dcr->dsmad_handle = le32_to_cpu(region_config->region_dsmad_handle);
+  1237		dcr->flags = region_config->flags;
+> 1238		snprintf(dcr->name, CXL_DC_REGION_STRLEN, "dc%d", index);
+  1239	
+  1240		/* Check regions are in increasing DPA order */
+  1241		if (index > 0) {
+  1242			struct cxl_dc_region_info *prev_dcr = &mds->dc_region[index - 1];
+  1243	
+  1244			if ((prev_dcr->base + prev_dcr->decode_len) > dcr->base) {
+  1245				dev_err(dev,
+  1246					"DPA ordering violation for DC region %d and %d\n",
+  1247					index - 1, index);
+  1248				return -EINVAL;
+  1249			}
+  1250		}
+  1251	
+  1252		if (!IS_ALIGNED(dcr->base, SZ_256M) ||
+  1253		    !IS_ALIGNED(dcr->base, dcr->blk_size)) {
+  1254			dev_err(dev, "DC region %d invalid base %#llx blk size %#llx\n", index,
+  1255				dcr->base, dcr->blk_size);
+  1256			return -EINVAL;
+  1257		}
+  1258	
+  1259		if (dcr->decode_len == 0 || dcr->len == 0 || dcr->decode_len < dcr->len ||
+  1260		    !IS_ALIGNED(dcr->len, dcr->blk_size)) {
+  1261			dev_err(dev, "DC region %d invalid length; decode %#llx len %#llx blk size %#llx\n",
+  1262				index, dcr->decode_len, dcr->len, dcr->blk_size);
+  1263			return -EINVAL;
+  1264		}
+  1265	
+  1266		if (dcr->blk_size == 0 || dcr->blk_size % 0x40 ||
+  1267		    !is_power_of_2(dcr->blk_size)) {
+  1268			dev_err(dev, "DC region %d invalid block size; %#llx\n",
+  1269				index, dcr->blk_size);
+  1270			return -EINVAL;
+  1271		}
+  1272	
+  1273		dev_dbg(dev,
+  1274			"DC region %s DPA: %#llx LEN: %#llx BLKSZ: %#llx\n",
+  1275			dcr->name, dcr->base, dcr->decode_len, dcr->blk_size);
+  1276	
+  1277		return 0;
+  1278	}
+  1279	
 
 -- 
 0-DAY CI Kernel Test Service
