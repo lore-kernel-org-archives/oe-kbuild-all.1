@@ -1,75 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC911CFAD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Oct 2023 12:06:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CEA847C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Oct 2023 12:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r4ApbjCx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE10AC433C8;
-	Wed, 25 Oct 2023 12:06:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698235578;
-	bh=zcZPrfZh3HclWke3xhgc6Q8KSv7CH/ZwpdZTXPlmCp8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=r4ApbjCxuFrpyzSamdI2Xb7rCYBgYUo7IGlvkC2cDYUNEdYboUlxBWTgm3eP1TVRg
-	 YOjnFIeiBBFqhct0D0wGdV1MLN2oZnlRlLPJQxCD0NFULl3MEcsbTuWyPMiphYchDG
-	 eyWkouWxRlgYEfOZiASjR9LBMDbOXQM5LD//CT2mj6+PuUNgmV/cWgHbCsTRxRFxxa
-	 CRaWeaqkAG5lP0vXBeQeTrfDGJF/0Cz6LWlF5TqkvVJP/smd/xOPy1MZ0rvqztSDzd
-	 chjRElDs/RtmoFWLJdqeTRt9XHpWZmMnE2TbsYQ6GivUyuYln9lfhR+A+nlf8VRqYX
-	 nDsUgJGHNmEIg==
-Message-ID: <6a17e9a4-b256-4994-825d-ef62c310c937@kernel.org>
-Date: Wed, 25 Oct 2023 14:06:14 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="juGtxVAf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698236167; x=1729772167;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1dmaxua6exS7p/LcQMAZZgbAlPzoLCvEPMnLTeq+onM=;
+  b=juGtxVAfTUCsLWccy3+3OIqoB0/F3cO90ivNTmuV+fpMVhdIu+8K42Xs
+   9wLFB23klnM5fFeKaJMwBWVSv8665E1FIMvCJF3iXREM0wQAKzgbuc4dm
+   CIBQ1bH57N9/U765RaRF1Wr3YHEpokY6o20LI6z7+CC05bQKSeIie/pxL
+   6eI62ICEqCWO39ITeGHj2oFl/2JdHOuLue4jjfcpWtii+5T+DBYt/9FGp
+   b8SNQcxd0fl73DFrJcAG9ACa33tVnhgt0MRlE2bdWZbXanyIUVJN9lzGQ
+   l3FtzTmCC+i4vPpKUah74TauBlmETBk2CDekUt/uBQhwdApiF24BVt+d6
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="451519702"
+X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
+   d="scan'208";a="451519702"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 05:16:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
+   d="scan'208";a="71791"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 25 Oct 2023 05:15:31 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qvcnr-0008sJ-1O;
+	Wed, 25 Oct 2023 12:16:03 +0000
+Date: Wed, 25 Oct 2023 20:15:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Eric Biggers <ebiggers@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ebiggers:wip-crypto 36/36] drivers/crypto/talitos.c:2125:14: error:
+ 'struct crypto_ahash' has no member named 'init'
+Message-ID: <202310252047.LdrfJ6H7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [mediatek:v6.7-tmp/dts64 5/6] Error:
- arch/arm64/boot/dts/mediatek/mt8192.dtsi:1939.33-34 syntax error
-Content-Language: en-US
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
-Cc: Balsam CHIHI <bchihi@baylibre.com>, oe-kbuild-all@lists.linux.dev,
- =?UTF-8?Q?Bernhard_Rosenkr=C3=A4nzer?= <bero@baylibre.com>,
- Alexandre Mergnat <amergnat@baylibre.com>, kernel test robot <lkp@intel.com>
-References: <202310241605.K0DBxIoK-lkp@intel.com>
- <ffc5e943-cd36-4802-a4e0-451a06cd22d9@notapiano>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@kernel.org>
-In-Reply-To: <ffc5e943-cd36-4802-a4e0-451a06cd22d9@notapiano>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Il 24/10/23 14:54, Nícolas F. R. A. Prado ha scritto:
-> On Tue, Oct 24, 2023 at 04:18:07PM +0800, kernel test robot wrote:
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mediatek/linux.git v6.7-tmp/dts64
->> head:   54ca4e2e3324018d6235eba0d83953a957dbd489
->> commit: a471c48abce023f2808e8c5fd3993ec7712f276d [5/6] arm64: dts: mediatek: mt8192: Add thermal nodes and thermal zones
->> config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231024/202310241605.K0DBxIoK-lkp@intel.com/config)
->> compiler: aarch64-linux-gcc (GCC) 13.2.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231024/202310241605.K0DBxIoK-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202310241605.K0DBxIoK-lkp@intel.com/
->>
->> All errors (new ones prefixed by >>):
->>
->>>> Error: arch/arm64/boot/dts/mediatek/mt8192.dtsi:1939.33-34 syntax error
->>     FATAL ERROR: Unable to parse input tree
-> 
-> The DT patch depends on definitions from patch 1 [1], which was merged
-> through the thermal tree.
-> 
-> [1] https://lore.kernel.org/all/20231017190545.157282-2-bero@baylibre.com/
-> 
-> Thanks,
-> Nícolas
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git wip-crypto
+head:   042fbdaad22963e891b5e8d4155aceedd1ee2164
+commit: 042fbdaad22963e891b5e8d4155aceedd1ee2164 [36/36] crypto: ahash - optimize performance when wrapping shash
+config: powerpc-ppc6xx_defconfig (https://download.01.org/0day-ci/archive/20231025/202310252047.LdrfJ6H7-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310252047.LdrfJ6H7-lkp@intel.com/reproduce)
 
-Thanks for clarifying that.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310252047.LdrfJ6H7-lkp@intel.com/
 
-Regards,
-Angelo
+All errors (new ones prefixed by >>):
+
+   drivers/crypto/talitos.c: In function 'ahash_digest':
+>> drivers/crypto/talitos.c:2125:14: error: 'struct crypto_ahash' has no member named 'init'
+    2125 |         ahash->init(areq);
+         |              ^~
 
 
+vim +2125 drivers/crypto/talitos.c
+
+497f2e6b8b2140 Lee Nipper   2010-05-19  2119  
+497f2e6b8b2140 Lee Nipper   2010-05-19  2120  static int ahash_digest(struct ahash_request *areq)
+497f2e6b8b2140 Lee Nipper   2010-05-19  2121  {
+497f2e6b8b2140 Lee Nipper   2010-05-19  2122  	struct talitos_ahash_req_ctx *req_ctx = ahash_request_ctx(areq);
+60f208d7836216 Kim Phillips 2010-05-19  2123  	struct crypto_ahash *ahash = crypto_ahash_reqtfm(areq);
+497f2e6b8b2140 Lee Nipper   2010-05-19  2124  
+60f208d7836216 Kim Phillips 2010-05-19 @2125  	ahash->init(areq);
+497f2e6b8b2140 Lee Nipper   2010-05-19  2126  	req_ctx->last = 1;
+497f2e6b8b2140 Lee Nipper   2010-05-19  2127  
+497f2e6b8b2140 Lee Nipper   2010-05-19  2128  	return ahash_process_req(areq, areq->nbytes);
+497f2e6b8b2140 Lee Nipper   2010-05-19  2129  }
+497f2e6b8b2140 Lee Nipper   2010-05-19  2130  
+
+:::::: The code at line 2125 was first introduced by commit
+:::::: 60f208d7836216885cdcd6f77a02f31dbc66f169 crypto: talitos - add support for sha224
+
+:::::: TO: Kim Phillips <kim.phillips@freescale.com>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
