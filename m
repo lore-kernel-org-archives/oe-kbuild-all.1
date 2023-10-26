@@ -1,52 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C4C8BFD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 22:52:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7944214F9D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 22:59:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IjuLbUNw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DuBe3qAf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698360769; x=1729896769;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DibA2OwE41Z1sW1cSL7fP09Xo0QOr8th32q8AiyDesY=;
-  b=IjuLbUNwLzj+DbV5YkiHvcthr83srf02idP95pJGFoBd0493cXdJr1cf
-   O72v7lALS4vfaOkV5poemneRrcQYlMnfBqbaPoKn7xa/g/jm6zASimTtK
-   ZQtqMuuhd3bTSufPeITVO2AO5KtiwJRb/9fiFhtfqGbz23uMkrwIQukkQ
-   +BlbwSgpzx7nXE6ZOXltICfL0S9fPKkCWcIqeavsJs9C+xpCqE6ZC1Nup
-   OI+dgVeTD2dloTACkwyRf1nU22p2YLWYPuSIuWyxwForszLG7wPIaQdW2
-   4FV94mGyF3xklGePc/8hkDNEYdQBRwoEjltIZC+jBfWHO4aKO8CS/pyfS
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="454130275"
+  t=1698361188; x=1729897188;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=7t4ByVswuCgIk74mdZAuhqokz4zBY6KqjAb+1YRMgLE=;
+  b=DuBe3qAfKxpTP43r513dul2zUNcM0ug6rums1n3f5aC5jmhaYGPFM6Hz
+   MPKrhAN4qsSrJ6v8cpNmEH2DXQTkpppaKR7xIcSSZx9HVKtPyDg2BE1Pg
+   nrbVh5QAirMByGUOUrDhqyyZ833Yc1q+1wzXMTy0WCNlpErTeuwGSizHq
+   NpmUb582FBpiD2urRWhgf0ASE8/e84mBbU2v4MvK7LrX7W0P6HX4GE8Ne
+   IM0RE+RsHadFSE8UEg9wTskD3w7i9RZ8ttppm4+Qusj4mNk/opBW7wtto
+   kcH3+aSL8medbtRyMW2+VbPupZNsXV/b87ztKOf47xpSRAEEOybCGRKU5
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="391544599"
 X-IronPort-AV: E=Sophos;i="6.03,254,1694761200"; 
-   d="scan'208";a="454130275"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 15:52:48 -0700
+   d="scan'208";a="391544599"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 15:59:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="825145803"
 X-IronPort-AV: E=Sophos;i="6.03,254,1694761200"; 
-   d="scan'208";a="825145803"
+   d="scan'208";a="7036453"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 26 Oct 2023 15:52:46 -0700
+  by orviesa001.jf.intel.com with ESMTP; 26 Oct 2023 15:58:24 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qw9DY-000ACN-1I;
-	Thu, 26 Oct 2023 22:52:44 +0000
-Date: Fri, 27 Oct 2023 06:52:02 +0800
+	id 1qw9KK-000ACh-1n;
+	Thu, 26 Oct 2023 22:59:44 +0000
+Date: Fri, 27 Oct 2023 06:58:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stephen Brennan <stephen.s.brennan@oracle.com>,
-	Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, Randy Dunlap <rdunlap@infradead.org>,
-	Stephen Brennan <stephen.s.brennan@oracle.com>,
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-debuggers@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] kernel/config: Introduce
- CONFIG_DEBUG_INFO_IKCONFIG
-Message-ID: <202310270605.GjEqZtAA-lkp@intel.com>
-References: <20231025223640.1132047-2-stephen.s.brennan@oracle.com>
+To: Haitao Huang <haitao.huang@linux.intel.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] Revert "x86/sgx: Return VM_FAULT_SIGBUS instead of
+ VM_FAULT_OOM for EPC exhaustion"
+Message-ID: <ZTrvLTBjjhLyUAL0@20f93f21cc77>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,41 +49,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231025223640.1132047-2-stephen.s.brennan@oracle.com>
+In-Reply-To: <20231026225528.5738-1-haitao.huang@linux.intel.com>
 
-Hi Stephen,
+Hi,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on soc/for-next]
-[also build test ERROR on arnd-asm-generic/master linus/master v6.6-rc7 next-20231026]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stephen-Brennan/kernel-config-Introduce-CONFIG_DEBUG_INFO_IKCONFIG/20231026-063844
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20231025223640.1132047-2-stephen.s.brennan%40oracle.com
-patch subject: [PATCH v2 1/1] kernel/config: Introduce CONFIG_DEBUG_INFO_IKCONFIG
-config: alpha-defconfig (https://download.01.org/0day-ci/archive/20231027/202310270605.GjEqZtAA-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231027/202310270605.GjEqZtAA-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310270605.GjEqZtAA-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   kernel/configs-debug.S: Assembler messages:
->> kernel/configs-debug.S:17: Error: file not found: kernel/config_data.gz
-
-
-vim +17 kernel/configs-debug.S
-
-  > 17		.incbin "kernel/config_data.gz"
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] Revert "x86/sgx: Return VM_FAULT_SIGBUS instead of VM_FAULT_OOM for EPC exhaustion"
+Link: https://lore.kernel.org/stable/20231026225528.5738-1-haitao.huang%40linux.intel.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
