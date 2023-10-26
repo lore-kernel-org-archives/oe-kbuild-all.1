@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA6A4426
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 21:27:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6233D980
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 22:19:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FMR72ATT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iVxC+qoD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698355664; x=1729891664;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lYVywW+mhrSoBbazyLBQ0fJ/e6HNurFco8voehj3E74=;
-  b=FMR72ATTnEsNKv97q4yJzjsECpHASrWgBKVBYrORD4AkKl6vWQwkK/73
-   7ffRfJEbG2X1sFR5czNI/gS/lOZpywXewPqTLBaXzY1GnmK27GXZc9wIn
-   mZYhl5SJ8nCM/HcdpNqXH/a0N+D1YJtUutioWJS10yCpUVFvAGEi8LYLT
-   MxSpIvnZh6InSnFUpijXf3clsWRDZKWHfNvBL2TK79rYq5xvpUSTIdUwh
-   GXfEP05jvbeqCVy4W+BnFci1ZT/tmyewZNPhOcOU2jP2uGgOuWtLLGLrm
-   3NNJyM7Vb+NdSa7mZN8G6HmhOFPR5If0fWGZzGtFKFVerVCpXghKfYqUj
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="451888618"
+  t=1698358796; x=1729894796;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fQq0oW/AQVCG84ZNvHAWPhcfR91B4rLgKoMQozJ/Os0=;
+  b=iVxC+qoDMxyX00RZwh0aohLRl6I0e4DYhDk3Cz+8krvKT065oWz95pAE
+   hJKq61o1ULIpiSskLwMYJRRyCUIMVo7c9ALu1yqMOOO6sQQAbvvj3GBPe
+   MWEhP/EwRqdmXNbpTpMQ3G60qfPzBM3FHsUneLoBxvegk6cuv9ed7b1Ge
+   wfInRtf0OY+XXD6X59ViirOl5O9DslkeLYIcfW4A+UMIC6aocN8VRs3ov
+   U3ppEC2AbkUo5e9dbYnoACgdigPMgMOfPC1e70gLlKQohee3l0hksyUOd
+   zB407h0NIPvRqPzOtk+O9qVYpspUuc94zCigIKhuVbGO/U32Zq9NR2/gu
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="456907"
 X-IronPort-AV: E=Sophos;i="6.03,254,1694761200"; 
-   d="scan'208";a="451888618"
+   d="scan'208";a="456907"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 14:27:43 -0700
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 15:19:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="932857883"
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="932874745"
 X-IronPort-AV: E=Sophos;i="6.03,254,1694761200"; 
-   d="scan'208";a="932857883"
+   d="scan'208";a="932874745"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 26 Oct 2023 14:27:42 -0700
+  by orsmga005.jf.intel.com with ESMTP; 26 Oct 2023 15:19:45 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qw7tE-000A8F-1V;
-	Thu, 26 Oct 2023 21:27:40 +0000
-Date: Fri, 27 Oct 2023 05:27:23 +0800
+	id 1qw8hb-000AAF-0Z;
+	Thu, 26 Oct 2023 22:19:43 +0000
+Date: Fri, 27 Oct 2023 06:19:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Ira Weiny <ira.weiny@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.4-lts 375/29903] htmldocs:
- Documentation/driver-api/driver-model/driver.rst:215: WARNING: Inline
- emphasis start-string without end-string.
-Message-ID: <202310270514.VUWj9sd8-lkp@intel.com>
+Subject: Re: [PATCH RFC v2 3/3] cxl/memdev: Register for and process CPER
+ events
+Message-ID: <202310270623.50y2TbLy-lkp@intel.com>
+References: <20230601-cxl-cper-v2-3-314d9c36ab02@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,36 +51,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230601-cxl-cper-v2-3-314d9c36ab02@intel.com>
 
-Hi Saravana,
+Hi Ira,
 
-FYI, the error/warning still remains.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android12-5.4-lts
-head:   fcdc8d9a71cdda01c736bb52ad5d494e5b0937a3
-commit: 2d4a45a8388023a4a1f35813cad0e2bab225047b [375/29903] FROMGIT: docs: driver-model: Add documentation for sync_state
-reproduce: (https://download.01.org/0day-ci/archive/20231027/202310270514.VUWj9sd8-lkp@intel.com/reproduce)
+[auto build test WARNING on 1c8b86a3799f7e5be903c3f49fcdaee29fd385b5]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ira-Weiny/cxl-trace-Remove-uuid-from-event-trace-known-events/20231027-022447
+base:   1c8b86a3799f7e5be903c3f49fcdaee29fd385b5
+patch link:    https://lore.kernel.org/r/20230601-cxl-cper-v2-3-314d9c36ab02%40intel.com
+patch subject: [PATCH RFC v2 3/3] cxl/memdev: Register for and process CPER events
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231027/202310270623.50y2TbLy-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231027/202310270623.50y2TbLy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310270514.VUWj9sd8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310270623.50y2TbLy-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/driver-api/driver-model/driver.rst:215: WARNING: Inline emphasis start-string without end-string.
+>> drivers/cxl/pci.c:754:5: warning: no previous prototype for 'cxl_cper_event_call' [-Wmissing-prototypes]
+     754 | int cxl_cper_event_call(struct notifier_block *nb, unsigned long action, void *data)
+         |     ^~~~~~~~~~~~~~~~~~~
 
-vim +215 Documentation/driver-api/driver-model/driver.rst
 
-2d4a45a8388023 Documentation/driver-api/driver-model/driver.rst Saravana Kannan 2019-10-11  214  
-^1da177e4c3f41 Documentation/driver-model/driver.txt            Linus Torvalds  2005-04-16 @215  	int 	(*remove)	(struct device *dev);
-^1da177e4c3f41 Documentation/driver-model/driver.txt            Linus Torvalds  2005-04-16  216  
+vim +/cxl_cper_event_call +754 drivers/cxl/pci.c
 
-:::::: The code at line 215 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+   752	
+   753	#define CXL_EVENT_HDR_FLAGS_REC_SEVERITY GENMASK(1, 0)
+ > 754	int cxl_cper_event_call(struct notifier_block *nb, unsigned long action, void *data)
+   755	{
+   756		struct cxl_cper_notifier_data *nd = data;
+   757		struct cxl_event_record_raw record = (struct cxl_event_record_raw) {
+   758			.hdr.id = UUID_INIT(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+   759		};
+   760		enum cxl_event_log_type log_type;
+   761		struct cxl_memdev_state *mds;
+   762		u32 hdr_flags;
+   763	
+   764		mds = container_of(nb, struct cxl_memdev_state, cxl_cper_nb);
+   765	
+   766		/* Need serial number for device identification */
+   767		if (!(nd->rec->hdr.validation_bits & CPER_CXL_DEVICE_SN_VALID))
+   768			return NOTIFY_DONE;
+   769	
+   770		/* FIXME endianess and bytes of serial number need verification */
+   771		/* FIXME Should other values be checked? */
+   772		if (memcmp(&mds->cxlds.serial, &nd->rec->hdr.dev_serial_num,
+   773			   sizeof(mds->cxlds.serial)))
+   774			return NOTIFY_DONE;
+   775	
+   776		/* ensure record can always handle the full CPER provided data */
+   777		BUILD_BUG_ON(sizeof(record) <
+   778			(CPER_CXL_COMP_EVENT_LOG_SIZE + sizeof(record.hdr.id)));
+   779	
+   780		/*
+   781		 * UEFI v2.10 defines N.2.14 defines the CXL CPER record as not
+   782		 * including the uuid field.
+   783		 */
+   784		memcpy(&record.hdr.length, &nd->rec->comp_event_log,
+   785			CPER_CXL_REC_LEN(nd->rec));
+   786	
+   787		/* Fabricate a log type */
+   788		hdr_flags = get_unaligned_le24(record.hdr.flags);
+   789		log_type = FIELD_GET(CXL_EVENT_HDR_FLAGS_REC_SEVERITY, hdr_flags);
+   790	
+   791		cxl_event_trace_record(mds->cxlds.cxlmd, log_type, &record,
+   792				       nd->cper_event);
+   793	
+   794		return NOTIFY_OK;
+   795	}
+   796	
 
 -- 
 0-DAY CI Kernel Test Service
