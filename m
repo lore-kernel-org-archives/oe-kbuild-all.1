@@ -1,56 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57A715AD3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 09:03:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D7919BCD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 09:34:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cTWFYcXV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JWZAComW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698311008; x=1729847008;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tdMCYhhtdDyuQ1YyIqyhjZ6BXjSHRnJQZrR/uUizRRA=;
-  b=cTWFYcXVXDQYzMxza63AL4Z/w3sjJKTdVjDwhaPbPaKtP8ObBIW+D6Nx
-   8kH1KYTgytkz5cG+nHaYWOlu8ZtPBJbK1FGJxcv1acsYkBrYkwIEFnu7S
-   Ecwz+GwPVhVR/wF6w/WMylBLnoFqgZnykN152licc735DVfBi54FgyyFc
-   IZcDfCSSjp29WdlszP1EtiI3p1/vJaJqUF7FOy1aJPEldJT2SmS7ouTrL
-   HDb8VdQXy1yHHKX7ZNTUQwz3uzQCiRD7V5i+YGV+KXJyR8TkO1oHso8y+
-   roLZ6aX15iRdYCzOhcJ9Pi4CuOUeK489BL2B2Q8Nsu/aPzsJ3bzQBsFgP
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="386376294"
+  t=1698312856; x=1729848856;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jEomB4tFAOKN2gSwHUvwlP38ZUAuFSN/msrrEs09gjY=;
+  b=JWZAComWSgLlmmmvEN1Vhte1mn0Dz8U/XxWplXNtt3WykofO/9pUP04H
+   sYdU6FF1V+4KpCViDfbpHP6wwA8t18E/jgd0yFOFoEuwBKJqnWL1irAVV
+   cFC1GFOPWm9mCBJuWFOoLZ0OuFN1RFo9gUGqt8TdG9vLWiAXY4JA4VjSg
+   DJqdwzMDVbaZOJPeaJqjnaR2Wz0FMkXg5LuiextNpzP6v918PPv67mvuA
+   JQJtLal4EF3YqE2BThVXZVV0LvfNd9y2x1pXQegIN83SrYWqQAA0bimSd
+   JKsvfDiPDALS3pBhgRcO2iO9K3rp3OlgGECoQGAQ8zJQaSGP5NqZenV0J
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="451736786"
 X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
-   d="scan'208";a="386376294"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 02:03:17 -0700
+   d="scan'208";a="451736786"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 02:34:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="752648781"
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="932671385"
 X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
-   d="scan'208";a="752648781"
+   d="scan'208";a="932671385"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 26 Oct 2023 02:03:13 -0700
+  by orsmga005.jf.intel.com with ESMTP; 26 Oct 2023 02:34:14 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qvwGl-0009fP-1J;
-	Thu, 26 Oct 2023 09:03:11 +0000
-Date: Thu, 26 Oct 2023 17:02:22 +0800
+	id 1qvwkl-0009gN-31;
+	Thu, 26 Oct 2023 09:34:11 +0000
+Date: Thu, 26 Oct 2023 17:33:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
-	x86@kernel.org, virtualization@lists.linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, Juergen Gross <jgross@suse.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Ajay Kaher <akaher@vmware.com>,
-	Alexey Makhalov <amakhalov@vmware.com>,
-	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
-	Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH v3 4/5] x86/paravirt: switch mixed paravirt/alternative
- calls to alternative_2
-Message-ID: <202310261653.LKIRqagq-lkp@intel.com>
-References: <20231019091520.14540-5-jgross@suse.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-2.1.x-imx 4631/15770]
+ drivers/firmware/imx/ele_trng.c:91:5: error: redefinition of 'ele_trng_init'
+Message-ID: <202310261732.pub5KUqG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,90 +49,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231019091520.14540-5-jgross@suse.com>
 
-Hi Juergen,
+Hi Gaurav,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on kvm/queue]
-[also build test ERROR on tip/master linus/master v6.6-rc7 next-20231025]
-[cannot apply to tip/x86/core kvm/linux-next tip/auto-latest]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Juergen-Gross/x86-paravirt-move-some-functions-and-defines-to-alternative/20231019-171709
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20231019091520.14540-5-jgross%40suse.com
-patch subject: [PATCH v3 4/5] x86/paravirt: switch mixed paravirt/alternative calls to alternative_2
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231026/202310261653.LKIRqagq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310261653.LKIRqagq-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
+head:   742924a05c8a6349d6d1fe67010a3c5ed54df884
+commit: 45df0f582836b4f75f20627d85dff2668bde0f17 [4631/15770] LF-7285: firmware: imx: ele: Add support for ELE HW Random Number Generator
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20231026/202310261732.pub5KUqG-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310261732.pub5KUqG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310261653.LKIRqagq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310261732.pub5KUqG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/x86/entry/entry_64.S: Assembler messages:
->> arch/x86/entry/entry_64.S:454: Error: no such instruction: `alt_call_instr'
-   arch/x86/entry/entry_64.S:319:  Info: macro invoked from here
-   arch/x86/entry/entry_64.S:1138:   Info: macro invoked from here
+   drivers/firmware/imx/ele_trng.c:44:5: warning: no previous prototype for 'ele_get_random' [-Wmissing-prototypes]
+      44 | int ele_get_random(struct hwrng *rng, void *data, size_t len, bool wait)
+         |     ^~~~~~~~~~~~~~
+>> drivers/firmware/imx/ele_trng.c:91:5: error: redefinition of 'ele_trng_init'
+      91 | int ele_trng_init(struct device *dev)
+         |     ^~~~~~~~~~~~~
+   In file included from drivers/firmware/imx/ele_trng.c:13:
+   drivers/firmware/imx/ele_mu.h:146:19: note: previous definition of 'ele_trng_init' with type 'int(struct device *)'
+     146 | static inline int ele_trng_init(struct device *dev)
+         |                   ^~~~~~~~~~~~~
 
 
-vim +454 arch/x86/entry/entry_64.S
+vim +/ele_trng_init +91 drivers/firmware/imx/ele_trng.c
 
-6368558c37107b Thomas Gleixner 2020-05-21  442  
-cfa82a00533f70 Thomas Gleixner 2020-02-25  443  /**
-cfa82a00533f70 Thomas Gleixner 2020-02-25  444   * idtentry_mce_db - Macro to generate entry stubs for #MC and #DB
-cfa82a00533f70 Thomas Gleixner 2020-02-25  445   * @vector:		Vector number
-cfa82a00533f70 Thomas Gleixner 2020-02-25  446   * @asmsym:		ASM symbol for the entry point
-cfa82a00533f70 Thomas Gleixner 2020-02-25  447   * @cfunc:		C function to be called
-cfa82a00533f70 Thomas Gleixner 2020-02-25  448   *
-cfa82a00533f70 Thomas Gleixner 2020-02-25  449   * The macro emits code to set up the kernel context for #MC and #DB
-cfa82a00533f70 Thomas Gleixner 2020-02-25  450   *
-cfa82a00533f70 Thomas Gleixner 2020-02-25  451   * If the entry comes from user space it uses the normal entry path
-cfa82a00533f70 Thomas Gleixner 2020-02-25  452   * including the return to user space work and preemption checks on
-cfa82a00533f70 Thomas Gleixner 2020-02-25  453   * exit.
-cfa82a00533f70 Thomas Gleixner 2020-02-25 @454   *
-cfa82a00533f70 Thomas Gleixner 2020-02-25  455   * If hits in kernel mode then it needs to go through the paranoid
-cfa82a00533f70 Thomas Gleixner 2020-02-25  456   * entry as the exception can hit any random state. No preemption
-cfa82a00533f70 Thomas Gleixner 2020-02-25  457   * check on exit to keep the paranoid path simple.
-cfa82a00533f70 Thomas Gleixner 2020-02-25  458   */
-cfa82a00533f70 Thomas Gleixner 2020-02-25  459  .macro idtentry_mce_db vector asmsym cfunc
-cfa82a00533f70 Thomas Gleixner 2020-02-25  460  SYM_CODE_START(\asmsym)
-4708ea14bef314 Josh Poimboeuf  2023-03-01  461  	UNWIND_HINT_IRET_ENTRY
-8f93402b92d443 Peter Zijlstra  2022-03-08  462  	ENDBR
-cfa82a00533f70 Thomas Gleixner 2020-02-25  463  	ASM_CLAC
-c64cc2802a784e Lai Jiangshan   2022-04-21  464  	cld
-cfa82a00533f70 Thomas Gleixner 2020-02-25  465  
-cfa82a00533f70 Thomas Gleixner 2020-02-25  466  	pushq	$-1			/* ORIG_RAX: no syscall to restart */
-cfa82a00533f70 Thomas Gleixner 2020-02-25  467  
-cfa82a00533f70 Thomas Gleixner 2020-02-25  468  	/*
-cfa82a00533f70 Thomas Gleixner 2020-02-25  469  	 * If the entry is from userspace, switch stacks and treat it as
-cfa82a00533f70 Thomas Gleixner 2020-02-25  470  	 * a normal entry.
-cfa82a00533f70 Thomas Gleixner 2020-02-25  471  	 */
-cfa82a00533f70 Thomas Gleixner 2020-02-25  472  	testb	$3, CS-ORIG_RAX(%rsp)
-cfa82a00533f70 Thomas Gleixner 2020-02-25  473  	jnz	.Lfrom_usermode_switch_stack_\@
-cfa82a00533f70 Thomas Gleixner 2020-02-25  474  
-c82965f9e53005 Chang S. Bae    2020-05-28  475  	/* paranoid_entry returns GS information for paranoid_exit in EBX. */
-cfa82a00533f70 Thomas Gleixner 2020-02-25  476  	call	paranoid_entry
-cfa82a00533f70 Thomas Gleixner 2020-02-25  477  
-cfa82a00533f70 Thomas Gleixner 2020-02-25  478  	UNWIND_HINT_REGS
-cfa82a00533f70 Thomas Gleixner 2020-02-25  479  
-cfa82a00533f70 Thomas Gleixner 2020-02-25  480  	movq	%rsp, %rdi		/* pt_regs pointer */
-cfa82a00533f70 Thomas Gleixner 2020-02-25  481  
-cfa82a00533f70 Thomas Gleixner 2020-02-25  482  	call	\cfunc
-cfa82a00533f70 Thomas Gleixner 2020-02-25  483  
-cfa82a00533f70 Thomas Gleixner 2020-02-25  484  	jmp	paranoid_exit
-cfa82a00533f70 Thomas Gleixner 2020-02-25  485  
-cfa82a00533f70 Thomas Gleixner 2020-02-25  486  	/* Switch to the regular task stack and use the noist entry point */
-cfa82a00533f70 Thomas Gleixner 2020-02-25  487  .Lfrom_usermode_switch_stack_\@:
-e2dcb5f1390715 Thomas Gleixner 2020-05-21  488  	idtentry_body noist_\cfunc, has_error_code=0
-cfa82a00533f70 Thomas Gleixner 2020-02-25  489  
+    37	
+    38	/*
+    39	 * ele_get_random() - prepare and send the command to proceed
+    40	 *                    with a random number generation operation
+    41	 *
+    42	 * returns:  size of the rondom number generated
+    43	 */
+  > 44	int ele_get_random(struct hwrng *rng, void *data, size_t len, bool wait)
+    45	{
+    46		struct ele_mu_priv *priv;
+    47		unsigned int tag, command, size, ver, status;
+    48		dma_addr_t dst_dma;
+    49		u8 *buf;
+    50		int ret;
+    51	
+    52		/* access ele_mu_priv data structure pointer*/
+    53		ret = get_ele_mu_priv(&priv);
+    54		if (ret)
+    55			return ret;
+    56	
+    57		buf = dmam_alloc_coherent(priv->dev, len, &dst_dma, GFP_KERNEL);
+    58		if (!buf) {
+    59			dev_err(priv->dev, "Failed to map destination buffer memory\n");
+    60			return -ENOMEM;
+    61		}
+    62	
+    63		ret = plat_fill_rng_msg_hdr((struct mu_hdr *)&priv->tx_msg.header, ELE_GET_RANDOM_REQ, 16);
+    64		if (ret)
+    65			goto exit;
+    66	
+    67		priv->tx_msg.data[0] = 0x0;
+    68		priv->tx_msg.data[1] = dst_dma;
+    69		priv->tx_msg.data[2] = len;
+    70		ret = imx_ele_msg_send_rcv(priv);
+    71		if (ret < 0)
+    72			goto exit;
+    73	
+    74		tag = MSG_TAG(priv->rx_msg.header);
+    75		command = MSG_COMMAND(priv->rx_msg.header);
+    76		size = MSG_SIZE(priv->rx_msg.header);
+    77		ver = MSG_VER(priv->rx_msg.header);
+    78		status = RES_STATUS(priv->rx_msg.data[0]);
+    79		if (tag == 0xe1 && command == ELE_GET_RANDOM_REQ && size == 0x02 &&
+    80		    ver == 0x07 && status == 0xd6) {
+    81			memcpy(data, buf, len);
+    82			ret = len;
+    83		} else
+    84			ret = -EINVAL;
+    85	
+    86	exit:
+    87		dmam_free_coherent(priv->dev, len, buf, dst_dma);
+    88		return ret;
+    89	}
+    90	
+  > 91	int ele_trng_init(struct device *dev)
 
 -- 
 0-DAY CI Kernel Test Service
