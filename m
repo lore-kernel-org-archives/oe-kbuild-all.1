@@ -1,140 +1,195 @@
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A33F9E3;
-	Thu, 26 Oct 2023 15:16:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A640735882
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 15:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hbrp1API"
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-66cfd35f595so6766846d6.2;
-        Thu, 26 Oct 2023 08:16:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698333371; x=1698938171; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zp6Op1tcsAosSng3lLBJsAdC4W7ZlECaDqYtzxj3jC8=;
-        b=Hbrp1API6YE650uPfs6I7qayXrHnleUTBUYMKgPuppCfPVwXd51P4AoCZ8OfptsfP6
-         8Qj+jtnViLwqNPc9UtuKWxSs1PxuknZ3JpZ2+KhDpPq4Fol+LVTZAGUijvbeQL557AX0
-         B2T4HMQ4J/lw8pASnUo2E/v6D5jQMkpoX1lfiG/QSiGCWw3vFLnWJEj/Oc8uWnTqqeHq
-         fy/7qpNOw1c1QRU8CpL1stlwqds7aklKgf4ORfzCffb7y6yskoQZore1S05cdo8iS9ub
-         FXkUwupEllhHHOL51VOlySVF4SY1IgA1jagt/EuCQF6V3joxyBPmpARPmxWoeoZ5ejOc
-         g6rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698333371; x=1698938171;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Zp6Op1tcsAosSng3lLBJsAdC4W7ZlECaDqYtzxj3jC8=;
-        b=tjBQNmKRNJ0pyCFswl6UOksLfqNEEIKVQEklZFoyIfGX3EMcYVT8XHQiuyx7JwW9RA
-         isyeOLVhf/UTmiMasaZY+ajosIX4XKRPm0gjyaH56XFwpwAW/+6OMLEIVWH+yT3h+aN2
-         qJMQNlW+hSCU3Qlul5tMAo2IyTZ3jB6ylEv/a/6lPzfskUWjJfRbTxizahWn+TVzhAlm
-         hYDoPhzJBUWy+yrdmy4KbGYDKesggdRSmgUbF05iYYH8FngzX5tDsqcA3tp2wLhb5Xpl
-         SGSioPoGerJJ9mQtk59DgOi2+WZVmLSVaVaI1VEpYFeA2SjsB5HtFbszEXkX4qxYKIvZ
-         noeA==
-X-Gm-Message-State: AOJu0YwJe1Sq/HhwtQMPuypAAR/iazdEZ/Op73n7mVN4vzpyaaIEw4Mx
-	drZ0B7Vjgb+vC6fTilFwFrWI5WyefV+ciNDbxuE=
-X-Google-Smtp-Source: AGHT+IEh7js9d0mPHr5HEC4BMkpZzYH8Eh7/+8jmxzrtOu4b69T8ispDC+qHp2OlNoPOsXUBu5eX1nH9QEK8EWivD5I=
-X-Received: by 2002:ad4:4ee1:0:b0:656:1ed6:fff3 with SMTP id
- dv1-20020ad44ee1000000b006561ed6fff3mr22386198qvb.56.1698333370992; Thu, 26
- Oct 2023 08:16:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P6rxJQgE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698333987; x=1729869987;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZkxN0/nYfMYPirrYu4NrZmqPXcOfFiFk+PdQErYy/x4=;
+  b=P6rxJQgEKbPeDJwADoFI30YjbkEDJ89aqELuFW4TQ4au9yDIsBWNhNvK
+   QocC/CJ1EfPzQU1yj1sZxzgwadfWXF/obf/aScWtgdwhsqZppc6auHKnR
+   0HpmztliKIliMgEQnAiBMx3Pkt7/hQVZwKBR9t4r3yDTcgQUFNabb2nOi
+   +uFBf09dFz3tygLtgF91E2PYLx1b9OmUNI1yoggugg13xUTV5K4yuW23f
+   0sO+c3YIcvT19sRzA25gLdb1MwdTZzqHJY0Vlye/vTiH7/VJWugUuQErQ
+   UfD2GY1KarNurk2OhBK/XujS7J08Pd4EzMzQTyEdbOOaBGHJPX2fydxEp
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="377940143"
+X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
+   d="scan'208";a="377940143"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 08:26:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="902943380"
+X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
+   d="scan'208";a="902943380"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 26 Oct 2023 08:23:59 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qw2Fb-0009t8-1f;
+	Thu, 26 Oct 2023 15:26:23 +0000
+Date: Thu, 26 Oct 2023 23:25:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [isilence:zc/veth 5/7] drivers/net/veth.c:380:13: sparse: sparse:
+ incorrect type in assignment (different address spaces)
+Message-ID: <202310262312.7ud3yqbV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202310262151.renqMvme-lkp@intel.com> <dd4bf45e-2ef3-4975-904d-f72c3d4af7c7@app.fastmail.com>
-In-Reply-To: <dd4bf45e-2ef3-4975-904d-f72c3d4af7c7@app.fastmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 26 Oct 2023 18:15:59 +0300
-Message-ID: <CAOQ4uxjiSrcOXXdr3Lf=01VcOoN8Z6HOvoKm+9Dm8zAeSHKgbA@mail.gmail.com>
-Subject: Re: [linux-next:master 14416/15220] fs/exportfs/expfs.c:357:5: error:
- expected identifier or '('
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Jeff Layton <jlayton@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Oct 26, 2023 at 5:37=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
-:
->
-> On Thu, Oct 26, 2023, at 15:49, kernel test robot wrote:
-> > tree:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-> > master
-> > head:   2ef7141596eed0b4b45ef18b3626f428a6b0a822
-> > commit: dfaf653dc41557548b2e75e6cd837071f7c63289 [14416/15220]
-> > exportfs: make ->encode_fh() a mandatory method for NFS export
-> > config: hexagon-randconfig-r015-20211224
-> > (https://download.01.org/0day-ci/archive/20231026/202310262151.renqMvme=
--lkp@intel.com/config)
-> > compiler: clang version 16.0.4
-> > (https://github.com/llvm/llvm-project.git
-> > ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> > reproduce (this is a W=3D1 build):
-> > (https://download.01.org/0day-ci/archive/20231026/202310262151.renqMvme=
--lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new
-> > version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes:
-> > https://lore.kernel.org/oe-kbuild-all/202310262151.renqMvme-lkp@intel.c=
-om/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >>> fs/exportfs/expfs.c:357:5: error: expected identifier or '('
-> >    int generic_encode_ino32_fh(struct inode *inode, __u32 *fh, int
-> > *max_len,
-> >        ^
-> >    include/linux/exportfs.h:286:33: note: expanded from macro
->
-> This bit is trivially fixed by allowing the protoype to
-> be visible for CONFIG_EXPORTFS=3Dm
->
-> --- a/include/linux/exportfs.h
-> +++ b/include/linux/exportfs.h
-> @@ -314,7 +314,7 @@ extern struct dentry *exportfs_decode_fh(struct vfsmo=
-unt *mnt, struct fid *fid,
->  /*
->   * Generic helpers for filesystems.
->   */
-> -#ifdef CONFIG_EXPORTFS
-> +#if IS_ENABLED(CONFIG_EXPORTFS)
->  int generic_encode_ino32_fh(struct inode *inode, __u32 *fh, int *max_len=
-,
->                             struct inode *parent);
->  #else
->
-> but then we instead get link failures when the callers are
-> built-in:
->
-> x86_64-linux-ld: fs/ext4/super.o:(.rodata+0x11a0): undefined reference to=
- `generic_encode_ino32_fh'
-> x86_64-linux-ld: fs/ext2/super.o:(.rodata+0x3a0): undefined reference to =
-`generic_encode_ino32_fh'
-> x86_64-linux-ld: fs/fat/nfs.o:(.rodata+0x120): undefined reference to `ge=
-neric_encode_ino32_fh'
-> x86_64-linux-ld: fs/ntfs3/super.o:(.rodata+0x2a0): undefined reference to=
- `generic_encode_ino32_fh'
-> x86_64-linux-ld: fs/befs/linuxvfs.o:(.rodata+0x240): undefined reference =
-to `generic_encode_ino32_fh'
->
-> Could this function just be move to fs/libfs.c or similar?
+tree:   https://github.com/isilence/linux zc/veth
+head:   cff8a226d561bc0db814b65ca5d2c97894d4d1cd
+commit: 87d67390f5c169ff9ae3ed9748e59e5cfb540d70 [5/7] veth: zc_rx support
+config: i386-randconfig-062-20231026 (https://download.01.org/0day-ci/archive/20231026/202310262312.7ud3yqbV-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310262312.7ud3yqbV-lkp@intel.com/reproduce)
 
-It could, but it is quite annoying to have to build the function when no co=
-de
-should be calling it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310262312.7ud3yqbV-lkp@intel.com/
 
-IMO, it would be better to make CONFIG_EXPORTFS a bool.
-fs/exportfs/expfs.c is quite small and CONFIG_EXPORTFS=3Dm
-doesn't seem to be worthwhile.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/veth.c:380:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct netdev_rx_queue [noderef] __rcu *zcq @@     got struct netdev_rx_queue * @@
+   drivers/net/veth.c:380:13: sparse:     expected struct netdev_rx_queue [noderef] __rcu *zcq
+   drivers/net/veth.c:380:13: sparse:     got struct netdev_rx_queue *
+>> drivers/net/veth.c:421:53: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct netdev_rx_queue *rxq @@     got struct netdev_rx_queue [noderef] __rcu *zcq @@
+   drivers/net/veth.c:421:53: sparse:     expected struct netdev_rx_queue *rxq
+   drivers/net/veth.c:421:53: sparse:     got struct netdev_rx_queue [noderef] __rcu *zcq
+>> drivers/net/veth.c:439:17: sparse: sparse: dereference of noderef expression
+   drivers/net/veth.c:440:38: sparse: sparse: dereference of noderef expression
+   drivers/net/veth.c:440:38: sparse: sparse: dereference of noderef expression
 
-Thanks,
-Amir.
+vim +380 drivers/net/veth.c
+
+   348	
+   349	static netdev_tx_t veth_xmit(struct sk_buff *skb, struct net_device *dev)
+   350	{
+   351		struct veth_priv *rcv_priv, *priv = netdev_priv(dev);
+   352		struct netdev_rx_queue __rcu *zcq;
+   353		struct veth_rq *rq = NULL;
+   354		int ret = NETDEV_TX_OK;
+   355		struct net_device *rcv;
+   356		int length = skb->len;
+   357		bool use_napi = false;
+   358		int rxq;
+   359	
+   360		rcu_read_lock();
+   361		rcv = rcu_dereference(priv->peer);
+   362		if (unlikely(!rcv) || !pskb_may_pull(skb, ETH_HLEN)) {
+   363			kfree_skb(skb);
+   364			goto drop;
+   365		}
+   366	
+   367		rcv_priv = netdev_priv(rcv);
+   368		rxq = skb_get_queue_mapping(skb);
+   369		if (rxq < rcv->real_num_rx_queues) {
+   370			rq = &rcv_priv->rq[rxq];
+   371	
+   372			/* The napi pointer is available when an XDP program is
+   373			 * attached or when GRO is enabled
+   374			 * Don't bother with napi/GRO if the skb can't be aggregated
+   375			 */
+   376			use_napi = rcu_access_pointer(rq->napi) &&
+   377				   veth_skb_is_eligible_for_gro(dev, rcv, skb);
+   378		}
+   379	
+ > 380		zcq = rcu_dereference(rcv_priv->zcq);
+   381		if (zcq) {
+   382			u32 size, len, max_head_size, off;
+   383			struct sk_buff *nskb;
+   384			struct page *page;
+   385			int i, head_off;
+   386	
+   387			max_head_size = skb_headlen(skb);
+   388			if (skb->len > PAGE_SIZE * MAX_SKB_FRAGS + max_head_size)
+   389				goto drop;
+   390	
+   391			nskb = __alloc_skb(max_head_size, GFP_ATOMIC | __GFP_ZERO,
+   392					SKB_ALLOC_RX, NUMA_NO_NODE);
+   393			if (!nskb) {
+   394				goto drop;
+   395			}
+   396	
+   397			skb_copy_header(nskb, skb);
+   398			skb_mark_for_recycle(nskb);
+   399	
+   400			if (WARN_ON_ONCE(skb_headlen(skb) > max_head_size)) {
+   401				consume_skb(nskb);
+   402				goto drop;
+   403			}
+   404			size = min_t(u32, skb->len, max_head_size);
+   405	
+   406			if (skb_copy_bits(skb, 0, nskb->data, size)) {
+   407				consume_skb(nskb);
+   408				goto drop;
+   409			}
+   410			skb_put(nskb, size);
+   411	
+   412			head_off = skb_headroom(nskb) - skb_headroom(skb);
+   413			skb_headers_offset_update(nskb, head_off);
+   414	
+   415			/* Allocate paged area of new skb */
+   416			off = size;
+   417			len = skb->len - off;
+   418	
+   419			for (i = 0; i < MAX_SKB_FRAGS && off < skb->len; i++) {
+   420				// page = page_pool_dev_alloc_pages(rcv_priv->zc_page_pool);
+ > 421				page = data_pool_alloc_page(zcq);
+   422				if (!page) {
+   423					consume_skb(nskb);
+   424					goto drop;
+   425				}
+   426	
+   427				size = min_t(u32, len, PAGE_SIZE);
+   428				skb_add_rx_frag(nskb, i, page, 0, size, PAGE_SIZE);
+   429				if (skb_copy_bits(skb, off, page_address(page),
+   430						  size)) {
+   431					consume_skb(nskb);
+   432					goto drop;
+   433				}
+   434	
+   435				len -= size;
+   436				off += size;
+   437			}
+   438	
+ > 439			WARN_ON_ONCE(!zcq->zc_uarg);
+   440			skb_zcopy_init(nskb, zcq->zc_uarg);
+   441			consume_skb(skb);
+   442			skb = nskb;
+   443		}
+   444	
+   445		skb_tx_timestamp(skb);
+   446		if (likely(veth_forward_skb(rcv, skb, rq, use_napi) == NET_RX_SUCCESS)) {
+   447			if (!use_napi)
+   448				dev_lstats_add(dev, length);
+   449			else
+   450				__veth_xdp_flush(rq);
+   451		} else {
+   452	drop:
+   453			atomic64_inc(&priv->dropped);
+   454			ret = NET_XMIT_DROP;
+   455		}
+   456	
+   457		rcu_read_unlock();
+   458	
+   459		return ret;
+   460	}
+   461	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
