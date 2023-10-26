@@ -1,162 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3966B2D791
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 14:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E412EAF7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 14:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j8VxZBm/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698328829; x=1729864829;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hMIb6jIAp5cnu41iskfx2yl/V0PgGK/sntAZ4A8XnVI=;
-  b=j8VxZBm/iSeiqKeo5X/tKh4GB8+OLLzGYEjUuGvrYX6GrZloGxXstYgM
-   v+i0FG4S1Bba8Sy4spu2H/0MSgnjcdGOuJ+qs6othoUkzzpQ1zQWVJwDs
-   VVr3XBs4xStaBppYEwwBLLd1FDWAyAnfJA/xZFIH9HpZhPe0175AFFP2Z
-   jGaH4kw46DFhXZN9MPxGT2SjZinmE5e9qf5A5x98DoPj5n5amJaGa6qsn
-   aDwVsHYZGp4A3+dJYrb9cAF8K8p5FisCX4H6T7yk8EX6k3iCWfo5Qe4nR
-   FjVHZtu9wrO9eNHJZ6jFd4rotQualFpoaNcDyajuh87H9etgSrxWD3BKP
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="384761290"
-X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
-   d="scan'208";a="384761290"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 07:00:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="752759221"
-X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
-   d="scan'208";a="752759221"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 26 Oct 2023 07:00:23 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qw0uL-0009q3-1h;
-	Thu, 26 Oct 2023 14:00:21 +0000
-Date: Thu, 26 Oct 2023 22:00:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ayush Singh <ayushdevel1325@gmail.com>, greybus-dev@lists.linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, Ayush Singh <ayushdevel1325@gmail.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	gregkh@linuxfoundation.org, vaishnav@beagleboard.org,
-	jkridner@beagleboard.org, nm@ti.com,
-	krzysztof.kozlowski+dt@linaro.org, vigneshr@ti.com,
-	kristo@kernel.org, robh+dt@kernel.org, conor+dt@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH v9 1/3] dt-bindings: net: Add ti,cc1352p7
-Message-ID: <202310262150.cA8h8EiZ-lkp@intel.com>
-References: <20231017101116.178041-2-ayushdevel1325@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZMdt4cD6"
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-6ce2c71c61fso599778a34.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 07:30:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698330606; x=1698935406; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=2n+ghG7acJgH7zVagE61XUCcCU4fU97sE0ZmR2fozaQ=;
+        b=ZMdt4cD6jhnzUuNIXYckQfSwl2XWK6xkcGYfXgfbZwJOfr/xypC/M3TtbijzgdXv3M
+         ClVs5kh9Uk5CFUL54vObMygYzUfn7gAD7cUWymHCWn7Qqb0jixCJ+7YGFklNfMLnbCc+
+         O+GbAJPJbYeAijC0zYaBn+v+eFofc1WzbKHzveetsAMJxsQEOMR6NMNHEpr1s6Zzyd18
+         2ZSffA+48qhEQfF5tlsK3lmNwW8CmbyLglE4R71Mh8ZfFmTPgmotayJwzKPmzshedl/W
+         mwxZ+kMoZzxLeDnSf6+ggpyhYUAOMS54xvVWqsCY23cEo/4Z+bdASWuKx9bKy723shtn
+         rFtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698330606; x=1698935406;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2n+ghG7acJgH7zVagE61XUCcCU4fU97sE0ZmR2fozaQ=;
+        b=c7JumKuzkw9Jd/nJMadpU4KktZI+UUNURyCDPY6QV9cmd6ooFQD8BS1wiaHzL1IqZy
+         PF4f6oANPkaE86bEu7RBm97CFBWymxS83JR2XGYvbNmfEX33GjkmAkBOWpHrWb/T+k0e
+         t1/Ocj+Yp+WwdxlPjKfcN90pm/MlHVRWNP5ah28DeNQbT9XZCaYe96bfQCfJkagEoCy3
+         QjfuiT4Z7K82UzsTq176Pu06i26WoAHCImNVRQFOVk6Quq1jHCL/eracNlqH98Bgw4RH
+         dfRBQPRgser1FWLD+9JRf4oowUZ8LBUixH3WBuw4M2K726B/CnKsuca4TfOkPCREXsBr
+         zcVA==
+X-Gm-Message-State: AOJu0YwL083dmwUE3eBIGBPwIyaCxGfUSqdKJAQEM73xjTa78oUmePTv
+	qSGQB60973T/wIRR+tDcDA5kAn88OqU=
+X-Google-Smtp-Source: AGHT+IGiyOf7GmjI4GS4FWrkOukwx3VjyjHz64QTMY+vTcWptuNP0Ud6ZSIWEbl2ytje90JgPeUPKQ==
+X-Received: by 2002:a05:6830:2693:b0:6c6:4843:2abb with SMTP id l19-20020a056830269300b006c648432abbmr19827437otu.12.1698330606288;
+        Thu, 26 Oct 2023 07:30:06 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id u9-20020a817909000000b00577269ba9e9sm47443ywc.86.2023.10.26.07.30.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Oct 2023 07:30:05 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <5ad3be17-3011-15bf-26c0-9f9055034d1a@roeck-us.net>
+Date: Thu, 26 Oct 2023 07:30:03 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231017101116.178041-2-ayushdevel1325@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v1 1/1] watchdog: mlx-wdt: Parameter desctiption warning
+ fix
+Content-Language: en-US
+To: michaelsh@nvidia.com, wim@linux-watchdog.org
+Cc: vadimp@nvidia.com, oe-kbuild-all@lists.linux.dev, trivial@kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20231026082558.12142-1-michaelsh@nvidia.com>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <20231026082558.12142-1-michaelsh@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Ayush,
+On 10/26/23 01:25, michaelsh@nvidia.com wrote:
+> From: Michael Shych <michaelsh@nvidia.com>
+> 
+> Add parameter desription to fix warning.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202310241044.lvqeOGli-lkp@intel.com
+> Signed-off-by: Michael Shych <michaelsh@nvidia.com>
+> Signed-off-by: Vadim Pasternak <vadimp@nvidia.com>
 
-kernel test robot noticed the following build warnings:
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-[auto build test WARNING on 6269320850097903b30be8f07a5c61d9f7592393]
+> ---
+>   drivers/watchdog/mlx_wdt.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/watchdog/mlx_wdt.c b/drivers/watchdog/mlx_wdt.c
+> index 9c5b6616fc87..667e2c5b3431 100644
+> --- a/drivers/watchdog/mlx_wdt.c
+> +++ b/drivers/watchdog/mlx_wdt.c
+> @@ -39,6 +39,7 @@
+>    * @tleft_idx:	index for direct access to time left register;
+>    * @ping_idx:	index for direct access to ping register;
+>    * @reset_idx:	index for direct access to reset cause register;
+> + * @regmap_val_sz: size of value in register map;
+>    * @wd_type:	watchdog HW type;
+>    */
+>   struct mlxreg_wdt {
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ayush-Singh/dt-bindings-net-Add-ti-cc1352p7/20231017-181305
-base:   6269320850097903b30be8f07a5c61d9f7592393
-patch link:    https://lore.kernel.org/r/20231017101116.178041-2-ayushdevel1325%40gmail.com
-patch subject: [PATCH v9 1/3] dt-bindings: net: Add ti,cc1352p7
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231026/202310262150.cA8h8EiZ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310262150.cA8h8EiZ-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/mtd/amlogic,meson-nand.yaml:70:27: [error] string value is redundantly quoted with any quotes (quoted-strings)
-   Documentation/devicetree/bindings/mtd/amlogic,meson-nand.yaml:71:28: [error] string value is redundantly quoted with any quotes (quoted-strings)
-
-vim +70 Documentation/devicetree/bindings/mtd/amlogic,meson-nand.yaml
-
-fbc00b5e746f13 Liang Yang      2022-09-07   8  
-fbc00b5e746f13 Liang Yang      2022-09-07   9  allOf:
-fbc00b5e746f13 Liang Yang      2022-09-07  10    - $ref: nand-controller.yaml
-fbc00b5e746f13 Liang Yang      2022-09-07  11  
-fbc00b5e746f13 Liang Yang      2022-09-07  12  maintainers:
-fbc00b5e746f13 Liang Yang      2022-09-07  13    - liang.yang@amlogic.com
-fbc00b5e746f13 Liang Yang      2022-09-07  14  
-fbc00b5e746f13 Liang Yang      2022-09-07  15  properties:
-fbc00b5e746f13 Liang Yang      2022-09-07  16    compatible:
-fbc00b5e746f13 Liang Yang      2022-09-07  17      enum:
-fbc00b5e746f13 Liang Yang      2022-09-07  18        - amlogic,meson-gxl-nfc
-fbc00b5e746f13 Liang Yang      2022-09-07  19        - amlogic,meson-axg-nfc
-fbc00b5e746f13 Liang Yang      2022-09-07  20  
-fbc00b5e746f13 Liang Yang      2022-09-07  21    reg:
-fbc00b5e746f13 Liang Yang      2022-09-07  22      maxItems: 2
-fbc00b5e746f13 Liang Yang      2022-09-07  23  
-fbc00b5e746f13 Liang Yang      2022-09-07  24    reg-names:
-fbc00b5e746f13 Liang Yang      2022-09-07  25      items:
-fbc00b5e746f13 Liang Yang      2022-09-07  26        - const: nfc
-fbc00b5e746f13 Liang Yang      2022-09-07  27        - const: emmc
-fbc00b5e746f13 Liang Yang      2022-09-07  28  
-fbc00b5e746f13 Liang Yang      2022-09-07  29    interrupts:
-fbc00b5e746f13 Liang Yang      2022-09-07  30      maxItems: 1
-fbc00b5e746f13 Liang Yang      2022-09-07  31  
-fbc00b5e746f13 Liang Yang      2022-09-07  32    clocks:
-fbc00b5e746f13 Liang Yang      2022-09-07  33      minItems: 2
-fbc00b5e746f13 Liang Yang      2022-09-07  34  
-fbc00b5e746f13 Liang Yang      2022-09-07  35    clock-names:
-fbc00b5e746f13 Liang Yang      2022-09-07  36      items:
-fbc00b5e746f13 Liang Yang      2022-09-07  37        - const: core
-fbc00b5e746f13 Liang Yang      2022-09-07  38        - const: device
-fbc00b5e746f13 Liang Yang      2022-09-07  39  
-fbc00b5e746f13 Liang Yang      2022-09-07  40  patternProperties:
-fbc00b5e746f13 Liang Yang      2022-09-07  41    "^nand@[0-7]$":
-fbc00b5e746f13 Liang Yang      2022-09-07  42      type: object
-e37eaf5ebc5be6 Miquel Raynal   2023-06-19  43      $ref: raw-nand-chip.yaml
-fbc00b5e746f13 Liang Yang      2022-09-07  44      properties:
-fbc00b5e746f13 Liang Yang      2022-09-07  45        reg:
-fbc00b5e746f13 Liang Yang      2022-09-07  46          minimum: 0
-fbc00b5e746f13 Liang Yang      2022-09-07  47          maximum: 1
-fbc00b5e746f13 Liang Yang      2022-09-07  48  
-fbc00b5e746f13 Liang Yang      2022-09-07  49        nand-ecc-mode:
-fbc00b5e746f13 Liang Yang      2022-09-07  50          const: hw
-fbc00b5e746f13 Liang Yang      2022-09-07  51  
-fbc00b5e746f13 Liang Yang      2022-09-07  52        nand-ecc-step-size:
-c3519aed2a3faf Arseniy Krasnov 2023-07-11  53          enum: [512, 1024]
-fbc00b5e746f13 Liang Yang      2022-09-07  54  
-fbc00b5e746f13 Liang Yang      2022-09-07  55        nand-ecc-strength:
-fbc00b5e746f13 Liang Yang      2022-09-07  56          enum: [8, 16, 24, 30, 40, 50, 60]
-fbc00b5e746f13 Liang Yang      2022-09-07  57          description: |
-fbc00b5e746f13 Liang Yang      2022-09-07  58            The ECC configurations that can be supported are as follows.
-fbc00b5e746f13 Liang Yang      2022-09-07  59              meson-gxl-nfc 8, 16, 24, 30, 40, 50, 60
-fbc00b5e746f13 Liang Yang      2022-09-07  60              meson-axg-nfc 8
-fbc00b5e746f13 Liang Yang      2022-09-07  61  
-262bc0096b7c91 Arseniy Krasnov 2023-06-08  62        nand-rb:
-262bc0096b7c91 Arseniy Krasnov 2023-06-08  63          maxItems: 1
-262bc0096b7c91 Arseniy Krasnov 2023-06-08  64          items:
-262bc0096b7c91 Arseniy Krasnov 2023-06-08  65            maximum: 0
-262bc0096b7c91 Arseniy Krasnov 2023-06-08  66  
-e37eaf5ebc5be6 Miquel Raynal   2023-06-19  67      unevaluatedProperties: false
-e37eaf5ebc5be6 Miquel Raynal   2023-06-19  68  
-350301a3d73b21 Arseniy Krasnov 2023-07-17  69      dependencies:
-350301a3d73b21 Arseniy Krasnov 2023-07-17 @70        nand-ecc-strength: ['nand-ecc-step-size']
-350301a3d73b21 Arseniy Krasnov 2023-07-17  71        nand-ecc-step-size: ['nand-ecc-strength']
-350301a3d73b21 Arseniy Krasnov 2023-07-17  72  
-e37eaf5ebc5be6 Miquel Raynal   2023-06-19  73  
-fbc00b5e746f13 Liang Yang      2022-09-07  74  required:
-fbc00b5e746f13 Liang Yang      2022-09-07  75    - compatible
-fbc00b5e746f13 Liang Yang      2022-09-07  76    - reg
-fbc00b5e746f13 Liang Yang      2022-09-07  77    - interrupts
-fbc00b5e746f13 Liang Yang      2022-09-07  78    - clocks
-fbc00b5e746f13 Liang Yang      2022-09-07  79    - clock-names
-fbc00b5e746f13 Liang Yang      2022-09-07  80  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
