@@ -1,54 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D2F04409;
-	Thu, 26 Oct 2023 01:24:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434B417E2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 01:25:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Us0VQLr2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G4prrn55"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698283492; x=1729819492;
+  t=1698283553; x=1729819553;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=UtNFOekasspKvSGlYBfxSJgeD5Z3RPVX4i0r+0MZT8o=;
-  b=Us0VQLr2asZ8jeUbb03+pN470Sr4QrZV7zxssEGegencxHLH6JRYXJ1M
-   seOfRb/zH3MJgueqxmq/RrZiKV3lgO6rMhbw2TJI1gboVRlt3dzUm1xHA
-   H176spb30w1P18Afb40kypZhFADsBy06xNBHke75tZ78v0Htr3dEAKBUE
-   CSrCDVOSO9dD2KvJuiK7BAyWltYRJ0BNo3/G9zI7V4/NaACUkmXiwk1Sk
-   65OUMb7t6HmWDwiVSGKaYnZeaDvlwdKUhc+XVk1AyBE71unWXaBiMJJQj
-   vI0WC99hVowMlOtcpmF+D7dPRBqTD+dYMmJQ9dD11NBD1XhCl9NHCs/D5
+  bh=amRn4daTHQX0xyFE0A0SgaV8/g/JqTUm/9VBQw6e+oY=;
+  b=G4prrn559aiGpd01ZexAOyh62Wks6dgJ4Zj1MDaASRacQEFXD6APT7vx
+   tVuG8QMsWI2ggY8TVQnYjAIzVBdehisMEdwGesEDziT3QoQJv5L/+zweI
+   RZ4HgIeNkboyIsox7TZCH7vcQCuTePfhXkSjZgq6mXjoAlKq+tQTpS4ws
+   azGXH7ljCfQ/xG6prXpIhPnzGAYxKdwkKJlOmDvrEKcSEBormUvV+4gHK
+   1HXNB7v6P54WFP15Cg6KJpdc6P6oIdIaw3GcBzuNItsm4xfArL1AirvmK
+   LbFJugrJL/9fvX4hB50Cb4mOALKdNqr9E68yEyDaWr86VEa/EzZkdMKEn
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="372483563"
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="224224"
 X-IronPort-AV: E=Sophos;i="6.03,252,1694761200"; 
-   d="scan'208";a="372483563"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 18:24:51 -0700
+   d="scan'208";a="224224"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 18:25:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="759033354"
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="932563473"
 X-IronPort-AV: E=Sophos;i="6.03,252,1694761200"; 
-   d="scan'208";a="759033354"
+   d="scan'208";a="932563473"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 25 Oct 2023 18:24:48 -0700
+  by orsmga005.jf.intel.com with ESMTP; 25 Oct 2023 18:25:47 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qvp77-0009K6-0L;
-	Thu, 26 Oct 2023 01:24:45 +0000
-Date: Thu, 26 Oct 2023 09:24:34 +0800
+	id 1qvp85-0009KA-0R;
+	Thu, 26 Oct 2023 01:25:45 +0000
+Date: Thu, 26 Oct 2023 09:25:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Marchevsky <davemarchevsky@fb.com>, bpf@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@kernel.org>,
-	Kernel Team <kernel-team@fb.com>,
-	Dave Marchevsky <davemarchevsky@fb.com>
-Subject: Re: [PATCH v1 bpf-next 3/4] btf: Descend into structs and arrays
- during special field search
-Message-ID: <202310260952.C9Gb9Avi-lkp@intel.com>
-References: <20231023220030.2556229-4-davemarchevsky@fb.com>
+To: Sagar Vashnav <sagarvashnav72427@gmail.com>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Leo Li <sunpeng.li@amd.com>,
+	Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	"Pan, Xinhui" <Xinhui.Pan@amd.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] drm/amd/display: add kernel docs for
+ dc_stream_forward_crc_window
+Message-ID: <202310260912.JFR01gdE-lkp@intel.com>
+References: <20231025140419.21180-1-sagarvashnav72427@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,86 +60,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231023220030.2556229-4-davemarchevsky@fb.com>
+In-Reply-To: <20231025140419.21180-1-sagarvashnav72427@gmail.com>
 
-Hi Dave,
+Hi Sagar,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.6-rc7 next-20231025]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Marchevsky/bpf-Fix-btf_get_field_type-to-fail-for-multiple-bpf_refcount-fields/20231024-060227
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231023220030.2556229-4-davemarchevsky%40fb.com
-patch subject: [PATCH v1 bpf-next 3/4] btf: Descend into structs and arrays during special field search
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231026/202310260952.C9Gb9Avi-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310260952.C9Gb9Avi-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sagar-Vashnav/drm-amd-display-add-kernel-docs-for-dc_stream_forward_crc_window/20231026-001250
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231025140419.21180-1-sagarvashnav72427%40gmail.com
+patch subject: [PATCH] drm/amd/display: add kernel docs for dc_stream_forward_crc_window
+config: csky-randconfig-002-20231026 (https://download.01.org/0day-ci/archive/20231026/202310260912.JFR01gdE-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310260912.JFR01gdE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310260952.C9Gb9Avi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310260912.JFR01gdE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/bpf/btf.c:3634:70: warning: variable 'off' is uninitialized when used here [-Wuninitialized]
-           ret = btf_find_struct_field(btf, elem_type, srch, array_field_off + off, rec);
-                                                                               ^~~
-   kernel/bpf/btf.c:3625:15: note: initialize the variable 'off' to silence this warning
-           u32 i, j, off, nelems;
-                        ^
-                         = 0
-   1 warning generated.
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:536: warning: bad line: 
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:539: warning: bad line: 
 
 
-vim +/off +3634 kernel/bpf/btf.c
+vim +536 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c
 
-  3616	
-  3617	static int btf_flatten_array_field(const struct btf *btf,
-  3618					   const struct btf_type *t,
-  3619					   struct btf_field_info_search *srch,
-  3620					   int array_field_off, int rec)
-  3621	{
-  3622		int ret, start_idx, elem_field_cnt;
-  3623		const struct btf_type *elem_type;
-  3624		struct btf_field_info *info;
-  3625		u32 i, j, off, nelems;
-  3626	
-  3627		if (!btf_type_is_array(t))
-  3628			return -EINVAL;
-  3629		nelems = __multi_dim_elem_type_nelems(btf, t, &elem_type);
-  3630		if (!nelems || !__btf_type_is_struct(elem_type))
-  3631			return srch->idx;
-  3632	
-  3633		start_idx = srch->idx;
-> 3634		ret = btf_find_struct_field(btf, elem_type, srch, array_field_off + off, rec);
-  3635		if (ret < 0)
-  3636			return ret;
-  3637	
-  3638		/* No btf_field_info's added */
-  3639		if (srch->idx == start_idx)
-  3640			return srch->idx;
-  3641	
-  3642		elem_field_cnt = srch->idx - start_idx;
-  3643		info = __next_field_infos(srch, elem_field_cnt * (nelems - 1));
-  3644		if (IS_ERR_OR_NULL(info))
-  3645			return PTR_ERR(info);
-  3646	
-  3647		/* Array elems after the first can copy first elem's btf_field_infos
-  3648		 * and adjust offset
-  3649		 */
-  3650		for (i = 1; i < nelems; i++) {
-  3651			memcpy(info, &srch->infos[start_idx],
-  3652			       elem_field_cnt * sizeof(struct btf_field_info));
-  3653			for (j = 0; j < elem_field_cnt; j++) {
-  3654				info->off += (i * elem_type->size);
-  3655				info++;
-  3656			}
-  3657		}
-  3658		return srch->idx;
-  3659	}
-  3660	
+   530	
+   531	/**
+   532	 * dc_stream_forward_crc_window() - Forward CRC window configuration to DMUB or DMCU.
+   533	 * @stream: The stream state to forward CRC window configuration for.
+   534	 * @rect: Pointer to the rectangle defining the CRC window coordinates.
+   535	 * @is_stop: Flag indicating whether the CRC capture should be stopped.
+ > 536	
+   537	 * This function is responsible for forwarding the CRC window configuration
+   538	 * for a given stream to either the DMUB or DMCU, depending on their availability.
+   539	
+   540	 * Return:
+   541	 * %true if the CRC window configuration was successfully forwarded;
+   542	 * %false if the stream was not found or CRC forwarding is not supported.
+   543	 */
+   544	bool
+   545	dc_stream_forward_crc_window(struct dc_stream_state *stream,
+   546			struct rect *rect, bool is_stop)
+   547	{
+   548		struct dmcu *dmcu;
+   549		struct dc_dmub_srv *dmub_srv;
+   550		struct otg_phy_mux mux_mapping;
+   551		struct pipe_ctx *pipe;
+   552		int i;
+   553		struct dc *dc = stream->ctx->dc;
+   554	
+   555		for (i = 0; i < MAX_PIPES; i++) {
+   556			pipe = &dc->current_state->res_ctx.pipe_ctx[i];
+   557			if (pipe->stream == stream && !pipe->top_pipe && !pipe->prev_odm_pipe)
+   558				break;
+   559		}
+   560	
+   561		/* Stream not found */
+   562		if (i == MAX_PIPES)
+   563			return false;
+   564	
+   565		mux_mapping.phy_output_num = stream->link->link_enc_hw_inst;
+   566		mux_mapping.otg_output_num = pipe->stream_res.tg->inst;
+   567	
+   568		dmcu = dc->res_pool->dmcu;
+   569		dmub_srv = dc->ctx->dmub_srv;
+   570	
+   571		/* forward to dmub */
+   572		if (dmub_srv)
+   573			dc_stream_forward_dmub_crc_window(dmub_srv, rect, &mux_mapping, is_stop);
+   574		/* forward to dmcu */
+   575		else if (dmcu && dmcu->funcs->is_dmcu_initialized(dmcu))
+   576			dc_stream_forward_dmcu_crc_window(dmcu, rect, &mux_mapping, is_stop);
+   577		else
+   578			return false;
+   579	
+   580		return true;
+   581	}
+   582	#endif /* CONFIG_DRM_AMD_SECURE_DISPLAY */
+   583	
 
 -- 
 0-DAY CI Kernel Test Service
