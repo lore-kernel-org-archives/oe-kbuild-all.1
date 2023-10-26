@@ -1,48 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2F1C134
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 05:41:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C321410E3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 06:34:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ykp1oFXw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GW+PZKmC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698298864; x=1729834864;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IuY+1xoxxL7wFV9SrPhcra8LfV7KV5Jmlmi+iCDUKwQ=;
-  b=Ykp1oFXwvE/CbuTm+RRDOdqruxfcysn/wP12ui5xRL67ritEqShN/2/C
-   E3fe76DExGkBikiJnSPOllUnjEODqsSO170PCi6Vorz+QX3Sh2wu2I8iB
-   fKE9sFRx43TprOLJ6ZSOvxjK6PAscifsvigrrf5Ipyrm5w46dxQAQa9EX
-   QTXe/eA7VY77TQDnEYsy+tHFPPV98Fj2mylhZfwHJQ2tBdCo6dQZpdIe1
-   PBlgqs9BVpiItWCL9BkcpHZvAQFYGO6Fh4J0fZRH6j4jAU5TB0rhzjDe0
-   PlyDefefVNdTBmz5GHyrhtYlTAa+IB8ppqAlRD1hFqFdsQ1Ln26KgRVAL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="453932538"
+  t=1698302054; x=1729838054;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WnfySFta4QeyblMHJF2qrIR4NYcvPeowwA+r9sQNFkE=;
+  b=GW+PZKmCEJ1cNvAS4wh5IVpVAYBYjtXE7dN2oglOuiLfBWgQeCDcrrKS
+   jjg1UoIDUpTdIA9APCMp7WIMDwyqk2nYAO2NoQ5q/8eLP7CEj7Jrr/h4M
+   rM7OLphActxeu4vZxdLfJ6ZsbDwK11iB4b0r4NDDcZ5p7wGs7i0hXPg82
+   PLnzODuYY4BZYw7jzIOtJco5Ci3KvYUwEJShO1Dc4P++b79RiTjJTtBCK
+   I2jt4OsGm6xZJCXC2n2vok+pmljK9ONyzWU7S7juou02qijpAYJ3MX8en
+   FhQszZzHhShPulwyGudlCQdE47k7B/lciTg0Nhkpt9uBXTCuTn4QeHN4I
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="387297555"
 X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
-   d="scan'208";a="453932538"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 22:41:04 -0700
+   d="scan'208";a="387297555"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 23:34:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="762701654"
 X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
-   d="scan'208";a="762701654"
+   d="scan'208";a="6818850"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 25 Oct 2023 22:41:02 -0700
+  by orviesa001.jf.intel.com with ESMTP; 25 Oct 2023 23:32:45 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qvt76-0009Vn-0y;
-	Thu, 26 Oct 2023 05:41:00 +0000
-Date: Thu, 26 Oct 2023 13:40:41 +0800
+	id 1qvtwQ-0009Z4-2S;
+	Thu, 26 Oct 2023 06:34:02 +0000
+Date: Thu, 26 Oct 2023 14:33:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 18091/19133]
- drivers/gpu/drm/imx/lcdc/imx-lcdc.c:411:9: warning: assignment makes pointer
- from integer without a cast
-Message-ID: <202310261336.3PWmEvtK-lkp@intel.com>
+To: Matthew Brost <matthew.brost@intel.com>,
+	dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Emma Anholt <emma@anholt.net>,
+	lina@asahilina.net, Liviu.Dudau@arm.com,
+	Matthew Brost <matthew.brost@intel.com>, robdclark@chromium.org,
+	lima@lists.freedesktop.org, mcanal@igalia.com, luben.tuikov@amd.com,
+	dakr@redhat.com, donald.robson@imgtec.com,
+	Russell King <linux+etnaviv@armlinux.org.uk>,
+	thomas.hellstrom@linux.intel.com, sarah.walker@imgtec.com,
+	ketil.johnsen@arm.com, linux-arm-msm@vger.kernel.org,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	etnaviv@lists.freedesktop.org,
+	Alex Deucher <alexander.deucher@amd.com>,
+	nouveau@lists.freedesktop.org, faith.ekstrand@collabora.com,
+	boris.brezillon@collabora.com, Qiang Yu <yuq825@gmail.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	freedreno@lists.freedesktop.org, christian.koenig@amd.com
+Subject: Re: [PATCH v7 3/6] drm/sched: Convert the GPU scheduler to variable
+ number of run-queues
+Message-ID: <202310261439.3rbAtEoB-lkp@intel.com>
+References: <20231026041236.1273694-4-matthew.brost@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,170 +65,223 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231026041236.1273694-4-matthew.brost@intel.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   d9298e491a8881d9c736daf6b775dd0820570ad8
-commit: 7f9a27710bf93d2ea46419283a1d272b355356b1 [18091/19133] UPSTREAM: drm/imx/lcdc: Implement DRM driver for imx25
-config: i386-buildonly-randconfig-006-20231026 (https://download.01.org/0day-ci/archive/20231026/202310261336.3PWmEvtK-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310261336.3PWmEvtK-lkp@intel.com/reproduce)
+Hi Matthew,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 201c8a7bd1f3f415920a2df4b8a8817e973f42fe]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/drm-sched-Add-drm_sched_wqueue_-helpers/20231026-121313
+base:   201c8a7bd1f3f415920a2df4b8a8817e973f42fe
+patch link:    https://lore.kernel.org/r/20231026041236.1273694-4-matthew.brost%40intel.com
+patch subject: [PATCH v7 3/6] drm/sched: Convert the GPU scheduler to variable number of run-queues
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231026/202310261439.3rbAtEoB-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310261439.3rbAtEoB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310261336.3PWmEvtK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310261439.3rbAtEoB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/imx/lcdc/imx-lcdc.c: In function 'imx_lcdc_probe':
-   drivers/gpu/drm/imx/lcdc/imx-lcdc.c:411:11: error: implicit declaration of function 'devm_drm_of_get_bridge'; did you mean 'drm_of_get_dsi_bus'? [-Werror=implicit-function-declaration]
-     bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
-              ^~~~~~~~~~~~~~~~~~~~~~
-              drm_of_get_dsi_bus
->> drivers/gpu/drm/imx/lcdc/imx-lcdc.c:411:9: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-     bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
-            ^
-   drivers/gpu/drm/imx/lcdc/imx-lcdc.c:449:8: error: implicit declaration of function 'drm_bridge_attach'; did you mean 'dma_buf_attach'? [-Werror=implicit-function-declaration]
-     ret = drm_bridge_attach(&lcdc->pipe.encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-           ^~~~~~~~~~~~~~~~~
-           dma_buf_attach
-   drivers/gpu/drm/imx/lcdc/imx-lcdc.c:449:61: error: 'DRM_BRIDGE_ATTACH_NO_CONNECTOR' undeclared (first use in this function); did you mean 'DRM_MODE_OBJECT_CONNECTOR'?
-     ret = drm_bridge_attach(&lcdc->pipe.encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                                DRM_MODE_OBJECT_CONNECTOR
-   drivers/gpu/drm/imx/lcdc/imx-lcdc.c:449:61: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+   drivers/gpu/drm/etnaviv/etnaviv_sched.c: In function 'etnaviv_sched_init':
+>> drivers/gpu/drm/etnaviv/etnaviv_sched.c:138:30: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+     138 |                              DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                              |
+         |                              int
+   In file included from drivers/gpu/drm/etnaviv/etnaviv_drv.h:20,
+                    from drivers/gpu/drm/etnaviv/etnaviv_sched.c:8:
+   include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+     530 |                    struct workqueue_struct *submit_wq,
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/m68k/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:246,
+                    from include/linux/build_bug.h:5,
+                    from include/linux/init.h:5,
+                    from include/linux/moduleparam.h:5,
+                    from drivers/gpu/drm/etnaviv/etnaviv_sched.c:6:
+>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   drivers/gpu/drm/etnaviv/etnaviv_sched.c:138:56: note: in expansion of macro 'NULL'
+     138 |                              DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                                                        ^~~~
+   include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+     531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+         |                    ~~~~^~~~~~~
+--
+   drivers/gpu/drm/lima/lima_sched.c: In function 'lima_sched_pipe_init':
+>> drivers/gpu/drm/lima/lima_sched.c:492:31: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+     492 |                               DRM_SCHED_PRIORITY_COUNT, NULL, 1,
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                               |
+         |                               int
+   In file included from drivers/gpu/drm/lima/lima_sched.h:7,
+                    from drivers/gpu/drm/lima/lima_device.h:12,
+                    from drivers/gpu/drm/lima/lima_ctx.h:10,
+                    from drivers/gpu/drm/lima/lima_drv.h:9,
+                    from drivers/gpu/drm/lima/lima_sched.c:11:
+   include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+     530 |                    struct workqueue_struct *submit_wq,
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/io.h:9,
+                    from include/linux/iosys-map.h:10,
+                    from drivers/gpu/drm/lima/lima_sched.c:4:
+>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   drivers/gpu/drm/lima/lima_sched.c:492:57: note: in expansion of macro 'NULL'
+     492 |                               DRM_SCHED_PRIORITY_COUNT, NULL, 1,
+         |                                                         ^~~~
+   include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+     531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+         |                    ~~~~^~~~~~~
+--
+   drivers/gpu/drm/v3d/v3d_sched.c: In function 'v3d_sched_init':
+>> drivers/gpu/drm/v3d/v3d_sched.c:391:50: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+     391 |                              &v3d_bin_sched_ops, DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                  |
+         |                                                  int
+   In file included from drivers/gpu/drm/v3d/v3d_drv.h:12,
+                    from drivers/gpu/drm/v3d/v3d_sched.c:23:
+   include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+     530 |                    struct workqueue_struct *submit_wq,
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/m68k/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:246,
+                    from include/linux/err.h:5,
+                    from include/linux/kthread.h:5,
+                    from drivers/gpu/drm/v3d/v3d_sched.c:21:
+>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   drivers/gpu/drm/v3d/v3d_sched.c:391:76: note: in expansion of macro 'NULL'
+     391 |                              &v3d_bin_sched_ops, DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                                                                            ^~~~
+   include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+     531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+         |                    ~~~~^~~~~~~
+   drivers/gpu/drm/v3d/v3d_sched.c:399:53: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+     399 |                              &v3d_render_sched_ops, DRM_SCHED_PRIORITY_COUNT,
+         |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                     |
+         |                                                     int
+   include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+     530 |                    struct workqueue_struct *submit_wq,
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   drivers/gpu/drm/v3d/v3d_sched.c:400:30: note: in expansion of macro 'NULL'
+     400 |                              NULL, hw_jobs_limit, job_hang_limit,
+         |                              ^~~~
+   include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+     531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+         |                    ~~~~^~~~~~~
+   drivers/gpu/drm/v3d/v3d_sched.c:407:50: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+     407 |                              &v3d_tfu_sched_ops, DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                  |
+         |                                                  int
+   include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+     530 |                    struct workqueue_struct *submit_wq,
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   drivers/gpu/drm/v3d/v3d_sched.c:407:76: note: in expansion of macro 'NULL'
+     407 |                              &v3d_tfu_sched_ops, DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                                                                            ^~~~
+   include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+     531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+         |                    ~~~~^~~~~~~
+   drivers/gpu/drm/v3d/v3d_sched.c:417:38: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+     417 |                                      DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                                      |
+         |                                      int
+   include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+     530 |                    struct workqueue_struct *submit_wq,
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   drivers/gpu/drm/v3d/v3d_sched.c:417:64: note: in expansion of macro 'NULL'
+     417 |                                      DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                                                                ^~~~
+   include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+     531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+         |                    ~~~~^~~~~~~
+   drivers/gpu/drm/v3d/v3d_sched.c:426:38: warning: passing argument 3 of 'drm_sched_init' makes pointer from integer without a cast [-Wint-conversion]
+     426 |                                      DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                                      |
+         |                                      int
+   include/drm/gpu_scheduler.h:530:45: note: expected 'struct workqueue_struct *' but argument is of type 'int'
+     530 |                    struct workqueue_struct *submit_wq,
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+>> include/linux/stddef.h:8:14: warning: passing argument 4 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   drivers/gpu/drm/v3d/v3d_sched.c:426:64: note: in expansion of macro 'NULL'
+     426 |                                      DRM_SCHED_PRIORITY_COUNT, NULL,
+         |                                                                ^~~~
+   include/drm/gpu_scheduler.h:531:24: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'void *'
+     531 |                    u32 num_rqs, uint32_t hw_submission, unsigned hang_limit,
+         |                    ~~~~^~~~~~~
 
 
-vim +411 drivers/gpu/drm/imx/lcdc/imx-lcdc.c
+vim +/drm_sched_init +138 drivers/gpu/drm/etnaviv/etnaviv_sched.c
 
-   390	
-   391	static int imx_lcdc_probe(struct platform_device *pdev)
-   392	{
-   393		struct imx_lcdc *lcdc;
-   394		struct drm_device *drm;
-   395		struct drm_bridge *bridge;
-   396		int irq;
-   397		int ret;
-   398		struct device *dev = &pdev->dev;
-   399	
-   400		lcdc = devm_drm_dev_alloc(dev, &imx_lcdc_drm_driver,
-   401					  struct imx_lcdc, drm);
-   402		if (!lcdc)
-   403			return -ENOMEM;
-   404	
-   405		drm = &lcdc->drm;
-   406	
-   407		lcdc->base = devm_platform_ioremap_resource(pdev, 0);
-   408		if (IS_ERR(lcdc->base))
-   409			return dev_err_probe(dev, PTR_ERR(lcdc->base), "Cannot get IO memory\n");
-   410	
- > 411		bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
-   412		if (IS_ERR(bridge))
-   413			return dev_err_probe(dev, PTR_ERR(bridge), "Failed to find bridge\n");
-   414	
-   415		/* Get Clocks */
-   416		lcdc->clk_ipg = devm_clk_get(dev, "ipg");
-   417		if (IS_ERR(lcdc->clk_ipg))
-   418			return dev_err_probe(dev, PTR_ERR(lcdc->clk_ipg), "Failed to get %s clk\n", "ipg");
-   419	
-   420		lcdc->clk_ahb = devm_clk_get(dev, "ahb");
-   421		if (IS_ERR(lcdc->clk_ahb))
-   422			return dev_err_probe(dev, PTR_ERR(lcdc->clk_ahb), "Failed to get %s clk\n", "ahb");
-   423	
-   424		lcdc->clk_per = devm_clk_get(dev, "per");
-   425		if (IS_ERR(lcdc->clk_per))
-   426			return dev_err_probe(dev, PTR_ERR(lcdc->clk_per), "Failed to get %s clk\n", "per");
-   427	
-   428		ret = dma_set_mask_and_coherent(drm->dev, DMA_BIT_MASK(32));
-   429		if (ret)
-   430			return dev_err_probe(dev, ret, "Cannot set DMA Mask\n");
-   431	
-   432		/* Modeset init */
-   433		ret = drmm_mode_config_init(drm);
-   434		if (ret)
-   435			return dev_err_probe(dev, ret, "Cannot initialize mode configuration structure\n");
-   436	
-   437		/* CRTC, Plane, Encoder */
-   438		ret = drm_simple_display_pipe_init(drm, &lcdc->pipe,
-   439						   &imx_lcdc_pipe_funcs,
-   440						   imx_lcdc_formats,
-   441						   ARRAY_SIZE(imx_lcdc_formats), NULL, NULL);
-   442		if (ret < 0)
-   443			return dev_err_probe(drm->dev, ret, "Cannot setup simple display pipe\n");
-   444	
-   445		ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
-   446		if (ret < 0)
-   447			return dev_err_probe(drm->dev, ret, "Failed to initialize vblank\n");
-   448	
-   449		ret = drm_bridge_attach(&lcdc->pipe.encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-   450		if (ret)
-   451			return dev_err_probe(drm->dev, ret, "Cannot attach bridge\n");
-   452	
-   453		lcdc->connector = drm_bridge_connector_init(drm, &lcdc->pipe.encoder);
-   454		if (IS_ERR(lcdc->connector))
-   455			return dev_err_probe(drm->dev, PTR_ERR(lcdc->connector), "Cannot init bridge connector\n");
-   456	
-   457		drm_connector_attach_encoder(lcdc->connector, &lcdc->pipe.encoder);
-   458	
-   459		/*
-   460		 * The LCDC controller does not have an enable bit. The
-   461		 * controller starts directly when the clocks are enabled.
-   462		 * If the clocks are enabled when the controller is not yet
-   463		 * programmed with proper register values (enabled at the
-   464		 * bootloader, for example) then it just goes into some undefined
-   465		 * state.
-   466		 * To avoid this issue, let's enable and disable LCDC IPG,
-   467		 * PER and AHB clock so that we force some kind of 'reset'
-   468		 * to the LCDC block.
-   469		 */
-   470	
-   471		ret = clk_prepare_enable(lcdc->clk_ipg);
-   472		if (ret)
-   473			return dev_err_probe(dev, ret, "Cannot enable ipg clock\n");
-   474		clk_disable_unprepare(lcdc->clk_ipg);
-   475	
-   476		ret = clk_prepare_enable(lcdc->clk_per);
-   477		if (ret)
-   478			return dev_err_probe(dev, ret, "Cannot enable per clock\n");
-   479		clk_disable_unprepare(lcdc->clk_per);
-   480	
-   481		ret = clk_prepare_enable(lcdc->clk_ahb);
-   482		if (ret)
-   483			return dev_err_probe(dev, ret, "Cannot enable ahb clock\n");
-   484		clk_disable_unprepare(lcdc->clk_ahb);
-   485	
-   486		drm->mode_config.min_width = LCDC_MIN_XRES;
-   487		drm->mode_config.max_width = LCDC_MAX_XRES;
-   488		drm->mode_config.min_height = LCDC_MIN_YRES;
-   489		drm->mode_config.max_height = LCDC_MAX_YRES;
-   490		drm->mode_config.preferred_depth = 16;
-   491		drm->mode_config.funcs = &imx_lcdc_mode_config_funcs;
-   492		drm->mode_config.helper_private = &imx_lcdc_mode_config_helpers;
-   493	
-   494		drm_mode_config_reset(drm);
-   495	
-   496		irq = platform_get_irq(pdev, 0);
-   497		if (irq < 0) {
-   498			ret = irq;
-   499			return ret;
-   500		}
-   501	
-   502		ret = devm_request_irq(dev, irq, imx_lcdc_irq_handler, 0, "imx-lcdc", lcdc);
-   503		if (ret < 0)
-   504			return dev_err_probe(drm->dev, ret, "Failed to install IRQ handler\n");
-   505	
-   506		platform_set_drvdata(pdev, drm);
-   507	
-   508		ret = drm_dev_register(&lcdc->drm, 0);
-   509		if (ret)
-   510			return dev_err_probe(dev, ret, "Cannot register device\n");
-   511	
-   512		drm_fbdev_generic_setup(drm, 0);
-   513	
-   514		return 0;
-   515	}
-   516	
+   132	
+   133	int etnaviv_sched_init(struct etnaviv_gpu *gpu)
+   134	{
+   135		int ret;
+   136	
+   137		ret = drm_sched_init(&gpu->sched, &etnaviv_sched_ops,
+ > 138				     DRM_SCHED_PRIORITY_COUNT, NULL,
+   139				     etnaviv_hw_jobs_limit, etnaviv_job_hang_limit,
+   140				     msecs_to_jiffies(500), NULL, NULL,
+   141				     dev_name(gpu->dev), gpu->dev);
+   142		if (ret)
+   143			return ret;
+   144	
+   145		return 0;
+   146	}
+   147	
 
 -- 
 0-DAY CI Kernel Test Service
