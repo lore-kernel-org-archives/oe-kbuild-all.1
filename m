@@ -1,49 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80ED92DF92;
-	Thu, 26 Oct 2023 13:50:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3966B2D791
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 14:00:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MVLdVUHH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j8VxZBm/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698328226; x=1729864226;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e8NvvbSQB2L8e6eXX5hK/qNY+qc2oSyZ1D5FFKG399E=;
-  b=MVLdVUHH8pCwi3XCs9EAx6DThWS/cN0U/r8hv65NxEOny3ikl1gniLe+
-   YSYVbEElnbLMTT3aIqBXUl8wjxUPmjnuIFkWKH2FnCQ02olKr2wbfeGcE
-   zV/kCo+rmyBw7wF52Ushzwu/khAFu7CItO5eWAjn/mZuMG1Anf6uWNA4f
-   DyFEKEpCWT8YalRtXMnQ6Ao0ZrCu82aTzX3LYmSEjJmvyBl278aIIutEL
-   0UU4gPmKP9DymvG5JD86IoTKcQL0ypk4hW8z/085xp/FvO+m0elfxfE2A
-   FVvSkakzJjNJk2Pryc1rI3RlK4anEfqF2bDRIXdGFhHV0GQjeF7EsXh5N
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="377918440"
+  t=1698328829; x=1729864829;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hMIb6jIAp5cnu41iskfx2yl/V0PgGK/sntAZ4A8XnVI=;
+  b=j8VxZBm/iSeiqKeo5X/tKh4GB8+OLLzGYEjUuGvrYX6GrZloGxXstYgM
+   v+i0FG4S1Bba8Sy4spu2H/0MSgnjcdGOuJ+qs6othoUkzzpQ1zQWVJwDs
+   VVr3XBs4xStaBppYEwwBLLd1FDWAyAnfJA/xZFIH9HpZhPe0175AFFP2Z
+   jGaH4kw46DFhXZN9MPxGT2SjZinmE5e9qf5A5x98DoPj5n5amJaGa6qsn
+   aDwVsHYZGp4A3+dJYrb9cAF8K8p5FisCX4H6T7yk8EX6k3iCWfo5Qe4nR
+   FjVHZtu9wrO9eNHJZ6jFd4rotQualFpoaNcDyajuh87H9etgSrxWD3BKP
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="384761290"
 X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
-   d="scan'208";a="377918440"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 06:50:25 -0700
+   d="scan'208";a="384761290"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 07:00:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="882836043"
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="752759221"
 X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
-   d="scan'208";a="882836043"
+   d="scan'208";a="752759221"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 26 Oct 2023 06:50:23 -0700
+  by orsmga007.jf.intel.com with ESMTP; 26 Oct 2023 07:00:23 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qw0kf-0009pn-1A;
-	Thu, 26 Oct 2023 13:50:21 +0000
-Date: Thu, 26 Oct 2023 21:49:25 +0800
+	id 1qw0uL-0009q3-1h;
+	Thu, 26 Oct 2023 14:00:21 +0000
+Date: Thu, 26 Oct 2023 22:00:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Jeff Layton <jlayton@kernel.org>
-Subject: [linux-next:master 14416/15220] fs/exportfs/expfs.c:357:5: error:
- expected identifier or '('
-Message-ID: <202310262151.renqMvme-lkp@intel.com>
+To: Ayush Singh <ayushdevel1325@gmail.com>, greybus-dev@lists.linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, Ayush Singh <ayushdevel1325@gmail.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	gregkh@linuxfoundation.org, vaishnav@beagleboard.org,
+	jkridner@beagleboard.org, nm@ti.com,
+	krzysztof.kozlowski+dt@linaro.org, vigneshr@ti.com,
+	kristo@kernel.org, robh+dt@kernel.org, conor+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v9 1/3] dt-bindings: net: Add ti,cc1352p7
+Message-ID: <202310262150.cA8h8EiZ-lkp@intel.com>
+References: <20231017101116.178041-2-ayushdevel1325@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,246 +57,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231017101116.178041-2-ayushdevel1325@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2ef7141596eed0b4b45ef18b3626f428a6b0a822
-commit: dfaf653dc41557548b2e75e6cd837071f7c63289 [14416/15220] exportfs: make ->encode_fh() a mandatory method for NFS export
-config: hexagon-randconfig-r015-20211224 (https://download.01.org/0day-ci/archive/20231026/202310262151.renqMvme-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310262151.renqMvme-lkp@intel.com/reproduce)
+Hi Ayush,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 6269320850097903b30be8f07a5c61d9f7592393]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ayush-Singh/dt-bindings-net-Add-ti-cc1352p7/20231017-181305
+base:   6269320850097903b30be8f07a5c61d9f7592393
+patch link:    https://lore.kernel.org/r/20231017101116.178041-2-ayushdevel1325%40gmail.com
+patch subject: [PATCH v9 1/3] dt-bindings: net: Add ti,cc1352p7
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231026/202310262150.cA8h8EiZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310262151.renqMvme-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310262150.cA8h8EiZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/mtd/amlogic,meson-nand.yaml:70:27: [error] string value is redundantly quoted with any quotes (quoted-strings)
+   Documentation/devicetree/bindings/mtd/amlogic,meson-nand.yaml:71:28: [error] string value is redundantly quoted with any quotes (quoted-strings)
 
->> fs/exportfs/expfs.c:357:5: error: expected identifier or '('
-   int generic_encode_ino32_fh(struct inode *inode, __u32 *fh, int *max_len,
-       ^
-   include/linux/exportfs.h:286:33: note: expanded from macro 'generic_encode_ino32_fh'
-   #define generic_encode_ino32_fh NULL
-                                   ^
-   include/linux/stddef.h:8:16: note: expanded from macro 'NULL'
-   #define NULL ((void *)0)
-                  ^
->> fs/exportfs/expfs.c:357:5: error: expected ')'
-   include/linux/exportfs.h:286:33: note: expanded from macro 'generic_encode_ino32_fh'
-   #define generic_encode_ino32_fh NULL
-                                   ^
-   include/linux/stddef.h:8:16: note: expanded from macro 'NULL'
-   #define NULL ((void *)0)
-                  ^
-   fs/exportfs/expfs.c:357:5: note: to match this '('
-   include/linux/exportfs.h:286:33: note: expanded from macro 'generic_encode_ino32_fh'
-   #define generic_encode_ino32_fh NULL
-                                   ^
-   include/linux/stddef.h:8:15: note: expanded from macro 'NULL'
-   #define NULL ((void *)0)
-                 ^
->> fs/exportfs/expfs.c:357:5: error: expected ')'
-   int generic_encode_ino32_fh(struct inode *inode, __u32 *fh, int *max_len,
-       ^
-   include/linux/exportfs.h:286:33: note: expanded from macro 'generic_encode_ino32_fh'
-   #define generic_encode_ino32_fh NULL
-                                   ^
-   include/linux/stddef.h:8:23: note: expanded from macro 'NULL'
-   #define NULL ((void *)0)
-                         ^
-   fs/exportfs/expfs.c:357:5: note: to match this '('
-   include/linux/exportfs.h:286:33: note: expanded from macro 'generic_encode_ino32_fh'
-   #define generic_encode_ino32_fh NULL
-                                   ^
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-   #define NULL ((void *)0)
-                ^
-   fs/exportfs/expfs.c:384:19: error: expected identifier or '('
-   EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-                     ^
-   include/linux/exportfs.h:286:33: note: expanded from macro 'generic_encode_ino32_fh'
-   #define generic_encode_ino32_fh NULL
-                                   ^
-   include/linux/stddef.h:8:16: note: expanded from macro 'NULL'
-   #define NULL ((void *)0)
-                  ^
-   fs/exportfs/expfs.c:384:19: error: expected ')'
-   include/linux/exportfs.h:286:33: note: expanded from macro 'generic_encode_ino32_fh'
-   #define generic_encode_ino32_fh NULL
-                                   ^
-   include/linux/stddef.h:8:16: note: expanded from macro 'NULL'
-   #define NULL ((void *)0)
-                  ^
-   fs/exportfs/expfs.c:384:19: note: to match this '('
-   include/linux/exportfs.h:286:33: note: expanded from macro 'generic_encode_ino32_fh'
-   #define generic_encode_ino32_fh NULL
-                                   ^
-   include/linux/stddef.h:8:15: note: expanded from macro 'NULL'
-   #define NULL ((void *)0)
-                 ^
-   fs/exportfs/expfs.c:384:19: error: expected ')'
-   EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-                     ^
-   include/linux/exportfs.h:286:33: note: expanded from macro 'generic_encode_ino32_fh'
-   #define generic_encode_ino32_fh NULL
-                                   ^
-   include/linux/stddef.h:8:23: note: expanded from macro 'NULL'
-   #define NULL ((void *)0)
-                         ^
-   fs/exportfs/expfs.c:384:19: note: to match this '('
-   include/linux/exportfs.h:286:33: note: expanded from macro 'generic_encode_ino32_fh'
-   #define generic_encode_ino32_fh NULL
-                                   ^
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-   #define NULL ((void *)0)
-                ^
->> fs/exportfs/expfs.c:384:1: error: pasting formed '__addressable_(', an invalid preprocessing token
-   EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-   ^
-   include/linux/export.h:87:33: note: expanded from macro 'EXPORT_SYMBOL_GPL'
-   #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-                                           ^
-   include/linux/export.h:83:38: note: expanded from macro '_EXPORT_SYMBOL'
-   #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
-                                           ^
-   include/linux/export.h:75:2: note: expanded from macro '__EXPORT_SYMBOL'
-           __ADDRESSABLE(sym)                                      \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler.h:215:15: note: expanded from macro '___ADDRESSABLE'
-                   __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)&sym;
-                               ^
-   include/linux/compiler_types.h:75:22: note: expanded from macro '__PASTE'
-   #define __PASTE(a,b) ___PASTE(a,b)
-                        ^
-   include/linux/compiler_types.h:74:24: note: expanded from macro '___PASTE'
-   #define ___PASTE(a,b) a##b
-                          ^
->> fs/exportfs/expfs.c:384:19: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-   EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-                     ^
-   include/linux/exportfs.h:286:33: note: expanded from macro 'generic_encode_ino32_fh'
-   #define generic_encode_ino32_fh NULL
-                                   ^
-   include/linux/stddef.h:8:16: note: expanded from macro 'NULL'
-   #define NULL ((void *)0)
-                  ^
-   fs/exportfs/expfs.c:384:19: error: expected ')'
-   include/linux/exportfs.h:286:33: note: expanded from macro 'generic_encode_ino32_fh'
-   #define generic_encode_ino32_fh NULL
-                                   ^
-   include/linux/stddef.h:8:23: note: expanded from macro 'NULL'
-   #define NULL ((void *)0)
-                         ^
-   fs/exportfs/expfs.c:384:19: note: to match this '('
-   include/linux/exportfs.h:286:33: note: expanded from macro 'generic_encode_ino32_fh'
-   #define generic_encode_ino32_fh NULL
-                                   ^
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-   #define NULL ((void *)0)
-                ^
->> fs/exportfs/expfs.c:384:1: error: pasting formed ')216', an invalid preprocessing token
-   EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-   ^
-   include/linux/export.h:87:33: note: expanded from macro 'EXPORT_SYMBOL_GPL'
-   #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-                                           ^
-   include/linux/export.h:83:38: note: expanded from macro '_EXPORT_SYMBOL'
-   #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
-                                           ^
-   include/linux/export.h:75:2: note: expanded from macro '__EXPORT_SYMBOL'
-           __ADDRESSABLE(sym)                                      \
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler-clang.h:20:29: note: expanded from macro '__UNIQUE_ID'
-   #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-                               ^
-   include/linux/compiler_types.h:75:22: note: expanded from macro '__PASTE'
-   #define __PASTE(a,b) ___PASTE(a,b)
-                        ^
-   include/linux/compiler_types.h:74:24: note: expanded from macro '___PASTE'
-   #define ___PASTE(a,b) a##b
-                          ^
->> fs/exportfs/expfs.c:384:1: error: expected function body after function declarator
-   include/linux/export.h:87:33: note: expanded from macro 'EXPORT_SYMBOL_GPL'
-   #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-                                           ^
-   include/linux/export.h:83:38: note: expanded from macro '_EXPORT_SYMBOL'
-   #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
-                                           ^
-   include/linux/export.h:75:2: note: expanded from macro '__EXPORT_SYMBOL'
-           __ADDRESSABLE(sym)                                      \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler.h:215:3: note: expanded from macro '___ADDRESSABLE'
-                   __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)&sym;
-                   ^
-   include/linux/compiler-clang.h:20:68: note: expanded from macro '__UNIQUE_ID'
-   #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-                                                                      ^
-   <scratch space>:114:1: note: expanded from here
-   216
-   ^
->> fs/exportfs/expfs.c:384:1: error: pasting formed '__export_symbol_(', an invalid preprocessing token
-   include/linux/export.h:87:33: note: expanded from macro 'EXPORT_SYMBOL_GPL'
-   #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-                                           ^
-   include/linux/export.h:83:38: note: expanded from macro '_EXPORT_SYMBOL'
-   #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
-                                           ^
-   include/linux/export.h:76:18: note: expanded from macro '__EXPORT_SYMBOL'
-           asm(__stringify(___EXPORT_SYMBOL(sym, license, ns)))
-                           ^
-   include/linux/export.h:47:18: note: expanded from macro '___EXPORT_SYMBOL'
-           __export_symbol_##sym:                  ASM_NL  \
-                           ^
-   12 errors generated.
+vim +70 Documentation/devicetree/bindings/mtd/amlogic,meson-nand.yaml
 
-
-vim +357 fs/exportfs/expfs.c
-
-   344	
-   345	/**
-   346	 * generic_encode_ino32_fh - generic export_operations->encode_fh function
-   347	 * @inode:   the object to encode
-   348	 * @fh:      where to store the file handle fragment
-   349	 * @max_len: maximum length to store there (in 4 byte units)
-   350	 * @parent:  parent directory inode, if wanted
-   351	 *
-   352	 * This generic encode_fh function assumes that the 32 inode number
-   353	 * is suitable for locating an inode, and that the generation number
-   354	 * can be used to check that it is still valid.  It places them in the
-   355	 * filehandle fragment where export_decode_fh expects to find them.
-   356	 */
- > 357	int generic_encode_ino32_fh(struct inode *inode, __u32 *fh, int *max_len,
-   358				    struct inode *parent)
-   359	{
-   360		struct fid *fid = (void *)fh;
-   361		int len = *max_len;
-   362		int type = FILEID_INO32_GEN;
-   363	
-   364		if (parent && (len < 4)) {
-   365			*max_len = 4;
-   366			return FILEID_INVALID;
-   367		} else if (len < 2) {
-   368			*max_len = 2;
-   369			return FILEID_INVALID;
-   370		}
-   371	
-   372		len = 2;
-   373		fid->i32.ino = inode->i_ino;
-   374		fid->i32.gen = inode->i_generation;
-   375		if (parent) {
-   376			fid->i32.parent_ino = parent->i_ino;
-   377			fid->i32.parent_gen = parent->i_generation;
-   378			len = 4;
-   379			type = FILEID_INO32_GEN_PARENT;
-   380		}
-   381		*max_len = len;
-   382		return type;
-   383	}
- > 384	EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-   385	
+fbc00b5e746f13 Liang Yang      2022-09-07   8  
+fbc00b5e746f13 Liang Yang      2022-09-07   9  allOf:
+fbc00b5e746f13 Liang Yang      2022-09-07  10    - $ref: nand-controller.yaml
+fbc00b5e746f13 Liang Yang      2022-09-07  11  
+fbc00b5e746f13 Liang Yang      2022-09-07  12  maintainers:
+fbc00b5e746f13 Liang Yang      2022-09-07  13    - liang.yang@amlogic.com
+fbc00b5e746f13 Liang Yang      2022-09-07  14  
+fbc00b5e746f13 Liang Yang      2022-09-07  15  properties:
+fbc00b5e746f13 Liang Yang      2022-09-07  16    compatible:
+fbc00b5e746f13 Liang Yang      2022-09-07  17      enum:
+fbc00b5e746f13 Liang Yang      2022-09-07  18        - amlogic,meson-gxl-nfc
+fbc00b5e746f13 Liang Yang      2022-09-07  19        - amlogic,meson-axg-nfc
+fbc00b5e746f13 Liang Yang      2022-09-07  20  
+fbc00b5e746f13 Liang Yang      2022-09-07  21    reg:
+fbc00b5e746f13 Liang Yang      2022-09-07  22      maxItems: 2
+fbc00b5e746f13 Liang Yang      2022-09-07  23  
+fbc00b5e746f13 Liang Yang      2022-09-07  24    reg-names:
+fbc00b5e746f13 Liang Yang      2022-09-07  25      items:
+fbc00b5e746f13 Liang Yang      2022-09-07  26        - const: nfc
+fbc00b5e746f13 Liang Yang      2022-09-07  27        - const: emmc
+fbc00b5e746f13 Liang Yang      2022-09-07  28  
+fbc00b5e746f13 Liang Yang      2022-09-07  29    interrupts:
+fbc00b5e746f13 Liang Yang      2022-09-07  30      maxItems: 1
+fbc00b5e746f13 Liang Yang      2022-09-07  31  
+fbc00b5e746f13 Liang Yang      2022-09-07  32    clocks:
+fbc00b5e746f13 Liang Yang      2022-09-07  33      minItems: 2
+fbc00b5e746f13 Liang Yang      2022-09-07  34  
+fbc00b5e746f13 Liang Yang      2022-09-07  35    clock-names:
+fbc00b5e746f13 Liang Yang      2022-09-07  36      items:
+fbc00b5e746f13 Liang Yang      2022-09-07  37        - const: core
+fbc00b5e746f13 Liang Yang      2022-09-07  38        - const: device
+fbc00b5e746f13 Liang Yang      2022-09-07  39  
+fbc00b5e746f13 Liang Yang      2022-09-07  40  patternProperties:
+fbc00b5e746f13 Liang Yang      2022-09-07  41    "^nand@[0-7]$":
+fbc00b5e746f13 Liang Yang      2022-09-07  42      type: object
+e37eaf5ebc5be6 Miquel Raynal   2023-06-19  43      $ref: raw-nand-chip.yaml
+fbc00b5e746f13 Liang Yang      2022-09-07  44      properties:
+fbc00b5e746f13 Liang Yang      2022-09-07  45        reg:
+fbc00b5e746f13 Liang Yang      2022-09-07  46          minimum: 0
+fbc00b5e746f13 Liang Yang      2022-09-07  47          maximum: 1
+fbc00b5e746f13 Liang Yang      2022-09-07  48  
+fbc00b5e746f13 Liang Yang      2022-09-07  49        nand-ecc-mode:
+fbc00b5e746f13 Liang Yang      2022-09-07  50          const: hw
+fbc00b5e746f13 Liang Yang      2022-09-07  51  
+fbc00b5e746f13 Liang Yang      2022-09-07  52        nand-ecc-step-size:
+c3519aed2a3faf Arseniy Krasnov 2023-07-11  53          enum: [512, 1024]
+fbc00b5e746f13 Liang Yang      2022-09-07  54  
+fbc00b5e746f13 Liang Yang      2022-09-07  55        nand-ecc-strength:
+fbc00b5e746f13 Liang Yang      2022-09-07  56          enum: [8, 16, 24, 30, 40, 50, 60]
+fbc00b5e746f13 Liang Yang      2022-09-07  57          description: |
+fbc00b5e746f13 Liang Yang      2022-09-07  58            The ECC configurations that can be supported are as follows.
+fbc00b5e746f13 Liang Yang      2022-09-07  59              meson-gxl-nfc 8, 16, 24, 30, 40, 50, 60
+fbc00b5e746f13 Liang Yang      2022-09-07  60              meson-axg-nfc 8
+fbc00b5e746f13 Liang Yang      2022-09-07  61  
+262bc0096b7c91 Arseniy Krasnov 2023-06-08  62        nand-rb:
+262bc0096b7c91 Arseniy Krasnov 2023-06-08  63          maxItems: 1
+262bc0096b7c91 Arseniy Krasnov 2023-06-08  64          items:
+262bc0096b7c91 Arseniy Krasnov 2023-06-08  65            maximum: 0
+262bc0096b7c91 Arseniy Krasnov 2023-06-08  66  
+e37eaf5ebc5be6 Miquel Raynal   2023-06-19  67      unevaluatedProperties: false
+e37eaf5ebc5be6 Miquel Raynal   2023-06-19  68  
+350301a3d73b21 Arseniy Krasnov 2023-07-17  69      dependencies:
+350301a3d73b21 Arseniy Krasnov 2023-07-17 @70        nand-ecc-strength: ['nand-ecc-step-size']
+350301a3d73b21 Arseniy Krasnov 2023-07-17  71        nand-ecc-step-size: ['nand-ecc-strength']
+350301a3d73b21 Arseniy Krasnov 2023-07-17  72  
+e37eaf5ebc5be6 Miquel Raynal   2023-06-19  73  
+fbc00b5e746f13 Liang Yang      2022-09-07  74  required:
+fbc00b5e746f13 Liang Yang      2022-09-07  75    - compatible
+fbc00b5e746f13 Liang Yang      2022-09-07  76    - reg
+fbc00b5e746f13 Liang Yang      2022-09-07  77    - interrupts
+fbc00b5e746f13 Liang Yang      2022-09-07  78    - clocks
+fbc00b5e746f13 Liang Yang      2022-09-07  79    - clock-names
+fbc00b5e746f13 Liang Yang      2022-09-07  80  
 
 -- 
 0-DAY CI Kernel Test Service
