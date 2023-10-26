@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC812D784
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 10:39:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9655411C9E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 10:50:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S+M4IO6x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tn3AKFeC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698316758; x=1729852758;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TArEQvl4e3Ik3wgHcj9UHVDX3UUdo9e8MzoujcQ6Fec=;
-  b=S+M4IO6x45MK71/mS3S87zcWFbiT5abO+oohreBWgvGv+M1ufyd6Jhl9
-   Mx0z8PPj4+J4VwWGHdcwQTvXPmuHuRl59pEAW6FT5xmz7x+oVCz2xVdsv
-   HRJdLM8ccEjbWI4lmaumbf2e+9iUUpHI3IWxLElBLKDF58Y2RQxtcgM9w
-   qcy/9MfxGSMjAHzhcQ6ICZogmMcRm0Sth3pXJjuAkTSfWVOpZW9UGHurf
-   u1NSSVZ1RXNUDhe5yAK6KXTlrLhqIBfzVcCdZWNOdHiCtCO1FqyKEhlm6
-   eVj8krxp9pm5VpMRhC5r6YW/QiaHwD/toYZrRFPP7qt/1zy5Mm7Oo4k/r
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="367731935"
+  t=1698317419; x=1729853419;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NUDYE8mk5GGR0XyOuEvywgXSW1np/HYY4GhQSiXtaYQ=;
+  b=Tn3AKFeCWyuFEvqEw3wcMnNtI5kRonjeETAt+kwzbY29sX3lak2+msfO
+   pNhsqf5ZStfrKW+0rZj3nuh9zeq+69roV5YddGCtG87T/7ONVRu5K6zP3
+   9kF9rbRYSa2Z41cr41jL55Bqm2qta3N/Ynk3kB9objOqjcLZC3JrWYCs8
+   9HJMlk/XLknun5QPrVG4CFBTN5ZBdwP+hViuTBoLol3HAdrFoKoH2kvz3
+   43qd+mwZvmepEIeoDuLP01/dZDQMd2pHKGMptNbX2r3+NE+0BlhuLB+Qu
+   DGjrtG96QvxTxUKMnphcz93Vzofo/f+/JSCli05n5kCumUoHnfwxmlkeb
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="451749536"
 X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
-   d="scan'208";a="367731935"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 03:39:17 -0700
+   d="scan'208";a="451749536"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 03:50:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="788442452"
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="932691129"
 X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
-   d="scan'208";a="788442452"
+   d="scan'208";a="932691129"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 26 Oct 2023 03:39:15 -0700
+  by orsmga005.jf.intel.com with ESMTP; 26 Oct 2023 03:50:17 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qvxlh-0009i2-15;
-	Thu, 26 Oct 2023 10:39:13 +0000
-Date: Thu, 26 Oct 2023 18:38:37 +0800
+	id 1qvxwM-0009ix-1u;
+	Thu, 26 Oct 2023 10:50:14 +0000
+Date: Thu, 26 Oct 2023 18:49:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Wei <davidhwei@meta.com>
-Cc: oe-kbuild-all@lists.linux.dev, Pavel Begunkov <asml.silence@gmail.com>
-Subject: [isilence:zc/rx-latest 19/21] include/net/data_pool.h:68:10: error:
- implicit declaration of function 'io_zc_rx_buf_dma'; did you mean
- 'io_zc_rx_put_buf'?
-Message-ID: <202310261837.AMxjakLK-lkp@intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 10/10] wifi: remove ipw2100/ipw2200 drivers
+Message-ID: <202310261858.eHICZBHt-lkp@intel.com>
+References: <20231023131953.2876682-12-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,108 +50,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231023131953.2876682-12-arnd@kernel.org>
 
-tree:   https://github.com/isilence/linux zc/rx-latest
-head:   c56f6485dd778cce084741e5ac38ab9352287773
-commit: 06833196dd231729be1f20f88717e5d0f48bf1c0 [19/21] io_uring/zcrx: store ifq + uarg in netdev_rx_queue
-config: i386-buildonly-randconfig-002-20231026 (https://download.01.org/0day-ci/archive/20231026/202310261837.AMxjakLK-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310261837.AMxjakLK-lkp@intel.com/reproduce)
+Hi Arnd,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on wireless/main]
+[also build test WARNING on soc/for-next linus/master v6.6-rc7]
+[cannot apply to wireless-next/main next-20231026]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/wifi-libertas-drop-16-bit-PCMCIA-support/20231023-213053
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless.git main
+patch link:    https://lore.kernel.org/r/20231023131953.2876682-12-arnd%40kernel.org
+patch subject: [PATCH 10/10] wifi: remove ipw2100/ipw2200 drivers
+reproduce: (https://download.01.org/0day-ci/archive/20231026/202310261858.eHICZBHt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310261837.AMxjakLK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310261858.eHICZBHt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/net/netdev_rx_queue.h:9:0,
-                    from net/bpf/test_run.c:23:
-   include/net/data_pool.h: In function 'data_pool_get_dma_addr':
->> include/net/data_pool.h:68:10: error: implicit declaration of function 'io_zc_rx_buf_dma'; did you mean 'io_zc_rx_put_buf'? [-Werror=implicit-function-declaration]
-      return io_zc_rx_buf_dma(buf);
-             ^~~~~~~~~~~~~~~~
-             io_zc_rx_put_buf
-   net/bpf/test_run.c: At top level:
-   net/bpf/test_run.c:509:17: warning: no previous declaration for 'bpf_fentry_test1' [-Wmissing-declarations]
-    __bpf_kfunc int bpf_fentry_test1(int a)
-                    ^~~~~~~~~~~~~~~~
-   net/bpf/test_run.c:515:14: warning: no previous declaration for 'bpf_fentry_test2' [-Wmissing-declarations]
-    int noinline bpf_fentry_test2(int a, u64 b)
-                 ^~~~~~~~~~~~~~~~
-   net/bpf/test_run.c:520:14: warning: no previous declaration for 'bpf_fentry_test3' [-Wmissing-declarations]
-    int noinline bpf_fentry_test3(char a, int b, u64 c)
-                 ^~~~~~~~~~~~~~~~
-   net/bpf/test_run.c:525:14: warning: no previous declaration for 'bpf_fentry_test4' [-Wmissing-declarations]
-    int noinline bpf_fentry_test4(void *a, char b, int c, u64 d)
-                 ^~~~~~~~~~~~~~~~
-   net/bpf/test_run.c:530:14: warning: no previous declaration for 'bpf_fentry_test5' [-Wmissing-declarations]
-    int noinline bpf_fentry_test5(u64 a, void *b, short c, int d, u64 e)
-                 ^~~~~~~~~~~~~~~~
-   net/bpf/test_run.c:535:14: warning: no previous declaration for 'bpf_fentry_test6' [-Wmissing-declarations]
-    int noinline bpf_fentry_test6(u64 a, void *b, short c, int d, void *e, u64 f)
-                 ^~~~~~~~~~~~~~~~
-   net/bpf/test_run.c:544:14: warning: no previous declaration for 'bpf_fentry_test7' [-Wmissing-declarations]
-    int noinline bpf_fentry_test7(struct bpf_fentry_test_t *arg)
-                 ^~~~~~~~~~~~~~~~
-   net/bpf/test_run.c:550:14: warning: no previous declaration for 'bpf_fentry_test8' [-Wmissing-declarations]
-    int noinline bpf_fentry_test8(struct bpf_fentry_test_t *arg)
-                 ^~~~~~~~~~~~~~~~
-   net/bpf/test_run.c:555:17: warning: no previous declaration for 'bpf_fentry_test9' [-Wmissing-declarations]
-    __bpf_kfunc u32 bpf_fentry_test9(u32 *a)
-                    ^~~~~~~~~~~~~~~~
-   net/bpf/test_run.c:560:15: warning: no previous declaration for 'bpf_fentry_test_sinfo' [-Wmissing-declarations]
-    void noinline bpf_fentry_test_sinfo(struct skb_shared_info *sinfo)
-                  ^~~~~~~~~~~~~~~~~~~~~
-   net/bpf/test_run.c:564:17: warning: no previous declaration for 'bpf_modify_return_test' [-Wmissing-declarations]
-    __bpf_kfunc int bpf_modify_return_test(int a, int *b)
-                    ^~~~~~~~~~~~~~~~~~~~~~
-   net/bpf/test_run.c:570:17: warning: no previous declaration for 'bpf_modify_return_test2' [-Wmissing-declarations]
-    __bpf_kfunc int bpf_modify_return_test2(int a, int *b, short c, int d,
-                    ^~~~~~~~~~~~~~~~~~~~~~~
-   net/bpf/test_run.c:577:14: warning: no previous declaration for 'bpf_fentry_shadow_test' [-Wmissing-declarations]
-    int noinline bpf_fentry_shadow_test(int a)
-                 ^~~~~~~~~~~~~~~~~~~~~~
-   net/bpf/test_run.c:599:18: warning: no previous declaration for 'bpf_kfunc_call_test_release' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_kfunc_call_test_release(struct prog_test_ref_kfunc *p)
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/bpf/test_run.c:604:18: warning: no previous declaration for 'bpf_kfunc_call_memb_release' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_kfunc_call_memb_release(struct prog_test_member *p)
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/net/netdev_rx_queue.h:9:0,
-                    from net/core/dev.c:155:
-   include/net/data_pool.h: In function 'data_pool_get_dma_addr':
->> include/net/data_pool.h:68:10: error: implicit declaration of function 'io_zc_rx_buf_dma'; did you mean 'io_zc_rx_put_buf'? [-Werror=implicit-function-declaration]
-      return io_zc_rx_buf_dma(buf);
-             ^~~~~~~~~~~~~~~~
-             io_zc_rx_put_buf
-   cc1: some warnings being treated as errors
+>> Documentation/networking/device_drivers/index.rst:8: WARNING: toctree contains reference to nonexisting document 'networking/device_drivers/wifi/index'
 
+vim +8 Documentation/networking/device_drivers/index.rst
 
-vim +68 include/net/data_pool.h
-
-12dc8fb31eef5b David Wei 2023-08-14  60  
-12dc8fb31eef5b David Wei 2023-08-14  61  static inline dma_addr_t data_pool_get_dma_addr(struct data_pool *dp,
-12dc8fb31eef5b David Wei 2023-08-14  62  						struct page *page)
-12dc8fb31eef5b David Wei 2023-08-14  63  {
-12dc8fb31eef5b David Wei 2023-08-14  64  	if (dp->zc_ifq) {
-12dc8fb31eef5b David Wei 2023-08-14  65  		struct io_zc_rx_buf *buf;
-12dc8fb31eef5b David Wei 2023-08-14  66  
-12dc8fb31eef5b David Wei 2023-08-14  67  		buf = io_zc_rx_buf_from_page(dp->zc_ifq, page);
-12dc8fb31eef5b David Wei 2023-08-14 @68  		return io_zc_rx_buf_dma(buf);
-12dc8fb31eef5b David Wei 2023-08-14  69  	} else {
-12dc8fb31eef5b David Wei 2023-08-14  70  		return page_pool_get_dma_addr(page);
-12dc8fb31eef5b David Wei 2023-08-14  71  	}
-12dc8fb31eef5b David Wei 2023-08-14  72  }
-12dc8fb31eef5b David Wei 2023-08-14  73  
-
-:::::: The code at line 68 was first introduced by commit
-:::::: 12dc8fb31eef5b38ff1a0e78b23a701aecbf2f29 netdev/bnxt: add data pool and use it in BNXT driver
-
-:::::: TO: David Wei <davidhwei@meta.com>
-:::::: CC: Pavel Begunkov <asml.silence@gmail.com>
+b0d8d4363e523e Jakub Kicinski 2019-05-21   5  
+b0d8d4363e523e Jakub Kicinski 2019-05-21   6  Contents:
+b0d8d4363e523e Jakub Kicinski 2019-05-21   7  
+b0d8d4363e523e Jakub Kicinski 2019-05-21  @8  .. toctree::
+b0d8d4363e523e Jakub Kicinski 2019-05-21   9     :maxdepth: 2
+b0d8d4363e523e Jakub Kicinski 2019-05-21  10  
+4daedf7abb41aa Jakub Kicinski 2020-06-26  11     appletalk/index
+9633a0e959174e Jakub Kicinski 2020-06-26  12     atm/index
+132db93572821e Jakub Kicinski 2020-06-26  13     cable/index
+32db1660ee01ac Dario Binacchi 2022-01-07  14     can/index
+132db93572821e Jakub Kicinski 2020-06-26  15     cellular/index
+132db93572821e Jakub Kicinski 2020-06-26  16     ethernet/index
+55f35cf79d6813 Jakub Kicinski 2020-06-26  17     fddi/index
+14474950252cbb Jakub Kicinski 2020-06-26  18     hamradio/index
+02bd88b4834d22 Coiby Xu       2021-01-23  19     qlogic/index
+132db93572821e Jakub Kicinski 2020-06-26  20     wifi/index
+f7af616c632ee2 M Chetan Kumar 2021-06-13  21     wwan/index
+b0d8d4363e523e Jakub Kicinski 2019-05-21  22  
 
 -- 
 0-DAY CI Kernel Test Service
