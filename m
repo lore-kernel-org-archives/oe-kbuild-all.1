@@ -1,136 +1,123 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC758829;
-	Thu, 26 Oct 2023 14:37:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0101D52B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 14:54:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="M8rt++6e";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EdV2l51B"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 4FCA35C0244;
-	Thu, 26 Oct 2023 10:37:39 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Thu, 26 Oct 2023 10:37:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1698331059; x=1698417459; bh=AP
-	8v+9R0WrLVWBhLRKm9UmDroDPmhVEEfTlQz4HJVnU=; b=M8rt++6eTTYC1j08ZK
-	ohAxU29e9JXfAKi4N+lgWoBKJ7sButBmrl1OG9+AxAJMUL6V/sdBKL3tsVv9lQIE
-	d2ufUxXIl941nqKYMngMibqRRUpg4c6sVDcpfVTmiK2GmlZwmi0ausyTJ8bKwKQi
-	m442uUCFOvzmexnyi6XX7+A51ATLzpXVj074YKT2AqbfJJeBBfgzaybCKItcL+wr
-	47spdPgzT/ynwbf67tlwkCEU3TuzreDPLFPBePXK75d0CfC2jU+9yXKa8Cq34UDv
-	9RJxc0UZvJT9Tqt4XcN1AU5GDa21c4At9qodr03G54MeG0do3vJHbI53aQHMwH4y
-	3wug==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1698331059; x=1698417459; bh=AP8v+9R0WrLVW
-	BhLRKm9UmDroDPmhVEEfTlQz4HJVnU=; b=EdV2l51B6e/QASMdncz48I39lBDvg
-	UEKh2kXV9ImwaE3vqVSN5DNhG27bacvnsc0bDrye6bJHfOGu4R2h5dVTpeswn35X
-	0E2Yr70ly1tk81YwKwO2URJRNc5/R2QQ3fCZlZjYupOVxzyIz+3ZYX1TEOsc3y8A
-	09vpRNX6wj2/SQvOi77kCFwgXT25JCrNFLCX7jKz49PtBBw+nx9gTVyGiI7nzyUa
-	mGZ8kEFakFMnHAflO9TriRKtpDIARLV+9EpXGAg+HC1rFJ/4FoNJd5HNInnDXYLa
-	TjeVAXBC9rPcA9q1Z9BA2gYXIYCIY5ev9Pw7da9VRilT0DT49APvWNbdw==
-X-ME-Sender: <xms:s3k6Zd4uSf4yZTQw5MapamckErRvpOf7FQ1Z9YkbbccSzm2J0aKKqw>
-    <xme:s3k6Za6E4gUiEI5eBlb4zG-7uPaY3eIbAPOGWCNXTsVXugeKlN1cELX37vSBYWfHP
-    VIJuDhuGWAm_xKyJFk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrledvgdejlecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeeujeeffedvfeehtdfgtdekkeefleegudetjeegtedvieduiedvueduudefieei
-    gfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpddtuddrohhrghdpghhithhhuhgsrd
-    gtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
-    rghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:s3k6ZUcqbzBFb2GxA4QF89fQyMuSsPXecXSvaNgShN5YiubpfHagFA>
-    <xmx:s3k6ZWI2qE_4v5lVUEssmyY7y_hK5bL7v-nQOShMkHtGvxxoXoUIsg>
-    <xmx:s3k6ZRL4FmY4raZq383JDeufch5p_uj3fwtSeHxcNnOOS5w2k80FxQ>
-    <xmx:s3k6Zfh5aTqtZq8jrRzzvACkgfCwcPnJTBCo-74-cZSuFCmXuW15ag>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 09C7DB6008D; Thu, 26 Oct 2023 10:37:38 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1048-g9229b632c5-fm-20231019.001-g9229b632
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nWDyWR3V"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698332066; x=1729868066;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=K8i7nIe3F3eOgkvcLjBqLb7GMwgT2aYRLtO1WqgzgeI=;
+  b=nWDyWR3V/8NHKIOcKQZte0rznvfpU0OtAXGHN1mSUvHCUGFo4ra7vVkv
+   J3SVqpUtgVL0bqF/DNaHF6nsgmGAhhNaFHfYANcNnIuYB9r5GY79jAzGb
+   jcrLgwcqMPOuo1qdShGQn4gqJHgj/otNz2Hr2q9uYfMZ4Z5+JtSczkB6C
+   Fpx5GaqgTqoGmIUzcU0tdfrFNytOwBiYsjNQKjaXB5qifGJjiNNv6Td2E
+   b3HzIY+39rFq+b+LZc6ypwi9NvRwP/Pv089+qwtPXBJOJK3YHIDa5MdH7
+   H1CUj+SkVqne5DmJfw9ESlvGTkXfqEDAs/Fl9VM0xfd8WnMa201c9O6Ri
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="454032883"
+X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
+   d="scan'208";a="454032883"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 07:54:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="788518392"
+X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
+   d="scan'208";a="788518392"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 26 Oct 2023 07:54:25 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qw1kc-0009rP-1d;
+	Thu, 26 Oct 2023 14:54:22 +0000
+Date: Thu, 26 Oct 2023 22:53:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:find_and_clear_tmp 27/47]
+ arch/powerpc/platforms/pasemi/dma_lib.c:105:20: error: variable 'limit' set
+ but not used
+Message-ID: <202310262223.en6HF0ip-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <dd4bf45e-2ef3-4975-904d-f72c3d4af7c7@app.fastmail.com>
-In-Reply-To: <202310262151.renqMvme-lkp@intel.com>
-References: <202310262151.renqMvme-lkp@intel.com>
-Date: Thu, 26 Oct 2023 16:37:18 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "kernel test robot" <lkp@intel.com>, "Amir Goldstein" <amir73il@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- "Linux Memory Management List" <linux-mm@kvack.org>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- "Jeff Layton" <jlayton@kernel.org>
-Subject: Re: [linux-next:master 14416/15220] fs/exportfs/expfs.c:357:5: error: expected
- identifier or '('
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Oct 26, 2023, at 15:49, kernel test robot wrote:
-> tree:   
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git 
-> master
-> head:   2ef7141596eed0b4b45ef18b3626f428a6b0a822
-> commit: dfaf653dc41557548b2e75e6cd837071f7c63289 [14416/15220] 
-> exportfs: make ->encode_fh() a mandatory method for NFS export
-> config: hexagon-randconfig-r015-20211224 
-> (https://download.01.org/0day-ci/archive/20231026/202310262151.renqMvme-lkp@intel.com/config)
-> compiler: clang version 16.0.4 
-> (https://github.com/llvm/llvm-project.git 
-> ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> reproduce (this is a W=1 build): 
-> (https://download.01.org/0day-ci/archive/20231026/202310262151.renqMvme-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new 
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: 
-> https://lore.kernel.org/oe-kbuild-all/202310262151.renqMvme-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->>> fs/exportfs/expfs.c:357:5: error: expected identifier or '('
->    int generic_encode_ino32_fh(struct inode *inode, __u32 *fh, int 
-> *max_len,
->        ^
->    include/linux/exportfs.h:286:33: note: expanded from macro 
+tree:   https://github.com/norov/linux find_and_clear_tmp
+head:   8ff28bdbe8eb42074ec3920a5b1d49e18332aad1
+commit: fa98624ff045979d246c0f0fc554c92178345c5f [27/47] powerpc: fix opencoded find_and_{set,clear}_bit()
+config: powerpc64-randconfig-003-20231026 (https://download.01.org/0day-ci/archive/20231026/202310262223.en6HF0ip-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310262223.en6HF0ip-lkp@intel.com/reproduce)
 
-This bit is trivially fixed by allowing the protoype to
-be visible for CONFIG_EXPORTFS=m
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310262223.en6HF0ip-lkp@intel.com/
 
---- a/include/linux/exportfs.h
-+++ b/include/linux/exportfs.h
-@@ -314,7 +314,7 @@ extern struct dentry *exportfs_decode_fh(struct vfsmount *mnt, struct fid *fid,
- /*
-  * Generic helpers for filesystems.
-  */
--#ifdef CONFIG_EXPORTFS
-+#if IS_ENABLED(CONFIG_EXPORTFS)
- int generic_encode_ino32_fh(struct inode *inode, __u32 *fh, int *max_len,
-                            struct inode *parent);
- #else
+All errors (new ones prefixed by >>):
 
-but then we instead get link failures when the callers are
-built-in:
+   arch/powerpc/platforms/pasemi/dma_lib.c: In function 'pasemi_alloc_tx_chan':
+   arch/powerpc/platforms/pasemi/dma_lib.c:122:66: error: expected ';' before 'return'
+     122 |         bit = find_and_clear_next_bit(txch_free, MAX_TXCH, start)
+         |                                                                  ^
+         |                                                                  ;
+     123 |         return bit < limit ? bit : -ENOSPC;
+         |         ~~~~~~                                                    
+>> arch/powerpc/platforms/pasemi/dma_lib.c:105:20: error: variable 'limit' set but not used [-Werror=unused-but-set-variable]
+     105 |         int start, limit;
+         |                    ^~~~~
+>> arch/powerpc/platforms/pasemi/dma_lib.c:104:13: error: variable 'bit' set but not used [-Werror=unused-but-set-variable]
+     104 |         int bit;
+         |             ^~~
+   arch/powerpc/platforms/pasemi/dma_lib.c:124:1: error: no return statement in function returning non-void [-Werror=return-type]
+     124 | }
+         | ^
+   cc1: all warnings being treated as errors
 
-x86_64-linux-ld: fs/ext4/super.o:(.rodata+0x11a0): undefined reference to `generic_encode_ino32_fh'
-x86_64-linux-ld: fs/ext2/super.o:(.rodata+0x3a0): undefined reference to `generic_encode_ino32_fh'
-x86_64-linux-ld: fs/fat/nfs.o:(.rodata+0x120): undefined reference to `generic_encode_ino32_fh'
-x86_64-linux-ld: fs/ntfs3/super.o:(.rodata+0x2a0): undefined reference to `generic_encode_ino32_fh'
-x86_64-linux-ld: fs/befs/linuxvfs.o:(.rodata+0x240): undefined reference to `generic_encode_ino32_fh'
 
-Could this function just be move to fs/libfs.c or similar?
+vim +/limit +105 arch/powerpc/platforms/pasemi/dma_lib.c
 
-      Arnd
+8ee9d85779356c Olof Johansson 2007-11-28  101  
+8ee9d85779356c Olof Johansson 2007-11-28  102  static int pasemi_alloc_tx_chan(enum pasemi_dmachan_type type)
+8ee9d85779356c Olof Johansson 2007-11-28  103  {
+8ee9d85779356c Olof Johansson 2007-11-28 @104  	int bit;
+8ee9d85779356c Olof Johansson 2007-11-28 @105  	int start, limit;
+8ee9d85779356c Olof Johansson 2007-11-28  106  
+8ee9d85779356c Olof Johansson 2007-11-28  107  	switch (type & (TXCHAN_EVT0|TXCHAN_EVT1)) {
+8ee9d85779356c Olof Johansson 2007-11-28  108  	case TXCHAN_EVT0:
+8ee9d85779356c Olof Johansson 2007-11-28  109  		start = 0;
+8ee9d85779356c Olof Johansson 2007-11-28  110  		limit = 10;
+8ee9d85779356c Olof Johansson 2007-11-28  111  		break;
+8ee9d85779356c Olof Johansson 2007-11-28  112  	case TXCHAN_EVT1:
+8ee9d85779356c Olof Johansson 2007-11-28  113  		start = 10;
+8ee9d85779356c Olof Johansson 2007-11-28  114  		limit = MAX_TXCH;
+8ee9d85779356c Olof Johansson 2007-11-28  115  		break;
+8ee9d85779356c Olof Johansson 2007-11-28  116  	default:
+8ee9d85779356c Olof Johansson 2007-11-28  117  		start = 0;
+8ee9d85779356c Olof Johansson 2007-11-28  118  		limit = MAX_TXCH;
+8ee9d85779356c Olof Johansson 2007-11-28  119  		break;
+8ee9d85779356c Olof Johansson 2007-11-28  120  	}
+fa98624ff04597 Yury Norov     2023-10-21  121  
+fa98624ff04597 Yury Norov     2023-10-21  122  	bit = find_and_clear_next_bit(txch_free, MAX_TXCH, start)
+fa98624ff04597 Yury Norov     2023-10-21  123  	return bit < limit ? bit : -ENOSPC;
+8ee9d85779356c Olof Johansson 2007-11-28  124  }
+8ee9d85779356c Olof Johansson 2007-11-28  125  
+
+:::::: The code at line 105 was first introduced by commit
+:::::: 8ee9d85779356c1dc2ba87aca27fbf9414f2d82b pasemi: DMA engine management library
+
+:::::: TO: Olof Johansson <olof@lixom.net>
+:::::: CC: David S. Miller <davem@davemloft.net>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
