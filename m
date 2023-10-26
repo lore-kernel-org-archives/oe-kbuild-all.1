@@ -1,106 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2061.outbound.protection.outlook.com [40.107.243.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84021C123
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 08:21:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1CE1A587
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 08:26:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KVik5345"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698308473; x=1729844473;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+MMaJD/uFuZDtjo4XI6Y72JQRGgvkRpHzO6wXyOGNlk=;
-  b=KVik5345GD/CdJUNqSIB856Ix6wNoz4gmycj6lffPEEtbxGmneoxMPxl
-   LBImVQ7HcXAPwVOdm5yAYUKKY2HW2dk5+q0GvxIwk+05ZmgxiPsv8szYj
-   e3nZylKKFTGhwzCTbwTwZF9SaxJiL749KEDT+769S+dQnqSmOEWh5kBYd
-   wvu1y1BTx1dwj7qbSi/O7E5rFaGOKjM1T6rp/nHPaL3uehhuySnMafwzd
-   EiVsFJTgzGrorKRQNO0FGffsQpZgAo8Wk2JV6sCl+rH/o0vwENiiAclqA
-   TuRAXsCsZgKPUQ265nvzCedMIG3oLVbx5LT403ap0DD3Y/OkG6TfA0U35
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="367698238"
-X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
-   d="scan'208";a="367698238"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 01:21:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
-   d="scan'208";a="373205"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 26 Oct 2023 01:20:37 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qvvc5-0009d1-12;
-	Thu, 26 Oct 2023 08:21:09 +0000
-Date: Thu, 26 Oct 2023 16:20:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC] firmware: arm_scmi: support clock denied attributes
-Message-ID: <202310261600.BinnN8W6-lkp@intel.com>
-References: <20231026034125.1823954-1-peng.fan@oss.nxp.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ZC/tGzNe"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CZeFFyh4aUuWdZbmgRlN6TlLR2bBPI2YeNCcWDRp1qbaA0DO1U1g3JAYqtXKMDP5fjTNFjD0YALcAYRpvKS4k5a5ZfknYWvwj+C7+ciTl5K9WsWH+J3hAqgRiMWbLuNYn52rxaWM1Qj/9Uu1hE43unspomzEU6OBn+ibTp3kYnYLpF696MMbm/ihjHBi9ms5p5vftlT/h+mNvP2eyRoWfv+CmtoKwOJjK46kD4dTLmXXpNkxrkOzcsbtLXvn6xxZZiV3Jud3MATXIjUAR5KC1MbGRcpO4F72z6+QevGtfw7Lh0yEScJMUisgSv9WXQuP8JAVxIbLOxazXZv5/TsdZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gB8fGrM5a0s1VQlduXtiADHn3jHn5GOSBpNAePZYaac=;
+ b=WCnKWg9CtMPDbMsEkmS4ZS0BENzoTGJAUn7WwvG9Nl6gFkf9Li9jySNeWEaqT5fH0+oq1dwnloiHyiR4WkDCVWR0gH9YfuZkPeCgvLzW8syl/gIBPz9BtX/bZcZGO+jey8qZxCHMU0UAOaP55eQB0E83AR/cI04PazlaVQO7xtrlreHlJk0Fc0rZTG4jEkPh2HvaWs5EQsYjPQ5Apygq1KYJYep8aDXNpEbuchfecyE2bC1h+55GLks4kxvni4Uhg0iEKE8qhdgdlEur/PdkXV5NyQGVaFbg3TShHoEdA41ZcwH+souNazUEs7cLUy3msbJdtp3owzaWFa6LuPM9NQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=linux-watchdog.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gB8fGrM5a0s1VQlduXtiADHn3jHn5GOSBpNAePZYaac=;
+ b=ZC/tGzNeo1If+e3weapJGtzREIAmAp95CjpimSCRScd6GykXnfNLaeptoudmYiLi/nskhIL8mX9tcou/KjK77DMdsg1IAhBNqaZzP3Gq79qh6zxWuOILwNdtVoIgIqs9RPvv81RcZDO0k3o+9MshfOPXmp4RWxcDR26T1Jj2WRVM63vX0GfJmuLSBT/qJkaKnexOFzgk3tmZYbYP2WUCss5LrAk+ovINlc2i53328erWyuKDI5PujFooGpG1K3pezqSNgoU4NRXky5+rDUsGX6kcG+SEyOYprlNqgaNgTyB7JWVYV2ACd6eDYiuW5Uh274XicXJjlxK+I0tzK4j65Q==
+Received: from CH0PR04CA0002.namprd04.prod.outlook.com (2603:10b6:610:76::7)
+ by DS7PR12MB6142.namprd12.prod.outlook.com (2603:10b6:8:9a::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.29; Thu, 26 Oct
+ 2023 08:26:16 +0000
+Received: from DS2PEPF00003440.namprd02.prod.outlook.com
+ (2603:10b6:610:76:cafe::9a) by CH0PR04CA0002.outlook.office365.com
+ (2603:10b6:610:76::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.19 via Frontend
+ Transport; Thu, 26 Oct 2023 08:26:15 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ DS2PEPF00003440.mail.protection.outlook.com (10.167.18.43) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6933.18 via Frontend Transport; Thu, 26 Oct 2023 08:26:14 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Thu, 26 Oct
+ 2023 01:26:04 -0700
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Thu, 26 Oct
+ 2023 01:26:03 -0700
+Received: from r-build-bsp-02.mtr.labs.mlnx (10.127.8.9) by mail.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server id 15.2.986.41 via Frontend
+ Transport; Thu, 26 Oct 2023 01:26:01 -0700
+From: <michaelsh@nvidia.com>
+To: <wim@linux-watchdog.org>, <linux@roeck-us.net>
+CC: <vadimp@nvidia.com>, <oe-kbuild-all@lists.linux.dev>,
+	<trivial@kernel.org>, <linux-kernel@vger.kernel.org>, Michael Shych
+	<michaelsh@nvidia.com>
+Subject: [PATCH v1 1/1] watchdog: mlx-wdt: Parameter desctiption warning fix
+Date: Thu, 26 Oct 2023 08:25:58 +0000
+Message-ID: <20231026082558.12142-1-michaelsh@nvidia.com>
+X-Mailer: git-send-email 2.14.1
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231026034125.1823954-1-peng.fan@oss.nxp.com>
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PEPF00003440:EE_|DS7PR12MB6142:EE_
+X-MS-Office365-Filtering-Correlation-Id: 32225fbc-d8c7-4260-3d46-08dbd5fd380f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	BqBlfybfT3+m8pVDdd5u19K5BIuNHrMFKckgrSLSv9XPQwqtTmkE4cxehIQdIa8BiqdP9vOpYmufqLAEPgnaK5GhAEXY1BNoKOmdCLhH5vSryH4hTK+0gIE4aykMlv/K1lTnh0oJqll9u9G4p/DuoUQAeYfe0/XWewG64lFO3Cf/FsAL4+5IWu387Evl2ohpSHbqXyy0c74Kw5+BWmwryXmFqNyxGRgZ6N6qGoYYi1cSo72To9KVLzQl+qwfm7xPQpKMnL9CXsxmtjN5Q8T8RhPmr3WAM44cnvwP3hcV4rLnUIK+ackDOObkXLvDapG/CeeZLYW4v/Xur5NB+Hd59+lBWOENu8Kk+Z5iGeh5Tsx8GUBFC3VVneSvcmjCbdD1whgdng6AXlVJed0LTG1eGdKZvkpusSVvTSeV+U8wWn+DRQB+gGgZ2bEe8ABEq+KgDe1LCRk6udswCI9I2PSyh+4dPMYaDznIhCwrov3W9x5CCXsLEQvzMmql/pyNeXXy8w070uRsjX0E2qU3wNTn3o07UmrHcaLuDfYaCgFS1+zpqRkSw/HLLsAbtnBVscL+iP6ZLgg14bUo3hrQtxJzWf7XrCI2JxGcd02AUrcy051PV3ehKwSjBO0LKVpnTPr4iTxptziMjRbJRuXlEz3ng2yUViJDbnVs+31hljHUoJju2r5Cp/OlmMZA8hi0zR0lYDmThnGN4QOoLxzcOKlRFVy8goqlEbh62iHGuGcIq7CHHjwqjuc1kl7AYItljNifXcQ7qwd4qRoYpn5FyINV2ADjSgHwfw3qKRQ0p6ouHkU=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(376002)(136003)(39860400002)(346002)(396003)(230922051799003)(1800799009)(186009)(82310400011)(64100799003)(451199024)(36840700001)(40470700004)(46966006)(1076003)(7636003)(26005)(2906002)(4744005)(2876002)(36860700001)(70206006)(41300700001)(5660300002)(86362001)(40460700003)(4326008)(8936002)(8676002)(110136005)(82740400003)(6666004)(478600001)(107886003)(54906003)(36756003)(356005)(316002)(83380400001)(70586007)(2616005)(40480700001)(336012)(966005)(426003)(47076005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2023 08:26:14.5615
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 32225fbc-d8c7-4260-3d46-08dbd5fd380f
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS2PEPF00003440.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6142
 
-Hi Peng,
+From: Michael Shych <michaelsh@nvidia.com>
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+Add parameter desription to fix warning.
 
-[auto build test WARNING on soc/for-next]
-[also build test WARNING on next-20231025]
-[cannot apply to clk/clk-next linus/master v6.6-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202310241044.lvqeOGli-lkp@intel.com
+Signed-off-by: Michael Shych <michaelsh@nvidia.com>
+Signed-off-by: Vadim Pasternak <vadimp@nvidia.com>
+---
+ drivers/watchdog/mlx_wdt.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan-OSS/firmware-arm_scmi-support-clock-denied-attributes/20231026-113745
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20231026034125.1823954-1-peng.fan%40oss.nxp.com
-patch subject: [RFC] firmware: arm_scmi: support clock denied attributes
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231026/202310261600.BinnN8W6-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310261600.BinnN8W6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310261600.BinnN8W6-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/clk/clk-scmi.c: In function 'scmi_clk_set_rate':
->> drivers/clk/clk-scmi.c:79:13: warning: unused variable 'rate1' [-Wunused-variable]
-      79 |         u64 rate1 = 0;
-         |             ^~~~~
-
-
-vim +/rate1 +79 drivers/clk/clk-scmi.c
-
-    73	
-    74	static int scmi_clk_set_rate(struct clk_hw *hw, unsigned long rate,
-    75				     unsigned long parent_rate)
-    76	{
-    77		struct scmi_clk *clk = to_scmi_clk(hw);
-    78		const struct scmi_clock_info *info = clk->info;
-  > 79		u64 rate1 = 0;
-    80	
-    81		if (info->flags & SCMI_CLOCK_SET_RATE_DENIED)
-    82			return -EACCES;
-    83	
-    84		return scmi_proto_clk_ops->rate_set(clk->ph, clk->id, rate);
-    85	}
-    86	
-
+diff --git a/drivers/watchdog/mlx_wdt.c b/drivers/watchdog/mlx_wdt.c
+index 9c5b6616fc87..667e2c5b3431 100644
+--- a/drivers/watchdog/mlx_wdt.c
++++ b/drivers/watchdog/mlx_wdt.c
+@@ -39,6 +39,7 @@
+  * @tleft_idx:	index for direct access to time left register;
+  * @ping_idx:	index for direct access to ping register;
+  * @reset_idx:	index for direct access to reset cause register;
++ * @regmap_val_sz: size of value in register map;
+  * @wd_type:	watchdog HW type;
+  */
+ struct mlxreg_wdt {
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.14.1
+
