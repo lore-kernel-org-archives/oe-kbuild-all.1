@@ -1,47 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912E7368
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Oct 2023 00:07:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D2F04409;
+	Thu, 26 Oct 2023 01:24:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ah8ltxpz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Us0VQLr2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698278867; x=1729814867;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TP00E69LjyX8YZ7JIoEMM22tYJ72rHrJfdFX2rvPvzc=;
-  b=ah8ltxpzbcLQAHwgr/pVUSzP4Op/YCs/HWD6rVNz4a8RdZFiF9yWMFtd
-   Wdbe0iMz9p/Aqtdjv1St7sqJZAjef3BiDis1C/dCLhkBfDA8vc+E3dh6Q
-   A2BITw5TY+S3vZIV5HdWR/g/RThtx72sYD67oh/Tw9cUP0sXVHdrgWnIf
-   NcOXoB9xnabTe9yRk4WftQ3rUJVmI8Ov09V7T8j5g6YTvaYgEc3INhWtK
-   CXJGut4ZfMLK+MiFViAuBxCW5/c2bcK9vmr3Lkc8NP3wC4z1079VdAoZq
-   3Xf96SDl3jJ1Qp+llO5q4Si7GCzDQZY/D46L+gi4JIE5O7NxnX44JuY/K
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="366772092"
+  t=1698283492; x=1729819492;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UtNFOekasspKvSGlYBfxSJgeD5Z3RPVX4i0r+0MZT8o=;
+  b=Us0VQLr2asZ8jeUbb03+pN470Sr4QrZV7zxssEGegencxHLH6JRYXJ1M
+   seOfRb/zH3MJgueqxmq/RrZiKV3lgO6rMhbw2TJI1gboVRlt3dzUm1xHA
+   H176spb30w1P18Afb40kypZhFADsBy06xNBHke75tZ78v0Htr3dEAKBUE
+   CSrCDVOSO9dD2KvJuiK7BAyWltYRJ0BNo3/G9zI7V4/NaACUkmXiwk1Sk
+   65OUMb7t6HmWDwiVSGKaYnZeaDvlwdKUhc+XVk1AyBE71unWXaBiMJJQj
+   vI0WC99hVowMlOtcpmF+D7dPRBqTD+dYMmJQ9dD11NBD1XhCl9NHCs/D5
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="372483563"
 X-IronPort-AV: E=Sophos;i="6.03,252,1694761200"; 
-   d="scan'208";a="366772092"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 17:07:46 -0700
+   d="scan'208";a="372483563"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 18:24:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="1006188822"
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="759033354"
 X-IronPort-AV: E=Sophos;i="6.03,252,1694761200"; 
-   d="scan'208";a="1006188822"
+   d="scan'208";a="759033354"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 25 Oct 2023 17:07:45 -0700
+  by orsmga002.jf.intel.com with ESMTP; 25 Oct 2023 18:24:48 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qvnuZ-0009Hm-14;
-	Thu, 26 Oct 2023 00:07:43 +0000
-Date: Thu, 26 Oct 2023 08:07:13 +0800
+	id 1qvp77-0009K6-0L;
+	Thu, 26 Oct 2023 01:24:45 +0000
+Date: Thu, 26 Oct 2023 09:24:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:kvm-upstream-next 263/348]
- arch/x86/kvm/mmu/tdp_mmu.c:880:35: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202310260707.YKUboPAQ-lkp@intel.com>
+To: Dave Marchevsky <davemarchevsky@fb.com>, bpf@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@kernel.org>,
+	Kernel Team <kernel-team@fb.com>,
+	Dave Marchevsky <davemarchevsky@fb.com>
+Subject: Re: [PATCH v1 bpf-next 3/4] btf: Descend into structs and arrays
+ during special field search
+Message-ID: <202310260952.C9Gb9Avi-lkp@intel.com>
+References: <20231023220030.2556229-4-davemarchevsky@fb.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,125 +57,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231023220030.2556229-4-davemarchevsky@fb.com>
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-next
-head:   ce98d11dcbe13d1a02ce9f4f49d422d6db223b60
-commit: 535470d9d2138f9440e880b33de1bd81d0176a63 [263/348] KVM: x86/tdp_mmu: optimize remote tlb flush
-config: x86_64-randconfig-123-20231025 (https://download.01.org/0day-ci/archive/20231026/202310260707.YKUboPAQ-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310260707.YKUboPAQ-lkp@intel.com/reproduce)
+Hi Dave,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Marchevsky/bpf-Fix-btf_get_field_type-to-fail-for-multiple-bpf_refcount-fields/20231024-060227
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20231023220030.2556229-4-davemarchevsky%40fb.com
+patch subject: [PATCH v1 bpf-next 3/4] btf: Descend into structs and arrays during special field search
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231026/202310260952.C9Gb9Avi-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310260952.C9Gb9Avi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310260707.YKUboPAQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310260952.C9Gb9Avi-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/x86/kvm/mmu/tdp_mmu.c:669:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu * @@
-   arch/x86/kvm/mmu/tdp_mmu.c:669:17: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:669:17: sparse:     got unsigned long long [noderef] [usertype] __rcu *
-   arch/x86/kvm/mmu/tdp_mmu.c:788:14: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *v @@     got unsigned long long [noderef] [usertype] __rcu *__ai_ptr @@
-   arch/x86/kvm/mmu/tdp_mmu.c:788:14: sparse:     expected void const volatile *v
-   arch/x86/kvm/mmu/tdp_mmu.c:788:14: sparse:     got unsigned long long [noderef] [usertype] __rcu *__ai_ptr
-   arch/x86/kvm/mmu/tdp_mmu.c:788:14: sparse: sparse: cast removes address space '__rcu' of expression
-   arch/x86/kvm/mmu/tdp_mmu.c:788:14: sparse: sparse: cast removes address space '__rcu' of expression
-   arch/x86/kvm/mmu/tdp_mmu.c:788:14: sparse: sparse: cast removes address space '__rcu' of expression
-   arch/x86/kvm/mmu/tdp_mmu.c:788:14: sparse: sparse: cast removes address space '__rcu' of expression
->> arch/x86/kvm/mmu/tdp_mmu.c:880:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *const [usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:880:35: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:880:35: sparse:     got unsigned long long [noderef] [usertype] __rcu *const [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:948:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:948:30: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:948:30: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:956:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:956:28: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:956:28: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:1147:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[assigned] [usertype] child_pt @@
-   arch/x86/kvm/mmu/tdp_mmu.c:1147:34: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:1147:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[assigned] [usertype] child_pt
-   arch/x86/kvm/mmu/tdp_mmu.c:2093:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:2093:9: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:2093:9: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:1520:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[assigned] [usertype] child_pt @@
-   arch/x86/kvm/mmu/tdp_mmu.c:1520:32: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:1520:32: sparse:     got unsigned long long [noderef] [usertype] __rcu *[assigned] [usertype] child_pt
-   arch/x86/kvm/mmu/tdp_mmu.c:1610:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:1610:34: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:1610:34: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:1622:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:1622:34: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:1622:34: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:336:13: sparse: sparse: context imbalance in 'tdp_mmu_unlink_sp' - different lock contexts for basic block
-   arch/x86/kvm/mmu/tdp_mmu.c:788:14: sparse: sparse: dereference of noderef expression
-   arch/x86/kvm/mmu/tdp_mmu.c:788:14: sparse: sparse: dereference of noderef expression
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
-   include/linux/rcupdate.h:780:9: sparse: sparse: context imbalance in '__tdp_mmu_zap_root' - unexpected unlock
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse:     got unsigned long long [usertype] *sptep
-   include/linux/rcupdate.h:780:9: sparse: sparse: context imbalance in 'tdp_mmu_alloc_sp_for_split' - unexpected unlock
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:833:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:871:42: sparse:     got unsigned long long [usertype] *sptep
+All warnings (new ones prefixed by >>):
 
-vim +880 arch/x86/kvm/mmu/tdp_mmu.c
+>> kernel/bpf/btf.c:3634:70: warning: variable 'off' is uninitialized when used here [-Wuninitialized]
+           ret = btf_find_struct_field(btf, elem_type, srch, array_field_off + off, rec);
+                                                                               ^~~
+   kernel/bpf/btf.c:3625:15: note: initialize the variable 'off' to silence this warning
+           u32 i, j, off, nelems;
+                        ^
+                         = 0
+   1 warning generated.
 
-   874	
-   875	static u64 private_zapped_spte(struct kvm *kvm, const struct tdp_iter *iter)
-   876	{
-   877		if (!kvm_gfn_shared_mask(kvm))
-   878			return SHADOW_NONPRESENT_VALUE;
-   879	
- > 880		if (!is_private_sptep(iter->sptep))
-   881			return SHADOW_NONPRESENT_VALUE;
-   882	
-   883		return SHADOW_NONPRESENT_VALUE | SPTE_PRIVATE_ZAPPED |
-   884			(spte_to_pfn(iter->old_spte) << PAGE_SHIFT) |
-   885			(is_large_pte(iter->old_spte) ? PT_PAGE_SIZE_MASK : 0);
-   886	}
-   887	
+
+vim +/off +3634 kernel/bpf/btf.c
+
+  3616	
+  3617	static int btf_flatten_array_field(const struct btf *btf,
+  3618					   const struct btf_type *t,
+  3619					   struct btf_field_info_search *srch,
+  3620					   int array_field_off, int rec)
+  3621	{
+  3622		int ret, start_idx, elem_field_cnt;
+  3623		const struct btf_type *elem_type;
+  3624		struct btf_field_info *info;
+  3625		u32 i, j, off, nelems;
+  3626	
+  3627		if (!btf_type_is_array(t))
+  3628			return -EINVAL;
+  3629		nelems = __multi_dim_elem_type_nelems(btf, t, &elem_type);
+  3630		if (!nelems || !__btf_type_is_struct(elem_type))
+  3631			return srch->idx;
+  3632	
+  3633		start_idx = srch->idx;
+> 3634		ret = btf_find_struct_field(btf, elem_type, srch, array_field_off + off, rec);
+  3635		if (ret < 0)
+  3636			return ret;
+  3637	
+  3638		/* No btf_field_info's added */
+  3639		if (srch->idx == start_idx)
+  3640			return srch->idx;
+  3641	
+  3642		elem_field_cnt = srch->idx - start_idx;
+  3643		info = __next_field_infos(srch, elem_field_cnt * (nelems - 1));
+  3644		if (IS_ERR_OR_NULL(info))
+  3645			return PTR_ERR(info);
+  3646	
+  3647		/* Array elems after the first can copy first elem's btf_field_infos
+  3648		 * and adjust offset
+  3649		 */
+  3650		for (i = 1; i < nelems; i++) {
+  3651			memcpy(info, &srch->infos[start_idx],
+  3652			       elem_field_cnt * sizeof(struct btf_field_info));
+  3653			for (j = 0; j < elem_field_cnt; j++) {
+  3654				info->off += (i * elem_type->size);
+  3655				info++;
+  3656			}
+  3657		}
+  3658		return srch->idx;
+  3659	}
+  3660	
 
 -- 
 0-DAY CI Kernel Test Service
