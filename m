@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E958F3D70
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Oct 2023 04:10:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 597068BEB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Oct 2023 05:12:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ACqRAgBa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LiM5hKD/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698379805; x=1729915805;
+  t=1698383538; x=1729919538;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=L2KjxB8kCH2olE6vazjNsjguZ4bdETgWlXwk4rS4KGY=;
-  b=ACqRAgBaAcIV+LbMueAJYUq854xdGvP9O0CNC/CgUlPfbLwwzaHOK5TN
-   FpeU9kh63MK7MKkqkZegaCEV5+OXaSR8l0gYwZqp7NXk19izYOaiP6hA0
-   iNYMbJKzeDz8NEvCztCxBMIrJIM/MwaPcyk6e4FQa53PssTjRoV/W4y1L
-   zRuX4mju3k529BLXzQlUkRsvlCWP9vzoxm6JqEj0CIe76TtrpG5QkAMo7
-   yMDnf0IAyceI2uHMhSsaLVFjURxvV6BEaye2tQztdLRLoaKihewrJXjNj
-   3F/aSCVgV2lTTCr2epSYcD603r0wycY+YoOn8/lEsk/oyAOWek/S1XMdQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="372754855"
+  bh=K3ZDZLgQ8G7OiYoVpGFv+zomiaCvB7SDsj3e5Gy6KfA=;
+  b=LiM5hKD/zUUAefhSYjC5d6+Z6ntIqjEFsWQXNPS1O6KOE6tSc7AkREB4
+   qS2bL6REOnLU9BfxOVCKXa7PubfGHVPiVc9VBRnjiVQyDPkiWcVM6dQdr
+   qjGizLpEVeCWvB0gVqtQy1F+6lsrXvgeWPZax5I4MYBKKcUwmMLNBNTH5
+   o0tOXsaN+LOfyeupO9aHfPGVFf3dtu/GrX3V6r0tuU4BZ8/7Uv1ovRYpH
+   49Z5znr18Z44Ccxob09DnCkXyw+/HF1tccI+yFQdJUX1x0KOc8LfLIRDF
+   S1To1Nqx1Sx/ojdw6VjDFx+yPiam8my7/cCOQSmax5woqXtpy9SVAWD1j
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="367054553"
 X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
-   d="scan'208";a="372754855"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 21:10:05 -0700
+   d="scan'208";a="367054553"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 22:12:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="735970843"
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="794471850"
 X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
-   d="scan'208";a="735970843"
+   d="scan'208";a="794471850"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 26 Oct 2023 21:10:04 -0700
+  by orsmga001.jf.intel.com with ESMTP; 26 Oct 2023 22:12:07 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qwEAb-000AQV-38;
-	Fri, 27 Oct 2023 04:10:01 +0000
-Date: Fri, 27 Oct 2023 12:09:10 +0800
+	id 1qwF8f-000AV4-1p;
+	Fri, 27 Oct 2023 05:12:05 +0000
+Date: Fri, 27 Oct 2023 13:11:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [broonie-ci:regmap-test-window-cache 4/4]
- drivers/base/regmap/regcache.c:408:9: sparse: sparse: Using plain integer as
- NULL pointer
-Message-ID: <202310271258.DNraS1ku-lkp@intel.com>
+To: Syed Saba Kareem <Syed.SabaKareem@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: [broonie-sound:for-next 45/75]
+ sound/soc/amd/acp/acp-legacy-common.c:392:17: warning: assignment to 'struct
+ acpi_device *' from 'int' makes pointer from integer without a cast
+Message-ID: <202310271326.7xKHbFDH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,118 +51,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git regmap-test-window-cache
-head:   05d5da207ac28a1ab4e229098db7a60332ff19f4
-commit: 05d5da207ac28a1ab4e229098db7a60332ff19f4 [4/4] regmap: Ensure range selector registers are updated after cache sync
-config: x86_64-randconfig-122-20231027 (https://download.01.org/0day-ci/archive/20231027/202310271258.DNraS1ku-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+head:   00236a89602f7b67016bd1d9bc63079f2c0f0a8d
+commit: 3a94c8ad0aae2b14a55059869871ea2d199af489 [45/75] ASoC: amd: acp: add code for scanning acp pdm controller
+config: i386-buildonly-randconfig-001-20231027 (https://download.01.org/0day-ci/archive/20231027/202310271326.7xKHbFDH-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231027/202310271258.DNraS1ku-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231027/202310271326.7xKHbFDH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310271258.DNraS1ku-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310271326.7xKHbFDH-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/base/regmap/regcache.c:408:9: sparse: sparse: Using plain integer as NULL pointer
->> drivers/base/regmap/regcache.c:408:9: sparse: sparse: Using plain integer as NULL pointer
+All warnings (new ones prefixed by >>):
 
-vim +408 drivers/base/regmap/regcache.c
+   sound/soc/amd/acp/acp-legacy-common.c: In function 'check_acp_pdm':
+   sound/soc/amd/acp/acp-legacy-common.c:392:19: error: implicit declaration of function 'acpi_find_child_device'; did you mean 'acpi_match_device'? [-Werror=implicit-function-declaration]
+     392 |         pdm_dev = acpi_find_child_device(ACPI_COMPANION(&pci->dev), pdm_addr, 0);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~
+         |                   acpi_match_device
+>> sound/soc/amd/acp/acp-legacy-common.c:392:17: warning: assignment to 'struct acpi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     392 |         pdm_dev = acpi_find_child_device(ACPI_COMPANION(&pci->dev), pdm_addr, 0);
+         |                 ^
+   cc1: some warnings being treated as errors
 
-   341	
-   342	/**
-   343	 * regcache_sync - Sync the register cache with the hardware.
-   344	 *
-   345	 * @map: map to configure.
-   346	 *
-   347	 * Any registers that should not be synced should be marked as
-   348	 * volatile.  In general drivers can choose not to use the provided
-   349	 * syncing functionality if they so require.
-   350	 *
-   351	 * Return a negative value on failure, 0 on success.
-   352	 */
-   353	int regcache_sync(struct regmap *map)
-   354	{
-   355		int ret = 0;
-   356		unsigned int i;
-   357		const char *name;
-   358		bool bypass;
-   359		struct rb_node *node;
+
+vim +392 sound/soc/amd/acp/acp-legacy-common.c
+
+   354	
+   355	int check_acp_pdm(struct pci_dev *pci, struct acp_chip_info *chip)
+   356	{
+   357		struct acpi_device *pdm_dev;
+   358		const union acpi_object *obj;
+   359		u32 pdm_addr, val;
    360	
-   361		if (WARN_ON(map->cache_type == REGCACHE_NONE))
-   362			return -EINVAL;
-   363	
-   364		BUG_ON(!map->cache_ops);
-   365	
-   366		map->lock(map->lock_arg);
-   367		/* Remember the initial bypass state */
-   368		bypass = map->cache_bypass;
-   369		dev_dbg(map->dev, "Syncing %s cache\n",
-   370			map->cache_ops->name);
-   371		name = map->cache_ops->name;
-   372		trace_regcache_sync(map, name, "start");
-   373	
-   374		if (!map->cache_dirty)
-   375			goto out;
-   376	
-   377		/* Apply any patch first */
-   378		map->cache_bypass = true;
-   379		for (i = 0; i < map->patch_regs; i++) {
-   380			ret = _regmap_write(map, map->patch[i].reg, map->patch[i].def);
-   381			if (ret != 0) {
-   382				dev_err(map->dev, "Failed to write %x = %x: %d\n",
-   383					map->patch[i].reg, map->patch[i].def, ret);
-   384				goto out;
-   385			}
-   386		}
-   387		map->cache_bypass = false;
-   388	
-   389		if (map->cache_ops->sync)
-   390			ret = map->cache_ops->sync(map, 0, map->max_register);
-   391		else
-   392			ret = regcache_default_sync(map, 0, map->max_register);
-   393	
-   394		if (ret == 0)
-   395			map->cache_dirty = false;
-   396	
-   397	out:
-   398		/* Restore the bypass state */
-   399		map->cache_bypass = bypass;
-   400		map->no_sync_defaults = false;
-   401	
-   402		/*
-   403		 * If we did any paging with cache bypassed and a cached
-   404		 * paging register then the register and cache state might
-   405		 * have gone out of sync, force writes of all the paging
-   406		 * registers.
-   407		 */
- > 408		rb_for_each(node, 0, &map->range_tree, rbtree_all) {
-   409			struct regmap_range_node *this =
-   410				rb_entry(node, struct regmap_range_node, node);
-   411	
-   412			/* If there's nothing in the cache there's nothing to sync */
-   413			ret = regcache_read(map, this->selector_reg, &i);
-   414			if (ret != 0)
-   415				continue;
-   416	
-   417			ret = _regmap_write(map, this->selector_reg, i);
-   418			if (ret != 0) {
-   419				dev_err(map->dev, "Failed to write %x = %x: %d\n",
-   420					this->selector_reg, i, ret);
-   421				break;
-   422			}
-   423		}
-   424	
-   425		map->unlock(map->lock_arg);
-   426	
-   427		regmap_async_complete(map);
-   428	
-   429		trace_regcache_sync(map, name, "stop");
-   430	
-   431		return ret;
-   432	}
-   433	EXPORT_SYMBOL_GPL(regcache_sync);
-   434	
+   361		val = readl(chip->base + ACP_PIN_CONFIG);
+   362		switch (val) {
+   363		case ACP_CONFIG_4:
+   364		case ACP_CONFIG_5:
+   365		case ACP_CONFIG_6:
+   366		case ACP_CONFIG_7:
+   367		case ACP_CONFIG_8:
+   368		case ACP_CONFIG_10:
+   369		case ACP_CONFIG_11:
+   370		case ACP_CONFIG_12:
+   371		case ACP_CONFIG_13:
+   372		case ACP_CONFIG_14:
+   373			break;
+   374		default:
+   375			return -EINVAL;
+   376		}
+   377	
+   378		switch (chip->acp_rev) {
+   379		case ACP3X_DEV:
+   380			pdm_addr = ACP_RENOIR_PDM_ADDR;
+   381			break;
+   382		case ACP6X_DEV:
+   383			pdm_addr = ACP_REMBRANDT_PDM_ADDR;
+   384			break;
+   385		case ACP63_DEV:
+   386			pdm_addr = ACP63_PDM_ADDR;
+   387			break;
+   388		default:
+   389			return -EINVAL;
+   390		}
+   391	
+ > 392		pdm_dev = acpi_find_child_device(ACPI_COMPANION(&pci->dev), pdm_addr, 0);
+   393		if (pdm_dev) {
+   394			if (!acpi_dev_get_property(pdm_dev, "acp-audio-device-type",
+   395						   ACPI_TYPE_INTEGER, &obj) &&
+   396						   obj->integer.value == pdm_addr)
+   397				return 0;
+   398		}
+   399		return -ENODEV;
+   400	}
+   401	EXPORT_SYMBOL_NS_GPL(check_acp_pdm, SND_SOC_ACP_COMMON);
+   402	
 
 -- 
 0-DAY CI Kernel Test Service
