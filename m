@@ -1,56 +1,49 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B646419BAB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Oct 2023 12:27:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E982D78A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Oct 2023 12:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q3kNf2gb"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4083f613275so15179465e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Oct 2023 05:27:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698409646; x=1699014446; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ShpExnipWNoGHM8TmERMpEvZiu9LbbtWo0359LRRBpg=;
-        b=q3kNf2gbMj4XPcyMzYsPTcgTxsOpXCZxpRFYaX+PIEIAzGxBNQh+BNqP2L7ALNnESN
-         NAFPG2wFLnPKKssuwnch/GF+DjIwY89yh7MHyb3FlFXHMkTTWKBzIMkN4LxTbsqkeOB/
-         oNsWFnRH96aWwgLIXdwoKM0nRZwYA4U6DBdrCmtCt93QEjOCfmF1LrgbiX42M7Ar+XjA
-         2rYD6+9O3MA0mRB7bQNAFtgnbD1mt9taauucYWap3Mz/JP0Lpv1G7u8y/aYni3BHSHZ2
-         Ykycw4bJahQhkYlwaAMoNqBnyaNAHBSMcqgxolgA3BRPV73s1QZ3wfiISfongC+rkwxe
-         xabg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698409646; x=1699014446;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ShpExnipWNoGHM8TmERMpEvZiu9LbbtWo0359LRRBpg=;
-        b=ZEKN12bWO1pt4W5JQZU9JRaWwgZfGeMmZhR74RpaQ97T8Mub3wNTtqWkhutAFOOb9G
-         42kW4QfTW4vFd3v8ynkHhIXyl8xcnHPx2d6Q2kENFzctPHsoLmP6l9RHCIcdFr/Vqpig
-         F41gshlY8buYt0pvova3tKDqIBlazk9+e55bJY2UfmNjSpOfjRH3TvVUnivuYdqMk+/w
-         QpPD8oAwH2IYcf4KsWoll37CiRqlfhms/uQyQC9XxMc+RLj2uJ/xT/Qx4NkQao0EeTsg
-         lEjIP2mnWdOIjP/NghbFypKkzdczA/rl3i88S3vHQkJn+Y7Th4ODtGJy3BrEh+R7ilb0
-         ao1g==
-X-Gm-Message-State: AOJu0YweQElsiMGFoWkRS1fsGkuNOsCNF1h8+UNKUSe2ild/HEIvRVbt
-	/NOtUyo8GJ7IGCCkX+lIlN12eA==
-X-Google-Smtp-Source: AGHT+IGePza+z4TfX66FZcDIf8/JNx8JVqKKHGbjY0Df9benTN6EIO45xrAYlVcVOsPga6unZ62FpA==
-X-Received: by 2002:a05:600c:474f:b0:405:359a:c965 with SMTP id w15-20020a05600c474f00b00405359ac965mr2195472wmo.4.1698409645782;
-        Fri, 27 Oct 2023 05:27:25 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id v10-20020a05600c444a00b00401d8181f8bsm4981081wmn.25.2023.10.27.05.27.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Oct 2023 05:27:25 -0700 (PDT)
-Date: Fri, 27 Oct 2023 15:27:23 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Joey Jiao <quic_jiangenj@quicinc.com>,
-	linux-modules@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, quic_likaid@quicinc.com,
-	Luis Chamberlain <mcgrof@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] module: Add CONFIG_MODULE_DISABLE_INIT_FREE option
-Message-ID: <a57e4eb8-329b-4503-bcd8-892ef44d8194@kadam.mountain>
-References: <20231013062711.28852-1-quic_jiangenj@quicinc.com>
- <b2b20956-d80e-462c-8261-a41802996197@kadam.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OhM/3MRu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698409968; x=1729945968;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uwHD2zaBSSM9X8bewJCBqducTCIdFrGfACkBvZhuEEo=;
+  b=OhM/3MRu2rw+wxE/0l4zpumGNjOgqe3xxo9o2Is6VBHAvCuKYu8K78FL
+   u60H5pbGgDKbQnjvL/bgH+PG6xqAPJEhcTPLNtylGmsRDE9YWT961KEWt
+   Eyqo2qA7vTy8OnIXUWsgXhCGUNlE+VKZgeJS/JB3gFiDecffk+pTH+sLM
+   FUkhdBTIi9U1j9aWdtjQd9l9JcspYqiIzQ03bStw8nu6UG9R94uBZkJJs
+   rpzGj2132IDMZjoT4P5Xcc9U5hO/BCEbBruwl3fcL3A1E+V/ifEKsrgip
+   0V1HmIqne74gbFciq9QWzLTKJtpk0Qm1hg9yFLMX0DpnyyKOctePdD9Jp
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="452003662"
+X-IronPort-AV: E=Sophos;i="6.03,256,1694761200"; 
+   d="scan'208";a="452003662"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 05:32:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="876325125"
+X-IronPort-AV: E=Sophos;i="6.03,256,1694761200"; 
+   d="scan'208";a="876325125"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 27 Oct 2023 05:32:33 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qwM0s-000Ap9-2y;
+	Fri, 27 Oct 2023 12:32:30 +0000
+Date: Fri, 27 Oct 2023 20:32:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Karol Wachowski <karol.wachowski@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: [linux-next:master 13806/15478] drivers/accel/ivpu/ivpu_pm.c:254:51:
+ error: 'struct dev_pm_info' has no member named 'usage_count'
+Message-ID: <202310272012.tcy8MoK3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,35 +52,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b2b20956-d80e-462c-8261-a41802996197@kadam.mountain>
 
-On Fri, Oct 27, 2023 at 03:00:00PM +0300, Dan Carpenter wrote:
-> 607c543f939d8c kernel/module.c      Andrii Nakryiko  2020-11-20  2579  #ifdef CONFIG_DEBUG_INFO_BTF_MODULES
-> 607c543f939d8c kernel/module.c      Andrii Nakryiko  2020-11-20  2580  	/* .BTF is not SHF_ALLOC and will get removed, so sanitize pointer */
-> 607c543f939d8c kernel/module.c      Andrii Nakryiko  2020-11-20  2581  	mod->btf_data = NULL;
-> 607c543f939d8c kernel/module.c      Andrii Nakryiko  2020-11-20  2582  #endif
-> c749637909eea5 kernel/module.c      Rusty Russell    2015-01-20  2583  	/*
-> c749637909eea5 kernel/module.c      Rusty Russell    2015-01-20  2584  	 * We want to free module_init, but be aware that kallsyms may be
-> 0be964be0d4508 kernel/module.c      Peter Zijlstra   2015-05-27  2585  	 * walking this with preempt disabled.  In all the failure paths, we
-> cb2f55369d3a9e kernel/module.c      Paul E. McKenney 2018-11-06  2586  	 * call synchronize_rcu(), but we don't want to slow down the success
-> 1a7b7d9220819a kernel/module.c      Rick Edgecombe   2019-04-25  2587  	 * path. module_memfree() cannot be called in an interrupt, so do the
-> 1a7b7d9220819a kernel/module.c      Rick Edgecombe   2019-04-25  2588  	 * work and call synchronize_rcu() in a work queue.
-> 1a7b7d9220819a kernel/module.c      Rick Edgecombe   2019-04-25  2589  	 *
-> ae646f0b9ca135 kernel/module.c      Jeffrey Hugo     2018-05-11  2590  	 * Note that module_alloc() on most architectures creates W+X page
-> ae646f0b9ca135 kernel/module.c      Jeffrey Hugo     2018-05-11  2591  	 * mappings which won't be cleaned up until do_free_init() runs.  Any
-> ae646f0b9ca135 kernel/module.c      Jeffrey Hugo     2018-05-11  2592  	 * code such as mark_rodata_ro() which depends on those mappings to
-> ae646f0b9ca135 kernel/module.c      Jeffrey Hugo     2018-05-11  2593  	 * be cleaned up needs to sync with the queued work - ie
-> cb2f55369d3a9e kernel/module.c      Paul E. McKenney 2018-11-06  2594  	 * rcu_barrier()
-> c749637909eea5 kernel/module.c      Rusty Russell    2015-01-20  2595  	 */
-> 36022a47582048 kernel/module/main.c Joey Jiao        2023-10-13  2596  	if (!IS_ENABLED(CONFIG_MODULE_DISABLE_INIT_FREE) &&
-> 36022a47582048 kernel/module/main.c Joey Jiao        2023-10-13  2597  	    llist_add(&freeinit->node, &init_free_list))
-> 
-> Let's not allocate freeinit if CONFIG_MODULE_DISABLE_INIT_FREE is not
-> enabled.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   66f1e1ea3548378ff6387b1ce0b40955d54e86aa
+commit: c39dc15191c4d40c58ce986e5f0daf94c84b7324 [13806/15478] accel/ivpu: Read clock rate only if device is up
+config: x86_64-randconfig-r036-20230609 (https://download.01.org/0day-ci/archive/20231027/202310272012.tcy8MoK3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231027/202310272012.tcy8MoK3-lkp@intel.com/reproduce)
 
-Wait.  It's the other way around actually.  freeinit isn't used if
-CONFIG_MODULE_DISABLE_INIT_FREE is enabled.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310272012.tcy8MoK3-lkp@intel.com/
 
-regards,
-dan carpenter
+All errors (new ones prefixed by >>):
 
+   In file included from include/linux/printk.h:564,
+                    from include/linux/kernel.h:30,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/preempt.h:6,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from include/linux/highmem.h:5,
+                    from drivers/accel/ivpu/ivpu_pm.c:6:
+   drivers/accel/ivpu/ivpu_pm.c: In function 'ivpu_rpm_get_if_active':
+>> drivers/accel/ivpu/ivpu_pm.c:254:51: error: 'struct dev_pm_info' has no member named 'usage_count'
+     254 |                  atomic_read(&vdev->drm.dev->power.usage_count));
+         |                                                   ^
+   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
+     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/accel/ivpu/ivpu_drv.h:74:17: note: in expansion of macro 'dev_dbg'
+      74 |                 dev_dbg((vdev)->drm.dev, "[%s] " fmt, #type, ##args);          \
+         |                 ^~~~~~~
+   drivers/accel/ivpu/ivpu_pm.c:253:9: note: in expansion of macro 'ivpu_dbg'
+     253 |         ivpu_dbg(vdev, RPM, "rpm_get_if_active count %d\n",
+         |         ^~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_I915_DEBUG_GEM
+   Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=y] && EXPERT [=y] && DRM_I915_WERROR [=n]
+   Selected by [y]:
+   - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && DRM_I915 [=y] && EXPERT [=y] && !COMPILE_TEST [=n]
+
+
+vim +254 drivers/accel/ivpu/ivpu_pm.c
+
+   248	
+   249	int ivpu_rpm_get_if_active(struct ivpu_device *vdev)
+   250	{
+   251		int ret;
+   252	
+   253		ivpu_dbg(vdev, RPM, "rpm_get_if_active count %d\n",
+ > 254			 atomic_read(&vdev->drm.dev->power.usage_count));
+   255	
+   256		ret = pm_runtime_get_if_active(vdev->drm.dev, false);
+   257		drm_WARN_ON(&vdev->drm, ret < 0);
+   258	
+   259		return ret;
+   260	}
+   261	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
