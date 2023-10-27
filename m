@@ -1,61 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63C83D70
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Oct 2023 03:27:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E958F3D70
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Oct 2023 04:10:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DB2QGDG8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ACqRAgBa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698377254; x=1729913254;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=p3RtJ8WNKEO9eNS9IXfnPQkHfpjLhAnRTEM/TPaXaw0=;
-  b=DB2QGDG8GFRDuKdIpKqAwd4e0TCgyTd3Kv+b/IBoinF/zPi9pmRSWvhC
-   drExLHQnh3pzFyZkv3gXdBsZwlbHAQjYMGgNcVTOwJcR18DR51XzEtRea
-   rKx2RnBlo3TZTmLPNdIx0E4YD815r5GrrJFOMhnbwfyqUte8InQBb1HD7
-   sdzzjUd+GPd8wH1Qi+iqsq7pygggaTluzD8TsZpP/19ZJaBl1AbCw2JpK
-   4TBBV9J4s1kqER9QBH4k0zhLZnf/braNVu7QRxrOB6b2otfi7VPBL3F1m
-   suDS3uF4Gk5ov9n3Kp9+GAkJeZKm7n5aOZx+A1O/DBuzl3VS+KZZZPZkE
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="451941362"
+  t=1698379805; x=1729915805;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=L2KjxB8kCH2olE6vazjNsjguZ4bdETgWlXwk4rS4KGY=;
+  b=ACqRAgBaAcIV+LbMueAJYUq854xdGvP9O0CNC/CgUlPfbLwwzaHOK5TN
+   FpeU9kh63MK7MKkqkZegaCEV5+OXaSR8l0gYwZqp7NXk19izYOaiP6hA0
+   iNYMbJKzeDz8NEvCztCxBMIrJIM/MwaPcyk6e4FQa53PssTjRoV/W4y1L
+   zRuX4mju3k529BLXzQlUkRsvlCWP9vzoxm6JqEj0CIe76TtrpG5QkAMo7
+   yMDnf0IAyceI2uHMhSsaLVFjURxvV6BEaye2tQztdLRLoaKihewrJXjNj
+   3F/aSCVgV2lTTCr2epSYcD603r0wycY+YoOn8/lEsk/oyAOWek/S1XMdQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="372754855"
 X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
-   d="scan'208";a="451941362"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 20:27:05 -0700
+   d="scan'208";a="372754855"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 21:10:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="903139065"
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="735970843"
 X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
-   d="scan'208";a="903139065"
+   d="scan'208";a="735970843"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 26 Oct 2023 20:24:34 -0700
+  by orsmga006.jf.intel.com with ESMTP; 26 Oct 2023 21:10:04 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qwDUx-000AOh-1d;
-	Fri, 27 Oct 2023 03:26:59 +0000
-Date: Fri, 27 Oct 2023 11:26:31 +0800
+	id 1qwEAb-000AQV-38;
+	Fri, 27 Oct 2023 04:10:01 +0000
+Date: Fri, 27 Oct 2023 12:09:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Subhajit Ghosh <subhajit.ghosh@tweaklogic.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Paul Gazzillo <paul@pgazz.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Subhajit Ghosh <subhajit.ghosh@tweaklogic.com>,
-	Matt Ranostay <matt@ranostay.sg>,
-	Stefan Windfeldt-Prytz <stefan.windfeldt-prytz@axis.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] iio: light: Add support for APDS9306 Light Sensor
-Message-ID: <202310271158.rRHlxbrM-lkp@intel.com>
-References: <20231026143532.39660-3-subhajit.ghosh@tweaklogic.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [broonie-ci:regmap-test-window-cache 4/4]
+ drivers/base/regmap/regcache.c:408:9: sparse: sparse: Using plain integer as
+ NULL pointer
+Message-ID: <202310271258.DNraS1ku-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,57 +50,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231026143532.39660-3-subhajit.ghosh@tweaklogic.com>
 
-Hi Subhajit,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 611da07b89fdd53f140d7b33013f255bf0ed8f34]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Subhajit-Ghosh/dt-bindings-iio-light-Avago-APDS9306/20231026-223659
-base:   611da07b89fdd53f140d7b33013f255bf0ed8f34
-patch link:    https://lore.kernel.org/r/20231026143532.39660-3-subhajit.ghosh%40tweaklogic.com
-patch subject: [PATCH v1 2/2] iio: light: Add support for APDS9306 Light Sensor
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231027/202310271158.rRHlxbrM-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231027/202310271158.rRHlxbrM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git regmap-test-window-cache
+head:   05d5da207ac28a1ab4e229098db7a60332ff19f4
+commit: 05d5da207ac28a1ab4e229098db7a60332ff19f4 [4/4] regmap: Ensure range selector registers are updated after cache sync
+config: x86_64-randconfig-122-20231027 (https://download.01.org/0day-ci/archive/20231027/202310271258.DNraS1ku-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231027/202310271258.DNraS1ku-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310271158.rRHlxbrM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310271258.DNraS1ku-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/base/regmap/regcache.c:408:9: sparse: sparse: Using plain integer as NULL pointer
+>> drivers/base/regmap/regcache.c:408:9: sparse: sparse: Using plain integer as NULL pointer
 
->> drivers/iio/light/apds9306.c:1325:10: error: 'struct i2c_driver' has no member named 'probe_new'
-    1325 |         .probe_new = apds9306_probe,
-         |          ^~~~~~~~~
->> drivers/iio/light/apds9306.c:1325:22: error: initialization of 'const struct i2c_device_id *' from incompatible pointer type 'int (*)(struct i2c_client *)' [-Werror=incompatible-pointer-types]
-    1325 |         .probe_new = apds9306_probe,
-         |                      ^~~~~~~~~~~~~~
-   drivers/iio/light/apds9306.c:1325:22: note: (near initialization for 'apds9306_driver.id_table')
-   drivers/iio/light/apds9306.c:1326:21: warning: initialized field overwritten [-Woverride-init]
-    1326 |         .id_table = apds9306_id,
-         |                     ^~~~~~~~~~~
-   drivers/iio/light/apds9306.c:1326:21: note: (near initialization for 'apds9306_driver.id_table')
-   cc1: some warnings being treated as errors
+vim +408 drivers/base/regmap/regcache.c
 
-
-vim +1325 drivers/iio/light/apds9306.c
-
-  1317	
-  1318	static struct i2c_driver apds9306_driver = {
-  1319		.driver = {
-  1320			.name = "apds9306",
-  1321			.pm = pm_ptr(&apds9306_pm_ops),
-  1322			.of_match_table = apds9306_of_match,
-  1323			.probe_type = PROBE_PREFER_ASYNCHRONOUS,
-  1324		},
-> 1325		.probe_new = apds9306_probe,
-  1326		.id_table = apds9306_id,
-  1327	};
-  1328	
+   341	
+   342	/**
+   343	 * regcache_sync - Sync the register cache with the hardware.
+   344	 *
+   345	 * @map: map to configure.
+   346	 *
+   347	 * Any registers that should not be synced should be marked as
+   348	 * volatile.  In general drivers can choose not to use the provided
+   349	 * syncing functionality if they so require.
+   350	 *
+   351	 * Return a negative value on failure, 0 on success.
+   352	 */
+   353	int regcache_sync(struct regmap *map)
+   354	{
+   355		int ret = 0;
+   356		unsigned int i;
+   357		const char *name;
+   358		bool bypass;
+   359		struct rb_node *node;
+   360	
+   361		if (WARN_ON(map->cache_type == REGCACHE_NONE))
+   362			return -EINVAL;
+   363	
+   364		BUG_ON(!map->cache_ops);
+   365	
+   366		map->lock(map->lock_arg);
+   367		/* Remember the initial bypass state */
+   368		bypass = map->cache_bypass;
+   369		dev_dbg(map->dev, "Syncing %s cache\n",
+   370			map->cache_ops->name);
+   371		name = map->cache_ops->name;
+   372		trace_regcache_sync(map, name, "start");
+   373	
+   374		if (!map->cache_dirty)
+   375			goto out;
+   376	
+   377		/* Apply any patch first */
+   378		map->cache_bypass = true;
+   379		for (i = 0; i < map->patch_regs; i++) {
+   380			ret = _regmap_write(map, map->patch[i].reg, map->patch[i].def);
+   381			if (ret != 0) {
+   382				dev_err(map->dev, "Failed to write %x = %x: %d\n",
+   383					map->patch[i].reg, map->patch[i].def, ret);
+   384				goto out;
+   385			}
+   386		}
+   387		map->cache_bypass = false;
+   388	
+   389		if (map->cache_ops->sync)
+   390			ret = map->cache_ops->sync(map, 0, map->max_register);
+   391		else
+   392			ret = regcache_default_sync(map, 0, map->max_register);
+   393	
+   394		if (ret == 0)
+   395			map->cache_dirty = false;
+   396	
+   397	out:
+   398		/* Restore the bypass state */
+   399		map->cache_bypass = bypass;
+   400		map->no_sync_defaults = false;
+   401	
+   402		/*
+   403		 * If we did any paging with cache bypassed and a cached
+   404		 * paging register then the register and cache state might
+   405		 * have gone out of sync, force writes of all the paging
+   406		 * registers.
+   407		 */
+ > 408		rb_for_each(node, 0, &map->range_tree, rbtree_all) {
+   409			struct regmap_range_node *this =
+   410				rb_entry(node, struct regmap_range_node, node);
+   411	
+   412			/* If there's nothing in the cache there's nothing to sync */
+   413			ret = regcache_read(map, this->selector_reg, &i);
+   414			if (ret != 0)
+   415				continue;
+   416	
+   417			ret = _regmap_write(map, this->selector_reg, i);
+   418			if (ret != 0) {
+   419				dev_err(map->dev, "Failed to write %x = %x: %d\n",
+   420					this->selector_reg, i, ret);
+   421				break;
+   422			}
+   423		}
+   424	
+   425		map->unlock(map->lock_arg);
+   426	
+   427		regmap_async_complete(map);
+   428	
+   429		trace_regcache_sync(map, name, "stop");
+   430	
+   431		return ret;
+   432	}
+   433	EXPORT_SYMBOL_GPL(regcache_sync);
+   434	
 
 -- 
 0-DAY CI Kernel Test Service
