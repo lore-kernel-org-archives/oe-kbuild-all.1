@@ -1,85 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2051.outbound.protection.outlook.com [40.107.101.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89FBA5249
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Oct 2023 05:24:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FDE18C0C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Oct 2023 06:18:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BeuJdzIR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698384251; x=1729920251;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=jKyluwpaeLJQ/fZA4yKP4k33dS0rZF3B7GHPtK3JgGs=;
-  b=BeuJdzIRcvvZq1uRJF7ZQZW5KstPO3blToHbQMxz5C7MxSCZNTYwILk8
-   DnFGn+VgArFta6tSKbJJ28hiwXLEqUm7oqjXLboiJNE4oUD3mbkw/uSA1
-   VSBbKL/HJtpfs5uL9f2hhQVQmJkX8hZnbansMrBIXuku9d8dTQW0eA5b9
-   Lm9Znd4pshOCIzgZvcr8LrdlGE2qyGgyhjly37ud+9eN7VA5CR3r/4jW9
-   wG/shcp3HEjN3d4KnAQKt1ABvBGnDxRv28ZWVK+vRmXPotbZr1Qxxom03
-   HU0U/YTemdHif0vhUW43WLM6yMZuwAvvbm9nj4kOusUPne7khzqKe3biv
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="418819736"
-X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
-   d="scan'208";a="418819736"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 22:24:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="876215234"
-X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
-   d="scan'208";a="876215234"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 26 Oct 2023 22:24:10 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Thu, 26 Oct 2023 22:24:10 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Thu, 26 Oct 2023 22:24:10 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Thu, 26 Oct 2023 22:24:10 -0700
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="PkTrfu6o"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DyvsiFHi9TfRGjbve9WN2A2/LUDfr6qrtjgE7PM06saK185IPM8PFkvYUvAqx9pCjPmaJ9LtzZDj570RY7BG4C+B3EKOehEq7sCbyMFWY3/nEfXbTqc35c4LVLQxyX+UVg/BRgXwaI2TW/z9aYzI1dyzLaAcM3NPxPLJYN0Ai/GolV29tcP2n6rc1VPy0yk7msotrtYzngv1t6L118Jf09jMsF9h6oPnAIGnzmZnbsWiAeD1IBrYyzn/qaHUd+vjyUAUhTaBLvlA8o73KBOAVoQdY+5GB5RDJQkMUbTwj/XFXbN9J6RffYYnKwU6kXTzMt1MoMLMz0x3iJr2DvcZpQ==
+ b=BLB6fcwX1zWGwmOn+PYy8IS9zvAW1juyUrDbWx23Xze/dUeRK75a40KfkeftZdtCQhJanJLTkptjRaTFJdJBEA7h1FYnKSD7pMfzcP1umUE4UItHRFZtXPYV4L+DmgFtm+tAKwcLeVFm1NFFrqgfd4hAVmqbGdLLc7s7crKJ9beJqZIyrCFdbrodW18j4TIs27H+PmN9piJ0dCo6WD3sSbXG3qZxpVPvjxRck6fc2B5HJ8JBYbhZC05986fvoWzI3w7+UB60Fl7nVEV5MgObvH/VDKIsenzUaykSXon4mfJRDmSPNN6Q9W8dtfcb7+gpjzH6WPMY/uCJX73deC+uzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YToIQxrxktk6sjKp2wcOsnLu9J+KeP8i1R/Sl8WTtJU=;
- b=kfywEFrJVFaFph8WWMpujbePwRPMYbV9CJJl4O5GCcuuGfxXWjQc5o0QJGwri24xT/Bwy+Zw1E/890y8VsAFb9gLg2OAcj5UKSqXjDa4IpQgHoSu5lJCQfFsXm6iw19pz5iG6c0NOMTEvhlH7CSQ25UoErAd0PymdOb/Gg4Ddb5b4vlerWdgwqxWzoKRGOBEB8UPrXDlI1FkD2TCJzxmRSKGrY/GO7Xjhx6/9sOpYRKQ7Ek+4VngqDb0nFGAEmzgfx+JqRhsFiRVYDOzZ16JEPRIQASdLB1GGp0MQx6hiCJRZE0/wpVA+XYuPrEB0Y2LQfRFOHew0SP6TiMF4PGMvQ==
+ bh=gObzfH1jAnpRdGgkxrvHOn/azyea7EdpPc/Tx7AzAkY=;
+ b=mi/YNFyLUkREh6Wb9NrW0JmiJuBxeYx6QLqscne5k2V1JKCPEHEp7A8khI8XDQyOUrf9w/OzB9C1Cb3BcW73IVAg6U6m/5fBNQmIvVkuk4Y8jw537/Y9LCqcWTRGXH99T84XYXf4dIUrkmyhO8gT2IQ0y8x903xibB7A5sFlmaYLdPqcywDB1GYmJ47kD9MypcHb8/JInuHe+g2D8HEPEm+sGV5zbORfbO7xZ5zEIYfTr004nK5XFrj4iamGmwd+y+Yj7T8XZ+ANutW6VikQtx2qEU9IVCPbEQz9ypkglP/7+KoX8d7savj21uLjZlAXvdihsE1+eJ95iCyv+kLA4Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gObzfH1jAnpRdGgkxrvHOn/azyea7EdpPc/Tx7AzAkY=;
+ b=PkTrfu6oK68k09EYxEqQI0KK3HFKrTNJf+ucGdjfMPz8/JyK1CiJXZ8ATKWWttf8tnXTyXeCTydtS6Zj3ONNX7FnsTEoj6nZ9G+HIwcz7nKdXwRkSwFp3AJyKoiSmQhfNiLLkTFsFqagjmAioFpULyZxima3ifiKzCg2sclfAZ4=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by SA1PR11MB5801.namprd11.prod.outlook.com (2603:10b6:806:23d::13) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3661.namprd12.prod.outlook.com (2603:10b6:208:169::31)
+ by MW6PR12MB8865.namprd12.prod.outlook.com (2603:10b6:303:23b::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.33; Fri, 27 Oct
- 2023 05:24:08 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.6907.032; Fri, 27 Oct 2023
- 05:24:08 +0000
-Date: Fri, 27 Oct 2023 13:19:21 +0800
-From: Yujie Liu <yujie.liu@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-CC: kernel test robot <lkp@intel.com>, Tom Zanussi <zanussi@kernel.org>,
-	<oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: kernel/trace/trace_kprobe.c:952: warning: Excess function
- parameter 'args' description in '__kprobe_event_gen_cmd_start'
-Message-ID: <ZTtIWZ/Ol3SuirV8@yujie-X299>
-References: <202310190437.paI6LYJF-lkp@intel.com>
- <20231019092207.7d2fa545@gandalf.local.home>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20231019092207.7d2fa545@gandalf.local.home>
-X-ClientProxiedBy: SI2PR02CA0043.apcprd02.prod.outlook.com
- (2603:1096:4:196::12) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.19; Fri, 27 Oct
+ 2023 06:18:40 +0000
+Received: from MN2PR12MB3661.namprd12.prod.outlook.com
+ ([fe80::7354:d327:ee4:dd79]) by MN2PR12MB3661.namprd12.prod.outlook.com
+ ([fe80::7354:d327:ee4:dd79%4]) with mapi id 15.20.6907.032; Fri, 27 Oct 2023
+ 06:18:40 +0000
+Message-ID: <66dfa43a-deca-4c7f-a3b2-f2528a39d9af@amd.com>
+Date: Fri, 27 Oct 2023 11:48:33 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [broonie-sound:for-next 45/75]
+ sound/soc/amd/acp/acp-legacy-common.c:392:17: warning: assignment to 'struct
+ acpi_device *' from 'int' makes pointer from integer without a cast
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>,
+ Syed Saba Kareem <Syed.SabaKareem@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+References: <202310271326.7xKHbFDH-lkp@intel.com>
+From: syed saba kareem <ssabakar@amd.com>
+In-Reply-To: <202310271326.7xKHbFDH-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0144.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:bf::11) To MN2PR12MB3661.namprd12.prod.outlook.com
+ (2603:10b6:208:169::31)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -87,95 +57,142 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|SA1PR11MB5801:EE_
-X-MS-Office365-Filtering-Correlation-Id: a9ddefe3-e460-4a0c-22a2-08dbd6acf18e
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3661:EE_|MW6PR12MB8865:EE_
+X-MS-Office365-Filtering-Correlation-Id: aade148d-70db-47ed-35b0-08dbd6b48fc2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RSBYOVdMrEOORO6NYtHvRIttjnrMfYwGDTmUXAn6aiAiKYaGpNELfwT+1VH/YHCgTj1Mt+fRnsGQPz1B2dTlNVquf0T7XKczDTyqPnKlR7SlllZqWME5DY2qXxCSsNDyCC2lUWGh/7fRKXw/Yk6SRrblYsJAOG7qmTKJmmK2OxwWwxZx4pc8NCDyqKAYhrllu5ePWqAfKkcqSXgr2/QZ1O0OspiMEuCy8T2P/y0dFN7tlD4Za00QPvxgr9rmb+gtbIw9fFx1LuHLSUIogW0c4MfwnrVGarFfRxIVnqYSd4XMFJlkDL0BkWMHurjGuSKsQ51oKpEe96iCnmCDMTx4Zr36EO0bTjZEjl1htX1AojYMRIr/rhubFwLVk/hsl4ULj78xtj9kGgrTgPWmdAhgb3F1oX6/U9bod6Ub7FSA6WYZ/Y5lJ3U5fgqJWMwRgtXaKEOvgSxVlFkZIzxeEzZrjNZNWzdsW2u6M5X2GI733fEyhZruEVkbQw4rLW8MkXh5XDRBzqr00HgXKKhVkggpN4lj4UXmjvkqSXQNIkbQ10Cxmn5WarrT9v13WhLc3jFIrFXIfcrl6Bx09Ke7E3m7uMlhO2fSeijnrrooXmB5qy4S+Xc/uQRir1RuTSftaiRa
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(396003)(376002)(366004)(346002)(136003)(39860400002)(230173577357003)(230273577357003)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(38100700002)(83380400001)(6506007)(6512007)(6666004)(9686003)(33716001)(66946007)(54906003)(966005)(6486002)(82960400001)(478600001)(26005)(6916009)(316002)(66556008)(66476007)(8936002)(8676002)(4326008)(5660300002)(41300700001)(44832011)(2906002)(86362001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info:
+	CtL8CgNBUlsBFOH1mHYm9eje3KbPYPGU8/WFRMJm1ZdFqTEDn4d1xOEaQtDpkqjD+qDt7R844O/O0bdkiPMh+GO+ZDXUIsXmR4euVjMwc8f6p7iH4yLaaPEqL92sHQWTMMSWo/PxAZXMYhwsnnnlMYH6NDsyFbUC+0R1EVYRMVOjz7lSopKmQvxxIOmacIAyfDfzsEAchM4JYA02rpkCoSB/luEX6G93ksV5nTK1Lc/SDLW4zZ2IoJL7Ik+V8kgxmN0rziIoogtfqZgaz+JN1cgbYx/LZ0UKAcZUMSlNUykXzEWfIjYx0roXTgdUxk174/Msg7DIft9WF2sk+1owGsk9SkNrcw0JjhmQTV9/sOqhsBQBTfP+iMzEZ4uF5TDOaz9ZXTumZCg5PIL5h0agZ67bRZ/wTKYJveKWtDpD3tnO9GhPNqn9fnBv/FCjQBR/rmy+BPGiup7J7zWA9L6+5O0rmvZqzp5cOQOBCpFUvcnp6yDhaZTwi/16qImrUUMOQyw/KjP1LNvGJA7Fy3QpXGSRTtIrl/HgUqgEUDM0MbuiC6YdNj+HWNkVmQsgy63EqoL0brx9dfzvvUAzA3+UND1EQQAzJptFs0nrGoeg51DI7eZ507RsnIpijrqk7y8HWHEx4AbskfmVSEX1sNcelBWF22ZUfOSXSaZOz/cY7cigupUEibECxDNToLa+rHuA2WWsBe23pEsVwYd70ig2rA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3661.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(366004)(376002)(136003)(39860400002)(230273577357003)(230173577357003)(230922051799003)(186009)(451199024)(64100799003)(1800799009)(2906002)(8676002)(8936002)(4326008)(83380400001)(966005)(6486002)(53546011)(31696002)(31686004)(5660300002)(41300700001)(6512007)(316002)(6506007)(6636002)(110136005)(478600001)(26005)(6666004)(2616005)(36756003)(66946007)(66476007)(38100700002)(66556008)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?l9fdtmAOpCV24w4kZRamvN10FJlEwb2ho2fd4q3y4KjJ/45szl0T2wkp1KKc?=
- =?us-ascii?Q?f025we4Ui5sdD3eJA2JBG3jV9tbK8NzUvZZCoJxOVzg/WoGyRLnDefA8ILAX?=
- =?us-ascii?Q?BrqGnTmzCojh+5WxvFM2YND2qWFk6cgcCdcTICQhCvNUWVMF6zAOWvb8i6wF?=
- =?us-ascii?Q?S3fLbpj+UM+wH71gwppax89mzqrnzueoYofNpY4QSL4387j7n1dseiDF1VfC?=
- =?us-ascii?Q?b8J8hrQXoWWExF1BKgHLJDbgohQFDL+leqtuGRD2WxQZXuxi9RSim6NfwH9l?=
- =?us-ascii?Q?hCf1bPTR9Ths9GhUmPKyEJVEmWBm/O1c6/6bAGsSO1r89QNmVJqw7ZR+1z41?=
- =?us-ascii?Q?jUYQ35rbw4ee81UfsqgFB/b5YOsR/aOA1yFhSAaHEBUYSWQqAhfPVmv8U0kN?=
- =?us-ascii?Q?xtCOyvsRyMcHAGgglYKhIr+DBX438CsLjwzLub3wTnwbjMdM14kkIOBsLaEN?=
- =?us-ascii?Q?HAayqphw183/XwxLGLygTVfj8ZmPwPXuatno2nFJCCqpeZnBt0HvQJQtIKLW?=
- =?us-ascii?Q?6bI+hyI8KpndseXJmNB6RvCG3nLoPo7CDGcEbkqWR3t66wdZVs1RtIlEiTtS?=
- =?us-ascii?Q?+gudwvbdeHxUSJY6OJUs6gCZXlEQgZN3J10D7jfIAT9ZhCp7uO1kNaiotjRT?=
- =?us-ascii?Q?dvLvvlb/aGeB6S6bboPycGSMBdtqZW0RBTQZx3J5nOg/MJNb2rXwUm7kIQcf?=
- =?us-ascii?Q?OmLJ/s/AfZ6sqs/wijtd8X3XOPu2feeBkhu+/KwiP7OKzOrilcvGQ/3tfD64?=
- =?us-ascii?Q?SDoaO4yq2Q0w4v2DypLj6sRKDNwI6j15Xb9sd+IJg/3wCS+nDOoW+t1yq3Ow?=
- =?us-ascii?Q?HKpTdoidcKv8W2AnixwvzyQSOh+C+Q3S3TtQSvss2bSO8rAa9PRQAzxhBN9x?=
- =?us-ascii?Q?8OgFdxf81zkVIqPdsN8bmxvezaKMa3aXsnEBH1w1fXya9U/7z2IvTQxsdHiU?=
- =?us-ascii?Q?hPLglHsd4idoQIe/Eh0lPds3OkflUbGY2uLhSIDWqRSirlJzfe3j2By8xonY?=
- =?us-ascii?Q?qLby+8VrA8ZH7i0cx6F1fsDhJFk8cgc5tIoE93G5flyGdphpcELIPmmL6qPI?=
- =?us-ascii?Q?lbnNlZyJWwOEqR9cUx4yspXrYQHUB2mvRTIvH90CPw/vXf5fVz/ji4DIVL1H?=
- =?us-ascii?Q?g/RiiEVyDvXLpNDYHQd4CnAxsGIPeA/a5SbVuj65hlhm1sT+DMBq5+HvN8Sj?=
- =?us-ascii?Q?oIEHW+yXvjBzI8+/5g/pyOFOOLD5teenXMdtAaEwqVsqQB2WZUeqrv9CoN+G?=
- =?us-ascii?Q?kjr4c+EoNUTMQij6AuO7dVyckTRfg0XbpstKS8HIB/EmiFnpQ/V/ZbHAO2Pr?=
- =?us-ascii?Q?fzbHPz1iIe8eMNgCAl/QYBD7SgkF6oE+8MgDJOJQGOYUTscd7ZEsugN7kcRq?=
- =?us-ascii?Q?bnCG371ujGk0cS0fWr6lr79n7u1NtR29lTyD+QjqSZbXPVQ7fOQ5+N5ZQpTc?=
- =?us-ascii?Q?Jf4Sw1j/OzB62NQPSduV1RkeKj4LITLunrs+SOl5Cs6BrmBFCEBlh7IX9IIQ?=
- =?us-ascii?Q?QsukkbyTkMNzZ7y9gYUKTI5WzEVzz6oOuTbpu/noEZHAth6PTlBffHQxQpcX?=
- =?us-ascii?Q?pL/H9wf4wqUbOuvbg/xlrCSSYODa/2DBenoERyEh?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a9ddefe3-e460-4a0c-22a2-08dbd6acf18e
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cExmSWZBOFdYaElVU3hhUnFQR0FKSk52V2RaeXVVc0crUlNvQnZLUm91UW9C?=
+ =?utf-8?B?ajI2T2w4R09oa1h6RXRvRXljRVM5RlhHbW55aUlqVGdXWks5NSs5M2NCZi84?=
+ =?utf-8?B?VmFEM201NElpQ0tUaUNxWnJQS1d0TlUzN0dUK3FhY0g1a3VSVlhVWEgzbGh0?=
+ =?utf-8?B?MzQ0Z0paWTFXZFdmYi9PcDhCWVFSYXVlTnliWTU0ckZNQmlqdlNkUWRtRU5W?=
+ =?utf-8?B?ajBJSXZGemw1akZrbUFLbTdYQmd3U29Fc1IvRGh5dGEzVjdQZXZMeVRVZnFt?=
+ =?utf-8?B?YUs4YnhIbHZ0djhXOXZRWjRuNyt2WFhtSW9JMmRQSjNUeG43VmhzU3IxQ2hB?=
+ =?utf-8?B?YWxKbmZOb0J3V2ZiWFlvS3NWMmlHYXd1TW1rbXVUQ1gwUHZKQzBnR3B1NThO?=
+ =?utf-8?B?TndZQXduUUpMT0hDbGFPZjNRQlEyUitHTWtIWWRNeDZkQUc2YkcrR3lKb3F4?=
+ =?utf-8?B?TDVtWStKZ20wZjhYRnpiTmNXMW90d2VGOTBDZVVDeFBJaDZKT21zdm95bTFO?=
+ =?utf-8?B?T0Fha3VRa3BnUTNCMHIwSk9pbXNtQm9heFBZK3E0eFkrZUY0elZoTlVjdVYz?=
+ =?utf-8?B?dzhyMmtibFFJdStOWU1MMUdONndLNEwrbFc2NUU2WXYzOUJvclJ2Z1NndXcv?=
+ =?utf-8?B?V0FydktyK1hoMGVPVnU4eUkra2VUb0lXYm9iam1aUmw4TzZZeml4c1E0Tlhy?=
+ =?utf-8?B?SXhtaWF1UERYUW9IYTU4aktRRFdLWGREdDBBZFdZTngrcEYxeTFIQ0FGdDU2?=
+ =?utf-8?B?YnM5ZFVQeUk1ZGY2NEs1cXhVSE1kKzBGRFJnQ3RYdjE4aDFHNCtZVVVkcmNy?=
+ =?utf-8?B?dW9LSzNtOC84Skd1bGdDODZKWUdvOTM0VUdwL0tVeWtEMjVhUTBpOGFTS0Vk?=
+ =?utf-8?B?dTFCTWczUTlTR1ZUTzNMOWVjTXFaOTVmd0xWVEVZUytId2JxRVlaTjUweEls?=
+ =?utf-8?B?WlJiWE1uTHdIWjBYNGtIVEprazlmaW1FSzVjREhFZlRCeVlHVHUxb1RMbE95?=
+ =?utf-8?B?VWZHN3RkWlB4emh0dDljeXBkWUQrUFhacjBiZUp5ZnZINC94OXM2RENoYVk1?=
+ =?utf-8?B?cGN6TDJocW5lZ2dDTkIwSjVoUVNoL3M2aEdHWEpBWWxMalNMTDBLR3BqbThk?=
+ =?utf-8?B?UnZxQS9VR1JydFpjMEIxMlRiU0RlR0J4UjBJZjZNdGRQYUNLT2hzNys2L3lI?=
+ =?utf-8?B?Zm0zVzVGWG4yeEhlTUxQWGd0cTFlckFMRlNvbFZSWkh3VWVaTitKNml5aDlX?=
+ =?utf-8?B?TGo5V2FqN1FCREVkVHF2b01KSG1sUFVydVI1QzBIOFk1WFozR0o2ckh0RzZt?=
+ =?utf-8?B?aS9lcVhZZ290dDl5MDg2T0Q3b293NDMrRFFuRmVoWWlTN293REFnVFZuOVc3?=
+ =?utf-8?B?WnZLdXVYTCtJTU9BSXdJaXRydEc2ZWJPQ1oxSmtuNFpuMmNUK016dUdwbmVj?=
+ =?utf-8?B?ZVp1QXFHd2xQckZ0eFVPMXVudEYwMDJ4VkNFQXRVYjIrNENHWXBOZWJLSUJM?=
+ =?utf-8?B?TWlsZ3p5ZjVqY3BpNmlPZ1pQNEZnOWRTS016SWRlQVRqUlRKQkpycUpZTFpV?=
+ =?utf-8?B?YWxBRGZmRWlKOHhMeWdFcW5FQmhaL0hkb1pBZTJZcWpaaGYreE55UGtQbE9u?=
+ =?utf-8?B?ek9VNW4vMndocytqY3hWQ095c2NjTjhLTm9HNmFoZmN0YUtFcjU2blZaeVVp?=
+ =?utf-8?B?dTlVcllnaW1JaXJvK1lTcjZEQXNsb1dSeUR5cGlxWG1SNWRsalJRM1dpZmda?=
+ =?utf-8?B?OTQ5MG1QL2NIQmVSNXAzbnlmQVRBMkZYemlGb1ErZ1lsZksvRC9ZSzFHVzVq?=
+ =?utf-8?B?VE5jTUtUd0dmWU8zL2NhMWxZUXA4QXdmeDA4enFXbHFKMnp5b2RneWFuZlBu?=
+ =?utf-8?B?U1RKYXh2R211Z0ZNU2dQTVdzTjI4TDBJczhWdzJCTXR4alRadmwva0dQUGZY?=
+ =?utf-8?B?c1ZlY1VDemJpODFHLy9FSEVqZHU1MnVkcmJnczNZbEVSc1pwbVE2S3k3T1d4?=
+ =?utf-8?B?VVcza0xEOVBWMklMSEdiSW82MzNVdkxwUmN4djlmWlFRWENZaWhtcnV5bXk4?=
+ =?utf-8?B?ejZkQUlGdDZHTEdSbHNSYjF3UkkzRThiVWx3T3ZmakdQVWVFeW0wUVBHOURT?=
+ =?utf-8?Q?sigPf1aEWh6GAuxlBEEWPdBUX?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aade148d-70db-47ed-35b0-08dbd6b48fc2
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3661.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2023 05:24:07.9586
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2023 06:18:40.2469
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PLJlGhXDVjGcmCxFrv5hsp1eywvV9YPJPN19SvTUqMR3qW9kHNNpQcRTyLy5rG430jtRZJ3Qn9n9uPHFVDWdmQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB5801
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: dYcZVQtPtzzlz9lZCtlP0ywg8oAaOEecG0wPtlG2jQfA0kOKza6ICzgbygRw31H1+73/tmQPU8xfBJvEYspXiw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8865
 
-On Thu, Oct 19, 2023 at 09:22:07AM -0400, Steven Rostedt wrote:
-> On Thu, 19 Oct 2023 04:33:41 +0800
-> kernel test robot <lkp@intel.com> wrote:
-> 
-> > All warnings (new ones prefixed by >>):
-> > 
-> > >> kernel/trace/trace_kprobe.c:952: warning: Excess function parameter 'args' description in '__kprobe_event_gen_cmd_start'
-> > >> kernel/trace/trace_kprobe.c:1017: warning: Excess function parameter 'args' description in '__kprobe_event_add_fields'  
-> > 
-> > 
-> > vim +952 kernel/trace/trace_kprobe.c
-> > 
-> >    929	
-> >    930	/**
-> >    931	 * __kprobe_event_gen_cmd_start - Generate a kprobe event command from arg list
-> >    932	 * @cmd: A pointer to the dynevent_cmd struct representing the new event
-> >    933	 * @name: The name of the kprobe event
-> >    934	 * @loc: The location of the kprobe event
-> >    935	 * @kretprobe: Is this a return probe?
-> >    936	 * @args: Variable number of arg (pairs), one pair for each field
-> >    937	 *
-> >    938	 * NOTE: Users normally won't want to call this function directly, but
-> >    939	 * rather use the kprobe_event_gen_cmd_start() wrapper, which automatically
-> >    940	 * adds a NULL to the end of the arg list.  If this function is used
-> >    941	 * directly, make sure the last arg in the variable arg list is NULL.
-> >    942	 *
-> >    943	 * Generate a kprobe event command to be executed by
-> >    944	 * kprobe_event_gen_cmd_end().  This function can be used to generate the
-> >    945	 * complete command or only the first part of it; in the latter case,
-> >    946	 * kprobe_event_add_fields() can be used to add more fields following this.
-> >    947	 *
-> >    948	 * Return: 0 if successful, error otherwise.
-> >    949	 */
-> >    950	int __kprobe_event_gen_cmd_start(struct dynevent_cmd *cmd, bool kretprobe,
-> >    951					 const char *name, const char *loc, ...)
-> >  > 952	{  
-> 
-> So what is the proper kerneldoc way to express variable length arguments?
 
-Hi Steven, the fix patch is sent at [1] to fix this kernel-doc warning.
-
-[1] https://lore.kernel.org/all/20231027041315.2613166-1-yujie.liu@intel.com/
-
-Best Regards,
-Yujie
+On 10/27/23 10:41, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> head:   00236a89602f7b67016bd1d9bc63079f2c0f0a8d
+> commit: 3a94c8ad0aae2b14a55059869871ea2d199af489 [45/75] ASoC: amd: acp: add code for scanning acp pdm controller
+> config: i386-buildonly-randconfig-001-20231027 (https://download.01.org/0day-ci/archive/20231027/202310271326.7xKHbFDH-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231027/202310271326.7xKHbFDH-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202310271326.7xKHbFDH-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>     sound/soc/amd/acp/acp-legacy-common.c: In function 'check_acp_pdm':
+>     sound/soc/amd/acp/acp-legacy-common.c:392:19: error: implicit declaration of function 'acpi_find_child_device'; did you mean 'acpi_match_device'? [-Werror=implicit-function-declaration]
+Will fix it.
+>       392 |         pdm_dev = acpi_find_child_device(ACPI_COMPANION(&pci->dev), pdm_addr, 0);
+>           |                   ^~~~~~~~~~~~~~~~~~~~~~
+>           |                   acpi_match_device
+>>> sound/soc/amd/acp/acp-legacy-common.c:392:17: warning: assignment to 'struct acpi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>       392 |         pdm_dev = acpi_find_child_device(ACPI_COMPANION(&pci->dev), pdm_addr, 0);
+>           |                 ^
+>     cc1: some warnings being treated as errors
+>
+>
+> vim +392 sound/soc/amd/acp/acp-legacy-common.c
+>
+>     354	
+>     355	int check_acp_pdm(struct pci_dev *pci, struct acp_chip_info *chip)
+>     356	{
+>     357		struct acpi_device *pdm_dev;
+>     358		const union acpi_object *obj;
+>     359		u32 pdm_addr, val;
+>     360	
+>     361		val = readl(chip->base + ACP_PIN_CONFIG);
+>     362		switch (val) {
+>     363		case ACP_CONFIG_4:
+>     364		case ACP_CONFIG_5:
+>     365		case ACP_CONFIG_6:
+>     366		case ACP_CONFIG_7:
+>     367		case ACP_CONFIG_8:
+>     368		case ACP_CONFIG_10:
+>     369		case ACP_CONFIG_11:
+>     370		case ACP_CONFIG_12:
+>     371		case ACP_CONFIG_13:
+>     372		case ACP_CONFIG_14:
+>     373			break;
+>     374		default:
+>     375			return -EINVAL;
+>     376		}
+>     377	
+>     378		switch (chip->acp_rev) {
+>     379		case ACP3X_DEV:
+>     380			pdm_addr = ACP_RENOIR_PDM_ADDR;
+>     381			break;
+>     382		case ACP6X_DEV:
+>     383			pdm_addr = ACP_REMBRANDT_PDM_ADDR;
+>     384			break;
+>     385		case ACP63_DEV:
+>     386			pdm_addr = ACP63_PDM_ADDR;
+>     387			break;
+>     388		default:
+>     389			return -EINVAL;
+>     390		}
+>     391	
+>   > 392		pdm_dev = acpi_find_child_device(ACPI_COMPANION(&pci->dev), pdm_addr, 0);
+>     393		if (pdm_dev) {
+>     394			if (!acpi_dev_get_property(pdm_dev, "acp-audio-device-type",
+>     395						   ACPI_TYPE_INTEGER, &obj) &&
+>     396						   obj->integer.value == pdm_addr)
+>     397				return 0;
+>     398		}
+>     399		return -ENODEV;
+>     400	}
+>     401	EXPORT_SYMBOL_NS_GPL(check_acp_pdm, SND_SOC_ACP_COMMON);
+>     402	
+>
