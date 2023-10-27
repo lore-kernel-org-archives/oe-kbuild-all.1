@@ -1,56 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4FD4BA50
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Oct 2023 11:39:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44953BA50
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Oct 2023 11:40:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c4cAaEsi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DeKY8hSx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698406775; x=1729942775;
+  t=1698406833; x=1729942833;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=sCLsYII0iIYQL0RY7KUb5/cg100s9wFU25OabDcN7+A=;
-  b=c4cAaEsi1XNYq0WCcql5driHRJMMChwNEs0kx4IUL3vIECDJA81tEMoa
-   QF3tOuYuDS87Bx3HQ1hcAVUT1CzcRfxdcBw4mzJV71vDJsSCRLg6aBn+O
-   7yo+4mf6PutY2mHEWsdQI5joo7IGfa66q17WXY1YM5RxzvOvtz3HX2K6D
-   KS+jk/VmuZZ8znBFv7jitBtW1Wc0qB6hFKpudfkC054AKQ+Y7XQZafItM
-   BGynFT9Qu20XgrXFrlHlvN25lvGUaZjUn+6FqB2Fq9t73dtrdO2a9XMf1
-   Xh30lND4zABySX/qNRwmdkkQWOQsj+iah/duTOnlTlV1ZC8Yn46nECVGO
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="579437"
+  bh=HznG8EOnVcrbQ97tKgo4d/COHlGwio4LBvAh92WE1h0=;
+  b=DeKY8hSxGYq/7IAtRyrXMwcRzIAFtrw2xE6da+8ptEHJUcTUmhfFojZT
+   JWqa5Kc0GVZONwbD58fW3yJjnpL6mJaof4Ase3LP48JQd5u9dq6eopcHR
+   /R6vCmkiO9LILeyjJfG/yAjvEdpdXU8p5iSSt3EW7Aj++RfjpSE92kZrg
+   HJOa9LKLcWCTazV+6llG434Sdjut9iKahndWdnGPfTz2U4VVaF6gQH44k
+   zV22ZSQgb/wbmOuUhsft7ivF/GLXWaujB/SghidG4V9KuKRm8u01iPWAd
+   Ky5PBllvpRB7Ng7QZ9Ga5+ZG1i3h4b5HyKeoHj/HasSg0Yx8ZT189xN9Q
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="9298400"
 X-IronPort-AV: E=Sophos;i="6.03,256,1694761200"; 
-   d="scan'208";a="579437"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 04:39:34 -0700
+   d="scan'208";a="9298400"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 04:40:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="876309651"
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="788809865"
 X-IronPort-AV: E=Sophos;i="6.03,256,1694761200"; 
-   d="scan'208";a="876309651"
+   d="scan'208";a="788809865"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 27 Oct 2023 04:39:30 -0700
+  by orsmga008.jf.intel.com with ESMTP; 27 Oct 2023 04:40:31 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qwLBY-000Amc-29;
-	Fri, 27 Oct 2023 11:39:28 +0000
-Date: Fri, 27 Oct 2023 19:39:19 +0800
+	id 1qwLCW-000Aml-2O;
+	Fri, 27 Oct 2023 11:40:28 +0000
+Date: Fri, 27 Oct 2023 19:39:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linhua Xu <Linhua.xu@unisoc.com>,
-	Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	lh xu <xulh0829@gmail.com>, Linhua Xu <Linhua.Xu@unisoc.com>,
-	Zhirong Qiu <zhirong.qiu@unisoc.com>,
-	Xiongpeng Wu <xiongpeng.wu@unisoc.com>
-Subject: Re: [PATCH V3 4/6] pinctrl: sprd: Increase the range of register
- values
-Message-ID: <202310271959.VUpjvnai-lkp@intel.com>
-References: <20231027071426.17724-5-Linhua.xu@unisoc.com>
+To: Matthew Sakai <msakai@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4 39/39] dm vdo: enable configuration and building of
+ dm-vdo
+Message-ID: <202310271945.092XwBE0-lkp@intel.com>
+References: <20231026214136.1067410-40-msakai@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,66 +51,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231027071426.17724-5-Linhua.xu@unisoc.com>
+In-Reply-To: <20231026214136.1067410-40-msakai@redhat.com>
 
-Hi Linhua,
+Hi Matthew,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linusw-pinctrl/devel]
-[also build test WARNING on linusw-pinctrl/for-next linus/master v6.6-rc7 next-20231026]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 1e4ab7b4c881cf26c1c72b3f56519e03475486fb]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Linhua-Xu/pinctrl-sprd-Modify-pull-up-parameters/20231027-151737
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20231027071426.17724-5-Linhua.xu%40unisoc.com
-patch subject: [PATCH V3 4/6] pinctrl: sprd: Increase the range of register values
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231027/202310271959.VUpjvnai-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231027/202310271959.VUpjvnai-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Sakai/dm-add-documentation-for-dm-vdo-target/20231027-054713
+base:   1e4ab7b4c881cf26c1c72b3f56519e03475486fb
+patch link:    https://lore.kernel.org/r/20231026214136.1067410-40-msakai%40redhat.com
+patch subject: [PATCH v4 39/39] dm vdo: enable configuration and building of dm-vdo
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231027/202310271945.092XwBE0-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231027/202310271945.092XwBE0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310271959.VUpjvnai-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310271945.092XwBE0-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/pinctrl/sprd/pinctrl-sprd.c:29:
->> drivers/pinctrl/sprd/pinctrl-sprd.h:21: warning: "BIT_MASK" redefined
-      21 | #define BIT_MASK        GENMASK(7, 0)
-         | 
-   In file included from include/linux/ratelimit_types.h:5,
-                    from include/linux/printk.h:9,
-                    from include/asm-generic/bug.h:22,
-                    from arch/m68k/include/asm/bug.h:32,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from include/linux/debugfs.h:15,
-                    from drivers/pinctrl/sprd/pinctrl-sprd.c:7:
-   include/linux/bits.h:9: note: this is the location of the previous definition
-       9 | #define BIT_MASK(nr)            (UL(1) << ((nr) % BITS_PER_LONG))
-         | 
+   In file included from drivers/md/dm-vdo-target.c:16:
+>> drivers/md/dm-vdo/block-map.h:35:37: warning: 'UNMAPPED_BLOCK_MAP_ENTRY' defined but not used [-Wunused-const-variable=]
+      35 | static const struct block_map_entry UNMAPPED_BLOCK_MAP_ENTRY = {
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/md/dm-vdo/block-map.h:34:38: warning: 'NO_PAGE' defined but not used [-Wunused-const-variable=]
+      34 | static const physical_block_number_t NO_PAGE = 0xFFFFFFFFFFFFFFFF;
+         |                                      ^~~~~~~
+--
+>> drivers/md/dm-vdo-target.c:1162: warning: Function parameter or member 'vdo' not described in 'get_thread_id_for_phase'
 
 
-vim +/BIT_MASK +21 drivers/pinctrl/sprd/pinctrl-sprd.h
+vim +/UNMAPPED_BLOCK_MAP_ENTRY +35 drivers/md/dm-vdo/block-map.h
 
-    18	
-    19	#define NUM_MASK	GENMASK(10, 0)
-    20	#define TYPE_MASK	GENMASK(3, 0)
-  > 21	#define BIT_MASK	GENMASK(7, 0)
-    22	#define WIDTH_MASK	GENMASK(3, 0)
-    23	#define REG_MASK	GENMASK(5, 0)
-    24	
+13d47b7579638e Matthew Sakai 2023-10-26  33  
+397119f4a6191f Matthew Sakai 2023-10-26 @34  static const physical_block_number_t NO_PAGE = 0xFFFFFFFFFFFFFFFF;
+397119f4a6191f Matthew Sakai 2023-10-26 @35  static const struct block_map_entry UNMAPPED_BLOCK_MAP_ENTRY = {
+397119f4a6191f Matthew Sakai 2023-10-26  36  	.mapping_state = VDO_MAPPING_STATE_UNMAPPED & 0x0F,
+397119f4a6191f Matthew Sakai 2023-10-26  37  	.pbn_high_nibble = 0,
+397119f4a6191f Matthew Sakai 2023-10-26  38  	.pbn_low_word = __cpu_to_le32(VDO_ZERO_BLOCK & UINT_MAX),
+397119f4a6191f Matthew Sakai 2023-10-26  39  };
+397119f4a6191f Matthew Sakai 2023-10-26  40  
 
 -- 
 0-DAY CI Kernel Test Service
