@@ -1,46 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 665EC23A5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Oct 2023 15:20:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06122944D;
+	Sat, 28 Oct 2023 15:31:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kM/TzVrb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Aee4jssl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698506428; x=1730042428;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JxirMMB4uUxWvObBzxycB19xaaJl1L5/KrX80E1nP5I=;
-  b=kM/TzVrbpeGb2/cKIy1VilGY3CinqQ9EY6N7aTwEKBLITueBDOanxw9M
-   Bu9ZtKw9vEf4ymA5j2GRY4KECgSRZqeh2y9wamx04qDd94L8hO/fzyvnd
-   KTE2kTiloUyegwQyKnrLRqUuKnPNXOnd55jZNZc5ZDoh/dU7jOaesK5Uj
-   FtnNxk2e5sXgIc0dmumHPk3Z1sgFgYsbggq+11+P1t1G4ePjPMMlhX4KB
-   q3tTYlU9Y3rEzIajdFUUEbCfVmpd2e5x7FlMDyktFWDvdGcU9+bGFUnNy
-   IPxy5Nno3ePHqR5tGeilmSfDTDA4/wRc7MTVVNoM3jxJOVWFkLtIJ58qI
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="701219"
+  t=1698507092; x=1730043092;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lXhBg7CyUNDTmqFAHnbpKEyoQJs4rn3WPxNcO3/MONs=;
+  b=Aee4jssl0HAQYKuQzTq9gXQRnmMgCcc2u/jFZkyrP/mujR2ENc5J3YvO
+   pSuYbfGDa8K0Qr9cjVU7T75Ei0Sl5T7zFwwJiNDTWzp4+vvsjnWBI9zWG
+   AOAYfb/UHAGYJUw1asP68lbp14xNaQ+xpu/aGlUEjF/FKZlZF/NrWSoC3
+   2j9BwtM2sjedZs7aXDAiKjWjMcbV2pQBTan+CTGaB20rC4q6iNM7SQa+t
+   ROjzFjhrAXFwb4TOsmqEiMjqmZ2HGRAXcrvpHdh37sI33jIbc5gl+tplL
+   4Z6TweKIDjcQIFw9gW7XzGXU1hOHlqcCVGAav/I6ys7N9ATikf1ity8Zx
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10877"; a="387717874"
 X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; 
-   d="scan'208";a="701219"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2023 08:20:27 -0700
+   d="scan'208";a="387717874"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2023 08:31:31 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; 
-   d="scan'208";a="7924801"
+   d="scan'208";a="1120418"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 28 Oct 2023 08:20:13 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 28 Oct 2023 08:31:15 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qwl6u-000Bqd-26;
-	Sat, 28 Oct 2023 15:20:24 +0000
-Date: Sat, 28 Oct 2023 23:19:48 +0800
+	id 1qwlHY-000Br5-3D;
+	Sat, 28 Oct 2023 15:31:25 +0000
+Date: Sat, 28 Oct 2023 23:30:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.4-lts 14383/29903] htmldocs:
- ./include/kunit/test.h:174: warning: Function parameter or member 'debugfs'
- not described in 'kunit_suite'
-Message-ID: <202310282306.zWqnaKOW-lkp@intel.com>
+To: Xingxing Luo <xingxing.luo@unisoc.com>, b-liu@ti.com,
+	gregkh@linuxfoundation.org, keescook@chromium.org,
+	nathan@kernel.org, ndesaulniers@google.com, trix@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, xingxing0070.luo@gmail.com,
+	Zhiyong.Liu@unisoc.com, Cixi.Geng1@unisoc.com,
+	Orson.Zhai@unisoc.com, zhang.lyra@gmail.com
+Subject: Re: [PATCH] usb: musb: Check requset->buf before use to avoid crash
+ issue
+Message-ID: <202310282331.d4wx1Z6b-lkp@intel.com>
+References: <20231023093153.6748-1-xingxing.luo@unisoc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,35 +56,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231023093153.6748-1-xingxing.luo@unisoc.com>
 
-Hi Alan,
+Hi Xingxing,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android12-5.4-lts
-head:   fcdc8d9a71cdda01c736bb52ad5d494e5b0937a3
-commit: f6651bd242ce4de8287e499e74e9f08e52faf0a8 [14383/29903] UPSTREAM: kunit: add debugfs /sys/kernel/debug/kunit/<suite>/results display
-reproduce: (https://download.01.org/0day-ci/archive/20231028/202310282306.zWqnaKOW-lkp@intel.com/reproduce)
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.6-rc7 next-20231027]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xingxing-Luo/usb-musb-Check-requset-buf-before-use-to-avoid-crash-issue/20231023-173938
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20231023093153.6748-1-xingxing.luo%40unisoc.com
+patch subject: [PATCH] usb: musb: Check requset->buf before use to avoid crash issue
+config: arm-davinci_all_defconfig (https://download.01.org/0day-ci/archive/20231028/202310282331.d4wx1Z6b-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231028/202310282331.d4wx1Z6b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310282306.zWqnaKOW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310282331.d4wx1Z6b-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> ./include/kunit/test.h:174: warning: Function parameter or member 'debugfs' not described in 'kunit_suite'
->> ./include/kunit/test.h:174: warning: Function parameter or member 'log' not described in 'kunit_suite'
+>> drivers/usb/musb/musb_gadget_ep0.c:534:7: error: use of undeclared identifier 'requset'; did you mean 'request'?
+     534 |         if (!requset->buf) {
+         |              ^~~~~~~
+         |              request
+   drivers/usb/musb/musb_gadget_ep0.c:521:22: note: 'request' declared here
+     521 |         struct usb_request      *request;
+         |                                  ^
+   1 error generated.
 
-vim +174 ./include/kunit/test.h
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PINCTRL_SINGLE
+   Depends on [n]: PINCTRL [=n] && OF [=y] && HAS_IOMEM [=y]
+   Selected by [y]:
+   - ARCH_DAVINCI [=y] && ARCH_MULTI_V5 [=y] && CPU_LITTLE_ENDIAN [=y]
 
-ff82dbcb3e2cc5 Brendan Higgins 2019-09-23 @174  
 
-:::::: The code at line 174 was first introduced by commit
-:::::: ff82dbcb3e2cc596f464302579fdf331f7422384 UPSTREAM: kunit: test: add KUnit test runner core
+vim +534 drivers/usb/musb/musb_gadget_ep0.c
 
-:::::: TO: Brendan Higgins <brendanhiggins@google.com>
-:::::: CC: Alexander Potapenko <glider@google.com>
+   510	
+   511	/*
+   512	 * transmitting to the host (IN), this code might be called from IRQ
+   513	 * and from kernel thread.
+   514	 *
+   515	 * Context:  caller holds controller lock
+   516	 */
+   517	static void ep0_txstate(struct musb *musb)
+   518	{
+   519		void __iomem		*regs = musb->control_ep->regs;
+   520		struct musb_request	*req = next_ep0_request(musb);
+   521		struct usb_request	*request;
+   522		u16			csr = MUSB_CSR0_TXPKTRDY;
+   523		u8			*fifo_src;
+   524		u8			fifo_count;
+   525	
+   526		if (!req) {
+   527			/* WARN_ON(1); */
+   528			musb_dbg(musb, "odd; csr0 %04x", musb_readw(regs, MUSB_CSR0));
+   529			return;
+   530		}
+   531	
+   532		request = &req->request;
+   533	
+ > 534		if (!requset->buf) {
+   535			musb_dbg(musb, "request->buf is NULL");
+   536			return;
+   537		}
+   538	
+   539		/* load the data */
+   540		fifo_src = (u8 *) request->buf + request->actual;
+   541		fifo_count = min((unsigned) MUSB_EP0_FIFOSIZE,
+   542			request->length - request->actual);
+   543		musb_write_fifo(&musb->endpoints[0], fifo_count, fifo_src);
+   544		request->actual += fifo_count;
+   545	
+   546		/* update the flags */
+   547		if (fifo_count < MUSB_MAX_END0_PACKET
+   548				|| (request->actual == request->length
+   549					&& !request->zero)) {
+   550			musb->ep0_state = MUSB_EP0_STAGE_STATUSOUT;
+   551			csr |= MUSB_CSR0_P_DATAEND;
+   552		} else
+   553			request = NULL;
+   554	
+   555		/* report completions as soon as the fifo's loaded; there's no
+   556		 * win in waiting till this last packet gets acked.  (other than
+   557		 * very precise fault reporting, needed by USB TMC; possible with
+   558		 * this hardware, but not usable from portable gadget drivers.)
+   559		 */
+   560		if (request) {
+   561			musb->ackpend = csr;
+   562			musb_g_ep0_giveback(musb, request);
+   563			if (!musb->ackpend)
+   564				return;
+   565			musb->ackpend = 0;
+   566		}
+   567	
+   568		/* send it out, triggering a "txpktrdy cleared" irq */
+   569		musb_ep_select(musb->mregs, 0);
+   570		musb_writew(regs, MUSB_CSR0, csr);
+   571	}
+   572	
 
 -- 
 0-DAY CI Kernel Test Service
