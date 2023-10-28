@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9BD635
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Oct 2023 01:28:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E40644
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Oct 2023 02:20:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NzTdIFc0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OodQJVPg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698456485; x=1729992485;
+  t=1698459609; x=1729995609;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bqx7muvXiDahoTiyjP5K3nYRlQ0IYNhGE4dsuYQiyl0=;
-  b=NzTdIFc01tYoEKlUPc9lZ1P9HKYL1cYeM5eRBesspWrJUoKCQjwwzn4I
-   gtnReac1sRItB1107oz4sFeujnvF6xk9+pOWuf0QOOKky/gLUJvMtvOXg
-   5Z9TRhfuAm72AcNIpDYNPpDpgu1H0zNxt5e7dT+FmIBK3GLJSpwlrw76o
-   fld3yEDONaTOe+IkOVYdzt0/ue4PC1e62E6wzhS6EkTCBb2PSP0s46yn3
-   E/QboO5w2pvzfuhEVaorgUovJ+jsQ1Q4XqjjA4WsBVekbb2OUvxtHONa7
-   n4nK49NcqXcCL6M/qUhMAZMD0TR76zOjI4CUVGilry/XGgM04utrb1CN4
+  bh=dItB2SYLzhKj+1YWYBWXFsJSombVvDVG7SjZOctIX88=;
+  b=OodQJVPgfgMhtlI/GpogsJRICKo/KbEQkmf6NUt5QNc1JqZcgJhwmEy9
+   ZUTMqZT8JewtvPzWSShPSLsKJffkA+2gTSPw+JjBkRq58mI4DfcCnywsz
+   WdhKkO+VuvnuJmBELAlYllSfvPHm1Z0bxe3RyW0ziQuy8ARtobSqDq5wR
+   ITec5KahDJkiB1aiEcfUiM+1pq8fcTO7pgBUd6nXTwk+YED7es3JPIPf6
+   zVOTI2Q0ckCoJriu0yj9fZ+Jf5+rtZqLK1m8GtPPboXacQMNZR180jQzC
+   K/l/i+dZ+34NHzZ6cbYMaoXVaWD2xeOF74dsfaN1dbnYCDOOj6h6j6os3
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="367214267"
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="386762965"
 X-IronPort-AV: E=Sophos;i="6.03,257,1694761200"; 
-   d="scan'208";a="367214267"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 18:28:04 -0700
+   d="scan'208";a="386762965"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 19:20:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="763398743"
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="788973578"
 X-IronPort-AV: E=Sophos;i="6.03,257,1694761200"; 
-   d="scan'208";a="763398743"
+   d="scan'208";a="788973578"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 27 Oct 2023 18:28:03 -0700
+  by orsmga008.jf.intel.com with ESMTP; 27 Oct 2023 19:20:06 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qwY7N-000BMQ-0t;
-	Sat, 28 Oct 2023 01:28:01 +0000
-Date: Sat, 28 Oct 2023 09:27:43 +0800
+	id 1qwYvk-000BOt-1s;
+	Sat, 28 Oct 2023 02:20:04 +0000
+Date: Sat, 28 Oct 2023 10:19:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Igor Torrente <igormtorrente@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Melissa Wen <melissa.srw@gmail.com>
-Subject: drivers/gpu/drm/vkms/vkms_formats.c:91:35: sparse: sparse: cast to
- restricted __le16
-Message-ID: <202310280922.FO6joaGF-lkp@intel.com>
+To: SeongJae Park <sj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sj:damon/next 27/29] mm/damon/core.c:1100:15: warning: no previous
+ prototype for 'damon_feed_loop_next_input'
+Message-ID: <202310281015.MAPM6qTx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,155 +50,111 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   56567a20b22bdbf85c3e55eee3bf2bd23fa2f108
-commit: 3675d8a1726337bd1e839a185e0a7ce0bc459b6b drm: vkms: Adds XRGB_16161616 and ARGB_1616161616 formats
-date:   1 year, 2 months ago
-config: x86_64-randconfig-123-20231016 (https://download.01.org/0day-ci/archive/20231028/202310280922.FO6joaGF-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+head:   582f3391d5cdaa0307dfc2e1fa5566c9dd7ae489
+commit: 62ea5e20e348efec15b0abbc00eac0fa53b0a98f [27/29] mm/damon/core: Implement a simple feedback loop function
+config: i386-buildonly-randconfig-002-20231028 (https://download.01.org/0day-ci/archive/20231028/202310281015.MAPM6qTx-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231028/202310280922.FO6joaGF-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231028/202310281015.MAPM6qTx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310280922.FO6joaGF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310281015.MAPM6qTx-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/vkms/vkms_formats.c:91:35: sparse: sparse: cast to restricted __le16
-   drivers/gpu/drm/vkms/vkms_formats.c:92:35: sparse: sparse: cast to restricted __le16
-   drivers/gpu/drm/vkms/vkms_formats.c:93:35: sparse: sparse: cast to restricted __le16
-   drivers/gpu/drm/vkms/vkms_formats.c:94:35: sparse: sparse: cast to restricted __le16
-   drivers/gpu/drm/vkms/vkms_formats.c:109:35: sparse: sparse: cast to restricted __le16
-   drivers/gpu/drm/vkms/vkms_formats.c:110:35: sparse: sparse: cast to restricted __le16
-   drivers/gpu/drm/vkms/vkms_formats.c:111:35: sparse: sparse: cast to restricted __le16
->> drivers/gpu/drm/vkms/vkms_formats.c:177:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:177:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:177:31: sparse:     got restricted __le16 [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:178:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:178:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:178:31: sparse:     got restricted __le16 [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:179:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:179:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:179:31: sparse:     got restricted __le16 [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:180:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:180:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:180:31: sparse:     got restricted __le16 [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:195:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:195:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:195:31: sparse:     got restricted __le16 [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:196:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:196:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:196:31: sparse:     got restricted __le16 [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:197:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:197:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:197:31: sparse:     got restricted __le16 [usertype]
+All warnings (new ones prefixed by >>):
 
-vim +91 drivers/gpu/drm/vkms/vkms_formats.c
+>> mm/damon/core.c:1100:15: warning: no previous prototype for 'damon_feed_loop_next_input' [-Wmissing-prototypes]
+    1100 | unsigned long damon_feed_loop_next_input(unsigned long last_input,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/kernel.h:27,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/current.h:10,
+                    from include/linux/sched.h:12,
+                    from include/linux/cgroup.h:12,
+                    from include/linux/memcontrol.h:13,
+                    from include/linux/damon.h:11,
+                    from mm/damon/core.c:10:
+   mm/damon/core.c: In function 'damon_feed_loop_next_input':
+   include/linux/minmax.h:21:35: warning: comparison of distinct pointer types lacks a cast
+      21 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                                   ^~
+   include/linux/minmax.h:27:18: note: in expansion of macro '__typecheck'
+      27 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^~~~~~~~~~~
+   include/linux/minmax.h:37:31: note: in expansion of macro '__safe_cmp'
+      37 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~
+   include/linux/minmax.h:75:25: note: in expansion of macro '__careful_cmp'
+      75 | #define max(x, y)       __careful_cmp(x, y, >)
+         |                         ^~~~~~~~~~~~~
+   mm/damon/core.c:1104:41: note: in expansion of macro 'max'
+    1104 |         unsigned long score_goal_diff = max(goal, score) - min(goal, score);
+         |                                         ^~~
+   include/linux/minmax.h:21:35: warning: comparison of distinct pointer types lacks a cast
+      21 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                                   ^~
+   include/linux/minmax.h:27:18: note: in expansion of macro '__typecheck'
+      27 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^~~~~~~~~~~
+   include/linux/minmax.h:37:31: note: in expansion of macro '__safe_cmp'
+      37 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~
+   include/linux/minmax.h:68:25: note: in expansion of macro '__careful_cmp'
+      68 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                         ^~~~~~~~~~~~~
+   mm/damon/core.c:1104:60: note: in expansion of macro 'min'
+    1104 |         unsigned long score_goal_diff = max(goal, score) - min(goal, score);
+         |                                                            ^~~
+   mm/damon/core.c:1107:23: warning: unused variable 'next_input' [-Wunused-variable]
+    1107 |         unsigned long next_input = last_input;
+         |                       ^~~~~~~~~~
+   In file included from mm/damon/core.c:1785:
+   mm/damon/core-test.h: In function 'damon_test_nr_accesses_to_accesses_bp':
+   mm/damon/core-test.h:301:57: warning: unsigned conversion from 'long long int' to 'long unsigned int' changes value from '42949672960' to '0' [-Woverflow]
+     301 |                 .sample_interval = 10, .aggr_interval = 42949672960,};
+         |                                                         ^~~~~~~~~~~
 
-    80	
-    81	static void ARGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
-    82					     const struct vkms_frame_info *frame_info,
-    83					     int y)
-    84	{
-    85		struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-    86		u16 *src_pixels = get_packed_src_addr(frame_info, y);
-    87		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-    88				    stage_buffer->n_pixels);
-    89	
-    90		for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
-  > 91			out_pixels[x].a = le16_to_cpu(src_pixels[3]);
-    92			out_pixels[x].r = le16_to_cpu(src_pixels[2]);
-    93			out_pixels[x].g = le16_to_cpu(src_pixels[1]);
-    94			out_pixels[x].b = le16_to_cpu(src_pixels[0]);
-    95		}
-    96	}
-    97	
-    98	static void XRGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
-    99					     const struct vkms_frame_info *frame_info,
-   100					     int y)
-   101	{
-   102		struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-   103		u16 *src_pixels = get_packed_src_addr(frame_info, y);
-   104		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-   105				    stage_buffer->n_pixels);
-   106	
-   107		for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
-   108			out_pixels[x].a = (u16)0xffff;
-   109			out_pixels[x].r = le16_to_cpu(src_pixels[2]);
-   110			out_pixels[x].g = le16_to_cpu(src_pixels[1]);
-   111			out_pixels[x].b = le16_to_cpu(src_pixels[0]);
-   112		}
-   113	}
-   114	
-   115	/*
-   116	 * The following  functions take an line of argb_u16 pixels from the
-   117	 * src_buffer, convert them to a specific format, and store them in the
-   118	 * destination.
-   119	 *
-   120	 * They are used in the `compose_active_planes` to convert and store a line
-   121	 * from the src_buffer to the writeback buffer.
-   122	 */
-   123	static void argb_u16_to_ARGB8888(struct vkms_frame_info *frame_info,
-   124					 const struct line_buffer *src_buffer, int y)
-   125	{
-   126		int x_dst = frame_info->dst.x1;
-   127		u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
-   128		struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
-   129		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-   130				    src_buffer->n_pixels);
-   131	
-   132		for (size_t x = 0; x < x_limit; x++, dst_pixels += 4) {
-   133			/*
-   134			 * This sequence below is important because the format's byte order is
-   135			 * in little-endian. In the case of the ARGB8888 the memory is
-   136			 * organized this way:
-   137			 *
-   138			 * | Addr     | = blue channel
-   139			 * | Addr + 1 | = green channel
-   140			 * | Addr + 2 | = Red channel
-   141			 * | Addr + 3 | = Alpha channel
-   142			 */
-   143			dst_pixels[3] = DIV_ROUND_CLOSEST(in_pixels[x].a, 257);
-   144			dst_pixels[2] = DIV_ROUND_CLOSEST(in_pixels[x].r, 257);
-   145			dst_pixels[1] = DIV_ROUND_CLOSEST(in_pixels[x].g, 257);
-   146			dst_pixels[0] = DIV_ROUND_CLOSEST(in_pixels[x].b, 257);
-   147		}
-   148	}
-   149	
-   150	static void argb_u16_to_XRGB8888(struct vkms_frame_info *frame_info,
-   151					 const struct line_buffer *src_buffer, int y)
-   152	{
-   153		int x_dst = frame_info->dst.x1;
-   154		u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
-   155		struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
-   156		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-   157				    src_buffer->n_pixels);
-   158	
-   159		for (size_t x = 0; x < x_limit; x++, dst_pixels += 4) {
-   160			dst_pixels[3] = 0xff;
-   161			dst_pixels[2] = DIV_ROUND_CLOSEST(in_pixels[x].r, 257);
-   162			dst_pixels[1] = DIV_ROUND_CLOSEST(in_pixels[x].g, 257);
-   163			dst_pixels[0] = DIV_ROUND_CLOSEST(in_pixels[x].b, 257);
-   164		}
-   165	}
-   166	
-   167	static void argb_u16_to_ARGB16161616(struct vkms_frame_info *frame_info,
-   168					     const struct line_buffer *src_buffer, int y)
-   169	{
-   170		int x_dst = frame_info->dst.x1;
-   171		u16 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
-   172		struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
-   173		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-   174				    src_buffer->n_pixels);
-   175	
-   176		for (size_t x = 0; x < x_limit; x++, dst_pixels += 4) {
- > 177			dst_pixels[3] = cpu_to_le16(in_pixels[x].a);
-   178			dst_pixels[2] = cpu_to_le16(in_pixels[x].r);
-   179			dst_pixels[1] = cpu_to_le16(in_pixels[x].g);
-   180			dst_pixels[0] = cpu_to_le16(in_pixels[x].b);
-   181		}
-   182	}
-   183	
+
+vim +/damon_feed_loop_next_input +1100 mm/damon/core.c
+
+  1079	
+  1080	/*
+  1081	 * damon_feed_loop_next_input() - get next input to achieve a target score.
+  1082	 * @last_input	The last input.
+  1083	 * @score	Current score that made with @last_input.
+  1084	 *
+  1085	 * Calculate next input to achieve the target score, based on the last input
+  1086	 * and current score.  Assuming the input and the score are positively
+  1087	 * proportional, calculate how much compensation should be added to or
+  1088	 * subtracted from the last input as a proportion of the last input.  Avoid
+  1089	 * next input always being zero by setting it at least 1.  In short form
+  1090	 * (assuming support of float and signed calculations), the algorithm is as
+  1091	 * below.
+  1092	 *
+  1093	 * next_input = max(last_input * ((goal - current) / goal + 1), 1)
+  1094	 *
+  1095	 * For simple implementation, we assume the target score is always 10,000.  The
+  1096	 * caller should adjust @score for this.
+  1097	 *
+  1098	 * Returns next input that assumed to achieve the target score.
+  1099	 */
+> 1100	unsigned long damon_feed_loop_next_input(unsigned long last_input,
+  1101			unsigned long score)
+  1102	{
+  1103		const unsigned int goal = 10000;
+  1104		unsigned long score_goal_diff = max(goal, score) - min(goal, score);
+  1105		unsigned long score_goal_diff_bp = score_goal_diff * 10000 / goal;
+  1106		unsigned long compensation = last_input * score_goal_diff_bp / 10000;
+  1107		unsigned long next_input = last_input;
+  1108	
+  1109		if (goal > score)
+  1110			return last_input + compensation;
+  1111		if (last_input > compensation)
+  1112			return last_input - compensation;
+  1113		return 1;
+  1114	}
+  1115	
 
 -- 
 0-DAY CI Kernel Test Service
