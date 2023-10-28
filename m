@@ -1,47 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8B9123A0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Oct 2023 12:51:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A50F9D6
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Oct 2023 13:22:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YcOnPsGL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ol5HxdDf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698497484; x=1730033484;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VDf3aj1o8FsD2qZCp1rgbQUNRr5ZyRRATqwyibqMw/0=;
-  b=YcOnPsGLxB1BJCvgJOv7PjiSTjsCrfwqc5Q9zeTJxCvEsh1iJkokPmvM
-   Bznrobv/CEoOIgmjecF6AzaiZi7p3agH1HOMtxmjRX/x6zAbU5j8A+igw
-   rdDiQcK1nQLD30NKSWxgDldhmDjAiboEkw3uqU5Q3qI5GR7HsIHk5XwP4
-   dysAcmLxYt/tU+oYKh6NRfz6kRmwyy+Ov6Fg2GIE80E4OXBuXu04jRclI
-   LChFkcAGBfCjLENRHEsln0C3L6vCraG6ponQ0l2LvZebv1n3dThO337Vk
-   Db0NPY4X5+t2aKwHgFemVoDERjaYyXQA5fm5XUZ46eZP20eey1M2DjWZv
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="372950146"
+  t=1698499348; x=1730035348;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AfsX+28wvpVYVI/uJyU0Y1wu5/EAzRfsS6SGbjeDVSE=;
+  b=Ol5HxdDfxtHJ2KT0pm3UN8mo1Nf7aAPPB9+53PoDdxPHLVtwjTGOoJlo
+   Vx9rct+ElIiLWMfq1RHRGBCK7BdIFqm1mfLPULDB4CuwICjewwbDUWvtw
+   Vpfmn+KiwCbEQEFFONSspDOFsFM0d95+fH7mgVaQ+3dxr/nZS6YJ1UFui
+   LTuyc6zakXpzEQFgNQbmDcNgH4mmmmKEF/FUo3RxDPS5IoMeGEDc45sz/
+   q829PIFQIXXqOhoOfbv+mk5NsdEEsAhX3ebxslYe5D82KdE1YDc4pEaFQ
+   2skXJQKF+wpmlJ9wIsErQOJrkBo0Kd2kHAhZfFeSSwxJ2pz+YihuG0Cjo
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="368112762"
 X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; 
-   d="scan'208";a="372950146"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2023 05:51:24 -0700
+   d="scan'208";a="368112762"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2023 06:22:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="759852475"
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="850512765"
 X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; 
-   d="scan'208";a="759852475"
+   d="scan'208";a="850512765"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 28 Oct 2023 05:51:23 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 28 Oct 2023 06:22:23 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qwime-000Bkt-1y;
-	Sat, 28 Oct 2023 12:51:20 +0000
-Date: Sat, 28 Oct 2023 20:50:29 +0800
+	id 1qwjGf-000Blf-0j;
+	Sat, 28 Oct 2023 13:22:21 +0000
+Date: Sat, 28 Oct 2023 21:22:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arnd-playground:randconfig-6.7 236/325] sound/core/rawmidi.c:1169:
- warning: Function parameter or member 'ptr' not described in
- 'snd_rawmidi_receive'
-Message-ID: <202310282021.YJqx7cFa-lkp@intel.com>
+To: Anshuman Khandual <anshuman.khandual@arm.com>,
+	linux-arm-kernel@lists.infradead.org, suzuki.poulose@arm.com
+Cc: oe-kbuild-all@lists.linux.dev,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	James Clark <james.clark@arm.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	coresight@lists.linaro.org,
+	linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH 6/7] coresight: stm: Move ACPI support from AMBA driver
+ to platform driver
+Message-ID: <202310282130.HCHZyX0e-lkp@intel.com>
+References: <20231027072943.3418997-7-anshuman.khandual@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,130 +62,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231027072943.3418997-7-anshuman.khandual@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git randconfig-6.7
-head:   c9ecd45768d19a28da1d81e19ab3663828a4fec1
-commit: 5ec51b77b2e5bf25b74c31dbf1abe760af18eed5 [236/325] function casts
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20231028/202310282021.YJqx7cFa-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231028/202310282021.YJqx7cFa-lkp@intel.com/reproduce)
+Hi Anshuman,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/acpi-bus soc/for-next atorgue-stm32/stm32-next linus/master v6.6-rc7 next-20231027]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/coresight-replicator-Move-ACPI-support-from-AMBA-driver-to-platform-driver/20231027-153540
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20231027072943.3418997-7-anshuman.khandual%40arm.com
+patch subject: [PATCH 6/7] coresight: stm: Move ACPI support from AMBA driver to platform driver
+config: arm-randconfig-003-20231028 (https://download.01.org/0day-ci/archive/20231028/202310282130.HCHZyX0e-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231028/202310282130.HCHZyX0e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310282021.YJqx7cFa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310282130.HCHZyX0e-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> sound/core/rawmidi.c:1169: warning: Function parameter or member 'ptr' not described in 'snd_rawmidi_receive'
->> sound/core/rawmidi.c:1169: warning: Excess function parameter 'substream' description in 'snd_rawmidi_receive'
---
->> drivers/infiniband/ulp/srpt/ib_srpt.c:216: warning: Function parameter or member 'ptr' not described in 'srpt_qp_event'
->> drivers/infiniband/ulp/srpt/ib_srpt.c:216: warning: Excess function parameter 'ch' description in 'srpt_qp_event'
---
->> fs/ubifs/lprops.c:1018: warning: Function parameter or member 'data' not described in 'scan_check_cb'
->> fs/ubifs/lprops.c:1018: warning: Excess function parameter 'lst' description in 'scan_check_cb'
+>> drivers/hwtracing/coresight/coresight-stm.c:151: warning: Function parameter or member 'pclk' not described in 'stm_drvdata'
 
 
-vim +1169 sound/core/rawmidi.c
+vim +151 drivers/hwtracing/coresight/coresight-stm.c
 
-08fdced60ca08e David Henningsson 2021-05-15  1157  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1158  /**
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1159   * snd_rawmidi_receive - receive the input data from the device
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1160   * @substream: the rawmidi substream
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1161   * @buffer: the buffer pointer
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1162   * @count: the data size to read
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1163   *
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1164   * Reads the data from the internal buffer.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1165   *
-eb7c06e8e9c93b Yacine Belkadi    2013-03-11  1166   * Return: The size of read data, or a negative error code on failure.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1167   */
-5ec51b77b2e5bf Arnd Bergmann     2023-06-19  1168  int snd_rawmidi_receive(void *ptr, const void *buffer, int count)
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @1169  {
-5ec51b77b2e5bf Arnd Bergmann     2023-06-19  1170  	struct snd_rawmidi_substream *substream = ptr;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1171  	unsigned long flags;
-08fdced60ca08e David Henningsson 2021-05-15  1172  	struct timespec64 ts64 = get_framing_tstamp(substream);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1173  	int result = 0, count1;
-463a20fd3481de Takashi Iwai      2022-06-17  1174  	struct snd_rawmidi_runtime *runtime;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1175  
-463a20fd3481de Takashi Iwai      2022-06-17  1176  	spin_lock_irqsave(&substream->lock, flags);
-463a20fd3481de Takashi Iwai      2022-06-17  1177  	if (!substream->opened) {
-463a20fd3481de Takashi Iwai      2022-06-17  1178  		result = -EBADFD;
-463a20fd3481de Takashi Iwai      2022-06-17  1179  		goto unlock;
-463a20fd3481de Takashi Iwai      2022-06-17  1180  	}
-463a20fd3481de Takashi Iwai      2022-06-17  1181  	runtime = substream->runtime;
-463a20fd3481de Takashi Iwai      2022-06-17  1182  	if (!runtime || !runtime->buffer) {
-ca20d29275b909 Takashi Iwai      2014-02-04  1183  		rmidi_dbg(substream->rmidi,
-ca20d29275b909 Takashi Iwai      2014-02-04  1184  			  "snd_rawmidi_receive: input is not active!!!\n");
-463a20fd3481de Takashi Iwai      2022-06-17  1185  		result = -EINVAL;
-463a20fd3481de Takashi Iwai      2022-06-17  1186  		goto unlock;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1187  	}
-08fdced60ca08e David Henningsson 2021-05-15  1188  
-e3a8a5b726bdd9 Takashi Iwai      2023-05-23  1189  	count = get_aligned_size(runtime, count);
-e3a8a5b726bdd9 Takashi Iwai      2023-05-23  1190  	if (!count)
-e3a8a5b726bdd9 Takashi Iwai      2023-05-23  1191  		goto unlock;
-e3a8a5b726bdd9 Takashi Iwai      2023-05-23  1192  
-08fdced60ca08e David Henningsson 2021-05-15  1193  	if (substream->framing == SNDRV_RAWMIDI_MODE_FRAMING_TSTAMP) {
-08fdced60ca08e David Henningsson 2021-05-15  1194  		result = receive_with_tstamp_framing(substream, buffer, count, &ts64);
-08fdced60ca08e David Henningsson 2021-05-15  1195  	} else if (count == 1) {	/* special case, faster code */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1196  		substream->bytes++;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1197  		if (runtime->avail < runtime->buffer_size) {
-5ec51b77b2e5bf Arnd Bergmann     2023-06-19  1198  			runtime->buffer[runtime->hw_ptr++] = ((u8 *)buffer)[0];
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1199  			runtime->hw_ptr %= runtime->buffer_size;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1200  			runtime->avail++;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1201  			result++;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1202  		} else {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1203  			runtime->xruns++;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1204  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1205  	} else {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1206  		substream->bytes += count;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1207  		count1 = runtime->buffer_size - runtime->hw_ptr;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1208  		if (count1 > count)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1209  			count1 = count;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1210  		if (count1 > (int)(runtime->buffer_size - runtime->avail))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1211  			count1 = runtime->buffer_size - runtime->avail;
-e3a8a5b726bdd9 Takashi Iwai      2023-05-23  1212  		count1 = get_aligned_size(runtime, count1);
-e3a8a5b726bdd9 Takashi Iwai      2023-05-23  1213  		if (!count1)
-e3a8a5b726bdd9 Takashi Iwai      2023-05-23  1214  			goto unlock;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1215  		memcpy(runtime->buffer + runtime->hw_ptr, buffer, count1);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1216  		runtime->hw_ptr += count1;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1217  		runtime->hw_ptr %= runtime->buffer_size;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1218  		runtime->avail += count1;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1219  		count -= count1;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1220  		result += count1;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1221  		if (count > 0) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1222  			buffer += count1;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1223  			count1 = count;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1224  			if (count1 > (int)(runtime->buffer_size - runtime->avail)) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1225  				count1 = runtime->buffer_size - runtime->avail;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1226  				runtime->xruns += count - count1;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1227  			}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1228  			if (count1 > 0) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1229  				memcpy(runtime->buffer, buffer, count1);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1230  				runtime->hw_ptr = count1;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1231  				runtime->avail += count1;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1232  				result += count1;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1233  			}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1234  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1235  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1236  	if (result > 0) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1237  		if (runtime->event)
-b3c705aa9e9147 Takashi Iwai      2011-06-14  1238  			schedule_work(&runtime->event_work);
-88a06d6fd6b369 Takashi Iwai      2020-12-06  1239  		else if (__snd_rawmidi_ready(runtime))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1240  			wake_up(&runtime->sleep);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1241  	}
-463a20fd3481de Takashi Iwai      2022-06-17  1242   unlock:
-f1d40433352e5d Takashi Iwai      2022-06-17  1243  	spin_unlock_irqrestore(&substream->lock, flags);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1244  	return result;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1245  }
-6776a5d712a1e6 Takashi Iwai      2014-02-27  1246  EXPORT_SYMBOL(snd_rawmidi_receive);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1247  
-
-:::::: The code at line 1169 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+0f5f9b6ba9e1a7 Suzuki K Poulose  2019-06-19  115  
+237483aa5cf431 Pratik Patel      2016-05-03  116  /**
+237483aa5cf431 Pratik Patel      2016-05-03  117   * struct stm_drvdata - specifics associated to an STM component
+237483aa5cf431 Pratik Patel      2016-05-03  118   * @base:		memory mapped base address for this component.
+237483aa5cf431 Pratik Patel      2016-05-03  119   * @atclk:		optional clock for the core parts of the STM.
+237483aa5cf431 Pratik Patel      2016-05-03  120   * @csdev:		component vitals needed by the framework.
+237483aa5cf431 Pratik Patel      2016-05-03  121   * @spinlock:		only one at a time pls.
+237483aa5cf431 Pratik Patel      2016-05-03  122   * @chs:		the channels accociated to this STM.
+237483aa5cf431 Pratik Patel      2016-05-03  123   * @stm:		structure associated to the generic STM interface.
+9fa3682869d4e1 James Clark       2023-04-25  124   * @mode:		this tracer's mode (enum cs_mode), i.e sysFS, or disabled.
+237483aa5cf431 Pratik Patel      2016-05-03  125   * @traceid:		value of the current ID for this component.
+237483aa5cf431 Pratik Patel      2016-05-03  126   * @write_bytes:	Maximus bytes this STM can write at a time.
+237483aa5cf431 Pratik Patel      2016-05-03  127   * @stmsper:		settings for register STMSPER.
+237483aa5cf431 Pratik Patel      2016-05-03  128   * @stmspscr:		settings for register STMSPSCR.
+237483aa5cf431 Pratik Patel      2016-05-03  129   * @numsp:		the total number of stimulus port support by this STM.
+237483aa5cf431 Pratik Patel      2016-05-03  130   * @stmheer:		settings for register STMHEER.
+237483aa5cf431 Pratik Patel      2016-05-03  131   * @stmheter:		settings for register STMHETER.
+237483aa5cf431 Pratik Patel      2016-05-03  132   * @stmhebsr:		settings for register STMHEBSR.
+237483aa5cf431 Pratik Patel      2016-05-03  133   */
+237483aa5cf431 Pratik Patel      2016-05-03  134  struct stm_drvdata {
+237483aa5cf431 Pratik Patel      2016-05-03  135  	void __iomem		*base;
+237483aa5cf431 Pratik Patel      2016-05-03  136  	struct clk		*atclk;
+ec77ffb6c05951 Anshuman Khandual 2023-10-27  137  	struct clk		*pclk;
+237483aa5cf431 Pratik Patel      2016-05-03  138  	struct coresight_device	*csdev;
+237483aa5cf431 Pratik Patel      2016-05-03  139  	spinlock_t		spinlock;
+237483aa5cf431 Pratik Patel      2016-05-03  140  	struct channel_space	chs;
+237483aa5cf431 Pratik Patel      2016-05-03  141  	struct stm_data		stm;
+237483aa5cf431 Pratik Patel      2016-05-03  142  	local_t			mode;
+237483aa5cf431 Pratik Patel      2016-05-03  143  	u8			traceid;
+237483aa5cf431 Pratik Patel      2016-05-03  144  	u32			write_bytes;
+237483aa5cf431 Pratik Patel      2016-05-03  145  	u32			stmsper;
+237483aa5cf431 Pratik Patel      2016-05-03  146  	u32			stmspscr;
+237483aa5cf431 Pratik Patel      2016-05-03  147  	u32			numsp;
+237483aa5cf431 Pratik Patel      2016-05-03  148  	u32			stmheer;
+237483aa5cf431 Pratik Patel      2016-05-03  149  	u32			stmheter;
+237483aa5cf431 Pratik Patel      2016-05-03  150  	u32			stmhebsr;
+237483aa5cf431 Pratik Patel      2016-05-03 @151  };
+237483aa5cf431 Pratik Patel      2016-05-03  152  
 
 -- 
 0-DAY CI Kernel Test Service
