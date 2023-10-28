@@ -1,41 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A50F9D6
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Oct 2023 13:22:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A058F65
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Oct 2023 13:43:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ol5HxdDf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HQr3sQUn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698499348; x=1730035348;
+  t=1698500609; x=1730036609;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=AfsX+28wvpVYVI/uJyU0Y1wu5/EAzRfsS6SGbjeDVSE=;
-  b=Ol5HxdDfxtHJ2KT0pm3UN8mo1Nf7aAPPB9+53PoDdxPHLVtwjTGOoJlo
-   Vx9rct+ElIiLWMfq1RHRGBCK7BdIFqm1mfLPULDB4CuwICjewwbDUWvtw
-   Vpfmn+KiwCbEQEFFONSspDOFsFM0d95+fH7mgVaQ+3dxr/nZS6YJ1UFui
-   LTuyc6zakXpzEQFgNQbmDcNgH4mmmmKEF/FUo3RxDPS5IoMeGEDc45sz/
-   q829PIFQIXXqOhoOfbv+mk5NsdEEsAhX3ebxslYe5D82KdE1YDc4pEaFQ
-   2skXJQKF+wpmlJ9wIsErQOJrkBo0Kd2kHAhZfFeSSwxJ2pz+YihuG0Cjo
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="368112762"
+  bh=Lgsn/cH6qVOFWUhcF7VtnSy5ywh8V+OwTksqVFwA0F0=;
+  b=HQr3sQUn+20LCrfPNd13Sg761Cykdy+sBfw2+4IB2Ia+fGRDV5FsUY1y
+   O0Jm+hLaYIyw1x6+zl6bKNQtCzWOKg4EPVQWbLnURxgEuE5pIH53eBjtc
+   xd4QzPinXkp+e1JmN9e/AuR/PAmA84RGfPHhm6BSKZf/0Yex1ivUCfTO1
+   axc24uREGJ+F6efe8y4zMqNAIVXirpgbyuccM0Trno9oF2zAYMhrNhNWp
+   xhncIsZeECPwfH49Yi6J9KTuaLhBeHBHKVYDd1HArEhFt64JwkXLHrhAh
+   tQMT1wuIxi/tcx9+hP9kjF+Ojpdr1v/UgYbRLZGvPZWbWqQMM8IOTCSox
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="6530807"
 X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; 
-   d="scan'208";a="368112762"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2023 06:22:27 -0700
+   d="scan'208";a="6530807"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2023 06:43:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="850512765"
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="830274388"
 X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; 
-   d="scan'208";a="850512765"
+   d="scan'208";a="830274388"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 28 Oct 2023 06:22:23 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 28 Oct 2023 06:43:23 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qwjGf-000Blf-0j;
-	Sat, 28 Oct 2023 13:22:21 +0000
-Date: Sat, 28 Oct 2023 21:22:21 +0800
+	id 1qwjaz-000BmT-26;
+	Sat, 28 Oct 2023 13:43:21 +0000
+Date: Sat, 28 Oct 2023 21:42:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: Anshuman Khandual <anshuman.khandual@arm.com>,
 	linux-arm-kernel@lists.infradead.org, suzuki.poulose@arm.com
@@ -50,10 +50,10 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
 	coresight@lists.linaro.org,
 	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH 6/7] coresight: stm: Move ACPI support from AMBA driver
+Subject: Re: [PATCH 7/7] coresight: debug: Move ACPI support from AMBA driver
  to platform driver
-Message-ID: <202310282130.HCHZyX0e-lkp@intel.com>
-References: <20231027072943.3418997-7-anshuman.khandual@arm.com>
+Message-ID: <202310282104.0VVIo070-lkp@intel.com>
+References: <20231027072943.3418997-8-anshuman.khandual@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,76 +62,154 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231027072943.3418997-7-anshuman.khandual@arm.com>
+In-Reply-To: <20231027072943.3418997-8-anshuman.khandual@arm.com>
 
 Hi Anshuman,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/acpi-bus soc/for-next atorgue-stm32/stm32-next linus/master v6.6-rc7 next-20231027]
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on rafael-pm/acpi-bus soc/for-next atorgue-stm32/stm32-next linus/master v6.6-rc7 next-20231027]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/coresight-replicator-Move-ACPI-support-from-AMBA-driver-to-platform-driver/20231027-153540
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20231027072943.3418997-7-anshuman.khandual%40arm.com
-patch subject: [PATCH 6/7] coresight: stm: Move ACPI support from AMBA driver to platform driver
-config: arm-randconfig-003-20231028 (https://download.01.org/0day-ci/archive/20231028/202310282130.HCHZyX0e-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231028/202310282130.HCHZyX0e-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20231027072943.3418997-8-anshuman.khandual%40arm.com
+patch subject: [PATCH 7/7] coresight: debug: Move ACPI support from AMBA driver to platform driver
+config: arm64-randconfig-003-20231028 (https://download.01.org/0day-ci/archive/20231028/202310282104.0VVIo070-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231028/202310282104.0VVIo070-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310282130.HCHZyX0e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310282104.0VVIo070-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/hwtracing/coresight/coresight-stm.c:151: warning: Function parameter or member 'pclk' not described in 'stm_drvdata'
+   In file included from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/amba/bus.h:15,
+                    from drivers/hwtracing/coresight/coresight-cpu-debug.c:7:
+   include/linux/module.h:131:49: error: redefinition of '__inittest'
+     131 |         static inline initcall_t __maybe_unused __inittest(void)                \
+         |                                                 ^~~~~~~~~~
+   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
+     262 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:303:9: note: in expansion of macro 'module_driver'
+     303 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   drivers/hwtracing/coresight/coresight-cpu-debug.c:784:1: note: in expansion of macro 'module_platform_driver'
+     784 | module_platform_driver(debug_platform_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:131:49: note: previous definition of '__inittest' with type 'int (*(void))(void)'
+     131 |         static inline initcall_t __maybe_unused __inittest(void)                \
+         |                                                 ^~~~~~~~~~
+   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
+     262 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/amba/bus.h:186:9: note: in expansion of macro 'module_driver'
+     186 |         module_driver(__amba_drv, amba_driver_register, amba_driver_unregister)
+         |         ^~~~~~~~~~~~~
+   drivers/hwtracing/coresight/coresight-cpu-debug.c:692:1: note: in expansion of macro 'module_amba_driver'
+     692 | module_amba_driver(debug_driver);
+         | ^~~~~~~~~~~~~~~~~~
+   include/linux/module.h:133:13: error: redefinition of 'init_module'
+     133 |         int init_module(void) __copy(initfn)                    \
+         |             ^~~~~~~~~~~
+   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
+     262 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:303:9: note: in expansion of macro 'module_driver'
+     303 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   drivers/hwtracing/coresight/coresight-cpu-debug.c:784:1: note: in expansion of macro 'module_platform_driver'
+     784 | module_platform_driver(debug_platform_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:133:13: note: previous definition of 'init_module' with type 'int(void)'
+     133 |         int init_module(void) __copy(initfn)                    \
+         |             ^~~~~~~~~~~
+   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
+     262 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/amba/bus.h:186:9: note: in expansion of macro 'module_driver'
+     186 |         module_driver(__amba_drv, amba_driver_register, amba_driver_unregister)
+         |         ^~~~~~~~~~~~~
+   drivers/hwtracing/coresight/coresight-cpu-debug.c:692:1: note: in expansion of macro 'module_amba_driver'
+     692 | module_amba_driver(debug_driver);
+         | ^~~~~~~~~~~~~~~~~~
+>> include/linux/module.h:139:49: error: redefinition of '__exittest'
+     139 |         static inline exitcall_t __maybe_unused __exittest(void)                \
+         |                                                 ^~~~~~~~~~
+   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
+     267 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:303:9: note: in expansion of macro 'module_driver'
+     303 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   drivers/hwtracing/coresight/coresight-cpu-debug.c:784:1: note: in expansion of macro 'module_platform_driver'
+     784 | module_platform_driver(debug_platform_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:139:49: note: previous definition of '__exittest' with type 'void (*(void))(void)'
+     139 |         static inline exitcall_t __maybe_unused __exittest(void)                \
+         |                                                 ^~~~~~~~~~
+   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
+     267 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/amba/bus.h:186:9: note: in expansion of macro 'module_driver'
+     186 |         module_driver(__amba_drv, amba_driver_register, amba_driver_unregister)
+         |         ^~~~~~~~~~~~~
+   drivers/hwtracing/coresight/coresight-cpu-debug.c:692:1: note: in expansion of macro 'module_amba_driver'
+     692 | module_amba_driver(debug_driver);
+         | ^~~~~~~~~~~~~~~~~~
+>> include/linux/module.h:141:14: error: redefinition of 'cleanup_module'
+     141 |         void cleanup_module(void) __copy(exitfn)                \
+         |              ^~~~~~~~~~~~~~
+   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
+     267 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:303:9: note: in expansion of macro 'module_driver'
+     303 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   drivers/hwtracing/coresight/coresight-cpu-debug.c:784:1: note: in expansion of macro 'module_platform_driver'
+     784 | module_platform_driver(debug_platform_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:141:14: note: previous definition of 'cleanup_module' with type 'void(void)'
+     141 |         void cleanup_module(void) __copy(exitfn)                \
+         |              ^~~~~~~~~~~~~~
+   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
+     267 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/amba/bus.h:186:9: note: in expansion of macro 'module_driver'
+     186 |         module_driver(__amba_drv, amba_driver_register, amba_driver_unregister)
+         |         ^~~~~~~~~~~~~
+   drivers/hwtracing/coresight/coresight-cpu-debug.c:692:1: note: in expansion of macro 'module_amba_driver'
+     692 | module_amba_driver(debug_driver);
+         | ^~~~~~~~~~~~~~~~~~
 
 
-vim +151 drivers/hwtracing/coresight/coresight-stm.c
+vim +/__exittest +139 include/linux/module.h
 
-0f5f9b6ba9e1a7 Suzuki K Poulose  2019-06-19  115  
-237483aa5cf431 Pratik Patel      2016-05-03  116  /**
-237483aa5cf431 Pratik Patel      2016-05-03  117   * struct stm_drvdata - specifics associated to an STM component
-237483aa5cf431 Pratik Patel      2016-05-03  118   * @base:		memory mapped base address for this component.
-237483aa5cf431 Pratik Patel      2016-05-03  119   * @atclk:		optional clock for the core parts of the STM.
-237483aa5cf431 Pratik Patel      2016-05-03  120   * @csdev:		component vitals needed by the framework.
-237483aa5cf431 Pratik Patel      2016-05-03  121   * @spinlock:		only one at a time pls.
-237483aa5cf431 Pratik Patel      2016-05-03  122   * @chs:		the channels accociated to this STM.
-237483aa5cf431 Pratik Patel      2016-05-03  123   * @stm:		structure associated to the generic STM interface.
-9fa3682869d4e1 James Clark       2023-04-25  124   * @mode:		this tracer's mode (enum cs_mode), i.e sysFS, or disabled.
-237483aa5cf431 Pratik Patel      2016-05-03  125   * @traceid:		value of the current ID for this component.
-237483aa5cf431 Pratik Patel      2016-05-03  126   * @write_bytes:	Maximus bytes this STM can write at a time.
-237483aa5cf431 Pratik Patel      2016-05-03  127   * @stmsper:		settings for register STMSPER.
-237483aa5cf431 Pratik Patel      2016-05-03  128   * @stmspscr:		settings for register STMSPSCR.
-237483aa5cf431 Pratik Patel      2016-05-03  129   * @numsp:		the total number of stimulus port support by this STM.
-237483aa5cf431 Pratik Patel      2016-05-03  130   * @stmheer:		settings for register STMHEER.
-237483aa5cf431 Pratik Patel      2016-05-03  131   * @stmheter:		settings for register STMHETER.
-237483aa5cf431 Pratik Patel      2016-05-03  132   * @stmhebsr:		settings for register STMHEBSR.
-237483aa5cf431 Pratik Patel      2016-05-03  133   */
-237483aa5cf431 Pratik Patel      2016-05-03  134  struct stm_drvdata {
-237483aa5cf431 Pratik Patel      2016-05-03  135  	void __iomem		*base;
-237483aa5cf431 Pratik Patel      2016-05-03  136  	struct clk		*atclk;
-ec77ffb6c05951 Anshuman Khandual 2023-10-27  137  	struct clk		*pclk;
-237483aa5cf431 Pratik Patel      2016-05-03  138  	struct coresight_device	*csdev;
-237483aa5cf431 Pratik Patel      2016-05-03  139  	spinlock_t		spinlock;
-237483aa5cf431 Pratik Patel      2016-05-03  140  	struct channel_space	chs;
-237483aa5cf431 Pratik Patel      2016-05-03  141  	struct stm_data		stm;
-237483aa5cf431 Pratik Patel      2016-05-03  142  	local_t			mode;
-237483aa5cf431 Pratik Patel      2016-05-03  143  	u8			traceid;
-237483aa5cf431 Pratik Patel      2016-05-03  144  	u32			write_bytes;
-237483aa5cf431 Pratik Patel      2016-05-03  145  	u32			stmsper;
-237483aa5cf431 Pratik Patel      2016-05-03  146  	u32			stmspscr;
-237483aa5cf431 Pratik Patel      2016-05-03  147  	u32			numsp;
-237483aa5cf431 Pratik Patel      2016-05-03  148  	u32			stmheer;
-237483aa5cf431 Pratik Patel      2016-05-03  149  	u32			stmheter;
-237483aa5cf431 Pratik Patel      2016-05-03  150  	u32			stmhebsr;
-237483aa5cf431 Pratik Patel      2016-05-03 @151  };
-237483aa5cf431 Pratik Patel      2016-05-03  152  
+0fd972a7d91d6e Paul Gortmaker 2015-05-01  128  
+0fd972a7d91d6e Paul Gortmaker 2015-05-01  129  /* Each module must use one module_init(). */
+0fd972a7d91d6e Paul Gortmaker 2015-05-01  130  #define module_init(initfn)					\
+1f318a8bafcfba Arnd Bergmann  2017-02-01  131  	static inline initcall_t __maybe_unused __inittest(void)		\
+0fd972a7d91d6e Paul Gortmaker 2015-05-01  132  	{ return initfn; }					\
+cf68fffb66d60d Sami Tolvanen  2021-04-08  133  	int init_module(void) __copy(initfn)			\
+cf68fffb66d60d Sami Tolvanen  2021-04-08  134  		__attribute__((alias(#initfn)));		\
+92efda8eb15295 Sami Tolvanen  2022-09-08  135  	___ADDRESSABLE(init_module, __initdata);
+0fd972a7d91d6e Paul Gortmaker 2015-05-01  136  
+0fd972a7d91d6e Paul Gortmaker 2015-05-01  137  /* This is only required if you want to be unloadable. */
+0fd972a7d91d6e Paul Gortmaker 2015-05-01  138  #define module_exit(exitfn)					\
+1f318a8bafcfba Arnd Bergmann  2017-02-01 @139  	static inline exitcall_t __maybe_unused __exittest(void)		\
+0fd972a7d91d6e Paul Gortmaker 2015-05-01  140  	{ return exitfn; }					\
+cf68fffb66d60d Sami Tolvanen  2021-04-08 @141  	void cleanup_module(void) __copy(exitfn)		\
+cf68fffb66d60d Sami Tolvanen  2021-04-08  142  		__attribute__((alias(#exitfn)));		\
+92efda8eb15295 Sami Tolvanen  2022-09-08  143  	___ADDRESSABLE(cleanup_module, __exitdata);
+0fd972a7d91d6e Paul Gortmaker 2015-05-01  144  
 
 -- 
 0-DAY CI Kernel Test Service
