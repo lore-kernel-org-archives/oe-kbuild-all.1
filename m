@@ -1,273 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38872B661
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Oct 2023 12:29:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3031C29
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Oct 2023 12:37:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KwVeCAuK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698496165; x=1730032165;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Kafm+B1CYZWyAiqYAMxeuKBP/xw2BpugTt21fhH6b/g=;
-  b=KwVeCAuKEJkLUuYPOJB3S/PVO7VMnCtF//0rocm1DVLZ/8u+Wrdj4Wv5
-   bPmbpZWWMK43zKxlxSLWMaKcRX6GnEpZL2DntIzhsWnzIe6wjBXt4JDbp
-   hib+FApFeTpjhPuwCbIAqJZ/k8aOiAdy2QAfYFaUEPv9TWNaUyrGXmFQp
-   zrq4K5Hvf0ZYPKQdM2XpCw5Mf9yHR0ZA+MLl2KNXngBUg9U8i4aIbjm2y
-   g7GIfCeqrcDP1Ter2gxcET/LqyuPb5P8vz74hr20mvus7JbIxr7KoOx1l
-   sxJMdZCICqu/QwnBcV4sNoV77TKzaIVBu3Hs1lwPFTMCR4NWg1isI/NGE
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="378263692"
-X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; 
-   d="scan'208";a="378263692"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2023 05:29:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="736347090"
-X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; 
-   d="scan'208";a="736347090"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 28 Oct 2023 05:29:22 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qwiRM-000BkF-0q;
-	Sat, 28 Oct 2023 12:29:20 +0000
-Date: Sat, 28 Oct 2023 20:29:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andreas Gruenbacher <agruenba@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-nonmm-unstable 18/58] ERROR: modpost: vmlinux: local
- symbol 'kthread_stop_put' was exported
-Message-ID: <202310282049.HXCHtgEz-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fpxQ9Pxx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97831C433C8;
+	Sat, 28 Oct 2023 12:37:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1698496663;
+	bh=TVoco+AzDRBF0NOEmoQSKHl1rwpR7Tej2rKXmSgrB/4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=fpxQ9Pxx92B9yi2W2q0u+w+t1U4x0W6ly/t+hRtFyZxbjW/IRo8JHv8fP8yD0F/xY
+	 EQnE/gVYqz0fcJdUcfLme6Ks55xIyy8Zje7S6v6QbcwWb/JeWWq9JnEzgTSUXW4/kg
+	 6ZPmRxLX5FhIxh5nbge+sCUpLG4lY1hPytosQVNbKNa7JBxg2aVOsPqCfuGudb+c0g
+	 ncBx03pML4dk+ufsQp6P3qnfbywSfYVtkMsMw5p0CXj7E5vRicyJONhAPG2OlzxM6L
+	 crgOfh1ViarxBTNWQAoqApdNfj1gTrlq1HQ+HsAPKihcuZ8jcnaAAsA7L53nofDClO
+	 vHxogP2/XVWOA==
+Date: Sat, 28 Oct 2023 21:37:38 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+ Len Brown <len.brown@intel.com>, oe-kbuild-all@lists.linux.dev,
+ suleiman@google.com, briannorris@google.com, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org
+Subject: Re: [PATCH v2] PM: sleep: Expose last succeeded resumed timestamp
+ in sysfs
+Message-Id: <20231028213738.476725c68a1473e1418231b0@kernel.org>
+In-Reply-To: <202310281942.ZwkSMsVB-lkp@intel.com>
+References: <169845668624.1319505.1097714089024984847.stgit@mhiramat.roam.corp.google.com>
+	<202310281942.ZwkSMsVB-lkp@intel.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   d431880137b55533f664056070226a88dba99637
-commit: 6309727ef27162deabd5c095c11af24970fba5a2 [18/58] kthread: add kthread_stop_put
-config: riscv-randconfig-c033-20221102 (https://download.01.org/0day-ci/archive/20231028/202310282049.HXCHtgEz-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231028/202310282049.HXCHtgEz-lkp@intel.com/reproduce)
+On Sat, 28 Oct 2023 19:26:10 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310282049.HXCHtgEz-lkp@intel.com/
+> Hi Masami,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on linus/master]
+> [also build test WARNING on v6.6-rc7 next-20231027]
+> [cannot apply to pavel-leds/for-next]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/PM-sleep-Expose-last-succeeded-resumed-timestamp-in-sysfs/20231028-093251
+> base:   linus/master
+> patch link:    https://lore.kernel.org/r/169845668624.1319505.1097714089024984847.stgit%40mhiramat.roam.corp.google.com
+> patch subject: [PATCH v2] PM: sleep: Expose last succeeded resumed timestamp in sysfs
+> config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20231028/202310281942.ZwkSMsVB-lkp@intel.com/config)
+> compiler: mips-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231028/202310281942.ZwkSMsVB-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202310281942.ZwkSMsVB-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+Oops, I missed casting. Let me fix it.
 
-ERROR: modpost: vmlinux: local symbol 'system_power_efficient_wq' was exported
-ERROR: modpost: vmlinux: local symbol 'system_freezable_power_efficient_wq' was exported
-ERROR: modpost: vmlinux: local symbol 'queue_work_on' was exported
-ERROR: modpost: vmlinux: local symbol 'queue_work_node' was exported
-ERROR: modpost: vmlinux: local symbol 'delayed_work_timer_fn' was exported
-ERROR: modpost: vmlinux: local symbol 'queue_delayed_work_on' was exported
-ERROR: modpost: vmlinux: local symbol 'mod_delayed_work_on' was exported
-ERROR: modpost: vmlinux: local symbol 'queue_rcu_work' was exported
-ERROR: modpost: vmlinux: local symbol '__flush_workqueue' was exported
-ERROR: modpost: vmlinux: local symbol 'drain_workqueue' was exported
-ERROR: modpost: vmlinux: local symbol 'flush_work' was exported
-ERROR: modpost: vmlinux: local symbol 'cancel_work_sync' was exported
-ERROR: modpost: vmlinux: local symbol 'flush_delayed_work' was exported
-ERROR: modpost: vmlinux: local symbol 'flush_rcu_work' was exported
-ERROR: modpost: vmlinux: local symbol 'cancel_work' was exported
-ERROR: modpost: vmlinux: local symbol 'cancel_delayed_work' was exported
-ERROR: modpost: vmlinux: local symbol 'cancel_delayed_work_sync' was exported
-ERROR: modpost: vmlinux: local symbol 'execute_in_process_context' was exported
-ERROR: modpost: vmlinux: local symbol 'alloc_workqueue' was exported
-ERROR: modpost: vmlinux: local symbol 'destroy_workqueue' was exported
-ERROR: modpost: vmlinux: local symbol 'workqueue_set_max_active' was exported
-ERROR: modpost: vmlinux: local symbol 'current_work' was exported
-ERROR: modpost: vmlinux: local symbol 'workqueue_congested' was exported
-ERROR: modpost: vmlinux: local symbol 'work_busy' was exported
-ERROR: modpost: vmlinux: local symbol 'set_worker_desc' was exported
-ERROR: modpost: vmlinux: local symbol '__warn_flushing_systemwide_wq' was exported
-ERROR: modpost: vmlinux: local symbol 'init_pid_ns' was exported
-ERROR: modpost: vmlinux: local symbol 'put_pid' was exported
-ERROR: modpost: vmlinux: local symbol 'find_pid_ns' was exported
-ERROR: modpost: vmlinux: local symbol 'find_vpid' was exported
-ERROR: modpost: vmlinux: local symbol 'pid_task' was exported
-ERROR: modpost: vmlinux: local symbol 'get_task_pid' was exported
-ERROR: modpost: vmlinux: local symbol 'get_pid_task' was exported
-ERROR: modpost: vmlinux: local symbol 'find_get_pid' was exported
-ERROR: modpost: vmlinux: local symbol 'pid_nr_ns' was exported
-ERROR: modpost: vmlinux: local symbol 'pid_vnr' was exported
-ERROR: modpost: vmlinux: local symbol '__task_pid_nr_ns' was exported
-ERROR: modpost: vmlinux: local symbol 'task_active_pid_ns' was exported
-ERROR: modpost: vmlinux: local symbol 'find_ge_pid' was exported
-ERROR: modpost: vmlinux: local symbol 'param_set_byte' was exported
-ERROR: modpost: vmlinux: local symbol 'param_get_byte' was exported
-ERROR: modpost: vmlinux: local symbol 'param_ops_byte' was exported
-ERROR: modpost: vmlinux: local symbol 'param_set_short' was exported
-ERROR: modpost: vmlinux: local symbol 'param_get_short' was exported
-ERROR: modpost: vmlinux: local symbol 'param_ops_short' was exported
-ERROR: modpost: vmlinux: local symbol 'param_set_ushort' was exported
-ERROR: modpost: vmlinux: local symbol 'param_get_ushort' was exported
-ERROR: modpost: vmlinux: local symbol 'param_ops_ushort' was exported
-ERROR: modpost: vmlinux: local symbol 'param_set_int' was exported
-ERROR: modpost: vmlinux: local symbol 'param_get_int' was exported
-ERROR: modpost: vmlinux: local symbol 'param_ops_int' was exported
-ERROR: modpost: vmlinux: local symbol 'param_set_uint' was exported
-ERROR: modpost: vmlinux: local symbol 'param_get_uint' was exported
-ERROR: modpost: vmlinux: local symbol 'param_ops_uint' was exported
-ERROR: modpost: vmlinux: local symbol 'param_set_long' was exported
-ERROR: modpost: vmlinux: local symbol 'param_get_long' was exported
-ERROR: modpost: vmlinux: local symbol 'param_ops_long' was exported
-ERROR: modpost: vmlinux: local symbol 'param_set_ulong' was exported
-ERROR: modpost: vmlinux: local symbol 'param_get_ulong' was exported
-ERROR: modpost: vmlinux: local symbol 'param_ops_ulong' was exported
-ERROR: modpost: vmlinux: local symbol 'param_set_ullong' was exported
-ERROR: modpost: vmlinux: local symbol 'param_get_ullong' was exported
-ERROR: modpost: vmlinux: local symbol 'param_ops_ullong' was exported
-ERROR: modpost: vmlinux: local symbol 'param_set_hexint' was exported
-ERROR: modpost: vmlinux: local symbol 'param_get_hexint' was exported
-ERROR: modpost: vmlinux: local symbol 'param_ops_hexint' was exported
-ERROR: modpost: vmlinux: local symbol 'param_set_uint_minmax' was exported
-ERROR: modpost: vmlinux: local symbol 'param_set_charp' was exported
-ERROR: modpost: vmlinux: local symbol 'param_get_charp' was exported
-ERROR: modpost: vmlinux: local symbol 'param_free_charp' was exported
-ERROR: modpost: vmlinux: local symbol 'param_ops_charp' was exported
-ERROR: modpost: vmlinux: local symbol 'param_set_bool' was exported
-ERROR: modpost: vmlinux: local symbol 'param_get_bool' was exported
-ERROR: modpost: vmlinux: local symbol 'param_ops_bool' was exported
-ERROR: modpost: vmlinux: local symbol 'param_set_bool_enable_only' was exported
-ERROR: modpost: vmlinux: local symbol 'param_ops_bool_enable_only' was exported
-ERROR: modpost: vmlinux: local symbol 'param_set_invbool' was exported
-ERROR: modpost: vmlinux: local symbol 'param_get_invbool' was exported
-ERROR: modpost: vmlinux: local symbol 'param_ops_invbool' was exported
-ERROR: modpost: vmlinux: local symbol 'param_set_bint' was exported
-ERROR: modpost: vmlinux: local symbol 'param_ops_bint' was exported
-ERROR: modpost: vmlinux: local symbol 'param_array_ops' was exported
-ERROR: modpost: vmlinux: local symbol 'param_set_copystring' was exported
-ERROR: modpost: vmlinux: local symbol 'param_get_string' was exported
-ERROR: modpost: vmlinux: local symbol 'param_ops_string' was exported
-ERROR: modpost: vmlinux: local symbol 'kernel_param_lock' was exported
-ERROR: modpost: vmlinux: local symbol 'kernel_param_unlock' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_should_stop' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_should_park' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_freezable_should_stop' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_func' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_data' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_parkme' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_complete_and_exit' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_create_on_node' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_bind' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_create_on_cpu' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_unpark' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_park' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_stop' was exported
->> ERROR: modpost: vmlinux: local symbol 'kthread_stop_put' was exported
-ERROR: modpost: vmlinux: local symbol '__kthread_init_worker' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_worker_fn' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_create_worker' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_create_worker_on_cpu' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_queue_work' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_delayed_work_timer_fn' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_queue_delayed_work' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_flush_work' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_mod_delayed_work' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_cancel_work_sync' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_cancel_delayed_work_sync' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_flush_worker' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_destroy_worker' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_use_mm' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_unuse_mm' was exported
-ERROR: modpost: vmlinux: local symbol 'kthread_associate_blkcg' was exported
-ERROR: modpost: vmlinux: local symbol 'atomic_notifier_chain_register' was exported
-ERROR: modpost: vmlinux: local symbol 'atomic_notifier_chain_register_unique_prio' was exported
-ERROR: modpost: vmlinux: local symbol 'atomic_notifier_chain_unregister' was exported
-ERROR: modpost: vmlinux: local symbol 'atomic_notifier_call_chain' was exported
-ERROR: modpost: vmlinux: local symbol 'blocking_notifier_chain_register' was exported
-ERROR: modpost: vmlinux: local symbol 'blocking_notifier_chain_register_unique_prio' was exported
-ERROR: modpost: vmlinux: local symbol 'blocking_notifier_chain_unregister' was exported
-ERROR: modpost: vmlinux: local symbol 'blocking_notifier_call_chain_robust' was exported
-ERROR: modpost: vmlinux: local symbol 'blocking_notifier_call_chain' was exported
-ERROR: modpost: vmlinux: local symbol 'raw_notifier_chain_register' was exported
-ERROR: modpost: vmlinux: local symbol 'raw_notifier_chain_unregister' was exported
-ERROR: modpost: vmlinux: local symbol 'raw_notifier_call_chain_robust' was exported
-ERROR: modpost: vmlinux: local symbol 'raw_notifier_call_chain' was exported
-ERROR: modpost: vmlinux: local symbol 'srcu_notifier_chain_register' was exported
-ERROR: modpost: vmlinux: local symbol 'srcu_notifier_chain_unregister' was exported
-ERROR: modpost: vmlinux: local symbol 'srcu_notifier_call_chain' was exported
-ERROR: modpost: vmlinux: local symbol 'srcu_init_notifier_head' was exported
-ERROR: modpost: vmlinux: local symbol 'register_die_notifier' was exported
-ERROR: modpost: vmlinux: local symbol 'unregister_die_notifier' was exported
-ERROR: modpost: vmlinux: local symbol 'kernel_kobj' was exported
-ERROR: modpost: vmlinux: local symbol '__put_cred' was exported
-ERROR: modpost: vmlinux: local symbol 'get_task_cred' was exported
-ERROR: modpost: vmlinux: local symbol 'prepare_creds' was exported
-ERROR: modpost: vmlinux: local symbol 'commit_creds' was exported
-ERROR: modpost: vmlinux: local symbol 'abort_creds' was exported
-ERROR: modpost: vmlinux: local symbol 'override_creds' was exported
-ERROR: modpost: vmlinux: local symbol 'revert_creds' was exported
-ERROR: modpost: vmlinux: local symbol 'cred_fscmp' was exported
-ERROR: modpost: vmlinux: local symbol 'prepare_kernel_cred' was exported
-ERROR: modpost: vmlinux: local symbol 'set_security_override' was exported
-ERROR: modpost: vmlinux: local symbol 'set_security_override_from_ctx' was exported
-ERROR: modpost: vmlinux: local symbol 'set_create_files_as' was exported
-ERROR: modpost: vmlinux: local symbol 'creds_are_invalid' was exported
-ERROR: modpost: vmlinux: local symbol '__invalid_creds' was exported
-ERROR: modpost: vmlinux: local symbol '__validate_process_creds' was exported
-ERROR: modpost: vmlinux: local symbol 'cad_pid' was exported
-ERROR: modpost: vmlinux: local symbol 'reboot_mode' was exported
-ERROR: modpost: vmlinux: local symbol 'emergency_restart' was exported
-ERROR: modpost: vmlinux: local symbol 'register_reboot_notifier' was exported
-ERROR: modpost: vmlinux: local symbol 'unregister_reboot_notifier' was exported
-ERROR: modpost: vmlinux: local symbol 'devm_register_reboot_notifier' was exported
-ERROR: modpost: vmlinux: local symbol 'register_restart_handler' was exported
-ERROR: modpost: vmlinux: local symbol 'unregister_restart_handler' was exported
-ERROR: modpost: vmlinux: local symbol 'kernel_restart' was exported
-ERROR: modpost: vmlinux: local symbol 'kernel_halt' was exported
-ERROR: modpost: vmlinux: local symbol 'register_sys_off_handler' was exported
-ERROR: modpost: vmlinux: local symbol 'unregister_sys_off_handler' was exported
-ERROR: modpost: vmlinux: local symbol 'devm_register_sys_off_handler' was exported
-ERROR: modpost: vmlinux: local symbol 'devm_register_power_off_handler' was exported
-ERROR: modpost: vmlinux: local symbol 'devm_register_restart_handler' was exported
-ERROR: modpost: vmlinux: local symbol 'register_platform_power_off' was exported
-ERROR: modpost: vmlinux: local symbol 'unregister_platform_power_off' was exported
-ERROR: modpost: vmlinux: local symbol 'kernel_can_power_off' was exported
-ERROR: modpost: vmlinux: local symbol 'kernel_power_off' was exported
-ERROR: modpost: vmlinux: local symbol 'orderly_poweroff' was exported
-ERROR: modpost: vmlinux: local symbol 'orderly_reboot' was exported
-ERROR: modpost: vmlinux: local symbol 'hw_protection_shutdown' was exported
-ERROR: modpost: vmlinux: local symbol 'async_schedule_node_domain' was exported
-ERROR: modpost: vmlinux: local symbol 'async_schedule_node' was exported
-ERROR: modpost: vmlinux: local symbol 'async_synchronize_full' was exported
-ERROR: modpost: vmlinux: local symbol 'async_synchronize_full_domain' was exported
-ERROR: modpost: vmlinux: local symbol 'async_synchronize_cookie_domain' was exported
-ERROR: modpost: vmlinux: local symbol 'async_synchronize_cookie' was exported
-ERROR: modpost: vmlinux: local symbol 'current_is_async' was exported
-ERROR: modpost: vmlinux: local symbol 'smpboot_register_percpu_thread' was exported
-ERROR: modpost: vmlinux: local symbol 'smpboot_unregister_percpu_thread' was exported
-ERROR: modpost: vmlinux: local symbol 'regset_get' was exported
-ERROR: modpost: vmlinux: local symbol 'regset_get_alloc' was exported
-ERROR: modpost: vmlinux: local symbol 'umd_load_blob' was exported
-ERROR: modpost: vmlinux: local symbol 'umd_unload_blob' was exported
-ERROR: modpost: vmlinux: local symbol 'umd_cleanup_helper' was exported
-ERROR: modpost: vmlinux: local symbol 'fork_usermode_driver' was exported
-ERROR: modpost: vmlinux: local symbol 'groups_alloc' was exported
-ERROR: modpost: vmlinux: local symbol 'groups_free' was exported
-ERROR: modpost: vmlinux: local symbol 'groups_sort' was exported
-ERROR: modpost: vmlinux: local symbol 'set_groups' was exported
-ERROR: modpost: vmlinux: local symbol 'set_current_groups' was exported
-ERROR: modpost: vmlinux: local symbol 'in_group_p' was exported
-ERROR: modpost: vmlinux: local symbol 'in_egroup_p' was exported
-ERROR: modpost: vmlinux: local symbol '__tracepoint_ipi_send_cpu' was exported
-ERROR: modpost: vmlinux: local symbol '__traceiter_ipi_send_cpu' was exported
-ERROR: modpost: vmlinux: local symbol '__SCK__tp_func_ipi_send_cpu' was exported
-ERROR: modpost: vmlinux: local symbol '__tracepoint_ipi_send_cpumask' was exported
-ERROR: modpost: vmlinux: local symbol '__traceiter_ipi_send_cpumask' was exported
+Thanks,
+
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    kernel/power/main.c: In function 'last_success_resume_time_show':
+> >> kernel/power/main.c:427:38: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 4 has type 'long int' [-Wformat=]
+>      427 |         return sprintf(buf, "%llu.%llu\n",
+>          |                                   ~~~^
+>          |                                      |
+>          |                                      long long unsigned int
+>          |                                   %lu
+>      428 |                        suspend_stats.last_success_resume_time.tv_sec,
+>      429 |                        suspend_stats.last_success_resume_time.tv_nsec);
+>          |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>          |                                                              |
+>          |                                                              long int
+>    kernel/power/main.c: In function 'suspend_stats_show':
+>    kernel/power/main.c:528:62: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 4 has type 'long int' [-Wformat=]
+>      528 |         seq_printf(s,   "last_success_resume_time:\t%-llu.%llu\n",
+>          |                                                           ~~~^
+>          |                                                              |
+>          |                                                              long long unsigned int
+>          |                                                           %lu
+>      529 |                    suspend_stats.last_success_resume_time.tv_sec,
+>      530 |                    suspend_stats.last_success_resume_time.tv_nsec);
+>          |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>          |                                                          |
+>          |                                                          long int
+> 
+> 
+> vim +427 kernel/power/main.c
+> 
+>    423	
+>    424	static ssize_t last_success_resume_time_show(struct kobject *kobj,
+>    425			struct kobj_attribute *attr, char *buf)
+>    426	{
+>  > 427		return sprintf(buf, "%llu.%llu\n",
+>    428			       suspend_stats.last_success_resume_time.tv_sec,
+>    429			       suspend_stats.last_success_resume_time.tv_nsec);
+>    430	}
+>    431	static struct kobj_attribute last_success_resume_time =
+>    432				__ATTR_RO(last_success_resume_time);
+>    433	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
