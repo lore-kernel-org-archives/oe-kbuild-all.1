@@ -1,61 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D02C2595
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Oct 2023 16:36:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CD78F5D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Oct 2023 16:54:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="JXS4EyqA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85337C433C7;
-	Sat, 28 Oct 2023 16:36:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1698510966;
-	bh=VxA3RK+jlfT667Er/84AjP8AvKupOHpbxCx4Cp+4/Qo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=JXS4EyqAKqs61MsxhEknq6OvxvgUM5rb/2F/C1J/gL3j3/C0aPEkp6pkRtXCyvDwP
-	 wh8fCOzpkgzoTZIKeLhZjLTjskvKWTx8Ycrq/fYuAs+hieFMvK33iMz//48hWD4uDJ
-	 qlKo0iijzGrSIMxHsdWVR7hwJpH6VZgjR/3nyF0w=
-Date: Sat, 28 Oct 2023 09:36:05 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Andreas Gruenbacher <agruenba@redhat.com>,
- oe-kbuild-all@lists.linux.dev, Linux Memory Management List
- <linux-mm@kvack.org>, Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [akpm-mm:mm-nonmm-unstable 18/58] ERROR: modpost: vmlinux:
- local symbol 'kthread_stop_put' was exported
-Message-Id: <20231028093605.b516ad5d8ca820ec76da3072@linux-foundation.org>
-In-Reply-To: <202310282049.HXCHtgEz-lkp@intel.com>
-References: <202310282049.HXCHtgEz-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AbX8qDmk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698512073; x=1730048073;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dzK2Toyt3q+Mkf5r2daPoKDylIhodn+OhjhsWsffjvo=;
+  b=AbX8qDmkuiNdAQN4t0U6fSQBM9lLq3gXluJYR7qTtwDaWJQYX4V0furk
+   7hxYojvlC10s7FUJWc5P6EPO7QNynNdRIyRjgKmPdAE6rqASmRJmfGeGu
+   x3BLd33nrbnLHU0np7L3x4G9TKSa7M0TGe12CvTwivoOvswKbeciIWfrP
+   fVqVb/siG0oXNZf6M/eoqCichpeH0Yr2JpmCqz2q26pMmxgpoybHvYKAt
+   V0QdoJFCn1XnfA1EB+k1kD8ixupZw8KdIWT6YBvk86s2l06eiRUGOqmrI
+   t0P/zRW+d8S1qwM/d5iuOxlQvLOK2CW26pq6SvMiWwM964rbLWFOhqzCG
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10877"; a="391776195"
+X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; 
+   d="scan'208";a="391776195"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2023 09:54:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10877"; a="763521956"
+X-IronPort-AV: E=Sophos;i="6.03,259,1694761200"; 
+   d="scan'208";a="763521956"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 28 Oct 2023 09:54:31 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qwmZw-000Bv5-3B;
+	Sat, 28 Oct 2023 16:54:28 +0000
+Date: Sun, 29 Oct 2023 00:54:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Danny Tsen <dtsen@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Subject: arch/powerpc/crypto/aes-gcm-p10-glue.c:121:9: error:
+ 'gcm_init_htable' accessing 256 bytes in a region of size 224
+Message-ID: <202310290004.TQsw1iN1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, 28 Oct 2023 20:29:18 +0800 kernel test robot <lkp@intel.com> wrote:
+Hi Danny,
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-> head:   d431880137b55533f664056070226a88dba99637
-> commit: 6309727ef27162deabd5c095c11af24970fba5a2 [18/58] kthread: add kthread_stop_put
-> config: riscv-randconfig-c033-20221102 (https://download.01.org/0day-ci/archive/20231028/202310282049.HXCHtgEz-lkp@intel.com/config)
-> compiler: riscv32-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231028/202310282049.HXCHtgEz-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202310282049.HXCHtgEz-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
->
-> ERROR: modpost: vmlinux: local symbol 'system_power_efficient_wq' was exported
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[ it now proceeds to list 16000 more such "errors" ]
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   56567a20b22bdbf85c3e55eee3bf2bd23fa2f108
+commit: 9c716e1bd369afa2d1c5038297e8ceda3f82db7d crypto: p10-aes-gcm - Remove POWER10_CPU dependency
+date:   6 months ago
+config: powerpc64-randconfig-r005-20230913 (https://download.01.org/0day-ci/archive/20231029/202310290004.TQsw1iN1-lkp@intel.com/config)
+compiler: powerpc64le-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231029/202310290004.TQsw1iN1-lkp@intel.com/reproduce)
 
-I see no error here - these symbols are exported because modules use
-them.  Unless I misinterpret the intent of this modpost check.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310290004.TQsw1iN1-lkp@intel.com/
 
-Masahiro, could you please take a look?
+All errors (new ones prefixed by >>):
+
+   arch/powerpc/crypto/aes-gcm-p10-glue.c: In function 'gcmp10_init':
+>> arch/powerpc/crypto/aes-gcm-p10-glue.c:121:9: error: 'gcm_init_htable' accessing 256 bytes in a region of size 224 [-Werror=stringop-overflow=]
+     121 |         gcm_init_htable(hash->Htable+32, hash->H);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/crypto/aes-gcm-p10-glue.c:121:9: note: referencing argument 1 of type 'unsigned char[256]'
+   arch/powerpc/crypto/aes-gcm-p10-glue.c:121:9: note: referencing argument 2 of type 'unsigned char[16]'
+   arch/powerpc/crypto/aes-gcm-p10-glue.c:41:17: note: in a call to function 'gcm_init_htable'
+      41 | asmlinkage void gcm_init_htable(unsigned char htable[256], unsigned char Xi[16]);
+         |                 ^~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+
+
+vim +/gcm_init_htable +121 arch/powerpc/crypto/aes-gcm-p10-glue.c
+
+cdcecfd9991fe9a Danny Tsen 2023-02-20  113  
+cdcecfd9991fe9a Danny Tsen 2023-02-20  114  static void gcmp10_init(struct gcm_ctx *gctx, u8 *iv, unsigned char *rdkey,
+cdcecfd9991fe9a Danny Tsen 2023-02-20  115  			struct Hash_ctx *hash, u8 *assoc, unsigned int assoclen)
+cdcecfd9991fe9a Danny Tsen 2023-02-20  116  {
+cdcecfd9991fe9a Danny Tsen 2023-02-20  117  	__be32 counter = cpu_to_be32(1);
+cdcecfd9991fe9a Danny Tsen 2023-02-20  118  
+cdcecfd9991fe9a Danny Tsen 2023-02-20  119  	aes_p8_encrypt(hash->H, hash->H, rdkey);
+cdcecfd9991fe9a Danny Tsen 2023-02-20  120  	set_subkey(hash->H);
+cdcecfd9991fe9a Danny Tsen 2023-02-20 @121  	gcm_init_htable(hash->Htable+32, hash->H);
+cdcecfd9991fe9a Danny Tsen 2023-02-20  122  
+cdcecfd9991fe9a Danny Tsen 2023-02-20  123  	*((__be32 *)(iv+12)) = counter;
+cdcecfd9991fe9a Danny Tsen 2023-02-20  124  
+cdcecfd9991fe9a Danny Tsen 2023-02-20  125  	gctx->Plen = 0;
+cdcecfd9991fe9a Danny Tsen 2023-02-20  126  
+cdcecfd9991fe9a Danny Tsen 2023-02-20  127  	/*
+cdcecfd9991fe9a Danny Tsen 2023-02-20  128  	 * Encrypt counter vector as iv tag and increment counter.
+cdcecfd9991fe9a Danny Tsen 2023-02-20  129  	 */
+cdcecfd9991fe9a Danny Tsen 2023-02-20  130  	aes_p8_encrypt(iv, gctx->ivtag, rdkey);
+cdcecfd9991fe9a Danny Tsen 2023-02-20  131  
+cdcecfd9991fe9a Danny Tsen 2023-02-20  132  	counter = cpu_to_be32(2);
+cdcecfd9991fe9a Danny Tsen 2023-02-20  133  	*((__be32 *)(iv+12)) = counter;
+cdcecfd9991fe9a Danny Tsen 2023-02-20  134  	memcpy(gctx->iv, iv, 16);
+cdcecfd9991fe9a Danny Tsen 2023-02-20  135  
+cdcecfd9991fe9a Danny Tsen 2023-02-20  136  	gctx->aadLen = assoclen;
+cdcecfd9991fe9a Danny Tsen 2023-02-20  137  	memset(gctx->aad_hash, 0, 16);
+cdcecfd9991fe9a Danny Tsen 2023-02-20  138  	if (assoclen)
+cdcecfd9991fe9a Danny Tsen 2023-02-20  139  		set_aad(gctx, hash, assoc, assoclen);
+cdcecfd9991fe9a Danny Tsen 2023-02-20  140  }
+cdcecfd9991fe9a Danny Tsen 2023-02-20  141  
+
+:::::: The code at line 121 was first introduced by commit
+:::::: cdcecfd9991fe9aac8160a9731b0ffd1e702d19d crypto: p10-aes-gcm - Glue code for AES/GCM stitched implementation
+
+:::::: TO: Danny Tsen <dtsen@linux.ibm.com>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
