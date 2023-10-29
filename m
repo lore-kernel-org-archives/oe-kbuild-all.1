@@ -1,85 +1,237 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DCCA624
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Oct 2023 03:33:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1218B624
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Oct 2023 03:44:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OG+zp4CE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VJl2GbIk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698550429; x=1730086429;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=q5r3QX5yDoHO7Q/Oaaz9rmyEf2hzTinfWhc89Vue7vY=;
-  b=OG+zp4CEkFyKoHpD+RtxVaB3Nr7n65KvlNXa2NZWrlfi2JnyKEJCEIe4
-   up73Kezskogs1HDRrxmriDfzv5KjiGsu7S+DhahU+YIvAm30Lms048ky6
-   sGz9j5Rja2JwvuYA/y2dn114xwGQgnXldblpRrCRbvfV7qEolDCUYx2l3
-   reJiVF4Qf8wyTgorwfSF4XVfSWK5J4K9mQSYHKUWFfZ1DDMGoOAeXv17y
-   6Q6aM8OPKQcw9nmO8NXWULLcnQqion4gNUsm9ltoF5rEbrTi0YmbufJji
-   zPKOGaFli0sr1DRUFFuw7gJtT8NfNKvnAVPDnHQiv7cS68AIFsgwsxqXm
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10877"; a="391793775"
+  t=1698551091; x=1730087091;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=85wMPL2uqOf5q59P0+uejAWZy7fKjuaP8kvR1uFbLUA=;
+  b=VJl2GbIkCc/xAm67fd271LUhxLg8AcWJa0xSzFldnBAtXmcZdn3gvLim
+   I6lxFv33bbvKWmfM3elN4f9iDb5sFzTXHEsbl40QawOfFaoiFKKNRQSgH
+   wuIB+xtKIEbyV732GWCtB9tFShhXvBdaZNcGoXrdkxlTNcdT7DR0zzCTE
+   PkQe4iCUTjDc+Bi0zW8hahKGP1T/O4VXE8FViGGKW8JFeip9yyD2lHBnw
+   5lc1zAT8bNUB3KOSmJ/bgNzV7ooKOmkerndXwzoJDjLRM0p28xERld9NX
+   ZLtENQRh+wNkVKAREobM7xO2AyzcIoh6m47saj+6/w0sUx7B79Q7P6SRe
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10877"; a="767966"
 X-IronPort-AV: E=Sophos;i="6.03,260,1694761200"; 
-   d="scan'208";a="391793775"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2023 20:33:48 -0700
+   d="scan'208";a="767966"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2023 20:44:51 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10877"; a="933474924"
 X-IronPort-AV: E=Sophos;i="6.03,260,1694761200"; 
-   d="scan'208";a="8014603"
+   d="scan'208";a="933474924"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 28 Oct 2023 20:33:33 -0700
+  by orsmga005.jf.intel.com with ESMTP; 28 Oct 2023 20:44:48 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qwwYb-000CIl-20;
-	Sun, 29 Oct 2023 03:33:45 +0000
-Date: Sun, 29 Oct 2023 11:33:43 +0800
+	id 1qwwjF-000CJ5-2c;
+	Sun, 29 Oct 2023 03:44:45 +0000
+Date: Sun, 29 Oct 2023 11:44:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 1/2] kbuild: Build Rust crates as libraries
-Message-ID: <202310291142.LW6eZd8v-lkp@intel.com>
-References: <20231027003504.146703-2-yakoyoku@gmail.com>
+To: Karolina Stolarek <karolina.stolarek@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: drivers/gpu/drm/ttm/ttm_bo_util.c:318:38: sparse: sparse: incorrect
+ type in assignment (different address spaces)
+Message-ID: <202310291100.L4qywPt5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20231027003504.146703-2-yakoyoku@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Martin,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on masahiroy-kbuild/fixes]
-[also build test ERROR on usb/usb-testing usb/usb-next usb/usb-linus rust/rust-next linus/master v6.6-rc7 next-20231027]
-[cannot apply to masahiroy-kbuild/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Martin-Rodriguez-Reboredo/kbuild-Build-Rust-crates-as-libraries/20231027-083627
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git fixes
-patch link:    https://lore.kernel.org/r/20231027003504.146703-2-yakoyoku%40gmail.com
-patch subject: [RFC PATCH v2 1/2] kbuild: Build Rust crates as libraries
-config: um-randconfig-001-20231029 (https://download.01.org/0day-ci/archive/20231029/202310291142.LW6eZd8v-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2af9b20dbb39f6ebf9b9b6c090271594627d818e
+commit: e3912d09bf8ddd8e274118d4c9cc550d9665115d drm/ttm: Introduce KUnit test
+date:   3 months ago
+config: x86_64-randconfig-123-20231016 (https://download.01.org/0day-ci/archive/20231029/202310291100.L4qywPt5-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231029/202310291142.LW6eZd8v-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231029/202310291100.L4qywPt5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310291142.LW6eZd8v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310291100.L4qywPt5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/ttm/ttm_bo_util.c:318:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *virtual @@     got void [noderef] __iomem * @@
+   drivers/gpu/drm/ttm/ttm_bo_util.c:318:38: sparse:     expected void *virtual
+   drivers/gpu/drm/ttm/ttm_bo_util.c:318:38: sparse:     got void [noderef] __iomem *
+   drivers/gpu/drm/ttm/ttm_bo_util.c:321:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *virtual @@     got void [noderef] __iomem * @@
+   drivers/gpu/drm/ttm/ttm_bo_util.c:321:38: sparse:     expected void *virtual
+   drivers/gpu/drm/ttm/ttm_bo_util.c:321:38: sparse:     got void [noderef] __iomem *
+   drivers/gpu/drm/ttm/ttm_bo_util.c:324:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *virtual @@     got void [noderef] __iomem * @@
+   drivers/gpu/drm/ttm/ttm_bo_util.c:324:38: sparse:     expected void *virtual
+   drivers/gpu/drm/ttm/ttm_bo_util.c:324:38: sparse:     got void [noderef] __iomem *
+>> drivers/gpu/drm/ttm/ttm_bo_util.c:427:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *virtual @@
+   drivers/gpu/drm/ttm/ttm_bo_util.c:427:28: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/gpu/drm/ttm/ttm_bo_util.c:427:28: sparse:     got void *virtual
 
->> ld: cannot find drivers/nvdimm/../../tools/testing/nvdimm/test/exports_iomap_generated.o: No such file or directory
->> ld: cannot find drivers/nvdimm/../../tools/testing/nvdimm/test/exports_iomap_generated.o: No such file or directory
+vim +318 drivers/gpu/drm/ttm/ttm_bo_util.c
+
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  302  
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  303  static int ttm_bo_ioremap(struct ttm_buffer_object *bo,
+82c5da6bf8b55a Jerome Glisse         2010-04-09  304  			  unsigned long offset,
+82c5da6bf8b55a Jerome Glisse         2010-04-09  305  			  unsigned long size,
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  306  			  struct ttm_bo_kmap_obj *map)
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  307  {
+d3116756a710e3 Christian König       2021-04-12  308  	struct ttm_resource *mem = bo->resource;
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  309  
+d3116756a710e3 Christian König       2021-04-12  310  	if (bo->resource->bus.addr) {
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  311  		map->bo_kmap_type = ttm_bo_map_premapped;
+d3116756a710e3 Christian König       2021-04-12  312  		map->virtual = ((u8 *)bo->resource->bus.addr) + offset;
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  313  	} else {
+d3116756a710e3 Christian König       2021-04-12  314  		resource_size_t res = bo->resource->bus.offset + offset;
+d3116756a710e3 Christian König       2021-04-12  315  
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  316  		map->bo_kmap_type = ttm_bo_map_iomap;
+ce65b874001d75 Christian König       2020-09-30  317  		if (mem->bus.caching == ttm_write_combined)
+d3116756a710e3 Christian König       2021-04-12 @318  			map->virtual = ioremap_wc(res, size);
+b849bec29a991d Oak Zeng              2021-02-26  319  #ifdef CONFIG_X86
+b849bec29a991d Oak Zeng              2021-02-26  320  		else if (mem->bus.caching == ttm_cached)
+d3116756a710e3 Christian König       2021-04-12  321  			map->virtual = ioremap_cache(res, size);
+b849bec29a991d Oak Zeng              2021-02-26  322  #endif
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  323  		else
+d3116756a710e3 Christian König       2021-04-12  324  			map->virtual = ioremap(res, size);
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  325  	}
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  326  	return (!map->virtual) ? -ENOMEM : 0;
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  327  }
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  328  
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  329  static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  330  			   unsigned long start_page,
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  331  			   unsigned long num_pages,
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  332  			   struct ttm_bo_kmap_obj *map)
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  333  {
+d3116756a710e3 Christian König       2021-04-12  334  	struct ttm_resource *mem = bo->resource;
+d0cef9fa4411eb Roger He              2017-12-21  335  	struct ttm_operation_ctx ctx = {
+d0cef9fa4411eb Roger He              2017-12-21  336  		.interruptible = false,
+d0cef9fa4411eb Roger He              2017-12-21  337  		.no_wait_gpu = false
+d0cef9fa4411eb Roger He              2017-12-21  338  	};
+62975d27d647a4 Christian König       2020-08-12  339  	struct ttm_tt *ttm = bo->ttm;
+d0cef9fa4411eb Roger He              2017-12-21  340  	pgprot_t prot;
+b1e5f172325547 Jerome Glisse         2011-11-02  341  	int ret;
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  342  
+62975d27d647a4 Christian König       2020-08-12  343  	BUG_ON(!ttm);
+b1e5f172325547 Jerome Glisse         2011-11-02  344  
+0a667b500703db Dave Airlie           2020-08-25  345  	ret = ttm_tt_populate(bo->bdev, ttm, &ctx);
+b1e5f172325547 Jerome Glisse         2011-11-02  346  	if (ret)
+b1e5f172325547 Jerome Glisse         2011-11-02  347  		return ret;
+b1e5f172325547 Jerome Glisse         2011-11-02  348  
+ce65b874001d75 Christian König       2020-09-30  349  	if (num_pages == 1 && ttm->caching == ttm_cached) {
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  350  		/*
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  351  		 * We're mapping a single page, and the desired
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  352  		 * page protection is consistent with the bo.
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  353  		 */
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  354  
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  355  		map->bo_kmap_type = ttm_bo_map_kmap;
+b1e5f172325547 Jerome Glisse         2011-11-02  356  		map->page = ttm->pages[start_page];
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  357  		map->virtual = kmap(map->page);
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  358  	} else {
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  359  		/*
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  360  		 * We need to use vmap to get the desired page protection
+af901ca181d92a André Goddard Rosa    2009-11-14  361  		 * or to make the buffer object look contiguous.
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  362  		 */
+867bcecd6ae463 Christian König       2020-09-30  363  		prot = ttm_io_prot(bo, mem, PAGE_KERNEL);
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  364  		map->bo_kmap_type = ttm_bo_map_vmap;
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  365  		map->virtual = vmap(ttm->pages + start_page, num_pages,
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  366  				    0, prot);
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  367  	}
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  368  	return (!map->virtual) ? -ENOMEM : 0;
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  369  }
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  370  
+a3185f91d0579b Christian König       2022-05-09  371  /**
+a3185f91d0579b Christian König       2022-05-09  372   * ttm_bo_kmap
+a3185f91d0579b Christian König       2022-05-09  373   *
+a3185f91d0579b Christian König       2022-05-09  374   * @bo: The buffer object.
+a3185f91d0579b Christian König       2022-05-09  375   * @start_page: The first page to map.
+a3185f91d0579b Christian König       2022-05-09  376   * @num_pages: Number of pages to map.
+a3185f91d0579b Christian König       2022-05-09  377   * @map: pointer to a struct ttm_bo_kmap_obj representing the map.
+a3185f91d0579b Christian König       2022-05-09  378   *
+a3185f91d0579b Christian König       2022-05-09  379   * Sets up a kernel virtual mapping, using ioremap, vmap or kmap to the
+a3185f91d0579b Christian König       2022-05-09  380   * data in the buffer object. The ttm_kmap_obj_virtual function can then be
+a3185f91d0579b Christian König       2022-05-09  381   * used to obtain a virtual address to the data.
+a3185f91d0579b Christian König       2022-05-09  382   *
+a3185f91d0579b Christian König       2022-05-09  383   * Returns
+a3185f91d0579b Christian König       2022-05-09  384   * -ENOMEM: Out of memory.
+a3185f91d0579b Christian König       2022-05-09  385   * -EINVAL: Invalid range.
+a3185f91d0579b Christian König       2022-05-09  386   */
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  387  int ttm_bo_kmap(struct ttm_buffer_object *bo,
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  388  		unsigned long start_page, unsigned long num_pages,
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  389  		struct ttm_bo_kmap_obj *map)
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  390  {
+82c5da6bf8b55a Jerome Glisse         2010-04-09  391  	unsigned long offset, size;
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  392  	int ret;
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  393  
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  394  	map->virtual = NULL;
+82c5da6bf8b55a Jerome Glisse         2010-04-09  395  	map->bo = bo;
+e3c92eb4a84fb0 Somalapuram Amaranath 2022-10-27  396  	if (num_pages > PFN_UP(bo->resource->size))
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  397  		return -EINVAL;
+e3c92eb4a84fb0 Somalapuram Amaranath 2022-10-27  398  	if ((start_page + num_pages) > PFN_UP(bo->resource->size))
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  399  		return -EINVAL;
+02b29caf18b3b0 Huang Rui             2018-08-15  400  
+d3116756a710e3 Christian König       2021-04-12  401  	ret = ttm_mem_io_reserve(bo->bdev, bo->resource);
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  402  	if (ret)
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  403  		return ret;
+d3116756a710e3 Christian König       2021-04-12  404  	if (!bo->resource->bus.is_iomem) {
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  405  		return ttm_bo_kmap_ttm(bo, start_page, num_pages, map);
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  406  	} else {
+82c5da6bf8b55a Jerome Glisse         2010-04-09  407  		offset = start_page << PAGE_SHIFT;
+82c5da6bf8b55a Jerome Glisse         2010-04-09  408  		size = num_pages << PAGE_SHIFT;
+82c5da6bf8b55a Jerome Glisse         2010-04-09  409  		return ttm_bo_ioremap(bo, offset, size, map);
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  410  	}
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  411  }
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  412  EXPORT_SYMBOL(ttm_bo_kmap);
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  413  
+a3185f91d0579b Christian König       2022-05-09  414  /**
+a3185f91d0579b Christian König       2022-05-09  415   * ttm_bo_kunmap
+a3185f91d0579b Christian König       2022-05-09  416   *
+a3185f91d0579b Christian König       2022-05-09  417   * @map: Object describing the map to unmap.
+a3185f91d0579b Christian König       2022-05-09  418   *
+a3185f91d0579b Christian König       2022-05-09  419   * Unmaps a kernel map set up by ttm_bo_kmap.
+a3185f91d0579b Christian König       2022-05-09  420   */
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  421  void ttm_bo_kunmap(struct ttm_bo_kmap_obj *map)
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  422  {
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  423  	if (!map->virtual)
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  424  		return;
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  425  	switch (map->bo_kmap_type) {
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  426  	case ttm_bo_map_iomap:
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10 @427  		iounmap(map->virtual);
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  428  		break;
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  429  	case ttm_bo_map_vmap:
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  430  		vunmap(map->virtual);
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  431  		break;
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  432  	case ttm_bo_map_kmap:
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  433  		kunmap(map->page);
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  434  		break;
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  435  	case ttm_bo_map_premapped:
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  436  		break;
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  437  	default:
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  438  		BUG();
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  439  	}
+d3116756a710e3 Christian König       2021-04-12  440  	ttm_mem_io_free(map->bo->bdev, map->bo->resource);
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  441  	map->virtual = NULL;
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  442  	map->page = NULL;
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  443  }
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  444  EXPORT_SYMBOL(ttm_bo_kunmap);
+ba4e7d973dd09b Thomas Hellstrom      2009-06-10  445  
+
+:::::: The code at line 318 was first introduced by commit
+:::::: d3116756a710e3cd51293a9d58b525957ab7e784 drm/ttm: rename bo->mem and make it a pointer
+
+:::::: TO: Christian König <christian.koenig@amd.com>
+:::::: CC: Christian König <christian.koenig@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
