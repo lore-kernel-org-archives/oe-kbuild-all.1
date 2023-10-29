@@ -1,54 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B987FD
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Oct 2023 09:33:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9955C3C13;
+	Sun, 29 Oct 2023 10:06:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VPhcMnvy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zr4udAaV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698571980; x=1730107980;
+  t=1698573962; x=1730109962;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=EB6AXOCzM0UMKHUfSK5sQFRebDnHx2JnAx0qwYWuJyQ=;
-  b=VPhcMnvyGW6DweSmc/AxMW6vLGIRf8JHztWeKtz+ABZbAI+v+LkXImr2
-   j19J1f7lEWOf/xGfPuKYByTJ+B44+oEAmIQ620O/6xl9gq8+BgM2F4JPU
-   r6nriLrliBv61uLN+zHHNEL/xo+VfiSxS21ELbolyBJRW7Kh8uD2XOMya
-   rdW08Z+S3E1V71b+ndcRI3pbiVHZCnkiLbY30RNqNWbJISZ+q3V2lxSrZ
-   5f9xYC507kLYpUUyaRSHu8twh8BOvpGdGm4FgJKdRQ82JPt2XzH59dLGK
-   2ILqFRkEzHaTerXgiTwcWubToZgOMy0X5/5MjDHtnf28X0cs2iZwUK3+p
+  bh=22IFjif+Zaay2bxS/UIgYdVCPDzNfUS2BDcTun2d/kY=;
+  b=Zr4udAaVNbRXV+ITeqdZAWIL020ELJ5WcdrS+Bu/nAQZ3OzjJPDkvyvO
+   76zOxK4xhAUYlBTf+xT8Ux31zxqphlpgv5dpTh411z1hmnhDfIQwP3WS+
+   40xIbulkWLbDVuAjxisvw+vbkbdLiaX3q9hDB9IHpwrmWe90emesA3fUr
+   T3j2lpT7oG0Kaih5ZDhxOnJ25br9lB2gl0DKvBn/NYqHYe2SCp5zAQSln
+   4K30jFLvvD5Zzx+QwSWsz/ZBaKg0Z+9p4I2DrHIW/3rk0LRC7YaJm477f
+   Z//w6/Q49Pmzwa0GT3uxwYvs8QIwRy9ZjWMlixyXM/yKxpmRDE61FB7Wm
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10877"; a="763516"
+X-IronPort-AV: E=McAfee;i="6600,9927,10877"; a="6573435"
 X-IronPort-AV: E=Sophos;i="6.03,261,1694761200"; 
-   d="scan'208";a="763516"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2023 02:32:59 -0700
+   d="scan'208";a="6573435"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2023 03:06:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10877"; a="789203497"
+X-IronPort-AV: E=McAfee;i="6600,9927,10877"; a="753534148"
 X-IronPort-AV: E=Sophos;i="6.03,261,1694761200"; 
-   d="scan'208";a="789203497"
+   d="scan'208";a="753534148"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 29 Oct 2023 02:32:56 -0700
+  by orsmga007.jf.intel.com with ESMTP; 29 Oct 2023 03:05:56 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qx2A9-000CSp-2K;
-	Sun, 29 Oct 2023 09:32:53 +0000
-Date: Sun, 29 Oct 2023 17:32:19 +0800
+	id 1qx2g6-000CTl-18;
+	Sun, 29 Oct 2023 10:05:54 +0000
+Date: Sun, 29 Oct 2023 18:05:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vadfed@meta.com>, Jakub Kicinski <kuba@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Mykola Lysenko <mykolal@fb.com>
-Cc: oe-kbuild-all@lists.linux.dev, Vadim Fedorenko <vadfed@meta.com>,
-	bpf@vger.kernel.org, netdev@vger.kernel.org,
-	linux-crypto@vger.kernel.org
-Subject: Re: [PATCH bpf-next v2 1/2] bpf: add skcipher API support to TC/XDP
- programs
-Message-ID: <202310291759.z9P4QJvI-lkp@intel.com>
-References: <20231027172039.1365917-1-vadfed@meta.com>
+To: David Woodhouse <dwmw2@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+	linux-kernel <linux-kernel@vger.kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Juergen Gross <jgross@suse.com>
+Subject: Re: [PATCH v2] lockdep: add lockdep_cleanup_dead_cpu()
+Message-ID: <202310291748.ld6JE1m3-lkp@intel.com>
+References: <635fa006e8f3816b4a36b964d6281f0d8efa789b.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,223 +56,280 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231027172039.1365917-1-vadfed@meta.com>
+In-Reply-To: <635fa006e8f3816b4a36b964d6281f0d8efa789b.camel@infradead.org>
 
-Hi Vadim,
+Hi David,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test WARNING on tip/smp/core]
+[also build test WARNING on tip/locking/core linus/master v6.6-rc7 next-20231027]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/selftests-bpf-crypto-skcipher-algo-selftests/20231028-020332
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231027172039.1365917-1-vadfed%40meta.com
-patch subject: [PATCH bpf-next v2 1/2] bpf: add skcipher API support to TC/XDP programs
-config: x86_64-randconfig-001-20231029 (https://download.01.org/0day-ci/archive/20231029/202310291759.z9P4QJvI-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231029/202310291759.z9P4QJvI-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Woodhouse/lockdep-add-lockdep_cleanup_dead_cpu/20231029-032722
+base:   tip/smp/core
+patch link:    https://lore.kernel.org/r/635fa006e8f3816b4a36b964d6281f0d8efa789b.camel%40infradead.org
+patch subject: [PATCH v2] lockdep: add lockdep_cleanup_dead_cpu()
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231029/202310291748.ld6JE1m3-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231029/202310291748.ld6JE1m3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310291759.z9P4QJvI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310291748.ld6JE1m3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/bpf/crypto.c:72:1: warning: no previous declaration for 'bpf_crypto_skcipher_ctx_create' [-Wmissing-declarations]
-    bpf_crypto_skcipher_ctx_create(const struct bpf_dynptr_kern *palgo,
-    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/crypto.c:140:1: warning: no previous declaration for 'bpf_crypto_skcipher_ctx_acquire' [-Wmissing-declarations]
-    bpf_crypto_skcipher_ctx_acquire(struct bpf_crypto_skcipher_ctx *ctx)
-    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/crypto.c:154:18: warning: no previous declaration for 'bpf_crypto_skcipher_ctx_release' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_crypto_skcipher_ctx_release(struct bpf_crypto_skcipher_ctx *ctx)
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/crypto.c:208:17: warning: no previous declaration for 'bpf_crypto_skcipher_decrypt' [-Wmissing-declarations]
-    __bpf_kfunc int bpf_crypto_skcipher_decrypt(struct bpf_crypto_skcipher_ctx *ctx,
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/crypto.c:225:17: warning: no previous declaration for 'bpf_crypto_skcipher_encrypt' [-Wmissing-declarations]
-    __bpf_kfunc int bpf_crypto_skcipher_encrypt(struct bpf_crypto_skcipher_ctx *ctx,
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from init/init_task.c:2:
+   In file included from include/linux/init_task.h:5:
+   In file included from include/linux/rcupdate.h:26:
+>> include/linux/irqflags.h:36:19: warning: declaration of 'struct task_struct' will not be visible outside of this function [-Wvisibility]
+      36 |                                               struct task_struct *idle) {}
+         |                                                      ^
+   In file included from init/init_task.c:2:
+   In file included from include/linux/init_task.h:9:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from init/init_task.c:2:
+   In file included from include/linux/init_task.h:9:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from init/init_task.c:2:
+   In file included from include/linux/init_task.h:9:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   13 warnings generated.
+--
+   In file included from arch/um/kernel/reboot.c:6:
+   In file included from include/linux/sched/signal.h:5:
+   In file included from include/linux/rculist.h:11:
+   In file included from include/linux/rcupdate.h:26:
+>> include/linux/irqflags.h:36:19: warning: declaration of 'struct task_struct' will not be visible outside of this function [-Wvisibility]
+      36 |                                               struct task_struct *idle) {}
+         |                                                      ^
+   arch/um/kernel/reboot.c:45:6: warning: no previous prototype for function 'machine_restart' [-Wmissing-prototypes]
+      45 | void machine_restart(char * __unused)
+         |      ^
+   arch/um/kernel/reboot.c:45:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      45 | void machine_restart(char * __unused)
+         | ^
+         | static 
+   arch/um/kernel/reboot.c:51:6: warning: no previous prototype for function 'machine_power_off' [-Wmissing-prototypes]
+      51 | void machine_power_off(void)
+         |      ^
+   arch/um/kernel/reboot.c:51:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      51 | void machine_power_off(void)
+         | ^
+         | static 
+   arch/um/kernel/reboot.c:57:6: warning: no previous prototype for function 'machine_halt' [-Wmissing-prototypes]
+      57 | void machine_halt(void)
+         |      ^
+   arch/um/kernel/reboot.c:57:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      57 | void machine_halt(void)
+         | ^
+         | static 
+   4 warnings generated.
+--
+   In file included from arch/um/kernel/early_printk.c:7:
+   In file included from include/linux/console.h:19:
+   In file included from include/linux/rculist.h:11:
+   In file included from include/linux/rcupdate.h:26:
+>> include/linux/irqflags.h:36:19: warning: declaration of 'struct task_struct' will not be visible outside of this function [-Wvisibility]
+      36 |                                               struct task_struct *idle) {}
+         |                                                      ^
+   1 warning generated.
+--
+   In file included from kernel/irq_work.c:12:
+   In file included from include/linux/irq_work.h:6:
+   In file included from include/linux/rcuwait.h:5:
+   In file included from include/linux/rcupdate.h:26:
+>> include/linux/irqflags.h:36:19: warning: declaration of 'struct task_struct' will not be visible outside of this function [-Wvisibility]
+      36 |                                               struct task_struct *idle) {}
+         |                                                      ^
+   In file included from kernel/irq_work.c:14:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from kernel/irq_work.c:14:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from kernel/irq_work.c:14:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   kernel/irq_work.c:72:13: warning: no previous prototype for function 'arch_irq_work_raise' [-Wmissing-prototypes]
+      72 | void __weak arch_irq_work_raise(void)
+         |             ^
+   kernel/irq_work.c:72:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      72 | void __weak arch_irq_work_raise(void)
+         | ^
+         | static 
+   14 warnings generated.
+--
+   In file included from lib/maple_tree.c:54:
+   In file included from include/linux/maple_tree.h:12:
+   In file included from include/linux/rcupdate.h:26:
+>> include/linux/irqflags.h:36:19: warning: declaration of 'struct task_struct' will not be visible outside of this function [-Wvisibility]
+      36 |                                               struct task_struct *idle) {}
+         |                                                      ^
+   lib/maple_tree.c:331:21: warning: unused function 'mte_set_full' [-Wunused-function]
+     331 | static inline void *mte_set_full(const struct maple_enode *node)
+         |                     ^
+   lib/maple_tree.c:336:21: warning: unused function 'mte_clear_full' [-Wunused-function]
+     336 | static inline void *mte_clear_full(const struct maple_enode *node)
+         |                     ^
+   lib/maple_tree.c:341:20: warning: unused function 'mte_has_null' [-Wunused-function]
+     341 | static inline bool mte_has_null(const struct maple_enode *node)
+         |                    ^
+   lib/maple_tree.c:672:29: warning: unused function 'mas_pivot' [-Wunused-function]
+     672 | static inline unsigned long mas_pivot(struct ma_state *mas, unsigned char piv)
+         |                             ^
+   lib/maple_tree.c:4319:20: warning: stack frame size (1064) exceeds limit (1024) in 'mas_wr_modify' [-Wframe-larger-than]
+    4319 | static inline void mas_wr_modify(struct ma_wr_state *wr_mas)
+         |                    ^
+   6 warnings generated.
 
 
-vim +/bpf_crypto_skcipher_ctx_create +72 kernel/bpf/crypto.c
+vim +36 include/linux/irqflags.h
 
-    58	
-    59	/**
-    60	 * bpf_crypto_skcipher_ctx_create() - Create a mutable BPF crypto context.
-    61	 *
-    62	 * Allocates a crypto context that can be used, acquired, and released by
-    63	 * a BPF program. The crypto context returned by this function must either
-    64	 * be embedded in a map as a kptr, or freed with bpf_crypto_skcipher_ctx_release().
-    65	 *
-    66	 * bpf_crypto_skcipher_ctx_create() allocates memory using the BPF memory
-    67	 * allocator, and will not block. It may return NULL if no memory is available.
-    68	 * @algo: bpf_dynptr which holds string representation of algorithm.
-    69	 * @key:  bpf_dynptr which holds cipher key to do crypto.
-    70	 */
-    71	__bpf_kfunc struct bpf_crypto_skcipher_ctx *
-  > 72	bpf_crypto_skcipher_ctx_create(const struct bpf_dynptr_kern *palgo,
-    73				       const struct bpf_dynptr_kern *pkey, int *err)
-    74	{
-    75		struct bpf_crypto_skcipher_ctx *ctx;
-    76		char *algo;
-    77	
-    78		if (__bpf_dynptr_size(palgo) > CRYPTO_MAX_ALG_NAME) {
-    79			*err = -EINVAL;
-    80			return NULL;
-    81		}
-    82	
-    83		algo = __bpf_dynptr_data_ptr(palgo);
-    84	
-    85		if (!crypto_has_skcipher(algo, CRYPTO_ALG_TYPE_SKCIPHER, CRYPTO_ALG_TYPE_MASK)) {
-    86			*err = -EOPNOTSUPP;
-    87			return NULL;
-    88		}
-    89	
-    90		ctx = kmalloc(sizeof(*ctx), GFP_KERNEL);
-    91		if (!ctx) {
-    92			*err = -ENOMEM;
-    93			return NULL;
-    94		}
-    95	
-    96		memset(ctx, 0, sizeof(*ctx));
-    97	
-    98		ctx->tfm = crypto_alloc_sync_skcipher(algo, 0, 0);
-    99		if (IS_ERR(ctx->tfm)) {
-   100			*err = PTR_ERR(ctx->tfm);
-   101			ctx->tfm = NULL;
-   102			goto err;
-   103		}
-   104	
-   105		*err = crypto_sync_skcipher_setkey(ctx->tfm, __bpf_dynptr_data_ptr(pkey),
-   106						   __bpf_dynptr_size(pkey));
-   107		if (*err)
-   108			goto err;
-   109	
-   110		refcount_set(&ctx->usage, 1);
-   111	
-   112		return ctx;
-   113	err:
-   114		if (ctx->tfm)
-   115			crypto_free_sync_skcipher(ctx->tfm);
-   116		kfree(ctx);
-   117	
-   118		return NULL;
-   119	}
-   120	
-   121	static void crypto_free_sync_skcipher_cb(struct rcu_head *head)
-   122	{
-   123		struct bpf_crypto_skcipher_ctx *ctx;
-   124	
-   125		ctx = container_of(head, struct bpf_crypto_skcipher_ctx, rcu);
-   126		crypto_free_sync_skcipher(ctx->tfm);
-   127		kfree(ctx);
-   128	}
-   129	
-   130	/**
-   131	 * bpf_crypto_skcipher_ctx_acquire() - Acquire a reference to a BPF crypto context.
-   132	 * @ctx: The BPF crypto context being acquired. The ctx must be a trusted
-   133	 *	     pointer.
-   134	 *
-   135	 * Acquires a reference to a BPF crypto context. The context returned by this function
-   136	 * must either be embedded in a map as a kptr, or freed with
-   137	 * bpf_crypto_skcipher_ctx_release().
-   138	 */
-   139	__bpf_kfunc struct bpf_crypto_skcipher_ctx *
- > 140	bpf_crypto_skcipher_ctx_acquire(struct bpf_crypto_skcipher_ctx *ctx)
-   141	{
-   142		refcount_inc(&ctx->usage);
-   143		return ctx;
-   144	}
-   145	
-   146	/**
-   147	 * bpf_crypto_skcipher_ctx_release() - Release a previously acquired BPF crypto context.
-   148	 * @ctx: The crypto context being released.
-   149	 *
-   150	 * Releases a previously acquired reference to a BPF cpumask. When the final
-   151	 * reference of the BPF cpumask has been released, it is subsequently freed in
-   152	 * an RCU callback in the BPF memory allocator.
-   153	 */
- > 154	__bpf_kfunc void bpf_crypto_skcipher_ctx_release(struct bpf_crypto_skcipher_ctx *ctx)
-   155	{
-   156		if (refcount_dec_and_test(&ctx->usage))
-   157			call_rcu(&ctx->rcu, crypto_free_sync_skcipher_cb);
-   158	}
-   159	
-   160	static int bpf_crypto_skcipher_crypt(struct crypto_sync_skcipher *tfm,
-   161					     const struct bpf_dynptr_kern *src,
-   162					     struct bpf_dynptr_kern *dst,
-   163					     const struct bpf_dynptr_kern *iv,
-   164					     bool decrypt)
-   165	{
-   166		struct skcipher_request *req = NULL;
-   167		struct scatterlist sgin, sgout;
-   168		int err;
-   169	
-   170		if (crypto_sync_skcipher_get_flags(tfm) & CRYPTO_TFM_NEED_KEY)
-   171			return -EINVAL;
-   172	
-   173		if (__bpf_dynptr_is_rdonly(dst))
-   174			return -EINVAL;
-   175	
-   176		if (!__bpf_dynptr_size(dst) || !__bpf_dynptr_size(src))
-   177			return -EINVAL;
-   178	
-   179		if (__bpf_dynptr_size(iv) != crypto_sync_skcipher_ivsize(tfm))
-   180			return -EINVAL;
-   181	
-   182		req = skcipher_request_alloc(&tfm->base, GFP_ATOMIC);
-   183		if (!req)
-   184			return -ENOMEM;
-   185	
-   186		sg_init_one(&sgin, __bpf_dynptr_data_ptr(src), __bpf_dynptr_size(src));
-   187		sg_init_one(&sgout, __bpf_dynptr_data_ptr(dst), __bpf_dynptr_size(dst));
-   188	
-   189		skcipher_request_set_crypt(req, &sgin, &sgout, __bpf_dynptr_size(src),
-   190					   __bpf_dynptr_data_ptr(iv));
-   191	
-   192		err = decrypt ? crypto_skcipher_decrypt(req) : crypto_skcipher_encrypt(req);
-   193	
-   194		skcipher_request_free(req);
-   195	
-   196		return err;
-   197	}
-   198	
-   199	/**
-   200	 * bpf_crypto_skcipher_decrypt() - Decrypt buffer using configured context and IV provided.
-   201	 * @ctx:	The crypto context being used. The ctx must be a trusted pointer.
-   202	 * @src:	bpf_dynptr to the encrypted data. Must be a trusted pointer.
-   203	 * @dst:	bpf_dynptr to the buffer where to store the result. Must be a trusted pointer.
-   204	 * @iv:		bpf_dynptr to IV data to be used by decryptor.
-   205	 *
-   206	 * Decrypts provided buffer using IV data and the crypto context. Crypto context must be configured.
-   207	 */
- > 208	__bpf_kfunc int bpf_crypto_skcipher_decrypt(struct bpf_crypto_skcipher_ctx *ctx,
-   209						    const struct bpf_dynptr_kern *src,
-   210						    struct bpf_dynptr_kern *dst,
-   211						    const struct bpf_dynptr_kern *iv)
-   212	{
-   213		return bpf_crypto_skcipher_crypt(ctx->tfm, src, dst, iv, true);
-   214	}
-   215	
-   216	/**
-   217	 * bpf_crypto_skcipher_encrypt() - Encrypt buffer using configured context and IV provided.
-   218	 * @ctx:	The crypto context being used. The ctx must be a trusted pointer.
-   219	 * @src:	bpf_dynptr to the plain data. Must be a trusted pointer.
-   220	 * @dst:	bpf_dynptr to buffer where to store the result. Must be a trusted pointer.
-   221	 * @iv:		bpf_dynptr to IV data to be used by decryptor.
-   222	 *
-   223	 * Encrypts provided buffer using IV data and the crypto context. Crypto context must be configured.
-   224	 */
- > 225	__bpf_kfunc int bpf_crypto_skcipher_encrypt(struct bpf_crypto_skcipher_ctx *ctx,
-   226						    const struct bpf_dynptr_kern *src,
-   227						    struct bpf_dynptr_kern *dst,
-   228						    const struct bpf_dynptr_kern *iv)
-   229	{
-   230		return bpf_crypto_skcipher_crypt(ctx->tfm, src, dst, iv, false);
-   231	}
-   232	
+    19	
+    20	/* Currently lockdep_softirqs_on/off is used only by lockdep */
+    21	#ifdef CONFIG_PROVE_LOCKING
+    22	  extern void lockdep_softirqs_on(unsigned long ip);
+    23	  extern void lockdep_softirqs_off(unsigned long ip);
+    24	  extern void lockdep_hardirqs_on_prepare(void);
+    25	  extern void lockdep_hardirqs_on(unsigned long ip);
+    26	  extern void lockdep_hardirqs_off(unsigned long ip);
+    27	  extern void lockdep_cleanup_dead_cpu(unsigned int cpu,
+    28					       struct task_struct *idle);
+    29	#else
+    30	  static inline void lockdep_softirqs_on(unsigned long ip) { }
+    31	  static inline void lockdep_softirqs_off(unsigned long ip) { }
+    32	  static inline void lockdep_hardirqs_on_prepare(void) { }
+    33	  static inline void lockdep_hardirqs_on(unsigned long ip) { }
+    34	  static inline void lockdep_hardirqs_off(unsigned long ip) { }
+    35	  static inline void lockdep_cleanup_dead_cpu(unsigned int cpu,
+  > 36						      struct task_struct *idle) {}
+    37	#endif
+    38	
 
 -- 
 0-DAY CI Kernel Test Service
