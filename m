@@ -1,282 +1,137 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064F3F9F7
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Oct 2023 18:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876BB39C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Oct 2023 18:41:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BxhFfzOv"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-53f647c84d4so8362a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Oct 2023 11:00:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1698602418; x=1699207218; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=482JqFOCZJXsR7YDf+i4ExLqqy3uVi8ZcfTRWfqy2eI=;
-        b=BxhFfzOvvoQ/+Mr8g89Zby9EYu3ciDyrBbNrYa1ismcTLlw+yavOSS7r4awm7rTx2d
-         YgGPVxsDZLcygvHA/43DbA6Sl00izGWyJ2AVJq5EAPTcR8TbfibNoH3FPBBdtJc827vx
-         phcCBjbws5U0Y6lToK4IcU+15Xwyk3Lx/lETHwnEwMLrz0ooGufDtkXm6Luc/BM7hduA
-         ifJN3Ll2Kj9+H2mei2kTRwXNvzQe1+c1IlYmeWO2o/NSRXyxbHoBj9+mtCFwo360g0m8
-         dcHDDiOkN3/9J7SEuC5b4AxUb/06A9S8V+sAlZrqDCqzzS0JSgZrDq+g2KroV0BCYffQ
-         KMBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698602418; x=1699207218;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=482JqFOCZJXsR7YDf+i4ExLqqy3uVi8ZcfTRWfqy2eI=;
-        b=nsTtEdIbLSd8nmjeiKJFa+1pgolffm0qtETzplIxu7XrSSQHWHkhXaxdH9Mfxh0Rcz
-         0OL+mtlj8q50WSrzYSnQLuwfFcFTivgyYoLQR/wKwuXwI6IhABZKJIAPTxIVTlnwMQCK
-         oPtxqWLvBWyFe9zOkBgjViWjG79/BfBcquo+qQEGPoFhma5Nfr64OO1Pb9sliukqLamV
-         5+aYYHz1rXAljtkeoSWXmRtejqDWyeZ9V9kGRhlQiFdkhHWvWJrWyewPqdZ5Hu3+s1S6
-         A8PO4kdeyRzi/PbtZbjEIbKJ/h1MKjVPQCvbC38qjnU/158OFgtAH4pq0HZ7KlzbR9Os
-         LHEg==
-X-Gm-Message-State: AOJu0YyRO9zJ1L77p+uVrtLslq+T8Zkmdqi1ymGvdbuhR6Cw9RguNrcI
-	6CDOSYmNZp8m8gGe+eKH6I7sRu3h1CYGiAo1zhWJZg==
-X-Google-Smtp-Source: AGHT+IGELW6X60QP6gMIxf9l2rNayckFAtxeBkgpyHRyRdzoeI3GZkw6iH8Vry/wQk27OsiVAaJ79W5CqI050GCN92Y=
-X-Received: by 2002:a05:6402:529a:b0:542:ee28:71c7 with SMTP id
- en26-20020a056402529a00b00542ee2871c7mr35155edb.1.1698602418085; Sun, 29 Oct
- 2023 11:00:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gtSkl3gq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698604916; x=1730140916;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=4FFufjLNr4846R4FP5r0jinRPlFp0S9jNHqTPJGf77o=;
+  b=gtSkl3gqu4iyWozM5pHZBQyqzd/+LY/sFScwlMHmQD88asMDdF2QEbTM
+   lOP6VugDlrXsZMH/aSOT1+6t2ZxgL+28c3et2UiW9WIQTQSCUurU1+eBY
+   b0uv5WxmeKeKuzGBif+D1MsGsMY/7aLxfa7ryUKzYzgtCvpBo64PTY2TX
+   rsxjxMMpB5cv5nheIYBzwPP1+LTkiJG6pdTn2RC31KBXuCkTlklK4GfuD
+   UJ3QilDesuixD7dk4rPY2P1Q+WU9YYKKZ+H+n2rZGHIYyzut0hOUpEO/s
+   fYSHvjMaP+gWwOc834Q5kLTbXxTLqHtBCIOu6oYag5s7w2tdSIikwoFA/
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="387789247"
+X-IronPort-AV: E=Sophos;i="6.03,261,1694761200"; 
+   d="scan'208";a="387789247"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2023 11:41:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="760079543"
+X-IronPort-AV: E=Sophos;i="6.03,261,1694761200"; 
+   d="scan'208";a="760079543"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 29 Oct 2023 11:41:51 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qxAjN-000Ckl-0U;
+	Sun, 29 Oct 2023 18:41:49 +0000
+Date: Mon, 30 Oct 2023 02:41:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Jos=E9?= Pekkarinen <jose.pekkarinen@foxhound.fi>,
+	seanjc@google.com, pbonzini@redhat.com, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	skhan@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	=?iso-8859-1?Q?Jos=E9?= Pekkarinen <jose.pekkarinen@foxhound.fi>,
+	x86@kernel.org, hpa@zytor.com, kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] KVM: x86: cleanup unused variables
+Message-ID: <202310300228.s4py0SQf-lkp@intel.com>
+References: <20231029093859.138442-1-jose.pekkarinen@foxhound.fi>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231029075244.2612089-4-lixiaoyan@google.com> <202310292036.So7PkmBh-lkp@intel.com>
-In-Reply-To: <202310292036.So7PkmBh-lkp@intel.com>
-From: Coco Li <lixiaoyan@google.com>
-Date: Sun, 29 Oct 2023 11:00:06 -0700
-Message-ID: <CADjXwjhdOW3sNSFTZEF45C33w3=N57U0ACbrapotR4Pf048new@mail.gmail.com>
-Subject: Re: [PATCH v5 net-next 3/5] netns-ipv4: reorganize netns_ipv4 fast
- path variables
-To: kernel test robot <lkp@intel.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>, 
-	Neal Cardwell <ncardwell@google.com>, Mubashir Adnan Qureshi <mubashirq@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	David Ahern <dsahern@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org, 
-	Chao Wu <wwchao@google.com>, Wei Wang <weiwan@google.com>, 
-	Pradeep Nemavat <pnemavat@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231029093859.138442-1-jose.pekkarinen@foxhound.fi>
 
-Sorry about this, I will fix it soon.
+Hi José,
 
-On Sun, Oct 29, 2023 at 5:55=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Coco,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on net-next/main]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Coco-Li/Documentat=
-ions-Analyze-heavily-used-Networking-related-structs/20231029-172902
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20231029075244.2612089-4-lixiaoy=
-an%40google.com
-> patch subject: [PATCH v5 net-next 3/5] netns-ipv4: reorganize netns_ipv4 =
-fast path variables
-> config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231029/=
-202310292036.So7PkmBh-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git =
-4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20231029/202310292036.So7PkmBh-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202310292036.So7PkmBh-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    In file included from net/core/net_namespace.c:5:
->    In file included from include/linux/rtnetlink.h:7:
->    In file included from include/linux/netdevice.h:38:
->    In file included from include/net/net_namespace.h:43:
->    In file included from include/linux/skbuff.h:17:
->    In file included from include/linux/bvec.h:10:
->    In file included from include/linux/highmem.h:12:
->    In file included from include/linux/hardirq.h:11:
->    In file included from arch/um/include/asm/hardirq.h:5:
->    In file included from include/asm-generic/hardirq.h:17:
->    In file included from include/linux/irq.h:20:
->    In file included from include/linux/io.h:13:
->    In file included from arch/um/include/asm/io.h:24:
->    include/asm-generic/io.h:547:31: warning: performing pointer arithmeti=
-c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      547 |         val =3D __raw_readb(PCI_IOBASE + addr);
->          |                           ~~~~~~~~~~ ^
->    include/asm-generic/io.h:560:61: warning: performing pointer arithmeti=
-c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      560 |         val =3D __le16_to_cpu((__le16 __force)__raw_readw(PCI_=
-IOBASE + addr));
->          |                                                         ~~~~~~=
-~~~~ ^
->    include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded fro=
-m macro '__le16_to_cpu'
->       37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
->          |                                                   ^
->    In file included from net/core/net_namespace.c:5:
->    In file included from include/linux/rtnetlink.h:7:
->    In file included from include/linux/netdevice.h:38:
->    In file included from include/net/net_namespace.h:43:
->    In file included from include/linux/skbuff.h:17:
->    In file included from include/linux/bvec.h:10:
->    In file included from include/linux/highmem.h:12:
->    In file included from include/linux/hardirq.h:11:
->    In file included from arch/um/include/asm/hardirq.h:5:
->    In file included from include/asm-generic/hardirq.h:17:
->    In file included from include/linux/irq.h:20:
->    In file included from include/linux/io.h:13:
->    In file included from arch/um/include/asm/io.h:24:
->    include/asm-generic/io.h:573:61: warning: performing pointer arithmeti=
-c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      573 |         val =3D __le32_to_cpu((__le32 __force)__raw_readl(PCI_=
-IOBASE + addr));
->          |                                                         ~~~~~~=
-~~~~ ^
->    include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded fro=
-m macro '__le32_to_cpu'
->       35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
->          |                                                   ^
->    In file included from net/core/net_namespace.c:5:
->    In file included from include/linux/rtnetlink.h:7:
->    In file included from include/linux/netdevice.h:38:
->    In file included from include/net/net_namespace.h:43:
->    In file included from include/linux/skbuff.h:17:
->    In file included from include/linux/bvec.h:10:
->    In file included from include/linux/highmem.h:12:
->    In file included from include/linux/hardirq.h:11:
->    In file included from arch/um/include/asm/hardirq.h:5:
->    In file included from include/asm-generic/hardirq.h:17:
->    In file included from include/linux/irq.h:20:
->    In file included from include/linux/io.h:13:
->    In file included from arch/um/include/asm/io.h:24:
->    include/asm-generic/io.h:584:33: warning: performing pointer arithmeti=
-c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      584 |         __raw_writeb(value, PCI_IOBASE + addr);
->          |                             ~~~~~~~~~~ ^
->    include/asm-generic/io.h:594:59: warning: performing pointer arithmeti=
-c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBA=
-SE + addr);
->          |                                                       ~~~~~~~~=
-~~ ^
->    include/asm-generic/io.h:604:59: warning: performing pointer arithmeti=
-c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBA=
-SE + addr);
->          |                                                       ~~~~~~~~=
-~~ ^
->    include/asm-generic/io.h:692:20: warning: performing pointer arithmeti=
-c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      692 |         readsb(PCI_IOBASE + addr, buffer, count);
->          |                ~~~~~~~~~~ ^
->    include/asm-generic/io.h:700:20: warning: performing pointer arithmeti=
-c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      700 |         readsw(PCI_IOBASE + addr, buffer, count);
->          |                ~~~~~~~~~~ ^
->    include/asm-generic/io.h:708:20: warning: performing pointer arithmeti=
-c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      708 |         readsl(PCI_IOBASE + addr, buffer, count);
->          |                ~~~~~~~~~~ ^
->    include/asm-generic/io.h:717:21: warning: performing pointer arithmeti=
-c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      717 |         writesb(PCI_IOBASE + addr, buffer, count);
->          |                 ~~~~~~~~~~ ^
->    include/asm-generic/io.h:726:21: warning: performing pointer arithmeti=
-c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      726 |         writesw(PCI_IOBASE + addr, buffer, count);
->          |                 ~~~~~~~~~~ ^
->    include/asm-generic/io.h:735:21: warning: performing pointer arithmeti=
-c on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      735 |         writesl(PCI_IOBASE + addr, buffer, count);
->          |                 ~~~~~~~~~~ ^
-> >> net/core/net_namespace.c:1127:2: error: expected expression
->     1127 |         / TXRX readonly hotpath cache lines */
->          |         ^
-> >> net/core/net_namespace.c:1127:4: error: use of undeclared identifier '=
-TXRX'
->     1127 |         / TXRX readonly hotpath cache lines */
->          |           ^
->    12 warnings and 2 errors generated.
->
->
-> vim +1127 net/core/net_namespace.c
->
->   1101
->   1102  static void __init netns_ipv4_struct_check(void)
->   1103  {
->   1104          /* TX readonly hotpath cache lines */
->   1105          CACHELINE_ASSERT_GROUP_MEMBER(struct netns_ipv4, netns_ip=
-v4_read_tx,
->   1106                                        sysctl_tcp_early_retrans);
->   1107          CACHELINE_ASSERT_GROUP_MEMBER(struct netns_ipv4, netns_ip=
-v4_read_tx,
->   1108                                        sysctl_tcp_tso_win_divisor)=
-;
->   1109          CACHELINE_ASSERT_GROUP_MEMBER(struct netns_ipv4, netns_ip=
-v4_read_tx,
->   1110                                        sysctl_tcp_tso_rtt_log);
->   1111          CACHELINE_ASSERT_GROUP_MEMBER(struct netns_ipv4, netns_ip=
-v4_read_tx,
->   1112                                        sysctl_tcp_autocorking);
->   1113          CACHELINE_ASSERT_GROUP_MEMBER(struct netns_ipv4, netns_ip=
-v4_read_tx,
->   1114                                        sysctl_tcp_min_snd_mss);
->   1115          CACHELINE_ASSERT_GROUP_MEMBER(struct netns_ipv4, netns_ip=
-v4_read_tx,
->   1116                                        sysctl_tcp_notsent_lowat);
->   1117          CACHELINE_ASSERT_GROUP_MEMBER(struct netns_ipv4, netns_ip=
-v4_read_tx,
->   1118                                        sysctl_tcp_limit_output_byt=
-es);
->   1119          CACHELINE_ASSERT_GROUP_MEMBER(struct netns_ipv4, netns_ip=
-v4_read_tx,
->   1120                                        sysctl_tcp_min_rtt_wlen);
->   1121          CACHELINE_ASSERT_GROUP_MEMBER(struct netns_ipv4, netns_ip=
-v4_read_tx,
->   1122                                        sysctl_tcp_wmem);
->   1123          CACHELINE_ASSERT_GROUP_MEMBER(struct netns_ipv4, netns_ip=
-v4_read_tx,
->   1124                                        sysctl_ip_fwd_use_pmtu);
->   1125          CACHELINE_ASSERT_GROUP_SIZE(struct netns_ipv4, netns_ipv4=
-_read_tx, 33);
->   1126
-> > 1127          / TXRX readonly hotpath cache lines */
->   1128          CACHELINE_ASSERT_GROUP_MEMBER(struct netns_ipv4, netns_ip=
-v4_read_txrx,
->   1129                                        sysctl_tcp_moderate_rcvbuf)=
-;
->   1130          CACHELINE_ASSERT_GROUP_SIZE(struct netns_ipv4, netns_ipv4=
-_read_txrx, 1);
->   1131
->   1132          /* RX readonly hotpath cache line */
->   1133          CACHELINE_ASSERT_GROUP_MEMBER(struct netns_ipv4, netns_ip=
-v4_read_rx,
->   1134                                        sysctl_ip_early_demux);
->   1135          CACHELINE_ASSERT_GROUP_MEMBER(struct netns_ipv4, netns_ip=
-v4_read_rx,
->   1136                                        sysctl_tcp_early_demux);
->   1137          CACHELINE_ASSERT_GROUP_MEMBER(struct netns_ipv4, netns_ip=
-v4_read_rx,
->   1138                                        sysctl_tcp_reordering);
->   1139          CACHELINE_ASSERT_GROUP_MEMBER(struct netns_ipv4, netns_ip=
-v4_read_rx,
->   1140                                        sysctl_tcp_rmem);
->   1141          CACHELINE_ASSERT_GROUP_SIZE(struct netns_ipv4, netns_ipv4=
-_read_rx, 18);
->   1142  }
->   1143
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on kvm/queue]
+[also build test ERROR on linus/master v6.6-rc7 next-20231027]
+[cannot apply to kvm/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jos-Pekkarinen/KVM-x86-cleanup-unused-variables/20231029-174855
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20231029093859.138442-1-jose.pekkarinen%40foxhound.fi
+patch subject: [PATCH] KVM: x86: cleanup unused variables
+config: i386-buildonly-randconfig-006-20231030 (https://download.01.org/0day-ci/archive/20231030/202310300228.s4py0SQf-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231030/202310300228.s4py0SQf-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310300228.s4py0SQf-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   arch/x86/kvm/emulate.c: In function 'decode_modrm':
+>> arch/x86/kvm/emulate.c:950:9: error: 'rc' undeclared (first use in this function); did you mean 'rq'?
+     950 |         rc = do_insn_fetch_bytes(_ctxt, sizeof(_type));                 \
+         |         ^~
+   arch/x86/kvm/emulate.c:1225:45: note: in expansion of macro 'insn_fetch'
+    1225 |                                 modrm_ea += insn_fetch(u16, ctxt);
+         |                                             ^~~~~~~~~~
+   arch/x86/kvm/emulate.c:950:9: note: each undeclared identifier is reported only once for each function it appears in
+     950 |         rc = do_insn_fetch_bytes(_ctxt, sizeof(_type));                 \
+         |         ^~
+   arch/x86/kvm/emulate.c:1225:45: note: in expansion of macro 'insn_fetch'
+    1225 |                                 modrm_ea += insn_fetch(u16, ctxt);
+         |                                             ^~~~~~~~~~
+   arch/x86/kvm/emulate.c: In function 'decode_abs':
+>> arch/x86/kvm/emulate.c:950:9: error: 'rc' undeclared (first use in this function); did you mean 'rq'?
+     950 |         rc = do_insn_fetch_bytes(_ctxt, sizeof(_type));                 \
+         |         ^~
+   arch/x86/kvm/emulate.c:1317:35: note: in expansion of macro 'insn_fetch'
+    1317 |                 op->addr.mem.ea = insn_fetch(u16, ctxt);
+         |                                   ^~~~~~~~~~
+   arch/x86/kvm/emulate.c: In function 'decode_imm':
+>> arch/x86/kvm/emulate.c:950:9: error: 'rc' undeclared (first use in this function); did you mean 'rq'?
+     950 |         rc = do_insn_fetch_bytes(_ctxt, sizeof(_type));                 \
+         |         ^~
+   arch/x86/kvm/emulate.c:4560:27: note: in expansion of macro 'insn_fetch'
+    4560 |                 op->val = insn_fetch(s8, ctxt);
+         |                           ^~~~~~~~~~
+
+
+vim +950 arch/x86/kvm/emulate.c
+
+6226686954c4cc drivers/kvm/x86_emulate.c Avi Kivity       2007-11-20  945  
+67cbc90db5c0f0 arch/x86/kvm/emulate.c    Takuya Yoshikawa 2011-05-15  946  /* Fetch next part of the instruction being emulated. */
+e85a10852c26d7 arch/x86/kvm/emulate.c    Takuya Yoshikawa 2011-07-30  947  #define insn_fetch(_type, _ctxt)					\
+9506d57de3bc82 arch/x86/kvm/emulate.c    Paolo Bonzini    2014-05-06  948  ({	_type _x;							\
+9506d57de3bc82 arch/x86/kvm/emulate.c    Paolo Bonzini    2014-05-06  949  									\
+9506d57de3bc82 arch/x86/kvm/emulate.c    Paolo Bonzini    2014-05-06 @950  	rc = do_insn_fetch_bytes(_ctxt, sizeof(_type));			\
+67cbc90db5c0f0 arch/x86/kvm/emulate.c    Takuya Yoshikawa 2011-05-15  951  	if (rc != X86EMUL_CONTINUE)					\
+67cbc90db5c0f0 arch/x86/kvm/emulate.c    Takuya Yoshikawa 2011-05-15  952  		goto done;						\
+9506d57de3bc82 arch/x86/kvm/emulate.c    Paolo Bonzini    2014-05-06  953  	ctxt->_eip += sizeof(_type);					\
+8616abc2537933 arch/x86/kvm/emulate.c    Nick Desaulniers 2017-06-27  954  	memcpy(&_x, ctxt->fetch.ptr, sizeof(_type));			\
+17052f16a51af6 arch/x86/kvm/emulate.c    Paolo Bonzini    2014-05-06  955  	ctxt->fetch.ptr += sizeof(_type);				\
+9506d57de3bc82 arch/x86/kvm/emulate.c    Paolo Bonzini    2014-05-06  956  	_x;								\
+67cbc90db5c0f0 arch/x86/kvm/emulate.c    Takuya Yoshikawa 2011-05-15  957  })
+67cbc90db5c0f0 arch/x86/kvm/emulate.c    Takuya Yoshikawa 2011-05-15  958  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
