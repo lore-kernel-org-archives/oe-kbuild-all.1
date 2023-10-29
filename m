@@ -1,41 +1,40 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25861211C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Oct 2023 12:23:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D932F81E;
+	Sun, 29 Oct 2023 12:55:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ARPUMNbO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OvaW1wEF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698582185; x=1730118185;
+  t=1698584105; x=1730120105;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Zdm7dCxrA7fCvOprhPAgZoC3E8FdYRDd3H5IFlUm6Zw=;
-  b=ARPUMNbOdR958d3qHRcL7lxwXwf5FZEXdKItjGLYRxYauZ6naGtcjRUW
-   7DD3xXcb+TY5x2OMx9SvcOfOa/xHXts6BTc3CnsxX8yG6fBKZ0DhyBGK0
-   Lnyfvecxi4KeJz2zQLAeFmCpbF/beSeZYf2j9u3gDZx7X0PtU7z5CBK4z
-   GQiiZnuM/byXBmTe23NuyYYmrsgpSvH3fLdhm6bq6ixV6cbSrTECN62HH
-   S7LXGKwt2aptvM6iFmURdPr9imFcjM6uk5boh2/UOef7zAANoWkbejtCU
-   IS85H7SWyV35bhqJNt7RFx6A8tli1z3qzucHl7TZqqM4JXJtRrwEt1PlV
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10877"; a="390810447"
+  bh=uuVOo2cSJbl54SVJTPcZzZIDzT0I0Vfu2pQz5kAivK4=;
+  b=OvaW1wEFyO3tXDKvT+BRUYuLeRS5bIVER5pHsUahk66Ul4yh0vmTunTK
+   mBjdBkm88ZMW7i8duEnYYbtLzajlmHXIV1M1ydYnnv8aIuw4USGmu7Cmq
+   u/+HiqNFqpvrjEICxsULzmvXfyIgt9CrXXY1LgnNgg1oKn3R7yzff42h1
+   sSR5hjD0/pxiD1uhqB/k6JEMA6X4bjTtdwBXhOWqqq6M0KuOWabvqHOD8
+   osmm7XO/nms3HJ+v6AL4VdkWvEFRZ3egaYO3Me7FCXp1hX8rWr/U731rF
+   rFbkdmlvBvo6QUBhErYHFeK1q2UYbngN1jc2xdti9mc59cNn9T7PqdW0N
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10877"; a="378324098"
 X-IronPort-AV: E=Sophos;i="6.03,261,1694761200"; 
-   d="scan'208";a="390810447"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2023 05:23:04 -0700
+   d="scan'208";a="378324098"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2023 05:55:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10877"; a="753552601"
 X-IronPort-AV: E=Sophos;i="6.03,261,1694761200"; 
-   d="scan'208";a="753552601"
+   d="scan'208";a="1278485"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 29 Oct 2023 05:23:00 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 29 Oct 2023 05:54:46 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qx4oj-000CYV-0x;
-	Sun, 29 Oct 2023 12:22:57 +0000
-Date: Sun, 29 Oct 2023 20:21:57 +0800
+	id 1qx5Jh-000CZ7-2E;
+	Sun, 29 Oct 2023 12:54:57 +0000
+Date: Sun, 29 Oct 2023 20:54:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: Coco Li <lixiaoyan@google.com>, Jakub Kicinski <kuba@kernel.org>,
 	Eric Dumazet <edumazet@google.com>,
@@ -44,13 +43,13 @@ To: Coco Li <lixiaoyan@google.com>, Jakub Kicinski <kuba@kernel.org>,
 	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>,
 	Jonathan Corbet <corbet@lwn.net>, David Ahern <dsahern@kernel.org>,
 	Daniel Borkmann <daniel@iogearbox.net>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Chao Wu <wwchao@google.com>, Wei Wang <weiwan@google.com>,
-	Pradeep Nemavat <pnemavat@google.com>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Chao Wu <wwchao@google.com>,
+	Wei Wang <weiwan@google.com>, Pradeep Nemavat <pnemavat@google.com>,
 	Coco Li <lixiaoyan@google.com>
 Subject: Re: [PATCH v5 net-next 3/5] netns-ipv4: reorganize netns_ipv4 fast
  path variables
-Message-ID: <202310292021.xxMbMUCY-lkp@intel.com>
+Message-ID: <202310292036.So7PkmBh-lkp@intel.com>
 References: <20231029075244.2612089-4-lixiaoyan@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -72,21 +71,105 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Coco-Li/Documentations-An
 base:   net-next/main
 patch link:    https://lore.kernel.org/r/20231029075244.2612089-4-lixiaoyan%40google.com
 patch subject: [PATCH v5 net-next 3/5] netns-ipv4: reorganize netns_ipv4 fast path variables
-config: parisc-randconfig-001-20231029 (https://download.01.org/0day-ci/archive/20231029/202310292021.xxMbMUCY-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231029/202310292021.xxMbMUCY-lkp@intel.com/reproduce)
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231029/202310292036.So7PkmBh-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231029/202310292036.So7PkmBh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310292021.xxMbMUCY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310292036.So7PkmBh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/core/net_namespace.c: In function 'netns_ipv4_struct_check':
->> net/core/net_namespace.c:1127:9: error: expected expression before '/' token
+   In file included from net/core/net_namespace.c:5:
+   In file included from include/linux/rtnetlink.h:7:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from net/core/net_namespace.c:5:
+   In file included from include/linux/rtnetlink.h:7:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from net/core/net_namespace.c:5:
+   In file included from include/linux/rtnetlink.h:7:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> net/core/net_namespace.c:1127:2: error: expected expression
     1127 |         / TXRX readonly hotpath cache lines */
          |         ^
+>> net/core/net_namespace.c:1127:4: error: use of undeclared identifier 'TXRX'
+    1127 |         / TXRX readonly hotpath cache lines */
+         |           ^
+   12 warnings and 2 errors generated.
 
 
 vim +1127 net/core/net_namespace.c
