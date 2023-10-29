@@ -1,114 +1,280 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113D9610A;
-	Sun, 29 Oct 2023 06:56:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B987FD
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Oct 2023 09:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bm0ljIv2"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-509109104e2so1052326e87.3;
-        Sat, 28 Oct 2023 23:56:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698562602; x=1699167402; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RFy+RcQKDTr5alLvXeX4agQqROH2cD25D/5nFBfzPhg=;
-        b=bm0ljIv26gCoXw7GHl4FVjvcWJE19mOCfJkq/9YtS3hey52bbwjNc8kZDYCdW6vmWN
-         RFqjhuRRTX0Ib3/pekbMf+prjD26/HGxS1Okw28J2y9bZFVIJRh5A08PKXh43De3f7SI
-         oGYSQL7PBK7zXxpfkEyh9BUei+dpD/8j3HkIKj57QX4SY4UmQPhyrwJUduN3Q4a71Go7
-         WQN0VBrgaoVJsx/KQEijX1yulxa2a1zYB03epWyHbPtIhIC+pyDG1ARnOtRodJmfXf/1
-         rtu7ekL3Z+IHUNtgpu0K553bMjvOwkxOjKUM3hrKIy2EAsojhjNaVWfKiaaqDjOzz6DV
-         Kpcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698562602; x=1699167402;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RFy+RcQKDTr5alLvXeX4agQqROH2cD25D/5nFBfzPhg=;
-        b=I9NyeLjlhmD4Sdo684YFE50dHfWeOPbRTHLTlLFWSxhv1Yf0JyjBaFWdVOMD1F5myN
-         UBYCn67+DHnXOvSxqtW0ACzfmslbK+YuUol6Ep4LQ+cyEEjfsDYBgq5sDaV9E0SC30Dh
-         f0ugNDtrkBBGXU1ZBOeoFrq42eYdz8TPEfHSzxdwH56/kLz4AjZCtZaA6xMp4Uq4n2qx
-         Qr7ZB8WvDmbYwTv08khCzoHdUvp8FSH3fxxw8VO9AT7FJx3OePeWktrmnWZ0cYPhIbfI
-         qEu1H9lLXZ8ETx70xI5KDdYST+R7pYdHTFSAal0wT4O+yWDqRRBpIItyfTPLQAOF4cQX
-         RRsA==
-X-Gm-Message-State: AOJu0YwzI/iQ1s8VgrHc0cTvZ6MWiBX8oQmsAfF8GA8YkxopeKvPLkVX
-	JhWyAUMrrXGabjO1NITRzYOAenv6jNLUnTC+9w==
-X-Google-Smtp-Source: AGHT+IFVlRp0lfPgmcGpvpQ+VxM6tmfRLa2oMOe+jrJ/VXYD16A92VETn9a3ezMosmaB6pYNxaHV1+wDiwSesV19a+E=
-X-Received: by 2002:ac2:5226:0:b0:507:9a00:c169 with SMTP id
- i6-20020ac25226000000b005079a00c169mr4754464lfl.5.1698562601649; Sat, 28 Oct
- 2023 23:56:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VPhcMnvy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698571980; x=1730107980;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EB6AXOCzM0UMKHUfSK5sQFRebDnHx2JnAx0qwYWuJyQ=;
+  b=VPhcMnvyGW6DweSmc/AxMW6vLGIRf8JHztWeKtz+ABZbAI+v+LkXImr2
+   j19J1f7lEWOf/xGfPuKYByTJ+B44+oEAmIQ620O/6xl9gq8+BgM2F4JPU
+   r6nriLrliBv61uLN+zHHNEL/xo+VfiSxS21ELbolyBJRW7Kh8uD2XOMya
+   rdW08Z+S3E1V71b+ndcRI3pbiVHZCnkiLbY30RNqNWbJISZ+q3V2lxSrZ
+   5f9xYC507kLYpUUyaRSHu8twh8BOvpGdGm4FgJKdRQ82JPt2XzH59dLGK
+   2ILqFRkEzHaTerXgiTwcWubToZgOMy0X5/5MjDHtnf28X0cs2iZwUK3+p
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10877"; a="763516"
+X-IronPort-AV: E=Sophos;i="6.03,261,1694761200"; 
+   d="scan'208";a="763516"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2023 02:32:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10877"; a="789203497"
+X-IronPort-AV: E=Sophos;i="6.03,261,1694761200"; 
+   d="scan'208";a="789203497"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 29 Oct 2023 02:32:56 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qx2A9-000CSp-2K;
+	Sun, 29 Oct 2023 09:32:53 +0000
+Date: Sun, 29 Oct 2023 17:32:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vadim Fedorenko <vadfed@meta.com>, Jakub Kicinski <kuba@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Mykola Lysenko <mykolal@fb.com>
+Cc: oe-kbuild-all@lists.linux.dev, Vadim Fedorenko <vadfed@meta.com>,
+	bpf@vger.kernel.org, netdev@vger.kernel.org,
+	linux-crypto@vger.kernel.org
+Subject: Re: [PATCH bpf-next v2 1/2] bpf: add skcipher API support to TC/XDP
+ programs
+Message-ID: <202310291759.z9P4QJvI-lkp@intel.com>
+References: <20231027172039.1365917-1-vadfed@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231026160100.195099-6-brgerst@gmail.com> <202310290927.2MuJJdu9-lkp@intel.com>
-In-Reply-To: <202310290927.2MuJJdu9-lkp@intel.com>
-From: Brian Gerst <brgerst@gmail.com>
-Date: Sun, 29 Oct 2023 02:56:30 -0400
-Message-ID: <CAMzpN2iUrfnuGQ9eFTr=NTeC6KSUPC37Qji5_g5MWejmXnXO3A@mail.gmail.com>
-Subject: Re: [PATCH v2 05/11] x86/stackprotector/64: Convert stack protector
- to normal percpu variable
-To: kernel test robot <lkp@intel.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, Ingo Molnar <mingo@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, "H . Peter Anvin" <hpa@zytor.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Uros Bizjak <ubizjak@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231027172039.1365917-1-vadfed@meta.com>
 
-On Sat, Oct 28, 2023 at 9:26=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Brian,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on tip/master]
-> [also build test ERROR on next-20231027]
-> [cannot apply to tip/x86/core dennis-percpu/for-next linus/master tip/aut=
-o-latest v6.6-rc7]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Brian-Gerst/x86-st=
-ackprotector-32-Remove-stack-protector-test-script/20231027-000533
-> base:   tip/master
-> patch link:    https://lore.kernel.org/r/20231026160100.195099-6-brgerst%=
-40gmail.com
-> patch subject: [PATCH v2 05/11] x86/stackprotector/64: Convert stack prot=
-ector to normal percpu variable
-> config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/202=
-31029/202310290927.2MuJJdu9-lkp@intel.com/config)
-> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git =
-ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20231029/202310290927.2MuJJdu9-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202310290927.2MuJJdu9-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> Unsupported relocation type: unknown type rel type name (42)
+Hi Vadim,
 
-Clang is generating a new relocation type (R_X86_64_REX_GOTPCRELX)
-that the relocs tool doesn't know about.  This is supposed to allow
-        movq    __stack_chk_guard@GOTPCREL(%rip), %rax
-        movq    %gs:(%rax), %rax
-to be relaxed to
-        leaq    __stack_chk_guard(%rip), %rax
-        movq    %gs:(%rax), %rax
+kernel test robot noticed the following build warnings:
 
-But why is clang doing this instead of what GCC does?
-        movq    %gs:__stack_chk_guard(%rip), %rax
+[auto build test WARNING on bpf-next/master]
 
-Brian Gerst
+url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/selftests-bpf-crypto-skcipher-algo-selftests/20231028-020332
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20231027172039.1365917-1-vadfed%40meta.com
+patch subject: [PATCH bpf-next v2 1/2] bpf: add skcipher API support to TC/XDP programs
+config: x86_64-randconfig-001-20231029 (https://download.01.org/0day-ci/archive/20231029/202310291759.z9P4QJvI-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231029/202310291759.z9P4QJvI-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310291759.z9P4QJvI-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> kernel/bpf/crypto.c:72:1: warning: no previous declaration for 'bpf_crypto_skcipher_ctx_create' [-Wmissing-declarations]
+    bpf_crypto_skcipher_ctx_create(const struct bpf_dynptr_kern *palgo,
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/crypto.c:140:1: warning: no previous declaration for 'bpf_crypto_skcipher_ctx_acquire' [-Wmissing-declarations]
+    bpf_crypto_skcipher_ctx_acquire(struct bpf_crypto_skcipher_ctx *ctx)
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/crypto.c:154:18: warning: no previous declaration for 'bpf_crypto_skcipher_ctx_release' [-Wmissing-declarations]
+    __bpf_kfunc void bpf_crypto_skcipher_ctx_release(struct bpf_crypto_skcipher_ctx *ctx)
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/crypto.c:208:17: warning: no previous declaration for 'bpf_crypto_skcipher_decrypt' [-Wmissing-declarations]
+    __bpf_kfunc int bpf_crypto_skcipher_decrypt(struct bpf_crypto_skcipher_ctx *ctx,
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/crypto.c:225:17: warning: no previous declaration for 'bpf_crypto_skcipher_encrypt' [-Wmissing-declarations]
+    __bpf_kfunc int bpf_crypto_skcipher_encrypt(struct bpf_crypto_skcipher_ctx *ctx,
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/bpf_crypto_skcipher_ctx_create +72 kernel/bpf/crypto.c
+
+    58	
+    59	/**
+    60	 * bpf_crypto_skcipher_ctx_create() - Create a mutable BPF crypto context.
+    61	 *
+    62	 * Allocates a crypto context that can be used, acquired, and released by
+    63	 * a BPF program. The crypto context returned by this function must either
+    64	 * be embedded in a map as a kptr, or freed with bpf_crypto_skcipher_ctx_release().
+    65	 *
+    66	 * bpf_crypto_skcipher_ctx_create() allocates memory using the BPF memory
+    67	 * allocator, and will not block. It may return NULL if no memory is available.
+    68	 * @algo: bpf_dynptr which holds string representation of algorithm.
+    69	 * @key:  bpf_dynptr which holds cipher key to do crypto.
+    70	 */
+    71	__bpf_kfunc struct bpf_crypto_skcipher_ctx *
+  > 72	bpf_crypto_skcipher_ctx_create(const struct bpf_dynptr_kern *palgo,
+    73				       const struct bpf_dynptr_kern *pkey, int *err)
+    74	{
+    75		struct bpf_crypto_skcipher_ctx *ctx;
+    76		char *algo;
+    77	
+    78		if (__bpf_dynptr_size(palgo) > CRYPTO_MAX_ALG_NAME) {
+    79			*err = -EINVAL;
+    80			return NULL;
+    81		}
+    82	
+    83		algo = __bpf_dynptr_data_ptr(palgo);
+    84	
+    85		if (!crypto_has_skcipher(algo, CRYPTO_ALG_TYPE_SKCIPHER, CRYPTO_ALG_TYPE_MASK)) {
+    86			*err = -EOPNOTSUPP;
+    87			return NULL;
+    88		}
+    89	
+    90		ctx = kmalloc(sizeof(*ctx), GFP_KERNEL);
+    91		if (!ctx) {
+    92			*err = -ENOMEM;
+    93			return NULL;
+    94		}
+    95	
+    96		memset(ctx, 0, sizeof(*ctx));
+    97	
+    98		ctx->tfm = crypto_alloc_sync_skcipher(algo, 0, 0);
+    99		if (IS_ERR(ctx->tfm)) {
+   100			*err = PTR_ERR(ctx->tfm);
+   101			ctx->tfm = NULL;
+   102			goto err;
+   103		}
+   104	
+   105		*err = crypto_sync_skcipher_setkey(ctx->tfm, __bpf_dynptr_data_ptr(pkey),
+   106						   __bpf_dynptr_size(pkey));
+   107		if (*err)
+   108			goto err;
+   109	
+   110		refcount_set(&ctx->usage, 1);
+   111	
+   112		return ctx;
+   113	err:
+   114		if (ctx->tfm)
+   115			crypto_free_sync_skcipher(ctx->tfm);
+   116		kfree(ctx);
+   117	
+   118		return NULL;
+   119	}
+   120	
+   121	static void crypto_free_sync_skcipher_cb(struct rcu_head *head)
+   122	{
+   123		struct bpf_crypto_skcipher_ctx *ctx;
+   124	
+   125		ctx = container_of(head, struct bpf_crypto_skcipher_ctx, rcu);
+   126		crypto_free_sync_skcipher(ctx->tfm);
+   127		kfree(ctx);
+   128	}
+   129	
+   130	/**
+   131	 * bpf_crypto_skcipher_ctx_acquire() - Acquire a reference to a BPF crypto context.
+   132	 * @ctx: The BPF crypto context being acquired. The ctx must be a trusted
+   133	 *	     pointer.
+   134	 *
+   135	 * Acquires a reference to a BPF crypto context. The context returned by this function
+   136	 * must either be embedded in a map as a kptr, or freed with
+   137	 * bpf_crypto_skcipher_ctx_release().
+   138	 */
+   139	__bpf_kfunc struct bpf_crypto_skcipher_ctx *
+ > 140	bpf_crypto_skcipher_ctx_acquire(struct bpf_crypto_skcipher_ctx *ctx)
+   141	{
+   142		refcount_inc(&ctx->usage);
+   143		return ctx;
+   144	}
+   145	
+   146	/**
+   147	 * bpf_crypto_skcipher_ctx_release() - Release a previously acquired BPF crypto context.
+   148	 * @ctx: The crypto context being released.
+   149	 *
+   150	 * Releases a previously acquired reference to a BPF cpumask. When the final
+   151	 * reference of the BPF cpumask has been released, it is subsequently freed in
+   152	 * an RCU callback in the BPF memory allocator.
+   153	 */
+ > 154	__bpf_kfunc void bpf_crypto_skcipher_ctx_release(struct bpf_crypto_skcipher_ctx *ctx)
+   155	{
+   156		if (refcount_dec_and_test(&ctx->usage))
+   157			call_rcu(&ctx->rcu, crypto_free_sync_skcipher_cb);
+   158	}
+   159	
+   160	static int bpf_crypto_skcipher_crypt(struct crypto_sync_skcipher *tfm,
+   161					     const struct bpf_dynptr_kern *src,
+   162					     struct bpf_dynptr_kern *dst,
+   163					     const struct bpf_dynptr_kern *iv,
+   164					     bool decrypt)
+   165	{
+   166		struct skcipher_request *req = NULL;
+   167		struct scatterlist sgin, sgout;
+   168		int err;
+   169	
+   170		if (crypto_sync_skcipher_get_flags(tfm) & CRYPTO_TFM_NEED_KEY)
+   171			return -EINVAL;
+   172	
+   173		if (__bpf_dynptr_is_rdonly(dst))
+   174			return -EINVAL;
+   175	
+   176		if (!__bpf_dynptr_size(dst) || !__bpf_dynptr_size(src))
+   177			return -EINVAL;
+   178	
+   179		if (__bpf_dynptr_size(iv) != crypto_sync_skcipher_ivsize(tfm))
+   180			return -EINVAL;
+   181	
+   182		req = skcipher_request_alloc(&tfm->base, GFP_ATOMIC);
+   183		if (!req)
+   184			return -ENOMEM;
+   185	
+   186		sg_init_one(&sgin, __bpf_dynptr_data_ptr(src), __bpf_dynptr_size(src));
+   187		sg_init_one(&sgout, __bpf_dynptr_data_ptr(dst), __bpf_dynptr_size(dst));
+   188	
+   189		skcipher_request_set_crypt(req, &sgin, &sgout, __bpf_dynptr_size(src),
+   190					   __bpf_dynptr_data_ptr(iv));
+   191	
+   192		err = decrypt ? crypto_skcipher_decrypt(req) : crypto_skcipher_encrypt(req);
+   193	
+   194		skcipher_request_free(req);
+   195	
+   196		return err;
+   197	}
+   198	
+   199	/**
+   200	 * bpf_crypto_skcipher_decrypt() - Decrypt buffer using configured context and IV provided.
+   201	 * @ctx:	The crypto context being used. The ctx must be a trusted pointer.
+   202	 * @src:	bpf_dynptr to the encrypted data. Must be a trusted pointer.
+   203	 * @dst:	bpf_dynptr to the buffer where to store the result. Must be a trusted pointer.
+   204	 * @iv:		bpf_dynptr to IV data to be used by decryptor.
+   205	 *
+   206	 * Decrypts provided buffer using IV data and the crypto context. Crypto context must be configured.
+   207	 */
+ > 208	__bpf_kfunc int bpf_crypto_skcipher_decrypt(struct bpf_crypto_skcipher_ctx *ctx,
+   209						    const struct bpf_dynptr_kern *src,
+   210						    struct bpf_dynptr_kern *dst,
+   211						    const struct bpf_dynptr_kern *iv)
+   212	{
+   213		return bpf_crypto_skcipher_crypt(ctx->tfm, src, dst, iv, true);
+   214	}
+   215	
+   216	/**
+   217	 * bpf_crypto_skcipher_encrypt() - Encrypt buffer using configured context and IV provided.
+   218	 * @ctx:	The crypto context being used. The ctx must be a trusted pointer.
+   219	 * @src:	bpf_dynptr to the plain data. Must be a trusted pointer.
+   220	 * @dst:	bpf_dynptr to buffer where to store the result. Must be a trusted pointer.
+   221	 * @iv:		bpf_dynptr to IV data to be used by decryptor.
+   222	 *
+   223	 * Encrypts provided buffer using IV data and the crypto context. Crypto context must be configured.
+   224	 */
+ > 225	__bpf_kfunc int bpf_crypto_skcipher_encrypt(struct bpf_crypto_skcipher_ctx *ctx,
+   226						    const struct bpf_dynptr_kern *src,
+   227						    struct bpf_dynptr_kern *dst,
+   228						    const struct bpf_dynptr_kern *iv)
+   229	{
+   230		return bpf_crypto_skcipher_crypt(ctx->tfm, src, dst, iv, false);
+   231	}
+   232	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
