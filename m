@@ -1,335 +1,170 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9955C3C13;
-	Sun, 29 Oct 2023 10:06:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA9B17C2
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Oct 2023 10:38:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zr4udAaV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gYsgQdvC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698573962; x=1730109962;
+  t=1698575882; x=1730111882;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=22IFjif+Zaay2bxS/UIgYdVCPDzNfUS2BDcTun2d/kY=;
-  b=Zr4udAaVNbRXV+ITeqdZAWIL020ELJ5WcdrS+Bu/nAQZ3OzjJPDkvyvO
-   76zOxK4xhAUYlBTf+xT8Ux31zxqphlpgv5dpTh411z1hmnhDfIQwP3WS+
-   40xIbulkWLbDVuAjxisvw+vbkbdLiaX3q9hDB9IHpwrmWe90emesA3fUr
-   T3j2lpT7oG0Kaih5ZDhxOnJ25br9lB2gl0DKvBn/NYqHYe2SCp5zAQSln
-   4K30jFLvvD5Zzx+QwSWsz/ZBaKg0Z+9p4I2DrHIW/3rk0LRC7YaJm477f
-   Z//w6/Q49Pmzwa0GT3uxwYvs8QIwRy9ZjWMlixyXM/yKxpmRDE61FB7Wm
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10877"; a="6573435"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Zn9916IPPIs3DtyNMzEnqj8cMV+AG3e3aAPn84c80cA=;
+  b=gYsgQdvCfZobU+WjbLNBknRMPEJovbyUHBpTEUwla9LKSvi4nL2Q2eRe
+   N0hUQqLxlvfhKVxedbB2qYflNwBNJJboL29JfH+hb1Qe/6JcbDaoJq/X4
+   vztEEoX2In1oCGysxhXQ8BpZUAe51bBUNzMWlM1w7anwfMSAMG6MsO1hr
+   tcrBcaOEkBOgZ9qR/1H+eKCsOZMN8T87tTkC52xUHF4LplaWdUB8ofl90
+   Iv5bbPhA8j0chaU6++pMsYSHgfzXc5B8lgl7Z+2P4tSeQO1dl4q1BWARS
+   l+VMdkeIYsH2pkn/Yd07USFQSdle8Al+3dMxC1PeXz9fYyJkLp2AV/wM9
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10877"; a="386836528"
 X-IronPort-AV: E=Sophos;i="6.03,261,1694761200"; 
-   d="scan'208";a="6573435"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2023 03:06:01 -0700
+   d="scan'208";a="386836528"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2023 03:38:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10877"; a="753534148"
 X-IronPort-AV: E=Sophos;i="6.03,261,1694761200"; 
-   d="scan'208";a="753534148"
+   d="scan'208";a="7667137"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 29 Oct 2023 03:05:56 -0700
+  by orviesa001.jf.intel.com with ESMTP; 29 Oct 2023 03:36:31 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qx2g6-000CTl-18;
-	Sun, 29 Oct 2023 10:05:54 +0000
-Date: Sun, 29 Oct 2023 18:05:14 +0800
+	id 1qx3B4-000CUR-2C;
+	Sun, 29 Oct 2023 10:37:54 +0000
+Date: Sun, 29 Oct 2023 18:37:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw2@infradead.org>,
+To: David Woodhouse <dwmw2@infradead.org>, kvm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Paul Durrant <paul@xen.org>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
 	Thomas Gleixner <tglx@linutronix.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-	linux-kernel <linux-kernel@vger.kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Juergen Gross <jgross@suse.com>
-Subject: Re: [PATCH v2] lockdep: add lockdep_cleanup_dead_cpu()
-Message-ID: <202310291748.ld6JE1m3-lkp@intel.com>
-References: <635fa006e8f3816b4a36b964d6281f0d8efa789b.camel@infradead.org>
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Dongli Zhang <dongli.zhang@oracle.com>
+Subject: Re: [PATCH] KVM: x86/xen: improve accuracy of Xen timers
+Message-ID: <202310291835.JpCiqj3X-lkp@intel.com>
+References: <b5a974bdc330be91c2356f5bb2cc68ef1cc7ed40.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <635fa006e8f3816b4a36b964d6281f0d8efa789b.camel@infradead.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b5a974bdc330be91c2356f5bb2cc68ef1cc7ed40.camel@infradead.org>
 
 Hi David,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on tip/smp/core]
-[also build test WARNING on tip/locking/core linus/master v6.6-rc7 next-20231027]
+[auto build test ERROR on kvm/queue]
+[also build test ERROR on mst-vhost/linux-next linus/master v6.6-rc7]
+[cannot apply to kvm/linux-next next-20231027]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Woodhouse/lockdep-add-lockdep_cleanup_dead_cpu/20231029-032722
-base:   tip/smp/core
-patch link:    https://lore.kernel.org/r/635fa006e8f3816b4a36b964d6281f0d8efa789b.camel%40infradead.org
-patch subject: [PATCH v2] lockdep: add lockdep_cleanup_dead_cpu()
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231029/202310291748.ld6JE1m3-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231029/202310291748.ld6JE1m3-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Woodhouse/KVM-x86-xen-improve-accuracy-of-Xen-timers/20231028-020037
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/b5a974bdc330be91c2356f5bb2cc68ef1cc7ed40.camel%40infradead.org
+patch subject: [PATCH] KVM: x86/xen: improve accuracy of Xen timers
+config: i386-randconfig-014-20231029 (https://download.01.org/0day-ci/archive/20231029/202310291835.JpCiqj3X-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231029/202310291835.JpCiqj3X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310291748.ld6JE1m3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310291835.JpCiqj3X-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from init/init_task.c:2:
-   In file included from include/linux/init_task.h:5:
-   In file included from include/linux/rcupdate.h:26:
->> include/linux/irqflags.h:36:19: warning: declaration of 'struct task_struct' will not be visible outside of this function [-Wvisibility]
-      36 |                                               struct task_struct *idle) {}
-         |                                                      ^
-   In file included from init/init_task.c:2:
-   In file included from include/linux/init_task.h:9:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from init/init_task.c:2:
-   In file included from include/linux/init_task.h:9:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from init/init_task.c:2:
-   In file included from include/linux/init_task.h:9:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   13 warnings generated.
---
-   In file included from arch/um/kernel/reboot.c:6:
-   In file included from include/linux/sched/signal.h:5:
-   In file included from include/linux/rculist.h:11:
-   In file included from include/linux/rcupdate.h:26:
->> include/linux/irqflags.h:36:19: warning: declaration of 'struct task_struct' will not be visible outside of this function [-Wvisibility]
-      36 |                                               struct task_struct *idle) {}
-         |                                                      ^
-   arch/um/kernel/reboot.c:45:6: warning: no previous prototype for function 'machine_restart' [-Wmissing-prototypes]
-      45 | void machine_restart(char * __unused)
-         |      ^
-   arch/um/kernel/reboot.c:45:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      45 | void machine_restart(char * __unused)
-         | ^
-         | static 
-   arch/um/kernel/reboot.c:51:6: warning: no previous prototype for function 'machine_power_off' [-Wmissing-prototypes]
-      51 | void machine_power_off(void)
-         |      ^
-   arch/um/kernel/reboot.c:51:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      51 | void machine_power_off(void)
-         | ^
-         | static 
-   arch/um/kernel/reboot.c:57:6: warning: no previous prototype for function 'machine_halt' [-Wmissing-prototypes]
-      57 | void machine_halt(void)
-         |      ^
-   arch/um/kernel/reboot.c:57:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      57 | void machine_halt(void)
-         | ^
-         | static 
-   4 warnings generated.
---
-   In file included from arch/um/kernel/early_printk.c:7:
-   In file included from include/linux/console.h:19:
-   In file included from include/linux/rculist.h:11:
-   In file included from include/linux/rcupdate.h:26:
->> include/linux/irqflags.h:36:19: warning: declaration of 'struct task_struct' will not be visible outside of this function [-Wvisibility]
-      36 |                                               struct task_struct *idle) {}
-         |                                                      ^
-   1 warning generated.
---
-   In file included from kernel/irq_work.c:12:
-   In file included from include/linux/irq_work.h:6:
-   In file included from include/linux/rcuwait.h:5:
-   In file included from include/linux/rcupdate.h:26:
->> include/linux/irqflags.h:36:19: warning: declaration of 'struct task_struct' will not be visible outside of this function [-Wvisibility]
-      36 |                                               struct task_struct *idle) {}
-         |                                                      ^
-   In file included from kernel/irq_work.c:14:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from kernel/irq_work.c:14:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from kernel/irq_work.c:14:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   kernel/irq_work.c:72:13: warning: no previous prototype for function 'arch_irq_work_raise' [-Wmissing-prototypes]
-      72 | void __weak arch_irq_work_raise(void)
-         |             ^
-   kernel/irq_work.c:72:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      72 | void __weak arch_irq_work_raise(void)
-         | ^
-         | static 
-   14 warnings generated.
---
-   In file included from lib/maple_tree.c:54:
-   In file included from include/linux/maple_tree.h:12:
-   In file included from include/linux/rcupdate.h:26:
->> include/linux/irqflags.h:36:19: warning: declaration of 'struct task_struct' will not be visible outside of this function [-Wvisibility]
-      36 |                                               struct task_struct *idle) {}
-         |                                                      ^
-   lib/maple_tree.c:331:21: warning: unused function 'mte_set_full' [-Wunused-function]
-     331 | static inline void *mte_set_full(const struct maple_enode *node)
-         |                     ^
-   lib/maple_tree.c:336:21: warning: unused function 'mte_clear_full' [-Wunused-function]
-     336 | static inline void *mte_clear_full(const struct maple_enode *node)
-         |                     ^
-   lib/maple_tree.c:341:20: warning: unused function 'mte_has_null' [-Wunused-function]
-     341 | static inline bool mte_has_null(const struct maple_enode *node)
-         |                    ^
-   lib/maple_tree.c:672:29: warning: unused function 'mas_pivot' [-Wunused-function]
-     672 | static inline unsigned long mas_pivot(struct ma_state *mas, unsigned char piv)
-         |                             ^
-   lib/maple_tree.c:4319:20: warning: stack frame size (1064) exceeds limit (1024) in 'mas_wr_modify' [-Wframe-larger-than]
-    4319 | static inline void mas_wr_modify(struct ma_wr_state *wr_mas)
-         |                    ^
-   6 warnings generated.
+   ld: arch/x86/kvm/xen.o: in function `kvm_xen_start_timer':
+>> arch/x86/kvm/xen.c:171: undefined reference to `kvm_get_monotonic_and_clockread'
 
 
-vim +36 include/linux/irqflags.h
+vim +171 arch/x86/kvm/xen.c
 
-    19	
-    20	/* Currently lockdep_softirqs_on/off is used only by lockdep */
-    21	#ifdef CONFIG_PROVE_LOCKING
-    22	  extern void lockdep_softirqs_on(unsigned long ip);
-    23	  extern void lockdep_softirqs_off(unsigned long ip);
-    24	  extern void lockdep_hardirqs_on_prepare(void);
-    25	  extern void lockdep_hardirqs_on(unsigned long ip);
-    26	  extern void lockdep_hardirqs_off(unsigned long ip);
-    27	  extern void lockdep_cleanup_dead_cpu(unsigned int cpu,
-    28					       struct task_struct *idle);
-    29	#else
-    30	  static inline void lockdep_softirqs_on(unsigned long ip) { }
-    31	  static inline void lockdep_softirqs_off(unsigned long ip) { }
-    32	  static inline void lockdep_hardirqs_on_prepare(void) { }
-    33	  static inline void lockdep_hardirqs_on(unsigned long ip) { }
-    34	  static inline void lockdep_hardirqs_off(unsigned long ip) { }
-    35	  static inline void lockdep_cleanup_dead_cpu(unsigned int cpu,
-  > 36						      struct task_struct *idle) {}
-    37	#endif
-    38	
+   147	
+   148	static void kvm_xen_start_timer(struct kvm_vcpu *vcpu, u64 guest_abs,
+   149					bool linux_wa)
+   150	{
+   151		uint64_t guest_now, host_tsc, guest_tsc;
+   152		int64_t kernel_now, delta;
+   153	
+   154		/*
+   155		 * The guest provides the requested timeout in absolute nanoseconds
+   156		 * of the KVM clock — as *it* sees it, based on the scaled TSC and
+   157		 * the pvclock information provided by KVM.
+   158		 *
+   159		 * The kernel doesn't support hrtimers based on CLOCK_MONOTONIC_RAW
+   160		 * so use CLOCK_MONOTONIC. In the timescales covered by timers, the
+   161		 * difference won't matter much as there is no cumulative effect.
+   162		 *
+   163		 * Calculate the time for some arbitrary point in time around "now"
+   164		 * in terms of both kvmclock and CLOCK_MONOTONIC. Calculate the
+   165		 * delta between the kvmclock "now" value and the guest's requested
+   166		 * timeout, apply the "Linux workaround" described below, and add
+   167		 * the resulting delta to the CLOCK_MONOTONIC "now" value, to get
+   168		 * the absolute CLOCK_MONOTONIC time at which the timer should
+   169		 * fire.
+   170		 */
+ > 171		if (!kvm_get_monotonic_and_clockread(&kernel_now, &host_tsc)) {
+   172			/*
+   173			 * Even in this case, don't fall back to get_kvmclock_ns()
+   174			 * because it's broken; it has a systemic error in its
+   175			 * results because it scales directly from host TSC to
+   176			 * nanoseconds, and doesn't scale first to guest TSC and
+   177			 * *then* to nanoseconds as the guest does.
+   178			 *
+   179			 * There is a small error introduced here because time
+   180			 * continues to elapse between the ktime_get() and the
+   181			 * subsequent rdtsc().
+   182			 */
+   183			kernel_now = ktime_get(); /* This is CLOCK_MONOTONIC */
+   184			host_tsc = rdtsc();
+   185		}
+   186	
+   187		/* Calculate the guest kvmclock as the guest would do it. */
+   188		guest_tsc = kvm_read_l1_tsc(vcpu, host_tsc);
+   189		guest_now = __pvclock_read_cycles(&vcpu->arch.hv_clock, guest_tsc);
+   190		delta = guest_abs - guest_now;
+   191	
+   192		/* Xen has a 'Linux workaround' in do_set_timer_op() which
+   193		 * checks for negative absolute timeout values (caused by
+   194		 * integer overflow), and for values about 13 days in the
+   195		 * future (2^50ns) which would be caused by jiffies
+   196		 * overflow. For those cases, it sets the timeout 100ms in
+   197		 * the future (not *too* soon, since if a guest really did
+   198		 * set a long timeout on purpose we don't want to keep
+   199		 * churning CPU time by waking it up).
+   200		 */
+   201		if (linux_wa) {
+   202			if ((unlikely((int64_t)guest_abs < 0 ||
+   203				      (delta > 0 && (uint32_t) (delta >> 50) != 0)))) {
+   204				delta = 100 * NSEC_PER_MSEC;
+   205				guest_abs = guest_now + delta;
+   206			}
+   207		}
+   208	
+   209		atomic_set(&vcpu->arch.xen.timer_pending, 0);
+   210		vcpu->arch.xen.timer_expires = guest_abs;
+   211	
+   212		if (delta <= 0) {
+   213			xen_timer_callback(&vcpu->arch.xen.timer);
+   214		} else {
+   215			hrtimer_start(&vcpu->arch.xen.timer,
+   216				      ktime_add_ns(kernel_now, delta),
+   217				      HRTIMER_MODE_ABS_HARD);
+   218		}
+   219	}
+   220	
 
 -- 
 0-DAY CI Kernel Test Service
