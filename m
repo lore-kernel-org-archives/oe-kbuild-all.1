@@ -1,53 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5027EE;
-	Mon, 30 Oct 2023 02:07:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC96806
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Oct 2023 02:29:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fup9sgZb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J2zyh1U3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698631631; x=1730167631;
+  t=1698632946; x=1730168946;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=dbVY1ThUDo1weBPv8bgLKEZ7vpAIM1jDmAicjkFa74o=;
-  b=fup9sgZbIaxQSo6CXPfyi+zIUFKuhGND9ibgbBJszWJj9kH+90n+Y73V
-   GA+0Ueb2q6Q2F9wqPbNJiLgMcescsRcFmqU+cJQAhHQQpuIH1tXnOQ5Z4
-   c6tG8QiPBrwHn2iLo3NzfuHW/Byx6AO+9wNfxWw8JTzkzwAhZqM0cBh0i
-   QpUmmHgHICLs4bMiN41sq2AtbtDV6mHrZSaG0wT24OIDDptSQ3RR9bluc
-   CBd/xrTOvi9fjsW1esPcS1htsoRu5cgNRR/PMHML8CL6BBiL9/fHq1l/q
-   tOlqeWhbU064lAZs7A+9ojd3Es2cbN/S/vOuYj3t7VYLnKPWeSxEgDLx/
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="387812925"
+  bh=fYwJcaSUlwINm8Ezc9wvvnXyuAcyakItjHqSg3FWpJ4=;
+  b=J2zyh1U3eZshHa4RXJeSsGfSQtmXjp+Z0Bb/SxHSQt2DcvzzbZ5jLAA2
+   2rpc96h1ui0QDxOM1GenFdADVzR37jKqlW9no2vk2Z7dFHRaB5vIqgV5y
+   Ra3BmhtmQ6jTLhv7/JFqrYSJP4kzyf/31k9WHjIirPeuU0oqYlLp4TclY
+   eEtNZr9CYfbTDgeRsYDugY0i4HWW2ZZh26X5fkH+fUkX/7q4OpOJM9/qj
+   DbZPwUGByCg2WlauMJhq59tpKHZujyfujwEJNFzAm7j4oVNa12bH4O4mH
+   Md+5rs7iqy1Fsu5mrGxETY0VATlVYGIblxw6DIKWkmhjQx4iu0sLxWzLM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="373054560"
 X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; 
-   d="scan'208";a="387812925"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2023 19:07:10 -0700
+   d="scan'208";a="373054560"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2023 19:29:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="876978077"
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="709967959"
 X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; 
-   d="scan'208";a="876978077"
+   d="scan'208";a="709967959"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 29 Oct 2023 19:07:07 -0700
+  by orsmga003.jf.intel.com with ESMTP; 29 Oct 2023 19:29:02 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qxHgH-000Cyp-2D;
-	Mon, 30 Oct 2023 02:07:05 +0000
-Date: Mon, 30 Oct 2023 10:06:21 +0800
+	id 1qxI1T-000CzH-38;
+	Mon, 30 Oct 2023 02:28:59 +0000
+Date: Mon, 30 Oct 2023 10:28:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aleksa Savic <savicaleksa83@gmail.com>, linux-hwmon@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Aleksa Savic <savicaleksa83@gmail.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+To: Sui Jingfeng <suijingfeng@loongson.cn>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: Add driver for Gigabyte AORUS Waterforce AIO
- coolers
-Message-ID: <202310300959.8NLKyQDJ-lkp@intel.com>
-References: <20231020130212.8919-1-savicaleksa83@gmail.com>
+Subject: Re: [PATCH 5/8] drm/loongson: Using vbios for the LS7A2000 output
+ initialization
+Message-ID: <202310301026.haj8ZOHJ-lkp@intel.com>
+References: <20231029194607.379459-6-suijingfeng@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,97 +54,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231020130212.8919-1-savicaleksa83@gmail.com>
+In-Reply-To: <20231029194607.379459-6-suijingfeng@loongson.cn>
 
-Hi Aleksa,
+Hi Sui,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on groeck-staging/hwmon-next]
+[auto build test WARNING on drm-misc/drm-misc-next]
 [also build test WARNING on linus/master v6.6-rc7 next-20231027]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aleksa-Savic/hwmon-Add-driver-for-Gigabyte-AORUS-Waterforce-AIO-coolers/20231020-210452
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20231020130212.8919-1-savicaleksa83%40gmail.com
-patch subject: [PATCH] hwmon: Add driver for Gigabyte AORUS Waterforce AIO coolers
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231030/202310300959.8NLKyQDJ-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231030/202310300959.8NLKyQDJ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-loongson-Introduce-a-minimal-support-for-Loongson-VBIOS/20231030-034730
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231029194607.379459-6-suijingfeng%40loongson.cn
+patch subject: [PATCH 5/8] drm/loongson: Using vbios for the LS7A2000 output initialization
+config: loongarch-randconfig-002-20231030 (https://download.01.org/0day-ci/archive/20231030/202310301026.haj8ZOHJ-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231030/202310301026.haj8ZOHJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310300959.8NLKyQDJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310301026.haj8ZOHJ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/hwmon/gigabyte_waterforce.c:130:7: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     130 |                 if (!time_after(jiffies, priv->updated + msecs_to_jiffies(STATUS_VALIDITY))) {
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwmon/gigabyte_waterforce.c:155:7: note: uninitialized use occurs here
-     155 |                 if (ret < 0)
-         |                     ^~~
-   drivers/hwmon/gigabyte_waterforce.c:130:3: note: remove the 'if' if its condition is always false
-     130 |                 if (!time_after(jiffies, priv->updated + msecs_to_jiffies(STATUS_VALIDITY))) {
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     131 |                         /* Data is up to date */
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     132 |                         goto unlock_and_return;
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     133 |                 }
-         | ~~~~~~~~~~~~~~~~~
-   drivers/hwmon/gigabyte_waterforce.c:127:9: note: initialize the variable 'ret' to silence this warning
-     127 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
+>> drivers/gpu/drm/loongson/lsdc_output_7a2000.c:568:1: warning: no previous prototype for 'ls7a2000_query_output_configuration' [-Wmissing-prototypes]
+     568 | ls7a2000_query_output_configuration(struct drm_device *ddev, unsigned int pipe)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_output_7a2000.c:498:46: warning: 'ls7a2000_encoder_helper_funcs' defined but not used [-Wunused-const-variable=]
+     498 | static const struct drm_encoder_helper_funcs ls7a2000_encoder_helper_funcs = {
+         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_output_7a2000.c:272:39: warning: 'ls7a2000_encoder_funcs' defined but not used [-Wunused-const-variable=]
+     272 | static const struct drm_encoder_funcs ls7a2000_encoder_funcs[2] = {
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_output_7a2000.c:201:41: warning: 'ls7a2000_hdmi_connector_funcs' defined but not used [-Wunused-const-variable=]
+     201 | static const struct drm_connector_funcs ls7a2000_hdmi_connector_funcs[2] = {
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_output_7a2000.c:77:48: warning: 'ls7a2000_connector_helpers' defined but not used [-Wunused-const-variable=]
+      77 | static const struct drm_connector_helper_funcs ls7a2000_connector_helpers = {
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +130 drivers/hwmon/gigabyte_waterforce.c
+vim +/ls7a2000_query_output_configuration +568 drivers/gpu/drm/loongson/lsdc_output_7a2000.c
 
-   124	
-   125	static int waterforce_get_status(struct waterforce_data *priv)
-   126	{
-   127		int ret;
-   128	
-   129		if (!mutex_lock_interruptible(&priv->status_report_request_mutex)) {
- > 130			if (!time_after(jiffies, priv->updated + msecs_to_jiffies(STATUS_VALIDITY))) {
-   131				/* Data is up to date */
-   132				goto unlock_and_return;
-   133			}
-   134	
-   135			/*
-   136			 * Disable raw event parsing for a moment to safely reinitialize the
-   137			 * completion. Reinit is done because hidraw could have triggered
-   138			 * the raw event parsing and marked the priv->status_report_received
-   139			 * completion as done.
-   140			 */
-   141			spin_lock_bh(&priv->status_report_request_lock);
-   142			reinit_completion(&priv->status_report_received);
-   143			spin_unlock_bh(&priv->status_report_request_lock);
-   144	
-   145			/* Send command for getting status */
-   146			ret = waterforce_write_expanded(priv, get_status_cmd, GET_STATUS_CMD_LENGTH);
-   147			if (ret < 0)
-   148				return ret;
-   149	
-   150			if (wait_for_completion_interruptible_timeout
-   151			    (&priv->status_report_received, msecs_to_jiffies(STATUS_VALIDITY)) <= 0)
-   152				ret = -ENODATA;
-   153	unlock_and_return:
-   154			mutex_unlock(&priv->status_report_request_mutex);
-   155			if (ret < 0)
-   156				return ret;
-   157		} else {
-   158			return -ENODATA;
-   159		}
-   160	
-   161		return 0;
-   162	}
-   163	
+   559	
+   560	/*
+   561	 * For LS7A2000, the built-in VGA encoder is transparent. If there are
+   562	 * external encoder exist, then the internal HDMI encoder MUST be enabled
+   563	 * and initialized. As the internal HDMI encoder is always connected, so
+   564	 * only the transmitters which take HDMI signal (such as HDMI to eDP, HDMI
+   565	 * to LVDS, etc) are usable with.
+   566	 */
+   567	const struct lsdc_output_desc *
+ > 568	ls7a2000_query_output_configuration(struct drm_device *ddev, unsigned int pipe)
+   569	{
+   570		enum loongson_vbios_encoder_name encoder_name = 0;
+   571		bool ret;
+   572	
+   573		ret = loongson_vbios_query_encoder_info(ddev, pipe, NULL,
+   574							&encoder_name, NULL);
+   575		if (!ret)
+   576			goto bailout;
+   577	
+   578		if (pipe == 0) {
+   579			switch (encoder_name) {
+   580			case ENCODER_CHIP_INTERNAL_HDMI:
+   581				return &ls7a2000_hdmi_pipe0;
+   582	
+   583			/*
+   584			 * For LS7A2000, the built-in VGA encoder is transparent.
+   585			 */
+   586			case ENCODER_CHIP_INTERNAL_VGA:
+   587				return &ls7a2000_vga_pipe0;
+   588	
+   589			/*
+   590			 * External display bridge exists, the internal HDMI encoder
+   591			 * MUST be enabled and initialized. Please add a drm bridge
+   592			 * driver, and attach to this encoder.
+   593			 */
+   594			default:
+   595				return &ls7a2000_hdmi_pipe0;
+   596			}
+   597		}
+   598	
+   599		if (pipe == 1) {
+   600			switch (encoder_name) {
+   601			case ENCODER_CHIP_INTERNAL_HDMI:
+   602				return &ls7a2000_hdmi_pipe1;
+   603	
+   604			/*
+   605			 * External display bridge exists, the internal HDMI encoder
+   606			 * MUST be enabled and initialized. Please add a drm bridge
+   607			 * driver, and attach it to this encoder.
+   608			 */
+   609			default:
+   610				return &ls7a2000_hdmi_pipe1;
+   611			}
+   612		}
+   613	
+   614	bailout:
+   615		if (pipe == 0)
+   616			return &ls7a2000_vga_pipe0;
+   617	
+   618		if (pipe == 1)
+   619			return &ls7a2000_hdmi_pipe1;
+   620	
+   621		return NULL;
+   622	}
+   623	
 
 -- 
 0-DAY CI Kernel Test Service
