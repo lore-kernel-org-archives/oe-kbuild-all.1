@@ -1,75 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5796F3239
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Oct 2023 13:18:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E4B17727
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Oct 2023 13:59:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ncRPNcsp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698671924; x=1730207924;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fBmPXx5EprEyBzJ34PpeBBxbc5KCPSxgmxz7V3OKh0g=;
-  b=ncRPNcspqUND4xw07Rcp2Tp6TiXeWqkYHyDRDu8YiZiYZm9q3pPyZuXd
-   mGvcD/FbXdmpEbCkWSkQ1PFgVr9865BMSFnAhPGfeFDDMRrXdFCmIGEON
-   9zoVMkU+bp3Sioa/Wns7/FddGxvSkhE7mo37w4HGqqxY4fo2iZoEB29/6
-   3flGKOUi1o+Rdo2XuA+n8d2gbHJittmLksBhXQXTEDlVachDrdUmddIRc
-   INtWB8LXHTXIvsFKAoSxA2SIFrVj2wCBuwUqv3rm9xll3MaSocFSJj+ft
-   7/ptMXwOHAJ25Z8dSXJTmLM2OyZywlIVam+sPzMUXpphWVNIaZTd2gjLw
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="910326"
-X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
-   d="scan'208";a="910326"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 06:18:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
-   d="scan'208";a="1462148"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 30 Oct 2023 06:18:42 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qxSAB-000DI7-10;
-	Mon, 30 Oct 2023 13:18:39 +0000
-Date: Mon, 30 Oct 2023 21:18:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chester Lin <clin@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jan Petrous <jan.petrous@nxp.com>,
-	linux-doc@vger.kernel.org
-Subject: [chesterlintw-s32g:s32g-gmac-devel-6.6-rc7 2/5] dtbs_check:
- Documentation/devicetree/bindings/net/nxp,s32cc-dwmac.yaml:6:10: [error]
- string value is redundantly quoted with any quotes (quoted-strings)
-Message-ID: <202310302108.7EnG5NKF-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WbZlRbTW"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-99c3c8adb27so672198266b.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Oct 2023 06:59:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698674347; x=1699279147; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=AF+Qe79yXub9UVn4xeznhJpuUhXUcwpDyMOziS7zLHY=;
+        b=WbZlRbTW4d3diCySHPxL3lV0LfVeM7oIROwBLu67jL9QamC/B6U8i+U9gUBUpLET2a
+         K8t+57cbp4udbMLZ/IHwJZ/CXMV5E3kcYvW76etEYEMSy/MVDQbdIhOKRNO4ZFAIZG2Y
+         nUBJrS0n8QRCDB+xGaOTyH4bvd7VSPt7D4S6oL7fT6GmCxUNX5kze571oQus+cLUj8/z
+         moeTgyO4dvVGQeyKpkQPxkkLWp8PShvRjwwpHG5V64455wKeB42AXx0V2IOxltJb/x06
+         hOf+vuk3AeYLkbDMNNndywcvnV0FGjvnvyzv4i03H4Qz8kElGu3z0eZuo7yF9c7n0z+u
+         DOhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698674347; x=1699279147;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AF+Qe79yXub9UVn4xeznhJpuUhXUcwpDyMOziS7zLHY=;
+        b=jAyoKMACbWww45fZLeSaW/7PDQDywsGQExcl5z4+JkDxYkvTadCex8aT8YhDf1MnCs
+         3AnoqQ35FDFgztRtCNR+uZqRLCpQNDFDwzFFnZuh1wxIXhS0Ztb6fRmGDmW55bME+VmL
+         JaBmMLvxGl8vNI4xBT5xdyZ2PBAJf++LOobmej03lDP5A3nAJPrlwpfpwW2wpiljRDPm
+         HSBYW3GWIGbIABUX3tUlNT+qm/9SCt6uTIuTWNlVlSf1KgFG6dWl+DhgVY5CEJAvqu3b
+         IKGa54Ls7j+AhDmNjA+/jvgR7Q/SK4b0hL7iubdxyNO5IIaFDZvS1SZ1xHy9Akax4VPz
+         43Kg==
+X-Gm-Message-State: AOJu0YzRJvTNJHN3gbPw5xGws6S1B/1bF/Cj6LCZehubJo+6NXXwScjd
+	X4Lhd4pwIADXOKwX+ZBsI/Y=
+X-Google-Smtp-Source: AGHT+IF52rJEeWB2QkfJjXhiLxdBWtzGh7OFagouDGoCkuuCFiNumER0ehrXUXG7LnwA69TA0Iqwxw==
+X-Received: by 2002:a17:906:ee8a:b0:9ba:a38:531e with SMTP id wt10-20020a170906ee8a00b009ba0a38531emr9000368ejb.52.1698674346955;
+        Mon, 30 Oct 2023 06:59:06 -0700 (PDT)
+Received: from krava (2001-1ae9-1c2-4c00-726e-c10f-8833-ff22.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:726e:c10f:8833:ff22])
+        by smtp.gmail.com with ESMTPSA id r9-20020a1709060d4900b0099d804da2e9sm6075563ejh.225.2023.10.30.06.59.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Oct 2023 06:59:06 -0700 (PDT)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Mon, 30 Oct 2023 14:59:04 +0100
+To: Yafang Shao <laoar.shao@gmail.com>,
+	Dave Marchevsky <davemarchevsky@fb.com>
+Cc: kernel test robot <lkp@intel.com>, ast@kernel.org, daniel@iogearbox.net,
+	john.fastabend@gmail.com, andrii@kernel.org, martin.lau@linux.dev,
+	song@kernel.org, yonghong.song@linux.dev, kpsingh@kernel.org,
+	sdf@google.com, haoluo@google.com, tj@kernel.org,
+	lizefan.x@bytedance.com, hannes@cmpxchg.org, yosryahmed@google.com,
+	mkoutny@suse.com, sinquersw@gmail.com, longman@redhat.com,
+	oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
+	bpf@vger.kernel.org, oliver.sang@intel.com
+Subject: Re: [PATCH v3 bpf-next 06/11] bpf: Add a new kfunc for cgroup1
+ hierarchy
+Message-ID: <ZT+2qCc/aXep0/Lf@krava>
+References: <20231029061438.4215-7-laoar.shao@gmail.com>
+ <202310301605.CGFI0aSW-lkp@intel.com>
+ <CALOAHbA51eCYFsfaUVBxRrfKt=z1=77bPO1CPKEyGeph5PztOQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALOAHbA51eCYFsfaUVBxRrfKt=z1=77bPO1CPKEyGeph5PztOQ@mail.gmail.com>
 
-tree:   https://github.com/chesterlintw/linux-s32g s32g-gmac-devel-6.6-rc7
-head:   ac69f501fdc08f9c7dd913621f6f09f34cc7dd65
-commit: 9580d2091ae382dfb3e349500d4530bd7f81a8e0 [2/5] dt-bindings: net: add schema for NXP S32CC dwmac glue driver
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231030/202310302108.7EnG5NKF-lkp@intel.com/reproduce)
+On Mon, Oct 30, 2023 at 07:35:25PM +0800, Yafang Shao wrote:
+> On Mon, Oct 30, 2023 at 5:01 PM kernel test robot <lkp@intel.com> wrote:
+> >
+> > Hi Yafang,
+> >
+> > kernel test robot noticed the following build warnings:
+> >
+> > [auto build test WARNING on bpf-next/master]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/cgroup-Remove-unnecessary-list_empty/20231029-143457
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+> > patch link:    https://lore.kernel.org/r/20231029061438.4215-7-laoar.shao%40gmail.com
+> > patch subject: [PATCH v3 bpf-next 06/11] bpf: Add a new kfunc for cgroup1 hierarchy
+> > config: i386-randconfig-013-20231030 (https://download.01.org/0day-ci/archive/20231030/202310301605.CGFI0aSW-lkp@intel.com/config)
+> > compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231030/202310301605.CGFI0aSW-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202310301605.CGFI0aSW-lkp@intel.com/
+> >
+> > All warnings (new ones prefixed by >>):
+> >
+> >    kernel/bpf/helpers.c:1893:19: warning: no previous declaration for 'bpf_obj_new_impl' [-Wmissing-declarations]
+> 
+> -Wmissing-declarations is a known issue and somebody is working on it, right?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310302108.7EnG5NKF-lkp@intel.com/
+there's this post [1] from Dave, but seems it never landed
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/net/nxp,s32cc-dwmac.yaml:6:10: [error] string value is redundantly quoted with any quotes (quoted-strings)
+jirka
 
-vim +6 Documentation/devicetree/bindings/net/nxp,s32cc-dwmac.yaml
-
-   > 6	$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-     7	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[1] https://lore.kernel.org/bpf/20230816150634.1162838-1-void@manifault.com/
