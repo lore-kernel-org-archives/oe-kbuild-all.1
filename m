@@ -1,53 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7AEEA3;
-	Mon, 30 Oct 2023 03:19:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20632EA3;
+	Mon, 30 Oct 2023 03:30:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AgqYj5FW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GtpD4IgP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698636000; x=1730172000;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yRaMyJdeEKY3i1iGnqG12Lko57gYZ93LAzlgj2NDC6U=;
-  b=AgqYj5FW71suE1DMLV+scjzgZHvm3ZUPfMg20vPlCXsf3W3dLCrqoSdp
-   uohfjV6+HPu9ruEEVFALFSYV+hpGJMavqG1yW5YtLYmpqi/WXWw4hJVGt
-   +zETF0M+HmXMzc1i4cH1deTEZlg3azOb/qeABxjxbg8Vy6Zgf6GPEbli7
-   y4HIb1qvMIjyefgqCM2vT9wdyMiH06iIeftNLoWw+GHNTxSIqqvmAO5Tc
-   Ad5x8OHVHAbW/Q4qBm2mI+WVNRpatoIWQKnns6nyDVh5dSvheh6x0ndEr
-   eXmWR8AkXuTF9JwP80QQDP8W3ahimbERo53w+5FrXwJDpxrUvKyAuETNr
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="454471270"
+  t=1698636658; x=1730172658;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rXbXMh9odsjFHqsgjV8QG9+ME5okvudqMryRdwx5z80=;
+  b=GtpD4IgP7gAreX+k/8Kfpr/ES28xoL1kVSkWJld06vWftJrsbIHOL8pn
+   BD/h8Iz1CHvqTdJkD7FOc7B7mynUJ5V1EPdoO2SvG146PZCH7pgM7P1+V
+   nFFPakdM63r8sCuc2mQTQin6mN/Kn71OrYZT0zCZ5FEDcg0TdpQsrXwTL
+   77/AoWwSVr5OT1TKALHAPNqfvxJ7zxCT5H9z0PgiAz0Aq+UsmbO+FmK6X
+   9CrSyzYy2HKkQqKeSLJrLeEU75UAzfnuFgEgs9L1+TaZzI5ehSsmAA1I1
+   bOKH3SGC641s7K+nvQImIk7RRx74J/G12vgNQDPwGetuUlGbu//+gFdca
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="373058097"
 X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; 
-   d="scan'208";a="454471270"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2023 20:19:59 -0700
+   d="scan'208";a="373058097"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2023 20:30:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="933655577"
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="903860364"
 X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; 
-   d="scan'208";a="933655577"
+   d="scan'208";a="903860364"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 29 Oct 2023 20:19:54 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 29 Oct 2023 20:28:21 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qxIoh-000D0t-1N;
-	Mon, 30 Oct 2023 03:19:51 +0000
-Date: Mon, 30 Oct 2023 11:19:06 +0800
+	id 1qxIzO-000D1D-0r;
+	Mon, 30 Oct 2023 03:30:54 +0000
+Date: Mon, 30 Oct 2023 11:30:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nancy Nyambura <nicymimz@gmail.com>, gagallo7+outreachy@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, nicydaniels@gmail.com,
-	outreachy@lists.linux.dev, Nancy Nyambura <nicymimz@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Media: omap4iss: Enable RSZB and update resizer control
-Message-ID: <202310301031.IZuhUjMc-lkp@intel.com>
-References: <20231029220710.47063-1-nicymimz@gmail.com>
+To: Andreas Gruenbacher <agruenba@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, gfs2@lists.linux.dev
+Subject: [gfs2:alloc 70/70] bmap.c:undefined reference to `__udivdi3'
+Message-ID: <202310301114.rEnyIX9a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,84 +48,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231029220710.47063-1-nicymimz@gmail.com>
 
-Hi Nancy,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v6.6-rc7 next-20231027]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nancy-Nyambura/Media-omap4iss-Enable-RSZB-and-update-resizer-control/20231030-060944
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20231029220710.47063-1-nicymimz%40gmail.com
-patch subject: [PATCH] Media: omap4iss: Enable RSZB and update resizer control
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231030/202310301031.IZuhUjMc-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231030/202310301031.IZuhUjMc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git alloc
+head:   f8dd6e4dd990a2524b3d76fd2459d027628420eb
+commit: f8dd6e4dd990a2524b3d76fd2459d027628420eb [70/70] gfs: Smaller journal reservations in gfs2_iomap_write_alloc
+config: powerpc-randconfig-002-20231030 (https://download.01.org/0day-ci/archive/20231030/202310301114.rEnyIX9a-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231030/202310301114.rEnyIX9a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310301031.IZuhUjMc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310301114.rEnyIX9a-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/staging/media/omap4iss/iss_resizer.c: In function 'resizer_enable':
-   drivers/staging/media/omap4iss/iss_resizer.c:119:37: error: 'struct iss_device' has no member named 'base_addr'
-     119 |         u32 reg_value = ioread32(iss->base_addr + OMAP4_ISS_MEM_ISP_RESIZER,
-         |                                     ^~
-   drivers/staging/media/omap4iss/iss_resizer.c:120:27: error: 'RZ_SYSCONFIG' undeclared (first use in this function); did you mean 'RSZ_SYSCONFIG'?
-     120 |                         + RZ_SYSCONFIG);
-         |                           ^~~~~~~~~~~~
-         |                           RSZ_SYSCONFIG
-   drivers/staging/media/omap4iss/iss_resizer.c:120:27: note: each undeclared identifier is reported only once for each function it appears in
-   In file included from include/linux/scatterlist.h:9,
-                    from include/linux/dma-mapping.h:11,
-                    from drivers/staging/media/omap4iss/iss_resizer.c:14:
->> arch/sh/include/asm/io.h:129:18: error: too many arguments to function 'ioread32'
-     129 | #define ioread32 ioread32
-         |                  ^~~~~~~~
-   drivers/staging/media/omap4iss/iss_resizer.c:119:25: note: in expansion of macro 'ioread32'
-     119 |         u32 reg_value = ioread32(iss->base_addr + OMAP4_ISS_MEM_ISP_RESIZER,
-         |                         ^~~~~~~~
-   In file included from arch/sh/include/asm/io.h:22:
-   include/asm-generic/iomap.h:32:21: note: declared here
-      32 | extern unsigned int ioread32(const void __iomem *);
-         |                     ^~~~~~~~
-   drivers/staging/media/omap4iss/iss_resizer.c:122:33: error: 'struct iss_device' has no member named 'base_addr'
-     122 |         iowrite32(reg_value, iss->base_addr + OMAP4_ISS_MEM_ISP_RESIZER,
-         |                                 ^~
->> arch/sh/include/asm/io.h:135:19: error: too many arguments to function 'iowrite32'
-     135 | #define iowrite32 iowrite32
-         |                   ^~~~~~~~~
-   drivers/staging/media/omap4iss/iss_resizer.c:122:9: note: in expansion of macro 'iowrite32'
-     122 |         iowrite32(reg_value, iss->base_addr + OMAP4_ISS_MEM_ISP_RESIZER,
-         |         ^~~~~~~~~
-   include/asm-generic/iomap.h:53:13: note: declared here
-      53 | extern void iowrite32(u32, void __iomem *);
-         |             ^~~~~~~~~
+   powerpc-linux-ld: fs/gfs2/bmap.o: in function `gfs2_iomap_write_alloc.isra.0':
+>> bmap.c:(.text+0x80e8): undefined reference to `__udivdi3'
 
-
-vim +/ioread32 +129 arch/sh/include/asm/io.h
-
-b94692e84dccf1 Baoquan He 2023-07-06  125  
-b94692e84dccf1 Baoquan He 2023-07-06  126  #define ioread8 ioread8
-b94692e84dccf1 Baoquan He 2023-07-06  127  #define ioread16 ioread16
-b94692e84dccf1 Baoquan He 2023-07-06  128  #define ioread16be ioread16be
-b94692e84dccf1 Baoquan He 2023-07-06 @129  #define ioread32 ioread32
-b94692e84dccf1 Baoquan He 2023-07-06  130  #define ioread32be ioread32be
-b94692e84dccf1 Baoquan He 2023-07-06  131  
-b94692e84dccf1 Baoquan He 2023-07-06  132  #define iowrite8 iowrite8
-b94692e84dccf1 Baoquan He 2023-07-06  133  #define iowrite16 iowrite16
-b94692e84dccf1 Baoquan He 2023-07-06  134  #define iowrite16be iowrite16be
-b94692e84dccf1 Baoquan He 2023-07-06 @135  #define iowrite32 iowrite32
-b94692e84dccf1 Baoquan He 2023-07-06  136  #define iowrite32be iowrite32be
-b94692e84dccf1 Baoquan He 2023-07-06  137  
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
+   Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
+   Selected by [y]:
+   - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=n] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
 
 -- 
 0-DAY CI Kernel Test Service
