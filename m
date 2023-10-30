@@ -1,55 +1,71 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9BA6AC0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Oct 2023 09:00:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DAB6D2FA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Oct 2023 09:01:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rnw4ECiF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P2/LA7fq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698656458; x=1730192458;
+  t=1698656460; x=1730192460;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/eDxoYHBVeJPhJBhS4WxJcUZkYiHOSLIxpmzrDruSis=;
-  b=Rnw4ECiFP4QQe52tUI6rjtXbNBOTBih0K35dmQqRsT1ETMUvKRywR0KB
-   +WcnovwYeodlrLLN6+ip64gadDSOdPLXZTssVK7VrXbW3FxPR11Bokud7
-   GLnGgTsM43Jz3gdcJSkmZtyQVH4jEH6MWXYn5wj4GDII0v+zFryCcMHLk
-   Q4+dp7jNiCcKsKzPHLHFRCCUFW/cBckU5nHYz5Q1WHVXf5YlBPqV2hay9
-   TMLwbyUyUS6ampCd6R0B04XCpuorOEPMTOytGZIXWHiUUDSIow7QUhKBc
-   STchsxVwXvelKXYqMZB+qvirudDT7OpqMn95CwPrzU9qY0YpXNgi6ekqq
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="373088609"
+  bh=FSso9eWZebVLlGt8FVFbMUsI6oL0n+UfhWcKhse6/m0=;
+  b=P2/LA7fqCT8rQc3RDdNIcAQOX60ZNQkjuAesxwFOX0qlAAtrcdnyfejS
+   X3UL3MT7Zf8mtcvlLuST76YD4yS+TFmkU7X7yMWP5UuIvZUxQTJkkBKiq
+   vq0tZsrXGKS/S9XQyhlG9kMU7/QaOkhOrz8dv+9VJ/T2amX9XOu+FStF1
+   ujGoreKRnM/7Fpc5LSQzl4u+HGx13qTGDHCD1F8TxdDsX6FUNNAhyafnt
+   ukTgGND4Et7Goi1oox4Ja7yq6c9euBjxSAMKQy2AJVozBQ+MVWwjPuRWK
+   SCs6Q6mgRAtq2kf2mbLVO/a0rRT0aeBkLQLW89/G+N3g4JdehDjOuBw4j
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="373088617"
 X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
-   d="scan'208";a="373088609"
+   d="scan'208";a="373088617"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 02:00:58 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 02:00:59 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
-   d="scan'208";a="1461987"
+   d="scan'208";a="1461968"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 30 Oct 2023 02:00:52 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qxO8g-000D99-0Y;
+	id 1qxO8g-000D9B-0p;
 	Mon, 30 Oct 2023 09:00:50 +0000
-Date: Mon, 30 Oct 2023 17:00:37 +0800
+Date: Mon, 30 Oct 2023 17:00:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yafang Shao <laoar.shao@gmail.com>, ast@kernel.org,
-	daniel@iogearbox.net, john.fastabend@gmail.com, andrii@kernel.org,
-	martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev,
-	kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
-	jolsa@kernel.org, tj@kernel.org, lizefan.x@bytedance.com,
-	hannes@cmpxchg.org, yosryahmed@google.com, mkoutny@suse.com,
-	sinquersw@gmail.com, longman@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
-	bpf@vger.kernel.org, oliver.sang@intel.com,
-	Yafang Shao <laoar.shao@gmail.com>
-Subject: Re: [PATCH v3 bpf-next 06/11] bpf: Add a new kfunc for cgroup1
- hierarchy
-Message-ID: <202310301605.CGFI0aSW-lkp@intel.com>
-References: <20231029061438.4215-7-laoar.shao@gmail.com>
+To: Bernd Edlinger <bernd.edlinger@hotmail.de>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Alexey Dobriyan <adobriyan@gmail.com>,
+	Oleg Nesterov <oleg@redhat.com>, Kees Cook <keescook@chromium.org>,
+	Andy Lutomirski <luto@amacapital.net>,
+	Will Drewry <wad@chromium.org>,
+	Christian Brauner <christian.brauner@ubuntu.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Michal Hocko <mhocko@suse.com>, Serge Hallyn <serge@hallyn.com>,
+	James Morris <jamorris@linux.microsoft.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	YiFei Zhu <yifeifz2@illinois.edu>,
+	Yafang Shao <laoar.shao@gmail.com>, Helge Deller <deller@gmx.de>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	Adrian Reber <areber@redhat.com>,
+	Thomas Gleixner <tglx@linutronix.de>, Jens Axboe <axboe@kernel.dk>,
+	Alexei Starovoitov <ast@kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	linux-kselftest@vger.kernel.org, tiozhang <tiozhang@didiglobal.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	"Paulo Alcantara (SUSE)" <pc@manguebit.com>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Frederic Weisbecker <frederic@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH v12] exec: Fix dead-lock in de_thread with ptrace_attach
+Message-ID: <202310301604.K866zRJ8-lkp@intel.com>
+References: <AS8P193MB1285DF698D7524EDE22ABFA1E4A1A@AS8P193MB1285.EURP193.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,153 +74,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231029061438.4215-7-laoar.shao@gmail.com>
+In-Reply-To: <AS8P193MB1285DF698D7524EDE22ABFA1E4A1A@AS8P193MB1285.EURP193.PROD.OUTLOOK.COM>
 
-Hi Yafang,
+Hi Bernd,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test WARNING on kees/for-next/execve]
+[also build test WARNING on kees/for-next/seccomp shuah-kselftest/next shuah-kselftest/fixes linus/master v6.6]
+[cannot apply to next-20231030]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/cgroup-Remove-unnecessary-list_empty/20231029-143457
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231029061438.4215-7-laoar.shao%40gmail.com
-patch subject: [PATCH v3 bpf-next 06/11] bpf: Add a new kfunc for cgroup1 hierarchy
-config: i386-randconfig-013-20231030 (https://download.01.org/0day-ci/archive/20231030/202310301605.CGFI0aSW-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231030/202310301605.CGFI0aSW-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bernd-Edlinger/exec-Fix-dead-lock-in-de_thread-with-ptrace_attach/20231030-133021
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/execve
+patch link:    https://lore.kernel.org/r/AS8P193MB1285DF698D7524EDE22ABFA1E4A1A%40AS8P193MB1285.EURP193.PROD.OUTLOOK.COM
+patch subject: [PATCH v12] exec: Fix dead-lock in de_thread with ptrace_attach
+config: loongarch-randconfig-002-20231030 (https://download.01.org/0day-ci/archive/20231030/202310301604.K866zRJ8-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231030/202310301604.K866zRJ8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310301605.CGFI0aSW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310301604.K866zRJ8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/bpf/helpers.c:1893:19: warning: no previous declaration for 'bpf_obj_new_impl' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_obj_new_impl(u64 local_type_id__k, void *meta__ign)
-                      ^~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:1907:19: warning: no previous declaration for 'bpf_percpu_obj_new_impl' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_percpu_obj_new_impl(u64 local_type_id__k, void *meta__ign)
-                      ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:1941:18: warning: no previous declaration for 'bpf_obj_drop_impl' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_obj_drop_impl(void *p__alloc, void *meta__ign)
-                     ^~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:1949:18: warning: no previous declaration for 'bpf_percpu_obj_drop_impl' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_percpu_obj_drop_impl(void *p__alloc, void *meta__ign)
-                     ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:1955:19: warning: no previous declaration for 'bpf_refcount_acquire_impl' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_refcount_acquire_impl(void *p__refcounted_kptr, void *meta__ign)
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2000:17: warning: no previous declaration for 'bpf_list_push_front_impl' [-Wmissing-declarations]
-    __bpf_kfunc int bpf_list_push_front_impl(struct bpf_list_head *head,
-                    ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2010:17: warning: no previous declaration for 'bpf_list_push_back_impl' [-Wmissing-declarations]
-    __bpf_kfunc int bpf_list_push_back_impl(struct bpf_list_head *head,
-                    ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2043:35: warning: no previous declaration for 'bpf_list_pop_front' [-Wmissing-declarations]
-    __bpf_kfunc struct bpf_list_node *bpf_list_pop_front(struct bpf_list_head *head)
-                                      ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2048:35: warning: no previous declaration for 'bpf_list_pop_back' [-Wmissing-declarations]
-    __bpf_kfunc struct bpf_list_node *bpf_list_pop_back(struct bpf_list_head *head)
-                                      ^~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2053:33: warning: no previous declaration for 'bpf_rbtree_remove' [-Wmissing-declarations]
-    __bpf_kfunc struct bpf_rb_node *bpf_rbtree_remove(struct bpf_rb_root *root,
-                                    ^~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2109:17: warning: no previous declaration for 'bpf_rbtree_add_impl' [-Wmissing-declarations]
-    __bpf_kfunc int bpf_rbtree_add_impl(struct bpf_rb_root *root, struct bpf_rb_node *node,
-                    ^~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2119:33: warning: no previous declaration for 'bpf_rbtree_first' [-Wmissing-declarations]
-    __bpf_kfunc struct bpf_rb_node *bpf_rbtree_first(struct bpf_rb_root *root)
-                                    ^~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2132:33: warning: no previous declaration for 'bpf_task_acquire' [-Wmissing-declarations]
-    __bpf_kfunc struct task_struct *bpf_task_acquire(struct task_struct *p)
-                                    ^~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2143:18: warning: no previous declaration for 'bpf_task_release' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_task_release(struct task_struct *p)
-                     ^~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2155:28: warning: no previous declaration for 'bpf_cgroup_acquire' [-Wmissing-declarations]
-    __bpf_kfunc struct cgroup *bpf_cgroup_acquire(struct cgroup *cgrp)
-                               ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2167:18: warning: no previous declaration for 'bpf_cgroup_release' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_cgroup_release(struct cgroup *cgrp)
-                     ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2179:28: warning: no previous declaration for 'bpf_cgroup_ancestor' [-Wmissing-declarations]
-    __bpf_kfunc struct cgroup *bpf_cgroup_ancestor(struct cgroup *cgrp, int level)
-                               ^~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2199:28: warning: no previous declaration for 'bpf_cgroup_from_id' [-Wmissing-declarations]
-    __bpf_kfunc struct cgroup *bpf_cgroup_from_id(u64 cgid)
-                               ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2219:18: warning: no previous declaration for 'bpf_task_under_cgroup' [-Wmissing-declarations]
-    __bpf_kfunc long bpf_task_under_cgroup(struct task_struct *task,
-                     ^~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/helpers.c:2240:1: warning: no previous declaration for 'bpf_task_get_cgroup1' [-Wmissing-declarations]
-    bpf_task_get_cgroup1(struct task_struct *task, int hierarchy_id)
-    ^~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2256:33: warning: no previous declaration for 'bpf_task_from_pid' [-Wmissing-declarations]
-    __bpf_kfunc struct task_struct *bpf_task_from_pid(s32 pid)
-                                    ^~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2297:19: warning: no previous declaration for 'bpf_dynptr_slice' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_dynptr_slice(const struct bpf_dynptr_kern *ptr, u32 offset,
-                      ^~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2381:19: warning: no previous declaration for 'bpf_dynptr_slice_rdwr' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_dynptr_slice_rdwr(const struct bpf_dynptr_kern *ptr, u32 offset,
-                      ^~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2412:17: warning: no previous declaration for 'bpf_dynptr_adjust' [-Wmissing-declarations]
-    __bpf_kfunc int bpf_dynptr_adjust(struct bpf_dynptr_kern *ptr, u32 start, u32 end)
-                    ^~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2430:18: warning: no previous declaration for 'bpf_dynptr_is_null' [-Wmissing-declarations]
-    __bpf_kfunc bool bpf_dynptr_is_null(struct bpf_dynptr_kern *ptr)
-                     ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2435:18: warning: no previous declaration for 'bpf_dynptr_is_rdonly' [-Wmissing-declarations]
-    __bpf_kfunc bool bpf_dynptr_is_rdonly(struct bpf_dynptr_kern *ptr)
-                     ^~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2443:19: warning: no previous declaration for 'bpf_dynptr_size' [-Wmissing-declarations]
-    __bpf_kfunc __u32 bpf_dynptr_size(const struct bpf_dynptr_kern *ptr)
-                      ^~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2451:17: warning: no previous declaration for 'bpf_dynptr_clone' [-Wmissing-declarations]
-    __bpf_kfunc int bpf_dynptr_clone(struct bpf_dynptr_kern *ptr,
-                    ^~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2464:19: warning: no previous declaration for 'bpf_cast_to_kern_ctx' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_cast_to_kern_ctx(void *obj)
-                      ^~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2469:19: warning: no previous declaration for 'bpf_rdonly_cast' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_rdonly_cast(void *obj__ign, u32 btf_id__k)
-                      ^~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2474:18: warning: no previous declaration for 'bpf_rcu_read_lock' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_rcu_read_lock(void)
-                     ^~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2479:18: warning: no previous declaration for 'bpf_rcu_read_unlock' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_rcu_read_unlock(void)
-                     ^~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2508:18: warning: no previous declaration for 'bpf_throw' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_throw(u64 cookie)
-                     ^~~~~~~~~
+>> kernel/cred.c:443: warning: duplicate section name 'Return'
 
 
-vim +/bpf_task_get_cgroup1 +2240 kernel/bpf/helpers.c
+vim +/Return +443 kernel/cred.c
 
-  2229	
-  2230	/**
-  2231	 * bpf_task_get_cgroup1 - Acquires the associated cgroup of a task within a
-  2232	 * specific cgroup1 hierarchy. The cgroup1 hierarchy is identified by its
-  2233	 * hierarchy ID.
-  2234	 * @task: The target task
-  2235	 * @hierarchy_id: The ID of a cgroup1 hierarchy
-  2236	 *
-  2237	 * On success, the cgroup is returen. On failure, NULL is returned.
-  2238	 */
-  2239	__bpf_kfunc struct cgroup *
-> 2240	bpf_task_get_cgroup1(struct task_struct *task, int hierarchy_id)
-  2241	{
-  2242		struct cgroup *cgrp = task_get_cgroup1(task, hierarchy_id);
-  2243	
-  2244		if (IS_ERR(cgrp))
-  2245			return NULL;
-  2246		return cgrp;
-  2247	}
-  2248	#endif /* CONFIG_CGROUPS */
-  2249	
+   435	
+   436	/**
+   437	 * is_dumpability_changed - Will changing creds from old to new
+   438	 * affect the dumpability in commit_creds?
+   439	 *
+   440	 * Return: false - dumpability will not be changed in commit_creds.
+   441	 * Return: true  - dumpability will be changed to non-dumpable.
+   442	 *
+ > 443	 * @old: The old credentials
+   444	 * @new: The new credentials
+   445	 */
+   446	bool is_dumpability_changed(const struct cred *old, const struct cred *new)
+   447	{
+   448		if (!uid_eq(old->euid, new->euid) ||
+   449		    !gid_eq(old->egid, new->egid) ||
+   450		    !uid_eq(old->fsuid, new->fsuid) ||
+   451		    !gid_eq(old->fsgid, new->fsgid) ||
+   452		    !cred_cap_issubset(old, new))
+   453			return true;
+   454	
+   455		return false;
+   456	}
+   457	
 
 -- 
 0-DAY CI Kernel Test Service
