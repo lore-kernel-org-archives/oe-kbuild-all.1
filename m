@@ -1,205 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F16819449
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Oct 2023 17:13:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47BC33ED;
+	Mon, 30 Oct 2023 17:19:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Aqs3vrI0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698686016; x=1730222016;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UAM5kOhkq2r4Ipo1V+HjY5mgzZ17wge1G3oRtX1N1TE=;
-  b=Aqs3vrI0Xd9vgBzNk1dAGRNa97FFlqJ4Tn8yxfFdkg9JKfAwbP7QMrt+
-   asx1zSgPsqbJO8E1t+L0tZc/Y2ohpoor3iPcRmoBgWzmwSArb5q3bARFI
-   UY43hA4o15oThI8bwzujFgLEhahyPRlqiERxhEkepKScM3njfQiKV8WC+
-   KaMgcYhMbZ1TZtojEhgPZZ1OWiW8wLDdac6eBd8u0UlwtRvJWHuf4BJl1
-   diHJQJDXTdcZaGBFowevrqG6pTrpItaUBTSfSoe7EoL5IS32ZDEDIWl7R
-   SF1KYB+9bgrxFU77MwaCMqJYRbOTxxQp1U3bT6c4GmNfBPhoVMBSQO/TO
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="961007"
-X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
-   d="scan'208";a="961007"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 10:13:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="830742218"
-X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
-   d="scan'208";a="830742218"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 30 Oct 2023 10:13:34 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qxVpU-000DR9-0m;
-	Mon, 30 Oct 2023 17:13:32 +0000
-Date: Tue, 31 Oct 2023 01:12:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Appana Durga Kedareswara rao <appana.durga.rao@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michal Simek <monstr@monstr.eu>
-Subject: arch/microblaze/kernel/entry.S:945: Error: unknown opcode "suspend"
-Message-ID: <202310310151.UhB396Qs-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W+r6maMm"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-507973f3b65so7174418e87.3;
+        Mon, 30 Oct 2023 10:19:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698686373; x=1699291173; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1GRMXxApF/An45tZq4VBzGl9yCBCUVcLn3beloShJvA=;
+        b=W+r6maMmChI6m/FDZrPvEiu7bs03BRkyXF35/R3X4UV6RqYuClJzdcKXRYg584ea0R
+         7OwDUJIfIokW1KMU0GH9FsH28nATHpwKTatzwdil8BmEDxVWNJ2v01O6Zl5bDFx8GQf7
+         dBZU6iclcrVEnL7rJVBAw/n8TnbloZhbgBkw12QAowWaJ4HYIwV0ji6C6KV0CrXJ4NPp
+         yT03Qq26hBLoYCmNIi5K1icYpiwmeNlqWEWDxF4xBAeAru1Zf019n84cGMCGInmguz2H
+         C0t9q7pzByz+MCB3Sg8ezqJazIiXFDiJmSMNszS2WfOw+s+VkJ8jL+hXR5kIZn18fqdz
+         aejA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698686373; x=1699291173;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1GRMXxApF/An45tZq4VBzGl9yCBCUVcLn3beloShJvA=;
+        b=ZZo+1W27PyUIurDcXHpJeFiib1dmks6hqTNT5EBl7MtcPgLEr+s5ivYRdRV6d58tiG
+         Ch7ynNj588BPI4eGgGJp61HUGRwtsy5PiHpYGrL/8sdDu0BaIsw6Q+pmmqyV5paXwnog
+         PnbWWIixynCSG/opiNIv1cM3XfSfXqBhTo9hHv1pMP35+GSis/gG9Y0HbG+hEoJ90VeX
+         VbJxtGxr2sfgtlF0CaTiaJCfiRlRP3wa/LAX6EmRmply1J3OyhcRl7k1D3b+PxEFh2DG
+         pDw8VCphyJ8pOW3KlDLkzku60dFqwTQxuseNLs77c9xaNabBdSWhg7iRPfwQ3gpGgwhb
+         BVuw==
+X-Gm-Message-State: AOJu0YzmSLbRlwX3NEU38tzjLui4WcjsVq+G0kU5DpXK92A7GlRREv9H
+	s5JRIaFVz/gbx6WI/ql5l9ECCD6tYHD5+wIzKw==
+X-Google-Smtp-Source: AGHT+IF2tTn+JqKkEfodOwQcMmPITwMkR2cADN506i0wAFFRZOEuQmX8m9kettU5+FPhybobULmposrVepIw5TJoM38=
+X-Received: by 2002:ac2:5a02:0:b0:504:31a0:f9e2 with SMTP id
+ q2-20020ac25a02000000b0050431a0f9e2mr7931982lfn.58.1698686372360; Mon, 30 Oct
+ 2023 10:19:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20231026160100.195099-6-brgerst@gmail.com> <202310290927.2MuJJdu9-lkp@intel.com>
+ <CAMzpN2iUrfnuGQ9eFTr=NTeC6KSUPC37Qji5_g5MWejmXnXO3A@mail.gmail.com>
+ <CAMzpN2jbA=ZCbbFq=gyVAtKBr4kyYcNPLpWaEcAhEAN2J0wwTw@mail.gmail.com> <CAKwvOd=+MEv9aQAS91KT-Ov3N8f8XRPE3WTEwvJyom=PTCmUeQ@mail.gmail.com>
+In-Reply-To: <CAKwvOd=+MEv9aQAS91KT-Ov3N8f8XRPE3WTEwvJyom=PTCmUeQ@mail.gmail.com>
+From: Brian Gerst <brgerst@gmail.com>
+Date: Mon, 30 Oct 2023 13:19:21 -0400
+Message-ID: <CAMzpN2iF9-AdEcpkGOVooAn_6XTYaOb6gM+GYqy2SOc0S+dRqQ@mail.gmail.com>
+Subject: Re: [PATCH v2 05/11] x86/stackprotector/64: Convert stack protector
+ to normal percpu variable
+To: Nick Desaulniers <ndesaulniers@google.com>
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, 
+	"H . Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, Uros Bizjak <ubizjak@gmail.com>, 
+	Fangrui Song <maskray@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Appana,
+On Mon, Oct 30, 2023 at 11:24=E2=80=AFAM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> On Sun, Oct 29, 2023 at 10:01=E2=80=AFAM Brian Gerst <brgerst@gmail.com> =
+wrote:
+> >
+> > On Sun, Oct 29, 2023 at 2:56=E2=80=AFAM Brian Gerst <brgerst@gmail.com>=
+ wrote:
+> > >
+> > > On Sat, Oct 28, 2023 at 9:26=E2=80=AFPM kernel test robot <lkp@intel.=
+com> wrote:
+> > > >
+> > > > Hi Brian,
+> > > >
+> > > > kernel test robot noticed the following build errors:
+> > > >
+> > > > [auto build test ERROR on tip/master]
+> > > > [also build test ERROR on next-20231027]
+> > > > [cannot apply to tip/x86/core dennis-percpu/for-next linus/master t=
+ip/auto-latest v6.6-rc7]
+> > > > [If your patch is applied to the wrong git tree, kindly drop us a n=
+ote.
+> > > > And when submitting patch, we suggest to use '--base' as documented=
+ in
+> > > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > > >
+> > > > url:    https://github.com/intel-lab-lkp/linux/commits/Brian-Gerst/=
+x86-stackprotector-32-Remove-stack-protector-test-script/20231027-000533
+> > > > base:   tip/master
+> > > > patch link:    https://lore.kernel.org/r/20231026160100.195099-6-br=
+gerst%40gmail.com
+> > > > patch subject: [PATCH v2 05/11] x86/stackprotector/64: Convert stac=
+k protector to normal percpu variable
+> > > > config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archi=
+ve/20231029/202310290927.2MuJJdu9-lkp@intel.com/config)
+> > > > compiler: clang version 16.0.4 (https://github.com/llvm/llvm-projec=
+t.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> > > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci=
+/archive/20231029/202310290927.2MuJJdu9-lkp@intel.com/reproduce)
+> > > >
+> > > > If you fix the issue in a separate patch/commit (i.e. not just a ne=
+w version of
+> > > > the same patch/commit), kindly add following tags
+> > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202310290927.2MuJJd=
+u9-lkp@intel.com/
+> > > >
+> > > > All errors (new ones prefixed by >>):
+> > > >
+> > > > >> Unsupported relocation type: unknown type rel type name (42)
+> > >
+> > > Clang is generating a new relocation type (R_X86_64_REX_GOTPCRELX)
+> > > that the relocs tool doesn't know about.  This is supposed to allow
+> > >         movq    __stack_chk_guard@GOTPCREL(%rip), %rax
+> > >         movq    %gs:(%rax), %rax
+> > > to be relaxed to
+> > >         leaq    __stack_chk_guard(%rip), %rax
+> > >         movq    %gs:(%rax), %rax
+> > >
+> > > But why is clang doing this instead of what GCC does?
+> > >         movq    %gs:__stack_chk_guard(%rip), %rax
+> >
+> > Digging a bit deeper, there also appears to be differences in how the
+> > linkers behave with this new relocation:
+> >
+> > make CC=3Dclang LD=3Dld:
+> > ffffffff81002838:       48 c7 c0 c0 5c 42 83    mov    $0xffffffff83425=
+cc0,%rax
+> >                         ffffffff8100283b: R_X86_64_32S  __stack_chk_gua=
+rd
+> > ffffffff8100283f:       65 48 8b 00             mov    %gs:(%rax),%rax
+> >
+> > make CC=3Dclang LD=3Dld.lld:
+> > ffffffff81002838:       48 8d 05 81 34 42 02    lea
+> > 0x2423481(%rip),%rax        # ffffffff83425cc0 <__stack_chk_guard>
+> >                         ffffffff8100283b: R_X86_64_REX_GOTPCRELX
+> >  __stack_chk_guard-0x4
+> > ffffffff8100283f:       65 48 8b 00             mov    %gs:(%rax),%rax
+> >
+> > The LLVM linker keeps the R_X86_64_REX_GOTPCRELX even after performing
+> > the relaxation.  It should be R_X86_64_32S based on it changing to an
+> > LEA instruction.  The GNU linker changes it to R_X86_64_32S and a MOV
+> > immediate.
 
-FYI, the error/warning still remains.
+Correction:  It should be R_X86_64_PC32 for the LEA instruction.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ffc253263a1375a65fa6c9f62a893e9767fbebfa
-commit: 88707ebe77e23e856981e597f322cabbf6415662 microblaze: Add custom break vector handler for mb manager
-date:   1 year, 1 month ago
-config: microblaze-buildonly-randconfig-r003-20230509 (https://download.01.org/0day-ci/archive/20231031/202310310151.UhB396Qs-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231031/202310310151.UhB396Qs-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310310151.UhB396Qs-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arch/microblaze/kernel/entry.S: Assembler messages:
->> arch/microblaze/kernel/entry.S:945: Error: unknown opcode "suspend"
-
-
-vim +/suspend +945 arch/microblaze/kernel/entry.S
-
-   825	
-   826		/* restore all the tlb's */
-   827		addik	r3, r0, TOPHYS(tlb_skip)
-   828		addik	r6, r0, PT_TLBL0
-   829		addik	r7, r0, PT_TLBH0
-   830	restore_tlb:
-   831		add	r6, r6, r1
-   832		add	r7, r7, r1
-   833		lwi	r2, r6, 0
-   834		mts 	rtlblo, r2
-   835		lwi	r2, r7, 0
-   836		mts	rtlbhi, r2
-   837		addik	r6, r6, 4
-   838		addik	r7, r7, 4
-   839		bgtid	r3, restore_tlb
-   840		addik	r3, r3, -1
-   841	
-   842		lwi  	r5, r0, TOPHYS(xmb_manager_dev)
-   843		lwi	r8, r0, TOPHYS(xmb_manager_reset_callback)
-   844		set_vms
-   845		/* return from reset need -8 to adjust for rtsd r15, 8 */
-   846		addik   r15, r0, ret_from_reset - 8
-   847		rtbd	r8, 0
-   848		nop
-   849	
-   850	ret_from_reset:
-   851		set_bip /* Ints masked for state restore */
-   852		VM_OFF
-   853		/* MS: Restore all regs */
-   854		RESTORE_REGS
-   855		lwi	r14, r1, PT_R14
-   856		lwi	r16, r1, PT_PC
-   857		addik	r1, r1, PT_SIZE + 36
-   858		rtbd	r16, 0
-   859		nop
-   860	
-   861	/*
-   862	 * Break handler for MB Manager. Enter to _xmb_manager_break by
-   863	 * injecting fault in one of the TMR Microblaze core.
-   864	 * FIXME: This break handler supports getting
-   865	 * called from kernel space only.
-   866	 */
-   867	C_ENTRY(_xmb_manager_break):
-   868		/*
-   869		 * Reserve memory in the stack for context store/restore
-   870		 * (which includes memory for storing tlbs (max two tlbs))
-   871		 */
-   872		addik	r1, r1, -PT_SIZE - 36
-   873		swi	r1, r0, xmb_manager_stackpointer
-   874		SAVE_REGS
-   875		swi	r14, r1, PT_R14	/* rewrite saved R14 value */
-   876		swi	r16, r1, PT_PC; /* PC and r16 are the same */
-   877	
-   878		lwi	r6, r0, TOPHYS(xmb_manager_baseaddr)
-   879		lwi	r7, r0, TOPHYS(xmb_manager_crval)
-   880		/*
-   881		 * When the break vector gets asserted because of error injection,
-   882		 * the break signal must be blocked before exiting from the
-   883		 * break handler, below code configures the tmr manager
-   884		 * control register to block break signal.
-   885		 */
-   886		swi	r7, r6, 0
-   887	
-   888		/* Save the special purpose registers  */
-   889		mfs	r2, rpid
-   890		swi	r2, r1, PT_PID
-   891	
-   892		mfs	r2, rtlbx
-   893		swi	r2, r1, PT_TLBI
-   894	
-   895		mfs	r2, rzpr
-   896		swi	r2, r1, PT_ZPR
-   897	
-   898	#if CONFIG_XILINX_MICROBLAZE0_USE_FPU
-   899		mfs	r2, rfsr
-   900		swi	r2, r1, PT_FSR
-   901	#endif
-   902		mfs	r2, rmsr
-   903		swi	r2, r1, PT_MSR
-   904	
-   905		/* Save all the tlb's */
-   906		addik	r3, r0, TOPHYS(tlb_skip)
-   907		addik	r6, r0, PT_TLBL0
-   908		addik	r7, r0, PT_TLBH0
-   909	save_tlb:
-   910		add	r6, r6, r1
-   911		add	r7, r7, r1
-   912		mfs	r2, rtlblo
-   913		swi	r2, r6, 0
-   914		mfs	r2, rtlbhi
-   915		swi	r2, r7, 0
-   916		addik	r6, r6, 4
-   917		addik	r7, r7, 4
-   918		bgtid	r3, save_tlb
-   919		addik	r3, r3, -1
-   920	
-   921		lwi  	r5, r0, TOPHYS(xmb_manager_dev)
-   922		lwi	r8, r0, TOPHYS(xmb_manager_callback)
-   923		/* return from break need -8 to adjust for rtsd r15, 8 */
-   924		addik   r15, r0, ret_from_break - 8
-   925		rtbd	r8, 0
-   926		nop
-   927	
-   928	ret_from_break:
-   929		/* flush the d-cache */
-   930		bralid	r15, mb_flush_dcache
-   931		nop
-   932	
-   933		/*
-   934		 * To make sure microblaze i-cache is in a proper state
-   935		 * invalidate the i-cache.
-   936		 */
-   937		bralid	r15, mb_invalidate_icache
-   938		nop
-   939	
-   940		set_bip; /* Ints masked for state restore */
-   941		VM_OFF;
-   942		mbar	1
-   943		mbar	2
-   944		bri	4
- > 945		suspend
-   946		nop
-   947	#endif
-   948	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Brian Gerst
