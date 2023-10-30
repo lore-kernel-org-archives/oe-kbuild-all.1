@@ -1,51 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E7CF515;
-	Mon, 30 Oct 2023 12:43:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5796F3239
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Oct 2023 13:18:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gqnb6XLa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ncRPNcsp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698669804; x=1730205804;
+  t=1698671924; x=1730207924;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bltexQ4p+A0qUItQQg7Sl7q9dPxn9AAh4vQFsQSEsOQ=;
-  b=gqnb6XLaUkU+zia5ZovPmdl8r1ARc+tkcRbZDlpNQmSfyTUB+GytzB+Q
-   SNP4Kf/3HLO+lYHc4e6T1y6YclTQgA5dlsR9DIjUGGFRP/zQoWUMkdG+U
-   eZ8IyczYtHM5/6bstWSp9qobGWbsWzqG36SGyNFTk1r07lax3LuXmK+3W
-   3RNqMmYWE6wIZRpZFIGFB8U38mPe1jO0Lg942ZBpvvdjrmVyKqI+IDcfc
-   nK9lg8Ia4l36yX611Va3HrEedfaM6DHjnzGpA5q78aHNDW1waSKdSX9CP
-   8QV2DFBKiq17nuHNTP+6dk9t4HfBJs7da0R2JvV2RPDUw9NSbXpCTluYz
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="378434327"
+  bh=fBmPXx5EprEyBzJ34PpeBBxbc5KCPSxgmxz7V3OKh0g=;
+  b=ncRPNcspqUND4xw07Rcp2Tp6TiXeWqkYHyDRDu8YiZiYZm9q3pPyZuXd
+   mGvcD/FbXdmpEbCkWSkQ1PFgVr9865BMSFnAhPGfeFDDMRrXdFCmIGEON
+   9zoVMkU+bp3Sioa/Wns7/FddGxvSkhE7mo37w4HGqqxY4fo2iZoEB29/6
+   3flGKOUi1o+Rdo2XuA+n8d2gbHJittmLksBhXQXTEDlVachDrdUmddIRc
+   INtWB8LXHTXIvsFKAoSxA2SIFrVj2wCBuwUqv3rm9xll3MaSocFSJj+ft
+   7/ptMXwOHAJ25Z8dSXJTmLM2OyZywlIVam+sPzMUXpphWVNIaZTd2gjLw
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="910326"
 X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
-   d="scan'208";a="378434327"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 05:43:20 -0700
+   d="scan'208";a="910326"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 06:18:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="789445598"
 X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
-   d="scan'208";a="789445598"
+   d="scan'208";a="1462148"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 30 Oct 2023 05:43:18 -0700
+  by orviesa002.jf.intel.com with ESMTP; 30 Oct 2023 06:18:42 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qxRbw-000DGk-16;
-	Mon, 30 Oct 2023 12:43:16 +0000
-Date: Mon, 30 Oct 2023 20:42:26 +0800
+	id 1qxSAB-000DI7-10;
+	Mon, 30 Oct 2023 13:18:39 +0000
+Date: Mon, 30 Oct 2023 21:18:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>
-Subject: [linux-next:master 9417/16121]
- drivers/hwtracing/coresight/coresight-etm4x-core.c:1183:24: warning: result
- of comparison of constant 256 with expression of type 'u8' (aka 'unsigned
- char') is always false
-Message-ID: <202310302043.as36UFED-lkp@intel.com>
+To: Chester Lin <clin@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jan Petrous <jan.petrous@nxp.com>,
+	linux-doc@vger.kernel.org
+Subject: [chesterlintw-s32g:s32g-gmac-devel-6.6-rc7 2/5] dtbs_check:
+ Documentation/devicetree/bindings/net/nxp,s32cc-dwmac.yaml:6:10: [error]
+ string value is redundantly quoted with any quotes (quoted-strings)
+Message-ID: <202310302108.7EnG5NKF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,44 +51,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   c503e3eec382ac708ee7adf874add37b77c5d312
-commit: 0f55b43dedcdae2b871f0fec59d8c672e62ff5de [9417/16121] coresight: etm: Override TRCIDR3.CCITMIN on errata affected cpus
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231030/202310302043.as36UFED-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231030/202310302043.as36UFED-lkp@intel.com/reproduce)
+tree:   https://github.com/chesterlintw/linux-s32g s32g-gmac-devel-6.6-rc7
+head:   ac69f501fdc08f9c7dd913621f6f09f34cc7dd65
+commit: 9580d2091ae382dfb3e349500d4530bd7f81a8e0 [2/5] dt-bindings: net: add schema for NXP S32CC dwmac glue driver
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231030/202310302108.7EnG5NKF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310302043.as36UFED-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310302108.7EnG5NKF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/net/nxp,s32cc-dwmac.yaml:6:10: [error] string value is redundantly quoted with any quotes (quoted-strings)
 
->> drivers/hwtracing/coresight/coresight-etm4x-core.c:1183:24: warning: result of comparison of constant 256 with expression of type 'u8' (aka 'unsigned char') is always false [-Wtautological-constant-out-of-range-compare]
-    1183 |                 if (drvdata->ccitmin == 256)
-         |                     ~~~~~~~~~~~~~~~~ ^  ~~~
-   1 warning generated.
+vim +6 Documentation/devicetree/bindings/net/nxp,s32cc-dwmac.yaml
 
-
-vim +1183 drivers/hwtracing/coresight/coresight-etm4x-core.c
-
-  1172	
-  1173	static void etm4_fixup_wrong_ccitmin(struct etmv4_drvdata *drvdata)
-  1174	{
-  1175		/*
-  1176		 * Erratum affected cpus will read 256 as the minimum
-  1177		 * instruction trace cycle counting threshold whereas
-  1178		 * the correct value should be 4 instead. Override the
-  1179		 * recorded value for 'drvdata->ccitmin' to workaround
-  1180		 * this problem.
-  1181		 */
-  1182		if (is_midr_in_range_list(read_cpuid_id(), etm_wrong_ccitmin_cpus)) {
-> 1183			if (drvdata->ccitmin == 256)
-  1184				drvdata->ccitmin = 4;
-  1185		}
-  1186	}
-  1187	
+   > 6	$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+     7	
 
 -- 
 0-DAY CI Kernel Test Service
