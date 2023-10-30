@@ -1,155 +1,211 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A0A6AAD
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Oct 2023 07:57:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D88F06AA6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Oct 2023 08:08:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="YdMsFA6Z"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39U7BHrb015037;
-	Mon, 30 Oct 2023 07:57:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=x0DHrCrbA3J0aEmgZ2ZvFDDkwNYNZ9zfSIbaGC8A9BM=;
- b=YdMsFA6ZjIVOyhlTTnA5EoPiCZCd5H6IpmegwJPLt9LawV2RXxB/ray400J5QPEY+8eL
- kTRKawZ647fqYP09G4a8eAFajgRP5g85oHBk8KQUwox14r0kMdRY9/RfSs3TICPnBXoy
- NwYyAltG+BiRedd/Fb7FthZy0Ih/oaD5nraRAjaR09w5IJKdflUPS9cDkGfaavzJ41Ml
- 6JBIBaKNMDkK8Mc++XZWjPbR2o6RXkzSnvqlUaQEXSUN6guWIUY/y5wpd2zAXE+bWH9x
- QYY1zeAmqLxPD8hB6s35LliPI4g5A0nz36mPY4NyZtgDeDQfIq7UIORCxFLnIncSih2P QA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3u251p4xjr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 30 Oct 2023 07:57:01 +0000
-Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39U7KjNw024225;
-	Mon, 30 Oct 2023 07:57:00 GMT
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3u251p4xj2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 30 Oct 2023 07:57:00 +0000
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 39U5cHsw007713;
-	Mon, 30 Oct 2023 07:56:59 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3u1dmn7kex-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 30 Oct 2023 07:56:58 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 39U7utEk18940668
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 30 Oct 2023 07:56:55 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 98C6D2004B;
-	Mon, 30 Oct 2023 07:56:55 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C036820040;
-	Mon, 30 Oct 2023 07:56:51 +0000 (GMT)
-Received: from [9.43.56.123] (unknown [9.43.56.123])
-	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 30 Oct 2023 07:56:51 +0000 (GMT)
-Message-ID: <d6e87443-4402-402f-9c98-449cc9fd158f@linux.ibm.com>
-Date: Mon, 30 Oct 2023 13:26:50 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 6/6] powerpc: add crash memory hotplug support
-To: kernel test robot <lkp@intel.com>, linuxppc-dev@ozlabs.org
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Eric DeVolder <eric.devolder@oracle.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Valentin Schneider <vschneid@redhat.com>, Baoquan He <bhe@redhat.com>,
-        x86@kernel.org, Laurent Dufour <laurent.dufour@fr.ibm.com>,
-        Dave Young <dyoung@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
-        Hari Bathini <hbathini@linux.ibm.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kexec@lists.infradead.org, Mahesh Salgaonkar <mahesh@linux.ibm.com>,
-        Akhil Raj <lf32.dev@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-References: <20231029124039.6158-7-sourabhjain@linux.ibm.com>
- <202310300812.yN6FuPcZ-lkp@intel.com>
-Content-Language: en-US
-From: Sourabh Jain <sourabhjain@linux.ibm.com>
-In-Reply-To: <202310300812.yN6FuPcZ-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: YUg_rupIguVp5iY-e6851HQxd-kryJB5
-X-Proofpoint-ORIG-GUID: K7-O8qPNq3ZpO55X5WXf8VxaqHoKC1AI
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lArzMjuU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698653332; x=1730189332;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9eDJHnHTVNvcVw2H7xwgN+CYAob7Lzq/1qBTNybgerw=;
+  b=lArzMjuUpiNcrRJLglYH+k90AZPAU8FiLLniRhmnd7sOeObtPR/eCgqe
+   Q1YzrjBaWAaPsxw9FE0GIn9RkpTkcjcgyh//bcGl9vT2Rc0y0E97ToBJz
+   f87k1fNybZhiKmEDnNXBYd77SVIa0Vok4jCCAKLNrl8YKtM8TqYjpJNae
+   agpVKAYH6PnNAiljK5MewubFbYKboc1vHyRb4JC8Np3qnCHU9lsTx6QPI
+   zPWwnG6v0WnUkoYa4eXXUyvsXYFGdPfGA8KkGNnxberKVhvB4yxlyVd0k
+   24eBNnneUqLCBTzwL3VpRmKl/0ioffDja7okTPA+UIeBZMIGBPdN6753P
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="452288590"
+X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
+   d="scan'208";a="452288590"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 01:08:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
+   d="scan'208";a="8262221"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 30 Oct 2023 01:08:51 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qxNKK-000D87-2I;
+	Mon, 30 Oct 2023 08:08:48 +0000
+Date: Mon, 30 Oct 2023 16:07:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthew Sakai <msakai@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4 39/39] dm vdo: enable configuration and building of
+ dm-vdo
+Message-ID: <202310301522.MBcQrmi0-lkp@intel.com>
+References: <20231026214136.1067410-40-msakai@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-30_06,2023-10-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 bulkscore=0
- mlxscore=0 mlxlogscore=999 adultscore=0 lowpriorityscore=0 impostorscore=0
- malwarescore=0 suspectscore=0 priorityscore=1501 spamscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2310240000
- definitions=main-2310300059
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231026214136.1067410-40-msakai@redhat.com>
 
-Hello,
+Hi Matthew,
 
-On 30/10/23 06:13, kernel test robot wrote:
-> Hi Sourabh,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on akpm-mm/mm-everything]
-> [also build test ERROR on linus/master v6.6-rc7]
-> [cannot apply to powerpc/next powerpc/fixes tip/x86/core next-20231027]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sourabh-Jain/crash-forward-memory_notify-arg-to-arch-crash-hotplug-handler/20231029-213858
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20231029124039.6158-7-sourabhjain%40linux.ibm.com
-> patch subject: [PATCH v12 6/6] powerpc: add crash memory hotplug support
-> config: powerpc64-randconfig-001-20231029 (https://download.01.org/0day-ci/archive/20231030/202310300812.yN6FuPcZ-lkp@intel.com/config)
-> compiler: powerpc64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231030/202310300812.yN6FuPcZ-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202310300812.yN6FuPcZ-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->     powerpc64-linux-ld: warning: discarding dynamic section .glink
->     powerpc64-linux-ld: warning: discarding dynamic section .plt
->     powerpc64-linux-ld: linkage table error against `add_opal_mem_range'
->     powerpc64-linux-ld: stubs don't match calculated size
->     powerpc64-linux-ld: can not build stubs: bad value
->     powerpc64-linux-ld: arch/powerpc/kexec/core_64.o: in function `get_crash_memory_ranges':
->     core_64.c:(.text+0x1010): undefined reference to `add_mem_range'
->     powerpc64-linux-ld: core_64.c:(.text+0x1064): undefined reference to `sort_memory_ranges'
->     powerpc64-linux-ld: core_64.c:(.text+0x1128): undefined reference to `add_rtas_mem_range'
->     powerpc64-linux-ld: core_64.c:(.text+0x1140): undefined reference to `add_opal_mem_range'
->     powerpc64-linux-ld: core_64.c:(.text+0x1160): undefined reference to `add_mem_range'
->     powerpc64-linux-ld: core_64.c:(.text+0x1188): undefined reference to `sort_memory_ranges'
->     powerpc64-linux-ld: core_64.c:(.text+0x11e0): undefined reference to `realloc_mem_ranges'
->     powerpc64-linux-ld: arch/powerpc/kexec/core_64.o: in function `arch_crash_handle_hotplug_event':
->>> core_64.c:(.text+0x1900): undefined reference to `remove_mem_range'
+kernel test robot noticed the following build errors:
 
-The patch series uses a couple of functions defined in 
-arch/powerpc/kexec/ranges.c. Since this file
-only builds when CONFIG_KEXEC_FILE is set, we are encountering this 
-build issue.
+[auto build test ERROR on 1e4ab7b4c881cf26c1c72b3f56519e03475486fb]
 
-If CONFIG_KEXEC_FILE is set, then this issue is not observed.
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Sakai/dm-add-documentation-for-dm-vdo-target/20231027-054713
+base:   1e4ab7b4c881cf26c1c72b3f56519e03475486fb
+patch link:    https://lore.kernel.org/r/20231026214136.1067410-40-msakai%40redhat.com
+patch subject: [PATCH v4 39/39] dm vdo: enable configuration and building of dm-vdo
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20231030/202310301522.MBcQrmi0-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231030/202310301522.MBcQrmi0-lkp@intel.com/reproduce)
 
-I will fix the above warnings and post the next version.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310301522.MBcQrmi0-lkp@intel.com/
 
-Thanks,
-Sourabh
+All errors (new ones prefixed by >>):
+
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `process_vdo_message':
+>> dm-vdo-target.c:(.text+0x2ca): undefined reference to `vdo_dump'
+>> s390-linux-ld: dm-vdo-target.c:(.text+0x40c): undefined reference to `vdo_message_dedupe_index'
+>> s390-linux-ld: dm-vdo-target.c:(.text+0x506): undefined reference to `vdo_set_compressing'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x54c): undefined reference to `vdo_set_compressing'
+>> s390-linux-ld: dm-vdo-target.c:(.text+0x570): undefined reference to `__uds_log_message'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x594): undefined reference to `__uds_log_message'
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_message':
+>> dm-vdo-target.c:(.text+0x696): undefined reference to `__uds_log_message'
+>> s390-linux-ld: dm-vdo-target.c:(.text+0x6ce): undefined reference to `uds_register_allocating_thread'
+>> s390-linux-ld: dm-vdo-target.c:(.text+0x6dc): undefined reference to `uds_register_thread_device_id'
+>> s390-linux-ld: dm-vdo-target.c:(.text+0x744): undefined reference to `vdo_write_stats'
+>> s390-linux-ld: dm-vdo-target.c:(.text+0x766): undefined reference to `vdo_map_to_system_error'
+>> s390-linux-ld: dm-vdo-target.c:(.text+0x774): undefined reference to `uds_unregister_thread_device_id'
+>> s390-linux-ld: dm-vdo-target.c:(.text+0x77a): undefined reference to `uds_unregister_allocating_thread'
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_uses_device':
+>> dm-vdo-target.c:(.text+0x7fa): undefined reference to `vdo_get_backing_device'
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_resume':
+>> dm-vdo-target.c:(.text+0x8f0): undefined reference to `uds_register_thread_device_id'
+>> s390-linux-ld: dm-vdo-target.c:(.text+0x8fa): undefined reference to `vdo_get_device_name'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x914): undefined reference to `__uds_log_message'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x91a): undefined reference to `uds_unregister_thread_device_id'
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `finish_operation_callback':
+>> dm-vdo-target.c:(.text+0x9d6): undefined reference to `vdo_finish_operation'
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_presuspend':
+>> dm-vdo-target.c:(.text+0xa9a): undefined reference to `VDO_ADMIN_STATE_SUSPENDING'
+>> s390-linux-ld: dm-vdo-target.c:(.text+0xaba): undefined reference to `VDO_ADMIN_STATE_SAVING'
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `release_instance':
+>> dm-vdo-target.c:(.text+0xbce): undefined reference to `uds_assertion_failed'
+>> s390-linux-ld: dm-vdo-target.c:(.text+0xc62): undefined reference to `uds_assertion_failed'
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_is_named':
+>> dm-vdo-target.c:(.text+0xd96): undefined reference to `vdo_get_device_name'
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `process_one_thread_config_spec':
+   dm-vdo-target.c:(.text+0xea2): undefined reference to `__uds_log_message'
+   s390-linux-ld: dm-vdo-target.c:(.text+0xee4): undefined reference to `__uds_log_message'
+   s390-linux-ld: dm-vdo-target.c:(.text+0xf7e): undefined reference to `__uds_log_message'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x101c): undefined reference to `__uds_log_message'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x107a): undefined reference to `__uds_log_message'
+   s390-linux-ld: drivers/md/dm-vdo-target.o:dm-vdo-target.c:(.text+0x114a): more undefined references to `__uds_log_message' follow
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `free_device_config':
+   dm-vdo-target.c:(.text+0x135a): undefined reference to `uds_free_memory'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x1370): undefined reference to `uds_free_memory'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x1380): undefined reference to `uds_free_memory'
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_module_destroy':
+   dm-vdo-target.c:(.text+0x1404): undefined reference to `__uds_log_message'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x14ca): undefined reference to `uds_assertion_failed'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x14e8): undefined reference to `uds_free_memory'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x150a): undefined reference to `__uds_log_message'
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_status':
+   dm-vdo-target.c:(.text+0x15e6): undefined reference to `vdo_fetch_statistics'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x1610): undefined reference to `vdo_get_backing_device'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x16a4): undefined reference to `vdo_get_dedupe_index_state_name'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x16b8): undefined reference to `vdo_get_compressing'
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_map_bio':
+   dm-vdo-target.c:(.text+0x18f2): undefined reference to `uds_assertion_failed'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x1906): undefined reference to `vdo_count_bios'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x1944): undefined reference to `vdo_launch_flush'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x1976): undefined reference to `vdo_get_current_work_queue'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x198e): undefined reference to `vdo_get_work_queue_owner'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x19d8): undefined reference to `vdo_launch_bio'
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_dtr':
+   dm-vdo-target.c:(.text+0x1bc0): undefined reference to `uds_register_thread_device_id'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x1bce): undefined reference to `uds_register_allocating_thread'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x1bd8): undefined reference to `vdo_get_device_name'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x1bf8): undefined reference to `__uds_log_message'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x1c6e): undefined reference to `vdo_dump_all'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x1c7e): undefined reference to `vdo_destroy'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x1c9a): undefined reference to `__uds_log_message'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x1ca0): undefined reference to `uds_unregister_thread_device_id'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x1ca6): undefined reference to `uds_unregister_allocating_thread'
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `decode_vdo.constprop.0':
+   dm-vdo-target.c:(.text+0x1de2): undefined reference to `vdo_decode_component_states'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x1e1e): undefined reference to `vdo_set_state'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x1e9c): undefined reference to `__uds_log_message'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x1f10): undefined reference to `vdo_validate_component_states'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x1fb2): undefined reference to `vdo_get_recovery_journal_length'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x1ff0): undefined reference to `vdo_destroy_component_states'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2024): undefined reference to `__uds_log_strerror'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2066): undefined reference to `__uds_log_strerror'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x207c): undefined reference to `vdo_enable_read_only_entry'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x20b6): undefined reference to `vdo_get_known_partition'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2134): undefined reference to `vdo_decode_recovery_journal'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2162): undefined reference to `vdo_get_known_partition'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2188): undefined reference to `vdo_decode_slab_depot'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2238): undefined reference to `vdo_decode_block_map'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2266): undefined reference to `vdo_make_physical_zones'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2294): undefined reference to `vdo_make_logical_zones'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x22c2): undefined reference to `vdo_make_hash_zones'
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `join_strings.constprop.0':
+   dm-vdo-target.c:(.text+0x23ee): undefined reference to `uds_allocate_memory'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2460): undefined reference to `uds_append_to_buffer'
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `perform_admin_operation':
+   dm-vdo-target.c:(.text+0x2722): undefined reference to `__uds_log_strerror'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2818): undefined reference to `vdo_launch_completion_with_priority'
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `apply_new_vdo_configuration':
+   dm-vdo-target.c:(.text+0x2992): undefined reference to `vdo_abandon_block_map_growth'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x29b6): undefined reference to `__uds_log_message'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2a4c): undefined reference to `__uds_log_message'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2a78): undefined reference to `__uds_log_message'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2af4): undefined reference to `vdo_uninitialize_layout'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2b0a): undefined reference to `vdo_abandon_new_slabs'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2b22): undefined reference to `vdo_get_known_partition'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2bf8): undefined reference to `__uds_log_message'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2c28): undefined reference to `__uds_log_message'
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_postsuspend':
+   dm-vdo-target.c:(.text+0x2cf0): undefined reference to `uds_register_thread_device_id'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2d16): undefined reference to `vdo_get_device_name'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2d34): undefined reference to `__uds_log_message'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2d88): undefined reference to `__uds_log_message'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2dd4): undefined reference to `vdo_get_admin_state'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2dfa): undefined reference to `__uds_log_message'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2e22): undefined reference to `__uds_log_strerror'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2e2e): undefined reference to `uds_unregister_thread_device_id'
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `prepare_to_grow_physical':
+   dm-vdo-target.c:(.text+0x2eda): undefined reference to `__uds_log_message'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2f12): undefined reference to `uds_assertion_failed'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2fbc): undefined reference to `vdo_uninitialize_layout'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x2fe0): undefined reference to `vdo_get_known_partition'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x3008): undefined reference to `vdo_get_known_partition'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x302a): undefined reference to `vdo_get_known_partition'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x305e): undefined reference to `vdo_initialize_layout'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x30f4): undefined reference to `vdo_get_known_partition'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x3116): undefined reference to `vdo_get_known_partition'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x3158): undefined reference to `vdo_uninitialize_layout'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x31aa): undefined reference to `vdo_get_known_partition'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x31b8): undefined reference to `vdo_prepare_to_grow_slab_depot'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x31e2): undefined reference to `vdo_uninitialize_layout'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x3202): undefined reference to `__uds_log_message'
+   s390-linux-ld: drivers/md/dm-vdo-target.o: in function `prepare_to_modify':
+   dm-vdo-target.c:(.text+0x327e): undefined reference to `vdo_get_admin_state'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x328a): undefined reference to `VDO_ADMIN_STATE_PRE_LOADED'
+   s390-linux-ld: dm-vdo-target.c:(.text+0x35ee): undefined reference to `__uds_log_message'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
