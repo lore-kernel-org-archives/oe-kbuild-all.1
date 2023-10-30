@@ -1,115 +1,153 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA3E6EA3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Oct 2023 02:00:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from kwepemm000013.china.huawei.com (unknown [172.30.72.56])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4SJbxB2dZJzrTmB;
-	Mon, 30 Oct 2023 09:57:02 +0800 (CST)
-Received: from [10.174.178.46] (10.174.178.46) by
- kwepemm000013.china.huawei.com (7.193.23.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31; Mon, 30 Oct 2023 10:00:00 +0800
-Subject: Re: [rw-ubifs:next 1/18] fs/ubifs/file.c:1385: warning: Excess
- function parameter 'time' description in 'ubifs_update_time'
-To: kernel test robot <lkp@intel.com>, Yang Li <yang.lee@linux.alibaba.com>
-CC: <oe-kbuild-all@lists.linux.dev>, Richard Weinberger <richard@nod.at>
-References: <202310290749.EkmBAiIQ-lkp@intel.com>
-From: Zhihao Cheng <chengzhihao1@huawei.com>
-Message-ID: <4412bdb3-c9c8-f975-0712-d5141cc4e58e@huawei.com>
-Date: Mon, 30 Oct 2023 10:00:00 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5027EE;
+	Mon, 30 Oct 2023 02:07:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fup9sgZb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698631631; x=1730167631;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dbVY1ThUDo1weBPv8bgLKEZ7vpAIM1jDmAicjkFa74o=;
+  b=fup9sgZbIaxQSo6CXPfyi+zIUFKuhGND9ibgbBJszWJj9kH+90n+Y73V
+   GA+0Ueb2q6Q2F9wqPbNJiLgMcescsRcFmqU+cJQAhHQQpuIH1tXnOQ5Z4
+   c6tG8QiPBrwHn2iLo3NzfuHW/Byx6AO+9wNfxWw8JTzkzwAhZqM0cBh0i
+   QpUmmHgHICLs4bMiN41sq2AtbtDV6mHrZSaG0wT24OIDDptSQ3RR9bluc
+   CBd/xrTOvi9fjsW1esPcS1htsoRu5cgNRR/PMHML8CL6BBiL9/fHq1l/q
+   tOlqeWhbU064lAZs7A+9ojd3Es2cbN/S/vOuYj3t7VYLnKPWeSxEgDLx/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="387812925"
+X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; 
+   d="scan'208";a="387812925"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2023 19:07:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="876978077"
+X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; 
+   d="scan'208";a="876978077"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 29 Oct 2023 19:07:07 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qxHgH-000Cyp-2D;
+	Mon, 30 Oct 2023 02:07:05 +0000
+Date: Mon, 30 Oct 2023 10:06:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aleksa Savic <savicaleksa83@gmail.com>, linux-hwmon@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Aleksa Savic <savicaleksa83@gmail.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: Add driver for Gigabyte AORUS Waterforce AIO
+ coolers
+Message-ID: <202310300959.8NLKyQDJ-lkp@intel.com>
+References: <20231020130212.8919-1-savicaleksa83@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202310290749.EkmBAiIQ-lkp@intel.com>
-Content-Type: text/plain; charset="gbk"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.46]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemm000013.china.huawei.com (7.193.23.81)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231020130212.8919-1-savicaleksa83@gmail.com>
 
-ÔÚ 2023/10/29 7:29, kernel test robot Ð´µÀ:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rw/ubifs.git next
-> head:   75690493591fe283e4c92a3ba7c4420e9858abdb
-> commit: 48ec6328de6c153a64474d9e5b6ec95f20f4142b [1/18] ubifs: Fix some kernel-doc comments
-> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231029/202310290749.EkmBAiIQ-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231029/202310290749.EkmBAiIQ-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202310290749.EkmBAiIQ-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->>> fs/ubifs/file.c:1385: warning: Excess function parameter 'time' description in 'ubifs_update_time'
->
-> vim +1385 fs/ubifs/file.c
->
-> 1e51764a3c2ac0 Artem Bityutskiy  2008-07-14  1374
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1375  /**
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1376   * ubifs_update_time - update time of inode.
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1377   * @inode: inode to update
-> 48ec6328de6c15 Yang Li           2023-07-12  1378   * @time:  timespec structure to hold the current time value
-> 48ec6328de6c15 Yang Li           2023-07-12  1379   * @flags: time updating control flag determines updating
-> 48ec6328de6c15 Yang Li           2023-07-12  1380   *	    which time fields of @inode
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1381   *
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1382   * This function updates time of the inode.
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1383   */
-> 913e99287b98fd Jeff Layton       2023-08-07  1384  int ubifs_update_time(struct inode *inode, int flags)
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07 @1385  {
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1386  	struct ubifs_inode *ui = ubifs_inode(inode);
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1387  	struct ubifs_info *c = inode->i_sb->s_fs_info;
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1388  	struct ubifs_budget_req req = { .dirtied_ino = 1,
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1389  			.dirtied_ino_d = ALIGN(ui->data_len, 8) };
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1390  	int err, release;
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1391
-> 541d4c798a5988 Jeff Layton       2023-08-07  1392  	if (!IS_ENABLED(CONFIG_UBIFS_ATIME_SUPPORT)) {
-> 541d4c798a5988 Jeff Layton       2023-08-07  1393  		generic_update_time(inode, flags);
-> 541d4c798a5988 Jeff Layton       2023-08-07  1394  		return 0;
-> 541d4c798a5988 Jeff Layton       2023-08-07  1395  	}
-> e3d73dead4988f Sascha Hauer      2019-03-26  1396
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1397  	err = ubifs_budget_space(c, &req);
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1398  	if (err)
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1399  		return err;
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1400
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1401  	mutex_lock(&ui->ui_mutex);
-> 97ebfdb7ad089d Jeff Layton       2023-08-07  1402  	inode_update_timestamps(inode, flags);
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1403  	release = ui->dirty;
-> ecf84096a526f2 Christoph Hellwig 2020-04-09  1404  	__mark_inode_dirty(inode, I_DIRTY_SYNC);
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1405  	mutex_unlock(&ui->ui_mutex);
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1406  	if (release)
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1407  		ubifs_release_budget(c, &req);
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1408  	return 0;
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1409  }
-> 8c1c5f263833ec Dongsheng Yang    2015-11-07  1410
->
-> :::::: The code at line 1385 was first introduced by commit
-> :::::: 8c1c5f263833ec2dc8fd716cf4281265c485d7ad ubifs: introduce UBIFS_ATIME_SUPPORT to ubifs
->
-> :::::: TO: Dongsheng Yang <yangds.fnst@cn.fujitsu.com>
-> :::::: CC: Richard Weinberger <richard@nod.at>
->
-I think the patch [1] should be modified, argument 'time' has been 
-removed in 913e99287b98fd0("fs: drop the timespec64 argument from 
-update_time"). Timeline shown as follow:
+Hi Aleksa,
 
-2023/07/12: [1] was sent out.
+kernel test robot noticed the following build warnings:
 
-2023/08/11: 913e99287b98fd0 is applied into linux-next.
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.6-rc7 next-20231027]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-2023/10/29: [1] is applied into ubifs.git next.
+url:    https://github.com/intel-lab-lkp/linux/commits/Aleksa-Savic/hwmon-Add-driver-for-Gigabyte-AORUS-Waterforce-AIO-coolers/20231020-210452
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20231020130212.8919-1-savicaleksa83%40gmail.com
+patch subject: [PATCH] hwmon: Add driver for Gigabyte AORUS Waterforce AIO coolers
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231030/202310300959.8NLKyQDJ-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231030/202310300959.8NLKyQDJ-lkp@intel.com/reproduce)
 
-[1] 
-https://patchwork.ozlabs.org/project/linux-mtd/patch/20230712074637.129248-1-yang.lee@linux.alibaba.com/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310300959.8NLKyQDJ-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+>> drivers/hwmon/gigabyte_waterforce.c:130:7: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     130 |                 if (!time_after(jiffies, priv->updated + msecs_to_jiffies(STATUS_VALIDITY))) {
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/gigabyte_waterforce.c:155:7: note: uninitialized use occurs here
+     155 |                 if (ret < 0)
+         |                     ^~~
+   drivers/hwmon/gigabyte_waterforce.c:130:3: note: remove the 'if' if its condition is always false
+     130 |                 if (!time_after(jiffies, priv->updated + msecs_to_jiffies(STATUS_VALIDITY))) {
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     131 |                         /* Data is up to date */
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     132 |                         goto unlock_and_return;
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     133 |                 }
+         | ~~~~~~~~~~~~~~~~~
+   drivers/hwmon/gigabyte_waterforce.c:127:9: note: initialize the variable 'ret' to silence this warning
+     127 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
+
+
+vim +130 drivers/hwmon/gigabyte_waterforce.c
+
+   124	
+   125	static int waterforce_get_status(struct waterforce_data *priv)
+   126	{
+   127		int ret;
+   128	
+   129		if (!mutex_lock_interruptible(&priv->status_report_request_mutex)) {
+ > 130			if (!time_after(jiffies, priv->updated + msecs_to_jiffies(STATUS_VALIDITY))) {
+   131				/* Data is up to date */
+   132				goto unlock_and_return;
+   133			}
+   134	
+   135			/*
+   136			 * Disable raw event parsing for a moment to safely reinitialize the
+   137			 * completion. Reinit is done because hidraw could have triggered
+   138			 * the raw event parsing and marked the priv->status_report_received
+   139			 * completion as done.
+   140			 */
+   141			spin_lock_bh(&priv->status_report_request_lock);
+   142			reinit_completion(&priv->status_report_received);
+   143			spin_unlock_bh(&priv->status_report_request_lock);
+   144	
+   145			/* Send command for getting status */
+   146			ret = waterforce_write_expanded(priv, get_status_cmd, GET_STATUS_CMD_LENGTH);
+   147			if (ret < 0)
+   148				return ret;
+   149	
+   150			if (wait_for_completion_interruptible_timeout
+   151			    (&priv->status_report_received, msecs_to_jiffies(STATUS_VALIDITY)) <= 0)
+   152				ret = -ENODATA;
+   153	unlock_and_return:
+   154			mutex_unlock(&priv->status_report_request_mutex);
+   155			if (ret < 0)
+   156				return ret;
+   157		} else {
+   158			return -ENODATA;
+   159		}
+   160	
+   161		return 0;
+   162	}
+   163	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
