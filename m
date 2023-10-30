@@ -1,49 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEEC18C05
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Oct 2023 15:51:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999C018C17
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Oct 2023 16:12:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SjDL71HG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HKW0hLGW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698681105; x=1730217105;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3uObsi7aG7L29zGTmcnW3VvUNtMSrLajlyajDf2on0Y=;
-  b=SjDL71HGdndtHcfm86KJSeW2X9zU1Fkp7TSMfYfdzxXS4vU+GAiajAwe
-   R04H7oPUsgG0NxhHOjm6QrvaNR9rIzyHDOyAkI23Cpdh3sD+j/i5ABnyX
-   2l88iuL8a8vJFb8ykCPMEXmOyiW0cXKO/7B64iL6H4bwJYAe+SDcsQWQt
-   drT0096M/zfLnCQMOGqm03l3tLZ45DynJ4AMrmCf4mEYJu/ZE+K09kDtc
-   ZT3vTG1nEcPqWA8ORyQkEIgSecMhS/4O+ZLPmZFsojKBV6lcD3LViw1mT
-   jZuDnat0RZVPMWQohgG0lW5Q/rEQxjO6OBVH7iTuDtPsa36bDY+mVO1wD
+  t=1698682340; x=1730218340;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=jYXNOlPF/X2NhBp56tPeUHccKUziT9nm1U6+A6duR3E=;
+  b=HKW0hLGWrN5xfaI3weuvViIew0zQuLOQ8QeOylahGLFYDQWUIKJzd7Ez
+   uXXClCCT2GVkS7+5U1cIpkQHvmH+qGTayg2C6VQ51UKDWU1+Cp9NV0feE
+   /C5adZvi9hAm6ZgCUbqLdwTk2oikNbiI6FduwEyxgPBTC7hJ/d6VPDoHb
+   sugee/FZk9ToudXfocnAZO4IuU0LmWQ8bP3ETiWwqPb93N9DEnIbEgSp5
+   ZRyLW4z6tgLlUaj1KF+4HjdGdHVtGUH5c8CqiNn1BIKzcXZFxRJkuJLTI
+   cg8boAnxi2KVn/62CK/Sk2BDO0rtz5G9kcOLLIkZCtD+i+A5nS3h3hQKS
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="367442827"
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="368313722"
 X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
-   d="scan'208";a="367442827"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 08:51:44 -0700
+   d="scan'208";a="368313722"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 09:11:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="760317695"
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="1007465610"
 X-IronPort-AV: E=Sophos;i="6.03,263,1694761200"; 
-   d="scan'208";a="760317695"
+   d="scan'208";a="1007465610"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 30 Oct 2023 08:51:41 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 30 Oct 2023 09:11:48 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qxUYE-000DND-2m;
-	Mon, 30 Oct 2023 15:51:38 +0000
-Date: Mon, 30 Oct 2023 23:51:13 +0800
+	id 1qxUri-000DOB-0g;
+	Mon, 30 Oct 2023 16:11:46 +0000
+Date: Tue, 31 Oct 2023 00:11:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amir Goldstein <amir73il@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Jeff Layton <jlayton@kernel.org>
-Subject: [linux-next:master 14380/16121] include/linux/stddef.h:8:16: error:
- expected identifier or '(' before 'void'
-Message-ID: <202310302338.MpPQAr10-lkp@intel.com>
+	Dave Airlie <airlied@redhat.com>
+Subject: [linux-next:master 13853/16121]
+ drivers/usb/typec/altmodes/displayport.c:309:33: error: too few arguments to
+ function 'drm_connector_oob_hotplug_event'
+Message-ID: <202310310033.bHg1vZQx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,224 +54,105 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   c503e3eec382ac708ee7adf874add37b77c5d312
-commit: dfaf653dc41557548b2e75e6cd837071f7c63289 [14380/16121] exportfs: make ->encode_fh() a mandatory method for NFS export
-config: xtensa-randconfig-r015-20221109 (https://download.01.org/0day-ci/archive/20231030/202310302338.MpPQAr10-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231030/202310302338.MpPQAr10-lkp@intel.com/reproduce)
+commit: 7cd62eab9babd1fed9c497141650b31168f4f430 [13853/16121] BackMerge tag 'v6.6-rc7' into drm-next
+config: x86_64-randconfig-001-20231030 (https://download.01.org/0day-ci/archive/20231031/202310310033.bHg1vZQx-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231031/202310310033.bHg1vZQx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310302338.MpPQAr10-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310310033.bHg1vZQx-lkp@intel.com/
+
+Note: the linux-next/master HEAD c503e3eec382ac708ee7adf874add37b77c5d312 builds fine.
+      It may have been fixed somewhere.
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/exportfs.h:5,
-                    from fs/exportfs/expfs.c:12:
->> include/linux/stddef.h:8:16: error: expected identifier or '(' before 'void'
-       8 | #define NULL ((void *)0)
-         |                ^~~~
-   include/linux/exportfs.h:286:33: note: in expansion of macro 'NULL'
-     286 | #define generic_encode_ino32_fh NULL
-         |                                 ^~~~
-   fs/exportfs/expfs.c:357:5: note: in expansion of macro 'generic_encode_ino32_fh'
-     357 | int generic_encode_ino32_fh(struct inode *inode, __u32 *fh, int *max_len,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/stddef.h:8:23: error: expected ')' before numeric constant
-       8 | #define NULL ((void *)0)
-         |                       ^
-   include/linux/exportfs.h:286:33: note: in expansion of macro 'NULL'
-     286 | #define generic_encode_ino32_fh NULL
-         |                                 ^~~~
-   fs/exportfs/expfs.c:357:5: note: in expansion of macro 'generic_encode_ino32_fh'
-     357 | int generic_encode_ino32_fh(struct inode *inode, __u32 *fh, int *max_len,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/linkage.h:7,
-                    from include/linux/fs.h:5,
-                    from fs/exportfs/expfs.c:13:
->> include/linux/stddef.h:8:16: error: expected identifier or '(' before 'void'
-       8 | #define NULL ((void *)0)
-         |                ^~~~
-   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
-      74 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   fs/exportfs/expfs.c:384:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/exportfs.h:286:33: note: in expansion of macro 'NULL'
-     286 | #define generic_encode_ino32_fh NULL
-         |                                 ^~~~
-   fs/exportfs/expfs.c:384:19: note: in expansion of macro 'generic_encode_ino32_fh'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/stddef.h:8:23: error: expected ')' before numeric constant
-       8 | #define NULL ((void *)0)
-         |                       ^
-   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
-      74 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   fs/exportfs/expfs.c:384:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/exportfs.h:286:33: note: in expansion of macro 'NULL'
-     286 | #define generic_encode_ino32_fh NULL
-         |                                 ^~~~
-   fs/exportfs/expfs.c:384:19: note: in expansion of macro 'generic_encode_ino32_fh'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from <command-line>:
->> include/linux/compiler.h:215:37: error: pasting "__addressable_" and "(" does not give a valid preprocessing token
-     215 |                 __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)&sym;
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-      74 | #define ___PASTE(a,b) a##b
-         |                       ^
-   include/linux/compiler.h:215:29: note: in expansion of macro '__PASTE'
-     215 |                 __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)&sym;
-         |                             ^~~~~~~
-   include/linux/compiler.h:217:9: note: in expansion of macro '___ADDRESSABLE'
-     217 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
-         |         ^~~~~~~~~~~~~~
-   include/linux/export.h:75:9: note: in expansion of macro '__ADDRESSABLE'
-      75 |         __ADDRESSABLE(sym)                                      \
-         |         ^~~~~~~~~~~~~
-   include/linux/export.h:83:41: note: in expansion of macro '__EXPORT_SYMBOL'
-      83 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
-         |                                         ^~~~~~~~~~~~~~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   fs/exportfs/expfs.c:384:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         | ^~~~~~~~~~~~~~~~~
->> include/linux/stddef.h:8:15: error: expected declaration specifiers or '...' before '(' token
-       8 | #define NULL ((void *)0)
-         |               ^
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-      74 | #define ___PASTE(a,b) a##b
-         |                       ^
-   include/linux/compiler-gcc.h:42:29: note: in expansion of macro '__PASTE'
-      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^~~~~~~
-   include/linux/compiler_types.h:75:22: note: in expansion of macro '___PASTE'
-      75 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler-gcc.h:42:37: note: in expansion of macro '__PASTE'
-      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                     ^~~~~~~
-   include/linux/compiler.h:215:17: note: in expansion of macro '__UNIQUE_ID'
-     215 |                 __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)&sym;
-         |                 ^~~~~~~~~~~
-   include/linux/compiler_types.h:75:22: note: in expansion of macro '___PASTE'
-      75 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:215:29: note: in expansion of macro '__PASTE'
-     215 |                 __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)&sym;
-         |                             ^~~~~~~
-   include/linux/compiler.h:217:9: note: in expansion of macro '___ADDRESSABLE'
-     217 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
-         |         ^~~~~~~~~~~~~~
-   include/linux/export.h:75:9: note: in expansion of macro '__ADDRESSABLE'
-      75 |         __ADDRESSABLE(sym)                                      \
-         |         ^~~~~~~~~~~~~
-   include/linux/export.h:83:41: note: in expansion of macro '__EXPORT_SYMBOL'
-      83 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
-         |                                         ^~~~~~~~~~~~~~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   fs/exportfs/expfs.c:384:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/exportfs.h:286:33: note: in expansion of macro 'NULL'
-     286 | #define generic_encode_ino32_fh NULL
-         |                                 ^~~~
-   fs/exportfs/expfs.c:384:19: note: in expansion of macro 'generic_encode_ino32_fh'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/stddef.h:8:24: error: pasting ")" and "217" does not give a valid preprocessing token
-       8 | #define NULL ((void *)0)
-         |                        ^
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-      74 | #define ___PASTE(a,b) a##b
-         |                       ^
-   include/linux/compiler-gcc.h:42:29: note: in expansion of macro '__PASTE'
-      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^~~~~~~
-   include/linux/compiler_types.h:75:22: note: in expansion of macro '___PASTE'
-      75 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler-gcc.h:42:37: note: in expansion of macro '__PASTE'
-      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                     ^~~~~~~
-   include/linux/compiler.h:215:17: note: in expansion of macro '__UNIQUE_ID'
-     215 |                 __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)&sym;
-         |                 ^~~~~~~~~~~
-   include/linux/compiler_types.h:75:22: note: in expansion of macro '___PASTE'
-      75 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:215:29: note: in expansion of macro '__PASTE'
-     215 |                 __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)&sym;
-         |                             ^~~~~~~
-   include/linux/compiler.h:217:9: note: in expansion of macro '___ADDRESSABLE'
-     217 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
-         |         ^~~~~~~~~~~~~~
-   include/linux/export.h:75:9: note: in expansion of macro '__ADDRESSABLE'
-      75 |         __ADDRESSABLE(sym)                                      \
-         |         ^~~~~~~~~~~~~
-   include/linux/export.h:83:41: note: in expansion of macro '__EXPORT_SYMBOL'
-      83 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
-         |                                         ^~~~~~~~~~~~~~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   fs/exportfs/expfs.c:384:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/exportfs.h:286:33: note: in expansion of macro 'NULL'
-     286 | #define generic_encode_ino32_fh NULL
-         |                                 ^~~~
-   fs/exportfs/expfs.c:384:19: note: in expansion of macro 'generic_encode_ino32_fh'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/export.h:47:9: error: pasting "__export_symbol_" and "(" does not give a valid preprocessing token
-      47 |         __export_symbol_##sym:                  ASM_NL  \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/export.h:76:25: note: in expansion of macro '___EXPORT_SYMBOL'
-      76 |         asm(__stringify(___EXPORT_SYMBOL(sym, license, ns)))
-         |                         ^~~~~~~~~~~~~~~~
-   include/linux/export.h:83:41: note: in expansion of macro '__EXPORT_SYMBOL'
-      83 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
-         |                                         ^~~~~~~~~~~~~~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   fs/exportfs/expfs.c:384:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-     384 | EXPORT_SYMBOL_GPL(generic_encode_ino32_fh);
-         | ^~~~~~~~~~~~~~~~~
+   drivers/usb/typec/altmodes/displayport.c: In function 'dp_altmode_vdm':
+>> drivers/usb/typec/altmodes/displayport.c:309:33: error: too few arguments to function 'drm_connector_oob_hotplug_event'
+     309 |                                 drm_connector_oob_hotplug_event(dp->connector_fwnode);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/usb/typec/altmodes/displayport.c:17:
+   include/drm/drm_connector.h:1984:6: note: declared here
+    1984 | void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +8 include/linux/stddef.h
+vim +/drm_connector_oob_hotplug_event +309 drivers/usb/typec/altmodes/displayport.c
 
-^1da177e4c3f41 Linus Torvalds   2005-04-16  6  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  7  #undef NULL
-^1da177e4c3f41 Linus Torvalds   2005-04-16 @8  #define NULL ((void *)0)
-6e218287432472 Richard Knutsson 2006-09-30  9  
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  281  
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  282  static int dp_altmode_vdm(struct typec_altmode *alt,
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  283  			  const u32 hdr, const u32 *vdo, int count)
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  284  {
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  285  	struct dp_altmode *dp = typec_altmode_get_drvdata(alt);
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  286  	int cmd_type = PD_VDO_CMDT(hdr);
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  287  	int cmd = PD_VDO_CMD(hdr);
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  288  	int ret = 0;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  289  
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  290  	mutex_lock(&dp->lock);
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  291  
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  292  	if (dp->state != DP_STATE_IDLE) {
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  293  		ret = -EBUSY;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  294  		goto err_unlock;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  295  	}
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  296  
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  297  	switch (cmd_type) {
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  298  	case CMDT_RSP_ACK:
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  299  		switch (cmd) {
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  300  		case CMD_ENTER_MODE:
+25d6d1bfc213bc Prashant Malani 2023-01-20  301  			typec_altmode_update_active(alt, true);
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  302  			dp->state = DP_STATE_UPDATE;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  303  			break;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  304  		case CMD_EXIT_MODE:
+25d6d1bfc213bc Prashant Malani 2023-01-20  305  			typec_altmode_update_active(alt, false);
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  306  			dp->data.status = 0;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  307  			dp->data.conf = 0;
+89434b069e4609 RD Babiera      2023-10-09  308  			if (dp->hpd) {
+89434b069e4609 RD Babiera      2023-10-09 @309  				drm_connector_oob_hotplug_event(dp->connector_fwnode);
+89434b069e4609 RD Babiera      2023-10-09  310  				dp->hpd = false;
+89434b069e4609 RD Babiera      2023-10-09  311  				sysfs_notify(&dp->alt->dev.kobj, "displayport", "hpd");
+89434b069e4609 RD Babiera      2023-10-09  312  			}
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  313  			break;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  314  		case DP_CMD_STATUS_UPDATE:
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  315  			dp->data.status = *vdo;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  316  			ret = dp_altmode_status_update(dp);
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  317  			break;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  318  		case DP_CMD_CONFIGURE:
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  319  			ret = dp_altmode_configured(dp);
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  320  			break;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  321  		default:
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  322  			break;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  323  		}
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  324  		break;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  325  	case CMDT_RSP_NAK:
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  326  		switch (cmd) {
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  327  		case DP_CMD_CONFIGURE:
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  328  			dp->data.conf = 0;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  329  			ret = dp_altmode_configured(dp);
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  330  			break;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  331  		default:
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  332  			break;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  333  		}
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  334  		break;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  335  	default:
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  336  		break;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  337  	}
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  338  
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  339  	if (dp->state != DP_STATE_IDLE)
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  340  		schedule_work(&dp->work);
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  341  
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  342  err_unlock:
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  343  	mutex_unlock(&dp->lock);
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  344  	return ret;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  345  }
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  346  
 
-:::::: The code at line 8 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code at line 309 was first introduced by commit
+:::::: 89434b069e460967624903b049e5cf5c9e6b99b9 usb: typec: altmodes/displayport: Signal hpd low when exiting mode
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: RD Babiera <rdbabiera@google.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
