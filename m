@@ -1,46 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263D1156C1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Oct 2023 11:29:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2AD61A711
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Oct 2023 11:40:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aV2kxe7j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZcQ9jJAp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698751766; x=1730287766;
+  t=1698752435; x=1730288435;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I2m0eZvhFzPuphPUSknGqlAlJ9QMpgkE81FAf9cjUAA=;
-  b=aV2kxe7jhXXezZ5QWmbAQsX7ALlu2yZhyJ7Tkwe2MvjZHEIa3jQvbmZD
-   Tc020TOjcA/+mis+LaS2ze3tswBAk252sFj0XxqEXqAQKNcTzqGFAUWOy
-   jBLjaHx5AdGry2fbsmZPHheWF7u+AC7LKYL9VDkuxGxncxRdB9hLobh4m
-   Vowp2DLsY26rcv67P77hgVSxrE/yRstqcjoXLsuD83+CSVFZ9hv2ui+8Z
-   xA1+MrqzsErtsMugyd3f4PNrbphOC/rK2fUzLk2Q0kS/Ga7sl3AcRCe5W
-   5SBgKGGgWUikT7JytEmBhc6gIaGP99hkS1NkoKqeEEOwuokx1AB/7p3u5
+  bh=wde244ZJx5rVvU+M8T5K+51gjte8+h55SrdeIKDIm2U=;
+  b=ZcQ9jJApfZQ16W7nAF/i17EoSsPltq0ChmExfISnp722DWLKswYLJj52
+   /qNEkZHXSGSKLTjVadh/6V74On7qUX7hcxPqPRYkEtbeUFC6FJTs7Nb0O
+   XQP/JZbqxRj7yCkDPkHRxQfHRZCWOwwhoCh7s1d6KFUrYqS8HOaN4F5aQ
+   YeHwf0SOqpH0ebK5KA9NrA37ugnWkTwNu6kWW7fQbRFdwDTzignGKKpkM
+   HbimvZROnW6L8xDEowkr/JbV7GgWvd7MWzOC5rEMgI38myajX+7Er1VhC
+   M+cZRFtVdtBDXEf/4lT8kQC1ZSXujylK0KHSWBhfm0Wf7AusJt+GqHAyU
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="419377541"
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="419379257"
 X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
-   d="scan'208";a="419377541"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 04:29:25 -0700
+   d="scan'208";a="419379257"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 04:40:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="851214230"
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="831019535"
 X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
-   d="scan'208";a="851214230"
+   d="scan'208";a="831019535"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 31 Oct 2023 04:29:23 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 31 Oct 2023 04:40:32 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qxmvy-000088-0O;
-	Tue, 31 Oct 2023 11:29:22 +0000
-Date: Tue, 31 Oct 2023 19:29:05 +0800
+	id 1qxn6j-00008S-3D;
+	Tue, 31 Oct 2023 11:40:30 +0000
+Date: Tue, 31 Oct 2023 19:39:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ira Weiny <ira.weiny@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Navneet Singh <navneet.singh@intel.com>
-Subject: [weiny2:dcd-v3-2023-10-30 16/24] drivers/dax/dax-private.h:111:30:
- error: field 'range' has incomplete type
-Message-ID: <202310311958.oyN3xVHo-lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:find_and_clear_tmp1 25/46]
+ drivers/net/wireless/intel/iwlwifi/dvm/tx.c:473:1: error: function
+ definition is not allowed here
+Message-ID: <202310311955.meEXMms3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,67 +51,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/weiny2/linux-kernel.git dcd-v3-2023-10-30
-head:   d3da9e88296217b17eb067531b48dfd0211393c9
-commit: 504c306092e50af6e24f41dfcda5885ac18f6dd7 [16/24] dax/region: Expose DC extents on DAX region driver load
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231031/202310311958.oyN3xVHo-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231031/202310311958.oyN3xVHo-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux find_and_clear_tmp1
+head:   62bfd93b1d4bc92cd171973923c45a2b011f1c5c
+commit: d2a923ac7fd344f9f6be35393ae75b64ec9fac27 [25/46] wifi: intel: use atomic find_bit() API where appropriate
+config: powerpc64-allyesconfig (https://download.01.org/0day-ci/archive/20231031/202310311955.meEXMms3-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231031/202310311955.meEXMms3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310311958.oyN3xVHo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310311955.meEXMms3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/dax/extent.c:6:
->> drivers/dax/dax-private.h:111:30: error: field 'range' has incomplete type
-     111 |                 struct range range;
-         |                              ^~~~~
+>> drivers/net/wireless/intel/iwlwifi/dvm/tx.c:473:1: error: function definition is not allowed here
+     473 | {
+         | ^
+   drivers/net/wireless/intel/iwlwifi/dvm/tx.c:480:1: error: function definition is not allowed here
+     480 | {
+         | ^
+   drivers/net/wireless/intel/iwlwifi/dvm/tx.c:571:1: error: function definition is not allowed here
+     571 | {
+         | ^
+   drivers/net/wireless/intel/iwlwifi/dvm/tx.c:630:1: error: function definition is not allowed here
+     630 | {
+         | ^
+   drivers/net/wireless/intel/iwlwifi/dvm/tx.c:675:1: error: function definition is not allowed here
+     675 | {
+         | ^
+   drivers/net/wireless/intel/iwlwifi/dvm/tx.c:738:1: error: function definition is not allowed here
+     738 | {
+         | ^
+   drivers/net/wireless/intel/iwlwifi/dvm/tx.c:782:1: error: function definition is not allowed here
+     782 | {
+         | ^
+   drivers/net/wireless/intel/iwlwifi/dvm/tx.c:803:1: error: function definition is not allowed here
+     803 | {
+         | ^
+   drivers/net/wireless/intel/iwlwifi/dvm/tx.c:823:1: error: function definition is not allowed here
+     823 | {
+         | ^
+   drivers/net/wireless/intel/iwlwifi/dvm/tx.c:862:1: error: function definition is not allowed here
+     862 | {
+         | ^
+   drivers/net/wireless/intel/iwlwifi/dvm/tx.c:909:1: error: function definition is not allowed here
+     909 | {
+         | ^
+   drivers/net/wireless/intel/iwlwifi/dvm/tx.c:916:1: error: function definition is not allowed here
+     916 | {
+         | ^
+   drivers/net/wireless/intel/iwlwifi/dvm/tx.c:979:1: error: function definition is not allowed here
+     979 | {
+         | ^
+   drivers/net/wireless/intel/iwlwifi/dvm/tx.c:1003:1: error: function definition is not allowed here
+    1003 | {
+         | ^
+   drivers/net/wireless/intel/iwlwifi/dvm/tx.c:1082:1: error: function definition is not allowed here
+    1082 | {
+         | ^
+   drivers/net/wireless/intel/iwlwifi/dvm/tx.c:1097:1: error: function definition is not allowed here
+    1097 | {
+         | ^
+   drivers/net/wireless/intel/iwlwifi/dvm/tx.c:1106:1: error: function definition is not allowed here
+    1106 | {
+         | ^
+   drivers/net/wireless/intel/iwlwifi/dvm/tx.c:1259:1: error: function definition is not allowed here
+    1259 | {
+         | ^
+>> drivers/net/wireless/intel/iwlwifi/dvm/tx.c:1386:2: error: expected '}'
+    1386 | }
+         |  ^
+   drivers/net/wireless/intel/iwlwifi/dvm/tx.c:461:1: note: to match this '{'
+     461 | {
+         | ^
+   19 errors generated.
+--
+>> drivers/net/wireless/intel/iwlwifi/dvm/sta.c:722:51: error: use of undeclared identifier 'sta_key_max_num'
+     722 |         int i = find_and_set_bit(&priv->ucode_key_table, sta_key_max_num);
+         |                                                          ^
+   drivers/net/wireless/intel/iwlwifi/dvm/sta.c:724:13: error: use of undeclared identifier 'sta_key_max_num'
+     724 |         return i < sta_key_max_num ? i : WEP_INVALID_OFFSET;
+         |                    ^
+   2 errors generated.
 
 
-vim +/range +111 drivers/dax/dax-private.h
+vim +473 drivers/net/wireless/intel/iwlwifi/dvm/tx.c
 
-0b07ce872a9eca Dan Williams 2020-10-13   83  
-efebc711180f7f Dave Jiang   2017-04-07   84  /**
-89ec9f2cfa36cc Dan Williams 2018-10-29   85   * struct dev_dax - instance data for a subdivision of a dax region, and
-89ec9f2cfa36cc Dan Williams 2018-10-29   86   * data while the device is activated in the driver.
-efebc711180f7f Dave Jiang   2017-04-07   87   * @region - parent region
-736163671bcb16 Dan Williams 2017-05-04   88   * @dax_dev - core dax functionality
-8fc5c73554db0a Dan Williams 2018-11-09   89   * @target_node: effective numa node if dev_dax memory range is onlined
-70aab281e18c68 Dan Williams 2023-06-02   90   * @dyn_id: is this a dynamic or statically created instance
-70aab281e18c68 Dan Williams 2023-06-02   91   * @id: ida allocated id when the dax_region is not static
-0b07ce872a9eca Dan Williams 2020-10-13   92   * @ida: mapping id allocator
-736163671bcb16 Dan Williams 2017-05-04   93   * @dev - device core
-89ec9f2cfa36cc Dan Williams 2018-10-29   94   * @pgmap - pgmap for memmap setup / lifetime (driver owned)
-60e93dc097f7f1 Dan Williams 2020-10-13   95   * @nr_range: size of @ranges
-60e93dc097f7f1 Dan Williams 2020-10-13   96   * @ranges: resource-span + pgoff tuples for the instance
-efebc711180f7f Dave Jiang   2017-04-07   97   */
-736163671bcb16 Dan Williams 2017-05-04   98  struct dev_dax {
-efebc711180f7f Dave Jiang   2017-04-07   99  	struct dax_region *region;
-736163671bcb16 Dan Williams 2017-05-04  100  	struct dax_device *dax_dev;
-33cf94d7176672 Joao Martins 2020-10-13  101  	unsigned int align;
-8fc5c73554db0a Dan Williams 2018-11-09  102  	int target_node;
-70aab281e18c68 Dan Williams 2023-06-02  103  	bool dyn_id;
-0f3da14a4f0503 Dan Williams 2020-10-13  104  	int id;
-0b07ce872a9eca Dan Williams 2020-10-13  105  	struct ida ida;
-efebc711180f7f Dave Jiang   2017-04-07  106  	struct device dev;
-f5516ec5efb9fe Dan Williams 2020-10-13  107  	struct dev_pagemap *pgmap;
-60e93dc097f7f1 Dan Williams 2020-10-13  108  	int nr_range;
-60e93dc097f7f1 Dan Williams 2020-10-13  109  	struct dev_dax_range {
-60e93dc097f7f1 Dan Williams 2020-10-13  110  		unsigned long pgoff;
-f5516ec5efb9fe Dan Williams 2020-10-13 @111  		struct range range;
-0b07ce872a9eca Dan Williams 2020-10-13  112  		struct dax_mapping *mapping;
-60e93dc097f7f1 Dan Williams 2020-10-13  113  	} *ranges;
-efebc711180f7f Dave Jiang   2017-04-07  114  };
-51cf784c42d07f Dan Williams 2017-07-12  115  
+9eae88fa9a02e3 drivers/net/wireless/iwlwifi/iwl-agn-tx.c Johannes Berg 2012-03-15  471  
+9eae88fa9a02e3 drivers/net/wireless/iwlwifi/iwl-agn-tx.c Johannes Berg 2012-03-15  472  static void iwlagn_dealloc_agg_txq(struct iwl_priv *priv, int q)
+9eae88fa9a02e3 drivers/net/wireless/iwlwifi/iwl-agn-tx.c Johannes Berg 2012-03-15 @473  {
+9eae88fa9a02e3 drivers/net/wireless/iwlwifi/iwl-agn-tx.c Johannes Berg 2012-03-15  474  	clear_bit(q, priv->agg_q_alloc);
+1479177ba69023 drivers/net/wireless/iwlwifi/iwl-agn-tx.c Johannes Berg 2012-04-17  475  	priv->queue_to_mac80211[q] = IWL_INVALID_MAC80211_QUEUE;
+9eae88fa9a02e3 drivers/net/wireless/iwlwifi/iwl-agn-tx.c Johannes Berg 2012-03-15  476  }
+9eae88fa9a02e3 drivers/net/wireless/iwlwifi/iwl-agn-tx.c Johannes Berg 2012-03-15  477  
 
-:::::: The code at line 111 was first introduced by commit
-:::::: f5516ec5efb9fe0f426a46eeef25d389d3c2f988 device-dax: make pgmap optional for instance creation
+:::::: The code at line 473 was first introduced by commit
+:::::: 9eae88fa9a02e31af69a215beaa5e1194da3a5a1 iwlwifi: move queue mapping out of transport
 
-:::::: TO: Dan Williams <dan.j.williams@intel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Johannes Berg <johannes.berg@intel.com>
+:::::: CC: John W. Linville <linville@tuxdriver.com>
 
 -- 
 0-DAY CI Kernel Test Service
