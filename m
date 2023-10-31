@@ -1,102 +1,188 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB641DFDF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Oct 2023 15:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5648713AE3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Oct 2023 16:48:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HTqUcIg3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="npXfshF/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698766415; x=1730302415;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=/rS7iLIs9VDuh9c2JhT/yQocJgm3+S64byTGkvfVmZE=;
-  b=HTqUcIg3iqn50f4uJOgftfY8gHcippuqRAOj1HdmMUqbiYIij+PA04g5
-   WLgb3kDOY/5PL6EabG25oHIiGQR2Jo5WsBRZtO7jg77an2U4nRaBI/5wQ
-   IXY40wB9LpG8LDW4kLTarQOE/bkdVy13pohgJJL+Yn2kP2uIgLseFZtnm
-   UO6C7j7pgfyrmQq3SP9NUkLTr3zh8+mMLnVPNZGWVJMENydjmtQv6ObRF
-   Ex3a+V0rOxctFyPwlOcrrVPIB2AW1OvtKJxQgYxlGBkZ66bOHh7+j6FME
-   D0PJ1SZCfqpm2z38TIlCFp00LWN/ZCtAcCEAmRxMx8OcY8xZUIIGWsJmb
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="9841227"
+  t=1698770897; x=1730306897;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hT5m1FSbT0kp/4mDAr6dDq012D2iMNhYXRSdlRhmhGk=;
+  b=npXfshF/AbAhc3KAJwHJ59wSxotTlV6XZDD9/0dXXpcg3ev1illdwkn2
+   ihbK0CuX75yfkNCjKyV829OGCjKwsu71he3VPcKePIpIrQkoGK2Y74CFF
+   kG0BHBHSG55oHqwExCSc89RSE6ohBOhjlu5cFB8WfrfphFydS+CbEomE7
+   eZcPT372gw13Faj9cX2lblPDt6gEusba6WMTIUIezn58DZJJQkhOfHnRK
+   5ezawL4eDqRQI7NhUkRmuyv1QWL7Qw8Gi+Kck8f0WqEpkIP9bo+lqMHpY
+   hkU57Rr62ro9qtyPFQAZ66rz47IPv6gS6ZVKQ+ZgpYTn/TmhxwNrZorC/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="6951485"
 X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
-   d="scan'208";a="9841227"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 08:33:34 -0700
+   d="scan'208";a="6951485"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 09:48:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="764285767"
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="795646179"
 X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
-   d="scan'208";a="764285767"
-Received: from egomarna-mobl1.amr.corp.intel.com (HELO [10.255.229.105]) ([10.255.229.105])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 08:33:32 -0700
-Message-ID: <43f7f4ef-d2cc-4a39-b301-8999d68469e6@linux.intel.com>
-Date: Tue, 31 Oct 2023 10:33:31 -0500
+   d="scan'208";a="795646179"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 31 Oct 2023 09:48:14 -0700
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qxruW-0000He-1O;
+	Tue, 31 Oct 2023 16:48:12 +0000
+Date: Wed, 1 Nov 2023 00:47:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>, djwong@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-xfs@vger.kernel.org
+Subject: Re: [PATCH, realtime-rmap branch] xfs: lock the RT bitmap inode in
+ xfs_efi_item_recover
+Message-ID: <202311010017.ZOItqKn9-lkp@intel.com>
+References: <20231031095038.1559309-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [plbossart-sound:sdw/add-rw-debugfs-support 21/26]
- sound/pci/hda/patch_hdmi.c:4648:6: error: redefinition of
- 'snd_hda_device_is_hdmi'
-To: kernel test robot <lkp@intel.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-References: <202310311348.zvHI24jb-lkp@intel.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <202310311348.zvHI24jb-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231031095038.1559309-1-hch@lst.de>
 
-Fixed by update
+Hi Christoph,
 
-31685a688828f050151df97f411e29d8f8bf4e3e
-fixup! ALSA: hda/hdmi: Add helper function to check if a device is HDMI
-codec
+kernel test robot noticed the following build errors:
 
-On 10/31/23 00:27, kernel test robot wrote:
-> tree:   https://github.com/plbossart/sound sdw/add-rw-debugfs-support
-> head:   2c350273f5f3b3f47df642297fbcd83e7216613e
-> commit: 5762a2e74908f4cbb7955140b0175539171aaee1 [21/26] ALSA: hda/hdmi: Add helper function to check if a device is HDMI codec
-> config: arc-randconfig-002-20231031 (https://download.01.org/0day-ci/archive/20231031/202310311348.zvHI24jb-lkp@intel.com/config)
-> compiler: arceb-elf-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231031/202310311348.zvHI24jb-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202310311348.zvHI24jb-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->>> sound/pci/hda/patch_hdmi.c:4648:6: error: redefinition of 'snd_hda_device_is_hdmi'
->     4648 | bool snd_hda_device_is_hdmi(struct hdac_device *hdev)
->          |      ^~~~~~~~~~~~~~~~~~~~~~
->    In file included from sound/pci/hda/patch_hdmi.c:29:
->    include/sound/hdaudio.h:165:20: note: previous definition of 'snd_hda_device_is_hdmi' with type 'bool(struct hdac_device *)' {aka '_Bool(struct hdac_device *)'}
->      165 | static inline bool snd_hda_device_is_hdmi(struct hdac_device *hdev)
->          |                    ^~~~~~~~~~~~~~~~~~~~~~
-> 
-> 
-> vim +/snd_hda_device_is_hdmi +4648 sound/pci/hda/patch_hdmi.c
-> 
->   4647	
->> 4648	bool snd_hda_device_is_hdmi(struct hdac_device *hdev)
->   4649	{
->   4650		int i;
->   4651	
->   4652		for (i = 0; i < ARRAY_SIZE(snd_hda_id_hdmi); i++) {
->   4653			if (snd_hda_id_hdmi[i].vendor_id == hdev->vendor_id)
->   4654				return true;
->   4655		}
->   4656	
->   4657		return false;
->   4658	}
->   4659	EXPORT_SYMBOL_GPL(snd_hda_device_is_hdmi);
->   4660	
-> 
+[auto build test ERROR on v6.6]
+[also build test ERROR on linus/master next-20231031]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/xfs-lock-the-RT-bitmap-inode-in-xfs_efi_item_recover/20231031-175736
+base:   v6.6
+patch link:    https://lore.kernel.org/r/20231031095038.1559309-1-hch%40lst.de
+patch subject: [PATCH, realtime-rmap branch] xfs: lock the RT bitmap inode in xfs_efi_item_recover
+config: loongarch-randconfig-002-20231031 (https://download.01.org/0day-ci/archive/20231101/202311010017.ZOItqKn9-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311010017.ZOItqKn9-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311010017.ZOItqKn9-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   fs/xfs/xfs_extfree_item.c: In function 'xfs_efi_item_recover':
+>> fs/xfs/xfs_extfree_item.c:707:29: error: implicit declaration of function 'xfs_efi_is_realtime'; did you mean 'xfs_has_realtime'? [-Werror=implicit-function-declaration]
+     707 |                         if (xfs_efi_is_realtime(&fake))
+         |                             ^~~~~~~~~~~~~~~~~~~
+         |                             xfs_has_realtime
+>> fs/xfs/xfs_extfree_item.c:708:33: error: implicit declaration of function 'xfs_rtbitmap_lock' [-Werror=implicit-function-declaration]
+     708 |                                 xfs_rtbitmap_lock(tp, mp);
+         |                                 ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +707 fs/xfs/xfs_extfree_item.c
+
+   653	
+   654	/*
+   655	 * Process an extent free intent item that was recovered from
+   656	 * the log.  We need to free the extents that it describes.
+   657	 */
+   658	STATIC int
+   659	xfs_efi_item_recover(
+   660		struct xfs_log_item		*lip,
+   661		struct list_head		*capture_list)
+   662	{
+   663		struct xfs_trans_res		resv;
+   664		struct xfs_efi_log_item		*efip = EFI_ITEM(lip);
+   665		struct xfs_mount		*mp = lip->li_log->l_mp;
+   666		struct xfs_efd_log_item		*efdp;
+   667		struct xfs_trans		*tp;
+   668		int				i;
+   669		int				error = 0;
+   670		bool				requeue_only = false;
+   671	
+   672		/*
+   673		 * First check the validity of the extents described by the
+   674		 * EFI.  If any are bad, then assume that all are bad and
+   675		 * just toss the EFI.
+   676		 */
+   677		for (i = 0; i < efip->efi_format.efi_nextents; i++) {
+   678			if (!xfs_efi_validate_ext(mp,
+   679						&efip->efi_format.efi_extents[i])) {
+   680				XFS_CORRUPTION_ERROR(__func__, XFS_ERRLEVEL_LOW, mp,
+   681						&efip->efi_format,
+   682						sizeof(efip->efi_format));
+   683				return -EFSCORRUPTED;
+   684			}
+   685		}
+   686	
+   687		resv = xlog_recover_resv(&M_RES(mp)->tr_itruncate);
+   688		error = xfs_trans_alloc(mp, &resv, 0, 0, 0, &tp);
+   689		if (error)
+   690			return error;
+   691		efdp = xfs_trans_get_efd(tp, efip, efip->efi_format.efi_nextents);
+   692	
+   693		for (i = 0; i < efip->efi_format.efi_nextents; i++) {
+   694			struct xfs_extent_free_item	fake = {
+   695				.xefi_owner		= XFS_RMAP_OWN_UNKNOWN,
+   696				.xefi_agresv		= XFS_AG_RESV_NONE,
+   697			};
+   698			struct xfs_extent		*extp;
+   699	
+   700			extp = &efip->efi_format.efi_extents[i];
+   701	
+   702			fake.xefi_startblock = extp->ext_start;
+   703			fake.xefi_blockcount = extp->ext_len;
+   704	
+   705			if (!requeue_only) {
+   706				xfs_extent_free_get_group(mp, &fake);
+ > 707				if (xfs_efi_is_realtime(&fake))
+ > 708					xfs_rtbitmap_lock(tp, mp);
+   709				error = xfs_trans_free_extent(tp, efdp, &fake);
+   710				xfs_extent_free_put_group(&fake);
+   711			}
+   712	
+   713			/*
+   714			 * If we can't free the extent without potentially deadlocking,
+   715			 * requeue the rest of the extents to a new so that they get
+   716			 * run again later with a new transaction context.
+   717			 */
+   718			if (error == -EAGAIN || requeue_only) {
+   719				error = xfs_free_extent_later(tp, fake.xefi_startblock,
+   720						fake.xefi_blockcount,
+   721						&XFS_RMAP_OINFO_ANY_OWNER,
+   722						fake.xefi_agresv);
+   723				if (!error) {
+   724					requeue_only = true;
+   725					continue;
+   726				}
+   727			}
+   728	
+   729			if (error == -EFSCORRUPTED)
+   730				XFS_CORRUPTION_ERROR(__func__, XFS_ERRLEVEL_LOW, mp,
+   731						extp, sizeof(*extp));
+   732			if (error)
+   733				goto abort_error;
+   734	
+   735		}
+   736	
+   737		return xfs_defer_ops_capture_and_commit(tp, capture_list);
+   738	
+   739	abort_error:
+   740		xfs_trans_cancel(tp);
+   741		return error;
+   742	}
+   743	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
