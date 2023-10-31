@@ -1,49 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4549819BA5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Oct 2023 11:09:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263D1156C1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Oct 2023 11:29:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZloqJpzx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aV2kxe7j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698750552; x=1730286552;
+  t=1698751766; x=1730287766;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kC1lRlSHy1AVs6EpBhA4hO9Na4yPiNJ6cbPFvGORlMU=;
-  b=ZloqJpzxs7dw5hgSEz46VQw2I8FzW0ieKdgvPqNcMQgLTvXzsQJTPXWh
-   Y0vWb+BM5gU/Bj2bmBSlTYkmio9w97rB6qan6c+gYrKNaDF5M6fPcaq+O
-   ImmenahRlR221TqAnUVhljUlRep1VQsSYQBwahtkzOeWctNEU7NZevy/O
-   BDEfCHEVTQQSGA9we3pN6kibBwgsfuTaisOvhb/ykazPUhkjnIF62QAgu
-   pCmY9d6512fTCSDmKnVJtvMiMfiTjm60rEHzNm48HsF33xOjlOLpPOeo8
-   TsRBwT8AIO/cQFM61jQLhcYlKLzTxHZ4Pba7SfnwbdG4PYHPAyhO+Wve+
+  bh=I2m0eZvhFzPuphPUSknGqlAlJ9QMpgkE81FAf9cjUAA=;
+  b=aV2kxe7jhXXezZ5QWmbAQsX7ALlu2yZhyJ7Tkwe2MvjZHEIa3jQvbmZD
+   Tc020TOjcA/+mis+LaS2ze3tswBAk252sFj0XxqEXqAQKNcTzqGFAUWOy
+   jBLjaHx5AdGry2fbsmZPHheWF7u+AC7LKYL9VDkuxGxncxRdB9hLobh4m
+   Vowp2DLsY26rcv67P77hgVSxrE/yRstqcjoXLsuD83+CSVFZ9hv2ui+8Z
+   xA1+MrqzsErtsMugyd3f4PNrbphOC/rK2fUzLk2Q0kS/Ga7sl3AcRCe5W
+   5SBgKGGgWUikT7JytEmBhc6gIaGP99hkS1NkoKqeEEOwuokx1AB/7p3u5
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="387143313"
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="419377541"
 X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
-   d="scan'208";a="387143313"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 04:09:09 -0700
+   d="scan'208";a="419377541"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 04:29:25 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="851214230"
 X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
-   d="scan'208";a="8665907"
+   d="scan'208";a="851214230"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 31 Oct 2023 04:09:07 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 31 Oct 2023 04:29:23 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qxmcL-00007W-1V;
-	Tue, 31 Oct 2023 11:09:05 +0000
-Date: Tue, 31 Oct 2023 19:08:16 +0800
+	id 1qxmvy-000088-0O;
+	Tue, 31 Oct 2023 11:29:22 +0000
+Date: Tue, 31 Oct 2023 19:29:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Jones <ajones@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>,
-	Evan Green <evan@rivosinc.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [avpatel:riscv_sbi_nested_v1 64/76]
- arch/riscv/include/uapi/asm/hwprobe.h:58:49: warning: conversion from 'long
- long unsigned int' to 'long unsigned int' changes value from '4294967296' to
- '0'
-Message-ID: <202310311801.hxduISrr-lkp@intel.com>
+To: Ira Weiny <ira.weiny@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Navneet Singh <navneet.singh@intel.com>
+Subject: [weiny2:dcd-v3-2023-10-30 16/24] drivers/dax/dax-private.h:111:30:
+ error: field 'range' has incomplete type
+Message-ID: <202310311958.oyN3xVHo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,83 +50,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/avpatel/linux.git riscv_sbi_nested_v1
-head:   9763a6c438da81175e07a5736eeb1e505a74e693
-commit: 3b516003495c3ceb036e452b29691977d00616d0 [64/76] RISC-V: hwprobe: Expose Zicboz extension and its block size
-config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20231031/202310311801.hxduISrr-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231031/202310311801.hxduISrr-lkp@intel.com/reproduce)
+tree:   https://github.com/weiny2/linux-kernel.git dcd-v3-2023-10-30
+head:   d3da9e88296217b17eb067531b48dfd0211393c9
+commit: 504c306092e50af6e24f41dfcda5885ac18f6dd7 [16/24] dax/region: Expose DC extents on DAX region driver load
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231031/202310311958.oyN3xVHo-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231031/202310311958.oyN3xVHo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310311801.hxduISrr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310311958.oyN3xVHo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/riscv/include/asm/hwprobe.h:9,
-                    from arch/riscv/kernel/sys_riscv.c:11:
-   arch/riscv/kernel/sys_riscv.c: In function 'hwprobe_one_pair':
->> arch/riscv/include/uapi/asm/hwprobe.h:58:49: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '4294967296' to '0' [-Woverflow]
-      58 | #define         RISCV_HWPROBE_EXT_ZICBOZ        (1ULL << 32)
-         |                                                 ^~~~~~~~~~~~
-   arch/riscv/kernel/sys_riscv.c:266:44: note: in expansion of macro 'RISCV_HWPROBE_EXT_ZICBOZ'
-     266 |                 if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOZ))
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/dax/extent.c:6:
+>> drivers/dax/dax-private.h:111:30: error: field 'range' has incomplete type
+     111 |                 struct range range;
+         |                              ^~~~~
 
 
-vim +58 arch/riscv/include/uapi/asm/hwprobe.h
+vim +/range +111 drivers/dax/dax-private.h
 
-    19	
-    20	#define RISCV_HWPROBE_KEY_MVENDORID	0
-    21	#define RISCV_HWPROBE_KEY_MARCHID	1
-    22	#define RISCV_HWPROBE_KEY_MIMPID	2
-    23	#define RISCV_HWPROBE_KEY_BASE_BEHAVIOR	3
-    24	#define		RISCV_HWPROBE_BASE_BEHAVIOR_IMA	(1 << 0)
-    25	#define RISCV_HWPROBE_KEY_IMA_EXT_0	4
-    26	#define		RISCV_HWPROBE_IMA_FD		(1 << 0)
-    27	#define		RISCV_HWPROBE_IMA_C		(1 << 1)
-    28	#define		RISCV_HWPROBE_IMA_V		(1 << 2)
-    29	#define		RISCV_HWPROBE_EXT_ZBA		(1 << 3)
-    30	#define		RISCV_HWPROBE_EXT_ZBB		(1 << 4)
-    31	#define		RISCV_HWPROBE_EXT_ZBS		(1 << 5)
-    32	#define		RISCV_HWPROBE_EXT_ZBC		(1 << 6)
-    33	#define		RISCV_HWPROBE_EXT_ZBKB		(1 << 7)
-    34	#define		RISCV_HWPROBE_EXT_ZBKC		(1 << 8)
-    35	#define		RISCV_HWPROBE_EXT_ZBKX		(1 << 9)
-    36	#define		RISCV_HWPROBE_EXT_ZKND		(1 << 10)
-    37	#define		RISCV_HWPROBE_EXT_ZKNE		(1 << 11)
-    38	#define		RISCV_HWPROBE_EXT_ZKNH		(1 << 12)
-    39	#define		RISCV_HWPROBE_EXT_ZKSED		(1 << 13)
-    40	#define		RISCV_HWPROBE_EXT_ZKSH		(1 << 14)
-    41	#define		RISCV_HWPROBE_EXT_ZKT		(1 << 15)
-    42	#define		RISCV_HWPROBE_EXT_ZVBB		(1 << 16)
-    43	#define		RISCV_HWPROBE_EXT_ZVBC		(1 << 17)
-    44	#define		RISCV_HWPROBE_EXT_ZVKB		(1 << 18)
-    45	#define		RISCV_HWPROBE_EXT_ZVKG		(1 << 19)
-    46	#define		RISCV_HWPROBE_EXT_ZVKNED	(1 << 20)
-    47	#define		RISCV_HWPROBE_EXT_ZVKNHA	(1 << 21)
-    48	#define		RISCV_HWPROBE_EXT_ZVKNHB	(1 << 22)
-    49	#define		RISCV_HWPROBE_EXT_ZVKSED	(1 << 23)
-    50	#define		RISCV_HWPROBE_EXT_ZVKSH		(1 << 24)
-    51	#define		RISCV_HWPROBE_EXT_ZVKT		(1 << 25)
-    52	#define		RISCV_HWPROBE_EXT_ZFH		(1 << 26)
-    53	#define		RISCV_HWPROBE_EXT_ZFHMIN	(1 << 27)
-    54	#define		RISCV_HWPROBE_EXT_ZIHINTNTL	(1 << 28)
-    55	#define		RISCV_HWPROBE_EXT_ZVFH		(1 << 29)
-    56	#define		RISCV_HWPROBE_EXT_ZVFHMIN	(1 << 30)
-    57	#define		RISCV_HWPROBE_EXT_ZFA		(1 << 31)
-  > 58	#define		RISCV_HWPROBE_EXT_ZICBOZ	(1ULL << 32)
-    59	#define RISCV_HWPROBE_KEY_CPUPERF_0	5
-    60	#define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
-    61	#define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
-    62	#define		RISCV_HWPROBE_MISALIGNED_SLOW		(2 << 0)
-    63	#define		RISCV_HWPROBE_MISALIGNED_FAST		(3 << 0)
-    64	#define		RISCV_HWPROBE_MISALIGNED_UNSUPPORTED	(4 << 0)
-    65	#define		RISCV_HWPROBE_MISALIGNED_MASK		(7 << 0)
-    66	#define RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE	6
-    67	/* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
-    68	
+0b07ce872a9eca Dan Williams 2020-10-13   83  
+efebc711180f7f Dave Jiang   2017-04-07   84  /**
+89ec9f2cfa36cc Dan Williams 2018-10-29   85   * struct dev_dax - instance data for a subdivision of a dax region, and
+89ec9f2cfa36cc Dan Williams 2018-10-29   86   * data while the device is activated in the driver.
+efebc711180f7f Dave Jiang   2017-04-07   87   * @region - parent region
+736163671bcb16 Dan Williams 2017-05-04   88   * @dax_dev - core dax functionality
+8fc5c73554db0a Dan Williams 2018-11-09   89   * @target_node: effective numa node if dev_dax memory range is onlined
+70aab281e18c68 Dan Williams 2023-06-02   90   * @dyn_id: is this a dynamic or statically created instance
+70aab281e18c68 Dan Williams 2023-06-02   91   * @id: ida allocated id when the dax_region is not static
+0b07ce872a9eca Dan Williams 2020-10-13   92   * @ida: mapping id allocator
+736163671bcb16 Dan Williams 2017-05-04   93   * @dev - device core
+89ec9f2cfa36cc Dan Williams 2018-10-29   94   * @pgmap - pgmap for memmap setup / lifetime (driver owned)
+60e93dc097f7f1 Dan Williams 2020-10-13   95   * @nr_range: size of @ranges
+60e93dc097f7f1 Dan Williams 2020-10-13   96   * @ranges: resource-span + pgoff tuples for the instance
+efebc711180f7f Dave Jiang   2017-04-07   97   */
+736163671bcb16 Dan Williams 2017-05-04   98  struct dev_dax {
+efebc711180f7f Dave Jiang   2017-04-07   99  	struct dax_region *region;
+736163671bcb16 Dan Williams 2017-05-04  100  	struct dax_device *dax_dev;
+33cf94d7176672 Joao Martins 2020-10-13  101  	unsigned int align;
+8fc5c73554db0a Dan Williams 2018-11-09  102  	int target_node;
+70aab281e18c68 Dan Williams 2023-06-02  103  	bool dyn_id;
+0f3da14a4f0503 Dan Williams 2020-10-13  104  	int id;
+0b07ce872a9eca Dan Williams 2020-10-13  105  	struct ida ida;
+efebc711180f7f Dave Jiang   2017-04-07  106  	struct device dev;
+f5516ec5efb9fe Dan Williams 2020-10-13  107  	struct dev_pagemap *pgmap;
+60e93dc097f7f1 Dan Williams 2020-10-13  108  	int nr_range;
+60e93dc097f7f1 Dan Williams 2020-10-13  109  	struct dev_dax_range {
+60e93dc097f7f1 Dan Williams 2020-10-13  110  		unsigned long pgoff;
+f5516ec5efb9fe Dan Williams 2020-10-13 @111  		struct range range;
+0b07ce872a9eca Dan Williams 2020-10-13  112  		struct dax_mapping *mapping;
+60e93dc097f7f1 Dan Williams 2020-10-13  113  	} *ranges;
+efebc711180f7f Dave Jiang   2017-04-07  114  };
+51cf784c42d07f Dan Williams 2017-07-12  115  
+
+:::::: The code at line 111 was first introduced by commit
+:::::: f5516ec5efb9fe0f426a46eeef25d389d3c2f988 device-dax: make pgmap optional for instance creation
+
+:::::: TO: Dan Williams <dan.j.williams@intel.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
