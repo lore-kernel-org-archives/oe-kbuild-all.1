@@ -1,123 +1,117 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E8029CE0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Oct 2023 23:53:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ABE62232E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Oct 2023 23:53:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oJg2MxXk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AGmElZUy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698796385; x=1730332385;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sLtv+B5XMSR1KQ3893n0b7sapa1FncyDSogdPKtUPtk=;
-  b=oJg2MxXkOnv+FGyy8TKdb6OumEg7hVdepniN//thwVLo741oc4W7+HU4
-   zpKpH6J7PCdhGju6TwFlI8XUGsTqYRpmxZFAFmViNgQcw5URdySdObtXK
-   huPJjtnGfR2/Do+sueoe7EaZlP6qhIs6p2naE47QZ8Zp56XSOzmo71Yd1
-   SIfZ1UNQhgP7jbK/KmHeC3M7N8Pv2Kv026kJC8TF04ojAPlzCiLZEaEIc
-   ioMMNCiTXRHV9in1NiQi63k8G2xWVmyxYOsMVO3cFJkY68n0JRAJASHvZ
-   FBAlZ0r6zkPxXiByOMciLDPDyCiqX1qBVQybNVbBxcVKI0Iown2V90Hhj
+  t=1698796388; x=1730332388;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=4i1y3DVKkpZNztiXnFlc1I3XO3HIruaCd99l2W6lqvs=;
+  b=AGmElZUy7eJWzJ8Ymqm2APowv7+8SXVUa8+T+sjxQ9NNLQKvQbFmCqSA
+   yAyby6Hwfw/pGNxTnfM1fuLtIYKodmorspPoU5xiGmnMgo1zReImnRTZV
+   zzM2cZZBCyqSGhybo13e27/FPf7rKOmMUMPRtVi5/s0ajEZQI7IQngpO4
+   FSKRZa2LlrL2h8L5CZmlWFuWcWM9xu7HsCj0rkH0VkId+qoixkAKWmi7l
+   CD+aylDTRo8rG5NE32xumJnykyzHWmxYK9I8ZVUBRaYeOeVy6o8MO4ejv
+   GEz7//egWPs7QSQkGOZkC9rgrUHcM2qa2AODkSvO8VluvjGvq4YVVWa7o
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="419516375"
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="419516379"
 X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; 
-   d="scan'208";a="419516375"
+   d="scan'208";a="419516379"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 16:53:04 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 16:53:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="1092168371"
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="1092168372"
 X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; 
-   d="scan'208";a="1092168371"
+   d="scan'208";a="1092168372"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
   by fmsmga005.fm.intel.com with ESMTP; 31 Oct 2023 16:53:03 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qxyXd-0000T2-0B;
+	id 1qxyXd-0000T8-0Z;
 	Tue, 31 Oct 2023 23:53:01 +0000
 Date: Wed, 1 Nov 2023 07:52:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:find_and_clear_tmp1 39/46]
- drivers/net/ethernet/rocker/rocker_ofdpa.c:2246:8: error: use of undeclared
- label 'found'
-Message-ID: <202311010733.5hB1cUtH-lkp@intel.com>
+To: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
+	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
+	christian.koenig@amd.com
+Subject: Re: [PATCH 2/6] drm/amdgpu: Separate eviction from VM status.
+Message-ID: <202311010709.XbwKjVaq-lkp@intel.com>
+References: <20231031134059.171277-3-ishitatsuyuki@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231031134059.171277-3-ishitatsuyuki@gmail.com>
 
-tree:   https://github.com/norov/linux find_and_clear_tmp1
-head:   62bfd93b1d4bc92cd171973923c45a2b011f1c5c
-commit: a14c9e467cd8a8b101ae6d03bbe974b878087292 [39/46] ethernet: rocker: optimize ofdpa_port_internal_vlan_id_get()
-config: powerpc64-allyesconfig (https://download.01.org/0day-ci/archive/20231101/202311010733.5hB1cUtH-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311010733.5hB1cUtH-lkp@intel.com/reproduce)
+Hi Tatsuyuki,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.6 next-20231031]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tatsuyuki-Ishi/drm-amdgpu-Don-t-implicit-sync-PRT-maps/20231031-224530
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231031134059.171277-3-ishitatsuyuki%40gmail.com
+patch subject: [PATCH 2/6] drm/amdgpu: Separate eviction from VM status.
+config: arc-randconfig-001-20231101 (https://download.01.org/0day-ci/archive/20231101/202311010709.XbwKjVaq-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311010709.XbwKjVaq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311010733.5hB1cUtH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311010709.XbwKjVaq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/rocker/rocker_ofdpa.c:2246:8: error: use of undeclared label 'found'
-    2246 |                 goto found;
-         |                      ^
-   1 error generated.
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:178: warning: Function parameter or member 'evicted' not described in 'amdgpu_vm_bo_set_evicted'
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:178: warning: expecting prototype for amdgpu_vm_bo_evicted(). Prototype was for amdgpu_vm_bo_set_evicted() instead
 
 
-vim +/found +2246 drivers/net/ethernet/rocker/rocker_ofdpa.c
+vim +178 drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
 
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2225  
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2226  static __be16 ofdpa_port_internal_vlan_id_get(struct ofdpa_port *ofdpa_port,
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2227  					      int ifindex)
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2228  {
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2229  	struct ofdpa *ofdpa = ofdpa_port->ofdpa;
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2230  	struct ofdpa_internal_vlan_tbl_entry *entry;
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2231  	struct ofdpa_internal_vlan_tbl_entry *found;
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2232  	unsigned long lock_flags;
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2233  	int i;
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2234  
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2235  	entry = kzalloc(sizeof(*entry), GFP_KERNEL);
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2236  	if (!entry)
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2237  		return 0;
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2238  
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2239  	entry->ifindex = ifindex;
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2240  
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2241  	spin_lock_irqsave(&ofdpa->internal_vlan_tbl_lock, lock_flags);
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2242  
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2243  	found = ofdpa_internal_vlan_tbl_find(ofdpa, ifindex);
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2244  	if (found) {
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2245  		kfree(entry);
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16 @2246  		goto found;
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2247  	}
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2248  
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2249  	found = entry;
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2250  	hash_add(ofdpa->internal_vlan_tbl, &found->entry, found->ifindex);
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2251  
-a14c9e467cd8a8 Yury Norov 2023-10-21  2252  	i = find_and_set_bit(ofdpa->internal_vlan_bitmap, OFDPA_N_INTERNAL_VLANS);
-a14c9e467cd8a8 Yury Norov 2023-10-21  2253  	if (i < OFDPA_N_INTERNAL_VLANS)
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2254  		found->vlan_id = htons(OFDPA_INTERNAL_VLAN_ID_BASE + i);
-a14c9e467cd8a8 Yury Norov 2023-10-21  2255  	else
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2256  		netdev_err(ofdpa_port->dev, "Out of internal VLAN IDs\n");
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2257  
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2258  	found->ref_count++;
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2259  	spin_unlock_irqrestore(&ofdpa->internal_vlan_tbl_lock, lock_flags);
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2260  
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2261  	return found->vlan_id;
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2262  }
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  2263  
-
-:::::: The code at line 2246 was first introduced by commit
-:::::: 3fbcdbf3f1cbe86fc11856ec268470d7d7bd459b rocker: move OF-DPA stuff into separate file
-
-:::::: TO: Jiri Pirko <jiri@mellanox.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+dcb388eddb5f1b Nirmoy Das      2021-06-28  168  
+bcdc9fd634d1f0 Christian König 2018-08-30  169  /**
+bcdc9fd634d1f0 Christian König 2018-08-30  170   * amdgpu_vm_bo_evicted - vm_bo is evicted
+bcdc9fd634d1f0 Christian König 2018-08-30  171   *
+bcdc9fd634d1f0 Christian König 2018-08-30  172   * @vm_bo: vm_bo which is evicted
+bcdc9fd634d1f0 Christian König 2018-08-30  173   *
+bcdc9fd634d1f0 Christian König 2018-08-30  174   * State for PDs/PTs and per VM BOs which are not at the location they should
+bcdc9fd634d1f0 Christian König 2018-08-30  175   * be.
+bcdc9fd634d1f0 Christian König 2018-08-30  176   */
+cac82290238e47 Tatsuyuki Ishi  2023-10-31  177  static void amdgpu_vm_bo_set_evicted(struct amdgpu_vm_bo_base *vm_bo, bool evicted)
+bcdc9fd634d1f0 Christian König 2018-08-30 @178  {
+bcdc9fd634d1f0 Christian König 2018-08-30  179  	struct amdgpu_vm *vm = vm_bo->vm;
+bcdc9fd634d1f0 Christian König 2018-08-30  180  	struct amdgpu_bo *bo = vm_bo->bo;
+bcdc9fd634d1f0 Christian König 2018-08-30  181  
+757eb2bedd08a1 Philip Yang     2022-09-15  182  	spin_lock(&vm_bo->vm->status_lock);
+cac82290238e47 Tatsuyuki Ishi  2023-10-31  183  	if (evicted && bo->tbo.base.resv == vm->root.bo->tbo.base.resv) {
+bcdc9fd634d1f0 Christian König 2018-08-30  184  		if (bo->tbo.type == ttm_bo_type_kernel)
+cac82290238e47 Tatsuyuki Ishi  2023-10-31  185  			list_move(&vm_bo->eviction_status, &vm->evicted);
+bcdc9fd634d1f0 Christian König 2018-08-30  186  		else
+cac82290238e47 Tatsuyuki Ishi  2023-10-31  187  			list_move_tail(&vm_bo->eviction_status, &vm->evicted);
+cac82290238e47 Tatsuyuki Ishi  2023-10-31  188  	} else {
+cac82290238e47 Tatsuyuki Ishi  2023-10-31  189  		list_del_init(&vm_bo->eviction_status);
+cac82290238e47 Tatsuyuki Ishi  2023-10-31  190  	}
+757eb2bedd08a1 Philip Yang     2022-09-15  191  	spin_unlock(&vm_bo->vm->status_lock);
+bcdc9fd634d1f0 Christian König 2018-08-30  192  }
+cac82290238e47 Tatsuyuki Ishi  2023-10-31  193  
 
 -- 
 0-DAY CI Kernel Test Service
