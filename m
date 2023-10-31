@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A2A1D54A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Oct 2023 12:05:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8EC10976
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Oct 2023 13:01:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nFw/tddB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S57zKwFz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698753950; x=1730289950;
+  t=1698757297; x=1730293297;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U2liCR6h/fApxwEs5YbqEaa6V1pMJXckpRW4j8FxC9Q=;
-  b=nFw/tddBrGwaSTutdIwvLlmcUgsFxbOs4vFNwO3HQxpwvcL/e/0T6NvG
-   +OzaUpOAetD60ukN0yzCdBY/j5iQ59IOVJJpr5LGmOaZNXDeTrHApzd8s
-   UHdRqv8X6GE31lS0GsOFI3rwJ/eAW1eCAxdPGyHVequLm0qrGn+B5jTGg
-   9/1TtzNceYiBr2uy9Gf/Z3LTZVeyi+K3wKPggu0W3EwTZZR+YzQiMKsIp
-   QfaRdyMt/iM84vpGsnNI2UKNXqezgtYHAVUj4T4Q7isOy8KMZD2Vp/nWv
-   ucohHc+hW5gY6p1aaulrLjHoMhCuUutLA2xxosNW7l4r6vJagTQvEHHdo
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="392135015"
+  bh=pTMDJ8UGVtfohkri6fq8u5kFLUZMtPtquV2UhmVkwAI=;
+  b=S57zKwFzKy4c0BA0FwJf7zSqQZzUUJl5Okz45nGGUqq5dj9w7qBDSV22
+   2OKhf0TjypZerI3DHdmMAPzWtsip/sffg5/CX2HyFsjRKRwgsN3CKrZXY
+   bHIsfW6ml+Vo8/XIILVqhbTPpMZzaGmeUYV+Da/rOn2zFHnl0l5Wh8aqh
+   ROea1n8c8Ekxel+kthA8ymh8JgIRCJNlyQG2iVC5vSl9IN+hYPGGg7xGn
+   yLQu0gQcLmi0I4iEWEw3Cg5ehx7c5+p5Q2lwtDCXOg3G6O028rA2NkExW
+   SvcsrjTZaTz8W/hFpXIjfB1dG+mNz/T+RYqZu+ASSyl4hX6v4lY/PP6FM
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="373332377"
 X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
-   d="scan'208";a="392135015"
+   d="scan'208";a="373332377"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 05:05:46 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 06:01:36 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
-   d="scan'208";a="1776054"
+   d="scan'208";a="1782929"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 31 Oct 2023 05:05:45 -0700
+  by orviesa002.jf.intel.com with ESMTP; 31 Oct 2023 06:01:35 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qxnV8-00008u-22;
-	Tue, 31 Oct 2023 12:05:42 +0000
-Date: Tue, 31 Oct 2023 20:05:02 +0800
+	id 1qxoNB-0000Aa-1I;
+	Tue, 31 Oct 2023 13:01:33 +0000
+Date: Tue, 31 Oct 2023 21:00:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chengming Zhou <zhouchengming@bytedance.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Peter Zijlstra <peterz@infradead.org>
-Subject: kernel/sched/core.c:711:31: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202310311921.TywchFFd-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 94/120]
+ arch/arm64/kernel/hibernate.c:123:46: error: 'struct arch_hibernate_hdr' has
+ no member named 'android_vendor_data1'
+Message-ID: <202310312040.QHv61ult-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,150 +50,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5a6a09e97199d6600d31383055f9d43fbbcbe86f
-commit: 52b1364ba0b105122d6de0e719b36db705011ac1 sched/psi: Add PSI_IRQ to track IRQ/SOFTIRQ pressure
-date:   1 year, 2 months ago
-config: x86_64-randconfig-r031-20230909 (https://download.01.org/0day-ci/archive/20231031/202310311921.TywchFFd-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231031/202310311921.TywchFFd-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   82fe654f56524dce8c0600282db927816d2b3451
+commit: d7e1f4f02153646cd5514cc134fbe9c1e1178869 [94/120] ANDROID: vendor hooks: Add hooks to support bootloader based hibernation
+config: arm64-randconfig-004-20231031 (https://download.01.org/0day-ci/archive/20231031/202310312040.QHv61ult-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231031/202310312040.QHv61ult-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310311921.TywchFFd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310312040.QHv61ult-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/sched/core.c:711:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *task @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:711:31: sparse:     expected struct task_struct *task
-   kernel/sched/core.c:711:31: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:781:48: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:781:48: sparse:     expected struct task_struct *p
-   kernel/sched/core.c:781:48: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:1028:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:1028:38: sparse:     expected struct task_struct *curr
-   kernel/sched/core.c:1028:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:2192:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:2192:33: sparse:     expected struct task_struct *p
-   kernel/sched/core.c:2192:33: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:2192:68: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:2192:68: sparse:     expected struct task_struct *tsk
-   kernel/sched/core.c:2192:68: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:5441:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:5441:38: sparse:     expected struct task_struct *curr
-   kernel/sched/core.c:5441:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:6387:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:6387:14: sparse:     expected struct task_struct *prev
-   kernel/sched/core.c:6387:14: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:6913:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:6913:17: sparse:    struct task_struct *
-   kernel/sched/core.c:6913:17: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:7129:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:7129:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:7129:22: sparse:    struct task_struct *
-   kernel/sched/core.c:11188:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:11188:25: sparse:     expected struct task_struct *p
-   kernel/sched/core.c:11188:25: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:537:6: sparse: sparse: context imbalance in 'raw_spin_rq_lock_nested' - wrong count at exit
-   kernel/sched/core.c:570:23: sparse: sparse: context imbalance in 'raw_spin_rq_trylock' - wrong count at exit
-   kernel/sched/core.c:586:6: sparse: sparse: context imbalance in 'raw_spin_rq_unlock' - unexpected unlock
-   kernel/sched/core.c:624:36: sparse: sparse: context imbalance in '__task_rq_lock' - wrong count at exit
-   kernel/sched/core.c:665:36: sparse: sparse: context imbalance in 'task_rq_lock' - wrong count at exit
-   kernel/sched/core.c:781:11: sparse: sparse: dereference of noderef expression
-   kernel/sched/core.c:2183:33: sparse: sparse: dereference of noderef expression
-   kernel/sched/core.c:2184:19: sparse: sparse: dereference of noderef expression
-   kernel/sched/core.c:2185:18: sparse: sparse: dereference of noderef expression
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/sched.h:1594:9: sparse: sparse: context imbalance in 'ttwu_runnable' - wrong count at exit
-   kernel/sched/core.c:4266:9: sparse: sparse: context imbalance in 'task_call_func' - wrong count at exit
-   kernel/sched/sched.h:1594:9: sparse: sparse: context imbalance in 'wake_up_new_task' - wrong count at exit
-   kernel/sched/core.c:5100:9: sparse: sparse: context imbalance in 'finish_task_switch' - wrong count at exit
-   kernel/sched/sched.h:2060:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2060:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2060:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2217:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2217:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2217:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2217:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2217:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2217:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2060:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2060:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2060:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2217:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2217:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2217:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2060:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2060:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2060:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2217:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2217:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2217:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2060:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2060:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2060:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2217:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2217:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2217:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2060:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2060:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2060:25: sparse:    struct task_struct *
+All errors (new ones prefixed by >>):
 
-vim +711 kernel/sched/core.c
+   arch/arm64/kernel/hibernate.c: In function 'arch_hibernation_header_save':
+>> arch/arm64/kernel/hibernate.c:123:46: error: 'struct arch_hibernate_hdr' has no member named 'android_vendor_data1'
+     123 |         trace_android_vh_save_cpu_resume(&hdr->android_vendor_data1,
+         |                                              ^~
 
-   675	
-   676	/*
-   677	 * RQ-clock updating methods:
-   678	 */
-   679	
-   680	static void update_rq_clock_task(struct rq *rq, s64 delta)
-   681	{
-   682	/*
-   683	 * In theory, the compile should just see 0 here, and optimize out the call
-   684	 * to sched_rt_avg_update. But I don't trust it...
-   685	 */
-   686		s64 __maybe_unused steal = 0, irq_delta = 0;
-   687	
-   688	#ifdef CONFIG_IRQ_TIME_ACCOUNTING
-   689		irq_delta = irq_time_read(cpu_of(rq)) - rq->prev_irq_time;
-   690	
-   691		/*
-   692		 * Since irq_time is only updated on {soft,}irq_exit, we might run into
-   693		 * this case when a previous update_rq_clock() happened inside a
-   694		 * {soft,}irq region.
-   695		 *
-   696		 * When this happens, we stop ->clock_task and only update the
-   697		 * prev_irq_time stamp to account for the part that fit, so that a next
-   698		 * update will consume the rest. This ensures ->clock_task is
-   699		 * monotonic.
-   700		 *
-   701		 * It does however cause some slight miss-attribution of {soft,}irq
-   702		 * time, a more accurate solution would be to update the irq_time using
-   703		 * the current rq->clock timestamp, except that would require using
-   704		 * atomic ops.
-   705		 */
-   706		if (irq_delta > delta)
-   707			irq_delta = delta;
-   708	
-   709		rq->prev_irq_time += irq_delta;
-   710		delta -= irq_delta;
- > 711		psi_account_irqtime(rq->curr, irq_delta);
-   712	#endif
-   713	#ifdef CONFIG_PARAVIRT_TIME_ACCOUNTING
-   714		if (static_key_false((&paravirt_steal_rq_enabled))) {
-   715			steal = paravirt_steal_clock(cpu_of(rq));
-   716			steal -= rq->prev_steal_time_rq;
-   717	
-   718			if (unlikely(steal > delta))
-   719				steal = delta;
-   720	
-   721			rq->prev_steal_time_rq += steal;
-   722			delta -= steal;
-   723		}
-   724	#endif
-   725	
-   726		rq->clock_task += delta;
-   727	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+
+
+vim +123 arch/arm64/kernel/hibernate.c
+
+   111	
+   112	int arch_hibernation_header_save(void *addr, unsigned int max_size)
+   113	{
+   114		struct arch_hibernate_hdr *hdr = addr;
+   115	
+   116		if (max_size < sizeof(*hdr))
+   117			return -EOVERFLOW;
+   118	
+   119		arch_hdr_invariants(&hdr->invariants);
+   120		hdr->ttbr1_el1		= __pa_symbol(swapper_pg_dir);
+   121		hdr->reenter_kernel	= _cpu_resume;
+   122	
+ > 123		trace_android_vh_save_cpu_resume(&hdr->android_vendor_data1,
+   124							__pa(cpu_resume));
+   125	
+   126		/* We can't use __hyp_get_vectors() because kvm may still be loaded */
+   127		if (el2_reset_needed())
+   128			hdr->__hyp_stub_vectors = __pa_symbol(__hyp_stub_vectors);
+   129		else
+   130			hdr->__hyp_stub_vectors = 0;
+   131	
+   132		/* Save the mpidr of the cpu we called cpu_suspend() on... */
+   133		if (sleep_cpu < 0) {
+   134			pr_err("Failing to hibernate on an unknown CPU.\n");
+   135			return -ENODEV;
+   136		}
+   137		hdr->sleep_cpu_mpidr = cpu_logical_map(sleep_cpu);
+   138		pr_info("Hibernating on CPU %d [mpidr:0x%llx]\n", sleep_cpu,
+   139			hdr->sleep_cpu_mpidr);
+   140	
+   141		return 0;
+   142	}
+   143	EXPORT_SYMBOL(arch_hibernation_header_save);
+   144	
 
 -- 
 0-DAY CI Kernel Test Service
