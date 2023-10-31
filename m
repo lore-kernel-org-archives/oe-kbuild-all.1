@@ -1,45 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A47D199DC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Oct 2023 23:42:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA2B360
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Oct 2023 00:14:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aiy+JCFd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iRY/IVQ1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698709322; x=1730245322;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b+D9zzzpcHO2KVhgdhcF3KfGtoPJPz6dBnjtqGBiMMI=;
-  b=aiy+JCFdyI3iEvQApcoKjHqRfRn9LkerSo74YaxjylRpu1QMAa6ycAls
-   VckGkJqExpXHdI3+EkytfBG9lzdqif7TVCdhFNQMQ8NgEn8PuNugCs1Za
-   s6Ewi4ImjuDV15S2Zbgm1ICMzuleNlA6MXER5wTTt3/8NlRF26L/eFmJb
-   3LsCfdGKrMGhKvqOrXCueVCHz1ulpJ7ZNUrfCLFTHqIa4KAs6kJedOgce
-   vcMhoG/kY/PliXEw6sFUGHeXHC7kUGezV8X9gbS8aZoLQMUvjLS5uLZ/W
-   U6sUCFy7hYVISf+/orPqXWvRKM5FGPuVh6Hxdoi8D/0G+8LQNnEFcIc8D
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="391058319"
+  t=1698711260; x=1730247260;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3hEw6whma9Mw9eHI+cBivqj65fCA/MyOO8qKfOkydho=;
+  b=iRY/IVQ1seNCKqCymXcN3El8LSCW2CZP4dT0BXD+XwtPC8DjSXzQVZoR
+   fEgze2JzrSXCQKYJ+oqHu6WmhjeJ8P1ov0YRzTC6fbKPUK7KKsLr03nYe
+   lQIXaE18QE6gdA04m/GnWxWypEuGXZOjzLcQyAivwX8H2JToOnQZpRrt9
+   miE55L99hMZV86tGzrvYKUjPDTPtY/3y2ZaBUKKIj260NoolzLziP5tD4
+   hRF2k2qAId4hAS2OEOeroav1jToT+jIu3znq1FIL7Qh3WMmBAfXIBv/oV
+   JL2eJTlfplNN1aDAAudEA2eJlI8g0vgMcSNibaoKtQtC47mpPBGmC8Bl5
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="373236062"
 X-IronPort-AV: E=Sophos;i="6.03,264,1694761200"; 
-   d="scan'208";a="391058319"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 16:41:59 -0700
+   d="scan'208";a="373236062"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 17:14:19 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="1007586471"
 X-IronPort-AV: E=Sophos;i="6.03,264,1694761200"; 
-   d="scan'208";a="8523954"
+   d="scan'208";a="1007586471"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Oct 2023 16:41:58 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 30 Oct 2023 17:14:17 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qxbtL-000Dex-1o;
-	Mon, 30 Oct 2023 23:41:55 +0000
-Date: Tue, 31 Oct 2023 07:41:27 +0800
+	id 1qxcOc-000Dfz-2q;
+	Tue, 31 Oct 2023 00:14:14 +0000
+Date: Tue, 31 Oct 2023 08:13:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.6/zen-sauce 2/32] drivers/scsi/vhba/vhba.c:145:6: error: no
- previous prototype for 'devnum_to_bus_and_id'
-Message-ID: <202310310747.nrf8zNDl-lkp@intel.com>
+To: NeilBrown <neilb@suse.de>, Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
+	Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>
+Subject: Re: [PATCH 3/6] nfsd: allow admin-revoked NFSv4.0 state to be freed.
+Message-ID: <202310310756.sZ0piSTX-lkp@intel.com>
+References: <20231027015613.26247-4-neilb@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,332 +53,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231027015613.26247-4-neilb@suse.de>
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.6/zen-sauce
-head:   9a4220006132f008eb1004b631c26823627d99a9
-commit: f1b5220bf23eef4fae4dda09dbc888a6d19d6212 [2/32] ZEN: Add VHBA driver
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231031/202310310747.nrf8zNDl-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231031/202310310747.nrf8zNDl-lkp@intel.com/reproduce)
+Hi NeilBrown,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6 next-20231030]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/nfsd-prepare-for-supporting-admin-revocation-of-state/20231027-095832
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231027015613.26247-4-neilb%40suse.de
+patch subject: [PATCH 3/6] nfsd: allow admin-revoked NFSv4.0 state to be freed.
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231031/202310310756.sZ0piSTX-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231031/202310310756.sZ0piSTX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310310747.nrf8zNDl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310310756.sZ0piSTX-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/scsi/vhba/vhba.c:145:6: error: no previous prototype for 'devnum_to_bus_and_id' [-Werror=missing-prototypes]
-     145 | void devnum_to_bus_and_id(unsigned int devnum, unsigned int *bus, unsigned int *id)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:151:14: error: no previous prototype for 'bus_and_id_to_devnum' [-Werror=missing-prototypes]
-     151 | unsigned int bus_and_id_to_devnum(unsigned int bus, unsigned int id)
-         |              ^~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:156:21: error: no previous prototype for 'vhba_device_alloc' [-Werror=missing-prototypes]
-     156 | struct vhba_device *vhba_device_alloc (void)
-         |                     ^~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:176:6: error: no previous prototype for 'vhba_device_put' [-Werror=missing-prototypes]
-     176 | void vhba_device_put (struct vhba_device *vdev)
-         |      ^~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:183:21: error: no previous prototype for 'vhba_device_get' [-Werror=missing-prototypes]
-     183 | struct vhba_device *vhba_device_get (struct vhba_device *vdev)
-         |                     ^~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:190:5: error: no previous prototype for 'vhba_device_queue' [-Werror=missing-prototypes]
-     190 | int vhba_device_queue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
-         |     ^~~~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c: In function 'vhba_device_queue':
->> drivers/scsi/vhba/vhba.c:192:23: error: variable 'vhost' set but not used [-Werror=unused-but-set-variable]
-     192 |     struct vhba_host *vhost;
-         |                       ^~~~~
-   drivers/scsi/vhba/vhba.c: At top level:
->> drivers/scsi/vhba/vhba.c:219:5: error: no previous prototype for 'vhba_device_dequeue' [-Werror=missing-prototypes]
-     219 | int vhba_device_dequeue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
-         |     ^~~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:274:6: error: no previous prototype for 'vhba_scan_devices_add' [-Werror=missing-prototypes]
-     274 | void vhba_scan_devices_add (struct vhba_host *vhost, int bus, int id)
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:287:6: error: no previous prototype for 'vhba_scan_devices_remove' [-Werror=missing-prototypes]
-     287 | void vhba_scan_devices_remove (struct vhba_host *vhost, int bus, int id)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:300:6: error: no previous prototype for 'vhba_scan_devices' [-Werror=missing-prototypes]
-     300 | void vhba_scan_devices (struct work_struct *work)
-         |      ^~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:348:5: error: no previous prototype for 'vhba_add_device' [-Werror=missing-prototypes]
-     348 | int vhba_add_device (struct vhba_device *vdev)
-         |     ^~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:382:5: error: no previous prototype for 'vhba_remove_device' [-Werror=missing-prototypes]
-     382 | int vhba_remove_device (struct vhba_device *vdev)
-         |     ^~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:403:21: error: no previous prototype for 'vhba_lookup_device' [-Werror=missing-prototypes]
-     403 | struct vhba_device *vhba_lookup_device (int devnum)
-         |                     ^~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:474:5: error: no previous prototype for 'vhba_queuecommand' [-Werror=missing-prototypes]
-     474 | int vhba_queuecommand (struct Scsi_Host *shost, struct scsi_cmnd *cmd)
-         |     ^~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:508:5: error: no previous prototype for 'vhba_abort' [-Werror=missing-prototypes]
-     508 | int vhba_abort (struct scsi_cmnd *cmd)
-         |     ^~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:551:9: error: no previous prototype for 'do_request' [-Werror=missing-prototypes]
-     551 | ssize_t do_request (struct vhba_device *vdev, unsigned long metatag, struct scsi_cmnd *cmd, char __user *buf, size_t buf_len)
-         |         ^~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:617:9: error: no previous prototype for 'do_response' [-Werror=missing-prototypes]
-     617 | ssize_t do_response (struct vhba_device *vdev, unsigned long metatag, struct scsi_cmnd *cmd, const char __user *buf, size_t buf_len, struct vhba_response *res)
-         |         ^~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:693:22: error: no previous prototype for 'next_command' [-Werror=missing-prototypes]
-     693 | struct vhba_command *next_command (struct vhba_device *vdev)
-         |                      ^~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:710:22: error: no previous prototype for 'match_command' [-Werror=missing-prototypes]
-     710 | struct vhba_command *match_command (struct vhba_device *vdev, __u32 metatag)
-         |                      ^~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:727:22: error: no previous prototype for 'wait_command' [-Werror=missing-prototypes]
-     727 | struct vhba_command *wait_command (struct vhba_device *vdev, unsigned long flags)
-         |                      ^~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:754:9: error: no previous prototype for 'vhba_ctl_read' [-Werror=missing-prototypes]
-     754 | ssize_t vhba_ctl_read (struct file *file, char __user *buf, size_t buf_len, loff_t *offset)
-         |         ^~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:799:9: error: no previous prototype for 'vhba_ctl_write' [-Werror=missing-prototypes]
-     799 | ssize_t vhba_ctl_write (struct file *file, const char __user *buf, size_t buf_len, loff_t *offset)
-         |         ^~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:852:6: error: no previous prototype for 'vhba_ctl_ioctl' [-Werror=missing-prototypes]
-     852 | long vhba_ctl_ioctl (struct file *file, unsigned int cmd, unsigned long arg)
-         |      ^~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:893:14: error: no previous prototype for 'vhba_ctl_poll' [-Werror=missing-prototypes]
-     893 | unsigned int vhba_ctl_poll (struct file *file, poll_table *wait)
-         |              ^~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:910:5: error: no previous prototype for 'vhba_ctl_open' [-Werror=missing-prototypes]
-     910 | int vhba_ctl_open (struct inode *inode, struct file *file)
-         |     ^~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:942:5: error: no previous prototype for 'vhba_ctl_release' [-Werror=missing-prototypes]
-     942 | int vhba_ctl_release (struct inode *inode, struct file *file)
-         |     ^~~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:998:5: error: no previous prototype for 'vhba_probe' [-Werror=missing-prototypes]
-     998 | int vhba_probe (struct platform_device *pdev)
-         |     ^~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:1052:5: error: no previous prototype for 'vhba_remove' [-Werror=missing-prototypes]
-    1052 | int vhba_remove (struct platform_device *pdev)
-         |     ^~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:1068:6: error: no previous prototype for 'vhba_release' [-Werror=missing-prototypes]
-    1068 | void vhba_release (struct device * dev)
-         |      ^~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:1090:12: error: no previous prototype for 'vhba_init' [-Werror=missing-prototypes]
-    1090 | int __init vhba_init (void)
-         |            ^~~~~~~~~
-   drivers/scsi/vhba/vhba.c:1115:13: error: no previous prototype for 'vhba_exit' [-Werror=missing-prototypes]
-    1115 | void __exit vhba_exit(void)
-         |             ^~~~~~~~~
-   cc1: all warnings being treated as errors
+   In file included from <command-line>:
+   fs/nfsd/nfs4state.c: In function 'nfsd4_revoke_states':
+>> include/linux/compiler_types.h:425:45: error: call to '__compiletime_assert_955' declared with attribute error: Need native word sized stores/loads for atomicity.
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:406:25: note: in definition of macro '__compiletime_assert'
+     406 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:428:9: note: in expansion of macro 'compiletime_assert'
+     428 |         compiletime_assert(__native_word(t),                            \
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/barrier.h:65:9: note: in expansion of macro 'compiletime_assert_atomic_type'
+      65 |         compiletime_assert_atomic_type(*p);                             \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+         |                                                       ^~~~~~~~~~~~~~~~~~~
+   fs/nfsd/nfs4state.c:1725:41: note: in expansion of macro 'smp_store_release'
+    1725 |                                         smp_store_release(&nn->nfs40_last_revoke,
+         |                                         ^~~~~~~~~~~~~~~~~
+   In function 'nfs40_clean_admin_revoked',
+       inlined from 'nfs4_laundromat' at fs/nfsd/nfs4state.c:6304:2:
+   include/linux/compiler_types.h:425:45: error: call to '__compiletime_assert_989' declared with attribute error: Need native word sized stores/loads for atomicity.
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:406:25: note: in definition of macro '__compiletime_assert'
+     406 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:428:9: note: in expansion of macro 'compiletime_assert'
+     428 |         compiletime_assert(__native_word(t),                            \
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/barrier.h:73:9: note: in expansion of macro 'compiletime_assert_atomic_type'
+      73 |         compiletime_assert_atomic_type(*p);                             \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/barrier.h:176:29: note: in expansion of macro '__smp_load_acquire'
+     176 | #define smp_load_acquire(p) __smp_load_acquire(p)
+         |                             ^~~~~~~~~~~~~~~~~~
+   fs/nfsd/nfs4state.c:6242:13: note: in expansion of macro 'smp_load_acquire'
+    6242 |         if (smp_load_acquire(&nn->nfs40_last_revoke) == 0 ||
+         |             ^~~~~~~~~~~~~~~~
 
 
-vim +/devnum_to_bus_and_id +145 drivers/scsi/vhba/vhba.c
+vim +/__compiletime_assert_955 +425 include/linux/compiler_types.h
 
-   140	
-   141	
-   142	
-   143	/* These functions define a symmetric 1:1 mapping between device numbers and
-   144	   the bus and id. We have reserved the last id per bus for the host itself. */
- > 145	void devnum_to_bus_and_id(unsigned int devnum, unsigned int *bus, unsigned int *id)
-   146	{
-   147	    *bus = devnum / (VHBA_MAX_ID-1);
-   148	    *id  = devnum % (VHBA_MAX_ID-1);
-   149	}
-   150	
- > 151	unsigned int bus_and_id_to_devnum(unsigned int bus, unsigned int id)
-   152	{
-   153	    return (bus * (VHBA_MAX_ID-1)) + id;
-   154	}
-   155	
- > 156	struct vhba_device *vhba_device_alloc (void)
-   157	{
-   158	    struct vhba_device *vdev;
-   159	
-   160	    vdev = kzalloc(sizeof(struct vhba_device), GFP_KERNEL);
-   161	    if (!vdev) {
-   162	        return NULL;
-   163	    }
-   164	
-   165	    spin_lock_init(&vdev->cmd_lock);
-   166	    INIT_LIST_HEAD(&vdev->cmd_list);
-   167	    init_waitqueue_head(&vdev->cmd_wq);
-   168	    atomic_set(&vdev->refcnt, 1);
-   169	
-   170	    vdev->kbuf = NULL;
-   171	    vdev->kbuf_size = 0;
-   172	
-   173	    return vdev;
-   174	}
-   175	
- > 176	void vhba_device_put (struct vhba_device *vdev)
-   177	{
-   178	    if (atomic_dec_and_test(&vdev->refcnt)) {
-   179	        kfree(vdev);
-   180	    }
-   181	}
-   182	
- > 183	struct vhba_device *vhba_device_get (struct vhba_device *vdev)
-   184	{
-   185	    atomic_inc(&vdev->refcnt);
-   186	
-   187	    return vdev;
-   188	}
-   189	
- > 190	int vhba_device_queue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
-   191	{
- > 192	    struct vhba_host *vhost;
-   193	    struct vhba_command *vcmd;
-   194	    unsigned long flags;
-   195	
-   196	    vhost = platform_get_drvdata(&vhba_platform_device);
-   197	
-   198	    vcmd = vhba_alloc_command();
-   199	    if (!vcmd) {
-   200	        return SCSI_MLQUEUE_HOST_BUSY;
-   201	    }
-   202	
-   203	    vcmd->cmd = cmd;
-   204	
-   205	    spin_lock_irqsave(&vdev->cmd_lock, flags);
-   206	#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 15, 0)
-   207	    vcmd->metatag = scsi_cmd_to_rq(vcmd->cmd)->tag;
-   208	#else
-   209	    vcmd->metatag = vcmd->cmd->request->tag;
-   210	#endif
-   211	    list_add_tail(&vcmd->entry, &vdev->cmd_list);
-   212	    spin_unlock_irqrestore(&vdev->cmd_lock, flags);
-   213	
-   214	    wake_up_interruptible(&vdev->cmd_wq);
-   215	
-   216	    return 0;
-   217	}
-   218	
- > 219	int vhba_device_dequeue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
-   220	{
-   221	    struct vhba_command *vcmd;
-   222	    int retval;
-   223	    unsigned long flags;
-   224	
-   225	    spin_lock_irqsave(&vdev->cmd_lock, flags);
-   226	    list_for_each_entry(vcmd, &vdev->cmd_list, entry) {
-   227	        if (vcmd->cmd == cmd) {
-   228	            list_del_init(&vcmd->entry);
-   229	            break;
-   230	        }
-   231	    }
-   232	
-   233	    /* command not found */
-   234	    if (&vcmd->entry == &vdev->cmd_list) {
-   235	        spin_unlock_irqrestore(&vdev->cmd_lock, flags);
-   236	        return SUCCESS;
-   237	    }
-   238	
-   239	    while (vcmd->status == VHBA_REQ_READING || vcmd->status == VHBA_REQ_WRITING) {
-   240	        spin_unlock_irqrestore(&vdev->cmd_lock, flags);
-   241	        scmd_dbg(cmd, "wait for I/O before aborting\n");
-   242	        schedule_timeout(1);
-   243	        spin_lock_irqsave(&vdev->cmd_lock, flags);
-   244	    }
-   245	
-   246	    retval = (vcmd->status == VHBA_REQ_SENT) ? FAILED : SUCCESS;
-   247	
-   248	    vhba_free_command(vcmd);
-   249	
-   250	    spin_unlock_irqrestore(&vdev->cmd_lock, flags);
-   251	
-   252	    return retval;
-   253	}
-   254	
-   255	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 19, 0)
-   256	int vhba_slave_alloc(struct scsi_device *sdev)
-   257	{
-   258	    struct Scsi_Host *shost = sdev->host;
-   259	
-   260	    sdev_dbg(sdev, "enabling tagging (queue depth: %i).\n", sdev->queue_depth);
-   261	#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 17, 0)
-   262	    if (!shost_use_blk_mq(shost) && shost->bqt) {
-   263	#else
-   264	    if (shost->bqt) {
-   265	#endif
-   266	        blk_queue_init_tags(sdev->request_queue, sdev->queue_depth, shost->bqt);
-   267	    }
-   268	    scsi_adjust_queue_depth(sdev, 0, sdev->queue_depth);
-   269	
-   270	    return 0;
-   271	}
-   272	#endif
-   273	
- > 274	void vhba_scan_devices_add (struct vhba_host *vhost, int bus, int id)
-   275	{
-   276	    struct scsi_device *sdev;
-   277	
-   278	    sdev = scsi_device_lookup(vhost->shost, bus, id, 0);
-   279	    if (!sdev) {
-   280	        scsi_add_device(vhost->shost, bus, id, 0);
-   281	    } else {
-   282	        dev_warn(&vhost->shost->shost_gendev, "tried to add an already-existing device %d:%d:0!\n", bus, id);
-   283	        scsi_device_put(sdev);
-   284	    }
-   285	}
-   286	
- > 287	void vhba_scan_devices_remove (struct vhba_host *vhost, int bus, int id)
-   288	{
-   289	    struct scsi_device *sdev;
-   290	
-   291	    sdev = scsi_device_lookup(vhost->shost, bus, id, 0);
-   292	    if (sdev) {
-   293	        scsi_remove_device(sdev);
-   294	        scsi_device_put(sdev);
-   295	    } else {
-   296	        dev_warn(&vhost->shost->shost_gendev, "tried to remove non-existing device %d:%d:0!\n", bus, id);
-   297	    }
-   298	}
-   299	
- > 300	void vhba_scan_devices (struct work_struct *work)
-   301	{
-   302	    struct vhba_host *vhost = container_of(work, struct vhba_host, scan_devices);
-   303	    unsigned long flags;
-   304	    int change, exists;
-   305	    unsigned int devnum;
-   306	    unsigned int bus, id;
-   307	
-   308	    for (;;) {
-   309	        spin_lock_irqsave(&vhost->dev_lock, flags);
-   310	
-   311	        devnum = find_first_bit(vhost->chgmap, VHBA_MAX_DEVICES);
-   312	        if (devnum >= VHBA_MAX_DEVICES) {
-   313	            spin_unlock_irqrestore(&vhost->dev_lock, flags);
-   314	            break;
-   315	        }
-   316	        change = vhost->chgtype[devnum];
-   317	        exists = vhost->devices[devnum] != NULL;
-   318	
-   319	        vhost->chgtype[devnum] = 0;
-   320	        clear_bit(devnum, vhost->chgmap);
-   321	
-   322	        spin_unlock_irqrestore(&vhost->dev_lock, flags);
-   323	
-   324	        devnum_to_bus_and_id(devnum, &bus, &id);
-   325	
-   326	        if (change < 0) {
-   327	            dev_dbg(&vhost->shost->shost_gendev, "trying to remove target %d:%d:0\n", bus, id);
-   328	            vhba_scan_devices_remove(vhost, bus, id);
-   329	        } else if (change > 0) {
-   330	            dev_dbg(&vhost->shost->shost_gendev, "trying to add target %d:%d:0\n", bus, id);
-   331	            vhba_scan_devices_add(vhost, bus, id);
-   332	        } else {
-   333	            /* quick sequence of add/remove or remove/add; we determine
-   334	               which one it was by checking if device structure exists */
-   335	            if (exists) {
-   336	                /* remove followed by add: remove and (re)add */
-   337	                dev_dbg(&vhost->shost->shost_gendev, "trying to (re)add target %d:%d:0\n", bus, id);
-   338	                vhba_scan_devices_remove(vhost, bus, id);
-   339	                vhba_scan_devices_add(vhost, bus, id);
-   340	            } else {
-   341	                /* add followed by remove: no-op */
-   342	                dev_dbg(&vhost->shost->shost_gendev, "no-op for target %d:%d:0\n", bus, id);
-   343	            }
-   344	        }
-   345	    }
-   346	}
-   347	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  411  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  412  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  413  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  414  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  415  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  416   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  417   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  418   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  419   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  420   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  421   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  422   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  423   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  424  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @425  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  426  
 
 -- 
 0-DAY CI Kernel Test Service
