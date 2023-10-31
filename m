@@ -1,118 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A28FD291
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Oct 2023 08:51:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3219ED6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Oct 2023 10:01:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HKVkQIuQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nxkQe/Ai"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698742314; x=1730278314;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=0rcELH9wTkygIGf5Hlhr+4M1BwdozgJqHutiY4kxTbE=;
-  b=HKVkQIuQUgczvrLG0j03/UIw1S+vd78c8dp8bQQZJ4N1/LrfoESBp1ry
-   htrRKNOJZdNBIC/U3nNNuMLVkp7llOGgpZOV2p4Mj6RL5wyEWLohyjcCm
-   bGvNsgmgz0cWHNt0LhAIKxMAovCrrHbKb+unUV3cXlxeCyiITndtVzwVo
-   SxgrWG2YF86bQ56Uegh7NV8NV7zVfOnoGWH6oh3iKr7gk/nMRlu0Xp1pf
-   4Y/jwyF96UBrRU03So6m0LYVWdgyv5aqPNzvTIgjt8lk/2EwG6dTURFmN
-   Ofj0FPAz3YWVNuDKnZ5vuTGJ6/6N8/XD0Ujf6icX3WOudolnWlwyC+RM/
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="368449905"
+  t=1698746518; x=1730282518;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DfsChj699Iu7g+nzYkZeP/3TfkdMVTrTwYVJB9Ej9c4=;
+  b=nxkQe/AiEjEncRZWwzq1OjLGfmdIIy4vuzad5gWqLGnA+jqv4SyB5WSo
+   vr2g9eyueDZT1LEkeWrS4ipc86eC/vPtec07BjtsEmoU0mivfKpVAxyTr
+   ExWBT0GMd9t9T6k4h8NOMBg5qczXpRk1rdjUzQ7OcbPjRUAJUPVAPlUOQ
+   0EM/k7iw23gLEUkNtSGWB+LovDnZYZKVKmZ+b94kij1xdKiBdPxZvwbKx
+   sIkcMbQVXtCCya0Fr+phD5z6ygsRv4sm3dV2W0nrRCtSFgQ4Txdjte7+2
+   bphDrtm9UXU2uofM35GMAzw0ioe9Ew9+xJlV64qmsjOVB+PzAwqet7HXm
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="1101834"
 X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
-   d="scan'208";a="368449905"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 01:51:38 -0700
+   d="scan'208";a="1101834"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 03:01:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="789723342"
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="710378888"
 X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
-   d="scan'208";a="789723342"
+   d="scan'208";a="710378888"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 31 Oct 2023 01:51:34 -0700
+  by orsmga003.jf.intel.com with ESMTP; 31 Oct 2023 03:01:55 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qxkTE-000040-1B;
-	Tue, 31 Oct 2023 08:51:32 +0000
-Date: Tue, 31 Oct 2023 16:51:25 +0800
+	id 1qxlZJ-000067-1f;
+	Tue, 31 Oct 2023 10:01:53 +0000
+Date: Tue, 31 Oct 2023 18:01:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
-	matthew.brost@intel.com, boris.brezillon@collabora.com,
-	christian.koenig@amd.com, faith@gfxstrand.net, luben.tuikov@amd.com
-Cc: oe-kbuild-all@lists.linux.dev, Danilo Krummrich <dakr@redhat.com>,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH drm-misc-next v4] drm/sched: implement dynamic job-flow
- control
-Message-ID: <202310311632.RpEHvHMk-lkp@intel.com>
-References: <20231031002655.38707-1-dakr@redhat.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:find_and_bit 19/49] arch/sparc/kernel/pci_msi.c:101:25:
+ error: 'struct pci_pbm_info' has no member named 'msk_num'; did you mean
+ 'msi_num'?
+Message-ID: <202310311745.Dt9172ou-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231031002655.38707-1-dakr@redhat.com>
 
-Hi Danilo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on b2139fb5051554a7f297e4ad584ef1bc26c76d5d]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-sched-implement-dynamic-job-flow-control/20231031-082915
-base:   b2139fb5051554a7f297e4ad584ef1bc26c76d5d
-patch link:    https://lore.kernel.org/r/20231031002655.38707-1-dakr%40redhat.com
-patch subject: [PATCH drm-misc-next v4] drm/sched: implement dynamic job-flow control
-config: loongarch-randconfig-002-20231031 (https://download.01.org/0day-ci/archive/20231031/202310311632.RpEHvHMk-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231031/202310311632.RpEHvHMk-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux find_and_bit
+head:   44c7dd507a16503002a00d52658fcdbaa1a20e4d
+commit: 97304b995261d6a0705bb9ee4a026329f8dfaa5f [19/49] sparc: fix opencoded find_and_set_bit() in alloc_msi()
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20231031/202310311745.Dt9172ou-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231031/202310311745.Dt9172ou-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310311632.RpEHvHMk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310311745.Dt9172ou-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/etnaviv/etnaviv_gpu.c: In function 'etnaviv_gpu_rpm_suspend':
->> drivers/gpu/drm/etnaviv/etnaviv_gpu.c:1920:36: error: 'struct drm_gpu_scheduler' has no member named 'hw_rq_count'
-    1920 |         if (atomic_read(&gpu->sched.hw_rq_count))
-         |                                    ^
+   arch/sparc/kernel/pci_msi.c: In function 'alloc_msi':
+>> arch/sparc/kernel/pci_msi.c:101:25: error: 'struct pci_pbm_info' has no member named 'msk_num'; did you mean 'msi_num'?
+     101 |         return i < pbm->msk_num ? i + pbm->msi_first : -ENOENT;
+         |                         ^~~~~~~
+         |                         msi_num
+>> arch/sparc/kernel/pci_msi.c:102:1: error: control reaches end of non-void function [-Werror=return-type]
+     102 | }
+         | ^
+   cc1: all warnings being treated as errors
 
 
-vim +1920 drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+vim +101 arch/sparc/kernel/pci_msi.c
 
-a8c21a5451d831 The etnaviv authors 2015-12-03  1913  
-a8c21a5451d831 The etnaviv authors 2015-12-03  1914  static int etnaviv_gpu_rpm_suspend(struct device *dev)
-a8c21a5451d831 The etnaviv authors 2015-12-03  1915  {
-a8c21a5451d831 The etnaviv authors 2015-12-03  1916  	struct etnaviv_gpu *gpu = dev_get_drvdata(dev);
-a8c21a5451d831 The etnaviv authors 2015-12-03  1917  	u32 idle, mask;
-a8c21a5451d831 The etnaviv authors 2015-12-03  1918  
-f4163814813fb3 Lucas Stach         2018-11-05  1919  	/* If there are any jobs in the HW queue, we're not idle */
-f4163814813fb3 Lucas Stach         2018-11-05 @1920  	if (atomic_read(&gpu->sched.hw_rq_count))
-a8c21a5451d831 The etnaviv authors 2015-12-03  1921  		return -EBUSY;
-a8c21a5451d831 The etnaviv authors 2015-12-03  1922  
-1a910c11d35bfa Guido Günther       2020-03-02  1923  	/* Check whether the hardware (except FE and MC) is idle */
-1a910c11d35bfa Guido Günther       2020-03-02  1924  	mask = gpu->idle_mask & ~(VIVS_HI_IDLE_STATE_FE |
-1a910c11d35bfa Guido Günther       2020-03-02  1925  				  VIVS_HI_IDLE_STATE_MC);
-a8c21a5451d831 The etnaviv authors 2015-12-03  1926  	idle = gpu_read(gpu, VIVS_HI_IDLE_STATE) & mask;
-78f2bfa3181cd7 Guido Günther       2020-03-02  1927  	if (idle != mask) {
-78f2bfa3181cd7 Guido Günther       2020-03-02  1928  		dev_warn_ratelimited(dev, "GPU not yet idle, mask: 0x%08x\n",
-78f2bfa3181cd7 Guido Günther       2020-03-02  1929  				     idle);
-a8c21a5451d831 The etnaviv authors 2015-12-03  1930  		return -EBUSY;
-78f2bfa3181cd7 Guido Günther       2020-03-02  1931  	}
-a8c21a5451d831 The etnaviv authors 2015-12-03  1932  
-7cb544946a138d Lucas Stach         2023-06-07  1933  	etnaviv_gpu_hw_suspend(gpu);
-7cb544946a138d Lucas Stach         2023-06-07  1934  
-647d817d807127 Lucas Stach         2023-06-07  1935  	gpu->state = ETNA_GPU_STATE_IDENTIFIED;
-647d817d807127 Lucas Stach         2023-06-07  1936  
-7cb544946a138d Lucas Stach         2023-06-07  1937  	return etnaviv_gpu_clk_disable(gpu);
-a8c21a5451d831 The etnaviv authors 2015-12-03  1938  }
-a8c21a5451d831 The etnaviv authors 2015-12-03  1939  
+    95	
+    96	
+    97	static int alloc_msi(struct pci_pbm_info *pbm)
+    98	{
+    99		int i = find_and_set_bit(pbm->msi_bitmap, pbm->msi_num);
+   100	
+ > 101		return i < pbm->msk_num ? i + pbm->msi_first : -ENOENT;
+ > 102	}
+   103	
 
 -- 
 0-DAY CI Kernel Test Service
