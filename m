@@ -1,59 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F7723750
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Oct 2023 21:49:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5431120332
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Oct 2023 22:20:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gpjViSXp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D+kXruUm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698788987; x=1730324987;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=600Nvh60124lsqCSvHFqzYzSMSzi4J7+aWhMqXLTTIM=;
-  b=gpjViSXpulgOkH8cLMDCXSNQWjH0nerqJXWV4chPkQqAE1JKlk1N3k2v
-   39v86EdFvv+75J//5QdX4MxoWJCgawzF4BJN7/2xmE8xZx/fJGmvEcOkD
-   vv3V7DIZOZv5YVenXrJoNAUHtTdhU7OvoV0Wj6vK/bfBoC7/FzvodnpkM
-   WdbrVAuRMZqZlMH7jQaejYX0pru/gLWAZ89Z/0Qjau/c1FQsiYWUMUT4S
-   aSyrT9kmwCyFjZXS3LqbKFh41q30dpJ15oFbrj/n+iBPU85xL/znFTPch
-   P/6BlcXhTjtMDEDXmcGXXCpwtb1VyRnhJNHqxmOKCBD1/7FxMI1Gxsdk1
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="454850527"
+  t=1698790858; x=1730326858;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=osGCNnHSWoccgR6iWXJsiQk+I62shHuLwIhpqQAxvqQ=;
+  b=D+kXruUmlsjUoWvyvOmVbepXB5vXJP0lUEWPRUbW7WmBlvePbxhLouZU
+   t2b12/yupoeudK4hWJgOAO/mtLXZGwDfIGdZympg1AHHraW2oUu3g5/6l
+   sAw8x3APpxYq6LzhjAl+J1mi/rxZ2K3elojH4F78kFvcWk9D60XhqkmHn
+   cX0XjoQvPR6DkFHvPYWkzPP7aO1k4lIZlbxLKxy0Ey502SKPjtlQ4e8+E
+   +R7fk8MffEQuncFCMdUErVYF8+FXUpuTdrtSRp4UIafGu6D5rhF/DK53+
+   P53W8u+neK02/MCv5it8TFPUecNsFXPIGAGBS7evQOlTEcKZBSjwx2DBC
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="454854289"
 X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; 
-   d="scan'208";a="454850527"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 14:49:46 -0700
+   d="scan'208";a="454854289"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 15:20:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="760748094"
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="831191463"
 X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; 
-   d="scan'208";a="760748094"
+   d="scan'208";a="831191463"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 31 Oct 2023 14:49:42 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 31 Oct 2023 15:20:56 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qxwcG-0000PI-0V;
-	Tue, 31 Oct 2023 21:49:40 +0000
-Date: Wed, 1 Nov 2023 05:49:33 +0800
+	id 1qxx6U-0000Q7-04;
+	Tue, 31 Oct 2023 22:20:54 +0000
+Date: Wed, 1 Nov 2023 06:20:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-acpi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-media@vger.kernel.org,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Julien Stephan <jstephan@baylibre.com>, devicetree@vger.kernel.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 1/1] device property: Add fwnode_name_eq()
-Message-ID: <202311010542.1tRHV0in-lkp@intel.com>
-References: <20231031135306.1106640-1-sakari.ailus@linux.intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: fs/eventpoll.c:526:9: sparse: sparse: restricted __poll_t degrades
+ to integer
+Message-ID: <202311010654.LEo7oBW4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,67 +49,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231031135306.1106640-1-sakari.ailus@linux.intel.com>
 
-Hi Sakari,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on driver-core/driver-core-testing]
-[also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.6 next-20231031]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/device-property-Add-fwnode_name_eq/20231031-224454
-base:   driver-core/driver-core-testing
-patch link:    https://lore.kernel.org/r/20231031135306.1106640-1-sakari.ailus%40linux.intel.com
-patch subject: [PATCH 1/1] device property: Add fwnode_name_eq()
-config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20231101/202311010542.1tRHV0in-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311010542.1tRHV0in-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5a6a09e97199d6600d31383055f9d43fbbcbe86f
+commit: caf1aeaffc3b09649a56769e559333ae2c4f1802 eventpoll: add EPOLL_URING_WAKE poll wakeup flag
+date:   11 months ago
+config: x86_64-randconfig-r031-20230909 (https://download.01.org/0day-ci/archive/20231101/202311010654.LEo7oBW4-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311010654.LEo7oBW4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311010542.1tRHV0in-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311010654.LEo7oBW4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/eventpoll.c:526:9: sparse: sparse: restricted __poll_t degrades to integer
+>> fs/eventpoll.c:526:9: sparse: sparse: cast to restricted __poll_t
+>> fs/eventpoll.c:1213:53: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int pollflags @@     got restricted __poll_t @@
+   fs/eventpoll.c:1213:53: sparse:     expected unsigned int pollflags
+   fs/eventpoll.c:1213:53: sparse:     got restricted __poll_t
 
->> drivers/base/property.c:611: warning: Function parameter or member 'fwnode' not described in 'fwnode_name_eq'
+vim +526 fs/eventpoll.c
 
-
-vim +611 drivers/base/property.c
-
-   596	
-   597	/**
-   598	 * fwnode_name_eq - Return true if node name is equal
-   599	 * @fwnode The firmware node
-   600	 * @name: The name to which to compare the node name
-   601	 *
-   602	 * Compare the name provided as an argument to the name of the node, stopping
-   603	 * the comparison to either '\0' or '@' character, whichever comes first. This
-   604	 * function is generally used for comparing node names while ignoring the
-   605	 * possible unit address of the node.
-   606	 *
-   607	 * Return: true if the node name matches with the name provided in the @name
-   608	 * argument, false otherwise.
-   609	 */
-   610	bool fwnode_name_eq(const struct fwnode_handle *fwnode, const char *name)
- > 611	{
-   612		const char *node_name;
-   613		unsigned int len;
-   614	
-   615		node_name = fwnode_get_name(fwnode);
-   616		if (!node_name)
-   617			return false;
-   618	
-   619		len = strchrnul(node_name, '@') - node_name;
-   620	
-   621		return strlen(name) == len && !strncmp(node_name, name, len);
-   622	}
-   623	EXPORT_SYMBOL_GPL(fwnode_name_eq);
-   624	
+   493	
+   494	static void ep_poll_safewake(struct eventpoll *ep, struct epitem *epi,
+   495				     unsigned pollflags)
+   496	{
+   497		struct eventpoll *ep_src;
+   498		unsigned long flags;
+   499		u8 nests = 0;
+   500	
+   501		/*
+   502		 * To set the subclass or nesting level for spin_lock_irqsave_nested()
+   503		 * it might be natural to create a per-cpu nest count. However, since
+   504		 * we can recurse on ep->poll_wait.lock, and a non-raw spinlock can
+   505		 * schedule() in the -rt kernel, the per-cpu variable are no longer
+   506		 * protected. Thus, we are introducing a per eventpoll nest field.
+   507		 * If we are not being call from ep_poll_callback(), epi is NULL and
+   508		 * we are at the first level of nesting, 0. Otherwise, we are being
+   509		 * called from ep_poll_callback() and if a previous wakeup source is
+   510		 * not an epoll file itself, we are at depth 1 since the wakeup source
+   511		 * is depth 0. If the wakeup source is a previous epoll file in the
+   512		 * wakeup chain then we use its nests value and record ours as
+   513		 * nests + 1. The previous epoll file nests value is stable since its
+   514		 * already holding its own poll_wait.lock.
+   515		 */
+   516		if (epi) {
+   517			if ((is_file_epoll(epi->ffd.file))) {
+   518				ep_src = epi->ffd.file->private_data;
+   519				nests = ep_src->nests;
+   520			} else {
+   521				nests = 1;
+   522			}
+   523		}
+   524		spin_lock_irqsave_nested(&ep->poll_wait.lock, flags, nests);
+   525		ep->nests = nests + 1;
+ > 526		wake_up_locked_poll(&ep->poll_wait, EPOLLIN | pollflags);
+   527		ep->nests = 0;
+   528		spin_unlock_irqrestore(&ep->poll_wait.lock, flags);
+   529	}
+   530	
 
 -- 
 0-DAY CI Kernel Test Service
