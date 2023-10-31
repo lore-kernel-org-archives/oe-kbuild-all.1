@@ -1,91 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1940F10966
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Oct 2023 07:35:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A28FD291
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Oct 2023 08:51:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XlBLkmBl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HKVkQIuQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698737706; x=1730273706;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=L5aYULcP6/iPayqXOSkBVY2jxcUr/F+K5m8toN+uW7k=;
-  b=XlBLkmBl4slH8uuL82se54V8SuXMidmjidY45zjQ5M7JdiComNTkhoql
-   nc7PJYhh0o+W66SgS/eT9KWjGDmhx6z8ooVUTrr2AjnWVxwi7BnGrVODS
-   YEoUvmpNTJu6TM/RDF9FE4alJQMgnT3WTlZylg7W1IHBLamQ0Dqeviam3
-   Wk9vyDGYpBcsorI/74EJXC+AWex/57tdihODfhWAC24S8tR2aTgtw3A3+
-   GYxMTnxlYzUVMVXU7GDsJudzPePWuuOJL/21Jor/hOROIzAs8VZDVpdbf
-   tW5ovBSxAq2LQzus/jILaNKyxvao9ISDyGlfAGe/H8ePKBi2see07trex
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="378616929"
+  t=1698742314; x=1730278314;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=0rcELH9wTkygIGf5Hlhr+4M1BwdozgJqHutiY4kxTbE=;
+  b=HKVkQIuQUgczvrLG0j03/UIw1S+vd78c8dp8bQQZJ4N1/LrfoESBp1ry
+   htrRKNOJZdNBIC/U3nNNuMLVkp7llOGgpZOV2p4Mj6RL5wyEWLohyjcCm
+   bGvNsgmgz0cWHNt0LhAIKxMAovCrrHbKb+unUV3cXlxeCyiITndtVzwVo
+   SxgrWG2YF86bQ56Uegh7NV8NV7zVfOnoGWH6oh3iKr7gk/nMRlu0Xp1pf
+   4Y/jwyF96UBrRU03So6m0LYVWdgyv5aqPNzvTIgjt8lk/2EwG6dTURFmN
+   Ofj0FPAz3YWVNuDKnZ5vuTGJ6/6N8/XD0Ujf6icX3WOudolnWlwyC+RM/
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="368449905"
 X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
-   d="scan'208";a="378616929"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 00:35:05 -0700
+   d="scan'208";a="368449905"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 01:51:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="826319638"
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="789723342"
 X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
-   d="scan'208";a="826319638"
+   d="scan'208";a="789723342"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 31 Oct 2023 00:35:04 -0700
+  by orsmga008.jf.intel.com with ESMTP; 31 Oct 2023 01:51:34 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qxjHC-00001M-0T;
-	Tue, 31 Oct 2023 07:35:02 +0000
-Date: Tue, 31 Oct 2023 15:34:32 +0800
+	id 1qxkTE-000040-1B;
+	Tue, 31 Oct 2023 08:51:32 +0000
+Date: Tue, 31 Oct 2023 16:51:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.4 391/29120] undefined reference to
- `v4l_vb2q_enable_media_source'
-Message-ID: <202310311545.V8ccpBMk-lkp@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+	matthew.brost@intel.com, boris.brezillon@collabora.com,
+	christian.koenig@amd.com, faith@gfxstrand.net, luben.tuikov@amd.com
+Cc: oe-kbuild-all@lists.linux.dev, Danilo Krummrich <dakr@redhat.com>,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH drm-misc-next v4] drm/sched: implement dynamic job-flow
+ control
+Message-ID: <202310311632.RpEHvHMk-lkp@intel.com>
+References: <20231031002655.38707-1-dakr@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231031002655.38707-1-dakr@redhat.com>
 
-Hi Todd,
+Hi Danilo,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android12-5.4
-head:   6710c955e1d50780768d15311a6f399d9e45997e
-commit: 649238947d688eea17d27825fdc651d693e48a33 [391/29120] ANDROID: init: GKI: enable hidden configs for media
-config: arm64-randconfig-001-20231031 (https://download.01.org/0day-ci/archive/20231031/202310311545.V8ccpBMk-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231031/202310311545.V8ccpBMk-lkp@intel.com/reproduce)
+[auto build test ERROR on b2139fb5051554a7f297e4ad584ef1bc26c76d5d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-sched-implement-dynamic-job-flow-control/20231031-082915
+base:   b2139fb5051554a7f297e4ad584ef1bc26c76d5d
+patch link:    https://lore.kernel.org/r/20231031002655.38707-1-dakr%40redhat.com
+patch subject: [PATCH drm-misc-next v4] drm/sched: implement dynamic job-flow control
+config: loongarch-randconfig-002-20231031 (https://download.01.org/0day-ci/archive/20231031/202310311632.RpEHvHMk-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231031/202310311632.RpEHvHMk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310311545.V8ccpBMk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310311632.RpEHvHMk-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   aarch64-linux-ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
-   aarch64-linux-ld: drivers/media/common/videobuf2/videobuf2-core.o: in function `vb2_core_streamon':
->> (.text+0x5440): undefined reference to `v4l_vb2q_enable_media_source'
-   (.text+0x5440): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `v4l_vb2q_enable_media_source'
+   drivers/gpu/drm/etnaviv/etnaviv_gpu.c: In function 'etnaviv_gpu_rpm_suspend':
+>> drivers/gpu/drm/etnaviv/etnaviv_gpu.c:1920:36: error: 'struct drm_gpu_scheduler' has no member named 'hw_rq_count'
+    1920 |         if (atomic_read(&gpu->sched.hw_rq_count))
+         |                                    ^
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=y] && WIRELESS [=y] && PROC_FS [=n] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+
+vim +1920 drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+
+a8c21a5451d831 The etnaviv authors 2015-12-03  1913  
+a8c21a5451d831 The etnaviv authors 2015-12-03  1914  static int etnaviv_gpu_rpm_suspend(struct device *dev)
+a8c21a5451d831 The etnaviv authors 2015-12-03  1915  {
+a8c21a5451d831 The etnaviv authors 2015-12-03  1916  	struct etnaviv_gpu *gpu = dev_get_drvdata(dev);
+a8c21a5451d831 The etnaviv authors 2015-12-03  1917  	u32 idle, mask;
+a8c21a5451d831 The etnaviv authors 2015-12-03  1918  
+f4163814813fb3 Lucas Stach         2018-11-05  1919  	/* If there are any jobs in the HW queue, we're not idle */
+f4163814813fb3 Lucas Stach         2018-11-05 @1920  	if (atomic_read(&gpu->sched.hw_rq_count))
+a8c21a5451d831 The etnaviv authors 2015-12-03  1921  		return -EBUSY;
+a8c21a5451d831 The etnaviv authors 2015-12-03  1922  
+1a910c11d35bfa Guido Günther       2020-03-02  1923  	/* Check whether the hardware (except FE and MC) is idle */
+1a910c11d35bfa Guido Günther       2020-03-02  1924  	mask = gpu->idle_mask & ~(VIVS_HI_IDLE_STATE_FE |
+1a910c11d35bfa Guido Günther       2020-03-02  1925  				  VIVS_HI_IDLE_STATE_MC);
+a8c21a5451d831 The etnaviv authors 2015-12-03  1926  	idle = gpu_read(gpu, VIVS_HI_IDLE_STATE) & mask;
+78f2bfa3181cd7 Guido Günther       2020-03-02  1927  	if (idle != mask) {
+78f2bfa3181cd7 Guido Günther       2020-03-02  1928  		dev_warn_ratelimited(dev, "GPU not yet idle, mask: 0x%08x\n",
+78f2bfa3181cd7 Guido Günther       2020-03-02  1929  				     idle);
+a8c21a5451d831 The etnaviv authors 2015-12-03  1930  		return -EBUSY;
+78f2bfa3181cd7 Guido Günther       2020-03-02  1931  	}
+a8c21a5451d831 The etnaviv authors 2015-12-03  1932  
+7cb544946a138d Lucas Stach         2023-06-07  1933  	etnaviv_gpu_hw_suspend(gpu);
+7cb544946a138d Lucas Stach         2023-06-07  1934  
+647d817d807127 Lucas Stach         2023-06-07  1935  	gpu->state = ETNA_GPU_STATE_IDENTIFIED;
+647d817d807127 Lucas Stach         2023-06-07  1936  
+7cb544946a138d Lucas Stach         2023-06-07  1937  	return etnaviv_gpu_clk_disable(gpu);
+a8c21a5451d831 The etnaviv authors 2015-12-03  1938  }
+a8c21a5451d831 The etnaviv authors 2015-12-03  1939  
 
 -- 
 0-DAY CI Kernel Test Service
