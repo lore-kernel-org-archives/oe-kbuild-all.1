@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA2B360
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Oct 2023 00:14:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0351363;
+	Tue, 31 Oct 2023 00:14:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iRY/IVQ1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UIxEiEej"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698711260; x=1730247260;
+  t=1698711262; x=1730247262;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3hEw6whma9Mw9eHI+cBivqj65fCA/MyOO8qKfOkydho=;
-  b=iRY/IVQ1seNCKqCymXcN3El8LSCW2CZP4dT0BXD+XwtPC8DjSXzQVZoR
-   fEgze2JzrSXCQKYJ+oqHu6WmhjeJ8P1ov0YRzTC6fbKPUK7KKsLr03nYe
-   lQIXaE18QE6gdA04m/GnWxWypEuGXZOjzLcQyAivwX8H2JToOnQZpRrt9
-   miE55L99hMZV86tGzrvYKUjPDTPtY/3y2ZaBUKKIj260NoolzLziP5tD4
-   hRF2k2qAId4hAS2OEOeroav1jToT+jIu3znq1FIL7Qh3WMmBAfXIBv/oV
-   JL2eJTlfplNN1aDAAudEA2eJlI8g0vgMcSNibaoKtQtC47mpPBGmC8Bl5
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="373236062"
+  bh=Kmk6KxUWFitEDciuF9oDB5RU0GkS5ElP0kWrFDqc2hQ=;
+  b=UIxEiEej7RmWCA/IAOMA6Ezmup7O1tbwi4VeXvC67PAOBwpFPYGqcx4g
+   8+YhUOgfpOd4BJqIYX4LwmafFI0Ig7VnM+SSpIipI75udc894NrnGWFAD
+   vIof1POxWR96ed6Q0YmBhhd7w/s2UP0v4g06F2IT81J/ucAXAdIbxhDEG
+   8Q2PBZxI3/Tg5+TkB4S+nJJ8DYkVnp4r53zm/s0ZP5jXeAUnQDlPDrHah
+   Z7oBO7D5m+sPY4JBeec/M+sbhHuDRFoIk8Eb0OVbgjG2V0+hr1DabJvCm
+   8qLticWdglU9hvLljEi9UbEt0BEHAhysFp9NiyEb+96aME2+vtG6MRR57
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="373236069"
 X-IronPort-AV: E=Sophos;i="6.03,264,1694761200"; 
-   d="scan'208";a="373236062"
+   d="scan'208";a="373236069"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 17:14:19 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 17:14:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="1007586471"
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="1007586475"
 X-IronPort-AV: E=Sophos;i="6.03,264,1694761200"; 
-   d="scan'208";a="1007586471"
+   d="scan'208";a="1007586475"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
   by fmsmga006.fm.intel.com with ESMTP; 30 Oct 2023 17:14:17 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qxcOc-000Dfz-2q;
-	Tue, 31 Oct 2023 00:14:14 +0000
-Date: Tue, 31 Oct 2023 08:13:54 +0800
+	id 1qxcOd-000Dg2-0P;
+	Tue, 31 Oct 2023 00:14:15 +0000
+Date: Tue, 31 Oct 2023 08:13:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: NeilBrown <neilb@suse.de>, Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
-	Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>
-Subject: Re: [PATCH 3/6] nfsd: allow admin-revoked NFSv4.0 state to be freed.
-Message-ID: <202310310756.sZ0piSTX-lkp@intel.com>
-References: <20231027015613.26247-4-neilb@suse.de>
+To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, axboe@kernel.dk,
+	hch@lst.de, joshi.k@samsung.com, martin.petersen@oracle.com,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv2 1/4] block: bio-integrity: directly map user buffers
+Message-ID: <202310310704.l4FwoJDd-lkp@intel.com>
+References: <20231027181929.2589937-2-kbusch@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,99 +53,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231027015613.26247-4-neilb@suse.de>
+In-Reply-To: <20231027181929.2589937-2-kbusch@meta.com>
 
-Hi NeilBrown,
+Hi Keith,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.6 next-20231030]
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on linus/master v6.6 next-20231030]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/nfsd-prepare-for-supporting-admin-revocation-of-state/20231027-095832
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231027015613.26247-4-neilb%40suse.de
-patch subject: [PATCH 3/6] nfsd: allow admin-revoked NFSv4.0 state to be freed.
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231031/202310310756.sZ0piSTX-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231031/202310310756.sZ0piSTX-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/block-bio-integrity-directly-map-user-buffers/20231028-022107
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20231027181929.2589937-2-kbusch%40meta.com
+patch subject: [PATCHv2 1/4] block: bio-integrity: directly map user buffers
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231031/202310310704.l4FwoJDd-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231031/202310310704.l4FwoJDd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310310756.sZ0piSTX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310310704.l4FwoJDd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   fs/nfsd/nfs4state.c: In function 'nfsd4_revoke_states':
->> include/linux/compiler_types.h:425:45: error: call to '__compiletime_assert_955' declared with attribute error: Need native word sized stores/loads for atomicity.
-     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:406:25: note: in definition of macro '__compiletime_assert'
-     406 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
-     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:428:9: note: in expansion of macro 'compiletime_assert'
-     428 |         compiletime_assert(__native_word(t),                            \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/barrier.h:65:9: note: in expansion of macro 'compiletime_assert_atomic_type'
-      65 |         compiletime_assert_atomic_type(*p);                             \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
-     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
-         |                                                       ^~~~~~~~~~~~~~~~~~~
-   fs/nfsd/nfs4state.c:1725:41: note: in expansion of macro 'smp_store_release'
-    1725 |                                         smp_store_release(&nn->nfs40_last_revoke,
-         |                                         ^~~~~~~~~~~~~~~~~
-   In function 'nfs40_clean_admin_revoked',
-       inlined from 'nfs4_laundromat' at fs/nfsd/nfs4state.c:6304:2:
-   include/linux/compiler_types.h:425:45: error: call to '__compiletime_assert_989' declared with attribute error: Need native word sized stores/loads for atomicity.
-     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:406:25: note: in definition of macro '__compiletime_assert'
-     406 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
-     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:428:9: note: in expansion of macro 'compiletime_assert'
-     428 |         compiletime_assert(__native_word(t),                            \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/barrier.h:73:9: note: in expansion of macro 'compiletime_assert_atomic_type'
-      73 |         compiletime_assert_atomic_type(*p);                             \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/barrier.h:176:29: note: in expansion of macro '__smp_load_acquire'
-     176 | #define smp_load_acquire(p) __smp_load_acquire(p)
-         |                             ^~~~~~~~~~~~~~~~~~
-   fs/nfsd/nfs4state.c:6242:13: note: in expansion of macro 'smp_load_acquire'
-    6242 |         if (smp_load_acquire(&nn->nfs40_last_revoke) == 0 ||
-         |             ^~~~~~~~~~~~~~~~
+>> block/bio-integrity.c:215:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (!buf)
+               ^~~~
+   block/bio-integrity.c:255:9: note: uninitialized use occurs here
+           return ret;
+                  ^~~
+   block/bio-integrity.c:215:2: note: remove the 'if' if its condition is always false
+           if (!buf)
+           ^~~~~~~~~
+   block/bio-integrity.c:204:9: note: initialize the variable 'ret' to silence this warning
+           int ret;
+                  ^
+                   = 0
+   1 warning generated.
 
 
-vim +/__compiletime_assert_955 +425 include/linux/compiler_types.h
+vim +215 block/bio-integrity.c
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  411  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  412  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  413  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  414  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  415  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  416   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  417   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  418   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  419   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  420   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  421   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  422   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  423   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  424  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @425  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  426  
+   195	
+   196	static int bio_integrity_copy_user(struct bio *bio, struct bio_vec *bvec,
+   197					   int nr_vecs, unsigned int len,
+   198					   unsigned int direction, u32 seed)
+   199	{
+   200		struct bio_integrity_payload *bip;
+   201		struct bio_vec *copy_vec = NULL;
+   202		struct iov_iter iter;
+   203		void *buf;
+   204		int ret;
+   205	
+   206		/* if bvec is on the stack, we need to allocate a copy for the completion */
+   207		if (nr_vecs <= UIO_FASTIOV) {
+   208			copy_vec = kcalloc(sizeof(*bvec), nr_vecs, GFP_KERNEL);
+   209			if (!copy_vec)
+   210				return -ENOMEM;
+   211			memcpy(copy_vec, bvec, nr_vecs * sizeof(*bvec));
+   212		}
+   213	
+   214		buf = kmalloc(len, GFP_KERNEL);
+ > 215		if (!buf)
+   216			goto free_copy;
+   217	
+   218		if (direction == ITER_SOURCE) {
+   219			iov_iter_bvec(&iter, direction, bvec, nr_vecs, len);
+   220			if (!copy_from_iter_full(buf, len, &iter)) {
+   221				ret = -EFAULT;
+   222				goto free_buf;
+   223			}
+   224		} else {
+   225			memset(buf, 0, len);
+   226		}
+   227	
+   228		/*
+   229		 * We just need one vec for this bip, but we need to preserve the
+   230		 * number of vecs in the user bvec for the completion handling, so use
+   231		 * nr_vecs.
+   232		 */
+   233		bip = bio_integrity_alloc(bio, GFP_KERNEL, nr_vecs);
+   234		if (IS_ERR(bip)) {
+   235			ret = PTR_ERR(bip);
+   236			goto free_buf;
+   237		}
+   238	
+   239		ret = bio_integrity_add_page(bio, virt_to_page(buf), len,
+   240					     offset_in_page(buf));
+   241		if (ret != len) {
+   242			ret = -ENOMEM;
+   243			goto free_bip;
+   244		}
+   245	
+   246		bip->bip_flags |= BIP_INTEGRITY_USER;
+   247		bip->copy_vec = copy_vec ?: bvec;
+   248		return 0;
+   249	free_bip:
+   250		bio_integrity_free(bio);
+   251	free_buf:
+   252		kfree(buf);
+   253	free_copy:
+   254		kfree(copy_vec);
+   255		return ret;
+   256	}
+   257	
 
 -- 
 0-DAY CI Kernel Test Service
