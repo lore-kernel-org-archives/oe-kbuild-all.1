@@ -1,152 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D352374
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Nov 2023 02:42:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44DC5A32
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Nov 2023 02:43:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cpXoG4ws"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k/g/v5AN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698806580; x=1730342580;
+  t=1698806640; x=1730342640;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=k3ckl3CIitL8Q4EkQTmivHcNo71alFzAQ+qGMGafd0U=;
-  b=cpXoG4wsq2hDP+7jU6/fO+IYfwY0ArWOSJbRKKAlWZOzA9MoclExUq5j
-   OFWVbLGYekreAFBp8BxonaP3QgznJNjGmWCVdnivh5C/p47MaM3VgxDrn
-   grM7VhV0Qq/ShYfVdhN/8gmUKToBIvLLBVEtV9bIsvCBo5/yaOGXE/r1I
-   mhHUd7KQKex9UMIdP2xbUQ7IDwofmsvPON6owjMJ8D6fpR/fdzsTgIRFF
-   FC9O7ghficHSny3NczmEHSE9LaeWTyxZ8KWv6bCUngli0DCVf0EFiHDJH
-   PVnz2vDF6F+OykAZzOzPIIVyUIjCrhaM309Tz9Gat1GlrIdpu1ByFZEbi
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="9954599"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=0qK83WQuB6+tWkmTs5R7oM338PFBsvB/8n6IBXJ8CX4=;
+  b=k/g/v5ANwG7MBQfYMbqh+BpJzKvfJPJtqrfnIHk483B2j3iuzoFu6plQ
+   ZdGCKcXNTpDCX8mkzI5BZgC9a8ry5ETPZpSIjmFhFQm/IfdEwClYHHJM3
+   5zrBoi4klKUpem0nLAl7Aa0QEE+dewBYA9gWznmwGFjLj3ZSlDqhhz7bP
+   JfeG9ChWuxLgWbS5mP5ygdxvxYbH2poASwnROfAQmCOxSNuDTA5hYmGQn
+   7dDxJZLmWprwi/lViprnu5Ucu9dfywo/to34YdakrzkZ6CclVjrAkK6oA
+   AaQMbL5x+Of+DG/PCN9uEt+cNke0wW3Ugii9cwFIF33XWsIfomhB4XnJE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="474659829"
 X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; 
-   d="scan'208";a="9954599"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 19:42:59 -0700
+   d="scan'208";a="474659829"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 19:43:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="710639942"
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="737262184"
 X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; 
-   d="scan'208";a="710639942"
+   d="scan'208";a="737262184"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 31 Oct 2023 19:42:56 -0700
+  by orsmga006.jf.intel.com with ESMTP; 31 Oct 2023 19:43:56 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qy1C2-0000Xd-0z;
-	Wed, 01 Nov 2023 02:42:54 +0000
-Date: Wed, 1 Nov 2023 10:42:42 +0800
+	id 1qy1D0-0000Xk-1F;
+	Wed, 01 Nov 2023 02:43:54 +0000
+Date: Wed, 1 Nov 2023 10:42:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sui Jingfeng <suijingfeng@loongson.cn>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/8] drm/loongson: Allow attach drm bridge driver by
- calling lsdc_output_init()
-Message-ID: <202311011055.5xna6j7t-lkp@intel.com>
-References: <20231029194607.379459-4-suijingfeng@loongson.cn>
+To: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
+	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
+	christian.koenig@amd.com
+Subject: Re: [PATCH 5/6] drm/amdgpu: Add flag to disable implicit sync for
+ GEM operations.
+Message-ID: <202311011037.Bt6NSYwA-lkp@intel.com>
+References: <20231031134059.171277-6-ishitatsuyuki@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20231029194607.379459-4-suijingfeng@loongson.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231031134059.171277-6-ishitatsuyuki@gmail.com>
 
-Hi Sui,
+Hi Tatsuyuki,
 
 kernel test robot noticed the following build warnings:
 
 [auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.6 next-20231031]
+[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes linus/master v6.6]
+[cannot apply to drm/drm-next drm-intel/for-linux-next drm-tip/drm-tip next-20231031]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-loongson-Introduce-a-minimal-support-for-Loongson-VBIOS/20231030-034730
+url:    https://github.com/intel-lab-lkp/linux/commits/Tatsuyuki-Ishi/drm-amdgpu-Don-t-implicit-sync-PRT-maps/20231031-224530
 base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231029194607.379459-4-suijingfeng%40loongson.cn
-patch subject: [PATCH 3/8] drm/loongson: Allow attach drm bridge driver by calling lsdc_output_init()
-config: x86_64-randconfig-001-20231101 (https://download.01.org/0day-ci/archive/20231101/202311011055.5xna6j7t-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311011055.5xna6j7t-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20231031134059.171277-6-ishitatsuyuki%40gmail.com
+patch subject: [PATCH 5/6] drm/amdgpu: Add flag to disable implicit sync for GEM operations.
+config: arc-randconfig-001-20231101 (https://download.01.org/0day-ci/archive/20231101/202311011037.Bt6NSYwA-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311011037.Bt6NSYwA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311011055.5xna6j7t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311011037.Bt6NSYwA-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/loongson/lsdc_output.c:555:5: warning: no previous declaration for 'lsdc_encoder_init' [-Wmissing-declarations]
-    int lsdc_encoder_init(struct drm_device *ddev,
-        ^~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/loongson/lsdc_output.c:578:5: warning: no previous declaration for 'lsdc_connector_init' [-Wmissing-declarations]
-    int lsdc_connector_init(struct drm_device *ddev,
-        ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:178: warning: Function parameter or member 'evicted' not described in 'amdgpu_vm_bo_set_evicted'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:178: warning: expecting prototype for amdgpu_vm_bo_evicted(). Prototype was for amdgpu_vm_bo_set_evicted() instead
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1667: warning: Function parameter or member 'sync_unmap' not described in 'amdgpu_vm_bo_unmap'
 
 
-vim +/lsdc_encoder_init +555 drivers/gpu/drm/loongson/lsdc_output.c
+vim +1667 drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
 
-   554	
- > 555	int lsdc_encoder_init(struct drm_device *ddev,
-   556			      struct lsdc_output *output,
-   557			      unsigned int pipe)
-   558	{
-   559		const struct lsdc_output_desc *descp = output->descp;
-   560		struct drm_encoder *encoder = &output->encoder;
-   561		int ret;
-   562	
-   563		ret = drm_encoder_init(ddev,
-   564				       encoder,
-   565				       descp->encoder_funcs,
-   566				       descp->encoder_type,
-   567				       descp->name);
-   568		if (ret)
-   569			return ret;
-   570	
-   571		encoder->possible_crtcs = BIT(pipe);
-   572	
-   573		drm_encoder_helper_add(encoder, descp->encoder_helper_funcs);
-   574	
-   575		return 0;
-   576	}
-   577	
- > 578	int lsdc_connector_init(struct drm_device *ddev,
-   579				struct lsdc_output *output,
-   580				struct i2c_adapter *ddc,
-   581				unsigned int pipe)
-   582	{
-   583		const struct lsdc_output_desc *descp = output->descp;
-   584		struct drm_connector *connector = &output->connector;
-   585		int ret;
-   586	
-   587		ret = drm_connector_init_with_ddc(ddev,
-   588						  connector,
-   589						  descp->connector_funcs,
-   590						  descp->connector_type,
-   591						  ddc);
-   592		if (ret)
-   593			return ret;
-   594	
-   595		drm_connector_helper_add(connector, descp->connector_helper_funcs);
-   596	
-   597		drm_connector_attach_encoder(connector, &output->encoder);
-   598	
-   599		connector->polled = DRM_CONNECTOR_POLL_CONNECT |
-   600				    DRM_CONNECTOR_POLL_DISCONNECT;
-   601	
-   602		connector->interlace_allowed = 0;
-   603		connector->doublescan_allowed = 0;
-   604	
-   605		drm_info(ddev, "DisplayPipe-%u has %s\n", pipe, descp->name);
-   606	
-   607		return 0;
-   608	}
-   609	
+d38ceaf99ed015 Alex Deucher      2015-04-20  1650  
+d38ceaf99ed015 Alex Deucher      2015-04-20  1651  /**
+d38ceaf99ed015 Alex Deucher      2015-04-20  1652   * amdgpu_vm_bo_unmap - remove bo mapping from vm
+d38ceaf99ed015 Alex Deucher      2015-04-20  1653   *
+d38ceaf99ed015 Alex Deucher      2015-04-20  1654   * @adev: amdgpu_device pointer
+d38ceaf99ed015 Alex Deucher      2015-04-20  1655   * @bo_va: bo_va to remove the address from
+d38ceaf99ed015 Alex Deucher      2015-04-20  1656   * @saddr: where to the BO is mapped
+d38ceaf99ed015 Alex Deucher      2015-04-20  1657   *
+d38ceaf99ed015 Alex Deucher      2015-04-20  1658   * Remove a mapping of the BO at the specefied addr from the VM.
+7fc48e5912795c Andrey Grodzovsky 2018-06-11  1659   *
+7fc48e5912795c Andrey Grodzovsky 2018-06-11  1660   * Returns:
+7fc48e5912795c Andrey Grodzovsky 2018-06-11  1661   * 0 for success, error for failure.
+d38ceaf99ed015 Alex Deucher      2015-04-20  1662   *
+49b02b180a541d Chunming Zhou     2015-11-13  1663   * Object has to be reserved and unreserved outside!
+d38ceaf99ed015 Alex Deucher      2015-04-20  1664   */
+1550024e9de031 Tatsuyuki Ishi    2023-10-31  1665  int amdgpu_vm_bo_unmap(struct amdgpu_device *adev, struct amdgpu_bo_va *bo_va,
+1550024e9de031 Tatsuyuki Ishi    2023-10-31  1666  		       uint64_t saddr, bool sync_unmap)
+d38ceaf99ed015 Alex Deucher      2015-04-20 @1667  {
+d38ceaf99ed015 Alex Deucher      2015-04-20  1668  	struct amdgpu_bo_va_mapping *mapping;
+ec681545afe5a4 Christian König   2017-08-01  1669  	struct amdgpu_vm *vm = bo_va->base.vm;
+7fc11959018f8b Christian König   2015-07-30  1670  	bool valid = true;
+d38ceaf99ed015 Alex Deucher      2015-04-20  1671  
+6c7fc503a47f9b Christian König   2015-06-05  1672  	saddr /= AMDGPU_GPU_PAGE_SIZE;
+32b41ac21fde8f Christian König   2016-03-08  1673  
+7fc11959018f8b Christian König   2015-07-30  1674  	list_for_each_entry(mapping, &bo_va->valids, list) {
+a9f87f64525435 Christian König   2017-03-30  1675  		if (mapping->start == saddr)
+7fc11959018f8b Christian König   2015-07-30  1676  			break;
+7fc11959018f8b Christian König   2015-07-30  1677  	}
+7fc11959018f8b Christian König   2015-07-30  1678  
+7fc11959018f8b Christian König   2015-07-30  1679  	if (&mapping->list == &bo_va->valids) {
+7fc11959018f8b Christian König   2015-07-30  1680  		valid = false;
+7fc11959018f8b Christian König   2015-07-30  1681  
+7fc11959018f8b Christian König   2015-07-30  1682  		list_for_each_entry(mapping, &bo_va->invalids, list) {
+a9f87f64525435 Christian König   2017-03-30  1683  			if (mapping->start == saddr)
+d38ceaf99ed015 Alex Deucher      2015-04-20  1684  				break;
+d38ceaf99ed015 Alex Deucher      2015-04-20  1685  		}
+d38ceaf99ed015 Alex Deucher      2015-04-20  1686  
+32b41ac21fde8f Christian König   2016-03-08  1687  		if (&mapping->list == &bo_va->invalids)
+d38ceaf99ed015 Alex Deucher      2015-04-20  1688  			return -ENOENT;
+d38ceaf99ed015 Alex Deucher      2015-04-20  1689  	}
+32b41ac21fde8f Christian König   2016-03-08  1690  
+d38ceaf99ed015 Alex Deucher      2015-04-20  1691  	list_del(&mapping->list);
+a9f87f64525435 Christian König   2017-03-30  1692  	amdgpu_vm_it_remove(mapping, &vm->va);
+aebc5e6f50f770 Christian König   2017-09-06  1693  	mapping->bo_va = NULL;
+1550024e9de031 Tatsuyuki Ishi    2023-10-31  1694  	mapping->sync_unmap = sync_unmap;
+93e3e4385b69d8 Christian König   2015-06-09  1695  	trace_amdgpu_vm_bo_unmap(bo_va, mapping);
+d38ceaf99ed015 Alex Deucher      2015-04-20  1696  
+e17841b97587ad Christian König   2016-03-08  1697  	if (valid)
+d38ceaf99ed015 Alex Deucher      2015-04-20  1698  		list_add(&mapping->list, &vm->freed);
+e17841b97587ad Christian König   2016-03-08  1699  	else
+284710fa6c3a5f Christian König   2017-01-30  1700  		amdgpu_vm_free_mapping(adev, vm, mapping,
+284710fa6c3a5f Christian König   2017-01-30  1701  				       bo_va->last_pt_update);
+d38ceaf99ed015 Alex Deucher      2015-04-20  1702  
+d38ceaf99ed015 Alex Deucher      2015-04-20  1703  	return 0;
+d38ceaf99ed015 Alex Deucher      2015-04-20  1704  }
+d38ceaf99ed015 Alex Deucher      2015-04-20  1705  
 
 -- 
 0-DAY CI Kernel Test Service
