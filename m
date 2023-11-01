@@ -1,202 +1,116 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B73182DE
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Nov 2023 21:21:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE72133E7
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Nov 2023 21:25:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hwEpURac"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40853f2e93eso29435e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 01 Nov 2023 14:21:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1698873677; x=1699478477; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f/fgQN3OiJHDfVP9Qm+7+ddepIqX7bLr4xuUu++WmEw=;
-        b=hwEpURacGJDUDYgG47LKe8nyX2OXM8DbJk39qO8HQyIcAI2IGysYjTmoSvbM/hqCiK
-         XCXDG5wStH5C/aXGmAWRzd6eI54OFNeVw/aM1PElD3P2YmBKG7MOjVr5t+Lummq/XqCs
-         /LfDoJ9JGyYZRGI8oLjsxNokWxosXmLtV/lxXD+W6I25zgjeQUZsOPjRNqZpxF/y71UW
-         ABcJrA0DBWPwTrQxQ0SHm0JHqUnURtIKhdc3BcYpdgKjb7lNHh9jaXAZTPeVrmujPPFd
-         hmJ7SFOoWGqckfyYzydFcGM/NLvlbKLCYzOVgcX09r5ehOw1x4jKAAUBd2fD4yYQcbGF
-         q7Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698873677; x=1699478477;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f/fgQN3OiJHDfVP9Qm+7+ddepIqX7bLr4xuUu++WmEw=;
-        b=igonuCrhp8fq5QjoP6KzdigkmfkbykeNdxedCCVR5luMn/5f2X8U4/jXuqvxRbbpFo
-         FZA+Kz+2o/3WKGkCPIrlfDAgIbLeR0dpDrnNMN0G/GqZB1RI87uWdf9JLOesCAv4c7/M
-         rx581vqSpfyJafxzKrwei4G32MhEODSb+xmnB9wDu2DcGTYFUXDPwwDSLAAHpA+hs20s
-         VYUsjY7UJHdCD7zpRK+SMYd7SemrPTyoj75nLXiGIA+AtV8QhrQYvB5aDikXHQmxsCIs
-         LLmkYLe1NOQZ+s3ULmi+Y7BIatWE/hGbdBkhVuwlcVnfpq1D0FHtzclujAnEY5xPX3q1
-         5/vQ==
-X-Gm-Message-State: AOJu0Yw0JyI0qwy2Is6dL0nOfGalYh+b2Y/othCmRQlgmkaVK9YNQNx9
-	pJVP0s69RLc4t8CS2ilT3maxiEg72w2+NL/cytFTrg==
-X-Google-Smtp-Source: AGHT+IErwiBtm/Iq7gh7Pimz2BlqwC73ys4XaTwiWhe4e9HbmDAvvbGZDCCNxxgIROWS+6kblfzTCh9GPcxBXEqbkXI=
-X-Received: by 2002:a05:600c:78a:b0:408:3727:92c5 with SMTP id
- z10-20020a05600c078a00b00408372792c5mr267073wmo.2.1698873676580; Wed, 01 Nov
- 2023 14:21:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OwMeCzd1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698873959; x=1730409959;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=z4cvtj0Y2SRXvnYO8keNVhZh8I9AacirY1sSCjMmpjQ=;
+  b=OwMeCzd1eIgogwuA7Y8UegjWFQv7vLiaGEFKB4OOGzdCLngXLiKhvTA9
+   LUJjznOQdGCaP8IlPU0o9fuYUhKXOF+r9SpB+h4df0HCZTIg11CFHf89j
+   xNLjw7+9Omvx/eOy6EqwJLl+u6lWzScIAizN0gh1NQ+q7hgZPo8HrgC7C
+   IK2E64EzeXn0/9zX4hdZ+DzRONu5DvnGRwWpXfyHFGm8ID22yncNKDY0I
+   nUdo5Y94K+oOzr/CajqUd91SPdDE+9OkBpfuQ90LUvjKAf3xz+tZ60tmu
+   7hAQulLDz1fOpXndaz6lPMrXYuxFDK7hMXEAPEZXAhLBE2+O4QjkdO2C9
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="368792975"
+X-IronPort-AV: E=Sophos;i="6.03,269,1694761200"; 
+   d="scan'208";a="368792975"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 14:25:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,269,1694761200"; 
+   d="scan'208";a="8791383"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 01 Nov 2023 14:25:58 -0700
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qyIip-0000xg-14;
+	Wed, 01 Nov 2023 21:25:55 +0000
+Date: Thu, 2 Nov 2023 05:25:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/010-soc 6/15] drivers/soc/apple/rtkit.c:639:37:
+ error: 'struct apple_rtkit' has no member named 'mbox_chan'
+Message-ID: <202311020520.vQ4qXpEt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231026160100.195099-6-brgerst@gmail.com> <202310290927.2MuJJdu9-lkp@intel.com>
- <CAMzpN2iUrfnuGQ9eFTr=NTeC6KSUPC37Qji5_g5MWejmXnXO3A@mail.gmail.com>
- <CAMzpN2jbA=ZCbbFq=gyVAtKBr4kyYcNPLpWaEcAhEAN2J0wwTw@mail.gmail.com>
- <CAKwvOd=+MEv9aQAS91KT-Ov3N8f8XRPE3WTEwvJyom=PTCmUeQ@mail.gmail.com> <CAMzpN2iF9-AdEcpkGOVooAn_6XTYaOb6gM+GYqy2SOc0S+dRqQ@mail.gmail.com>
-In-Reply-To: <CAMzpN2iF9-AdEcpkGOVooAn_6XTYaOb6gM+GYqy2SOc0S+dRqQ@mail.gmail.com>
-From: Fangrui Song <maskray@google.com>
-Date: Wed, 1 Nov 2023 14:21:02 -0700
-Message-ID: <CAFP8O3+vA_+nGH1e27czWC0EbxCoNpQOu9wFxEDEgqbdkoL1VA@mail.gmail.com>
-Subject: Re: [PATCH v2 05/11] x86/stackprotector/64: Convert stack protector
- to normal percpu variable
-To: Brian Gerst <brgerst@gmail.com>
-Cc: Nick Desaulniers <ndesaulniers@google.com>, kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org, 
-	x86@kernel.org, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, 
-	"H . Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, Uros Bizjak <ubizjak@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Oct 30, 2023 at 10:19=E2=80=AFAM Brian Gerst <brgerst@gmail.com> wr=
-ote:
->
-> On Mon, Oct 30, 2023 at 11:24=E2=80=AFAM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> >
-> > On Sun, Oct 29, 2023 at 10:01=E2=80=AFAM Brian Gerst <brgerst@gmail.com=
-> wrote:
-> > >
-> > > On Sun, Oct 29, 2023 at 2:56=E2=80=AFAM Brian Gerst <brgerst@gmail.co=
-m> wrote:
-> > > >
-> > > > On Sat, Oct 28, 2023 at 9:26=E2=80=AFPM kernel test robot <lkp@inte=
-l.com> wrote:
-> > > > >
-> > > > > Hi Brian,
-> > > > >
-> > > > > kernel test robot noticed the following build errors:
-> > > > >
-> > > > > [auto build test ERROR on tip/master]
-> > > > > [also build test ERROR on next-20231027]
-> > > > > [cannot apply to tip/x86/core dennis-percpu/for-next linus/master=
- tip/auto-latest v6.6-rc7]
-> > > > > [If your patch is applied to the wrong git tree, kindly drop us a=
- note.
-> > > > > And when submitting patch, we suggest to use '--base' as document=
-ed in
-> > > > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > > > >
-> > > > > url:    https://github.com/intel-lab-lkp/linux/commits/Brian-Gers=
-t/x86-stackprotector-32-Remove-stack-protector-test-script/20231027-000533
-> > > > > base:   tip/master
-> > > > > patch link:    https://lore.kernel.org/r/20231026160100.195099-6-=
-brgerst%40gmail.com
-> > > > > patch subject: [PATCH v2 05/11] x86/stackprotector/64: Convert st=
-ack protector to normal percpu variable
-> > > > > config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/arc=
-hive/20231029/202310290927.2MuJJdu9-lkp@intel.com/config)
-> > > > > compiler: clang version 16.0.4 (https://github.com/llvm/llvm-proj=
-ect.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> > > > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-=
-ci/archive/20231029/202310290927.2MuJJdu9-lkp@intel.com/reproduce)
-> > > > >
-> > > > > If you fix the issue in a separate patch/commit (i.e. not just a =
-new version of
-> > > > > the same patch/commit), kindly add following tags
-> > > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202310290927.2MuJ=
-Jdu9-lkp@intel.com/
-> > > > >
-> > > > > All errors (new ones prefixed by >>):
-> > > > >
-> > > > > >> Unsupported relocation type: unknown type rel type name (42)
-> > > >
-> > > > Clang is generating a new relocation type (R_X86_64_REX_GOTPCRELX)
-> > > > that the relocs tool doesn't know about.  This is supposed to allow
-> > > >         movq    __stack_chk_guard@GOTPCREL(%rip), %rax
-> > > >         movq    %gs:(%rax), %rax
-> > > > to be relaxed to
-> > > >         leaq    __stack_chk_guard(%rip), %rax
-> > > >         movq    %gs:(%rax), %rax
-> > > >
-> > > > But why is clang doing this instead of what GCC does?
-> > > >         movq    %gs:__stack_chk_guard(%rip), %rax
+tree:   https://github.com/AsahiLinux/linux bits/010-soc
+head:   41a44245cb63db3b411ae54a561946acbaad1517
+commit: 6168774375dd26415946ceb1f8bed63adedda7dc [6/15] soc: apple: rtkit: Port to the internal mailbox driver
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20231102/202311020520.vQ4qXpEt-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311020520.vQ4qXpEt-lkp@intel.com/reproduce)
 
-https://github.com/llvm/llvm-project/issues/60116 has some discussions
-on this topic.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311020520.vQ4qXpEt-lkp@intel.com/
 
-clang-16 -fno-pic -fstack-protector -mstack-protector-guard-reg=3Dgs
--mstack-protector-guard-symbol=3D__stack_chk_guard
-uses a GOT-generating relocation for __stack_chk_guard. This avoids a
-copy relocation for userspace but the kernel seems to really want an
-absolute relocation,
-so https://reviews.llvm.org/D150841 (milestone: clang 17) has implemented i=
-t.
+All errors (new ones prefixed by >>):
 
-> If an `R_X86_64_32` relocation is used and `__stack_chk_guard` is defined=
- by a shared object, copy relocation. We will need an ELF hack called [copy=
- relocation](https://maskray.me/blog/2021-01-09-copy-relocations-canonical-=
-plt-entries-and-protected).
-
-> > > Digging a bit deeper, there also appears to be differences in how the
-> > > linkers behave with this new relocation:
-> > >
-> > > make CC=3Dclang LD=3Dld:
-> > > ffffffff81002838:       48 c7 c0 c0 5c 42 83    mov    $0xffffffff834=
-25cc0,%rax
-> > >                         ffffffff8100283b: R_X86_64_32S  __stack_chk_g=
-uard
-> > > ffffffff8100283f:       65 48 8b 00             mov    %gs:(%rax),%ra=
-x
-> > >
-> > > make CC=3Dclang LD=3Dld.lld:
-> > > ffffffff81002838:       48 8d 05 81 34 42 02    lea
-> > > 0x2423481(%rip),%rax        # ffffffff83425cc0 <__stack_chk_guard>
-> > >                         ffffffff8100283b: R_X86_64_REX_GOTPCRELX
-> > >  __stack_chk_guard-0x4
-> > > ffffffff8100283f:       65 48 8b 00             mov    %gs:(%rax),%ra=
-x
-> > >
-> > > The LLVM linker keeps the R_X86_64_REX_GOTPCRELX even after performin=
-g
-> > > the relaxation.  It should be R_X86_64_32S based on it changing to an
-> > > LEA instruction.  The GNU linker changes it to R_X86_64_32S and a MOV
-> > > immediate.
->
-> Correction:  It should be R_X86_64_PC32 for the LEA instruction.
->
-> Brian Gerst
-
-Whether --emit-relocs converts the original relocation type is debatable.
-I have some comments on a similar topic on RISC-V:
-https://sourceware.org/bugzilla/show_bug.cgi?id=3D30844#c6
-
-> So it seems that ppc performed conversion can all be described by existin=
-g relocation types, which is nice.
->
-> However, I do not know whether the property will hold for all current and=
- future RISC-V relaxation schemes.
->
-> When investigating relocation overflow pressure for x86-64 small code mod=
-el, I have found that preserving the original relocation type gives me more=
- information: I can tell how
-many R_X86_64_PC32/R_X86_64_GOTPCRELX/R_X86_64_REX_GOTPCRELX are
-problematic. If they are converted to R_X86_64_PC32/R_X86_64_32, I'd
-lose some information.
->
-> Perhaps whether the --emit-relocs uses the original relocation type or th=
-e transformed relocation type , does not matter for the majority of use cas=
-es. E.g. Linux kernel's objtool, seems to perform a sanity check on relocat=
-ions. It just needs to know the categories of relocations, e.g. absolute/PC=
--relative, not the exact type.
+   drivers/soc/apple/rtkit.c: In function 'apple_rtkit_send_message_wait':
+>> drivers/soc/apple/rtkit.c:639:37: error: 'struct apple_rtkit' has no member named 'mbox_chan'
+     639 |                 ret = mbox_flush(rtk->mbox_chan, timeout);
+         |                                     ^~
 
 
+vim +639 drivers/soc/apple/rtkit.c
 
---=20
-=E5=AE=8B=E6=96=B9=E7=9D=BF
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  626  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  627  int apple_rtkit_send_message_wait(struct apple_rtkit *rtk, u8 ep, u64 message,
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  628  				  unsigned long timeout, bool atomic)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  629  {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  630  	DECLARE_COMPLETION_ONSTACK(completion);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  631  	int ret;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  632  	long t;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  633  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  634  	ret = apple_rtkit_send_message(rtk, ep, message, &completion, atomic);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  635  	if (ret < 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  636  		return ret;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  637  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  638  	if (atomic) {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01 @639  		ret = mbox_flush(rtk->mbox_chan, timeout);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  640  		if (ret < 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  641  			return ret;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  642  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  643  		if (try_wait_for_completion(&completion))
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  644  			return 0;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  645  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  646  		return -ETIME;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  647  	} else {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  648  		t = wait_for_completion_interruptible_timeout(
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  649  			&completion, msecs_to_jiffies(timeout));
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  650  		if (t < 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  651  			return t;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  652  		else if (t == 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  653  			return -ETIME;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  654  		return 0;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  655  	}
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  656  }
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  657  EXPORT_SYMBOL_GPL(apple_rtkit_send_message_wait);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  658  
+
+:::::: The code at line 639 was first introduced by commit
+:::::: 9bd1d9a0d8bb1a549831fd98fcc3105960f7068b soc: apple: Add RTKit IPC library
+
+:::::: TO: Sven Peter <sven@svenpeter.dev>
+:::::: CC: Sven Peter <sven@svenpeter.dev>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
