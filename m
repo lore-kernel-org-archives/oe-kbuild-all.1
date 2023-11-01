@@ -1,145 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7AE0627
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Nov 2023 01:04:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A256064B
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Nov 2023 01:18:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b49UrlqT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U6nCag2Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698800686; x=1730336686;
+  t=1698801537; x=1730337537;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kmVtTe8yZZhwGEv3fwHYpE27eB8B9HkShe2k3vvydso=;
-  b=b49UrlqTzyM3hmafxnIyrE3sj1cXGpVA8Rwz2j0U4fj+cwg+MKBp2odA
-   0oYIZvm93P6PkDAjZNymQexwjecoEDWyBmX37ZlR1EU28eF8NN2zDX5fC
-   J1pGYlTr2Uansq8dmk9t+a8qJda53qAkIR/Z5LVixtsYw0FKLDCAWZwH5
-   zWpEVJGv5u4Zo8zxSwehpA0cyknHZDBSQwfLkx9IYxPiYQBiMhx0aEyVI
-   ODal14QjnAObfq4SYCEYcezuI1HhGkQcF+EzWBVE+pu3cDqqq20N1zDvi
-   6u+QQV5IapgrJUTnsV4KuhZE53DOln2kmiuPa/KQVHXn9lCp8vaZ/ZcJe
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Rk1ZxSgYbAz9UEI7+AafvdSQxaZN59nO5DTFXDLNVSA=;
+  b=U6nCag2ZwL1JyYcqS7fzAtv/i8vNqu61DXULCAP/YtI4ZS0bn+5v9450
+   BssCm4+m09ZbWwJl7x40Y3nRkIzVUvwQHvhk+b69LfV/NeAwKb5bGf5Jt
+   NoXPePZUPLJMddyHOU4WVcCOPYwrX1gNNFuLNvyHwsjYJkMgZ461KBDfh
+   rpKVT96wsD7xb3n4R9w+AqGlAf7Dy8s0DUvlR7bLuHvjXJ2lb8GHcjjjG
+   MwKbsQ23TTTkxI+OyVRQULnLQ2cJxixPBwaG2VFMeJsHoKIvDKSndO/ep
+   Uh6/gLA8roVT0hxaKk2K9E8C36eF4tAZDoEwrNn23+yjXrw+MBbGRIeWp
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="368614297"
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="388233881"
 X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; 
-   d="scan'208";a="368614297"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 18:03:57 -0700
+   d="scan'208";a="388233881"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 18:18:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="760790591"
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="826612970"
 X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; 
-   d="scan'208";a="760790591"
+   d="scan'208";a="826612970"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 31 Oct 2023 18:03:54 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 31 Oct 2023 18:18:55 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qxzeB-0000Uy-2R;
-	Wed, 01 Nov 2023 01:03:51 +0000
-Date: Wed, 1 Nov 2023 09:03:49 +0800
+	id 1qxzsi-0000V6-0Y;
+	Wed, 01 Nov 2023 01:18:52 +0000
+Date: Wed, 1 Nov 2023 09:18:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ronald Wahl <rwahl@gmx.de>, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Ronald Wahl <ronald.wahl@raritan.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v3] serial: 8250: 8250_omap: Do not start RX DMA on THRI
- interrupt
-Message-ID: <202311010816.kXNniDbT-lkp@intel.com>
-References: <20231031110950.11714-1-rwahl@gmx.de>
+To: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
+	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
+	christian.koenig@amd.com
+Subject: Re: [PATCH 3/6] drm/amdgpu: Flush VM updates for split bindings
+ eagerly.
+Message-ID: <202311010948.G6I55pTu-lkp@intel.com>
+References: <20231031134059.171277-4-ishitatsuyuki@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20231031110950.11714-1-rwahl@gmx.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231031134059.171277-4-ishitatsuyuki@gmail.com>
 
-Hi Ronald,
+Hi Tatsuyuki,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.6 next-20231031]
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes linus/master v6.6]
+[cannot apply to drm/drm-next drm-intel/for-linux-next drm-tip/drm-tip next-20231031]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ronald-Wahl/serial-8250-8250_omap-Do-not-start-RX-DMA-on-THRI-interrupt/20231031-191258
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20231031110950.11714-1-rwahl%40gmx.de
-patch subject: [PATCH v3] serial: 8250: 8250_omap: Do not start RX DMA on THRI interrupt
-config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20231101/202311010816.kXNniDbT-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311010816.kXNniDbT-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tatsuyuki-Ishi/drm-amdgpu-Don-t-implicit-sync-PRT-maps/20231031-224530
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231031134059.171277-4-ishitatsuyuki%40gmail.com
+patch subject: [PATCH 3/6] drm/amdgpu: Flush VM updates for split bindings eagerly.
+config: arc-randconfig-001-20231101 (https://download.01.org/0day-ci/archive/20231101/202311010948.G6I55pTu-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311010948.G6I55pTu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311010816.kXNniDbT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311010948.G6I55pTu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/tty/serial/8250/8250_omap.c: In function 'omap_8250_dma_handle_irq':
->> drivers/tty/serial/8250/8250_omap.c:1301:12: warning: suggest explicit braces to avoid ambiguous 'else' [-Wdangling-else]
-    1301 |         if ((iir & 0x3f) != UART_IIR_THRI)
-         |            ^
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c:608: warning: Excess function parameter 'bo_va' description in 'amdgpu_gem_va_update_vm'
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c:608: warning: Excess function parameter 'operation' description in 'amdgpu_gem_va_update_vm'
 
 
-vim +/else +1301 drivers/tty/serial/8250/8250_omap.c
+vim +608 drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
 
-  1279	
-  1280	/*
-  1281	 * This is mostly serial8250_handle_irq(). We have a slightly different DMA
-  1282	 * hoook for RX/TX and need different logic for them in the ISR. Therefore we
-  1283	 * use the default routine in the non-DMA case and this one for with DMA.
-  1284	 */
-  1285	static int omap_8250_dma_handle_irq(struct uart_port *port)
-  1286	{
-  1287		struct uart_8250_port *up = up_to_u8250p(port);
-  1288		struct omap8250_priv *priv = up->port.private_data;
-  1289		u16 status;
-  1290		u8 iir;
-  1291	
-  1292		iir = serial_port_in(port, UART_IIR);
-  1293		if (iir & UART_IIR_NO_INT) {
-  1294			return IRQ_HANDLED;
-  1295		}
-  1296	
-  1297		uart_port_lock(port);
-  1298	
-  1299		status = serial_port_in(port, UART_LSR);
-  1300	
-> 1301		if ((iir & 0x3f) != UART_IIR_THRI)
-  1302			if (priv->habit & UART_HAS_EFR2)
-  1303				am654_8250_handle_rx_dma(up, iir, status);
-  1304			else
-  1305				status = omap_8250_handle_rx_dma(up, iir, status);
-  1306	
-  1307		serial8250_modem_status(up);
-  1308		if (status & UART_LSR_THRE && up->dma->tx_err) {
-  1309			if (uart_tx_stopped(&up->port) ||
-  1310			    uart_circ_empty(&up->port.state->xmit)) {
-  1311				up->dma->tx_err = 0;
-  1312				serial8250_tx_chars(up);
-  1313			} else  {
-  1314				/*
-  1315				 * try again due to an earlier failer which
-  1316				 * might have been resolved by now.
-  1317				 */
-  1318				if (omap_8250_tx_dma(up))
-  1319					serial8250_tx_chars(up);
-  1320			}
-  1321		}
-  1322	
-  1323		uart_unlock_and_check_sysrq(port);
-  1324	
-  1325		return 1;
-  1326	}
-  1327	
+d38ceaf99ed015f Alex Deucher        2015-04-20  594  
+d38ceaf99ed015f Alex Deucher        2015-04-20  595  /**
+d38ceaf99ed015f Alex Deucher        2015-04-20  596   * amdgpu_gem_va_update_vm -update the bo_va in its VM
+d38ceaf99ed015f Alex Deucher        2015-04-20  597   *
+d38ceaf99ed015f Alex Deucher        2015-04-20  598   * @adev: amdgpu_device pointer
+dc54d3d1744d23e Christian König     2017-03-13  599   * @vm: vm to update
+d38ceaf99ed015f Alex Deucher        2015-04-20  600   * @bo_va: bo_va to update
+dc54d3d1744d23e Christian König     2017-03-13  601   * @operation: map, unmap or clear
+d38ceaf99ed015f Alex Deucher        2015-04-20  602   *
+2ffdaafb5d5f37b Christian König     2017-01-27  603   * Update the bo_va directly after setting its address. Errors are not
+d38ceaf99ed015f Alex Deucher        2015-04-20  604   * vital here, so they are not reported back to userspace.
+d38ceaf99ed015f Alex Deucher        2015-04-20  605   */
+d38ceaf99ed015f Alex Deucher        2015-04-20  606  static void amdgpu_gem_va_update_vm(struct amdgpu_device *adev,
+ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  607  				    struct amdgpu_vm *vm)
+d38ceaf99ed015f Alex Deucher        2015-04-20 @608  {
+ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  609  	struct amdgpu_bo_va *bo_va;
+3f3333f8a0e90ac Christian König     2017-08-03  610  	int r;
+d38ceaf99ed015f Alex Deucher        2015-04-20  611  
+3f3333f8a0e90ac Christian König     2017-08-03  612  	if (!amdgpu_vm_ready(vm))
+3f3333f8a0e90ac Christian König     2017-08-03  613  		return;
+e410b5cbabe70b1 Chunming Zhou       2015-12-07  614  
+f34678187a33970 Nicolai Hähnle      2017-03-23  615  	r = amdgpu_vm_clear_freed(adev, vm, NULL);
+d38ceaf99ed015f Alex Deucher        2015-04-20  616  	if (r)
+2ffdaafb5d5f37b Christian König     2017-01-27  617  		goto error;
+194a33643b1161f monk.liu            2015-07-22  618  
+ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  619  	spin_lock(&vm->status_lock);
+ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  620  	while (!list_empty(&vm->dirty)) {
+ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  621  		bo_va = list_first_entry(&vm->dirty, struct amdgpu_bo_va,
+ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  622  					 base.vm_status);
+ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  623  		spin_unlock(&vm->status_lock);
+ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  624  
+8f8cc3fb43508a2 Christian König     2022-03-17  625  		r = amdgpu_vm_bo_update(adev, bo_va, false);
+0abc6878fc2d699 Christian König     2017-09-01  626  		if (r)
+0abc6878fc2d699 Christian König     2017-09-01  627  			goto error;
+ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  628  		spin_lock(&vm->status_lock);
+93bab704c1513f8 Gustavo A. R. Silva 2018-02-14  629  	}
+ddf1ffe56ab385a Tatsuyuki Ishi      2023-10-31  630  	spin_unlock(&vm->status_lock);
+93bab704c1513f8 Gustavo A. R. Silva 2018-02-14  631  
+807e2994092c0bd Christian König     2019-03-14  632  	r = amdgpu_vm_update_pdes(adev, vm, false);
+0abc6878fc2d699 Christian König     2017-09-01  633  
+2ffdaafb5d5f37b Christian König     2017-01-27  634  error:
+68fdd3df79ee4bf Christian König     2015-06-16  635  	if (r && r != -ERESTARTSYS)
+d38ceaf99ed015f Alex Deucher        2015-04-20  636  		DRM_ERROR("Couldn't update BO_VA (%d)\n", r);
+d38ceaf99ed015f Alex Deucher        2015-04-20  637  }
+d38ceaf99ed015f Alex Deucher        2015-04-20  638  
 
 -- 
 0-DAY CI Kernel Test Service
