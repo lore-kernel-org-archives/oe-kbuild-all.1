@@ -1,46 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEFE51841
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Nov 2023 02:12:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0391847
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Nov 2023 02:12:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JI7nRdQp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fT2kqmCE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698804770; x=1730340770;
+  t=1698804773; x=1730340773;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0JVvMWru+/JYoDkrf/kxs3VVIuSerWcU8a5wgfGwh+Y=;
-  b=JI7nRdQpD/pKA4YR3qeWff18I0PwxgQEZn3s+7YepEz1BSFAYuvJsl6q
-   PKa6aSYw8gZwQco9jOwtVx0jD7uGEiqO3Km8C8K05donOu3QfVuxU+qwx
-   aFAJWjDN0zz/r/3SZV/E5qARGt/M7NK7L1KNm01X28D8AMh5W1rzVCUfS
-   JOugjH3cPw6ionMQ3hzNNQkuNtRyo46/mAauMYoFo/g44HhWnMpdVkmzW
-   cENwTCCOYj78GwPSMBL8FbBZ6nVeTxUe5Wrnxq1l97E9hTtA/E77YKlSp
-   Let+vUL3LNG4m7XL0xMe6UlqMAUFLW/zhbh4sTXty9sYVyAOF/gDjeqeG
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="474656267"
+  bh=8thT+yhZzhcOyTGwZQHs1XZqoRXK18C+etSHubc7hvc=;
+  b=fT2kqmCEIei9rF2QoGyMFh85j7YkYCxBMGwxT1xLcAVVX/FFQKnYRgrR
+   9mkFEMysOWr7+V0fGFpi2dk0Yk8QfMj72VHueisnhxViMk2ur/JujgXwV
+   Qma1Jirgxk0dwSqsBzpF/FyDgbnQ/ZuInDXM/i1mQ2ddGr9b5SMrKwcSZ
+   IVKYYq3TkW+WKUt61qS94Q2fzkl5HZqT9ORiM60nxXw81tRT/W0iOZCjb
+   iq/X2VSyv3W+zMQa3J5glk8bVBIv6/A/woUBBbfJYXczYP/UVrezQudFg
+   0aM8Q+7AmMDb3oatM/nS84GT1zSowUdcFoxkBUEha+Qb478mqwXG0iX2t
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="474656270"
 X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; 
-   d="scan'208";a="474656267"
+   d="scan'208";a="474656270"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 19:12:48 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 19:12:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="826622565"
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="826622566"
 X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; 
-   d="scan'208";a="826622565"
+   d="scan'208";a="826622566"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
   by fmsmga008.fm.intel.com with ESMTP; 31 Oct 2023 19:12:47 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qy0ir-0000Ww-23;
+	id 1qy0ir-0000Wu-1c;
 	Wed, 01 Nov 2023 02:12:45 +0000
-Date: Wed, 1 Nov 2023 10:12:10 +0800
+Date: Wed, 1 Nov 2023 10:12:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.4-lts 5037/29904] pda_power.c:undefined
- reference to `usb_put_phy'
-Message-ID: <202311011047.NPBGhAFa-lkp@intel.com>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Rob Clark <robdclark@chromium.org>
+Subject: [linux-next:master 9089/15964]
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1562:undefined reference to `qmp_put'
+Message-ID: <202311011054.QnycS93a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,85 +52,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-5.4-lts
-head:   7e0378ff5ef3dc6bf91b89c3c99eeb8030bac47a
-commit: f7941b37ab1c4cc0a85a5617d32495908c3d08a2 [5037/29904] ANDROID: GKI: Enable CONFIG_USB_PHY for usb drivers like dwc3
-config: i386-buildonly-randconfig-003-20231101 (https://download.01.org/0day-ci/archive/20231101/202311011047.NPBGhAFa-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311011047.NPBGhAFa-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9c2d379d63450ae464eeab45462e0cb573cd97d0
+commit: b9986846189cea87a9d93052cfab462c9e74f447 [9089/15964] drm/msm/a6xx: Fix up QMP handling
+config: arm-randconfig-r025-20230123 (https://download.01.org/0day-ci/archive/20231101/202311011054.QnycS93a-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311011054.QnycS93a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311011047.NPBGhAFa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311011054.QnycS93a-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: warning: arch/x86/lib/retpoline.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: arch/x86/lib/retpoline.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: drivers/power/supply/pda_power.o: in function `pda_power_remove':
-   pda_power.c:(.text+0x266): undefined reference to `usb_put_phy'
-   ld: drivers/power/supply/pda_power.o: in function `pda_power_probe':
-   pda_power.c:(.text+0x6dd): undefined reference to `usb_get_phy'
-   ld: drivers/power/supply/pda_power.o: in function `pda_power_probe.cold':
->> pda_power.c:(.text.unlikely+0x100): undefined reference to `usb_put_phy'
-   ld: drivers/power/supply/rt9455_charger.o: in function `rt9455_probe':
->> rt9455_charger.c:(.text+0x16c9): undefined reference to `devm_usb_get_phy'
-   ld: drivers/power/supply/isp1704_charger.o: in function `isp1704_charger_probe':
-   isp1704_charger.c:(.text+0x154): undefined reference to `devm_usb_get_phy_by_phandle'
->> ld: isp1704_charger.c:(.text+0x398): undefined reference to `devm_usb_get_phy'
-   ld: drivers/power/supply/twl4030_charger.o: in function `twl4030_bci_probe':
-   twl4030_charger.c:(.text+0x1479): undefined reference to `devm_usb_get_phy_by_node'
-   ld: drivers/power/supply/bq25890_charger.o: in function `bq25890_probe':
->> bq25890_charger.c:(.text+0x9d9): undefined reference to `devm_usb_get_phy'
+   arm-linux-gnueabi-ld: drivers/gpu/drm/msm/adreno/a6xx_gmu.o: in function `a6xx_gmu_resume':
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1027:(.text+0x2356): undefined reference to `qmp_send'
+   arm-linux-gnueabi-ld: drivers/gpu/drm/msm/adreno/a6xx_gmu.o: in function `a6xx_gmu_remove':
+>> drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1562:(.text+0x2808): undefined reference to `qmp_put'
+   arm-linux-gnueabi-ld: drivers/gpu/drm/msm/adreno/a6xx_gmu.o: in function `a6xx_gmu_init':
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1790:(.text+0x2f1e): undefined reference to `qmp_get'
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+
+vim +1562 drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+
+  1531	
+  1532	void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu)
+  1533	{
+  1534		struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+  1535		struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+  1536		struct platform_device *pdev = to_platform_device(gmu->dev);
+  1537	
+  1538		mutex_lock(&gmu->lock);
+  1539		if (!gmu->initialized) {
+  1540			mutex_unlock(&gmu->lock);
+  1541			return;
+  1542		}
+  1543	
+  1544		gmu->initialized = false;
+  1545	
+  1546		mutex_unlock(&gmu->lock);
+  1547	
+  1548		pm_runtime_force_suspend(gmu->dev);
+  1549	
+  1550		/*
+  1551		 * Since cxpd is a virt device, the devlink with gmu-dev will be removed
+  1552		 * automatically when we do detach
+  1553		 */
+  1554		dev_pm_domain_detach(gmu->cxpd, false);
+  1555	
+  1556		if (!IS_ERR_OR_NULL(gmu->gxpd)) {
+  1557			pm_runtime_disable(gmu->gxpd);
+  1558			dev_pm_domain_detach(gmu->gxpd, false);
+  1559		}
+  1560	
+  1561		if (!IS_ERR_OR_NULL(gmu->qmp))
+> 1562			qmp_put(gmu->qmp);
+  1563	
+  1564		iounmap(gmu->mmio);
+  1565		if (platform_get_resource_byname(pdev, IORESOURCE_MEM, "rscc"))
+  1566			iounmap(gmu->rscc);
+  1567		gmu->mmio = NULL;
+  1568		gmu->rscc = NULL;
+  1569	
+  1570		if (!adreno_has_gmu_wrapper(adreno_gpu)) {
+  1571			a6xx_gmu_memory_free(gmu);
+  1572	
+  1573			free_irq(gmu->gmu_irq, gmu);
+  1574			free_irq(gmu->hfi_irq, gmu);
+  1575		}
+  1576	
+  1577		/* Drop reference taken in of_find_device_by_node */
+  1578		put_device(gmu->dev);
+  1579	}
+  1580	
 
 -- 
 0-DAY CI Kernel Test Service
