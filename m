@@ -1,46 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A194C77
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Nov 2023 10:56:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756F9107BA
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Nov 2023 10:56:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ic24v1LU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="joACo38Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698836198; x=1730372198;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZYtugfp7YDjekrFkSbjKPNcIJiCh9y579b5cD9jufFU=;
-  b=ic24v1LUzhJz+KDOt8YKLmpC7svgSGTrQ8jz3SnxYRA8YvAiRjDXUl42
-   jFmzmW6ybgAmC6vQteVG9nenIUS6pQAqMHJ3aTbC/9AEDCMW9l3D06Zz3
-   7b6SMaesmrQEKQ2CsnqjwFWUnSPVc1ChqpxcJixphzs4mqTMX47nOx5YU
-   pCX5YWxwVHzQo4S1LnHcBIjv5jjzmXt3KMC3U6G57LSllVaHgOPEBkmno
-   BnaKvb+aDNm+c3FUwcFa9y4X+cSUBQbT/WEUY3cBgZGmowoBNgoElXJj/
-   jtuzs9tHKbhODL1sSjNJHJ2SdcfB5P1ofk3cceaCLuBgAVePLyNJWNkjl
+  t=1698836200; x=1730372200;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8XoIBvJBqu2UWQDbjlJ+l/oehOtNlARvyRZhwkORV84=;
+  b=joACo38YsW5rDnNlEJ/Xxzw8zZ4RCx2y3xv8BxVCtX3YPx4W9W1nYcfG
+   xp88PbhiETi1IQesFchd89jVpW6MEtxi0eKJlTF6RED7jYQvgXNeAVfZk
+   1kH0MAqpUePfQu1PUPN43M370FjomDlqFMsQkuhmjQO2BW2yfx8Q6anIG
+   uqjj4khol5TpDT2C+lDDe9zPIHOQyQVUmXpZulQqupMFIxyqc2aBi/0NI
+   R6dUf9d1YvzDIR6HciZZliI9qGt4bza8O8P0s1C7CZP1++I3+P/TPiOwa
+   usJbrb4/Ni4NnOXOkts/Dq3A/jlNIlEa+Z0veAhx29w6vlw8qCFzuFF7Q
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="454948359"
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="454948363"
 X-IronPort-AV: E=Sophos;i="6.03,268,1694761200"; 
-   d="scan'208";a="454948359"
+   d="scan'208";a="454948363"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 03:56:38 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 03:56:39 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,268,1694761200"; 
-   d="scan'208";a="8632390"
+   d="scan'208";a="8632388"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 01 Nov 2023 03:56:37 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qy8tm-0000lO-22;
+	id 1qy8tm-0000lM-1L;
 	Wed, 01 Nov 2023 10:56:34 +0000
-Date: Wed, 1 Nov 2023 18:56:05 +0800
+Date: Wed, 1 Nov 2023 18:56:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kmo@daterainc.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 15829/16064] fs/bcachefs/disk_groups.c:534:6:
- warning: no previous declaration for 'bch2_target_to_text_sb'
-Message-ID: <202311011824.HYApSA1M-lkp@intel.com>
+To: David Ober <dober6023@gmail.com>, linux-hwmon@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, jdelvare@suse.com, linux@roeck-us.net,
+	corbet@lwn.net, dober@lenovo.com, mpearson-lenovo@squebb.ca,
+	David Ober <dober6023@gmail.com>
+Subject: Re: [PATCH v2] hwmon:Add MEC172x Micro Chip driver for Lenovo
+ motherboards
+Message-ID: <202311011858.M1Ui9wp1-lkp@intel.com>
+References: <20231031154930.4908-1-dober6023@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,57 +53,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231031154930.4908-1-dober6023@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   fa7d0c17278644aa691f96d08bef8001b762f9cd
-commit: bf0d9e89de2e62fe9967ebb77b68d58d3812e4db [15829/16064] bcachefs: Split apart bch2_target_to_text(), bch2_target_to_text_sb()
-config: x86_64-randconfig-001-20231101 (https://download.01.org/0day-ci/archive/20231101/202311011824.HYApSA1M-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311011824.HYApSA1M-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.6 next-20231101]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Ober/hwmon-Add-MEC172x-Micro-Chip-driver-for-Lenovo-motherboards/20231031-235345
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20231031154930.4908-1-dober6023%40gmail.com
+patch subject: [PATCH v2] hwmon:Add MEC172x Micro Chip driver for Lenovo motherboards
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20231101/202311011858.M1Ui9wp1-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311011858.M1Ui9wp1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311011824.HYApSA1M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311011858.M1Ui9wp1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/bcachefs/disk_groups.c:534:6: warning: no previous declaration for 'bch2_target_to_text_sb' [-Wmissing-declarations]
-    void bch2_target_to_text_sb(struct printbuf *out, struct bch_sb *sb, unsigned v)
-         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/lenovo-ec-sensors.c: In function 'get_ec_reg':
+   drivers/hwmon/lenovo-ec-sensors.c:36:25: error: implicit declaration of function 'inb_p'; did you mean 'int_pow'? [-Werror=implicit-function-declaration]
+      36 | #define io_read8(a)     inb_p(a)
+         |                         ^~~~~
+   drivers/hwmon/lenovo-ec-sensors.c:45:13: note: in expansion of macro 'io_read8'
+      45 |         if (io_read8(MCHP_EMI0_APPLICATION_ID) != 0) /* EMI access locked */
+         |             ^~~~~~~~
+   drivers/hwmon/lenovo-ec-sensors.c:35:25: error: implicit declaration of function 'outb_p' [-Werror=implicit-function-declaration]
+      35 | #define io_write8(a, b) outb_p(b, a)
+         |                         ^~~~~~
+   drivers/hwmon/lenovo-ec-sensors.c:48:9: note: in expansion of macro 'io_write8'
+      48 |         io_write8(MCHP_EMI0_APPLICATION_ID, 0x01);
+         |         ^~~~~~~~~
+   drivers/hwmon/lenovo-ec-sensors.c: In function 'get_platform':
+>> drivers/hwmon/lenovo-ec-sensors.c:274:9: warning: this 'for' clause does not guard... [-Wmisleading-indentation]
+     274 |         for (idx = 0 ; idx < 6 ; idx++)
+         |         ^~~
+   drivers/hwmon/lenovo-ec-sensors.c:276:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'for'
+     276 |                 system_type[idx] = get_ec_reg(0xC, (0x10 + idx));
+         |                 ^~~~~~~~~~~
+   In function 'get_platform',
+       inlined from 'lenovo_ec_probe' at drivers/hwmon/lenovo-ec-sensors.c:420:26:
+>> drivers/hwmon/lenovo-ec-sensors.c:276:34: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+     276 |                 system_type[idx] = get_ec_reg(0xC, (0x10 + idx));
+         |                 ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/lenovo-ec-sensors.c: In function 'lenovo_ec_probe':
+   drivers/hwmon/lenovo-ec-sensors.c:270:14: note: at offset 6 into destination object 'system_type' of size 6
+     270 |         char system_type[6];
+         |              ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/bch2_target_to_text_sb +534 fs/bcachefs/disk_groups.c
+vim +/for +274 drivers/hwmon/lenovo-ec-sensors.c
 
-   533	
- > 534	void bch2_target_to_text_sb(struct printbuf *out, struct bch_sb *sb, unsigned v)
-   535	{
-   536		struct target t = target_decode(v);
-   537	
-   538		switch (t.type) {
-   539		case TARGET_NULL:
-   540			prt_printf(out, "none");
-   541			break;
-   542		case TARGET_DEV: {
-   543			struct bch_member m = bch2_sb_member_get(sb, t.dev);
-   544	
-   545			if (bch2_dev_exists(sb, t.dev)) {
-   546				prt_printf(out, "Device ");
-   547				pr_uuid(out, m.uuid.b);
-   548				prt_printf(out, " (%u)", t.dev);
-   549			} else {
-   550				prt_printf(out, "Bad device %u", t.dev);
-   551			}
-   552			break;
-   553		}
-   554		case TARGET_GROUP:
-   555			bch2_disk_path_to_text(out, sb, t.group);
-   556			break;
-   557		default:
-   558			BUG();
-   559		}
-   560	}
-   561	
+   267	
+   268	static int get_platform(struct ec_sensors_data *data)
+   269	{
+   270		char system_type[6];
+   271		int ret = -1;
+   272		int idx;
+   273	
+ > 274		for (idx = 0 ; idx < 6 ; idx++)
+   275			mutex_lock(&data->mec_mutex);
+ > 276			system_type[idx] = get_ec_reg(0xC, (0x10 + idx));
+   277			mutex_unlock(&data->mec_mutex);
+   278	
+   279		for (idx = 0 ; idx < 4 ; idx++) {
+   280			if (strcmp(systems[idx], system_type) == 0) {
+   281				ret = idx;
+   282				break;
+   283			}
+   284		}
+   285		return ret;
+   286	}
+   287	
 
 -- 
 0-DAY CI Kernel Test Service
