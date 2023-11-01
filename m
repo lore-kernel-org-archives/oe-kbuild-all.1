@@ -1,109 +1,202 @@
-Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C5C14A99
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Nov 2023 20:51:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B73182DE
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Nov 2023 21:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="QehCGBvK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
-	s=smtpout1; t=1698871863;
-	bh=+MuUQ7FS66koShvyTlTaOH84DYO2F+juD3CotMhyqqU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QehCGBvKJDRkhdLW4wmvM0+EDA/ghxOCZiEUfMtd8+APJFajCwkuj2g/zHzNA+BLc
-	 5GcaHTJDL2ZpjTk29R6eTGdtXOijtwhFxZsqs76v6cfV20PuY5cEp397y7ngPrMPOm
-	 8rYql1e7GBpQa237jGHu5RXE5mwcgBue4bMChFvQeEq/ymz8yfywGHt0i3OiCtlhKJ
-	 1X9C9TMrerw4L8bTDOV9rU59PsjULRmr8Sg11vm/M20yFrWPG+qWVo1dfc+55g7Rzo
-	 YPcCQZJ4qOOj3f0oLr8/YLflgGKT7o6BmTePGcxaLBJkOtK/m1qkJkEFijuwZB+K1y
-	 082AvFrqFxyIg==
-Received: from [172.16.0.134] (192-222-143-198.qc.cable.ebox.net [192.222.143.198])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4SLK0l49LCz1b9S;
-	Wed,  1 Nov 2023 16:51:03 -0400 (EDT)
-Message-ID: <bdb00d83-279b-4b73-aa5b-50a9f275d102@efficios.com>
-Date: Wed, 1 Nov 2023 16:51:23 -0400
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hwEpURac"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40853f2e93eso29435e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 01 Nov 2023 14:21:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1698873677; x=1699478477; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f/fgQN3OiJHDfVP9Qm+7+ddepIqX7bLr4xuUu++WmEw=;
+        b=hwEpURacGJDUDYgG47LKe8nyX2OXM8DbJk39qO8HQyIcAI2IGysYjTmoSvbM/hqCiK
+         XCXDG5wStH5C/aXGmAWRzd6eI54OFNeVw/aM1PElD3P2YmBKG7MOjVr5t+Lummq/XqCs
+         /LfDoJ9JGyYZRGI8oLjsxNokWxosXmLtV/lxXD+W6I25zgjeQUZsOPjRNqZpxF/y71UW
+         ABcJrA0DBWPwTrQxQ0SHm0JHqUnURtIKhdc3BcYpdgKjb7lNHh9jaXAZTPeVrmujPPFd
+         hmJ7SFOoWGqckfyYzydFcGM/NLvlbKLCYzOVgcX09r5ehOw1x4jKAAUBd2fD4yYQcbGF
+         q7Mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698873677; x=1699478477;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=f/fgQN3OiJHDfVP9Qm+7+ddepIqX7bLr4xuUu++WmEw=;
+        b=igonuCrhp8fq5QjoP6KzdigkmfkbykeNdxedCCVR5luMn/5f2X8U4/jXuqvxRbbpFo
+         FZA+Kz+2o/3WKGkCPIrlfDAgIbLeR0dpDrnNMN0G/GqZB1RI87uWdf9JLOesCAv4c7/M
+         rx581vqSpfyJafxzKrwei4G32MhEODSb+xmnB9wDu2DcGTYFUXDPwwDSLAAHpA+hs20s
+         VYUsjY7UJHdCD7zpRK+SMYd7SemrPTyoj75nLXiGIA+AtV8QhrQYvB5aDikXHQmxsCIs
+         LLmkYLe1NOQZ+s3ULmi+Y7BIatWE/hGbdBkhVuwlcVnfpq1D0FHtzclujAnEY5xPX3q1
+         5/vQ==
+X-Gm-Message-State: AOJu0Yw0JyI0qwy2Is6dL0nOfGalYh+b2Y/othCmRQlgmkaVK9YNQNx9
+	pJVP0s69RLc4t8CS2ilT3maxiEg72w2+NL/cytFTrg==
+X-Google-Smtp-Source: AGHT+IErwiBtm/Iq7gh7Pimz2BlqwC73ys4XaTwiWhe4e9HbmDAvvbGZDCCNxxgIROWS+6kblfzTCh9GPcxBXEqbkXI=
+X-Received: by 2002:a05:600c:78a:b0:408:3727:92c5 with SMTP id
+ z10-20020a05600c078a00b00408372792c5mr267073wmo.2.1698873676580; Wed, 01 Nov
+ 2023 14:21:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Fix: rseq uapi: Adapt header includes to follow glibc
- header changes
-Content-Language: en-US
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: kernel test robot <lkp@intel.com>, Peter Zijlstra <peterz@infradead.org>,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Rik van Riel <riel@surriel.com>
-References: <20231025214811.2066376-1-mathieu.desnoyers@efficios.com>
- <202310271556.LunB8KLv-lkp@intel.com>
- <81d2fd04-572d-48cd-bb5c-9a77937a79a0@efficios.com>
- <20231027100641.52fbee5d@gandalf.local.home>
- <f5bd06bb-da51-48c1-bf79-d1ef92802adf@efficios.com>
- <20231101164415.7f198500@gandalf.local.home>
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-In-Reply-To: <20231101164415.7f198500@gandalf.local.home>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20231026160100.195099-6-brgerst@gmail.com> <202310290927.2MuJJdu9-lkp@intel.com>
+ <CAMzpN2iUrfnuGQ9eFTr=NTeC6KSUPC37Qji5_g5MWejmXnXO3A@mail.gmail.com>
+ <CAMzpN2jbA=ZCbbFq=gyVAtKBr4kyYcNPLpWaEcAhEAN2J0wwTw@mail.gmail.com>
+ <CAKwvOd=+MEv9aQAS91KT-Ov3N8f8XRPE3WTEwvJyom=PTCmUeQ@mail.gmail.com> <CAMzpN2iF9-AdEcpkGOVooAn_6XTYaOb6gM+GYqy2SOc0S+dRqQ@mail.gmail.com>
+In-Reply-To: <CAMzpN2iF9-AdEcpkGOVooAn_6XTYaOb6gM+GYqy2SOc0S+dRqQ@mail.gmail.com>
+From: Fangrui Song <maskray@google.com>
+Date: Wed, 1 Nov 2023 14:21:02 -0700
+Message-ID: <CAFP8O3+vA_+nGH1e27czWC0EbxCoNpQOu9wFxEDEgqbdkoL1VA@mail.gmail.com>
+Subject: Re: [PATCH v2 05/11] x86/stackprotector/64: Convert stack protector
+ to normal percpu variable
+To: Brian Gerst <brgerst@gmail.com>
+Cc: Nick Desaulniers <ndesaulniers@google.com>, kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org, 
+	x86@kernel.org, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, 
+	"H . Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, Uros Bizjak <ubizjak@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2023-11-01 16:44, Steven Rostedt wrote:
-> On Wed, 1 Nov 2023 16:10:04 -0400
-> Mathieu Desnoyers <mathieu.desnoyers@efficios.com> wrote:
-> 
->> So what is the minimal change required to make things work on your
->> setup? I just tested with a Debian "testing" chroot (with libc 2.37-12)
->> and I cannot reproduce your issue.
->>
->> Should I just submit a patch that removes "#include <asm/byteorder.h>" ?
->> I am really unsure which environments are affected though.
->>
-> 
-> I guess you can drop it :-p
+On Mon, Oct 30, 2023 at 10:19=E2=80=AFAM Brian Gerst <brgerst@gmail.com> wr=
+ote:
+>
+> On Mon, Oct 30, 2023 at 11:24=E2=80=AFAM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
+> >
+> > On Sun, Oct 29, 2023 at 10:01=E2=80=AFAM Brian Gerst <brgerst@gmail.com=
+> wrote:
+> > >
+> > > On Sun, Oct 29, 2023 at 2:56=E2=80=AFAM Brian Gerst <brgerst@gmail.co=
+m> wrote:
+> > > >
+> > > > On Sat, Oct 28, 2023 at 9:26=E2=80=AFPM kernel test robot <lkp@inte=
+l.com> wrote:
+> > > > >
+> > > > > Hi Brian,
+> > > > >
+> > > > > kernel test robot noticed the following build errors:
+> > > > >
+> > > > > [auto build test ERROR on tip/master]
+> > > > > [also build test ERROR on next-20231027]
+> > > > > [cannot apply to tip/x86/core dennis-percpu/for-next linus/master=
+ tip/auto-latest v6.6-rc7]
+> > > > > [If your patch is applied to the wrong git tree, kindly drop us a=
+ note.
+> > > > > And when submitting patch, we suggest to use '--base' as document=
+ed in
+> > > > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > > > >
+> > > > > url:    https://github.com/intel-lab-lkp/linux/commits/Brian-Gers=
+t/x86-stackprotector-32-Remove-stack-protector-test-script/20231027-000533
+> > > > > base:   tip/master
+> > > > > patch link:    https://lore.kernel.org/r/20231026160100.195099-6-=
+brgerst%40gmail.com
+> > > > > patch subject: [PATCH v2 05/11] x86/stackprotector/64: Convert st=
+ack protector to normal percpu variable
+> > > > > config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/arc=
+hive/20231029/202310290927.2MuJJdu9-lkp@intel.com/config)
+> > > > > compiler: clang version 16.0.4 (https://github.com/llvm/llvm-proj=
+ect.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> > > > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-=
+ci/archive/20231029/202310290927.2MuJJdu9-lkp@intel.com/reproduce)
+> > > > >
+> > > > > If you fix the issue in a separate patch/commit (i.e. not just a =
+new version of
+> > > > > the same patch/commit), kindly add following tags
+> > > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202310290927.2MuJ=
+Jdu9-lkp@intel.com/
+> > > > >
+> > > > > All errors (new ones prefixed by >>):
+> > > > >
+> > > > > >> Unsupported relocation type: unknown type rel type name (42)
+> > > >
+> > > > Clang is generating a new relocation type (R_X86_64_REX_GOTPCRELX)
+> > > > that the relocs tool doesn't know about.  This is supposed to allow
+> > > >         movq    __stack_chk_guard@GOTPCREL(%rip), %rax
+> > > >         movq    %gs:(%rax), %rax
+> > > > to be relaxed to
+> > > >         leaq    __stack_chk_guard(%rip), %rax
+> > > >         movq    %gs:(%rax), %rax
+> > > >
+> > > > But why is clang doing this instead of what GCC does?
+> > > >         movq    %gs:__stack_chk_guard(%rip), %rax
 
-OK, let's drop this patch then. I may respin the removal of asm/byteorder.h
-include as a cleanup in the future, but there is really no hurry.
+https://github.com/llvm/llvm-project/issues/60116 has some discussions
+on this topic.
 
-Thanks,
+clang-16 -fno-pic -fstack-protector -mstack-protector-guard-reg=3Dgs
+-mstack-protector-guard-symbol=3D__stack_chk_guard
+uses a GOT-generating relocation for __stack_chk_guard. This avoids a
+copy relocation for userspace but the kernel seems to really want an
+absolute relocation,
+so https://reviews.llvm.org/D150841 (milestone: clang 17) has implemented i=
+t.
 
-Mathieu
+> If an `R_X86_64_32` relocation is used and `__stack_chk_guard` is defined=
+ by a shared object, copy relocation. We will need an ELF hack called [copy=
+ relocation](https://maskray.me/blog/2021-01-09-copy-relocations-canonical-=
+plt-entries-and-protected).
 
-> 
-> When I tried to reproduce it with hand writing 'gcc', I couldn't. But when
-> I did:
-> 
->   $ make foo
-> 
-> It gave me the error. I was confused for a bit. Then I looked at what my
-> Makefile was doing and what I was doing. The only difference was that the
-> make included:
-> 
->     -I.
-> 
-> Removing that from the Makefile worked!
-> 
-> My Makefile added to the CFLAGS "-I." and I forgot that this directory has
-> a "linux/"  directory in it that I used years ago to test kernel functions.
-> The git history shows it was last touched in 2016 (when I was still at Red Hat)
-> 
-> Removing -I. now makes everything work.
-> 
-> I have no idea why it suddenly stopped working just a few months ago. Maybe
-> something was moved out of the gcc headers so my local headers no longer
-> see it. That is, perhaps the glibc headers moved something out and added a
-> #include to it, where my local headers did not have that change. I don't
-> know and I don't care.
-> 
-> Well, at least now I know why I was getting errors on my build, but
-> couldn't find anything on the internet showing why others were not!
-> 
-> Sorry for the noise. :-/
-> 
-> -- Steve
-> 
+> > > Digging a bit deeper, there also appears to be differences in how the
+> > > linkers behave with this new relocation:
+> > >
+> > > make CC=3Dclang LD=3Dld:
+> > > ffffffff81002838:       48 c7 c0 c0 5c 42 83    mov    $0xffffffff834=
+25cc0,%rax
+> > >                         ffffffff8100283b: R_X86_64_32S  __stack_chk_g=
+uard
+> > > ffffffff8100283f:       65 48 8b 00             mov    %gs:(%rax),%ra=
+x
+> > >
+> > > make CC=3Dclang LD=3Dld.lld:
+> > > ffffffff81002838:       48 8d 05 81 34 42 02    lea
+> > > 0x2423481(%rip),%rax        # ffffffff83425cc0 <__stack_chk_guard>
+> > >                         ffffffff8100283b: R_X86_64_REX_GOTPCRELX
+> > >  __stack_chk_guard-0x4
+> > > ffffffff8100283f:       65 48 8b 00             mov    %gs:(%rax),%ra=
+x
+> > >
+> > > The LLVM linker keeps the R_X86_64_REX_GOTPCRELX even after performin=
+g
+> > > the relaxation.  It should be R_X86_64_32S based on it changing to an
+> > > LEA instruction.  The GNU linker changes it to R_X86_64_32S and a MOV
+> > > immediate.
+>
+> Correction:  It should be R_X86_64_PC32 for the LEA instruction.
+>
+> Brian Gerst
 
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
+Whether --emit-relocs converts the original relocation type is debatable.
+I have some comments on a similar topic on RISC-V:
+https://sourceware.org/bugzilla/show_bug.cgi?id=3D30844#c6
 
+> So it seems that ppc performed conversion can all be described by existin=
+g relocation types, which is nice.
+>
+> However, I do not know whether the property will hold for all current and=
+ future RISC-V relaxation schemes.
+>
+> When investigating relocation overflow pressure for x86-64 small code mod=
+el, I have found that preserving the original relocation type gives me more=
+ information: I can tell how
+many R_X86_64_PC32/R_X86_64_GOTPCRELX/R_X86_64_REX_GOTPCRELX are
+problematic. If they are converted to R_X86_64_PC32/R_X86_64_32, I'd
+lose some information.
+>
+> Perhaps whether the --emit-relocs uses the original relocation type or th=
+e transformed relocation type , does not matter for the majority of use cas=
+es. E.g. Linux kernel's objtool, seems to perform a sanity check on relocat=
+ions. It just needs to know the categories of relocations, e.g. absolute/PC=
+-relative, not the exact type.
+
+
+
+--=20
+=E5=AE=8B=E6=96=B9=E7=9D=BF
