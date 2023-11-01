@@ -1,52 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224C112B6C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Nov 2023 13:01:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF81612B8E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Nov 2023 13:03:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mHFKROnJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PWbFmxgS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698843718; x=1730379718;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=s2xZhAihU9OTZQg4ZTNwu8nAKvr8L+OIZA8uCubjXJs=;
-  b=mHFKROnJEAm8v6o0L8S3Wh6stcPV9uboXc0UTgmFnGP4mv/5qYNDxn2T
-   dTJqcPfaycq+nPx9bf04f6/wAKAtVkq5baBGF2SAxM5LeqadScDA9EzmG
-   7JYQIPw8DPIXvvV3iUJTzQYZddRodukDBnCJJVtLpYHseIi8tUibhin6G
-   eK/UCFT+a47UwZBvVdeLwQ5XVjQ2AYvs7Nb2xVbsej+zydRMCN6DPp6wt
-   5cDPrhfhDCvNZFwpDWwUP8GnuIK5HgqgIa1X9rlf+MjPtnUv2Zh/M0dMc
-   vzp9zptGWeCJJ5RoPb+5trxewvcSqCz3Huav1DdmbadcPEY0x+Q2GnjgH
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="387371341"
+  t=1698843789; x=1730379789;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Xqb2s8yu9Tqmf7i3D/xBNAG070CrOhqluUcoukJ5yAU=;
+  b=PWbFmxgSMkPjIYk0bZrndrAjmtCoyM2XOuP3PEMlrQO45ylB4jjuOHpS
+   cGZXKUDTqNbOqPrIFfHjy7ta74gGVhzl+UaJbEAIsfi4XdcYHQKXagwES
+   vg4H8lFbz+5cfH7W9hKWeYLxovD6yUipEdoddQDXfrKYFxmRqS7eOpxbS
+   QF5SlyJlnvKfr0k6U8yIRNzdqhRMWtT56bSfnG9oKQV0db9CIDQrkKePf
+   4Ssz1eT1/7T/roof7+LqMgGKym7GEOOUuanyhtsvTJmvrxT0DcUhZkGFt
+   5ktp0QZRrtRrXtrcyCz4NPX25IWsE9IbpobXYGa5zSCUPhomxpVv+yroH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="1341822"
 X-IronPort-AV: E=Sophos;i="6.03,268,1694761200"; 
-   d="scan'208";a="387371341"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 06:01:57 -0700
+   d="scan'208";a="1341822"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 06:02:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="754470441"
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="737398925"
 X-IronPort-AV: E=Sophos;i="6.03,268,1694761200"; 
-   d="scan'208";a="754470441"
+   d="scan'208";a="737398925"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 01 Nov 2023 06:01:54 -0700
+  by orsmga006.jf.intel.com with ESMTP; 01 Nov 2023 06:01:54 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qyAr1-0000om-1F;
+	id 1qyAr1-0000oo-1M;
 	Wed, 01 Nov 2023 13:01:51 +0000
-Date: Wed, 1 Nov 2023 21:01:27 +0800
+Date: Wed, 1 Nov 2023 21:00:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kaiwei Liu <kaiwei.liu@unisoc.com>, Vinod Koul <vkoul@kernel.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kaiwei liu <liukaiwei086@gmail.com>,
-	Wenming Wu <wenming.wu@unisoc.com>
-Subject: Re: [PATCH 1/3] dmaengine: sprd: support dma device suspend/resume
-Message-ID: <202311012018.QwjGJH02-lkp@intel.com>
-References: <20231025120500.8914-1-kaiwei.liu@unisoc.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-xfs:xfs-zoned 20/48] undefined reference to `__udivdi3'
+Message-ID: <202311012038.F3dTGafQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,62 +48,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231025120500.8914-1-kaiwei.liu@unisoc.com>
 
-Hi Kaiwei,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on vkoul-dmaengine/next]
-[also build test ERROR on linus/master v6.6 next-20231101]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kaiwei-Liu/dmaengine-sprd-delete-enable-opreation-in-probe/20231025-201524
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-patch link:    https://lore.kernel.org/r/20231025120500.8914-1-kaiwei.liu%40unisoc.com
-patch subject: [PATCH 1/3] dmaengine: sprd: support dma device suspend/resume
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20231101/202311012018.QwjGJH02-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311012018.QwjGJH02-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
+head:   c4f7071632b671933d29f8b9cdb202a6c1c43dd4
+commit: 0bebbff604f9f794dd835c776c496036426b4cd3 [20/48] iomap: add the concept of a merge boundary to the writeback code
+config: microblaze-allnoconfig (https://download.01.org/0day-ci/archive/20231101/202311012038.F3dTGafQ-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311012038.F3dTGafQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311012018.QwjGJH02-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311012038.F3dTGafQ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/dma/sprd-dma.c: In function 'sprd_dma_suspend_noirq':
->> drivers/dma/sprd-dma.c:1296:38: error: 'struct dev_pm_info' has no member named 'usage_count'
-    1296 |             (atomic_read(&(dev->power.usage_count)) > 1))
-         |                                      ^
-   drivers/dma/sprd-dma.c: In function 'sprd_dma_resume_early':
-   drivers/dma/sprd-dma.c:1305:38: error: 'struct dev_pm_info' has no member named 'usage_count'
-    1305 |             (atomic_read(&(dev->power.usage_count)) > 1))
-         |                                      ^
-   drivers/dma/sprd-dma.c: At top level:
-   drivers/dma/sprd-dma.c:1302:12: warning: 'sprd_dma_resume_early' defined but not used [-Wunused-function]
-    1302 | static int sprd_dma_resume_early(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   drivers/dma/sprd-dma.c:1293:12: warning: 'sprd_dma_suspend_noirq' defined but not used [-Wunused-function]
-    1293 | static int sprd_dma_suspend_noirq(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +1296 drivers/dma/sprd-dma.c
-
-  1292	
-  1293	static int sprd_dma_suspend_noirq(struct device *dev)
-  1294	{
-  1295		if ((pm_runtime_status_suspended(dev)) ||
-> 1296		    (atomic_read(&(dev->power.usage_count)) > 1))
-  1297			return 0;
-  1298	
-  1299		return sprd_dma_runtime_suspend(dev);
-  1300	}
-  1301	
+   microblaze-linux-ld: fs/iomap/buffered-io.o: in function `iomap_ioend_try_merge':
+>> (.text+0x2e8): undefined reference to `__udivdi3'
+>> microblaze-linux-ld: (.text+0x308): undefined reference to `__udivdi3'
+   microblaze-linux-ld: fs/iomap/buffered-io.o: in function `iomap_writepage_map':
+   (.text+0x7ebc): undefined reference to `__udivdi3'
+   microblaze-linux-ld: (.text+0x7ee0): undefined reference to `__udivdi3'
 
 -- 
 0-DAY CI Kernel Test Service
