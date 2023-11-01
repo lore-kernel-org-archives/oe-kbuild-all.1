@@ -1,47 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49AF712B6E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Nov 2023 12:36:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224C112B6C
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Nov 2023 13:01:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cPjNgWHQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mHFKROnJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698842196; x=1730378196;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HE7OUuTeza2+S01BoJ6/sOEz0I3DCneouK94RPoG83I=;
-  b=cPjNgWHQHzz+k4nb7VeGHhEyabG1EolB/WUiVd6hKGSYeqQgapiaA6uU
-   CDYGN25Z1s+buZn5oKHGeXXUNXaNzgcPN4a48+5fOuxLlsKnnBpwVh1ay
-   l/74t+rZbC5zFWBM8hXbqSvIyUHWHdyO7RBdbKwsBG5VCQGs1VRTokfW3
-   FPNJysvLJw3GvZQFBm66RCgTSYXd9ApGHZnbj9XMLTYCtEUNEfbAbWlZw
-   3GtWggFQDabv3yNcmr5XLuZAi4h5CTVGzi1bPLsixhYAY3UKmHgf4zg/x
-   5xg+bsbaZJADdQMJUFiew6Yanqitnfxju8lQnoWen2Oi/tR+qhzjaoSvu
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="10020527"
+  t=1698843718; x=1730379718;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=s2xZhAihU9OTZQg4ZTNwu8nAKvr8L+OIZA8uCubjXJs=;
+  b=mHFKROnJEAm8v6o0L8S3Wh6stcPV9uboXc0UTgmFnGP4mv/5qYNDxn2T
+   dTJqcPfaycq+nPx9bf04f6/wAKAtVkq5baBGF2SAxM5LeqadScDA9EzmG
+   7JYQIPw8DPIXvvV3iUJTzQYZddRodukDBnCJJVtLpYHseIi8tUibhin6G
+   eK/UCFT+a47UwZBvVdeLwQ5XVjQ2AYvs7Nb2xVbsej+zydRMCN6DPp6wt
+   5cDPrhfhDCvNZFwpDWwUP8GnuIK5HgqgIa1X9rlf+MjPtnUv2Zh/M0dMc
+   vzp9zptGWeCJJ5RoPb+5trxewvcSqCz3Huav1DdmbadcPEY0x+Q2GnjgH
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="387371341"
 X-IronPort-AV: E=Sophos;i="6.03,268,1694761200"; 
-   d="scan'208";a="10020527"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 05:36:35 -0700
+   d="scan'208";a="387371341"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 06:01:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="790104175"
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="754470441"
 X-IronPort-AV: E=Sophos;i="6.03,268,1694761200"; 
-   d="scan'208";a="790104175"
+   d="scan'208";a="754470441"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 01 Nov 2023 05:36:33 -0700
+  by orsmga007.jf.intel.com with ESMTP; 01 Nov 2023 06:01:54 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qyASV-0000o0-0Z;
-	Wed, 01 Nov 2023 12:36:31 +0000
-Date: Wed, 1 Nov 2023 20:36:13 +0800
+	id 1qyAr1-0000om-1F;
+	Wed, 01 Nov 2023 13:01:51 +0000
+Date: Wed, 1 Nov 2023 21:01:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Borkmann <daniel@iogearbox.net>
-Cc: oe-kbuild-all@lists.linux.dev, Daniel Borkmann <daniel@iogearbox.net>,
-	Nikolay Aleksandrov <razor@blackwall.org>
-Subject: [cilium:pr/netkit7 4/4] drivers/net/veth.c:465:20: warning: no
- previous prototype for 'veth_peer_dev'
-Message-ID: <202311012021.s4sC5Gm8-lkp@intel.com>
+To: Kaiwei Liu <kaiwei.liu@unisoc.com>, Vinod Koul <vkoul@kernel.org>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kaiwei liu <liukaiwei086@gmail.com>,
+	Wenming Wu <wenming.wu@unisoc.com>
+Subject: Re: [PATCH 1/3] dmaengine: sprd: support dma device suspend/resume
+Message-ID: <202311012018.QwjGJH02-lkp@intel.com>
+References: <20231025120500.8914-1-kaiwei.liu@unisoc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,37 +55,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231025120500.8914-1-kaiwei.liu@unisoc.com>
 
-tree:   https://github.com/cilium/linux.git pr/netkit7
-head:   d567f22d2c3adbdf15ad1be35fd66467b562c68b
-commit: d567f22d2c3adbdf15ad1be35fd66467b562c68b [4/4] bpf, netkit, veth: Add indirect call wrapper for ndo_get_peer_dev
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20231101/202311012021.s4sC5Gm8-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311012021.s4sC5Gm8-lkp@intel.com/reproduce)
+Hi Kaiwei,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on vkoul-dmaengine/next]
+[also build test ERROR on linus/master v6.6 next-20231101]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kaiwei-Liu/dmaengine-sprd-delete-enable-opreation-in-probe/20231025-201524
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+patch link:    https://lore.kernel.org/r/20231025120500.8914-1-kaiwei.liu%40unisoc.com
+patch subject: [PATCH 1/3] dmaengine: sprd: support dma device suspend/resume
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20231101/202311012018.QwjGJH02-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311012018.QwjGJH02-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311012021.s4sC5Gm8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311012018.QwjGJH02-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/veth.c:465:20: warning: no previous prototype for 'veth_peer_dev' [-Wmissing-prototypes]
-     465 | struct net_device *veth_peer_dev(struct net_device *dev)
-         |                    ^~~~~~~~~~~~~
+   drivers/dma/sprd-dma.c: In function 'sprd_dma_suspend_noirq':
+>> drivers/dma/sprd-dma.c:1296:38: error: 'struct dev_pm_info' has no member named 'usage_count'
+    1296 |             (atomic_read(&(dev->power.usage_count)) > 1))
+         |                                      ^
+   drivers/dma/sprd-dma.c: In function 'sprd_dma_resume_early':
+   drivers/dma/sprd-dma.c:1305:38: error: 'struct dev_pm_info' has no member named 'usage_count'
+    1305 |             (atomic_read(&(dev->power.usage_count)) > 1))
+         |                                      ^
+   drivers/dma/sprd-dma.c: At top level:
+   drivers/dma/sprd-dma.c:1302:12: warning: 'sprd_dma_resume_early' defined but not used [-Wunused-function]
+    1302 | static int sprd_dma_resume_early(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/sprd-dma.c:1293:12: warning: 'sprd_dma_suspend_noirq' defined but not used [-Wunused-function]
+    1293 | static int sprd_dma_suspend_noirq(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/veth_peer_dev +465 drivers/net/veth.c
+vim +1296 drivers/dma/sprd-dma.c
 
-   464	
- > 465	struct net_device *veth_peer_dev(struct net_device *dev)
-   466	{
-   467		struct veth_priv *priv = netdev_priv(dev);
-   468	
-   469		/* Callers must be under RCU read side. */
-   470		return rcu_dereference(priv->peer);
-   471	}
-   472	
+  1292	
+  1293	static int sprd_dma_suspend_noirq(struct device *dev)
+  1294	{
+  1295		if ((pm_runtime_status_suspended(dev)) ||
+> 1296		    (atomic_read(&(dev->power.usage_count)) > 1))
+  1297			return 0;
+  1298	
+  1299		return sprd_dma_runtime_suspend(dev);
+  1300	}
+  1301	
 
 -- 
 0-DAY CI Kernel Test Service
