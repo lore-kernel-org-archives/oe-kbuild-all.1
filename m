@@ -1,46 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED291BDC6
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 14:53:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0EB1BDE6
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 15:04:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QoC+e629"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ioQY2tFj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698936815; x=1730472815;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Hs31JN5ZIPgNGsV/AKc2TQcO7h+0igp95KiagZ1gLNE=;
-  b=QoC+e629KfPIuEdfmqjoGpTZCrwu+/XqIl8Tq7C7hqcje1J1rSuVzEqQ
-   HNh6oOTKGiLL6vx/VC9fwtxmy8QHF372QEpbqd/AsDT8ZbcAoFu4tsIXe
-   EBNSPTn+yHB5gS0bOrxEPaAqpWWNXwQVvzhh/yXsKvBKPHFFweWDfNBu6
-   R84y8s/ywFWhjuuIVI3kC3KIe8PoSC7VG4f04fP0SD78SwoCliJXKd9Jj
-   3h2El1lhycGYYcCkzdY2JSz/C395fMD/i+OPYMv3SAiBLVDWzjsVZeOom
-   7DJ8pu1iDROXQ5nVAcj0VYN37xU3Up+EGy2uwN7Oqs2jaje6CC9t/3Yjt
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="1601826"
+  t=1698937449; x=1730473449;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Cg9fqJR9fIKmGvrVxCoifHnJ6DMc/BhIrxzOVZ087yA=;
+  b=ioQY2tFjlVKSf0atzlnBkcF7JjdbVmggNvk2EXTwN6h2q+Y+YG1X8jLx
+   y0FujpYve4N9sBKhsrDoBx95hFYU/1AVQt2UqFLTGOGNvaXFwIJUJooVa
+   7YTW1qJ7JRIiGmnMOBoKuXkCGjzDwz10ISG/YP4CijJPs4NVqGZWF5kny
+   UAlf+kRnvxmZ3ONLroT2wakg36o0PyP7zOW5/i+/zAtl/mmHyaN/GnCYT
+   pVP47DyxP0ppOWPzBXWmbue6IxC0QUiE597FNDThLzAiUbeJ5zalFc+c9
+   y721eQXQszeJjSqoigLNwtKx30+JeonoNHMWfUwNoUwzyz8YNCiE71h0k
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="373770352"
 X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="1601826"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 07:53:34 -0700
+   d="scan'208";a="373770352"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 08:03:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="831711552"
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="711170460"
 X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="831711552"
+   d="scan'208";a="711170460"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 02 Nov 2023 07:53:32 -0700
+  by orsmga003.jf.intel.com with ESMTP; 02 Nov 2023 08:03:46 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qyZ4c-0001XA-1H;
-	Thu, 02 Nov 2023 14:53:30 +0000
-Date: Thu, 2 Nov 2023 22:53:09 +0800
+	id 1qyZEW-0001Xq-21;
+	Thu, 02 Nov 2023 15:03:44 +0000
+Date: Thu, 2 Nov 2023 23:03:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ira Weiny <ira.weiny@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Navneet Singh <navneet.singh@intel.com>
-Subject: [weiny2:dcd-v3-2023-10-30 16/24] drivers/dax/extent.c:117: undefined
- reference to `__udivdi3'
-Message-ID: <202311022251.OrwLw6It-lkp@intel.com>
+To: Justin Stitt <justinstitt@google.com>, Hannes Reinecke <hare@suse.de>,
+	"James E.J. Bottomley" <jejb@linux.ibm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	Justin Stitt <justinstitt@google.com>
+Subject: Re: [PATCH] scsi: libfc: replace deprecated strncpy with memcpy
+Message-ID: <202311022256.mWiYJshd-lkp@intel.com>
+References: <20231030-strncpy-drivers-scsi-libfc-fc_encode-h-v1-1-c08c2be6befa@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,54 +54,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231030-strncpy-drivers-scsi-libfc-fc_encode-h-v1-1-c08c2be6befa@google.com>
 
-tree:   https://github.com/weiny2/linux-kernel.git dcd-v3-2023-10-30
-head:   d3da9e88296217b17eb067531b48dfd0211393c9
-commit: 504c306092e50af6e24f41dfcda5885ac18f6dd7 [16/24] dax/region: Expose DC extents on DAX region driver load
-config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20231102/202311022251.OrwLw6It-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311022251.OrwLw6It-lkp@intel.com/reproduce)
+Hi Justin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on ffc253263a1375a65fa6c9f62a893e9767fbebfa]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Justin-Stitt/scsi-libfc-replace-deprecated-strncpy-with-memcpy/20231031-063815
+base:   ffc253263a1375a65fa6c9f62a893e9767fbebfa
+patch link:    https://lore.kernel.org/r/20231030-strncpy-drivers-scsi-libfc-fc_encode-h-v1-1-c08c2be6befa%40google.com
+patch subject: [PATCH] scsi: libfc: replace deprecated strncpy with memcpy
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20231102/202311022256.mWiYJshd-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311022256.mWiYJshd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311022251.OrwLw6It-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311022256.mWiYJshd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/dax/extent.o: in function `dax_region_ext_create_dev':
->> drivers/dax/extent.c:117: undefined reference to `__udivdi3'
+   In function 'zfcp_fc_gspn',
+       inlined from 'zfcp_fc_sym_name_update' at drivers/s390/scsi/zfcp_fc.c:951:8:
+>> drivers/s390/scsi/zfcp_fc.c:877:15: warning: 'strstr' argument 1 declared attribute 'nonstring' [-Wstringop-overread]
+     877 |             !(strstr(gspn_rsp->gspn.fp_name, devno)))
+         |              ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/scsi/libfc.h:21,
+                    from drivers/s390/scsi/zfcp_fc.c:19:
+   include/uapi/scsi/fc/fc_ns.h: In function 'zfcp_fc_sym_name_update':
+   include/uapi/scsi/fc/fc_ns.h:148:17: note: argument 'fp_name' declared here
+     148 |         char    fp_name[] __nonstring;
+         |                 ^~~~~~~
 
 
-vim +117 drivers/dax/extent.c
+vim +877 drivers/s390/scsi/zfcp_fc.c
 
-    91	
-    92	int dax_region_ext_create_dev(struct dax_region *dax_region,
-    93				      void *private_data,
-    94				      void (*release)(void *private_data),
-    95				      resource_size_t offset,
-    96				      resource_size_t length,
-    97				      const char *label)
-    98	{
-    99		struct dr_extent *dr_extent;
-   100		struct device *dev;
-   101		int rc;
-   102	
-   103		dr_extent = kzalloc(sizeof(*dr_extent), GFP_KERNEL);
-   104		if (!dr_extent)
-   105			return -ENOMEM;
-   106	
-   107		dr_extent->offset = offset;
-   108		dr_extent->length = length;
-   109		snprintf(dr_extent->label, DAX_EXTENT_LABEL_LEN, "%s", label);
-   110	
-   111		dr_extent->private_data = private_data;
-   112		dr_extent->release = release;
-   113		kref_init(&dr_extent->ref);
-   114	
-   115		dev = &dr_extent->dev;
-   116		device_initialize(dev);
- > 117		dev->id = offset / dax_region->align;
+cc8c282963bd25 Swen Schillig    2008-06-10  844  
+038d9446a9e601 Christof Schmitt 2011-02-22  845  static int zfcp_fc_gspn(struct zfcp_adapter *adapter,
+038d9446a9e601 Christof Schmitt 2011-02-22  846  			struct zfcp_fc_req *fc_req)
+038d9446a9e601 Christof Schmitt 2011-02-22  847  {
+038d9446a9e601 Christof Schmitt 2011-02-22  848  	DECLARE_COMPLETION_ONSTACK(completion);
+038d9446a9e601 Christof Schmitt 2011-02-22  849  	char devno[] = "DEVNO:";
+038d9446a9e601 Christof Schmitt 2011-02-22  850  	struct zfcp_fsf_ct_els *ct_els = &fc_req->ct_els;
+038d9446a9e601 Christof Schmitt 2011-02-22  851  	struct zfcp_fc_gspn_req *gspn_req = &fc_req->u.gspn.req;
+038d9446a9e601 Christof Schmitt 2011-02-22  852  	struct zfcp_fc_gspn_rsp *gspn_rsp = &fc_req->u.gspn.rsp;
+038d9446a9e601 Christof Schmitt 2011-02-22  853  	int ret;
+038d9446a9e601 Christof Schmitt 2011-02-22  854  
+038d9446a9e601 Christof Schmitt 2011-02-22  855  	zfcp_fc_ct_ns_init(&gspn_req->ct_hdr, FC_NS_GSPN_ID,
+038d9446a9e601 Christof Schmitt 2011-02-22  856  			   FC_SYMBOLIC_NAME_SIZE);
+038d9446a9e601 Christof Schmitt 2011-02-22  857  	hton24(gspn_req->gspn.fp_fid, fc_host_port_id(adapter->scsi_host));
+038d9446a9e601 Christof Schmitt 2011-02-22  858  
+038d9446a9e601 Christof Schmitt 2011-02-22  859  	sg_init_one(&fc_req->sg_req, gspn_req, sizeof(*gspn_req));
+038d9446a9e601 Christof Schmitt 2011-02-22  860  	sg_init_one(&fc_req->sg_rsp, gspn_rsp, sizeof(*gspn_rsp));
+038d9446a9e601 Christof Schmitt 2011-02-22  861  
+038d9446a9e601 Christof Schmitt 2011-02-22  862  	ct_els->handler = zfcp_fc_complete;
+038d9446a9e601 Christof Schmitt 2011-02-22  863  	ct_els->handler_data = &completion;
+038d9446a9e601 Christof Schmitt 2011-02-22  864  	ct_els->req = &fc_req->sg_req;
+038d9446a9e601 Christof Schmitt 2011-02-22  865  	ct_els->resp = &fc_req->sg_rsp;
+038d9446a9e601 Christof Schmitt 2011-02-22  866  
+038d9446a9e601 Christof Schmitt 2011-02-22  867  	ret = zfcp_fsf_send_ct(&adapter->gs->ds, ct_els, NULL,
+038d9446a9e601 Christof Schmitt 2011-02-22  868  			       ZFCP_FC_CTELS_TMO);
+038d9446a9e601 Christof Schmitt 2011-02-22  869  	if (ret)
+038d9446a9e601 Christof Schmitt 2011-02-22  870  		return ret;
+038d9446a9e601 Christof Schmitt 2011-02-22  871  
+038d9446a9e601 Christof Schmitt 2011-02-22  872  	wait_for_completion(&completion);
+038d9446a9e601 Christof Schmitt 2011-02-22  873  	if (ct_els->status)
+038d9446a9e601 Christof Schmitt 2011-02-22  874  		return ct_els->status;
+038d9446a9e601 Christof Schmitt 2011-02-22  875  
+038d9446a9e601 Christof Schmitt 2011-02-22  876  	if (fc_host_port_type(adapter->scsi_host) == FC_PORTTYPE_NPIV &&
+038d9446a9e601 Christof Schmitt 2011-02-22 @877  	    !(strstr(gspn_rsp->gspn.fp_name, devno)))
+038d9446a9e601 Christof Schmitt 2011-02-22  878  		snprintf(fc_host_symbolic_name(adapter->scsi_host),
+038d9446a9e601 Christof Schmitt 2011-02-22  879  			 FC_SYMBOLIC_NAME_SIZE, "%s%s %s NAME: %s",
+038d9446a9e601 Christof Schmitt 2011-02-22  880  			 gspn_rsp->gspn.fp_name, devno,
+038d9446a9e601 Christof Schmitt 2011-02-22  881  			 dev_name(&adapter->ccw_device->dev),
+038d9446a9e601 Christof Schmitt 2011-02-22  882  			 init_utsname()->nodename);
+038d9446a9e601 Christof Schmitt 2011-02-22  883  	else
+820109fb11f24b Wolfram Sang     2022-08-18  884  		strscpy(fc_host_symbolic_name(adapter->scsi_host),
+038d9446a9e601 Christof Schmitt 2011-02-22  885  			gspn_rsp->gspn.fp_name, FC_SYMBOLIC_NAME_SIZE);
+038d9446a9e601 Christof Schmitt 2011-02-22  886  
+038d9446a9e601 Christof Schmitt 2011-02-22  887  	return 0;
+038d9446a9e601 Christof Schmitt 2011-02-22  888  }
+038d9446a9e601 Christof Schmitt 2011-02-22  889  
 
 -- 
 0-DAY CI Kernel Test Service
