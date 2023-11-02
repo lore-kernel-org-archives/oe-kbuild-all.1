@@ -1,170 +1,199 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 832E010A3A
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 10:57:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD6F10A3A
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 10:58:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jT0Nh13H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VssHmupE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698922657; x=1730458657;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h4enFCUSn8BV3Heci5Ocr14Bw9lcrZkIVIhepyhCnwQ=;
-  b=jT0Nh13HDqKS3lTTzPMXwKxpJ8D3kr7I2BtLIpzYsIHbYB0HPNssgaOM
-   +9DLxZY9cReAlKX5B9886tuZKA6y/nQye8AKquZlK4tZu4gF6rplYiNbT
-   45TtZL3dsZEVVJ1EziN33+tgVlKpDQ6PZjP93APEFPwCJe2KOds3AbSCB
-   G7uGj5p3M9XxLyQuDk7Yi11kuWCMvpxgYTexUb8yhivp/WfoSzFbxa9/H
-   n81mZ+aGXDqyZtAQyHCd7dxEU+ZEDqc1iKyTL1ttaNQWFb1gi4aAJTudV
-   xfgra+Ip1UTtkbVrF/sYcDB5hpTXn+vfJ48eGytn5mBf/CDoUxTfnEsiD
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="379080215"
+  t=1698922723; x=1730458723;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=sjFQDrmlxzzcgmIPT6ZY3hOo2s33DZ2FnKPJSro8K1Q=;
+  b=VssHmupEb8jhnMBbJ7Y/dX1BdIxmlp306oXyqSxI/Wd9+c/c1ES+SuNR
+   7PtRCHza/i0hqoLOb9+sxvukOkqS3McbML1NDj4WIwP0X7PykjClIKT8u
+   UQ0V2Vy4wSTglGvsh2QY9iIoA+Y7AOpA9Q0YbJjERYWsV0CtvuxK6smXG
+   9CxKpLPhicK9XITZsbbtVPmfquDjluRbL0iWq4R/yWFMbgTGscpaoPvAF
+   ZhftRZIx3aYnRsK7o1WMgwsuPSmwo+cmFUdpPAbiBrS6hPiTnYlOl51kz
+   vJqKiIPAraMwZe70b/j8V3ah0aAYEB+z+lpZkUb6H2Ew+ahFcHontCs27
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="452989187"
 X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="379080215"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 03:57:30 -0700
+   d="scan'208";a="452989187"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 03:58:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="831658437"
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="764876301"
 X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="831658437"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 02 Nov 2023 03:57:28 -0700
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qyVOA-0001QK-19;
-	Thu, 02 Nov 2023 10:57:26 +0000
-Date: Thu, 2 Nov 2023 18:56:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Greg Ungerer <gerg@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	uclinux-dev@uclinux.org
-Subject: [gerg-m68knommu:cf 3/3] lib/crypto/mpi/longlong.h:534: warning:
- "umul_ppmm" redefined
-Message-ID: <202311021826.pC3SLHbU-lkp@intel.com>
+   d="scan'208";a="764876301"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmsmga007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 02 Nov 2023 03:58:42 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 2 Nov 2023 03:58:42 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 2 Nov 2023 03:58:41 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Thu, 2 Nov 2023 03:58:41 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.168)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Thu, 2 Nov 2023 03:58:41 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kUAPCgv1G63hbF49uorh47XyGOGOT8sfecnulRqJq77VFAxQ1JiAd9ZvIC8BwXqk9PIGzjPXphuyw0GosnXRmXcUQl1Ng7RxadjeWm98fgPAM+wWpDV5qFZpXUmr3H20F7m/PYY6c5sF8HNdLl5OKSozE+pLC6JEVy40OBfkwasczfBSQxw66S+79PqggYV3c+/bzXq8ljA7TG5MsKl7A+WBghvp/sC/o0cx47Zs1iE51doJmtA+EUnTkKz8UXgr6RaiM118TTVS/pkWYn0AQ8NzgYIlFSScXMgCmTgH44DTN2yNiJmuPFr3UcuZeENcV+BERN/w20wh2G8POLM5fQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uAk+dHo6I9nWH+fX63S5ZWteYbNV9JPhMe8fQp5XXko=;
+ b=Rvob8oLFDdTNu3v17FEAaCHNnM50jMNjTbJiwG7ZS3HnfllAPQ1OuEdqZhb6Qn6AWPS83HhVDkPuGwKYBSny3GEIqY0uRHGHUFVgN2FFjj+AYmjvGaQbv9eRpTvfX3ojJcQE4DyR7yf3rxAqEJJt00BRdmgYoEPhtKdUwazo8M1vX3O+1c4VooiFvwyp4aaMpmMn/iBA3kA3nedP0x38uCEW1y6kyWqx/KYRDxvhyNFtr8Pcno+xLaUMcSY0LrmNlk7vjIIhNfrcCAPdCraRGpEfCUDkx+qADviO3TL1XsMeKk7Kjib5HNWLBOpLNxk8UoQOxrbVE8rZ+XXdmW6vrQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
+ by IA1PR11MB7755.namprd11.prod.outlook.com (2603:10b6:208:420::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.21; Thu, 2 Nov
+ 2023 10:58:39 +0000
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::2f1a:e62e:9fff:ae67]) by BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::2f1a:e62e:9fff:ae67%4]) with mapi id 15.20.6954.019; Thu, 2 Nov 2023
+ 10:58:39 +0000
+Date: Thu, 2 Nov 2023 18:58:30 +0800
+From: Philip Li <philip.li@intel.com>
+To: kernel test robot <lkp@intel.com>
+CC: Yosry Ahmed <yosryahmed@google.com>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Alexei Starovoitov <ast@kernel.org>, Hao Luo
+	<haoluo@google.com>
+Subject: Re: kernel/cgroup/rstat.c:166:22: warning: no previous declaration
+ for 'bpf_rstat_flush'
+Message-ID: <ZUOA1khPp/G67uNG@rli9-mobl>
+References: <202311021859.z3HikNTw-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <202311021859.z3HikNTw-lkp@intel.com>
+X-ClientProxiedBy: SG2PR04CA0157.apcprd04.prod.outlook.com (2603:1096:4::19)
+ To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR11MB2995:EE_|IA1PR11MB7755:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9342baed-9bd9-4d23-4b1f-08dbdb92aafa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ASZl/OQNH3qOQTIFXNboIAdLOSXZgWiufrIijydsvgjobAsIwVVgroKrxGugl0eBNb54boyoRYkCwKd7ehNie2qUF36pqIJo6BmMScbWg/KY6QXEXzKkjb/qyYkMD7A1b6ueZUKUUZdJ69rU1ju7Fz1LZJy4YCuvUs1VDoY57EkSc/TZOAazzZs4OukrXnjVah4f6BXL3hM3LS+TlKUAao0/tNT0PU8f+iCpKgizei0rWCPz/1OpmO3OOvmNoMehGXQwztNKhxEd2kgoLBvPB213yfET6I/AOd3jW1CA03Z9n/yir6KpRkPh04M+qzPvVAunDNMKxX/LwgXYM6OAyAxXmO8jb8HBdYSVI3PSEx9cVHqXebcPuph+8+1MJScph0QPWxPK1g4saqEA1w1n3LsCKq3CNyrh4OJ50DY0j2AecBHEci2FQLlN+hVYDNs6gu4AWetZdu+cs1p3S/kMWArhohPIsjxKr58zyi/Cr3IkMcQ1gYZVkGcHH2IXGxOHxraViEOmGzReulchp5PwPVV6Ia7g+8PBkfLoV0uE9EzU7EWEdpPSLx2OpSUEG0pZ4/ZF0J9Xd2KrPImp1ZrwdYarqOm2RFaAqCziul132yhEqaPeuw2zfz5ccvTmP/ASYeJDXX0R+oAV+LulVKRZAw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(396003)(366004)(39860400002)(136003)(346002)(230173577357003)(230922051799003)(230273577357003)(64100799003)(186009)(451199024)(1800799009)(83380400001)(26005)(38100700002)(66476007)(66556008)(54906003)(66946007)(5660300002)(6636002)(8936002)(4326008)(6862004)(8676002)(44832011)(41300700001)(316002)(6666004)(6506007)(6512007)(9686003)(966005)(6486002)(2906002)(478600001)(33716001)(82960400001)(86362001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?F5h6ZeNa533bTjUvfGajvyFPvzOsxuTUGKQW5w5d/lXUHmSQE2XJBauS9mJ2?=
+ =?us-ascii?Q?Zq/hx9dcsiT71gueGUhW9UbeAmPgzHhhcUx3Ylk3xl+RkrKpC/vCG9l8vxXl?=
+ =?us-ascii?Q?zKP7jDDDqcAqwra2/IfuvhI0ebWeimnH+V3+O5gsgYBbxQ5DzDiVmSIKIRQ3?=
+ =?us-ascii?Q?81ru27XOZhpxOvEDUi6ovEVKXa4RwtnyNQausWpk7YeehMLgE9yYQ2UXSi42?=
+ =?us-ascii?Q?ySuDtJvGBjQElXZp6Zqx5t2TKDgfxD39tAisJT2gRt4+C0QaMQBkvqsXTQ7r?=
+ =?us-ascii?Q?/hofV7RDGXylISoOvCc43hMHlwon5Rz2l4msMAv5kDj3XOMWt2InCJSd3cfj?=
+ =?us-ascii?Q?2wGKMoNNOryv4o6op8na4yLOctfkmUeNRlFEYdKKNIzq/T1nB1PB9k8pdlIJ?=
+ =?us-ascii?Q?cItux0yS1m5Qr9SZrGDJSDszqpX0CKoUVdEOiLIDQmRu+6xqoIN+1n6Iqs+Y?=
+ =?us-ascii?Q?7ARA4eZNsHfNCe1hS/Kdq7w8rMwWE1cSi4vwgsLjkj/PMLST8mI4LZHrReLY?=
+ =?us-ascii?Q?BHiplhlv2LF8ESd0RwGnVzZ+WNAVzj9bauK465/1vFVv6DkLaW2EL5+3MxE1?=
+ =?us-ascii?Q?nr0U/TSbI9BBw/lWPaZD0HbGS1AUhIR5BP4+yZZ8JdlqPSx2S4DESSQXEQb7?=
+ =?us-ascii?Q?Ba+F2TlLRzlWpj5CC8yKRz3e4Kt6nGfXjCPjEayyb0Nb7a3m5UsO+z7EcRPF?=
+ =?us-ascii?Q?ilU2tLT0wmN7meeN7Z3b3uu9/8LiiIYCIhZ4KKhyJNGS56X8wEGY58DSMed4?=
+ =?us-ascii?Q?qjQhawz4m7CWUWn+QsF2cJdpRbV9+qV0+lI6wjFoNSfD0H0UUIElfEcpfS4P?=
+ =?us-ascii?Q?XQWb0CgE3Plwam2BbVEzmQSd//pIQ5a5wSRuDI+hqx8IW8QlfsfPshZvxGrc?=
+ =?us-ascii?Q?hLgOXpnk5l9PzStw+t8hsq5b0hC+osQ3II2ROW1JdIn+Qn9YUTN/STJkRtWZ?=
+ =?us-ascii?Q?lNCewDZS6JC/rSBljROlLu9myEuRX+Tb4O8uA/Gpwq9lzek6EzYdCtLulsOT?=
+ =?us-ascii?Q?ZV9kt8wMvc0Ta+Md9J7GY4Jvv4pPf5aRUZ3ob8cgsgCYeGvek1wYRPG4UJVE?=
+ =?us-ascii?Q?Pvf72bbkXFeu5DLoZMiAtkNSeH3YqVqkC689f0dLdk7iZE12fjSJ1V1Llx0M?=
+ =?us-ascii?Q?FW3E9MNPtmsUQPWgpqSYbaYyOXb1xDy+5rWRupTLPTozrbwn87TwoNj4ojIk?=
+ =?us-ascii?Q?SpFzC2aJOoP33odlHkCRxrOu18u32d43SmdgDjE830lil7yiXbPPKlajNx0Q?=
+ =?us-ascii?Q?/qDBy2K/rpEw3bZdHyuBCBtzoWgjqhdHAnZa00KjRyzLPk8UZXedq4UAIfH4?=
+ =?us-ascii?Q?ibexn7tm8X2Vbayndupje0yafLZMUKgBAC76tEmtZpPrUJ2O39k4oH0YSH/T?=
+ =?us-ascii?Q?0rzlZJEnwQAnCzZ4Nxv0ruUE++5SlhDbSSx1Q1kT86zwQgDXdF910hQUCRe1?=
+ =?us-ascii?Q?iTFiiZPxNkf+ZIpR7C1O8g4JPp9/bCHenYuzIkXstRE4KI5NITygiq4MdAbV?=
+ =?us-ascii?Q?wfiz8Wq6NvJnyPAEM/aXHuEeHFS0rXuTRPXqPB/91lOiIAD9v/EW/U+dfjRK?=
+ =?us-ascii?Q?ecUXMEb1ABfu/MprsbmUpPxNvyaYKhA7DJE214rB?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9342baed-9bd9-4d23-4b1f-08dbdb92aafa
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2023 10:58:38.6570
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gmLPriepOh/uQx0hL6uWw42UHBnri7giZgLc/lbshVtqinVuTXoyPmkQ53ZcxWi+kkKwuDApuIhID8Cr3j5+Xw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7755
+X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git cf
-head:   046fd54f263ce0782ba2b56e0a514a1eeceff350
-commit: 046fd54f263ce0782ba2b56e0a514a1eeceff350 [3/3] m68k: use kernel's generic muldi3 libgcc function
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231102/202311021826.pC3SLHbU-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311021826.pC3SLHbU-lkp@intel.com/reproduce)
+On Thu, Nov 02, 2023 at 06:13:13PM +0800, kernel test robot wrote:
+> Hi Yosry,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311021826.pC3SLHbU-lkp@intel.com/
+Sorry for the false report, kindly ignore this one. We will resolve the
+problem shortly.
 
-All warnings (new ones prefixed by >>):
-
-   In file included from lib/crypto/mpi/generic_mpih-mul1.c:17:
->> lib/crypto/mpi/longlong.h:534: warning: "umul_ppmm" redefined
-     534 | #define umul_ppmm(w1, w0, u, v) \
-         | 
-   In file included from include/linux/compiler_types.h:167,
-                    from <command-line>:
-   arch/m68k/include/asm/compiler.h:13: note: this is the location of the previous definition
-      13 | #define umul_ppmm(w1, w0, u, v)                         \
-         | 
-
-
-vim +/umul_ppmm +534 lib/crypto/mpi/longlong.h
-
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  510  
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  511  /***************************************
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  512  	**************  68000	****************
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  513  	***************************************/
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  514  #if (defined(__mc68000__) || defined(__mc68020__) || defined(__NeXT__) || defined(mc68020)) && W_TYPE_SIZE == 32
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  515  #define add_ssaaaa(sh, sl, ah, al, bh, bl) \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  516  	__asm__ ("add%.l %5,%1\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  517  	   "addx%.l %3,%0" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  518  	: "=d" ((USItype)(sh)), \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  519  	     "=&d" ((USItype)(sl)) \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  520  	: "%0" ((USItype)(ah)), \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  521  	     "d" ((USItype)(bh)), \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  522  	     "%1" ((USItype)(al)), \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  523  	     "g" ((USItype)(bl)))
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  524  #define sub_ddmmss(sh, sl, ah, al, bh, bl) \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  525  	__asm__ ("sub%.l %5,%1\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  526  	   "subx%.l %3,%0" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  527  	: "=d" ((USItype)(sh)), \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  528  	     "=&d" ((USItype)(sl)) \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  529  	: "0" ((USItype)(ah)), \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  530  	     "d" ((USItype)(bh)), \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  531  	     "1" ((USItype)(al)), \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  532  	     "g" ((USItype)(bl)))
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  533  #if (defined(__mc68020__) || defined(__NeXT__) || defined(mc68020))
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31 @534  #define umul_ppmm(w1, w0, u, v) \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  535  	__asm__ ("mulu%.l %3,%1:%0" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  536  	: "=d" ((USItype)(w0)), \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  537  	     "=d" ((USItype)(w1)) \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  538  	: "%0" ((USItype)(u)), \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  539  	     "dmi" ((USItype)(v)))
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  540  #define UMUL_TIME 45
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  541  #define udiv_qrnnd(q, r, n1, n0, d) \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  542  	__asm__ ("divu%.l %4,%1:%0" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  543  	: "=d" ((USItype)(q)), \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  544  	     "=d" ((USItype)(r)) \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  545  	: "0" ((USItype)(n0)), \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  546  	     "1" ((USItype)(n1)), \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  547  	     "dmi" ((USItype)(d)))
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  548  #define UDIV_TIME 90
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  549  #define sdiv_qrnnd(q, r, n1, n0, d) \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  550  	__asm__ ("divs%.l %4,%1:%0" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  551  	: "=d" ((USItype)(q)), \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  552  	     "=d" ((USItype)(r)) \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  553  	: "0" ((USItype)(n0)), \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  554  	     "1" ((USItype)(n1)), \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  555  	     "dmi" ((USItype)(d)))
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  556  #else /* not mc68020 */
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  557  #define umul_ppmm(xh, xl, a, b) \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  558  do { USItype __umul_tmp1, __umul_tmp2; \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  559  	__asm__ ("| Inlined umul_ppmm\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  560  	"move%.l %5,%3\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  561  	"move%.l %2,%0\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  562  	"move%.w %3,%1\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  563  	"swap	%3\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  564  	"swap	%0\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  565  	"mulu	%2,%1\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  566  	"mulu	%3,%0\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  567  	"mulu	%2,%3\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  568  	"swap	%2\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  569  	"mulu	%5,%2\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  570  	"add%.l	%3,%2\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  571  	"jcc	1f\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  572  	"add%.l	%#0x10000,%0\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  573  	"1:	move%.l %2,%3\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  574  	"clr%.w	%2\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  575  	"swap	%2\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  576  	"swap	%3\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  577  	"clr%.w	%3\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  578  	"add%.l	%3,%1\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  579  	"addx%.l %2,%0\n" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  580  	"| End inlined umul_ppmm" \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  581  	: "=&d" ((USItype)(xh)), "=&d" ((USItype)(xl)), \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  582  		"=d" (__umul_tmp1), "=&d" (__umul_tmp2) \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  583  	: "%2" ((USItype)(a)), "d" ((USItype)(b))); \
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  584  } while (0)
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  585  #define UMUL_TIME 100
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  586  #define UDIV_TIME 400
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  587  #endif /* not mc68020 */
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  588  #endif /* mc68000 */
-5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  589  
-
-:::::: The code at line 534 was first introduced by commit
-:::::: 5ce3e312ec5c11abce13215be70700778bf601f0 crypto: GnuPG based MPI lib - header files (part 2)
-
-:::::: TO: Dmitry Kasatkin <dmitry.kasatkin@intel.com>
-:::::: CC: Dmitry Kasatkin <dmitry.kasatkin@intel.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> FYI, the error/warning still remains.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   21e80f3841c01aeaf32d7aee7bbc87b3db1aa0c6
+> commit: a319185be9f5ad13c2a296d448ac52ffe45d194c cgroup: bpf: enable bpf programs to integrate with rstat
+> date:   1 year, 2 months ago
+> config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20231102/202311021859.z3HikNTw-lkp@intel.com/config)
+> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311021859.z3HikNTw-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311021859.z3HikNTw-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> kernel/cgroup/rstat.c:166:22: warning: no previous declaration for 'bpf_rstat_flush' [-Wmissing-declarations]
+>     __weak noinline void bpf_rstat_flush(struct cgroup *cgrp,
+>                          ^~~~~~~~~~~~~~~
+> 
+> 
+> vim +/bpf_rstat_flush +166 kernel/cgroup/rstat.c
+> 
+>    147	
+>    148	/*
+>    149	 * A hook for bpf stat collectors to attach to and flush their stats.
+>    150	 * Together with providing bpf kfuncs for cgroup_rstat_updated() and
+>    151	 * cgroup_rstat_flush(), this enables a complete workflow where bpf progs that
+>    152	 * collect cgroup stats can integrate with rstat for efficient flushing.
+>    153	 *
+>    154	 * A static noinline declaration here could cause the compiler to optimize away
+>    155	 * the function. A global noinline declaration will keep the definition, but may
+>    156	 * optimize away the callsite. Therefore, __weak is needed to ensure that the
+>    157	 * call is still emitted, by telling the compiler that we don't know what the
+>    158	 * function might eventually be.
+>    159	 *
+>    160	 * __diag_* below are needed to dismiss the missing prototype warning.
+>    161	 */
+>    162	__diag_push();
+>    163	__diag_ignore_all("-Wmissing-prototypes",
+>    164			  "kfuncs which will be used in BPF programs");
+>    165	
+>  > 166	__weak noinline void bpf_rstat_flush(struct cgroup *cgrp,
+>    167					     struct cgroup *parent, int cpu)
+>    168	{
+>    169	}
+>    170	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
