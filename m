@@ -1,47 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0164A1F94C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 22:12:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A9F22305
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 22:12:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UnffsGp2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cheiBWl0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698963162; x=1730499162;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JrPvXs7xBh2SsRg2nqQWahWBHPDa94ufuLjt2roBifQ=;
-  b=UnffsGp2WipqHxf8kPD2Dm7iiRmzPlbqwmm4WNEcVkUkMVcJevqR1bhk
-   YaZnbFvsgHGafHxQU41k0AxfktkwnUrlYF65Eg1E81OaTJjdkWpbfl5N4
-   bl2qBFWqguO7+0zXdb76AF3SfY3yiNBmXJqKF76nG0lrWa569gsLhpY22
-   fUAbU9YenCMofWbjFA4BiR+Qrj25xaAqT59wcSdZY4IG9sqHZfTtcqp/5
-   KDJtlREWYaVchke8C3QeGMeSAuejtMv8j0w84++zwPKDiA1fjkZ7tpTGu
-   mwseRTp3NIzP/APL/pNCCrMQPjXYlpZhnRyLpO1j9i0m5I4/yJSEq+yWu
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="7467421"
+  t=1698963171; x=1730499171;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1Gm0uGCQLXrLGtorJZ/tXDdVUHAqLa3KE9DQA+5PIkM=;
+  b=cheiBWl0Om18LMEg0dPCquJ3MMr6D8qPl10LeIOwRBSO9ex1sCUDupDx
+   3yPuLVAR//iokx3CCZYD7dZKwy4vT9kbCTrbhsOI2p0Wszs+aHvCW69nZ
+   i+5zC8scMi8jcD3yMkX9/jyQQv9ya4BRytOMM7RKftrTrr6SufFnMqXWf
+   GB3T9DpWun/+5tLi3Q3uZLyA2UMWjYbAZNmlgxi74nkoWKhK+70KbTuUh
+   msSlJeJAW3dMYFO7PHSDZam9XS9eOovSTDjKPFaFBAVz2qWrzWviXMw7q
+   arRWrSZWiq4i/GJUZEnJH9kN5KgAMFUxn+TCYt2Khr5S/7APCWeebxjXj
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="369036948"
 X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; 
-   d="scan'208";a="7467421"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 15:12:41 -0700
+   d="scan'208";a="369036948"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 15:12:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="761422126"
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="711317523"
 X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; 
-   d="scan'208";a="761422126"
+   d="scan'208";a="711317523"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 02 Nov 2023 15:12:38 -0700
+  by orsmga003.jf.intel.com with ESMTP; 02 Nov 2023 15:12:40 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qyfvY-0001up-1Y;
-	Thu, 02 Nov 2023 22:12:36 +0000
-Date: Fri, 3 Nov 2023 06:11:31 +0800
+	id 1qyfva-0001uv-0l;
+	Thu, 02 Nov 2023 22:12:38 +0000
+Date: Fri, 3 Nov 2023 06:11:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrii Nakryiko <andrii@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: versioncheck: ./tools/lib/bpf/bpf_helpers.h: 146: need
- linux/version.h
-Message-ID: <202311030628.2TMiy2U9-lkp@intel.com>
+To: David Woodhouse <dwmw2@infradead.org>, kvm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Paul Durrant <paul@xen.org>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Dongli Zhang <dongli.zhang@oracle.com>
+Subject: Re: [PATCH] KVM: x86/xen: improve accuracy of Xen timers
+Message-ID: <202311030654.j0vxHNkS-lkp@intel.com>
+References: <b5a974bdc330be91c2356f5bb2cc68ef1cc7ed40.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,80 +57,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <b5a974bdc330be91c2356f5bb2cc68ef1cc7ed40.camel@infradead.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4652b8e4f3ffa48c706ec334f048c217a7d9750d
-commit: 9ae2c26e43248b722e79fe867be38062c9dd1e5f libbpf: provide NULL and KERNEL_VERSION macros in bpf_helpers.h
-date:   2 years, 8 months ago
-reproduce: (https://download.01.org/0day-ci/archive/20231103/202311030628.2TMiy2U9-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on kvm/queue]
+[also build test ERROR on mst-vhost/linux-next linus/master v6.6]
+[cannot apply to kvm/linux-next next-20231102]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Woodhouse/KVM-x86-xen-improve-accuracy-of-Xen-timers/20231028-020037
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/b5a974bdc330be91c2356f5bb2cc68ef1cc7ed40.camel%40infradead.org
+patch subject: [PATCH] KVM: x86/xen: improve accuracy of Xen timers
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20231103/202311030654.j0vxHNkS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311030654.j0vxHNkS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311030628.2TMiy2U9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311030654.j0vxHNkS-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wrestrict -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wundef -funsigned-char -Wenum-conversion -Werror=return-type W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/csky/include/asm/io.h: 8 linux/version.h not needed.
-   ./arch/csky/include/asm/uaccess.h: 14 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
-   ./arch/s390/include/asm/setup.h: 177: need linux/version.h
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./arch/x86/hyperv/hv_proc.c: 3 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 47 linux/version.h not needed.
-   ./drivers/hv/hv.c: 16 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
-   ./drivers/net/ethernet/mellanox/mlx5/core/main.c: 53 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 10 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 14 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/usb/core/hcd.c: 14 linux/version.h not needed.
-   ./drivers/usb/gadget/udc/aspeed-vhub/hub.c: 33 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 15 linux/version.h not needed.
-   ./include/linux/usb/composite.h: 39 linux/version.h not needed.
-   ./init/version.c: 16 linux/version.h not needed.
-   ./kernel/sys.c: 42 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
->> ./tools/lib/bpf/bpf_helpers.h: 146: need linux/version.h
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+   ld: arch/x86/kvm/xen.o: in function `kvm_xen_start_timer':
+>> xen.c:(.text+0x132): undefined reference to `kvm_get_monotonic_and_clockread'
 
 -- 
 0-DAY CI Kernel Test Service
