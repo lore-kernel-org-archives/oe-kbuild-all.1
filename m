@@ -1,50 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F338B1CF9C;
-	Thu,  2 Nov 2023 15:47:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759171CF90
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 16:07:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cJ386WLd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NcWk4Y5O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698940031; x=1730476031;
+  t=1698941242; x=1730477242;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HNI3x3MYh/j6wySXSOikcO/9VddS9p/hNBuGdysRtcM=;
-  b=cJ386WLdq5WalHQHFqIYIaZg1Hw+lukzq7bvNcSqWXpQLgz9t9B3lCQT
-   +sRSGO6okiUkNlB4geE4ATPQ5sp2tZIHE741WIwXJSY3ykymoNQTw2sTn
-   +aNG51yr31Vf9ag481EVJPUhlMIwlWGaBO6uhq63jW3HwtddJ3uEvZITG
-   uyYtn6hLaUhIULQhnU50BRliEbYINiF354Fw/zghP5Yc9EAkSOYgG4FVD
-   fXGHsEuZHji/HkLcvWZdQFvMrLMK/g9Iv7Ukpev9ga6oK0ZDPzaqklTss
-   KLbhLP1AYUamC/Rvjzr2RbQ5TTXSlLyTAYrdr1OkKJTToitDtOvUNqFUb
+  bh=FI+QUk14H8+YA+XATbyjLUs9MoqcwestBJaj56ELKDI=;
+  b=NcWk4Y5O/wBZ1IBKeYdekM0BueT+zF/3NNKUbHzH+HnxGGhYqG9XN1Sb
+   8jWti1sDEp2xSi/K0ZW0g1uTm7d2WQPCfUxk3376yqLGXqHkccmTjpYWt
+   PvK9vUbgxawfrGihed5Vme1q/dwDpQGxGE5OwTOMIM+YceSn22Cj3TSSf
+   vHXH6kXlpyV+26BXwWM5yOB+6+X2No5yIkETH+myLrQ9G2zfVl4fCmxUp
+   dx8NpQ5VXcGjj1KUNTb+ED/v0Xs2Bi+osnIq8PQgkpNTfb+i6REH+7N/j
+   YAwKOlCUikjO+owjLimf7LUpmhSmsrnb8e8kY1zwgXsFwOBoLKZtNvVma
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="368950279"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="368950279"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 08:46:42 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="392631019"
+X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; 
+   d="scan'208";a="392631019"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 09:07:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="711186730"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="711186730"
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="831728894"
+X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; 
+   d="scan'208";a="831728894"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 02 Nov 2023 08:46:39 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 02 Nov 2023 09:07:13 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qyZu1-0001b6-0v;
-	Thu, 02 Nov 2023 15:46:37 +0000
-Date: Thu, 2 Nov 2023 23:46:35 +0800
+	id 1qyaDv-0001d1-1R;
+	Thu, 02 Nov 2023 16:07:11 +0000
+Date: Fri, 3 Nov 2023 00:06:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>
-Subject: lib/maple_tree.c:4327:20: warning: stack frame size (1112) exceeds
- limit (1024) in 'mas_wr_modify'
-Message-ID: <202311022317.B3t8ONbL-lkp@intel.com>
+To: Sui Jingfeng <suijingfeng@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse: sparse:
+ incorrect type in argument 1 (different address spaces)
+Message-ID: <202311030051.n1J0KSmk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,86 +50,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Liam,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   21e80f3841c01aeaf32d7aee7bbc87b3db1aa0c6
-commit: 54a611b605901c7d5d05b6b8f5d04a6ceb0962aa Maple Tree: add new data structure
-date:   1 year, 1 month ago
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231102/202311022317.B3t8ONbL-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311022317.B3t8ONbL-lkp@intel.com/reproduce)
+commit: f39db26c54281da6a785259498ca74b5e470476f drm: Add kms driver for loongson display controller
+date:   4 months ago
+config: openrisc-randconfig-r132-20231102 (https://download.01.org/0day-ci/archive/20231103/202311030051.n1J0KSmk-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231103/202311030051.n1J0KSmk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311022317.B3t8ONbL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311030051.n1J0KSmk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *kptr @@
+   drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse:     got void *kptr
+>> drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *kptr @@
+   drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse:     got void *kptr
 
-   lib/maple_tree.c:330:20: warning: unused function 'mte_set_full' [-Wunused-function]
-     330 | static inline void mte_set_full(const struct maple_enode *node)
-         |                    ^
-   lib/maple_tree.c:335:20: warning: unused function 'mte_clear_full' [-Wunused-function]
-     335 | static inline void mte_clear_full(const struct maple_enode *node)
-         |                    ^
-   lib/maple_tree.c:3958:19: warning: stack frame size (1032) exceeds limit (1024) in 'mas_wr_spanning_store' [-Wframe-larger-than]
-    3958 | static inline int mas_wr_spanning_store(struct ma_wr_state *wr_mas)
-         |                   ^
->> lib/maple_tree.c:4327:20: warning: stack frame size (1112) exceeds limit (1024) in 'mas_wr_modify' [-Wframe-larger-than]
-    4327 | static inline void mas_wr_modify(struct ma_wr_state *wr_mas)
-         |                    ^
-   4 warnings generated.
+vim +27 drivers/gpu/drm/loongson/lsdc_benchmark.c
 
-
-vim +/mas_wr_modify +4327 lib/maple_tree.c
-
-  4326	
-> 4327	static inline void mas_wr_modify(struct ma_wr_state *wr_mas)
-  4328	{
-  4329		unsigned char node_slots;
-  4330		unsigned char node_size;
-  4331		struct ma_state *mas = wr_mas->mas;
-  4332	
-  4333		/* Direct replacement */
-  4334		if (wr_mas->r_min == mas->index && wr_mas->r_max == mas->last) {
-  4335			rcu_assign_pointer(wr_mas->slots[mas->offset], wr_mas->entry);
-  4336			if (!!wr_mas->entry ^ !!wr_mas->content)
-  4337				mas_update_gap(mas);
-  4338			return;
-  4339		}
-  4340	
-  4341		/* Attempt to append */
-  4342		node_slots = mt_slots[wr_mas->type];
-  4343		node_size = wr_mas->node_end - wr_mas->offset_end + mas->offset + 2;
-  4344		if (mas->max == ULONG_MAX)
-  4345			node_size++;
-  4346	
-  4347		/* slot and node store will not fit, go to the slow path */
-  4348		if (unlikely(node_size >= node_slots))
-  4349			goto slow_path;
-  4350	
-  4351		if (wr_mas->entry && (wr_mas->node_end < node_slots - 1) &&
-  4352		    (mas->offset == wr_mas->node_end) && mas_wr_append(wr_mas)) {
-  4353			if (!wr_mas->content || !wr_mas->entry)
-  4354				mas_update_gap(mas);
-  4355			return;
-  4356		}
-  4357	
-  4358		if ((wr_mas->offset_end - mas->offset <= 1) && mas_wr_slot_store(wr_mas))
-  4359			return;
-  4360		else if (mas_wr_node_store(wr_mas))
-  4361			return;
-  4362	
-  4363		if (mas_is_err(mas))
-  4364			return;
-  4365	
-  4366	slow_path:
-  4367		mas_wr_bnode(wr_mas);
-  4368	}
-  4369	
+    12	
+    13	typedef void (*lsdc_copy_proc_t)(struct lsdc_bo *src_bo,
+    14					 struct lsdc_bo *dst_bo,
+    15					 unsigned int size,
+    16					 int n);
+    17	
+    18	static void lsdc_copy_gtt_to_vram_cpu(struct lsdc_bo *src_bo,
+    19					      struct lsdc_bo *dst_bo,
+    20					      unsigned int size,
+    21					      int n)
+    22	{
+    23		lsdc_bo_kmap(src_bo);
+    24		lsdc_bo_kmap(dst_bo);
+    25	
+    26		while (n--)
+  > 27			memcpy_toio(dst_bo->kptr, src_bo->kptr, size);
+    28	
+    29		lsdc_bo_kunmap(src_bo);
+    30		lsdc_bo_kunmap(dst_bo);
+    31	}
+    32	
+    33	static void lsdc_copy_vram_to_gtt_cpu(struct lsdc_bo *src_bo,
+    34					      struct lsdc_bo *dst_bo,
+    35					      unsigned int size,
+    36					      int n)
+    37	{
+    38		lsdc_bo_kmap(src_bo);
+    39		lsdc_bo_kmap(dst_bo);
+    40	
+    41		while (n--)
+  > 42			memcpy_fromio(dst_bo->kptr, src_bo->kptr, size);
+    43	
+    44		lsdc_bo_kunmap(src_bo);
+    45		lsdc_bo_kunmap(dst_bo);
+    46	}
+    47	
 
 -- 
 0-DAY CI Kernel Test Service
