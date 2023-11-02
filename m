@@ -1,84 +1,291 @@
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8EF747D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 08:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=physik.fu-berlin.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.95)
-          with esmtps (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1qyTPI-000qeT-3k; Thu, 02 Nov 2023 09:50:28 +0100
-Received: from p5dc55299.dip0.t-ipconnect.de ([93.197.82.153] helo=[192.168.178.81])
-          by inpost2.zedat.fu-berlin.de (Exim 4.95)
-          with esmtpsa (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1qyTPH-003vP4-Sj; Thu, 02 Nov 2023 09:50:28 +0100
-Message-ID: <96928c2a66e92b3ab91ee317cad825b311123368.camel@physik.fu-berlin.de>
-Subject: Re: arch/sh/boards/mach-hp6xx/hp6xx_apm.c:32:22: warning: variable
- 'backup' set but not used
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Geert
-	Uytterhoeven <geert@linux-m68k.org>, linux-sh <linux-sh@vger.kernel.org>
-Date: Thu, 02 Nov 2023 09:50:27 +0100
-In-Reply-To: <202311021607.1gLwwwRL-lkp@intel.com>
-References: <202311021607.1gLwwwRL-lkp@intel.com>
-Autocrypt: addr=glaubitz@physik.fu-berlin.de; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E54610F6
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 09:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g7xF/vPv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698916019; x=1730452019;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=3xfCJavXa7Y1N6DcXjZJ9WldrgY2xkx2nCeKVbJ6jfo=;
+  b=g7xF/vPvjiG+8LLLHAWMcqbe/ySkdIX1GVgqHTgm5q84J1D0j7w6GyIk
+   ByJLi6HnQ+MtTvDW+yl7EzfLzvhlg3GLAp9bY6pmg5Gd25eULxsr8xmVR
+   TWHi80Hr0Y43iGmN1TfvNlIAli1kcF2O8GjgH+Cwp6a5xJkJ9Rm+/SHFx
+   73CBuqUz16/b4PX2WSF+3WUzb/OD9I2z7zwYB91VAIL0ZB/vJSoq6E9zk
+   zFtdgXML/f8/sWdLLYG+6uwyjpdhQMKsAuX+Jl6TLuA4iCUPT7uVVpn/C
+   MzPrkhpGYhrXft2Fd+yvPo0XNEBjGIDne84CjZcIQff9R6viE02JLKGQI
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="10198325"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
+   d="scan'208";a="10198325"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 02:06:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
+   d="scan'208";a="9310228"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 02 Nov 2023 02:06:56 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 2 Nov 2023 02:06:55 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 2 Nov 2023 02:06:55 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Thu, 2 Nov 2023 02:06:55 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Thu, 2 Nov 2023 02:06:55 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kBjliAIaYj9OyQHR5Gj4X/62sDkI2aaNRwJptyVoaM/sd+XIs38GXV5v9J/4yvPAABTfTtJUssW8okmDJK89ANYMfvID6MdDkyVsCzSwOpxk8b/iOhE7e2vrSX3w7qsYPbucyfdBtv02IHym9dRZNxhJdMLTylzNaP8SapH8fSRLNxabC61Yfte1S97sJ0PZQs0AtrKwv6KkwbePSye5eFHTB0WyGLHsp4HhSjmsguZP89vw9gxW343A4WET043n+XRFR2TBLYN5nfR2uqu1yFwmAKRS3ZTcx46Vtg9aWq4aashOskVzgqtEToJk3O9h/M61aL5BQds7r13GEJ0tHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=u8n1QJ+ZD0K+E236fm7zJHv/SSCyHxfkpg9jJxCmf2I=;
+ b=EjeBXQVvPSW3bxmFMZxq4/dcUg7ycgWvuRHvjTBi5TqqN41tfAFsxuWaVo0UFZhFc527CK8QzyrU7AHv6T9lDN9T/ad7COwbFcvOe0ZYAgXCrD9TqVtyLNnjXvhdv/zfMKeEwkG6YNUWMA5sMAsQ1mUF3W9BM6aJDbiKd8DPdTSncRqWJDgHyovCU2+mbiJhTKOVYuzcU5XvMye+ejIa6UyTxPC1Iye0Y7L8mt7P+kvKz+If9a763uAEjj2Mcdg/zVSi9VHXPQjPPby4WJvjmkXgpwMrhCL1KoIc9h3+IrxahWUosMJezKfMnU1TOtayEUClAQ7soPvCXrPT6PLdjg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
+ by SN7PR11MB6897.namprd11.prod.outlook.com (2603:10b6:806:2a5::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.19; Thu, 2 Nov
+ 2023 09:06:53 +0000
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::2f1a:e62e:9fff:ae67]) by BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::2f1a:e62e:9fff:ae67%4]) with mapi id 15.20.6954.019; Thu, 2 Nov 2023
+ 09:06:53 +0000
+Date: Thu, 2 Nov 2023 17:06:44 +0800
+From: Philip Li <philip.li@intel.com>
+To: kernel test robot <lkp@intel.com>
+CC: Yonghong Song <yonghong.song@linux.dev>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Alexei Starovoitov <ast@kernel.org>
+Subject: Re: kernel/bpf/helpers.c:1905:19: warning: no previous declaration
+ for 'bpf_percpu_obj_new_impl'
+Message-ID: <ZUNmpE2OTpuKcxjW@rli9-mobl>
+References: <202311021613.I5dZri9c-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <202311021613.I5dZri9c-lkp@intel.com>
+X-ClientProxiedBy: SG2PR04CA0163.apcprd04.prod.outlook.com (2603:1096:4::25)
+ To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 93.197.82.153
-X-ZEDAT-Hint: PO
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR11MB2995:EE_|SN7PR11MB6897:EE_
+X-MS-Office365-Filtering-Correlation-Id: 77703494-566c-4263-fab0-08dbdb830df9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tM7Eo5QQ4Knp/YQR2zaUb/b/JsVr9Cc8ciwky0zt/5VmISSU7fQOiau0PLov0CQg5BBHgkIaoCNoSZ8Z/UEcfGJFgmd1+0EpHi/6ovPeoE8wsGCY5+8ksh7Q8R1m3Y5Y1/KviRSdbcl32H4hDdrifrj5Np+IxTu1mWNwSJu52hPLyVSF0HSZGyKMcnCMuiTbbYk1Z6D4wTrFyK/DauBBc6X6w2JowHxvqmZRGytWPdn/Txun4jT9hz0KRauB4N3J4m2e8WjjBCrYEhKMdvBIsgYrkbsB/AvE7+SnRuylbIOoU52NEPNw1JLM8UNycUt0xTdBVueHpMfGm7ZXLEN+atqTUP3Rc2/F9UvkTgCAfLM5fdLWdWq+N7cvbW7PvC9Zk8c/QaG01rhybJqEs7GkgX9/u3z7ULEyAYiWqWoSvuUkaFUrByDNrIBgjCQ3qZ9frtvE0sHwls8fxwIxIizcjf6P7WAYUG6+NpnJovCjew5d70brqEqOpYDSpjBDvn6WZagXrn37MYBTGO4pvtbwvqCJr2SSl6y0/5US6iAZNqxMbfT6eEZmVSSQhFB5wQI6ic7vabUDFbBSIfpevmdAIwAFWoMI115ZEnFqAoeI0p+0kL3iUMaqhSb1416JKqWDHbyauN7ZKPhRxLMnJSrbHg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(396003)(39860400002)(366004)(376002)(346002)(136003)(230922051799003)(230173577357003)(230273577357003)(64100799003)(1800799009)(186009)(451199024)(6512007)(26005)(9686003)(6506007)(8676002)(6666004)(5660300002)(54906003)(6862004)(6486002)(66556008)(33716001)(966005)(4326008)(66476007)(8936002)(41300700001)(44832011)(6636002)(478600001)(66946007)(316002)(38100700002)(2906002)(82960400001)(86362001)(83380400001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dMXGHlPWxSq/9p4qX+y9IHAATO5wK3lgMzvcH2W12ulSCLAjmG03iMFACLb/?=
+ =?us-ascii?Q?4HQvo/bv6i6eWWMdgBb/Wz6oH/Nd39z3liBUDLFu/biTOFtEZ0eDRSYB6fh9?=
+ =?us-ascii?Q?7J0jMSVxTyDu/lSgBQa1Q55naYcq1zwnqjIglvrEZCdruFbwRWqRdnamCXsY?=
+ =?us-ascii?Q?bDVF1S6V9gpdNd944+cOHuXMF5S+y32E5xYcQSZJfuMvCQomISXeMfdollcY?=
+ =?us-ascii?Q?VaveOMv939jJMpZWMhVsIg0r88BiV3BMKgR0/Mb1ANzlL2Kl8ANWatJuKt2n?=
+ =?us-ascii?Q?DHdwfN0fU//XtWL+pq0hiWmaVT64eKwsAN7rupqvQ9cSapPs1kerh45YZEqg?=
+ =?us-ascii?Q?9U5RL6KRKIck0DDX8bIiKYBaQRKXigSWli7MxO16jZMX5nGxvSXbCPguH+Ht?=
+ =?us-ascii?Q?tFe+KK5M1q9OR0hFDvpMqjjysl0CksI6DJ2IECe2pXQuQZQoGMJOToaaM2Ww?=
+ =?us-ascii?Q?ifR9jiL3eYNT6pktmPsBk5z900rqpNcbLyU5nSPTFSZ44MgZwD+yFT3EGv5w?=
+ =?us-ascii?Q?DCcZFh5BRtIE3y9Ccp8RqCLPM2O+8uNWxnBb9SDCzwFnOissg4wYNZgS8TKR?=
+ =?us-ascii?Q?B9a+73mdMEvsIVYajFhG+9vaU+31P528TCT7KkAWF3hnQbNAugBUgaxzPorZ?=
+ =?us-ascii?Q?nFVZaA1LGxbqr+jxx0F4vxavndiNHquWZzCB6mmoGAFfk0CXZhIZuzbtYNu1?=
+ =?us-ascii?Q?uN4eRnRxDEwegYpKoJsRkY9MUQqeKtkJfjcQdr+w+ky1WpVIU8iVEawPzXBC?=
+ =?us-ascii?Q?Jh13ExQnuHS5ltmCJQp2K5d09R8NJueSnznpC5VK1569nF0Wia4K27moNAD+?=
+ =?us-ascii?Q?/CsXyGFtQSf162XcCwm7tMDyusGoPDlMYgpPljV6tHYSC2pNbzLmXsv9BsmM?=
+ =?us-ascii?Q?QJb+tInh0/Hp0Ec4N6PiBXyphfuDlzIniUGUxQ77k3mB+Iyp4LfjN7GcByGQ?=
+ =?us-ascii?Q?bbGXpPQvjmmh/cF3x3qiZDMQ4a/tZTt0VLTj0VkDst0xyRYs/Fdik+NknexN?=
+ =?us-ascii?Q?c0cURM0OfPTJl5hXBc631P70Tpe+5OCORXxGU+Y0BrLHbo3mEmIHLFfUHc8c?=
+ =?us-ascii?Q?UzULN+m2GmGjEFVqh5iCOViaPhQqLMzAr+m5vGaDu7I/rw0pOD6AtxONpKwJ?=
+ =?us-ascii?Q?Q9HqmacOubGbciVc8hoIn1l/eI5HxKobgD3FE1nd0h4TmnoFWpj0Fmt/AUQi?=
+ =?us-ascii?Q?lRmNsOXwskVpWINAlk3vCHdzE2W8224sfCsRqdNzXNrgm50mXi+ijLg5s5TU?=
+ =?us-ascii?Q?RGfEVBKoTN9MIp3o1+/pLYPVDSCXGCNQjqT/aNHCBu2abKbNpIowUk9K2XNq?=
+ =?us-ascii?Q?PoKUS5CgJgX+Za+0Ws8fsIz52dmdXYvCuLN1AFNOTspz0eFucArfCJq91Afq?=
+ =?us-ascii?Q?LJFD/pe8sDVIZXjufghPHRgwzZuaSf9EDd+0Vhqx0bFr7Xkt9LHgqbUTZt8b?=
+ =?us-ascii?Q?HEagwKdc98pSf3kPJHFNhNog336ugoGTcrQrC1JqAP32rEZxg6WxZIZexyGS?=
+ =?us-ascii?Q?ywXSGo79/Tp1D+U0KcYAfYGEJFkqRqZ0F3jStG7hycb9Uc+a0lYGMciqawWU?=
+ =?us-ascii?Q?R1aEAbxLGJqGnabNQCtTwHNfXjEgl+q/2uUv2LaD?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77703494-566c-4263-fab0-08dbdb830df9
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2023 09:06:53.1700
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SLoP16Ud9GPGfOH653JBnTHKkl3N0gTPgU22h+WMh4lBbZ03YzdNdUiLwV02TNGzug21ri51SVD6Q0oosjT4Rw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6897
+X-OriginatorOrg: intel.com
 
-Hi Masahiro,
+On Thu, Nov 02, 2023 at 04:42:39PM +0800, kernel test robot wrote:
+> Hi Yonghong,
 
-On Thu, 2023-11-02 at 16:42 +0800, kernel test robot wrote:
+Sorry, kindly ignore this report, it is similar one as https://lore.kernel.org/oe-kbuild-all/202309241550.JnHcYTZh-lkp@intel.com/,
+and we haven't fixed the bot side yet.
+
+> 
 > FYI, the error/warning still remains.
->=20
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 > head:   21e80f3841c01aeaf32d7aee7bbc87b3db1aa0c6
-> commit: 706afcea16cd83fecb7c2229ccc31bb237ffdbef sh: Fix -Wmissing-includ=
-e-dirs warnings for various platforms
-> date:   4 months ago
-> config: sh-hp6xx_defconfig (https://download.01.org/0day-ci/archive/20231=
-102/202311021607.1gLwwwRL-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20231102/202311021607.1gLwwwRL-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
+> commit: 36d8bdf75a93190e5669b9d1d95994e13e15ba1d bpf: Add alloc/xchg/direct_access support for local percpu kptr
+> date:   8 weeks ago
+> config: x86_64-buildonly-randconfig-006-20231102 (https://download.01.org/0day-ci/archive/20231102/202311021613.I5dZri9c-lkp@intel.com/config)
+> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311021613.I5dZri9c-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes: https://lore.kernel.org/oe-kbuild-all/202311021607.1gLwwwRL-lkp=
-@intel.com/
-
-Was there a patch posted to fix this?
-
-I will review your other patch today and send a PR to Linus later.
-
-Adrian
-
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311021613.I5dZri9c-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    kernel/bpf/helpers.c:1891:19: warning: no previous declaration for 'bpf_obj_new_impl' [-Wmissing-declarations]
+>     __bpf_kfunc void *bpf_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+>                       ^~~~~~~~~~~~~~~~
+> >> kernel/bpf/helpers.c:1905:19: warning: no previous declaration for 'bpf_percpu_obj_new_impl' [-Wmissing-declarations]
+>     __bpf_kfunc void *bpf_percpu_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+>                       ^~~~~~~~~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:1933:18: warning: no previous declaration for 'bpf_obj_drop_impl' [-Wmissing-declarations]
+>     __bpf_kfunc void bpf_obj_drop_impl(void *p__alloc, void *meta__ign)
+>                      ^~~~~~~~~~~~~~~~~
+> >> kernel/bpf/helpers.c:1941:18: warning: no previous declaration for 'bpf_percpu_obj_drop_impl' [-Wmissing-declarations]
+>     __bpf_kfunc void bpf_percpu_obj_drop_impl(void *p__alloc, void *meta__ign)
+>                      ^~~~~~~~~~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:1947:19: warning: no previous declaration for 'bpf_refcount_acquire_impl' [-Wmissing-declarations]
+>     __bpf_kfunc void *bpf_refcount_acquire_impl(void *p__refcounted_kptr, void *meta__ign)
+>                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:1992:17: warning: no previous declaration for 'bpf_list_push_front_impl' [-Wmissing-declarations]
+>     __bpf_kfunc int bpf_list_push_front_impl(struct bpf_list_head *head,
+>                     ^~~~~~~~~~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2002:17: warning: no previous declaration for 'bpf_list_push_back_impl' [-Wmissing-declarations]
+>     __bpf_kfunc int bpf_list_push_back_impl(struct bpf_list_head *head,
+>                     ^~~~~~~~~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2035:35: warning: no previous declaration for 'bpf_list_pop_front' [-Wmissing-declarations]
+>     __bpf_kfunc struct bpf_list_node *bpf_list_pop_front(struct bpf_list_head *head)
+>                                       ^~~~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2040:35: warning: no previous declaration for 'bpf_list_pop_back' [-Wmissing-declarations]
+>     __bpf_kfunc struct bpf_list_node *bpf_list_pop_back(struct bpf_list_head *head)
+>                                       ^~~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2045:33: warning: no previous declaration for 'bpf_rbtree_remove' [-Wmissing-declarations]
+>     __bpf_kfunc struct bpf_rb_node *bpf_rbtree_remove(struct bpf_rb_root *root,
+>                                     ^~~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2101:17: warning: no previous declaration for 'bpf_rbtree_add_impl' [-Wmissing-declarations]
+>     __bpf_kfunc int bpf_rbtree_add_impl(struct bpf_rb_root *root, struct bpf_rb_node *node,
+>                     ^~~~~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2111:33: warning: no previous declaration for 'bpf_rbtree_first' [-Wmissing-declarations]
+>     __bpf_kfunc struct bpf_rb_node *bpf_rbtree_first(struct bpf_rb_root *root)
+>                                     ^~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2124:33: warning: no previous declaration for 'bpf_task_acquire' [-Wmissing-declarations]
+>     __bpf_kfunc struct task_struct *bpf_task_acquire(struct task_struct *p)
+>                                     ^~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2135:18: warning: no previous declaration for 'bpf_task_release' [-Wmissing-declarations]
+>     __bpf_kfunc void bpf_task_release(struct task_struct *p)
+>                      ^~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2224:33: warning: no previous declaration for 'bpf_task_from_pid' [-Wmissing-declarations]
+>     __bpf_kfunc struct task_struct *bpf_task_from_pid(s32 pid)
+>                                     ^~~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2265:19: warning: no previous declaration for 'bpf_dynptr_slice' [-Wmissing-declarations]
+>     __bpf_kfunc void *bpf_dynptr_slice(const struct bpf_dynptr_kern *ptr, u32 offset,
+>                       ^~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2349:19: warning: no previous declaration for 'bpf_dynptr_slice_rdwr' [-Wmissing-declarations]
+>     __bpf_kfunc void *bpf_dynptr_slice_rdwr(const struct bpf_dynptr_kern *ptr, u32 offset,
+>                       ^~~~~~~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2380:17: warning: no previous declaration for 'bpf_dynptr_adjust' [-Wmissing-declarations]
+>     __bpf_kfunc int bpf_dynptr_adjust(struct bpf_dynptr_kern *ptr, u32 start, u32 end)
+>                     ^~~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2398:18: warning: no previous declaration for 'bpf_dynptr_is_null' [-Wmissing-declarations]
+>     __bpf_kfunc bool bpf_dynptr_is_null(struct bpf_dynptr_kern *ptr)
+>                      ^~~~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2403:18: warning: no previous declaration for 'bpf_dynptr_is_rdonly' [-Wmissing-declarations]
+>     __bpf_kfunc bool bpf_dynptr_is_rdonly(struct bpf_dynptr_kern *ptr)
+>                      ^~~~~~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2411:19: warning: no previous declaration for 'bpf_dynptr_size' [-Wmissing-declarations]
+>     __bpf_kfunc __u32 bpf_dynptr_size(const struct bpf_dynptr_kern *ptr)
+>                       ^~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2419:17: warning: no previous declaration for 'bpf_dynptr_clone' [-Wmissing-declarations]
+>     __bpf_kfunc int bpf_dynptr_clone(struct bpf_dynptr_kern *ptr,
+>                     ^~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2432:19: warning: no previous declaration for 'bpf_cast_to_kern_ctx' [-Wmissing-declarations]
+>     __bpf_kfunc void *bpf_cast_to_kern_ctx(void *obj)
+>                       ^~~~~~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2437:19: warning: no previous declaration for 'bpf_rdonly_cast' [-Wmissing-declarations]
+>     __bpf_kfunc void *bpf_rdonly_cast(void *obj__ign, u32 btf_id__k)
+>                       ^~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2442:18: warning: no previous declaration for 'bpf_rcu_read_lock' [-Wmissing-declarations]
+>     __bpf_kfunc void bpf_rcu_read_lock(void)
+>                      ^~~~~~~~~~~~~~~~~
+>    kernel/bpf/helpers.c:2447:18: warning: no previous declaration for 'bpf_rcu_read_unlock' [-Wmissing-declarations]
+>     __bpf_kfunc void bpf_rcu_read_unlock(void)
+>                      ^~~~~~~~~~~~~~~~~~~
+> 
+> 
+> vim +/bpf_percpu_obj_new_impl +1905 kernel/bpf/helpers.c
+> 
+>   1904	
+> > 1905	__bpf_kfunc void *bpf_percpu_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+>   1906	{
+>   1907		u64 size = local_type_id__k;
+>   1908	
+>   1909		/* The verifier has ensured that meta__ign must be NULL */
+>   1910		return bpf_mem_alloc(&bpf_global_percpu_ma, size);
+>   1911	}
+>   1912	
+>   1913	/* Must be called under migrate_disable(), as required by bpf_mem_free */
+>   1914	void __bpf_obj_drop_impl(void *p, const struct btf_record *rec)
+>   1915	{
+>   1916		if (rec && rec->refcount_off >= 0 &&
+>   1917		    !refcount_dec_and_test((refcount_t *)(p + rec->refcount_off))) {
+>   1918			/* Object is refcounted and refcount_dec didn't result in 0
+>   1919			 * refcount. Return without freeing the object
+>   1920			 */
+>   1921			return;
+>   1922		}
+>   1923	
+>   1924		if (rec)
+>   1925			bpf_obj_free_fields(rec, p);
+>   1926	
+>   1927		if (rec && rec->refcount_off >= 0)
+>   1928			bpf_mem_free_rcu(&bpf_global_ma, p);
+>   1929		else
+>   1930			bpf_mem_free(&bpf_global_ma, p);
+>   1931	}
+>   1932	
+>   1933	__bpf_kfunc void bpf_obj_drop_impl(void *p__alloc, void *meta__ign)
+>   1934	{
+>   1935		struct btf_struct_meta *meta = meta__ign;
+>   1936		void *p = p__alloc;
+>   1937	
+>   1938		__bpf_obj_drop_impl(p, meta ? meta->record : NULL);
+>   1939	}
+>   1940	
+> > 1941	__bpf_kfunc void bpf_percpu_obj_drop_impl(void *p__alloc, void *meta__ign)
+>   1942	{
+>   1943		/* The verifier has ensured that meta__ign must be NULL */
+>   1944		bpf_mem_free_rcu(&bpf_global_percpu_ma, p__alloc);
+>   1945	}
+>   1946	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
