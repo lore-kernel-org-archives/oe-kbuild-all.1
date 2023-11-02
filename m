@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944BA6FDE
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 08:22:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37A31FA3
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 08:43:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dy4s9yXZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QshUR6NO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698913364; x=1730449364;
+  t=1698914610; x=1730450610;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JotS70R+S8A+0CusysfyaQnTBqhpf0Ta1NGU7KHt7cU=;
-  b=Dy4s9yXZRY9/HAGbu/KHz/veRIPL2BdVJ4QZzQo1/bW3suoCDNW/dV30
-   CGllJL2oGGwAxxJKQHqPAvqSNSgKIZjYaTcDCFtPCg54qg93C/GKMDmAY
-   B6bF0vNyQfCPRx5NMJdbNKR0EG0DFAATr5E0C2igzVn7B/wXhCw9F89fR
-   xTuiveBW+zdFGzTARYGd54tGWEngX3mAapPKAoVesaiCqnXAPn+5ezFiz
-   n7mTj1u1zsVAgx6WA9NQswPqLni5YTnHm/aNjg4z5pWja2fhe+/vngG63
-   I0YmsMhFmqu2oVAMOzSoJ7i+m6NkE3TCN8yf1HiejWnRC4GVCNAuht3zT
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="379055628"
+  bh=4PVnbSTg3W8h3V0KXuI/SfFgYtZr+OoRAkzmePRTco8=;
+  b=QshUR6NOqjiFKpjPwTPXd3Z72pEJYE93DyJgDdAVzXCGm3EZjenkJKF3
+   EMzMH9lFS8DZnYDkZWzN37L7tRhkMWj7eRcdsrFAC9+wSoIboRdqeLPHd
+   B3ZLdydvfEo5bKsuDQD5Gou7uBiTVT8zNi1jXx4FLQZjknd8jVB2eq2Y0
+   TKiDkieY/+cTkpUQev67X/FsB1aQJE9ljNCQPazu6NldGqvHJgf3rfYTU
+   wZ8Zkuvx5wAJIPHiDsSWbXFj9rIU+3lctmKtQllsCbOqMiaQQdM/705Xt
+   XSYrd5NrqdkCZCGYIeenXG8SG+BQOU3y2tUZpfEwvceztOCyhI57rTQdg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="373707177"
 X-IronPort-AV: E=Sophos;i="6.03,270,1694761200"; 
-   d="scan'208";a="379055628"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 01:22:43 -0700
+   d="scan'208";a="373707177"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 01:43:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="764842234"
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="851850895"
 X-IronPort-AV: E=Sophos;i="6.03,270,1694761200"; 
-   d="scan'208";a="764842234"
+   d="scan'208";a="851850895"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 02 Nov 2023 01:22:42 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 02 Nov 2023 01:43:28 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qySyO-0001GK-1T;
-	Thu, 02 Nov 2023 08:22:40 +0000
-Date: Thu, 2 Nov 2023 16:22:06 +0800
+	id 1qyTIU-0001HU-1C;
+	Thu, 02 Nov 2023 08:43:26 +0000
+Date: Thu, 2 Nov 2023 16:42:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [plbossart-sound:sdw/start-BRA-support 33/35]
- drivers/soundwire/intel_ace2x.c:21:5: warning: no previous prototype for
- 'intel_ace2x_bpt_open_stream'
-Message-ID: <202311021639.poR9QhoU-lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Subject: arch/sh/boards/mach-hp6xx/hp6xx_apm.c:32:22: warning: variable
+ 'backup' set but not used
+Message-ID: <202311021607.1gLwwwRL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,147 +51,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/plbossart/sound sdw/start-BRA-support
-head:   435eecba9365ea702ed336be739716e72d20e78f
-commit: 5bae05660fcd8c03cb0ed57107c708feac6fd160 [33/35] soundwire: intel_ace2x: add BPT open/close/send_async/wait
-config: x86_64-randconfig-014-20231102 (https://download.01.org/0day-ci/archive/20231102/202311021639.poR9QhoU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311021639.poR9QhoU-lkp@intel.com/reproduce)
+Hi Masahiro,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   21e80f3841c01aeaf32d7aee7bbc87b3db1aa0c6
+commit: 706afcea16cd83fecb7c2229ccc31bb237ffdbef sh: Fix -Wmissing-include-dirs warnings for various platforms
+date:   4 months ago
+config: sh-hp6xx_defconfig (https://download.01.org/0day-ci/archive/20231102/202311021607.1gLwwwRL-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311021607.1gLwwwRL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311021639.poR9QhoU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311021607.1gLwwwRL-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/soundwire/intel_ace2x.c:21:5: warning: no previous prototype for 'intel_ace2x_bpt_open_stream' [-Wmissing-prototypes]
-      21 | int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/soundwire/intel_ace2x.c:116:5: warning: no previous prototype for 'intel_ace2x_bpt_close_stream' [-Wmissing-prototypes]
-     116 | int intel_ace2x_bpt_close_stream(struct sdw_intel *sdw,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/sh/boards/mach-hp6xx/hp6xx_apm.c: In function 'hp6x0_apm_get_power_status':
+>> arch/sh/boards/mach-hp6xx/hp6xx_apm.c:32:22: warning: variable 'backup' set but not used [-Wunused-but-set-variable]
+      32 |         int battery, backup, charging, percentage;
+         |                      ^~~~~~
 
 
-vim +/intel_ace2x_bpt_open_stream +21 drivers/soundwire/intel_ace2x.c
+vim +/backup +32 arch/sh/boards/mach-hp6xx/hp6xx_apm.c
 
-    20	
-  > 21	int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw,
-    22					struct sdw_slave *slave,
-    23					enum sdw_bpt_type mode)
-    24	{
-    25		struct sdw_cdns *cdns = &sdw->cdns;
-    26		struct sdw_stream_runtime *stream;
-    27		struct sdw_stream_config sconfig;
-    28		struct sdw_port_config *pconfig;
-    29		struct sdw_cdns_pdi *pdi0;
-    30		struct sdw_cdns_pdi *pdi1;
-    31		const int ch = 1;
-    32		int dir;
-    33		int ret;
-    34	
-    35		if (mode != SDW_BRA)
-    36			return -EINVAL;
-    37	
-    38		stream = sdw_alloc_stream("BPT", SDW_STREAM_BPT);
-    39		if (!stream)
-    40			return -ENOMEM;
-    41		cdns->bus.bpt_stream = stream; /* FIXME: we need to de-alloc this */
-    42	
-    43		/* handle PDI0 first */
-    44		dir = SDW_DATA_DIR_TX;
-    45	
-    46		pdi0 = sdw_cdns_alloc_pdi(cdns, &cdns->pcm, ch,  dir, 0);
-    47		if (!pdi0) {
-    48			dev_err(cdns->dev, "%s: sdw_cdns_alloc_pdi0 failed\n", __func__);
-    49			ret = -EINVAL;
-    50			goto error;
-    51		}
-    52	
-    53		/* FIXME: what does this mean ? */
-    54		/* the SHIM will be configured in the callback functions */
-    55	
-    56		sdw_cdns_config_stream(cdns, ch, dir, pdi0);
-    57	
-    58		/* handle PDI1  */
-    59		dir = SDW_DATA_DIR_RX;
-    60	
-    61		pdi1 = sdw_cdns_alloc_pdi(cdns, &cdns->pcm, ch,  dir, 1);
-    62		if (!pdi1) {
-    63			dev_err(cdns->dev, "%s: sdw_cdns_alloc_pdi1 failed\n", __func__);
-    64			ret = -EINVAL;
-    65			goto error;
-    66		}
-    67	
-    68		/* the SHIM will be configured in the callback functions */
-    69	
-    70		sdw_cdns_config_stream(cdns, ch, dir, pdi1);
-    71	
-    72	#if 0 // is this needed ?
-    73		/* Inform DSP about PDI stream number */
-    74		ret = intel_params_stream(sdw, substream, dai, params,
-    75					  sdw->instance,
-    76					  pdi->intel_alh_id);
-    77		if (ret)
-    78			goto error;
-    79	#endif
-    80	
-    81		/*
-    82		 * the port config direction, number of channels and frame
-    83		 * rate is totally arbitrary
-    84		 */
-    85		sconfig.direction = dir;
-    86		sconfig.ch_count = ch;
-    87		sconfig.frame_rate = 16000;
-    88		sconfig.type = SDW_STREAM_BPT;
-    89		sconfig.bps = 32; /* this is required for BPT/BRA */
-    90	
-    91		/* Port configuration */
-    92		pconfig = kzalloc(2 * sizeof(*pconfig), GFP_KERNEL);
-    93		if (!pconfig) {
-    94			ret =  -ENOMEM;
-    95			goto error;
-    96		}
-    97	
-    98		pconfig->num = 0;
-    99		pconfig->ch_mask = ch;
-   100		pconfig++;
-   101	
-   102		pconfig->num = 1;
-   103		pconfig->ch_mask = ch;
-   104	
-   105		ret = sdw_stream_add_master(&cdns->bus, &sconfig,
-   106					    pconfig, 2, stream);
-   107		if (ret)
-   108			dev_err(cdns->dev, "add master to stream failed:%d\n", ret);
-   109	
-   110		kfree(pconfig);
-   111	
-   112	error:
-   113		return ret;
-   114	}
-   115	
- > 116	int intel_ace2x_bpt_close_stream(struct sdw_intel *sdw,
-   117					 struct sdw_slave *slave,
-   118					 enum sdw_bpt_type mode)
-   119	{
-   120		struct sdw_cdns *cdns = &sdw->cdns;
-   121		int ret;
-   122	
-   123		if (mode != SDW_BRA)
-   124			return -EINVAL;
-   125	
-   126		ret = sdw_stream_remove_master(&cdns->bus, cdns->bus.bpt_stream);
-   127		if (ret < 0) {
-   128			dev_err(cdns->dev, "%s: remove master failed: %d\n",
-   129				__func__, ret);
-   130			return ret;
-   131		}
-   132		cdns->bus.bpt_stream = NULL;
-   133	
-   134		return 0;
-   135	}
-   136	
+dd4f99b42dcce8 arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2008-03-06  29  
+0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  30  static void hp6x0_apm_get_power_status(struct apm_power_info *info)
+3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  31  {
+0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24 @32  	int battery, backup, charging, percentage;
+3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  33  	u8 pgdr;
+3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  34  
+0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  35  	battery		= adc_single(ADC_CHANNEL_BATTERY);
+0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  36  	backup		= adc_single(ADC_CHANNEL_BACKUP);
+0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  37  	charging	= adc_single(ADC_CHANNEL_CHARGE);
+3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  38  
+3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  39  	percentage = 100 * (battery - HP680_BATTERY_MIN) /
+3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  40  			   (HP680_BATTERY_MAX - HP680_BATTERY_MIN);
+3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  41  
+8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  42  	/* % of full battery */
+8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  43  	info->battery_life = percentage;
+8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  44  
+8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  45  	/* We want our estimates in minutes */
+8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  46  	info->units = 0;
+8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  47  
+8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  48  	/* Extremely(!!) rough estimate, we will replace this with a datalist later on */
+8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  49  	info->time = (2 * battery);
+8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  50  
+0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  51  	info->ac_line_status = (battery > HP680_BATTERY_AC_ON) ?
+3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  52  			 APM_AC_ONLINE : APM_AC_OFFLINE;
+3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  53  
+9d56dd3b083a3b arch/sh/boards/mach-hp6xx/hp6xx_apm.c Paul Mundt         2010-01-26  54  	pgdr = __raw_readb(PGDR);
+3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  55  	if (pgdr & PGDR_MAIN_BATTERY_OUT) {
+0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  56  		info->battery_status	= APM_BATTERY_STATUS_NOT_PRESENT;
+0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  57  		info->battery_flag	= 0x80;
+3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  58  	} else if (charging < 8) {
+0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  59  		info->battery_status	= APM_BATTERY_STATUS_CHARGING;
+0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  60  		info->battery_flag	= 0x08;
+8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  61  		info->ac_line_status	= 0x01;
+3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  62  	} else if (percentage <= APM_CRITICAL) {
+0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  63  		info->battery_status	= APM_BATTERY_STATUS_CRITICAL;
+0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  64  		info->battery_flag	= 0x04;
+3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  65  	} else if (percentage <= APM_LOW) {
+0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  66  		info->battery_status	= APM_BATTERY_STATUS_LOW;
+0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  67  		info->battery_flag	= 0x02;
+3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  68  	} else {
+0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  69  		info->battery_status	= APM_BATTERY_STATUS_HIGH;
+0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  70  		info->battery_flag	= 0x01;
+3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  71  	}
+3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  72  }
+3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  73  
+
+:::::: The code at line 32 was first introduced by commit
+:::::: 0a9b0db19262dbb09f3a34195e68cafd5dc3fa10 [APM] SH: Convert to use shared APM emulation.
+
+:::::: TO: Paul Mundt <lethal@linux-sh.org>
+:::::: CC: Ralf Baechle <ralf@linux-mips.org>
 
 -- 
 0-DAY CI Kernel Test Service
