@@ -1,182 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411AE2137B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 19:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LcNz/iJY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698954473; x=1730490473;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ev5tfQm/MV98szo2yK9Jnm9lxiQX3TWEqDZBKhLR7PU=;
-  b=LcNz/iJYFC/ASX6tOc7fXbegL84ZlT43xxVJBScYZdA7/FlWG80RWTQc
-   cychjnAjuzRDdfwk82vN8BiNnDd3uYf0How3acSSCC8egfgiM+oivs5/f
-   TNgaj6/SGngtSEZsxp/LGYiuTyaqn7XqMwjGa2Gx2kS1H487OQdElDy91
-   wrw9RbweSBiODeeOaXBk88e1Rl5oIsbc1Q2xeczs5Cxi/K9EfUP2xOg49
-   nDPPrhnqmmPuy+2QB2vptOUuVXoMJV3zLIb7QNkAUT+BQh48C0++piiOb
-   ktg2McNkCboyFboKZkBAhwxM8NBgb9PIM8gsvSsq6tuCXmdbr5kEbTjP4
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="379195191"
-X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; 
-   d="scan'208";a="379195191"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 12:47:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; 
-   d="scan'208";a="2548336"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 02 Nov 2023 12:47:45 -0700
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qydfK-0001pD-2A;
-	Thu, 02 Nov 2023 19:47:42 +0000
-Date: Fri, 3 Nov 2023 03:47:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Parav Pandit <parav@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>
-Subject: drivers/net/virtio_net.c:3613:50: warning: 'sprintf' may write a
- terminating nul past the end of the destination
-Message-ID: <202311030342.XpVqfmYT-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC5D2135D
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 20:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=physik.fu-berlin.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.95)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1qydwY-002fnk-MX; Thu, 02 Nov 2023 21:05:30 +0100
+Received: from p5dc55299.dip0.t-ipconnect.de ([93.197.82.153] helo=suse-laptop.fritz.box)
+          by inpost2.zedat.fu-berlin.de (Exim 4.95)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1qydwY-001nxS-Ej; Thu, 02 Nov 2023 21:05:30 +0100
+Message-ID: <8290ed7ea51c1fb6c30c9aa140dd051c39bc6e26.camel@physik.fu-berlin.de>
+Subject: Re: arch/sh/boot/compressed/misc.c:118:6: warning: no previous
+ prototype for 'arch_ftrace_ops_list_func'
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: Steven Rostedt <rostedt@goodmis.org>, kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Yoshinori
+ Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
+ linux-sh@vger.kernel.org
+Date: Thu, 02 Nov 2023 21:05:29 +0100
+In-Reply-To: <20231030183722.21712d18@gandalf.local.home>
+References: <202310310611.5RteDpO7-lkp@intel.com>
+	 <20231030183722.21712d18@gandalf.local.home>
+Autocrypt: addr=glaubitz@physik.fu-berlin.de; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.1 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 93.197.82.153
+X-ZEDAT-Hint: PO
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4652b8e4f3ffa48c706ec334f048c217a7d9750d
-commit: d0671115869d19ec76d658c4bf86d3211a8ea121 virtio-net: Reduce debug name field size to 16 bytes
-date:   9 months ago
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20231103/202311030342.XpVqfmYT-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311030342.XpVqfmYT-lkp@intel.com/reproduce)
+Hi Steven!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311030342.XpVqfmYT-lkp@intel.com/
+On Mon, 2023-10-30 at 18:37 -0400, Steven Rostedt wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git master
+> > head:   14ab6d425e80674b6a0145f05719b11e82e64824
+> > commit: 17b251a290ba84a0c2c5c82df9596cb2e7207ca6 ftrace/sh: Add arch_ft=
+race_ops_list_func stub to have compressed image still link
+> > date:   2 years ago
+> > config: sh-allnoconfig (https://download.01.org/0day-ci/archive/2023103=
+1/202310310611.5RteDpO7-lkp@intel.com/config)
+> > compiler: sh4-linux-gcc (GCC) 13.2.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20231031/202310310611.5RteDpO7-lkp@intel.com/reproduce)
+> >=20
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > > Closes: https://lore.kernel.org/oe-kbuild-all/202310310611.5RteDpO7-l=
+kp@intel.com/
+> >=20
+> > All warnings (new ones prefixed by >>):
+> >=20
+> >    arch/sh/boot/compressed/misc.c:109:6: warning: no previous prototype=
+ for '__stack_chk_fail' [-Wmissing-prototypes]
+> >      109 | void __stack_chk_fail(void)
+> >          |      ^~~~~~~~~~~~~~~~
+> >    arch/sh/boot/compressed/misc.c:115:6: warning: no previous prototype=
+ for 'ftrace_stub' [-Wmissing-prototypes]
+> >      115 | void ftrace_stub(void)
+> >          |      ^~~~~~~~~~~
+> > > > arch/sh/boot/compressed/misc.c:118:6: warning: no previous prototyp=
+e for 'arch_ftrace_ops_list_func' [-Wmissing-prototypes] =20
+> >      118 | void arch_ftrace_ops_list_func(void)
+> >          |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>=20
+> As the comment states, this is needed only because the linker script
+> vmlinux.lds.h references them, and it will not build without it.
+>=20
+> If someone really cares, they could simply add a header to quiet these
+> warnings, but seriously, these functions are just stubs to allow the sh
+> boot portion use the vmlinux.lds.h linker script. These stubs are only fo=
+r
+> satisfying linker references and are not used. I'm not going to be the on=
+e
+> to bother "fixing" it.
 
-All warnings (new ones prefixed by >>):
+I have to admit that I don't fully understand what the problem is.
 
-   drivers/net/virtio_net.c: In function 'virtnet_find_vqs':
->> drivers/net/virtio_net.c:3613:50: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
-    3613 |                 sprintf(vi->rq[i].name, "input.%d", i);
-         |                                                  ^
-   drivers/net/virtio_net.c:3613:17: note: 'sprintf' output between 8 and 17 bytes into a destination of size 16
-    3613 |                 sprintf(vi->rq[i].name, "input.%d", i);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/virtio_net.c:3614:49: warning: '%d' directive writing between 1 and 10 bytes into a region of size 9 [-Wformat-overflow=]
-    3614 |                 sprintf(vi->sq[i].name, "output.%d", i);
-         |                                                 ^~
-   drivers/net/virtio_net.c:3614:41: note: directive argument in the range [0, 2147483646]
-    3614 |                 sprintf(vi->sq[i].name, "output.%d", i);
-         |                                         ^~~~~~~~~~~
-   drivers/net/virtio_net.c:3614:17: note: 'sprintf' output between 9 and 18 bytes into a destination of size 16
-    3614 |                 sprintf(vi->sq[i].name, "output.%d", i);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Is this just a cosmetic issue? I would be willing to fix it in any case.
 
+Adrian
 
-vim +/sprintf +3613 drivers/net/virtio_net.c
-
-d85b758f72b05a Michael S. Tsirkin 2017-03-09  3568  
-986a4f4d452dec Jason Wang         2012-12-07  3569  static int virtnet_find_vqs(struct virtnet_info *vi)
-3f9c10b0d478a3 Amit Shah          2011-12-22  3570  {
-986a4f4d452dec Jason Wang         2012-12-07  3571  	vq_callback_t **callbacks;
-986a4f4d452dec Jason Wang         2012-12-07  3572  	struct virtqueue **vqs;
-986a4f4d452dec Jason Wang         2012-12-07  3573  	int ret = -ENOMEM;
-986a4f4d452dec Jason Wang         2012-12-07  3574  	int i, total_vqs;
-986a4f4d452dec Jason Wang         2012-12-07  3575  	const char **names;
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3576  	bool *ctx;
-986a4f4d452dec Jason Wang         2012-12-07  3577  
-986a4f4d452dec Jason Wang         2012-12-07  3578  	/* We expect 1 RX virtqueue followed by 1 TX virtqueue, followed by
-986a4f4d452dec Jason Wang         2012-12-07  3579  	 * possible N-1 RX/TX queue pairs used in multiqueue mode, followed by
-986a4f4d452dec Jason Wang         2012-12-07  3580  	 * possible control vq.
-986a4f4d452dec Jason Wang         2012-12-07  3581  	 */
-986a4f4d452dec Jason Wang         2012-12-07  3582  	total_vqs = vi->max_queue_pairs * 2 +
-986a4f4d452dec Jason Wang         2012-12-07  3583  		    virtio_has_feature(vi->vdev, VIRTIO_NET_F_CTRL_VQ);
-986a4f4d452dec Jason Wang         2012-12-07  3584  
-986a4f4d452dec Jason Wang         2012-12-07  3585  	/* Allocate space for find_vqs parameters */
-6396bb221514d2 Kees Cook          2018-06-12  3586  	vqs = kcalloc(total_vqs, sizeof(*vqs), GFP_KERNEL);
-986a4f4d452dec Jason Wang         2012-12-07  3587  	if (!vqs)
-986a4f4d452dec Jason Wang         2012-12-07  3588  		goto err_vq;
-6da2ec56059c3c Kees Cook          2018-06-12  3589  	callbacks = kmalloc_array(total_vqs, sizeof(*callbacks), GFP_KERNEL);
-986a4f4d452dec Jason Wang         2012-12-07  3590  	if (!callbacks)
-986a4f4d452dec Jason Wang         2012-12-07  3591  		goto err_callback;
-6da2ec56059c3c Kees Cook          2018-06-12  3592  	names = kmalloc_array(total_vqs, sizeof(*names), GFP_KERNEL);
-986a4f4d452dec Jason Wang         2012-12-07  3593  	if (!names)
-986a4f4d452dec Jason Wang         2012-12-07  3594  		goto err_names;
-192f68cf35f5ee Jason Wang         2017-07-19  3595  	if (!vi->big_packets || vi->mergeable_rx_bufs) {
-6396bb221514d2 Kees Cook          2018-06-12  3596  		ctx = kcalloc(total_vqs, sizeof(*ctx), GFP_KERNEL);
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3597  		if (!ctx)
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3598  			goto err_ctx;
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3599  	} else {
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3600  		ctx = NULL;
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3601  	}
-986a4f4d452dec Jason Wang         2012-12-07  3602  
-986a4f4d452dec Jason Wang         2012-12-07  3603  	/* Parameters for control virtqueue, if any */
-986a4f4d452dec Jason Wang         2012-12-07  3604  	if (vi->has_cvq) {
-986a4f4d452dec Jason Wang         2012-12-07  3605  		callbacks[total_vqs - 1] = NULL;
-986a4f4d452dec Jason Wang         2012-12-07  3606  		names[total_vqs - 1] = "control";
-986a4f4d452dec Jason Wang         2012-12-07  3607  	}
-986a4f4d452dec Jason Wang         2012-12-07  3608  
-986a4f4d452dec Jason Wang         2012-12-07  3609  	/* Allocate/initialize parameters for send/receive virtqueues */
-986a4f4d452dec Jason Wang         2012-12-07  3610  	for (i = 0; i < vi->max_queue_pairs; i++) {
-986a4f4d452dec Jason Wang         2012-12-07  3611  		callbacks[rxq2vq(i)] = skb_recv_done;
-986a4f4d452dec Jason Wang         2012-12-07  3612  		callbacks[txq2vq(i)] = skb_xmit_done;
-986a4f4d452dec Jason Wang         2012-12-07 @3613  		sprintf(vi->rq[i].name, "input.%d", i);
-986a4f4d452dec Jason Wang         2012-12-07 @3614  		sprintf(vi->sq[i].name, "output.%d", i);
-986a4f4d452dec Jason Wang         2012-12-07  3615  		names[rxq2vq(i)] = vi->rq[i].name;
-986a4f4d452dec Jason Wang         2012-12-07  3616  		names[txq2vq(i)] = vi->sq[i].name;
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3617  		if (ctx)
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3618  			ctx[rxq2vq(i)] = true;
-986a4f4d452dec Jason Wang         2012-12-07  3619  	}
-986a4f4d452dec Jason Wang         2012-12-07  3620  
-2e9ca760c289e1 Michael S. Tsirkin 2022-08-16  3621  	ret = virtio_find_vqs_ctx(vi->vdev, total_vqs, vqs, callbacks,
-2e9ca760c289e1 Michael S. Tsirkin 2022-08-16  3622  				  names, ctx, NULL);
-986a4f4d452dec Jason Wang         2012-12-07  3623  	if (ret)
-986a4f4d452dec Jason Wang         2012-12-07  3624  		goto err_find;
-3f9c10b0d478a3 Amit Shah          2011-12-22  3625  
-986a4f4d452dec Jason Wang         2012-12-07  3626  	if (vi->has_cvq) {
-986a4f4d452dec Jason Wang         2012-12-07  3627  		vi->cvq = vqs[total_vqs - 1];
-986a4f4d452dec Jason Wang         2012-12-07  3628  		if (virtio_has_feature(vi->vdev, VIRTIO_NET_F_CTRL_VLAN))
-f646968f8f7c62 Patrick McHardy    2013-04-19  3629  			vi->dev->features |= NETIF_F_HW_VLAN_CTAG_FILTER;
-986a4f4d452dec Jason Wang         2012-12-07  3630  	}
-3f9c10b0d478a3 Amit Shah          2011-12-22  3631  
-986a4f4d452dec Jason Wang         2012-12-07  3632  	for (i = 0; i < vi->max_queue_pairs; i++) {
-986a4f4d452dec Jason Wang         2012-12-07  3633  		vi->rq[i].vq = vqs[rxq2vq(i)];
-d85b758f72b05a Michael S. Tsirkin 2017-03-09  3634  		vi->rq[i].min_buf_len = mergeable_min_buf_len(vi, vi->rq[i].vq);
-986a4f4d452dec Jason Wang         2012-12-07  3635  		vi->sq[i].vq = vqs[txq2vq(i)];
-986a4f4d452dec Jason Wang         2012-12-07  3636  	}
-3f9c10b0d478a3 Amit Shah          2011-12-22  3637  
-2fa3c8a8b23041 Tonghao Zhang      2018-05-31  3638  	/* run here: ret == 0. */
-3f9c10b0d478a3 Amit Shah          2011-12-22  3639  
-3f9c10b0d478a3 Amit Shah          2011-12-22  3640  
-986a4f4d452dec Jason Wang         2012-12-07  3641  err_find:
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3642  	kfree(ctx);
-d45b897b11eaf9 Michael S. Tsirkin 2017-03-06  3643  err_ctx:
-986a4f4d452dec Jason Wang         2012-12-07  3644  	kfree(names);
-986a4f4d452dec Jason Wang         2012-12-07  3645  err_names:
-986a4f4d452dec Jason Wang         2012-12-07  3646  	kfree(callbacks);
-986a4f4d452dec Jason Wang         2012-12-07  3647  err_callback:
-986a4f4d452dec Jason Wang         2012-12-07  3648  	kfree(vqs);
-986a4f4d452dec Jason Wang         2012-12-07  3649  err_vq:
-986a4f4d452dec Jason Wang         2012-12-07  3650  	return ret;
-3f9c10b0d478a3 Amit Shah          2011-12-22  3651  }
-986a4f4d452dec Jason Wang         2012-12-07  3652  
-
-:::::: The code at line 3613 was first introduced by commit
-:::::: 986a4f4d452dec004697f667439d27c3fda9c928 virtio_net: multiqueue support
-
-:::::: TO: Jason Wang <jasowang@redhat.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
