@@ -1,48 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85C463DE
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 07:51:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04BF6ABD
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 07:52:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J/qEYrNy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RdStwYVl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698911498; x=1730447498;
+  t=1698911561; x=1730447561;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=FLcfevI/lDPIM8N2a/NoWfaSB35qL7zOu4Ts01NpuCc=;
-  b=J/qEYrNy6d225XWS8YoakuSTSk6eGrAOmdUM+KMXX8Ee0i5kEjZ88bh+
-   ThqIIgG5Xbtuh/e6yo2WzR2C9myLfWGVa33HMLC12T8dfOh5/bI6DoTQj
-   aM1DWZqKZndndMA/h5gzAVgr5DtIfOFET+nig8zOt6WQe15nbDMf6VrH0
-   oxpGEE4aUOsvydRGI/DAvURDF4t4wqUfgeG/JIs/pJ6/Q6EsmyIvOgOVt
-   8iN/6XuIWBC2Oa/jz/YJuJG6PClc668jTX5LlNdmGDvwFcSL33JmTUync
-   610ez7K89WuDMr5t4iwDdIx1UVn0MiEDGWMBjacW/jNtys+KUAM3yE/xx
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="387534588"
+  bh=W29RWQS2NwYdEJqUIzKH/e4ox+Bt+9jFKK7JYm4Uf64=;
+  b=RdStwYVl2CrzCl8gZE8WsBHUsoE+Y5QXqdVaJ6Sp7BruHd2l8QGDH6oD
+   eUykdCK13U3EgNf3H3Ya8HbdI9Cx4KFND5MP8Iv+BiQwZ9i+9YrtJBJSY
+   x8W7JzFawv4A4jasoO5j64T9S3z+moeEU+EhXy0SDMDu5SUdStLdyY/ms
+   DKKSos5z4/Yrxu5qTrvTlK2ovY4NMcuvCnWkVRTC48Diqw53tiMvwNbrB
+   K5c+M1iOeQpiRz5CQTXuEQHu5nHEHNDaQF5iqX3VPzWsySUsmBcfEwdOu
+   gZFF2tIIN7weRyESS2T8TgwLPZn9cXrvbYZKrJDL26h4RH4Es3s0ggK3Z
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="474898013"
 X-IronPort-AV: E=Sophos;i="6.03,270,1694761200"; 
-   d="scan'208";a="387534588"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 00:51:37 -0700
+   d="scan'208";a="474898013"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 00:52:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="827026950"
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="761210778"
 X-IronPort-AV: E=Sophos;i="6.03,270,1694761200"; 
-   d="scan'208";a="827026950"
+   d="scan'208";a="761210778"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 02 Nov 2023 00:51:37 -0700
+  by orsmga002.jf.intel.com with ESMTP; 02 Nov 2023 00:52:37 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qySUI-0001Dq-33;
-	Thu, 02 Nov 2023 07:51:34 +0000
-Date: Thu, 2 Nov 2023 15:51:29 +0800
+	id 1qySVH-0001Dw-0P;
+	Thu, 02 Nov 2023 07:52:35 +0000
+Date: Thu, 2 Nov 2023 15:51:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ai Chao <aichao@kylinos.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v5] platform/x86: inspur-platform-profile: Add platform
- profile support
-Message-ID: <202311021547.KTmJVY2O-lkp@intel.com>
-References: <20231020024007.1677962-1-aichao@kylinos.cn>
+To: KP Singh <kpsingh@kernel.org>, linux-security-module@vger.kernel.org,
+	bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, paul@paul-moore.com,
+	keescook@chromium.org, casey@schaufler-ca.com, song@kernel.org,
+	daniel@iogearbox.net, ast@kernel.org, kpsingh@kernel.org,
+	renauld@google.com, pabeni@redhat.com
+Subject: Re: [PATCH v7 3/5] security: Replace indirect LSM hook calls with
+ static calls
+Message-ID: <202311021532.iBwuZUZ0-lkp@intel.com>
+References: <20231102005521.346983-4-kpsingh@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,56 +55,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231020024007.1677962-1-aichao@kylinos.cn>
+In-Reply-To: <20231102005521.346983-4-kpsingh@kernel.org>
 
-Hi Ai,
+Hi KP,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.6]
-[cannot apply to next-20231102]
+[auto build test ERROR on next-20231101]
+[cannot apply to bpf-next/master bpf/master pcmoore-selinux/next linus/master v6.6 v6.6-rc7 v6.6-rc6 v6.6]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ai-Chao/platform-x86-inspur-platform-profile-Add-platform-profile-support/20231020-104121
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231020024007.1677962-1-aichao%40kylinos.cn
-patch subject: [PATCH v5] platform/x86: inspur-platform-profile: Add platform profile support
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20231102/202311021547.KTmJVY2O-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311021547.KTmJVY2O-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/KP-Singh/kernel-Add-helper-macros-for-loop-unrolling/20231102-085857
+base:   next-20231101
+patch link:    https://lore.kernel.org/r/20231102005521.346983-4-kpsingh%40kernel.org
+patch subject: [PATCH v7 3/5] security: Replace indirect LSM hook calls with static calls
+config: x86_64-randconfig-013-20231102 (https://download.01.org/0day-ci/archive/20231102/202311021532.iBwuZUZ0-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311021532.iBwuZUZ0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311021547.KTmJVY2O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311021532.iBwuZUZ0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/platform/x86/inspur_platform_profile.c:27: warning: cannot understand function prototype: 'enum inspur_tmp_profile '
-   drivers/platform/x86/inspur_platform_profile.c:74: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Set Power Mode to EC RAM. If Power Mode value greater than 0x3,
-   drivers/platform/x86/inspur_platform_profile.c:123: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Get Power Mode from EC RAM, If Power Mode value greater than 0x3,
+>> security/security.c:157:1: error: Only string constants are supported as initializers for randomized structures with flexible arrays
+     157 | };
+         | ^
 
 
-vim +27 drivers/platform/x86/inspur_platform_profile.c
+vim +157 security/security.c
 
-    20	
-    21	/**
-    22	 * Power Mode:
-    23	 *           0x0: Balance Mode
-    24	 *           0x1: Performance Mode
-    25	 *           0x2: Power Saver Mode
-    26	 */
-  > 27	enum inspur_tmp_profile {
-    28		INSPUR_TMP_PROFILE_BALANCE	= 0,
-    29		INSPUR_TMP_PROFILE_PERFORMANCE	= 1,
-    30		INSPUR_TMP_PROFILE_POWERSAVE	= 2,
-    31	};
-    32	
+   136	
+   137	/*
+   138	 * Initialise a table of static calls for each LSM hook.
+   139	 * DEFINE_STATIC_CALL_NULL invocation above generates a key (STATIC_CALL_KEY)
+   140	 * and a trampoline (STATIC_CALL_TRAMP) which are used to call
+   141	 * __static_call_update when updating the static call.
+   142	 */
+   143	struct lsm_static_calls_table static_calls_table __ro_after_init = {
+   144	#define INIT_LSM_STATIC_CALL(NUM, NAME)					\
+   145		(struct lsm_static_call) {					\
+   146			.key = &STATIC_CALL_KEY(LSM_STATIC_CALL(NAME, NUM)),	\
+   147			.trampoline = LSM_HOOK_TRAMP(NAME, NUM),		\
+   148			.active = &SECURITY_HOOK_ACTIVE_KEY(NAME, NUM),		\
+   149		},
+   150	#define LSM_HOOK(RET, DEFAULT, NAME, ...)				\
+   151		.NAME = {							\
+   152			LSM_DEFINE_UNROLL(INIT_LSM_STATIC_CALL, NAME)		\
+   153		},
+   154	#include <linux/lsm_hook_defs.h>
+   155	#undef LSM_HOOK
+   156	#undef INIT_LSM_STATIC_CALL
+ > 157	};
+   158	
 
 -- 
 0-DAY CI Kernel Test Service
