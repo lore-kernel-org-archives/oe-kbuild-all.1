@@ -1,47 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18FC2208A4
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 17:45:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB57208A5
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 17:45:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BMOXEcX8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LiVEqkP0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1698947120; x=1730483120;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9E44wn+axP+bawWrgvtEGU6Fj8KrNPI81SGFPxHo3Ws=;
-  b=BMOXEcX8wcAoXuqTtc3b8tNUtVkZYP8mIPTZV1caxkp1d+yTIzvLnc94
-   UBOCy/mpx1WyJvqWfrDBx9HUaMi9o4LaOdOz7pmDKAkX0LT2OyUa3I2G/
-   5NnnHwpQToG7utJd/PvD2UUynmq8Lg7hohmya1qNApqmBgiRnJRlZKvjw
-   mtva0UHPCnQCLYauxjAsX0XD8oR/veaiiLMVT/4EcHRk72+ZrygziuegS
-   p/2QtL7+d108Z5Eo/sV4Bp8RsXCbt0Vl14oGdRuAaI17DYWuXEtwOv4lL
-   cJHekujV8z9U5NEHgNPBLBFbLFgCBgIYZAsCow3OVWK75D+EPim+CCQ23
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="419879815"
+  bh=Lsv6LCCERrXEZ6+vMlRwcKrtfS+obUEef2nO4ynJUOA=;
+  b=LiVEqkP0QCbtWNeW/VJqJ5ohacDNReBqBdwwv7UsWJVWHybw3b1FEl4s
+   CRRioEbaBNlg46G3Ki5N0OAgeVGOppxiitSY69LivbHwEp8b5A2k6b4SN
+   qeJNpo96qiVjFYxMdYn75WvL+gYkTz+jo7HcufquqOsqeZSDLjOBNbAeI
+   CXfPMdIA7jwBeu3kxV2U9Myz1vGfYzQrjrj1rWkatL7wZBw/Mb6EoEk+v
+   zrrqTDxaBz5D7eG9vCZ+0EDLTcRK7BchD8DHb6w9C3VaojbiBlecyHB4K
+   Et9xczigy7FL+WPa0ulmssiGZc2AGYXMYytcqHqqsqCg9Hs0AbhfhzEVI
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="475019326"
 X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; 
-   d="scan'208";a="419879815"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 10:45:18 -0700
+   d="scan'208";a="475019326"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 10:45:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="737833362"
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="1092792340"
 X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; 
-   d="scan'208";a="737833362"
+   d="scan'208";a="1092792340"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 02 Nov 2023 10:45:16 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 02 Nov 2023 10:45:16 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qybko-0001jI-0n;
+	id 1qybko-0001jL-1F;
 	Thu, 02 Nov 2023 17:45:14 +0000
-Date: Fri, 3 Nov 2023 01:44:35 +0800
+Date: Fri, 3 Nov 2023 01:44:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 20/23]
- drivers/usb/gadget/udc/core.c:56: warning: Function parameter or member
- 'vbus_work' not described in 'usb_udc'
-Message-ID: <202311030143.xkdZCpaX-lkp@intel.com>
+To: Chester Lin <clin@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Matthew Nunez <matthew.nunez@nxp.com>,
+	Phu Luu An <phu.luuan@nxp.com>,
+	Stefan-Gabriel Mirea <stefan-gabriel.mirea@nxp.com>,
+	Larisa Grigore <larisa.grigore@nxp.com>,
+	Ghennadi Procopciuc <Ghennadi.Procopciuc@oss.nxp.com>,
+	Andrei Stefanescu <andrei.stefanescu@nxp.com>,
+	Radu Pirea <radu-nicolae.pirea@nxp.com>
+Subject: drivers/pinctrl/nxp/pinctrl-s32cc.c:830:62: warning: '%u' directive
+ output may be truncated writing between 1 and 10 bytes into a region of size
+ 5
+Message-ID: <202311030159.iyUGjNGF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,59 +59,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   f8d3b450e9beb7962d2ca9ebe66444eb9aa7ef13
-commit: 18b677ffae1a206a5f263b86cd39ef268d6db830 [20/23] FROMGIT: usb: gadget: udc: core: Offload usb_udc_vbus_handler processing
-config: i386-buildonly-randconfig-004-20231102 (https://download.01.org/0day-ci/archive/20231103/202311030143.xkdZCpaX-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311030143.xkdZCpaX-lkp@intel.com/reproduce)
+Hi Chester,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   21e80f3841c01aeaf32d7aee7bbc87b3db1aa0c6
+commit: fd84aaa8173d3ff86f8df2009921336a1ea53a8a pinctrl: add NXP S32 SoC family support
+date:   8 months ago
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231103/202311030159.iyUGjNGF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311030159.iyUGjNGF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311030143.xkdZCpaX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311030159.iyUGjNGF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/usb/gadget/udc/core.c:56: warning: Function parameter or member 'vbus_work' not described in 'usb_udc'
+   drivers/pinctrl/nxp/pinctrl-s32cc.c: In function 's32_pinctrl_probe_dt':
+>> drivers/pinctrl/nxp/pinctrl-s32cc.c:830:62: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 5 [-Wformat-truncation=]
+     830 |                          sizeof(ipctl->regions[i].name), "map%u", i);
+         |                                                              ^~
+   drivers/pinctrl/nxp/pinctrl-s32cc.c:830:58: note: directive argument in the range [0, 4294967294]
+     830 |                          sizeof(ipctl->regions[i].name), "map%u", i);
+         |                                                          ^~~~~~~
+   drivers/pinctrl/nxp/pinctrl-s32cc.c:829:17: note: 'snprintf' output between 5 and 14 bytes into a destination of size 8
+     829 |                 snprintf(ipctl->regions[i].name,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     830 |                          sizeof(ipctl->regions[i].name), "map%u", i);
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +56 drivers/usb/gadget/udc/core.c
+vim +830 drivers/pinctrl/nxp/pinctrl-s32cc.c
 
-fc274c1e997314 drivers/usb/gadget/udc/core.c     Alan Stern             2022-04-23  30  
-2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  31  /**
-2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  32   * struct usb_udc - describes one usb device controller
-e21cd08f965766 drivers/usb/gadget/udc/core.c     Lee Jones              2020-07-03  33   * @driver: the gadget driver pointer. For use by the class code
-e21cd08f965766 drivers/usb/gadget/udc/core.c     Lee Jones              2020-07-03  34   * @dev: the child device to the actual controller
-e21cd08f965766 drivers/usb/gadget/udc/core.c     Lee Jones              2020-07-03  35   * @gadget: the gadget. For use by the class code
-e21cd08f965766 drivers/usb/gadget/udc/core.c     Lee Jones              2020-07-03  36   * @list: for use by the udc class driver
-e21cd08f965766 drivers/usb/gadget/udc/core.c     Lee Jones              2020-07-03  37   * @vbus: for udcs who care about vbus status, this value is real vbus status;
-628ef0d273a69d drivers/usb/gadget/udc/udc-core.c Peter Chen             2015-03-06  38   * for udcs who do not care about vbus status, this value is always true
-49d08cfc783044 drivers/usb/gadget/udc/core.c     Thinh Nguyen           2021-01-11  39   * @started: the UDC's started state. True if the UDC had started.
-18b677ffae1a20 drivers/usb/gadget/udc/core.c     Badhri Jagan Sridharan 2023-06-09  40   * @allow_connect: Indicates whether UDC is allowed to be pulled up.
-18b677ffae1a20 drivers/usb/gadget/udc/core.c     Badhri Jagan Sridharan 2023-06-09  41   * Set/cleared by gadget_(un)bind_driver() after gadget driver is bound or
-18b677ffae1a20 drivers/usb/gadget/udc/core.c     Badhri Jagan Sridharan 2023-06-09  42   * unbound.
-2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  43   *
-2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  44   * This represents the internal data structure which is used by the UDC-class
-2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  45   * to hold information about udc driver and gadget together.
-2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  46   */
-2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  47  struct usb_udc {
-2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  48  	struct usb_gadget_driver	*driver;
-2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  49  	struct usb_gadget		*gadget;
-2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  50  	struct device			dev;
-2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  51  	struct list_head		list;
-628ef0d273a69d drivers/usb/gadget/udc/udc-core.c Peter Chen             2015-03-06  52  	bool				vbus;
-49d08cfc783044 drivers/usb/gadget/udc/core.c     Thinh Nguyen           2021-01-11  53  	bool				started;
-18b677ffae1a20 drivers/usb/gadget/udc/core.c     Badhri Jagan Sridharan 2023-06-09  54  	bool				allow_connect;
-18b677ffae1a20 drivers/usb/gadget/udc/core.c     Badhri Jagan Sridharan 2023-06-09  55  	struct work_struct		vbus_work;
-2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28 @56  };
-2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  57  
-
-:::::: The code at line 56 was first introduced by commit
-:::::: 2ccea03a8f7ec93641791f2760d7cdc6cab6205f usb: gadget: introduce UDC Class
-
-:::::: TO: Felipe Balbi <balbi@ti.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
+   796	
+   797	static int s32_pinctrl_probe_dt(struct platform_device *pdev,
+   798					struct s32_pinctrl *ipctl)
+   799	{
+   800		struct s32_pinctrl_soc_info *info = ipctl->info;
+   801		struct device_node *np = pdev->dev.of_node;
+   802		struct device_node *child;
+   803		struct resource *res;
+   804		struct regmap *map;
+   805		void __iomem *base;
+   806		int mem_regions = info->mem_regions;
+   807		u32 nfuncs = 0;
+   808		u32 i = 0;
+   809	
+   810		if (!np)
+   811			return -ENODEV;
+   812	
+   813		if (mem_regions == 0) {
+   814			dev_err(&pdev->dev, "mem_regions is 0\n");
+   815			return -EINVAL;
+   816		}
+   817	
+   818		ipctl->regions = devm_kzalloc(&pdev->dev,
+   819					      mem_regions * sizeof(*(ipctl->regions)),
+   820					      GFP_KERNEL);
+   821		if (!ipctl->regions)
+   822			return -ENOMEM;
+   823	
+   824		for (i = 0; i < mem_regions; ++i) {
+   825			base = devm_platform_get_and_ioremap_resource(pdev, i, &res);
+   826			if (IS_ERR(base))
+   827				return PTR_ERR(base);
+   828	
+   829			snprintf(ipctl->regions[i].name,
+ > 830				 sizeof(ipctl->regions[i].name), "map%u", i);
+   831	
+   832			s32_regmap_config.name = ipctl->regions[i].name;
+   833			s32_regmap_config.max_register = resource_size(res) -
+   834							 s32_regmap_config.reg_stride;
+   835	
+   836			map = devm_regmap_init_mmio(&pdev->dev, base,
+   837							&s32_regmap_config);
+   838			if (IS_ERR(map)) {
+   839				dev_err(&pdev->dev, "Failed to init regmap[%u]\n", i);
+   840				return PTR_ERR(map);
+   841			}
+   842	
+   843			ipctl->regions[i].map = map;
+   844			ipctl->regions[i].pin_range = &info->mem_pin_ranges[i];
+   845		}
+   846	
+   847		nfuncs = of_get_child_count(np);
+   848		if (nfuncs <= 0) {
+   849			dev_err(&pdev->dev, "no functions defined\n");
+   850			return -EINVAL;
+   851		}
+   852	
+   853		info->nfunctions = nfuncs;
+   854		info->functions = devm_kzalloc(&pdev->dev,
+   855					       nfuncs * sizeof(struct s32_pmx_func),
+   856					       GFP_KERNEL);
+   857		if (!info->functions)
+   858			return -ENOMEM;
+   859	
+   860		info->ngroups = 0;
+   861		for_each_child_of_node(np, child)
+   862			info->ngroups += of_get_child_count(child);
+   863		info->groups = devm_kzalloc(&pdev->dev,
+   864					    info->ngroups * sizeof(struct s32_pin_group),
+   865					    GFP_KERNEL);
+   866		if (!info->groups)
+   867			return -ENOMEM;
+   868	
+   869		i = 0;
+   870		for_each_child_of_node(np, child)
+   871			s32_pinctrl_parse_functions(child, info, i++);
+   872	
+   873		return 0;
+   874	}
+   875	
 
 -- 
 0-DAY CI Kernel Test Service
