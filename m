@@ -1,201 +1,140 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938091CF98
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 15:36:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F338B1CF9C;
+	Thu,  2 Nov 2023 15:47:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="avck4VK3"
-Message-ID: <4eb1d4cd-c327-4514-b709-b98dc9e6af3b@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1698939382;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Xd5f/LwH7lzrxpiqhzHYsAN7wJYWEdJ8oVA1ZRW1SwE=;
-	b=avck4VK3WPdgM9+jS7MVO8KCxbG0vp/uuRoX4jabxGGRJPjF1fW9Fiq2yWCIjVKkLI2/Ov
-	Hh9nV2Zcqagzh6tB1RMhNXaQOOabxxtrnQmWKPzcmM/3J9LQ4bmGLqcYyeDqwBO+Yx+iLo
-	SbzbKqpUnijUmuY+endvFfM+TZS6jIk=
-Date: Thu, 2 Nov 2023 08:36:16 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cJ386WLd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698940031; x=1730476031;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HNI3x3MYh/j6wySXSOikcO/9VddS9p/hNBuGdysRtcM=;
+  b=cJ386WLdq5WalHQHFqIYIaZg1Hw+lukzq7bvNcSqWXpQLgz9t9B3lCQT
+   +sRSGO6okiUkNlB4geE4ATPQ5sp2tZIHE741WIwXJSY3ykymoNQTw2sTn
+   +aNG51yr31Vf9ag481EVJPUhlMIwlWGaBO6uhq63jW3HwtddJ3uEvZITG
+   uyYtn6hLaUhIULQhnU50BRliEbYINiF354Fw/zghP5Yc9EAkSOYgG4FVD
+   fXGHsEuZHji/HkLcvWZdQFvMrLMK/g9Iv7Ukpev9ga6oK0ZDPzaqklTss
+   KLbhLP1AYUamC/Rvjzr2RbQ5TTXSlLyTAYrdr1OkKJTToitDtOvUNqFUb
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="368950279"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
+   d="scan'208";a="368950279"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 08:46:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="711186730"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
+   d="scan'208";a="711186730"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 02 Nov 2023 08:46:39 -0700
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qyZu1-0001b6-0v;
+	Thu, 02 Nov 2023 15:46:37 +0000
+Date: Thu, 2 Nov 2023 23:46:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>
+Subject: lib/maple_tree.c:4327:20: warning: stack frame size (1112) exceeds
+ limit (1024) in 'mas_wr_modify'
+Message-ID: <202311022317.B3t8ONbL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: kernel/bpf/helpers.c:1905:19: warning: no previous declaration
- for 'bpf_percpu_obj_new_impl'
-Content-Language: en-GB
-To: Philip Li <philip.li@intel.com>, kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alexei Starovoitov <ast@kernel.org>
-References: <202311021613.I5dZri9c-lkp@intel.com> <ZUNmpE2OTpuKcxjW@rli9-mobl>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yonghong Song <yonghong.song@linux.dev>
-In-Reply-To: <ZUNmpE2OTpuKcxjW@rli9-mobl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Liam,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   21e80f3841c01aeaf32d7aee7bbc87b3db1aa0c6
+commit: 54a611b605901c7d5d05b6b8f5d04a6ceb0962aa Maple Tree: add new data structure
+date:   1 year, 1 month ago
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231102/202311022317.B3t8ONbL-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311022317.B3t8ONbL-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311022317.B3t8ONbL-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   lib/maple_tree.c:330:20: warning: unused function 'mte_set_full' [-Wunused-function]
+     330 | static inline void mte_set_full(const struct maple_enode *node)
+         |                    ^
+   lib/maple_tree.c:335:20: warning: unused function 'mte_clear_full' [-Wunused-function]
+     335 | static inline void mte_clear_full(const struct maple_enode *node)
+         |                    ^
+   lib/maple_tree.c:3958:19: warning: stack frame size (1032) exceeds limit (1024) in 'mas_wr_spanning_store' [-Wframe-larger-than]
+    3958 | static inline int mas_wr_spanning_store(struct ma_wr_state *wr_mas)
+         |                   ^
+>> lib/maple_tree.c:4327:20: warning: stack frame size (1112) exceeds limit (1024) in 'mas_wr_modify' [-Wframe-larger-than]
+    4327 | static inline void mas_wr_modify(struct ma_wr_state *wr_mas)
+         |                    ^
+   4 warnings generated.
 
 
-On 11/2/23 2:06 AM, Philip Li wrote:
-> On Thu, Nov 02, 2023 at 04:42:39PM +0800, kernel test robot wrote:
->> Hi Yonghong,
-> Sorry, kindly ignore this report, it is similar one as https://lore.kernel.org/oe-kbuild-all/202309241550.JnHcYTZh-lkp@intel.com/,
-> and we haven't fixed the bot side yet.
+vim +/mas_wr_modify +4327 lib/maple_tree.c
 
-The fix is just pushed to the bpf tree.
+  4326	
+> 4327	static inline void mas_wr_modify(struct ma_wr_state *wr_mas)
+  4328	{
+  4329		unsigned char node_slots;
+  4330		unsigned char node_size;
+  4331		struct ma_state *mas = wr_mas->mas;
+  4332	
+  4333		/* Direct replacement */
+  4334		if (wr_mas->r_min == mas->index && wr_mas->r_max == mas->last) {
+  4335			rcu_assign_pointer(wr_mas->slots[mas->offset], wr_mas->entry);
+  4336			if (!!wr_mas->entry ^ !!wr_mas->content)
+  4337				mas_update_gap(mas);
+  4338			return;
+  4339		}
+  4340	
+  4341		/* Attempt to append */
+  4342		node_slots = mt_slots[wr_mas->type];
+  4343		node_size = wr_mas->node_end - wr_mas->offset_end + mas->offset + 2;
+  4344		if (mas->max == ULONG_MAX)
+  4345			node_size++;
+  4346	
+  4347		/* slot and node store will not fit, go to the slow path */
+  4348		if (unlikely(node_size >= node_slots))
+  4349			goto slow_path;
+  4350	
+  4351		if (wr_mas->entry && (wr_mas->node_end < node_slots - 1) &&
+  4352		    (mas->offset == wr_mas->node_end) && mas_wr_append(wr_mas)) {
+  4353			if (!wr_mas->content || !wr_mas->entry)
+  4354				mas_update_gap(mas);
+  4355			return;
+  4356		}
+  4357	
+  4358		if ((wr_mas->offset_end - mas->offset <= 1) && mas_wr_slot_store(wr_mas))
+  4359			return;
+  4360		else if (mas_wr_node_store(wr_mas))
+  4361			return;
+  4362	
+  4363		if (mas_is_err(mas))
+  4364			return;
+  4365	
+  4366	slow_path:
+  4367		mas_wr_bnode(wr_mas);
+  4368	}
+  4369	
 
-https://lore.kernel.org/all/20231031215625.2343848-1-davemarchevsky@fb.com/
-
-
->
->> FYI, the error/warning still remains.
->>
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
->> head:   21e80f3841c01aeaf32d7aee7bbc87b3db1aa0c6
->> commit: 36d8bdf75a93190e5669b9d1d95994e13e15ba1d bpf: Add alloc/xchg/direct_access support for local percpu kptr
->> date:   8 weeks ago
->> config: x86_64-buildonly-randconfig-006-20231102 (https://download.01.org/0day-ci/archive/20231102/202311021613.I5dZri9c-lkp@intel.com/config)
->> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311021613.I5dZri9c-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202311021613.I5dZri9c-lkp@intel.com/
->>
->> All warnings (new ones prefixed by >>):
->>
->>     kernel/bpf/helpers.c:1891:19: warning: no previous declaration for 'bpf_obj_new_impl' [-Wmissing-declarations]
->>      __bpf_kfunc void *bpf_obj_new_impl(u64 local_type_id__k, void *meta__ign)
->>                        ^~~~~~~~~~~~~~~~
->>>> kernel/bpf/helpers.c:1905:19: warning: no previous declaration for 'bpf_percpu_obj_new_impl' [-Wmissing-declarations]
->>      __bpf_kfunc void *bpf_percpu_obj_new_impl(u64 local_type_id__k, void *meta__ign)
->>                        ^~~~~~~~~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:1933:18: warning: no previous declaration for 'bpf_obj_drop_impl' [-Wmissing-declarations]
->>      __bpf_kfunc void bpf_obj_drop_impl(void *p__alloc, void *meta__ign)
->>                       ^~~~~~~~~~~~~~~~~
->>>> kernel/bpf/helpers.c:1941:18: warning: no previous declaration for 'bpf_percpu_obj_drop_impl' [-Wmissing-declarations]
->>      __bpf_kfunc void bpf_percpu_obj_drop_impl(void *p__alloc, void *meta__ign)
->>                       ^~~~~~~~~~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:1947:19: warning: no previous declaration for 'bpf_refcount_acquire_impl' [-Wmissing-declarations]
->>      __bpf_kfunc void *bpf_refcount_acquire_impl(void *p__refcounted_kptr, void *meta__ign)
->>                        ^~~~~~~~~~~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:1992:17: warning: no previous declaration for 'bpf_list_push_front_impl' [-Wmissing-declarations]
->>      __bpf_kfunc int bpf_list_push_front_impl(struct bpf_list_head *head,
->>                      ^~~~~~~~~~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2002:17: warning: no previous declaration for 'bpf_list_push_back_impl' [-Wmissing-declarations]
->>      __bpf_kfunc int bpf_list_push_back_impl(struct bpf_list_head *head,
->>                      ^~~~~~~~~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2035:35: warning: no previous declaration for 'bpf_list_pop_front' [-Wmissing-declarations]
->>      __bpf_kfunc struct bpf_list_node *bpf_list_pop_front(struct bpf_list_head *head)
->>                                        ^~~~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2040:35: warning: no previous declaration for 'bpf_list_pop_back' [-Wmissing-declarations]
->>      __bpf_kfunc struct bpf_list_node *bpf_list_pop_back(struct bpf_list_head *head)
->>                                        ^~~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2045:33: warning: no previous declaration for 'bpf_rbtree_remove' [-Wmissing-declarations]
->>      __bpf_kfunc struct bpf_rb_node *bpf_rbtree_remove(struct bpf_rb_root *root,
->>                                      ^~~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2101:17: warning: no previous declaration for 'bpf_rbtree_add_impl' [-Wmissing-declarations]
->>      __bpf_kfunc int bpf_rbtree_add_impl(struct bpf_rb_root *root, struct bpf_rb_node *node,
->>                      ^~~~~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2111:33: warning: no previous declaration for 'bpf_rbtree_first' [-Wmissing-declarations]
->>      __bpf_kfunc struct bpf_rb_node *bpf_rbtree_first(struct bpf_rb_root *root)
->>                                      ^~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2124:33: warning: no previous declaration for 'bpf_task_acquire' [-Wmissing-declarations]
->>      __bpf_kfunc struct task_struct *bpf_task_acquire(struct task_struct *p)
->>                                      ^~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2135:18: warning: no previous declaration for 'bpf_task_release' [-Wmissing-declarations]
->>      __bpf_kfunc void bpf_task_release(struct task_struct *p)
->>                       ^~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2224:33: warning: no previous declaration for 'bpf_task_from_pid' [-Wmissing-declarations]
->>      __bpf_kfunc struct task_struct *bpf_task_from_pid(s32 pid)
->>                                      ^~~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2265:19: warning: no previous declaration for 'bpf_dynptr_slice' [-Wmissing-declarations]
->>      __bpf_kfunc void *bpf_dynptr_slice(const struct bpf_dynptr_kern *ptr, u32 offset,
->>                        ^~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2349:19: warning: no previous declaration for 'bpf_dynptr_slice_rdwr' [-Wmissing-declarations]
->>      __bpf_kfunc void *bpf_dynptr_slice_rdwr(const struct bpf_dynptr_kern *ptr, u32 offset,
->>                        ^~~~~~~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2380:17: warning: no previous declaration for 'bpf_dynptr_adjust' [-Wmissing-declarations]
->>      __bpf_kfunc int bpf_dynptr_adjust(struct bpf_dynptr_kern *ptr, u32 start, u32 end)
->>                      ^~~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2398:18: warning: no previous declaration for 'bpf_dynptr_is_null' [-Wmissing-declarations]
->>      __bpf_kfunc bool bpf_dynptr_is_null(struct bpf_dynptr_kern *ptr)
->>                       ^~~~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2403:18: warning: no previous declaration for 'bpf_dynptr_is_rdonly' [-Wmissing-declarations]
->>      __bpf_kfunc bool bpf_dynptr_is_rdonly(struct bpf_dynptr_kern *ptr)
->>                       ^~~~~~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2411:19: warning: no previous declaration for 'bpf_dynptr_size' [-Wmissing-declarations]
->>      __bpf_kfunc __u32 bpf_dynptr_size(const struct bpf_dynptr_kern *ptr)
->>                        ^~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2419:17: warning: no previous declaration for 'bpf_dynptr_clone' [-Wmissing-declarations]
->>      __bpf_kfunc int bpf_dynptr_clone(struct bpf_dynptr_kern *ptr,
->>                      ^~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2432:19: warning: no previous declaration for 'bpf_cast_to_kern_ctx' [-Wmissing-declarations]
->>      __bpf_kfunc void *bpf_cast_to_kern_ctx(void *obj)
->>                        ^~~~~~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2437:19: warning: no previous declaration for 'bpf_rdonly_cast' [-Wmissing-declarations]
->>      __bpf_kfunc void *bpf_rdonly_cast(void *obj__ign, u32 btf_id__k)
->>                        ^~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2442:18: warning: no previous declaration for 'bpf_rcu_read_lock' [-Wmissing-declarations]
->>      __bpf_kfunc void bpf_rcu_read_lock(void)
->>                       ^~~~~~~~~~~~~~~~~
->>     kernel/bpf/helpers.c:2447:18: warning: no previous declaration for 'bpf_rcu_read_unlock' [-Wmissing-declarations]
->>      __bpf_kfunc void bpf_rcu_read_unlock(void)
->>                       ^~~~~~~~~~~~~~~~~~~
->>
->>
->> vim +/bpf_percpu_obj_new_impl +1905 kernel/bpf/helpers.c
->>
->>    1904	
->>> 1905	__bpf_kfunc void *bpf_percpu_obj_new_impl(u64 local_type_id__k, void *meta__ign)
->>    1906	{
->>    1907		u64 size = local_type_id__k;
->>    1908	
->>    1909		/* The verifier has ensured that meta__ign must be NULL */
->>    1910		return bpf_mem_alloc(&bpf_global_percpu_ma, size);
->>    1911	}
->>    1912	
->>    1913	/* Must be called under migrate_disable(), as required by bpf_mem_free */
->>    1914	void __bpf_obj_drop_impl(void *p, const struct btf_record *rec)
->>    1915	{
->>    1916		if (rec && rec->refcount_off >= 0 &&
->>    1917		    !refcount_dec_and_test((refcount_t *)(p + rec->refcount_off))) {
->>    1918			/* Object is refcounted and refcount_dec didn't result in 0
->>    1919			 * refcount. Return without freeing the object
->>    1920			 */
->>    1921			return;
->>    1922		}
->>    1923	
->>    1924		if (rec)
->>    1925			bpf_obj_free_fields(rec, p);
->>    1926	
->>    1927		if (rec && rec->refcount_off >= 0)
->>    1928			bpf_mem_free_rcu(&bpf_global_ma, p);
->>    1929		else
->>    1930			bpf_mem_free(&bpf_global_ma, p);
->>    1931	}
->>    1932	
->>    1933	__bpf_kfunc void bpf_obj_drop_impl(void *p__alloc, void *meta__ign)
->>    1934	{
->>    1935		struct btf_struct_meta *meta = meta__ign;
->>    1936		void *p = p__alloc;
->>    1937	
->>    1938		__bpf_obj_drop_impl(p, meta ? meta->record : NULL);
->>    1939	}
->>    1940	
->>> 1941	__bpf_kfunc void bpf_percpu_obj_drop_impl(void *p__alloc, void *meta__ign)
->>    1942	{
->>    1943		/* The verifier has ensured that meta__ign must be NULL */
->>    1944		bpf_mem_free_rcu(&bpf_global_percpu_ma, p__alloc);
->>    1945	}
->>    1946	
->>
->> -- 
->> 0-DAY CI Kernel Test Service
->> https://github.com/intel/lkp-tests/wiki
->>
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
