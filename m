@@ -1,47 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A6C1DFD6
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 17:17:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C0B1DFCC;
+	Thu,  2 Nov 2023 17:17:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QDI+/lFF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aY6TakfT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1698945476; x=1730481476;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RaI/wpU4Itr1LwCQOKPe1dFGsqQ9nL71qFj0IEOY6Ok=;
-  b=QDI+/lFFAbOEnSiYtIO3WZ7xyUq35LuHWsj+YSjrbFmjC1JpG7gmnXOk
-   ugcrzBsKYVaDA/g8m3ttk0php21W6v77+LRQJ+N0wyIewKFOdXEn+/Uj8
-   evxyZzBSR/ZT+bQK3NcBAoFKhEE5yhhB1DCKLgd5OA2E6tggU6sNOYvwi
-   7jinQ6B04/Sk6Ca/EZ4zRsMMjd6LMgOw0rv/dlSsNh7vqxp+Ng+wRwpyW
-   vxnXlnRsIy02vsRRRBIlvnwYj7845LHcIbVLUB05/JkFI/AgjgRFuEIIN
-   b21+97dWG7LeXk6JmB8VpOB7E7gGBGMbcswHGU+ObRPhKzzraDwY6QWQF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="379160526"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MWipMJE00I35wm9mvKmO5f27TXal4/HduGfx97+LPFY=;
+  b=aY6TakfTIXuUkVJnGaI3TztyDqpRMkspqbv4laX/eIgYMNmUMgaac8ag
+   yWu0MLoT0Mc4mdxtEtrWyjTywEvml7FADOkd+nC4AR89A+STGuLjTVN7Q
+   5jqqeWLFLDdioaLtl4lWit0uhTUxYi+qXQl2niEnnqgj8cyiCsWJX4Lq2
+   75zpzyzRo1QrgSNs56UrEC0CWRh8npjQzlsFz+Edy9rAApx2mt28KNXk0
+   oyrYlKZK+nWs5BkE0qZC4kPJsrKYXbuTQzHMSgFU4JY0MGlA6jWFqArPt
+   YEVaEkv3aHpuZeAPHywhzxIPFVuJB/5qtHT8ca7+Zk1aGI3bgBUzb9zNJ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="379160530"
 X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; 
-   d="scan'208";a="379160526"
+   d="scan'208";a="379160530"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
   by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 10:17:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="754863197"
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="754863198"
 X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; 
-   d="scan'208";a="754863197"
+   d="scan'208";a="754863198"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
   by orsmga007.jf.intel.com with ESMTP; 02 Nov 2023 10:17:47 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qybKD-0001hh-0x;
+	id 1qybKD-0001hk-1q;
 	Thu, 02 Nov 2023 17:17:45 +0000
-Date: Fri, 3 Nov 2023 01:16:54 +0800
+Date: Fri, 3 Nov 2023 01:16:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
-Subject: drivers/remoteproc/stm32_rproc.c:122:12: sparse: sparse: incorrect
- type in assignment (different address spaces)
-Message-ID: <202311030102.xCXT8m70-lkp@intel.com>
+To: Li Zhijian <lizhijian@fujitsu.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 3/4] mm/vmstat: rename pgdemote_* to pgdemote_dst_*
+ and add pgdemote_src_*
+Message-ID: <202311030137.Vu2ki6zm-lkp@intel.com>
+References: <20231102025648.1285477-4-lizhijian@fujitsu.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,67 +51,175 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231102025648.1285477-4-lizhijian@fujitsu.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   21e80f3841c01aeaf32d7aee7bbc87b3db1aa0c6
-commit: 03bd158e1535e68bcd2b1e095b0ebcad7c84bd20 remoteproc: stm32: use correct format strings on 64-bit
-date:   4 months ago
-config: nios2-randconfig-r132-20231102 (https://download.01.org/0day-ci/archive/20231103/202311030102.xCXT8m70-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231103/202311030102.xCXT8m70-lkp@intel.com/reproduce)
+Hi Li,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on driver-core/driver-core-testing]
+[also build test ERROR on driver-core/driver-core-next driver-core/driver-core-linus staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.6 next-20231102]
+[cannot apply to akpm-mm/mm-everything]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Li-Zhijian/mm-vmstat-Move-pgdemote_-to-per-node-stats/20231102-135849
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20231102025648.1285477-4-lizhijian%40fujitsu.com
+patch subject: [PATCH RFC 3/4] mm/vmstat: rename pgdemote_* to pgdemote_dst_* and add pgdemote_src_*
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231103/202311030137.Vu2ki6zm-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311030137.Vu2ki6zm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311030102.xCXT8m70-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311030137.Vu2ki6zm-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/remoteproc/stm32_rproc.c:122:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *va @@     got void [noderef] __iomem * @@
-   drivers/remoteproc/stm32_rproc.c:122:12: sparse:     expected void *va
-   drivers/remoteproc/stm32_rproc.c:122:12: sparse:     got void [noderef] __iomem *
->> drivers/remoteproc/stm32_rproc.c:139:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *va @@
-   drivers/remoteproc/stm32_rproc.c:139:20: sparse:     expected void [noderef] __iomem *addr
-   drivers/remoteproc/stm32_rproc.c:139:20: sparse:     got void *va
->> drivers/remoteproc/stm32_rproc.c:644:17: sparse: sparse: cast removes address space '__iomem' of expression
+All errors (new ones prefixed by >>):
 
-vim +122 drivers/remoteproc/stm32_rproc.c
+   In file included from mm/vmscan.c:19:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from mm/vmscan.c:19:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from mm/vmscan.c:19:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> mm/vmscan.c:1114:4: error: use of undeclared identifier 'PGDEMOTE_SRC_DIRECT'
+    1114 |                         PGDEMOTE_SRC_DIRECT - PGDEMOTE_SRC_KSWAPD);
+         |                         ^
+>> mm/vmscan.c:1114:26: error: use of undeclared identifier 'PGDEMOTE_SRC_KSWAPD'
+    1114 |                         PGDEMOTE_SRC_DIRECT - PGDEMOTE_SRC_KSWAPD);
+         |                                               ^
+>> mm/vmscan.c:1118:4: error: use of undeclared identifier 'PGDEMOTE_SRC_KHUGEPAGED'
+    1118 |                         PGDEMOTE_SRC_KHUGEPAGED - PGDEMOTE_SRC_KSWAPD);
+         |                         ^
+   mm/vmscan.c:1118:30: error: use of undeclared identifier 'PGDEMOTE_SRC_KSWAPD'
+    1118 |                         PGDEMOTE_SRC_KHUGEPAGED - PGDEMOTE_SRC_KSWAPD);
+         |                                                   ^
+   mm/vmscan.c:1121:15: error: use of undeclared identifier 'PGDEMOTE_SRC_DIRECT'
+    1121 |         BUILD_BUG_ON(PGDEMOTE_SRC_DIRECT - PGDEMOTE_SRC_KSWAPD !=
+         |                      ^
+   mm/vmscan.c:1121:37: error: use of undeclared identifier 'PGDEMOTE_SRC_KSWAPD'
+    1121 |         BUILD_BUG_ON(PGDEMOTE_SRC_DIRECT - PGDEMOTE_SRC_KSWAPD !=
+         |                                            ^
+>> mm/vmscan.c:1122:4: error: use of undeclared identifier 'PGDEMOTE_DST_DIRECT'
+    1122 |                         PGDEMOTE_DST_DIRECT - PGDEMOTE_DST_KSWAPD);
+         |                         ^
+>> mm/vmscan.c:1122:26: error: use of undeclared identifier 'PGDEMOTE_DST_KSWAPD'
+    1122 |                         PGDEMOTE_DST_DIRECT - PGDEMOTE_DST_KSWAPD);
+         |                                               ^
+   mm/vmscan.c:1123:15: error: use of undeclared identifier 'PGDEMOTE_SRC_KHUGEPAGED'
+    1123 |         BUILD_BUG_ON(PGDEMOTE_SRC_KHUGEPAGED - PGDEMOTE_SRC_KSWAPD !=
+         |                      ^
+   mm/vmscan.c:1123:41: error: use of undeclared identifier 'PGDEMOTE_SRC_KSWAPD'
+    1123 |         BUILD_BUG_ON(PGDEMOTE_SRC_KHUGEPAGED - PGDEMOTE_SRC_KSWAPD !=
+         |                                                ^
+>> mm/vmscan.c:1124:4: error: use of undeclared identifier 'PGDEMOTE_DST_KHUGEPAGED'
+    1124 |                         PGDEMOTE_DST_KHUGEPAGED - PGDEMOTE_DST_KSWAPD);
+         |                         ^
+   mm/vmscan.c:1124:30: error: use of undeclared identifier 'PGDEMOTE_DST_KSWAPD'
+    1124 |                         PGDEMOTE_DST_KHUGEPAGED - PGDEMOTE_DST_KSWAPD);
+         |                                                   ^
+   mm/vmscan.c:1687:7: error: use of undeclared identifier 'PGDEMOTE_SRC_KSWAPD'
+    1687 |                     PGDEMOTE_SRC_KSWAPD + reclaimer_offset(), nr_succeeded);
+         |                     ^
+   mm/vmscan.c:1689:7: error: use of undeclared identifier 'PGDEMOTE_DST_KSWAPD'
+    1689 |                     PGDEMOTE_DST_KSWAPD + reclaimer_offset(), nr_succeeded);
+         |                     ^
+   12 warnings and 14 errors generated.
 
-13140de09cc2dd Fabien Dessenne 2019-05-14  114  
-13140de09cc2dd Fabien Dessenne 2019-05-14  115  static int stm32_rproc_mem_alloc(struct rproc *rproc,
-13140de09cc2dd Fabien Dessenne 2019-05-14  116  				 struct rproc_mem_entry *mem)
-13140de09cc2dd Fabien Dessenne 2019-05-14  117  {
-13140de09cc2dd Fabien Dessenne 2019-05-14  118  	struct device *dev = rproc->dev.parent;
-13140de09cc2dd Fabien Dessenne 2019-05-14  119  	void *va;
-13140de09cc2dd Fabien Dessenne 2019-05-14  120  
-03bd158e1535e6 Arnd Bergmann   2023-06-09  121  	dev_dbg(dev, "map memory: %pad+%zx\n", &mem->dma, mem->len);
-13140de09cc2dd Fabien Dessenne 2019-05-14 @122  	va = ioremap_wc(mem->dma, mem->len);
-13140de09cc2dd Fabien Dessenne 2019-05-14  123  	if (IS_ERR_OR_NULL(va)) {
-03bd158e1535e6 Arnd Bergmann   2023-06-09  124  		dev_err(dev, "Unable to map memory region: %pad+0x%zx\n",
-13140de09cc2dd Fabien Dessenne 2019-05-14  125  			&mem->dma, mem->len);
-13140de09cc2dd Fabien Dessenne 2019-05-14  126  		return -ENOMEM;
-13140de09cc2dd Fabien Dessenne 2019-05-14  127  	}
-13140de09cc2dd Fabien Dessenne 2019-05-14  128  
-13140de09cc2dd Fabien Dessenne 2019-05-14  129  	/* Update memory entry va */
-13140de09cc2dd Fabien Dessenne 2019-05-14  130  	mem->va = va;
-13140de09cc2dd Fabien Dessenne 2019-05-14  131  
-13140de09cc2dd Fabien Dessenne 2019-05-14  132  	return 0;
-13140de09cc2dd Fabien Dessenne 2019-05-14  133  }
-13140de09cc2dd Fabien Dessenne 2019-05-14  134  
-13140de09cc2dd Fabien Dessenne 2019-05-14  135  static int stm32_rproc_mem_release(struct rproc *rproc,
-13140de09cc2dd Fabien Dessenne 2019-05-14  136  				   struct rproc_mem_entry *mem)
-13140de09cc2dd Fabien Dessenne 2019-05-14  137  {
-13140de09cc2dd Fabien Dessenne 2019-05-14  138  	dev_dbg(rproc->dev.parent, "unmap memory: %pa\n", &mem->dma);
-13140de09cc2dd Fabien Dessenne 2019-05-14 @139  	iounmap(mem->va);
-13140de09cc2dd Fabien Dessenne 2019-05-14  140  
-13140de09cc2dd Fabien Dessenne 2019-05-14  141  	return 0;
-13140de09cc2dd Fabien Dessenne 2019-05-14  142  }
-13140de09cc2dd Fabien Dessenne 2019-05-14  143  
 
-:::::: The code at line 122 was first introduced by commit
-:::::: 13140de09cc2dd5e5166ad42292bb82af4e23cef remoteproc: stm32: add an ST stm32_rproc driver
+vim +/PGDEMOTE_SRC_DIRECT +1114 mm/vmscan.c
 
-:::::: TO: Fabien Dessenne <fabien.dessenne@st.com>
-:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
+  1110	
+  1111	static int reclaimer_offset(void)
+  1112	{
+  1113		BUILD_BUG_ON(PGSTEAL_DIRECT - PGSTEAL_KSWAPD !=
+> 1114				PGDEMOTE_SRC_DIRECT - PGDEMOTE_SRC_KSWAPD);
+  1115		BUILD_BUG_ON(PGSTEAL_DIRECT - PGSTEAL_KSWAPD !=
+  1116				PGSCAN_DIRECT - PGSCAN_KSWAPD);
+  1117		BUILD_BUG_ON(PGSTEAL_KHUGEPAGED - PGSTEAL_KSWAPD !=
+> 1118				PGDEMOTE_SRC_KHUGEPAGED - PGDEMOTE_SRC_KSWAPD);
+  1119		BUILD_BUG_ON(PGSTEAL_KHUGEPAGED - PGSTEAL_KSWAPD !=
+  1120				PGSCAN_KHUGEPAGED - PGSCAN_KSWAPD);
+> 1121		BUILD_BUG_ON(PGDEMOTE_SRC_DIRECT - PGDEMOTE_SRC_KSWAPD !=
+> 1122				PGDEMOTE_DST_DIRECT - PGDEMOTE_DST_KSWAPD);
+  1123		BUILD_BUG_ON(PGDEMOTE_SRC_KHUGEPAGED - PGDEMOTE_SRC_KSWAPD !=
+> 1124				PGDEMOTE_DST_KHUGEPAGED - PGDEMOTE_DST_KSWAPD);
+  1125	
+  1126	
+  1127		if (current_is_kswapd())
+  1128			return 0;
+  1129		if (current_is_khugepaged())
+  1130			return PGSTEAL_KHUGEPAGED - PGSTEAL_KSWAPD;
+  1131		return PGSTEAL_DIRECT - PGSTEAL_KSWAPD;
+  1132	}
+  1133	
 
 -- 
 0-DAY CI Kernel Test Service
