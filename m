@@ -1,54 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBC9134A6
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 10:47:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 832E010A3A
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 10:57:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lKuEEFJd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jT0Nh13H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698922033; x=1730458033;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KH7vT1lEeEU0uB3WixM0UBZSUFvdyaK2lluLFuQhe+k=;
-  b=lKuEEFJdHkRmcgtd8rR6DkcA+jOol3qcjCj2ZBi9f4LR4uyXMrXx+wPw
-   2S6TMY/3mgXxJxIgoBKAnzasuCQS4vRPDOtia0r/0VxSMR44Qk4nPTsXq
-   /mp0TlWWz4g39jSR69jgvHT5ls6IOienVpYexLgLq0G4pTfbVvjtxQw/+
-   X93G5k+vr9rqH7S+YSqL7WKjMiqnuABhTW9aIsmPGRI2uzA3Hv58t2tuF
-   P23J52xCzGYKGmX7VUmia1e8wkdm018AfIUirwNhJiZA/eRnAyKNXxct3
-   bEONiqsOU/mjtRtE7/3Jqvlimkc0KSTJ30Z2sQc2ShEojlGx0vxDlgEBN
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="419795670"
+  t=1698922657; x=1730458657;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=h4enFCUSn8BV3Heci5Ocr14Bw9lcrZkIVIhepyhCnwQ=;
+  b=jT0Nh13HDqKS3lTTzPMXwKxpJ8D3kr7I2BtLIpzYsIHbYB0HPNssgaOM
+   +9DLxZY9cReAlKX5B9886tuZKA6y/nQye8AKquZlK4tZu4gF6rplYiNbT
+   45TtZL3dsZEVVJ1EziN33+tgVlKpDQ6PZjP93APEFPwCJe2KOds3AbSCB
+   G7uGj5p3M9XxLyQuDk7Yi11kuWCMvpxgYTexUb8yhivp/WfoSzFbxa9/H
+   n81mZ+aGXDqyZtAQyHCd7dxEU+ZEDqc1iKyTL1ttaNQWFb1gi4aAJTudV
+   xfgra+Ip1UTtkbVrF/sYcDB5hpTXn+vfJ48eGytn5mBf/CDoUxTfnEsiD
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="379080215"
 X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="419795670"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 03:47:12 -0700
+   d="scan'208";a="379080215"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 03:57:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="790351817"
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="831658437"
 X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="790351817"
+   d="scan'208";a="831658437"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 02 Nov 2023 03:47:09 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 02 Nov 2023 03:57:28 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qyVEA-0001Q4-1m;
-	Thu, 02 Nov 2023 10:47:06 +0000
-Date: Thu, 2 Nov 2023 18:46:09 +0800
+	id 1qyVOA-0001QK-19;
+	Thu, 02 Nov 2023 10:57:26 +0000
+Date: Thu, 2 Nov 2023 18:56:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
-	matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
-	sarah.walker@imgtec.com, donald.robson@imgtec.com,
-	boris.brezillon@collabora.com, christian.koenig@amd.com,
-	faith@gfxstrand.net
-Cc: oe-kbuild-all@lists.linux.dev, nouveau@lists.freedesktop.org,
-	Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH drm-misc-next v8 09/12] drm/gpuvm: reference count
- drm_gpuvm structures
-Message-ID: <202311021833.q8aYDJnr-lkp@intel.com>
-References: <20231101233113.8059-10-dakr@redhat.com>
+To: Greg Ungerer <gerg@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+	uclinux-dev@uclinux.org
+Subject: [gerg-m68knommu:cf 3/3] lib/crypto/mpi/longlong.h:534: warning:
+ "umul_ppmm" redefined
+Message-ID: <202311021826.pC3SLHbU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,49 +50,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231101233113.8059-10-dakr@redhat.com>
 
-Hi Danilo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 3c6c7ca4508b6cb1a033ac954c50a1b2c97af883]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-gpuvm-convert-WARN-to-drm_WARN-variants/20231102-073332
-base:   3c6c7ca4508b6cb1a033ac954c50a1b2c97af883
-patch link:    https://lore.kernel.org/r/20231101233113.8059-10-dakr%40redhat.com
-patch subject: [PATCH drm-misc-next v8 09/12] drm/gpuvm: reference count drm_gpuvm structures
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20231102/202311021833.q8aYDJnr-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311021833.q8aYDJnr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git cf
+head:   046fd54f263ce0782ba2b56e0a514a1eeceff350
+commit: 046fd54f263ce0782ba2b56e0a514a1eeceff350 [3/3] m68k: use kernel's generic muldi3 libgcc function
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231102/202311021826.pC3SLHbU-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311021826.pC3SLHbU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311021833.q8aYDJnr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311021826.pC3SLHbU-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/drm_gpuvm.c:810: warning: expecting prototype for drm_gpuvm_bo_put(). Prototype was for drm_gpuvm_put() instead
+   In file included from lib/crypto/mpi/generic_mpih-mul1.c:17:
+>> lib/crypto/mpi/longlong.h:534: warning: "umul_ppmm" redefined
+     534 | #define umul_ppmm(w1, w0, u, v) \
+         | 
+   In file included from include/linux/compiler_types.h:167,
+                    from <command-line>:
+   arch/m68k/include/asm/compiler.h:13: note: this is the location of the previous definition
+      13 | #define umul_ppmm(w1, w0, u, v)                         \
+         | 
 
 
-vim +810 drivers/gpu/drm/drm_gpuvm.c
+vim +/umul_ppmm +534 lib/crypto/mpi/longlong.h
 
-   801	
-   802	/**
-   803	 * drm_gpuvm_bo_put() - drop a struct drm_gpuvm reference
-   804	 * @gpuvm: the &drm_gpuvm to release the reference of
-   805	 *
-   806	 * This releases a reference to @gpuvm.
-   807	 */
-   808	void
-   809	drm_gpuvm_put(struct drm_gpuvm *gpuvm)
- > 810	{
-   811		if (gpuvm)
-   812			kref_put(&gpuvm->kref, drm_gpuvm_free);
-   813	}
-   814	EXPORT_SYMBOL_GPL(drm_gpuvm_put);
-   815	
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  510  
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  511  /***************************************
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  512  	**************  68000	****************
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  513  	***************************************/
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  514  #if (defined(__mc68000__) || defined(__mc68020__) || defined(__NeXT__) || defined(mc68020)) && W_TYPE_SIZE == 32
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  515  #define add_ssaaaa(sh, sl, ah, al, bh, bl) \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  516  	__asm__ ("add%.l %5,%1\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  517  	   "addx%.l %3,%0" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  518  	: "=d" ((USItype)(sh)), \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  519  	     "=&d" ((USItype)(sl)) \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  520  	: "%0" ((USItype)(ah)), \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  521  	     "d" ((USItype)(bh)), \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  522  	     "%1" ((USItype)(al)), \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  523  	     "g" ((USItype)(bl)))
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  524  #define sub_ddmmss(sh, sl, ah, al, bh, bl) \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  525  	__asm__ ("sub%.l %5,%1\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  526  	   "subx%.l %3,%0" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  527  	: "=d" ((USItype)(sh)), \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  528  	     "=&d" ((USItype)(sl)) \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  529  	: "0" ((USItype)(ah)), \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  530  	     "d" ((USItype)(bh)), \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  531  	     "1" ((USItype)(al)), \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  532  	     "g" ((USItype)(bl)))
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  533  #if (defined(__mc68020__) || defined(__NeXT__) || defined(mc68020))
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31 @534  #define umul_ppmm(w1, w0, u, v) \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  535  	__asm__ ("mulu%.l %3,%1:%0" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  536  	: "=d" ((USItype)(w0)), \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  537  	     "=d" ((USItype)(w1)) \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  538  	: "%0" ((USItype)(u)), \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  539  	     "dmi" ((USItype)(v)))
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  540  #define UMUL_TIME 45
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  541  #define udiv_qrnnd(q, r, n1, n0, d) \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  542  	__asm__ ("divu%.l %4,%1:%0" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  543  	: "=d" ((USItype)(q)), \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  544  	     "=d" ((USItype)(r)) \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  545  	: "0" ((USItype)(n0)), \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  546  	     "1" ((USItype)(n1)), \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  547  	     "dmi" ((USItype)(d)))
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  548  #define UDIV_TIME 90
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  549  #define sdiv_qrnnd(q, r, n1, n0, d) \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  550  	__asm__ ("divs%.l %4,%1:%0" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  551  	: "=d" ((USItype)(q)), \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  552  	     "=d" ((USItype)(r)) \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  553  	: "0" ((USItype)(n0)), \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  554  	     "1" ((USItype)(n1)), \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  555  	     "dmi" ((USItype)(d)))
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  556  #else /* not mc68020 */
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  557  #define umul_ppmm(xh, xl, a, b) \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  558  do { USItype __umul_tmp1, __umul_tmp2; \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  559  	__asm__ ("| Inlined umul_ppmm\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  560  	"move%.l %5,%3\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  561  	"move%.l %2,%0\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  562  	"move%.w %3,%1\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  563  	"swap	%3\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  564  	"swap	%0\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  565  	"mulu	%2,%1\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  566  	"mulu	%3,%0\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  567  	"mulu	%2,%3\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  568  	"swap	%2\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  569  	"mulu	%5,%2\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  570  	"add%.l	%3,%2\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  571  	"jcc	1f\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  572  	"add%.l	%#0x10000,%0\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  573  	"1:	move%.l %2,%3\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  574  	"clr%.w	%2\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  575  	"swap	%2\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  576  	"swap	%3\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  577  	"clr%.w	%3\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  578  	"add%.l	%3,%1\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  579  	"addx%.l %2,%0\n" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  580  	"| End inlined umul_ppmm" \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  581  	: "=&d" ((USItype)(xh)), "=&d" ((USItype)(xl)), \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  582  		"=d" (__umul_tmp1), "=&d" (__umul_tmp2) \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  583  	: "%2" ((USItype)(a)), "d" ((USItype)(b))); \
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  584  } while (0)
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  585  #define UMUL_TIME 100
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  586  #define UDIV_TIME 400
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  587  #endif /* not mc68020 */
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  588  #endif /* mc68000 */
+5ce3e312ec5c11 lib/mpi/longlong.h Dmitry Kasatkin 2011-08-31  589  
+
+:::::: The code at line 534 was first introduced by commit
+:::::: 5ce3e312ec5c11abce13215be70700778bf601f0 crypto: GnuPG based MPI lib - header files (part 2)
+
+:::::: TO: Dmitry Kasatkin <dmitry.kasatkin@intel.com>
+:::::: CC: Dmitry Kasatkin <dmitry.kasatkin@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
