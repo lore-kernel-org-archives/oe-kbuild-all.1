@@ -1,156 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42ADD1DA3B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 16:56:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6ABC1DA2B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 17:06:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n4atjFuP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SrqmOtgl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698944209; x=1730480209;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=EOLeIRuvPWfLh1i/5alR77i0YXzhaYpBJ0RcfGGrM8A=;
-  b=n4atjFuPiO7k63glP+m3tZt5KpdLQKwAmIkjC1UuOiwmDFYENdDV2OWs
-   WkeUtMIPDBdmd/N/yv9+kBZ6qMWaWbGFbZgONN94R+qVsAJnK1cUCBAo8
-   aWyQZEURRup3lzw19ML89zLpSqxm9gK1l2el9uPHINPxqZ7kfyg9avTfL
-   xBAMd3T+M9h7b/gaZLLT43XATiVksaBQLu7GWc8uu9s1SnqPHfXLW1BXs
-   WluSrMDxIb84T5GdKG8lU2UsIG6Di8BQ4gIs/AkEWksMmD53D9ghzAVKw
-   sGbm0hmLr+u0tyN7iAy31vFT3+GVraAkggMafIDkpCGPTnpq9O4wH1pvr
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="385937968"
+  t=1698944795; x=1730480795;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KGXZNQdNlQDMcJNzMtG7Bfg6wKgkTbhSTuSJg4hnkYo=;
+  b=SrqmOtglGBbAytEZVYO/Os4fZFNkzCA2tZbhK51NU3PtX0IM5RBbB8hf
+   FbqsHnAZNSxqLPChWxEyuHc8OE/tg/PvH2RQhAGCFBRGacYS9mRmW/Cuv
+   QruHMkkT4kokGadRbXTyqYeuNVctNgVg6nSd9Rm4M6+Kn/i34qnXBQXDh
+   6pcY1bTFJAEj3JnquLt3sQ1Xhlt1gqB65SrU53aTgmYBZT/aBEK+s2O8K
+   h6YGWuTpANp7DzOb4BDOirPYD8AgbBFlMtwFMspWsvDxI1KD2DszgJV5g
+   xINGbB+4VpvzXoKfY3RCdOx6AFkEH3uynIN4gwMYOFKBlA5Y83chX4h8/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="455244873"
 X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; 
-   d="scan'208";a="385937968"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 09:56:19 -0700
+   d="scan'208";a="455244873"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 10:06:35 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; 
-   d="scan'208";a="9077710"
+   d="scan'208";a="2612252"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 02 Nov 2023 09:56:17 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 02 Nov 2023 10:06:34 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qyazO-0001g8-0y;
-	Thu, 02 Nov 2023 16:56:14 +0000
-Date: Fri, 3 Nov 2023 00:55:35 +0800
+	id 1qyb9L-0001h6-2a;
+	Thu, 02 Nov 2023 17:06:31 +0000
+Date: Fri, 3 Nov 2023 01:06:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>
-Subject: fs/hfsplus/wrapper.c:49: warning: Function parameter or member 'opf'
- not described in 'hfsplus_submit_bio'
-Message-ID: <202311030057.Sd6Te6EU-lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hverkuil-media-tree:vc4 32/33] ld:
+ drivers/gpu/drm/drm_atomic_state_helper.c:921: undefined reference to
+ `drm_hdmi_avi_infoframe_content_type'
+Message-ID: <202311030007.uNAf7ELQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-Hi Bart,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   21e80f3841c01aeaf32d7aee7bbc87b3db1aa0c6
-commit: c85f99929ea66c357199b6a3fe958745e1190f5a fs/hfsplus: Use the enum req_op and blk_opf_t types
-date:   1 year, 4 months ago
-config: i386-buildonly-randconfig-001-20231102 (https://download.01.org/0day-ci/archive/20231103/202311030057.Sd6Te6EU-lkp@intel.com/config)
+tree:   git://linuxtv.org/hverkuil/media_tree.git vc4
+head:   814eee0fb2a10f00039cef7db9679ae37117e486
+commit: 4c402993001a6dca9b8d2795fddf4098bfdfe5a2 [32/33] vc4: add content type support
+config: x86_64-randconfig-012-20231102 (https://download.01.org/0day-ci/archive/20231103/202311030007.uNAf7ELQ-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311030057.Sd6Te6EU-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311030007.uNAf7ELQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311030057.Sd6Te6EU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311030007.uNAf7ELQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/hfsplus/wrapper.c:49: warning: Function parameter or member 'opf' not described in 'hfsplus_submit_bio'
->> fs/hfsplus/wrapper.c:49: warning: Excess function parameter 'op' description in 'hfsplus_submit_bio'
->> fs/hfsplus/wrapper.c:49: warning: Excess function parameter 'op_flags' description in 'hfsplus_submit_bio'
+   ld: drivers/gpu/drm/drm_atomic_state_helper.o: in function `hdmi_generate_avi_infoframe':
+   drivers/gpu/drm/drm_atomic_state_helper.c:919: undefined reference to `drm_hdmi_avi_infoframe_colorimetry'
+   ld: drivers/gpu/drm/drm_atomic_state_helper.c:920: undefined reference to `drm_hdmi_avi_infoframe_bars'
+>> ld: drivers/gpu/drm/drm_atomic_state_helper.c:921: undefined reference to `drm_hdmi_avi_infoframe_content_type'
+   ld: drivers/gpu/drm/drm_atomic_state_helper.o: in function `hdmi_generate_hdr_infoframe':
+   drivers/gpu/drm/drm_atomic_state_helper.c:965: undefined reference to `drm_hdmi_infoframe_set_hdr_metadata'
 
-
-vim +49 fs/hfsplus/wrapper.c
-
-^1da177e4c3f41 Linus Torvalds    2005-04-16  26  
-915ab236d3c491 Fabian Frederick  2014-06-06  27  /**
-915ab236d3c491 Fabian Frederick  2014-06-06  28   * hfsplus_submit_bio - Perform block I/O
-6596528e391ad9 Seth Forshee      2011-07-18  29   * @sb: super block of volume for I/O
-6596528e391ad9 Seth Forshee      2011-07-18  30   * @sector: block to read or write, for blocks of HFSPLUS_SECTOR_SIZE bytes
-6596528e391ad9 Seth Forshee      2011-07-18  31   * @buf: buffer for I/O
-6596528e391ad9 Seth Forshee      2011-07-18  32   * @data: output pointer for location of requested data
-67ed25961c428a Mike Christie     2016-06-05  33   * @op: direction of I/O
-67ed25961c428a Mike Christie     2016-06-05  34   * @op_flags: request op flags
-6596528e391ad9 Seth Forshee      2011-07-18  35   *
-6596528e391ad9 Seth Forshee      2011-07-18  36   * The unit of I/O is hfsplus_min_io_size(sb), which may be bigger than
-6596528e391ad9 Seth Forshee      2011-07-18  37   * HFSPLUS_SECTOR_SIZE, and @buf must be sized accordingly. On reads
-6596528e391ad9 Seth Forshee      2011-07-18  38   * @data will return a pointer to the start of the requested sector,
-6596528e391ad9 Seth Forshee      2011-07-18  39   * which may not be the same location as @buf.
-6596528e391ad9 Seth Forshee      2011-07-18  40   *
-6596528e391ad9 Seth Forshee      2011-07-18  41   * If @sector is not aligned to the bdev logical block size it will
-6596528e391ad9 Seth Forshee      2011-07-18  42   * be rounded down. For writes this means that @buf should contain data
-6596528e391ad9 Seth Forshee      2011-07-18  43   * that starts at the rounded-down address. As long as the data was
-6596528e391ad9 Seth Forshee      2011-07-18  44   * read using hfsplus_submit_bio() and the same buffer is used things
-6596528e391ad9 Seth Forshee      2011-07-18  45   * will work correctly.
-6596528e391ad9 Seth Forshee      2011-07-18  46   */
-6596528e391ad9 Seth Forshee      2011-07-18  47  int hfsplus_submit_bio(struct super_block *sb, sector_t sector,
-c85f99929ea66c Bart Van Assche   2022-07-14  48  		       void *buf, void **data, blk_opf_t opf)
-52399b171dfaea Christoph Hellwig 2010-11-23 @49  {
-c85f99929ea66c Bart Van Assche   2022-07-14  50  	const enum req_op op = opf & REQ_OP_MASK;
-52399b171dfaea Christoph Hellwig 2010-11-23  51  	struct bio *bio;
-50176ddefa4a94 Seth Forshee      2011-05-31  52  	int ret = 0;
-a6dc8c04218eb7 Janne Kalliomäki  2012-06-17  53  	u64 io_size;
-6596528e391ad9 Seth Forshee      2011-07-18  54  	loff_t start;
-6596528e391ad9 Seth Forshee      2011-07-18  55  	int offset;
-6596528e391ad9 Seth Forshee      2011-07-18  56  
-6596528e391ad9 Seth Forshee      2011-07-18  57  	/*
-6596528e391ad9 Seth Forshee      2011-07-18  58  	 * Align sector to hardware sector size and find offset. We
-6596528e391ad9 Seth Forshee      2011-07-18  59  	 * assume that io_size is a power of two, which _should_
-6596528e391ad9 Seth Forshee      2011-07-18  60  	 * be true.
-6596528e391ad9 Seth Forshee      2011-07-18  61  	 */
-6596528e391ad9 Seth Forshee      2011-07-18  62  	io_size = hfsplus_min_io_size(sb);
-6596528e391ad9 Seth Forshee      2011-07-18  63  	start = (loff_t)sector << HFSPLUS_SECTOR_SHIFT;
-6596528e391ad9 Seth Forshee      2011-07-18  64  	offset = start & (io_size - 1);
-6596528e391ad9 Seth Forshee      2011-07-18  65  	sector &= ~((io_size >> HFSPLUS_SECTOR_SHIFT) - 1);
-52399b171dfaea Christoph Hellwig 2010-11-23  66  
-c85f99929ea66c Bart Van Assche   2022-07-14  67  	bio = bio_alloc(sb->s_bdev, 1, opf, GFP_NOIO);
-4f024f3797c43c Kent Overstreet   2013-10-11  68  	bio->bi_iter.bi_sector = sector;
-52399b171dfaea Christoph Hellwig 2010-11-23  69  
-c85f99929ea66c Bart Van Assche   2022-07-14  70  	if (op != REQ_OP_WRITE && data)
-6596528e391ad9 Seth Forshee      2011-07-18  71  		*data = (u8 *)buf + offset;
-6596528e391ad9 Seth Forshee      2011-07-18  72  
-6596528e391ad9 Seth Forshee      2011-07-18  73  	while (io_size > 0) {
-6596528e391ad9 Seth Forshee      2011-07-18  74  		unsigned int page_offset = offset_in_page(buf);
-6596528e391ad9 Seth Forshee      2011-07-18  75  		unsigned int len = min_t(unsigned int, PAGE_SIZE - page_offset,
-6596528e391ad9 Seth Forshee      2011-07-18  76  					 io_size);
-6596528e391ad9 Seth Forshee      2011-07-18  77  
-6596528e391ad9 Seth Forshee      2011-07-18  78  		ret = bio_add_page(bio, virt_to_page(buf), len, page_offset);
-6596528e391ad9 Seth Forshee      2011-07-18  79  		if (ret != len) {
-6596528e391ad9 Seth Forshee      2011-07-18  80  			ret = -EIO;
-6596528e391ad9 Seth Forshee      2011-07-18  81  			goto out;
-6596528e391ad9 Seth Forshee      2011-07-18  82  		}
-6596528e391ad9 Seth Forshee      2011-07-18  83  		io_size -= len;
-6596528e391ad9 Seth Forshee      2011-07-18  84  		buf = (u8 *)buf + len;
-6596528e391ad9 Seth Forshee      2011-07-18  85  	}
-52399b171dfaea Christoph Hellwig 2010-11-23  86  
-4e49ea4a3d2763 Mike Christie     2016-06-05  87  	ret = submit_bio_wait(bio);
-6596528e391ad9 Seth Forshee      2011-07-18  88  out:
-50176ddefa4a94 Seth Forshee      2011-05-31  89  	bio_put(bio);
-6596528e391ad9 Seth Forshee      2011-07-18  90  	return ret < 0 ? ret : 0;
-52399b171dfaea Christoph Hellwig 2010-11-23  91  }
-52399b171dfaea Christoph Hellwig 2010-11-23  92  
-
-:::::: The code at line 49 was first introduced by commit
-:::::: 52399b171dfaea02b6944cd6feba49b624147126 hfsplus: use raw bio access for the volume headers
-
-:::::: TO: Christoph Hellwig <hch@tuxera.com>
-:::::: CC: Christoph Hellwig <hch@lst.de>
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_DISPLAY_HDMI_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM_DISPLAY_HELPER [=n]
+   Selected by [y]:
+   - DRM_KMS_HELPER [=y] && HAS_IOMEM [=y] && DRM [=y]
 
 -- 
 0-DAY CI Kernel Test Service
