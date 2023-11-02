@@ -1,114 +1,201 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8361C280
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 15:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-672096e0e89so6002346d6.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 02 Nov 2023 08:11:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698937917; x=1699542717;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gwdjCz3p054/qfAx418mOQeQ+vkKeZzabw6pnxMbFjw=;
-        b=o/vea2ZW4MzRZkIClPxSzYOllmJ3vK3/Kpi8R5MKMpi8/H0ENGpyeIPRBShKWwyH97
-         VINxjs3oUvW4poAd07bEBYzjDmOZYujn95y8Ng5IYqPDBIl7Ges8fSDnwkkI8GenakeM
-         zTTK9ymTzplpKSlRuA7XVgzvR/xEEeurznNQXI7f4svIP2KWy5SMn09D3aRBGQPh38Ej
-         VJWFLgxyReVleVK7+9Y+NRhE0xEpygoD0zbPgygdButQH2TuCp9qMhB6ZV6S/LaEtKlF
-         ddiyvNflqYdsm9eCsNyPWBxf6PMhubdOLH98P64MMdxJyw8qE7MWJaMFe1cPOGsIMQOJ
-         d7HQ==
-X-Gm-Message-State: AOJu0YwGUAsav2zdVysp23k3YIWC/mG7rk/MfXx/2tpae/C1bo4mw8fe
-	ctTUBp9a/t4BeKz/EUGU7dek
-X-Google-Smtp-Source: AGHT+IENOaDYT9mgiKPmNf+6N6UadznvVhjZX3tUc303bGU7z17HNCkbaTezjP2F5pHkvNRP2gG2aQ==
-X-Received: by 2002:ad4:5f08:0:b0:672:3a8a:b1ab with SMTP id fo8-20020ad45f08000000b006723a8ab1abmr14559493qvb.15.1698937916805;
-        Thu, 02 Nov 2023 08:11:56 -0700 (PDT)
-Received: from localhost (pool-68-160-141-91.bstnma.fios.verizon.net. [68.160.141.91])
-        by smtp.gmail.com with ESMTPSA id i9-20020a0cfd29000000b0063f88855ef2sm16920qvs.101.2023.11.02.08.11.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Nov 2023 08:11:55 -0700 (PDT)
-Date: Thu, 2 Nov 2023 11:11:54 -0400
-From: Mike Snitzer <snitzer@kernel.org>
-To: Matthew Sakai <msakai@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, dm-devel@lists.linux.dev,
-	"J. corwin Coburn" <corwin@hurlbutnet.net>,
-	John Wiele <jwiele@redhat.com>, kernel test robot <lkp@intel.com>
-Subject: Re: [device-mapper-dm:dm-vdo-wip 55/90]
- drivers/md/dm-vdo/block-map.h:35:37: warning: 'UNMAPPED_BLOCK_MAP_ENTRY'
- defined but not used
-Message-ID: <ZUO8OiRFhUNlC2rR@redhat.com>
-References: <202311021353.WMMPQspU-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938091CF98
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 15:36:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="avck4VK3"
+Message-ID: <4eb1d4cd-c327-4514-b709-b98dc9e6af3b@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1698939382;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xd5f/LwH7lzrxpiqhzHYsAN7wJYWEdJ8oVA1ZRW1SwE=;
+	b=avck4VK3WPdgM9+jS7MVO8KCxbG0vp/uuRoX4jabxGGRJPjF1fW9Fiq2yWCIjVKkLI2/Ov
+	Hh9nV2Zcqagzh6tB1RMhNXaQOOabxxtrnQmWKPzcmM/3J9LQ4bmGLqcYyeDqwBO+Yx+iLo
+	SbzbKqpUnijUmuY+endvFfM+TZS6jIk=
+Date: Thu, 2 Nov 2023 08:36:16 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202311021353.WMMPQspU-lkp@intel.com>
+Subject: Re: kernel/bpf/helpers.c:1905:19: warning: no previous declaration
+ for 'bpf_percpu_obj_new_impl'
+Content-Language: en-GB
+To: Philip Li <philip.li@intel.com>, kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Alexei Starovoitov <ast@kernel.org>
+References: <202311021613.I5dZri9c-lkp@intel.com> <ZUNmpE2OTpuKcxjW@rli9-mobl>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yonghong Song <yonghong.song@linux.dev>
+In-Reply-To: <ZUNmpE2OTpuKcxjW@rli9-mobl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-[lkp: please update your scripts to use the new
-dm-devel@lists.linux.dev when emailing dm-devel. The MAINTAINERS file
-was updated so I don't know why you'd still be using the old
-dm-devel@redhat.com address]
 
-On Thu, Nov 02 2023 at  1:43P -0400,
-kernel test robot <lkp@intel.com> wrote:
+On 11/2/23 2:06 AM, Philip Li wrote:
+> On Thu, Nov 02, 2023 at 04:42:39PM +0800, kernel test robot wrote:
+>> Hi Yonghong,
+> Sorry, kindly ignore this report, it is similar one as https://lore.kernel.org/oe-kbuild-all/202309241550.JnHcYTZh-lkp@intel.com/,
+> and we haven't fixed the bot side yet.
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git dm-vdo-wip
-> head:   d4e7d305aaa9738d9606f986ad8f2f01edbb14b3
-> commit: 5a6d19abe1dc27648b64418df24ea0acef0f38d6 [55/90] dm vdo: enable configuration and building of dm-vdo
-> config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231102/202311021353.WMMPQspU-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311021353.WMMPQspU-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202311021353.WMMPQspU-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from drivers/md/dm-vdo-target.c:16:
-> >> drivers/md/dm-vdo/block-map.h:35:37: warning: 'UNMAPPED_BLOCK_MAP_ENTRY' defined but not used [-Wunused-const-variable=]
->       35 | static const struct block_map_entry UNMAPPED_BLOCK_MAP_ENTRY = {
->          |                                     ^~~~~~~~~~~~~~~~~~~~~~~~
-> >> drivers/md/dm-vdo/block-map.h:34:38: warning: 'NO_PAGE' defined but not used [-Wunused-const-variable=]
->       34 | static const physical_block_number_t NO_PAGE = 0xFFFFFFFFFFFFFFFF;
->          |                                      ^~~~~~~
-> 
-> 
-> vim +/UNMAPPED_BLOCK_MAP_ENTRY +35 drivers/md/dm-vdo/block-map.h
-> 
-> fd98f3e3ccc645 Matthew Sakai 2023-10-26  33  
-> 15deeca3859a19 Matthew Sakai 2023-10-26 @34  static const physical_block_number_t NO_PAGE = 0xFFFFFFFFFFFFFFFF;
-> 15deeca3859a19 Matthew Sakai 2023-10-26 @35  static const struct block_map_entry UNMAPPED_BLOCK_MAP_ENTRY = {
-> 15deeca3859a19 Matthew Sakai 2023-10-26  36  	.mapping_state = VDO_MAPPING_STATE_UNMAPPED & 0x0F,
-> 15deeca3859a19 Matthew Sakai 2023-10-26  37  	.pbn_high_nibble = 0,
-> 15deeca3859a19 Matthew Sakai 2023-10-26  38  	.pbn_low_word = __cpu_to_le32(VDO_ZERO_BLOCK & UINT_MAX),
-> 15deeca3859a19 Matthew Sakai 2023-10-26  39  };
-> 15deeca3859a19 Matthew Sakai 2023-10-26  40  
-> 
-> :::::: The code at line 35 was first introduced by commit
-> :::::: 15deeca3859a19abfaadd333fb3df7a45087ab3e dm vdo: implement the block map page cache
-> 
-> :::::: TO: Matthew Sakai <msakai@redhat.com>
-> :::::: CC: Mike Snitzer <snitzer@kernel.org>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+The fix is just pushed to the bpf tree.
 
-UNMAPPED_BLOCK_MAP_ENTRY isn't defined until commit 15deeca3859a1 but
-it is used by the earlier commit fd98f3e3ccc645.  So it needs moving
-to that earlier commit.
+https://lore.kernel.org/all/20231031215625.2343848-1-davemarchevsky@fb.com/
 
-But that aside, the above warning is correctly complaining about the
-definition of static variables that aren't ever used.  We need to
-define in block-map.c but declare them as extern in block-map.h
 
-I've fixed this up in linux-dm.git's dm-vdo (and rebased dm-vdo-wip)
+>
+>> FYI, the error/warning still remains.
+>>
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+>> head:   21e80f3841c01aeaf32d7aee7bbc87b3db1aa0c6
+>> commit: 36d8bdf75a93190e5669b9d1d95994e13e15ba1d bpf: Add alloc/xchg/direct_access support for local percpu kptr
+>> date:   8 weeks ago
+>> config: x86_64-buildonly-randconfig-006-20231102 (https://download.01.org/0day-ci/archive/20231102/202311021613.I5dZri9c-lkp@intel.com/config)
+>> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311021613.I5dZri9c-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202311021613.I5dZri9c-lkp@intel.com/
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>     kernel/bpf/helpers.c:1891:19: warning: no previous declaration for 'bpf_obj_new_impl' [-Wmissing-declarations]
+>>      __bpf_kfunc void *bpf_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+>>                        ^~~~~~~~~~~~~~~~
+>>>> kernel/bpf/helpers.c:1905:19: warning: no previous declaration for 'bpf_percpu_obj_new_impl' [-Wmissing-declarations]
+>>      __bpf_kfunc void *bpf_percpu_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+>>                        ^~~~~~~~~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:1933:18: warning: no previous declaration for 'bpf_obj_drop_impl' [-Wmissing-declarations]
+>>      __bpf_kfunc void bpf_obj_drop_impl(void *p__alloc, void *meta__ign)
+>>                       ^~~~~~~~~~~~~~~~~
+>>>> kernel/bpf/helpers.c:1941:18: warning: no previous declaration for 'bpf_percpu_obj_drop_impl' [-Wmissing-declarations]
+>>      __bpf_kfunc void bpf_percpu_obj_drop_impl(void *p__alloc, void *meta__ign)
+>>                       ^~~~~~~~~~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:1947:19: warning: no previous declaration for 'bpf_refcount_acquire_impl' [-Wmissing-declarations]
+>>      __bpf_kfunc void *bpf_refcount_acquire_impl(void *p__refcounted_kptr, void *meta__ign)
+>>                        ^~~~~~~~~~~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:1992:17: warning: no previous declaration for 'bpf_list_push_front_impl' [-Wmissing-declarations]
+>>      __bpf_kfunc int bpf_list_push_front_impl(struct bpf_list_head *head,
+>>                      ^~~~~~~~~~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2002:17: warning: no previous declaration for 'bpf_list_push_back_impl' [-Wmissing-declarations]
+>>      __bpf_kfunc int bpf_list_push_back_impl(struct bpf_list_head *head,
+>>                      ^~~~~~~~~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2035:35: warning: no previous declaration for 'bpf_list_pop_front' [-Wmissing-declarations]
+>>      __bpf_kfunc struct bpf_list_node *bpf_list_pop_front(struct bpf_list_head *head)
+>>                                        ^~~~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2040:35: warning: no previous declaration for 'bpf_list_pop_back' [-Wmissing-declarations]
+>>      __bpf_kfunc struct bpf_list_node *bpf_list_pop_back(struct bpf_list_head *head)
+>>                                        ^~~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2045:33: warning: no previous declaration for 'bpf_rbtree_remove' [-Wmissing-declarations]
+>>      __bpf_kfunc struct bpf_rb_node *bpf_rbtree_remove(struct bpf_rb_root *root,
+>>                                      ^~~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2101:17: warning: no previous declaration for 'bpf_rbtree_add_impl' [-Wmissing-declarations]
+>>      __bpf_kfunc int bpf_rbtree_add_impl(struct bpf_rb_root *root, struct bpf_rb_node *node,
+>>                      ^~~~~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2111:33: warning: no previous declaration for 'bpf_rbtree_first' [-Wmissing-declarations]
+>>      __bpf_kfunc struct bpf_rb_node *bpf_rbtree_first(struct bpf_rb_root *root)
+>>                                      ^~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2124:33: warning: no previous declaration for 'bpf_task_acquire' [-Wmissing-declarations]
+>>      __bpf_kfunc struct task_struct *bpf_task_acquire(struct task_struct *p)
+>>                                      ^~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2135:18: warning: no previous declaration for 'bpf_task_release' [-Wmissing-declarations]
+>>      __bpf_kfunc void bpf_task_release(struct task_struct *p)
+>>                       ^~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2224:33: warning: no previous declaration for 'bpf_task_from_pid' [-Wmissing-declarations]
+>>      __bpf_kfunc struct task_struct *bpf_task_from_pid(s32 pid)
+>>                                      ^~~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2265:19: warning: no previous declaration for 'bpf_dynptr_slice' [-Wmissing-declarations]
+>>      __bpf_kfunc void *bpf_dynptr_slice(const struct bpf_dynptr_kern *ptr, u32 offset,
+>>                        ^~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2349:19: warning: no previous declaration for 'bpf_dynptr_slice_rdwr' [-Wmissing-declarations]
+>>      __bpf_kfunc void *bpf_dynptr_slice_rdwr(const struct bpf_dynptr_kern *ptr, u32 offset,
+>>                        ^~~~~~~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2380:17: warning: no previous declaration for 'bpf_dynptr_adjust' [-Wmissing-declarations]
+>>      __bpf_kfunc int bpf_dynptr_adjust(struct bpf_dynptr_kern *ptr, u32 start, u32 end)
+>>                      ^~~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2398:18: warning: no previous declaration for 'bpf_dynptr_is_null' [-Wmissing-declarations]
+>>      __bpf_kfunc bool bpf_dynptr_is_null(struct bpf_dynptr_kern *ptr)
+>>                       ^~~~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2403:18: warning: no previous declaration for 'bpf_dynptr_is_rdonly' [-Wmissing-declarations]
+>>      __bpf_kfunc bool bpf_dynptr_is_rdonly(struct bpf_dynptr_kern *ptr)
+>>                       ^~~~~~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2411:19: warning: no previous declaration for 'bpf_dynptr_size' [-Wmissing-declarations]
+>>      __bpf_kfunc __u32 bpf_dynptr_size(const struct bpf_dynptr_kern *ptr)
+>>                        ^~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2419:17: warning: no previous declaration for 'bpf_dynptr_clone' [-Wmissing-declarations]
+>>      __bpf_kfunc int bpf_dynptr_clone(struct bpf_dynptr_kern *ptr,
+>>                      ^~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2432:19: warning: no previous declaration for 'bpf_cast_to_kern_ctx' [-Wmissing-declarations]
+>>      __bpf_kfunc void *bpf_cast_to_kern_ctx(void *obj)
+>>                        ^~~~~~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2437:19: warning: no previous declaration for 'bpf_rdonly_cast' [-Wmissing-declarations]
+>>      __bpf_kfunc void *bpf_rdonly_cast(void *obj__ign, u32 btf_id__k)
+>>                        ^~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2442:18: warning: no previous declaration for 'bpf_rcu_read_lock' [-Wmissing-declarations]
+>>      __bpf_kfunc void bpf_rcu_read_lock(void)
+>>                       ^~~~~~~~~~~~~~~~~
+>>     kernel/bpf/helpers.c:2447:18: warning: no previous declaration for 'bpf_rcu_read_unlock' [-Wmissing-declarations]
+>>      __bpf_kfunc void bpf_rcu_read_unlock(void)
+>>                       ^~~~~~~~~~~~~~~~~~~
+>>
+>>
+>> vim +/bpf_percpu_obj_new_impl +1905 kernel/bpf/helpers.c
+>>
+>>    1904	
+>>> 1905	__bpf_kfunc void *bpf_percpu_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+>>    1906	{
+>>    1907		u64 size = local_type_id__k;
+>>    1908	
+>>    1909		/* The verifier has ensured that meta__ign must be NULL */
+>>    1910		return bpf_mem_alloc(&bpf_global_percpu_ma, size);
+>>    1911	}
+>>    1912	
+>>    1913	/* Must be called under migrate_disable(), as required by bpf_mem_free */
+>>    1914	void __bpf_obj_drop_impl(void *p, const struct btf_record *rec)
+>>    1915	{
+>>    1916		if (rec && rec->refcount_off >= 0 &&
+>>    1917		    !refcount_dec_and_test((refcount_t *)(p + rec->refcount_off))) {
+>>    1918			/* Object is refcounted and refcount_dec didn't result in 0
+>>    1919			 * refcount. Return without freeing the object
+>>    1920			 */
+>>    1921			return;
+>>    1922		}
+>>    1923	
+>>    1924		if (rec)
+>>    1925			bpf_obj_free_fields(rec, p);
+>>    1926	
+>>    1927		if (rec && rec->refcount_off >= 0)
+>>    1928			bpf_mem_free_rcu(&bpf_global_ma, p);
+>>    1929		else
+>>    1930			bpf_mem_free(&bpf_global_ma, p);
+>>    1931	}
+>>    1932	
+>>    1933	__bpf_kfunc void bpf_obj_drop_impl(void *p__alloc, void *meta__ign)
+>>    1934	{
+>>    1935		struct btf_struct_meta *meta = meta__ign;
+>>    1936		void *p = p__alloc;
+>>    1937	
+>>    1938		__bpf_obj_drop_impl(p, meta ? meta->record : NULL);
+>>    1939	}
+>>    1940	
+>>> 1941	__bpf_kfunc void bpf_percpu_obj_drop_impl(void *p__alloc, void *meta__ign)
+>>    1942	{
+>>    1943		/* The verifier has ensured that meta__ign must be NULL */
+>>    1944		bpf_mem_free_rcu(&bpf_global_percpu_ma, p__alloc);
+>>    1945	}
+>>    1946	
+>>
+>> -- 
+>> 0-DAY CI Kernel Test Service
+>> https://github.com/intel/lkp-tests/wiki
+>>
