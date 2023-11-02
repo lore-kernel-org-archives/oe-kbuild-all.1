@@ -1,53 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E397D1DDE9
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 22:19:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9C41DFD9
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 22:36:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H6F7YkNw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TrIHp0qj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698963599; x=1730499599;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pOomK60vReoHoxtpV622grZQ+xKJAZalF61nf6xRPAw=;
-  b=H6F7YkNw/Mhq2Byof84dcD/Iu0t6CjQKz7WJepF0tQjdPjIypLyvgqHn
-   XhW1sf3YQboM1nFky2QJboMuFyYub3eGPoMWsMYq2Zkc+4POf09N3ot2h
-   sr+yi2Z9xF7zobcvMIewfqxhP/Soe3jxnykcWEUFiNKxhmNEeQhMoT7Ll
-   Mscit4JztGmDUU0ZpntVl1p0X3LsJ1OqYI7FgAFM9FChk1/L9EMI0Peiu
-   gxkgrPniAvS2AkF8pqd57NEKldR1NhG5O2t/S0Hb/tvi4bPwPQE3x5qlu
-   L6c4WSF5JV8Us+DckiebjNhBvIgcliv6jp4mu2goTJHUF+sVXVj1IjT4y
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="387718242"
+  t=1698964611; x=1730500611;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CA5Jvvtswp67js6m5SwvioTqmS6NjGn4nZVlJ0hT8Ss=;
+  b=TrIHp0qjiLpW1oL5fwi4uwEJkQ3vFbryKR0fcK+jjfjbJXHA4682PbpU
+   GEcugOx9Rgo1GEpkVLzgeXTCWPPtf0rarx1UnyL3htb6J2jOQmftEHUpF
+   LoHiR+4YfVvgGMsdEIMPGonViuu1VcwjTxShM7MtkMo4U3zB4ta7fJo6L
+   JlNdPxFa5RaDoOUYb0Yws0DwZitA/pR0lr5ZScxwWj/IqTTDQ3oAw/sCe
+   g5MptYu56NJOPaDDZCM+gr9rrxoEWGdXv/aL3QJ2+HAVFIHy5a0buhuP5
+   9QvMaZ7zzuVudvFELCrpZAjq44SQZeR2dHrdWVhLWx7mq7RFWtdIgxwKw
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="455324726"
 X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; 
-   d="scan'208";a="387718242"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 15:11:40 -0700
+   d="scan'208";a="455324726"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 15:36:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="885020179"
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="761425392"
 X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; 
-   d="scan'208";a="885020179"
+   d="scan'208";a="761425392"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 02 Nov 2023 15:11:37 -0700
+  by orsmga002.jf.intel.com with ESMTP; 02 Nov 2023 15:36:47 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qyfuX-0001ui-02;
-	Thu, 02 Nov 2023 22:11:33 +0000
-Date: Fri, 3 Nov 2023 06:11:11 +0800
+	id 1qygIu-0001xD-2h;
+	Thu, 02 Nov 2023 22:36:44 +0000
+Date: Fri, 3 Nov 2023 06:36:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viacheslav Bocharov <adeep@lexina.in>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
+To: Hector Martin <marcan@marcan.st>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/4] firmware: meson_sm: Add chipid number sysfs entry
-Message-ID: <202311030513.HxyDUCuc-lkp@intel.com>
-References: <20231102074916.3280809-3-adeep@lexina.in>
+Subject: [asahilinux:bits/030-misc 16/26] drivers/base/power/domain.c:694:
+ warning: Function parameter or member 'one_dev_probing' not described in
+ 'genpd_power_off'
+Message-ID: <202311030628.PQdkORGh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,94 +50,137 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231102074916.3280809-3-adeep@lexina.in>
 
-Hi Viacheslav,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on soc/for-next]
-[also build test ERROR on linus/master v6.6 next-20231102]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Viacheslav-Bocharov/firmware-meson-sm-change-sprintf-to-scnprintf/20231102-172556
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20231102074916.3280809-3-adeep%40lexina.in
-patch subject: [PATCH 2/4] firmware: meson_sm: Add chipid number sysfs entry
-config: arm64-randconfig-003-20231103 (https://download.01.org/0day-ci/archive/20231103/202311030513.HxyDUCuc-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311030513.HxyDUCuc-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/030-misc
+head:   7ebe8855c34e31bc1bd25aec707b3f2c7a4e760c
+commit: e3d58ff0b215776c92a9899f6b866dc808e3afc1 [16/26] PM: domains: Add a flag to defer power-off until all consumers probe
+config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20231103/202311030628.PQdkORGh-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311030628.PQdkORGh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311030513.HxyDUCuc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311030628.PQdkORGh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/firmware/meson/meson_sm.c: In function 'chipid_show':
->> drivers/firmware/meson/meson_sm.c:315:17: error: 'ch' undeclared (first use in this function)
-     315 |                 ch = (uint8_t *)(id_buf + 4);
-         |                 ^~
-   drivers/firmware/meson/meson_sm.c:315:17: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/firmware/meson/meson_sm.c:316:22: error: 'i' undeclared (first use in this function)
-     316 |                 for (i = 0; i < 12; i++)
-         |                      ^
+>> drivers/base/power/domain.c:694: warning: Function parameter or member 'one_dev_probing' not described in 'genpd_power_off'
 
 
-vim +/ch +315 drivers/firmware/meson/meson_sm.c
+vim +694 drivers/base/power/domain.c
 
-   277	
-   278	static ssize_t chipid_show(struct device *dev, struct device_attribute *attr,
-   279				 char *buf)
-   280	{
-   281		struct platform_device *pdev = to_platform_device(dev);
-   282		struct meson_sm_firmware *fw;
-   283		uint8_t *id_buf;
-   284		int ret;
-   285	
-   286		fw = platform_get_drvdata(pdev);
-   287	
-   288		id_buf = kmalloc(SM_CHIP_ID_LENGTH, GFP_KERNEL);
-   289		if (!id_buf)
-   290			return -ENOMEM;
-   291	
-   292		ret = meson_sm_call_read(fw, id_buf, SM_CHIP_ID_LENGTH, SM_GET_CHIP_ID,
-   293					 2, 0, 0, 0, 0);
-   294		if (ret < 0) {
-   295			kfree(id_buf);
-   296			return ret;
-   297		}
-   298	
-   299		int version = *((unsigned int *)id_buf);
-   300	
-   301		if (version == 2)
-   302			ret = scnprintf(buf, PAGE_SIZE, "%16phN\n", &id_buf[SM_CHIP_ID_OFFSET]);
-   303		else {
-   304			/**
-   305			 * Legacy 12-byte chip ID read out, transform data
-   306			 * to expected order format.
-   307			 */
-   308			uint8_t *buff;
-   309	
-   310			buff = kmalloc(SM_CHIP_ID_LENGTH, GFP_KERNEL);
-   311			if (!buff)
-   312				return -ENOMEM;
-   313			((uint32_t *)buff)[0] = 0; // CPU_ID is empty
-   314			/* Transform into expected order for display */
- > 315			ch = (uint8_t *)(id_buf + 4);
- > 316			for (i = 0; i < 12; i++)
-   317				buff[i + 4] = ch[11 - i];
-   318			ret = scnprintf(buf, PAGE_SIZE, "%16phN\n", &buff);
-   319			kfree(buff);
-   320		}
-   321	
-   322		kfree(id_buf);
-   323		return ret;
-   324	}
-   325	
+e3d58ff0b21577 Hector Martin   2023-04-24  679  
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  680  /**
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  681   * genpd_power_off - Remove power from a given PM domain.
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  682   * @genpd: PM domain to power down.
+3c64649d1cf9f3 Ulf Hansson     2017-02-17  683   * @one_dev_on: If invoked from genpd's ->runtime_suspend|resume() callback, the
+3c64649d1cf9f3 Ulf Hansson     2017-02-17  684   * RPM status of the releated device is in an intermediate state, not yet turned
+3c64649d1cf9f3 Ulf Hansson     2017-02-17  685   * into RPM_SUSPENDED. This means genpd_power_off() must allow one device to not
+3c64649d1cf9f3 Ulf Hansson     2017-02-17  686   * be RPM_SUSPENDED, while it tries to power off the PM domain.
+763663c9715f5f Yang Yingliang  2021-05-12  687   * @depth: nesting count for lockdep.
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  688   *
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  689   * If all of the @genpd's devices have been suspended and all of its subdomains
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  690   * have been powered down, remove power from @genpd.
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  691   */
+2da835452a0875 Ulf Hansson     2017-02-17  692  static int genpd_power_off(struct generic_pm_domain *genpd, bool one_dev_on,
+e3d58ff0b21577 Hector Martin   2023-04-24  693  			   bool one_dev_probing, unsigned int depth)
+1f8728b7adc4c2 Ulf Hansson     2017-02-17 @694  {
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  695  	struct pm_domain_data *pdd;
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  696  	struct gpd_link *link;
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  697  	unsigned int not_suspended = 0;
+f63816e43d9044 Ulf Hansson     2020-09-24  698  	int ret;
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  699  
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  700  	/*
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  701  	 * Do not try to power off the domain in the following situations:
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  702  	 * (1) The domain is already in the "power off" state.
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  703  	 * (2) System suspend is in progress.
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  704  	 */
+41e2c8e0060db2 Ulf Hansson     2017-03-20  705  	if (!genpd_status_on(genpd) || genpd->prepared_count > 0)
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  706  		return 0;
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  707  
+ffaa42e8a40b7f Ulf Hansson     2017-03-20  708  	/*
+ffaa42e8a40b7f Ulf Hansson     2017-03-20  709  	 * Abort power off for the PM domain in the following situations:
+ffaa42e8a40b7f Ulf Hansson     2017-03-20  710  	 * (1) The domain is configured as always on.
+ffaa42e8a40b7f Ulf Hansson     2017-03-20  711  	 * (2) When the domain has a subdomain being powered on.
+ffaa42e8a40b7f Ulf Hansson     2017-03-20  712  	 */
+ed61e18a4b4e44 Leonard Crestez 2019-04-30  713  	if (genpd_is_always_on(genpd) ||
+ed61e18a4b4e44 Leonard Crestez 2019-04-30  714  			genpd_is_rpm_always_on(genpd) ||
+ed61e18a4b4e44 Leonard Crestez 2019-04-30  715  			atomic_read(&genpd->sd_count) > 0)
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  716  		return -EBUSY;
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  717  
+e7d90cfac5510f Ulf Hansson     2022-02-17  718  	/*
+e7d90cfac5510f Ulf Hansson     2022-02-17  719  	 * The children must be in their deepest (powered-off) states to allow
+e7d90cfac5510f Ulf Hansson     2022-02-17  720  	 * the parent to be powered off. Note that, there's no need for
+e7d90cfac5510f Ulf Hansson     2022-02-17  721  	 * additional locking, as powering on a child, requires the parent's
+e7d90cfac5510f Ulf Hansson     2022-02-17  722  	 * lock to be acquired first.
+e7d90cfac5510f Ulf Hansson     2022-02-17  723  	 */
+e7d90cfac5510f Ulf Hansson     2022-02-17  724  	list_for_each_entry(link, &genpd->parent_links, parent_node) {
+e7d90cfac5510f Ulf Hansson     2022-02-17  725  		struct generic_pm_domain *child = link->child;
+e7d90cfac5510f Ulf Hansson     2022-02-17  726  		if (child->state_idx < child->state_count - 1)
+e7d90cfac5510f Ulf Hansson     2022-02-17  727  			return -EBUSY;
+e7d90cfac5510f Ulf Hansson     2022-02-17  728  	}
+e7d90cfac5510f Ulf Hansson     2022-02-17  729  
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  730  	list_for_each_entry(pdd, &genpd->dev_list, list_node) {
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  731  		/*
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  732  		 * Do not allow PM domain to be powered off, when an IRQ safe
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  733  		 * device is part of a non-IRQ safe domain.
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  734  		 */
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  735  		if (!pm_runtime_suspended(pdd->dev) ||
+7a02444b8fc25a Ulf Hansson     2022-05-11  736  			irq_safe_dev_in_sleep_domain(pdd->dev, genpd))
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  737  			not_suspended++;
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  738  	}
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  739  
+3c64649d1cf9f3 Ulf Hansson     2017-02-17  740  	if (not_suspended > 1 || (not_suspended == 1 && !one_dev_on))
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  741  		return -EBUSY;
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  742  
+e3d58ff0b21577 Hector Martin   2023-04-24  743  	/*
+e3d58ff0b21577 Hector Martin   2023-04-24  744  	 * Do not allow PM domain to be powered off if it is marked
+e3d58ff0b21577 Hector Martin   2023-04-24  745  	 * as GENPD_FLAG_DEFER_OFF and there are consumer devices
+e3d58ff0b21577 Hector Martin   2023-04-24  746  	 * which have not probed yet.
+e3d58ff0b21577 Hector Martin   2023-04-24  747  	 */
+e3d58ff0b21577 Hector Martin   2023-04-24  748  	if (genpd_must_defer(genpd, one_dev_probing))
+e3d58ff0b21577 Hector Martin   2023-04-24  749  		return -EBUSY;
+e3d58ff0b21577 Hector Martin   2023-04-24  750  
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  751  	if (genpd->gov && genpd->gov->power_down_ok) {
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  752  		if (!genpd->gov->power_down_ok(&genpd->domain))
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  753  			return -EAGAIN;
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  754  	}
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  755  
+2c9b7f8772033c Ulf Hansson     2018-10-03  756  	/* Default to shallowest state. */
+2c9b7f8772033c Ulf Hansson     2018-10-03  757  	if (!genpd->gov)
+2c9b7f8772033c Ulf Hansson     2018-10-03  758  		genpd->state_idx = 0;
+2c9b7f8772033c Ulf Hansson     2018-10-03  759  
+f63816e43d9044 Ulf Hansson     2020-09-24  760  	/* Don't power off, if a child domain is waiting to power on. */
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  761  	if (atomic_read(&genpd->sd_count) > 0)
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  762  		return -EBUSY;
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  763  
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  764  	ret = _genpd_power_off(genpd, true);
+c6a113b52302ad Lina Iyer       2020-10-15  765  	if (ret) {
+c6a113b52302ad Lina Iyer       2020-10-15  766  		genpd->states[genpd->state_idx].rejected++;
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  767  		return ret;
+c6a113b52302ad Lina Iyer       2020-10-15  768  	}
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  769  
+49f618e1b669ef Ulf Hansson     2020-09-24  770  	genpd->status = GENPD_STATE_OFF;
+afece3ab9a3640 Thara Gopinath  2017-07-14  771  	genpd_update_accounting(genpd);
+c6a113b52302ad Lina Iyer       2020-10-15  772  	genpd->states[genpd->state_idx].usage++;
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  773  
+8d87ae48ced2df Kees Cook       2020-07-08  774  	list_for_each_entry(link, &genpd->child_links, child_node) {
+8d87ae48ced2df Kees Cook       2020-07-08  775  		genpd_sd_counter_dec(link->parent);
+8d87ae48ced2df Kees Cook       2020-07-08  776  		genpd_lock_nested(link->parent, depth + 1);
+e3d58ff0b21577 Hector Martin   2023-04-24  777  		genpd_power_off(link->parent, false, false, depth + 1);
+8d87ae48ced2df Kees Cook       2020-07-08  778  		genpd_unlock(link->parent);
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  779  	}
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  780  
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  781  	return 0;
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  782  }
+1f8728b7adc4c2 Ulf Hansson     2017-02-17  783  
+
+:::::: The code at line 694 was first introduced by commit
+:::::: 1f8728b7adc4c2b351cda886a6916087595c9125 PM / Domains: Move genpd_power_off() above genpd_power_on()
+
+:::::: TO: Ulf Hansson <ulf.hansson@linaro.org>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
