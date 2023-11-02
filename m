@@ -1,48 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D48C12B87
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 10:13:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ACB412B87
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 10:13:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GdxHUixL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eisnu+EX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698920019; x=1730456019;
+  t=1698920024; x=1730456024;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=96avSgc04/2YSUUhNc45q2bTCZfKYoXF/tYNJCdV1GI=;
-  b=GdxHUixLViyYrHsli2Jga7nOxgGeiFQBKpt59pk21LzC74zkoSzAaOV1
-   FeZyGXJj+GYNLGLjNIDo7gBNZau1wqQ+PrFpn7ntp9EHsN7JUIU6MXKML
-   rLfaE0ppMwy+iPeq2j6BqNFUxgJTJQFpWrCISy28kbb50DhWnQJG21muK
-   77I/68KKIDjbCvE7yMcN6uZSouzEOu+sJlDXfgl07zGXRfOIOmky664/R
-   gC8her/QIdRn+2BAlHOSG5MSgimDtQktVdRQKi1bLxr/FI0jhLbypbIho
-   XQ02LpKBKamouEmIn24Fx7okIii8YpITPXXHOSkja+T+6Xygm05a1kyhy
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="474919233"
+  bh=Rq/DXZe8GbyemZSoJINr0zWbB0Z3JrIktmqsnFWuB/c=;
+  b=eisnu+EX1tQFDTBL/B08hPRLosWgFB9vD7OEBApuWm5V+KsFcN6EbMxo
+   m1tpEgxOM2clmaMlg47D35dkuustQGTVtHBh4u3jDaSd0sMgh2yQsods2
+   LJENHQUCyilyvzRjIGnJT4oeSRbakMobHGx1hu3Rk/5zWpFk06m05sO4M
+   wTmxiVdRd5xJXjKlIJ3Kh4RS4YAxxnTA41mB5sxwQwOIsptK6EzoWlF7P
+   +UT0owuL2CSlm9DYy3wQklJBcEcNR3Mvp1pG3GBZdJQDo+qkyTlbBnnfO
+   hOHFRG2CRXKxBDLwIJ5ESsULMNNxRGiR8JmL3AOpTXuPVHQsoZmfFdmoN
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="1550592"
 X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="474919233"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 03:13:38 -0700
+   d="scan'208";a="1550592"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 03:13:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="851875863"
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="796191509"
 X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="851875863"
+   d="scan'208";a="796191509"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 02 Nov 2023 03:13:37 -0700
+  by orsmga001.jf.intel.com with ESMTP; 02 Nov 2023 03:13:41 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qyUhj-0001Nh-0z;
-	Thu, 02 Nov 2023 10:13:35 +0000
-Date: Thu, 2 Nov 2023 18:13:09 +0800
+	id 1qyUhn-0001Nn-0W;
+	Thu, 02 Nov 2023 10:13:39 +0000
+Date: Thu, 2 Nov 2023 18:13:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 18091/19418]
- drivers/gpu/drm/imx/lcdc/imx-lcdc.c:411:16: warning: assignment to 'struct
- drm_bridge *' from 'int' makes pointer from integer without a cast
-Message-ID: <202311021804.KXd3e8Sy-lkp@intel.com>
+To: Francois Dugast <francois.dugast@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Subject: [drm-xe:drm-xe-next-rebase-6.4-v3 254/506]
+ drivers/gpu/drm/xe/xe_pci.c:772:28: error: 'xe_pci_runtime_suspend'
+ undeclared here (not in a function); did you mean 'xe_pm_runtime_suspend'?
+Message-ID: <202311021848.EjCFjv9n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,166 +53,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   81f313361d7769059e5670bf82e47619d64e73c0
-commit: 7f9a27710bf93d2ea46419283a1d272b355356b1 [18091/19418] UPSTREAM: drm/imx/lcdc: Implement DRM driver for imx25
-config: xtensa-randconfig-002-20231102 (https://download.01.org/0day-ci/archive/20231102/202311021804.KXd3e8Sy-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311021804.KXd3e8Sy-lkp@intel.com/reproduce)
+Hi Francois,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next-rebase-6.4-v3
+head:   cb8c359d816115a3fe2bbd1c22f26c277e6ddcc2
+commit: 391248864bb35ef855e275ffba53789cf3ec36d3 [254/506] drm/xe: Fix build without CONFIG_PM_SLEEP
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20231102/202311021848.EjCFjv9n-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311021848.EjCFjv9n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311021804.KXd3e8Sy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311021848.EjCFjv9n-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/imx/lcdc/imx-lcdc.c: In function 'imx_lcdc_probe':
-   drivers/gpu/drm/imx/lcdc/imx-lcdc.c:411:18: error: implicit declaration of function 'devm_drm_of_get_bridge' [-Werror=implicit-function-declaration]
-     411 |         bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/imx/lcdc/imx-lcdc.c:411:16: warning: assignment to 'struct drm_bridge *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     411 |         bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
-         |                ^
-   drivers/gpu/drm/imx/lcdc/imx-lcdc.c:449:15: error: implicit declaration of function 'drm_bridge_attach' [-Werror=implicit-function-declaration]
-     449 |         ret = drm_bridge_attach(&lcdc->pipe.encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-         |               ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/imx/lcdc/imx-lcdc.c:449:68: error: 'DRM_BRIDGE_ATTACH_NO_CONNECTOR' undeclared (first use in this function)
-     449 |         ret = drm_bridge_attach(&lcdc->pipe.encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-         |                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/imx/lcdc/imx-lcdc.c:449:68: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+   In file included from include/linux/device/driver.h:19,
+                    from drivers/gpu/drm/xe/xe_pci.c:8:
+>> drivers/gpu/drm/xe/xe_pci.c:772:28: error: 'xe_pci_runtime_suspend' undeclared here (not in a function); did you mean 'xe_pm_runtime_suspend'?
+     772 |         SET_RUNTIME_PM_OPS(xe_pci_runtime_suspend, xe_pci_runtime_resume, xe_pci_runtime_idle)
+         |                            ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pm.h:337:28: note: in definition of macro 'RUNTIME_PM_OPS'
+     337 |         .runtime_suspend = suspend_fn, \
+         |                            ^~~~~~~~~~
+   drivers/gpu/drm/xe/xe_pci.c:772:9: note: in expansion of macro 'SET_RUNTIME_PM_OPS'
+     772 |         SET_RUNTIME_PM_OPS(xe_pci_runtime_suspend, xe_pci_runtime_resume, xe_pci_runtime_idle)
+         |         ^~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/xe/xe_pci.c:772:52: error: 'xe_pci_runtime_resume' undeclared here (not in a function); did you mean 'xe_pm_runtime_resume'?
+     772 |         SET_RUNTIME_PM_OPS(xe_pci_runtime_suspend, xe_pci_runtime_resume, xe_pci_runtime_idle)
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/pm.h:338:27: note: in definition of macro 'RUNTIME_PM_OPS'
+     338 |         .runtime_resume = resume_fn, \
+         |                           ^~~~~~~~~
+   drivers/gpu/drm/xe/xe_pci.c:772:9: note: in expansion of macro 'SET_RUNTIME_PM_OPS'
+     772 |         SET_RUNTIME_PM_OPS(xe_pci_runtime_suspend, xe_pci_runtime_resume, xe_pci_runtime_idle)
+         |         ^~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/xe/xe_pci.c:772:75: error: 'xe_pci_runtime_idle' undeclared here (not in a function); did you mean 'xe_pm_runtime_init'?
+     772 |         SET_RUNTIME_PM_OPS(xe_pci_runtime_suspend, xe_pci_runtime_resume, xe_pci_runtime_idle)
+         |                                                                           ^~~~~~~~~~~~~~~~~~~
+   include/linux/pm.h:339:25: note: in definition of macro 'RUNTIME_PM_OPS'
+     339 |         .runtime_idle = idle_fn,
+         |                         ^~~~~~~
+   drivers/gpu/drm/xe/xe_pci.c:772:9: note: in expansion of macro 'SET_RUNTIME_PM_OPS'
+     772 |         SET_RUNTIME_PM_OPS(xe_pci_runtime_suspend, xe_pci_runtime_resume, xe_pci_runtime_idle)
+         |         ^~~~~~~~~~~~~~~~~~
 
 
-vim +411 drivers/gpu/drm/imx/lcdc/imx-lcdc.c
+vim +772 drivers/gpu/drm/xe/xe_pci.c
 
-   390	
-   391	static int imx_lcdc_probe(struct platform_device *pdev)
-   392	{
-   393		struct imx_lcdc *lcdc;
-   394		struct drm_device *drm;
-   395		struct drm_bridge *bridge;
-   396		int irq;
-   397		int ret;
-   398		struct device *dev = &pdev->dev;
-   399	
-   400		lcdc = devm_drm_dev_alloc(dev, &imx_lcdc_drm_driver,
-   401					  struct imx_lcdc, drm);
-   402		if (!lcdc)
-   403			return -ENOMEM;
-   404	
-   405		drm = &lcdc->drm;
-   406	
-   407		lcdc->base = devm_platform_ioremap_resource(pdev, 0);
-   408		if (IS_ERR(lcdc->base))
-   409			return dev_err_probe(dev, PTR_ERR(lcdc->base), "Cannot get IO memory\n");
-   410	
- > 411		bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
-   412		if (IS_ERR(bridge))
-   413			return dev_err_probe(dev, PTR_ERR(bridge), "Failed to find bridge\n");
-   414	
-   415		/* Get Clocks */
-   416		lcdc->clk_ipg = devm_clk_get(dev, "ipg");
-   417		if (IS_ERR(lcdc->clk_ipg))
-   418			return dev_err_probe(dev, PTR_ERR(lcdc->clk_ipg), "Failed to get %s clk\n", "ipg");
-   419	
-   420		lcdc->clk_ahb = devm_clk_get(dev, "ahb");
-   421		if (IS_ERR(lcdc->clk_ahb))
-   422			return dev_err_probe(dev, PTR_ERR(lcdc->clk_ahb), "Failed to get %s clk\n", "ahb");
-   423	
-   424		lcdc->clk_per = devm_clk_get(dev, "per");
-   425		if (IS_ERR(lcdc->clk_per))
-   426			return dev_err_probe(dev, PTR_ERR(lcdc->clk_per), "Failed to get %s clk\n", "per");
-   427	
-   428		ret = dma_set_mask_and_coherent(drm->dev, DMA_BIT_MASK(32));
-   429		if (ret)
-   430			return dev_err_probe(dev, ret, "Cannot set DMA Mask\n");
-   431	
-   432		/* Modeset init */
-   433		ret = drmm_mode_config_init(drm);
-   434		if (ret)
-   435			return dev_err_probe(dev, ret, "Cannot initialize mode configuration structure\n");
-   436	
-   437		/* CRTC, Plane, Encoder */
-   438		ret = drm_simple_display_pipe_init(drm, &lcdc->pipe,
-   439						   &imx_lcdc_pipe_funcs,
-   440						   imx_lcdc_formats,
-   441						   ARRAY_SIZE(imx_lcdc_formats), NULL, NULL);
-   442		if (ret < 0)
-   443			return dev_err_probe(drm->dev, ret, "Cannot setup simple display pipe\n");
-   444	
-   445		ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
-   446		if (ret < 0)
-   447			return dev_err_probe(drm->dev, ret, "Failed to initialize vblank\n");
-   448	
-   449		ret = drm_bridge_attach(&lcdc->pipe.encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-   450		if (ret)
-   451			return dev_err_probe(drm->dev, ret, "Cannot attach bridge\n");
-   452	
-   453		lcdc->connector = drm_bridge_connector_init(drm, &lcdc->pipe.encoder);
-   454		if (IS_ERR(lcdc->connector))
-   455			return dev_err_probe(drm->dev, PTR_ERR(lcdc->connector), "Cannot init bridge connector\n");
-   456	
-   457		drm_connector_attach_encoder(lcdc->connector, &lcdc->pipe.encoder);
-   458	
-   459		/*
-   460		 * The LCDC controller does not have an enable bit. The
-   461		 * controller starts directly when the clocks are enabled.
-   462		 * If the clocks are enabled when the controller is not yet
-   463		 * programmed with proper register values (enabled at the
-   464		 * bootloader, for example) then it just goes into some undefined
-   465		 * state.
-   466		 * To avoid this issue, let's enable and disable LCDC IPG,
-   467		 * PER and AHB clock so that we force some kind of 'reset'
-   468		 * to the LCDC block.
-   469		 */
-   470	
-   471		ret = clk_prepare_enable(lcdc->clk_ipg);
-   472		if (ret)
-   473			return dev_err_probe(dev, ret, "Cannot enable ipg clock\n");
-   474		clk_disable_unprepare(lcdc->clk_ipg);
-   475	
-   476		ret = clk_prepare_enable(lcdc->clk_per);
-   477		if (ret)
-   478			return dev_err_probe(dev, ret, "Cannot enable per clock\n");
-   479		clk_disable_unprepare(lcdc->clk_per);
-   480	
-   481		ret = clk_prepare_enable(lcdc->clk_ahb);
-   482		if (ret)
-   483			return dev_err_probe(dev, ret, "Cannot enable ahb clock\n");
-   484		clk_disable_unprepare(lcdc->clk_ahb);
-   485	
-   486		drm->mode_config.min_width = LCDC_MIN_XRES;
-   487		drm->mode_config.max_width = LCDC_MAX_XRES;
-   488		drm->mode_config.min_height = LCDC_MIN_YRES;
-   489		drm->mode_config.max_height = LCDC_MAX_YRES;
-   490		drm->mode_config.preferred_depth = 16;
-   491		drm->mode_config.funcs = &imx_lcdc_mode_config_funcs;
-   492		drm->mode_config.helper_private = &imx_lcdc_mode_config_helpers;
-   493	
-   494		drm_mode_config_reset(drm);
-   495	
-   496		irq = platform_get_irq(pdev, 0);
-   497		if (irq < 0) {
-   498			ret = irq;
-   499			return ret;
-   500		}
-   501	
-   502		ret = devm_request_irq(dev, irq, imx_lcdc_irq_handler, 0, "imx-lcdc", lcdc);
-   503		if (ret < 0)
-   504			return dev_err_probe(drm->dev, ret, "Failed to install IRQ handler\n");
-   505	
-   506		platform_set_drvdata(pdev, drm);
-   507	
-   508		ret = drm_dev_register(&lcdc->drm, 0);
-   509		if (ret)
-   510			return dev_err_probe(dev, ret, "Cannot register device\n");
-   511	
-   512		drm_fbdev_generic_setup(drm, 0);
-   513	
-   514		return 0;
-   515	}
-   516	
+f4003219244f3a2 Matthew Brost   2023-03-30  769  
+f4003219244f3a2 Matthew Brost   2023-03-30  770  static const struct dev_pm_ops xe_pm_ops = {
+778b90c2c975305 Francois Dugast 2023-01-23  771  	SET_SYSTEM_SLEEP_PM_OPS(xe_pci_suspend, xe_pci_resume)
+778b90c2c975305 Francois Dugast 2023-01-23 @772  	SET_RUNTIME_PM_OPS(xe_pci_runtime_suspend, xe_pci_runtime_resume, xe_pci_runtime_idle)
+f4003219244f3a2 Matthew Brost   2023-03-30  773  };
+f4003219244f3a2 Matthew Brost   2023-03-30  774  
+
+:::::: The code at line 772 was first introduced by commit
+:::::: 778b90c2c975305230bb9f37512c0a7e480ee79c drm/xe: Use global macros to set PM functions
+
+:::::: TO: Francois Dugast <francois.dugast@intel.com>
+:::::: CC: Lucas De Marchi <lucas.demarchi@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
