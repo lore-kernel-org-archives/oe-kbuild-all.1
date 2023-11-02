@@ -1,98 +1,85 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1220ED8
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 00:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 3A20kiqeF2130566, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/2.93/5.92) with ESMTPS id 3A20kiqeF2130566
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 2 Nov 2023 08:46:44 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Thu, 2 Nov 2023 08:46:45 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS04.realtek.com.tw (172.21.6.97) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 2 Nov 2023 08:46:44 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::40c2:6c24:2df4:e6c7]) by
- RTEXMBS04.realtek.com.tw ([fe80::40c2:6c24:2df4:e6c7%5]) with mapi id
- 15.01.2375.007; Thu, 2 Nov 2023 08:46:44 +0800
-From: Ping-Ke Shih <pkshih@realtek.com>
-To: kernel test robot <lkp@intel.com>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Kalle Valo
-	<kvalo@kernel.org>
-Subject: RE: drivers/net/wireless/realtek/rtw89/coex.c:1448:17: warning: writing 8 bytes into a region of size 0
-Thread-Topic: drivers/net/wireless/realtek/rtw89/coex.c:1448:17: warning:
- writing 8 bytes into a region of size 0
-Thread-Index: AQHaCyb77GwApLO1gkiavUd4YVAIPrBmM1uQ
-Date: Thu, 2 Nov 2023 00:46:44 +0000
-Message-ID: <92fba00735f3483cbbc77ad986cd7c16@realtek.com>
-References: <202310301908.Wrj0diqe-lkp@intel.com>
-In-Reply-To: <202310301908.Wrj0diqe-lkp@intel.com>
-Accept-Language: en-US, zh-TW
-Content-Language: zh-TW
-x-originating-ip: [172.21.69.94]
-x-kse-serverinfo: RTEXMBS04.realtek.com.tw, 9
-x-kse-antivirus-attachment-filter-interceptor-info: license violation
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FAF02D63D
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 03:42:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kmzcJOxg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698896539; x=1730432539;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ami+ORVaoHWKLNSH8KsHNAzGSenMU93l8AbUEvR9WrY=;
+  b=kmzcJOxgDCp6ZMqeRSkKWEfugxY+ach1E2rqdGDD85hqh+fJ23mVE3GV
+   l5hy9mA/qg/x1NbX6utrD099Jg6+Ah3fTC9nrQa6SmGj7fns5ECTo3pT1
+   w0wGFNUnNw1rYifmzRNpMmAt2cgm6n2tNOaxCO37H/+f3ehzwpsO5HyVn
+   e+yWYn8aiG6SlhxTiD/DZmVWGQL5nFJfOiNNhXmMyc6qyzTgJoy7pgqZr
+   9LZkXAxjjNwGsklIeve8KYdGw6+pmAYXn+ZN68FjJbFDeTdrEUCI84EPr
+   mMRBcy4Jk60MJlnQIS+KGLslZuOk/GaGb4fvNWxMDhrORIHvMWQMECW5j
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="474870177"
+X-IronPort-AV: E=Sophos;i="6.03,270,1694761200"; 
+   d="scan'208";a="474870177"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 20:42:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="884753790"
+X-IronPort-AV: E=Sophos;i="6.03,270,1694761200"; 
+   d="scan'208";a="884753790"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 01 Nov 2023 20:42:16 -0700
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qyOb0-00015o-1a;
+	Thu, 02 Nov 2023 03:42:14 +0000
+Date: Thu, 2 Nov 2023 11:41:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.1 1/1] mm/vmscan.c:7061: warning:
+ Function parameter or member 'mm_vmscan_direct_reclaim_begin' not described
+ in 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+Message-ID: <202311021138.05wVNwOQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://android.googlesource.com/kernel/common android15-6.1
+head:   e219fb017902cc7eed3cc12e6e6c55a38acaea5e
+commit: e219fb017902cc7eed3cc12e6e6c55a38acaea5e [1/1] ANDROID: mm: Adding direct reclaim tracking in memhealth
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231102/202311021138.05wVNwOQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311021138.05wVNwOQ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311021138.05wVNwOQ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> mm/vmscan.c:7061: warning: Function parameter or member 'mm_vmscan_direct_reclaim_begin' not described in 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+>> mm/vmscan.c:7061: warning: expecting prototype for ANDROID(). Prototype was for EXPORT_TRACEPOINT_SYMBOL_GPL() instead
 
 
+vim +7061 mm/vmscan.c
 
-> -----Original Message-----
-> From: kernel test robot <lkp@intel.com>
-> Sent: Monday, October 30, 2023 7:48 PM
-> To: Ping-Ke Shih <pkshih@realtek.com>
-> Cc: oe-kbuild-all@lists.linux.dev; linux-kernel@vger.kernel.org; Kalle Va=
-lo <kvalo@kernel.org>
-> Subject: drivers/net/wireless/realtek/rtw89/coex.c:1448:17: warning: writ=
-ing 8 bytes into a region of size
-> 0
+  7056	
+  7057	/**
+  7058	 * ANDROID: Exporting tracepoints to assist in tracking direct reclaim
+  7059	 * state in `drivers/android/memhealth.c`.
+  7060	 */
+> 7061	EXPORT_TRACEPOINT_SYMBOL_GPL(mm_vmscan_direct_reclaim_begin);
+  7062	EXPORT_TRACEPOINT_SYMBOL_GPL(mm_vmscan_direct_reclaim_end);
+  7063	
 
-   drivers/net/wireless/realtek/rtw89/coex.c: In function '_append_tdma':
->> drivers/net/wireless/realtek/rtw89/coex.c:1448:17: warning: writing 8 by=
-tes into a region of size 0 [-Wstringop-overflow=3D]
-    1448 |                 memcpy(v, &dm->tdma, sizeof(*v));
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-> e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1442
-> e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1443    tlv =3D (struct rtw89_btc=
-_btf_tlv *)&btc->policy[len];
-> e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1444    tlv->type =3D CXPOLICY_TD=
-MA;
-> ce986f3dc4fc69 Ching-Te Ku  2022-07-25  1445    if (chip->chip_id =3D=3D =
-RTL8852A) {
-> ce986f3dc4fc69 Ching-Te Ku  2022-07-25  1446            v =3D (struct rtw=
-89_btc_fbtc_tdma *)&tlv->val[0];
-> e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1447            tlv->len =3D size=
-of(*v);
-> e3ec7017f6a20d Ping-Ke Shih 2021-10-11 @1448            memcpy(v, &dm->td=
-ma, sizeof(*v));
-
-This statement is to append a struct named rtw89_btc_fbtc_tdma to value fie=
-ld of
-a TLV struct, but compiler warns dst of memcpy() because of tlv->val[]. May=
-be,
-this is a false alarm?
-
-Anyway, for this case, a simple assignment "*v =3D dm->tdma;" would be easi=
-er to
-understand what it wants and also avoid compiler warnings. Then, I sent a
-patch [1] for this.
-
-[1] https://lore.kernel.org/linux-wireless/20231102003716.25815-1-pkshih@re=
-altek.com/T/#u
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
