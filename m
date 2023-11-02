@@ -1,51 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0EB1BDE6
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 15:04:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ioQY2tFj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698937449; x=1730473449;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Cg9fqJR9fIKmGvrVxCoifHnJ6DMc/BhIrxzOVZ087yA=;
-  b=ioQY2tFjlVKSf0atzlnBkcF7JjdbVmggNvk2EXTwN6h2q+Y+YG1X8jLx
-   y0FujpYve4N9sBKhsrDoBx95hFYU/1AVQt2UqFLTGOGNvaXFwIJUJooVa
-   7YTW1qJ7JRIiGmnMOBoKuXkCGjzDwz10ISG/YP4CijJPs4NVqGZWF5kny
-   UAlf+kRnvxmZ3ONLroT2wakg36o0PyP7zOW5/i+/zAtl/mmHyaN/GnCYT
-   pVP47DyxP0ppOWPzBXWmbue6IxC0QUiE597FNDThLzAiUbeJ5zalFc+c9
-   y721eQXQszeJjSqoigLNwtKx30+JeonoNHMWfUwNoUwzyz8YNCiE71h0k
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="373770352"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="373770352"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 08:03:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="711170460"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="711170460"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 02 Nov 2023 08:03:46 -0700
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qyZEW-0001Xq-21;
-	Thu, 02 Nov 2023 15:03:44 +0000
-Date: Thu, 2 Nov 2023 23:03:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Justin Stitt <justinstitt@google.com>, Hannes Reinecke <hare@suse.de>,
-	"James E.J. Bottomley" <jejb@linux.ibm.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	Justin Stitt <justinstitt@google.com>
-Subject: Re: [PATCH] scsi: libfc: replace deprecated strncpy with memcpy
-Message-ID: <202311022256.mWiYJshd-lkp@intel.com>
-References: <20231030-strncpy-drivers-scsi-libfc-fc_encode-h-v1-1-c08c2be6befa@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8361C280
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 15:11:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-672096e0e89so6002346d6.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 02 Nov 2023 08:11:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698937917; x=1699542717;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gwdjCz3p054/qfAx418mOQeQ+vkKeZzabw6pnxMbFjw=;
+        b=o/vea2ZW4MzRZkIClPxSzYOllmJ3vK3/Kpi8R5MKMpi8/H0ENGpyeIPRBShKWwyH97
+         VINxjs3oUvW4poAd07bEBYzjDmOZYujn95y8Ng5IYqPDBIl7Ges8fSDnwkkI8GenakeM
+         zTTK9ymTzplpKSlRuA7XVgzvR/xEEeurznNQXI7f4svIP2KWy5SMn09D3aRBGQPh38Ej
+         VJWFLgxyReVleVK7+9Y+NRhE0xEpygoD0zbPgygdButQH2TuCp9qMhB6ZV6S/LaEtKlF
+         ddiyvNflqYdsm9eCsNyPWBxf6PMhubdOLH98P64MMdxJyw8qE7MWJaMFe1cPOGsIMQOJ
+         d7HQ==
+X-Gm-Message-State: AOJu0YwGUAsav2zdVysp23k3YIWC/mG7rk/MfXx/2tpae/C1bo4mw8fe
+	ctTUBp9a/t4BeKz/EUGU7dek
+X-Google-Smtp-Source: AGHT+IENOaDYT9mgiKPmNf+6N6UadznvVhjZX3tUc303bGU7z17HNCkbaTezjP2F5pHkvNRP2gG2aQ==
+X-Received: by 2002:ad4:5f08:0:b0:672:3a8a:b1ab with SMTP id fo8-20020ad45f08000000b006723a8ab1abmr14559493qvb.15.1698937916805;
+        Thu, 02 Nov 2023 08:11:56 -0700 (PDT)
+Received: from localhost (pool-68-160-141-91.bstnma.fios.verizon.net. [68.160.141.91])
+        by smtp.gmail.com with ESMTPSA id i9-20020a0cfd29000000b0063f88855ef2sm16920qvs.101.2023.11.02.08.11.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Nov 2023 08:11:55 -0700 (PDT)
+Date: Thu, 2 Nov 2023 11:11:54 -0400
+From: Mike Snitzer <snitzer@kernel.org>
+To: Matthew Sakai <msakai@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, dm-devel@lists.linux.dev,
+	"J. corwin Coburn" <corwin@hurlbutnet.net>,
+	John Wiele <jwiele@redhat.com>, kernel test robot <lkp@intel.com>
+Subject: Re: [device-mapper-dm:dm-vdo-wip 55/90]
+ drivers/md/dm-vdo/block-map.h:35:37: warning: 'UNMAPPED_BLOCK_MAP_ENTRY'
+ defined but not used
+Message-ID: <ZUO8OiRFhUNlC2rR@redhat.com>
+References: <202311021353.WMMPQspU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,91 +48,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231030-strncpy-drivers-scsi-libfc-fc_encode-h-v1-1-c08c2be6befa@google.com>
+In-Reply-To: <202311021353.WMMPQspU-lkp@intel.com>
 
-Hi Justin,
+[lkp: please update your scripts to use the new
+dm-devel@lists.linux.dev when emailing dm-devel. The MAINTAINERS file
+was updated so I don't know why you'd still be using the old
+dm-devel@redhat.com address]
 
-kernel test robot noticed the following build warnings:
+On Thu, Nov 02 2023 at  1:43P -0400,
+kernel test robot <lkp@intel.com> wrote:
 
-[auto build test WARNING on ffc253263a1375a65fa6c9f62a893e9767fbebfa]
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git dm-vdo-wip
+> head:   d4e7d305aaa9738d9606f986ad8f2f01edbb14b3
+> commit: 5a6d19abe1dc27648b64418df24ea0acef0f38d6 [55/90] dm vdo: enable configuration and building of dm-vdo
+> config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231102/202311021353.WMMPQspU-lkp@intel.com/config)
+> compiler: alpha-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311021353.WMMPQspU-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311021353.WMMPQspU-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from drivers/md/dm-vdo-target.c:16:
+> >> drivers/md/dm-vdo/block-map.h:35:37: warning: 'UNMAPPED_BLOCK_MAP_ENTRY' defined but not used [-Wunused-const-variable=]
+>       35 | static const struct block_map_entry UNMAPPED_BLOCK_MAP_ENTRY = {
+>          |                                     ^~~~~~~~~~~~~~~~~~~~~~~~
+> >> drivers/md/dm-vdo/block-map.h:34:38: warning: 'NO_PAGE' defined but not used [-Wunused-const-variable=]
+>       34 | static const physical_block_number_t NO_PAGE = 0xFFFFFFFFFFFFFFFF;
+>          |                                      ^~~~~~~
+> 
+> 
+> vim +/UNMAPPED_BLOCK_MAP_ENTRY +35 drivers/md/dm-vdo/block-map.h
+> 
+> fd98f3e3ccc645 Matthew Sakai 2023-10-26  33  
+> 15deeca3859a19 Matthew Sakai 2023-10-26 @34  static const physical_block_number_t NO_PAGE = 0xFFFFFFFFFFFFFFFF;
+> 15deeca3859a19 Matthew Sakai 2023-10-26 @35  static const struct block_map_entry UNMAPPED_BLOCK_MAP_ENTRY = {
+> 15deeca3859a19 Matthew Sakai 2023-10-26  36  	.mapping_state = VDO_MAPPING_STATE_UNMAPPED & 0x0F,
+> 15deeca3859a19 Matthew Sakai 2023-10-26  37  	.pbn_high_nibble = 0,
+> 15deeca3859a19 Matthew Sakai 2023-10-26  38  	.pbn_low_word = __cpu_to_le32(VDO_ZERO_BLOCK & UINT_MAX),
+> 15deeca3859a19 Matthew Sakai 2023-10-26  39  };
+> 15deeca3859a19 Matthew Sakai 2023-10-26  40  
+> 
+> :::::: The code at line 35 was first introduced by commit
+> :::::: 15deeca3859a19abfaadd333fb3df7a45087ab3e dm vdo: implement the block map page cache
+> 
+> :::::: TO: Matthew Sakai <msakai@redhat.com>
+> :::::: CC: Mike Snitzer <snitzer@kernel.org>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Justin-Stitt/scsi-libfc-replace-deprecated-strncpy-with-memcpy/20231031-063815
-base:   ffc253263a1375a65fa6c9f62a893e9767fbebfa
-patch link:    https://lore.kernel.org/r/20231030-strncpy-drivers-scsi-libfc-fc_encode-h-v1-1-c08c2be6befa%40google.com
-patch subject: [PATCH] scsi: libfc: replace deprecated strncpy with memcpy
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20231102/202311022256.mWiYJshd-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311022256.mWiYJshd-lkp@intel.com/reproduce)
+UNMAPPED_BLOCK_MAP_ENTRY isn't defined until commit 15deeca3859a1 but
+it is used by the earlier commit fd98f3e3ccc645.  So it needs moving
+to that earlier commit.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311022256.mWiYJshd-lkp@intel.com/
+But that aside, the above warning is correctly complaining about the
+definition of static variables that aren't ever used.  We need to
+define in block-map.c but declare them as extern in block-map.h
 
-All warnings (new ones prefixed by >>):
-
-   In function 'zfcp_fc_gspn',
-       inlined from 'zfcp_fc_sym_name_update' at drivers/s390/scsi/zfcp_fc.c:951:8:
->> drivers/s390/scsi/zfcp_fc.c:877:15: warning: 'strstr' argument 1 declared attribute 'nonstring' [-Wstringop-overread]
-     877 |             !(strstr(gspn_rsp->gspn.fp_name, devno)))
-         |              ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/scsi/libfc.h:21,
-                    from drivers/s390/scsi/zfcp_fc.c:19:
-   include/uapi/scsi/fc/fc_ns.h: In function 'zfcp_fc_sym_name_update':
-   include/uapi/scsi/fc/fc_ns.h:148:17: note: argument 'fp_name' declared here
-     148 |         char    fp_name[] __nonstring;
-         |                 ^~~~~~~
-
-
-vim +877 drivers/s390/scsi/zfcp_fc.c
-
-cc8c282963bd25 Swen Schillig    2008-06-10  844  
-038d9446a9e601 Christof Schmitt 2011-02-22  845  static int zfcp_fc_gspn(struct zfcp_adapter *adapter,
-038d9446a9e601 Christof Schmitt 2011-02-22  846  			struct zfcp_fc_req *fc_req)
-038d9446a9e601 Christof Schmitt 2011-02-22  847  {
-038d9446a9e601 Christof Schmitt 2011-02-22  848  	DECLARE_COMPLETION_ONSTACK(completion);
-038d9446a9e601 Christof Schmitt 2011-02-22  849  	char devno[] = "DEVNO:";
-038d9446a9e601 Christof Schmitt 2011-02-22  850  	struct zfcp_fsf_ct_els *ct_els = &fc_req->ct_els;
-038d9446a9e601 Christof Schmitt 2011-02-22  851  	struct zfcp_fc_gspn_req *gspn_req = &fc_req->u.gspn.req;
-038d9446a9e601 Christof Schmitt 2011-02-22  852  	struct zfcp_fc_gspn_rsp *gspn_rsp = &fc_req->u.gspn.rsp;
-038d9446a9e601 Christof Schmitt 2011-02-22  853  	int ret;
-038d9446a9e601 Christof Schmitt 2011-02-22  854  
-038d9446a9e601 Christof Schmitt 2011-02-22  855  	zfcp_fc_ct_ns_init(&gspn_req->ct_hdr, FC_NS_GSPN_ID,
-038d9446a9e601 Christof Schmitt 2011-02-22  856  			   FC_SYMBOLIC_NAME_SIZE);
-038d9446a9e601 Christof Schmitt 2011-02-22  857  	hton24(gspn_req->gspn.fp_fid, fc_host_port_id(adapter->scsi_host));
-038d9446a9e601 Christof Schmitt 2011-02-22  858  
-038d9446a9e601 Christof Schmitt 2011-02-22  859  	sg_init_one(&fc_req->sg_req, gspn_req, sizeof(*gspn_req));
-038d9446a9e601 Christof Schmitt 2011-02-22  860  	sg_init_one(&fc_req->sg_rsp, gspn_rsp, sizeof(*gspn_rsp));
-038d9446a9e601 Christof Schmitt 2011-02-22  861  
-038d9446a9e601 Christof Schmitt 2011-02-22  862  	ct_els->handler = zfcp_fc_complete;
-038d9446a9e601 Christof Schmitt 2011-02-22  863  	ct_els->handler_data = &completion;
-038d9446a9e601 Christof Schmitt 2011-02-22  864  	ct_els->req = &fc_req->sg_req;
-038d9446a9e601 Christof Schmitt 2011-02-22  865  	ct_els->resp = &fc_req->sg_rsp;
-038d9446a9e601 Christof Schmitt 2011-02-22  866  
-038d9446a9e601 Christof Schmitt 2011-02-22  867  	ret = zfcp_fsf_send_ct(&adapter->gs->ds, ct_els, NULL,
-038d9446a9e601 Christof Schmitt 2011-02-22  868  			       ZFCP_FC_CTELS_TMO);
-038d9446a9e601 Christof Schmitt 2011-02-22  869  	if (ret)
-038d9446a9e601 Christof Schmitt 2011-02-22  870  		return ret;
-038d9446a9e601 Christof Schmitt 2011-02-22  871  
-038d9446a9e601 Christof Schmitt 2011-02-22  872  	wait_for_completion(&completion);
-038d9446a9e601 Christof Schmitt 2011-02-22  873  	if (ct_els->status)
-038d9446a9e601 Christof Schmitt 2011-02-22  874  		return ct_els->status;
-038d9446a9e601 Christof Schmitt 2011-02-22  875  
-038d9446a9e601 Christof Schmitt 2011-02-22  876  	if (fc_host_port_type(adapter->scsi_host) == FC_PORTTYPE_NPIV &&
-038d9446a9e601 Christof Schmitt 2011-02-22 @877  	    !(strstr(gspn_rsp->gspn.fp_name, devno)))
-038d9446a9e601 Christof Schmitt 2011-02-22  878  		snprintf(fc_host_symbolic_name(adapter->scsi_host),
-038d9446a9e601 Christof Schmitt 2011-02-22  879  			 FC_SYMBOLIC_NAME_SIZE, "%s%s %s NAME: %s",
-038d9446a9e601 Christof Schmitt 2011-02-22  880  			 gspn_rsp->gspn.fp_name, devno,
-038d9446a9e601 Christof Schmitt 2011-02-22  881  			 dev_name(&adapter->ccw_device->dev),
-038d9446a9e601 Christof Schmitt 2011-02-22  882  			 init_utsname()->nodename);
-038d9446a9e601 Christof Schmitt 2011-02-22  883  	else
-820109fb11f24b Wolfram Sang     2022-08-18  884  		strscpy(fc_host_symbolic_name(adapter->scsi_host),
-038d9446a9e601 Christof Schmitt 2011-02-22  885  			gspn_rsp->gspn.fp_name, FC_SYMBOLIC_NAME_SIZE);
-038d9446a9e601 Christof Schmitt 2011-02-22  886  
-038d9446a9e601 Christof Schmitt 2011-02-22  887  	return 0;
-038d9446a9e601 Christof Schmitt 2011-02-22  888  }
-038d9446a9e601 Christof Schmitt 2011-02-22  889  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I've fixed this up in linux-dm.git's dm-vdo (and rebased dm-vdo-wip)
