@@ -1,205 +1,218 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC5611CA5
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 10:10:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D48C12B87
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 10:13:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DXc8CmEP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GdxHUixL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698919847; x=1730455847;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=mWZF2PaCvovjtWnGJC2a3VakdkfjcqDq6VN+TErQpB4=;
-  b=DXc8CmEPOepuALHRx+afvQmcrHfQvbuFjIqSK4oNVwLsnIRJDuqghNS9
-   5mncGM81nZEV7WhoXIyBoPSBN/NfQyhoaMnOFb/kcAq8W+rzwbJox3j9N
-   dqjVzGOXOvreXudzDtlPgckzitOfVZmq2xQ0XcgY80vKg1Tgvdf+TSBgN
-   VJqKmxBpe1Ptwc6KXfeIP/3XNu9vGoyctRFx0wDFGNWf4MVl49IEbB/td
-   y7lbBYIDAQu8rwTk/ozSoF5hT/zbl17iyR0oUHK8+v+jaJMoDvi5wINAM
-   ZqcN7ZNn1xKte+kJANvlaE9y8UXAHEKoSXcoHWsGrYAuGeYwroo48o9Um
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="1550040"
+  t=1698920019; x=1730456019;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=96avSgc04/2YSUUhNc45q2bTCZfKYoXF/tYNJCdV1GI=;
+  b=GdxHUixLViyYrHsli2Jga7nOxgGeiFQBKpt59pk21LzC74zkoSzAaOV1
+   FeZyGXJj+GYNLGLjNIDo7gBNZau1wqQ+PrFpn7ntp9EHsN7JUIU6MXKML
+   rLfaE0ppMwy+iPeq2j6BqNFUxgJTJQFpWrCISy28kbb50DhWnQJG21muK
+   77I/68KKIDjbCvE7yMcN6uZSouzEOu+sJlDXfgl07zGXRfOIOmky664/R
+   gC8her/QIdRn+2BAlHOSG5MSgimDtQktVdRQKi1bLxr/FI0jhLbypbIho
+   XQ02LpKBKamouEmIn24Fx7okIii8YpITPXXHOSkja+T+6Xygm05a1kyhy
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="474919233"
 X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="1550040"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 03:10:46 -0700
+   d="scan'208";a="474919233"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 03:13:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="737707668"
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="851875863"
 X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="737707668"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orsmga006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 02 Nov 2023 03:10:46 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Thu, 2 Nov 2023 03:10:45 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Thu, 2 Nov 2023 03:10:45 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Thu, 2 Nov 2023 03:10:45 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Thu, 2 Nov 2023 03:10:39 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TF6ICEH5gO9AQVEgTj3UofgEUMbUxXblSJMSPzPLzkE1AfEMNlcVD18PTV1Oi9k9lTkipp1S4aTesufRFy+Aphw83wlPHtwO9Qdy7jKq49ftbXWjcW3b9an8NTbs1PC4GTGUH437SY6O8kj8wxxJmRSgv1OuEe8En83/A+pVukjLDehYjt28kelmFYAG0zuTqtHZo+K1FKjwz7MPYqCTIS1qlouWvl80L4DBdocda8efVEdQtf2QAu+Nw2wlyDb53lqi4UCO08oVfDH3UTn0AD4B6fKudnkbMiLR85ADgqJq8QJqQABfYx5ciKrpE9VvsoFRXdNiZldsJExCap52bw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ejsO25kmyukPtVV0gwbdGQ1b6xdAtiFwc8ippsgWe9w=;
- b=hI7dva6OJiwk0dcBnCJIv2jpKL3RBLGNDPRIIHZQMRukoITQ1w/OHGllOvn+FwppREUKajjqoHO3xh2MilV90Qp+w28RpJPhSZ2Mn3iQUI6Sbvsorzy3i5RXSP4Ks+IFNYiV7TeiZrBtR5WqUQCKnnka+7HHgPVFSWNp6fKCNIhNvmsMTZjiIVIOytwFpI5SBEkCm72nTDHSB7PmoGypvNmqu9iDOlYRuIeEyv4MLQ861hLQXG33hFBQtqvIPXJtFe0BCww7BNYb7PPkmzFGgedbrG/TOQZdBdlJNnLGZFKM362XAAHX1EmfQyTh1qsnGz1o/XgFLoqTt0JW3MkYJg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
- by SA1PR11MB6758.namprd11.prod.outlook.com (2603:10b6:806:25d::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.28; Thu, 2 Nov
- 2023 10:10:31 +0000
-Received: from BL0PR11MB2995.namprd11.prod.outlook.com
- ([fe80::2f1a:e62e:9fff:ae67]) by BL0PR11MB2995.namprd11.prod.outlook.com
- ([fe80::2f1a:e62e:9fff:ae67%4]) with mapi id 15.20.6954.019; Thu, 2 Nov 2023
- 10:10:31 +0000
-Date: Thu, 2 Nov 2023 18:10:21 +0800
-From: Philip Li <philip.li@intel.com>
-To: kernel test robot <lkp@intel.com>
-CC: Daan De Meyer <daan.j.demeyer@gmail.com>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, Martin KaFai Lau <martin.lau@kernel.org>
-Subject: Re: net/core/filter.c:11773:17: warning: no previous declaration for
- 'bpf_sock_addr_set_sun_path'
-Message-ID: <ZUN1je8hduANA0KQ@rli9-mobl>
-References: <202311021257.nD9pHYSn-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <202311021257.nD9pHYSn-lkp@intel.com>
-X-ClientProxiedBy: SG2PR04CA0159.apcprd04.prod.outlook.com (2603:1096:4::21)
- To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
+   d="scan'208";a="851875863"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 02 Nov 2023 03:13:37 -0700
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qyUhj-0001Nh-0z;
+	Thu, 02 Nov 2023 10:13:35 +0000
+Date: Thu, 2 Nov 2023 18:13:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 18091/19418]
+ drivers/gpu/drm/imx/lcdc/imx-lcdc.c:411:16: warning: assignment to 'struct
+ drm_bridge *' from 'int' makes pointer from integer without a cast
+Message-ID: <202311021804.KXd3e8Sy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR11MB2995:EE_|SA1PR11MB6758:EE_
-X-MS-Office365-Filtering-Correlation-Id: dbda67e4-f9ae-47fa-4d6d-08dbdb8bf187
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: onwzO0lz5IasP/8AMpran6ECPqdXrQ2anMsxGnlxyJBda5AmymQIY2mJacTrgojHh0/IXfrZiIZxDeesu94alLSkKs55hCtBUJE7nvf+JZTxcBIpV/EedwLHI38KGbGfHgscbVAYR0MwLl7GdrbrFOBXUV7HqurTRRA8zlkg1D4SDJgUSjploYhGAHzsebxKTQ4u8PjV3Jw6vIc6K7xZQ4zGdDFTaTe450aKUkYFWR+ndL3gxyeCAt0uHSdrH4MZT+b7iV+SFZJzCtV0GHR168HAb/jE1rpa7MgkwAFTrimLzsIQ/VLzCYv7dNHRI6CcRoKCzPqVGtgOFNf+Mvykb3wr7jS9Evpfku488vfkrjogYOyXEdnFKzmOvMZss5KQ3uWkcER8qB0sMSkcR0suZhcFqDiipVGKGCLEdBv0iiv0ZZf6h512z8CIPnNlugkCrAfJ1dOKUInSUAq/lupriwqGc7Gxq/oWYs70UVeG/G86Wucdiha2HnUi0gV+sXm5a64LLydYyTsbTfKbRh1J5T8XfAMJBQ8MyLBGqarkJ+bi/OSxoIp3QMI5FKQV+Gm/B//856fv8AskO2wfy4XKLPlc1aLS7Lss/fzMRbhx+pfhwGW2tlPteHNasYa1al5+KOSl0RNt/LNsoNOqiOtp2Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(346002)(366004)(39860400002)(396003)(376002)(136003)(230922051799003)(230273577357003)(230173577357003)(64100799003)(451199024)(1800799009)(186009)(6862004)(6512007)(26005)(9686003)(8936002)(83380400001)(6666004)(4326008)(478600001)(6506007)(66476007)(66946007)(44832011)(41300700001)(33716001)(66556008)(5660300002)(316002)(966005)(8676002)(6636002)(54906003)(38100700002)(82960400001)(86362001)(6486002)(2906002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IVR9bSpygXByxwFYIoqn7iq39ei3aVYfvK3MI9xDJZZ3ETw8FAd77/ynEejM?=
- =?us-ascii?Q?OCyK+3fWKovCVvJJAzMNqgPNl9YTWRMXmAuDO3aud8j2vGDE1zPdfoSRVnhn?=
- =?us-ascii?Q?8vrVNz9CBiCoLkapt/XDKLQ9LcNu177HfnMoz35svTVqbcPxvlBPqJoz++i2?=
- =?us-ascii?Q?9lGNSCsoIwwk0c2T9Yp9NQWwK7Ba464dILbHXvhBjvt/VhAs1Qtxbuc7XzCd?=
- =?us-ascii?Q?RQUwJdhUsRRkN+JNwuZ0Zl9JKA9t2PpCqmUzDMFSy2BPCZUGiUCI4stOwQW2?=
- =?us-ascii?Q?DfitWt9XccESXV1xoD2EuVZst12wfGy9Jviz8C2bKbSIzhkL64y3mVLk8gIL?=
- =?us-ascii?Q?xMTKutQQKFeklKMbLBZ+xmPca8ctqyBb7cOsMXlXWqePRxXCCAnayICZM7g+?=
- =?us-ascii?Q?BzT0a7/eiSHo8d4dUGGq2XPnqwtDj/5uul7MJ12ZhZmkCPPDJCp23cMtiarD?=
- =?us-ascii?Q?xwGp+tp0AK43qo2Ldv2hRiblgfLctXnx9ybvT671Yr+Xd4NC/puW+uGWIyKl?=
- =?us-ascii?Q?a37ybW8NFovLogOV1V1eCOrtYnuMO916y7h8gZfp9UaIuYNKNbWm06GuMo/3?=
- =?us-ascii?Q?dzAuRHXp3AMWGofw+xk5aeQBQAkdVkoWooyvN3UNmfKvJLi/0IOZi2es6njY?=
- =?us-ascii?Q?qRH7JNvaUQds7wnpeMGINpFXUDeAjEjwalypZ76AQhdA+kkCl0T2zgK/LpaV?=
- =?us-ascii?Q?dADl16T+2lMaAXZ48/QvpbG3DqhQMKqr7p0Pklf/icuOp7bAY4aP52mdL31l?=
- =?us-ascii?Q?dKnNmnShj2XHNMzaDNNUopaQBenLHC250qZ1oVS6MUFRM1GFiY2/kjOS8Vi4?=
- =?us-ascii?Q?h2mLYIjkUSv9p7YDAb4FpVJ1HzfrSPX9+LgJTEK8cVUEq6sbLhSzoLlEHDOG?=
- =?us-ascii?Q?234IIlVieoLHPg2g+8ZRsNkyzkwzYTgRFJ/NhFTV1R2Xp7h1HCUy50kIjsuz?=
- =?us-ascii?Q?R7mNbiS0EhDyemx8VuhBzXjxEs1b1k9Po9G18+938vvTbRi3GG1cE1u5nJDI?=
- =?us-ascii?Q?O3xSw6yd0uI4/cZE1x2HRDtgxuJgg/oFFtdN8rakdJ1Ulx7oakJez0qMN0zD?=
- =?us-ascii?Q?Dzp4YkjidwT/ucdDI9SWhMJ0r3bSKMfPkWy9sI10qzO9s2v1DTdMFOKgygFj?=
- =?us-ascii?Q?xpV52mXuymtU3gZdLRU7ySLHOek+ZjgHEPnZugjdtP9FoNfqpkX6xf+in0BK?=
- =?us-ascii?Q?09JnO1A1IUjQwUKeTtFK95N/gIMplvn977ZyfTZyVSUCffPGfq4ZyuLtIT1Q?=
- =?us-ascii?Q?/GjNXYntTvNQl5/tQhu3nAfk1moCEiIuONb+OcMckbvT7959n7NOHpPj8qVH?=
- =?us-ascii?Q?XW/qREAT4EE/zFkeFg1LvH1L5n16Cxy3VCkjQbJ6srCYn2n6e/hU8/mmUVln?=
- =?us-ascii?Q?XTPhxqkTd3ul5MK4Z6+GcX9FjpuXIzsVEbaAant6JN+4lmJhPpFkhG3eMyNm?=
- =?us-ascii?Q?EkLsEhsSi79h1FdNVXMiUmTYHAo5WaEUjV3hYamWsYl6s9ANcZfNYV2g3Z76?=
- =?us-ascii?Q?TwVUE5efXUDga6kml8dJ3YcdZPJPuOyD6l5gKLEWm9YwkoKRpmhJdxxQYOnm?=
- =?us-ascii?Q?Iso26GMgdffXga/vM/3EslcAzM6TpZbw5UnLacp4?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: dbda67e4-f9ae-47fa-4d6d-08dbdb8bf187
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2023 10:10:30.5630
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Mu6gUAm2KSWxrYKFs1vmdYF9Fb7rZbB8a7Fd3naZ92HIMalcBjnV1hKvMwM1FFszn7E0u997fiZGgczQCbC5Ig==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6758
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Nov 02, 2023 at 12:14:31PM +0800, kernel test robot wrote:
-> Hi Daan,
-> 
-> FYI, the error/warning still remains.
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   81f313361d7769059e5670bf82e47619d64e73c0
+commit: 7f9a27710bf93d2ea46419283a1d272b355356b1 [18091/19418] UPSTREAM: drm/imx/lcdc: Implement DRM driver for imx25
+config: xtensa-randconfig-002-20231102 (https://download.01.org/0day-ci/archive/20231102/202311021804.KXd3e8Sy-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311021804.KXd3e8Sy-lkp@intel.com/reproduce)
 
-sorry for the false report, kindly ignore this. We will resolve the problem
-in short time.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311021804.KXd3e8Sy-lkp@intel.com/
 
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   babe393974de0351c0e6cca50f5f84edaf8d7fa1
-> commit: 53e380d21441909b12b6e0782b77187ae4b971c4 bpf: Add bpf_sock_addr_set_sun_path() to allow writing unix sockaddr from bpf
-> date:   3 weeks ago
-> config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20231102/202311021257.nD9pHYSn-lkp@intel.com/config)
-> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311021257.nD9pHYSn-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202311021257.nD9pHYSn-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    net/core/filter.c:11747:17: warning: no previous declaration for 'bpf_dynptr_from_skb' [-Wmissing-declarations]
->     __bpf_kfunc int bpf_dynptr_from_skb(struct sk_buff *skb, u64 flags,
->                     ^~~~~~~~~~~~~~~~~~~
->    net/core/filter.c:11760:17: warning: no previous declaration for 'bpf_dynptr_from_xdp' [-Wmissing-declarations]
->     __bpf_kfunc int bpf_dynptr_from_xdp(struct xdp_buff *xdp, u64 flags,
->                     ^~~~~~~~~~~~~~~~~~~
-> >> net/core/filter.c:11773:17: warning: no previous declaration for 'bpf_sock_addr_set_sun_path' [-Wmissing-declarations]
->     __bpf_kfunc int bpf_sock_addr_set_sun_path(struct bpf_sock_addr_kern *sa_kern,
->                     ^~~~~~~~~~~~~~~~~~~~~~~~~~
->    net/core/filter.c:11877:17: warning: no previous declaration for 'bpf_sock_destroy' [-Wmissing-declarations]
->     __bpf_kfunc int bpf_sock_destroy(struct sock_common *sock)
->                     ^~~~~~~~~~~~~~~~
-> 
-> 
-> vim +/bpf_sock_addr_set_sun_path +11773 net/core/filter.c
-> 
->  11772	
->  11773	__bpf_kfunc int bpf_sock_addr_set_sun_path(struct bpf_sock_addr_kern *sa_kern,
->  11774						   const u8 *sun_path, u32 sun_path__sz)
->  11775	{
->  11776		struct sockaddr_un *un;
->  11777	
->  11778		if (sa_kern->sk->sk_family != AF_UNIX)
->  11779			return -EINVAL;
->  11780	
->  11781		/* We do not allow changing the address to unnamed or larger than the
->  11782		 * maximum allowed address size for a unix sockaddr.
->  11783		 */
->  11784		if (sun_path__sz == 0 || sun_path__sz > UNIX_PATH_MAX)
->  11785			return -EINVAL;
->  11786	
->  11787		un = (struct sockaddr_un *)sa_kern->uaddr;
->  11788		memcpy(un->sun_path, sun_path, sun_path__sz);
->  11789		sa_kern->uaddrlen = offsetof(struct sockaddr_un, sun_path) + sun_path__sz;
->  11790	
->  11791		return 0;
->  11792	}
->  11793	__diag_pop();
->  11794	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/imx/lcdc/imx-lcdc.c: In function 'imx_lcdc_probe':
+   drivers/gpu/drm/imx/lcdc/imx-lcdc.c:411:18: error: implicit declaration of function 'devm_drm_of_get_bridge' [-Werror=implicit-function-declaration]
+     411 |         bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/imx/lcdc/imx-lcdc.c:411:16: warning: assignment to 'struct drm_bridge *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     411 |         bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
+         |                ^
+   drivers/gpu/drm/imx/lcdc/imx-lcdc.c:449:15: error: implicit declaration of function 'drm_bridge_attach' [-Werror=implicit-function-declaration]
+     449 |         ret = drm_bridge_attach(&lcdc->pipe.encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+         |               ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/imx/lcdc/imx-lcdc.c:449:68: error: 'DRM_BRIDGE_ATTACH_NO_CONNECTOR' undeclared (first use in this function)
+     449 |         ret = drm_bridge_attach(&lcdc->pipe.encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+         |                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/imx/lcdc/imx-lcdc.c:449:68: note: each undeclared identifier is reported only once for each function it appears in
+   cc1: some warnings being treated as errors
+
+
+vim +411 drivers/gpu/drm/imx/lcdc/imx-lcdc.c
+
+   390	
+   391	static int imx_lcdc_probe(struct platform_device *pdev)
+   392	{
+   393		struct imx_lcdc *lcdc;
+   394		struct drm_device *drm;
+   395		struct drm_bridge *bridge;
+   396		int irq;
+   397		int ret;
+   398		struct device *dev = &pdev->dev;
+   399	
+   400		lcdc = devm_drm_dev_alloc(dev, &imx_lcdc_drm_driver,
+   401					  struct imx_lcdc, drm);
+   402		if (!lcdc)
+   403			return -ENOMEM;
+   404	
+   405		drm = &lcdc->drm;
+   406	
+   407		lcdc->base = devm_platform_ioremap_resource(pdev, 0);
+   408		if (IS_ERR(lcdc->base))
+   409			return dev_err_probe(dev, PTR_ERR(lcdc->base), "Cannot get IO memory\n");
+   410	
+ > 411		bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
+   412		if (IS_ERR(bridge))
+   413			return dev_err_probe(dev, PTR_ERR(bridge), "Failed to find bridge\n");
+   414	
+   415		/* Get Clocks */
+   416		lcdc->clk_ipg = devm_clk_get(dev, "ipg");
+   417		if (IS_ERR(lcdc->clk_ipg))
+   418			return dev_err_probe(dev, PTR_ERR(lcdc->clk_ipg), "Failed to get %s clk\n", "ipg");
+   419	
+   420		lcdc->clk_ahb = devm_clk_get(dev, "ahb");
+   421		if (IS_ERR(lcdc->clk_ahb))
+   422			return dev_err_probe(dev, PTR_ERR(lcdc->clk_ahb), "Failed to get %s clk\n", "ahb");
+   423	
+   424		lcdc->clk_per = devm_clk_get(dev, "per");
+   425		if (IS_ERR(lcdc->clk_per))
+   426			return dev_err_probe(dev, PTR_ERR(lcdc->clk_per), "Failed to get %s clk\n", "per");
+   427	
+   428		ret = dma_set_mask_and_coherent(drm->dev, DMA_BIT_MASK(32));
+   429		if (ret)
+   430			return dev_err_probe(dev, ret, "Cannot set DMA Mask\n");
+   431	
+   432		/* Modeset init */
+   433		ret = drmm_mode_config_init(drm);
+   434		if (ret)
+   435			return dev_err_probe(dev, ret, "Cannot initialize mode configuration structure\n");
+   436	
+   437		/* CRTC, Plane, Encoder */
+   438		ret = drm_simple_display_pipe_init(drm, &lcdc->pipe,
+   439						   &imx_lcdc_pipe_funcs,
+   440						   imx_lcdc_formats,
+   441						   ARRAY_SIZE(imx_lcdc_formats), NULL, NULL);
+   442		if (ret < 0)
+   443			return dev_err_probe(drm->dev, ret, "Cannot setup simple display pipe\n");
+   444	
+   445		ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
+   446		if (ret < 0)
+   447			return dev_err_probe(drm->dev, ret, "Failed to initialize vblank\n");
+   448	
+   449		ret = drm_bridge_attach(&lcdc->pipe.encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+   450		if (ret)
+   451			return dev_err_probe(drm->dev, ret, "Cannot attach bridge\n");
+   452	
+   453		lcdc->connector = drm_bridge_connector_init(drm, &lcdc->pipe.encoder);
+   454		if (IS_ERR(lcdc->connector))
+   455			return dev_err_probe(drm->dev, PTR_ERR(lcdc->connector), "Cannot init bridge connector\n");
+   456	
+   457		drm_connector_attach_encoder(lcdc->connector, &lcdc->pipe.encoder);
+   458	
+   459		/*
+   460		 * The LCDC controller does not have an enable bit. The
+   461		 * controller starts directly when the clocks are enabled.
+   462		 * If the clocks are enabled when the controller is not yet
+   463		 * programmed with proper register values (enabled at the
+   464		 * bootloader, for example) then it just goes into some undefined
+   465		 * state.
+   466		 * To avoid this issue, let's enable and disable LCDC IPG,
+   467		 * PER and AHB clock so that we force some kind of 'reset'
+   468		 * to the LCDC block.
+   469		 */
+   470	
+   471		ret = clk_prepare_enable(lcdc->clk_ipg);
+   472		if (ret)
+   473			return dev_err_probe(dev, ret, "Cannot enable ipg clock\n");
+   474		clk_disable_unprepare(lcdc->clk_ipg);
+   475	
+   476		ret = clk_prepare_enable(lcdc->clk_per);
+   477		if (ret)
+   478			return dev_err_probe(dev, ret, "Cannot enable per clock\n");
+   479		clk_disable_unprepare(lcdc->clk_per);
+   480	
+   481		ret = clk_prepare_enable(lcdc->clk_ahb);
+   482		if (ret)
+   483			return dev_err_probe(dev, ret, "Cannot enable ahb clock\n");
+   484		clk_disable_unprepare(lcdc->clk_ahb);
+   485	
+   486		drm->mode_config.min_width = LCDC_MIN_XRES;
+   487		drm->mode_config.max_width = LCDC_MAX_XRES;
+   488		drm->mode_config.min_height = LCDC_MIN_YRES;
+   489		drm->mode_config.max_height = LCDC_MAX_YRES;
+   490		drm->mode_config.preferred_depth = 16;
+   491		drm->mode_config.funcs = &imx_lcdc_mode_config_funcs;
+   492		drm->mode_config.helper_private = &imx_lcdc_mode_config_helpers;
+   493	
+   494		drm_mode_config_reset(drm);
+   495	
+   496		irq = platform_get_irq(pdev, 0);
+   497		if (irq < 0) {
+   498			ret = irq;
+   499			return ret;
+   500		}
+   501	
+   502		ret = devm_request_irq(dev, irq, imx_lcdc_irq_handler, 0, "imx-lcdc", lcdc);
+   503		if (ret < 0)
+   504			return dev_err_probe(drm->dev, ret, "Failed to install IRQ handler\n");
+   505	
+   506		platform_set_drvdata(pdev, drm);
+   507	
+   508		ret = drm_dev_register(&lcdc->drm, 0);
+   509		if (ret)
+   510			return dev_err_probe(dev, ret, "Cannot register device\n");
+   511	
+   512		drm_fbdev_generic_setup(drm, 0);
+   513	
+   514		return 0;
+   515	}
+   516	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
