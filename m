@@ -1,48 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23DAC53B9
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 12:53:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984D217740
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Nov 2023 13:25:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dBLII8fX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cUh2pCKs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698929624; x=1730465624;
+  t=1698931527; x=1730467527;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TokO1a1gQUVjr7omcNoacvmt9abxm13g0VekgGWHAvQ=;
-  b=dBLII8fXPFI7N6NIqu70nJvDlJKNJLhxNZ54A4y3Wia1DNvNR4TC5UXa
-   aS+hTt5pY2ui8KWnyWkYhGuXNVG0kBjNfxUU0VnTAEfDqzvkkEzFFNg6o
-   3ZUZ1wS8++Cm3QA4p9rsde8gfMOA9HZsDJXNZLoNmX+3bYwS6zsHfwsTR
-   ABtTqF+N/5EHE01ekSnV2VEajqcgkmGDzrE424jrGKCggxJHE2kPRw1Mh
-   6FOKxFeLFOlzcacJIr75YmOynUrnA8Xx0NySnZ2iLeRiICLPOHfMnY97n
-   iwJigHqYav/B/SL13vzlzRwuwebnGWBQor6qL8v9W/qFrhx8PB0pkEhU7
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="387580818"
+  bh=YZX5pQ7anyk+uDMua7gAyFCpQJLSvxBBTjgWjdpEuC8=;
+  b=cUh2pCKsJH1/NPZahycb/AjS5TzU8uH2Z44/v9KYCmeL/9l8rO67JYbs
+   zvweKyLtn+L8CCuroVMO+pweYVTcCTj86SZSzawbulWIIwkTaKxkiBOpp
+   sWeo/qP1/Li3mylMsgVt8bULW6zqJiaq7M8YjTgRSk1zCVWVpl4KbhWFe
+   qkkVeOhDXUbei3QB7yonWDjDSLR6CeFUkrKZHeJHBgqbYtniYNI+x6dyV
+   qiFR5CsMeeb+l/UOGaBO2Y4icyWOgBGyM4NodXtyMsq3z3L72lk3KfKrv
+   FDOQnjE/qqXLtrim9XRhF/riOXowDSNi/pjtSeqpXlkH50+klGNyQFOSc
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="1580249"
 X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="387580818"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 05:53:43 -0700
+   d="scan'208";a="1580249"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 06:25:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="796224747"
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="934780833"
 X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="796224747"
+   d="scan'208";a="934780833"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 02 Nov 2023 05:53:41 -0700
+  by orsmga005.jf.intel.com with ESMTP; 02 Nov 2023 06:25:24 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qyXCd-0001Sa-0I;
-	Thu, 02 Nov 2023 12:53:39 +0000
-Date: Thu, 2 Nov 2023 20:52:56 +0800
+	id 1qyXhL-0001Tw-0X;
+	Thu, 02 Nov 2023 13:25:23 +0000
+Date: Thu, 2 Nov 2023 21:23:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Elena Reshetova <elena.reshetova@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Subject: [intel-tdx:guest-filter 29/34] arch/parisc/include/asm/io.h:144:22:
- warning: passing argument 1 of 'ioremap_prot' makes integer from pointer
- without a cast
-Message-ID: <202311022027.WXoXFJu0-lkp@intel.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:file-force-align 506/507] fs/xfs/xfs_bmap_util.c:1450:9:
+ error: implicit declaration of function
+ 'trace_xfs_convert_bigalloc_file_space'; did you mean
+ 'xfs_convert_bigalloc_file_space'?
+Message-ID: <202311022124.PIIRVz7e-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,76 +52,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/tdx.git guest-filter
-head:   205bbdcce0e2be471018d939d81dae51d63b5bd5
-commit: 7fe4861d7a94daeee2570ca50343ce449cf8f19c [29/34] asm/io.h: Add ioremap_cache_shared
-config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20231102/202311022027.WXoXFJu0-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311022027.WXoXFJu0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git file-force-align
+head:   2f5d0685694a329d50ad1988293dc3f838d798ed
+commit: 9560af7afefad8ce14877a40e356fb869ca7c785 [506/507] xfs: support reflink with force align enabled
+config: powerpc64-randconfig-002-20231102 (https://download.01.org/0day-ci/archive/20231102/202311022124.PIIRVz7e-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231102/202311022124.PIIRVz7e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311022027.WXoXFJu0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311022124.PIIRVz7e-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/io.h:13,
-                    from include/linux/irq.h:20,
-                    from arch/parisc/include/asm/hardirq.h:13,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/pci.h:38,
-                    from lib/devres.c:3:
-   arch/parisc/include/asm/io.h:143: warning: "ioremap_uc" redefined
-     143 | #define ioremap_uc \
-         | 
-   arch/parisc/include/asm/io.h:135: note: this is the location of the previous definition
-     135 | #define ioremap_uc(addr, size)  \
-         | 
-   lib/devres.c: In function '__devm_ioremap':
->> arch/parisc/include/asm/io.h:144:22: warning: passing argument 1 of 'ioremap_prot' makes integer from pointer without a cast [-Wint-conversion]
-     144 |         ioremap_prot((addr), (size), _PAGE_IOREMAP)
-         |                      ^~~~~~
-         |                      |
-         |                      void *
-   lib/devres.c:42:24: note: in expansion of macro 'ioremap_uc'
-      42 |                 addr = ioremap_uc(offset, size);
-         |                        ^~~~~~~~~~
-   In file included from arch/parisc/include/asm/io.h:286:
-   include/asm-generic/io.h:1053:40: note: expected 'phys_addr_t' {aka 'unsigned int'} but argument is of type 'void *'
-    1053 | void __iomem *ioremap_prot(phys_addr_t phys_addr, size_t size,
-         |                            ~~~~~~~~~~~~^~~~~~~~~
-   arch/parisc/include/asm/io.h:128:22: error: called object is not a function or function pointer
-     128 | #define ioremap_prot ioremap_prot
-         |                      ^~~~~~~~~~~~
-   arch/parisc/include/asm/io.h:144:9: note: in expansion of macro 'ioremap_prot'
-     144 |         ioremap_prot((addr), (size), _PAGE_IOREMAP)
-         |         ^~~~~~~~~~~~
-   lib/devres.c:42:24: note: in expansion of macro 'ioremap_uc'
-      42 |                 addr = ioremap_uc(offset, size);
-         |                        ^~~~~~~~~~
+   fs/xfs/xfs_bmap_util.c: In function 'xfs_convert_bigalloc_file_space':
+>> fs/xfs/xfs_bmap_util.c:1450:9: error: implicit declaration of function 'trace_xfs_convert_bigalloc_file_space'; did you mean 'xfs_convert_bigalloc_file_space'? [-Werror=implicit-function-declaration]
+    1450 |         trace_xfs_convert_bigalloc_file_space(ip, pos, len);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         xfs_convert_bigalloc_file_space
+   cc1: some warnings being treated as errors
 
 
-vim +/ioremap_prot +144 arch/parisc/include/asm/io.h
+vim +1450 fs/xfs/xfs_bmap_util.c
 
-   129	
-   130	#define _PAGE_IOREMAP (_PAGE_PRESENT | _PAGE_RW | _PAGE_DIRTY | \
-   131			       _PAGE_ACCESSED | _PAGE_NO_CACHE)
-   132	
-   133	#define ioremap_wc(addr, size)  \
-   134		ioremap_prot((addr), (size), _PAGE_IOREMAP)
-   135	#define ioremap_uc(addr, size)  \
-   136		ioremap_prot((addr), (size), _PAGE_IOREMAP)
-   137	/* Share memory with host in confidential guest platforms */
-   138	#define ioremap_driver_hardened \
-   139		ioremap_prot((addr), (size), _PAGE_IOREMAP)
-   140	/* Share memory with host in confidential guest platforms (WB version) */
-   141	#define ioremap_cache_shared \
-   142		ioremap_prot((addr), (size), _PAGE_IOREMAP)
- > 143	#define ioremap_uc \
- > 144		ioremap_prot((addr), (size), _PAGE_IOREMAP)
-   145	
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1415  
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1416  /*
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1417   * Prepare a file with multi-fsblock allocation units for a remapping.
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1418   *
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1419   * File allocation units (AU) must be fully mapped to the data fork.  If the
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1420   * space in an AU have not been fully written, there can be multiple extent
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1421   * mappings (e.g. mixed written and unwritten blocks) to the AU.  If the log
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1422   * does not have a means to ensure that all remappings for a given AU will be
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1423   * completed even if the fs goes down, we must maintain the above constraint in
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1424   * another way.
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1425   *
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1426   * Convert the unwritten parts of an AU to written by writing zeroes to the
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1427   * storage and flipping the mapping.  Once this completes, there will be a
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1428   * single mapping for the entire AU, and we can proceed with the remapping
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1429   * operation.
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1430   *
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1431   * Callers must ensure that there are no dirty pages in the given range.
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1432   */
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1433  int
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1434  xfs_convert_bigalloc_file_space(
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1435  	struct xfs_inode	*ip,
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1436  	loff_t			pos,
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1437  	uint64_t		len)
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1438  {
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1439  	struct xfs_mount	*mp = ip->i_mount;
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1440  	xfs_fileoff_t		off;
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1441  	xfs_fileoff_t		endoff;
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1442  	int			error;
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1443  
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1444  	if (!xfs_inode_has_bigallocunit(ip))
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1445  		return 0;
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1446  
+f05b39e060631e Darrick J. Wong 2023-03-06  1447  	off = xfs_rtb_rounddown_rtx(mp, XFS_B_TO_FSBT(mp, pos));
+f05b39e060631e Darrick J. Wong 2023-03-06  1448  	endoff = xfs_rtb_roundup_rtx(mp, XFS_B_TO_FSB(mp, pos + len));
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1449  
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06 @1450  	trace_xfs_convert_bigalloc_file_space(ip, pos, len);
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1451  
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1452  	while (off < endoff) {
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1453  		if (fatal_signal_pending(current))
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1454  			return -EINTR;
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1455  
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1456  		error = xfs_convert_bigalloc_mapping(ip, &off, endoff);
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1457  		if (error)
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1458  			return error;
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1459  	}
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1460  
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1461  	return 0;
+d0c6e4b2d648b8 Darrick J. Wong 2023-03-06  1462  }
+2f1c2bb5cdbcf6 Darrick J. Wong 2023-03-06  1463  
+
+:::::: The code at line 1450 was first introduced by commit
+:::::: d0c6e4b2d648b8ae0382bb9e56bbf8c88e438646 xfs: make atomic extent swapping support realtime files
+
+:::::: TO: Darrick J. Wong <djwong@kernel.org>
+:::::: CC: Darrick J. Wong <djwong@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
