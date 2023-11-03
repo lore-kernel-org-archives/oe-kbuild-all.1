@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB42A1F616
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 17:16:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1543B20B06
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 17:20:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VGt2maBb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XSOQxKDC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699031764; x=1730567764;
+  t=1699032022; x=1730568022;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Eojza9ja2ChqPCYZKSmqvL3IB+p4R54Gj2aRZ2CarjI=;
-  b=VGt2maBbKmdMcd1BJlCMAtTI7OuhQpAfcmtPnwzyhQfSzex2Uk6PJLYo
-   W6XLPBiHtwgvUXAkyW6R+SX1iwpO1RIqPaK4Yc5vUqKhsVBvEzveRQ8Za
-   BoRHIpQoSz6wMEEjKsPP+J1kzqTBX1HjZxoAEeReHR8G9OVlufPlCB2zP
-   FbnAG3qe9Ev2s0632NJPX/K1I/C41IP9WCsT4ZTNo3cMi+13T9KcdZ/b9
-   CaZaZkNkyxmGwy5505pjkroXtvNYhGPfObyAacfilDL8QnVy8ZrnTwuW5
-   lhI751B9AZ24mrCAf/lI6KUKze5NnjkHGSVkzHMiWDG/cL4v4fwk4Gs/1
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="374023452"
+  bh=ejvdbfSEo7Ye5TjfsNgbN/I8T2uSWDIQWUd/UB8L5x8=;
+  b=XSOQxKDC8IbHws4spE7CH3PzJI8FfJFNd3XTypyYrhJkPHdz974m9Bjn
+   BI6Jo5N+2ymo2kf/rttTWHNb3TTF5NPoar/4GZi1vNOmD0xME7doSczjI
+   uHUuxhwk92fN/+jaK/rpXR2J0vaL/GysBq7eq+l2fmgn++k8OUGypuCXo
+   h5c4ggnt0rAAPDFKSkhNUWRSzKeYazfIqoYSPz1+hPamsBbDtfMVDZU4t
+   BIzTHWXelyCZYXuCJSXCYmOniUvqsXQuMUzP1/WJqHNPEukTHA/+YlHrh
+   3piHaEnirwyEsrkdUZRTjvg7WgfviS1NkeaU/Z2Qv5Aud/oZ9OqDZSIVC
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="391855872"
 X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="374023452"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 10:15:58 -0700
+   d="scan'208";a="391855872"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 10:20:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="796682023"
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="1093126725"
 X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="796682023"
+   d="scan'208";a="1093126725"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 03 Nov 2023 10:15:57 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 03 Nov 2023 10:20:19 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qyxly-0002k8-2b;
-	Fri, 03 Nov 2023 17:15:54 +0000
-Date: Sat, 4 Nov 2023 01:15:05 +0800
+	id 1qyxqD-0002kf-13;
+	Fri, 03 Nov 2023 17:20:17 +0000
+Date: Sat, 4 Nov 2023 01:19:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/edac/thunderx_edac.c:1899:17: warning: 'strncat' specified
- bound 1024 equals destination size
-Message-ID: <202311040036.nQTx8Hy8-lkp@intel.com>
+To: Thierry Reding <treding@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Wolfram Sang <wsa-dev@sang-engineering.com>
+Subject: drivers/i2c/busses/i2c-tegra.c:297: warning: Function parameter or
+ member 'dma_dev' not described in 'tegra_i2c_dev'
+Message-ID: <202311040140.VjgAOuvJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,141 +51,107 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Vlastimil,
+Hi Thierry,
 
 FYI, the error/warning still remains.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   8f6f76a6a29f36d2f3e4510d0bde5046672f6924
-commit: eb4940d4adf590590a9d0c47e38d2799c2ff9670 mm/slab: remove !CONFIG_TRACING variants of kmalloc_[node_]trace()
-date:   12 months ago
-config: arm64-randconfig-003-20231101 (https://download.01.org/0day-ci/archive/20231104/202311040036.nQTx8Hy8-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311040036.nQTx8Hy8-lkp@intel.com/reproduce)
+commit: cdbf26251d3b35c4ccaea0c3a6de4318f727d3d2 i2c: tegra: Allocate DMA memory for DMA engine
+date:   1 year ago
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20231104/202311040140.VjgAOuvJ-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311040140.VjgAOuvJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311040036.nQTx8Hy8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311040140.VjgAOuvJ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/edac/thunderx_edac.c: In function 'thunderx_l2c_threaded_isr':
->> drivers/edac/thunderx_edac.c:1899:17: warning: 'strncat' specified bound 1024 equals destination size [-Wstringop-truncation]
-    1899 |                 strncat(msg, other, L2C_MESSAGE_SIZE);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/edac/thunderx_edac.c:1899:17: warning: 'strncat' specified bound 1024 equals destination size [-Wstringop-overflow=]
-   drivers/edac/thunderx_edac.c: In function 'thunderx_ocx_lnk_threaded_isr':
-   drivers/edac/thunderx_edac.c:1220:17: warning: 'strncat' specified bound 1024 equals destination size [-Wstringop-truncation]
-    1220 |                 strncat(msg, other, OCX_MESSAGE_SIZE);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/edac/thunderx_edac.c:1220:17: warning: 'strncat' specified bound 1024 equals destination size [-Wstringop-overflow=]
-   drivers/edac/thunderx_edac.c: In function 'thunderx_ocx_com_threaded_isr':
-   drivers/edac/thunderx_edac.c:1136:17: warning: 'strncat' specified bound 1024 equals destination size [-Wstringop-truncation]
-    1136 |                 strncat(msg, other, OCX_MESSAGE_SIZE);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/edac/thunderx_edac.c:1145:33: warning: 'strncat' specified bound 1024 equals destination size [-Wstringop-truncation]
-    1145 |                                 strncat(msg, other, OCX_MESSAGE_SIZE);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/edac/thunderx_edac.c:1150:33: warning: 'strncat' specified bound 1024 equals destination size [-Wstringop-truncation]
-    1150 |                                 strncat(msg, other, OCX_MESSAGE_SIZE);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/edac/thunderx_edac.c:1136:17: warning: 'strncat' specified bound 1024 equals destination size [-Wstringop-overflow=]
-    1136 |                 strncat(msg, other, OCX_MESSAGE_SIZE);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/edac/thunderx_edac.c:1145:33: warning: 'strncat' specified bound 1024 equals destination size [-Wstringop-overflow=]
-    1145 |                                 strncat(msg, other, OCX_MESSAGE_SIZE);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/edac/thunderx_edac.c:1150:33: warning: 'strncat' specified bound 1024 equals destination size [-Wstringop-overflow=]
-    1150 |                                 strncat(msg, other, OCX_MESSAGE_SIZE);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/i2c/busses/i2c-tegra.c:297: warning: Function parameter or member 'dma_dev' not described in 'tegra_i2c_dev'
 
 
-vim +/strncat +1899 drivers/edac/thunderx_edac.c
+vim +297 drivers/i2c/busses/i2c-tegra.c
 
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1841  
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1842  static irqreturn_t thunderx_l2c_threaded_isr(int irq, void *irq_id)
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1843  {
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1844  	struct msix_entry *msix = irq_id;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1845  	struct thunderx_l2c *l2c = container_of(msix, struct thunderx_l2c,
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1846  						msix_ent);
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1847  
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1848  	unsigned long tail = ring_pos(l2c->ring_tail, ARRAY_SIZE(l2c->err_ctx));
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1849  	struct l2c_err_ctx *ctx = &l2c->err_ctx[tail];
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1850  	irqreturn_t ret = IRQ_NONE;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1851  
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1852  	u64 mask_ue, mask_ce;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1853  	const struct error_descr *l2_errors;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1854  	char *reg_int_name;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1855  
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1856  	char *msg;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1857  	char *other;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1858  
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1859  	msg = kmalloc(OCX_MESSAGE_SIZE, GFP_KERNEL);
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1860  	other = kmalloc(OCX_OTHER_SIZE, GFP_KERNEL);
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1861  
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1862  	if (!msg || !other)
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1863  		goto err_free;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1864  
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1865  	switch (l2c->pdev->device) {
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1866  	case PCI_DEVICE_ID_THUNDER_L2C_TAD:
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1867  		reg_int_name = "L2C_TAD_INT";
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1868  		mask_ue = L2C_TAD_INT_UE;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1869  		mask_ce = L2C_TAD_INT_CE;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1870  		l2_errors = l2_tad_errors;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1871  		break;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1872  	case PCI_DEVICE_ID_THUNDER_L2C_CBC:
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1873  		reg_int_name = "L2C_CBC_INT";
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1874  		mask_ue = L2C_CBC_INT_UE;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1875  		mask_ce = L2C_CBC_INT_CE;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1876  		l2_errors = l2_cbc_errors;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1877  		break;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1878  	case PCI_DEVICE_ID_THUNDER_L2C_MCI:
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1879  		reg_int_name = "L2C_MCI_INT";
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1880  		mask_ue = L2C_MCI_INT_VBFDBE;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1881  		mask_ce = L2C_MCI_INT_VBFSBE;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1882  		l2_errors = l2_mci_errors;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1883  		break;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1884  	default:
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1885  		dev_err(&l2c->pdev->dev, "Unsupported device: %04x\n",
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1886  			l2c->pdev->device);
-d8c27ba86a2fd8 Dan Carpenter      2018-10-13  1887  		goto err_free;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1888  	}
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1889  
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1890  	while (CIRC_CNT(l2c->ring_head, l2c->ring_tail,
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1891  			ARRAY_SIZE(l2c->err_ctx))) {
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1892  		snprintf(msg, L2C_MESSAGE_SIZE,
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1893  			 "%s: %s: %016llx, %s: %016llx",
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1894  			 l2c->edac_dev->ctl_name, reg_int_name, ctx->reg_int,
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1895  			 ctx->reg_ext_name, ctx->reg_ext);
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1896  
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1897  		decode_register(other, L2C_OTHER_SIZE, l2_errors, ctx->reg_int);
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1898  
-41003396f932d7 Sergey Temerkhanov 2017-03-24 @1899  		strncat(msg, other, L2C_MESSAGE_SIZE);
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1900  
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1901  		if (ctx->reg_int & mask_ue)
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1902  			edac_device_handle_ue(l2c->edac_dev, 0, 0, msg);
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1903  		else if (ctx->reg_int & mask_ce)
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1904  			edac_device_handle_ce(l2c->edac_dev, 0, 0, msg);
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1905  
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1906  		l2c->ring_tail++;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1907  	}
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1908  
-d8c27ba86a2fd8 Dan Carpenter      2018-10-13  1909  	ret = IRQ_HANDLED;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1910  
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1911  err_free:
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1912  	kfree(other);
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1913  	kfree(msg);
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1914  
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1915  	return ret;
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1916  }
-41003396f932d7 Sergey Temerkhanov 2017-03-24  1917  
+6ad068ed63100f1 Laxman Dewangan     2012-08-19  228  
+db811ca0f48578f Colin Cross         2011-02-20  229  /**
+c990bbafdb11c60 Thierry Reding      2018-12-17  230   * struct tegra_i2c_dev - per device I2C context
+db811ca0f48578f Colin Cross         2011-02-20  231   * @dev: device reference for power management
+c990bbafdb11c60 Thierry Reding      2018-12-17  232   * @hw: Tegra I2C HW feature
+c990bbafdb11c60 Thierry Reding      2018-12-17  233   * @adapter: core I2C layer adapter information
+c990bbafdb11c60 Thierry Reding      2018-12-17  234   * @div_clk: clock reference for div clock of I2C controller
+586a97d907ac348 Dmitry Osipenko     2020-09-30  235   * @clocks: array of I2C controller clocks
+586a97d907ac348 Dmitry Osipenko     2020-09-30  236   * @nclocks: number of clocks in the array
+0604ee4aefa20f4 Thierry Reding      2018-12-17  237   * @rst: reset control for the I2C controller
+db811ca0f48578f Colin Cross         2011-02-20  238   * @base: ioremapped registers cookie
+86c92b9965ff175 Sowjanya Komatineni 2019-02-12  239   * @base_phys: physical base address of the I2C controller
+c990bbafdb11c60 Thierry Reding      2018-12-17  240   * @cont_id: I2C controller ID, used for packet header
+c990bbafdb11c60 Thierry Reding      2018-12-17  241   * @irq: IRQ number of transfer complete interrupt
+c990bbafdb11c60 Thierry Reding      2018-12-17  242   * @is_dvc: identifies the DVC I2C controller, has a different register layout
+c73178b93754edd Thierry Reding      2019-06-07  243   * @is_vi: identifies the VI I2C controller, has a different register layout
+db811ca0f48578f Colin Cross         2011-02-20  244   * @msg_complete: transfer completion notifier
+db811ca0f48578f Colin Cross         2011-02-20  245   * @msg_err: error code for completed message
+db811ca0f48578f Colin Cross         2011-02-20  246   * @msg_buf: pointer to current message data
+db811ca0f48578f Colin Cross         2011-02-20  247   * @msg_buf_remaining: size of unsent data in the message buffer
+94a5573f0719cf8 Dmitry Osipenko     2020-09-30  248   * @msg_read: indicates that the transfer is a read access
+50665d58db052b0 Akhil R             2021-12-10  249   * @timings: i2c timings information like bus frequency
+a99042e7d9fb5c9 Dmitry Osipenko     2020-09-30  250   * @multimaster_mode: indicates that I2C controller is in multi-master mode
+86c92b9965ff175 Sowjanya Komatineni 2019-02-12  251   * @tx_dma_chan: DMA transmit channel
+86c92b9965ff175 Sowjanya Komatineni 2019-02-12  252   * @rx_dma_chan: DMA receive channel
+86c92b9965ff175 Sowjanya Komatineni 2019-02-12  253   * @dma_phys: handle to DMA resources
+86c92b9965ff175 Sowjanya Komatineni 2019-02-12  254   * @dma_buf: pointer to allocated DMA buffer
+86c92b9965ff175 Sowjanya Komatineni 2019-02-12  255   * @dma_buf_size: DMA buffer size
+a99042e7d9fb5c9 Dmitry Osipenko     2020-09-30  256   * @dma_mode: indicates active DMA transfer
+86c92b9965ff175 Sowjanya Komatineni 2019-02-12  257   * @dma_complete: DMA completion notifier
+a99042e7d9fb5c9 Dmitry Osipenko     2020-09-30  258   * @atomic_mode: indicates active atomic transfer
+db811ca0f48578f Colin Cross         2011-02-20  259   */
+db811ca0f48578f Colin Cross         2011-02-20  260  struct tegra_i2c_dev {
+db811ca0f48578f Colin Cross         2011-02-20  261  	struct device *dev;
+db811ca0f48578f Colin Cross         2011-02-20  262  	struct i2c_adapter adapter;
+89e3748acd0bf65 Dmitry Osipenko     2020-09-30  263  
+89e3748acd0bf65 Dmitry Osipenko     2020-09-30  264  	const struct tegra_i2c_hw_feature *hw;
+dda9d6a8262cb1f Stephen Warren      2013-11-06  265  	struct reset_control *rst;
+f1c2ff98065dced Dmitry Osipenko     2020-09-30  266  	unsigned int cont_id;
+f1c2ff98065dced Dmitry Osipenko     2020-09-30  267  	unsigned int irq;
+89e3748acd0bf65 Dmitry Osipenko     2020-09-30  268  
+89e3748acd0bf65 Dmitry Osipenko     2020-09-30  269  	phys_addr_t base_phys;
+89e3748acd0bf65 Dmitry Osipenko     2020-09-30  270  	void __iomem *base;
+89e3748acd0bf65 Dmitry Osipenko     2020-09-30  271  
+89e3748acd0bf65 Dmitry Osipenko     2020-09-30  272  	struct clk_bulk_data clocks[2];
+89e3748acd0bf65 Dmitry Osipenko     2020-09-30  273  	unsigned int nclocks;
+89e3748acd0bf65 Dmitry Osipenko     2020-09-30  274  
+89e3748acd0bf65 Dmitry Osipenko     2020-09-30  275  	struct clk *div_clk;
+50665d58db052b0 Akhil R             2021-12-10  276  	struct i2c_timings timings;
+89e3748acd0bf65 Dmitry Osipenko     2020-09-30  277  
+db811ca0f48578f Colin Cross         2011-02-20  278  	struct completion msg_complete;
+89e3748acd0bf65 Dmitry Osipenko     2020-09-30  279  	size_t msg_buf_remaining;
+db811ca0f48578f Colin Cross         2011-02-20  280  	int msg_err;
+db811ca0f48578f Colin Cross         2011-02-20  281  	u8 *msg_buf;
+89e3748acd0bf65 Dmitry Osipenko     2020-09-30  282  
+89e3748acd0bf65 Dmitry Osipenko     2020-09-30  283  	struct completion dma_complete;
+86c92b9965ff175 Sowjanya Komatineni 2019-02-12  284  	struct dma_chan *tx_dma_chan;
+86c92b9965ff175 Sowjanya Komatineni 2019-02-12  285  	struct dma_chan *rx_dma_chan;
+89e3748acd0bf65 Dmitry Osipenko     2020-09-30  286  	unsigned int dma_buf_size;
+cdbf26251d3b35c Thierry Reding      2022-10-20  287  	struct device *dma_dev;
+86c92b9965ff175 Sowjanya Komatineni 2019-02-12  288  	dma_addr_t dma_phys;
+4be62340f3ce62b Dmitry Osipenko     2020-09-30  289  	void *dma_buf;
+89e3748acd0bf65 Dmitry Osipenko     2020-09-30  290  
+a99042e7d9fb5c9 Dmitry Osipenko     2020-09-30  291  	bool multimaster_mode;
+a99042e7d9fb5c9 Dmitry Osipenko     2020-09-30  292  	bool atomic_mode;
+a99042e7d9fb5c9 Dmitry Osipenko     2020-09-30  293  	bool dma_mode;
+89e3748acd0bf65 Dmitry Osipenko     2020-09-30  294  	bool msg_read;
+89e3748acd0bf65 Dmitry Osipenko     2020-09-30  295  	bool is_dvc;
+89e3748acd0bf65 Dmitry Osipenko     2020-09-30  296  	bool is_vi;
+db811ca0f48578f Colin Cross         2011-02-20 @297  };
+db811ca0f48578f Colin Cross         2011-02-20  298  
 
-:::::: The code at line 1899 was first introduced by commit
-:::::: 41003396f932d7f027725c7acebb6a7caa41dc3e EDAC, thunderx: Add Cavium ThunderX EDAC driver
+:::::: The code at line 297 was first introduced by commit
+:::::: db811ca0f48578f9940f49f284ac81e336b264ad i2c: tegra: Add i2c support
 
-:::::: TO: Sergey Temerkhanov <s.temerkhanov@gmail.com>
-:::::: CC: Borislav Petkov <bp@suse.de>
+:::::: TO: Colin Cross <ccross@android.com>
+:::::: CC: Ben Dooks <ben-linux@fluff.org>
 
 -- 
 0-DAY CI Kernel Test Service
