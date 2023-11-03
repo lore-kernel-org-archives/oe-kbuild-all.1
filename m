@@ -1,51 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670FA17C5
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 05:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C5217E1
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 06:00:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VYR0NqZR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698991077; x=1730527077;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3Tb/9TRXfkspZ4Qolx6KFNI5OizP54a6MuN04lpTl5k=;
-  b=VYR0NqZRQjA9LI5aVJPFeYnp7/zQ5kRADYPZla2NTJBqNYx5HDahe51j
-   vzcuiP46k1kutn8gPeIHVwczTNLS+2xXmFukseHgbYb6ZNmJA2byYnnZo
-   u0HkbxU2+itfIuHPvJ8AtaXJUDeRnOHrCptvbaR2l7Ue2K4Ddsbzutq0V
-   IYBiGoJ89pJsBiWxucxwj3TplmHuAuMS2hmpqnw1wJetfz6+4dXcg8ZAC
-   Vwo4OSyuW+cuFSpNDh3VoI6t4xE5LKWLhpFFvGA0XkDCsgY+ls7TK9qkK
-   NzLDPzSXztlfRTRyaHytapd4Lza3LkHVh0sWhhQDQVZc6eW3y2KvmaBsD
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="379285628"
-X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="379285628"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 22:57:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="765152051"
-X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="765152051"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 02 Nov 2023 22:57:53 -0700
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qynBn-0002H1-2K;
-	Fri, 03 Nov 2023 05:57:51 +0000
-Date: Fri, 3 Nov 2023 13:57:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: thinker.li@gmail.com, bpf@vger.kernel.org, ast@kernel.org,
-	martin.lau@linux.dev, song@kernel.org, kernel-team@meta.com,
-	andrii@kernel.org, drosen@google.com
-Cc: oe-kbuild-all@lists.linux.dev, sinquersw@gmail.com, kuifeng@meta.com,
-	Kui-Feng Lee <thinker.li@gmail.com>, netdev@vger.kernel.org
-Subject: Re: [PATCH bpf-next v9 09/12] bpf, net: switch to dynamic
- registration
-Message-ID: <202311031305.1bFdKyKl-lkp@intel.com>
-References: <20231101204519.677870-10-thinker.li@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wfNgEoln"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-53e70b0a218so2877829a12.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 02 Nov 2023 23:00:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698991202; x=1699596002; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZxDSdMzVCpjHsvR+qZrln4myCmxkfc2LuMbC+pvU/84=;
+        b=wfNgEolnW0CYw9ZrdZTOij40WFkmfp3gzWZzzmDIVs5WpAcwLO8QUawB0636PA+LFQ
+         9uenmbSRiho/j5BUe/cNA8wmBtbHCxIwje23pHYRd8uLiOhcKO1/Ye9UsG9XYZZYMpWS
+         5o9xvn4Dc7csEoTKnoPYmz+xRZ8G09iFIk+OP8Z7ud5oQgp9Ko+s1xU2S9ONyXNJWhgt
+         Bwc5Egf8j20OxSO/gbCweh3ArKhPuPHc7uNuNZhO+Y+yg0Pl4I3bl+FS+ZNqm4do1pRY
+         0/3zDJnfS521UGg7kEmBY4wzhgr9MQ9jnAmZCEHflvYITCWZ//aSfSVw1WbBz2SRdLhZ
+         Bc0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698991202; x=1699596002;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZxDSdMzVCpjHsvR+qZrln4myCmxkfc2LuMbC+pvU/84=;
+        b=a6kbR0MtZLqZ5cythoDT8jrbqv1ZGzQAM5R1dxQmTpM9yohddfX6fh7rroKUgD3ioR
+         thvzh50X41IOQljvwes15+oKC+TUX+m3ZNH/MRIr6Yy6SbywyI99SW7gd8dkVCibQpsi
+         xw0jhTAyWmufHJ/RAYCTNpBaNasjz5VEl7opEj2tDbIfeHiBfpEFJNi6mSg+K2AiCgPO
+         MgD/JUauwrI7JiIADTh+TsSjdlevChOK7NGqIKx+zdPoxu4ZGum//4TLUzHUDopBggVK
+         uBFS+SRXuBmSQREbxxnkEfTXowjKh4CuhtEvuunR7nBFGGnYlrRCyhMdVIWiPFV+r0PD
+         vhWw==
+X-Gm-Message-State: AOJu0YwOlnu6F0nfaPa20i+XkMVHdyu808YjIODLxpC0dS4QphknfbW7
+	Se13FAc7zpWufNkBrHyfgVeGCA==
+X-Google-Smtp-Source: AGHT+IETB8T1GhUXYuMPcptvFaualbInBCIx8AiSdFPyi1Gp2XP3C8B1h6EpdqwUNTo2KtbGkxL/uA==
+X-Received: by 2002:a17:906:478b:b0:9c7:4e5d:12bc with SMTP id cw11-20020a170906478b00b009c74e5d12bcmr6141917ejc.51.1698991201698;
+        Thu, 02 Nov 2023 23:00:01 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id t9-20020a1709060c4900b00997c1d125fasm507494ejf.170.2023.11.02.23.00.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Nov 2023 23:00:01 -0700 (PDT)
+Date: Fri, 3 Nov 2023 08:59:58 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Kent Overstreet <kmo@daterainc.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: fs/bcachefs/chardev.c:391 bch2_ioctl_fs_usage() warn: check for
+ integer overflow 'replica_entries_bytes'
+Message-ID: <84d54213-e093-4c6e-a126-4df1253ca73d@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,33 +56,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231101204519.677870-10-thinker.li@gmail.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/thinker-li-gmail-com/bpf-refactory-struct_ops-type-initialization-to-a-function/20231102-044820
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231101204519.677870-10-thinker.li%40gmail.com
-patch subject: [PATCH bpf-next v9 09/12] bpf, net: switch to dynamic registration
-config: xtensa-randconfig-002-20231102 (https://download.01.org/0day-ci/archive/20231103/202311031305.1bFdKyKl-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311031305.1bFdKyKl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4652b8e4f3ffa48c706ec334f048c217a7d9750d
+commit: 22502ac23a2eaa3714b77d4a9242df352a9cd0c0 bcachefs: Redo filesystem usage ioctls
+config: x86_64-randconfig-161-20231102 (https://download.01.org/0day-ci/archive/20231103/202311030618.5bKFt0YI-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20231103/202311030618.5bKFt0YI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311031305.1bFdKyKl-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202311030618.5bKFt0YI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+fs/bcachefs/chardev.c:391 bch2_ioctl_fs_usage() warn: check for integer overflow 'replica_entries_bytes'
 
-   xtensa-linux-ld: kernel/bpf/btf.o: in function `btf_int_show':
-   btf.c:(.text+0xb0c4): undefined reference to `bpf_struct_ops_desc_init'
->> xtensa-linux-ld: btf.c:(.text+0xb330): undefined reference to `bpf_struct_ops_desc_init'
+Old smatch warnings:
+fs/bcachefs/chardev.c:444 bch2_ioctl_fs_usage() warn: maybe return -EFAULT instead of the bytes remaining?
+fs/bcachefs/chardev.c:524 bch2_ioctl_read_super() warn: maybe return -EFAULT instead of the bytes remaining?
+
+vim +/replica_entries_bytes +391 fs/bcachefs/chardev.c
+
+22502ac23a2eaa Kent Overstreet 2019-12-16  375  static long bch2_ioctl_fs_usage(struct bch_fs *c,
+22502ac23a2eaa Kent Overstreet 2019-12-16  376  				struct bch_ioctl_fs_usage __user *user_arg)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  377  {
+22502ac23a2eaa Kent Overstreet 2019-12-16  378  	struct bch_ioctl_fs_usage *arg = NULL;
+22502ac23a2eaa Kent Overstreet 2019-12-16  379  	struct bch_replicas_usage *dst_e, *dst_end;
+22502ac23a2eaa Kent Overstreet 2019-12-16  380  	struct bch_fs_usage_online *src;
+22502ac23a2eaa Kent Overstreet 2019-12-16  381  	u32 replica_entries_bytes;
+22502ac23a2eaa Kent Overstreet 2019-12-16  382  	unsigned i;
+22502ac23a2eaa Kent Overstreet 2019-12-16  383  	int ret = 0;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  384  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  385  	if (!test_bit(BCH_FS_STARTED, &c->flags))
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  386  		return -EINVAL;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  387  
+22502ac23a2eaa Kent Overstreet 2019-12-16  388  	if (get_user(replica_entries_bytes, &user_arg->replica_entries_bytes))
+
+This comes from the user.
+
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  389  		return -EFAULT;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  390  
+22502ac23a2eaa Kent Overstreet 2019-12-16 @391  	arg = kzalloc(sizeof(*arg) + replica_entries_bytes, GFP_KERNEL);
+
+This can lead to an integer overflow on 32 bit systems.
+
+This API is a bit problematice because we don't ensure that sizeof()
+bytes is divisible by sizeof(struct bch_replicas_usage).  Use
+struct_size() or size_add() to fix the integer overflow.
+
+22502ac23a2eaa Kent Overstreet 2019-12-16  392  	if (!arg)
+22502ac23a2eaa Kent Overstreet 2019-12-16  393  		return -ENOMEM;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  394  
+22502ac23a2eaa Kent Overstreet 2019-12-16  395  	src = bch2_fs_usage_read(c);
+22502ac23a2eaa Kent Overstreet 2019-12-16  396  	if (!src) {
+22502ac23a2eaa Kent Overstreet 2019-12-16  397  		ret = -ENOMEM;
+22502ac23a2eaa Kent Overstreet 2019-12-16  398  		goto err;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  399  	}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  400  
+22502ac23a2eaa Kent Overstreet 2019-12-16  401  	arg->capacity		= c->capacity;
+22502ac23a2eaa Kent Overstreet 2019-12-16  402  	arg->used		= bch2_fs_sectors_used(c, src);
+22502ac23a2eaa Kent Overstreet 2019-12-16  403  	arg->online_reserved	= src->online_reserved;
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
