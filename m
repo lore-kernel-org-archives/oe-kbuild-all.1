@@ -1,54 +1,48 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DBEC17E1
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 06:01:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB531FCE
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 06:08:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Mtaqxfnt"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-53e3b8f906fso2815293a12.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 02 Nov 2023 23:01:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698991297; x=1699596097; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ukb8C5mDZsObaz53quLRVItiO2EF/GZE516uqejG/ko=;
-        b=Mtaqxfnt/+aeEFXqOVpBIUotSFRRhXv3wOM+7+IguiOTYsPcXF50pzV22NZ/c5YlUU
-         8S0bbqQ5drvNjzt4DgkqYj/9NUHTajw9evCYrhyQbn4iM7lO5WkIdQ8tsmAWXwwGTBnk
-         lwRHif6tf6RP1sINOKw/H8MSkqbOsPzTKTD44yAKOhDT8m+WOhSc9g8K+lBWCpvu1fa1
-         9P0VzTxkDTUCYaIMrY2gu88tmKip4NxdiDayp+94QurPuDHcAyLWuceimelqBkW449O4
-         QTavA2GuwZIzT48P54PasgXu4cAOnlOmrmLCIbNjiIwr6QM8ibZa/2Ntjlt0LVi5t48/
-         t8Dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698991297; x=1699596097;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ukb8C5mDZsObaz53quLRVItiO2EF/GZE516uqejG/ko=;
-        b=koEr7U4R9nYj/ReQ4qzz/lPxptVyFBVt7CRG0O+SGELg20Dt2mCo+q12fl+3Sd5jcC
-         5cIS56YB1RjzpZayd5jUn3INvMthQk9Z058y3i6P9kBBlAl0P1PooOvaPMg77aFREjos
-         0RzrnPNx8ryjktGF7fs1BlvSb0aG68/7VUjc4iEXQ4erc8F5708kqxshDs063v6YTM4s
-         OpkkoAX4TgyjXNPn8t2aGGbWLD2q/7Y/AbDgWtboXUWpUgKh6Y+mEapKeVevDOLjhQIW
-         dTRmdSYYMzV2Uv8QkolPr76WKww4OxUrFT7yD9+RbLxs5jUp8r9oogiuVyh2zog0Nw8Y
-         5xiQ==
-X-Gm-Message-State: AOJu0Yzu9W1VJ4WUEgwfaANJJtFkc4uaX04Z9sVZa5FV5JSkMXYDimqn
-	VrdQomRWKuG2KipNzvJS8VJZ2g==
-X-Google-Smtp-Source: AGHT+IG/ottftTOCLDvRabQSmO51TPU5plBCAZTFoa9mzIMz0bWPwX8u081urBBrSA0HCRk5BA8v3g==
-X-Received: by 2002:aa7:c90f:0:b0:53e:34c5:fc14 with SMTP id b15-20020aa7c90f000000b0053e34c5fc14mr16474627edt.23.1698991297468;
-        Thu, 02 Nov 2023 23:01:37 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id i14-20020aa7c9ce000000b0053fa13e27dcsm563137edt.48.2023.11.02.23.01.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Nov 2023 23:01:37 -0700 (PDT)
-Date: Fri, 3 Nov 2023 09:01:34 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: drivers/thunderbolt/tmu.c:617 tb_switch_tmu_change_mode() warn:
- missing unwind goto?
-Message-ID: <9a426df0-2ad2-48e7-aa6a-21e5c40ec839@kadam.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ni4h89iU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698991711; x=1730527711;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=D4Op5h4Fbp0ittQ+aRCZwpQfxVwaQ7Tj8ItqypTKyuY=;
+  b=Ni4h89iUVgKqq1e96cn9GxjApE4Bimf38S9766l4sdU27bOVc7nYixJk
+   fHhj9ecp2LBzbBtxMGU8+8w15V0F4BT0EIVHVydROQSw7rFmdp96XxbhB
+   /AOK/h334OBt16WIjnmInvg0RHdTZEZXXvhQ1i1A9fa9OtxuUcgav/u1C
+   qz4E1kde/iit8N3NKcM0h/pdurC1HHfoI+Pzjweg3IH1j9fyE92FOTUAc
+   frhyy56wWGY/W+dzlPCKXKCFY2eqBIcrMS3C1lVBKAVEPlDbGX2vdzFYA
+   fRY09ivCissEKpBObfSHSYRhw+I1l9vh8TVKrOXDmf57BoITLJdzOFCr9
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="7524077"
+X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
+   d="scan'208";a="7524077"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 23:08:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="790661990"
+X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
+   d="scan'208";a="790661990"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 02 Nov 2023 23:08:20 -0700
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qynLt-0002Hw-2c;
+	Fri, 03 Nov 2023 06:08:17 +0000
+Date: Fri, 3 Nov 2023 14:07:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 18194/19511]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:758: warning: Excess function
+ parameter 'pcie_index' description in 'amdgpu_device_indirect_wreg'
+Message-ID: <202311031338.E4UUc2m9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,78 +52,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Mika,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4652b8e4f3ffa48c706ec334f048c217a7d9750d
-commit: c437dcb18310f296eb9db58a361f309f7817014d thunderbolt: Fix a couple of style issues in TMU code
-config: i386-randconfig-141-20231102 (https://download.01.org/0day-ci/archive/20231103/202311030814.AXtCk7PO-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231103/202311030814.AXtCk7PO-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   c9e649645161e37c36af70f533ff243e5d13414b
+commit: 6c75299532e38fc3cea4e7c1046cbb36cba0fcaf [18194/19511] UPSTREAM: drm/amdgpu: Move to common indirect reg access helper
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20231103/202311031338.E4UUc2m9-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311031338.E4UUc2m9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202311030814.AXtCk7PO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311031338.E4UUc2m9-lkp@intel.com/
 
-smatch warnings:
-drivers/thunderbolt/tmu.c:617 tb_switch_tmu_change_mode() warn: missing unwind goto?
+All warnings (new ones prefixed by >>):
 
-vim +617 drivers/thunderbolt/tmu.c
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:758: warning: Excess function parameter 'pcie_index' description in 'amdgpu_device_indirect_wreg'
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:758: warning: Excess function parameter 'pcie_data' description in 'amdgpu_device_indirect_wreg'
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:789: warning: Excess function parameter 'pcie_index' description in 'amdgpu_device_indirect_wreg64'
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:789: warning: Excess function parameter 'pcie_data' description in 'amdgpu_device_indirect_wreg64'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:5224: warning: Function parameter or member 'reset_context' not described in 'amdgpu_device_gpu_recover'
 
-c437dcb18310f2 Mika Westerberg 2022-10-07  596  static int tb_switch_tmu_change_mode(struct tb_switch *sw)
-b017a46d486cd4 Gil Fine        2022-05-26  597  {
-b017a46d486cd4 Gil Fine        2022-05-26  598  	struct tb_port *up, *down;
-b017a46d486cd4 Gil Fine        2022-05-26  599  	int ret;
-b017a46d486cd4 Gil Fine        2022-05-26  600  
-b017a46d486cd4 Gil Fine        2022-05-26  601  	up = tb_upstream_port(sw);
-7ce542219b6323 Gil Fine        2022-09-23  602  	down = tb_switch_downstream_port(sw);
-b017a46d486cd4 Gil Fine        2022-05-26  603  	ret = tb_port_tmu_set_unidirectional(down, sw->tmu.unidirectional_request);
-b017a46d486cd4 Gil Fine        2022-05-26  604  	if (ret)
-b017a46d486cd4 Gil Fine        2022-05-26  605  		goto out;
-b017a46d486cd4 Gil Fine        2022-05-26  606  
-b017a46d486cd4 Gil Fine        2022-05-26  607  	if (sw->tmu.unidirectional_request)
-7ce542219b6323 Gil Fine        2022-09-23  608  		ret = tb_switch_tmu_rate_write(tb_switch_parent(sw),
-7ce542219b6323 Gil Fine        2022-09-23  609  					       sw->tmu.rate_request);
-b017a46d486cd4 Gil Fine        2022-05-26  610  	else
-b017a46d486cd4 Gil Fine        2022-05-26  611  		ret = tb_switch_tmu_rate_write(sw, sw->tmu.rate_request);
-b017a46d486cd4 Gil Fine        2022-05-26  612  	if (ret)
-b017a46d486cd4 Gil Fine        2022-05-26  613  		return ret;
 
-These error paths should be goto out;
+vim +758 drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
 
-b017a46d486cd4 Gil Fine        2022-05-26  614  
-b017a46d486cd4 Gil Fine        2022-05-26  615  	ret = tb_switch_set_tmu_mode_params(sw, sw->tmu.rate_request);
-b017a46d486cd4 Gil Fine        2022-05-26  616  	if (ret)
-b017a46d486cd4 Gil Fine        2022-05-26 @617  		return ret;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  745  
+1bba36834c3bc3 Hawking Zhang 2020-09-17  746  /**
+1bba36834c3bc3 Hawking Zhang 2020-09-17  747   * amdgpu_device_indirect_wreg - write an indirect register address
+1bba36834c3bc3 Hawking Zhang 2020-09-17  748   *
+1bba36834c3bc3 Hawking Zhang 2020-09-17  749   * @adev: amdgpu_device pointer
+1bba36834c3bc3 Hawking Zhang 2020-09-17  750   * @pcie_index: mmio register offset
+1bba36834c3bc3 Hawking Zhang 2020-09-17  751   * @pcie_data: mmio register offset
+1bba36834c3bc3 Hawking Zhang 2020-09-17  752   * @reg_addr: indirect register offset
+1bba36834c3bc3 Hawking Zhang 2020-09-17  753   * @reg_data: indirect register data
+1bba36834c3bc3 Hawking Zhang 2020-09-17  754   *
+1bba36834c3bc3 Hawking Zhang 2020-09-17  755   */
+1bba36834c3bc3 Hawking Zhang 2020-09-17  756  void amdgpu_device_indirect_wreg(struct amdgpu_device *adev,
+1bba36834c3bc3 Hawking Zhang 2020-09-17  757  				 u32 reg_addr, u32 reg_data)
+1bba36834c3bc3 Hawking Zhang 2020-09-17 @758  {
+6c75299532e38f Hawking Zhang 2023-03-06  759  	unsigned long flags, pcie_index, pcie_data;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  760  	void __iomem *pcie_index_offset;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  761  	void __iomem *pcie_data_offset;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  762  
+6c75299532e38f Hawking Zhang 2023-03-06  763  	pcie_index = adev->nbio.funcs->get_pcie_index_offset(adev);
+6c75299532e38f Hawking Zhang 2023-03-06  764  	pcie_data = adev->nbio.funcs->get_pcie_data_offset(adev);
+6c75299532e38f Hawking Zhang 2023-03-06  765  
+1bba36834c3bc3 Hawking Zhang 2020-09-17  766  	spin_lock_irqsave(&adev->pcie_idx_lock, flags);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  767  	pcie_index_offset = (void __iomem *)adev->rmmio + pcie_index * 4;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  768  	pcie_data_offset = (void __iomem *)adev->rmmio + pcie_data * 4;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  769  
+1bba36834c3bc3 Hawking Zhang 2020-09-17  770  	writel(reg_addr, pcie_index_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  771  	readl(pcie_index_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  772  	writel(reg_data, pcie_data_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  773  	readl(pcie_data_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  774  	spin_unlock_irqrestore(&adev->pcie_idx_lock, flags);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  775  }
+1bba36834c3bc3 Hawking Zhang 2020-09-17  776  
+1bba36834c3bc3 Hawking Zhang 2020-09-17  777  /**
+1bba36834c3bc3 Hawking Zhang 2020-09-17  778   * amdgpu_device_indirect_wreg64 - write a 64bits indirect register address
+1bba36834c3bc3 Hawking Zhang 2020-09-17  779   *
+1bba36834c3bc3 Hawking Zhang 2020-09-17  780   * @adev: amdgpu_device pointer
+1bba36834c3bc3 Hawking Zhang 2020-09-17  781   * @pcie_index: mmio register offset
+1bba36834c3bc3 Hawking Zhang 2020-09-17  782   * @pcie_data: mmio register offset
+1bba36834c3bc3 Hawking Zhang 2020-09-17  783   * @reg_addr: indirect register offset
+1bba36834c3bc3 Hawking Zhang 2020-09-17  784   * @reg_data: indirect register data
+1bba36834c3bc3 Hawking Zhang 2020-09-17  785   *
+1bba36834c3bc3 Hawking Zhang 2020-09-17  786   */
+1bba36834c3bc3 Hawking Zhang 2020-09-17  787  void amdgpu_device_indirect_wreg64(struct amdgpu_device *adev,
+1bba36834c3bc3 Hawking Zhang 2020-09-17  788  				   u32 reg_addr, u64 reg_data)
+1bba36834c3bc3 Hawking Zhang 2020-09-17 @789  {
+6c75299532e38f Hawking Zhang 2023-03-06  790  	unsigned long flags, pcie_index, pcie_data;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  791  	void __iomem *pcie_index_offset;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  792  	void __iomem *pcie_data_offset;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  793  
+6c75299532e38f Hawking Zhang 2023-03-06  794  	pcie_index = adev->nbio.funcs->get_pcie_index_offset(adev);
+6c75299532e38f Hawking Zhang 2023-03-06  795  	pcie_data = adev->nbio.funcs->get_pcie_data_offset(adev);
+6c75299532e38f Hawking Zhang 2023-03-06  796  
+1bba36834c3bc3 Hawking Zhang 2020-09-17  797  	spin_lock_irqsave(&adev->pcie_idx_lock, flags);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  798  	pcie_index_offset = (void __iomem *)adev->rmmio + pcie_index * 4;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  799  	pcie_data_offset = (void __iomem *)adev->rmmio + pcie_data * 4;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  800  
+1bba36834c3bc3 Hawking Zhang 2020-09-17  801  	/* write low 32 bits */
+1bba36834c3bc3 Hawking Zhang 2020-09-17  802  	writel(reg_addr, pcie_index_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  803  	readl(pcie_index_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  804  	writel((u32)(reg_data & 0xffffffffULL), pcie_data_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  805  	readl(pcie_data_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  806  	/* write high 32 bits */
+1bba36834c3bc3 Hawking Zhang 2020-09-17  807  	writel(reg_addr + 4, pcie_index_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  808  	readl(pcie_index_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  809  	writel((u32)(reg_data >> 32), pcie_data_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  810  	readl(pcie_data_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  811  	spin_unlock_irqrestore(&adev->pcie_idx_lock, flags);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  812  }
+1bba36834c3bc3 Hawking Zhang 2020-09-17  813  
 
-Same.  (I guess before goto out was a do-nothing goto so it didn't
-matter).
+:::::: The code at line 758 was first introduced by commit
+:::::: 1bba36834c3bc317d8a30dd5d0cc3e59d64dbfb3 drm/amdgpu: add helper function for indirect reg access (v3)
 
-b017a46d486cd4 Gil Fine        2022-05-26  618  
-b017a46d486cd4 Gil Fine        2022-05-26  619  	ret = tb_port_tmu_set_unidirectional(up, sw->tmu.unidirectional_request);
-b017a46d486cd4 Gil Fine        2022-05-26  620  	if (ret)
-b017a46d486cd4 Gil Fine        2022-05-26  621  		goto out;
-b017a46d486cd4 Gil Fine        2022-05-26  622  
-b017a46d486cd4 Gil Fine        2022-05-26  623  	ret = tb_port_tmu_time_sync_enable(down);
-b017a46d486cd4 Gil Fine        2022-05-26  624  	if (ret)
-b017a46d486cd4 Gil Fine        2022-05-26  625  		goto out;
-b017a46d486cd4 Gil Fine        2022-05-26  626  
-b017a46d486cd4 Gil Fine        2022-05-26  627  	ret = tb_port_tmu_time_sync_enable(up);
-b017a46d486cd4 Gil Fine        2022-05-26  628  	if (ret)
-b017a46d486cd4 Gil Fine        2022-05-26  629  		goto out;
-b017a46d486cd4 Gil Fine        2022-05-26  630  
-b017a46d486cd4 Gil Fine        2022-05-26  631  	return 0;
-b017a46d486cd4 Gil Fine        2022-05-26  632  
-b017a46d486cd4 Gil Fine        2022-05-26  633  out:
-c437dcb18310f2 Mika Westerberg 2022-10-07  634  	tb_switch_tmu_change_mode_prev(sw);
-b017a46d486cd4 Gil Fine        2022-05-26  635  	return ret;
-b017a46d486cd4 Gil Fine        2022-05-26  636  }
+:::::: TO: Hawking Zhang <Hawking.Zhang@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
