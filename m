@@ -1,54 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A4FF17EE
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 14:00:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5368E1A58E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 14:30:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P8m4ouBS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pzri3Lrx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699020053; x=1730556053;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Rz6eCJm7BKehq5IHsWMYysRTu22nf253QJIHbXShJkA=;
-  b=P8m4ouBSa2Ierr8jXb/xdPcUPBpeFtR9e697xGd5M+DQlSV/Z9UJiw4E
-   hmUdHtQvDDsSczAhy5rcjkE6pOAe5FiBCkYnxqnoFoTWtd1I7ND3olz/2
-   5SI442U8mEUlpsPqsT/vpNHhemOQfVzHuJ4EG0r9LrpLViApIaERoa5uY
-   hzR6gUcaIJk/nIdcyy3r3ALZKTMDUcamnceRwppX8xM5cQSxHb9ifNBud
-   XHa1I58BKVn/gtJbWiNSMt2f5S7lPMlr1uQ4T9kYkc/z75gOymE2n8CTl
-   GcZyECgpCxKh3h0CmoGjJYBpTkAXYcGENQYGRgJ7snEgkUAMzFaDL1mVD
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="453243543"
+  t=1699021806; x=1730557806;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HD6L/TTZPofsJIc3Uh7UxtvYOFAP0PMrQQRN15wX65s=;
+  b=Pzri3Lrxg5ZX8fupoQ02sDMbUCqZ5/N4mJtjLHMm7yTm3Pos45s4rsUg
+   Z4QeUX3L8eN8kAQwyaF7Bw2gEiRT1+JEYq+EXmVyczxd4aUFX35lzehOG
+   WK0UrBhh6U5+V2Tr47lZEhwzyJmTFhA9J19wTqCobhL2uJz8mcyR7UeWh
+   iAKlkjlyzrQdzek/6QaZMCV7vyHNpYHTlacQjJAfUErCGVmV1h26M/SSt
+   db9DXsxNS7hWWHRqNKp5qkb1joIYvNgs+e8NQzVxy0hmXieOJVSQOWE49
+   P+OsqbB7M9pLUoP0Kk+n5eroBZSEiwf5Yv+6qEOa05yLmP+6SLURziJvJ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="386122631"
 X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="453243543"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 07:00:52 -0700
+   d="scan'208";a="386122631"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 07:30:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="1093065345"
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="935121629"
 X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="1093065345"
+   d="scan'208";a="935121629"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 03 Nov 2023 07:00:47 -0700
+  by orsmga005.jf.intel.com with ESMTP; 03 Nov 2023 07:30:02 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qyuj7-0002Yu-1M;
-	Fri, 03 Nov 2023 14:00:45 +0000
-Date: Fri, 3 Nov 2023 21:59:44 +0800
+	id 1qyvBQ-0002a0-2v;
+	Fri, 03 Nov 2023 14:30:00 +0000
+Date: Fri, 3 Nov 2023 22:29:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luo Jie <quic_luoj@quicinc.com>, andersson@kernel.org,
-	agross@kernel.org, konrad.dybcio@linaro.org,
-	mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	catalin.marinas@arm.com, will@kernel.org, p.zabel@pengutronix.de
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, quic_srichara@quicinc.com,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: Re: [PATCH v11 3/4] clk: qcom: common: commonize qcom_cc_really_probe
-Message-ID: <202311032153.n6opqP2e-lkp@intel.com>
-References: <20231103104846.30875-4-quic_luoj@quicinc.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Luis Chamberlain <mcgrof@kernel.org>
+Subject: lib/test_kmod.c:100: warning: Function parameter or member
+ 'task_sync' not described in 'kmod_test_device_info'
+Message-ID: <202311032240.w1q3ydGG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,88 +50,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231103104846.30875-4-quic_luoj@quicinc.com>
 
-Hi Luo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on ff269e2cd5adce4ae14f883fc9c8803bc43ee1e9]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Luo-Jie/clk-qcom-branch-Add-clk_branch2_prepare_ops/20231103-185251
-base:   ff269e2cd5adce4ae14f883fc9c8803bc43ee1e9
-patch link:    https://lore.kernel.org/r/20231103104846.30875-4-quic_luoj%40quicinc.com
-patch subject: [PATCH v11 3/4] clk: qcom: common: commonize qcom_cc_really_probe
-config: csky-randconfig-002-20231103 (https://download.01.org/0day-ci/archive/20231103/202311032153.n6opqP2e-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311032153.n6opqP2e-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8f6f76a6a29f36d2f3e4510d0bde5046672f6924
+commit: c093a74dac1c008daee92d6d613e9e3fe20b6585 test_kmod: stop kernel-doc warnings
+date:   9 months ago
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20231103/202311032240.w1q3ydGG-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311032240.w1q3ydGG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311032153.n6opqP2e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311032240.w1q3ydGG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/clk/qcom/gcc-sm4450.c: In function 'gcc_sm4450_probe':
->> drivers/clk/qcom/gcc-sm4450.c:2874:37: error: passing argument 1 of 'qcom_cc_really_probe' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2874 |         return qcom_cc_really_probe(pdev, &gcc_sm4450_desc, regmap);
-         |                                     ^~~~
-         |                                     |
-         |                                     struct platform_device *
-   In file included from drivers/clk/qcom/clk-regmap-mux.h:11,
-                    from drivers/clk/qcom/gcc-sm4450.c:19:
-   drivers/clk/qcom/common.h:61:48: note: expected 'struct device *' but argument is of type 'struct platform_device *'
-      61 | extern int qcom_cc_really_probe(struct device *dev,
-         |                                 ~~~~~~~~~~~~~~~^~~
-   cc1: some warnings being treated as errors
+   lib/test_kmod.c:67: warning: Enum value '__TEST_KMOD_INVALID' not described in enum 'kmod_test_case'
+   lib/test_kmod.c:67: warning: Enum value '__TEST_KMOD_MAX' not described in enum 'kmod_test_case'
+>> lib/test_kmod.c:100: warning: Function parameter or member 'task_sync' not described in 'kmod_test_device_info'
+   lib/test_kmod.c:134: warning: Function parameter or member 'thread_mutex' not described in 'kmod_test_device'
 
 
-vim +/qcom_cc_really_probe +2874 drivers/clk/qcom/gcc-sm4450.c
+vim +100 lib/test_kmod.c
 
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2834  
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2835  static int gcc_sm4450_probe(struct platform_device *pdev)
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2836  {
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2837  	struct regmap *regmap;
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2838  	int ret;
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2839  
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2840  	regmap = qcom_cc_map(pdev, &gcc_sm4450_desc);
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2841  	if (IS_ERR(regmap))
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2842  		return PTR_ERR(regmap);
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2843  
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2844  	clk_lucid_evo_pll_configure(&gcc_gpll3, regmap, &gcc_gpll3_config);
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2845  	ret = qcom_cc_register_rcg_dfs(regmap, gcc_dfs_clocks,
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2846  				       ARRAY_SIZE(gcc_dfs_clocks));
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2847  	if (ret)
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2848  		return ret;
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2849  
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2850  	qcom_branch_set_force_mem_core(regmap, gcc_ufs_phy_ice_core_clk, true);
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2851  
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2852  	/*
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2853  	 * Keep clocks always enabled:
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2854  	 * gcc_camera_ahb_clk
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2855  	 * gcc_camera_sleep_clk
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2856  	 * gcc_camera_xo_clk
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2857  	 * gcc_disp_ahb_clk
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2858  	 * gcc_disp_xo_clk
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2859  	 * gcc_gpu_cfg_ahb_clk
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2860  	 * gcc_video_ahb_clk
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2861  	 * gcc_video_xo_clk
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2862  	 */
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2863  	regmap_update_bits(regmap, 0x36004, BIT(0), BIT(0));
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2864  	regmap_update_bits(regmap, 0x36018, BIT(0), BIT(0));
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2865  	regmap_update_bits(regmap, 0x3601c, BIT(0), BIT(0));
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2866  	regmap_update_bits(regmap, 0x37004, BIT(0), BIT(0));
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2867  	regmap_update_bits(regmap, 0x37014, BIT(0), BIT(0));
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2868  	regmap_update_bits(regmap, 0x81004, BIT(0), BIT(0));
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2869  	regmap_update_bits(regmap, 0x42004, BIT(0), BIT(0));
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2870  	regmap_update_bits(regmap, 0x42018, BIT(0), BIT(0));
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2871  
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2872  	regmap_update_bits(regmap, 0x4201c, BIT(21), BIT(21));
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2873  
-c32c4ef98baca6d Ajit Pandey 2023-09-09 @2874  	return qcom_cc_really_probe(pdev, &gcc_sm4450_desc, regmap);
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2875  }
-c32c4ef98baca6d Ajit Pandey 2023-09-09  2876  
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   78  
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   79  /**
+c093a74dac1c00 Randy Dunlap      2023-01-02   80   * struct kmod_test_device_info - thread info
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   81   *
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   82   * @ret_sync: return value if request_module() is used, sync request for
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   83   * 	@TEST_KMOD_DRIVER
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   84   * @fs_sync: return value of get_fs_type() for @TEST_KMOD_FS_TYPE
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   85   * @thread_idx: thread ID
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   86   * @test_dev: test device test is being performed under
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   87   * @need_mod_put: Some tests (get_fs_type() is one) requires putting the module
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   88   *	(module_put(fs_sync->owner)) when done, otherwise you will not be able
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   89   *	to unload the respective modules and re-test. We use this to keep
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   90   *	accounting of when we need this and to help out in case we need to
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   91   *	error out and deal with module_put() on error.
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   92   */
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   93  struct kmod_test_device_info {
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   94  	int ret_sync;
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   95  	struct file_system_type *fs_sync;
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   96  	struct task_struct *task_sync;
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   97  	unsigned int thread_idx;
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   98  	struct kmod_test_device *test_dev;
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14   99  	bool need_mod_put;
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14 @100  };
+d9c6a72d6fa29d Luis R. Rodriguez 2017-07-14  101  
+
+:::::: The code at line 100 was first introduced by commit
+:::::: d9c6a72d6fa29d3a7999dda726577e5d1fccafa5 kmod: add test driver to stress test the module loader
+
+:::::: TO: Luis R. Rodriguez <mcgrof@kernel.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
