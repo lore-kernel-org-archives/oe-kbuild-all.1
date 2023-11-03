@@ -1,54 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32FE22421C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 22:26:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F50E2107
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 22:48:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EOqO1WMS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LVs2d9Dh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699050380; x=1730586380;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UFiIUIQtxSDpBAFGAQ0MN5i18hTqs/RaF+24duO/53E=;
-  b=EOqO1WMScCFvbPq/B2ffxyqUvAAAEfvpEBdyt4Ks/UnjREbZZu19Hzmo
-   o3UFKmzkezP7Icy9zbVkrLI10MV3vShYVENaPIGQgKwWCHVVrD2PbHChF
-   d85r2RZLVNqvi+1ilOQP4aiogcqpvfn0PEht2n0ggTmUmuE25GQiqHVXu
-   jT+L8HO4hVfevMe+K1yBPCKoCoV9wZsWc12r22jiNhwEGEl5SfHUp4b92
-   qZ8EKwmkjSk0Y2/6TK+WsF85oFRUrn/IQUmLnC7b9FBinjCCiTKM6uvkM
-   ry3f0C3DpfiqeWecuhbVHCARnpCnFp2csVbnL707k5A7q5uyOiyaH29wF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="388859587"
+  t=1699051683; x=1730587683;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=BvJ/7D5KAIZwhSuDcaqabDrcxET7dqzEbNL/iDRYqUM=;
+  b=LVs2d9DhWxxZ7yR9zxfVoXS1zobD/o80F2nHg92ntzQwTNWppWMf2Wg2
+   CmH3IG15FBb3udkXtmF5WZvPKjP59zpmc1MOxYimxkzMwPIx7yl50OiUH
+   n2lrBy+Y3fhqj5MjS+tyFfLJ+XEZjV6RLCS+QvgaU/MbKEBvG7fRIBW3G
+   y/gn+PitrgfRwaROSSENdL4BgMzFEYffgLJcIvxrahelvJdC4MOE+72C9
+   5AAbje6VcEzoaIrK+NHO92g4P52kJc2+R8DjllI2sfOc1fgk6GXDn1sxf
+   YZUu32cIj5QhheExChCwnAXYw4sj9Pz2wSreZAh1x4jx9GVSBJBebHWbh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="392924804"
 X-IronPort-AV: E=Sophos;i="6.03,275,1694761200"; 
-   d="scan'208";a="388859587"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 15:26:19 -0700
+   d="scan'208";a="392924804"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 15:48:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="796749258"
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="711651317"
 X-IronPort-AV: E=Sophos;i="6.03,275,1694761200"; 
-   d="scan'208";a="796749258"
+   d="scan'208";a="711651317"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 03 Nov 2023 15:26:14 -0700
+  by orsmga003.jf.intel.com with ESMTP; 03 Nov 2023 15:48:01 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qz2cG-00030J-0F;
-	Fri, 03 Nov 2023 22:26:12 +0000
-Date: Sat, 4 Nov 2023 06:25:05 +0800
+	id 1qz2xL-00031M-1Q;
+	Fri, 03 Nov 2023 22:47:59 +0000
+Date: Sat, 4 Nov 2023 06:47:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luo Jie <quic_luoj@quicinc.com>, andersson@kernel.org,
-	agross@kernel.org, konrad.dybcio@linaro.org,
-	mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	catalin.marinas@arm.com, will@kernel.org, p.zabel@pengutronix.de
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, quic_srichara@quicinc.com,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: Re: [PATCH v11 3/4] clk: qcom: common: commonize qcom_cc_really_probe
-Message-ID: <202311040623.9oyUHQ6A-lkp@intel.com>
-References: <20231103104846.30875-4-quic_luoj@quicinc.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:iommu_fwspec 11/19] drivers/acpi/scan.c:1570:39: error:
+ passing argument 1 of 'iort_iommu_configure_id' from incompatible pointer
+ type
+Message-ID: <202311040619.PYKIQZcU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,93 +50,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231103104846.30875-4-quic_luoj@quicinc.com>
 
-Hi Luo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on ff269e2cd5adce4ae14f883fc9c8803bc43ee1e9]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Luo-Jie/clk-qcom-branch-Add-clk_branch2_prepare_ops/20231103-185251
-base:   ff269e2cd5adce4ae14f883fc9c8803bc43ee1e9
-patch link:    https://lore.kernel.org/r/20231103104846.30875-4-quic_luoj%40quicinc.com
-patch subject: [PATCH v11 3/4] clk: qcom: common: commonize qcom_cc_really_probe
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231104/202311040623.9oyUHQ6A-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311040623.9oyUHQ6A-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommu_fwspec
+head:   a387bf414bfa3cc4e39cc07d1cfb257a13081c8e
+commit: 82d63e7b3a55983a4ff9d4633c4f1f233f3e8853 [11/19] acpi: Do not use dev->iommu within acpi_iommu_configure()
+config: loongarch-randconfig-002-20231104 (https://download.01.org/0day-ci/archive/20231104/202311040619.PYKIQZcU-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311040619.PYKIQZcU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311040623.9oyUHQ6A-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311040619.PYKIQZcU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/clk/qcom/camcc-sm8550.c: In function 'cam_cc_sm8550_probe':
->> drivers/clk/qcom/camcc-sm8550.c:3547:36: error: passing argument 1 of 'qcom_cc_really_probe' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    3547 |         ret = qcom_cc_really_probe(pdev, &cam_cc_sm8550_desc, regmap);
-         |                                    ^~~~
-         |                                    |
-         |                                    struct platform_device *
-   In file included from drivers/clk/qcom/camcc-sm8550.c:19:
-   drivers/clk/qcom/common.h:61:48: note: expected 'struct device *' but argument is of type 'struct platform_device *'
-      61 | extern int qcom_cc_really_probe(struct device *dev,
-         |                                 ~~~~~~~~~~~~~~~^~~
+   drivers/acpi/scan.c: In function 'acpi_iommu_configure_id':
+>> drivers/acpi/scan.c:1570:39: error: passing argument 1 of 'iort_iommu_configure_id' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    1570 |         err = iort_iommu_configure_id(fwspec, dev, id_in);
+         |                                       ^~~~~~
+         |                                       |
+         |                                       struct iommu_fwspec *
+   In file included from drivers/acpi/scan.c:13:
+   include/linux/acpi_iort.h:61:58: note: expected 'struct device *' but argument is of type 'struct iommu_fwspec *'
+      61 | static inline int iort_iommu_configure_id(struct device *dev, const u32 *id_in)
+         |                                           ~~~~~~~~~~~~~~~^~~
+   drivers/acpi/scan.c:1570:47: error: passing argument 2 of 'iort_iommu_configure_id' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    1570 |         err = iort_iommu_configure_id(fwspec, dev, id_in);
+         |                                               ^~~
+         |                                               |
+         |                                               struct device *
+   include/linux/acpi_iort.h:61:74: note: expected 'const u32 *' {aka 'const unsigned int *'} but argument is of type 'struct device *'
+      61 | static inline int iort_iommu_configure_id(struct device *dev, const u32 *id_in)
+         |                                                               ~~~~~~~~~~~^~~~~
+>> drivers/acpi/scan.c:1570:15: error: too many arguments to function 'iort_iommu_configure_id'
+    1570 |         err = iort_iommu_configure_id(fwspec, dev, id_in);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/acpi_iort.h:61:19: note: declared here
+      61 | static inline int iort_iommu_configure_id(struct device *dev, const u32 *id_in)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
    cc1: some warnings being treated as errors
 
 
-vim +/qcom_cc_really_probe +3547 drivers/clk/qcom/camcc-sm8550.c
+vim +/iort_iommu_configure_id +1570 drivers/acpi/scan.c
 
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3505  
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3506  static int cam_cc_sm8550_probe(struct platform_device *pdev)
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3507  {
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3508  	struct regmap *regmap;
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3509  	int ret;
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3510  
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3511  	ret = devm_pm_runtime_enable(&pdev->dev);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3512  	if (ret)
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3513  		return ret;
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3514  
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3515  	ret = pm_runtime_resume_and_get(&pdev->dev);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3516  	if (ret)
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3517  		return ret;
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3518  
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3519  	regmap = qcom_cc_map(pdev, &cam_cc_sm8550_desc);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3520  	if (IS_ERR(regmap)) {
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3521  		pm_runtime_put(&pdev->dev);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3522  		return PTR_ERR(regmap);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3523  	}
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3524  
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3525  	clk_lucid_ole_pll_configure(&cam_cc_pll0, regmap, &cam_cc_pll0_config);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3526  	clk_lucid_ole_pll_configure(&cam_cc_pll1, regmap, &cam_cc_pll1_config);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3527  	clk_rivian_evo_pll_configure(&cam_cc_pll2, regmap, &cam_cc_pll2_config);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3528  	clk_lucid_ole_pll_configure(&cam_cc_pll3, regmap, &cam_cc_pll3_config);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3529  	clk_lucid_ole_pll_configure(&cam_cc_pll4, regmap, &cam_cc_pll4_config);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3530  	clk_lucid_ole_pll_configure(&cam_cc_pll5, regmap, &cam_cc_pll5_config);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3531  	clk_lucid_ole_pll_configure(&cam_cc_pll6, regmap, &cam_cc_pll6_config);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3532  	clk_lucid_ole_pll_configure(&cam_cc_pll7, regmap, &cam_cc_pll7_config);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3533  	clk_lucid_ole_pll_configure(&cam_cc_pll8, regmap, &cam_cc_pll8_config);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3534  	clk_lucid_ole_pll_configure(&cam_cc_pll9, regmap, &cam_cc_pll9_config);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3535  	clk_lucid_ole_pll_configure(&cam_cc_pll10, regmap, &cam_cc_pll10_config);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3536  	clk_lucid_ole_pll_configure(&cam_cc_pll11, regmap, &cam_cc_pll11_config);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3537  	clk_lucid_ole_pll_configure(&cam_cc_pll12, regmap, &cam_cc_pll12_config);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3538  
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3539  	/*
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3540  	 * Keep clocks always enabled:
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3541  	 *	cam_cc_gdsc_clk
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3542  	 *	cam_cc_sleep_clk
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3543  	 */
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3544  	regmap_update_bits(regmap, 0x1419c, BIT(0), BIT(0));
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3545  	regmap_update_bits(regmap, 0x142cc, BIT(0), BIT(0));
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3546  
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07 @3547  	ret = qcom_cc_really_probe(pdev, &cam_cc_sm8550_desc, regmap);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3548  
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3549  	pm_runtime_put(&pdev->dev);
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3550  
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3551  	return ret;
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3552  }
-ccc4e6a061a21d Jagadeesh Kona 2023-07-07  3553  
+  1560	
+  1561	static int acpi_iommu_configure_id(struct device *dev, const u32 *id_in)
+  1562	{
+  1563		int err;
+  1564		struct iommu_fwspec *fwspec;
+  1565	
+  1566		fwspec = iommu_fwspec_alloc();
+  1567		if (IS_ERR(fwspec))
+  1568			return PTR_ERR(fwspec);
+  1569	
+> 1570		err = iort_iommu_configure_id(fwspec, dev, id_in);
+  1571		if (err == -ENODEV)
+  1572			err = viot_iommu_configure(fwspec, dev);
+  1573		if (err == -ENODEV || err == -EPROBE_DEFER)
+  1574			goto err_free;
+  1575		if (err)
+  1576			goto err_log;
+  1577	
+  1578		err = iommu_probe_device_fwspec(dev, fwspec);
+  1579		if (err) {
+  1580			/*
+  1581			 * Ownership for fwspec always passes into
+  1582			 * iommu_probe_device_fwspec()
+  1583			 */
+  1584			fwspec = NULL;
+  1585			goto err_log;
+  1586		}
+  1587	
+  1588	err_log:
+  1589		dev_dbg(dev, "Adding to IOMMU failed: %d\n", err);
+  1590	err_free:
+  1591		iommu_fwspec_dealloc(fwspec);
+  1592		return err;
+  1593	}
+  1594	
 
 -- 
 0-DAY CI Kernel Test Service
