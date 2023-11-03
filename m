@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA4F15C0
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 03:56:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B15317E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 04:06:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b+em4FU3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HBW5P0F6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698983800; x=1730519800;
+  t=1698984397; x=1730520397;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ovNxjE0bxYDfUMJa1kGfrGcdBd+cum9Wv+z5EKLVCU0=;
-  b=b+em4FU31coBHXg3XKglLe+WTTZc+Oyp1q82aalwTBsrka8oGQPqK3ts
-   WHpxLCyBocsBaSceZKbbbOxM5Eh4Zhb0KPg/Q41m418j4ZyU4W4cSTzFk
-   JRwQP1dCt9ic4QjivK2CYHxbe9QvXSshh+GHIDb9HKItYrfld7nq+IKpU
-   r348eE3X4rwlQOKxMwkaULBuW0iFyLp8Ttp8aDexBaF9a/Cv7sJozG3Id
-   vNRpZ8E9bSCjZpl8OZPKGWigA2l3/W1BG8c4I1Aq70ZEoPCewG+FX1hO7
-   AS/i3hDgnoTaTMLtEzOxlGx6WG106J/lG4C20g94pn+e/cFBOCcVacutg
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="379274152"
+  bh=Rs/FkRKFWNy3RiYgqJIggDY5uEverRB34C+bQ1T702Y=;
+  b=HBW5P0F6ZimTsHot235rBXcTT2t8/OAQKhfF6te1Nr7hS8vlQCtovn6j
+   0UbVQpDWBRFDzdTaTV6dN+fiOJ3wyBd71ptLMflA2+daJ2nt7LiiB8FJL
+   5/fjUlj0uZ8UTnQZwrkDRv4XT2MYMNKKv39HA4XHKo6mNvK+eQLClSrQr
+   Jx5EOIOcGeFE25L72/hE8KBVbH5ZGSWiPjAv5eoOEwUTK0g5xmqjaRwyO
+   yujB0aIMzd5kavP8TrhctnZnGXk2NnmBR/ltOn4f1JzhX0liR/YMrRnpn
+   vA6KuX8HFXD3sEifTJCZPH1pBVXrVDivvbkOSFM3wfGuH8NYlenUrNzAk
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="391744166"
 X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="379274152"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 20:56:33 -0700
+   d="scan'208";a="391744166"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 21:06:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="827362105"
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="831917908"
 X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="827362105"
+   d="scan'208";a="831917908"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 02 Nov 2023 20:56:31 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 02 Nov 2023 21:06:34 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qylIL-0002C8-2R;
-	Fri, 03 Nov 2023 03:56:29 +0000
-Date: Fri, 3 Nov 2023 11:55:41 +0800
+	id 1qylS4-0002CK-02;
+	Fri, 03 Nov 2023 04:06:32 +0000
+Date: Fri, 3 Nov 2023 12:06:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jai Luthra <j-luthra@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
-Subject: [ti:ti-rt-linux-6.1.y 71/107] drivers/media/i2c/ov2312.c:343:12:
- sparse: sparse: incorrect type in assignment (different base types)
-Message-ID: <202311031153.Lgav7NCw-lkp@intel.com>
+To: Qing Zhang <zhangqing@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Huacai Chen <chenhuacai@kernel.org>
+Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training_8b_10b.c:254:17:
+ warning: 'dp_decide_lane_settings' accessing 4 bytes in a region of size 1
+Message-ID: <202311031119.NVzPwvI8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,93 +51,160 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y
-head:   24fe2a78c3ecd5b2232aa9381c5d152e06acd409
-commit: 639983d43644aa713e6801bceb972ae5d526fd22 [71/107] media: i2c: ov2312: add Omnivison OV2312 driver
-config: x86_64-randconfig-r111-20231103 (https://download.01.org/0day-ci/archive/20231103/202311031153.Lgav7NCw-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311031153.Lgav7NCw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bc3012f4e3a9765de81f454cb8f9bb16aafc6ff5
+commit: 5aa4ac64e6add3e40d5049e31275b2822daf885d LoongArch: Add KASAN (Kernel Address Sanitizer) support
+date:   8 weeks ago
+config: loongarch-randconfig-002-20231102 (https://download.01.org/0day-ci/archive/20231103/202311031119.NVzPwvI8-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311031119.NVzPwvI8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311031153.Lgav7NCw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311031119.NVzPwvI8-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/media/i2c/ov2312.c:343:12: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [usertype] id @@     got restricted __be16 [usertype] @@
-   drivers/media/i2c/ov2312.c:343:12: sparse:     expected unsigned int [addressable] [usertype] id
-   drivers/media/i2c/ov2312.c:343:12: sparse:     got restricted __be16 [usertype]
->> drivers/media/i2c/ov2312.c:397:58: sparse: sparse: cast to restricted __be16
+All warnings (new ones prefixed by >>):
 
-vim +343 drivers/media/i2c/ov2312.c
+   drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training_8b_10b.c: In function 'perform_8b_10b_clock_recovery_sequence':
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training_8b_10b.c:254:17: warning: 'dp_decide_lane_settings' accessing 4 bytes in a region of size 1 [-Wstringop-overflow=]
+     254 |                 dp_decide_lane_settings(lt_settings, dpcd_lane_adjust,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     255 |                                 lt_settings->hw_lane_settings, lt_settings->dpcd_lane_settings);
+         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training_8b_10b.c:254:17: note: referencing argument 4 of type 'union dpcd_training_lane[4]'
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training_8b_10b.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training_8b_10b.c:30:
+   drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training.h:110:6: note: in a call to function 'dp_decide_lane_settings'
+     110 | void dp_decide_lane_settings(
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
 
-   333	
-   334	static int ov2312_detect(struct ov2312 *ov2312)
-   335	{
-   336		int ret;
-   337		u32 id;
-   338	
-   339		ret = ov2312_read(ov2312, OV2312_SC_CHIP_ID_HI, &id, 2);
-   340		if (ret < 0)
-   341			return ret;
-   342	
- > 343		id = cpu_to_be16(id);
-   344	
-   345		if (id != OV2312_CHIP_ID) {
-   346			dev_err(ov2312->dev,
-   347				"%s: unknown chip ID 0x%04x\n", __func__, id);
-   348			return -ENODEV;
-   349		}
-   350	
-   351		dev_dbg(ov2312->dev, "%s: detected chip ID 0x%04x\n", __func__, id);
-   352		return 0;
-   353	}
-   354	
-   355	static int ov2312_set_AB_mode(struct ov2312 *ov2312)
-   356	{
-   357		int i, ret;
-   358		u32 exposure = ov2312->exposure->val;
-   359		u32 again = ov2312->again->val;
-   360		u32 dgain = ov2312->dgain->val;
-   361		struct reg_sequence ov2312_groupB[] = {
-   362			{0x3208, 0x00},/* Group B (RGB Dominant VC1) */
-   363			{OV2312_AEC_PK_EXPO_HI, (exposure >> 8) & 0xff},
-   364			{OV2312_AEC_PK_EXPO_LO, exposure & 0xff},
-   365			{OV2312_AEC_PK_AGAIN_HI, (again >> 4) & 0xff},
-   366			{OV2312_AEC_PK_AGAIN_LO, (again & 0x0f) << 4},
-   367			{OV2312_AEC_PK_DGAIN_HI, (dgain >> 8) & 0xff},
-   368			{OV2312_AEC_PK_DGAIN_LO, dgain & 0xff},
-   369			{0x3920, 0x00},
-   370			{0x4813, 0x00},/* VC=0. This register takes effect from next frame */
-   371			{0x3208, 0x10},
-   372			{0x320D, 0x00},/* Auto mode switch between group0 and group1 ;setting to switch */
-   373			{0x320D, 0x31},
-   374			{0x3208, 0xA0},
-   375		};
-   376	
-   377		for (i = 0; i < ARRAY_SIZE(ov2312_groupB); i++) {
-   378			ret = regmap_write(ov2312->regmap, ov2312_groupB[i].reg, ov2312_groupB[i].def);
-   379			if (ret < 0) {
-   380				dev_err(ov2312->dev,
-   381					"%s: failed to write reg[%d] 0x%04x = 0x%02x (%d)!\n",
-   382					__func__, i, ov2312_groupB[i].reg, ov2312_groupB[i].def, ret);
-   383				return ret;
-   384			}
-   385		}
-   386	
-   387		msleep(33);
-   388		return 0;
-   389	}
-   390	
-   391	static int ov2312_set_orientation(struct ov2312 *ov2312)
-   392	{
-   393		bool v_flip = ov2312->v_flip->val;
-   394		bool h_flip = ov2312->h_flip->val;
-   395		u32 reg = (v_flip ? 0x4400 : 0) | (h_flip ? 0x0004 : 0);
-   396	
- > 397		return ov2312_write(ov2312, OV2312_TIMING_VFLIP, be16_to_cpu(reg), 2);
-   398	}
-   399	
+
+vim +/dp_decide_lane_settings +254 drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training_8b_10b.c
+
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  153  
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  154  enum link_training_result perform_8b_10b_clock_recovery_sequence(
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  155  	struct dc_link *link,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  156  	const struct link_resource *link_res,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  157  	struct link_training_settings *lt_settings,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  158  	uint32_t offset)
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  159  {
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  160  	uint32_t retries_cr;
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  161  	uint32_t retry_count;
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  162  	uint32_t wait_time_microsec;
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  163  	enum dc_lane_count lane_count = lt_settings->link_settings.lane_count;
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  164  	union lane_status dpcd_lane_status[LANE_COUNT_DP_MAX];
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  165  	union lane_align_status_updated dpcd_lane_status_updated;
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  166  	union lane_adjust dpcd_lane_adjust[LANE_COUNT_DP_MAX] = {0};
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  167  
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  168  	retries_cr = 0;
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  169  	retry_count = 0;
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  170  
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  171  	memset(&dpcd_lane_status, '\0', sizeof(dpcd_lane_status));
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  172  	memset(&dpcd_lane_status_updated, '\0',
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  173  	sizeof(dpcd_lane_status_updated));
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  174  
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  175  	if (!link->ctx->dc->work_arounds.lt_early_cr_pattern)
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  176  		dp_set_hw_training_pattern(link, link_res, lt_settings->pattern_for_cr, offset);
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  177  
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  178  	/* najeeb - The synaptics MST hub can put the LT in
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  179  	* infinite loop by switching the VS
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  180  	*/
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  181  	/* between level 0 and level 1 continuously, here
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  182  	* we try for CR lock for LinkTrainingMaxCRRetry count*/
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  183  	while ((retries_cr < LINK_TRAINING_MAX_RETRY_COUNT) &&
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  184  		(retry_count < LINK_TRAINING_MAX_CR_RETRY)) {
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  185  
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  186  
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  187  		/* 1. call HWSS to set lane settings*/
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  188  		dp_set_hw_lane_settings(
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  189  				link,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  190  				link_res,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  191  				lt_settings,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  192  				offset);
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  193  
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  194  		/* 2. update DPCD of the receiver*/
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  195  		if (!retry_count)
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  196  			/* EPR #361076 - write as a 5-byte burst,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  197  			 * but only for the 1-st iteration.*/
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  198  			dpcd_set_lt_pattern_and_lane_settings(
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  199  					link,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  200  					lt_settings,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  201  					lt_settings->pattern_for_cr,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  202  					offset);
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  203  		else
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  204  			dpcd_set_lane_settings(
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  205  					link,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  206  					lt_settings,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  207  					offset);
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  208  
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  209  		/* 3. wait receiver to lock-on*/
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  210  		wait_time_microsec = lt_settings->cr_pattern_time;
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  211  
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  212  		dp_wait_for_training_aux_rd_interval(
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  213  				link,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  214  				wait_time_microsec);
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  215  
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  216  		/* 4. Read lane status and requested drive
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  217  		* settings as set by the sink
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  218  		*/
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  219  		dp_get_lane_status_and_lane_adjust(
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  220  				link,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  221  				lt_settings,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  222  				dpcd_lane_status,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  223  				&dpcd_lane_status_updated,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  224  				dpcd_lane_adjust,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  225  				offset);
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  226  
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  227  		/* 5. check CR done*/
+88c7ad91e378775 drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training_8b_10b.c Srinivasan Shanmugam 2023-04-14  228  		if (dp_is_cr_done(lane_count, dpcd_lane_status)) {
+88c7ad91e378775 drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training_8b_10b.c Srinivasan Shanmugam 2023-04-14  229  			DC_LOG_HW_LINK_TRAINING("%s: Clock recovery OK\n", __func__);
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  230  			return LINK_TRAINING_SUCCESS;
+88c7ad91e378775 drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training_8b_10b.c Srinivasan Shanmugam 2023-04-14  231  		}
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  232  
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  233  		/* 6. max VS reached*/
+d5a43956b73bd78 drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-15  234  		if ((link_dp_get_encoding_format(&lt_settings->link_settings) ==
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  235  				DP_8b_10b_ENCODING) &&
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  236  				dp_is_max_vs_reached(lt_settings))
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  237  			break;
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  238  
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  239  		/* 7. same lane settings*/
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  240  		/* Note: settings are the same for all lanes,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  241  		 * so comparing first lane is sufficient*/
+d5a43956b73bd78 drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-15  242  		if ((link_dp_get_encoding_format(&lt_settings->link_settings) == DP_8b_10b_ENCODING) &&
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  243  				lt_settings->dpcd_lane_settings[0].bits.VOLTAGE_SWING_SET ==
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  244  						dpcd_lane_adjust[0].bits.VOLTAGE_SWING_LANE)
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  245  			retries_cr++;
+d5a43956b73bd78 drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-15  246  		else if ((link_dp_get_encoding_format(&lt_settings->link_settings) == DP_128b_132b_ENCODING) &&
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  247  				lt_settings->dpcd_lane_settings[0].tx_ffe.PRESET_VALUE ==
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  248  						dpcd_lane_adjust[0].tx_ffe.PRESET_VALUE)
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  249  			retries_cr++;
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  250  		else
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  251  			retries_cr = 0;
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  252  
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  253  		/* 8. update VS/PE/PC2 in lt_settings*/
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14 @254  		dp_decide_lane_settings(lt_settings, dpcd_lane_adjust,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  255  				lt_settings->hw_lane_settings, lt_settings->dpcd_lane_settings);
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  256  		retry_count++;
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  257  	}
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  258  
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  259  	if (retry_count >= LINK_TRAINING_MAX_CR_RETRY) {
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  260  		ASSERT(0);
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  261  		DC_LOG_ERROR("%s: Link Training Error, could not get CR after %d tries. Possibly voltage swing issue",
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  262  			__func__,
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  263  			LINK_TRAINING_MAX_CR_RETRY);
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  264  
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  265  	}
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  266  
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  267  	return dp_get_cr_failure(lane_count, dpcd_lane_status);
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  268  }
+630168a97314a8f drivers/gpu/drm/amd/display/dc/link/link_dp_training_8b_10b.c           Wenjing Liu          2022-12-14  269  
+
+:::::: The code at line 254 was first introduced by commit
+:::::: 630168a97314a8f6da9c09d73f5e78c3c1fe3eee drm/amd/display: move dp link training logic to link_dp_training
+
+:::::: TO: Wenjing Liu <wenjing.liu@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
