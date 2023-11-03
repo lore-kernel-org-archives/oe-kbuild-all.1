@@ -1,125 +1,196 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B907E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 06:36:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A65F7E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 07:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="diOSISzx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698993367; x=1730529367;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=1KkjaiUnZoJPlarKcJLP6wvtdrqVQAO8YpFOtBuHv24=;
-  b=diOSISzxyClBLSxmb9v7rCiE8UZHO+62pem0dltDDXQDbRABaHEmw8OA
-   yfHuZ/9AjwUVK9HM/rOnsbcvUGYC5Lyw/A8Y3GQqklsYL8ZQa7UCjwAic
-   Z7YpMv8rrpPjmG3gxxS42GFa9+JjsaO4xuBfvopKIAN0loB/FTe5gaTrC
-   eEFL4KFsauwLfv702+R9W/3iOXtjpix6klBjZ2iKvAvJgUJ5KaHJ2nYp6
-   vAOvse+46vAJmu4UFICYm/D9I46yRRMGG9bHgkgI2wEGEhUNq8uPgLFW8
-   aCE2bEBTkywJfgNjOS03JvoNtHbF6xhautYBsvZHluyogtodaYNDPPIVM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="1765914"
-X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="1765914"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 23:36:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="878542658"
-X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="878542658"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 02 Nov 2023 23:36:05 -0700
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qynml-0002JI-14;
-	Fri, 03 Nov 2023 06:36:03 +0000
-Date: Fri, 3 Nov 2023 14:35:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Janne Grunau <j@jannau.net>
-Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:bits/090-spi-hid 7/21] drivers/hid/hid-magicmouse.c:157:
- warning: Function parameter or member 'input_ops' not described in
- 'magicmouse_sc'
-Message-ID: <202311031457.l002ABA4-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="L9dNKUZ+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1698997159;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1ZuQohmnOldmW1VHy4ROYujf3sIsVkqTMbg2gI0VTvA=;
+	b=L9dNKUZ+IyyPbjQuO8my6Bz2y+occBUap3gQs10HuL/dtA0wfvzyk2uICj8ygSEcA2LiVX
+	yzd7fXAhB7GPlP6dlKD+nd8wQeXZjNmlI0Gx8RIcdQLO/CHTTefEIBY/X60n4TgrUvk3qP
+	4xKZFCnhNvS3LXpoV1wiz8LAfkpZhhk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-60-0G5D_NLQNaClc_kN-XH7Gw-1; Fri, 03 Nov 2023 03:39:17 -0400
+X-MC-Unique: 0G5D_NLQNaClc_kN-XH7Gw-1
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-40855a91314so11615265e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 03 Nov 2023 00:39:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698997156; x=1699601956;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1ZuQohmnOldmW1VHy4ROYujf3sIsVkqTMbg2gI0VTvA=;
+        b=GjotNmXEVVmFE9XZ7gd0tAyZCfUCd+VPohsmPG7vp7ou/1VD+KR0IDUPgducRlyoJN
+         1S7EfG7cgd+486V3Na8aRtTU/fbzPrbhCio3lfhQ8pnSEl6w0bRIgB3Am2ELS4fSqJ2Z
+         A0HsHIbZh7VThCcKIKHh5+WzEpKcFIyKmEPKo9bzzGFgSX+j1X8Zq0CHzIQ4nYZb1Arv
+         vWCLSgwCKEfbZzlAtz2MqrFsvGTmliObhRWvlfMdkMh6OHOj45YyU6kFW7Mdr/dkFwEe
+         5PH929C+AXLqmVXDiiTlAJNxwSpiGt6WAkOPO/WyGb9PhQF6Gd1vWZc7dwcYErfoRJTA
+         vkBg==
+X-Gm-Message-State: AOJu0Yyg4gIEwYr7rTZ0pOGpbcESx9XfIiQLBTYPYwH4Rfs1jCYDSEwf
+	2b4ruaHW2zvgWm4GLkUJVpVgABWtFIC7lIlQVcmexlLRwpEyXtdpXsSCWrWvSeTvPVWvlSFQhg9
+	hhjp0TwCGa6x7+/UmW/AL2JuHgg==
+X-Received: by 2002:a05:600c:4313:b0:401:c7ec:b930 with SMTP id p19-20020a05600c431300b00401c7ecb930mr1838751wme.10.1698997156168;
+        Fri, 03 Nov 2023 00:39:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHsPxlKYqAwFNSXNswHyQdCOpU9lVHJsDEKqDQ0yhKTs/DCMk3R2BvFerg99LrQVPM6Xpycwg==
+X-Received: by 2002:a05:600c:4313:b0:401:c7ec:b930 with SMTP id p19-20020a05600c431300b00401c7ecb930mr1838728wme.10.1698997155784;
+        Fri, 03 Nov 2023 00:39:15 -0700 (PDT)
+Received: from redhat.com ([2a02:14f:174:efc3:a5be:5586:34a6:1108])
+        by smtp.gmail.com with ESMTPSA id bg19-20020a05600c3c9300b0040531f5c51asm1583577wmb.5.2023.11.03.00.39.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Nov 2023 00:39:14 -0700 (PDT)
+Date: Fri, 3 Nov 2023 03:39:10 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Yishai Hadas <yishaih@nvidia.com>, alex.williamson@redhat.com,
+	jasowang@redhat.com, jgg@nvidia.com, oe-kbuild-all@lists.linux.dev,
+	kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
+	parav@nvidia.com, feliu@nvidia.com, jiri@nvidia.com,
+	kevin.tian@intel.com, joao.m.martins@oracle.com,
+	si-wei.liu@oracle.com, leonro@nvidia.com, maorg@nvidia.com
+Subject: Re: [PATCH V2 vfio 5/9] virtio-pci: Initialize the supported admin
+ commands
+Message-ID: <20231103033834-mutt-send-email-mst@kernel.org>
+References: <20231029155952.67686-6-yishaih@nvidia.com>
+ <202311030838.GjyaBTjM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+In-Reply-To: <202311030838.GjyaBTjM-lkp@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/AsahiLinux/linux bits/090-spi-hid
-head:   aefaf432ff80e54092c35dcba09404239f181de6
-commit: 991d9692ce457f94c749787fbf2d2f2bd8bb7bf1 [7/21] HID: magicmouse: use ops function pointers for input functionality
-config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20231103/202311031457.l002ABA4-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311031457.l002ABA4-lkp@intel.com/reproduce)
+On Fri, Nov 03, 2023 at 08:33:06AM +0800, kernel test robot wrote:
+> Hi Yishai,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on awilliam-vfio/for-linus]
+> [also build test WARNING on linus/master v6.6]
+> [cannot apply to awilliam-vfio/next mst-vhost/linux-next next-20231102]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yishai-Hadas/virtio-Define-feature-bit-for-administration-virtqueue/20231030-000414
+> base:   https://github.com/awilliam/linux-vfio.git for-linus
+> patch link:    https://lore.kernel.org/r/20231029155952.67686-6-yishaih%40nvidia.com
+> patch subject: [PATCH V2 vfio 5/9] virtio-pci: Initialize the supported admin commands
+> config: i386-randconfig-061-20231102 (https://download.01.org/0day-ci/archive/20231103/202311030838.GjyaBTjM-lkp@intel.com/config)
+> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311030838.GjyaBTjM-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311030838.GjyaBTjM-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+> >> drivers/virtio/virtio_pci_modern.c:726:16: sparse: sparse: restricted __le16 degrades to integer
+> 
+> vim +726 drivers/virtio/virtio_pci_modern.c
+> 
+>    673	
+>    674	static int vp_modern_admin_cmd_exec(struct virtio_device *vdev,
+>    675					    struct virtio_admin_cmd *cmd)
+>    676	{
+>    677		struct scatterlist *sgs[VIRTIO_AVQ_SGS_MAX], hdr, stat;
+>    678		struct virtio_pci_device *vp_dev = to_vp_device(vdev);
+>    679		struct virtio_admin_cmd_status *va_status;
+>    680		unsigned int out_num = 0, in_num = 0;
+>    681		struct virtio_admin_cmd_hdr *va_hdr;
+>    682		struct virtqueue *avq;
+>    683		u16 status;
+>    684		int ret;
+>    685	
+>    686		avq = virtio_has_feature(vdev, VIRTIO_F_ADMIN_VQ) ?
+>    687			vp_dev->admin_vq.info.vq : NULL;
+>    688		if (!avq)
+>    689			return -EOPNOTSUPP;
+>    690	
+>    691		va_status = kzalloc(sizeof(*va_status), GFP_KERNEL);
+>    692		if (!va_status)
+>    693			return -ENOMEM;
+>    694	
+>    695		va_hdr = kzalloc(sizeof(*va_hdr), GFP_KERNEL);
+>    696		if (!va_hdr) {
+>    697			ret = -ENOMEM;
+>    698			goto err_alloc;
+>    699		}
+>    700	
+>    701		va_hdr->opcode = cmd->opcode;
+>    702		va_hdr->group_type = cmd->group_type;
+>    703		va_hdr->group_member_id = cmd->group_member_id;
+>    704	
+>    705		/* Add header */
+>    706		sg_init_one(&hdr, va_hdr, sizeof(*va_hdr));
+>    707		sgs[out_num] = &hdr;
+>    708		out_num++;
+>    709	
+>    710		if (cmd->data_sg) {
+>    711			sgs[out_num] = cmd->data_sg;
+>    712			out_num++;
+>    713		}
+>    714	
+>    715		/* Add return status */
+>    716		sg_init_one(&stat, va_status, sizeof(*va_status));
+>    717		sgs[out_num + in_num] = &stat;
+>    718		in_num++;
+>    719	
+>    720		if (cmd->result_sg) {
+>    721			sgs[out_num + in_num] = cmd->result_sg;
+>    722			in_num++;
+>    723		}
+>    724	
+>    725		if (cmd->opcode == VIRTIO_ADMIN_CMD_LIST_QUERY ||
+>  > 726		    cmd->opcode == VIRTIO_ADMIN_CMD_LIST_USE)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311031457.l002ABA4-lkp@intel.com/
+yes, this is broken on BE. You need to convert enums to LE before you
+compare.
 
-All warnings (new ones prefixed by >>):
+>    727			ret = __virtqueue_exec_admin_cmd(&vp_dev->admin_vq, sgs,
+>    728					       out_num, in_num,
+>    729					       sgs, GFP_KERNEL);
+>    730		else
+>    731			ret = virtqueue_exec_admin_cmd(&vp_dev->admin_vq, sgs,
+>    732					       out_num, in_num,
+>    733					       sgs, GFP_KERNEL);
+>    734		if (ret) {
+>    735			dev_err(&vdev->dev,
+>    736				"Failed to execute command on admin vq: %d\n.", ret);
+>    737			goto err_cmd_exec;
+>    738		}
+>    739	
+>    740		status = le16_to_cpu(va_status->status);
+>    741		if (status != VIRTIO_ADMIN_STATUS_OK) {
+>    742			dev_err(&vdev->dev,
+>    743				"admin command error: status(%#x) qualifier(%#x)\n",
+>    744				status, le16_to_cpu(va_status->status_qualifier));
+>    745			ret = -status;
+>    746		}
+>    747	
+>    748	err_cmd_exec:
+>    749		kfree(va_hdr);
+>    750	err_alloc:
+>    751		kfree(va_status);
+>    752		return ret;
+>    753	}
+>    754	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-   drivers/hid/hid-magicmouse.c:157: warning: Function parameter or member 'pos' not described in 'magicmouse_sc'
-   drivers/hid/hid-magicmouse.c:157: warning: Function parameter or member 'hdev' not described in 'magicmouse_sc'
-   drivers/hid/hid-magicmouse.c:157: warning: Function parameter or member 'work' not described in 'magicmouse_sc'
-   drivers/hid/hid-magicmouse.c:157: warning: Function parameter or member 'battery_timer' not described in 'magicmouse_sc'
->> drivers/hid/hid-magicmouse.c:157: warning: Function parameter or member 'input_ops' not described in 'magicmouse_sc'
-
-
-vim +157 drivers/hid/hid-magicmouse.c
-
-991d9692ce457f Janne Grunau  2021-12-16  122  
-128537cea464d9 Michael Poole 2010-02-06  123  /**
-128537cea464d9 Michael Poole 2010-02-06  124   * struct magicmouse_sc - Tracks Magic Mouse-specific data.
-128537cea464d9 Michael Poole 2010-02-06  125   * @input: Input device through which we report events.
-128537cea464d9 Michael Poole 2010-02-06  126   * @quirks: Currently unused.
-128537cea464d9 Michael Poole 2010-02-06  127   * @ntouches: Number of touches in most recent touch report.
-128537cea464d9 Michael Poole 2010-02-06  128   * @scroll_accel: Number of consecutive scroll motions.
-128537cea464d9 Michael Poole 2010-02-06  129   * @scroll_jiffies: Time of last scroll motion.
-128537cea464d9 Michael Poole 2010-02-06  130   * @touches: Most recent data for a touch, indexed by tracking ID.
-128537cea464d9 Michael Poole 2010-02-06  131   * @tracking_ids: Mapping of current touch input data to @touches.
-128537cea464d9 Michael Poole 2010-02-06  132   */
-128537cea464d9 Michael Poole 2010-02-06  133  struct magicmouse_sc {
-128537cea464d9 Michael Poole 2010-02-06  134  	struct input_dev *input;
-128537cea464d9 Michael Poole 2010-02-06  135  	unsigned long quirks;
-128537cea464d9 Michael Poole 2010-02-06  136  
-128537cea464d9 Michael Poole 2010-02-06  137  	int ntouches;
-128537cea464d9 Michael Poole 2010-02-06  138  	int scroll_accel;
-128537cea464d9 Michael Poole 2010-02-06  139  	unsigned long scroll_jiffies;
-128537cea464d9 Michael Poole 2010-02-06  140  
-089b2bcdbc5e12 Janne Grunau  2021-12-16  141  	struct input_mt_pos pos[MAX_CONTACTS];
-128537cea464d9 Michael Poole 2010-02-06  142  	struct {
-c04266889b5911 Chase Douglas 2010-06-20  143  		short scroll_x;
-128537cea464d9 Michael Poole 2010-02-06  144  		short scroll_y;
-d4b9f10a0eb64c José Expósito 2021-07-07  145  		short scroll_x_hr;
-d4b9f10a0eb64c José Expósito 2021-07-07  146  		short scroll_y_hr;
-128537cea464d9 Michael Poole 2010-02-06  147  		u8 size;
-9d60648c607a2b José Expósito 2021-07-07  148  		bool scroll_x_active;
-9d60648c607a2b José Expósito 2021-07-07  149  		bool scroll_y_active;
-8aff5a2106ccfe Janne Grunau  2021-12-16  150  	} touches[MAX_CONTACTS];
-8aff5a2106ccfe Janne Grunau  2021-12-16  151  	int tracking_ids[MAX_CONTACTS];
-c0dc5582812dfa John Chen     2021-03-30  152  
-c0dc5582812dfa John Chen     2021-03-30  153  	struct hid_device *hdev;
-c0dc5582812dfa John Chen     2021-03-30  154  	struct delayed_work work;
-0b91b4e4dae63c José Expósito 2021-11-18  155  	struct timer_list battery_timer;
-991d9692ce457f Janne Grunau  2021-12-16  156  	struct magicmouse_input_ops input_ops;
-128537cea464d9 Michael Poole 2010-02-06 @157  };
-128537cea464d9 Michael Poole 2010-02-06  158  
-
-:::::: The code at line 157 was first introduced by commit
-:::::: 128537cea464d919febeaea2000e256749f317eb HID: add a device driver for the Apple Magic Mouse.
-
-:::::: TO: Michael Poole <mdpoole@troilus.org>
-:::::: CC: Jiri Kosina <jkosina@suse.cz>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
