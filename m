@@ -1,118 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E3720B02
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 17:37:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82429210FF
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 18:04:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iWjS1FWV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="keOC0pw2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699033033; x=1730569033;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7KJooKNsl5xSOp/w9r0lHX9FUUzG2PkGtQPfNPAX2J8=;
-  b=iWjS1FWVtO7/zL1Tq1z1FEMY4ndf8rF3fnwa01M9/8Fti7W8M6cw9JsU
-   CeVSdsK/xKJlA0+qA6k9N0wrSaZxJ6JKOH2MwQjYipjv4Wz9LvVi8tjiZ
-   ngf7v3a4e0N6W8sC3KTCmQyLcCqzsO7iyR1QCp7CYEEQb+y5BUa3x3UUl
-   IpE9cFRxJa2wZofVCBoFwLhR0scnVEKosid+o06dqtwVPzPDQjgbYAfVT
-   WJvhP15i4DgA6BWvuak6vaC39YyGM5S+4V4t4tEQcYn7IvpXmC4DSgs+Q
-   8fbzOFtT7iHx9kynLsdhV3rSeU4Df/nk/Zk2asrviBpnrq3ctELVpHcxp
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="10524248"
+  t=1699034679; x=1730570679;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=iW161xdM8t4mh6eVI2i7B0u1nxwKF8s87NNwRRZoqz4=;
+  b=keOC0pw2Q3mY41SGR4Hsa2AhgUpjlsyRO20DJOxiZYg4foujV/Gf9RUs
+   boagzByCqLbt1qGn4+j3nRmuZTXZn8vqYf5/J5mLfdsmMCuNFLwiwaQi1
+   9fLAfQBSHnvWTjGj/hvu9AsLrrYegZnDTuV8KmjusBKOePz5u/e1ip5WA
+   CSXyThyWrRFSOiXpMNmuoiRuxCtjnEh5QAlsd9hCzvP+qpp7uZdaUySjZ
+   p9xaDBYHjNVlkKbIjWyWW2ti5j41fQAB+I6EQa3IUssZBn25Ha4yPLAht
+   U/8QzHna+HzFwyezvu1cSyTFrz77ibrGRxTTTNq86moxLCwfDDdNNTX9N
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="475229456"
 X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="10524248"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 10:37:13 -0700
+   d="scan'208";a="475229456"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 11:04:38 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="765317524"
 X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="9809121"
+   d="scan'208";a="765317524"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 03 Nov 2023 10:37:11 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 03 Nov 2023 11:04:34 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qyy6W-0002lx-2x;
-	Fri, 03 Nov 2023 17:37:08 +0000
-Date: Sat, 4 Nov 2023 01:36:36 +0800
+	id 1qyyX1-0002nh-2o;
+	Fri, 03 Nov 2023 18:04:31 +0000
+Date: Sat, 4 Nov 2023 02:03:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lyude Paul <lyude@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Karol Herbst <kherbst@redhat.com>, Ben Skeggs <bskeggs@redhat.com>
-Subject: drivers/gpu/drm/nouveau/dispnv50/crcc57d.c:40:17: sparse: sparse:
- cast removes address space '__iomem' of expression
-Message-ID: <202311040149.o3KPXEV2-lkp@intel.com>
+To: =?utf-8?Q?=C5=81ukasz?= Bartosik <lb@semihalf.com>,
+	Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kees Cook <keescook@chromium.org>,
+	Douglas Anderson <dianders@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Guenter Roeck <groeck@google.com>,
+	Yaniv Tzoreff <yanivt@google.com>, Benson Leung <bleung@google.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Vincent Whitchurch <vincent.whitchurch@axis.com>,
+	Pekka Paalanen <ppaalanen@gmail.com>,
+	Sean Paul <seanpaul@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
+	linux-kernel@vger.kernel.org, upstream@semihalf.com
+Subject: Re: [PATCH v1 10/12] dyndbg: add processing of T(race) flag argument
+Message-ID: <202311040120.oiJ1m9Pw-lkp@intel.com>
+References: <20231103131011.1316396-11-lb@semihalf.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231103131011.1316396-11-lb@semihalf.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8f6f76a6a29f36d2f3e4510d0bde5046672f6924
-commit: 57cbdbe65e5f9ba9bfd67b66bc3ce24ef1c54643 drm/nouveau/kms/nv140-: Use hard-coded wndws or core channel for CRC channel
-date:   2 years ago
-config: x86_64-randconfig-123-20231101 (https://download.01.org/0day-ci/archive/20231104/202311040149.o3KPXEV2-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311040149.o3KPXEV2-lkp@intel.com/reproduce)
+Hi Łukasz,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.6 next-20231103]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/ukasz-Bartosik/dyndbg-add-_DPRINTK_FLAGS_ENABLED/20231103-212105
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231103131011.1316396-11-lb%40semihalf.com
+patch subject: [PATCH v1 10/12] dyndbg: add processing of T(race) flag argument
+config: loongarch-randconfig-002-20231103 (https://download.01.org/0day-ci/archive/20231104/202311040120.oiJ1m9Pw-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311040120.oiJ1m9Pw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311040149.o3KPXEV2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311040120.oiJ1m9Pw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/nouveau/dispnv50/crcc57d.c:40:17: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/gpu/drm/nouveau/dispnv50/crcc57d.c:40:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/dispnv50/crcc57d.c:41:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/dispnv50/crcc57d.c:41:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/dispnv50/crcc57d.c:43:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/dispnv50/crcc57d.c:43:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/dispnv50/crcc57d.c:44:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/dispnv50/crcc57d.c:44:17: sparse: sparse: cast removes address space '__iomem' of expression
+All warnings (new ones prefixed by >>):
 
-vim +/__iomem +40 drivers/gpu/drm/nouveau/dispnv50/crcc57d.c
+>> lib/dynamic_debug.c:157:7: warning: no previous prototype for 'show_T_args' [-Wmissing-prototypes]
+     157 | char *show_T_args(struct dd_ctrl *ctrl, char *p)
+         |       ^~~~~~~~~~~
 
-    12	
-    13	static int crcc57d_set_src(struct nv50_head *head, int or, enum nv50_crc_source_type source,
-    14				   struct nv50_crc_notifier_ctx *ctx)
-    15	{
-    16		struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
-    17		const int i = head->base.index;
-    18		u32 crc_args = NVDEF(NVC57D, HEAD_SET_CRC_CONTROL, CONTROLLING_CHANNEL, CORE) |
-    19			       NVDEF(NVC57D, HEAD_SET_CRC_CONTROL, EXPECT_BUFFER_COLLAPSE, FALSE) |
-    20			       NVDEF(NVC57D, HEAD_SET_CRC_CONTROL, SECONDARY_CRC, NONE) |
-    21			       NVDEF(NVC57D, HEAD_SET_CRC_CONTROL, CRC_DURING_SNOOZE, DISABLE);
-    22		int ret;
-    23	
-    24		switch (source) {
-    25		case NV50_CRC_SOURCE_TYPE_SOR:
-    26			crc_args |= NVDEF(NVC57D, HEAD_SET_CRC_CONTROL, PRIMARY_CRC, SOR(or));
-    27			break;
-    28		case NV50_CRC_SOURCE_TYPE_SF:
-    29			crc_args |= NVDEF(NVC57D, HEAD_SET_CRC_CONTROL, PRIMARY_CRC, SF);
-    30			break;
-    31		default:
-    32			break;
-    33		}
-    34	
-    35		ret = PUSH_WAIT(push, 4);
-    36		if (ret)
-    37			return ret;
-    38	
-    39		if (source) {
-  > 40			PUSH_MTHD(push, NVC57D, HEAD_SET_CONTEXT_DMA_CRC(i), ctx->ntfy.handle);
-    41			PUSH_MTHD(push, NVC57D, HEAD_SET_CRC_CONTROL(i), crc_args);
-    42		} else {
-    43			PUSH_MTHD(push, NVC57D, HEAD_SET_CRC_CONTROL(i), 0);
-    44			PUSH_MTHD(push, NVC57D, HEAD_SET_CONTEXT_DMA_CRC(i), 0);
-    45		}
-    46	
-    47		return 0;
-    48	}
-    49	
+
+vim +/show_T_args +157 lib/dynamic_debug.c
+
+   156	
+ > 157	char *show_T_args(struct dd_ctrl *ctrl, char *p)
+   158	{
+   159		int n;
+   160	
+   161		n = snprintf(p, FLAG_T_ARGS_LEN, ":%u", ctrl->trace_dst);
+   162		WARN_ONCE(n < 0, "printing T flag args value failed\n");
+   163	
+   164		return n < 0 ? p : p + n;
+   165	}
+   166	
 
 -- 
 0-DAY CI Kernel Test Service
