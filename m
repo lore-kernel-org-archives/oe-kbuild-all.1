@@ -1,45 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550D32D605
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 08:18:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700F38460
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 08:19:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z067RUmR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D/xV+upl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698999524; x=1730535524;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VeliMlNLfOxowAisIjDQwUATydKzMfcmAwGoCYI9NjA=;
-  b=Z067RUmR4T5Ky4Kf5tC0B5C9Tey4/X6xhAEht2wHW2O7xVJ61WVpsAfJ
-   GCE5gSnHJ2Leye63GzdxhNHl2218EDFgPeeWKFNCwhGplzChJScE/SbiD
-   +G5xjsoePE1TU7gW5jUChn6QsxDn5lHp4oZBYfo7uGK1IheuL9aG5xtd5
-   AiMMoHUeWMj11Z9/W1g9fgF3+PhZ5La5W005VLNbsYrq4Cx1VZq7XPbxy
-   iC6vYrs1z+TK8rb2tNDTWDxbXdrQnm7rnhwueHFg7jRpNsX2+9aO4asOJ
-   AgAgajTrY5ITDLy0jj6Va496AJq2G8F2gphjiJWzsT9tIeJYxXBPc56Gh
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="386072887"
+  t=1698999589; x=1730535589;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7x+HLMrPHU1vmeH3n+XslylsbnDpCawoU8xBczXjVn0=;
+  b=D/xV+upl8TPbY8vuv+OS/29ssLdszJaxZdxngwpcWosGLmL/g99iPHqQ
+   +ntlj0yFvCr9+Z+ptZ0J2qcL3jFP6Wt1uANlfwq8yjks5S/ssMbTdCLZB
+   t5Mn+qWG+fdtcnZitfTDMxo3DMgKuDgXbLMEhqiNNrK/uL24ZWYlz7T9l
+   tdU7pV8SDe3CJtE/7ApRkBliDRLyMWzdu/Jd5fymRd36h8ganmlMw8hIj
+   6OxxlGtJB1zhhU264RpxrgE1+w+Tf/FtCa5y8CcaQJXCKJvzPQrUxCH0G
+   sT0yBjNvDrKuh7G029S7kP5QMmmzMT94+R/XZzQ3ml7WKN8f2Zj0hFbwc
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="475141065"
 X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="386072887"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 01:18:43 -0700
+   d="scan'208";a="475141065"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 01:19:48 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="827416501"
 X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="9293975"
+   d="scan'208";a="827416501"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 03 Nov 2023 01:18:42 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 03 Nov 2023 01:19:43 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qypO3-0002Ma-0r;
-	Fri, 03 Nov 2023 08:18:39 +0000
-Date: Fri, 3 Nov 2023 16:18:14 +0800
+	id 1qypP2-0002Me-1y;
+	Fri, 03 Nov 2023 08:19:40 +0000
+Date: Fri, 3 Nov 2023 16:18:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kmo@daterainc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: fs/bcachefs/bcachefs_format.h:200:25: warning: 'version' offset 27
- in 'struct bkey' isn't aligned to 4
-Message-ID: <202311031653.GRyrZccz-lkp@intel.com>
+To: Yafang Shao <laoar.shao@gmail.com>, ast@kernel.org,
+	daniel@iogearbox.net, john.fastabend@gmail.com, andrii@kernel.org,
+	martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev,
+	kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
+	jolsa@kernel.org, tj@kernel.org, lizefan.x@bytedance.com,
+	hannes@cmpxchg.org, yosryahmed@google.com, mkoutny@suse.com,
+	sinquersw@gmail.com, longman@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
+	bpf@vger.kernel.org, oliver.sang@intel.com,
+	Yafang Shao <laoar.shao@gmail.com>
+Subject: Re: [PATCH v3 bpf-next 06/11] bpf: Add a new kfunc for cgroup1
+ hierarchy
+Message-ID: <202311031651.A7crZEur-lkp@intel.com>
+References: <20231029061438.4215-7-laoar.shao@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,366 +59,154 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231029061438.4215-7-laoar.shao@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bc3012f4e3a9765de81f454cb8f9bb16aafc6ff5
-commit: 1c6fdbd8f2465ddfb73a01ec620cbf3d14044e1a bcachefs: Initial commit
-date:   11 days ago
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20231103/202311031653.GRyrZccz-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311031653.GRyrZccz-lkp@intel.com/reproduce)
+Hi Yafang,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/cgroup-Remove-unnecessary-list_empty/20231029-143457
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20231029061438.4215-7-laoar.shao%40gmail.com
+patch subject: [PATCH v3 bpf-next 06/11] bpf: Add a new kfunc for cgroup1 hierarchy
+config: x86_64-randconfig-004-20231103 (https://download.01.org/0day-ci/archive/20231103/202311031651.A7crZEur-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311031651.A7crZEur-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311031653.GRyrZccz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311031651.A7crZEur-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from fs/bcachefs/bcachefs.h:199,
-                    from fs/bcachefs/acl.c:4:
-   fs/bcachefs/bcachefs_format.h:198:25: warning: 'p' offset 3 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
-     198 |         struct bpos     p;
-         |                         ^
->> fs/bcachefs/bcachefs_format.h:200:25: warning: 'version' offset 27 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
-     200 |         struct bversion version;
-         |                         ^~~~~~~
-   In file included from fs/bcachefs/super-io.h:5,
-                    from fs/bcachefs/checksum.h:7,
-                    from fs/bcachefs/str_hash.h:7,
-                    from fs/bcachefs/fs.h:6,
-                    from fs/bcachefs/acl.c:13:
-   fs/bcachefs/extents.h: In function 'bch2_extent_devs':
-   fs/bcachefs/extents.h:403:40: warning: variable '_crc' set but not used [-Wunused-but-set-variable]
-     403 |         struct bch_extent_crc_unpacked _crc;                            \
-         |                                        ^~~~
-   fs/bcachefs/extents.h:410:24: note: in expansion of macro 'extent_ptr_next'
-     410 |              ((_ptr) = extent_ptr_next(_e, _ptr));                      \
-         |                        ^~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h:462:9: note: in expansion of macro 'extent_for_each_ptr'
-     462 |         extent_for_each_ptr(e, ptr)
-         |         ^~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h: In function 'bch2_extent_dirty_devs':
-   fs/bcachefs/extents.h:403:40: warning: variable '_crc' set but not used [-Wunused-but-set-variable]
-     403 |         struct bch_extent_crc_unpacked _crc;                            \
-         |                                        ^~~~
-   fs/bcachefs/extents.h:410:24: note: in expansion of macro 'extent_ptr_next'
-     410 |              ((_ptr) = extent_ptr_next(_e, _ptr));                      \
-         |                        ^~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h:473:9: note: in expansion of macro 'extent_for_each_ptr'
-     473 |         extent_for_each_ptr(e, ptr)
-         |         ^~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h: In function 'bch2_extent_cached_devs':
-   fs/bcachefs/extents.h:403:40: warning: variable '_crc' set but not used [-Wunused-but-set-variable]
-     403 |         struct bch_extent_crc_unpacked _crc;                            \
-         |                                        ^~~~
-   fs/bcachefs/extents.h:410:24: note: in expansion of macro 'extent_ptr_next'
-     410 |              ((_ptr) = extent_ptr_next(_e, _ptr));                      \
-         |                        ^~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h:485:9: note: in expansion of macro 'extent_for_each_ptr'
-     485 |         extent_for_each_ptr(e, ptr)
-         |         ^~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/checksum.h: At top level:
-   fs/bcachefs/checksum.h:95:23: warning: 'bch2_compression_opt_to_type' defined but not used [-Wunused-const-variable=]
-      95 | static const unsigned bch2_compression_opt_to_type[] = {
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from fs/bcachefs/bcachefs.h:201:
-   fs/bcachefs/opts.h:194:30: warning: 'bch2_opts_default' defined but not used [-Wunused-const-variable=]
-     194 | static const struct bch_opts bch2_opts_default = {
-         |                              ^~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_MAX' defined but not used [-Wunused-const-variable=]
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         |              ^~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
-      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_BITS' defined but not used [-Wunused-const-variable=]
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         |              ^~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
-      85 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_OFFSET' defined but not used [-Wunused-const-variable=]
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         |              ^~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:84:25: note: in definition of macro 'LE_BITMASK'
-      84 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_MAX' defined but not used [-Wunused-const-variable=]
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
-      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_BITS' defined but not used [-Wunused-const-variable=]
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
-      85 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_OFFSET' defined but not used [-Wunused-const-variable=]
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:84:25: note: in definition of macro 'LE_BITMASK'
-      84 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1480:14: warning: 'BTREE_NODE_LEVEL_MAX' defined but not used [-Wunused-const-variable=]
---
-   In file included from fs/bcachefs/bcachefs.h:199,
-                    from fs/bcachefs/alloc.c:56:
-   fs/bcachefs/bcachefs_format.h:198:25: warning: 'p' offset 3 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
-     198 |         struct bpos     p;
-         |                         ^
->> fs/bcachefs/bcachefs_format.h:200:25: warning: 'version' offset 27 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
-     200 |         struct bversion version;
-         |                         ^~~~~~~
-   In file included from fs/bcachefs/btree_cache.h:7,
-                    from fs/bcachefs/alloc.c:58:
-   fs/bcachefs/extents.h: In function 'bch2_extent_devs':
-   fs/bcachefs/extents.h:403:40: warning: variable '_crc' set but not used [-Wunused-but-set-variable]
-     403 |         struct bch_extent_crc_unpacked _crc;                            \
-         |                                        ^~~~
-   fs/bcachefs/extents.h:410:24: note: in expansion of macro 'extent_ptr_next'
-     410 |              ((_ptr) = extent_ptr_next(_e, _ptr));                      \
-         |                        ^~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h:462:9: note: in expansion of macro 'extent_for_each_ptr'
-     462 |         extent_for_each_ptr(e, ptr)
-         |         ^~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h: In function 'bch2_extent_dirty_devs':
-   fs/bcachefs/extents.h:403:40: warning: variable '_crc' set but not used [-Wunused-but-set-variable]
-     403 |         struct bch_extent_crc_unpacked _crc;                            \
-         |                                        ^~~~
-   fs/bcachefs/extents.h:410:24: note: in expansion of macro 'extent_ptr_next'
-     410 |              ((_ptr) = extent_ptr_next(_e, _ptr));                      \
-         |                        ^~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h:473:9: note: in expansion of macro 'extent_for_each_ptr'
-     473 |         extent_for_each_ptr(e, ptr)
-         |         ^~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h: In function 'bch2_extent_cached_devs':
-   fs/bcachefs/extents.h:403:40: warning: variable '_crc' set but not used [-Wunused-but-set-variable]
-     403 |         struct bch_extent_crc_unpacked _crc;                            \
-         |                                        ^~~~
-   fs/bcachefs/extents.h:410:24: note: in expansion of macro 'extent_ptr_next'
-     410 |              ((_ptr) = extent_ptr_next(_e, _ptr));                      \
-         |                        ^~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h:485:9: note: in expansion of macro 'extent_for_each_ptr'
-     485 |         extent_for_each_ptr(e, ptr)
-         |         ^~~~~~~~~~~~~~~~~~~
-   In file included from fs/bcachefs/alloc.c:60:
-   fs/bcachefs/alloc.c: In function '__bch2_alloc_write_key':
-   fs/bcachefs/btree_update.h:72:35: error: implicit declaration of function 'COUNT_ARGS' [-Werror=implicit-function-declaration]
-      72 |                 .nr             = COUNT_ARGS(__VA_ARGS__),              \
-         |                                   ^~~~~~~~~~
-   fs/bcachefs/alloc.c:332:23: note: in expansion of macro 'bch2_btree_insert_at'
-     332 |                 ret = bch2_btree_insert_at(c, NULL, NULL, journal_seq, flags,
-         |                       ^~~~~~~~~~~~~~~~~~~~
-   In file included from fs/bcachefs/bcachefs.h:201:
-   fs/bcachefs/opts.h: At top level:
-   fs/bcachefs/opts.h:194:30: warning: 'bch2_opts_default' defined but not used [-Wunused-const-variable=]
-     194 | static const struct bch_opts bch2_opts_default = {
-         |                              ^~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_MAX' defined but not used [-Wunused-const-variable=]
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         |              ^~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
-      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_BITS' defined but not used [-Wunused-const-variable=]
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         |              ^~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
-      85 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_OFFSET' defined but not used [-Wunused-const-variable=]
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         |              ^~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:84:25: note: in definition of macro 'LE_BITMASK'
-      84 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_MAX' defined but not used [-Wunused-const-variable=]
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
-      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_BITS' defined but not used [-Wunused-const-variable=]
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
-      85 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_OFFSET' defined but not used [-Wunused-const-variable=]
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:84:25: note: in definition of macro 'LE_BITMASK'
-      84 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
---
-   In file included from fs/bcachefs/bcachefs.h:199,
-                    from fs/bcachefs/bkey.c:3:
-   fs/bcachefs/bcachefs_format.h:198:25: warning: 'p' offset 3 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
-     198 |         struct bpos     p;
-         |                         ^
->> fs/bcachefs/bcachefs_format.h:200:25: warning: 'version' offset 27 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
-     200 |         struct bversion version;
-         |                         ^~~~~~~
-   In file included from fs/bcachefs/bcachefs.h:201:
-   fs/bcachefs/opts.h:194:30: warning: 'bch2_opts_default' defined but not used [-Wunused-const-variable=]
-     194 | static const struct bch_opts bch2_opts_default = {
-         |                              ^~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_MAX' defined but not used [-Wunused-const-variable=]
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         |              ^~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
-      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_BITS' defined but not used [-Wunused-const-variable=]
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         |              ^~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
-      85 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/opts.h:33:14: warning: 'NO_SB_OPT_OFFSET' defined but not used [-Wunused-const-variable=]
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         |              ^~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:84:25: note: in definition of macro 'LE_BITMASK'
-      84 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/opts.h:33:1: note: in expansion of macro 'LE64_BITMASK'
-      33 | LE64_BITMASK(NO_SB_OPT,         struct bch_sb, flags[0], 0, 0);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_MAX' defined but not used [-Wunused-const-variable=]
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
-      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_BITS' defined but not used [-Wunused-const-variable=]
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
-      85 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1482:14: warning: 'BTREE_NODE_SEQ_OFFSET' defined but not used [-Wunused-const-variable=]
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         |              ^~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:84:25: note: in definition of macro 'LE_BITMASK'
-      84 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1482:1: note: in expansion of macro 'LE64_BITMASK'
-    1482 | LE64_BITMASK(BTREE_NODE_SEQ,    struct btree_node, flags, 32, 64);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1480:14: warning: 'BTREE_NODE_LEVEL_MAX' defined but not used [-Wunused-const-variable=]
-    1480 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
-         |              ^~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
-      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1480:1: note: in expansion of macro 'LE64_BITMASK'
-    1480 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1480:14: warning: 'BTREE_NODE_LEVEL_BITS' defined but not used [-Wunused-const-variable=]
-    1480 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
-         |              ^~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
-      85 | static const unsigned   name##_BITS = (end - offset);                   \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1480:1: note: in expansion of macro 'LE64_BITMASK'
-    1480 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1480:14: warning: 'BTREE_NODE_LEVEL_OFFSET' defined but not used [-Wunused-const-variable=]
-    1480 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
-         |              ^~~~~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:84:25: note: in definition of macro 'LE_BITMASK'
-      84 | static const unsigned   name##_OFFSET = offset;                         \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1480:1: note: in expansion of macro 'LE64_BITMASK'
-    1480 | LE64_BITMASK(BTREE_NODE_LEVEL,  struct btree_node, flags,  4,  8);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1479:14: warning: 'BTREE_NODE_ID_MAX' defined but not used [-Wunused-const-variable=]
-    1479 | LE64_BITMASK(BTREE_NODE_ID,     struct btree_node, flags,  0,  4);
-         |              ^~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:86:25: note: in definition of macro 'LE_BITMASK'
-      86 | static const __u##_bits name##_MAX = (1ULL << (end - offset)) - 1;      \
-         |                         ^~~~
-   fs/bcachefs/bcachefs_format.h:1479:1: note: in expansion of macro 'LE64_BITMASK'
-    1479 | LE64_BITMASK(BTREE_NODE_ID,     struct btree_node, flags,  0,  4);
-         | ^~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:1479:14: warning: 'BTREE_NODE_ID_BITS' defined but not used [-Wunused-const-variable=]
-    1479 | LE64_BITMASK(BTREE_NODE_ID,     struct btree_node, flags,  0,  4);
-         |              ^~~~~~~~~~~~~
-   fs/bcachefs/bcachefs_format.h:85:25: note: in definition of macro 'LE_BITMASK'
-..
+   kernel/bpf/helpers.c:1893:19: warning: no previous prototype for 'bpf_obj_new_impl' [-Wmissing-prototypes]
+    __bpf_kfunc void *bpf_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+                      ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1907:19: warning: no previous prototype for 'bpf_percpu_obj_new_impl' [-Wmissing-prototypes]
+    __bpf_kfunc void *bpf_percpu_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+                      ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1941:18: warning: no previous prototype for 'bpf_obj_drop_impl' [-Wmissing-prototypes]
+    __bpf_kfunc void bpf_obj_drop_impl(void *p__alloc, void *meta__ign)
+                     ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1949:18: warning: no previous prototype for 'bpf_percpu_obj_drop_impl' [-Wmissing-prototypes]
+    __bpf_kfunc void bpf_percpu_obj_drop_impl(void *p__alloc, void *meta__ign)
+                     ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1955:19: warning: no previous prototype for 'bpf_refcount_acquire_impl' [-Wmissing-prototypes]
+    __bpf_kfunc void *bpf_refcount_acquire_impl(void *p__refcounted_kptr, void *meta__ign)
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2000:17: warning: no previous prototype for 'bpf_list_push_front_impl' [-Wmissing-prototypes]
+    __bpf_kfunc int bpf_list_push_front_impl(struct bpf_list_head *head,
+                    ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2010:17: warning: no previous prototype for 'bpf_list_push_back_impl' [-Wmissing-prototypes]
+    __bpf_kfunc int bpf_list_push_back_impl(struct bpf_list_head *head,
+                    ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2043:35: warning: no previous prototype for 'bpf_list_pop_front' [-Wmissing-prototypes]
+    __bpf_kfunc struct bpf_list_node *bpf_list_pop_front(struct bpf_list_head *head)
+                                      ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2048:35: warning: no previous prototype for 'bpf_list_pop_back' [-Wmissing-prototypes]
+    __bpf_kfunc struct bpf_list_node *bpf_list_pop_back(struct bpf_list_head *head)
+                                      ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2053:33: warning: no previous prototype for 'bpf_rbtree_remove' [-Wmissing-prototypes]
+    __bpf_kfunc struct bpf_rb_node *bpf_rbtree_remove(struct bpf_rb_root *root,
+                                    ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2109:17: warning: no previous prototype for 'bpf_rbtree_add_impl' [-Wmissing-prototypes]
+    __bpf_kfunc int bpf_rbtree_add_impl(struct bpf_rb_root *root, struct bpf_rb_node *node,
+                    ^~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2119:33: warning: no previous prototype for 'bpf_rbtree_first' [-Wmissing-prototypes]
+    __bpf_kfunc struct bpf_rb_node *bpf_rbtree_first(struct bpf_rb_root *root)
+                                    ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2132:33: warning: no previous prototype for 'bpf_task_acquire' [-Wmissing-prototypes]
+    __bpf_kfunc struct task_struct *bpf_task_acquire(struct task_struct *p)
+                                    ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2143:18: warning: no previous prototype for 'bpf_task_release' [-Wmissing-prototypes]
+    __bpf_kfunc void bpf_task_release(struct task_struct *p)
+                     ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2155:28: warning: no previous prototype for 'bpf_cgroup_acquire' [-Wmissing-prototypes]
+    __bpf_kfunc struct cgroup *bpf_cgroup_acquire(struct cgroup *cgrp)
+                               ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2167:18: warning: no previous prototype for 'bpf_cgroup_release' [-Wmissing-prototypes]
+    __bpf_kfunc void bpf_cgroup_release(struct cgroup *cgrp)
+                     ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2179:28: warning: no previous prototype for 'bpf_cgroup_ancestor' [-Wmissing-prototypes]
+    __bpf_kfunc struct cgroup *bpf_cgroup_ancestor(struct cgroup *cgrp, int level)
+                               ^~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2199:28: warning: no previous prototype for 'bpf_cgroup_from_id' [-Wmissing-prototypes]
+    __bpf_kfunc struct cgroup *bpf_cgroup_from_id(u64 cgid)
+                               ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2219:18: warning: no previous prototype for 'bpf_task_under_cgroup' [-Wmissing-prototypes]
+    __bpf_kfunc long bpf_task_under_cgroup(struct task_struct *task,
+                     ^~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/helpers.c:2240:1: warning: no previous prototype for 'bpf_task_get_cgroup1' [-Wmissing-prototypes]
+    bpf_task_get_cgroup1(struct task_struct *task, int hierarchy_id)
+    ^~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2256:33: warning: no previous prototype for 'bpf_task_from_pid' [-Wmissing-prototypes]
+    __bpf_kfunc struct task_struct *bpf_task_from_pid(s32 pid)
+                                    ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2297:19: warning: no previous prototype for 'bpf_dynptr_slice' [-Wmissing-prototypes]
+    __bpf_kfunc void *bpf_dynptr_slice(const struct bpf_dynptr_kern *ptr, u32 offset,
+                      ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2381:19: warning: no previous prototype for 'bpf_dynptr_slice_rdwr' [-Wmissing-prototypes]
+    __bpf_kfunc void *bpf_dynptr_slice_rdwr(const struct bpf_dynptr_kern *ptr, u32 offset,
+                      ^~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2412:17: warning: no previous prototype for 'bpf_dynptr_adjust' [-Wmissing-prototypes]
+    __bpf_kfunc int bpf_dynptr_adjust(struct bpf_dynptr_kern *ptr, u32 start, u32 end)
+                    ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2430:18: warning: no previous prototype for 'bpf_dynptr_is_null' [-Wmissing-prototypes]
+    __bpf_kfunc bool bpf_dynptr_is_null(struct bpf_dynptr_kern *ptr)
+                     ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2435:18: warning: no previous prototype for 'bpf_dynptr_is_rdonly' [-Wmissing-prototypes]
+    __bpf_kfunc bool bpf_dynptr_is_rdonly(struct bpf_dynptr_kern *ptr)
+                     ^~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2443:19: warning: no previous prototype for 'bpf_dynptr_size' [-Wmissing-prototypes]
+    __bpf_kfunc __u32 bpf_dynptr_size(const struct bpf_dynptr_kern *ptr)
+                      ^~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2451:17: warning: no previous prototype for 'bpf_dynptr_clone' [-Wmissing-prototypes]
+    __bpf_kfunc int bpf_dynptr_clone(struct bpf_dynptr_kern *ptr,
+                    ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2464:19: warning: no previous prototype for 'bpf_cast_to_kern_ctx' [-Wmissing-prototypes]
+    __bpf_kfunc void *bpf_cast_to_kern_ctx(void *obj)
+                      ^~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2469:19: warning: no previous prototype for 'bpf_rdonly_cast' [-Wmissing-prototypes]
+    __bpf_kfunc void *bpf_rdonly_cast(void *obj__ign, u32 btf_id__k)
+                      ^~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2474:18: warning: no previous prototype for 'bpf_rcu_read_lock' [-Wmissing-prototypes]
+    __bpf_kfunc void bpf_rcu_read_lock(void)
+                     ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2479:18: warning: no previous prototype for 'bpf_rcu_read_unlock' [-Wmissing-prototypes]
+    __bpf_kfunc void bpf_rcu_read_unlock(void)
+                     ^~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2508:18: warning: no previous prototype for 'bpf_throw' [-Wmissing-prototypes]
+    __bpf_kfunc void bpf_throw(u64 cookie)
+                     ^~~~~~~~~
+   cc1: warning: unrecognized command line option '-Wno-attribute-alias'
 
 
-vim +200 fs/bcachefs/bcachefs_format.h
+vim +/bpf_task_get_cgroup1 +2240 kernel/bpf/helpers.c
 
-   187	
-   188		/* Type of the value */
-   189		__u8		type;
-   190	
-   191	#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-   192		__u8		pad[1];
-   193	
-   194		struct bversion	version;
-   195		__u32		size;		/* extent size, in sectors */
-   196		struct bpos	p;
-   197	#elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
- > 198		struct bpos	p;
-   199		__u32		size;		/* extent size, in sectors */
- > 200		struct bversion	version;
-   201	
-   202		__u8		pad[1];
-   203	#endif
-   204	} __attribute__((packed, aligned(8)));
-   205	
+  2229	
+  2230	/**
+  2231	 * bpf_task_get_cgroup1 - Acquires the associated cgroup of a task within a
+  2232	 * specific cgroup1 hierarchy. The cgroup1 hierarchy is identified by its
+  2233	 * hierarchy ID.
+  2234	 * @task: The target task
+  2235	 * @hierarchy_id: The ID of a cgroup1 hierarchy
+  2236	 *
+  2237	 * On success, the cgroup is returen. On failure, NULL is returned.
+  2238	 */
+  2239	__bpf_kfunc struct cgroup *
+> 2240	bpf_task_get_cgroup1(struct task_struct *task, int hierarchy_id)
+  2241	{
+  2242		struct cgroup *cgrp = task_get_cgroup1(task, hierarchy_id);
+  2243	
+  2244		if (IS_ERR(cgrp))
+  2245			return NULL;
+  2246		return cgrp;
+  2247	}
+  2248	#endif /* CONFIG_CGROUPS */
+  2249	
 
 -- 
 0-DAY CI Kernel Test Service
