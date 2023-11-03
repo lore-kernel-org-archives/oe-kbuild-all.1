@@ -1,48 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7FA2374F
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 22:59:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2984A2376D;
+	Fri,  3 Nov 2023 23:12:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Svd5yTVf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IlW8MvQY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699052376; x=1730588376;
+  t=1699053133; x=1730589133;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LceVb6KBLNXMY4syCICW54D9r3fewHjPYLQVI3TVSEU=;
-  b=Svd5yTVf0++iv5nDPnXeo57um82nZ97PeleG1fwgu3fGII3g5RfgPT2Q
-   NGPRDM9YE7knMZhrbshC1Qevq3J/pl1/UFsAR/Om5yRNU0t/Af6pZtNDD
-   pv5eJy9YdUjO9qJy+aB/oubxOWyic0kEsqp5o8+vNNe57DWaEhNOYdJfv
-   jKMXMTsUh7fPsKlkdfrZPpwwGARRSXvVZfqRRtxlwBaWNCj54YicYz1Nu
-   A/N8c66ODbxL+QbrQIcPp+LJfN5lnAae+d8jRceo4a6Ma7qTXY+vjPSLa
-   bKSMn3/kZCGisBvwDEyTiEKaRNIzLHz7nRV7ZFcGlIQ8p1FGkxRGDUeyX
+  bh=lU6IU+X/GtyMmN9xF8zfEW3ETMBzyLIui0hBPtRwIRg=;
+  b=IlW8MvQYRRw0MXfN03O+1BIY2SmaZ9kVNV7ctIev0lpZO8aMIE53xRu0
+   gRqVMzByGZjos7a4tyLJRes6blwSN7ZhC6byialxVf2LSygIKWf/t2y/y
+   2qwa5QX857KAWSlTtdz4PGC9wgyMAs301Ezc5fU31HBEZHWcg/OlAUs+A
+   APjFPaSWHG+7XFdA7pdEiZLF77F9dtxrpBjpxCn20L7MvPLb0N7CoDY91
+   29XpG8evzmeTePFbQcrB+7iiTb1qFRO2/AGe0iBWA6b8qFWFOHzIx23iG
+   lGcGNeeSxt0FdXi4nw62pBt322Tw9TD5uKtp27KXSSUM/N5XVDJa/L87l
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="455526572"
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="368375167"
 X-IronPort-AV: E=Sophos;i="6.03,275,1694761200"; 
-   d="scan'208";a="455526572"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 15:59:35 -0700
+   d="scan'208";a="368375167"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 16:12:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="761761429"
 X-IronPort-AV: E=Sophos;i="6.03,275,1694761200"; 
-   d="scan'208";a="761761429"
+   d="scan'208";a="9886199"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 03 Nov 2023 15:59:33 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 03 Nov 2023 16:12:11 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qz38V-000327-18;
-	Fri, 03 Nov 2023 22:59:31 +0000
-Date: Sat, 4 Nov 2023 06:58:26 +0800
+	id 1qz3Kj-00032g-1O;
+	Fri, 03 Nov 2023 23:12:09 +0000
+Date: Sat, 4 Nov 2023 07:11:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tony Lindgren <tony@atomide.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: drivers/clocksource/timer-ti-dm.c:947: warning: Function parameter
- or member 'cookie' not described in 'omap_dm_timer_set_int_disable'
-Message-ID: <202311040606.XL5OcR9O-lkp@intel.com>
+To: Matthieu Baerts <matthieu.baerts@tessares.net>
+Cc: oe-kbuild-all@lists.linux.dev, mptcp@lists.linux.dev
+Subject: [mptcp:export 1/71] .b4-config: warning: ignored by one of the
+ .gitignore files
+Message-ID: <202311040718.bpsI0NBb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,75 +49,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Tony,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e392ea4d4d00880bf94550151b1ace4f88a4b17a
-commit: a6e543f61531b63bfc8d43053c6ec6f65117f627 clocksource/drivers/timer-ti-dm: Move struct omap_dm_timer fields to driver
-date:   1 year, 1 month ago
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20231104/202311040606.XL5OcR9O-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311040606.XL5OcR9O-lkp@intel.com/reproduce)
+tree:   https://github.com/multipath-tcp/mptcp_net-next.git export
+head:   bbb2b19ae34074f76a2b0bb92e7a839f458a626e
+commit: e3a6be01600e0975a210cced079c34f092d35362 [1/71] DO-NOT-MERGE: git markup: net
+config: i386-randconfig-141-20231101 (https://download.01.org/0day-ci/archive/20231104/202311040718.bpsI0NBb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311040718.bpsI0NBb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311040606.XL5OcR9O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311040718.bpsI0NBb-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/clocksource/timer-ti-dm.c:191: warning: Function parameter or member 'val' not described in 'dmtimer_write'
-   drivers/clocksource/timer-ti-dm.c:191: warning: Excess function parameter 'value' description in 'dmtimer_write'
->> drivers/clocksource/timer-ti-dm.c:947: warning: Function parameter or member 'cookie' not described in 'omap_dm_timer_set_int_disable'
-   drivers/clocksource/timer-ti-dm.c:947: warning: Excess function parameter 'timer' description in 'omap_dm_timer_set_int_disable'
-
-
-vim +947 drivers/clocksource/timer-ti-dm.c
-
-92105bb70634aba arch/arm/plat-omap/dmtimer.c      Tony Lindgren 2005-09-07  938  
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  939  /**
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  940   * omap_dm_timer_set_int_disable - disable timer interrupts
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  941   * @timer:	pointer to timer handle
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  942   * @mask:	bit mask of interrupts to be disabled
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  943   *
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  944   * Disables the specified timer interrupts for a timer.
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  945   */
-a6e543f61531b63 drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  946  static int omap_dm_timer_set_int_disable(struct omap_dm_timer *cookie, u32 mask)
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13 @947  {
-a6e543f61531b63 drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  948  	struct dmtimer *timer;
-bd351f1aee21ca6 drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  949  	struct device *dev;
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  950  	u32 l = mask;
-bd351f1aee21ca6 drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  951  	int rc;
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  952  
-a6e543f61531b63 drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  953  	timer = to_dmtimer(cookie);
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  954  	if (unlikely(!timer))
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  955  		return -EINVAL;
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  956  
-bd351f1aee21ca6 drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  957  	dev = &timer->pdev->dev;
-bd351f1aee21ca6 drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  958  	rc = pm_runtime_resume_and_get(dev);
-bd351f1aee21ca6 drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  959  	if (rc)
-bd351f1aee21ca6 drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  960  		return rc;
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  961  
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  962  	if (timer->revision == 1)
-f32bdac10cb5f46 drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  963  		l = dmtimer_read(timer, timer->irq_ena) & ~mask;
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  964  
-f32bdac10cb5f46 drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  965  	dmtimer_write(timer, timer->irq_dis, l);
-90c9aada19606ae drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  966  	l = dmtimer_read(timer, OMAP_TIMER_WAKEUP_EN_REG) & ~mask;
-49cd16bb573e43d drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  967  	dmtimer_write(timer, OMAP_TIMER_WAKEUP_EN_REG, l);
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  968  
-bd351f1aee21ca6 drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  969  	pm_runtime_put_sync(dev);
-bd351f1aee21ca6 drivers/clocksource/timer-ti-dm.c Tony Lindgren 2022-08-15  970  
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  971  	return 0;
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  972  }
-4249d96ca35a765 arch/arm/plat-omap/dmtimer.c      Jon Hunter    2012-07-13  973  
-
-:::::: The code at line 947 was first introduced by commit
-:::::: 4249d96ca35a765c25a70b7d29df5b6d80987c7f ARM: OMAP: Add dmtimer interrupt disable function
-
-:::::: TO: Jon Hunter <jon-hunter@ti.com>
-:::::: CC: Jon Hunter <jon-hunter@ti.com>
+>> .b4-config: warning: ignored by one of the .gitignore files
+   .git_markup: warning: ignored by one of the .gitignore files
+   tools/perf/util/bpf_skel/vmlinux/vmlinux.h: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/run_tags_test.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/.gitignore: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/Makefile: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/config: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/settings: warning: ignored by one of the .gitignore files
 
 -- 
 0-DAY CI Kernel Test Service
