@@ -1,47 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F50E2107
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Nov 2023 22:48:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E8A3249EB;
+	Fri,  3 Nov 2023 22:48:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LVs2d9Dh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ha//B6Og"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699051683; x=1730587683;
+  t=1699051685; x=1730587685;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BvJ/7D5KAIZwhSuDcaqabDrcxET7dqzEbNL/iDRYqUM=;
-  b=LVs2d9DhWxxZ7yR9zxfVoXS1zobD/o80F2nHg92ntzQwTNWppWMf2Wg2
-   CmH3IG15FBb3udkXtmF5WZvPKjP59zpmc1MOxYimxkzMwPIx7yl50OiUH
-   n2lrBy+Y3fhqj5MjS+tyFfLJ+XEZjV6RLCS+QvgaU/MbKEBvG7fRIBW3G
-   y/gn+PitrgfRwaROSSENdL4BgMzFEYffgLJcIvxrahelvJdC4MOE+72C9
-   5AAbje6VcEzoaIrK+NHO92g4P52kJc2+R8DjllI2sfOc1fgk6GXDn1sxf
-   YZUu32cIj5QhheExChCwnAXYw4sj9Pz2wSreZAh1x4jx9GVSBJBebHWbh
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="392924804"
+  bh=QBgSKWNQpYiAktQlpL+YbqciUVWi/L556eFSlozlBGo=;
+  b=ha//B6Ogj7/H7MGoALfwZIKvCd9An0BCt5Wu+U6YBe3Se/lnOuAfVkc6
+   rIaNXl3gBcEmnwXisF0Aw0HRfpBMpJuzD/jQFyuwLyQ5DTUJ4FeuPd/ug
+   qucxdMQ/NtFyYWesSNUWgKUKcAHr7+uBS8ikSkplQ1UuCwVVa7OYAcii5
+   FH9Edya9DdkU77/EWfkEwpqB1ItMXJcboqYtRSMMatSbHaBlqiENsJyPk
+   n5w/YaJh3zleQkRlOlzVL3o6rOVvs9Yf6aG/dH52tx3YEXm3aiUkHnVpf
+   iGOQTcalPLGpCn7ClZfh18nBB4KLb8JNAD9v2r/4F34gOAkeBuS+Iumff
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="392924807"
 X-IronPort-AV: E=Sophos;i="6.03,275,1694761200"; 
-   d="scan'208";a="392924804"
+   d="scan'208";a="392924807"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 15:48:03 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 15:48:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="711651317"
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="711651322"
 X-IronPort-AV: E=Sophos;i="6.03,275,1694761200"; 
-   d="scan'208";a="711651317"
+   d="scan'208";a="711651322"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 03 Nov 2023 15:48:01 -0700
+  by orsmga003.jf.intel.com with ESMTP; 03 Nov 2023 15:48:02 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qz2xL-00031M-1Q;
-	Fri, 03 Nov 2023 22:47:59 +0000
-Date: Sat, 4 Nov 2023 06:47:51 +0800
+	id 1qz2xM-00031P-29;
+	Fri, 03 Nov 2023 22:48:00 +0000
+Date: Sat, 4 Nov 2023 06:47:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_fwspec 11/19] drivers/acpi/scan.c:1570:39: error:
- passing argument 1 of 'iort_iommu_configure_id' from incompatible pointer
- type
-Message-ID: <202311040619.PYKIQZcU-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:iommu_fwspec 13/19] include/linux/iommu.h:1046:1:
+ warning: duplicate 'static' declaration specifier
+Message-ID: <202311040624.gxp6QEwR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,82 +52,119 @@ Content-Disposition: inline
 
 tree:   https://github.com/jgunthorpe/linux iommu_fwspec
 head:   a387bf414bfa3cc4e39cc07d1cfb257a13081c8e
-commit: 82d63e7b3a55983a4ff9d4633c4f1f233f3e8853 [11/19] acpi: Do not use dev->iommu within acpi_iommu_configure()
-config: loongarch-randconfig-002-20231104 (https://download.01.org/0day-ci/archive/20231104/202311040619.PYKIQZcU-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311040619.PYKIQZcU-lkp@intel.com/reproduce)
+commit: b3ab4f98bfca2e0081adf28d3d4fafadee518ce8 [13/19] iommu: Make iommu_ops_from_fwnode() static
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231104/202311040624.gxp6QEwR-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311040624.gxp6QEwR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311040619.PYKIQZcU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311040624.gxp6QEwR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/acpi/scan.c: In function 'acpi_iommu_configure_id':
->> drivers/acpi/scan.c:1570:39: error: passing argument 1 of 'iort_iommu_configure_id' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1570 |         err = iort_iommu_configure_id(fwspec, dev, id_in);
-         |                                       ^~~~~~
-         |                                       |
-         |                                       struct iommu_fwspec *
-   In file included from drivers/acpi/scan.c:13:
-   include/linux/acpi_iort.h:61:58: note: expected 'struct device *' but argument is of type 'struct iommu_fwspec *'
-      61 | static inline int iort_iommu_configure_id(struct device *dev, const u32 *id_in)
-         |                                           ~~~~~~~~~~~~~~~^~~
-   drivers/acpi/scan.c:1570:47: error: passing argument 2 of 'iort_iommu_configure_id' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1570 |         err = iort_iommu_configure_id(fwspec, dev, id_in);
-         |                                               ^~~
-         |                                               |
-         |                                               struct device *
-   include/linux/acpi_iort.h:61:74: note: expected 'const u32 *' {aka 'const unsigned int *'} but argument is of type 'struct device *'
-      61 | static inline int iort_iommu_configure_id(struct device *dev, const u32 *id_in)
-         |                                                               ~~~~~~~~~~~^~~~~
->> drivers/acpi/scan.c:1570:15: error: too many arguments to function 'iort_iommu_configure_id'
-    1570 |         err = iort_iommu_configure_id(fwspec, dev, id_in);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/acpi_iort.h:61:19: note: declared here
-      61 | static inline int iort_iommu_configure_id(struct device *dev, const u32 *id_in)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from kernel/fork.c:34:
+   In file included from include/linux/mempolicy.h:15:
+   In file included from include/linux/pagemap.h:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from kernel/fork.c:34:
+   In file included from include/linux/mempolicy.h:15:
+   In file included from include/linux/pagemap.h:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from kernel/fork.c:34:
+   In file included from include/linux/mempolicy.h:15:
+   In file included from include/linux/pagemap.h:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   In file included from kernel/fork.c:101:
+>> include/linux/iommu.h:1046:1: warning: duplicate 'static' declaration specifier [-Wduplicate-decl-specifier]
+    1046 | static inline int
+         | ^~~~~~~
+>> include/linux/iommu.h:1046:8: warning: duplicate 'inline' declaration specifier [-Wduplicate-decl-specifier]
+    1046 | static inline int
+         |        ^
+   include/linux/compiler_types.h:215:16: note: expanded from macro 'inline'
+     215 | #define inline inline __gnu_inline __inline_maybe_unused notrace
+         |                ^
+   14 warnings generated.
 
 
-vim +/iort_iommu_configure_id +1570 drivers/acpi/scan.c
+vim +/static +1046 include/linux/iommu.h
 
-  1560	
-  1561	static int acpi_iommu_configure_id(struct device *dev, const u32 *id_in)
-  1562	{
-  1563		int err;
-  1564		struct iommu_fwspec *fwspec;
-  1565	
-  1566		fwspec = iommu_fwspec_alloc();
-  1567		if (IS_ERR(fwspec))
-  1568			return PTR_ERR(fwspec);
-  1569	
-> 1570		err = iort_iommu_configure_id(fwspec, dev, id_in);
-  1571		if (err == -ENODEV)
-  1572			err = viot_iommu_configure(fwspec, dev);
-  1573		if (err == -ENODEV || err == -EPROBE_DEFER)
-  1574			goto err_free;
-  1575		if (err)
-  1576			goto err_log;
-  1577	
-  1578		err = iommu_probe_device_fwspec(dev, fwspec);
-  1579		if (err) {
-  1580			/*
-  1581			 * Ownership for fwspec always passes into
-  1582			 * iommu_probe_device_fwspec()
-  1583			 */
-  1584			fwspec = NULL;
-  1585			goto err_log;
-  1586		}
-  1587	
-  1588	err_log:
-  1589		dev_dbg(dev, "Adding to IOMMU failed: %d\n", err);
-  1590	err_free:
-  1591		iommu_fwspec_dealloc(fwspec);
-  1592		return err;
-  1593	}
-  1594	
+57f98d2f61e191e Robin Murphy      2016-09-13  1044  
+e4f10ffe4c9b500 Lorenzo Pieralisi 2016-11-21  1045  static inline
+a3a195929d40b38 Lu Baolu          2019-03-25 @1046  static inline int
+a3a195929d40b38 Lu Baolu          2019-03-25  1047  iommu_dev_enable_feature(struct device *dev, enum iommu_dev_features feat)
+a3a195929d40b38 Lu Baolu          2019-03-25  1048  {
+a3a195929d40b38 Lu Baolu          2019-03-25  1049  	return -ENODEV;
+a3a195929d40b38 Lu Baolu          2019-03-25  1050  }
+a3a195929d40b38 Lu Baolu          2019-03-25  1051  
+
+:::::: The code at line 1046 was first introduced by commit
+:::::: a3a195929d40b38833ffd0f82b2db2cc898641eb iommu: Add APIs for multiple domains per device
+
+:::::: TO: Lu Baolu <baolu.lu@linux.intel.com>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
