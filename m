@@ -1,149 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5F979F5
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 16:01:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D5C12B69
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 17:58:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fu7yKCjz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wm+KZE5Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699113709; x=1730649709;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=z0TvjFW6shOaVrj/gHyQGZOL1wvBmK+eISB4Yp325Ps=;
-  b=fu7yKCjzvh6OdII55FNba/0S/n0mZgI9GoXvjSs3TBpU51azhs1YBzAC
-   vI7eJFyEJY9pFzVC/kv7W1ewQuOr1AWwA9H+jGndvQYeIV2gzH4DGxoev
-   B+oT51nx1CiamjR+HFFy6OU0Hx9Qmp6lo4vZwi4vXbTcmimyZ4k90tE+3
-   kQFWTbQKYtE8uHKoMyfcTpskwLSf+3a39jz/2+PeB9nDunoNm5vowBapH
-   AVNp2knzuRpru/eG1k/8ucv++Gu9efhesiNnQb6H9+oPctMOXMQ6sgdIg
-   C4PTHhxLq16Eu+k3q9HYtyfrvKowyrz1lgE4TdN6bBg0ifLxEukky8q5N
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="391964111"
+  t=1699120684; x=1730656684;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=45KijrNPATEv0bTVnHZlUbyijH+I0A/q4RBwDi5Pn/o=;
+  b=Wm+KZE5YEu5xbgolsSj5U6Sy5219zldOui1aMsT2j8l2R8W4l6lsEpCB
+   bM4Coq4GoG/j3VP3F7aKWEmhy20RaSc8nRf5EoXBKZi/9FjeyMVTYj5Vv
+   ZunNXfzntrvIoMPtna761u60xn9ctaPLjvt3kRtXjXyAi2lu7ZSZQ112R
+   YiEeM/P2UqETUZc/l+6cRDtl590EMz6+YkEqZc99ppYbEdbkmBYdKuVJM
+   KnKgJbm/A8s+cOojqOSPpxi83B/eA3dSLHwGzNxB6He6sAsAUxvjXAIhS
+   NGJFzRJGM1Y4Puj9TcqH7Xl0zMV72YM+BX9MNowjqWPMzmkBiT4XAguuu
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="368436829"
 X-IronPort-AV: E=Sophos;i="6.03,277,1694761200"; 
-   d="scan'208";a="391964111"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 09:01:48 -0700
+   d="scan'208";a="368436829"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 10:58:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="852557303"
 X-IronPort-AV: E=Sophos;i="6.03,277,1694761200"; 
-   d="scan'208";a="852557303"
+   d="scan'208";a="3045192"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 04 Nov 2023 09:01:45 -0700
+  by orviesa002.jf.intel.com with ESMTP; 04 Nov 2023 10:57:59 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzJ5j-0004Wi-1F;
-	Sat, 04 Nov 2023 16:01:43 +0000
-Date: Sun, 5 Nov 2023 00:01:20 +0800
+	id 1qzKuE-0004c0-1H;
+	Sat, 04 Nov 2023 17:57:58 +0000
+Date: Sun, 5 Nov 2023 01:57:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Bianconi <lorenzo@kernel.org>, linux-nfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, lorenzo.bianconi@redhat.com,
-	neilb@suse.de, chuck.lever@oracle.com, netdev@vger.kernel.org,
-	jlayton@kernel.org, kuba@kernel.org
-Subject: Re: [PATCH v4 2/3] NFSD: convert write_version to netlink command
-Message-ID: <202311042320.nQOTYxhs-lkp@intel.com>
-References: <3785da26e14c13e194510eaad9c6bd846d691d5f.1699095665.git.lorenzo@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org
+Subject: [driver-core:debugfs_cleanup 6/7]
+ drivers/platform/x86/amd/hsmp.c:474:16: error: implicit declaration of
+ function 'devm_device_add_groups'; did you mean 'devm_device_add_group'?
+Message-ID: <202311050113.QCp9Dss3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <3785da26e14c13e194510eaad9c6bd846d691d5f.1699095665.git.lorenzo@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Lorenzo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on next-20231103]
-[cannot apply to trondmy-nfs/linux-next v6.6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/NFSD-convert-write_threads-to-netlink-command/20231104-202515
-base:   linus/master
-patch link:    https://lore.kernel.org/r/3785da26e14c13e194510eaad9c6bd846d691d5f.1699095665.git.lorenzo%40kernel.org
-patch subject: [PATCH v4 2/3] NFSD: convert write_version to netlink command
-config: alpha-defconfig (https://download.01.org/0day-ci/archive/20231104/202311042320.nQOTYxhs-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311042320.nQOTYxhs-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git debugfs_cleanup
+head:   447e92735758c923913ee53b75c6b92ef756985b
+commit: bd0388a53cc216e4d4b367b37565e87c3147d25d [6/7] driver core: remove devm_device_add_groups()
+config: x86_64-randconfig-005-20231104 (https://download.01.org/0day-ci/archive/20231105/202311050113.QCp9Dss3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231105/202311050113.QCp9Dss3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311042320.nQOTYxhs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311050113.QCp9Dss3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/nfsd/nfsctl.c:1810: warning: expecting prototype for nfsd_nl_version_get_doit(). Prototype was for nfsd_nl_version_get_dumpit() instead
+   drivers/platform/x86/amd/hsmp.c: In function 'hsmp_create_sysfs_interface':
+>> drivers/platform/x86/amd/hsmp.c:474:16: error: implicit declaration of function 'devm_device_add_groups'; did you mean 'devm_device_add_group'? [-Werror=implicit-function-declaration]
+     474 |         return devm_device_add_groups(plat_dev.dev, hsmp_attr_grps);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+         |                devm_device_add_group
+   cc1: some warnings being treated as errors
 
 
-vim +1810 fs/nfsd/nfsctl.c
+vim +474 drivers/platform/x86/amd/hsmp.c
 
-  1800	
-  1801	/**
-  1802	 * nfsd_nl_version_get_doit - Handle verion_get dumpit
-  1803	 * @skb: reply buffer
-  1804	 * @cb: netlink metadata and command arguments
-  1805	 *
-  1806	 * Returns the size of the reply or a negative errno.
-  1807	 */
-  1808	int nfsd_nl_version_get_dumpit(struct sk_buff *skb,
-  1809				       struct netlink_callback *cb)
-> 1810	{
-  1811		struct nfsd_net *nn = net_generic(sock_net(skb->sk), nfsd_net_id);
-  1812		int i, ret = -ENOMEM;
-  1813	
-  1814		mutex_lock(&nfsd_mutex);
-  1815	
-  1816		for (i = 2; i <= 4; i++) {
-  1817			int j;
-  1818	
-  1819			if (i < cb->args[0]) /* already consumed */
-  1820				continue;
-  1821	
-  1822			if (!nfsd_vers(nn, i, NFSD_AVAIL))
-  1823				continue;
-  1824	
-  1825			for (j = 0; j <= NFSD_SUPPORTED_MINOR_VERSION; j++) {
-  1826				void *hdr;
-  1827	
-  1828				if (!nfsd_vers(nn, i, NFSD_TEST))
-  1829					continue;
-  1830	
-  1831				/* NFSv{2,3} does not support minor numbers */
-  1832				if (i < 4 && j)
-  1833					continue;
-  1834	
-  1835				if (i == 4 && !nfsd_minorversion(nn, j, NFSD_TEST))
-  1836					continue;
-  1837	
-  1838				hdr = genlmsg_put(skb, NETLINK_CB(cb->skb).portid,
-  1839						  cb->nlh->nlmsg_seq, &nfsd_nl_family,
-  1840						  0, NFSD_CMD_VERSION_GET);
-  1841				if (!hdr)
-  1842					goto out;
-  1843	
-  1844				if (nla_put_u32(skb, NFSD_A_SERVER_VERSION_MAJOR, i) ||
-  1845				    nla_put_u32(skb, NFSD_A_SERVER_VERSION_MINOR, j))
-  1846					goto out;
-  1847	
-  1848				genlmsg_end(skb, hdr);
-  1849			}
-  1850		}
-  1851		cb->args[0] = i;
-  1852		ret = skb->len;
-  1853	out:
-  1854		mutex_unlock(&nfsd_mutex);
-  1855	
-  1856		return ret;
-  1857	}
-  1858	
+5150542b8ec5fb Suma Hegde 2023-10-10  432  
+5150542b8ec5fb Suma Hegde 2023-10-10  433  static int hsmp_create_sysfs_interface(void)
+5150542b8ec5fb Suma Hegde 2023-10-10  434  {
+5150542b8ec5fb Suma Hegde 2023-10-10  435  	const struct attribute_group **hsmp_attr_grps;
+5150542b8ec5fb Suma Hegde 2023-10-10  436  	struct bin_attribute **hsmp_bin_attrs;
+5150542b8ec5fb Suma Hegde 2023-10-10  437  	struct attribute_group *attr_grp;
+5150542b8ec5fb Suma Hegde 2023-10-10  438  	int ret;
+5150542b8ec5fb Suma Hegde 2023-10-10  439  	u16 i;
+5150542b8ec5fb Suma Hegde 2023-10-10  440  
+5150542b8ec5fb Suma Hegde 2023-10-10  441  	/* String formatting is currently limited to u8 sockets */
+5150542b8ec5fb Suma Hegde 2023-10-10  442  	if (WARN_ON(plat_dev.num_sockets > U8_MAX))
+5150542b8ec5fb Suma Hegde 2023-10-10  443  		return -ERANGE;
+5150542b8ec5fb Suma Hegde 2023-10-10  444  
+5150542b8ec5fb Suma Hegde 2023-10-10  445  	hsmp_attr_grps = devm_kzalloc(plat_dev.dev, sizeof(struct attribute_group *) *
+5150542b8ec5fb Suma Hegde 2023-10-10  446  				      (plat_dev.num_sockets + 1), GFP_KERNEL);
+5150542b8ec5fb Suma Hegde 2023-10-10  447  	if (!hsmp_attr_grps)
+5150542b8ec5fb Suma Hegde 2023-10-10  448  		return -ENOMEM;
+5150542b8ec5fb Suma Hegde 2023-10-10  449  
+5150542b8ec5fb Suma Hegde 2023-10-10  450  	/* Create a sysfs directory for each socket */
+5150542b8ec5fb Suma Hegde 2023-10-10  451  	for (i = 0; i < plat_dev.num_sockets; i++) {
+5150542b8ec5fb Suma Hegde 2023-10-10  452  		attr_grp = devm_kzalloc(plat_dev.dev, sizeof(struct attribute_group), GFP_KERNEL);
+5150542b8ec5fb Suma Hegde 2023-10-10  453  		if (!attr_grp)
+5150542b8ec5fb Suma Hegde 2023-10-10  454  			return -ENOMEM;
+5150542b8ec5fb Suma Hegde 2023-10-10  455  
+5150542b8ec5fb Suma Hegde 2023-10-10  456  		snprintf(plat_dev.sock[i].name, HSMP_ATTR_GRP_NAME_SIZE, "socket%u", (u8)i);
+5150542b8ec5fb Suma Hegde 2023-10-10  457  		attr_grp->name = plat_dev.sock[i].name;
+5150542b8ec5fb Suma Hegde 2023-10-10  458  
+5150542b8ec5fb Suma Hegde 2023-10-10  459  		/* Null terminated list of attributes */
+5150542b8ec5fb Suma Hegde 2023-10-10  460  		hsmp_bin_attrs = devm_kzalloc(plat_dev.dev, sizeof(struct bin_attribute *) *
+5150542b8ec5fb Suma Hegde 2023-10-10  461  					      (NUM_HSMP_ATTRS + 1), GFP_KERNEL);
+5150542b8ec5fb Suma Hegde 2023-10-10  462  		if (!hsmp_bin_attrs)
+5150542b8ec5fb Suma Hegde 2023-10-10  463  			return -ENOMEM;
+5150542b8ec5fb Suma Hegde 2023-10-10  464  
+5150542b8ec5fb Suma Hegde 2023-10-10  465  		attr_grp->bin_attrs		= hsmp_bin_attrs;
+5150542b8ec5fb Suma Hegde 2023-10-10  466  		attr_grp->is_bin_visible	= hsmp_is_sock_attr_visible;
+5150542b8ec5fb Suma Hegde 2023-10-10  467  		hsmp_attr_grps[i]		= attr_grp;
+5150542b8ec5fb Suma Hegde 2023-10-10  468  
+5150542b8ec5fb Suma Hegde 2023-10-10  469  		/* Now create the leaf nodes */
+5150542b8ec5fb Suma Hegde 2023-10-10  470  		ret = hsmp_init_metric_tbl_bin_attr(hsmp_bin_attrs, i);
+5150542b8ec5fb Suma Hegde 2023-10-10  471  		if (ret)
+5150542b8ec5fb Suma Hegde 2023-10-10  472  			return ret;
+5150542b8ec5fb Suma Hegde 2023-10-10  473  	}
+5150542b8ec5fb Suma Hegde 2023-10-10 @474  	return devm_device_add_groups(plat_dev.dev, hsmp_attr_grps);
+5150542b8ec5fb Suma Hegde 2023-10-10  475  }
+5150542b8ec5fb Suma Hegde 2023-10-10  476  
+
+:::::: The code at line 474 was first introduced by commit
+:::::: 5150542b8ec5fb561be080ed0ef3bab8598154c3 platform/x86/amd/hsmp: add support for metrics tbl
+
+:::::: TO: Suma Hegde <suma.hegde@amd.com>
+:::::: CC: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
