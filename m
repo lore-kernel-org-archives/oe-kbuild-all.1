@@ -1,132 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF6317CB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF1417E2
 	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 04:34:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BZTlWMwC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RDJdBNka"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1699072487; x=1730608487;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YCz6Xb22aeEUbw45EHxCqKmUELb0q5RX++0NPiPL2kU=;
-  b=BZTlWMwCC9g6tod/6E/Pp0NZfyXT8p7obSuse7luOKgGimNBhidQlDc5
-   9KIaf+ADgChu3Tt7VJhMXcyp+UMOZOqC9yfJKu0YzL2lK7R49ezT4GceO
-   /e9mkOaeIn77NGh1QoCFbws+VxG0fb1a90HDveyhJ1JC1SFbLw13INHsn
-   LudmSiIeVC1sgHCyj8yIcWOr6lrJTg77GAek8G4Ui3BTA+J+3xjZb6hNO
-   uvSBk4wlOsIsiop2zV6Hpua8mdJLEJdaFMjW5+G/ULK091MVd2uEA1EdH
-   4UP8bTc7dtzBtdN0+0EqZdUSMbqFhe8YMWppJqzaPCGXkTYTXXT0MpwkM
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="368396538"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=rbLklNc9cpSb1Dtx2oseSFeF/6b1ZscT41HU2S8HYZQ=;
+  b=RDJdBNkaX372fCZJM5qZ2atFxpruj7r9ZR1KDehwRcBqCUNEkBr0ar5T
+   p5LdmoJ8A6EO2XPh0eIffuuy2oKWf6xCfbIgByAKyBczApPLUBzIUbyCk
+   V7aIUMduJEnDI1g++ocRbDQkPS7bw2nT/4Ywwx03tZTXd1uAvPSWwUIEx
+   6X6QQgLsA/MYVoQrwXoj/xQka4lIwUk5GgUgkFLSQ2miTz97QHJ6W+S5/
+   cddVVw1gto+9SqVZPe7wkB6agkGuqb+JnpLMC6lh4EUNCFdZMfASSPKHp
+   vJ1ka2SMlrZs720yvF8X4/Pj1GfKAA/ibmOhgnnBZ443KX8cCevjFx+IU
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="369266516"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="368396538"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 21:34:43 -0700
+   d="scan'208";a="369266516"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 21:34:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="885396373"
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="832216470"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="885396373"
+   d="scan'208";a="832216470"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 03 Nov 2023 21:34:42 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 03 Nov 2023 21:34:42 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qz8Mp-0003Q7-3B;
-	Sat, 04 Nov 2023 04:34:39 +0000
-Date: Sat, 4 Nov 2023 12:33:04 +0800
+	id 1qz8Mq-0003QA-0t;
+	Sat, 04 Nov 2023 04:34:40 +0000
+Date: Sat, 4 Nov 2023 12:33:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:sframe 3/3] kernel/events/core.c:6804:1: warning: the
- frame size of 1312 bytes is larger than 1024 bytes
-Message-ID: <202311041245.zgf1EK9r-lkp@intel.com>
+To: =?utf-8?Q?=C5=81ukasz?= Bartosik <lb@semihalf.com>,
+	Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kees Cook <keescook@chromium.org>,
+	Douglas Anderson <dianders@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Guenter Roeck <groeck@google.com>,
+	Yaniv Tzoreff <yanivt@google.com>, Benson Leung <bleung@google.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Vincent Whitchurch <vincent.whitchurch@axis.com>,
+	Pekka Paalanen <ppaalanen@gmail.com>,
+	Sean Paul <seanpaul@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
+	linux-kernel@vger.kernel.org, upstream@semihalf.com
+Subject: Re: [PATCH v1 10/12] dyndbg: add processing of T(race) flag argument
+Message-ID: <202311041243.SboyHnXN-lkp@intel.com>
+References: <20231103131011.1316396-11-lb@semihalf.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231103131011.1316396-11-lb@semihalf.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git sframe
-head:   32e88f45d843ad800e1ff01230eccd93849d2dda
-commit: 32e88f45d843ad800e1ff01230eccd93849d2dda [3/3] todo
-config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20231104/202311041245.zgf1EK9r-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311041245.zgf1EK9r-lkp@intel.com/reproduce)
+Hi Łukasz,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.6 next-20231103]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/ukasz-Bartosik/dyndbg-add-_DPRINTK_FLAGS_ENABLED/20231103-212105
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231103131011.1316396-11-lb%40semihalf.com
+patch subject: [PATCH v1 10/12] dyndbg: add processing of T(race) flag argument
+config: i386-randconfig-063-20231104 (https://download.01.org/0day-ci/archive/20231104/202311041243.SboyHnXN-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311041243.SboyHnXN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311041245.zgf1EK9r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311041243.SboyHnXN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   kernel/events/core.c: In function 'perf_pending_task_unwind':
->> kernel/events/core.c:6804:1: warning: the frame size of 1312 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-    6804 | }
-         | ^
-
-
-vim +6804 kernel/events/core.c
-
-  6751	
-  6752	// TODO move to callchain.c
-  6753	static void perf_pending_task_unwind(struct perf_event *event)
-  6754	{
-  6755		struct pt_regs *regs = task_pt_regs(current);
-  6756		struct perf_output_handle handle;
-  6757		struct perf_event_header header;
-  6758		struct perf_sample_data data;
-  6759		//TODO macro for 128
-  6760		u64 buf[128];
-  6761		struct perf_callchain_entry *callchain;
-  6762	
-  6763		might_sleep();
-  6764	
-  6765		if (!event->pending_unwind)
-  6766			return;
-  6767	
-  6768		perf_sample_data_init(&data, 0, event->hw.last_period);
-  6769	
-  6770		callchain = (struct perf_callchain_entry *)buf;
-  6771		callchain->nr = 0;
-  6772		data.deferred = true;
-  6773		data.callchain = callchain;
-  6774	
-  6775		perf_prepare_sample(&data, event, regs, event->attr.sample_type);
-  6776	
-  6777		perf_prepare_header(&header, &data, event, regs);
-  6778	
-  6779		if (perf_output_begin(&handle, &data, event, header.size))
-  6780			goto done;
-  6781	
-  6782		perf_output_sample(&handle, &header, &data, event);
-  6783	
-  6784		perf_output_end(&handle);
-  6785	
-  6786	#if 0
-  6787		// TODO if in_nmi() and nmi handler doesn't have exit work,
-  6788		// add_task_work should do IPI.  or new function add_immediate_task_work?()?
-  6789	
-  6790		// TODO understand perf_event_alloc() lifetime and what it means
-  6791		// for any pending irq/task work.  see irq_work_sync().  splitting the
-  6792		// irq/task works into two separate works is bad like that.  maybe make
-  6793		// it an (irq-aware) task work.
-  6794	
-  6795		// FIXME: have perf_callchain() check event->attr.sample_type (or
-  6796		// data->sample_flags?) to decide whether to use data->deferred_stack
-  6797	
-  6798		/* srcu_read_unlock() or whatever */
-  6799	
-  6800	#endif
-  6801	done:
-  6802		event->pending_unwind = 0;
-  6803		return;
-> 6804	}
-  6805	
+sparse warnings: (new ones prefixed by >>)
+>> lib/dynamic_debug.c:157:6: sparse: sparse: symbol 'show_T_args' was not declared. Should it be static?
 
 -- 
 0-DAY CI Kernel Test Service
