@@ -1,53 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E44618644;
-	Sat,  4 Nov 2023 15:30:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5F979F5
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 16:01:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eQ475Ml+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fu7yKCjz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699111839; x=1730647839;
+  t=1699113709; x=1730649709;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NWJpfRizHfLZNHX5VvGvvq9eA1w3votDvF33jxdOllo=;
-  b=eQ475Ml+de8eJHvGmvGS3Six4dOjgCDYrNYMJWgUH2/224ftMGcVet9s
-   qCRm2MHw18aKjJKccnVpT6j78R9mcRQGKPTPH+GeoYI9sAJ7ZBNKcpUPH
-   oYiBboCf06VFFCUD1tVMAo32z7R2BR4aEvw/XWFFh7dbFjPo2HA6EJzUk
-   ba2JrrZhBi4iw33oXjXCtzppTb8cc/q9Y+OUsTFyyED+JFDEpgHI4vhI/
-   RsDhn7NLvE94nD39FMzEAfs3QeScxQRSKKDzffiUEYBlJ0AlKQ4XoznHF
-   4TKiIeGntlSB8QNJUrwPidCG+6BAiOBT3NH5elMF4L7Tf2itHbfhzCYTl
+  bh=z0TvjFW6shOaVrj/gHyQGZOL1wvBmK+eISB4Yp325Ps=;
+  b=fu7yKCjzvh6OdII55FNba/0S/n0mZgI9GoXvjSs3TBpU51azhs1YBzAC
+   vI7eJFyEJY9pFzVC/kv7W1ewQuOr1AWwA9H+jGndvQYeIV2gzH4DGxoev
+   B+oT51nx1CiamjR+HFFy6OU0Hx9Qmp6lo4vZwi4vXbTcmimyZ4k90tE+3
+   kQFWTbQKYtE8uHKoMyfcTpskwLSf+3a39jz/2+PeB9nDunoNm5vowBapH
+   AVNp2knzuRpru/eG1k/8ucv++Gu9efhesiNnQb6H9+oPctMOXMQ6sgdIg
+   C4PTHhxLq16Eu+k3q9HYtyfrvKowyrz1lgE4TdN6bBg0ifLxEukky8q5N
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="7725941"
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="391964111"
 X-IronPort-AV: E=Sophos;i="6.03,277,1694761200"; 
-   d="scan'208";a="7725941"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 08:30:38 -0700
+   d="scan'208";a="391964111"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 09:01:48 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="852557303"
 X-IronPort-AV: E=Sophos;i="6.03,277,1694761200"; 
-   d="scan'208";a="3024829"
+   d="scan'208";a="852557303"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 04 Nov 2023 08:30:35 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 04 Nov 2023 09:01:45 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzIbY-0004W0-18;
-	Sat, 04 Nov 2023 15:30:32 +0000
-Date: Sat, 4 Nov 2023 23:29:37 +0800
+	id 1qzJ5j-0004Wi-1F;
+	Sat, 04 Nov 2023 16:01:43 +0000
+Date: Sun, 5 Nov 2023 00:01:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bibek Kumar Patro <quic_bibekkum@quicinc.com>, will@kernel.org,
-	robin.murphy@arm.com, joro@8bytes.org, dmitry.baryshkov@linaro.org,
-	a39.skl@gmail.com, konrad.dybcio@linaro.org,
-	quic_saipraka@quicinc.com, quic_pkondeti@quicinc.com,
-	quic_molvera@quicinc.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-	qipl.kernel.upstream@quicinc.com,
-	Bibek Kumar Patro <quic_bibekkum@quicinc.com>
-Subject: Re: [PATCH 2/3] iommu/arm-smmu: add ACTLR data and support for SM8550
-Message-ID: <202311042304.pVLm1ZYk-lkp@intel.com>
-References: <20231103215124.1095-3-quic_bibekkum@quicinc.com>
+To: Lorenzo Bianconi <lorenzo@kernel.org>, linux-nfs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, lorenzo.bianconi@redhat.com,
+	neilb@suse.de, chuck.lever@oracle.com, netdev@vger.kernel.org,
+	jlayton@kernel.org, kuba@kernel.org
+Subject: Re: [PATCH v4 2/3] NFSD: convert write_version to netlink command
+Message-ID: <202311042320.nQOTYxhs-lkp@intel.com>
+References: <3785da26e14c13e194510eaad9c6bd846d691d5f.1699095665.git.lorenzo@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,50 +52,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231103215124.1095-3-quic_bibekkum@quicinc.com>
+In-Reply-To: <3785da26e14c13e194510eaad9c6bd846d691d5f.1699095665.git.lorenzo@kernel.org>
 
-Hi Bibek,
+Hi Lorenzo,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on v6.6]
-[also build test WARNING on linus/master next-20231103]
-[cannot apply to joro-iommu/next]
+[auto build test WARNING on linus/master]
+[also build test WARNING on next-20231103]
+[cannot apply to trondmy-nfs/linux-next v6.6]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bibek-Kumar-Patro/iommu-arm-smmu-introduction-of-ACTLR-for-custom-prefetcher-settings/20231104-055625
-base:   v6.6
-patch link:    https://lore.kernel.org/r/20231103215124.1095-3-quic_bibekkum%40quicinc.com
-patch subject: [PATCH 2/3] iommu/arm-smmu: add ACTLR data and support for SM8550
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231104/202311042304.pVLm1ZYk-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311042304.pVLm1ZYk-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/NFSD-convert-write_threads-to-netlink-command/20231104-202515
+base:   linus/master
+patch link:    https://lore.kernel.org/r/3785da26e14c13e194510eaad9c6bd846d691d5f.1699095665.git.lorenzo%40kernel.org
+patch subject: [PATCH v4 2/3] NFSD: convert write_version to netlink command
+config: alpha-defconfig (https://download.01.org/0day-ci/archive/20231104/202311042320.nQOTYxhs-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311042320.nQOTYxhs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311042304.pVLm1ZYk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311042320.nQOTYxhs-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c:614:42: warning: 'sm8550_smmu_500_impl0_data' defined but not used [-Wunused-const-variable=]
-     614 | static const struct qcom_smmu_match_data sm8550_smmu_500_impl0_data = {
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/nfsd/nfsctl.c:1810: warning: expecting prototype for nfsd_nl_version_get_doit(). Prototype was for nfsd_nl_version_get_dumpit() instead
 
 
-vim +/sm8550_smmu_500_impl0_data +614 drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+vim +1810 fs/nfsd/nfsctl.c
 
-   612	
-   613	
- > 614	static const struct qcom_smmu_match_data sm8550_smmu_500_impl0_data = {
-   615		.impl = &sm8550_smmu_500_impl,
-   616		.adreno_impl = &qcom_adreno_smmu_500_impl,
-   617		.cfg = &qcom_smmu_impl0_cfg,
-   618		.actlrcfg = &sm8550_actlrcfg,
-   619	};
-   620	
+  1800	
+  1801	/**
+  1802	 * nfsd_nl_version_get_doit - Handle verion_get dumpit
+  1803	 * @skb: reply buffer
+  1804	 * @cb: netlink metadata and command arguments
+  1805	 *
+  1806	 * Returns the size of the reply or a negative errno.
+  1807	 */
+  1808	int nfsd_nl_version_get_dumpit(struct sk_buff *skb,
+  1809				       struct netlink_callback *cb)
+> 1810	{
+  1811		struct nfsd_net *nn = net_generic(sock_net(skb->sk), nfsd_net_id);
+  1812		int i, ret = -ENOMEM;
+  1813	
+  1814		mutex_lock(&nfsd_mutex);
+  1815	
+  1816		for (i = 2; i <= 4; i++) {
+  1817			int j;
+  1818	
+  1819			if (i < cb->args[0]) /* already consumed */
+  1820				continue;
+  1821	
+  1822			if (!nfsd_vers(nn, i, NFSD_AVAIL))
+  1823				continue;
+  1824	
+  1825			for (j = 0; j <= NFSD_SUPPORTED_MINOR_VERSION; j++) {
+  1826				void *hdr;
+  1827	
+  1828				if (!nfsd_vers(nn, i, NFSD_TEST))
+  1829					continue;
+  1830	
+  1831				/* NFSv{2,3} does not support minor numbers */
+  1832				if (i < 4 && j)
+  1833					continue;
+  1834	
+  1835				if (i == 4 && !nfsd_minorversion(nn, j, NFSD_TEST))
+  1836					continue;
+  1837	
+  1838				hdr = genlmsg_put(skb, NETLINK_CB(cb->skb).portid,
+  1839						  cb->nlh->nlmsg_seq, &nfsd_nl_family,
+  1840						  0, NFSD_CMD_VERSION_GET);
+  1841				if (!hdr)
+  1842					goto out;
+  1843	
+  1844				if (nla_put_u32(skb, NFSD_A_SERVER_VERSION_MAJOR, i) ||
+  1845				    nla_put_u32(skb, NFSD_A_SERVER_VERSION_MINOR, j))
+  1846					goto out;
+  1847	
+  1848				genlmsg_end(skb, hdr);
+  1849			}
+  1850		}
+  1851		cb->args[0] = i;
+  1852		ret = skb->len;
+  1853	out:
+  1854		mutex_unlock(&nfsd_mutex);
+  1855	
+  1856		return ret;
+  1857	}
+  1858	
 
 -- 
 0-DAY CI Kernel Test Service
